@@ -3,13 +3,13 @@
         ProjectType = "Local"
         ProductVersion = "7.10.3077"
         SchemaVersion = "2.0"
-        ProjectGuid = "{4C2C177D-6D5C-46F1-9345-7BE58F1422B1}"
+        ProjectGuid = "{E38BAF80-9B31-4D15-A002-E775B96FAFA6}"
     >
         <Build>
             <Settings
                 ApplicationIcon = ""
                 AssemblyKeyContainerName = ""
-                AssemblyName = "SyncService"
+                AssemblyName = "SimiasClient"
                 AssemblyOriginatorKeyFile = ""
                 DefaultClientScript = "JScript"
                 DefaultHTMLPageLayout = "Grid"
@@ -18,7 +18,7 @@
                 OutputType = "Library"
                 PreBuildEvent = ""
                 PostBuildEvent = ""
-                RootNamespace = "SyncService"
+                RootNamespace = "SimiasClient"
                 RunPostBuildEvent = "OnBuildSuccess"
                 StartupObject = ""
             >
@@ -89,16 +89,6 @@
                     AssemblyName = "System.Web.Services"
                     HintPath = "..\..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Web.Services.dll"
                 />
-                <Reference
-                    Name = "Simias"
-                    Project = "{7839E703-0177-4162-B083-BCFD4ED1CC1B}"
-                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
-                />
-                <Reference
-                    Name = "SimiasClient"
-                    Project = "{E38BAF80-9B31-4D15-A002-E775B96FAFA6}"
-                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
-                />
             </References>
         </Build>
         <Files>
@@ -109,22 +99,52 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "ServerFile.cs"
+                    RelPath = "CollectionSyncEventArgs.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "SyncService.asmx"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "SyncService.asmx.cs"
-                    DependentUpon = "SyncService.asmx"
-                    SubType = "Component"
+                    RelPath = "Configuration.cs"
+                    SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "SyncService.cs"
+                    RelPath = "DomainService.cs"
+                    SubType = "code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "IProcEventClient.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "IProcEventData.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "IProcEventListener.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "IProcEventRegistration.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "IProcEventTypes.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "NodeEventArgs.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SimiasEventArgs.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
