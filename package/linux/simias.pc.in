@@ -1,4 +1,4 @@
-# pkg-config metedata file for simias
+# pkg-config metadata file for simias
 prefix=/opt/ifolder
 
 Name: Simias
