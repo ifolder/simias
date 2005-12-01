@@ -189,6 +189,15 @@ namespace Simias
 			return ( ( key != null ) && ( key != String.Empty ) ) ? KeyExists( section, key ) : SectionExists( section );
 		}
 
+		/// <summary>
+		/// Returns the XML representation of the config file.
+		/// </summary>
+		/// <returns></returns>
+		public string ToXml()
+		{
+			return configDoc.InnerXml;
+		}
+
 		#endregion
 	}
 }
