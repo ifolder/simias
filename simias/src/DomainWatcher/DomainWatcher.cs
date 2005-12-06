@@ -1,5 +1,5 @@
 /***********************************************************************
- *  $RCSfile$
+ *  $RCSfile: DomainWatcher.cs,v $
  *
  *  Copyright (C) 2004 Novell, Inc.
  *
@@ -30,6 +30,7 @@ using System.Threading;
 using System.Web;
 
 using Simias;
+using Simias.Authentication;
 using Simias.Client;
 using Simias.DomainServices;
 
@@ -48,26 +49,32 @@ namespace Simias.DomainWatcher
 	/// </summary>
 	public class Manager : IDisposable
 	{
-		private static readonly ISimiasLog log =
-			SimiasLogManager.GetLogger(typeof(Simias.DomainWatcher.Manager));
-
+		private static readonly ISimiasLog log = 
+			SimiasLogManager.GetLogger( System.Reflection.MethodBase.GetCurrentMethod().DeclaringType );
+			
 		private bool			started = false;
 		private	bool			stop = false;
-		private Configuration	config;
 		private Thread			watcherThread = null;
 		private AutoResetEvent	stopEvent;
 		private Store			store;
 		private int				waitTime = ( 30 * 1000 );
 		private int				initialWait = ( 5 * 1000 );
+		
+		private class MDomain
+		{
+			public bool		Authenticated;
+			public bool		UpSignal;
+			
+			public string	ID;
+		}
+		
+		private ArrayList domainList = new ArrayList();
 
 		/// <summary>
 		/// Constructor
 		/// </summary>
-		/// <param name="config">Simias configuration</param>
-		public Manager(Configuration config)
+		public Manager()
 		{
-			this.config = config;
-			
 			// store
 			store = Store.GetStore();
 		}
@@ -133,8 +140,10 @@ namespace Simias.DomainWatcher
 		public void WatcherThread()
 		{
 			log.Debug("WatcherThread started");
+			bool finishedWithDomain;
 			bool firstTime = true;
 			EventPublisher cEvent = new EventPublisher();
+			Simias.Authentication.Status authStatus = null;
 
 			string userID;
 			string credentials;
@@ -161,8 +170,118 @@ namespace Simias.DomainWatcher
 						{
 							Member cMember;
 							log.Debug( "checking Domain: " + cDomain.Name );
-
+							
 							DomainAgent domainAgent = new DomainAgent();
+							
+							finishedWithDomain = false;
+							foreach( MDomain mdomain in domainList )
+							{
+								if ( mdomain.ID == cDomain.ID )
+								{
+									if ( mdomain.Authenticated == true || mdomain.UpSignal == true )
+									{
+										finishedWithDomain = true;
+										break;
+									}
+								}
+							}
+							
+							if ( finishedWithDomain == true )
+							{
+								continue;
+							}
+							
+							// If the domain is default attempt to get a full credential
+							// set which under the covers will attempt to get it from
+							// CASA.
+							if ( store.DefaultDomain == cDomain.ID )
+							{
+								log.Debug( "  domain is default - getting credentials" );
+								HttpBasicCredentials basicCredentials =
+									new HttpBasicCredentials( 
+											cDomain.ID,
+											cDomain.ID,
+											cDomain.GetCurrentMember().UserID,
+											true);
+											
+								if ( basicCredentials.Cached == true )
+								{
+									// We have credentials for this domain so
+									// attempt to login
+									
+									log.Debug( "  yes - we have credentials for default" );
+									log.Debug( "  username: " + basicCredentials.Username );
+									log.Debug( "  password: " + basicCredentials.Password );
+									
+									try
+									{
+										authStatus =
+											domainAgent.Login(
+												cDomain.ID,
+												basicCredentials.Username,
+												basicCredentials.Password );
+									
+									}
+									catch( WebException we )
+									{
+										log.Debug( "  failed authentication. " );
+										log.Debug( we.Message );
+										
+										if ( we.Status == WebExceptionStatus.TrustFailure )
+										{
+											// The certificate is invalid. Tell the client to login
+											Simias.Client.Event.NotifyEventArgs cArg =
+												new Simias.Client.Event.NotifyEventArgs(
+														"Domain-Up",
+														cDomain.ID,
+														System.DateTime.Now );
+	
+											cEvent.RaiseEvent( cArg );// which will inform him of the invalid cert.
+											continue;
+										}
+										
+									}
+								
+									if ( authStatus != null )
+									{
+										if ( authStatus.statusCode == SCodes.Success )
+										{
+											log.Debug( "  successful authentication to the default domain" );
+											MDomain mdomain = new MDomain();
+											mdomain.ID = cDomain.ID;
+											mdomain.Authenticated = true;
+											mdomain.UpSignal = false;
+											domainList.Add( mdomain );
+											continue;
+										}
+										else
+										if ( authStatus.statusCode == SCodes.SuccessInGrace )
+										{
+											// The certificate is invalid. Tell the client to login
+											Simias.Client.Event.NotifyEventArgs cArg =
+												new Simias.Client.Event.NotifyEventArgs(
+														"Domain-Up",
+														cDomain.ID,
+														System.DateTime.Now);
+		
+											cEvent.RaiseEvent(cArg);// which will inform him of the invalid cert.
+											
+											MDomain mdomain = new MDomain();
+											mdomain.ID = cDomain.ID;
+											mdomain.Authenticated = false;
+											mdomain.UpSignal = true;
+											domainList.Add( mdomain );
+											continue;
+										}
+									}
+								}
+								else
+								{
+									log.Debug( "  no credentials for the default domain - bummer" );
+								}
+							}
+							
+
 							try
 							{
 								if ( domainAgent.IsDomainActive( cDomain.ID ) == false )
@@ -186,6 +305,7 @@ namespace Simias.DomainWatcher
 								}
 								throw we;
 							}
+							
 							if ( domainAgent.IsDomainAutoLoginEnabled( cDomain.ID ) == false )
 							{
 								log.Debug( "Domain: " + cDomain.Name + " auto-login is disabled" );
@@ -225,7 +345,6 @@ namespace Simias.DomainWatcher
 							if ( ( netCreds == null ) || firstTime )
 							{
 								bool raiseEvent = false;
-								Simias.Authentication.Status authStatus;
 
 								if ( netCreds == null )
 								{
@@ -279,7 +398,6 @@ namespace Simias.DomainWatcher
 		}
 
 		#region IDisposable Members
-
 		/// <summary>
 		/// Dispose
 		/// </summary>
@@ -287,7 +405,6 @@ namespace Simias.DomainWatcher
 		{
 			Stop();
 		}
-
 		#endregion
 	}
 }
