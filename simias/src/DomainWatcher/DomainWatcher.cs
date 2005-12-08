@@ -1,5 +1,5 @@
 /***********************************************************************
- *  $RCSfile$
+ *  $RCSfile: DomainWatcher.cs,v $
  *
  *  Copyright (C) 2004 Novell, Inc.
  *
@@ -30,6 +30,7 @@ using System.Threading;
 using System.Web;
 
 using Simias;
+using Simias.Authentication;
 using Simias.Client;
 using Simias.DomainServices;
 
@@ -38,7 +39,6 @@ using Simias.Event;
 using Simias.Storage;
 using Simias.Sync;
 
-using Novell.Security.ClientPasswordManager;
 using SCodes = Simias.Authentication.StatusCodes;
 
 namespace Simias.DomainWatcher
@@ -48,27 +48,25 @@ namespace Simias.DomainWatcher
 	/// </summary>
 	public class Manager : IDisposable
 	{
-		private static readonly ISimiasLog log =
-			SimiasLogManager.GetLogger(typeof(Simias.DomainWatcher.Manager));
-
+		private static readonly ISimiasLog log = 
+			SimiasLogManager.GetLogger( System.Reflection.MethodBase.GetCurrentMethod().DeclaringType );
+			
 		private bool			started = false;
 		private	bool			stop = false;
-		private Configuration	config;
 		private Thread			watcherThread = null;
 		private AutoResetEvent	stopEvent;
 		private Store			store;
-		private int				waitTime = ( 30 * 1000 );
-		private int				initialWait = ( 5 * 1000 );
+		private int				maxWaitTime = ( 300 * 1000 );
+		private int				waitTime = ( 5 * 1000 );
+		
+		private ArrayList domainList = new ArrayList();
 
 		/// <summary>
 		/// Constructor
 		/// </summary>
-		/// <param name="config">Simias configuration</param>
-		public Manager(Configuration config)
+		public Manager()
 		{
-			this.config = config;
-			
-			// store
+			log.Debug( "Constructor called" );
 			store = Store.GetStore();
 		}
 
@@ -77,7 +75,7 @@ namespace Simias.DomainWatcher
 		/// </summary>
 		public void Start()
 		{
-			log.Debug("Start called");
+			log.Debug( "Start called" );
 
 			try
 			{
@@ -108,23 +106,23 @@ namespace Simias.DomainWatcher
 		/// </summary>
 		public void Stop()
 		{
-			log.Debug("Stop called");
+			log.Debug( "Stop called" );
 			try
 			{
-				lock(this)
+				lock( this )
 				{
 					// Set state and then signal the event
 					this.stop = true;
 					this.stopEvent.Set();
-					Thread.Sleep(32);
+					Thread.Sleep( 32 );
 				}
 			}
-			catch(Exception e)
+			catch( Exception e )
 			{
-				log.Error(e, "Unable to stop Domain Watcher.");
+				log.Error( e, "Unable to stop Domain Watcher." );
 				throw e;
 			}
-			log.Debug("Stop exit");
+			log.Debug( "Stop exit" );
 		}
 
 		/// <summary>
@@ -132,9 +130,9 @@ namespace Simias.DomainWatcher
 		/// </summary>
 		public void WatcherThread()
 		{
-			log.Debug("WatcherThread started");
-			bool firstTime = true;
+			log.Debug( "WatcherThread started" );
 			EventPublisher cEvent = new EventPublisher();
+			Simias.Authentication.Status authStatus = null;
 
 			string userID;
 			string credentials;
@@ -150,8 +148,8 @@ namespace Simias.DomainWatcher
 
 				try
 				{
-					ICSList domainList = store.GetDomainList();
-					foreach( ShallowNode shallowNode in domainList )
+					//ICSList domainList = store.GetDomainList();
+					foreach( ShallowNode shallowNode in store.GetDomainList() )
 					{
 						Domain cDomain = store.GetDomain( shallowNode.ID );
 					
@@ -160,115 +158,134 @@ namespace Simias.DomainWatcher
 						if ( cDomain.Role == SyncRoles.Slave )
 						{
 							Member cMember;
-							log.Debug( "checking Domain: " + cDomain.Name );
-
 							DomainAgent domainAgent = new DomainAgent();
-							try
-							{
-								if ( domainAgent.IsDomainActive( cDomain.ID ) == false )
-								{
-									log.Debug( "Domain: " + cDomain.Name + " is off-line" );
-									continue;
-								}
-							}
-							catch(WebException we)
-							{
-								if (we.Status == WebExceptionStatus.TrustFailure)
-								{
-									// The certificate is invalid. Tell the client to login
-									Simias.Client.Event.NotifyEventArgs cArg =
-										new Simias.Client.Event.NotifyEventArgs(
-										"Domain-Up",
-										cDomain.ID,
-										System.DateTime.Now);
 
-									cEvent.RaiseEvent(cArg);// which will inform him of the invalid cert.
-								}
-								throw we;
-							}
-							if ( domainAgent.IsDomainAutoLoginEnabled( cDomain.ID ) == false )
+							log.Debug( "Checking domain: " + cDomain.Name );
+							
+							// Check if the domain is up and active
+							if ( domainAgent.IsDomainAuthenticated( cDomain.ID ) )
 							{
-								log.Debug( "Domain: " + cDomain.Name + " auto-login is disabled" );
+								log.Debug( "  domain: " + cDomain.Name + " - is authenticated" );
 								continue;
 							}
-
-							CredentialType credType =
-								store.GetDomainCredentials( cDomain.ID, out userID, out credentials );
-
-							// Don't set this credential in the cache.
-							credentials = null;
-
-							// Only basic type authentication is supported right now.
-							if ( credType != CredentialType.Basic )
+							
+							// If the domain is default, attempt to get a full credential
+							// set which under the covers will attempt to get it from
+							// CASA.
+							if ( store.DefaultDomain == cDomain.ID )
 							{
-								cMember = cDomain.GetCurrentMember();
-							}
-							else
-							{
-								cMember = cDomain.GetMemberByID( userID );
-							}
-
-							// Can we talk to the domain?
-							// Check to see if a full set of credentials exist
-							// for this domain
-
-							NetCredential cCreds =
-								new NetCredential(
-									"iFolder",
-									cDomain.ID,
-									true,
-									cMember.Name,
-									credentials);
-
-							Uri cUri = DomainProvider.ResolveLocation( cDomain.ID );
-							NetworkCredential netCreds = cCreds.GetCredential( cUri, "BASIC" );
-							if ( ( netCreds == null ) || firstTime )
-							{
-								bool raiseEvent = false;
-								Simias.Authentication.Status authStatus;
-
-								if ( netCreds == null )
-								{
-									authStatus =
-										domainAgent.Login(
+								log.Debug( "  domain is default - getting credentials" );
+								HttpBasicCredentials basicCredentials =
+									new HttpBasicCredentials( 
 											cDomain.ID,
-											Guid.NewGuid().ToString(),
-											"12" );
-
-									if ( authStatus.statusCode == SCodes.UnknownUser )
+											cDomain.ID,
+											cDomain.GetCurrentMember().UserID );
+											
+								if ( basicCredentials.Cached == true )
+								{
+									// We have credentials for this domain so
+									// attempt to login
+									
+									log.Debug( "  yes - we have credentials for default" );
+									log.Debug( "  username: " + basicCredentials.Username );
+									
+									try
 									{
-										raiseEvent = true;
+										authStatus =
+											domainAgent.Login(
+												cDomain.ID,
+												basicCredentials.Username,
+												basicCredentials.Password );
+									
+									}
+									catch( WebException we )
+									{
+										log.Debug( "  failed authentication. " );
+										log.Debug( we.Message );
+										
+										if ( we.Status == WebExceptionStatus.TrustFailure )
+										{
+											// The certificate is invalid. Force the client to
+											// login thru a UI so the user can make a decision
+											cEvent.RaiseEvent(
+												new Simias.Client.Event.NotifyEventArgs(
+														"Domain-Up",
+														cDomain.ID,
+														System.DateTime.Now ) );
+											continue;
+										}
+									}
+								
+									if ( authStatus != null )
+									{
+										if ( authStatus.statusCode == SCodes.Success ||
+												authStatus.statusCode == SCodes.SuccessInGrace )
+										{
+											cEvent.RaiseEvent(
+												new Simias.Client.Event.NotifyEventArgs(
+														"Domain-Up",
+														cDomain.ID,
+														System.DateTime.Now ) );
+														
+											log.Debug( "  successful authentication to the default domain" );
+											
+											if ( authStatus.statusCode == SCodes.SuccessInGrace )
+											{
+												log.Debug( "  BUT - we're in grace" );
+											
+												// Tell the clients we authenticated successfully
+												// but that we're in a grace period
+											
+												cEvent.RaiseEvent(
+													new Simias.Client.Event.NotifyEventArgs(
+															"in-grace-period",
+															cDomain.ID,
+															System.DateTime.Now ) );
+											}
+											
+											continue;
+										}
 									}
 								}
 								else
 								{
-									raiseEvent = true;
+									log.Debug( "  no credentials for the default domain - bummer" );
 								}
-
-								if ( raiseEvent == true )
-								{
-									Simias.Client.Event.NotifyEventArgs cArg =
-										new Simias.Client.Event.NotifyEventArgs(
-										"Domain-Up",
-										cDomain.ID,
-										System.DateTime.Now);
-
-									cEvent.RaiseEvent(cArg);
-								}
+							}
+							
+							if ( domainAgent.IsDomainAutoLoginEnabled( cDomain.ID ) == false )
+							{
+								log.Debug( "  domain: " + cDomain.Name + " auto-login is disabled" );
+								continue;
+							}
+							
+							log.Debug( "  attempting to ping the domain" );
+							if ( domainAgent.Ping( cDomain.ID ) == true )
+							{
+								log.Debug( "  domain up" );
+								cEvent.RaiseEvent(
+									new Simias.Client.Event.NotifyEventArgs(
+											"Domain-Up",
+											cDomain.ID,
+											System.DateTime.Now ) );
+							}
+							else
+							{
+								log.Debug( "  domain down" );							
 							}
 						}
 					}
 				}
-				catch(Exception e)
+				catch( Exception e )
 				{
-					log.Error(e.Message);
-					log.Error(e.StackTrace);
+					log.Error( e.Message );
+					log.Error( e.StackTrace );
 				}
 
 				if ( this.stop == false )
 				{
-					stopEvent.WaitOne( ( firstTime == true ) ? initialWait : waitTime, false );
-					firstTime = false;
+					stopEvent.WaitOne( waitTime, false );
+					waitTime = ( waitTime * 2 < maxWaitTime ) ? waitTime * 2 : maxWaitTime;
 				}
 
 			} while( this.stop == false );
@@ -279,7 +296,6 @@ namespace Simias.DomainWatcher
 		}
 
 		#region IDisposable Members
-
 		/// <summary>
 		/// Dispose
 		/// </summary>
@@ -287,7 +303,6 @@ namespace Simias.DomainWatcher
 		{
 			Stop();
 		}
-
 		#endregion
 	}
 }

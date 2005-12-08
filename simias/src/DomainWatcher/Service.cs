@@ -47,9 +47,9 @@ namespace Simias.DomainWatcher
 		/// <summary>
 		/// Start the Domain Watcher service.
 		/// </summary>
-		public void Start(Configuration config)
+		public void Start( Configuration config )
 		{
-			this.manager = new Simias.DomainWatcher.Manager(config);
+			this.manager = new Simias.DomainWatcher.Manager();
 			this.manager.Start();
 		}
 
@@ -58,8 +58,8 @@ namespace Simias.DomainWatcher
 		/// </summary>
 		public void Stop()
 		{
-			Debug.Assert(this.manager != null);
-			if (this.manager != null)
+			Debug.Assert( this.manager != null );
+			if ( this.manager != null )
 			{
 				this.manager.Stop();
 			}
@@ -72,8 +72,8 @@ namespace Simias.DomainWatcher
 		/// </summary>
 		public void Resume()
 		{
-			Debug.Assert(this.manager != null);
-			if (this.manager != null)
+			Debug.Assert( this.manager != null );
+			if ( this.manager != null )
 			{
 				this.manager.Start();
 			}
@@ -84,8 +84,8 @@ namespace Simias.DomainWatcher
 		/// </summary>
 		public void Pause()
 		{
-			Debug.Assert(this.manager != null);
-			if (this.manager != null)
+			Debug.Assert( this.manager != null );
+			if ( this.manager != null )
 			{
 				this.manager.Stop();
 			}
@@ -96,9 +96,9 @@ namespace Simias.DomainWatcher
 		/// </summary>
 		/// <param name="message"></param>
 		/// <param name="data"></param>
-		public int Custom(int message, string data)
+		public int Custom( int message, string data )
 		{
-			switch (message)
+			switch ( message )
 			{
 				default:
 					break;
