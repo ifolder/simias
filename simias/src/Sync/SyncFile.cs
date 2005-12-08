@@ -593,41 +593,45 @@ namespace Simias.Sync
 		{
 			if (!NameConflict)
 			{
-				string path = node.Properties.GetSingleProperty(PropertyTags.FileSystemPath).Value.ToString();
-				ICSList nodeList;
-				nodeList = collection.Search(PropertyTags.FileSystemPath, path, SearchOp.Equal);
-				foreach (ShallowNode sn in nodeList)
+				Property property = node.Properties.GetSingleProperty(PropertyTags.FileSystemPath);
+				if (property != null)
 				{
-					if (sn.ID != node.ID)
+					string path = property.Value.ToString();
+					ICSList nodeList;
+					nodeList = collection.Search(PropertyTags.FileSystemPath, path, SearchOp.Equal);
+					foreach (ShallowNode sn in nodeList)
 					{
-						conflictingNode = collection.GetNodeByID(sn.ID);
-						nameConflict = true;
-						break;
+						if (sn.ID != node.ID)
+						{
+							conflictingNode = collection.GetNodeByID(sn.ID);
+							nameConflict = true;
+							break;
+						}
 					}
-				}
-				// Now make sure we don't have any illegal characters.
-				if (!IsNameValid(path))
-					nameConflict = true;
+					// Now make sure we don't have any illegal characters.
+					if (!IsNameValid(path))
+						nameConflict = true;
 
-				if (nameConflict)
-				{
-					node = Conflict.CreateNameConflict(collection, node) as BaseFileNode;
-					file = Conflict.GetFileConflictPath(collection, node);
-					if (conflictingNode != null)
+					if (nameConflict)
 					{
-						string cnPath;
-						FileNode tmpFn = conflictingNode as FileNode;
-						DirNode tmpDn = conflictingNode as DirNode;
-						if (tmpFn != null)
+						node = Conflict.CreateNameConflict(collection, node) as BaseFileNode;
+						file = Conflict.GetFileConflictPath(collection, node);
+						if (conflictingNode != null)
 						{
-							cnPath = tmpFn.GetFullPath(collection);
+							string cnPath;
+							FileNode tmpFn = conflictingNode as FileNode;
+							DirNode tmpDn = conflictingNode as DirNode;
+							if (tmpFn != null)
+							{
+								cnPath = tmpFn.GetFullPath(collection);
+							}
+							else
+							{
+								cnPath = tmpDn.GetFullPath(collection);
+							}
+							conflictingNode = Conflict.CreateNameConflict(collection, conflictingNode, cnPath);
+							Conflict.LinkConflictingNodes(conflictingNode, node);
 						}
-						else
-						{
-							cnPath = tmpDn.GetFullPath(collection);
-						}
-						conflictingNode = Conflict.CreateNameConflict(collection, conflictingNode, cnPath);
-						Conflict.LinkConflictingNodes(conflictingNode, node);
 					}
 				}
 			}

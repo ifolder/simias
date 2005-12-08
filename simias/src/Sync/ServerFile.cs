@@ -70,6 +70,9 @@ namespace Simias.Sync
 			XmlDocument xNode = new XmlDocument();
 			xNode.LoadXml(snode.node);
 			node = (BaseFileNode)Node.NodeFactory(collection.StoreReference, xNode);
+			// Don't allow journal files to be updated from the client.
+			if (collection.IsType(node, "Journal"))
+				return SyncStatus.Access;
 			map = new HashMap(collection, node);
 			if (!policy.Allowed(node))
 			{

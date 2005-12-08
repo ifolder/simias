@@ -797,15 +797,19 @@ namespace Simias.Sync
 					BaseFileNode unode = (BaseFileNode)collection.GetNodeByID(Path.GetFileName(file));
 					if (unode != null)
 					{
-						DateTime lastWrote = File.GetLastWriteTime(file);
-						DateTime created = File.GetCreationTime(file);
-						if (unode.LastWriteTime != lastWrote)
+						// Don't allow journal files to be updated from the client.
+						if (!collection.IsType(unode, "Journal"))
 						{
-							unode.LastWriteTime = lastWrote;
-							unode.CreationTime = created;
-							log.Debug("Updating store file node for {0} {1}", path, file);
-							collection.Commit(unode);
-							foundChange = true;
+							DateTime lastWrote = File.GetLastWriteTime(file);
+							DateTime created = File.GetCreationTime(file);
+							if (unode.LastWriteTime != lastWrote)
+							{
+								unode.LastWriteTime = lastWrote;
+								unode.CreationTime = created;
+								log.Debug("Updating store file node for {0} {1}", path, file);
+								collection.Commit(unode);
+								foundChange = true;
+							}
 						}
 					}
 				}
