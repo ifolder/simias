@@ -24,6 +24,7 @@
 using System;
 using System.Collections;
 using System.Xml;
+using System.Security.Cryptography;
 
 using Simias.Client;
 
@@ -36,15 +37,6 @@ namespace Simias.Storage
 	public class HostNode : Node
 	{
 		#region Class Members
-		/// <summary>
-		/// The Private address not accessible outside the firewall
-		/// used for server to server communication.
-		/// </summary>
-		static string PrivateAddressTag = "PrivateAddress";
-		/// <summary>
-		/// The public address used for normal access.
-		/// </summary>
-		static string PublicAddressTag = "PublicAddress";
 		#endregion
 
 		#region Properties
@@ -55,16 +47,16 @@ namespace Simias.Storage
 		{
 			get
 			{
-				Property pa = Properties.GetSingleProperty(PublicAddressTag);
+				Property pa = Properties.GetSingleProperty(PropertyTags.HostAddress);
 				if (pa != null)
 				{
 					return pa.Value.ToString();
 				}
-				throw new NotExistException(PublicAddressTag);
+				throw new NotExistException(PropertyTags.HostAddress);
 			}
 			set
 			{
-				Properties.ModifyProperty(new Property(PublicAddressTag, value));
+				Properties.ModifyProperty(new Property(PropertyTags.HostAddress, value));
 			}
 		}
 
@@ -75,16 +67,16 @@ namespace Simias.Storage
 		{
 			get
 			{
-				Property pa = Properties.GetSingleProperty(PrivateAddressTag);
+				Property pa = Properties.GetSingleProperty(PropertyTags.PrivateAddress);
 				if (pa != null)
 				{
 					return pa.Value.ToString();
 				}
-				throw new NotExistException(PrivateAddressTag);
+				throw new NotExistException(PropertyTags.PrivateAddress);
 			}
 			set
 			{
-				Properties.ModifyProperty(new Property(PrivateAddressTag, value));
+				Properties.ModifyProperty(new Property(PropertyTags.PrivateAddress, value));
 			}
 		}
 
@@ -95,10 +87,12 @@ namespace Simias.Storage
 		{
 			get
 			{
-				return "Not Implemented";
-			}
-			set
-			{
+				Property pa = Properties.GetSingleProperty(PropertyTags.PublicKey);
+				if (pa != null)
+				{
+					return pa.Value.ToString();
+				}
+				throw new NotExistException(PropertyTags.PublicKey);
 			}
 		}
 
@@ -109,10 +103,12 @@ namespace Simias.Storage
 		{
 			get
 			{
-				return "Not Implemented";
-			}
-			set
-			{
+				Property pa = Properties.GetSingleProperty(PropertyTags.PrivateKey);
+				if (pa != null)
+				{
+					return pa.Value.ToString();
+				}
+				throw new NotExistException(PropertyTags.PublicKey);
 			}
 		}
 		#endregion
@@ -125,13 +121,28 @@ namespace Simias.Storage
 		/// <param name="publicAddress">The public address for the host.</param>
 		/// <param name="privateAddress">The private address for the host.</param>
 		public HostNode(string name, string publicAddress, string privateAddress) :
-			base(name, Guid.NewGuid().ToString(), NodeTypes.HostNodeType)
+			this(name, Guid.NewGuid().ToString(), publicAddress, privateAddress, null)
+		{
+		}
+
+		/// <summary>
+		/// Construct a new host node.
+		/// </summary>
+		/// <param name="name">The name of the host.</param>
+		/// <param name="guid">The ID for this node.</param>
+		/// <param name="publicAddress">The public address for the host.</param>
+		/// <param name="privateAddress">The private address for the host.</param>
+		/// <param name="publicKey"></param>
+		public HostNode(string name, string guid, string publicAddress, string privateAddress, string publicKey) :
+			base(name, guid, NodeTypes.HostNodeType)
 		{
 			// Set the Addresses.
 			PublicAddress = publicAddress;
 			PrivateAddress = privateAddress;
-
-			// Generate Private/Public Keypair.
+			if (publicKey != null)
+			{
+				Properties.ModifyProperty(new Property(PropertyTags.PublicKey, publicKey));
+			}
 		}
 
 		/// <summary>
@@ -186,5 +197,17 @@ namespace Simias.Storage
 			}
 		}
 		#endregion
+
+		/// <summary>
+		/// Create a key pair for this HostNode.
+		/// </summary>
+		public void CreateKeys()
+		{
+			RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
+			Property privKey = new Property(PropertyTags.PublicKey, rsa.ToXmlString(true));
+			privKey.LocalProperty = true;
+			Properties.ModifyProperty(privKey);
+			Properties.ModifyProperty(new Property(PropertyTags.PublicKey, rsa.ToXmlString(false)));
+		}
 	}
 }
