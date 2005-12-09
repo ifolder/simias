@@ -192,177 +192,6 @@ namespace Simias.Authentication
 		/// </summary>
 		public int				RemainingGraceLogins;
 	}
-
-/*
-	/// <summary>
-	/// Summary description for Credentials
-	/// </summary>
-	public class Credentials
-	{
-		private static readonly ISimiasLog log = SimiasLogManager.GetLogger(typeof(Credentials));
-		private string collectionID;
-		private string memberID;
-		private string domainID;
-		private Store store;
-
-		/// <summary>
-		/// Constructor for checking if credentials exist for collection
-		/// </summary>
-		public Credentials(string collectionID)
-		{
-			this.collectionID = collectionID;
-			this.store = Store.GetStore();
-		}
-
-		/// <summary>
-		/// Constructor for checking if credentials exist for a domain
-		/// and a member
-		/// </summary>
-		public Credentials(string domainID, string memberID)
-		{
-			this.domainID = domainID;
-			this.memberID = memberID;
-			this.store = Store.GetStore();
-		}
-
-		/// <summary>
-		/// Constructor for checking if credentials exist for a 
-		/// collection and member
-		/// </summary>
-		public Credentials(string domainID, string collectionID, string memberID)
-		{
-			this.domainID = domainID;
-			this.collectionID = collectionID;
-			this.memberID = memberID;
-			this.store = Store.GetStore();
-		}
-
-
-		/// <summary>
-		/// Gets the credentials (if they exist) that are set against
-		/// the collection ID passed in the constructor.
-		/// </summary>
-		/// <returns>NetworkCredential object which can be assigned to the "Credentials" property in a proxy class.</returns>
-		public NetworkCredential GetCredentials()
-		{
-			//
-			// From the collection ID we need to figure out
-			// the Realm, Username etc.
-			//
-
-			NetworkCredential realCreds = null;
-			Simias.Storage.Domain cDomain = null;
-			Simias.Storage.Member cMember = null;
-
-			string memberName = "";
-			string memberID = this.memberID;
-
-			try
-			{
-				if ( this.domainID != null && this.collectionID != null && this.memberID != null )
-				{
-					cDomain = store.GetDomain( this.domainID );
-					if ( cDomain != null )
-					{
-						cMember = cDomain.GetMemberByID( this.memberID );
-						if ( cMember != null )
-						{
-							memberName = cMember.Name;
-							memberID = cMember.UserID;
-						}
-					}
-				}
-				else
-				if ( this.collectionID != null )
-				{
-					// Validate the shared collection
-					Collection cCol = this.store.GetCollectionByID( collectionID );
-					if ( cCol != null )
-					{
-						cMember = 
-							( this.memberID != null ) 
-								? cCol.GetMemberByID( this.memberID ) 
-								: cCol.GetCurrentMember();
-						if ( cMember != null )
-						{
-							memberName = cMember.Name;
-							memberID = cMember.UserID;
-							cDomain = this.store.GetDomain( cCol.Domain );
-						}
-						else
-						{
-							log.Debug( "Credentials::GetCredentials - current member not found" );
-						}
-					}
-					else
-					{
-						log.Debug( "Credentials::GetCredentials - collection not found" );
-					}
-				}
-				else
-				{
-					cDomain = this.store.GetDomain( this.domainID );
-					cMember = cDomain.GetMemberByID( this.memberID );
-					if ( cMember != null )
-					{
-						memberName = cMember.Name;
-						memberID = cMember.UserID;
-					}
-				}
-
-				//
-				// Verify the domain is not marked "inactive" and that a non-workgroup
-				// domain is marked authenticated.
-				//
-
-				DomainAgent domainAgent = new DomainAgent();
-				if ( domainAgent.IsDomainActive( cDomain.ID ) &&
-					 (domainAgent.IsDomainAuthenticated( cDomain.ID ) ||
-					 cDomain.ConfigType.Equals(Simias.Storage.Domain.ConfigurationType.Workgroup)))
-				{
-					NetCredential cCreds = 
-						new NetCredential(
-							"iFolder", 
-							this.domainID,
-							true, 
-							memberName,
-							null );
-
-					Uri cUri = DomainProvider.ResolveLocation( this.domainID );
-					realCreds = cCreds.GetCredential( cUri, "BASIC" );
-					if ( realCreds == null )
-					{
-						// Check if creds exist for the user ID
-						cCreds = 
-							new NetCredential(
-								"iFolder", 
-								this.domainID, 
-								true, 
-								memberID,
-								null );
-
-						realCreds = cCreds.GetCredential( cUri, "BASIC" );
-						if ( realCreds == null && this.collectionID != null )
-						{
-							// Check if creds exist for the user ID and by collection
-							cCreds = 
-								new NetCredential(
-								"iFolder", 
-								this.collectionID, 
-								true, 
-								memberID,
-								null );
-
-							realCreds = cCreds.GetCredential( cUri, "BASIC" );
-						}
-					}
-				}
-			}
-			catch{}
-			return(realCreds);
-		}
-	}
-	*/
 	
 	/// <summary>
 	/// Class for maintaining cached Http Basic
@@ -793,8 +622,7 @@ namespace Simias.Authentication
 			{
 				if ( Simias.Authentication.SimiasCredentials.credentialList.ContainsKey( key ) )
 				{
-					//creds = SimiasCredentials.credentialList.get_Item( key ) as CredentialSet;
-					creds = (CredentialSet) SimiasCredentials.credentialList[ key ];
+					creds = SimiasCredentials.credentialList[ key ] as CredentialSet;
 				}
 			}
 		
@@ -830,13 +658,13 @@ namespace Simias.Authentication
 				string key = 
 					( this.credentials.DomainID == this.credentials.CollectionID )
 						? this.credentials.DomainID : this.credentials.CollectionID;
-				if ( Simias.Authentication.SimiasCredentials.credentialList.ContainsKey( key ) == true )
+				if ( SimiasCredentials.credentialList.ContainsKey( key ) == true )
 				{
-					Simias.Authentication.SimiasCredentials.credentialList.Remove( key );			
+					SimiasCredentials.credentialList.Remove( key );			
 				}
 			
 				log.Debug( "adding: " + key + " to the cache" );
-				Simias.Authentication.SimiasCredentials.credentialList.Add( key, this.credentials );
+				SimiasCredentials.credentialList.Add( key, this.credentials );
 			}
 			
 			this.credentials.Cached = true;
@@ -854,109 +682,12 @@ namespace Simias.Authentication
 				string key = 
 					( this.credentials.DomainID == this.credentials.CollectionID )
 						? this.credentials.DomainID : this.credentials.CollectionID;
-				if ( Simias.Authentication.SimiasCredentials.credentialList.ContainsKey( key ) == true )
+				if ( SimiasCredentials.credentialList.ContainsKey( key ) == true )
 				{
-					Simias.Authentication.SimiasCredentials.credentialList.Remove( key );			
+					SimiasCredentials.credentialList.Remove( key );			
 				}
 			}
 		}
 		#endregion
-		
-		/*
-		public static void Main(string[] args)
-		{
-			//Console.WriteLine( "Setting credential" );
-	    
-	    	try
-	    	{
-	    		// Create a set of credentials, cache them and then retrieve 
-	    		// them back from cache.
-	    		
-	    		string domainID = Guid.NewGuid().ToString();
-	    		string memberID = Guid.NewGuid().ToString();
-	    		string password = "heyya";
-	    		
-	    		Console.WriteLine( "Caching credential set:" );
-	    		Console.WriteLine( "  domain: " + domainID );
-	    		Console.WriteLine( "  member: " + memberID );
-	    		Console.WriteLine( "  password: " + password );
-	    		
-	    		Simias.Authentication.HttpBasicCredentials setOne = 
-	    			new HttpBasicCredentials( domainID, domainID, memberID, false, password );
-				setOne.Save( false );
-	    		
-	    		// Now retrieve them
-	    		Console.WriteLine( "Retrieving credential set:" );
-	    		
-	    		HttpBasicCredentials setTwo =
-	    			new HttpBasicCredentials( domainID, domainID, memberID, false );
-	    			
-	    		if ( setTwo.Cached == true )
-	    		{
-		    		Console.WriteLine( "  domain: " + domainID );
-		    		Console.WriteLine( "  password: " + setTwo.Password );
-	    		}
-	    		else
-	    		{
-	    			Console.WriteLine( " could not find a full credential set for domain: " + domainID );
-	    		}
-
-
-				string collectionID = Guid.NewGuid().ToString();
-				password = "zippy";
-				
-	    		Console.WriteLine( "Caching credential set based on a collection:" );
-	    		Console.WriteLine( "  domain: " + domainID );
-	    		Console.WriteLine( "  collection: " + collectionID );
-	    		Console.WriteLine( "  member: " + memberID );
-	    		Console.WriteLine( "  password: " + password );
-	    		
-	    		HttpBasicCredentials setThree = 
-	    			new HttpBasicCredentials( domainID, collectionID, memberID, false, password );
-	    		setThree.Save( false );
-	    		
-	    		// Now retrieve them
-	    		Console.WriteLine( "Retrieving credential set:" );
-	    		
-	    		HttpBasicCredentials setFour =
-	    			new HttpBasicCredentials( domainID, collectionID, memberID, false );
-	    			
-	    		if ( setFour.Cached == true )
-	    		{
-		    		Console.WriteLine( "  domain: " + domainID );
-		    		Console.WriteLine( "  collection: " + collectionID );
-		    		Console.WriteLine( "  password: " + setFour.Password );
-	    		}
-	    		else
-	    		{
-	    			Console.WriteLine( " could not find a full credential set for collection: " + collectionID );
-	    		}
-	    		
-	    		// Attempt to get the CASA credentials
-				domainID = Guid.NewGuid().ToString();
-				
-	    		Console.WriteLine( "Attempting to retrieve the CASA credentials:" );
-	    		
-	    		HttpBasicCredentials setTen = 
-	    			new HttpBasicCredentials( domainID, domainID, memberID, true );
-	    		if ( setTen.Cached == true )
-	    		{
-		    		Console.WriteLine( "  domain: " + domainID );
-		    		Console.WriteLine( "  collection: " + collectionID );
-		    		Console.WriteLine( "  username: " + setTen.Username );
-		    		Console.WriteLine( "  password: " + setTen.Password );
-	    		}
-	    		else
-	    		{
-	    			Console.WriteLine( " could not find the CASA credentials" );
-	    		}
-		    }
-		    catch( Exception e )
-		    {
-		    	Console.WriteLine( e.Message );
-		    	Console.WriteLine( e.StackTrace );
-		    }
-		}
-		*/
 	}
 }
