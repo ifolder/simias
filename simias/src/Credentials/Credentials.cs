@@ -793,7 +793,8 @@ namespace Simias.Authentication
 			{
 				if ( Simias.Authentication.SimiasCredentials.credentialList.ContainsKey( key ) )
 				{
-					creds = SimiasCredentials.credentialList.get_Item( key ) as CredentialSet;
+					//creds = SimiasCredentials.credentialList.get_Item( key ) as CredentialSet;
+					creds = (CredentialSet) SimiasCredentials.credentialList[ key ];
 				}
 			}
 		
