@@ -272,6 +272,11 @@ namespace Simias.Storage
 		static public string PrivateAddress = "PrivateAddress";
 
 		/// <summary>
+		/// Well known propery name.
+		/// </summary>
+		static public string PublicAddress = "PublicAddress";
+
+		/// <summary>
 		/// Well known property name.
 		/// </summary>
 		static public string PrivateKey = "PrivateKey";
@@ -339,6 +344,9 @@ namespace Simias.Storage
 			systemPropertyTable.Add( SystemPolicy, null );
 			systemPropertyTable.Add( TombstoneType, null );
 			systemPropertyTable.Add( Types, null );
+			systemPropertyTable.Add( PrivateAddress, null);
+			systemPropertyTable.Add( PublicAddress, null);
+			systemPropertyTable.Add( PrivateKey, null);
 		}
 		#endregion
 

@@ -47,16 +47,16 @@ namespace Simias.Storage
 		{
 			get
 			{
-				Property pa = Properties.GetSingleProperty(PropertyTags.HostAddress);
+				Property pa = Properties.GetSingleProperty(PropertyTags.PublicAddress);
 				if (pa != null)
 				{
 					return pa.Value.ToString();
 				}
-				throw new NotExistException(PropertyTags.HostAddress);
+				throw new NotExistException(PropertyTags.PublicAddress);
 			}
 			set
 			{
-				Properties.ModifyProperty(new Property(PropertyTags.HostAddress, value));
+				Properties.ModifyNodeProperty(new Property(PropertyTags.PublicAddress, value));
 			}
 		}
 
@@ -76,7 +76,7 @@ namespace Simias.Storage
 			}
 			set
 			{
-				Properties.ModifyProperty(new Property(PropertyTags.PrivateAddress, value));
+				Properties.ModifyNodeProperty(new Property(PropertyTags.PrivateAddress, value));
 			}
 		}
 
@@ -141,7 +141,7 @@ namespace Simias.Storage
 			PrivateAddress = privateAddress;
 			if (publicKey != null)
 			{
-				Properties.ModifyProperty(new Property(PropertyTags.PublicKey, publicKey));
+				Properties.ModifyNodeProperty(new Property(PropertyTags.PublicKey, publicKey));
 			}
 		}
 
@@ -204,10 +204,10 @@ namespace Simias.Storage
 		public void CreateKeys()
 		{
 			RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
-			Property privKey = new Property(PropertyTags.PublicKey, rsa.ToXmlString(true));
+			Property privKey = new Property(PropertyTags.PrivateKey, rsa.ToXmlString(true));
 			privKey.LocalProperty = true;
-			Properties.ModifyProperty(privKey);
-			Properties.ModifyProperty(new Property(PropertyTags.PublicKey, rsa.ToXmlString(false)));
+			Properties.ModifyNodeProperty(privKey);
+			Properties.ModifyNodeProperty(new Property(PropertyTags.PublicKey, rsa.ToXmlString(false)));
 		}
 	}
 }
