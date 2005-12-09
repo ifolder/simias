@@ -727,7 +727,7 @@ namespace Simias.Storage
 									sfn.FlushStreamData( this );
 								}
 							}
-							else if ( Role.Equals(SyncRoles.Master) && 
+							else if ( /*Role.Equals(SyncRoles.Master) && */
 								( IsType( node, NodeTypes.FileNodeType ) || IsType( node, NodeTypes.DirNodeType ) ) )
 							{
 								// If this is a FileNode or a DirNode, create a journal entry.
@@ -744,8 +744,33 @@ namespace Simias.Storage
 
 								// Copy the XML journal node over to the modify document.
 								commitDocument.DocumentElement.AppendChild( 
-									commitDocument.ImportNode( journal.Properties.PropertyRoot, true ) );
-*/							}
+									commitDocument.ImportNode( journal.Properties.PropertyRoot, true ) );*/
+
+								StoreFileNode journal;
+								journal = UpdateJournalForNode2( node, commitTime, "add" );
+
+								if ( Role.Equals(SyncRoles.Master) )
+								{
+									if ( this.properties.GetSingleProperty( PropertyTags.Journal ) == null )
+									{
+										// Create a relationship to put on the collection.
+										relationship = new Relationship( ID, journal.ID );
+									}
+
+									// Validate the journal object.
+									ValidateNodeForCommit( journal );
+
+									// Increment the local incarnation number for the journal.
+									IncrementLocalIncarnation( journal );
+
+									// Add the journal node to the list.
+									journalNodeList.Add(journal);
+
+									// Copy the XML journal node over to the modify document.
+									commitDocument.DocumentElement.AppendChild( 
+										commitDocument.ImportNode( journal.Properties.PropertyRoot, true ) );
+								}
+							}
 
 							// Copy the XML node over to the modify document.
 							XmlNode xmlNode = commitDocument.ImportNode( node.Properties.PropertyRoot, true );
@@ -781,29 +806,32 @@ namespace Simias.Storage
 									}
 									catch {}
 								}
-								else if ( Role.Equals(SyncRoles.Master) && 
+								else if ( /*Role.Equals(SyncRoles.Master) && */
 									( IsType( node, NodeTypes.FileNodeType ) || IsType( node, NodeTypes.DirNodeType ) ) )
 								{
 									StoreFileNode journal = UpdateJournalForNode2( node, commitTime, "delete" );
 
-									if ( this.properties.GetSingleProperty( PropertyTags.Journal ) == null )
+									if ( Role.Equals(SyncRoles.Master) )
 									{
-										// Create a relationship to put on the collection.
-										relationship = new Relationship( ID, journal.ID );
+										if ( this.properties.GetSingleProperty( PropertyTags.Journal ) == null )
+										{
+											// Create a relationship to put on the collection.
+											relationship = new Relationship( ID, journal.ID );
+										}
+
+										// Validate the journal object.
+										ValidateNodeForCommit( journal );
+
+										// Increment the local incarnation number for the journal.
+										IncrementLocalIncarnation( journal );
+
+										// Add the journal node to the list.
+										journalNodeList.Add(journal);
+
+										// Copy the XML journal node over to the modify document.
+										commitDocument.DocumentElement.AppendChild( 
+											commitDocument.ImportNode( journal.Properties.PropertyRoot, true ) );
 									}
-
-									// Validate the journal object.
-									ValidateNodeForCommit( journal );
-
-									// Increment the local incarnation number for the journal.
-									IncrementLocalIncarnation( journal );
-
-									// Add the journal node to the list.
-									journalNodeList.Add(journal);
-
-									// Copy the XML journal node over to the modify document.
-									commitDocument.DocumentElement.AppendChild( 
-										commitDocument.ImportNode( journal.Properties.PropertyRoot, true ) );
 								}
 
 
@@ -854,7 +882,7 @@ namespace Simias.Storage
 							if ( IsType( node, NodeTypes.CollectionType ) || node.Properties.ChangeList.Count != 0 )
 							{
 								// Check if there is a relationship to put on the collection.
-								if (relationship != null)
+								if ( IsType( node, NodeTypes.CollectionType ) && ( relationship != null ) )
 								{
 									node.Properties.ModifyNodeProperty( PropertyTags.Journal, relationship );
 									relationship = null;
@@ -887,7 +915,7 @@ namespace Simias.Storage
 									node.BaseName = mergeNode.Name;
 									node.InternalList = new PropertyList( mergeNode.Properties.PropertyDocument );
 
-									if ( Role.Equals(SyncRoles.Master) && 
+									if ( /*Role.Equals(SyncRoles.Master) && */
 										( IsType( mergeNode, NodeTypes.FileNodeType ) || IsType( mergeNode, NodeTypes.DirNodeType ) ) )
 									{
 /*										Journal journal = UpdateJournalForNode( mergeNode, commitTime );
@@ -906,8 +934,32 @@ namespace Simias.Storage
 
 										// Copy the XML journal node over to the modify document.
 										commitDocument.DocumentElement.AppendChild( 
-											commitDocument.ImportNode( journal.Properties.PropertyRoot, true ) );
-*/									}
+											commitDocument.ImportNode( journal.Properties.PropertyRoot, true ) );*/
+
+										StoreFileNode journal = UpdateJournalForNode2( node, commitTime );
+
+										if ( Role.Equals(SyncRoles.Master) )
+										{
+											// Make sure the node has a relationship to the journal.
+											if ( node.Properties.GetSingleProperty( PropertyTags.Journal ) == null )
+											{
+												node.Properties.AddNodeProperty( PropertyTags.Journal, new Relationship( ID, journal.ID ) );
+											}
+
+											// Validate the journal object.
+											ValidateNodeForCommit( journal );
+
+											// Increment the local incarnation number for the journal.
+											IncrementLocalIncarnation( journal );
+
+											// Add the journal node to the list.
+											journalNodeList.Add(journal);
+
+											// Copy the XML journal node over to the modify document.
+											commitDocument.DocumentElement.AppendChild( 
+												commitDocument.ImportNode( journal.Properties.PropertyRoot, true ) );
+										}
+									}
 
 									// Copy the XML node over to the modify document.
 									XmlNode xmlNode = commitDocument.ImportNode( mergeNode.Properties.PropertyRoot, true );
@@ -948,6 +1000,17 @@ namespace Simias.Storage
 
 							// Increment the local incarnation number for the object.
 							IncrementLocalIncarnation( node );
+
+							if ( !Role.Equals( SyncRoles.Master ) && IsType( node, "Journal" ) )
+							{
+								// Remove the temporary journal for this node if it exists.
+								Property property = node.Properties.GetSingleProperty( PropertyTags.JournalFor );
+								string filename = Path.Combine( ManagedPath, ( (Relationship)property.Value ).NodeID );
+								if ( File.Exists( filename ) )
+								{
+									File.Delete( filename );
+								}
+							}
 
 							if ( Role.Equals(SyncRoles.Master) && 
 								( IsType( node, NodeTypes.FileNodeType ) || IsType( node, NodeTypes.DirNodeType ) ) )
@@ -1591,7 +1654,7 @@ namespace Simias.Storage
 			node.Properties.ModifyNodeProperty( roleProperty );
 		}
 
-		private Journal UpdateJournalForNode( Node node, DateTime time )
+/*		private Journal UpdateJournalForNode( Node node, DateTime time )
 		{
 			Journal journal = GetJournalForNode( node );
 
@@ -1656,7 +1719,7 @@ namespace Simias.Storage
 			journal.Properties.ModifyProperty( "History", doc );
 
 			return journal;
-		}
+		}*/
 
 		private StoreFileNode UpdateJournalForNode2( Node node, DateTime time, string type )
 		{
@@ -1682,7 +1745,7 @@ namespace Simias.Storage
 			{
 				newJournal = true;
 				// TODO: choose a temporary file name.
-				filename = @"C:\temp\abcxyz";
+				filename = Path.Combine( ManagedPath, ID ); //@"C:\temp\abcxyz";
 
 				// Create the property.
 				doc = new XmlDocument();
@@ -1734,19 +1797,25 @@ namespace Simias.Storage
 
 			if ( newJournal )
 			{
-				// Create the journal node.
-				FileStream stream = File.Open(filename, FileMode.Open, FileAccess.ReadWrite);
-				journal = new StoreFileNode( Name, stream );
-
-				if ( journal != null )
+				if ( Role.Equals(SyncRoles.Master) )
 				{
-					journal.FlushStreamData( this );
+					// Create the journal node.
+					FileStream stream = File.Open(filename, FileMode.Open, FileAccess.ReadWrite);
+					journal = new StoreFileNode( Name, stream );
 
-					// Add the journal type.
-					journal.Properties.AddNodeProperty( PropertyTags.Types, "Journal" );
+					if ( journal != null )
+					{
+						journal.FlushStreamData( this );
 
-					// Create a relationship to the node and add it to the journal.
-					journal.Properties.AddNodeProperty( PropertyTags.JournalFor, new Relationship( ID, ID ) );
+						// Add the journal type.
+						journal.Properties.AddNodeProperty( PropertyTags.Types, "Journal" );
+
+						// Create a relationship to the node and add it to the journal.
+						journal.Properties.AddNodeProperty( PropertyTags.JournalFor, new Relationship( ID, ID ) );
+					}
+
+					// Delete the temporary file.
+					File.Delete( filename );
 				}
 			}
 			else
@@ -1774,7 +1843,7 @@ namespace Simias.Storage
 			{
 				newJournal = true;
 				// TODO: choose a temporary file name.
-				filename = @"C:\temp\abcxyz";
+				filename = Path.Combine( ManagedPath, node.ID );// @"C:\temp\abcxyz";
 
 				// Create the property.
 				doc = new XmlDocument();
@@ -2518,7 +2587,7 @@ namespace Simias.Storage
 		/// </summary>
 		/// <param name="path">The file to retrieve the journal for.</param>
 		/// <returns>The Journal object for the file.</returns>
-		public Journal GetJournalForFile( string path )
+/*		public Journal GetJournalForFile( string path )
 		{
 			Journal journal = null;
 
@@ -2546,7 +2615,7 @@ namespace Simias.Storage
 			}
 
 			return journal;
-		}
+		}*/
 
 		/// <summary>
 		/// Gets the journal for the specified path.
@@ -2592,7 +2661,7 @@ namespace Simias.Storage
 		/// </summary>
 		/// <param name="node">The node to retrieve the journal for.</param>
 		/// <returns>The Journal object for the node.</returns>
-		public Journal GetJournalForNode( Node node )
+/*		public Journal GetJournalForNode( Node node )
 		{
 			Journal journal = null;
 
@@ -2618,7 +2687,7 @@ namespace Simias.Storage
 			}
 
 			return journal;
-		}
+		}*/
 
 		public ICSList GetJournalEntriesForCollection()
 		{
@@ -2699,6 +2768,23 @@ namespace Simias.Storage
 						journal = new StoreFileNode( this, sn );
 						break;
 					}
+				}
+			}
+
+			if ( ( journal == null ) &&
+				!Role.Equals(SyncRoles.Master) )
+			{
+				// See if there is a temporary journal.
+				string filename = Path.Combine( ManagedPath, node.ID );
+				if ( File.Exists( filename ) )
+				{
+					// The temp journal exists, new up a StoreFileNode for it.
+					FileStream stream = File.Open( filename, FileMode.Open, FileAccess.ReadWrite );
+					journal = new StoreFileNode( node.Name, node.ID, stream );
+
+					// Since this is a temporary StoreFileNode, we'll close the stream now (this
+					// node will never be committed).
+					stream.Close();
 				}
 			}
 
