@@ -846,16 +846,16 @@ namespace Simias.Web
 			string pathRoot = Path.GetPathRoot(path);
 			while (true)
 			{
-				path = Path.GetDirectoryName(path);
-				if ((path == null) || 
-					path.Equals(Path.DirectorySeparatorChar.ToString()) ||
-					path.Equals(pathRoot))
+				col = GetCollectionByPath(path);
+				if(col != null)
 				{
 					break;
 				}
 
-				col = GetCollectionByPath(path);
-				if(col != null)
+				path = Path.GetDirectoryName(path);
+				if ((path == null) || 
+					path.Equals(Path.DirectorySeparatorChar.ToString()) ||
+					path.Equals(pathRoot))
 				{
 					break;
 				}

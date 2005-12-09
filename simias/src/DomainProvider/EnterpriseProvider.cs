@@ -60,6 +60,11 @@ namespace Simias
 		private string domainID;
 
 		/// <summary>
+		/// Identifier for the collection.
+		/// </summary>
+		private string collectionID;
+
+		/// <summary>
 		/// Object used to iteratively return the members from the domain.
 		/// </summary>
 		private ICSEnumerator enumerator;
@@ -87,6 +92,15 @@ namespace Simias
 		public bool IsDisposed
 		{
 			get { return disposed; }
+		}
+
+		/// <summary>
+		/// Gets/sets the collection ID.
+		/// </summary>
+		public string CollectionID
+		{
+			get { return collectionID; }
+			set { collectionID = value; }
 		}
 
 		/// <summary>
@@ -556,6 +570,167 @@ namespace Simias
 			}
 
 			return moreEntries;
+		}
+
+		/// <summary>
+		/// End the search for journal entries.
+		/// </summary>
+		/// <param name="searchContext">Domain provider specific search context returned by FindFirstJournalEntries or
+		/// FindNextJournalEntries methods.</param>
+		public void FindCloseJournalEntries( string searchContext )
+		{
+			// See if there is a valid search context.
+			SearchState searchState = SearchState.GetSearchState( searchContext );
+			if ( searchState != null )
+			{
+				searchState.Dispose();
+			}
+		}
+
+		/// <summary>
+		/// Starts a search for journal entries.
+		/// </summary>
+		/// <param name="collectionID">The identifier of the collection to search for members in.</param>
+		/// <param name="count">Maximum number of JournalEntry objects to return.</param>
+		/// <param name="searchContext">Receives a provider specific search context object. This object must be serializable.</param>
+		/// <param name="journalList">Receives an array object that contains the JournalEntry objects.</param>
+		/// <param name="total">Receives the total number of objects found in the search.</param>
+		/// <returns>True if there are more journal entries. Otherwise false is returned.</returns>
+		public bool FindFirstJournalEntries( string collectionID, int count, out string searchContext, out JournalEntry[] journalList, out int total )
+		{
+			bool moreEntries = false;
+
+			// Initialize the outputs.
+			searchContext = null;
+			journalList = null;
+			total = 0;
+
+			// Start the search for the specific members of the domain.
+			Collection collection = store.GetCollectionByID( collectionID );
+			if ( collection != null )
+			{
+				ICSList list = collection.GetJournalEntriesForCollection();
+				SearchState searchState = new SearchState( collection.Domain, list.GetEnumerator() as ICSEnumerator, list.Count );
+				searchState.CollectionID = collectionID;
+				searchContext = searchState.ContextHandle;
+				total = list.Count;
+				moreEntries = FindNextJournalEntries( ref searchContext, count, out journalList );
+			}
+
+			return moreEntries;
+		
+		}
+
+		/// <summary>
+		/// Continues the search for journal entries from the current record location.
+		/// </summary>
+		/// <param name="searchContext">Domain provider specific search context returned by FindFirstJournalEntries method.</param>
+		/// <param name="count">Maximum number of member objects to return.</param>
+		/// <param name="journalList">Receives an array object that contains the JournalEntry objects.</param>
+		/// <returns>True if there are more journal entries. Otherwise false is returned.</returns>
+		public bool FindNextJournalEntries( ref string searchContext, int count, out JournalEntry[] journalList )
+		{
+			bool moreEntries = false;
+
+			// Initialize the outputs.
+			journalList = null;
+
+			// See if there is a valid search context.
+			SearchState searchState = SearchState.GetSearchState( searchContext );
+			if ( searchState != null )
+			{
+				// See if entries are to be returned.
+				if ( count > 0 )
+				{
+					// Get the domain being searched.
+					Domain domain = store.GetDomain( searchState.DomainID );
+					if ( domain != null )
+					{
+						Collection collection = store.GetCollectionByID( searchState.CollectionID );
+						if ( collection != null)
+						{
+							// Allocate a list to hold the member objects.
+							ArrayList tempList = new ArrayList( count );
+							ICSEnumerator enumerator = searchState.Enumerator;
+							while( ( count > 0 ) && enumerator.MoveNext() )
+							{
+								// The enumeration returns ShallowNode objects.
+								JournalEntry je = enumerator.Current as JournalEntry;
+								Member member = domain.GetMemberByID( je.UserID );
+								je.UserName = member.FN != null ? member.FN : member.Name;
+
+								Node node = collection.GetNodeByID( je.FileID );
+								if ( node != null )
+								{
+									if ( collection.IsType( node, NodeTypes.FileNodeType ) )
+									{
+										FileNode fileNode = new FileNode( node );
+										if ( fileNode != null )
+										{
+											je.FileName = fileNode.GetRelativePath();
+										}
+									}
+									else 
+									{
+										DirNode dirNode = new DirNode( node );
+										if ( dirNode != null )
+										{
+											je.FileName = dirNode.GetRelativePath();
+										}
+									}
+								}
+
+								tempList.Add( je );
+								--count;
+							}
+
+							if ( tempList.Count > 0 )
+							{
+								journalList = tempList.ToArray( typeof ( JournalEntry ) ) as JournalEntry[];
+								searchState.CurrentRecord += journalList.Length;
+								searchState.LastCount = journalList.Length;
+								moreEntries = ( count == 0 ) ? true : false;
+							}
+						}
+					}
+				}
+				else
+				{
+					if ( searchState.CurrentRecord < searchState.TotalRecords )
+					{
+						moreEntries = true;
+					}
+				}
+			}
+
+			return moreEntries;
+		}
+
+		/// <summary>
+		/// Continues the search for journal entries previous to the current record location.
+		/// </summary>
+		/// <param name="searchContext">Domain provider specific search context returned by FindFirstJournalEntries method.</param>
+		/// <param name="count">Maximum number of member objects to return.</param>
+		/// <param name="journalList">Receives an array object that contains the JournalEntry objects.</param>
+		/// <returns>True if there are more journal entries. Otherwise false is returned.</returns>
+		public bool FindPreviousJournalEntries( ref string searchContext, int count, out JournalEntry[] journalList )
+		{
+			journalList = null;
+			return false;
+		}
+
+		/// <summary>
+		/// Continues the search for journal entries from the specified record location.
+		/// </summary>
+		/// <param name="searchContext">Domain provider specific search context returned by FindFirstJournalEntries method.</param>
+		/// <param name="offset">Record offset to return journal entries from.</param>
+		/// <param name="count">Maximum number of JournalEntry objects to return.</param>
+		/// <param name="journalList">Receives an array object that contains the JournalEntry objects.</param>
+		/// <returns>True if there are more journal entries. Otherwise false is returned.</returns>
+		public bool FindSeekJournalEntries( ref string searchContext, int offset, int count, out JournalEntry[] journalList )
+		{
+			journalList = null;
+			return false;
 		}
 
 		/// <summary>

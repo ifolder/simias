@@ -17,7 +17,7 @@ AssemblyInfo.cs
 ../CollectionStore/FileNode.cs
 ../CollectionStore/ICSEnumerator.cs
 ../CollectionStore/Identity.cs
-../CollectionStore/Journal.cs
+../CollectionStore/JournalEntry.cs
 ../CollectionStore/LinkNode.cs
 ../CollectionStore/LocalDatabase.cs
 ../CollectionStore/Member.cs

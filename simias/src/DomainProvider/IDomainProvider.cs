@@ -130,6 +130,52 @@ namespace Simias
 		bool FindSeekDomainMembers( ref string searchContext, int offset, int count, out Member[] memberList );
 
 		/// <summary>
+		/// End the search for journal entries.
+		/// </summary>
+		/// <param name="searchContext">Domain provider specific search context returned by FindFirstJournalEntries or
+		/// FindNextJournalEntries methods.</param>
+		void FindCloseJournalEntries( string searchContext );
+
+		/// <summary>
+		/// Starts a search for journal entries.
+		/// </summary>
+		/// <param name="collectionID">The identifier of the collection to search for members in.</param>
+		/// <param name="count">Maximum number of JournalEntry objects to return.</param>
+		/// <param name="searchContext">Receives a provider specific search context object. This object must be serializable.</param>
+		/// <param name="journalList">Receives an array object that contains the JournalEntry objects.</param>
+		/// <param name="total">Receives the total number of objects found in the search.</param>
+		/// <returns>True if there are more journal entries. Otherwise false is returned.</returns>
+		bool FindFirstJournalEntries( string collectionID, int count, out string searchContext, out JournalEntry[] journalList, out int total );
+
+		/// <summary>
+		/// Continues the search for journal entries from the current record location.
+		/// </summary>
+		/// <param name="searchContext">Domain provider specific search context returned by FindFirstJournalEntries method.</param>
+		/// <param name="count">Maximum number of member objects to return.</param>
+		/// <param name="journalList">Receives an array object that contains the JournalEntry objects.</param>
+		/// <returns>True if there are more journal entries. Otherwise false is returned.</returns>
+		bool FindNextJournalEntries( ref string searchContext, int count, out JournalEntry[] journalList );
+
+		/// <summary>
+		/// Continues the search for journal entries previous to the current record location.
+		/// </summary>
+		/// <param name="searchContext">Domain provider specific search context returned by FindFirstJournalEntries method.</param>
+		/// <param name="count">Maximum number of member objects to return.</param>
+		/// <param name="journalList">Receives an array object that contains the JournalEntry objects.</param>
+		/// <returns>True if there are more journal entries. Otherwise false is returned.</returns>
+		bool FindPreviousJournalEntries( ref string searchContext, int count, out JournalEntry[] journalList );
+
+		/// <summary>
+		/// Continues the search for journal entries from the specified record location.
+		/// </summary>
+		/// <param name="searchContext">Domain provider specific search context returned by FindFirstJournalEntries method.</param>
+		/// <param name="offset">Record offset to return journal entries from.</param>
+		/// <param name="count">Maximum number of JournalEntry objects to return.</param>
+		/// <param name="journalList">Receives an array object that contains the JournalEntry objects.</param>
+		/// <returns>True if there are more journal entries. Otherwise false is returned.</returns>
+		bool FindSeekJournalEntries( ref string searchContext, int offset, int count, out JournalEntry[] journalList );
+
+		/// <summary>
 		/// Determines if the provider claims ownership for the 
 		/// specified domain.
 		/// </summary>

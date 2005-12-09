@@ -184,7 +184,7 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\CollectionStore\Journal.cs"
+                    RelPath = "src\CollectionStore\JournalEntry.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

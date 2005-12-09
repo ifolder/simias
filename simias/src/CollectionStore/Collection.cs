@@ -2620,6 +2620,58 @@ namespace Simias.Storage
 			return journal;
 		}
 
+		public ICSList GetJournalEntriesForCollection()
+		{
+			ArrayList list = new ArrayList();
+
+			// Find the journal for the collection.
+			StoreFileNode journal = GetJournalForNode2( this );
+			if ( journal != null )
+			{
+				XmlDocument doc = new XmlDocument();
+				doc.Load( journal.GetFullPath( this ) );
+				IEnumerator ienum = doc.DocumentElement.GetEnumerator();
+				while ( ienum.MoveNext() )
+				{
+					JournalEntry je = new JournalEntry( (XmlNode)ienum.Current, this );
+					list.Add( je );
+				}
+			}
+
+			return new ICSList( list );
+		}
+
+		public ICSList GetJournalEntriesForFile( string relativeFilename )
+		{
+			ArrayList arrayList = new ArrayList();
+
+			Property property = new Property( PropertyTags.FileSystemPath, relativeFilename );
+			ICSList list = Search( property, SearchOp.Equal );
+			if ( list.Count == 1 )
+			{
+				foreach ( ShallowNode sn in list )
+				{
+					StoreFileNode journal = GetJournalForNode2( new Node( this, sn ) );
+
+					if ( journal != null )
+					{
+						XmlDocument doc = new XmlDocument();
+						doc.Load( journal.GetFullPath( this ) );
+						IEnumerator ienum = doc.DocumentElement.GetEnumerator();
+						while ( ienum.MoveNext() )
+						{
+							JournalEntry je = new JournalEntry( (XmlNode)ienum.Current, this );
+							arrayList.Add( je );
+						}
+					}
+				}
+			}
+
+			// If more than one was returned by the search, a collision exists ... cannot view the journal in this case
+
+			return new ICSList( arrayList );
+		}
+
 		/// <summary>
 		/// Gets the Journal for the specified node.
 		/// </summary>

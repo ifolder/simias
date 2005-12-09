@@ -304,6 +304,123 @@ namespace Simias
 		}
 
 		/// <summary>
+		/// End the search for journal entries.
+		/// </summary>
+		/// <param name="domainID">The identifier of the domain.</param>
+		/// <param name="searchContext">Domain provider specific search context returned by 
+		/// FindFirstJournalEntries or FindNextJournalEntries methods.</param>
+		static public void FindCloseJournalEntries( string domainID, string searchContext )
+		{
+			IDomainProvider idp = GetDomainProvider( domainID );
+			if ( idp != null )
+			{
+				log.Debug( "Closing search on domain {0}.", domainID );
+				idp.FindCloseJournalEntries( searchContext );
+			}
+		}
+
+		/// <summary>
+		/// Starts a search for journal entries.
+		/// </summary>
+		/// <param name="domainID">The identifier of the domain the collection belongs to.</param>
+		/// <param name="collectionID">The identifier of the collection to retrieve the journal entries for.</param>
+		/// <param name="count">Maximum number of JournalEntry objects to return.</param>
+		/// <param name="searchContext">Receives a provider specific search context object.</param>
+		/// <param name="journalList">Receives an array object that contains the JournalEntry objects.</param>
+		/// <param name="total">Receives the total number of objects found in the search.</param>
+		/// <returns>True if there are more journal entries. Otherwise false is returned.</returns>
+		static public bool FindFirstJournalEntries( string domainID, string collectionID, int count, out string searchContext, out JournalEntry[] journalList, out int total )
+		{
+			bool moreEntries = false;
+
+			// Initialize the outputs.
+			searchContext = null;
+			journalList = null;
+			total = 0;
+
+			IDomainProvider idp = GetDomainProvider( domainID );
+			if ( idp != null )
+			{
+				moreEntries = idp.FindFirstJournalEntries( collectionID, count, out searchContext, out journalList, out total );
+			}
+
+			return moreEntries;
+		}
+
+		/// <summary>
+		/// Continues the search for journal entries from the current record location.
+		/// </summary>
+		/// <param name="domainID">The identifier of the domain to search.</param>
+		/// <param name="searchContext">Domain provider specific search context returned by FindFirstJournalEntries method.</param>
+		/// <param name="count">Maximum number of JournalEntry objects to return.</param>
+		/// <param name="journalList">Receives an array object that contains the JournalEntry objects.</param>
+		/// <returns>True if there are more journal entries. Otherwise false is returned.</returns>
+		static public bool FindNextJournalEntries( string domainID, ref string searchContext, int count, out JournalEntry[] journalList )
+		{
+			bool moreEntries = false;
+
+			// Initialize the outputs.
+			journalList = null;
+
+			IDomainProvider idp = GetDomainProvider( domainID );
+			if ( idp != null )
+			{
+				moreEntries = idp.FindNextJournalEntries( ref searchContext, count, out journalList );
+			}
+
+			return moreEntries;
+		}
+
+		/// <summary>
+		/// Continues the search for journal entries previous to the current record location.
+		/// </summary>
+		/// <param name="domainID">The identifier of the domain to search.</param>
+		/// <param name="searchContext">Domain provider specific search context returned by FindFirstJournalEntries method.</param>
+		/// <param name="count">Maximum number of JournalEntry objects to return.</param>
+		/// <param name="journalList">Receives an array object that contains the JournalEntry objects.</param>
+		/// <returns>True if there are more journal entries. Otherwise false is returned.</returns>
+		static public bool FindPreviousJournalEntries( string domainID, ref string searchContext, int count, out JournalEntry[] journalList )
+		{
+			bool moreEntries = false;
+
+			// Initialize the outputs.
+			journalList = null;
+
+			IDomainProvider idp = GetDomainProvider( domainID );
+			if ( idp != null )
+			{
+				moreEntries = idp.FindPreviousJournalEntries( ref searchContext, count, out journalList );
+			}
+
+			return moreEntries;
+		}
+
+		/// <summary>
+		/// Continues the search for journal entries from the specified record location.
+		/// </summary>
+		/// <param name="domainID">The identifier of the domain to search.</param>
+		/// <param name="searchContext">Domain provider specific search context returned by FindFirstJournalEntries method.</param>
+		/// <param name="offset">Record offset to return journal entries from.</param>
+		/// <param name="count">Maximum number of JournalEntry objects to return.</param>
+		/// <param name="journalList">Receives an array object that contains the JournalEntry objects.</param>
+		/// <returns>True if there are more journal entries. Otherwise false is returned.</returns>
+		static public bool FindSeekJournalEntries( string domainID, ref string searchContext, int offset, int count, out JournalEntry[] journalList )
+		{
+			bool moreEntries = false;
+
+			// Initialize the outputs.
+			journalList = null;
+
+			IDomainProvider idp = GetDomainProvider( domainID );
+			if ( idp != null )
+			{
+				moreEntries = idp.FindSeekJournalEntries( ref searchContext, offset, count, out journalList );
+			}
+
+			return moreEntries;
+		}
+
+		/// <summary>
 		/// Informs the domain provider that the specified member object is about to be
 		/// committed to the domain's member list. This allows an opportunity for the 
 		/// domain provider to add any domain specific attributes to the member object.
