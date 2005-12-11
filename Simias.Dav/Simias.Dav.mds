@@ -1,0 +1,20 @@
+<Combine name="Simias.Dav" fileversion="2.0">
+  <Configurations active="Debug">
+    <Configuration name="Debug" ctype="CombineConfiguration">
+      <Entry configuration="Debug" build="True" name="Simias.Dav" />
+      <Entry configuration="Debug" build="True" name="DavClient" />
+    </Configuration>
+    <Configuration name="Release" ctype="CombineConfiguration">
+      <Entry configuration="Debug" build="True" name="Simias.Dav" />
+      <Entry configuration="Debug" build="True" name="DavClient" />
+    </Configuration>
+  </Configurations>
+  <StartMode startupentry="Simias.Dav" single="True">
+    <Execute type="None" entry="Simias.Dav" />
+    <Execute type="None" entry="DavClient" />
+  </StartMode>
+  <Entries>
+    <Entry filename="./Simias.Dav.mdp" />
+    <Entry filename="./DavClient/DavClient.mdp" />
+  </Entries>
+</Combine>
