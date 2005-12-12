@@ -1,4 +1,3 @@
-
 /***********************************************************************
  *  $RCSfile$
  *
@@ -1850,27 +1849,43 @@ namespace Simias.Storage
 							// Administrative access needs to be checked because collection membership has changed.
 							doAdminCheck = true;
 
+							// Convert this node to a member node.
+							Member member = new Member( node );
+
 							// See if this member is new.
 							if ( node.Properties.State == PropertyList.PropertyListState.Add )
 							{
 								// Look up to see if this member has already been added.
-								if ( GetMemberByName( node.Name ) != null )
+								if ( GetMemberByName( member.Name ) != null )
 								{
-									throw new AlreadyExistsException( String.Format( "The member {0} already exists in this collection.", node.Name ) );
+									throw new AlreadyExistsException( String.Format( "The member {0} already exists in this collection.", member.Name ) );
 								}
 
 								// If this collection is a domain and this member is to be added, call out to the
 								// domain provider for this domain to do a pre-commit operation.
-								if ( IsBaseType( this, NodeTypes.DomainType ))
+								if ( IsBaseType( this, NodeTypes.DomainType ) )
 								{
-									DomainProvider.PreCommit( Domain, node as Member );
+									DomainProvider.PreCommit( Domain, member );
+								}
+							}
+							else if ( node.Properties.State == PropertyList.PropertyListState.Import )
+							{
+								// Look up to see if this member has already been added.
+								Member oldMember = GetMemberByID( member.UserID );
+								if ( ( oldMember != null ) && ( oldMember.ID != member.ID ) )
+								{
+									// Two different clients added the same member represented by
+									// different nodes. Last writer wins in this case, so remove
+									// the existing member.
+									Delete( oldMember );
+									memberList.Add( oldMember );
 								}
 							}
 
 							// Keep track of any ownership changes.
-							if ( node.Properties.HasProperty( PropertyTags.Owner ) )
+							if ( member.IsOwner )
 							{
-								collectionOwner = new Member( node );
+								collectionOwner = member;
 							}
 
 							// Add this member node to the list to validate the collection owner a little later on.
