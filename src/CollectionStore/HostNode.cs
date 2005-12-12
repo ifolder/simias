@@ -34,9 +34,10 @@ namespace Simias.Storage
 	/// Class that represents a Simias Host.
 	/// </summary>
 	[ Serializable ]
-	public class HostNode : Node
+	public class HostNode : Member
 	{
 		#region Class Members
+		const string HostNodeType = "Host";
 		#endregion
 
 		#region Properties
@@ -134,9 +135,10 @@ namespace Simias.Storage
 		/// <param name="privateAddress">The private address for the host.</param>
 		/// <param name="publicKey"></param>
 		public HostNode(string name, string guid, string publicAddress, string privateAddress, string publicKey) :
-			base(name, guid, NodeTypes.HostNodeType)
+			base(name, guid, Access.Rights.Admin)
 		{
 			// Set the Addresses.
+			//Properties.ModifyProperty(new Property(PropertyTags.Types, 
 			PublicAddress = publicAddress;
 			PrivateAddress = privateAddress;
 			if (publicKey != null)
@@ -162,9 +164,9 @@ namespace Simias.Storage
 		public HostNode(Node node) :
 			base(node)
 		{
-			if (type != NodeTypes.HostNodeType)
+			if (IsType(HostNodeType))
 			{
-				throw new CollectionStoreException(String.Format("Cannot construct an object type of {0} from an object of type {1}.", NodeTypes.HostNodeType, type));
+				throw new CollectionStoreException(String.Format("Cannot construct an object type of {0}.", HostNodeType));
 			}
 		}
 
@@ -177,9 +179,9 @@ namespace Simias.Storage
 			:
 			base(collection, shallowNode)
 		{
-			if (type != NodeTypes.HostNodeType)
+			if (IsType(HostNodeType))
 			{
-				throw new CollectionStoreException(String.Format("Cannot construct an object type of {0} from an object of type {1}.", NodeTypes.HostNodeType, type));
+				throw new CollectionStoreException(String.Format("Cannot construct an object type of {0}.", HostNodeType));
 			}
 		}
 
@@ -191,9 +193,9 @@ namespace Simias.Storage
 			:
 			base(document)
 		{
-			if (type != NodeTypes.HostNodeType)
+			if (IsType(HostNodeType))
 			{
-				throw new CollectionStoreException(String.Format("Cannot construct an object type of {0} from an object of type {1}.", NodeTypes.HostNodeType, type));
+				throw new CollectionStoreException(String.Format("Cannot construct an object type of {0}.", HostNodeType));
 			}
 		}
 		#endregion

@@ -115,11 +115,6 @@ namespace Simias.Client
 			/// Tombstone
 			/// </summary>
 			Tombstone,
-
-            /// <summary>
-            /// Simias Host Node.
-            /// </summary>
-            HostNode,
 		};
 
 		#endregion
@@ -254,14 +249,6 @@ namespace Simias.Client
 		{
 			get { return NodeTypeEnum.Tombstone.ToString(); }
 		}
-
-        /// <summary>
-        /// Gets the HostNode class name.
-        /// </summary>
-        static public string HostNodeType
-        {
-            get { return NodeTypeEnum.HostNode.ToString(); }
-        }
 
 		#endregion
 

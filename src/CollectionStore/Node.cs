@@ -680,6 +680,28 @@ namespace Simias.Storage
 		{
 			return NodeFactory( collection.StoreReference, node.Properties.PropertyDocument );
 		}
+
+		/// <summary>
+		/// Returns whether specified Node object is the specified type.
+		/// </summary>
+		/// <param name="typeString">Type of Node object.</param>
+		/// <returns>True if Node object is the specified type, otherwise false is returned.</returns>
+		public bool IsType( string typeString )
+		{
+			bool isType = false;
+			MultiValuedList mvl = Properties.FindValues( PropertyTags.Types );
+			foreach( Property p in mvl )
+			{
+				if ( p.ToString() == typeString )
+				{
+					isType = true;
+					break;
+				}
+			}
+
+			return isType;
+		}
+
 		#endregion
 	}
 }
