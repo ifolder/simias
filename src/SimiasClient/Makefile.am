@@ -8,8 +8,8 @@ SimiasClient_CSFILES_CSC := $(subst /,$(SEP),$(SimiasClient_CSFILES))
 SimiasClient_INCLUDES =
 SimiasClient_RESOURCES =
 SimiasClient_FLAGS = $(CSC_LIBFLAG)
-SimiasClient_LIBS = System.dll System.Data.dll $(SYSTEM_XML) System.Security.dll System.Web.dll System.Web.Services.dll Novell.Security.ClientPasswordManager.NetCredential.dll
-SimiasClient_LIBPATH = $(NOVELL_SECURITY_DIR)
+SimiasClient_LIBS = System.dll System.Data.dll $(SYSTEM_XML) System.Security.dll System.Web.dll System.Web.Services.dll 
+SimiasClient_LIBPATH = 
 
 EXTRA_DIST = $(SimiasClient_CSFILES) $(srcdir)/SimiasSetup.cs.in AssemblyInfo.cs.in $(SIMIASCLIENT_KEYFILE)
 
@@ -60,17 +60,12 @@ endif
 install-exec-local: SimiasClient.dll $(DATA_FILES)
 	$(mkinstalldirs) $(DESTDIR)$(webbindir) $(DESTDIR)$(bindir)
 	$(INSTALL_PROGRAM) SimiasClient.dll $(DEBUG_FILES) $(DESTDIR)$(webbindir)
-	$(INSTALL_PROGRAM) $(srcdir)/$(NOVELL_SECURITY_DIR)/Novell.Security.ClientPasswordManager.NetCredential.dll $(DESTDIR)$(webbindir)
-	$(INSTALL_PROGRAM) $(srcdir)/$(NOVELL_SECURITY_DIR)/Novell.Security.Utilities.dll $(DESTDIR)$(webbindir)
 if HAS_SIMIASCLIENT_KEYFILE
 	$(GACINSTALL) $(shell cygpath --mixed $(webbindir))/SimiasClient.dll
-	$(GACINSTALL) $(shell cygpath --mixed $(webbindir))/Novell.Security.ClientPasswordManager.NetCredential.dll
-	$(GACINSTALL) $(shell cygpath --mixed $(webbindir))/Novell.Security.Utilities.dll
 endif	
 	
 uninstall-local:
 	cd $(DESTDIR)$(webbindir); rm -f SimiasClient.dll $(DEBUG_FILES)
-	cd $(DESTDIR)$(webbindir); rm -f Novell.Security.*.dll
 	
 installcheck-local: install
 	

@@ -1,7 +1,7 @@
 /***********************************************************************
- *  $RCSfile$
+ *  $RCSfile: Credentials.cs,v $
  *
- *  Copyright © Unpublished Work of Novell, Inc. All Rights Reserved.
+ *  Copyright  Unpublished Work of Novell, Inc. All Rights Reserved.
  *
  *  THIS WORK IS AN UNPUBLISHED WORK AND CONTAINS CONFIDENTIAL,
  *  PROPRIETARY AND TRADE SECRET INFORMATION OF NOVELL, INC. ACCESS TO 
@@ -22,13 +22,16 @@
 
 using System;
 using System.Collections;
+using System.IO;
 using System.Net;
+using System.Reflection;
+
 using Simias;
 using Simias.DomainServices;
 using Simias.Event;
 using Simias.Storage;
 using Simias.Sync;
-using Novell.Security.ClientPasswordManager;
+//using Novell.Security.ClientPasswordManager;
 
 namespace Simias.Authentication
 {
@@ -189,57 +192,223 @@ namespace Simias.Authentication
 		/// </summary>
 		public int				RemainingGraceLogins;
 	}
-
+	
 	/// <summary>
-	/// Summary description for Credentials
+	/// Class for maintaining cached Http Basic
+	/// credential sets
 	/// </summary>
-	public class Credentials
+	public class HttpBasicCredentials : SimiasCredentials
 	{
-		private static readonly ISimiasLog log = SimiasLogManager.GetLogger(typeof(Credentials));
-		private string collectionID;
-		private string memberID;
-		private string domainID;
+		private static readonly ISimiasLog log = 
+			SimiasLogManager.GetLogger( System.Reflection.MethodBase.GetCurrentMethod().DeclaringType );
+		private static Assembly casaAssembly = null;
+		private static string casaAssemblyName = "Novell.CASA.miCASAWrapper";
+		private static string casaClassName = "Novell.CASA.miCASA";
+		private static string serviceName = "Simias";
+		private static string singleSignOnID = "Network";
+		
+		private bool defaultDomain = false;
+		private Collection collection;
+		private Domain domain;
+		private Member member;
 		private Store store;
+		
+		private string	username;
+		private string	password;
 
-		/// <summary>
-		/// Constructor for checking if credentials exist for collection
-		/// </summary>
-		public Credentials(string collectionID)
+		private class HttpBasicBlob
 		{
-			this.collectionID = collectionID;
-			this.store = Store.GetStore();
+			public string Username;
+			public string Password;
 		}
-
+		
+		#region Properties
 		/// <summary>
-		/// Constructor for checking if credentials exist for a domain
-		/// and a member
+		/// clear text password 
 		/// </summary>
-		public Credentials(string domainID, string memberID)
+		public string Password
 		{
-			this.domainID = domainID;
-			this.memberID = memberID;
-			this.store = Store.GetStore();
+			get{ return this.password; }
+			set{ this.password = value; }
 		}
-
+		
 		/// <summary>
-		/// Constructor for checking if credentials exist for a 
-		/// collection and member
+		/// Username for this credential set
+		/// this property is only valid after credentials
+		/// have been retrieved or persisted.
 		/// </summary>
-		public Credentials(string domainID, string collectionID, string memberID)
+		public string Username
 		{
-			this.domainID = domainID;
-			this.collectionID = collectionID;
-			this.memberID = memberID;
-			this.store = Store.GetStore();
+			get{ return this.username; }
 		}
+		#endregion
+		
+		#region Constructors
+		
+		/// <summary>
+		/// Attempt to load the CASA assembly
+		/// </summary>
+		static HttpBasicCredentials()
+		{
+			try
+			{
+				Simias.Authentication.HttpBasicCredentials.casaAssembly = 
+					Assembly.LoadWithPartialName( casaAssemblyName );
+				if ( casaAssembly != null )
+				{
+					log.Debug( "found CASA assembly" );
+				}
+			}
+			catch{}
+		}
+		
+		#region Private Methods
+		private void ValidateArguments( string DomainID, string CollectionID, string MemberID )
+		{
+			this.domain = this.store.GetDomain( DomainID );
+			if ( this.domain == null )
+			{
+				throw new ArgumentException( DomainID );
+			}
+			
+			if ( this.domain.ID == store.DefaultDomain )
+			{
+				this.defaultDomain = true;
+			}
+			
+			this.collection = this.store.GetCollectionByID( CollectionID );
+			if ( this.collection == null )
+			{
+				throw new ArgumentException( CollectionID );
+			}
+			
+			this.member = domain.GetMemberByID( MemberID );
+			if ( member == null )
+			{
+				throw new ArgumentException( MemberID );
+			}
+		}
+		
+		#endregion
+		
+		/// <summary>
+		/// Construct a credential set based on Domain, Collection and Member
+		/// If the domain is of type enterprise and scoping is done solely on
+		/// the domain, the DomainID should be used for the collection as well.
+		///	During construction, the system will attempt to find a full credential
+		/// set in cache.  If a full set exists, the Cached property will return
+		/// true and all credential properties will be valid.
+		/// </summary>
+		public HttpBasicCredentials( string DomainID, string CollectionID, string MemberID ) :
+				base( DomainID, CollectionID, MemberID )
+		{
+			this.store = Store.GetStore();
+			ValidateArguments( DomainID, CollectionID, MemberID );
+			
+			if ( this.Cached == true )
+			{
+				HttpBasicBlob blob = this.Blob as HttpBasicBlob;
+				if ( blob != null )
+				{
+					this.username = blob.Username;
+					this.password = blob.Password;
+				}
+			}
+			else
+			if ( this.defaultDomain == true && casaAssembly != null )
+			{
+				try
+				{
+					log.Debug( "  attempting to retrieve credentials from CASA's single-signon secret" );
+					
+					// If the credential is default and CASA is present, attempt
+					// to retrieve a credential based on the well-known single signon
+					// ID of "Network"
+					
+					object[] args = new object[2];
+					args[0] = serviceName;
+					args[1] = singleSignOnID;
+						
+					Type type = casaAssembly.GetType( casaClassName );
+					object casaInstance = Activator.CreateInstance( type );
+							
+					// Get the username and password
+					object casaUsername = 
+						type.InvokeMember( 
+							"GetCredentialUsername",
+							BindingFlags.InvokeMethod,
+							null,
+							casaInstance,
+							args);
+								
+					object casaPassword = 
+						type.InvokeMember( 
+							"GetCredentialPassword",
+							BindingFlags.InvokeMethod,
+							null,
+							casaInstance,
+							args);
+						
+					if ( casaPassword != null && casaUsername != null )
+					{
+						this.username = casaUsername.ToString();
+						this.password = casaPassword.ToString();
+						
+						this.Save( false );
+					}
+				}
+				catch( Exception e )
+				{
+					log.Error( e.Message );
+					log.Error( e.StackTrace );
+				}
+			}
+		}
+		
+		/// <summary>
+		/// Construct a full credential needed for satisfying Http BASIC
+		/// authentication.  If a credential set already exists on the
+		/// domain or collection it will be overwritten and removed from
+		/// the cache with this credential.
+		/// </summary>
+		public HttpBasicCredentials( string DomainID, string CollectionID, string MemberID, string Password ) :
+			base( DomainID, CollectionID, MemberID )
+		{
+			this.store = Store.GetStore();
+			ValidateArguments( DomainID, CollectionID, MemberID );
 
+			// A credential for this domain or collection already existed
+			// in the cache so let's remove the old one
+			if ( this.Cached == true )
+			{
+				base.Remove();
+			}
+			
+			this.password = Password;
+		}
+		#endregion
+		
+		#region Public Methods
+		public override void Save( bool persistent )
+		{
+			if ( this.username == null || this.password == null )
+			{
+				//throw new NotExistException( "password" );
+			}
+			
+			HttpBasicBlob blob = new HttpBasicBlob();
+			blob.Username = username;
+			blob.Password = password;
+			this.Blob = blob as object;
+			base.Save( persistent );			
+		}
 
 		/// <summary>
 		/// Gets the credentials (if they exist) that are set against
 		/// the collection ID passed in the constructor.
 		/// </summary>
 		/// <returns>NetworkCredential object which can be assigned to the "Credentials" property in a proxy class.</returns>
-		public NetworkCredential GetCredentials()
+		public NetworkCredential GetNetworkCredential()
 		{
 			//
 			// From the collection ID we need to figure out
@@ -247,63 +416,15 @@ namespace Simias.Authentication
 			//
 
 			NetworkCredential realCreds = null;
-			Simias.Storage.Domain cDomain = null;
-			Simias.Storage.Member cMember = null;
-
-			string memberName = "";
-			string memberID = this.memberID;
 
 			try
 			{
-				if ( this.domainID != null && this.collectionID != null && this.memberID != null )
+				if ( this.Cached == true )
 				{
-					cDomain = store.GetDomain( this.domainID );
-					if ( cDomain != null )
-					{
-						cMember = cDomain.GetMemberByID( this.memberID );
-						if ( cMember != null )
-						{
-							memberName = cMember.Name;
-							memberID = cMember.UserID;
-						}
-					}
-				}
-				else
-				if ( this.collectionID != null )
-				{
-					// Validate the shared collection
-					Collection cCol = this.store.GetCollectionByID( collectionID );
-					if ( cCol != null )
-					{
-						cMember = 
-							( this.memberID != null ) 
-								? cCol.GetMemberByID( this.memberID ) 
-								: cCol.GetCurrentMember();
-						if ( cMember != null )
-						{
-							memberName = cMember.Name;
-							memberID = cMember.UserID;
-							cDomain = this.store.GetDomain( cCol.Domain );
-						}
-						else
-						{
-							log.Debug( "Credentials::GetCredentials - current member not found" );
-						}
-					}
-					else
-					{
-						log.Debug( "Credentials::GetCredentials - collection not found" );
-					}
-				}
-				else
-				{
-					cDomain = this.store.GetDomain( this.domainID );
-					cMember = cDomain.GetMemberByID( this.memberID );
-					if ( cMember != null )
-					{
-						memberName = cMember.Name;
-						memberID = cMember.UserID;
-					}
+					realCreds = new NetworkCredential();
+					realCreds.Domain = this.DomainID;
+					realCreds.UserName = this.Username;
+					realCreds.Password = this.Password;
 				}
 
 				//
@@ -311,6 +432,7 @@ namespace Simias.Authentication
 				// domain is marked authenticated.
 				//
 
+				/*
 				DomainAgent domainAgent = new DomainAgent();
 				if ( domainAgent.IsDomainActive( cDomain.ID ) &&
 					 (domainAgent.IsDomainAuthenticated( cDomain.ID ) ||
@@ -353,9 +475,219 @@ namespace Simias.Authentication
 						}
 					}
 				}
+				*/
 			}
 			catch{}
-			return(realCreds);
+			return( realCreds );
 		}
+		#endregion
+	}
+
+	/// <summary>
+	/// Summary description for Credentials
+	/// </summary>
+	public class SimiasCredentials
+	{
+		private static readonly ISimiasLog log = 
+			SimiasLogManager.GetLogger( System.Reflection.MethodBase.GetCurrentMethod().DeclaringType );
+	
+		//private static readonly ISimiasLog log = SimiasLogManager.GetLogger(typeof(Credentials));
+//		//private Store store;
+		
+		private class CredentialSet
+		{
+			public bool				Default;
+			public bool				Persisted;
+			public bool				Cached;
+			public string 			DomainID;
+			public string			CollectionID;
+			public string			MemberID;
+			public object			Blob;
+		}
+		
+		private CredentialSet credentials = null;
+		static private Hashtable credentialList = new Hashtable();
+
+		#region Properties
+		/// <summary>
+		/// Returns true if this credential set has been cached
+		/// false if the credentials have not been cached
+		/// </summary>
+		public object Blob
+		{
+			get{ return this.credentials.Blob; }
+			set{ this.credentials.Blob = value; }
+		}
+
+		/// <summary>
+		/// Returns true if this credential set has been cached
+		/// false if the credentials have not been cached
+		/// </summary>
+		public bool Cached
+		{
+			get{ return this.credentials.Cached; }
+		}
+
+		/// <summary>
+		/// CollectionID for this credential set 
+		/// </summary>
+		public string CollectionID
+		{
+			get{ return this.credentials.CollectionID; }
+		}
+		
+		/// <summary>
+		/// Returns true if this credential set is default
+		/// default is the default Simias domain
+		/// If default, the credential class will attempt
+		/// to leverage CASA's "Network" credential set
+		/// </summary>
+		public bool Default
+		{
+			get{ return this.credentials.Default; }
+			set{ this.credentials.Default = value; }
+		}
+		
+		/// <summary>
+		/// DomainID for this credential set 
+		/// </summary>
+		public string DomainID
+		{
+			get{ return this.credentials.MemberID; }
+		}
+		
+		/// <summary>
+		/// MemberID for this credential set 
+		/// </summary>
+		public string MemberID
+		{
+			get{ return this.credentials.MemberID; }
+		}
+		
+		/// <summary>
+		/// Returns true if the credentials have been persisted to long term storage
+		/// false if the credentials are not persisted.
+		/// </summary>
+		public bool Persisted
+		{
+			get{ return this.credentials.Persisted; }
+		}
+		#endregion
+
+
+		#region Constructors
+		/// <summary>
+		/// Construct a credential set based on Domain, Collection and Member
+		/// If the domain is of type enterprise and scoping is done solely on
+		/// the domain, the DomainID should be used for the collection as well.
+		///	During construction, the system will attempt to find a full credential
+		/// set in cache.  If a full set exists, the Cached property will return
+		/// true and all credential properties will be vallid.
+		/// </summary>
+		public SimiasCredentials( string DomainID, string CollectionID, string MemberID )
+		{
+			if ( DomainID == null )
+			{
+				throw new ArgumentException( "DomainID" );
+			}
+			
+			if ( CollectionID == null )
+			{
+				throw new ArgumentException( "CollectionID" );
+			}
+			
+			if ( MemberID == null )
+			{
+				throw new ArgumentException( "MemberID" );
+			}
+			
+			this.credentials = new CredentialSet();
+			this.credentials.DomainID = DomainID;
+			this.credentials.CollectionID = CollectionID;
+			this.credentials.MemberID = MemberID;
+			this.RetrieveFromCache();
+		}
+		#endregion
+		
+		#region Private Methods
+		private bool RetrieveFromCache()
+		{
+			bool retrieved;
+			CredentialSet creds = null;
+			
+			string key = ( credentials.DomainID != credentials.CollectionID )
+							? credentials.CollectionID : credentials.DomainID;
+							
+			lock( typeof( Simias.Authentication.SimiasCredentials ) )
+			{
+				if ( SimiasCredentials.credentialList.ContainsKey( key ) )
+				{
+					creds = SimiasCredentials.credentialList[ key ] as CredentialSet;
+				}
+			}
+		
+			if ( creds != null )
+			{
+				// Update internal credential set
+				credentials.Cached = true;
+				credentials.Persisted = false;
+				credentials.Blob = creds.Blob;
+				retrieved = true;
+			}
+			else
+			{
+				credentials.Cached = false;
+				credentials.Persisted = false;
+				retrieved = false;
+			}
+					
+			return retrieved;
+		}
+		#endregion
+
+		#region Public Methods
+		/// <summary>
+		/// Save the credentials to a volatile cache
+		/// persistent == true - save to a long term cache
+		/// </summary>
+		public virtual void Save( bool persistent )
+		{
+			log.Debug( "Credential::Save called" );
+			lock( typeof( Simias.Authentication.SimiasCredentials ) )
+			{
+				string key = 
+					( this.credentials.DomainID == this.credentials.CollectionID )
+						? this.credentials.DomainID : this.credentials.CollectionID;
+				if ( SimiasCredentials.credentialList.ContainsKey( key ) == true )
+				{
+					SimiasCredentials.credentialList.Remove( key );			
+				}
+			
+				log.Debug( "adding: " + key + " to the cache" );
+				SimiasCredentials.credentialList.Add( key, this.credentials );
+			}
+			
+			this.credentials.Cached = true;
+		}
+		
+		/// <summary>
+		/// Remove the credential from the volatile cache
+		/// If the credential has been persisted, remove it from
+		/// that cache as well.
+		/// </summary>
+		public virtual void Remove()
+		{
+			lock( typeof( Simias.Authentication.SimiasCredentials ) )
+			{
+				string key = 
+					( this.credentials.DomainID == this.credentials.CollectionID )
+						? this.credentials.DomainID : this.credentials.CollectionID;
+				if ( SimiasCredentials.credentialList.ContainsKey( key ) == true )
+				{
+					SimiasCredentials.credentialList.Remove( key );			
+				}
+			}
+		}
+		#endregion
 	}
 }

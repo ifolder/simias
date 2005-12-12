@@ -26,7 +26,7 @@ using System.Net;
 
 using Simias;
 
-using Novell.Security.ClientPasswordManager;
+//using Novell.Security.ClientPasswordManager;
 
 namespace Simias.Client.Authentication
 {
@@ -103,6 +103,7 @@ namespace Simias.Client.Authentication
 				DomainInformation cInfo = simiasSvc.GetDomainInformation( this.domainID );
 				if ( cInfo != null )
 				{
+					/*
 					// If the password is null, then check and see if credentials have
 					// been set on this process previously.
 					if ( this.password == null )
@@ -124,6 +125,7 @@ namespace Simias.Client.Authentication
 							this.password = credentials.Password;
 						}
 					}
+					*/
 
 					if (this.password != null)
 					{
@@ -133,6 +135,7 @@ namespace Simias.Client.Authentication
 							this.domainID, 
 							this.password );
 
+						/*
 						if (status.statusCode == StatusCodes.Success ||
 							status.statusCode == StatusCodes.SuccessInGrace )
 						{
@@ -144,6 +147,7 @@ namespace Simias.Client.Authentication
 								cInfo.MemberName, 
 								this.password);
 						}
+						*/
 					}
 					else
 					{
@@ -186,6 +190,7 @@ namespace Simias.Client.Authentication
 				DomainInformation cInfo = simiasSvc.GetDomainInformation( this.domainID );
 				if ( cInfo != null )
 				{
+					/*
 					// Clear the password from this process.
 					NetCredential netCredential = new NetCredential(
 						this.serviceName, 
@@ -195,6 +200,7 @@ namespace Simias.Client.Authentication
 						null);
 
 					netCredential.Remove(new Uri(cInfo.RemoteUrl), "BASIC");
+					*/
 
 					// Call Simias for a remote domain authentication
 					status =
