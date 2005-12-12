@@ -98,7 +98,7 @@ namespace Simias.Security
 				foreach (ShallowNode sn in nodeList)
 				{
 					cn = new Node(domain, sn);
-					if (!domain.IsType(cn, CertType))
+					if (!cn.IsType( CertType))
 					{
 						cn = null;
 						continue;

@@ -84,7 +84,7 @@ namespace Simias.Storage
 		/// <summary>
 		/// Gets the public key for this host.
 		/// </summary>
-		public string PublicKey
+		public new string PublicKey
 		{
 			get
 			{

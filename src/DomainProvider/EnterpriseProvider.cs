@@ -568,7 +568,7 @@ namespace Simias
 		public bool OwnsDomain( string domainID )
 		{
 			Domain domain = store.GetDomain( domainID );
-			return ( ( domain != null ) && domain.IsType( domain, "Enterprise" ) ) ? true : false;
+			return ( ( domain != null ) && domain.IsType( "Enterprise" ) ) ? true : false;
 		}
 
 		/// <summary>
