@@ -7,8 +7,8 @@ SIMIAS_CSFILES_CSC := $(subst /,$(SEP),$(SIMIAS_CSFILES_SRC))
 SIMIAS_INCLUDES =
 SIMIAS_RESOURCES =
 SIMIAS_FLAGS = $(CSC_LIBFLAG) /unsafe
-SIMIAS_LIBS1 = System.dll System.Data.dll $(SYSTEM_XML) System.Security.dll System.Runtime.Remoting.dll System.Web.dll System.Web.Services.dll SimiasClient.dll log4net.dll Novell.Security.ClientPasswordManager.NetCredential.dll Novell.Security.Utilities.dll
-SIMIAS_LIBPATH = $(LOG4NET_DIR) $(NOVELL_SECURITY_DIR) ../SimiasClient
+SIMIAS_LIBS1 = System.dll System.Data.dll $(SYSTEM_XML) System.Security.dll System.Runtime.Remoting.dll System.Web.dll System.Web.Services.dll SimiasClient.dll log4net.dll 
+SIMIAS_LIBPATH = $(LOG4NET_DIR) ../SimiasClient
 
 if !WINDOWS
 	SIMIAS_LIBS = $(SIMIAS_LIBS1) Mono.Posix.dll
@@ -63,7 +63,6 @@ if LINUX
 endif
 
 uninstall-local:
-	cd $(DESTDIR)$(webbindir); rm -f Novell.Security.SecureSink*.dll
 	cd $(DESTDIR)$(webdir); rm -rf $(modulesdir)
 	cd $(DESTDIR)$(webbindir); rm -f log4net.dll
 	cd $(DESTDIR)$(webbindir); rm -f SimiasLib.dll $(DEBUG_FILES)

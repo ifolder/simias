@@ -1,5 +1,5 @@
 /***********************************************************************
- *  $RCSfile$
+ *  $RCSfile: WebState.cs,v $
  *
  *  Copyright (C) 2004 Novell, Inc.
  *
@@ -216,6 +216,10 @@ namespace Simias
 			+ System.Reflection.Assembly.GetCallingAssembly().ImageRuntimeVersion 
 			+ " OS=" 
 			+ System.Environment.OSVersion.ToString();
+			
+		private static readonly ISimiasLog log = 
+			SimiasLogManager.GetLogger( System.Reflection.MethodBase.GetCurrentMethod().DeclaringType );
+			
 		NetworkCredential			credentials;
 		static Hashtable			cookieHash = new Hashtable();
 
@@ -223,20 +227,42 @@ namespace Simias
 		/// Get a WebState object for the specified domain and collection.
 		/// </summary>
 		/// <param name="domainID">The domain ID.</param>
-		/// <param name="memberID">The member the client is running as.</param>
-		public WebState(string domainID, string collectionID) :
-			this(domainID)
+		/// <param name="collectionID">The collection associated with the domain</param>
+		public WebState(string DomainID, string CollectionID) :
+			this(DomainID)
 		{
-			Member currentMember = Store.GetStore().GetDomain( domainID ).GetCurrentMember();
+			Member currentMember = Store.GetStore().GetDomain( DomainID ).GetCurrentMember();
 			if ( currentMember != null )
 			{
-				// Get the credentials for this collection.
-				credentials = new Credentials( domainID, collectionID, currentMember.UserID ).GetCredentials();
+				// Attempt to get credentials scoped at the collection
+				HttpBasicCredentials basic =
+					new HttpBasicCredentials( 
+							DomainID,
+							CollectionID,
+							currentMember.UserID );
+				if ( basic.Cached == true )
+				{
+					credentials = basic.GetNetworkCredential(); 
+				}
+				else
+				{
+					// Attempt to get credentials scoped at the domain
+					basic =
+						new HttpBasicCredentials( 
+								DomainID,
+								DomainID,
+								currentMember.UserID );
+					if ( basic.Cached == true )
+					{
+						credentials = basic.GetNetworkCredential(); 
+					}
+				}
 			}
 
 			if (credentials == null)
 			{
-				new EventPublisher().RaiseEvent( new NeedCredentialsEventArgs( domainID, collectionID ));
+				log.Debug( "failed to get NetworkCredential" );
+				new EventPublisher().RaiseEvent( new NeedCredentialsEventArgs( DomainID, CollectionID ));
 				throw new NeedCredentialsException();
 			}
 		}
@@ -246,15 +272,31 @@ namespace Simias
 		/// </summary>
 		/// <param name="domainID">The domain ID.</param>
 		/// <param name="collectionID">The collection ID.</param>
-		/// <param name="memberID">The member the client is running as.</param>
-		public WebState(string domainID, string collectionID, string memberID) :
-			this(domainID)
+		/// <param name="userID">User ID of a member in the domain.</param>
+		public WebState(string DomainID, string CollectionID, string UserID) :
+			this( DomainID )
 		{
+			HttpBasicCredentials creds;
+			
 			// Get the credentials for this collection.
-			credentials = new Credentials( domainID, collectionID, memberID ).GetCredentials();
+			creds = new HttpBasicCredentials( DomainID,	CollectionID, UserID );
+			if ( creds.Cached == true )
+			{
+				credentials = creds.GetNetworkCredential(); 
+			}
+			else
+			{
+				// Get the credentials for this collection.
+				creds =	new HttpBasicCredentials( DomainID,	DomainID, UserID );
+				if ( creds.Cached == true )
+				{
+					credentials = creds.GetNetworkCredential(); 
+				}
+			}
+		
 			if (credentials == null)
 			{
-				new EventPublisher().RaiseEvent( new NeedCredentialsEventArgs( domainID, collectionID ) );
+				new EventPublisher().RaiseEvent( new NeedCredentialsEventArgs( DomainID, CollectionID ) );
 				throw new NeedCredentialsException();
 			}
 		}
@@ -263,13 +305,13 @@ namespace Simias
 		/// Get a WebState with the specified credential.
 		/// </summary>
 		/// <param name="domainID">The identifier for the domain.</param>
-		public WebState( string domainID )
+		public WebState( string DomainID )
 		{
 			lock( cookieHash )
 			{
-				if (!cookieHash.ContainsKey(domainID))
+				if (!cookieHash.ContainsKey(DomainID))
 				{
-					cookieHash[ domainID ] = new CookieContainer();
+					cookieHash[ DomainID ] = new CookieContainer();
 				}
 			}
 		}

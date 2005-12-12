@@ -1,5 +1,5 @@
 /***********************************************************************
- *  $RCSfile$
+ *  $RCSfile: DomainAgent.cs,v $
  *
  *  Copyright (C) 2004 Novell, Inc.
  *
@@ -38,7 +38,7 @@ using Simias.Security.Web.AuthenticationService;
 using Simias.Storage;
 using Simias.Sync;
 
-using Novell.Security.ClientPasswordManager;
+//using Novell.Security.ClientPasswordManager;
 
 // Alias
 using PostOffice = Simias.POBox;
@@ -60,6 +60,7 @@ namespace Simias.DomainServices
 		/// </summary>
 		private static string DomainServiceType = "Domain Service";
 		private static string DomainServicePath = "/simias10/DomainService.asmx";
+		private static string DomainService = "/DomainService.asmx";
 
 		/// <summary>
 		/// Property name for declaring a domain active/inactive.
@@ -502,7 +503,14 @@ namespace Simias.DomainServices
 			store.AddDomainIdentity(domainInfo.ID, provisionInfo.UserID);
 
 			// authentication was successful - save the credentials
-			new NetCredential( "iFolder", domainInfo.ID, true, user, password );
+			HttpBasicCredentials basic = 
+				new HttpBasicCredentials( 
+						domainInfo.ID, 
+						domainInfo.ID, 
+						provisionInfo.UserID, 
+						password );
+			basic.Save( false );
+			//new NetCredential( "iFolder", domainInfo.ID, true, user, password );
 
 			// Domain is ready to sync
 			this.SetDomainActive( domainInfo.ID );
@@ -563,7 +571,15 @@ namespace Simias.DomainServices
 					if ( status.statusCode == SCodes.Success ||
 						status.statusCode == SCodes.SuccessInGrace )
 					{
-						new NetCredential( "iFolder", domainID, true, user, password );
+						HttpBasicCredentials basic = 
+							new HttpBasicCredentials( 
+									domainID, 
+									domainID, 
+									cDomain.GetCurrentMember().UserID, 
+									password );
+						basic.Save( false );
+						
+						//new NetCredential( "iFolder", domainID, true, user, password );
 						SetDomainState(domainID, true, true);
 					}
 				}
@@ -604,16 +620,76 @@ namespace Simias.DomainServices
 			Member member = domain.GetMemberByID( store.GetUserIDFromDomainID( domainID ) );
 			if ( member != null )
 			{
+				/*
 				// Clear the entry from the cache.
 				NetCredential netCredential = new NetCredential( "iFolder", domainID, true, member.Name, null );
 				Uri uri = new Uri(DomainProvider.ResolveLocation(domainID), "/DomainService.asmx");
 				netCredential.Remove(uri, "BASIC");
+				*/
+				
+				HttpBasicCredentials basic = new HttpBasicCredentials( domainID, domainID, member.UserID );
+				basic.Remove();
 			}
+			
 			// Clear the cookies for this Uri.
 			WebState.ResetWebState(domainID);
 
 			return new Simias.Authentication.Status(SCodes.Success);
 		}
+		
+		/// <summary>
+		/// Attempts to "ping" the remote domain.
+		/// </summary>
+		/// <param name="domainID">The identifier of the domain.</param>
+		public bool Ping( string domainID )
+		{
+			bool domainUp = false;
+			string pongDomainID = null;
+			
+			try
+			{
+				// Get the network location of the server where this collection is hosted.
+				log.Debug( "  resolving location for domain: " + domainID );
+				Uri uri = DomainProvider.ResolveLocation( domainID );
+				Uri domainServiceUrl = new Uri( uri.ToString().TrimEnd( new char[] {'/'} ) + DomainService );
+				log.Debug( "  domain: " + domainID + " is at located at: " + domainServiceUrl.ToString() );
+				
+				// Build a fake credential - not needed to get the domain id
+				NetworkCredential myCred = 
+					new NetworkCredential( 
+							Store.GetStore().GetDomain( domainID ).GetCurrentMember().Name, 
+							Guid.NewGuid().ToString() );
+
+				// Create the domain service web client object.
+				DomainService domainService = new DomainService();
+				domainService.CookieContainer = new CookieContainer();
+				domainService.Url = domainServiceUrl.ToString();
+				domainService.Credentials = myCred;
+				domainService.PreAuthenticate = true;
+				domainService.Proxy = ProxyState.GetProxyState( domainServiceUrl );
+
+				log.Debug( "  calling web service - GetDomainID " );
+				pongDomainID = domainService.GetDomainID();
+			}
+			catch ( WebException we )
+			{
+				log.Debug( we.Message );
+				
+				if ( we.Status == WebExceptionStatus.TrustFailure )
+				{
+					domainUp = true;
+				}
+			}
+			
+			if ( pongDomainID != null )
+			{
+				domainUp = true;
+			}
+
+			log.Debug( "  DomainAgent.Ping returning: " + domainUp.ToString() );
+			return domainUp;		
+		}
+		
 
 		/// <summary>
 		/// Sets the status of the specified domain to Active.
@@ -737,10 +813,20 @@ namespace Simias.DomainServices
 				// Clear the password from the cache.
 				if (member != null)
 				{
+					HttpBasicCredentials basic = 
+						new HttpBasicCredentials( 
+								domainID, 
+								domainID, 
+								member.UserID); 
+					basic.Remove();
+					
+					/*
 					NetCredential netCredential = new NetCredential( "iFolder", domainID, true, member.Name, null );
 					uri = new Uri(uri, "/DomainService.asmx");
 					netCredential.Remove(uri, "BASIC");
+					*/
 				}
+				
 				// Clear the cookies for this Uri.
 				WebState.ResetWebState(domainID);
 			}
