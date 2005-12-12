@@ -556,10 +556,6 @@ namespace Simias.Storage
 					rNode = new Subscription( document );
 					break;
 
-				case "HostNode":
-					rNode = new HostNode( document );
-					break;
-
 				default:
 					rNode = new Node( document );
 					break;
@@ -658,10 +654,6 @@ namespace Simias.Storage
 					rNode = new Subscription( collection, shallowNode );
 					break;
 
-				case "HostNode":
-					rNode = new HostNode( collection, shallowNode );
-					break;
-
 				default:
 					rNode = new Node( collection, shallowNode );
 					break;
@@ -701,6 +693,17 @@ namespace Simias.Storage
 
 			return isType;
 		}
+
+		/// <summary>
+		/// Returns whether specified Node object is the specified base type.
+		/// </summary>
+		/// <param name="typeString">Type of Node object.</param>
+		/// <returns>True if Node object is the specified type, otherwise false is returned.</returns>
+		public bool IsBaseType( string typeString )
+		{
+			return ( Type == typeString ? true : false );
+		}
+
 
 		#endregion
 	}

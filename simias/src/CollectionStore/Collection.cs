@@ -362,7 +362,7 @@ namespace Simias.Storage
 		public Collection( Store storeObject, Node node ) :
 			base( node )
 		{
-			if ( !IsType( this, NodeTypes.CollectionType ) )
+			if ( !IsType( NodeTypes.CollectionType ) )
 			{
 				throw new CollectionStoreException( String.Format( "Cannot construct an object type of {0} from an object of type {1}.", NodeTypes.CollectionType, type ) );
 			}
@@ -693,7 +693,7 @@ namespace Simias.Storage
 							node.Properties.AddNodeProperty( PropertyTags.Creator, GetCreator() );
 
 							// Check so that sync roles can be set on the collection.
-							if ( IsType( node, NodeTypes.CollectionType ) )
+							if ( node.IsType( NodeTypes.CollectionType ) )
 							{
 								// Check if there is a role already set on the collection.
 								if ( !node.Properties.HasProperty( PropertyTags.SyncRole ) )
@@ -701,7 +701,7 @@ namespace Simias.Storage
 									SetSyncRole( node, node.Properties.State );
 								}
 							}
-							else if ( IsBaseType( node, NodeTypes.StoreFileNodeType ) )
+							else if ( node.IsBaseType( NodeTypes.StoreFileNodeType ) )
 							{
 								// If this is a StoreFileNode, commit the buffered stream to disk.
 								// This cast is safe because a Node object cannot be a StoreFileNode object
@@ -721,14 +721,14 @@ namespace Simias.Storage
 
 						case PropertyList.PropertyListState.Delete:
 						{
-							if ( IsType( node, NodeTypes.CollectionType ) )
+							if ( node.IsType( NodeTypes.CollectionType ) )
 							{
 								deleteCollection = true;
 							}
 							else
 							{
 								// If this is a StoreFileNode object, delete the store managed file.
-								if ( IsBaseType( node, NodeTypes.StoreFileNodeType ) )
+								if ( node.IsBaseType( NodeTypes.StoreFileNodeType ) )
 								{
 									try
 									{
@@ -772,7 +772,7 @@ namespace Simias.Storage
 						case PropertyList.PropertyListState.Update:
 						{
 							// Make sure that there are changes to the Node object.
-							if ( IsType( node, NodeTypes.CollectionType ) || node.Properties.ChangeList.Count != 0 )
+							if ( node.IsType( NodeTypes.CollectionType ) || node.Properties.ChangeList.Count != 0 )
 							{
 								// Merge any changes made to the object on the database before this object's
 								// changes are committed.
@@ -871,7 +871,7 @@ namespace Simias.Storage
 
 							// Check for the type of sync role that needs to be set if this
 							// is a collection.
-							if ( IsType( node, NodeTypes.CollectionType ) && ( !node.Properties.HasProperty( PropertyTags.SyncRole ) ) )
+							if ( node.IsType( NodeTypes.CollectionType ) && ( !node.Properties.HasProperty( PropertyTags.SyncRole ) ) )
 							{
 								SetSyncRole( node, node.Properties.State );
 							}
@@ -943,7 +943,7 @@ namespace Simias.Storage
 					// If this Node object is a Tombstone that is beinging added, then it came into the commit as
 					// an actual node being deleted. Indicate that the object has been deleted. Otherwise do not
 					// indicate an event for a Tombstone operation.
-					if ( IsBaseType( node, NodeTypes.TombstoneType ) )
+					if ( node.IsBaseType( NodeTypes.TombstoneType ) )
 					{
 						// Check to see if this is a tombstone being deleted.
 						if ( node.Properties.State == PropertyList.PropertyListState.Delete )
@@ -971,7 +971,7 @@ namespace Simias.Storage
 					else
 					{
 						// If this is a file node type get the length of the file to report in the event.
-						long fileSize = IsType( node, NodeTypes.BaseFileNodeType ) ? ( node as BaseFileNode ).Length : 0;
+						long fileSize = node.IsType( NodeTypes.BaseFileNodeType ) ? ( node as BaseFileNode ).Length : 0;
 
 						switch ( node.Properties.State )
 						{
@@ -982,7 +982,7 @@ namespace Simias.Storage
 								store.Cache.Add( this, node );
 
 								// If this is a collection being created, create a change log for it.
-								if ( IsType( node, NodeTypes.CollectionType ) )
+								if ( node.IsType( NodeTypes.CollectionType ) )
 								{
 									changeLog.CreateChangeLogWriter( node.ID );
 								}
@@ -1027,7 +1027,7 @@ namespace Simias.Storage
 								store.Cache.Add( this, node );
 
 								// If this is a collection being created, create a change log for it.
-								if ( IsType( node, NodeTypes.CollectionType ) )
+								if ( node.IsType( NodeTypes.CollectionType ) )
 								{
 									changeLog.CreateChangeLogWriter( node.ID );
 								}
@@ -1053,7 +1053,7 @@ namespace Simias.Storage
 									store.EventPublisher.RaiseEvent( args );
 
 									// If this is a member Node, update the access control entry.
-									if ( IsBaseType( node, NodeTypes.MemberType ) )
+									if ( node.IsBaseType( NodeTypes.MemberType ) )
 									{
 										// If the node was not instantiated as a Member, then we don't need to
 										// worry about cached access control.
@@ -1085,7 +1085,7 @@ namespace Simias.Storage
 									}
 
 									// If this is a member Node, update the access control entry.
-									if ( IsBaseType( node, NodeTypes.MemberType ) )
+									if ( node.IsBaseType( NodeTypes.MemberType ) )
 									{
 										// If the node was not instantiated as a Member, then we don't need to
 										// worry about cached access control.
@@ -1163,7 +1163,7 @@ namespace Simias.Storage
 				if ( node != null )
 				{
 					// Check for BaseFileNode types because they are the only objects that contain files.
-					if ( IsType( node, NodeTypes.BaseFileNodeType ) )
+					if ( node.IsType( NodeTypes.BaseFileNodeType ) )
 					{
 						// Calculate the new storage size based on the state of the Node object.
 						switch ( node.Properties.State )
@@ -1207,7 +1207,7 @@ namespace Simias.Storage
 							}
 						}
 					}
-					else if ( IsType( node, NodeTypes.CollectionType ) )
+					else if ( node.IsType( NodeTypes.CollectionType ) )
 					{
 						// It could be that there are multiple collection objects in the list. We always want
 						// the last one and we also need a reference to the object since we intend to update it
@@ -1371,7 +1371,7 @@ namespace Simias.Storage
 				{
 					// The only exception to this rule is a POBox. The owner of a POBox will only
 					// have ReadWrite access.
-					if ( !IsBaseType( this, NodeTypes.POBoxType ) || ( owner.Rights != Access.Rights.ReadWrite ) )
+					if ( !IsBaseType( NodeTypes.POBoxType ) || ( owner.Rights != Access.Rights.ReadWrite ) )
 					{
 						throw new CollectionStoreException( "Cannot change owner's rights." );
 					}
@@ -1406,7 +1406,7 @@ namespace Simias.Storage
 			else
 			{
 				// Make sure that this is not a collection object from a different collection.
-				if ( IsType( node, NodeTypes.CollectionType ) && ( node.ID != id ) )
+				if ( node.IsType( NodeTypes.CollectionType ) && ( node.ID != id ) )
 				{
 					throw new CollectionStoreException( String.Format( "Node object: {0} - ID: {1} does not belong to collection: {2} - ID: {3}.", node.Name, node.ID, name, id ) );
 				}
@@ -1574,7 +1574,7 @@ namespace Simias.Storage
 				{
 					if ( node != null )
 					{
-						if ( IsType( node, NodeTypes.CollectionType ) )
+						if ( node.IsType( NodeTypes.CollectionType ) )
 						{
 							if ( node.Properties.State == PropertyList.PropertyListState.Delete )
 							{
@@ -1587,7 +1587,7 @@ namespace Simias.Storage
 
 							hasCollection = true;
 						}
-						else if ( IsBaseType( node, NodeTypes.MemberType ) )
+						else if ( node.IsBaseType( NodeTypes.MemberType ) )
 						{
 							// Administrative access needs to be checked because collection membership has changed.
 							doAdminCheck = true;
@@ -1603,7 +1603,7 @@ namespace Simias.Storage
 
 								// If this collection is a domain and this member is to be added, call out to the
 								// domain provider for this domain to do a pre-commit operation.
-								if ( IsBaseType( this, NodeTypes.DomainType ))
+								if ( IsBaseType( NodeTypes.DomainType ))
 								{
 									DomainProvider.PreCommit( Domain, node as Member );
 								}
@@ -1618,12 +1618,12 @@ namespace Simias.Storage
 							// Add this member node to the list to validate the collection owner a little later on.
 							memberList.Add( node );
 						}
-						else if ( !doAdminCheck && IsBaseType( node, NodeTypes.PolicyType ) )
+						else if ( !doAdminCheck && node.IsBaseType( NodeTypes.PolicyType ) )
 						{
 							// Administrative access needs to be checked because system policies are controlled objects.
 							doAdminCheck = true;
 						}
-						else if ( !hasFileNode && IsType( node, NodeTypes.BaseFileNodeType ) )
+						else if ( !hasFileNode && node.IsType( NodeTypes.BaseFileNodeType ) )
 						{
 							// Need to have a collection object for file nodes, because the amount of storage is
 							// on the collection object.
@@ -2238,6 +2238,7 @@ namespace Simias.Storage
 		/// <param name="node">Node object to check type.</param>
 		/// <param name="typeString">Type of Node object.</param>
 		/// <returns>True if Node object is the specified type, otherwise false is returned.</returns>
+		[Obsolete("This method has moved to the Node class. Use Node.IsType(string)")]
 		public bool IsType( Node node, string typeString )
 		{
 			bool isType = false;
@@ -2260,6 +2261,7 @@ namespace Simias.Storage
 		/// <param name="node">ShallowNode object to check type.</param>
 		/// <param name="typeString">Type of Node object.</param>
 		/// <returns>True if Node object is the specified type, otherwise false is returned.</returns>
+		[Obsolete("This method has moved to the ShallowNode class. Use ShallowNode.IsBaseType(string)")]
 		public bool IsBaseType( ShallowNode node, string typeString )
 		{
 			return ( node.Type == typeString ? true : false );
@@ -2271,6 +2273,7 @@ namespace Simias.Storage
 		/// <param name="node">Node object to check type.</param>
 		/// <param name="typeString">Type of Node object.</param>
 		/// <returns>True if Node object is the specified type, otherwise false is returned.</returns>
+		[Obsolete("This method has moved to the Node class. Use Node.IsBaseType(string)")]
 		public bool IsBaseType( Node node, string typeString )
 		{
 			return ( node.Type == typeString ? true : false );
@@ -2729,7 +2732,7 @@ namespace Simias.Storage
 			}
 
 			// See if the node already has this type.
-			if ( !IsType( node, type ) )
+			if ( !node.IsType( type ) )
 			{
 				// Set the new type.
 				node.Properties.AddNodeProperty( PropertyTags.Types, type );

@@ -206,7 +206,7 @@ namespace Simias.Storage
 				if ( isMemberNode )
 				{
 					// Is this collection a domain?
-					if ( !collection.IsBaseType( collection, NodeTypes.DomainType ) )
+					if ( !collection.IsBaseType( NodeTypes.DomainType ) )
 					{
 						// All member nodes that do not belong to a domain are cacheable.
 						cacheable = true;

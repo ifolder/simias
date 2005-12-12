@@ -193,7 +193,7 @@ namespace Simias.POBox
 		private void OnPOBoxCreated(NodeEventArgs args)
 		{
 			Collection c = store.GetCollectionByID(args.ID);
-			if (c.IsBaseType(c, NodeTypes.POBoxType))
+			if (c.IsBaseType(NodeTypes.POBoxType))
 			{
 				AddPOBoxManager(args.ID);
 			}

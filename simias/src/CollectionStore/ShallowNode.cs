@@ -120,5 +120,17 @@ namespace Simias.Storage
 			// TODO End Debug
 		}
 		#endregion
+
+		#region Public Methods
+		/// <summary>
+		/// Returns whether specified Node object is the specified base type.
+		/// </summary>
+		/// <param name="typeString">Type of Node object.</param>
+		/// <returns>True if Node object is the specified type, otherwise false is returned.</returns>
+		public bool IsBaseType(string typeString )
+		{
+			return ( Type == typeString ? true : false );
+		}
+		#endregion
 	}
 }
