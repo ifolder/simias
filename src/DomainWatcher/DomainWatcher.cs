@@ -175,8 +175,8 @@ namespace Simias.DomainWatcher
 							if ( store.DefaultDomain == cDomain.ID )
 							{
 								log.Debug( "  domain is default - getting credentials" );
-								HttpBasicCredentials basicCredentials =
-									new HttpBasicCredentials( 
+								BasicCredentials basicCredentials =
+									new BasicCredentials( 
 											cDomain.ID,
 											cDomain.ID,
 											cDomain.GetCurrentMember().UserID );
@@ -220,14 +220,6 @@ namespace Simias.DomainWatcher
 										if ( authStatus.statusCode == SCodes.Success ||
 												authStatus.statusCode == SCodes.SuccessInGrace )
 										{
-											/*
-											cEvent.RaiseEvent(
-												new Simias.Client.Event.NotifyEventArgs(
-														"Domain-Up",
-														cDomain.ID,
-														System.DateTime.Now ) );
-											*/
-														
 											log.Debug( "  successful authentication to the default domain" );
 											
 											if ( authStatus.statusCode == SCodes.SuccessInGrace )

@@ -235,8 +235,8 @@ namespace Simias
 			if ( currentMember != null )
 			{
 				// Attempt to get credentials scoped at the collection
-				HttpBasicCredentials basic =
-					new HttpBasicCredentials( 
+				BasicCredentials basic =
+					new BasicCredentials( 
 							DomainID,
 							CollectionID,
 							currentMember.UserID );
@@ -248,7 +248,7 @@ namespace Simias
 				{
 					// Attempt to get credentials scoped at the domain
 					basic =
-						new HttpBasicCredentials( 
+						new BasicCredentials( 
 								DomainID,
 								DomainID,
 								currentMember.UserID );
@@ -276,10 +276,10 @@ namespace Simias
 		public WebState(string DomainID, string CollectionID, string UserID) :
 			this( DomainID )
 		{
-			HttpBasicCredentials creds;
+			BasicCredentials creds;
 			
 			// Get the credentials for this collection.
-			creds = new HttpBasicCredentials( DomainID,	CollectionID, UserID );
+			creds = new BasicCredentials( DomainID,	CollectionID, UserID );
 			if ( creds.Cached == true )
 			{
 				credentials = creds.GetNetworkCredential(); 
@@ -287,7 +287,7 @@ namespace Simias
 			else
 			{
 				// Get the credentials for this collection.
-				creds =	new HttpBasicCredentials( DomainID,	DomainID, UserID );
+				creds =	new BasicCredentials( DomainID,	DomainID, UserID );
 				if ( creds.Cached == true )
 				{
 					credentials = creds.GetNetworkCredential(); 

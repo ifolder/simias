@@ -503,14 +503,13 @@ namespace Simias.DomainServices
 			store.AddDomainIdentity(domainInfo.ID, provisionInfo.UserID);
 
 			// authentication was successful - save the credentials
-			HttpBasicCredentials basic = 
-				new HttpBasicCredentials( 
+			BasicCredentials basic = 
+				new BasicCredentials( 
 						domainInfo.ID, 
 						domainInfo.ID, 
 						provisionInfo.UserID, 
 						password );
 			basic.Save( false );
-			//new NetCredential( "iFolder", domainInfo.ID, true, user, password );
 
 			// Domain is ready to sync
 			this.SetDomainActive( domainInfo.ID );
@@ -571,8 +570,8 @@ namespace Simias.DomainServices
 					if ( status.statusCode == SCodes.Success ||
 						status.statusCode == SCodes.SuccessInGrace )
 					{
-						HttpBasicCredentials basic = 
-							new HttpBasicCredentials( 
+						BasicCredentials basic = 
+							new BasicCredentials( 
 									domainID, 
 									domainID, 
 									cDomain.GetCurrentMember().UserID, 
@@ -620,14 +619,8 @@ namespace Simias.DomainServices
 			Member member = domain.GetMemberByID( store.GetUserIDFromDomainID( domainID ) );
 			if ( member != null )
 			{
-				/*
 				// Clear the entry from the cache.
-				NetCredential netCredential = new NetCredential( "iFolder", domainID, true, member.Name, null );
-				Uri uri = new Uri(DomainProvider.ResolveLocation(domainID), "/DomainService.asmx");
-				netCredential.Remove(uri, "BASIC");
-				*/
-				
-				HttpBasicCredentials basic = new HttpBasicCredentials( domainID, domainID, member.UserID );
+				BasicCredentials basic = new BasicCredentials( domainID, domainID, member.UserID );
 				basic.Remove();
 			}
 			
@@ -813,18 +806,12 @@ namespace Simias.DomainServices
 				// Clear the password from the cache.
 				if (member != null)
 				{
-					HttpBasicCredentials basic = 
-						new HttpBasicCredentials( 
+					BasicCredentials basic = 
+						new BasicCredentials( 
 								domainID, 
 								domainID, 
 								member.UserID); 
 					basic.Remove();
-					
-					/*
-					NetCredential netCredential = new NetCredential( "iFolder", domainID, true, member.Name, null );
-					uri = new Uri(uri, "/DomainService.asmx");
-					netCredential.Remove(uri, "BASIC");
-					*/
 				}
 				
 				// Clear the cookies for this Uri.
