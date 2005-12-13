@@ -2,6 +2,11 @@ SUBDIRS = src
 
 DIST_SUBDIRS = package $(SUBDIRS)
 
+# remove all of the CVS directories
+dist-hook:
+	rm -rf `find $(distdir) -name CVS`
+	rm -rf `find $(distdir) -name ".svn"`
+
 EXTRA_DIST = tools
 
 .PHONY: doc doc-clean
