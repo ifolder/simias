@@ -42,7 +42,7 @@ using SCodes = Simias.Authentication.StatusCodes;
 
 //using Mono.P2p.mDnsResponder;
 //using Mono.P2p.mDnsResponderApi;
-using Novell.Security.ClientPasswordManager;
+//using Novell.Security.ClientPasswordManager;
 
 namespace Simias.mDns
 {
@@ -235,7 +235,19 @@ namespace Simias.mDns
 					{
 						string userID = 
 							Store.GetStore().GetDomain( args.DomainID ).GetCurrentMember().UserID;
+							
+						// Save the credentials in the Simias credential cache
+						BasicCredentials credentials = 
+							new BasicCredentials(
+									args.DomainID,
+									args.CollectionID,
+									userID,
+									"@PPK@" );
+						
+						credentials.Save( false );
+									
 
+						/*
 						// Set credentials for this collection
 						new NetCredential( 
 							"iFolder", 
@@ -243,6 +255,7 @@ namespace Simias.mDns
 							true, 
 							userID,
 							"@PPK@" );
+						*/
 					}
 					else
 					{
