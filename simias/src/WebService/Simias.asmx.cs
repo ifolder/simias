@@ -35,9 +35,10 @@ using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
 
-using Novell.Security.ClientPasswordManager;
+//using Novell.Security.ClientPasswordManager;
 
 using Simias;
+using Simias.Authentication;
 using Simias.Client;
 using Simias.DomainServices;
 using Simias.Storage;
@@ -759,7 +760,19 @@ namespace Simias.Web
 
 				// find user
 				Simias.Storage.Member cMember = domain.GetMemberByID( memberID );
+				
+				BasicCredentials basic =
+					new BasicCredentials( domainID, domainID, cMember.Name );
+				if ( basic.Cached == true )
+				{
+					NetworkCredential realCreds = basic.GetNetworkCredential();
+					if (realCreds != null)
+					{
+						status = true;
+					}
+				}
 
+				/*
 				NetCredential cCreds = 
 					new NetCredential("iFolder", domainID, true, cMember.Name, null);
 
@@ -769,12 +782,8 @@ namespace Simias.Web
 						this.Context.Request.Url.Host,
 						this.Context.Request.Url.Port,
 						this.Context.Request.ApplicationPath.TrimStart( new char[] {'/'} ));
+				*/
 
-				NetworkCredential realCreds = cCreds.GetCredential(cUri.Uri, "BASIC");
-				if (realCreds != null)
-				{
-					status = true;
-				}
 			}
 			catch(Exception e)
 			{
