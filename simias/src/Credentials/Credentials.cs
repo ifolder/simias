@@ -31,7 +31,6 @@ using Simias.DomainServices;
 using Simias.Event;
 using Simias.Storage;
 using Simias.Sync;
-//using Novell.Security.ClientPasswordManager;
 
 namespace Simias.Authentication
 {
@@ -197,7 +196,7 @@ namespace Simias.Authentication
 	/// Class for maintaining cached Http Basic
 	/// credential sets
 	/// </summary>
-	public class HttpBasicCredentials : SimiasCredentials
+	public class BasicCredentials : SimiasCredentials
 	{
 		private static readonly ISimiasLog log = 
 			SimiasLogManager.GetLogger( System.Reflection.MethodBase.GetCurrentMethod().DeclaringType );
@@ -216,7 +215,7 @@ namespace Simias.Authentication
 		private string	username;
 		private string	password;
 
-		private class HttpBasicBlob
+		private class BasicBlob
 		{
 			public string Username;
 			public string Password;
@@ -248,11 +247,11 @@ namespace Simias.Authentication
 		/// <summary>
 		/// Attempt to load the CASA assembly
 		/// </summary>
-		static HttpBasicCredentials()
+		static BasicCredentials()
 		{
 			try
 			{
-				Simias.Authentication.HttpBasicCredentials.casaAssembly = 
+				Simias.Authentication.BasicCredentials.casaAssembly = 
 					Assembly.LoadWithPartialName( casaAssemblyName );
 				if ( casaAssembly != null )
 				{
@@ -299,7 +298,7 @@ namespace Simias.Authentication
 		/// set in cache.  If a full set exists, the Cached property will return
 		/// true and all credential properties will be valid.
 		/// </summary>
-		public HttpBasicCredentials( string DomainID, string CollectionID, string MemberID ) :
+		public BasicCredentials( string DomainID, string CollectionID, string MemberID ) :
 				base( DomainID, CollectionID, MemberID )
 		{
 			this.store = Store.GetStore();
@@ -307,7 +306,7 @@ namespace Simias.Authentication
 			
 			if ( this.Cached == true )
 			{
-				HttpBasicBlob blob = this.Blob as HttpBasicBlob;
+				BasicBlob blob = this.Blob as BasicBlob;
 				if ( blob != null )
 				{
 					this.username = blob.Username;
@@ -319,7 +318,7 @@ namespace Simias.Authentication
 			{
 				try
 				{
-					log.Debug( "  attempting to retrieve credentials from CASA's single-signon secret" );
+					log.Debug( "  attempting to retrieve credentials using CASA's single-signon secret" );
 					
 					// If the credential is default and CASA is present, attempt
 					// to retrieve a credential based on the well-known single signon
@@ -371,7 +370,7 @@ namespace Simias.Authentication
 		/// domain or collection it will be overwritten and removed from
 		/// the cache with this credential.
 		/// </summary>
-		public HttpBasicCredentials( string DomainID, string CollectionID, string MemberID, string Password ) :
+		public BasicCredentials( string DomainID, string CollectionID, string MemberID, string Password ) :
 			base( DomainID, CollectionID, MemberID )
 		{
 			this.store = Store.GetStore();
@@ -393,10 +392,10 @@ namespace Simias.Authentication
 		{
 			if ( this.username == null || this.password == null )
 			{
-				//throw new NotExistException( "password" );
+				throw new NotExistException( "password" );
 			}
 			
-			HttpBasicBlob blob = new HttpBasicBlob();
+			BasicBlob blob = new BasicBlob();
 			blob.Username = username;
 			blob.Password = password;
 			this.Blob = blob as object;
@@ -410,11 +409,6 @@ namespace Simias.Authentication
 		/// <returns>NetworkCredential object which can be assigned to the "Credentials" property in a proxy class.</returns>
 		public NetworkCredential GetNetworkCredential()
 		{
-			//
-			// From the collection ID we need to figure out
-			// the Realm, Username etc.
-			//
-
 			NetworkCredential realCreds = null;
 
 			try
@@ -427,55 +421,6 @@ namespace Simias.Authentication
 					realCreds.Password = this.Password;
 				}
 
-				//
-				// Verify the domain is not marked "inactive" and that a non-workgroup
-				// domain is marked authenticated.
-				//
-
-				/*
-				DomainAgent domainAgent = new DomainAgent();
-				if ( domainAgent.IsDomainActive( cDomain.ID ) &&
-					 (domainAgent.IsDomainAuthenticated( cDomain.ID ) ||
-					 cDomain.ConfigType.Equals(Simias.Storage.Domain.ConfigurationType.Workgroup)))
-				{
-					NetCredential cCreds = 
-						new NetCredential(
-							"iFolder", 
-							this.domainID,
-							true, 
-							memberName,
-							null );
-
-					Uri cUri = DomainProvider.ResolveLocation( this.domainID );
-					realCreds = cCreds.GetCredential( cUri, "BASIC" );
-					if ( realCreds == null )
-					{
-						// Check if creds exist for the user ID
-						cCreds = 
-							new NetCredential(
-								"iFolder", 
-								this.domainID, 
-								true, 
-								memberID,
-								null );
-
-						realCreds = cCreds.GetCredential( cUri, "BASIC" );
-						if ( realCreds == null && this.collectionID != null )
-						{
-							// Check if creds exist for the user ID and by collection
-							cCreds = 
-								new NetCredential(
-								"iFolder", 
-								this.collectionID, 
-								true, 
-								memberID,
-								null );
-
-							realCreds = cCreds.GetCredential( cUri, "BASIC" );
-						}
-					}
-				}
-				*/
 			}
 			catch{}
 			return( realCreds );
