@@ -34,8 +34,6 @@ using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
 
-using Novell.Security.ClientPasswordManager;
-
 using Simias;
 using Simias.Client;
 using Simias.DomainServices;
