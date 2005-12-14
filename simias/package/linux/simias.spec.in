@@ -39,6 +39,7 @@ BuildRoot    : %{_tmppath}/%{name}-%{version}
 Requires     : mono-core >= 1.1.7.7
 Requires     : mono-data >= 1.1.7.7
 Requires     : mono-web >= 1.1.7.7
+Requires     : log4net >= 1.2.9
 
 #=============================================================================
 %Description
@@ -124,7 +125,6 @@ fi
 %{prefix}/web/bin/Simias.exe
 %{prefix}/web/bin/SimiasLib.dll
 %{prefix}/web/bin/FlaimWrapper.so
-%{prefix}/web/bin/log4net.dll
 %{prefix}/web/bin/SimiasAPIService.Web.dll
 %{prefix}/web/Global.asax
 %{prefix}/web/modules/SimiasLib.conf
