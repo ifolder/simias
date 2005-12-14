@@ -212,7 +212,7 @@ namespace Simias
 	/// </summary>
 	public class WebState
 	{
-		static string				userAgent = "Simias Client " 
+		static string userAgent = "Simias Client " 
 			+ System.Reflection.Assembly.GetCallingAssembly().ImageRuntimeVersion 
 			+ " OS=" 
 			+ System.Environment.OSVersion.ToString();
@@ -231,15 +231,17 @@ namespace Simias
 		public WebState(string DomainID, string CollectionID) :
 			this(DomainID)
 		{
-			Member currentMember = Store.GetStore().GetDomain( DomainID ).GetCurrentMember();
-			if ( currentMember != null )
+			Member currentMember;
+			try
 			{
+				currentMember = Store.GetStore().GetDomain( DomainID ).GetCurrentMember();
+				
 				// Attempt to get credentials scoped at the collection
 				BasicCredentials basic =
 					new BasicCredentials( 
 							DomainID,
 							CollectionID,
-							currentMember.UserID );
+							currentMember.Name );
 				if ( basic.Cached == true )
 				{
 					credentials = basic.GetNetworkCredential(); 
@@ -251,13 +253,14 @@ namespace Simias
 						new BasicCredentials( 
 								DomainID,
 								DomainID,
-								currentMember.UserID );
+								currentMember.Name );
 					if ( basic.Cached == true )
 					{
 						credentials = basic.GetNetworkCredential(); 
 					}
 				}
 			}
+			catch{}
 
 			if (credentials == null)
 			{
@@ -279,20 +282,26 @@ namespace Simias
 			BasicCredentials creds;
 			
 			// Get the credentials for this collection.
-			creds = new BasicCredentials( DomainID,	CollectionID, UserID );
-			if ( creds.Cached == true )
+			Member member;
+			try
 			{
-				credentials = creds.GetNetworkCredential(); 
-			}
-			else
-			{
-				// Get the credentials for this collection.
-				creds =	new BasicCredentials( DomainID,	DomainID, UserID );
+				member = Store.GetStore().GetDomain( DomainID ).GetMemberByID( UserID );
+				creds = new BasicCredentials( DomainID,	CollectionID, member.Name );
 				if ( creds.Cached == true )
 				{
 					credentials = creds.GetNetworkCredential(); 
 				}
+				else
+				{
+					// Get the credentials for this collection.
+					creds =	new BasicCredentials( DomainID,	DomainID, member.Name );
+					if ( creds.Cached == true )
+					{
+						credentials = creds.GetNetworkCredential(); 
+					}
+				}
 			}
+			catch{}
 		
 			if (credentials == null)
 			{

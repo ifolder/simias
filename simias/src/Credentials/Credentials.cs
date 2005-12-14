@@ -211,15 +211,7 @@ namespace Simias.Authentication
 		private Domain domain;
 		private Member member;
 		private Store store;
-		
-		private string	username;
-		private string	password;
-
-		private class BasicBlob
-		{
-			public string Username;
-			public string Password;
-		}
+		private string password;
 		
 		#region Properties
 		/// <summary>
@@ -231,6 +223,7 @@ namespace Simias.Authentication
 			set{ this.password = value; }
 		}
 		
+		/*
 		/// <summary>
 		/// Username for this credential set
 		/// this property is only valid after credentials
@@ -240,6 +233,7 @@ namespace Simias.Authentication
 		{
 			get{ return this.username; }
 		}
+		*/
 		#endregion
 		
 		#region Constructors
@@ -281,11 +275,15 @@ namespace Simias.Authentication
 				throw new ArgumentException( CollectionID );
 			}
 			
+			/*
 			this.member = domain.GetMemberByID( MemberID );
 			if ( member == null )
 			{
 				throw new ArgumentException( MemberID );
 			}
+			
+			this.username = member.Name;
+			*/
 		}
 		
 		#endregion
@@ -298,20 +296,15 @@ namespace Simias.Authentication
 		/// set in cache.  If a full set exists, the Cached property will return
 		/// true and all credential properties will be valid.
 		/// </summary>
-		public BasicCredentials( string DomainID, string CollectionID, string MemberID ) :
-				base( DomainID, CollectionID, MemberID )
+		public BasicCredentials( string DomainID, string CollectionID, string ID ) :
+				base( DomainID, CollectionID, ID )
 		{
 			this.store = Store.GetStore();
-			ValidateArguments( DomainID, CollectionID, MemberID );
+			//ValidateArguments( DomainID, CollectionID, MemberID );
 			
 			if ( this.Cached == true )
 			{
-				BasicBlob blob = this.Blob as BasicBlob;
-				if ( blob != null )
-				{
-					this.username = blob.Username;
-					this.password = blob.Password;
-				}
+				this.password = this.Blob as string;
 			}
 			else
 			if ( this.defaultDomain == true && casaAssembly != null )
@@ -348,11 +341,9 @@ namespace Simias.Authentication
 							casaInstance,
 							args);
 						
-					if ( casaPassword != null && casaUsername != null )
+					if ( casaPassword != null && casaUsername != null && (string) casaUsername == ID )
 					{
-						this.username = casaUsername.ToString();
 						this.password = casaPassword.ToString();
-						
 						this.Save( false );
 					}
 				}
@@ -370,8 +361,8 @@ namespace Simias.Authentication
 		/// domain or collection it will be overwritten and removed from
 		/// the cache with this credential.
 		/// </summary>
-		public BasicCredentials( string DomainID, string CollectionID, string MemberID, string Password ) :
-			base( DomainID, CollectionID, MemberID )
+		public BasicCredentials( string DomainID, string CollectionID, string ID, string Password ) :
+			base( DomainID, CollectionID, ID )
 		{
 			this.store = Store.GetStore();
 			
@@ -382,7 +373,7 @@ namespace Simias.Authentication
 				base.Remove();
 			}
 			
-			ValidateArguments( DomainID, CollectionID, MemberID );
+			//ValidateArguments( DomainID, CollectionID, MemberID );
 			this.password = Password;
 		}
 		#endregion
@@ -390,21 +381,19 @@ namespace Simias.Authentication
 		#region Public Methods
 		public override void Save( bool persistent )
 		{
+			/*
 			if ( this.username == null )
 			{
 				throw new NotExistException( "username" );
 			}
+			*/
 			
 			if ( this.password == null )
 			{
 				throw new NotExistException( "password" );
 			}
 			
-			
-			BasicBlob blob = new BasicBlob();
-			blob.Username = username;
-			blob.Password = password;
-			this.Blob = blob as object;
+			this.Blob = password as object;
 			base.Save( persistent );			
 		}
 
@@ -421,14 +410,15 @@ namespace Simias.Authentication
 			{
 				if ( this.Cached == true )
 				{
-					realCreds = new NetworkCredential();
-					realCreds.Domain = this.DomainID;
-					realCreds.UserName = this.Username;
-					realCreds.Password = this.Password;
+					realCreds = new NetworkCredential( this.ID, this.password );
 				}
-
 			}
-			catch{}
+			catch( Exception gnc )
+			{
+				log.Error( gnc.Message );
+				log.Error( gnc.StackTrace );
+			}
+			
 			return( realCreds );
 		}
 		#endregion
@@ -452,7 +442,7 @@ namespace Simias.Authentication
 			public bool				Cached;
 			public string 			DomainID;
 			public string			CollectionID;
-			public string			MemberID;
+			public string			ID;
 			public object			Blob;
 		}
 		
@@ -504,15 +494,15 @@ namespace Simias.Authentication
 		/// </summary>
 		public string DomainID
 		{
-			get{ return this.credentials.MemberID; }
+			get{ return this.credentials.DomainID; }
 		}
 		
 		/// <summary>
-		/// MemberID for this credential set 
+		/// Principal or ID for this credential set 
 		/// </summary>
-		public string MemberID
+		public string ID
 		{
-			get{ return this.credentials.MemberID; }
+			get{ return this.credentials.ID; }
 		}
 		
 		/// <summary>
@@ -528,14 +518,14 @@ namespace Simias.Authentication
 
 		#region Constructors
 		/// <summary>
-		/// Construct a credential set based on Domain, Collection and Member
+		/// Construct a credential set based on Domain, Collection and ID
 		/// If the domain is of type enterprise and scoping is done solely on
 		/// the domain, the DomainID should be used for the collection as well.
 		///	During construction, the system will attempt to find a full credential
 		/// set in cache.  If a full set exists, the Cached property will return
 		/// true and all credential properties will be vallid.
 		/// </summary>
-		public SimiasCredentials( string DomainID, string CollectionID, string MemberID )
+		public SimiasCredentials( string DomainID, string CollectionID, string ID )
 		{
 			if ( DomainID == null )
 			{
@@ -547,15 +537,15 @@ namespace Simias.Authentication
 				throw new ArgumentException( "CollectionID" );
 			}
 			
-			if ( MemberID == null )
+			if ( ID == null )
 			{
-				throw new ArgumentException( "MemberID" );
+				throw new ArgumentException( "ID" );
 			}
 			
 			this.credentials = new CredentialSet();
 			this.credentials.DomainID = DomainID;
 			this.credentials.CollectionID = CollectionID;
-			this.credentials.MemberID = MemberID;
+			this.credentials.ID = ID;
 			this.RetrieveFromCache();
 		}
 		#endregion

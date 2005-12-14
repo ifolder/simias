@@ -175,11 +175,13 @@ namespace Simias.DomainWatcher
 							if ( store.DefaultDomain == cDomain.ID )
 							{
 								log.Debug( "  domain is default - getting credentials" );
+								
+								Member member = cDomain.GetCurrentMember();
 								BasicCredentials basicCredentials =
 									new BasicCredentials( 
 											cDomain.ID,
 											cDomain.ID,
-											cDomain.GetCurrentMember().UserID );
+											member.Name );
 											
 								if ( basicCredentials.Cached == true )
 								{
@@ -187,14 +189,14 @@ namespace Simias.DomainWatcher
 									// attempt to login
 									
 									log.Debug( "  yes - we have credentials for default" );
-									log.Debug( "  username: " + basicCredentials.Username );
+									log.Debug( "  username: " + member.Name );
 									
 									try
 									{
 										authStatus =
 											domainAgent.Login(
 												cDomain.ID,
-												basicCredentials.Username,
+												member.Name,
 												basicCredentials.Password );
 									}
 									catch( WebException we )
