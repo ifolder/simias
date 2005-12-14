@@ -557,28 +557,36 @@ namespace Simias.DomainServices
 		/// </returns>
 		public 
 		Simias.Authentication.Status
-		Login(string domainID, string user, string password)
+		Login( string domainID, string user, string password )
 		{
+			log.Debug( "Login - called" );
+			log.Debug( "  DomainID: " + domainID );
+			log.Debug( "  Username: " + user );
+			log.Debug( "  Password: " + password );
+			
 			Simias.Authentication.Status status = null;
 			Domain cDomain = store.GetDomain( domainID );
 			if ( cDomain != null )
 			{
 				if ( cDomain.Role == SyncRoles.Slave )
 				{
-					NetworkCredential netCred = new NetworkCredential( user, password );
-					status = this.Login( DomainProvider.ResolveLocation(domainID), domainID, netCred, false );
+					BasicCredentials basic = 
+						new BasicCredentials( 
+								domainID, 
+								domainID, 
+								cDomain.GetCurrentMember().UserID, 
+								password );
+					status = 
+						this.Login( 
+							DomainProvider.ResolveLocation( domainID ), 
+							domainID, 
+							basic.GetNetworkCredential(), 
+							false );
+							
 					if ( status.statusCode == SCodes.Success ||
 						status.statusCode == SCodes.SuccessInGrace )
 					{
-						BasicCredentials basic = 
-							new BasicCredentials( 
-									domainID, 
-									domainID, 
-									cDomain.GetCurrentMember().UserID, 
-									password );
 						basic.Save( false );
-						
-						//new NetCredential( "iFolder", domainID, true, user, password );
 						SetDomainState(domainID, true, true);
 					}
 				}
@@ -592,6 +600,7 @@ namespace Simias.DomainServices
 				status = new Simias.Authentication.Status( SCodes.UnknownDomain );
 			}
 
+			log.Debug( "Login - exit  Status: " + status.statusCode.ToString() );
 			return status;
 		}
 
@@ -645,7 +654,7 @@ namespace Simias.DomainServices
 				log.Debug( "  resolving location for domain: " + domainID );
 				Uri uri = DomainProvider.ResolveLocation( domainID );
 				Uri domainServiceUrl = new Uri( uri.ToString().TrimEnd( new char[] {'/'} ) + DomainService );
-				log.Debug( "  domain: " + domainID + " is at located at: " + domainServiceUrl.ToString() );
+				log.Debug( "  domain: " + domainID + " is located at: " + domainServiceUrl.ToString() );
 				
 				// Build a fake credential - not needed to get the domain id
 				NetworkCredential myCred = 

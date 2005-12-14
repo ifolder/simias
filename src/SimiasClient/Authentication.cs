@@ -26,8 +26,6 @@ using System.Net;
 
 using Simias;
 
-//using Novell.Security.ClientPasswordManager;
-
 namespace Simias.Client.Authentication
 {
 	/// <summary>
@@ -77,7 +75,7 @@ namespace Simias.Client.Authentication
 		}
 
 		/// <summary>
-		/// Static constructor to authenticate straight-away
+		/// Constructor with all the necessary credentials for a basic authentication
 		/// </summary>
 		public DomainAuthentication(string serviceName, string domainID, string password)
 		{
@@ -103,57 +101,8 @@ namespace Simias.Client.Authentication
 				DomainInformation cInfo = simiasSvc.GetDomainInformation( this.domainID );
 				if ( cInfo != null )
 				{
-					/*
-					// If the password is null, then check and see if credentials have
-					// been set on this process previously.
-					if ( this.password == null )
-					{
-						NetCredential netCredential = new NetCredential(
-							this.serviceName, 
-							this.domainID, 
-							true, 
-							cInfo.MemberName, 
-							null);
-
-						NetworkCredential credentials = 
-							netCredential.GetCredential(
-								new Uri(cInfo.RemoteUrl), 
-								"BASIC");
-
-						if (credentials != null)
-						{
-							this.password = credentials.Password;
-						}
-					}
-					*/
-
-					if (this.password != null)
-					{
-						// Call Simias for a remote domain authentication
-						status =
-							simiasSvc.LoginToRemoteDomain( 
-							this.domainID, 
-							this.password );
-
-						/*
-						if (status.statusCode == StatusCodes.Success ||
-							status.statusCode == StatusCodes.SuccessInGrace )
-						{
-							// Set the credentials in this process.
-							new NetCredential(
-								this.serviceName, 
-								this.domainID, 
-								true, 
-								cInfo.MemberName, 
-								this.password);
-						}
-						*/
-					}
-					else
-					{
-						status = new Status();
-						status.statusCode = StatusCodes.InvalidPassword;
-					}
+					// Call Simias for a remote domain authentication
+					status = simiasSvc.LoginToRemoteDomain(	this.domainID, this.password );
 				}
 				else
 				{
@@ -190,28 +139,15 @@ namespace Simias.Client.Authentication
 				DomainInformation cInfo = simiasSvc.GetDomainInformation( this.domainID );
 				if ( cInfo != null )
 				{
-					/*
-					// Clear the password from this process.
-					NetCredential netCredential = new NetCredential(
-						this.serviceName, 
-						this.domainID, 
-						true, 
-						cInfo.MemberName, 
-						null);
-
-					netCredential.Remove(new Uri(cInfo.RemoteUrl), "BASIC");
-					*/
-
 					// Call Simias for a remote domain authentication
-					status =
-						simiasSvc.LogoutFromRemoteDomain( this.domainID );
+					status = simiasSvc.LogoutFromRemoteDomain( this.domainID );
 				}
 				else
 				{
-					//status = new Status( StatusCodes.UnknownDomain );
+					//status = new Simias.Authentication.Status( StatusCodes.UnknownDomain );
 				}
 			}
-			catch(Exception ex)
+			catch( Exception ex )
 			{
 				// DEBUG
 				if (MyEnvironment.Mono)
