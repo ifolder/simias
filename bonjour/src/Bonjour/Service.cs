@@ -234,7 +234,7 @@ namespace Simias.mDns
 					if ( authStatus.statusCode == SCodes.Success )
 					{
 						string userID = 
-							Store.GetStore().GetDomain( args.DomainID ).GetCurrentMember().UserID;
+							Store.GetStore().GetDomain( args.DomainID ).GetCurrentMember().Name;
 							
 						// Save the credentials in the Simias credential cache
 						BasicCredentials credentials = 
@@ -245,17 +245,6 @@ namespace Simias.mDns
 									"@PPK@" );
 						
 						credentials.Save( false );
-									
-
-						/*
-						// Set credentials for this collection
-						new NetCredential( 
-							"iFolder", 
-							args.CollectionID, 
-							true, 
-							userID,
-							"@PPK@" );
-						*/
 					}
 					else
 					{
