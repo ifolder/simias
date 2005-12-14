@@ -628,6 +628,7 @@ namespace Simias.Web
 		Simias.Authentication.Status
 		LoginToRemoteDomain(string domainID, string password)
 		{ 
+			log.Debug( "LoginToRemoteDomain - called" );
 			Store store = Store.GetStore();
 			Simias.Storage.Domain domain = store.GetDomain(domainID);
 			if( domain == null )
@@ -641,6 +642,8 @@ namespace Simias.Web
 				return new Simias.Authentication.Status( Simias.Authentication.StatusCodes.UnknownUser );
 			}
 
+			log.Debug( "  User: " + member.Name );
+			
 			DomainAgent domainAgent = new DomainAgent();
 			return domainAgent.Login( domainID, member.Name, password );
 		}

@@ -161,9 +161,13 @@ namespace Simias.DomainServices
 				new Uri( host, Simias.Security.Web.AuthenticationService.Login.Path );
 			HttpWebRequest request = WebRequest.Create( loginUri ) as HttpWebRequest;
 			WebState webState = new WebState(domainID);
-			webState.InitializeWebRequest(request, domainID);
+			webState.InitializeWebRequest( request, domainID );
 			request.Credentials = networkCredential;
 			request.PreAuthenticate = true;
+			
+			log.Debug( "DomainAgent::Login" );
+			log.Debug( "   User: " + networkCredential.UserName );
+			log.Debug( "   Password: " + networkCredential.Password );
 			
 			if ( domainID != null && domainID != "")
 			{
@@ -252,43 +256,35 @@ namespace Simias.DomainServices
 							{
 								status.statusCode = SCodes.InvalidPassword;
 							}
-							else
-								if ( iFolderError == StatusCodes.AccountDisabled.ToString() )
+							else if ( iFolderError == StatusCodes.AccountDisabled.ToString() )
 							{
 								status.statusCode = SCodes.AccountDisabled;
 							}
-							else
-								if ( iFolderError == StatusCodes.AccountLockout.ToString() )
+							else if ( iFolderError == StatusCodes.AccountLockout.ToString() )
 							{
 								status.statusCode = SCodes.AccountLockout;
 							}
-							else
-								if ( iFolderError == StatusCodes.AmbiguousUser.ToString() )
+							else if ( iFolderError == StatusCodes.AmbiguousUser.ToString() )
 							{
 								status.statusCode = SCodes.AmbiguousUser;
 							}
-							else
-								if ( iFolderError == StatusCodes.UnknownDomain.ToString() )
+							else if ( iFolderError == StatusCodes.UnknownDomain.ToString() )
 							{
 								status.statusCode = SCodes.UnknownDomain;
 							}
-							else
-								if ( iFolderError == StatusCodes.InternalException.ToString() )
+							else if ( iFolderError == StatusCodes.InternalException.ToString() )
 							{
 								status.statusCode = SCodes.InternalException;
 							}
-							else
-								if ( iFolderError == StatusCodes.UnknownUser.ToString() )
+							else if ( iFolderError == StatusCodes.UnknownUser.ToString() )
 							{
 								status.statusCode = SCodes.UnknownUser;
 							}
-							else
-								if ( iFolderError == StatusCodes.MethodNotSupported.ToString() )
+							else if ( iFolderError == StatusCodes.MethodNotSupported.ToString() )
 							{
 								status.statusCode = SCodes.MethodNotSupported;
 							}
-							else
-								if ( iFolderError == StatusCodes.InvalidCredentials.ToString() )
+							else if ( iFolderError == StatusCodes.InvalidCredentials.ToString() )
 							{
 								// This could have failed because of iChain.
 								// Check for a via header.
@@ -300,8 +296,7 @@ namespace Simias.DomainServices
 								}
 								status.statusCode = SCodes.InvalidCredentials;
 							}
-							else
-								if ( iFolderError == StatusCodes.SimiasLoginDisabled.ToString() )
+							else if ( iFolderError == StatusCodes.SimiasLoginDisabled.ToString() )
 							{
 								status.statusCode = SCodes.SimiasLoginDisabled;
 							}
@@ -507,7 +502,7 @@ namespace Simias.DomainServices
 				new BasicCredentials( 
 						domainInfo.ID, 
 						domainInfo.ID, 
-						provisionInfo.UserID, 
+						user, 
 						password );
 			basic.Save( false );
 
@@ -520,14 +515,14 @@ namespace Simias.DomainServices
 		/// <summary>
 		/// Check if the domain is marked Active or in a connected state
 		/// </summary>
-		/// <param name="domainID">The identifier of the domain to check status on.</param>
-		public bool IsDomainActive(string domainID)
+		/// <param name="DomainID">The identifier of the domain to check status on.</param>
+		public bool IsDomainActive( string DomainID )
 		{
 			bool active = true;
 
 			try
 			{
-				Domain cDomain = store.GetDomain( domainID );
+				Domain cDomain = store.GetDomain( DomainID );
 					
 				// Make sure this domain is a slave 
 				if ( cDomain.Role == SyncRoles.Slave )
@@ -549,45 +544,48 @@ namespace Simias.DomainServices
 		/// Login to a remote domain using username and password
 		/// Assumes a slave domain has been provisioned locally
 		/// </summary>
-		/// <param name="domainID">ID of the remote domain.</param>
-		/// <param name="user">Member to login as</param>
-		/// <param name="password">Password to validate user.</param>
+		/// <param name="DomainID">ID of the remote domain.</param>
+		/// <param name="Username">Member to login as</param>
+		/// <param name="Password">Password to validate user.</param>
 		/// <returns>
 		/// The status of the remote authentication
 		/// </returns>
 		public 
 		Simias.Authentication.Status
-		Login( string domainID, string user, string password )
+		Login( string DomainID, string Username, string Password )
 		{
 			log.Debug( "Login - called" );
-			log.Debug( "  DomainID: " + domainID );
-			log.Debug( "  Username: " + user );
-			log.Debug( "  Password: " + password );
+			log.Debug( "  DomainID: " + DomainID );
+			log.Debug( "  Username: " + Username );
 			
 			Simias.Authentication.Status status = null;
-			Domain cDomain = store.GetDomain( domainID );
+			Domain cDomain = store.GetDomain( DomainID );
 			if ( cDomain != null )
 			{
 				if ( cDomain.Role == SyncRoles.Slave )
 				{
-					BasicCredentials basic = 
-						new BasicCredentials( 
-								domainID, 
-								domainID, 
-								cDomain.GetCurrentMember().UserID, 
-								password );
 					status = 
 						this.Login( 
-							DomainProvider.ResolveLocation( domainID ), 
-							domainID, 
-							basic.GetNetworkCredential(), 
+							DomainProvider.ResolveLocation( DomainID ), 
+							DomainID,
+							new NetworkCredential( Username, Password ),
 							false );
 							
 					if ( status.statusCode == SCodes.Success ||
 						status.statusCode == SCodes.SuccessInGrace )
 					{
+						BasicCredentials basic = 
+							new BasicCredentials( 
+									DomainID, 
+									DomainID,
+									Username,
+									Password );
 						basic.Save( false );
-						SetDomainState(domainID, true, true);
+						SetDomainState( DomainID, true, true );
+					}
+					else
+					{
+						status = new Simias.Authentication.Status( SCodes.UnknownDomain );
 					}
 				}
 				else
@@ -607,59 +605,61 @@ namespace Simias.DomainServices
 		/// <summary>
 		/// Logout from a domain.
 		/// </summary>
-		/// <param name="domainID">The ID of the domain.</param>
+		/// <param name="DomainID">The ID of the domain.</param>
 		/// <returns>The status of the logout.</returns>
 		public
 		Simias.Authentication.Status
-		Logout(string domainID)
+		Logout( string DomainID )
 		{
 			// Get the domain.
 			Store store = Store.GetStore();
-			Simias.Storage.Domain domain = store.GetDomain(domainID);
+			Simias.Storage.Domain domain = store.GetDomain( DomainID );
 			if( domain == null )
 			{
 				return new Simias.Authentication.Status( Simias.Authentication.StatusCodes.UnknownDomain );
 			}
 
 			// Set the state for this domain.
-			SetDomainState(domainID, false, false);
+			SetDomainState( DomainID, false, false );
 
 			// Clear the password from the cache.
-			Member member = domain.GetMemberByID( store.GetUserIDFromDomainID( domainID ) );
+			Member member = domain.GetMemberByID( store.GetUserIDFromDomainID( DomainID ) );
 			if ( member != null )
 			{
 				// Clear the entry from the cache.
-				BasicCredentials basic = new BasicCredentials( domainID, domainID, member.UserID );
+				BasicCredentials basic = new BasicCredentials( DomainID, DomainID, member.Name );
 				basic.Remove();
 			}
 			
 			// Clear the cookies for this Uri.
-			WebState.ResetWebState(domainID);
+			WebState.ResetWebState( DomainID );
 
-			return new Simias.Authentication.Status(SCodes.Success);
+			return new Simias.Authentication.Status( SCodes.Success );
 		}
 		
 		/// <summary>
 		/// Attempts to "ping" the remote domain.
 		/// </summary>
-		/// <param name="domainID">The identifier of the domain.</param>
-		public bool Ping( string domainID )
+		/// <param name="DomainID">The identifier of the domain.</param>
+		public bool Ping( string DomainID )
 		{
 			bool domainUp = false;
 			string pongDomainID = null;
 			
+			log.Debug( "DomainAgent::Ping - called" );
+			
 			try
 			{
 				// Get the network location of the server where this collection is hosted.
-				log.Debug( "  resolving location for domain: " + domainID );
-				Uri uri = DomainProvider.ResolveLocation( domainID );
+				log.Debug( "  resolving location for domain: " + DomainID );
+				Uri uri = DomainProvider.ResolveLocation( DomainID );
 				Uri domainServiceUrl = new Uri( uri.ToString().TrimEnd( new char[] {'/'} ) + DomainService );
-				log.Debug( "  domain: " + domainID + " is located at: " + domainServiceUrl.ToString() );
+				log.Debug( "  domain: " + DomainID + " is located at: " + domainServiceUrl.ToString() );
 				
 				// Build a fake credential - not needed to get the domain id
 				NetworkCredential myCred = 
 					new NetworkCredential( 
-							Store.GetStore().GetDomain( domainID ).GetCurrentMember().Name, 
+							Store.GetStore().GetDomain( DomainID ).GetCurrentMember().Name, 
 							Guid.NewGuid().ToString() );
 
 				// Create the domain service web client object.
@@ -688,7 +688,7 @@ namespace Simias.DomainServices
 				domainUp = true;
 			}
 
-			log.Debug( "  DomainAgent.Ping returning: " + domainUp.ToString() );
+			log.Debug( "DomainAgent::Ping returning: " + domainUp.ToString() );
 			return domainUp;		
 		}
 		
@@ -696,12 +696,12 @@ namespace Simias.DomainServices
 		/// <summary>
 		/// Sets the status of the specified domain to Active.
 		/// </summary>
-		/// <param name="domainID">The identifier of the domain.</param>
-		public void SetDomainActive(string domainID)
+		/// <param name="DomainID">The identifier of the domain.</param>
+		public void SetDomainActive( string DomainID )
 		{
 			try
 			{
-				Domain cDomain = store.GetDomain( domainID );
+				Domain cDomain = store.GetDomain( DomainID );
 				if ( cDomain.Role == SyncRoles.Slave )
 				{
 					Property p = new Property( this.activePropertyName, true );
@@ -722,12 +722,12 @@ namespace Simias.DomainServices
 		/// setting a domain to inactive will disable all 
 		/// synchronization activity.
 		/// </summary>
-		/// <param name="domainID">The identifier of the domain.</param>
-		public void SetDomainInactive(string domainID)
+		/// <param name="DomainID">The identifier of the domain.</param>
+		public void SetDomainInactive( string DomainID )
 		{
 			try
 			{
-				Domain cDomain = store.GetDomain( domainID );
+				Domain cDomain = store.GetDomain( DomainID );
 				if ( cDomain.Role == SyncRoles.Slave )
 				{
 					Property p = new Property( this.activePropertyName, false );
