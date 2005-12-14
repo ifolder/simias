@@ -80,7 +80,7 @@ case $CSC in
         CSCFLAGS_OPTIMIZE="/optimize+"
         MONO=mono
         MONO_DEBUG='mono --debug'
-        MONO_PATH="\$(LOG4NET_DIR):\$(NOVELL_SECURITY_DIR):\$(top_srcdir)/external/SecureChannelSinks"
+        MONO_PATH=
         SYSTEM_XML='System.Xml.dll'
     ;;
     #
@@ -115,6 +115,11 @@ EXTERNAL_DIR='$(top_srcdir)/external'
 DOCDIR="$SRCDIR/doc"
 
 case $host_os in
+    linux*)
+        PKG_CHECK_MODULES(LOG4NET, log4net >= 1.2.9)
+        AC_SUBST(LOG4NET_PREFIX)
+        AC_SUBST(LOG4NET_LIBS)
+    ;;
     darwin*)
 		# fix up the flaim libraries
         ranlib external/flaim/macosx/release/libflm.a
@@ -198,7 +203,7 @@ case $SIMIAS_OS in
         ICON_EXT='.ico'
         ICON_FLAG='/resource:'
         INSTALL_EXE_OPTS='--mode=644'
-        LOG4NET_DIR="$EXTERNAL_DIR/log4net/bin/mono/1.0/release"
+        LOG4NET_DIR=
         NOVELL_SECURITY_DIR="$EXTERNAL_DIR/NS/mono"
         NUNIT="mono nunit-console.exe"
         NUNIT_LIBPATH="$TOOLDIR/NUnit/mono/bin"

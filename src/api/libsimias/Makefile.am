@@ -23,11 +23,11 @@ libsimias2_la_CFLAGS = \
 libsimias2_la_LDFLAGS = \
 	$(XML2_LIBS)
 
-if LINUX
-bin_PROGRAMS = testapi
-testapi_SOURCES = test.c
-LDADD = libsimias2.la
-endif
+#if LINUX
+#bin_PROGRAMS = testapi
+#testapi_SOURCES = test.c
+#LDADD = libsimias2.la
+#endif
 
 envC.c: $(srcdir)/stdsoap2.c
 	> $(srcdir)/env.h

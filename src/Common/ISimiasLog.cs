@@ -24,7 +24,7 @@
 using System;
 
 using log4net;
-using log4net.spi;
+//using log4net.spi;
 
 namespace Simias
 {
