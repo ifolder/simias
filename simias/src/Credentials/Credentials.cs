@@ -374,8 +374,7 @@ namespace Simias.Authentication
 			base( DomainID, CollectionID, MemberID )
 		{
 			this.store = Store.GetStore();
-			ValidateArguments( DomainID, CollectionID, MemberID );
-
+			
 			// A credential for this domain or collection already existed
 			// in the cache so let's remove the old one
 			if ( this.Cached == true )
@@ -383,6 +382,7 @@ namespace Simias.Authentication
 				base.Remove();
 			}
 			
+			ValidateArguments( DomainID, CollectionID, MemberID );
 			this.password = Password;
 		}
 		#endregion
@@ -390,10 +390,16 @@ namespace Simias.Authentication
 		#region Public Methods
 		public override void Save( bool persistent )
 		{
-			if ( this.username == null || this.password == null )
+			if ( this.username == null )
+			{
+				throw new NotExistException( "username" );
+			}
+			
+			if ( this.password == null )
 			{
 				throw new NotExistException( "password" );
 			}
+			
 			
 			BasicBlob blob = new BasicBlob();
 			blob.Username = username;
