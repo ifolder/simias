@@ -12,6 +12,15 @@ FILE=src/Common/Configuration.cs
 
 DIE=0
 
+# cleanup configure stuff because this failes on Mac
+rm -f aclocal.m4
+rm -f config.cache
+rm -rf autom4te.cache
+rm -f config.guess
+rm -f config.status
+rm -rf config.sub
+rm -f config.log
+
 (autoconf --version) < /dev/null > /dev/null 2>&1 || {
 	echo
 	echo "You must have autoconf installed to compile $PROJECT."
@@ -71,6 +80,11 @@ do
 	##  echo "**Warning**: No such directory \`$k'.  Ignored."
         fi
       done
+		case $OSTYPE in
+			darwin*)
+				aclocalinclude="$aclocalinclude -I $ORIGDIR/tools/aclocal"
+			;;
+		esac
       if grep "^AM_GNU_GETTEXT" configure.in >/dev/null; then
 	if grep "sed.*POTFILES" configure.in >/dev/null; then
 	  : do nothing -- we still have an old unmodified configure.in
