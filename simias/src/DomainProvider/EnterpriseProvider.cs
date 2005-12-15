@@ -679,6 +679,10 @@ namespace Simias
 										}
 									}
 								}
+								else
+								{
+									je.FileName = collection.GetDeletedFileName( je.FileID );
+								}
 
 								tempList.Add( je );
 								--count;

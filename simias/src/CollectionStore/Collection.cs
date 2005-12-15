@@ -2393,30 +2393,31 @@ namespace Simias.Storage
 			return accessControl.GetCurrentMember( store, Domain, false );
 		}
 
-		public StoreFileNode GetJournal()
+		public string GetDeletedFileName( string nodeID )
 		{
-			StoreFileNode journal = null;
+			// TODO: Localize?
+			string fileName = "unknown";
 
-			Property property = properties.GetSingleProperty( PropertyTags.Journal );
-			if ( property != null )
+			// Get the journal for the collection.
+			StoreFileNode journal = GetJournalForNode( this );
+			if ( journal != null )
 			{
-				Relationship relationship = property.Value as Relationship;
-				journal = GetNodeByID( relationship.NodeID ) as StoreFileNode;
-			}
-			else
-			{
-				ICSList nodes = Search( PropertyTags.JournalFor, new Relationship( ID, ID ) );
-				foreach ( ShallowNode sn in nodes )
+				XmlDocument doc = new XmlDocument();
+				doc.Load( journal.GetFullPath( this ) );
+
+				// Get the delete entry for this node ID.
+				XmlNodeList xmlNodes = doc.SelectNodes( string.Format( "//delete[@fnID='{0}']", nodeID ) );
+				foreach (XmlNode n in xmlNodes)
 				{
-					if ( sn.Type == NodeTypes.StoreFileNodeType )
+					XmlAttribute attr = (XmlAttribute)n.Attributes.GetNamedItem( "path" );
+					if ( attr != null )
 					{
-						journal = new StoreFileNode( this, sn );
-						break;
+						fileName = attr.Value;
 					}
 				}
 			}
 
-			return journal;
+			return fileName;
 		}
 
 		/// <summary>
