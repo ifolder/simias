@@ -24,6 +24,7 @@ using System;
 using System.Collections;
 using System.IO;
 using System.Net;
+using System.Text;
 using System.Web;
 using System.Web.SessionState;
 
@@ -42,11 +43,16 @@ namespace Novell.DavClient
 		private HttpWebResponse response = null;
 		private HttpWebRequest request = null;
 		private	HttpStatusCode status = 0;
+		private int contentLength = 0;
+		private string content = "";
 		private string method = null;
 		private string password = null;
 		private string username = null;
 		private Uri serverUri = null;
 		private ArrayList headers;
+		static internal readonly string xmlHeader = "<?xml version=\"1.0\" encoding=\"utf-8\" ?>";
+		private readonly string contentTypeHeader = "Content-type";
+		private readonly string contentType = "text/xml; charset=\"utf-8\"";
 		#endregion
 	
 		#region Properties
@@ -131,7 +137,13 @@ namespace Novell.DavClient
 			return null;
 		}
 		
-		public void Send()
+		public void SetBodyContent( string content )
+		{
+			contentLength = content.Length;
+			this.content = content;
+		}
+		
+		public virtual void Send()
 		{
 			request = WebRequest.Create( serverUri ) as HttpWebRequest;
 
@@ -144,17 +156,29 @@ namespace Novell.DavClient
 			request.Credentials = creds;
 			request.PreAuthenticate = true;
 			
+			request.Headers.Add( "Content-type", contentType ); 
+			
 			foreach( HttpHeader header in headers )
 			{
 				request.Headers.Add( header.Name, header.Value ); 
 			}
 			
 			request.Method = method;
-			request.ContentLength = 0;
-
+			request.ContentLength = contentLength;
+			
 			try
 			{
-				request.GetRequestStream().Close();
+				if ( contentLength != 0 && content != "" )
+				{
+					StreamWriter s = new StreamWriter( request.GetRequestStream(), Encoding.UTF8 );
+                    s.Write( content );
+                    s.Close();				
+				}
+				else
+				{
+					request.GetRequestStream().Close();
+				}
+				
 				response = request.GetResponse() as HttpWebResponse;
 				if ( response != null )
 				{
