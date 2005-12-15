@@ -90,6 +90,27 @@ namespace Simias.Storage
 
 			set { properties.ModifyNodeProperty( PropertyTags.Description, value ); }
 		}
+
+#if ( !REMOVE_OLD_INVITATION )
+		/// <summary>
+		/// Used to determine if the domain supports the new invitation model.
+		/// </summary>
+		public bool SupportsNewInvitation
+		{
+			get { return ( Version != "0.0.0" ) ? true : false; }
+		}
+#endif
+		/// <summary>
+		/// Gets the version of this domain.
+		/// </summary>
+		public string Version
+		{
+			get
+			{
+				Property p = properties.GetSingleProperty( PropertyTags.DomainVersion );
+				return ( p != null ) ? p.Value as String : "0.0.0";
+			}
+		}
 		#endregion
 
 		#region Constructors
