@@ -715,8 +715,45 @@ namespace Simias
 		/// <returns>True if there are more journal entries. Otherwise false is returned.</returns>
 		public bool FindPreviousJournalEntries( ref string searchContext, int count, out JournalEntry[] journalList )
 		{
+			bool moreEntries = false;
+
+			// Initialize the outputs.
 			journalList = null;
-			return false;
+
+			// See if there is a valid search context.
+			SearchState searchState = SearchState.GetSearchState( searchContext );
+			if ( searchState != null )
+			{
+				// Backup the current cursor, but don't go passed the first record.
+				if ( searchState.CurrentRecord > 0 )
+				{
+					bool invalidIndex = false;
+					int cursorIndex = ( searchState.CurrentRecord - ( searchState.LastCount + count ) );
+					if ( cursorIndex < 0 )
+					{
+						invalidIndex = true;
+						count = searchState.CurrentRecord - searchState.LastCount;
+						cursorIndex = 0;
+					}
+
+					// Set the new index for the cursor.
+					if ( searchState.Enumerator.SetCursor( Simias.Storage.Provider.IndexOrigin.SET, cursorIndex ) )
+					{
+						// Reset the current record.
+						searchState.CurrentRecord = cursorIndex;
+
+						// Complete the search.
+						FindNextJournalEntries( ref searchContext, count, out journalList );
+
+						if ( ( invalidIndex == false ) && ( journalList != null ) )
+						{
+							moreEntries = true;
+						}
+					}
+				}
+			}
+
+			return moreEntries;
 		}
 
 		/// <summary>
@@ -729,8 +766,31 @@ namespace Simias
 		/// <returns>True if there are more journal entries. Otherwise false is returned.</returns>
 		public bool FindSeekJournalEntries( ref string searchContext, int offset, int count, out JournalEntry[] journalList )
 		{
+			bool moreEntries = false;
+
+			// Initialize the outputs.
 			journalList = null;
-			return false;
+
+			// See if there is a valid search context.
+			SearchState searchState = SearchState.GetSearchState( searchContext );
+			if ( searchState != null )
+			{
+				// Make sure that the specified offset is valid.
+				if ( ( offset >= 0 ) && ( offset <= searchState.TotalRecords ) )
+				{
+					// Set the cursor to the specified offset.
+					if ( searchState.Enumerator.SetCursor( Simias.Storage.Provider.IndexOrigin.SET, offset ) )
+					{
+						// Reset the current record.
+						searchState.CurrentRecord = offset;
+
+						// Complete the search.
+						moreEntries = FindNextJournalEntries( ref searchContext, count, out journalList );
+					}
+				}
+			}
+
+			return moreEntries;
 		}
 
 		/// <summary>
