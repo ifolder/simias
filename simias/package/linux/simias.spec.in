@@ -116,8 +116,6 @@ fi
 %{prefix}/share/*
 %{prefix}/web/bin/SimiasClient.dll
 %{prefix}/web/bin/Simias.Web.dll
-%{prefix}/web/bin/Novell.Security.ClientPasswordManager.NetCredential.dll
-%{prefix}/web/bin/Novell.Security.Utilities.dll
 %{prefix}/web/bin/Simias.POBox.Web.dll
 %{prefix}/web/bin/SimiasLib.dll.config
 %{prefix}/web/bin/ifdata
@@ -125,7 +123,7 @@ fi
 %{prefix}/web/bin/Simias.exe
 %{prefix}/web/bin/SimiasLib.dll
 %{prefix}/web/bin/FlaimWrapper.so
-%{prefix}/web/bin/SimiasAPIService.Web.dll
+#%{prefix}/web/bin/SimiasAPIService.Web.dll
 %{prefix}/web/Global.asax
 %{prefix}/web/modules/SimiasLib.conf
 %{prefix}/web/Login.ashx
@@ -133,5 +131,5 @@ fi
 %{prefix}/web/Simias.asmx
 %{prefix}/web/SyncHandler.ashx
 %{prefix}/web/web.config
-%{prefix}/web/SimiasAPI.asmx
+#%{prefix}/web/SimiasAPI.asmx
 #%config(noreplace) %{prefix}/web/web.config
