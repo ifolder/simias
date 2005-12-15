@@ -808,11 +808,26 @@ namespace Simias.Storage
 										IncrementLocalIncarnation( journal );
 
 										// Add the journal node to the list.
-										journalNodeList.Add(journal);
+										journalNodeList.Add( journal );
 
 										// Copy the XML journal node over to the modify document.
 										commitDocument.DocumentElement.AppendChild( 
 											commitDocument.ImportNode( journal.Properties.PropertyRoot, true ) );
+									}
+
+									// Delete the journal associated with this file.
+									journal = GetJournalForNode( node );
+									if ( journal != null )
+									{
+										try
+										{
+											// Delete the file.
+											File.Delete( journal.GetFullPath( this ) );
+										}
+										catch {}
+
+										deleteDocument.DocumentElement.AppendChild(
+											deleteDocument.ImportNode( journal.Properties.PropertyRoot, true ) );
 									}
 								}
 
