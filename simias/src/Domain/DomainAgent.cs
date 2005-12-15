@@ -165,10 +165,6 @@ namespace Simias.DomainServices
 			request.Credentials = networkCredential;
 			request.PreAuthenticate = true;
 			
-			log.Debug( "DomainAgent::Login" );
-			log.Debug( "   User: " + networkCredential.UserName );
-			log.Debug( "   Password: " + networkCredential.Password );
-			
 			if ( domainID != null && domainID != "")
 			{
 				request.Headers.Add( 

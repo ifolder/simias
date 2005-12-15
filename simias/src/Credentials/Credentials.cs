@@ -307,7 +307,7 @@ namespace Simias.Authentication
 				this.password = this.Blob as string;
 			}
 			else
-			if ( this.defaultDomain == true && casaAssembly != null )
+			if ( store.DefaultDomain == DomainID && casaAssembly != null )
 			{
 				try
 				{
