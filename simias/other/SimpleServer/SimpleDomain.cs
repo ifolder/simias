@@ -27,6 +27,7 @@ using System.Threading;
 using System.Xml;
 
 using Simias;
+using Simias.Client;
 using Simias.Storage;
 using Simias.Sync;
 
@@ -544,7 +545,7 @@ namespace Simias.SimpleServer
 					{
 						Member dMember = new Member( ssDomain, cShallow );
 						//Node cNode = new Node( ssDomain, cShallow );
-						if ( ssDomain.IsBaseType( dMember, "Member" ) == true )
+						if ( dMember.IsBaseType( NodeTypes.MemberType ) == true )
 						{	
 							// Get all of the collections that this user is member of.
 							ICSList cList = store.GetCollectionsByUser( dMember.UserID );
@@ -555,7 +556,7 @@ namespace Simias.SimpleServer
 
 								// Only look for collections from the specified domain and
 								// don't allow this user's membership from being removed from the domain.
-								if ( ( c.Domain == ssDomain.ID ) && !c.IsBaseType( c, Simias.Client.NodeTypes.DomainType ) )
+								if ( ( c.Domain == ssDomain.ID ) && !c.IsBaseType( Simias.Client.NodeTypes.DomainType ) )
 								{
 									Member cMember = c.GetMemberByID( dMember.UserID );
 									if ( cMember != null )

@@ -58,9 +58,7 @@ AssemblyInfo.cs
 ../HttpAuthentication/HttpAuth.cs
 ../POBox/Message.cs
 ../POBox/POBox.cs
-../POBox/POBoxManager.cs
 ../POBox/POBoxServiceProxy.cs
-../POBox/POManager.cs
 ../POBox/POService.cs
 ../POBox/Subscription.cs
 ../POBox/SubscriptionDetails.cs

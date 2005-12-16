@@ -477,9 +477,10 @@ namespace Simias.Web
 			// Commit the new collection and the fileNode at the root
 			c.Commit(nodeList.ToArray( typeof( Node) ) as Node[] );
 
+#if ( !REMOVE_OLD_INVITATION )
 			AddSubscription( store, c, member, 
-					newMember, SubscriptionStates.Ready, Type);
-
+				newMember, SubscriptionStates.Ready, Type);
+#endif
 			return c;
 		}
 
@@ -881,93 +882,96 @@ namespace Simias.Web
 		}
 
 
-
-
 		/// <summary>
-		/// WebMethod that deletes a SharedCollection and removes all
-		/// subscriptions from all members.  Any files that were in place
-		/// if there was a DirNode will remain there
+		/// WebMethod that deletes a SharedCollection or the specified subscription
+		/// and removes all subscriptions from all members.  Any files that were in 
+		/// place if there was a DirNode will remain there
 		/// </summary>
 		/// <param name = "CollectionID">
-		/// The ID of the collection representing this iFolder to delete
+		/// The ID of the collection or subscription to delete
 		/// </param>
-		/// <returns>
-		/// true if the iFolder was successfully removed
-		/// </returns>
 		public static void DeleteSharedCollection(string CollectionID)
 		{
 			DeleteSharedCollection(CollectionID, null);
 		}
 
+
 		/// <summary>
-		/// WebMethod that deletes a SharedCollection and removes all
-		/// subscriptions from all members.  Any files that were in place
-		/// if there was a DirNode will remain there
+		/// WebMethod that deletes a SharedCollection or the specified subscription
+		/// and removes all subscriptions from all members.  Any files that were in 
+		/// place if there was a DirNode will remain there
 		/// </summary>
 		/// <param name = "CollectionID">
-		/// The ID of the collection representing this iFolder to delete
+		/// The ID of the collection or subscription to delete
 		/// </param>
 		/// <param name="accessID">Access User ID</param>
-		/// <returns>
-		/// true if the iFolder was successfully removed
-		/// </returns>
 		public static void DeleteSharedCollection(string CollectionID, string accessID)
 		{
 			Store store = Store.GetStore();
 			Collection collection = store.GetCollectionByID(CollectionID);
-			
 			if(collection != null)
 			{
 				// impersonate
 				if ((accessID != null) && (accessID.Length != 0))
 				{
-					Simias.Storage.Member member = collection.GetMemberByID(accessID);
-				
-					if(member == null)
-						throw new Exception("Invalid UserID");
-				
-					collection.Impersonate(member);
-
-					// admin rights
-					// note: check for admin rights before cleaning subscriptions
-					if (member.Rights != Access.Rights.Admin)
+					Member member = collection.GetMemberByID(accessID);
+					if(member != null)
 					{
-						throw new AccessException(collection, member, Access.Rights.Admin);
+						// admin rights
+						// note: check for admin rights before cleaning subscriptions
+						if (member.Rights != Access.Rights.Admin)
+						{
+							throw new AccessException(collection, member, Access.Rights.Admin);
+						}
+
+						// Impersonate before the delete.
+						collection.Impersonate(member);
+					}
+					else
+					{
+						throw new Exception("Invalid UserID");
 					}
 				}
 			
+#if ( !REMOVE_OLD_INVITATION )
 				// first clean out all subscriptions for this iFolder
 				// if we are the server in a workgroup, then this
 				// will clean out everyone else's subscriptions too
 				RemoveAllSubscriptions(store, collection);
-
-				collection.Delete();
-				collection.Commit();
-				return;
+#endif
+				collection.Commit(collection.Delete());
 			}
 			else
 			{
-				// TODO: Need to rework for multi-domain ... check if this method is used anywhere.
-				// try to find a subscription with this ID
-				Simias.POBox.POBox poBox = Simias.POBox.POBox.GetPOBox(                                             store,
-									store.DefaultDomain);
-
-				// SharedCollections returned in the Web service are also
-				// Subscriptions and it ID will be the subscription ID
-				Node node = poBox.GetNodeByID(CollectionID);
-				if(node == null)
-					throw new Exception("Invalid ID");
-
-				Subscription sub = new Subscription(node);
-				if(sub != null)
+				// Look for a subscription Node by it's ID. Should only ever return a single node.
+				ICSList nodeList = store.GetNodesByProperty(new Property(BaseSchema.ObjectId, CollectionID), SearchOp.Equal);
+				if (nodeList.Count <= 1)
 				{
-					poBox.Delete(sub);
-					poBox.Commit(sub);
-					return;
+					foreach (ShallowNode sn in nodeList)
+					{
+						// Make sure that this Node is a subscription.
+						if (sn.Type == NodeTypes.SubscriptionType)
+						{
+							// Get the user's POBox for this subscription object.
+							POBox.POBox poBox = store.GetCollectionByID(sn.CollectionID) as POBox.POBox;
+							if (poBox != null)
+							{
+								// Turn this ShallowNode into a Subscription object.
+								Subscription subscription = new Subscription(poBox, sn);
+								poBox.Commit(poBox.Delete(subscription));
+							}
+							else
+							{
+								throw new Exception("Invalid ID");
+							}
+						}
+					}
+				}
+				else
+				{
+					throw new Exception("Multiple objects returned for the same ID.");
 				}
 			}
-
-			throw new Exception("Invalid CollectionID");
 		}
 
 
@@ -993,25 +997,23 @@ namespace Simias.Web
 			if(collection == null)
 				throw new Exception("Invalid CollectionID");
 
-			
+			// Get the current principal for this collection.
+			Member member = collection.GetCurrentMember();
+			if (member == null)
+				throw new Exception("Cannot get current member");
+
 			// Get the subscription for this iFolder to return.
 			Subscription sub = null;
 
 			// Get the member's POBox
-			Simias.POBox.POBox poBox = Simias.POBox.POBox.GetPOBox(store,
-																   collection.Domain);
+			POBox.POBox poBox = POBox.POBox.FindPOBox(store, collection.Domain, member.UserID);
 			if (poBox != null)
 			{
-				Member member = collection.GetCurrentMember();
-
 				// Search for the matching subscription
-				sub = poBox.GetSubscriptionByCollectionID(collection.ID,
-														  member.UserID);
+				sub = poBox.GetSubscriptionByCollectionID(collection.ID, member.UserID);
 			}
 
-			collection.Delete();
-			collection.Commit();
-
+			collection.Commit(collection.Delete());
 			return sub;
 		}
 
@@ -1177,9 +1179,11 @@ namespace Simias.Web
 
 			col.Commit(newMember);
 
+#if ( !REMOVE_OLD_INVITATION )
 			AddSubscription( store, col, 
 				newMember, newMember, SubscriptionStates.Ready,
 				collectionType);
+#endif
 		}
 
 
@@ -1196,60 +1200,56 @@ namespace Simias.Web
 		/// <param name = "UserID">
 		/// The ID of the member to be removed
 		/// </param>
-		/// <returns>
-		/// True if the member was successfully removed
-		/// </returns>
 		public static void RemoveMember(	string CollectionID, 
 											string UserID)
 		{
 			Store store = Store.GetStore();
-
 			Collection col = store.GetCollectionByID(CollectionID);
 			if(col == null)
 				throw new Exception("Invalid CollectionID");
 
-			// try to find a subscription with this ID
-			Simias.POBox.POBox poBox = Simias.POBox.POBox.GetPOBox(store,
-																   col.Domain);
-
-			if(poBox == null)
+#if ( !REMOVE_OLD_INVITATION )
+			Domain domain = store.GetDomain(col.Domain);
+			if ((domain != null) && (domain.SupportsNewInvitation == false))
 			{
-				throw new Exception("Unable to access POBox");
-			}
+				// Get my member object.
+				Member currentMember = col.GetCurrentMember();
+				if (currentMember == null)
+					throw new Exception("Invalid current member");
 
-
-			ICSList poList = poBox.Search(
-					Subscription.ToIdentityProperty,
-					UserID,
-					SearchOp.Equal);
-
-			Subscription sub = null;
-			foreach(ShallowNode sNode in poList)
-			{
-				sub = new Subscription(poBox, sNode);
-				break;
-			}
-
-			if (sub != null)
-			{
-				poBox.Commit(poBox.Delete(sub));
-			}
-			else
-			{
-				Simias.Storage.Member member = col.GetMemberByID(UserID);
-				if(member != null)
+				// Get a handle to my POBox.
+				POBox.POBox poBox = POBox.POBox.FindPOBox(store, col.Domain, currentMember.UserID);
+				if(poBox == null)
 				{
-					if(member.IsOwner)
-						throw new Exception("UserID is the iFolder owner");
-
-					col.Delete(member);
-					col.Commit(member);
-
-					// even if the member is null, try to clean up the subscription
-					RemoveMemberSubscription(	store, 
-												col,
-												UserID);
+					throw new Exception("Unable to access POBox");
 				}
+
+				// Try to find any pending subscription that I am sending to the specified user.
+				ICSList poList = poBox.Search(Subscription.ToIdentityProperty, UserID, SearchOp.Equal);
+				foreach(ShallowNode sNode in poList)
+				{
+					Subscription sub = new Subscription(poBox, sNode);
+					if (sub != null)
+					{
+						poBox.Commit(poBox.Delete(sub));
+					}
+				}
+			}
+#endif
+
+			// Remove the user if they are a member of the collection already.
+			Member member = col.GetMemberByID(UserID);
+			if(member != null)
+			{
+				if(member.IsOwner)
+					throw new Exception("UserID is the iFolder owner");
+
+				col.Commit(col.Delete(member));
+
+#if ( !REMOVE_OLD_INVITATION )
+				// even if the member is null, try to clean up the subscription
+				RemoveMemberSubscription(store, col, UserID);
+#endif
 			}
 		}
 
@@ -1321,7 +1321,7 @@ namespace Simias.Web
 
 
 
-
+#if ( !REMOVE_OLD_INVITATION )
 		/// <summary>
 		/// Utility method that should be moved into the POBox class.
 		/// This will create a subscription and place it in the POBox
@@ -1351,35 +1351,33 @@ namespace Simias.Web
 											SubscriptionStates state,
 											string collectionType)
 		{
-			Simias.POBox.POBox poBox = 
-				Simias.POBox.POBox.GetPOBox(store, collection.Domain, 
-												newMember.UserID );
-
-			Subscription sub = poBox.CreateSubscription(collection,
-														inviteMember,
-														collectionType);
-			sub.ToName = newMember.Name;
-			sub.ToIdentity = newMember.UserID;
-			sub.ToMemberNodeID = newMember.ID;
-			sub.ToPublicKey = newMember.PublicKey;
-			sub.SubscriptionRights = newMember.Rights;
-			sub.SubscriptionState = state;
-			//sub.SubscriptionCollectionURL = collection.MasterUrl.ToString();
-
-			DirNode dirNode = collection.GetRootDirectory();
-			if(dirNode != null)
+			Domain domain = store.GetDomain(collection.Domain);
+			if ((domain != null) && (domain.SupportsNewInvitation == false))
 			{
-				sub.DirNodeID = dirNode.ID;
-				sub.DirNodeName = dirNode.Name;
-			}
+				Simias.POBox.POBox poBox = 
+					Simias.POBox.POBox.GetPOBox(store, collection.Domain, 
+					newMember.UserID );
 
-			poBox.Commit(sub);
-			if (poBox.Role == Sync.SyncRoles.Slave)
-			{
-				Sync.SyncClient.ScheduleSync(poBox.ID);
+				Subscription sub = poBox.CreateSubscription(collection,
+					inviteMember,
+					collectionType);
+				sub.ToName = newMember.Name;
+				sub.ToIdentity = newMember.UserID;
+				sub.ToMemberNodeID = newMember.ID;
+				sub.ToPublicKey = newMember.PublicKey;
+				sub.SubscriptionRights = newMember.Rights;
+				sub.SubscriptionState = state;
+
+				DirNode dirNode = collection.GetRootDirectory();
+				if(dirNode != null)
+				{
+					sub.DirNodeID = dirNode.ID;
+					sub.DirNodeName = dirNode.Name;
+				}
+
+				poBox.Commit(sub);
 			}
 		}
-
 
 
 
@@ -1396,20 +1394,23 @@ namespace Simias.Web
 		/// </param>
 		private static void RemoveAllSubscriptions(Store store, Collection col)
 		{
-            ICSList subList = store.GetNodesByProperty(
-                new Property(Subscription.SubscriptionCollectionIDProperty, col.ID),
-                SearchOp.Equal);
+			Domain domain = store.GetDomain(col.Domain);
+			if ((domain != null) && (domain.SupportsNewInvitation == false))
+			{
+				ICSList subList = store.GetNodesByProperty(
+					new Property(Subscription.SubscriptionCollectionIDProperty, col.ID),
+					SearchOp.Equal);
 
-            foreach(ShallowNode sn in subList)
-            {
-                Collection c = store.GetCollectionByID(sn.CollectionID);
-                if(c != null)
-                {
-                    c.Commit( c.Delete( new Node(c, sn) ) );
-                }
-            }
+				foreach(ShallowNode sn in subList)
+				{
+					Collection c = store.GetCollectionByID(sn.CollectionID);
+					if(c != null)
+					{
+						c.Commit( c.Delete( new Node(c, sn) ) );
+					}
+				}
+			}
 		}
-
 
 
 
@@ -1431,21 +1432,23 @@ namespace Simias.Web
 														Collection col,
 														string UserID)
 		{
-			// Get the member's POBox
-			Simias.POBox.POBox poBox = Simias.POBox.POBox.FindPOBox(store, 
-												col.Domain, 
-								UserID );
-			if (poBox != null)
+			Domain domain = store.GetDomain(col.Domain);
+			if((domain != null) && (domain.SupportsNewInvitation == false))
 			{
-				// Search for the matching subscription
-				Subscription sub = poBox.GetSubscriptionByCollectionID(col.ID);
-				if(sub != null)
+				// Get the member's POBox
+				Simias.POBox.POBox poBox = Simias.POBox.POBox.FindPOBox(store, col.Domain, UserID );
+				if (poBox != null)
 				{
-					poBox.Delete(sub);
-					poBox.Commit(sub);
+					// Search for the matching subscription
+					Subscription sub = poBox.GetSubscriptionByCollectionID(col.ID);
+					if(sub != null)
+					{
+						poBox.Commit(poBox.Delete(sub));
+					}
 				}
 			}
 		}
+#endif
 
 		private static bool ExcludeDirectory(Uri path, string excludeDirectory, bool deep)
 		{

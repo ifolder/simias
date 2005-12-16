@@ -21,6 +21,8 @@
  *
  ***********************************************************************/
 
+#if ( !REMOVE_OLD_INVITATION )
+
 using System;
 using System.Collections;
 using System.Net;
@@ -62,11 +64,6 @@ namespace Simias.POBox
 		private AutoResetEvent subEvent = new AutoResetEvent( false );
 
 		/// <summary>
-		/// Post office box for this service.
-		/// </summary>
-		private POBox poBox;
-
-		/// <summary>
 		/// Tells the subscription thread to exit.
 		/// </summary>
 		private bool killThread = false;
@@ -78,11 +75,8 @@ namespace Simias.POBox
 		/// <summary>
 		/// Constructor
 		/// </summary>
-		/// <param name="poBox">The POBox for this service.</param>
-		public SubscriptionService( POBox poBox )
+		public SubscriptionService()
 		{
-			this.poBox = poBox;
-
 			// Start the subscription service thread running.
 			Thread thread = new Thread( new ThreadStart( Run ) );
 			thread.IsBackground = true;
@@ -195,17 +189,17 @@ namespace Simias.POBox
 						{
 								// invited (master)
 							case SubscriptionStates.Invited:
-								done = DoInvited( qItem.Subscription );
+								done = DoInvited( qItem.POBox, qItem.Subscription );
 								break;
 
 								// replied (slave)
 							case SubscriptionStates.Replied:
-								done = DoReplied( qItem.Subscription );
+								done = DoReplied( qItem.POBox, qItem.Subscription );
 								break;
 
 								// delivered (slave)
 							case SubscriptionStates.Delivered:
-								done = DoDelivered( qItem.Subscription );
+								done = DoDelivered( qItem.POBox, qItem.Subscription );
 								break;
 						}
 
@@ -219,9 +213,6 @@ namespace Simias.POBox
 					}
 					else
 					{
-						// Sync the POBox before going to sleep.
-						Sync.SyncClient.ScheduleSync( poBox.ID );
-
 						// Wait for an item to be placed on the queue.
 						subEvent.WaitOne( waitTime, true );
 					}
@@ -234,7 +225,7 @@ namespace Simias.POBox
 			}
 		}
 
-		private bool DoInvited( Subscription subscription )
+		private bool DoInvited( POBox poBox, Subscription subscription )
 		{
 			bool result = false;
 			Store store = Store.GetStore();
@@ -303,9 +294,6 @@ namespace Simias.POBox
 				Node cNode = poBox.Refresh( subscription );
 				if ( cNode.MasterIncarnation == 0 )
 				{
-					// force the PO box to be sync'd right away
-					SyncClient.ScheduleSync( poBox.ID );
-
 					log.Debug(
 						"Failed POBoxService::Invite - inviter's subscription {0} hasn't sync'd to the server yet",
 						subscription.MessageID);
@@ -373,7 +361,7 @@ namespace Simias.POBox
 			return result;
 		}
 
-		private bool DoReplied( Subscription subscription )
+		private bool DoReplied( POBox poBox, Subscription subscription )
 		{
 			log.Debug( "DoReplied" );
 			log.Debug( "  calling the PO Box server to accept/reject subscription" );
@@ -546,7 +534,7 @@ namespace Simias.POBox
 			return result;
 		}
 
-		private bool DoDelivered( Subscription subscription )
+		private bool DoDelivered( POBox poBox, Subscription subscription )
 		{
 			bool result = false;
 			POBoxService poService = new POBoxService();
@@ -712,12 +700,13 @@ namespace Simias.POBox
 		/// Adds subscription information to be processed if it isn't already
 		/// being processed.
 		/// </summary>
+		/// <param name="poBox">The POBox associated with this subscription.</param>
 		/// <param name="subscription">The Subscription to process.</param>
 		/// <returns>True if the subscription was queued for processing. False
 		/// if the subscription was already being processed.</returns>
-		public bool QueueSubscription( Subscription subscription )
+		public bool QueueSubscription( POBox poBox, Subscription subscription )
 		{
-			bool exists = QueueSubscription( new SubQItem( subscription ) );
+			bool exists = QueueSubscription( new SubQItem( poBox, subscription ) );
 
 			// If the subscription was queued, signal the thread to process it.
 			if ( !exists )
@@ -763,6 +752,7 @@ namespace Simias.POBox
 
 			private Subscription subscription;
 			private DateTime processTime;
+			private POBox poBox;
 
 			#endregion
 
@@ -785,6 +775,14 @@ namespace Simias.POBox
 				set { processTime = value; }
 			}
 
+			/// <summary>
+			/// Gets the POBox associated with this instance.
+			/// </summary>
+			public POBox POBox
+			{
+				get { return poBox; }
+			}
+
 			#endregion
 
 			#region Constructor
@@ -792,9 +790,11 @@ namespace Simias.POBox
 			/// <summary>
 			/// Initializes an instance of the object.
 			/// </summary>
+			/// <param name="poBox">The POBox associated with this subscription.</param>
 			/// <param name="subscription">The subscription to be serviced.</param>
-			public SubQItem( Subscription subscription )
+			public SubQItem( POBox poBox, Subscription subscription )
 			{
+				this.poBox = poBox;
 				this.subscription = subscription;
 				this.processTime = DateTime.Now;
 			}
@@ -805,3 +805,5 @@ namespace Simias.POBox
 		#endregion
 	}
 }
+
+#endif
