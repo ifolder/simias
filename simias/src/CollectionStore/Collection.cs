@@ -687,10 +687,6 @@ namespace Simias.Storage
 							// Don't allow Journal nodes to be added.
 							if ( IsType( node, NodeTypes.JournalType ) )
 							{
-								// TODO: This needs to be handled in a different way ... the change is coming 
-								// from the client but we somehow need to "reverse" the change so that the
-								// client doesn't continue to request the change.
-
 								// TODO: Fix this message ... create a different exception?
 								throw new CollectionStoreException( "Creating a Journal node is not allowed." );
 							}
@@ -763,18 +759,38 @@ namespace Simias.Storage
 
 						case PropertyList.PropertyListState.Delete:
 						{
+							if ( IsType( node, NodeTypes.JournalType ) )
+							{
+								// If the file for this journal no longer exists, allow the delete to go through.
+								bool deletable = false;
+								StoreFileNode journal = new StoreFileNode( node );
+								if ( journal != null )
+								{
+									Property property = journal.Properties.GetSingleProperty( PropertyTags.JournalFor );
+									if ( property != null )
+									{
+										Node fNode = GetNodeByID( (( Relationship )property.Value).NodeID );
+										if ( (fNode == null) || IsType( fNode, NodeTypes.TombstoneType ) )
+										{
+											deletable = true;
+										}
+									}
+									else
+									{
+										deletable = true;
+									}
+								}
+
+								if ( !deletable )
+								{
+									// TODO: Fix this message ... create a different exception?
+									throw new CollectionStoreException( "Deleting a Journal node is not allowed." );
+								}
+							}
+
 							if ( IsType( node, NodeTypes.CollectionType ) )
 							{
 								deleteCollection = true;
-							}
-							else if ( IsType( node, NodeTypes.JournalType ) )
-							{
-								// TODO: This needs to be handled in a different way ... the change is coming 
-								// from the client but we somehow need to "reverse" the change so that the
-								// client doesn't continue to request the change.
-
-								// TODO: Fix this message ... create a different exception?
-								throw new CollectionStoreException( "Deleting a Journal node is not allowed." );
 							}
 							else
 							{
@@ -813,21 +829,24 @@ namespace Simias.Storage
 										// Copy the XML journal node over to the modify document.
 										commitDocument.DocumentElement.AppendChild( 
 											commitDocument.ImportNode( journal.Properties.PropertyRoot, true ) );
-									}
 
-									// Delete the journal associated with this file.
-									journal = GetJournalForNode( node );
-									if ( journal != null )
-									{
-										try
+										// Delete the journal associated with this file.
+										journal = GetJournalForNode( node );
+										if ( journal != null )
 										{
-											// Delete the file.
-											File.Delete( journal.GetFullPath( this ) );
-										}
-										catch {}
+											try
+											{
+												// Delete the file.
+												File.Delete( journal.GetFullPath( this ) );
+											}
+											catch {}
 
-										deleteDocument.DocumentElement.AppendChild(
-											deleteDocument.ImportNode( journal.Properties.PropertyRoot, true ) );
+											journal.Properties.State = PropertyList.PropertyListState.Delete;
+											journalNodeList.Add( journal );
+
+											deleteDocument.DocumentElement.AppendChild(
+												deleteDocument.ImportNode( journal.Properties.PropertyRoot, true ) );
+										}
 									}
 								}
 
@@ -867,10 +886,6 @@ namespace Simias.Storage
 							// Don't allow Journal nodes to be modified.
 							if ( IsType( node, NodeTypes.JournalType ) )
 							{
-								// TODO: This needs to be handled in a different way ... the change is coming 
-								// from the client but we somehow need to "reverse" the change so that the
-								// client doesn't continue to request the change.
-
 								// TODO: Fix this message ... create a different exception?
 								throw new CollectionStoreException( "Modifying a Journal node is not allowed." );
 							}
@@ -962,10 +977,6 @@ namespace Simias.Storage
 							// Don't allow Journal nodes to sync from the client.
 							if ( Role.Equals(SyncRoles.Master) && IsType( node, NodeTypes.JournalType ) )
 							{
-								// TODO: This needs to be handled in a different way ... the change is coming 
-								// from the client but we somehow need to "reverse" the change so that the
-								// client doesn't continue to request the change.
-
 								// TODO: Fix this message ... create a different exception?
 								throw new CollectionStoreException( "Importing a Journal node from the client to the server is not allowed." );
 							}
@@ -1093,6 +1104,7 @@ namespace Simias.Storage
 							if ( Role.Equals(SyncRoles.Master) && 
 								( IsType( node, NodeTypes.FileNodeType ) || IsType( node, NodeTypes.DirNodeType ) ) )
 							{
+								// TODO: need to implement this functionality.
 							}
 
 							// Copy the XML node over to the modify document.
