@@ -1,6 +1,5 @@
 EXTRA_DIST = external
 
-
 libdir=${webbindir}
 
 lib_LTLIBRARIES = libsimiasbonjour.la
@@ -19,6 +18,12 @@ endif
 
 #libsimias_la_CFLAGS = \
 #	-I$(top_srcdir)
+
+install-exec-hook:
+if !WINDOWS
+	rm -f $(DESTDIR)$(libdir)/libsimiasbonjour.a
+	rm -f $(DESTDIR)$(libdir)/libsimiasbonjour.la
+endif
 
 clean-local:
 	rm -rf $(COMMON_CLEAN_FILES)
