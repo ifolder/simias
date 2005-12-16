@@ -76,8 +76,8 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 150686971;
-			PBXWorkspaceStateSaveDate = 150686971;
+			PBXPerProjectTemplateStateSaveDate = 156464614;
+			PBXWorkspaceStateSaveDate = 156464614;
 		};
 		sourceControlManager = 3EBAC45B08F5758D00AE1526 /* Source Control */;
 		userBuildSettings = {
@@ -157,14 +157,6 @@
 			sepNavWindowFrame = "{{293, 134}, {627, 797}}";
 		};
 	};
-	3EBAC46808F575EB00AE1526 /* simias.h */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {502, 1302}}";
-			sepNavSelRange = "{2902, 0}";
-			sepNavVisRect = "{{0, 727}, {502, 575}}";
-			sepNavWindowFrame = "{{276, 42}, {547, 704}}";
-		};
-	};
 	3EBAC47308F5763300AE1526 /* simiasweb.nsmap */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1007, 669}}";
@@ -194,10 +186,9 @@
 		);
 		argumentStrings = (
 		);
+		autoAttachOnCrash = 1;
 		configStateDict = {
 		};
-		cppStopOnCatchEnabled = 0;
-		cppStopOnThrowEnabled = 0;
 		customDataFormattersEnabled = 1;
 		debuggerPlugin = GDBDebugging;
 		disassemblyDisplayState = 0;
@@ -216,10 +207,10 @@
 	};
 	3EBAC49708F5785400AE1526 /* test.c */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {535, 9814}}";
-			sepNavSelRange = "{10609, 0}";
-			sepNavVisRect = "{{0, 7622}, {535, 590}}";
-			sepNavWindowFrame = "{{336, 42}, {629, 704}}";
+			sepNavIntBoundsRect = "{{0, 0}, {848, 9828}}";
+			sepNavSelRange = "{11619, 54}";
+			sepNavVisRect = "{{0, 8800}, {848, 647}}";
+			sepNavWindowFrame = "{{277, 226}, {893, 776}}";
 		};
 	};
 	3ED013F008FB4D310006E0D9 /* simias_property.c */ = {
