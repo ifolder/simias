@@ -802,8 +802,9 @@ namespace Simias.Sync
 						BaseFileNode unode = (BaseFileNode)collection.GetNodeByID(Path.GetFileName(file));
 						if (unode != null)
 						{
-							// Don't allow journal files to be updated from the client.
-							if (!collection.IsType(unode, "Journal"))
+							// Don't allow journal files (or temporary journal files) to be updated from the client.
+							if (!collection.IsType(unode, "Journal") &&
+								!collection.IsType(unode, NodeTypes.FileNodeType))
 							{
 								DateTime lastWrote = File.GetLastWriteTime(file);
 								DateTime created = File.GetCreationTime(file);
