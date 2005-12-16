@@ -256,7 +256,7 @@ namespace Simias.DomainService.Web
 
 				// Only look for collections from the specified domain and
 				// don't allow this user's membership from being removed from the domain.
-				if ( ( c.Domain == domainID ) && !c.IsBaseType( c, Simias.Client.NodeTypes.DomainType ) )
+				if ( ( c.Domain == domainID ) && !c.IsBaseType( Simias.Client.NodeTypes.DomainType ) )
 				{
 					Member member = c.GetMemberByID(userID);
 					if (member != null)

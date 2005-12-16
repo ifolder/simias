@@ -280,6 +280,11 @@ namespace Simias.Storage
 		/// Well known property name.
 		/// </summary>
 		static public string PrivateKey = "PrivateKey";
+
+		/// <summary>
+		/// Well known property name.
+		/// </summary>
+		static public string DomainVersion = "DomainVersion";
 		
 		
 		/// <summary>
@@ -347,6 +352,7 @@ namespace Simias.Storage
 			systemPropertyTable.Add( PrivateAddress, null);
 			systemPropertyTable.Add( PublicAddress, null);
 			systemPropertyTable.Add( PrivateKey, null);
+			systemPropertyTable.Add( DomainVersion, null );
 		}
 		#endregion
 

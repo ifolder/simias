@@ -433,18 +433,8 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\POBox\POBoxManager.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "src\POBox\POBoxServiceProxy.cs"
                     SubType = "code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "src\POBox\POManager.cs"
-                    SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File

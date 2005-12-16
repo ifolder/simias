@@ -324,7 +324,9 @@ namespace Simias.POBox
 		/// <returns>A Subscription object.  This object must be added to the POBox using one of the AddMessage() methods.</returns>
 		public Subscription CreateSubscription(Collection collection, Member fromMember, string type)
 		{
-			Subscription subscription = new Subscription(collection.Name + " Subscription", Message.OutboundMessage, fromMember.UserID);
+			// Get the domain for this collection.
+			Domain domain = Store.GetStore().GetDomain( collection.Domain );
+			Subscription subscription = new Subscription(domain, collection.Name + " Subscription", Message.OutboundMessage, fromMember.UserID);
 
 			subscription.FromName = fromMember.Name;
 			subscription.FromIdentity = fromMember.UserID;
@@ -332,7 +334,7 @@ namespace Simias.POBox
 			subscription.SubscriptionCollectionName = collection.Name;
 			subscription.SubscriptionCollectionID = collection.ID;
 			subscription.DomainID = collection.Domain;
-			subscription.DomainName = collection.StoreReference.GetDomain(collection.Domain).Name;
+			subscription.DomainName = domain.Name;
 			subscription.SubscriptionCollectionType = type;
 			subscription.SubscriptionKey = Guid.NewGuid().ToString();
 			subscription.Originator = collection.StoreReference.LocalDomain;
