@@ -20,8 +20,8 @@
  *  Author: Calvin Gaisford <cgaisford@novell.com>
  * 
  ***********************************************************************/
-#ifndef _SIMIAS_H
-#define _SIMIAS_H
+#ifndef _SIMIAS2_H
+#define _SIMIAS2_H
 
 #include <stdbool.h>
 
@@ -108,4 +108,4 @@ int simias_property_extract_property(SimiasNode hNode,
 									  int index);
 
 
-#endif	// _SIMIAS_H
+#endif	// _SIMIAS2_H
