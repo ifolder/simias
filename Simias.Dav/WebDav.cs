@@ -72,7 +72,10 @@ namespace Simias.Dav
 					else
 					if ( method == "propfind" )
 					{
-						response.StatusCode = (int) HttpStatusCode.BadRequest;
+						PropertyFind pf = new PropertyFind( context );
+						pf.ProcessRequest();
+						pf.Write();
+						pf = null;
 					}
 					else
 					if ( method == "options" )
@@ -98,8 +101,10 @@ namespace Simias.Dav
 				//Sync.Log.log.Debug("Request Failed exception\n{0}\n{1}", ex.Message, ex.StackTrace);
 				throw ex;
 			}
-			
-			response.End();
+			finally
+			{
+				response.End();
+			}
 		}
 
 		public bool IsReusable

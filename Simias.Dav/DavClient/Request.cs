@@ -49,9 +49,9 @@ namespace Novell.DavClient
 		private string password = null;
 		private string username = null;
 		private Uri serverUri = null;
+		private string resource = null;
 		private ArrayList headers;
 		static internal readonly string xmlHeader = "<?xml version=\"1.0\" encoding=\"utf-8\" ?>";
-		private readonly string contentTypeHeader = "Content-type";
 		private readonly string contentType = "text/xml; charset=\"utf-8\"";
 		#endregion
 	
@@ -73,6 +73,12 @@ namespace Novell.DavClient
 		{
 			get{ return serverUri; }
 			set{ serverUri = value; }
+		}
+		
+		public string Resource
+		{
+			get{ return resource; }
+			set{ resource = value; }
 		}
 		
 		public string Username
@@ -145,7 +151,17 @@ namespace Novell.DavClient
 		
 		public virtual void Send()
 		{
-			request = WebRequest.Create( serverUri ) as HttpWebRequest;
+			if ( resource != null )
+			{
+				Uri requestUri = new Uri( serverUri.ToString() + resource );
+				Console.WriteLine( "request URI: " + requestUri.ToString() );
+				request = WebRequest.Create( requestUri ) as HttpWebRequest;
+			}
+			else
+			{
+				request = WebRequest.Create( serverUri ) as HttpWebRequest;
+			}
+				
 
 			request.CookieContainer = cookies;
 
@@ -155,8 +171,7 @@ namespace Novell.DavClient
 			
 			request.Credentials = creds;
 			request.PreAuthenticate = true;
-			
-			request.Headers.Add( "Content-type", contentType ); 
+			request.ContentType = contentType;
 			
 			foreach( HttpHeader header in headers )
 			{
@@ -164,20 +179,19 @@ namespace Novell.DavClient
 			}
 			
 			request.Method = method;
+			request.ProtocolVersion = HttpVersion.Version11;
 			request.ContentLength = contentLength;
 			
 			try
 			{
-				if ( contentLength != 0 && content != "" )
+				if ( contentLength > 0 && content != "" )
 				{
 					StreamWriter s = new StreamWriter( request.GetRequestStream(), Encoding.UTF8 );
+					//StreamWriter s = new StreamWriter( request.GetRequestStream(), Encoding.ASCII );
                     s.Write( content );
                     s.Close();				
 				}
-				else
-				{
-					request.GetRequestStream().Close();
-				}
+				request.GetRequestStream().Close();
 				
 				response = request.GetResponse() as HttpWebResponse;
 				if ( response != null )
