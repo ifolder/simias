@@ -37,7 +37,7 @@ $(srcdir)/simiasClientLib.c: $(srcdir)/libsimias.h
 	$(GSOAP_PATH)/soapcpp2 -c -n -psimias $(srcdir)/libsimias.h
 
 install-exec-hook:
-if LINUX
+if !WINDOWS
 	rm -f $(DESTDIR)$(libdir)/libsimias.a
 	rm -f $(DESTDIR)$(libdir)/libsimias.la
 endif

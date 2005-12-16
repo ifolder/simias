@@ -89,10 +89,6 @@ libFlaimWrapper_la_CXXFLAGS = -I "../../../external/flaim/include" -fshort-wchar
 
 libFlaimWrapper_la_LDFLAGS = -L"../../../external/flaim/lxx86/gcc3/release" -lflm
 
-install-exec-hook:
-	rm -f $(DESTDIR)$(libdir)/libFlaimWrapper.a
-	rm -f $(DESTDIR)$(libdir)/libFlaimWrapper.la
-
 install-exec-local: libFlaimWrapper.la
 	$(mkinstalldirs) $(DESTDIR)$(webbindir)
 	if test -e $(DESTDIR)$(webbindir)/FlaimWrapper$(SHARED_LIB_EXT); then \
@@ -121,6 +117,10 @@ uninstall-local:
 	cd $(DESTDIR)$(webbindir); rm -f FlaimWrapper
 
 endif
+
+install-exec-hook:
+	rm -f $(DESTDIR)$(libdir)/libFlaimWrapper.a
+	rm -f $(DESTDIR)$(libdir)/libFlaimWrapper.la
 
 endif
 	

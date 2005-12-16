@@ -17,8 +17,8 @@ libsimias_event_la_CFLAGS = \
 	$(XML2_CFLAGS)
 endif
 
+if !WINDOWS
 install-exec-hook:
-if LINUX
 	rm -f $(DESTDIR)$(libdir)/libsimias-event.a
 	rm -f $(DESTDIR)$(libdir)/libsimias-event.la
 endif
