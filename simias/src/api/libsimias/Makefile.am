@@ -23,11 +23,11 @@ libsimias2_la_CFLAGS = \
 libsimias2_la_LDFLAGS = \
 	$(XML2_LIBS)
 
-#if LINUX
-#bin_PROGRAMS = testapi
-#testapi_SOURCES = test.c
-#LDADD = libsimias2.la
-#endif
+if DARWIN
+bin_PROGRAMS = testapi
+testapi_SOURCES = test.c
+LDADD = libsimias2.la
+endif
 
 envC.c: $(srcdir)/stdsoap2.c
 	> $(srcdir)/env.h
@@ -47,6 +47,7 @@ if !WINDOWS
 install-exec-hook:
 	rm -f $(DESTDIR)$(libdir)/libsimias2.a
 	rm -f $(DESTDIR)$(libdir)/libsimias2.la
+	rm -f $(DESTDIR)$(bindir)/testapi
 endif
 	
 install-exec-local:
