@@ -1,5 +1,6 @@
 EXTRA_DIST = external
 
+
 libdir=${webbindir}
 
 lib_LTLIBRARIES = libsimiasbonjour.la
