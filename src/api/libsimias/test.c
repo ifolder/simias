@@ -10,7 +10,7 @@
 #include <sys/types.h>
 #include <sys/timeb.h>
 
-#include "simias.h"
+#include "simias2.h"
 
 #define TEST_LOOP_COUNT 20
 

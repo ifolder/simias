@@ -20,7 +20,7 @@
  *  Author: Calvin Gaisford <cgaisford@novell.com>
  * 
  ***********************************************************************/
-#include "simias.h"
+#include "simias2.h"
 #include "simias_internal.h"
 
 #include <stdlib.h>
