@@ -11,6 +11,7 @@
 		3E27D43908F58FC3005699A7 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E27D43808F58FC3005699A7 /* libxml2.dylib */; };
 		3E27D54A08F5CDF1005699A7 /* simias_node.c in Sources */ = {isa = PBXBuildFile; fileRef = 3E27D54808F5CDF1005699A7 /* simias_node.c */; };
 		3E27D54B08F5CDF1005699A7 /* simias_nodelist.c in Sources */ = {isa = PBXBuildFile; fileRef = 3E27D54908F5CDF1005699A7 /* simias_nodelist.c */; };
+		3EB590170953765200DB2625 /* simias2.h in Headers */ = {isa = PBXBuildFile; fileRef = 3EB590160953765200DB2625 /* simias2.h */; };
 		3EBAC45E08F575AD00AE1526 /* envC.c in Sources */ = {isa = PBXBuildFile; fileRef = 3EBAC45D08F575AD00AE1526 /* envC.c */; };
 		3EBAC46008F575CE00AE1526 /* simiaswebClientLib.c in Sources */ = {isa = PBXBuildFile; fileRef = 3EBAC45F08F575CE00AE1526 /* simiaswebClientLib.c */; };
 		3EBAC46208F575DD00AE1526 /* stdsoap2.c in Sources */ = {isa = PBXBuildFile; fileRef = 3EBAC46108F575DD00AE1526 /* stdsoap2.c */; };
@@ -18,7 +19,6 @@
 		3EBAC46A08F575EB00AE1526 /* simias_handle.c in Sources */ = {isa = PBXBuildFile; fileRef = 3EBAC46408F575EB00AE1526 /* simias_handle.c */; };
 		3EBAC46B08F575EB00AE1526 /* simias_internal.c in Sources */ = {isa = PBXBuildFile; fileRef = 3EBAC46508F575EB00AE1526 /* simias_internal.c */; };
 		3EBAC46C08F575EB00AE1526 /* simias_internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 3EBAC46608F575EB00AE1526 /* simias_internal.h */; };
-		3EBAC46E08F575EB00AE1526 /* simias.h in Headers */ = {isa = PBXBuildFile; fileRef = 3EBAC46808F575EB00AE1526 /* simias.h */; };
 		3EBAC47708F5767600AE1526 /* simiaswebStub.h in Headers */ = {isa = PBXBuildFile; fileRef = 3EBAC47608F5767600AE1526 /* simiaswebStub.h */; };
 		3EBAC47908F5767D00AE1526 /* stdsoap2.h in Headers */ = {isa = PBXBuildFile; fileRef = 3EBAC47808F5767D00AE1526 /* stdsoap2.h */; };
 		3EBAC49808F5785400AE1526 /* test.c in Sources */ = {isa = PBXBuildFile; fileRef = 3EBAC49708F5785400AE1526 /* test.c */; };
@@ -64,6 +64,7 @@
 		3E27D43808F58FC3005699A7 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = file; name = libxml2.dylib; path = /Users/calvin/libxml2.dylib; sourceTree = "<absolute>"; };
 		3E27D54808F5CDF1005699A7 /* simias_node.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = simias_node.c; sourceTree = "<group>"; };
 		3E27D54908F5CDF1005699A7 /* simias_nodelist.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = simias_nodelist.c; sourceTree = "<group>"; };
+		3EB590160953765200DB2625 /* simias2.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = simias2.h; sourceTree = "<group>"; };
 		3EBAC45D08F575AD00AE1526 /* envC.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = envC.c; sourceTree = "<group>"; };
 		3EBAC45F08F575CE00AE1526 /* simiaswebClientLib.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = simiaswebClientLib.c; sourceTree = "<group>"; };
 		3EBAC46108F575DD00AE1526 /* stdsoap2.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = stdsoap2.c; sourceTree = "<group>"; };
@@ -71,7 +72,6 @@
 		3EBAC46408F575EB00AE1526 /* simias_handle.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = simias_handle.c; sourceTree = "<group>"; };
 		3EBAC46508F575EB00AE1526 /* simias_internal.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = simias_internal.c; sourceTree = "<group>"; };
 		3EBAC46608F575EB00AE1526 /* simias_internal.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = simias_internal.h; sourceTree = "<group>"; };
-		3EBAC46808F575EB00AE1526 /* simias.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = simias.h; sourceTree = "<group>"; };
 		3EBAC47308F5763300AE1526 /* simiasweb.nsmap */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = simiasweb.nsmap; sourceTree = "<group>"; };
 		3EBAC47608F5767600AE1526 /* simiaswebStub.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = simiaswebStub.h; sourceTree = "<group>"; };
 		3EBAC47808F5767D00AE1526 /* stdsoap2.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = stdsoap2.h; sourceTree = "<group>"; };
@@ -115,6 +115,7 @@
 		08FB7795FE84155DC02AAC07 /* libsimias */ = {
 			isa = PBXGroup;
 			children = (
+				3EB590160953765200DB2625 /* simias2.h */,
 				3EBAC47608F5767600AE1526 /* simiaswebStub.h */,
 				3EBAC47308F5763300AE1526 /* simiasweb.nsmap */,
 				3ED013EE08FB4D1E0006E0D9 /* simias_collection.c */,
@@ -125,7 +126,6 @@
 				3E27D54908F5CDF1005699A7 /* simias_nodelist.c */,
 				3EBAC46608F575EB00AE1526 /* simias_internal.h */,
 				3ED013F008FB4D310006E0D9 /* simias_property.c */,
-				3EBAC46808F575EB00AE1526 /* simias.h */,
 				3EBAC47808F5767D00AE1526 /* stdsoap2.h */,
 				3EBAC46108F575DD00AE1526 /* stdsoap2.c */,
 				3EBAC45F08F575CE00AE1526 /* simiaswebClientLib.c */,
@@ -160,9 +160,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				3EBAC46C08F575EB00AE1526 /* simias_internal.h in Headers */,
-				3EBAC46E08F575EB00AE1526 /* simias.h in Headers */,
 				3EBAC47708F5767600AE1526 /* simiaswebStub.h in Headers */,
 				3EBAC47908F5767D00AE1526 /* stdsoap2.h in Headers */,
+				3EB590170953765200DB2625 /* simias2.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -308,6 +308,7 @@
 				INSTALL_PATH = /usr/local/lib;
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../../../../../..\"";
 				LIBRARY_STYLE = DYNAMIC;
+				MACH_O_TYPE = mh_dylib;
 				PREBINDING = NO;
 				PRODUCT_NAME = libsimias2;
 				ZERO_LINK = YES;
@@ -329,6 +330,7 @@
 				INSTALL_PATH = /usr/local/lib;
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../../../../../..\"";
 				LIBRARY_STYLE = DYNAMIC;
+				MACH_O_TYPE = mh_dylib;
 				PREBINDING = NO;
 				PRODUCT_NAME = libsimias2;
 				ZERO_LINK = NO;
@@ -348,6 +350,7 @@
 				INSTALL_PATH = /usr/local/lib;
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../../../../../..\"";
 				LIBRARY_STYLE = DYNAMIC;
+				MACH_O_TYPE = mh_dylib;
 				PREBINDING = NO;
 				PRODUCT_NAME = libsimias2;
 			};
@@ -479,6 +482,7 @@
 				3EBAC49608F5783E00AE1526 /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
 		};
 /* End XCConfigurationList section */
 	};
