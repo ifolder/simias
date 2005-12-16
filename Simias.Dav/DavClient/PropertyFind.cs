@@ -64,8 +64,8 @@ namespace Novell.DavClient
 		
 		
 		#region Constructors	
-		public PropertyFind( string ServerUri, string Resource, string Username, string Password ) :
-			base( ServerUri, Username, Password )
+		public PropertyFind( WebState State, string Resource ) :
+			base( State )
 		
 		{
 			this.resourcePath = Resource;
@@ -73,8 +73,8 @@ namespace Novell.DavClient
 			this.properties = new ArrayList();
 		}
 		
-		public PropertyFind( string ServerUri, string Resource, string Username, string Password, bool All ) :
-			base( ServerUri, Username, Password )
+		public PropertyFind( WebState State, string Resource, bool All ) :
+			base( State )
 		
 		{
 			this.resourcePath = Resource;

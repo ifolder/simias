@@ -9,9 +9,29 @@ class MainClass
 {
 	public static void Main(string[] args)
 	{
-		Console.WriteLine( "Sending OPTIONS" );
+		string service = "http://192.168.1.99:8086/simias10/sdav.ashx";
+		string username = "banderso";
+		string password = "novell";
 		
-		Novell.DavClient.Options options = new Novell.DavClient.Options( "http://192.168.1.99:8086/simias10/sdav.ashx", "banderso", "tarmac2005" );
+		if ( args.Length > 0 && args[0] != null )
+		{
+			service = args[0];
+		}
+		
+		if ( args.Length > 1 && args[1] != null )
+		{
+			username = args[1];
+		}
+		
+		if ( args.Length > 2 && args[2] != null )
+		{
+			password = args[2];
+		}
+		
+		Novell.DavClient.WebState state = new WebState( service, username, password );
+		
+		Console.WriteLine( "Sending OPTIONS" );
+		Novell.DavClient.Options options = new Novell.DavClient.Options( state );
 		Console.WriteLine( " sending request" );
 		options.Send();
 		Console.WriteLine( " send complete - status: " + options.ResponseStatus.ToString() );
@@ -23,7 +43,7 @@ class MainClass
 			
 			// Send an "allprop" request
 			Console.WriteLine( "Sending PROPFIND - allprop" );
-			PropertyFind pf = new PropertyFind( "http://192.168.1.99:8086/simias10/sdav.ashx", "/", "banderso", "tarmac2005", true );
+			PropertyFind pf = new PropertyFind( state, "/", true );
 			Console.WriteLine( " sending request" );
 			pf.Send();
 			Console.WriteLine( " send complete - status: " + options.ResponseStatus.ToString() );

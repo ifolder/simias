@@ -39,17 +39,14 @@ namespace Novell.DavClient
 		}
 		
 		#region Class Members
-		private CookieContainer cookies;
 		private HttpWebResponse response = null;
 		private HttpWebRequest request = null;
 		private	HttpStatusCode status = 0;
 		private int contentLength = 0;
 		private string content = "";
 		private string method = null;
-		private string password = null;
-		private string username = null;
-		private Uri serverUri = null;
 		private string resource = null;
+		private WebState webState =  null;
 		private ArrayList headers;
 		static internal readonly string xmlHeader = "<?xml version=\"1.0\" encoding=\"utf-8\" ?>";
 		private readonly string contentType = "text/xml; charset=\"utf-8\"";
@@ -63,28 +60,10 @@ namespace Novell.DavClient
 			set{ method = value.ToUpper(); }
 		}
 		
-		public string Password
-		{
-			get{ return password; }
-			set{ password = value; }
-		}
-		
-		public Uri ServerUri
-		{
-			get{ return serverUri; }
-			set{ serverUri = value; }
-		}
-		
 		public string Resource
 		{
 			get{ return resource; }
 			set{ resource = value; }
-		}
-		
-		public string Username
-		{
-			get{ return username; }
-			set{ username = value; }
 		}
 		
 		public HttpStatusCode ResponseStatus
@@ -105,14 +84,9 @@ namespace Novell.DavClient
 		#endregion
 		
 		#region Constructors
-		public Request( string ServerUrl, string Username, string Password )
+		public Request( WebState State )
 		{
-			serverUri = new Uri( ServerUrl );
-			username = Username;
-			password = Password;
-			
-			cookies = new CookieContainer();
-			
+			webState = State;
 			headers = new ArrayList();
 			method = "POST";
 		}
@@ -153,24 +127,16 @@ namespace Novell.DavClient
 		{
 			if ( resource != null )
 			{
-				Uri requestUri = new Uri( serverUri.ToString() + resource );
+				Uri requestUri = new Uri( webState.ServiceUrl + resource );
 				Console.WriteLine( "request URI: " + requestUri.ToString() );
 				request = WebRequest.Create( requestUri ) as HttpWebRequest;
 			}
 			else
 			{
-				request = WebRequest.Create( serverUri ) as HttpWebRequest;
+				request = WebRequest.Create( webState.ServiceUrl ) as HttpWebRequest;
 			}
 				
-
-			request.CookieContainer = cookies;
-
-			NetworkCredential creds = new NetworkCredential();
-			creds.UserName = this.username;
-			creds.Password = this.password;
-			
-			request.Credentials = creds;
-			request.PreAuthenticate = true;
+			webState.SetRequestState( request );
 			request.ContentType = contentType;
 			
 			foreach( HttpHeader header in headers )

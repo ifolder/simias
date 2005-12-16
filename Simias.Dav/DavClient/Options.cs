@@ -32,13 +32,11 @@ namespace Novell.DavClient
 	public class Options : Request
 	{
 	
-		public Options( string ServerUri, string Username, string Password ) :
-			base( ServerUri, Username, Password )
+		public Options( WebState State ) :
+			base( State )
 		
 		{
 			this.Method = "OPTIONS";
-			
-		
 		}
 	}
 }
