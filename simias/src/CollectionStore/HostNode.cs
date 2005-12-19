@@ -80,38 +80,6 @@ namespace Simias.Storage
 				Properties.ModifyNodeProperty(new Property(PropertyTags.PrivateAddress, value));
 			}
 		}
-
-		/// <summary>
-		/// Gets the public key for this host.
-		/// </summary>
-		public new string PublicKey
-		{
-			get
-			{
-				Property pa = Properties.GetSingleProperty(PropertyTags.PublicKey);
-				if (pa != null)
-				{
-					return pa.Value.ToString();
-				}
-				throw new NotExistException(PropertyTags.PublicKey);
-			}
-		}
-
-		/// <summary>
-		/// Gets the private key for this host.
-		/// </summary>
-		internal string PrivateKey
-		{
-			get
-			{
-				Property pa = Properties.GetSingleProperty(PropertyTags.PrivateKey);
-				if (pa != null)
-				{
-					return pa.Value.ToString();
-				}
-				throw new NotExistException(PropertyTags.PublicKey);
-			}
-		}
 		#endregion
 
 		#region Consturctors
@@ -119,10 +87,11 @@ namespace Simias.Storage
 		/// Construct a new host node.
 		/// </summary>
 		/// <param name="name">The name of the host.</param>
+		/// <param name="userId">Unique identifier for the user.</param>
 		/// <param name="publicAddress">The public address for the host.</param>
 		/// <param name="privateAddress">The private address for the host.</param>
-		public HostNode(string name, string publicAddress, string privateAddress) :
-			this(name, Guid.NewGuid().ToString(), publicAddress, privateAddress, null)
+		public HostNode(string name, string userId, string publicAddress, string privateAddress) :
+			this(name, userId, publicAddress, privateAddress, null)
 		{
 		}
 
@@ -130,30 +99,28 @@ namespace Simias.Storage
 		/// Construct a new host node.
 		/// </summary>
 		/// <param name="name">The name of the host.</param>
-		/// <param name="guid">The ID for this node.</param>
+		/// <param name="userId">Unique identifier for the user.</param>
 		/// <param name="publicAddress">The public address for the host.</param>
 		/// <param name="privateAddress">The private address for the host.</param>
 		/// <param name="publicKey"></param>
-		public HostNode(string name, string guid, string publicAddress, string privateAddress, string publicKey) :
-			base(name, guid, Access.Rights.Admin)
+		public HostNode(string name, string userId, string publicAddress, string privateAddress, RSACryptoServiceProvider publicKey) :
+			base(name, userId, Access.Rights.Admin, publicKey)
 		{
 			// Set the Addresses.
 			//Properties.ModifyProperty(new Property(PropertyTags.Types, 
 			PublicAddress = publicAddress;
 			PrivateAddress = privateAddress;
-			if (publicKey != null)
-			{
-				Properties.ModifyNodeProperty(new Property(PropertyTags.PublicKey, publicKey));
-			}
+			Properties.AddNodeProperty(new Property(PropertyTags.Types, HostNodeType));
 		}
 
 		/// <summary>
 		/// Consturct a new host node.
 		/// </summary>
 		/// <param name="name">The name of the host.</param>
+		/// <param name="userId">Unique identifier for the user.</param>
 		/// <param name="publicAddress">The public address for the host.</param>
-		public HostNode(string name, string publicAddress) :
-			this(name, publicAddress, publicAddress)
+		public HostNode(string name, string userId, string publicAddress) :
+			this(name, userId, publicAddress, publicAddress)
 		{
 		}
 
@@ -199,17 +166,5 @@ namespace Simias.Storage
 			}
 		}
 		#endregion
-
-		/// <summary>
-		/// Create a key pair for this HostNode.
-		/// </summary>
-		public void CreateKeys()
-		{
-			RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
-			Property privKey = new Property(PropertyTags.PrivateKey, rsa.ToXmlString(true));
-			privKey.LocalProperty = true;
-			Properties.ModifyNodeProperty(privKey);
-			Properties.ModifyNodeProperty(new Property(PropertyTags.PublicKey, rsa.ToXmlString(false)));
-		}
 	}
 }
