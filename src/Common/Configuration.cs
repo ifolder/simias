@@ -37,7 +37,6 @@ namespace Simias
 	public sealed class Configuration
 	{
 		#region Class Members
-
 		public const string DefaultConfigFileName = "Simias.config";
 
 		private const string SectionTag = "section";
@@ -64,11 +63,18 @@ namespace Simias
 			
 			if ( !isServer )
 			{
-				// See if there is an overriding Simias.config file in the client's data
-				// directory. If not, then get the global copy.
-				if ( !File.Exists( configFilePath ) )
+				lock ( typeof ( Configuration ) )
 				{
-					configFilePath = Path.Combine( SimiasSetup.sysconfdir, DefaultConfigFileName );
+					// See if there is an overriding Simias.config file in the client's data
+					// directory. If not, then get the global copy.
+					if ( !File.Exists( configFilePath ) || !IsValidConfigurationFile( configFilePath ) )
+					{
+						configFilePath = Path.Combine( SimiasSetup.sysconfdir, DefaultConfigFileName );
+					}
+					else
+					{
+						Console.Error.WriteLine( "Global configuration file: {0} is being overriden by a local copy.", DefaultConfigFileName );
+					}
 				}
 			}
 
@@ -106,6 +112,26 @@ namespace Simias
 			}
 
 			return keyElement;
+		}
+
+		private bool IsValidConfigurationFile( string configFilePath )
+		{
+			bool isValid = false;
+			try
+			{
+				// Load the configuration document from the file.
+				configDoc = new XmlDocument();
+				configDoc.Load( configFilePath );
+
+				// Look for a known tag that is not in the old configuration file
+				// and look for an old tag that is not in the new configuration file.
+				isValid = ( ( GetSection( "Authentication" ) != null ) && ( GetSection( "ServiceManager" ) == null ) );
+				configDoc = null;
+			}
+			catch
+			{}
+
+			return isValid;
 		}
 
 		private bool KeyExists( string section, string key )
