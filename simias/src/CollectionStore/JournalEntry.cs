@@ -121,7 +121,7 @@ namespace Simias.Storage
 		{
 		}
 
-		public JournalEntry(XmlNode xmlNode, Collection collection)
+		public JournalEntry(XmlNode xmlNode)
 		{
 			type = xmlNode.Name;
 			XmlAttribute attr;
@@ -132,35 +132,9 @@ namespace Simias.Storage
 				switch (attr.Name)
 				{
 					case "fnID":
-/*						Node node = collection.GetNodeByID( attr.Value );
-						if ( node != null )
-						{
-							if ( collection.IsType( node, NodeTypes.FileNodeType ) )
-							{
-								FileNode fileNode = new FileNode( node );
-								if ( fileNode != null )
-								{
-									fileName = fileNode.GetRelativePath();
-								}
-							}
-							else 
-							{
-								DirNode dirNode = new DirNode( node );
-								if ( dirNode != null )
-								{
-									fileName = dirNode.GetRelativePath();
-								}
-							}
-						}*/
 						fileID = attr.Value;
 						break;
 					case "userID":
-/*						Domain domain = collection.StoreReference.GetDomain( collection.Domain );
-						if ( domain != null )
-						{
-							Member member = domain.GetMemberByID( attr.Value );
-							userName = member.FN != null ? member.FN : member.Name;
-						}*/
 						userID = attr.Value;
 						break;
 					case "path":

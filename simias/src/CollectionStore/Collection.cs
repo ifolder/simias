@@ -2350,6 +2350,220 @@ namespace Simias.Storage
 		}
 
 		/// <summary>
+		/// End the search for journal entries.
+		/// </summary>
+		/// <param name="searchContext">Domain provider specific search context returned by FindFirstJournalEntries or
+		/// FindNextJournalEntries methods.</param>
+		public void FindCloseJournalEntries( string searchContext )
+		{
+			// See if there is a valid search context.
+			SearchState searchState = SearchState.GetSearchState( searchContext );
+			if ( searchState != null )
+			{
+				searchState.Dispose();
+			}
+		}
+
+		/// <summary>
+		/// Starts a search for journal entries.
+		/// </summary>
+		/// <param name="collectionID">The identifier of the collection to search for members in.</param>
+		/// <param name="count">Maximum number of JournalEntry objects to return.</param>
+		/// <param name="searchContext">Receives a provider specific search context object. This object must be serializable.</param>
+		/// <param name="journalList">Receives an array object that contains the JournalEntry objects.</param>
+		/// <param name="total">Receives the total number of objects found in the search.</param>
+		/// <returns>True if there are more journal entries. Otherwise false is returned.</returns>
+		public bool FindFirstJournalEntries( int count, out string searchContext, out JournalEntry[] journalList, out int total )
+		{
+			bool moreEntries = false;
+
+			// Initialize the outputs.
+			searchContext = null;
+			journalList = null;
+			total = 0;
+
+			ICSList list = GetJournalEntriesForCollection();
+			SearchState searchState = new SearchState( ID, list.GetEnumerator() as ICSEnumerator, list.Count );
+			searchContext = searchState.ContextHandle;
+			total = list.Count;
+			moreEntries = FindNextJournalEntries( ref searchContext, count, out journalList );
+
+			return moreEntries;
+		}
+
+		/// <summary>
+		/// Continues the search for journal entries from the current record location.
+		/// </summary>
+		/// <param name="searchContext">Domain provider specific search context returned by FindFirstJournalEntries method.</param>
+		/// <param name="count">Maximum number of member objects to return.</param>
+		/// <param name="journalList">Receives an array object that contains the JournalEntry objects.</param>
+		/// <returns>True if there are more journal entries. Otherwise false is returned.</returns>
+		public bool FindNextJournalEntries( ref string searchContext, int count, out JournalEntry[] journalList )
+		{
+			bool moreEntries = false;
+
+			// Initialize the outputs.
+			journalList = null;
+
+			// See if there is a valid search context.
+			SearchState searchState = SearchState.GetSearchState( searchContext );
+			if ( searchState != null )
+			{
+				// See if entries are to be returned.
+				if ( count > 0 )
+				{
+					// Get the domain for this collection.
+					Domain domain = store.GetDomain( Domain );
+					if ( domain != null )
+					{
+						// Allocate a list to hold the member objects.
+						ArrayList tempList = new ArrayList( count );
+						ICSEnumerator enumerator = searchState.Enumerator;
+						while( ( count > 0 ) && enumerator.MoveNext() )
+						{
+							// The enumeration returns ShallowNode objects.
+							JournalEntry je = enumerator.Current as JournalEntry;
+							Member member = domain.GetMemberByID( je.UserID );
+							je.UserName = member.FN != null ? member.FN : member.Name;
+
+							Node node = GetNodeByID( je.FileID );
+							if ( node != null )
+							{
+								if ( IsType( node, NodeTypes.FileNodeType ) )
+								{
+									FileNode fileNode = new FileNode( node );
+									if ( fileNode != null )
+									{
+										je.FileName = fileNode.GetRelativePath();
+									}
+								}
+								else 
+								{
+									DirNode dirNode = new DirNode( node );
+									if ( dirNode != null )
+									{
+										je.FileName = dirNode.GetRelativePath();
+									}
+								}
+							}
+							else
+							{
+								je.FileName = GetDeletedFileName( je.FileID );
+							}
+
+							tempList.Add( je );
+							--count;
+						}
+
+						if ( tempList.Count > 0 )
+						{
+							journalList = tempList.ToArray( typeof ( JournalEntry ) ) as JournalEntry[];
+							searchState.CurrentRecord += journalList.Length;
+							searchState.LastCount = journalList.Length;
+							moreEntries = ( count == 0 ) ? true : false;
+						}
+					}
+				}
+				else
+				{
+					if ( searchState.CurrentRecord < searchState.TotalRecords )
+					{
+						moreEntries = true;
+					}
+				}
+			}
+
+			return moreEntries;
+		}
+
+		/// <summary>
+		/// Continues the search for journal entries previous to the current record location.
+		/// </summary>
+		/// <param name="searchContext">Domain provider specific search context returned by FindFirstJournalEntries method.</param>
+		/// <param name="count">Maximum number of member objects to return.</param>
+		/// <param name="journalList">Receives an array object that contains the JournalEntry objects.</param>
+		/// <returns>True if there are more journal entries. Otherwise false is returned.</returns>
+		public bool FindPreviousJournalEntries( ref string searchContext, int count, out JournalEntry[] journalList )
+		{
+			bool moreEntries = false;
+
+			// Initialize the outputs.
+			journalList = null;
+
+			// See if there is a valid search context.
+			SearchState searchState = SearchState.GetSearchState( searchContext );
+			if ( searchState != null )
+			{
+				// Backup the current cursor, but don't go passed the first record.
+				if ( searchState.CurrentRecord > 0 )
+				{
+					bool invalidIndex = false;
+					int cursorIndex = ( searchState.CurrentRecord - ( searchState.LastCount + count ) );
+					if ( cursorIndex < 0 )
+					{
+						invalidIndex = true;
+						count = searchState.CurrentRecord - searchState.LastCount;
+						cursorIndex = 0;
+					}
+
+					// Set the new index for the cursor.
+					if ( searchState.Enumerator.SetCursor( Simias.Storage.Provider.IndexOrigin.SET, cursorIndex ) )
+					{
+						// Reset the current record.
+						searchState.CurrentRecord = cursorIndex;
+
+						// Complete the search.
+						FindNextJournalEntries( ref searchContext, count, out journalList );
+
+						if ( ( invalidIndex == false ) && ( journalList != null ) )
+						{
+							moreEntries = true;
+						}
+					}
+				}
+			}
+
+			return moreEntries;
+		}
+
+		/// <summary>
+		/// Continues the search for journal entries from the specified record location.
+		/// </summary>
+		/// <param name="searchContext">Domain provider specific search context returned by FindFirstJournalEntries method.</param>
+		/// <param name="offset">Record offset to return journal entries from.</param>
+		/// <param name="count">Maximum number of JournalEntry objects to return.</param>
+		/// <param name="journalList">Receives an array object that contains the JournalEntry objects.</param>
+		/// <returns>True if there are more journal entries. Otherwise false is returned.</returns>
+		public bool FindSeekJournalEntries( ref string searchContext, int offset, int count, out JournalEntry[] journalList )
+		{
+			bool moreEntries = false;
+
+			// Initialize the outputs.
+			journalList = null;
+
+			// See if there is a valid search context.
+			SearchState searchState = SearchState.GetSearchState( searchContext );
+			if ( searchState != null )
+			{
+				// Make sure that the specified offset is valid.
+				if ( ( offset >= 0 ) && ( offset <= searchState.TotalRecords ) )
+				{
+					// Set the cursor to the specified offset.
+					if ( searchState.Enumerator.SetCursor( Simias.Storage.Provider.IndexOrigin.SET, offset ) )
+					{
+						// Reset the current record.
+						searchState.CurrentRecord = offset;
+
+						// Complete the search.
+						moreEntries = FindNextJournalEntries( ref searchContext, count, out journalList );
+					}
+				}
+			}
+
+			return moreEntries;
+		}
+
+		/// <summary>
 		/// Searches all Node objects in the Collection for the specified Types value.
 		/// </summary>
 		/// <param name="type">String object containing class type to find.</param>
@@ -2471,6 +2685,11 @@ namespace Simias.Storage
 			return journal;
 		}
 
+		/// <summary>
+		/// Gets the journal entries for the collection.
+		/// </summary>
+		/// <returns>An ICSList object that contains JournalEntry objects for the collection.  Journal entries are 
+		/// stored in the ICSList in reverse order (i.e. the most recent entry is first).</returns>
 		public ICSList GetJournalEntriesForCollection()
 		{
 			ArrayList list = new ArrayList();
@@ -2484,14 +2703,20 @@ namespace Simias.Storage
 				IEnumerator ienum = doc.DocumentElement.GetEnumerator();
 				while ( ienum.MoveNext() )
 				{
-					JournalEntry je = new JournalEntry( (XmlNode)ienum.Current, this );
-					list.Add( je );
+					JournalEntry je = new JournalEntry( (XmlNode)ienum.Current );
+					list.Insert( 0, je );
 				}
 			}
 
 			return new ICSList( list );
 		}
 
+		/// <summary>
+		/// Gets the journal entries for a file.
+		/// </summary>
+		/// <param name="relativeFilename">The relative name of the file.</param>
+		/// <returns>An ICSList object that contains JournalEntry objects for the file.  Journal entries are
+		/// stored in the ICSList in reverse order (i.e. the most recent entry is first).</returns>
 		public ICSList GetJournalEntriesForFile( string relativeFilename )
 		{
 			ArrayList arrayList = new ArrayList();
@@ -2511,8 +2736,8 @@ namespace Simias.Storage
 						IEnumerator ienum = doc.DocumentElement.GetEnumerator();
 						while ( ienum.MoveNext() )
 						{
-							JournalEntry je = new JournalEntry( (XmlNode)ienum.Current, this );
-							arrayList.Add( je );
+							JournalEntry je = new JournalEntry( (XmlNode)ienum.Current );
+							arrayList.Insert( 0, je );
 						}
 					}
 				}
