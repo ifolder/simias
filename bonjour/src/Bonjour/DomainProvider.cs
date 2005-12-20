@@ -124,7 +124,7 @@ namespace Simias
 
 			if ( member != null )
 			{
-				log.Debug( "  member: " + cMember.Name );
+				log.Debug( "  member: " + member.Name );
 				try
 				{
 					log.Debug( "  getting the host property " );
