@@ -403,11 +403,13 @@ namespace Simias.Storage
 				catch ( Exception e )
 				{
 					// Log this error.
-					log.Fatal( e, "Could not initialize Collection Store." );
+					Console.Error.WriteLine( "Error: Exception {0}. Could not initialize collection store.", e.Message );
+					Console.Error.WriteLine( "Stack Trace = {0}", e.StackTrace );
 
 					// The store didn't initialize delete it and rethrow the exception.
 					if ( storageProvider != null )
 					{
+						Console.Error.WriteLine( "       Deleting collection store." );
 						storageProvider.DeleteStore();
 						storageProvider.Dispose();
 					}
