@@ -114,7 +114,6 @@ namespace Simias
 			{
 				foreach( Member cMember in Simias.mDns.Browser.MemberList )
 				{
-					log.Debug( "  checking member: " + cMember.Name );
 					if ( cMember.UserID == memberID )
 					{
 						member = cMember;
@@ -125,6 +124,7 @@ namespace Simias
 
 			if ( member != null )
 			{
+				log.Debug( "  member: " + cMember.Name );
 				try
 				{
 					log.Debug( "  getting the host property " );
@@ -191,9 +191,10 @@ namespace Simias
 		public Authentication.Status Authenticate( Domain domain, HttpContext ctx )
 		{
 			string mdnsSessionTag = "mdns";
-
 			Simias.Storage.Member member = null;
 
+			log.Debug( "Authenticate (server) called" );
+			
 			// Assume failure
 			Simias.Authentication.Status status = 
 				new Simias.Authentication.Status( SCodes.InvalidCredentials );
@@ -207,12 +208,14 @@ namespace Simias
 				string memberID = ctx.Request.Headers[ "mdns-member" ];
 				if ( memberID == null || memberID == "" )
 				{
+					log.Error( "Authenticate called with no mdns-member set in the header" );
 					return status;
 				}
 
 				member = domain.GetMemberByID( memberID );
 				if ( member == null )
 				{
+					log.Error( "Authenticate called with an invalid memberID - member: " + memberID );
 					return status;
 				}
 
@@ -295,6 +298,7 @@ namespace Simias
 				}
 			}
 
+			log.Debug( "Authenticate (server) returning: " + status.statusCode.ToString() );
 			return status;
 		}
 

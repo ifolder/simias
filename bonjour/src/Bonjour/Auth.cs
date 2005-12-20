@@ -74,6 +74,8 @@ namespace Simias.mDns
 		{
 			HttpWebResponse response = null;
 
+			log.Debug( "Authenticated - called" );
+			
 			Simias.Authentication.Status status =	
 				new Simias.Authentication.Status( SCodes.Unknown );
 
@@ -185,6 +187,7 @@ namespace Simias.mDns
 				log.Error( ex.StackTrace );
 			}
 
+			log.Debug( "Authenticate - exit  status: " + status.ToString() );
 			return status;
 		}
 	}
