@@ -339,7 +339,7 @@ namespace Simias.POBox
 				POBoxStatus status = poService.Invite( subscription.GenerateSubscriptionMessage() );
 				if ( status == POBoxStatus.Success )
 				{
-					log.Debug( "Successfully invited {0} to collection {1}.", subscription.FromName, subscription.SubscriptionCollectionName );
+					log.Debug( "Successfully invited {0} to collection {1}.", subscription.ToName, subscription.SubscriptionCollectionName );
 					subscription.SubscriptionState = SubscriptionStates.Posted;
 					poBox.Commit( subscription );
 					result = true;
