@@ -571,6 +571,14 @@ namespace Simias.Storage
 			else
 			{
 				incarnationValue = node.LocalIncarnation + 1;
+
+				// Stamp the user in the last modifier attribute.
+				if ( IsType( node, NodeTypes.FileNodeType ) )
+				{
+					Property property = new Property( "LastModifier", Syntax.String, GetCreator() );
+					//				property.LocalProperty = true;
+					node.Properties.ModifyNodeProperty( property );
+				}
 			}
 
 			// Update the local incarnation value to the specified value.
@@ -672,7 +680,6 @@ namespace Simias.Storage
 			ArrayList journalNodeList = new ArrayList();
 			Relationship relationship = null;
 
-			// TODO: the size will be larger now ... include the size of the journal nodes.
 			// Process the storage size for the list.
 			SetStorageSize( nodeList );
 
@@ -723,7 +730,7 @@ namespace Simias.Storage
 									sfn.FlushStreamData( this );
 								}
 							}
-							else if ( IsType( node, NodeTypes.FileNodeType ) || IsType( node, NodeTypes.DirNodeType ) )
+/*							else if ( IsType( node, NodeTypes.FileNodeType ) || IsType( node, NodeTypes.DirNodeType ) )
 							{
 								StoreFileNode journal;
 								journal = UpdateJournalForNode( node, commitTime, "add" );
@@ -749,7 +756,7 @@ namespace Simias.Storage
 									commitDocument.DocumentElement.AppendChild( 
 										commitDocument.ImportNode( journal.Properties.PropertyRoot, true ) );
 								}
-							}
+							}*/
 
 							// Copy the XML node over to the modify document.
 							XmlNode xmlNode = commitDocument.ImportNode( node.Properties.PropertyRoot, true );
@@ -805,7 +812,7 @@ namespace Simias.Storage
 									}
 									catch {}
 								}
-								else if ( IsType( node, NodeTypes.FileNodeType ) || IsType( node, NodeTypes.DirNodeType ) )
+/*								else if ( IsType( node, NodeTypes.FileNodeType ) || IsType( node, NodeTypes.DirNodeType ) )
 								{
 									StoreFileNode journal = UpdateJournalForNode( node, commitTime, "delete" );
 
@@ -848,7 +855,7 @@ namespace Simias.Storage
 												deleteDocument.ImportNode( journal.Properties.PropertyRoot, true ) );
 										}
 									}
-								}
+								}*/
 
 
 								// Never create Tombstones on the master or if this Node object is already a 
@@ -927,7 +934,7 @@ namespace Simias.Storage
 									node.BaseName = mergeNode.Name;
 									node.InternalList = new PropertyList( mergeNode.Properties.PropertyDocument );
 
-									if ( IsType( mergeNode, NodeTypes.FileNodeType ) || IsType( mergeNode, NodeTypes.DirNodeType ) )
+/*									if ( IsType( mergeNode, NodeTypes.FileNodeType ) || IsType( mergeNode, NodeTypes.DirNodeType ) )
 									{
 										StoreFileNode journal = UpdateJournalForNode( node, commitTime, "modify" );
 
@@ -952,7 +959,7 @@ namespace Simias.Storage
 											commitDocument.DocumentElement.AppendChild( 
 												commitDocument.ImportNode( journal.Properties.PropertyRoot, true ) );
 										}
-									}
+									}*/
 
 									// Copy the XML node over to the modify document.
 									XmlNode xmlNode = commitDocument.ImportNode( mergeNode.Properties.PropertyRoot, true );
@@ -990,7 +997,7 @@ namespace Simias.Storage
 							// Increment the local incarnation number for the object.
 							IncrementLocalIncarnation( node );
 
-							if ( !Role.Equals( SyncRoles.Master ) && IsType( node, "Journal" ) )
+/*							if ( !Role.Equals( SyncRoles.Master ) && IsType( node, "Journal" ) )
 							{
 								// Remove the temporary journal for this node if it exists.
 								Property property = node.Properties.GetSingleProperty( PropertyTags.JournalFor );
@@ -1038,7 +1045,7 @@ namespace Simias.Storage
 								// Copy the XML journal node over to the modify document.
 								commitDocument.DocumentElement.AppendChild( 
 									commitDocument.ImportNode( journal.Properties.PropertyRoot, true ) );
-							}
+							}*/
 
 							// Copy the XML node over to the modify document.
 							XmlNode xmlNode = commitDocument.ImportNode( node.Properties.PropertyRoot, true );
@@ -1100,13 +1107,6 @@ namespace Simias.Storage
 							// Increment the local incarnation number for the object.
 							IncrementLocalIncarnation( node );
 
-							// TODO: we need to make sure that journal nodes are restored first
-							if ( Role.Equals(SyncRoles.Master) && 
-								( IsType( node, NodeTypes.FileNodeType ) || IsType( node, NodeTypes.DirNodeType ) ) )
-							{
-								// TODO: need to implement this functionality.
-							}
-
 							// Copy the XML node over to the modify document.
 							XmlNode xmlNode = commitDocument.ImportNode( node.Properties.PropertyRoot, true );
 							commitDocument.DocumentElement.AppendChild( xmlNode );
@@ -1152,6 +1152,10 @@ namespace Simias.Storage
 				store.StorageProvider.CommitRecords( id, commitDocument, deleteDocument );
 			}
 			
+			// Reinitialize the XML documents to hold journal nodes.
+			commitDocument.DocumentElement.RemoveAll();
+			deleteDocument.DocumentElement.RemoveAll();
+
 			// Walk the commit list and change all states to updated.
 			foreach( Node node in nodeList )
 			{
@@ -1195,6 +1199,33 @@ namespace Simias.Storage
 							case PropertyList.PropertyListState.Add:
 							case PropertyList.PropertyListState.Proxy:
 							{
+								// Update the journal for this node.
+								if ( Role.Equals( SyncRoles.Master ) && 
+									( IsType( node, NodeTypes.FileNodeType ) || IsType( node, NodeTypes.DirNodeType ) ) )
+								{
+									StoreFileNode journal;
+									journal = UpdateJournalForNode( node, commitTime, "add" );
+
+									if ( this.properties.GetSingleProperty( PropertyTags.Journal ) == null )
+									{
+										// Create a relationship to put on the collection.
+										relationship = new Relationship( ID, journal.ID );
+									}
+
+									// Validate the journal object.
+									ValidateNodeForCommit( journal );
+
+									// Increment the local incarnation number for the journal.
+									IncrementLocalIncarnation( journal );
+
+									// Add the journal node to the list.
+									journalNodeList.Add(journal);
+
+									// Copy the XML journal node over to the modify document.
+									commitDocument.DocumentElement.AppendChild( 
+										commitDocument.ImportNode( journal.Properties.PropertyRoot, true ) );
+								}
+
 								// Update the cache before indicating the event.
 								store.Cache.Add( this, node );
 
@@ -1214,6 +1245,50 @@ namespace Simias.Storage
 
 							case PropertyList.PropertyListState.Delete:
 							{
+								// Update the journal.
+								if ( Role.Equals( SyncRoles.Master ) &&
+									( IsType( node, NodeTypes.FileNodeType ) || IsType( node, NodeTypes.DirNodeType ) ) )
+								{
+									StoreFileNode journal = UpdateJournalForNode( node, commitTime, "delete" );
+
+									if ( this.properties.GetSingleProperty( PropertyTags.Journal ) == null )
+									{
+										// Create a relationship to put on the collection.
+										relationship = new Relationship( ID, journal.ID );
+									}
+
+									// Validate the journal object.
+									ValidateNodeForCommit( journal );
+
+									// Increment the local incarnation number for the journal.
+									IncrementLocalIncarnation( journal );
+
+									// Add the journal node to the list.
+									journalNodeList.Add( journal );
+
+									// Copy the XML journal node over to the modify document.
+									commitDocument.DocumentElement.AppendChild( 
+										commitDocument.ImportNode( journal.Properties.PropertyRoot, true ) );
+
+									// Delete the journal associated with this file.
+									journal = GetJournalForNode( node );
+									if ( journal != null )
+									{
+										try
+										{
+											// Delete the file.
+											File.Delete( journal.GetFullPath( this ) );
+										}
+										catch {}
+
+										journal.Properties.State = PropertyList.PropertyListState.Delete;
+										journalNodeList.Add( journal );
+
+										deleteDocument.DocumentElement.AppendChild(
+											deleteDocument.ImportNode( journal.Properties.PropertyRoot, true ) );
+									}
+								}
+
 								// Update the cache before indicating the event.
 								store.Cache.Remove( id, node.ID );
 
@@ -1227,6 +1302,46 @@ namespace Simias.Storage
 
 							case PropertyList.PropertyListState.Import:
 							{
+								if ( Role.Equals(SyncRoles.Master) && 
+									( IsType( node, NodeTypes.FileNodeType ) || IsType( node, NodeTypes.DirNodeType ) ) )
+								{
+									StoreFileNode journal;
+									if ( node.ExpectedIncarnation == node.MasterIncarnation )
+									{
+										journal = UpdateJournalForNode( node, commitTime, "add" );
+
+										if ( this.properties.GetSingleProperty( PropertyTags.Journal ) == null )
+										{
+											// TODO: ... need to handle this somewhere.
+											// Create a relationship to put on the collection.
+											relationship = new Relationship( ID, journal.ID );
+										}
+									}
+									else
+									{
+										journal = UpdateJournalForNode( node, commitTime, "modify" );
+
+										// Make sure the node has a relationship to the journal.
+										if ( node.Properties.GetSingleProperty( PropertyTags.Journal ) == null )
+										{
+											node.Properties.AddNodeProperty( PropertyTags.Journal, new Relationship( ID, journal.ID ) );
+										}
+									}
+
+									// Validate the journal object.
+									ValidateNodeForCommit( journal );
+
+									// Increment the local incarnation number for the journal.
+									IncrementLocalIncarnation( journal );
+
+									// Add the journal node to the list.
+									journalNodeList.Add(journal);
+
+									// Copy the XML journal node over to the modify document.
+									commitDocument.DocumentElement.AppendChild( 
+										commitDocument.ImportNode( journal.Properties.PropertyRoot, true ) );
+								}
+
 								// Update the cache before indicating the event.
 								store.Cache.Add( this, node );
 
@@ -1240,6 +1355,13 @@ namespace Simias.Storage
 
 							case PropertyList.PropertyListState.Restore:
 							{
+								// TODO: we need to make sure that journal nodes are restored first
+								if ( Role.Equals(SyncRoles.Master) && 
+									( IsType( node, NodeTypes.FileNodeType ) || IsType( node, NodeTypes.DirNodeType ) ) )
+								{
+									// TODO: need to implement this functionality.
+								}
+
 								// Update the cache before indicating the event.
 								store.Cache.Add( this, node );
 
@@ -1259,6 +1381,32 @@ namespace Simias.Storage
 
 							case PropertyList.PropertyListState.Update:
 							{
+								// Update the journal.
+								if ( Role.Equals( SyncRoles.Master ) &&
+									( IsType( node, NodeTypes.FileNodeType ) || IsType( node, NodeTypes.DirNodeType ) ) )
+								{
+									StoreFileNode journal = UpdateJournalForNode( node, commitTime, "modify" );
+
+									// Make sure the node has a relationship to the journal.
+									if ( node.Properties.GetSingleProperty( PropertyTags.Journal ) == null )
+									{
+										node.Properties.AddNodeProperty( PropertyTags.Journal, new Relationship( ID, journal.ID ) );
+									}
+
+									// Validate the journal object.
+									ValidateNodeForCommit( journal );
+
+									// Increment the local incarnation number for the journal.
+									IncrementLocalIncarnation( journal );
+
+									// Add the journal node to the list.
+									journalNodeList.Add(journal);
+
+									// Copy the XML journal node over to the modify document.
+									commitDocument.DocumentElement.AppendChild( 
+										commitDocument.ImportNode( journal.Properties.PropertyRoot, true ) );
+								}
+
 								// Update the cache before indicating the event.
 								store.Cache.Add( this, node );
 
@@ -1326,6 +1474,9 @@ namespace Simias.Storage
 					node.IndicateEvent = true;
 				}
 			}
+
+			// Call the store provider to update the records.
+			store.StorageProvider.CommitRecords( id, commitDocument, deleteDocument );
 
 			// Walk the journal list, updating the cache and firing the events.
 			foreach (StoreFileNode node in journalNodeList)
@@ -1470,7 +1621,9 @@ namespace Simias.Storage
 				if ( node != null )
 				{
 					// Check for BaseFileNode types because they are the only objects that contain files.
-					if ( IsType( node, NodeTypes.BaseFileNodeType ) )
+					// Don't count the size of the journal against the users quota.
+					if ( IsType( node, NodeTypes.BaseFileNodeType ) &&
+						!IsType( node, "Journal" ) )
 					{
 						// Calculate the new storage size based on the state of the Node object.
 						switch ( node.Properties.State )
