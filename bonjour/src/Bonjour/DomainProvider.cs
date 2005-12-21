@@ -216,6 +216,7 @@ namespace Simias
 				if ( member == null )
 				{
 					log.Error( "Authenticate called with an invalid memberID - member: " + memberID );
+					status.statusCode = SCodes.UnknownUser;
 					return status;
 				}
 

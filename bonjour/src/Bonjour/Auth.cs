@@ -74,7 +74,7 @@ namespace Simias.mDns
 		{
 			HttpWebResponse response = null;
 
-			log.Debug( "Authenticated - called" );
+			log.Debug( "Authenticate - called" );
 			
 			Simias.Authentication.Status status =	
 				new Simias.Authentication.Status( SCodes.Unknown );
@@ -87,6 +87,7 @@ namespace Simias.mDns
 			Uri remoteUri = mdnsProv.ResolveLocation( Simias.mDns.Domain.ID, collectionID );
 			if ( remoteUri == null )
 			{
+				log.Debug( " unable to resolve location for collection: " + collectionID );
 				status.statusCode = SCodes.UnknownDomain;
 				return status;
 			}
