@@ -221,10 +221,13 @@ namespace Simias
 
 				status.UserName = member.Name;
 				status.UserID = member.UserID;
+				
+				log.Debug( "  member: " + member.Name );
 
 				mdnsSession = ctx.Session[ mdnsSessionTag ] as MDnsSession;
 				if ( mdnsSession == null )
 				{
+					log.Debug( "  no session" );
 					mdnsSession = new MDnsSession();
 					mdnsSession.MemberID = member.UserID;
 					mdnsSession.State = 1;
@@ -246,6 +249,11 @@ namespace Simias
 							Convert.ToBase64String( encryptedText ) );
 							
 						ctx.Session[ mdnsSessionTag ] = mdnsSession;
+						log.Debug( "  generated one time password and returned it encrypted" );
+					}
+					else
+					{
+						log.Debug( "  failed to get the members public key" );
 					}
 
 				}
@@ -266,9 +274,14 @@ namespace Simias
 							status.statusCode = SCodes.Success;
 							mdnsSession.State = 2;
 						}
+						else
+						{
+							log.Debug( "  client returned invalid one-time password" );
+						}
 					}
 					else
 					{
+						log.Debug( "  found session but no one time password was returned" );
 						// Fixme
 						mdnsSession.OneTimePassword = DateTime.UtcNow.Ticks.ToString();
 						mdnsSession.State = 1;
