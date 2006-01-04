@@ -576,7 +576,6 @@ namespace Simias.Storage
 				if ( IsType( node, NodeTypes.FileNodeType ) )
 				{
 					Property property = new Property( "LastModifier", Syntax.String, GetCreator() );
-					//				property.LocalProperty = true;
 					node.Properties.ModifyNodeProperty( property );
 				}
 			}
@@ -828,13 +827,6 @@ namespace Simias.Storage
 							// Make sure that there are changes to the Node object.
 							if ( IsType( node, NodeTypes.CollectionType ) || node.Properties.ChangeList.Count != 0 )
 							{
-								// Check if there is a relationship to put on the collection.
-								if ( IsType( node, NodeTypes.CollectionType ) && ( relationship != null ) )
-								{
-									node.Properties.ModifyNodeProperty( PropertyTags.Journal, relationship );
-									relationship = null;
-								}
-
 								// Merge any changes made to the object on the database before this object's
 								// changes are committed.
 								bool onlyLocalChanges;
@@ -2587,6 +2579,11 @@ namespace Simias.Storage
 			return accessControl.GetCurrentMember( store, Domain, false );
 		}
 
+		/// <summary>
+		/// Gets the name of a deleted file.  The filename is retrieved from the journal.
+		/// </summary>
+		/// <param name="nodeID">The ID of the filenode to retrieve the name for.</param>
+		/// <returns>The name of the relative name of the file before it was deleted.</returns>
 		public string GetDeletedFileName( string nodeID )
 		{
 			// TODO: Localize?
@@ -2612,45 +2609,6 @@ namespace Simias.Storage
 			}
 
 			return fileName;
-		}
-
-		/// <summary>
-		/// Gets the journal for the specified path.
-		/// </summary>
-		/// <param name="path">The file to retrieve the journal for.</param>
-		/// <returns>The Journal object for the file.</returns>
-		public StoreFileNode GetJournalForFile( string path, ref FileNode fileNode )
-		{
-			StoreFileNode journal = null;
-
-			DirNode dirNode = GetRootDirectory();
-			if ( dirNode != null )
-			{
-				string rootPath = dirNode.Properties.GetSingleProperty(PropertyTags.Root).Value as string;
-				string relativePath = path.Replace( rootPath, "" );
-				relativePath = relativePath.TrimStart( Path.DirectorySeparatorChar );
-				if ( Path.DirectorySeparatorChar != '/' )
-				{
-					relativePath = relativePath.Replace( @"\", "/" );
-				}
-
-				// TODO: We should only get one node back from this search ... what if someone drops 
-				// in a file that causes a name collision and then tries to get the journal for that
-				// file?  Probably okay to return the journal for the file with the same name.
-				ICSList nodes = Search( PropertyTags.FileSystemPath, relativePath, SearchOp.Equal );
-				foreach ( ShallowNode sn in nodes )
-				{
-					Node node = new Node( this, sn );
-					journal = GetJournalForNode( node );
-					if (journal != null)
-					{
-						fileNode = new FileNode( node );
-						break;
-					}
-				}
-			}
-
-			return journal;
 		}
 
 		/// <summary>
