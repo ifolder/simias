@@ -730,33 +730,6 @@ namespace Simias.Storage
 									sfn.FlushStreamData( this );
 								}
 							}
-/*							else if ( IsType( node, NodeTypes.FileNodeType ) || IsType( node, NodeTypes.DirNodeType ) )
-							{
-								StoreFileNode journal;
-								journal = UpdateJournalForNode( node, commitTime, "add" );
-
-								if ( Role.Equals(SyncRoles.Master) )
-								{
-									if ( this.properties.GetSingleProperty( PropertyTags.Journal ) == null )
-									{
-										// Create a relationship to put on the collection.
-										relationship = new Relationship( ID, journal.ID );
-									}
-
-									// Validate the journal object.
-									ValidateNodeForCommit( journal );
-
-									// Increment the local incarnation number for the journal.
-									IncrementLocalIncarnation( journal );
-
-									// Add the journal node to the list.
-									journalNodeList.Add(journal);
-
-									// Copy the XML journal node over to the modify document.
-									commitDocument.DocumentElement.AppendChild( 
-										commitDocument.ImportNode( journal.Properties.PropertyRoot, true ) );
-								}
-							}*/
 
 							// Copy the XML node over to the modify document.
 							XmlNode xmlNode = commitDocument.ImportNode( node.Properties.PropertyRoot, true );
@@ -812,51 +785,6 @@ namespace Simias.Storage
 									}
 									catch {}
 								}
-/*								else if ( IsType( node, NodeTypes.FileNodeType ) || IsType( node, NodeTypes.DirNodeType ) )
-								{
-									StoreFileNode journal = UpdateJournalForNode( node, commitTime, "delete" );
-
-									if ( Role.Equals(SyncRoles.Master) )
-									{
-										if ( this.properties.GetSingleProperty( PropertyTags.Journal ) == null )
-										{
-											// Create a relationship to put on the collection.
-											relationship = new Relationship( ID, journal.ID );
-										}
-
-										// Validate the journal object.
-										ValidateNodeForCommit( journal );
-
-										// Increment the local incarnation number for the journal.
-										IncrementLocalIncarnation( journal );
-
-										// Add the journal node to the list.
-										journalNodeList.Add( journal );
-
-										// Copy the XML journal node over to the modify document.
-										commitDocument.DocumentElement.AppendChild( 
-											commitDocument.ImportNode( journal.Properties.PropertyRoot, true ) );
-
-										// Delete the journal associated with this file.
-										journal = GetJournalForNode( node );
-										if ( journal != null )
-										{
-											try
-											{
-												// Delete the file.
-												File.Delete( journal.GetFullPath( this ) );
-											}
-											catch {}
-
-											journal.Properties.State = PropertyList.PropertyListState.Delete;
-											journalNodeList.Add( journal );
-
-											deleteDocument.DocumentElement.AppendChild(
-												deleteDocument.ImportNode( journal.Properties.PropertyRoot, true ) );
-										}
-									}
-								}*/
-
 
 								// Never create Tombstones on the master or if this Node object is already a 
 								// Tombstone, delete it.
@@ -934,33 +862,6 @@ namespace Simias.Storage
 									node.BaseName = mergeNode.Name;
 									node.InternalList = new PropertyList( mergeNode.Properties.PropertyDocument );
 
-/*									if ( IsType( mergeNode, NodeTypes.FileNodeType ) || IsType( mergeNode, NodeTypes.DirNodeType ) )
-									{
-										StoreFileNode journal = UpdateJournalForNode( node, commitTime, "modify" );
-
-										if ( Role.Equals(SyncRoles.Master) )
-										{
-											// Make sure the node has a relationship to the journal.
-											if ( node.Properties.GetSingleProperty( PropertyTags.Journal ) == null )
-											{
-												node.Properties.AddNodeProperty( PropertyTags.Journal, new Relationship( ID, journal.ID ) );
-											}
-
-											// Validate the journal object.
-											ValidateNodeForCommit( journal );
-
-											// Increment the local incarnation number for the journal.
-											IncrementLocalIncarnation( journal );
-
-											// Add the journal node to the list.
-											journalNodeList.Add(journal);
-
-											// Copy the XML journal node over to the modify document.
-											commitDocument.DocumentElement.AppendChild( 
-												commitDocument.ImportNode( journal.Properties.PropertyRoot, true ) );
-										}
-									}*/
-
 									// Copy the XML node over to the modify document.
 									XmlNode xmlNode = commitDocument.ImportNode( mergeNode.Properties.PropertyRoot, true );
 									commitDocument.DocumentElement.AppendChild( xmlNode );
@@ -996,56 +897,6 @@ namespace Simias.Storage
 
 							// Increment the local incarnation number for the object.
 							IncrementLocalIncarnation( node );
-
-/*							if ( !Role.Equals( SyncRoles.Master ) && IsType( node, "Journal" ) )
-							{
-								// Remove the temporary journal for this node if it exists.
-								Property property = node.Properties.GetSingleProperty( PropertyTags.JournalFor );
-								string filename = Path.Combine( ManagedPath, ( (Relationship)property.Value ).NodeID );
-								if ( File.Exists( filename ) )
-								{
-									File.Delete( filename );
-								}
-							}
-
-							if ( Role.Equals(SyncRoles.Master) && 
-								( IsType( node, NodeTypes.FileNodeType ) || IsType( node, NodeTypes.DirNodeType ) ) )
-							{
-								StoreFileNode journal;
-								if ( node.ExpectedIncarnation == node.MasterIncarnation )
-								{
-									journal = UpdateJournalForNode( node, commitTime, "add" );
-
-									if ( this.properties.GetSingleProperty( PropertyTags.Journal ) == null )
-									{
-										// Create a relationship to put on the collection.
-										relationship = new Relationship( ID, journal.ID );
-									}
-								}
-								else
-								{
-									journal = UpdateJournalForNode( node, commitTime, "modify" );
-
-									// Make sure the node has a relationship to the journal.
-									if ( node.Properties.GetSingleProperty( PropertyTags.Journal ) == null )
-									{
-										node.Properties.AddNodeProperty( PropertyTags.Journal, new Relationship( ID, journal.ID ) );
-									}
-								}
-
-								// Validate the journal object.
-								ValidateNodeForCommit( journal );
-
-								// Increment the local incarnation number for the journal.
-								IncrementLocalIncarnation( journal );
-
-								// Add the journal node to the list.
-								journalNodeList.Add(journal);
-
-								// Copy the XML journal node over to the modify document.
-								commitDocument.DocumentElement.AppendChild( 
-									commitDocument.ImportNode( journal.Properties.PropertyRoot, true ) );
-							}*/
 
 							// Copy the XML node over to the modify document.
 							XmlNode xmlNode = commitDocument.ImportNode( node.Properties.PropertyRoot, true );
@@ -1206,12 +1057,6 @@ namespace Simias.Storage
 									StoreFileNode journal;
 									journal = UpdateJournalForNode( node, commitTime, "add" );
 
-									if ( this.properties.GetSingleProperty( PropertyTags.Journal ) == null )
-									{
-										// Create a relationship to put on the collection.
-										relationship = new Relationship( ID, journal.ID );
-									}
-
 									// Validate the journal object.
 									ValidateNodeForCommit( journal );
 
@@ -1250,12 +1095,6 @@ namespace Simias.Storage
 									( IsType( node, NodeTypes.FileNodeType ) || IsType( node, NodeTypes.DirNodeType ) ) )
 								{
 									StoreFileNode journal = UpdateJournalForNode( node, commitTime, "delete" );
-
-									if ( this.properties.GetSingleProperty( PropertyTags.Journal ) == null )
-									{
-										// Create a relationship to put on the collection.
-										relationship = new Relationship( ID, journal.ID );
-									}
 
 									// Validate the journal object.
 									ValidateNodeForCommit( journal );
@@ -1309,13 +1148,6 @@ namespace Simias.Storage
 									if ( node.ExpectedIncarnation == node.MasterIncarnation )
 									{
 										journal = UpdateJournalForNode( node, commitTime, "add" );
-
-										if ( this.properties.GetSingleProperty( PropertyTags.Journal ) == null )
-										{
-											// TODO: ... need to handle this somewhere.
-											// Create a relationship to put on the collection.
-											relationship = new Relationship( ID, journal.ID );
-										}
 									}
 									else
 									{
@@ -1325,6 +1157,8 @@ namespace Simias.Storage
 										if ( node.Properties.GetSingleProperty( PropertyTags.Journal ) == null )
 										{
 											node.Properties.AddNodeProperty( PropertyTags.Journal, new Relationship( ID, journal.ID ) );
+											commitDocument.DocumentElement.AppendChild(
+												commitDocument.ImportNode( node.Properties.PropertyRoot, true ) );
 										}
 									}
 
@@ -1391,6 +1225,8 @@ namespace Simias.Storage
 									if ( node.Properties.GetSingleProperty( PropertyTags.Journal ) == null )
 									{
 										node.Properties.AddNodeProperty( PropertyTags.Journal, new Relationship( ID, journal.ID ) );
+										commitDocument.DocumentElement.AppendChild(
+											commitDocument.ImportNode( node.Properties.PropertyRoot, true ) );
 									}
 
 									// Validate the journal object.
@@ -1529,37 +1365,12 @@ namespace Simias.Storage
 						// Update the cache before indicating the event.
 						store.Cache.Add( this, node );
 
-						// Make sure that it is okay to indicate an event.
-						//						if ( node.IndicateEvent )
-					{
+						// Indicate the event.
 						NodeEventArgs args = new NodeEventArgs( store.Publisher, node.ID, id, node.Type, EventType.NodeChanged, 0, commitTime, node.MasterIncarnation, node.LocalIncarnation, 0 );
 						args.LocalOnly = node.LocalChanges;
 						store.EventPublisher.RaiseEvent( args );
-					}
 						break;
 					}
-
-						/*					case PropertyList.PropertyListState.Internal:
-											{
-												// Update the cache before indicating the event.
-												store.Cache.Add( this, node );
-
-												// See if it is okay to indicate an event.
-												if ( node.IndicateEvent )
-												{
-													// If this node state is a collision being resolved, publish an event so that sync
-													// will pick up the resolved node and push it to the server.
-													if ( node.MergeCollisions == false )
-													{
-														NodeEventArgs args = new NodeEventArgs( store.Publisher, node.ID, id, node.Type, EventType.NodeChanged, 0, commitTime, node.MasterIncarnation, node.LocalIncarnation, 0 );
-														args.LocalOnly = false;
-														store.EventPublisher.RaiseEvent( args );
-													}
-												}
-
-												node.Properties.State = PropertyList.PropertyListState.Update;
-												break;
-											}*/
 				}
 
 				// Reset in-memory properties.
@@ -2510,7 +2321,7 @@ namespace Simias.Storage
 		public void FindCloseJournalEntries( string searchContext )
 		{
 			// See if there is a valid search context.
-			SearchState searchState = SearchState.GetSearchState( searchContext );
+			JournalSearchState searchState = JournalSearchState.GetSearchState( searchContext );
 			if ( searchState != null )
 			{
 				searchState.Dispose();
@@ -2521,12 +2332,13 @@ namespace Simias.Storage
 		/// Starts a search for journal entries.
 		/// </summary>
 		/// <param name="collectionID">The identifier of the collection to search for members in.</param>
+		/// <param name="relativePath">The relative path of the directory/file to retrieve the journal for.</param>
 		/// <param name="count">Maximum number of JournalEntry objects to return.</param>
 		/// <param name="searchContext">Receives a provider specific search context object. This object must be serializable.</param>
 		/// <param name="journalList">Receives an array object that contains the JournalEntry objects.</param>
 		/// <param name="total">Receives the total number of objects found in the search.</param>
 		/// <returns>True if there are more journal entries. Otherwise false is returned.</returns>
-		public bool FindFirstJournalEntries( int count, out string searchContext, out JournalEntry[] journalList, out int total )
+		public bool FindFirstJournalEntries( string relativePath, int count, out string searchContext, out JournalEntry[] journalList, out int total )
 		{
 			bool moreEntries = false;
 
@@ -2535,8 +2347,8 @@ namespace Simias.Storage
 			journalList = null;
 			total = 0;
 
-			ICSList list = GetJournalEntriesForCollection();
-			SearchState searchState = new SearchState( ID, list.GetEnumerator() as ICSEnumerator, list.Count );
+			ICSList list = GetJournalEntriesForFile( relativePath );
+			JournalSearchState searchState = new JournalSearchState( ID, list.GetEnumerator() as ICSEnumerator, list.Count );
 			searchContext = searchState.ContextHandle;
 			total = list.Count;
 			moreEntries = FindNextJournalEntries( ref searchContext, count, out journalList );
@@ -2559,7 +2371,7 @@ namespace Simias.Storage
 			journalList = null;
 
 			// See if there is a valid search context.
-			SearchState searchState = SearchState.GetSearchState( searchContext );
+			JournalSearchState searchState = JournalSearchState.GetSearchState( searchContext );
 			if ( searchState != null )
 			{
 				// See if entries are to be returned.
@@ -2579,29 +2391,32 @@ namespace Simias.Storage
 							Member member = domain.GetMemberByID( je.UserID );
 							je.UserName = member.FN != null ? member.FN : member.Name;
 
-							Node node = GetNodeByID( je.FileID );
-							if ( node != null )
+							if ( je.FileID != null )
 							{
-								if ( IsType( node, NodeTypes.FileNodeType ) )
+								Node node = GetNodeByID( je.FileID );
+								if ( node != null )
 								{
-									FileNode fileNode = new FileNode( node );
-									if ( fileNode != null )
+									if ( IsType( node, NodeTypes.FileNodeType ) )
 									{
-										je.FileName = fileNode.GetRelativePath();
+										FileNode fileNode = new FileNode( node );
+										if ( fileNode != null )
+										{
+											je.FileName = fileNode.GetRelativePath();
+										}
+									}
+									else 
+									{
+										DirNode dirNode = new DirNode( node );
+										if ( dirNode != null )
+										{
+											je.FileName = dirNode.GetRelativePath();
+										}
 									}
 								}
-								else 
+								else
 								{
-									DirNode dirNode = new DirNode( node );
-									if ( dirNode != null )
-									{
-										je.FileName = dirNode.GetRelativePath();
-									}
+									je.FileName = GetDeletedFileName( je.FileID );
 								}
-							}
-							else
-							{
-								je.FileName = GetDeletedFileName( je.FileID );
 							}
 
 							tempList.Add( je );
@@ -2644,7 +2459,7 @@ namespace Simias.Storage
 			journalList = null;
 
 			// See if there is a valid search context.
-			SearchState searchState = SearchState.GetSearchState( searchContext );
+			JournalSearchState searchState = JournalSearchState.GetSearchState( searchContext );
 			if ( searchState != null )
 			{
 				// Backup the current cursor, but don't go passed the first record.
@@ -2695,7 +2510,7 @@ namespace Simias.Storage
 			journalList = null;
 
 			// See if there is a valid search context.
-			SearchState searchState = SearchState.GetSearchState( searchContext );
+			JournalSearchState searchState = JournalSearchState.GetSearchState( searchContext );
 			if ( searchState != null )
 			{
 				// Make sure that the specified offset is valid.
@@ -2880,8 +2695,21 @@ namespace Simias.Storage
 			{
 				foreach ( ShallowNode sn in list )
 				{
-					StoreFileNode journal = GetJournalForNode( new Node( this, sn ) );
+					Node node = new Node( this, sn );
 
+					// If this is the root DirNode, then get the journal for the collection.
+					if ( node.Properties.GetSingleProperty( PropertyTags.Root ) != null )
+					{
+						return GetJournalEntriesForCollection();
+					}
+
+					// Build the journal entry for the creation of the file.
+					string creator = (string)node.Properties.GetSingleProperty( PropertyTags.Creator ).Value;
+					DateTime createTime = (DateTime)node.Properties.GetSingleProperty( PropertyTags.CreationTime ).Value;
+					JournalEntry je = new JournalEntry( "add", creator, createTime.ToString() );
+					arrayList.Insert( 0, je );
+
+					StoreFileNode journal = GetJournalForNode( node );
 					if ( journal != null )
 					{
 						XmlDocument doc = new XmlDocument();
@@ -2889,9 +2717,18 @@ namespace Simias.Storage
 						IEnumerator ienum = doc.DocumentElement.GetEnumerator();
 						while ( ienum.MoveNext() )
 						{
-							JournalEntry je = new JournalEntry( (XmlNode)ienum.Current );
+							je = new JournalEntry( (XmlNode)ienum.Current );
 							arrayList.Insert( 0, je );
 						}
+					}
+
+					// Check the last modifier and add a journal entry if the journal didn't include it.
+					string lastModifier = (string)node.Properties.GetSingleProperty( "LastModifier" ).Value;
+					if ( !lastModifier.Equals( je.UserID ) )
+					{
+						DateTime lastWriteTime = (DateTime)node.Properties.GetSingleProperty( PropertyTags.LastWriteTime ).Value;
+						je = new JournalEntry( "modify", lastModifier, lastWriteTime.ToString() );
+						arrayList.Insert( 0, je );
 					}
 				}
 			}
