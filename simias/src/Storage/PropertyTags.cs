@@ -151,6 +151,11 @@ namespace Simias.Storage
 		/// <summary>
 		/// Well known property name.
 		/// </summary>
+		static public string LastModifier = "LastModifier";
+
+		/// <summary>
+		/// Well known property name.
+		/// </summary>
 		static public string LastWriteTime = "Write";
 
 		/// <summary>
@@ -287,7 +292,7 @@ namespace Simias.Storage
 		static PropertyTags()
 		{
 			// Allocate the tables to hold the reserved property names.
-			systemPropertyTable = new Hashtable( 30, new CaseInsensitiveHashCodeProvider(), new CaseInsensitiveComparer() );
+			systemPropertyTable = new Hashtable( 47, new CaseInsensitiveHashCodeProvider(), new CaseInsensitiveComparer() );
 
 			// Add the well-known system properties to the hashtable.  Don't need to add values
 			// with them.  Just need to know if they exist.
@@ -314,6 +319,7 @@ namespace Simias.Storage
 			systemPropertyTable.Add( JournalFor, null );
 			systemPropertyTable.Add( LastLoginTime, null );
 			systemPropertyTable.Add( LastAccessTime, null );
+			systemPropertyTable.Add( LastModifier, null );
 			systemPropertyTable.Add( LastWriteTime, null );
 			systemPropertyTable.Add( LinkReference, null );
 			systemPropertyTable.Add( LocalIncarnation, null );

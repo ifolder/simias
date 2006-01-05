@@ -556,10 +556,6 @@ namespace Simias.Storage
 					rNode = new Subscription( document );
 					break;
 
-				case "Journal":
-					rNode = new Journal( document );
-					break;
-
 				default:
 					rNode = new Node( document );
 					break;
@@ -656,10 +652,6 @@ namespace Simias.Storage
 
 				case "Subscription":
 					rNode = new Subscription( collection, shallowNode );
-					break;
-
-				case "Journal":
-					rNode = new Journal( collection, shallowNode );
 					break;
 
 				default:

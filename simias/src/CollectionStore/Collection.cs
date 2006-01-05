@@ -448,6 +448,71 @@ namespace Simias.Storage
 			node.IncarnationUpdate = 0;
 		}
 
+		private Node[] createCommitList( Node[] nodeList, ArrayList fileNodes, ArrayList journalIndices, int filesDeleted )
+		{
+			Node[] commitList = new Node[ nodeList.Length + fileNodes.Count + filesDeleted - journalIndices.Count ];
+
+			int index = 0;
+			for ( int n = 0; n < nodeList.Length; n++ )
+			{
+				if ( !journalIndices.Contains( n ) )
+				{
+					commitList[ index++ ] = nodeList[ n ];
+				}
+			}
+
+			DateTime commitTime = DateTime.Now;
+
+			foreach ( Node node in fileNodes )
+			{
+				StoreFileNode journal = null;
+				switch ( node.Properties.State )
+				{
+					case PropertyList.PropertyListState.Add:
+						journal = UpdateJournalForNode( node, commitTime, "add" );
+						break;
+					case PropertyList.PropertyListState.Delete:
+						journal = UpdateJournalForNode( node, commitTime, "delete" );
+
+						// Delete the journal associated with this file.
+						StoreFileNode fileJournal = GetJournalForNode( node );
+						if ( fileJournal != null )
+						{
+							try
+							{
+								// Delete the file.
+								File.Delete( fileJournal.GetFullPath( this ) );
+							}
+							catch {}
+
+							fileJournal.Properties.State = PropertyList.PropertyListState.Delete;
+							commitList[ index++ ] = fileJournal;
+						}
+						break;
+					case PropertyList.PropertyListState.Import:
+						if ( node.ExpectedIncarnation == 0 )
+						{
+							journal = UpdateJournalForNode( node, commitTime, "add" );
+						}
+						else
+						{
+							journal = UpdateJournalForNode( node, commitTime, "modify" );
+
+							// Make sure the node has a relationship to the journal.
+							if ( node.Properties.GetSingleProperty( PropertyTags.Journal ) == null )
+							{
+								node.Properties.AddNodeProperty( PropertyTags.Journal, new Relationship( ID, journal.ID ) );
+							}
+						}
+						break;
+				}
+
+				commitList[ index++ ] = journal;
+			}
+
+			return commitList;
+		}
+
 		/// <summary>
 		/// Removes the collection lock for a collection that is being deleted.
 		/// </summary>
@@ -575,8 +640,7 @@ namespace Simias.Storage
 				// Stamp the user in the last modifier attribute.
 				if ( IsType( node, NodeTypes.FileNodeType ) )
 				{
-					Property property = new Property( "LastModifier", Syntax.String, GetCreator() );
-					node.Properties.ModifyNodeProperty( property );
+					node.Properties.ModifyNodeProperty( PropertyTags.LastModifier, GetCreator() );
 				}
 			}
 
@@ -676,9 +740,6 @@ namespace Simias.Storage
 			XmlDocument deleteDocument = new XmlDocument();
 			deleteDocument.AppendChild( deleteDocument.CreateElement( XmlTags.ObjectListTag ) );
 
-			ArrayList journalNodeList = new ArrayList();
-			Relationship relationship = null;
-
 			// Process the storage size for the list.
 			SetStorageSize( nodeList );
 
@@ -690,13 +751,6 @@ namespace Simias.Storage
 					{
 						case PropertyList.PropertyListState.Add:
 						{
-							// Don't allow Journal nodes to be added.
-							if ( IsType( node, NodeTypes.JournalType ) )
-							{
-								// TODO: Fix this message ... create a different exception?
-								throw new CollectionStoreException( "Creating a Journal node is not allowed." );
-							}
-
 							// Validate this Collection object.
 							ValidateNodeForCommit( node );
 
@@ -738,35 +792,6 @@ namespace Simias.Storage
 
 						case PropertyList.PropertyListState.Delete:
 						{
-							if ( IsType( node, NodeTypes.JournalType ) )
-							{
-								// If the file for this journal no longer exists, allow the delete to go through.
-								bool deletable = false;
-								StoreFileNode journal = new StoreFileNode( node );
-								if ( journal != null )
-								{
-									Property property = journal.Properties.GetSingleProperty( PropertyTags.JournalFor );
-									if ( property != null )
-									{
-										Node fNode = GetNodeByID( (( Relationship )property.Value).NodeID );
-										if ( (fNode == null) || IsType( fNode, NodeTypes.TombstoneType ) )
-										{
-											deletable = true;
-										}
-									}
-									else
-									{
-										deletable = true;
-									}
-								}
-
-								if ( !deletable )
-								{
-									// TODO: Fix this message ... create a different exception?
-									throw new CollectionStoreException( "Deleting a Journal node is not allowed." );
-								}
-							}
-
 							if ( IsType( node, NodeTypes.CollectionType ) )
 							{
 								deleteCollection = true;
@@ -817,13 +842,6 @@ namespace Simias.Storage
 
 						case PropertyList.PropertyListState.Update:
 						{
-							// Don't allow Journal nodes to be modified.
-							if ( IsType( node, NodeTypes.JournalType ) )
-							{
-								// TODO: Fix this message ... create a different exception?
-								throw new CollectionStoreException( "Modifying a Journal node is not allowed." );
-							}
-
 							// Make sure that there are changes to the Node object.
 							if ( IsType( node, NodeTypes.CollectionType ) || node.Properties.ChangeList.Count != 0 )
 							{
@@ -874,13 +892,6 @@ namespace Simias.Storage
 
 						case PropertyList.PropertyListState.Import:
 						{
-							// Don't allow Journal nodes to sync from the client.
-							if ( Role.Equals(SyncRoles.Master) && IsType( node, NodeTypes.JournalType ) )
-							{
-								// TODO: Fix this message ... create a different exception?
-								throw new CollectionStoreException( "Importing a Journal node from the client to the server is not allowed." );
-							}
-
 							// Validate this Collection object.
 							ValidateNodeForCommit( node );
 
@@ -995,10 +1006,6 @@ namespace Simias.Storage
 				store.StorageProvider.CommitRecords( id, commitDocument, deleteDocument );
 			}
 			
-			// Reinitialize the XML documents to hold journal nodes.
-			commitDocument.DocumentElement.RemoveAll();
-			deleteDocument.DocumentElement.RemoveAll();
-
 			// Walk the commit list and change all states to updated.
 			foreach( Node node in nodeList )
 			{
@@ -1042,27 +1049,6 @@ namespace Simias.Storage
 							case PropertyList.PropertyListState.Add:
 							case PropertyList.PropertyListState.Proxy:
 							{
-								// Update the journal for this node.
-								if ( Role.Equals( SyncRoles.Master ) && 
-									( IsType( node, NodeTypes.FileNodeType ) || IsType( node, NodeTypes.DirNodeType ) ) )
-								{
-									StoreFileNode journal;
-									journal = UpdateJournalForNode( node, commitTime, "add" );
-
-									// Validate the journal object.
-									ValidateNodeForCommit( journal );
-
-									// Increment the local incarnation number for the journal.
-									IncrementLocalIncarnation( journal );
-
-									// Add the journal node to the list.
-									journalNodeList.Add(journal);
-
-									// Copy the XML journal node over to the modify document.
-									commitDocument.DocumentElement.AppendChild( 
-										commitDocument.ImportNode( journal.Properties.PropertyRoot, true ) );
-								}
-
 								// Update the cache before indicating the event.
 								store.Cache.Add( this, node );
 
@@ -1082,44 +1068,6 @@ namespace Simias.Storage
 
 							case PropertyList.PropertyListState.Delete:
 							{
-								// Update the journal.
-								if ( Role.Equals( SyncRoles.Master ) &&
-									( IsType( node, NodeTypes.FileNodeType ) || IsType( node, NodeTypes.DirNodeType ) ) )
-								{
-									StoreFileNode journal = UpdateJournalForNode( node, commitTime, "delete" );
-
-									// Validate the journal object.
-									ValidateNodeForCommit( journal );
-
-									// Increment the local incarnation number for the journal.
-									IncrementLocalIncarnation( journal );
-
-									// Add the journal node to the list.
-									journalNodeList.Add( journal );
-
-									// Copy the XML journal node over to the modify document.
-									commitDocument.DocumentElement.AppendChild( 
-										commitDocument.ImportNode( journal.Properties.PropertyRoot, true ) );
-
-									// Delete the journal associated with this file.
-									journal = GetJournalForNode( node );
-									if ( journal != null )
-									{
-										try
-										{
-											// Delete the file.
-											File.Delete( journal.GetFullPath( this ) );
-										}
-										catch {}
-
-										journal.Properties.State = PropertyList.PropertyListState.Delete;
-										journalNodeList.Add( journal );
-
-										deleteDocument.DocumentElement.AppendChild(
-											deleteDocument.ImportNode( journal.Properties.PropertyRoot, true ) );
-									}
-								}
-
 								// Update the cache before indicating the event.
 								store.Cache.Remove( id, node.ID );
 
@@ -1133,41 +1081,6 @@ namespace Simias.Storage
 
 							case PropertyList.PropertyListState.Import:
 							{
-								if ( Role.Equals(SyncRoles.Master) && 
-									( IsType( node, NodeTypes.FileNodeType ) || IsType( node, NodeTypes.DirNodeType ) ) )
-								{
-									StoreFileNode journal;
-									if ( node.ExpectedIncarnation == node.MasterIncarnation )
-									{
-										journal = UpdateJournalForNode( node, commitTime, "add" );
-									}
-									else
-									{
-										journal = UpdateJournalForNode( node, commitTime, "modify" );
-
-										// Make sure the node has a relationship to the journal.
-										if ( node.Properties.GetSingleProperty( PropertyTags.Journal ) == null )
-										{
-											node.Properties.AddNodeProperty( PropertyTags.Journal, new Relationship( ID, journal.ID ) );
-											commitDocument.DocumentElement.AppendChild(
-												commitDocument.ImportNode( node.Properties.PropertyRoot, true ) );
-										}
-									}
-
-									// Validate the journal object.
-									ValidateNodeForCommit( journal );
-
-									// Increment the local incarnation number for the journal.
-									IncrementLocalIncarnation( journal );
-
-									// Add the journal node to the list.
-									journalNodeList.Add(journal);
-
-									// Copy the XML journal node over to the modify document.
-									commitDocument.DocumentElement.AppendChild( 
-										commitDocument.ImportNode( journal.Properties.PropertyRoot, true ) );
-								}
-
 								// Update the cache before indicating the event.
 								store.Cache.Add( this, node );
 
@@ -1181,13 +1094,6 @@ namespace Simias.Storage
 
 							case PropertyList.PropertyListState.Restore:
 							{
-								// TODO: we need to make sure that journal nodes are restored first
-								if ( Role.Equals(SyncRoles.Master) && 
-									( IsType( node, NodeTypes.FileNodeType ) || IsType( node, NodeTypes.DirNodeType ) ) )
-								{
-									// TODO: need to implement this functionality.
-								}
-
 								// Update the cache before indicating the event.
 								store.Cache.Add( this, node );
 
@@ -1207,34 +1113,6 @@ namespace Simias.Storage
 
 							case PropertyList.PropertyListState.Update:
 							{
-								// Update the journal.
-								if ( Role.Equals( SyncRoles.Master ) &&
-									( IsType( node, NodeTypes.FileNodeType ) || IsType( node, NodeTypes.DirNodeType ) ) )
-								{
-									StoreFileNode journal = UpdateJournalForNode( node, commitTime, "modify" );
-
-									// Make sure the node has a relationship to the journal.
-									if ( node.Properties.GetSingleProperty( PropertyTags.Journal ) == null )
-									{
-										node.Properties.AddNodeProperty( PropertyTags.Journal, new Relationship( ID, journal.ID ) );
-										commitDocument.DocumentElement.AppendChild(
-											commitDocument.ImportNode( node.Properties.PropertyRoot, true ) );
-									}
-
-									// Validate the journal object.
-									ValidateNodeForCommit( journal );
-
-									// Increment the local incarnation number for the journal.
-									IncrementLocalIncarnation( journal );
-
-									// Add the journal node to the list.
-									journalNodeList.Add(journal);
-
-									// Copy the XML journal node over to the modify document.
-									commitDocument.DocumentElement.AppendChild( 
-										commitDocument.ImportNode( journal.Properties.PropertyRoot, true ) );
-								}
-
 								// Update the cache before indicating the event.
 								store.Cache.Add( this, node );
 
@@ -1301,74 +1179,6 @@ namespace Simias.Storage
 					node.LocalChanges = false;
 					node.IndicateEvent = true;
 				}
-			}
-
-			// Call the store provider to update the records.
-			store.StorageProvider.CommitRecords( id, commitDocument, deleteDocument );
-
-			// Walk the journal list, updating the cache and firing the events.
-			foreach (StoreFileNode node in journalNodeList)
-			{
-				switch ( node.Properties.State )
-				{
-					case PropertyList.PropertyListState.Add:
-					case PropertyList.PropertyListState.Proxy:
-					{
-						// Update the cache before indicating the event.
-						store.Cache.Add( this, node );
-
-						// Indicate the event.
-						NodeEventArgs args = new NodeEventArgs( store.Publisher, node.ID, id, node.Type, EventType.NodeCreated, 0, commitTime, node.MasterIncarnation, node.LocalIncarnation, 0 );
-						args.LocalOnly = node.LocalChanges;
-						store.EventPublisher.RaiseEvent( args );
-						node.Properties.State = PropertyList.PropertyListState.Update;
-						break;
-					}
-
-					case PropertyList.PropertyListState.Delete:
-					{
-						// Update the cache before indicating the event.
-						store.Cache.Remove( id, node.ID );
-
-						// Indicate the event.
-						NodeEventArgs args = new NodeEventArgs( store.Publisher, node.ID, id, node.Type, EventType.NodeDeleted, 0, commitTime, node.MasterIncarnation, node.LocalIncarnation, 0 );
-						args.LocalOnly = node.LocalChanges;
-						store.EventPublisher.RaiseEvent( args );
-						node.Properties.State = PropertyList.PropertyListState.Disposed;
-						break;
-					}
-
-					case PropertyList.PropertyListState.Import:
-					case PropertyList.PropertyListState.Restore:
-					{
-						// Update the cache before indicating the event.
-						store.Cache.Add( this, node );
-
-						// Indicate the event.
-						NodeEventArgs args = new NodeEventArgs( store.Publisher, node.ID, id, node.Type, ( node.DiskNode != null ) ? EventType.NodeChanged : EventType.NodeCreated, 0, commitTime, node.MasterIncarnation, node.LocalIncarnation, 0 );
-						args.LocalOnly = node.LocalChanges;
-						store.EventPublisher.RaiseEvent( args );
-						node.Properties.State = PropertyList.PropertyListState.Update;
-						break;
-					}
-
-					case PropertyList.PropertyListState.Update:
-					{
-						// Update the cache before indicating the event.
-						store.Cache.Add( this, node );
-
-						// Indicate the event.
-						NodeEventArgs args = new NodeEventArgs( store.Publisher, node.ID, id, node.Type, EventType.NodeChanged, 0, commitTime, node.MasterIncarnation, node.LocalIncarnation, 0 );
-						args.LocalOnly = node.LocalChanges;
-						store.EventPublisher.RaiseEvent( args );
-						break;
-					}
-				}
-
-				// Reset in-memory properties.
-				node.DiskNode = null;
-				node.LocalChanges = false;
-				node.IndicateEvent = true;
 			}
 		}
 
@@ -1695,34 +1505,31 @@ namespace Simias.Storage
 
 			if ( newJournal )
 			{
-				if ( Role.Equals( SyncRoles.Master ) )
+				// Create the journal node.
+				FileStream stream = File.Open(filename, FileMode.Open, FileAccess.ReadWrite);
+				journal = new StoreFileNode( nodeToJournal.Name, stream );
+
+				if ( journal != null )
 				{
-					// Create the journal node.
-					FileStream stream = File.Open(filename, FileMode.Open, FileAccess.ReadWrite);
-					journal = new StoreFileNode( nodeToJournal.Name, stream );
+					journal.FlushStreamData( this );
 
-					if ( journal != null )
+					// Add the journal type.
+					journal.Properties.AddNodeProperty( PropertyTags.Types, "Journal" );
+
+					// Create a relationship to the node and add it to the journal.
+					journal.Properties.AddNodeProperty( PropertyTags.JournalFor, new Relationship( ID, nodeToJournal.ID ) );
+
+					if ( modify )
 					{
-						journal.FlushStreamData( this );
-
-						// Add the journal type.
-						journal.Properties.AddNodeProperty( PropertyTags.Types, "Journal" );
-
-						// Create a relationship to the node and add it to the journal.
-						journal.Properties.AddNodeProperty( PropertyTags.JournalFor, new Relationship( ID, nodeToJournal.ID ) );
-
-						if ( modify )
-						{
-							// TODO: put attribute name in PropertyTags ... could use FsPath but it requires some changes to sync.
-							// Add the FilePath attribute to the journal.
-							journal.Properties.AddNodeProperty( 
-								"FilePath", node.Properties.GetSingleProperty( PropertyTags.FileSystemPath ).Value );
-						}
+						// TODO: put attribute name in PropertyTags ... could use FsPath but it requires some changes to sync.
+						// Add the FilePath attribute to the journal.
+						journal.Properties.AddNodeProperty( 
+							"FilePath", node.Properties.GetSingleProperty( PropertyTags.FileSystemPath ).Value );
 					}
-
-					// Delete the temporary file.
-					File.Delete( filename );
 				}
+
+				// Delete the temporary file.
+				File.Delete( filename );
 			}
 			else
 			{
@@ -1971,6 +1778,8 @@ namespace Simias.Storage
 				bool hasFileNode = false;
 				Member collectionOwner = null;
 				ArrayList memberList = new ArrayList();
+				ArrayList journalIndices = new ArrayList();
+				ArrayList fileNodes = new ArrayList();
 
 				// See if the database is being shut down.
 				if ( store.ShuttingDown )
@@ -1985,6 +1794,9 @@ namespace Simias.Storage
 				{
 					throw new LockException();
 				}
+
+				int n = 0;
+				int filesDeleted = 0;
 
 				// Walk the commit list to see if there are any creation and deletion of the collection states.
 				foreach( Node node in nodeList )
@@ -2030,13 +1842,40 @@ namespace Simias.Storage
 							// Administrative access needs to be checked because system policies are controlled objects.
 							doAdminCheck = true;
 						}
-						else if ( !hasFileNode && IsType( node, NodeTypes.BaseFileNodeType ) )
+						else if ( /*!hasFileNode && */IsType( node, NodeTypes.BaseFileNodeType ) )
 						{
 							// Need to have a collection object for file nodes, because the amount of storage is
 							// on the collection object.
 							hasFileNode = true;
+
+							if ( IsType( node, NodeTypes.FileNodeType ) )
+							{
+								fileNodes.Add( node );
+
+								if ( node.Properties.State.Equals( PropertyList.PropertyListState.Delete ) )
+								{
+									filesDeleted++;
+								}
+							}
+							else if ( IsType( node, "Journal" ) )
+							{
+								journalIndices.Add( n );
+							}
 						}
 					}
+
+					n++;
+				}
+
+				Node[] nodeList2;
+				if ( Role.Equals( SyncRoles.Master ) && 
+					( fileNodes.Count > 0 || journalIndices.Count > 0 ) )
+				{
+					nodeList2 = createCommitList( nodeList, fileNodes, journalIndices, filesDeleted );
+				}
+				else
+				{
+					nodeList2 = nodeList;
 				}
 
 				// If the collection is both created and deleted, then there is nothing to do.
@@ -2061,8 +1900,8 @@ namespace Simias.Storage
 						{
 							// If a collection is being created, then a Member object containing the owner of the
 							// collection needs to be created also.
-							commitList = new Node[ nodeList.Length + 1 ];
-							nodeList.CopyTo( commitList, 0 );
+							commitList = new Node[ nodeList2.Length + 1 ];
+							nodeList2.CopyTo( commitList, 0 );
 							Member owner = accessControl.GetCurrentMember( store, Domain, true );
 							commitList[ commitList.Length - 1 ] = owner;
 							memberList.Add( owner );
@@ -2070,7 +1909,7 @@ namespace Simias.Storage
 						else
 						{
 							// The owner is already specified in the list. Use the list as is.
-							commitList = nodeList;
+							commitList = nodeList2;
 						}
 					}
 					else
@@ -2127,14 +1966,14 @@ namespace Simias.Storage
 							// We have to get a new copy of the collection node instead of just using the
 							// 'this' reference because it might contain changes to it that the user doesn't
 							// want committed yet.
-							commitList = new Node[ nodeList.Length + 1 ];
-							nodeList.CopyTo( commitList, 0 );
+							commitList = new Node[ nodeList2.Length + 1 ];
+							nodeList2.CopyTo( commitList, 0 );
 							commitList[ commitList.Length - 1 ] = store.GetCollectionByID( ID );
 						}
 						else
 						{
 							// Use the passed in list.
-							commitList = nodeList;
+							commitList = nodeList2;
 						}
 					}
 
@@ -2681,7 +2520,7 @@ namespace Simias.Storage
 					}
 
 					// Check the last modifier and add a journal entry if the journal didn't include it.
-					string lastModifier = (string)node.Properties.GetSingleProperty( "LastModifier" ).Value;
+					string lastModifier = (string)node.Properties.GetSingleProperty( PropertyTags.LastModifier ).Value;
 					if ( !lastModifier.Equals( je.UserID ) )
 					{
 						DateTime lastWriteTime = (DateTime)node.Properties.GetSingleProperty( PropertyTags.LastWriteTime ).Value;

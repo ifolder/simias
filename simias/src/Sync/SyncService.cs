@@ -725,13 +725,18 @@ namespace Simias.Sync
 						}
 						else
 						{
-							// If this is a file delete the file.
-							BaseFileNode bfn = node as BaseFileNode;
-							if (bfn != null)
+							// Don't remove store managed files (this is handled in the commit code).
+							if ( !collection.IsType( node, NodeTypes.StoreFileNodeType ) )
 							{
-								name = bfn.GetFullPath(collection);
-								SyncFile.DeleteFile(collection, bfn, name);
+								// If this is a file delete the file.
+								BaseFileNode bfn = node as BaseFileNode;
+								if (bfn != null)
+								{
+									name = bfn.GetFullPath(collection);
+									SyncFile.DeleteFile(collection, bfn, name);
+								}
 							}
+
 							collection.Delete(node);
 							collection.Commit(node);
 						}
