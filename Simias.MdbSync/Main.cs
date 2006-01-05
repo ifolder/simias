@@ -15,6 +15,10 @@ class MainClass
 		
 		mdb = new Simias.MdbSync.Mdb( "\\Tree\\Context\\admin", "hula" );
 		Console.WriteLine( "MDB Handle: " + mdb.Handle.ToString() );
+		
+		// new up banderso
+		user = new Simias.MdbSync.User( mdb.Handle, "\\Tree\\Context\\banderso" );
+		
 		enumUsers = new Simias.MdbSync.EnumUsers( mdb.Handle, "\\Tree\\Context\\", false );
 		enumUsers.Reset();
 		while( enumUsers.MoveNext() == true )

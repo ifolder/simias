@@ -43,7 +43,28 @@ namespace Simias.MdbSync
 		private string fullName;
 		private string givenName;
 		#endregion
+		
+		#region Dll Imports
+		/* Native MDB functions */
+		[DllImport( Mdb.HulaLib )]
+		protected static extern
+		IntPtr MDBCreateValueStruct( MdbHandle Handle, string Context );
+		
+		[DllImport( Mdb.HulaLib )]
+		protected static extern bool MDBDestroyValueStruct( IntPtr ValueStruct );
+		
+		[DllImport( Mdb.HulaLib )]
+		protected static extern 
+		bool MDBGetObjectDetails(
+			string DN, 
+			StringBuilder Type, 
+			StringBuilder Rdn,
+			StringBuilder Adn,
+			IntPtr ValueStruct);
+		#endregion
+		
 
+		#region Properties
 		public string DN
 		{
 			get{ return userDN; }
@@ -68,11 +89,43 @@ namespace Simias.MdbSync
 		{
 			get{ return userDN; }
 		}
+		#endregion
 		
 		#region Constructors
 		public User( MdbHandle Handle, string DN )
 		{
+		
+			if ( DN == null || DN == "" )
+			{
+				// throw new argexception;
+			}
+			
 			userDN = DN;
+			
+			IntPtr valueStruct = MDBCreateValueStruct( Handle, userDN );
+			if ( valueStruct  == IntPtr.Zero )
+			{
+				throw new ApplicationException( "could not create a ValueStruct" );
+			}
+			
+			StringBuilder classSB = new StringBuilder( 256 );
+			StringBuilder dnSB = new StringBuilder( 256 );
+			
+			if ( MDBGetObjectDetails( userDN, classSB, null, dnSB, valueStruct ) == false )
+			{
+				throw new ApplicationException( "failed to get object details for: " + userDN );
+			}
+			
+			Console.WriteLine( dnSB.ToString() );
+			
+			if ( classSB.ToString() != "User" )
+			{
+				throw new ApplicationException( userDN + ": is not an object of class type \"User\"" );
+			}
+			
+			// Grab given, lastname and full name
+			
+			MDBDestroyValueStruct( valueStruct );
 		}
 		
 		~User()
