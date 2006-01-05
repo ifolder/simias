@@ -31,24 +31,21 @@ using MdbHandle = System.IntPtr;
 
 namespace Simias.MdbSync
 {
-	public struct MdbValueStruct
-	{
-		public IntPtr Value;
-		public int Used;
-		public int ErrNo;
-		public IntPtr Interface;
-	}
-
+	/// <summary>
+	/// Class to enumerate Users in a specified container
+	/// in an MDB identity store.
+	/// </summary>
 	public class EnumUsers : IDisposable, IEnumerator
 	{
 		#region Class Members
-		private bool goDeep;
-		private readonly string thisModule = "simias-mdb-sync";
+		private bool deep;
 		private MdbHandle mdbHandle;
 		private string containerDN;
-		private IntPtr e = System.IntPtr.Zero;
-		private IntPtr v = System.IntPtr.Zero;
-		private User currentUser = null;
+		//private IntPtr e = IntPtr.Zero;
+		private IntPtr v = IntPtr.Zero;
+		private int count;
+		private int offset;
+		MdbValueStruct mdbvs;
 		#endregion
 		
 		#region Constructors
@@ -56,12 +53,11 @@ namespace Simias.MdbSync
 		{
 			mdbHandle = Handle;
 			containerDN = ContainerDN;
-			goDeep = Deep;
+			deep = Deep;
 		}
 		
 		~EnumUsers()
 		{
-			Console.WriteLine( "calling deconstructor" );
 			Cleanup();
 		}
 		
@@ -70,6 +66,10 @@ namespace Simias.MdbSync
 		#region Private Methods
 		private void Cleanup()
 		{
+			if ( this.v != IntPtr.Zero )
+			{
+				MDBDestroyValueStruct( v );
+			}	
 		}
 		#endregion
 		
@@ -80,7 +80,6 @@ namespace Simias.MdbSync
 			Cleanup();
 			System.GC.SuppressFinalize( this );
 		}
-		
 		#endregion
 		
 		#region IEnumerator Members
@@ -89,17 +88,32 @@ namespace Simias.MdbSync
 		/// </summary>
 		public void Reset()
 		{
-			Console.WriteLine( "Calling Reset()" );
 			this.v = MDBCreateValueStruct( mdbHandle, containerDN );
 			if ( v == IntPtr.Zero )
 			{
 				throw new ApplicationException( "Couldn't create ValueStruct" );
 			}
 
+			/*
 			this.e = MDBCreateEnumStruct( v );
 			if ( this.e == IntPtr.Zero )
 			{
 				throw new ApplicationException( "Couldn't create EnumStruct" );
+			}
+			*/
+			
+			// BUGBUG for now we're not traversing deep
+			offset = -1;			
+			count = MDBEnumerateObjects( containerDN, "User", null, v );
+			if ( count > 0 )
+			{
+				Console.WriteLine( "enumerated: " + count.ToString() );
+				mdbvs = ( MdbValueStruct ) Marshal.PtrToStructure( v, typeof( MdbValueStruct ) );
+			}
+			
+			if ( deep == true )
+			{
+				throw new NotImplementedException();
 			}
 		}
 
@@ -110,8 +124,20 @@ namespace Simias.MdbSync
 		{
 			get
 			{
-				return currentUser as object;
-			}
+				if ( count > 0 && offset >= 0 )
+				{
+					int off = ( offset == count ) ? offset - 1 : offset;
+					string userCN = 
+						Marshal.PtrToStringAnsi( Marshal.ReadIntPtr( mdbvs.Value, off * IntPtr.Size ) );
+					
+					if ( userCN != null && userCN != "" )
+					{
+						return new Simias.MdbSync.User( mdbHandle, containerDN + "\\" + userCN );
+					}
+				}
+				
+				return null;
+			}			
 		}
 
 		/// <summary>
@@ -123,9 +149,26 @@ namespace Simias.MdbSync
 		/// </returns>
 		public bool MoveNext()
 		{
-			Console.WriteLine( "MoveNext() called" );
-			Console.WriteLine( "  container: " + containerDN );
-			string userDN = MDBEnumerateObjectsEx( containerDN, null, null, (uint) 0, e, v );
+			if ( count > 0 )
+			{
+				if ( offset < count )
+				{
+					offset++;
+					if ( offset == count )
+					{
+						MDBDestroyValueStruct( v );
+						this.v = IntPtr.Zero;
+						return false;
+					}
+					
+					return true;
+				}
+			}
+			
+			return false;
+
+			/*			
+			string userDN = MDBEnumerateObjectsEx( containerDN, null, null, (uint) 1, e, v );
 			if ( userDN != null )
 			{
 				Console.WriteLine( "User: " + userDN );
@@ -135,11 +178,9 @@ namespace Simias.MdbSync
 			
 			MDBDestroyEnumStruct( e, v );
 			MDBDestroyValueStruct( v );
-			e = IntPtr.Zero;
-			v = IntPtr.Zero;
-			
-			Console.WriteLine( "MoveNext() returning false" );
-			return false;
+			*/
+			//Console.WriteLine( "MoveNext() returning false" );
+			//return false;
 		}
 		#endregion
 		
@@ -182,14 +223,6 @@ namespace Simias.MdbSync
 		bool 
 		MDBDestroyEnumStruct( IntPtr EnumStruct, IntPtr ValueStruct );
 
-		/* BOOL	MDBAddValue(
-					const unsigned char	*Value,
-					MDBValueStruct	*V ); */
-		[DllImport( Mdb.HulaLib )]
-		protected static extern
-		bool
-		MDBAddValue( string Value, IntPtr ValueStruct );
-				
 		[DllImport( Mdb.HulaLib )]
 		protected static extern
 		int 
@@ -205,30 +238,13 @@ namespace Simias.MdbSync
 		
 		[DllImport( Mdb.HulaLib )]
 		protected static extern
-		int MDBReadDN( string Obj, string Attribute, IntPtr ValueStruct );
+		int MDBReadDN( string ObjectDN, string Attribute, IntPtr ValueStruct );
 				
+		/*
 		[DllImport( Mdb.HulaLib )]
 		protected static extern
 		bool MDBWrite( string obj, string attribute, IntPtr valueStruct );
 				
-		[DllImport( Mdb.HulaLib )]
-		protected static extern
-		bool MDBAdd(
-				string obj, string attribute, string val, IntPtr valueStruct);
-		
-		/* This was a macro in mdb.h */
-		protected static bool MDBAddStringAttribute(
-				string attribute, string value, IntPtr attributes, IntPtr data) {
-			string temp = "S" + attribute;
-			
-			if (!MDBAddValue(temp, attributes))
-				return false;
-			if (!MDBAddValue(value, data))
-				return false;
-				
-			return true;
-		}
-		
 		[DllImport( Mdb.HulaLib )]
 		protected static extern
 		bool MDBRemove(
@@ -246,14 +262,8 @@ namespace Simias.MdbSync
 		[DllImport( Mdb.HulaLib )]
 		protected static extern
 		bool MDBDeleteObject( string Obj, bool Recursive, IntPtr ValueStruct );
+		*/
 				
-		/*BOOL	MDBGetObjectDetails(
-		 			const unsigned char	*Object,
-					unsigned char	*Type,
-					unsigned char	*RDN,
-					unsigned char	*DN,
-					MDBValueStruct	*V );*/
-
 		[DllImport( Mdb.HulaLib )]
 		protected static extern
 		bool MDBGetObjectDetails(
@@ -262,12 +272,6 @@ namespace Simias.MdbSync
 				StringBuilder rdn,
 				StringBuilder adn, 
 				IntPtr valueStruct );
-
-		/*long	MDBEnumerateObjects(
-					const unsigned char	*Container,
-					const unsigned char	*Type,
-					const unsigned char	*Pattern,
-					MDBValueStruct	*V );*/
 
 		[DllImport( Mdb.HulaLib )]
 		protected static extern
@@ -299,40 +303,16 @@ namespace Simias.MdbSync
 			IntPtr EnumStruct, 
 			IntPtr ValueStruct );
 
-		/* const unsigned char	*MDBEnumerateAttributesEx(
-								   const unsigned char	*Object,
-								   MDBEnumStruct	*E,
-								   MDBValueStruct	*V); */
-
-		/* this function is not implemented in the mdb file driver yet (9/2005)
-		 * [DllImport( Mdb.HulaLib )]
-		protected static extern string MDBEnumerateAttributesEx(
-			string Object, IntPtr enumStruct, IntPtr valueStruct);*/
-
 		[DllImport( Mdb.HulaLib )]
 		protected static extern
-		bool MDBIsObject( string Obj, IntPtr ValueStruct );
+		bool MDBIsObject( string Object, IntPtr ValueStruct );
 		
+		/*
 		[DllImport( Mdb.HulaLib )]
 		private static extern
 		bool MDBVerifyPassword(
-			string Obj, string Password, IntPtr ValueStruct );
-
-		[DllImport( Mdb.HulaLib )]
-		private static extern
-		bool MDBChangePassword(
-			string Obj, 
-			string OldPassword, 
-			string NewPassword, 
-			IntPtr ValueStruct );
-		
-		[DllImport( Mdb.HulaLib )]
-		private static extern
-		bool MDBChangePasswordEx(
-			string Obj, 
-			string OldPassword,
-			string NewPassword,
-			IntPtr ValueStruct );
-		#endregion	
+			string Object, string Password, IntPtr ValueStruct );
+		*/
+		#endregion
 	}
 }	
