@@ -12,7 +12,7 @@
 
 #include "simias2.h"
 
-#define TEST_LOOP_COUNT 20
+#define TEST_LOOP_COUNT 10
 
 /**
  *	Simias Handle tests
@@ -469,10 +469,102 @@ bool simiasCollectionTests()
 
 
 
+
 /**
  *	Simias Node tests
  */
-bool simiasNodeTests()
+bool simiasNodeCreateTests()
+{
+	int rc = 0;
+	int counter;
+	bool passed = true;
+	SimiasNode		tmpNode;
+
+	for(counter = 0; counter < TEST_LOOP_COUNT; counter++)
+	{
+		int propertyCount;
+		int pCounter;
+		
+		rc = simias_node_create(&tmpNode, "Test 1 Node", "TestNodeType");
+		if(!rc)
+		{
+			int rc = 0;
+			SimiasProperty tmpProp;
+			
+			rc = simias_property_create(&tmpProp, "name", "string", "TestProperty");
+			if(rc != SIMIAS_SUCCESS)
+			{
+				passed = false;
+				break;
+			}
+
+			rc = simias_node_set_property(tmpNode, tmpProp);
+			if(rc != SIMIAS_SUCCESS)
+			{
+				passed = false;
+				break;
+			}
+
+			rc = simias_property_free(&tmpProp);
+			if(rc != SIMIAS_SUCCESS)
+			{
+				passed = false;
+				break;
+			}
+
+			propertyCount = simias_property_get_count(tmpNode);
+			if(propertyCount != 1)
+			{
+				passed = false;
+				break;
+			}
+
+			for(pCounter = 0; pCounter < propertyCount; pCounter++)
+			{
+				SimiasProperty hProperty;
+
+				rc = simias_property_extract_property(tmpNode, 
+													&hProperty,
+													pCounter);
+				if(rc)
+				{
+					printf("Error simias_property_extract_property: %d\n", rc);
+					passed = false;
+					break;
+				}
+
+				rc = simias_property_free(&hProperty);
+				if(rc)
+				{
+					printf("Error simias_property_free: %d\n", rc);
+					passed = false;
+					break;
+				}
+			}
+
+//			rc = simias_node_remove_property(tmpNode, "TestProperty");
+//			if(rc != SIMIAS_SUCCESS)
+//			{
+//				passed = false;
+//				break;
+//			}
+
+			rc = simias_node_free(&tmpNode);
+			if(rc != SIMIAS_SUCCESS)
+			{
+				passed = false;
+				break;
+			}
+		}
+		else
+			passed = false;
+	}
+	
+	return passed;
+}
+
+
+bool simiasNodeReadTests()
 {
 	SimiasHandle hSimias;
 	int rc = 0;
@@ -629,6 +721,71 @@ bool simiasNodeTests()
 	return passed;
 }
 
+/**
+ *	Simias Node tests
+ */
+bool simiasNodeTests()
+{
+	if(simiasNodeReadTests() != true)
+		return false;
+
+	if(simiasNodeCreateTests() != true)
+		return false;
+		
+	return true;
+}
+
+
+
+
+/**
+ *	Simias Property tests
+ */
+bool simiasPropertyTests()
+{
+	int counter;
+	bool passed = true;
+
+	for(counter = 0; counter < TEST_LOOP_COUNT; counter++)
+	{
+		int rc = 0;
+		char *tmpValue;
+		SimiasProperty tmpProp;
+		
+		rc = simias_property_create(&tmpProp, "name", "string", "Calvin");
+		if(rc != SIMIAS_SUCCESS)
+		{
+			passed = false;
+			break;
+		}
+		tmpValue = simias_property_get_name(tmpProp);
+		if(tmpValue == NULL)
+		{
+			passed = false;
+			break;
+		}
+		tmpValue = simias_property_get_type(tmpProp);
+		if(tmpValue == NULL)
+		{
+			passed = false;
+			break;
+		}
+		tmpValue = simias_property_get_value_as_string(tmpProp);
+		if(tmpValue == NULL)
+		{
+			passed = false;
+			break;
+		}
+		rc = simias_property_free(&tmpProp);
+		if(rc != SIMIAS_SUCCESS)
+		{
+			passed = false;
+			break;
+		}
+	}
+
+	return passed;
+}
 
 
 
@@ -685,6 +842,15 @@ int main(int argc, char **argv)
 		allTests = false;
 	}
 
+	printf("Test: simiasPropertyTests()\n");
+	passedTest = simiasPropertyTests();
+	if(passedTest)
+		printf("Test: simiasPropertyTests() - PASS\n");
+	else
+	{
+		printf("Test: simiasPropertyTests() - FAILED\n");
+		allTests = false;
+	}
 
 	printf("\n");
 	printf("-------------------------------------------------------------\n");
