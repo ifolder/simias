@@ -23,9 +23,88 @@
 #include "simias2.h"
 #include "simias_internal.h"
 
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <uuid/uuid.h>
+
+//int _simias_node_create_from_xmlnode(struct _SimiasNode **_hNode, xmlNode *node)
+//<Object name="Local" id="53fca26f-e37b-462f-9157-181674ef9bc1" type="Domain">
+
+int simias_node_create(SimiasNode *hNode, char *name, char *type)
+{
+	uuid_t	uuid;
+	char	nodeID[40];  // guid is 36 bytes + NULL
+	int rc = 0;
+
+	uuid_generate(uuid);
+	uuid_unparse_upper(uuid, nodeID);
+
+	xmlNode *tmpNode = xmlNewNode(NULL, (xmlChar *)"Object");
+	if(tmpNode == NULL)
+		return SIMIAS_ERROR_INTERNAL_XML_ERROR;
+		
+	xmlAttr *newAttr = xmlNewProp(tmpNode, (xmlChar *)"name", (xmlChar *)name);
+	if(newAttr == NULL)
+	{
+		xmlFreeNode(tmpNode);
+		return SIMIAS_ERROR_INTERNAL_XML_ERROR;
+	}
+	newAttr = xmlNewProp(tmpNode, (xmlChar *)"id", (xmlChar *)nodeID);
+	if(newAttr == NULL)
+	{
+		xmlFreeNode(tmpNode);
+		return SIMIAS_ERROR_INTERNAL_XML_ERROR;
+	}
+	newAttr = xmlNewProp(tmpNode, (xmlChar *)"type", (xmlChar *)type);
+	if(newAttr == NULL)
+	{
+		xmlFreeNode(tmpNode);
+		return SIMIAS_ERROR_INTERNAL_XML_ERROR;
+	}
+
+	rc = _simias_node_create_from_xmlnode((struct _SimiasNode **)hNode, tmpNode);
+
+	xmlFreeNode(tmpNode);
+	return rc;
+}
+
+int simias_node_set_property(SimiasNode hNode, SimiasProperty hProp)
+{
+	xmlNode *newPropNode = NULL;
+	
+	struct _SimiasNode *_hNode =
+		(struct _SimiasNode *)hNode;
+		
+	struct _SimiasProperty *_hProp =
+		(struct _SimiasProperty *)hProp;
+
+	if(_hProp->node == NULL)
+	{
+		return SIMIAS_ERROR_INVALID_POINTER;
+	}
+
+	newPropNode = xmlCopyNode(_hProp->node, 1);
+	if(newPropNode == NULL)
+	{
+		return SIMIAS_ERROR_INTERNAL_XML_ERROR;
+	}
+		
+	if(xmlAddChild(_hNode->node, newPropNode) == NULL)
+	{
+		return SIMIAS_ERROR_INTERNAL_XML_ERROR;
+	}
+	
+	return SIMIAS_SUCCESS;
+}
+
+int simias_node_remove_property(SimiasNode hNode, char *name)
+{
+	return SIMIAS_ERROR_UNKNOWN;
+}
+
+
 
 
 int simias_get_nodes(SimiasHandle hSimias, 
@@ -222,3 +301,4 @@ int _simias_node_create_from_xmlnode(struct _SimiasNode **_hNode, xmlNode *node)
 	
 	return 0;
 }
+
