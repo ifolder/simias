@@ -203,7 +203,7 @@ namespace Simias.Server
 		}
 
 		/// <summary>
-		/// Method to get the Simias simple server domain
+		/// Method to get the Simias Server domain
 		/// If the domain does not exist and the create flag is true
 		/// the domain will be created.  If create == false, ownerName is ignored
 		/// </summary>
@@ -277,8 +277,8 @@ namespace Simias.Server
 							Simias.Sync.SyncRoles.Master, 
                             Simias.Storage.Domain.ConfigurationType.ClientServer );
 
-					// This needs to be added to allow the enterprise location provider
-					// to be able to resolve this domain.
+					// The "Enterprise" type must be set on domai in order for the
+					// enterprise domain location provider to resolve it
 					ssDomain.SetType( ssDomain, "Enterprise" );
 
 					// Set the known tag for a Simias Server domain.
@@ -294,10 +294,6 @@ namespace Simias.Server
 							Access.Rights.Admin );
 
 					member.IsOwner = true;
-
-					// Note! need to first perform a known
-					// hash on the password before storing it.
-					//
 
 					// Set the admin password
 					string hashedPwd = SimiasCredentials.HashPassword( this.adminPassword );
