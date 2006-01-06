@@ -61,6 +61,7 @@ namespace Simias.Client.Event
 		string					source;
 		string					id;
 		string					collection;
+		string					modifier;
 		string					type;
 		int						eventId;
 		ulong					masterRev;
@@ -87,7 +88,7 @@ namespace Simias.Client.Event
 
 		/// <summary>
 		/// Constructs a SimiasEventArgs that will be used by CollectionHandler delegates.
-		/// Descibes the node affected by the event.
+		/// Describes the node affected by the event.
 		/// </summary>
 		/// <param name="source">The source of the event.</param>
 		/// <param name="node">The object of the event.</param>
@@ -101,11 +102,33 @@ namespace Simias.Client.Event
 		/// <param name="fileSize">The length of the file if the node is a BaseFileNode. Otherwise
 		/// the value of this parameter will be zero.</param>
 		public NodeEventArgs(string source, string node, string collection, string type, EventType changeType, int eventId, DateTime time, ulong masterRev, ulong slaveRev, long fileSize) :
+			this(source, node, collection, string.Empty, type, changeType, eventId, time, masterRev, slaveRev, fileSize)
+		{
+		}
+
+		/// <summary>
+		/// Constructs a SimiasEventArgs that will be used by CollectionHandler delegates.
+		/// Describes the node affected by the event.
+		/// </summary>
+		/// <param name="source">The source of the event.</param>
+		/// <param name="node">The object of the event.</param>
+		/// <param name="collection">The Collection that the node belongs to.</param>
+		/// <param name="modifier">The user that modified the node.</param>
+		/// <param name="type">The Type of the Node.</param>
+		/// <param name="changeType">The type of change that occured.</param>
+		/// <param name="eventId">A user defined event ID. Only has meaning to a publisher.</param>
+		/// <param name="time">The time of the event.</param>
+		/// <param name="masterRev">The master revision for the node.</param>
+		/// <param name="slaveRev">The local revision for the node.</param>
+		/// <param name="fileSize">The length of the file if the node is a BaseFileNode. Otherwise
+		/// the value of this parameter will be zero.</param>
+		public NodeEventArgs(string source, string node, string collection, string modifier, string type, EventType changeType, int eventId, DateTime time, ulong masterRev, ulong slaveRev, long fileSize) :
 			base(changeType.ToString(), time)
 		{
 			this.source = source;
 			this.id = node;
 			this.collection = collection;
+			this.modifier = modifier;
 			this.type = type;
 			this.eventId = eventId;
 			this.masterRev = masterRev;
@@ -139,6 +162,14 @@ namespace Simias.Client.Event
 		public string Collection
 		{
 			get {return collection;}
+		}
+
+		/// <summary>
+		/// Gets the ID of the user that modified the node.
+		/// </summary>
+		public string Modifier
+		{
+			get {return modifier;}
 		}
 
 		/// <summary>

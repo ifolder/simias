@@ -762,6 +762,7 @@ namespace Simias.Storage
 
 			// Process the storage size for the list.
 			SetStorageSize( nodeList );
+			string modifier = GetCurrentPrincipal();
 
 			foreach ( Node node in nodeList )
 			{
@@ -781,7 +782,7 @@ namespace Simias.Storage
 							node.UpdateTime = commitTime;
 
 							// Set the creator ID on the node.
-							node.Properties.AddNodeProperty( PropertyTags.Creator, GetCurrentPrincipal() );
+							node.Properties.AddNodeProperty( PropertyTags.Creator, modifier );
 
 							// Check so that sync roles can be set on the collection.
 							if ( node.IsType( NodeTypes.CollectionType ) )
@@ -1051,7 +1052,7 @@ namespace Simias.Storage
 							if ( node.Properties.State == PropertyList.PropertyListState.Add )
 							{
 								string oldType = node.Properties.FindSingleValue( PropertyTags.TombstoneType ).ToString();
-								NodeEventArgs args = new NodeEventArgs( store.Publisher, node.ID, id, oldType, EventType.NodeDeleted, 0, commitTime, node.MasterIncarnation, node.LocalIncarnation, 0 );
+								NodeEventArgs args = new NodeEventArgs( store.Publisher, node.ID, id, modifier, oldType, EventType.NodeDeleted, 0, commitTime, node.MasterIncarnation, node.LocalIncarnation, 0 );
 								args.LocalOnly = node.LocalChanges;
 								store.EventPublisher.RaiseEvent( args );
 							}
@@ -1095,7 +1096,7 @@ namespace Simias.Storage
 								}
 
 								// Indicate the event.
-								NodeEventArgs args = new NodeEventArgs( store.Publisher, node.ID, id, node.Type, EventType.NodeCreated, 0, commitTime, node.MasterIncarnation, node.LocalIncarnation, fileSize );
+								NodeEventArgs args = new NodeEventArgs( store.Publisher, node.ID, id, modifier, node.Type, EventType.NodeCreated, 0, commitTime, node.MasterIncarnation, node.LocalIncarnation, fileSize );
 								args.LocalOnly = node.LocalChanges;
 								store.EventPublisher.RaiseEvent( args );
 								node.Properties.State = PropertyList.PropertyListState.Update;
@@ -1114,7 +1115,7 @@ namespace Simias.Storage
 								}
 
 								// Indicate the event.
-								NodeEventArgs args = new NodeEventArgs( store.Publisher, node.ID, id, node.Type, EventType.NodeCreated, 0, commitTime, node.MasterIncarnation, node.LocalIncarnation, fileSize );
+								NodeEventArgs args = new NodeEventArgs( store.Publisher, node.ID, id, modifier, node.Type, EventType.NodeCreated, 0, commitTime, node.MasterIncarnation, node.LocalIncarnation, fileSize );
 								args.LocalOnly = node.LocalChanges;
 								store.EventPublisher.RaiseEvent( args );
 								node.Properties.State = PropertyList.PropertyListState.Update;
@@ -1148,7 +1149,7 @@ namespace Simias.Storage
 								}
 
 								// Indicate the event.
-								NodeEventArgs args = new NodeEventArgs( store.Publisher, node.ID, id, node.Type, EventType.NodeDeleted, 0, commitTime, node.MasterIncarnation, node.LocalIncarnation, fileSize );
+								NodeEventArgs args = new NodeEventArgs( store.Publisher, node.ID, id, modifier, node.Type, EventType.NodeDeleted, 0, commitTime, node.MasterIncarnation, node.LocalIncarnation, fileSize );
 								args.LocalOnly = node.LocalChanges;
 								store.EventPublisher.RaiseEvent( args );
 								node.Properties.State = PropertyList.PropertyListState.Disposed;
@@ -1172,7 +1173,7 @@ namespace Simias.Storage
 								}
 
 								// Indicate the event.
-								NodeEventArgs args = new NodeEventArgs( store.Publisher, node.ID, id, node.Type, ( node.DiskNode != null ) ? EventType.NodeChanged : EventType.NodeCreated, 0, commitTime, node.MasterIncarnation, node.LocalIncarnation, fileSize );
+								NodeEventArgs args = new NodeEventArgs( store.Publisher, node.ID, id, modifier, node.Type, ( node.DiskNode != null ) ? EventType.NodeChanged : EventType.NodeCreated, 0, commitTime, node.MasterIncarnation, node.LocalIncarnation, fileSize );
 								args.LocalOnly = node.LocalChanges;
 								store.EventPublisher.RaiseEvent( args );
 								node.Properties.State = PropertyList.PropertyListState.Update;
@@ -1191,7 +1192,7 @@ namespace Simias.Storage
 								}
 
 								// Indicate the event.
-								NodeEventArgs args = new NodeEventArgs( store.Publisher, node.ID, id, node.Type, ( node.DiskNode != null ) ? EventType.NodeChanged : EventType.NodeCreated, 0, commitTime, node.MasterIncarnation, node.LocalIncarnation, fileSize );
+								NodeEventArgs args = new NodeEventArgs( store.Publisher, node.ID, id, modifier, node.Type, ( node.DiskNode != null ) ? EventType.NodeChanged : EventType.NodeCreated, 0, commitTime, node.MasterIncarnation, node.LocalIncarnation, fileSize );
 								args.LocalOnly = node.LocalChanges;
 								store.EventPublisher.RaiseEvent( args );
 								node.Properties.State = PropertyList.PropertyListState.Update;
@@ -1206,7 +1207,7 @@ namespace Simias.Storage
 								// Make sure that it is okay to indicate an event.
 								if ( node.IndicateEvent )
 								{
-									NodeEventArgs args = new NodeEventArgs( store.Publisher, node.ID, id, node.Type, EventType.NodeChanged, 0, commitTime, node.MasterIncarnation, node.LocalIncarnation, fileSize );
+									NodeEventArgs args = new NodeEventArgs( store.Publisher, node.ID, id, modifier, node.Type, EventType.NodeChanged, 0, commitTime, node.MasterIncarnation, node.LocalIncarnation, fileSize );
 									args.LocalOnly = node.LocalChanges;
 									store.EventPublisher.RaiseEvent( args );
 
@@ -1237,7 +1238,7 @@ namespace Simias.Storage
 									// will pick up the resolved node and push it to the server.
 									if ( node.MergeCollisions == false )
 									{
-										NodeEventArgs args = new NodeEventArgs( store.Publisher, node.ID, id, node.Type, EventType.NodeChanged, 0, commitTime, node.MasterIncarnation, node.LocalIncarnation, fileSize );
+										NodeEventArgs args = new NodeEventArgs( store.Publisher, node.ID, id, modifier, node.Type, EventType.NodeChanged, 0, commitTime, node.MasterIncarnation, node.LocalIncarnation, fileSize );
 										args.LocalOnly = false;
 										store.EventPublisher.RaiseEvent( args );
 									}

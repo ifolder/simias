@@ -128,6 +128,7 @@ typedef struct
 	char *master_rev;
 	char *slave_rev;
 	char *file_size;
+	char *modifier;
 } SimiasNodeEvent;
 
 /* Collection Sync Event */
