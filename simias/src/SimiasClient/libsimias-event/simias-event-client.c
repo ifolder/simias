@@ -220,6 +220,7 @@ static char * sec_node_event_elements [] = {
 	"MasterRev",
 	"SlaveRev",
 	"FileSize",
+	"Modifier",
 	NULL
 };
 
@@ -1749,6 +1750,7 @@ simias_node_event_callback (SimiasNodeEvent *event, void *data)
 	printf ("\t%s: %s\n", "master_rev", event->master_rev);
 	printf ("\t%s: %s\n", "slave_rev", event->slave_rev);
 	printf ("\t%s: %s\n", "file_size", event->file_size);
+	printf ("\t%s: %s\n", "modifier", event->modifier);
 	
 	return 0;
 }
