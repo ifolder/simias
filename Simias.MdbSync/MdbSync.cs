@@ -48,7 +48,7 @@ namespace Simias.MdbSync
 		InternalException
 	}
 
-    public class Engine
+    public class SyncThread
     {
 		/// <summary>
 		/// Used to log messages.
@@ -61,7 +61,7 @@ namespace Simias.MdbSync
 		static AutoResetEvent syncEvent = null;
 
 		internal static Status syncStatus = Status.SyncThreadDown;
-		internal static LdapSettings ldapSettings;
+		//internal static LdapSettings ldapSettings;
 		internal static bool errorDuringSync;
 		internal static Exception syncException;
 		internal static DateTime lastSyncTime;
@@ -70,13 +70,13 @@ namespace Simias.MdbSync
 		internal static Store store = null;
 		internal static Domain domain = null;
 
-		internal static int StartMdbSyncThread()
+		internal static int Start()
 		{
 			log.Debug( "StartMdbSyncThread called" );
 
 			up = true;
 			syncEvent = new AutoResetEvent( false );
-			syncThread = new Thread( new ThreadStart( Engine.MdbSyncThread ) );
+			syncThread = new Thread( new ThreadStart( SyncThread.MdbSyncThread ) );
 			syncThread.IsBackground = true;
 			syncThread.Start();
 
@@ -84,7 +84,7 @@ namespace Simias.MdbSync
 			return 0;
 		}
 
-		internal static int StopMdbSyncThread()
+		internal static int Stop()
 		{
 			log.Debug( "StopMdbSyncThread called" );
 			up = false;
@@ -117,7 +117,7 @@ namespace Simias.MdbSync
 
 		internal static void MdbSyncThread()
 		{
-			LdapConnection conn = null;
+			//LdapConnection conn = null;
 
 			// Sync thread alive
 			syncStatus = Status.Syncing;
@@ -126,6 +126,7 @@ namespace Simias.MdbSync
 			// Get configuration info
 			//
 
+			/*
 			string enterpriseName = Store.Config.Get("Domain", "EnterpriseName");
 			if ( enterpriseName == null )
 			{
@@ -139,6 +140,9 @@ namespace Simias.MdbSync
 			log.Debug( "Getting first time LdapSettings - for sync on start" );
 			ldapSettings = LdapSettings.Get( Store.StorePath );
 			bool syncOnStart = ldapSettings.SyncOnStart;
+			*/
+			
+			bool syncOnStart = true;
 
 			while ( up == true )
 			{
@@ -151,7 +155,8 @@ namespace Simias.MdbSync
 						syncStatus = Status.Sleeping;
 					}
 
-					syncEvent.WaitOne( ( ldapSettings.SyncInterval * 1000 ), false );
+					//syncEvent.WaitOne( ( ldapSettings.SyncInterval * 1000 ), false );
+					syncEvent.WaitOne( ( 30 * 1000 ), false );
 					if ( up == false )
 					{
 						continue;
@@ -179,22 +184,24 @@ namespace Simias.MdbSync
 				// Always wait after the first iteration
 				syncOnStart = false;
 
-				log.Debug( "Starting LDAP to System Address Book sync" );
+				log.Debug( "Starting MDB -> Simias.Domain sync" );
 
 				// Global instances for this sync cycle of the
 				// Simias store and the enterprise domain
+				
+				Store store;
+				Domain domain;
 				try
 				{
 					log.Debug( "Getting an instance of the store" );
-					LdapSync.store = Store.GetStore();
-					if ( LdapSync.store != null )
+					store = Store.GetStore();
+					if ( store != null )
 					{
 						log.Debug( "Getting an instance of the default domain" );
-						LdapSync.domain = 
-							LdapSync.store.GetDomain( LdapSync.store.DefaultDomain );
-						if ( LdapSync.domain != null && LdapSync.domain.Name != null )
+						domain = store.GetDomain( store.DefaultDomain );
+						if ( domain != null && domain.Name != null )
 						{
-							log.Debug( "Enterprise Domain: " + LdapSync.domain.Name );
+							log.Debug( "Enterprise Domain: " + domain.Name );
 						}
 					}
 				}
@@ -203,8 +210,8 @@ namespace Simias.MdbSync
 					log.Error( "Failed getting an instance to the Simias store and Enterprise domain" );
 					log.Error( d.Message );
 
-					LdapSync.store = null;
-					LdapSync.domain = null;
+					//LdapSync.store = null;
+					//LdapSync.domain = null;
 					syncStatus = Status.ConfigurationError;
 					continue;
 				}
@@ -220,6 +227,7 @@ namespace Simias.MdbSync
 
 				try
 				{	
+					/*
 					log.Debug( "new LdapConnection" );
 					conn = new LdapConnection();
 
@@ -235,6 +243,7 @@ namespace Simias.MdbSync
 
 					ProcessSimiasAdmin( conn );
 					ProcessSearchObjects( conn, ldapSettings );
+					*/
 				}
 				catch( SimiasShutdownException s )
 				{
@@ -242,17 +251,6 @@ namespace Simias.MdbSync
 					errorDuringSync = true;
 					syncException = s;
 					syncStatus = Status.SyncThreadDown;
-				}
-				catch( LdapException e )
-				{
-					log.Error( e.LdapErrorMessage );
-					log.Error( e.StackTrace );
-					errorDuringSync = true;
-					syncException = e;
-					syncStatus = 
-						( conn == null )
-							? Status.LdapConnectionFailure
-							: Status.LdapAuthenticationFailure;
 				}
 				catch(Exception e)
 				{
@@ -264,21 +262,24 @@ namespace Simias.MdbSync
 				}
 				finally
 				{
+					/*
 					if ( conn != null )
 					{
 						log.Debug( "Disconnecting Ldap connection" );
 						conn.Disconnect();
 						conn = null;
 					}
+					*/
 				}	
 
 				//
 				// Check if any members have been removed from the directory
 				//
 
+				/*
 				if ( errorDuringSync == false )
 				{
-					log.Debug("Checking for deleted LDAP entries");
+					log.Debug( "Checking for deleted Mdb entries" );
 
 					try
 					{
@@ -321,24 +322,26 @@ namespace Simias.MdbSync
 						log.Debug( e1.StackTrace );
 					}
 
-					log.Debug("Finished checking for deleted LDAP entries");
+					log.Debug( "Finished checking for deleted MDB entries" );
 
 					// Successful sync without errors so
 					// record the last sync time
 					lastSyncTime = DateTime.Now;
 				}
+				*/
 
-				log.Debug("Finished LDAP to System Address Book sync");
+				log.Debug( "Finished MDB -> Simias.Domain sync" );
 
 				// Remove references to the store and domain since sync
 				// cycles tend to happen only once a day
-				LdapSync.store = null;
-				LdapSync.domain = null;
+				//LdapSync.store = null;
+				//LdapSync.domain = null;
 			}
 
 			log.Debug("LdapSyncThread going down");
 		}
 
+		/*
 		internal static void ProcessSearchObjects(LdapConnection conn, LdapSettings settings)
 		{
 			foreach ( string searchContext in settings.SearchContexts )
@@ -397,9 +400,14 @@ namespace Simias.MdbSync
 				}
 			}
 		}
+		*/
 
 		private static void RemoveSubscriptions( Collection collection )
 		{
+		
+		}
+		
+		/*
 			// Get all subscription nodes for this collection.
 			ICSList subList = 
 				LdapSync.store.GetNodesByProperty( 
@@ -416,11 +424,15 @@ namespace Simias.MdbSync
 				}
 			}
 		}
+		*/
 
 		// If the user is removed from the domain scope, his POBox
 		// should get removed from the system rather than orphaned
 		private static void RemoveUsersPOBox( Member cMember )
 		{
+		}
+		
+		/*
 			try
 			{
 				ICSList cList = store.GetCollectionsByOwner( cMember.UserID );
@@ -439,9 +451,13 @@ namespace Simias.MdbSync
 				log.Error( e2.StackTrace );
 			}
 		}
+		*/
 
 		private static void RemoveUserFromCollections( Member cMember )
 		{
+		}
+		
+		/*
 			string ldapDN = cMember.Properties.GetSingleProperty( "DN" ).Value.ToString();
 
 			// Get all of the collections that this user is member of.
@@ -496,46 +512,6 @@ namespace Simias.MdbSync
 								// Now remove the old member
 								c.Commit( c.Delete( c.Refresh( member ) ) );
 
-								/*
-								// If the owner is the only member of the collection
-								// delete the collection.  If other members exist then
-								// transfer ownership to SimiasAdmin
-								ICSList memberList = c.GetMemberList();
-								if ( memberList.Count > 1 )
-								{
-									// Simias Admin must be a member first before ownership
-									// can be transfered
-									Member adminMember = c.GetMemberByID( domain.Owner.UserID );
-									if ( adminMember == null )
-									{
-										adminMember = 
-											new Member( 
-													domain.Owner.Name, 
-													domain.Owner.UserID, 
-													Simias.Storage.Access.Rights.Admin );
-
-										// commit
-										c.Commit( adminMember );
-									}
-
-									Property prevProp = new Property( "OrphanedOwner", ldapDN );
-									prevProp.LocalProperty = true;
-									c.Properties.ModifyProperty( prevProp );
-									c.Commit();
-
-									c.Commit( c.ChangeOwner( adminMember, Simias.Storage.Access.Rights.Admin ) );
-
-									// Now remove the old member
-									c.Commit( c.Delete( c.Refresh( member ) ) );
-								}
-								else
-								{
-									// Before deleting the collection, remove the subscriptions from
-									// all of the POBoxes.
-									RemoveSubscriptions( c );
-									c.Commit( c.Delete() );
-								}
-								*/
 							}
 						}
 						else
@@ -547,6 +523,7 @@ namespace Simias.MdbSync
 				}
 			}
 		}
+		*/
 
 		private static string BuildGuidFilter( string guid )
 		{
@@ -574,6 +551,7 @@ namespace Simias.MdbSync
 		}
 
 
+		/*
 		private static string GetLdapGuid( LdapEntry entry )
 		{
 			string ldapGuid = null;
@@ -609,7 +587,9 @@ namespace Simias.MdbSync
 			catch{}
 			return ldapGuid;
 		}
-
+		*/
+		
+		
 		private static bool IsUser(String[] objectClasses)
 		{
 			try
@@ -678,6 +658,8 @@ namespace Simias.MdbSync
 		// If the configured Simias Admin is different than the SimiasAdmin
 		// identified in the store, make all the changes necessary to
 		// make the configured admin the store admin.
+		
+		/*
 		internal static void ChangeSimiasAdmin( LdapConnection conn )
 		{
 			char[] dnDelimiters = {',', '='};
@@ -793,6 +775,7 @@ namespace Simias.MdbSync
 				log.Error( vsa.StackTrace );
 			}
 		}
+		*/
 
 		// The SimiasAdmin is processed differently than normal simias users because
 		// the account is aleady created in the Simias store before LdapSync runs
@@ -800,6 +783,8 @@ namespace Simias.MdbSync
 		// store and the DN entry in the store must be correct with the Distinguished
 		// Name in the directory.  LdapSync counts on the AdminDN entry in Simias.config
 		// to be updated if the admin is moved in the directory.
+		
+		/*
 		internal static void ProcessSimiasAdmin(LdapConnection conn)
 		{
 			// Since the first version of the iFolder 3.0 only
@@ -1008,7 +993,9 @@ namespace Simias.MdbSync
 			cMember.Properties.ModifyProperty( syncGUID );
 			LdapSync.domain.Commit( cMember );
 		}
+		*/
 
+		/*
 		internal static void ProcessUserEntry( LdapEntry entry )
 		{
 			log.Debug( "ProcessUserEntry(" + entry.DN + ")" );
@@ -1264,5 +1251,6 @@ namespace Simias.MdbSync
 				log.Debug( "Ldap entry did not contain the naming attribute specified - entry excluded" );
 			}
 		}
+		*/
     }
 }

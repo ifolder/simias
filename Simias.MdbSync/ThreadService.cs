@@ -20,35 +20,22 @@
  *  Author: Brady Anderson <banderso@novell.com>
  *
  ***********************************************************************/
-//
-// Source file contains entry points to stop and start
-// the responder
-//
+
 using System;
 using System.Threading;
-//using System.Net;
-//using System.Net.Sockets;
 using System.Text;
 
-/*
 using log4net;
-using log4net.Config;
-using log4net.Appender;
-using log4net.Repository;
-using log4net.spi;
-using log4net.Layout;
 using Simias;
 using Simias.Service;
-*/
 
 namespace Simias.MdbSync
 {
 	/// <summary>
 	/// Summary description for MdbThreadService
 	/// </summary>
-	public class MdbThreadService : IThreadService
+	public class ThreadService : IThreadService
 	{
-		/*
 		public struct Status
 		{
 			public bool SyncOnStart
@@ -57,36 +44,40 @@ namespace Simias.MdbSync
 				{
 					try
 					{
-						return (LdapSync.ldapSettings.SyncOnStart); 
+						//return (LdapSync.ldapSettings.SyncOnStart);
+						return true;
 					}
-					catch
-					{
-						return false;
-					}
+					catch{}
+					return false;
 				}
 			}
 
 			public bool ErrorDuringSync
 			{
-				get { return (LdapSync.errorDuringSync); }
+				//get { return (LdapSync.errorDuringSync); }
+				get { return false; }
 			}
 
-			public Novell.AddressBook.LdapSync.Status CurrentStatus
+			public Simias.MdbSync.Status CurrentStatus
 			{
-				get { return ( LdapSync.syncStatus ); }
+				//get { return ( LdapSync.syncStatus ); }
+				get { return 0; }
 			}
 
 			public Exception SyncException
 			{
-				get { return (LdapSync.syncException); }
+				get { return null; }
+				//get { return (LdapSync.syncException); }
 			}
 
+			/*
 			public DateTime LastSyncTime
 			{
-				get { return (LdapSync.lastSyncTime); }
+				get { System.DateTime.Now(); }
+				//get { return (LdapSync.lastSyncTime); }
 			}
+			*/
 		}
-		*/
 
 		#region CustomCode enum
 		/// <summary>
@@ -111,7 +102,7 @@ namespace Simias.MdbSync
 		/// </summary>
 		public void Start()
 		{
-			MdbSync.StartMdbSyncThread();
+			Simias.MdbSync.SyncThread.Start();
 		}
 
 		/// <summary>
@@ -163,7 +154,7 @@ namespace Simias.MdbSync
 		/// </summary>
 		public void Stop()
 		{
-			MdbSync.StopMdbSyncThread();
+			Simias.MdbSync.SyncThread.Stop();
 		}
 
 		/// <summary>
@@ -171,7 +162,7 @@ namespace Simias.MdbSync
 		/// </summary>
 		public Status GetServiceStatus()
 		{
-			//return new Status();
+			return new Status();
 		}
 	}
 }
