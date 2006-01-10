@@ -140,7 +140,7 @@ namespace Simias.MdbSync
 					domainConfig = new DomainConfiguration( currentDomain );
 					log.Debug( "Current Domain: " + domainConfig.DomainName );
 					
-					if ( domainConfig.SyncOnStart == false )
+					if ( syncOnStart == false )
 					{
 						// If the previous sync produced an error
 						// keep that status through the wait
@@ -196,7 +196,6 @@ namespace Simias.MdbSync
 					}
 					
 					// For now default domain
-					Store store;
 					Domain domain = SyncThread.CreateSimiasDomain( domainConfig );
 					if ( domain == null )
 					{
