@@ -110,7 +110,7 @@ namespace Simias.MdbSync
 		/// </summary>
 		public void Resume()
 		{
-			// Don't support Resume
+			// Not supported
 		}
 
 		/// <summary>
@@ -118,7 +118,7 @@ namespace Simias.MdbSync
 		/// </summary>
 		public void Pause()
 		{
-			// Don't support Pause
+			// Not supported
 		}
 
 		/// <summary>

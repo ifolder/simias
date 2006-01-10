@@ -61,7 +61,6 @@ namespace Simias.MdbSync
 		static AutoResetEvent syncEvent = null;
 
 		internal static Status syncStatus = Status.SyncThreadDown;
-		//internal static LdapSettings ldapSettings;
 		internal static bool errorDuringSync;
 		internal static Exception syncException;
 		internal static DateTime lastSyncTime;
@@ -76,7 +75,7 @@ namespace Simias.MdbSync
 
 			up = true;
 			syncEvent = new AutoResetEvent( false );
-			syncThread = new Thread( new ThreadStart( SyncThread.MdbSyncThread ) );
+			syncThread = new Thread( new ThreadStart( SyncThread.MonitorThread ) );
 			syncThread.IsBackground = true;
 			syncThread.Start();
 
@@ -115,10 +114,8 @@ namespace Simias.MdbSync
 			return syncStatus;
 		}
 
-		internal static void MdbSyncThread()
+		internal static void MonitorThread()
 		{
-			//LdapConnection conn = null;
-
 			// Sync thread alive
 			syncStatus = Status.Syncing;
 
@@ -126,281 +123,309 @@ namespace Simias.MdbSync
 			// Get configuration info
 			//
 
-			/*
-			string enterpriseName = Store.Config.Get("Domain", "EnterpriseName");
-			if ( enterpriseName == null )
-			{
-				log.Error( "missing \"EnterpriseName\" from the configuration file" );
-				log.Error( "MdbSyncThread shutting down..." );
-				up = false;
-				syncStatus = Status.ConfigurationError;
-				return;
-			}
-
-			log.Debug( "Getting first time LdapSettings - for sync on start" );
-			ldapSettings = LdapSettings.Get( Store.StorePath );
-			bool syncOnStart = ldapSettings.SyncOnStart;
-			*/
-			
+			DomainConfiguration domainConfig;
 			bool syncOnStart = true;
 
 			while ( up == true )
 			{
-				if ( syncOnStart == false )
+				string[] domains = Simias.MdbSync.DomainConfiguration.GetDomains();
+				foreach( string currentDomain in domains )
 				{
-					// If the previous sync produced an error
-					// keep that status through the wait
-					if ( syncStatus == Status.Syncing )
-					{
-						syncStatus = Status.Sleeping;
-					}
-
-					//syncEvent.WaitOne( ( ldapSettings.SyncInterval * 1000 ), false );
-					syncEvent.WaitOne( ( 30 * 1000 ), false );
+					// Somebody tell us to go bye bye?
 					if ( up == false )
 					{
 						continue;
 					}
-				}
-				else
-				{
-					// First time up let the system settle a bit
-					log.Debug( "Waiting a bit for the system to settle" );
-					syncStatus = Status.Sleeping;
-					syncEvent.WaitOne( ( 30 * 1000 ), false );
-					if ( up == false )
+					
+					domainConfig = new DomainConfiguration( currentDomain );
+					log.Debug( "Current Domain: " + domainConfig.DomainName );
+					
+					if ( domainConfig.SyncOnStart == false )
 					{
-						continue;
-					}
-				}
-
-				syncStatus = Status.Syncing;
-
-				// Want to refresh the Ldap sync settings at the beginning
-				// of each cycle
-				log.Debug( "Getting MdbSettings after wait" );
-				//ldapSettings = LdapSettings.Get( Store.StorePath );
-
-				// Always wait after the first iteration
-				syncOnStart = false;
-
-				log.Debug( "Starting MDB -> Simias.Domain sync" );
-
-				// Global instances for this sync cycle of the
-				// Simias store and the enterprise domain
-				
-				Store store;
-				Domain domain;
-				try
-				{
-					log.Debug( "Getting an instance of the store" );
-					store = Store.GetStore();
-					if ( store != null )
-					{
-						log.Debug( "Getting an instance of the default domain" );
-						domain = store.GetDomain( store.DefaultDomain );
-						if ( domain != null && domain.Name != null )
+						// If the previous sync produced an error
+						// keep that status through the wait
+						if ( syncStatus == Status.Syncing )
 						{
-							log.Debug( "Enterprise Domain: " + domain.Name );
+							syncStatus = Status.Sleeping;
 						}
-					}
-				}
-				catch( Exception d )
-				{
-					log.Error( "Failed getting an instance to the Simias store and Enterprise domain" );
-					log.Error( d.Message );
 
-					//LdapSync.store = null;
-					//LdapSync.domain = null;
-					syncStatus = Status.ConfigurationError;
-					continue;
-				}
-
-				//
-				// Create a sync iteration guid which will be stamped
-				// in all matching objects as a local property
-				//
-
-				syncGUID = new Property("SyncGuid", Guid.NewGuid().ToString());
-				syncGUID.LocalProperty = true;
-				errorDuringSync = false;
-
-				try
-				{	
-					/*
-					log.Debug( "new LdapConnection" );
-					conn = new LdapConnection();
-
-					log.Debug( "Connecting to: " + ldapSettings.Host + " on port: " + ldapSettings.Port.ToString() );
-					conn.SecureSocketLayer = ldapSettings.SSL;
-					conn.Connect( ldapSettings.Host, ldapSettings.Port );
-
-					Simias.Enterprise.Common.ProxyUser proxy = 
-						new Simias.Enterprise.Common.ProxyUser();
-
-					log.Debug( "Binding as: " + proxy.UserDN );
-					conn.Bind( proxy.UserDN, proxy.Password );
-
-					ProcessSimiasAdmin( conn );
-					ProcessSearchObjects( conn, ldapSettings );
-					*/
-				}
-				catch( SimiasShutdownException s )
-				{
-					log.Error( s.Message );
-					errorDuringSync = true;
-					syncException = s;
-					syncStatus = Status.SyncThreadDown;
-				}
-				catch(Exception e)
-				{
-					log.Error( e.Message );
-					log.Error( e.StackTrace );
-					errorDuringSync = true;
-					syncException = e;
-					syncStatus = Status.InternalException;
-				}
-				finally
-				{
-					/*
-					if ( conn != null )
-					{
-						log.Debug( "Disconnecting Ldap connection" );
-						conn.Disconnect();
-						conn = null;
-					}
-					*/
-				}	
-
-				//
-				// Check if any members have been removed from the directory
-				//
-
-				/*
-				if ( errorDuringSync == false )
-				{
-					log.Debug( "Checking for deleted Mdb entries" );
-
-					try
-					{
-						ICSList	deleteList = 
-							LdapSync.domain.Search( "SyncGuid", syncGUID.Value, SearchOp.Not_Equal );
-						foreach( ShallowNode cShallow in deleteList )
+						log.Debug( "Waiting on sync interval" );
+						syncEvent.WaitOne( ( domainConfig.SyncInterval ), false );
+						if ( up == false )
 						{
-							Node cNode = new Node( domain, cShallow );
-							if (LdapSync.domain.IsType( cNode, "Member" ) == true )
-							{	
-								Member cMember = new Member( cNode );
-								RemoveUsersPOBox( cMember );
-								RemoveUserFromCollections( cMember );
-
-								// Delete this sucker...
-								log.Debug( "deleting: " + cNode.Name );
-
-								// gather info before commit
-								string ldapDN = 
-									cMember.Properties.GetSingleProperty( "DN" ).Value.ToString();
-								string fn = cMember.Name;
-								string id = cMember.ID;
-
-								LdapSync.domain.Commit( LdapSync.domain.Delete( cNode ) );
-
-								log.Info(
-									String.Format(
-										"Removed CN: {0} FN: {1} ID: {2} from Domain: {3}", 
-										ldapDN,
-										fn,
-										id,
-										LdapSync.domain.Name ) );
-							}
+							continue;
 						}
-					}
-					catch( Exception e1 )
-					{	
-						log.Debug( "Exception checking/deleting members" );
-						log.Debug( e1.Message );
-						log.Debug( e1.StackTrace );
-					}
-
-					log.Debug( "Finished checking for deleted MDB entries" );
-
-					// Successful sync without errors so
-					// record the last sync time
-					lastSyncTime = DateTime.Now;
-				}
-				*/
-
-				log.Debug( "Finished MDB -> Simias.Domain sync" );
-
-				// Remove references to the store and domain since sync
-				// cycles tend to happen only once a day
-				//LdapSync.store = null;
-				//LdapSync.domain = null;
-			}
-
-			log.Debug("LdapSyncThread going down");
-		}
-
-		/*
-		internal static void ProcessSearchObjects(LdapConnection conn, LdapSettings settings)
-		{
-			foreach ( string searchContext in settings.SearchContexts )
-			{
-				string[] searchAttributes = {
-					"objectClass",
-					"loginGraceLimit",
-					"loginGraceRemaining" };
-
-				log.Debug( "SearchObject: " + searchContext );
-
-				try
-				{
-					LdapEntry ldapEntry = conn.Read( searchContext, searchAttributes );
-					LdapAttribute attrObjectClass = ldapEntry.getAttribute( "objectClass" );
-					String[] values = attrObjectClass.StringValueArray;
-
-					if ( IsUser( values ) == true )
-					{
-						// Process SearchDN as 
-						log.Debug( "Processing User Object..." );
-						ProcessSearchUser( conn, searchContext );
-					}
-					else if ( IsGroup( values ) == true )
-					{
-						// Process SearchDN as 
-						log.Debug( "Processing Group Object..." );
-						ProcessSearchGroup( conn, searchContext );
-					}
-					else if ( IsContainer( values ) == true )
-					{
-						// Process SearchDN as Container
-						log.Debug( "Processing Container Object..." );
-						ProcessSearchContainer( conn, searchContext );
 					}
 					else
 					{
-						log.Debug( "Invalid objectClass: " + values[0] );
-						log.Debug( attrObjectClass.ToString() );
+						// First time up let the system settle a bit
+						log.Debug( "Waiting a bit for the system to settle" );
+						syncStatus = Status.Sleeping;
+						syncEvent.WaitOne( ( 10 * 1000 ), false );
+						if ( up == false )
+						{
+							continue;
+						}
 					}
-				}
-				catch( SimiasShutdownException s )
-				{
-					log.Error( s.Message );
-					throw s;
-				}
-				catch ( LdapException e )
-				{
-					log.Error( e.LdapErrorMessage );
-					log.Error( e.StackTrace );
-				}
-				catch ( Exception e )
-				{
-					log.Error( e.Message );
-					log.Error( e.StackTrace );
+
+					syncStatus = Status.Syncing;
+
+					// Always wait after the first iteration
+					syncOnStart = false;
+					
+					log.Debug( "Starting MDB -> " + domainConfig.DomainName + " sync" );
+
+					// Authenticate against MDB	
+					Simias.MdbSync.EnumUsers enumUsers = null;
+					Simias.MdbSync.Mdb mdb = null;
+					Simias.MdbSync.User mdbUser = null;
+
+					try
+					{
+						log.Debug( "Authenticating proxy user: " + domainConfig.ProxyUsername );
+						mdb = new Simias.MdbSync.Mdb( domainConfig.ProxyUsername, domainConfig.ProxyPassword );
+						Console.WriteLine( "MDB Handle: " + mdb.Handle.ToString() );
+					}
+					catch( Exception mdbEx )
+					{
+						log.Error( "Failed to authenticate to MDB.  User: " + domainConfig.ProxyUsername );
+						log.Error( mdbEx.Message );
+						syncStatus = Status.ConfigurationError;
+						up = false;
+						continue;
+					}
+					
+					// For now default domain
+					Store store;
+					Domain domain = SyncThread.CreateSimiasDomain( domainConfig );
+					if ( domain == null )
+					{
+						log.Debug( "Failed to get an instance of the MDB domain" );
+						syncStatus = Status.ConfigurationError;
+						continue;
+					}
+
+					//
+					// Create a sync iteration guid which will be stamped
+					// in all matching objects as a local property
+					//
+
+					syncGUID = new Property("SyncGuid", Guid.NewGuid().ToString());
+					syncGUID.LocalProperty = true;
+					errorDuringSync = false;
+
+					try
+					{
+						string container = domainConfig.Containers[0];
+						log.Debug( "  syncing container: " + container );
+						enumUsers = new Simias.MdbSync.EnumUsers( mdb.Handle, container, false );
+						enumUsers.Reset();
+						while( enumUsers.MoveNext() == true )
+						{
+							mdbUser = enumUsers.Current as Simias.MdbSync.User;
+							ProcessMdbUser( domain, mdbUser );
+						}
+					}
+					catch( SimiasShutdownException s )
+					{
+						log.Error( s.Message );
+						errorDuringSync = true;
+						syncException = s;
+						syncStatus = Status.SyncThreadDown;
+					}
+					catch(Exception e)
+					{
+						log.Error( e.Message );
+						log.Error( e.StackTrace );
+						errorDuringSync = true;
+						syncException = e;
+						syncStatus = Status.InternalException;
+					}
+					finally
+					{
+						/*
+						if ( conn != null )
+						{
+							log.Debug( "Disconnecting Ldap connection" );
+							conn.Disconnect();
+							conn = null;
+						}
+						*/
+					}	
+
+					//
+					// Check if any members have been removed from the directory
+					//
+	
+					/*
+					if ( errorDuringSync == false )
+					{
+						log.Debug( "Checking for deleted Mdb entries" );
+
+						try
+						{
+							ICSList	deleteList = 
+								LdapSync.domain.Search( "SyncGuid", syncGUID.Value, SearchOp.Not_Equal );
+							foreach( ShallowNode cShallow in deleteList )
+							{
+								Node cNode = new Node( domain, cShallow );
+								if (LdapSync.domain.IsType( cNode, "Member" ) == true )
+								{	
+									Member cMember = new Member( cNode );
+									RemoveUsersPOBox( cMember );
+									RemoveUserFromCollections( cMember );
+	
+									// Delete this sucker...
+									log.Debug( "deleting: " + cNode.Name );
+	
+									// gather info before commit
+									string ldapDN = 
+										cMember.Properties.GetSingleProperty( "DN" ).Value.ToString();
+									string fn = cMember.Name;
+									string id = cMember.ID;
+	
+									LdapSync.domain.Commit( LdapSync.domain.Delete( cNode ) );
+
+									log.Info(
+										String.Format(
+											"Removed CN: {0} FN: {1} ID: {2} from Domain: {3}", 
+											ldapDN,
+											fn,
+											id,
+											LdapSync.domain.Name ) );
+								}
+							}
+						}
+						catch( Exception e1 )
+						{	
+							log.Debug( "Exception checking/deleting members" );
+							log.Debug( e1.Message );
+							log.Debug( e1.StackTrace );
+						}
+
+						log.Debug( "Finished checking for deleted MDB entries" );
+	
+						// Successful sync without errors so
+						// record the last sync time
+						lastSyncTime = DateTime.Now;
+					}
+					*/
+
+					log.Debug( "Finished MDB -> Simias.Domain sync" );
 				}
 			}
+
+			log.Debug( "MdbSyncThread going down" );
 		}
-		*/
+		
+		/// <summary>
+		/// Create a Simias Domain based on the domain configuration template.
+		/// If the object already exists, an instance of the domain will be
+		/// returned
+		/// </summary>
+		internal static Domain CreateSimiasDomain( DomainConfiguration domainConfig )
+		{
+			//
+			//  Check if the Simias Server domain exists in the store
+			//
+
+			Simias.Storage.Domain domain = null;
+			Store store = Store.GetStore();
+			foreach( ShallowNode sNode in store.GetDomainList() )
+			{
+				domain = store.GetDomain( sNode.ID );
+				if ( domainConfig.DomainName == domain.Name )
+				{
+					// BUGBUG Verify other MDB tags
+					
+					/*
+					Property p = domain.Properties.GetSingleProperty( "MDB" );
+					if ( p != null && (bool) p.Value == true )
+					{
+						mdbDomain = tmpDomain;
+						this.id = tmpDomain.ID;
+						break;
+					}
+					*/
+					
+					return domain;
+				}
+			}
+
+			try
+			{
+				string id = ( domainConfig.DomainID != null ) 
+					? domainConfig.DomainID : Guid.NewGuid().ToString();
+
+				// Create the MDB based domain
+				domain = 
+					new Simias.Storage.Domain(
+						store, 
+						domainConfig.DomainName, 
+						id,
+						domainConfig.Description, 
+						Simias.Sync.SyncRoles.Master, 
+                        Simias.Storage.Domain.ConfigurationType.ClientServer );
+                        
+				// The "Enterprise" type must be set on domai in order for the
+				// enterprise domain location provider to resolve it
+				domain.SetType( domain, "Enterprise" );
+
+				// Set the known tag for an MDB originated domain
+				Property p = new Property( "ORIGIN:MDB", true );
+				p.LocalProperty = true;
+				domain.Properties.ModifyProperty( p );
+
+				// Get the short name (CN) for the admin
+				string adminCN = null;
+				char[] delim = {'\\'};
+				string[] comps = domainConfig.DomainAdmin.Split( delim );
+				if ( comps.Length > 0 )
+				{
+					adminCN = comps[comps.Length - 1];
+				}
+					
+				if ( adminCN == null )
+				{
+					adminCN = domainConfig.DomainAdmin;
+				}
+				
+				// Create the owner member for the domain.
+				Member member = 
+					new Member( adminCN, Guid.NewGuid().ToString(), Access.Rights.Admin );
+					
+				member.IsOwner = true;
+
+				// Set the DN of the administrator
+				Property dn = new Property( "DN", domainConfig.DomainAdmin );
+				dn.LocalProperty = true;
+				member.Properties.ModifyProperty( dn );
+
+				// Set the known tag for an MDB originated member
+				Property mdb = new Property( "ORIGIN:MDB", true );
+				mdb.LocalProperty = true;
+				member.Properties.ModifyProperty( mdb );
+
+				domain.Commit( new Node[] { domain, member } );
+
+				// Create the name mapping.
+				store.AddDomainIdentity( domain.ID, member.UserID );
+	
+				// New default
+				// BUGBUG address this for multi-domain support
+				store.DefaultDomain = domain.ID;
+			}
+			catch( Exception gssd )
+			{
+				// BUGBUG the domain was not setup correctly
+				// clean it up
+				
+				log.Error( gssd.Message );
+				log.Error( gssd.StackTrace );
+			}
+
+			return domain;
+		}
 
 		private static void RemoveSubscriptions( Collection collection )
 		{
@@ -425,6 +450,95 @@ namespace Simias.MdbSync
 			}
 		}
 		*/
+		
+		private static void ProcessMdbUser( Domain domain, MdbSync.User user )
+		{
+			log.Debug( "ProcessMdbUser - called" );
+			log.Debug( "  user: " + user.DN );
+			
+			Simias.Storage.Member member = null;
+			member = domain.GetMemberByName( user.UserName );
+			if ( member == null )
+			{
+				log.Debug( "  creating new user" );
+				
+				// Create a new member 
+				member = 
+					new Member(
+						user.UserName,
+						Guid.NewGuid().ToString(), 
+						Simias.Storage.Access.Rights.ReadOnly,
+						user.GivenName,
+						user.LastName );
+
+					// Set the local property sync guid
+					//cMember.Properties.ModifyProperty( syncGUID );
+
+				// Add the DN to the member node
+				Property dn = new Property( "DN", user.DN );
+				dn.LocalProperty = true;
+				member.Properties.ModifyProperty( dn );
+			
+				if ( user.FullName != null && user.FullName != "" )
+				{
+					member.FN = user.FullName;
+				}
+				
+				// Set the known tag for an MDB originated member
+				Property mdb = new Property( "ORIGIN:MDB", true );
+				mdb.LocalProperty = true;
+				member.Properties.ModifyProperty( mdb );
+
+				domain.Commit( member );
+			}
+			else
+			{
+				log.Debug( "  found user - checking for updates" );
+				
+				bool changed = false;
+				if ( member.Given != user.GivenName )
+				{
+					changed = true;
+					member.Given = user.GivenName;
+				}
+
+				if ( member.Family != user.LastName )
+				{
+					changed = true;
+					member.Family = user.LastName;
+				}
+
+				if ( member.FN != user.FullName )
+				{
+					changed = true;
+					if ( user.FullName != null )
+					{	
+						member.FN = user.FullName;
+					}
+					else
+					if ( member.Given != null && member.Family != null )
+					{
+						member.FN = member.Given + " " + member.Family;
+					}
+				}
+
+				// Did the distinguished name change?
+				Property dn = member.Properties.GetSingleProperty( "DN" );
+				if ( dn != null && dn.ToString() != user.DN )
+				{
+					dn.Value = user.DN;
+					member.Properties.ModifyProperty( "DN", dn );
+					changed = true;
+				}
+
+				if ( changed == true )
+				{
+					log.Debug( "  found changed user info - committing node" );
+					domain.Commit( member ); 
+				}
+			}
+		}
+		
 
 		// If the user is removed from the domain scope, his POBox
 		// should get removed from the system rather than orphaned
