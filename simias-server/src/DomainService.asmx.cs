@@ -54,11 +54,11 @@ namespace Simias.DomainService.Web
 		public DomainInfo GetDomainInfo( string userID )
 		{
 			// domain
-			Simias.Server.Domain ssDomain = new Simias.Server.Domain( false );
-			Simias.Storage.Domain domain = ssDomain.GetSimiasServerDomain( false );
+			Store store = Store.GetStore();
+			Simias.Storage.Domain domain = store.GetDomain( store.DefaultDomain );
 			if ( domain == null )
 			{
-				throw new SimiasException( "SimiasServer domain does not exist" );
+				throw new SimiasException( "Simias Server domain does not exist" );
 			}
 
 			DomainInfo info = new DomainInfo();
@@ -96,11 +96,11 @@ namespace Simias.DomainService.Web
 			ProvisionInfo info = null;
 
 			// store
-			Simias.Server.Domain ssDomain = new Simias.Server.Domain( false );
-			Simias.Storage.Domain domain = ssDomain.GetSimiasServerDomain( false );
+			Store store = Store.GetStore();
+			Simias.Storage.Domain domain = store.GetDomain( store.DefaultDomain );
 			if ( domain == null )
 			{
-				throw new SimiasException( "SimpleServer domain does not exist" );
+				throw new SimiasException( "Simias Server domain does not exist" );
 			}
 
 			// find user
@@ -288,9 +288,13 @@ namespace Simias.DomainService.Web
 		[SoapDocumentMethod]
 		public string GetDomainID()
 		{
+			return Store.GetStore().DefaultDomain;
+
+			/*
 			Simias.Server.Domain ssDomain = new Simias.Server.Domain( false );
 			Simias.Storage.Domain domain = ssDomain.GetSimiasServerDomain( false );
 			return ( domain != null ) ? domain.ID : null;
+			*/
 		}
 	}
 }

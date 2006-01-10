@@ -1,8 +1,8 @@
 <configuration>
   <section name="Domain">
     <setting name="ServerName" value="Simias Server" />
-    <setting name="AdminName" value="admin" />
-    <setting name="AdminPassword" value="simias" />
+    <setting name="AdminName" value="SimiasAdmin" />
+    <setting name="AdminPassword" value="root" />
   </section>
   <section name="Authentication">
 	<setting name="SimiasAuthNotRequired" value="Login.ashx, Simias.asmx:PingSimias, DomainService.asmx:GetDomainID" />

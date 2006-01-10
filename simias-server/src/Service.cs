@@ -83,7 +83,7 @@ namespace Simias.Server
 			// Register with the domain provider service.
 			this.authProvider = new Simias.Server.Authentication();
 			DomainProvider.RegisterProvider( this.authProvider );
-			Simias.Server.Sync.StartSyncThread();
+			//Simias.Server.Sync.StartSyncThread();
 		}
 
 		/// <summary>

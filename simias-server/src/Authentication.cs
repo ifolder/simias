@@ -17,12 +17,13 @@
  *  License along with this program; if not, write to the Free
  *  Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
- *  Author: Mike Lasky <mlasky@novell.com>
+ *  Author: Brady Anderson <banderso@novell.com>
  *
  ***********************************************************************/
 
 using System;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
 using System.Web;
@@ -51,13 +52,13 @@ namespace Simias.Server
 
 		private string domainID;
 		private string username = "admin";
-		private string password = "simias";
+		private string password = "hula";
 		private string authType;
 
 		private readonly char[] colonDelimeter = {':'};
 		private readonly char[] backDelimeter = {'\\'};
 		#endregion
-
+		
 		#region Properties
 		public string AuthType
 		{
@@ -185,7 +186,7 @@ namespace Simias.Server
 	/// <summary>
 	/// Implementation of the IDomainProvider Service for SimpleServer.
 	/// </summary>
-	public class Authentication : IDomainProvider
+	public class Authentication : IDomainProvider, IDisposable
 	{
 		#region Class Members
 		/// <summary>
@@ -196,8 +197,8 @@ namespace Simias.Server
 		/// <summary>
 		/// String used to identify domain provider.
 		/// </summary>
-		static private string providerName = "SimiasServer Authentication Provider";
-		static private string providerDescription = "Authentication Provider for Simias Server";
+		static private string providerName = "MDB Provider";
+		static private string providerDescription = "Authentication provider for MDB integration";
 
 		/// <summary>
 		/// Store object.
@@ -208,15 +209,99 @@ namespace Simias.Server
 		/// The default encoding to use for decoding the basic credential set.
 		/// </summary>
 		private string defaultBasicEncodingName = "iso-8859-1";
+
+		public const string HulaLib = "hulamdb";
+		public const string HulaMessageApiLib = "hulamsgapi";
+		private readonly string thisModule = "simias-mdb-auth";
+		private IntPtr mdbHandle = System.IntPtr.Zero;
 		#endregion
 
-		#region Constructor
+		// Native MDB functions used via PInvoke
+		[DllImport( HulaLib ) ]
+		private static extern bool MDBInit();
+		
+		[DllImport( HulaLib ) ]
+		private static extern bool MDBShutdown();
+		
+		/*
+		[DllImport( HulaLib ) ] 
+		private static extern 
+		int 
+		MDBGetAPIVersion(
+			bool wantCompatibleVersion, 
+			StringBuilder description,
+			IntPtr context);
+		*/
+			
+		[DllImport( HulaLib )]
+		protected static extern
+		IntPtr MDBCreateValueStruct( IntPtr Handle, string Context );
+		
+		[DllImport( HulaLib )]
+		protected static extern bool MDBDestroyValueStruct( IntPtr ValueStruct );
 
+		[DllImport( HulaLib ) ]
+		private static extern 
+		IntPtr
+		MDBAuthenticate( string Module, string Principal, string Password );
+		
+		[DllImport( HulaLib ) ]
+		private static extern 
+		bool
+		MDBVerifyPassword( string ObjectDN, string Password, IntPtr v );
+		
+		[DllImport( HulaLib )]
+		private static extern
+		bool 
+		MDBRelease( IntPtr handle );
+		
+		/* We have to call some msgapi function to force it to load for MDB 
+		   This might be a bug.  This seems to happen only on Linux when 
+		   running under Mono. */
+ 		[DllImport( HulaMessageApiLib)]
+		private static extern IntPtr MsgDirectoryHandle();
+		
+	    [DllImport( HulaMessageApiLib )]
+	    public static extern bool MsgFindObject(string user, StringBuilder dn, string type, IntPtr nmap, IntPtr valueStruct);
+		
+		[DllImport( "hulamemmgr" )]
+		public static extern bool MemoryManagerOpen(string agentName);
+	
+		[DllImport( "hulamemmgr" )]
+		public static extern bool MemoryManagerClose(string agentName);
+
+		#region Constructor
 		/// <summary>
 		/// Initializes an instance of this object.
 		/// </summary>
 		public Authentication()
 		{
+			// Must load the message and memory manager libraries
+			MsgDirectoryHandle();
+			MemoryManagerOpen( "SimiasAuthentication" );			
+			
+			// Call the native initialization API
+			if ( MDBInit() == false )
+			{
+				Console.WriteLine( "failed to load \"libhulamdb\"" );
+				throw new ApplicationException( "Failed to load libhulamdb!" );
+			}
+			
+			// BUGBUG must get this through configuration
+			this.mdbHandle = MDBAuthenticate( thisModule, "\\Tree\\Context\\admin", "hula" );
+			if ( this.mdbHandle == System.IntPtr.Zero )
+			{
+				Console.WriteLine( this.mdbHandle.ToString() );
+				throw new ApplicationException( "Failed to authenticate against MDB" );
+			}
+		}
+		
+		~Authentication()
+		{
+			if ( mdbHandle != IntPtr.Zero )
+			{
+				MDBRelease( mdbHandle );
+			}
 		}
 
 		#endregion
@@ -237,27 +322,53 @@ namespace Simias.Server
 
 			try
 			{
-				// First verify the user exists in the SimpleServer domain
+				// First verify the user exists in the Hula domain
 				Simias.Storage.Domain domain = store.GetDomain( domainID );
 				if ( domain != null )
 				{
 					Simias.Storage.Member member = domain.GetMemberByName( user );
 					if ( member != null )
 					{
-						Property pwd = member.Properties.GetSingleProperty( "SS:PWD" );
-						if ( pwd != null )
+						Property mdbProperty = member.Properties.GetSingleProperty( "ORIGIN:MDB" );
+						if ( mdbProperty != null )
 						{
-							string hashedPassword = SimiasCredentials.HashPassword( password );
-							if ( hashedPassword == ( string ) pwd.Value)
+							// This identity originated from MDB so let's verify the 
+							// password there
+								
+							IntPtr v = MDBCreateValueStruct( mdbHandle, "\\Tree\\Context" );
+							if ( v != IntPtr.Zero )
 							{
-								status.statusCode = SCodes.Success;
-								status.UserID = member.UserID;
-								status.UserName = member.Name;
+								Property dn = member.Properties.GetSingleProperty( "DN" );
+								if ( dn != null )
+								{
+									log.Debug( "attempting to authenticate: " + dn.Value );
+									if ( MDBVerifyPassword( (string) dn.Value, password, v ) == true )
+									{
+										log.Debug( "  auth successful" );
+										status.statusCode = SCodes.Success;
+										status.UserID = member.UserID;
+										status.UserName = member.Name;
+									}
+									else
+									{
+										status.statusCode = SCodes.InvalidCredentials;
+									}
+								}
+								else
+								{
+									status.statusCode = SCodes.InvalidCredentials;
+								}
+								
+								MDBDestroyValueStruct( v );
 							}
 							else
 							{
 								status.statusCode = SCodes.InvalidCredentials;
 							}
+						}
+						else
+						{
+							status.statusCode = SCodes.InvalidCredentials;
 						}
 					}
 					else
@@ -499,25 +610,28 @@ namespace Simias.Server
 			log.Debug( "OwnsDomain called" );
 			log.Debug( "  with domain: " + domainID );
 
-			Simias.Server.Domain thisDomain = new Simias.Server.Domain( false );
-			Simias.Storage.Domain ssDomain = thisDomain.GetSimiasServerDomain( false );
-			if ( ssDomain != null )
+			Store store = Store.GetStore();
+			Simias.Storage.Domain ssDomain = store.GetDomain( domainID );
+			if ( ssDomain != null && ssDomain.IsType( ssDomain, "Enterprise" ) )
 			{
-				log.Debug( "  this SimpleServer domain is: " + ssDomain.ID );
-				if ( ssDomain.ID == domainID )
+				// Check for MDB
+				Property mdbProperty = ssDomain.Properties.GetSingleProperty( "ORIGIN:MDB" );
+				if ( mdbProperty != null )
 				{
-					log.Debug( "  returning true" );
-					return true;
+					// This identity originated from MDB so let's verify the 
+					// password there
+				
+					log.Debug( "  MDB domain is: " + ssDomain.Name );
+					if ( ssDomain.ID == domainID )
+					{
+						log.Debug( "  returning true" );
+						return true;
+					}
 				}
 			}
 
 			log.Debug( "Returning false" );
 			return false;
-
-			/*
-			Simias.Storage.Domain domain = store.GetDomain( domainID );
-			return ( ( domain != null ) && domain.IsType( domain, "Enterprise" ) ) ? true : false;
-			*/
 		}
 
 		/// <summary>
@@ -598,6 +712,12 @@ namespace Simias.Server
 		{
 			// Not needed by this implementation.
 		}
+		
+		public void Dispose()
+		{
+			System.GC.SuppressFinalize( this );
+		}
+		
 		#endregion
 	}
 }
