@@ -696,15 +696,8 @@ namespace Simias.Storage
 		///	<param name="credType">Type of credentials being stored.</param>
 		public void AddDomainIdentity( string domainID, string userID, string credentials, CredentialType credType )
 		{
-			// Get the domain.
-			Domain domain = GetDomain( domainID.ToLower() );
-			if ( domain == null )
-			{
-				throw new SimiasException( String.Format( "The domain {0} does not exist.", domainID ) );
-			}
-
 			// Add the domain mapping for the specified user.
-			LocalDb.Commit( CurrentUser.AddDomainIdentity( userID.ToLower(), domain.ID, credentials, credType ) );
+			LocalDb.Commit( CurrentUser.AddDomainIdentity( userID.ToLower(), domainID, credentials, credType ) );
 		}
 
 		/// <summary>

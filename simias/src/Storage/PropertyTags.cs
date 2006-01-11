@@ -269,12 +269,12 @@ namespace Simias.Storage
 		/// The Private address not accessible outside the firewall
 		/// used for server to server communication.
 		/// </summary>
-		static public string PrivateAddress = "PrivateAddress";
+		static public string PrivateUrl = "PrivateUrl";
 
 		/// <summary>
 		/// Well known propery name.
 		/// </summary>
-		static public string PublicAddress = "PublicAddress";
+		static public string PublicUrl = "PublicUrl";
 
 		/// <summary>
 		/// Well known property name.
@@ -349,8 +349,8 @@ namespace Simias.Storage
 			systemPropertyTable.Add( SystemPolicy, null );
 			systemPropertyTable.Add( TombstoneType, null );
 			systemPropertyTable.Add( Types, null );
-			systemPropertyTable.Add( PrivateAddress, null);
-			systemPropertyTable.Add( PublicAddress, null);
+			systemPropertyTable.Add( PrivateUrl, null);
+			systemPropertyTable.Add( PublicUrl, null);
 			systemPropertyTable.Add( PrivateKey, null);
 			systemPropertyTable.Add( DomainVersion, null );
 		}
