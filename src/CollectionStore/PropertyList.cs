@@ -258,7 +258,7 @@ namespace Simias.Storage
 		/// Adds a property to the existing property list.
 		/// </summary>
 		/// <param name="property">Property to add to the property list.</param>
-		internal void AddNodeProperty( Property property )
+		public void AddNodeProperty( Property property )
 		{
 			// Always add new properties to the end of the list.  Order must be maintained on property lists.
 			if ( !nodeDocument.Equals( property.OwnerDocument ) )

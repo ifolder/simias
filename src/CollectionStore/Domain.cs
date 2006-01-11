@@ -141,12 +141,10 @@ namespace Simias.Storage
 			DomainVersion = CurrentDomainVersion;
 
 			// Add the sync role for this collection.
-			Property p = new Property( PropertyTags.SyncRole, role );
-			p.LocalProperty = true;
-			properties.AddNodeProperty( p );
-
+			Role = role;
+			
 			// Add the configuration type.
-			p = new Property( PropertyTags.DomainType, configType );
+			Property p = new Property( PropertyTags.DomainType, configType );
 			p.LocalProperty = true;
 			properties.AddNodeProperty( p );
 		}

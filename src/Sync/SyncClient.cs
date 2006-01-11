@@ -572,7 +572,7 @@ namespace Simias.Sync
 		/// </summary>
 		/// <param name="nid">The node ID.</param>
 		/// <param name="callback">Callback that is called when collection should be synced.</param>
-		internal CollectionSyncClient(string nid, TimerCallback callback)
+		public CollectionSyncClient(string nid, TimerCallback callback)
 		{
 			store = Store.GetStore();
 			collection = store.GetCollectionByID(nid);
@@ -626,7 +626,7 @@ namespace Simias.Sync
 		/// Called to schedule a sync operation a the set sync Interval.
 		/// </summary>
 		/// <param name="SyncNow">If true schedule now.</param>
-		internal void Reschedule(bool SyncNow)
+		public void Reschedule(bool SyncNow)
 		{
 			if (!stopping)
 			{
@@ -704,7 +704,7 @@ namespace Simias.Sync
 		/// <summary>
 		/// Called to synchronize this collection.
 		/// </summary>
-		internal void SyncNow()
+		public void SyncNow()
 		{
 			// Assume the server is alive.
 			bool	sAlive = true;
@@ -716,6 +716,7 @@ namespace Simias.Sync
 				serverStatus = StartSyncStatus.Success;
 				// Refresh the collection.
 				collection.Refresh();
+				Member currentMember = collection.GetCurrentMember();
 
 				// Make sure the master exists.
 				if (collection.CreateMaster)
@@ -727,7 +728,7 @@ namespace Simias.Sync
 				{
 					if (collection.Role == SyncRoles.Slave)
 					{
-						workArray.SetAccess = collection.GetCurrentMember().Rights;
+						workArray.SetAccess = currentMember.Rights;
 				
 						// We are just starting add all the modified nodes to the array.
 						// Get all nodes from store that have not been synced.
@@ -754,8 +755,8 @@ namespace Simias.Sync
 				}
 
 				// Setup the url to the server.
-				string userID = store.GetUserIDFromDomainID(collection.Domain);
-				string userName = collection.GetMemberByID(userID).Name;
+				string userID = currentMember.UserID;
+				string userName = currentMember.Name;
 				service = new HttpSyncProxy(collection, userName, userID);
 
 				SyncNodeInfo[] cstamps;

@@ -246,6 +246,13 @@ namespace Simias.Storage
 				Property p = properties.FindSingleValue( PropertyTags.SyncRole );
 				return ( p != null ) ? ( SyncRoles )p.Value : SyncRoles.None;
 			}
+			set
+			{
+				// Set the sync role for this collection.
+				Property p = new Property( PropertyTags.SyncRole, value );
+				p.LocalProperty = true;
+				properties.ModifyNodeProperty( p );
+			}
 		}
 
 		/// <summary>
