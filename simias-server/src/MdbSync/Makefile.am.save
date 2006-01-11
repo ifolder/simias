@@ -1,0 +1,73 @@
+# handle Mono secondary dependencies
+export MONO_PATH := $(MONO_PATH):$(DESTDIR)$(libdir)
+
+MdbSync_CSFILES = $(srcdir)/ThreadService.cs $(srcdir)/MdbSync.cs $(srcdir)/AssemblyInfo.cs $(srcdir)/DomainConfig.cs $(srcdir)/EnumUsers.cs $(srcdir)/Mdb.cs $(srcdir)/MdbUser.cs 
+MdbSync_CSFILES_CSC := $(subst /,$(SEP),$(MdbSync_CSFILES))
+MdbSync_INCLUDES =
+MdbSync_RESOURCES =
+MdbSync_FLAGS = $(CSC_LIBFLAG)
+MdbSync_LIBPATH = $(DESTDIR)$(webbindir) ../../simias/src/SimiasLib.dll ../../simias/src/SimiasClient
+MdbSync_LIBS = System.dll System.Data.dll $(SYSTEM_XML) System.Web.dll System.Web.Services.dll SimiasLib.dll SimiasClient.dll
+#MdbSync_LIBPATH = ../../src/SimiasLib.dll ../../src/SimiasClient $(DESTDIR)$(webbindir)
+
+EXTRA_DIST = Simias.MdbSync.conf 
+
+if MAKE_DOC_FILE
+DOC_FILE = $(basename $@).doc.xml
+DOC_FILE_CMD = /doc:$(DOC_FILE)
+DOC_FILE_CLEAN = *.doc.xml
+endif
+
+SERVER_ASSEMBLIES := Simias.MdbSync.dll
+
+#MdbSync: $(srcdir)/MdbSync.in
+#if !WINDOWS
+#	sed -e 's,@_simiasdatadir_@,@simiasdatadir@,g' -e 's,@_webbindir_@,@webbindir@,g' -e 's,@_bindir_@,@bindir@,g' $< > $@
+#	chmod +x $@
+#endif	
+
+#MdbSync.cmd: $(srcdir)/MdbSync.cmd.in
+#if WINDOWS
+#	sed -e 's,@_simiasdatadir_@,$(shell cygpath --mixed $(simiasdatadir)),g' $< > $@
+#	chmod +x $@
+#endif
+	
+#Simias.config: $(srcdir)/Simias.config.in
+#	sed -e 's,@_StoreProviderAssembly_@,@StoreProviderAssembly@,g' -e 's,@_StoreProviderType_@,@StoreProviderType@,g' $< > $@
+#	chmod +x $@
+
+Simias.MdbSync.dll: $(MdbSync_CSFILES) $(MdbSync_RESOURCES)
+	$(CSC) /out:$@ $(CSCFLAGS) $(MdbSync_FLAGS) $(MdbSync_LIBPATH:%=/lib:%) $(MdbSync_LIBS:%=/r:%) $(MdbSync_RESOURCES:%=$(ICON_FLAG)%) $(MdbSync_CSFILES_CSC) $(DOC_FILE_CMD)
+	
+all: $(SERVER_ASSEMBLIES) 
+
+if DEBUG
+if WINDOWS
+DEBUG_CHECK_FILES = Simias.MdbSync.pdb
+endif
+endif
+
+install-exec-local: all
+	$(INSTALL_PROGRAM) $(SERVER_ASSEMBLIES) $(DEBUG_CHECK_FILES) $(DESTDIR)$(webbindir)
+	$(INSTALL_PROGRAM) Simias.MdbSync.conf $(simiasdatadir)/modules
+
+uninstall-local:
+	cd $(DESTDIR)$(webbindir); rm -f $(SERVER_ASSEMBLIES) $(DEBUG_CHECK_FILES)
+	cd $(simiasdatadir)/modules; rm -f Simias.MdbSync.conf
+
+installcheck-local: install
+		
+.PHONY: test
+test: installcheck
+
+CLEAN_FILES = $(SERVER_ASSEMBLIES) $(DOC_FILE_CLEAN) 
+
+clean-local:
+	rm -rf $(CLEAN_FILES) $(COMMON_CLEAN_FILES)
+
+#distclean-local:
+#	rm -rf $(COMMON_DISTCLEAN_FILES)
+
+maintainer-clean-local:
+	rm -rf $(COMMON_MAINTAINER_CLEAN_FILES)
+
