@@ -39,9 +39,11 @@ endif
 install-exec-local: Simias.MdbSync.dll $(DATA_FILES)
 	$(mkinstalldirs) $(DESTDIR)$(webbindir) $(DESTDIR)$(bindir)
 	$(INSTALL_PROGRAM) Simias.MdbSync.dll $(DEBUG_FILES) $(DESTDIR)$(webbindir)
+	$(INSTALL_PROGRAM) Simias.MdbSync.conf $(DESTDIR)$(webdir)/modules
 	
 uninstall-local:
 	cd $(DESTDIR)$(webbindir); rm -f Simias.MdbSync.dll $(DEBUG_FILES)
+	cd $(DESTDIR)$(webdir)/modules; rm -f Simias.MdbSync.conf
 	
 installcheck-local: install
 	
