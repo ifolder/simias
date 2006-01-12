@@ -33,12 +33,24 @@ namespace Simias.RssFeed
 	/// </summary>
 	public class Channel
 	{
-		private bool detailed = false;
-		private bool deep = false;
+		//private bool detailed = false;
+		private bool items = true;
 		private bool enclosures = false;
 		private HttpContext ctx;
 		private Collection collection;
 		private Store store;
+		
+		public bool Items
+		{
+			get{ return items; }
+			set{ items = value; }
+		}
+		
+		public bool Enclosures
+		{
+			get{ return enclosures; }
+			set{ enclosures = value; }
+		}
 
 		public Channel( HttpContext Context, Store CurrentStore, ShallowNode SN )
 		{
@@ -76,12 +88,12 @@ namespace Simias.RssFeed
 			ctx.Response.Write( "</language>" );
 
 			ctx.Response.Write( "<copyright>" );
-			ctx.Response.Write( "(c) Brady Anderson" );
+			ctx.Response.Write( "(c) Novell, Inc." );
 			ctx.Response.Write( "</copyright>" );
 
 			ctx.Response.Write( "<managingEditor>" );
 			Domain domain = store.GetDomain( store.DefaultDomain );
-			if ( collection.Owner.FN != null || collection.Owner.FN != "" )
+			if ( collection.Owner.FN != null && collection.Owner.FN != "" )
 			{
 				ctx.Response.Write( collection.Owner.FN );
 			}
@@ -93,7 +105,7 @@ namespace Simias.RssFeed
 
 			ctx.Response.Write( "<webmaster>" );
 			//member = domain.GetMemberByID( domain.Owner );
-			if ( domain.Owner.FN != null || domain.Owner.FN != "" )
+			if ( domain.Owner.FN != null && domain.Owner.FN != "" )
 			{
 				ctx.Response.Write( domain.Owner.FN );
 			}
@@ -102,22 +114,9 @@ namespace Simias.RssFeed
 				ctx.Response.Write( domain.Owner.Name );
 			}
 			ctx.Response.Write("</webmaster>");
-
-			//	Ex. Sat, 07 Sep 2002 00:00:01 GMT
-			ctx.Response.Write( "<pubDate>" );
-			ctx.Response.Write( 
-				String.Format( 
-					"{0}, {1} {2} {3} {4}:{5}:{6} GMT",
-					collection.CreationTime.DayOfWeek.ToString(),
-					collection.CreationTime.Day,
-					"Jan", //collection.CreationTime.Month,
-					collection.CreationTime.Year.ToString(),
-					collection.CreationTime.Hour,
-					collection.CreationTime.Minute,
-					collection.CreationTime.Second ) );
-
-			ctx.Response.Write( "</pubDate>" );
 			
+			Simias.RssFeed.Util.SendPublishDate( ctx, collection.CreationTime );
+
 			ctx.Response.Write( "<lastBuildDate>" );
 			ctx.Response.Write( collection.CreationTime.ToUniversalTime().ToString() );
 			ctx.Response.Write( "</lastBuildDate>" );
@@ -145,6 +144,16 @@ namespace Simias.RssFeed
 			ctx.Response.Write( "<rating>" );
 			ctx.Response.Write( "NC-17" );
 			ctx.Response.Write( "</rating>" );
+			
+			if ( items == true )
+			{
+				ICSList nodes = collection.GetNodesByType( "FileNode" );
+				foreach( ShallowNode sn in nodes )
+				{
+					Item item = new Item( ctx, collection, sn );
+					item.Send();
+				}
+			}
 
 			ctx.Response.Write( "</channel>" );
 		}

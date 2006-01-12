@@ -1,29 +1,23 @@
 using System;
 using System.Web;
 
-namespace Simias.Rss
+namespace Simias.RssFeed
 {
 	/// <summary>
 	/// Summary description for RssHeaders.
 	/// </summary>
 	public class Headers
 	{
-		private HttpContext ctx;
-		public Headers( HttpContext Context )
+		static public void SendStartTag( HttpContext Ctx )
 		{
-			ctx = Context;
+			Ctx.Response.ContentType = "text/xml";
+			Ctx.Response.Write( "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>" );
+			Ctx.Response.Write( "<rss version=\"2.0\">" );
 		}
 
-		public void SendStartTag()
+		static public void SendEndTag( HttpContext Ctx )
 		{
-			ctx.Response.ContentType = "text/xml";
-			ctx.Response.Write( "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>" );
-			ctx.Response.Write( "<rss version=\"2.0\">" );
-		}
-
-		public void SendEndTag()
-		{
-			ctx.Response.Write( "</rss>" );
+			Ctx.Response.Write( "</rss>" );
 		}
 	}
 }

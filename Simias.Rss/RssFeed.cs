@@ -42,7 +42,6 @@ namespace Simias.RssFeed
 		{
 			HttpRequest request = context.Request;
 			HttpResponse response = context.Response;
-			HttpSessionState session = context.Session;
 			
 			try
 			{
@@ -54,7 +53,7 @@ namespace Simias.RssFeed
 
 					string method = request.HttpMethod.ToLower();
 					
-					log.Debug( "Simias.Dav.Handler.ProcessRequest called" );
+					log.Debug( "Simias.Rss.Handler.ProcessRequest called" );
 					log.Debug( "  method: " + method );
 					
 					//SyncMethod method = (SyncMethod)Enum.Parse(typeof(SyncMethod), Request.Headers.Get(SyncHeaders.Method), true);
@@ -71,8 +70,10 @@ namespace Simias.RssFeed
 							//ICSList ifolders = domain.GetNodesByType( "iFolder" );
 							if ( ifolders.Count > 0 )
 							{
-								Simias.Rss.Headers hdr = new Simias.Rss.Headers( context );
-								hdr.SendStartTag();
+								response.ContentType = "text/xml";
+								response.Write( "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>" );
+								response.Write( "<rss version=\"2.0\">" );
+								
 								foreach( ShallowNode sn in ifolders )
 								{
 									if ( sn.Name.ToLower().StartsWith( "pobox" ) == false )
@@ -83,7 +84,8 @@ namespace Simias.RssFeed
 										channel.Send();
 									}
 								}
-								hdr.SendEndTag();
+								
+								response.Write( "</rss>" );
 							}
 
 							response.StatusCode = (int) HttpStatusCode.OK;
