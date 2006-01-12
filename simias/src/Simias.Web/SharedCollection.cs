@@ -32,7 +32,7 @@ using Simias.Sync;
 using Simias.POBox;
 
 #if MONO
-	using Mono.Posix;
+	using Mono.Unix;
 #endif
 
 namespace Simias.Web
@@ -631,8 +631,8 @@ namespace Simias.Web
 			// path used as a collection
 			try
 			{
-				if(Mono.Posix.Syscall.access(ifPath,
-							Mono.Posix.AccessMode.R_OK) != 0)
+				if(Mono.Unix.Syscall.access(ifPath,
+							Mono.Unix.AccessMode.R_OK) != 0)
 				{
 					return CollectionPathStatus.NoReadRightsPath;
 				}
@@ -646,8 +646,8 @@ namespace Simias.Web
 			// path used as a collection
 			try
 			{
-				if(Mono.Posix.Syscall.access(ifPath, 
-							Mono.Posix.AccessMode.W_OK) != 0)
+				if(Mono.Unix.Syscall.access(ifPath, 
+							Mono.Unix.AccessMode.W_OK) != 0)
 				{
 					return CollectionPathStatus.NoWriteRightsPath;
 				}
@@ -676,7 +676,7 @@ namespace Simias.Web
 	
 						// Get the stat structure on the path
 						Stat pathStat;
-						Mono.Posix.Syscall.stat(ifPath, out pathStat);
+						Mono.Unix.Syscall.stat(ifPath, out pathStat);
 	
 						while(mntLine != null)
 						{
@@ -687,9 +687,9 @@ namespace Simias.Web
 								string[] entries;
 		
 								entries = mntLine.Split(' ');
-								Mono.Posix.Syscall.stat(entries[1], out stat);
+								Mono.Unix.Syscall.stat(entries[1], out stat);
 		
-								if(stat.Device == pathStat.Device)
+								if(stat.st_dev == pathStat.st_dev)
 								{
 									retval = true;
 									break;

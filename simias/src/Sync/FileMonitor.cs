@@ -26,6 +26,7 @@ using System.Threading;
 using System.Collections;
 using System.IO;
 using System.Diagnostics;
+using System.Text;
 
 using Simias.Storage;
 using Simias;
@@ -594,23 +595,27 @@ namespace Simias.Sync
 		bool IsRecursiveLink(string path)
 		{
 #if MONO
-			Mono.Posix.Stat stat;
-			if (Mono.Posix.Syscall.lstat(path, out stat) == 0)
+			Mono.Unix.Stat stat;
+			if (Mono.Unix.Syscall.lstat(path, out stat) == 0)
 			{
-				if ((stat.Mode & Mono.Posix.StatMode.SymLink) != 0)
+				if ((stat.st_mode & Mono.Unix.FilePermissions.S_IFLNK) != 0)
 				{
 					// If the path begins with the link path this is a recursive link.
-					string linkPath = Mono.Posix.Syscall.readlink(path);
-					if (!Path.IsPathRooted(linkPath))
+					StringBuilder stringBuff = new StringBuilder();
+					if (Mono.Unix.Syscall.readlink(path, stringBuff) == 0)
 					{
-						linkPath = Path.Combine(Path.GetDirectoryName(path), linkPath);
-						linkPath = Path.GetFullPath(linkPath) + "/";
+						string linkPath = stringBuff.ToString();
+						if (!Path.IsPathRooted(linkPath))
+						{
+							linkPath = Path.Combine(Path.GetDirectoryName(path), linkPath);
+							linkPath = Path.GetFullPath(linkPath) + "/";
+						}
+						// We need to check for link to a link.
+						if (IsRecursiveLink(linkPath))
+							return true;
+            			else if (path.StartsWith(linkPath))
+							return true;
 					}
-					// We need to check for link to a link.
-					if (IsRecursiveLink(linkPath))
-						return true;
-            		else if (path.StartsWith(linkPath))
-						return true;
 				}
 			}
 #else
