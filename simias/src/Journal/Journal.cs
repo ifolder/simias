@@ -225,6 +225,24 @@ namespace Simias.Storage
 		#region Public Methods
 
 		/// <summary>
+		/// Commit the changes made to the journal.
+		/// </summary>
+		public void Commit()
+		{
+			if ( collection.Role.Equals(SyncRoles.Master) )
+			{
+				if ( commitCollection )
+				{
+					collection.Commit( new Node[] { collection, journalNode } );
+				}
+				else
+				{
+					collection.Commit( journalNode );
+				}
+			}
+		}
+
+		/// <summary>
 		/// End the search for journal entries.
 		/// </summary>
 		/// <param name="searchContext">Domain provider specific search context returned by FindFirstJournalEntries or
@@ -442,10 +460,10 @@ namespace Simias.Storage
 			return moreEntries;
 		}
 
-		#endregion
-
-		#region Internal Methods
-
+		/// <summary>
+		/// Update the journal.
+		/// </summary>
+		/// <param name="args">Contains the information to put in the journal.</param>
 		public void UpdateJournal( NodeEventArgs args )
 		{
 			if ( collection.Role.Equals(SyncRoles.Master) )
@@ -520,30 +538,16 @@ namespace Simias.Storage
 				}
 
 				// Put a relationship to the journal on the collection if it doesn't already exist.
-//				if ( collection.Properties.GetSingleProperty( PropertyTags.Journal ) == null )
-//				{
-//					collection.Properties.AddNodeProperty( PropertyTags.Journal, new Relationship( collection.ID, journalNode.ID ) );
-//					commitCollection = true;
-//				}
-			}
-		}
-
-		public void Commit()
-		{
-			if ( collection.Role.Equals(SyncRoles.Master) )
-			{
-				if ( commitCollection )
-				{
-					collection.Commit( new Node[] { collection, journalNode } );
-				}
-				else
-				{
-					collection.Commit( journalNode );
-				}
+				//				if ( collection.Properties.GetSingleProperty( PropertyTags.Journal ) == null )
+				//				{
+				//					collection.Properties.AddNodeProperty( PropertyTags.Journal, new Relationship( collection.ID, journalNode.ID ) );
+				//					commitCollection = true;
+				//				}
 			}
 		}
 
 		#endregion
+
 	}
 
 	/// <summary>
