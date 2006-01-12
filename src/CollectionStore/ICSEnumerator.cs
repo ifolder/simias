@@ -91,6 +91,16 @@ namespace Simias.Storage
 			this.valueList = null;
 			this.iEnumerator = icsEnumerator;
 		}
+
+		/// <summary>
+		/// Constructor for the object.
+		/// </summary>
+		/// <param name="list">ArrayList that contains objects.</param>
+		public ICSList ( ArrayList list )
+		{
+			this.valueList = list;
+			this.iEnumerator = null;
+		}
 		#endregion
 
 		#region Properties
