@@ -675,7 +675,7 @@ namespace Simias.Web
 						string mntLine = sr.ReadLine();
 	
 						// Get the stat structure on the path
-						Stat pathStat;
+						Mono.Unix.Stat pathStat;
 						Mono.Unix.Syscall.stat(ifPath, out pathStat);
 	
 						while(mntLine != null)
@@ -683,7 +683,7 @@ namespace Simias.Web
 							// verify it's a device on this box
 							if(mntLine.StartsWith("/dev"))
 							{
-								Stat stat;
+								Mono.Unix.Stat stat;
 								string[] entries;
 		
 								entries = mntLine.Split(' ');
