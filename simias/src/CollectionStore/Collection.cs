@@ -669,7 +669,15 @@ namespace Simias.Storage
 			else
 			{
 				incarnationValue = node.LocalIncarnation + 1;
+
+				// Update the modifier on the node.
+				node.Properties.ModifyNodeProperty( PropertyTags.LastModifier, GetCurrentPrincipal() );
 			}
+
+			// Update the last modified time.
+			Property property = new Property( PropertyTags.LastModified, DateTime.Now );
+			property.LocalProperty = true;
+			node.Properties.ModifyNodeProperty( property );
 
 			// Update the local incarnation value to the specified value.
 			node.Properties.ModifyNodeProperty( PropertyTags.LocalIncarnation, incarnationValue );

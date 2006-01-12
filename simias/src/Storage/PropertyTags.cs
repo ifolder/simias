@@ -131,7 +131,27 @@ namespace Simias.Storage
 		/// <summary>
 		/// Well known property name.
 		/// </summary>
+		static public string Journal = "JournalNode";
+
+		/// <summary>
+		/// Well known property name.
+		/// </summary>
+		static public string JournalFor = "JournalFor";
+
+		/// <summary>
+		/// Well known property name.
+		/// </summary>
 		static public string LastLoginTime = "LastLogin";
+
+		/// <summary>
+		/// Well known property name.
+		/// </summary>
+		static public string LastModified = "LastModified";
+
+		/// <summary>
+		/// Well known property name.
+		/// </summary>
+		static public string LastModifier = "LastModifier";
 
 		/// <summary>
 		/// Well known property name.
@@ -323,8 +343,12 @@ namespace Simias.Storage
 			systemPropertyTable.Add( FileSystemPath, null );
 			systemPropertyTable.Add( FullName, null );
 			systemPropertyTable.Add( HostAddress, null );
-			systemPropertyTable.Add( LastLoginTime, null );
+			systemPropertyTable.Add( Journal, null );
+			systemPropertyTable.Add( JournalFor, null );
+        	systemPropertyTable.Add( LastLoginTime, null );
 			systemPropertyTable.Add( LastAccessTime, null );
+			systemPropertyTable.Add( LastModified, null );
+			systemPropertyTable.Add( LastModifier, null );
 			systemPropertyTable.Add( LastWriteTime, null );
 			systemPropertyTable.Add( LinkReference, null );
 			systemPropertyTable.Add( LocalIncarnation, null );

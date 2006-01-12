@@ -52,6 +52,7 @@ AssemblyInfo.cs
 ../FlaimProvider/FlaimRecord.cs
 ../FlaimProvider/FlaimResultSet.cs
 ../FlaimProvider/FlaimServer.cs
+../Journal/Journal.cs
 ../Login/Login.ashx.cs
 ../HttpAuthentication/AuthHandler.cs
 ../HttpAuthentication/IAuthService.cs
