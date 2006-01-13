@@ -20,7 +20,7 @@
  *  Author: Calvin Gaisford <cgaisford@novell.com>
  * 
  ***********************************************************************/
-#include "simias.h"
+#include "simias2.h"
 #include "simias_internal.h"
 
 #include <stdlib.h>
@@ -28,6 +28,49 @@
 #include <string.h>
 
 //  <Property name="NodeCreate" type="DateTime">632643783391302280</Property>
+//  <Property name="Sync Role" type="Int32" flags="131072">2</Property>
+
+int simias_property_create(SimiasProperty *hProperty, char *name, 
+									char *type,	char *value)
+{
+	int rc = 0;
+	
+	xmlNode *tmpNode = xmlNewNode(NULL, (xmlChar *)"Property");
+	if(tmpNode == NULL)
+		return SIMIAS_ERROR_INTERNAL_XML_ERROR;
+		
+	xmlAttr *newAttr = xmlNewProp(tmpNode, (xmlChar *)"name", (xmlChar *)name);
+	if(newAttr == NULL)
+	{
+		xmlFreeNode(tmpNode);
+		return SIMIAS_ERROR_INTERNAL_XML_ERROR;
+	}
+	newAttr = xmlNewProp(tmpNode, (xmlChar *)"type", (xmlChar *)type);
+	if(newAttr == NULL)
+	{
+		xmlFreeNode(tmpNode);
+		return SIMIAS_ERROR_INTERNAL_XML_ERROR;
+	}
+
+	xmlNode *txtNode = xmlNewText((xmlChar *)value);
+	if(txtNode == NULL)
+	{
+		xmlFreeNode(tmpNode);
+		return SIMIAS_ERROR_INTERNAL_XML_ERROR;
+	}
+	
+	if(xmlAddChild(tmpNode, txtNode) == NULL)
+	{
+		xmlFreeNode(tmpNode);
+		return SIMIAS_ERROR_INTERNAL_XML_ERROR;
+	}
+	
+	rc = _simias_property_create((struct _SimiasProperty **)(hProperty), tmpNode);
+	xmlFreeNode(tmpNode);
+	return rc;
+}
+
+
 
 char *simias_property_get_name(SimiasProperty hProp)
 {

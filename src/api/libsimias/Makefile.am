@@ -15,7 +15,7 @@ override CFLAGS =
 endif
 
 libsimias2_la_SOURCES = \
- 	envC.c simiaswebClientLib.c stdsoap2.c simias_internal.c simias_internal.h simias_handle.c simias.h simias_domain.c simias_node.c simias_nodelist.c simias_collection.c simias_property.c 
+ 	envC.c simiaswebClientLib.c stdsoap2.c simias_internal.c simias_internal.h simias_handle.c simias2.h simias_domain.c simias_node.c simias_nodelist.c simias_collection.c simias_property.c 
  	
 libsimias2_la_CFLAGS = \
 	$(XML2_CFLAGS) -DWITH_NONAMESPACES -DWITH_COOKIES
@@ -23,11 +23,11 @@ libsimias2_la_CFLAGS = \
 libsimias2_la_LDFLAGS = \
 	$(XML2_LIBS)
 
-#if LINUX
-#bin_PROGRAMS = testapi
-#testapi_SOURCES = test.c
-#LDADD = libsimias2.la
-#endif
+if DARWIN
+bin_PROGRAMS = testapi
+testapi_SOURCES = test.c
+LDADD = libsimias2.la
+endif
 
 envC.c: $(srcdir)/stdsoap2.c
 	> $(srcdir)/env.h
@@ -42,13 +42,22 @@ $(srcdir)/libsimias.h: $(srcdir)/stdsoap2.c $(SIMIAS_WSDL)
 
 $(srcdir)/simiaswebClientLib.c: $(srcdir)/libsimias.h
 	$(GSOAP_PATH)/soapcpp2 -c -n -psimiasweb $(srcdir)/libsimias.h
+
+if !WINDOWS
+install-exec-hook:
+	rm -f $(DESTDIR)$(libdir)/libsimias2.a
+	rm -f $(DESTDIR)$(libdir)/libsimias2.la
+	rm -f $(DESTDIR)$(bindir)/testapi
+endif
 	
 install-exec-local:
 	$(mkinstalldirs) $(DESTDIR)$(includedir)
-	$(INSTALL_PROGRAM) simias.h $(DESTDIR)$(includedir)/simias
+	$(mkinstalldirs) $(DESTDIR)$(libdir)/pkgconfig $(DESTDIR)$(datadir)/$(PACKAGE)
+	$(INSTALL_PROGRAM) simias2.h $(DESTDIR)$(includedir)/simias
+	$(INSTALL_PROGRAM) simias2-c.pc $(DESTDIR)$(libdir)/pkgconfig
 
 uninstall-local:
-	rm -f $(DESTDIR)$(includedir)/simias/simias.h
+	rm -f $(DESTDIR)$(includedir)/simias/simias2.h
 
 clean-local:
 	rm -f stdsoap2.* *.xml libsimias.h simiasweb.nsmap simiaswebC* simiaswebH* simiaswebS* env* soap*
@@ -58,4 +67,6 @@ distclean-local:
 	rm -rf $(COMMON_DISTCLEAN_FILES)
 
 maintainer-clean-local:
-	rm -rf $(COMMON_MAINTAINER_CLEAN_FILES)
+	rm -rf $(COMMON_MAINTAINER_CLEAN_FILES) simias2-c.pc
+
+

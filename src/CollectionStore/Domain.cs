@@ -62,6 +62,12 @@ namespace Simias.Storage
 		static public string SectionName = "Domain";
 		static public string AdminDNTag = "AdminDN";
 		static public string Encoding = "Encoding";
+
+		/// <summary>
+		/// Current version of the domain.
+		/// </summary>
+		public static readonly Version CurrentDomainVersion = new Version( "1.0.0.0" );
+
 		#endregion
 
 		#region Properties
@@ -90,6 +96,29 @@ namespace Simias.Storage
 
 			set { properties.ModifyNodeProperty( PropertyTags.Description, value ); }
 		}
+
+#if ( !REMOVE_OLD_INVITATION )
+		/// <summary>
+		/// Used to determine if the domain supports the new invitation model.
+		/// </summary>
+		public bool SupportsNewInvitation
+		{
+			get { return ( DomainVersion >= CurrentDomainVersion ) ? true : false; }
+		}
+#endif
+		/// <summary>
+		/// Gets or sets the version of this domain.
+		/// </summary>
+		public Version DomainVersion
+		{
+			get
+			{
+				Property p = properties.GetSingleProperty( PropertyTags.DomainVersion );
+				return ( p != null ) ? new Version( p.Value as String ) : new Version( "0.0.0.0" );
+			}
+
+			set { properties.ModifyNodeProperty( PropertyTags.DomainVersion, value.ToString() ); }
+		}
 		#endregion
 
 		#region Constructors
@@ -108,13 +137,14 @@ namespace Simias.Storage
 				properties.AddNodeProperty( PropertyTags.Description, description );
 			}
 
-			// Add the sync role for this collection.
-			Property p = new Property( PropertyTags.SyncRole, role );
-			p.LocalProperty = true;
-			properties.AddNodeProperty( p );
+			// Set the current domain version.
+			DomainVersion = CurrentDomainVersion;
 
+			// Add the sync role for this collection.
+			Role = role;
+			
 			// Add the configuration type.
-			p = new Property( PropertyTags.DomainType, configType );
+			Property p = new Property( PropertyTags.DomainType, configType );
 			p.LocalProperty = true;
 			properties.AddNodeProperty( p );
 		}

@@ -44,72 +44,40 @@ namespace Simias.Storage
 		/// <summary>
 		/// Gets/Sets the public address for this host.
 		/// </summary>
-		public string PublicAddress
+		public string PublicUrl
 		{
 			get
 			{
-				Property pa = Properties.GetSingleProperty(PropertyTags.PublicAddress);
+				Property pa = Properties.GetSingleProperty(PropertyTags.PublicUrl);
 				if (pa != null)
 				{
 					return pa.Value.ToString();
 				}
-				throw new NotExistException(PropertyTags.PublicAddress);
+				throw new NotExistException(PropertyTags.PublicUrl);
 			}
 			set
 			{
-				Properties.ModifyNodeProperty(new Property(PropertyTags.PublicAddress, value));
+				Properties.ModifyNodeProperty(new Property(PropertyTags.PublicUrl, value));
 			}
 		}
 
 		/// <summary>
 		/// Gets/Sets the private address for this host.
 		/// </summary>
-		public string PrivateAddress
+		public string PrivateUrl
 		{
 			get
 			{
-				Property pa = Properties.GetSingleProperty(PropertyTags.PrivateAddress);
+				Property pa = Properties.GetSingleProperty(PropertyTags.PrivateUrl);
 				if (pa != null)
 				{
 					return pa.Value.ToString();
 				}
-				throw new NotExistException(PropertyTags.PrivateAddress);
+				throw new NotExistException(PropertyTags.PrivateUrl);
 			}
 			set
 			{
-				Properties.ModifyNodeProperty(new Property(PropertyTags.PrivateAddress, value));
-			}
-		}
-
-		/// <summary>
-		/// Gets the public key for this host.
-		/// </summary>
-		public new string PublicKey
-		{
-			get
-			{
-				Property pa = Properties.GetSingleProperty(PropertyTags.PublicKey);
-				if (pa != null)
-				{
-					return pa.Value.ToString();
-				}
-				throw new NotExistException(PropertyTags.PublicKey);
-			}
-		}
-
-		/// <summary>
-		/// Gets the private key for this host.
-		/// </summary>
-		internal string PrivateKey
-		{
-			get
-			{
-				Property pa = Properties.GetSingleProperty(PropertyTags.PrivateKey);
-				if (pa != null)
-				{
-					return pa.Value.ToString();
-				}
-				throw new NotExistException(PropertyTags.PublicKey);
+				Properties.ModifyNodeProperty(new Property(PropertyTags.PrivateUrl, value));
 			}
 		}
 		#endregion
@@ -119,10 +87,11 @@ namespace Simias.Storage
 		/// Construct a new host node.
 		/// </summary>
 		/// <param name="name">The name of the host.</param>
-		/// <param name="publicAddress">The public address for the host.</param>
-		/// <param name="privateAddress">The private address for the host.</param>
-		public HostNode(string name, string publicAddress, string privateAddress) :
-			this(name, Guid.NewGuid().ToString(), publicAddress, privateAddress, null)
+		/// <param name="userId">Unique identifier for the user.</param>
+		/// <param name="publicUrl">The public url for the host.</param>
+		/// <param name="privateUrl">The private url for the host.</param>
+		public HostNode(string name, string userId, string publicUrl, string privateUrl) :
+			this(name, userId, publicUrl, privateUrl, null)
 		{
 		}
 
@@ -130,30 +99,28 @@ namespace Simias.Storage
 		/// Construct a new host node.
 		/// </summary>
 		/// <param name="name">The name of the host.</param>
-		/// <param name="guid">The ID for this node.</param>
-		/// <param name="publicAddress">The public address for the host.</param>
-		/// <param name="privateAddress">The private address for the host.</param>
+		/// <param name="userId">Unique identifier for the user.</param>
+		/// <param name="publicUrl">The public URL for the host.</param>
+		/// <param name="privateUrl">The private URL for the host.</param>
 		/// <param name="publicKey"></param>
-		public HostNode(string name, string guid, string publicAddress, string privateAddress, string publicKey) :
-			base(name, guid, Access.Rights.Admin)
+		public HostNode(string name, string userId, string publicUrl, string privateUrl, RSACryptoServiceProvider publicKey) :
+			base(name, userId, Access.Rights.Admin, publicKey)
 		{
 			// Set the Addresses.
-			//Properties.ModifyProperty(new Property(PropertyTags.Types, 
-			PublicAddress = publicAddress;
-			PrivateAddress = privateAddress;
-			if (publicKey != null)
-			{
-				Properties.ModifyNodeProperty(new Property(PropertyTags.PublicKey, publicKey));
-			}
+			// Get the port that we are using.
+			PublicUrl = publicUrl;
+			PrivateUrl = privateUrl;
+			Properties.AddNodeProperty(new Property(PropertyTags.Types, HostNodeType));
 		}
 
 		/// <summary>
 		/// Consturct a new host node.
 		/// </summary>
 		/// <param name="name">The name of the host.</param>
+		/// <param name="userId">Unique identifier for the user.</param>
 		/// <param name="publicAddress">The public address for the host.</param>
-		public HostNode(string name, string publicAddress) :
-			this(name, publicAddress, publicAddress)
+		public HostNode(string name, string userId, string publicAddress) :
+			this(name, userId, publicAddress, publicAddress)
 		{
 		}
 
@@ -164,7 +131,7 @@ namespace Simias.Storage
 		public HostNode(Node node) :
 			base(node)
 		{
-			if (IsType(HostNodeType))
+			if (!IsType(HostNodeType))
 			{
 				throw new CollectionStoreException(String.Format("Cannot construct an object type of {0}.", HostNodeType));
 			}
@@ -179,37 +146,22 @@ namespace Simias.Storage
 			:
 			base(collection, shallowNode)
 		{
-			if (IsType(HostNodeType))
+			if (!IsType(HostNodeType))
 			{
 				throw new CollectionStoreException(String.Format("Cannot construct an object type of {0}.", HostNodeType));
 			}
 		}
 
 		/// <summary>
-		/// Construct a HostNode from the serialized XML.
+		/// Create a HostNode from the xml document.
 		/// </summary>
-		/// <param name="document">The XML represention of the HostNode.</param>
-		internal HostNode(XmlDocument document)
-			:
-			base(document)
+		/// <param name="store">The store.</param>
+		/// <param name="document">The xml document.</param>
+		/// <returns></returns>
+		public static HostNode FromXml(Store store, XmlDocument document)
 		{
-			if (IsType(HostNodeType))
-			{
-				throw new CollectionStoreException(String.Format("Cannot construct an object type of {0}.", HostNodeType));
-			}
+			return new HostNode(Node.NodeFactory(store, document));
 		}
 		#endregion
-
-		/// <summary>
-		/// Create a key pair for this HostNode.
-		/// </summary>
-		public void CreateKeys()
-		{
-			RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
-			Property privKey = new Property(PropertyTags.PrivateKey, rsa.ToXmlString(true));
-			privKey.LocalProperty = true;
-			Properties.ModifyNodeProperty(privKey);
-			Properties.ModifyNodeProperty(new Property(PropertyTags.PublicKey, rsa.ToXmlString(false)));
-		}
 	}
 }

@@ -39,6 +39,8 @@ namespace Simias.POBox
 	/// </summary>
 	public enum SubscriptionStates
 	{
+#if ( !REMOVE_OLD_INVITATION )
+
 		/// <summary>
 		/// The Subscription has been created but not sent.
 		/// </summary>
@@ -78,11 +80,11 @@ namespace Simias.POBox
 		/// The Subscription acceptance/denial has been acknowledged.
 		/// </summary>
 		Acknowledged,
-
+#endif
 		/// <summary>
 		/// The Subscription is ready and can be used to start syncing.
 		/// </summary>
-		Ready,
+		Ready = 8,
 
 		/// <summary>
 		/// The subscription state is unknown.
@@ -207,95 +209,36 @@ namespace Simias.POBox
 		/// </summary>
 		public static readonly string ToMemberNodeIDProperty = "SbMemberNode";
 		
+		/// <summary>
+		/// The type of collection that this subscription represents.
+		/// </summary>
+		public static readonly string SubscriptionTypes = "SbTypes";
+		
 		#endregion
 
 		#region Constructors
-		
-		/// <summary>
-		/// Constructor for creating a Subscription object from a SubscriptionInfo object.
-		/// </summary>
-		/// <param name="subscriptionName">The friendly name of the Subscription.</param>
-		/// <param name="subscriptionInfo">The SubscriptionInfo object to create the Subscription object from.</param>
-		public Subscription(string subscriptionName, SubscriptionInfo subscriptionInfo) :
-			this (subscriptionName, subscriptionInfo.SubscriptionID)
-		{
-			DomainID = subscriptionInfo.DomainID;
-			DomainName = subscriptionInfo.DomainName;
-			SubscriptionCollectionID = subscriptionInfo.SubscriptionCollectionID;
-			SubscriptionCollectionName = subscriptionInfo.SubscriptionCollectionName;
-			SubscriptionCollectionType = subscriptionInfo.SubscriptionCollectionType;
-			HasDirNode = subscriptionInfo.SubscriptionCollectionHasDirNode;
-		}
-
-		/// <summary>
-		/// Constructor for creating a new Subscription object with a specific ID.
-		/// </summary>
-		/// <param name="messageName">The friendly name of the Subscription object.</param>
-		/// <param name="messageID">The ID of the Subscription object.</param>
-		public Subscription(string messageName, string messageID) :
-			base (messageName, NodeTypes.SubscriptionType, messageID)
-		{
-		}
-	
 		/// <summary>
 		/// Constructor for creating a new Subscription object.
 		/// </summary>
+		/// <param name="domain">The domain that this subscription belongs to.</param>
 		/// <param name="messageName">The friendly name of the message.</param>
 		/// <param name="messageType">The type of the message.</param>
 		/// <param name="fromIdentity">The identity of the sender.</param>
-		public Subscription(string messageName, string messageType, string fromIdentity) :
-			this (messageName, messageType, fromIdentity, null, null, null)
+		public Subscription(Domain domain, string messageName, string messageType, string fromIdentity) :
+			base (messageName, NodeTypes.SubscriptionType, messageType, fromIdentity, null, null, null)
 		{
-		}
-
-		/// <summary>
-		/// Constructor for creating a new Subscription object.
-		/// </summary>
-		/// <param name="messageName">The friendly name of the message.</param>
-		/// <param name="messageType">The type of the message.</param>
-		/// <param name="fromIdentity">The sender's identity.</param>
-		/// <param name="fromAddress">The sender's address.</param>
-		public Subscription(string messageName, string messageType, string fromIdentity, string fromAddress) :
-			this (messageName, messageType, fromIdentity, fromAddress, null, null)
-		{
-		}
-
-		/// <summary>
-		/// Constructor for creating a new Subscription object.
-		/// </summary>
-		/// <param name="messageName">The friendly name of the message.</param>
-		/// <param name="messageType">The type of the message.</param>
-		/// <param name="fromIdentity">The sender's identity.</param>
-		/// <param name="fromAddress">The sender's address.</param>
-		/// <param name="toAddress">The recipient's address.</param>
-		public Subscription(string messageName, string messageType, string fromIdentity, string fromAddress, string toAddress) :
-			this (messageName, messageType, fromIdentity, fromAddress, toAddress, null)
-		{
-		}
-
-		/// <summary>
-		/// Constructor for creating a new Subscription object.
-		/// </summary>
-		/// <param name="messageName">The friendly name of the message.</param>
-		/// <param name="messageType">The type of the message.</param>
-		/// <param name="fromIdentity">The sender's identity.</param>
-		/// <param name="fromAddress">The sender's address.</param>
-		/// <param name="toAddress">The recipient's address.</param>
-		/// <param name="toIdentity">The recipient's identity.</param>
-		public Subscription(string messageName, string messageType, string fromIdentity, string fromAddress, string toAddress, string toIdentity) :
-			base (messageName, NodeTypes.SubscriptionType, messageType, fromIdentity, fromAddress, toAddress, toIdentity)
-		{
-			SubscriptionState = SubscriptionStates.Invited;
-		}
-
-		/// <summary>
-		/// Clone the message with a new ID.
-		/// </summary>
-		/// <param name="ID">The new node ID.</param>
-		/// <param name="message">The message to clone.</param>
-		public Subscription(string ID, Message message) : 
-			base(ID, message)
-		{
+#if ( !REMOVE_OLD_INVITATION )
+			if ( domain.SupportsNewInvitation )
+			{
+#endif
+				SubscriptionState = SubscriptionStates.Ready;
+#if ( !REMOVE_OLD_INVITATION )
+			}
+			else
+			{
+				SubscriptionState = SubscriptionStates.Invited;
+			}
+#endif
 		}
 
 		/// <summary>
@@ -628,60 +571,39 @@ namespace Simias.POBox
 			}
 		}
 
+		/// <summary>
+		/// Gets or sets the collection types for this subscription.
+		/// </summary>
+		public string[] SbTypes
+		{
+			get 
+			{ 
+				ArrayList sbtypes = new ArrayList();
+				MultiValuedList mvl = properties.FindValues( SubscriptionTypes ); 
+				foreach ( Property p in mvl )
+				{
+					sbtypes.Add( p.ValueString );
+				}
+
+				return sbtypes.ToArray( typeof( string ) ) as string[];
+			}
+
+			set
+			{
+				// Clear off all of the current types.
+				properties.DeleteNodeProperties( SubscriptionTypes );
+				foreach( string s in value )
+				{
+					properties.AddNodeProperty( SubscriptionTypes, s );
+				}
+			}
+		}
+
 		#endregion
 
 		#region Public Methods
-/*	DEADCODE - Used by the old invitation wizard and GtkAddrBook.	
-		/// <summary>
-		/// Gets or creates a Subscription object based on a SubscriptionInfo file.
-		/// </summary>
-		/// <param name="store">The store to use when creating/finding the Subscription object.</param>
-		/// <param name="subscriptionInfoFileName">The file used to create/find the Subscription object.</param>
-		/// <returns>A Subscription object constructed from the SubscriptionInfo file.</returns>
-		public static Subscription GetSubscriptionFromSubscriptionInfo(Store store, string subscriptionInfoFileName)
-		{
-			SubscriptionInfo subscriptionInfo = new SubscriptionInfo(subscriptionInfoFileName);
 
-			return GetSubscriptionFromSubscriptionInfo(store, subscriptionInfo);
-		}
-
-		/// <summary>
-		/// Gets or creates a Subscription object based on a SubscriptionInfo object.
-		/// </summary>
-		/// <param name="store">The store to use when creating/finding the Subscription object.</param>
-		/// <param name="subscriptionInfo">The SubscriptionInfo object used to create/find the Subscription object.</param>
-		/// <returns>A Subscription object constructed from the SubscriptionInfo object.</returns>
-		public static Subscription GetSubscriptionFromSubscriptionInfo(Store store, SubscriptionInfo subscriptionInfo)
-		{
-			Subscription subscription;
-
-			// check for existing subscription object in the POBox
-			POBox poBox = POBox.GetPOBox(store, subscriptionInfo.DomainID);
-			
-			ICSList list = poBox.Search(Message.MessageIDProperty, subscriptionInfo.SubscriptionID, SearchOp.Equal);
-			ICSEnumerator e = list.GetEnumerator() as ICSEnumerator;
-			if (e.MoveNext())
-			{
-				// new up the subscription from the existing node.
-				subscription = new Subscription(poBox, e.Current as ShallowNode);
-				e.Dispose();
-			}
-			else
-			{
-				// Create a new subscription object.
-				subscription = new Subscription(subscriptionInfo.SubscriptionCollectionName + " Subscription", subscriptionInfo);
-
-				// Set the state to received.
-				subscription.SubscriptionState = SubscriptionStates.Received;
-
-				// Add the subscription to the POBox.
-				poBox.AddMessage(subscription);
-			}
-
-
-			return subscription;
-		}
-*/
+#if ( !REMOVE_OLD_INVITATION )
 		/// <summary>
 		/// Generates a SubscriptionInfo object from the Subscription object
 		/// </summary>
@@ -774,48 +696,6 @@ namespace Simias.POBox
 		}
 
 		/// <summary>
-		/// Create the slave collection (stub for syncing)
-		/// </summary>
-		public void CreateSlave(Store store)
-		{
-			ArrayList commitList = new ArrayList();
-
-			Collection c = new Collection(store, this.SubscriptionCollectionName,
-				this.SubscriptionCollectionID, this.DomainID);
-
-			commitList.Add(c);
-			
-			// collection type
-			// TODO: sc.SetType(this, this.SubscriptionCollectionTypes);
-			c.SetType(c, this.SubscriptionCollectionType);
-			
-			// Create the member as well
-			if (this.ToMemberNodeID != null && this.ToMemberNodeID != "")
-			{
-				Member member = new Member(this.ToName, this.ToMemberNodeID, this.ToIdentity, this.SubscriptionRights, null);
-				member.IsOwner = true;
-				member.Proxy = true;
-				commitList.Add(member);
-			}
-
-			// check for a dir node
-			if (((this.DirNodeID != null) && (this.DirNodeID.Length > 0))
-				&& (this.DirNodeName != null) && (this.DirNodeName.Length > 0)
-				&& (this.CollectionRoot != null) && (this.CollectionRoot.Length > 0))
-			{
-				string path = Path.Combine(this.CollectionRoot, this.DirNodeName);
-				DirNode dn = new DirNode(c, path, this.DirNodeID);
-				if (!Directory.Exists(path)) Directory.CreateDirectory(path);
-
-				dn.Proxy = true;
-				commitList.Add(dn);
-			}
-
-			c.Proxy = true;
-			c.Commit((Node[]) commitList.ToArray(typeof(Node)));
-		}
-
-		/// <summary>
 		/// Accept the subscription on the slave side.
 		/// </summary>
 		/// <param name="store">The store that the POBox belongs to.</param>
@@ -830,8 +710,6 @@ namespace Simias.POBox
 			ToName = member.Name;
 			ToIdentity = member.UserID;
 			ToPublicKey = member.PublicKey;
-			//FromName = member.Name;
-			//FromIdentity = member.UserID;
 		}
 
 		/// <summary>
@@ -867,6 +745,80 @@ namespace Simias.POBox
 			// state update
 			this.SubscriptionState = SubscriptionStates.Responded;
 			this.SubscriptionDisposition = SubscriptionDispositions.Declined;
+		}
+#endif
+
+		/// <summary>
+		/// Create the slave collection (stub for syncing)
+		/// </summary>
+		public void CreateSlave(Store store)
+		{
+			ArrayList commitList = new ArrayList();
+
+			Collection c = new Collection(store, this.SubscriptionCollectionName,
+				this.SubscriptionCollectionID, this.DomainID);
+			
+			commitList.Add(c);
+
+			// Check if this is an old type of subscription and add the collection type
+			// specified. If it is a new type of subscription, then add all of the
+			// specified types.
+			if ( c.Properties.HasProperty( SubscriptionTypes ) )
+			{
+				// Remove all types and add the ones specified by the subscription.
+				c.Properties.DeleteNodeProperties( PropertyTags.Types );
+				foreach( string s in SbTypes )
+				{
+					c.SetType( c, s );
+				}
+			}
+			else
+			{
+				// For backwards compatibility with older clients.
+				c.SetType( c, SubscriptionCollectionType );
+			}
+			
+			// Create the member as well
+			if (this.ToMemberNodeID != null && this.ToMemberNodeID != "")
+			{
+				Member member = new Member(this.ToName, this.ToMemberNodeID, this.ToIdentity, this.SubscriptionRights, null);
+				member.IsOwner = true;
+				member.Proxy = true;
+				commitList.Add(member);
+			}
+
+			// check for a dir node
+			if (((this.DirNodeID != null) && (this.DirNodeID.Length > 0))
+				&& (this.DirNodeName != null) && (this.DirNodeName.Length > 0)
+				&& (this.CollectionRoot != null) && (this.CollectionRoot.Length > 0))
+			{
+				string path = Path.Combine(this.CollectionRoot, this.DirNodeName);
+				DirNode dn = new DirNode(c, path, this.DirNodeID);
+				if (!Directory.Exists(path)) Directory.CreateDirectory(path);
+
+				dn.Proxy = true;
+				commitList.Add(dn);
+			}
+
+			c.Proxy = true;
+			c.Commit((Node[]) commitList.ToArray(typeof(Node)));
+		}
+
+		/// <summary>
+		/// Sets all of the Types tags specified on the collection as SubscriptionTypes.
+		/// </summary>
+		/// <param name="collection">Collection to get types from.</param>
+		public void SetSubscriptionTypes( Collection collection )
+		{
+			// Clear off all of the current types.
+			properties.DeleteNodeProperties( SubscriptionTypes );
+
+			// Set each node type as subscription types.
+			MultiValuedList mvl = collection.Properties.FindValues( PropertyTags.Types );
+			foreach( Property p in mvl )
+			{
+				properties.AddNodeProperty( SubscriptionTypes, p.ValueString );
+			}
 		}
 
 		#endregion

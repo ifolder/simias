@@ -403,11 +403,13 @@ namespace Simias.Storage
 				catch ( Exception e )
 				{
 					// Log this error.
-					log.Fatal( e, "Could not initialize Collection Store." );
+					Console.Error.WriteLine( "Error: Exception {0}. Could not initialize collection store.", e.Message );
+					Console.Error.WriteLine( "Stack Trace = {0}", e.StackTrace );
 
 					// The store didn't initialize delete it and rethrow the exception.
 					if ( storageProvider != null )
 					{
+						Console.Error.WriteLine( "       Deleting collection store." );
 						storageProvider.DeleteStore();
 						storageProvider.Dispose();
 					}
@@ -694,15 +696,8 @@ namespace Simias.Storage
 		///	<param name="credType">Type of credentials being stored.</param>
 		public void AddDomainIdentity( string domainID, string userID, string credentials, CredentialType credType )
 		{
-			// Get the domain.
-			Domain domain = GetDomain( domainID.ToLower() );
-			if ( domain == null )
-			{
-				throw new SimiasException( String.Format( "The domain {0} does not exist.", domainID ) );
-			}
-
 			// Add the domain mapping for the specified user.
-			LocalDb.Commit( CurrentUser.AddDomainIdentity( userID.ToLower(), domain.ID, credentials, credType ) );
+			LocalDb.Commit( CurrentUser.AddDomainIdentity( userID.ToLower(), domainID, credentials, credType ) );
 		}
 
 		/// <summary>

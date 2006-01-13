@@ -96,6 +96,7 @@ namespace Simias.Client.Event
 		private const string NEA_TimeTag = "Time";
 		private const string NEA_SourceTag = "Source";
 		private const string NEA_CollectionTag = "Collection";
+		private const string NEA_ModifierTag = "Modifier";
 		private const string NEA_TypeTag = "Type";
 		private const string NEA_EventIDTag = "EventID";
 		private const string NEA_NodeTag = "Node";
@@ -229,6 +230,7 @@ namespace Simias.Client.Event
 			AddData( new IProcEventNameValue( NEA_MasterRevTag, args.MasterRev.ToString() ) );
 			AddData( new IProcEventNameValue( NEA_SlaveRevTag, args.SlaveRev.ToString() ) );
 			AddData( new IProcEventNameValue( NEA_FileSizeTag, args.FileSize.ToString() ) );
+			AddData( new IProcEventNameValue( NEA_ModifierTag, args.Modifier ) );
 		}
 
 		/// <summary>
@@ -449,6 +451,7 @@ namespace Simias.Client.Event
 			string source = string.Empty;
 			string node = string.Empty;
 			string collection = string.Empty;
+			string modifier = string.Empty;
 			string type = string.Empty;
 			int eventID = 0;
 			ushort flags = 0;
@@ -482,6 +485,12 @@ namespace Simias.Client.Event
 					case NEA_CollectionTag:
 					{
 						collection = xn.InnerText;
+						break;
+					}
+
+					case NEA_ModifierTag:
+					{
+						modifier = xn.InnerText;
 						break;
 					}
 
@@ -530,7 +539,7 @@ namespace Simias.Client.Event
 			}
 			
 			// Create the object and set the flags.
-			NodeEventArgs args = new NodeEventArgs( source, node, collection, type, changeType, eventID, time, masterRev, slaveRev, fileSize );
+			NodeEventArgs args = new NodeEventArgs( source, node, collection, modifier, type, changeType, eventID, time, masterRev, slaveRev, fileSize );
 			args.Flags = flags;
 			return args;
 		}

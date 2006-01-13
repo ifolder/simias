@@ -414,6 +414,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "src\Journal\Journal.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "src\Login\Login.ashx"
                     BuildAction = "None"
                 />
@@ -433,18 +438,8 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\POBox\POBoxManager.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "src\POBox\POBoxServiceProxy.cs"
                     SubType = "code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "src\POBox\POManager.cs"
-                    SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File

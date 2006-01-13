@@ -499,6 +499,7 @@ src/SqliteProvider/Makefile
 src/libsimias/Makefile
 src/api/Makefile
 src/api/libsimias/Makefile
+src/api/libsimias/simias2-c.pc
 src/api/WebService/Makefile
 src/api/WebService/AssemblyInfo.cs
 test/Makefile

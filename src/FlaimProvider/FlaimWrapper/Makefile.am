@@ -118,5 +118,9 @@ uninstall-local:
 
 endif
 
+install-exec-hook:
+	rm -f $(DESTDIR)$(libdir)/libFlaimWrapper.a
+	rm -f $(DESTDIR)$(libdir)/libFlaimWrapper.la
+
 endif
 	

@@ -48,6 +48,11 @@ namespace Simias.Storage
 	{
 		#region Class Members
 		/// <summary>
+		/// Used to log messages.
+		/// </summary>
+		static private readonly ISimiasLog log = SimiasLogManager.GetLogger( typeof( Collection ) );
+
+		/// <summary>
 		/// Table to store in-memory collection locks.
 		/// </summary>
 		static private Hashtable lockTable = new Hashtable();
@@ -240,6 +245,13 @@ namespace Simias.Storage
 			{ 
 				Property p = properties.FindSingleValue( PropertyTags.SyncRole );
 				return ( p != null ) ? ( SyncRoles )p.Value : SyncRoles.None;
+			}
+			set
+			{
+				// Set the sync role for this collection.
+				Property p = new Property( PropertyTags.SyncRole, value );
+				p.LocalProperty = true;
+				properties.ModifyNodeProperty( p );
 			}
 		}
 
@@ -435,6 +447,92 @@ namespace Simias.Storage
 
 		#region Private Methods
 		/// <summary>
+		/// A member node object has been added to a collection. Look up the POBox for
+		/// the new member and create a subscription object letting the new member know
+		/// that the collection has been shared with them.
+		/// </summary>
+		/// <param name="args">The member node that was added to this collection.</param>
+		private void AddSubscription( Member member )
+		{
+			// Get the current domain for the collection.
+			Domain domain = store.GetDomain( Domain );
+			if ( domain != null )
+			{
+#if ( !REMOVE_OLD_INVITATION )
+				// Make sure this domain support the new invitation model.
+				if ( domain.SupportsNewInvitation )
+				{
+#endif
+					log.Debug( "AddSubscription - Member {0} was added to collection {1}.", member.Name, Name );
+
+					// Get the member that represents the from user.
+					Member fromMember = GetMemberByID( GetCurrentPrincipal() );
+					if ( fromMember != null )
+					{
+						// Refresh the collection as the current instance may still be a proxy or not be the
+						// latest copy. And we don't want to change the state of the current collection object.
+						Collection collection = Refresh( new Collection( this ) ) as Collection;
+
+						// Create a subscription object.
+						Subscription subscription = new Subscription( domain, collection.Name + " subscription", "Subscription", fromMember.UserID );
+						subscription.SubscriptionState = Simias.POBox.SubscriptionStates.Ready;
+						subscription.ToName = member.Name;
+						subscription.ToIdentity = member.UserID;
+						subscription.SubscriptionRights = member.Rights;
+						subscription.ToMemberNodeID = member.ID;
+						subscription.ToPublicKey = member.PublicKey;
+						subscription.FromName = fromMember.Name;
+						subscription.FromIdentity = fromMember.UserID;
+						subscription.MessageID = subscription.ID;
+						subscription.SubscriptionCollectionID = collection.ID;
+						subscription.SubscriptionCollectionName = collection.Name;
+						subscription.DomainID = domain.ID;
+						subscription.DomainName = domain.Name;
+						subscription.SubscriptionKey = Guid.NewGuid().ToString();
+						subscription.MessageType = "Outbound";
+						subscription.SetSubscriptionTypes( collection );
+
+						DirNode dirNode = GetRootDirectory();
+						if( dirNode != null )
+						{
+							subscription.DirNodeID = dirNode.ID;
+							subscription.DirNodeName = dirNode.Name;
+						}
+
+						// For backwards compatiblity with clients that use the old invitation methods,
+						// add the first non-built in type to the subscription as the type.
+						MultiValuedList mvl = collection.Properties.FindValues( PropertyTags.Types );
+						foreach( Property p in mvl )
+						{
+							if ( !NodeTypes.IsNodeType( p.ValueString ) )
+							{
+								subscription.SubscriptionCollectionType = p.ValueString;
+								break;
+							}
+						}
+
+						// Add the subscription to the new member's POBox.
+						// Find or create the POBox for the user for this domain.
+						POBox.POBox poBox = POBox.POBox.GetPOBox( store, collection.Domain, member.UserID );
+						poBox.Commit( subscription );
+						log.Debug( "AddSubscription - Successfully invited user {0} to collection {1}.", member.Name, Name );
+					}
+					else
+					{
+						log.Error( "Could not add subscription for collection: {0} to user {1}'s POBox.", ID, member.UserID );
+					}
+#if ( !REMOVE_OLD_INVITATION )
+				}
+#endif
+			}
+			else
+			{
+				log.Error( "Could not find domain {0}.", Domain );
+			}
+		}
+
+
+		/// <summary>
 		/// Changes a Node object into a Tombstone object.
 		/// </summary>
 		/// <param name="node">Node object to change.</param>
@@ -446,6 +544,28 @@ namespace Simias.Storage
 			node.Properties.AddNodeProperty( PropertyTags.Types, NodeTypes.TombstoneType );
 			node.Properties.AddNodeProperty( PropertyTags.TombstoneType, oldType );
 			node.IncarnationUpdate = 0;
+		}
+
+		/// <summary>
+		/// Removes specific nodes from the node list.
+		/// </summary>
+		/// <param name="nodeList">The node list to remove the specific nodes from.</param>
+		/// <param name="indicesOfNodesToRemove">An array of indices indicating which nodes to remove from the node list.</param>
+		/// <returns>An array of nodes excluding the specific nodes.</returns>
+		private Node[] removeNodesFromNodeList( Node[] nodeList, ArrayList indicesOfNodesToRemove )
+		{
+			Node[] commitList = new Node[ nodeList.Length - indicesOfNodesToRemove.Count ];
+
+			int index = 0;
+			for ( int n = 0; n < nodeList.Length; n++ )
+			{
+				if ( !indicesOfNodesToRemove.Contains( n ) )
+				{
+					commitList[ index++ ] = nodeList[ n ];
+				}
+			}
+
+			return commitList;
 		}
 
 		/// <summary>
@@ -480,7 +600,7 @@ namespace Simias.Storage
 		/// Gets the current/impersonating user.
 		/// </summary>
 		/// <returns>The member ID for the current/impersonating user.</returns>
-		private string GetCreator()
+		private string GetCurrentPrincipal()
 		{
 			string currentUserID;
 
@@ -571,7 +691,15 @@ namespace Simias.Storage
 			else
 			{
 				incarnationValue = node.LocalIncarnation + 1;
+
+				// Update the modifier on the node.
+				node.Properties.ModifyNodeProperty( PropertyTags.LastModifier, GetCurrentPrincipal() );
 			}
+
+			// Update the last modified time.
+			Property property = new Property( PropertyTags.LastModified, DateTime.Now );
+			property.LocalProperty = true;
+			node.Properties.ModifyNodeProperty( property );
 
 			// Update the local incarnation value to the specified value.
 			node.Properties.ModifyNodeProperty( PropertyTags.LocalIncarnation, incarnationValue );
@@ -671,6 +799,7 @@ namespace Simias.Storage
 
 			// Process the storage size for the list.
 			SetStorageSize( nodeList );
+			string modifier = GetCurrentPrincipal();
 
 			foreach ( Node node in nodeList )
 			{
@@ -690,7 +819,7 @@ namespace Simias.Storage
 							node.UpdateTime = commitTime;
 
 							// Set the creator ID on the node.
-							node.Properties.AddNodeProperty( PropertyTags.Creator, GetCreator() );
+							node.Properties.AddNodeProperty( PropertyTags.Creator, modifier );
 
 							// Check so that sync roles can be set on the collection.
 							if ( node.IsType( NodeTypes.CollectionType ) )
@@ -960,7 +1089,7 @@ namespace Simias.Storage
 							if ( node.Properties.State == PropertyList.PropertyListState.Add )
 							{
 								string oldType = node.Properties.FindSingleValue( PropertyTags.TombstoneType ).ToString();
-								NodeEventArgs args = new NodeEventArgs( store.Publisher, node.ID, id, oldType, EventType.NodeDeleted, 0, commitTime, node.MasterIncarnation, node.LocalIncarnation, 0 );
+								NodeEventArgs args = new NodeEventArgs( store.Publisher, node.ID, id, modifier, oldType, EventType.NodeDeleted, 0, commitTime, node.MasterIncarnation, node.LocalIncarnation, 0 );
 								args.LocalOnly = node.LocalChanges;
 								store.EventPublisher.RaiseEvent( args );
 							}
@@ -976,6 +1105,41 @@ namespace Simias.Storage
 						switch ( node.Properties.State )
 						{
 							case PropertyList.PropertyListState.Add:
+							{
+								// Update the cache before indicating the event.
+								store.Cache.Add( this, node );
+
+								// If this is a collection being created, create a change log for it.
+								if ( node.IsType( NodeTypes.CollectionType ) )
+								{
+									changeLog.CreateChangeLogWriter( node.ID );
+								}
+								else if ( node.IsBaseType( NodeTypes.MemberType ) )
+								{
+									// See if the invitation event is to be processed.
+									if ( node.CascadeEvents && node.IsBaseType( NodeTypes.CollectionType ) )
+									{
+										// If this is a new node being imported onto a server, check to see if
+										// it is a member node being added to a base-type collection. If this
+										// member is being added as an owner, then create a subscription so
+										// the ifolder can be put on other machines owned by the creator.
+										Member member = new Member( node );
+										if ( Store.IsEnterpriseServer || member.IsOwner )
+										{
+											// Add a subscription for the member for this collection.
+											AddSubscription( member );
+										}
+									}
+								}
+
+								// Indicate the event.
+								NodeEventArgs args = new NodeEventArgs( store.Publisher, node.ID, id, modifier, node.Type, EventType.NodeCreated, 0, commitTime, node.MasterIncarnation, node.LocalIncarnation, fileSize );
+								args.LocalOnly = node.LocalChanges;
+								store.EventPublisher.RaiseEvent( args );
+								node.Properties.State = PropertyList.PropertyListState.Update;
+								break;
+							}
+
 							case PropertyList.PropertyListState.Proxy:
 							{
 								// Update the cache before indicating the event.
@@ -988,7 +1152,7 @@ namespace Simias.Storage
 								}
 
 								// Indicate the event.
-								NodeEventArgs args = new NodeEventArgs( store.Publisher, node.ID, id, node.Type, EventType.NodeCreated, 0, commitTime, node.MasterIncarnation, node.LocalIncarnation, fileSize );
+								NodeEventArgs args = new NodeEventArgs( store.Publisher, node.ID, id, modifier, node.Type, EventType.NodeCreated, 0, commitTime, node.MasterIncarnation, node.LocalIncarnation, fileSize );
 								args.LocalOnly = node.LocalChanges;
 								store.EventPublisher.RaiseEvent( args );
 								node.Properties.State = PropertyList.PropertyListState.Update;
@@ -999,9 +1163,30 @@ namespace Simias.Storage
 							{
 								// Update the cache before indicating the event.
 								store.Cache.Remove( id, node.ID );
+								
+								// See if processing further invitation events are allowed.
+								if ( node.CascadeEvents && Store.IsEnterpriseServer )
+								{
+									// Check for subscription removal if this is a collection.
+									if ( node.IsBaseType( NodeTypes.CollectionType ) )
+									{
+										// A collection has been deleted.
+										RemoveSubscriptionsForCollection();
+									}
+									else if ( node.IsBaseType( NodeTypes.SubscriptionType ) )
+									{
+										// A subscription has been removed check to see if the collection needs to be deleted.
+										RemoveCollectionBySubscription( new Subscription( node ) );
+									}
+									else if ( node.IsBaseType( NodeTypes.MemberType ) && IsBaseType( NodeTypes.CollectionType ) )
+									{
+										// A member has been removed from a collection.
+										RemoveSubscriptionByMember( new Member( node ) );
+									}
+								}
 
 								// Indicate the event.
-								NodeEventArgs args = new NodeEventArgs( store.Publisher, node.ID, id, node.Type, EventType.NodeDeleted, 0, commitTime, node.MasterIncarnation, node.LocalIncarnation, fileSize );
+								NodeEventArgs args = new NodeEventArgs( store.Publisher, node.ID, id, modifier, node.Type, EventType.NodeDeleted, 0, commitTime, node.MasterIncarnation, node.LocalIncarnation, fileSize );
 								args.LocalOnly = node.LocalChanges;
 								store.EventPublisher.RaiseEvent( args );
 								node.Properties.State = PropertyList.PropertyListState.Disposed;
@@ -1013,8 +1198,19 @@ namespace Simias.Storage
 								// Update the cache before indicating the event.
 								store.Cache.Add( this, node );
 
+								// If this is a new node being imported onto a server, check to see if
+								// it is a member node being added to a base-type collection.
+								if ( node.CascadeEvents && Store.IsEnterpriseServer && ( node.DiskNode == null ) )
+								{
+									if ( node.IsBaseType( NodeTypes.MemberType ) && IsBaseType( NodeTypes.CollectionType ) )
+									{
+										// Add a subscription for the member for this collection.
+										AddSubscription( new Member( node ) );
+									}
+								}
+
 								// Indicate the event.
-								NodeEventArgs args = new NodeEventArgs( store.Publisher, node.ID, id, node.Type, ( node.DiskNode != null ) ? EventType.NodeChanged : EventType.NodeCreated, 0, commitTime, node.MasterIncarnation, node.LocalIncarnation, fileSize );
+								NodeEventArgs args = new NodeEventArgs( store.Publisher, node.ID, id, modifier, node.Type, ( node.DiskNode != null ) ? EventType.NodeChanged : EventType.NodeCreated, 0, commitTime, node.MasterIncarnation, node.LocalIncarnation, fileSize );
 								args.LocalOnly = node.LocalChanges;
 								store.EventPublisher.RaiseEvent( args );
 								node.Properties.State = PropertyList.PropertyListState.Update;
@@ -1033,7 +1229,7 @@ namespace Simias.Storage
 								}
 
 								// Indicate the event.
-								NodeEventArgs args = new NodeEventArgs( store.Publisher, node.ID, id, node.Type, ( node.DiskNode != null ) ? EventType.NodeChanged : EventType.NodeCreated, 0, commitTime, node.MasterIncarnation, node.LocalIncarnation, fileSize );
+								NodeEventArgs args = new NodeEventArgs( store.Publisher, node.ID, id, modifier, node.Type, ( node.DiskNode != null ) ? EventType.NodeChanged : EventType.NodeCreated, 0, commitTime, node.MasterIncarnation, node.LocalIncarnation, fileSize );
 								args.LocalOnly = node.LocalChanges;
 								store.EventPublisher.RaiseEvent( args );
 								node.Properties.State = PropertyList.PropertyListState.Update;
@@ -1048,7 +1244,7 @@ namespace Simias.Storage
 								// Make sure that it is okay to indicate an event.
 								if ( node.IndicateEvent )
 								{
-									NodeEventArgs args = new NodeEventArgs( store.Publisher, node.ID, id, node.Type, EventType.NodeChanged, 0, commitTime, node.MasterIncarnation, node.LocalIncarnation, fileSize );
+									NodeEventArgs args = new NodeEventArgs( store.Publisher, node.ID, id, modifier, node.Type, EventType.NodeChanged, 0, commitTime, node.MasterIncarnation, node.LocalIncarnation, fileSize );
 									args.LocalOnly = node.LocalChanges;
 									store.EventPublisher.RaiseEvent( args );
 
@@ -1079,7 +1275,7 @@ namespace Simias.Storage
 									// will pick up the resolved node and push it to the server.
 									if ( node.MergeCollisions == false )
 									{
-										NodeEventArgs args = new NodeEventArgs( store.Publisher, node.ID, id, node.Type, EventType.NodeChanged, 0, commitTime, node.MasterIncarnation, node.LocalIncarnation, fileSize );
+										NodeEventArgs args = new NodeEventArgs( store.Publisher, node.ID, id, modifier, node.Type, EventType.NodeChanged, 0, commitTime, node.MasterIncarnation, node.LocalIncarnation, fileSize );
 										args.LocalOnly = false;
 										store.EventPublisher.RaiseEvent( args );
 									}
@@ -1107,8 +1303,148 @@ namespace Simias.Storage
 					node.DiskNode = null;
 					node.LocalChanges = false;
 					node.IndicateEvent = true;
+					node.CascadeEvents = true;
 				}
 			}
+		}
+
+		/// <summary>
+		/// Removes the collection from the server if the current user is the owner. Otherwise the
+		/// current user's membership is removed from the collection.
+		/// </summary>
+		/// <param name="subscription">Subscription to the collection.</param>
+		private void RemoveCollectionBySubscription( Subscription subscription )
+		{
+#if ( !REMOVE_OLD_INVITATION )
+			Domain domain = store.GetDomain( Domain );
+			if ( ( domain != null ) && ( domain.SupportsNewInvitation == true ) )
+			{
+#endif
+				// Get the collection that this subscription represents.
+				Collection collection = store.GetCollectionByID( subscription.SubscriptionCollectionID );
+				if ( collection != null )
+				{
+					// See if the invitee is the owner of this collection.
+					if ( collection.Owner.UserID == subscription.ToIdentity )
+					{
+						log.Debug( "RemoveCollectionBySubscription - Invitee {0} is owner.", subscription.ToIdentity );
+						log.Debug( "RemoveCollectionBySubscription - Removing collection {0}.", collection.ID );
+
+						// The current principal is the owner of the collection. Delete the entire collection.
+						collection.Commit( collection.Delete() );
+					}
+					else
+					{
+						log.Debug( "RemoveCollectionBySubscription - Invitee {0} is not owner.", subscription.ToIdentity );
+
+						// The invitee is only a member of the collection. Remove the membership.
+						Member member = collection.GetMemberByID( subscription.ToIdentity );
+						if ( member != null )
+						{
+							// No need to process further invitation events. The subscription for this member
+							// has already been removed.
+							member.CascadeEvents = false;
+
+							// Remove the member from the collection.
+							collection.Commit( collection.Delete( member ) );
+							log.Debug( "RemoveCollectionBySubscription - Removing membership for {0} from collection {1}.", member.UserID, collection.ID );
+						}
+						else
+						{
+							log.Debug( "RemoveCollectionBySubscription - Cannot find member {0} in collection {1}.", subscription.ToIdentity, collection.ID );
+						}
+					}
+				}
+				else
+				{
+					log.Debug( "RemoveCollectionBySubscription - Subscription for collection {0} was declined.", subscription.SubscriptionCollectionID );
+				}
+#if ( !REMOVE_OLD_INVITATION )
+			}
+#endif
+		}
+
+		/// <summary>
+		/// Removes all subscriptions associated with this collection.
+		/// </summary>
+		private void RemoveSubscriptionsForCollection()
+		{
+#if ( !REMOVE_OLD_INVITATION )
+			Domain domain = store.GetDomain( Domain );
+			if ( ( domain != null ) && ( domain.SupportsNewInvitation == true ) )
+			{
+#endif
+				ICSList subList = store.GetNodesByProperty( new Property( Subscription.SubscriptionCollectionIDProperty, ID ), SearchOp.Equal );
+				if ( subList.Count > 0 )
+				{
+					foreach( ShallowNode sn in subList )
+					{
+						// The collection for the subscription nodes will be the POBox.
+						Collection collection = store.GetCollectionByID( sn.CollectionID );
+						if ( collection != null )
+						{
+							// No need to process further invitation events. The collection associated with
+							// this subscription has already been removed.
+							Subscription subscription = new Subscription( collection, sn );
+							subscription.CascadeEvents = false;
+							collection.Commit( collection.Delete( subscription ) );
+							log.Debug( "RemoveSubscriptionsForCollection - Removed subscription {0} for collection {1}.", sn.ID, sn.CollectionID );
+						}
+						else
+						{
+							log.Debug( "RemoveSubscriptionsForCollection - Cannot find POBox {0}.", sn.CollectionID );
+						}
+					}
+				}
+				else
+				{
+					log.Debug( "RemoveSubscriptionsForCollection - No subscriptions found for collection {0}.", ID );
+				}
+#if ( !REMOVE_OLD_INVITATION )
+			}
+#endif
+		}
+
+		/// <summary>
+		/// Removes the subscription for this collection from the specified member.
+		/// </summary>
+		/// <param name="member">Member to remove subscription from.</param>
+		private void RemoveSubscriptionByMember( Member member )
+		{
+#if ( !REMOVE_OLD_INVITATION )
+			Domain domain = store.GetDomain( Domain );
+			if ( ( domain != null ) && ( domain.SupportsNewInvitation == true ) )
+			{
+#endif
+				// Get the member's POBox.
+				POBox.POBox poBox = POBox.POBox.FindPOBox( store, Domain, member.UserID );
+				if ( poBox != null )
+				{
+					ICSList subList = poBox.Search( Subscription.SubscriptionCollectionIDProperty, ID, SearchOp.Equal );
+					if ( subList.Count > 0 )
+					{
+						foreach( ShallowNode sn in subList )
+						{
+							// No need to process further invitation events. The collection cannot be deleted
+							// by removing its members, because the owner of the collection can never be deleted.
+							Subscription subscription = new Subscription( poBox, sn );
+							subscription.CascadeEvents = false;
+							poBox.Commit( poBox.Delete( subscription ) );
+							log.Debug( "RemoveSubscriptionByMember - Removed subscription {0} from member {1}.", sn.ID, member.UserID );
+						}
+					}
+					else
+					{
+						log.Debug( "RemoveSubscriptionByMember - No subscriptions found for member {0}.", member.UserID );
+					}
+				}
+				else
+				{
+					log.Debug( "RemoveSubscriptionByMember - Cannot find POBox for member {0}.", member.UserID );
+				}
+#if ( !REMOVE_OLD_INVITATION )
+			}
+#endif
 		}
 
 		/// <summary>
@@ -1554,6 +1890,7 @@ namespace Simias.Storage
 				bool hasFileNode = false;
 				Member collectionOwner = null;
 				ArrayList memberList = new ArrayList();
+				ArrayList journalIndices = new ArrayList();
 
 				// See if the database is being shut down.
 				if ( store.ShuttingDown )
@@ -1568,6 +1905,8 @@ namespace Simias.Storage
 				{
 					throw new LockException();
 				}
+
+				int n = 0;
 
 				// Walk the commit list to see if there are any creation and deletion of the collection states.
 				foreach( Node node in nodeList )
@@ -1592,27 +1931,43 @@ namespace Simias.Storage
 							// Administrative access needs to be checked because collection membership has changed.
 							doAdminCheck = true;
 
+							// Convert this node to a member node.
+							Member member = new Member( node );
+
 							// See if this member is new.
 							if ( node.Properties.State == PropertyList.PropertyListState.Add )
 							{
 								// Look up to see if this member has already been added.
-								if ( GetMemberByName( node.Name ) != null )
+								if ( GetMemberByName( member.Name ) != null )
 								{
-									throw new AlreadyExistsException( String.Format( "The member {0} already exists in this collection.", node.Name ) );
+									throw new AlreadyExistsException( String.Format( "The member {0} already exists in this collection.", member.Name ) );
 								}
 
 								// If this collection is a domain and this member is to be added, call out to the
 								// domain provider for this domain to do a pre-commit operation.
 								if ( IsBaseType( NodeTypes.DomainType ))
 								{
-									DomainProvider.PreCommit( Domain, node as Member );
+									DomainProvider.PreCommit( Domain, member );
+								}
+							}
+							else if ( node.Properties.State == PropertyList.PropertyListState.Import )
+							{
+								// Look up to see if this member has already been added.
+								Member oldMember = GetMemberByID( member.UserID );
+								if ( ( oldMember != null ) && ( oldMember.ID != member.ID ) )
+								{
+									// Two different clients added the same member represented by
+									// different nodes. Last writer wins in this case, so remove
+									// the existing member.
+									Delete( oldMember );
+									memberList.Add( oldMember );
 								}
 							}
 
 							// Keep track of any ownership changes.
-							if ( node.Properties.HasProperty( PropertyTags.Owner ) )
+							if ( member.IsOwner )
 							{
-								collectionOwner = new Member( node );
+								collectionOwner = member;
 							}
 
 							// Add this member node to the list to validate the collection owner a little later on.
@@ -1623,13 +1978,59 @@ namespace Simias.Storage
 							// Administrative access needs to be checked because system policies are controlled objects.
 							doAdminCheck = true;
 						}
-						else if ( !hasFileNode && node.IsType( NodeTypes.BaseFileNodeType ) )
+						else if ( node.IsType( NodeTypes.BaseFileNodeType ) )
 						{
 							// Need to have a collection object for file nodes, because the amount of storage is
 							// on the collection object.
 							hasFileNode = true;
+
+							if ( node.IsType( "Journal" ) )
+							{
+								switch ( node.Properties.State )
+								{
+									case PropertyList.PropertyListState.Add:
+									case PropertyList.PropertyListState.Update:
+										if ( !Role.Equals( SyncRoles.Master ) )
+										{
+											// Don't allow adding/updating a journal node on a slave.
+											journalIndices.Add( n );
+										}
+										break;
+									case PropertyList.PropertyListState.Import:
+										if ( Role.Equals( SyncRoles.Master ) )
+										{
+											// Don't allow importing a journal node on a master.
+											journalIndices.Add( n );
+										}
+										else
+										{
+											// Ignore collisions when importing on a slave.
+											node.SkipCollisionCheck = true;
+										}
+										break;
+									case PropertyList.PropertyListState.Delete:
+										// Don't allow journal nodes to be deleted.
+										journalIndices.Add( n );
+										break;
+								}
+							}
 						}
 					}
+
+					n++;
+				}
+
+				Node[] nodeList2;
+
+				// If on the master and journal nodes are in the commit list, update the node list
+				// by removing the journal nodes.
+				if ( Role.Equals( SyncRoles.Master ) && ( journalIndices.Count > 0 ) )
+				{
+					nodeList2 = removeNodesFromNodeList( nodeList, journalIndices );
+				}
+				else
+				{
+					nodeList2 = nodeList;
 				}
 
 				// If the collection is both created and deleted, then there is nothing to do.
@@ -1654,8 +2055,8 @@ namespace Simias.Storage
 						{
 							// If a collection is being created, then a Member object containing the owner of the
 							// collection needs to be created also.
-							commitList = new Node[ nodeList.Length + 1 ];
-							nodeList.CopyTo( commitList, 0 );
+							commitList = new Node[ nodeList2.Length + 1 ];
+							nodeList2.CopyTo( commitList, 0 );
 							Member owner = accessControl.GetCurrentMember( store, Domain, true );
 							commitList[ commitList.Length - 1 ] = owner;
 							memberList.Add( owner );
@@ -1663,7 +2064,7 @@ namespace Simias.Storage
 						else
 						{
 							// The owner is already specified in the list. Use the list as is.
-							commitList = nodeList;
+							commitList = nodeList2;
 						}
 					}
 					else
@@ -1720,14 +2121,14 @@ namespace Simias.Storage
 							// We have to get a new copy of the collection node instead of just using the
 							// 'this' reference because it might contain changes to it that the user doesn't
 							// want committed yet.
-							commitList = new Node[ nodeList.Length + 1 ];
-							nodeList.CopyTo( commitList, 0 );
+							commitList = new Node[ nodeList2.Length + 1 ];
+							nodeList2.CopyTo( commitList, 0 );
 							commitList[ commitList.Length - 1 ] = store.GetCollectionByID( ID );
 						}
 						else
 						{
 							// Use the passed in list.
-							commitList = nodeList;
+							commitList = nodeList2;
 						}
 					}
 

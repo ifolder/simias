@@ -20,8 +20,8 @@
  *  Author: Calvin Gaisford <cgaisford@novell.com>
  * 
  ***********************************************************************/
-#ifndef _SIMIAS_H
-#define _SIMIAS_H
+#ifndef _SIMIAS2_H
+#define _SIMIAS2_H
 
 #include <stdbool.h>
 
@@ -82,7 +82,12 @@ char *simias_node_get_name(SimiasNode hNode);
 char *simias_node_get_id(SimiasNode hNode);
 char *simias_node_get_type(SimiasNode hNode);
 
+int simias_node_create(SimiasNode *hNode, char *name, char *type);
 int simias_node_free(SimiasNodeList *hNodeList);
+
+
+int simias_node_set_property(SimiasNode hNode, SimiasProperty hProp);
+int simias_node_remove_property(SimiasNode hNode, char *name);
 
 
 int simias_nodelist_extract_node(SimiasNodeList hNodeList, 
@@ -97,15 +102,20 @@ int simias_nodelist_get_node(SimiasNodeList hNodeList,
 int simias_nodelist_get_node_count(SimiasNodeList hNodeList, int *count);
 int simias_nodelist_free(SimiasNodeList *hNodeList);
 
-char *simias_property_get_name(SimiasProperty hProp);
-char *simias_property_get_type(SimiasProperty hProp);
-char *simias_property_get_value_as_string(SimiasProperty hProp);
 
+/*******************************************
+	Property Functions
+********************************************/
+int simias_property_create(SimiasProperty *hProperty, char *name, 
+									char *type,	char *value);
 int simias_property_free(SimiasProperty *hProp);
 int simias_property_get_count(SimiasNode hNode);
 int simias_property_extract_property(SimiasNode hNode, 
 									  SimiasProperty *hProp,
 									  int index);
+									  
+char *simias_property_get_name(SimiasProperty hProp);
+char *simias_property_get_type(SimiasProperty hProp);
+char *simias_property_get_value_as_string(SimiasProperty hProp);
 
-
-#endif	// _SIMIAS_H
+#endif	// _SIMIAS2_H

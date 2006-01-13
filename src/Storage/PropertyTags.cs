@@ -131,7 +131,27 @@ namespace Simias.Storage
 		/// <summary>
 		/// Well known property name.
 		/// </summary>
+		static public string Journal = "JournalNode";
+
+		/// <summary>
+		/// Well known property name.
+		/// </summary>
+		static public string JournalFor = "JournalFor";
+
+		/// <summary>
+		/// Well known property name.
+		/// </summary>
 		static public string LastLoginTime = "LastLogin";
+
+		/// <summary>
+		/// Well known property name.
+		/// </summary>
+		static public string LastModified = "LastModified";
+
+		/// <summary>
+		/// Well known property name.
+		/// </summary>
+		static public string LastModifier = "LastModifier";
 
 		/// <summary>
 		/// Well known property name.
@@ -269,17 +289,22 @@ namespace Simias.Storage
 		/// The Private address not accessible outside the firewall
 		/// used for server to server communication.
 		/// </summary>
-		static public string PrivateAddress = "PrivateAddress";
+		static public string PrivateUrl = "PrivateUrl";
 
 		/// <summary>
 		/// Well known propery name.
 		/// </summary>
-		static public string PublicAddress = "PublicAddress";
+		static public string PublicUrl = "PublicUrl";
 
 		/// <summary>
 		/// Well known property name.
 		/// </summary>
 		static public string PrivateKey = "PrivateKey";
+
+		/// <summary>
+		/// Well known property name.
+		/// </summary>
+		static public string DomainVersion = "DomainVersion";
 		
 		
 		/// <summary>
@@ -318,8 +343,12 @@ namespace Simias.Storage
 			systemPropertyTable.Add( FileSystemPath, null );
 			systemPropertyTable.Add( FullName, null );
 			systemPropertyTable.Add( HostAddress, null );
-			systemPropertyTable.Add( LastLoginTime, null );
+			systemPropertyTable.Add( Journal, null );
+			systemPropertyTable.Add( JournalFor, null );
+        	systemPropertyTable.Add( LastLoginTime, null );
 			systemPropertyTable.Add( LastAccessTime, null );
+			systemPropertyTable.Add( LastModified, null );
+			systemPropertyTable.Add( LastModifier, null );
 			systemPropertyTable.Add( LastWriteTime, null );
 			systemPropertyTable.Add( LinkReference, null );
 			systemPropertyTable.Add( LocalIncarnation, null );
@@ -344,9 +373,10 @@ namespace Simias.Storage
 			systemPropertyTable.Add( SystemPolicy, null );
 			systemPropertyTable.Add( TombstoneType, null );
 			systemPropertyTable.Add( Types, null );
-			systemPropertyTable.Add( PrivateAddress, null);
-			systemPropertyTable.Add( PublicAddress, null);
+			systemPropertyTable.Add( PrivateUrl, null);
+			systemPropertyTable.Add( PublicUrl, null);
 			systemPropertyTable.Add( PrivateKey, null);
+			systemPropertyTable.Add( DomainVersion, null );
 		}
 		#endregion
 

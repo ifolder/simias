@@ -134,9 +134,6 @@ namespace Simias.DomainWatcher
 			EventPublisher cEvent = new EventPublisher();
 			Simias.Authentication.Status authStatus = null;
 
-			string userID;
-			string credentials;
-
 			// Let the caller know we're good to go
 			this.started = true;
 
@@ -157,7 +154,6 @@ namespace Simias.DomainWatcher
 						// mastered domains.
 						if ( cDomain.Role == SyncRoles.Slave )
 						{
-							Member cMember;
 							DomainAgent domainAgent = new DomainAgent();
 
 							log.Debug( "Checking domain: " + cDomain.Name );

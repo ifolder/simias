@@ -206,10 +206,8 @@ namespace Simias.Authentication
 		private static string serviceName = "Simias";
 		private static string singleSignOnID = "Network";
 		
-		private bool defaultDomain = false;
 		private Collection collection;
 		private Domain domain;
-		private Member member;
 		private Store store;
 		private string password;
 		
@@ -262,11 +260,6 @@ namespace Simias.Authentication
 			if ( this.domain == null )
 			{
 				throw new ArgumentException( DomainID );
-			}
-			
-			if ( this.domain.ID == store.DefaultDomain )
-			{
-				this.defaultDomain = true;
 			}
 			
 			this.collection = this.store.GetCollectionByID( CollectionID );

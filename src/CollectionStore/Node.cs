@@ -108,6 +108,13 @@ namespace Simias.Storage
 		/// </summary>
 		[ NonSerialized() ]
 		protected bool indicateEvent = true;
+
+		/// <summary>
+		/// Indicates to commit code whether this node change was a result of a previous
+		/// invitation event and whether to allow further invitation events to happen.
+		/// </summary>
+		[ NonSerialized() ]
+		protected bool cascadeEvents = true;
 		#endregion
 
 		#region Properties
@@ -289,7 +296,19 @@ namespace Simias.Storage
 		public bool Proxy
 		{
 			get { return ( properties.State == PropertyList.PropertyListState.Proxy ) ? true : false; }
-			set { properties.State = value ? PropertyList.PropertyListState.Proxy : PropertyList.PropertyListState.Add; }
+			set 
+			{ 
+				if (value == true)
+				{
+					properties.State = PropertyList.PropertyListState.Proxy;
+					// Now Make sure the revisions are set to 0
+					InitializeIncarnationValues();
+				}
+				else
+				{
+					properties.State = PropertyList.PropertyListState.Add; 
+				}
+			}
 		}
 
 		/// <summary>
@@ -356,6 +375,16 @@ namespace Simias.Storage
 				return ( p != null ) ? p.ToString() : null;
 			}
 		}
+
+		/// <summary>
+		/// Gets or sets whether the commit code should continue to process invitation
+		/// events for this node.
+		/// </summary>
+		public bool CascadeEvents
+		{
+			get { return cascadeEvents; }
+			set { cascadeEvents = value; }
+		}
 		#endregion
 
 		#region Constructors
@@ -420,12 +449,7 @@ namespace Simias.Storage
 			}
 
 			// Reset the new incarnation values.
-			Property mvProp = new Property( PropertyTags.MasterIncarnation, ( ulong )0 );
-			mvProp.LocalProperty = true;
-			properties.ModifyNodeProperty( mvProp );
-
-			Property lvProp = new Property( PropertyTags.LocalIncarnation, ( ulong )0 );
-			properties.ModifyNodeProperty( lvProp );
+			InitializeIncarnationValues();
 		}
 
 		/// <summary>
@@ -453,7 +477,7 @@ namespace Simias.Storage
 		/// <param name="nodeName">This is the friendly name that is used by applications to describe the object.</param>
 		/// <param name="nodeID">The globally unique identifier for this object.</param>
 		/// <param name="nodeType">The type of derived object to construct when deserializing the object.</param>
-		internal protected Node( string nodeName, string nodeID, string nodeType )
+		public Node( string nodeName, string nodeID, string nodeType )
 		{
 			name = nodeName;
 			id = nodeID.ToLower();
@@ -583,6 +607,18 @@ namespace Simias.Storage
                 p.DeleteProperty();
 			}
 		}
+
+		private void InitializeIncarnationValues()
+		{
+			// Reset the new incarnation values.
+			Property mvProp = new Property( PropertyTags.MasterIncarnation, ( ulong )0 );
+			mvProp.LocalProperty = true;
+			properties.ModifyNodeProperty( mvProp );
+
+			Property lvProp = new Property( PropertyTags.LocalIncarnation, ( ulong )0 );
+			properties.ModifyNodeProperty( lvProp );
+		}
+
 		#endregion
 
 		#region Public Methods
