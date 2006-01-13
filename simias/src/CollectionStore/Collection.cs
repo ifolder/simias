@@ -547,6 +547,28 @@ namespace Simias.Storage
 		}
 
 		/// <summary>
+		/// Removes specific nodes from the node list.
+		/// </summary>
+		/// <param name="nodeList">The node list to remove the specific nodes from.</param>
+		/// <param name="indicesOfNodesToRemove">An array of indices indicating which nodes to remove from the node list.</param>
+		/// <returns>An array of nodes excluding the specific nodes.</returns>
+		private Node[] removeNodesFromNodeList( Node[] nodeList, ArrayList indicesOfNodesToRemove )
+		{
+			Node[] commitList = new Node[ nodeList.Length - indicesOfNodesToRemove.Count ];
+
+			int index = 0;
+			for ( int n = 0; n < nodeList.Length; n++ )
+			{
+				if ( !indicesOfNodesToRemove.Contains( n ) )
+				{
+					commitList[ index++ ] = nodeList[ n ];
+				}
+			}
+
+			return commitList;
+		}
+
+		/// <summary>
 		/// Removes the collection lock for a collection that is being deleted.
 		/// </summary>
 		private void DeleteCollectionLock()
@@ -1868,6 +1890,7 @@ namespace Simias.Storage
 				bool hasFileNode = false;
 				Member collectionOwner = null;
 				ArrayList memberList = new ArrayList();
+				ArrayList journalIndices = new ArrayList();
 
 				// See if the database is being shut down.
 				if ( store.ShuttingDown )
@@ -1882,6 +1905,8 @@ namespace Simias.Storage
 				{
 					throw new LockException();
 				}
+
+				int n = 0;
 
 				// Walk the commit list to see if there are any creation and deletion of the collection states.
 				foreach( Node node in nodeList )
@@ -1953,13 +1978,59 @@ namespace Simias.Storage
 							// Administrative access needs to be checked because system policies are controlled objects.
 							doAdminCheck = true;
 						}
-						else if ( !hasFileNode && node.IsType( NodeTypes.BaseFileNodeType ) )
+						else if ( node.IsType( NodeTypes.BaseFileNodeType ) )
 						{
 							// Need to have a collection object for file nodes, because the amount of storage is
 							// on the collection object.
 							hasFileNode = true;
+
+							if ( node.IsType( "Journal" ) )
+							{
+								switch ( node.Properties.State )
+								{
+									case PropertyList.PropertyListState.Add:
+									case PropertyList.PropertyListState.Update:
+										if ( !Role.Equals( SyncRoles.Master ) )
+										{
+											// Don't allow adding/updating a journal node on a slave.
+											journalIndices.Add( n );
+										}
+										break;
+									case PropertyList.PropertyListState.Import:
+										if ( Role.Equals( SyncRoles.Master ) )
+										{
+											// Don't allow importing a journal node on a master.
+											journalIndices.Add( n );
+										}
+										else
+										{
+											// Ignore collisions when importing on a slave.
+											node.SkipCollisionCheck = true;
+										}
+										break;
+									case PropertyList.PropertyListState.Delete:
+										// Don't allow journal nodes to be deleted.
+										journalIndices.Add( n );
+										break;
+								}
+							}
 						}
 					}
+
+					n++;
+				}
+
+				Node[] nodeList2;
+
+				// If on the master and journal nodes are in the commit list, update the node list
+				// by removing the journal nodes.
+				if ( Role.Equals( SyncRoles.Master ) && ( journalIndices.Count > 0 ) )
+				{
+					nodeList2 = removeNodesFromNodeList( nodeList, journalIndices );
+				}
+				else
+				{
+					nodeList2 = nodeList;
 				}
 
 				// If the collection is both created and deleted, then there is nothing to do.
@@ -1984,8 +2055,8 @@ namespace Simias.Storage
 						{
 							// If a collection is being created, then a Member object containing the owner of the
 							// collection needs to be created also.
-							commitList = new Node[ nodeList.Length + 1 ];
-							nodeList.CopyTo( commitList, 0 );
+							commitList = new Node[ nodeList2.Length + 1 ];
+							nodeList2.CopyTo( commitList, 0 );
 							Member owner = accessControl.GetCurrentMember( store, Domain, true );
 							commitList[ commitList.Length - 1 ] = owner;
 							memberList.Add( owner );
@@ -1993,7 +2064,7 @@ namespace Simias.Storage
 						else
 						{
 							// The owner is already specified in the list. Use the list as is.
-							commitList = nodeList;
+							commitList = nodeList2;
 						}
 					}
 					else
@@ -2050,14 +2121,14 @@ namespace Simias.Storage
 							// We have to get a new copy of the collection node instead of just using the
 							// 'this' reference because it might contain changes to it that the user doesn't
 							// want committed yet.
-							commitList = new Node[ nodeList.Length + 1 ];
-							nodeList.CopyTo( commitList, 0 );
+							commitList = new Node[ nodeList2.Length + 1 ];
+							nodeList2.CopyTo( commitList, 0 );
 							commitList[ commitList.Length - 1 ] = store.GetCollectionByID( ID );
 						}
 						else
 						{
 							// Use the passed in list.
-							commitList = nodeList;
+							commitList = nodeList2;
 						}
 					}
 
