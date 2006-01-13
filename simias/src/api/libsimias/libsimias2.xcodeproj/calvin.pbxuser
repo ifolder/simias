@@ -1,0 +1,291 @@
+// !$*UTF8*$!
+{
+	08FB7793FE84155DC02AAC07 /* Project object */ = {
+		activeBuildConfigurationName = Debug;
+		activeBuildStyle = 014CEA520018CE5811CA2923 /* Debug */;
+		activeExecutable = 3EBAC49208F5782000AE1526 /* testapi */;
+		activeTarget = 3EBAC49008F5781F00AE1526 /* testapi */;
+		addToTargets = (
+			D2AAC0620554660B00DB518D /* libsimias2 */,
+		);
+		breakpoints = (
+			3E4BDB2E095866AE000BEF68 /* simias_property.c:245 */,
+			3E4BDB3C09586A10000BEF68 /* simias_nodelist.c:193 */,
+			3E4BDC0C0958B20F000BEF68 /* test.c:488 */,
+		);
+		breakpointsGroup = 3E27D46708F59515005699A7 /* XCBreakpointsBucket */;
+		codeSenseManager = 3EBAC45C08F5758D00AE1526 /* Code sense */;
+		executables = (
+			3EBAC49208F5782000AE1526 /* testapi */,
+		);
+		expressions = (
+			resultXML,
+		);
+		perUserDictionary = {
+			PBXConfiguration.PBXFileTableDataSource3.PBXFileTableDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					276,
+					20,
+					48,
+					43,
+					43,
+					20,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXFileDataSource_FiletypeID,
+					PBXFileDataSource_Filename_ColumnID,
+					PBXFileDataSource_Built_ColumnID,
+					PBXFileDataSource_ObjectSize_ColumnID,
+					PBXFileDataSource_Errors_ColumnID,
+					PBXFileDataSource_Warnings_ColumnID,
+					PBXFileDataSource_Target_ColumnID,
+				);
+			};
+			PBXConfiguration.PBXFileTableDataSource3.PBXSymbolsDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXSymbolsDataSource_SymbolNameID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					16,
+					200,
+					50,
+					200,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXSymbolsDataSource_SymbolTypeIconID,
+					PBXSymbolsDataSource_SymbolNameID,
+					PBXSymbolsDataSource_SymbolTypeID,
+					PBXSymbolsDataSource_ReferenceNameID,
+				);
+			};
+			PBXConfiguration.PBXTargetDataSource.PBXTargetDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					200,
+					88,
+					20,
+					48,
+					43,
+					43,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXFileDataSource_FiletypeID,
+					PBXFileDataSource_Filename_ColumnID,
+					PBXTargetDataSource_PrimaryAttribute,
+					PBXFileDataSource_Built_ColumnID,
+					PBXFileDataSource_ObjectSize_ColumnID,
+					PBXFileDataSource_Errors_ColumnID,
+					PBXFileDataSource_Warnings_ColumnID,
+				);
+			};
+			PBXPerProjectTemplateStateSaveDate = 158186774;
+			PBXWorkspaceStateSaveDate = 158186774;
+		};
+		sourceControlManager = 3EBAC45B08F5758D00AE1526 /* Source Control */;
+		userBuildSettings = {
+		};
+	};
+	3E27D46708F59515005699A7 /* XCBreakpointsBucket */ = {
+		isa = XCBreakpointsBucket;
+		name = "Project Breakpoints";
+		objects = (
+			3E4BDB2E095866AE000BEF68 /* simias_property.c:245 */,
+			3E4BDB3C09586A10000BEF68 /* simias_nodelist.c:193 */,
+			3E4BDC0C0958B20F000BEF68 /* test.c:488 */,
+		);
+	};
+	3E27D54808F5CDF1005699A7 /* simias_node.c */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {575, 4270}}";
+			sepNavSelRange = "{2229, 0}";
+			sepNavVisRect = "{{0, 922}, {575, 812}}";
+			sepNavWindowFrame = "{{650, 61}, {620, 941}}";
+		};
+	};
+	3E27D54908F5CDF1005699A7 /* simias_nodelist.c */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {554, 3780}}";
+			sepNavSelRange = "{4405, 0}";
+			sepNavVisRect = "{{0, 2400}, {554, 590}}";
+			sepNavWindowFrame = "{{350, 300}, {616, 702}}";
+		};
+	};
+	3E4BDB2E095866AE000BEF68 /* simias_property.c:245 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		continueAfterActions = 0;
+		delayBeforeContinue = 0;
+		fileReference = 3ED013F008FB4D310006E0D9 /* simias_property.c */;
+		functionName = "_simias_property_create()";
+		hitCount = 1;
+		lineNumber = 245;
+		modificationTime = 158187946.293006;
+		state = 2;
+	};
+	3E4BDB3C09586A10000BEF68 /* simias_nodelist.c:193 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		continueAfterActions = 0;
+		delayBeforeContinue = 0;
+		fileReference = 3E27D54908F5CDF1005699A7 /* simias_nodelist.c */;
+		functionName = "_simias_nodelist_create()";
+		hitCount = 1;
+		lineNumber = 193;
+		modificationTime = 158187946.29306;
+		state = 2;
+	};
+	3E4BDC0C0958B20F000BEF68 /* test.c:488 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		continueAfterActions = 0;
+		delayBeforeContinue = 0;
+		fileReference = 3EBAC49708F5785400AE1526 /* test.c */;
+		functionName = "simiasNodeCreateTests()";
+		hitCount = 1;
+		lineNumber = 488;
+		modificationTime = 158187946.293069;
+		state = 2;
+	};
+	3EB590160953765200DB2625 /* simias2.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {747, 1708}}";
+			sepNavSelRange = "{2959, 0}";
+			sepNavVisRect = "{{0, 825}, {747, 664}}";
+			sepNavWindowFrame = "{{317, 209}, {792, 793}}";
+		};
+	};
+	3EBAC45B08F5758D00AE1526 /* Source Control */ = {
+		isa = PBXSourceControlManager;
+		fallbackIsa = XCSourceControlManager;
+		isSCMEnabled = 0;
+		scmConfiguration = {
+		};
+		scmType = "";
+	};
+	3EBAC45C08F5758D00AE1526 /* Code sense */ = {
+		isa = PBXCodeSenseManager;
+		indexTemplatePath = "";
+	};
+	3EBAC45F08F575CE00AE1526 /* simiaswebClientLib.c */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1007, 669}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRect = "{{0, 0}, {1007, 669}}";
+			sepNavWindowFrame = "{{84, 136}, {1046, 798}}";
+		};
+	};
+	3EBAC46308F575EB00AE1526 /* simias_domain.c */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {523, 938}}";
+			sepNavSelRange = "{1670, 0}";
+			sepNavVisRect = "{{0, 348}, {523, 590}}";
+			sepNavWindowFrame = "{{280, 56}, {671, 946}}";
+		};
+	};
+	3EBAC46408F575EB00AE1526 /* simias_handle.c */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {632, 2520}}";
+			sepNavSelRange = "{2252, 0}";
+			sepNavVisRect = "{{0, 874}, {632, 817}}";
+			sepNavWindowFrame = "{{317, 56}, {671, 946}}";
+		};
+	};
+	3EBAC46508F575EB00AE1526 /* simias_internal.c */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {626, 4270}}";
+			sepNavSelRange = "{1078, 0}";
+			sepNavVisRect = "{{0, 3023}, {626, 817}}";
+			sepNavWindowFrame = "{{38, 54}, {671, 946}}";
+		};
+	};
+	3EBAC46608F575EB00AE1526 /* simias_internal.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {582, 1904}}";
+			sepNavSelRange = "{1453, 26}";
+			sepNavVisRect = "{{0, 132}, {582, 668}}";
+			sepNavWindowFrame = "{{293, 134}, {627, 797}}";
+		};
+	};
+	3EBAC47308F5763300AE1526 /* simiasweb.nsmap */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1007, 669}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRect = "{{0, 0}, {1007, 669}}";
+			sepNavWindowFrame = "{{107, 115}, {1046, 798}}";
+		};
+	};
+	3EBAC47608F5767600AE1526 /* simiaswebStub.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1280, 3486}}";
+			sepNavSelRange = "{366, 26}";
+			sepNavVisRect = "{{0, 0}, {557, 175}}";
+			sepNavWindowFrame = "{{130, 94}, {1046, 798}}";
+		};
+	};
+	3EBAC49008F5781F00AE1526 /* testapi */ = {
+		activeExec = 0;
+		executables = (
+			3EBAC49208F5782000AE1526 /* testapi */,
+		);
+	};
+	3EBAC49208F5782000AE1526 /* testapi */ = {
+		isa = PBXExecutable;
+		activeArgIndex = 2147483647;
+		activeArgIndices = (
+		);
+		argumentStrings = (
+		);
+		autoAttachOnCrash = 1;
+		configStateDict = {
+		};
+		customDataFormattersEnabled = 1;
+		debuggerPlugin = GDBDebugging;
+		disassemblyDisplayState = 0;
+		dylibVariantSuffix = "";
+		enableDebugStr = 1;
+		environmentEntries = (
+		);
+		executableSystemSymbolLevel = 0;
+		executableUserSymbolLevel = 0;
+		libgmallocEnabled = 0;
+		name = testapi;
+		savedGlobals = {
+		};
+		sourceDirectories = (
+		);
+	};
+	3EBAC49708F5785400AE1526 /* test.c */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {848, 12376}}";
+			sepNavSelRange = "{9449, 0}";
+			sepNavVisRect = "{{0, 7070}, {848, 647}}";
+			sepNavWindowFrame = "{{377, 226}, {893, 776}}";
+		};
+	};
+	3ED013EE08FB4D1E0006E0D9 /* simias_collection.c */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {848, 2982}}";
+			sepNavSelRange = "{1194, 0}";
+			sepNavVisRect = "{{0, 2325}, {848, 647}}";
+			sepNavWindowFrame = "{{320, 226}, {893, 776}}";
+		};
+	};
+	3ED013F008FB4D310006E0D9 /* simias_property.c */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {616, 3668}}";
+			sepNavSelRange = "{5167, 0}";
+			sepNavVisRect = "{{0, 2095}, {616, 642}}";
+			sepNavWindowFrame = "{{599, 231}, {661, 771}}";
+		};
+	};
+	D2AAC0620554660B00DB518D /* libsimias2 */ = {
+		activeExec = 0;
+	};
+}
