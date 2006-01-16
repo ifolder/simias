@@ -59,17 +59,18 @@ namespace Simias.RssFeed
 			ctx.Response.Write( "<item>" );
 
 			ctx.Response.Write( "<description>" );
+			ctx.Response.Write( node.Type + ": " );
 			ctx.Response.Write( node.Name );
+			
+			if ( node.IsType( "Member" ) == true )
+			{
+				Member collectionMember = new Member( node );
+				ctx.Response.Write( " - " + collectionMember.FN );
+			}
+			
 			ctx.Response.Write("</description>");
 			
 			/*
-			if (slog.Description != "")
-			{			
-				ctx.Response.Write("<description>");
-				ctx.Response.Write(slog.Description);
-				ctx.Response.Write("</description>");
-			}
-
 			if (slog.Link != "")
 			{			
 				ctx.Response.Write("<link>");
@@ -78,25 +79,35 @@ namespace Simias.RssFeed
 			}
 			*/
 
-
-			ctx.Response.Write( "<author>" );
 			Domain domain = store.GetDomain( store.DefaultDomain );
 			Member member = domain.GetMemberByID( node.Creator );
-			if ( member.FN != null && member.FN != "" )
+			if ( member != null )
 			{
-				ctx.Response.Write( member.FN );
+				ctx.Response.Write( "<author>" );
+				if ( member.FN != null && member.FN != "" )
+				{
+					ctx.Response.Write( member.FN );
+				}
+				else
+				{
+					ctx.Response.Write( member.Name );
+				}
+				ctx.Response.Write( "</author>" );
 			}
-			else
-			{
-				ctx.Response.Write( member.Name );
-			}
-			ctx.Response.Write( "</author>" );
 
 			// Category  - use tags and types
 			
 			ctx.Response.Write( "<guid>" + node.ID + "</guid>" );
-			Simias.RssFeed.Util.SendPublishDate( ctx, node.CreationTime );
-
+			
+			Property lastWrite = node.Properties.GetSingleProperty( "LastWrite" );
+			if ( lastWrite != null )
+			{
+				Simias.RssFeed.Util.SendPublishDate( ctx, ( DateTime ) lastWrite.Value );
+			}
+			else
+			{
+				Simias.RssFeed.Util.SendPublishDate( ctx, node.CreationTime );
+			}
 
 			/*
 			if (slog.Generator != "")

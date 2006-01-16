@@ -64,9 +64,9 @@ namespace Simias.RssFeed
 						if ( request.QueryString.Count == 0 )
 						{
 							Store store = Store.GetStore();
-							Domain domain = store.GetDomain( store.DefaultDomain );
+							//Domain domain = store.GetDomain( store.DefaultDomain );
 
-							ICSList ifolders = domain.GetNodesByType( "Collection" );
+							ICSList ifolders = store.GetCollectionsByDomain( store.DefaultDomain );
 							//ICSList ifolders = domain.GetNodesByType( "iFolder" );
 							if ( ifolders.Count > 0 )
 							{
@@ -74,8 +74,10 @@ namespace Simias.RssFeed
 								response.Write( "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>" );
 								response.Write( "<rss version=\"2.0\">" );
 								
+								log.Debug( "Number collections: " + ifolders.Count );
 								foreach( ShallowNode sn in ifolders )
 								{
+									log.Debug( "Type: " + sn.Type );
 									if ( sn.Name.ToLower().StartsWith( "pobox" ) == false )
 									{
 										log.Debug( "RSSizing collection: " + sn.Name );
@@ -94,15 +96,6 @@ namespace Simias.RssFeed
 						{
 							response.StatusCode = (int) HttpStatusCode.BadRequest;
 						}
-					}
-					else
-					if ( method == "options" )
-					{
-						response.StatusCode = (int) HttpStatusCode.OK;
-						response.AddHeader( 
-							"Allow", 
-							"OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, COPY, MOVE, MKCOL, PROPFIND, PROPPATCH, LOCK, UNLOCK" );
-						response.AddHeader( "DAV", "1, 2" );
 					}
 					else
 					{

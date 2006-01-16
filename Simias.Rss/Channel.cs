@@ -33,6 +33,10 @@ namespace Simias.RssFeed
 	/// </summary>
 	public class Channel
 	{
+	
+		private static readonly ISimiasLog log = 
+			SimiasLogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+	
 		//private bool detailed = false;
 		private bool items = true;
 		private bool enclosures = false;
@@ -118,17 +122,22 @@ namespace Simias.RssFeed
 			Simias.RssFeed.Util.SendPublishDate( ctx, collection.CreationTime );
 
 			ctx.Response.Write( "<lastBuildDate>" );
-			ctx.Response.Write( collection.CreationTime.ToUniversalTime().ToString() );
+			Property lastWrite = collection.Properties.GetSingleProperty( "LastWrite" );
+			if ( lastWrite != null )
+			{
+				ctx.Response.Write( Util.GetRfc822Date( (DateTime) lastWrite.Value ) );
+			}
+			else
+			{
+				ctx.Response.Write( Util.GetRfc822Date( collection.CreationTime ) );
+			}
 			ctx.Response.Write( "</lastBuildDate>" );
 
-			/*
-			if (slog.Generator != "")
-			{			
-				ctx.Response.Write("<generator>");
-				ctx.Response.Write(slog.Generator);
-				ctx.Response.Write("</generator>");
-			}
-													
+			ctx.Response.Write("<generator>");
+			ctx.Response.Write( "Simias" );
+			ctx.Response.Write("</generator>");
+
+			/*													
 			if (slog.Cloud != "")
 			{			
 				ctx.Response.Write("<cloud>");
@@ -147,9 +156,11 @@ namespace Simias.RssFeed
 			
 			if ( items == true )
 			{
-				ICSList nodes = collection.GetNodesByType( "FileNode" );
+				//ICSList nodes = collection.GetNodesByType( "FileNode" );
+				ICSList nodes = collection.GetNodesByType( "Node" );
 				foreach( ShallowNode sn in nodes )
 				{
+					log.Debug( "Processing item: " + sn.Name );
 					Item item = new Item( ctx, collection, sn );
 					item.Send();
 				}
