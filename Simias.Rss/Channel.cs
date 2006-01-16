@@ -157,7 +157,7 @@ namespace Simias.RssFeed
 			if ( items == true )
 			{
 				//ICSList nodes = collection.GetNodesByType( "FileNode" );
-				ICSList nodes = collection.GetNodesByType( "Node" );
+				ICSList nodes = collection.GetNodesByType( "FileNode" );
 				foreach( ShallowNode sn in nodes )
 				{
 					log.Debug( "Processing item: " + sn.Name );

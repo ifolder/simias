@@ -39,6 +39,7 @@ namespace Simias.RssFeed
 		private Collection collection;
 		private Node node;
 		private Store store;
+		private char[] dotSep = {'.'};
 		
 		public bool Enclosures
 		{
@@ -70,16 +71,44 @@ namespace Simias.RssFeed
 			
 			ctx.Response.Write("</description>");
 			
-			/*
-			if (slog.Link != "")
-			{			
-				ctx.Response.Write("<link>");
-				ctx.Response.Write( slog.Link );
-				ctx.Response.Write("</link>");
-			}
-			*/
-
 			Domain domain = store.GetDomain( store.DefaultDomain );
+
+			if ( node.Type == "FileNode" )
+			{
+				ctx.Response.Write("<link>");
+
+				ctx.Response.Write(
+					String.Format( 
+						"http://{0}:{1}{2}/sfile.ashx?did={3}&fid={4}",
+						"192.168.1.101",
+						"8086",
+						ctx.Request.ApplicationPath,
+						domain.ID,
+						node.ID ) ); 
+
+				ctx.Response.Write("</link>");
+
+				FileNode fileNode = new FileNode( node );
+				string[] comps = fileNode.GetFileName().Split( dotSep );
+				if ( comps.Length > 0 )
+				{
+					string extension = comps[ comps.Length - 1 ].ToLower();
+
+					if ( extension == "png" )
+					{
+						ctx.Response.Write(
+							String.Format( 
+							"<enclosure>url=\"http://{0}:{1}{2}/sfile.ashx?did={3}&fid={4}\" length=\"{5}\" type=\"image/png\"</enclosure>",
+							"192.168.1.101",
+							"8086",
+							ctx.Request.ApplicationPath,
+							domain.ID,
+							node.ID,
+							fileNode.Length ) ); 
+					}
+				}
+			}
+
 			Member member = domain.GetMemberByID( node.Creator );
 			if ( member != null )
 			{
@@ -124,6 +153,8 @@ namespace Simias.RssFeed
 				ctx.Response.Write("</cloud>");
 			}
 			*/
+
+			
 
 			ctx.Response.Write( "</item>" );
 		}
