@@ -44,7 +44,8 @@ namespace Simias.HttpFile
 		{
 			HttpRequest request = context.Request;
 			HttpResponse response = context.Response;
-			
+			response.StatusCode = (int) HttpStatusCode.BadRequest;
+
 			try
 			{
 				// Make sure that there is a session.
@@ -52,7 +53,6 @@ namespace Simias.HttpFile
 				{
 					//HttpService service = Session[ serviceTag ];
 					response.Cache.SetCacheability( HttpCacheability.NoCache );
-					response.ContentType = "image/png";					
 
 					string method = request.HttpMethod.ToLower();
 					
@@ -92,6 +92,9 @@ namespace Simias.HttpFile
 									log.Debug( "  nodename: " + fileNode.Name );
 									log.Debug( "  filename: " + fileNode.GetFileName() );
 									log.Debug( "  fullpath: " + fullPath );
+
+									response.ContentType = 
+										Simias.HttpFile.Response.GetMimeType( fileNode.GetFileName() );
 									
 									response.TransmitFile( fullPath );
 									
@@ -109,30 +112,16 @@ namespace Simias.HttpFile
 
 								response.StatusCode = (int) HttpStatusCode.OK;
 							}
-							else
-							{
-								response.StatusCode = (int) HttpStatusCode.BadRequest;
-							}
-						}
-						else
-						{
-							response.StatusCode = (int) HttpStatusCode.BadRequest;
 						}
 					}
-					else
-					{
-						response.StatusCode = (int) HttpStatusCode.BadRequest;
-					}
-				}
-				else
-				{
-					response.StatusCode = (int) HttpStatusCode.BadRequest;
 				}
 			}
 			catch( Exception ex )
 			{
-				//Sync.Log.log.Debug("Request Failed exception\n{0}\n{1}", ex.Message, ex.StackTrace);
-				throw ex;
+				log.Error( ex.Message );
+				log.Error( ex.StackTrace );
+
+				response.StatusCode = (int) HttpStatusCode.InternalServerError;
 			}
 			finally
 			{
@@ -145,6 +134,64 @@ namespace Simias.HttpFile
 			// To enable pooling, return true here.
 			// This keeps the handler in memory.
 			get { return true; }
+		}
+	}
+
+	public class Response
+	{
+		private static readonly ISimiasLog log = 
+			SimiasLogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
+		static char[] dotSep = {'.'};
+		static public string GetMimeType( string FileName )
+		{
+			string[] comps = FileName.Split( dotSep );
+			if ( comps.Length == 0 )
+			{
+				return "text/text";
+			}
+
+			switch( comps[ comps.Length - 1 ].ToLower() )
+			{
+				case "mp3":
+					return "audio/mpeg";
+	
+				case "wma":
+					return "audio/wma";
+
+				case "aac":
+					return "audio/ac3";
+
+				case "mpeg":
+					return "video/mpeg";
+
+				case "wmv":
+					return "video/wmv";
+
+				case "mov":
+					return "video/quicktime";
+
+				case "png":
+					return "image/png";
+				case "jpg":
+				case "jpeg":
+					return "image/jpg";
+
+				case "gif":
+					return "image/gif";
+
+				case "tiff":
+					return "image/tiff";
+
+				case "xml":
+					return "text/xml";
+
+				case "exe":
+					return "application/exe";
+
+				default:
+					return "text/text";;
+			}
 		}
 	}
 }
