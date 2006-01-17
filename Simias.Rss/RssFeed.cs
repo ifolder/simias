@@ -66,8 +66,8 @@ namespace Simias.RssFeed
 							Store store = Store.GetStore();
 							//Domain domain = store.GetDomain( store.DefaultDomain );
 
-							ICSList ifolders = store.GetCollectionsByDomain( store.DefaultDomain );
-							//ICSList ifolders = domain.GetNodesByType( "iFolder" );
+							ICSList ifolders = store.GetCollectionsByType( "iFolder" );
+							//ICSList ifolders = store.GetCollectionsByDomain( store.DefaultDomain );
 							if ( ifolders.Count > 0 )
 							{
 								response.ContentType = "text/xml";

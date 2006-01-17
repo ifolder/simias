@@ -59,35 +59,39 @@ namespace Simias.RssFeed
 		{
 			ctx.Response.Write( "<item>" );
 
-			ctx.Response.Write( "<description>" );
-			ctx.Response.Write( node.Type + ": " );
-			ctx.Response.Write( node.Name );
-			
+			ctx.Response.Write( "<description>" + node.Name );
 			if ( node.IsType( "Member" ) == true )
 			{
 				Member collectionMember = new Member( node );
 				ctx.Response.Write( " - " + collectionMember.FN );
 			}
-			
 			ctx.Response.Write("</description>");
 			
 			Domain domain = store.GetDomain( store.DefaultDomain );
-
 			if ( node.Type == "FileNode" )
 			{
-				ctx.Response.Write("<link>");
-
 				ctx.Response.Write(
 					String.Format( 
-						"http://{0}:{1}{2}/sfile.ashx?did={3}&fid={4}",
-						"192.168.1.101",
-						"8086",
+						"<link>{0}{1}:{2}{3}/sfile.ashx?fid={4}</link>",
+						ctx.Request.IsSecureConnection ? "https://" : "http://",
+						ctx.Request.Url.Host,
+						ctx.Request.Url.Port.ToString(),
 						ctx.Request.ApplicationPath,
-						domain.ID,
 						node.ID ) ); 
 
-				ctx.Response.Write("</link>");
+				FileNode fileNode = new FileNode( node );
+				ctx.Response.Write(
+					String.Format( 
+						"<enclosure>url=\"{0}{1}:{2}{3}/sfile.ashx?fid={4}\" length=\"{5}\" type=\"{6}\"</enclosure>",
+						ctx.Request.IsSecureConnection ? "https://" : "http://",
+						ctx.Request.Url.Host,
+						ctx.Request.Url.Port.ToString(),
+						ctx.Request.ApplicationPath,
+						node.ID,
+						fileNode.Length,
+						Simias.HttpFile.Response.GetMimeType( fileNode.GetFileName() ) ) );
 
+				/*
 				FileNode fileNode = new FileNode( node );
 				string[] comps = fileNode.GetFileName().Split( dotSep );
 				if ( comps.Length > 0 )
@@ -98,15 +102,17 @@ namespace Simias.RssFeed
 					{
 						ctx.Response.Write(
 							String.Format( 
-							"<enclosure>url=\"http://{0}:{1}{2}/sfile.ashx?did={3}&fid={4}\" length=\"{5}\" type=\"image/png\"</enclosure>",
-							"192.168.1.101",
-							"8086",
+							"<enclosure>url=\"{0}{1}:{2}{3}/sfile.ashx?fid={4}\" length=\"{5}\" type=\"{6}\"</enclosure>",
+							ctx.Request.IsSecureConnection ? "https://" : "http://",
+							ctx.Request.Url.Host,
+							ctx.Request.Url.Port.ToString(),
 							ctx.Request.ApplicationPath,
-							domain.ID,
 							node.ID,
-							fileNode.Length ) ); 
+							fileNode.Length,
+							"image/png" ) ); 
 					}
 				}
+				*/
 			}
 
 			Member member = domain.GetMemberByID( node.Creator );
@@ -153,8 +159,6 @@ namespace Simias.RssFeed
 				ctx.Response.Write("</cloud>");
 			}
 			*/
-
-			
 
 			ctx.Response.Write( "</item>" );
 		}

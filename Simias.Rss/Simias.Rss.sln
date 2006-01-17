@@ -3,6 +3,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simias.Rss", "Simias.Rss.cs
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simias.HttpFile", "..\Simias.HttpFile\Simias.HttpFile.csproj", "{AE7C4869-6E1C-4F24-9405-8E6A5CCACA1F}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		Debug = Debug
@@ -13,6 +17,10 @@ Global
 		{A46785EE-0100-4033-8872-CA9BD4B2400E}.Debug.Build.0 = Debug|.NET
 		{A46785EE-0100-4033-8872-CA9BD4B2400E}.Release.ActiveCfg = Release|.NET
 		{A46785EE-0100-4033-8872-CA9BD4B2400E}.Release.Build.0 = Release|.NET
+		{AE7C4869-6E1C-4F24-9405-8E6A5CCACA1F}.Debug.ActiveCfg = Debug|.NET
+		{AE7C4869-6E1C-4F24-9405-8E6A5CCACA1F}.Debug.Build.0 = Debug|.NET
+		{AE7C4869-6E1C-4F24-9405-8E6A5CCACA1F}.Release.ActiveCfg = Release|.NET
+		{AE7C4869-6E1C-4F24-9405-8E6A5CCACA1F}.Release.Build.0 = Release|.NET
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection
