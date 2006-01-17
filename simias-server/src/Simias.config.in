@@ -9,7 +9,7 @@
 	<setting name="SimiasRequireSSL" value="no" />
   </section>
   <section name="StoreProvider">
-    <setting name="Assembly" value="@_StoreProviderAssembly_@" />
+    <setting name="Assembly" value="SimiasLib.dll" />
     <setting name="Type" value="@_StoreProviderType_@" />
   </section>
 </configuration>
