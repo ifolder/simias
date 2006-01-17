@@ -70,17 +70,20 @@ namespace Simias.HttpFile
 							Domain domain;
 							FileNode fileNode;
 							Node node;
-							Store store;
+							Store store = Store.GetStore();
 							
 							string domainID = request.QueryString[ "did" ];
+							if ( domainID == null )
+							{
+								domainID = store.DefaultDomain;
+							}
+
 							string fileID = request.QueryString[ "fid" ];
-							
-							if ( domainID != null && fileID != null )
+							if ( fileID != null )
 							{
 								log.Debug( "  domainID: " + domainID );
 								log.Debug( "  fileID: " + fileID );
-								store = Store.GetStore();
-								domain = Store.GetStore().GetDomain( store.DefaultDomain );
+								domain = Store.GetStore().GetDomain( domainID );
 								
 								node = domain.GetNodeByID( fileID );
 								if ( node != null )
@@ -148,7 +151,7 @@ namespace Simias.HttpFile
 			string[] comps = FileName.Split( dotSep );
 			if ( comps.Length == 0 )
 			{
-				return "text/text";
+				return "text/plain";
 			}
 
 			switch( comps[ comps.Length - 1 ].ToLower() )
@@ -190,7 +193,7 @@ namespace Simias.HttpFile
 					return "application/exe";
 
 				default:
-					return "text/text";;
+					return "text/plain";;
 			}
 		}
 	}
