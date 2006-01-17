@@ -83,7 +83,8 @@ namespace Simias.Server
 			// Register with the domain provider service.
 			this.authProvider = new Simias.Server.Authentication();
 			DomainProvider.RegisterProvider( this.authProvider );
-			//Simias.Server.Sync.StartSyncThread();
+			
+			IdentityProvider.StartSyncService();
 		}
 
 		/// <summary>
@@ -116,106 +117,9 @@ namespace Simias.Server
 		public void Stop()
 		{
 			log.Debug( "Stop called" );
-			Simias.Server.Sync.StopSyncThread();
+			IdentityProvider.StopSyncService();
 			DomainProvider.Unregister( this.authProvider );
 		}
 		#endregion
-	}
-
-	/// <summary>
-	/// Class for controlling the synchronization thread
-	/// </summary>
-	public class Sync
-	{
-		private static readonly ISimiasLog log = 
-			SimiasLogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
-		static AutoResetEvent syncEvent = null;
-		static bool quit;
-		static bool syncOnStart = true;
-		static int syncInterval = 60 * 1000;
-		static Thread syncThread = null;
-
-		internal static Simias.Server.Domain ssDomain = null;
-		//internal static DateTime lastSyncTime;
-
-		internal static int StartSyncThread()
-		{
-			log.Debug("StartSyncThread called");
-
-			try
-			{
-				ssDomain = new Simias.Server.Domain( true );
-			}
-			catch{}
-
-			if ( ssDomain != null )
-			{
-				quit = false;
-				syncEvent = new AutoResetEvent( false );
-				syncThread = new Thread( new ThreadStart( Sync.SyncThread ) );
-				syncThread.IsBackground = true;
-				syncThread.Start();
-			}
-			else
-			{
-				log.Debug( "Failed to initialize the Simias Server domain" );
-			}
-
-			log.Debug( "StartSyncThread finished" );
-			return 0;
-		}
-
-		internal static int StopSyncThread()
-		{
-			log.Debug( "StopSyncThread called" );
-			quit = true;
-			try
-			{
-				syncEvent.Set();
-				Thread.Sleep( 32 );
-				syncEvent.Close();
-				Thread.Sleep( 0 );
-				ssDomain = null;
-				log.Debug( "StopSyncThread finished" );
-				return 0;
-			}
-			catch(Exception e)
-			{
-				log.Debug( "StopSyncThread failed with an exception" );
-				log.Debug( e.Message );
-				log.Debug( e.StackTrace );
-			}
-			return -1;
-		}
-
-		/// <summary>
-		/// </summary>
-		public static int SyncNow( string data )
-		{
-			log.Debug( "SyncNow called" );
-			syncEvent.Set();
-			log.Debug( "SyncNow finished" );
-			return 0;
-		}
-
-		internal static void SyncThread()
-		{
-			while ( quit == false )
-			{
-				if ( syncOnStart == false )
-				{
-					syncEvent.WaitOne( syncInterval, false );
-					if ( quit == true )
-					{
-						return;
-					}
-				}
-
-				// Always wait after the first iteration
-				syncOnStart = false;
-				//ssDomain.SynchronizeMembers();
-			}
-		}
 	}
 }

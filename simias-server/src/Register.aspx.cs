@@ -23,7 +23,6 @@ namespace Simias.Server
 		{
 			Member cMember = null;
 			string status = "Successful";
-			Store store = Store.GetStore();
 
 			try
 			{
