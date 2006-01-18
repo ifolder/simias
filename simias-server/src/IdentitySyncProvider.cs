@@ -187,6 +187,7 @@ namespace Simias
 				return;
 			}
 			
+			log.Debug( "StartSyncService - called" );
 			quit = false;
 			syncEvent = new AutoResetEvent( false );
 			syncThread = new Thread( new ThreadStart( SyncThread ) );
@@ -220,6 +221,8 @@ namespace Simias
 		
 		private static void SyncThread()
 		{
+			log.Debug( "SyncThread - starting" );
+			
 			while ( quit == false )
 			{
 				running = true;
