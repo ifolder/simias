@@ -29,11 +29,13 @@ using System.ComponentModel;
 using System.IO;
 using System.Reflection;
 using System.Security.Principal;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Web;
 using System.Web.Security;
 using System.Web.SessionState;
+using System.Net;
 
 using Simias;
 using Simias.Storage;
@@ -72,6 +74,11 @@ namespace Simias.Authentication
 
 		private static readonly string sessionTag = "simias";
 		private static readonly string[] rolesArray = { "users" };
+		private static readonly string[] hostRoles = {"users", "hosts"};
+
+		public static readonly string NonceKey = "nonce";
+		public static readonly string PpkAuthKey = "pkauth";
+		public static readonly string PpkType = "PPK";
 
 		public Http()
 		{
@@ -358,6 +365,185 @@ namespace Simias.Authentication
 			}
 
 			return member;
+		}
+
+		/// <summary>
+		/// Used by server to validate the signature using PPK.
+		/// </summary>
+		/// <param name="domainId"></param>
+		/// <param name="memberId"></param>
+		/// <param name="signed"></param>
+		/// <param name="ctx"></param>
+		static public void VerifyWithPPK( string domainId, string memberId, byte[] signed, HttpContext ctx)
+		{
+			Simias.Authentication.Session simiasSession;
+			Simias.Storage.Domain domain = null;
+			Simias.Storage.Member member = null;
+			Store store = Store.GetStore();
+
+			ctx.Response.Cache.SetCacheability( HttpCacheability.NoCache );
+
+			domain = store.GetDomain( domainId );
+			if ( domain == null )
+			{
+				ctx.Response.StatusCode = 500;
+				ctx.Response.StatusDescription = "Invalid Domain";
+				ctx.ApplicationInstance.CompleteRequest();
+				return;
+			}
+
+			member = domain.GetMemberByID(memberId);
+			if ( member == null )
+			{
+				ctx.Response.StatusCode = 500;
+				ctx.Response.StatusDescription = "Invalid Member";
+				ctx.ApplicationInstance.CompleteRequest();
+				return;
+			}
+			
+			if ( ctx.Session == null )
+			{
+				// Must have a session.
+				ctx.Response.StatusCode = 401;
+				ctx.Response.AddHeader( 
+					"WWW-Authenticate", 
+					String.Concat("Basic realm=\"", domain.Name, "\""));
+				
+				ctx.ApplicationInstance.CompleteRequest();
+				return;
+			}
+			
+			simiasSession = ctx.Session[ sessionTag ] as Simias.Authentication.Session;
+			if (simiasSession != null)
+				ctx.User = simiasSession.User;
+
+			if ( ctx.User.Identity.IsAuthenticated == false )
+			{
+				// Validate signature.
+				string nonce = (string)ctx.Session[NonceKey];
+				byte[] nonceBytes = Nonce.GetBytes(nonce);
+				if (member.PublicKey.VerifyData(nonceBytes, new SHA1CryptoServiceProvider(), signed))
+				{
+					simiasSession = new Simias.Authentication.Session();
+					simiasSession.MemberID = member.UserID;
+					simiasSession.Requests++;
+					ctx.Session[ sessionTag ] = simiasSession;
+
+					// Setup a principal
+					simiasSession.User = 
+						new GenericPrincipal(
+						new GenericIdentity(
+						member.UserID,
+						PpkType), 
+						hostRoles);
+
+					ctx.User = simiasSession.User;
+					Thread.CurrentPrincipal = ctx.User;
+
+					// Set the last login time for the user.
+					SetLastLoginTime( domain, member );
+				}
+				else
+				{
+					// Failed
+					ctx.Response.StatusCode = 401;
+					ctx.Response.AddHeader( 
+						"WWW-Authenticate", 
+						String.Concat("Basic realm=\"", domain.Name, "\""));
+					ctx.ApplicationInstance.CompleteRequest();
+					return;
+				}
+			}
+			else
+			{
+				simiasSession.Requests++;
+				Thread.CurrentPrincipal = ctx.User;
+				member = domain.GetMemberByID( simiasSession.MemberID );
+			}
+		}
+
+		/// <summary>
+		/// Used by the client to autenticate using Private Key Authentication.
+		/// </summary>
+		/// <param name="domainId"></param>
+		/// <param name="memberId"></param>
+		/// <returns></returns>
+		public static bool AuthenticateWithPPK(string domainId, string memberId)
+		{
+			try
+			{
+				Store store = Store.GetStore();
+				Domain domain = store.GetDomain(domainId);
+				Member member = domain.GetMemberByID(memberId);
+				WebState webState = new WebState(domainId);
+				// Get the challenge and sign it with the Private Key to use as a one time password.
+				string url = domain.MasterUrl.ToString().TrimEnd('/') + "/Login.ashx?" + NonceKey + "=Get";
+				HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+				webState.InitializeWebRequest(request, domain.ID);
+				request.ContentType = "application/octet-stream";
+				request.Method = "GET";
+				HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+				request.CookieContainer.Add(response.Cookies);
+
+				if (response.StatusCode != HttpStatusCode.OK)
+				{
+					CookieCollection cc = request.CookieContainer.GetCookies(new Uri(url));
+					foreach (Cookie cookie in cc)
+					{
+						cookie.Expired = true;
+					}
+					return false;
+				}
+
+				string nonce = response.Headers.Get(NonceKey);
+				if (nonce != null)
+				{
+					byte[] bChallenge = Nonce.GetBytes(nonce);
+					byte[] signed = store.CurrentUser.GetDomainCredential(domain.ID).SignData(bChallenge, new SHA1CryptoServiceProvider());
+					// Now authenticate using signed data
+					url = domain.MasterUrl.ToString().TrimEnd('/') + "/Login.ashx?" + PpkAuthKey + "=" + member.UserID;
+					request = (HttpWebRequest)WebRequest.Create(url);
+					webState.InitializeWebRequest(request, domain.ID);
+					request.ContentType = "application/octet-stream";
+					request.Method = "POST";
+					request.Headers.Add(Simias.Security.Web.AuthenticationService.Login.DomainIDHeader, domain.ID);
+					Stream rStream = request.GetRequestStream();
+					rStream.Write(signed, 0, signed.Length);
+					rStream.Close();
+					response = (HttpWebResponse)request.GetResponse();
+					if (response.StatusCode == HttpStatusCode.OK)
+					{
+						new BasicCredentials(domain.ID, domain.ID, member.UserID, "LetMeIn").Save(false);
+					}
+				}
+			}
+			catch {return false;}
+			return true;
+		}
+
+		/// <summary>
+		/// Class to deal with nonce.
+		/// </summary>
+		public class Nonce
+		{
+			/// <summary>
+			/// 
+			/// </summary>
+			/// <returns></returns>
+			public static string GetNonce()
+			{
+				return Guid.NewGuid().ToString();
+			}
+
+			/// <summary>
+			/// 
+			/// </summary>
+			/// <returns></returns>
+			public static byte[] GetBytes(string nonce)
+			{
+				System.Text.ASCIIEncoding ByteConverter = new System.Text.ASCIIEncoding();
+				return ByteConverter.GetBytes(nonce);
+			}
 		}
 	}
 }

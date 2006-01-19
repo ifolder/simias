@@ -572,6 +572,21 @@ namespace Simias.Storage
 			p.SetPropertyValue( mapDoc );
 			return this;
 		}
+
+		public RSACryptoServiceProvider GetDomainCredential(string domainID)
+		{
+			RSACryptoServiceProvider credential = null;
+
+			// Lookup the credential property on the identity.
+			XmlDocument mapDoc = GetDocumentByDomain( domainID );
+			if ( mapDoc != null )
+			{
+				credential = DummyCsp;
+				credential.FromXmlString( mapDoc.DocumentElement.GetAttribute( CredentialTag ) );
+			}
+			return credential;
+		}
+
 		#endregion
 	}
 }
