@@ -105,16 +105,6 @@
                     HintPath = "..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Runtime.Remoting.dll"
                 />
                 <Reference
-                    Name = "Novell.Security.ClientPasswordManager.PasswordDialog"
-                    AssemblyName = "Novell.Security.ClientPasswordManager.PasswordDialog"
-                    HintPath = "external\Novell.Security\net\bin\Novell.Security.ClientPasswordManager.PasswordDialog.dll"
-                />
-                <Reference
-                    Name = "Novell.Security.ClientPasswordManager.NetCredential"
-                    AssemblyName = "Novell.Security.ClientPasswordManager.NetCredential"
-                    HintPath = "external\Novell.Security\net\bin\Novell.Security.ClientPasswordManager.NetCredential.dll"
-                />
-                <Reference
                     Name = "SimiasClient"
                     AssemblyName = "SimiasClient"
                     HintPath = "src\SimiasClient\bin\Debug\SimiasClient.dll"
@@ -424,6 +414,11 @@
                 />
                 <File
                     RelPath = "src\Login\Login.ashx.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "src\Notifications\Notification.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
