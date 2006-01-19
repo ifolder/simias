@@ -229,6 +229,7 @@ static char * sec_collection_sync_event_elements [] = {
 	"ID",
 	"Action",
 	"Connected",
+	"Yielded",
 	NULL
 };
 
@@ -1764,6 +1765,7 @@ simias_collection_sync_event_callback (SimiasCollectionSyncEvent *event, void *d
 	printf ("\t%s: %s\n", "id", event->id);
 	printf ("\t%s: %s\n", "action", event->action);
 	printf ("\t%s: %s\n", "connected", event->connected);
+	printf ("\t%s: %s\n", "yielded", event->yielded);
 	
 	return 0;
 }

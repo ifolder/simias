@@ -432,8 +432,7 @@ namespace Simias.Storage
 				{
 					Collection collection = Store.GetStore().GetCollectionByID( cseArgs.ID );
 
-					// TODO: need to make sure the sync successfully (and completely) completed.
-					if ( initialSyncCollections.Contains(cseArgs.ID) && cseArgs.Connected )
+					if ( initialSyncCollections.Contains(cseArgs.ID) && cseArgs.Connected && !cseArgs.Yielded )
 					{
 						// If the collection is in the initial sync list and the sync finished successfully,
 						// remove it from the list.

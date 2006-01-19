@@ -139,6 +139,7 @@ typedef struct
 	char *id;
 	char *action;
 	char *connected;
+	char *yielded;
 } SimiasCollectionSyncEvent;
 
 /* File Sync Event */
