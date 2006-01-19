@@ -370,24 +370,27 @@ namespace Simias.Storage
 
 			if ( args.EventType == EventType.NodeCreated )
 			{
+				// TODO: we need to know if the event comes from sync ... we don't want to generate a notification
+				// for an action that the local user performed.
 				if ( args.Type == NodeTypes.MemberType /*&& args.Source.Equals( "Sync" )*/ )
 				{
 					if ( LogMembers && !initialSyncCollections.Contains( args.Collection ) )
 					{
-						node = storeEvent( "NewMember", args );
+						node = storeNodeEvent( "NewMember", args );
 					}
 				}
 				else if ( args.Type == NodeTypes.SubscriptionType )
 				{
 					if ( LogShared )
 					{
-						node = storeEvent( "NewShare", args );
+						node = storeNodeEvent( "NewShare", args );
 					}
 				}
 				else if ( args.Type == NodeTypes.CollectionType ||
 						args.Type == NodeTypes.DomainType ||
 						args.Type == NodeTypes.POBoxType )
 				{
+					// Don't log notifications for newly created collections.
 					initialSyncCollections.Add( args.Collection, null );
 				}
 			}
@@ -395,13 +398,16 @@ namespace Simias.Storage
 			{
 				if ( LogCollisions && args.Type.Equals( NodeTypes.CollectionType ) )
 				{
+					// When a collision occurs, the node is modified before the collision is created.
+					// We keep track of the last modified node so that we only generate a single collision
+					// notification message.
 					if ( lastNodeModified != null )
 					{
 						Collection collection = Store.GetStore().GetCollectionByID( args.Collection );
 						Node mNode = collection.GetNodeByID( lastNodeModified );
 						if ( mNode.Properties.GetSingleProperty( PropertyTags.Collision ) != null )
 						{
-							node = storeEvent( "Conflict", args );
+							node = storeNodeEvent( "Conflict", args );
 							lastNodeModified = null;
 						}
 					}
@@ -412,14 +418,7 @@ namespace Simias.Storage
 				}
 			}
 
-			if ( commitCollection )
-			{
-				Commit( new Node[] { this, node } );
-			}
-			else
-			{
-				Commit( node );
-			}
+			commitChanges( node );
 		}
 
 		internal void processSyncEvent( SimiasEventArgs args )
@@ -441,21 +440,13 @@ namespace Simias.Storage
 			else if ( args.GetType().Equals( typeof( FileSyncEventArgs ) ) )
 			{
 				FileSyncEventArgs fseArgs = args as FileSyncEventArgs;
+
+				if ( fseArgs.Status == SyncStatus.PolicyQuota ||
+					fseArgs.Status == SyncStatus.ReadOnly )
+				{
+					commitChanges( storeSyncEvent( "SyncFailure", fseArgs ) );
+				}
 			}
-		}
-
-		internal Node storeEvent( string type, NodeEventArgs args )
-		{
-			// TODO: friendly name?
-			Node node = new Node( "Notify", Guid.NewGuid().ToString(), "Notification" );
-
-			node.Properties.AddNodeProperty( "NotifyType", type );
-			node.Properties.AddNodeProperty( "args.Collection", args.Collection );
-			node.Properties.AddNodeProperty( "args.Node", args.Node );
-			node.Properties.AddNodeProperty( "args.TimeStamp", args.TimeStamp );
-			node.Properties.AddNodeProperty( "args.Type", args.Type );
-
-			return node;
 		}
 
 		#endregion
@@ -550,6 +541,67 @@ namespace Simias.Storage
 		#endregion
 
 		#region Private Methods
+
+		private void commitChanges( Node node )
+		{
+			if ( commitCollection )
+			{
+				Commit( new Node[] { this, node } );
+			}
+			else
+			{
+				Commit( node );
+			}
+		}
+
+		private Node storeNodeEvent( string type, NodeEventArgs args )
+		{
+			// TODO: friendly name?
+			Node node = new Node( "Notify", Guid.NewGuid().ToString(), "Notification" );
+
+			node.Properties.AddNodeProperty( "NotifyType", type );
+			node.Properties.AddNodeProperty( "args.Collection", args.Collection );
+			node.Properties.AddNodeProperty( "args.Node", args.Node );
+			node.Properties.AddNodeProperty( "args.TimeStamp", args.TimeStamp );
+			node.Properties.AddNodeProperty( "args.Type", args.Type );
+
+			return node;
+		}
+
+		private Node storeSyncEvent( string type, FileSyncEventArgs args )
+		{
+			// Search for an existing notification.
+			bool logged = false;
+			ICSList list = Search( BaseSchema.ObjectName, args.Name, SearchOp.Equal );
+			foreach ( ShallowNode sn in list )
+			{
+				Node lNode = GetNodeByID( sn.ID );
+				Property property = lNode.Properties.GetSingleProperty( "args.Status" );
+				if ( property != null )
+				{
+					if ( args.Status.Equals( (SyncStatus)property.Value ) )
+					{
+						// TODO: Update existing node with new timestamp???
+						logged = true;
+						break;
+					}
+				}
+			}
+
+			Node node = null;
+			if ( !logged )
+			{
+				node = new Node( args.Name, Guid.NewGuid().ToString(), "Notification" );
+
+				node.Properties.AddNodeProperty( "NotifyType", type );
+				node.Properties.AddNodeProperty( "args.Collection", args.CollectionID );
+				node.Properties.AddNodeProperty( "args.TimeStamp", args.TimeStamp );
+				node.Properties.AddNodeProperty( "args.Status", args.Status );
+			}
+
+			return node;
+		}
+
 		#endregion
 
 		#region Public Methods
