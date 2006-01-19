@@ -132,7 +132,7 @@ namespace Simias.RssFeed
 
 			// Category  - use tags and types
 			
-			ctx.Response.Write( "<guid>" + node.ID + "</guid>" );
+			ctx.Response.Write( "<guid isPermaLink=\"false\">" + node.ID + "</guid>" );
 			
 			Property lastWrite = node.Properties.GetSingleProperty( "LastWrite" );
 			if ( lastWrite != null )
