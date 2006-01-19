@@ -204,6 +204,11 @@ namespace Mono.ASPNET
 		/// </summary>
 		private ManualResetEvent stopServerEvent = new ManualResetEvent( false );
 
+		/// <summary>
+		/// Used to add additional application paths.
+		/// </summary>
+		private string altAppPath = null;
+
 		#endregion
 
 		#region Properties
@@ -833,6 +838,21 @@ namespace Mono.ASPNET
 						}
 
 						noExec = true;
+						break;
+					}
+
+					case "--addpath":
+					{
+						if ( ( i + 1 ) < args.Length )
+						{
+							altAppPath = args[ ++i ];
+						}
+						else
+						{
+							Console.Error.WriteLine( "Invalid command line parameters. No application path was specified." );
+							status = SimiasStatus.InvalidCommandLine;
+						}
+
 						break;
 					}
 
@@ -1539,13 +1559,14 @@ namespace Mono.ASPNET
 					serverProcess.StartInfo.RedirectStandardOutput = true;
 					serverProcess.StartInfo.Arguments = 
 						String.Format(
-						"{0}--port {1} --ipcport {2} {3}--datadir \"{4}\" --noexec --start{5}", 
+						"{0}--port {1} --ipcport {2} {3}--datadir \"{4}\" --noexec --start{5}{6}", 
 						MyEnvironment.DotNet ? String.Empty : ApplicationPath + " ",
 						port,
 						ipcPort,
 						runAsServer ? "--runasserver " : String.Empty,
 						simiasDataPath,
-						verbose ? " --verbose" : String.Empty );
+						verbose ? " --verbose" : String.Empty,
+						( altAppPath != null ) ? " --addpath " + altAppPath : String.Empty );
 
 					serverProcess.Start();
 
@@ -1611,13 +1632,18 @@ namespace Mono.ASPNET
 				{
 					// Get the parent directory to the "web/bin" directory.
 					string rootPath = ApplicationPath.Substring( 0, index ).TrimEnd( new char[] { Path.DirectorySeparatorChar } );
+					string virtPath = String.Format( "{0}:{1}", ub.Uri.AbsolutePath, ApplicationPath.Substring( index, 3 ) );
+					if ( altAppPath != null )
+					{
+						virtPath = virtPath + "," + altAppPath;
+					}
 
 					// Build the argument list for the Xsp server.
 					ArrayList args = new ArrayList();
 					args.Add( "--root" );
 					args.Add( rootPath );
 					args.Add( "--applications" );
-					args.Add( String.Format( "{0}:{1}", ub.Uri.AbsolutePath, ApplicationPath.Substring( index, 3 ) ) );
+					args.Add( virtPath );
 					args.Add( "--port" );
 					args.Add( ub.Port.ToString() );
 					args.Add( "--nonstop" );
