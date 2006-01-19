@@ -42,7 +42,7 @@ namespace Simias
 		/// Used to log messages.
 		/// </summary>
 		static private readonly ISimiasLog log = SimiasLogManager.GetLogger( typeof( Login ) );
-
+		
 		#endregion
 
 		#region IHttpHandler Members
@@ -58,7 +58,7 @@ namespace Simias
 		{
 			HttpRequest request = context.Request;
 			HttpResponse response = context.Response;
-
+			
 			try
 			{
 				// Only respond to GET or POST method.
@@ -66,7 +66,28 @@ namespace Simias
 					 ( String.Compare( request.HttpMethod, "POST", true ) == 0 ) )
 				{
 					string domainID = context.Request.Headers[ Simias.Security.Web.AuthenticationService.Login.DomainIDHeader ];
-					Http.GetMember( domainID, context );
+					string nonceValue = request.QueryString[Simias.Authentication.Http.NonceKey];
+					string userID = request.QueryString[Simias.Authentication.Http.PpkAuthKey];
+					if (nonceValue != null)
+					{
+						string nonce = Simias.Authentication.Http.Nonce.GetNonce();
+						context.Session[Simias.Authentication.Http.NonceKey] = nonce;
+						response.AddHeader(Simias.Authentication.Http.NonceKey, nonce);
+					}
+					else if (userID != null)
+					{
+						int length = request.ContentLength;
+						byte[] signed = new byte[length];
+						int lread = request.InputStream.Read(signed, 0, length);
+						if (lread == length)
+						{
+							Http.VerifyWithPPK(domainID, userID, signed, context);
+						}
+					}
+					else
+					{
+						Http.GetMember( domainID, context );
+					}
 				}
 				else
 				{
