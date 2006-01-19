@@ -430,12 +430,10 @@ namespace Simias.Storage
 
 				if ( cseArgs.Action.Equals ( Action.StopSync ) )
 				{
-					Collection collection = Store.GetStore().GetCollectionByID( cseArgs.ID );
-
+					// If the collection is in the initial sync list and the sync finished successfully,
+					// remove it from the list.
 					if ( initialSyncCollections.Contains(cseArgs.ID) && cseArgs.Connected && !cseArgs.Yielded )
 					{
-						// If the collection is in the initial sync list and the sync finished successfully,
-						// remove it from the list.
 						initialSyncCollections.Remove(cseArgs.ID);
 					}
 				}
