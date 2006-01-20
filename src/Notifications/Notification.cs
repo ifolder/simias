@@ -838,6 +838,24 @@ namespace Simias.Storage
 		#region Public Methods
 
 		/// <summary>
+		/// Clears all entries from the notification log.
+		/// </summary>
+		public void Clear()
+		{
+			ICSList list = GetNodesByType( "Notification" );
+
+			Node[] nodeList = new Node[ list.Count ];
+			int index = 0;
+
+			foreach ( ShallowNode sn in list )
+			{
+				nodeList[ index++ ] = GetNodeByID( sn.ID );
+			}
+
+			Commit( Delete( nodeList ) );
+		}
+
+		/// <summary>
 		/// End the search for notification entries.
 		/// </summary>
 		/// <param name="searchContext">Domain provider specific search context returned by FindFirstEntries or
