@@ -2,15 +2,19 @@
   <Configurations active="Debug">
     <Configuration name="Debug" ctype="CombineConfiguration">
       <Entry configuration="Debug" build="True" name="SimiasServer" />
+      <Entry configuration="Debug" build="True" name="SimpleSync" />
     </Configuration>
     <Configuration name="Release" ctype="CombineConfiguration">
       <Entry configuration="Debug" build="True" name="SimiasServer" />
+      <Entry configuration="Debug" build="True" name="SimpleSync" />
     </Configuration>
   </Configurations>
   <StartMode startupentry="SimiasServer" single="True">
     <Execute type="None" entry="SimiasServer" />
+    <Execute type="None" entry="SimpleSync" />
   </StartMode>
   <Entries>
     <Entry filename="./SimiasServer.mdp" />
+    <Entry filename="./src/SimpleSync/SimpleSync.mdp" />
   </Entries>
 </Combine>

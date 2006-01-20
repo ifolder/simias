@@ -17,8 +17,6 @@
     <excludeFiles />
   </DeploymentInformation>
   <Contents>
-    <File name="./src/Authentication.cs" subtype="Code" buildaction="Compile" />
-    <File name="./src/Domain.cs" subtype="Code" buildaction="Compile" />
     <File name="./src/DomainInfo.cs" subtype="Code" buildaction="Compile" />
     <File name="./src/DomainService.asmx" subtype="Code" buildaction="Nothing" />
     <File name="./src/DomainService.asmx.cs" subtype="Code" buildaction="Compile" />
@@ -27,7 +25,7 @@
     <File name="./src/Register.aspx.cs" subtype="Code" buildaction="Compile" />
     <File name="./src/Service.cs" subtype="Code" buildaction="Compile" />
     <File name="./src/Ajax.cs" subtype="Code" buildaction="Compile" />
-    <File name="./src/IdentitySyncProvider.cs" subtype="Code" buildaction="Compile" />
+    <File name="./src/IdentitySyncService.cs" subtype="Code" buildaction="Compile" />
     <File name="./src/IIdentitySyncProvider.cs" subtype="Code" buildaction="Compile" />
   </Contents>
   <References>
