@@ -581,7 +581,7 @@ namespace Simias.Storage
 					break;
 
 				case "NotificationLog":
-					rNode = new Notification( store, document );
+					rNode = new NotificationLog( store, document );
 					break;
 
 				default:
@@ -695,7 +695,7 @@ namespace Simias.Storage
 					break;
 
 				case "NotificationLog":
-					rNode = new Notification( collection.StoreReference, shallowNode );
+					rNode = new NotificationLog( collection.StoreReference, shallowNode );
 					break;
 
 				default:
