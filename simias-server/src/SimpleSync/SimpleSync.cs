@@ -47,6 +47,7 @@ namespace Simias.SimpleServer
 		#region Class Members
 		private readonly string name = "Simple Synchronization";
 		private readonly string description = "Simple external synchronization provider based on an identities in an XML file";
+		private bool abort = false;
 		
 		/// <summary>
 		/// Used to log messages.
@@ -74,13 +75,15 @@ namespace Simias.SimpleServer
 		/// <returns>N/A</returns>
 		public void Abort()
 		{
+			abort = true;
 		}
 		
 		/// <summary>
 		/// Call to inform a provider to start a synchronization cycle
 		/// </summary>
-		/// <returns>True - provider successfully started a sync cycle, False - provider could
-		/// not start the sync cycle.</returns>
+		/// <returns> True - provider successfully finished a sync cycle, 
+		/// False - provider failed the sync cycle
+		/// </returns>
 		public bool Start( Simias.IdentitySync.State State )
 		{
 			log.Debug( "Start called" );
@@ -90,6 +93,7 @@ namespace Simias.SimpleServer
 			string lastName;
 			string identityDocumentPath = "../../etc/SimpleServer.xml";
 
+			abort = false;
 			try
 			{
 				// Load the SimpleServer domain and memberlist XML file.
@@ -102,19 +106,22 @@ namespace Simias.SimpleServer
 				//XmlNode ownerNode = null;
 				for ( int i = 0; i < domainElement.ChildNodes.Count; i++ )
 				{
+					if ( abort == true )
+					{
+						// didn't finish because of an aborted mission
+						return false;
+					}
+					
 					firstName = null;
 					lastName = null;
 
-					attr = domainElement.ChildNodes[i].Attributes["Name"];
+					attr = domainElement.ChildNodes[i].Attributes[ "Name" ];
 					if (attr != null)
 					{
 						XmlNode cNode = domainElement.ChildNodes[i];
 						member = cNode.Attributes[ "Name" ].Value;
 
-						//
 						// Retrieve the contact properties from SimpleServer.xml
-						//
-
 						XmlNode memberNode = domainElement.ChildNodes[i];
 						for ( int x = 0; x < memberNode.ChildNodes.Count; x++ )
 						{
@@ -224,6 +231,15 @@ namespace Simias.SimpleServer
 								dMember.FN = dMember.Given + " " + dMember.Family;
 								changed = true;
 							}
+							
+							// Must always have a DN - SimpleServer DN=CN
+							Property dn = dMember.Properties.GetSingleProperty( "DN" );
+							if ( dn == null || dn.Value as string != dMember.Name )
+							{
+								dn = new Property( "DN", dMember.Name );
+								dMember.Properties.ModifyProperty( dn );
+								changed = true;
+							}
 
 							// Call the sync service to finalize the processing
 							// of this member.
@@ -250,9 +266,6 @@ namespace Simias.SimpleServer
 										firstName,
 										lastName);
 
-								// Set the local property sync guid
-								//dMember.Properties.ModifyProperty(syncP);
-
 								// Get the password
 								XmlAttribute pwdAttr = 
 									domainElement.ChildNodes[i].Attributes[ "Password" ];
@@ -262,6 +275,11 @@ namespace Simias.SimpleServer
 									pwd.LocalProperty = true;
 									dMember.Properties.ModifyProperty( pwd );
 								}
+
+								// For simple server/sync CN=DN
+								Property dn = new Property( "DN", member );
+								dn.LocalProperty = true;
+								dMember.Properties.ModifyProperty( dn );
 
 								State.ProcessedMember( dMember, IdentitySync.MemberStatus.Created );
 							}
