@@ -1,0 +1,16 @@
+<Combine name="SimpleSync" fileversion="2.0">
+  <Configurations active="Debug">
+    <Configuration name="Debug" ctype="CombineConfiguration">
+      <Entry configuration="Debug" build="True" name="SimpleSync" />
+    </Configuration>
+    <Configuration name="Release" ctype="CombineConfiguration">
+      <Entry configuration="Debug" build="True" name="SimpleSync" />
+    </Configuration>
+  </Configurations>
+  <StartMode startupentry="SimpleSync" single="True">
+    <Execute type="None" entry="SimpleSync" />
+  </StartMode>
+  <Entries>
+    <Entry filename="./SimpleSync.mdp" />
+  </Entries>
+</Combine>
