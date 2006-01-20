@@ -17,7 +17,7 @@
  *  License along with this program; if not, write to the Free
  *  Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
- *  Author: Mike Lasky <mlasky@novell.com>
+ *  Author: Brady Anderson <banderso@novell.com>
  *
  ***********************************************************************/
 
@@ -58,8 +58,6 @@ namespace Simias.Server
 		private readonly char[] colonDelimeter = {':'};
 		private readonly char[] backDelimeter = {'\\'};
 		#endregion
-		
-		
 
 		#region Properties
 		public string AuthType
@@ -213,93 +211,13 @@ namespace Simias.Server
 		private string defaultBasicEncodingName = "iso-8859-1";
 		#endregion
 
-
-		#region Temporary Hula Stuff
-		public const string HulaLib = "hulamdb";
-		public const string HulaMessageApiLib = "hulamsgapi";
-		private readonly string thisModule = "simias-mdb-sync";
-		private IntPtr mdbHandle = System.IntPtr.Zero;
-
-		// Native MDB functions used via PInvoke
-		[DllImport( HulaLib ) ]
-		private static extern bool MDBInit();
-		
-		[DllImport( HulaLib ) ]
-		private static extern bool MDBShutdown();
-		
-		[DllImport( HulaLib ) ] 
-		private static extern 
-		int 
-		MDBGetAPIVersion(
-			bool wantCompatibleVersion, 
-			StringBuilder description,
-			IntPtr context);
-			
-		[DllImport( HulaLib )]
-		protected static extern
-		IntPtr MDBCreateValueStruct( IntPtr Handle, string Context );
-		
-		[DllImport( HulaLib )]
-		protected static extern bool MDBDestroyValueStruct( IntPtr ValueStruct );
-
-		[DllImport( HulaLib ) ]
-		private static extern 
-		IntPtr
-		MDBAuthenticate( string Module, string Principal, string Password );
-		
-		[DllImport( HulaLib ) ]
-		private static extern 
-		bool
-		MDBVerifyPassword( string ObjectDN, string Password, IntPtr v );
-		
-		[DllImport( HulaLib )]
-		private static extern
-		bool 
-		MDBRelease( IntPtr handle );
-		
-		/* We have to call some msgapi function to force it to load for MDB 
-		   This might be a bug.  This seems to happen only on Linux when 
-		   running under Mono. */
- 		[DllImport( HulaMessageApiLib)]
-		private static extern IntPtr MsgDirectoryHandle();
-		
-	    [DllImport( HulaMessageApiLib )]
-	    public static extern bool MsgFindObject(string user, StringBuilder dn, string type, IntPtr nmap, IntPtr valueStruct);
-		
-		[DllImport( "hulamemmgr" )]
-		public static extern bool MemoryManagerOpen(string agentName);
-	
-		[DllImport( "hulamemmgr" )]
-		public static extern bool MemoryManagerClose(string agentName);
-		#endregion
-		
-
 		#region Constructor
-
 		/// <summary>
 		/// Initializes an instance of this object.
 		/// </summary>
 		public Authentication()
 		{
-			#region Temp Hula Stuff
-			MsgDirectoryHandle();
-			MemoryManagerOpen( "SimiasAuthentication" );			
-			Console.WriteLine( "memory manager library loaded" );
-			
-			// Call the native initialization API
-			if ( MDBInit() == false )
-			{
-				Console.WriteLine( "failed to load \"libhulamdb\"" );
-				throw new ApplicationException( "Failed to load libhulamdb!" );
-			}
-			
-			this.mdbHandle = MDBAuthenticate( thisModule, "\\Tree\\Context\\admin", "hula" );
-			if ( this.mdbHandle == System.IntPtr.Zero )
-			{
-				Console.WriteLine( this.mdbHandle.ToString() );
-				throw new ApplicationException( "Failed to authenticate against MDB" );
-			}
-			#endregion
+		
 		}
 
 		#endregion
@@ -344,48 +262,7 @@ namespace Simias.Server
 						}
 						else
 						{
-							// BUGBUG Temporary for Hula demos
-							Property mdbProperty = member.Properties.GetSingleProperty( "ORIGIN:MDB" );
-							if ( mdbProperty != null )
-							{
-								// This identity originated from MDB so let's verify the 
-								// password there
-								
-								IntPtr v = MDBCreateValueStruct( mdbHandle, "\\Tree\\Context" );
-								if ( v != IntPtr.Zero )
-								{
-									Property dn = member.Properties.GetSingleProperty( "DN" );
-									if ( dn != null )
-									{
-										log.Debug( "attempting to authenticate: " + dn.Value );
-										if ( MDBVerifyPassword( (string) dn.Value, password, v ) == true )
-										{
-											log.Debug( "  auth successful" );
-											status.statusCode = SCodes.Success;
-											status.UserID = member.UserID;
-											status.UserName = member.Name;
-										}
-										else
-										{
-											status.statusCode = SCodes.InvalidCredentials;
-										}
-									}
-									else
-									{
-										status.statusCode = SCodes.InvalidCredentials;
-									}
-									
-									MDBDestroyValueStruct( v );
-								}
-								else
-								{
-									status.statusCode = SCodes.InvalidCredentials;
-								}
-							}
-							else
-							{
-								status.statusCode = SCodes.InvalidCredentials;
-							}
+							status.statusCode = SCodes.InvalidCredentials;
 						}
 					}
 					else

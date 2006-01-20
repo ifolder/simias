@@ -40,6 +40,8 @@ namespace Simias.Server
 	public class Domain
 	{
 		#region Class Members
+		
+		private Store store;
 
 		/// <summary>
 		/// GUID for this SimpleServer domain
@@ -47,13 +49,13 @@ namespace Simias.Server
 		private string id = "";
 
 		/// <summary>
-		/// Friendly name for the workgroup domain.
+		/// Default friendly name for the Enterprise domain
 		/// </summary>
-		private string domainName = "Simias Server";
+		private string domainName = "Simias";
 		private string hostAddress;
-		private string description = "Stand-alone server for Simias";
-		private string adminName = "ServerAdmin";
-		private string adminPassword = "root";
+		private string description = "Simias enterprise domain";
+		private string adminName = "admin";
+		private string adminPassword = "simias";
 
 		private readonly string DomainSection = "Domain";
 
@@ -107,11 +109,12 @@ namespace Simias.Server
 		/// <summary>
 		/// Constructor for creating a new Simias Server Domain object.
 		/// </summary>
-		internal Domain( bool init )
+		internal Domain( bool Create )
 		{
-			if ( init == true )
+			this.store = Store.GetStore();
+			if ( this.GetSimiasServerDomain( Create ) == null )
 			{
-				this.Init();
+				throw new SimiasException( "Enterprise domain does not exist or could not be created" );
 			}
 		}
 
@@ -120,109 +123,30 @@ namespace Simias.Server
 		/// </summary>
 		/// <param name="init"></param>
 		/// <param name="description">String that describes this domain.</param>
-		internal Domain( bool init, string description ) 
+		internal Domain( bool Create, string Description ) 
 		{
-			this.description = description;
-
-			if ( init == true )
-			{
-				this.Init();
-			}
+			this.store = Store.GetStore();
+			this.description = Description;
+			this.GetSimiasServerDomain( Create );
 		}
 		#endregion
-
-		internal void Init()
-		{
-			//hostAddress = MyDns.GetHostName();
-			Store store = Store.GetStore();
-
-			try
-			{
-				//
-				// Verify the Simias Server domain exists if it
-				// doesn't go ahead and create it.
-				//
-			
-				Simias.Storage.Domain rDomain = this.GetSimiasServerDomain( true );
-				if ( rDomain == null )
-				{
-					log.Error( "Couldn't create or verify Simias Server domain" );
-					return;
-				}
-
-				//
-				// Make this domain the default
-				//
-
-				store.DefaultDomain = rDomain.ID;
-
-				/*
-				Member pMember;
-				Simias.POBox.POBox poBox = null;
-				string poBoxName = "POBox:" + rDomain.ID + ":" + ldbMember.ID;
-
-				try
-				{
-					poBox = Simias.POBox.POBox.FindPOBox( store, rDomain.ID, ldbMember.ID );
-				}
-				catch{}
-				if (poBox == null)
-				{
-					poBox = new Simias.POBox.POBox( store, poBoxName, rDomain.ID );
-					poBox.Role = SyncRoles.Master;
-					poBox.CreateMaster = false;
-
-					pMember = 
-						new Member( ldbMember.Name, ldbMember.ID, Access.Rights.ReadWrite );
-					pMember.IsOwner = true;
-					poBox.Commit(new Node[] { poBox, pMember });
-				}
-				else
-				{
-					// verify member in POBox
-					pMember = poBox.GetMemberByID( ldbMember.ID );
-					if (pMember == null)
-					{
-						pMember = 
-							new Member( ldbMember.Name, ldbMember.ID, Access.Rights.ReadWrite );
-						pMember.IsOwner = true;
-						poBox.Commit(new Node[] { pMember });
-
-					}
-				}
-				*/
-			}
-			catch(Exception e1)
-			{
-				log.Error( e1.Message );
-				log.Error( e1.StackTrace );
-
-				//throw e1;
-				// FIXME:: rethrow the exception
-			}			
-		}
 
 		/// <summary>
 		/// Method to get the Simias Server domain
 		/// If the domain does not exist and the create flag is true
 		/// the domain will be created.  If create == false, ownerName is ignored
 		/// </summary>
-		internal Simias.Storage.Domain GetSimiasServerDomain( bool create )
+		internal Simias.Storage.Domain GetSimiasServerDomain( bool Create )
 		{
-			//
-			//  Check if the Simias Server domain exists in the store
-			//
-
 			Simias.Storage.Domain ssDomain = null;
-			Store store = Store.GetStore();
 
 			try
 			{
 				foreach( ShallowNode sNode in store.GetDomainList() )
 				{
 					Simias.Storage.Domain tmpDomain = store.GetDomain( sNode.ID );
-					Property p = tmpDomain.Properties.GetSingleProperty( "SimiasServer" );
-					if ( p != null && (bool) p.Value == true )
+					Node node = tmpDomain as Node;
+					if ( node.IsType( "Enterprise" ) == true) 
 					{
 						ssDomain = tmpDomain;
 						this.id = tmpDomain.ID;
@@ -230,44 +154,38 @@ namespace Simias.Server
 					}
 				}
 
-				if ( ssDomain == null && create == true )
+				if ( ssDomain == null && Create == true )
 				{
-					/*
 					// Get the domain name and description from the config file
-					Configuration config =
-						Simias.Configuration.GetConfiguration();
+					Configuration config = Store.Config;
 					if ( config != null )
 					{
-						string name = config.Get( DomainSection, "EnterpriseName", "" );
+						string name = config.Get( DomainSection, "EnterpriseName" );
 						if ( name != null && name != "" )
 						{
 							this.domainName = name;
 						}
 
-						string description = config.Get( DomainSection, "EnterpriseDescription", "" );
+						string description = config.Get( DomainSection, "EnterpriseDescription" );
 						if ( description != null && description != "" )
 						{
 							this.description = description;
 						}
 
-						string admin = config.Get( DomainSection, "SimiasServerAdmin", "" );
+						string admin = config.Get( DomainSection, "ServerAdmin" );
 						if ( admin != null && admin != "" )
 						{
 							this.adminName = admin;
 						}
 
-						string adminPwd = config.Get( DomainSection, "SimiasServerAdminPassword", "" );
+						string adminPwd = config.Get( DomainSection, "ServerAdminPassword" );
 						if ( adminPwd != null && adminPwd != "" )
 						{
 							this.adminPassword = adminPwd;
 						}
 					}
-					*/
 
 					this.id = Guid.NewGuid().ToString();
-					//Uri localUri = new Uri("http://" + MyDns.GetHostName() + "/simias10");
-
-					// Create the Simias Server server domain.
 					ssDomain = 
 						new Simias.Storage.Domain(
 							store, 
@@ -277,14 +195,10 @@ namespace Simias.Server
 							Simias.Sync.SyncRoles.Master, 
                             Simias.Storage.Domain.ConfigurationType.ClientServer );
 
-					// The "Enterprise" type must be set on domai in order for the
+					// The "Enterprise" type must be set on domain in order for the
 					// enterprise domain location provider to resolve it
 					ssDomain.SetType( ssDomain, "Enterprise" );
-
-					// Set the known tag for a Simias Server domain.
-					Property p = new Property( "SimiasServer", true );
-					p.LocalProperty = true;
-					ssDomain.Properties.ModifyProperty( p );
+					store.DefaultDomain = ssDomain.ID;
 
 					// Create the owner member for the domain.
 					Member member = 

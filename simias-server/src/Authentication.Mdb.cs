@@ -186,7 +186,7 @@ namespace Simias.Server
 	/// <summary>
 	/// Implementation of the IDomainProvider Service for SimpleServer.
 	/// </summary>
-	public class Authentication : IDomainProvider, IDisposeable
+	public class Authentication : IDomainProvider, IDisposable
 	{
 		#region Class Members
 		/// <summary>
@@ -223,6 +223,7 @@ namespace Simias.Server
 		[DllImport( HulaLib ) ]
 		private static extern bool MDBShutdown();
 		
+		/*
 		[DllImport( HulaLib ) ] 
 		private static extern 
 		int 
@@ -230,6 +231,7 @@ namespace Simias.Server
 			bool wantCompatibleVersion, 
 			StringBuilder description,
 			IntPtr context);
+		*/
 			
 		[DllImport( HulaLib )]
 		protected static extern
@@ -269,7 +271,6 @@ namespace Simias.Server
 		public static extern bool MemoryManagerClose(string agentName);
 
 		#region Constructor
-
 		/// <summary>
 		/// Initializes an instance of this object.
 		/// </summary>
@@ -293,10 +294,9 @@ namespace Simias.Server
 				Console.WriteLine( this.mdbHandle.ToString() );
 				throw new ApplicationException( "Failed to authenticate against MDB" );
 			}
-			#endregion
 		}
 		
-		public ~Authentication()
+		~Authentication()
 		{
 			if ( mdbHandle != IntPtr.Zero )
 			{
@@ -712,6 +712,12 @@ namespace Simias.Server
 		{
 			// Not needed by this implementation.
 		}
+		
+		public void Dispose()
+		{
+			System.GC.SuppressFinalize( this );
+		}
+		
 		#endregion
 	}
 }

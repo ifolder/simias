@@ -53,9 +53,9 @@ namespace Simias.Server
 		/// <summary>
 		/// Configuration object for the Collection Store.
 		/// </summary>
-		private Configuration config;
+		//private Configuration config;
 
-		private Simias.Server.Authentication authProvider = null;
+		//private Simias.Server.Authentication authProvider = null;
 		#endregion
 
 		#region Constructor
@@ -79,12 +79,17 @@ namespace Simias.Server
 		{
 			log.Debug( "Start called" );
 			//this.config = config;
+			
+			// Instantiate the server domain
+			// The domain will be created the first time the
+			// server is run
+			//new Simias.Server.Domain( true );
 
 			// Register with the domain provider service.
-			this.authProvider = new Simias.Server.Authentication();
-			DomainProvider.RegisterProvider( this.authProvider );
+			//this.authProvider = new Simias.Server.Authentication();
+			//DomainProvider.RegisterProvider( this.authProvider );
 			
-			IdentityProvider.StartSyncService();
+			Simias.IdentitySync.Service.Start();
 		}
 
 		/// <summary>
@@ -117,8 +122,8 @@ namespace Simias.Server
 		public void Stop()
 		{
 			log.Debug( "Stop called" );
-			IdentityProvider.StopSyncService();
-			DomainProvider.Unregister( this.authProvider );
+			Simias.IdentitySync.Service.Stop();
+			//DomainProvider.Unregister( this.authProvider );
 		}
 		#endregion
 	}

@@ -149,13 +149,20 @@ namespace Simias.DomainService.Web
 
 			// store
 			Store store = Store.GetStore();
-
+			Simias.Storage.Domain domain = store.GetDomain( store.DefaultDomain );
+			if ( domain == null )
+			{
+				throw new SimiasException( "Default server domain does not exist." );
+			}
+			
+			/*
 			Simias.Storage.Domain domain = 
 				new Simias.Server.Domain( false ).GetSimiasServerDomain( false );
 			if ( domain == null )
 			{
 				throw new SimiasException( "Simias Server domain does not exist." );
 			}
+			*/
 
 			Collection c = new Collection( store, collectionName, collectionID, domain.ID );
 			c.Proxy = true;
@@ -213,27 +220,29 @@ namespace Simias.DomainService.Web
 		/// Deletes all of the collections that the specified user is a member of and deletes
 		/// the user's membership from all collections that he belongs to from the enterprise server.
 		/// </summary>
-		/// <param name="domainID">Identifier of the domain that the userID is in.</param>
-		/// <param name="userID">Identifier of the user to remove.</param>
+		/// <param name="DomainID">Identifier of the domain that the userID is in.</param>
+		/// <param name="UserID">Identifier of the user to remove.</param>
 		[WebMethod(EnableSession=true)]
 		[SoapDocumentMethod]
-		public void RemoveServerCollections(string domainID, string userID)
+		public void RemoveServerCollections( string DomainID, string UserID)
 		{
+			Store store = Store.GetStore();
+			
 			// This method can only target the simple server
-			Simias.Storage.Domain domain = 
-				new Simias.Server.Domain( false ).GetSimiasServerDomain( false );
+			Simias.Storage.Domain domain = store.GetDomain( DomainID ); 
 			if ( domain == null )
 			{
-				throw new SimiasException( "Simias Server domain does not exist." );
+				throw new SimiasException( "Specified server domain does not exist." );
 			}
 
+			/*
 			if ( domainID != domain.ID )
 			{
 				throw new SimiasException("Only the Simias Server domain can be used.");
 			}
+			*/
 
 			// Make sure that the caller is the current owner.
-			Store store = Store.GetStore();
 			string existingUserID = Thread.CurrentPrincipal.Identity.Name;
 			Member existingMember = domain.GetMemberByID( existingUserID );
 			if ( existingMember == null )
@@ -242,23 +251,24 @@ namespace Simias.DomainService.Web
 			}
 
 			// Make sure the creator and the owner are the same ID.
-			if ( existingUserID != userID )
+			if ( existingUserID != UserID )
 			{
-				throw new SimiasException( String.Format( "Creator ID {0} is not the same as the caller ID {1}.", existingUserID, userID ) );
+				throw new SimiasException( String.Format( "Creator ID {0} is not the same as the caller ID {1}.", existingUserID, UserID ) );
 			}
 
 			// Get all of the collections that this user is member of.
-			ICSList cList = store.GetCollectionsByUser( userID );
-			foreach (ShallowNode sn in cList)
+			ICSList cList = store.GetCollectionsByUser( UserID );
+			foreach( ShallowNode sn in cList )
 			{
 				// Remove the user as a member of this collection.
-				Collection c = new Collection(store, sn);
+				Collection c = new Collection( store, sn );
 
 				// Only look for collections from the specified domain and
 				// don't allow this user's membership from being removed from the domain.
-				if ( ( c.Domain == domainID ) && !c.IsBaseType( c, Simias.Client.NodeTypes.DomainType ) )
+				if ( ( c.Domain == DomainID ) && 
+					!( (Node) c).IsBaseType( Simias.Client.NodeTypes.DomainType ) )
 				{
-					Member member = c.GetMemberByID( userID );
+					Member member = c.GetMemberByID( UserID );
 					if ( member != null )
 					{
 						if ( member.IsOwner )
@@ -283,7 +293,7 @@ namespace Simias.DomainService.Web
 		/// <summary>
 		/// Gets the ID for this simias server domain.
 		/// </summary>
-		/// <returns>Domain ID for the simias server domain.</returns>
+		/// <returns>Domain ID for the server domain.</returns>
 		[WebMethod(EnableSession=true)]
 		[SoapDocumentMethod]
 		public string GetDomainID()

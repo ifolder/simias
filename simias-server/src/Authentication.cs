@@ -52,13 +52,13 @@ namespace Simias.Server
 
 		private string domainID;
 		private string username = "admin";
-		private string password = "hula";
+		private string password = "simias";
 		private string authType;
 
 		private readonly char[] colonDelimeter = {':'};
 		private readonly char[] backDelimeter = {'\\'};
 		#endregion
-		
+
 		#region Properties
 		public string AuthType
 		{
@@ -175,7 +175,7 @@ namespace Simias.Server
 			UTF8Encoding utf8 = new UTF8Encoding();
 			byte[] bytes = new Byte[ utf8.GetByteCount( password ) ];
 			bytes = utf8.GetBytes( password );
-			MD5 md5 = new MD5CryptoServiceProvider();
+			//MD5 md5 = new MD5CryptoServiceProvider();
 			byte[] hashedPassword = new MD5CryptoServiceProvider().ComputeHash( bytes );
 			return Convert.ToBase64String( hashedPassword );
 		}
@@ -186,7 +186,7 @@ namespace Simias.Server
 	/// <summary>
 	/// Implementation of the IDomainProvider Service for SimpleServer.
 	/// </summary>
-	public class Authentication : IDomainProvider, IDisposable
+	public class Authentication : IDomainProvider
 	{
 		#region Class Members
 		/// <summary>
@@ -197,8 +197,8 @@ namespace Simias.Server
 		/// <summary>
 		/// String used to identify domain provider.
 		/// </summary>
-		static private string providerName = "MDB Provider";
-		static private string providerDescription = "Authentication provider for MDB integration";
+		static private string providerName = "SimiasServer Authentication Provider";
+		static private string providerDescription = "Authentication Provider for Simias Server";
 
 		/// <summary>
 		/// Store object.
@@ -209,66 +209,7 @@ namespace Simias.Server
 		/// The default encoding to use for decoding the basic credential set.
 		/// </summary>
 		private string defaultBasicEncodingName = "iso-8859-1";
-
-		public const string HulaLib = "hulamdb";
-		public const string HulaMessageApiLib = "hulamsgapi";
-		private readonly string thisModule = "simias-mdb-auth";
-		private IntPtr mdbHandle = System.IntPtr.Zero;
 		#endregion
-
-		// Native MDB functions used via PInvoke
-		[DllImport( HulaLib ) ]
-		private static extern bool MDBInit();
-		
-		[DllImport( HulaLib ) ]
-		private static extern bool MDBShutdown();
-		
-		/*
-		[DllImport( HulaLib ) ] 
-		private static extern 
-		int 
-		MDBGetAPIVersion(
-			bool wantCompatibleVersion, 
-			StringBuilder description,
-			IntPtr context);
-		*/
-			
-		[DllImport( HulaLib )]
-		protected static extern
-		IntPtr MDBCreateValueStruct( IntPtr Handle, string Context );
-		
-		[DllImport( HulaLib )]
-		protected static extern bool MDBDestroyValueStruct( IntPtr ValueStruct );
-
-		[DllImport( HulaLib ) ]
-		private static extern 
-		IntPtr
-		MDBAuthenticate( string Module, string Principal, string Password );
-		
-		[DllImport( HulaLib ) ]
-		private static extern 
-		bool
-		MDBVerifyPassword( string ObjectDN, string Password, IntPtr v );
-		
-		[DllImport( HulaLib )]
-		private static extern
-		bool 
-		MDBRelease( IntPtr handle );
-		
-		/* We have to call some msgapi function to force it to load for MDB 
-		   This might be a bug.  This seems to happen only on Linux when 
-		   running under Mono. */
- 		[DllImport( HulaMessageApiLib)]
-		private static extern IntPtr MsgDirectoryHandle();
-		
-	    [DllImport( HulaMessageApiLib )]
-	    public static extern bool MsgFindObject(string user, StringBuilder dn, string type, IntPtr nmap, IntPtr valueStruct);
-		
-		[DllImport( "hulamemmgr" )]
-		public static extern bool MemoryManagerOpen(string agentName);
-	
-		[DllImport( "hulamemmgr" )]
-		public static extern bool MemoryManagerClose(string agentName);
 
 		#region Constructor
 		/// <summary>
@@ -276,32 +217,7 @@ namespace Simias.Server
 		/// </summary>
 		public Authentication()
 		{
-			// Must load the message and memory manager libraries
-			MsgDirectoryHandle();
-			MemoryManagerOpen( "SimiasAuthentication" );			
-			
-			// Call the native initialization API
-			if ( MDBInit() == false )
-			{
-				Console.WriteLine( "failed to load \"libhulamdb\"" );
-				throw new ApplicationException( "Failed to load libhulamdb!" );
-			}
-			
-			// BUGBUG must get this through configuration
-			this.mdbHandle = MDBAuthenticate( thisModule, "\\Tree\\Context\\admin", "hula" );
-			if ( this.mdbHandle == System.IntPtr.Zero )
-			{
-				Console.WriteLine( this.mdbHandle.ToString() );
-				throw new ApplicationException( "Failed to authenticate against MDB" );
-			}
-		}
 		
-		~Authentication()
-		{
-			if ( mdbHandle != IntPtr.Zero )
-			{
-				MDBRelease( mdbHandle );
-			}
 		}
 
 		#endregion
@@ -322,44 +238,22 @@ namespace Simias.Server
 
 			try
 			{
-				// First verify the user exists in the Hula domain
+				// First verify the user exists in the SimpleServer domain
 				Simias.Storage.Domain domain = store.GetDomain( domainID );
 				if ( domain != null )
 				{
 					Simias.Storage.Member member = domain.GetMemberByName( user );
 					if ( member != null )
 					{
-						Property mdbProperty = member.Properties.GetSingleProperty( "ORIGIN:MDB" );
-						if ( mdbProperty != null )
+						Property pwd = member.Properties.GetSingleProperty( "SS:PWD" );
+						if ( pwd != null )
 						{
-							// This identity originated from MDB so let's verify the 
-							// password there
-								
-							IntPtr v = MDBCreateValueStruct( mdbHandle, "\\Tree\\Context" );
-							if ( v != IntPtr.Zero )
+							string hashedPassword = SimiasCredentials.HashPassword( password );
+							if ( hashedPassword == ( string ) pwd.Value)
 							{
-								Property dn = member.Properties.GetSingleProperty( "DN" );
-								if ( dn != null )
-								{
-									log.Debug( "attempting to authenticate: " + dn.Value );
-									if ( MDBVerifyPassword( (string) dn.Value, password, v ) == true )
-									{
-										log.Debug( "  auth successful" );
-										status.statusCode = SCodes.Success;
-										status.UserID = member.UserID;
-										status.UserName = member.Name;
-									}
-									else
-									{
-										status.statusCode = SCodes.InvalidCredentials;
-									}
-								}
-								else
-								{
-									status.statusCode = SCodes.InvalidCredentials;
-								}
-								
-								MDBDestroyValueStruct( v );
+								status.statusCode = SCodes.Success;
+								status.UserID = member.UserID;
+								status.UserName = member.Name;
 							}
 							else
 							{
@@ -607,30 +501,17 @@ namespace Simias.Server
 		/// specified domain. Otherwise, False is returned.</returns>
 		public bool OwnsDomain( string domainID )
 		{
-			log.Debug( "OwnsDomain called" );
-			log.Debug( "  with domain: " + domainID );
-
-			Store store = Store.GetStore();
-			Simias.Storage.Domain ssDomain = store.GetDomain( domainID );
-			if ( ssDomain != null && ssDomain.IsType( ssDomain, "Enterprise" ) )
+			Simias.Storage.Domain domain = store.GetDomain( domainID );
+			if ( domain != null )
 			{
-				// Check for MDB
-				Property mdbProperty = ssDomain.Properties.GetSingleProperty( "ORIGIN:MDB" );
-				if ( mdbProperty != null )
+				if ( ( (Node) domain ).IsType( "Enterprise" ) )
 				{
-					// This identity originated from MDB so let's verify the 
-					// password there
-				
-					log.Debug( "  MDB domain is: " + ssDomain.Name );
-					if ( ssDomain.ID == domainID )
-					{
-						log.Debug( "  returning true" );
-						return true;
-					}
+					log.Debug( "OwnsDomain returning true" );
+					return true;
 				}
 			}
-
-			log.Debug( "Returning false" );
+			
+			log.Debug( "OwnsDomain returning false" );
 			return false;
 		}
 
@@ -712,12 +593,6 @@ namespace Simias.Server
 		{
 			// Not needed by this implementation.
 		}
-		
-		public void Dispose()
-		{
-			System.GC.SuppressFinalize( this );
-		}
-		
 		#endregion
 	}
 }

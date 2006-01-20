@@ -19,7 +19,7 @@ namespace Simias.Server
 	public class RegistrationForm : System.Web.UI.Page
 	{
 		[Ajax.Method]
-		public string RegisterUser( string firstName, string lastName, string userName, string password )
+		public string RegisterUser( string FirstName, string LastName, string UserName, string Password )
 		{
 			Member cMember = null;
 			string status = "Successful";
@@ -30,16 +30,16 @@ namespace Simias.Server
 				// Verify the Simias Server domain exists if it
 				// doesn't go ahead and create it.
 				//
-			
-				Simias.Server.Domain ssDomain = new Simias.Server.Domain( false );
-				Simias.Storage.Domain sDomain = ssDomain.GetSimiasServerDomain( false );
+				
+				Store store = Store.GetStore();
+				Simias.Storage.Domain sDomain = store.GetDomain( store.DefaultDomain );
 				if ( sDomain == null )
 				{
 					status = "Server domain does not exist";
 					return status;
 				}
 
-				cMember = sDomain.GetMemberByName( userName );
+				cMember = sDomain.GetMemberByName( UserName );
 				if ( cMember != null )
 				{
 					status = "User already exists!";
@@ -49,19 +49,23 @@ namespace Simias.Server
 				// Add the new user to the domain
 				cMember = 
 					new Member(
-							userName,
+							UserName,
 							Guid.NewGuid().ToString(), 
 							Access.Rights.ReadOnly,
-							firstName,
-							lastName );
+							FirstName,
+							LastName );
 
 				// Set the admin hashed password
+				// FIXME:: This needs to go through the provision framework
+				// when it becomes available
+				/*
 				Property pwd = 
 					new Property( 
 					"SS:PWD", 
 					SimiasCredentials.HashPassword( password ) );
 				pwd.LocalProperty = true;
 				cMember.Properties.ModifyProperty( pwd );
+				*/
 
 				sDomain.Commit( cMember );
 			}
