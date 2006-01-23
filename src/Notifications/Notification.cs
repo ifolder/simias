@@ -83,34 +83,41 @@ namespace Simias.Storage
 					// Process the event.
 					if (!shuttingDown)
 					{
-						NodeEventArgs neArgs = null;
-
-						if ( args.GetType().Equals( typeof( NodeEventArgs ) ) )
+						try
 						{
-							neArgs = args as NodeEventArgs;
-						}
+							NodeEventArgs neArgs = null;
 
-						NotificationLog notificationLog = NotificationLog.NotificationLogFactory( store );
-						if ( notificationLog != null )
-						{
-							// Don't process events for the notification log collection.
-							if ( neArgs != null && notificationLog.ID.Equals( neArgs.Collection ) )
+							if ( args.GetType().Equals( typeof( NodeEventArgs ) ) )
 							{
-								continue;
+								neArgs = args as NodeEventArgs;
+							}
+
+							NotificationLog notificationLog = NotificationLog.NotificationLogFactory( store );
+							if ( notificationLog != null )
+							{
+								// Don't process events for the notification log collection.
+								if ( neArgs != null && notificationLog.ID.Equals( neArgs.Collection ) )
+								{
+									continue;
+								}
+							}
+							else
+							{
+								notificationLog = new NotificationLog( store, "NotificationLog", Guid.NewGuid().ToString(), "NotificationLog", store.LocalDomain );
+							}
+
+							if ( neArgs != null )
+							{
+								notificationLog.processNodeEvent( neArgs );
+							}
+							else
+							{
+								notificationLog.processSyncEvent( args );
 							}
 						}
-						else
+						catch (Exception e)
 						{
-							notificationLog = new NotificationLog( store, "NotificationLog", Guid.NewGuid().ToString(), "NotificationLog", store.LocalDomain );
-						}
-
-						if ( neArgs != null )
-						{
-							notificationLog.processNodeEvent( neArgs );
-						}
-						else
-						{
-							notificationLog.processSyncEvent( args );
+							log.Info( "Caught exception in NotificationService thread - {0}", e.Message );
 						}
 					}
 					else
@@ -474,7 +481,6 @@ namespace Simias.Storage
 		static Hashtable initialSyncCollections = new Hashtable();
 
 		bool commitCollection = false;
-		NotificationType notificationBitMask;
 
 		#endregion
 
@@ -488,18 +494,6 @@ namespace Simias.Storage
 		public NotificationLog( Store store, ShallowNode shallowNode ) :
 			base( store, shallowNode )
 		{
-			Property property = Properties.GetSingleProperty( "NotifyBitMask" );
-			if ( property == null )
-			{
-				// Create the default policy (log all notifications).
-				notificationBitMask = NotificationType.CollectionShared | NotificationType.ConflictOccurred | NotificationType.MemberJoined | NotificationType.SyncFailure_Quota | NotificationType.SyncFailure_ReadOnly;
-				Properties.AddNodeProperty( "NotifyBitMask", notificationBitMask );
-				commitCollection = true;
-			}
-			else
-			{
-				notificationBitMask = (NotificationType)property.Value;
-			}
 		}
 
 		/// <summary>
@@ -509,18 +503,6 @@ namespace Simias.Storage
 		public NotificationLog( Collection collection ) :
 			base( collection )
 		{
-			Property property = Properties.GetSingleProperty( "NotifyBitMask" );
-			if ( property == null )
-			{
-				// Create the default policy (log all notifications).
-				notificationBitMask = NotificationType.CollectionShared | NotificationType.ConflictOccurred | NotificationType.MemberJoined | NotificationType.SyncFailure_Quota | NotificationType.SyncFailure_ReadOnly;
-				Properties.AddNodeProperty( "NotifyBitMask", notificationBitMask );
-				commitCollection = true;
-			}
-			else
-			{
-				notificationBitMask = (NotificationType)property.Value;
-			}
 		}
 
 		/// <summary>
@@ -534,10 +516,6 @@ namespace Simias.Storage
 		internal NotificationLog( Store store, string collectionName, string collectionID, string collectionType, string domainID ) :
 			base( store, collectionName, collectionID, collectionType, domainID )
 		{
-			// Create the default policy (log all notifications).
-			notificationBitMask = NotificationType.CollectionShared | NotificationType.ConflictOccurred | NotificationType.MemberJoined | NotificationType.SyncFailure_Quota | NotificationType.SyncFailure_ReadOnly;
-			Properties.AddNodeProperty( "NotifyBitMask", notificationBitMask );
-			commitCollection = true;
 		}
 
 		/// <summary>
@@ -548,18 +526,6 @@ namespace Simias.Storage
 		internal protected NotificationLog( Store store, XmlDocument document ) :
 			base( store, document )
 		{
-			Property property = Properties.GetSingleProperty( "NotifyBitMask" );
-			if ( property == null )
-			{
-				// Create the default policy (log all notifications).
-				notificationBitMask = NotificationType.CollectionShared | NotificationType.ConflictOccurred | NotificationType.MemberJoined | NotificationType.SyncFailure_Quota | NotificationType.SyncFailure_ReadOnly;
-				Properties.AddNodeProperty( "NotifyBitMask", notificationBitMask );
-				commitCollection = true;
-			}
-			else
-			{
-				notificationBitMask = (NotificationType)property.Value;
-			}
 		}
 
 		#endregion
@@ -569,15 +535,6 @@ namespace Simias.Storage
 		internal void processNodeEvent( NodeEventArgs args )
 		{
 			Node node = null;
-
-//			if ( LogMembers && 
-//				args.Type == NodeTypes.MemberType && 
-//				args.EventType == EventType.NodeCreated /*&&
-//				args.Source.Equals( "Sync" )*/ )
-//			{
-//				// Store the event.
-//				node = storeEvent( "NewMember", args );
-//			}
 
 			if ( args.EventType == EventType.NodeCreated )
 			{
@@ -629,7 +586,7 @@ namespace Simias.Storage
 				}
 			}
 
-			commitChanges( node );
+			CommitChanges( node );
 		}
 
 		internal void processSyncEvent( SimiasEventArgs args )
@@ -663,7 +620,7 @@ namespace Simias.Storage
 						break;
 				}
 
-                commitChanges( node );
+                CommitChanges( node );
 			}
 		}
 
@@ -678,15 +635,13 @@ namespace Simias.Storage
 		{
 			get
 			{
-				return ( notificationBitMask & NotificationType.ConflictOccurred ) == NotificationType.ConflictOccurred;
+				return ( NotificationBitMask & NotificationType.ConflictOccurred ) == NotificationType.ConflictOccurred;
 			}
 			set
 			{
 				if ( value != LogCollisions )
 				{
-					notificationBitMask ^= NotificationType.ConflictOccurred;
-
-					commitCollection = true;
+					NotificationBitMask ^= NotificationType.ConflictOccurred;
 				}
 			}
 		}
@@ -698,15 +653,13 @@ namespace Simias.Storage
 		{
 			get
 			{
-				return ( notificationBitMask & NotificationType.MemberJoined ) == NotificationType.MemberJoined;
+				return ( NotificationBitMask & NotificationType.MemberJoined ) == NotificationType.MemberJoined;
 			}
 			set
 			{
 				if ( value != LogMembers )
 				{
-					notificationBitMask ^= NotificationType.MemberJoined;
-
-					commitCollection = true;
+					NotificationBitMask ^= NotificationType.MemberJoined;
 				}
 			}
 		}
@@ -718,15 +671,13 @@ namespace Simias.Storage
 		{
 			get
 			{
-				return ( notificationBitMask & NotificationType.SyncFailure_Quota ) == NotificationType.SyncFailure_Quota;
+				return ( NotificationBitMask & NotificationType.SyncFailure_Quota ) == NotificationType.SyncFailure_Quota;
 			}
 			set
 			{
 				if ( value != LogQuotaFailures )
 				{
-					notificationBitMask ^= NotificationType.SyncFailure_Quota;
-
-					commitCollection = true;
+					NotificationBitMask ^= NotificationType.SyncFailure_Quota;
 				}
 			}
 		}
@@ -738,15 +689,13 @@ namespace Simias.Storage
 		{
 			get
 			{
-				return ( notificationBitMask & NotificationType.SyncFailure_ReadOnly ) == NotificationType.SyncFailure_ReadOnly;
+				return ( NotificationBitMask & NotificationType.SyncFailure_ReadOnly ) == NotificationType.SyncFailure_ReadOnly;
 			}
 			set
 			{
 				if ( value != LogReadOnlyFailures )
 				{
-					notificationBitMask ^= NotificationType.SyncFailure_ReadOnly;
-
-					commitCollection = true;
+					NotificationBitMask ^= NotificationType.SyncFailure_ReadOnly;
 				}
 			}
 		}
@@ -758,34 +707,43 @@ namespace Simias.Storage
 		{
 			get
 			{
-				return ( notificationBitMask & NotificationType.CollectionShared ) == NotificationType.CollectionShared;
+				return ( NotificationBitMask & NotificationType.CollectionShared ) == NotificationType.CollectionShared;
 			}
 			set
 			{
 				if ( value != LogShared )
 				{
-					notificationBitMask ^= NotificationType.CollectionShared;
-
-					commitCollection = true;
+					NotificationBitMask ^= NotificationType.CollectionShared;
 				}
+			}
+		}
+
+		/// <summary>
+		/// Gets/sets the notification bitmask for the notification log.
+		/// </summary>
+		public NotificationType NotificationBitMask
+		{
+			get
+			{
+				Property property = Properties.GetSingleProperty( "NotifyBitMask" );
+				if ( property == null )
+				{
+					// Create the default policy (log all notifications).
+					return NotificationBitMask = NotificationType.CollectionShared | NotificationType.ConflictOccurred | NotificationType.MemberJoined | NotificationType.SyncFailure_Quota | NotificationType.SyncFailure_ReadOnly;
+				}
+
+				return (NotificationType)property.Value;
+			}
+			set
+			{
+				Properties.ModifyProperty( "NotifyBitMask", value );
+				commitCollection = true;
 			}
 		}
 
 		#endregion
 
 		#region Private Methods
-
-		private void commitChanges( Node node )
-		{
-			if ( commitCollection )
-			{
-				Commit( new Node[] { this, node } );
-			}
-			else
-			{
-				Commit( node );
-			}
-		}
 
 		private Node storeNodeEvent( NotificationType type, NodeEventArgs args )
 		{
@@ -853,6 +811,24 @@ namespace Simias.Storage
 			}
 
 			Commit( Delete( nodeList ) );
+		}
+
+		/// <summary>
+		/// Commits the specified node to the notification log.  If any changes have been made to the
+		/// notification log, these changes are also committed.
+		/// </summary>
+		/// <param name="node">The node to commit to the notification log.</param>
+		public void CommitChanges( Node node )
+		{
+			if ( commitCollection )
+			{
+				Commit( new Node[] { this, node } );
+				commitCollection = false;
+			}
+			else
+			{
+				Commit( node );
+			}
 		}
 
 		/// <summary>
