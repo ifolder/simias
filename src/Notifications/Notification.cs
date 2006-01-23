@@ -175,12 +175,13 @@ namespace Simias.Storage
 			notificationThread.IsBackground = true;
 			notificationThread.Start();
 
+			// Add handlers for node events.
 			storeEvents = new EventSubscriber();
 			storeEvents.NodeChanged += new NodeEventHandler( storeEvents_NodeEvent );
 			storeEvents.NodeCreated += new NodeEventHandler( storeEvents_NodeEvent );
 			storeEvents.NodeDeleted += new NodeEventHandler( storeEvents_NodeEvent );
 
-			// TODO: need to add handlers for sync events.
+			// Add handlers for sync events.
 			syncEvents = new SyncEventSubscriber();
 			syncEvents.CollectionSync += new CollectionSyncEventHandler( syncEvents_CollectionSync );
 			syncEvents.FileSync += new FileSyncEventHandler( syncEvents_FileSync );
@@ -475,8 +476,6 @@ namespace Simias.Storage
 	{
 		#region Class Members
 
-//		Store store;
-//		Collection collection;
 		static string lastNodeModified = null;
 		static Hashtable initialSyncCollections = new Hashtable();
 
@@ -538,11 +537,10 @@ namespace Simias.Storage
 
 			if ( args.EventType == EventType.NodeCreated )
 			{
-				// TODO: we need to know if the event comes from sync ... we don't want to generate a notification
-				// for an action that the local user performed.
-				if ( args.Type == NodeTypes.MemberType /*&& args.Source.Equals( "Sync" )*/ )
+				if ( args.Type == NodeTypes.MemberType )
 				{
-					if ( LogMembers && !initialSyncCollections.Contains( args.Collection ) )
+					// Only generate a notification for events originating from a sync.
+					if ( LogMembers && args.Source.Equals( "Sync" ) && !initialSyncCollections.Contains( args.Collection ) )
 					{
 						node = storeNodeEvent( NotificationType.MemberJoined, args );
 					}
@@ -555,8 +553,8 @@ namespace Simias.Storage
 					}
 				}
 				else if ( args.Type == NodeTypes.CollectionType ||
-						args.Type == NodeTypes.DomainType ||
-						args.Type == NodeTypes.POBoxType )
+					args.Type == NodeTypes.DomainType ||
+					args.Type == NodeTypes.POBoxType )
 				{
 					// Don't log notifications for newly created collections.
 					initialSyncCollections.Add( args.Collection, null );
