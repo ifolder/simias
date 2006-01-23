@@ -245,6 +245,9 @@ namespace Simias.SimpleServer
 								status.statusCode = SCodes.Success;
 								status.UserID = member.UserID;
 								status.UserName = member.Name;
+								
+								log.Info( 
+									"Authenticated User: " + member.UserID + ":" + member.Name );
 							}
 							else
 							{
