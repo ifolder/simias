@@ -498,14 +498,14 @@ namespace Simias.Storage
 		/// <summary>
 		/// Copy constructor for Collection object.
 		/// </summary>
-		/// <param name="collection">Collection object to construct new Notification object from.</param>
+		/// <param name="collection">Collection object to construct new NotificationLog object from.</param>
 		public NotificationLog( Collection collection ) :
 			base( collection )
 		{
 		}
 
 		/// <summary>
-		/// Constructor to create a new Notification object.
+		/// Constructor to create a new NotificationLog object.
 		/// </summary>
 		/// <param name="store">Store object that this collection belongs to.</param>
 		/// <param name="collectionName">This is the friendly name that is used by applications to describe this object.</param>
@@ -518,7 +518,7 @@ namespace Simias.Storage
 		}
 
 		/// <summary>
-		/// Constructor for creating an existing Notification object.
+		/// Constructor for creating an existing NotificationLog object.
 		/// </summary>
 		/// <param name="store">Store object that this collection belongs to.</param>
 		/// <param name="document">Xml document that describes a Notification object.</param>
@@ -861,7 +861,14 @@ namespace Simias.Storage
 			notificationList = null;
 			total = 0;
 
-			ICSList list = GetNodesByType( "Notification" );
+			// Get the creation time of the member node for the notification log.
+			Node mNode = GetSingleNodeByType( NodeTypes.MemberType );
+			Property property = mNode.Properties.GetSingleProperty( PropertyTags.NodeCreationTime );
+
+			// Search for all nodes with a creation time greater than the creation time of the member node.  This
+			// will cause the notification nodes to be put in the list in chronological order.  There shouldn't be
+			// any other type of node stored in the notification log.
+			ICSList list = Search( property, SearchOp.Greater );
 			NotificationSearchState searchState = new NotificationSearchState( ID, list.GetEnumerator() as ICSEnumerator, list.Count );
 			searchContext = searchState.ContextHandle;
 			total = list.Count;
@@ -902,10 +909,14 @@ namespace Simias.Storage
 						{
 							// The enumeration returns ShallowNode objects.
 							ShallowNode sn = enumerator.Current as ShallowNode;
-							Notification notification = new Notification( GetNodeByID( sn.ID ) );
 
-							tempList.Add( notification );
-							--count;
+							try
+							{
+								Notification notification = new Notification( GetNodeByID( sn.ID ) );
+								tempList.Add( notification );
+								--count;
+							}
+							catch{} // Ignore ... the notification probably references an object that no longer exists.
 						}
 
 						if ( tempList.Count > 0 )
