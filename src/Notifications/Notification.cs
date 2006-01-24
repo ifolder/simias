@@ -479,7 +479,7 @@ namespace Simias.Storage
 		static string lastNodeModified = null;
 		static Hashtable initialSyncCollections = new Hashtable();
 
-		bool commitCollection = false;
+		bool collectionModified = false;
 
 		#endregion
 
@@ -515,6 +515,7 @@ namespace Simias.Storage
 		internal NotificationLog( Store store, string collectionName, string collectionID, string collectionType, string domainID ) :
 			base( store, collectionName, collectionID, collectionType, domainID )
 		{
+			collectionModified = true;
 		}
 
 		/// <summary>
@@ -637,6 +638,7 @@ namespace Simias.Storage
 			}
 			set
 			{
+				// Update the value if it has changed.
 				if ( value != LogCollisions )
 				{
 					NotificationBitMask ^= NotificationType.ConflictOccurred;
@@ -655,6 +657,7 @@ namespace Simias.Storage
 			}
 			set
 			{
+				// Update the value if it has changed.
 				if ( value != LogMembers )
 				{
 					NotificationBitMask ^= NotificationType.MemberJoined;
@@ -673,6 +676,7 @@ namespace Simias.Storage
 			}
 			set
 			{
+				// Update the value if it has changed.
 				if ( value != LogQuotaFailures )
 				{
 					NotificationBitMask ^= NotificationType.SyncFailure_Quota;
@@ -691,6 +695,7 @@ namespace Simias.Storage
 			}
 			set
 			{
+				// Update the value if it has changed.
 				if ( value != LogReadOnlyFailures )
 				{
 					NotificationBitMask ^= NotificationType.SyncFailure_ReadOnly;
@@ -709,6 +714,7 @@ namespace Simias.Storage
 			}
 			set
 			{
+				// Update the value if it has changed.
 				if ( value != LogShared )
 				{
 					NotificationBitMask ^= NotificationType.CollectionShared;
@@ -724,18 +730,85 @@ namespace Simias.Storage
 			get
 			{
 				Property property = Properties.GetSingleProperty( "NotifyBitMask" );
-				if ( property == null )
+				if ( property != null )
 				{
-					// Create the default policy (log all notifications).
-					return NotificationBitMask = NotificationType.CollectionShared | NotificationType.ConflictOccurred | NotificationType.MemberJoined | NotificationType.SyncFailure_Quota | NotificationType.SyncFailure_ReadOnly;
+					return (NotificationType)property.Value;
 				}
 
-				return (NotificationType)property.Value;
+				// The property doesn't exist, return the default policy (log all notifications).
+				return NotificationType.CollectionShared | NotificationType.ConflictOccurred | NotificationType.MemberJoined | NotificationType.SyncFailure_Quota | NotificationType.SyncFailure_ReadOnly;
 			}
 			set
 			{
-				Properties.ModifyProperty( "NotifyBitMask", value );
-				commitCollection = true;
+				// Update the value if it has changed.
+				if ( NotificationBitMask != value )
+				{
+					Properties.ModifyProperty( "NotifyBitMask", value );
+					collectionModified = true;
+				}
+			}
+		}
+
+		/// <summary>
+		/// Gets/sets a value indicating if the number of notifications persisted is based on the actual number of
+		/// notifications stored (<b>false</b>) or the number of days the notifications have been stored (<b>true</b>).
+		/// </summary>
+		public bool PersistByDate
+		{
+			get
+			{
+				Property property = Properties.GetSingleProperty( "PersistByDate" );
+				if ( property != null )
+				{
+					return (bool)property.Value;
+				}
+
+				// The property doesn't exist, return the default value (persist n number of notifications).
+				return false;
+			}
+			set
+			{
+				// Update the value if it has changed.
+				if ( PersistByDate != value )
+				{
+					Properties.ModifyProperty( "PersistByDate", value );
+					collectionModified = true;
+				}
+			}
+		}
+
+		/// <summary>
+		/// Gets/sets a value indicating the number of notifications stored or the number of days that the notifications
+		/// are stored (based on the value of <b>PersistByCount</b>.
+		/// </summary>
+		public int PersistedCount
+		{
+			get
+			{
+				Property property = Properties.GetSingleProperty( "PersistedCount" );
+				if ( property != null )
+				{
+					return (int)property.Value;
+				}
+
+				// The property doesn't exist, return the default (5 days or 50 entries).
+				if ( PersistByDate )
+				{
+					return 5;
+				}
+				else
+				{
+					return 50;
+				}
+			}
+			set
+			{
+				// Update the value if it has changed.
+				if ( PersistedCount != value )
+				{
+					Properties.ModifyProperty( "PersistedCount", value );
+					collectionModified = true;
+				}
 			}
 		}
 
@@ -743,6 +816,69 @@ namespace Simias.Storage
 
 		#region Private Methods
 
+		/// <summary>
+		/// Gets all the notification nodes stored in the Notification Log.
+		/// </summary>
+		/// <returns>An ICSList object containing ShallowNode objects that represent the Node objects found.</returns>
+		private ICSList GetOrderedNotificationNodes()
+		{
+			ArrayList list = new ArrayList();
+
+			// Get the creation time of the member node for the notification log.
+			Node mNode = GetSingleNodeByType( NodeTypes.MemberType );
+			if ( mNode != null )
+			{
+				Property property = mNode.Properties.GetSingleProperty( PropertyTags.NodeCreationTime );
+
+				// Search for all nodes with a creation time greater than the creation time of the member node.  This
+				// will cause the notification nodes to be put in the list in chronological order.
+				ICSList icsList = Search( property, SearchOp.Greater );
+
+				// In case there are other node types stored in the notification log, we'll walk the list and only return
+				// the notification nodes.
+				foreach ( ShallowNode sn in icsList )
+				{
+					if ( sn.Type.Equals( "Notification" ) )
+					{
+						list.Add( sn );
+					}
+				}
+			}
+
+			return new ICSList( list );
+		}
+
+		/// <summary>
+		/// Gets all of the notifications in the Notification Log that were created before the specified time.
+		/// </summary>
+		/// <param name="time">The time used to perform the search.</param>
+		/// <returns>An ICSList object containing ShallowNode objects that represent the Node objects found.</returns>
+		private ICSList GetOrderedNotificationNodesBeforeTime( DateTime time )
+		{
+			ArrayList list = new ArrayList();
+
+			// Search for all nodes with a creation time less than the specified time.
+			ICSList icsList = Search( PropertyTags.NodeCreationTime, time, SearchOp.Less );
+
+			// In case there are other node types stored in the notification log, we'll walk the list and only return
+			// the notification nodes.
+			foreach ( ShallowNode sn in icsList )
+			{
+				if ( sn.Type.Equals( "Notification" ) )
+				{
+					list.Add( sn );
+				}
+			}
+
+			return new ICSList( list );
+		}
+
+		/// <summary>
+		/// Creates a Node object which represents a notification for the given node event.
+		/// </summary>
+		/// <param name="type">The type of the notification.</param>
+		/// <param name="args">The node event used to create the notification.</param>
+		/// <returns>A Node object representing the notification.</returns>
 		private Node storeNodeEvent( NotificationType type, NodeEventArgs args )
 		{
 			// TODO: friendly name?
@@ -756,6 +892,12 @@ namespace Simias.Storage
 			return node;
 		}
 
+		/// <summary>
+		/// Creates a Node object which represents a notification for the given sync event.
+		/// </summary>
+		/// <param name="type">The type of the notification.</param>
+		/// <param name="args">The sync event used to create the notification.</param>
+		/// <returns>A Node object representing the notification.</returns>
 		private Node storeSyncEvent( NotificationType type, FileSyncEventArgs args )
 		{
 			// Search for an existing notification.
@@ -818,15 +960,59 @@ namespace Simias.Storage
 		/// <param name="node">The node to commit to the notification log.</param>
 		public void CommitChanges( Node node )
 		{
-			if ( commitCollection )
+			Node[] deletedNodes;
+
+			if ( PersistByDate )
 			{
-				Commit( new Node[] { this, node } );
-				commitCollection = false;
+				// Build the DateTime for n days ago (where n is the number of days to persist notifications).
+				DateTime time = DateTime.Now.Subtract( new TimeSpan( PersistedCount, 0, 0, 0, 0 ) );
+
+				// Get a list of all notifications before the calculated DateTime.
+				ICSList list = GetOrderedNotificationNodesBeforeTime( time );
+
+				// Walk the returned list, instantiate the nodes and put them in an array to delete.
+				int index = 0;
+				deletedNodes = new Node[ list.Count ];
+				foreach ( ShallowNode sn in list )
+				{
+					deletedNodes[ index++ ] = new Node( this, sn );
+				}
 			}
 			else
 			{
-				Commit( node );
+				deletedNodes = new Node[ 0 ];
+
+				// Get a list of all notifications stored.
+				ICSList list = GetOrderedNotificationNodes();
+
+				// If the number of notifications stored is bigger than it should be, delete some of the entries.
+				int count = list.Count - PersistedCount;
+				if ( count > 0 )
+				{
+					int index = 0;
+
+					// Put the first n nodes in an array to delete.
+					deletedNodes = new Node[ count ];
+					foreach ( ShallowNode sn in list )
+					{
+						deletedNodes[ index++ ] = new Node( this, sn );
+						if ( index == count )
+							break;
+					}
+				}
 			}
+
+			// Delete the nodes that exceed the persist limits.
+			deletedNodes = Delete( deletedNodes );
+
+			// Put the deleted nodes into an array along with the modified node(s) so a single commit can be performed.
+			Node[] nodeList = new Node[ deletedNodes.Length + 2 ];
+			deletedNodes.CopyTo( nodeList, 0 );
+			nodeList[ deletedNodes.Length ] = node;
+			nodeList[ deletedNodes.Length + 1 ] = collectionModified ? this : null;
+
+			Commit( nodeList );
+			collectionModified = false;
 		}
 
 		/// <summary>
@@ -861,14 +1047,8 @@ namespace Simias.Storage
 			notificationList = null;
 			total = 0;
 
-			// Get the creation time of the member node for the notification log.
-			Node mNode = GetSingleNodeByType( NodeTypes.MemberType );
-			Property property = mNode.Properties.GetSingleProperty( PropertyTags.NodeCreationTime );
-
-			// Search for all nodes with a creation time greater than the creation time of the member node.  This
-			// will cause the notification nodes to be put in the list in chronological order.  There shouldn't be
-			// any other type of node stored in the notification log.
-			ICSList list = Search( property, SearchOp.Greater );
+			// Get the ordered list of notification nodes.
+			ICSList list = GetOrderedNotificationNodes();
 			NotificationSearchState searchState = new NotificationSearchState( ID, list.GetEnumerator() as ICSEnumerator, list.Count );
 			searchContext = searchState.ContextHandle;
 			total = list.Count;
@@ -917,6 +1097,7 @@ namespace Simias.Storage
 								--count;
 							}
 							catch{} // Ignore ... the notification probably references an object that no longer exists.
+							// TODO: may need to include these notifications so that the count returned is correct.
 						}
 
 						if ( tempList.Count > 0 )
@@ -1074,7 +1255,6 @@ namespace Simias.Storage
 		string sharedCollectionType;
 		DateTime timeStamp;
 		NotificationType type;
-		Store store = Store.GetStore();
 
 		#endregion
 
@@ -1090,6 +1270,7 @@ namespace Simias.Storage
 			timeStamp = (DateTime)node.Properties.GetSingleProperty( "nTimeStamp" ).Value;
 			collectionID = (string)node.Properties.GetSingleProperty( "nCollection" ).Value;
 
+			Store store = Store.GetStore();
 			Collection collection = store.GetCollectionByID( collectionID );
 			collectionName = collection.Name;
 
@@ -1208,6 +1389,34 @@ namespace Simias.Storage
 		public NotificationType Type
 		{
 			get { return type; }
+		}
+
+		#endregion
+
+		#region Public Methods
+
+		/// <summary>
+		/// Notification factory method that constructs a Notification object from a NodeEventArgs object.
+		/// </summary>
+		/// <param name="args">The NodeEventArgs object to construct the Notification object from.  The NodeEventArgs
+		/// object will be returned while listening to node events on the Notification Log.</param>
+		/// <returns>The Notification object for the event.</returns>
+		static public Notification NotificationFactory( NodeEventArgs args )
+		{
+			Notification notification = null;
+
+			Store store = Store.GetStore();
+			Collection collection = store.GetCollectionByID( args.Collection );
+			if ( collection != null )
+			{
+				Node node = collection.GetNodeByID( args.Node );
+				if ( node != null )
+				{
+					notification = new Notification( node );
+				}
+			}			
+
+			return notification;
 		}
 
 		#endregion
