@@ -61,8 +61,10 @@ namespace Simias.IdentitySync
 		private int disabled;
 		private int deleted;
 		private int reportedErrors;
-		private ArrayList reportedMessages;
+		private ArrayList syncMessages;
 		private int processed;
+		private DateTime endTime;
+		private DateTime startTime;
 		//private string lastMember;
 		public Domain domain;
 		#endregion
@@ -83,6 +85,19 @@ namespace Simias.IdentitySync
 			get { return reportedErrors; }
 		}
 		
+		public string[] Messages
+		{
+			get
+			{
+				if ( syncMessages.Count == 0 )
+				{
+					return null;
+				}
+				
+				return syncMessages.ToArray( typeof( string ) ) as string[];
+			}
+		}
+		
 		public int Deleted
 		{
 			get { return deleted; }
@@ -91,6 +106,17 @@ namespace Simias.IdentitySync
 		public int Disabled
 		{
 			get { return disabled; }
+		}
+		
+		public DateTime StartTime
+		{
+			get { return startTime; }
+		}
+		
+		public DateTime EndTime
+		{
+			get { return endTime; }
+			set { endTime = value; }
 		}
 		
 		public Property SyncGuid
@@ -112,14 +138,157 @@ namespace Simias.IdentitySync
 			syncGuid = new Property( "SyncGuid", Guid.NewGuid().ToString() );
 			syncGuid.LocalProperty = true;
 			
-			reportedMessages = new ArrayList();
+			syncMessages = new ArrayList();
 			reportedErrors = 0;
 			processed = 0;
+			
+			startTime = DateTime.Now;
 		}
 		
 		#endregion
 		
 		#region Public Methods
+		
+		/// <summary>
+		/// External sync providers must call this method after
+		/// retrieving member information from the external identity store.
+		/// An in-memory object should be filled out with valid UserID, Name,
+		/// Given, Last, FN and DN properties.
+		/// Name is the distinguishing property valided against the
+		/// domain.
+		///
+		/// Note: the sync provider should never commit the member
+		/// object to the domain.
+		/// </summary>
+		public void ProcessMember(
+			string Username,
+			string Given,
+			string Last,
+			string FN,
+			string DN)
+		{
+			//log.Debug( "  processed: " + member.Name + " status: " + Status.ToString() );
+			Simias.Storage.Member member = null;
+			MemberStatus status = MemberStatus.Unchanged;
+			
+			try
+			{	
+				member = domain.GetMemberByName( Username );
+			}
+			catch{}
+			if ( member != null )
+			{
+				//
+				// Not sure if I modify a property with the same
+				// value that already exists will force a node
+				// update and consequently a synchronization so I'll
+				// check just to be sure.
+				//
+
+				// First name change?
+				if ( Given != null && Given != "" && Given != member.Given )
+				{
+					member.Given = Given;
+					status = MemberStatus.Updated;
+				}
+				else if ( member.Given != null && member.Given != "" )
+				{
+					member.Given = Given;
+					status = MemberStatus.Updated;
+				}
+
+				// Last name change?
+				if ( Last != null && Last != "" && Last != member.Family )
+				{
+					member.Family = Last;
+					status = MemberStatus.Updated;
+				}
+				else if ( member.Family != null && member.Family != "" )
+				{
+					member.Family = Last;
+					status = MemberStatus.Updated;
+				}
+				
+				if ( FN != null && FN != "" && FN != member.FN )
+				{
+					member.FN = FN;
+					status = MemberStatus.Updated;
+				}
+				else if ( member.FN == "" )
+				{
+					member.FN = member.Given + " " + member.Family;
+					status = MemberStatus.Updated;
+				}
+				
+				string dn = member.Properties.GetSingleProperty( "DN" ).Value as string;
+				Property dnProp = new Property( "DN", DN );
+				if ( DN != null && DN != "" && DN != dn )
+				{
+					member.Properties.ModifyProperty( dnProp );
+					status = MemberStatus.Updated;
+				}
+				else if ( dn == null )
+				{
+					member.Properties.ModifyProperty( dnProp );
+					status = MemberStatus.Updated;
+				}
+			}
+			else
+			{
+				// The member didn't exist so let's create it
+				try
+				{
+					// Create a new member and then contact
+					member = new
+						Member(
+							Username,
+							Guid.NewGuid().ToString(), 
+							Simias.Storage.Access.Rights.ReadOnly,
+							Given,
+							Last );
+
+					/*
+					// Get the password
+					XmlAttribute pwdAttr = 
+						domainElement.ChildNodes[i].Attributes[ "Password" ];
+					if ( pwdAttr != null )
+					{
+						Property pwd = new Property( "SS:PWD", pwdAttr.Value );
+						pwd.LocalProperty = true;
+						member.Properties.ModifyProperty( pwd );
+					}
+					*/
+
+					member.FN = FN;
+					
+					Property dn = new Property( "DN", DN );
+					dn.LocalProperty = true;
+					member.Properties.ModifyProperty( dn );
+					status = MemberStatus.Created;
+				}
+				catch( Exception ex )
+				{
+					this.ReportError( "Failed creating member: " + Username + ex.Message );
+					return;
+				}
+			}	
+			
+			member.Properties.ModifyProperty( syncGuid );
+			domain.Commit( member );
+			
+			// Temporary adding messages
+			string message = 			
+				String.Format(
+					"{0}:{1} - Member: {2} Status: {3}",
+					"INFO",
+					DateTime.Now.ToString(),
+					member.Name,
+					status.ToString() );
+					
+			syncMessages.Add( message );		
+			processed++;		
+		}
+		
 		/// <summary>
 		/// External sync providers must call this method after
 		/// retrieving member information from the external identity store.
@@ -137,13 +306,28 @@ namespace Simias.IdentitySync
 			member.Properties.ModifyProperty( syncGuid );
 			domain.Commit( member );
 			
+			// Temporary adding messages
+			string message = 			
+				String.Format(
+					"{0}:{1} - Member: {2} Status: {3}",
+					"INFO",
+					DateTime.Now.ToString(),
+					member.Name,
+					Status.ToString() );
+					
+			syncMessages.Add( message );		
 			processed++;		
 		}
 		
 		public void ReportError( string ErrorMsg )
 		{
 			reportedErrors++;
-			reportedMessages.Add( ErrorMsg );
+			syncMessages.Add( 
+				String.Format(
+					"{0}:{1} - {2}",
+					"ERROR",
+					DateTime.Now.ToString(),
+					ErrorMsg ) );
 		}
 
 		/*		
@@ -175,16 +359,23 @@ namespace Simias.IdentitySync
 		/// <summary>
 		/// List that holds the registered providers.
 		/// </summary>
-		static private Hashtable registeredProviders = new Hashtable();
+		static internal Hashtable registeredProviders = new Hashtable();
 		
 		static private IIdentitySyncProvider current = null;
 		static AutoResetEvent syncEvent = null;
 		static bool running = false;
 		static bool quit;
-		static bool syncOnStart = true;
-		static int syncInterval = 30 * 1000;
-		static int daysDisabled = 5;
+		static internal bool syncOnStart = true;
+		static internal int syncInterval = 30;
+		static internal int deleteGracePeriod = 60 * 60 * 24 * 5;  // 5 days
+		static internal bool syncDisabled = false;
 		static Thread syncThread = null;
+		static private int waitForever = 0x1FFFFFFF; 
+		static internal string status;
+		static internal DateTime upSince;
+		static internal int cycles = 0;
+		
+		static internal IdentitySync.State lastState = null;
 		
 		static string disabledAtProperty = "IdentitySync:DisabledAt";
 		
@@ -406,7 +597,7 @@ namespace Simias.IdentitySync
 								// OK, this guy has been disabled past
 								// the policy time so delete him from the
 								// domain roster
-								if ( dt.AddDays( Service.daysDisabled ) < DateTime.Now )
+								if ( dt.AddSeconds( Service.deleteGracePeriod ) < DateTime.Now )
 								{
 									DeletePOBox( State, cMember );
 									OrphanCollections( State, cMember );
@@ -550,25 +741,39 @@ namespace Simias.IdentitySync
 			log.Debug( "SyncThread - starting" );
 			log.Debug( "  waiting for providers to load" );
 			
+			Simias.IdentitySync.Service.upSince = DateTime.Now;
+			Simias.IdentitySync.Service.cycles = 0;
+			
 			syncEvent.WaitOne( 1000 * 10, false );
 			while ( quit == false )
 			{
 				running = true;
+				
+				if ( syncDisabled == true )
+				{
+					Simias.IdentitySync.Service.status = "waiting";
+					syncEvent.WaitOne( waitForever, false );
+				}
+				else
 				if ( syncOnStart == false )
 				{
-					syncEvent.WaitOne( syncInterval, false );
-					if ( quit == true )
-					{
-						continue;
-					}
+					Simias.IdentitySync.Service.status = "waiting";
+					syncEvent.WaitOne( syncInterval * 1000, false );
+				}
+				
+				if ( quit == true )
+				{
+					continue;
 				}
 				
 				log.Debug( "Start - syncing identities" );
 				Simias.IdentitySync.State state = null; 
+				Simias.IdentitySync.Service.status = "running";
+				
 				try
 				{
 					// Create a state object which is passed to the providers
-					//Simias.Storage.Domain enterprise = new Simias.Server.Domain( false );
+					// For now we only know how to sync the default domain
 					state = new Simias.IdentitySync.State( Store.GetStore().DefaultDomain );
 
  					// Cycle thru the providers.
@@ -589,17 +794,23 @@ namespace Simias.IdentitySync
 					log.Error( ex.Message );
 					log.Error( ex.StackTrace );
 				}
+				finally
+				{
+					state.EndTime = DateTime.Now;
+					Simias.IdentitySync.Service.lastState = state;
+					Simias.IdentitySync.Service.cycles++;
+				}
 				
 				// Always wait after the first iteration
 				syncOnStart = false;
 				log.Debug( "Stop - syncing identities" );
 			}
 			
+			Simias.IdentitySync.Service.status = "shutdown";
 			syncEvent.Close();
 			syncThread = null;
 			running = false;
 		}
-		
 		#endregion
 	}
 }

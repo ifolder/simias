@@ -252,12 +252,27 @@ namespace Simias.SimpleServer
 							else
 							{
 								status.statusCode = SCodes.InvalidCredentials;
+								log.Info( "Invalid credentials : " + member.Name );
 							}
+						}
+						else if ( password == null || password == "" )
+						{
+							status.statusCode = SCodes.Success;
+							status.UserID = member.UserID;
+							status.UserName = member.Name;
+								
+							log.Info( 
+								"Authenticated User: " + member.UserID + ":" + member.Name );
+						}
+						else
+						{
+							status.statusCode = SCodes.InvalidCredentials;
+							log.Info( "Invalid credentials : " + member.Name );
 						}
 					}
 					else
 					{
-						log.Debug( "Unknown user: " + user + " attempted to authenticate" );
+						log.Info( "Unknown user: " + user + " attempted to authenticate" );
 						status.statusCode = SCodes.UnknownUser;
 					}
 				}
