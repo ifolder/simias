@@ -20,7 +20,7 @@
 #  Author: Calvin Gaisford <cgaisford@novell.com>
 #
 #######################################################################
-EXTRA_DIST = $(srcdir)/Makefile.am $(srcdir)/Description.plist $(srcdir)/Info.plist $(srcdir)/Install_Resources
+EXTRA_DIST = $(srcdir)/mkpkg $(srcdir)/Makefile.am $(srcdir)/Description.plist $(srcdir)/Info.plist $(srcdir)/Install_Resources
 
 PACKAGE_DIR = `pwd`
 TMPDIR = $(PACKAGE_DIR)/temp
