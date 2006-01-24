@@ -32,7 +32,7 @@ using Simias.Sync;
 using Simias.POBox;
 
 #if MONO
-	using Mono.Unix;
+	using Mono.Posix;
 #endif
 
 namespace Simias.Web
@@ -631,8 +631,8 @@ namespace Simias.Web
 			// path used as a collection
 			try
 			{
-				if(Mono.Unix.Syscall.access(ifPath,
-							Mono.Unix.AccessMode.R_OK) != 0)
+				if(Mono.Unix.Native.Syscall.access(ifPath,
+							Mono.Unix.Native.AccessModes.R_OK) != 0)
 				{
 					return CollectionPathStatus.NoReadRightsPath;
 				}
@@ -646,8 +646,8 @@ namespace Simias.Web
 			// path used as a collection
 			try
 			{
-				if(Mono.Unix.Syscall.access(ifPath, 
-							Mono.Unix.AccessMode.W_OK) != 0)
+				if(Mono.Unix.Native.Syscall.access(ifPath, 
+							Mono.Unix.Native.AccessModes.W_OK) != 0)
 				{
 					return CollectionPathStatus.NoWriteRightsPath;
 				}
@@ -675,19 +675,19 @@ namespace Simias.Web
 						string mntLine = sr.ReadLine();
 	
 						// Get the stat structure on the path
-						Mono.Unix.Stat pathStat;
-						Mono.Unix.Syscall.stat(ifPath, out pathStat);
+						Mono.Unix.Native.Stat pathStat;
+						Mono.Unix.Native.Syscall.stat(ifPath, out pathStat);
 	
 						while(mntLine != null)
 						{
 							// verify it's a device on this box
 							if(mntLine.StartsWith("/dev"))
 							{
-								Mono.Unix.Stat stat;
+								Mono.Unix.Native.Stat stat;
 								string[] entries;
 		
 								entries = mntLine.Split(' ');
-								Mono.Unix.Syscall.stat(entries[1], out stat);
+								Mono.Unix.Native.Syscall.stat(entries[1], out stat);
 		
 								if(stat.st_dev == pathStat.st_dev)
 								{

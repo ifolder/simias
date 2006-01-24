@@ -384,12 +384,12 @@ namespace Simias.Sync
 					if (node.Properties.GetSingleProperty(SyncFile.ModeProperty) != null)
 					{
 						// Get the posix mode flags for the file.
-						Mono.Unix.Stat sStat;
-						if (Mono.Unix.Syscall.stat(createName, out sStat) == 0)
+						Mono.Unix.Native.Stat sStat;
+						if (Mono.Unix.Native.Syscall.stat(createName, out sStat) == 0)
 						{
 							// Now or in the execute bit and set it on the file.
-							Mono.Unix.FilePermissions fp = sStat.st_mode | Mono.Unix.FilePermissions.S_IXUSR;
-							Mono.Unix.Syscall.chmod(createName, fp);
+							Mono.Unix.Native.FilePermissions fp = sStat.st_mode | Mono.Unix.Native.FilePermissions.S_IXUSR;
+							Mono.Unix.Native.Syscall.chmod(createName, fp);
 						}
 					}
 				}

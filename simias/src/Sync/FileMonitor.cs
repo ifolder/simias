@@ -233,10 +233,10 @@ namespace Simias.Sync
 			if (MyEnvironment.Unix)
 			{
 				// Get the posix access flags for owner.
-				Mono.Unix.Stat sStat;
-				if (Mono.Unix.Syscall.stat(path, out sStat) == 0)
+				Mono.Unix.Native.Stat sStat;
+				if (Mono.Unix.Native.Syscall.stat(path, out sStat) == 0)
 				{
-					if ((sStat.st_mode & Mono.Unix.FilePermissions.S_IXUSR) != 0)
+					if ((sStat.st_mode & Mono.Unix.Native.FilePermissions.S_IXUSR) != 0)
 					{
 						return true;
 					}
@@ -595,14 +595,14 @@ namespace Simias.Sync
 		bool IsRecursiveLink(string path)
 		{
 #if MONO
-			Mono.Unix.Stat stat;
-			if (Mono.Unix.Syscall.lstat(path, out stat) == 0)
+			Mono.Unix.Native.Stat stat;
+			if (Mono.Unix.Native.Syscall.lstat(path, out stat) == 0)
 			{
-				if ((stat.st_mode & Mono.Unix.FilePermissions.S_IFLNK) != 0)
+				if ((stat.st_mode & Mono.Unix.Native.FilePermissions.S_IFLNK) != 0)
 				{
 					// If the path begins with the link path this is a recursive link.
 					StringBuilder stringBuff = new StringBuilder();
-					if (Mono.Unix.Syscall.readlink(path, stringBuff) == 0)
+					if (Mono.Unix.Native.Syscall.readlink(path, stringBuff) == 0)
 					{
 						string linkPath = stringBuff.ToString();
 						if (!Path.IsPathRooted(linkPath))
