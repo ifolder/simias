@@ -20,7 +20,7 @@
 #  Author: Calvin Gaisford <cgaisford@novell.com>
 #
 #######################################################################
-EXTRA_DIST = $(srcdir)/Makefile.am $(srcdir)/Description.plist $(srcdir)/Info.plist $(srcdir)/Install_Resources
+EXTRA_DIST = $(srcdir)/mkpkg $(srcdir)/Makefile.am $(srcdir)/Description.plist $(srcdir)/Info.plist $(srcdir)/Install_Resources
 
 PACKAGE_DIR = `pwd`
 TMPDIR = $(PACKAGE_DIR)/temp
@@ -39,7 +39,7 @@ simias-dist:
 	cd $(TMPDIR)/$(PACKAGE)-$(VERSION);make DESTDIR=$(TMPDIR)/Simias.dst install
 
 simias-pkg:
-	/Developer/Applications/Utilities/PackageMaker.app/Contents/MacOS/PackageMaker -build -p $(PACKAGE_DIR)/Simias.pkg -f $(TMPDIR)/$(PACKAGE)-$(VERSION)/temp/Simias.dst/opt/novell/ifolder3 -r $(PACKAGE_DIR)/Install_Resources -i $(PACKAGE_DIR)/Info.plist -d $(PACKAGE_DIR)/Description.plist
+	./mkpkg -build -p $(PACKAGE_DIR)/Simias.pkg -f $(TMPDIR)/$(PACKAGE)-$(VERSION)/temp/Simias.dst/opt/novell/ifolder3 -r $(PACKAGE_DIR)/Install_Resources -i $(PACKAGE_DIR)/Info.plist -d $(PACKAGE_DIR)/Description.plist
 
 clean-local:
 	rm -rf *.pkg
