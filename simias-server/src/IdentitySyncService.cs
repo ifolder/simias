@@ -53,11 +53,11 @@ namespace Simias.IdentitySync
 		/// <summary>
 		/// Used to log messages.
 		/// </summary>
-		private static readonly ISimiasLog log = 
+		private static readonly ISimiasLog log =
 			SimiasLogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
 		internal Property syncGuid;
-		private Store store;	
+		private Store store;
 		private int disabled;
 		private int deleted;
 		private int reportedErrors;
@@ -172,7 +172,7 @@ namespace Simias.IdentitySync
 			MemberStatus status = MemberStatus.Unchanged;
 			
 			try
-			{	
+			{
 				member = domain.GetMemberByName( Username );
 			}
 			catch{}
@@ -242,14 +242,14 @@ namespace Simias.IdentitySync
 					member = new
 						Member(
 							Username,
-							Guid.NewGuid().ToString(), 
+							Guid.NewGuid().ToString(),
 							Simias.Storage.Access.Rights.ReadOnly,
 							Given,
 							Last );
 
 					/*
 					// Get the password
-					XmlAttribute pwdAttr = 
+					XmlAttribute pwdAttr =
 						domainElement.ChildNodes[i].Attributes[ "Password" ];
 					if ( pwdAttr != null )
 					{
@@ -271,13 +271,13 @@ namespace Simias.IdentitySync
 					this.ReportError( "Failed creating member: " + Username + ex.Message );
 					return;
 				}
-			}	
+			}
 			
 			member.Properties.ModifyProperty( syncGuid );
 			domain.Commit( member );
 			
 			// Temporary adding messages
-			string message = 			
+			string message =
 				String.Format(
 					"{0}:{1} - Member: {2} Status: {3}",
 					"INFO",
@@ -285,8 +285,8 @@ namespace Simias.IdentitySync
 					member.Name,
 					status.ToString() );
 					
-			syncMessages.Add( message );		
-			processed++;		
+			syncMessages.Add( message );
+			processed++;
 		}
 		
 		/// <summary>
@@ -307,7 +307,7 @@ namespace Simias.IdentitySync
 			domain.Commit( member );
 			
 			// Temporary adding messages
-			string message = 			
+			string message =
 				String.Format(
 					"{0}:{1} - Member: {2} Status: {3}",
 					"INFO",
@@ -315,14 +315,14 @@ namespace Simias.IdentitySync
 					member.Name,
 					Status.ToString() );
 					
-			syncMessages.Add( message );		
-			processed++;		
+			syncMessages.Add( message );
+			processed++;
 		}
 		
 		public void ReportError( string ErrorMsg )
 		{
 			reportedErrors++;
-			syncMessages.Add( 
+			syncMessages.Add(
 				String.Format(
 					"{0}:{1} - {2}",
 					"ERROR",
@@ -330,7 +330,7 @@ namespace Simias.IdentitySync
 					ErrorMsg ) );
 		}
 
-		/*		
+		/*
 		public void UpdateMember( Member member )
 		{
 			return;
@@ -348,7 +348,7 @@ namespace Simias.IdentitySync
 		/// <summary>
 		/// Used to log messages.
 		/// </summary>
-		private static readonly ISimiasLog log = 
+		private static readonly ISimiasLog log =
 			SimiasLogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
 		/// <summary>
@@ -370,15 +370,13 @@ namespace Simias.IdentitySync
 		static internal int deleteGracePeriod = 60 * 60 * 24 * 5;  // 5 days
 		static internal bool syncDisabled = false;
 		static Thread syncThread = null;
-		static private int waitForever = 0x1FFFFFFF; 
+		static private int waitForever = 0x1FFFFFFF;
 		static internal string status;
 		static internal DateTime upSince;
 		static internal int cycles = 0;
 		
 		static internal IdentitySync.State lastState = null;
-		
 		static string disabledAtProperty = "IdentitySync:DisabledAt";
-		
 		#endregion
 
 		#region Properties
@@ -397,7 +395,8 @@ namespace Simias.IdentitySync
 		{
 			get
 			{
-				IIdentitySyncProvider[] providers = new IIdentitySyncProvider[ registeredProviders.Count ];
+				IIdentitySyncProvider[] providers =
+					new IIdentitySyncProvider[ registeredProviders.Count ];
 				lock ( typeof( IdentitySync.Service ) )
 				{
 					registeredProviders.CopyTo( providers, 0 );
@@ -420,7 +419,7 @@ namespace Simias.IdentitySync
 				foreach( ShallowNode sn in cList )
 				{
 					Collection c = new Collection( store, sn );
-					if ( ( c.Domain == State.SDomain.ID ) && 
+					if ( ( c.Domain == State.SDomain.ID ) &&
 						( (Node) c).IsBaseType( NodeTypes.POBoxType ) )
 					{
 						c.Commit( c.Delete() );
@@ -429,7 +428,7 @@ namespace Simias.IdentitySync
 						string userName = ( dn.Value != null ) ? dn.Value as string : Zombie.Name;
 						log.Info(
 							String.Format(
-								"Removed {0}'s POBox from Domain: {1}", 
+								"Removed {0}'s POBox from Domain: {1}",
 								userName,
 								State.SDomain.Name ) );
 								
@@ -470,7 +469,7 @@ namespace Simias.IdentitySync
 
 				// Only look for collections from the specified domain and
 				// don't allow this user's membership removed from the domain.
-				if ( ( c.Domain == State.SDomain.ID ) && 
+				if ( ( c.Domain == State.SDomain.ID ) &&
 					!( (Node) c).IsBaseType( NodeTypes.DomainType ) &&
 					!( (Node) c).IsBaseType( NodeTypes.POBoxType ) )
 				{
@@ -478,27 +477,27 @@ namespace Simias.IdentitySync
 					if (member != null && member.IsOwner == true )
 					{
 						// Don't remove an orphaned collection.
-						if ( ( member.UserID != State.SDomain.Owner.UserID ) ) 
+						if ( ( member.UserID != State.SDomain.Owner.UserID ) )
 						{
 							//
 							// The desired IT behavior is to orphan all collections
 							// where the zombie user is the owner of the collection.
 							// Policy could dictate and force the collection deleted at
-							// a later time but the job of the sync code is to 
+							// a later time but the job of the sync code is to
 							// orphan the collection and assign the Simias admin as
 							// the new owner.
 							//
 
 							// Simias Admin must be a member first before ownership
 							// can be transfered
-							Member adminMember = 
+							Member adminMember =
 								c.GetMemberByID( State.SDomain.Owner.UserID );
 							if ( adminMember == null )
 							{
-								adminMember = 
-									new Member( 
-											State.SDomain.Owner.Name, 
-											State.SDomain.Owner.UserID, 
+								adminMember =
+									new Member(
+											State.SDomain.Owner.Name,
+											State.SDomain.Owner.UserID,
 											Simias.Storage.Access.Rights.Admin );
 									c.Commit( adminMember );
 							}
@@ -515,7 +514,7 @@ namespace Simias.IdentitySync
 								
 							log.Info(
 								String.Format(
-									"Orphaned Collection: {0} - previous owner: {1}", 
+									"Orphaned Collection: {0} - previous owner: {1}",
 									c.Name,
 									dn ));
 						}
@@ -545,7 +544,7 @@ namespace Simias.IdentitySync
 
 				// Only look for collections from the specified domain and
 				// don't allow this user's membership removed from the domain itself.
-				if ( ( c.Domain == State.SDomain.ID ) && 
+				if ( ( c.Domain == State.SDomain.ID ) &&
 					!( (Node) c).IsBaseType( NodeTypes.DomainType ) )
 				{
 					Member member = c.GetMemberByID( Zombie.UserID );
@@ -554,10 +553,10 @@ namespace Simias.IdentitySync
 						// Not the owner, just remove the membership.
 						c.Commit( c.Delete( member ) );
 						Property dn = Zombie.Properties.GetSingleProperty( "DN" );
-						string userName = ( dn.Value != null ) ? dn.Value as string : Zombie.Name; 
+						string userName = ( dn.Value != null ) ? dn.Value as string : Zombie.Name;
 						log.Info(
 							String.Format(
-								"Removed {0}'s membership from Collection: {1}", 
+								"Removed {0}'s membership from Collection: {1}",
 								userName,
 								c.Name ) );
 					}
@@ -574,16 +573,16 @@ namespace Simias.IdentitySync
 			{
 				Property syncGUID = State.SyncGuid;
 				
-				ICSList	deleteList = 
+				ICSList	deleteList =
 					State.SDomain.Search( "SyncGuid", syncGUID.Value, SearchOp.Not_Equal );
 				foreach( ShallowNode cShallow in deleteList )
 				{
 					Node cNode = new Node( State.SDomain, cShallow );
 					if ( cNode.IsType( "Member" ) == true )
-					{	
+					{
 						Member cMember = new Member( cNode );
-						string distinguishedName = 
-							cMember.Properties.GetSingleProperty( "DN" ).Value.ToString();
+						string dn =
+							cMember.Properties.GetSingleProperty( "DN" ).Value as string;
 
 						// See if this account has been previously disabled
 						if ( State.SDomain.IsLoginDisabled( cMember.UserID ) == true )
@@ -603,7 +602,7 @@ namespace Simias.IdentitySync
 									OrphanCollections( State, cMember );
 									RemoveMemberships( State, cMember );
 
-									// gather info before commit
+									// gather log info before commit
 									string fn = cMember.Name;
 									string id = cMember.ID;
 
@@ -611,11 +610,11 @@ namespace Simias.IdentitySync
 
 									log.Info(
 										String.Format(
-										"Removed DN: {0} FN: {1} ID: {2} from Domain: {3}", 
-										distinguishedName,
-										fn,
-										id,
-										State.SDomain.Name ) );
+											"Removed DN: {0} FN: {1} ID: {2} from Domain: {3}",
+											dn,
+											fn,
+											id,
+											State.SDomain.Name ) );
 								}
 								
 								continue;
@@ -633,7 +632,7 @@ namespace Simias.IdentitySync
 				}
 			}
 			catch( Exception e1 )
-			{	
+			{
 				log.Debug( "Exception checking/deleting members" );
 				log.Debug( e1.Message );
 				log.Debug( e1.StackTrace );
@@ -767,7 +766,7 @@ namespace Simias.IdentitySync
 				}
 				
 				log.Debug( "Start - syncing identities" );
-				Simias.IdentitySync.State state = null; 
+				Simias.IdentitySync.State state = null;
 				Simias.IdentitySync.Service.status = "running";
 				
 				try
@@ -786,7 +785,7 @@ namespace Simias.IdentitySync
 					
 					if ( state.Errors == 0 )
 					{
-						ProcessDeletedMembers( state );											
+						ProcessDeletedMembers( state );
 					}
 				}
 				catch( Exception ex )

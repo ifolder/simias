@@ -146,7 +146,7 @@ namespace Simias.IdentitySync
 		/// <summary>
 		/// Used to log messages.
 		/// </summary>
-		private static readonly ISimiasLog log = 
+		private static readonly ISimiasLog log =
 			SimiasLogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 	
 		/// <summary>
@@ -179,7 +179,7 @@ namespace Simias.IdentitySync
 		/// synchronization cycle ignoring the configured
 		/// sync interval time.
 		/// </summary>
-		/// 
+		///
 		[WebMethod( EnableSession = true )]
 		[SoapDocumentMethod]
 		public void DisableSyncService( bool Disable )
@@ -191,7 +191,7 @@ namespace Simias.IdentitySync
 		/// Tells the sync service to immediately start
 		/// a synchronization cycle.
 		/// </summary>
-		/// 
+		///
 		[WebMethod( EnableSession = true )]
 		[SoapDocumentMethod]
 		public void SyncNow()
@@ -208,14 +208,14 @@ namespace Simias.IdentitySync
 		/// Authentication Failure
 		/// etc..
 		/// </summary>
-		/// 
+		///
 		[WebMethod( EnableSession = true )]
 		[SoapDocumentMethod]
 		public ServiceInfo GetSyncServiceInfo()
 		{
 			ServiceInfo info = new ServiceInfo();
 			
-			info.UpSince = 			
+			info.UpSince =
 				String.Format(
 					"{0}, {1} {2} {3} {4}:{5}:{6} GMT",
 					Service.upSince.DayOfWeek.ToString(),
@@ -244,7 +244,7 @@ namespace Simias.IdentitySync
 		}
 		
 		/// <summary>
-		/// Get detailed information about the last synchronization 
+		/// Get detailed information about the last synchronization
 		/// cycle.
 		/// </summary>
 		[WebMethod( EnableSession = true )]
@@ -264,7 +264,7 @@ namespace Simias.IdentitySync
 			info.MembersProcessed = state.Processed;
 			log.Debug( "  members processed: "  + info.MembersProcessed.ToString() );
 
-			info.StartTime = 			
+			info.StartTime =
 				String.Format(
 					"{0}, {1} {2} {3} {4}:{5}:{6} GMT",
 					state.StartTime.DayOfWeek.ToString(),
@@ -276,7 +276,7 @@ namespace Simias.IdentitySync
 					state.StartTime.Second );
 			log.Debug( "  sync start time: " + info.StartTime );
 			
-			info.EndTime = 			
+			info.EndTime =
 				String.Format(
 					"{0}, {1} {2} {3} {4}:{5}:{6} GMT",
 					state.EndTime.DayOfWeek.ToString(),
@@ -292,7 +292,7 @@ namespace Simias.IdentitySync
 			info.MembersDeleted = state.Deleted;
 			info.MembersDisabled = state.Disabled;
 
-			log.Debug( "  start processing messages" );	
+			log.Debug( "  start processing messages" );
 			
 			if ( state.Messages != null )
 			{
@@ -300,12 +300,12 @@ namespace Simias.IdentitySync
 				info.Messages = new string[ messages.Length ];
 				for( int i = 0; i < messages.Length; i++ )
 				{
-					info.Messages[i] = messages[i]; 
+					info.Messages[i] = messages[i];
 				}
 				messages = null;
 			}
 
-			state = null;			
+			state = null;
 			return info;
 		}
 	
@@ -333,5 +333,4 @@ namespace Simias.IdentitySync
 			Service.syncInterval = Seconds;
 		}
 	}
-	
 }
