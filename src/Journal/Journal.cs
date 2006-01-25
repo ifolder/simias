@@ -46,8 +46,7 @@ namespace Simias.Storage
 		Collection collection;
 		StoreFileNode journalNode;
 		string tempFile = string.Empty;
-		bool commitCollection = false;
-//		FileStream stream;
+		bool collectionModified = false;
 
 		#endregion
 
@@ -92,9 +91,6 @@ namespace Simias.Storage
 			{
 				// Build a name for a temporary file.
 				tempFile = Path.Combine( collection.ManagedPath, collection.ID );
-
-				// Open the stream to the temporary file.
-//				stream = File.Open( filename, FileMode.Open, FileAccess.ReadWrite );
 			}
 		}
 
@@ -231,9 +227,10 @@ namespace Simias.Storage
 		{
 			if ( collection.Role.Equals(SyncRoles.Master) )
 			{
-				if ( commitCollection )
+				if ( collectionModified )
 				{
 					collection.Commit( new Node[] { collection, journalNode } );
+					collectionModified = false;
 				}
 				else
 				{
@@ -468,7 +465,6 @@ namespace Simias.Storage
 		{
 			if ( collection.Role.Equals(SyncRoles.Master) )
 			{
-				// TODO: check for renames.
 				// Update the history in the journal.
 				string filename;
 				bool newJournal = false;
@@ -537,12 +533,14 @@ namespace Simias.Storage
 					journalNode.Length = fi.Length;
 				}
 
-				// Put a relationship to the journal on the collection if it doesn't already exist.
-				//				if ( collection.Properties.GetSingleProperty( PropertyTags.Journal ) == null )
-				//				{
-				//					collection.Properties.AddNodeProperty( PropertyTags.Journal, new Relationship( collection.ID, journalNode.ID ) );
-				//					commitCollection = true;
-				//				}
+				// After the initial sync of the collection, put a relationship to the journal on the collection 
+				// if it doesn't already exist.
+				if ( (ulong)collection.Properties.GetSingleProperty( PropertyTags.LocalIncarnation ).Value != 0 &&
+					collection.Properties.GetSingleProperty( PropertyTags.Journal ) == null )
+				{
+					collection.Properties.AddNodeProperty( PropertyTags.Journal, new Relationship( collection.ID, journalNode.ID ) );
+					collectionModified = true;
+				}
 			}
 		}
 
