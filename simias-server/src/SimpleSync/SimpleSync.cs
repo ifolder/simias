@@ -91,6 +91,7 @@ namespace Simias.SimpleServer
 			string member;
 			string firstName;
 			string lastName;
+			string fullName;
 			string identityDocumentPath = "../../etc/SimpleServer.xml";
 
 			abort = false;
@@ -99,11 +100,9 @@ namespace Simias.SimpleServer
 				// Load the SimpleServer domain and memberlist XML file.
 				XmlDocument serverDoc = new XmlDocument();
 				serverDoc.Load( identityDocumentPath );
-
 				XmlElement domainElement = serverDoc.DocumentElement;
-
 				XmlAttribute attr;
-				//XmlNode ownerNode = null;
+				
 				for ( int i = 0; i < domainElement.ChildNodes.Count; i++ )
 				{
 					if ( abort == true )
@@ -114,6 +113,7 @@ namespace Simias.SimpleServer
 					
 					firstName = null;
 					lastName = null;
+					fullName = null;
 
 					attr = domainElement.ChildNodes[i].Attributes[ "Name" ];
 					if (attr != null)
@@ -134,6 +134,11 @@ namespace Simias.SimpleServer
 							{
 								lastName = memberNode.ChildNodes[x].InnerText;
 							}
+							else
+							if ( memberNode.ChildNodes[x].Name == "Full" )
+							{
+								fullName = memberNode.ChildNodes[x].InnerText;
+							}
 						}
 
 						Property pwdProperty = null;
@@ -145,176 +150,19 @@ namespace Simias.SimpleServer
 							pwdProperty.LocalProperty = true;
 						}
 						
-						// Test Property
-						Property testProperty =  new Property( "SS:TEST", 1 );
-						testProperty.LocalProperty = true;
+						if ( fullName == null )
+						{
+							fullName = firstName + " " + lastName;
+						}
 						
-						Property[] propertyList = { pwdProperty, testProperty };
+						Property[] propertyList = { pwdProperty };
 						State.ProcessMember(
 							member,
 							firstName,
 							lastName,
-							firstName + " " + lastName,
+							fullName,
 							member,
 							propertyList );
-						
-						/*
-						memberNode = null;
-
-						
-
-						//
-						// Check if this member already exists
-						//
-
-						Simias.Storage.Member dMember = null;
-						try
-						{	
-							dMember = State.SDomain.GetMemberByName( member );
-						}
-						catch{}
-
-						if ( dMember != null )
-						{
-							bool changed = false;
-							
-							// Check if the password has changed
-							XmlAttribute pwdAttr = 
-								domainElement.ChildNodes[i].Attributes[ "Password" ];
-							if ( pwdAttr != null )
-							{
-								Property password = dMember.Properties.GetSingleProperty( "SS:PWD" );
-								if ( password != null )
-								{
-									if ( password.Value as string != pwdAttr.Value as string )
-									{
-										password.Value = pwdAttr.Value;
-										password.LocalProperty = true;
-										dMember.Properties.ModifyProperty( password );
-										changed = true;
-									}
-								}
-								else
-								{
-									password = new Property( "SS:PWD", pwdAttr.Value as string );
-									password.LocalProperty = true;
-									dMember.Properties.ModifyProperty( password );
-									changed = true;
-								}
-							}
-							else
-							{
-								dMember.Properties.DeleteProperties( "SS:PWD" );
-								changed = true;
-							}
-
-							//
-							// Not sure if I modify a property with the same
-							// value that already exists will force a node
-							// update and consequently a synchronization so I'll
-							// check just to be sure.
-							//
-
-							// First name change?
-							if ( firstName != null )
-							{
-								if ( dMember.Given != firstName )
-								{
-									dMember.Given = firstName;
-									changed = true;
-								}
-							}
-							else
-							{
-								if ( dMember.Given != null && dMember.Given != "" )
-								{
-									dMember.Given = firstName;
-									changed = true;
-								}
-							}
-
-							// Last name change?
-							if ( lastName != null )
-							{
-								if ( dMember.Family != lastName )
-								{
-									dMember.Family = lastName;
-									changed = true;
-								}
-							}
-							else
-							{
-								if ( dMember.Family != null && dMember.Family != "" )
-								{
-									dMember.Family = lastName;
-									changed = true;
-								}
-							}
-
-							if ( dMember.FN != dMember.Given + " " + dMember.Family )
-							{
-								dMember.FN = dMember.Given + " " + dMember.Family;
-								changed = true;
-							}
-							
-							// Must always have a DN - SimpleServer DN=CN
-							Property dn = dMember.Properties.GetSingleProperty( "DN" );
-							if ( dn == null || dn.Value as string != dMember.Name )
-							{
-								dn = new Property( "DN", dMember.Name );
-								dMember.Properties.ModifyProperty( dn );
-								changed = true;
-							}
-
-							// Call the sync service to finalize the processing
-							// of this member.
-							State.ProcessedMember( 
-								dMember,
-								( changed == true )
-									? IdentitySync.MemberStatus.Updated
-									: IdentitySync.MemberStatus.Unchanged );
-						}
-						else
-						{
-							//
-							// The member didn't exist so let's create it
-							//
-
-							try
-							{
-								// Create a new member and then contact
-								dMember = new
-									Member(
-										member,
-										Guid.NewGuid().ToString(), 
-										Simias.Storage.Access.Rights.ReadOnly,
-										firstName,
-										lastName);
-
-								// Get the password
-								XmlAttribute pwdAttr = 
-									domainElement.ChildNodes[i].Attributes[ "Password" ];
-								if ( pwdAttr != null )
-								{
-									Property pwd = new Property( "SS:PWD", pwdAttr.Value );
-									pwd.LocalProperty = true;
-									dMember.Properties.ModifyProperty( pwd );
-								}
-
-								// For simple server/sync CN=DN
-								Property dn = new Property( "DN", member );
-								dn.LocalProperty = true;
-								dMember.Properties.ModifyProperty( dn );
-
-								State.ProcessedMember( dMember, IdentitySync.MemberStatus.Created );
-							}
-							catch( Exception ex )
-							{
-								State.ReportError( ex.Message );
-								continue;
-							}
-						}
-						*/
 					}
 				}
 			}

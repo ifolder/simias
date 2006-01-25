@@ -270,17 +270,11 @@ namespace Simias.IdentitySync
 		#endregion
 		
 		#region Public Methods
-		
 		/// <summary>
 		/// External sync providers must call this method after
 		/// retrieving member information from the external identity store.
-		/// An in-memory object should be filled out with valid UserID, Name,
-		/// Given, Last, FN and DN properties.
-		/// Name is the distinguishing property valided against the
+		/// Username is the distinguishing property valided against the
 		/// domain.
-		///
-		/// Note: the sync provider should never commit the member
-		/// object to the domain.
 		/// </summary>
 		public void ProcessMember(
 			string Username,
@@ -370,10 +364,10 @@ namespace Simias.IdentitySync
 			}
 			else
 			{
-				// The member didn't exist so let's create it
+				// Couldn't find the member in the domain
+				// so create it.
 				try
 				{
-					// Create a new member and then contact
 					member = new
 						Member(
 							Username,
@@ -381,18 +375,6 @@ namespace Simias.IdentitySync
 							Simias.Storage.Access.Rights.ReadOnly,
 							Given,
 							Last );
-
-					/*
-					// Get the password
-					XmlAttribute pwdAttr =
-						domainElement.ChildNodes[i].Attributes[ "Password" ];
-					if ( pwdAttr != null )
-					{
-						Property pwd = new Property( "SS:PWD", pwdAttr.Value );
-						pwd.LocalProperty = true;
-						member.Properties.ModifyProperty( pwd );
-					}
-					*/
 
 					member.FN = FN;
 					
@@ -419,77 +401,53 @@ namespace Simias.IdentitySync
 			member.Properties.ModifyProperty( syncGuid );
 			domain.Commit( member );
 			
-			// Temporary adding messages
-			string message =
-				String.Format(
-					"{0}:{1} - Member: {2} Status: {3}",
-					"INFO",
-					DateTime.Now.ToString(),
-					member.Name,
-					status.ToString() );
-					
-			syncMessages.Add( message );
-			
-			// Update counters
-			if ( status == MemberStatus.Created )
+			if ( status == MemberStatus.Created || 
+					status == MemberStatus.Updated )
 			{
-				created++;
-			}
-			else if ( status == MemberStatus.Updated )
-			{
-				updated++;
-			}
+				this.ReportInformation(
+					String.Format(
+						"Member: {0} Status: {1}",
+						member.Name,
+						status.ToString() ) );
+
+				// Update counters
+				if ( status == MemberStatus.Created )
+				{
+					created++;
+				}
+				else
+				{
+					updated++;
+				}
+			}	
 			
 			processed++;
 		}
 		
 		/// <summary>
-		/// External sync providers must call this method after
-		/// retrieving member information from the external identity store.
-		/// An in-memory object should be filled out with valid UserID, Name,
-		/// Given, Last, FN and DN properties.
-		/// Name is the distinguishing property valided against the
-		/// domain.
-		///
-		/// Note: the sync provider should never commit the member
-		/// object to the domain.
+		/// Method to report errors against a specific sync cycle
+		/// Used by the Sync Service and Sync Providers.
 		/// </summary>
-		public void ProcessedMember( Member member, MemberStatus Status )
-		{
-			log.Debug( "  processed: " + member.Name + " status: " + Status.ToString() );
-			member.Properties.ModifyProperty( syncGuid );
-			domain.Commit( member );
-			
-			// Temporary adding messages
-			string message =
-				String.Format(
-					"{0}:{1} - Member: {2} Status: {3}",
-					"INFO",
-					DateTime.Now.ToString(),
-					member.Name,
-					Status.ToString() );
-					
-			syncMessages.Add( message );
-			processed++;
-		}
-		
 		public void ReportError( string ErrorMsg )
 		{
 			reportedErrors++;
 			syncMessages.Add(
 				String.Format(
-					"{0}:{1} - {2}",
-					"ERROR",
+					"ERROR:{0} - {1}",
 					DateTime.Now.ToString(),
 					ErrorMsg ) );
 		}
-
-		/*
-		public void UpdateMember( Member member )
+		
+		/// Method to report information against a specific sync cycle
+		/// Used by the Sync Service and Sync Providers.
+		public void ReportInformation( string Message )
 		{
-			return;
+			syncMessages.Add(
+				String.Format(
+					"INFO:{0} - {1}",
+					DateTime.Now.ToString(),
+					Message ) );
 		}
-		*/
 		#endregion
 	}
 	
@@ -561,9 +519,10 @@ namespace Simias.IdentitySync
 		#endregion
 
 		#region Private Methods
-		
-		// If the user is removed from the domain scope, his POBox
-		// should get removed from the system rather than orphaned
+		/// <summary>
+		/// If the user is removed from the domain scope, his POBox
+		/// should get removed from the system rather than orphaned
+		/// </summary>
 		private static void DeletePOBox( IdentitySync.State State, Member Zombie )
 		{
 			try
@@ -580,12 +539,14 @@ namespace Simias.IdentitySync
 						
 						Property dn = Zombie.Properties.GetSingleProperty( "DN" );
 						string userName = ( dn.Value != null ) ? dn.Value as string : Zombie.Name;
-						log.Info(
+						string logMessage =
 							String.Format(
 								"Removed {0}'s POBox from Domain: {1}",
 								userName,
-								State.SDomain.Name ) );
-								
+								State.SDomain.Name );
+						
+						log.Info( logMessage );
+						State.ReportInformation( logMessage );
 						break;
 					}
 				}
@@ -666,11 +627,13 @@ namespace Simias.IdentitySync
 							// Now remove the old member
 							c.Commit( c.Delete( c.Refresh( member ) ) );
 								
-							log.Info(
+							string logMessage =
 								String.Format(
 									"Orphaned Collection: {0} - previous owner: {1}",
 									c.Name,
-									dn ));
+									dn );
+							log.Info( logMessage );
+							State.ReportInformation( logMessage );
 						}
 					}
 				}
@@ -708,16 +671,24 @@ namespace Simias.IdentitySync
 						c.Commit( c.Delete( member ) );
 						Property dn = Zombie.Properties.GetSingleProperty( "DN" );
 						string userName = ( dn.Value != null ) ? dn.Value as string : Zombie.Name;
-						log.Info(
+						
+						string logMessage =
 							String.Format(
 								"Removed {0}'s membership from Collection: {1}",
 								userName,
-								c.Name ) );
+								c.Name );
+						log.Info( logMessage );
+						State.ReportInformation( logMessage );
 					}
 				}
 			}
 		}
 		
+		/// <summary>
+		/// Method to to check and handle members that were not
+		/// processed by the external sync provider in the
+		/// current sync cycle.
+		/// </summary>
 		private static void ProcessDeletedMembers( IdentitySync.State State )
 		{
 			// check for deleted members
@@ -758,17 +729,19 @@ namespace Simias.IdentitySync
 
 									// gather log info before commit
 									string fn = cMember.Name;
-									string id = cMember.ID;
+									string id = cMember.UserID;
 
 									State.SDomain.Commit( State.SDomain.Delete( cNode ) );
 
-									log.Info(
+									string logMessage =
 										String.Format(
 											"Removed DN: {0} FN: {1} ID: {2} from Domain: {3}",
 											dn,
 											fn,
 											id,
-											State.SDomain.Name ) );
+											State.SDomain.Name );
+									log.Info( logMessage );
+									State.ReportInformation( logMessage );
 								}
 								
 								continue;
@@ -782,14 +755,28 @@ namespace Simias.IdentitySync
 						disable.LocalProperty = true;
 						cMember.Properties.ModifyProperty( disable );
 						State.SDomain.Commit( cMember );
+						
+						string disabledMessage =
+							String.Format(
+								"Disabled Member: {0} DN: {1} ID: {2} from Domain: {3}",
+								cMember.Name,
+								dn,
+								cMember.UserID,
+								State.SDomain.Name );
+								
+						log.Info( disabledMessage );
+						State.ReportInformation( disabledMessage );
+						disabledMessage = null;
 					}
 				}
 			}
 			catch( Exception e1 )
 			{
-				log.Debug( "Exception checking/deleting members" );
-				log.Debug( e1.Message );
-				log.Debug( e1.StackTrace );
+				string locMessage = "Exception checking/deleting members ";
+				State.ReportError( locMessage + e1.Message );
+				log.Error( locMessage );
+				log.Error( e1.Message );
+				log.Error( e1.StackTrace );
 			}
 		}
 		#endregion
@@ -833,6 +820,8 @@ namespace Simias.IdentitySync
 				log.Debug( "  synchronization service not running" );
 				return -1;
 			}
+			
+			log.Info( "SyncNow method invoked" );
 			
 			syncEvent.Set();
 			log.Debug( "SyncNow finished" );
@@ -904,7 +893,7 @@ namespace Simias.IdentitySync
 				
 				if ( syncDisabled == true )
 				{
-					Simias.IdentitySync.Service.status = "waiting";
+					Simias.IdentitySync.Service.status = "disabled";
 					syncEvent.WaitOne( waitForever, false );
 				}
 				else
@@ -950,8 +939,10 @@ namespace Simias.IdentitySync
 				finally
 				{
 					state.EndTime = DateTime.Now;
-					Simias.IdentitySync.Service.lastState = state;
 					Simias.IdentitySync.Service.cycles++;
+					Simias.IdentitySync.Service.lastState = null;
+					Thread.Sleep( 32 );
+					Simias.IdentitySync.Service.lastState = state;
 				}
 				
 				// Always wait after the first iteration
