@@ -59,6 +59,12 @@ namespace Simias.IdentitySync
 		public int		MembersAdded;
 
 		/// <summary>
+		/// Number of members changed or updated because
+		/// of meta-data changing ex. First Name
+		/// </summary>
+		public int		MembersUpdated;
+
+		/// <summary>
 		/// Number of members deleted from the domain during
 		/// the cycle
 		/// </summary>
@@ -288,7 +294,8 @@ namespace Simias.IdentitySync
 					state.EndTime.Second );
 			log.Debug( "  sync end time: " + info.EndTime );
 					
-			info.MembersAdded = 0;
+			info.MembersAdded = state.Created;
+			info.MembersUpdated = state.Updated;
 			info.MembersDeleted = state.Deleted;
 			info.MembersDisabled = state.Disabled;
 

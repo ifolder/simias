@@ -60,12 +60,13 @@ namespace Simias.IdentitySync
 		private Store store;
 		private int disabled;
 		private int deleted;
+		private int created;
+		private int updated;
 		private int reportedErrors;
 		private ArrayList syncMessages;
 		private int processed;
 		private DateTime endTime;
 		private DateTime startTime;
-		//private string lastMember;
 		public Domain domain;
 		#endregion
 		
@@ -96,6 +97,16 @@ namespace Simias.IdentitySync
 				
 				return syncMessages.ToArray( typeof( string ) ) as string[];
 			}
+		}
+		
+		public int Created
+		{
+			get { return created; }
+		}
+		
+		public int Updated
+		{
+			get { return updated; }
 		}
 		
 		public int Deleted
@@ -144,7 +155,118 @@ namespace Simias.IdentitySync
 			
 			startTime = DateTime.Now;
 		}
-		
+		#endregion
+
+		#region Private Methods
+		private bool PropertiesEqual( Property One, Property Two )
+		{
+			if ( One.Type == Two.Type )
+			{
+				switch ( One.Type )
+				{
+					case Simias.Storage.Syntax.String:
+					{
+						if ( One.Value as string == Two.Value as string )
+						{
+							return true;
+						}
+						break;
+					}
+					
+					case Simias.Storage.Syntax.Boolean:
+					{
+						if ( (bool) One.Value == (bool) Two.Value )
+						{
+							return true;
+						}
+						break;
+					}
+					
+					case Simias.Storage.Syntax.Byte:
+					{
+						if ( (byte) One.Value == (byte) Two.Value )
+						{
+							return true;
+						}
+						break;
+					}
+					
+					case Simias.Storage.Syntax.Char:
+					{
+						if ( (char) One.Value == (char) Two.Value )
+						{
+							return true;
+						}
+						break;
+					}
+					
+					case Simias.Storage.Syntax.DateTime:
+					{
+						if ( (DateTime) One.Value == (DateTime) Two.Value )
+						{
+							return true;
+						}
+						break;
+					}
+					
+					case Simias.Storage.Syntax.Int16:
+					{
+						if ( (short) One.Value == (short) Two.Value )
+						{
+							return true;
+						}
+						break;
+					}
+					
+					case Simias.Storage.Syntax.Int32:
+					{
+						if ( (System.Int32) One.Value == (System.Int32) Two.Value )
+						{
+							return true;
+						}
+						break;
+					}
+					
+					case Simias.Storage.Syntax.Int64:
+					{
+						if ( (System.Int64) One.Value == (System.Int64) Two.Value )
+						{
+							return true;
+						}
+						break;
+					}
+					
+					case Simias.Storage.Syntax.UInt16:
+					{
+						if ( (ushort) One.Value == (ushort) Two.Value )
+						{
+							return true;
+						}
+						break;
+					}
+					
+					case Simias.Storage.Syntax.UInt32:
+					{
+						if ( (System.UInt32) One.Value == (System.UInt32) Two.Value )
+						{
+							return true;
+						}
+						break;
+					}
+					
+					case Simias.Storage.Syntax.UInt64:
+					{
+						if ( (System.UInt64) One.Value == (System.UInt64) Two.Value )
+						{
+							return true;
+						}
+						break;
+					}
+				}
+			}
+			
+			return false;
+		}
 		#endregion
 		
 		#region Public Methods
@@ -165,9 +287,10 @@ namespace Simias.IdentitySync
 			string Given,
 			string Last,
 			string FN,
-			string DN)
+			string DN,
+			Property[] Properties)
 		{
-			//log.Debug( "  processed: " + member.Name + " status: " + Status.ToString() );
+			log.Debug( "  processing member: " + Username );
 			Simias.Storage.Member member = null;
 			MemberStatus status = MemberStatus.Unchanged;
 			
@@ -188,35 +311,23 @@ namespace Simias.IdentitySync
 				// First name change?
 				if ( Given != null && Given != "" && Given != member.Given )
 				{
+					log.Debug( "Property: {0} has changed", "Given" );
 					member.Given = Given;
 					status = MemberStatus.Updated;
 				}
-				else if ( member.Given != null && member.Given != "" )
-				{
-					member.Given = Given;
-					status = MemberStatus.Updated;
-				}
-
+				
 				// Last name change?
 				if ( Last != null && Last != "" && Last != member.Family )
 				{
-					member.Family = Last;
-					status = MemberStatus.Updated;
-				}
-				else if ( member.Family != null && member.Family != "" )
-				{
+					log.Debug( "Property: {0} has changed", "Family" );
 					member.Family = Last;
 					status = MemberStatus.Updated;
 				}
 				
 				if ( FN != null && FN != "" && FN != member.FN )
 				{
+					log.Debug( "Property: {0} has changed", "FN" );
 					member.FN = FN;
-					status = MemberStatus.Updated;
-				}
-				else if ( member.FN == "" )
-				{
-					member.FN = member.Given + " " + member.Family;
 					status = MemberStatus.Updated;
 				}
 				
@@ -224,13 +335,37 @@ namespace Simias.IdentitySync
 				Property dnProp = new Property( "DN", DN );
 				if ( DN != null && DN != "" && DN != dn )
 				{
+					log.Debug( "Property: {0} has changed", "DN" );
 					member.Properties.ModifyProperty( dnProp );
 					status = MemberStatus.Updated;
 				}
-				else if ( dn == null )
+				
+				// check if the properties provided by the identity sync
+				// provider have changed the member object
+				foreach( Property prop in Properties )
 				{
-					member.Properties.ModifyProperty( dnProp );
-					status = MemberStatus.Updated;
+					bool propChanged = false;
+					Property tmp = member.Properties.GetSingleProperty( prop.Name );
+					if ( tmp == null )
+					{
+						propChanged = true;
+					}
+					else if ( tmp.MultiValuedProperty == true || 
+								prop.MultiValuedProperty == true )
+					{
+						propChanged = true;
+					}
+					else if ( PropertiesEqual( tmp, prop ) == false )
+					{
+						propChanged = true;
+					}
+					
+					if ( propChanged == true )
+					{
+						log.Debug( "Property: {0} has changed", prop.Name );
+						member.Properties.ModifyProperty( prop );
+						status = MemberStatus.Updated;
+					}
 				}
 			}
 			else
@@ -264,6 +399,14 @@ namespace Simias.IdentitySync
 					Property dn = new Property( "DN", DN );
 					dn.LocalProperty = true;
 					member.Properties.ModifyProperty( dn );
+					
+					// commit all properties passed in from
+					// the provider
+					foreach( Property prop in Properties )
+					{
+						member.Properties.ModifyProperty( prop );
+					}
+					
 					status = MemberStatus.Created;
 				}
 				catch( Exception ex )
@@ -286,6 +429,17 @@ namespace Simias.IdentitySync
 					status.ToString() );
 					
 			syncMessages.Add( message );
+			
+			// Update counters
+			if ( status == MemberStatus.Created )
+			{
+				created++;
+			}
+			else if ( status == MemberStatus.Updated )
+			{
+				updated++;
+			}
+			
 			processed++;
 		}
 		

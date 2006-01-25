@@ -136,7 +136,32 @@ namespace Simias.SimpleServer
 							}
 						}
 
+						Property pwdProperty = null;
+						XmlAttribute pwdAttr = 
+							domainElement.ChildNodes[i].Attributes[ "Password" ];
+						if ( pwdAttr != null )
+						{
+							pwdProperty = new Property( "SS:PWD", pwdAttr.Value );
+							pwdProperty.LocalProperty = true;
+						}
+						
+						// Test Property
+						Property testProperty =  new Property( "SS:TEST", 1 );
+						testProperty.LocalProperty = true;
+						
+						Property[] propertyList = { pwdProperty, testProperty };
+						State.ProcessMember(
+							member,
+							firstName,
+							lastName,
+							firstName + " " + lastName,
+							member,
+							propertyList );
+						
+						/*
 						memberNode = null;
+
+						
 
 						//
 						// Check if this member already exists
@@ -288,7 +313,8 @@ namespace Simias.SimpleServer
 								State.ReportError( ex.Message );
 								continue;
 							}
-						}	
+						}
+						*/
 					}
 				}
 			}
