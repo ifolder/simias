@@ -232,10 +232,10 @@ namespace Simias.Sync
 			if (MyEnvironment.Unix)
 			{
 				// Get the posix access flags for owner.
-				Mono.Unix.Stat sStat;
-				if (Mono.Unix.Syscall.stat(path, out sStat) == 0)
+				Mono.Unix.Native.Stat sStat;
+				if (Mono.Unix.Native.Syscall.stat(path, out sStat) == 0)
 				{
-					if ((sStat.st_mode & Mono.Unix.FilePermissions.S_IXUSR) != 0)
+					if ((sStat.st_mode & Mono.Unix.Native.FilePermissions.S_IXUSR) != 0)
 					{
 						return true;
 					}
