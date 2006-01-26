@@ -326,6 +326,49 @@ namespace Simias.Storage
 				}
 			}
 		}
+
+		/// <summary>
+		/// Gets or Sets the HostID for this collection.
+		/// This is the ID of the server that hosts the collection.
+		/// </summary>
+		public HostNode Host
+		{
+			get
+			{
+				HostNode host = null;
+				Property p = properties.FindSingleValue( PropertyTags.HostID );
+				if (p != null)
+				{
+					Domain domain = Store.GetStore().GetDomain(Domain);
+					host = new HostNode(domain.GetMemberByID(p.ToString()));
+				}
+                return host;
+			}
+			set
+			{
+				Property p = new Property( PropertyTags.HostID, value.UserID );
+				p.LocalProperty = true;
+				properties.ModifyNodeProperty( p );
+			}
+		}
+
+		/// <summary>
+		/// Gets or Sets if SSL should be used.
+		/// </summary>
+		public bool UseSSL
+		{
+			get
+			{
+				Property p = properties.FindSingleValue( PropertyTags.UseSSL );
+				return ( p != null ) ? (bool)p.Value : true;
+			}
+			set
+			{
+				Property p = new Property( PropertyTags.UseSSL, value );
+				p.LocalProperty = true;
+				properties.ModifyNodeProperty( p );
+			}
+		}
 		#endregion
 
 		#region Constructors

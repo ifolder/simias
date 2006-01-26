@@ -274,15 +274,57 @@ namespace Simias
 			Domain domain = store.GetDomain( domainID );
 			if ( domain != null )
 			{
-				Property p = domain.Properties.FindSingleValue( PropertyTags.HostAddress );
-				if ( p != null )
+				// Get the address from the host.
+				HostNode host = domain.Host;
+				if (host != null)
 				{
-					hostAddress = p.Value as Uri;
+					hostAddress = new Uri(host.PublicUrl);
+				}
+				else
+				{
+					Property p = domain.Properties.FindSingleValue( PropertyTags.HostAddress );
+					if ( p != null )
+					{
+						hostAddress = p.Value as Uri;
+					}
 				}
 			}
 
 			return hostAddress;
 		}
+
+		/// <summary>
+		/// Gets the host address property from the domain object.
+		/// </summary>
+		/// <param name="collectionID">Identifier for the domain.</param>
+		/// <returns>A Uri object containing the host address for the
+		/// domain if successful. Otherwise returns a null.</returns>
+		private Uri GetHostAddressForCollection(string collectionID)
+		{
+			Uri hostAddress = null;
+			
+			Collection collection = store.GetCollectionByID(collectionID);
+			if ( collection != null )
+			{
+				// Get the address from the host.
+				HostNode host = collection.Host;
+				if (host != null)
+				{
+					hostAddress = new Uri(host.PublicUrl);
+				}
+				else
+				{
+					Property p = collection.Properties.FindSingleValue( PropertyTags.HostAddress );
+					if ( p != null )
+					{
+						hostAddress = p.Value as Uri;
+					}
+				}
+			}
+
+			return hostAddress;
+		}
+
 
 		/// <summary>
 		/// Sets the host address property for the domain object.
@@ -606,7 +648,7 @@ namespace Simias
 		/// </returns>
 		public Uri ResolveLocation( string domainID, string collectionID )
 		{
-			return OwnsDomain( domainID ) ? GetDomainHostAddress( domainID ) : null;
+			return OwnsDomain( domainID ) ? this.GetHostAddressForCollection(collectionID) : null;
 		}
 
 		/// <summary>

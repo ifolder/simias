@@ -623,16 +623,27 @@ namespace Simias.Sync
 		}
 
 		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="syncNow"></param>
+		public void Reschedule(bool syncNow)
+		{
+			if (syncNow) Reschedule(true, 0);
+			else Reschedule(false, 0);
+		}
+
+		/// <summary>
 		/// Called to schedule a sync operation a the set sync Interval.
 		/// </summary>
-		/// <param name="SyncNow">If true schedule now.</param>
-		public void Reschedule(bool SyncNow)
+		/// <param name="overridePolicy"></param>
+		/// <param name="delay"></param>
+		public void Reschedule(bool overridePolicy, int delay)
 		{
 			if (!stopping)
 			{
                 int seconds;
 				// If we had to yield put ourselves back on the queue.
-				if (SyncNow || Yield)
+				if (Yield)
 				{
 					seconds = 0;
 				}
@@ -642,7 +653,7 @@ namespace Simias.Sync
 				}
 				else 
 				{
-					seconds = collection.Interval;
+					seconds = overridePolicy ? delay : collection.Interval;
 					if (serverStatus == StartSyncStatus.Busy)
 					{
 						// Reschedule to sync within 30 seconds, but no less than 10 seconds.

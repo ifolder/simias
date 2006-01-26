@@ -171,13 +171,14 @@ namespace Simias.Sync.Http
 	public class HttpSyncProxy
 	{
 		double						serverVersion;
-		Collection					collection;
+		string						collectionID;
+		string						collectionName;
 		string						domainId;
 		string						url;
 		string						userName;
 		string						userID;
-		WebState					webState;
-
+		CollectionConnection		connection;
+		
 		/// <summary>
 		/// Sorry Russ Used to log messages.
 		/// </summary>
@@ -194,12 +195,13 @@ namespace Simias.Sync.Http
 		/// <param name="userID"></param>
 		public HttpSyncProxy(Collection collection, string userName, string userID)
 		{
-			this.collection = collection;
-			this.domainId = collection.Domain;
+			collectionID = collection.ID;
+			collectionName = collection.Name;
+			domainId = collection.Domain;
 			url = collection.MasterUrl.ToString().TrimEnd('/') + "/SyncHandler.ashx";
 			this.userName = userName;
 			this.userID = userID;
-			webState = new WebState(collection.Domain, collection.ID, userID);
+			connection = CollectionConnection.GetConnection(domainId, collectionID, userID);
 		}
 
 		/// <summary>
@@ -209,8 +211,7 @@ namespace Simias.Sync.Http
 		/// <returns></returns>
 		private HttpWebRequest GetRequest(SyncMethod method)
 		{
-			HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-			webState.InitializeWebRequest(request, collection.Domain);
+			HttpWebRequest request = connection.GetRequest("SyncHandler.ashx");
 			request.ContentType = "application/octet-stream";
 			request.Method = "POST";
 			WebHeaderCollection headers = request.Headers;
@@ -218,8 +219,8 @@ namespace Simias.Sync.Http
 			headers.Add(SyncHeaders.Method, method.ToString());
 			headers.Add(SyncHeaders.UserName, userName);
 			headers.Add(SyncHeaders.UserID, userID);
-			headers.Add(SyncHeaders.CollectionName, collection.Name);
-			headers.Add(SyncHeaders.CollectionID, collection.ID);
+			headers.Add(SyncHeaders.CollectionName, collectionName);
+			headers.Add(SyncHeaders.CollectionID, collectionID);
 			headers.Add(Simias.Security.Web.AuthenticationService.Login.DomainIDHeader, domainId);
 			return request;
 		}
@@ -264,26 +265,8 @@ namespace Simias.Sync.Http
 			writer.Close();
 
 			HttpWebResponse response = null;
-			try
-			{
-				response = (HttpWebResponse)request.GetResponse();
-			}
-			catch( WebException webEx )
-			{
-				HttpWebResponse resp = webEx.Response as HttpWebResponse;
-				if ( resp != null )
-				{
-					if ( resp.StatusCode == HttpStatusCode.BadRequest )
-					{
-						log.Debug( "Russ Fix ME!" );
-						Collection collection = Store.GetStore().GetCollectionByID( si.CollectionID );
-						new EventPublisher().RaiseEvent( new NeedCredentialsEventArgs( collection.Domain, collection.ID ) );
-					}
-				}
-
-				throw webEx;
-			}
-
+			response = connection.GetResponse(request);
+			
 			try
 			{
 				if (response.StatusCode != HttpStatusCode.OK)
@@ -320,7 +303,7 @@ namespace Simias.Sync.Http
 			request.ContentLength = 0;
 			request.KeepAlive = false;
 			request.GetRequestStream().Close();
-			HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+			HttpWebResponse response = connection.GetResponse(request);
 			try
 			{
 				if (response.StatusCode != HttpStatusCode.OK)
@@ -399,7 +382,7 @@ namespace Simias.Sync.Http
 				sNode.Serialize(writer);
 			}
 			writer.Close();
-			HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+			HttpWebResponse response = connection.GetResponse(request);
 			try
 			{
 				if (response.StatusCode != HttpStatusCode.OK)
@@ -451,7 +434,7 @@ namespace Simias.Sync.Http
 				writer.Write(new Guid(nid).ToByteArray());
 			}
 			writer.Close();
-			HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+			HttpWebResponse response = connection.GetResponse(request);
 			try
 			{
 				if (response.StatusCode != HttpStatusCode.OK)
@@ -491,7 +474,7 @@ namespace Simias.Sync.Http
 				writer.Write(new Guid(nodeID).ToByteArray());
 			}
 			writer.Close();
-			HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+			HttpWebResponse response = connection.GetResponse(request);
 			try
 			{
 				if (response.StatusCode != HttpStatusCode.OK)
@@ -526,7 +509,7 @@ namespace Simias.Sync.Http
 			BinaryWriter writer = new BinaryWriter(request.GetRequestStream());
 			node.Serialize(writer);
 			writer.Close();
-			HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+			HttpWebResponse response = connection.GetResponse(request);
 			try
 			{
 				if (response.StatusCode != HttpStatusCode.OK)
@@ -556,7 +539,7 @@ namespace Simias.Sync.Http
 			BinaryWriter writer = new BinaryWriter(request.GetRequestStream());
 			writer.Write(new Guid(nodeID).ToByteArray());
 			writer.Close();
-			HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+			HttpWebResponse response = connection.GetResponse(request);
 			try
 			{
 				if (response.StatusCode != HttpStatusCode.OK)
@@ -588,7 +571,7 @@ namespace Simias.Sync.Http
 				HttpWebRequest request = GetRequest(SyncMethod.GetHashMap2);
 				request.ContentLength = 0;
 				request.GetRequestStream().Close();
-				HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+				HttpWebResponse response = connection.GetResponse(request);
 				try
 				{
 					if (response.StatusCode != HttpStatusCode.OK)
@@ -634,7 +617,7 @@ namespace Simias.Sync.Http
 			BinaryWriter writer = new BinaryWriter(request.GetRequestStream());
 			seg.Serialize(writer);
 			writer.Close();
-			HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+			HttpWebResponse response = connection.GetResponse(request);
             if (response.StatusCode == HttpStatusCode.OK)
 			{
 				return response;
@@ -661,7 +644,7 @@ namespace Simias.Sync.Http
 			if (bytesRead != count)
 				throw new SimiasException("Could not write all data.");
 			rStream.Close();
-			HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+			HttpWebResponse response = connection.GetResponse(request);
 			try
 			{
 				if (response.StatusCode != HttpStatusCode.OK)
@@ -700,7 +683,7 @@ namespace Simias.Sync.Http
 			rStream.Close();
 			// TODO: End.
 
-			HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+			HttpWebResponse response = connection.GetResponse(request);
 			try
 			{
 				if (response.StatusCode != HttpStatusCode.OK)
@@ -735,7 +718,7 @@ namespace Simias.Sync.Http
 			BinaryWriter writer = new BinaryWriter(request.GetRequestStream());
 			writer.Write(commit);
 			writer.Close();
-			HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+			HttpWebResponse response = connection.GetResponse(request);
 			try
 			{
 				if (response.StatusCode != HttpStatusCode.OK)
@@ -761,7 +744,7 @@ namespace Simias.Sync.Http
 			request.ContentLength = 0;
 			request.GetRequestStream().Close();
 			request.KeepAlive = false;
-			HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+			HttpWebResponse response = connection.GetResponse(request);
 			try
 			{
 				if (response.StatusCode != HttpStatusCode.OK)

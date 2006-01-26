@@ -511,10 +511,6 @@ namespace Simias.Authentication
 					rStream.Write(signed, 0, signed.Length);
 					rStream.Close();
 					response = (HttpWebResponse)request.GetResponse();
-					if (response.StatusCode == HttpStatusCode.OK)
-					{
-						new BasicCredentials(domain.ID, domain.ID, member.UserID, "LetMeIn").Save(false);
-					}
 				}
 			}
 			catch {return false;}
