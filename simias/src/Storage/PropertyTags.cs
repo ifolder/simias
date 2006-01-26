@@ -131,6 +131,11 @@ namespace Simias.Storage
 		/// <summary>
 		/// Well known property name.
 		/// </summary>
+		static public string HostID = "HostID";
+		
+		/// <summary>
+		/// Well known property name.
+		/// </summary>
 		static public string Journal = "JournalNode";
 
 		/// <summary>
@@ -305,6 +310,11 @@ namespace Simias.Storage
 		/// Well known property name.
 		/// </summary>
 		static public string DomainVersion = "DomainVersion";
+
+		/// <summary>
+		/// Well known property name.
+		/// </summary>
+		static public string UseSSL = "UseSSL";
 		
 		
 		/// <summary>
@@ -343,6 +353,7 @@ namespace Simias.Storage
 			systemPropertyTable.Add( FileSystemPath, null );
 			systemPropertyTable.Add( FullName, null );
 			systemPropertyTable.Add( HostAddress, null );
+			systemPropertyTable.Add( HostID, null );
 			systemPropertyTable.Add( Journal, null );
 			systemPropertyTable.Add( JournalFor, null );
         	systemPropertyTable.Add( LastLoginTime, null );
@@ -377,6 +388,7 @@ namespace Simias.Storage
 			systemPropertyTable.Add( PublicUrl, null);
 			systemPropertyTable.Add( PrivateKey, null);
 			systemPropertyTable.Add( DomainVersion, null );
+			systemPropertyTable.Add( UseSSL, null);
 		}
 		#endregion
 

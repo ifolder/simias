@@ -229,45 +229,8 @@ namespace Simias
 		/// <param name="domainID">The domain ID.</param>
 		/// <param name="collectionID">The collection associated with the domain</param>
 		public WebState(string DomainID, string CollectionID) :
-			this(DomainID)
+			this(DomainID, CollectionID, null)
 		{
-			Member currentMember;
-			try
-			{
-				currentMember = Store.GetStore().GetDomain( DomainID ).GetCurrentMember();
-				
-				// Attempt to get credentials scoped at the collection
-				BasicCredentials basic =
-					new BasicCredentials( 
-							DomainID,
-							CollectionID,
-							currentMember.Name );
-				if ( basic.Cached == true )
-				{
-					credentials = basic.GetNetworkCredential(); 
-				}
-				else
-				{
-					// Attempt to get credentials scoped at the domain
-					basic =
-						new BasicCredentials( 
-								DomainID,
-								DomainID,
-								currentMember.Name );
-					if ( basic.Cached == true )
-					{
-						credentials = basic.GetNetworkCredential(); 
-					}
-				}
-			}
-			catch{}
-
-			if (credentials == null)
-			{
-				log.Debug( "failed to get NetworkCredential" );
-				new EventPublisher().RaiseEvent( new NeedCredentialsEventArgs( DomainID, CollectionID ));
-				throw new NeedCredentialsException();
-			}
 		}
 
 		/// <summary>
@@ -277,15 +240,35 @@ namespace Simias
 		/// <param name="collectionID">The collection ID.</param>
 		/// <param name="userID">User ID of a member in the domain.</param>
 		public WebState(string DomainID, string CollectionID, string UserID) :
+			this( DomainID, CollectionID, UserID, CollectionConnection.AuthType.BASIC )
+		{
+		}
+		
+
+		/// <summary>
+		/// Get a WebState object for the specified domain.
+		/// </summary>
+		/// <param name="DomainID">The domain ID.</param>
+		/// <param name="CollectionID">The collection ID.</param>
+		/// <param name="UserID">User ID of a member in the domain.</param>
+		/// <param name="authType">The type of authentication to use.</param>
+		public WebState(string DomainID, string CollectionID, string UserID, CollectionConnection.AuthType authType) :
 			this( DomainID )
 		{
 			BasicCredentials creds;
 			
 			// Get the credentials for this collection.
-			Member member;
+			Member member = null;
 			try
 			{
-				member = Store.GetStore().GetDomain( DomainID ).GetMemberByID( UserID );
+				if (UserID == null)
+				{
+					member = Store.GetStore().GetDomain( DomainID ).GetCurrentMember();
+				}
+				else
+				{
+					member = Store.GetStore().GetDomain( DomainID ).GetMemberByID( UserID );
+				}
 				creds = new BasicCredentials( DomainID,	CollectionID, member.Name );
 				if ( creds.Cached == true )
 				{
@@ -303,8 +286,9 @@ namespace Simias
 			}
 			catch{}
 		
-			if (credentials == null)
+			if (credentials == null && authType == CollectionConnection.AuthType.BASIC)
 			{
+				log.Debug( "failed to get NetworkCredential for {0}", member != null ? member.Name : "" );
 				new EventPublisher().RaiseEvent( new NeedCredentialsEventArgs( DomainID, CollectionID ) );
 				throw new NeedCredentialsException();
 			}
@@ -364,5 +348,168 @@ namespace Simias
 				cookieHash[ domainID ] = new CookieContainer();
 			}
 		}
+	}
+
+	public class CollectionConnection
+	{
+		public enum AuthType
+		{
+			BASIC,
+			PPK,
+		}
+
+		WebState	connectionState;
+		string		domainID;
+		string		collectionID;
+		string		userID;
+		AuthType	authType;
+		bool		needCredentials = false;
+		bool		authenticated = false;
+		string		baseUri;
+		static Hashtable	connectionTable = new Hashtable();
+
+		#region Constructor
+
+		private CollectionConnection(string domainID, string collectionID, string userID, AuthType authType)
+		{
+			this.domainID = domainID;
+			this.collectionID = collectionID;
+			this.userID = userID;
+			this.authType = authType;
+			Collection collection = Store.GetStore().GetCollectionByID(collectionID);
+			baseUri = DomainProvider.ResolveLocation(collection).ToString();
+			System.UriBuilder uri = new UriBuilder(baseUri);
+			// TODO
+			/*
+			if (collection.UseSSL)
+			{
+				uri.Scheme = Uri.UriSchemeHttps;
+			}
+			else
+			{
+				uri.Scheme = Uri.UriSchemeHttp;
+			}
+			*/
+			baseUri = uri.Uri.ToString().TrimEnd('/') + '/';
+			try
+			{
+				connectionState = new WebState(domainID, collectionID, userID, authType);
+			}
+			catch (NeedCredentialsException)
+			{
+				needCredentials = true;
+				authenticated = false;
+			}
+		}
+
+		#endregion
+
+		#region Private Methods
+
+		private static string GetKey(string collectionID)
+		{
+			return collectionID;
+		}
+
+		#endregion
+
+		#region Public Methods
+		
+		public static CollectionConnection GetConnection(string domainID, string collectionID, string userID, AuthType authType)
+		{
+			string key = GetKey(collectionID);
+			CollectionConnection conn;
+			lock (connectionTable)
+			{
+				conn = (CollectionConnection)connectionTable[key];
+				if (conn == null)
+				{
+					conn = new CollectionConnection(domainID, collectionID, userID, authType);
+					connectionTable[key] = conn;
+				}
+			}
+			return conn;
+		}
+
+		public static CollectionConnection GetConnection(string domainID, string collectionID, string userID)
+		{
+			return GetConnection(domainID, collectionID, userID, AuthType.BASIC);
+		}
+
+		public void ClearConnection()
+		{
+			string key = GetKey(domainID);
+			lock (connectionTable)
+			{
+				connectionTable.Remove(key);
+				WebState.ResetWebState(domainID);
+			}
+		}
+
+		
+		public HttpWebRequest GetRequest(string servicePath)
+		{
+			string uri = baseUri + servicePath.TrimStart('/');
+			HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
+			connectionState.InitializeWebRequest(request, domainID);
+			return request;
+		}
+
+		public HttpWebResponse GetResponse(HttpWebRequest webRequest)
+		{
+			try
+			{
+				return (HttpWebResponse)webRequest.GetResponse();
+			}
+			catch( WebException webEx )
+			{
+				// If we got an Unauthorized we need to generate a NeedCredentialsEvent.
+				HttpWebResponse resp = webEx.Response as HttpWebResponse;
+				if ( resp != null )
+				{
+					if ( resp.StatusCode == HttpStatusCode.Unauthorized)
+					{
+						needCredentials = true;
+						authenticated = false;
+						if (authType == AuthType.PPK)
+						{
+							Authenticate();
+						}
+						else
+						{
+							new EventPublisher().RaiseEvent( new NeedCredentialsEventArgs( domainID, collectionID ) );
+						}
+					}
+				}
+				throw webEx;
+			}
+		}
+
+		public void InitializeWebClient(HttpWebClientProtocol request, string servicePath)
+		{
+			request.Url = baseUri + servicePath.TrimStart('/');
+			connectionState.InitializeWebClient(request, domainID);
+		}
+
+		public bool Authenticate()
+		{
+			bool bstatus = false;
+			if (authType == AuthType.PPK)
+			{
+				bstatus = Simias.Authentication.Http.AuthenticateWithPPK(domainID, userID);
+			}
+			else
+			{
+			}
+			if (bstatus)
+			{
+				needCredentials = false;
+				authenticated = true;
+			}
+			return bstatus;
+		}
+
+		
+		#endregion
 	}
 }
