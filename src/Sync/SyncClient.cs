@@ -710,7 +710,7 @@ namespace Simias.Sync
 			bool	sAlive = true;
 			try
 			{
-				eventPublisher.RaiseEvent(new CollectionSyncEventArgs(collection.Name, collection.ID, Action.StartLocalSync, true));
+				eventPublisher.RaiseEvent(new CollectionSyncEventArgs(collection.Name, collection.ID, Action.StartLocalSync, true, false));
 				syncStartTime = DateTime.Now;
 				queuedChanges = false;
 				serverStatus = StartSyncStatus.Success;
@@ -786,7 +786,7 @@ namespace Simias.Sync
 					throw ex;
 				}
 			
-				eventPublisher.RaiseEvent(new CollectionSyncEventArgs(collection.Name, collection.ID, Action.StartSync, true));
+				eventPublisher.RaiseEvent(new CollectionSyncEventArgs(collection.Name, collection.ID, Action.StartSync, true, false));
 
 				tempServerContext = si.Context;
 				workArray.SetAccess = rights = si.Access;
@@ -882,7 +882,7 @@ namespace Simias.Sync
 			finally
 			{
 				serverAlive = sAlive;
-				eventPublisher.RaiseEvent(new CollectionSyncEventArgs(collection.Name, collection.ID, Action.StopSync, serverAlive));
+				eventPublisher.RaiseEvent(new CollectionSyncEventArgs(collection.Name, collection.ID, Action.StopSync, serverAlive, yielded));
 			}
 		}
 

@@ -112,6 +112,7 @@ namespace Simias.Client.Event
 		private const string CEA_IDTag = "ID";
 		private const string CEA_ActionTag = "Action";
 		private const string CEA_ConnectedTag = "Connected";
+		private const string CEA_YieldedTag = "Yielded";
 
 		/// <summary>
 		/// Xml tags used to describe a FileSyncEventArgs object.
@@ -243,6 +244,7 @@ namespace Simias.Client.Event
 			AddData( new IProcEventNameValue( CEA_IDTag, args.ID ) );
 			AddData( new IProcEventNameValue( CEA_ActionTag, args.Action.ToString() ) );
 			AddData( new IProcEventNameValue( CEA_ConnectedTag, args.Connected.ToString() ) );
+			AddData( new IProcEventNameValue( CEA_YieldedTag, args.Yielded.ToString() ) );
 		}
 
 		/// <summary>
@@ -324,6 +326,7 @@ namespace Simias.Client.Event
 			string ID = string.Empty;
 			Action action = Action.StartSync;
 			bool successful = true;
+			bool yielded = false;
 
 			// Walk through each named/value pair and convert the xml data back into CollectionSyncEventArgs data.
 			foreach ( XmlNode xn in document.DocumentElement )
@@ -353,11 +356,17 @@ namespace Simias.Client.Event
 						successful = Boolean.Parse( xn.InnerText );
 						break;
 					}
+
+					case CEA_YieldedTag:
+					{
+						yielded = Boolean.Parse( xn.InnerText );
+						break;
+					}
 				}
 			}
 			
 			// Create the object and set the flags.
-			return new CollectionSyncEventArgs( name, ID, action, successful );
+			return new CollectionSyncEventArgs( name, ID, action, successful, yielded );
 		}
 
 		/// <summary>
