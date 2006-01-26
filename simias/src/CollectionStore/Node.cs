@@ -580,6 +580,10 @@ namespace Simias.Storage
 					rNode = new Subscription( document );
 					break;
 
+				case "NotificationLog":
+					rNode = new NotificationLog( store, document );
+					break;
+
 				default:
 					rNode = new Node( document );
 					break;
@@ -688,6 +692,10 @@ namespace Simias.Storage
 
 				case "Subscription":
 					rNode = new Subscription( collection, shallowNode );
+					break;
+
+				case "NotificationLog":
+					rNode = new NotificationLog( collection.StoreReference, shallowNode );
 					break;
 
 				default:

@@ -1210,7 +1210,7 @@ namespace Simias.Storage
 								}
 
 								// Indicate the event.
-								NodeEventArgs args = new NodeEventArgs( store.Publisher, node.ID, id, modifier, node.Type, ( node.DiskNode != null ) ? EventType.NodeChanged : EventType.NodeCreated, 0, commitTime, node.MasterIncarnation, node.LocalIncarnation, fileSize );
+								NodeEventArgs args = new NodeEventArgs( "Sync", node.ID, id, modifier, node.Type, ( node.DiskNode != null ) ? EventType.NodeChanged : EventType.NodeCreated, 0, commitTime, node.MasterIncarnation, node.LocalIncarnation, fileSize );
 								args.LocalOnly = node.LocalChanges;
 								store.EventPublisher.RaiseEvent( args );
 								node.Properties.State = PropertyList.PropertyListState.Update;
@@ -1229,7 +1229,7 @@ namespace Simias.Storage
 								}
 
 								// Indicate the event.
-								NodeEventArgs args = new NodeEventArgs( store.Publisher, node.ID, id, modifier, node.Type, ( node.DiskNode != null ) ? EventType.NodeChanged : EventType.NodeCreated, 0, commitTime, node.MasterIncarnation, node.LocalIncarnation, fileSize );
+								NodeEventArgs args = new NodeEventArgs( "Backup", node.ID, id, modifier, node.Type, ( node.DiskNode != null ) ? EventType.NodeChanged : EventType.NodeCreated, 0, commitTime, node.MasterIncarnation, node.LocalIncarnation, fileSize );
 								args.LocalOnly = node.LocalChanges;
 								store.EventPublisher.RaiseEvent( args );
 								node.Properties.State = PropertyList.PropertyListState.Update;

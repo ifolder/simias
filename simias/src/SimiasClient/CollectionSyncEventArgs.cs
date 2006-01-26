@@ -56,6 +56,7 @@ namespace Simias.Client.Event
 		private string name;
 		private string id;
 		private bool connected;
+		private bool yielded;
 		private Action action;
 
 		#endregion
@@ -69,13 +70,15 @@ namespace Simias.Client.Event
 		/// <param name="id">The id of the collection that the event belongs to.</param>
 		/// <param name="action">The sync action for the event.</param>
 		/// <param name="connected">A value indicating if the server is available.</param>
-		public CollectionSyncEventArgs(string name, string id, Action action, bool connected) :
+		/// <param name="yielded">A value indicating if the sync yielded to let other collections sync.</param>
+		public CollectionSyncEventArgs(string name, string id, Action action, bool connected, bool yielded) :
 			base()
 		{
 			this.name = name;
 			this.id = id;
 			this.action = action;
 			this.connected = connected;
+			this.yielded = yielded;
 		}
 
 		#endregion
@@ -112,6 +115,14 @@ namespace Simias.Client.Event
 		public bool Connected
 		{
 			get { return connected; }
+		}
+
+		/// <summary>
+		/// Gets a value indicating if the sync process yielded to allow another collection to synchronize.
+		/// </summary>
+		public bool Yielded
+		{
+			get { return yielded; }
 		}
 		#endregion
 	}
