@@ -151,7 +151,7 @@ namespace Simias.Storage
 						Property property = node.Properties.GetSingleProperty( PropertyTags.LastModified );
 						if ( property != null )
 						{
-							string lastModified = (string)property.Value;
+							string lastModified = ((DateTime)property.Value).ToString();
 
 							property = node.Properties.GetSingleProperty( PropertyTags.LastModifier );
 							if ( property != null )
