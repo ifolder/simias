@@ -20,7 +20,7 @@
 #  Author: Paul Thomas <pthomas@novell.com>
 #
 #######################################################################
-EXTRA_DIST = $(srcdir)/Makefile.am $(srcdir)/simias.spec.in
+EXTRA_DIST = $(srcdir)/Makefile.am $(srcdir)/simias.spec.in $(srcdir)/simias.spec.autobuild
 
 RELEASE = 1
 RPM_FILE    = $(PACKAGE)-$(VERSION)-$(RELEASE).*.rpm

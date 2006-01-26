@@ -1,0 +1,179 @@
+#
+# spec file for package simias (Version 1.4.6017.1)
+#
+# Copyright (c) 2006 SUSE LINUX Products GmbH, Nuernberg, Germany.
+# This file and all modifications and additions to the pristine
+# package are under the same license as the package itself.
+#
+# Please submit bugfixes or comments via http://bugs.opensuse.org
+#
+
+# norootforbuild
+# neededforbuild  libstdc++-devel libstdc++ compat-libstdc++ gcc-c++ gnutls-devel libglade2-devel libgnomeprintui-devel libgnomeui-devel libicu libwnck-devel log4net mDNSResponder-devel mono-devel mono-core mono-data mono-web update-desktop-files log4net pkgconfig libxml2 libxml2-devel glib2 glib2-devel glib-sharp glib-sharp2 e2fsprogs e2fsprogs-devel
+
+BuildRequires: libstdc++-devel libstdc++ compat-libstdc++ gcc-c++ gnutls-devel libglade2-devel libgnomeprintui-devel libgnomeui-devel libicu libwnck-devel log4net mDNSResponder-devel mono-devel mono-core mono-data mono-web update-desktop-files log4net pkgconfig libxml2 libxml2-devel glib2 glib2-devel glib-sharp glib-sharp2 e2fsprogs e2fsprogs-devel
+
+Name:         simias
+%define buildnum @@BUILDNUM@@
+URL:          http://wwww.ifolder.com
+%define prefix /opt/novell/ifolder3
+%define sysconfdir /etc
+License:      GPL
+Group:        System/Libraries
+Autoreqprov:  on
+Requires:     mono-core >= 1.1.13
+Requires:     mono-data >= 1.1.13
+Requires:     mono-web >= 1.1.13
+Obsoletes:    %{name} <= %{version}
+Version:      1.5.@@BUILDNUM@@.1
+Release:      1
+Summary:      Collection-Oriented Data Storage
+Source:       simias-1.5.%{buildnum}.1.tar.gz
+BuildRoot:    %{_tmppath}/%{name}-%{version}-build
+#=============================================================================
+
+%description
+Simias is a technology that will allow various types of data to be
+stored and related in what is known as a collection.  Initially Simias
+is the underlying data store for the iFolder project, although it has
+potential to do much more.
+
+
+
+%prep
+export BUILDNUM=%{buildnum}
+%setup -n %{name}-%{version}
+#=============================================================================
+
+%build
+export BUILDNUM=%{buildnum}
+./autogen.sh --prefix=%{prefix}
+make
+make dist
+#=============================================================================
+
+%install
+export BUILDNUM=%{buildnum}
+%{__rm} -rf $RPM_BUILD_ROOT
+make DESTDIR=$RPM_BUILD_ROOT install
+#=============================================================================
+
+%clean
+%{__rm} -rf $RPM_BUILD_ROOT
+#=============================================================================
+
+%post
+INSTANCES_AFTER_INSTALL=$1
+if [ "$INSTANCES_AFTER_INSTALL" = "2" ]; then
+       # Upgrade
+       # update the Web.config from version 3.0 to 3.1
+       echo "Updating /opt/novell/ifolder3/web/web.config"
+       grep -q "connectionManagement" /opt/novell/ifolder3/web/web.config || sed -i.old -e "s/.<add key.*=.*\"SimiasAuthNotRequired\".*\/>/        <add key=\"SimiasAuthNotRequired\" value=\"Login.ashx, Simias.asmx:PingSimias, POService.asmx:Invite\" \/>/" -e "/<system\.net/,/<\/system.net>/d" -e "s/<\/system.web>/<\/system.web>\n\n    <system.net>\n        <connectionManagement>\n            <add address=\"*\" maxconnection=\"10\" \/>\n        <\/connectionManagement>\n    <\/system.net>\n/" /opt/novell/ifolder3/web/web.config
+fi
+if [ "$INSTANCES_AFTER_INSTALL" = "1" ]; then
+    #
+    # Linking the SimiasDirectoryMapping file to /etc/simias
+    #
+    mkdir -p /etc/simias
+    ln -sf %{prefix}/bin/SimiasDirectoryMapping /etc/simias
+fi
+#=============================================================================
+
+%postun
+INSTANCES_AFTER_UNINSTALL=$1
+if [ "$INSTANCES_AFTER_UNINSTALL" = "0" ]; then
+%{__rm} -rf /etc/simias
+fi
+#=============================================================================
+
+%files
+%attr(755,root,root) %dir %{prefix}
+%attr(755,root,root) %dir /opt/novell
+%defattr(755,root,root)
+%dir %{prefix}/bin
+%{prefix}/bin/*
+%dir %{prefix}/etc
+%{prefix}/etc/Simias.config
+%{prefix}/etc/Simias.log4net
+%dir %{prefix}/include
+%{prefix}/include/*
+%dir %{prefix}/lib
+%{prefix}/lib/*
+%dir %{prefix}/share
+%{prefix}/share/*
+%dir %{prefix}/web
+%dir %{prefix}/web/bin
+%{prefix}/web/bin/SimiasClient.dll
+%{prefix}/web/bin/Simias.Web.dll
+%{prefix}/web/bin/Simias.POBox.Web.dll
+%{prefix}/web/bin/SimiasLib.dll.config
+%{prefix}/web/bin/ifdata
+%{prefix}/web/bin/SyncService.Web.dll
+%{prefix}/web/bin/Simias.exe
+%{prefix}/web/bin/SimiasLib.dll
+%{prefix}/web/bin/FlaimWrapper.so
+%{prefix}/web/bin/SimiasAPIService.Web.dll
+%{prefix}/web/Global.asax
+%dir %{prefix}/web/modules
+%{prefix}/web/modules/SimiasLib.conf
+%{prefix}/web/Login.ashx
+%{prefix}/web/POService.asmx
+%{prefix}/web/Simias.asmx
+%{prefix}/web/SyncHandler.ashx
+%{prefix}/web/web.config
+%{prefix}/web/SimiasAPI.asmx
+#%config(noreplace) %{prefix}/web/web.config
+
+%changelog -n simias
+* Wed Jan 25 2006 - mls@suse.de
+- converted neededforbuild to BuildRequires
+* Wed Jan 18 2006 - cgaisford@suse.de
+- Updated packaage from ifolder_3_4 branch.
+* Mon Jan 09 2006 - gekker@suse.de
+- Fix to build against new mono version 1.1.13
+* Thu Dec 15 2005 - calvin@novell.com
+- updated package from ifolder_3_4 branch.  Removed patches that
+- have been incorporated into the code.
+* Mon Nov 28 2005 - ro@suse.de
+- fix some utf-8 spaces to real space chars in IAuthService.cs
+- update to simias-1.1.5250.1
+* Thu Nov 10 2005 - ro@suse.de
+- remove extra qualifications to fix build with gcc-4.1
+* Thu Sep 29 2005 - dmueller@suse.de
+- add norootforbuild
+* Fri Sep 09 2005 - aj@suse.de
+- Update check-build.sh.
+* Thu Sep 01 2005 - jbell@novell.com
+- completely re-worked the .spec file and updated the source to include all simias1.1 functionality
+* Tue Aug 23 2005 - ro@suse.de
+- added check-build.sh
+* Tue Aug 16 2005 - nadvornik@suse.cz
+- changed prefix to /usr/lib/ifolder3 [#104474]
+* Fri Aug 05 2005 - nadvornik@suse.cz
+- updated to 1.0.20050608
+* Wed Feb 16 2005 - adrian@suse.de
+- and remove even another copy of sqlite
+- add requires to libsqlite.so.0
+* Tue Feb 15 2005 - nadvornik@suse.cz
+- updated to snapshot 1.0.20050208
+* Wed Feb 09 2005 - ro@suse.de
+- update to cvs
+* Wed Jan 12 2005 - coolo@suse.de
+- removed another sqlite2 copy
+* Tue Nov 30 2004 - ro@suse.de
+- use sqlite2 packages for now
+* Wed Jul 14 2004 - clahey@suse.de
+- Updated to 0.10.20040708.
+* Tue Jun 29 2004 - ro@suse.de
+- use rpm scripts for find requires/provides
+* Tue Jun 22 2004 - clahey@suse.de
+- Upgraded to new snapshot.
+* Fri Jun 04 2004 - clahey@suse.de
+- Upgraded to new snapshot.
+* Thu Jun 03 2004 - ro@suse.de
+- removed libsqlite.so to avoid clash with system library
+- package is i386 only (too much binary stuff ...)
+* Thu May 27 2004 - ro@suse.de
+- added libicu26 to neededforbuild
+* Wed May 26 2004 - clahey@suse.de
+- Initial import.
