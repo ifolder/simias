@@ -21,6 +21,7 @@
  * 
  ***********************************************************************/
 using System;
+using System.Collections;
 using System.Web;
 
 using Simias;
@@ -33,7 +34,6 @@ namespace Simias.RssFeed
 	/// </summary>
 	public class Channel
 	{
-	
 		private static readonly ISimiasLog log = 
 			SimiasLogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 	
@@ -119,13 +119,51 @@ namespace Simias.RssFeed
 			}
 			ctx.Response.Write("</webmaster>");
 			
-			Simias.RssFeed.Util.SendPublishDate( ctx, collection.CreationTime );
+			Property newest = null;
+			IEnumerator nodesEnum = null;
+			ICSList nodes = collection.GetNodesByType( "FileNode" );
+			if ( nodes != null )
+			{
+				nodesEnum = nodes.GetEnumerator();
+				nodesEnum.MoveNext();
+				if ( nodesEnum.Current != null )
+				{
+					Node latest = new Node( collection, nodesEnum.Current as ShallowNode );
+					if ( latest != null )
+					{
+						newest = latest.Properties.GetSingleProperty( Simias.RssFeed.Util.LastModified );
+					}
+				}
+			}
+
+			if ( newest != null )
+			{
+				Simias.RssFeed.Util.SendPublishDate( ctx, (DateTime) newest.Value );
+			}
+			else
+			{
+				Simias.RssFeed.Util.SendPublishDate( ctx, collection.CreationTime );
+			}
 
 			ctx.Response.Write( "<lastBuildDate>" );
-			Property lastWrite = collection.Properties.GetSingleProperty( "LastWrite" );
+			Property lastWrite = collection.Properties.GetSingleProperty( Simias.RssFeed.Util.LastModified );
 			if ( lastWrite != null )
 			{
-				ctx.Response.Write( Util.GetRfc822Date( (DateTime) lastWrite.Value ) );
+				if ( newest != null )
+				{
+					if ( (DateTime) newest.Value > (DateTime) lastWrite.Value )
+					{
+						ctx.Response.Write( Util.GetRfc822Date( (DateTime) newest.Value ) );
+					}
+					else
+					{
+						ctx.Response.Write( Util.GetRfc822Date( (DateTime) lastWrite.Value ) );
+					}
+				}
+				else
+				{
+					ctx.Response.Write( Util.GetRfc822Date( (DateTime) lastWrite.Value ) );
+				}
 			}
 			else
 			{
@@ -138,12 +176,9 @@ namespace Simias.RssFeed
 			ctx.Response.Write("</generator>");
 
 			/*													
-			if (slog.Cloud != "")
-			{			
 				ctx.Response.Write("<cloud>");
-				ctx.Response.Write(slog.Cloud);
+				ctx.Response.Write( node.Cloud );
 				ctx.Response.Write("</cloud>");
-			}
 			*/
 
 			ctx.Response.Write( "<ttl>" );
@@ -154,11 +189,9 @@ namespace Simias.RssFeed
 			ctx.Response.Write( "NC-17" );
 			ctx.Response.Write( "</rating>" );
 			
-			if ( items == true )
+			if ( items == true && nodesEnum != null )
 			{
-				//ICSList nodes = collection.GetNodesByType( "FileNode" );
-				ICSList nodes = collection.GetNodesByType( "FileNode" );
-				foreach( ShallowNode sn in nodes )
+				foreach( ShallowNode sn in collection.GetNodesByType( "FileNode" ) )
 				{
 					log.Debug( "Processing item: " + sn.Name );
 					Item item = new Item( ctx, collection, sn );

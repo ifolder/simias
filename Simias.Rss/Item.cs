@@ -58,17 +58,28 @@ namespace Simias.RssFeed
 		public void Send()
 		{
 			ctx.Response.Write( "<item>" );
+			FileNode fileNode = null;
 
-			ctx.Response.Write( "<description>" + node.Name );
+			ctx.Response.Write( "<description>" );
 			if ( node.IsType( "Member" ) == true )
 			{
 				Member collectionMember = new Member( node );
 				ctx.Response.Write( " - " + collectionMember.FN );
 			}
+			else
+			if ( node.IsType( "FileNode" ) == true )
+			{
+				fileNode = new FileNode( node );
+				ctx.Response.Write( fileNode.GetRelativePath() );
+			}
+			else
+			{
+				ctx.Response.Write( node.Name );
+			}
 			ctx.Response.Write("</description>");
 			
 			Domain domain = store.GetDomain( store.DefaultDomain );
-			if ( node.Type == "FileNode" )
+			if ( fileNode != null )
 			{
 				ctx.Response.Write(
 					String.Format( 
@@ -79,7 +90,7 @@ namespace Simias.RssFeed
 						ctx.Request.ApplicationPath,
 						node.ID ) ); 
 
-				FileNode fileNode = new FileNode( node );
+				/*
 				ctx.Response.Write(
 					String.Format( 
 						"<enclosure>url=\"{0}{1}:{2}{3}/sfile.ashx?fid={4}\" length=\"{5}\" type=\"{6}\"</enclosure>",
@@ -90,28 +101,6 @@ namespace Simias.RssFeed
 						node.ID,
 						fileNode.Length,
 						Simias.HttpFile.Response.GetMimeType( fileNode.GetFileName() ) ) );
-
-				/*
-				FileNode fileNode = new FileNode( node );
-				string[] comps = fileNode.GetFileName().Split( dotSep );
-				if ( comps.Length > 0 )
-				{
-					string extension = comps[ comps.Length - 1 ].ToLower();
-
-					if ( extension == "png" )
-					{
-						ctx.Response.Write(
-							String.Format( 
-							"<enclosure>url=\"{0}{1}:{2}{3}/sfile.ashx?fid={4}\" length=\"{5}\" type=\"{6}\"</enclosure>",
-							ctx.Request.IsSecureConnection ? "https://" : "http://",
-							ctx.Request.Url.Host,
-							ctx.Request.Url.Port.ToString(),
-							ctx.Request.ApplicationPath,
-							node.ID,
-							fileNode.Length,
-							"image/png" ) ); 
-					}
-				}
 				*/
 			}
 
@@ -134,7 +123,7 @@ namespace Simias.RssFeed
 			
 			ctx.Response.Write( "<guid isPermaLink=\"false\">" + node.ID + "</guid>" );
 			
-			Property lastWrite = node.Properties.GetSingleProperty( "LastWrite" );
+			Property lastWrite = node.Properties.GetSingleProperty( Simias.RssFeed.Util.LastModified );
 			if ( lastWrite != null )
 			{
 				Simias.RssFeed.Util.SendPublishDate( ctx, ( DateTime ) lastWrite.Value );

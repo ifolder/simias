@@ -30,6 +30,8 @@ namespace Simias.RssFeed
 {
 	public class Util
 	{
+		public static string LastModified = "LastModified";
+
 		public static string[] MonthsOfYear =
 		{
 			"Jan",

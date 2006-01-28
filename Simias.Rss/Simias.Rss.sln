@@ -1,9 +1,14 @@
 Microsoft Visual Studio Solution File, Format Version 8.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simias.Rss", "Simias.Rss.csproj", "{A46785EE-0100-4033-8872-CA9BD4B2400E}"
 	ProjectSection(ProjectDependencies) = postProject
+		{99972174-EE39-4D93-A693-6C372840A585} = {99972174-EE39-4D93-A693-6C372840A585}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simias.HttpFile", "..\Simias.HttpFile\Simias.HttpFile.csproj", "{AE7C4869-6E1C-4F24-9405-8E6A5CCACA1F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simias.HttpFile", "..\Simias.HttpFile\Simias.HttpFile.csproj", "{99972174-EE39-4D93-A693-6C372840A585}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FeedSync", "FeedSync\FeedSync.csproj", "{121EEF59-D50B-4498-8556-65EC6E1679B0}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
@@ -17,10 +22,14 @@ Global
 		{A46785EE-0100-4033-8872-CA9BD4B2400E}.Debug.Build.0 = Debug|.NET
 		{A46785EE-0100-4033-8872-CA9BD4B2400E}.Release.ActiveCfg = Release|.NET
 		{A46785EE-0100-4033-8872-CA9BD4B2400E}.Release.Build.0 = Release|.NET
-		{AE7C4869-6E1C-4F24-9405-8E6A5CCACA1F}.Debug.ActiveCfg = Debug|.NET
-		{AE7C4869-6E1C-4F24-9405-8E6A5CCACA1F}.Debug.Build.0 = Debug|.NET
-		{AE7C4869-6E1C-4F24-9405-8E6A5CCACA1F}.Release.ActiveCfg = Release|.NET
-		{AE7C4869-6E1C-4F24-9405-8E6A5CCACA1F}.Release.Build.0 = Release|.NET
+		{99972174-EE39-4D93-A693-6C372840A585}.Debug.ActiveCfg = Debug|.NET
+		{99972174-EE39-4D93-A693-6C372840A585}.Debug.Build.0 = Debug|.NET
+		{99972174-EE39-4D93-A693-6C372840A585}.Release.ActiveCfg = Release|.NET
+		{99972174-EE39-4D93-A693-6C372840A585}.Release.Build.0 = Release|.NET
+		{121EEF59-D50B-4498-8556-65EC6E1679B0}.Debug.ActiveCfg = Debug|.NET
+		{121EEF59-D50B-4498-8556-65EC6E1679B0}.Debug.Build.0 = Debug|.NET
+		{121EEF59-D50B-4498-8556-65EC6E1679B0}.Release.ActiveCfg = Release|.NET
+		{121EEF59-D50B-4498-8556-65EC6E1679B0}.Release.Build.0 = Release|.NET
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection

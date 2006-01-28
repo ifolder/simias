@@ -90,6 +90,11 @@
                     HintPath = "..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Web.dll"
                 />
                 <Reference
+                    Name = "SimiasClient"
+                    AssemblyName = "SimiasClient"
+                    HintPath = "..\simias\src\SimiasClient\SimiasClient.dll"
+                />
+                <Reference
                     Name = "Simias.HttpFile"
                     AssemblyName = "Simias.HttpFile"
                     HintPath = "..\Simias.HttpFile\bin\Debug\Simias.HttpFile.dll"

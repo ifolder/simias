@@ -21,6 +21,7 @@
  * 
  ***********************************************************************/
 using System;
+using System.Collections;
 using System.IO;
 using System.Net;
 using System.Web;
@@ -42,6 +43,7 @@ namespace Simias.RssFeed
 		{
 			HttpRequest request = context.Request;
 			HttpResponse response = context.Response;
+			response.StatusCode = (int) HttpStatusCode.BadRequest;
 			
 			try
 			{
@@ -59,17 +61,19 @@ namespace Simias.RssFeed
 					//SyncMethod method = (SyncMethod)Enum.Parse(typeof(SyncMethod), Request.Headers.Get(SyncHeaders.Method), true);
 					if ( method == "get" )
 					{
+						Store store = Store.GetStore();
+
 						// If a query string was not passed in the request return
 						// a list of collections off the default domain
 						if ( request.QueryString.Count == 0 )
 						{
-							Store store = Store.GetStore();
 							//Domain domain = store.GetDomain( store.DefaultDomain );
 
 							ICSList ifolders = store.GetCollectionsByType( "iFolder" );
 							//ICSList ifolders = store.GetCollectionsByDomain( store.DefaultDomain );
 							if ( ifolders.Count > 0 )
 							{
+								response.StatusCode = (int) HttpStatusCode.OK;
 								response.ContentType = "text/xml";
 								response.Write( "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>" );
 								response.Write( "<rss version=\"2.0\">" );
@@ -90,21 +94,32 @@ namespace Simias.RssFeed
 								response.Write( "</rss>" );
 							}
 
-							response.StatusCode = (int) HttpStatusCode.OK;
 						}
 						else
 						{
-							response.StatusCode = (int) HttpStatusCode.BadRequest;
+							// Was a specific channel specified
+							string specifiedFeed = request.QueryString[ "feed" ];
+							log.Debug( "Processing channel: " + specifiedFeed );
+							ICSList list = store.GetCollectionsByName( specifiedFeed, SearchOp.Equal );
+							if ( list != null && list.Count > 0 )
+							{
+								response.StatusCode = (int) HttpStatusCode.OK;
+								response.ContentType = "text/xml";
+								response.Write( "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>" );
+								response.Write( "<rss version=\"2.0\">" );
+
+								IEnumerator colEnum = list.GetEnumerator();
+								if( colEnum.MoveNext() == true )
+								{
+									Simias.RssFeed.Channel channel = 
+										new Simias.RssFeed.Channel( context, store, colEnum.Current as ShallowNode );
+									channel.Send();
+								}
+								
+								response.Write( "</rss>" );
+							}
 						}
 					}
-					else
-					{
-						response.StatusCode = (int) HttpStatusCode.BadRequest;
-					}
-				}
-				else
-				{
-					response.StatusCode = (int) HttpStatusCode.BadRequest;
 				}
 			}
 			catch( Exception ex )
