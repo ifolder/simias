@@ -325,7 +325,13 @@ namespace Simias.IdentitySync
 					status = MemberStatus.Updated;
 				}
 				
-				string dn = member.Properties.GetSingleProperty( "DN" ).Value as string;
+				string dn = null;
+
+				try
+				{
+					dn = member.Properties.GetSingleProperty( "DN" ).Value as string;
+				}
+				catch{}
 				Property dnProp = new Property( "DN", DN );
 				if ( DN != null && DN != "" && DN != dn )
 				{

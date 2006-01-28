@@ -512,6 +512,7 @@ AC_OUTPUT([
 Makefile
 src/Makefile
 src/MdbSync/Makefile
+src/SimpleSync/Makefile
 ])
 
 

@@ -1,0 +1,29 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simias.Server", "Simias.Server.csproj", "{8EE63449-020F-43BD-A555-FED570945D07}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleSync", "src\SimpleSync\SimpleSync.csproj", "{D198637E-E397-4BC4-9ECA-91A4C1179F7B}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{8EE63449-020F-43BD-A555-FED570945D07}.Debug.ActiveCfg = Debug|.NET
+		{8EE63449-020F-43BD-A555-FED570945D07}.Debug.Build.0 = Debug|.NET
+		{8EE63449-020F-43BD-A555-FED570945D07}.Release.ActiveCfg = Release|.NET
+		{8EE63449-020F-43BD-A555-FED570945D07}.Release.Build.0 = Release|.NET
+		{D198637E-E397-4BC4-9ECA-91A4C1179F7B}.Debug.ActiveCfg = Debug|.NET
+		{D198637E-E397-4BC4-9ECA-91A4C1179F7B}.Debug.Build.0 = Debug|.NET
+		{D198637E-E397-4BC4-9ECA-91A4C1179F7B}.Release.ActiveCfg = Release|.NET
+		{D198637E-E397-4BC4-9ECA-91A4C1179F7B}.Release.Build.0 = Release|.NET
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

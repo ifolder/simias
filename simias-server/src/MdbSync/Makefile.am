@@ -7,8 +7,8 @@ MdbSync_CSFILES_CSC := $(subst /,$(SEP),$(MdbSync_CSFILES))
 MdbSync_INCLUDES =
 MdbSync_RESOURCES =
 MdbSync_FLAGS = $(CSC_LIBFLAG)
+MdbSync_LIBPATH = $(DESTDIR)$(webbindir) ../../../simias/src/SimiasLib.dll ../../../simias/src/SimiasClient
 MdbSync_LIBS = System.dll System.Data.dll $(SYSTEM_XML) System.Security.dll System.Web.dll System.Web.Services.dll SimiasLib.dll SimiasClient.dll  
-MdbSync_LIBPATH = $(DESTDIR)$(webbindir) 
 
 EXTRA_DIST = $(MdbSync_CSFILES) AssemblyInfo.cs.in 
 
@@ -21,7 +21,7 @@ endif
 all: Simias.MdbSync.dll
 
 Simias.MdbSync.dll: $(MdbSync_CSFILES) 
-	$(CSC) /out:$@ $(CSCFLAGS) $(MdbSync_FLAGS) $(MdbSync_LIBS:%=/r:%) $(MdbSync_LIBPATH:%=/lib:%) $(MdbSync_RESOURCES:%=$(ICON_FLAG)%) $(MdbSync_CSFILES_CSC) $(DOC_FILE_CMD)
+	$(CSC) /out:$@ $(CSCFLAGS) $(MdbSync_FLAGS) $(MdbSync_LIBPATH:%=/lib:%) $(MdbSync_LIBS:%=/r:%) $(MdbSync_RESOURCES:%=$(ICON_FLAG)%) $(MdbSync_CSFILES_CSC) $(DOC_FILE_CMD)
 
 #Simias.MdbSync.dll: AssemblyInfo.cs $(srcdir)/SimiasSetup.cs $(MdbSync_CSFILES) $(MdbSync_RESOURCES)
 #	$(CSC) /out:$@ $(CSCFLAGS) $(STRONG_NAME) $(MdbSync_FLAGS) $(MdbSync_LIBS:%=/r:%) $(MdbSync_LIBPATH:%=/lib:%) $(MdbSync_RESOURCES:%=$(ICON_FLAG)%) $(MdbSync_CSFILES_CSC) $(subst /,$(SEP),$(srcdir)/SimiasSetup.cs) $(DOC_FILE_CMD)
