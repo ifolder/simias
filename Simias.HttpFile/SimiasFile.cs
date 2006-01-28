@@ -96,6 +96,7 @@ namespace Simias.HttpFile
 									log.Debug( "  filename: " + fileNode.GetFileName() );
 									log.Debug( "  fullpath: " + fullPath );
 
+									response.StatusCode = (int) HttpStatusCode.OK;
 									response.ContentType = 
 										Simias.HttpFile.Response.GetMimeType( fileNode.GetFileName() );
 									
@@ -112,8 +113,6 @@ namespace Simias.HttpFile
 									*/
 											
 								}
-
-								response.StatusCode = (int) HttpStatusCode.OK;
 							}
 						}
 					}
