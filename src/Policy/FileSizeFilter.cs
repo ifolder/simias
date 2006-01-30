@@ -47,9 +47,19 @@ namespace Simias.Policy
 		static public string FileSizeFilterShortDescription = "File size filter";
 
 		/// <summary>
-		/// Policy object that is used to manage quota.
+		/// Policy object that contains the aggregate policy for the domain and member only.
 		/// </summary>
-		private Policy policy;
+		private Policy memberPolicy;
+
+		/// <summary>
+		/// Policy object that contains the aggregate policy including the collection limits.
+		/// </summary>
+		private Policy collectionPolicy = null;
+
+		/// <summary>
+		///  File size filter limit.
+		/// </summary>
+		private long limit = 0;
 		#endregion
 
 		#region Properties
@@ -58,26 +68,7 @@ namespace Simias.Policy
 		/// </summary>
 		public long Limit
 		{
-			get
-			{
-				// Set to no limit.
-				long limit = 0;
-
-				// If there is a policy find the most restrictive limit.
-				if ( policy != null )
-				{
-					foreach ( Rule rule in policy.Rules )
-					{
-						long ruleLimit = ( long )rule.Operand;
-						if ( (limit == 0 ) || ( ruleLimit < limit ) )
-						{
-							limit = ruleLimit;
-						}
-					}
-				}
-
-				return limit;
-			}
+			get { return limit; }
 		}
 		#endregion
 
@@ -85,10 +76,25 @@ namespace Simias.Policy
 		/// <summary>
 		/// Initializes a new instance of an object.
 		/// </summary>
-		/// <param name="policy">The aggregate policy object.</param>
-		private FileSizeFilter( Policy policy )
+		/// <param name="member">Member that this file size filter is associated with.</param>
+		private FileSizeFilter( Member member )
 		{
-			this.policy = policy;
+			PolicyManager pm = new PolicyManager();
+			this.memberPolicy = pm.GetAggregatePolicy( FileSizeFilterPolicyID, member );
+			this.limit = GetAggregateLimit( memberPolicy );
+		}
+
+		/// <summary>
+		/// Initializes a new instance of an object.
+		/// </summary>
+		/// <param name="member">The member associated with this collection.</param>
+		/// <param name="collection">Collection that this file size filter is associated with.</param>
+		private FileSizeFilter( Member member, Collection collection )
+		{
+			PolicyManager pm = new PolicyManager();
+			this.memberPolicy = pm.GetAggregatePolicy( FileSizeFilterPolicyID, member );
+			this.collectionPolicy = pm.GetAggregatePolicy( FileSizeFilterPolicyID, member, collection );
+			this.limit = GetAggregateLimit( collectionPolicy );
 		}
 		#endregion
 
@@ -314,9 +320,7 @@ namespace Simias.Policy
 		/// <returns>A FileSizeFilter object that contains the policy for the specified member.</returns>
 		static public FileSizeFilter Get( Member member )
 		{
-			PolicyManager pm = new PolicyManager();
-			Policy policy = pm.GetAggregatePolicy( FileSizeFilterPolicyID, member );
-			return new FileSizeFilter( policy );
+			return new FileSizeFilter( member );
 		}
 
 		/// <summary>
@@ -327,9 +331,7 @@ namespace Simias.Policy
 		/// <returns>A FileSizeFilter object that contains the policy for the specified member.</returns>
 		static public FileSizeFilter Get( Member member, Collection collection )
 		{
-			PolicyManager pm = new PolicyManager();
-			Policy policy = pm.GetAggregatePolicy( FileSizeFilterPolicyID, member, collection );
-			return new FileSizeFilter( policy );
+			return new FileSizeFilter( member, collection );
 		}
 
 		/// <summary>
@@ -421,6 +423,32 @@ namespace Simias.Policy
 
 		#region Private Methods
 		/// <summary>
+		/// Gets the aggregate file size filter limit for the specified policy.
+		/// </summary>
+		/// <param name="policy">Policy to get the file size filter limit from.</param>
+		/// <returns>The aggregate file size filter limit.</returns>
+		private long GetAggregateLimit( Policy policy )
+		{
+			// Set to no limit.
+			long limit = 0;
+
+			// If there is a policy find the most restrictive limit.
+			if ( policy != null )
+			{
+				foreach ( Rule rule in policy.Rules )
+				{
+					long ruleLimit = ( long )rule.Operand;
+					if ( ( limit == 0 ) || ( ruleLimit < limit ) )
+					{
+						limit = ruleLimit;
+					}
+				}
+			}
+
+			return limit;
+		}
+
+		/// <summary>
 		/// Gets the file size rule for the specified policy.
 		/// </summary>
 		/// <param name="policy">Policy to retrieve the file size rule from.</param>
@@ -446,7 +474,24 @@ namespace Simias.Policy
 		/// <returns>True if the file size is allowed to pass through the filter. Otherwise false is returned.</returns>
 		public bool Allowed( long fileSize )
 		{
-			return ( ( policy == null ) || ( policy.Apply( fileSize ) == Rule.Result.Allow ) ) ? true : false;
+			bool isAllowed = true;
+
+			// Check the overall domain/member policy first to make sure that the
+			// file size doesn't exceed the limit.
+			if ( memberPolicy != null )
+			{
+				// Apply the rule to see if there is space available.
+				isAllowed = ( memberPolicy.Apply( fileSize ) == Rule.Result.Allow );
+			}
+
+			// See if there is a collection policy that limits the size of a file in the collection.
+			if ( ( collectionPolicy != null ) && isAllowed )
+			{
+				// Apply the rule to see if the file size exceeds the policy on the collection.
+				isAllowed = ( collectionPolicy.Apply( fileSize ) == Rule.Result.Allow );
+			}
+
+			return isAllowed;
 		}
 		#endregion
 	}

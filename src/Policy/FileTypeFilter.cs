@@ -124,9 +124,14 @@ namespace Simias.Policy
 		static public string FileTypeFilterShortDescription = "File type filter";
 
 		/// <summary>
-		/// Policy object that is used to manage quota.
+		/// Policy object that contains the aggregate policy for the domain and member only.
 		/// </summary>
-		private Policy policy;
+		private Policy memberPolicy;
+
+		/// <summary>
+		/// Policy object that contains the aggregate policy including the collection limits.
+		/// </summary>
+		private Policy collectionPolicy = null;
 		#endregion
 
 		#region Properties
@@ -135,7 +140,7 @@ namespace Simias.Policy
 		/// </summary>
 		public FileTypeEntry[] FilterList
 		{
-			get { return GetPatterns( policy ); }
+			get { return GetPatterns( ( collectionPolicy != null ) ? collectionPolicy : memberPolicy  ); }
 		}
 		#endregion
 
@@ -143,10 +148,23 @@ namespace Simias.Policy
 		/// <summary>
 		/// Initializes a new instance of an object.
 		/// </summary>
-		/// <param name="policy">The aggregate policy object.</param>
-		private FileTypeFilter( Policy policy )
+		/// <param name="member">Member that this file type filter is associated with.</param>
+		private FileTypeFilter( Member member )
 		{
-			this.policy = policy;
+			PolicyManager pm = new PolicyManager();
+			this.memberPolicy = pm.GetAggregatePolicy( FileTypeFilterPolicyID, member, true );
+		}
+
+		/// <summary>
+		/// Initializes a new instance of an object.
+		/// </summary>
+		/// <param name="member">Member that this file type filter is associated with.</param>
+		/// <param name="collection">Collection that this disk space quota is associated with.</param>
+		private FileTypeFilter( Member member, Collection collection )
+		{
+			PolicyManager pm = new PolicyManager();
+			this.memberPolicy = pm.GetAggregatePolicy( FileTypeFilterPolicyID, member, true );
+			this.collectionPolicy = pm.GetAggregatePolicy( FileTypeFilterPolicyID, member, collection, true );
 		}
 		#endregion
 
@@ -400,9 +418,7 @@ namespace Simias.Policy
 		/// <returns>A FileTypeFilter object that contains the policy for the specified member.</returns>
 		static public FileTypeFilter Get( Member member )
 		{
-			PolicyManager pm = new PolicyManager();
-			Policy policy = pm.GetAggregatePolicy( FileTypeFilterPolicyID, member );
-			return new FileTypeFilter( policy );
+			return new FileTypeFilter( member );
 		}
 
 		/// <summary>
@@ -413,9 +429,7 @@ namespace Simias.Policy
 		/// <returns>A FileTypeFilter object that contains the policy for the specified member.</returns>
 		static public FileTypeFilter Get( Member member, Collection collection )
 		{
-			PolicyManager pm = new PolicyManager();
-			Policy policy = pm.GetAggregatePolicy( FileTypeFilterPolicyID, member, collection );
-			return new FileTypeFilter( policy );
+			return new FileTypeFilter( member, collection );
 		}
 
 		/// <summary>
@@ -542,7 +556,24 @@ namespace Simias.Policy
 		/// <returns>True if the file is allowed to pass through the filter. Otherwise false is returned.</returns>
 		public bool Allowed( string fileName )
 		{
-			return ( ( policy == null ) || ( policy.Apply( Path.GetFileName( fileName ) ) == Rule.Result.Allow ) ) ? true : false;
+			bool isAllowed = true;
+			string fullPath = Path.GetFileName( fileName );
+
+			// Check the overall domain/member policy first to make sure that the file type is not excluded.
+			if ( memberPolicy != null )
+			{
+				// Apply the rule to see if there is space available.
+				isAllowed = ( memberPolicy.Apply( fullPath ) == Rule.Result.Allow );
+			}
+
+			// See if there is a collection policy that limits the types of files in the collection.
+			if ( ( collectionPolicy != null ) && isAllowed )
+			{
+				// Apply the rule to see if the file type is allowed in the collection.
+				isAllowed = ( collectionPolicy.Apply( fullPath ) == Rule.Result.Allow );
+			}
+
+			return isAllowed;
 		}
 		#endregion
 	}

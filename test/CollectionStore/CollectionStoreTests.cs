@@ -66,6 +66,8 @@ namespace Simias.Storage.Tests
 		public void Init()
 		{
 			// Connect to the store.
+			SimiasSetup.prefix = @"C:\dev\Simias\stage";
+			Store.Initialize( @"C:\Temp\Test\simias", false, 35550 );
 			store = Store.GetStore();
 			manager = Simias.Service.Manager.GetManager();
 			manager.StartServices();
@@ -1931,8 +1933,8 @@ namespace Simias.Storage.Tests
 					throw new ApplicationException( "Member filter failed." );
 				}
 
-				// Now apply the filter so that it will fail.
-				if ( ftf.Allowed( "myfile.txt" ) == true )
+				// Now apply the filter so that it will pass.
+				if ( ftf.Allowed( "myfile.txt" ) == false )
 				{
 					throw new ApplicationException( "Member filter failed." );
 				}
@@ -1984,7 +1986,7 @@ namespace Simias.Storage.Tests
 				}
 
 				// Now apply the filter so that it will fail.
-				if ( ftf.Allowed( "myfile.txt" ) == true )
+				if ( ftf.Allowed( "myfile.txt" ) == false )
 				{
 					throw new ApplicationException( "Member filter failed." );
 				}
