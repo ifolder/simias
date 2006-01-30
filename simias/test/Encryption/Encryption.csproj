@@ -7,7 +7,7 @@
     >
         <Build>
             <Settings
-                ApplicationIcon = "App.ico"
+                ApplicationIcon = ""
                 AssemblyKeyContainerName = ""
                 AssemblyName = "Encryption"
                 AssemblyOriginatorKeyFile = ""
@@ -85,23 +85,19 @@
                     HintPath = "..\..\tools\NUnit\net\bin\nunit.framework.dll"
                 />
                 <Reference
-                    Name = "Simias"
-                    AssemblyName = "Simias"
-                    HintPath = "..\..\stage\web\bin\SimiasLib.dll"
-                />
-                <Reference
                     Name = "nunit.core"
                     AssemblyName = "nunit.core"
                     HintPath = "..\..\tools\NUnit\net\bin\nunit.core.dll"
+                />
+                <Reference
+                    Name = "SimiasLib"
+                    AssemblyName = "SimiasLib"
+                    HintPath = "..\..\..\final\web\bin\SimiasLib.dll"
                 />
             </References>
         </Build>
         <Files>
             <Include>
-                <File
-                    RelPath = "App.ico"
-                    BuildAction = "Content"
-                />
                 <File
                     RelPath = "AssemblyInfo.cs"
                     SubType = "Code"

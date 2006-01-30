@@ -246,7 +246,7 @@ namespace Simias.Policy
 		{
 			Property property = null;
 
-			// See if the rule already exists so we don't add duplicate rules.
+			// See if the rule already exists.
 			MultiValuedList mvl = properties.GetProperties( RuleList );
 			foreach( Property p in mvl )
 			{
@@ -280,6 +280,52 @@ namespace Simias.Policy
 			}
 
 			return property;
+		}
+
+		/// <summary>
+		/// Gets the rule exception list.
+		/// </summary>
+		/// <param name="policy">Policy to get the exception list from.</param>
+		/// <returns>An array of exception rules from the policy.</returns>
+		private Rule[] GetExceptionList( Policy policy )
+		{
+			ArrayList exceptionList = new ArrayList();
+
+			// Get the rule list.
+			MultiValuedList mvl = policy.properties.GetProperties( RuleList );
+			foreach( Property p in mvl )
+			{
+				Rule rule = new Rule( p.Value );
+				if ( rule.IsException )
+				{
+					exceptionList.Add( rule );
+				}
+			}
+
+			return exceptionList.ToArray( typeof( Rule ) ) as Rule[];
+		}
+
+		/// <summary>
+		/// Gets the rule exclusion list.
+		/// </summary>
+		/// <param name="policy">Policy to get the exclusion list from.</param>
+		/// <returns>An array of exclusion rules from the policy.</returns>
+		private Rule[] GetExclusionList( Policy policy )
+		{
+			ArrayList exclusionList = new ArrayList();
+
+			// Get the rule list.
+			MultiValuedList mvl = policy.properties.GetProperties( RuleList );
+			foreach( Property p in mvl )
+			{
+				Rule rule = new Rule( p.Value );
+				if ( rule.IsExclusion )
+				{
+					exclusionList.Add( rule );
+				}
+			}
+
+			return exclusionList.ToArray( typeof( Rule ) ) as Rule[];
 		}
 		#endregion
 
@@ -349,76 +395,38 @@ namespace Simias.Policy
 		/// <returns>True if the policy allows the operation, otherwise false is returned.</returns>
 		public Rule.Result Apply( object input )
 		{
-			bool allowedByAllowRule = false;
-			bool hasAllowRule = false;
-			Rule.Result returnResult = Rule.Result.Allow;
-
 			// Walk through the aggregate policy list in order if it is enabled. 
 			// Otherwise just use the current policy.
 			Policy[] policyArray = IsAggregate ? aggregatePolicy.ToArray( typeof( Policy ) ) as Policy[] : new Policy[] { this };
-
-			// Check the deny rules first.
 			foreach ( Policy policy in policyArray )
 			{
 				// See if there is a time condition as to when this policy is effective.
 				Property p = policy.Properties.GetSingleProperty( TimeCondition );
 				if ( ( p == null ) || ( new PolicyTime( p.Value as string ).Apply() == Rule.Result.Allow ) )
 				{
-					// Get all of the deny rules for this policy.
-					MultiValuedList mvl = policy.Properties.GetProperties( RuleList );
-					foreach ( Property rp in mvl )
+					// Check the exception rules first.
+					foreach ( Rule exception in GetExceptionList( policy ) )
 					{
-						// Apply the rule to see if it passes.
-						Rule rule = new Rule( rp.Value );
-						Rule.Result test = rule.Apply( input );
-
-						// All allow rules are checked unless a deny rule is found and the
-						// result is deny. Otherwise, if a single allow rule result is
-						// found the return result is allowed.
-						if ( rule.RuleResult == Rule.Result.Allow )
+						// Apply the exception rule to see if it passes.
+						if ( exception.Apply( input ) == Rule.Result.Allow )
 						{
-							// There is at least one allow rule.
-							hasAllowRule = true;
-
-							// An allow rule always needs to continue to check all the rules
-							// unless a deny rule is found.
-							if ( test == Rule.Result.Allow )
-							{
-								// This flag says that there was an allow rule that returned
-								// an allowed status.
-								allowedByAllowRule = true;
-							}
-						}
-						else
-						{
-							// The deny rule overrides all other rules. However, if the
-							// result is allow it does not explicitly allow the operation,
-							// unless there are no other allow rules.
-							if ( test == Rule.Result.Deny )
-							{
-								// A deny result for a Deny Rule always final.
-								returnResult = Rule.Result.Deny;
-								break;
-							}
+							return Rule.Result.Allow;
 						}
 					}
 
-					// Don't continue to check other policies if the previous policy denied the rule.
-					if ( returnResult == Rule.Result.Deny )
+					// Check the exclude list to see if it passes.
+					foreach ( Rule exclusion in GetExclusionList( policy ) )
 					{
-						break;
+						// Apply the rule to see if it passes.
+						if ( exclusion.Apply( input ) == Rule.Result.Deny )
+						{
+							return Rule.Result.Deny;
+						}
 					}
 				}
 			}
 
-			// The return result is denied if there were no deny results and there was at least
-			// one rule in the policy, but none of the allow rules passed.
-			if ( hasAllowRule && !allowedByAllowRule )
-			{
-				returnResult = Rule.Result.Deny;
-			}
-
-			return returnResult;
+			return Rule.Result.Allow;
 		}
 
 		/// <summary>
@@ -618,17 +626,62 @@ namespace Simias.Policy
 		/// returned if the Policy does not exist.</returns>
 		public Policy GetAggregatePolicy( string policyID, Member member )
 		{
+			return GetAggregatePolicy( policyID, member, false );
+		}
+
+		/// <summary>
+		/// Gets an aggregate Policy that is associated with the user and the specified Collection.
+		/// This routine will check for an associated Policy on the Member first. If no Policy is 
+		/// found, the domain will be searched for an associated Policy. If there is a local Policy 
+		/// for the user it will be aggregated with the other Policy if one was found.  Otherwise 
+		/// it will be returned. The procedure for the local Policy is also followed for an 
+		/// associated Collection Policy.
+		/// </summary>
+		/// <param name="policyID">Strong name of the Policy.</param>
+		/// <param name="member">Member used to lookup the associated aggregate Policy.</param>
+		/// <param name="collection">Collection used to lookup the associated aggregate Policy.</param>
+		/// <returns>A reference to the associated aggregate Policy if successful. A null is
+		/// returned if the Policy does not exist.</returns>
+		public Policy GetAggregatePolicy( string policyID, Member member, Collection collection )
+		{
+			return GetAggregatePolicy( policyID, member, collection, false );
+		}
+
+		/// <summary>
+		/// Gets an aggregate Policy that is associated with the user. This routine will check for
+		/// an associated Policy on the Member first. If no Policy is found, the domain will
+		/// be searched for an associated Policy. If there is a local Policy for the user it will
+		/// be aggregated with the other Policy if one was found. Otherwise it will be returned.
+		/// </summary>
+		/// <param name="policyID">Strong name for the Policy.</param>
+		/// <param name="member">Member used to lookup the associated aggregate Policy.</param>
+		/// <param name="includeExceptions">Include exception policies.</param>
+		/// <returns>A reference to the associated aggregate Policy if successful. A null is
+		/// returned if the Policy does not exist.</returns>
+		public Policy GetAggregatePolicy( string policyID, Member member, bool includeExceptions )
+		{
 			// First look for an exception policy for the member object. If a policy is found,
 			// then we don't need to look for a domain policy since the exception policy will
 			// override the domain policy.
 			Policy policy = GetPolicy( policyID, member );
-			if ( policy == null )
+			if ( ( policy == null ) || includeExceptions )
 			{
 				// Look for a domain policy since there is no exception policy.
 				string domainID = member.GetDomainID( store );
 				if ( domainID != null )
 				{
-					policy = GetPolicy( policyID, domainID );
+					Policy domainPolicy = GetPolicy( policyID, domainID );
+					if ( domainPolicy != null )
+					{
+						if ( policy == null )
+						{
+							policy = domainPolicy;
+						}
+						else
+						{
+							policy.AddAggregatePolicy( domainPolicy );
+						}
+					}
 				}
 			}
 
@@ -666,12 +719,13 @@ namespace Simias.Policy
 		/// <param name="policyID">Strong name of the Policy.</param>
 		/// <param name="member">Member used to lookup the associated aggregate Policy.</param>
 		/// <param name="collection">Collection used to lookup the associated aggregate Policy.</param>
+		/// <param name="includeExceptions">Include exception policies.</param>
 		/// <returns>A reference to the associated aggregate Policy if successful. A null is
 		/// returned if the Policy does not exist.</returns>
-		public Policy GetAggregatePolicy( string policyID, Member member, Collection collection )
+		public Policy GetAggregatePolicy( string policyID, Member member, Collection collection, bool includeExceptions )
 		{
 			// Get the aggregate for the member.
-			Policy policy = GetAggregatePolicy( policyID, member );
+			Policy policy = GetAggregatePolicy( policyID, member, includeExceptions );
 
 			// Check for a collection policy.
 			Policy collectionPolicy = GetPolicy( policyID, collection );
@@ -1044,6 +1098,22 @@ namespace Simias.Policy
 		#endregion
 
 		#region Properties
+		/// <summary>
+		/// Gets whether this rule is an exclusion rule.
+		/// </summary>
+		public bool IsExclusion
+		{
+			get { return ( RuleResult == Result.Deny ) ? true : false; }
+		}
+
+		/// <summary>
+		/// Gets whether this rule is an exception rule.
+		/// </summary>
+		public bool IsException
+		{
+			get { return ( RuleResult == Result.Allow ) ? true : false; }
+		}
+
 		/// <summary>
 		/// Gets or sets the object that is used to match against the input object when the
 		/// Apply method is called.
