@@ -92,13 +92,16 @@ namespace Simias.HttpFile
 									collection = store.GetCollectionByID ( cid.Value as string );
 									fileNode = new FileNode( node );
 									string fullPath = fileNode.GetFullPath( collection );
+									string fileName = fileNode.GetFileName();
+
 									log.Debug( "  nodename: " + fileNode.Name );
-									log.Debug( "  filename: " + fileNode.GetFileName() );
+									log.Debug( "  filename: " + fileName );
 									log.Debug( "  fullpath: " + fullPath );
 
 									response.StatusCode = (int) HttpStatusCode.OK;
 									response.ContentType = 
-										Simias.HttpFile.Response.GetMimeType( fileNode.GetFileName() );
+										Simias.HttpFile.Response.GetMimeType( fileName );
+									response.AddHeader( "Content-ID", fileName );
 									
 									response.TransmitFile( fullPath );
 									
