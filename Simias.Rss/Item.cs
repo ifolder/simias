@@ -90,7 +90,6 @@ namespace Simias.RssFeed
 						ctx.Request.ApplicationPath,
 						node.ID ) ); 
 
-				/*
 				ctx.Response.Write(
 					String.Format( 
 						"<enclosure>url=\"{0}{1}:{2}{3}/sfile.ashx?fid={4}\" length=\"{5}\" type=\"{6}\"</enclosure>",
@@ -101,7 +100,6 @@ namespace Simias.RssFeed
 						node.ID,
 						fileNode.Length,
 						Simias.HttpFile.Response.GetMimeType( fileNode.GetFileName() ) ) );
-				*/
 			}
 
 			Member member = domain.GetMemberByID( node.Creator );
