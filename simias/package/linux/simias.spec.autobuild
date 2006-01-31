@@ -9,9 +9,9 @@
 #
 
 # norootforbuild
-# neededforbuild  libstdc++-devel libstdc++ compat-libstdc++ gcc-c++ gnutls-devel libglade2-devel libgnomeprintui-devel libgnomeui-devel libicu libwnck-devel log4net mDNSResponder-devel mono-devel mono-core mono-data mono-web update-desktop-files log4net pkgconfig libxml2 libxml2-devel glib2 glib2-devel e2fsprogs e2fsprogs-devel
+# neededforbuild  libstdc++-devel libstdc++ compat-libstdc++ gcc-c++ gnutls-devel libglade2-devel libgnomeprintui-devel libgnomeui-devel libicu libwnck-devel log4net mono-devel mono-core mono-data mono-web update-desktop-files log4net pkgconfig libxml2 libxml2-devel glib2 glib2-devel e2fsprogs e2fsprogs-devel
 
-BuildRequires: libstdc++-devel libstdc++ compat-libstdc++ gcc-c++ gnutls-devel libglade2-devel libgnomeprintui-devel libgnomeui-devel libicu libwnck-devel log4net mDNSResponder-devel mono-devel mono-core mono-data mono-web update-desktop-files log4net pkgconfig libxml2 libxml2-devel glib2 glib2-devel e2fsprogs e2fsprogs-devel
+BuildRequires: libstdc++-devel libstdc++ compat-libstdc++ gcc-c++ gnutls-devel libglade2-devel libgnomeprintui-devel libgnomeui-devel libicu libwnck-devel log4net mono-devel mono-core mono-data mono-web update-desktop-files log4net pkgconfig libxml2 libxml2-devel glib2 glib2-devel e2fsprogs e2fsprogs-devel
 
 Name:         simias
 %define buildnum @@BUILDNUM@@
