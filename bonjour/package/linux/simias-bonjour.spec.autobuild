@@ -9,9 +9,9 @@
 #
 
 # norootforbuild
-# neededforbuild  libstdc++-devel libstdc++ compat-libstdc++ gcc-c++ gnutls-devel libglade2-devel libgnomeprintui-devel libgnomeui-devel libicu libwnck-devel log4net mono-devel mono-core mono-data mono-web update-desktop-files log4net pkgconfig libxml2 libxml2-devel glib2 glib2-devel e2fsprogs e2fsprogs-devel mDNSResponder-devel
+# neededforbuild  gnutls-devel mono-devel mono-core mono-data mono-web pkgconfig glib2 glib2-devel mDNSResponder-devel log4net simias
 
-BuildRequires: libstdc++-devel libstdc++ compat-libstdc++ gcc-c++ gnutls-devel libglade2-devel libgnomeprintui-devel libgnomeui-devel libicu libwnck-devel log4net mono-devel mono-core mono-data mono-web update-desktop-files log4net pkgconfig libxml2 libxml2-devel glib2 glib2-devel e2fsprogs e2fsprogs-devel mDNSResponder-devel
+BuildRequires: gnutls-devel mono-devel mono-core mono-data mono-web pkgconfig glib2 glib2-devel mDNSResponder-devel log4net simias
 
 Name:         simias-bonjour
 %define buildnum @@BUILDNUM@@
@@ -46,8 +46,9 @@ export BUILDNUM=%{buildnum}
 
 %build
 export BUILDNUM=%{buildnum}
-./configure --prefix=%{prefix}
+./autogen.sh --prefix=%{prefix}
 make
+make dist
 #=============================================================================
 
 %install

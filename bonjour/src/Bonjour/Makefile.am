@@ -34,6 +34,7 @@ endif
 
 install-exec-local: Simias.Bonjour.dll $(DATA_FILES)
 	$(mkinstalldirs) $(DESTDIR)$(webdir)
+	$(mkinstalldirs) $(DESTDIR)$(webdir)/modules
 	$(mkinstalldirs) $(DESTDIR)$(webbindir)
 	$(INSTALL_PROGRAM) Simias.Bonjour.dll $(OTHER_FILES) $(DEBUG_FILES) $(DESTDIR)$(webbindir)
 	$(INSTALL_PROGRAM) Simias.Bonjour.conf $(DESTDIR)$(webdir)/modules
