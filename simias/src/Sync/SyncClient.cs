@@ -718,7 +718,7 @@ namespace Simias.Sync
 		public void SyncNow()
 		{
 			// Assume the server is alive.
-			bool	sAlive = true;
+			bool	sAlive = false;
 			try
 			{
 				eventPublisher.RaiseEvent(new CollectionSyncEventArgs(collection.Name, collection.ID, Action.StartLocalSync, true, false));
@@ -792,10 +792,11 @@ namespace Simias.Sync
 				}
 				catch (Exception ex)
 				{
-					sAlive = false;
 					service = null;
 					throw ex;
 				}
+
+				sAlive = true;
 			
 				eventPublisher.RaiseEvent(new CollectionSyncEventArgs(collection.Name, collection.ID, Action.StartSync, true, false));
 
