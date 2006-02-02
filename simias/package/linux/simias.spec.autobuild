@@ -111,7 +111,6 @@ fi
 %{prefix}/web/bin/Simias.exe
 %{prefix}/web/bin/SimiasLib.dll
 %{prefix}/web/bin/FlaimWrapper.so
-%{prefix}/web/bin/SimiasAPIService.Web.dll
 %{prefix}/web/Global.asax
 %dir %{prefix}/web/modules
 %{prefix}/web/modules/SimiasLib.conf
@@ -120,7 +119,6 @@ fi
 %{prefix}/web/Simias.asmx
 %{prefix}/web/SyncHandler.ashx
 %{prefix}/web/web.config
-%{prefix}/web/SimiasAPI.asmx
 #%config(noreplace) %{prefix}/web/web.config
 
 %changelog -n simias
