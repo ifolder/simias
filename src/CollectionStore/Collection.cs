@@ -1159,8 +1159,10 @@ namespace Simias.Storage
 								}
 								else if ( node.IsBaseType( NodeTypes.MemberType ) )
 								{
-									// See if the invitation event is to be processed.
-									if ( node.CascadeEvents && node.IsBaseType( NodeTypes.CollectionType ) )
+									// See if the invitation event is to be processed. Only generate
+									// subscriptions for base collection types. LocalDatabase, Domain,
+									// etc. base types do not ever have subscriptions made.
+									if ( node.CascadeEvents && IsBaseType( NodeTypes.CollectionType ) )
 									{
 										// If this is a new node being imported onto a server, check to see if
 										// it is a member node being added to a base-type collection. If this
@@ -1245,6 +1247,8 @@ namespace Simias.Storage
 								// it is a member node being added to a base-type collection.
 								if ( node.CascadeEvents && Store.IsEnterpriseServer && ( node.DiskNode == null ) )
 								{
+									// Only generate subscriptions for base collection types. LocalDatabase, 
+									// Domain, etc. base types do not ever have subscriptions made.
 									if ( node.IsBaseType( NodeTypes.MemberType ) && IsBaseType( NodeTypes.CollectionType ) )
 									{
 										// Add a subscription for the member for this collection.
