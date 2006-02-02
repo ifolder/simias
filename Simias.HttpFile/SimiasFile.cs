@@ -102,7 +102,11 @@ namespace Simias.HttpFile
 									response.ContentType = 
 										Simias.HttpFile.Response.GetMimeType( fileName );
 									response.AddHeader( "Content-ID", fileName );
+									response.AddHeader(
+										"Content-Disposition",
+										"attachment; filename=\"" + fileName + "\"" );
 									
+									response.StatusCode = (int) HttpStatusCode.OK;
 									response.TransmitFile( fullPath );
 									
 									/*
@@ -162,7 +166,7 @@ namespace Simias.HttpFile
 					return "audio/mpeg";
 	
 				case "wma":
-					return "audio/wma";
+					return "audio/x-ms-wma";
 
 				case "aac":
 					return "audio/ac3";
@@ -170,8 +174,14 @@ namespace Simias.HttpFile
 				case "mpeg":
 					return "video/mpeg";
 
+				case "avi":
+					return "video/avi";
+					
 				case "wmv":
-					return "video/wmv";
+					return "video/x-ms-wmv";
+
+				case "wmx":
+					return "video/x-ms-wmx";
 
 				case "mov":
 					return "video/quicktime";
