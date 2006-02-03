@@ -24,6 +24,7 @@
 using System;
 using System.Collections;
 using System.IO;
+using System.Text;
 using System.Threading;
 
 using Simias;
@@ -101,121 +102,6 @@ namespace Simias.Storage
 
 		#region Private Methods
 
-		/// <summary>
-		/// Gets the journal entries for the collection.
-		/// </summary>
-		/// <param name="searchString">The string to search for.</param>
-		/// <param name="searchType">The type of search to perform.</param>
-		/// <returns>An ICSList object that contains JournalEntry objects for the collection.  Journal entries are 
-		/// stored in the ICSList in reverse order (i.e. the most recent entry is first).</returns>
-		private ICSList GetJournalEntries( string searchString, string searchType )
-		{
-			ArrayList list = new ArrayList();
-
-			string filename = journalNode.GetFullPath( collection );
-
-			using ( StreamReader reader = new StreamReader( filename ) )
-			{
-				JournalEntry je = null;
-				string record;
-				while ( ( record = reader.ReadLine() ) != null )
-				{
-					// By default each record is returned.
-					bool insertValue = true;
-					if ( !searchString.Equals( string.Empty ) )
-					{
-						// If searching, only return the record if it contains the search string.
-						insertValue = record.IndexOf( searchString ) != -1;
-					}
-
-					if ( insertValue )
-					{
-						try
-						{
-							je = new JournalEntry( record );
-							list.Insert( 0, je );
-						}
-						catch ( SimiasException )
-						{}
-					}
-				}
-
-				// TODO: Is there a way to update the journal for newly added files? (The journal on the
-				// the client is always a sync cycle behind the journal on the server).
-				// Add the last modifier to the journal if it isn't already there.
-				if ( searchType.Equals( "fileID" ) )
-				{
-					Node node = collection.GetNodeByID( searchString );
-					if ( node != null )
-					{
-						Property property = node.Properties.GetSingleProperty( PropertyTags.LastModified );
-						if ( property != null )
-						{
-							string lastModified = ((DateTime)property.Value).ToString();
-
-							property = node.Properties.GetSingleProperty( PropertyTags.LastModifier );
-							if ( property != null )
-							{
-								string lastModifier = (string)property.Value;
-
-								if ( ( je == null ) || ( !je.UserID.Equals( lastModifier ) ) )
-								{
-									je = new JournalEntry( "modify", lastModifier, lastModified );
-									list.Insert( 0, je );
-								}
-							}
-						}
-					}
-				}
-			}
-
-			return new ICSList( list );
-		}
-
-		/// <summary>
-		/// Gets all journal entries for the collection.
-		/// </summary>
-		/// <returns></returns>
-		private ICSList GetJournalEntries()
-		{
-			return GetJournalEntries( string.Empty, string.Empty );
-		}
-
-		/// <summary>
-		/// Gets the journal entries for a file.
-		/// </summary>
-		/// <param name="relativeFilename">The relative name of the file.</param>
-		/// <returns>An ICSList object that contains JournalEntry objects for the file.  Journal entries are
-		/// stored in the ICSList in reverse order (i.e. the most recent entry is first).</returns>
-		private ICSList GetJournalEntriesForPath( string relativeFilename )
-		{
-			ArrayList arrayList = new ArrayList();
-
-			Property property = new Property( PropertyTags.FileSystemPath, relativeFilename );
-			ICSList list = collection.Search( property, SearchOp.Equal );
-			if ( list.Count == 1 )
-			{
-				foreach ( ShallowNode sn in list )
-				{
-					Node node = new Node( collection, sn );
-
-					// If this is the root DirNode, then get the journal for the collection.
-					if ( node.Properties.GetSingleProperty( PropertyTags.Root ) != null )
-					{
-						return GetJournalEntries();
-					}
-					else
-					{
-						return GetJournalEntries( node.ID, "fileID" );
-					}
-				}
-			}
-
-			// If more than one was returned by the search, a collision exists ... cannot view the journal in this case
-
-			return new ICSList( arrayList );
-		}
-
 		#endregion
 
 		#region Public Methods
@@ -264,7 +150,7 @@ namespace Simias.Storage
 		/// <param name="journalList">Receives an array object that contains the JournalEntry objects.</param>
 		/// <param name="total">Receives the total number of objects found in the search.</param>
 		/// <returns>True if there are more journal entries. Otherwise false is returned.</returns>
-		public bool FindFirstEntries( string relativePath, int count, out string searchContext, out JournalEntry[] journalList, out int total )
+		public bool FindFirstEntries( string relativePath, string userID, int count, out string searchContext, out JournalEntry[] journalList, out uint total )
 		{
 			bool moreEntries = false;
 
@@ -273,11 +159,28 @@ namespace Simias.Storage
 			journalList = null;
 			total = 0;
 
-			ICSList list = GetJournalEntriesForPath( relativePath );
-			JournalSearchState searchState = new JournalSearchState( collection.ID, list.GetEnumerator() as ICSEnumerator, list.Count );
+			string journalFile = journalNode.GetFullPath( collection );
+			JournalSearchState searchState = new JournalSearchState( collection, journalFile, relativePath, userID );
 			searchContext = searchState.ContextHandle;
-			total = list.Count;
 			moreEntries = FindNextEntries( ref searchContext, count, out journalList );
+			total = searchState.TotalRecords;
+
+			return moreEntries;
+		}
+
+		public bool FindFirstEntries( string relativePath, string userID, DateTime fromTime, DateTime toTime, int count, out string searchContext, out JournalEntry[] journalList, out uint total )
+		{
+			bool moreEntries = false;
+
+			searchContext = null;
+			journalList = null;
+			total = 0;
+
+			string journalFile = journalNode.GetFullPath( collection );
+			JournalSearchState searchState = new JournalSearchState( collection, journalFile, relativePath, userID, fromTime, toTime );
+			searchContext = searchState.ContextHandle;
+			moreEntries = FindNextEntries( ref searchContext, count, out journalList );
+			total = searchState.TotalRecords;
 
 			return moreEntries;
 		}
@@ -309,41 +212,11 @@ namespace Simias.Storage
 					{
 						// Allocate a list to hold the member objects.
 						ArrayList tempList = new ArrayList( count );
-						ICSEnumerator enumerator = searchState.Enumerator;
-						while( ( count > 0 ) && enumerator.MoveNext() )
+						JournalEntry je;
+						while( ( count > 0 ) && ((je = searchState.GetNextEntry()) != null ))
 						{
-							// The enumeration returns ShallowNode objects.
-							JournalEntry je = enumerator.Current as JournalEntry;
 							Member member = domain.GetMemberByID( je.UserID );
 							je.UserName = member.FN != null ? member.FN : member.Name;
-
-							if ( je.FileID != null )
-							{
-								Node node = collection.GetNodeByID( je.FileID );
-								if ( node != null )
-								{
-									if ( node.IsType( NodeTypes.FileNodeType ) )
-									{
-										FileNode fileNode = new FileNode( node );
-										if ( fileNode != null )
-										{
-											je.FileName = fileNode.GetRelativePath();
-										}
-									}
-									else 
-									{
-										DirNode dirNode = new DirNode( node );
-										if ( dirNode != null )
-										{
-											je.FileName = dirNode.GetRelativePath();
-										}
-									}
-								}
-								else
-								{
-//									je.FileName = GetDeletedFileName( je.FileID );
-								}
-							}
 
 							tempList.Add( je );
 							--count;
@@ -388,24 +261,22 @@ namespace Simias.Storage
 			JournalSearchState searchState = JournalSearchState.GetSearchState( searchContext );
 			if ( searchState != null )
 			{
-				// Backup the current cursor, but don't go passed the first record.
+				// Backup the current cursor, but don't go past the first record.
 				if ( searchState.CurrentRecord > 0 )
 				{
 					bool invalidIndex = false;
-					int cursorIndex = ( searchState.CurrentRecord - ( searchState.LastCount + count ) );
-					if ( cursorIndex < 0 )
+					int numberOfEntries = searchState.LastCount + count;
+					int newIndex = searchState.CurrentRecord - numberOfEntries;
+					if ( newIndex < 0 )
 					{
 						invalidIndex = true;
 						count = searchState.CurrentRecord - searchState.LastCount;
-						cursorIndex = 0;
+						numberOfEntries = -1;
 					}
 
 					// Set the new index for the cursor.
-					if ( searchState.Enumerator.SetCursor( Simias.Storage.Provider.IndexOrigin.SET, cursorIndex ) )
+					if ( searchState.MovePrevious( numberOfEntries ) )
 					{
-						// Reset the current record.
-						searchState.CurrentRecord = cursorIndex;
-
 						// Complete the search.
 						FindNextEntries( ref searchContext, count, out journalList );
 
@@ -428,7 +299,7 @@ namespace Simias.Storage
 		/// <param name="count">Maximum number of JournalEntry objects to return.</param>
 		/// <param name="journalList">Receives an array object that contains the JournalEntry objects.</param>
 		/// <returns>True if there are more journal entries. Otherwise false is returned.</returns>
-		public bool FindSeekEntries( ref string searchContext, int offset, int count, out JournalEntry[] journalList )
+		public bool FindSeekEntries( ref string searchContext, uint offset, int count, out JournalEntry[] journalList )
 		{
 			bool moreEntries = false;
 
@@ -443,11 +314,8 @@ namespace Simias.Storage
 				if ( ( offset >= 0 ) && ( offset <= searchState.TotalRecords ) )
 				{
 					// Set the cursor to the specified offset.
-					if ( searchState.Enumerator.SetCursor( Simias.Storage.Provider.IndexOrigin.SET, offset ) )
+					if ( searchState.Seek( offset ) )
 					{
-						// Reset the current record.
-						searchState.CurrentRecord = offset;
-
 						// Complete the search.
 						moreEntries = FindNextEntries( ref searchContext, count, out journalList );
 					}
@@ -554,6 +422,7 @@ namespace Simias.Storage
 	internal class JournalSearchState : IDisposable
 	{
 		#region Class Members
+
 		/// <summary>
 		/// Table used to keep track of outstanding search entries.
 		/// </summary>
@@ -570,22 +439,54 @@ namespace Simias.Storage
 		private string contextHandle = Guid.NewGuid().ToString();
 
 		/// <summary>
-		/// Identifier for the collection that is being searched.
+		/// Encoding used when reading the journal file.
 		/// </summary>
-		private string collectionID;
+		private UTF8Encoding encoding = new UTF8Encoding();
 
 		/// <summary>
-		/// Object used to iteratively return the members from the domain.
+		/// Stream used to read the journal file.
 		/// </summary>
-		private ICSEnumerator enumerator;
+		private FileStream stream;
+
+		/// <summary>
+		/// String array used to hold records read from the journal file.
+		/// </summary>
+		private string[] records = null;
+
+		/// <summary>
+		/// Index used to read a record from the records array.
+		/// </summary>
+		private int index = -1;
+
+		/// <summary>
+		/// Offset used to track carriage return line feeds so that complete records
+		/// are read from the journal file.
+		/// </summary>
+		private int offset = 0;
+
+		/// <summary>
+		/// Used to read specific entries from the journal file based on file ID.
+		/// </summary>
+		private string fileID = null;
+
+		/// <summary>
+		/// Used to read specific entries from the journal file based on user ID.
+		/// </summary>
+		private string userID;
+
+		/// <summary>
+		/// Used to read specific entries from the journal file based on timestamp.
+		/// </summary>
+		private DateTime fromTime;
+		private DateTime toTime;
 
 		/// <summary>
 		/// Total number of records contained in the search.
 		/// </summary>
-		private int totalRecords;
+		private uint totalRecords = 0;
 
 		/// <summary>
-		/// The cursor for the caller.
+		/// The index of the current record.
 		/// </summary>
 		private int currentRecord = 0;
 
@@ -593,9 +494,65 @@ namespace Simias.Storage
 		/// The last count of records returned.
 		/// </summary>
 		private int previousCount = 0;
+
+		private string journalFile;
+		private string relativeFileName;
+		private Collection collection;
+		private JournalEntry firstEntry = null;
+		private bool eof = false;
+		#endregion
+
+		#region Constructor
+
+		/// <summary>
+		/// Initializes an instance of a JournalSearchState object.
+		/// </summary>
+		/// <param name="journalFile">The path of the journal file to search.</param>
+		/// <param name="fileID">The file ID to search for in the journal file.  Pass in a null or an empty
+		/// string to not search for a specific file.</param>
+		/// <param name="userID">The user ID to search for in the journal file.  Pass in a null or an empty
+		/// string to not search for a specific user.</param>
+		/// <param name="fromTime">Timestamp used to filter journal file entries.  Return all entries with a
+		/// timestamp greater than fromTime.  Passing in DateTime.MinValue will cause this parameter to not
+		/// affect which entries are returned.</param>
+		/// <param name="toTime">Timestamp used to filter journal file entries.  Return all entries with a
+		/// timestamp less than toTime.  Passing in DateTime.MaxValue will cause this parameter to not
+		/// affect which entries are returned.</param>
+		/// <param name="totalRecords">The total number of records contained in the search.</param>
+		public JournalSearchState( Collection collection, string journalFile, string relativeFileName, string userID, DateTime fromTime, DateTime toTime )
+		{
+			this.collection = collection;
+			this.relativeFileName = relativeFileName;
+			this.userID = userID;
+			this.fromTime = fromTime;
+			this.toTime = toTime;
+			this.journalFile = journalFile;
+			this.stream = new FileStream( journalFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite );
+
+			lock ( searchTable )
+			{
+				searchTable.Add( contextHandle, this );
+			}
+		}
+
+		/// <summary>
+		/// Initializes an instance of a JournalSearchState object.
+		/// </summary>
+		/// <param name="journalFile">The path of the journal file to search.</param>
+		/// <param name="fileID">The file ID to search for in the journal file.  Pass in a null or an empty
+		/// string to not search for a specific file.</param>
+		/// <param name="userID">The user ID to search for in the journal file.  Pass in a null or an empty
+		/// string to not search for a specific user.</param>
+		/// <param name="totalRecords">The total number of records contained in the search.</param>
+		public JournalSearchState( Collection collection, string journalFile, string relativeFileName, string userID ) :
+			this( collection, journalFile, relativeFileName, userID, DateTime.MinValue, DateTime.MaxValue )
+		{
+		}
+
 		#endregion
 
 		#region Properties
+
 		/// <summary>
 		/// Indicates if the object has been disposed.
 		/// </summary>
@@ -622,14 +579,6 @@ namespace Simias.Storage
 		}
 
 		/// <summary>
-		/// Gets the ID for the collection that is being searched.
-		/// </summary>
-		public string CollectionID
-		{
-			get { return collectionID; }
-		}
-
-		/// <summary>
 		/// Gets or sets the last record count.
 		/// </summary>
 		public int LastCount
@@ -639,43 +588,110 @@ namespace Simias.Storage
 		}
 
 		/// <summary>
-		/// Gets the search iterator.
-		/// </summary>
-		public ICSEnumerator Enumerator
-		{
-			get { return enumerator; }
-		}
-
-		/// <summary>
 		/// Gets the total number of records contained by this search.
 		/// </summary>
-		public int TotalRecords
+		public uint TotalRecords
 		{
 			get { return totalRecords; }
 		}
-		#endregion
 
-		#region Constructor
-		/// <summary>
-		/// Initializes an instance of an object.
-		/// </summary>
-		/// <param name="collectionID">Identifier for the collection that is being searched.</param>
-		/// <param name="enumerator">Search iterator.</param>
-		/// <param name="totalRecords">The total number of records contained in the search.</param>
-		public JournalSearchState( string collectionID, ICSEnumerator enumerator, int totalRecords )
-		{
-			this.collectionID = collectionID;
-			this.enumerator = enumerator;
-			this.totalRecords = totalRecords;
-
-			lock ( searchTable )
-			{
-				searchTable.Add( contextHandle, this );
-			}
-		}
 		#endregion
 
 		#region Private Methods
+
+		/// <summary>
+		/// Gets the number of journal entries in a collection.
+		/// </summary>
+		/// <returns>The number of journal entries in the collection.</returns>
+		private uint GetJournalEntries()
+		{
+			uint count = 0;
+
+			using ( StreamReader reader = new StreamReader( new FileStream( journalFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite ) ) )
+			{
+				JournalEntry je = null;
+				string record;
+				while ( ( record = reader.ReadLine() ) != null )
+				{
+					try
+					{
+						je = new JournalEntry( record );
+
+						if ( ReturnEntry( je ) )
+						{
+							count++;
+						}
+					}
+					catch ( SimiasException )
+					{}
+				}
+
+				// TODO: Is there a way to update the journal for newly added files? (The journal on the
+				// the client is always a sync cycle behind the journal on the server).
+				// Add the last modifier to the journal if it isn't already there.
+				if ( fileID != null && !fileID.Equals( string.Empty ) )
+				{
+					Node node = collection.GetNodeByID( fileID );
+					if ( node != null )
+					{
+						Property property = node.Properties.GetSingleProperty( PropertyTags.LastModified );
+						if ( property != null )
+						{
+							string lastModified = ((DateTime)property.Value).ToString();
+
+							property = node.Properties.GetSingleProperty( PropertyTags.LastModifier );
+							if ( property != null )
+							{
+								string lastModifier = (string)property.Value;
+								if ( userID != null && !userID.Equals( string.Empty ) && userID.Equals( lastModifier ) )
+								{
+									if ( ( je == null ) || ( !je.UserID.Equals( lastModifier ) ) )
+									{
+										firstEntry = new JournalEntry( "modify", lastModifier, lastModified );
+										count++;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+
+			return count;
+		}
+
+		/// <summary>
+		/// Gets the number of journal entries for a file.
+		/// </summary>
+		/// <returns>The number of journal entries found.</returns>
+		private uint GetJournalEntriesForPath()
+		{
+			uint count = 0;
+
+			Property property = new Property( PropertyTags.FileSystemPath, relativeFileName );
+			ICSList list = collection.Search( property, SearchOp.Equal );
+			if ( list.Count == 1 )
+			{
+				foreach ( ShallowNode sn in list )
+				{
+					Node node = new Node( collection, sn );
+
+					// If this is the root DirNode, then get the journal for the collection.
+					if ( node.Properties.GetSingleProperty( PropertyTags.Root ) == null )
+					{
+						fileID = node.ID;
+					}
+
+					return GetJournalEntries();
+				}
+			}
+
+			// If more than one was returned by the search, a collision exists ... cannot view the journal in this case
+
+			fileID = null;
+			return count;
+		}
+
 		/// <summary>
 		/// Removes this SearchState object from the search table.
 		/// </summary>
@@ -687,9 +703,50 @@ namespace Simias.Storage
 				searchTable.Remove( contextHandle );
 			}
 		}
+
 		#endregion
 
 		#region Public Methods
+
+		// TODO: Keep track of total returned and when it equals totalRecords then we're done.
+
+		/// <summary>
+		/// Get the next entry from the journal file.
+		/// </summary>
+		/// <returns>A JournalEntry object representing the next entry in the journal file.  If no more entries
+		/// are found a null is returned.</returns>
+		public JournalEntry GetNextEntry()
+		{
+			JournalEntry journalEntry = null;
+			string record;
+
+			if ( totalRecords == 0 )
+			{
+				totalRecords = GetJournalEntriesForPath();
+			}
+
+			// Read the next record from the file.
+			while ( ( record = ReadNextRecord() ) != null )
+			{
+				try
+				{
+					// New up a JournalEntry object based on the record.
+					JournalEntry tempEntry = new JournalEntry( record );
+
+					// If the JournalEntry object meets the filter criteria, we're done.
+					if ( ReturnEntry( tempEntry ) )
+					{
+						journalEntry = tempEntry;
+						break;
+					}
+				}
+				catch ( SimiasException ) // Ignore.
+				{}
+			}
+
+			return journalEntry;
+		}
+
 		/// <summary>
 		/// Returns a search context object that contains the state information for an outstanding search.
 		/// </summary>
@@ -702,9 +759,255 @@ namespace Simias.Storage
 				return searchTable[ contextHandle ] as JournalSearchState;
 			}
 		}
+
+		/// <summary>
+		/// Move forward in the journal file the specified number of entries.
+		/// </summary>
+		/// <param name="numberOfEntries">The number of entries to advance past in the journal file.</param>
+		/// <returns><b>True</b> if the move was successful; otherwise <b>False</b> is returned.</returns>
+		public bool MoveNext( long numberOfEntries )
+		{
+			string record;
+
+			// Loop until we've reached the entry.
+			while ( numberOfEntries > 0 && ( record = ReadNextRecord() ) != null )
+			{
+				try
+				{
+					// Check if the current entry meets the filter criteria.
+					if ( ReturnEntry( new JournalEntry( record ) ) )
+					{
+						currentRecord++;
+						numberOfEntries--;
+					}
+				}
+				catch ( SimiasException ) // Ignore.
+				{}
+			}
+
+			return numberOfEntries == 0;
+		}
+
+		/// <summary>
+		/// Move back in the journal file the specified number of entries.
+		/// </summary>
+		/// <param name="numberOfEntries">The number of entries to retreat past in the journal file.  Pass in -1 to move to the beginning of the file.</param>
+		/// <returns><b>True</b> if the move was successful; otherwise <b>False</b> is returned.</returns>
+		public bool MovePrevious( long numberOfEntries )
+		{
+			if ( numberOfEntries == -1 )
+			{
+				// Seeking to the beginning of the file ... reset index and entries then ReadNextRecord will
+				// automatically go to the most recent entry (the end of the file).
+				index = -1;
+				records = null;
+				currentRecord = 0;
+				return true;
+			}
+
+			// Pre-increment the index so that we start in the correct place.
+			index++;
+			while ( numberOfEntries > 0)
+			{
+				while ( index < records.Length )
+				{
+					try
+					{
+						JournalEntry journalEntry = new JournalEntry( records[ index++ ] );
+
+						// Check if the current entry meets the filter criteria.
+						if ( ReturnEntry( journalEntry ) )
+						{
+							numberOfEntries--;
+							currentRecord--;
+
+							if ( numberOfEntries == 0 )
+							{
+								// We're done, decrement the index so that we read the correct next entry.
+								index--;
+								break;
+							}
+						}
+					}
+					catch ( SimiasException ) // Ignore.
+					{}
+				}
+
+				if ( numberOfEntries != 0 )
+				{
+					// Read more data from the file.
+					int nBytes = 1024;
+					byte[] buffer = new byte[ nBytes ];
+					int bytesRead = stream.Read( buffer, 0, nBytes );
+					if ( bytesRead > 0 )
+					{
+						// Find the last CRLF
+						int end = 0;
+						for ( int n = bytesRead - 1; n >= 0; n-- )
+						{
+							if ( buffer[ n ] == '\n' )
+							{
+								end = n + 1;
+								break;
+							}
+						}
+
+						// Reset the file pointer to the next byte after the last CRLF.
+						stream.Seek( end - bytesRead, SeekOrigin.Current );
+
+						// Convert the data to an array of strings.
+						records = encoding.GetString( buffer, 0, end ).Split( '\n' );
+						index = 0;
+					}
+				}
+			}
+
+			return numberOfEntries == 0;
+		}
+
+		/// <summary>
+		/// Reads the next record in the journal file.
+		/// </summary>
+		/// <returns>A string representation of the next record in the file.  A null is returned if the end of the file is reached.</returns>
+		public string ReadNextRecord()
+		{
+			string record = null;
+
+			// Check if the index is valid.
+			if ( index == -1 )
+			{
+				if ( !eof )
+				{
+					// The index is invalid, need to read more data from the file.
+					int nBytes = 1024;
+
+					if ( records == null )
+					{
+						// TODO: Need to check for and add LastModifier if neccessary.
+
+						// Start reading the most-recent entries (at the end of the file).
+						stream.Seek( -nBytes, SeekOrigin.End );
+					}
+					else
+					{
+						// Continue reading where we left off.
+						int cOffset = offset - ( 2 * nBytes );
+						if ( stream.Position + cOffset < 0 )
+						{
+							// Reset the number of bytes to read.
+							nBytes = (int)stream.Position - 1024 + offset;
+							if ( nBytes < 0 )
+								nBytes = 0;
+
+							// Seek to the beginning of the file.
+							stream.Seek( -stream.Position, SeekOrigin.Current );
+							eof = true;
+						}
+						else
+						{
+							stream.Seek( cOffset, SeekOrigin.Current );
+						}
+					}
+
+					byte[] buffer = new byte[ nBytes ];
+					int bytesRead = stream.Read( buffer, 0, nBytes );
+					if ( bytesRead > 0 )
+					{
+						if ( !eof )
+						{
+							// Find the first CRLF
+							for ( int n = 0; n < bytesRead; n++ )
+							{
+								if ( buffer[ n ] == '\n' )
+								{
+									offset = n + 1;
+									break;
+								}
+							}
+						}
+						else
+						{
+							offset = 0;
+						}
+
+						// Convert the data to an array of strings.
+						records = encoding.GetString( buffer, offset, bytesRead - offset ).Split( '\n' );
+
+						// Set the index.  The last entry in the array is an empty string.
+						index = records.Length - 2;
+					}
+				}
+				else
+				{
+					eof = false;
+				}
+			}
+
+			if ( records != null && index != -1 )
+			{
+				record = records[ index-- ];
+			}
+
+			return record;
+		}
+
+		/// <summary>
+		/// Compares the specified JournalEntry object against the filter criteria.
+		/// </summary>
+		/// <param name="entry">The JournalEntry object to compare against the filter criteria.</param>
+		/// <returns><b>True</b> if the JournalEntry object meets the filter criteria; otherwise <b>False</b> is returned.</returns>
+		public bool ReturnEntry( JournalEntry entry )
+		{
+			bool result = true;
+
+			// Check the fileID.
+			if ( fileID != null && !fileID.Equals( string.Empty ) )
+			{
+				result = fileID.Equals( entry.FileID );
+			}
+
+			// Check the userID.
+			if ( result && userID != null && !userID.Equals( string.Empty ) )
+			{
+				result = userID.Equals( entry.UserID );
+			}
+
+			// Check the timestamp.
+			if ( result && ( fromTime != DateTime.MinValue || toTime != DateTime.MaxValue ) )
+			{
+				result &= entry.TimeStamp >= fromTime && entry.TimeStamp <= toTime;
+			}
+
+			return result;
+		}
+
+		/// <summary>
+		/// Seeks to the entry with the specified offset.
+		/// </summary>
+		/// <param name="offset">The index of the entry to seek to.</param>
+		/// <returns><b>True</b> if the seek was successful; otherwise <b>False</b> is returned.</returns>
+		public bool Seek( uint offset )
+		{
+			bool result = true;
+
+			if ( offset < currentRecord )
+			{
+				// Move back in the file.
+				result = MovePrevious( offset == 0 ? -1 : currentRecord - offset );
+			}
+			else if ( offset > currentRecord )
+			{
+				// Move forward in the file.
+				result = MoveNext( offset - currentRecord );
+			}
+
+			return result;
+		}
+
 		#endregion
 
 		#region IDisposable Members
+
 		/// <summary>
 		/// Allows for quick release of managed and unmanaged resources.
 		/// Called by applications.
@@ -738,7 +1041,7 @@ namespace Simias.Storage
 				if ( disposing )
 				{
 					// Dispose managed resources.
-					enumerator.Dispose();
+					stream.Close();
 				}
 			}
 		}
@@ -753,6 +1056,7 @@ namespace Simias.Storage
 		{
 			Dispose( false );
 		}
+
 		#endregion
 	}
 
