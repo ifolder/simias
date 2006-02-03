@@ -34,6 +34,16 @@ using Simias.Client.Event;
 using Simias.Service;
 using Simias.Event;
 
+#if MONO
+#if MONONATIVE
+	// This is used if configure.in detected mono 1.1.13 or newer
+	using Mono.Unix.Native;
+#else
+	using Mono.Unix;
+#endif
+#endif
+
+
 namespace Simias.Sync
 {
 
@@ -232,10 +242,10 @@ namespace Simias.Sync
 			if (MyEnvironment.Unix)
 			{
 				// Get the posix access flags for owner.
-				Mono.Unix.Native.Stat sStat;
-				if (Mono.Unix.Native.Syscall.stat(path, out sStat) == 0)
+				Stat sStat;
+				if (Syscall.stat(path, out sStat) == 0)
 				{
-					if ((sStat.st_mode & Mono.Unix.Native.FilePermissions.S_IXUSR) != 0)
+					if ((sStat.st_mode & FilePermissions.S_IXUSR) != 0)
 					{
 						return true;
 					}

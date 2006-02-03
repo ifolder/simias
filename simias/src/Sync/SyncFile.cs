@@ -30,6 +30,15 @@ using Simias.Event;
 using Simias.Sync.Delta;
 using Simias.Client;
 
+#if MONO
+#if MONONATIVE
+	// This is used if configure.in detected mono 1.1.13 or newer
+	using Mono.Unix.Native;
+#else
+	using Mono.Unix;
+#endif
+#endif
+
 namespace Simias.Sync
 {
 	#region OutFile
@@ -384,12 +393,12 @@ namespace Simias.Sync
 					if (node.Properties.GetSingleProperty(SyncFile.ModeProperty) != null)
 					{
 						// Get the posix mode flags for the file.
-						Mono.Unix.Native.Stat sStat;
-						if (Mono.Unix.Native.Syscall.stat(createName, out sStat) == 0)
+						Stat sStat;
+						if (Syscall.stat(createName, out sStat) == 0)
 						{
 							// Now or in the execute bit and set it on the file.
-							Mono.Unix.Native.FilePermissions fp = sStat.st_mode | Mono.Unix.Native.FilePermissions.S_IXUSR;
-							Mono.Unix.Native.Syscall.chmod(createName, fp);
+							FilePermissions fp = sStat.st_mode | FilePermissions.S_IXUSR;
+							Syscall.chmod(createName, fp);
 						}
 					}
 				}
