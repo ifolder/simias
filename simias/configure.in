@@ -119,11 +119,13 @@ case $host_os in
         PKG_CHECK_MODULES(LOG4NET, log4net >= 1.2.9)
         AC_SUBST(LOG4NET_PREFIX)
         AC_SUBST(LOG4NET_LIBS)
+        PKG_CHECK_MODULES(LIBFLAIM, libflaim >= 1.2.9)
+        AC_SUBST(LOG4NET_PREFIX)
+        AC_SUBST(LOG4NET_LIBS)
     ;;
     darwin*)
 		# fix up the flaim libraries
-        ranlib external/flaim/macosx/release/libflm.a
-        ranlib external/flaim/macosx/release/libsmiflm.a
+        ranlib external/libflaim/OSX/libflaim.a
     ;;
 esac
 
