@@ -9,7 +9,7 @@ dist-hook:
 	rm -rf `find $(distdir) -name CVS`
 	rm -rf `find $(distdir) -name ".svn"`
 
-EXTRA_DIST = tools/aclocal tools/gsoap external/flaim external/log4net $(srcdir)/$(PACKAGE)*.pc.in $(PROJECT_FILES)
+EXTRA_DIST = tools/aclocal tools/gsoap external/libflaim external/log4net $(srcdir)/$(PACKAGE)*.pc.in $(PROJECT_FILES)
 
 all: simias.pc simias-client.pc simias-client-c.pc
 

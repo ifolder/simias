@@ -60,11 +60,11 @@ maintainer-clean-local:
 	rm -rf $(COMMON_MAINTAINER_CLEAN_FILES)
 
 if DEBUG
-CXX_FLAGS=/nologo /MTd /W3 /Gm /GX /ZI /Od /I "..\..\..\external\flaim\include" /D "WIN32" /D "DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "FLAIMWRAPPER_EXPORTS" /FD /GZ /c
-MYLDFLAGS=rpcrt4.lib ws2_32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib imagehlp.lib flm.lib /nologo /dll /incremental:yes /pdb:"FlaimWrapper.pdb" /debug /machine:I386 /nodefaultlib:"LIBCMTD.lib" /implib:"FlaimWrapper.lib" /libpath:"..\..\..\external\flaim\nt\release"
+CXX_FLAGS=/nologo /MTd /W3 /Gm /GX /ZI /Od /I "..\..\..\external\libflaim" /D "WIN32" /D "DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "FLAIMWRAPPER_EXPORTS" /FD /GZ /c
+MYLDFLAGS=rpcrt4.lib ws2_32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib imagehlp.lib libflaim.lib /nologo /dll /incremental:yes /pdb:"FlaimWrapper.pdb" /debug /machine:I386 /nodefaultlib:"LIBCMTD.lib" /implib:"FlaimWrapper.lib" /libpath:"..\..\..\external\libflaim\win32"
 else
-CXX_FLAGS=/nologo /MT /W3 /GX /O2 /I "..\..\..\external\flaim\include" /D "WIN32" /D "_MBCS" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "FLAIMWRAPPER_EXPORTS" /FD /c
-MYLDFLAGS=rpcrt4.lib ws2_32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib flm.lib /nologo /dll /incremental:no /pdb:"FlaimWrapper.pdb" /machine:I386 /nodefaultlib:"LIBCMT.lib" /implib:"FlaimWrapper.lib" /libpath:"..\..\..\external\flaim\nt\release"
+CXX_FLAGS=/nologo /MT /W3 /GX /O2 /I "..\..\..\external\libflaim" /D "WIN32" /D "_MBCS" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "FLAIMWRAPPER_EXPORTS" /FD /c
+MYLDFLAGS=rpcrt4.lib ws2_32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib libflaim.lib /nologo /dll /incremental:no /pdb:"FlaimWrapper.pdb" /machine:I386 /nodefaultlib:"LIBCMT.lib" /implib:"FlaimWrapper.lib" /libpath:"..\..\..\external\libflaim\win32"
 endif
 
 
@@ -85,9 +85,9 @@ libFlaimWrapper_la_SOURCES = 	CSPObjectIterator.cpp \
 								resource.h
 
 if LINUX
-libFlaimWrapper_la_CXXFLAGS = -I "../../../external/flaim/include" -fshort-wchar -DFLAIMWRAPPER_EXPORTS -DUNIX -D_REENTRANT -c
+libFlaimWrapper_la_CXXFLAGS = -I "../../../external/libflaim" -fshort-wchar -DFLAIMWRAPPER_EXPORTS -DUNIX -D_REENTRANT -c
 
-libFlaimWrapper_la_LDFLAGS = -L"../../../external/flaim/lxx86/gcc3/release" -lflm
+libFlaimWrapper_la_LDFLAGS = -L"../../../external/libflaim/linux" -lflaim
 
 install-exec-local: libFlaimWrapper.la
 	$(mkinstalldirs) $(DESTDIR)$(webbindir)
@@ -102,9 +102,9 @@ uninstall-local:
 endif
 
 if DARWIN
-libFlaimWrapper_la_CXXFLAGS = -I"../../../external/flaim/macosx/include" -fshort-wchar -DFLAIMWRAPPER_EXPORTS -DUNIX -D_REENTRANT -DOSX -c
+libFlaimWrapper_la_CXXFLAGS = -I"../../../external/libflaim" -fshort-wchar -DFLAIMWRAPPER_EXPORTS -DUNIX -D_REENTRANT -DOSX -c
 
-libFlaimWrapper_la_LDFLAGS = -L"../../../external/flaim/macosx/release" -lflm
+libFlaimWrapper_la_LDFLAGS = -L"../../../external/libflaim/osx" -lflaim
 
 install-exec-local: libFlaimWrapper.la
 	$(mkinstalldirs) $(DESTDIR)$(webbindir)

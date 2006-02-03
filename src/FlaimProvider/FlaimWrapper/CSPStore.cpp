@@ -252,7 +252,7 @@ RCODE CSPDB::RegisterField(HFDB hFlaim, FLMUNICODE *pFieldName, FLMUINT flmType,
 	FlmRecord			*pRec = NULL;
 	void				*pvField = 0;
 
-	pRec = new FlmDefaultRec();
+	pRec = new FlmRecord();
 	if (pRec != NULL)
 	{
 		rc = pRec->insertLast(0, FLM_FIELD_TAG, FLM_TEXT_TYPE, &pvField);
@@ -336,7 +336,7 @@ RCODE CSPDB::AddIndex(HFDB hFlaim, FLMUNICODE *pFieldName, FLMUINT fieldId)
 	int				buffLen;
 	FLMUINT			indexId = 0;
 	
- 	pRec = new FlmDefaultRec();
+ 	pRec = new FlmRecord();
  	if (pRec != NULL)
  	{
  		// Add the index.
@@ -519,10 +519,9 @@ RCODE CSPStore::CreateStore(char *pStorePath)
 	{
 		// Create the New Store.
 		rc = FlmDbCreate(
-			(FLMBYTE*)pDbPath,
+			pDbPath,
 			NULL,
 			NULL,			//default pRflDir
-			FO_SHARE,
 			NULL,
 			NULL,
 			NULL,
@@ -540,7 +539,7 @@ RCODE CSPStore::CreateStore(char *pStorePath)
 			else 
 			{
 				FlmDbRemove(
-					(FLMBYTE*)pDbPath,
+					pDbPath,
 					NULL,
 					NULL,
 					true);
@@ -560,7 +559,7 @@ RCODE CSPStore::DeleteStore(FLMBYTE* dbPath)
 	//Close();
 
 	rc = FlmDbRemove(
-		dbPath,
+		(const char *)dbPath,
 		NULL,
 		NULL,
 		true);
@@ -591,18 +590,18 @@ RCODE CSPStore::OpenStore( char *pStorePath)
 // OS X uses the new flaim which requires the NULL be passed
 #ifdef OSX	
 		rc = FlmDbOpen(
-			(FLMBYTE*)pDbPath,
+			pDbPath,
 			NULL,
 			NULL,			//default pRflDir
-			FO_SHARE,
+			0,
 			NULL,
 			&m_hFlaim);
 #else
 		rc = FlmDbOpen(
-			(FLMBYTE*)pDbPath,
+			pDbPath,
 			NULL,
 			NULL,			//default pRflDir
-			FO_SHARE,
+			0,
 			//NULL,
 			&m_hFlaim);
 #endif
@@ -1049,7 +1048,7 @@ RCODE CSPStore::Search(FLMUNICODE *pCollectionId, FLMUNICODE *pProperty, FLMINT 
 
 				if (caseSensitive)
 				{
-					rc = FlmCursorSetMode(cursor, FLM_CASE | FLM_WILD);
+					rc = FlmCursorSetMode(cursor, FLM_WILD);
 				}
 				rc = FlmCursorAddField(cursor, fieldId, 0);
 				if (RC_OK(rc))
