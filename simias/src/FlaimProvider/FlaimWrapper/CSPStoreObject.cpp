@@ -41,7 +41,7 @@ CSPStoreObject::CSPStoreObject(PCSStore pStore, FLMUNICODE *pName, FLMUNICODE *p
 	m_pName = new CSPString(pName, CS_Name_Display_Name);
 	m_pId = new CSPString(pId, CS_Name_GUID);
 	m_pType = new CSPString(pType, CS_Name_Node_Type);
-	m_pRec = new FlmDefaultRec();
+	m_pRec = new FlmRecord();
 
 	// Set the size needed to return this object.
 	m_NeededSize = ObjectMarkupSize;
@@ -355,7 +355,7 @@ RCODE CSPStoreObject::SetPropertyWithId(FLMUINT level, FLMUINT propId, CSP_TYPE 
 
 RCODE CSPStoreObject::Flush()
 {
-	int		rc = FERR_OK;
+	RCODE		rc = FERR_OK;
 	HFDB		hFlaim = m_pStore->GetDB();
 
 	if (m_ModifiedFlag)
