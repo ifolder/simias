@@ -78,18 +78,17 @@ namespace Simias.Server
 		public void Start()
 		{
 			log.Debug( "Start called" );
-			//this.config = config;
 			
 			// Instantiate the server domain
 			// The domain will be created the first time the
 			// server is run
-			//new Simias.Server.Domain( true );
-
-			// Register with the domain provider service.
-			//this.authProvider = new Simias.Server.Authentication();
-			//DomainProvider.RegisterProvider( this.authProvider );
-			
-			Simias.IdentitySync.Service.Start();
+			EnterpriseDomain enterpriseDomain = new EnterpriseDomain( true );
+			if ( enterpriseDomain != null )
+			{
+				// Valid enterprise domain - start the external
+				// identity sync service
+				Simias.IdentitySync.Service.Start();
+			}
 		}
 
 		/// <summary>
@@ -123,7 +122,6 @@ namespace Simias.Server
 		{
 			log.Debug( "Stop called" );
 			Simias.IdentitySync.Service.Stop();
-			//DomainProvider.Unregister( this.authProvider );
 		}
 		#endregion
 	}

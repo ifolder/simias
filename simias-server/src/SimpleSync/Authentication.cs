@@ -508,16 +508,12 @@ namespace Simias.SimpleServer
 		{
 			log.Debug( "OwnsDomain called" );
 			log.Debug( "  with domain: " + domainID );
-
-			Simias.Storage.Domain domain = store.GetDomain( domainID );
-			if ( domain != null )
+			
+			Collection collection = store.GetSingleCollectionByType( "Enterprise" );
+			if ( collection.ID == domainID )
 			{
-				Node node = domain as Node;
-				if ( node.IsType( "Enterprise" ) && node.IsType( "SimpleServer" ) )
-				{
 					log.Debug( "  returning true" );
 					return true;
-				}
 			}
 			
 			log.Debug( "  returning false" );

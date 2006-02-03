@@ -53,14 +53,20 @@ namespace Simias.DomainService.Web
 		[SoapDocumentMethod]
 		public DomainInfo GetDomainInfo( string userID )
 		{
-			// domain
+			Simias.Server.EnterpriseDomain enterpriseDomain = 
+				new Simias.Server.EnterpriseDomain( false );
+			if ( enterpriseDomain == null )
+			{
+				throw new SimiasException( "Enterprise server domain does not exist." );
+			}
+			
 			Store store = Store.GetStore();
-			Simias.Storage.Domain domain = store.GetDomain( store.DefaultDomain );
+			Simias.Storage.Domain domain = store.GetDomain( enterpriseDomain.ID );
 			if ( domain == null )
 			{
-				throw new SimiasException( "Simias Server domain does not exist" );
+				throw new SimiasException( "Enterprise server domain does not exist." );
 			}
-
+			
 			DomainInfo info = new DomainInfo();
 			info.ID = domain.ID;
 			info.Name = domain.Name;
@@ -94,13 +100,19 @@ namespace Simias.DomainService.Web
 		public ProvisionInfo ProvisionUser(string user, string password)
 		{
 			ProvisionInfo info = null;
-
-			// store
+			
+			Simias.Server.EnterpriseDomain enterpriseDomain = 
+				new Simias.Server.EnterpriseDomain( false );
+			if ( enterpriseDomain == null )
+			{
+				throw new SimiasException( "Enterprise server domain does not exist." );
+			}
+			
 			Store store = Store.GetStore();
-			Simias.Storage.Domain domain = store.GetDomain( store.DefaultDomain );
+			Simias.Storage.Domain domain = store.GetDomain( enterpriseDomain.ID );
 			if ( domain == null )
 			{
-				throw new SimiasException( "Simias Server domain does not exist" );
+				throw new SimiasException( "Enterprise server domain does not exist." );
 			}
 
 			// find user
@@ -111,7 +123,7 @@ namespace Simias.DomainService.Web
 				info.UserID = member.UserID;
 
 				// post-office box
-				POBox.POBox poBox = POBox.POBox.GetPOBox( Store.GetStore(), domain.ID, info.UserID );
+				POBox.POBox poBox = POBox.POBox.GetPOBox( store, domain.ID, info.UserID );
 
 				info.POBoxID = poBox.ID;
 				info.POBoxName = poBox.Name;
@@ -145,25 +157,21 @@ namespace Simias.DomainService.Web
 		[SoapDocumentMethod]
 		public string CreateMaster(string collectionID, string collectionName, string rootDirID, string rootDirName, string userID, string memberName, string memberID, string memberRights)
 		{
-			ArrayList nodeList = new ArrayList();
-
-			// store
-			Store store = Store.GetStore();
-			Simias.Storage.Domain domain = store.GetDomain( store.DefaultDomain );
-			if ( domain == null )
+			Simias.Server.EnterpriseDomain enterpriseDomain = 
+				new Simias.Server.EnterpriseDomain( false );
+			if ( enterpriseDomain == null )
 			{
-				throw new SimiasException( "Default server domain does not exist." );
+				throw new SimiasException( "Enterprise server domain does not exist." );
 			}
 			
-			/*
-			Simias.Storage.Domain domain = 
-				new Simias.Server.Domain( false ).GetSimiasServerDomain( false );
+			Store store = Store.GetStore();
+			Simias.Storage.Domain domain = store.GetDomain( enterpriseDomain.ID );
 			if ( domain == null )
 			{
-				throw new SimiasException( "Simias Server domain does not exist." );
+				throw new SimiasException( "Enterprise server domain does not exist." );
 			}
-			*/
-
+			
+			ArrayList nodeList = new ArrayList();
 			Collection c = new Collection( store, collectionName, collectionID, domain.ID );
 			c.Proxy = true;
 			nodeList.Add(c);
@@ -298,13 +306,9 @@ namespace Simias.DomainService.Web
 		[SoapDocumentMethod]
 		public string GetDomainID()
 		{
-			return Store.GetStore().DefaultDomain;
-
-			/*
-			Simias.Server.Domain ssDomain = new Simias.Server.Domain( false );
-			Simias.Storage.Domain domain = ssDomain.GetSimiasServerDomain( false );
+			Simias.Server.EnterpriseDomain domain = 
+				new Simias.Server.EnterpriseDomain( false );
 			return ( domain != null ) ? domain.ID : null;
-			*/
 		}
 	}
 }

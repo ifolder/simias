@@ -2,7 +2,7 @@
 # handle Mono secondary dependencies
 export MONO_PATH := $(MONO_PATH)
 
-SimpleSync_CSFILES = $(srcdir)/AssemblyInfo.cs $(srcdir)/Authentication.cs $(srcdir)/Domain.cs $(srcdir)/SimpleSync.cs $(srcdir)/ThreadService.cs     
+SimpleSync_CSFILES = $(srcdir)/AssemblyInfo.cs $(srcdir)/Authentication.cs $(srcdir)/SimpleSync.cs $(srcdir)/ThreadService.cs     
 SimpleSync_CSFILES_CSC := $(subst /,$(SEP),$(SimpleSync_CSFILES))
 SimpleSync_INCLUDES =
 SimpleSync_RESOURCES =

@@ -72,12 +72,6 @@ namespace Simias.SimpleServer
 		public void Start()
 		{
 			log.Debug( "Start called" );
-			//this.config = config;
-			
-			// Instantiate the simple server domain
-			// The domain will be created the first time the
-			// server is run
-			new Simias.SimpleServer.Domain( true );
 
 			// Register with the domain provider service.
 			if ( authProvider == null )

@@ -1,7 +1,7 @@
 # handle Mono secondary dependencies
 export MONO_PATH := $(MONO_PATH):$(DESTDIR)$(libdir)
 
-SimiasServer_CSFILES = $(srcdir)/Service.cs $(srcdir)/Ajax.cs $(srcdir)/DomainInfo.cs $(srcdir)/ProvisionInfo.cs $(srcdir)/DomainService.asmx.cs $(srcdir)/Register.aspx.cs $(srcdir)/IdentitySyncService.cs $(srcdir)/IIdentitySyncProvider.cs $(srcdir)/IdentitySyncManager.asmx.cs
+SimiasServer_CSFILES = $(srcdir)/Service.cs $(srcdir)/Ajax.cs $(srcdir)/Domain.cs $(srcdir)/DomainInfo.cs $(srcdir)/ProvisionInfo.cs $(srcdir)/DomainService.asmx.cs $(srcdir)/Register.aspx.cs $(srcdir)/IdentitySyncService.cs $(srcdir)/IIdentitySyncProvider.cs $(srcdir)/IdentitySyncManager.asmx.cs $(srcdir)/Registration.asmx.cs
 SimiasServer_CSFILES_CSC := $(subst /,$(SEP),$(SimiasServer_CSFILES))
 SimiasServer_INCLUDES =
 SimiasServer_RESOURCES =

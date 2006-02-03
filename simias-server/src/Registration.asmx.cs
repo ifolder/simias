@@ -110,7 +110,7 @@ namespace Simias.Server
 		string
 		GetPublicKey()
 		{
-			Domain domain = store.GetDomain( store.LocalDomain );
+			Simias.Storage.Domain domain = store.GetDomain( store.LocalDomain );
 			RSACryptoServiceProvider pubKey = domain.Owner.PublicKey;
 			
 			log.Debug( "Public Key: " + pubKey.ToString() );
