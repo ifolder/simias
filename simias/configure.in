@@ -82,6 +82,10 @@ case $CSC in
         MONO_DEBUG='mono --debug'
         MONO_PATH=
         SYSTEM_XML='System.Xml.dll'
+		if pkg-config --atleast-version=1.1.13 mono > /dev/null 2>&1
+		then
+			CSCFLAGS="$CSCFLAGS /d:MONONATIVE"
+		fi
     ;;
     #
     # .NET-specific configuration
