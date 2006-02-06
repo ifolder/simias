@@ -86,14 +86,14 @@ libFlaimWrapper_la_SOURCES = 	CSPObjectIterator.cpp \
 
 if LINUX
 libFlaimWrapper_la_CXXFLAGS = -fshort-wchar -DFLAIMWRAPPER_EXPORTS -DUNIX -D_REENTRANT -c
-libFlaimWrapper_la_LDFLAGS = -static -lflaim
+libFlaimWrapper_la_LDFLAGS = /usr/lib/libflaim.a
 
 install-exec-local: libFlaimWrapper.la
 	$(mkinstalldirs) $(DESTDIR)$(webbindir)
 	if test -e $(DESTDIR)$(webbindir)/FlaimWrapper$(SHARED_LIB_EXT); then \
 		rm $(DESTDIR)$(webbindir)/FlaimWrapper$(SHARED_LIB_EXT); \
 	fi;
-	ln -s $(libdir)/libFlaimWrapper$(SHARED_LIB_EXT) $(DESTDIR)$(webbindir)/FlaimWrapper$(SHARED_LIB_EXT)
+	ln -sf $(libdir)/libFlaimWrapper$(SHARED_LIB_EXT) $(DESTDIR)$(webbindir)/FlaimWrapper$(SHARED_LIB_EXT)
 
 uninstall-local:
 	cd $(DESTDIR)$(webbindir); rm -f FlaimWrapper$(SHARED_LIB_EXT)
