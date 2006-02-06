@@ -152,20 +152,7 @@ namespace Simias.Storage
 		/// <returns>True if there are more journal entries. Otherwise false is returned.</returns>
 		public bool FindFirstEntries( string relativePath, string userID, int count, out string searchContext, out JournalEntry[] journalList, out uint total )
 		{
-			bool moreEntries = false;
-
-			// Initialize the outputs.
-			searchContext = null;
-			journalList = null;
-			total = 0;
-
-			string journalFile = journalNode.GetFullPath( collection );
-			JournalSearchState searchState = new JournalSearchState( collection, journalFile, relativePath, userID );
-			searchContext = searchState.ContextHandle;
-			moreEntries = FindNextEntries( ref searchContext, count, out journalList );
-			total = searchState.TotalRecords;
-
-			return moreEntries;
+			return FindFirstEntries( relativePath, userID, DateTime.MinValue, DateTime.MaxValue, count, out searchContext, out journalList, out total );
 		}
 
 		public bool FindFirstEntries( string relativePath, string userID, DateTime fromTime, DateTime toTime, int count, out string searchContext, out JournalEntry[] journalList, out uint total )
@@ -494,11 +481,31 @@ namespace Simias.Storage
 		/// </summary>
 		private int previousCount = 0;
 
+		/// <summary>
+		/// The path of the journal file.
+		/// </summary>
 		private string journalFile;
+
+		/// <summary>
+		/// The relative name of the file to get journal entries for.
+		/// </summary>
 		private string relativeFileName;
+
+		/// <summary>
+		/// The collection that the journal belongs to.
+		/// </summary>
 		private Collection collection;
+
+		/// <summary>
+		/// The most recent entry for a given file that has been modified locally since the last synchronization cycle.
+		/// </summary>
 		private JournalEntry firstEntry = null;
+
+		/// <summary>
+		/// Used to keep track when the end of the file has been reached.
+		/// </summary>
 		private bool eof = false;
+
 		#endregion
 
 		#region Constructor
@@ -723,8 +730,8 @@ namespace Simias.Storage
 				// TODO: Probably need to re-work this ... this only works when returning the journal entries for a given
 				// file.  If the journal for the entire collection is asked for, the file modifications (made locally since
 				// the last synchronization) will not be displayed.  We could query the collection for any nodes with a
-				// LastModified value greater than the timestamp of the last entry in the journal ... and then return entries
-				// for the FileNodes and DirNodes.
+				// LastModified value greater than the timestamp of the last entry in the journal ... and then return 
+				// entries for the FileNodes and DirNodes.
 				currentRecord++;
 				return firstEntry;
 			}
@@ -1072,7 +1079,9 @@ namespace Simias.Storage
 	[ Serializable ]
 	public class JournalEntry
 	{
+		// TODO: May need to distinguish between files and directories.
 		#region Class Members
+
 		/// <summary>
 		/// The type of change that this entry refers to.
 		/// </summary>
@@ -1102,16 +1111,18 @@ namespace Simias.Storage
 		/// The time that the change was made.
 		/// </summary>
 		private DateTime timeStamp;
+
 		#endregion
 
 		#region Properties
+
 		public string FileID
 		{
 			get { return fileID; }
 		}
 
 		/// <summary>
-		/// Gets the filename for this entry.
+		/// Gets/sets the filename for this entry.
 		/// </summary>
 		public string FileName
 		{
@@ -1141,13 +1152,14 @@ namespace Simias.Storage
 		}
 
 		/// <summary>
-		/// Gets the username for this entry.
+		/// Gets/sets the username for this entry.
 		/// </summary>
 		public string UserName
 		{
 			get { return userName; }
 			set { userName = value; }
 		}
+
 		#endregion
 
 		#region Constructor
@@ -1214,6 +1226,9 @@ namespace Simias.Storage
 					break;
 				case "4":
 					type = "modify";
+					break;
+				default:
+					type = "unknown";
 					break;
 			}
 
