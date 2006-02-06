@@ -314,7 +314,8 @@ namespace Simias
 				}
 				else
 				{
-					Property p = collection.Properties.FindSingleValue( PropertyTags.HostAddress );
+					Domain domain = store.GetDomain(collection.Domain);
+					Property p = domain.Properties.FindSingleValue( PropertyTags.HostAddress );
 					if ( p != null )
 					{
 						hostAddress = p.Value as Uri;
