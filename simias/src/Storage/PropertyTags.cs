@@ -315,6 +315,11 @@ namespace Simias.Storage
 		/// Well known property name.
 		/// </summary>
 		static public string UseSSL = "UseSSL";
+
+		/// <summary>
+		/// Well known property name.
+		/// </summary>
+		static public string MasterHost = "MasterHost";
 		
 		
 		/// <summary>
@@ -389,6 +394,7 @@ namespace Simias.Storage
 			systemPropertyTable.Add( PrivateKey, null);
 			systemPropertyTable.Add( DomainVersion, null );
 			systemPropertyTable.Add( UseSSL, null);
+			systemPropertyTable.Add( MasterHost, null);
 		}
 		#endregion
 
