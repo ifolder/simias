@@ -37,7 +37,8 @@ namespace Simias.Storage
 	public class HostNode : Member
 	{
 		#region Class Members
-		const string HostNodeType = "Host";
+		public const string HostNodeType = "Host";
+		const string LocalHostTag = "LocalHost";
 		#endregion
 
 		#region Properties
@@ -80,6 +81,43 @@ namespace Simias.Storage
 				Properties.ModifyNodeProperty(new Property(PropertyTags.PrivateUrl, value));
 			}
 		}
+
+		public bool IsMasterHost
+		{
+			get
+			{
+				Property pa = Properties.GetSingleProperty(PropertyTags.MasterHost);
+				if (pa != null)
+				{
+					return (bool)pa.Value;
+				}
+				return false;
+			}
+			set
+			{
+				Properties.ModifyNodeProperty(new Property(PropertyTags.MasterHost, value));
+			}
+		}
+
+		public bool IsLocalHost
+		{
+			get
+			{
+				Property pa = Properties.GetSingleProperty(LocalHostTag);
+				if (pa != null)
+				{
+					return (bool)pa.Value;
+				}
+				return false;
+			}
+			set
+			{
+				Property localHost = new Property(LocalHostTag, true);
+				localHost.LocalProperty = true;
+				Properties.AddNodeProperty(localHost);
+			}
+		}
+
 		#endregion
 
 		#region Consturctors
@@ -152,6 +190,10 @@ namespace Simias.Storage
 			}
 		}
 
+		#endregion
+
+		#region Static Methods
+
 		/// <summary>
 		/// Create a HostNode from the xml document.
 		/// </summary>
@@ -162,6 +204,68 @@ namespace Simias.Storage
 		{
 			return new HostNode(Node.NodeFactory(store, document));
 		}
+
+		public static HostNode GetHostByID(string domainId, string hostId)
+		{
+			Domain domain = Store.GetStore().GetDomain(domainId);
+			return new HostNode(domain.GetMemberByID(hostId));
+		}
+
+		public static HostNode GetHostByName(string domainId, string hostName)
+		{
+			Domain domain = Store.GetStore().GetDomain(domainId);
+			return new HostNode(domain.GetMemberByName(hostName));
+		}
+
+		public static HostNode[] GetHosts(string domainId)
+		{
+			Domain domain = Store.GetStore().GetDomain(domainId);
+			ICSList snHosts = domain.GetNodesByType(HostNodeType);
+			ArrayList hosts = new ArrayList();
+			foreach (ShallowNode sn in snHosts)
+			{
+				HostNode hn = new HostNode(domain.GetNodeByID(sn.ID));
+				hosts.Add(hn);
+			}
+			return (HostNode[])hosts.ToArray(typeof(HostNode));
+		}
+
+		public static HostNode GetMaster(string domainId)
+		{
+			Domain domain = Store.GetStore().GetDomain(domainId);
+			ICSList searchList = domain.Search(PropertyTags.MasterHost, Syntax.Boolean, SearchOp.Exists);
+			if (searchList.Count == 1)
+			{
+				IEnumerator list = searchList.GetEnumerator();
+				list.MoveNext();
+				ShallowNode sn = (ShallowNode)list.Current;
+				return new HostNode(domain.GetNodeByID(sn.ID));
+			}
+			return null;
+		}
+
 		#endregion
+
+		public ICSList GetHostedMembers()
+		{
+			Store store = Store.GetStore();
+			Domain domain = store.GetDomain(GetDomainID(store));
+			return domain.Search(PropertyTags.HostID, this.UserID, SearchOp.Equal);
+		}
+
+		public static HostNode GetLocalHost()
+		{
+			Store store = Store.GetStore();
+			Domain domain = store.GetDomain(store.DefaultDomain);
+			ICSList searchList = domain.Search(LocalHostTag, Syntax.Boolean, SearchOp.Exists);
+			if (searchList.Count == 1)
+			{
+				IEnumerator list = searchList.GetEnumerator();
+				list.MoveNext();
+				ShallowNode sn = (ShallowNode)list.Current;
+				return new HostNode(domain.GetNodeByID(sn.ID));
+			}
+			return null;
+		}
 	}
 }

@@ -217,6 +217,32 @@ namespace Simias.Storage
 			}
 		}
 
+		/// <summary>
+		/// Gets or Sets the HostID for the home server for this user.
+		/// This is the ID of the server that hosts this user.
+		/// </summary>
+		public HostNode HomeServer
+		{
+			get
+			{
+				HostNode host = null;
+				Property p = properties.FindSingleValue( PropertyTags.HostID );
+				if (p != null)
+				{
+					Store store = Store.GetStore();
+					Domain domain = store.GetDomain(store.DefaultDomain);
+					host = new HostNode(domain.GetMemberByID(p.ToString()));
+				}
+				return host;
+			}
+			set
+			{
+				Property p = new Property( PropertyTags.HostID, value.UserID );
+				p.LocalProperty = true;
+				properties.ModifyNodeProperty( p );
+			}
+		}
+
 		#endregion
 
 		#region Constructors
