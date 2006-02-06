@@ -225,7 +225,6 @@ namespace Simias.Storage
 						if ( tempList.Count > 0 )
 						{
 							journalList = tempList.ToArray( typeof ( JournalEntry ) ) as JournalEntry[];
-							searchState.CurrentRecord += journalList.Length;
 							searchState.LastCount = journalList.Length;
 							moreEntries = ( count == 0 ) ? true : false;
 						}
@@ -631,29 +630,23 @@ namespace Simias.Storage
 				// Add the last modifier to the journal if it isn't already there.
 				if ( fileID != null && !fileID.Equals( string.Empty ) )
 				{
-					Node node = collection.GetNodeByID( fileID );
-					if ( node != null )
+					try
 					{
-						Property property = node.Properties.GetSingleProperty( PropertyTags.LastModified );
-						if ( property != null )
+						Node node = collection.GetNodeByID( fileID );
+						string lastModifier = (string)node.Properties.GetSingleProperty( PropertyTags.LastModifier ).Value;
+						if ( userID == null || userID.Equals( string.Empty ) || userID.Equals( lastModifier ) )
 						{
-							string lastModified = ((DateTime)property.Value).ToString();
+							firstEntry = 
+								new JournalEntry( "modify", 
+								(string)node.Properties.GetSingleProperty( PropertyTags.FileSystemPath ).Value, 
+								lastModifier,
+								(DateTime)node.Properties.GetSingleProperty( PropertyTags.LastModified ).Value );
 
-							property = node.Properties.GetSingleProperty( PropertyTags.LastModifier );
-							if ( property != null )
-							{
-								string lastModifier = (string)property.Value;
-								if ( userID != null && !userID.Equals( string.Empty ) && userID.Equals( lastModifier ) )
-								{
-									if ( ( je == null ) || ( !je.UserID.Equals( lastModifier ) ) )
-									{
-										firstEntry = new JournalEntry( "modify", lastModifier, lastModified );
-										count++;
-									}
-								}
-							}
+							count++;
 						}
 					}
+					catch // Ignore.
+					{}
 				}
 			}
 
@@ -708,8 +701,6 @@ namespace Simias.Storage
 
 		#region Public Methods
 
-		// TODO: Keep track of total returned and when it equals totalRecords then we're done.
-
 		/// <summary>
 		/// Get the next entry from the journal file.
 		/// </summary>
@@ -722,26 +713,43 @@ namespace Simias.Storage
 
 			if ( totalRecords == 0 )
 			{
+				// Get the number of entries to return.
 				totalRecords = GetJournalEntriesForPath();
 			}
 
-			// Read the next record from the file.
-			while ( ( record = ReadNextRecord() ) != null )
+			if ( currentRecord == 0 && firstEntry != null )
 			{
-				try
-				{
-					// New up a JournalEntry object based on the record.
-					JournalEntry tempEntry = new JournalEntry( record );
+				// Return the first entry if it exists.
+				// TODO: Probably need to re-work this ... this only works when returning the journal entries for a given
+				// file.  If the journal for the entire collection is asked for, the file modifications (made locally since
+				// the last synchronization) will not be displayed.  We could query the collection for any nodes with a
+				// LastModified value greater than the timestamp of the last entry in the journal ... and then return entries
+				// for the FileNodes and DirNodes.
+				currentRecord++;
+				return firstEntry;
+			}
 
-					// If the JournalEntry object meets the filter criteria, we're done.
-					if ( ReturnEntry( tempEntry ) )
+			if ( currentRecord != totalRecords )
+			{
+				// Read the next record from the file.
+				while ( ( record = ReadNextRecord() ) != null )
+				{
+					try
 					{
-						journalEntry = tempEntry;
-						break;
+						// New up a JournalEntry object based on the record.
+						JournalEntry tempEntry = new JournalEntry( record );
+
+						// If the JournalEntry object meets the filter criteria, we're done.
+						if ( ReturnEntry( tempEntry ) )
+						{
+							journalEntry = tempEntry;
+							currentRecord++;
+							break;
+						}
 					}
+					catch ( SimiasException ) // Ignore.
+					{}
 				}
-				catch ( SimiasException ) // Ignore.
-				{}
 			}
 
 			return journalEntry;
@@ -883,8 +891,6 @@ namespace Simias.Storage
 
 					if ( records == null )
 					{
-						// TODO: Need to check for and add LastModifier if neccessary.
-
 						// Start reading the most-recent entries (at the end of the file).
 						stream.Seek( -nBytes, SeekOrigin.End );
 					}
@@ -1145,19 +1151,50 @@ namespace Simias.Storage
 		#endregion
 
 		#region Constructor
+
+		/// <summary>
+		/// Instantiates a JournalEntry object.
+		/// </summary>
+		/// <param name="type">The type of change that caused the entry.</param>
+		/// <param name="userID">The identifier of the user that made the change.</param>
+		/// <param name="timeStamp">The time that the change occurred.</param>
 		public JournalEntry( string type, string userID, string timeStamp ) :
-			this( type, string.Empty, userID, timeStamp )
+			this( type, string.Empty, userID, new DateTime( long.Parse( timeStamp ) ) )
 		{
 		}
 
-		public JournalEntry( string type, string fileName, string userID, string timeStamp )
+		/// <summary>
+		/// Instantiates a JournalEntry object.
+		/// </summary>
+		/// <param name="type">The type of change that caused the entry.</param>
+		/// <param name="fileName">The name of the file that the journal entry applies to.</param>
+		/// <param name="userID">The identifier of the user that made the change.</param>
+		/// <param name="timeStamp">The time that the change occurred.</param>
+		public JournalEntry( string type, string fileName, string userID, string timeStamp ) :
+			this( type, fileName, userID, new DateTime( long.Parse( timeStamp ) ) )
+		{
+		}
+
+		/// <summary>
+		/// Instantiates a JournalEntry object.
+		/// </summary>
+		/// <param name="type">The type of change that caused the entry.</param>
+		/// <param name="fileName">The name of the file that the journal entry applies to.</param>
+		/// <param name="userID">The identifier of the user that made the change.</param>
+		/// <param name="timeStamp">The time that the change occurred.</param>
+		public JournalEntry( string type, string fileName, string userID, DateTime timeStamp )
 		{
 			this.type = type;
-			this.fileName = fileName;
+			this.FileName = fileName;
 			this.userID = userID;
-			this.timeStamp = new DateTime( long.Parse( timeStamp ) );
+			this.timeStamp = timeStamp;
 		}
 
+		/// <summary>
+		/// Instantiates a JournalEntry object.
+		/// </summary>
+		/// <param name="record">A string representation of a journal entry from which to construct the JournalEntry
+		/// object.</param>
 		public JournalEntry( string record )
 		{
 			string[] entries = record.Split( ':' );
@@ -1189,6 +1226,7 @@ namespace Simias.Storage
 				this.fileName = entries[4];
 			}
 		}
+
 		#endregion
 	}
 }
