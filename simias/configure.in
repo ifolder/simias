@@ -128,6 +128,9 @@ case $host_os in
         #PKG_CHECK_MODULES(LIBFLAIM, libflaim >= 4.8.0)
         #AC_SUBST(LOG4NET_PREFIX)
         #AC_SUBST(LOG4NET_LIBS)
+	PKG_CHECK_MODULES(UUID, uuid)
+	AC_SUBST(UUID_CFLAGS)
+	AC_SUBST(UUID_LIBS)
     ;;
     darwin*)
 		# fix up the flaim libraries
