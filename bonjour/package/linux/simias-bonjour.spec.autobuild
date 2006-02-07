@@ -9,9 +9,9 @@
 #
 
 # norootforbuild
-# neededforbuild  gnutls-devel mono-devel mono-core mono-data mono-web pkgconfig glib2 glib2-devel mDNSResponder-devel log4net simias
+# neededforbuild  gnutls-devel mono-devel mono-core mono-data mono-web pkgconfig glib2 glib2-devel mDNSResponder mDNSResponder-devel log4net simias
 
-BuildRequires: gnutls-devel mono-devel mono-core mono-data mono-web pkgconfig glib2 glib2-devel mDNSResponder-devel log4net simias
+BuildRequires: gnutls-devel mono-devel mono-core mono-data mono-web pkgconfig glib2 glib2-devel mDNSResponder mDNSResponder-devel log4net simias
 
 Name:         simias-bonjour
 %define buildnum @@BUILDNUM@@
