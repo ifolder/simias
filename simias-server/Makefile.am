@@ -1,4 +1,4 @@
-SUBDIRS = src src/MdbSync src/SimpleSync
+SUBDIRS = src src/MdbProvider src/SimpleProvider
 
 DIST_SUBDIRS = $(SUBDIRS)
 
