@@ -2,11 +2,11 @@
   <section name="EnterpriseDomain">
     <setting name="Description" value="Simias Enterprise Server" />
     <setting name="ServerName" value="Simias Server" />
-    <setting name="AdminName" value="Admin" />
+    <setting name="AdminName" value="admin" />
     <setting name="AdminPassword" value="simias" />
   </section>
   <section name="Authentication">
-	<setting name="SimiasAuthNotRequired" value="Login.ashx, Simias.asmx:PingSimias, DomainService.asmx:GetDomainID" />
+	<setting name="SimiasAuthNotRequired" value="Registration.asmx, Login.ashx, Simias.asmx:PingSimias, DomainService.asmx:GetDomainID" />
 	<setting name="SimiasRequireSSL" value="no" />
   </section>
   <section name="StoreProvider">

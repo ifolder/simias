@@ -1,7 +1,7 @@
 # handle Mono secondary dependencies
 export MONO_PATH := $(MONO_PATH):$(DESTDIR)$(libdir)
 
-SimiasServer_CSFILES = $(srcdir)/Service.cs $(srcdir)/Ajax.cs $(srcdir)/Domain.cs $(srcdir)/DomainInfo.cs $(srcdir)/ProvisionInfo.cs $(srcdir)/DomainService.asmx.cs $(srcdir)/Register.aspx.cs $(srcdir)/IdentitySyncService.cs $(srcdir)/IIdentitySyncProvider.cs $(srcdir)/IdentitySyncManager.asmx.cs $(srcdir)/Registration.asmx.cs
+SimiasServer_CSFILES = $(srcdir)/Service.cs $(srcdir)/Ajax.cs $(srcdir)/Authentication.cs $(srcdir)/Domain.cs $(srcdir)/DomainInfo.cs $(srcdir)/ProvisionInfo.cs $(srcdir)/DomainService.asmx.cs $(srcdir)/Register.aspx.cs $(srcdir)/IdentitySyncService.cs $(srcdir)/IIdentitySyncProvider.cs $(srcdir)/IdentitySyncManager.asmx.cs $(srcdir)/Registration.asmx.cs $(srcdir)/IUserProvider.cs $(srcdir)/User.cs
 SimiasServer_CSFILES_CSC := $(subst /,$(SEP),$(SimiasServer_CSFILES))
 SimiasServer_INCLUDES =
 SimiasServer_RESOURCES =
@@ -10,7 +10,7 @@ SimiasServer_LIBPATH = $(DESTDIR)$(webbindir) ../../simias/src/SimiasLib.dll ../
 SimiasServer_LIBS = System.dll System.Data.dll $(SYSTEM_XML) System.Web.dll System.Web.Services.dll SimiasLib.dll SimiasClient.dll
 #SimiasServer_LIBPATH = ../../src/SimiasLib.dll ../../src/SimiasClient $(DESTDIR)$(webbindir)
 
-EXTRA_DIST = DomainService.asmx Register.aspx $(SimiasServer_CSFILES) Simias.config.in Simias.Server.conf simiasserver.in simiasserver.cmd.in
+EXTRA_DIST = DomainService.asmx Register.aspx Registration.asmx $(SimiasServer_CSFILES) Simias.config.in Simias.Server.conf simiasserver.in simiasserver.cmd.in
 
 if MAKE_DOC_FILE
 DOC_FILE = $(basename $@).doc.xml
@@ -52,6 +52,7 @@ install-exec-local: all
 	$(INSTALL_PROGRAM) Simias.config $(simiasdatadir)
 	$(INSTALL_PROGRAM) DomainService.asmx $(DEBUG_FILES) $(DESTDIR)$(webdir)
 	$(INSTALL_PROGRAM) Register.aspx $(DEBUG_FILES) $(DESTDIR)$(webdir)
+	$(INSTALL_PROGRAM) Registration.asmx $(DEBUG_FILES) $(DESTDIR)$(webdir)
 	$(INSTALL_PROGRAM) $(SERVER_ASSEMBLIES) $(DEBUG_CHECK_FILES) $(DESTDIR)$(webbindir)
 	$(INSTALL_PROGRAM) Simias.Server.conf $(simiasdatadir)/modules
 if WINDOWS	
@@ -63,6 +64,7 @@ endif
 uninstall-local:
 	cd $(DESTDIR)$(webdir); rm -f DomainService.asmx
 	cd $(DESTDIR)$(webdir); rm -f Register.aspx
+	cd $(DESTDIR)$(webdir); rm -f Regististration.asmx
 	cd $(DESTDIR)$(webbindir); rm -f $(SERVER_ASSEMBLIES) $(DEBUG_CHECK_FILES)
 	cd $(simiasdatadir); rm -f Simias.config
 	cd $(simiasdatadir)/modules; rm -f Simias.Server.conf

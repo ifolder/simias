@@ -1,7 +1,7 @@
 /***********************************************************************
  *  $RCSfile$
  *
- *  Copyright (C) 2005 Novell, Inc.
+ *  Copyright (C) 2006 Novell, Inc.
  *
  *  This program is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU General Public
@@ -23,9 +23,7 @@
 
 using System;
 using System.Reflection;
-using System.Runtime.InteropServices;
-using System.Security.Cryptography;
-using System.Text;
+using System.Net;
 using System.Web;
 
 using Simias;
@@ -48,11 +46,12 @@ namespace Simias.Server
 		/// <summary>
 		/// Used to log messages.
 		/// </summary>
-		private static readonly ISimiasLog log = SimiasLogManager.GetLogger( MethodBase.GetCurrentMethod().DeclaringType );
+		private static readonly ISimiasLog log = 
+			SimiasLogManager.GetLogger( MethodBase.GetCurrentMethod().DeclaringType );
 
 		private string domainID;
-		private string username = "admin";
-		private string password = "simias";
+		private string username;
+		private string password;
 		private string authType;
 
 		private readonly char[] colonDelimeter = {':'};
@@ -169,17 +168,6 @@ namespace Simias.Server
 		{
 			return ( ( this.username != null ) && ( this.password != null ) ) ? true : false;
 		}
-
-		static public string HashPassword( string password )
-		{
-			UTF8Encoding utf8 = new UTF8Encoding();
-			byte[] bytes = new Byte[ utf8.GetByteCount( password ) ];
-			bytes = utf8.GetBytes( password );
-			MD5 md5 = new MD5CryptoServiceProvider();
-			byte[] hashedPassword = new MD5CryptoServiceProvider().ComputeHash( bytes );
-			return Convert.ToBase64String( hashedPassword );
-		}
-
 		#endregion
 	}
 
@@ -192,32 +180,40 @@ namespace Simias.Server
 		/// <summary>
 		/// Used to log messages.
 		/// </summary>
-		private static readonly ISimiasLog log = SimiasLogManager.GetLogger( MethodBase.GetCurrentMethod().DeclaringType );
+		private static readonly ISimiasLog log = 
+			SimiasLogManager.GetLogger( MethodBase.GetCurrentMethod().DeclaringType );
 
 		/// <summary>
 		/// String used to identify domain provider.
 		/// </summary>
-		static private string providerName = "SimiasServer Authentication Provider";
-		static private string providerDescription = "Authentication Provider for Simias Server";
+		static private string providerName = "Enterprise Authentication Provider";
+		static private string providerDescription = "Authentication Provider for Simias Enterprise Server";
 
 		/// <summary>
 		/// Store object.
 		/// </summary>
-		private Store store = Store.GetStore();
+		private Store store = null;
 
 		/// <summary>
 		/// The default encoding to use for decoding the basic credential set.
 		/// </summary>
-		private string defaultBasicEncodingName = "iso-8859-1";
+		private string defaultBasicEncodingName;
 		#endregion
 
 		#region Constructor
+
 		/// <summary>
 		/// Initializes an instance of this object.
 		/// </summary>
 		public Authentication()
 		{
-		
+			defaultBasicEncodingName = Store.Config.Get( Storage.Domain.SectionName, Storage.Domain.Encoding );
+			if ( defaultBasicEncodingName == null )
+			{
+				defaultBasicEncodingName = "iso-8859-1";
+			}
+			
+			store = Store.GetStore();
 		}
 
 		#endregion
@@ -232,42 +228,38 @@ namespace Simias.Server
 		///<returns>
 		/// Returns an authentication status object
 		/// </returns>
-		private Simias.Authentication.Status AuthenticateByName( string domainID, string user, string password )
+		private
+		Simias.Authentication.Status
+		AuthenticateByName( string DomainID, string User, string Password )
 		{
 			Simias.Authentication.Status status = new Simias.Authentication.Status( SCodes.Unknown );
 
 			try
 			{
-				// First verify the user exists in the SimpleServer domain
-				Simias.Storage.Domain domain = store.GetDomain( domainID );
+				// First verify the user exists in the Enterprise domain
+				Simias.Storage.Domain domain = store.GetDomain( DomainID );
 				if ( domain != null )
 				{
-					Simias.Storage.Member member = domain.GetMemberByName( user );
+					Simias.Storage.Member member = domain.GetMemberByName( User );
 					if ( member != null )
 					{
-						Property pwd = member.Properties.GetSingleProperty( "SS:PWD" );
-						if ( pwd != null )
+						if ( Simias.Server.User.VerifyPassword( member.Name, Password ) == true )
 						{
-							string hashedPassword = SimiasCredentials.HashPassword( password );
-							if ( hashedPassword == ( string ) pwd.Value)
-							{
-								status.statusCode = SCodes.Success;
-								status.UserID = member.UserID;
-								status.UserName = member.Name;
-							}
-							else
-							{
-								status.statusCode = SCodes.InvalidCredentials;
-							}
+							status.statusCode = SCodes.Success;
+							status.UserID = member.UserID;
+							status.UserName = member.Name;
+								
+							log.Info( "Authenticated User: " + member.UserID + ":" + member.Name );
 						}
 						else
 						{
 							status.statusCode = SCodes.InvalidCredentials;
+							log.Info( "Invalid credentials : " + member.Name );
 						}
 					}
 					else
 					{
-						log.Debug( "Unknown user: " + user + " attempted to authenticate" );
+						log.Info( "Unknown user: " + User + " attempted to authenticate" );
 						status.statusCode = SCodes.UnknownUser;
 					}
 				}
@@ -317,7 +309,9 @@ namespace Simias.Server
 		/// NOTE: The domain provider must NOT end the HTTP request.
 		/// </param>
 		/// <returns>The status from the authentication.</returns>
-		public Simias.Authentication.Status Authenticate( Simias.Storage.Domain domain, HttpContext httpContext )
+		public
+		Simias.Authentication.Status
+		Authenticate( Simias.Storage.Domain Domain, HttpContext HttpCtx )
 		{
 			Simias.Authentication.Status authStatus;
 
@@ -326,11 +320,11 @@ namespace Simias.Server
 			try
 			{
 				// Check for an authorization header.
-				string[] encodedCredentials = httpContext.Request.Headers.GetValues( "Authorization" );
+				string[] encodedCredentials = HttpCtx.Request.Headers.GetValues( "Authorization" );
 				if ( ( encodedCredentials != null ) && ( encodedCredentials[0] != null ) )
 				{
 					// Get the basic encoding type from the http header.
-					string[] encodingName = httpContext.Request.Headers.GetValues( "Basic-Encoding" );
+					string[] encodingName = HttpCtx.Request.Headers.GetValues( "Basic-Encoding" );
 					if ( ( encodingName == null ) || ( encodingName[0] == null ) )
 					{
 						// Use the specified default encoding.
@@ -339,8 +333,7 @@ namespace Simias.Server
 
 					// Get the credentials from the auth header.
 					SimiasCredentials creds = new SimiasCredentials();
-					bool success = creds.AuthorizationHeaderToCredentials( encodedCredentials[0], encodingName[0] );
-					if ( success )
+					if( creds.AuthorizationHeaderToCredentials( encodedCredentials[0], encodingName[0] ) )
 					{
 						// Valid credentials?
 						if ( ( creds.Username != null ) && ( creds.Password != null ) )
@@ -351,7 +344,7 @@ namespace Simias.Server
 								try
 								{
 									// Authenticate the user.
-									authStatus = AuthenticateByName( domain.ID, creds.Username, creds.Password );
+									authStatus = AuthenticateByName( Domain.ID, creds.Username, creds.Password );
 								}
 								catch( Exception e )
 								{
@@ -503,26 +496,16 @@ namespace Simias.Server
 		{
 			log.Debug( "OwnsDomain called" );
 			log.Debug( "  with domain: " + domainID );
-
-			Simias.Server.Domain thisDomain = new Simias.Server.Domain( false );
-			Simias.Storage.Domain ssDomain = thisDomain.GetSimiasServerDomain( false );
-			if ( ssDomain != null )
+			
+			Collection collection = store.GetSingleCollectionByType( "Enterprise" );
+			if ( collection.ID == domainID )
 			{
-				log.Debug( "  this SimpleServer domain is: " + ssDomain.ID );
-				if ( ssDomain.ID == domainID )
-				{
 					log.Debug( "  returning true" );
 					return true;
-				}
 			}
-
-			log.Debug( "Returning false" );
+			
+			log.Debug( "  returning false" );
 			return false;
-
-			/*
-			Simias.Storage.Domain domain = store.GetDomain( domainID );
-			return ( ( domain != null ) && domain.IsType( domain, "Enterprise" ) ) ? true : false;
-			*/
 		}
 
 		/// <summary>

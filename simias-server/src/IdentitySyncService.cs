@@ -799,6 +799,7 @@ namespace Simias.IdentitySync
 			{
 				log.Debug( "Registering provider {0}.", provider.Name );
 				registeredProviders.Add( provider.Name, provider );
+				syncEvent.Set();
 			}
 		}
 
@@ -897,6 +898,12 @@ namespace Simias.IdentitySync
 			{
 				running = true;
 				
+				if ( registeredProviders.Count == 0 )
+				{
+					log.Debug( "No registered identity sync providers - disabling sync service" );
+					syncDisabled = true;
+				}
+				
 				if ( syncDisabled == true )
 				{
 					Simias.IdentitySync.Service.status = "disabled";
@@ -913,6 +920,7 @@ namespace Simias.IdentitySync
 				{
 					continue;
 				}
+				
 				
 				log.Debug( "Start - syncing identities" );
 				Simias.IdentitySync.State state = null;

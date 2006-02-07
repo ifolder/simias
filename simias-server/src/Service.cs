@@ -50,12 +50,7 @@ namespace Simias.Server
 		private static readonly ISimiasLog log = 
 			SimiasLogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-		/// <summary>
-		/// Configuration object for the Collection Store.
-		/// </summary>
-		//private Configuration config;
-
-		//private Simias.Server.Authentication authProvider = null;
+		private Simias.Server.Authentication authProvider = null;
 		private Simias.Server.InternalUser userProvider = null;
 		#endregion
 
@@ -91,7 +86,14 @@ namespace Simias.Server
 				{
 					userProvider = new Simias.Server.InternalUser();
 					User.RegisterProvider( userProvider );
-				}		
+				}	
+				
+				// Register with the domain provider service.
+				if ( authProvider == null )
+				{
+					authProvider = new Simias.Server.Authentication();
+					DomainProvider.RegisterProvider( this.authProvider );
+				}
 				
 				// Valid enterprise domain - start the external
 				// identity sync service
@@ -130,6 +132,12 @@ namespace Simias.Server
 		{
 			log.Debug( "Stop called" );
 			Simias.IdentitySync.Service.Stop();
+			
+			if ( authProvider != null )
+			{
+				DomainProvider.Unregister( authProvider );
+				authProvider = null;
+			}
 			
 			if ( userProvider != null )
 			{

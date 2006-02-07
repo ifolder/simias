@@ -25,6 +25,8 @@ using System;
 using System.Reflection;
 using System.Collections;
 using System.Net;
+using System.Security.Cryptography;
+using System.Text;
 using System.Web;
 using System.Xml;
 
@@ -292,11 +294,11 @@ namespace Simias.Server
 			return false;
 		}
 		
-		public bool VerifyPassword( string Password )
+		static public bool VerifyPassword( string Username, string Password )
 		{
 			if ( User.provider != null )
 			{
-				return User.provider.VerifyPassword( this.username, Password );
+				return User.provider.VerifyPassword( Username, Password );
 			}
 		
 			return false;
@@ -307,6 +309,10 @@ namespace Simias.Server
 	
 	/// <summary>
 	/// Implementation of the IUserProvider Service for Internal Server.
+	///
+	/// The internal server does not use any external identity source 
+	/// for creating or authenticating members in the Enterprise
+	/// domain roster.
 	/// </summary>
 	public class InternalUser : Simias.Server.IUserProvider
 	{
@@ -322,16 +328,18 @@ namespace Simias.Server
 		/// </summary>
 		static private string providerName = "Simias User Provider";
 		static private string providerDescription = "User provider that uses Simias as the user database";
+		
+		static private string missingDomainMessage = "Enterprise domain does not exist!";
+		static private string memberMarker = "Internal";
+		static private string pwdProperty = "PWD";
 
-		/// <summary>
-		/// Store object.
-		/// </summary>
-		private Store store;
+		// Frequently used Simias types
+		private Store store = null;
+		private Simias.Storage.Domain domain = null;
 
-		/// <summary>
-		/// The default encoding to use for decoding the basic credential set.
-		/// </summary>
-		//private string defaultBasicEncodingName;
+		// Types for creating an MD5 password hash
+		private UTF8Encoding utf8Encoding;
+		private MD5CryptoServiceProvider md5Service;
 		#endregion
 		
 		#region Properties
@@ -345,7 +353,6 @@ namespace Simias.Server
 		/// </summary>
 		public string Description { get { return providerDescription; } }
 		#endregion
-		
 
 		#region Constructor
 		/// <summary>
@@ -354,6 +361,24 @@ namespace Simias.Server
 		public InternalUser()
 		{
 			store = Store.GetStore();
+			if ( store.DefaultDomain == null )
+			{
+				throw new SimiasException( InternalUser.missingDomainMessage );
+			}
+			
+			domain = store.GetDomain( store.DefaultDomain );
+			if ( domain == null )
+			{
+				throw new SimiasException( InternalUser.missingDomainMessage );
+			}
+			
+			if ( domain.IsType( "Enterprise" ) == false )
+			{
+				throw new SimiasException( InternalUser.missingDomainMessage );
+			}
+			
+			utf8Encoding = new UTF8Encoding();
+			md5Service = new MD5CryptoServiceProvider();
 			
 			// Make sure the password is set on the admin
 			SetAdminPassword();
@@ -361,6 +386,13 @@ namespace Simias.Server
 		#endregion
 		
 		#region Private Methods
+		private string HashPassword( string password )
+		{
+			byte[] bytes = new Byte[ utf8Encoding.GetByteCount( password ) ];
+			bytes = utf8Encoding.GetBytes( password );
+			return Convert.ToBase64String( md5Service.ComputeHash( bytes ) );
+		}
+		
 		private bool SetAdminPassword()
 		{
 			bool status = false;
@@ -374,23 +406,22 @@ namespace Simias.Server
 			{
 				try
 				{
-					Store store = Store.GetStore();
-					Simias.Storage.Domain domain = store.GetDomain( store.DefaultDomain );
-
 					Member member = domain.GetMemberByName( adminName );
-					Property pwd = member.Properties.GetSingleProperty( "PWD" );
-					if ( pwd == null )
+					if ( member != null )
 					{
-						pwd = new Property( "PWD", adminPassword );
-						member.Properties.ModifyProperty( pwd );
+						Property pwd = 
+							member.Properties.GetSingleProperty( InternalUser.pwdProperty );
+						if ( pwd == null || pwd.Value == null )
+						{
+							pwd = new Property( InternalUser.pwdProperty, HashPassword( adminPassword ) );
+							member.Properties.ModifyProperty( pwd );
 
-						// Marker so we know this member was created internally
-						// and not through an external identity sync.
-						domain.SetType( member as Node, "Internal" );
-						domain.Commit( member );
-						domain = null;
-						store = null;
-						status = true;
+							// Marker so we know this member was created internally
+							// and not through an external identity sync.
+							domain.SetType( member as Node, InternalUser.memberMarker );
+							domain.Commit( member );
+							status = true;
+						}	
 					}
 				}
 				catch( Exception ap )
@@ -431,57 +462,54 @@ namespace Simias.Server
 			Member member = null;
 			RegistrationInfo info = new RegistrationInfo();
 			
+			if ( domain == null )
+			{
+				log.Debug( "Domain instance == null" );
+			}
+			
 			try
 			{
-				// Enterprise server always uses the default domain
-				Simias.Storage.Domain domain = store.GetDomain( store.DefaultDomain );
-				if ( domain != null )
+				member = domain.GetMemberByName( Username );
+				if ( member == null )
 				{
-					member = domain.GetMemberByName( Username );
-					if ( member == null )
-					{
-						string guid = ( Userguid != null && Userguid != "" ) 
-								? Userguid : Guid.NewGuid().ToString();
+					string guid = ( Userguid != null && Userguid != "" ) 
+							? Userguid : Guid.NewGuid().ToString();
 							
-						member = 
-							new Member(
-									Username,
-									guid, 
-									Access.Rights.ReadOnly,
-									Firstname,
-									Lastname );
+					member = 
+						new Member(
+								Username,
+								guid, 
+								Access.Rights.ReadOnly,
+								Firstname,
+								Lastname );
 
-						// Set the admin hashed password
-						// when it becomes available
-						Property pwd = new Property( "PWD",	Password );
-						pwd.LocalProperty = true;
-						member.Properties.ModifyProperty( pwd );
+					// Simias server stores a simple MD5 hash of the password
+					Property pwd = new Property( InternalUser.pwdProperty,	HashPassword ( Password ) );
+					pwd.LocalProperty = true;
+					member.Properties.ModifyProperty( pwd );
 							
-						member.FN = ( Fullname != null ) ? Fullname : Firstname + " " + Lastname;
+					member.FN = ( Fullname != null ) ? Fullname : Firstname + " " + Lastname;
 
-						Property dnProp = new Property( "DN", Username );
-						member.Properties.ModifyProperty( dnProp );
+					Property dnProp = new Property( "DN", Username );
+					member.Properties.ModifyProperty( dnProp );
 
-						domain.Commit( member );
+					domain.SetType( member as Node, InternalUser.memberMarker );
+					domain.Commit( member );
 							
-						info.Status = RegistrationStatus.UserCreated;
-						info.Message = "Successful";
-						info.UserGuid = guid;
-					}
-					else
-					{
-						info.Status = RegistrationStatus.UserAlreadyExists;
-						info.Message = "Specified user already exists!";
-					}
+					info.Status = RegistrationStatus.UserCreated;
+					info.Message = "Successful";
+					info.UserGuid = guid;
 				}
 				else
 				{
-					info.Status = RegistrationStatus.InvalidDomain;
-					info.Message = "A default server domain does not exist";
+					info.Status = RegistrationStatus.UserAlreadyExists;
+					info.Message = "Specified user already exists!";
 				}
 			}
 			catch( Exception e1 )
 			{
+				log.Error( e1.Message );
+				log.Error( e1.StackTrace );
 				info.Status = RegistrationStatus.InternalException;
 				info.Message = e1.Message;
 			}			
@@ -501,16 +529,11 @@ namespace Simias.Server
 			
 			try
 			{
-				// Enterprise server always uses the default domain
-				Simias.Storage.Domain domain = store.GetDomain( store.DefaultDomain );
-				if ( domain != null )
+				Member member = domain.GetMemberByName( Username );
+				if ( member != null )
 				{
-					Member member = domain.GetMemberByName( Username );
-					if ( member != null )
-					{
-						domain.Commit( domain.Delete( member ) );
-						status = true;
-					}
+					domain.Commit( domain.Delete( member ) );
+					status = true;
 				}
 			}
 			catch( Exception e1 )
@@ -530,29 +553,33 @@ namespace Simias.Server
 		/// <returns>true - Valid password, false Invalid password</returns>
 		public bool VerifyPassword( string Username, string Password )
 		{
-			bool status = false;
+			bool status;
 			
 			try
 			{
-				// Enterprise server always uses the default domain
-				Simias.Storage.Domain domain = store.GetDomain( store.DefaultDomain );
-				if ( domain != null )
+				Member member = domain.GetMemberByName( Username );
+				if ( member != null )
 				{
-					Member member = domain.GetMemberByName( Username );
-					if ( member != null )
+					Property pwd = member.Properties.GetSingleProperty( InternalUser.pwdProperty );
+					if ( pwd != null && ( pwd.Value as string == HashPassword( Password ) ) )
 					{
-						Property pwd = member.Properties.GetSingleProperty( "PWD" );
-						if ( pwd != null && ( pwd.Value as string == Password ) )
-						{
-							status = true;
-						}
+						status = true;
 					}
+					else
+					{
+						status = false;
+					}
+				}
+				else
+				{
+					status = false;
 				}
 			}
 			catch( Exception e1 )
 			{
 				log.Error( e1.Message );
 				log.Error( e1.StackTrace );
+				status = false;
 			}			
 			
 			return status;
