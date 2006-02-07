@@ -24,5 +24,3 @@
     <Entry filename="./src/SimpleSync/SimpleSync.mdp" />
     <Entry filename="./tools/RegisterCmd/RegisterCmd.mdp" />
     <Entry filename="./src/SimiasIdentity/SimiasIdentity.mdp" />
-  </Entries>
-</Combine>

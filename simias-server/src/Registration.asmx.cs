@@ -41,6 +41,7 @@ namespace Simias.Server
 		UsernamePolicyException,
 		PasswordPolicyException,
 		NoRegisteredUserProvider,
+		MethodNotSupported,
 		InternalException
 	}
 	

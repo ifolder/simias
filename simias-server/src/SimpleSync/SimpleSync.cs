@@ -146,7 +146,8 @@ namespace Simias.SimpleServer
 							domainElement.ChildNodes[i].Attributes[ "Password" ];
 						if ( pwdAttr != null )
 						{
-							pwdProperty = new Property( "SS:PWD", pwdAttr.Value );
+							pwdProperty = 
+								new Property( User.pwdProperty, User.HashPassword( pwdAttr.Value ) );
 							pwdProperty.LocalProperty = true;
 						}
 						

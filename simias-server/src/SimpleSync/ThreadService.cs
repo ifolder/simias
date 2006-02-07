@@ -48,8 +48,9 @@ namespace Simias.SimpleServer
 		private static readonly ISimiasLog log = 
 			SimiasLogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 			
-		Simias.SimpleServer.SyncProvider syncProvider = null;
-		Simias.SimpleServer.Authentication authProvider = null;
+		private Simias.SimpleServer.SyncProvider syncProvider = null;
+		private Simias.SimpleServer.User userProvider = null;
+		
 		#endregion
 
 		#region Constructor
@@ -73,13 +74,14 @@ namespace Simias.SimpleServer
 		{
 			log.Debug( "Start called" );
 
-			// Register with the domain provider service.
-			if ( authProvider == null )
+			// Register with the User service
+			if ( userProvider == null )
 			{
-				authProvider = new Simias.SimpleServer.Authentication();
-				DomainProvider.RegisterProvider( this.authProvider );
-			}
-			
+				userProvider = new Simias.SimpleServer.User();
+				Simias.Server.User.RegisterProvider( userProvider );
+			}	
+
+			// Register with the server external sync service.
 			if ( syncProvider == null )
 			{
 				syncProvider = new Simias.SimpleServer.SyncProvider();
@@ -117,17 +119,18 @@ namespace Simias.SimpleServer
 		public void Stop()
 		{
 			log.Debug( "Stop called" );
-			
+
+			// Unregister providers			
 			if ( syncProvider != null )
 			{
 				Simias.IdentitySync.Service.Unregister( syncProvider );
 				syncProvider = null;
 			}
 			
-			if ( authProvider != null )
+			if ( userProvider != null )
 			{
-				DomainProvider.Unregister( authProvider );
-				authProvider = null;
+				Simias.Server.User.UnregisterProvider( userProvider );
+				userProvider = null;
 			}
 		}
 		#endregion

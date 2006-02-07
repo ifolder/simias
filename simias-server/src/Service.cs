@@ -26,6 +26,7 @@ using System.Collections;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 
@@ -51,7 +52,7 @@ namespace Simias.Server
 			SimiasLogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
 		private Simias.Server.Authentication authProvider = null;
-		private Simias.Server.InternalUser userProvider = null;
+		private Simias.Server.IUserProvider userProvider = null;
 		#endregion
 
 		#region Constructor
@@ -60,6 +61,55 @@ namespace Simias.Server
 		/// </summary>
 		public Service()
 		{
+		}
+		#endregion
+		
+		#region Private Members
+		private bool LoadIdentityProvider()
+		{
+			bool status = false;
+			
+			// Bootstrap the identity provider from the Simias.config file
+			Simias.Configuration config = Store.Config;
+			string assemblyName = config.Get( "Identity", "Assembly" );
+			string userClass = config.Get( "Identity", "Class" );
+			
+			if ( assemblyName != null && userClass != null )
+			{
+				log.Debug( "Identity assembly: {0}  class: {1}", assemblyName, userClass );
+				Assembly idAssembly = Assembly.LoadWithPartialName( assemblyName );
+				if ( idAssembly != null )
+				{
+					log.Debug( "got assembly" );
+					Type type = idAssembly.GetType( userClass );
+					if ( type != null )
+					{
+						log.Debug( "got class" );
+						userProvider = Activator.CreateInstance( type ) as IUserProvider;
+						if ( userProvider != null )
+						{
+							log.Debug( "created user provider instance" );
+							User.RegisterProvider( userProvider );
+							status = true;
+						}
+					}							
+				}
+			}
+			
+			// If we couldn't load the configured provider
+			// load the internal user/identity provider
+			if ( status == false )
+			{
+				if ( userProvider == null )
+				{
+					log.Info( "Could not load the configured user provider - loading InternalUser" );
+					userProvider = new Simias.Server.InternalUser();
+					User.RegisterProvider( userProvider );
+					status = true;
+				}	
+			}
+			
+			return status;
 		}
 		#endregion
 
@@ -81,11 +131,9 @@ namespace Simias.Server
 			EnterpriseDomain enterpriseDomain = new EnterpriseDomain( true );
 			if ( enterpriseDomain != null )
 			{
-				// Temp - automatically register the internal provider
 				if ( userProvider == null )
 				{
-					userProvider = new Simias.Server.InternalUser();
-					User.RegisterProvider( userProvider );
+					LoadIdentityProvider();
 				}	
 				
 				// Register with the domain provider service.
