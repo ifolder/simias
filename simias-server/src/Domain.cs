@@ -52,7 +52,7 @@ namespace Simias.Server
 		private string hostAddress;
 		private string description = "Enterprise server domain";
 		private string admin = "admin";
-		private string adminPassword = "simias";
+		//private string adminPassword = "simias";
 
 		/// <summary>
 		/// Used to log messages.
@@ -160,11 +160,13 @@ namespace Simias.Server
 						this.admin = cfgValue;
 					}
 
+					/*
 					cfgValue = config.Get( "EnterpriseDomain", "AdminPassword" );
 					if ( cfgValue != null && cfgValue != "" )
 					{
 						this.adminPassword = cfgValue;
 					}
+					*/
 				
 					this.id = Guid.NewGuid().ToString();
 
@@ -194,10 +196,6 @@ namespace Simias.Server
 					// Marker so we know this member was created internally
 					// and not through an external identity sync.
 					enterpriseDomain.SetType( member as Node, "Internal" );
-					
-					// TODO: encrypt
-					Property adminPwd = new Property( "AdminCredential", adminPassword );
-					member.Properties.ModifyProperty( adminPwd );
 					
 					enterpriseDomain.Commit( new Node[] { enterpriseDomain, member } );
 					

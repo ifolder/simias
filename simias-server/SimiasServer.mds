@@ -3,18 +3,26 @@
     <Configuration name="Debug" ctype="CombineConfiguration">
       <Entry configuration="Debug" build="True" name="SimiasServer" />
       <Entry configuration="Debug" build="True" name="SimpleSync" />
+      <Entry configuration="Debug" build="True" name="RegisterCmd" />
+      <Entry configuration="Debug" build="True" name="SimiasInternalServer" />
     </Configuration>
     <Configuration name="Release" ctype="CombineConfiguration">
       <Entry configuration="Debug" build="True" name="SimiasServer" />
       <Entry configuration="Debug" build="True" name="SimpleSync" />
+      <Entry configuration="Debug" build="True" name="RegisterCmd" />
+      <Entry configuration="Debug" build="True" name="SimiasInternalServer" />
     </Configuration>
   </Configurations>
   <StartMode startupentry="SimiasServer" single="True">
     <Execute type="None" entry="SimiasServer" />
     <Execute type="None" entry="SimpleSync" />
+    <Execute type="None" entry="RegisterCmd" />
+    <Execute type="None" entry="SimiasInternalServer" />
   </StartMode>
   <Entries>
     <Entry filename="./SimiasServer.mdp" />
     <Entry filename="./src/SimpleSync/SimpleSync.mdp" />
+    <Entry filename="./tools/RegisterCmd/RegisterCmd.mdp" />
+    <Entry filename="./src/SimiasIdentity/SimiasIdentity.mdp" />
   </Entries>
 </Combine>

@@ -56,6 +56,7 @@ namespace Simias.Server
 		//private Configuration config;
 
 		//private Simias.Server.Authentication authProvider = null;
+		private Simias.Server.InternalUser userProvider = null;
 		#endregion
 
 		#region Constructor
@@ -85,6 +86,13 @@ namespace Simias.Server
 			EnterpriseDomain enterpriseDomain = new EnterpriseDomain( true );
 			if ( enterpriseDomain != null )
 			{
+				// Temp - automatically register the internal provider
+				if ( userProvider == null )
+				{
+					userProvider = new Simias.Server.InternalUser();
+					User.RegisterProvider( userProvider );
+				}		
+				
 				// Valid enterprise domain - start the external
 				// identity sync service
 				Simias.IdentitySync.Service.Start();
@@ -122,6 +130,12 @@ namespace Simias.Server
 		{
 			log.Debug( "Stop called" );
 			Simias.IdentitySync.Service.Stop();
+			
+			if ( userProvider != null )
+			{
+				User.UnregisterProvider( userProvider );
+				userProvider = null;
+			}
 		}
 		#endregion
 	}

@@ -35,11 +35,12 @@ namespace Simias.Server
 	public enum RegistrationStatus
 	{
 		UserCreated = 0,
-		UserExists,
+		UserAlreadyExists,
 		InvalidParameters,
 		InvalidDomain,
 		UsernamePolicyException,
 		PasswordPolicyException,
+		NoRegisteredUserProvider,
 		InternalException
 	}
 	
@@ -50,6 +51,15 @@ namespace Simias.Server
 	[ Serializable ]
 	public class RegistrationInfo
 	{
+		public RegistrationInfo()
+		{
+		}
+		
+		public RegistrationInfo( RegistrationStatus StatusCode )
+		{
+			Status = StatusCode;
+		}
+		
 		/// <summary>
 		/// Status result from a create or delete
 		/// method
@@ -66,6 +76,12 @@ namespace Simias.Server
 		/// Not valid if the registration method fails.
 		/// </summary>
 		public string UserGuid;
+		
+		/// <summary>
+		/// Distinguished Name in the external identity database.
+		/// Not valid if the registration method fails.
+		/// </summary>
+		public string DistinguishedName;
 		
 		/// <summary>
 		/// If the Registration.CreateUser method fails with a
@@ -122,13 +138,13 @@ namespace Simias.Server
 		/// <summary>
 		/// Method to add/create a new user in the system.
 		/// <param>Username (mandatory) short name of the user</param>
-		/// <param>Encrypted true if the Password is encrypted false password is in the clear</param>
 		/// <param>Password (mandatory)
 		/// <param>UserGuid (optional) caller can specify the guid for the user</param>
 		/// <param>FirstName (optional) first/given name of the user</param>
 		/// <param>LastName (optional) last/family name of the user</param>
 		/// <param>FullName (optional) Fullname of the user</param>
 		/// <param>DistinguishedName (optional) usually the distinguished name from an external identity store</param>
+		/// <param>Email (optional) Primary email address</param>
 		/// If the FirstName and LastName are specified but the FullName is null, FullName is
 		/// autocreated using: FirstName + " " + LastName
 		/// </summary>
@@ -138,108 +154,36 @@ namespace Simias.Server
 		RegistrationInfo
 		CreateUser(
 			string 	Username,
-			bool	Encrypted,
 			string 	Password,
 			string 	UserGuid,
 			string 	FirstName,
 			string 	LastName,
 			string 	FullName,
-			string	DistinguishedName)
+			string	DistinguishedName,
+			string	Email)
 		{
-			Member member = null;
-			RegistrationInfo info = new RegistrationInfo();
+			RegistrationInfo info;
 			
 			if ( Username == null || Username == "" || Password == null )
 			{
-				info.Status = RegistrationStatus.InvalidParameters;
+				info = new RegistrationInfo( RegistrationStatus.InvalidParameters );
 				info.Message = "Missing mandatory parameters";
 				log.Info( "called with missing mandatory parameters" );
-				return info;
 			}
 			else
 			{
-				try
-				{
-					Simias.Storage.Domain domain = store.GetDomain( store.DefaultDomain );
-					if ( domain != null )
-					{
-						member = domain.GetMemberByName( Username );
-						if ( member == null )
-						{
-							string guid;
-							if ( UserGuid != null && UserGuid != "" )
-							{
-								guid = UserGuid;
-							}
-							else
-							{
-								guid = Guid.NewGuid().ToString();
-							}
-							
-							log.Debug( "Creating member: {0}  guid: {1}", Username, guid );
-							// Add the new user to the domain
-							member = 
-								new Member(
-									Username,
-									guid, 
-									Access.Rights.ReadOnly,
-									FirstName,
-									LastName );
-
-							// Set the admin hashed password
-							// FIXME:: This needs to go through the provision framework
-							// when it becomes available
-							Property pwd = new Property( "SS:PWD",	Password );
-							pwd.LocalProperty = true;
-							member.Properties.ModifyProperty( pwd );
-							
-							member.FN = ( FullName != null ) ? FullName : FirstName + " " + LastName;
-
-							if ( DistinguishedName != null && DistinguishedName != "" )
-							{
-								Property dnProp = new Property( "DN", DistinguishedName );
-								member.Properties.ModifyProperty( dnProp );
-							}
-							
-							domain.Commit( member );
-							
-							info.Status = RegistrationStatus.UserCreated;
-							info.Message = "Successful";
-							info.UserGuid = guid;
-						}
-						else
-						{
-							info.Status = RegistrationStatus.UserExists;
-							info.Message = "Specified user already exists!";
-						}
-					}
-					else
-					{
-						info.Status = RegistrationStatus.InvalidDomain;
-						info.Message = "A default server domain does not exist";
-					}
-				}
-				catch( Exception e1 )
-				{
-					info.Status = RegistrationStatus.InternalException;
-					info.Message = e1.Message;
-				}			
+				Simias.Server.User user = new Simias.Server.User( Username );
+				user.FirstName = FirstName;
+				user.LastName = LastName;
+				user.UserGuid = UserGuid;
+				user.FullName = FullName;
+				user.DN = DistinguishedName;
+				user.Email = Email;
+			
+				info = user.Create( Password );
 			}
 			
 			return info;
-		}
-
-		/// <summary>
-		/// Method to delete an existing user from the system.
-		/// Only the user or the system administrator can delete
-		/// a user from the system.
-		/// </summary>
-		///
-		[WebMethod( EnableSession = true )]
-		[SoapDocumentMethod]
-		public bool DeleteUser( string UserGuid )
-		{
-			return true;
 		}
 	}
 }
