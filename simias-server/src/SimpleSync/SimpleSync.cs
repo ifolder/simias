@@ -158,6 +158,7 @@ namespace Simias.SimpleServer
 						
 						Property[] propertyList = { pwdProperty };
 						State.ProcessMember(
+							null,
 							member,
 							firstName,
 							lastName,

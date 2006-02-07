@@ -273,10 +273,11 @@ namespace Simias.IdentitySync
 		/// <summary>
 		/// External sync providers must call this method after
 		/// retrieving member information from the external identity store.
-		/// Username is the distinguishing property valided against the
+		/// Username is the distinguishing property validated against the
 		/// domain.
 		/// </summary>
 		public void ProcessMember(
+			string UserGuid,
 			string Username,
 			string Given,
 			string Last,
@@ -372,12 +373,16 @@ namespace Simias.IdentitySync
 			{
 				// Couldn't find the member in the domain
 				// so create it.
+				
+				string guid = 
+					( UserGuid != null && UserGuid != "" )
+						? UserGuid : Guid.NewGuid().ToString();
 				try
 				{
 					member = new
 						Member(
 							Username,
-							Guid.NewGuid().ToString(),
+							guid,
 							Simias.Storage.Access.Rights.ReadOnly,
 							Given,
 							Last );
