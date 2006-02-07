@@ -1,5 +1,5 @@
 #
-# spec file for package simias-bonjour (Version 1.4.6017.1)
+# spec file for package simias-bonjour (Version 1.5.@@BUILDNUM@@.1)
 #
 # Copyright (c) 2006 SUSE LINUX Products GmbH, Nuernberg, Germany.
 # This file and all modifications and additions to the pristine
@@ -9,9 +9,9 @@
 #
 
 # norootforbuild
-# neededforbuild  gnutls-devel mono-devel mono-core mono-data mono-web pkgconfig glib2 glib2-devel mDNSResponder-devel log4net simias
+# neededforbuild  gnutls-devel mono-devel mono-core mono-data mono-web pkgconfig glib2 glib2-devel mDNSResponder mDNSResponder-devel log4net simias
 
-BuildRequires: gnutls-devel mono-devel mono-core mono-data mono-web pkgconfig glib2 glib2-devel mDNSResponder-devel log4net simias
+BuildRequires: gnutls-devel mono-devel mono-core mono-data mono-web pkgconfig glib2 glib2-devel mDNSResponder mDNSResponder-devel log4net simias
 
 Name:         simias-bonjour
 %define buildnum @@BUILDNUM@@
