@@ -35,50 +35,7 @@ namespace Simias.MdbSync
 	/// </summary>
 	public class ThreadService : IThreadService
 	{
-		public struct Status
-		{
-			public bool SyncOnStart
-			{
-				get
-				{
-					try
-					{
-						//return (LdapSync.ldapSettings.SyncOnStart);
-						return true;
-					}
-					catch{}
-					return false;
-				}
-			}
-
-			public bool ErrorDuringSync
-			{
-				//get { return (LdapSync.errorDuringSync); }
-				get { return false; }
-			}
-
-			public Simias.MdbProvider.Status CurrentStatus
-			{
-				//get { return ( LdapSync.syncStatus ); }
-				get { return 0; }
-			}
-
-			public Exception SyncException
-			{
-				get { return null; }
-				//get { return (LdapSync.syncException); }
-			}
-
-			/*
-			public DateTime LastSyncTime
-			{
-				get { System.DateTime.Now(); }
-				//get { return (LdapSync.lastSyncTime); }
-			}
-			*/
-		}
-
-		#region CustomCode enum
+		#region CustomCode
 		/// <summary>
 		/// Defines the valid messages for a Service.
 		/// </summary>
@@ -101,7 +58,7 @@ namespace Simias.MdbSync
 		/// </summary>
 		public void Start()
 		{
-			Simias.MdbProvider.SyncThread.Start();
+			//Simias.MdbProvider.SyncThread.Start();
 		}
 
 		/// <summary>
@@ -153,7 +110,7 @@ namespace Simias.MdbSync
 		/// </summary>
 		public void Stop()
 		{
-			Simias.MdbProvider.SyncThread.Stop();
+			//Simias.MdbProvider.SyncThread.Stop();
 		}
 
 		/// <summary>

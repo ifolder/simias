@@ -326,7 +326,7 @@ namespace Simias.MdbProvider
                         Property pwd = member.Properties.GetSingleProperty( "PWD" );
                         if ( pwd != null && pwd.Value != null )
                         {
-                            if ( pwd.Value == HashPassword( Password ) )
+                            if ( pwd.Value as string == HashPassword( Password ) )
                             {
                                 log.Debug( "  auth successful" );
                                 status = true;
