@@ -35,29 +35,21 @@ namespace Simias.MdbSync
 	/// </summary>
 	public class ThreadService : IThreadService
 	{
-		#region CustomCode
-		/// <summary>
-		/// Defines the valid messages for a Service.
-		/// </summary>
-		public enum CustomCode
-		{
-			/// <summary>
-			///
-			/// </summary>
-			SyncImmediate = 1,
+        private Simias.MdbProvider.SyncProvider syncProvider = null;
 
-			/// <summary>
-			///
-			/// </summary>
-			SyncStatus = 2
-		};
-		#endregion
 
 		/// <summary>
 		/// Thread service start up.
 		/// </summary>
 		public void Start()
 		{
+            // Register with the server external sync service.
+            if ( syncProvider == null )
+            {
+                syncProvider = new Simias.MdbProvider.SyncProvider();
+                Simias.IdentitySync.Service.Register( syncProvider );
+            }
+
 			//Simias.MdbProvider.SyncThread.Start();
 		}
 
@@ -110,6 +102,11 @@ namespace Simias.MdbSync
 		/// </summary>
 		public void Stop()
 		{
+            if ( syncProvider != null )
+            {
+                Simias.IdentitySync.Service.Unregister( syncProvider );
+                syncProvider = null;
+            }
 			//Simias.MdbProvider.SyncThread.Stop();
 		}
 

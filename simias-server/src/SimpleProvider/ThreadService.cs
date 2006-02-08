@@ -49,7 +49,7 @@ namespace Simias.SimpleServer
 			SimiasLogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 			
 		private Simias.SimpleServer.SyncProvider syncProvider = null;
-		private Simias.SimpleServer.User userProvider = null;
+		//private Simias.SimpleServer.User userProvider = null;
 		
 		#endregion
 
@@ -74,12 +74,14 @@ namespace Simias.SimpleServer
 		{
 			log.Debug( "Start called" );
 
+            /*
 			// Register with the User service
 			if ( userProvider == null )
 			{
 				userProvider = new Simias.SimpleServer.User();
 				Simias.Server.User.RegisterProvider( userProvider );
 			}	
+            */
 
 			// Register with the server external sync service.
 			if ( syncProvider == null )
@@ -126,12 +128,14 @@ namespace Simias.SimpleServer
 				Simias.IdentitySync.Service.Unregister( syncProvider );
 				syncProvider = null;
 			}
-			
+
+            /*
 			if ( userProvider != null )
 			{
 				Simias.Server.User.UnregisterProvider( userProvider );
 				userProvider = null;
 			}
+            */
 		}
 		#endregion
 	}
