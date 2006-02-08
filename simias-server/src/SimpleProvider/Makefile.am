@@ -33,13 +33,13 @@ DEBUG_FILES = Simias.SimpleServer.pdb
 endif
 endif
 
-install-exec-local: Simias.SimpleServer.dll $(DATA_FILES)
+install-simpleserver: Simias.SimpleServer.dll $(DATA_FILES)
 	$(mkinstalldirs) $(DESTDIR)$(webbindir) $(DESTDIR)$(bindir) $(simiasdatadir) $(simiasdatadir)/modules
 	$(INSTALL_PROGRAM) Simias.SimpleServer.dll $(DEBUG_FILES) $(DESTDIR)$(webbindir)
 	$(INSTALL_PROGRAM) Simias.SimpleServer.conf $(simiasdatadir)/modules
 	$(INSTALL_PROGRAM) SimpleServer.xml $(DESTDIR)$(sysconfdir)
 	
-uninstall-local:
+uninstall-simpleserver:
 	cd $(DESTDIR)$(webbindir); rm -f Simias.SimpleServer.dll $(DEBUG_FILES)
 	cd $(simiasdatadir)/modules; rm -f Simias.SimpleServer.conf
 	cd $(DESTDIR)$(sysconfdir); rm -f SimpleServer.xml
