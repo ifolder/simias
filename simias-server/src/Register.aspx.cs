@@ -21,59 +21,28 @@ namespace Simias.Server
 		[Ajax.Method]
 		public string RegisterUser( string FirstName, string LastName, string UserName, string Password )
 		{
-			Member cMember = null;
 			string status = "Successful";
-
-			try
-			{
-				//
-				// Verify the Simias Server domain exists if it
-				// doesn't go ahead and create it.
-				//
-				
-				Store store = Store.GetStore();
-				Simias.Storage.Domain sDomain = store.GetDomain( store.DefaultDomain );
-				if ( sDomain == null )
-				{
-					status = "Server domain does not exist";
-					return status;
-				}
-
-				cMember = sDomain.GetMemberByName( UserName );
-				if ( cMember != null )
-				{
-					status = "User already exists!";
-					return status;
-				}
-
-				// Add the new user to the domain
-				cMember = 
-					new Member(
-							UserName,
-							Guid.NewGuid().ToString(), 
-							Access.Rights.ReadOnly,
-							FirstName,
-							LastName );
-
-				// Set the admin hashed password
-				// FIXME:: This needs to go through the provision framework
-				// when it becomes available
-				/*
-				Property pwd = 
-					new Property( 
-					"SS:PWD", 
-					SimiasCredentials.HashPassword( password ) );
-				pwd.LocalProperty = true;
-				cMember.Properties.ModifyProperty( pwd );
-				*/
-
-				sDomain.Commit( cMember );
-			}
-			catch(Exception e1)
-			{
-				status = "Internal exception!";
-			}			
 			
+			if ( UserName == null || UserName == "" || Password == null )
+			{
+                status = "Missing mandatory parameters";
+			}
+			else
+			{
+                RegistrationInfo info;
+				Simias.Server.User user = new Simias.Server.User( UserName );
+				user.FirstName = FirstName;
+				user.LastName = LastName;
+				//user.UserGuid = UserGuid;
+				//user.FullName = FullName;
+				//user.DN = DistinguishedName;
+				//user.Email = Email;
+			
+				info = user.Create( Password );
+                status = info.Status.ToString();
+			}
+			
+
 			return status;
 		}
 	
