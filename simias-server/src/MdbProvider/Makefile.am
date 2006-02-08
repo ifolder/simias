@@ -7,7 +7,7 @@ MdbProvider_CSFILES_CSC := $(subst /,$(SEP),$(MdbProvider_CSFILES))
 MdbProvider_INCLUDES =
 MdbProvider_RESOURCES =
 MdbProvider_FLAGS = $(CSC_LIBFLAG)
-MdbProvider_LIBPATH = $(DESTDIR)$(webbindir) ../../../simias/src/SimiasLib.dll ../../../simias/src/SimiasClient ../../
+MdbProvider_LIBPATH = $(DESTDIR)$(webbindir) ../../../simias/src/SimiasLib.dll ../../../simias/src/SimiasClient ../
 MdbProvider_LIBS = System.dll System.Data.dll $(SYSTEM_XML) System.Security.dll System.Web.dll System.Web.Services.dll SimiasLib.dll SimiasClient.dll Simias.Server.dll 
 
 EXTRA_DIST = $(MdbProvider_CSFILES) AssemblyInfo.cs.in 
