@@ -31,7 +31,7 @@ using System.Text;
 
 using MdbHandle = System.IntPtr;
 
-namespace Simias.MdbSync
+namespace Simias.MdbProvider
 {
 	public struct MdbValueStruct
 	{
@@ -41,7 +41,7 @@ namespace Simias.MdbSync
 		public IntPtr Interface;
 	}
 
-	public class User : IDisposable
+	public class MdbUser : IDisposable
 	{
 		#region Class Members
 		private string userDN;
@@ -147,7 +147,7 @@ namespace Simias.MdbSync
 		/// of the Mdb object and the distinguished name of
 		/// the user.
 		/// </summary>
-		public User( MdbHandle Handle, string DN )
+		public MdbUser( MdbHandle Handle, string DN )
 		{
 			if ( Handle == IntPtr.Zero || DN == null || DN == "" )
 			{
@@ -178,7 +178,7 @@ namespace Simias.MdbSync
 			GetUserAttributes();			
 		}
 		
-		~User()
+		~MdbUser()
 		{
 			Cleanup();
 		}
@@ -207,7 +207,7 @@ namespace Simias.MdbSync
 			// Given name
 			try
 			{
-				count = MDBRead( userDN, User.MdbAttrFirstName, tmpvs );
+				count = MDBRead( userDN, MdbUser.MdbAttrFirstName, tmpvs );
 				if ( count > 0 )
 				{
 					MdbValueStruct mdbvs = ( MdbValueStruct ) 
@@ -222,7 +222,7 @@ namespace Simias.MdbSync
 			// Last name
 			try
 			{
-				count = MDBRead( this.userDN, User.MdbAttrLastName, tmpvs );
+				count = MDBRead( this.userDN, MdbUser.MdbAttrLastName, tmpvs );
 				if ( count > 0 )
 				{
 					MdbValueStruct mdbvs = ( MdbValueStruct ) 
@@ -237,7 +237,7 @@ namespace Simias.MdbSync
 			// Full name
 			try
 			{
-				count = MDBRead( this.userDN, User.MdbAttrFullName, tmpvs );
+				count = MDBRead( this.userDN, MdbUser.MdbAttrFullName, tmpvs );
 				if ( count > 0 )
 				{
 					MdbValueStruct mdbvs = ( MdbValueStruct ) 

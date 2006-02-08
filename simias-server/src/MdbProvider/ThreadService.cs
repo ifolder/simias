@@ -57,7 +57,7 @@ namespace Simias.MdbSync
 				get { return false; }
 			}
 
-			public Simias.MdbSync.Status CurrentStatus
+			public Simias.MdbProvider.Status CurrentStatus
 			{
 				//get { return ( LdapSync.syncStatus ); }
 				get { return 0; }
@@ -101,7 +101,7 @@ namespace Simias.MdbSync
 		/// </summary>
 		public void Start()
 		{
-			Simias.MdbSync.SyncThread.Start();
+			Simias.MdbProvider.SyncThread.Start();
 		}
 
 		/// <summary>
@@ -153,7 +153,7 @@ namespace Simias.MdbSync
 		/// </summary>
 		public void Stop()
 		{
-			Simias.MdbSync.SyncThread.Stop();
+			Simias.MdbProvider.SyncThread.Stop();
 		}
 
 		/// <summary>

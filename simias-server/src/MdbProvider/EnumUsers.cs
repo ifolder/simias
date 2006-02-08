@@ -29,7 +29,7 @@ using System.Text;
 
 using MdbHandle = System.IntPtr;
 
-namespace Simias.MdbSync
+namespace Simias.MdbProvider
 {
 	/// <summary>
 	/// Class to enumerate Users in a specified container
@@ -132,7 +132,7 @@ namespace Simias.MdbSync
 					
 					if ( userCN != null && userCN != "" )
 					{
-						return new Simias.MdbSync.User( mdbHandle, containerDN + "\\" + userCN );
+						return new Simias.MdbProvider.MdbUser( mdbHandle, containerDN + "\\" + userCN );
 					}
 				}
 				

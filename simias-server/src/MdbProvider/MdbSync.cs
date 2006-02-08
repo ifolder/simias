@@ -34,7 +34,7 @@ using Simias.POBox;
 
 //using Novell.iFolder.Ldap;
 
-namespace Simias.MdbSync
+namespace Simias.MdbProvider
 {
 	[Serializable]
 	public enum Status
@@ -128,7 +128,7 @@ namespace Simias.MdbSync
 
 			while ( up == true )
 			{
-				string[] domains = Simias.MdbSync.DomainConfiguration.GetDomains();
+				string[] domains = Simias.MdbProvider.DomainConfiguration.GetDomains();
 				foreach( string currentDomain in domains )
 				{
 					// Somebody tell us to go bye bye?
@@ -176,14 +176,14 @@ namespace Simias.MdbSync
 					log.Debug( "Starting MDB -> " + domainConfig.DomainName + " sync" );
 
 					// Authenticate against MDB	
-					Simias.MdbSync.EnumUsers enumUsers = null;
-					Simias.MdbSync.Mdb mdb = null;
-					Simias.MdbSync.User mdbUser = null;
+					Simias.MdbProvider.EnumUsers enumUsers = null;
+					Simias.MdbProvider.Mdb mdb = null;
+					Simias.MdbProvider.MdbUser mdbUser = null;
 
 					try
 					{
 						log.Debug( "Authenticating proxy user: " + domainConfig.ProxyUsername );
-						mdb = new Simias.MdbSync.Mdb( domainConfig.ProxyUsername, domainConfig.ProxyPassword );
+						mdb = new Simias.MdbProvider.Mdb( domainConfig.ProxyUsername, domainConfig.ProxyPassword );
 						Console.WriteLine( "MDB Handle: " + mdb.Handle.ToString() );
 					}
 					catch( Exception mdbEx )
@@ -217,11 +217,11 @@ namespace Simias.MdbSync
 					{
 						string container = domainConfig.Containers[0];
 						log.Debug( "  syncing container: " + container );
-						enumUsers = new Simias.MdbSync.EnumUsers( mdb.Handle, container, false );
+						enumUsers = new Simias.MdbProvider.EnumUsers( mdb.Handle, container, false );
 						enumUsers.Reset();
 						while( enumUsers.MoveNext() == true )
 						{
-							mdbUser = enumUsers.Current as Simias.MdbSync.User;
+							mdbUser = enumUsers.Current as Simias.MdbProvider.MdbUser;
 							ProcessMdbUser( domain, mdbUser );
 						}
 					}
@@ -351,6 +351,7 @@ namespace Simias.MdbSync
 				}
 			}
 
+            /*
 			try
 			{
 				string id = ( domainConfig.DomainID != null ) 
@@ -422,6 +423,7 @@ namespace Simias.MdbSync
 				log.Error( gssd.Message );
 				log.Error( gssd.StackTrace );
 			}
+            */
 
 			return domain;
 		}
@@ -450,7 +452,7 @@ namespace Simias.MdbSync
 		}
 		*/
 		
-		private static void ProcessMdbUser( Domain domain, MdbSync.User user )
+		private static void ProcessMdbUser( Domain domain, MdbProvider.MdbUser user )
 		{
 			log.Debug( "ProcessMdbUser - called" );
 			log.Debug( "  user: " + user.DN );

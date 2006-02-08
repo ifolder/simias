@@ -32,7 +32,7 @@ using System.Text;
 using MdbHandle = System.IntPtr;
 
 
-namespace Simias.MdbSync
+namespace Simias.MdbProvider
 {
 	public class Mdb : IDisposable
 	{

@@ -27,7 +27,7 @@ using System.Reflection;
 using System.Text;
 using System.Xml;
 
-namespace Simias.MdbSync
+namespace Simias.MdbProvider
 {
 	/// <summary>
 	/// DomainConfiguration - Contains required information to perform
