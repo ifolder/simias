@@ -10,12 +10,10 @@
 	<setting name="SimiasRequireSSL" value="no" />
   </section>
   <section name="Identity">
-  	<!--
 	<setting name="Assembly" value="Simias.Server" />
 	<setting name="Class" value="Simias.Server.InternalUser" />
-	-->
 	<!--
-	<setting name="Assembly" value="Simias.SimpleSync" />
+	<setting name="Assembly" value="Simias.SimpleServer" />
 	<setting name="Class" value="Simias.SimpleServer.User" />
 	-->
 	<!--
