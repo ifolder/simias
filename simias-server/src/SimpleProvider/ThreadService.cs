@@ -84,11 +84,14 @@ namespace Simias.SimpleServer
             */
 
 			// Register with the server external sync service.
+			
+			/*
 			if ( syncProvider == null )
 			{
 				syncProvider = new Simias.SimpleServer.SyncProvider();
 				Simias.IdentitySync.Service.Register( syncProvider );
 			}
+			*/
 		}
 
 		/// <summary>
@@ -122,12 +125,14 @@ namespace Simias.SimpleServer
 		{
 			log.Debug( "Stop called" );
 
-			// Unregister providers			
+			// Unregister providers
+			/*
 			if ( syncProvider != null )
 			{
 				Simias.IdentitySync.Service.Unregister( syncProvider );
 				syncProvider = null;
 			}
+			*/
 
             /*
 			if ( userProvider != null )
