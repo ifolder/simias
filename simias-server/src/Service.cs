@@ -93,24 +93,31 @@ namespace Simias.Server
 							status = true;
 							
 							// does this provider support external syncing?
-							//Type syncType = idAssembly.GetType( "Simias.IIdentitySyncProvider" );
-							Type syncType = idAssembly.GetType( "Simias.SimpleServer.SyncProvider" );
-							if ( syncType != null )
+							foreach( Type ctype in idAssembly.GetTypes() )
 							{
-								syncProvider = Activator.CreateInstance( syncType ) as IIdentitySyncProvider;
+								foreach( Type itype in ctype.GetInterfaces() )
+								{
+									if ( itype == typeof( Simias.IIdentitySyncProvider ) )
+									{
+										syncProvider = 
+											Activator.CreateInstance( ctype ) as IIdentitySyncProvider;
+										if ( syncProvider != null )
+										{
+											Simias.IdentitySync.Service.Register( syncProvider );
+											log.Debug( "created sync provider instance" );
+										}
+										else
+										{
+											log.Debug( "failed to create an instance of IIdentitySyncProvider" );
+										}
+										break;
+									}	
+								}
+								
 								if ( syncProvider != null )
 								{
-									Simias.IdentitySync.Service.Register( syncProvider );
-									log.Debug( "created sync provider instance" );
+									break;
 								}
-								else
-								{
-									log.Debug( "failed to create an instance of IIdentitySyncProvider" );
-								}
-							}
-							else
-							{
-								log.Debug( "failed to find a type of: Simias.IIdentitySyncProvider in " + assemblyName );
 							}
 						}
 					}							
