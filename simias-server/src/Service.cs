@@ -53,6 +53,8 @@ namespace Simias.Server
 
 		private Simias.Server.Authentication authProvider = null;
 		private Simias.Server.IUserProvider userProvider = null;
+		private Simias.IIdentitySyncProvider syncProvider = null;
+		
 		#endregion
 
 		#region Constructor
@@ -80,17 +82,36 @@ namespace Simias.Server
 				Assembly idAssembly = Assembly.LoadWithPartialName( assemblyName );
 				if ( idAssembly != null )
 				{
-					log.Debug( "got assembly" );
 					Type type = idAssembly.GetType( userClass );
 					if ( type != null )
 					{
-						log.Debug( "got class" );
 						userProvider = Activator.CreateInstance( type ) as IUserProvider;
 						if ( userProvider != null )
 						{
 							log.Debug( "created user provider instance" );
 							User.RegisterProvider( userProvider );
 							status = true;
+							
+							// does this provider support external syncing?
+							//Type syncType = idAssembly.GetType( "Simias.IIdentitySyncProvider" );
+							Type syncType = idAssembly.GetType( "Simias.SimpleServer.SyncProvider" );
+							if ( syncType != null )
+							{
+								syncProvider = Activator.CreateInstance( syncType ) as IIdentitySyncProvider;
+								if ( syncProvider != null )
+								{
+									Simias.IdentitySync.Service.Register( syncProvider );
+									log.Debug( "created sync provider instance" );
+								}
+								else
+								{
+									log.Debug( "failed to create an instance of IIdentitySyncProvider" );
+								}
+							}
+							else
+							{
+								log.Debug( "failed to find a type of: Simias.IIdentitySyncProvider in " + assemblyName );
+							}
 						}
 					}							
 				}
@@ -131,6 +152,10 @@ namespace Simias.Server
 			EnterpriseDomain enterpriseDomain = new EnterpriseDomain( true );
 			if ( enterpriseDomain != null )
 			{
+				// Valid enterprise domain - start the external
+				// identity sync service
+				Simias.IdentitySync.Service.Start();
+				
 				if ( userProvider == null )
 				{
 					LoadIdentityProvider();
@@ -142,10 +167,6 @@ namespace Simias.Server
 					authProvider = new Simias.Server.Authentication();
 					DomainProvider.RegisterProvider( this.authProvider );
 				}
-				
-				// Valid enterprise domain - start the external
-				// identity sync service
-				Simias.IdentitySync.Service.Start();
 			}
 		}
 
@@ -180,6 +201,12 @@ namespace Simias.Server
 		{
 			log.Debug( "Stop called" );
 			Simias.IdentitySync.Service.Stop();
+			
+			if ( syncProvider != null )
+			{
+				IdentitySync.Service.Unregister( syncProvider );
+				syncProvider = null;
+			}
 			
 			if ( authProvider != null )
 			{
