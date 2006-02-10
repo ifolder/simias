@@ -119,33 +119,55 @@ namespace Simias.RssFeed
 			}
 			ctx.Response.Write("</webmaster>");
 			
+			//IEnumerator nodesEnum = null;
+			//ICSList nodes = collection.GetNodesByType( "FileNode" );
+			
 			Property newest = null;
-			IEnumerator nodesEnum = null;
-			ICSList nodes = collection.GetNodesByType( "FileNode" );
-			if ( nodes != null )
+			DateTime dt = new DateTime( 1992, 1, 1, 0, 0, 0 );
+			ICSList nodes = collection.Search( Simias.RssFeed.Util.LastModified, dt, SearchOp.Greater );
+			foreach( ShallowNode sn in nodes )
 			{
-				nodesEnum = nodes.GetEnumerator();
-				nodesEnum.MoveNext();
-				if ( nodesEnum.Current != null )
+				if ( sn.Type == "FileNode" )
 				{
-					Node latest = new Node( collection, nodesEnum.Current as ShallowNode );
-					if ( latest != null )
+					Node node = new Node( collection, sn );
+					Property lastProp = node.Properties.GetSingleProperty( Simias.RssFeed.Util.LastModified );
+					if ( newest == null )
 					{
-						newest = latest.Properties.GetSingleProperty( Simias.RssFeed.Util.LastModified );
+						newest = lastProp;
+					}
+					else
+					if ( (DateTime) lastProp.Value > (DateTime) newest.Value )
+					{
+						newest = lastProp;
 					}
 				}
 			}
 
-			if ( newest != null )
+			/*
+			Property colProp = collection.Properties.GetSingleProperty( Simias.RssFeed.Util.LastModified );
+			if ( newest != null && colProp != null )
 			{
-				Simias.RssFeed.Util.SendPublishDate( ctx, (DateTime) newest.Value );
+				if ( (DateTime) colProp.Value > (DateTime) newest.Value )
+				{
+					Simias.RssFeed.Util.SendPublishDate( ctx, (DateTime) colProp.Value );
+				}
+				else
+				{
+					Simias.RssFeed.Util.SendPublishDate( ctx, (DateTime) newest.Value );
+				}
 			}
 			else
 			{
 				Simias.RssFeed.Util.SendPublishDate( ctx, collection.CreationTime );
 			}
+			*/
 
+			/*
 			ctx.Response.Write( "<lastBuildDate>" );
+			ctx.Response.Write( Util.GetRfc822Date( (DateTime) newest.Value ) );
+			*/
+			
+			/*
 			Property lastWrite = collection.Properties.GetSingleProperty( Simias.RssFeed.Util.LastModified );
 			if ( lastWrite != null )
 			{
@@ -169,7 +191,9 @@ namespace Simias.RssFeed
 			{
 				ctx.Response.Write( Util.GetRfc822Date( collection.CreationTime ) );
 			}
-			ctx.Response.Write( "</lastBuildDate>" );
+			*/
+			
+			//ctx.Response.Write( "</lastBuildDate>" );
 
 			ctx.Response.Write("<generator>");
 			ctx.Response.Write( "Simias" );
@@ -189,7 +213,7 @@ namespace Simias.RssFeed
 			ctx.Response.Write( "NC-17" );
 			ctx.Response.Write( "</rating>" );
 			
-			if ( items == true && nodesEnum != null )
+			if ( items == true && newest != null )
 			{
 				foreach( ShallowNode sn in collection.GetNodesByType( "FileNode" ) )
 				{
