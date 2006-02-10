@@ -99,6 +99,11 @@ namespace Simias.HttpFile
 									log.Debug( "  fullpath: " + fullPath );
 
 									response.StatusCode = (int) HttpStatusCode.OK;
+							
+									response.AddHeader(
+										"Content-length",
+										fileNode.Length.ToString() );
+							
 									response.ContentType = 
 										Simias.HttpFile.Response.GetMimeType( fileName ).ToLower();
 									
