@@ -99,21 +99,16 @@ namespace Simias.RssFeed
 			Domain domain = store.GetDomain( store.DefaultDomain );
 			if ( fileNode != null )
 			{
+				/*
 				string encodedFilePath =
 					String.Format(
 						"/sfile.ashx?fid={0}\'&'name={1}",
 						node.ID,
 						HttpUtility.UrlEncode( fileNode.GetFileName() ) );
+				*/
 
-				/*
-				string encodedFilePath =
-					HttpUtility.UrlEncode(
-						String.Format(
-							"/sfile.ashx?fid={0}\%26file={1}",
-							node.ID,
-							fileNode.GetFileName() ) );
-				*/				
 					
+				/*
 				ctx.Response.Write(
 					String.Format( 
 						"<link>{0}{1}:{2}{3}{4}</link>",
@@ -122,6 +117,16 @@ namespace Simias.RssFeed
 						ctx.Request.Url.Port.ToString(),
 						ctx.Request.ApplicationPath,
 						encodedFilePath ) );
+				*/
+				
+				ctx.Response.Write(
+					String.Format( 
+						"<link>{0}{1}:{2}{3}/sfile.ashx?fid={4}</link>",
+						ctx.Request.IsSecureConnection ? "https://" : "http://",
+						ctx.Request.Url.Host,
+						ctx.Request.Url.Port.ToString(),
+						ctx.Request.ApplicationPath,
+						fileNode.ID ) );
 
 				ctx.Response.Write(
 					String.Format( 
@@ -154,7 +159,6 @@ namespace Simias.RssFeed
 			
 			ctx.Response.Write( "<guid isPermaLink=\"false\">" + node.ID + "</guid>" );
 			
-			/*
 			Property lastWrite = node.Properties.GetSingleProperty( Simias.RssFeed.Util.LastModified );
 			if ( lastWrite != null )
 			{
@@ -164,7 +168,6 @@ namespace Simias.RssFeed
 			{
 				Simias.RssFeed.Util.SendPublishDate( ctx, node.CreationTime );
 			}
-			*/
 
 			/*
 			if (slog.Generator != "")

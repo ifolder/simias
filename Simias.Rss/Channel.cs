@@ -143,7 +143,6 @@ namespace Simias.RssFeed
 				}
 			}
 
-			/*
 			Property colProp = collection.Properties.GetSingleProperty( Simias.RssFeed.Util.LastModified );
 			if ( newest != null && colProp != null )
 			{
@@ -160,7 +159,6 @@ namespace Simias.RssFeed
 			{
 				Simias.RssFeed.Util.SendPublishDate( ctx, collection.CreationTime );
 			}
-			*/
 
 			/*
 			ctx.Response.Write( "<lastBuildDate>" );
@@ -215,11 +213,25 @@ namespace Simias.RssFeed
 			
 			if ( items == true && newest != null )
 			{
-				foreach( ShallowNode sn in collection.GetNodesByType( "FileNode" ) )
+				nodes = collection.Search( Simias.RssFeed.Util.LastModified, dt, SearchOp.Greater );
+				if ( nodes.Count > 0 )
 				{
-					log.Debug( "Processing item: " + sn.Name );
-					Item item = new Item( ctx, collection, sn );
-					item.Send();
+					ArrayList chrono = new ArrayList( );
+					chrono.Capacity = nodes.Count;
+					foreach( ShallowNode sn in nodes )
+					{
+						if ( sn.Type == "FileNode" )
+						{
+							chrono.Insert( 0, sn );
+						}
+					}
+					
+					foreach( ShallowNode sn in chrono )
+					{
+						log.Debug( "Processing item: " + sn.Name );
+						Item item = new Item( ctx, collection, sn );
+						item.Send();
+					}
 				}
 			}
 
