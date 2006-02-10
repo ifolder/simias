@@ -100,13 +100,35 @@ namespace Simias.HttpFile
 
 									response.StatusCode = (int) HttpStatusCode.OK;
 									response.ContentType = 
-										Simias.HttpFile.Response.GetMimeType( fileName );
-									response.AddHeader( "Content-ID", fileName );
-									response.AddHeader(
-										"Content-Disposition",
-										"attachment; filename=\"" + fileName + "\"" );
+										Simias.HttpFile.Response.GetMimeType( fileName ).ToLower();
 									
-									response.StatusCode = (int) HttpStatusCode.OK;
+									if ( response.ContentType.Equals( "text/plain" ) )
+									{
+										response.AddHeader(
+											"Content-Disposition",
+											"inline; filename=\"" + fileName + "\"" );
+									}
+									else
+									if ( response.ContentType.Equals( "text/xml" ) )
+									{
+										response.AddHeader(
+											"Content-Disposition",
+											"inline; filename=\"" + fileName + "\"" );
+									}
+									else
+									if ( response.ContentType.StartsWith( "image" ) )
+									{
+										response.AddHeader(
+											"Content-Disposition",
+											"inline; filename=\"" + fileName + "\"" );
+									}
+									else
+									{
+										response.AddHeader(
+											"Content-Disposition",
+											"attachment; filename=\"" + fileName + "\"" );
+									}		
+									
 									response.TransmitFile( fullPath );
 									
 									/*
@@ -148,8 +170,10 @@ namespace Simias.HttpFile
 
 	public class Response
 	{
+		/*
 		private static readonly ISimiasLog log = 
 			SimiasLogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+		*/
 
 		static char[] dotSep = {'.'};
 		static public string GetMimeType( string FileName )
