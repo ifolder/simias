@@ -39,7 +39,7 @@ namespace Simias.RssFeed
 		private Collection collection;
 		private Node node;
 		private Store store;
-		private char[] dotSep = {'.'};
+		//private char[] dotSep = {'.'};
 		
 		public bool Enclosures
 		{
@@ -59,6 +59,24 @@ namespace Simias.RssFeed
 		{
 			ctx.Response.Write( "<item>" );
 			FileNode fileNode = null;
+
+			ctx.Response.Write( "<title>" );
+			if ( node.IsType( "Member" ) == true )
+			{
+				Member collectionMember = new Member( node );
+				ctx.Response.Write( " - " + collectionMember.FN );
+			}
+			else
+			if ( node.IsType( "FileNode" ) == true )
+			{
+				fileNode = new FileNode( node );
+				ctx.Response.Write( fileNode.GetFileName() );
+			}
+			else
+			{
+				ctx.Response.Write( node.Name );
+			}
+			ctx.Response.Write("</title>");
 
 			ctx.Response.Write( "<description>" );
 			if ( node.IsType( "Member" ) == true )
@@ -81,14 +99,29 @@ namespace Simias.RssFeed
 			Domain domain = store.GetDomain( store.DefaultDomain );
 			if ( fileNode != null )
 			{
+				string encodedFilePath =
+					String.Format(
+						"/sfile.ashx?fid={0}\'&'name={1}",
+						node.ID,
+						HttpUtility.UrlEncode( fileNode.GetFileName() ) );
+
+				/*
+				string encodedFilePath =
+					HttpUtility.UrlEncode(
+						String.Format(
+							"/sfile.ashx?fid={0}\%26file={1}",
+							node.ID,
+							fileNode.GetFileName() ) );
+				*/				
+					
 				ctx.Response.Write(
 					String.Format( 
-						"<link>{0}{1}:{2}{3}/sfile.ashx?fid={4}</link>",
+						"<link>{0}{1}:{2}{3}{4}</link>",
 						ctx.Request.IsSecureConnection ? "https://" : "http://",
 						ctx.Request.Url.Host,
 						ctx.Request.Url.Port.ToString(),
 						ctx.Request.ApplicationPath,
-						node.ID ) ); 
+						encodedFilePath ) );
 
 				ctx.Response.Write(
 					String.Format( 
@@ -121,6 +154,7 @@ namespace Simias.RssFeed
 			
 			ctx.Response.Write( "<guid isPermaLink=\"false\">" + node.ID + "</guid>" );
 			
+			/*
 			Property lastWrite = node.Properties.GetSingleProperty( Simias.RssFeed.Util.LastModified );
 			if ( lastWrite != null )
 			{
@@ -130,6 +164,7 @@ namespace Simias.RssFeed
 			{
 				Simias.RssFeed.Util.SendPublishDate( ctx, node.CreationTime );
 			}
+			*/
 
 			/*
 			if (slog.Generator != "")
