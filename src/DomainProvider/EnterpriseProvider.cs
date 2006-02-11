@@ -328,6 +328,36 @@ namespace Simias
 
 
 		/// <summary>
+		/// Gets the host for the PO BOX of the specified user.
+		/// </summary>
+		/// <param name="domainID">Identifier for the domain.</param>
+		/// <param name="userID">The user whos PO BOX is needed.</param>
+		/// <returns>A Uri object containing the host address for the
+		/// POBox if successful. Otherwise returns a null.</returns>
+		private Uri GetHostForPoBox(string domainID, string userID)
+		{
+			Uri hostAddress = null;
+			
+			Domain domain = store.GetDomain(domainID);
+            Member member = domain.GetMemberByID(userID);
+			if ( member != null )
+			{
+				// Get the address from the host.
+				HostNode host = member.HomeServer;
+				if (host != null)
+				{
+					hostAddress = new Uri(host.PublicUrl);
+				}
+				else
+				{
+					// This is a single server system.
+					hostAddress = this.GetDomainHostAddress(domainID);
+				}
+			}
+			return hostAddress;
+		}
+			
+		/// <summary>
 		/// Sets the host address property for the domain object.
 		/// </summary>
 		/// <param name="domainID">Identifier for the domain.</param>
@@ -678,7 +708,7 @@ namespace Simias
 		/// </returns>
 		public Uri ResolvePOBoxLocation( string domainID, string userID )
 		{
-			return OwnsDomain( domainID ) ? GetDomainHostAddress( domainID ) : null;
+			return OwnsDomain( domainID ) ? this.GetHostForPoBox( domainID, userID ) : null;
 		}
 
 		/// <summary>

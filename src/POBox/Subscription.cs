@@ -599,6 +599,28 @@ namespace Simias.POBox
 			}
 		}
 
+		/// <summary>
+		/// Get or Set the HostID for the collection represented by this subscription.
+		/// </summary>
+		public string HostID
+		{
+			get
+			{
+				string hostID = null;
+				Property p = properties.FindSingleValue( PropertyTags.HostID );
+				if (p != null)
+				{
+					hostID = p.ToString();
+				}
+				return hostID;
+			}
+			set
+			{
+				Property p = new Property( PropertyTags.HostID, value );
+				properties.ModifyNodeProperty( p );
+			}
+		}
+
 		#endregion
 
 		#region Public Methods
@@ -757,6 +779,8 @@ namespace Simias.POBox
 
 			Collection c = new Collection(store, this.SubscriptionCollectionName,
 				this.SubscriptionCollectionID, this.DomainID);
+
+			c.HostID = this.HostID;
 			
 			commitList.Add(c);
 

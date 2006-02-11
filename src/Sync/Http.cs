@@ -177,7 +177,7 @@ namespace Simias.Sync.Http
 		string						url;
 		string						userName;
 		string						userID;
-		CollectionConnection		connection;
+		SimiasConnection			connection;
 		
 		/// <summary>
 		/// Sorry Russ Used to log messages.
@@ -201,7 +201,7 @@ namespace Simias.Sync.Http
 			url = collection.MasterUrl.ToString().TrimEnd('/') + "/SyncHandler.ashx";
 			this.userName = userName;
 			this.userID = userID;
-			connection = CollectionConnection.GetConnection(domainId, collectionID, userID);
+			connection = SimiasConnection.GetConnection(domainId, collection, userID);
 		}
 
 		/// <summary>
