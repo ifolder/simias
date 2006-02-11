@@ -336,17 +336,38 @@ namespace Simias.Storage
 			get
 			{
 				HostNode host = null;
-				Property p = properties.FindSingleValue( PropertyTags.HostID );
-				if (p != null)
+				string hostID = HostID;
+				if (hostID != null)
 				{
 					Domain domain = Store.GetStore().GetDomain(Domain);
-					host = new HostNode(domain.GetMemberByID(p.ToString()));
+					host = new HostNode(domain.GetMemberByID(hostID));
 				}
                 return host;
 			}
 			set
 			{
-				Property p = new Property( PropertyTags.HostID, value.UserID );
+				HostID = value.UserID;
+			}
+		}
+
+		/// <summary>
+		/// Get or Set the HostID for this collection.
+		/// </summary>
+		public string HostID
+		{
+			get
+			{
+				string hostID = null;
+				Property p = properties.FindSingleValue( PropertyTags.HostID );
+				if (p != null)
+				{
+					hostID = p.ToString();
+				}
+				return hostID;
+			}
+			set
+			{
+				Property p = new Property( PropertyTags.HostID, value );
 				p.LocalProperty = true;
 				properties.ModifyNodeProperty( p );
 			}
@@ -449,7 +470,8 @@ namespace Simias.Storage
 		/// <param name="collectionID">The globally unique identifier for this object.</param>
 		/// <param name="collectionType">Base type of collection object.</param>
 		/// <param name="domainID">The domain that this object is stored in.</param>
-		internal protected Collection( Store storeObject, string collectionName, string collectionID, string collectionType, string domainID ) :
+		/// <param name="hostID">The ID of the host for this collection.</param>
+		internal protected Collection( Store storeObject, string collectionName, string collectionID, string collectionType, string domainID, string hostID ) :
 			base( collectionName, collectionID, collectionType )
 		{
 			store = storeObject;
@@ -469,10 +491,27 @@ namespace Simias.Storage
 			// Add the domain ID as a property.
 			properties.AddNodeProperty( PropertyTags.DomainID, domainID );
 
+			if (hostID != null)
+				this.HostID = hostID;
+
 			// Setup the access control for this collection.
 			accessControl = new AccessControl( this );
 			createManagedPath = !Directory.Exists( ManagedPath );
 		}
+
+		/// <summary>
+		/// Constructor to create a new Collection object.
+		/// </summary>
+		/// <param name="storeObject">Store object that this collection belongs to.</param>
+		/// <param name="collectionName">This is the friendly name that is used by applications to describe this object.</param>
+		/// <param name="collectionID">The globally unique identifier for this object.</param>
+		/// <param name="collectionType">Base type of collection object.</param>
+		/// <param name="domainID">The domain that this object is stored in.</param>
+		internal protected Collection( Store storeObject, string collectionName, string collectionID, string collectionType, string domainID ) :
+			this( storeObject, collectionName, collectionID, collectionType, domainID, null)
+		{
+		}
+		
 
 		/// <summary>
 		/// Constructor for creating an existing Collection object.
@@ -534,6 +573,7 @@ namespace Simias.Storage
 						subscription.SubscriptionKey = Guid.NewGuid().ToString();
 						subscription.MessageType = "Outbound";
 						subscription.SetSubscriptionTypes( collection );
+						subscription.HostID = collection.HostID;
 
 						DirNode dirNode = GetRootDirectory();
 						if( dirNode != null )

@@ -455,6 +455,30 @@ namespace Simias.DomainServices
 				return status;
 			}
 
+			// Get the Home Server.
+			try
+			{
+				HostInfo hInfo = domainService.GetHomeServer(user);
+				domainServiceUrl = new Uri(hInfo.PublicAddress.TrimEnd( new char[] {'/'} ) + DomainService);
+				domainService.Url = domainServiceUrl.ToString();
+			
+				// Now login to the homeserver.
+				status = 
+					this.Login( 
+					new Uri( hInfo.PublicAddress ),
+					domainID,
+					myCred,
+					false);
+				if ( ( status.statusCode != SCodes.Success ) && ( status.statusCode != SCodes.SuccessInGrace ) )
+				{
+					return status;
+				}
+			}
+			catch
+			{
+				// We are talking to an older server. We don't support multi-server.
+			}
+
 			// Get just the path portion of the URL.
 			string hostString = domainServiceUrl.ToString();
 			int startIndex = hostString.LastIndexOf( "/" );

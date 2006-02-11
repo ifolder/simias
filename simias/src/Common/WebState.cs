@@ -240,7 +240,7 @@ namespace Simias
 		/// <param name="collectionID">The collection ID.</param>
 		/// <param name="userID">User ID of a member in the domain.</param>
 		public WebState(string DomainID, string CollectionID, string UserID) :
-			this( DomainID, CollectionID, UserID, CollectionConnection.AuthType.BASIC )
+			this( DomainID, CollectionID, UserID, SimiasConnection.AuthType.BASIC )
 		{
 		}
 		
@@ -252,7 +252,7 @@ namespace Simias
 		/// <param name="CollectionID">The collection ID.</param>
 		/// <param name="UserID">User ID of a member in the domain.</param>
 		/// <param name="authType">The type of authentication to use.</param>
-		public WebState(string DomainID, string CollectionID, string UserID, CollectionConnection.AuthType authType) :
+		public WebState(string DomainID, string CollectionID, string UserID, SimiasConnection.AuthType authType) :
 			this( DomainID )
 		{
 			BasicCredentials creds;
@@ -286,7 +286,7 @@ namespace Simias
 			}
 			catch{}
 		
-			if (credentials == null && authType == CollectionConnection.AuthType.BASIC)
+			if (credentials == null && authType == SimiasConnection.AuthType.BASIC)
 			{
 				log.Debug( "failed to get NetworkCredential for {0}", member != null ? member.Name : "" );
 				new EventPublisher().RaiseEvent( new NeedCredentialsEventArgs( DomainID, CollectionID ) );
@@ -350,7 +350,7 @@ namespace Simias
 		}
 	}
 
-	public class CollectionConnection
+	public class SimiasConnection
 	{
 		public enum AuthType
 		{
@@ -360,24 +360,45 @@ namespace Simias
 
 		WebState	connectionState;
 		string		domainID;
-		string		collectionID;
 		string		userID;
+		string		collectionID;
+		string		hostID;
 		AuthType	authType;
 		bool		needCredentials = false;
 		bool		authenticated = false;
 		string		baseUri;
 		static Hashtable	connectionTable = new Hashtable();
-
+		
 		#region Constructor
 
-		private CollectionConnection(string domainID, string collectionID, string userID, AuthType authType)
+		private SimiasConnection(string domainID, string userID, Collection collection, AuthType authType)
 		{
 			this.domainID = domainID;
-			this.collectionID = collectionID;
 			this.userID = userID;
+			this.collectionID = collection.ID;
+			this.hostID = collection.HostID;
 			this.authType = authType;
-			Collection collection = Store.GetStore().GetCollectionByID(collectionID);
 			baseUri = DomainProvider.ResolveLocation(collection).ToString();
+			this.IntitalizeConnection();
+		}
+
+		private SimiasConnection(string domainID, string userID, Member member, AuthType authType)
+		{
+			this.domainID = domainID;
+			this.userID = userID;
+			this.collectionID = domainID;
+			this.hostID = member.HomeServer.UserID;
+			this.authType = authType;
+			baseUri = DomainProvider.ResolvePOBoxLocation(domainID, hostID).ToString();
+			this.IntitalizeConnection();
+		}
+		
+		#endregion
+
+		#region Private Methods
+
+		private void IntitalizeConnection()
+		{
 			System.UriBuilder uri = new UriBuilder(baseUri);
 			// TODO
 			/*
@@ -401,47 +422,74 @@ namespace Simias
 				authenticated = false;
 			}
 		}
-
-		#endregion
-
-		#region Private Methods
-
-		private static string GetKey(string collectionID)
-		{
-			return collectionID;
-		}
-
+		
 		#endregion
 
 		#region Public Methods
 		
-		public static CollectionConnection GetConnection(string domainID, string collectionID, string userID, AuthType authType)
+		/// <summary>
+		/// Get a connection that can be used to access the specified collection.
+		/// </summary>
+		/// <param name="domainID">The domain ID</param>
+		/// <param name="collection">The collection to be accessed</param>
+		/// <param name="userID">The user to authenticate as.</param>
+		/// <param name="authType">The type of authentication.</param>
+		/// <returns>Connection</returns>
+		public static SimiasConnection GetConnection(string domainID, Collection collection, string userID, AuthType authType)
 		{
-			string key = GetKey(collectionID);
-			CollectionConnection conn;
+			SimiasConnection conn;
 			lock (connectionTable)
 			{
-				conn = (CollectionConnection)connectionTable[key];
+				conn = (SimiasConnection)connectionTable[collection.HostID];
 				if (conn == null)
 				{
-					conn = new CollectionConnection(domainID, collectionID, userID, authType);
-					connectionTable[key] = conn;
+					conn = new SimiasConnection(domainID, userID, collection, authType);
+					connectionTable[collection.HostID] = conn;
 				}
 			}
 			return conn;
 		}
 
-		public static CollectionConnection GetConnection(string domainID, string collectionID, string userID)
+		/// <summary>
+		/// Get a connection that can be used to access the specified collection.
+		/// </summary>
+		/// <param name="domainID">The domain ID</param>
+		/// <param name="collection">The collection to be accessed</param>
+		/// <param name="userID">The user to authenticate as.</param>
+		/// <returns>Connection</returns>
+		public static SimiasConnection GetConnection(string domainID, Collection collection, string userID)
 		{
-			return GetConnection(domainID, collectionID, userID, AuthType.BASIC);
+			return GetConnection(domainID, collection, userID, AuthType.BASIC);
+		}
+
+		/// <summary>
+		/// Get a connection to the home server of the specified member
+		/// </summary>
+		/// <param name="domainID">The domain ID</param>
+		/// <param name="member">The member</param>
+		/// <param name="userID">The user to authenticate as.</param>
+		/// <param name="authType">The authentication type.</param>
+		/// <returns>a connection.</returns>
+		public static SimiasConnection GetConnection(string domainID, Member member, string userID, AuthType authType)
+		{
+			SimiasConnection conn;
+			lock (connectionTable)
+			{
+				conn = (SimiasConnection)connectionTable[member.HomeServer.UserID];
+				if (conn == null)
+				{
+					conn = new SimiasConnection(domainID, userID, member, authType);
+					connectionTable[member.HomeServer.UserID] = conn;
+				}
+			}
+			return conn;
 		}
 
 		public void ClearConnection()
 		{
-			string key = GetKey(domainID);
 			lock (connectionTable)
 			{
-				connectionTable.Remove(key);
+				connectionTable.Remove(hostID);
 				WebState.ResetWebState(domainID);
 			}
 		}
