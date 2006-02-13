@@ -127,77 +127,44 @@ namespace Simias.RssFeed
 			//IEnumerator nodesEnum = null;
 			//ICSList nodes = collection.GetNodesByType( "FileNode" );
 			
-			DateTime latest = collection.CreationTime;
+			DateTime latest;
+			Property colProp = collection.Properties.GetSingleProperty( Simias.RssFeed.Util.LastModified );
+			if ( colProp != null )
+			{
+				latest = (DateTime) colProp.Value;
+			}
+			else
+			{
+				latest = collection.CreationTime;
+			}
+
+			ArrayList chrono = new ArrayList();
 			DateTime dt = new DateTime( 1992, 1, 1, 0, 0, 0 );
 			ICSList nodes = collection.Search( Simias.RssFeed.Util.LastModified, dt, SearchOp.Greater );
 			foreach( ShallowNode sn in nodes )
 			{
 				if ( sn.Type == "FileNode" || sn.Type == "DirNode" )
 				{
-					Node node = new Node( collection, sn );
-					Property lastProp = node.Properties.GetSingleProperty( Simias.RssFeed.Util.LastModified );
-					if ( newest == null )
-					{
-						newest = lastProp;
-					}
-					else
-					if ( (DateTime) lastProp.Value > (DateTime) newest.Value )
-					{
-						newest = lastProp;
-					}
+					chrono.Add( sn );
 				}
 			}
 
-			Property colProp = collection.Properties.GetSingleProperty( Simias.RssFeed.Util.LastModified );
-			if ( newest != null && colProp != null )
+			// Simias yuckiness
+			ItemSort itemSort = new ItemSort();
+			chrono.Sort( itemSort );
+
+			if ( latest > ( (Item)chrono[0]).Published )
 			{
-				if ( (DateTime) colProp.Value > (DateTime) newest.Value )
-				{
-					Simias.RssFeed.Util.SendPublishDate( ctx, (DateTime) colProp.Value );
-				}
-				else
-				{
-					Simias.RssFeed.Util.SendPublishDate( ctx, (DateTime) newest.Value );
-				}
+				Simias.RssFeed.Util.SendPublishDate( ctx, latest );
 			}
 			else
 			{
-				Simias.RssFeed.Util.SendPublishDate( ctx, collection.CreationTime );
-				newest = collection
+				Simias.RssFeed.Util.SendPublishDate( ctx, ( (Item) chrono[0]).Published );
 			}
 
-			/*
 			ctx.Response.Write( "<lastBuildDate>" );
-			ctx.Response.Write( Util.GetRfc822Date( (DateTime) newest.Value ) );
-			*/
-			
-			/*
-			Property lastWrite = collection.Properties.GetSingleProperty( Simias.RssFeed.Util.LastModified );
-			if ( lastWrite != null )
-			{
-				if ( newest != null )
-				{
-					if ( (DateTime) newest.Value > (DateTime) lastWrite.Value )
-					{
-						ctx.Response.Write( Util.GetRfc822Date( (DateTime) newest.Value ) );
-					}
-					else
-					{
-						ctx.Response.Write( Util.GetRfc822Date( (DateTime) lastWrite.Value ) );
-					}
-				}
-				else
-				{
-					ctx.Response.Write( Util.GetRfc822Date( (DateTime) lastWrite.Value ) );
-				}
-			}
-			else
-			{
-				ctx.Response.Write( Util.GetRfc822Date( collection.CreationTime ) );
-			}
-			*/
-			
-			//ctx.Response.Write( "</lastBuildDate>" );
+			ctx.Response.Write( Util.GetRfc822Date( latest ) );
+			ctx.Response.Write( "</lastBuildDate>" );
 
 			ctx.Response.Write("<generator>");
 			ctx.Response.Write( "Simias" );
@@ -217,27 +184,12 @@ namespace Simias.RssFeed
 			ctx.Response.Write( "NC-17" );
 			ctx.Response.Write( "</rating>" );
 			
-			if ( items == true && newest != null )
+			if ( items == true )
 			{
-				nodes = collection.Search( Simias.RssFeed.Util.LastModified, dt, SearchOp.Greater );
-				if ( nodes.Count > 0 )
+				foreach( Item item in chrono )
 				{
-					ArrayList chrono = new ArrayList( );
-					chrono.Capacity = nodes.Count;
-					foreach( ShallowNode sn in nodes )
-					{
-						if ( sn.Type == "FileNode" || sn.Type == "DirNode" )
-						{
-							chrono.Insert( 0, sn );
-						}
-					}
-					
-					foreach( ShallowNode sn in chrono )
-					{
-						log.Debug( "Processing item: " + sn.Name );
-						Item item = new Item( ctx, collection, sn );
-						item.Send();
-					}
+					//log.Debug( "Processing item: " + item.sn.Name );
+					item.Send( ctx );
 				}
 			}
 

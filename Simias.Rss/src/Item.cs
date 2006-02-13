@@ -21,6 +21,7 @@
  * 
  ***********************************************************************/
 using System;
+using System.Collections;
 using System.Web;
 
 using Simias;
@@ -28,6 +29,37 @@ using Simias.Storage;
 
 namespace Simias.RssFeed
 {
+	public class test1
+	{
+		test1()
+		{
+			ItemSort sort = new ItemSort();
+		}
+	}
+
+	public class ItemSort : IComparer
+	{
+
+		// Sort items in chronological order (last to first)
+		public int Compare( object One, object Two )
+		{
+			Item one = One as Item;
+			Item two = Two as Item;
+
+			if ( one.Published == two.Published )
+			{
+				return 0;
+			}
+			else
+			if ( one.Published < two.Published )
+			{
+				return 1;
+			}
+
+			return -1;
+		}
+	}
+
 	/// <summary>
 	/// Summary description for Item.
 	/// </summary>
@@ -39,12 +71,19 @@ namespace Simias.RssFeed
 		private Collection collection;
 		private Node node;
 		private Store store;
+		private DateTime published;
+
 		//private char[] dotSep = {'.'};
 		
 		public bool Enclosures
 		{
 			get{ return enclosures; }
 			set{ enclosures = value; }
+		}
+
+		public DateTime Published
+		{
+			get{ return published; }
 		}
 
 		public Item( HttpContext Context, Collection ParentCollection, ShallowNode SN )
@@ -55,8 +94,19 @@ namespace Simias.RssFeed
 			node = new Node( collection, SN );
 		}
 
-		public void Send()
+		public Item( Collection ParentCollection, ShallowNode SN )
 		{
+			store = Store.GetStore();
+			collection = ParentCollection;
+			node = new Node( collection, SN );
+			Property lastProp = 
+				node.Properties.GetSingleProperty( Simias.RssFeed.Util.LastModified );
+			published = (DateTime) lastProp.Value;
+		}
+
+		public void Send( HttpContext Context )
+		{
+			ctx = Context;
 			ctx.Response.Write( "<item>" );
 			FileNode fileNode = null;
 
