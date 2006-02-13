@@ -118,16 +118,21 @@ namespace Simias.RssFeed
 				ctx.Response.Write( domain.Owner.Name );
 			}
 			ctx.Response.Write("</webmaster>");
+
+			if ( collection.IsType( "iFolder" ) == true )
+			{
+				ctx.Response.Write( "<description>iFolder</description>" );
+			}
 			
 			//IEnumerator nodesEnum = null;
 			//ICSList nodes = collection.GetNodesByType( "FileNode" );
 			
-			Property newest = null;
+			DateTime latest = collection.CreationTime;
 			DateTime dt = new DateTime( 1992, 1, 1, 0, 0, 0 );
 			ICSList nodes = collection.Search( Simias.RssFeed.Util.LastModified, dt, SearchOp.Greater );
 			foreach( ShallowNode sn in nodes )
 			{
-				if ( sn.Type == "FileNode" )
+				if ( sn.Type == "FileNode" || sn.Type == "DirNode" )
 				{
 					Node node = new Node( collection, sn );
 					Property lastProp = node.Properties.GetSingleProperty( Simias.RssFeed.Util.LastModified );
@@ -158,6 +163,7 @@ namespace Simias.RssFeed
 			else
 			{
 				Simias.RssFeed.Util.SendPublishDate( ctx, collection.CreationTime );
+				newest = collection
 			}
 
 			/*
@@ -220,7 +226,7 @@ namespace Simias.RssFeed
 					chrono.Capacity = nodes.Count;
 					foreach( ShallowNode sn in nodes )
 					{
-						if ( sn.Type == "FileNode" )
+						if ( sn.Type == "FileNode" || sn.Type == "DirNode" )
 						{
 							chrono.Insert( 0, sn );
 						}

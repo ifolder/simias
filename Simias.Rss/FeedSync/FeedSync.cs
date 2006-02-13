@@ -258,8 +258,7 @@ namespace Simias.RssClient
 			path = path + Path.DirectorySeparatorChar.ToString() + FeedSync.FeedsDirectory;
 			if ( !Directory.Exists( path ) )
 			{
-				return null;
-				//Directory.CreateDirectory( path );
+				Directory.CreateDirectory( path );
 			}
 
 			return path;
@@ -274,26 +273,24 @@ namespace Simias.RssClient
 		/// </summary>
 		private bool RemoveSubscription( bool content )
 		{
+			bool status = false;
 			string feedPath = this.GetFeedConfigurationPath();
-			if ( feedPath == null )
+			if ( feedPath != null )
 			{
-				return false;
+				XmlDocument document = new XmlDocument();
+
+				try
+				{
+					document.Load( feedPath );
+					status = true;
+				}
+				catch( FileNotFoundException )
+				{
+					return false;
+				}
 			}
 
-			XmlDocument document = new XmlDocument();
-
-			try
-			{
-				document.Load( feedPath );
-
-				return true;
-			}
-			catch( FileNotFoundException )
-			{
-				return false;
-			}
-
-			return false;
+			return status;
 		}
 
 		/// <summary>
@@ -416,7 +413,7 @@ namespace Simias.RssClient
 		
 			proxyRetry:
 
-				request.Credentials = credentials;
+			request.Credentials = credentials;
 			request.Timeout = 15 * 1000;
 			request.CookieContainer = cookieJar;
 			//request.Proxy = ProxyState.GetProxyState( request.RequestUri );
@@ -473,7 +470,7 @@ namespace Simias.RssClient
 						XmlDocument document = new XmlDocument();
 						document.Load( readStream );
 
-						XmlNode serviceNode = document.DocumentElement.SelectSingleNode( "//title" );
+						XmlNode serviceNode = document.DocumentElement.SelectSingleNode( "/rss/channel/title" );
 						if ( serviceNode != null )
 						{
 							string description = null;
@@ -481,19 +478,19 @@ namespace Simias.RssClient
 							string ttl = null;
 
 							XmlNode tempNode;
-							tempNode = document.DocumentElement.SelectSingleNode( "//description" );
+							tempNode = document.DocumentElement.SelectSingleNode( "/rss/channel/description" );
 							if ( tempNode != null )
 							{
 								description = tempNode.InnerText;
 							}
 
-							tempNode = document.DocumentElement.SelectSingleNode( "//ttl" );
+							tempNode = document.DocumentElement.SelectSingleNode( "/rss/channel/ttl" );
 							if ( tempNode != null )
 							{
-								description = tempNode.InnerText;
+								ttl = tempNode.InnerText;
 							}
 
-							tempNode = document.DocumentElement.SelectSingleNode( "//link" );
+							tempNode = document.DocumentElement.SelectSingleNode( "/rss/channel/link" );
 							if ( tempNode != null )
 							{
 								link = tempNode.InnerText;
@@ -529,8 +526,8 @@ namespace Simias.RssClient
 			FeedSync feedSync = 
 				new FeedSync( 
 						null, 
-						"http://localhost:8086/simias10/rss.ashx?feed=Public", 
-						"Public",
+						"http://192.168.1.100:8082/simias10/rss.ashx?feed=TestFolder", 
+						"TestFolder",
 						"banderso",
 						"novell" );
 

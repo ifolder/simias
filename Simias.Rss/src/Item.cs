@@ -78,23 +78,33 @@ namespace Simias.RssFeed
 			}
 			ctx.Response.Write("</title>");
 
-			ctx.Response.Write( "<description>" );
 			if ( node.IsType( "Member" ) == true )
 			{
 				Member collectionMember = new Member( node );
+				ctx.Response.Write( "<description>" );
 				ctx.Response.Write( " - " + collectionMember.FN );
+				ctx.Response.Write("</description>");
+
+				ctx.Response.Write( "<type>Member</type>" );
 			}
 			else
 			if ( node.IsType( "FileNode" ) == true )
 			{
 				fileNode = new FileNode( node );
+				ctx.Response.Write( "<description>" );
 				ctx.Response.Write( fileNode.GetRelativePath() );
+				ctx.Response.Write("</description>");
+
+				ctx.Response.Write( "<type>FileNode</type>" );
+			}
+			if ( node.IsType( "DirNode" ) == true )
+			{
+				ctx.Response.Write( "<type>DirNode</type>" );
 			}
 			else
 			{
 				ctx.Response.Write( node.Name );
 			}
-			ctx.Response.Write("</description>");
 			
 			Domain domain = store.GetDomain( store.DefaultDomain );
 			if ( fileNode != null )

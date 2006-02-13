@@ -104,36 +104,31 @@
         <Files>
             <Include>
                 <File
-                    RelPath = "AssemblyInfo.cs"
+                    RelPath = "src\AssemblyInfo.cs"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "src\Channel.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Channel.cs"
+                    RelPath = "src\Item.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Item.cs"
+                    RelPath = "src\RssFeed.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "rss.ashx"
-                    BuildAction = "None"
-                />
-                <File
-                    RelPath = "RssFeed.cs"
+                    RelPath = "src\RssHeaders.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "RssHeaders.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Util.cs"
+                    RelPath = "src\Util.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
