@@ -29,17 +29,8 @@ using Simias.Storage;
 
 namespace Simias.RssFeed
 {
-	public class test1
-	{
-		test1()
-		{
-			ItemSort sort = new ItemSort();
-		}
-	}
-
 	public class ItemSort : IComparer
 	{
-
 		// Sort items in chronological order (last to first)
 		public int Compare( object One, object Two )
 		{
@@ -99,9 +90,8 @@ namespace Simias.RssFeed
 			store = Store.GetStore();
 			collection = ParentCollection;
 			node = new Node( collection, SN );
-			Property lastProp = 
-				node.Properties.GetSingleProperty( Simias.RssFeed.Util.LastModified );
-			published = (DateTime) lastProp.Value;
+			published = (DateTime)
+				node.Properties.GetSingleProperty( Simias.RssFeed.Util.LastModified ).Value;
 		}
 
 		public void Send( HttpContext Context )
@@ -128,6 +118,9 @@ namespace Simias.RssFeed
 			}
 			ctx.Response.Write("</title>");
 
+			ctx.Response.Write( "<guid isPermaLink=\"false\">" + node.ID + "</guid>" );
+			Simias.RssFeed.Util.SendPublishDate( ctx, published );
+			
 			if ( node.IsType( "Member" ) == true )
 			{
 				Member collectionMember = new Member( node );
@@ -146,38 +139,6 @@ namespace Simias.RssFeed
 				ctx.Response.Write("</description>");
 
 				ctx.Response.Write( "<type>FileNode</type>" );
-			}
-			if ( node.IsType( "DirNode" ) == true )
-			{
-				ctx.Response.Write( "<type>DirNode</type>" );
-			}
-			else
-			{
-				ctx.Response.Write( node.Name );
-			}
-			
-			Domain domain = store.GetDomain( store.DefaultDomain );
-			if ( fileNode != null )
-			{
-				/*
-				string encodedFilePath =
-					String.Format(
-						"/sfile.ashx?fid={0}\'&'name={1}",
-						node.ID,
-						HttpUtility.UrlEncode( fileNode.GetFileName() ) );
-				*/
-
-					
-				/*
-				ctx.Response.Write(
-					String.Format( 
-						"<link>{0}{1}:{2}{3}{4}</link>",
-						ctx.Request.IsSecureConnection ? "https://" : "http://",
-						ctx.Request.Url.Host,
-						ctx.Request.Url.Port.ToString(),
-						ctx.Request.ApplicationPath,
-						encodedFilePath ) );
-				*/
 				
 				ctx.Response.Write(
 					String.Format( 
@@ -199,7 +160,18 @@ namespace Simias.RssFeed
 						fileNode.Length,
 						Simias.HttpFile.Response.GetMimeType( fileNode.GetFileName() ) ) );
 			}
-
+			else
+			if ( node.IsType( "DirNode" ) == true )
+			{
+				DirNode dirNode = new DirNode( node );
+				ctx.Response.Write( "<description>" );
+				ctx.Response.Write( dirNode.GetRelativePath() );
+				ctx.Response.Write("</description>");
+				
+				ctx.Response.Write( "<type>DirNode</type>" );
+			}
+			
+			Domain domain = store.GetDomain( store.DefaultDomain );
 			Member member = domain.GetMemberByID( node.Creator );
 			if ( member != null )
 			{
@@ -217,17 +189,6 @@ namespace Simias.RssFeed
 
 			// Category  - use tags and types
 			
-			ctx.Response.Write( "<guid isPermaLink=\"false\">" + node.ID + "</guid>" );
-			
-			Property lastWrite = node.Properties.GetSingleProperty( Simias.RssFeed.Util.LastModified );
-			if ( lastWrite != null )
-			{
-				Simias.RssFeed.Util.SendPublishDate( ctx, ( DateTime ) lastWrite.Value );
-			}
-			else
-			{
-				Simias.RssFeed.Util.SendPublishDate( ctx, node.CreationTime );
-			}
 
 			/*
 			if (slog.Generator != "")

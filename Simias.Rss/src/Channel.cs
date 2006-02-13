@@ -127,17 +127,12 @@ namespace Simias.RssFeed
 			//IEnumerator nodesEnum = null;
 			//ICSList nodes = collection.GetNodesByType( "FileNode" );
 			
-			DateTime latest;
 			Property colProp = collection.Properties.GetSingleProperty( Simias.RssFeed.Util.LastModified );
-			if ( colProp != null )
-			{
-				latest = (DateTime) colProp.Value;
-			}
-			else
-			{
-				latest = collection.CreationTime;
-			}
+			DateTime latest = ( colProp != null ) ? (DateTime) colProp.Value : collection.CreationTime;
 
+			// Simias is not ordering DateTime properties correctly so for now
+			// I will manually copy everything into a new array and do a 
+			// chrono sort
 			ArrayList chrono = new ArrayList();
 			DateTime dt = new DateTime( 1992, 1, 1, 0, 0, 0 );
 			ICSList nodes = collection.Search( Simias.RssFeed.Util.LastModified, dt, SearchOp.Greater );
@@ -145,11 +140,11 @@ namespace Simias.RssFeed
 			{
 				if ( sn.Type == "FileNode" || sn.Type == "DirNode" )
 				{
-					chrono.Add( sn );
+					Item item = new Item( collection, sn );
+					chrono.Add( item );
 				}
 			}
 
-			// Simias yuckiness
 			ItemSort itemSort = new ItemSort();
 			chrono.Sort( itemSort );
 
@@ -160,6 +155,7 @@ namespace Simias.RssFeed
 			else
 			{
 				Simias.RssFeed.Util.SendPublishDate( ctx, ( (Item) chrono[0]).Published );
+				latest = ( (Item) chrono[0]).Published;
 			}
 
 			ctx.Response.Write( "<lastBuildDate>" );
@@ -183,7 +179,7 @@ namespace Simias.RssFeed
 			ctx.Response.Write( "<rating>" );
 			ctx.Response.Write( "NC-17" );
 			ctx.Response.Write( "</rating>" );
-			
+
 			if ( items == true )
 			{
 				foreach( Item item in chrono )
@@ -191,7 +187,7 @@ namespace Simias.RssFeed
 					//log.Debug( "Processing item: " + item.sn.Name );
 					item.Send( ctx );
 				}
-			}
+			}	
 
 			ctx.Response.Write( "</channel>" );
 		}
