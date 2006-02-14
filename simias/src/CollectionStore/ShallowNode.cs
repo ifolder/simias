@@ -31,7 +31,7 @@ namespace Simias.Storage
 	/// <summary>
 	/// Represents a Node object without properties.
 	/// </summary>
-	public class ShallowNode
+	public class ShallowNode : IComparable
 	{
 		#region Class Members
 		/// <summary>
@@ -131,6 +131,22 @@ namespace Simias.Storage
 		{
 			return ( Type == typeString ? true : false );
 		}
+		#endregion
+
+		#region IComparable Members
+
+		/// <summary>
+		/// Compares this node by name to the specified node.
+		/// </summary>
+		/// <param name="node">Node object to compare.</param>
+		/// <returns>Zero if objects are equal, less than zero if this object is 
+		/// less than the specified object, greater than zero if this object is
+		/// greater than the specified object.</returns>
+		public int CompareTo( object node )
+		{
+			return Name.CompareTo( ( node as ShallowNode ).Name );
+		}
+
 		#endregion
 	}
 }
