@@ -58,6 +58,7 @@ namespace Simias.RssFeed
 	{
 		//private bool detailed = false;
 		private bool enclosures = false;
+		private bool strict = true;
 		private HttpContext ctx;
 		private Collection collection;
 		private Node node;
@@ -70,6 +71,12 @@ namespace Simias.RssFeed
 		{
 			get{ return enclosures; }
 			set{ enclosures = value; }
+		}
+		
+		public bool Strict
+		{
+			get{ return strict; }
+			set{ strict = value; }
 		}
 
 		public DateTime Published
@@ -138,8 +145,6 @@ namespace Simias.RssFeed
 				ctx.Response.Write( fileNode.GetRelativePath() );
 				ctx.Response.Write("</description>");
 
-				ctx.Response.Write( "<type>FileNode</type>" );
-				
 				ctx.Response.Write(
 					String.Format( 
 						"<link>{0}{1}:{2}{3}/sfile.ashx?fid={4}</link>",
@@ -149,16 +154,19 @@ namespace Simias.RssFeed
 						ctx.Request.ApplicationPath,
 						fileNode.ID ) );
 
-				ctx.Response.Write(
-					String.Format( 
-						"<enclosure>url=\"{0}{1}:{2}{3}/sfile.ashx?fid={4}\" length=\"{5}\" type=\"{6}\"</enclosure>",
-						ctx.Request.IsSecureConnection ? "https://" : "http://",
-						ctx.Request.Url.Host,
-						ctx.Request.Url.Port.ToString(),
-						ctx.Request.ApplicationPath,
-						node.ID,
-						fileNode.Length,
-						Simias.HttpFile.Response.GetMimeType( fileNode.GetFileName() ) ) );
+				if ( enclosures == true )
+				{
+					ctx.Response.Write(
+						String.Format( 
+							"<enclosure>url=\"{0}{1}:{2}{3}/sfile.ashx?fid={4}\" length=\"{5}\" type=\"{6}\"</enclosure>",
+							ctx.Request.IsSecureConnection ? "https://" : "http://",
+							ctx.Request.Url.Host,
+							ctx.Request.Url.Port.ToString(),
+							ctx.Request.ApplicationPath,
+							node.ID,
+							fileNode.Length,
+							Simias.HttpFile.Response.GetMimeType( fileNode.GetFileName() ) ) );
+				}			
 			}
 			else
 			if ( node.IsType( "DirNode" ) == true )
@@ -168,7 +176,6 @@ namespace Simias.RssFeed
 				ctx.Response.Write( dirNode.GetRelativePath() );
 				ctx.Response.Write("</description>");
 				
-				ctx.Response.Write( "<type>DirNode</type>" );
 			}
 			
 			Domain domain = store.GetDomain( store.DefaultDomain );
@@ -185,6 +192,13 @@ namespace Simias.RssFeed
 					ctx.Response.Write( member.Name );
 				}
 				ctx.Response.Write( "</author>" );
+			}
+			
+			if ( strict == false )
+			{
+				ctx.Response.Write( "<authorID>" + member.UserID + "</authorID>" );
+				ctx.Response.Write( "<type>" + node.Type.ToString() + "</type>" );
+				ctx.Response.Write( "<id>" + node.ID + "</id>" );
 			}
 
 			// Category  - use tags and types

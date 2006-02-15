@@ -24,6 +24,8 @@ using System;
 using System.Collections;
 using System.IO;
 using System.Net;
+using System.Security.Principal;
+using System.Threading;
 using System.Web;
 using System.Web.SessionState;
 
@@ -38,6 +40,45 @@ namespace Simias.RssFeed
 		
 		private static readonly ISimiasLog log = 
 			SimiasLogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+		
+		private string channelType;
+		private string itemType;
+		private bool strict = true;
+		private bool items = true;
+		private bool enclosures = false;
+		private string specifiedFeed;
+			
+		private void ParseUrlQueryOptions( HttpRequest Request )
+		{
+			if ( Request.QueryString.Count > 0 )
+			{
+				specifiedFeed = Request.QueryString[ "feed" ];
+				channelType = Request.QueryString[ "channel-type" ];
+				itemType = Request.QueryString[ "item-type" ];
+				
+				// Simias clients may turn strictness off to get
+				// more information about the Collection or File
+				if ( Request.QueryString[ "strict" ] != null &&
+						Request.QueryString[ "strict" ].ToLower() == "false" )
+				{
+					strict = false;
+				}
+				
+				if ( Request.QueryString[ "enclosures" ] != null )
+				{
+					enclosures = 
+						( Request.QueryString[ "enclosures" ].ToLower() == "true" ) 
+							? true : false;
+				}
+				
+				if ( Request.QueryString[ "items" ] != null )
+				{
+					items = 
+						( Request.QueryString[ "items" ].ToLower() == "false" ) 
+							? false : true;
+				}
+			}
+		}
 		
 		public void ProcessRequest( HttpContext context )
 		{
@@ -62,15 +103,25 @@ namespace Simias.RssFeed
 					if ( method == "get" )
 					{
 						Store store = Store.GetStore();
-
-						// If a query string was not passed in the request return
-						// a list of collections off the default domain
+						
+						ParseUrlQueryOptions( request );
+						
+						// If a query string was not passed in the request
+						// then default behavior should be returned.
+						//
+						// The current default behavior is to return all
+						// iFolders/Invitations the calling users owns or
+						// is a member of.  Also, default behavior will
+						// return strict RSS.
 						if ( request.QueryString.Count == 0 )
 						{
-							//Domain domain = store.GetDomain( store.DefaultDomain );
-
+							// Impersonate the caller.
+							Domain domain = store.GetDomain( store.DefaultDomain );
+							Member member = 
+								domain.GetMemberByID( Thread.CurrentPrincipal.Identity.Name );
+							domain.Impersonate( member );
+							
 							ICSList ifolders = store.GetCollectionsByType( "iFolder" );
-							//ICSList ifolders = store.GetCollectionsByDomain( store.DefaultDomain );
 							if ( ifolders.Count > 0 )
 							{
 								response.StatusCode = (int) HttpStatusCode.OK;
@@ -87,18 +138,18 @@ namespace Simias.RssFeed
 										log.Debug( "RSSizing collection: " + sn.Name );
 										Simias.RssFeed.Channel channel = 
 											new Simias.RssFeed.Channel( context, store, sn );
+										channel.Items = false;
+										channel.Enclosures = false;
 										channel.Send();
 									}
 								}
 								
 								response.Write( "</rss>" );
 							}
-
 						}
 						else
+						if ( specifiedFeed != null )
 						{
-							// Was a specific channel specified
-							string specifiedFeed = request.QueryString[ "feed" ];
 							log.Debug( "Processing channel: " + specifiedFeed );
 							ICSList list = store.GetCollectionsByName( specifiedFeed, SearchOp.Equal );
 							if ( list != null && list.Count > 0 )
@@ -113,6 +164,35 @@ namespace Simias.RssFeed
 								{
 									Simias.RssFeed.Channel channel = 
 										new Simias.RssFeed.Channel( context, store, colEnum.Current as ShallowNode );
+									channel.Enclosures = this.enclosures;
+									channel.Items = this.items;
+									channel.Strict = this.strict;
+									channel.Send();
+								}
+								
+								response.Write( "</rss>" );
+							}
+						}
+						else
+						if ( channelType != null )
+						{
+							log.Debug( "Processing channel type: " + channelType );
+							ICSList list = store.GetCollectionsByType( channelType );
+							if ( list != null && list.Count > 0 )
+							{
+								response.StatusCode = (int) HttpStatusCode.OK;
+								response.ContentType = "text/xml";
+								response.Write( "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>" );
+								response.Write( "<rss version=\"2.0\">" );
+
+								IEnumerator colEnum = list.GetEnumerator();
+								if( colEnum.MoveNext() == true )
+								{
+									Simias.RssFeed.Channel channel = 
+										new Simias.RssFeed.Channel( context, store, colEnum.Current as ShallowNode );
+									channel.Enclosures = this.enclosures;
+									channel.Items = this.items;
+									channel.Strict = this.strict;
 									channel.Send();
 								}
 								
