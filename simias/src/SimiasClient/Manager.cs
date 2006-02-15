@@ -438,7 +438,8 @@ namespace Simias.Client
 							// Set the uri with the new port back into the config file.
 							SetWebServiceUri( config, ub.Uri );
 						}
-				
+
+						// Get the Uri ... don't escape characters
 						uri = new Uri( ub.Uri.ToString(), true );
 						virtualRoot = GetVirtualPath( uri );
 					}
@@ -446,6 +447,8 @@ namespace Simias.Client
 					{
 						// Get the dynamic port that xsp should use and write it out to the config file.
 						virtualRoot = String.Format( "/simias10/{0}", Environment.UserName );
+
+						// Get the Uri ... don't escape characters
 						uri = new Uri( new UriBuilder( "http", IPAddress.Loopback.ToString(), GetXspPort( config ), virtualRoot ).Uri.ToString(), true );
 						SetWebServiceUri( config, uri );
 					}
