@@ -439,14 +439,14 @@ namespace Simias.Client
 							SetWebServiceUri( config, ub.Uri );
 						}
 				
-						uri = ub.Uri;
+						uri = new Uri( ub.Uri.ToString(), true );
 						virtualRoot = GetVirtualPath( uri );
 					}
 					else
 					{
 						// Get the dynamic port that xsp should use and write it out to the config file.
 						virtualRoot = String.Format( "/simias10/{0}", Environment.UserName );
-						uri = new Uri( new UriBuilder( "http", IPAddress.Loopback.ToString(), GetXspPort( config ), virtualRoot ).ToString() );
+						uri = new Uri( new UriBuilder( "http", IPAddress.Loopback.ToString(), GetXspPort( config ), virtualRoot ).Uri.ToString(), true );
 						SetWebServiceUri( config, uri );
 					}
 
