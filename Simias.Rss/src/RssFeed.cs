@@ -103,8 +103,13 @@ namespace Simias.RssFeed
 					if ( method == "get" )
 					{
 						Store store = Store.GetStore();
-						
 						ParseUrlQueryOptions( request );
+
+						// Impersonate the caller.
+						Domain domain = store.GetDomain( store.DefaultDomain );
+						Member member = 
+							domain.GetMemberByID( Thread.CurrentPrincipal.Identity.Name );
+						domain.Impersonate( member );
 						
 						// If a query string was not passed in the request
 						// then default behavior should be returned.
@@ -115,12 +120,6 @@ namespace Simias.RssFeed
 						// return strict RSS.
 						if ( request.QueryString.Count == 0 )
 						{
-							// Impersonate the caller.
-							Domain domain = store.GetDomain( store.DefaultDomain );
-							Member member = 
-								domain.GetMemberByID( Thread.CurrentPrincipal.Identity.Name );
-							domain.Impersonate( member );
-							
 							ICSList ifolders = store.GetCollectionsByType( "iFolder" );
 							if ( ifolders.Count > 0 )
 							{
@@ -199,12 +198,42 @@ namespace Simias.RssFeed
 								response.Write( "</rss>" );
 							}
 						}
+						else
+						{
+							ICSList ifolders = store.GetCollectionsByType( "iFolder" );
+							if ( ifolders.Count > 0 )
+							{
+								response.StatusCode = (int) HttpStatusCode.OK;
+								response.ContentType = "text/xml";
+								response.Write( "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>" );
+								response.Write( "<rss version=\"2.0\">" );
+								
+								log.Debug( "Number collections: " + ifolders.Count );
+								foreach( ShallowNode sn in ifolders )
+								{
+									log.Debug( "Type: " + sn.Type );
+									if ( sn.Name.ToLower().StartsWith( "pobox" ) == false )
+									{
+										log.Debug( "RSSizing collection: " + sn.Name );
+										Simias.RssFeed.Channel channel = 
+											new Simias.RssFeed.Channel( context, store, sn );
+										channel.Items = this.items;
+										channel.Strict = this.strict;
+										channel.Enclosures = this.enclosures;
+										channel.Send();
+									}
+								}
+								
+								response.Write( "</rss>" );
+							}
+						}
 					}
 				}
 			}
 			catch( Exception ex )
 			{
-				//Sync.Log.log.Debug("Request Failed exception\n{0}\n{1}", ex.Message, ex.StackTrace);
+				log.Error( ex.Message );
+				log.Error( ex.StackTrace );
 				throw ex;
 			}
 			finally

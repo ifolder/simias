@@ -158,7 +158,7 @@ namespace Simias.RssFeed
 				{
 					ctx.Response.Write(
 						String.Format( 
-							"<enclosure>url=\"{0}{1}:{2}{3}/sfile.ashx?fid={4}\" length=\"{5}\" type=\"{6}\"</enclosure>",
+							"<enclosure url=\"{0}{1}:{2}{3}/sfile.ashx?fid={4}\" length=\"{5}\" type=\"{6}\"/>",
 							ctx.Request.IsSecureConnection ? "https://" : "http://",
 							ctx.Request.Url.Host,
 							ctx.Request.Url.Port.ToString(),

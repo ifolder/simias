@@ -42,6 +42,7 @@ namespace Simias.RssFeed
 		private bool items = true;
 		private bool enclosures = false;
 		private bool strict = true;
+		private ArrayList types;
 		private HttpContext ctx;
 		private Collection collection;
 		private Store store;
@@ -69,6 +70,7 @@ namespace Simias.RssFeed
 			ctx = Context;
 			store = CurrentStore;
 			collection = new Collection( Store.GetStore(), SN );
+			types = new ArrayList();
 		}
 
 		public Channel( HttpContext Context, Store CurrentStore, Collection ThisCollection )
@@ -76,6 +78,7 @@ namespace Simias.RssFeed
 			ctx = Context;
 			store = CurrentStore;
 			collection = ThisCollection;
+			types = new ArrayList();
 		}
 
 		public void Send()
@@ -146,43 +149,34 @@ namespace Simias.RssFeed
 				collection.Properties.GetSingleProperty( Simias.RssFeed.Util.LastModified );
 			DateTime latest = ( colProp != null ) ? (DateTime) colProp.Value : collection.CreationTime;
 
-			// Simias is not ordering DateTime properties correctly so for now
-			// I will manually copy everything into a new array and do a 
-			// chrono sort
-			ArrayList chrono = new ArrayList();
 			DateTime dt = new DateTime( 1992, 1, 1, 0, 0, 0 );
 			ICSList nodes = collection.Search( Simias.RssFeed.Util.LastModified, dt, SearchOp.Greater );
 			ICSEnumerator nodesEnum = null;
 			if ( nodes.Count > 0 )
 			{
 				nodesEnum = nodes.GetEnumerator() as ICSEnumerator;
-				nodesEnum.MoveNext();
-				log.Debug( "nodesEnum.Count == " + nodesEnum.Count.ToString() );
-				
-				/*
-				bool status = nodesEnum.SetCursor( IndexOrigin.SET, nodesEnum.Count - 2 );
-				log.Debug( "SetCursor status: " + status.ToString() );
-				*/
-				
-				try
+				if ( nodesEnum != null &&
+						nodesEnum.SetCursor( IndexOrigin.SET, nodesEnum.Count - 1 ) == true )
 				{
-					ShallowNode sn = nodesEnum.Current as ShallowNode;
-					log.Debug( "sn: " + sn.Name );
+					nodesEnum.MoveNext();
 				
-					Item item = new Item( collection, nodesEnum.Current as ShallowNode );
-					if ( item.Published > latest )
+					try
 					{
-						latest = item.Published;
+						ShallowNode sn = nodesEnum.Current as ShallowNode;
+						log.Debug( "sn: " + sn.Name );
+				
+						Item item = new Item( collection, sn );
+						if ( item.Published > latest )
+						{
+							latest = item.Published;
+						}
+					}
+					catch( Exception e )
+					{
+						log.Debug( e.Message );
 					}
 				}
-				catch( Exception e )
-				{
-					log.Debug( e.Message );
-				}
 			}
-			
-			log.Debug( "Past the ICSEnumerator" );
-			
 			
 			/*
 			foreach( ShallowNode sn in nodes )
@@ -245,33 +239,42 @@ namespace Simias.RssFeed
 
 			if ( items == true && nodesEnum != null )
 			{
-				nodesEnum.Reset();
+				nodesEnum = nodes.GetEnumerator() as ICSEnumerator;
 				int count = nodesEnum.Count;				
-				int cursor = nodesEnum.Count - 1;
-				while( count > 0 )
+				while( count-- > 0 )
 				{
-					nodesEnum.SetCursor( IndexOrigin.SET, cursor );
-					Item item = new Item( collection, nodesEnum.Current as ShallowNode );
+					if ( nodesEnum.SetCursor( IndexOrigin.SET, count ) == true )
+					{
+						nodesEnum.MoveNext();
+						ShallowNode sn = nodesEnum.Current as ShallowNode;
+						Item item = null;
+						if ( this.types.Count == 0 )
+						{
+							if ( sn.Type == "FileNode" )
+							{
+								item = new Item( collection, sn );
+							}
+						}
+						else
+						{
+							foreach( string ctype in this.types )
+							{
+								if ( ctype == sn.Type )
+								{
+									item = new Item( collection, sn );
+									break;
+								}
+							}
+						}
 					
-					item.Strict = this.strict;
-					item.Enclosures = this.enclosures;
-					
-					log.Debug( "Processing item: " );
-					item.Send( ctx );
-					count--;
-					cursor--;
+						if ( item != null )
+						{
+							item.Strict = this.strict;
+							item.Enclosures = this.enclosures;
+							item.Send( ctx );
+						}
+					}
 				}
-			
-				/*
-				foreach( Item item in chrono )
-				{
-					item.Strict = this.strict;
-					item.Enclosures = this.enclosures;
-					
-					//log.Debug( "Processing item: " + item.sn.Name );
-					item.Send( ctx );
-				}
-				*/
 			}	
 
 			ctx.Response.Write( "</channel>" );
