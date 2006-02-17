@@ -2,7 +2,7 @@
  * Browser_x0020_ServiceLocator.java
  *
  * This file was auto-generated from WSDL
- * by the Apache Axis 1.2RC2 Nov 16, 2004 (12:19:44 EST) WSDL2Java emitter.
+ * by the Apache Axis 1.3 Oct 05, 2005 (05:23:37 EDT) WSDL2Java emitter.
  */
 
 package com.novell.simias.browser;
@@ -21,8 +21,12 @@ public class Browser_x0020_ServiceLocator extends org.apache.axis.client.Service
         super(config);
     }
 
+    public Browser_x0020_ServiceLocator(java.lang.String wsdlLoc, javax.xml.namespace.QName sName) throws javax.xml.rpc.ServiceException {
+        super(wsdlLoc, sName);
+    }
+
     // Use to get a proxy class for Browser_x0020_ServiceSoap
-    private java.lang.String Browser_x0020_ServiceSoap_address = "http://localhost:8086/simias10/SimiasBrowser.asmx";
+    private java.lang.String Browser_x0020_ServiceSoap_address = "http://127.0.0.1:2602/simias10/mlasky/SimiasBrowser.asmx";
 
     public java.lang.String getBrowser_x0020_ServiceSoapAddress() {
         return Browser_x0020_ServiceSoap_address;
@@ -122,10 +126,12 @@ public class Browser_x0020_ServiceLocator extends org.apache.axis.client.Service
     * Set the endpoint address for the specified port name.
     */
     public void setEndpointAddress(java.lang.String portName, java.lang.String address) throws javax.xml.rpc.ServiceException {
-        if ("Browser_x0020_ServiceSoap".equals(portName)) {
+        
+if ("Browser_x0020_ServiceSoap".equals(portName)) {
             setBrowser_x0020_ServiceSoapEndpointAddress(address);
         }
-        else { // Unknown Port Name
+        else 
+{ // Unknown Port Name
             throw new javax.xml.rpc.ServiceException(" Cannot set Endpoint Address for Unknown Port" + portName);
         }
     }

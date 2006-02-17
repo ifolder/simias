@@ -17,13 +17,13 @@ BUILD_DIR = ./build
 CLASSES_DIR = ./classes
 
 CP1 = \
-	$(TOOLDIR)/axis-1_2RC2/lib/axis.jar \
-	$(TOOLDIR)/axis-1_2RC2/lib/commons-discovery.jar \
-	$(TOOLDIR)/axis-1_2RC2/lib/commons-loggin.jar \
-	$(TOOLDIR)/axis-1_2RC2/lib/jaxrpc.jar \
-	$(TOOLDIR)/axis-1_2RC2/lib/log4j-1.2.8.jar \
-	$(TOOLDIR)/axis-1_2RC2/lib/saaj.jar \
-	$(TOOLDIR)/axis-1_2RC2/lib/wsdl4j.jar \
+	$(TOOLDIR)/axis-1_3/lib/axis.jar \
+	$(TOOLDIR)/axis-1_3/lib/commons-discovery-0.2.jar \
+	$(TOOLDIR)/axis-1_3/lib/commons-logging-1.0.4.jar \
+	$(TOOLDIR)/axis-1_3/lib/jaxrpc.jar \
+	$(TOOLDIR)/axis-1_3/lib/log4j-1.2.8.jar \
+	$(TOOLDIR)/axis-1_3/lib/saaj.jar \
+	$(TOOLDIR)/axis-1_3/lib/wsdl4j-1.5.1.jar \
 	$(CLASSES_DIR)
 
 CP = $(subst $(SPACE),$(PATH_SEP),$(CP1))

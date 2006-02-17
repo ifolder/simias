@@ -9,6 +9,5 @@ export AXISCP=$AXISCP:$AXIS_LIBS/saaj.jar
 export AXISCP=$AXISCP:$AXIS_LIBS/log4j-1.2.8.jar
 export AXISCP=$AXISCP:$AXIS_LIBS/wsdl4j-1.5.1.jar
 export CLASSPATH=$CLASSPATH:$AXISCP
-export CLASSPATH=$CLASSPATH:./SwingStoreBrowser.jar
 
-java -classpath $CLASSPATH com.novell.simias.storebrowser.SwingStoreBrowser
+java -classpath $CLASSPATH org.apache.axis.wsdl.WSDL2Java -v -o ./src ./external/SimiasBrowser.wsdl

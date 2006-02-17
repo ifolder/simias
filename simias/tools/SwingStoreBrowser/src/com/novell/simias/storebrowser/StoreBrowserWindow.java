@@ -423,16 +423,15 @@ System.out.println("failed.");
 		
 		DefaultMutableTreeNode treeNode = null;
 		TreeSet treeSet = new TreeSet(new TreeSetComparator());
-		ArrayOfBrowserNode collections = null;
+		BrowserNode browserNodeA[];
 		try {
-			collections = service.enumerateCollections();
+			browserNodeA = service.enumerateCollections();
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return;
 		}
 		
-		BrowserNode browserNodeA[] = collections.getBrowserNode();
 		for (int i = 0; i < browserNodeA.length; i++)
 		{
 			String nodeData = browserNodeA[i].getNodeData();
@@ -692,16 +691,17 @@ System.out.println("failed.");
 		if (nodeID != null && nodeID.length() > 0)
 		{
 			/* See if the collection has other nodes */
-			ArrayOfBrowserNode childNodes = null;
+			BrowserNode[] childNodes;
 			try {
 				childNodes = service.enumerateNodes(nodeID);
 			} catch (RemoteException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
+				return;
 			}
 			if (childNodes != null)
 			{
-				addChildNodes(node, childNodes.getBrowserNode());
+				addChildNodes(node, childNodes);
 				treeModel.reload(node);
 			}
 		}
