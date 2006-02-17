@@ -99,10 +99,19 @@ namespace Simias.HttpFile
 									log.Debug( "  fullpath: " + fullPath );
 
 									response.StatusCode = (int) HttpStatusCode.OK;
+
+									Property lastModified = node.Properties.GetSingleProperty( "LastModified" );
+									if ( lastModified != null )
+									{
+										DateTime dt = (DateTime) lastModified.Value;
+										response.AddHeader(
+											"Last-Modified",
+											Util.GetRfc822Date( (DateTime) lastModified.Value ) );
+									}
 							
 									response.AddHeader(
 										"Content-length",
-										fileNode.Length.ToString() );
+										fileNode.Length.ToString() );	
 							
 									response.ContentType = 
 										Simias.HttpFile.Response.GetMimeType( fileName ).ToLower();
@@ -194,6 +203,9 @@ namespace Simias.HttpFile
 				case "mp3":
 					return "audio/mpeg";
 	
+				case "m4a":
+					return "audio/mpeg";
+
 				case "wma":
 					return "audio/x-ms-wma";
 
@@ -236,6 +248,38 @@ namespace Simias.HttpFile
 				default:
 					return "text/plain";;
 			}
+		}
+	}
+
+	public class Util
+	{
+		public static string[] MonthsOfYear =
+		{
+			"Jan",
+			"Feb",
+			"Mar",
+			"Apr",
+			"Jun",
+			"Jul",
+			"Aug",
+			"Sep",
+			"Oct",
+			"Nov",
+			"Dec"
+		};
+		
+		static public string GetRfc822Date( DateTime DT )
+		{
+			return
+				String.Format(
+				"{0}, {1} {2} {3} {4}:{5}:{6} GMT",
+				DT.DayOfWeek.ToString(),
+				DT.Day,
+				Util.MonthsOfYear[ DT.Month - 1 ],
+				DT.Year.ToString(),
+				DT.Hour,
+				DT.Minute,
+				DT.Second );
 		}
 	}
 }

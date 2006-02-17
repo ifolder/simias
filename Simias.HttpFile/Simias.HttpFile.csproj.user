@@ -1,7 +1,7 @@
 <VisualStudioProject>
     <CSHARP LastOpenVersion = "7.10.3077" >
         <Build>
-            <Settings ReferencePath = "C:\simias-server\simias\src\SimiasLib.dll\;C:\simias-server\simias\src\SimiasClient\" >
+            <Settings ReferencePath = "C:\simias-server\simias\src\SimiasLib.dll\;C:\simias-server\simias\src\SimiasClient\;C:\test-server\simias\src\SimiasLib.dll\;C:\test-server\simias\src\SimiasClient\" >
                 <Config
                     Name = "Debug"
                     EnableASPDebugging = "false"
