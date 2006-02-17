@@ -1,0 +1,16 @@
+<Combine name="Feeds" fileversion="2.0">
+  <Configurations active="Debug">
+    <Configuration name="Debug" ctype="CombineConfiguration">
+      <Entry configuration="Debug" build="True" name="Feeds" />
+    </Configuration>
+    <Configuration name="Release" ctype="CombineConfiguration">
+      <Entry configuration="Debug" build="True" name="Feeds" />
+    </Configuration>
+  </Configurations>
+  <StartMode startupentry="Feeds" single="True">
+    <Execute type="None" entry="Feeds" />
+  </StartMode>
+  <Entries>
+    <Entry filename="./Feeds.mdp" />
+  </Entries>
+</Combine>
