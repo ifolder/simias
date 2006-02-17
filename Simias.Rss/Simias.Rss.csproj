@@ -97,7 +97,7 @@
                 <Reference
                     Name = "Simias.HttpFile"
                     AssemblyName = "Simias.HttpFile"
-                    HintPath = "..\Simias.HttpFile\bin\Debug\Simias.HttpFile.dll"
+                    HintPath = "..\Simias.HttpFile\src\Simias.HttpFile.dll"
                 />
             </References>
         </Build>
@@ -105,6 +105,7 @@
             <Include>
                 <File
                     RelPath = "src\AssemblyInfo.cs"
+                    SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File

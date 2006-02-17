@@ -27,6 +27,8 @@ using System.Text;
 using System.Web;
 using System.Xml;
 
+using Novell.Collaboration.Feeds;
+
 namespace Simias.RssClient
 {
 	/// <summary>
@@ -351,6 +353,132 @@ namespace Simias.RssClient
 		#endregion
 
 		#region Public Methods
+
+		/// <summary>
+		/// List Available Feeds
+		/// 
+		/// Method to list the available feeds on the server.
+		/// </summary>
+		public void ListAvailable( )
+		{
+			url += "?strict=false";
+			Uri serviceUri = new Uri( url );
+			HttpWebResponse response = null;
+			CookieContainer cookieJar = new CookieContainer();
+
+			// Build a credential from the user name and password.
+			NetworkCredential credentials = null;
+			if ( user != null && password != null )
+			{
+				credentials = new NetworkCredential( user, password ); 
+			}
+
+			// Create the web request.
+			HttpWebRequest request = (HttpWebRequest)WebRequest.Create( serviceUri );
+			bool retry = true;
+		
+			proxyRetry:
+
+			request.Credentials = credentials;
+			request.Timeout = 15 * 1000;
+			request.CookieContainer = cookieJar;
+			//request.Proxy = ProxyState.GetProxyState( request.RequestUri );
+
+			try
+			{
+				// Get the response from the web server.
+				response = request.GetResponse() as HttpWebResponse;
+
+				// Mono has a bug where it doesn't set the cookies in the cookie jar.
+				cookieJar.Add( response.Cookies );
+			}
+			catch ( WebException we )
+			{
+				IsTrustFailure( serviceUri.Host, we );
+				if ( ( we.Status == WebExceptionStatus.Timeout ) ||
+					( we.Status == WebExceptionStatus.NameResolutionFailure ) )
+				{
+					throw we;	
+				}
+				else
+				{
+					response = we.Response as HttpWebResponse;
+					if (response != null)
+					{
+						cookieJar.Add( response.Cookies );
+						if ( response.StatusCode == HttpStatusCode.Unauthorized && retry == true )
+						{
+							// This should be a free call we must be behind iChain.
+							request = (HttpWebRequest)WebRequest.Create( response.ResponseUri );
+							retry = false;
+							goto proxyRetry;
+						}
+					}
+					response = null;
+				}
+			}
+			
+			// Make sure that there was an answer.
+			if ( response != null )
+			{
+				try
+				{
+					// Get the stream associated with the response.
+					Stream receiveStream = response.GetResponseStream();
+					
+					// Pipes the stream to a higher level stream reader with the required encoding format. 
+					StreamReader readStream = new StreamReader( receiveStream, Encoding.UTF8 );
+
+					try
+					{
+						XmlDocument document = new XmlDocument();
+						document.Load( readStream );
+
+						XmlNode serviceNode = document.DocumentElement.SelectSingleNode( "/rss/channel/title" );
+						if ( serviceNode != null )
+						{
+							string description = null;
+							string link = null;
+							string ttl = null;
+							string title = serviceNode.InnerText;
+
+							XmlNode tempNode;
+							tempNode = document.DocumentElement.SelectSingleNode( "/rss/channel/description" );
+							if ( tempNode != null )
+							{
+								description = tempNode.InnerText;
+							}
+
+							tempNode = document.DocumentElement.SelectSingleNode( "/rss/channel/ttl" );
+							if ( tempNode != null )
+							{
+								ttl = tempNode.InnerText;
+							}
+
+							tempNode = document.DocumentElement.SelectSingleNode( "/rss/channel/link" );
+							if ( tempNode != null )
+							{
+								link = tempNode.InnerText;
+							}
+
+							Console.WriteLine( "Feed: " + title );
+							Console.WriteLine( "  description: " + description );
+							Console.WriteLine( "  link: " + link );
+							Console.WriteLine( "  ttl: " + ttl );
+						}
+					}
+					finally
+					{
+						readStream.Close();
+					}
+				}
+				finally
+				{
+					response.Close();
+				}
+			}	
+		}
+
 		/// Method to sync the actual enclosures down to the
 		/// local file system
 		/// </summary>
@@ -526,12 +654,61 @@ namespace Simias.RssClient
 			FeedSync feedSync = 
 				new FeedSync( 
 						null, 
-						"http://192.168.1.100:8082/simias10/rss.ashx?feed=TestFolder", 
+						"http://localhost:8086/simias10/rss.ashx", 
 						"TestFolder",
-						"banderso",
-						"novell" );
+						"admin",
+						"simias" );
 
-			feedSync.Subscribe();
+
+			Novell.Collaboration.Feeds.Feed feed =
+				new Novell.Collaboration.Feeds.Feed( "http://localhost:8086/simias10/rss.ashx?items=true&enclosures=true", "admin", "simias" );
+
+			feed.Load( 30, true );
+
+			Console.WriteLine( "FEED" );
+			Console.WriteLine( "  Title: " + feed.Title );
+			Console.WriteLine( "  Owner: " + feed.Owner );
+			Console.WriteLine( "  Description: " + feed.Description );
+			Console.WriteLine( "  Link: " + feed.Link );
+			Console.WriteLine( "  Build Date: " + feed.LastBuildDate.ToString() );
+			Console.WriteLine( "  Publish Date: " + feed.PublishDate.ToString() );
+			Console.WriteLine( "  TTL: " + feed.Ttl.ToString() );
+
+			Item[] items = feed.GetItems();
+			/*
+			if ( items.Length != 0 )
+			{
+				Console.WriteLine( "ITEMS" );
+			}
+			*/
+			foreach( Item item in items )
+			{
+				Console.WriteLine( "  ITEM" );
+				Console.WriteLine( "    Title: " + item.Title );
+				Console.WriteLine( "    Description: " + item.Description );
+				Console.WriteLine( "    Guid: " + item.Guid );
+				Console.WriteLine( "    Author: " + item.Author );
+				Console.WriteLine( "    Link: " + item.Link );
+				Console.WriteLine( "    Publish Date: " + item.Published.ToString() );
+
+				if ( item.Enclosure != null )
+				{
+					Enclosure enclosure = item.Enclosure;
+					Console.WriteLine( "    ENCLOSURE" );
+					Console.WriteLine( "      Url: " + enclosure.Url );
+					Console.WriteLine( "      Type: " + enclosure.Type );
+					Console.WriteLine( "      Length: " + enclosure.Length.ToString() );
+					
+					enclosure.Download( feed, @"c:\download", item.Title, 30, true );
+
+				}
+			}
+
+
+			//feedSync.ListAvailable();
+
+
+			//feedSync.Subscribe();
 
 			//feedSync.ProcessFeed();
 		}

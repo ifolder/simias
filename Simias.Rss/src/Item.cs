@@ -145,14 +145,25 @@ namespace Simias.RssFeed
 				ctx.Response.Write( fileNode.GetRelativePath() );
 				ctx.Response.Write("</description>");
 
+				/*
 				ctx.Response.Write(
 					String.Format( 
-						"<link>{0}{1}:{2}{3}/sfile.ashx?fid={4}</link>",
+						"<link>{0}{1}:{2}{3}/sfile.ashx?fid={4}{5}</link>",
 						ctx.Request.IsSecureConnection ? "https://" : "http://",
 						ctx.Request.Url.Host,
 						ctx.Request.Url.Port.ToString(),
 						ctx.Request.ApplicationPath,
-						fileNode.ID ) );
+						fileNode.ID,
+						HttpUtility.UrlEncode( "&name=" + fileNode.Name ) ) );
+				*/
+				ctx.Response.Write(
+					String.Format( 
+					"<link>{0}{1}:{2}{3}/sfile.ashx?fid={4}</link>",
+					ctx.Request.IsSecureConnection ? "https://" : "http://",
+					ctx.Request.Url.Host,
+					ctx.Request.Url.Port.ToString(),
+					ctx.Request.ApplicationPath,
+					fileNode.ID ) );
 
 				if ( enclosures == true )
 				{
