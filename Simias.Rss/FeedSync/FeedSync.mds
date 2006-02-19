@@ -1,0 +1,16 @@
+<Combine name="FeedSync" fileversion="2.0">
+  <Configurations active="Debug">
+    <Configuration name="Debug" ctype="CombineConfiguration">
+      <Entry configuration="Debug" build="True" name="FeedSync" />
+    </Configuration>
+    <Configuration name="Release" ctype="CombineConfiguration">
+      <Entry configuration="Debug" build="True" name="FeedSync" />
+    </Configuration>
+  </Configurations>
+  <StartMode startupentry="FeedSync" single="True">
+    <Execute type="None" entry="FeedSync" />
+  </StartMode>
+  <Entries>
+    <Entry filename="./FeedSync.mdp" />
+  </Entries>
+</Combine>
