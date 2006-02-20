@@ -54,7 +54,7 @@ namespace Novell.Collaboration.Feeds
 		private string rating;
 		private ArrayList categories = null;
 		private ArrayList items = null;
-
+		private bool includeItems = true;
 		#endregion
 
 		#region Properties
@@ -217,11 +217,14 @@ namespace Novell.Collaboration.Feeds
 				{
 					case "item":
 					{
-						try
+						if ( includeItems == true )
 						{
-							items.Add( new Item( node ) );
-						}
-						catch{}
+							try
+							{
+								items.Add( new Item( node ) );
+							}
+							catch{}
+						}	
 						break;
 					}
 					case "title":
@@ -274,6 +277,7 @@ namespace Novell.Collaboration.Feeds
 
 					case "pubdate":
 					{
+						Console.WriteLine( "converting PubDate from: " + node.InnerText );
 						//this.pubDate = XmlConvert.ToDateTime( node.InnerText );
 						this.pubDate = System.Convert.ToDateTime( node.InnerText );
 						break;
@@ -281,6 +285,7 @@ namespace Novell.Collaboration.Feeds
 
 					case "lastbuilddate":
 					{
+						Console.WriteLine( "converting LastBuildDate from: " + node.InnerText );
 						this.lastBuildDate = System.Convert.ToDateTime( node.InnerText );
 						break;
 					}
@@ -305,10 +310,9 @@ namespace Novell.Collaboration.Feeds
 				}
 			}
 		}
-
 		#endregion
+		
 		#region Public Methods
-
 		public string[] GetCategories()
 		{
 			if ( this.categories.Count == 0 )
@@ -331,6 +335,7 @@ namespace Novell.Collaboration.Feeds
 
 		public void Load( int Timeout, bool IncludeItems )
 		{
+			includeItems = IncludeItems;
 			Uri serviceUri = new Uri( url );
 			HttpWebResponse response = null;
 			CookieContainer cookieJar = new CookieContainer();
