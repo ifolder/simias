@@ -22,7 +22,9 @@
  ***********************************************************************/
 
 using System;
+using System.Security.Principal;
 using System.Security.Cryptography;
+using System.Threading;
 using System.Web;
 using System.Web.Services;
 using System.Web.Services.Protocols;
@@ -72,6 +74,7 @@ namespace Simias.WebService
 		{
 			Domain domain = null;
 			Collection collection = null;
+			log.Debug( "PublishCollection called" );
 			
 			/*
 			if ( DomainID == null || DomainID == "" )
@@ -90,22 +93,31 @@ namespace Simias.WebService
 				return false;
 			}
 			
+		
 			collection = store.GetCollectionByID( Collection );
 			if ( collection == null )
 			{
-				ICSList collections = store.GetCollectionsByName( Collection );
-				foreach( ShallowNode sn in collections )
-				{
-					collection = new Collection( store, sn );
-					break;
-				}
+				collection = store.GetSingleCollectionByName( Collection );
 			}
 			
 			if ( collection == null )
 			{
 				return false;
 			}
-
+			
+			// Make sure the caller is the owner
+			Member member = domain.GetMemberByID( Thread.CurrentPrincipal.Identity.Name );
+			if ( member == null )
+			{
+				return false;
+			}
+			
+			if ( collection.Owner.UserID != member.UserID )
+			{
+				log.Error( "  ERROR:" + member.Name + "is not the owner - can't publish" );
+				return false;
+			}
+			
 			if ( Publish == true )
 			{
 				Property pubProp = new Property( "Published", true );
@@ -167,6 +179,7 @@ namespace Simias.WebService
 				return "";
 			}
 
+
 			Property descProp = collection.Properties.GetSingleProperty( "Description" );
 			if ( descProp != null && descProp.Value != null )
 			{
@@ -221,6 +234,20 @@ namespace Simias.WebService
 			}
 			
 			if ( collection == null )
+			{
+				return false;
+			}
+
+			// Make sure the caller is the owner
+			try
+			{
+				if ( domain.GetMemberByID( Thread.CurrentPrincipal.Identity.Name ).UserID !=
+					collection.Owner.UserID )
+				{
+					return false;
+				}
+			}
+			catch
 			{
 				return false;
 			}
