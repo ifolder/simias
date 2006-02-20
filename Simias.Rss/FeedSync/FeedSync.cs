@@ -21,6 +21,7 @@
  * 
  ***********************************************************************/
 using System;
+using System.Collections;
 using System.IO;
 using System.Net;
 using System.Text;
@@ -38,17 +39,19 @@ namespace Simias.RssClient
 	{
 		#region Class Members
 		private string url;
+		private string feedID;
 		private string feed;
 		private string localPath;
 		private string username;
 		private string password;
 		private string itemDirectory;
-		static private string FeedsDirectory = "SimiasFeeds";
+		static private string FeedsDirectory = "simias-feeds";
 		static private string DefaultFeedDirectory = "My Feeds";
 		private bool listAvailable;
 		private bool listSubscribed;
 		private bool subscribe;
 		private bool unsubscribe;
+		private bool synchronize = false;
 		private bool help = false;
 		private bool verbose = false;
 		
@@ -61,7 +64,6 @@ namespace Simias.RssClient
 		}
 		
 		/*
-		
 		public FeedSync( string LocalPath, string Url, string Channel )
 		{
 			localPath = LocalPath;
@@ -86,7 +88,7 @@ namespace Simias.RssClient
 		private void ShowUseage()
 		{
 			Console.WriteLine( "" );
-			Console.WriteLine( "A simple .NET command line utility for caching feed/channel enclosures in the local file system" );
+			Console.WriteLine( "A simple .NET command line utility for caching iFolder enclosures in the local file system" );
 			Console.WriteLine( "Useage: FeedSync command <command options> <options>" );
 			Console.WriteLine( "  FeedSync list <all|available|subscribed> --url <url for available> --username <user> --password <password>" );
 			Console.WriteLine( "  FeedSync subscribe --url <path to feed> --feed <name of the feed/channel> --username <user credential>" );
@@ -147,6 +149,12 @@ namespace Simias.RssClient
 					case "unsubscribe":
 					{
 						unsubscribe = true;
+						break;
+					}
+					
+					case "synchronize":
+					{
+						synchronize = true;
 						break;
 					}
 					
@@ -226,6 +234,33 @@ namespace Simias.RssClient
 			}
 			*/
 		}
+		
+		/// <summary>
+		/// Private method to enumerate all Feed files
+		/// </summary>
+		private ArrayList GetLocalFeedFiles()
+		{
+			ArrayList feeds = null;
+			string feedsPath = GetFeedsPath();
+			if ( feedsPath == null )
+			{
+				return feeds;
+			}
+			
+			
+			DirectoryInfo dinfo = new DirectoryInfo( feedsPath );
+			foreach( FileInfo file in dinfo.GetFiles( "*.xml") )
+			{
+				if ( feeds == null )
+				{
+					feeds = new ArrayList();
+				}
+				
+				feeds.Add( file.FullName );
+			}
+			
+			return feeds;
+		}		
 
 		/// <summary>
 		/// Private method to create and populate a feed
@@ -234,7 +269,7 @@ namespace Simias.RssClient
 		/// presented in construction
 		/// All parameters CAN be null.
 		/// </summary>
-		private bool CreateFeedConfiguration( string Link, string Description, string Ttl )
+		private bool CreateFeedConfiguration( string FeedGuid, string Description, string Ttl, DateTime LastBuild )
 		{
 			string feedPath = GetFeedConfigurationPath();
 			if ( feedPath == null )
@@ -242,8 +277,7 @@ namespace Simias.RssClient
 				return false;
 			}
 
-			// Create and populate and XML document with
-			// Feed data
+			// Create and populate and XML document with Feed data
 			XmlDocument document = new XmlDocument();
 
 			// Create a new element node.
@@ -299,12 +333,14 @@ namespace Simias.RssClient
 			feedElem.AppendChild( pathElem );
 
 			// Add "Link" to the document
+			/*
 			if ( Link != null && Link != "" )
 			{
 				XmlNode linkElem = document.CreateNode( XmlNodeType.Element, "Link", "");
 				linkElem.InnerText = Link;
 				feedElem.AppendChild( linkElem );
 			}
+			*/
 
 			// Add "TTL" to the document
 			if ( Ttl != null && Ttl != "" )
@@ -315,7 +351,7 @@ namespace Simias.RssClient
 			}
 
 			XmlNode pubElem = document.CreateNode( XmlNodeType.Element, "Published", "");
-			pubElem.InnerText = "0";
+			pubElem.InnerText = String.Format( "{0:r}", LastBuild );
 			feedElem.AppendChild( pubElem );
 
 			XmlNode syncElem = document.CreateNode( XmlNodeType.Element, "Synchronized", "");
@@ -324,7 +360,7 @@ namespace Simias.RssClient
 
 			XmlNode itemElem = document.CreateNode( XmlNodeType.Element, "ItemDirectory", "");
 
-			this.itemDirectory = Guid.NewGuid().ToString();
+			this.itemDirectory = FeedGuid;
 			itemElem.InnerText = itemDirectory;
 			feedElem.AppendChild( itemElem );
 
@@ -493,136 +529,9 @@ namespace Simias.RssClient
 
 			return false;
 		}
-
 		#endregion
 
 		#region Public Methods
-
-		/// <summary>
-		/// List Available Feeds
-		/// 
-		/// Method to list the available feeds on the server.
-		/// </summary>
-		public void ListAvailableOld( )
-		{
-			url += "?strict=false";
-			Uri serviceUri = new Uri( url );
-			HttpWebResponse response = null;
-			CookieContainer cookieJar = new CookieContainer();
-
-			// Build a credential from the user name and password.
-			NetworkCredential credentials = null;
-			if ( username != null && password != null )
-			{
-				credentials = new NetworkCredential( username, password ); 
-			}
-
-			// Create the web request.
-			HttpWebRequest request = (HttpWebRequest)WebRequest.Create( serviceUri );
-			bool retry = true;
-		
-			proxyRetry:
-
-			request.Credentials = credentials;
-			request.Timeout = 15 * 1000;
-			request.CookieContainer = cookieJar;
-			//request.Proxy = ProxyState.GetProxyState( request.RequestUri );
-
-			try
-			{
-				// Get the response from the web server.
-				response = request.GetResponse() as HttpWebResponse;
-
-				// Mono has a bug where it doesn't set the cookies in the cookie jar.
-				cookieJar.Add( response.Cookies );
-			}
-			catch ( WebException we )
-			{
-				IsTrustFailure( serviceUri.Host, we );
-				if ( ( we.Status == WebExceptionStatus.Timeout ) ||
-					( we.Status == WebExceptionStatus.NameResolutionFailure ) )
-				{
-					throw we;	
-				}
-				else
-				{
-					response = we.Response as HttpWebResponse;
-					if (response != null)
-					{
-						cookieJar.Add( response.Cookies );
-						if ( response.StatusCode == HttpStatusCode.Unauthorized && retry == true )
-						{
-							// This should be a free call we must be behind iChain.
-							request = (HttpWebRequest)WebRequest.Create( response.ResponseUri );
-							retry = false;
-							goto proxyRetry;
-						}
-					}
-					response = null;
-				}
-			}
-			
-			// Make sure that there was an answer.
-			if ( response != null )
-			{
-				try
-				{
-					// Get the stream associated with the response.
-					Stream receiveStream = response.GetResponseStream();
-					
-					// Pipes the stream to a higher level stream reader with the required encoding format. 
-					StreamReader readStream = new StreamReader( receiveStream, Encoding.UTF8 );
-
-					try
-					{
-						XmlDocument document = new XmlDocument();
-						document.Load( readStream );
-
-						XmlNode serviceNode = document.DocumentElement.SelectSingleNode( "/rss/channel/title" );
-						if ( serviceNode != null )
-						{
-							string description = null;
-							string link = null;
-							string ttl = null;
-							string title = serviceNode.InnerText;
-
-							XmlNode tempNode;
-							tempNode = document.DocumentElement.SelectSingleNode( "/rss/channel/description" );
-							if ( tempNode != null )
-							{
-								description = tempNode.InnerText;
-							}
-
-							tempNode = document.DocumentElement.SelectSingleNode( "/rss/channel/ttl" );
-							if ( tempNode != null )
-							{
-								ttl = tempNode.InnerText;
-							}
-
-							tempNode = document.DocumentElement.SelectSingleNode( "/rss/channel/link" );
-							if ( tempNode != null )
-							{
-								link = tempNode.InnerText;
-							}
-
-							Console.WriteLine( "Feed: " + title );
-							Console.WriteLine( "  description: " + description );
-							Console.WriteLine( "  link: " + link );
-							Console.WriteLine( "  ttl: " + ttl );
-						}
-					}
-					finally
-					{
-						readStream.Close();
-					}
-				}
-				finally
-				{
-					response.Close();
-				}
-			}	
-		}
-
 		/// Method to sync the actual enclosures down to the
 		/// local file system
 		/// </summary>
@@ -657,135 +566,342 @@ namespace Simias.RssClient
 		/// will update the feed contents to the specified local
 		/// directory.
 		/// </summary>
-		public void Subscribe( )
+		public void Subscribe()
 		{
+			if ( url == null || url == "" )
+			{
+				Console.WriteLine( "ERROR: missing command line argument \"--url\"" );
+				return;
+			}
+			
+			if ( localPath == null || localPath == "" )
+			{
+				Console.WriteLine( "ERROR: missing command line argument \"--path\"" );
+			}
+			
+			if ( this.feed == null || this.feed == "" )
+			{
+				Console.WriteLine( "ERROR: missing command line argument \"--feed\"" );
+			}
+			
 			// Check if there is already a subscription to
 			// this feed.
 			if ( ValidateFeedSubscription() == true )
 			{
-				Console.WriteLine( "Subscription exists" );
+				Console.WriteLine( "ERROR: subscription already exists" );
 				return;
 			}
+			
+			string slash = "/";
+			string fullUrl = 
+				url.TrimEnd( slash.ToCharArray() ) + 
+				"/simias10/rss.ashx?feed=" + 
+				HttpUtility.UrlEncode( this.feed );
+				
+			Novell.Collaboration.Feeds.Feed feed =
+				new Novell.Collaboration.Feeds.Feed( fullUrl, this.username, this.password );
 
+			feed.Load( 30, false );
 
-			Uri serviceUri = new Uri( url );
-			HttpWebResponse response = null;
-			CookieContainer cookieJar = new CookieContainer();
+			Console.WriteLine( "FEED" );
+			Console.WriteLine( "  Title: " + feed.Title );
+			Console.WriteLine( "  Owner: " + feed.Owner );
+			Console.WriteLine( "  Description: " + feed.Description );
+			Console.WriteLine( "  Link: " + feed.Link );
+			Console.WriteLine( "  Build Date: " + feed.LastBuildDate.ToString() );
+			Console.WriteLine( "  Publish Date: " + feed.PublishDate.ToString() );
+			Console.WriteLine( "  TTL: " + feed.Ttl.ToString() );
 
-			// Build a credential from the user name and password.
-			NetworkCredential credentials = null;
-			if ( username != null && password != null )
-			{
-				credentials = new NetworkCredential( username, password ); 
-			}
-
-			// Create the web request.
-			HttpWebRequest request = (HttpWebRequest)WebRequest.Create( serviceUri );
-			bool retry = true;
+			// Create the configuration file
+			CreateFeedConfiguration( 
+				Guid.NewGuid().ToString(), 
+				feed.Description, 
+				feed.Ttl.ToString(), 
+				feed.LastBuildDate );
+		}
 		
-			proxyRetry:
 
-			request.Credentials = credentials;
-			request.Timeout = 15 * 1000;
-			request.CookieContainer = cookieJar;
-			//request.Proxy = ProxyState.GetProxyState( request.RequestUri );
-
-			try
+		/// <summary>
+		/// List feeds the caller has subscribed to
+		/// 
+		/// </summary>
+		public void ListSubscribed( )
+		{
+			string feed;
+			string description;
+			string link;
+			string path;
+			
+			ArrayList feedFiles = this.GetLocalFeedFiles();
+			foreach( string file in feedFiles )
 			{
-				// Get the response from the web server.
-				response = request.GetResponse() as HttpWebResponse;
+				XmlDocument doc = new XmlDocument();
+				doc.Load( file );
+				
+				feed = description = link = path = null;
+				
+				XmlNode rootNode = doc.FirstChild;
 
-				// Mono has a bug where it doesn't set the cookies in the cookie jar.
-				cookieJar.Add( response.Cookies );
-			}
-			catch ( WebException we )
-			{
-				IsTrustFailure( serviceUri.Host, we );
-				if ( ( we.Status == WebExceptionStatus.Timeout ) ||
-					( we.Status == WebExceptionStatus.NameResolutionFailure ) )
+				// If there is an xml declaration attached to the document
+				// move past it
+				if ( rootNode.NodeType == XmlNodeType.XmlDeclaration )
 				{
-					throw we;	
+					rootNode = rootNode.NextSibling;
+					if ( rootNode == null )
+					{
+						throw new ApplicationException( "ERROR: not a valid Feed configuration file!" );
+					}
+				}
+
+				if ( rootNode.NodeType != XmlNodeType.Element )
+				{
+					throw new ApplicationException( "ERROR: not a valid Feed configuration file!" );
+				}
+		
+				if ( rootNode.Name.ToLower() != "feed" )
+				{
+					throw new ApplicationException( "ERROR: not a valid Feed configuration file!" );
+				}
+
+				//this.type = rootNode.Name;
+
+				string ttl = null;
+				string author = null;
+				string pubDate = null;
+				string buildDate = null;
+				
+				foreach( XmlAttribute attr in rootNode.Attributes )
+				{
+					if ( attr.Name.ToLower() == "name" )
+					{
+						feed = attr.Value;
+					}
+					
+					if ( attr.Name.ToLower() == "url" )
+					{
+						link = attr.Value;
+					}
+				}
+			
+				foreach( XmlNode node in rootNode.ChildNodes )
+				{
+					switch( node.Name.ToLower() )
+					{
+						case "description":
+						{
+							description = node.InnerText;
+							break;
+						}
+						
+						case "localpath":
+						{
+							path = node.InnerText;
+							break;
+						}
+					}
+				}
+				
+				if ( feed != null && link != null && description != null && path != null )
+				{
+					if ( verbose == false )
+					{
+						Console.Write( "\"" + feed + "\"" );
+						if ( description != null )
+						{
+							Console.Write( ",\"" + description + "\"" );
+						}
+					
+						if ( link != null )
+						{
+							Console.Write( ",\"" + link + "\"" );
+						}
+						
+						if ( path != null )
+						{
+							Console.WriteLine( ",\"" + path + "\"" );
+						}
+						
+						Console.WriteLine( "" );
+					}
+					else
+					{
+						Console.WriteLine( "Feed: " + feed );
+						if ( description != null )
+						{
+							Console.WriteLine( "Description: " + description );
+						}
+						
+						if ( link != null )
+						{
+							Console.WriteLine( "Link: " + link );
+						}
+						
+						if ( path != null )
+						{
+							Console.WriteLine( "Local Path: " + path );
+						}
+						/*
+						if ( ttl != null )
+						{
+							Console.WriteLine( "Refresh Time: " + ttl );
+						}
+						
+						if ( buildDate != null )
+						{
+							Console.WriteLine( "Build Date: " + buildDate );
+						}
+						
+						if ( pubDate != null )
+						{
+							Console.WriteLine( "Publish Date: " + pubDate );
+						}
+						*/
+					}
 				}
 				else
 				{
-					response = we.Response as HttpWebResponse;
-					if (response != null)
-					{
-						cookieJar.Add( response.Cookies );
-						if ( response.StatusCode == HttpStatusCode.Unauthorized && retry == true )
-						{
-							// This should be a free call we must be behind iChain.
-							request = (HttpWebRequest)WebRequest.Create( response.ResponseUri );
-							retry = false;
-							goto proxyRetry;
-						}
-					}
-					response = null;
+					Console.WriteLine( "ERROR: missing mandatory \"Feed\" element" );
 				}
 			}
+		}	
+		
+		/// <summary>
+		/// Perform a pull synchronization on all subscribed feeds
+		/// 
+		/// </summary>
+		public void Synchronize()
+		{
+			string feedName;
+			string description;
+			string link;
+			string path;
+			string username;
+			string password;
 			
-			// Make sure that there was an answer.
-			if ( response != null )
+			ArrayList feedFiles = this.GetLocalFeedFiles();
+			foreach( string file in feedFiles )
 			{
-				try
+				XmlDocument doc = new XmlDocument();
+				doc.Load( file );
+				
+				feedName = description = link = path = username = password = null;
+				
+				XmlNode rootNode = doc.FirstChild;
+
+				// If there is an xml declaration attached to the document
+				// move past it
+				if ( rootNode.NodeType == XmlNodeType.XmlDeclaration )
 				{
-					// Get the stream associated with the response.
-					Stream receiveStream = response.GetResponseStream();
-					
-					// Pipes the stream to a higher level stream reader with the required encoding format. 
-					StreamReader readStream = new StreamReader( receiveStream, Encoding.UTF8 );
-
-					//Console.WriteLine( readStream.ReadToEnd() );
-
-					try
+					rootNode = rootNode.NextSibling;
+					if ( rootNode == null )
 					{
-						XmlDocument document = new XmlDocument();
-						document.Load( readStream );
+						throw new ApplicationException( "ERROR: not a valid Feed configuration file!" );
+					}
+				}
 
-						XmlNode serviceNode = document.DocumentElement.SelectSingleNode( "/rss/channel/title" );
-						if ( serviceNode != null )
+				if ( rootNode.NodeType != XmlNodeType.Element )
+				{
+					throw new ApplicationException( "ERROR: not a valid Feed configuration file!" );
+				}
+		
+				if ( rootNode.Name.ToLower() != "feed" )
+				{
+					throw new ApplicationException( "ERROR: not a valid Feed configuration file!" );
+				}
+
+				//this.type = rootNode.Name;
+
+				string ttl = null;
+				string author = null;
+				string pubDate = null;
+				string buildDate = null;
+				
+				foreach( XmlAttribute attr in rootNode.Attributes )
+				{
+					switch( attr.Name.ToLower() )
+					{
+						case "name":
 						{
-							string description = null;
-							string link = null;
-							string ttl = null;
-
-							XmlNode tempNode;
-							tempNode = document.DocumentElement.SelectSingleNode( "/rss/channel/description" );
-							if ( tempNode != null )
-							{
-								description = tempNode.InnerText;
-							}
-
-							tempNode = document.DocumentElement.SelectSingleNode( "/rss/channel/ttl" );
-							if ( tempNode != null )
-							{
-								ttl = tempNode.InnerText;
-							}
-
-							tempNode = document.DocumentElement.SelectSingleNode( "/rss/channel/link" );
-							if ( tempNode != null )
-							{
-								link = tempNode.InnerText;
-							}
-
-							// Create the configuration file
-							if ( this.CreateFeedConfiguration( link, description, ttl ) == true )
-							{
-								this.ProcessFeed( document );
-							}
+							feedName = attr.Value;
+							break;
+						}
+						
+						case "url":
+						{
+							link = attr.Value;
+							break;
+						}
+						
+						case "user":
+						{
+							username = attr.Value;
+							break;
+						}
+						
+						case "pwd":
+						{
+							password = attr.Value;
+							break;
 						}
 					}
-					finally
+				}
+			
+				foreach( XmlNode node in rootNode.ChildNodes )
+				{
+					switch( node.Name.ToLower() )
 					{
-						readStream.Close();
+						case "description":
+						{
+							description = node.InnerText;
+							break;
+						}
+						
+						case "localpath":
+						{
+							path = node.InnerText;
+							break;
+						}
 					}
 				}
-				finally
+				
+				if ( feedName != null && link != null && description != null && path != null )
 				{
-					response.Close();
+					string url = link + 
+						"/simias10/rss.ashx?feed=" +
+						HttpUtility.UrlEncode( feedName ) +
+						"&strict=false&items=true&enclosures=true";
+						
+					Novell.Collaboration.Feeds.Feed feed =
+						new Novell.Collaboration.Feeds.Feed( url, username, password );
+
+					feed.Load( 30, true );
+
+					Item[] items = feed.GetItems();
+					if ( items.Length != 0 )
+					{
+						foreach( Item item in items )
+						{
+							if ( item.Enclosure != null )
+							{
+								Enclosure enclosure = item.Enclosure;
+								Console.WriteLine( "    ENCLOSURE" );
+								Console.WriteLine( "      Url: " + enclosure.Url );
+								Console.WriteLine( "      Type: " + enclosure.Type );
+								Console.WriteLine( "      Length: " + enclosure.Length.ToString() );
+					
+								string downloadPath =
+									path + Path.DirectorySeparatorChar.ToString() + feedName;
+								enclosure.Download( feed, downloadPath, item.Title, 30, true );
+							}
+						}
+					}	
 				}
-			}	
-		}
+				else
+				{
+					Console.WriteLine( "ERROR: missing mandatory \"Feed\" element" );
+				}
+			}
+		}	
 		
 		
 		/// <summary>
@@ -799,7 +915,7 @@ namespace Simias.RssClient
 		/// in a valid format.  If the target expects credentials
 		/// the username and password types must also be present.
 		/// </summary>
-		public void ListAvailable( )
+		public void ListAvailable()
 		{
 			// must have a url
 			if ( url == null || url == "" )
@@ -807,6 +923,7 @@ namespace Simias.RssClient
 				throw new ApplicationException( "Url was not present on the command line" );
 			}
 			
+			url += "/simias10/rss.ashx?strict=false";
 			Uri serviceUri = new Uri( url );
 			HttpWebResponse response = null;
 			CookieContainer cookieJar = new CookieContainer();
@@ -1079,6 +1196,21 @@ namespace Simias.RssClient
 			if ( feedSync.listAvailable == true )
 			{
 				feedSync.ListAvailable();
+			}
+			
+			if ( feedSync.listSubscribed == true )
+			{
+				feedSync.ListSubscribed();
+			}
+			
+			if ( feedSync.subscribe == true )
+			{	
+				feedSync.Subscribe();
+			}
+
+			if ( feedSync.synchronize == true )
+			{	
+				feedSync.Synchronize();
 			}
 			
 			/*

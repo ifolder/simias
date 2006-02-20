@@ -32,6 +32,17 @@ namespace Simias.RssFeed
 	{
 		public static string LastModified = "LastModified";
 
+		public static string[] DaysOfTheWeek =
+		{
+			"Sun",
+			"Mon",
+			"Tue",
+			"Wed",
+			"Thu",
+			"Fri",
+			"Sat"
+		};
+
 		public static string[] MonthsOfYear =
 		{
 			"Jan",
@@ -49,32 +60,40 @@ namespace Simias.RssFeed
 		
 		static public string GetRfc822Date( DateTime DT )
 		{
-			return
+			return String.Format( "{0:r}", DT );
+				/*
 				String.Format(
-					"{0}, {1} {2} {3} {4}:{5}:{6} GMT",
-					DT.DayOfWeek.ToString(),
+					"{0}, {1:00} {2} {3} {4:00}:{5:00}:{6:00} GMT",
+					Simias.RssFeed.Util.DaysOfTheWeek[ 0 ],
+					//DT.DayOfWeek.ToString(),
 					DT.Day,
 					Simias.RssFeed.Util.MonthsOfYear[ DT.Month - 1 ],
 					DT.Year.ToString(),
 					DT.Hour,
 					DT.Minute,
 					DT.Second );
+					*/
 		}
 		
 		static public void SendPublishDate( HttpContext Ctx, DateTime DT )
 		{
 			//	Ex. Sat, 07 Sep 2002 00:00:01 GMT
 			Ctx.Response.Write( "<pubDate>" );
+			Ctx.Response.Write(	String.Format( "{0:r}",DT ) );
+			
+			/*
 			Ctx.Response.Write( 
 				String.Format( 
-					"{0}, {1} {2} {3} {4}:{5}:{6} GMT",
-					DT.DayOfWeek.ToString(),
+					"{0}, {1:00} {2} {3} {4:00}:{5:00}:{6:00} GMT",
+					Simias.RssFeed.Util.DaysOfTheWeek[ 0 ],
+					//DT.DayOfWeek.ToString(),
 					DT.Day,
 					Simias.RssFeed.Util.MonthsOfYear[ DT.Month - 1 ],
 					DT.Year.ToString(),
 					DT.Hour,
 					DT.Minute,
 					DT.Second ) );
+			*/
 
 			Ctx.Response.Write( "</pubDate>" );
 		}

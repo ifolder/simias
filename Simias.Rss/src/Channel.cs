@@ -145,6 +145,15 @@ namespace Simias.RssFeed
 			}
 			catch{}
 			
+			ctx.Response.Write(
+				String.Format( 
+					"<link>{0}{1}:{2}{3}/rss.ashx?feed={4}</link>",
+					ctx.Request.IsSecureConnection ? "https://" : "http://",
+					ctx.Request.Url.Host,
+					ctx.Request.Url.Port.ToString(),
+					ctx.Request.ApplicationPath,
+					HttpUtility.UrlEncode( collection.Name ) ) );
+			
 			Simias.Storage.Property colProp = 
 				collection.Properties.GetSingleProperty( Simias.RssFeed.Util.LastModified );
 			DateTime latest = ( colProp != null ) ? (DateTime) colProp.Value : collection.CreationTime;
