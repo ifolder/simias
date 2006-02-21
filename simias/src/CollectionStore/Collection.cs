@@ -614,6 +614,13 @@ namespace Simias.Storage
 			}
 		}
 
+		/*void Invite( Member member, Subscription subscription)
+		{
+			SimiasConnection connection = SimiasConnection.GetConnection(subscription.DomainID, member, HostNode.GetLocalHost().UserID, SimiasConnection.AuthType.PPK);
+			connection.InitializeWebClient(
+			member.HomeServer;
+		}*/
+
 
 		/// <summary>
 		/// Changes a Node object into a Tombstone object.
