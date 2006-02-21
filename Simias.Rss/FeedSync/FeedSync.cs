@@ -549,7 +549,7 @@ namespace Simias.RssClient
 			{
 				foreach( XmlNode itemNode in doc.DocumentElement.SelectNodes( "//item" ) )
 				{
-					Console.WriteLine( "Processing item: " + itemNode.InnerText );
+					//Console.WriteLine( "Processing item: " + itemNode.InnerText );
 					foreach( XmlNode child in itemNode.ChildNodes )
 					{
 						Console.WriteLine( 
@@ -582,11 +582,6 @@ namespace Simias.RssClient
 				return;
 			}
 			
-			if ( localPath == null || localPath == "" )
-			{
-				Console.WriteLine( "ERROR: missing command line argument \"--path\"" );
-			}
-			
 			if ( this.feed == null || this.feed == "" )
 			{
 				Console.WriteLine( "ERROR: missing command line argument \"--feed\"" );
@@ -609,23 +604,40 @@ namespace Simias.RssClient
 			Novell.Collaboration.Feeds.Feed feed =
 				new Novell.Collaboration.Feeds.Feed( fullUrl, this.username, this.password );
 
-			feed.Load( 30, false );
+			if ( feed.Load( 30, false ) == false )
+			{
+				Console.WriteLine( "Failed loading with protected Url.  Trying public!" );
+				
+				string publicUrl = 
+					url.TrimEnd( slash.ToCharArray() ) + 
+					"/simias10/rssp.ashx?feed=" + 
+					HttpUtility.UrlEncode( this.feed );
+					
+				feed = new Novell.Collaboration.Feeds.Feed( publicUrl );
+				if ( feed.Load( 30, false ) == false )
+				{
+					feed = null;
+				}
+			}
 
-			Console.WriteLine( "FEED" );
-			Console.WriteLine( "  Title: " + feed.Title );
-			Console.WriteLine( "  Owner: " + feed.Owner );
-			Console.WriteLine( "  Description: " + feed.Description );
-			Console.WriteLine( "  Link: " + feed.Link );
-			Console.WriteLine( "  Build Date: " + feed.LastBuildDate.ToString() );
-			Console.WriteLine( "  Publish Date: " + feed.PublishDate.ToString() );
-			Console.WriteLine( "  TTL: " + feed.Ttl.ToString() );
+			if ( feed != null )
+			{
+				Console.WriteLine( "FEED" );
+				Console.WriteLine( "  Title: " + feed.Title );
+				Console.WriteLine( "  Owner: " + feed.Owner );
+				Console.WriteLine( "  Description: " + feed.Description );
+				Console.WriteLine( "  Link: " + feed.Link );
+				Console.WriteLine( "  Build Date: " + feed.LastBuildDate.ToString() );
+				Console.WriteLine( "  Publish Date: " + feed.PublishDate.ToString() );
+				Console.WriteLine( "  TTL: " + feed.Ttl.ToString() );
 
-			// Create the configuration file
-			CreateFeedConfiguration( 
-				Guid.NewGuid().ToString(), 
-				feed.Description, 
-				feed.Ttl.ToString(), 
-				feed.LastBuildDate );
+				// Create the configuration file
+				CreateFeedConfiguration( 
+					Guid.NewGuid().ToString(), 
+					feed.Description, 
+					feed.Ttl.ToString(), 
+					feed.LastBuildDate );
+			}
 		}
 		
 
@@ -925,8 +937,6 @@ namespace Simias.RssClient
 		/// </summary>
 		public void ListAvailable()
 		{
-			Console.WriteLine( "ListAvailable called" );
-			
 			// must have a url
 			if ( url == null || url == "" )
 			{
@@ -966,8 +976,6 @@ namespace Simias.RssClient
 		/// </summary>
 		public void ListPublished()
 		{
-			Console.WriteLine( "ListPublished called" );
-			
 			// must have a url
 			if ( url == null || url == "" )
 			{
@@ -977,9 +985,9 @@ namespace Simias.RssClient
 			string slash = "/";
 			string publishUrl =
 				String.Format( 
-					"{0}/simias10/rss.ashx?{1}",
+					"{0}/simias10/rssp.ashx?{1}",
 					url.TrimEnd( slash.ToCharArray() ),
-					"pub=true&items=false&strict=false" );
+					"&items=false&strict=false" );
 			
 			// Build a credential from the user name and password.
 			NetworkCredential credentials = null;
@@ -1003,7 +1011,6 @@ namespace Simias.RssClient
 		/// </summary>
 		private XmlDocument LoadDocument( string url, NetworkCredential Credentials )
 		{
-			Console.WriteLine( "LoadDocument called" );
 			XmlDocument doc = null;
 			
 			Uri serviceUri = new Uri( url );
@@ -1087,8 +1094,6 @@ namespace Simias.RssClient
 		
 		private void ProcessFeeds( XmlDocument Doc )
 		{
-			Console.WriteLine( "ProcessFeeds called" );
-			
 			// Check if this document is RSS
 			// For now that's all I'm going to understand and process
 
@@ -1142,7 +1147,6 @@ namespace Simias.RssClient
 						case "title":
 						{
 							feedName = node.InnerText;
-							Console.WriteLine( "processing: " + feedName );
 							break;
 						}
 
@@ -1210,6 +1214,7 @@ namespace Simias.RssClient
 					}
 					else
 					{
+						Console.WriteLine( "" );
 						Console.WriteLine( "Feed: " + feedName );
 						if ( description != null )
 						{
