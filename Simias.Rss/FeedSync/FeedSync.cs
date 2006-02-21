@@ -47,13 +47,15 @@ namespace Simias.RssClient
 		private string itemDirectory;
 		static private string FeedsDirectory = "simias-feeds";
 		static private string DefaultFeedDirectory = "My Feeds";
-		private bool listAvailable;
-		private bool listSubscribed;
+		private bool listAvailable = false;
+		private bool listSubscribed = false;
+		private bool listPublished = false;
 		private bool subscribe;
 		private bool unsubscribe;
 		private bool synchronize = false;
 		private bool help = false;
 		private bool verbose = false;
+		private int timeout = 60;
 		
 		#endregion
 
@@ -90,7 +92,7 @@ namespace Simias.RssClient
 			Console.WriteLine( "" );
 			Console.WriteLine( "A simple .NET command line utility for caching iFolder enclosures in the local file system" );
 			Console.WriteLine( "Useage: FeedSync command <command options> <options>" );
-			Console.WriteLine( "  FeedSync list <all|available|subscribed> --url <url for available> --username <user> --password <password>" );
+			Console.WriteLine( "  FeedSync list <all|available|subscribed|published> --url <url for available> --username <user> --password <password>" );
 			Console.WriteLine( "  FeedSync subscribe --url <path to feed> --feed <name of the feed/channel> --username <user credential>" );
 			Console.WriteLine( "                     --password <password credential> --path <local path where to mount/cache enclosures>" );
 			Console.WriteLine( "  FeedSync unsubscribe <feed name>" );
@@ -126,6 +128,12 @@ namespace Simias.RssClient
 								case "subscribed":
 								{
 									listSubscribed = true;
+									break;
+								}
+								
+								case "published":
+								{
+									listPublished = true;
 									break;
 								}
 								
@@ -917,23 +925,90 @@ namespace Simias.RssClient
 		/// </summary>
 		public void ListAvailable()
 		{
+			Console.WriteLine( "ListAvailable called" );
+			
 			// must have a url
 			if ( url == null || url == "" )
 			{
 				throw new ApplicationException( "Url was not present on the command line" );
 			}
 			
-			url += "/simias10/rss.ashx?strict=false";
-			Uri serviceUri = new Uri( url );
-			HttpWebResponse response = null;
-			CookieContainer cookieJar = new CookieContainer();
-
+			string slash = "/";
+			string availableUrl = url.TrimEnd( slash.ToCharArray() ) + "/simias10/rss.ashx?strict=false";
+			
 			// Build a credential from the user name and password.
 			NetworkCredential credentials = null;
 			if ( username != null && password != null )
 			{
 				credentials = new NetworkCredential( username, password ); 
 			}
+			
+			XmlDocument document = this.LoadDocument( availableUrl, credentials );
+			if ( document != null )
+			{
+				this.ProcessFeeds( document );
+				document = null;
+			}
+			
+			return;
+		}
+
+		/// <summary>
+		/// List published feeds at the specified url
+		/// 
+		/// Most url targets will only contain one feed but
+		/// in the case of an iFolder server, all iFolders the
+		/// the user owns or is a member of will be returned.
+		///
+		/// This method expects the private type url to exist
+		/// in a valid format.  If the target expects credentials
+		/// the username and password types must also be present.
+		/// </summary>
+		public void ListPublished()
+		{
+			Console.WriteLine( "ListPublished called" );
+			
+			// must have a url
+			if ( url == null || url == "" )
+			{
+				throw new ApplicationException( "Url was not present on the command line" );
+			}
+
+			string slash = "/";
+			string publishUrl =
+				String.Format( 
+					"{0}/simias10/rss.ashx?{1}",
+					url.TrimEnd( slash.ToCharArray() ),
+					"pub=true&items=false&strict=false" );
+			
+			// Build a credential from the user name and password.
+			NetworkCredential credentials = null;
+			if ( username != null && password != null )
+			{
+				credentials = new NetworkCredential( username, password ); 
+			}
+			
+			XmlDocument document = this.LoadDocument( publishUrl, credentials );
+			if ( document != null )
+			{
+				this.ProcessFeeds( document );
+				document = null;
+			}
+			
+			return;
+		}
+		
+		/// <summary>
+		/// Method to loadup an RSS Feed into an XML document
+		/// </summary>
+		private XmlDocument LoadDocument( string url, NetworkCredential Credentials )
+		{
+			Console.WriteLine( "LoadDocument called" );
+			XmlDocument doc = null;
+			
+			Uri serviceUri = new Uri( url );
+			HttpWebResponse response = null;
+			CookieContainer cookieJar = new CookieContainer();
 
 			// Create the web request.
 			HttpWebRequest request = (HttpWebRequest)WebRequest.Create( serviceUri );
@@ -941,8 +1016,8 @@ namespace Simias.RssClient
 		
 			proxyRetry:
 
-			request.Credentials = credentials;
-			request.Timeout = 60 * 1000;
+			request.Credentials = Credentials;
+			request.Timeout = timeout * 1000;
 			request.CookieContainer = cookieJar;
 			//request.Proxy = ProxyState.GetProxyState( request.RequestUri );
 
@@ -991,14 +1066,10 @@ namespace Simias.RssClient
 					// Pipes the stream to a higher level stream reader with the required encoding format. 
 					StreamReader readStream = new StreamReader( receiveStream, Encoding.UTF8 );
 
-					//Console.WriteLine( readStream.ReadToEnd() );
-
 					try
 					{
-						XmlDocument document = new XmlDocument();
-						document.Load( readStream );
-						Console.WriteLine( "loaded doc successfully" );
-						ProcessFeeds( document );
+						doc = new XmlDocument();
+						doc.Load( readStream );
 					}
 					finally
 					{
@@ -1010,10 +1081,14 @@ namespace Simias.RssClient
 					response.Close();
 				}
 			}	
+			
+			return doc;
 		}
 		
 		private void ProcessFeeds( XmlDocument Doc )
 		{
+			Console.WriteLine( "ProcessFeeds called" );
+			
 			// Check if this document is RSS
 			// For now that's all I'm going to understand and process
 
@@ -1183,8 +1258,15 @@ namespace Simias.RssClient
 		[STAThread]
 		static void Main(string[] args)
 		{
-		
 			FeedSync feedSync = new FeedSync();
+
+			// no args == show help		
+			if ( args.Length == 0 )
+			{
+				feedSync.ShowUseage();
+				return;
+			}
+
 			feedSync.ParseCommandLine( args );
 			
 			if ( feedSync.help == true )
@@ -1201,6 +1283,11 @@ namespace Simias.RssClient
 			if ( feedSync.listSubscribed == true )
 			{
 				feedSync.ListSubscribed();
+			}
+			
+			if ( feedSync.listPublished == true )
+			{
+				feedSync.ListPublished();
 			}
 			
 			if ( feedSync.subscribe == true )
