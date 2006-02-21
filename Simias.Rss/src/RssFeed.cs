@@ -189,18 +189,23 @@ namespace Simias.RssFeed
 							
 							if ( searchTerm == null )
 							{
+								bool foundOne = false;
 								log.Debug( "query==null - returning all published collections" );
-								ICSList list = domain.Search( "Published", true, SearchOp.Equal );
-								if ( list != null && list.Count > 0 )
+								Property searchProp = new Property( "Published", true );
+								//Property searchProp = new Property( "Published", Syntax.Boolean, "1" );
+								log.Debug( "searchprop: " + searchProp.Value.ToString() + " syntax: " + searchProp.Type.ToString() );
+								//ICSList list = domain.Search( searchProp, SearchOp.Equal );
+								ICSList list = store.GetNodesByProperty( searchProp, SearchOp.Equal );
+								foreach( ShallowNode sn in list )
 								{
-									bool foundOne = false;
-									foreach( ShallowNode sn in list )
+									if ( sn.IsBaseType( "Collection" ) )
 									{
-										log.Debug( "found: " + sn.Name );
-										if ( sn.IsBaseType( "Collection" ) )
+										Collection col = new Collection( store, sn );
+										if ( col.Domain == domain.ID )
 										{
+											log.Debug( "processing channel: " + sn.Name );
 											Simias.RssFeed.Channel channel = 
-												new Simias.RssFeed.Channel( context, store, sn );
+												new Simias.RssFeed.Channel( context, store, col );
 											channel.Enclosures = this.enclosures;
 											channel.Items = this.items;
 											channel.Strict = this.strict;
@@ -213,16 +218,17 @@ namespace Simias.RssFeed
 												response.Write( "<rss version=\"2.0\">" );
 												foundOne = true;
 											}
+											
 											channel.Send();
-										}		
-									}
-
-									if ( foundOne == true )
-									{
-										response.Write( "</rss>" );
-									}
-								}	
-							}
+										}
+									}		
+								}
+								
+								if ( foundOne == true )
+								{
+									response.Write( "</rss>" );
+								}
+							}	
 							else
 							{
 								log.Debug( "looking for collections that contain: " + searchTerm );
@@ -285,7 +291,8 @@ namespace Simias.RssFeed
 							Collection collection = store.GetSingleCollectionByName( specifiedFeed );
 							if ( collection != null )
 							{
-								if ( collection.IsAccessAllowed( member, Access.Rights.ReadOnly ) )
+								Member cMember = collection.GetMemberByID( member.UserID );
+								if ( cMember != null )
 								{
 									response.StatusCode = (int) HttpStatusCode.OK;
 									response.ContentType = "text/xml";
@@ -348,37 +355,34 @@ namespace Simias.RssFeed
 							ICSList ifolders = store.GetCollectionsByType( "iFolder" );
 							if ( ifolders.Count > 0 )
 							{
-								
 								log.Debug( "Number collections: " + ifolders.Count );
 								foreach( ShallowNode sn in ifolders )
 								{
 									log.Debug( "Type: " + sn.Type );
-									if ( sn.Name.ToLower().StartsWith( "pobox" ) == false )
+									Collection col = new Collection( store, sn );
+									Member cMember = col.GetMemberByID( member.UserID );
+									if ( cMember != null && col.Domain == domain.ID ) 
 									{
-										Collection col = new Collection( store, sn );
-										if ( col.IsAccessAllowed( member, Access.Rights.ReadOnly ) )
+										log.Debug( "RSSizing collection: " + sn.Name );
+										Simias.RssFeed.Channel channel = 
+											new Simias.RssFeed.Channel( context, store, sn );
+										channel.Items = false;
+										channel.Strict = this.strict;
+										channel.Enclosures = this.enclosures;
+											
+										if ( foundOne == false )
 										{
-											log.Debug( "RSSizing collection: " + sn.Name );
-											Simias.RssFeed.Channel channel = 
-												new Simias.RssFeed.Channel( context, store, sn );
-											channel.Items = false;
-											channel.Strict = this.strict;
-											channel.Enclosures = this.enclosures;
-											
-											if ( foundOne == false )
-											{
-												response.StatusCode = (int) HttpStatusCode.OK;
-												response.ContentType = "text/xml";
-												response.Write( "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>" );
-												response.Write( "<rss version=\"2.0\">" );
-												foundOne = true;
-											}
-											
-											channel.Send();
+											response.StatusCode = (int) HttpStatusCode.OK;
+											response.ContentType = "text/xml";
+											response.Write( "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>" );
+											response.Write( "<rss version=\"2.0\">" );
+											foundOne = true;
 										}
+											
+										channel.Send();
 									}
 								}
-								
+										
 								if ( foundOne == true )
 								{
 									response.Write( "</rss>" );

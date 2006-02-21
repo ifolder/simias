@@ -1,7 +1,7 @@
 # handle Mono secondary dependencies
 export MONO_PATH := $(MONO_PATH):$(DESTDIR)$(libdir)
 
-SimiasRss_CSFILES = $(srcdir)/AssemblyInfo.cs $(srcdir)/Channel.cs $(srcdir)/Item.cs $(srcdir)/RssFeed.cs $(srcdir)/RssHeaders.cs  $(srcdir)/Util.cs 
+SimiasRss_CSFILES = $(srcdir)/AssemblyInfo.cs $(srcdir)/Channel.cs $(srcdir)/Item.cs $(srcdir)/RssFeed.cs $(srcdir)/PublicFeedHandler.cs $(srcdir)/RssHeaders.cs  $(srcdir)/Util.cs 
 SimiasRss_CSFILES_CSC := $(subst /,$(SEP),$(SimiasRss_CSFILES))
 SimiasRss_INCLUDES =
 SimiasRss_RESOURCES =

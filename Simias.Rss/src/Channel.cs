@@ -42,6 +42,7 @@ namespace Simias.RssFeed
 		private bool items = true;
 		private bool enclosures = false;
 		private bool strict = true;
+		private bool publicAccess = false;
 		private ArrayList types;
 		private HttpContext ctx;
 		private Collection collection;
@@ -78,6 +79,15 @@ namespace Simias.RssFeed
 			ctx = Context;
 			store = CurrentStore;
 			collection = ThisCollection;
+			types = new ArrayList();
+		}
+		
+		public Channel( HttpContext Context, Store CurrentStore, Collection ThisCollection, bool Public )
+		{
+			ctx = Context;
+			store = CurrentStore;
+			collection = ThisCollection;
+			publicAccess = Public;
 			types = new ArrayList();
 		}
 
@@ -147,11 +157,12 @@ namespace Simias.RssFeed
 			
 			ctx.Response.Write(
 				String.Format( 
-					"<link>{0}{1}:{2}{3}/rss.ashx?feed={4}</link>",
+					"<link>{0}{1}:{2}{3}{4}?feed={5}</link>",
 					ctx.Request.IsSecureConnection ? "https://" : "http://",
 					ctx.Request.Url.Host,
 					ctx.Request.Url.Port.ToString(),
 					ctx.Request.ApplicationPath,
+					( publicAccess == true ) ? "/pubrss.ashx" : "/rss.ashx",
 					HttpUtility.UrlEncode( collection.Name ) ) );
 			
 			Simias.Storage.Property colProp = 
@@ -187,38 +198,6 @@ namespace Simias.RssFeed
 				}
 			}
 			
-			/*
-			foreach( ShallowNode sn in nodes )
-			{
-				if ( sn.Type == "FileNode" || sn.Type == "DirNode" )
-				{
-					log.Debug( "sn: " + sn.Name );
-					Item item = new Item( collection, sn );
-					chrono.Add( item );
-				}
-			}
-
-			if ( chrono.Count > 0 )
-			{
-				ItemSort itemSort = new ItemSort();
-				chrono.Sort( itemSort );
-
-				if ( latest > ( (Item)chrono[0]).Published )
-				{
-					Simias.RssFeed.Util.SendPublishDate( ctx, latest );
-				}
-				else
-				{
-					Simias.RssFeed.Util.SendPublishDate( ctx, ( (Item) chrono[0]).Published );
-					latest = ( (Item) chrono[0]).Published;
-				}
-			}
-			else
-			{
-				Simias.RssFeed.Util.SendPublishDate( ctx, latest );
-			}
-			*/
-
 			Simias.RssFeed.Util.SendPublishDate( ctx, latest );
 			
 			ctx.Response.Write( "<lastBuildDate>" );
@@ -261,7 +240,7 @@ namespace Simias.RssFeed
 						{
 							if ( sn.Type == "FileNode" )
 							{
-								item = new Item( collection, sn );
+								item = new Item( collection, sn, publicAccess );
 							}
 						}
 						else
@@ -270,7 +249,7 @@ namespace Simias.RssFeed
 							{
 								if ( ctype == sn.Type )
 								{
-									item = new Item( collection, sn );
+									item = new Item( collection, sn, publicAccess );
 									break;
 								}
 							}

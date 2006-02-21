@@ -59,6 +59,7 @@ namespace Simias.RssFeed
 		//private bool detailed = false;
 		private bool enclosures = false;
 		private bool strict = true;
+		private bool publicAccess = false;
 		private HttpContext ctx;
 		private Collection collection;
 		private Node node;
@@ -91,11 +92,21 @@ namespace Simias.RssFeed
 			collection = ParentCollection;
 			node = new Node( collection, SN );
 		}
-
+		
 		public Item( Collection ParentCollection, ShallowNode SN )
 		{
 			store = Store.GetStore();
 			collection = ParentCollection;
+			node = new Node( collection, SN );
+			published = (DateTime)
+				node.Properties.GetSingleProperty( Simias.RssFeed.Util.LastModified ).Value;
+		}
+
+		public Item( Collection ParentCollection, ShallowNode SN, bool Public )
+		{
+			store = Store.GetStore();
+			collection = ParentCollection;
+			publicAccess = Public;
 			node = new Node( collection, SN );
 			published = (DateTime)
 				node.Properties.GetSingleProperty( Simias.RssFeed.Util.LastModified ).Value;
@@ -156,24 +167,27 @@ namespace Simias.RssFeed
 						fileNode.ID,
 						HttpUtility.UrlEncode( "&name=" + fileNode.Name ) ) );
 				*/
+				
 				ctx.Response.Write(
 					String.Format( 
-					"<link>{0}{1}:{2}{3}/sfile.ashx?fid={4}</link>",
+					"<link>{0}{1}:{2}{3}{4}?fid={5}</link>",
 					ctx.Request.IsSecureConnection ? "https://" : "http://",
 					ctx.Request.Url.Host,
 					ctx.Request.Url.Port.ToString(),
 					ctx.Request.ApplicationPath,
+					( publicAccess == true ) ? "/pubsfile.ashx" : "/sfile.ashx",
 					fileNode.ID ) );
 
 				if ( enclosures == true )
 				{
 					ctx.Response.Write(
 						String.Format( 
-							"<enclosure url=\"{0}{1}:{2}{3}/sfile.ashx?fid={4}\" length=\"{5}\" type=\"{6}\"/>",
+							"<enclosure url=\"{0}{1}:{2}{3}{4}?fid={5}\" length=\"{6}\" type=\"{7}\"/>",
 							ctx.Request.IsSecureConnection ? "https://" : "http://",
 							ctx.Request.Url.Host,
 							ctx.Request.Url.Port.ToString(),
 							ctx.Request.ApplicationPath,
+							( publicAccess == true ) ? "/pubsfile.ashx" : "/sfile.ashx",
 							node.ID,
 							fileNode.Length,
 							Simias.HttpFile.Response.GetMimeType( fileNode.GetFileName() ) ) );
@@ -186,7 +200,6 @@ namespace Simias.RssFeed
 				ctx.Response.Write( "<description>" );
 				ctx.Response.Write( dirNode.GetRelativePath() );
 				ctx.Response.Write("</description>");
-				
 			}
 			
 			Domain domain = store.GetDomain( store.DefaultDomain );
