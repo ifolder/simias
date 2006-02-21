@@ -28,6 +28,7 @@ using System.Threading;
 using System.Web;
 using System.Web.Services;
 using System.Web.Services.Protocols;
+using System.Xml;
 
 using Simias;
 using Simias.Storage;
@@ -812,6 +813,30 @@ namespace Simias.POBoxService.Web
 			log.Debug( "DEBUG - Obsolete GetSubscriptionInfo called" );
 			return null;
 #endif
+		}
+
+		/// <summary>
+		/// Creates a subscription in the POBox of the ToUser in the Subscription.
+		/// </summary>
+		/// <param name="subscription"></param>
+		/// <returns></returns>
+		[WebMethod(EnableSession = true)]
+		[SoapDocumentMethod]
+		public POBoxStatus CreateSubscription(string subscription)
+		{
+			// Get the subscription Node.
+			XmlDocument xNode = new XmlDocument();
+			xNode.LoadXml(subscription);
+			Subscription sub = (Subscription)Node.NodeFactory(Store.GetStore(), xNode);
+
+			log.Debug("Creating Subscription for {0}", sub.ToName);
+			
+			// Now Set the subscription in the POBox of the recipient.
+			Domain domain = Store.GetStore().GetDomain(sub.DomainID);
+			Member member = domain.GetMemberByID(sub.ToMemberNodeID);
+			POBox.POBox pobox = POBox.POBox.GetPOBox(Store.GetStore(), sub.DomainID, sub.ToIdentity);
+			pobox.Commit(sub);
+			return POBoxStatus.Success;
 		}
 
 		/// <summary>
