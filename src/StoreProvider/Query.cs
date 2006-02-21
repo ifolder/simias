@@ -55,7 +55,9 @@ namespace Simias.Storage.Provider
 
 			if (type == Syntax.Boolean)
 			{
-				this.value = ( String.Compare(value, "true", true) == 0) ? "1" : "0";
+				this.value = 
+					( String.Compare(value, "true", true) == 0 || 
+					  String.Compare(value, "1", false) == 0) ? "1" : "0";
 			}
 			else
 			{
