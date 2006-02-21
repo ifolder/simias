@@ -349,6 +349,14 @@ namespace Simias.Security.Web
 				{
 					// See if it was specified as a query parameter.
 					soapMethod = context.Request.QueryString[ "op" ];
+
+					// If there is no operation query parameter, then use the entire query
+					// string as an index. This will allow the exception file to use
+					// something like Simias.asmx:?WSDL to allow WSDL download without credentials.
+					if ( soapMethod == null )
+					{
+						soapMethod = context.Request.Url.Query;
+					}
 				}
 
 				if ( ( soapMethod == null ) || 
