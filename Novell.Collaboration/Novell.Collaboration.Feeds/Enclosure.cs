@@ -134,6 +134,7 @@ namespace Novell.Collaboration.Feeds
 
 		private void DownloadChunk( Stream Writer, int Offset, long Length )
 		{
+			Console.WriteLine( "url: " + url );
 			Uri serviceUri = new Uri( url );
 			HttpWebResponse response = null;
 			CookieContainer cookieJar = new CookieContainer();
@@ -211,7 +212,6 @@ namespace Novell.Collaboration.Feeds
 								string filename = nameValues[1].TrimStart( qt.ToCharArray() );
 								filename = filename.TrimEnd( qt.ToCharArray() );
 								Console.Error.WriteLine( "filename: " + filename );
-
 							}
 						}
 					}
@@ -223,6 +223,8 @@ namespace Novell.Collaboration.Feeds
 				{
 					// Get the stream associated with the response.
 					Stream receiveStream = response.GetResponseStream();
+					
+					Console.WriteLine( "reading " + Length.ToString() + " bytes" );
 
 					byte[] buffer = null;
 					try
@@ -252,7 +254,6 @@ namespace Novell.Collaboration.Feeds
 					response.Close();
 				}
 			}	
-
 		}
 
 		private void LoadFromXmlNode( XmlNode Node)

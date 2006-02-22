@@ -333,8 +333,10 @@ namespace Novell.Collaboration.Feeds
 			return items.ToArray( typeof( Item ) ) as Item[];
 		}
 
-		public void Load( int Timeout, bool IncludeItems )
+		public bool Load( int Timeout, bool IncludeItems )
 		{
+			bool status = false;
+			
 			includeItems = IncludeItems;
 			Uri serviceUri = new Uri( url );
 			HttpWebResponse response = null;
@@ -407,6 +409,7 @@ namespace Novell.Collaboration.Feeds
 						XmlDocument document = new XmlDocument();
 						document.Load( readStream );
 						ProcessDocument( document );
+						status = true;
 					}
 					finally
 					{
@@ -417,7 +420,9 @@ namespace Novell.Collaboration.Feeds
 				{
 					response.Close();
 				}
-			}	
+			}
+			
+			return status;
 
 		}
 		#endregion
