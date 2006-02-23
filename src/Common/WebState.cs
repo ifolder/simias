@@ -367,6 +367,7 @@ namespace Simias
 		bool		needCredentials = false;
 		bool		authenticated = false;
 		string		baseUri;
+		string		key;
 		static Hashtable	connectionTable = new Hashtable();
 		
 		#region Constructor
@@ -389,7 +390,7 @@ namespace Simias
 			this.collectionID = domainID;
 			this.hostID = member.HomeServer.UserID;
 			this.authType = authType;
-			baseUri = DomainProvider.ResolvePOBoxLocation(domainID, hostID).ToString();
+			baseUri = DomainProvider.ResolvePOBoxLocation(domainID, member.UserID).ToString();
 			this.IntitalizeConnection();
 		}
 		
@@ -438,13 +439,15 @@ namespace Simias
 		public static SimiasConnection GetConnection(string domainID, Collection collection, string userID, AuthType authType)
 		{
 			SimiasConnection conn;
+			string key = collection.ID;
 			lock (connectionTable)
 			{
-				conn = (SimiasConnection)connectionTable[collection.HostID];
+				conn = (SimiasConnection)connectionTable[key];
 				if (conn == null)
 				{
 					conn = new SimiasConnection(domainID, userID, collection, authType);
-					connectionTable[collection.HostID] = conn;
+					conn.key = key;
+					connectionTable[key] = conn;
 				}
 			}
 			return conn;
@@ -473,13 +476,15 @@ namespace Simias
 		public static SimiasConnection GetConnection(string domainID, Member member, string userID, AuthType authType)
 		{
 			SimiasConnection conn;
+			string key = member.HomeServer.UserID;
 			lock (connectionTable)
 			{
-				conn = (SimiasConnection)connectionTable[member.HomeServer.UserID];
+				conn = (SimiasConnection)connectionTable[key];
 				if (conn == null)
 				{
 					conn = new SimiasConnection(domainID, userID, member, authType);
-					connectionTable[member.HomeServer.UserID] = conn;
+					conn.key = key;
+					connectionTable[key] = conn;
 				}
 			}
 			return conn;
@@ -489,7 +494,7 @@ namespace Simias
 		{
 			lock (connectionTable)
 			{
-				connectionTable.Remove(hostID);
+				connectionTable.Remove(key);
 				WebState.ResetWebState(domainID);
 			}
 		}
@@ -544,7 +549,7 @@ namespace Simias
 			bool bstatus = false;
 			if (authType == AuthType.PPK)
 			{
-				bstatus = Simias.Authentication.Http.AuthenticateWithPPK(domainID, userID);
+				bstatus = Simias.Authentication.Http.AuthenticateWithPPK(domainID, userID, baseUri);
 			}
 			else
 			{

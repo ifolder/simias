@@ -225,21 +225,26 @@ namespace Simias.Storage
 		{
 			get
 			{
+				// Make sure we check the member object in the domain.
 				HostNode host = null;
-				Property p = properties.FindSingleValue( PropertyTags.HostID );
+				Store store = Store.GetStore();
+				Domain domain = store.GetDomain(GetDomainID(store));
+				Member m = domain.GetMemberByID(UserID);
+				Property p = m.properties.FindSingleValue( PropertyTags.HostID );
 				if (p != null)
 				{
-					Store store = Store.GetStore();
-					Domain domain = store.GetDomain(store.DefaultDomain);
 					host = new HostNode(domain.GetMemberByID(p.ToString()));
 				}
 				return host;
 			}
 			set
 			{
+				Store store = Store.GetStore();
+				Domain domain = store.GetDomain(GetDomainID(store));
+				Member m = domain.GetMemberByID(UserID);
 				Property p = new Property( PropertyTags.HostID, value.UserID );
-				p.LocalProperty = true;
-				properties.ModifyNodeProperty( p );
+				m.properties.ModifyNodeProperty( p );
+				domain.Commit(m);
 			}
 		}
 
