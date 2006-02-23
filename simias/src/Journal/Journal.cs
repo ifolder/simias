@@ -395,6 +395,12 @@ namespace Simias.Storage
 					collection.Properties.AddNodeProperty( PropertyTags.Journal, new Relationship( collection.ID, journalNode.ID ) );
 					collectionModified = true;
 				}
+
+				// Update the journal modified time on the collection.
+				Property property = new Property( PropertyTags.JournalModified, args.TimeStamp );
+				property.LocalProperty = true;
+				collection.Properties.ModifyNodeProperty( property );
+				collection.Commit( collection );
 			}
 		}
 

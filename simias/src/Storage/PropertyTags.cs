@@ -146,6 +146,11 @@ namespace Simias.Storage
 		/// <summary>
 		/// Well known property name.
 		/// </summary>
+		static public string JournalModified = "JournalModified";
+
+		/// <summary>
+		/// Well known property name.
+		/// </summary>
 		static public string LastLoginTime = "LastLogin";
 
 		/// <summary>

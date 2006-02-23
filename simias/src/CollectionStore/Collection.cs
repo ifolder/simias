@@ -717,7 +717,8 @@ namespace Simias.Storage
 		/// this node has been committed to disk.
 		/// </summary>
 		/// <param name="node">Node object that contains the local incarnation value.</param>
-		private void IncrementLocalIncarnation( Node node )
+		/// <param name="commitTime">The time of the commit operation.</param>
+		private void IncrementLocalIncarnation( Node node, DateTime commitTime )
 		{
 			ulong incarnationValue;
 
@@ -787,7 +788,7 @@ namespace Simias.Storage
 			}
 
 			// Update the last modified time.
-			Property property = new Property( PropertyTags.LastModified, DateTime.Now );
+			Property property = new Property( PropertyTags.LastModified, commitTime );
 			property.LocalProperty = true;
 			node.Properties.ModifyNodeProperty( property );
 
@@ -903,7 +904,7 @@ namespace Simias.Storage
 							ValidateNodeForCommit( node );
 
 							// Increment the local incarnation number for the object.
-							IncrementLocalIncarnation( node );
+							IncrementLocalIncarnation( node, commitTime );
 
 							// Set the update time of the node.
 							node.UpdateTime = commitTime;
@@ -969,7 +970,7 @@ namespace Simias.Storage
 									ValidateNodeForCommit( node );
 
 									// Increment the local incarnation number for the object.
-									IncrementLocalIncarnation( node );
+									IncrementLocalIncarnation( node, commitTime );
 
 									// Add a node update property.
 									node.UpdateTime = commitTime;
@@ -1010,7 +1011,7 @@ namespace Simias.Storage
 									if ( !onlyLocalChanges )
 									{
 										// Increment the local incarnation number for the object.
-										IncrementLocalIncarnation( mergeNode );
+										IncrementLocalIncarnation( mergeNode, commitTime );
 
 										// Set the node update time.
 										mergeNode.UpdateTime = commitTime;
@@ -1047,7 +1048,7 @@ namespace Simias.Storage
 							SetLocalProperties( node );
 
 							// Increment the local incarnation number for the object.
-							IncrementLocalIncarnation( node );
+							IncrementLocalIncarnation( node, commitTime );
 
 							// Copy the XML node over to the modify document.
 							XmlNode xmlNode = commitDocument.ImportNode( node.Properties.PropertyRoot, true );
@@ -1107,7 +1108,7 @@ namespace Simias.Storage
 							ValidateNodeForCommit( node );
 
 							// Increment the local incarnation number for the object.
-							IncrementLocalIncarnation( node );
+							IncrementLocalIncarnation( node, commitTime );
 
 							// Copy the XML node over to the modify document.
 							XmlNode xmlNode = commitDocument.ImportNode( node.Properties.PropertyRoot, true );
