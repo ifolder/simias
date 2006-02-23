@@ -828,12 +828,13 @@ namespace Simias.POBoxService.Web
 			XmlDocument xNode = new XmlDocument();
 			xNode.LoadXml(subscription);
 			Subscription sub = (Subscription)Node.NodeFactory(Store.GetStore(), xNode);
-			sub.Properties.State = PropertyList.PropertyListState.Add;
+			//sub.Properties.State = PropertyList.PropertyListState.Add;
 			
 			log.Debug("Creating Subscription for {0}", sub.ToName);
 			
 			// Now Set the subscription in the POBox of the recipient.
 			POBox.POBox pobox = POBox.POBox.GetPOBox(Store.GetStore(), sub.DomainID, sub.ToIdentity);
+			pobox.ImportNode(sub, true, 1);
 			pobox.Commit(sub);
 			log.Debug("Subscription create end");
 			return POBoxStatus.Success;
