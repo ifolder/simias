@@ -468,7 +468,7 @@ namespace Simias.Authentication
 		/// <param name="domainId"></param>
 		/// <param name="memberId"></param>
 		/// <returns></returns>
-		public static bool AuthenticateWithPPK(string domainId, string memberId)
+		public static bool AuthenticateWithPPK(string domainId, string memberId, string baseUrl)
 		{
 			try
 			{
@@ -477,7 +477,7 @@ namespace Simias.Authentication
 				Member member = domain.GetMemberByID(memberId);
 				WebState webState = new WebState(domainId);
 				// Get the challenge and sign it with the Private Key to use as a one time password.
-				string url = domain.MasterUrl.ToString().TrimEnd('/') + "/Login.ashx?" + NonceKey + "=Get";
+				string url = baseUrl + "Login.ashx?" + NonceKey + "=Get";
 				HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
 				webState.InitializeWebRequest(request, domain.ID);
 				request.ContentType = "application/octet-stream";
@@ -501,7 +501,7 @@ namespace Simias.Authentication
 					byte[] bChallenge = Nonce.GetBytes(nonce);
 					byte[] signed = store.CurrentUser.GetDomainCredential(domain.ID).SignData(bChallenge, new SHA1CryptoServiceProvider());
 					// Now authenticate using signed data
-					url = domain.MasterUrl.ToString().TrimEnd('/') + "/Login.ashx?" + PpkAuthKey + "=" + member.UserID;
+					url = baseUrl + "Login.ashx?" + PpkAuthKey + "=" + member.UserID;
 					request = (HttpWebRequest)WebRequest.Create(url);
 					webState.InitializeWebRequest(request, domain.ID);
 					request.ContentType = "application/octet-stream";

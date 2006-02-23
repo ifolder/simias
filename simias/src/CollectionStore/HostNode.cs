@@ -82,6 +82,9 @@ namespace Simias.Storage
 			}
 		}
 
+		/// <summary>
+		/// Gets/Sets if HostNode is the Master Host.
+		/// </summary>
 		public bool IsMasterHost
 		{
 			get
@@ -99,6 +102,9 @@ namespace Simias.Storage
 			}
 		}
 
+		/// <summary>
+		/// Gets/Sets If HostNode is the local host.
+		/// </summary>
 		public bool IsLocalHost
 		{
 			get
