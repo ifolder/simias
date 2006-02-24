@@ -251,6 +251,11 @@ namespace Simias.Storage
 		/// <summary>
 		/// Well known property name.
 		/// </summary>
+		static public string Published = "Published";
+
+		/// <summary>
+		/// Well known property name.
+		/// </summary>
 		static public string Root = "Root";
 
 		/// <summary>
