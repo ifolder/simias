@@ -891,6 +891,8 @@ namespace Simias.Storage
 			// Process the storage size for the list.
 			SetStorageSize( nodeList );
 			string modifier = GetCurrentPrincipal();
+			bool nodeUpdated = false;
+			bool collectionUpdated = false;
 
 			foreach ( Node node in nodeList )
 			{
@@ -900,6 +902,8 @@ namespace Simias.Storage
 					{
 						case PropertyList.PropertyListState.Add:
 						{
+							nodeUpdated = true;
+
 							// Validate this Collection object.
 							ValidateNodeForCommit( node );
 
@@ -915,6 +919,8 @@ namespace Simias.Storage
 							// Check so that sync roles can be set on the collection.
 							if ( node.IsType( NodeTypes.CollectionType ) )
 							{
+								collectionUpdated = true;
+
 								// Check if there is a role already set on the collection.
 								if ( !node.Properties.HasProperty( PropertyTags.SyncRole ) )
 								{
@@ -947,6 +953,8 @@ namespace Simias.Storage
 							}
 							else
 							{
+								nodeUpdated = true;
+
 								// If this is a StoreFileNode object, delete the store managed file.
 								if ( node.IsBaseType( NodeTypes.StoreFileNodeType ) )
 								{
@@ -1010,6 +1018,10 @@ namespace Simias.Storage
 									// been made.
 									if ( !onlyLocalChanges )
 									{
+										nodeUpdated = true;
+										if ( node.IsType( NodeTypes.CollectionType ) )
+											collectionUpdated = true;
+
 										// Increment the local incarnation number for the object.
 										IncrementLocalIncarnation( mergeNode, commitTime );
 
@@ -1041,6 +1053,10 @@ namespace Simias.Storage
 
 						case PropertyList.PropertyListState.Import:
 						{
+							nodeUpdated = true;
+							if ( node.IsType( NodeTypes.CollectionType ) )
+								collectionUpdated = true;
+
 							// Validate this Collection object.
 							ValidateNodeForCommit( node );
 
@@ -1104,6 +1120,10 @@ namespace Simias.Storage
 
 						case PropertyList.PropertyListState.Restore:
 						{
+							nodeUpdated = true;
+							if ( node.IsType( NodeTypes.CollectionType ) )
+								collectionUpdated = true;
+
 							// Validate this Collection object.
 							ValidateNodeForCommit( node );
 
@@ -1151,8 +1171,28 @@ namespace Simias.Storage
 			}
 			else
 			{
+				// Update LastModified on the collection whenever a node change occurs in the
+				// collection ... this is for supporting RSS.
+				if ( nodeUpdated && !collectionUpdated )
+				{
+					// Update the last modified time.
+					Property property = new Property( PropertyTags.LastModified, commitTime );
+					property.LocalProperty = true;
+					properties.ModifyNodeProperty( property );
+
+					// Copy the XML node over to the modify document.
+					XmlNode xmlNode = commitDocument.ImportNode( properties.PropertyRoot, true );
+					commitDocument.DocumentElement.AppendChild( xmlNode );
+				}
+
 				// Call the store provider to update the records.
 				store.StorageProvider.CommitRecords( id, commitDocument, deleteDocument );
+
+				if ( nodeUpdated && !collectionUpdated )
+				{
+					// Update the cache.
+					store.Cache.Add( this, this );
+				}
 			}
 			
 			// Walk the commit list and change all states to updated.
