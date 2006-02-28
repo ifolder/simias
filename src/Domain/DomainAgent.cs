@@ -83,7 +83,7 @@ namespace Simias.DomainServices
 		#endregion
 
 		#region Private Methods
-		private void CreateDomainProxy(Store store, string userID, DomainInfo info, Uri hostAddress)
+		private void CreateDomainProxy(Store store, string userID, DomainInfo info, Uri hostAddress, string hostID)
 		{
 			// Make sure the domain doesn't exist.
 			if (store.GetCollectionByID(info.ID) == null)
@@ -104,6 +104,8 @@ namespace Simias.DomainServices
 				p.LocalProperty = true;
 				domain.Properties.AddNodeProperty( p );
 
+				domain.HostID = hostID;
+
 				// Create domain member.
 				Access.Rights rights = ( Access.Rights )Enum.Parse( typeof( Access.Rights ), info.MemberRights );
 				Member member = new Member( info.MemberNodeName, info.MemberNodeID, userID, rights, null );
@@ -115,7 +117,7 @@ namespace Simias.DomainServices
 			}
 		}
 
-		private void CreatePOBoxProxy(Store store, string domainID, ProvisionInfo info)
+		private void CreatePOBoxProxy(Store store, string domainID, ProvisionInfo info, string hostID)
 		{
 			if (store.GetCollectionByID(info.POBoxID) == null)
 			{
@@ -131,6 +133,8 @@ namespace Simias.DomainServices
 				Member member = new Member( info.MemberNodeName, info.MemberNodeID, info.UserID, rights, null );
 				member.Proxy = true;
 				member.IsOwner = true;
+
+				poBox.HostID = hostID;
 			
 				// commit
 				poBox.Commit( new Node[] { poBox, member } );
@@ -456,11 +460,13 @@ namespace Simias.DomainServices
 			}
 
 			// Get the Home Server.
+			string hostID = null;
 			try
 			{
 				HostInfo hInfo = domainService.GetHomeServer(user);
 				domainServiceUrl = new Uri(hInfo.PublicAddress.TrimEnd( new char[] {'/'} ) + DomainService);
 				domainService.Url = domainServiceUrl.ToString();
+				hostID = hInfo.ID;
 			
 				// Now login to the homeserver.
 				status = 
@@ -509,10 +515,10 @@ namespace Simias.DomainServices
 			DomainInfo domainInfo = domainService.GetDomainInfo(provisionInfo.UserID);
 
 			// Create domain proxy
-			CreateDomainProxy(store, provisionInfo.UserID, domainInfo, hostUri);
+			CreateDomainProxy(store, provisionInfo.UserID, domainInfo, hostUri, hostID);
 
 			// Create PO Box proxy
-			CreatePOBoxProxy(store, domainInfo.ID, provisionInfo);
+			CreatePOBoxProxy(store, domainInfo.ID, provisionInfo, hostID);
 
 			// create domain identity mapping.
 			store.AddDomainIdentity(domainInfo.ID, provisionInfo.UserID);

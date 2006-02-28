@@ -335,14 +335,17 @@ namespace Simias.Storage
 		{
 			get
 			{
-				HostNode host = null;
 				string hostID = HostID;
 				if (hostID != null)
 				{
 					Domain domain = Store.GetStore().GetDomain(Domain);
-					host = new HostNode(domain.GetMemberByID(hostID));
+					Member hMember = domain.GetMemberByID(hostID);
+					if (hMember != null)
+					{
+						return new HostNode(hMember);
+					}
 				}
-                return host;
+                return null;
 			}
 			set
 			{
@@ -573,7 +576,7 @@ namespace Simias.Storage
 						subscription.SubscriptionKey = Guid.NewGuid().ToString();
 						subscription.MessageType = "Outbound";
 						subscription.SetSubscriptionTypes( collection );
-						subscription.HostID = collection.HostID;
+						subscription.HostID = HostNode.GetLocalHost().UserID;
 
 						DirNode dirNode = GetRootDirectory();
 						if( dirNode != null )
@@ -596,9 +599,7 @@ namespace Simias.Storage
 
 						// Add the subscription to the new member's POBox.
 						// Find or create the POBox for the user for this domain.
-						POBox.POBox poBox = POBox.POBox.GetPOBox( store, collection.Domain, member.UserID );
-						poBox.Commit( subscription );
-						log.Debug( "AddSubscription - Successfully invited user {0} to collection {1}.", member.Name, Name );
+						Invite(member, subscription);
 					}
 					else
 					{
@@ -614,12 +615,33 @@ namespace Simias.Storage
 			}
 		}
 
-		/*void Invite( Member member, Subscription subscription)
+		void Invite( Member member, Subscription subscription)
 		{
-			SimiasConnection connection = SimiasConnection.GetConnection(subscription.DomainID, member, HostNode.GetLocalHost().UserID, SimiasConnection.AuthType.PPK);
-			connection.InitializeWebClient(
-			member.HomeServer;
-		}*/
+			try 
+			{
+				HostNode localHost = HostNode.GetLocalHost();
+				HostNode homeHost = member.HomeServer;
+				if (localHost.ID != homeHost.ID)
+				{
+					SimiasConnection connection = SimiasConnection.GetConnection(subscription.DomainID, member, localHost.UserID, SimiasConnection.AuthType.PPK);
+					connection.Authenticate();
+					POBoxService pos = new POBoxService();
+					connection.InitializeWebClient(pos, "POService.asmx");
+					pos.CreateSubscription(subscription.Properties.ToString(false));
+				}
+				else
+				{
+					// We are on a client just save the subscription.
+					POBox.POBox poBox = POBox.POBox.GetPOBox( store, subscription.DomainID, member.UserID );
+					poBox.Commit( subscription );
+					log.Debug( "AddSubscription - Successfully invited user {0} to collection {1}.", member.Name, subscription.Name );
+				}
+			}
+			catch (Exception ex)
+			{
+				log.Error(ex.Message);
+			}
+		}
 
 
 		/// <summary>

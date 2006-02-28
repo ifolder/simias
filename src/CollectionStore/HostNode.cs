@@ -271,6 +271,10 @@ namespace Simias.Storage
 				ShallowNode sn = (ShallowNode)list.Current;
 				return new HostNode(domain.GetNodeByID(sn.ID));
 			}
+			else if (!Store.IsEnterpriseServer)
+			{
+				return domain.Host;
+			}
 			return null;
 		}
 	}
