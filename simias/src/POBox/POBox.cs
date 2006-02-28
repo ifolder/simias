@@ -36,6 +36,7 @@ namespace Simias.POBox
 	public class POBox : Collection
 	{
 		#region Class Members
+		private static readonly ISimiasLog log = SimiasLogManager.GetLogger(typeof(POBox));
 
 		/// <summary>
 		/// The name of the property storing the DirNode name.
@@ -136,6 +137,19 @@ namespace Simias.POBox
 		#endregion
 
 		#region Private Methods
+
+		/// <summary>
+		/// Deserialize the serialized Subscription Node.
+		/// </summary>
+		/// <param name="subscription">The XML node.</param>
+		/// <returns>The Subscription</returns>
+		static private Subscription DeserializeSubscription(string subscription)
+		{
+			// Get the subscription Node.
+			XmlDocument xNode = new XmlDocument();
+			xNode.LoadXml(subscription);
+			return (Subscription)Node.NodeFactory(Store.GetStore(), xNode);
+		}
 		
 		#endregion
 
@@ -338,11 +352,175 @@ namespace Simias.POBox
 			subscription.SubscriptionCollectionType = type;
 			subscription.SubscriptionKey = Guid.NewGuid().ToString();
 			subscription.Originator = collection.StoreReference.LocalDomain;
+			subscription.HostID = collection.HostID;
 
 			// TODO: clean this up
 			subscription.HasDirNode = (collection != null) ? (collection.GetRootDirectory() != null) : false;
 
 			return subscription;
+		}
+
+		/// <summary>
+		/// Creates a subscription in the POBox of the ToUser in the Subscription.
+		/// </summary>
+		/// <param name="subscription"></param>
+		/// <returns></returns>
+		public static POBoxStatus SaveSubscription(string subscription)
+		{
+			// Get the subscription Node.
+			Subscription sub = DeserializeSubscription(subscription);
+			
+			log.Debug("Creating Subscription for {0}", sub.ToName);
+			
+			// Now Set the subscription in the POBox of the recipient.
+			POBox pobox = POBox.GetPOBox(Store.GetStore(), sub.DomainID, sub.ToIdentity);
+			pobox.ImportNode(sub, true, 1);
+			pobox.Commit(sub);
+			log.Debug("Subscription create end");
+			return POBoxStatus.Success;
+		}
+
+		/// <summary>
+		/// Removes the collection from the server if the current user is the owner. Otherwise the
+		/// current user's membership is removed from the collection.
+		/// </summary>
+		/// <param name="subscription">Subscription to the collection.</param>
+		public static void RemoveCollectionBySubscription( string subscription )
+		{
+			Store store = Store.GetStore();
+			Subscription sub = DeserializeSubscription(subscription);
+#if ( !REMOVE_OLD_INVITATION )
+			Domain domain = store.GetDomain( sub.DomainID );
+			if ( ( domain != null ) && ( domain.SupportsNewInvitation == true ) )
+			{
+#endif
+				// Get the collection that this subscription represents.
+				Collection collection = store.GetCollectionByID( sub.SubscriptionCollectionID );
+				if ( collection != null )
+				{
+					// See if the invitee is the owner of this collection.
+					if ( collection.Owner.UserID == sub.ToIdentity )
+					{
+						log.Debug( "RemoveCollectionBySubscription - Invitee {0} is owner.", sub.ToIdentity );
+						log.Debug( "RemoveCollectionBySubscription - Removing collection {0}.", collection.ID );
+
+						// The current principal is the owner of the collection. Delete the entire collection.
+						collection.Commit( collection.Delete() );
+					}
+					else
+					{
+						log.Debug( "RemoveCollectionBySubscription - Invitee {0} is not owner.", sub.ToIdentity );
+
+						// The invitee is only a member of the collection. Remove the membership.
+						Member member = collection.GetMemberByID( sub.ToIdentity );
+						if ( member != null )
+						{
+							// No need to process further invitation events. The subscription for this member
+							// has already been removed.
+							member.CascadeEvents = false;
+
+							// Remove the member from the collection.
+							collection.Commit( collection.Delete( member ) );
+							log.Debug( "RemoveCollectionBySubscription - Removing membership for {0} from collection {1}.", member.UserID, collection.ID );
+						}
+						else
+						{
+							log.Debug( "RemoveCollectionBySubscription - Cannot find member {0} in collection {1}.", sub.ToIdentity, collection.ID );
+						}
+					}
+				}
+				else
+				{
+					log.Debug( "RemoveCollectionBySubscription - Subscription for collection {0} was declined.", sub.SubscriptionCollectionID );
+				}
+#if ( !REMOVE_OLD_INVITATION )
+			}
+#endif
+		}
+
+		/// <summary>
+		/// Removes all subscriptions associated with this collection.
+		/// </summary>
+		public static void RemoveSubscriptionsForCollection(string domainID, string collectionID)
+		{
+			Store store = Store.GetStore();
+#if ( !REMOVE_OLD_INVITATION )
+			Domain domain = store.GetDomain( domainID );
+			if ( ( domain != null ) && ( domain.SupportsNewInvitation == true ) )
+			{
+#endif
+				ICSList subList = store.GetNodesByProperty( new Property( Subscription.SubscriptionCollectionIDProperty, collectionID ), SearchOp.Equal );
+				if ( subList.Count > 0 )
+				{
+					foreach( ShallowNode sn in subList )
+					{
+						// The collection for the subscription nodes will be the POBox.
+						Collection collection = store.GetCollectionByID( sn.CollectionID );
+						if ( collection != null )
+						{
+							// No need to process further invitation events. The collection associated with
+							// this subscription has already been removed.
+							Subscription subscription = new Subscription( collection, sn );
+							subscription.CascadeEvents = false;
+							collection.Commit( collection.Delete( subscription ) );
+							log.Debug( "RemoveSubscriptionsForCollection - Removed subscription {0} for collection {1}.", sn.ID, sn.CollectionID );
+						}
+						else
+						{
+							log.Debug( "RemoveSubscriptionsForCollection - Cannot find POBox {0}.", sn.CollectionID );
+						}
+					}
+				}
+				else
+				{
+					log.Debug( "RemoveSubscriptionsForCollection - No subscriptions found for collection {0}.", collectionID );
+				}
+#if ( !REMOVE_OLD_INVITATION )
+			}
+#endif
+		}
+
+		/// <summary>
+		/// Removes the subscription for this collection from the specified member.
+		/// </summary>
+		/// <param name="member">Member to remove subscription from.</param>
+		public static void RemoveSubscriptionByMember( string domainID, string collectionID, string userID )
+		{
+			Store store = Store.GetStore();
+#if ( !REMOVE_OLD_INVITATION )
+			Domain domain = store.GetDomain( domainID );
+			if ( ( domain != null ) && ( domain.SupportsNewInvitation == true ) )
+			{
+#endif
+				// Get the member's POBox.
+				POBox poBox = POBox.FindPOBox( store, domainID, userID );
+				if ( poBox != null )
+				{
+					ICSList subList = poBox.Search( Subscription.SubscriptionCollectionIDProperty, collectionID, SearchOp.Equal );
+					if ( subList.Count > 0 )
+					{
+						foreach( ShallowNode sn in subList )
+						{
+							// No need to process further invitation events. The collection cannot be deleted
+							// by removing its members, because the owner of the collection can never be deleted.
+							Subscription subscription = new Subscription( poBox, sn );
+							subscription.CascadeEvents = false;
+							poBox.Commit( poBox.Delete( subscription ) );
+							log.Debug( "RemoveSubscriptionByMember - Removed subscription {0} from member {1}.", sn.ID, userID );
+						}
+					}
+					else
+					{
+						log.Debug( "RemoveSubscriptionByMember - No subscriptions found for member {0}.", userID );
+					}
+				}
+				else
+				{
+					log.Debug( "RemoveSubscriptionByMember - Cannot find POBox for member {0}.", userID );
+				}
+#if ( !REMOVE_OLD_INVITATION )
+			}
+#endif
 		}
 
 		#endregion

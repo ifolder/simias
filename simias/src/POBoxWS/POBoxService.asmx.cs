@@ -822,14 +822,13 @@ namespace Simias.POBoxService.Web
 		/// <returns></returns>
 		[WebMethod(EnableSession = true)]
 		[SoapDocumentMethod]
-		public POBoxStatus CreateSubscription(string subscription)
+		public POBoxStatus SaveSubscription(string subscription)
 		{
 			// Get the subscription Node.
 			XmlDocument xNode = new XmlDocument();
 			xNode.LoadXml(subscription);
 			Subscription sub = (Subscription)Node.NodeFactory(Store.GetStore(), xNode);
-			//sub.Properties.State = PropertyList.PropertyListState.Add;
-			
+		
 			log.Debug("Creating Subscription for {0}", sub.ToName);
 			
 			// Now Set the subscription in the POBox of the recipient.
@@ -839,6 +838,40 @@ namespace Simias.POBoxService.Web
 			log.Debug("Subscription create end");
 			return POBoxStatus.Success;
 		}
+
+		/// <summary>
+		/// Removes the collection from the server if the current user is the owner. Otherwise the
+		/// current user's membership is removed from the collection.
+		/// </summary>
+		/// <param name="subscription">Subscription to the collection.</param>
+		[WebMethod(EnableSession = true)]
+		[SoapDocumentMethod]
+		public void RemoveCollectionBySubscription( string subscription )
+		{
+			POBox.POBox.RemoveCollectionBySubscription(subscription);
+		}
+
+		/// <summary>
+		/// Removes all subscriptions associated with this collection.
+		/// </summary>
+		[WebMethod(EnableSession = true)]
+		[SoapDocumentMethod]
+		public void RemoveSubscriptionsForCollection(string domainID, string collectionID)
+		{
+			POBox.POBox.RemoveSubscriptionsForCollection(domainID, collectionID);
+		}
+
+		/// <summary>
+		/// Removes the subscription for this collection from the specified member.
+		/// </summary>
+		/// <param name="member">Member to remove subscription from.</param>
+		[WebMethod(EnableSession = true)]
+		[SoapDocumentMethod]
+		public void RemoveSubscriptionByMember( string domainID, string collectionID, string userID)
+		{
+			POBox.POBox.RemoveSubscriptionByMember(domainID, collectionID, userID);
+		}
+
 
 		/// <summary>
 		/// Invite a user to a shared collection
