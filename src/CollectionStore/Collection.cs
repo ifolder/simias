@@ -627,7 +627,7 @@ namespace Simias.Storage
 					connection.Authenticate();
 					POBoxService pos = new POBoxService();
 					connection.InitializeWebClient(pos, "POService.asmx");
-					pos.CreateSubscription(subscription.Properties.ToString(false));
+					pos.SaveSubscription(subscription.Properties.ToString(false));
 				}
 				else
 				{
