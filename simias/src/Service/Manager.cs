@@ -65,6 +65,10 @@ namespace Simias.Service
 		private ManualResetEvent servicesStarted = new ManualResetEvent(false);
 		private ManualResetEvent servicesStopped = new ManualResetEvent(true);
 		private DefaultSubscriber subscriber = null;
+		
+		private static bool shuttingDown = false;
+
+		#endregion
 
 		#region Events
 		/// <summary>
@@ -72,8 +76,6 @@ namespace Simias.Service
 		/// </summary>
 		public event ShutdownEventHandler Shutdown;
 		
-		#endregion
-
 		#endregion
 		
 		#region Constructor
@@ -259,6 +261,11 @@ namespace Simias.Service
 		/// </summary>
 		public void StopServices()
 		{
+			// Set the global static variable so other services can get an
+			// advance warning that we're shutting down and they can stop
+			// processing.
+			shuttingDown = true;
+
 			lock (this)
 			{
 				stopThread = new Thread(new ThreadStart(StopServicesThread));
@@ -333,6 +340,15 @@ namespace Simias.Service
 		public bool ServicesStopped
 		{
 			get { return servicesStopped.WaitOne(0, false); }
+		}
+		
+		/// <summary>
+		/// Allows other threads in the process know when Simias is shutting
+		/// down so that they can also stop processing.
+		/// </summary>
+		public static bool ShuttingDown
+		{
+			get { return shuttingDown; }
 		}
 		#endregion
 

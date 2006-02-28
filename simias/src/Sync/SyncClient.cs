@@ -254,7 +254,7 @@ namespace Simias.Sync
 		{
 			// Used to not starve the normal queue.
 			int	 priorityCount = 0;
-			while (!shuttingDown)
+			while (!(Simias.Service.Manager.ShuttingDown || shuttingDown))
 			{
 				// Wait for something to be added to the queue.
 				queueEvent.WaitOne();
@@ -281,7 +281,7 @@ namespace Simias.Sync
 							cClient = syncQueue.Dequeue() as CollectionSyncClient;
 						}
 					}
-					if (!shuttingDown || !paused)
+					if (!(Simias.Service.Manager.ShuttingDown || shuttingDown) && !paused)
 					{
 						bool serverWasConnected = cClient.Connected;
 						// Sync this collection now.
