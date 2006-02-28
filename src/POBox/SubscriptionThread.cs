@@ -174,7 +174,7 @@ namespace Simias.POBox
 		/// </summary>
 		private void Run()
 		{
-			while ( !killThread )
+			while ( !( Simias.Service.Manager.ShuttingDown || killThread ) )
 			{
 				try
 				{

@@ -681,6 +681,9 @@ namespace Simias.Sync
 		/// <param name="subTreeHasChanged"></param>
 		void DoSubtree(string path, DirNode dnode, string nodeID, bool subTreeHasChanged)
 		{
+			if (Simias.Service.Manager.ShuttingDown)
+				return;
+
 			try
 			{
 				//Log.Spew("Dredger processing subtree of path {0}", path);
@@ -702,12 +705,18 @@ namespace Simias.Sync
 					// Put all the existing nodes in a hashtable to match against the file system.
 					foreach (ShallowNode sn in collection.Search(PropertyTags.Parent, new Relationship(collection.ID, dnode.ID)))
 					{
+						if (Simias.Service.Manager.ShuttingDown)
+							return;
+			
 						existingNodes[sn.Name] = sn;
 					}
 
 					// Look for new and modified files.
 					foreach (string file in Directory.GetFiles(path))
 					{
+						if (Simias.Service.Manager.ShuttingDown)
+							return;
+			
 						string fName = Path.GetFileName(file);
 						ShallowNode sn = (ShallowNode)existingNodes[fName];
 						if (sn != null)
@@ -725,6 +734,9 @@ namespace Simias.Sync
 					// look for new directories
 					foreach (string dir in Directory.GetDirectories(path))
 					{
+						if (Simias.Service.Manager.ShuttingDown)
+							return;
+			
 						string dName = Path.GetFileName(dir);
 						ShallowNode sn = (ShallowNode)existingNodes[dName];
 						if (sn != null)
@@ -743,6 +755,9 @@ namespace Simias.Sync
 					// All remaining nodes need to be deleted.
 					foreach (ShallowNode sn in existingNodes.Values)
 					{
+						if (Simias.Service.Manager.ShuttingDown)
+							return;
+			
 						DeleteNode(new Node(collection, sn));
 					}
 				}
@@ -751,6 +766,9 @@ namespace Simias.Sync
 					// Just look for modified files.
 					foreach (string file in Directory.GetFiles(path))
 					{
+						if (Simias.Service.Manager.ShuttingDown)
+							return;
+			
 						if (File.GetLastWriteTime(file) > lastDredgeTime)
 						{
 							if (dnode == null)
@@ -761,6 +779,9 @@ namespace Simias.Sync
 			
 					foreach (string dir in Directory.GetDirectories(path))
 					{
+						if (Simias.Service.Manager.ShuttingDown)
+							return;
+			
 						if (Directory.GetLastWriteTime(dir) > lastDredgeTime)
 						{
 							if (dnode == null)
