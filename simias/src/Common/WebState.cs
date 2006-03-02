@@ -358,7 +358,7 @@ namespace Simias
 		string		collectionID;
 		string		hostID;
 		SimiasConnection.AuthType	authType;
-		bool		needCredentials = false;
+		bool		initialized = false;
 		bool		authenticated = false;
 		string		key;
 		string		baseUri;
@@ -374,20 +374,32 @@ namespace Simias
 
 		private HostConnection(string domainID, Collection collection, string userID, SimiasConnection.AuthType authType)
 		{
+			this.domainID = domainID;
+			this.userID = userID;
+			this.collectionID = collection.ID;
+			this.hostID = collection.HostID;
+			this.authType = authType;
 			baseUri = DomainProvider.ResolveLocation(collection).ToString();
-			this.IntitalizeConnection(domainID, userID, collection.ID, collection.HostID, authType);
 		}
 
 		private HostConnection(string domainID, Member member, string userID, SimiasConnection.AuthType authType)
 		{
+			this.domainID = domainID;
+			this.userID = userID;
+			this.collectionID = domainID;
+			this.hostID = member.HomeServer.UserID;
+			this.authType = authType;
 			baseUri = DomainProvider.ResolvePOBoxLocation(domainID, member.UserID).ToString();
-			this.IntitalizeConnection(domainID, userID, domainID, member.HomeServer.UserID, authType);
 		}
 
 		private HostConnection(string domainID, HostNode host, string userID, SimiasConnection.AuthType authType)
 		{
+			this.domainID = domainID;
+			this.userID = userID;
+			this.collectionID = domainID;
+			this.hostID = host.UserID;
+			this.authType = authType;
 			baseUri = DomainProvider.ResolveHostAddress(domainID, host.UserID).ToString();
-			this.IntitalizeConnection(domainID, userID, domainID, host.UserID, authType);
 		}
 
 
@@ -395,21 +407,19 @@ namespace Simias
 
 		#region Private Methods
 
-		private void IntitalizeConnection(string domainID, string userID, string collectionID, string hostID, SimiasConnection.AuthType authType)
+		private void IntitalizeConnection()
 		{
-			this.domainID = domainID;
-			this.userID = userID;
-			this.collectionID = collectionID;
-			this.hostID = hostID;
-			this.authType = authType;
-			try
+			if (!initialized)
 			{
-				connectionState = new WebState(domainID, collectionID, userID, authType);
-			}
-			catch (NeedCredentialsException)
-			{
-				needCredentials = true;
-				authenticated = false;
+				try
+				{
+					connectionState = new WebState(domainID, collectionID, userID, authType);
+					initialized = true;
+				}
+				catch (NeedCredentialsException)
+				{
+					authenticated = false;
+				}
 			}
 		}
 		
@@ -446,6 +456,7 @@ namespace Simias
 			{
 				conn = new HostConnection(domainID, collection, userID, authType);
 			}
+			conn.IntitalizeConnection();
 			return conn;
 		}
 
@@ -478,6 +489,7 @@ namespace Simias
 			{
 				conn = new HostConnection(domainID, member, userID, authType);
 			}
+			conn.IntitalizeConnection();
 			return conn;
 		}
 
@@ -510,6 +522,7 @@ namespace Simias
 			{
 				conn = new HostConnection(domainID, host, userID, authType);
 			}
+			conn.IntitalizeConnection();
 			return conn;
 		}
 		
@@ -547,7 +560,7 @@ namespace Simias
 				{
 					if ( resp.StatusCode == HttpStatusCode.Unauthorized)
 					{
-						needCredentials = true;
+						initialized = false;
 						authenticated = false;
 						if (authType == SimiasConnection.AuthType.PPK)
 						{
@@ -587,7 +600,6 @@ namespace Simias
 				}
 				if (bstatus)
 				{
-					needCredentials = false;
 					authenticated = true;
 				}
 				return bstatus;
