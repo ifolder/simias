@@ -124,6 +124,9 @@ fi
 #%config(noreplace) %{prefix}/web/web.config
 
 %changelog -n simias
+* Thu Mar 02 2006 - btimothy@novell.com
+- changed Obsoletes line so the package doesn't
+- obsolete itself [#143297]
 * Wed Jan 25 2006 - mls@suse.de
 - converted neededforbuild to BuildRequires
 * Wed Jan 18 2006 - cgaisford@suse.de
