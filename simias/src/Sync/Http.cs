@@ -201,7 +201,8 @@ namespace Simias.Sync.Http
 			url = collection.MasterUrl.ToString().TrimEnd('/') + "/SyncHandler.ashx";
 			this.userName = userName;
 			this.userID = userID;
-			connection = SimiasConnection.GetConnection(domainId, collection, userID);
+			connection = new SimiasConnection(domainId, collection, userID, Store.IsEnterpriseServer ? SimiasConnection.AuthType.PPK : SimiasConnection.AuthType.BASIC);
+			connection.Authenticate();
 		}
 
 		/// <summary>

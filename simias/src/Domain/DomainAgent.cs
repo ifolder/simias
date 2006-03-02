@@ -860,6 +860,10 @@ namespace Simias.DomainServices
 		/// <param name="collection">Collection to create on the enterprise server.</param>
 		public void CreateMaster(Collection collection)
 		{
+			// Set the host to the home server.
+			Domain domain = store.GetDomain(collection.Domain);
+			collection.HostID = domain.HostID;
+			collection.Commit();
 			// Get the network location of the server where this collection is to be created.
 			Uri uri = DomainProvider.ResolveLocation(collection);
 			if (uri == null)

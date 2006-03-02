@@ -1025,7 +1025,7 @@ namespace Simias.Storage
 		/// <summary>
 		/// Deletes this property from the property list.
 		/// </summary>
-		internal void DeleteProperty()
+		public void DeleteProperty()
 		{
 			// Only delete if the property is attached to a list.
 			if ( IsAssociatedProperty )

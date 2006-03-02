@@ -623,7 +623,7 @@ namespace Simias.Storage
 				HostNode homeHost = member.HomeServer;
 				if (localHost.ID != homeHost.ID)
 				{
-					SimiasConnection connection = SimiasConnection.GetConnection(subscription.DomainID, member, localHost.UserID, SimiasConnection.AuthType.PPK);
+					SimiasConnection connection = new SimiasConnection(subscription.DomainID, member, localHost.UserID, SimiasConnection.AuthType.PPK);
 					connection.Authenticate();
 					POBoxService pos = new POBoxService();
 					connection.InitializeWebClient(pos, "POService.asmx");
@@ -1477,44 +1477,21 @@ namespace Simias.Storage
 			if ( ( domain != null ) && ( domain.SupportsNewInvitation == true ) )
 			{
 #endif
-				// Get the collection that this subscription represents.
-				Collection collection = store.GetCollectionByID( subscription.SubscriptionCollectionID );
-				if ( collection != null )
+				// Determine where the collection is hosted.
+				HostNode localHost = HostNode.GetLocalHost();
+				HostNode collectionHost = HostNode.GetHostByID(Domain, subscription.HostID);
+				if (localHost.ID != collectionHost.ID)
 				{
-					// See if the invitee is the owner of this collection.
-					if ( collection.Owner.UserID == subscription.ToIdentity )
-					{
-						log.Debug( "RemoveCollectionBySubscription - Invitee {0} is owner.", subscription.ToIdentity );
-						log.Debug( "RemoveCollectionBySubscription - Removing collection {0}.", collection.ID );
-
-						// The current principal is the owner of the collection. Delete the entire collection.
-						collection.Commit( collection.Delete() );
-					}
-					else
-					{
-						log.Debug( "RemoveCollectionBySubscription - Invitee {0} is not owner.", subscription.ToIdentity );
-
-						// The invitee is only a member of the collection. Remove the membership.
-						Member member = collection.GetMemberByID( subscription.ToIdentity );
-						if ( member != null )
-						{
-							// No need to process further invitation events. The subscription for this member
-							// has already been removed.
-							member.CascadeEvents = false;
-
-							// Remove the member from the collection.
-							collection.Commit( collection.Delete( member ) );
-							log.Debug( "RemoveCollectionBySubscription - Removing membership for {0} from collection {1}.", member.UserID, collection.ID );
-						}
-						else
-						{
-							log.Debug( "RemoveCollectionBySubscription - Cannot find member {0} in collection {1}.", subscription.ToIdentity, collection.ID );
-						}
-					}
+					SimiasConnection connection = new SimiasConnection(subscription.DomainID, collectionHost, localHost.UserID, SimiasConnection.AuthType.PPK);
+					connection.Authenticate();
+					POBoxService pos = new POBoxService();
+					connection.InitializeWebClient(pos, "POService.asmx");
+					pos.RemoveCollectionBySubscription(subscription.Properties.ToString(true));
 				}
 				else
 				{
-					log.Debug( "RemoveCollectionBySubscription - Subscription for collection {0} was declined.", subscription.SubscriptionCollectionID );
+					// The collection is on this box.
+					POBox.POBox.RemoveCollectionBySubscription(subscription.Properties.ToString(true));
 				}
 #if ( !REMOVE_OLD_INVITATION )
 			}
@@ -1531,31 +1508,30 @@ namespace Simias.Storage
 			if ( ( domain != null ) && ( domain.SupportsNewInvitation == true ) )
 			{
 #endif
-				ICSList subList = store.GetNodesByProperty( new Property( Subscription.SubscriptionCollectionIDProperty, ID ), SearchOp.Equal );
-				if ( subList.Count > 0 )
+				// We need to remove all subscriptions on all servers for this collection.
+				HostNode localHost = HostNode.GetLocalHost();
+				HostNode[] hosts = HostNode.GetHosts(Domain);
+				foreach (HostNode host in hosts)
 				{
-					foreach( ShallowNode sn in subList )
+					if (host.ID != localHost.ID)
 					{
-						// The collection for the subscription nodes will be the POBox.
-						Collection collection = store.GetCollectionByID( sn.CollectionID );
-						if ( collection != null )
+						SimiasConnection connection = new SimiasConnection(Domain, host, localHost.UserID, SimiasConnection.AuthType.PPK);
+						connection.Authenticate();
+						POBoxService pos = new POBoxService();
+						connection.InitializeWebClient(pos, "POService.asmx");
+						try
 						{
-							// No need to process further invitation events. The collection associated with
-							// this subscription has already been removed.
-							Subscription subscription = new Subscription( collection, sn );
-							subscription.CascadeEvents = false;
-							collection.Commit( collection.Delete( subscription ) );
-							log.Debug( "RemoveSubscriptionsForCollection - Removed subscription {0} for collection {1}.", sn.ID, sn.CollectionID );
+							pos.RemoveSubscriptionsForCollection(Domain, ID);
 						}
-						else
+						catch (Exception ex)
 						{
-							log.Debug( "RemoveSubscriptionsForCollection - Cannot find POBox {0}.", sn.CollectionID );
+							log.Debug(ex.Message);
 						}
 					}
-				}
-				else
-				{
-					log.Debug( "RemoveSubscriptionsForCollection - No subscriptions found for collection {0}.", ID );
+					else
+					{
+						POBox.POBox.RemoveSubscriptionsForCollection(Domain, ID);
+					}
 				}
 #if ( !REMOVE_OLD_INVITATION )
 			}
@@ -1573,31 +1549,20 @@ namespace Simias.Storage
 			if ( ( domain != null ) && ( domain.SupportsNewInvitation == true ) )
 			{
 #endif
-				// Get the member's POBox.
-				POBox.POBox poBox = POBox.POBox.FindPOBox( store, Domain, member.UserID );
-				if ( poBox != null )
+				HostNode localHost = HostNode.GetLocalHost();
+				HostNode homeHost = member.HomeServer;
+				if (localHost.ID != homeHost.ID)
 				{
-					ICSList subList = poBox.Search( Subscription.SubscriptionCollectionIDProperty, ID, SearchOp.Equal );
-					if ( subList.Count > 0 )
-					{
-						foreach( ShallowNode sn in subList )
-						{
-							// No need to process further invitation events. The collection cannot be deleted
-							// by removing its members, because the owner of the collection can never be deleted.
-							Subscription subscription = new Subscription( poBox, sn );
-							subscription.CascadeEvents = false;
-							poBox.Commit( poBox.Delete( subscription ) );
-							log.Debug( "RemoveSubscriptionByMember - Removed subscription {0} from member {1}.", sn.ID, member.UserID );
-						}
-					}
-					else
-					{
-						log.Debug( "RemoveSubscriptionByMember - No subscriptions found for member {0}.", member.UserID );
-					}
+					// The HomeServer for the member is on another host.
+					SimiasConnection connection = new SimiasConnection(Domain, member, localHost.UserID, SimiasConnection.AuthType.PPK);
+					connection.Authenticate();
+					POBoxService pos = new POBoxService();
+					connection.InitializeWebClient(pos, "POService.asmx");
+					pos.RemoveSubscriptionByMember(Domain, ID, member.UserID);
 				}
 				else
 				{
-					log.Debug( "RemoveSubscriptionByMember - Cannot find POBox for member {0}.", member.UserID );
+					POBox.POBox.RemoveSubscriptionByMember(Domain, ID, member.UserID);
 				}
 #if ( !REMOVE_OLD_INVITATION )
 			}
