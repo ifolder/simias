@@ -1371,8 +1371,6 @@ namespace Simias.Sync
 				catch {}
 				offset += batchCount;
 			}
-			// Update the collection in case it changed.
-			collection.Refresh();
 		}
 	
 		/// <summary>
@@ -1383,6 +1381,7 @@ namespace Simias.Sync
 		{
 			ArrayList	commitArray = new ArrayList();
 			Node[]		commitList = null;
+			bool collectionChanged = false;
 
 			// Try to commit all the nodes at once.
 			foreach (SyncNode sn in nodes)
@@ -1392,6 +1391,10 @@ namespace Simias.Sync
 					XmlDocument xNode = new XmlDocument();
 					xNode.LoadXml(sn.node);
 					Node node = Node.NodeFactory(store, xNode);
+					if (node.IsBaseType(NodeTypes.CollectionType))
+					{
+						collectionChanged = true;
+					}
 					log.Info("Importing {0} {1} from server", node.Type, node.Name);
 					Import(node);
 					commitArray.Add(node);
@@ -1442,6 +1445,10 @@ namespace Simias.Sync
 						// Handle any other errors.
 					}
 				}
+			}
+			if (collectionChanged)
+			{
+				collection.Refresh();
 			}
 		}
 
