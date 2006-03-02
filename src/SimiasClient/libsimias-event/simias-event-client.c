@@ -406,6 +406,8 @@ sec_cleanup (SimiasEventClient *sec)
 	
 	/* Cleanup function for the XML library */
 	xmlCleanupParser ();
+	
+	return 0;
 }
 
 int
@@ -781,6 +783,8 @@ sec_thread (void *user_data)
 	if (sec_reconnect (ec) != 0) {
 		sec_shutdown (ec, "Could not reconnect the Simias Event Client");
 	}
+	
+	return NULL;
 }
 		
 static void *
@@ -806,7 +810,7 @@ sec_reg_thread (void *user_data)
 		}
 		
 		if (ec->state == CLIENT_STATE_SHUTDOWN) {
-			return;
+			return NULL;
 		}
 		
 		/* Create a socket to communicate with the event server on */
@@ -889,6 +893,8 @@ sec_reg_thread (void *user_data)
 	}
 	
 	ec->reg_thread_state = REG_THREAD_STATE_TERMINATED;
+	
+	return NULL;
 }
 
 static void *
@@ -957,6 +963,8 @@ sec_proc_msg_thread (void *user_data)
 	}
 
 	DEBUG_SEC (("sec_proc_msg_thread () exiting\n"));
+	
+	return NULL;
 }
 
 int
