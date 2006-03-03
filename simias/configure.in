@@ -521,8 +521,6 @@ test/CollectionStore/Makefile
 test/Smtp/Makefile
 test/SimiasTestsWS/Makefile
 test/SimiasTestsCmd/Makefile
-other/Makefile
-other/SimpleServer/Makefile
 package/Makefile
 package/windows/Makefile
 package/linux/Makefile
