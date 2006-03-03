@@ -370,9 +370,12 @@ namespace Simias.Storage
 			}
 			set
 			{
-				Property p = new Property( PropertyTags.HostID, value );
-				p.LocalProperty = true;
-				properties.ModifyNodeProperty( p );
+				if (value != null && value.Length != 0)
+				{
+					Property p = new Property( PropertyTags.HostID, value );
+					p.LocalProperty = true;
+					properties.ModifyNodeProperty( p );
+				}
 			}
 		}
 
@@ -576,7 +579,13 @@ namespace Simias.Storage
 						subscription.SubscriptionKey = Guid.NewGuid().ToString();
 						subscription.MessageType = "Outbound";
 						subscription.SetSubscriptionTypes( collection );
-						subscription.HostID = HostNode.GetLocalHost().UserID;
+
+						// Add the host node if we are running against a Multi-Server capable server.
+						HostNode host = HostNode.GetLocalHost();
+						if (host != null)
+						{
+							subscription.HostID = HostNode.GetLocalHost().UserID;
+						}
 
 						DirNode dirNode = GetRootDirectory();
 						if( dirNode != null )
@@ -621,7 +630,7 @@ namespace Simias.Storage
 			{
 				HostNode localHost = HostNode.GetLocalHost();
 				HostNode homeHost = member.HomeServer;
-				if (localHost.ID != homeHost.ID)
+				if (Store.IsEnterpriseServer && localHost.ID != homeHost.ID)
 				{
 					SimiasConnection connection = new SimiasConnection(subscription.DomainID, member, localHost.UserID, SimiasConnection.AuthType.PPK);
 					connection.Authenticate();
@@ -1440,7 +1449,7 @@ namespace Simias.Storage
 				// Determine where the collection is hosted.
 				HostNode localHost = HostNode.GetLocalHost();
 				HostNode collectionHost = HostNode.GetHostByID(Domain, subscription.HostID);
-				if (localHost.ID != collectionHost.ID)
+				if (Store.IsEnterpriseServer && localHost.ID != collectionHost.ID)
 				{
 					SimiasConnection connection = new SimiasConnection(subscription.DomainID, collectionHost, localHost.UserID, SimiasConnection.AuthType.PPK);
 					connection.Authenticate();
@@ -1511,7 +1520,7 @@ namespace Simias.Storage
 #endif
 				HostNode localHost = HostNode.GetLocalHost();
 				HostNode homeHost = member.HomeServer;
-				if (localHost.ID != homeHost.ID)
+				if (Store.IsEnterpriseServer && localHost.ID != homeHost.ID)
 				{
 					// The HomeServer for the member is on another host.
 					SimiasConnection connection = new SimiasConnection(Domain, member, localHost.UserID, SimiasConnection.AuthType.PPK);
