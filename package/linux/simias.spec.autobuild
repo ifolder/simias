@@ -70,11 +70,19 @@ if [ "$INSTANCES_AFTER_INSTALL" = "2" ]; then
        grep -q "connectionManagement" /opt/novell/ifolder3/web/web.config || sed -i.old -e "s/.<add key.*=.*\"SimiasAuthNotRequired\".*\/>/        <add key=\"SimiasAuthNotRequired\" value=\"Login.ashx, Simias.asmx:PingSimias, POService.asmx:Invite\" \/>/" -e "/<system\.net/,/<\/system.net>/d" -e "s/<\/system.web>/<\/system.web>\n\n    <system.net>\n        <connectionManagement>\n            <add address=\"*\" maxconnection=\"10\" \/>\n        <\/connectionManagement>\n    <\/system.net>\n/" /opt/novell/ifolder3/web/web.config
 fi
 if [ "$INSTANCES_AFTER_INSTALL" = "1" ]; then
-    #
-    # Linking the SimiasDirectoryMapping file to /etc/simias
-    #
-    mkdir -p /etc/simias
-    ln -sf %{prefix}/bin/SimiasDirectoryMapping /etc/simias
+	if [ -L "/etc/simias/SimiasDirectoryMapping" ]; then
+		echo "SimiasDirectoryMapping is already linked to /etc/simias"
+	else
+		if [ -e "/etc/simias" ]; then
+			echo "/etc/simias already exists"
+		else
+			echo "Creating /etc/simias directory"
+            mkdir -p /etc/simias
+		fi
+
+        echo "Linking the SimiasDirectoryMapping file to /etc/simias"
+        ln -sf %{prefix}/bin/SimiasDirectoryMapping /etc/simias
+	fi
 fi
 #=============================================================================
 
@@ -124,6 +132,9 @@ fi
 #%config(noreplace) %{prefix}/web/web.config
 
 %changelog -n simias
+* Mon Mar 06 2006 - btimothy@novell.com
+- added more conditionals to the post section
+- to prevent install errors [#141279]
 * Thu Mar 02 2006 - btimothy@novell.com
 - changed Obsoletes line so the package doesn't
 - obsolete itself [#143297]
