@@ -189,6 +189,14 @@ namespace Simias.mDns
 					member.IsOwner = true;
 					mDnsUserID = member.UserID;
 					rDomain.Commit( new Node[] { rDomain, member } );
+					
+					// If a default domain does not exist make
+					// the P2P domain default
+					if ( store.DefaultDomain == null || store.DefaultDomain == "" )
+					{
+						log.Info( "Setting P2P domain as default" );
+						store.DefaultDomain = rDomain.ID;
+					}	
 
 					// Create the name mapping.
 					store.AddDomainIdentity( rDomain.ID, member.UserID );
