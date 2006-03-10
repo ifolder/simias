@@ -1,0 +1,13 @@
+export AXIS_LIBS=tools/axis-1_3/lib
+export AXISCP=.
+export AXISCP=$AXISCP:$AXIS_LIBS/axis.jar
+export AXISCP=$AXISCP:$AXIS_LIBS/axis-schema.jar
+export AXISCP=$AXISCP:$AXIS_LIBS/commons-discovery-0.2.jar
+export AXISCP=$AXISCP:$AXIS_LIBS/commons-logging-1.0.4.jar
+export AXISCP=$AXISCP:$AXIS_LIBS/jaxrpc.jar
+export AXISCP=$AXISCP:$AXIS_LIBS/saaj.jar
+export AXISCP=$AXISCP:$AXIS_LIBS/log4j-1.2.8.jar
+export AXISCP=$AXISCP:$AXIS_LIBS/wsdl4j-1.5.1.jar
+export CLASSPATH=$CLASSPATH:$AXISCP
+
+java -classpath $CLASSPATH org.apache.axis.wsdl.WSDL2Java -v -o ./src ./external/SimiasBrowser.wsdl
