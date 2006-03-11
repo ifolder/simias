@@ -1009,28 +1009,44 @@ namespace Simias.Web
 		/// </returns>
 		public static Subscription RevertSharedCollection(string CollectionID)
 		{
+			log.Debug( "RevertSharedCollection called" );
+			log.Debug( "  ID: " + CollectionID );
+			
 			Store store = Store.GetStore();
 			Collection collection = store.GetCollectionByID(CollectionID);
 			if(collection == null)
 				throw new Exception("Invalid CollectionID");
 
-			// Get the current principal for this collection.
-			Member member = collection.GetCurrentMember();
-			if (member == null)
-				throw new Exception("Cannot get current member");
-
+			log.Debug( "  Name: " + collection.Name );
+			
 			// Get the subscription for this iFolder to return.
 			Subscription sub = null;
 
 			// Get the member's POBox
-			POBox.POBox poBox = POBox.POBox.FindPOBox(store, collection.Domain, member.UserID);
+			Simias.POBox.POBox poBox = 
+				Simias.POBox.POBox.GetPOBox( store, collection.Domain );
 			if (poBox != null)
 			{
+				Member member = collection.GetCurrentMember();
+
 				// Search for the matching subscription
-				sub = poBox.GetSubscriptionByCollectionID(collection.ID, member.UserID);
+				sub = poBox.GetSubscriptionByCollectionID( collection.ID, member.UserID );
+				
+				// If this collection is workgroup mastered delete the
+				// subscription as well
+				if ( sub != null && collection.Role == SyncRoles.Master )
+				{
+					Domain domain = store.GetDomain( collection.Domain );
+					if ( domain != null && 
+						domain.ConfigType == Simias.Storage.Domain.ConfigurationType.Workgroup )
+					{
+						poBox.Commit( poBox.Delete( sub ) );
+						sub = null;
+					}
+				}
 			}
 
-			collection.Commit(collection.Delete());
+			collection.Commit( collection.Delete() );
 			return sub;
 		}
 
