@@ -1052,6 +1052,37 @@ namespace Simias.Web
 
 
 
+		/// <summary>
+		/// Impersonate the User on the Collection
+		/// </summary>
+		/// <param name="collection">The iFolder Collection</param>
+		/// <param name="accessID">The Access User ID</param>
+		/// <returns>Access Rights</returns>
+		private static Access.Rights Impersonate(Collection collection, string accessID)
+		{
+			Simias.Storage.Access.Rights rights = Simias.Storage.Access.Rights.Deny;
+
+			if ((accessID != null) && (accessID.Length != 0))
+			{
+				Member member = collection.GetMemberByID(accessID);
+
+				if (member == null)
+				{
+					throw new Exception("Invalid Access User ID");;
+				}
+
+				collection.Impersonate(member);
+
+				rights = member.Rights;
+			}
+			else
+			{
+				// assume Admin rights with no access ID
+				rights = Simias.Storage.Access.Rights.Admin;
+			}
+
+			return rights;
+		}
 
 		/// <summary>
 		/// WebMethod that to set the Rights of a user on a Collection
@@ -1074,11 +1105,42 @@ namespace Simias.Web
 											string UserID,
 											string Rights)
 		{
+			SetMemberRights(CollectionID, UserID, Rights, null);
+		}
+
+		/// <summary>
+		/// WebMethod that to set the Rights of a user on a Collection
+		/// </summary>
+		/// <param name = "CollectionID">
+		/// The ID of the collection representing the Collection to which
+		/// the member is to be added
+		/// </param>
+		/// <param name = "UserID">
+		/// The ID of the member to be added
+		/// </param>
+		/// <param name = "Rights">
+		/// The Rights to be given to the newly added member
+		/// Rights can be "Admin", "ReadOnly", or "ReadWrite"
+		/// </param>
+		/// <param name="AccessID">
+		/// Perform the action as this user.
+		/// </param>
+		/// <returns>
+		/// True if the member was successfully added
+		/// </returns>
+		public static void SetMemberRights(	string CollectionID, 
+											string UserID,
+											string Rights,
+											string AccessID)
+		{
 			Store store = Store.GetStore();
 
 			Collection col = store.GetCollectionByID(CollectionID);
 			if(col == null)
 				throw new Exception("Invalid CollectionID");
+
+			// impersonate
+			Impersonate(col, AccessID);
 
 			Simias.Storage.Member member = col.GetMemberByID(UserID);
 			if(member == null)
@@ -1095,7 +1157,6 @@ namespace Simias.Web
 
 			col.Commit(member);
 		}
-
 
 
 
@@ -1120,11 +1181,42 @@ namespace Simias.Web
 										string NewOwnerUserID,
 										string OldOwnerRights)
 		{
+			ChangeOwner(CollectionID, NewOwnerUserID, OldOwnerRights, null);
+		}
+
+		/// <summary>
+		/// WebMethod that sets the owner of a Collection
+		/// </summary>
+		/// <param name = "CollectionID">
+		/// The ID of the collection representing the iFolder to which
+		/// the member is to be added
+		/// </param>
+		/// <param name = "UserID">
+		/// The ID of the member to be added
+		/// </param>
+		/// <param name = "Rights">
+		/// The Rights to be given to the newly added member
+		/// Rights can be "Admin", "ReadOnly", or "ReadWrite"
+		/// </param>
+		/// <param name="AccessID">
+		/// Perform the action as this user.
+		/// </param>
+		/// <returns>
+		/// True if the member was successfully added
+		/// </returns>
+		public static void ChangeOwner(	string CollectionID, 
+										string NewOwnerUserID,
+										string OldOwnerRights,
+										string AccessID)
+		{
 			Store store = Store.GetStore();
 
 			Collection col = store.GetCollectionByID(CollectionID);
 			if(col == null)
 				throw new Exception("Invalid iFolderID");
+
+			// impersonate
+			Impersonate(col, AccessID);
 
 			Simias.Storage.Member member = 
 					col.GetMemberByID(NewOwnerUserID);
@@ -1173,11 +1265,42 @@ namespace Simias.Web
 										string Rights,
 										string collectionType)
 		{
+			AddMember(CollectionID, UserID, Rights, collectionType, null);
+		}
+
+		/// <summary>
+		/// WebMethod that adds a member to a Collection granting the Rights
+		/// specified.  Note:  This is not inviting a member, rather it is
+		/// adding them and placing a subscription in the "ready" state in
+		/// their POBox.
+		/// </summary>
+		/// <param name = "CollectionID">
+		/// The ID of the collection representing the Collection to which
+		/// the member is to be added
+		/// </param>
+		/// <param name = "UserID">
+		/// The ID of the member to be added
+		/// </param>
+		/// <param name="AccessID">
+		/// Perform the action as this user.
+		/// </param>
+		/// <param name = "Rights">
+		/// The Rights to be given to the newly added member
+		/// </param>
+		public static void AddMember(	string CollectionID, 
+										string UserID,
+										string Rights,
+										string collectionType,
+										string AccessID)
+		{
 			Store store = Store.GetStore();
 
 			Collection col = store.GetCollectionByID(CollectionID);
 			if(col == null)
 				throw new Simias.NotExistException(CollectionID);
+
+			// impersonate
+			Impersonate(col, AccessID);
 
 			Domain domain = store.GetDomain(col.Domain);
 			if(domain == null)
@@ -1221,7 +1344,6 @@ namespace Simias.Web
 
 
 
-
 		/// <summary>
 		/// WebMethod that removes a member from a Collection. The subscription
 		/// is also removed from the member's POBox.
@@ -1236,10 +1358,34 @@ namespace Simias.Web
 		public static void RemoveMember(	string CollectionID, 
 											string UserID)
 		{
+			RemoveMember(CollectionID, UserID, null);
+		}
+
+		/// <summary>
+		/// WebMethod that removes a member from a Collection. The subscription
+		/// is also removed from the member's POBox.
+		/// </summary>
+		/// <param name = "CollectionID">
+		/// The ID of the collection representing the iFolder from which
+		/// the member is to be removed
+		/// </param>
+		/// <param name = "UserID">
+		/// The ID of the member to be removed
+		/// </param>
+		/// <param name="AccessID">
+		/// Perform the action as this user.
+		/// </param>
+		public static void RemoveMember(	string CollectionID, 
+											string UserID,
+											string AccessID)
+		{
 			Store store = Store.GetStore();
 			Collection col = store.GetCollectionByID(CollectionID);
 			if(col == null)
 				throw new Exception("Invalid CollectionID");
+
+			// impersonate
+			Impersonate(col, AccessID);
 
 #if ( !REMOVE_OLD_INVITATION )
 			Domain domain = store.GetDomain(col.Domain);
