@@ -131,6 +131,12 @@ namespace Mono.ASPNET
 			Info,
 
 			/// <summary>
+			/// Cleans up information left over from Simias process that have
+			/// terminated abnormally.
+			/// </summary>
+			InfoClean,
+
+			/// <summary>
 			///  Show version information.
 			/// </summary>
 			Version,
@@ -413,6 +419,48 @@ namespace Mono.ASPNET
 			catch {}
 
 			return shareable;
+		}
+
+		/// <summary>
+		/// Cleans up information left by abnormally terminated Simias processes.
+		/// </summary>
+		private void CleanInfo()
+		{
+			// Find all of the temp Simias_* files.
+			string[] simiasFiles = Directory.GetFiles( Path.GetTempPath(), "Simias_*" );
+			if ( simiasFiles.Length > 0 )
+			{
+				// Kill the process for each of the files in the list.
+				foreach ( string file in simiasFiles )
+				{
+					// Convert the file name to a Simias data directory.
+					string dataPath = GetProcessFileName( file );
+
+					// See if there is a port configured in the specified data area.
+					int port = ReadXspPortFromFile( dataPath );
+					if ( port != -1 )
+					{
+						// Build the URI for web services.
+						UriBuilder ub = new UriBuilder( Uri.UriSchemeHttp, IPAddress.Loopback.ToString(), port, VirtualPath );
+
+						// There has been a port configured previously. Check to see if the Simias services 
+						// are already running on this port or range.
+						if ( !PingWebService( ub.Uri, dataPath ) || !IsSameService( ub.Uri, dataPath ) )
+						{
+							File.Delete( file );
+							Console.WriteLine( "Cleaning up old information from terminated Simias process." );
+							Console.WriteLine( "Data directory:   {0}", dataPath );
+							Console.WriteLine( "Web Service Uri:  {0}", ub.Uri );
+						}
+					}
+					else
+					{
+						File.Delete( file );
+						Console.WriteLine( "Cleaning up old information from terminated Simias process." );
+						Console.WriteLine( "Data directory:   {0}", dataPath );
+					}
+				}
+			}
 		}
 
 		/// <summary>
@@ -924,7 +972,15 @@ namespace Mono.ASPNET
 						}
 						else
 						{
-							command = SimiasCommand.Info;
+							if ( ( ( i + 1 ) < args.Length ) && ( args[ i + 1 ].ToLower() == "clean" ) )
+							{
+								command = SimiasCommand.InfoClean;
+								++i;
+							}
+							else
+							{
+								command = SimiasCommand.Info;
+							}
 						}
 
 						break;
@@ -1325,9 +1381,10 @@ namespace Mono.ASPNET
 			Console.WriteLine( "        immediately, do not specify --datadir. To stop all Simias services" );
 			Console.WriteLine( "        immediately, specify the 'all' value." );
 			Console.WriteLine();
-			Console.WriteLine( "    --info:" );
+			Console.WriteLine( "    --info [ clean ]:" );
 			Console.WriteLine( "        Displays information regarding the currently executing Simias" );
-			Console.WriteLine( "        processes." );
+			Console.WriteLine( "        processes. If clean is specified, all abnormally terminated" );
+			Console.WriteLine( "        process information is cleaned up." );
 			Console.WriteLine();							
 			Console.WriteLine( "    --version:" );
 			Console.WriteLine( "        Displays the version information and exits." );
@@ -1891,6 +1948,12 @@ namespace Mono.ASPNET
 					case SimiasCommand.Info:
 					{
 						server.ShowInfo();
+						break;
+					}
+
+					case SimiasCommand.InfoClean:
+					{
+						server.CleanInfo();
 						break;
 					}
 
