@@ -1977,7 +1977,6 @@ namespace Simias.Storage
 				bool createCollection = false;
 				bool deleteCollection = false;
 				bool doAdminCheck = false;
-				bool hasFileNode = false;
 				bool hasCollection = false;
 				Member collectionOwner = null;
 				ArrayList memberList = new ArrayList();
@@ -2079,8 +2078,6 @@ namespace Simias.Storage
 						{
 							// Need to have a collection object for file nodes, because the amount of storage is
 							// on the collection object.
-							hasFileNode = true;
-
 							if ( node.IsType( "Journal" ) )
 							{
 								switch ( node.Properties.State )

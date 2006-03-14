@@ -574,7 +574,23 @@ namespace Simias.Storage
 				// to the local box.
 				using ( StreamWriter sw = new StreamWriter( path ) )
 				{
-					sw.Write( LocalDomain + LocalPassword );
+					sw.Write( CurrentUser.Name + ":" + LocalDomain + LocalPassword );
+				}
+			}
+			else
+			{
+				// Check to make sure that this is not an old credential file.
+				// If the local identity is missi
+				string localCredentials = String.Empty;
+				using ( StreamReader sr = new StreamReader( path ) )
+				{
+					localCredentials = sr.ReadLine();
+				}
+
+				if ( localCredentials.IndexOf( ':' ) == -1 )
+				{
+					File.Delete( path );
+					CreateLocalCredential();
 				}
 			}
 		}

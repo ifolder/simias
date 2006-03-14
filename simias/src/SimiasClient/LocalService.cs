@@ -49,6 +49,11 @@ namespace Simias.Client
 		static private readonly string LocalPasswordFile = ".local.if";
 
 		/// <summary>
+		/// Caches the local user name.
+		/// </summary>
+		static private string localUser = null;
+
+		/// <summary>
 		/// Caches the local password.
 		/// </summary>
 		static private string localPassword = null;
@@ -81,7 +86,18 @@ namespace Simias.Client
 				{
 					using ( StreamReader sr = new StreamReader( path ) )
 					{
-						localPassword = sr.ReadLine();
+						string fileString = sr.ReadLine();
+						int index = fileString.IndexOf( ':' );
+						if ( index != -1 )
+						{
+							localUser = fileString.Substring( 0, index );
+							localPassword = fileString.Substring( index + 1 );
+						}
+						else
+						{
+							localUser = Environment.UserName;
+							localPassword = fileString;
+						}
 					}
 
 					dataPath = simiasDataPath;
