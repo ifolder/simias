@@ -143,19 +143,37 @@ namespace Simias.Storage
 		/// <summary>
 		/// Starts a search for journal entries.
 		/// </summary>
-		/// <param name="collectionID">The identifier of the collection to search for members in.</param>
-		/// <param name="relativePath">The relative path of the directory/file to retrieve the journal for.</param>
-		/// <param name="count">Maximum number of JournalEntry objects to return.</param>
+		/// <param name="fileID">The fileID to filter on.  Only journal entries with this fileID will be returned.  
+		/// Pass in <b>null</b> to retrieve journal entries regardless of fileID.</param>
+		/// <param name="userID">The UserID to filter on.  Only journal entries with this userID will be returned.  
+		/// Pass in <b>null</b> to retrieve journal entries regardless of userID.</param>
+		/// <param name="count">Maximum number of JournalEntry objects to return.  Pass in zero to return all entries.</param>
 		/// <param name="searchContext">Receives a provider specific search context object. This object must be serializable.</param>
 		/// <param name="journalList">Receives an array object that contains the JournalEntry objects.</param>
 		/// <param name="total">Receives the total number of objects found in the search.</param>
 		/// <returns>True if there are more journal entries. Otherwise false is returned.</returns>
-		public bool FindFirstEntries( string relativePath, string userID, int count, out string searchContext, out JournalEntry[] journalList, out uint total )
+		public bool FindFirstEntries( string fileID, string userID, int count, out string searchContext, out JournalEntry[] journalList, out int total )
 		{
-			return FindFirstEntries( relativePath, userID, DateTime.MinValue, DateTime.MaxValue, count, out searchContext, out journalList, out total );
+			return FindFirstEntries( fileID, userID, DateTime.MinValue, DateTime.MaxValue, count, out searchContext, out journalList, out total );
 		}
 
-		public bool FindFirstEntries( string relativePath, string userID, DateTime fromTime, DateTime toTime, int count, out string searchContext, out JournalEntry[] journalList, out uint total )
+		/// <summary>
+		/// Starts a search for journal entries.
+		/// </summary>
+		/// <param name="fileID">The fileID to filter on.  Only journal entries with this fileID will be returned.  
+		/// Pass in <b>null</b> to retrieve journal entries regardless of fileID.</param>
+		/// <param name="userID">The UserID to filter on.  Only journal entries with this userID will be returned.  
+		/// Pass in <b>null</b> to retrieve journal entries regardless of userID.</param>
+		/// <param name="fromTime">The minimum time to filter on.  Any journal entries that have occurred since this
+		/// time will be returned.</param>
+		/// <param name="toTime">The maximum time to filter on.  Any journal entries that occurred before this time
+		/// will be returned.</param>
+		/// <param name="count">Maximum number of JournalEntry objects to return.  Pass in zero to return all entries.</param>
+		/// <param name="searchContext">Receives a provider specific search context object. This object must be serializable.</param>
+		/// <param name="journalList">Receives an array object that contains the JournalEntry objects.</param>
+		/// <param name="total">Receives the total number of objects found in the search.</param>
+		/// <returns>True if there are more journal entries. Otherwise false is returned.</returns>
+		public bool FindFirstEntries( string fileID, string userID, DateTime fromTime, DateTime toTime, int count, out string searchContext, out JournalEntry[] journalList, out int total )
 		{
 			bool moreEntries = false;
 
@@ -164,7 +182,7 @@ namespace Simias.Storage
 			total = 0;
 
 			string journalFile = journalNode.GetFullPath( collection );
-			JournalSearchState searchState = new JournalSearchState( collection, journalFile, relativePath, userID, fromTime, toTime );
+			JournalSearchState searchState = new JournalSearchState( collection, journalFile, fileID, userID, fromTime, toTime );
 			searchContext = searchState.ContextHandle;
 			moreEntries = FindNextEntries( ref searchContext, count, out journalList );
 			total = searchState.TotalRecords;
@@ -190,6 +208,13 @@ namespace Simias.Storage
 			JournalSearchState searchState = JournalSearchState.GetSearchState( searchContext );
 			if ( searchState != null )
 			{
+				bool returnAll = false;
+				if ( count == 0 )
+				{
+					count = searchState.TotalRecords;
+					returnAll = true;
+				}
+
 				// See if entries are to be returned.
 				if ( count > 0 )
 				{
@@ -213,7 +238,7 @@ namespace Simias.Storage
 						{
 							journalList = tempList.ToArray( typeof ( JournalEntry ) ) as JournalEntry[];
 							searchState.LastCount = journalList.Length;
-							moreEntries = ( count == 0 ) ? true : false;
+							moreEntries = ( count == 0 ) ? !returnAll : false;
 						}
 					}
 				}
@@ -309,6 +334,42 @@ namespace Simias.Storage
 			}
 
 			return moreEntries;
+		}
+
+		/// <summary>
+		/// Retrieves all journal entries from the specified offset.
+		/// </summary>
+		/// <param name="fileID">The fileID to filter on.  Only journal entries with this fileID will be returned.  
+		/// Pass in <b>null</b> to retrieve journal entries regardless of fileID.</param>
+		/// <param name="userID">The UserID to filter on.  Only journal entries with this userID will be returned.  
+		/// Pass in <b>null</b> to retrieve journal entries regardless of userID.</param>
+		/// <param name="fromTime">The minimum time to filter on.  Any journal entries that have occurred since this
+		/// time will be returned.</param>
+		/// <param name="toTime">The maximum time to filter on.  Any journal entries that occurred before this time
+		/// will be returned.</param>
+		/// <param name="offset">Record offset to return journal entries from.</param>
+		/// <param name="journalList">Receives an array object that contains the JournalEntry objects.</param>
+		public void GetSeekEntries( string fileID, string userID, DateTime fromTime, DateTime toTime, uint offset, out JournalEntry[] journalList )
+		{
+			string searchContext;
+			int total;
+			FindFirstEntries( fileID, userID, fromTime, toTime, -1, out searchContext, out journalList, out total );
+			FindSeekEntries( ref searchContext, offset, 0, out journalList );
+			FindCloseEntries( searchContext );
+		}
+
+		/// <summary>
+		/// Retrieves all journal entries from the specified offset.
+		/// </summary>
+		/// <param name="fileID">The fileID to filter on.  Only journal entries with this fileID will be returned.  
+		/// Pass in <b>null</b> to retrieve journal entries regardless of fileID.</param>
+		/// <param name="userID">The UserID to filter on.  Only journal entries with this userID will be returned.  
+		/// Pass in <b>null</b> to retrieve journal entries regardless of userID.</param>
+		/// <param name="offset">Record offset to return journal entries from.</param>
+		/// <param name="journalList">Receives an array object that contains the JournalEntry objects.</param>
+		public void GetSeekEntries( string fileID, string userID, uint offset, out JournalEntry[] journalList )
+		{
+			GetSeekEntries( fileID, userID, DateTime.MinValue, DateTime.MaxValue, offset, out journalList );
 		}
 
 		/// <summary>
@@ -475,7 +536,7 @@ namespace Simias.Storage
 		/// <summary>
 		/// Total number of records contained in the search.
 		/// </summary>
-		private uint totalRecords = 0;
+		private int totalRecords = 0;
 
 		/// <summary>
 		/// The index of the current record.
@@ -491,11 +552,6 @@ namespace Simias.Storage
 		/// The path of the journal file.
 		/// </summary>
 		private string journalFile;
-
-		/// <summary>
-		/// The relative name of the file to get journal entries for.
-		/// </summary>
-		private string relativeFileName;
 
 		/// <summary>
 		/// The collection that the journal belongs to.
@@ -519,6 +575,7 @@ namespace Simias.Storage
 		/// <summary>
 		/// Initializes an instance of a JournalSearchState object.
 		/// </summary>
+		/// <param name="collection">The collection to return journal entries for.</param>
 		/// <param name="journalFile">The path of the journal file to search.</param>
 		/// <param name="fileID">The file ID to search for in the journal file.  Pass in a null or an empty
 		/// string to not search for a specific file.</param>
@@ -530,11 +587,10 @@ namespace Simias.Storage
 		/// <param name="toTime">Timestamp used to filter journal file entries.  Return all entries with a
 		/// timestamp less than toTime.  Passing in DateTime.MaxValue will cause this parameter to not
 		/// affect which entries are returned.</param>
-		/// <param name="totalRecords">The total number of records contained in the search.</param>
-		public JournalSearchState( Collection collection, string journalFile, string relativeFileName, string userID, DateTime fromTime, DateTime toTime )
+		public JournalSearchState( Collection collection, string journalFile, string fileID, string userID, DateTime fromTime, DateTime toTime )
 		{
 			this.collection = collection;
-			this.relativeFileName = relativeFileName;
+			this.fileID = fileID;
 			this.userID = userID;
 			this.fromTime = fromTime;
 			this.toTime = toTime;
@@ -545,19 +601,23 @@ namespace Simias.Storage
 			{
 				searchTable.Add( contextHandle, this );
 			}
+
+			// Get the number of entries to return.
+			totalRecords = GetJournalEntries();
 		}
 
 		/// <summary>
 		/// Initializes an instance of a JournalSearchState object.
 		/// </summary>
+		/// <param name="collection">The collection to return journal entries for.</param>
 		/// <param name="journalFile">The path of the journal file to search.</param>
 		/// <param name="fileID">The file ID to search for in the journal file.  Pass in a null or an empty
 		/// string to not search for a specific file.</param>
 		/// <param name="userID">The user ID to search for in the journal file.  Pass in a null or an empty
 		/// string to not search for a specific user.</param>
 		/// <param name="totalRecords">The total number of records contained in the search.</param>
-		public JournalSearchState( Collection collection, string journalFile, string relativeFileName, string userID ) :
-			this( collection, journalFile, relativeFileName, userID, DateTime.MinValue, DateTime.MaxValue )
+		public JournalSearchState( Collection collection, string journalFile, string fileID, string userID ) :
+			this( collection, journalFile, fileID, userID, DateTime.MinValue, DateTime.MaxValue )
 		{
 		}
 
@@ -602,7 +662,7 @@ namespace Simias.Storage
 		/// <summary>
 		/// Gets the total number of records contained by this search.
 		/// </summary>
-		public uint TotalRecords
+		public int TotalRecords
 		{
 			get { return totalRecords; }
 		}
@@ -615,9 +675,9 @@ namespace Simias.Storage
 		/// Gets the number of journal entries in a collection.
 		/// </summary>
 		/// <returns>The number of journal entries in the collection.</returns>
-		private uint GetJournalEntries()
+		private int GetJournalEntries()
 		{
-			uint count = 0;
+			int count = 0;
 
 			using ( StreamReader reader = new StreamReader( new FileStream( journalFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite ) ) )
 			{
@@ -667,38 +727,6 @@ namespace Simias.Storage
 		}
 
 		/// <summary>
-		/// Gets the number of journal entries for a file.
-		/// </summary>
-		/// <returns>The number of journal entries found.</returns>
-		private uint GetJournalEntriesForPath()
-		{
-			uint count = 0;
-
-			Property property = new Property( PropertyTags.FileSystemPath, relativeFileName );
-			ICSList list = collection.Search( property, SearchOp.Equal );
-			if ( list.Count == 1 )
-			{
-				foreach ( ShallowNode sn in list )
-				{
-					Node node = new Node( collection, sn );
-
-					// If this is the root DirNode, then get the journal for the collection.
-					if ( node.Properties.GetSingleProperty( PropertyTags.Root ) == null )
-					{
-						fileID = node.ID;
-					}
-
-					return GetJournalEntries();
-				}
-			}
-
-			// If more than one was returned by the search, a collision exists ... cannot view the journal in this case
-
-			fileID = null;
-			return count;
-		}
-
-		/// <summary>
 		/// Removes this SearchState object from the search table.
 		/// </summary>
 		private void RemoveSearchState()
@@ -723,12 +751,6 @@ namespace Simias.Storage
 		{
 			JournalEntry journalEntry = null;
 			string record;
-
-			if ( totalRecords == 0 )
-			{
-				// Get the number of entries to return.
-				totalRecords = GetJournalEntriesForPath();
-			}
 
 			if ( currentRecord == 0 && firstEntry != null )
 			{
