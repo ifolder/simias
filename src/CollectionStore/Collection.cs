@@ -1520,7 +1520,7 @@ namespace Simias.Storage
 #endif
 				HostNode localHost = HostNode.GetLocalHost();
 				HostNode homeHost = member.HomeServer;
-				if (Store.IsEnterpriseServer && localHost.ID != homeHost.ID)
+				if (Store.IsEnterpriseServer && ( homeHost != null ) && ( localHost.ID != homeHost.ID) )
 				{
 					// The HomeServer for the member is on another host.
 					SimiasConnection connection = new SimiasConnection(Domain, member, localHost.UserID, SimiasConnection.AuthType.PPK);
