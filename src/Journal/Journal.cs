@@ -194,7 +194,7 @@ namespace Simias.Storage
 		/// Continues the search for journal entries from the current record location.
 		/// </summary>
 		/// <param name="searchContext">Domain provider specific search context returned by FindFirstJournalEntries method.</param>
-		/// <param name="count">Maximum number of member objects to return.</param>
+		/// <param name="count">Maximum number of JournalEntry objects to return.  Pass in zero to return all entries.</param>
 		/// <param name="journalList">Receives an array object that contains the JournalEntry objects.</param>
 		/// <returns>True if there are more journal entries. Otherwise false is returned.</returns>
 		public bool FindNextEntries( ref string searchContext, int count, out JournalEntry[] journalList )
@@ -258,7 +258,7 @@ namespace Simias.Storage
 		/// Continues the search for journal entries previous to the current record location.
 		/// </summary>
 		/// <param name="searchContext">Domain provider specific search context returned by FindFirstJournalEntries method.</param>
-		/// <param name="count">Maximum number of member objects to return.</param>
+		/// <param name="count">Maximum number of JournalEntry objects to return.  Pass in zero to return all entries.</param>
 		/// <param name="journalList">Receives an array object that contains the JournalEntry objects.</param>
 		/// <returns>True if there are more journal entries. Otherwise false is returned.</returns>
 		public bool FindPreviousEntries( ref string searchContext, int count, out JournalEntry[] journalList )
@@ -307,7 +307,7 @@ namespace Simias.Storage
 		/// </summary>
 		/// <param name="searchContext">Domain provider specific search context returned by FindFirstJournalEntries method.</param>
 		/// <param name="offset">Record offset to return journal entries from.</param>
-		/// <param name="count">Maximum number of JournalEntry objects to return.</param>
+		/// <param name="count">Maximum number of JournalEntry objects to return.  Pass in zero to return all entries.</param>
 		/// <param name="journalList">Receives an array object that contains the JournalEntry objects.</param>
 		/// <returns>True if there are more journal entries. Otherwise false is returned.</returns>
 		public bool FindSeekEntries( ref string searchContext, uint offset, int count, out JournalEntry[] journalList )
@@ -347,15 +347,20 @@ namespace Simias.Storage
 		/// time will be returned.</param>
 		/// <param name="toTime">The maximum time to filter on.  Any journal entries that occurred before this time
 		/// will be returned.</param>
+		/// <param name="count">Maximum number of JournalEntry objects to return.  Pass in zero to return all entries.</param>
 		/// <param name="offset">Record offset to return journal entries from.</param>
 		/// <param name="journalList">Receives an array object that contains the JournalEntry objects.</param>
-		public void GetSeekEntries( string fileID, string userID, DateTime fromTime, DateTime toTime, uint offset, out JournalEntry[] journalList )
+		/// <param name="total">Receives the total number of objects found in the search.</param>
+		/// <returns><b>True</b> if there are more journal entries; otherwise, <b>false</b> is returned.</returns>
+		public bool GetSeekEntries( string fileID, string userID, DateTime fromTime, DateTime toTime, int count, uint offset, out JournalEntry[] journalList, out int total )
 		{
+			bool result;
 			string searchContext;
-			int total;
 			FindFirstEntries( fileID, userID, fromTime, toTime, -1, out searchContext, out journalList, out total );
-			FindSeekEntries( ref searchContext, offset, 0, out journalList );
+			result = FindSeekEntries( ref searchContext, offset, count, out journalList );
 			FindCloseEntries( searchContext );
+
+			return result;
 		}
 
 		/// <summary>
@@ -365,11 +370,14 @@ namespace Simias.Storage
 		/// Pass in <b>null</b> to retrieve journal entries regardless of fileID.</param>
 		/// <param name="userID">The UserID to filter on.  Only journal entries with this userID will be returned.  
 		/// Pass in <b>null</b> to retrieve journal entries regardless of userID.</param>
+		/// <param name="count">Maximum number of JournalEntry objects to return.  Pass in zero to return all entries.</param>
 		/// <param name="offset">Record offset to return journal entries from.</param>
 		/// <param name="journalList">Receives an array object that contains the JournalEntry objects.</param>
-		public void GetSeekEntries( string fileID, string userID, uint offset, out JournalEntry[] journalList )
+		/// <param name="total">Receives the total number of objects found in the search.</param>
+		/// <returns><b>True</b> if there are more journal entries; otherwise, <b>false</b> is returned.</returns>
+		public bool GetSeekEntries( string fileID, string userID, int count, uint offset, out JournalEntry[] journalList, out int total )
 		{
-			GetSeekEntries( fileID, userID, DateTime.MinValue, DateTime.MaxValue, offset, out journalList );
+			return GetSeekEntries( fileID, userID, DateTime.MinValue, DateTime.MaxValue, count, offset, out journalList, out total );
 		}
 
 		/// <summary>
