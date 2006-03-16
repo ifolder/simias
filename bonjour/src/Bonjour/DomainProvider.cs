@@ -732,6 +732,20 @@ namespace Simias
 			log.Debug( "PreCommit - called" );
 			return;
 		}
+		
+		/// <summary>
+		/// Returns the network address of the host
+		/// </summary>
+		/// <param name="domainID">Identifier of the domain where a 
+		/// collection is to be created.</param>
+		/// <param name="hostID">The host to resolve.</param>
+		/// <returns>A Uri object that contains the network location.</returns>
+		public Uri ResolveHostAddress( string domainID, string hostID )
+		{
+			log.Debug( "ResolveHostAddress - called" );
+			log.Debug( "  not supported" );
+			return null;
+		}
 
 		/// <summary>
 		/// Sets a new host address for the domain.
