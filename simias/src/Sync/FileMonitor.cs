@@ -26,6 +26,7 @@ using System.Threading;
 using System.Collections;
 using System.IO;
 using System.Diagnostics;
+using System.Text;
 
 using Simias.Storage;
 using Simias;
@@ -604,23 +605,27 @@ namespace Simias.Sync
 		bool IsRecursiveLink(string path)
 		{
 #if MONO
-			Mono.Posix.Stat stat;
-			if (Mono.Posix.Syscall.lstat(path, out stat) == 0)
+			Stat stat;
+			if (Syscall.lstat(path, out stat) == 0)
 			{
-				if ((stat.Mode & Mono.Posix.StatMode.SymLink) != 0)
+				if ((stat.st_mode & FilePermissions.S_IFLNK) != 0)
 				{
 					// If the path begins with the link path this is a recursive link.
-					string linkPath = Mono.Posix.Syscall.readlink(path);
-					if (!Path.IsPathRooted(linkPath))
+					StringBuilder stringBuff = new StringBuilder();
+					if (Syscall.readlink(path, stringBuff) == 0)
 					{
-						linkPath = Path.Combine(Path.GetDirectoryName(path), linkPath);
-						linkPath = Path.GetFullPath(linkPath) + "/";
+						string linkPath = stringBuff.ToString();
+						if (!Path.IsPathRooted(linkPath))
+						{
+							linkPath = Path.Combine(Path.GetDirectoryName(path), linkPath);
+							linkPath = Path.GetFullPath(linkPath) + "/";
+						}
+						// We need to check for link to a link.
+						if (IsRecursiveLink(linkPath))
+							return true;
+            			else if (path.StartsWith(linkPath))
+							return true;
 					}
-					// We need to check for link to a link.
-					if (IsRecursiveLink(linkPath))
-						return true;
-            		else if (path.StartsWith(linkPath))
-						return true;
 				}
 			}
 #else
@@ -819,18 +824,29 @@ namespace Simias.Sync
 				if (File.GetLastWriteTime(file) > lastDredgeTime && !isSyncFile(file))
 				{
 					// here we are just checking for modified files
-					BaseFileNode unode = (BaseFileNode)collection.GetNodeByID(Path.GetFileName(file));
-					if (unode != null)
+					// Because we create temporary journal files in the store managed area,
+					// we make sure there is a corresponding node before we proceed.
+					Node node = collection.GetNodeByID(Path.GetFileName(file));
+					if ((node != null) && node.IsType(NodeTypes.BaseFileNodeType))
 					{
-						DateTime lastWrote = File.GetLastWriteTime(file);
-						DateTime created = File.GetCreationTime(file);
-						if (unode.LastWriteTime != lastWrote)
+						BaseFileNode unode = (BaseFileNode)collection.GetNodeByID(Path.GetFileName(file));
+						if (unode != null)
 						{
-							unode.LastWriteTime = lastWrote;
-							unode.CreationTime = created;
-							log.Debug("Updating store file node for {0} {1}", path, file);
-							collection.Commit(unode);
-							foundChange = true;
+							// Don't allow journal files (or temporary journal files) to be updated from the client.
+							if (!unode.IsType("Journal") &&
+								!unode.IsType(NodeTypes.FileNodeType))
+							{
+								DateTime lastWrote = File.GetLastWriteTime(file);
+								DateTime created = File.GetCreationTime(file);
+								if (unode.LastWriteTime != lastWrote)
+								{
+									unode.LastWriteTime = lastWrote;
+									unode.CreationTime = created;
+									log.Debug("Updating store file node for {0} {1}", path, file);
+									collection.Commit(unode);
+									foundChange = true;
+								}
+							}
 						}
 					}
 				}
