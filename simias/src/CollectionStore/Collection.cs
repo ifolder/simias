@@ -1590,7 +1590,8 @@ namespace Simias.Storage
 				if ( node != null )
 				{
 					// Check for BaseFileNode types because they are the only objects that contain files.
-					if ( node.IsType( NodeTypes.BaseFileNodeType ) )
+					// Don't include the size of the journal.
+					if ( node.IsType( NodeTypes.BaseFileNodeType ) && !node.IsType( "Journal" ) )
 					{
 						// Calculate the new storage size based on the state of the Node object.
 						switch ( node.Properties.State )
