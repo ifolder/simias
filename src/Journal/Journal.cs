@@ -930,7 +930,16 @@ namespace Simias.Storage
 				if ( !eof )
 				{
 					// The index is invalid, need to read more data from the file.
-					int nBytes = stream.Length > 1024 ? 1024 : (int)stream.Length;
+					int nBytes;
+					if ( stream.Length > 1024 )
+					{
+						nBytes = 1024;
+					}
+					else
+					{
+						nBytes = (int)stream.Length;
+						eof = true;
+					}
 
 					if ( records == null )
 					{
