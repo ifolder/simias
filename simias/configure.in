@@ -24,7 +24,9 @@ case $host_os in
         SIMIAS_OS='darwin'
         AC_CHECK_PROG(CSC, mcs, mcs)
         test -z "$CSC" && AC_MSG_ERROR([no C Sharp compiler: mcs not found in \$PATH])
-	    PKG_CONFIG_DIR='lib'
+	export PKG_CONFIG_PATH="/Library/Frameworks/Mono.framework/Versions/Current/lib/pkgconfig:$PKG_CONFIG_PATH"
+	PKG_CONFIG_DIR='lib'
+
     ;;
     cygwin*)
         SIMIAS_OS='windows'
