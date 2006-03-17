@@ -28,6 +28,7 @@ using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Web;
@@ -202,6 +203,14 @@ namespace Mono.ASPNET
 		/// Event used to hold the main execution thread until signaled to shut down.
 		/// </summary>
 		private ManualResetEvent stopServerEvent = new ManualResetEvent( false );
+		
+		#if	MONO
+		/// <summary>
+		/// Import to call into libc to set the process name for Linux
+		/// </summary>
+		[DllImport("libc")]
+		private static extern int prctl( int option, byte [] arg2, ulong arg3, ulong arg4, ulong arg5 );
+		#endif    			
 
 		#endregion
 
@@ -1791,6 +1800,10 @@ namespace Mono.ASPNET
 		/// <returns>0 >= Successful, otherwise an error is indicated.</returns>
 		public static int Main( string[] args )
 		{
+			#if MONO
+			SetProcessName( "simias" );			
+			#endif
+			
 			SimiasWebServer server = new SimiasWebServer();
 			SimiasStatus status = server.ParseConfigurationParameters( args );
 			if ( status == SimiasStatus.Success )
@@ -1870,5 +1883,16 @@ namespace Mono.ASPNET
 		}
 
 		#endregion
+
+		#if MONO		
+		public static void SetProcessName( string name )
+		{
+			try
+			{
+    				prctl( 15 /* PR_SET_NAME */, Encoding.ASCII.GetBytes(name + "\0"), 0, 0, 0);
+    			}
+    			catch{}
+		}	
+		#endif		
 	}
 }
