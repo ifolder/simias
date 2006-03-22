@@ -543,7 +543,10 @@ namespace Simias.Web
 			// Make sure the name of the collection doesn't contain any invalid
 			// characters.  Also make sure that the path doesn't end with a
 			// slash character.
-			string collectionName = path.Substring(parentDir.Length + 1);
+			string collectionName = path.Substring(
+				Path.GetPathRoot(path).Equals(parentDir) ? 
+				parentDir.Length : 
+				parentDir.Length + 1 );
 			if (collectionName == null || collectionName == String.Empty
 				|| !Simias.Sync.SyncFile.IsNameValid(collectionName))
 			{
