@@ -23,9 +23,9 @@ Group:        System/Libraries
 Autoreqprov:  on
 Requires:     simias >= 1.5
 Requires:     mDNSResponder
-Requires:     mono-core >= 1.1.13
-Requires:     mono-data >= 1.1.13
-Requires:     mono-web >= 1.1.13
+Requires:     mono-core >= 1.1.8
+Requires:     mono-data >= 1.1.8
+Requires:     mono-web >= 1.1.8
 Obsoletes    : %{name} <= %{version}
 Version:      1.5.@@BUILDNUM@@.1
 Release:      1
