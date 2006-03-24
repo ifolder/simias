@@ -336,7 +336,7 @@ namespace Simias.Web
 			bool UnmanagedFiles, string CollectionPath)
 		{
 			return (CreateSharedCollection(Name, DomainID, UserID, Type,
-				UnmanagedFiles, CollectionPath, null));
+				UnmanagedFiles, CollectionPath, null, null));
 		}
 
 		/// <summary>
@@ -355,10 +355,11 @@ namespace Simias.Web
 		/// null or "", it will be ignored. The last folder name in the path should match the 
 		/// name of this SharedCollection</param>
 		/// <param name="Description">The description of the SharedCollection to create.</param>
+		/// <param name="AccessID">The access ID for impersonation.</param>
 		/// <returns>The Collection object that was created.</returns>
 		public static Collection CreateSharedCollection(
 			string Name, string DomainID, string UserID, string Type,
-			bool UnmanagedFiles, string CollectionPath, string Description)
+			bool UnmanagedFiles, string CollectionPath, string Description, string AccessID)
 		{
 			ArrayList nodeList = new ArrayList();
 			
@@ -422,9 +423,16 @@ namespace Simias.Web
 
 			Store store = Store.GetStore();
 
+			Domain domain = store.GetDomain(DomainID);
+			if(domain == null)
+				throw new Exception("Unable to obtain default domain");
+
 			// Create the Collection and set it as an iFolder
 			Collection c = 
 					new Collection(store, Name, DomainID);
+
+			if (AccessID != null)
+				c.Impersonate(domain.GetMemberByID(AccessID));
 
 			// type
 			if( (Type != null) && (Type.Length > 0) )
@@ -439,10 +447,6 @@ namespace Simias.Web
 			nodeList.Add(c);
 
 			// Create the member and add it as the owner
-			Domain domain = store.GetDomain(DomainID);
-			if(domain == null)
-				throw new Exception("Unable to obtain default domain");
-
 			Simias.Storage.Member member = domain.GetMemberByID(UserID);
 			if(member == null)
 				throw new Exception("UserID is invalid");
