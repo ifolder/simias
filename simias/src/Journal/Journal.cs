@@ -228,7 +228,10 @@ namespace Simias.Storage
 						while( ( count > 0 ) && ((je = searchState.GetNextEntry()) != null ))
 						{
 							Member member = domain.GetMemberByID( je.UserID );
-							je.UserName = member.FN != null ? member.FN : member.Name;
+							if ( member != null )
+							{
+								je.UserName = member.FN != null ? member.FN : member.Name;
+							}
 
 							tempList.Add( je );
 							--count;
@@ -1284,6 +1287,12 @@ namespace Simias.Storage
 			if ( entries.Length == 5 )
 			{
 				this.fileName = entries[4];
+
+				// Make sure the file name doesn't end with a CR.
+				if ( fileName.EndsWith( "\r" ) )
+				{
+					fileName = fileName.Substring( 0, fileName.Length - 1 );
+				}
 			}
 		}
 
