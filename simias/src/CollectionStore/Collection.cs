@@ -554,7 +554,7 @@ namespace Simias.Storage
 					log.Debug( "AddSubscription - Member {0} was added to collection {1}.", member.Name, Name );
 
 					// Get the member that represents the from user.
-					Member fromMember = GetMemberByID( GetCurrentPrincipal() );
+					Member fromMember = member.IsOwner ? member : GetMemberByID( GetCurrentPrincipal() );
 					if ( fromMember != null )
 					{
 						// Refresh the collection as the current instance may still be a proxy or not be the
@@ -584,7 +584,7 @@ namespace Simias.Storage
 						HostNode host = HostNode.GetLocalHost();
 						if (host != null)
 						{
-							subscription.HostID = HostNode.GetLocalHost().UserID;
+							subscription.HostID = host.UserID;
 						}
 
 						DirNode dirNode = GetRootDirectory();
@@ -624,13 +624,17 @@ namespace Simias.Storage
 			}
 		}
 
-		void Invite( Member member, Subscription subscription)
+		/// <summary>
+		/// Put the subscription into the invitee's POBox.
+		/// </summary>
+		/// <param name="member">Member to invite.</param>
+		/// <param name="subscription">Subscription</param>
+		private void Invite( Member member, Subscription subscription)
 		{
 			try 
 			{
 				HostNode localHost = HostNode.GetLocalHost();
-				HostNode homeHost = member.HomeServer;
-				if (Store.IsEnterpriseServer && localHost.ID != homeHost.ID)
+				if (Store.IsEnterpriseServer && ( localHost != null ) && ( localHost.ID != member.HomeServer.ID ) )
 				{
 					SimiasConnection connection = new SimiasConnection(subscription.DomainID, member, localHost.UserID, SimiasConnection.AuthType.PPK);
 					connection.Authenticate();
@@ -1448,8 +1452,8 @@ namespace Simias.Storage
 #endif
 				// Determine where the collection is hosted.
 				HostNode localHost = HostNode.GetLocalHost();
-				HostNode collectionHost = HostNode.GetHostByID(Domain, subscription.HostID);
-				if (Store.IsEnterpriseServer && localHost.ID != collectionHost.ID)
+				HostNode collectionHost = HostNode.GetHostByID( Domain, subscription.HostID );
+				if ( Store.IsEnterpriseServer && ( localHost != null ) && ( localHost.ID != collectionHost.ID ) )
 				{
 					SimiasConnection connection = new SimiasConnection(subscription.DomainID, collectionHost, localHost.UserID, SimiasConnection.AuthType.PPK);
 					connection.Authenticate();
@@ -1482,7 +1486,7 @@ namespace Simias.Storage
 				HostNode[] hosts = HostNode.GetHosts(Domain);
 				foreach (HostNode host in hosts)
 				{
-					if (host.ID != localHost.ID)
+					if ( ( localHost != null ) && ( host.ID != localHost.ID ) )
 					{
 						SimiasConnection connection = new SimiasConnection(Domain, host, localHost.UserID, SimiasConnection.AuthType.PPK);
 						connection.Authenticate();
@@ -1520,7 +1524,7 @@ namespace Simias.Storage
 #endif
 				HostNode localHost = HostNode.GetLocalHost();
 				HostNode homeHost = member.HomeServer;
-				if (Store.IsEnterpriseServer && ( homeHost != null ) && ( localHost.ID != homeHost.ID) )
+				if (Store.IsEnterpriseServer && ( localHost != null ) && ( localHost.ID != homeHost.ID) )
 				{
 					// The HomeServer for the member is on another host.
 					SimiasConnection connection = new SimiasConnection(Domain, member, localHost.UserID, SimiasConnection.AuthType.PPK);
