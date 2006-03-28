@@ -11,19 +11,7 @@ dist-hook:
 
 EXTRA_DIST = tools/aclocal tools/gsoap external/libflaim external/log4net $(srcdir)/$(PACKAGE)*.pc.in $(PROJECT_FILES)
 
-all: simias.pc simias-client.pc simias-client-c.pc
-
-simias.pc: $(srcdir)/simias.pc.in
-	sed -e 's,@_VERSION_@,@VERSION@,g' -e 's,@_PKG_CONFIG_REQUIRES_@,@PKG_CONFIG_REQUIRES@,g' -e 's,@_PKG_CONFIG_CONFLICTS_@,@PKG_CONFIG_CONFLICTS@,g' -e 's,@_prefix_@,@prefix@,g' -e 's,@_exec_prefix_@,@exec_prefix@,g' -e 's,@_webbindir_@,@webbindir@,g' -e 's,@_PKG_CONFIG_LIBS_@,@PKG_CONFIG_LIBS@,g' $< > $@
-	chmod +x $@
-	
-simias-client.pc: $(srcdir)/simias-client.pc.in
-	sed -e 's,@_VERSION_@,@VERSION@,g' -e 's,@_PKG_CONFIG_REQUIRES_@,@PKG_CONFIG_REQUIRES@,g' -e 's,@_PKG_CONFIG_CONFLICTS_@,@PKG_CONFIG_CONFLICTS@,g' -e 's,@_prefix_@,@prefix@,g' -e 's,@_exec_prefix_@,@exec_prefix@,g' -e 's,@_webbindir_@,@webbindir@,g' -e 's,@_CLIENT_PKG_CONFIG_LIBS_@,@CLIENT_PKG_CONFIG_LIBS@,g' $< > $@
-	chmod +x $@
-
-simias-client-c.pc: $(srcdir)/simias-client-c.pc.in
-	sed -e 's,@_VERSION_@,@VERSION@,g' -e 's,@_PKG_CONFIG_REQUIRES_@,@PKG_CONFIG_REQUIRES@,g' -e 's,@_PKG_CONFIG_CONFLICTS_@,@PKG_CONFIG_CONFLICTS@,g' -e 's,@_prefix_@,@prefix@,g' -e 's,@_exec_prefix_@,@exec_prefix@,g' -e 's,@_libdir_@,@libdir@,g' $< > $@
-	chmod +x $@
+all:
 
 export PKG_CONFIG_PATH := $(PKG_CONFIG_PATH)
 
@@ -46,7 +34,7 @@ if DEBUG
 endif
 endif
 
-CLEAN_FILES = simias.pc simias-client.pc simias-client-c.pc
+CLEAN_FILES = 
 
 clean-local:
 	rm -rf $(COMMON_CLEAN_FILES) $(CLEAN_FILES)
@@ -63,6 +51,7 @@ maintainer-clean-local:
 	rm -f install-sh install-sh.lnk INSTALL INSTALL.lnk
 	rm -f missing missing.lnk mkinstalldirs mkinstalldir.lnk
 	rm -rf autom4te.cache
+	rm -rf simias.pc simias-client.pc simias-client-c.pc
 
 .PHONY: test
 test: install
