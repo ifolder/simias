@@ -1,5 +1,6 @@
-DIST_SUBDIRS = core
-SUBDIRS = core
+SUBDIRS = core iFolder.WebService webaccess
+
+DIST_SUBDIRS = $(SUBDIRS)
 
 EXTRA_DIST = 
 

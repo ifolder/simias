@@ -39,7 +39,7 @@ iFolderWebService_INCLUDES =
 iFolderWebService_RESOURCES =
 iFolderWebService_FLAGS = $(CSC_LIBFLAG)
 iFolderWebService_LIBS = System.dll System.Data.dll $(SYSTEM_XML) System.Web.dll System.Web.Services.dll SimiasLib.dll SimiasClient.dll
-iFolderWebService_LIBPATH = $(LOG4NET_DIR)
+iFolderWebService_LIBPATH = ../core/SimiasClient ../core/SimiasLib.dll
 
 EXTRA_DIST =  AssemblyInfo.cs.in $(iFolderWebService_WEBFILES) $(iFolderWebService_CSFILES)
 
@@ -56,7 +56,7 @@ endif
 all: iFolder.WebService.dll
 
 iFolder.WebService.dll: $(iFolderWebService_CSFILES) $(iFolderWebService_RESOURCES)
-	$(CSC) /out:$@ $(CSCFLAGS) $(iFolderWebService_FLAGS) $(SIMIAS_CLIENT_LIBS) $(SIMIAS_LIBS) $(iFolderWebService_LIBS:%=/r:%) $(iFolderWebService_LIBPATH:%=/lib:%) $(iFolderWebService_RESOURCES:%=$(ICON_FLAG)%) $(iFolderWebService_CSFILES_CSC) $(DOC_FILE_CMD)
+	$(CSC) /out:$@ $(CSCFLAGS) $(iFolderWebService_FLAGS) $(iFolderWebService_LIBS:%=/r:%) $(iFolderWebService_LIBPATH:%=/lib:%) $(LOG4NET_LIBS) $(iFolderWebService_RESOURCES:%=$(ICON_FLAG)%) $(iFolderWebService_CSFILES_CSC) $(DOC_FILE_CMD)
 
 if DEBUG
 if WINDOWS

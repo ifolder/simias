@@ -46,6 +46,12 @@ AM_CONDITIONAL(MONO, test "$CSC" = "mcs")
 AM_CONDITIONAL(DOTNET, test "$CSC" = "csc")
 
 #
+# Check for a resource compiler
+#
+AC_CHECK_PROG(RESGEN, resgen, resgen)
+test -z "$RESGEN" && AC_MSG_ERROR([no resource generator : resgen not found])
+
+#
 # We add $prefix to PKG_CONFIG_PATH so pkg-config will find any other
 # packages 'make install'-ed to the same prefix.
 #
@@ -524,6 +530,8 @@ src/core/SyncService/AssemblyInfo.cs
 src/core/SyncService/Makefile
 src/core/SqliteProvider/Makefile
 src/core/libsimias/Makefile
+src/iFolder.WebService/Makefile
+src/webaccess/Makefile
 test/Makefile
 test/Common/Makefile
 test/ChangeLog/Makefile
