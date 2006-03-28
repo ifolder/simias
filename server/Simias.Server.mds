@@ -1,0 +1,32 @@
+<Combine name="Simias.Server" fileversion="2.0" outputpath="./build/bin/">
+  <Configurations active="Debug">
+    <Configuration name="Debug" ctype="CombineConfiguration">
+      <Entry configuration="Debug" build="True" name="Simias.Server" />
+      <Entry configuration="Debug" build="True" name="Simias.HttpFile" />
+      <Entry configuration="Debug" build="True" name="Simias.Rss" />
+      <Entry configuration="Debug" build="True" name="iFolder.WebService" />
+      <Entry configuration="Debug" build="True" name="Server" />
+    </Configuration>
+    <Configuration name="Release" ctype="CombineConfiguration">
+      <Entry configuration="Debug" build="True" name="Simias.Server" />
+      <Entry configuration="Debug" build="True" name="Simias.HttpFile" />
+      <Entry configuration="Debug" build="True" name="Simias.Rss" />
+      <Entry configuration="Debug" build="True" name="iFolder.WebService" />
+      <Entry configuration="Debug" build="True" name="Server" />
+    </Configuration>
+  </Configurations>
+  <StartMode startupentry="Simias.Server" single="True">
+    <Execute type="None" entry="Simias.Server" />
+    <Execute type="None" entry="Simias.HttpFile" />
+    <Execute type="None" entry="Simias.Rss" />
+    <Execute type="None" entry="iFolder.WebService" />
+    <Execute type="None" entry="Server" />
+  </StartMode>
+  <Entries>
+    <Entry filename="./Simias.Server.mdp" />
+    <Entry filename="./src/Simias.HttpFile/Simias.HttpFile.mdp" />
+    <Entry filename="./src/Simias.Rss/Simias.Rss.mdp" />
+    <Entry filename="./src/iFolder.WebService/iFolder.WebService.mdp" />
+    <Entry filename="./src/Server/Server.mdp" />
+  </Entries>
+</Combine>
