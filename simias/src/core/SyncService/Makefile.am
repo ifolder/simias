@@ -19,12 +19,8 @@ endif
 
 all: SyncService.Web.dll
 
-SyncService.Web.dll: AssemblyInfo.cs $(SyncService_CSFILES) $(SyncService_RESOURCES)
+SyncService.Web.dll: $(SyncService_CSFILES) $(SyncService_RESOURCES)
 	$(CSC) /out:$@ $(CSCFLAGS) $(SyncService_FLAGS) $(SIMIAS_LIBS) $(SyncService_LIBS:%=/r:%) $(SyncService_LIBPATH:%=/lib:%) $(SyncService_RESOURCES:%=$(ICON_FLAG)%) $(SyncService_CSFILES_CSC) $(DOC_FILE_CMD)
-
-AssemblyInfo.cs: $(srcdir)/AssemblyInfo.cs.in Makefile
-	sed -e 's,@_VERSION_@,@VERSION@,g' $< > $@
-	chmod +x $@
 
 if DEBUG
 if WINDOWS
@@ -44,7 +40,7 @@ uninstall-local:
 
 installcheck-local: install
 	
-CLEAN_FILES = SyncService.Web.dll $(DOC_FILE_CLEAN) AssemblyInfo.cs
+CLEAN_FILES = SyncService.Web.dll $(DOC_FILE_CLEAN) 
 
 clean-local:
 	rm -rf $(CLEAN_FILES) $(COMMON_CLEAN_FILES)
@@ -53,5 +49,5 @@ distclean-local:
 	rm -rf $(COMMON_DISTCLEAN_FILES)
 
 maintainer-clean-local:
-	rm -rf $(COMMON_MAINTAINER_CLEAN_FILES)
+	rm -rf $(COMMON_MAINTAINER_CLEAN_FILES) AssemblyInfo.cs
 

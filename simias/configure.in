@@ -520,6 +520,7 @@ src/core/WebService/AssemblyInfo.cs
 src/core/WebService/Makefile
 src/core/POBoxWS/AssemblyInfo.cs
 src/core/POBoxWS/Makefile
+src/core/SyncService/AssemblyInfo.cs
 src/core/SyncService/Makefile
 src/core/SqliteProvider/Makefile
 src/core/libsimias/Makefile
