@@ -1,4 +1,0 @@
-rewrite TransmitFile so Mono doesn't puke on large files
-support offset, length on reads
-support PUT
-
