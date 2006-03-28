@@ -1,0 +1,21 @@
+#!/bin/sh
+#######################################################################
+#
+#  $RCSfile: iFolderWebClientJava.in,v $
+#
+#  Copyright (C) 2004 Novell, Inc.
+#
+#  Author: Rob
+#
+#######################################################################
+
+cd @bindir@
+
+export CLASSPATH=$CLASSPATH:@libdir@/iFolderWebClient.jar
+export CLASSPATH=$CLASSPATH:@libdir@/iFolderWebAccess.jar
+export CLASSPATH=$CLASSPATH:@libdir@/axis.jar:@libdir@/jaxrpc.jar
+export CLASSPATH=$CLASSPATH:@libdir@/saaj.jar
+export CLASSPATH=$CLASSPATH:@libdir@/commons-logging.jar
+export CLASSPATH=$CLASSPATH:@libdir@/commons-discovery.jar
+
+java -classpath "$CLASSPATH" iFolderWebClient $@
