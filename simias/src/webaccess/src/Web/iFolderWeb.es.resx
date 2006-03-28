@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:schema id="root" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+            <xsd:complexType>
+                <xsd:choice maxOccurs="unbounded">
+                    <xsd:element name="data">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+                            </xsd:sequence>
+                            <xsd:attribute name="name" type="xsd:string" />
+                            <xsd:attribute name="type" type="xsd:string" />
+                            <xsd:attribute name="mimetype" type="xsd:string" />
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="resheader">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                            </xsd:sequence>
+                            <xsd:attribute name="name" type="xsd:string" use="required" />
+                        </xsd:complexType>
+                    </xsd:element>
+                </xsd:choice>
+            </xsd:complexType>
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="ResMimeType">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="Version">
+        <value>1.0.0.0</value>
+    </resheader>
+    <resheader name="Reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="Writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    
+	<data name="TITLE">
+		<value>Novell iFolder</value>
+	</data>
+    
+	<data name="LOGIN.USERNAME">
+		<value>Usuario:</value>
+	</data>
+    
+	<data name="LOGIN.PASSWORD">
+		<value>Contraseña:</value>
+	</data>
+    
+	<data name="HOME">
+		<value>Inicio</value>
+	</data>
+    
+	<data name="ENTRY.CONFIRMDELETE">
+		<value>¿Está seguro de que desea suprimir los elementos seleccionados?</value>
+	</data>
+    
+	<data name="LOGIN.ERROR">
+		<value>Error:</value>
+	</data>
+    
+	<data name="LOGIN.UNAUTHORIZED">
+		<value>Vuelva a introducir el usuario y la contraseña.</value>
+	</data>
+    
+	<data name="LOGIN.CONNECTFAILED">
+		<value>No es posible contectar con el servidor iFolder.</value>
+	</data>
+    
+	<data name="LOGIN.FAILED">
+		<value>Falló:</value>
+	</data>
+    
+	<data name="MESSAGE.ERROR">
+		<value>Error:</value>
+	</data>
+    
+	<data name="ENTRY.DIRALREADYEXISTS">
+		<value>En esta ubicación ya existe un directorio con el nombre que se ha especificado.</value>
+	</data>
+    
+	<data name="ENTRY.FILESIZEEXCEPTION">
+		<value>Se ha cancelado la carga porque puede que el archivo infrinja la directiva de tamaño de archivos.</value>
+	</data>
+    
+	<data name="ENTRY.DISKQUOTAEXCEPTION">
+		<value>Se ha cancelado la carga porque puede que el archivo infrinja la directiva de cuota de disco.</value>
+	</data>
+    
+	<data name="ENTRY.FILETYPEEXCEPTION">
+		<value>Se ha cancelado la carga porque puede que el archivo infrinja la directiva de patrón de archivos.</value>
+	</data>
+    
+	<data name="ENTRY.B">
+		<value>B</value>
+	</data>
+    
+	<data name="ENTRY.KB">
+		<value>KB</value>
+	</data>
+    
+	<data name="ENTRY.MB">
+		<value>MB</value>
+	</data>
+    
+	<data name="ENTRY.GB">
+		<value>GB</value>
+	</data>
+    
+	<data name="ERROR.TYPE">
+		<value>Error inesperado</value>
+	</data>
+    
+	<data name="ERROR.INSTRUCTIONS">
+		<value>&lt;p&gt;Se ha producido un error inesperado en Web Access de iFolder.&lt;/p&gt; &lt;p&gt;Disculpe las molestias. Salga e inténtelo de nuevo.&lt;/p&gt;</value>
+	</data>
+    
+	<data name="ENTRY.NOUPLOADFILE">
+		<value>Es necesario un archivo.</value>
+	</data>
+    
+	<data name="ENTRY.NODIRNAME">
+		<value>Es necesario un nombre de directorio.</value>
+	</data>
+    
+	<data name="ENGLISH">
+		<value>Inglés</value>
+	</data>
+    
+	<data name="PORTUGUESE">
+		<value>Portugués</value>
+	</data>
+    
+	<data name="ITALIAN">
+		<value>Italiano</value>
+	</data>
+    
+	<data name="GERMAN">
+		<value>Alemán</value>
+	</data>
+    
+	<data name="SPANISH">
+		<value>Español</value>
+	</data>
+    
+	<data name="FRENCH">
+		<value>Francés</value>
+	</data>
+    
+	<data name="JAPANESE">
+		<value>Japonés</value>
+	</data>
+    
+	<data name="RUSSIAN">
+		<value>Ruso</value>
+	</data>
+    
+	<data name="LOGIN.LANGUAGE">
+		<value>Idioma:</value>
+	</data>
+    
+	<data name="LOGIN.COPYRIGHT">
+		<value>&amp;copy; Copyright 2005 Novell, Inc.  Reservados todos los derechos.</value>
+	</data>
+    
+	<data name="LOGIN">
+		<value>conectarse</value>
+	</data>
+    
+	<data name="HELP">
+		<value>Ayuda</value>
+	</data>
+    
+	<data name="LOGOUT">
+		<value>Salir de la sesión</value>
+	</data>
+    
+	<data name="OWNER">
+		<value>Propietario</value>
+	</data>
+    
+	<data name="DELETE">
+		<value>Suprimir</value>
+	</data>
+    
+	<data name="IFOLDERS">
+		<value>Carpetas iFolder</value>
+	</data>
+    
+	<data name="NAME">
+		<value>Nombre</value>
+	</data>
+    
+	<data name="SIZE">
+		<value>Tamaño</value>
+	</data>
+    
+	<data name="MODIFIED">
+		<value>Modificado</value>
+	</data>
+    
+	<data name="ENTRY.DELETEPROMPT">
+		<value>¿Está seguro de que desea suprimir los elementos seleccionados?</value>
+	</data>
+    
+	<data name="UPLOAD">
+		<value>Cargar</value>
+	</data>
+    
+	<data name="CREATE">
+		<value>Crear</value>
+	</data>
+    
+	<data name="ENTRY.FOLDERNAME">
+		<value>Nombre de la carpeta:</value>
+	</data>
+    
+	<data name="ENTRY.NEWFOLDER">
+		<value>Carpeta nueva</value>
+	</data>
+    
+	<data name="ENTRY.FILE">
+		<value>Archivo:</value>
+	</data>
+    
+	<data name="ENTRY.UPLOADFILE">
+		<value>Cargar archivo</value>
+	</data>
+    
+	<data name="ENTRY.ENTRIES">
+		<value>Elementos:</value>
+	</data>
+    
+	<data name="IFOLDER.IFOLDERS">
+		<value>Carpetas iFolder:</value>
+	</data>
+    
+	<data name="MYIFOLDERS">
+		<value>Carpetas iFolder</value>
+	</data>
+    
+	<data name="LOGIN.IFOLDERSERVER">
+		<value>Servidor iFolder:</value>
+	</data>
+    
+	<data name="ENTRY.FAILEDDOWNLOAD">
+		<value>No se ha podido descargar el archivo. Inténtelo de nuevo.</value>
+	</data>
+    
+	<data name="ELLIPSES">
+		<value> . . .</value>
+	</data>
+    
+	<data name="LOGIN.TRUSTFAILED">
+		<value>Se ha producido un error de confianza entre el servidor iFolder y Web Access de iFolder.</value>
+	</data>
+    
+	<data name="MESSAGE.WARNING">
+		<value>Advertencia:</value>
+	</data>
+    
+	<data name="ENTRY.EMPTYFILE">
+		<value>Se ha cargado un archivo de cero bytes.</value>
+	</data>
+    
+	<data name="LOGIN.ACCOUNTLOCKED">
+		<value>La cuenta está bloqueada y no disponible en estos momentos.</value>
+	</data>
+    
+	<data name="LOGIN.ACCOUNTDISABLED">
+		<value>La cuenta está inhabilitada y no disponible en estos momentos.</value>
+	</data>
+    
+	<data name="LOGIN.NOSCRIPT">
+		<value>Debe habilitar los guiones del navegador.</value>
+	</data>
+    
+	<data name="LOGIN.NOCOOKIES">
+		<value>Debe habilitar las cookies del navegador.</value>
+	</data>
+    
+	<data name="ENTRY.ENTRYINVALIDCHARACTERS">
+		<value>The specified name contains invalid characters (\&amp;frasl;:*?&amp;quot;&amp;lt;&amp;gt;|).</value>
+	</data>
+    
+	<data name="ENTRY.ACCESSEXCEPTION">
+		<value>No dispone de derechos suficientes para realizar la petición.</value>
+	</data>
+    
+	<data name="IFOLDER.IFOLDERNAME">
+		<value>Nombre de la carpeta de iFolder:</value>
+	</data>
+    
+	<data name="IFOLDER.NEWIFOLDER">
+		<value>Nueva carpeta iFolder</value>
+	</data>
+    
+	<data name="IFOLDER.NOIFOLDERNAME">
+		<value>Es necesario un nombre iFolder.</value>
+	</data>
+    
+	<data name="RIGHTS">
+		<value>ACCESO</value>
+	</data>
+    
+	<data name="RIGHTS.ADMIN">
+		<value>Control total</value>
+	</data>
+    
+	<data name="RIGHTS.READONLY">
+		<value>Sólo lectura</value>
+	</data>
+    
+	<data name="RIGHTS.READWRITE">
+		<value>Lectura-Escritura</value>
+	</data>
+    
+	<data name="RIGHTS.DENY">
+		<value>Desconocido</value>
+	</data>
+    
+	<data name="LOGIN.SENDFAILED">
+		<value>No es posible comunicarse con el servidor iFolder.</value>
+	</data>
+    
+	<data name="LOGIN.SECUREFAILED">
+		<value>No es posible comunicarse con el servidor iFolder de forma segura.</value>
+	</data>
+    
+	<data name="ENTRY.LOCKEXCEPTION">
+		<value>Se ha cancelado la carga porque el administrador ha bloqueado la iFolder.</value>
+	</data>
+    
+	<data name="ENTRY.ENTRYINVALIDNAME">
+		<value>El nombre especificado no es válido.</value>
+	</data>
+    
+	<data name="MESSAGE.INFORMATION">
+		<value>Información:</value>
+	</data>
+    
+	<data name="ENTRY.MAXUPLOADSIZEEXCEPTION">
+		<value>Se ha cancelado la carga porque el archivo excedía el tamaño máximo de archivo permitido.</value>
+	</data>
+    
+	<data name="LOGIN.LOGOUT">
+		<value>Ha salido de iFolder.</value>
+	</data>
+    
+	<data name="CHINESE-SIMPLIFIED">
+		<value>Chino simplificado</value>
+	</data>
+    
+	<data name="PORTUGUESE-BRAZIL">
+		<value>Portugués-Brasil</value>
+	</data>
+    
+	<data name="CHINESE-TRADITIONAL">
+		<value>Chino tradicional</value>
+	</data>
+    
+	<data name="POLISH">
+		<value>Polaco</value>
+	</data>
+    
+	<data name="CZECH">
+		<value>Checo</value>
+	</data>
+    
+	<data name="HUNGARIAN">
+		<value>Húngaro</value>
+	</data>
+    
+	<data name="SLOVAK">
+		<value>Eslovaco</value>
+	</data>
+    
+	<data name="LOGIN.LOSTSESSION">
+		<value>Se ha cerrado la sesión, entre de nuevo.</value>
+	</data>
+    
+	<data name="IFOLDER.DELETEPROMPT">
+		<value>Are you sure you want to delete the iFolder?</value>
+	</data>
+    
+	<data name="LOGIN.REDIRECT">
+		<value>The iFolder Server URL needs to be updated.</value>
+	</data>
+    
+	<data name="DELETE">
+		<value>Suprimir</value>
+	</data>
+    
+	<data name="MEMBERS">
+		<value>Members</value>
+	</data>
+    
+	<data name="HISTORY">
+		<value>History</value>
+	</data>
+    
+	<data name="IFOLDER.IFOLDERDESCRIPTION">
+		<value>iFolder Description:</value>
+	</data>
+</root>
