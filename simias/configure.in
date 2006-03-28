@@ -508,6 +508,7 @@ src/core/SimiasClient/libsimias-event/Makefile
 src/core/SimiasClient/libsimias-manager/Makefile
 src/core/SimiasLib.dll/Makefile
 src/core/SimiasLib.dll/SimiasLib.dll.config
+src/core/SimiasLib.dll/AssemblyInfo.cs
 src/core/SimiasLib.dll/simias.pc
 src/core/FlaimProvider/Makefile
 src/core/FlaimProvider/FlaimWrapper/Makefile

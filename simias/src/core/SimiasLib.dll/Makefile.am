@@ -32,12 +32,8 @@ CUR_DIR := $(shell pwd)
 
 all: SimiasLib.dll ../Common/Simias.config
 
-SimiasLib.dll: AssemblyInfo.cs $(SIMIAS_CSFILES_SRC) ../Common/MyDns.cs $(SIMIAS_RESOURCES) $(srcdir)/SimiasLib.dll.sources
+SimiasLib.dll: $(SIMIAS_CSFILES_SRC) ../Common/MyDns.cs $(SIMIAS_RESOURCES) $(srcdir)/SimiasLib.dll.sources
 	$(CSC) /out:$@ $(CSCFLAGS) $(SIMIAS_FLAGS) $(SIMIAS_LIBS:%=/r:%) $(SIMIAS_LIBPATH:%=/lib:%) $(LOG4NET_LIBS) $(SIMIAS_CSFILES_CSC) $(subst /,$(SEP),../Common/MyDns.cs) $(DOC_FILE_CMD)
-
-AssemblyInfo.cs: $(srcdir)/AssemblyInfo.cs.in Makefile
-	sed -e 's,@_VERSION_@,@VERSION@,g' $< > $@
-	chmod +x $@
 
 if DEBUG
 if WINDOWS
@@ -75,7 +71,7 @@ if LINUX
 	cd $(DESTDIR)$(webbindir); rm -f SimiasLib.dll.config
 endif
 
-CLEAN_FILES = SimiasLib.dll $(DOC_FILE_CLEAN) $(DEBUG_FILES) AssemblyInfo.cs
+CLEAN_FILES = SimiasLib.dll $(DOC_FILE_CLEAN) $(DEBUG_FILES)
 
 clean-local:
 	rm -rf $(CLEAN_FILES)
@@ -85,5 +81,5 @@ distclean-local:
 
 maintainer-clean-local:
 	rm -rf $(COMMON_MAINTAINER_CLEAN_FILES)
-	rm -rf simias.pc
+	rm -rf simias.pc AssemblyInfo.cs
 
