@@ -34,20 +34,6 @@ all: Simias.exe
 Simias.exe: AssemblyInfo.cs $(Simias_CSFILES) $(Simias_RESOURCES) SimiasDirectoryMapping simias
 	$(CSC) /out:$@ $(CSCFLAGS) $(Simias_FLAGS) $(SIMIAS_LIBS) $(Simias_LIBS:%=/r:%) $(Simias_LIBPATH:%=/lib:%) $(Simias_RESOURCES:%=$(ICON_FLAG)%) $(Simias_CSFILES_CSC) $(DOC_FILE_CMD)
 
-AssemblyInfo.cs: $(srcdir)/AssemblyInfo.cs.in Makefile
-	sed -e 's,@_VERSION_@,@VERSION@,g' $< > $@
-	chmod +x $@
-
-SimiasDirectoryMapping: $(srcdir)/SimiasDirectoryMapping.in
-	sed -e 's,@_mappingpath_@,$(SIMIAS_PATH),g' $< > $@
-	chmod +x $@
-
-simias: $(srcdir)/simias.in
-if !WINDOWS
-	sed -e 's,@_webbindir_@,@webbindir@,g' -e 's,@_bindir_@,@bindir@,g' $< > $@
-	chmod +x $@
-endif	
-
 if DEBUG
 if WINDOWS
 DEBUG_FILES = Simias.pdb
@@ -76,7 +62,7 @@ endif
 
 installcheck-local: install
 	
-CLEAN_FILES = Simias.exe $(DOC_FILE_CLEAN) AssemblyInfo.cs SimiasDirectoryMapping simias
+CLEAN_FILES = Simias.exe $(DOC_FILE_CLEAN)
 
 clean-local:
 	rm -rf $(CLEAN_FILES) $(COMMON_CLEAN_FILES)
@@ -86,4 +72,5 @@ distclean-local:
 
 maintainer-clean-local:
 	rm -rf $(COMMON_MAINTAINER_CLEAN_FILES)
+	rm -rf AssemblyInfo.cs SimiasDirectoryMapping simias
 

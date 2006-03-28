@@ -513,6 +513,9 @@ src/core/SimiasLib.dll/simias.pc
 src/core/FlaimProvider/Makefile
 src/core/FlaimProvider/FlaimWrapper/Makefile
 src/core/SimiasApp/Makefile
+src/core/SimiasApp/simias
+src/core/SimiasApp/SimiasDirectoryMapping
+src/core/SimiasApp/AssemblyInfo.cs
 src/core/WebService/AssemblyInfo.cs
 src/core/WebService/Makefile
 src/core/POBoxWS/AssemblyInfo.cs
