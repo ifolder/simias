@@ -18,7 +18,8 @@ iFolderWeb_CSFILES = \
 	$(srcdir)/UploadModule.cs \
 	$(srcdir)/UploadStream.cs \
 	$(srcdir)/WebLogger.cs \
-	$(srcdir)/WebUtility.cs
+	$(srcdir)/WebUtility.cs \
+	$(srcdir)/iFolderWebProxy.cs
 	
 iFolderWeb_CSFILES_CSC := $(subst /,$(SEP),$(iFolderWeb_CSFILES))
 
@@ -39,10 +40,9 @@ iFolderWeb_LIBS = \
 	System.Drawing.dll \
 	System.Web.dll \
 	System.Web.Services.dll \
-	Novell.iFolderWeb.Proxy.dll \
 	log4net.dll
 
-iFolderWeb_LIBPATH = ../Proxy $(LOG4NET_DIR)
+iFolderWeb_LIBPATH = $(LOG4NET_DIR)
 
 iFolderWeb_FORMS = \
 	Web.config \
@@ -81,12 +81,16 @@ CLEAN_FILES = Novell.iFolderWeb.dll \
 	Novell.iFolderWeb.doc.xml \
 	$(iFolderWeb_RESOURCES) \
 	AssemblyInfo.cs \
+	$(srcdir)/iFolderWebProxy.cs \
 	$(DEBUG_FILES)
 
 all: Novell.iFolderWeb.dll
 
+iFolderWebProxy.cs: ../../iFolder.WebService/iFolderWeb.wsdl
+	wsdl /nologo /out:$@ $<
+
 Novell.iFolderWeb.dll: $(iFolderWeb_CSFILES) $(iFolderWeb_RESOURCES)
-	$(CSC) /out:$@ $(CSCFLAGS) $(iFolderWeb_FLAGS) $(iFolderWeb_LIBS:%=/r:%) $(iFolderWeb_RESOURCES:%=/res:%) $(iFolderWeb_LIBPATH:%=/lib:%) $(iFolderWeb_CSFILES_CSC) /doc:iFolderWeb.doc.xml
+	$(CSC) /out:$@ $(CSCFLAGS) $(iFolderWeb_FLAGS) $(iFolderWeb_LIBS:%=/r:%) $(iFolderWeb_RESOURCES:%=/res:%) $(iFolderWeb_LIBPATH:%=/lib:%) $(LOG4NET_LIBS) $(iFolderWeb_CSFILES_CSC) /doc:iFolderWeb.doc.xml
 
 Novell.iFolderApp.Web.%.resources : %.resx
 	$(RESGEN) $< $@
