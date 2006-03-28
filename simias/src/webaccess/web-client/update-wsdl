@@ -1,7 +1,0 @@
-#!/bin/sh
-
-CMD="cp ../../server/src/iFolder.WebService/iFolderWeb.wsdl ./external/ifolder/iFolderWeb.wsdl"
-
-echo $CMD
-
-$CMD
