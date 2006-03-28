@@ -233,6 +233,9 @@ namespace Simias.Storage
 								je.UserName = member.FN != null ? member.FN : member.Name;
 							}
 
+							Node node = collection.GetNodeByID( je.FileID );
+							je.IsFolder = node != null && node.IsType( NodeTypes.DirNodeType );
+
 							tempList.Add( je );
 							--count;
 						}
@@ -1131,6 +1134,11 @@ namespace Simias.Storage
 		#region Class Members
 
 		/// <summary>
+		/// A value used to indicate if this JournalEntry pertains to a folder.
+		/// </summary>
+		private bool isFolder;
+
+		/// <summary>
 		/// The type of change that this entry refers to.
 		/// </summary>
 		private string type;
@@ -1164,6 +1172,9 @@ namespace Simias.Storage
 
 		#region Properties
 
+		/// <summary>
+		/// Gets the identifier for the file or folder.
+		/// </summary>
 		public string FileID
 		{
 			get { return fileID; }
@@ -1176,6 +1187,15 @@ namespace Simias.Storage
 		{
 			get { return fileName; }
 			set { fileName = value; }
+		}
+
+		/// <summary>
+		/// Gets/sets a value indicating if this entry is related to a folder.
+		/// </summary>
+		public bool IsFolder
+		{
+			get { return isFolder; }
+			set { isFolder = value; }
 		}
 
 		/// <summary>
@@ -1194,6 +1214,9 @@ namespace Simias.Storage
 			get { return type; }
 		}
 
+		/// <summary>
+		/// Gets the identifier of the user for this entry.
+		/// </summary>
 		public string UserID
 		{
 			get { return userID; }
