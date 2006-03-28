@@ -1,0 +1,13 @@
+# pkg-config metadata file for ifolder3-web
+Name: iFolder 3.0 Web Access
+Description: iFolder 3.0 Web Access
+Version: @VERSION@
+Requires: @PKG_CONFIG_REQUIRES@
+Conflicts: @PKG_CONFIG_CONFLICTS@
+
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+
+Libs:/lib:${libdir} @PKG_CONFIG_LIBS@
+

@@ -1,0 +1,13 @@
+# pkg-config metadata file for ifolder3-web-java
+Name: iFolder 3.0 Web Access Java
+Description: iFolder 3.0 Web Access Java
+Version: @VERSION@
+Requires: @PKG_CONFIG_REQUIRES@
+Conflicts: @PKG_CONFIG_CONFLICTS@
+
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+
+Libs:/lib:${libdir} @PKG_CONFIG_LIBS@
+
