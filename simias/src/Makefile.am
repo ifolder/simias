@@ -1,5 +1,5 @@
-DIST_SUBDIRS = Core
-SUBDIRS = Core
+DIST_SUBDIRS = core
+SUBDIRS = core
 
 EXTRA_DIST = 
 
