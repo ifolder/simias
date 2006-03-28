@@ -51,7 +51,7 @@ maintainer-clean-local:
 	rm -f install-sh install-sh.lnk INSTALL INSTALL.lnk
 	rm -f missing missing.lnk mkinstalldirs mkinstalldir.lnk
 	rm -rf autom4te.cache
-	rm -rf simias.pc simias-client.pc simias-client-c.pc
+	rm -rf simias-client.pc simias-client-c.pc
 
 .PHONY: test
 test: install

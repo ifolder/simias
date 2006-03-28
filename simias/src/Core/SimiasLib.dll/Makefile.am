@@ -20,7 +20,7 @@ else
 	SIMIAS_LIBS = $(SIMIAS_LIBS1)
 endif
 
-EXTRA_DIST = $(srcdir)/SimiasLib.dll.sources $(SIMIAS_CSFILES) ../Common/Simias.log4net ../Common/Simias.config.in ../Common/MyDns.cs.in ../Login/Login.ashx SimiasLib.dll.config.in AssemblyInfo.cs.in SimiasLib.conf
+EXTRA_DIST = $(srcdir)/SimiasLib.dll.sources $(SIMIAS_CSFILES) ../Common/Simias.log4net ../Common/Simias.config.in ../Common/MyDns.cs.in ../Login/Login.ashx SimiasLib.dll.config.in AssemblyInfo.cs.in SimiasLib.conf simias.pc.in
 
 ../Common/Simias.config: ../Common/Simias.config.in
 	sed -e 's,@_StoreProviderAssembly_@,@StoreProviderAssembly@,g' -e 's,@_StoreProviderType_@,@StoreProviderType@,g' $< > ../Common/Simias.config
@@ -66,6 +66,8 @@ endif
 	$(INSTALL_PROGRAM) ../Login/Login.ashx $(DESTDIR)$(webdir)
 if LINUX
 	$(INSTALL_PROGRAM) SimiasLib.dll.config $(DESTDIR)$(webbindir)
+        $(mkinstalldirs) $(DESTDIR)$(libdir)/pkgconfig
+        $(INSTALL_PROGRAM) $simias.pc $(DESTDIR)$(libdir)/pkgconfig
 endif
 
 uninstall-local:
@@ -78,6 +80,7 @@ endif
 	cd $(DESTDIR)$(sysconfdir); rm -f Simias.log4net Simias.config
 if LINUX
 	cd $(DESTDIR)$(webbindir); rm -f SimiasLib.dll.config
+        cd $(DESTDIR)$(libdir)/pkgconfig; rm -f simias.pc
 endif
 
 CLEAN_FILES = SimiasLib.dll $(DOC_FILE_CLEAN) $(DEBUG_FILES) ../Common/Simias.config ../Common/MyDns.cs AssemblyInfo.cs
@@ -90,4 +93,5 @@ distclean-local:
 
 maintainer-clean-local:
 	rm -rf $(COMMON_MAINTAINER_CLEAN_FILES)
+	rm -rf simias.pc
 
