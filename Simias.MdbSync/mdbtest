@@ -1,4 +1,0 @@
-export LD_LIBRARY_PATH=/home/banderso/opt/lib:$LD_LIBRARY_PATH
-
-mono ./bin/Debug/SimiasMdbSync.exe
-
