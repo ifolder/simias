@@ -60,16 +60,16 @@ endif
 install-exec-local: SimiasClient.dll $(DATA_FILES)
 	$(mkinstalldirs) $(DESTDIR)$(webbindir) $(DESTDIR)$(bindir)
 	$(INSTALL_PROGRAM) SimiasClient.dll $(DEBUG_FILES) $(DESTDIR)$(webbindir)
-        $(mkinstalldirs) $(DESTDIR)$(libdir)/pkgconfig
-        $(INSTALL_PROGRAM) simias-client.pc $(DESTDIR)$(libdir)/pkgconfig
-        $(INSTALL_PROGRAM) simias-client-c.pc $(DESTDIR)$(libdir)/pkgconfig
+	$(mkinstalldirs) $(DESTDIR)$(libdir)/pkgconfig
+	$(INSTALL_PROGRAM) simias-client.pc $(DESTDIR)$(libdir)/pkgconfig
+	$(INSTALL_PROGRAM) simias-client-c.pc $(DESTDIR)$(libdir)/pkgconfig
 if HAS_SIMIASCLIENT_KEYFILE
 	$(GACINSTALL) $(shell cygpath --mixed $(webbindir))/SimiasClient.dll
 endif	
 	
 uninstall-local:
 	cd $(DESTDIR)$(webbindir); rm -f SimiasClient.dll $(DEBUG_FILES)
-        cd $(DESTDIR)$(libdir)/pkgconfig; rm -f simias-client.pc simias-client-c.pc
+	cd $(DESTDIR)$(libdir)/pkgconfig; rm -f simias-client.pc simias-client-c.pc
 	
 installcheck-local: install
 	

@@ -57,6 +57,8 @@ install-exec-local: all
 	$(mkinstalldirs) $(DESTDIR)$(webbindir) $(DESTDIR)$(modulesdir) $(DESTDIR)$(sysconfdir) $(DESTDIR)$(datadir)/simias
 	$(INSTALL_PROGRAM) SimiasLib.dll $(DEBUG_FILES) $(DESTDIR)$(webbindir)
 	$(INSTALL_PROGRAM) SimiasLib.conf $(DESTDIR)$(modulesdir)
+	$(mkinstalldirs) $(DESTDIR)$(libdir)/pkgconfig
+	$(INSTALL_PROGRAM) simias.pc $(DESTDIR)$(libdir)/pkgconfig
 if !LINUX
 	$(INSTALL_PROGRAM) $(srcdir)/$(LOG4NET_DIR)/log4net.dll $(DESTDIR)$(webbindir)
 	cp -f $(srcdir)/$(LOG4NET_DIR)/../../../../LICENSE.txt $(DESTDIR)$(datadir)/simias/log4net.LICENSE.txt
@@ -66,12 +68,11 @@ endif
 	$(INSTALL_PROGRAM) ../Login/Login.ashx $(DESTDIR)$(webdir)
 if LINUX
 	$(INSTALL_PROGRAM) SimiasLib.dll.config $(DESTDIR)$(webbindir)
-        $(mkinstalldirs) $(DESTDIR)$(libdir)/pkgconfig
-        $(INSTALL_PROGRAM) $simias.pc $(DESTDIR)$(libdir)/pkgconfig
 endif
 
 uninstall-local:
 	cd $(DESTDIR)$(webdir); rm -rf $(modulesdir)
+	cd $(DESTDIR)$(libdir)/pkgconfig; rm -f simias.pc
 if !LINUX
 	cd $(DESTDIR)$(webbindir); rm -f log4net.dll
 	cd $(DESTDIR)$(datadir)/simias; rm -f log4net.LICENSE.txt
@@ -80,7 +81,6 @@ endif
 	cd $(DESTDIR)$(sysconfdir); rm -f Simias.log4net Simias.config
 if LINUX
 	cd $(DESTDIR)$(webbindir); rm -f SimiasLib.dll.config
-        cd $(DESTDIR)$(libdir)/pkgconfig; rm -f simias.pc
 endif
 
 CLEAN_FILES = SimiasLib.dll $(DOC_FILE_CLEAN) $(DEBUG_FILES) ../Common/Simias.config ../Common/MyDns.cs AssemblyInfo.cs

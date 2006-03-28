@@ -1,4 +1,4 @@
-AC_INIT(src/Core/Common/Configuration.cs)
+AC_INIT(src/core/Common/Configuration.cs)
 AC_CANONICAL_SYSTEM
 AM_INIT_AUTOMAKE(simias, 1.5)
 # Check to see if the BUILDNUM is set by global build
