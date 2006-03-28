@@ -497,6 +497,8 @@ AC_OUTPUT([
 Makefile
 src/Makefile
 src/core/Makefile
+src/core/Common/MyDns.cs
+src/core/Common/Simias.config
 src/core/SimiasClient/Makefile
 src/core/SimiasClient/simias-client.pc
 src/core/SimiasClient/simias-client-c.pc

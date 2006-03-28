@@ -22,14 +22,6 @@ endif
 
 EXTRA_DIST = $(srcdir)/SimiasLib.dll.sources $(SIMIAS_CSFILES) ../Common/Simias.log4net ../Common/Simias.config.in ../Common/MyDns.cs.in ../Login/Login.ashx SimiasLib.dll.config.in AssemblyInfo.cs.in SimiasLib.conf simias.pc.in
 
-../Common/Simias.config: ../Common/Simias.config.in
-	sed -e 's,@_StoreProviderAssembly_@,@StoreProviderAssembly@,g' -e 's,@_StoreProviderType_@,@StoreProviderType@,g' $< > ../Common/Simias.config
-	chmod +x $@
-	
-../Common/MyDns.cs: ../Common/MyDns.cs.in
-	sed -e 's,@_webbindir_@,@webbindir@,g' $< > ../Common/MyDns.cs
-	chmod +x $@
-
 if MAKE_DOC_FILE
 DOC_FILE = $(basename $@).doc.xml
 DOC_FILE_CMD = /doc:$(DOC_FILE)
@@ -83,7 +75,7 @@ if LINUX
 	cd $(DESTDIR)$(webbindir); rm -f SimiasLib.dll.config
 endif
 
-CLEAN_FILES = SimiasLib.dll $(DOC_FILE_CLEAN) $(DEBUG_FILES) ../Common/Simias.config ../Common/MyDns.cs AssemblyInfo.cs
+CLEAN_FILES = SimiasLib.dll $(DOC_FILE_CLEAN) $(DEBUG_FILES) AssemblyInfo.cs
 
 clean-local:
 	rm -rf $(CLEAN_FILES)

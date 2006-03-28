@@ -70,7 +70,7 @@ namespace Simias
 				process.StartInfo.RedirectStandardOutput = true;
 				process.StartInfo.CreateNoWindow = true;
 				process.StartInfo.UseShellExecute = false;
-				process.StartInfo.FileName = "@_webbindir_@/ifdata";
+				process.StartInfo.FileName = "@webbindir@/ifdata";
 				process.Start();
 				reader = process.StandardOutput;
 				process.WaitForExit(2000);
@@ -132,7 +132,7 @@ namespace Simias
 				process.StartInfo.RedirectStandardOutput = true;
 				process.StartInfo.CreateNoWindow = true;
 				process.StartInfo.UseShellExecute = false;
-				process.StartInfo.FileName = "@_webbindir_@/ifdata";
+				process.StartInfo.FileName = "@webbindir@/ifdata";
 				process.Start();
 				reader = process.StandardOutput;
 				process.WaitForExit(2000);

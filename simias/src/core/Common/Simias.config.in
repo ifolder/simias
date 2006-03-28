@@ -4,7 +4,7 @@
     <setting name="SimiasRequireSSL" value="no" />
   </section>
   <section name="StoreProvider">
-    <setting name="Assembly" value="@_StoreProviderAssembly_@" />
-    <setting name="Type" value="@_StoreProviderType_@" />
+    <setting name="Assembly" value="@StoreProviderAssembly@" />
+    <setting name="Type" value="@StoreProviderType@" />
   </section>
 </configuration>
