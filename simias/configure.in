@@ -495,11 +495,11 @@ AC_SUBST(XML2_LIBS)
 #
 AC_OUTPUT([
 Makefile
-simias-client.pc
 simias-client-c.pc
 src/Makefile
 src/Core/Makefile
 src/Core/SimiasClient/Makefile
+src/Core/SimiasClient/simias-client.pc
 src/Core/SimiasClient/libsimias-event/Makefile
 src/Core/SimiasClient/libsimias-manager/Makefile
 src/Core/SimiasLib.dll/Makefile
