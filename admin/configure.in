@@ -1,3 +1,4 @@
+#
 AC_INIT(ifolder-admin.pc.in)
 AC_CANONICAL_SYSTEM
 AM_INIT_AUTOMAKE(ifolder-admin, 3.3)
