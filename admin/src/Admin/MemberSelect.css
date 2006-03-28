@@ -1,0 +1,146 @@
+.headertitle
+{
+	margin-left: 1em;
+	margin-bottom: 0;
+}
+
+.tablecolumn
+{
+	width: 30em;
+}
+
+.memberselectnav
+{
+	width: 58em;
+	padding-left: .8em;
+	padding-bottom: 1em;
+}
+
+.memberbuttonnav
+{
+	padding-left: 2em;
+	padding-right: 2em;
+}
+
+.okcancelnav
+{
+	clear: both;
+	padding-left: 26em;
+	padding-bottom: 1em;
+}
+
+.memberlist
+{
+	width: 23em;
+}
+
+.memberlistheader
+{
+	border-top: solid 1px black;
+	border-bottom: solid 1px black;
+	border-collapse: collapse;
+	width: 100%;
+}
+
+.memberlistheader td
+{
+	padding-left: 2px;
+	font-weight: bold;
+	font-size: 0.8em;
+	color: black;
+	background-color: #efeee9;
+}
+
+.memberlistheader .checkboxcolumn
+{
+	width: 1em;
+}
+
+.memberlistitem
+{
+	height: 22px;
+}
+
+.memberlistaltitem
+{
+	height: 22px;
+	background-color: #efeee9;
+}
+
+.memberitem1
+{
+	padding-left: 2px;
+	width: 2em;
+}
+
+.memberitem2
+{
+	padding-top: 3px;
+	width: 2em;
+}
+
+.memberitem3
+{
+	width: 10em;
+}
+
+.memberitem4
+{
+}
+
+.disableditem3
+{
+	width: 10em;
+	color: silver;
+}
+
+.disableditem4
+{
+	color: silver;
+}
+
+.searchnav
+{
+	clear: both;
+	margin-left: 1em;
+	margin-top: 1em;
+	padding-bottom: .5em;
+}
+
+#CreateiFolderDiv
+{
+	width: 37em;
+	margin-left: 1em;
+	margin-bottom: 2em;
+}
+
+#CreateiFolderDiv td
+{
+	vertical-align: top;
+}
+
+#NameLabel
+{
+	font-weight: bold;
+}
+
+#Name
+{
+	width: 100%;
+}
+
+#DescriptionLabel
+{
+	font-weight: bold;
+}
+
+#Description
+{
+	width: 100%;
+}
+
+#OkButton
+{
+	width: 4.5em;
+}
+

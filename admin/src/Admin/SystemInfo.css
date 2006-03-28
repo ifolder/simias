@@ -1,0 +1,43 @@
+.leftnav
+{
+	padding-right: 1em;
+	padding-left: 1em;
+	float: left;
+	width: 40em;
+	border-right: 1px dotted #999999;
+}
+
+.detailnav
+{
+	border-bottom: dotted 1px #999999;
+	float: left;
+	padding-bottom: 1em;
+	width: 100%;
+	min-width: 40em;
+}
+
+.detailinfo th
+{
+	text-align:left;
+	padding-right: .5em;
+	font-size: .8em;
+}
+
+.detailinfo td
+{
+	width: 80%;
+}
+
+.detailinfo td #Name
+{
+	text-align: left;
+	width: 120%;
+	padding-left: .2em;
+}
+
+.detailinfo td #Description
+{
+	text-align: left;
+	width: 120%;
+	padding-left: .2em;
+}

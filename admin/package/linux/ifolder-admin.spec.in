@@ -1,0 +1,101 @@
+#######################################################################
+#  $RCSfile: ifolder-admin.spec.in,v $
+#
+#  Copyright (C) 2004 Novell, Inc.
+#
+#  This program is free software; you can redistribute it and/or
+#  modify it under the terms of the GNU General Public
+#  License as published by the Free Software Foundation; either
+#  version 2 of the License, or (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+#  General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public
+#  License along with this program; if not, write to the Free
+#  Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+#
+#  Author: Paul Thomas <pthomas@novell.com>
+#
+#######################################################################
+
+%define prefix /opt/novell/ifolder3
+%define APACHECONFD     /etc/apache2/conf.d
+
+Summary      : iFolder Web Administrator
+Name         : @PACKAGE@
+Version      : @VERSION@
+Release      : 1
+Copyright    : GPL
+Group        : Applications/Productivity
+Source       : %{name}-%{version}.tar.gz
+URL          : http://forge.novell.com/modules/xfmod/project/?ifolder
+#Distribution : 
+Vendor       : Novell Inc. 
+Packager     : <unknown>
+BuildRoot    : %{_tmppath}/%{name}-%{version}
+
+PreReq       : apache2 >= 2.0.49
+Requires     : mono-core = 1.1.7.7
+Requires     : mono-data = 1.1.7.7
+Requires     : mono-web = 1.1.7.7
+Requires     : mod_mono = 1.0.9
+
+#=============================================================================
+%Description
+This package provides administration services for an iFolder enterprise server.
+#=============================================================================
+%ChangeLog
+
+
+#=============================================================================
+%Prep
+%setup -n %{name}-%{version}
+
+#=============================================================================
+%Build
+./configure --prefix=%{prefix}
+make
+
+#=============================================================================
+%Install
+%{__rm} -rf $RPM_BUILD_ROOT
+make DESTDIR=$RPM_BUILD_ROOT install
+
+#=============================================================================
+%Clean
+%{__rm} -rf $RPM_BUILD_ROOT
+
+#=============================================================================
+#%Post
+#INSTANCES_AFTER_INSTALL=$1
+#if [ "$INSTANCES_AFTER_INSTALL" = "2" ]; then
+#fi
+
+#=============================================================================
+#%Preun
+#INSTANCES_AFTER_UNINSTALL=$1
+#if [ "$INSTANCES_AFTER_UNINSTALL" = "0" ]; then
+#fi
+
+#=============================================================================
+%Postun
+INSTANCES_AFTER_UNINSTALL=$1
+if [ "$INSTANCES_AFTER_UNINSTALL" = "0" ]; then
+	if [ -e %{APACHECONFD}/ifolder_admin.conf ]; then
+		echo "Removing %{APACHECONFD}/ifolder_admin.conf" 
+		rm -f %{APACHECONFD}/ifolder_admin.conf
+	fi
+fi
+
+
+
+#=============================================================================
+%Files
+%defattr(755,root,root)
+%dir %prefix
+%{prefix}/*
+%config(noreplace) %{prefix}/webadmin/Web.config
+

@@ -1,0 +1,7 @@
+#!/bin/sh
+
+CMD="cp ../server/src//iFolder.WebService/iFolderAdmin.wsdl ./external/ifolder/iFolderAdmin.wsdl"
+
+echo $CMD
+
+$CMD
