@@ -19,12 +19,8 @@ endif
 
 all: Simias.Web.dll
 
-Simias.Web.dll: AssemblyInfo.cs $(SimiasWebService_CSFILES) $(SimiasWebService_RESOURCES)
+Simias.Web.dll: $(SimiasWebService_CSFILES) $(SimiasWebService_RESOURCES)
 	$(CSC) /out:$@ $(CSCFLAGS) $(SimiasWebService_FLAGS) $(SIMIAS_LIBS) $(SimiasWebService_LIBS:%=/r:%) $(SimiasWebService_LIBPATH:%=/lib:%) $(SimiasWebService_RESOURCES:%=$(ICON_FLAG)%) $(SimiasWebService_CSFILES_CSC) $(DOC_FILE_CMD)
-
-AssemblyInfo.cs: $(srcdir)/AssemblyInfo.cs.in Makefile
-	sed -e 's,@_VERSION_@,@VERSION@,g' $< > $@
-	chmod +x $@
 
 if DEBUG
 if WINDOWS
@@ -49,7 +45,7 @@ uninstall-local:
 
 installcheck-local: install
 	
-CLEAN_FILES = Simias.Web.dll $(DOC_FILE_CLEAN) AssemblyInfo.cs
+CLEAN_FILES = Simias.Web.dll $(DOC_FILE_CLEAN) 
 
 clean-local:
 	rm -rf $(CLEAN_FILES) $(COMMON_CLEAN_FILES)
@@ -58,5 +54,5 @@ distclean-local:
 	rm -rf $(COMMON_DISTCLEAN_FILES)
 
 maintainer-clean-local:
-	rm -rf $(COMMON_MAINTAINER_CLEAN_FILES)
+	rm -rf $(COMMON_MAINTAINER_CLEAN_FILES) AssemblyInfo.cs
 

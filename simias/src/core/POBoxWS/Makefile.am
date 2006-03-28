@@ -19,13 +19,9 @@ endif
 
 all: Simias.POBox.Web.dll
 
-Simias.POBox.Web.dll: AssemblyInfo.cs $(POBoxWS_CSFILES) $(POBoxWS_RESOURCES)
+Simias.POBox.Web.dll: $(POBoxWS_CSFILES) $(POBoxWS_RESOURCES)
 	$(CSC) /out:$@ $(CSCFLAGS) $(POBoxWS_FLAGS) $(SIMIAS_LIBS) $(POBoxWS_LIBS:%=/r:%) $(POBoxWS_LIBPATH:%=/lib:%) $(POBoxWS_RESOURCES:%=$(ICON_FLAG)%) $(POBoxWS_CSFILES_CSC) $(DOC_FILE_CMD)
 
-AssemblyInfo.cs: $(srcdir)/AssemblyInfo.cs.in Makefile
-	sed -e 's,@_VERSION_@,@VERSION@,g' $< > $@
-	chmod +x $@
-	
 if DEBUG
 if WINDOWS
 DEBUG_FILES = Simias.POBox.Web.pdb
@@ -44,7 +40,7 @@ uninstall-local:
 
 installcheck-local: install
 	
-CLEAN_FILES = Simias.POBox.Web.dll $(DOC_FILE_CLEAN) AssemblyInfo.cs
+CLEAN_FILES = Simias.POBox.Web.dll $(DOC_FILE_CLEAN) 
 
 clean-local:
 	rm -rf $(CLEAN_FILES) $(COMMON_CLEAN_FILES)
@@ -53,5 +49,5 @@ distclean-local:
 	rm -rf $(COMMON_DISTCLEAN_FILES)
 
 maintainer-clean-local:
-	rm -rf $(COMMON_MAINTAINER_CLEAN_FILES)
+	rm -rf $(COMMON_MAINTAINER_CLEAN_FILES) AssemblyInfo.cs
 

@@ -21,10 +21,6 @@ else
 STRONG_NAME=
 endif
 
-SimiasSetup.cs: $(srcdir)/SimiasSetup.cs.in
-	sed -e 's,@_prefix_@,@prefix@,g' -e 's,@_bindir_@,@bindir@,g' -e 's,@_datadir_@,@datadir@,g' -e 's,@_includedir_@,@includedir@,g' -e 's,@_infodir_@,@infodir@,g' -e 's,@_libexecdir_@,@libexecdir@,g' -e 's,@_libdir_@,@libdir@,g' -e 's,@_localstatedir_@,@localstatedir@,g' -e 's,@_mandir_@,@mandir@,g' -e 's,@_sbindir_@,@sbindir@,g' -e 's,@_sharedstatedir_@,@sharedstatedir@,g' -e 's,@_sysconfdir_@,@sysconfdir@,g' -e 's,@_webdir_@,@webdir@,g' -e 's,@_webbindir_@,@webbindir@,g' -e 's,@_modulesdir_@,@modulesdir@,g' -e 's,@_target_@,@target@,g' $< > $@
-	chmod +x $@
-
 if MAKE_DOC_FILE
 DOC_FILE = $(basename $@).doc.xml
 DOC_FILE_CMD = /doc:$(DOC_FILE)
@@ -44,12 +40,8 @@ if DARWIN
 	wsdl -nologo -out:SimiasService.cs $(srcdir)/../WebService/Simias.wsdl
 endif
 
-SimiasClient.dll: AssemblyInfo.cs $(srcdir)/SimiasSetup.cs $(SimiasClient_CSFILES) $(SimiasClient_RESOURCES)
+SimiasClient.dll: $(SimiasClient_CSFILES) $(SimiasClient_RESOURCES)
 	$(CSC) /out:$@ $(CSCFLAGS) $(STRONG_NAME) $(SimiasClient_FLAGS) $(SimiasClient_LIBS:%=/r:%) $(SimiasClient_LIBPATH:%=/lib:%) $(SimiasClient_RESOURCES:%=$(ICON_FLAG)%) $(SimiasClient_CSFILES_CSC) $(subst /,$(SEP),$(srcdir)/SimiasSetup.cs) $(DOC_FILE_CMD)
-
-AssemblyInfo.cs: $(srcdir)/AssemblyInfo.cs.in Makefile
-	sed -e 's,@_VERSION_@,@VERSION@,g' $< > $@
-	chmod +x $@
 
 if DEBUG
 if WINDOWS
@@ -73,7 +65,7 @@ uninstall-local:
 	
 installcheck-local: install
 	
-CLEAN_FILES = SimiasClient.dll $(DOC_FILE_CLEAN) $(srcdir)/SimiasService.cs SimiasSetup.cs AssemblyInfo.cs
+CLEAN_FILES = SimiasClient.dll $(DOC_FILE_CLEAN) $(srcdir)/SimiasService.cs
 
 clean-local:
 	rm -rf $(CLEAN_FILES) $(COMMON_CLEAN_FILES)
@@ -84,4 +76,5 @@ distclean-local:
 maintainer-clean-local:
 	rm -rf $(COMMON_MAINTAINER_CLEAN_FILES)
 	rm -rf simias-client.pc simias-client-c.pc
+	rm -rf SimiasSetup.cs AssemblyInfo.cs
 

@@ -500,6 +500,8 @@ src/core/Makefile
 src/core/Common/MyDns.cs
 src/core/Common/Simias.config
 src/core/SimiasClient/Makefile
+src/core/SimiasClient/AssemblyInfo.cs
+src/core/SimiasClient/SimiasSetup.cs
 src/core/SimiasClient/simias-client.pc
 src/core/SimiasClient/simias-client-c.pc
 src/core/SimiasClient/libsimias-event/Makefile
@@ -510,7 +512,9 @@ src/core/SimiasLib.dll/simias.pc
 src/core/FlaimProvider/Makefile
 src/core/FlaimProvider/FlaimWrapper/Makefile
 src/core/SimiasApp/Makefile
+src/core/WebService/AssemblyInfo.cs
 src/core/WebService/Makefile
+src/core/POBoxWS/AssemblyInfo.cs
 src/core/POBoxWS/Makefile
 src/core/SyncService/Makefile
 src/core/SqliteProvider/Makefile
