@@ -11,7 +11,7 @@ SimiasClient_FLAGS = $(CSC_LIBFLAG)
 SimiasClient_LIBS = System.dll System.Data.dll $(SYSTEM_XML) System.Security.dll System.Web.dll System.Web.Services.dll 
 SimiasClient_LIBPATH = 
 
-EXTRA_DIST = $(SimiasClient_CSFILES) $(srcdir)/SimiasSetup.cs.in AssemblyInfo.cs.in $(SIMIASCLIENT_KEYFILE) simias-client.pc.in
+EXTRA_DIST = $(SimiasClient_CSFILES) $(srcdir)/SimiasSetup.cs.in AssemblyInfo.cs.in $(SIMIASCLIENT_KEYFILE) simias-client.pc.in simias-client-c.pc.in
 
 # This is defined by including a PPK in a file named "simiasclient.snk" in the SimiasClient source directory.
 # Note: that autogen must be run in order for this to take effect.
@@ -62,13 +62,14 @@ install-exec-local: SimiasClient.dll $(DATA_FILES)
 	$(INSTALL_PROGRAM) SimiasClient.dll $(DEBUG_FILES) $(DESTDIR)$(webbindir)
         $(mkinstalldirs) $(DESTDIR)$(libdir)/pkgconfig
         $(INSTALL_PROGRAM) simias-client.pc $(DESTDIR)$(libdir)/pkgconfig
+        $(INSTALL_PROGRAM) simias-client-c.pc $(DESTDIR)$(libdir)/pkgconfig
 if HAS_SIMIASCLIENT_KEYFILE
 	$(GACINSTALL) $(shell cygpath --mixed $(webbindir))/SimiasClient.dll
 endif	
 	
 uninstall-local:
 	cd $(DESTDIR)$(webbindir); rm -f SimiasClient.dll $(DEBUG_FILES)
-        cd $(DESTDIR)$(libdir)/pkgconfig; rm -f simias-client.pc
+        cd $(DESTDIR)$(libdir)/pkgconfig; rm -f simias-client.pc simias-client-c.pc
 	
 installcheck-local: install
 	
@@ -82,5 +83,5 @@ distclean-local:
 
 maintainer-clean-local:
 	rm -rf $(COMMON_MAINTAINER_CLEAN_FILES)
-	rm -rf simias-client.pc
+	rm -rf simias-client.pc simias-client-c.pc
 

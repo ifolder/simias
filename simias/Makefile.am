@@ -9,16 +9,15 @@ dist-hook:
 	rm -rf `find $(distdir) -name CVS`
 	rm -rf `find $(distdir) -name ".svn"`
 
-EXTRA_DIST = tools/aclocal tools/gsoap external/libflaim external/log4net $(srcdir)/$(PACKAGE)*.pc.in $(PROJECT_FILES)
+EXTRA_DIST = tools/aclocal tools/gsoap external/libflaim external/log4net $(PROJECT_FILES)
 
 all:
 
 export PKG_CONFIG_PATH := $(PKG_CONFIG_PATH)
 
 install-exec-local: all
-	$(mkinstalldirs) $(DESTDIR)$(libdir)/pkgconfig $(DESTDIR)$(datadir)/$(PACKAGE)
+	$(mkinstalldirs) $(DESTDIR)$(datadir)/$(PACKAGE)
 	$(INSTALL_PROGRAM) $(srcdir)/COPYING $(DESTDIR)$(datadir)/$(PACKAGE)
-	$(INSTALL_PROGRAM) $(PACKAGE)*.pc $(DESTDIR)$(libdir)/pkgconfig
 if WINDOWS
 if DEBUG	
 	$(INSTALL_PROGRAM) $(PROJECT_FILES) $(DESTDIR)$(libdir)
@@ -26,7 +25,6 @@ endif
 endif
 
 uninstall-local:
-	cd $(DESTDIR)$(libdir)/pkgconfig; rm -f $(PACKAGE)*.pc
 	cd $(DESTDIR)$(datadir)/$(PACKAGE); rm -f COPYING
 if WINDOWS
 if DEBUG	
@@ -51,7 +49,6 @@ maintainer-clean-local:
 	rm -f install-sh install-sh.lnk INSTALL INSTALL.lnk
 	rm -f missing missing.lnk mkinstalldirs mkinstalldir.lnk
 	rm -rf autom4te.cache
-	rm -rf simias-client-c.pc
 
 .PHONY: test
 test: install
