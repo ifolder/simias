@@ -374,8 +374,12 @@ AC_SUBST(webaccesshelpdir)
 #
 admindir="${libexecdir}/admin"
 adminbindir="${admindir}/bin"
+adminimgdir="${admindir}/img"
+adminhelpdir="${admindir}/help"
 AC_SUBST(admindir)
 AC_SUBST(adminbindir)
+AC_SUBST(adminimgdir)
+AC_SUBST(adminhelpdir)
 
 #
 # Set pkg-config variables
@@ -548,6 +552,7 @@ src/webservices/AssemblyInfo.cs
 src/webaccess/Makefile
 src/webaccess/AssemblyInfo.cs
 src/admin/Makefile
+src/admin/AssemblyInfo.cs
 test/Makefile
 test/Common/Makefile
 test/ChangeLog/Makefile

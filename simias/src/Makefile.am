@@ -1,4 +1,4 @@
-SUBDIRS = core webservices webaccess
+SUBDIRS = core webservices webaccess admin
 
 DIST_SUBDIRS = $(SUBDIRS)
 

@@ -121,7 +121,7 @@ if !LINUX
 	cd $(DESTDIR)$(webaccessbindir); rm -f log4net.dll
 endif
 	cd $(DESTDIR)$(webaccessimgdir); rm -f $(iFolderWeb_IMAGES)
-	cd $(DESTDIR)$(webaccesshelpdir); rm -rf $(DESTDIR)$(webaccesshelpdir)
+	cd $(DESTDIR)$(webaccessdir); rm -rf $(DESTDIR)$(webaccesshelpdir)
 
 installcheck-local: install
 	
