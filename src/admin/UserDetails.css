@@ -1,0 +1,158 @@
+.actionbuttons
+{
+	margin-top: 1em;
+	margin-bottom: 1em;
+	margin-right: 4px;
+}
+
+.detailinfo th
+{
+	text-align:left;
+	padding-right: 10px;
+	font-size: .8em;	
+}
+
+.detailinfo td
+{
+	text-align: left;
+}
+
+.detailnav
+{
+	border-bottom: dotted 1px #999999;
+	float: left;
+	padding-bottom: 15px;
+	width: 100%;
+	min-width: 300px;
+}
+
+.userleftnav
+{
+	padding-right: 10px;
+	padding-left: 12px;
+	float: left;
+	width: 550px;
+	border-right: 1px dotted #999999;
+}
+
+.ifolderlistdiv
+{
+	height: 21px;
+	border-bottom: solid 1px Black;
+}
+
+ul#ifolderlisttab
+{
+	list-style-type: none;
+	margin: 0;
+	font-weight: bold;
+	font-size: 11px;
+	padding-left: 60px;
+}
+
+ul#ifolderlisttab li
+{
+	float: left;
+	background-color: White;
+	border-left: solid 1px Black;
+	border-right: solid 1px Black;
+	border-top: solid 1px Black;
+	color: Black;
+	margin: 2px 2px 0 2px;
+	width: 60px;
+	text-align: center;
+}
+
+ul#ifolderlisttab a
+{
+	display: block;
+	color: Black;
+	background-color: Transparent;
+	padding: 2px 2px 0 2px;
+	text-decoration: none;
+}
+
+ul#ifolderlisttab a:hover
+{
+	background: #716F64;
+	color: White;
+}
+
+div#all li.allifolders a:link, div#all li.allifolders a:visited,
+div#owned li.ownedifolders a:link, div#owned li.ownedifolders a:visited,
+div#shared li.sharedifolders a:link, div#shared li.sharedifolders a:visited
+{
+	color: Black;
+	background-color: #EFEEE9;
+	border-bottom: 1px solid #EFEEE9;
+}
+
+.ifolderlist
+{
+	clear: left;
+	width: 100%;
+}
+
+.ifolderlistheader td
+{
+	color: black;
+	font-size: 0.8em;
+	background-color: #efeee9;
+	border-bottom: black 1px solid;
+	padding-bottom: 1px;
+}
+
+.ifolderlistitem
+{
+	height: 22px;
+}
+
+.ifolderlistaltitem
+{ 
+	height: 22px;
+	background-color: #efeee9;
+}
+
+.ifolderitem1
+{
+	width: 2em;
+}
+
+.ifolderitem2
+{
+	width: 3em;
+}
+
+.ifolderitem2 img
+{
+	padding-left: 4px;
+}
+
+.ifolderitem3
+{
+	width: 244px;
+}
+
+.ifolderitem4
+{
+	width: 133px;
+}
+
+.ifolderitem5
+{
+	width: 65px;
+}
+
+#DeleteiFolderButton
+{
+	float:left;
+	width: 4.5em;
+}
+
+#CreateiFolderButton
+{
+	float: right;
+	width:4.5em;
+	margin-right: 0;
+}
+

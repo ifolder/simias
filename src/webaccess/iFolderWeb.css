@@ -1,0 +1,343 @@
+body
+{
+	font-family: "Trebuchet MS", Arial, Helvetica, Geneva, Swiss, SunSans-Regular, sans-serif;
+	font-size: 0.8em;
+	background: white;
+	border: 0px;
+	margin: 0px;
+	padding: 0px;
+}
+
+body a
+{
+	color: #039;
+}
+
+td
+{
+	font-family: "Trebuchet MS", Arial, Helvetica, Geneva, Swiss, SunSans-Regular, sans-serif;
+}
+
+.button
+{
+	font-family: "Trebuchet MS", Arial, Helvetica, Geneva, Swiss, SunSans-Regular, sans-serif;
+	font-size: 0.9em;
+	min-width: 8em;
+	height: 2em;
+}
+
+.control
+{
+	font-family: "Trebuchet MS", Arial, Helvetica, Geneva, Swiss, SunSans-Regular, sans-serif;
+	font-size: 0.9em;
+}
+
+.loginDialog
+{
+}
+
+.loginDialog td
+{
+	font-size: 0.8em;
+}
+
+.loginDialog .loginHelp
+{
+	font-size: 0.8em;
+	font-weight: bold;
+	text-decoration: none;
+	color: white;
+}
+
+.loginDialog .loginContent
+{
+	border: 1px solid #BABDB6;
+	border-top-width: 0px;
+}
+
+.loginDialog .loginContext
+{
+	font-size: 0.8em;
+	padding-left: 8px;
+	padding-right: 8px;
+	color: #808080;
+}
+
+.loginDialog .loginMessageType
+{
+	color: black;
+	font-weight: bold;
+}
+
+.loginDialog .loginMessage
+{
+	color: red;
+}
+
+.loginDialog .copyrightText
+{
+	font-size: 0.7em;
+	padding-top: 4px;
+	padding-left: 10px;
+}
+
+.pageRegion
+{
+	width: 100%;
+}
+
+.pageRegion .bannerRegion
+{
+	height: 56px;
+	z-index: 1;
+}
+
+.pageRegion .mainRegion
+{
+	margin: 15px;
+	z-index: 0;
+}
+
+.bannerContent
+{
+}
+
+.bannerContent .tabTable
+{
+	height: 22px;
+}
+
+.bannerContent .tabCell, .bannerContent .tabOptionCell
+{
+	font-size: 0.9em;
+}
+
+.bannerContent .tabCell
+{
+	padding-left: 12px;
+	padding-right: 12px;
+}
+
+.bannerContent .tabOptionCell
+{
+	padding-top: 8px;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+.bannerContent .bannerLink
+{
+	font-size: 0.75em;
+	font-weight: bold;
+	text-decoration: none;
+	color: white;
+}
+
+.bannerContent .bannerName
+{
+	font-size: 0.8em;
+	font-weight: bold;
+	line-height: 22px;
+	padding-left: 7px;
+}
+
+.bannerContent .bannerContext
+{
+	font-size: 0.7em;
+	padding-top: 8px;
+	padding-left: 20px;
+	padding-right: 20px;
+	color: #808080;
+}
+
+.pageRegion .mainRegion .mainContent
+{
+	width: 100%;
+}
+
+.breadCrumbs
+{
+	font-size: 0.9em;
+	font-weight: bold;
+}
+
+.listTable
+{
+	border: 1px solid #BABDB6;
+}
+
+.listTitle, .controlTitle
+{
+	font-size: 0.8em;
+	font-weight: bold;
+	padding-bottom: 0px;
+	padding-left: 10px;
+	height: 20px;
+}
+
+.listMenu
+{
+   background-color: #DEE0DD;
+   padding-top: 0px;
+   padding-right: 0px;
+   padding-bottom: 0px;
+   padding-left: 20px;
+   height: 22px;
+}
+
+.listFooter
+{
+	font-size: 0.7em;
+	padding-top: 2px;
+	padding-right: 10px;
+	height: 20px;
+	border-top: 1px solid #BABDB6;
+}
+
+.controlList
+{
+	width: 14em;
+}
+
+.controlTable
+{
+	border: 1px solid #BABDB6;
+	background-color: #F4F4F4;
+}
+
+.controlTable .controlCell
+{
+	font-size: 0.8em;
+	font-weight: bold;
+	padding-top: 8px;
+	padding-right: 12px;
+	padding-bottom: 8px;
+	padding-left: 12px;
+}
+
+.menuLink, .menuLinkDisabled
+{
+	color: black;
+	text-decoration: none;
+	width: 100%;
+}
+
+.menuLinkDisabled
+{
+	color: #808080;
+}
+
+.menuText
+{
+	font-size: 0.75em;
+	font-weight: bold;
+	padding-top: 2px;
+	padding-bottom: 0px;
+	padding-left:4px;
+	padding-right:8px;
+}
+
+.menuImage
+{
+	padding-top: 0px;
+	padding-bottom: 0px;
+	padding-left:4px;
+	padding-right:12px;
+}
+
+.dataTable
+{
+}
+
+.dataTable a:link, .dataTable a:visited
+{
+	text-decoration: none;
+}
+
+.dataTable a:hover, .dataTable a:active
+{
+	text-decoration: underline;
+}
+
+.dataTable .header, .dataTable .headerLink, .dataTable .row1, .dataTable .row2
+{
+	color: black;
+	height: 20px;
+	text-align: left;
+	font-size: 0.8em;
+}
+
+.dataTable .header, .dataTable .headerLink
+{
+	font-size: 0.7em;
+	font-weight: bold;
+	background-color: #EDEEEC;
+}
+
+.dataTable .headerLink
+{
+	text-decoration: none;
+}
+
+.dataTable .header .headerCell, .dataTable .row1 .rowCell, .dataTable .row2 .rowCell
+{
+	padding-top: 2px;
+	padding-bottom: 2px;
+	padding-left: 3px;
+	padding-right: 2px;
+}
+
+.dataTable .header .headerCell
+{
+	border-top: 1px solid #BABDB6;
+	border-bottom: 1px solid #BABDB6;
+}
+
+.dataTable .row1, .dataTable .row2
+{
+}
+
+.dataTable .row2
+{
+	background-color: #F4F4F4;
+}
+
+.messageRegion
+{
+	padding-bottom: 12px;
+}
+
+.messageRegion .messageTable
+{
+	font-size: 0.9em;
+	border: 1px solid #BABDB6;
+	background-color: #FFFF99;
+}
+
+.messageRegion .messageTable .messageType
+{
+	font-weight: bold;
+}
+
+.messageRegion .messageTable .message
+{
+	color: red;
+}
+
+.errorType
+{
+	font-size: 1.2em;
+	color: red;
+}
+
+.errorInstructions
+{
+	font-size: 0.9em;
+}
+
+.errorDetail
+{
+	padding: 8,8,8,8;
+	border: 1px solid #BABDB6;
+	background-color: #FFFF99;
+}

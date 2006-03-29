@@ -1,0 +1,81 @@
+.nav
+{
+	padding: 1em;
+	float: left;
+}
+
+.accountsnav
+{
+	width: 35em;
+}
+
+.accounts
+{
+	margin-top: .5em;
+	border-top: solid 1px black;
+	border-bottom: solid 1px black;
+	width: 100%;
+}
+
+.accountsheader td
+{ 
+	color: black; 
+	font-weight: bold; 
+	font-size: 0.8em;  
+	background-color: #efeee9;
+	border-bottom: 1px solid black;	
+	padding-bottom: 1px;
+	padding-left: 4px;
+}
+
+.accountslistitem
+{
+	height: 1.5em;
+}
+
+.accountslistitem td
+{
+	padding-left: 4px;
+}
+
+.accountslistaltitem
+{
+	height: 1.5em;
+	background-color: #efeee9;
+}
+
+.accountslistaltitem td
+{
+	padding-left: 4px;
+}
+
+.accountsitem1
+{
+	width: 4em;
+}
+
+.accountsitem1 img
+{
+	padding-left: 4px;
+}
+
+.accountsitem2
+{
+	width: 12em;
+}
+
+.accountsitem3
+{
+	width: 16em;
+}
+
+.accountsitem4
+{
+	width: 4em;
+}
+
+.searchnav
+{
+	clear: both;
+	padding-bottom: .5em;
+}

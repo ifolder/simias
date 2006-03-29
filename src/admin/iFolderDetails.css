@@ -1,0 +1,137 @@
+.leftnav
+{
+	padding-right: 10px;
+	padding-left: 12px;
+	float: left;
+	width: 550px;
+	border-right: 1px dotted #999999;
+}
+
+.detailnav
+{
+	border-bottom: dotted 1px #999999;
+	float: left;
+	padding-bottom: 15px;
+	width: 100%;
+	min-width: 300px;
+}
+
+.detailinfo th
+{
+	text-align:left;
+	padding-right: 10px;
+	font-size: .8em;	
+}
+
+.detailinfo td
+{
+	text-align: left;
+}
+
+.detailinfo td #Description
+{
+	text-align: left;
+	width: 80%;
+	padding-left: 2px;
+}
+
+.ifoldermemberlist
+{
+	border-top: solid 1px black;
+	border-bottom: solid 1px black;
+	width: 100%;
+}
+
+.ifoldermemberlistheader td
+{
+	border-bottom: solid 1px black;
+	padding-left: 2px;
+	font-weight: bold;
+	font-size: 0.8em;
+	color: black;
+	background-color: #efeee9;
+}
+
+.ifoldermemberlistitem
+{
+	height: 1.5em;
+}
+
+.ifoldermemberlistaltitem
+{
+	height: 1.5em;
+	background-color: #efeee9;
+}
+
+.ifoldermembersitem1
+{
+	padding-left: 2px;
+	width: 2em;
+}
+
+.ifoldermembersitem2
+{
+	padding-top: 3px;
+	width: 3em;
+	text-align:center;
+}
+
+.ifoldermembersitem2 img
+{
+	padding-right: 6px;
+}
+
+.ifoldermembersitem3
+{
+	width: 30em;
+}
+
+.ifoldermembersitem4
+{
+}
+
+.actionbuttons
+{
+	margin-top: 1em;
+	margin-bottom: 1em;
+	margin-right: 4px;
+}
+
+#MemberDeleteButton
+{
+	float:left;
+	width: 4.5em;
+	margin-left: 4px;
+}
+
+#MemberOwnerButton
+{
+	float: left;
+	width: 4.5em;
+	margin-left: 4px;
+}
+
+#MemberAddButton
+{
+	float:right;
+	width: 4.5em;
+	margin-right: 0;
+}
+
+#MemberRightsButton
+{
+	float: left;
+	width: 4.5em;
+}
+
+#DescriptionButton
+{
+	margin-left: .5em;
+	width: 4.5em;
+}
+
+#MemberRightsList
+{
+	float: left;
+}
+
