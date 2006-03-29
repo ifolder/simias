@@ -548,6 +548,13 @@ src/core/SyncService/Makefile
 src/core/SqliteProvider/Makefile
 src/core/libsimias/Makefile
 src/server/Makefile
+src/server/Simias.config
+src/server/simiasserver.cmd
+src/server/simiasserver
+src/server/setup/Makefile
+src/server/Simias.HttpFile/Makefile
+src/server/Simias.Rss/Makefile
+src/server/Simias.Server/Makefile
 src/webservices/Makefile
 src/webservices/AssemblyInfo.cs
 src/webaccess/Makefile

@@ -11,4 +11,4 @@ rem ######################################################################
 
 cd %0%\..
 
-@web\bin\Simias.exe --datadir "@_simiasdatadir_@" --runasserver %*
+@web\bin\Simias.exe --datadir "@simiasdatadir@" --runasserver %*

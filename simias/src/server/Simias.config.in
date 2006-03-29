@@ -23,6 +23,6 @@
   </section>
   <section name="StoreProvider">
     <setting name="Assembly" value="SimiasLib.dll" />
-    <setting name="Type" value="@_StoreProviderType_@" />
+    <setting name="Type" value="@StoreProviderType@" />
   </section>
 </configuration>

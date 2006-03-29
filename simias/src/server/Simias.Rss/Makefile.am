@@ -6,9 +6,8 @@ SimiasRss_CSFILES_CSC := $(subst /,$(SEP),$(SimiasRss_CSFILES))
 SimiasRss_INCLUDES =
 SimiasRss_RESOURCES =
 SimiasRss_FLAGS = $(CSC_LIBFLAG)
-SimiasRss_LIBPATH = ../Simias.HttpFile
+SimiasRss_LIBPATH = ../Simias.HttpFile ../../core/SimiasLib.dll ../../core/SimiasClient $(DESTDIR)$(webbindir)
 SimiasRss_LIBS = System.dll System.Data.dll $(SYSTEM_XML) System.Web.dll System.Web.Services.dll SimiasLib.dll SimiasClient.dll Simias.HttpFile.dll
-#SimiasRss_LIBPATH = ../../src/SimiasLib.dll ../../src/SimiasClient $(DESTDIR)$(webbindir)
 
 EXTRA_DIST = rss.ashx pubrss.ashx $(SimiasRss_CSFILES) 
 

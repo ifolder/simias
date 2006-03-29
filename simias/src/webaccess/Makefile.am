@@ -72,10 +72,10 @@ iFolderWeb_FORMS = \
 
 iFolderWeb_IMAGES = images/*.png images/*.ico
 
-EXTRA_DIST = AssemblyInfo.cs.in $(iFolderWeb_CSFILES) $(iFolderWeb_FORMS) $(iFolderWeb_IMAGES) help $(iFolderWeb_RESX)
+EXTRA_DIST = AssemblyInfo.cs.in $(iFolderWeb_CSFILES) $(iFolderWeb_FORMS) $(iFolderWeb_IMAGES) elp $(iFolderWeb_RESX)
 
 dist-hook:
-	rm -rf `find $(distdir)/help -name CVS`		
+	rm -rf `find $(distdir)/help -name .svn`		
 
 if DEBUG
 if WINDOWS
@@ -112,7 +112,7 @@ if !LINUX
 endif
 	$(INSTALL_PROGRAM) $(iFolderWeb_IMAGES) $(DESTDIR)$(webaccessimgdir)
 	cd $(srcdir)/help; cp -r * $(DESTDIR)$(webaccesshelpdir);
-	rm -rf `find $(DESTDIR)$(webaccesshelpdir) -name CVS`
+	rm -rf `find $(DESTDIR)$(webaccesshelpdir) -name .svn`
 	
 uninstall-local:
 	cd $(DESTDIR)$(webaccessdir); rm -f $(iFolderWeb_FORMS)
