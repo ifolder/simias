@@ -94,6 +94,11 @@ namespace iFolder.WebService
 		public string UserFullName;
 
 		/// <summary>
+		/// Is the Entry a Directory?
+		/// </summary>
+		public bool IsDirectory = false;
+
+		/// <summary>
 		/// Constructor
 		/// </summary>
 		public ChangeEntry()
@@ -110,6 +115,7 @@ namespace iFolder.WebService
 			this.EntryName = entry.FileName;
 			this.UserID = entry.UserID;
 			this.UserFullName = entry.UserName;
+			this.IsDirectory = entry.IsFolder;
 
 			// parse the journal entry type
 			switch(entry.Type)
