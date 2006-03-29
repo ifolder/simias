@@ -532,6 +532,7 @@ src/core/SqliteProvider/Makefile
 src/core/libsimias/Makefile
 src/iFolder.WebService/Makefile
 src/webaccess/Makefile
+src/admin/Makefile
 test/Makefile
 test/Common/Makefile
 test/ChangeLog/Makefile

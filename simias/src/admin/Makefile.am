@@ -114,7 +114,7 @@ CLEAN_FILES = Novell.iFolderAdmin.dll \
 
 all: Novell.iFolderAdmin.dll
 
-iFolderAdminWebProxy.cs: $(EXTERNAL_DIR)/ifolder/iFolderAdmin.wsdl
+iFolderAdminWebProxy.cs: ../iFolder.WebService/iFolderAdmin.wsdl
 	wsdl /nologo /out:$@ $<
 
 Novell.iFolderAdmin.dll: iFolderAdminWebProxy.cs $(iFolderAdmin_CSFILES) $(iFolderAdmin_RESOURCES)

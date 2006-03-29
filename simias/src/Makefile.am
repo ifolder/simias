@@ -1,4 +1,4 @@
-SUBDIRS = core iFolder.WebService webaccess
+SUBDIRS = core iFolder.WebService webaccess admin
 
 DIST_SUBDIRS = $(SUBDIRS)
 
