@@ -60,7 +60,27 @@ test -z "$RESGEN" && AC_MSG_ERROR([no resource generator : resgen not found])
 #
 test "x$prefix" = xNONE && prefix=$ac_default_prefix
 test "x$exec_prefix" = xNONE && exec_prefix="${prefix}"
-test $libexecdir = '${exec_prefix}/libexec' && libexecdir="${exec_prefix}/lib/simias"
+
+#
+#
+# Installation directory options.
+#
+# These are normally left unexpanded so users can "make install exec_prefix=/foo".
+# However, we want them expanded.
+#
+test $bindir = '${exec_prefix}/bin'			&& bindir="${exec_prefix}/bin"
+test $sbindir = '${exec_prefix}/sbin'		&& sbindir="${exec_prefix}/sbin"
+test $libexecdir = '${exec_prefix}/libexec'	&& libexecdir="${exec_prefix}/lib/simias"
+test $datadir = '${prefix}/share'			&& datadir="${prefix}/share"
+test $sysconfdir = '${prefix}/etc'			&& sysconfdir="${prefix}/etc"
+test $sharedstatedir = '${prefix}/com'		&& sharedstatedir="${prefix}/com"
+test $localstatedir = '${prefix}/var'		&& localstatedir="${prefix}/var"
+test $libdir = '${exec_prefix}/lib'			&& libdir="${exec_prefix}/lib"
+test $includedir = '${prefix}/include'		&& includedir="${prefix}/include"
+test $oldincludedir = '/usr/include'		&& oldincludedir="/usr/include"
+test $infodir = '${prefix}/info'			&& infodir="${prefix}/info"
+test $mandir = '${prefix}/man'				&& mandir="${prefix}/man"
+
 
 if test -z "$PKG_CONFIG_PATH"; then
     export PKG_CONFIG_PATH="$prefix/$PKG_CONFIG_DIR/pkgconfig"
@@ -346,27 +366,6 @@ AC_SUBST(STORELIB_PATH)
 AC_SUBST(StoreProviderAssembly)
 AC_SUBST(StoreProviderType)
 AC_SUBST(GSOAP_PATH)
-
-
-#
-#
-# Installation directory options.
-#
-# These are normally left unexpanded so users can "make install exec_prefix=/foo".
-# However, we want them expanded.
-#
-bindir="$bindir"
-sbindir="$sbindir"
-libexecdir="$libexecdir"
-datadir="$datadir"
-sysconfdir="$sysconfdir"
-sharedstatedir="$sharedstatedir"
-localstatedir="$localstatedir"
-libdir="$libdir"
-includedir="$includedir"
-infodir="$infodir"
-mandir="$mandir"
-
 
 # We have our own "standard" directories for web services.
 #
