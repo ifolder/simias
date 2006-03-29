@@ -2,14 +2,12 @@ SUBDIRS = src
 
 DIST_SUBDIRS = $(SUBDIRS) doc package test
 
-PROJECT_FILES = 
-
 # remove all of the CVS directories
 dist-hook:
 	rm -rf `find $(distdir) -name CVS`
 	rm -rf `find $(distdir) -name ".svn"`
 
-EXTRA_DIST = tools/aclocal tools/gsoap external/libflaim external/log4net $(PROJECT_FILES)
+EXTRA_DIST = tools/aclocal tools/gsoap external/libflaim external/log4net
 
 all:
 
@@ -18,19 +16,9 @@ export PKG_CONFIG_PATH := $(PKG_CONFIG_PATH)
 install-exec-local: all
 	$(mkinstalldirs) $(DESTDIR)$(datadir)/$(PACKAGE)
 	$(INSTALL_PROGRAM) $(srcdir)/COPYING $(DESTDIR)$(datadir)/$(PACKAGE)
-if WINDOWS
-if DEBUG	
-	$(INSTALL_PROGRAM) $(PROJECT_FILES) $(DESTDIR)$(libdir)
-endif
-endif
 
 uninstall-local:
 	cd $(DESTDIR)$(datadir)/$(PACKAGE); rm -f COPYING
-if WINDOWS
-if DEBUG	
-	cd $(DESTDIR)$(libdir); rm -f $(PROJECT_FILES:$(srcdir)/%=%)
-endif
-endif
 
 CLEAN_FILES = 
 

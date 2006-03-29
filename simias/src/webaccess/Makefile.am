@@ -111,8 +111,8 @@ if !LINUX
 	$(INSTALL_PROGRAM) $(LOG4NET_DIR)/log4net.dll $(DESTDIR)$(webaccessbindir)
 endif
 	$(INSTALL_PROGRAM) $(iFolderWeb_IMAGES) $(DESTDIR)$(webaccessimgdir)
-	cd $(srcdir)/help; cp -r * $(DESTDIR)$(webaccesshelpdir);
-	rm -rf `find $(DESTDIR)$(webaccesshelpdir) -name .svn`
+#	cd $(srcdir)/help; cp -r * $(DESTDIR)$(webaccesshelpdir);
+#	rm -rf `find $(DESTDIR)$(webaccesshelpdir) -name .svn`
 	
 uninstall-local:
 	cd $(DESTDIR)$(webaccessdir); rm -f $(iFolderWeb_FORMS)
