@@ -158,7 +158,9 @@ div.message
 
 div.section
 {
-	margin: 24px 0 8px 0;
+	margin: 16px 0 8px 0;
+	padding: 0 0 8px 0;
+	border: 2px solid #0066CC;
 }
 
 div.section div.content
@@ -168,10 +170,9 @@ div.section div.content
 
 div.section div.title
 {
-	background-color: #0066CC;
+	background: transparent url(../images/section-bg.png) top left repeat-x;
 	color: #FFFFFF;
 	padding: 4px;
-	-moz-border-radius: 5px;
 	margin-bottom: 8px;
 }
 
