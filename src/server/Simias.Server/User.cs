@@ -133,7 +133,7 @@ namespace Simias.Server
 		/// <summary>
 		/// Constructor for managing users in the enterprise domain 
 		/// </summary>
-		internal User( string Username )
+		public User( string Username )
 		{
 			username = Username;
 			store = Store.GetStore();
@@ -141,6 +141,22 @@ namespace Simias.Server
 		#endregion
 
 		#region Public Methods
+		
+		/// <summary>
+		/// Method to get an instance of the registered identity
+		/// provider.  There can only be one identity provider in
+		/// the system.
+		/// </summary>
+		/// <returns>an IUserProvider instance/returns>
+		static public IUserProvider GetRegisteredProvider()
+		{
+			return User.provider;
+		}
+		
+		/// <summary>
+		/// Method to register an identity provider with the system.
+		/// </summary>
+		/// <returns>true success - false failure/returns>
 		static public bool RegisterProvider( IUserProvider provider )
 		{
 			lock( User.lockIt )
@@ -155,6 +171,10 @@ namespace Simias.Server
 			return false;
 		}
 
+		/// <summary>
+		/// Method to deregister an identity provider with the system.
+		/// </summary>
+		/// <returns>true success - false failure/returns>
 		static public bool UnregisterProvider( IUserProvider provider )
 		{
 			lock( User.lockIt )
@@ -182,90 +202,100 @@ namespace Simias.Server
 			{
 				if ( Password != null )
 				{
-					// Verify the user doesn't already exist
-					Domain domain = store.GetDomain( store.DefaultDomain );
-					if ( domain.GetMemberByName( this.username) == null )
+					UserProviderCaps caps = User.provider.GetCapabilities();
+					if ( caps.CanCreate == true )
 					{
-						// Call the user provider to create the user
-						log.Debug( "Creating member: {0}", this.username );
-						info = User.provider.Create(
-									this.userguid,
-									this.username,
-									Password,
-									this.firstname,
-									this.lastname,
-									this.fullname);
-						
-						// Some providers may create the user in the server
-						// domain - so verify a few things
-						if ( info.Status == RegistrationStatus.UserCreated )
+						// Verify the user doesn't already exist
+						Domain domain = store.GetDomain( store.DefaultDomain );
+						if ( domain.GetMemberByName( this.username ) == null )
 						{
-							bool commit = false;
-							Member member = domain.GetMemberByName( this.username );
-							if ( member == null )
-							{
-								string guid; 
-								if ( info.UserGuid != null && info.UserGuid != "" )
-								{
-									// Guid from the provider?
-									guid = info.UserGuid;
-								}
-								else
-								if ( this.userguid != null )
-								{
-									// Guid from the caller?
-									guid = this.userguid;
-								}
-								else
-								{
-									guid = Guid.NewGuid().ToString();
-								}
-								
-								member = 
-									new Member(
+							// Call the user provider to create the user
+							log.Debug( "Creating member: {0}", this.username );
+							info = User.provider.Create(
+										this.userguid,
 										this.username,
-										guid, 
-										Access.Rights.ReadOnly,
+										Password,
 										this.firstname,
-										this.lastname );
-					
-								if ( this.fullname != null )
+										this.lastname,
+										this.fullname,
+										this.dn );
+						
+							// Some providers may create the user in the server
+							// domain - so verify a few things
+							if ( info.Status == RegistrationStatus.UserCreated )
+							{
+								bool commit = false;
+								Member member = domain.GetMemberByName( this.username );
+								if ( member == null )
 								{
-									member.FN = this.fullname;
+									string guid; 
+									if ( info.UserGuid != null && info.UserGuid != "" )
+									{
+										// Guid from the provider?
+										guid = info.UserGuid;
+									}
+									else
+									if ( this.userguid != null )
+									{
+										// Guid from the caller?
+										guid = this.userguid;
+									}
+									else
+									{
+										guid = Guid.NewGuid().ToString();
+									}
+								
+									member = 
+										new Member(
+											this.username,
+											guid, 
+											Access.Rights.ReadOnly,
+											this.firstname,
+											this.lastname );
+						
+									if ( this.fullname != null )
+									{
+										member.FN = this.fullname;
+									}
+									else
+									if ( this.firstname != null && this.lastname != null )
+									{
+										member.FN = this.firstname + " " + this.lastname;
+									}
+								
+									Property dnProp = new Property( "DN", info.DistinguishedName );
+									member.Properties.ModifyProperty( dnProp );
+									commit = true;
 								}
 								else
-								if ( this.firstname != null && this.lastname != null )
 								{
-									member.FN = this.firstname + " " + this.lastname;
+									// FIXME
+									// verify non-mandatory properties
 								}
-								
-								Property dnProp = new Property( "DN", info.DistinguishedName );
-								member.Properties.ModifyProperty( dnProp );
-								commit = true;
-							}
-							else
-							{
-								// FIXME
-								// verify non-mandatory properties
-							}
 							
-							if ( this.email != null && this.email != "" )
-							{
-								Property emailProp = new Property( "Email", this.email );
-								member.Properties.ModifyProperty( emailProp );
-								commit = true;
-							}
+								if ( this.email != null && this.email != "" )
+								{
+									Property emailProp = new Property( "Email", this.email );
+									member.Properties.ModifyProperty( emailProp );
+									commit = true;
+								}
 							
-							if ( commit == true )
-							{
-								domain.Commit( member );
+								if ( commit == true )
+								{
+									domain.Commit( member );
+								}
 							}
+						}	
+						else
+						{
+							info = new RegistrationInfo( RegistrationStatus.UserAlreadyExists );
+							info.Message = "Member already exists";
 						}
-					}	
+					}
 					else
 					{
-						info = new RegistrationInfo( RegistrationStatus.UserAlreadyExists );
-						info.Message = "Member already exists";
+						info = new RegistrationInfo( RegistrationStatus.MethodNotSupported );
+						info.Message = "Provider can't create users";
 					}
 				}
 				else
@@ -281,6 +311,22 @@ namespace Simias.Server
 			}
 			
 			return info;
+		}
+
+		/// <summary>
+		/// Method to retrieve the capabilities of a user identity
+		/// provider.
+		/// </summary>
+		/// <returns>providers capabilities</returns>
+		public UserProviderCaps GetCapabilities()
+		{
+			UserProviderCaps caps = null;
+			if ( User.provider != null )
+			{
+				caps = User.provider.GetCapabilities();
+			}
+			
+			return caps;
 		}
 		
 		public bool Delete()
@@ -446,6 +492,7 @@ namespace Simias.Server
 		/// <param name="Firstname" mandatory="false">First or given name associated to the user.</param>
 		/// <param name="Lastname" mandatory="false">Last or family name associated to the user.</param>
 		/// <param name="Fullname" mandatory="false">Full or complete name associated to the user.</param>
+		/// <param name="Distinguished" mandatory="false">Distinguished name of the user.</param>
 		/// <returns>RegistrationStatus</returns>
 		/// Note: Method assumes the mandatory arguments: Username, Password have already 
 		/// been validated.  Also assumes the username does NOT exist in the domain
@@ -457,7 +504,8 @@ namespace Simias.Server
 			string Password,
 			string Firstname,
 			string Lastname,
-			string Fullname )
+			string Fullname,
+			string Distinguished )
 		{
 			Member member = null;
 			RegistrationInfo info = new RegistrationInfo();
@@ -490,7 +538,10 @@ namespace Simias.Server
 							
 					member.FN = ( Fullname != null ) ? Fullname : Firstname + " " + Lastname;
 
-					Property dnProp = new Property( "DN", Username );
+					Property dnProp = 
+						( Distinguished != null && Distinguished != "" )
+								? new Property( "DN", Distinguished )
+								: new Property( "DN", Username);
 					member.Properties.ModifyProperty( dnProp );
 
 					domain.SetType( member as Node, InternalUser.memberMarker );
@@ -543,6 +594,22 @@ namespace Simias.Server
 			}
 			
 			return status;
+		}
+		
+		/// <summary>
+		/// Method to retrieve the capabilities of a user identity
+		/// provider.
+		/// </summary>
+		/// <returns>providers capabilities</returns>
+		public UserProviderCaps GetCapabilities()
+		{
+			UserProviderCaps caps = new UserProviderCaps();
+			caps.CanCreate = true;
+			caps.CanDelete = true;
+			caps.CanModify = true;
+			caps.ExternalSync = false;
+			
+			return caps;
 		}
 		
 		/// <summary>

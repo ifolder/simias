@@ -26,6 +26,17 @@ using System;
 namespace Simias.Server
 {
 	/// <summary>
+	/// Class for determining the capabilities of a user identity provider
+	/// </summary>
+	public class UserProviderCaps
+	{
+		public bool ExternalSync;
+		public bool CanCreate;
+		public bool CanDelete;
+		public bool CanModify;
+	}
+	
+	/// <summary>
 	/// Interface for an external identity/user provider
 	/// </summary>
 	public interface IUserProvider
@@ -53,6 +64,7 @@ namespace Simias.Server
 		/// <param name="Firstname" mandatory="false">First or given name associated to the user.</param>
 		/// <param name="Lastname" mandatory="false">Last or family name associated to the user.</param>
 		/// <param name="Fullname" mandatory="false">Full or complete name associated to the user.</param>
+		/// <param name="Distinguished" mandatory="false">Distinguished name of the user.</param>
 		/// <returns>RegistrationStatus</returns>
 		RegistrationInfo
 		Create(
@@ -61,7 +73,8 @@ namespace Simias.Server
 			string Password,
 			string Firstname,
 			string Lastname,
-			string Fullname );
+			string Fullname,
+			string Distinguished );
 		
 		/// <summary>
 		/// Method to delete a user from the external identity/user database.
@@ -70,6 +83,13 @@ namespace Simias.Server
 		/// <param name="Username">Name of the user to delete from the external system.</param>
 		/// <returns>true - successful  false - failed</returns>
 		bool Delete( string Username );
+		
+		/// <summary>
+		/// Method to retrieve the capabilities of a user identity
+		/// provider.
+		/// </summary>
+		/// <returns>providers capabilities</returns>
+		UserProviderCaps GetCapabilities();
 		
 		/// <summary>
 		/// Method to verify a user's password
