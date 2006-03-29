@@ -60,8 +60,7 @@ test -z "$RESGEN" && AC_MSG_ERROR([no resource generator : resgen not found])
 #
 test "x$prefix" = xNONE && prefix=$ac_default_prefix
 test "x$exec_prefix" = xNONE && exec_prefix="${prefix}"
-
-
+test $libexecdir = '${exec_prefix}/libexec' && libexecdir="${exec_prefix}/lib/simias"
 
 if test -z "$PKG_CONFIG_PATH"; then
     export PKG_CONFIG_PATH="$prefix/$PKG_CONFIG_DIR/pkgconfig"
@@ -205,7 +204,6 @@ case $SIMIAS_OS in
 		GSOAP_PATH="$TOOLDIR/gsoap/macosx-2.7"
 		#StoreProviderAssembly="SqliteProvider.dll"
 		#StoreProviderType="Simias.Storage.Provider.Sqlite.SqliteProvider"
-    	libexecdir="${exec_prefix}"
     ;;
     #
     # Linux-specific configuration
@@ -242,7 +240,6 @@ case $SIMIAS_OS in
 		StoreProviderAssembly="SimiasLib.dll"
 		StoreProviderType="Simias.Storage.Provider.Flaim.FlaimProvider"
 		GSOAP_PATH="$TOOLDIR/gsoap/linux-2.7"
-    	libexecdir="${exec_prefix}"
     ;;
     #
     # Windows-specific configuration
@@ -346,9 +343,6 @@ AC_SUBST(SHARED_LIB_EXT)
 AC_SUBST(SHARED_LIB_FLAG)
 AC_SUBST(STORELIB)
 AC_SUBST(STORELIB_PATH)
-AC_SUBST(webdir)
-AC_SUBST(webbindir)
-AC_SUBST(modulesdir)
 AC_SUBST(StoreProviderAssembly)
 AC_SUBST(StoreProviderType)
 AC_SUBST(GSOAP_PATH)
@@ -362,7 +356,6 @@ modulesdir="${webdir}/modules"
 AC_SUBST(webdir)
 AC_SUBST(webbindir)
 AC_SUBST(modulesdir)
-
 
 #
 # Set pkg-config variables
