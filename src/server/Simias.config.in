@@ -1,0 +1,28 @@
+<configuration>
+  <section name="EnterpriseDomain">
+    <setting name="ServerName" value="Simias Server" />
+    <setting name="Description" value="Simias Enterprise Server" />
+    <setting name="AdminName" value="admin" />
+    <setting name="AdminPassword" value="simias" />
+  </section>
+  <section name="Authentication">
+	<setting name="SimiasAuthNotRequired" value="Registration.asmx, Login.ashx, Simias.asmx:PingSimias, DomainService.asmx:GetDomainID, pubrss.ashx, pubsfile.ashx" />
+	<setting name="SimiasRequireSSL" value="no" />
+  </section>
+  <section name="Identity">
+	<setting name="Assembly" value="Simias.Server" />
+	<setting name="Class" value="Simias.Server.InternalUser" />
+	<!--
+	<setting name="Assembly" value="Simias.SimpleServer" />
+	<setting name="Class" value="Simias.SimpleServer.User" />
+	-->
+	<!--
+	<setting name="Assembly" value="Simias.MdbSync" />
+	<setting name="Class" value="Simias.MdbSync.User" />
+	-->
+  </section>
+  <section name="StoreProvider">
+    <setting name="Assembly" value="SimiasLib.dll" />
+    <setting name="Type" value="@StoreProviderType@" />
+  </section>
+</configuration>

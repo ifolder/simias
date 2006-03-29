@@ -1,0 +1,61 @@
+
+# handle Mono secondary dependencies
+export MONO_PATH := $(MONO_PATH)
+
+SimpleServer_CSFILES = $(srcdir)/AssemblyInfo.cs $(srcdir)/SimpleSync.cs $(srcdir)/ThreadService.cs $(srcdir)/User.cs     
+SimpleServer_CSFILES_CSC := $(subst /,$(SEP),$(SimpleServer_CSFILES))
+SimpleServer_INCLUDES =
+SimpleServer_RESOURCES =
+SimpleServer_FLAGS = $(CSC_LIBFLAG)
+SimpleServer_LIBPATH = $(DESTDIR)$(webbindir) ../ ../../../simias/src/SimiasLib.dll ../../../simias/src/SimiasClient
+SimpleServer_LIBS = System.dll System.Data.dll $(SYSTEM_XML) System.Security.dll System.Web.dll System.Web.Services.dll SimiasLib.dll SimiasClient.dll Simias.Server.dll 
+
+EXTRA_DIST = $(SimpleServer_CSFILES)  
+
+if MAKE_DOC_FILE
+DOC_FILE = $(basename $@).doc.xml
+DOC_FILE_CMD = /doc:$(DOC_FILE)
+DOC_FILE_CLEAN = *.doc.xml
+endif
+
+all: Simias.SimpleServer.dll
+
+Simias.SimpleServer.dll: $(SimpleServer_CSFILES) 
+	$(CSC) /out:$@ $(CSCFLAGS) $(SimpleServer_FLAGS) $(SimpleServer_LIBPATH:%=/lib:%) $(SimpleServer_LIBS:%=/r:%) $(SimpleServer_RESOURCES:%=$(ICON_FLAG)%) $(SimpleServer_CSFILES_CSC) $(DOC_FILE_CMD)
+
+#AssemblyInfo.cs: $(srcdir)/AssemblyInfo.cs.in Makefile
+#	sed -e 's,@_VERSION_@,@VERSION@,g' $< > $@
+#	chmod +x $@
+
+if DEBUG
+if WINDOWS
+DEBUG_FILES = Simias.SimpleServer.pdb
+endif
+endif
+
+install-simpleserver: Simias.SimpleServer.dll $(DATA_FILES)
+	$(mkinstalldirs) $(DESTDIR)$(webbindir) $(DESTDIR)$(bindir) $(simiasdatadir) $(simiasdatadir)/modules
+	$(INSTALL_PROGRAM) Simias.SimpleServer.dll $(DEBUG_FILES) $(DESTDIR)$(webbindir)
+	$(INSTALL_PROGRAM) Simias.SimpleServer.conf $(simiasdatadir)/modules
+	$(INSTALL_PROGRAM) SimpleServer.xml $(DESTDIR)$(sysconfdir)
+	
+uninstall-simpleserver:
+	cd $(DESTDIR)$(webbindir); rm -f Simias.SimpleServer.dll $(DEBUG_FILES)
+	cd $(simiasdatadir)/modules; rm -f Simias.SimpleServer.conf
+	cd $(DESTDIR)$(sysconfdir); rm -f SimpleServer.xml
+	
+	
+installcheck-local: install
+	
+#CLEAN_FILES = Simias.SimpleServer.dll $(DOC_FILE_CLEAN) AssemblyInfo.cs
+CLEAN_FILES = Simias.SimpleServer.dll $(DOC_FILE_CLEAN)
+
+clean-local:
+	rm -rf $(CLEAN_FILES) $(COMMON_CLEAN_FILES)
+
+distclean-local:
+	rm -rf $(COMMON_DISTCLEAN_FILES)
+
+maintainer-clean-local:
+	rm -rf $(COMMON_MAINTAINER_CLEAN_FILES)
+

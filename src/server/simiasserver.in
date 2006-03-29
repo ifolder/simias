@@ -1,0 +1,25 @@
+#!/bin/sh
+#######################################################################
+#
+#  $RCSfile$
+#
+#  Copyright (C) 2004 Novell, Inc.
+#
+#  Author: Rob
+#
+#######################################################################
+
+export MONO_PATH=@webbindir@:$MONO_PATH
+
+if [ "${OSTYPE:0:6}" == "darwin" ]
+then
+	echo "Increasing ulimit -n to 2048"
+	export DYLD_LIBRARY_PATH=@webbindir@:/Library/Frameworks/Mono.framework/Versions/Current/lib:$DYLD_LIBRARY_PATH
+	ulimit -n 2048
+else
+	export LD_LIBRARY_PATH=@webbindir@:$LD_LIBRARY_PATH
+fi
+
+cd @bindir@
+mono @webbindir@/Simias.exe --datadir @simiasdatadir@ --runasserver $@
+

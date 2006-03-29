@@ -224,6 +224,7 @@
           <s:element minOccurs="0" maxOccurs="1" name="EntryName" type="s:string" />
           <s:element minOccurs="0" maxOccurs="1" name="UserID" type="s:string" />
           <s:element minOccurs="0" maxOccurs="1" name="UserFullName" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="IsDirectory" type="s:boolean" />
         </s:sequence>
       </s:complexType>
       <s:simpleType name="ChangeType">
@@ -1146,7 +1147,7 @@
   <wsdl:service name="iFolderAdmin">
     <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">iFolder Admin Web Service</documentation>
     <wsdl:port name="iFolderAdminSoap" binding="tns:iFolderAdminSoap">
-      <soap:address location="http://localhost:8086/simias10/iFolderAdmin.asmx" />
+      <soap:address location="http://127.0.0.1:8086/simias10/iFolderAdmin.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>
