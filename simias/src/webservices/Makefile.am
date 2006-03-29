@@ -43,10 +43,6 @@ iFolderWebService_LIBPATH = ../core/SimiasClient ../core/SimiasLib.dll
 
 EXTRA_DIST =  AssemblyInfo.cs.in $(iFolderWebService_WEBFILES) $(iFolderWebService_CSFILES)
 
-AssemblyInfo.cs: $(srcdir)/AssemblyInfo.cs.in Makefile
-	sed -e 's,@_VERSION_@,@VERSION@,g' $< > $@
-	chmod +x $@
-	
 if MAKE_DOC_FILE
 DOC_FILE = $(basename $@).doc.xml
 DOC_FILE_CMD = /doc:$(DOC_FILE)
@@ -77,7 +73,7 @@ uninstall-local:
 
 installcheck-local: install
 	
-CLEAN_FILES = iFolder.WebService.dll $(DOC_FILE_CLEAN) AssemblyInfo.cs
+CLEAN_FILES = iFolder.WebService.dll $(DOC_FILE_CLEAN) 
 
 clean-local:
 	rm -rf $(CLEAN_FILES) $(COMMON_CLEAN_FILES)
@@ -87,4 +83,5 @@ distclean-local:
 
 maintainer-clean-local:
 	rm -rf $(COMMON_MAINTAINER_CLEAN_FILES)
+	rm -rf AssemblyInfo.cs
 

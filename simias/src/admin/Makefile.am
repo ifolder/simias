@@ -42,6 +42,15 @@ iFolderAdmin_RESOURCES := $(iFolderAdmin_RESX:$(srcdir)/%.resx=$(srcdir)/Novell.
 	
 iFolderAdmin_FLAGS = $(CSC_LIBFLAG)
 
+if LINUX
+iFolderAdmin_LIBS = \
+	System.dll \
+	System.Data.dll \
+	$(SYSTEM_XML) \
+	System.Drawing.dll \
+	System.Web.dll \
+	System.Web.Services.dll 
+else
 iFolderAdmin_LIBS = \
 	System.dll \
 	System.Data.dll \
@@ -50,6 +59,7 @@ iFolderAdmin_LIBS = \
 	System.Web.dll \
 	System.Web.Services.dll \
 	log4net.dll
+endif
 
 iFolderAdmin_LIBPATH = $(LOG4NET_DIR)
 
@@ -93,10 +103,6 @@ iFolderAdmin_IMAGES = images/*.gif images/*.ico
 
 EXTRA_DIST = AssemblyInfo.cs.in $(iFolderAdmin_CSFILES) $(iFolderAdmin_FORMS) $(iFolderAdmin_IMAGES) help $(iFolderAdmin_RESX)
 
-AssemblyInfo.cs: $(srcdir)/AssemblyInfo.cs.in Makefile
-	sed -e 's,@_VERSION_@,@VERSION@,g' $< > $@
-	chmod +x $@
-	
 dist-hook:
 	rm -rf `find $(distdir)/help -name CVS`		
 
@@ -109,12 +115,11 @@ endif
 CLEAN_FILES = Novell.iFolderAdmin.dll \
 	Novell.iFolderAdmin.doc.xml \
 	$(iFolderAdmin_RESOURCES) \
-	AssemblyInfo.cs \
 	$(DEBUG_FILES)
 
 all: Novell.iFolderAdmin.dll
 
-iFolderAdminWebProxy.cs: ../iFolder.WebService/iFolderAdmin.wsdl
+iFolderAdminWebProxy.cs: ../webservices/iFolderAdmin.wsdl
 	wsdl /nologo /out:$@ $<
 
 Novell.iFolderAdmin.dll: iFolderAdminWebProxy.cs $(iFolderAdmin_CSFILES) $(iFolderAdmin_RESOURCES)
@@ -124,23 +129,27 @@ Novell.iFolderWeb.Admin.%.resources : %.resx
 	$(RESGEN) $< $@
 
 install-exec-local: all
-	$(mkinstalldirs) $(DESTDIR)$(webdir)
-	$(mkinstalldirs) $(DESTDIR)$(webbindir)
-	$(mkinstalldirs) $(DESTDIR)$(webimgdir)
-	$(mkinstalldirs) $(DESTDIR)$(webhelpdir)
-	$(INSTALL_PROGRAM) $(iFolderAdmin_FORMS) $(DESTDIR)$(webdir)
-	$(INSTALL_PROGRAM) Novell.iFolderAdmin.dll $(DEBUG_FILES) $(DESTDIR)$(webbindir)
-	$(INSTALL_PROGRAM) $(LOG4NET_DIR)/log4net.dll $(DESTDIR)$(webbindir)
-	$(INSTALL_PROGRAM) $(iFolderAdmin_IMAGES) $(DESTDIR)$(webimgdir)
-	cd $(srcdir)/help; cp -r * $(DESTDIR)$(webhelpdir);
-	rm -rf `find $(DESTDIR)$(webhelpdir) -name CVS`
+	$(mkinstalldirs) $(DESTDIR)$(admindir)
+	$(mkinstalldirs) $(DESTDIR)$(adminbindir)
+	$(mkinstalldirs) $(DESTDIR)$(adminimgdir)
+	$(mkinstalldirs) $(DESTDIR)$(adminhelpdir)
+	$(INSTALL_PROGRAM) $(iFolderAdmin_FORMS) $(DESTDIR)$(admindir)
+	$(INSTALL_PROGRAM) Novell.iFolderAdmin.dll $(DEBUG_FILES) $(DESTDIR)$(adminbindir)
+if !LINUX
+	$(INSTALL_PROGRAM) $(LOG4NET_DIR)/log4net.dll $(DESTDIR)$(adminbindir)
+endif
+	$(INSTALL_PROGRAM) $(iFolderAdmin_IMAGES) $(DESTDIR)$(adminimgdir)
+	cd $(srcdir)/help; cp -r * $(DESTDIR)$(adminhelpdir);
+	rm -rf `find $(DESTDIR)$(adminhelpdir) -name CVS`
 	
 uninstall-local:
-	cd $(DESTDIR)$(webdir); rm -f $(iFolderAdmin_FORMS)
-	cd $(DESTDIR)$(webbindir); rm -f Novell.iFolderAdmin.dll $(DEBUG_FILES)
-	cd $(DESTDIR)$(webbindir); rm -f log4net.dll
-	cd $(DESTDIR)$(webdir); rm -f $(iFolderAdmin_IMAGES)
-	cd $(DESTDIR)$(webdir); rm -rf $(DESTDIR)$(webhelpdir)
+	cd $(DESTDIR)$(admindir); rm -f $(iFolderAdmin_FORMS)
+	cd $(DESTDIR)$(adminbindir); rm -f Novell.iFolderAdmin.dll $(DEBUG_FILES)
+if !LINUX
+	cd $(DESTDIR)$(adminbindir); rm -f log4net.dll
+endif
+	cd $(DESTDIR)$(adminimgdir); rm -f $(iFolderAdmin_IMAGES)
+	cd $(DESTDIR)$(admindir); rm -rf $(DESTDIR)$(adminhelpdir)
 
 installcheck-local: install
 	
@@ -152,4 +161,5 @@ distclean-local:
 
 maintainer-clean-local:
 	rm -rf $(COMMON_MAINTAINER_CLEAN_FILES)
+	rm -rf AssemblyInfo.cs
 
