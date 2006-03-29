@@ -1,0 +1,18 @@
+#!/bin/sh
+#######################################################################
+#
+#  $RCSfile: simias-server-setup.in,v $
+#
+#  Copyright (C) 2004 Novell, Inc.
+#
+#  Author: Rob
+#
+#######################################################################
+
+export MONO_PATH=@webbindir@:@bindir@
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:@webbindir@
+export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:@webbindir@
+cd @bindir@
+
+mono @bindir@/SimiasServerSetup.exe "$@"
+

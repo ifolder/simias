@@ -1,0 +1,16 @@
+<Combine name="SimiasMdbSync" fileversion="2.0">
+  <Configurations active="Debug">
+    <Configuration name="Debug" ctype="CombineConfiguration">
+      <Entry configuration="Debug" build="True" name="SimiasMdbSync" />
+    </Configuration>
+    <Configuration name="Release" ctype="CombineConfiguration">
+      <Entry configuration="Debug" build="True" name="SimiasMdbSync" />
+    </Configuration>
+  </Configurations>
+  <StartMode startupentry="SimiasMdbSync" single="True">
+    <Execute type="None" entry="SimiasMdbSync" />
+  </StartMode>
+  <Entries>
+    <Entry filename="./SimiasMdbSync.mdp" />
+  </Entries>
+</Combine>
