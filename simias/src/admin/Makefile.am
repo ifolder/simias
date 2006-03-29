@@ -104,7 +104,7 @@ iFolderAdmin_IMAGES = images/*.gif images/*.ico
 EXTRA_DIST = AssemblyInfo.cs.in $(iFolderAdmin_CSFILES) $(iFolderAdmin_FORMS) $(iFolderAdmin_IMAGES) help $(iFolderAdmin_RESX)
 
 dist-hook:
-	rm -rf `find $(distdir)/help -name CVS`		
+	rm -rf `find $(distdir)/help -name .svn`		
 
 if DEBUG
 if WINDOWS
@@ -140,7 +140,7 @@ if !LINUX
 endif
 	$(INSTALL_PROGRAM) $(iFolderAdmin_IMAGES) $(DESTDIR)$(adminimgdir)
 	cd $(srcdir)/help; cp -r * $(DESTDIR)$(adminhelpdir);
-	rm -rf `find $(DESTDIR)$(adminhelpdir) -name CVS`
+	rm -rf `find $(DESTDIR)$(adminhelpdir) -name .svn`
 	
 uninstall-local:
 	cd $(DESTDIR)$(admindir); rm -f $(iFolderAdmin_FORMS)

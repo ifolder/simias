@@ -20,9 +20,8 @@ SimiasServer_CSFILES_CSC := $(subst /,$(SEP),$(SimiasServer_CSFILES))
 SimiasServer_INCLUDES =
 SimiasServer_RESOURCES =
 SimiasServer_FLAGS = $(CSC_LIBFLAG)
-SimiasServer_LIBPATH = 
+SimiasServer_LIBPATH = ../../core/SimiasLib.dll ../../core/SimiasClient $(DESTDIR)$(webbindir)
 SimiasServer_LIBS = System.dll System.Data.dll $(SYSTEM_XML) System.Web.dll System.Web.Services.dll SimiasLib.dll SimiasClient.dll
-#SimiasServer_LIBPATH = ../../src/SimiasLib.dll ../../src/SimiasClient $(DESTDIR)$(webbindir)
 
 EXTRA_DIST = DomainService.asmx Registration.asmx IdentitySyncManager.asmx $(SimiasServer_CSFILES) 
 
@@ -35,7 +34,7 @@ endif
 SERVER_ASSEMBLIES := Simias.Server.dll
 
 Simias.Server.dll: $(SimiasServer_CSFILES) $(SimiasServer_RESOURCES)
-	$(CSC) /out:$@ $(CSCFLAGS) $(SimiasServer_FLAGS) $(SIMIAS_CLIENT_LIBS) $(SIMIAS_LIBS) $(SimiasServer_LIBPATH:%=/lib:%) $(SimiasServer_LIBS:%=/r:%) $(SimiasServer_RESOURCES:%=$(ICON_FLAG)%) $(SimiasServer_CSFILES_CSC) $(DOC_FILE_CMD)
+	$(CSC) /out:$@ $(CSCFLAGS) $(SimiasServer_FLAGS) $(SimiasServer_LIBPATH:%=/lib:%) $(SimiasServer_LIBS:%=/r:%) $(SimiasServer_RESOURCES:%=$(ICON_FLAG)%) $(SimiasServer_CSFILES_CSC) $(DOC_FILE_CMD)
 	
 all: $(SERVER_ASSEMBLIES)
 

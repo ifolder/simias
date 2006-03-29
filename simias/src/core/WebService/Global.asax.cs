@@ -276,8 +276,11 @@ namespace Simias.Web
 		/// <param name="e"></param>
 		protected void Application_Start(Object sender, EventArgs e)
 		{
+#if WINDOWS
 			// update the prefix of the installed directory
+			// but only if we are on windows
 			SimiasSetup.prefix = Path.Combine(Server.MapPath(null), "..");
+#endif
 			Environment.CurrentDirectory = SimiasSetup.webbindir;
 
 			if ( verbose )

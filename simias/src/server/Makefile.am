@@ -1,8 +1,7 @@
-SUBDIRS = Simias.Server iFolder.WebService Simias.HttpFile Simias.Rss
+SUBDIRS = Simias.Server Simias.HttpFile Simias.Rss
 
 # handle Mono secondary dependencies
 export MONO_PATH := $(MONO_PATH):$(DESTDIR)$(libdir)
-
 
 EXTRA_DIST = Simias.config.in Simias.Server.conf simiasserver.in simiasserver.cmd.in
 
@@ -12,24 +11,7 @@ DOC_FILE_CMD = /doc:$(DOC_FILE)
 DOC_FILE_CLEAN = *.doc.xml
 endif
 
-simiasserver: $(srcdir)/simiasserver.in
-if !WINDOWS
-	sed -e 's,@_simiasdatadir_@,@simiasdatadir@,g' -e 's,@_webbindir_@,@webbindir@,g' -e 's,@_bindir_@,@bindir@,g' $< > $@
-	chmod +x $@
-endif	
-
-simiasserver.cmd: $(srcdir)/simiasserver.cmd.in Makefile
-if WINDOWS
-	sed -e 's,@_simiasdatadir_@,$(shell cygpath --mixed $(simiasdatadir)),g' $< > $@
-	chmod +x $@
-endif
-	
-Simias.config: $(srcdir)/Simias.config.in
-	sed -e 's,@_StoreProviderAssembly_@,@StoreProviderAssembly@,g' -e 's,@_StoreProviderType_@,@StoreProviderType@,g' $< > $@
-	chmod +x $@
-
-	
-all: Simias.config simiasserver simiasserver.cmd
+all:
 
 install-exec-local: all
 	$(mkinstalldirs) $(DESTDIR)$(webbindir) $(simiasdatadir) $(simiasdatadir)/modules
@@ -55,7 +37,7 @@ installcheck-local: install
 .PHONY: test
 test: installcheck
 
-CLEAN_FILES = $(DOC_FILE_CLEAN) Simias.config simiasserver simiasserver.cmd
+CLEAN_FILES = $(DOC_FILE_CLEAN)
 
 clean-local:
 	rm -rf $(CLEAN_FILES) $(COMMON_CLEAN_FILES)
@@ -65,4 +47,5 @@ clean-local:
 
 maintainer-clean-local:
 	rm -rf $(COMMON_MAINTAINER_CLEAN_FILES)
+	rm -rf Simias.config simiasserver simiasserver.cmd
 

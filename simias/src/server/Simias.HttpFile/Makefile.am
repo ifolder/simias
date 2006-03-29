@@ -6,9 +6,8 @@ SimiasHttpFile_CSFILES_CSC := $(subst /,$(SEP),$(SimiasHttpFile_CSFILES))
 SimiasHttpFile_INCLUDES =
 SimiasHttpFile_RESOURCES =
 SimiasHttpFile_FLAGS = $(CSC_LIBFLAG)
-SimiasHttpFile_LIBPATH = 
+SimiasHttpFile_LIBPATH = ../../core/SimiasLib.dll ../../core/SimiasClient $(DESTDIR)$(webbindir)
 SimiasHttpFile_LIBS = System.dll System.Data.dll $(SYSTEM_XML) System.Web.dll System.Web.Services.dll SimiasLib.dll SimiasClient.dll
-#SimiasHttpFile_LIBPATH = ../../src/SimiasLib.dll ../../src/SimiasClient $(DESTDIR)$(webbindir)
 
 EXTRA_DIST = sfile.ashx pubsfile.ashx $(SimiasHttpFile_CSFILES) 
 
@@ -22,7 +21,7 @@ SERVER_ASSEMBLIES := Simias.HttpFile.dll
 
 
 Simias.HttpFile.dll: $(SimiasHttpFile_CSFILES) $(SimiasHttpFile_RESOURCES)
-	$(CSC) /out:$@ $(CSCFLAGS) $(SimiasHttpFile_FLAGS) $(SIMIAS_CLIENT_LIBS) $(SIMIAS_LIBS) $(SimiasHttpFile_LIBPATH:%=/lib:%) $(SimiasHttpFile_LIBS:%=/r:%) $(SimiasHttpFile_RESOURCES:%=$(ICON_FLAG)%) $(SimiasHttpFile_CSFILES_CSC) $(DOC_FILE_CMD)
+	$(CSC) /out:$@ $(CSCFLAGS) $(SimiasHttpFile_FLAGS) $(SimiasHttpFile_LIBPATH:%=/lib:%) $(SimiasHttpFile_LIBS:%=/r:%) $(SimiasHttpFile_RESOURCES:%=$(ICON_FLAG)%) $(SimiasHttpFile_CSFILES_CSC) $(DOC_FILE_CMD)
 	
 all: $(SERVER_ASSEMBLIES) 
 

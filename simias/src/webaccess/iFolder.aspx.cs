@@ -257,10 +257,7 @@ namespace Novell.iFolderApp.Web
 					row["UserFullName"] = change.UserFullName;
 					row["Image"] = change.Type.ToString().ToLower();
 					
-					// TODO: a better way?
-					iFolderEntry entry = web.GetEntry(ifolderID, change.EntryID);
-
-					if (entry.IsDirectory)
+					if (change.IsDirectory)
 					{
 						row["Link"] = String.Format("Entries.aspx?iFolder={0}&Entry={1}", ifolderID, change.EntryID);
 					}
