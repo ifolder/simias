@@ -28,6 +28,7 @@ using System.Web.Services.Protocols;
 using System.Collections;
 
 using Simias.Storage;
+using Simias.Server;
 
 namespace iFolder.WebService
 {
@@ -937,6 +938,143 @@ namespace iFolder.WebService
 			}
 		}
 		
+		/// <summary>
+		/// Get Identity Policy
+		/// </summary>
+		/// <returns>An IdentityPolicy Object</returns>
+		[WebMethod(
+		Description="Get the policy of the registered identity provider",
+		EnableSession = true)]
+		public IdentityPolicy GetIdentityPolicy()
+		{
+			IdentityPolicy result = null;
+
+			try
+			{
+				Authorize();
+
+				result = IdentityPolicy.GetPolicy();
+			}
+			catch( Exception e )
+			{
+				SmartException.Throw( e );
+			}
+
+			return result;
+		}
+		
+		/// <summary>
+		/// Method to create a new user in the default simias domain
+		/// Note: some identity providers DO NOT allow the creation,
+		/// modification or deletion of new users
+		/// </summary>
+		/// <param name="Username">Username (mandatory) short name of the user</param>
+		/// <param name="Password">Password (mandatory)</param>
+		/// <param name="UserGuild">UserGuid (optional) caller can specify the guid for the user</param>
+		/// <param name="FirstName">FirstName (optional) first/given name of the user</param>
+		/// <param name="LastName">LastName (optional) last/family name of the user</param>
+		/// <param name="FullName">FullName (optional) Fullname of the user</param>
+		/// <param name="DistinguishedName">DistinguishedName (optional) usually the distinguished name from an external identity store</param>
+		/// <param name="Email">Email (optional) Primary email address</param>
+		/// <remarks>
+		/// If the FirstName and LastName are specified but the FullName is null, FullName is
+		/// autocreated using: FirstName + " " + LastName
+		/// </remarks>
+		[WebMethod(
+		Description= "Method to create a new user in the Simias domain",
+		EnableSession = true)]
+		public
+		RegistrationInfo
+		CreateUser(
+			string 	Username,
+			string 	Password,
+			string 	UserGuid,
+			string 	FirstName,
+			string 	LastName,
+			string 	FullName,
+			string	DistinguishedName,
+			string	Email)
+		{
+			RegistrationInfo info = null;
+
+			try
+			{
+				Authorize();
+
+				// Check if the registered provider allows user creation
+				IUserProvider provider = Simias.Server.User.GetRegisteredProvider();
+				UserProviderCaps caps = provider.GetCapabilities();
+				if ( caps.CanCreate == false )
+				{
+					info = new RegistrationInfo( RegistrationStatus.MethodNotSupported );
+					info.Message = "Identity provider does not allow creation";
+				}
+				else
+				if ( Username == null || Username == "" || Password == null )
+				{
+					info = new RegistrationInfo( RegistrationStatus.InvalidParameters );
+					info.Message = "Missing mandatory parameters";
+				}
+				else
+				{
+					Simias.Server.User user = new Simias.Server.User( Username );
+					user.FirstName = FirstName;
+					user.LastName = LastName;
+					user.UserGuid = UserGuid;
+					user.FullName = FullName;
+					user.DN = DistinguishedName;
+					user.Email = Email;
+				
+					info = user.Create( Password );
+				}
+			}
+			catch( Exception e )
+			{
+				SmartException.Throw( e );
+			}
+			
+			return info;
+		}
+		
+		/// <summary>
+		/// Method to delete a user from the default simias domain
+		/// Note: some identity providers DO NOT allow the creation,
+		/// modification or deletion of new users
+		/// </summary>
+		/// <param name="Username">Username (mandatory) short name of the user</param>
+		/// <remarks>
+		/// </remarks>
+		[WebMethod(
+		Description= "Method to delete a user from the Simias domain",
+		EnableSession = true)]
+		public
+		bool
+		DeleteUser( string Username )
+		{
+			bool status = false;
+			try
+			{
+				Authorize();
+
+				// Check if the registered provider allows deletes
+				IUserProvider provider = Simias.Server.User.GetRegisteredProvider();
+				UserProviderCaps caps = provider.GetCapabilities();
+				if ( caps.CanDelete == true )
+				{
+					if ( Username != null && Username != "" )
+					{
+						Simias.Server.User user = new Simias.Server.User( Username );
+						status = user.Delete();
+					}
+				}
+			}
+			catch( Exception e )
+			{
+				SmartException.Throw( e );
+			}
+			
+			return status;
+		}
 		#endregion
 
 		#region LDAP Settings

@@ -26,7 +26,8 @@ iFolderWebService_CSFILES = \
 	$(srcdir)/iFolderFile.cs \
 	$(srcdir)/MemberRole.cs \
 	$(srcdir)/ChangeEntry.cs \
-	$(srcdir)/NodeUtility.cs
+	$(srcdir)/NodeUtility.cs \
+	$(srcdir)/IdentityPolicy.cs
 	
 iFolderWebService_WEBFILES = \
 	$(srcdir)/iFolderAdmin.asmx \
@@ -38,8 +39,8 @@ iFolderWebService_CSFILES_CSC := $(subst /,$(SEP),$(iFolderWebService_CSFILES))
 iFolderWebService_INCLUDES =
 iFolderWebService_RESOURCES =
 iFolderWebService_FLAGS = $(CSC_LIBFLAG)
-iFolderWebService_LIBS = System.dll System.Data.dll $(SYSTEM_XML) System.Web.dll System.Web.Services.dll SimiasLib.dll SimiasClient.dll
-iFolderWebService_LIBPATH = ../core/SimiasClient ../core/SimiasLib.dll
+iFolderWebService_LIBS = System.dll System.Data.dll $(SYSTEM_XML) System.Web.dll System.Web.Services.dll SimiasLib.dll SimiasClient.dll Simias.Server.dll
+iFolderWebService_LIBPATH = ../core/SimiasClient ../core/SimiasLib.dll ../server/Simias.Server
 
 EXTRA_DIST =  AssemblyInfo.cs.in $(iFolderWebService_WEBFILES) $(iFolderWebService_CSFILES)
 
