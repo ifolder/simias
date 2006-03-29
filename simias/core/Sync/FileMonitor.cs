@@ -611,8 +611,8 @@ namespace Simias.Sync
 				if ((stat.st_mode & FilePermissions.S_IFLNK) != 0)
 				{
 					// If the path begins with the link path this is a recursive link.
-					StringBuilder stringBuff = new StringBuilder(1024);
-					if (Syscall.readlink(path, stringBuff, (ulong)stringBuff.Capacity) != -1)
+					StringBuilder stringBuff = new StringBuilder();
+					if (Syscall.readlink(path, stringBuff) == 0)
 					{
 						string linkPath = stringBuff.ToString();
 						if (!Path.IsPathRooted(linkPath))

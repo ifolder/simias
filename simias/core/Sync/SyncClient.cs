@@ -817,11 +817,9 @@ namespace Simias.Sync
 						collection.Commit(collection.Delete());
 						break;
 					case StartSyncStatus.Locked:
-						sAlive = false;
 						log.Info("The collection is locked");
 						break;
 					case StartSyncStatus.Busy:
-						sAlive = false;
 						log.Info("The server is busy");
 						break;
 					case StartSyncStatus.NotFound:
@@ -896,7 +894,7 @@ namespace Simias.Sync
 			finally
 			{
 				serverAlive = sAlive;
-				eventPublisher.RaiseEvent(new CollectionSyncEventArgs(collection.Name, collection.ID, Action.StopSync, sAlive, yielded));
+				eventPublisher.RaiseEvent(new CollectionSyncEventArgs(collection.Name, collection.ID, Action.StopSync, serverAlive, yielded));
 			}
 		}
 

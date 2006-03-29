@@ -302,6 +302,7 @@ namespace Simias.Sync.Http
 		{
 			HttpWebRequest request = GetRequest(SyncMethod.GetNextInfoList);
 			request.ContentLength = 0;
+			request.KeepAlive = false;
 			request.GetRequestStream().Close();
 			HttpWebResponse response = connection.GetResponse(request);
 			try
