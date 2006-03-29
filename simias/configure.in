@@ -547,6 +547,7 @@ src/core/SyncService/AssemblyInfo.cs
 src/core/SyncService/Makefile
 src/core/SqliteProvider/Makefile
 src/core/libsimias/Makefile
+src/server/Makefile
 src/webservices/Makefile
 src/webservices/AssemblyInfo.cs
 src/webaccess/Makefile
