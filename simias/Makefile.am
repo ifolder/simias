@@ -2,7 +2,7 @@ SUBDIRS = src
 
 DIST_SUBDIRS = $(SUBDIRS) doc package test
 
-PROJECT_FILES = $(srcdir)/SimiasLib.sln $(srcdir)/SimiasLib.csproj
+PROJECT_FILES = 
 
 # remove all of the CVS directories
 dist-hook:
