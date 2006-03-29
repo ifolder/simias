@@ -358,6 +358,26 @@ AC_SUBST(webbindir)
 AC_SUBST(modulesdir)
 
 #
+# Setup standard directories for webaccess app domain
+#
+webaccessdir="${libexecdir}/webaccess"
+webaccessbindir="${webaccessdir}/bin"
+webaccessimgdir="${webaccessdir}/img"
+webaccesshelpdir="${webaccessdir}/help"
+AC_SUBST(webaccessdir)
+AC_SUBST(webaccessbindir)
+AC_SUBST(webaccessimgdir)
+AC_SUBST(webaccesshelpdir)
+
+#
+# Setup standard directories for admin app domain
+#
+admindir="${libexecdir}/admin"
+adminbindir="${admindir}/bin"
+AC_SUBST(admindir)
+AC_SUBST(adminbindir)
+
+#
 # Set pkg-config variables
 #
 PKG_CONFIG_REQUIRES=""
@@ -523,8 +543,10 @@ src/core/SyncService/AssemblyInfo.cs
 src/core/SyncService/Makefile
 src/core/SqliteProvider/Makefile
 src/core/libsimias/Makefile
-src/iFolder.WebService/Makefile
+src/webservices/Makefile
+src/webservices/AssemblyInfo.cs
 src/webaccess/Makefile
+src/webaccess/AssemblyInfo.cs
 src/admin/Makefile
 test/Makefile
 test/Common/Makefile
