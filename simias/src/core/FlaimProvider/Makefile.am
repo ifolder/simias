@@ -1,0 +1,2 @@
+SUBDIRS = FlaimWrapper
+DIST_SUBDIRS = $(SUBDIRS)

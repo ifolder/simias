@@ -1,4 +1,4 @@
-AC_INIT(src/Common/Configuration.cs)
+AC_INIT(src/core/Common/Configuration.cs)
 AC_CANONICAL_SYSTEM
 AM_INIT_AUTOMAKE(simias, 1.5)
 # Check to see if the BUILDNUM is set by global build
@@ -44,6 +44,12 @@ AM_CONDITIONAL(WINDOWS, test "$SIMIAS_OS" = "windows")
 AM_CONDITIONAL(DARWIN, test "$SIMIAS_OS" = "darwin")
 AM_CONDITIONAL(MONO, test "$CSC" = "mcs")
 AM_CONDITIONAL(DOTNET, test "$CSC" = "csc")
+
+#
+# Check for a resource compiler
+#
+AC_CHECK_PROG(RESGEN, resgen, resgen)
+test -z "$RESGEN" && AC_MSG_ERROR([no resource generator : resgen not found])
 
 #
 # We add $prefix to PKG_CONFIG_PATH so pkg-config will find any other
@@ -496,24 +502,37 @@ AC_SUBST(XML2_LIBS)
 AC_OUTPUT([
 Makefile
 src/Makefile
-src/SimiasClient/Makefile
-src/SimiasClient/libsimias-event/Makefile
-src/SimiasClient/libsimias-manager/Makefile
-src/SimiasLib.dll/Makefile
-src/SimiasLib.dll/SimiasLib.dll.config
-src/FlaimProvider/Makefile
-src/FlaimProvider/FlaimWrapper/Makefile
-src/SimiasApp/Makefile
-src/WebService/Makefile
-src/POBoxWS/Makefile
-src/SyncService/Makefile
-src/SqliteProvider/Makefile
-src/libsimias/Makefile
-src/api/Makefile
-src/api/libsimias/Makefile
-src/api/libsimias/simias2-c.pc
-src/api/WebService/Makefile
-src/api/WebService/AssemblyInfo.cs
+src/core/Makefile
+src/core/Common/MyDns.cs
+src/core/Common/Simias.config
+src/core/SimiasClient/Makefile
+src/core/SimiasClient/AssemblyInfo.cs
+src/core/SimiasClient/SimiasSetup.cs
+src/core/SimiasClient/simias-client.pc
+src/core/SimiasClient/simias-client-c.pc
+src/core/SimiasClient/libsimias-event/Makefile
+src/core/SimiasClient/libsimias-manager/Makefile
+src/core/SimiasLib.dll/Makefile
+src/core/SimiasLib.dll/SimiasLib.dll.config
+src/core/SimiasLib.dll/AssemblyInfo.cs
+src/core/SimiasLib.dll/simias.pc
+src/core/FlaimProvider/Makefile
+src/core/FlaimProvider/FlaimWrapper/Makefile
+src/core/SimiasApp/Makefile
+src/core/SimiasApp/simias
+src/core/SimiasApp/SimiasDirectoryMapping
+src/core/SimiasApp/AssemblyInfo.cs
+src/core/WebService/AssemblyInfo.cs
+src/core/WebService/Makefile
+src/core/POBoxWS/AssemblyInfo.cs
+src/core/POBoxWS/Makefile
+src/core/SyncService/AssemblyInfo.cs
+src/core/SyncService/Makefile
+src/core/SqliteProvider/Makefile
+src/core/libsimias/Makefile
+src/iFolder.WebService/Makefile
+src/webaccess/Makefile
+src/admin/Makefile
 test/Makefile
 test/Common/Makefile
 test/ChangeLog/Makefile

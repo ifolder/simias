@@ -9,28 +9,15 @@ dist-hook:
 	rm -rf `find $(distdir) -name CVS`
 	rm -rf `find $(distdir) -name ".svn"`
 
-EXTRA_DIST = tools/aclocal tools/gsoap external/libflaim external/log4net $(srcdir)/$(PACKAGE)*.pc.in $(PROJECT_FILES)
+EXTRA_DIST = tools/aclocal tools/gsoap external/libflaim external/log4net $(PROJECT_FILES)
 
-all: simias.pc simias-client.pc simias-client-c.pc
-
-simias.pc: $(srcdir)/simias.pc.in
-	sed -e 's,@_VERSION_@,@VERSION@,g' -e 's,@_PKG_CONFIG_REQUIRES_@,@PKG_CONFIG_REQUIRES@,g' -e 's,@_PKG_CONFIG_CONFLICTS_@,@PKG_CONFIG_CONFLICTS@,g' -e 's,@_prefix_@,@prefix@,g' -e 's,@_exec_prefix_@,@exec_prefix@,g' -e 's,@_webbindir_@,@webbindir@,g' -e 's,@_PKG_CONFIG_LIBS_@,@PKG_CONFIG_LIBS@,g' $< > $@
-	chmod +x $@
-	
-simias-client.pc: $(srcdir)/simias-client.pc.in
-	sed -e 's,@_VERSION_@,@VERSION@,g' -e 's,@_PKG_CONFIG_REQUIRES_@,@PKG_CONFIG_REQUIRES@,g' -e 's,@_PKG_CONFIG_CONFLICTS_@,@PKG_CONFIG_CONFLICTS@,g' -e 's,@_prefix_@,@prefix@,g' -e 's,@_exec_prefix_@,@exec_prefix@,g' -e 's,@_webbindir_@,@webbindir@,g' -e 's,@_CLIENT_PKG_CONFIG_LIBS_@,@CLIENT_PKG_CONFIG_LIBS@,g' $< > $@
-	chmod +x $@
-
-simias-client-c.pc: $(srcdir)/simias-client-c.pc.in
-	sed -e 's,@_VERSION_@,@VERSION@,g' -e 's,@_PKG_CONFIG_REQUIRES_@,@PKG_CONFIG_REQUIRES@,g' -e 's,@_PKG_CONFIG_CONFLICTS_@,@PKG_CONFIG_CONFLICTS@,g' -e 's,@_prefix_@,@prefix@,g' -e 's,@_exec_prefix_@,@exec_prefix@,g' -e 's,@_libdir_@,@libdir@,g' $< > $@
-	chmod +x $@
+all:
 
 export PKG_CONFIG_PATH := $(PKG_CONFIG_PATH)
 
 install-exec-local: all
-	$(mkinstalldirs) $(DESTDIR)$(libdir)/pkgconfig $(DESTDIR)$(datadir)/$(PACKAGE)
+	$(mkinstalldirs) $(DESTDIR)$(datadir)/$(PACKAGE)
 	$(INSTALL_PROGRAM) $(srcdir)/COPYING $(DESTDIR)$(datadir)/$(PACKAGE)
-	$(INSTALL_PROGRAM) $(PACKAGE)*.pc $(DESTDIR)$(libdir)/pkgconfig
 if WINDOWS
 if DEBUG	
 	$(INSTALL_PROGRAM) $(PROJECT_FILES) $(DESTDIR)$(libdir)
@@ -38,7 +25,6 @@ endif
 endif
 
 uninstall-local:
-	cd $(DESTDIR)$(libdir)/pkgconfig; rm -f $(PACKAGE)*.pc
 	cd $(DESTDIR)$(datadir)/$(PACKAGE); rm -f COPYING
 if WINDOWS
 if DEBUG	
@@ -46,7 +32,7 @@ if DEBUG
 endif
 endif
 
-CLEAN_FILES = simias.pc simias-client.pc simias-client-c.pc
+CLEAN_FILES = 
 
 clean-local:
 	rm -rf $(COMMON_CLEAN_FILES) $(CLEAN_FILES)
