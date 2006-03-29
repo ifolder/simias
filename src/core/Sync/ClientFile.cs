@@ -354,10 +354,28 @@ namespace Simias.Sync
 				}
 				catch (CollisionException)
 				{
-					eventPublisher.RaiseEvent(new FileSyncEventArgs(collection.ID, ObjectType.File, false, Name, 0, 0, 0, Direction.Downloading, SyncStatus.UpdateConflict));
-					// Create an update conflict.
-					file = Conflict.GetUpdateConflictPath(collection, node);
-					collection.Commit(collection.CreateCollision(node, false));
+					// Make sure that the versions are not the same
+					Node tnode = collection.GetNodeByID(node.ID);
+					if (tnode.MasterIncarnation == node.LocalIncarnation)
+					{
+						Log.log.Debug("False Collsion on file {0}", node.GetFullPath(collection));
+						// We already have this file. Make sure we havn't changed it.
+						if (tnode.MasterIncarnation != tnode.LocalIncarnation)
+						{
+							// We need to push this file to the server.
+							// Modify it to cause a change.
+							tnode.UpdateTime = tnode.UpdateTime;
+							collection.Commit(tnode);
+							commit = false;
+						}
+					}
+					else
+					{
+						eventPublisher.RaiseEvent(new FileSyncEventArgs(collection.ID, ObjectType.File, false, Name, 0, 0, 0, Direction.Downloading, SyncStatus.UpdateConflict));
+						// Create an update conflict.
+						file = Conflict.GetUpdateConflictPath(collection, node);
+						collection.Commit(collection.CreateCollision(node, false));
+					}
 					oldNode = null;
 				}
 				catch
@@ -792,12 +810,16 @@ namespace Simias.Sync
 			sizeToSync = 0;
 			copyArray = new ArrayList();
 			writeArray = new ArrayList();
-			HashData[] serverHashMap;
+			HashData[] serverHashMap = null;
+			blockSize = 0;
 
-			// Get the hash map from the server.
-			serverHashMap = syncService.GetHashMap(out blockSize);
+			// Get the hash map from the server. If the file is on the server.
+			if (node.MasterIncarnation != 0)
+			{
+				serverHashMap = syncService.GetHashMap(out blockSize);
+			}
 			
-			if (serverHashMap.Length == 0)
+			if (serverHashMap == null || serverHashMap.Length == 0)
 			{
 				// Send the whole file.
 				sizeToSync = Length;
@@ -905,16 +927,6 @@ namespace Simias.Sync
 				OffsetSegment.AddToArray(writeArray, seg);
 				sizeToSync += segLen;
 			}
-		}
-
-		/// <summary>
-		/// Gets the hash map for the file on the server.
-		/// </summary>
-		/// <param name="blockSize">The size of the hashed data blocks.</param>
-		/// <returns>The hash map.</returns>
-		private HashData[] DownloadHashMap(out int blockSize)
-		{
-			return syncService.GetHashMap(out blockSize);
 		}
 
 		/// <summary>
