@@ -95,14 +95,9 @@
                     HintPath = "..\..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Web.Services.dll"
                 />
                 <Reference
-                    Name = "Novell.iFolderWeb.Proxy"
-                    AssemblyName = "Novell.iFolderWeb.Proxy"
-                    HintPath = "..\Proxy\Novell.iFolderWeb.Proxy.dll"
-                />
-                <Reference
                     Name = "log4net"
                     AssemblyName = "log4net"
-                    HintPath = "..\..\external\log4net\net\1.1\release\log4net.dll"
+                    HintPath = "..\..\external\log4net\bin\net\1.1\release\log4net.dll"
                 />
             </References>
         </Build>
@@ -258,6 +253,11 @@
                 <File
                     RelPath = "iFolderWeb.resx"
                     BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "iFolderWebProxy.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
                 />
                 <File
                     RelPath = "Log4Net.config"
