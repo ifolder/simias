@@ -1,4 +1,4 @@
-SUBDIRS = Simias.Server Simias.HttpFile Simias.Rss
+SUBDIRS = Simias.Server Simias.HttpFile Simias.Rss usercmd
 
 # handle Mono secondary dependencies
 export MONO_PATH := $(MONO_PATH):$(DESTDIR)$(libdir)
