@@ -92,23 +92,17 @@ fi
 
 %files
 %defattr(755,root,root)
-#%dir %{prefix}
 %dir %{libexecdir}
-#%dir %{prefix}/bin
 %{prefix}/bin/*
-#%attr(700,wwwrun,www) %dir %{simiasdatadir}
-#%attr(700,wwwrun,www) %dir /var/log/ifolder3
 %dir %{sysconfdir}
 %{sysconfdir}/*
 %{libexecdir}/*
-#%dir %{prefix}/include
 %{prefix}/include/*
 %{prefix}/lib/pkgconfig/simias*
 %{prefix}/lib/libFlaim*
 %{prefix}/lib/libsimias*
-#%dir %{prefix}/share
 %dir %{prefix}/share/simias
 %{prefix}/share/simias/*
 #%config(noreplace) %{prefix}/web/web.config
 
-%changelog -n simias
+%changelog -n ifolder3-server
