@@ -1,4 +1,4 @@
-Include /etc/apache2/mod_mono.conf
+Include @MODMONO_CONFPATH@
 
 Alias /admin "@admindir@"
 AddMonoApplications admin "/admin:@admindir@"

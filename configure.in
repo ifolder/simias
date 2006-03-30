@@ -539,6 +539,28 @@ XML2_LIBS='`xml2-config --libs`'
 AC_SUBST(XML2_CFLAGS)
 AC_SUBST(XML2_LIBS)
 
+
+#
+# Try to locate the mod_mono.conf file so we can setup our conf files
+# to include it
+#
+MODMONO_CONFPATH="/etc/apache2/mod_mono.conf"
+
+if test -e "/etc/apache2/conf.d/mod_mono.conf"; then
+	MODMONO_CONFPATH="/etc/apache2/conf.d/mod_mono.conf"
+fi
+
+if test -e "/etc/httpd/conf.d/mod_mono.conf"; then
+	MODMONO_CONFPATH="/etc/httpd/conf.d/mod_mono.conf"
+fi
+
+if test -e "/etc/httpd/mod_mono.conf"; then
+	MODMONO_CONFPATH="/etc/httpd/mod_mono.conf"
+fi
+
+AC_SUBST(MODMONO_CONFPATH)
+
+
 #
 # Configure files
 #
