@@ -608,6 +608,7 @@ src/server/usercmd/Makefile
 src/server/usercmd/simias-create-user
 src/server/usercmd/simias-delete-user
 src/server/usercmd/simias-user
+src/server/usercmd/simias-user.cmd
 src/webservices/Makefile
 src/webservices/AssemblyInfo.cs
 src/webaccess/Makefile
