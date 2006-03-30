@@ -49,8 +49,8 @@ namespace Simias.Web
 		/// <summary>
 		/// Environment variables used by apache.
 		/// </summary>
-		private static string EnvSimiasRunAsServer = "SimiasRunAsServer";
-		private static string EnvSimiasDataPath = "SimiasDataPath";
+		private static string EnvSimiasRunAsClient = "SimiasRunAsClient";
+		private static string EnvSimiasDataDir = "SimiasDataDir";
 		private static string EnvSimiasVerbose = "SimiasVerbose";
 		
 		/// <summary>
@@ -71,7 +71,7 @@ namespace Simias.Web
 		/// <summary>
 		/// Specifies whether to run as a client or server.
 		/// </summary>
-		private static bool runAsServer = false;
+		private static bool runAsServer = true;
 
 		/// <summary>
 		/// Prints extra data for debugging purposes.
@@ -103,14 +103,15 @@ namespace Simias.Web
 		/// </summary>
 		static Global()
 		{
-			// Check to see if there is an environment variable set to run as a server.
-			// If so then we are being started by apache and there are no command line
-			// parameters available.
-			if ( !ParseEnvironmentVariables() )
-			{
-				// Parse the command line parameters.
-				ParseConfigurationParameters( Environment.GetCommandLineArgs() );
-			}
+			// The presedence for settings is
+			// 1. Command Line
+			// 2. Environment
+			// 3. defaults.conf (in etc)
+
+			ReadDefaultsConfig();
+			ParseEnvironmentVariables();
+			ParseConfigurationParameters( Environment.GetCommandLineArgs() );
+
 
 			// Make sure that there is a data path specified.
 			if ( simiasDataPath == null )
@@ -146,9 +147,9 @@ namespace Simias.Web
 			{
 				switch ( args[ i ].ToLower() )
 				{
-					case "--runasserver":
+					case "--runasclient":
 					{
-						runAsServer = true;
+						runAsServer = false;
 						break;
 					}
 
@@ -160,7 +161,7 @@ namespace Simias.Web
 						}
 						else
 						{
-							ApplicationException apEx = new ApplicationException( "Error: The Simias data path was not specified." );
+							ApplicationException apEx = new ApplicationException( "Error: The Simias data dir was not specified." );
 							Console.Error.WriteLine( apEx.Message );
 							throw apEx;
 						}
@@ -209,31 +210,33 @@ namespace Simias.Web
 			}
 		}
 
+
 		/// <summary>
 		/// Gets the Simias environment variables set by mod-mono-server in the apache process.
 		/// </summary>
-		/// <returns>True if the environment variables were found. Otherwise false is returned.</returns>
-		private static bool ParseEnvironmentVariables()
+		private static void ParseEnvironmentVariables()
 		{
-			bool foundEnv = false;
-
-			if ( Environment.GetEnvironmentVariable( EnvSimiasRunAsServer ) != null )
-			{
-				runAsServer = true;
-				simiasDataPath = Environment.GetEnvironmentVariable( EnvSimiasDataPath ).Trim( new char [] { '\"' } );
-				if ( simiasDataPath == null )
-				{
-					ApplicationException apEx = new ApplicationException( "Error: The Simias data path was not specified." );
-					Console.Error.WriteLine( apEx.Message );
-					throw apEx;
-				}
-
-				verbose = ( Environment.GetEnvironmentVariable( EnvSimiasVerbose ) != null ) ? true : false;
-				foundEnv = true;
-			}
-
-			return foundEnv;
+			string tmpPath;
+			if( Environment.GetEnvironmentVariable( EnvSimiasRunAsClient ) != null )
+				runAsServer = false;
+			tmpPath = Environment.GetEnvironmentVariable( EnvSimiasDataDir );
+			if(tmpPath != null)
+				simiasDataPath = tmpPath.Trim( new char [] { '\"' } );
+			if( Environment.GetEnvironmentVariable( EnvSimiasVerbose ) != null )
+				verbose = true;
 		}
+
+
+		/// <summary>
+		/// Gets the default settings from the /etc/defaults.config file
+		/// </summary>
+		private static void ReadDefaultsConfig()
+		{
+			runAsServer = !Simias.Defaults.RunsAsClient;
+			simiasDataPath = Simias.Defaults.SimiasDataDir;
+			//verbose = Simias.Defaults.Verbose;
+		}
+
 
 		/// <summary>
 		/// Sends the specified message via the IPC to the listening process.
