@@ -554,6 +554,7 @@ src/Makefile
 src/core/Makefile
 src/core/Common/MyDns.cs
 src/core/Common/Simias.config
+src/core/Common/defaults.config
 src/core/SimiasClient/Makefile
 src/core/SimiasClient/AssemblyInfo.cs
 src/core/SimiasClient/SimiasSetup.cs
@@ -581,7 +582,6 @@ src/core/SqliteProvider/Makefile
 src/core/libsimias/Makefile
 src/server/Makefile
 src/server/Simias.config
-src/server/defaults.config
 src/server/simiasserver.cmd
 src/server/simiasserver
 src/server/setup/Makefile

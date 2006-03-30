@@ -3,7 +3,7 @@ SUBDIRS = Simias.Server Simias.HttpFile Simias.Rss
 # handle Mono secondary dependencies
 export MONO_PATH := $(MONO_PATH):$(DESTDIR)$(libdir)
 
-EXTRA_DIST = Simias.config.in Simias.Server.conf simiasserver.in simiasserver.cmd.in defaults.config.in
+EXTRA_DIST = Simias.config.in Simias.Server.conf simiasserver.in simiasserver.cmd.in 
 
 if MAKE_DOC_FILE
 DOC_FILE = $(basename $@).doc.xml
@@ -17,7 +17,6 @@ install-exec-local: all
 	$(mkinstalldirs) $(DESTDIR)$(webbindir) $(simiasdatadir) $(simiasdatadir)/modules $(DESTDIR)$(sysconfdir)
 	$(INSTALL_PROGRAM) Simias.config $(simiasdatadir)
 	$(INSTALL_PROGRAM) Simias.Server.conf $(simiasdatadir)/modules
-	$(INSTALL_PROGRAM) defaults.config $(DESTDIR)$(sysconfdir)
 if WINDOWS	
 	$(INSTALL_PROGRAM) simiasserver.cmd $(DESTDIR)$(bindir)
 else
@@ -27,7 +26,6 @@ endif
 uninstall-local:
 	cd $(simiasdatadir); rm -f Simias.config
 	cd $(simiasdatadir)/modules; rm -f Simias.Server.conf
-	cd $(DESTDIR)$(sysconfdir); rm -f defaults.config
 if WINDOWS	
 	cd $(DESTDIR)$(bindir); rm -f simiasserver.cmd
 else
@@ -49,5 +47,5 @@ clean-local:
 
 maintainer-clean-local:
 	rm -rf $(COMMON_MAINTAINER_CLEAN_FILES)
-	rm -rf defaults.config Simias.config simiasserver simiasserver.cmd
+	rm -rf Simias.config simiasserver simiasserver.cmd
 
