@@ -51,6 +51,7 @@ install-exec-local: all $(DATA_FILES)
 	$(mkinstalldirs) $(DESTDIR)$(bindir) $(DESTDIR)$(libexecdir)/bin
 if WINDOWS	
 	$(INSTALL_PROGRAM) UserCmd.exe $(DEBUG_FILES) $(DESTDIR)$(bindir)
+	$(INSTALL_PROGRAM) simias-user.cmd $(DESTDIR)$(bindir)
 else
 	$(INSTALL_PROGRAM) UserCmd.exe $(DEBUG_FILES) $(DESTDIR)$(libexecdir)/bin
 	$(INSTALL_PROGRAM) simias-create-user $(DESTDIR)$(bindir)
@@ -60,7 +61,7 @@ endif
 
 uninstall-local:
 if WINDOWS	
-	cd $(DESTDIR)$(bindir); rm -f UserCmd.exe $(DEBUG_FILES)
+	cd $(DESTDIR)$(bindir); rm -f UserCmd.exe simias-user.cmd $(DEBUG_FILES)
 else
 	cd $(DESTDIR)$(libexecdir)/bin; rm -f UserCmd.exe $(DEBUG_FILES)
 	cd $(DESTDIR)$(bindir); rm -f simias-create-user simias-delete-user simias-user
