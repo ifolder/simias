@@ -1,1153 +1,2033 @@
-<?xml version="1.0" encoding="utf-8"?>
-<wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://novell.com/ifolder/webservice/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" targetNamespace="http://novell.com/ifolder/webservice/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
-  <wsdl:types>
-    <s:schema elementFormDefault="qualified" targetNamespace="http://novell.com/ifolder/webservice/">
-      <s:element name="GetServer">
-        <s:complexType />
-      </s:element>
-      <s:element name="GetServerResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetServerResult" type="tns:iFolderServer" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:complexType name="iFolderServer">
-        <s:sequence>
-          <s:element minOccurs="0" maxOccurs="1" name="Version" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="HostName" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="MachineName" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="OSVersion" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="UserName" type="s:string" />
-        </s:sequence>
-      </s:complexType>
-      <s:element name="GetSystem">
-        <s:complexType />
-      </s:element>
-      <s:element name="GetSystemResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetSystemResult" type="tns:iFolderSystem" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:complexType name="iFolderSystem">
-        <s:sequence>
-          <s:element minOccurs="0" maxOccurs="1" name="ID" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="Version" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
-        </s:sequence>
-      </s:complexType>
-      <s:element name="CreateiFolder">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
-            <s:element minOccurs="0" maxOccurs="1" name="userID" type="s:string" />
-            <s:element minOccurs="0" maxOccurs="1" name="description" type="s:string" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="CreateiFolderResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="CreateiFolderResult" type="tns:iFolder" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:complexType name="iFolder">
-        <s:sequence>
-          <s:element minOccurs="0" maxOccurs="1" name="ID" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="OwnerID" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="OwnerName" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="Domain" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="ManagedPath" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="UnManagedPath" type="s:string" />
-          <s:element minOccurs="1" maxOccurs="1" name="Size" type="s:long" />
-          <s:element minOccurs="1" maxOccurs="1" name="Rights" type="tns:Rights" />
-          <s:element minOccurs="1" maxOccurs="1" name="LastModified" type="s:dateTime" />
-          <s:element minOccurs="1" maxOccurs="1" name="Published" type="s:boolean" />
-        </s:sequence>
-      </s:complexType>
-      <s:simpleType name="Rights">
-        <s:restriction base="s:string">
-          <s:enumeration value="Deny" />
-          <s:enumeration value="ReadOnly" />
-          <s:enumeration value="ReadWrite" />
-          <s:enumeration value="Admin" />
-        </s:restriction>
-      </s:simpleType>
-      <s:element name="DeleteiFolder">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="ifolderID" type="s:string" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="DeleteiFolderResponse">
-        <s:complexType />
-      </s:element>
-      <s:element name="GetiFolder">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="ifolderID" type="s:string" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetiFolderResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetiFolderResult" type="tns:iFolder" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="SetiFolderDescription">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="ifolderID" type="s:string" />
-            <s:element minOccurs="0" maxOccurs="1" name="description" type="s:string" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="SetiFolderDescriptionResponse">
-        <s:complexType />
-      </s:element>
-      <s:element name="GetiFolders">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="type" type="tns:iFolderType" />
-            <s:element minOccurs="1" maxOccurs="1" name="index" type="s:int" />
-            <s:element minOccurs="1" maxOccurs="1" name="count" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:simpleType name="iFolderType">
-        <s:restriction base="s:string">
-          <s:enumeration value="All" />
-          <s:enumeration value="Orphaned" />
-        </s:restriction>
-      </s:simpleType>
-      <s:element name="GetiFoldersResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetiFoldersResult" type="tns:ArrayOfIFolder" />
-            <s:element minOccurs="1" maxOccurs="1" name="total" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:complexType name="ArrayOfIFolder">
-        <s:sequence>
-          <s:element minOccurs="0" maxOccurs="unbounded" name="iFolder" nillable="true" type="tns:iFolder" />
-        </s:sequence>
-      </s:complexType>
-      <s:element name="GetiFoldersByMember">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="userID" type="s:string" />
-            <s:element minOccurs="1" maxOccurs="1" name="role" type="tns:MemberRole" />
-            <s:element minOccurs="1" maxOccurs="1" name="index" type="s:int" />
-            <s:element minOccurs="1" maxOccurs="1" name="count" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:simpleType name="MemberRole">
-        <s:restriction base="s:string">
-          <s:enumeration value="Any" />
-          <s:enumeration value="Owner" />
-          <s:enumeration value="Shared" />
-        </s:restriction>
-      </s:simpleType>
-      <s:element name="GetiFoldersByMemberResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetiFoldersByMemberResult" type="tns:ArrayOfIFolder" />
-            <s:element minOccurs="1" maxOccurs="1" name="total" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetiFoldersByName">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="operation" type="tns:SearchOperation" />
-            <s:element minOccurs="0" maxOccurs="1" name="pattern" type="s:string" />
-            <s:element minOccurs="1" maxOccurs="1" name="index" type="s:int" />
-            <s:element minOccurs="1" maxOccurs="1" name="count" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:simpleType name="SearchOperation">
-        <s:restriction base="s:string">
-          <s:enumeration value="BeginsWith" />
-          <s:enumeration value="EndsWith" />
-          <s:enumeration value="Contains" />
-          <s:enumeration value="Equals" />
-        </s:restriction>
-      </s:simpleType>
-      <s:element name="GetiFoldersByNameResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetiFoldersByNameResult" type="tns:ArrayOfIFolder" />
-            <s:element minOccurs="1" maxOccurs="1" name="total" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetChanges">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="ifolderID" type="s:string" />
-            <s:element minOccurs="0" maxOccurs="1" name="entryID" type="s:string" />
-            <s:element minOccurs="1" maxOccurs="1" name="index" type="s:int" />
-            <s:element minOccurs="1" maxOccurs="1" name="count" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetChangesResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetChangesResult" type="tns:ArrayOfChangeEntry" />
-            <s:element minOccurs="1" maxOccurs="1" name="total" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:complexType name="ArrayOfChangeEntry">
-        <s:sequence>
-          <s:element minOccurs="0" maxOccurs="unbounded" name="ChangeEntry" nillable="true" type="tns:ChangeEntry" />
-        </s:sequence>
-      </s:complexType>
-      <s:complexType name="ChangeEntry">
-        <s:sequence>
-          <s:element minOccurs="1" maxOccurs="1" name="Time" type="s:dateTime" />
-          <s:element minOccurs="1" maxOccurs="1" name="Type" type="tns:ChangeType" />
-          <s:element minOccurs="0" maxOccurs="1" name="EntryID" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="EntryName" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="UserID" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="UserFullName" type="s:string" />
-          <s:element minOccurs="1" maxOccurs="1" name="IsDirectory" type="s:boolean" />
-        </s:sequence>
-      </s:complexType>
-      <s:simpleType name="ChangeType">
-        <s:restriction base="s:string">
-          <s:enumeration value="Add" />
-          <s:enumeration value="Modify" />
-          <s:enumeration value="Delete" />
-          <s:enumeration value="Unknown" />
-        </s:restriction>
-      </s:simpleType>
-      <s:element name="GetAuthenticatedUser">
-        <s:complexType />
-      </s:element>
-      <s:element name="GetAuthenticatedUserResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetAuthenticatedUserResult" type="tns:iFolderUser" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:complexType name="iFolderUser">
-        <s:sequence>
-          <s:element minOccurs="0" maxOccurs="1" name="UserID" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="UserName" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="FullName" type="s:string" />
-          <s:element minOccurs="1" maxOccurs="1" name="Rights" type="tns:Rights" />
-          <s:element minOccurs="1" maxOccurs="1" name="Enabled" type="s:boolean" />
-          <s:element minOccurs="1" maxOccurs="1" name="IsAdmin" type="s:boolean" />
-        </s:sequence>
-      </s:complexType>
-      <s:element name="SetMemberRights">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="ifolderID" type="s:string" />
-            <s:element minOccurs="0" maxOccurs="1" name="userID" type="s:string" />
-            <s:element minOccurs="1" maxOccurs="1" name="rights" type="tns:Rights" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="SetMemberRightsResponse">
-        <s:complexType />
-      </s:element>
-      <s:element name="AddMember">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="ifolderID" type="s:string" />
-            <s:element minOccurs="0" maxOccurs="1" name="userID" type="s:string" />
-            <s:element minOccurs="1" maxOccurs="1" name="rights" type="tns:Rights" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="AddMemberResponse">
-        <s:complexType />
-      </s:element>
-      <s:element name="RemoveMember">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="ifolderID" type="s:string" />
-            <s:element minOccurs="0" maxOccurs="1" name="userID" type="s:string" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="RemoveMemberResponse">
-        <s:complexType />
-      </s:element>
-      <s:element name="SetiFolderOwner">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="ifolderID" type="s:string" />
-            <s:element minOccurs="0" maxOccurs="1" name="userID" type="s:string" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="SetiFolderOwnerResponse">
-        <s:complexType />
-      </s:element>
-      <s:element name="GetMembers">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="ifolderID" type="s:string" />
-            <s:element minOccurs="1" maxOccurs="1" name="index" type="s:int" />
-            <s:element minOccurs="1" maxOccurs="1" name="count" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetMembersResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetMembersResult" type="tns:ArrayOfIFolderUser" />
-            <s:element minOccurs="1" maxOccurs="1" name="total" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:complexType name="ArrayOfIFolderUser">
-        <s:sequence>
-          <s:element minOccurs="0" maxOccurs="unbounded" name="iFolderUser" nillable="true" type="tns:iFolderUser" />
-        </s:sequence>
-      </s:complexType>
-      <s:element name="GetUsers">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="index" type="s:int" />
-            <s:element minOccurs="1" maxOccurs="1" name="count" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetUsersResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetUsersResult" type="tns:ArrayOfIFolderUser" />
-            <s:element minOccurs="1" maxOccurs="1" name="total" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetUser">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="userID" type="s:string" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetUserResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetUserResult" type="tns:iFolderUser" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetUserDetails">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="userID" type="s:string" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetUserDetailsResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetUserDetailsResult" type="tns:iFolderUserDetails" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:complexType name="iFolderUserDetails">
-        <s:complexContent mixed="false">
-          <s:extension base="tns:iFolderUser">
-            <s:sequence>
-              <s:element minOccurs="1" maxOccurs="1" name="SyncIntervalEffective" type="s:int" />
-              <s:element minOccurs="1" maxOccurs="1" name="LastLogin" type="s:dateTime" />
-              <s:element minOccurs="0" maxOccurs="1" name="LdapContext" type="s:string" />
-              <s:element minOccurs="1" maxOccurs="1" name="OwnediFolderCount" type="s:int" />
-              <s:element minOccurs="1" maxOccurs="1" name="SharediFolderCount" type="s:int" />
-            </s:sequence>
-          </s:extension>
-        </s:complexContent>
-      </s:complexType>
-      <s:element name="GetUsersBySearch">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="property" type="tns:SearchProperty" />
-            <s:element minOccurs="1" maxOccurs="1" name="operation" type="tns:SearchOperation" />
-            <s:element minOccurs="0" maxOccurs="1" name="pattern" type="s:string" />
-            <s:element minOccurs="1" maxOccurs="1" name="index" type="s:int" />
-            <s:element minOccurs="1" maxOccurs="1" name="count" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:simpleType name="SearchProperty">
-        <s:restriction base="s:string">
-          <s:enumeration value="UserName" />
-          <s:enumeration value="Name" />
-          <s:enumeration value="LastName" />
-          <s:enumeration value="FirstName" />
-        </s:restriction>
-      </s:simpleType>
-      <s:element name="GetUsersBySearchResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetUsersBySearchResult" type="tns:ArrayOfIFolderUser" />
-            <s:element minOccurs="1" maxOccurs="1" name="total" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="AddAdministrator">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="userID" type="s:string" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="AddAdministratorResponse">
-        <s:complexType />
-      </s:element>
-      <s:element name="RemoveAdministrator">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="userID" type="s:string" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="RemoveAdministratorResponse">
-        <s:complexType />
-      </s:element>
-      <s:element name="GetAdministrators">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="index" type="s:int" />
-            <s:element minOccurs="1" maxOccurs="1" name="count" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetAdministratorsResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetAdministratorsResult" type="tns:ArrayOfIFolderUser" />
-            <s:element minOccurs="1" maxOccurs="1" name="total" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetSystemPolicy">
-        <s:complexType />
-      </s:element>
-      <s:element name="GetSystemPolicyResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetSystemPolicyResult" type="tns:SystemPolicy" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:complexType name="SystemPolicy">
-        <s:sequence>
-          <s:element minOccurs="1" maxOccurs="1" name="SpaceLimitUser" type="s:long" />
-          <s:element minOccurs="1" maxOccurs="1" name="SyncInterval" type="s:int" />
-          <s:element minOccurs="1" maxOccurs="1" name="FileSizeLimit" type="s:long" />
-          <s:element minOccurs="0" maxOccurs="1" name="FileTypesIncludes" type="tns:ArrayOfString" />
-          <s:element minOccurs="0" maxOccurs="1" name="FileTypesExcludes" type="tns:ArrayOfString" />
-        </s:sequence>
-      </s:complexType>
-      <s:complexType name="ArrayOfString">
-        <s:sequence>
-          <s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />
-        </s:sequence>
-      </s:complexType>
-      <s:element name="SetSystemPolicy">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="props" type="tns:SystemPolicy" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="SetSystemPolicyResponse">
-        <s:complexType />
-      </s:element>
-      <s:element name="GetUserPolicy">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="userID" type="s:string" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetUserPolicyResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetUserPolicyResult" type="tns:UserPolicy" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:complexType name="UserPolicy">
-        <s:sequence>
-          <s:element minOccurs="0" maxOccurs="1" name="UserID" type="s:string" />
-          <s:element minOccurs="1" maxOccurs="1" name="LoginEnabled" type="s:boolean" />
-          <s:element minOccurs="1" maxOccurs="1" name="SpaceLimit" type="s:long" />
-          <s:element minOccurs="1" maxOccurs="1" name="SpaceLimitEffective" type="s:long" />
-          <s:element minOccurs="1" maxOccurs="1" name="FileSizeLimit" type="s:long" />
-          <s:element minOccurs="1" maxOccurs="1" name="FileSizeLimitEffective" type="s:long" />
-          <s:element minOccurs="1" maxOccurs="1" name="SpaceUsed" type="s:long" />
-          <s:element minOccurs="1" maxOccurs="1" name="SpaceAvailable" type="s:long" />
-          <s:element minOccurs="1" maxOccurs="1" name="SyncInterval" type="s:int" />
-          <s:element minOccurs="1" maxOccurs="1" name="SyncIntervalEffective" type="s:int" />
-          <s:element minOccurs="0" maxOccurs="1" name="FileTypesIncludes" type="tns:ArrayOfString" />
-          <s:element minOccurs="0" maxOccurs="1" name="FileTypesIncludesEffective" type="tns:ArrayOfString" />
-          <s:element minOccurs="0" maxOccurs="1" name="FileTypesExcludes" type="tns:ArrayOfString" />
-          <s:element minOccurs="0" maxOccurs="1" name="FileTypesExcludesEffective" type="tns:ArrayOfString" />
-        </s:sequence>
-      </s:complexType>
-      <s:element name="SetUserPolicy">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="props" type="tns:UserPolicy" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="SetUserPolicyResponse">
-        <s:complexType />
-      </s:element>
-      <s:element name="GetiFolderPolicy">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="ifolderID" type="s:string" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetiFolderPolicyResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetiFolderPolicyResult" type="tns:iFolderPolicy" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:complexType name="iFolderPolicy">
-        <s:sequence>
-          <s:element minOccurs="0" maxOccurs="1" name="iFolderID" type="s:string" />
-          <s:element minOccurs="1" maxOccurs="1" name="Locked" type="s:boolean" />
-          <s:element minOccurs="1" maxOccurs="1" name="SpaceLimit" type="s:long" />
-          <s:element minOccurs="1" maxOccurs="1" name="SpaceLimitEffective" type="s:long" />
-          <s:element minOccurs="1" maxOccurs="1" name="SpaceUsed" type="s:long" />
-          <s:element minOccurs="1" maxOccurs="1" name="SpaceAvailable" type="s:long" />
-          <s:element minOccurs="1" maxOccurs="1" name="SyncInterval" type="s:int" />
-          <s:element minOccurs="0" maxOccurs="1" name="FileTypesIncludes" type="tns:ArrayOfString" />
-          <s:element minOccurs="0" maxOccurs="1" name="FileTypesExcludes" type="tns:ArrayOfString" />
-          <s:element minOccurs="1" maxOccurs="1" name="FileSizeLimit" type="s:long" />
-        </s:sequence>
-      </s:complexType>
-      <s:element name="SetiFolderPolicy">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="props" type="tns:iFolderPolicy" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="SetiFolderPolicyResponse">
-        <s:complexType />
-      </s:element>
-    </s:schema>
-  </wsdl:types>
-  <wsdl:message name="GetServerSoapIn">
-    <wsdl:part name="parameters" element="tns:GetServer" />
-  </wsdl:message>
-  <wsdl:message name="GetServerSoapOut">
-    <wsdl:part name="parameters" element="tns:GetServerResponse" />
-  </wsdl:message>
-  <wsdl:message name="GetSystemSoapIn">
-    <wsdl:part name="parameters" element="tns:GetSystem" />
-  </wsdl:message>
-  <wsdl:message name="GetSystemSoapOut">
-    <wsdl:part name="parameters" element="tns:GetSystemResponse" />
-  </wsdl:message>
-  <wsdl:message name="CreateiFolderSoapIn">
-    <wsdl:part name="parameters" element="tns:CreateiFolder" />
-  </wsdl:message>
-  <wsdl:message name="CreateiFolderSoapOut">
-    <wsdl:part name="parameters" element="tns:CreateiFolderResponse" />
-  </wsdl:message>
-  <wsdl:message name="DeleteiFolderSoapIn">
-    <wsdl:part name="parameters" element="tns:DeleteiFolder" />
-  </wsdl:message>
-  <wsdl:message name="DeleteiFolderSoapOut">
-    <wsdl:part name="parameters" element="tns:DeleteiFolderResponse" />
-  </wsdl:message>
-  <wsdl:message name="GetiFolderSoapIn">
-    <wsdl:part name="parameters" element="tns:GetiFolder" />
-  </wsdl:message>
-  <wsdl:message name="GetiFolderSoapOut">
-    <wsdl:part name="parameters" element="tns:GetiFolderResponse" />
-  </wsdl:message>
-  <wsdl:message name="SetiFolderDescriptionSoapIn">
-    <wsdl:part name="parameters" element="tns:SetiFolderDescription" />
-  </wsdl:message>
-  <wsdl:message name="SetiFolderDescriptionSoapOut">
-    <wsdl:part name="parameters" element="tns:SetiFolderDescriptionResponse" />
-  </wsdl:message>
-  <wsdl:message name="GetiFoldersSoapIn">
-    <wsdl:part name="parameters" element="tns:GetiFolders" />
-  </wsdl:message>
-  <wsdl:message name="GetiFoldersSoapOut">
-    <wsdl:part name="parameters" element="tns:GetiFoldersResponse" />
-  </wsdl:message>
-  <wsdl:message name="GetiFoldersByMemberSoapIn">
-    <wsdl:part name="parameters" element="tns:GetiFoldersByMember" />
-  </wsdl:message>
-  <wsdl:message name="GetiFoldersByMemberSoapOut">
-    <wsdl:part name="parameters" element="tns:GetiFoldersByMemberResponse" />
-  </wsdl:message>
-  <wsdl:message name="GetiFoldersByNameSoapIn">
-    <wsdl:part name="parameters" element="tns:GetiFoldersByName" />
-  </wsdl:message>
-  <wsdl:message name="GetiFoldersByNameSoapOut">
-    <wsdl:part name="parameters" element="tns:GetiFoldersByNameResponse" />
-  </wsdl:message>
-  <wsdl:message name="GetChangesSoapIn">
-    <wsdl:part name="parameters" element="tns:GetChanges" />
-  </wsdl:message>
-  <wsdl:message name="GetChangesSoapOut">
-    <wsdl:part name="parameters" element="tns:GetChangesResponse" />
-  </wsdl:message>
-  <wsdl:message name="GetAuthenticatedUserSoapIn">
-    <wsdl:part name="parameters" element="tns:GetAuthenticatedUser" />
-  </wsdl:message>
-  <wsdl:message name="GetAuthenticatedUserSoapOut">
-    <wsdl:part name="parameters" element="tns:GetAuthenticatedUserResponse" />
-  </wsdl:message>
-  <wsdl:message name="SetMemberRightsSoapIn">
-    <wsdl:part name="parameters" element="tns:SetMemberRights" />
-  </wsdl:message>
-  <wsdl:message name="SetMemberRightsSoapOut">
-    <wsdl:part name="parameters" element="tns:SetMemberRightsResponse" />
-  </wsdl:message>
-  <wsdl:message name="AddMemberSoapIn">
-    <wsdl:part name="parameters" element="tns:AddMember" />
-  </wsdl:message>
-  <wsdl:message name="AddMemberSoapOut">
-    <wsdl:part name="parameters" element="tns:AddMemberResponse" />
-  </wsdl:message>
-  <wsdl:message name="RemoveMemberSoapIn">
-    <wsdl:part name="parameters" element="tns:RemoveMember" />
-  </wsdl:message>
-  <wsdl:message name="RemoveMemberSoapOut">
-    <wsdl:part name="parameters" element="tns:RemoveMemberResponse" />
-  </wsdl:message>
-  <wsdl:message name="SetiFolderOwnerSoapIn">
-    <wsdl:part name="parameters" element="tns:SetiFolderOwner" />
-  </wsdl:message>
-  <wsdl:message name="SetiFolderOwnerSoapOut">
-    <wsdl:part name="parameters" element="tns:SetiFolderOwnerResponse" />
-  </wsdl:message>
-  <wsdl:message name="GetMembersSoapIn">
-    <wsdl:part name="parameters" element="tns:GetMembers" />
-  </wsdl:message>
-  <wsdl:message name="GetMembersSoapOut">
-    <wsdl:part name="parameters" element="tns:GetMembersResponse" />
-  </wsdl:message>
-  <wsdl:message name="GetUsersSoapIn">
-    <wsdl:part name="parameters" element="tns:GetUsers" />
-  </wsdl:message>
-  <wsdl:message name="GetUsersSoapOut">
-    <wsdl:part name="parameters" element="tns:GetUsersResponse" />
-  </wsdl:message>
-  <wsdl:message name="GetUserSoapIn">
-    <wsdl:part name="parameters" element="tns:GetUser" />
-  </wsdl:message>
-  <wsdl:message name="GetUserSoapOut">
-    <wsdl:part name="parameters" element="tns:GetUserResponse" />
-  </wsdl:message>
-  <wsdl:message name="GetUserDetailsSoapIn">
-    <wsdl:part name="parameters" element="tns:GetUserDetails" />
-  </wsdl:message>
-  <wsdl:message name="GetUserDetailsSoapOut">
-    <wsdl:part name="parameters" element="tns:GetUserDetailsResponse" />
-  </wsdl:message>
-  <wsdl:message name="GetUsersBySearchSoapIn">
-    <wsdl:part name="parameters" element="tns:GetUsersBySearch" />
-  </wsdl:message>
-  <wsdl:message name="GetUsersBySearchSoapOut">
-    <wsdl:part name="parameters" element="tns:GetUsersBySearchResponse" />
-  </wsdl:message>
-  <wsdl:message name="AddAdministratorSoapIn">
-    <wsdl:part name="parameters" element="tns:AddAdministrator" />
-  </wsdl:message>
-  <wsdl:message name="AddAdministratorSoapOut">
-    <wsdl:part name="parameters" element="tns:AddAdministratorResponse" />
-  </wsdl:message>
-  <wsdl:message name="RemoveAdministratorSoapIn">
-    <wsdl:part name="parameters" element="tns:RemoveAdministrator" />
-  </wsdl:message>
-  <wsdl:message name="RemoveAdministratorSoapOut">
-    <wsdl:part name="parameters" element="tns:RemoveAdministratorResponse" />
-  </wsdl:message>
-  <wsdl:message name="GetAdministratorsSoapIn">
-    <wsdl:part name="parameters" element="tns:GetAdministrators" />
-  </wsdl:message>
-  <wsdl:message name="GetAdministratorsSoapOut">
-    <wsdl:part name="parameters" element="tns:GetAdministratorsResponse" />
-  </wsdl:message>
-  <wsdl:message name="GetSystemPolicySoapIn">
-    <wsdl:part name="parameters" element="tns:GetSystemPolicy" />
-  </wsdl:message>
-  <wsdl:message name="GetSystemPolicySoapOut">
-    <wsdl:part name="parameters" element="tns:GetSystemPolicyResponse" />
-  </wsdl:message>
-  <wsdl:message name="SetSystemPolicySoapIn">
-    <wsdl:part name="parameters" element="tns:SetSystemPolicy" />
-  </wsdl:message>
-  <wsdl:message name="SetSystemPolicySoapOut">
-    <wsdl:part name="parameters" element="tns:SetSystemPolicyResponse" />
-  </wsdl:message>
-  <wsdl:message name="GetUserPolicySoapIn">
-    <wsdl:part name="parameters" element="tns:GetUserPolicy" />
-  </wsdl:message>
-  <wsdl:message name="GetUserPolicySoapOut">
-    <wsdl:part name="parameters" element="tns:GetUserPolicyResponse" />
-  </wsdl:message>
-  <wsdl:message name="SetUserPolicySoapIn">
-    <wsdl:part name="parameters" element="tns:SetUserPolicy" />
-  </wsdl:message>
-  <wsdl:message name="SetUserPolicySoapOut">
-    <wsdl:part name="parameters" element="tns:SetUserPolicyResponse" />
-  </wsdl:message>
-  <wsdl:message name="GetiFolderPolicySoapIn">
-    <wsdl:part name="parameters" element="tns:GetiFolderPolicy" />
-  </wsdl:message>
-  <wsdl:message name="GetiFolderPolicySoapOut">
-    <wsdl:part name="parameters" element="tns:GetiFolderPolicyResponse" />
-  </wsdl:message>
-  <wsdl:message name="SetiFolderPolicySoapIn">
-    <wsdl:part name="parameters" element="tns:SetiFolderPolicy" />
-  </wsdl:message>
-  <wsdl:message name="SetiFolderPolicySoapOut">
-    <wsdl:part name="parameters" element="tns:SetiFolderPolicyResponse" />
-  </wsdl:message>
-  <wsdl:portType name="iFolderAdminSoap">
-    <wsdl:operation name="GetServer">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get iFolder Server Information</documentation>
-      <wsdl:input message="tns:GetServerSoapIn" />
-      <wsdl:output message="tns:GetServerSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetSystem">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get iFolder System Information</documentation>
-      <wsdl:input message="tns:GetSystemSoapIn" />
-      <wsdl:output message="tns:GetSystemSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="CreateiFolder">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Create a New iFolder</documentation>
-      <wsdl:input message="tns:CreateiFolderSoapIn" />
-      <wsdl:output message="tns:CreateiFolderSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="DeleteiFolder">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Delete an iFolder</documentation>
-      <wsdl:input message="tns:DeleteiFolderSoapIn" />
-      <wsdl:output message="tns:DeleteiFolderSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetiFolder">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get an iFolder</documentation>
-      <wsdl:input message="tns:GetiFolderSoapIn" />
-      <wsdl:output message="tns:GetiFolderSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="SetiFolderDescription">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Set the Description of an iFolder</documentation>
-      <wsdl:input message="tns:SetiFolderDescriptionSoapIn" />
-      <wsdl:output message="tns:SetiFolderDescriptionSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetiFolders">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get iFolders</documentation>
-      <wsdl:input message="tns:GetiFoldersSoapIn" />
-      <wsdl:output message="tns:GetiFoldersSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetiFoldersByMember">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get iFolders by Member</documentation>
-      <wsdl:input message="tns:GetiFoldersByMemberSoapIn" />
-      <wsdl:output message="tns:GetiFoldersByMemberSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetiFoldersByName">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get iFolders by Name</documentation>
-      <wsdl:input message="tns:GetiFoldersByNameSoapIn" />
-      <wsdl:output message="tns:GetiFoldersByNameSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetChanges">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get Changes</documentation>
-      <wsdl:input message="tns:GetChangesSoapIn" />
-      <wsdl:output message="tns:GetChangesSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetAuthenticatedUser">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get the Authenticated User</documentation>
-      <wsdl:input message="tns:GetAuthenticatedUserSoapIn" />
-      <wsdl:output message="tns:GetAuthenticatedUserSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="SetMemberRights">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Set the Rights of an iFolder Member</documentation>
-      <wsdl:input message="tns:SetMemberRightsSoapIn" />
-      <wsdl:output message="tns:SetMemberRightsSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="AddMember">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Add a Member to an iFolder</documentation>
-      <wsdl:input message="tns:AddMemberSoapIn" />
-      <wsdl:output message="tns:AddMemberSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="RemoveMember">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Remove a Member from an iFolder</documentation>
-      <wsdl:input message="tns:RemoveMemberSoapIn" />
-      <wsdl:output message="tns:RemoveMemberSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="SetiFolderOwner">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Set the Owner of an iFolder</documentation>
-      <wsdl:input message="tns:SetiFolderOwnerSoapIn" />
-      <wsdl:output message="tns:SetiFolderOwnerSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetMembers">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get the Members of an iFolder</documentation>
-      <wsdl:input message="tns:GetMembersSoapIn" />
-      <wsdl:output message="tns:GetMembersSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetUsers">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get the iFolder Users</documentation>
-      <wsdl:input message="tns:GetUsersSoapIn" />
-      <wsdl:output message="tns:GetUsersSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetUser">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get a User</documentation>
-      <wsdl:input message="tns:GetUserSoapIn" />
-      <wsdl:output message="tns:GetUserSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetUserDetails">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get User Details</documentation>
-      <wsdl:input message="tns:GetUserDetailsSoapIn" />
-      <wsdl:output message="tns:GetUserDetailsSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetUsersBySearch">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Search the Users of the iFolder System</documentation>
-      <wsdl:input message="tns:GetUsersBySearchSoapIn" />
-      <wsdl:output message="tns:GetUsersBySearchSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="AddAdministrator">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Give a User Administration Rights</documentation>
-      <wsdl:input message="tns:AddAdministratorSoapIn" />
-      <wsdl:output message="tns:AddAdministratorSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="RemoveAdministrator">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Remove Administration Rights from a User</documentation>
-      <wsdl:input message="tns:RemoveAdministratorSoapIn" />
-      <wsdl:output message="tns:RemoveAdministratorSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetAdministrators">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get all the Administrators</documentation>
-      <wsdl:input message="tns:GetAdministratorsSoapIn" />
-      <wsdl:output message="tns:GetAdministratorsSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetSystemPolicy">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get the System Policy</documentation>
-      <wsdl:input message="tns:GetSystemPolicySoapIn" />
-      <wsdl:output message="tns:GetSystemPolicySoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="SetSystemPolicy">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Set the System Policy</documentation>
-      <wsdl:input message="tns:SetSystemPolicySoapIn" />
-      <wsdl:output message="tns:SetSystemPolicySoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetUserPolicy">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get User Policy</documentation>
-      <wsdl:input message="tns:GetUserPolicySoapIn" />
-      <wsdl:output message="tns:GetUserPolicySoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="SetUserPolicy">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Set User Policy</documentation>
-      <wsdl:input message="tns:SetUserPolicySoapIn" />
-      <wsdl:output message="tns:SetUserPolicySoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetiFolderPolicy">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get iFolder Policy</documentation>
-      <wsdl:input message="tns:GetiFolderPolicySoapIn" />
-      <wsdl:output message="tns:GetiFolderPolicySoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="SetiFolderPolicy">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Set iFolder Policy</documentation>
-      <wsdl:input message="tns:SetiFolderPolicySoapIn" />
-      <wsdl:output message="tns:SetiFolderPolicySoapOut" />
-    </wsdl:operation>
-  </wsdl:portType>
-  <wsdl:binding name="iFolderAdminSoap" type="tns:iFolderAdminSoap">
-    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />
-    <wsdl:operation name="GetServer">
-      <soap:operation soapAction="http://novell.com/ifolder/webservice/GetServer" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetSystem">
-      <soap:operation soapAction="http://novell.com/ifolder/webservice/GetSystem" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="CreateiFolder">
-      <soap:operation soapAction="http://novell.com/ifolder/webservice/CreateiFolder" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="DeleteiFolder">
-      <soap:operation soapAction="http://novell.com/ifolder/webservice/DeleteiFolder" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetiFolder">
-      <soap:operation soapAction="http://novell.com/ifolder/webservice/GetiFolder" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="SetiFolderDescription">
-      <soap:operation soapAction="http://novell.com/ifolder/webservice/SetiFolderDescription" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetiFolders">
-      <soap:operation soapAction="http://novell.com/ifolder/webservice/GetiFolders" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetiFoldersByMember">
-      <soap:operation soapAction="http://novell.com/ifolder/webservice/GetiFoldersByMember" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetiFoldersByName">
-      <soap:operation soapAction="http://novell.com/ifolder/webservice/GetiFoldersByName" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetChanges">
-      <soap:operation soapAction="http://novell.com/ifolder/webservice/GetChanges" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetAuthenticatedUser">
-      <soap:operation soapAction="http://novell.com/ifolder/webservice/GetAuthenticatedUser" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="SetMemberRights">
-      <soap:operation soapAction="http://novell.com/ifolder/webservice/SetMemberRights" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="AddMember">
-      <soap:operation soapAction="http://novell.com/ifolder/webservice/AddMember" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="RemoveMember">
-      <soap:operation soapAction="http://novell.com/ifolder/webservice/RemoveMember" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="SetiFolderOwner">
-      <soap:operation soapAction="http://novell.com/ifolder/webservice/SetiFolderOwner" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetMembers">
-      <soap:operation soapAction="http://novell.com/ifolder/webservice/GetMembers" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetUsers">
-      <soap:operation soapAction="http://novell.com/ifolder/webservice/GetUsers" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetUser">
-      <soap:operation soapAction="http://novell.com/ifolder/webservice/GetUser" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetUserDetails">
-      <soap:operation soapAction="http://novell.com/ifolder/webservice/GetUserDetails" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetUsersBySearch">
-      <soap:operation soapAction="http://novell.com/ifolder/webservice/GetUsersBySearch" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="AddAdministrator">
-      <soap:operation soapAction="http://novell.com/ifolder/webservice/AddAdministrator" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="RemoveAdministrator">
-      <soap:operation soapAction="http://novell.com/ifolder/webservice/RemoveAdministrator" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetAdministrators">
-      <soap:operation soapAction="http://novell.com/ifolder/webservice/GetAdministrators" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetSystemPolicy">
-      <soap:operation soapAction="http://novell.com/ifolder/webservice/GetSystemPolicy" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="SetSystemPolicy">
-      <soap:operation soapAction="http://novell.com/ifolder/webservice/SetSystemPolicy" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetUserPolicy">
-      <soap:operation soapAction="http://novell.com/ifolder/webservice/GetUserPolicy" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="SetUserPolicy">
-      <soap:operation soapAction="http://novell.com/ifolder/webservice/SetUserPolicy" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetiFolderPolicy">
-      <soap:operation soapAction="http://novell.com/ifolder/webservice/GetiFolderPolicy" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="SetiFolderPolicy">
-      <soap:operation soapAction="http://novell.com/ifolder/webservice/SetiFolderPolicy" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-  </wsdl:binding>
-  <wsdl:service name="iFolderAdmin">
-    <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">iFolder Admin Web Service</documentation>
-    <wsdl:port name="iFolderAdminSoap" binding="tns:iFolderAdminSoap">
-      <soap:address location="http://127.0.0.1:8086/simias10/iFolderAdmin.asmx" />
-    </wsdl:port>
-  </wsdl:service>
-</wsdl:definitions>
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:s0="http://novell.com/ifolder/webservice/" name="iFolderAdmin" targetNamespace="http://novell.com/ifolder/webservice/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xs:schema elementFormDefault="qualified" targetNamespace="http://novell.com/ifolder/webservice/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="GetServer">
+        <xs:complexType/>
+      </xs:element>
+      <xs:complexType name="iFolderServer">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="Version" type="xs:string"/>
+          <xs:element minOccurs="0" maxOccurs="1" name="HostName" type="xs:string"/>
+          <xs:element minOccurs="0" maxOccurs="1" name="MachineName" type="xs:string"/>
+          <xs:element minOccurs="0" maxOccurs="1" name="OSVersion" type="xs:string"/>
+          <xs:element minOccurs="0" maxOccurs="1" name="UserName" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="GetServerResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetServerResult" type="s0:iFolderServer"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetSystem">
+        <xs:complexType/>
+      </xs:element>
+      <xs:complexType name="iFolderSystem">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="ID" type="xs:string"/>
+          <xs:element minOccurs="0" maxOccurs="1" name="Name" type="xs:string"/>
+          <xs:element minOccurs="0" maxOccurs="1" name="Version" type="xs:string"/>
+          <xs:element minOccurs="0" maxOccurs="1" name="Description" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="GetSystemResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetSystemResult" type="s0:iFolderSystem"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="CreateiFolder">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="name" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="userID" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="description" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="iFolder">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="ID" type="xs:string"/>
+          <xs:element minOccurs="0" maxOccurs="1" name="Name" type="xs:string"/>
+          <xs:element minOccurs="0" maxOccurs="1" name="Description" type="xs:string"/>
+          <xs:element minOccurs="0" maxOccurs="1" name="OwnerID" type="xs:string"/>
+          <xs:element minOccurs="0" maxOccurs="1" name="OwnerName" type="xs:string"/>
+          <xs:element minOccurs="0" maxOccurs="1" name="Domain" type="xs:string"/>
+          <xs:element minOccurs="0" maxOccurs="1" name="ManagedPath" type="xs:string"/>
+          <xs:element minOccurs="0" maxOccurs="1" name="UnManagedPath" type="xs:string"/>
+          <xs:element minOccurs="1" maxOccurs="1" name="Size" type="xs:long"/>
+          <xs:element minOccurs="1" maxOccurs="1" name="Rights" type="s0:Rights"/>
+          <xs:element minOccurs="1" maxOccurs="1" name="LastModified" type="xs:dateTime"/>
+          <xs:element minOccurs="1" maxOccurs="1" name="Published" type="xs:boolean"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:simpleType name="Rights">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="Deny"/>
+          <xs:enumeration value="ReadOnly"/>
+          <xs:enumeration value="ReadWrite"/>
+          <xs:enumeration value="Admin"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:element name="CreateiFolderResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CreateiFolderResult" type="s0:iFolder"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="DeleteiFolder">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="ifolderID" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="DeleteiFolderResponse">
+        <xs:complexType/>
+      </xs:element>
+      <xs:element name="GetiFolder">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="ifolderID" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetiFolderResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetiFolderResult" type="s0:iFolder"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SetiFolderDescription">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="ifolderID" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="description" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SetiFolderDescriptionResponse">
+        <xs:complexType/>
+      </xs:element>
+      <xs:simpleType name="iFolderType">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="All"/>
+          <xs:enumeration value="Orphaned"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:element name="GetiFolders">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="type" type="s0:iFolderType"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="index" type="xs:int"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="count" type="xs:int"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="ArrayOfIFolder">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="iFolder" nillable="true" type="s0:iFolder"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="GetiFoldersResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetiFoldersResult" type="s0:ArrayOfIFolder"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="total" type="xs:int"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:simpleType name="MemberRole">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="Any"/>
+          <xs:enumeration value="Owner"/>
+          <xs:enumeration value="Shared"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:element name="GetiFoldersByMember">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="userID" type="xs:string"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="role" type="s0:MemberRole"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="index" type="xs:int"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="count" type="xs:int"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetiFoldersByMemberResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetiFoldersByMemberResult" type="s0:ArrayOfIFolder"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="total" type="xs:int"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:simpleType name="SearchOperation">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="BeginsWith"/>
+          <xs:enumeration value="EndsWith"/>
+          <xs:enumeration value="Contains"/>
+          <xs:enumeration value="Equals"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:element name="GetiFoldersByName">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="operation" type="s0:SearchOperation"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="pattern" type="xs:string"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="index" type="xs:int"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="count" type="xs:int"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetiFoldersByNameResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetiFoldersByNameResult" type="s0:ArrayOfIFolder"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="total" type="xs:int"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetChanges">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="ifolderID" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="entryID" type="xs:string"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="index" type="xs:int"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="count" type="xs:int"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="ArrayOfChangeEntry">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="ChangeEntry" nillable="true" type="s0:ChangeEntry"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="ChangeEntry">
+        <xs:sequence>
+          <xs:element minOccurs="1" maxOccurs="1" name="Time" type="xs:dateTime"/>
+          <xs:element minOccurs="1" maxOccurs="1" name="Type" type="s0:ChangeType"/>
+          <xs:element minOccurs="0" maxOccurs="1" name="EntryID" type="xs:string"/>
+          <xs:element minOccurs="0" maxOccurs="1" name="EntryName" type="xs:string"/>
+          <xs:element minOccurs="0" maxOccurs="1" name="UserID" type="xs:string"/>
+          <xs:element minOccurs="0" maxOccurs="1" name="UserFullName" type="xs:string"/>
+          <xs:element minOccurs="1" maxOccurs="1" name="IsDirectory" type="xs:boolean"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:simpleType name="ChangeType">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="Add"/>
+          <xs:enumeration value="Modify"/>
+          <xs:enumeration value="Delete"/>
+          <xs:enumeration value="Unknown"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:element name="GetChangesResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetChangesResult" type="s0:ArrayOfChangeEntry"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="total" type="xs:int"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetAuthenticatedUser">
+        <xs:complexType/>
+      </xs:element>
+      <xs:complexType name="iFolderUser">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="UserID" type="xs:string"/>
+          <xs:element minOccurs="0" maxOccurs="1" name="UserName" type="xs:string"/>
+          <xs:element minOccurs="0" maxOccurs="1" name="FullName" type="xs:string"/>
+          <xs:element minOccurs="1" maxOccurs="1" name="Rights" type="s0:Rights"/>
+          <xs:element minOccurs="1" maxOccurs="1" name="Enabled" type="xs:boolean"/>
+          <xs:element minOccurs="1" maxOccurs="1" name="IsAdmin" type="xs:boolean"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="iFolderUserDetails">
+        <xs:complexContent mixed="false">
+          <xs:extension base="s0:iFolderUser">
+            <xs:sequence>
+              <xs:element minOccurs="1" maxOccurs="1" name="SyncIntervalEffective" type="xs:int"/>
+              <xs:element minOccurs="1" maxOccurs="1" name="LastLogin" type="xs:dateTime"/>
+              <xs:element minOccurs="0" maxOccurs="1" name="LdapContext" type="xs:string"/>
+              <xs:element minOccurs="1" maxOccurs="1" name="OwnediFolderCount" type="xs:int"/>
+              <xs:element minOccurs="1" maxOccurs="1" name="SharediFolderCount" type="xs:int"/>
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:element name="GetAuthenticatedUserResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetAuthenticatedUserResult" type="s0:iFolderUser"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SetMemberRights">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="ifolderID" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="userID" type="xs:string"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="rights" type="s0:Rights"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SetMemberRightsResponse">
+        <xs:complexType/>
+      </xs:element>
+      <xs:element name="AddMember">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="ifolderID" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="userID" type="xs:string"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="rights" type="s0:Rights"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AddMemberResponse">
+        <xs:complexType/>
+      </xs:element>
+      <xs:element name="RemoveMember">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="ifolderID" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="userID" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="RemoveMemberResponse">
+        <xs:complexType/>
+      </xs:element>
+      <xs:element name="SetiFolderOwner">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="ifolderID" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="userID" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SetiFolderOwnerResponse">
+        <xs:complexType/>
+      </xs:element>
+      <xs:element name="GetMembers">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="ifolderID" type="xs:string"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="index" type="xs:int"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="count" type="xs:int"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="ArrayOfIFolderUser">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="iFolderUser" nillable="true" type="s0:iFolderUser"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="GetMembersResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetMembersResult" type="s0:ArrayOfIFolderUser"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="total" type="xs:int"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetUsers">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="index" type="xs:int"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="count" type="xs:int"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetUsersResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetUsersResult" type="s0:ArrayOfIFolderUser"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="total" type="xs:int"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetUser">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="userID" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetUserResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetUserResult" type="s0:iFolderUser"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetUserDetails">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="userID" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetUserDetailsResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetUserDetailsResult" type="s0:iFolderUserDetails"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:simpleType name="SearchProperty">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="UserName"/>
+          <xs:enumeration value="Name"/>
+          <xs:enumeration value="LastName"/>
+          <xs:enumeration value="FirstName"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:element name="GetUsersBySearch">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="property" type="s0:SearchProperty"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="operation" type="s0:SearchOperation"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="pattern" type="xs:string"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="index" type="xs:int"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="count" type="xs:int"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetUsersBySearchResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetUsersBySearchResult" type="s0:ArrayOfIFolderUser"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="total" type="xs:int"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AddAdministrator">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="userID" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AddAdministratorResponse">
+        <xs:complexType/>
+      </xs:element>
+      <xs:element name="RemoveAdministrator">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="userID" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="RemoveAdministratorResponse">
+        <xs:complexType/>
+      </xs:element>
+      <xs:element name="GetAdministrators">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="index" type="xs:int"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="count" type="xs:int"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetAdministratorsResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetAdministratorsResult" type="s0:ArrayOfIFolderUser"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="total" type="xs:int"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetSystemPolicy">
+        <xs:complexType/>
+      </xs:element>
+      <xs:complexType name="SystemPolicy">
+        <xs:sequence>
+          <xs:element minOccurs="1" maxOccurs="1" name="SpaceLimitUser" type="xs:long"/>
+          <xs:element minOccurs="1" maxOccurs="1" name="SyncInterval" type="xs:int"/>
+          <xs:element minOccurs="1" maxOccurs="1" name="FileSizeLimit" type="xs:long"/>
+          <xs:element minOccurs="0" maxOccurs="1" name="FileTypesIncludes" type="s0:ArrayOfString"/>
+          <xs:element minOccurs="0" maxOccurs="1" name="FileTypesExcludes" type="s0:ArrayOfString"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="ArrayOfString">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="GetSystemPolicyResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetSystemPolicyResult" type="s0:SystemPolicy"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SetSystemPolicy">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="props" type="s0:SystemPolicy"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SetSystemPolicyResponse">
+        <xs:complexType/>
+      </xs:element>
+      <xs:element name="GetUserPolicy">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="userID" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="UserPolicy">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="UserID" type="xs:string"/>
+          <xs:element minOccurs="1" maxOccurs="1" name="LoginEnabled" type="xs:boolean"/>
+          <xs:element minOccurs="1" maxOccurs="1" name="SpaceLimit" type="xs:long"/>
+          <xs:element minOccurs="1" maxOccurs="1" name="SpaceLimitEffective" type="xs:long"/>
+          <xs:element minOccurs="1" maxOccurs="1" name="FileSizeLimit" type="xs:long"/>
+          <xs:element minOccurs="1" maxOccurs="1" name="FileSizeLimitEffective" type="xs:long"/>
+          <xs:element minOccurs="1" maxOccurs="1" name="SpaceUsed" type="xs:long"/>
+          <xs:element minOccurs="1" maxOccurs="1" name="SpaceAvailable" type="xs:long"/>
+          <xs:element minOccurs="1" maxOccurs="1" name="SyncInterval" type="xs:int"/>
+          <xs:element minOccurs="1" maxOccurs="1" name="SyncIntervalEffective" type="xs:int"/>
+          <xs:element minOccurs="0" maxOccurs="1" name="FileTypesIncludes" type="s0:ArrayOfString"/>
+          <xs:element minOccurs="0" maxOccurs="1" name="FileTypesIncludesEffective" type="s0:ArrayOfString"/>
+          <xs:element minOccurs="0" maxOccurs="1" name="FileTypesExcludes" type="s0:ArrayOfString"/>
+          <xs:element minOccurs="0" maxOccurs="1" name="FileTypesExcludesEffective" type="s0:ArrayOfString"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="GetUserPolicyResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetUserPolicyResult" type="s0:UserPolicy"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SetUserPolicy">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="props" type="s0:UserPolicy"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SetUserPolicyResponse">
+        <xs:complexType/>
+      </xs:element>
+      <xs:element name="GetiFolderPolicy">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="ifolderID" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="iFolderPolicy">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="iFolderID" type="xs:string"/>
+          <xs:element minOccurs="1" maxOccurs="1" name="Locked" type="xs:boolean"/>
+          <xs:element minOccurs="1" maxOccurs="1" name="SpaceLimit" type="xs:long"/>
+          <xs:element minOccurs="1" maxOccurs="1" name="SpaceLimitEffective" type="xs:long"/>
+          <xs:element minOccurs="1" maxOccurs="1" name="SpaceUsed" type="xs:long"/>
+          <xs:element minOccurs="1" maxOccurs="1" name="SpaceAvailable" type="xs:long"/>
+          <xs:element minOccurs="1" maxOccurs="1" name="SyncInterval" type="xs:int"/>
+          <xs:element minOccurs="0" maxOccurs="1" name="FileTypesIncludes" type="s0:ArrayOfString"/>
+          <xs:element minOccurs="0" maxOccurs="1" name="FileTypesExcludes" type="s0:ArrayOfString"/>
+          <xs:element minOccurs="1" maxOccurs="1" name="FileSizeLimit" type="xs:long"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="GetiFolderPolicyResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetiFolderPolicyResult" type="s0:iFolderPolicy"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SetiFolderPolicy">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="props" type="s0:iFolderPolicy"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SetiFolderPolicyResponse">
+        <xs:complexType/>
+      </xs:element>
+      <xs:element name="GetIdentityPolicy">
+        <xs:complexType/>
+      </xs:element>
+      <xs:complexType name="IdentityPolicy">
+        <xs:sequence>
+          <xs:element minOccurs="1" maxOccurs="1" name="ExternalIdentities" type="xs:boolean"/>
+          <xs:element minOccurs="1" maxOccurs="1" name="CanCreate" type="xs:boolean"/>
+          <xs:element minOccurs="1" maxOccurs="1" name="CanDelete" type="xs:boolean"/>
+          <xs:element minOccurs="1" maxOccurs="1" name="CanModify" type="xs:boolean"/>
+          <xs:element minOccurs="0" maxOccurs="1" name="Name" type="xs:string"/>
+          <xs:element minOccurs="0" maxOccurs="1" name="Description" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="GetIdentityPolicyResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetIdentityPolicyResult" type="s0:IdentityPolicy"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="CreateUser">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="Username" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="Password" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="UserGuid" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="FirstName" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="LastName" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="FullName" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="DistinguishedName" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="Email" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="RegistrationInfo">
+        <xs:sequence>
+          <xs:element minOccurs="1" maxOccurs="1" name="Status" type="s0:RegistrationStatus"/>
+          <xs:element minOccurs="0" maxOccurs="1" name="Message" type="xs:string"/>
+          <xs:element minOccurs="0" maxOccurs="1" name="UserGuid" type="xs:string"/>
+          <xs:element minOccurs="0" maxOccurs="1" name="DistinguishedName" type="xs:string"/>
+          <xs:element minOccurs="0" maxOccurs="1" name="SuggestedNames" type="s0:ArrayOfString"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:simpleType name="RegistrationStatus">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="UserCreated"/>
+          <xs:enumeration value="UserAlreadyExists"/>
+          <xs:enumeration value="InvalidParameters"/>
+          <xs:enumeration value="InvalidDomain"/>
+          <xs:enumeration value="UsernamePolicyException"/>
+          <xs:enumeration value="PasswordPolicyException"/>
+          <xs:enumeration value="NoRegisteredUserProvider"/>
+          <xs:enumeration value="MethodNotSupported"/>
+          <xs:enumeration value="InternalException"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:element name="CreateUserResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CreateUserResult" type="s0:RegistrationInfo"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="DeleteUser">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="Username" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="DeleteUserResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="DeleteUserResult" type="xs:boolean"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="iFolderServer" type="s0:iFolderServer"/>
+      <xs:element name="iFolderSystem" type="s0:iFolderSystem"/>
+      <xs:element name="iFolder" type="s0:iFolder"/>
+      <xs:element name="iFolderUser" type="s0:iFolderUser"/>
+      <xs:element name="iFolderUserDetails" type="s0:iFolderUserDetails"/>
+      <xs:element name="SystemPolicy" type="s0:SystemPolicy"/>
+      <xs:element name="UserPolicy" type="s0:UserPolicy"/>
+      <xs:element name="iFolderPolicy" type="s0:iFolderPolicy"/>
+      <xs:element name="IdentityPolicy" type="s0:IdentityPolicy"/>
+      <xs:element name="RegistrationInfo" type="s0:RegistrationInfo"/>
+      <xs:element name="boolean" type="xs:boolean"/>
+    </xs:schema>
+  </types>
+  <message name="GetServerSoapIn">
+    <part name="parameters" element="s0:GetServer"/>
+  </message>
+  <message name="GetServerSoapOut">
+    <part name="parameters" element="s0:GetServerResponse"/>
+  </message>
+  <message name="GetSystemSoapIn">
+    <part name="parameters" element="s0:GetSystem"/>
+  </message>
+  <message name="GetSystemSoapOut">
+    <part name="parameters" element="s0:GetSystemResponse"/>
+  </message>
+  <message name="CreateiFolderSoapIn">
+    <part name="parameters" element="s0:CreateiFolder"/>
+  </message>
+  <message name="CreateiFolderSoapOut">
+    <part name="parameters" element="s0:CreateiFolderResponse"/>
+  </message>
+  <message name="DeleteiFolderSoapIn">
+    <part name="parameters" element="s0:DeleteiFolder"/>
+  </message>
+  <message name="DeleteiFolderSoapOut">
+    <part name="parameters" element="s0:DeleteiFolderResponse"/>
+  </message>
+  <message name="GetiFolderSoapIn">
+    <part name="parameters" element="s0:GetiFolder"/>
+  </message>
+  <message name="GetiFolderSoapOut">
+    <part name="parameters" element="s0:GetiFolderResponse"/>
+  </message>
+  <message name="SetiFolderDescriptionSoapIn">
+    <part name="parameters" element="s0:SetiFolderDescription"/>
+  </message>
+  <message name="SetiFolderDescriptionSoapOut">
+    <part name="parameters" element="s0:SetiFolderDescriptionResponse"/>
+  </message>
+  <message name="GetiFoldersSoapIn">
+    <part name="parameters" element="s0:GetiFolders"/>
+  </message>
+  <message name="GetiFoldersSoapOut">
+    <part name="parameters" element="s0:GetiFoldersResponse"/>
+  </message>
+  <message name="GetiFoldersByMemberSoapIn">
+    <part name="parameters" element="s0:GetiFoldersByMember"/>
+  </message>
+  <message name="GetiFoldersByMemberSoapOut">
+    <part name="parameters" element="s0:GetiFoldersByMemberResponse"/>
+  </message>
+  <message name="GetiFoldersByNameSoapIn">
+    <part name="parameters" element="s0:GetiFoldersByName"/>
+  </message>
+  <message name="GetiFoldersByNameSoapOut">
+    <part name="parameters" element="s0:GetiFoldersByNameResponse"/>
+  </message>
+  <message name="GetChangesSoapIn">
+    <part name="parameters" element="s0:GetChanges"/>
+  </message>
+  <message name="GetChangesSoapOut">
+    <part name="parameters" element="s0:GetChangesResponse"/>
+  </message>
+  <message name="GetAuthenticatedUserSoapIn">
+    <part name="parameters" element="s0:GetAuthenticatedUser"/>
+  </message>
+  <message name="GetAuthenticatedUserSoapOut">
+    <part name="parameters" element="s0:GetAuthenticatedUserResponse"/>
+  </message>
+  <message name="SetMemberRightsSoapIn">
+    <part name="parameters" element="s0:SetMemberRights"/>
+  </message>
+  <message name="SetMemberRightsSoapOut">
+    <part name="parameters" element="s0:SetMemberRightsResponse"/>
+  </message>
+  <message name="AddMemberSoapIn">
+    <part name="parameters" element="s0:AddMember"/>
+  </message>
+  <message name="AddMemberSoapOut">
+    <part name="parameters" element="s0:AddMemberResponse"/>
+  </message>
+  <message name="RemoveMemberSoapIn">
+    <part name="parameters" element="s0:RemoveMember"/>
+  </message>
+  <message name="RemoveMemberSoapOut">
+    <part name="parameters" element="s0:RemoveMemberResponse"/>
+  </message>
+  <message name="SetiFolderOwnerSoapIn">
+    <part name="parameters" element="s0:SetiFolderOwner"/>
+  </message>
+  <message name="SetiFolderOwnerSoapOut">
+    <part name="parameters" element="s0:SetiFolderOwnerResponse"/>
+  </message>
+  <message name="GetMembersSoapIn">
+    <part name="parameters" element="s0:GetMembers"/>
+  </message>
+  <message name="GetMembersSoapOut">
+    <part name="parameters" element="s0:GetMembersResponse"/>
+  </message>
+  <message name="GetUsersSoapIn">
+    <part name="parameters" element="s0:GetUsers"/>
+  </message>
+  <message name="GetUsersSoapOut">
+    <part name="parameters" element="s0:GetUsersResponse"/>
+  </message>
+  <message name="GetUserSoapIn">
+    <part name="parameters" element="s0:GetUser"/>
+  </message>
+  <message name="GetUserSoapOut">
+    <part name="parameters" element="s0:GetUserResponse"/>
+  </message>
+  <message name="GetUserDetailsSoapIn">
+    <part name="parameters" element="s0:GetUserDetails"/>
+  </message>
+  <message name="GetUserDetailsSoapOut">
+    <part name="parameters" element="s0:GetUserDetailsResponse"/>
+  </message>
+  <message name="GetUsersBySearchSoapIn">
+    <part name="parameters" element="s0:GetUsersBySearch"/>
+  </message>
+  <message name="GetUsersBySearchSoapOut">
+    <part name="parameters" element="s0:GetUsersBySearchResponse"/>
+  </message>
+  <message name="AddAdministratorSoapIn">
+    <part name="parameters" element="s0:AddAdministrator"/>
+  </message>
+  <message name="AddAdministratorSoapOut">
+    <part name="parameters" element="s0:AddAdministratorResponse"/>
+  </message>
+  <message name="RemoveAdministratorSoapIn">
+    <part name="parameters" element="s0:RemoveAdministrator"/>
+  </message>
+  <message name="RemoveAdministratorSoapOut">
+    <part name="parameters" element="s0:RemoveAdministratorResponse"/>
+  </message>
+  <message name="GetAdministratorsSoapIn">
+    <part name="parameters" element="s0:GetAdministrators"/>
+  </message>
+  <message name="GetAdministratorsSoapOut">
+    <part name="parameters" element="s0:GetAdministratorsResponse"/>
+  </message>
+  <message name="GetSystemPolicySoapIn">
+    <part name="parameters" element="s0:GetSystemPolicy"/>
+  </message>
+  <message name="GetSystemPolicySoapOut">
+    <part name="parameters" element="s0:GetSystemPolicyResponse"/>
+  </message>
+  <message name="SetSystemPolicySoapIn">
+    <part name="parameters" element="s0:SetSystemPolicy"/>
+  </message>
+  <message name="SetSystemPolicySoapOut">
+    <part name="parameters" element="s0:SetSystemPolicyResponse"/>
+  </message>
+  <message name="GetUserPolicySoapIn">
+    <part name="parameters" element="s0:GetUserPolicy"/>
+  </message>
+  <message name="GetUserPolicySoapOut">
+    <part name="parameters" element="s0:GetUserPolicyResponse"/>
+  </message>
+  <message name="SetUserPolicySoapIn">
+    <part name="parameters" element="s0:SetUserPolicy"/>
+  </message>
+  <message name="SetUserPolicySoapOut">
+    <part name="parameters" element="s0:SetUserPolicyResponse"/>
+  </message>
+  <message name="GetiFolderPolicySoapIn">
+    <part name="parameters" element="s0:GetiFolderPolicy"/>
+  </message>
+  <message name="GetiFolderPolicySoapOut">
+    <part name="parameters" element="s0:GetiFolderPolicyResponse"/>
+  </message>
+  <message name="SetiFolderPolicySoapIn">
+    <part name="parameters" element="s0:SetiFolderPolicy"/>
+  </message>
+  <message name="SetiFolderPolicySoapOut">
+    <part name="parameters" element="s0:SetiFolderPolicyResponse"/>
+  </message>
+  <message name="GetIdentityPolicySoapIn">
+    <part name="parameters" element="s0:GetIdentityPolicy"/>
+  </message>
+  <message name="GetIdentityPolicySoapOut">
+    <part name="parameters" element="s0:GetIdentityPolicyResponse"/>
+  </message>
+  <message name="CreateUserSoapIn">
+    <part name="parameters" element="s0:CreateUser"/>
+  </message>
+  <message name="CreateUserSoapOut">
+    <part name="parameters" element="s0:CreateUserResponse"/>
+  </message>
+  <message name="DeleteUserSoapIn">
+    <part name="parameters" element="s0:DeleteUser"/>
+  </message>
+  <message name="DeleteUserSoapOut">
+    <part name="parameters" element="s0:DeleteUserResponse"/>
+  </message>
+  <message name="GetServerHttpGetIn"/>
+  <message name="GetServerHttpGetOut">
+    <part name="Body" element="s0:iFolderServer"/>
+  </message>
+  <message name="GetSystemHttpGetIn"/>
+  <message name="GetSystemHttpGetOut">
+    <part name="Body" element="s0:iFolderSystem"/>
+  </message>
+  <message name="CreateiFolderHttpGetIn">
+    <part name="name" type="s:string"/>
+    <part name="userID" type="s:string"/>
+    <part name="description" type="s:string"/>
+  </message>
+  <message name="CreateiFolderHttpGetOut">
+    <part name="Body" element="s0:iFolder"/>
+  </message>
+  <message name="DeleteiFolderHttpGetIn">
+    <part name="ifolderID" type="s:string"/>
+  </message>
+  <message name="DeleteiFolderHttpGetOut"/>
+  <message name="GetiFolderHttpGetIn">
+    <part name="ifolderID" type="s:string"/>
+  </message>
+  <message name="GetiFolderHttpGetOut">
+    <part name="Body" element="s0:iFolder"/>
+  </message>
+  <message name="SetiFolderDescriptionHttpGetIn">
+    <part name="ifolderID" type="s:string"/>
+    <part name="description" type="s:string"/>
+  </message>
+  <message name="SetiFolderDescriptionHttpGetOut"/>
+  <message name="GetAuthenticatedUserHttpGetIn"/>
+  <message name="GetAuthenticatedUserHttpGetOut">
+    <part name="Body" element="s0:iFolderUser"/>
+  </message>
+  <message name="RemoveMemberHttpGetIn">
+    <part name="ifolderID" type="s:string"/>
+    <part name="userID" type="s:string"/>
+  </message>
+  <message name="RemoveMemberHttpGetOut"/>
+  <message name="SetiFolderOwnerHttpGetIn">
+    <part name="ifolderID" type="s:string"/>
+    <part name="userID" type="s:string"/>
+  </message>
+  <message name="SetiFolderOwnerHttpGetOut"/>
+  <message name="GetUserHttpGetIn">
+    <part name="userID" type="s:string"/>
+  </message>
+  <message name="GetUserHttpGetOut">
+    <part name="Body" element="s0:iFolderUser"/>
+  </message>
+  <message name="GetUserDetailsHttpGetIn">
+    <part name="userID" type="s:string"/>
+  </message>
+  <message name="GetUserDetailsHttpGetOut">
+    <part name="Body" element="s0:iFolderUserDetails"/>
+  </message>
+  <message name="AddAdministratorHttpGetIn">
+    <part name="userID" type="s:string"/>
+  </message>
+  <message name="AddAdministratorHttpGetOut"/>
+  <message name="RemoveAdministratorHttpGetIn">
+    <part name="userID" type="s:string"/>
+  </message>
+  <message name="RemoveAdministratorHttpGetOut"/>
+  <message name="GetSystemPolicyHttpGetIn"/>
+  <message name="GetSystemPolicyHttpGetOut">
+    <part name="Body" element="s0:SystemPolicy"/>
+  </message>
+  <message name="GetUserPolicyHttpGetIn">
+    <part name="userID" type="s:string"/>
+  </message>
+  <message name="GetUserPolicyHttpGetOut">
+    <part name="Body" element="s0:UserPolicy"/>
+  </message>
+  <message name="GetiFolderPolicyHttpGetIn">
+    <part name="ifolderID" type="s:string"/>
+  </message>
+  <message name="GetiFolderPolicyHttpGetOut">
+    <part name="Body" element="s0:iFolderPolicy"/>
+  </message>
+  <message name="GetIdentityPolicyHttpGetIn"/>
+  <message name="GetIdentityPolicyHttpGetOut">
+    <part name="Body" element="s0:IdentityPolicy"/>
+  </message>
+  <message name="CreateUserHttpGetIn">
+    <part name="Username" type="s:string"/>
+    <part name="Password" type="s:string"/>
+    <part name="UserGuid" type="s:string"/>
+    <part name="FirstName" type="s:string"/>
+    <part name="LastName" type="s:string"/>
+    <part name="FullName" type="s:string"/>
+    <part name="DistinguishedName" type="s:string"/>
+    <part name="Email" type="s:string"/>
+  </message>
+  <message name="CreateUserHttpGetOut">
+    <part name="Body" element="s0:RegistrationInfo"/>
+  </message>
+  <message name="DeleteUserHttpGetIn">
+    <part name="Username" type="s:string"/>
+  </message>
+  <message name="DeleteUserHttpGetOut">
+    <part name="Body" element="s0:boolean"/>
+  </message>
+  <message name="GetServerHttpPostIn"/>
+  <message name="GetServerHttpPostOut">
+    <part name="Body" element="s0:iFolderServer"/>
+  </message>
+  <message name="GetSystemHttpPostIn"/>
+  <message name="GetSystemHttpPostOut">
+    <part name="Body" element="s0:iFolderSystem"/>
+  </message>
+  <message name="CreateiFolderHttpPostIn">
+    <part name="name" type="s:string"/>
+    <part name="userID" type="s:string"/>
+    <part name="description" type="s:string"/>
+  </message>
+  <message name="CreateiFolderHttpPostOut">
+    <part name="Body" element="s0:iFolder"/>
+  </message>
+  <message name="DeleteiFolderHttpPostIn">
+    <part name="ifolderID" type="s:string"/>
+  </message>
+  <message name="DeleteiFolderHttpPostOut"/>
+  <message name="GetiFolderHttpPostIn">
+    <part name="ifolderID" type="s:string"/>
+  </message>
+  <message name="GetiFolderHttpPostOut">
+    <part name="Body" element="s0:iFolder"/>
+  </message>
+  <message name="SetiFolderDescriptionHttpPostIn">
+    <part name="ifolderID" type="s:string"/>
+    <part name="description" type="s:string"/>
+  </message>
+  <message name="SetiFolderDescriptionHttpPostOut"/>
+  <message name="GetAuthenticatedUserHttpPostIn"/>
+  <message name="GetAuthenticatedUserHttpPostOut">
+    <part name="Body" element="s0:iFolderUser"/>
+  </message>
+  <message name="RemoveMemberHttpPostIn">
+    <part name="ifolderID" type="s:string"/>
+    <part name="userID" type="s:string"/>
+  </message>
+  <message name="RemoveMemberHttpPostOut"/>
+  <message name="SetiFolderOwnerHttpPostIn">
+    <part name="ifolderID" type="s:string"/>
+    <part name="userID" type="s:string"/>
+  </message>
+  <message name="SetiFolderOwnerHttpPostOut"/>
+  <message name="GetUserHttpPostIn">
+    <part name="userID" type="s:string"/>
+  </message>
+  <message name="GetUserHttpPostOut">
+    <part name="Body" element="s0:iFolderUser"/>
+  </message>
+  <message name="GetUserDetailsHttpPostIn">
+    <part name="userID" type="s:string"/>
+  </message>
+  <message name="GetUserDetailsHttpPostOut">
+    <part name="Body" element="s0:iFolderUserDetails"/>
+  </message>
+  <message name="AddAdministratorHttpPostIn">
+    <part name="userID" type="s:string"/>
+  </message>
+  <message name="AddAdministratorHttpPostOut"/>
+  <message name="RemoveAdministratorHttpPostIn">
+    <part name="userID" type="s:string"/>
+  </message>
+  <message name="RemoveAdministratorHttpPostOut"/>
+  <message name="GetSystemPolicyHttpPostIn"/>
+  <message name="GetSystemPolicyHttpPostOut">
+    <part name="Body" element="s0:SystemPolicy"/>
+  </message>
+  <message name="GetUserPolicyHttpPostIn">
+    <part name="userID" type="s:string"/>
+  </message>
+  <message name="GetUserPolicyHttpPostOut">
+    <part name="Body" element="s0:UserPolicy"/>
+  </message>
+  <message name="GetiFolderPolicyHttpPostIn">
+    <part name="ifolderID" type="s:string"/>
+  </message>
+  <message name="GetiFolderPolicyHttpPostOut">
+    <part name="Body" element="s0:iFolderPolicy"/>
+  </message>
+  <message name="GetIdentityPolicyHttpPostIn"/>
+  <message name="GetIdentityPolicyHttpPostOut">
+    <part name="Body" element="s0:IdentityPolicy"/>
+  </message>
+  <message name="CreateUserHttpPostIn">
+    <part name="Username" type="s:string"/>
+    <part name="Password" type="s:string"/>
+    <part name="UserGuid" type="s:string"/>
+    <part name="FirstName" type="s:string"/>
+    <part name="LastName" type="s:string"/>
+    <part name="FullName" type="s:string"/>
+    <part name="DistinguishedName" type="s:string"/>
+    <part name="Email" type="s:string"/>
+  </message>
+  <message name="CreateUserHttpPostOut">
+    <part name="Body" element="s0:RegistrationInfo"/>
+  </message>
+  <message name="DeleteUserHttpPostIn">
+    <part name="Username" type="s:string"/>
+  </message>
+  <message name="DeleteUserHttpPostOut">
+    <part name="Body" element="s0:boolean"/>
+  </message>
+  <portType name="iFolderAdminSoap">
+    <operation name="GetServer">
+      <input message="s0:GetServerSoapIn"/>
+      <output message="s0:GetServerSoapOut"/>
+      <documentation>Get iFolder Server Information</documentation>
+    </operation>
+    <operation name="GetSystem">
+      <input message="s0:GetSystemSoapIn"/>
+      <output message="s0:GetSystemSoapOut"/>
+      <documentation>Get iFolder System Information</documentation>
+    </operation>
+    <operation name="CreateiFolder">
+      <input message="s0:CreateiFolderSoapIn"/>
+      <output message="s0:CreateiFolderSoapOut"/>
+      <documentation>Create a New iFolder</documentation>
+    </operation>
+    <operation name="DeleteiFolder">
+      <input message="s0:DeleteiFolderSoapIn"/>
+      <output message="s0:DeleteiFolderSoapOut"/>
+      <documentation>Delete an iFolder</documentation>
+    </operation>
+    <operation name="GetiFolder">
+      <input message="s0:GetiFolderSoapIn"/>
+      <output message="s0:GetiFolderSoapOut"/>
+      <documentation>Get an iFolder</documentation>
+    </operation>
+    <operation name="SetiFolderDescription">
+      <input message="s0:SetiFolderDescriptionSoapIn"/>
+      <output message="s0:SetiFolderDescriptionSoapOut"/>
+      <documentation>Set the Description of an iFolder</documentation>
+    </operation>
+    <operation name="GetiFolders">
+      <input message="s0:GetiFoldersSoapIn"/>
+      <output message="s0:GetiFoldersSoapOut"/>
+      <documentation>Get iFolders</documentation>
+    </operation>
+    <operation name="GetiFoldersByMember">
+      <input message="s0:GetiFoldersByMemberSoapIn"/>
+      <output message="s0:GetiFoldersByMemberSoapOut"/>
+      <documentation>Get iFolders by Member</documentation>
+    </operation>
+    <operation name="GetiFoldersByName">
+      <input message="s0:GetiFoldersByNameSoapIn"/>
+      <output message="s0:GetiFoldersByNameSoapOut"/>
+      <documentation>Get iFolders by Name</documentation>
+    </operation>
+    <operation name="GetChanges">
+      <input message="s0:GetChangesSoapIn"/>
+      <output message="s0:GetChangesSoapOut"/>
+      <documentation>Get Changes</documentation>
+    </operation>
+    <operation name="GetAuthenticatedUser">
+      <input message="s0:GetAuthenticatedUserSoapIn"/>
+      <output message="s0:GetAuthenticatedUserSoapOut"/>
+      <documentation>Get the Authenticated User</documentation>
+    </operation>
+    <operation name="SetMemberRights">
+      <input message="s0:SetMemberRightsSoapIn"/>
+      <output message="s0:SetMemberRightsSoapOut"/>
+      <documentation>Set the Rights of an iFolder Member</documentation>
+    </operation>
+    <operation name="AddMember">
+      <input message="s0:AddMemberSoapIn"/>
+      <output message="s0:AddMemberSoapOut"/>
+      <documentation>Add a Member to an iFolder</documentation>
+    </operation>
+    <operation name="RemoveMember">
+      <input message="s0:RemoveMemberSoapIn"/>
+      <output message="s0:RemoveMemberSoapOut"/>
+      <documentation>Remove a Member from an iFolder</documentation>
+    </operation>
+    <operation name="SetiFolderOwner">
+      <input message="s0:SetiFolderOwnerSoapIn"/>
+      <output message="s0:SetiFolderOwnerSoapOut"/>
+      <documentation>Set the Owner of an iFolder</documentation>
+    </operation>
+    <operation name="GetMembers">
+      <input message="s0:GetMembersSoapIn"/>
+      <output message="s0:GetMembersSoapOut"/>
+      <documentation>Get the Members of an iFolder</documentation>
+    </operation>
+    <operation name="GetUsers">
+      <input message="s0:GetUsersSoapIn"/>
+      <output message="s0:GetUsersSoapOut"/>
+      <documentation>Get the iFolder Users</documentation>
+    </operation>
+    <operation name="GetUser">
+      <input message="s0:GetUserSoapIn"/>
+      <output message="s0:GetUserSoapOut"/>
+      <documentation>Get a User</documentation>
+    </operation>
+    <operation name="GetUserDetails">
+      <input message="s0:GetUserDetailsSoapIn"/>
+      <output message="s0:GetUserDetailsSoapOut"/>
+      <documentation>Get User Details</documentation>
+    </operation>
+    <operation name="GetUsersBySearch">
+      <input message="s0:GetUsersBySearchSoapIn"/>
+      <output message="s0:GetUsersBySearchSoapOut"/>
+      <documentation>Search the Users of the iFolder System</documentation>
+    </operation>
+    <operation name="AddAdministrator">
+      <input message="s0:AddAdministratorSoapIn"/>
+      <output message="s0:AddAdministratorSoapOut"/>
+      <documentation>Give a User Administration Rights</documentation>
+    </operation>
+    <operation name="RemoveAdministrator">
+      <input message="s0:RemoveAdministratorSoapIn"/>
+      <output message="s0:RemoveAdministratorSoapOut"/>
+      <documentation>Remove Administration Rights from a User</documentation>
+    </operation>
+    <operation name="GetAdministrators">
+      <input message="s0:GetAdministratorsSoapIn"/>
+      <output message="s0:GetAdministratorsSoapOut"/>
+      <documentation>Get all the Administrators</documentation>
+    </operation>
+    <operation name="GetSystemPolicy">
+      <input message="s0:GetSystemPolicySoapIn"/>
+      <output message="s0:GetSystemPolicySoapOut"/>
+      <documentation>Get the System Policy</documentation>
+    </operation>
+    <operation name="SetSystemPolicy">
+      <input message="s0:SetSystemPolicySoapIn"/>
+      <output message="s0:SetSystemPolicySoapOut"/>
+      <documentation>Set the System Policy</documentation>
+    </operation>
+    <operation name="GetUserPolicy">
+      <input message="s0:GetUserPolicySoapIn"/>
+      <output message="s0:GetUserPolicySoapOut"/>
+      <documentation>Get User Policy</documentation>
+    </operation>
+    <operation name="SetUserPolicy">
+      <input message="s0:SetUserPolicySoapIn"/>
+      <output message="s0:SetUserPolicySoapOut"/>
+      <documentation>Set User Policy</documentation>
+    </operation>
+    <operation name="GetiFolderPolicy">
+      <input message="s0:GetiFolderPolicySoapIn"/>
+      <output message="s0:GetiFolderPolicySoapOut"/>
+      <documentation>Get iFolder Policy</documentation>
+    </operation>
+    <operation name="SetiFolderPolicy">
+      <input message="s0:SetiFolderPolicySoapIn"/>
+      <output message="s0:SetiFolderPolicySoapOut"/>
+      <documentation>Set iFolder Policy</documentation>
+    </operation>
+    <operation name="GetIdentityPolicy">
+      <input message="s0:GetIdentityPolicySoapIn"/>
+      <output message="s0:GetIdentityPolicySoapOut"/>
+      <documentation>Get the policy of the registered identity provider</documentation>
+    </operation>
+    <operation name="CreateUser">
+      <input message="s0:CreateUserSoapIn"/>
+      <output message="s0:CreateUserSoapOut"/>
+      <documentation>Method to create a new user in the Simias domain</documentation>
+    </operation>
+    <operation name="DeleteUser">
+      <input message="s0:DeleteUserSoapIn"/>
+      <output message="s0:DeleteUserSoapOut"/>
+      <documentation>Method to delete a user from the Simias domain</documentation>
+    </operation>
+  </portType>
+  <portType name="iFolderAdminHttpGet">
+    <operation name="GetServer">
+      <input message="s0:GetServerHttpGetIn"/>
+      <output message="s0:GetServerHttpGetOut"/>
+      <documentation>Get iFolder Server Information</documentation>
+    </operation>
+    <operation name="GetSystem">
+      <input message="s0:GetSystemHttpGetIn"/>
+      <output message="s0:GetSystemHttpGetOut"/>
+      <documentation>Get iFolder System Information</documentation>
+    </operation>
+    <operation name="CreateiFolder">
+      <input message="s0:CreateiFolderHttpGetIn"/>
+      <output message="s0:CreateiFolderHttpGetOut"/>
+      <documentation>Create a New iFolder</documentation>
+    </operation>
+    <operation name="DeleteiFolder">
+      <input message="s0:DeleteiFolderHttpGetIn"/>
+      <output message="s0:DeleteiFolderHttpGetOut"/>
+      <documentation>Delete an iFolder</documentation>
+    </operation>
+    <operation name="GetiFolder">
+      <input message="s0:GetiFolderHttpGetIn"/>
+      <output message="s0:GetiFolderHttpGetOut"/>
+      <documentation>Get an iFolder</documentation>
+    </operation>
+    <operation name="SetiFolderDescription">
+      <input message="s0:SetiFolderDescriptionHttpGetIn"/>
+      <output message="s0:SetiFolderDescriptionHttpGetOut"/>
+      <documentation>Set the Description of an iFolder</documentation>
+    </operation>
+    <operation name="GetAuthenticatedUser">
+      <input message="s0:GetAuthenticatedUserHttpGetIn"/>
+      <output message="s0:GetAuthenticatedUserHttpGetOut"/>
+      <documentation>Get the Authenticated User</documentation>
+    </operation>
+    <operation name="RemoveMember">
+      <input message="s0:RemoveMemberHttpGetIn"/>
+      <output message="s0:RemoveMemberHttpGetOut"/>
+      <documentation>Remove a Member from an iFolder</documentation>
+    </operation>
+    <operation name="SetiFolderOwner">
+      <input message="s0:SetiFolderOwnerHttpGetIn"/>
+      <output message="s0:SetiFolderOwnerHttpGetOut"/>
+      <documentation>Set the Owner of an iFolder</documentation>
+    </operation>
+    <operation name="GetUser">
+      <input message="s0:GetUserHttpGetIn"/>
+      <output message="s0:GetUserHttpGetOut"/>
+      <documentation>Get a User</documentation>
+    </operation>
+    <operation name="GetUserDetails">
+      <input message="s0:GetUserDetailsHttpGetIn"/>
+      <output message="s0:GetUserDetailsHttpGetOut"/>
+      <documentation>Get User Details</documentation>
+    </operation>
+    <operation name="AddAdministrator">
+      <input message="s0:AddAdministratorHttpGetIn"/>
+      <output message="s0:AddAdministratorHttpGetOut"/>
+      <documentation>Give a User Administration Rights</documentation>
+    </operation>
+    <operation name="RemoveAdministrator">
+      <input message="s0:RemoveAdministratorHttpGetIn"/>
+      <output message="s0:RemoveAdministratorHttpGetOut"/>
+      <documentation>Remove Administration Rights from a User</documentation>
+    </operation>
+    <operation name="GetSystemPolicy">
+      <input message="s0:GetSystemPolicyHttpGetIn"/>
+      <output message="s0:GetSystemPolicyHttpGetOut"/>
+      <documentation>Get the System Policy</documentation>
+    </operation>
+    <operation name="GetUserPolicy">
+      <input message="s0:GetUserPolicyHttpGetIn"/>
+      <output message="s0:GetUserPolicyHttpGetOut"/>
+      <documentation>Get User Policy</documentation>
+    </operation>
+    <operation name="GetiFolderPolicy">
+      <input message="s0:GetiFolderPolicyHttpGetIn"/>
+      <output message="s0:GetiFolderPolicyHttpGetOut"/>
+      <documentation>Get iFolder Policy</documentation>
+    </operation>
+    <operation name="GetIdentityPolicy">
+      <input message="s0:GetIdentityPolicyHttpGetIn"/>
+      <output message="s0:GetIdentityPolicyHttpGetOut"/>
+      <documentation>Get the policy of the registered identity provider</documentation>
+    </operation>
+    <operation name="CreateUser">
+      <input message="s0:CreateUserHttpGetIn"/>
+      <output message="s0:CreateUserHttpGetOut"/>
+      <documentation>Method to create a new user in the Simias domain</documentation>
+    </operation>
+    <operation name="DeleteUser">
+      <input message="s0:DeleteUserHttpGetIn"/>
+      <output message="s0:DeleteUserHttpGetOut"/>
+      <documentation>Method to delete a user from the Simias domain</documentation>
+    </operation>
+  </portType>
+  <portType name="iFolderAdminHttpPost">
+    <operation name="GetServer">
+      <input message="s0:GetServerHttpPostIn"/>
+      <output message="s0:GetServerHttpPostOut"/>
+      <documentation>Get iFolder Server Information</documentation>
+    </operation>
+    <operation name="GetSystem">
+      <input message="s0:GetSystemHttpPostIn"/>
+      <output message="s0:GetSystemHttpPostOut"/>
+      <documentation>Get iFolder System Information</documentation>
+    </operation>
+    <operation name="CreateiFolder">
+      <input message="s0:CreateiFolderHttpPostIn"/>
+      <output message="s0:CreateiFolderHttpPostOut"/>
+      <documentation>Create a New iFolder</documentation>
+    </operation>
+    <operation name="DeleteiFolder">
+      <input message="s0:DeleteiFolderHttpPostIn"/>
+      <output message="s0:DeleteiFolderHttpPostOut"/>
+      <documentation>Delete an iFolder</documentation>
+    </operation>
+    <operation name="GetiFolder">
+      <input message="s0:GetiFolderHttpPostIn"/>
+      <output message="s0:GetiFolderHttpPostOut"/>
+      <documentation>Get an iFolder</documentation>
+    </operation>
+    <operation name="SetiFolderDescription">
+      <input message="s0:SetiFolderDescriptionHttpPostIn"/>
+      <output message="s0:SetiFolderDescriptionHttpPostOut"/>
+      <documentation>Set the Description of an iFolder</documentation>
+    </operation>
+    <operation name="GetAuthenticatedUser">
+      <input message="s0:GetAuthenticatedUserHttpPostIn"/>
+      <output message="s0:GetAuthenticatedUserHttpPostOut"/>
+      <documentation>Get the Authenticated User</documentation>
+    </operation>
+    <operation name="RemoveMember">
+      <input message="s0:RemoveMemberHttpPostIn"/>
+      <output message="s0:RemoveMemberHttpPostOut"/>
+      <documentation>Remove a Member from an iFolder</documentation>
+    </operation>
+    <operation name="SetiFolderOwner">
+      <input message="s0:SetiFolderOwnerHttpPostIn"/>
+      <output message="s0:SetiFolderOwnerHttpPostOut"/>
+      <documentation>Set the Owner of an iFolder</documentation>
+    </operation>
+    <operation name="GetUser">
+      <input message="s0:GetUserHttpPostIn"/>
+      <output message="s0:GetUserHttpPostOut"/>
+      <documentation>Get a User</documentation>
+    </operation>
+    <operation name="GetUserDetails">
+      <input message="s0:GetUserDetailsHttpPostIn"/>
+      <output message="s0:GetUserDetailsHttpPostOut"/>
+      <documentation>Get User Details</documentation>
+    </operation>
+    <operation name="AddAdministrator">
+      <input message="s0:AddAdministratorHttpPostIn"/>
+      <output message="s0:AddAdministratorHttpPostOut"/>
+      <documentation>Give a User Administration Rights</documentation>
+    </operation>
+    <operation name="RemoveAdministrator">
+      <input message="s0:RemoveAdministratorHttpPostIn"/>
+      <output message="s0:RemoveAdministratorHttpPostOut"/>
+      <documentation>Remove Administration Rights from a User</documentation>
+    </operation>
+    <operation name="GetSystemPolicy">
+      <input message="s0:GetSystemPolicyHttpPostIn"/>
+      <output message="s0:GetSystemPolicyHttpPostOut"/>
+      <documentation>Get the System Policy</documentation>
+    </operation>
+    <operation name="GetUserPolicy">
+      <input message="s0:GetUserPolicyHttpPostIn"/>
+      <output message="s0:GetUserPolicyHttpPostOut"/>
+      <documentation>Get User Policy</documentation>
+    </operation>
+    <operation name="GetiFolderPolicy">
+      <input message="s0:GetiFolderPolicyHttpPostIn"/>
+      <output message="s0:GetiFolderPolicyHttpPostOut"/>
+      <documentation>Get iFolder Policy</documentation>
+    </operation>
+    <operation name="GetIdentityPolicy">
+      <input message="s0:GetIdentityPolicyHttpPostIn"/>
+      <output message="s0:GetIdentityPolicyHttpPostOut"/>
+      <documentation>Get the policy of the registered identity provider</documentation>
+    </operation>
+    <operation name="CreateUser">
+      <input message="s0:CreateUserHttpPostIn"/>
+      <output message="s0:CreateUserHttpPostOut"/>
+      <documentation>Method to create a new user in the Simias domain</documentation>
+    </operation>
+    <operation name="DeleteUser">
+      <input message="s0:DeleteUserHttpPostIn"/>
+      <output message="s0:DeleteUserHttpPostOut"/>
+      <documentation>Method to delete a user from the Simias domain</documentation>
+    </operation>
+  </portType>
+  <binding name="iFolderAdminSoap" type="s0:iFolderAdminSoap">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="GetServer">
+      <soap:operation soapAction="http://novell.com/ifolder/webservice/GetServer" style="document"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="GetSystem">
+      <soap:operation soapAction="http://novell.com/ifolder/webservice/GetSystem" style="document"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="CreateiFolder">
+      <soap:operation soapAction="http://novell.com/ifolder/webservice/CreateiFolder" style="document"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="DeleteiFolder">
+      <soap:operation soapAction="http://novell.com/ifolder/webservice/DeleteiFolder" style="document"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="GetiFolder">
+      <soap:operation soapAction="http://novell.com/ifolder/webservice/GetiFolder" style="document"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="SetiFolderDescription">
+      <soap:operation soapAction="http://novell.com/ifolder/webservice/SetiFolderDescription" style="document"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="GetiFolders">
+      <soap:operation soapAction="http://novell.com/ifolder/webservice/GetiFolders" style="document"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="GetiFoldersByMember">
+      <soap:operation soapAction="http://novell.com/ifolder/webservice/GetiFoldersByMember" style="document"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="GetiFoldersByName">
+      <soap:operation soapAction="http://novell.com/ifolder/webservice/GetiFoldersByName" style="document"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="GetChanges">
+      <soap:operation soapAction="http://novell.com/ifolder/webservice/GetChanges" style="document"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="GetAuthenticatedUser">
+      <soap:operation soapAction="http://novell.com/ifolder/webservice/GetAuthenticatedUser" style="document"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="SetMemberRights">
+      <soap:operation soapAction="http://novell.com/ifolder/webservice/SetMemberRights" style="document"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="AddMember">
+      <soap:operation soapAction="http://novell.com/ifolder/webservice/AddMember" style="document"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="RemoveMember">
+      <soap:operation soapAction="http://novell.com/ifolder/webservice/RemoveMember" style="document"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="SetiFolderOwner">
+      <soap:operation soapAction="http://novell.com/ifolder/webservice/SetiFolderOwner" style="document"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="GetMembers">
+      <soap:operation soapAction="http://novell.com/ifolder/webservice/GetMembers" style="document"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="GetUsers">
+      <soap:operation soapAction="http://novell.com/ifolder/webservice/GetUsers" style="document"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="GetUser">
+      <soap:operation soapAction="http://novell.com/ifolder/webservice/GetUser" style="document"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="GetUserDetails">
+      <soap:operation soapAction="http://novell.com/ifolder/webservice/GetUserDetails" style="document"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="GetUsersBySearch">
+      <soap:operation soapAction="http://novell.com/ifolder/webservice/GetUsersBySearch" style="document"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="AddAdministrator">
+      <soap:operation soapAction="http://novell.com/ifolder/webservice/AddAdministrator" style="document"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="RemoveAdministrator">
+      <soap:operation soapAction="http://novell.com/ifolder/webservice/RemoveAdministrator" style="document"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="GetAdministrators">
+      <soap:operation soapAction="http://novell.com/ifolder/webservice/GetAdministrators" style="document"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="GetSystemPolicy">
+      <soap:operation soapAction="http://novell.com/ifolder/webservice/GetSystemPolicy" style="document"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="SetSystemPolicy">
+      <soap:operation soapAction="http://novell.com/ifolder/webservice/SetSystemPolicy" style="document"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="GetUserPolicy">
+      <soap:operation soapAction="http://novell.com/ifolder/webservice/GetUserPolicy" style="document"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="SetUserPolicy">
+      <soap:operation soapAction="http://novell.com/ifolder/webservice/SetUserPolicy" style="document"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="GetiFolderPolicy">
+      <soap:operation soapAction="http://novell.com/ifolder/webservice/GetiFolderPolicy" style="document"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="SetiFolderPolicy">
+      <soap:operation soapAction="http://novell.com/ifolder/webservice/SetiFolderPolicy" style="document"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="GetIdentityPolicy">
+      <soap:operation soapAction="http://novell.com/ifolder/webservice/GetIdentityPolicy" style="document"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="CreateUser">
+      <soap:operation soapAction="http://novell.com/ifolder/webservice/CreateUser" style="document"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="DeleteUser">
+      <soap:operation soapAction="http://novell.com/ifolder/webservice/DeleteUser" style="document"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+  </binding>
+  <binding name="iFolderAdminHttpGet" type="s0:iFolderAdminHttpGet">
+    <http:binding verb="GET"/>
+    <operation name="GetServer">
+      <http:operation location="/GetServer"/>
+      <input>
+        <http:urlEncoded/>
+      </input>
+      <output>
+        <mime:mimeXml part="Body"/>
+      </output>
+    </operation>
+    <operation name="GetSystem">
+      <http:operation location="/GetSystem"/>
+      <input>
+        <http:urlEncoded/>
+      </input>
+      <output>
+        <mime:mimeXml part="Body"/>
+      </output>
+    </operation>
+    <operation name="CreateiFolder">
+      <http:operation location="/CreateiFolder"/>
+      <input>
+        <http:urlEncoded/>
+      </input>
+      <output>
+        <mime:mimeXml part="Body"/>
+      </output>
+    </operation>
+    <operation name="DeleteiFolder">
+      <http:operation location="/DeleteiFolder"/>
+      <input>
+        <http:urlEncoded/>
+      </input>
+      <output/>
+    </operation>
+    <operation name="GetiFolder">
+      <http:operation location="/GetiFolder"/>
+      <input>
+        <http:urlEncoded/>
+      </input>
+      <output>
+        <mime:mimeXml part="Body"/>
+      </output>
+    </operation>
+    <operation name="SetiFolderDescription">
+      <http:operation location="/SetiFolderDescription"/>
+      <input>
+        <http:urlEncoded/>
+      </input>
+      <output/>
+    </operation>
+    <operation name="GetAuthenticatedUser">
+      <http:operation location="/GetAuthenticatedUser"/>
+      <input>
+        <http:urlEncoded/>
+      </input>
+      <output>
+        <mime:mimeXml part="Body"/>
+      </output>
+    </operation>
+    <operation name="RemoveMember">
+      <http:operation location="/RemoveMember"/>
+      <input>
+        <http:urlEncoded/>
+      </input>
+      <output/>
+    </operation>
+    <operation name="SetiFolderOwner">
+      <http:operation location="/SetiFolderOwner"/>
+      <input>
+        <http:urlEncoded/>
+      </input>
+      <output/>
+    </operation>
+    <operation name="GetUser">
+      <http:operation location="/GetUser"/>
+      <input>
+        <http:urlEncoded/>
+      </input>
+      <output>
+        <mime:mimeXml part="Body"/>
+      </output>
+    </operation>
+    <operation name="GetUserDetails">
+      <http:operation location="/GetUserDetails"/>
+      <input>
+        <http:urlEncoded/>
+      </input>
+      <output>
+        <mime:mimeXml part="Body"/>
+      </output>
+    </operation>
+    <operation name="AddAdministrator">
+      <http:operation location="/AddAdministrator"/>
+      <input>
+        <http:urlEncoded/>
+      </input>
+      <output/>
+    </operation>
+    <operation name="RemoveAdministrator">
+      <http:operation location="/RemoveAdministrator"/>
+      <input>
+        <http:urlEncoded/>
+      </input>
+      <output/>
+    </operation>
+    <operation name="GetSystemPolicy">
+      <http:operation location="/GetSystemPolicy"/>
+      <input>
+        <http:urlEncoded/>
+      </input>
+      <output>
+        <mime:mimeXml part="Body"/>
+      </output>
+    </operation>
+    <operation name="GetUserPolicy">
+      <http:operation location="/GetUserPolicy"/>
+      <input>
+        <http:urlEncoded/>
+      </input>
+      <output>
+        <mime:mimeXml part="Body"/>
+      </output>
+    </operation>
+    <operation name="GetiFolderPolicy">
+      <http:operation location="/GetiFolderPolicy"/>
+      <input>
+        <http:urlEncoded/>
+      </input>
+      <output>
+        <mime:mimeXml part="Body"/>
+      </output>
+    </operation>
+    <operation name="GetIdentityPolicy">
+      <http:operation location="/GetIdentityPolicy"/>
+      <input>
+        <http:urlEncoded/>
+      </input>
+      <output>
+        <mime:mimeXml part="Body"/>
+      </output>
+    </operation>
+    <operation name="CreateUser">
+      <http:operation location="/CreateUser"/>
+      <input>
+        <http:urlEncoded/>
+      </input>
+      <output>
+        <mime:mimeXml part="Body"/>
+      </output>
+    </operation>
+    <operation name="DeleteUser">
+      <http:operation location="/DeleteUser"/>
+      <input>
+        <http:urlEncoded/>
+      </input>
+      <output>
+        <mime:mimeXml part="Body"/>
+      </output>
+    </operation>
+  </binding>
+  <binding name="iFolderAdminHttpPost" type="s0:iFolderAdminHttpPost">
+    <http:binding verb="POST"/>
+    <operation name="GetServer">
+      <http:operation location="/GetServer"/>
+      <input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </input>
+      <output>
+        <mime:mimeXml part="Body"/>
+      </output>
+    </operation>
+    <operation name="GetSystem">
+      <http:operation location="/GetSystem"/>
+      <input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </input>
+      <output>
+        <mime:mimeXml part="Body"/>
+      </output>
+    </operation>
+    <operation name="CreateiFolder">
+      <http:operation location="/CreateiFolder"/>
+      <input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </input>
+      <output>
+        <mime:mimeXml part="Body"/>
+      </output>
+    </operation>
+    <operation name="DeleteiFolder">
+      <http:operation location="/DeleteiFolder"/>
+      <input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </input>
+      <output/>
+    </operation>
+    <operation name="GetiFolder">
+      <http:operation location="/GetiFolder"/>
+      <input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </input>
+      <output>
+        <mime:mimeXml part="Body"/>
+      </output>
+    </operation>
+    <operation name="SetiFolderDescription">
+      <http:operation location="/SetiFolderDescription"/>
+      <input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </input>
+      <output/>
+    </operation>
+    <operation name="GetAuthenticatedUser">
+      <http:operation location="/GetAuthenticatedUser"/>
+      <input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </input>
+      <output>
+        <mime:mimeXml part="Body"/>
+      </output>
+    </operation>
+    <operation name="RemoveMember">
+      <http:operation location="/RemoveMember"/>
+      <input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </input>
+      <output/>
+    </operation>
+    <operation name="SetiFolderOwner">
+      <http:operation location="/SetiFolderOwner"/>
+      <input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </input>
+      <output/>
+    </operation>
+    <operation name="GetUser">
+      <http:operation location="/GetUser"/>
+      <input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </input>
+      <output>
+        <mime:mimeXml part="Body"/>
+      </output>
+    </operation>
+    <operation name="GetUserDetails">
+      <http:operation location="/GetUserDetails"/>
+      <input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </input>
+      <output>
+        <mime:mimeXml part="Body"/>
+      </output>
+    </operation>
+    <operation name="AddAdministrator">
+      <http:operation location="/AddAdministrator"/>
+      <input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </input>
+      <output/>
+    </operation>
+    <operation name="RemoveAdministrator">
+      <http:operation location="/RemoveAdministrator"/>
+      <input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </input>
+      <output/>
+    </operation>
+    <operation name="GetSystemPolicy">
+      <http:operation location="/GetSystemPolicy"/>
+      <input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </input>
+      <output>
+        <mime:mimeXml part="Body"/>
+      </output>
+    </operation>
+    <operation name="GetUserPolicy">
+      <http:operation location="/GetUserPolicy"/>
+      <input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </input>
+      <output>
+        <mime:mimeXml part="Body"/>
+      </output>
+    </operation>
+    <operation name="GetiFolderPolicy">
+      <http:operation location="/GetiFolderPolicy"/>
+      <input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </input>
+      <output>
+        <mime:mimeXml part="Body"/>
+      </output>
+    </operation>
+    <operation name="GetIdentityPolicy">
+      <http:operation location="/GetIdentityPolicy"/>
+      <input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </input>
+      <output>
+        <mime:mimeXml part="Body"/>
+      </output>
+    </operation>
+    <operation name="CreateUser">
+      <http:operation location="/CreateUser"/>
+      <input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </input>
+      <output>
+        <mime:mimeXml part="Body"/>
+      </output>
+    </operation>
+    <operation name="DeleteUser">
+      <http:operation location="/DeleteUser"/>
+      <input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </input>
+      <output>
+        <mime:mimeXml part="Body"/>
+      </output>
+    </operation>
+  </binding>
+  <service name="iFolderAdmin">
+    <port name="iFolderAdminSoap" binding="s0:iFolderAdminSoap">
+      <soap:address location="http://192.168.1.99/simias10/iFolderAdmin.asmx"/>
+    </port>
+    <port name="iFolderAdminHttpGet" binding="s0:iFolderAdminHttpGet">
+      <http:address location="http://192.168.1.99/simias10/iFolderAdmin.asmx"/>
+    </port>
+    <port name="iFolderAdminHttpPost" binding="s0:iFolderAdminHttpPost">
+      <http:address location="http://192.168.1.99/simias10/iFolderAdmin.asmx"/>
+    </port>
+    <documentation>iFolder Admin Web Service</documentation>
+  </service>
+</definitions>
