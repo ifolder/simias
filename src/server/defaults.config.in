@@ -1,0 +1,6 @@
+<configuration>
+  <section name="DefaultServerValues">
+    <setting name="simiasdatadir" value="@simiasdatadir@" />
+    <setting name="runasclient" value="@runasclient@" />
+  </section>
+</configuration>

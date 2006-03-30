@@ -484,17 +484,30 @@ fi
 AC_SUBST(DEVENV_CONFIGURATION)
 
 #
+# Handle --with-client-setup
+#
+AC_CHECKING([whether a location for the client-setup was specified])
+AC_ARG_WITH(runasclient,
+	[AS_HELP_STRING([--with-client-setup],
+	[configure simias to run as a client. [Default=FALSE]])],
+	[runasclient="TRUE"],
+	[runasclient="FALSE"]
+	)
+AC_SUBST(runasclient)
+
+
+#
 # Handle --with-simiasdatadir
 #
 AC_CHECKING([whether a location for the simias data directory was specified])
 AC_ARG_WITH(simiasdatadir,
 	[AS_HELP_STRING([--with-simiasdatadir=PATH],
-	[configure the directory where the simias data files will be placed. [Default=$HOME/.local/share/SimpleServer/simias]])],
+	[configure the directory where the simias data files will be placed. [Default="$HOME/.local/share/SimiasServer/simias"]])],
 	[simiasdatadir="$withval"],
 	[case $SIMIAS_OS in
-		windows) simiasdatadir='"$(shell cygpath --unix "$(USERPROFILE)")/Local Settings/Application Data/SimpleServer/simias"' ;;
-		linux) simiasdatadir="$HOME/.local/share/SimpleServer/simias" ;;
-		darwin) simiasdatadir="$HOME/.local/share/SimpleServer/simias" ;;
+		windows) simiasdatadir='"$(shell cygpath --unix "$(USERPROFILE)")/Local Settings/Application Data/SimiasServer/simias"' ;;
+		linux) simiasdatadir="$HOME/.local/share/SimiasServer/simias" ;;
+		darwin) simiasdatadir="$HOME/.local/share/SimiasServer/simias" ;;
 	esac]
 	)
 AC_SUBST(simiasdatadir)
@@ -568,6 +581,7 @@ src/core/SqliteProvider/Makefile
 src/core/libsimias/Makefile
 src/server/Makefile
 src/server/Simias.config
+src/server/defaults.config
 src/server/simiasserver.cmd
 src/server/simiasserver
 src/server/setup/Makefile
