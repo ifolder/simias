@@ -1,5 +1,5 @@
 #
-# spec file for package ifolder3-server (Version 1.5.@@BUILDNUM@@.1)
+# spec file for package ifolder3-server (Version 3.5.@@BUILDNUM@@.1)
 #
 # Copyright (c) 2006 SUSE LINUX Products GmbH, Nuernberg, Germany.
 # This file and all modifications and additions to the pristine
@@ -8,9 +8,9 @@
 # Please submit bugfixes or comments via http://bugs.opensuse.org
 #
 # norootforbuild
-# neededforbuild  libstdc++-devel libstdc++ compat-libstdc++ gcc-c++ mono-devel mono-core mono-data mono-web pkgconfig libxml2 libxml2-devel glib2 glib2-devel e2fsprogs e2fsprogs-devel log4net libflaim libflaim-devel
+# neededforbuild  libstdc++-devel libstdc++ compat-libstdc++ gcc-c++ mod_mono mono-devel mono-core mono-data mono-web pkgconfig libxml2 libxml2-devel glib2 glib2-devel e2fsprogs e2fsprogs-devel log4net libflaim libflaim-devel
 
-BuildRequires: libstdc++-devel libstdc++ compat-libstdc++ gcc-c++ mono-devel mono-core mono-data mono-web pkgconfig libxml2 libxml2-devel glib2 glib2-devel e2fsprogs e2fsprogs-devel log4net libflaim libflaim-devel
+BuildRequires: libstdc++-devel libstdc++ compat-libstdc++ gcc-c++ mod_mono mono-devel mono-core mono-data mono-web pkgconfig libxml2 libxml2-devel glib2 glib2-devel e2fsprogs e2fsprogs-devel log4net libflaim libflaim-devel
 
 Name:         ifolder3-server
 %define buildnum @@BUILDNUM@@
@@ -26,11 +26,12 @@ Requires:     mono-core >= 1.1.8
 Requires:     mono-data >= 1.1.8
 Requires:     mono-web >= 1.1.8
 Requires:     log4net
+Requires:     mod_mono
 Obsoletes:    %{name} < %{version}
-Version:      1.5.@@BUILDNUM@@.1
+Version:      3.5.@@BUILDNUM@@.1
 Release:      1
 Summary:      Collection-Oriented Data Storage
-Source:       ifolder3-server-1.5.%{buildnum}.1.tar.gz
+Source:       ifolder3-server-3.5.%{buildnum}.1.tar.gz
 BuildRoot:    %{_tmppath}/%{name}-%{version}-build
 #=============================================================================
 
@@ -45,7 +46,7 @@ export BUILDNUM=%{buildnum}
 
 %build
 export BUILDNUM=%{buildnum}
-./autogen.sh --prefix=%{prefix} --libexecdir=%{libexecdir} --sysconfdir=%{sysconfdir} --with_simiasdatadir=%{simiasdatadir}
+./autogen.sh --prefix=%{prefix} --libexecdir=%{libexecdir} --sysconfdir=%{sysconfdir} --with-simiasdatadir=%{simiasdatadir}
 make
 #make dist
 #=============================================================================
@@ -74,11 +75,11 @@ if [ "$INSTANCES_AFTER_INSTALL" = "1" ]; then
 
 	# setup simiasdatadir and give wwwrun user ownership
 	mkdir -p %{simiasdatadir}
-	chown wwwuser:www %{simiasdatadir}
+	chown wwwrun:www %{simiasdatadir}
 
 	# setup logging for ifolder and give wwwrun user ownership
 	mkdir -p /var/log/ifolder3
-	chown wwwuser:www /var/log/ifolder3
+	chown wwwrun:www /var/log/ifolder3
 fi
 #=============================================================================
 
@@ -91,21 +92,23 @@ fi
 
 %files
 %defattr(755,root,root)
-%dir %{prefix}
+#%dir %{prefix}
 %dir %{libexecdir}
-%dir %{prefix}/bin
+#%dir %{prefix}/bin
 %{prefix}/bin/*
-%attr(700,wwwrun,www) %dir %{simiasdatadir}
-%attr(700,wwwrun,www) %dir /var/log/ifolder3
+#%attr(700,wwwrun,www) %dir %{simiasdatadir}
+#%attr(700,wwwrun,www) %dir /var/log/ifolder3
 %dir %{sysconfdir}
 %{sysconfdir}/*
 %{libexecdir}/*
-%dir %{prefix}/include
+#%dir %{prefix}/include
 %{prefix}/include/*
-%dir %{prefix}/lib
-%{prefix}/lib/*
-%dir %{prefix}/share
-%{prefix}/share/*
+%{prefix}/lib/pkgconfig/simias*
+%{prefix}/lib/libFlaim*
+%{prefix}/lib/libsimias*
+#%dir %{prefix}/share
+%dir %{prefix}/share/simias
+%{prefix}/share/simias/*
 #%config(noreplace) %{prefix}/web/web.config
 
 %changelog -n simias
