@@ -3,7 +3,7 @@ SUBDIRS = Simias.Server Simias.HttpFile Simias.Rss
 # handle Mono secondary dependencies
 export MONO_PATH := $(MONO_PATH):$(DESTDIR)$(libdir)
 
-EXTRA_DIST = Simias.config.in Simias.Server.conf simiasserver.in simiasserver.cmd.in
+EXTRA_DIST = Simias.config.in Simias.Server.conf simiasserver.in simiasserver.cmd.in defaults.config.in
 
 if MAKE_DOC_FILE
 DOC_FILE = $(basename $@).doc.xml
