@@ -81,6 +81,16 @@ namespace Novell.iFolderWeb.Admin
 		protected Button CancelButton;
 
 		/// <summary>
+		/// All members selection checkbox control.
+		/// </summary>
+		protected CheckBox AllMembersCheckBox;
+
+		/// <summary>
+		/// All selected members selection checkbox control.
+		/// </summary>
+		protected CheckBox AllSelectedMembersCheckBox;
+
+		/// <summary>
 		/// Web controls.
 		/// </summary>
 		protected DataGrid MemberList;
@@ -211,7 +221,7 @@ namespace Novell.iFolderWeb.Admin
 		private bool MembersChecked
 		{
 			get { return ( bool )ViewState[ "MembersChecked" ]; }
-			set { ViewState[ "MembersChecked" ] = value; }
+			set { ViewState[ "MembersChecked" ] = AllMembersCheckBox.Checked = value; }
 		}
 
 		/// <summary>
@@ -237,7 +247,7 @@ namespace Novell.iFolderWeb.Admin
 		private bool SelectedMembersChecked
 		{
 			get { return ( bool )ViewState[ "SelectedMembersChecked" ]; }
-			set { ViewState[ "SelectedMembersChecked" ] = value; }
+			set { ViewState[ "SelectedMembersChecked" ] = AllSelectedMembersCheckBox.Checked = value; }
 		}
 
 		/// <summary>

@@ -14,10 +14,11 @@ p, tr, td, ol, ul
 
 .container
 {
-	min-width: 58em;
+	min-width: 61em;
 	margin: .3em;
 	background-color: #fff;
 	border: 1px solid #666666;
+	width: 61em;
 }
 
 #top
@@ -69,7 +70,7 @@ p, tr, td, ol, ul
 	padding-left: 1em;
 	padding-bottom: 1em;
 	max-width: 16em;
-	width: 16em;
+	width: 17em;
 }
 
 #policynav div
@@ -135,39 +136,89 @@ img
 	border: 0;
 }
 
-.filetypetable
+.filetypelist
 {
-	margin-top: 6px;
-	margin-bottom: 6px;
-
+	width: 100%;
 }
 
-.filetypetableheader
+.filetypelistheader
 {
-	text-align: center;
-	padding-right: 4px;
-	padding-left: 4px;
+	clear: left;
+	border-top: solid 1px black;
+	border-bottom: solid 1px black;
+	border-collapse: collapse;
+	margin-top: .1em;
+	width: 100%;
+}
+
+.filetypelistheader td
+{
+	padding-left: 2px;
 	font-weight: bold;
-	font-size: .95em;
+	font-size: 0.8em;
+	color: black;
+	background-color: #efeee9;
 }
 
-.filetypetableitem
+.filetypelistheader .checkboxcolumn
 {
-	text-align: left;
-	padding-left: 6px;
-
+	width: 2em;
 }
 
-tr.filetypetablepages td a
+.filetypelistheader .filenamecolumn
 {
-	padding-left: 15px;
-	padding-right: 10px;
+	width: 12em;
 }
 
-tr.filetypetablepages td span
+.filetypelistitem
 {
-	padding-left: 15px;
-	padding-right: 10px;
+	height: 22px;
+}
+
+.filetypelistaltitem
+{
+	height: 22px;
+	background-color: #efeee9;
+}
+
+.filetypeitem1
+{
+	padding-left: 2px;
+	width: 2em;
+}
+
+.filetypeitem2
+{
+	width: 11em;
+}
+
+.newfiletypename
+{
+	margin-top: .2em;
+	margin-bottom: .5em;
+	float: left;
+	border-right: #f1efe2 thin solid;
+	border-top: #f1efe2 thin inset;
+	border-left: #f1efe2 thin inset;
+	border-bottom: #f1efe2 thin solid;
+	width: 65%;
+}
+
+.filetypeitem3
+{
+}
+
+.filetypecontrolbutton
+{
+	margin-top: .3em;
+	width: 4.5em;
+}
+
+.filetypeaddbutton
+{
+	margin-top: .1em;
+	float: right;
+	width: 4.5em;
 }
 
 .Policy

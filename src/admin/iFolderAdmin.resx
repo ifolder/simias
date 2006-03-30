@@ -102,6 +102,9 @@
 	<data name="DESCRIPTIONTAG">
 		<value>Description:</value>
 	</data>
+	<data name="DISABLE">
+		<value>Disable</value>
+	</data>
 	<data name="DISKQUOTA">
 		<value>Disk Quota</value>
 	</data>
@@ -110,6 +113,9 @@
 	</data>
 	<data name="ELLIPSES">
 		<value> . . .</value>
+	</data>
+	<data name="ENABLE">
+		<value>Enable</value>
 	</data>
 	<data name="ENABLED">
 		<value>Enabled</value>
@@ -144,8 +150,14 @@
 	<data name="ERRORINSTRUCTIONS">
 		<value>&lt;p&gt;iFolder Web Access has experience an unexpected error.&lt;/p&gt; &lt;p&gt;We apologize for any inconvenience and request that you log out and try again.&lt;/p&gt;</value>
 	</data>
+	<data name="FILE">
+		<value>File</value>
+	</data>
 	<data name="FILENAME">
 		<value>File Name</value>
+	</data>
+	<data name="FILES">
+		<value>Files</value>
 	</data>
 	<data name="FILESIZEFILTER">
 		<value>File Size Filter</value>
@@ -324,11 +336,11 @@
 	<data name="NEWIFOLDERNAMETAG">
 		<value>iFolder Name:</value>
 	</data>
-	<data name="NEXT">
-		<value>Next</value>
-	</data>
 	<data name="NEXTPAGE">
 		<value>Next Page</value>
+	</data>
+	<data name="NEWFILETYPE">
+		<value>New File Type</value>
 	</data>
 	<data name="NOITEMSFOUND">
 		<value>There were no items found.</value>
@@ -354,6 +366,9 @@
 	<data name="PATHTAG">
 		<value>Path:</value>
 	</data>
+	<data name="PENDING">
+		<value>Pending</value>
+	</data>
 	<data name="POLICIES">
 		<value>Policies</value>
 	</data>
@@ -365,9 +380,6 @@
 	</data>
 	<data name="PORTUGUESE-BRAZIL">
 		<value>Portuguese-Brazil</value>
-	</data>
-	<data name="PREV">
-		<value>Prev</value>
 	</data>
 	<data name="PREVIOUSPAGE">
 		<value>Previous Page</value>
@@ -440,6 +452,9 @@
 	</data>
 	<data name="TOTALUSERSTAG">
 		<value>Total Users:</value>
+	</data>
+	<data name="TRUE">
+		<value>True</value>
 	</data>
 	<data name="TYPE">
 		<value>Type</value>
