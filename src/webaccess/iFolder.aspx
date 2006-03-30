@@ -135,7 +135,7 @@
 							<asp:BoundColumn DataField="Time" ItemStyle-CssClass="datetime" />
 							<asp:TemplateColumn ItemStyle-CssClass="name">
 								<itemtemplate>
-									<asp:HyperLink NavigateUrl='<%# DataBinder.Eval(Container.DataItem, "Link") %>' Text='<%# DataBinder.Eval(Container.DataItem, "ShortEntryName") %>' runat="server" />
+									<%# DataBinder.Eval(Container.DataItem, "ShortEntryName") %>
 								</itemtemplate>
 							</asp:TemplateColumn>
 							<asp:TemplateColumn ItemStyle-CssClass="action">

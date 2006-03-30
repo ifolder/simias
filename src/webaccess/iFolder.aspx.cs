@@ -237,7 +237,6 @@ namespace Novell.iFolderApp.Web
 			historyTable.Columns.Add("Type");
 			historyTable.Columns.Add("UserFullName");
 			historyTable.Columns.Add("Image");
-			historyTable.Columns.Add("Link");
 
 			try
 			{
@@ -257,15 +256,6 @@ namespace Novell.iFolderApp.Web
 					row["UserFullName"] = change.UserFullName;
 					row["Image"] = change.Type.ToString().ToLower();
 					
-					if (change.IsDirectory)
-					{
-						row["Link"] = String.Format("Entries.aspx?iFolder={0}&Entry={1}", ifolderID, change.EntryID);
-					}
-					else
-					{
-						row["Link"] = String.Format("Download.ashx?iFolder={0}&Entry={1}", ifolderID, change.EntryID);
-					}
-
 					historyTable.Rows.Add(row);
 				}
 			}
