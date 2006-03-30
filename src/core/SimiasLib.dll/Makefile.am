@@ -20,7 +20,7 @@ else
 	SIMIAS_LIBS = $(SIMIAS_LIBS1)
 endif
 
-EXTRA_DIST = $(srcdir)/SimiasLib.dll.sources $(SIMIAS_CSFILES) ../Common/Simias.log4net ../Common/Simias.config.in ../Common/MyDns.cs.in ../Login/Login.ashx SimiasLib.dll.config.in AssemblyInfo.cs.in SimiasLib.conf simias.pc.in
+EXTRA_DIST = $(srcdir)/SimiasLib.dll.sources $(SIMIAS_CSFILES) ../Common/Simias.log4net ../Common/Simias.config.in ../Common/defaults.conifg.in ../Common/MyDns.cs.in ../Login/Login.ashx SimiasLib.dll.config.in AssemblyInfo.cs.in SimiasLib.conf simias.pc.in
 
 if MAKE_DOC_FILE
 DOC_FILE = $(basename $@).doc.xml
@@ -53,6 +53,7 @@ if !LINUX
 endif	
 	$(INSTALL_PROGRAM) ../Common/Simias.log4net $(DESTDIR)$(sysconfdir)
 	$(INSTALL_PROGRAM) ../Common/Simias.config $(DESTDIR)$(sysconfdir)
+	$(INSTALL_PROGRAM) ../Common/defaults.config $(DESTDIR)$(sysconfdir)
 	$(INSTALL_PROGRAM) ../Login/Login.ashx $(DESTDIR)$(webdir)
 if LINUX
 	$(INSTALL_PROGRAM) SimiasLib.dll.config $(DESTDIR)$(webbindir)
@@ -66,7 +67,7 @@ if !LINUX
 	cd $(DESTDIR)$(datadir)/simias; rm -f log4net.LICENSE.txt
 endif
 	cd $(DESTDIR)$(webbindir); rm -f SimiasLib.dll $(DEBUG_FILES)
-	cd $(DESTDIR)$(sysconfdir); rm -f Simias.log4net Simias.config
+	cd $(DESTDIR)$(sysconfdir); rm -f Simias.log4net Simias.config defaults.config
 if LINUX
 	cd $(DESTDIR)$(webbindir); rm -f SimiasLib.dll.config
 endif
@@ -82,4 +83,5 @@ distclean-local:
 maintainer-clean-local:
 	rm -rf $(COMMON_MAINTAINER_CLEAN_FILES)
 	rm -rf simias.pc AssemblyInfo.cs
+	rm -rf ../Common/Simias.config ../Common/defaults.config
 
