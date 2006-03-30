@@ -35,7 +35,7 @@ namespace User.Management
 		static private string last = null;
 		static private string email = null;
 		static private string full = null;
-		static private string url = "http://localhost:8086/simias10/Registration.asmx";
+		static private string url = "http://localhost:8086/simias10/iFolderAdmin.asmx";
 		static private string action = null;
 		static private string adminName = null;
 		static private string adminPassword = null;
@@ -126,7 +126,7 @@ namespace User.Management
 							break;
 						}
 						
-						case "--admin":
+						case "--admin-name":
 						{
 							if ( ++i < args.Length )
 							{
@@ -193,7 +193,7 @@ namespace User.Management
 			Console.WriteLine( "        Url to the Simias server the user is registering with" );
 			Console.WriteLine();
 			Console.WriteLine( "    --user <username>" );
-			Console.WriteLine( "        Mandatory argument" );
+			Console.WriteLine( "        Mandatory argument if action == create,delete,modify" );
 			Console.WriteLine( "        The username the caller wants for their account." );
 			Console.WriteLine( "		    username is the distinguishing property on the account." );
 			Console.WriteLine();
@@ -214,14 +214,14 @@ namespace User.Management
 			Console.WriteLine( "        The user's full name." );
 			Console.WriteLine();
 			Console.WriteLine( "    --email <email address>" );
-			Console.WriteLine( "        Optional argument" );
+			Console.WriteLine( "        Optional argument if action == create or modify" );
 			Console.WriteLine( "        The user's primary email address." );
 			Console.WriteLine();
-			Console.WriteLine( "    --admin <Simias administrator username>" );
-			Console.WriteLine( "        Mandatory for all actions except create" );
+			Console.WriteLine( "    --admin-name <Simias administrator username>" );
+			Console.WriteLine( "        Mandatory for all actions" );
 			Console.WriteLine();
 			Console.WriteLine( "    --admin-password <Simias administrator password>" );
-			Console.WriteLine( "        Mandatory for all actions except create" );
+			Console.WriteLine( "        Mandatory for all actions" );
 			Console.WriteLine();
 			Console.WriteLine( "    --help" );
 			Console.WriteLine( "        Displays this help." );
@@ -244,7 +244,29 @@ namespace User.Management
 				Console.WriteLine( "missing mandatory command line arguments" );
 				return;
 			}
+
+			if ( adminName == null )
+			{
+				Console.Write( "Please enter simias admin: " );
+				adminName = Console.ReadLine();
+				
+				Console.Write( "password: " );
+				adminPassword = Console.ReadLine();
+			}
 			
+			// New up a web service proxy to administrate the system
+			iFolderAdmin admin = new iFolderAdmin();
+			admin.CookieContainer = new CookieContainer();
+				
+			// Build a credential from the admin name and password.
+			admin.Credentials = new NetworkCredential( adminName, adminPassword );
+			admin.PreAuthenticate = true;
+
+			// Build a url to the admin web service
+			string notEndingWith = @"/\:";
+			admin.Url = url.TrimEnd( notEndingWith.ToCharArray() );
+			admin.Url += "/simias10/iFolderAdmin.asmx";
+				
 			if ( action == "create" )
 			{
 				if ( username == null || password == null )
@@ -253,22 +275,9 @@ namespace User.Management
 					return;
 				}
 				
-				// New up a web service proxy to register a user
-				UserRegistration register = new UserRegistration();
-				register.CookieContainer = new CookieContainer();
-			
-				string notEndingWith = @"/\:";
-				register.Url = url.TrimEnd( notEndingWith.ToCharArray() );
-
-				register.Url += "/simias10/Registration.asmx";
-			
-				//register.Credentials = myCred;
-				//register.PreAuthenticate = true;
-				//register.Proxy = ProxyState.GetProxyState( domainServiceUrl );
-
-				// Make the web service call to register the user
+				// Make the web service call to register/create the user
 				RegistrationInfo info =
-					register.CreateUser(
+					admin.CreateUser(
 						username, 
 						password,
 						null,
@@ -290,32 +299,7 @@ namespace User.Management
 			else
 			if ( action == "modify" )
 			{
-				if ( adminName == null )
-				{
-					Console.Write( "Please enter simias admin: " );
-					adminName = Console.ReadLine();
-				}
-				
-				if ( adminPassword == null )
-				{
-					Console.Write( "password: " );
-					adminPassword = Console.ReadLine();
-				}
-				
 				int total = 0;
-				
-				// New up a web service proxy to administrate the system
-				iFolderAdmin admin = new iFolderAdmin();
-				admin.CookieContainer = new CookieContainer();
-				
-				// Build a credential from the admin name and password.
-				admin.Credentials = new NetworkCredential( adminName, adminPassword );
-				admin.PreAuthenticate = true;
-			
-				string notEndingWith = @"/\:";
-				admin.Url = url.TrimEnd( notEndingWith.ToCharArray() );
-
-				admin.Url += "/simias10/iFolderAdmin.asmx";
 				
 				iFolderUser[] users =
 					admin.GetUsersBySearch( SearchProperty.UserName, SearchOperation.BeginsWith, username, 0, 1, out total );
@@ -344,26 +328,7 @@ namespace User.Management
 			else
 			if ( action == "list" )
 			{
-				if ( adminName == null || adminPassword == null )
-				{
-					Console.WriteLine( "missing mandatory command line arguments" );
-					return;
-				}
-				
 				int total = 0;
-				
-				// New up a web service proxy to administrate the system
-				iFolderAdmin admin = new iFolderAdmin();
-				admin.CookieContainer = new CookieContainer();
-				
-				// Build a credential from the admin name and password.
-				admin.Credentials = new NetworkCredential( adminName, adminPassword );
-				admin.PreAuthenticate = true;
-			
-				string notEndingWith = @"/\:";
-				admin.Url = url.TrimEnd( notEndingWith.ToCharArray() );
-
-				admin.Url += "/simias10/iFolderAdmin.asmx";
 				
 				iFolderUser[] users =
 					admin.GetUsers( 0, -1, out total );
@@ -381,14 +346,6 @@ namespace User.Management
 					Console.Write( "Enabled: {0}  ", user.Enabled.ToString() );
 					Console.WriteLine();
 				}
-					
-			
-			/*
-public iFolderUser[] GetUsersBySearch(SearchProperty property, SearchOperation operation, string pattern, int index, int count, out int total)
-		{
-			iFolderUser[] result = null;
-			total = 0;
-			*/
 			}
 			else
 			{
