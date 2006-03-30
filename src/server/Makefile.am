@@ -14,9 +14,9 @@ endif
 all:
 
 install-exec-local: all
-	$(mkinstalldirs) $(DESTDIR)$(webbindir) $(simiasdatadir) $(simiasdatadir)/modules $(DESTDIR)$(sysconfdir)
-	$(INSTALL_PROGRAM) Simias.config $(simiasdatadir)
-	$(INSTALL_PROGRAM) Simias.Server.conf $(simiasdatadir)/modules
+	$(mkinstalldirs) $(DESTDIR)$(webbindir) $(DESTDIR)$(bootstrapdir) $(DESTDIR)$(bootstrapdir)/modules
+	$(INSTALL_PROGRAM) Simias.config $(DESTDIR)$(bootstrapdir)
+	$(INSTALL_PROGRAM) Simias.Server.conf $(DESTDIR)$(bootstrapdir)/modules
 if WINDOWS	
 	$(INSTALL_PROGRAM) simiasserver.cmd $(DESTDIR)$(bindir)
 else
@@ -24,8 +24,8 @@ else
 endif	
 
 uninstall-local:
-	cd $(simiasdatadir); rm -f Simias.config
-	cd $(simiasdatadir)/modules; rm -f Simias.Server.conf
+	cd $(DESTDIR)$(bootstrapdir); rm -f Simias.config
+	cd $(DESTDIR)$(bootstrapdir)/modules; rm -f Simias.Server.conf
 if WINDOWS	
 	cd $(DESTDIR)$(bindir); rm -f simiasserver.cmd
 else

@@ -129,6 +129,10 @@ namespace Simias.Web
 				Console.Error.WriteLine("Local service port = {0}", localServicePort );
 			}
 
+			// check the current datadir, if it's not setup then
+			// copy the bootstrap files there
+			Setup_Datadir();
+
 			// Initialize the store.
 			Store.Initialize( simiasDataPath, runAsServer, localServicePort );
 		}
@@ -286,6 +290,7 @@ namespace Simias.Web
 #endif
 			Environment.CurrentDirectory = SimiasSetup.webbindir;
 
+
 			if ( verbose )
 			{
 				Console.Error.WriteLine("Simias Process Starting");
@@ -316,6 +321,84 @@ namespace Simias.Web
 			quit = false;
 			keepAliveThread.Start();
 		}
+
+
+		/// <summary>
+		/// Setup_Datadir
+		/// </summary>
+		protected static void Setup_Datadir()
+		{
+			if(simiasDataPath == null)
+				return;
+
+			// if we don't have a bootstrap, nothing to do!
+			if(!Directory.Exists(SimiasSetup.bootstrapdir))
+				return;
+
+			string[] fileEntries = 
+				Directory.GetFileSystemEntries(simiasDataPath);
+
+			// if we find entries in our current
+			// data path, bail out
+			if(fileEntries.Length > 0)
+				return;
+
+			// move all of the files
+			fileEntries = Directory.GetFiles(SimiasSetup.bootstrapdir);
+        	foreach(string fileName in fileEntries)
+			{
+				try
+				{
+					File.Copy(fileName, Path.Combine(simiasDataPath, 
+								Path.GetFileName(fileName)) );
+				}
+				catch (Exception e)
+				{
+					Console.Error.WriteLine("Error bootstraping file: " + fileName);
+					Console.Error.WriteLine(e.Message);
+				}
+			}
+
+			// move all of the dirs
+			fileEntries = Directory.GetDirectories(SimiasSetup.bootstrapdir);
+        	foreach(string fileName in fileEntries)
+			{
+				try
+				{
+					CopyDirectory(fileName, simiasDataPath);
+				}
+				catch (Exception e)
+				{
+					Console.Error.WriteLine("Error bootstraping diretory: " + fileName);
+					Console.Error.WriteLine(e.Message);
+				}
+			}
+		}
+
+		protected static void CopyDirectory(string src, string targetdir)
+		{
+			string dirName = Path.GetFileName(src);
+			string targetName = Path.Combine(targetdir, dirName);
+
+			DirectoryInfo di = new DirectoryInfo(targetdir);
+			di.CreateSubdirectory(dirName);
+
+			// move all of the files
+			string[] fileEntries = Directory.GetFiles(src);
+   	     	foreach(string fileName in fileEntries)
+			{
+				File.Copy(fileName, Path.Combine(targetName, 
+								Path.GetFileName(fileName)) );
+			}
+
+			// move all of the dirs
+			fileEntries = Directory.GetDirectories(src);
+        	foreach(string fileName in fileEntries)
+			{
+				CopyDirectory(fileName, targetdir);
+			}
+		}
+
  
 		/// <summary>
 		/// Keep Alive Thread
