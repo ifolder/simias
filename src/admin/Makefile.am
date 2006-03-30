@@ -42,7 +42,6 @@ iFolderAdmin_RESOURCES := $(iFolderAdmin_RESX:$(srcdir)/%.resx=$(srcdir)/Novell.
 	
 iFolderAdmin_FLAGS = $(CSC_LIBFLAG)
 
-if LINUX
 iFolderAdmin_LIBS = \
 	System.dll \
 	System.Data.dll \
@@ -50,15 +49,9 @@ iFolderAdmin_LIBS = \
 	System.Drawing.dll \
 	System.Web.dll \
 	System.Web.Services.dll 
-else
-iFolderAdmin_LIBS = \
-	System.dll \
-	System.Data.dll \
-	$(SYSTEM_XML) \
-	System.Drawing.dll \
-	System.Web.dll \
-	System.Web.Services.dll \
-	log4net.dll
+
+if !LINUX
+	iFolderAdmin_LIBS := $(iFolderAdmin_LIBS) log4net.dll
 endif
 
 iFolderAdmin_LIBPATH = $(LOG4NET_DIR)
@@ -99,12 +92,11 @@ iFolderAdmin_FORMS = \
 	Users.css \
 	Web.config
 
-iFolderAdmin_IMAGES = images/*.gif images/*.ico
-
-EXTRA_DIST = AssemblyInfo.cs.in $(iFolderAdmin_CSFILES) $(iFolderAdmin_FORMS) $(iFolderAdmin_IMAGES) help $(iFolderAdmin_RESX)
+EXTRA_DIST = AssemblyInfo.cs.in $(iFolderAdmin_CSFILES) $(iFolderAdmin_FORMS) images help $(iFolderAdmin_RESX)
 
 dist-hook:
 	rm -rf `find $(distdir)/help -name .svn`		
+	rm -rf `find $(distdir)/images -name .svn`		
 
 if DEBUG
 if WINDOWS
@@ -129,27 +121,23 @@ Novell.iFolderWeb.Admin.%.resources : %.resx
 	$(RESGEN) $< $@
 
 install-exec-local: all
+	rm -rf $(DESTDIR)$(admindir)
 	$(mkinstalldirs) $(DESTDIR)$(admindir)
-	$(mkinstalldirs) $(DESTDIR)$(adminbindir)
-	$(mkinstalldirs) $(DESTDIR)$(adminimgdir)
-	$(mkinstalldirs) $(DESTDIR)$(adminhelpdir)
+	$(mkinstalldirs) $(DESTDIR)$(admindir)/bin
+	$(mkinstalldirs) $(DESTDIR)$(admindir)/images
+	$(mkinstalldirs) $(DESTDIR)$(admindir)/help
 	$(INSTALL_PROGRAM) $(iFolderAdmin_FORMS) $(DESTDIR)$(admindir)
-	$(INSTALL_PROGRAM) Novell.iFolderAdmin.dll $(DEBUG_FILES) $(DESTDIR)$(adminbindir)
+	$(INSTALL_PROGRAM) Novell.iFolderAdmin.dll $(DEBUG_FILES) $(DESTDIR)$(admindir)/bin
+	cd $(srcdir)/help; cp -r * $(DESTDIR)$(admindir)/help
+	rm -rf `find $(DESTDIR)$(admindir)/help -name .svn`
+	cd $(srcdir)/images; cp -r * $(DESTDIR)$(admindir)/images
+	rm -rf `find $(DESTDIR)$(admindir)/images -name .svn`
 if !LINUX
-	$(INSTALL_PROGRAM) $(LOG4NET_DIR)/log4net.dll $(DESTDIR)$(adminbindir)
+	$(INSTALL_PROGRAM) $(LOG4NET_DIR)/log4net.dll $(DESTDIR)$(admindir)/bin
 endif
-	$(INSTALL_PROGRAM) $(iFolderAdmin_IMAGES) $(DESTDIR)$(adminimgdir)
-	cd $(srcdir)/help; cp -r * $(DESTDIR)$(adminhelpdir);
-	rm -rf `find $(DESTDIR)$(adminhelpdir) -name .svn`
-	
+
 uninstall-local:
-	cd $(DESTDIR)$(admindir); rm -f $(iFolderAdmin_FORMS)
-	cd $(DESTDIR)$(adminbindir); rm -f Novell.iFolderAdmin.dll $(DEBUG_FILES)
-if !LINUX
-	cd $(DESTDIR)$(adminbindir); rm -f log4net.dll
-endif
-	cd $(DESTDIR)$(adminimgdir); rm -f $(iFolderAdmin_IMAGES)
-	cd $(DESTDIR)$(admindir); rm -rf $(DESTDIR)$(adminhelpdir)
+	rm -rf $(DESTDIR)$(admindir)
 
 installcheck-local: install
 	

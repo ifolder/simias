@@ -3,23 +3,24 @@ export MONO_PATH := $(MONO_PATH)
 
 iFolderWeb_CSFILES = \
 	$(srcdir)/AssemblyInfo.cs \
-	$(srcdir)/Global.asax.cs \
 	$(srcdir)/Default.aspx.cs \
+	$(srcdir)/Download.ashx.cs \
+	$(srcdir)/Entries.aspx.cs \
+	$(srcdir)/Entry.aspx.cs \
 	$(srcdir)/Error.aspx.cs \
+	$(srcdir)/Global.asax.cs \
 	$(srcdir)/Header.ascx.cs \
-	$(srcdir)/Message.ascx.cs \
-	$(srcdir)/Pagging.ascx.cs \
 	$(srcdir)/iFolder.aspx.cs \
 	$(srcdir)/iFolders.aspx.cs \
-	$(srcdir)/Entries.aspx.cs \
-	$(srcdir)/Share.aspx.cs \
+	$(srcdir)/iFolderWebProxy.cs \
 	$(srcdir)/Login.aspx.cs \
-	$(srcdir)/Download.ashx.cs \
+	$(srcdir)/Message.ascx.cs \
+	$(srcdir)/Pagging.ascx.cs \
+	$(srcdir)/Share.aspx.cs \
 	$(srcdir)/UploadModule.cs \
 	$(srcdir)/UploadStream.cs \
 	$(srcdir)/WebLogger.cs \
-	$(srcdir)/WebUtility.cs \
-	$(srcdir)/iFolderWebProxy.cs
+	$(srcdir)/WebUtility.cs
 	
 iFolderWeb_CSFILES_CSC := $(subst /,$(SEP),$(iFolderWeb_CSFILES))
 
@@ -33,7 +34,6 @@ iFolderWeb_RESOURCES := $(iFolderWeb_RESX:$(srcdir)/%.resx=$(srcdir)/Novell.iFol
 	
 iFolderWeb_FLAGS = $(CSC_LIBFLAG)
 
-if LINUX
 iFolderWeb_LIBS = \
 	System.dll \
 	System.Data.dll \
@@ -41,40 +41,36 @@ iFolderWeb_LIBS = \
 	System.Drawing.dll \
 	System.Web.dll \
 	System.Web.Services.dll
-else
-iFolderWeb_LIBS = \
-	System.dll \
-	System.Data.dll \
-	$(SYSTEM_XML) \
-	System.Drawing.dll \
-	System.Web.dll \
-	System.Web.Services.dll \
-	log4net.dll
+
+if !LINUX
+	iFolderWeb_LIBS := $(iFolderWeb_LIBS) log4net.dll
 endif
 
 iFolderWeb_LIBPATH = $(LOG4NET_DIR)
 
 iFolderWeb_FORMS = \
-	Web.config \
-	Log4Net.config \
-	iFolderWeb.css \
 	Global.asax \
-	Default.aspx \
+    Default.aspx \
+	Entries.aspx \
+	Entry.aspx \
 	Error.aspx \
+	iFolder.aspx \
+	iFolders.aspx \
+	Login.aspx \
+	Share.aspx \
 	Header.ascx \
 	Message.ascx \
 	Pagging.ascx \
-	iFolder.aspx \
-	iFolders.aspx \
-	Entries.aspx \
-	Login.aspx \
-	Download.ashx
+	Download.ashx \
+	Log4Net.config \
+	Web.config
 
-iFolderWeb_IMAGES = images/*.png images/*.ico
-
-EXTRA_DIST = AssemblyInfo.cs.in $(iFolderWeb_CSFILES) $(iFolderWeb_FORMS) $(iFolderWeb_IMAGES) elp $(iFolderWeb_RESX)
+EXTRA_DIST = AssemblyInfo.cs.in $(iFolderWeb_CSFILES) $(iFolderWeb_FORMS) images css js help $(iFolderWeb_RESX)
 
 dist-hook:
+	rm -rf `find $(distdir)/images -name .svn`		
+	rm -rf `find $(distdir)/css -name .svn`		
+	rm -rf `find $(distdir)/js -name .svn`		
 	rm -rf `find $(distdir)/help -name .svn`		
 
 if DEBUG
@@ -101,27 +97,27 @@ Novell.iFolderApp.Web.%.resources : %.resx
 	$(RESGEN) $< $@
 
 install-exec-local: all
+	rm -rf $(DESTDIR)$(webaccessdir)
 	$(mkinstalldirs) $(DESTDIR)$(webaccessdir)
-	$(mkinstalldirs) $(DESTDIR)$(webaccessbindir)
-	$(mkinstalldirs) $(DESTDIR)$(webaccessimgdir)
-	$(mkinstalldirs) $(DESTDIR)$(webaccesshelpdir)
+	$(mkinstalldirs) $(DESTDIR)$(webaccessdir)/bin
+	$(mkinstalldirs) $(DESTDIR)$(webaccessdir)/images
+	$(mkinstalldirs) $(DESTDIR)$(webaccessdir)/help
+	$(mkinstalldirs) $(DESTDIR)$(webaccessdir)/css
+	$(mkinstalldirs) $(DESTDIR)$(webaccessdir)/js
 	$(INSTALL_PROGRAM) $(iFolderWeb_FORMS) $(DESTDIR)$(webaccessdir)
-	$(INSTALL_PROGRAM) Novell.iFolderWeb.dll $(DEBUG_FILES) $(DESTDIR)$(webaccessbindir)
+	$(INSTALL_PROGRAM) Novell.iFolderWeb.dll $(DEBUG_FILES) $(DESTDIR)$(webaccessdir)/bin
+	$(INSTALL_PROGRAM) $(srcdir)/css/*.css $(DESTDIR)$(webaccessdir)/css
+	$(INSTALL_PROGRAM) $(srcdir)/js/*.js $(DESTDIR)$(webaccessdir)/js
+	cd $(srcdir)/help; cp -r * $(DESTDIR)$(webaccessdir)/help
+	rm -rf `find $(DESTDIR)$(webaccessdir)/help -name .svn`
+	cd $(srcdir)/images; cp -r * $(DESTDIR)$(webaccessdir)/images
+	rm -rf `find $(DESTDIR)$(webaccessdir)/images -name .svn`
 if !LINUX
-	$(INSTALL_PROGRAM) $(LOG4NET_DIR)/log4net.dll $(DESTDIR)$(webaccessbindir)
+	$(INSTALL_PROGRAM) $(LOG4NET_DIR)/log4net.dll $(DESTDIR)$(webaccessdir)/bin
 endif
-	$(INSTALL_PROGRAM) $(iFolderWeb_IMAGES) $(DESTDIR)$(webaccessimgdir)
-#	cd $(srcdir)/help; cp -r * $(DESTDIR)$(webaccesshelpdir);
-#	rm -rf `find $(DESTDIR)$(webaccesshelpdir) -name .svn`
 	
 uninstall-local:
-	cd $(DESTDIR)$(webaccessdir); rm -f $(iFolderWeb_FORMS)
-	cd $(DESTDIR)$(webaccessbindir); rm -f Novell.iFolderWeb.dll $(DEBUG_FILES)
-if !LINUX
-	cd $(DESTDIR)$(webaccessbindir); rm -f log4net.dll
-endif
-	cd $(DESTDIR)$(webaccessimgdir); rm -f $(iFolderWeb_IMAGES)
-	cd $(DESTDIR)$(webaccessdir); rm -rf $(DESTDIR)$(webaccesshelpdir)
+	rm -rf $(DESTDIR)$(webaccessdir)
 
 installcheck-local: install
 	
@@ -133,5 +129,4 @@ distclean-local:
 
 maintainer-clean-local:
 	rm -rf $(COMMON_MAINTAINER_CLEAN_FILES)
-	rm -rf AssemblyInfo.cs
 

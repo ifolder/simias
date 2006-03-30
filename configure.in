@@ -380,25 +380,13 @@ AC_SUBST(modulesdir)
 # Setup standard directories for webaccess app domain
 #
 webaccessdir="${libexecdir}/webaccess"
-webaccessbindir="${webaccessdir}/bin"
-webaccessimgdir="${webaccessdir}/img"
-webaccesshelpdir="${webaccessdir}/help"
 AC_SUBST(webaccessdir)
-AC_SUBST(webaccessbindir)
-AC_SUBST(webaccessimgdir)
-AC_SUBST(webaccesshelpdir)
 
 #
 # Setup standard directories for admin app domain
 #
 admindir="${libexecdir}/admin"
-adminbindir="${admindir}/bin"
-adminimgdir="${admindir}/img"
-adminhelpdir="${admindir}/help"
 AC_SUBST(admindir)
-AC_SUBST(adminbindir)
-AC_SUBST(adminimgdir)
-AC_SUBST(adminhelpdir)
 
 #
 # Setup the bootstrapdir
