@@ -594,6 +594,7 @@ src/server/setup/Makefile
 src/server/Simias.HttpFile/Makefile
 src/server/Simias.Rss/Makefile
 src/server/Simias.Server/Makefile
+src/server/usercmd/Makefile
 src/webservices/Makefile
 src/webservices/AssemblyInfo.cs
 src/webaccess/Makefile
