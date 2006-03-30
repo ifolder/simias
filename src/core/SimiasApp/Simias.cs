@@ -1027,6 +1027,16 @@ namespace Mono.ASPNET
 						break;
 					}
 
+					case "--utf8":
+					{
+						// Set stdout to use UTF-8 encoding.
+						StreamWriter writer = new StreamWriter( Console.OpenStandardOutput(), Encoding.UTF8 );
+						writer.AutoFlush = true;
+						Console.SetOut( writer );
+
+						break;
+					}
+
 					case "--verbose":
 					{
 						verbose = true;
@@ -1393,6 +1403,9 @@ namespace Mono.ASPNET
 			Console.WriteLine( "        Displays information regarding the currently executing Simias" );
 			Console.WriteLine( "        processes. If clean is specified, all abnormally terminated" );
 			Console.WriteLine( "        process information is cleaned up." );
+			Console.WriteLine();							
+			Console.WriteLine( "    --utf8:" );
+			Console.WriteLine( "        Use UTF-8 encoding when writing to stdout." );
 			Console.WriteLine();							
 			Console.WriteLine( "    --version:" );
 			Console.WriteLine( "        Displays the version information and exits." );
