@@ -14,7 +14,8 @@ SimiasServer_CSFILES = \
 	$(srcdir)/Registration.asmx.cs \
 	$(srcdir)/IUserProvider.cs \
 	$(srcdir)/User.cs \
-	$(srcdir)/JournalService.cs
+	$(srcdir)/JournalService.cs \
+	$(srcdir)/Utils.cs
 	
 SimiasServer_CSFILES_CSC := $(subst /,$(SEP),$(SimiasServer_CSFILES))
 SimiasServer_INCLUDES =
