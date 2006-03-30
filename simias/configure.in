@@ -401,6 +401,12 @@ AC_SUBST(adminimgdir)
 AC_SUBST(adminhelpdir)
 
 #
+# Setup the bootstrapdir
+#
+bootstrapdir="${sysconfdir}/bill"
+AC_SUBST(bootstrapdir)
+
+#
 # Set pkg-config variables
 #
 PKG_CONFIG_REQUIRES=""
