@@ -1,4 +1,4 @@
-Include /etc/apache2/mod_mono.conf
+Include @MODMONO_CONFPATH@
 
 Alias /ifolder "@webaccessdir@"
 AddMonoApplications ifolder "/ifolder:@webaccessdir@"
