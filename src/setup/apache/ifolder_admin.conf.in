@@ -1,8 +1,8 @@
 Include /etc/apache2/mod_mono.conf
 
 Alias /admin "@admindir@"
-AddMonoApplications ifolder "/ifolder:@admindir@"
-<Location /ifolder >
+AddMonoApplications admin "/admin:@admindir@"
+<Location /admin >
 	MonoSetServerAlias admin
 	Order allow,deny
 	Allow from all
