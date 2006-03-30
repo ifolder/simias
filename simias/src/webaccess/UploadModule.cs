@@ -104,7 +104,7 @@ namespace Novell.iFolderApp.Web
 
 				//if (application.Request.ContentLength > maxRequestLength)
 				// KLUDGE: fixed limit of 10 MB because of Mono issues
-				const long MAXFILESIZE = (10 * 1024 * 1024);
+				const long MAXFILESIZE = (1 * 1024 * 1024 * 1024);
 				
 				if (application.Request.ContentLength > MAXFILESIZE)
 				{
