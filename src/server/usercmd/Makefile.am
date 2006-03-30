@@ -4,7 +4,6 @@ export MONO_PATH := $(MONO_PATH)
 UserCmd_CSFILES = \
 	$(srcdir)/AssemblyInfo.cs \
 	$(srcdir)/Main.cs \
-	$(srcdir)/RegistrationService.cs \
 	$(srcdir)/AdminService.cs
 	
 UserCmd_CSFILES_CSC := $(subst /,$(SEP),$(UserCmd_CSFILES))

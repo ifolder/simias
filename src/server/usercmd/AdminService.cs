@@ -22,7 +22,7 @@
 public class iFolderAdmin : System.Web.Services.Protocols.SoapHttpClientProtocol {
     
     public iFolderAdmin() {
-        this.Url = "http://localhost:8086/simias10/iFolderAdmin.asmx";
+        this.Url = "http://192.168.1.99/simias10/iFolderAdmin.asmx";
     }
     
     /// <remarks>
@@ -646,6 +646,78 @@ public class iFolderAdmin : System.Web.Services.Protocols.SoapHttpClientProtocol
     public void EndSetiFolderPolicy(System.IAsyncResult asyncResult) {
         this.EndInvoke(asyncResult);
     }
+    
+    /// <remarks>
+///Get the policy of the registered identity provider
+///</remarks>
+    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/ifolder/webservice/GetIdentityPolicy", RequestNamespace="http://novell.com/ifolder/webservice/", ResponseNamespace="http://novell.com/ifolder/webservice/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
+    public IdentityPolicy GetIdentityPolicy() {
+        object[] results = this.Invoke("GetIdentityPolicy", new object[0]);
+        return ((IdentityPolicy)(results[0]));
+    }
+    
+    public System.IAsyncResult BeginGetIdentityPolicy(System.AsyncCallback callback, object asyncState) {
+        return this.BeginInvoke("GetIdentityPolicy", new object[0], callback, asyncState);
+    }
+    
+    public IdentityPolicy EndGetIdentityPolicy(System.IAsyncResult asyncResult) {
+        object[] results = this.EndInvoke(asyncResult);
+        return ((IdentityPolicy)(results[0]));
+    }
+    
+    /// <remarks>
+///Method to create a new user in the Simias domain
+///</remarks>
+    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/ifolder/webservice/CreateUser", RequestNamespace="http://novell.com/ifolder/webservice/", ResponseNamespace="http://novell.com/ifolder/webservice/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
+    public RegistrationInfo CreateUser(string Username, string Password, string UserGuid, string FirstName, string LastName, string FullName, string DistinguishedName, string Email) {
+        object[] results = this.Invoke("CreateUser", new object[] {
+            Username,
+            Password,
+            UserGuid,
+            FirstName,
+            LastName,
+            FullName,
+            DistinguishedName,
+            Email});
+        return ((RegistrationInfo)(results[0]));
+    }
+    
+    public System.IAsyncResult BeginCreateUser(string Username, string Password, string UserGuid, string FirstName, string LastName, string FullName, string DistinguishedName, string Email, System.AsyncCallback callback, object asyncState) {
+        return this.BeginInvoke("CreateUser", new object[] {
+            Username,
+            Password,
+            UserGuid,
+            FirstName,
+            LastName,
+            FullName,
+            DistinguishedName,
+            Email}, callback, asyncState);
+    }
+    
+    public RegistrationInfo EndCreateUser(System.IAsyncResult asyncResult) {
+        object[] results = this.EndInvoke(asyncResult);
+        return ((RegistrationInfo)(results[0]));
+    }
+    
+    /// <remarks>
+///Method to delete a user from the Simias domain
+///</remarks>
+    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/ifolder/webservice/DeleteUser", RequestNamespace="http://novell.com/ifolder/webservice/", ResponseNamespace="http://novell.com/ifolder/webservice/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
+    public bool DeleteUser(string Username) {
+        object[] results = this.Invoke("DeleteUser", new object[] {
+            Username});
+        return ((bool)(results[0]));
+    }
+    
+    public System.IAsyncResult BeginDeleteUser(string Username, System.AsyncCallback callback, object asyncState) {
+        return this.BeginInvoke("DeleteUser", new object[] {
+            Username}, callback, asyncState);
+    }
+    
+    public bool EndDeleteUser(System.IAsyncResult asyncResult) {
+        object[] results = this.EndInvoke(asyncResult);
+        return ((bool)(results[0]));
+    }
 }
 
 /// <remarks/>
@@ -806,6 +878,9 @@ public class ChangeEntry {
     
     /// <remarks/>
     public string UserFullName;
+    
+    /// <remarks/>
+    public bool IsDirectory;
 }
 
 /// <remarks/>
@@ -986,5 +1061,80 @@ public class iFolderPolicy {
     
     /// <remarks/>
     public long FileSizeLimit;
+}
+
+/// <remarks/>
+[System.Xml.Serialization.XmlType(Namespace="http://novell.com/ifolder/webservice/")]
+public class IdentityPolicy {
+    
+    /// <remarks/>
+    public bool ExternalIdentities;
+    
+    /// <remarks/>
+    public bool CanCreate;
+    
+    /// <remarks/>
+    public bool CanDelete;
+    
+    /// <remarks/>
+    public bool CanModify;
+    
+    /// <remarks/>
+    public string Name;
+    
+    /// <remarks/>
+    public string Description;
+}
+
+/// <remarks/>
+[System.Xml.Serialization.XmlType(Namespace="http://novell.com/ifolder/webservice/")]
+public class RegistrationInfo {
+    
+    /// <remarks/>
+    public RegistrationStatus Status;
+    
+    /// <remarks/>
+    public string Message;
+    
+    /// <remarks/>
+    public string UserGuid;
+    
+    /// <remarks/>
+    public string DistinguishedName;
+    
+    /// <remarks/>
+    public string[] SuggestedNames;
+}
+
+/// <remarks/>
+[System.Xml.Serialization.XmlTypeAttribute(Namespace="http://novell.com/ifolder/webservice/")]
+public enum RegistrationStatus {
+    
+    /// <remarks/>
+    UserCreated,
+    
+    /// <remarks/>
+    UserAlreadyExists,
+    
+    /// <remarks/>
+    InvalidParameters,
+    
+    /// <remarks/>
+    InvalidDomain,
+    
+    /// <remarks/>
+    UsernamePolicyException,
+    
+    /// <remarks/>
+    PasswordPolicyException,
+    
+    /// <remarks/>
+    NoRegisteredUserProvider,
+    
+    /// <remarks/>
+    MethodNotSupported,
+    
+    /// <remarks/>
+    InternalException,
 }
 
