@@ -51,9 +51,9 @@ namespace User.Management
 		{
 			bool status = false;
 			
-			if ( args.Length < 2 )
+			if ( args.Length == 1 && args[0].ToLower() == "--help" )
 			{
-				ShowUseage();
+				action = "help";
 			}
 			else
 			{
@@ -155,8 +155,8 @@ namespace User.Management
 						
 						case "--help":
 						{
-							ShowUseage();
-							break;
+							action = "help";
+							return status;
 						}
 
 						case "--verbose":
@@ -182,8 +182,7 @@ namespace User.Management
 		{
 			Console.WriteLine();
 			Console.WriteLine( "A command line utility to manage users in a Simias Server domain." );
-			Console.WriteLine();
-			Console.WriteLine( "Useage: UserCmd action <options>" );
+			Console.WriteLine( "UserCmd.exe action <options>" );
 //			Console.WriteLine();
 			Console.WriteLine( "    action <create|delete|modify|list>");
 			Console.WriteLine( "        Mandatory argument" );
@@ -195,7 +194,7 @@ namespace User.Management
 			Console.WriteLine( "    --user <username>" );
 			Console.WriteLine( "        Mandatory argument if action == create,delete,modify" );
 			Console.WriteLine( "        The username the caller wants for their account." );
-			Console.WriteLine( "		    username is the distinguishing property on the account." );
+			Console.WriteLine( "        username is the distinguishing property on the account." );
 			Console.WriteLine();
 			Console.WriteLine( "    --password <password>" );
 			Console.WriteLine( "        Mandatory argument if action == create" );
@@ -233,11 +232,18 @@ namespace User.Management
 		{
 			if ( args.Length == 0 )
 			{
-				ShowUseage();
+				Console.WriteLine( "A command line utility to manage users in a Simias Server domain." );
+				Console.WriteLine( "UserCmd.exe action <options>" );
 				return;
 			}
 			
 			ParseCommandLine( args );
+			
+			if ( action == "help" )
+			{
+				ShowUseage();
+				return;
+			}
 			
 			if ( action == null || url == null )
 			{
