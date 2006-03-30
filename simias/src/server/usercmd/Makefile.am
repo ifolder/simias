@@ -25,7 +25,7 @@ else
 	UserCmd_LIBS := $(UserCmd_LIBS1)
 endif
 
-EXTRA_DIST = $(UserCmd_CSFILES) UserCmd.exe.config AssemblyInfo.cs.in
+EXTRA_DIST = $(UserCmd_CSFILES) UserCmd.exe.config AssemblyInfo.cs.in simias-create-user.in simias-delete-user.in
 
 AssemblyInfo.cs: $(srcdir)/AssemblyInfo.cs.in Makefile
 	sed -e 's,@_VERSION_@,@VERSION@,g' $< > $@
@@ -54,6 +54,8 @@ if WINDOWS
 	$(INSTALL_PROGRAM) UserCmd.exe $(DEBUG_FILES) $(DESTDIR)$(bindir)
 else
 	$(INSTALL_PROGRAM) UserCmd.exe $(DEBUG_FILES) $(DESTDIR)$(libexecdir)/bin
+	$(INSTALL_PROGRAM) simias-create-user $(DESTDIR)$(bindir)
+	$(INSTALL_PROGRAM) simias-delete-user $(DESTDIR)$(bindir)
 endif
 
 uninstall-local:
@@ -61,6 +63,7 @@ if WINDOWS
 	cd $(DESTDIR)$(bindir); rm -f UserCmd.exe $(DEBUG_FILES)
 else
 	cd $(DESTDIR)$(libexecdir)/bin; rm -f UserCmd.exe $(DEBUG_FILES)
+	cd $(DESTDIR)$(bindir); rm -f simias-create-user simias-delete-user
 endif
 
 installcheck-local: install
