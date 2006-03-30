@@ -33,10 +33,9 @@ namespace Simias
 	/// </summary>
 	public sealed class Defaults
 	{
-		public const string DefaultConfigFile = "@sysconfdir@/defaults.config";
+		//public const string DefaultConfigFile = "@sysconfdir@/defaults.config";
 		//public const string SimiasDataDir = "simiasdatadir";
 		//public const string RunAsClient = "runasclient";
-
 
 		/// <summary>
 		/// Constructor.
@@ -49,7 +48,45 @@ namespace Simias
 		{
 			get
 			{
-                		return "/var/lib/simias";
+				string simiasDataDir = null;
+				
+				// path to the defaults.config file
+				string defaultsPath = 
+					Simias.Client.SimiasSetup.sysconfdir + 
+					Path.DirectorySeparatorChar.ToString() + 
+					"/defaults.config";
+				
+				try
+				{
+					XmlDocument doc = new XmlDocument();
+					doc.Load( defaultsPath );
+				
+					// Validate the XML
+					XmlNode root = doc.FirstChild;
+					XmlNode section = root.SelectSingleNode( "/configuration/section[@name='DefaultServerValues']" );
+					if ( section != null )
+					{
+						XmlNode setting = root.SelectSingleNode( "/configuration/section/setting[@name='simiasdatadir']" );
+						if ( setting != null )
+						{
+							Console.WriteLine( setting.Name );
+							foreach( XmlAttribute attr in setting.Attributes )
+							{
+								if ( attr.Name.ToLower() == "value" )
+								{
+									simiasDataDir = attr.InnerText;
+									break;
+								}
+							}
+						}
+					}	
+				}
+				catch( Exception e )
+				{
+					//Console.WriteLine( e.Message );
+				}
+				
+				return simiasDataDir;
 			}
 		}
 
@@ -60,7 +97,6 @@ namespace Simias
 				return false;
 			}
 		}
-
 	}
 }
 
