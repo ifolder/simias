@@ -11,4 +11,4 @@ rem ######################################################################
 
 cd %0%\..
 
-@web\bin\Simias.exe %*
+@web\bin\Simias.exe --runasclient %*
