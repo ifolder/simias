@@ -329,19 +329,31 @@ namespace Simias.Web
 		protected static void Setup_Datadir()
 		{
 			if(simiasDataPath == null)
+			{
+				if(verbose)
+					Console.Error.WriteLine("SimiasDataPath was null, ignoring bootstrap process");
 				return;
+			}
 
 			// if we don't have a bootstrap, nothing to do!
 			if(!Directory.Exists(SimiasSetup.bootstrapdir))
+			{
+				if(verbose)
+					Console.Error.WriteLine("Ignoring bootstrap process because file not found at : " + SimiasSetup.bootstrapdir);
 				return;
+			}
 
 			string[] fileEntries = 
 				Directory.GetFileSystemEntries(simiasDataPath);
 
 			// if we find entries in our current
 			// data path, bail out
-			if(fileEntries.Length > 0)
+			if(fileEntries.Length > 1)
+			{
+				if(verbose)
+					Console.Error.WriteLine("Files found in exising simias data area... Ignoring bootstrap process");
 				return;
+			}
 
 			// move all of the files
 			fileEntries = Directory.GetFiles(SimiasSetup.bootstrapdir);
