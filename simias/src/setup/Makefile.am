@@ -1,4 +1,4 @@
-SUBDIRS = core server webservices webaccess admin setup
+SUBDIRS = apache
 
 DIST_SUBDIRS = $(SUBDIRS)
 
