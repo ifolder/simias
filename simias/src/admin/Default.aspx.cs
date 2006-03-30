@@ -31,6 +31,7 @@ using System.Web.SessionState;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
+using System.Resources;
 
 namespace Novell.iFolderWeb.Admin
 {
@@ -40,13 +41,21 @@ namespace Novell.iFolderWeb.Admin
 	public class _Default : Page
 	{
 		/// <summary>
+		/// Resource Manager
+		/// </summary>
+		private ResourceManager rm;
+	
+		/// <summary>
 		/// Page Load
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void Page_Load(object sender, EventArgs e)
 		{
-			Response.Redirect("iFolderAdmin.aspx");
+			// localization
+			rm = Application[ "RM" ] as ResourceManager;
+
+			Response.Redirect("Users.aspx");
 		}
 
 		#region Web Form Designer
@@ -71,5 +80,15 @@ namespace Novell.iFolderWeb.Admin
 		}
 
 		#endregion
+
+		/// <summary>
+		/// Get a Localized String
+		/// </summary>
+		/// <param name="key"></param>
+		/// <returns></returns>
+		protected string GetString(string key)
+		{
+			return rm.GetString(key);
+		}
 	}
 }
