@@ -1,0 +1,18 @@
+Include /etc/apache2/mod_mono.conf
+
+Alias /admin "@admindir@"
+AddMonoApplications ifolder "/ifolder:@admindir@"
+<Location /ifolder >
+	MonoSetServerAlias admin
+	Order allow,deny
+	Allow from all
+	AddHandler mono asax aspx ascx asmx ashx
+	DirectoryIndex Default.aspx index.html
+</Location>
+
+#Remove comments below this line to enable SSL
+#LoadModule rewrite_module /usr/lib/apache2/mod_rewrite.so
+#RewriteEngine On
+#RewriteCond %{HTTPS} !=on
+#RewriteRule ^/ifolder/(.*) https://%{SERVER_NAME}/ifolder/$1 [R,L]
+

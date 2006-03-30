@@ -580,6 +580,11 @@ src/webaccess/Makefile
 src/webaccess/AssemblyInfo.cs
 src/admin/Makefile
 src/admin/AssemblyInfo.cs
+src/setup/Makefile
+src/setup/apache/Makefile
+src/setup/apache/ifolder_admin.conf
+src/setup/apache/ifolder_webaccess.conf
+src/setup/apache/simias_server.conf
 test/Makefile
 test/Common/Makefile
 test/ChangeLog/Makefile
