@@ -69,7 +69,6 @@ namespace Simias
 						XmlNode setting = root.SelectSingleNode( "/configuration/section/setting[@name='simiasdatadir']" );
 						if ( setting != null )
 						{
-							Console.WriteLine( setting.Name );
 							foreach( XmlAttribute attr in setting.Attributes )
 							{
 								if ( attr.Name.ToLower() == "value" )
