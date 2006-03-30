@@ -308,13 +308,14 @@ namespace Simias.Client
 		public string Start()
 		{
 			// Build the arguments string.
-			string args = String.Format( "{0}{1}{2}{3}{4}{5}", 
+			string args = String.Format( "{0}{1}{2}{3}{4}{5}{6}", 
 				IsWindows ? String.Empty : String.Format( "\"{0}\" ", applicationPath),
 				( simiasDataPath != null ) ? String.Format( "--datadir \"{0}\" ", simiasDataPath ) : String.Empty, 
 				( isServer == true ) ? "--runasserver " : String.Empty, 
 				( port != null ) ? String.Format( "--port {0}", port ) : String.Empty,
 				( showConsole == true ) ? " --showconsole" : String.Empty,
-				( verbose == true ) ? " --verbose" : String.Empty );
+				( verbose == true ) ? " --verbose" : String.Empty,
+				" --utf8" );
 
 			// Create the process structure.
 			Process simiasProcess = new Process();
@@ -334,9 +335,11 @@ namespace Simias.Client
 				// Get the exit code to see if it was successful.
 				if ( simiasProcess.ExitCode == 0 )
 				{
+					StreamReader reader = new StreamReader( simiasProcess.StandardOutput.BaseStream, System.Text.Encoding.UTF8 );
+
 					// Read the uri and data path that was printed to stdout.
-					webServiceUri = simiasProcess.StandardOutput.ReadLine();
-					simiasDataPath = simiasProcess.StandardOutput.ReadLine();
+					webServiceUri = reader.ReadLine();
+					simiasDataPath = reader.ReadLine();
 				}
 				else
 				{
