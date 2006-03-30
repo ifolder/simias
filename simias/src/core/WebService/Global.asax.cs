@@ -131,7 +131,9 @@ namespace Simias.Web
 
 			// check the current datadir, if it's not setup then
 			// copy the bootstrap files there
-			Setup_Datadir();
+			// only do this if we are starting up as a server
+			if(runAsServer)
+				Setup_Datadir();
 
 			// Initialize the store.
 			Store.Initialize( simiasDataPath, runAsServer, localServicePort );
