@@ -95,8 +95,8 @@ namespace Novell.iFolderApp.Web
 				FullName.Text = Trim((string)Session["UserFullName"], MAX_HEADER_STRING);
 				
 				// strings
-				SettingsButton.Text = GetString("SETTINGS");
-				HelpButton.Text = GetString("HELP");
+				//SettingsButton.Text = GetString("SETTINGS");
+				//HelpButton.Text = GetString("HELP");
 				LogoutButton.Text = GetString("LOGOUT");
 
 				// help
