@@ -598,8 +598,16 @@ namespace Novell.iFolderApp.Web
 		/// <param name="e"></param>
 		private void CancelButton_Click(object sender, EventArgs e)
 		{
-			// back to iFolder details
-			Response.Redirect("iFolder.aspx?iFolder=" + ifolderID);
+			if (createMode)
+			{
+				// back to iFolders
+				Response.Redirect("iFolders.aspx");
+			}
+			else
+			{
+				// back to iFolder details
+				Response.Redirect("iFolder.aspx?iFolder=" + ifolderID);
+			}
 		}
 
 		/// <summary>
