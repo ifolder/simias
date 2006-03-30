@@ -577,7 +577,7 @@ namespace Simias.POBoxService.Web
 								// if any subscriptions are still associated 
 								// delete them from the store
 
-								Property sbProp = new Property( "SbColID", cCol.ID );
+								Property sbProp = new Property( "SbColID", cSub.SubscriptionCollectionID );
 								ICSList subList = store.GetNodesByProperty( sbProp, SearchOp.Equal );
 								foreach ( ShallowNode sn in subList )
 								{
