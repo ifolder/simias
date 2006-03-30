@@ -87,7 +87,7 @@ namespace Novell.iFolderApp.Web
 
 			// check connection
 			iFolderWeb web = (iFolderWeb)Session["Connection"];
-			if (web == null) Logout(rm.GetString("MESSAGE.INFORMATION"), rm.GetString("LOGIN.LOSTSESSION"));
+			if (web == null) Logout(GetString("MESSAGE.INFORMATION"), GetString("LOGIN.LOSTSESSION"));
 			
 			if (!IsPostBack)
 			{
@@ -95,9 +95,9 @@ namespace Novell.iFolderApp.Web
 				FullName.Text = Trim((string)Session["UserFullName"], MAX_HEADER_STRING);
 				
 				// strings
-				SettingsButton.Text = rm.GetString("SETTINGS");
-				HelpButton.Text = rm.GetString("HELP");
-				LogoutButton.Text = rm.GetString("LOGOUT");
+				SettingsButton.Text = GetString("SETTINGS");
+				HelpButton.Text = GetString("HELP");
+				LogoutButton.Text = GetString("LOGOUT");
 
 				// help
 				//HelpButton.NavigateUrl = String.Format("help/{0}/index.html",
@@ -117,7 +117,7 @@ namespace Novell.iFolderApp.Web
 
 			if ((text != null) && (text.Length > length))
 			{
-				result = String.Format("{0}{1}", text.Substring(0, length), rm.GetString("ELLIPSES"));
+				result = String.Format("{0}{1}", text.Substring(0, length), GetString("ELLIPSES"));
 			}
 
 			return result;
@@ -130,7 +130,7 @@ namespace Novell.iFolderApp.Web
 		/// <returns></returns>
 		protected string GetString(string key)
 		{
-			return rm.GetString(key);
+			return WebUtility.GetString(key, rm);
 		}
 
 		#region Web Form Designer
@@ -163,7 +163,7 @@ namespace Novell.iFolderApp.Web
 		/// <param name="e"></param>
 		private void LogoutButton_Click(object sender, System.EventArgs e)
 		{
-			Logout(rm.GetString("MESSAGE.INFORMATION"), rm.GetString("LOGIN.LOGOUT"));
+			Logout(GetString("MESSAGE.INFORMATION"), GetString("LOGIN.LOGOUT"));
 		}
 
 		private void Logout(string type, string message)

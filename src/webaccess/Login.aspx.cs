@@ -115,7 +115,7 @@ namespace Novell.iFolderApp.Web
 				}
 
 				// strings
-				LoginButton.Text = rm.GetString("LOGIN");
+				LoginButton.Text = GetString("LOGIN");
 			}
 		}
 
@@ -126,7 +126,7 @@ namespace Novell.iFolderApp.Web
 		/// <returns></returns>
 		protected string GetString(string key)
 		{
-			return rm.GetString(key);
+			return WebUtility.GetString(key, rm);
 		}
 
 
@@ -185,7 +185,7 @@ namespace Novell.iFolderApp.Web
 				HttpCookie testCookie = Request.Cookies["test"];
 				if (testCookie == null)
 				{
-					Message.Text = rm.GetString("LOGIN.NOCOOKIES");
+					Message.Text = GetString("LOGIN.NOCOOKIES");
 				
 					// log access
 					log.Info(Context, "Login Failed: Browser Cookies Disabled");
@@ -201,7 +201,7 @@ namespace Novell.iFolderApp.Web
 				string noscript = Request.Form.Get("noscript");
 				if ((noscript != null) && (noscript == "true"))
 				{
-					Message.Text = rm.GetString("LOGIN.NOSCRIPT");
+					Message.Text = GetString("LOGIN.NOSCRIPT");
 				
 					// log access
 					log.Info(Context, "Login Failed: Browser Scripts Disabled");
@@ -343,26 +343,26 @@ namespace Novell.iFolderApp.Web
 				switch(error)
 				{
 					case "InvalidCertificate":
-						Message.Text = rm.GetString("LOGIN.TRUSTFAILED");
+						Message.Text = GetString("LOGIN.TRUSTFAILED");
 						break;
 
 					case "InvalidCredentials":
 					case "UnknownUser":
 					case "InvalidPassword":
-						Message.Text = rm.GetString("LOGIN.UNAUTHORIZED");
+						Message.Text = GetString("LOGIN.UNAUTHORIZED");
 						break;
 
 					case "AccountDisabled":
 					case "SimiasLoginDisabled":
-						Message.Text = rm.GetString("LOGIN.ACCOUNTDISABLED");
+						Message.Text = GetString("LOGIN.ACCOUNTDISABLED");
 						break;
 
 					case "AccountLockout":
-						Message.Text = rm.GetString("LOGIN.ACCOUNTLOCKED");
+						Message.Text = GetString("LOGIN.ACCOUNTLOCKED");
 						break;
 
 					default:
-						Message.Text = rm.GetString("LOGIN.CONNECTFAILED");
+						Message.Text = GetString("LOGIN.CONNECTFAILED");
 						break;
 				}
 
@@ -381,7 +381,7 @@ namespace Novell.iFolderApp.Web
 						switch(code)
 						{
 							case HttpStatusCode.Unauthorized:
-								Message.Text = rm.GetString("LOGIN.UNAUTHORIZED");
+								Message.Text = GetString("LOGIN.UNAUTHORIZED");
 								break;
 
 							case HttpStatusCode.Redirect:
@@ -398,30 +398,30 @@ namespace Novell.iFolderApp.Web
 									// ignore
 								}
 								
-								Message.Text = String.Format("{0}<br>{1}", rm.GetString("LOGIN.REDIRECT"), location);
+								Message.Text = String.Format("{0}<br>{1}", GetString("LOGIN.REDIRECT"), location);
 								break;
 
 							default:
-								Message.Text = rm.GetString("LOGIN.CONNECTFAILED");
+								Message.Text = GetString("LOGIN.CONNECTFAILED");
 								break;
 						}
 					}
 						break;
 				
 					case WebExceptionStatus.ConnectFailure:
-						Message.Text = rm.GetString("LOGIN.CONNECTFAILED");
+						Message.Text = GetString("LOGIN.CONNECTFAILED");
 						break;
 
 					case WebExceptionStatus.TrustFailure:
-						Message.Text = rm.GetString("LOGIN.TRUSTFAILED");
+						Message.Text = GetString("LOGIN.TRUSTFAILED");
 						break;
 
 					case WebExceptionStatus.SecureChannelFailure:
-						Message.Text = rm.GetString("LOGIN.SECUREFAILED");
+						Message.Text = GetString("LOGIN.SECUREFAILED");
 						break;
 
 					case WebExceptionStatus.SendFailure:
-						Message.Text = rm.GetString("LOGIN.SENDFAILED");
+						Message.Text = GetString("LOGIN.SENDFAILED");
 						break;
 
 					default:

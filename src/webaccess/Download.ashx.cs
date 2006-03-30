@@ -115,9 +115,9 @@ namespace Novell.iFolderApp.Web
 				ResourceManager rm = (ResourceManager) context.Application["RM"];
 
 				context.Server.Transfer(String.Format(
-					"Entries.aspx?iFolder={0}&Entry={1}&MessageType={2}&MessageText={3}",
-					ifolderID, parentID, context.Server.UrlEncode(rm.GetString("MESSAGE.ERROR")),
-					context.Server.UrlEncode(rm.GetString("ENTRY.FAILEDDOWNLOAD"))));
+					"Entries.aspx?iFolder={0}&Entry={1}&Message={2}",
+					ifolderID, parentID,
+					context.Server.UrlEncode(WebUtility.GetString("ENTRY.FAILEDDOWNLOAD", rm))));
 			}
 		}
 

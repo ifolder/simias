@@ -135,10 +135,9 @@ namespace Novell.iFolderApp.Web
 					string entryID = application.Request.QueryString["Entry"];
 
 					application.Response.Redirect(String.Format(
-						"{0}?iFolder={1}&Entry={2}&MessageType={3}&MessageText={4}",
+						"{0}?iFolder={1}&Entry={2}&Message={3}",
 						application.Request.Path, ifolderID, entryID,
-						application.Context.Server.UrlEncode(rm.GetString("MESSAGE.ERROR")),
-						application.Context.Server.UrlEncode(rm.GetString("ENTRY.MAXUPLOADSIZEEXCEPTION"))));
+						application.Context.Server.UrlEncode(WebUtility.GetString("ENTRY.MAXUPLOADSIZEEXCEPTION", rm))));
 				}
 				else
 				{

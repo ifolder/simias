@@ -148,13 +148,13 @@ namespace Novell.iFolderApp.Web
 				BrowseButton.NavigateUrl = "Entries.aspx?iFolder=" + ifolderID;
 
 				// strings
-				HomeButton.Text = rm.GetString("HOME");
-				ShareButton.Text = rm.GetString("SHARE");
-				BrowseButton.Text = rm.GetString("BROWSE");
-				MemberPagging.LabelSingular = rm.GetString("MEMBER");
-				MemberPagging.LabelPlural = rm.GetString("MEMBERS");
-				HistoryPagging.LabelSingular = rm.GetString("CHANGE");
-				HistoryPagging.LabelPlural = rm.GetString("CHANGES");
+				HomeButton.Text = GetString("HOME");
+				ShareButton.Text = GetString("SHARE");
+				BrowseButton.Text = GetString("BROWSE");
+				MemberPagging.LabelSingular = GetString("MEMBER");
+				MemberPagging.LabelPlural = GetString("MEMBERS");
+				HistoryPagging.LabelSingular = GetString("CHANGE");
+				HistoryPagging.LabelPlural = GetString("CHANGES");
 			}
 		}
 
@@ -303,7 +303,7 @@ namespace Novell.iFolderApp.Web
 			switch(type)
 			{
 				case "AccessException":
-					MessageBox.Text = rm.GetString("ENTRY.ACCESSEXCEPTION");
+					MessageBox.Text = GetString("ENTRY.ACCESSEXCEPTION");
 					break;
 
 				default:
@@ -321,14 +321,7 @@ namespace Novell.iFolderApp.Web
 		/// <returns></returns>
 		protected string GetString(string key)
 		{
-			string result = rm.GetString(key);
-
-			if ((result == null) || (result.Length == 0))
-			{
-				result = key;
-			}
-
-			return result;
+			return WebUtility.GetString(key, rm);
 		}
 
 		#region Web Form Designer

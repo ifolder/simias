@@ -43,6 +43,29 @@ namespace Novell.iFolderApp.Web
 		}
 
 		/// <summary>
+		/// Get a Localized String
+		/// </summary>
+		/// <param name="key"></param>
+		/// <param name="rm"></param>
+		/// <returns></returns>
+		public static string GetString(string key, ResourceManager rm)
+		{
+			string result = null;
+			
+			if (rm != null)
+			{
+				result = rm.GetString(key);
+			}
+
+			if ((result == null) || (result.Length == 0))
+			{
+				result = key;
+			}
+
+			return result;
+		}
+
+		/// <summary>
 		/// Get the File Name with the given Path
 		/// </summary>
 		/// <param name="path">The File Path String</param>
@@ -149,22 +172,22 @@ namespace Novell.iFolderApp.Web
 			{
 					// B
 				case Index.B:
-					modifier = rm.GetString("ENTRY.B");
+					modifier = WebUtility.GetString("ENTRY.B", rm);
 					break;
 
 					// KB
 				case Index.KB:
-					modifier = rm.GetString("ENTRY.KB");
+					modifier = WebUtility.GetString("ENTRY.KB", rm);
 					break;
 
 					// MB
 				case Index.MB:
-					modifier = rm.GetString("ENTRY.MB");
+					modifier = WebUtility.GetString("ENTRY.MB", rm);
 					break;
 
 					// GB
 				case Index.GB:
-					modifier = rm.GetString("ENTRY.GB");
+					modifier = WebUtility.GetString("ENTRY.GB", rm);
 					break;
 			}
 
@@ -185,23 +208,23 @@ namespace Novell.iFolderApp.Web
 			{
 					// Admin
 				case Rights.Admin:
-					result = rm.GetString("RIGHTS.ADMIN");
+					result = WebUtility.GetString("RIGHTS.ADMIN", rm);
 					break;
 
 					// Read Only
 				case Rights.ReadOnly:
-					result = rm.GetString("RIGHTS.READONLY");
+					result = WebUtility.GetString("RIGHTS.READONLY", rm);
 					break;
 
 					// Read Write
 				case Rights.ReadWrite:
-					result = rm.GetString("RIGHTS.READWRITE");
+					result = WebUtility.GetString("RIGHTS.READWRITE", rm);
 					break;
 
 					// Deny
 				case Rights.Deny:
 				default:
-					result = rm.GetString("RIGHTS.DENY");
+					result = WebUtility.GetString("RIGHTS.DENY", rm);
 					break;
 			}
 
@@ -228,11 +251,11 @@ namespace Novell.iFolderApp.Web
 				{
 					if (date.Day == today.Day)
 					{
-						result = rm.GetString("TODAY");
+						result = WebUtility.GetString("TODAY", rm);
 					}
 					else if (date.Day == today.AddDays(-1).Day)
 					{
-						result = rm.GetString("YESTERDAY");
+						result = WebUtility.GetString("YESTERDAY", rm);
 					}
 				}
 			}
@@ -268,20 +291,20 @@ namespace Novell.iFolderApp.Web
 			switch(type)
 			{
 				case ChangeType.Modify:
-					result = rm.GetString("CHANGE.MODIFY");
+					result = WebUtility.GetString("CHANGE.MODIFY", rm);
 					break;
 
 				case ChangeType.Add:
-					result = rm.GetString("CHANGE.ADD");
+					result = WebUtility.GetString("CHANGE.ADD", rm);
 					break;
 
 				case ChangeType.Delete:
-					result = rm.GetString("CHANGE.DELETE");
+					result = WebUtility.GetString("CHANGE.DELETE", rm);
 					break;
 
 				case ChangeType.Unknown:
 				default:
-					result = rm.GetString("CHANGE.UNKNOWN");
+					result = WebUtility.GetString("CHANGE.UNKNOWN", rm);
 					break;
 			}
 

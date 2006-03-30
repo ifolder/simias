@@ -110,9 +110,9 @@ namespace Novell.iFolderApp.Web
 				BindData();
 
 				// strings
-				HomeButton.Text = rm.GetString("HOME");
-				HistoryPagging.LabelSingular = rm.GetString("CHANGE");
-				HistoryPagging.LabelPlural = rm.GetString("CHANGES");
+				HomeButton.Text = GetString("HOME");
+				HistoryPagging.LabelSingular = GetString("CHANGE");
+				HistoryPagging.LabelPlural = GetString("CHANGES");
 			}
 		}
 
@@ -205,7 +205,7 @@ namespace Novell.iFolderApp.Web
 			switch(type)
 			{
 				case "AccessException":
-					MessageBox.Text = rm.GetString("ENTRY.ACCESSEXCEPTION");
+					MessageBox.Text = GetString("ENTRY.ACCESSEXCEPTION");
 					break;
 
 				default:
@@ -223,14 +223,7 @@ namespace Novell.iFolderApp.Web
 		/// <returns></returns>
 		protected string GetString(string key)
 		{
-			string result = rm.GetString(key);
-
-			if ((result == null) || (result.Length == 0))
-			{
-				result = key;
-			}
-
-			return result;
+			return WebUtility.GetString(key, rm);
 		}
 
 		#region Web Form Designer
