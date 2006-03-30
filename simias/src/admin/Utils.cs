@@ -63,13 +63,19 @@ namespace Novell.iFolderWeb.Admin
 		/// <returns>String containing simple wildcard.</returns>
 		public static string ConvertFromRegEx( string regEx )
 		{
-			string wcs = regEx;
-			if ( regEx.StartsWith( ".*\\." ) && regEx.EndsWith( "$" ) )
-			{
-				wcs = "*" + regEx.Substring( 3, regEx.Length - 4 ); 
-			}
+			string wcs = regEx.Replace( @"\.", "." ).Replace( ".*", "*" ).Replace( ".?", "?" );
+			return wcs.TrimStart( new char[] { '^' } ).TrimEnd( new char[] { '$' } );
+		}
 
-			return wcs;
+		/// <summary>
+		/// Converts from a simple wildcard type to a regular expression file type.
+		/// </summary>
+		/// <param name="simpleWildcard">String containing a simple wildcard expression.</param>
+		/// <returns>String containing a regular expression.</returns>
+		public static string ConvertToRegEx( string simpleWildcard )
+		{
+			string res = simpleWildcard.Trim().Replace( ".", @"\." ).Replace( "*", ".*" ).Replace( "?", ".?" );
+			return "^" + res + "$";
 		}
 
 		/// <summary>

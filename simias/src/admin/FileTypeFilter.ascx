@@ -1,86 +1,112 @@
 <%@ Control Language="c#" AutoEventWireup="false" Codebehind="FileTypeFilter.ascx.cs" Inherits="Novell.iFolderWeb.Admin.FileTypeFilter" TargetSchema="http://schemas.microsoft.com/intellisense/ie5"%>
+<%@ Register TagPrefix="iFolder" TagName="PageFooter" Src="PageFooter.ascx" %>
 
 <div id="filetypenav">
 
 	<div class="policytitle"><%= GetString( "FILETYPEFILTER" ) %></div>
 	
-	<div id="nonsystempolicy" class="policydetails">
+	<div class="policydetails">
 	
-		<asp:DataGrid 
-			ID="FileTypeList" 
+		<asp:TextBox 
+			ID="NewFileTypeName" 
+			Runat="server"
+			CssClass="newfiletypename"
+			Visible="False" />
+
+		<asp:Button 
+			ID="AddButton" 
 			Runat="server" 
-			CssClass="filetypetable" 
-			GridLines="Both"
-			AllowPaging="true" 
-			AllowSorting="False" 
+			CssClass="filetypeaddbutton" 
+			OnClick="OnFileTypeAddClick"
+			Visible="False" />
+			
+		<table class="filetypelistheader">
+	
+			<tr>
+				<td class="checkboxcolumn">
+					<asp:CheckBox 
+						ID="AllFilesCheckBox" 
+						Runat="server" 
+						OnCheckedChanged="OnAllFilesChecked" 
+						AutoPostBack="True" />
+				</td>
+			
+				<td class="filenamecolumn">
+					<%= GetString( "FILENAME" ) %>
+				</td>
+				
+				<td class="enabledcolumn">
+					<%= GetString( "ENABLED" ) %>
+				</td>
+			</tr>
+	
+		</table>
+		
+		<asp:datagrid 
+			id="FileTypeList" 
+			runat="server" 
 			AutoGenerateColumns="False" 
-			ShowHeader="True" 
-			PageSize="5"
-			PagerStyle-Mode="NextPrev" 
-			PagerStyle-Position="Bottom" 
-			PagerStyle-CssClass="filetypetablepages">
+			CssClass="filetypelist"
+			CellPadding="0" 
+			CellSpacing="0"
+			ShowHeader="False" 
+			PageSize="5" 
+			GridLines="None" 
+			ItemStyle-CssClass="filetypelistitem"
+			AlternatingItemStyle-CssClass="filetypelistaltitem">
 			
 			<Columns>
 			
 				<asp:BoundColumn DataField="FileRegExField" Visible="False" />
 				
-				<asp:TemplateColumn 
-					HeaderStyle-CssClass="filetypetableheader" 
-					ItemStyle-HorizontalAlign="Center">
+				<asp:TemplateColumn ItemStyle-CssClass="filetypeitem1" >
 					
 					<ItemTemplate>
 						<asp:CheckBox 
 							ID="FileTypeCheckBox" 
 							Runat="server" 
 							AutoPostBack="True"
-							OnCheckedChanged="FileTypeCheckChanged" 
-							Checked='<%# DataBinder.Eval( Container.DataItem, "EnabledField" ) %>' />
+							OnCheckedChanged="OnFileTypeCheckChanged" 
+							Checked='<%# IsEntryChecked( DataBinder.Eval( Container.DataItem, "FileRegExField" ) ) %>'
+							Visible='<%# ( bool )DataBinder.Eval( Container.DataItem, "VisibleField" ) %>' />
 					</ItemTemplate>
 					
 				</asp:TemplateColumn>
 				
-				<asp:BoundColumn 
-					DataField="FileNameField" 
-					ReadOnly="True" 
-					HeaderStyle-CssClass="filetypetableheader"
-					ItemStyle-CssClass="filetypetableitem" />
+				<asp:BoundColumn DataField="FileNameField" ItemStyle-CssClass="filetypeitem2" />
+					
+				<asp:BoundColumn DataField="EnabledField" ItemStyle-CssClass="filetypeitem3" />
 					
 			</Columns>
 			
 		</asp:DataGrid>
 		
-	</div>
-	
-	<div id="systempolicy" class="policydetails">
-	
-		<asp:DataGrid 
-			ID="SystemFileTypeList" 
+		<ifolder:PageFooter ID="FileTypeListFooter" Runat="server" />
+		
+		<asp:Button 
+			ID="DeleteButton" 
 			Runat="server" 
-			CssClass="filetypetable" 
-			GridLines="Both"
-			AllowPaging="true" 
-			AllowSorting="False" 
-			AutoGenerateColumns="False" 
-			ShowHeader="True" 
-			PageSize="5"
-			PagerStyle-Mode="NextPrev" 
-			PagerStyle-Position="Bottom" 
-			PagerStyle-CssClass="filetypetablepages">
+			CssClass="filetypecontrolbutton" 
+			Enabled="False"
+			OnClick="OnDeleteFileType"
+			Visible="False" />
 			
-			<Columns>
+		<asp:Button
+			ID="DisableButton"
+			Runat="server"
+			CssClass="filetypecontrolbutton"
+			Enabled="False"
+			OnClick="OnDisableFileType"
+			Visible="False" />
 			
-				<asp:BoundColumn DataField="FileRegExField" Visible="False" />
+		<asp:Button
+			ID="EnableButton"
+			Runat="server"
+			CssClass="filetypecontrolbutton"
+			Enabled="False"
+			OnClick="OnEnableFileType"
+			Visible="False" />
 				
-				<asp:BoundColumn 
-					DataField="FileNameField" 
-					ReadOnly="True" 
-					HeaderStyle-CssClass="filetypetableheader"
-					ItemStyle-CssClass="filetypetableitem" />
-					
-			</Columns>
-			
-		</asp:DataGrid>
-		
 	</div>
-	
+
 </div>
