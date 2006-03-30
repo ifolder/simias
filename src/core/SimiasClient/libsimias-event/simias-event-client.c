@@ -46,8 +46,8 @@
 
 /* Turn this on to see debug messages */
 #ifdef DEBUG
-#define DEBUG_SEC(args) (printf("sec: "), printf args)
-#define DEBUG_SEC_MUTEX(args) (printf("sec: "), printf args)
+#define DEBUG_SEC(args) (printf("simias-event-client: "), printf args)
+#define DEBUG_SEC_MUTEX(args) (printf("simias-event-client: "), printf args)
 #else
 #define DEBUG_SEC
 #define DEBUG_SEC_MUTEX
@@ -344,26 +344,26 @@ int sec_init (SimiasEventClient *sec,
 	/* Create a mutex for protecting the received_messages_list */
 	if (pthread_mutex_init(&ec->received_messages_mutex, NULL) != 0)
 	{
-		perror ("sec: Couldn't create a mutex for the received messages");
+		perror ("simias-event-client: Couldn't create a mutex for the received messages");
 		return -1;
 	}
 	
 	/* Initialize the pthread_cond_t to be able to signal the process message thread */
 	if (pthread_mutex_init(&ec->received_messages_more_mutex, NULL) != 0)
 	{
-		perror ("sec: Couldn't create a dummy mutex for the received messages");
+		perror ("simias-event-client: Couldn't create a dummy mutex for the received messages");
 		return -1;
 	}
 	if (pthread_cond_init(&ec->received_messages_more, NULL) != 0)
 	{
-		perror ("sec: Couldn't initialize the pthread_cond_t for received messages");
+		perror ("simias-event-client: Couldn't initialize the pthread_cond_t for received messages");
 		return -1;
 	}
 
 	DEBUG_SEC (("Starting the Process Message Thread\n"));
 	if ((pthread_create (&(ec->process_message_thread), NULL,
 						 sec_proc_msg_thread, ec)) != 0) {
-		perror ("sec: could not start process message thread");
+		perror ("simias-event-client: could not start process message thread");
 		return -1;
 	}
 	
@@ -374,7 +374,7 @@ int sec_init (SimiasEventClient *sec,
 	/* Start the event thread waiting for event messages. */
 	if ((pthread_create (&(ec->event_thread), NULL, 
 						 sec_thread, ec)) != 0) {
-		perror ("sec: could not start event thread");
+		perror ("simias-event-client: could not start event thread");
 		return -1;
 	}
 
@@ -424,7 +424,7 @@ sec_register (SimiasEventClient sec)
 		/* Start a thread which will process the registration request */
 		if ((pthread_create (&(ec->reg_thread), NULL,
 							 sec_reg_thread, ec)) != 0) {
-			perror ("sec: could not start registration thread");
+			perror ("simias-event-client: could not start registration thread");
 			return -1;
 		}
 	} 
@@ -448,7 +448,7 @@ sec_deregister (SimiasEventClient sec)
 		if (getsockname (ec->event_socket, 
 						 (struct sockaddr *)&my_sin, 
 						 &my_sin_addr_len) != 0) {
-			perror ("sec: getsockname");
+			perror ("simias-event-client: error calling getsockname()");
 			return -1;
 		}
 		
@@ -469,7 +469,7 @@ sec_deregister (SimiasEventClient sec)
 		/* Send de-registration message */
 		if (sec_send_message (ec, reg_msg, strlen (reg_msg)) <= 0) {
 			/* FIXME: Handle error...no data sent */
-			perror ("sec: send de-registration message");
+			perror ("simias-event-client: error sending de-registration message");
 		}
 	}
 	
@@ -530,7 +530,7 @@ sec_set_event (SimiasEventClient sec,
 	/* Send set_event message */
 	if (sec_send_message (ec, msg, strlen (msg)) <= 0) {
 		/* FIXME: Handle error...no data sent */
-		perror ("sec: send set_event message");
+		perror ("simias-event-client: sec_send_message() returned an error");
 	} else {
 		if (subscribe) {
 			/* Store the event handler function */
@@ -605,7 +605,7 @@ sec_set_filter (SimiasEventClient sec, SimiasEventFilter *filter)
 	/* Send set_event message */
 	if (sec_send_message (ec, msg, strlen (msg)) <= 0) {
 		/* FIXME: Handle error...no data sent */
-		perror ("sec: send set_filter message");
+		perror ("simias-event-client: error sending set_filter message");
 	}
 	
 	return 0;
@@ -815,7 +815,7 @@ sec_reg_thread (void *user_data)
 		
 		/* Create a socket to communicate with the event server on */
 		if ((ec->event_socket = socket (PF_INET, SOCK_STREAM, 0)) < 0) {
-			perror ("sec: client event socket");
+			perror ("simias-event-client: could not create the client event socket");
 			return NULL;
 		}
 		
@@ -828,7 +828,7 @@ sec_reg_thread (void *user_data)
 			if (getsockname (ec->event_socket, 
 							 (struct sockaddr *)&my_sin, 
 							 &my_sin_addr_len) != 0) {
-				perror ("sec: getsockname");
+				perror ("simias-event-client: error calling getsockname() to determine what port the client is listening on.");
 				return NULL;
 			}
 			
@@ -850,7 +850,7 @@ sec_reg_thread (void *user_data)
 			/* Send registration message */
 			if (sec_send_message (ec, reg_msg, strlen (reg_msg)) <= 0) {
 				/* FIXME: Handle error...no data sent */
-				perror ("sec: send registration message");
+				perror ("simias-event-client: error sending registration message");
 			} else {
 				ec->state = CLIENT_STATE_RUNNING;
 				b_connected = true;
@@ -874,7 +874,7 @@ sec_reg_thread (void *user_data)
 			}
 			
 			/* FIXME: Handle the error here */
-			perror ("sec: connect");
+			/*perror ("simias-event-client: connect");*/
 			
 			/**
 			 * See if this is a case of the server not listening on the socket
@@ -1003,14 +1003,14 @@ sec_reconnect (RealSimiasEventClient *ec)
 	
 	/* Create a new socket to communicate with the event server on */
 	if ((ec->event_socket = socket (PF_INET, SOCK_STREAM, 0)) < 0) {
-		perror ("sec: client event socket");
+		perror ("simias-event-client: could not create a socket to communicate with the event server");
 		return -1;
 	}
 	
 	/* Start the event thread waiting for event messages. */
 	if ((pthread_create (&(ec->event_thread), NULL, 
 						 sec_thread, ec)) != 0) {
-		perror ("sec: reconnect: could not start event thread");
+		perror ("simias-event-client: reconnect: could not start a thread to listen for events");
 		return -1;
 	}
 
@@ -1103,7 +1103,7 @@ sec_send_message (RealSimiasEventClient *ec, char * message, int len)
 	free (real_message);
 	
 	if (sent_length == -1) {
-		perror ("SEC: send () error:");
+		perror ("simias-event-client: got a -1 from send () error:");
 		sprintf (err_msg,
 				 "Failed to send message to server.  Socket error: %s",
 				 strerror (errno));
@@ -1258,7 +1258,7 @@ sec_get_user_profile_dir_path (char *dest_path)
 	if (((mkdir(dot_local_path, 0777) == -1) && (errno != EEXIST)) ||
 		 ((mkdir(dot_local_share_path, 0777) == -1) && (errno != EEXIST )))
 	{
-		perror ("Cannot create '~/.local/share' directory");
+		perror ("simias-event-client: could not create the '~/.local/share' directory");
 		return NULL;
 	}
 	
