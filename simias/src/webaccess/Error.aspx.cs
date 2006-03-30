@@ -81,8 +81,8 @@ namespace Novell.iFolderApp.Web
 			rm = (ResourceManager) Application["RM"];
 				
 			// strings
-			ErrorType.Text = rm.GetString("ERROR.TYPE");
-			ErrorInstructions.Text = rm.GetString("ERROR.INSTRUCTIONS");
+			ErrorType.Text = GetString("ERROR.TYPE");
+			ErrorInstructions.Text = GetString("ERROR.INSTRUCTIONS");
 
 			// message from query string
 			string message = Request.QueryString.Get("Exception");
@@ -114,7 +114,7 @@ namespace Novell.iFolderApp.Web
 		/// <returns></returns>
 		protected string GetString(string key)
 		{
-			return rm.GetString(key);
+			return WebUtility.GetString(key, rm);
 		}
 
 		#region Web Form Designer

@@ -168,12 +168,12 @@ namespace Novell.iFolderApp.Web
 				BindData();
 
 				// strings
-				HomeButton.Text = rm.GetString("HOME");
-				EntryPagging.LabelSingular = rm.GetString("ITEM");
-				EntryPagging.LabelPlural = rm.GetString("ITEMS");
-				NewFolderButton.Text = rm.GetString("CREATE");
-				UploadButton.Text = rm.GetString("UPLOAD");
-				DetailsButton.Text = rm.GetString("DETAILS");
+				HomeButton.Text = GetString("HOME");
+				EntryPagging.LabelSingular = GetString("ITEM");
+				EntryPagging.LabelPlural = GetString("ITEMS");
+				NewFolderButton.Text = GetString("CREATE");
+				UploadButton.Text = GetString("UPLOAD");
+				DetailsButton.Text = GetString("DETAILS");
 
 				// search pattern
 				ViewState["SearchPattern"] = null;
@@ -360,7 +360,7 @@ namespace Novell.iFolderApp.Web
 		/// <returns></returns>
 		protected string GetString(string key)
 		{
-			return rm.GetString(key);
+			return WebUtility.GetString(key, rm);
 		}
 
 		#region Web Form Designer
@@ -416,35 +416,35 @@ namespace Novell.iFolderApp.Web
 			{
 				case "iFolderFileDoesNotExistException":
 				case "iFolderEntryAlreadyExistException":
-					MessageBox.Text = rm.GetString("ENTRY.DIRALREADYEXISTS");
+					MessageBox.Text = GetString("ENTRY.DIRALREADYEXISTS");
 					break;
 
 				case "iFolderEntryInvalidCharactersException":
-					MessageBox.Text = rm.GetString("ENTRY.ENTRYINVALIDCHARACTERS");
+					MessageBox.Text = GetString("ENTRY.ENTRYINVALIDCHARACTERS");
 					break;
 
 				case "iFolderEntryInvalidNameException":
-					MessageBox.Text = rm.GetString("ENTRY.ENTRYINVALIDNAME");
+					MessageBox.Text = GetString("ENTRY.ENTRYINVALIDNAME");
 					break;
 
 				case "FileSizeException":
-					MessageBox.Text = rm.GetString("ENTRY.FILESIZEEXCEPTION");
+					MessageBox.Text = GetString("ENTRY.FILESIZEEXCEPTION");
 					break;
 
 				case "DiskQuotaException":
-					MessageBox.Text = rm.GetString("ENTRY.DISKQUOTAEXCEPTION");
+					MessageBox.Text = GetString("ENTRY.DISKQUOTAEXCEPTION");
 					break;
 
 				case "FileTypeException":
-					MessageBox.Text = rm.GetString("ENTRY.FILETYPEEXCEPTION");
+					MessageBox.Text = GetString("ENTRY.FILETYPEEXCEPTION");
 					break;
 
 				case "AccessException":
-					MessageBox.Text = rm.GetString("ENTRY.ACCESSEXCEPTION");
+					MessageBox.Text = GetString("ENTRY.ACCESSEXCEPTION");
 					break;
 
 				case "LockException":
-					MessageBox.Text = rm.GetString("ENTRY.LOCKEXCEPTION");
+					MessageBox.Text = GetString("ENTRY.LOCKEXCEPTION");
 					break;
 
 				default:
@@ -506,7 +506,7 @@ namespace Novell.iFolderApp.Web
 			if (name.Length == 0)
 			{
 				// no name
-				MessageBox.Text = rm.GetString("ENTRY.NOFOLDERNAME");
+				MessageBox.Text = GetString("ENTRY.NOFOLDERNAME");
 				return;
 			}
 
@@ -544,7 +544,7 @@ namespace Novell.iFolderApp.Web
 			if (filename.Length == 0)
 			{
 				// no file
-				MessageBox.Text = rm.GetString("ENTRY.NOUPLOADFILE");
+				MessageBox.Text = GetString("ENTRY.NOUPLOADFILE");
 
 				return;
 			}
@@ -577,7 +577,7 @@ namespace Novell.iFolderApp.Web
 				// check for an empty file
 				if (UploadFile.PostedFile.ContentLength == 0)
 				{
-					MessageBox.Text = rm.GetString("ENTRY.EMPTYFILE");
+					MessageBox.Text = GetString("ENTRY.EMPTYFILE");
 
 					return;
 				}

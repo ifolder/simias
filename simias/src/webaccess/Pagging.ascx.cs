@@ -176,10 +176,10 @@ namespace Novell.iFolderApp.Web
 			if (!IsPostBack)
 			{
 				// strings
-				FirstImage.ToolTip = FirstImageDisabled.ToolTip = rm.GetString("FIRST");
-				PreviousImage.ToolTip = PreviousImageDisabled.ToolTip = rm.GetString("PREVIOUS");
-				NextImage.ToolTip = NextImageDisabled.ToolTip = rm.GetString("NEXT");
-				LastImage.ToolTip = LastImageDisabled.ToolTip = rm.GetString("LAST");
+				FirstImage.ToolTip = FirstImageDisabled.ToolTip = GetString("FIRST");
+				PreviousImage.ToolTip = PreviousImageDisabled.ToolTip = GetString("PREVIOUS");
+				NextImage.ToolTip = NextImageDisabled.ToolTip = GetString("NEXT");
+				LastImage.ToolTip = LastImageDisabled.ToolTip = GetString("LAST");
 			}
 			else
 			{
@@ -204,7 +204,7 @@ namespace Novell.iFolderApp.Web
 		/// <returns></returns>
 		protected string GetString(string key)
 		{
-			return rm.GetString(key);
+			return WebUtility.GetString(key, rm);
 		}
 
 		#region Public Methods

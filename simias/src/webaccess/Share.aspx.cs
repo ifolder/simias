@@ -182,19 +182,19 @@ namespace Novell.iFolderApp.Web
 			if (!IsPostBack)
 			{
 				// strings
-				HomeButton.Text = rm.GetString("HOME");
-				UserPagging.LabelSingular = rm.GetString("USER");
-				UserPagging.LabelPlural = rm.GetString("USERS");
-				MemberPagging.LabelSingular = rm.GetString("MEMBER");
-				MemberPagging.LabelPlural = rm.GetString("MEMBERS");
-				SearchButton.Text = rm.GetString("SEARCH");
-				ShareButton.Text = rm.GetString("SHARE");
-				CancelButton.Text = rm.GetString("CANCEL");
-				CreateButton.Text = rm.GetString("CREATE");
+				HomeButton.Text = GetString("HOME");
+				UserPagging.LabelSingular = GetString("USER");
+				UserPagging.LabelPlural = GetString("USERS");
+				MemberPagging.LabelSingular = GetString("MEMBER");
+				MemberPagging.LabelPlural = GetString("MEMBERS");
+				SearchButton.Text = GetString("SEARCH");
+				ShareButton.Text = GetString("SHARE");
+				CancelButton.Text = GetString("CANCEL");
+				CreateButton.Text = GetString("CREATE");
 
 				// properties
-				SearchPropertyList.Items.Add(new ListItem(rm.GetString("FIRSTNAME"), SearchProperty.Name.ToString()));
-				SearchPropertyList.Items.Add(new ListItem(rm.GetString("LASTNAME"), SearchProperty.LastName.ToString()));
+				SearchPropertyList.Items.Add(new ListItem(GetString("FIRSTNAME"), SearchProperty.Name.ToString()));
+				SearchPropertyList.Items.Add(new ListItem(GetString("LASTNAME"), SearchProperty.LastName.ToString()));
 
 				// members
 				members = new Hashtable();
@@ -387,7 +387,7 @@ namespace Novell.iFolderApp.Web
 			switch(type)
 			{
 				case "AccessException":
-					MessageBox.Text = rm.GetString("ENTRY.ACCESSEXCEPTION");
+					MessageBox.Text = GetString("ENTRY.ACCESSEXCEPTION");
 					break;
 
 				default:
@@ -409,14 +409,7 @@ namespace Novell.iFolderApp.Web
 		/// <returns></returns>
 		protected string GetString(string key)
 		{
-			string result = rm.GetString(key);
-
-			if ((result == null) || (result.Length == 0))
-			{
-				result = key;
-			}
-
-			return result;
+			return WebUtility.GetString(key, rm);
 		}
 
 		#region Web Form Designer

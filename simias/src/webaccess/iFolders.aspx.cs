@@ -99,10 +99,10 @@ namespace Novell.iFolderApp.Web
 			if (!IsPostBack)
 			{
 				// strings
-				iFolderPagging.LabelSingular = rm.GetString("IFOLDER");
-				iFolderPagging.LabelPlural = rm.GetString("IFOLDERS");
-				NewiFolderLink.Text = rm.GetString("NEW");
-				SearchButton.Text = rm.GetString("SEARCH");
+				iFolderPagging.LabelSingular = GetString("IFOLDER");
+				iFolderPagging.LabelPlural = GetString("IFOLDERS");
+				NewiFolderLink.Text = GetString("NEW");
+				SearchButton.Text = GetString("SEARCH");
 
 				// search pattern
 				ViewState["SearchPattern"] = null;
@@ -176,7 +176,7 @@ namespace Novell.iFolderApp.Web
 		/// <returns></returns>
 		protected string GetString(string key)
 		{
-			return rm.GetString(key);
+			return WebUtility.GetString(key, rm);
 		}
 		
 		#region Web Form Designer
