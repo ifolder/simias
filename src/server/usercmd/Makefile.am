@@ -49,13 +49,19 @@ endif
 endif
 
 install-exec-local: all $(DATA_FILES)
-	$(mkinstalldirs) $(DESTDIR)$(bindir)
+	$(mkinstalldirs) $(DESTDIR)$(bindir) $(DESTDIR)$(libexecdir)/bin
+if WINDOWS	
 	$(INSTALL_PROGRAM) UserCmd.exe $(DEBUG_FILES) $(DESTDIR)$(bindir)
-#	$(INSTALL_PROGRAM) UserCmd.exe.exe.config $(DEBUG_FILES) $(DESTDIR)$(bindir)
+else
+	$(INSTALL_PROGRAM) UserCmd.exe $(DEBUG_FILES) $(DESTDIR)$(libexecdir)/bin
+endif
 
 uninstall-local:
+if WINDOWS	
 	cd $(DESTDIR)$(bindir); rm -f UserCmd.exe $(DEBUG_FILES)
-#	cd $(DESTDIR)$(bindir); rm -f UserCmd.exe.config
+else
+	cd $(DESTDIR)$(libexecdir)/bin; rm -f UserCmd.exe $(DEBUG_FILES)
+endif
 
 installcheck-local: install
 	
