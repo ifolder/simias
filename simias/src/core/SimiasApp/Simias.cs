@@ -166,7 +166,7 @@ namespace Mono.ASPNET
 		/// <summary>
 		/// Run Simias services in a client configuration.
 		/// </summary>
-		private bool runAsServer = false;
+		private bool runAsServer = true;
 
 		/// <summary>
 		/// Don't show Simias services console output.
@@ -845,9 +845,9 @@ namespace Mono.ASPNET
 						break;
 					}
 
-					case "--runasserver":
+					case "--runasclient":
 					{
-						runAsServer = true;
+						runAsServer = false;
 						break;
 					}
 
@@ -1342,13 +1342,12 @@ namespace Mono.ASPNET
 			Console.WriteLine( "        --noexec is specified." );
 			Console.WriteLine( "        Default value: None" );
 			Console.WriteLine();							
-			Console.WriteLine( "    --runasserver:" );
-			Console.WriteLine( "        Simias is to run in a server configuration." );
+			Console.WriteLine( "    --runasclient:" );
+			Console.WriteLine( "        Simias is to run in a client configuration." );
 			Console.WriteLine( "        Default value: None" );
 			Console.WriteLine();							
 			Console.WriteLine( "    --datadir [Path to Simias data directory]:" );
 			Console.WriteLine( "        Specifies the directory path where the Simias data will be stored." );
-			Console.WriteLine( "        This parameter is required if --runasserver is specified." );
 			Console.WriteLine( "        Default value: Shared simias data directory." );
 			Console.WriteLine( "            Windows: \"[SystemDrive:]\\Documents and Settings\\[UserName]" );
 			Console.WriteLine( "                       \\Local Settings\\Application Data\"" );
@@ -1629,7 +1628,7 @@ namespace Mono.ASPNET
 						MyEnvironment.DotNet ? String.Empty : ApplicationPath + " ",
 						port,
 						ipcPort,
-						runAsServer ? "--runasserver " : String.Empty,
+						runAsServer ? String.Empty : "--runasclient ",
 						simiasDataPath,
 						verbose ? " --verbose" : String.Empty,
 						( altAppPath != null ) ? " --addpath " + altAppPath : String.Empty );
