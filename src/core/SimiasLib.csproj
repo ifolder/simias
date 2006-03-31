@@ -114,621 +114,621 @@
         <Files>
             <Include>
                 <File
-                    RelPath = "src\ChangeLog\ChangeLog.cs"
+                    RelPath = "ChangeLog\ChangeLog.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\CollectionStore\AccessControl.cs"
+                    RelPath = "CollectionStore\AccessControl.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\CollectionStore\BaseFileNode.cs"
+                    RelPath = "CollectionStore\BaseFileNode.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\CollectionStore\Collection.cs"
+                    RelPath = "CollectionStore\Collection.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\CollectionStore\Collision.cs"
+                    RelPath = "CollectionStore\Collision.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\CollectionStore\DirNode.cs"
+                    RelPath = "CollectionStore\DirNode.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\CollectionStore\Domain.cs"
+                    RelPath = "CollectionStore\Domain.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\CollectionStore\EventSubscriber.cs"
+                    RelPath = "CollectionStore\EventSubscriber.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\CollectionStore\Exception.cs"
+                    RelPath = "CollectionStore\Exception.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\CollectionStore\FileNode.cs"
+                    RelPath = "CollectionStore\FileNode.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\CollectionStore\HostNode.cs"
+                    RelPath = "CollectionStore\HostNode.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\CollectionStore\ICSEnumerator.cs"
+                    RelPath = "CollectionStore\ICSEnumerator.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\CollectionStore\Identity.cs"
+                    RelPath = "CollectionStore\Identity.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\CollectionStore\LinkNode.cs"
+                    RelPath = "CollectionStore\LinkNode.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\CollectionStore\LocalDatabase.cs"
+                    RelPath = "CollectionStore\LocalDatabase.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\CollectionStore\Member.cs"
+                    RelPath = "CollectionStore\Member.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\CollectionStore\MultiValuedList.cs"
+                    RelPath = "CollectionStore\MultiValuedList.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\CollectionStore\Node.cs"
+                    RelPath = "CollectionStore\Node.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\CollectionStore\NodeCache.cs"
+                    RelPath = "CollectionStore\NodeCache.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\CollectionStore\Policy.cs"
+                    RelPath = "CollectionStore\Policy.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\CollectionStore\Property.cs"
+                    RelPath = "CollectionStore\Property.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\CollectionStore\PropertyList.cs"
+                    RelPath = "CollectionStore\PropertyList.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\CollectionStore\ShallowNode.cs"
+                    RelPath = "CollectionStore\ShallowNode.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\CollectionStore\Store.cs"
+                    RelPath = "CollectionStore\Store.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\CollectionStore\StoreFileNode.cs"
+                    RelPath = "CollectionStore\StoreFileNode.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\Common\CertificateStore.cs"
+                    RelPath = "Common\CertificateStore.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\Common\Configuration.cs"
+                    RelPath = "Common\Configuration.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\Common\Exception.cs"
+                    RelPath = "Common\Exception.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\Common\ISimiasLog.cs"
+                    RelPath = "Common\ISimiasLog.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\Common\MyDns.cs"
+                    RelPath = "Common\MyDns.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\Common\SimiasLog.cs"
+                    RelPath = "Common\SimiasLog.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\Common\SimiasLogManager.cs"
+                    RelPath = "Common\SimiasLogManager.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\Common\WebState.cs"
+                    RelPath = "Common\WebState.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\Credentials\Credentials.cs"
+                    RelPath = "Credentials\Credentials.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\Credentials\NeedCredentialsEventSubscriber.cs"
+                    RelPath = "Credentials\NeedCredentialsEventSubscriber.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\Domain\DomainAgent.cs"
+                    RelPath = "Domain\DomainAgent.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\Domain\WSInspection.cs"
+                    RelPath = "Domain\WSInspection.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\DomainProvider\DomainProvider.cs"
+                    RelPath = "DomainProvider\DomainProvider.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\DomainProvider\EnterpriseProvider.cs"
+                    RelPath = "DomainProvider\EnterpriseProvider.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\DomainProvider\IDomainProvider.cs"
+                    RelPath = "DomainProvider\IDomainProvider.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\DomainProvider\LocalProvider.cs"
+                    RelPath = "DomainProvider\LocalProvider.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\DomainWatcher\DomainWatcher.cs"
+                    RelPath = "DomainWatcher\DomainWatcher.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\DomainWatcher\Service.cs"
+                    RelPath = "DomainWatcher\Service.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\Encryption\Blowfish.cs"
+                    RelPath = "Encryption\Blowfish.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\Events\DefaultSubscriber.cs"
+                    RelPath = "Events\DefaultSubscriber.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\Events\EventBroker.cs"
+                    RelPath = "Events\EventBroker.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\Events\EventPublisher.cs"
+                    RelPath = "Events\EventPublisher.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\Events\IProcEventServer.cs"
+                    RelPath = "Events\IProcEventServer.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\Events\IProcEventSubscriber.cs"
+                    RelPath = "Events\IProcEventSubscriber.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\Events\NotifyEventSubscriber.cs"
+                    RelPath = "Events\NotifyEventSubscriber.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\FlaimProvider\FlaimError.cs"
+                    RelPath = "FlaimProvider\FlaimError.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\FlaimProvider\FlaimProvider.cs"
+                    RelPath = "FlaimProvider\FlaimProvider.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\FlaimProvider\FlaimRecord.cs"
+                    RelPath = "FlaimProvider\FlaimRecord.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\FlaimProvider\FlaimResultSet.cs"
+                    RelPath = "FlaimProvider\FlaimResultSet.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\FlaimProvider\FlaimServer.cs"
+                    RelPath = "FlaimProvider\FlaimServer.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\HttpAuthentication\AuthHandler.cs"
+                    RelPath = "HttpAuthentication\AuthHandler.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\HttpAuthentication\HttpAuth.cs"
+                    RelPath = "HttpAuthentication\HttpAuth.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\HttpAuthentication\IAuthService.cs"
+                    RelPath = "HttpAuthentication\IAuthService.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\Journal\Journal.cs"
+                    RelPath = "Journal\Journal.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\Login\Login.ashx"
+                    RelPath = "Login\Login.ashx"
                     BuildAction = "None"
                 />
                 <File
-                    RelPath = "src\Login\Login.ashx.cs"
+                    RelPath = "Login\Login.ashx.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\Notifications\Notification.cs"
+                    RelPath = "Notifications\Notification.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\POBox\Message.cs"
+                    RelPath = "POBox\Message.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\POBox\POBox.cs"
+                    RelPath = "POBox\POBox.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\POBox\POBoxServiceProxy.cs"
+                    RelPath = "POBox\POBoxServiceProxy.cs"
                     SubType = "code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\POBox\POService.cs"
+                    RelPath = "POBox\POService.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\POBox\Subscription.cs"
+                    RelPath = "POBox\Subscription.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\POBox\SubscriptionDetails.cs"
+                    RelPath = "POBox\SubscriptionDetails.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\POBox\SubscriptionInfo.cs"
+                    RelPath = "POBox\SubscriptionInfo.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\POBox\SubscriptionStatus.cs"
+                    RelPath = "POBox\SubscriptionStatus.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\POBox\SubscriptionThread.cs"
+                    RelPath = "POBox\SubscriptionThread.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\Policy\DiskSpaceQuota.cs"
+                    RelPath = "Policy\DiskSpaceQuota.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\Policy\FileSizeFilter.cs"
+                    RelPath = "Policy\FileSizeFilter.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\Policy\FileTypeFilter.cs"
+                    RelPath = "Policy\FileTypeFilter.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\Policy\SyncInterval.cs"
+                    RelPath = "Policy\SyncInterval.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\Service\IThreadService.cs"
+                    RelPath = "Service\IThreadService.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\Service\Manager.cs"
+                    RelPath = "Service\Manager.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\Service\Message.cs"
+                    RelPath = "Service\Message.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\Service\ServiceCtl.cs"
+                    RelPath = "Service\ServiceCtl.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\Service\ServiceType.cs"
+                    RelPath = "Service\ServiceType.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\Service\State.cs"
+                    RelPath = "Service\State.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\Service\ThreadServiceCtl.cs"
+                    RelPath = "Service\ThreadServiceCtl.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\Simias.Web\SharedCollection.cs"
+                    RelPath = "Simias.Web\SharedCollection.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\Simias.Web\SimiasBrowser.asmx"
+                    RelPath = "Simias.Web\SimiasBrowser.asmx"
                     BuildAction = "Content"
                 />
                 <File
-                    RelPath = "src\Simias.Web\SimiasBrowser.asmx.cs"
+                    RelPath = "Simias.Web\SimiasBrowser.asmx.cs"
                     DependentUpon = "SimiasBrowser.asmx"
                     SubType = "Component"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\Simias.Web\SimiasBrowser.asmx.resx"
+                    RelPath = "Simias.Web\SimiasBrowser.asmx.resx"
                     DependentUpon = "SimiasBrowser.asmx.cs"
                     BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "src\SimiasLib.dll\AssemblyInfo.cs"
+                    RelPath = "SimiasLib.dll\AssemblyInfo.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\SqliteProvider\SqliteProvider.cs"
+                    RelPath = "SqliteProvider\SqliteProvider.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\SqliteProvider\SqliteResultSet.cs"
+                    RelPath = "SqliteProvider\SqliteResultSet.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\SqliteProvider\SqliteWrapper\SqliteCommand.cs"
+                    RelPath = "SqliteProvider\SqliteWrapper\SqliteCommand.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\SqliteProvider\SqliteWrapper\SqliteConnection.cs"
+                    RelPath = "SqliteProvider\SqliteWrapper\SqliteConnection.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\SqliteProvider\SqliteWrapper\SqliteDataReader.cs"
+                    RelPath = "SqliteProvider\SqliteWrapper\SqliteDataReader.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\SqliteProvider\SqliteWrapper\SqliteParameter.cs"
+                    RelPath = "SqliteProvider\SqliteWrapper\SqliteParameter.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\SqliteProvider\SqliteWrapper\SqliteParameterCollection.cs"
+                    RelPath = "SqliteProvider\SqliteWrapper\SqliteParameterCollection.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\SqliteProvider\SqliteWrapper\SqliteTransaction.cs"
+                    RelPath = "SqliteProvider\SqliteWrapper\SqliteTransaction.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\Storage\BaseSchema.cs"
+                    RelPath = "Storage\BaseSchema.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\Storage\PropertyTags.cs"
+                    RelPath = "Storage\PropertyTags.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\Storage\Search.cs"
+                    RelPath = "Storage\Search.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\Storage\Syntax.cs"
+                    RelPath = "Storage\Syntax.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\Storage\XmlTags.cs"
+                    RelPath = "Storage\XmlTags.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\StoreProvider\IProvider.cs"
+                    RelPath = "StoreProvider\IProvider.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\StoreProvider\IResultSet.cs"
+                    RelPath = "StoreProvider\IResultSet.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\StoreProvider\Provider.cs"
+                    RelPath = "StoreProvider\Provider.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\StoreProvider\Query.cs"
+                    RelPath = "StoreProvider\Query.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\StoreProvider\Record.cs"
+                    RelPath = "StoreProvider\Record.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\Sync\ClientFile.cs"
+                    RelPath = "Sync\ClientFile.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\Sync\Conflict.cs"
+                    RelPath = "Sync\Conflict.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\Sync\FileMonitor.cs"
+                    RelPath = "Sync\FileMonitor.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\Sync\HashMap.cs"
+                    RelPath = "Sync\HashMap.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\Sync\Http.cs"
+                    RelPath = "Sync\Http.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\Sync\ServerFile.cs"
+                    RelPath = "Sync\ServerFile.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\Sync\StartSyncInfo.cs"
+                    RelPath = "Sync\StartSyncInfo.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\Sync\StreamStream.cs"
+                    RelPath = "Sync\StreamStream.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\Sync\StrongHash.cs"
+                    RelPath = "Sync\StrongHash.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\Sync\StrongWeakHashtable.cs"
+                    RelPath = "Sync\StrongWeakHashtable.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\Sync\SyncClient.cs"
+                    RelPath = "Sync\SyncClient.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\Sync\SyncEventSubscriber.cs"
+                    RelPath = "Sync\SyncEventSubscriber.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\Sync\SyncFile.cs"
+                    RelPath = "Sync\SyncFile.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\Sync\SyncLog.cs"
+                    RelPath = "Sync\SyncLog.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\Sync\SyncNode.cs"
+                    RelPath = "Sync\SyncNode.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\Sync\SyncPolicy.cs"
+                    RelPath = "Sync\SyncPolicy.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\Sync\SyncRoles.cs"
+                    RelPath = "Sync\SyncRoles.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\Sync\SyncService.cs"
+                    RelPath = "Sync\SyncService.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "src\Sync\WeakHash.cs"
+                    RelPath = "Sync\WeakHash.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
