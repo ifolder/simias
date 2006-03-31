@@ -108,6 +108,21 @@ namespace Novell.iFolderApp.Web
 		protected Literal iFolderSize;
 
 		/// <summary>
+		/// iFolder Member Count
+		/// </summary>
+		protected Literal iFolderMemberCount;
+
+		/// <summary>
+		/// iFolder File Count
+		/// </summary>
+		protected Literal iFolderFileCount;
+
+		/// <summary>
+		/// iFolder Folder Count
+		/// </summary>
+		protected Literal iFolderFolderCount;
+
+		/// <summary>
 		/// iFolder Connection
 		/// </summary>
 		private iFolderWeb web;
@@ -149,7 +164,7 @@ namespace Novell.iFolderApp.Web
 
 				// strings
 				HomeButton.Text = GetString("HOME");
-				ShareButton.Text = GetString("SHARE");
+				ShareButton.Text = GetString("ADD");
 				BrowseButton.Text = GetString("BROWSE");
 				MemberPagging.LabelSingular = GetString("MEMBER");
 				MemberPagging.LabelPlural = GetString("MEMBERS");
@@ -166,13 +181,16 @@ namespace Novell.iFolderApp.Web
 			try
 			{
 				// ifolder
-				iFolder ifolder = web.GetiFolder(ifolderID);
+				iFolderDetails ifolder = web.GetiFolderDetails(ifolderID);
 				iFolderContextName.Text = ifolder.Name;
 
 				iFolderName.Text = ifolder.Name;
 				iFolderDescription.Text = ifolder.Description;
 				iFolderOwner.Text = ifolder.OwnerName;
 				iFolderSize.Text = WebUtility.FormatSize(ifolder.Size, rm);
+				iFolderMemberCount.Text = ifolder.MemberCount.ToString();
+				iFolderFileCount.Text = ifolder.FileCount.ToString();
+				iFolderFolderCount.Text = ifolder.DirectoryCount.ToString();
 			}
 			catch(SoapException ex)
 			{

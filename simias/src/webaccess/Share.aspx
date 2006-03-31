@@ -128,7 +128,7 @@
 					
 						<div id="share-users">
 				
-							<div class="title"><%= GetString("AVAILABLEUSERS") %></div>
+							<div class="sub-title"><%= GetString("AVAILABLEUSERS") %></div>
 							
 							<asp:DataGrid
 								ID="UserData"
@@ -159,6 +159,11 @@
 											</div>
 										</itemtemplate>
 									</asp:TemplateColumn>
+									<asp:TemplateColumn ItemStyle-CssClass="name">
+										<itemtemplate>
+											&nbsp;
+										</itemtemplate>
+									</asp:TemplateColumn>
 								</columns>
 							</asp:DataGrid>
 								
@@ -170,7 +175,7 @@
 					
 						<div id="share-members">
 				
-							<div class="title"><%= GetString("SHAREWITH") %></div>
+							<div class="sub-title"><%= GetString("SHAREWITH") %></div>
 							
 							<asp:DataGrid
 								ID="MemberData"
@@ -199,6 +204,11 @@
 											<div visible='<%# !(bool)DataBinder.Eval(Container.DataItem, "Enabled") %>'  runat="server">
 												<%# DataBinder.Eval(Container.DataItem, "FullName") %>
 											</div>
+										</itemtemplate>
+									</asp:TemplateColumn>
+									<asp:TemplateColumn ItemStyle-CssClass="name">
+										<itemtemplate>
+											&nbsp;
 										</itemtemplate>
 									</asp:TemplateColumn>
 								</columns>

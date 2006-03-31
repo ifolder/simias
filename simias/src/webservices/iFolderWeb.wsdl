@@ -102,6 +102,31 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="GetiFolderDetails">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ifolderID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetiFolderDetailsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetiFolderDetailsResult" type="tns:iFolderDetails" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="iFolderDetails">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:iFolder">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="MemberCount" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="FileCount" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="DirectoryCount" type="s:int" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
       <s:element name="SetiFolderDescription">
         <s:complexType>
           <s:sequence>
@@ -592,6 +617,12 @@
   <wsdl:message name="GetiFolderSoapOut">
     <wsdl:part name="parameters" element="tns:GetiFolderResponse" />
   </wsdl:message>
+  <wsdl:message name="GetiFolderDetailsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetiFolderDetails" />
+  </wsdl:message>
+  <wsdl:message name="GetiFolderDetailsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetiFolderDetailsResponse" />
+  </wsdl:message>
   <wsdl:message name="SetiFolderDescriptionSoapIn">
     <wsdl:part name="parameters" element="tns:SetiFolderDescription" />
   </wsdl:message>
@@ -774,6 +805,11 @@
       <wsdl:input message="tns:GetiFolderSoapIn" />
       <wsdl:output message="tns:GetiFolderSoapOut" />
     </wsdl:operation>
+    <wsdl:operation name="GetiFolderDetails">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get iFolder Details</documentation>
+      <wsdl:input message="tns:GetiFolderDetailsSoapIn" />
+      <wsdl:output message="tns:GetiFolderDetailsSoapOut" />
+    </wsdl:operation>
     <wsdl:operation name="SetiFolderDescription">
       <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Set the Description of an iFolder</documentation>
       <wsdl:input message="tns:SetiFolderDescriptionSoapIn" />
@@ -945,6 +981,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetiFolder">
       <soap:operation soapAction="http://novell.com/ifolder/webservice/GetiFolder" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetiFolderDetails">
+      <soap:operation soapAction="http://novell.com/ifolder/webservice/GetiFolderDetails" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -1190,7 +1235,7 @@
   <wsdl:service name="iFolderWeb">
     <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">iFolder Web Service</documentation>
     <wsdl:port name="iFolderWebSoap" binding="tns:iFolderWebSoap">
-      <soap:address location="http://127.0.0.1:8086/simias10/iFolderWeb.asmx" />
+      <soap:address location="http://localhost:8086/simias10/iFolderWeb.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

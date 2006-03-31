@@ -176,6 +176,14 @@ div.section div.title
 	margin-bottom: 8px;
 }
 
+div.section div.sub-title
+{
+	color: #0066CC;
+	border-bottom: 2px solid #0066CC;
+	padding: 4px;
+	margin-bottom: 8px;
+}
+
 .highlight
 {
 	color: #003366;
@@ -196,6 +204,11 @@ td.label
 	color: #000000;
 	text-align: right;
 	padding-right: 8px;
+}
+
+td.seperator
+{
+	padding-left: 32px;
 }
 
 .entries

@@ -6,6 +6,7 @@ iFolderWebService_CSFILES = \
 	$(srcdir)/iFolderAdmin.asmx.cs \
 	$(srcdir)/iFolderWeb.asmx.cs \
 	$(srcdir)/iFolder.cs \
+	$(srcdir)/iFolderDetails.cs \
 	$(srcdir)/iFolderType.cs \
 	$(srcdir)/iFolderUser.cs \
 	$(srcdir)/iFolderUserDetails.cs \
