@@ -204,6 +204,32 @@ namespace iFolder.WebService
 		}
 		
 		/// <summary>
+		/// Get iFolder Details
+		/// </summary>
+		/// <param name="ifolderID">The iFolder ID</param>
+		/// <returns>An iFolderDetails Object</returns>
+		[WebMethod(
+			 Description="Get iFolder Details",
+			 EnableSession=true)]
+		public iFolderDetails GetiFolderDetails(string ifolderID)
+		{
+			iFolderDetails result = null;
+
+			try
+			{
+				Authorize();
+
+				result = iFolderDetails.GetiFolderDetails(ifolderID, null);
+			}
+			catch(Exception e)
+			{
+				SmartException.Throw(e);
+			}
+
+			return result;
+		}
+		
+		/// <summary>
 		/// Set the Description of an iFolder
 		/// </summary>
 		/// <param name="ifolderID">The iFolder ID</param>
@@ -970,7 +996,7 @@ namespace iFolder.WebService
 		/// </summary>
 		/// <param name="Username">Username (mandatory) short name of the user</param>
 		/// <param name="Password">Password (mandatory)</param>
-		/// <param name="UserGuild">UserGuid (optional) caller can specify the guid for the user</param>
+		/// <param name="UserGuid">UserGuid (optional) caller can specify the guid for the user</param>
 		/// <param name="FirstName">FirstName (optional) first/given name of the user</param>
 		/// <param name="LastName">LastName (optional) last/family name of the user</param>
 		/// <param name="FullName">FullName (optional) Fullname of the user</param>
@@ -1075,6 +1101,7 @@ namespace iFolder.WebService
 			
 			return status;
 		}
+
 		#endregion
 
 		#region LDAP Settings

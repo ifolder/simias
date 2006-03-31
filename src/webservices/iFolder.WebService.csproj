@@ -99,6 +99,11 @@
                     AssemblyName = "SimiasClient"
                     HintPath = "..\..\..\..\stage\web\bin\SimiasClient.dll"
                 />
+                <Reference
+                    Name = "Simias.Server"
+                    AssemblyName = "Simias.Server"
+                    HintPath = "..\server\Simias.Server\Simias.Server.dll"
+                />
             </References>
         </Build>
         <Files>
@@ -128,6 +133,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "IdentityPolicy.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "iFolder.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -146,6 +156,11 @@
                     RelPath = "iFolderAdmin.asmx.resx"
                     DependentUpon = "iFolderAdmin.asmx.cs"
                     BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "iFolderDetails.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
                 />
                 <File
                     RelPath = "iFolderEntry.cs"

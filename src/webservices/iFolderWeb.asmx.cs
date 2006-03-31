@@ -195,6 +195,30 @@ namespace iFolder.WebService
 		}
 		
 		/// <summary>
+		/// Get iFolder Details
+		/// </summary>
+		/// <param name="ifolderID">The iFolder ID</param>
+		/// <returns>An iFolderDetails Object</returns>
+		[WebMethod(
+			 Description="Get iFolder Details",
+			 EnableSession=true)]
+		public iFolderDetails GetiFolderDetails(string ifolderID)
+		{
+			iFolderDetails result = null;
+
+			try
+			{
+				result = iFolderDetails.GetiFolderDetails(ifolderID, GetAccessID());
+			}
+			catch(Exception e)
+			{
+				SmartException.Throw(e);
+			}
+
+			return result;
+		}
+		
+		/// <summary>
 		/// Set the Description of an iFolder
 		/// </summary>
 		/// <param name="ifolderID">The iFolder ID</param>

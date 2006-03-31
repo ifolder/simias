@@ -44,20 +44,29 @@
 					
 					<table>
 						<tr>
-							<td class="label"><%= GetString("NAME") %></td>
+							<td class="label"><%= GetString("NAME") %>:</td>
 							<td><asp:Literal ID="iFolderName" runat="server" /> ( <asp:HyperLink ID="BrowseButton" runat="server" /> )</td>
-						</tr>
-						<tr>
-							<td class="label"><%= GetString("DESCRIPTION") %></td>
-							<td><asp:Literal ID="iFolderDescription" runat="server" /></td>
-						</tr>
-						<tr>
-							<td class="label"><%= GetString("OWNER") %></td>
-							<td><asp:Literal ID="iFolderOwner" runat="server" /></td>
-						</tr>
-						<tr>
-							<td class="label"><%= GetString("SIZE") %></td>
+							<td class="seperator">&nbsp;</td>
+							<td class="label"><%= GetString("SIZE") %>:</td>
 							<td><asp:Literal ID="iFolderSize" runat="server" /></td>
+						</tr>
+						<tr>
+							<td class="label"><%= GetString("OWNER") %>:</td>
+							<td><asp:Literal ID="iFolderOwner" runat="server" /></td>
+							<td class="seperator">&nbsp;</td>
+							<td class="label"><%= GetString("FILES") %>:</td>
+							<td><asp:Literal ID="iFolderFileCount" runat="server" /></td>
+						</tr>
+						<tr>
+							<td class="label"><%= GetString("MEMBERS") %>:</td>
+							<td><asp:Literal ID="iFolderMemberCount" runat="server" /></td>
+							<td class="seperator">&nbsp;</td>
+							<td class="label"><%= GetString("FOLDERS") %>:</td>
+							<td><asp:Literal ID="iFolderFolderCount" runat="server" /></td>
+						</tr>
+						<tr>
+							<td class="label"><%= GetString("DESCRIPTION") %>:</td>
+							<td colspan="4"><asp:Literal ID="iFolderDescription" runat="server" /></td>
 						</tr>
 					</table>
 					

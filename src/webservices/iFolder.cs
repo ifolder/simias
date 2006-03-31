@@ -111,6 +111,38 @@ namespace iFolder.WebService
 		}
 
 		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <param name="c">The iFolder Collection</param>
+		/// <param name="accessID">The Access User ID</param>
+		protected iFolder(Collection c, string accessID)
+		{
+			// impersonate
+			Access.Rights rights = Impersonate(c, accessID);
+
+			this.ID = c.ID;
+			this.Name = c.Name;
+			this.Description = NodeUtility.GetStringProperty(c, PropertyTags.Description);
+			this.OwnerID = c.Owner.UserID;
+			this.Domain = c.Domain;
+			this.OwnerName = c.Owner.FN;
+			this.Size = c.StorageSize;
+			this.Rights = rights;
+			this.LastModified = NodeUtility.GetDateTimeProperty(c, PropertyTags.JournalModified);
+			this.Published = NodeUtility.GetBooleanProperty( c, PropertyTags.Published );
+
+			// paths
+			this.ManagedPath = c.ManagedPath;
+
+			DirNode dirNode = c.GetRootDirectory();
+			
+			if (dirNode != null)
+			{
+				this.UnManagedPath = dirNode.GetFullPath(c);
+			}
+		}
+
+		/// <summary>
 		/// Create an iFolder
 		/// </summary>
 		/// <param name="name">The iFolder Name</param>
@@ -127,7 +159,7 @@ namespace iFolder.WebService
 			Collection c = SharedCollection.CreateSharedCollection(
 				name, null, userID, iFolderCollectionType, true, null, description, accessID);
 
-			return GetiFolder(c, null);
+			return new iFolder(c, null);
 		}
 
 		/// <summary>
@@ -144,7 +176,7 @@ namespace iFolder.WebService
 			
 			if (c == null)  throw new iFolderDoesNotExistException(ifolderID);
 
-			return GetiFolder(c, accessID);
+			return new iFolder(c, accessID);
 		}
 
 		/// <summary>
@@ -161,7 +193,7 @@ namespace iFolder.WebService
 			
 			if (c == null)  throw new iFolderDoesNotExistException(ifolderName);
 
-			return GetiFolder(c, accessID);
+			return new iFolder(c, accessID);
 		}
 
 		/// <summary>
@@ -194,43 +226,6 @@ namespace iFolder.WebService
 			}
 
 			return rights;
-		}
-
-		/// <summary>
-		/// Get an iFolder
-		/// </summary>
-		/// <param name="c">The iFolder Collection</param>
-		/// <param name="accessID">The Access User ID</param>
-		/// <returns>An iFolder Object</returns>
-		private static iFolder GetiFolder(Collection c, string accessID)
-		{
-			// impersonate
-			Access.Rights rights = Impersonate(c, accessID);
-
-			iFolder ifolder = new iFolder();
-
-			ifolder.ID = c.ID;
-			ifolder.Name = c.Name;
-			ifolder.Description = NodeUtility.GetStringProperty(c, PropertyTags.Description);
-			ifolder.OwnerID = c.Owner.UserID;
-			ifolder.Domain = c.Domain;
-			ifolder.OwnerName = c.Owner.FN;
-			ifolder.Size = c.StorageSize;
-			ifolder.Rights = rights;
-			ifolder.LastModified = NodeUtility.GetDateTimeProperty(c, PropertyTags.JournalModified);
-			ifolder.Published = NodeUtility.GetBooleanProperty( c, PropertyTags.Published );
-
-			// paths
-			ifolder.ManagedPath = c.ManagedPath;
-
-			DirNode dirNode = c.GetRootDirectory();
-			
-			if (dirNode != null)
-			{
-				ifolder.UnManagedPath = dirNode.GetFullPath(c);
-			}
-
-			return ifolder;
 		}
 
 		/// <summary>
@@ -285,7 +280,7 @@ namespace iFolder.WebService
 				{
 					if ((i >= index) && (((count <= 0) || i < (count + index))))
 					{
-						list.Add(iFolder.GetiFolder(c, accessID));
+						list.Add(new iFolder(c, accessID));
 					}
 
 					++i;
@@ -394,7 +389,7 @@ namespace iFolder.WebService
 				{
 					if ((i >= index) && (((count <= 0) || i < (count + index))))
 					{
-						list.Add(iFolder.GetiFolder(c, accessID));
+						list.Add(new iFolder(c, accessID));
 					}
 
 					++i;
@@ -471,7 +466,7 @@ namespace iFolder.WebService
 				{
 					if ((i >= index) && (((count <= 0) || i < (count + index))))
 					{
-						list.Add(iFolder.GetiFolder(c, accessID));
+						list.Add(new iFolder(c, accessID));
 					}
 
 					++i;
