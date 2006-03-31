@@ -1,5 +1,6 @@
 <%@ Page language="c#" Codebehind="SystemInfo.aspx.cs" AutoEventWireup="false" Inherits="Novell.iFolderWeb.Admin.SystemInfo" %>
 <%@ Register TagPrefix="iFolder" TagName="TopNavigation" Src="TopNavigation.ascx" %>
+<%@ Register TagPrefix="iFolder" TagName="PageFooter" Src="PageFooter.ascx" %>
 <%@ Register TagPrefix="iFolder" TagName="Policy" Src="Policy.ascx" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
 <html>
@@ -77,7 +78,95 @@
 				</table>
 
 			</div>
-
+			
+			<div>
+		
+				<h3><%= GetString( "IFOLDERADMINS" ) %></h3>
+				
+				<table class="adminlistheader" cellpadding="0" cellspacing="0" border="0">
+			
+					<tr>
+						<td class="checkboxcolumn">
+							<asp:CheckBox 
+								ID="AllAdminsCheckBox" 
+								Runat="server" 
+								OnCheckedChanged="OnAllAdminsChecked" 
+								AutoPostBack="True" />
+						</td>
+					
+						<td class="typecolumn">
+							<%= GetString( "TYPE" ) %>
+						</td>
+						
+						<td class="usernamecolumn">
+							<%= GetString( "USERNAME" ) %>
+						</td>
+						
+						<td class="fullnamecolumn">
+							<%= GetString( "FULLNAME" ) %>
+						</td>
+					</tr>
+			
+				</table>
+				
+				<asp:datagrid 
+					id="AdminList" 
+					runat="server" 
+					AutoGenerateColumns="False" 
+					PageSize="9" 
+					CellPadding="0"
+					CellSpacing="0" 
+					GridLines="None" 
+					ShowHeader="False" 
+					CssClass="adminlist" 
+					AlternatingItemStyle-CssClass="adminlistaltitem" 
+					ItemStyle-CssClass="adminlistitem">
+					
+					<Columns>
+					
+						<asp:BoundColumn DataField="IDField" Visible="False" />
+						
+						<asp:TemplateColumn ItemStyle-CssClass="adminitem1">
+							<ItemTemplate>
+								<asp:CheckBox 
+									ID="AdminListCheckBox" 
+									Runat="server" 
+									OnCheckedChanged="OnAdminChecked" 
+									AutoPostBack="True" 
+									Visible='<%# DataBinder.Eval( Container.DataItem, "VisibleField" ) %>' 
+									Checked='<%# GetAdminCheckedState( DataBinder.Eval( Container.DataItem, "IDField" ) ) %>' />
+							</ItemTemplate>
+						</asp:TemplateColumn>
+						
+						<asp:TemplateColumn ItemStyle-CssClass="adminitem2">
+							<ItemTemplate>
+								<asp:Image 
+									ID="AdminListImage" 
+									Runat="server" 
+									ImageUrl="images/ifolder_admin.gif"
+									Visible='<%# DataBinder.Eval( Container.DataItem, "VisibleField" ) %>'/>
+							</ItemTemplate>
+						</asp:TemplateColumn>
+						
+						<asp:HyperLinkColumn 
+							ItemStyle-CssClass="adminitem3" 
+							DataTextField="NameField" 
+							DataNavigateUrlField="IDField"
+							DataNavigateUrlFormatString="UserDetails.aspx?id={0}" 
+							Target="_top" />
+							
+						<asp:BoundColumn ItemStyle-CssClass="adminitem4" DataField="FullNameField" />
+						
+					</Columns>
+					
+				</asp:datagrid>
+				
+				<ifolder:PageFooter ID="AdminListFooter" Runat="server" />
+				
+				<asp:Button ID="DeleteButton" Runat="server" CssClass="deleteadminbutton" Enabled="False" />
+					
+			</div>
+			
 		</div>
 		
 		<ifolder:Policy ID="Policy" Runat="server" />		

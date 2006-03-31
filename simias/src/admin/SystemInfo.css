@@ -41,3 +41,84 @@
 	width: 120%;
 	padding-left: .2em;
 }
+
+.adminlist
+{
+	clear: left;
+	width: 100%;
+}
+
+.adminlistheader
+{
+	clear: left;
+	border-top: solid 1px black;
+	border-bottom: solid 1px black;
+	border-collapse: collapse;
+	height: 1.5em;
+	width: 100%;
+}
+
+.adminlistheader td
+{
+	font-weight: bold;
+	font-size: 0.8em;
+	color: black;
+	background-color: #efeee9;
+}
+
+.adminlistheader .checkboxcolumn
+{
+	width: 2.5em;
+}
+
+.adminlistheader .typecolumn
+{
+	width: 4em;
+}
+
+.adminlistheader .usernamecolumn
+{
+	width: 12em;
+}
+
+.adminlistheader .fullnamecolumn
+{
+}
+
+.adminlistitem
+{
+	height: 1.5em;
+}
+
+.adminlistaltitem
+{ 
+	height: 1.5em;
+	background-color: #efeee9;
+}
+
+.adminitem1
+{
+	width: 2.3em;
+}
+
+.adminitem2
+{
+	width: 3em;
+	padding-left: .5em;
+}
+
+.adminitem3
+{
+	width: 10.5em;
+}
+
+.adminitem4
+{
+}
+
+.deleteadminbutton
+{
+	margin-top: .3em;
+	margin-bottom: 1em;
+	width: 4.5em;
+}
