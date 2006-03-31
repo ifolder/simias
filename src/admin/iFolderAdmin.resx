@@ -51,6 +51,9 @@
 	<data name="ADMIN">
 		<value>Admin</value>
 	</data>
+	<data name="ADMINISTRATOR">
+		<value>Administrator</value>
+	</data>
 	<data name="ADMINISTRATORS">
 		<value>Administrators</value>
 	</data>
@@ -197,6 +200,9 @@
 	</data>
 	<data name="IFOLDER">
 		<value>iFolder</value>
+	</data>
+	<data name="IFOLDERADMINS">
+		<value>iFolder Administrators</value>
 	</data>
 	<data name="IFOLDERDETAILS">
 		<value>iFolder Details</value>
