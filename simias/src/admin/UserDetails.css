@@ -2,13 +2,12 @@
 {
 	margin-top: 1em;
 	margin-bottom: 1em;
-	margin-right: 4px;
 }
 
 .detailinfo th
 {
 	text-align:left;
-	padding-right: 10px;
+	padding-right: .8em;
 	font-size: .8em;	
 }
 
@@ -21,23 +20,21 @@
 {
 	border-bottom: dotted 1px #999999;
 	float: left;
-	padding-bottom: 15px;
 	width: 100%;
-	min-width: 300px;
 }
 
 .userleftnav
 {
-	padding-right: 10px;
-	padding-left: 12px;
+	padding-right: .8em;
+	padding-left: 1em;
 	float: left;
-	width: 550px;
+	width: 39em;
 	border-right: 1px dotted #999999;
 }
 
 .ifolderlistdiv
 {
-	height: 21px;
+	height: 1.5em;
 	border-bottom: solid 1px Black;
 }
 
@@ -46,8 +43,8 @@ ul#ifolderlisttab
 	list-style-type: none;
 	margin: 0;
 	font-weight: bold;
-	font-size: 11px;
-	padding-left: 60px;
+	font-size: .75em;
+	padding-left: 6em;
 }
 
 ul#ifolderlisttab li
@@ -58,8 +55,8 @@ ul#ifolderlisttab li
 	border-right: solid 1px Black;
 	border-top: solid 1px Black;
 	color: Black;
-	margin: 2px 2px 0 2px;
-	width: 60px;
+	margin: .2em .2em 0 .2em;
+	width: 5.5em;
 	text-align: center;
 }
 
@@ -68,7 +65,7 @@ ul#ifolderlisttab a
 	display: block;
 	color: Black;
 	background-color: Transparent;
-	padding: 2px 2px 0 2px;
+	padding: .2em .2em 0 .2em;
 	text-decoration: none;
 }
 
@@ -99,17 +96,16 @@ div#shared li.sharedifolders a:link, div#shared li.sharedifolders a:visited
 	font-size: 0.8em;
 	background-color: #efeee9;
 	border-bottom: black 1px solid;
-	padding-bottom: 1px;
 }
 
 .ifolderlistitem
 {
-	height: 22px;
+	height: 1.5em;
 }
 
 .ifolderlistaltitem
 { 
-	height: 22px;
+	height: 1.5em;
 	background-color: #efeee9;
 }
 
@@ -125,22 +121,21 @@ div#shared li.sharedifolders a:link, div#shared li.sharedifolders a:visited
 
 .ifolderitem2 img
 {
-	padding-left: 4px;
+	padding-left: .3em;
 }
 
 .ifolderitem3
 {
-	width: 244px;
+	width: 22em;
 }
 
 .ifolderitem4
 {
-	width: 133px;
+	width: 12em;
 }
 
 .ifolderitem5
 {
-	width: 65px;
 }
 
 #DeleteiFolderButton

@@ -1,9 +1,9 @@
 .leftnav
 {
-	padding-right: 10px;
-	padding-left: 12px;
+	padding-right: .6em;
+	padding-left: 1em;
 	float: left;
-	width: 550px;
+	width: 39em;
 	border-right: 1px dotted #999999;
 }
 
@@ -11,15 +11,14 @@
 {
 	border-bottom: dotted 1px #999999;
 	float: left;
-	padding-bottom: 15px;
+	padding-bottom: 1em;
 	width: 100%;
-	min-width: 300px;
 }
 
 .detailinfo th
 {
 	text-align:left;
-	padding-right: 10px;
+	padding-right: .8em;
 	font-size: .8em;	
 }
 
@@ -32,7 +31,7 @@
 {
 	text-align: left;
 	width: 80%;
-	padding-left: 2px;
+	padding-left: .2em;
 }
 
 .ifoldermemberlist
@@ -45,7 +44,7 @@
 .ifoldermemberlistheader td
 {
 	border-bottom: solid 1px black;
-	padding-left: 2px;
+	padding-left: .1em;
 	font-weight: bold;
 	font-size: 0.8em;
 	color: black;
@@ -65,20 +64,20 @@
 
 .ifoldermembersitem1
 {
-	padding-left: 2px;
+	padding-left: .1em;
 	width: 2em;
 }
 
 .ifoldermembersitem2
 {
-	padding-top: 3px;
+	padding-top: .2em;
 	width: 3em;
 	text-align:center;
 }
 
 .ifoldermembersitem2 img
 {
-	padding-right: 6px;
+	padding-right: .8em;
 }
 
 .ifoldermembersitem3
@@ -94,34 +93,35 @@
 {
 	margin-top: 1em;
 	margin-bottom: 1em;
-	margin-right: 4px;
+	width: 4.5em;
+}
+
+.rightslist
+{
+	margin-top: 1em;
+	margin-bottom: 1em;
+	margin-right: .3em;
 }
 
 #MemberDeleteButton
 {
 	float:left;
-	width: 4.5em;
-	margin-left: 4px;
 }
 
 #MemberOwnerButton
 {
 	float: left;
-	width: 4.5em;
-	margin-left: 4px;
 }
 
 #MemberAddButton
 {
 	float:right;
-	width: 4.5em;
 	margin-right: 0;
 }
 
 #MemberRightsButton
 {
 	float: left;
-	width: 4.5em;
 }
 
 #DescriptionButton

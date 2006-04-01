@@ -77,7 +77,7 @@ namespace Novell.iFolderWeb.Admin
 		/// <summary>
 		/// Controls used to display and edit iFolder information.
 		/// </summary>
-		protected Literal Owner;
+		protected HyperLink Owner;
 
 		/// <summary>
 		/// Controls used to display and edit iFolder information.
@@ -216,6 +216,7 @@ namespace Novell.iFolderWeb.Admin
 			Name.Text = ifolder.Name;
 			Description.Text = ifolder.Description;
 			Owner.Text = ifolder.OwnerName;
+			Owner.NavigateUrl= String.Format( "UserDetails.aspx?id={0}", ifolder.OwnerID );
 			Size.Text = Utils.ConvertToUnitString( ifolder.Size, true, rm );
 			Shared.Text = ( TotaliFolderMembers > 1 ) ? Boolean.TrueString : Boolean.FalseString;
 		}
@@ -424,7 +425,7 @@ namespace Novell.iFolderWeb.Admin
 		/// <param name="e"></param>
 		protected void AddiFolderMembers( Object sender, EventArgs e )
 		{
-			Page.Response.Redirect( String.Format( "MemberSelect.aspx?ID={0}", iFolderID ), true );
+			Page.Response.Redirect( String.Format( "MemberSelect.aspx?op=addmember&id={0}", iFolderID ), true );
 		}
 
 		/// <summary>
@@ -480,6 +481,9 @@ namespace Novell.iFolderWeb.Admin
 			CheckedMembers.Clear();
 			MembersChecked = false;
 
+			// Disable the action buttons.
+			EnableMemberActionButtons = EnableOwnerActionButton = false;
+
 			// Rebind the data source with the new data.
 			GetiFolderMembers();
 		}
@@ -498,11 +502,15 @@ namespace Novell.iFolderWeb.Admin
 				string memberID = enumerator.Current as string;
 				web.SetiFolderOwner( iFolderID, memberID );
 				Owner.Text = CheckedMembers[ memberID ] as string;
+				Owner.NavigateUrl = String.Format( "UserDetails.aspx?id={0}", memberID );
 			}
 
 			// Clear the checked members.
 			CheckedMembers.Clear();
 			MembersChecked = false;
+
+			// Disable the action buttons.
+			EnableMemberActionButtons = EnableOwnerActionButton = false;
 
 			// Rebind the data source with the new data.
 			GetiFolderMembers();
@@ -523,6 +531,9 @@ namespace Novell.iFolderWeb.Admin
 			// Clear the checked members.
 			CheckedMembers.Clear();
 			MembersChecked = false;
+
+			// Disable the action buttons.
+			EnableMemberActionButtons = EnableOwnerActionButton = false;
 
 			// Rebind the data source with the new data.
 			GetiFolderMembers();

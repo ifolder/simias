@@ -153,7 +153,7 @@ namespace Novell.iFolderWeb.Admin
 			if ( !IsPostBack )
 			{
 				// Initialize the localized fields.
-				PolicyApplyButton.Text = GetString( "APPLY" );
+				PolicyApplyButton.Text = GetString( "SAVE" );
 				PolicyCancelButton.Text = GetString( "CANCEL" );
 
 				// Set the policy buttons to disabled on page load.

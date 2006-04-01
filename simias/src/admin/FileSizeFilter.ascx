@@ -2,7 +2,7 @@
 
 <div id="filesizenav">
 
-	<div class="policytitle"><%= GetString( "FILESIZEFILTER" ) %></div>
+	<div class="policytitle"><%= GetString( "FILESIZE" ) %></div>
 	
 	<div class="policydetails">
 	

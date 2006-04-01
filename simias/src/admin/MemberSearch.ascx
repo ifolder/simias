@@ -44,7 +44,8 @@
 	
 	<asp:Button 
 		ID="SearchButton" 
-		Runat="server" />
+		Runat="server"
+		CssClass="ifolderbuttons" />
 	
 </div>
 

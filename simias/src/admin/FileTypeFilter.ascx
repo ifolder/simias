@@ -3,7 +3,7 @@
 
 <div id="filetypenav">
 
-	<div class="policytitle"><%= GetString( "FILETYPEFILTER" ) %></div>
+	<div class="policytitle"><%= GetString( "EXCLUDEDFILES" ) %></div>
 	
 	<div class="policydetails">
 	
@@ -36,7 +36,7 @@
 				</td>
 				
 				<td class="enabledcolumn">
-					<%= GetString( "ENABLED" ) %>
+					<%= GetString( "STATUS" ) %>
 				</td>
 			</tr>
 	
@@ -92,19 +92,19 @@
 			Visible="False" />
 			
 		<asp:Button
-			ID="DisableButton"
+			ID="AllowButton"
 			Runat="server"
 			CssClass="filetypecontrolbutton"
 			Enabled="False"
-			OnClick="OnDisableFileType"
+			OnClick="OnAllowFileType"
 			Visible="False" />
 			
 		<asp:Button
-			ID="EnableButton"
+			ID="DenyButton"
 			Runat="server"
 			CssClass="filetypecontrolbutton"
 			Enabled="False"
-			OnClick="OnEnableFileType"
+			OnClick="OnDenyFileType"
 			Visible="False" />
 				
 	</div>

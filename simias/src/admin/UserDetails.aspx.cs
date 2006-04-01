@@ -543,7 +543,7 @@ namespace Novell.iFolderWeb.Admin
 		/// <param name="e"></param>
 		protected void OnCreateiFolder( object source, EventArgs e )
 		{
-			Page.Response.Redirect( String.Format( "MemberSelect.aspx?Owner={0}", UserID ), true );
+			Page.Response.Redirect( String.Format( "MemberSelect.aspx?op=createifolder&owner={0}", UserID ), true );
 		}
 
 		/// <summary>

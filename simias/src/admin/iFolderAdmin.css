@@ -2,7 +2,7 @@ body
 {
 	font-family: "Trebuchet MS", Arial, Helvetica, Geneva, Swiss, SunSans-Regular, sans-serif;
 	color: #000066;
-	margin: 10px;
+	margin: 1em;
 	padding: 0;
 	font-size: .9em;
 }
@@ -21,19 +21,17 @@ p, tr, td, ol, ul
 	width: 61em;
 }
 
+.ifolderbuttons
+{
+	width: 4.5em;
+}
+
 #top
 {
 	background-color: #0054A6;
 	background-image: url(images/banner-fill.png);
 	background-repeat: repeat-x;
-	height: 85px;
-}
-
-#top h1
-{
-	padding: 12 0 20 30px;
-	margin: 0;
-	color: #FFFFFF;
+	height: 5.9em;
 }
 
 .content
@@ -53,8 +51,8 @@ p, tr, td, ol, ul
 
 #detailtop
 {
-	padding: 2px 10px 6px;
-	margin-bottom: 2px;
+	padding: .2em .9em .4em;
+	margin-bottom: .2em;
 	color: #000099;
 	background-color: #99CCFF;
 	border-right: 1px solid #999999;
@@ -153,7 +151,6 @@ img
 
 .filetypelistheader td
 {
-	padding-left: 2px;
 	font-weight: bold;
 	font-size: 0.8em;
 	color: black;
@@ -172,19 +169,19 @@ img
 
 .filetypelistitem
 {
-	height: 22px;
+	height: 1.5em;
 }
 
 .filetypelistaltitem
 {
-	height: 22px;
+	height: 1.5em;
 	background-color: #efeee9;
 }
 
 .filetypeitem1
 {
-	padding-left: 2px;
-	width: 2em;
+	padding-left: .1em;
+	width: 1.8em;
 }
 
 .filetypeitem2
@@ -230,7 +227,7 @@ img
 .policytextbox
 {
 	text-align: right;
-	margin-left: 10px;
+	margin-left: 1.4em;
 	border-right: #f1efe2 thin solid;
 	border-top: #f1efe2 thin inset;
 	border-left: #f1efe2 thin inset;
@@ -258,9 +255,9 @@ ul#navcontainer
 	list-style-type: none;
 	margin: 0;
 	font-weight: bold;
-	font-size: 11px;
-	padding-left: 40px;
-	padding-top: 64px;
+	font-size: .75em;
+	padding-top: 5.9em;
+	padding-left: 25em;
 }
 
 ul#navcontainer li
@@ -268,8 +265,8 @@ ul#navcontainer li
 	float: left;
 	background-color:#EFEEE9;
 	color: Black;
-	margin: 2px 2px 0 2px;
-	width: 60px;
+	margin: .2em .2em 0 .2em;
+	width: 5.5em;
 	text-align: center;
 }
 
@@ -279,15 +276,15 @@ ul#navcontainer a
 	color: #333333;
 	background-color: Transparent;
 	text-decoration: none;
-	padding: 2px 2px 0 2px;
-	border-bottom: 1px solid #999999;
+	padding: .2em .2em 0 .2em;
+	border-bottom: .1em solid #999999;
 }
 
 ul#navcontainer a:hover
 {
 	background-color: #696969;
 	color: White;
-	padding: 2px 2px 0 2px;
+	padding: .2em .2em 0 .2em;
 }
 
 body#users li.users a, body#ifolders li.ifolders a, body#server li.server a, body#system li.system a
@@ -295,13 +292,12 @@ body#users li.users a, body#ifolders li.ifolders a, body#server li.server a, bod
 	color: Black;
 	background-color: #99CCFF;
 	border-bottom: 1px solid #99CCFF;
-	padding: 2px 2px 0 2px;
+	padding: .2em .2em 0 .2em;
 }
 
 #logo
 {
 	float: left;
-	width: 275px;
 }
 
 #searchbuttons
@@ -321,7 +317,7 @@ body#users li.users a, body#ifolders li.ifolders a, body#server li.server a, bod
 
 .footertable td
 {
-	padding-top: 5px;
+	padding-top: .4em;
 	text-align: center;
 }
 

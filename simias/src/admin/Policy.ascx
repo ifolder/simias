@@ -25,11 +25,11 @@
 	
 		<tr>
 			<td>
-				<asp:Button ID="PolicyApplyButton" Runat="server" />
+				<asp:Button ID="PolicyApplyButton" Runat="server" CssClass="ifolderbuttons" />
 			</td>
 			
 			<td>
-				<asp:Button ID="PolicyCancelButton" Runat="server" />
+				<asp:Button ID="PolicyCancelButton" Runat="server" CssClass="ifolderbuttons" />
 			</td>
 		</tr>
 		
