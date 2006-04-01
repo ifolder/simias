@@ -69,12 +69,12 @@ namespace Novell.iFolderWeb.Admin
 		/// <summary>
 		/// Button control.
 		/// </summary>
-		protected Button DisableButton;
+		protected Button AllowButton;
 
 		/// <summary>
 		/// Button control.
 		/// </summary>
-		protected Button EnableButton;
+		protected Button DenyButton;
 
 
 		/// <summary>
@@ -226,7 +226,7 @@ namespace Novell.iFolderWeb.Admin
 						dr = dt.NewRow();
 						dr[ 0 ] = true;
 						dr[ 1 ] = ftInfoList[ i ].RegExFileName;
-						dr[ 2 ] = ftInfoList[ i ].IsPending ? GetString( "PENDING" ) : ftInfoList[ i ].IsEnabled.ToString();
+						dr[ 2 ] = ftInfoList[ i ].IsPending ? GetString( "PENDING" ) : GetString( ftInfoList[ i ].IsEnabled ? "DENY" : "ALLOW" );
 						dr[ 3 ] = ftInfoList[ i ].FriendlyFileName;
 
 						dt.Rows.Add( dr );
@@ -313,7 +313,7 @@ namespace Novell.iFolderWeb.Admin
 		/// <returns></returns>
 		private bool IsFilterEnabled( UserPolicy policy, string fileType )
 		{
-			return ( Array.IndexOf( policy.FileTypesIncludes, fileType ) != -1 ) ? true : false;
+			return ( Array.IndexOf( policy.FileTypesIncludes, fileType ) == -1 ) ? true : false;
 		}
 
 		/// <summary>
@@ -324,7 +324,7 @@ namespace Novell.iFolderWeb.Admin
 		/// <returns></returns>
 		private bool IsFilterEnabled( iFolderPolicy policy, string fileType )
 		{
-			return ( Array.IndexOf( policy.FileTypesIncludes, fileType ) != -1 ) ? true : false;
+			return ( Array.IndexOf( policy.FileTypesIncludes, fileType ) == -1 ) ? true : false;
 		}
 
 		/// <summary>
@@ -342,8 +342,8 @@ namespace Novell.iFolderWeb.Admin
 				// Initialize the localized fields.
 				DeleteButton.Text = GetString( "DELETE" );
 				AddButton.Text = GetString( "ADD" );
-				EnableButton.Text = GetString( "ENABLE" );
-				DisableButton.Text = GetString( "DISABLE" );
+				DenyButton.Text = GetString( "DENY" );
+				AllowButton.Text = GetString( "ALLOW" );
 
 				// Initialize the state variables.
 				CurrentFileOffset = 0;
@@ -423,8 +423,8 @@ namespace Novell.iFolderWeb.Admin
 			}
 			else
 			{
-				DisableButton.Enabled = HasEnabledEntries && hasEntries;
-				EnableButton.Enabled = HasDisabledEntries && hasEntries;
+				AllowButton.Enabled = HasEnabledEntries && hasEntries;
+				DenyButton.Enabled = HasDisabledEntries && hasEntries;
 			}
 		}
 
@@ -475,11 +475,11 @@ namespace Novell.iFolderWeb.Admin
 		}
 
 		/// <summary>
-		/// Event handler that gets called when the disable file type button is clicked.
+		/// Event handler that gets called when the allow file type button is clicked.
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		protected void OnDisableFileType( Object sender, EventArgs e )
+		protected void OnAllowFileType( Object sender, EventArgs e )
 		{
 			// Get all of the values from the hashtable.
 			foreach( FileTypeInfo fti in FileTypeSource.Values )
@@ -492,7 +492,7 @@ namespace Novell.iFolderWeb.Admin
 
 			// Reset the all files check box.
 			AllFilesCheckBox.Checked = false;
-			DisableButton.Enabled = false;
+			AllowButton.Enabled = false;
 
 			// Refresh the policy view.
 			FileTypeList.DataSource = CreateFileTypeListView();
@@ -506,11 +506,11 @@ namespace Novell.iFolderWeb.Admin
 		}
 
 		/// <summary>
-		/// Event handler that gets called when the enable file type button is clicked.
+		/// Event handler that gets called when the deny file type button is clicked.
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		protected void OnEnableFileType( Object sender, EventArgs e )
+		protected void OnDenyFileType( Object sender, EventArgs e )
 		{
 			// Get all of the values from the hashtable.
 			foreach( FileTypeInfo fti in FileTypeSource.Values )
@@ -524,7 +524,7 @@ namespace Novell.iFolderWeb.Admin
 
 			// Reset the all files check box.
 			AllFilesCheckBox.Checked = false;
-			EnableButton.Enabled = false;
+			DenyButton.Enabled = false;
 
 			// Refresh the policy view.
 			FileTypeList.DataSource = CreateFileTypeListView();
@@ -593,8 +593,8 @@ namespace Novell.iFolderWeb.Admin
 					}
 					else
 					{
-						DisableButton.Enabled = HasEnabledEntries && hasEntries;
-						EnableButton.Enabled = HasDisabledEntries && hasEntries;
+						AllowButton.Enabled = HasEnabledEntries && hasEntries;
+						DenyButton.Enabled = HasDisabledEntries && hasEntries;
 					}
 				}
 			}
@@ -696,7 +696,7 @@ namespace Novell.iFolderWeb.Admin
 		public void GetFileTypePolicy( UserPolicy policy )
 		{
 			// Show the proper control buttons.
-			DisableButton.Visible = EnableButton.Visible = true;
+			AllowButton.Visible = DenyButton.Visible = true;
 
 			// Create a list from the file type policy.
 			FileTypeSource = CreateFileTypeSource( policy );
@@ -714,7 +714,7 @@ namespace Novell.iFolderWeb.Admin
 		public void GetFileTypePolicy( iFolderPolicy policy )
 		{
 			// Show the proper control buttons.
-			DisableButton.Visible = EnableButton.Visible = true;
+			AllowButton.Visible = DenyButton.Visible = true;
 
 			// Create a list from the file type policy.
 			FileTypeSource = CreateFileTypeSource( policy );

@@ -2,7 +2,7 @@
 
 <div id="top">
 
-	<div id="logo"><img src="images/if3sa-logo.png" width="275" height="85"></div>
+	<div id="logo"><img src="images/if3sa-logo.png"></div>
 	
 	<ul id="navcontainer">
 	

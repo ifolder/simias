@@ -98,9 +98,23 @@ namespace Novell.iFolderWeb.Admin
 		/// </summary>
 		protected Button DeleteButton;
 
+		/// <summary>
+		/// Add admin button control.
+		/// </summary>
+		protected Button AddButton;
+
 		#endregion
 
 		#region Properties
+
+		/// <summary>
+		/// Gets or sets the members that are checked in the list.
+		/// </summary>
+		private Hashtable CheckedMembers
+		{
+			get { return ViewState[ "CheckedMembers" ] as Hashtable; }
+			set { ViewState[ "CheckedMembers" ] = value; }
+		}
 
 		/// <summary>
 		/// Gets or sets the current admin offset.
@@ -109,6 +123,15 @@ namespace Novell.iFolderWeb.Admin
 		{
 			get { return ( int )ViewState[ "CurrentAdminOffset" ]; }
 			set { ViewState[ "CurrentAdminOffset" ] = value; }
+		}
+
+		/// <summary>
+		/// Gets or sets the super admin ID.
+		/// </summary>
+		private string SuperAdminID
+		{
+			get { return ViewState[ "SuperAdminID" ] as string; }
+			set { ViewState[ "SuperAdminID" ] = value; }
 		}
 
 		/// <summary>
@@ -202,6 +225,16 @@ namespace Novell.iFolderWeb.Admin
 		}
 
 		/// <summary>
+		/// Returns whether the specified ID is the super admin.
+		/// </summary>
+		/// <param name="id">User ID.</param>
+		/// <returns>True if User ID is super admin, otherwise false is returned.</returns>
+		private bool IsSuperAdmin( string id )
+		{
+			return ( SuperAdminID == id ) ? true : false;
+		}
+
+		/// <summary>
 		/// Page_Load
 		/// </summary>
 		/// <param name="sender"></param>
@@ -218,10 +251,17 @@ namespace Novell.iFolderWeb.Admin
 			{
 				// Initialize the localized fields.
 				DeleteButton.Text = GetString( "DELETE" );
+				AddButton.Text = GetString( "ADD" );
 
 				// Initialize state variables.
 				CurrentAdminOffset = 0;
 				TotalAdmins = 0;
+				AllAdminsCheckBox.Checked = false;
+				CheckedMembers = new Hashtable();
+
+				// Get the owner of the system.
+				iFolder domain = web.GetiFolder( web.GetSystem().ID );
+				SuperAdminID = domain.OwnerID;
 			}
 		}
 
@@ -266,7 +306,17 @@ namespace Novell.iFolderWeb.Admin
 		/// <returns></returns>
 		protected bool GetAdminCheckedState( object id )
 		{
-			return false;
+			return CheckedMembers.ContainsKey( id ) ? true : false;
+		}
+
+		/// <summary>
+		/// Gets whether the checkbox should be enabled for this admin user.
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
+		protected bool GetAdminEnabledState( object id )
+		{
+			return !IsSuperAdmin( id as string );
 		}
 
 		/// <summary>
@@ -280,12 +330,42 @@ namespace Novell.iFolderWeb.Admin
 		}
 
 		/// <summary>
+		/// Event handler that gets called when the add admin button is clicked.
+		/// </summary>
+		/// <param name="source"></param>
+		/// <param name="e"></param>
+		protected void OnAddButton_Click( object source, EventArgs e )
+		{
+			Response.Redirect( "MemberSelect.aspx?op=addadmin", true );
+		}
+
+		/// <summary>
 		/// Event handler that gets called when the admin checkbox is checked.
 		/// </summary>
 		/// <param name="source"></param>
 		/// <param name="e"></param>
 		protected void OnAdminChecked( object source, EventArgs e )
 		{
+			// Get the data grid row for this member.
+			CheckBox checkBox = source as CheckBox;
+			DataGridItem item = checkBox.Parent.Parent as DataGridItem;
+			string memberID = item.Cells[ 0 ].Text;
+			if ( memberID != "&nbsp;" )
+			{
+				// Member is being added.
+				if ( checkBox.Checked )
+				{
+					CheckedMembers[ memberID ] = item.Cells[ 4 ].Text;
+				}
+				else
+				{
+					// Remove this member from the list.
+					CheckedMembers.Remove( memberID );
+				}
+			}
+
+			// See if there are any checked members.
+			DeleteButton.Enabled = ( CheckedMembers.Count > 0 );
 		}
 
 		/// <summary>
@@ -295,6 +375,106 @@ namespace Novell.iFolderWeb.Admin
 		/// <param name="e"></param>
 		protected void OnAllAdminsChecked( object source, EventArgs e )
 		{
+			CheckBox checkBox = source as CheckBox;
+			foreach( DataGridItem item in AdminList.Items )
+			{
+				// In order to be checked, the row must not be empty.
+				string memberID = item.Cells[ 0 ].Text;
+				if ( memberID != "&nbsp;" )
+				{
+					if ( !IsSuperAdmin( memberID ) )
+					{
+						if ( checkBox.Checked )
+						{
+							CheckedMembers[ memberID ] = item.Cells[ 4 ].Text;
+						}
+						else
+						{
+							// Remove this member from the list.
+							CheckedMembers.Remove( memberID );
+						}
+					}
+				}
+			}
+
+			// See if there are any checked members.
+			DeleteButton.Enabled = ( CheckedMembers.Count > 0 );
+
+			// Rebind the data source with the new data.
+			GetiFolderAdminList();
+		}
+
+		/// <summary>
+		/// Event handler that gets called when the delete admin button is clicked.
+		/// </summary>
+		/// <param name="source"></param>
+		/// <param name="e"></param>
+		protected void OnDeleteButton_Click( object source, EventArgs e )
+		{
+			foreach( string memberID in CheckedMembers.Keys )
+			{
+				web.RemoveAdministrator( memberID );
+			}
+
+			// Clear the checked members.
+			CheckedMembers.Clear();
+			AllAdminsCheckBox.Checked = false;
+
+			// Disable the action buttons.
+			DeleteButton.Enabled = false;
+
+			// Rebind the data source with the new data.
+			GetiFolderAdminList();
+		}
+
+		/// <summary>
+		/// Event that first when the PageFirstButton is clicked.
+		/// </summary>
+		/// <param name="source"></param>
+		/// <param name="e"></param>
+		protected void PageFirstButton_Click( object source, ImageClickEventArgs e)
+		{
+			// Set to get the first admins.
+			CurrentAdminOffset = 0;
+			GetiFolderAdminList();
+		}
+
+		/// <summary>
+		/// Event that first when the PagePreviousButton is clicked.
+		/// </summary>
+		/// <param name="source"></param>
+		/// <param name="e"></param>
+		protected void PagePreviousButton_Click( object source, ImageClickEventArgs e)
+		{
+			CurrentAdminOffset -= AdminList.PageSize;
+			if ( CurrentAdminOffset < 0 )
+			{
+				CurrentAdminOffset = 0;
+			}
+
+			GetiFolderAdminList();
+		}
+
+		/// <summary>
+		/// Event that first when the PageNextButton is clicked.
+		/// </summary>
+		/// <param name="source"></param>
+		/// <param name="e"></param>
+		protected void PageNextButton_Click( object source, ImageClickEventArgs e)
+		{
+			CurrentAdminOffset += AdminList.PageSize;
+			GetiFolderAdminList();
+		}
+
+		/// <summary>
+		/// Event that first when the PageLastButton is clicked.
+		/// </summary>
+		/// <param name="source"></param>
+		/// <param name="e"></param>
+		protected void PageLastButton_Click( object source, ImageClickEventArgs e)
+		{
+			CurrentAdminOffset = ( ( TotalAdmins - 1 ) / AdminList.PageSize ) * AdminList.PageSize;
+			GetiFolderAdminList();
 		}
 
 		#endregion
@@ -324,6 +504,11 @@ namespace Novell.iFolderWeb.Admin
 				// Set the render event to happen only on page load.
 				Page.PreRender += new EventHandler( Page_PreRender );
 			}
+
+			AdminListFooter.PageFirstClick += new ImageClickEventHandler( PageFirstButton_Click );
+			AdminListFooter.PagePreviousClick += new ImageClickEventHandler( PagePreviousButton_Click );
+			AdminListFooter.PageNextClick += new ImageClickEventHandler( PageNextButton_Click );
+			AdminListFooter.PageLastClick += new ImageClickEventHandler( PageLastButton_Click );
 
 			this.Load += new System.EventHandler(this.Page_Load);
 		}

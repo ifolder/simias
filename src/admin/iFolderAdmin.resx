@@ -45,9 +45,6 @@
 	<data name="ADD">
 		<value>Add</value>
 	</data>
-	<data name="ADDMEMBERS">
-		<value>Add Users</value>
-	</data>
 	<data name="ADMIN">
 		<value>Admin</value>
 	</data>
@@ -62,9 +59,6 @@
 	</data>
 	<data name="ALLOW">
 		<value>Allow</value>
-	</data>
-	<data name="APPLY">
-		<value>Apply</value>
 	</data>
 	<data name="ASSIGNADMINISTRATORS">
 		<value>Assign Administrators</value>
@@ -102,11 +96,11 @@
 	<data name="DELETE">
 		<value>Delete</value>
 	</data>
+	<data name="DENY">
+		<value>Deny</value>
+	</data>
 	<data name="DESCRIPTIONTAG">
 		<value>Description:</value>
-	</data>
-	<data name="DISABLE">
-		<value>Disable</value>
 	</data>
 	<data name="DISKQUOTA">
 		<value>Disk Quota</value>
@@ -116,9 +110,6 @@
 	</data>
 	<data name="ELLIPSES">
 		<value> . . .</value>
-	</data>
-	<data name="ENABLE">
-		<value>Enable</value>
 	</data>
 	<data name="ENABLED">
 		<value>Enabled</value>
@@ -153,6 +144,9 @@
 	<data name="ERRORINSTRUCTIONS">
 		<value>&lt;p&gt;iFolder Web Access has experience an unexpected error.&lt;/p&gt; &lt;p&gt;We apologize for any inconvenience and request that you log out and try again.&lt;/p&gt;</value>
 	</data>
+	<data name="EXCLUDEDFILES">
+		<value>Excluded Files</value>
+	</data>
 	<data name="FILE">
 		<value>File</value>
 	</data>
@@ -162,11 +156,8 @@
 	<data name="FILES">
 		<value>Files</value>
 	</data>
-	<data name="FILESIZEFILTER">
-		<value>File Size Filter</value>
-	</data>
-	<data name="FILETYPEFILTER">
-		<value>File Type Filter</value>
+	<data name="FILESIZE">
+		<value>File Size</value>
 	</data>
 	<data name="FIRST">
 		<value>First</value>
@@ -414,6 +405,9 @@
 	<data name="SELECTEDUSERS">
 		<value>Selected Users</value>
 	</data>
+	<data name="SELECTUSERS">
+		<value>Select Users</value>
+	</data>
 	<data name="SERVERS">
 		<value>Servers</value>
 	</data>
@@ -437,6 +431,9 @@
 	</data>
 	<data name="SPANISH">
 		<value>Spanish</value>
+	</data>
+	<data name="STATUS">
+		<value>Status</value>
 	</data>
 	<data name="SYNCHRONIZATION">
 		<value>Synchronization</value>

@@ -25,6 +25,7 @@ using System.Collections;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Net;
 using System.Resources;
 using System.Web;
 using System.Web.SessionState;
@@ -58,6 +59,17 @@ namespace Novell.iFolderWeb.Admin
 		private const int SelectedMember_ImageCell    = 2;
 		private const int SelectedMember_UserNameCell = 3;
 		private const int SelectedMember_FullNameCell = 4;
+
+
+		/// <summary>
+		/// Operations
+		/// </summary>
+		private enum PageOp
+		{
+			AddMember,
+			AddAdmin,
+			CreateiFolder
+		}
 
 
 		/// <summary>
@@ -166,14 +178,6 @@ namespace Novell.iFolderWeb.Admin
 		#region Properties
 
 		/// <summary>
-		/// Gets if an ifolder is to be created.
-		/// </summary>
-		private bool IsCreateiFolder
-		{
-			get { return ( iFolderID == null ) ? true : false; }
-		}
-
-		/// <summary>
 		/// Gets or sets the current user offset.
 		/// </summary>
 		private int CurrentUserOffset
@@ -212,7 +216,16 @@ namespace Novell.iFolderWeb.Admin
 		/// </summary>
 		private string iFolderID
 		{
-			get { return Request.Params[ "ID" ]; } 
+			get 
+			{ 
+				string param = Request.Params[ "id" ];
+				if ( ( param == null ) || ( param == String.Empty ) )
+				{
+					throw new HttpException( ( int )HttpStatusCode.BadRequest, "No ifolder was specified." );
+				}
+
+				return param;
+			} 
 		}
 
 		/// <summary>
@@ -225,11 +238,52 @@ namespace Novell.iFolderWeb.Admin
 		}
 
 		/// <summary>
+		/// Gets the operation to perform for this web page.
+		/// </summary>
+		private PageOp Operation
+		{
+			get
+			{
+				string param = Request.Params[ "op" ];
+				if ( ( param != null ) && ( param != String.Empty ) )
+				{
+					switch ( param.ToLower() )
+					{
+						case "addmember":
+							return PageOp.AddMember;
+
+						case "addadmin":
+							return PageOp.AddAdmin;
+
+						case "createifolder":
+							return PageOp.CreateiFolder;
+
+						default:
+							throw new HttpException( ( int )HttpStatusCode.BadRequest, "An invalid operation was specified." );
+					}
+				}
+				else
+				{
+					throw new HttpException( ( int ) HttpStatusCode.BadRequest, "No operation was specified." );
+				}
+			}
+		}
+
+		/// <summary>
 		/// Gets the owner of the iFolder.
 		/// </summary>
 		private string Owner
 		{
-			get { return Request.Params[ "Owner" ]; }
+			get 
+			{ 
+				string param = Request.Params[ "owner" ];
+				if ( ( param == null ) || ( param == String.Empty ) )
+				{
+					throw new HttpException( ( int )HttpStatusCode.BadRequest, "No owner was specified." );
+				}
+
+				return param;
+			}
 		}
 
 		/// <summary>
@@ -299,6 +353,23 @@ namespace Novell.iFolderWeb.Admin
 		#endregion
 
 		#region Private Methods
+
+		/// <summary>
+		/// Creates a list of existing admins.
+		/// </summary>
+		/// <returns></returns>
+		private Hashtable CreateExistingAdminList()
+		{
+			int total;
+			iFolderUser[] adminList = web.GetAdministrators( 0, 0, out total );
+			Hashtable ht = new Hashtable( total );
+			foreach( iFolderUser admin in adminList )
+			{
+				ht[ admin.UserID ] = new MemberInfo( admin.UserID, admin.UserName, admin.FullName );
+			}
+
+			return ht;
+		}
 
 		/// <summary>
 		/// Creates a list of existing members.
@@ -564,31 +635,43 @@ namespace Novell.iFolderWeb.Admin
 				// Initialize the localized fields.
 				OkButton.Text = GetString( "OK" );
 				CancelButton.Text = GetString( "CANCEL" );
+				NameLabel.Text = GetString( "NAMETAG" );
+				DescriptionLabel.Text = GetString( "DESCRIPTIONTAG" );
 
-				AddButton.Attributes.Add( "title", GetString( "ADDMEMBERS" ) );
-				AddDisabledButton.Attributes.Add( "title", GetString( "ADDMEMBERS" ) );
+				AddButton.Attributes.Add( "title", GetString( "SELECTUSERS" ) );
+				AddDisabledButton.Attributes.Add( "title", GetString( "SELECTUSERS" ) );
 				RemoveButton.Attributes.Add( "title", GetString( "REMOVEMEMBERS" ) );
 				RemoveDisabledButton.Attributes.Add( "title", GetString( "REMOVEMEMBERS" ) );
 
-				// If no ifolder ID was specified, assume that an ifolder needs to be created.
-				if ( IsCreateiFolder )
+				switch ( Operation )
 				{
-					NameLabel.Text = GetString( "NAMETAG" );
-					DescriptionLabel.Text = GetString( "DESCRIPTIONTAG" );
-					Description.Value = String.Empty;
+					case PageOp.CreateiFolder:
+					{
+						CreateiFolderDiv.Visible = true;
+						ExistingMemberList = CreateNewMemberList();
+						SetFocus( Name );
+						break;
+					}
 
-					CreateiFolderDiv.Visible = true;
-					ExistingMemberList = CreateNewMemberList();
-				}
-				else
-				{
-					CreateiFolderDiv.Visible = false;
-					ExistingMemberList = CreateExistingMemberList();
+					case PageOp.AddMember:
+					{
+						CreateiFolderDiv.Visible = false;
+						ExistingMemberList = CreateExistingMemberList();
+						break;
+					}
+
+					case PageOp.AddAdmin:
+					{
+						CreateiFolderDiv.Visible = false;
+						ExistingMemberList = CreateExistingAdminList();
+						break;
+					}
 				}
 
 				// Initialize state variables.
 				MembersChecked = false;
 				SelectedMembersChecked = false;
+				Description.Value = String.Empty;
 
 				MembersToAdd = new Hashtable();
 				MembersToRemove = new Hashtable();
@@ -597,12 +680,6 @@ namespace Novell.iFolderWeb.Admin
 				CurrentUserOffset = 0;
 				SelectedUserOffset = 0;
 				TotalUsers = 0;
-
-				// Set the focus to the iFolder name if creating an ifolder.
-				if ( IsCreateiFolder )
-				{
-					SetFocus( Name );
-				}
 			}
 		}
 
@@ -693,7 +770,7 @@ namespace Novell.iFolderWeb.Admin
 			MemberList.DataBind();
 
 			// Enable the ok button, if not creating an ifolder.
-			if ( !IsCreateiFolder )
+			if ( Operation != PageOp.CreateiFolder )
 			{
 				OkButton.Enabled = ( ht.Count > 0 ) ? true : false;
 			}
@@ -949,27 +1026,53 @@ namespace Novell.iFolderWeb.Admin
 		/// <param name="e"></param>
 		protected void OkButton_Clicked( Object sender, EventArgs e )
 		{
-			// Check if an ifolder needs to be created.
-			string ifolderID;
-			if ( IsCreateiFolder )
+			// See which operation needs to be performed based on the query string.
+			switch ( Operation )
 			{
-				// Create the iFolder.
-				iFolder ifolder = web.CreateiFolder( Name.Text, Owner, Description.Value );
-				ifolderID = ifolder.ID;
-			}
-			else
-			{
-				// Get the ifolder ID from the request.
-				ifolderID = iFolderID;
-			}
-
-			// Add the selected users to the ifolder.
-			foreach( MemberInfo mi in SelectedMemberSource.Values )
-			{
-				// Check to see if this user is already a member.
-				if ( !IsExistingMember( mi.UserID ) )
+				case PageOp.CreateiFolder:
 				{
-					web.AddMember( ifolderID, mi.UserID, Rights.ReadOnly );
+					// Create the iFolder.
+					iFolder ifolder = web.CreateiFolder( Name.Text, Owner, Description.Value );
+
+					// Add the selected users to the ifolder.
+					foreach( MemberInfo mi in SelectedMemberSource.Values )
+					{
+						// Check to see if this user is already a member.
+						if ( !IsExistingMember( mi.UserID ) )
+						{
+							web.AddMember( ifolder.ID, mi.UserID, Rights.ReadOnly );
+						}
+					}
+					break;
+				}
+
+				case PageOp.AddMember:
+				{
+					// Add the selected users to the ifolder.
+					string id = iFolderID;
+					foreach( MemberInfo mi in SelectedMemberSource.Values )
+					{
+						// Check to see if this user is already a member.
+						if ( !IsExistingMember( mi.UserID ) )
+						{
+							web.AddMember( id, mi.UserID, Rights.ReadOnly );
+						}
+					}
+					break;
+				}
+
+				case PageOp.AddAdmin:
+				{
+					// Add the selected users as admins.
+					foreach( MemberInfo mi in SelectedMemberSource.Values )
+					{
+						// Check to see if this user is already a member.
+						if ( !IsExistingMember( mi.UserID ) )
+						{
+							web.AddAdministrator( mi.UserID );
+						}
+					}
+					break;
 				}
 			}
 			
@@ -1026,7 +1129,7 @@ namespace Novell.iFolderWeb.Admin
 			MemberList.DataBind();
 
 			// Enable the ok button, if not creating an ifolder.
-			if ( !IsCreateiFolder )
+			if ( Operation != PageOp.CreateiFolder )
 			{
 				OkButton.Enabled = ( ht.Count > 0 ) ? true : false;
 			}

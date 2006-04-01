@@ -68,7 +68,7 @@
 		
 		</div>
 				
-		<h3 class="headertitle"><%= GetString( "ADDMEMBERS" ) %></h3>
+		<h3 class="headertitle"><%= GetString( "SELECTUSERS" ) %></h3>
 	
 		<iFolder:MemberSearch ID="MemberSearch" Runat="server" />
 	
@@ -252,9 +252,9 @@
 		
 		<div class="okcancelnav">
 		
-			<asp:Button ID="OkButton" Runat="server" Enabled="False" OnClick="OkButton_Clicked" />
+			<asp:Button ID="OkButton" Runat="server" CssClass="ifolderbuttons" Enabled="False" OnClick="OkButton_Clicked" />
 			
-			<asp:Button ID="CancelButton" Runat="server" OnClick="CancelButton_Clicked" />
+			<asp:Button ID="CancelButton" Runat="server" CssClass="ifolderbuttons" OnClick="CancelButton_Clicked" />
 			
 		</div>
 		

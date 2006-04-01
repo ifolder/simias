@@ -61,7 +61,8 @@
 							<asp:Button 
 								ID="DescriptionButton" 
 								Runat="server" 
-								Enabled="False" 
+								CssClass="ifolderbuttons"
+								Enabled="False"
 								OnClick="SaveDescription" />
 						</td>
 					</tr>
@@ -72,7 +73,10 @@
 						</th>
 
 						<td>
-							<asp:Literal ID="Owner" Runat="server" />
+							<asp:HyperLink 
+								ID="Owner" 
+								Runat="server" 
+								Target="_top" />
 						</td>
 					</tr>
 					
@@ -175,8 +179,8 @@
 
 				<asp:DropDownList 
 					ID="MemberRightsList" 
-					Runat="server" 
-					CssClass="actionbuttons" 
+					Runat="server"
+					CssClass="rightslist"
 					Enabled="False">
 			
 					<asp:ListItem></asp:ListItem>

@@ -13,7 +13,6 @@
 {
 	margin-top: .5em;
 	border-top: solid 1px black;
-	border-bottom: solid 1px black;
 	width: 100%;
 }
 
@@ -24,8 +23,8 @@
 	font-size: 0.8em;  
 	background-color: #efeee9;
 	border-bottom: 1px solid black;	
-	padding-bottom: 1px;
-	padding-left: 4px;
+	padding-bottom: .1em;
+	padding-left: .4em;
 }
 
 .accountslistitem
@@ -35,7 +34,7 @@
 
 .accountslistitem td
 {
-	padding-left: 4px;
+	padding-left: .4em;
 }
 
 .accountslistaltitem
@@ -46,7 +45,7 @@
 
 .accountslistaltitem td
 {
-	padding-left: 4px;
+	padding-left: .4em;
 }
 
 .accountsitem1
@@ -56,7 +55,7 @@
 
 .accountsitem1 img
 {
-	padding-left: 4px;
+	padding-left: .3em;
 }
 
 .accountsitem2

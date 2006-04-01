@@ -91,7 +91,7 @@
 								ID="AllAdminsCheckBox" 
 								Runat="server" 
 								OnCheckedChanged="OnAllAdminsChecked" 
-								AutoPostBack="True" />
+								AutoPostBack="True"	/>
 						</td>
 					
 						<td class="typecolumn">
@@ -134,7 +134,8 @@
 									OnCheckedChanged="OnAdminChecked" 
 									AutoPostBack="True" 
 									Visible='<%# DataBinder.Eval( Container.DataItem, "VisibleField" ) %>' 
-									Checked='<%# GetAdminCheckedState( DataBinder.Eval( Container.DataItem, "IDField" ) ) %>' />
+									Checked='<%# GetAdminCheckedState( DataBinder.Eval( Container.DataItem, "IDField" ) ) %>'
+									Enabled='<%# GetAdminEnabledState( DataBinder.Eval( Container.DataItem, "IDField" ) ) %>' />
 							</ItemTemplate>
 						</asp:TemplateColumn>
 						
@@ -163,7 +164,18 @@
 				
 				<ifolder:PageFooter ID="AdminListFooter" Runat="server" />
 				
-				<asp:Button ID="DeleteButton" Runat="server" CssClass="deleteadminbutton" Enabled="False" />
+				<asp:Button 
+					ID="DeleteButton" 
+					Runat="server" 
+					CssClass="deleteadminbutton" 
+					Enabled="False"
+					OnClick="OnDeleteButton_Click" />
+				
+				<asp:Button 
+					ID="AddButton" 
+					Runat="server" 
+					CssClass="addadminbutton"
+					OnClick="OnAddButton_Click" />
 					
 			</div>
 			

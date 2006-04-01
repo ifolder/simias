@@ -118,6 +118,15 @@
 
 .deleteadminbutton
 {
+	float: left;
+	margin-top: .3em;
+	margin-bottom: 1em;
+	width: 4.5em;
+}
+
+.addadminbutton
+{
+	float: right;
 	margin-top: .3em;
 	margin-bottom: 1em;
 	width: 4.5em;
