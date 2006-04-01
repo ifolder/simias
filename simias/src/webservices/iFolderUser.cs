@@ -438,11 +438,21 @@ namespace iFolder.WebService
 
 			ICSList members = domain.GetMembersByRights(Access.Rights.Admin);
 			
+			// sort the list
+			ArrayList sortList = new ArrayList();
+			
+			foreach(ShallowNode sn in members)
+			{
+				sortList.Add(sn);
+			}
+			
+			sortList.Sort();
+
 			// build the result list
 			ArrayList list = new ArrayList();
 			int i = 0;
 
-			foreach(ShallowNode sn in members)
+			foreach(ShallowNode sn in sortList)
 			{
 				if ((i >= index) && (((count <= 0) || i < (count + index))))
 				{
