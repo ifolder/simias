@@ -47,7 +47,7 @@ iFolderWebService_LIBS = System.dll System.Data.dll $(SYSTEM_XML) System.Web.dll
 endif
 iFolderWebService_LIBPATH = $(LOG4NET_DIR) ../core/SimiasClient ../core/SimiasLib.dll ../server/Simias.Server
 
-EXTRA_DIST =  AssemblyInfo.cs.in $(iFolderWebService_WEBFILES) $(iFolderWebService_CSFILES)
+EXTRA_DIST =  AssemblyInfo.cs.in $(iFolderWebService_WEBFILES) $(iFolderWebService_CSFILES) iFolderAdmin.wsdl iFolderWeb.wsdl
 
 if MAKE_DOC_FILE
 DOC_FILE = $(basename $@).doc.xml
