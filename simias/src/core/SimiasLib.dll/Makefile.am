@@ -20,7 +20,7 @@ else
 	SIMIAS_LIBS = $(SIMIAS_LIBS1)
 endif
 
-EXTRA_DIST = $(srcdir)/SimiasLib.dll.sources $(SIMIAS_CSFILES) ../Common/Simias.log4net ../Common/Simias.config.in ../Common/defaults.conifg.in ../Common/MyDns.cs.in ../Login/Login.ashx SimiasLib.dll.config.in AssemblyInfo.cs.in SimiasLib.conf simias.pc.in
+EXTRA_DIST = $(srcdir)/SimiasLib.dll.sources $(SIMIAS_CSFILES) ../Common/Simias.log4net ../Common/Simias.config.in ../Common/defaults.config.in ../Common/MyDns.cs.in ../Login/Login.ashx SimiasLib.dll.config.in AssemblyInfo.cs.in SimiasLib.conf simias.pc.in
 
 if MAKE_DOC_FILE
 DOC_FILE = $(basename $@).doc.xml
