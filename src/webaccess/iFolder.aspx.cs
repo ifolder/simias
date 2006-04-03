@@ -83,9 +83,34 @@ namespace Novell.iFolderApp.Web
 		protected Literal iFolderContextName;
 
 		/// <summary>
-		/// The Share Button
+		/// The Add Button
 		/// </summary>
-		protected HyperLink ShareButton;
+		protected HyperLink AddButton;
+
+		/// <summary>
+		/// The Remove Button
+		/// </summary>
+		protected LinkButton RemoveButton;
+
+		/// <summary>
+		/// The Read Only Button
+		/// </summary>
+		protected LinkButton ReadOnlyButton;
+
+		/// <summary>
+		/// The Read/Write Button
+		/// </summary>
+		protected LinkButton ReadWriteButton;
+
+		/// <summary>
+		/// The Admin Button
+		/// </summary>
+		protected LinkButton AdminButton;
+
+		/// <summary>
+		/// The Owner Button
+		/// </summary>
+		protected LinkButton OwnerButton;
 
 		/// <summary>
 		/// iFolder Name
@@ -159,12 +184,17 @@ namespace Novell.iFolderApp.Web
 				BindData();
 
 				// url
-				ShareButton.NavigateUrl = "Share.aspx?iFolder=" + ifolderID;
+				AddButton.NavigateUrl = "Share.aspx?iFolder=" + ifolderID;
 				BrowseButton.NavigateUrl = "Entries.aspx?iFolder=" + ifolderID;
 
 				// strings
 				HomeButton.Text = GetString("HOME");
-				ShareButton.Text = GetString("ADD");
+				AddButton.Text = GetString("ADD");
+				RemoveButton.Text = GetString("REMOVE");
+				ReadOnlyButton.Text = GetString("RIGHTS.READONLY");
+				ReadWriteButton.Text = GetString("RIGHTS.READWRITE");
+				AdminButton.Text = GetString("RIGHTS.ADMIN");
+				OwnerButton.Text = GetString("OWNER");
 				BrowseButton.Text = GetString("BROWSE");
 				MemberPagging.LabelSingular = GetString("MEMBER");
 				MemberPagging.LabelPlural = GetString("MEMBERS");
@@ -210,6 +240,7 @@ namespace Novell.iFolderApp.Web
 
 			// member
 			DataTable memberTable = new DataTable();
+			memberTable.Columns.Add("UserID");
 			memberTable.Columns.Add("Name");
 			memberTable.Columns.Add("Rights");
 
@@ -224,6 +255,7 @@ namespace Novell.iFolderApp.Web
 				{
 					DataRow row = memberTable.NewRow();
 
+					row["UserID"] = member.UserID;
 					row["Name"] = member.FullName;
 					row["Rights"] = WebUtility.FormatRights(member.Rights, rm);
 
@@ -352,6 +384,11 @@ namespace Novell.iFolderApp.Web
 			this.Load += new System.EventHandler(this.Page_Load);
 			this.MemberPagging.PageChange += new EventHandler(MemberPagging_PageChange);
 			this.HistoryPagging.PageChange += new EventHandler(HistoryPagging_PageChange);
+			this.RemoveButton.Click += new EventHandler(RemoveButton_Click);
+			this.ReadOnlyButton.Click += new EventHandler(ReadOnlyButton_Click);
+			this.ReadWriteButton.Click += new EventHandler(ReadWriteButton_Click);
+			this.AdminButton.Click += new EventHandler(AdminButton_Click);
+			this.OwnerButton.Click += new EventHandler(OwnerButton_Click);
 		}
 
 		#endregion
@@ -374,6 +411,142 @@ namespace Novell.iFolderApp.Web
 		private void HistoryPagging_PageChange(object sender, EventArgs e)
 		{
 			BindHistoryData();
+		}
+
+		/// <summary>
+		/// Get the Selected Members
+		/// </summary>
+		/// <returns>A comma-delimited list of member user ids.</returns>
+		private string GetSelectedMembers()
+		{
+			string memberList = null;
+
+			// selected members
+			foreach(DataGridItem item in MemberData.Items)
+			{
+				CheckBox checkBox = (CheckBox) item.FindControl("Select");
+
+				if (checkBox.Checked)
+				{
+					string id = item.Cells[0].Text;
+
+					if (memberList == null)
+					{
+						memberList = id;
+					}
+					else
+					{
+						memberList = String.Format("{0},{1}", memberList, id);
+					}
+				}
+			}
+
+			return memberList;
+		}
+
+		/// <summary>
+		/// Remove Button
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void RemoveButton_Click(object sender, EventArgs e)
+		{
+			string memberList = GetSelectedMembers();
+
+			// remove members
+			if (memberList != null)
+			{
+				try
+				{
+					web.RemoveMember(ifolderID, memberList);
+				}
+				catch(SoapException ex)
+				{
+					HandleException(ex);
+				}
+
+				MemberPagging.Index = 0;
+				BindMemberData();
+			}
+		}
+
+		/// <summary>
+		/// Set Rights
+		/// </summary>
+		/// <param name="rights"></param>
+		private void SetRights(Rights rights)
+		{
+			string memberList = GetSelectedMembers();
+
+			// remove members
+			if (memberList != null)
+			{
+				try
+				{
+					web.SetMemberRights(ifolderID, memberList, rights);
+				}
+				catch(SoapException ex)
+				{
+					HandleException(ex);
+				}
+
+				BindMemberData();
+			}
+		}
+
+		/// <summary>
+		/// Read Only Button
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void ReadOnlyButton_Click(object sender, EventArgs e)
+		{
+			SetRights(Rights.ReadOnly);
+		}
+
+		/// <summary>
+		/// Read/Write Button
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void ReadWriteButton_Click(object sender, EventArgs e)
+		{
+			SetRights(Rights.ReadWrite);
+		}
+
+		/// <summary>
+		/// Admin Button
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void AdminButton_Click(object sender, EventArgs e)
+		{
+			SetRights(Rights.Admin);
+		}
+
+		/// <summary>
+		/// Owner Button
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void OwnerButton_Click(object sender, EventArgs e)
+		{
+			string ownerID = GetSelectedMembers();
+
+			// remove members
+			if (ownerID != null)
+			{
+				try
+				{
+					web.SetiFolderOwner(ifolderID, ownerID);
+				}
+				catch(SoapException ex)
+				{
+					HandleException(ex);
+				}
+
+				BindMemberData();
+			}
 		}
 	}
 }
