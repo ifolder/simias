@@ -24,7 +24,7 @@ else
 	UserCmd_LIBS := $(UserCmd_LIBS1)
 endif
 
-EXTRA_DIST = $(UserCmd_CSFILES) UserCmd.exe.config AssemblyInfo.cs.in simias-create-user.in simias-delete-user.in
+EXTRA_DIST = $(UserCmd_CSFILES) AssemblyInfo.cs.in simias-create-user.in simias-delete-user.in
 
 AssemblyInfo.cs: $(srcdir)/AssemblyInfo.cs.in Makefile
 	sed -e 's,@_VERSION_@,@VERSION@,g' $< > $@
