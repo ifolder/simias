@@ -81,9 +81,15 @@
 				<div class="content">
 					
 					<div class="actions">
-						<asp:HyperLink ID="ShareButton" runat="server" />
+						<asp:HyperLink ID="AddButton" runat="server" />
 						|
-						Remove
+						<asp:LinkButton ID="RemoveButton" runat="server" />
+						|
+						<%= GetString("SETRIGHTS") %>:
+						<asp:LinkButton ID="ReadOnlyButton" runat="server" />,
+						<asp:LinkButton ID="ReadWriteButton" runat="server" />,
+						<asp:LinkButton ID="AdminButton" runat="server" />,
+						<asp:LinkButton ID="OwnerButton" runat="server" />
 					</div>
 				
 					<asp:DataGrid
@@ -96,9 +102,11 @@
 						
 						<columns>
 						
+							<asp:BoundColumn DataField="UserID" Visible="false" />
+							
 							<asp:TemplateColumn ItemStyle-CssClass="cb">
 								<itemtemplate>
-									<asp:CheckBox runat="server" />
+									<asp:CheckBox ID="Select" runat="server" />
 								</itemtemplate>
 							</asp:TemplateColumn>
 							

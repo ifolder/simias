@@ -579,6 +579,8 @@ namespace Novell.iFolderApp.Web
 				{
 					MessageBox.Text = GetString("ENTRY.EMPTYFILE");
 
+					BindEntriesData();
+
 					return;
 				}
 
