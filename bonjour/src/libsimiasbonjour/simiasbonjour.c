@@ -160,6 +160,52 @@ ResolveCollectionInfoCallback(
 static
 void
 DNSSD_API
+QueryRecordCallback(
+	DNSServiceRef		client, 
+	DNSServiceFlags		flags, 
+	uint32_t				ifIndex, 
+	DNSServiceErrorType errorCode,
+	const char			*pFullName,
+	uint16_t				rrtype,
+	uint16_t				rrclass,
+	uint16_t				recordLen,
+	const void			*pRecord,
+	uint32_t				ttl,
+	void					*pContext)
+{
+	int i;
+	char address[16];
+	unsigned char *pBufPtr;
+	
+	// Send the raw resource record back to the client
+	printf( "QueryRecordCallback %s\n", pFullName );
+	
+	printf( "record length: %u\n", recordLen );
+	
+	pBufPtr = (unsigned char *) pRecord;
+	
+	if ( recordLen == 4 )
+	{
+		sprintf( 
+			address, 
+			"%u.%u.%u.%u",
+			(unsigned char) *pBufPtr,
+			(unsigned char) *(pBufPtr + 1),
+			(unsigned char) *(pBufPtr + 2),
+			(unsigned char) *(pBufPtr + 3) );
+			
+		printf( "address: %s\n", address );
+		strcpy( (char *) pContext, address ); 
+	}
+	else
+	{
+		memcpy( pContext, pRecord, recordLen );
+	}
+}
+
+static
+void
+DNSSD_API
 ResolveInfoCallback(
 	DNSServiceRef		client, 
 	DNSServiceFlags		flags, 
@@ -497,6 +543,107 @@ DeregisterCollection(
 {
 	DNSServiceRefDeallocate( Cookie );
 	return 0;
+}
+
+DNSServiceErrorType
+DNSSD_API 
+GetHostAddress(
+	char				*pHost,
+	char				*pHostAddress)
+{
+	DNSServiceErrorType err;
+	DNSServiceRef		client = NULL;
+	MemberInfoCtx2		infoCtx;
+
+	// Valid Parameters?
+	if ( pHost == NULL || pHostAddress == NULL )
+	{
+		return kDNSServiceErr_BadParam;
+	}
+
+	printf( "calling DNSServiceQueryRecord\n" );
+	err =
+		DNSServiceQueryRecord(
+			&client,
+			0,
+			kDNSServiceInterfaceIndexAny,
+			pHost,
+			kDNSServiceType_A,
+			kDNSServiceClass_IN,
+			QueryRecordCallback,
+			pHostAddress );
+
+	if ( err == kDNSServiceErr_NoError )
+	{
+		fd_set				readfds;
+		int					dns_sd_fd;
+		int					nfds;
+		int					result;
+		int					stop = 0;
+		struct timeval		tv;
+
+		dns_sd_fd = DNSServiceRefSockFD( client );
+		if ( dns_sd_fd == -1 )
+		{
+			return kDNSServiceErr_NotInitialized;
+		}
+
+		nfds = dns_sd_fd + 1;
+		while ( !stop )
+		{
+			// 1. Set up the fd_set as usual here.
+			// This example client has no file descriptors of its own,
+			// but a real application would call FD_SET to add them to the set here
+			FD_ZERO( &readfds );
+
+			// 2. Add the fd for our client(s) to the fd_set
+			FD_SET( dns_sd_fd, &readfds );
+
+			// 3. Set up the timeout.
+			tv.tv_sec = 10; // this resolve should succeed quickly
+			tv.tv_usec = 0;
+
+			err = kDNSServiceErr_NoError;
+			result = select( nfds, &readfds, (fd_set*) NULL, (fd_set*) NULL, &tv );
+			if ( result > 0 )
+			{
+				if ( FD_ISSET( dns_sd_fd , &readfds ) )
+				{	
+					err = DNSServiceProcessResult( client );
+					if ( err == kDNSServiceErr_NoError )
+					{
+						/*
+						err = infoCtx.CBError;
+						if ( err == kDNSServiceErr_NoError )
+						{
+							stop = 1;
+						}
+						*/
+						
+						stop = 1;
+					}
+				}
+
+				if ( err != kDNSServiceErr_NoError ) 
+				{ 
+					//fprintf( stderr, "DNSServiceProcessResult returned %d\n", err );
+					stop = 1;
+				}
+			}
+			else
+			{
+				//printf("select() returned %d errno %d %s\n", result, errno, strerror( errno ) );
+				if ( errno != EINTR )
+				{
+					stop = 1;
+				}
+			}
+		}
+
+		DNSServiceRefDeallocate( client );
+	}
+
+	return err;
 }
 
 
