@@ -245,7 +245,17 @@ namespace MemberBrowser
 						if ( current.Ticks > ( member.LastUpdate.Ticks + (10000 * 1000 * 60) ) )
 						{
 							member.LastUpdate = current;
-							IPHostEntry host = Dns.GetHostByName( member.Host );
+							IPHostEntry host = null;
+							try
+							{
+								host = Dns.GetHostByName( member.Host );
+							}
+							catch( Exception he )
+							{
+								Console.WriteLine( he.Message );
+								Console.WriteLine( he.StackTrace );
+							}
+							
 							if ( host != null )
 							{
 								long addr = host.AddressList[0].Address;
@@ -267,7 +277,17 @@ namespace MemberBrowser
 					}
 					else
 					{
-						IPHostEntry host = Dns.GetHostByName( member.Host );
+						IPHostEntry host = null;
+						
+						try
+						{
+							host = Dns.GetHostByName( member.Host );
+						}
+						catch( Exception he )
+						{
+							Console.WriteLine( he.Message );
+						}
+						
 						if ( host != null )
 						{
 							long addr = host.AddressList[0].Address;
