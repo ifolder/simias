@@ -433,6 +433,7 @@ namespace Simias.DomainServices
 			domainService.Credentials = myCred;
 			domainService.PreAuthenticate = true;
 			domainService.Proxy = ProxyState.GetProxyState( domainServiceUrl );
+			domainService.AllowAutoRedirect = true;
 
 			// Check to see if this domain already exists in this store.
 			string domainID = domainService.GetDomainID();

@@ -141,6 +141,12 @@ namespace Simias.Client
 		/// <returns>The certificate as a byte array.</returns>
 		public static CertificateState GetCertificate(string host)
 		{
+#if MONO
+			// Fix for Bug 156874 - Linux client doesn't support connecting to servers with non-default ports
+			// Russ and I saw cases where a full Uri was being passed in on a GetCertificate.  If that happens,
+			// this code will parse just the host out which will allow the code to find the cert it's looking for.
+			host = GetHostFromUri(host);
+#endif
 			CertificateState cs = CertTable[host] as CertificateState;
 			if (cs != null)
 			{
@@ -192,6 +198,34 @@ namespace Simias.Client
 				}
 			}
 			return honorCert;
+		}
+
+		#endregion
+		
+		#region Private Methods
+
+		// This method was taken as a direct copy from CertificateStore.cs
+		private static string GetHostFromUri( string uriString )
+		{
+			string host = uriString;
+
+			try
+			{
+				if ( uriString.StartsWith( Uri.UriSchemeHttp ) )
+				{
+					Uri uri = new Uri( uriString );
+					host = uri.Host;
+				}
+				else
+				{
+					Uri uri = new Uri( Uri.UriSchemeHttp + Uri.SchemeDelimiter + uriString );
+					host = uri.Host;
+				}
+			}
+			catch
+			{}
+
+			return host;
 		}
 
 		#endregion
