@@ -105,7 +105,7 @@ namespace Novell.iFolderApp.Web
 			// NOTE: always reset the UI culture code
 			Thread.CurrentThread.CurrentUICulture = Thread.CurrentThread.CurrentCulture;
 
-			if ((Context.Request != null) && (Request.UserLanguages.Length > 0))
+			if ((Context.Request != null) && (Request.UserLanguages != null) && (Request.UserLanguages.Length > 0))
 			{
 				// set the code
 				try
