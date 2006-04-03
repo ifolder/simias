@@ -197,6 +197,17 @@ namespace MemberBrowser
 		static 
 		kErrorType
 		BrowseMembers( int handle, int timeout );
+		
+		[ DllImport( nativeLib, CharSet=CharSet.Ansi ) ]
+		private 
+		extern 
+		static 
+		kErrorType
+		GetHostAddress(
+			[MarshalAs(UnmanagedType.LPStr)] string	Host,
+			[MarshalAs( UnmanagedType.LPStr)] [In, Out] string Address);
+		    //ref MemberInfo Info);
+		
 		#endregion
 
 		private bool MemberManager()
@@ -277,6 +288,19 @@ namespace MemberBrowser
 					}
 					else
 					{
+						// New school host address
+						Console.WriteLine( "Calling new school GetHostAddress" );
+						try
+						{
+							string address = "";
+							GetHostAddress( member.Host, address ); 
+							Console.WriteLine( address );
+						}
+						catch( Exception e )
+						{
+							Console.WriteLine( e.Message );
+						}
+					
 						IPHostEntry host = null;
 						
 						try
