@@ -23,16 +23,22 @@
 	width: 100%;
 }
 
-.userleftnav
+.leftnav
 {
 	padding-right: .8em;
 	padding-left: 1em;
 	float: left;
 	width: 39em;
+	height: 39.5em;
 	border-right: 1px dotted #999999;
 }
 
-.ifolderlistdiv
+.ifolderlistnav
+{
+	float: left;
+}
+
+.ifoldertabnav
 {
 	height: 1.5em;
 	border-bottom: solid 1px Black;

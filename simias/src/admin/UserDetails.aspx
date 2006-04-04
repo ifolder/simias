@@ -27,7 +27,7 @@
 	
 	<iFolder:TopNavigation ID="TopNav" Runat="server" />
 	
-	<div class="userleftnav">
+	<div class="leftnav">
 	
 		<div class="detailnav">
 		
@@ -68,11 +68,11 @@
 			
 		</div>
 		
-		<div>
+		<div class="ifolderlistnav">
 		
 			<h3><%= GetString( "IFOLDERS" ) %></h3>
 			
-				<div id="CurrentTab" runat="server" class="ifolderlistdiv">
+				<div id="CurrentTab" runat="server" class="ifoldertabnav">
 				
 					<ul id="ifolderlisttab">
 					

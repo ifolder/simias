@@ -1,6 +1,8 @@
 .nav
 {
-	padding: 1em;
+	padding-left: 1em;
+	padding-bottom: 1em;
+	padding-right: 1em;
 	float: left;
 }
 
@@ -10,9 +12,10 @@
 	padding-bottom: .5em;
 }
 
-.ifolderssnav
+.ifoldersnav
 {
-	width: 35em;
+	width: 100%;
+	margin-top: .5em;
 }
 
 .ifolderlist

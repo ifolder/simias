@@ -125,18 +125,18 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "DefaultPage.aspx"
+                    RelPath = "Default.aspx"
                     BuildAction = "Content"
                 />
                 <File
-                    RelPath = "DefaultPage.aspx.cs"
-                    DependentUpon = "DefaultPage.aspx"
+                    RelPath = "Default.aspx.cs"
+                    DependentUpon = "Default.aspx"
                     SubType = "ASPXCodeBehind"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "DefaultPage.aspx.resx"
-                    DependentUpon = "DefaultPage.aspx.cs"
+                    RelPath = "Default.aspx.resx"
+                    DependentUpon = "Default.aspx.cs"
                     BuildAction = "EmbeddedResource"
                 />
                 <File
