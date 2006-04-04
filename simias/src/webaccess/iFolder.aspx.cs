@@ -173,7 +173,7 @@ namespace Novell.iFolderApp.Web
 			ifolderID = Request.QueryString.Get("iFolder");
 
 			// connection
-			web = (iFolderWeb)Session["Connection"];
+			web = (iFolderWeb) Session["Connection"];
 
 			// localization
 			rm = (ResourceManager) Application["RM"];
