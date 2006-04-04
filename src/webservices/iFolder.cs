@@ -133,8 +133,8 @@ namespace iFolder.WebService
 			this.Size = c.StorageSize;
 			this.Rights = rights;
 			this.LastModified = NodeUtility.GetDateTimeProperty(c, PropertyTags.JournalModified);
-			this.Published = NodeUtility.GetBooleanProperty( c, PropertyTags.Published );
-			this.Enabled = iFolderPolicy.IsLocked(c);
+			this.Published = NodeUtility.GetBooleanProperty(c, PropertyTags.Published);
+			this.Enabled = !iFolderPolicy.IsLocked(c);
 
 			// domain
 			Store store = Store.GetStore();
