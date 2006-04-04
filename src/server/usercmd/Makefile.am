@@ -38,6 +38,9 @@ endif
 
 all: UserCmd.exe
 
+AdminService.cs: ../../webservices/iFolderAdmin.wsdl
+	wsdl /nologo /out:$@ $<
+
 UserCmd.exe: $(UserCmd_CSFILES) $(UserCmd_RESOURCES)
 	$(CSC) /out:$@ $(CSCFLAGS) $(UserCmd_FLAGS) $(SIMIAS_LIBS) $(UserCmd_LIBS:%=/r:%) $(UserCmd_LIBPATH:%=/lib:%) $(UserCmd_RESOURCES:%=$(ICON_FLAG)%) $(UserCmd_CSFILES_CSC) $(DOC_FILE_CMD)
 
