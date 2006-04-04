@@ -20,10 +20,7 @@
 	
 		function ConfirmDelete(f)
 		{
-			if (confirm("<%= GetString("ENTRY.DELETEPROMPT") %>"))
-			{
-				__doPostBack('DeleteButton','');
-			}
+			return confirm("<%= GetString("ENTRY.DELETEPROMPT") %>");
 		}
 	
 		function SubmitKeyDown(e, b)
@@ -37,6 +34,26 @@
 			} 
 			
 			return result;
+		}
+	
+
+		function SelectionUpdate(cb)
+		{
+			var f = cb.form;
+			var count = 0;
+			
+			for(i=0; i < f.elements.length; i++)
+			{
+				var e = f.elements[i];
+				
+				if ((e.type == "checkbox") && (e.checked))
+				{
+					count++;
+				}
+			}
+
+			document.getElementById("DeleteButton").style.display = (count > 0) ? "" : "none";
+			document.getElementById("DeleteDisabled").style.display = (count > 0) ? "none" : "";
 		}
 	
 		function SetFocus()
@@ -82,7 +99,7 @@
 					
 					<div class="actions">
 						<table><tr><td>
-						Delete	
+						<span id="DeleteDisabled"><%= GetString("DELETE") %></span><asp:LinkButton ID="DeleteButton" style="display:none;" runat="server" />	
 						</td><td class="search">
 							<asp:TextBox ID="SearchPattern" CssClass="searchPattern" runat="server" onkeydown="return SubmitKeyDown(event, 'SearchButton');" />
 							<asp:Button ID="SearchButton" CssClass="hide" runat="server" />
@@ -102,7 +119,7 @@
 							
 							<asp:TemplateColumn ItemStyle-CssClass="cb">
 								<itemtemplate>
-									<asp:CheckBox runat="server" />
+									<asp:CheckBox ID="Select" onclick="SelectionUpdate(this)" runat="server" />
 								</itemtemplate>
 							</asp:TemplateColumn>
 							
@@ -178,14 +195,16 @@
 				<div class="title"><%= GetString("IFOLDER") %></div>
 			
 				<div class="content">
-				
-					<table>
-						<tr>
-							<td class="label"><%= GetString("NAME") %></td>
-							<td><asp:Literal ID="iFolderName" runat="server" /> ( <asp:HyperLink ID="DetailsButton" runat="server" /> )</td>
-						</tr>
-					</table>
-
+					<table><tr>
+						<td>
+							<asp:HyperLink ID="iFolderImageButton" runat="server">
+								<asp:Image ImageUrl="images/16/document-properties.png" runat="server" />
+							</asp:HyperLink>
+						</td>
+						<td valign="top">
+							<asp:HyperLink ID="iFolderButton" runat="server" />
+						</td>
+					</tr></table>
 				</div>
 				
 		</div>

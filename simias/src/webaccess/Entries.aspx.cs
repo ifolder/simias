@@ -66,6 +66,11 @@ namespace Novell.iFolderApp.Web
 		protected Literal EntryPathLeaf;
 
 		/// <summary>
+		/// The Delete Button
+		/// </summary>
+		protected LinkButton DeleteButton;
+
+		/// <summary>
 		/// Search Pattern
 		/// </summary>
 		protected TextBox SearchPattern;
@@ -106,14 +111,14 @@ namespace Novell.iFolderApp.Web
 		protected Button UploadButton;
 
 		/// <summary>
-		/// iFolder Details Button
+		/// iFolder Button
 		/// </summary>
-		protected HyperLink DetailsButton;
+		protected HyperLink iFolderButton;
 
 		/// <summary>
-		/// iFolder Name
+		/// iFolder Button
 		/// </summary>
-		protected Literal iFolderName;
+		protected HyperLink iFolderImageButton;
 
 		/// <summary>
 		/// Message Box
@@ -173,13 +178,14 @@ namespace Novell.iFolderApp.Web
 				EntryPagging.LabelPlural = GetString("ITEMS");
 				NewFolderButton.Text = GetString("CREATE");
 				UploadButton.Text = GetString("UPLOAD");
-				DetailsButton.Text = GetString("DETAILS");
+				DeleteButton.Text = GetString("DELETE");
 
 				// search pattern
 				ViewState["SearchPattern"] = null;
 
 				// link
-				DetailsButton.NavigateUrl = "iFolder.aspx?iFolder=" + ifolderID;
+				iFolderButton.NavigateUrl = "iFolder.aspx?iFolder=" + ifolderID;
+				iFolderImageButton.NavigateUrl = iFolderButton.NavigateUrl;
 			}
 			else
 			{
@@ -194,7 +200,7 @@ namespace Novell.iFolderApp.Web
 		private void BindData()
 		{
 			BindParentData();
-			BindEntriesData();
+			BindEntryData();
 			BindContextData();
 		}
 
@@ -209,7 +215,7 @@ namespace Novell.iFolderApp.Web
 			{
 				// ifolder
 				iFolder ifolder = web.GetiFolder(ifolderID);
-				iFolderName.Text = ifolder.Name;
+				iFolderButton.Text = ifolder.Name + " " + GetString("DETAILS");
 
 				// parent
 				iFolderEntry entry;
@@ -239,7 +245,7 @@ namespace Novell.iFolderApp.Web
 		/// <summary>
 		/// Bind the Data to the Page.
 		/// </summary>
-		private void BindEntriesData()
+		private void BindEntryData()
 		{
 			int total = 0;
 
@@ -387,6 +393,8 @@ namespace Novell.iFolderApp.Web
 			this.NewFolderButton.Click += new EventHandler(NewFolderButton_Click);
 			this.UploadButton.Click += new EventHandler(UploadButton_Click);
 			this.SearchButton.Click += new EventHandler(SearchButton_Click);
+			this.DeleteButton.PreRender += new EventHandler(DeleteButton_PreRender);
+			this.DeleteButton.Click += new EventHandler(DeleteButton_Click);
 		}
 
 		#endregion
@@ -521,7 +529,7 @@ namespace Novell.iFolderApp.Web
 				HandleException(ex);
 			}
 
-			BindEntriesData();
+			BindEntryData();
 		}
 
 		/// <summary>
@@ -579,7 +587,7 @@ namespace Novell.iFolderApp.Web
 				{
 					MessageBox.Text = GetString("ENTRY.EMPTYFILE");
 
-					BindEntriesData();
+					BindEntryData();
 
 					return;
 				}
@@ -648,7 +656,7 @@ namespace Novell.iFolderApp.Web
 				if (!HandleException(ex)) throw;
 			}
 
-			BindEntriesData();
+			BindEntryData();
 		}
 
 		/// <summary>
@@ -664,7 +672,63 @@ namespace Novell.iFolderApp.Web
 			// reset index
 			EntryPagging.Index = 0;
 
-			BindEntriesData();
+			BindEntryData();
+		}
+
+		/// <summary>
+		/// Delete Button Pre-Render
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void DeleteButton_PreRender(object sender, EventArgs e)
+		{
+			DeleteButton.Attributes["onclick"] = "return ConfirmDelete(this.form);";
+		}
+
+		/// <summary>
+		/// Delete Button Click
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void DeleteButton_Click(object sender, EventArgs e)
+		{
+			string entryList = null;
+
+			// selected members
+			foreach(DataGridItem item in EntryData.Items)
+			{
+				CheckBox checkBox = (CheckBox) item.FindControl("Select");
+
+				if (checkBox.Checked)
+				{
+					string id = item.Cells[0].Text;
+
+					if (entryList == null)
+					{
+						entryList = id;
+					}
+					else
+					{
+						entryList = String.Format("{0},{1}", entryList, id);
+					}
+				}
+			}
+
+			// remove entries
+			if (entryList != null)
+			{
+				try
+				{
+					web.DeleteEntry(ifolderID, entryList);
+				}
+				catch(SoapException ex)
+				{
+					HandleException(ex);
+				}
+
+				EntryPagging.Index = 0;
+				BindEntryData();
+			}
 		}
 	}
 }

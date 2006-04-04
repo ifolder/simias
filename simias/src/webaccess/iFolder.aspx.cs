@@ -73,11 +73,6 @@ namespace Novell.iFolderApp.Web
 		protected HyperLink HomeButton;
 
 		/// <summary>
-		/// Browse Button
-		/// </summary>
-		protected HyperLink BrowseButton;
-
-		/// <summary>
 		/// The iFolder Name
 		/// </summary>
 		protected Literal iFolderContextName;
@@ -113,9 +108,9 @@ namespace Novell.iFolderApp.Web
 		protected LinkButton OwnerButton;
 
 		/// <summary>
-		/// iFolder Name
+		/// iFolder Button
 		/// </summary>
-		protected Literal iFolderName;
+		protected HyperLink iFolderButton;
 		
 		/// <summary>
 		/// iFolder Description
@@ -185,7 +180,7 @@ namespace Novell.iFolderApp.Web
 
 				// url
 				AddButton.NavigateUrl = "Share.aspx?iFolder=" + ifolderID;
-				BrowseButton.NavigateUrl = "Entries.aspx?iFolder=" + ifolderID;
+				iFolderButton.NavigateUrl = "Entries.aspx?iFolder=" + ifolderID;
 
 				// strings
 				HomeButton.Text = GetString("HOME");
@@ -195,7 +190,6 @@ namespace Novell.iFolderApp.Web
 				ReadWriteButton.Text = GetString("RIGHTS.READWRITE");
 				AdminButton.Text = GetString("RIGHTS.ADMIN");
 				OwnerButton.Text = GetString("OWNER");
-				BrowseButton.Text = GetString("BROWSE");
 				MemberPagging.LabelSingular = GetString("MEMBER");
 				MemberPagging.LabelPlural = GetString("MEMBERS");
 				HistoryPagging.LabelSingular = GetString("CHANGE");
@@ -214,7 +208,7 @@ namespace Novell.iFolderApp.Web
 				iFolderDetails ifolder = web.GetiFolderDetails(ifolderID);
 				iFolderContextName.Text = ifolder.Name;
 
-				iFolderName.Text = ifolder.Name;
+				iFolderButton.Text = ifolder.Name;
 				iFolderDescription.Text = ifolder.Description;
 				iFolderOwner.Text = ifolder.OwnerFullName;
 				iFolderSize.Text = WebUtility.FormatSize(ifolder.Size, rm);
