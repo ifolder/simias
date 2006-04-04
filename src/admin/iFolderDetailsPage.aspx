@@ -114,7 +114,7 @@
 
 			</div>
 
-			<div>
+			<div class="ifoldermemberlistnav">
 
 				<h3><%= GetString( "MEMBERS" ) %></h3>
 	
@@ -125,7 +125,7 @@
 					CellSpacing="0" 
 					GridLines="None"
 					AutoGenerateColumns="False" 
-					PageSize="11" 
+					PageSize="9" 
 					ShowHeader="True" 
 					CssClass="ifoldermemberlist" 
 					HeaderStyle-CssClass="ifoldermemberlistheader"

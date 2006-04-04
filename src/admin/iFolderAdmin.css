@@ -14,8 +14,7 @@ p, tr, td, ol, ul
 
 .container
 {
-	min-width: 61em;
-	margin: .3em;
+	float: left;
 	background-color: #fff;
 	border: 1px solid #666666;
 	width: 61em;
@@ -43,8 +42,7 @@ p, tr, td, ol, ul
 {
 	clear: both;
 	margin: 0;
-	padding: .5em;
-	color: #333;
+	height: 1em;
 	background-color: #ddd;
 	border-top: 1px solid gray;
 }
@@ -66,7 +64,7 @@ p, tr, td, ol, ul
 	float: left;
 	padding-right: 1em;
 	padding-left: 1em;
-	padding-bottom: 1em;
+	/*padding-bottom: 1em;*/
 	max-width: 16em;
 	width: 17em;
 }
@@ -248,6 +246,13 @@ img
 	width:auto;
 	display: inline;
 	color: black;
+}
+
+.searchlistnamelabel
+{
+	font-size: 1.1em;
+	font-weight: bold;
+	padding-right: .5em;
 }
 
 ul#navcontainer

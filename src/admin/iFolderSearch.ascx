@@ -18,8 +18,8 @@
 
 <div class="searchnav">
 
-	<%= GetString( "NAME" ) %>
-	
+	<asp:Label ID="NameLabel" Runat="server" CssClass="searchlistnamelabel" />
+
 	<asp:DropDownList ID="SearchOpList" Runat="server" CssClass="searchlist">
 	
 		<asp:ListItem></asp:ListItem>

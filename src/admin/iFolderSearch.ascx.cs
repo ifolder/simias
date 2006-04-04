@@ -59,6 +59,12 @@ namespace Novell.iFolderWeb.Admin
 
 
 		/// <summary>
+		/// Label control.
+		/// </summary>
+		protected Label NameLabel;
+
+
+		/// <summary>
 		/// Event that notifies consumer that the search button has been clicked.
 		/// </summary>
 		public event EventHandler Click = null;
@@ -124,6 +130,7 @@ namespace Novell.iFolderWeb.Admin
 			{
 				// Initialize the localized fields.
 				SearchButton.Text = GetString( "SEARCH" );
+				NameLabel.Text = GetString( "NAME" );
 
 				SearchOpList.Items[ 0 ].Text = GetString( "BEGINSWITH" );
 				SearchOpList.Items[ 1 ].Text = GetString( "ENDSWITH" );

@@ -249,17 +249,14 @@ namespace Novell.iFolderWeb.Admin
 
 			foreach( iFolder folder in list )
 			{
-				iFolderPolicy policy = web.GetiFolderPolicy( folder.ID );
-				iFolderUser owner = web.GetUser( folder.OwnerID );
-
 				dr = dt.NewRow();
 				dr[ 0 ] = true;
 				dr[ 1 ] = folder.ID;
 				dr[ 2 ] = folder.OwnerID;
-				dr[ 3 ] = ( UserID != folder.OwnerID );
-				dr[ 4 ] = policy.Locked;
+				dr[ 3 ] = ( folder.MemberCount > 1 ) ? true : false;
+				dr[ 4 ] = !folder.Enabled;
 				dr[ 5 ] = folder.Name;
-				dr[ 6 ] = owner.FullName;
+				dr[ 6 ] = folder.OwnerFullName;
 				dr[ 7 ] = Utils.ConvertToUnitString( folder.Size, true, rm );
 
 				dt.Rows.Add( dr );

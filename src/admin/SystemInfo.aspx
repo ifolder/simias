@@ -79,7 +79,7 @@
 
 			</div>
 			
-			<div>
+			<div class="adminlistnav">
 		
 				<h3><%= GetString( "IFOLDERADMINS" ) %></h3>
 				

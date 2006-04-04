@@ -4,6 +4,7 @@
 	padding-left: 1em;
 	float: left;
 	width: 39em;
+	height: 40em;
 	border-right: 1px dotted #999999;
 }
 
@@ -32,6 +33,12 @@
 	text-align: left;
 	width: 80%;
 	padding-left: .2em;
+}
+
+.ifoldermemberlistnav
+{
+	float: left;
+	height: 24em;
 }
 
 .ifoldermemberlist
