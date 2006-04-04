@@ -252,7 +252,7 @@ namespace Novell.iFolderApp.Web
 
 				// session
 				Session["Connection"] = web;
-				Session["UserID"] = user.UserID;
+				Session["UserID"] = user.ID;
 				Session["Username"] = user.UserName;
 				Session["UserFullName"] = user.FullName;
 				Session["ItemsPerPage"] = max;
