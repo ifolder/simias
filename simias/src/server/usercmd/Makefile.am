@@ -72,7 +72,7 @@ endif
 
 installcheck-local: install
 	
-CLEAN_FILES = UserCmd.exe $(DOC_FILE_CLEAN)
+CLEAN_FILES = UserCmd.exe $(DOC_FILE_CLEAN)	$(srcdir)/AdminService.cs
 
 clean-local:
 	rm -rf $(CLEAN_FILES) $(COMMON_CLEAN_FILES)
