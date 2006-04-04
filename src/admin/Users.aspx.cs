@@ -131,11 +131,11 @@ namespace Novell.iFolderWeb.Admin
 			iFolderUser[] userList;
 			int total;
 
-			if ( MemberSearch.SearchName.Value == String.Empty )
+			if ( MemberSearch.SearchName == String.Empty )
 			{
 				userList = web.GetUsersBySearch( 
-					MemberSearch.GetSearchAttribute(), 
-					MemberSearch.GetSearchOperation(), 
+					MemberSearch.SearchAttribute, 
+					MemberSearch.SearchOperation, 
 					"*", 
 					CurrentUserOffset, 
 					Accounts.PageSize, 
@@ -144,9 +144,9 @@ namespace Novell.iFolderWeb.Admin
 			else
 			{
 				userList = web.GetUsersBySearch( 
-					MemberSearch.GetSearchAttribute(), 
-					MemberSearch.GetSearchOperation(), 
-					MemberSearch.SearchName.Value, 
+					MemberSearch.SearchAttribute, 
+					MemberSearch.SearchOperation, 
+					MemberSearch.SearchName, 
 					CurrentUserOffset, 
 					Accounts.PageSize, 
 					out total );
@@ -156,8 +156,8 @@ namespace Novell.iFolderWeb.Admin
 			{
 				dr = dt.NewRow();
 				dr[ 0 ] = true;
-				dr[ 1 ] = user.UserID;
-				dr[ 2 ] = user.IsAdmin;
+				dr[ 1 ] = user.ID;
+				dr[ 2 ] = ( user.Rights == Rights.Admin ) ? true : false;
 				dr[ 3 ] = user.UserName;
 				dr[ 4 ] = user.FullName;
 				dr[ 5 ] = user.Enabled.ToString();
@@ -379,7 +379,7 @@ namespace Novell.iFolderWeb.Admin
 				Page.PreRender += new EventHandler( Page_PreRender );
 			}
 
-			MemberSearch.SearchButton.Click += new System.EventHandler( SearchButton_Click );
+			MemberSearch.Click += new System.EventHandler( SearchButton_Click );
 			Accounts.ItemDataBound += new DataGridItemEventHandler( Accounts_DataGridItemBound );
 
 			AccountsFooter.PageFirstClick += new ImageClickEventHandler( PageFirstButton_Click );

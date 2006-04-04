@@ -1,5 +1,5 @@
 /***********************************************************************
- *  $RCSfile: MemberSearch.ascx.cs,v $
+ *  $RCSfile: iFolderSearch.ascx.cs,v $
  * 
  *  Copyright (C) 2006 Novell, Inc.
  *
@@ -31,9 +31,9 @@ namespace Novell.iFolderWeb.Admin
 	using System.Web.UI.HtmlControls;
 
 	/// <summary>
-	///		Summary description for MemberSearch.
+	///		Summary description for iFolderSearch.
 	/// </summary>
-	public class MemberSearch : System.Web.UI.UserControl
+	public class iFolderSearch : System.Web.UI.UserControl
 	{
 		#region Class Members
 
@@ -41,11 +41,6 @@ namespace Novell.iFolderWeb.Admin
 		/// Resource Manager
 		/// </summary>
 		private ResourceManager rm;
-
-		/// <summary>
-		/// Search attributes.
-		/// </summary>
-		protected DropDownList SearchAttributeList;
 
 		/// <summary>
 		/// Search operations.
@@ -73,33 +68,6 @@ namespace Novell.iFolderWeb.Admin
 		#region Properties
 
 		/// <summary>
-		/// Gets the search enumeration attribute from the web selection.
-		/// </summary>
-		public SearchProperty SearchAttribute
-		{
-			get
-			{
-				SearchProperty searchType = SearchProperty.UserName;
-				string attribute = SearchAttributeList.SelectedValue;
-
-				if ( attribute == GetString( "USERNAME" ) )
-				{
-					searchType = SearchProperty.UserName;
-				}
-				else if ( attribute == GetString( "FIRSTNAME" ) )
-				{
-					searchType = SearchProperty.FirstName;
-				}
-				else
-				{
-					searchType = SearchProperty.LastName;
-				}
-
-				return searchType;
-			}
-		}
-
-		/// <summary>
 		/// Gets the search name value.
 		/// </summary>
 		public string SearchName
@@ -110,7 +78,6 @@ namespace Novell.iFolderWeb.Admin
 		/// <summary>
 		/// Gets the search enumeration operation from the web selection.
 		/// </summary>
-		/// <returns>SearchOperation enum type.</returns>
 		public SearchOperation SearchOperation
 		{
 			get
@@ -143,11 +110,11 @@ namespace Novell.iFolderWeb.Admin
 
 		#region Private Methods
 
-        /// <summary>
-        /// Page_Load
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+		/// <summary>
+		/// Page_Load
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void Page_Load(object sender, System.EventArgs e)
 		{
 			// localization
@@ -157,11 +124,6 @@ namespace Novell.iFolderWeb.Admin
 			{
 				// Initialize the localized fields.
 				SearchButton.Text = GetString( "SEARCH" );
-
-				SearchAttributeList.Items[ 0 ].Text = GetString( "USERNAME" );
-				SearchAttributeList.Items[ 1 ].Text = GetString( "FIRSTNAME" );
-				SearchAttributeList.Items[ 2 ].Text = GetString( "LASTNAME" );
-				SearchAttributeList.SelectedValue = GetString( "USERNAME" );
 
 				SearchOpList.Items[ 0 ].Text = GetString( "BEGINSWITH" );
 				SearchOpList.Items[ 1 ].Text = GetString( "ENDSWITH" );
@@ -226,7 +188,6 @@ namespace Novell.iFolderWeb.Admin
 		#endregion
 
 		#region Public Methods
-
 		#endregion
 
 		#region Web Form Designer generated code

@@ -1,4 +1,4 @@
-<%@ Control Language="c#" AutoEventWireup="false" Codebehind="MemberSearch.ascx.cs" Inherits="Novell.iFolderWeb.Admin.MemberSearch" TargetSchema="http://schemas.microsoft.com/intellisense/ie5"%>
+<%@ Control Language="c#" AutoEventWireup="false" Codebehind="iFolderSearch.ascx.cs" Inherits="Novell.iFolderWeb.Admin.iFolderSearch" TargetSchema="http://schemas.microsoft.com/intellisense/ie5"%>
 
 <script language="javascript">
 
@@ -18,13 +18,7 @@
 
 <div class="searchnav">
 
-	<asp:DropDownList ID="SearchAttributeList" Runat="server" CssClass="searchlist">
-
-		<asp:ListItem></asp:ListItem>
-		<asp:ListItem></asp:ListItem>
-		<asp:ListItem></asp:ListItem>
-
-	</asp:DropDownList>
+	<%= GetString( "NAME" ) %>
 	
 	<asp:DropDownList ID="SearchOpList" Runat="server" CssClass="searchlist">
 	
@@ -40,7 +34,7 @@
 		Type="text" 
 		Runat="server" 
 		MaxLength="255" 
-		Class="edittext" />
+		Class="edittext" NAME="SearchName"/>
 	
 	<asp:Button 
 		ID="SearchButton" 

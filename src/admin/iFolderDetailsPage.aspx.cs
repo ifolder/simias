@@ -1,5 +1,5 @@
 /***********************************************************************
- *  $RCSfile: iFolderDetails.aspx.cs,v $
+ *  $RCSfile: iFolderDetailsPage.aspx.cs,v $
  * 
  *  Copyright (C) 2006 Novell, Inc.
  *
@@ -37,9 +37,9 @@ using System.Web.UI.HtmlControls;
 namespace Novell.iFolderWeb.Admin
 {
 	/// <summary>
-	/// Summary description for iFolderDetails.
+	/// Summary description for iFolderDetailsPage.
 	/// </summary>
-	public class iFolderDetails : System.Web.UI.Page
+	public class iFolderDetailsPage : System.Web.UI.Page
 	{
 		#region Class Members
 
@@ -215,7 +215,7 @@ namespace Novell.iFolderWeb.Admin
 
 			Name.Text = ifolder.Name;
 			Description.Text = ifolder.Description;
-			Owner.Text = ifolder.OwnerName;
+			Owner.Text = ifolder.OwnerFullName;
 			Owner.NavigateUrl= String.Format( "UserDetails.aspx?id={0}", ifolder.OwnerID );
 			Size.Text = Utils.ConvertToUnitString( ifolder.Size, true, rm );
 			Shared.Text = ( TotaliFolderMembers > 1 ) ? Boolean.TrueString : Boolean.FalseString;
@@ -250,8 +250,8 @@ namespace Novell.iFolderWeb.Admin
 			{
 				dr = dt.NewRow();
 				dr[ 0 ] = true;
-				dr[ 1 ] = ( ifolder.OwnerID == member.UserID ) ? true : false;
-				dr[ 2 ] = member.UserID;
+				dr[ 1 ] = member.IsOwner;
+				dr[ 2 ] = member.ID;
 				dr[ 3 ] = member.FullName;
 				dr[ 4 ] = member.Rights.ToString();
 
@@ -567,9 +567,9 @@ namespace Novell.iFolderWeb.Admin
 		/// <returns></returns>
 		protected string GetiFolderPath()
 		{
-			iFolder ifolder = web.GetiFolder( iFolderID );
+			iFolderDetails details = web.GetiFolderDetails( iFolderID );
 
-			return ifolder.UnManagedPath.Replace( 
+			return details.UnManagedPath.Replace( 
 				Path.DirectorySeparatorChar.ToString(), 
 				Path.DirectorySeparatorChar.ToString() + "<WBR>" );
 		}

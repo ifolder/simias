@@ -169,7 +169,7 @@ namespace Novell.iFolderWeb.Admin
 			{
 				dr = dt.NewRow();
 				dr[ 0 ] = true;
-				dr[ 1 ] = admin.UserID;
+				dr[ 1 ] = admin.ID;
 				dr[ 2 ] = admin.UserName;
 				dr[ 3 ] = admin.FullName;
 
