@@ -130,7 +130,7 @@ namespace Simias.mDns
 							HttpWebRequest request2 = WebRequest.Create( loginUri ) as HttpWebRequest;
 							WebState webState2 = new WebState( Simias.mDns.Domain.ID );
 							webState2.InitializeWebRequest( request2, Simias.mDns.Domain.ID );
-							WebState.ResetWebState( Simias.mDns.Domain.ID );
+							//WebState.ResetWebState( Simias.mDns.Domain.ID );
 							request2.CookieContainer.Add( response.Cookies );
 
 							request2.Headers.Add( 
