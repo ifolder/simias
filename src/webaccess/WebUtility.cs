@@ -72,13 +72,18 @@ namespace Novell.iFolderApp.Web
 		/// <returns>The File Name</returns>
 		public static string GetFileName(String path)
         {
-            string result = Path.GetFileName(path);
+            string result = null;
+			
+			if (path != null)
+			{
+				result = Path.GetFileName(path);
 
-            // KLUDGE: this is a kludge for Mono because it no longer
-			// (after 1.1.6) recognizes the backslash as a directory
-			// seperator
-            int index = result.LastIndexOf('\\');
-            if (index != -1) result = result.Substring(index + 1);
+				// KLUDGE: this is a kludge for Mono because it no longer
+				// (after 1.1.6) recognizes the backslash as a directory
+				// seperator
+				int index = result.LastIndexOf('\\');
+				if (index != -1) result = result.Substring(index + 1);
+			}
 
             return result;
         }
