@@ -99,6 +99,16 @@ namespace iFolder.WebService
 		}
 
 		/// <summary>
+		/// Is the iFolder Locked?
+		/// </summary>
+		/// <param name="collection"></param>
+		/// <returns></returns>
+		public static bool IsLocked(Collection collection)
+		{
+			return collection.IsLockedByName(lockName);
+		}
+
+		/// <summary>
 		/// Get the iFolder Policy
 		/// </summary>
 		/// <param name="ifolderID">The iFolder ID</param>
@@ -123,7 +133,7 @@ namespace iFolder.WebService
 			props.SpaceLimit = DiskSpaceQuota.GetLimit(c);
 
 			// no syncing (locked)
-			props.Locked = c.IsLockedByName(lockName);
+			props.Locked = IsLocked(c);
 
 			// sync interval
 			props.SyncInterval = Simias.Policy.SyncInterval.GetInterval(c);

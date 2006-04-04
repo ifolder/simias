@@ -99,6 +99,11 @@ namespace iFolder.WebService
 		public bool Published = false;
 
 		/// <summary>
+		/// iFolder Enabled?
+		/// </summary>
+		public bool Enabled = true;
+
+		/// <summary>
 		/// The Collection Type of an iFolder
 		/// </summary>
 		internal static readonly string iFolderCollectionType = "iFolder";
@@ -125,11 +130,17 @@ namespace iFolder.WebService
 			this.Description = NodeUtility.GetStringProperty(c, PropertyTags.Description);
 			this.OwnerID = c.Owner.UserID;
 			this.Domain = c.Domain;
-			this.OwnerName = c.Owner.FN;
 			this.Size = c.StorageSize;
 			this.Rights = rights;
 			this.LastModified = NodeUtility.GetDateTimeProperty(c, PropertyTags.JournalModified);
 			this.Published = NodeUtility.GetBooleanProperty( c, PropertyTags.Published );
+			this.Enabled = iFolderPolicy.IsLocked(c);
+
+			// domain
+			Store store = Store.GetStore();
+			Domain domain = store.GetDomain(store.DefaultDomain);
+			Member domainMember = domain.GetMemberByID(c.Owner.UserID);
+			this.OwnerName = (domainMember.FN != null) ? domainMember.FN : domainMember.Name;
 
 			// paths
 			this.ManagedPath = c.ManagedPath;

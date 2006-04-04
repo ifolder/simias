@@ -68,6 +68,7 @@
           <s:element minOccurs="1" maxOccurs="1" name="Rights" type="tns:Rights" />
           <s:element minOccurs="1" maxOccurs="1" name="LastModified" type="s:dateTime" />
           <s:element minOccurs="1" maxOccurs="1" name="Published" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="Enabled" type="s:boolean" />
         </s:sequence>
       </s:complexType>
       <s:simpleType name="Rights">
