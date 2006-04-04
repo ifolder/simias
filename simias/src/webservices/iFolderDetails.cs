@@ -40,11 +40,6 @@ namespace iFolder.WebService
 	public class iFolderDetails : iFolder
 	{
 		/// <summary>
-		/// Number of Members
-		/// </summary>
-		public int MemberCount = 0;
-
-		/// <summary>
 		/// Number of Files
 		/// </summary>
 		public int FileCount = 0;
@@ -53,6 +48,16 @@ namespace iFolder.WebService
 		/// Number of Directories
 		/// </summary>
 		public int DirectoryCount = 0;
+
+		/// <summary>
+		/// The iFolder Managed Path
+		/// </summary>
+		public string ManagedPath;
+
+		/// <summary>
+		/// The iFolder Un-Manged Path
+		/// </summary>
+		public string UnManagedPath;
 
 		/// <summary>
 		/// Constructor
@@ -69,9 +74,18 @@ namespace iFolder.WebService
 		protected iFolderDetails(Collection c, string accessID)
 			: base(c, accessID)
 		{
-			this.MemberCount = c.GetMemberList().Count;
 			this.FileCount = c.GetNodesByType(NodeTypes.FileNodeType).Count;
 			this.DirectoryCount = c.GetNodesByType(NodeTypes.DirNodeType).Count;
+
+			// paths
+			this.ManagedPath = c.ManagedPath;
+
+			DirNode dirNode = c.GetRootDirectory();
+			
+			if (dirNode != null)
+			{
+				this.UnManagedPath = dirNode.GetFullPath(c);
+			}
 		}
 
 		/// <summary>

@@ -313,7 +313,7 @@ namespace User.Management
 				if ( users != null )
 				{
 					bool changed = false;
-					UserPolicy userPolicy = admin.GetUserPolicy( users[0].UserID );
+					UserPolicy userPolicy = admin.GetUserPolicy( users[0].ID );
 					
 					if ( quota != null )
 					{
@@ -342,7 +342,7 @@ namespace User.Management
 					
 				foreach( iFolderUser user in users )
 				{
-					Console.Write( "ID: {0}  ", user.UserID );
+					Console.Write( "ID: {0}  ", user.ID );
 					Console.Write( "User: {0}  ", user.UserName );
 					if ( user.FullName != null && user.FullName != "" )
 					{

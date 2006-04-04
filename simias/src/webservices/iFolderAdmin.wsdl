@@ -61,15 +61,15 @@
           <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
           <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
           <s:element minOccurs="0" maxOccurs="1" name="OwnerID" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="OwnerName" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="Domain" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="ManagedPath" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="UnManagedPath" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="OwnerUserName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="OwnerFullName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DomainID" type="s:string" />
           <s:element minOccurs="1" maxOccurs="1" name="Size" type="s:long" />
           <s:element minOccurs="1" maxOccurs="1" name="Rights" type="tns:Rights" />
           <s:element minOccurs="1" maxOccurs="1" name="LastModified" type="s:dateTime" />
           <s:element minOccurs="1" maxOccurs="1" name="Published" type="s:boolean" />
           <s:element minOccurs="1" maxOccurs="1" name="Enabled" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="MemberCount" type="s:int" />
         </s:sequence>
       </s:complexType>
       <s:simpleType name="Rights">
@@ -122,9 +122,10 @@
         <s:complexContent mixed="false">
           <s:extension base="tns:iFolder">
             <s:sequence>
-              <s:element minOccurs="1" maxOccurs="1" name="MemberCount" type="s:int" />
               <s:element minOccurs="1" maxOccurs="1" name="FileCount" type="s:int" />
               <s:element minOccurs="1" maxOccurs="1" name="DirectoryCount" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="ManagedPath" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="UnManagedPath" type="s:string" />
             </s:sequence>
           </s:extension>
         </s:complexContent>
@@ -273,12 +274,12 @@
       </s:element>
       <s:complexType name="iFolderUser">
         <s:sequence>
-          <s:element minOccurs="0" maxOccurs="1" name="UserID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ID" type="s:string" />
           <s:element minOccurs="0" maxOccurs="1" name="UserName" type="s:string" />
           <s:element minOccurs="0" maxOccurs="1" name="FullName" type="s:string" />
           <s:element minOccurs="1" maxOccurs="1" name="Rights" type="tns:Rights" />
           <s:element minOccurs="1" maxOccurs="1" name="Enabled" type="s:boolean" />
-          <s:element minOccurs="1" maxOccurs="1" name="IsAdmin" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="IsOwner" type="s:boolean" />
         </s:sequence>
       </s:complexType>
       <s:element name="SetMemberRights">
@@ -1330,7 +1331,7 @@
   <wsdl:service name="iFolderAdmin">
     <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">iFolder Admin Web Service</documentation>
     <wsdl:port name="iFolderAdminSoap" binding="tns:iFolderAdminSoap">
-      <soap:address location="http://localhost:8086/simias10/iFolderAdmin.asmx" />
+      <soap:address location="http://127.0.0.1:8086/simias10/iFolderAdmin.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

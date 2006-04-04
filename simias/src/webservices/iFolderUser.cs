@@ -40,7 +40,7 @@ namespace iFolder.WebService
 		/// <summary>
 		/// The User ID
 		/// </summary>
-		public string UserID;
+		public string ID;
 
 		/// <summary>
 		/// The User Name
@@ -53,7 +53,7 @@ namespace iFolder.WebService
 		public string FullName;
 
 		/// <summary>
-		/// The User Rights in the Current iFolder
+		/// The User Rights in the iFolder/Domain
 		/// </summary>
 		public Simias.Storage.Access.Rights Rights;
 
@@ -63,10 +63,9 @@ namespace iFolder.WebService
 		public bool Enabled;
 
 		/// <summary>
-		/// Specifies whether or not the user has administrative
-		/// rights in the collection/domain.
+		/// Is the User the Owner in the iFolder/Domain
 		/// </summary>
-		public bool IsAdmin;
+		public bool IsOwner;
 
 		/// <summary>
 		/// Constructor
@@ -84,18 +83,18 @@ namespace iFolder.WebService
 		/// <returns>An iFolderUser Object</returns>
 		protected iFolderUser(Member member, Collection collection, Domain domain)
 		{
-			this.UserID = member.UserID;
+			this.ID = member.UserID;
 			this.UserName = member.Name;
             this.Rights = member.Rights;
 			this.FullName = (member.FN != null) ? member.FN : member.Name;
-			this.Enabled = !(domain.IsLoginDisabled(this.UserID));
-			this.IsAdmin = IsAdministrator(this.UserID);
+			this.Enabled = !(domain.IsLoginDisabled(this.ID));
+			this.IsOwner = (member.UserID == collection.Owner.UserID);
 
 			// NOTE: The member object may not be complete if it did not come from the
 			// domain object.
 			if (collection != domain)
 			{
-				Member domainMember = domain.GetMemberByID(this.UserID);
+				Member domainMember = domain.GetMemberByID(this.ID);
 				this.FullName = domainMember.FN;
 			}
 		}
@@ -384,7 +383,8 @@ namespace iFolder.WebService
 
 			Domain domain = store.GetDomain(store.DefaultDomain);
 			Member member = domain.GetMemberByID( userID );
-			Access.Rights rights = ( member != null ) ? member.Rights : Access.Rights.Deny;
+			Access.Rights rights = (member != null) ? member.Rights : Access.Rights.Deny;
+			
 			return (rights == Access.Rights.Admin);
 		}
 

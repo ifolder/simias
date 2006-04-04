@@ -59,24 +59,19 @@ namespace iFolder.WebService
 		public string OwnerID;
 
 		/// <summary>
-		/// The iFolder Owner Name
+		/// The iFolder Owner User Name
 		/// </summary>
-		public string OwnerName;
+		public string OwnerUserName;
 		
 		/// <summary>
-		/// The iFolder Domain
+		/// The iFolder Owner Full Name
 		/// </summary>
-		public string Domain;
-
+		public string OwnerFullName;
+		
 		/// <summary>
-		/// The iFolder Managed Path
+		/// The iFolder Domain ID
 		/// </summary>
-		public string ManagedPath;
-
-		/// <summary>
-		/// The iFolder Un-Manged Path
-		/// </summary>
-		public string UnManagedPath;
+		public string DomainID;
 
 		/// <summary>
 		/// The iFolder Size
@@ -84,7 +79,7 @@ namespace iFolder.WebService
 		public long Size = 0;
 
 		/// <summary>
-		/// iFolder Access
+		/// iFolder/Domain Access Rights
 		/// </summary>
 		public Simias.Storage.Access.Rights Rights;
 
@@ -102,6 +97,11 @@ namespace iFolder.WebService
 		/// iFolder Enabled?
 		/// </summary>
 		public bool Enabled = true;
+
+		/// <summary>
+		/// Number of Members
+		/// </summary>
+		public int MemberCount = 0;
 
 		/// <summary>
 		/// The Collection Type of an iFolder
@@ -128,29 +128,21 @@ namespace iFolder.WebService
 			this.ID = c.ID;
 			this.Name = c.Name;
 			this.Description = NodeUtility.GetStringProperty(c, PropertyTags.Description);
-			this.OwnerID = c.Owner.UserID;
-			this.Domain = c.Domain;
+			this.DomainID = c.Domain;
 			this.Size = c.StorageSize;
 			this.Rights = rights;
 			this.LastModified = NodeUtility.GetDateTimeProperty(c, PropertyTags.JournalModified);
 			this.Published = NodeUtility.GetBooleanProperty(c, PropertyTags.Published);
 			this.Enabled = !iFolderPolicy.IsLocked(c);
+			this.MemberCount = c.GetMemberList().Count;
 
-			// domain
-			Store store = Store.GetStore();
-			Domain domain = store.GetDomain(store.DefaultDomain);
-			Member domainMember = domain.GetMemberByID(c.Owner.UserID);
-			this.OwnerName = (domainMember.FN != null) ? domainMember.FN : domainMember.Name;
-
-			// paths
-			this.ManagedPath = c.ManagedPath;
-
-			DirNode dirNode = c.GetRootDirectory();
-			
-			if (dirNode != null)
-			{
-				this.UnManagedPath = dirNode.GetFullPath(c);
-			}
+			// owner
+			this.OwnerID = c.Owner.UserID;
+			Domain domain = Store.GetStore().GetDomain(this.DomainID);
+			Member domainMember = domain.GetMemberByID(this.OwnerID);
+			this.OwnerUserName = domainMember.Name;
+			string fullName = domainMember.FN;
+			this.OwnerFullName = (fullName != null) ? fullName : this.OwnerUserName;
 		}
 
 		/// <summary>

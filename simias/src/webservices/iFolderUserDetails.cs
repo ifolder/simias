@@ -86,7 +86,7 @@ namespace iFolder.WebService
 			this.SyncIntervalEffective = Simias.Policy.SyncInterval.Get(member, collection).Interval;
 	
 			// last login
-			Member domainMember = domain.GetMemberByID(this.UserID);
+			Member domainMember = domain.GetMemberByID(this.ID);
 			Property p = domainMember.Properties.GetSingleProperty(PropertyTags.LastLoginTime);
 
 			if (p != null)
@@ -100,13 +100,13 @@ namespace iFolder.WebService
 
 			// Get the number of iFolders owned and shared by the user.
 			Store store = Store.GetStore();
-			ICSList ifList = store.GetCollectionsByUser( this.UserID );
+			ICSList ifList = store.GetCollectionsByUser(this.ID);
 			foreach ( ShallowNode sn in ifList )
 			{
 				Collection c = new Collection( store, sn );
 				if ( c.IsType( "iFolder" ) )
 				{
-					if ( c.Owner.UserID == this.UserID )
+					if ( c.Owner.UserID == this.ID )
 					{
 						++OwnediFolderCount;
 					}
