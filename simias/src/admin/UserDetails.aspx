@@ -153,7 +153,7 @@
 							ItemStyle-CssClass="ifolderitem3" 
 							DataTextField="NameField" 
 							DataNavigateUrlField="IDField"
-							DataNavigateUrlFormatString="iFolderDetails.aspx?id={0}" 
+							DataNavigateUrlFormatString="iFolderDetailsPage.aspx?id={0}" 
 							Target="_top" />
 							
 						<asp:TemplateColumn ItemStyle-CssClass="ifolderitem4">

@@ -1,7 +1,7 @@
 <%@ Register TagPrefix="iFolder" TagName="Policy" Src="Policy.ascx" %>
 <%@ Register TagPrefix="iFolder" TagName="PageFooter" Src="PageFooter.ascx" %>
 <%@ Register TagPrefix="iFolder" TagName="TopNavigation" Src="TopNavigation.ascx" %>
-<%@ Page language="c#" Codebehind="iFolderDetails.aspx.cs" AutoEventWireup="false" Inherits="Novell.iFolderWeb.Admin.iFolderDetails" %>
+<%@ Page language="c#" Codebehind="iFolderDetailsPage.aspx.cs" AutoEventWireup="false" Inherits="Novell.iFolderWeb.Admin.iFolderDetailsPage" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
 <html>
 
@@ -14,7 +14,7 @@
 		
 	<style type="text/css">
 		@import url(iFolderAdmin.css);
-		@import url(iFolderDetails.css);
+		@import url(iFolderDetailsPage.css);
 	</style>
 	
 </head>

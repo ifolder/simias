@@ -125,18 +125,18 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Default.aspx"
+                    RelPath = "DefaultPage.aspx"
                     BuildAction = "Content"
                 />
                 <File
-                    RelPath = "Default.aspx.cs"
-                    DependentUpon = "Default.aspx"
+                    RelPath = "DefaultPage.aspx.cs"
+                    DependentUpon = "DefaultPage.aspx"
                     SubType = "ASPXCodeBehind"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Default.aspx.resx"
-                    DependentUpon = "Default.aspx.cs"
+                    RelPath = "DefaultPage.aspx.resx"
+                    DependentUpon = "DefaultPage.aspx.cs"
                     BuildAction = "EmbeddedResource"
                 />
                 <File
@@ -264,23 +264,23 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "iFolderDetails.aspx"
+                    RelPath = "iFolderDetailsPage.aspx"
                     SubType = "Form"
                     BuildAction = "Content"
                 />
                 <File
-                    RelPath = "iFolderDetails.aspx.cs"
-                    DependentUpon = "iFolderDetails.aspx"
+                    RelPath = "iFolderDetailsPage.aspx.cs"
+                    DependentUpon = "iFolderDetailsPage.aspx"
                     SubType = "ASPXCodeBehind"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "iFolderDetails.aspx.resx"
-                    DependentUpon = "iFolderDetails.aspx.cs"
+                    RelPath = "iFolderDetailsPage.aspx.resx"
+                    DependentUpon = "iFolderDetailsPage.aspx.cs"
                     BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "iFolderDetails.css"
+                    RelPath = "iFolderDetailsPage.css"
                     BuildAction = "Content"
                 />
                 <File
@@ -317,6 +317,22 @@
                 <File
                     RelPath = "iFolders.css"
                     BuildAction = "Content"
+                />
+                <File
+                    RelPath = "iFolderSearch.ascx"
+                    SubType = "UserControl"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "iFolderSearch.ascx.cs"
+                    DependentUpon = "iFolderSearch.ascx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "iFolderSearch.ascx.resx"
+                    DependentUpon = "iFolderSearch.ascx.cs"
+                    BuildAction = "EmbeddedResource"
                 />
                 <File
                     RelPath = "iFolderWebLogger.cs"

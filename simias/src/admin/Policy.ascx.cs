@@ -106,7 +106,7 @@ namespace Novell.iFolderWeb.Admin
 		/// </summary>
 		private bool IsiFolder
 		{
-			get { return Request.Path.EndsWith( "iFolderDetails.aspx" ); }
+			get { return Request.Path.EndsWith( "iFolderDetailsPage.aspx" ); }
 		}
 
 		/// <summary>

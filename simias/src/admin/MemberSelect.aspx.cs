@@ -365,7 +365,7 @@ namespace Novell.iFolderWeb.Admin
 			Hashtable ht = new Hashtable( total );
 			foreach( iFolderUser admin in adminList )
 			{
-				ht[ admin.UserID ] = new MemberInfo( admin.UserID, admin.UserName, admin.FullName );
+				ht[ admin.ID ] = new MemberInfo( admin.ID, admin.UserName, admin.FullName );
 			}
 
 			return ht;
@@ -382,7 +382,7 @@ namespace Novell.iFolderWeb.Admin
 			Hashtable ht = new Hashtable( total );
 			foreach( iFolderUser member in memberList )
 			{
-				ht[ member.UserID ] = new MemberInfo( member.UserID, member.UserName, member.FullName );
+				ht[ member.ID ] = new MemberInfo( member.ID, member.UserName, member.FullName );
 			}
 
 			return ht;
@@ -405,13 +405,13 @@ namespace Novell.iFolderWeb.Admin
 
 			iFolderUser[] userList;
 			int total;
-			SearchProperty attribute = MemberSearch.GetSearchAttribute();
+			SearchProperty attribute = MemberSearch.SearchAttribute;
 
-			if ( MemberSearch.SearchName.Value == String.Empty )
+			if ( MemberSearch.SearchName == String.Empty )
 			{
 				userList = web.GetUsersBySearch( 
 					attribute, 
-					MemberSearch.GetSearchOperation(), 
+					MemberSearch.SearchOperation, 
 					"*", 
 					CurrentUserOffset, 
 					MemberList.PageSize, 
@@ -421,8 +421,8 @@ namespace Novell.iFolderWeb.Admin
 			{
 				userList = web.GetUsersBySearch( 
 					attribute, 
-					MemberSearch.GetSearchOperation(), 
-					MemberSearch.SearchName.Value, 
+					MemberSearch.SearchOperation, 
+					MemberSearch.SearchName, 
 					CurrentUserOffset, 
 					MemberList.PageSize, 
 					out total );
@@ -432,8 +432,8 @@ namespace Novell.iFolderWeb.Admin
 			{
 				dr = dt.NewRow();
 				dr[ 0 ] = true;
-				dr[ 1 ] = user.UserID;
-				dr[ 2 ] = !IsUserSelected( user.UserID );
+				dr[ 1 ] = user.ID;
+				dr[ 2 ] = !IsUserSelected( user.ID );
 				dr[ 3 ] = user.UserName;
 				dr[ 4 ] = user.FullName;
 
@@ -469,7 +469,7 @@ namespace Novell.iFolderWeb.Admin
 			// Get the information about the new owner.
 			iFolderUser owner = web.GetUser( Owner );
 			Hashtable ht = new Hashtable();
-			ht[ owner.UserID ] = new MemberInfo( owner.UserID, owner.UserName, owner.FullName );
+			ht[ owner.ID ] = new MemberInfo( owner.ID, owner.UserName, owner.FullName );
 			return ht;
 		}
 
@@ -1296,7 +1296,7 @@ namespace Novell.iFolderWeb.Admin
 				Page.PreRender += new EventHandler( Page_PreRender );
 			}
 
-			MemberSearch.SearchButton.Click += new System.EventHandler( SearchButton_Click );
+			MemberSearch.Click += new System.EventHandler( SearchButton_Click );
 
 			MemberList.ItemDataBound += new DataGridItemEventHandler( MemberSelect_MemberItemDataBound );
 			SelectedMemberList.ItemDataBound += new DataGridItemEventHandler( MemberSelect_SelectedItemDataBound );

@@ -13,9 +13,10 @@ iFolderAdmin_CSFILES = \
 	$(srcdir)/Header.ascx.cs \
 	$(srcdir)/iFolderAdmin.aspx.cs \
 	$(srcdir)/iFolderAdminWebProxy.cs \
-	$(srcdir)/iFolderDetails.aspx.cs \
+	$(srcdir)/iFolderDetailsPage.aspx.cs \
 	$(srcdir)/iFolderEnabled.ascx.cs \
 	$(srcdir)/iFolders.aspx.cs \
+	$(srcdir)/iFolderSearch.ascx.cs \
 	$(srcdir)/iFolderWebLogger.cs \
 	$(srcdir)/Login.aspx.cs \
 	$(srcdir)/MemberSearch.ascx.cs \
@@ -67,11 +68,12 @@ iFolderAdmin_FORMS = \
 	Header.ascx \
 	iFolderAdmin.aspx \
 	iFolderAdmin.css \
-	iFolderDetails.aspx \
-	iFolderDetails.css \
+	iFolderDetailsPage.aspx \
+	iFolderDetailsPage.css \
 	iFolderEnabled.ascx \
 	iFolders.aspx \
 	iFolders.css \
+	iFolderSearch.ascx \
 	Log4Net.config \
 	Login.aspx \
 	Login.css \
