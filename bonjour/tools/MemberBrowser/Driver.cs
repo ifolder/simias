@@ -45,6 +45,7 @@ namespace MemberBrowser
 			public int			TouchedBy;
 			public MemberStatus	Status;
 			public DateTime		LastUpdate;
+			public string		HostAddress;
 			public int			Port;
 			public string		ID;
 			public string		Name;
@@ -69,6 +70,9 @@ namespace MemberBrowser
 			[ MarshalAs( UnmanagedType.ByValTStr, SizeConst=256 ) ]
 			public string PublicKey = null;
 
+			[ MarshalAs( UnmanagedType.ByValTStr, SizeConst=16 ) ]
+			public string HostAddress = null;
+			
 			public int Port;
 		}
 
@@ -198,16 +202,6 @@ namespace MemberBrowser
 		kErrorType
 		BrowseMembers( int handle, int timeout );
 		
-		[ DllImport( nativeLib, CharSet=CharSet.Ansi ) ]
-		private 
-		extern 
-		static 
-		kErrorType
-		GetHostAddress(
-			[MarshalAs(UnmanagedType.LPStr)] string	Host,
-			[MarshalAs( UnmanagedType.LPStr)] [In, Out] string Address);
-		    //ref MemberInfo Info);
-		
 		#endregion
 
 		private bool MemberManager()
@@ -290,6 +284,17 @@ namespace MemberBrowser
 					{
 						// New school host address
 						Console.WriteLine( "Calling new school GetHostAddress" );
+						Console.WriteLine( "Addr: {0}", member.HostAddress );
+						
+						member.Address = 
+							String.Format( "{0}:{1}",
+							member.HostAddress,
+							member.Port );
+							
+						member.LastUpdate = DateTime.Now;
+						store.AppendValues( member.Name, member.ServicePath, member.Address );
+						
+						/*
 						try
 						{
 							string address = "";
@@ -326,6 +331,7 @@ namespace MemberBrowser
 							member.LastUpdate = DateTime.Now;
 							store.AppendValues( member.Name, member.ServicePath, member.Address );
 						}
+						*/
 					}
 				}
 			}
@@ -406,6 +412,7 @@ namespace MemberBrowser
 								member.LastUpdate = DateTime.Now;
 								member.TouchedBy = 1;
 								member.Status = MemberStatus.Up;
+								member.HostAddress = info.HostAddress;
 								member.Port = info.Port;
 							}
 							else
@@ -419,6 +426,7 @@ namespace MemberBrowser
 								member.LastUpdate = DateTime.Now;
 								member.TouchedBy = 1;
 								member.Status = MemberStatus.Up;
+								member.HostAddress = info.HostAddress;
 								member.Port = info.Port;
 								Driver.memberList.Add( member.ID, member );
 							}

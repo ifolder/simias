@@ -77,9 +77,9 @@ static const char key2Label[] = "PK2=";
 
 typedef void (DNSSD_API *MemberBrowseCallback)
 (
-    uint32_t            interfaceIndex,
-	DNSServiceFlags		flags, 
-    const char          *pName,
+    uint32_t        interfaceIndex,
+	DNSServiceFlags	flags, 
+    const char      *pName,
 	void				*pCtx
 );
 
@@ -90,8 +90,8 @@ typedef struct tagMembers
 	char				HostName[kSimiasMaxDomainName];
 	char				IPAddress[kDNSMaxTextualIP];
 	char				ServicePath[kSimiasMaxServicePath];
-	unsigned char		PublicKey[kSimiasMaxPublicKey];
-	int					Port;
+	unsigned char	PublicKey[kSimiasMaxPublicKey];
+	int				Port;
 
 } Members, *PMembers;
 
@@ -100,8 +100,9 @@ typedef struct tagMemberInfo
 	char				Name[kSimiasMaxServiceName];
 	char				HostName[kSimiasMaxDomainName];
 	char				ServicePath[kSimiasMaxServicePath];
-	unsigned char		PublicKey[kSimiasMaxPublicKey];
-	int			        Port;
+	unsigned char	PublicKey[kSimiasMaxPublicKey];
+	char				HostAddress[16];
+	int			    Port;
 
 } MemberInfo, *PMemberInfo;
 
@@ -113,8 +114,8 @@ typedef struct tagCollections
 	char				HostName[kSimiasMaxDomainName];
 	char				IPAddress[kDNSMaxTextualIP];
 	char				ServicePath[kSimiasMaxServicePath];
-	unsigned char		Description[kSimiasMaxDescription];
-	int					Port;
+	unsigned char	Description[kSimiasMaxDescription];
+	int				Port;
 
 } Collections, *PCollections;
 
@@ -124,7 +125,7 @@ typedef struct tagCollectionInfo
 	char				HostName[kSimiasMaxDomainName];
 	char				ServicePath[kSimiasMaxServicePath];
 	char				Description[kSimiasMaxDescription];
-	int			        Port;
+	int			    Port;
 
 } CollectionInfo, *PCollectionInfo;
 
@@ -144,17 +145,17 @@ DNSSD_API
 RegisterLocalMember(
 	char					*pID,
 	char					*pName,
-	short					Port,
+	short				Port,
 	char					*pServicePath,
-	unsigned char			*pPublicKey,
-	DNSServiceRef			*pCookie);
+	unsigned char		*pPublicKey,
+	DNSServiceRef		*pCookie);
 
 extern
 DNSServiceErrorType
 DNSSD_API 
 BrowseMembersInit(
-	DNSServiceBrowseReply       callback,
-	DNSServiceRef				*pHandle);
+	DNSServiceBrowseReply	callback,
+	DNSServiceRef			*pHandle);
 
 extern
 DNSServiceErrorType

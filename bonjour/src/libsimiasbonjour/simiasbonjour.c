@@ -33,10 +33,10 @@ typedef struct tagMemberInfoCtx2
 typedef struct tagMemberInfoCtx
 {
 	DNSServiceErrorType		CBError;
-	char					*pName;
-	char					*pServicePath;
+	char						*pName;
+	char						*pServicePath;
 	unsigned char			*pPublicKey;
-	char					*pHost;
+	char						*pHost;
 	int						*pPort;
 } MemberInfoCtx, *PMemberInfoCtx;
 
@@ -173,33 +173,25 @@ QueryRecordCallback(
 	uint32_t				ttl,
 	void					*pContext)
 {
-	int i;
-	char address[16];
-	unsigned char *pBufPtr;
-	
-	// Send the raw resource record back to the client
-	printf( "QueryRecordCallback %s\n", pFullName );
-	
-	printf( "record length: %u\n", recordLen );
-	
-	pBufPtr = (unsigned char *) pRecord;
+	PMemberInfoCtx2 pCtx = ( PMemberInfoCtx2 )pContext;
 	
 	if ( recordLen == 4 )
 	{
+		unsigned char *pBufPtr = (unsigned char *) pRecord;
+		
 		sprintf( 
-			address, 
-			"%u.%u.%u.%u",
-			(unsigned char) *pBufPtr,
-			(unsigned char) *(pBufPtr + 1),
-			(unsigned char) *(pBufPtr + 2),
-			(unsigned char) *(pBufPtr + 3) );
+			pCtx->pInfo->HostAddress, 
+			"%2u.%2u.%2u.%2u", 
+			pBufPtr[0], 
+			pBufPtr[1], 
+			pBufPtr[2], 
+			pBufPtr[3] );
 			
-		printf( "address: %s\n", address );
-		strcpy( (char *) pContext, address ); 
+		printf( "QueryRecordCallback  HostAddress: %s\n", pCtx->pInfo->HostAddress );
 	}
 	else
 	{
-		memcpy( pContext, pRecord, recordLen );
+		pCtx->pInfo->HostAddress[0] = '\0';
 	}
 }
 
@@ -547,16 +539,13 @@ DeregisterCollection(
 
 DNSServiceErrorType
 DNSSD_API 
-GetHostAddress(
-	char				*pHost,
-	char				*pHostAddress)
+GetHostAddress(	PMemberInfoCtx2	pInfoCtx )
 {
 	DNSServiceErrorType err;
 	DNSServiceRef		client = NULL;
-	MemberInfoCtx2		infoCtx;
 
 	// Valid Parameters?
-	if ( pHost == NULL || pHostAddress == NULL )
+	if ( pInfoCtx == NULL || pInfoCtx->pInfo == NULL || pInfoCtx->pInfo->HostName[0] == '\0' )
 	{
 		return kDNSServiceErr_BadParam;
 	}
@@ -567,11 +556,11 @@ GetHostAddress(
 			&client,
 			0,
 			kDNSServiceInterfaceIndexAny,
-			pHost,
+			pInfoCtx->pInfo->HostName,
 			kDNSServiceType_A,
 			kDNSServiceClass_IN,
 			QueryRecordCallback,
-			pHostAddress );
+			pInfoCtx );
 
 	if ( err == kDNSServiceErr_NoError )
 	{
@@ -651,7 +640,7 @@ DNSServiceErrorType
 DNSSD_API 
 GetMemberInfo(
 	char				*pID,
-	PMemberInfo			pInfo)
+	PMemberInfo		pInfo)
 {
 	DNSServiceErrorType err;
 	DNSServiceRef		client = NULL;
@@ -742,6 +731,15 @@ GetMemberInfo(
 		}
 
 		DNSServiceRefDeallocate( client );
+		
+		if ( err == kDNSServiceErr_NoError )
+		{
+			err = GetHostAddress( &infoCtx );
+			if ( err == kDNSServiceErr_NoError )
+			{
+				printf( "GetMemberInfo  HostAddress: %s\n", pInfo->HostAddress );
+			}
+		}
 	}
 
 	return err;

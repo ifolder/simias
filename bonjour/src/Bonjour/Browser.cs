@@ -68,6 +68,8 @@ namespace Simias.mDns
 			[ MarshalAs( UnmanagedType.ByValTStr, SizeConst=256 ) ]
 			public String PublicKey = null;
 
+			public long HostAddress;
+			
 			public int Port;
 		}
 		#endregion
