@@ -102,7 +102,7 @@
 						
 						<columns>
 						
-							<asp:BoundColumn DataField="UserID" Visible="false" />
+							<asp:BoundColumn DataField="ID" Visible="false" />
 							
 							<asp:TemplateColumn ItemStyle-CssClass="cb">
 								<itemtemplate>

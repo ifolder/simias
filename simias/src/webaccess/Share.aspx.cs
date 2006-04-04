@@ -266,7 +266,7 @@ namespace Novell.iFolderApp.Web
 					{
 						foreach(iFolderUser member in members)
 						{
-							currentMembers.Add(member.UserID, member.UserName);
+							currentMembers.Add(member.ID, member.UserName);
 						}
 					}
 				}
@@ -289,7 +289,7 @@ namespace Novell.iFolderApp.Web
 
 			// user
 			DataTable userTable = new DataTable();
-			userTable.Columns.Add("UserID");
+			userTable.Columns.Add("ID");
 			userTable.Columns.Add("FullName");
 			userTable.Columns.Add("Enabled", typeof(bool));
 
@@ -307,9 +307,9 @@ namespace Novell.iFolderApp.Web
 				{
 					DataRow row = userTable.NewRow();
 
-					row["UserID"] = user.UserID;
+					row["ID"] = user.ID;
 					row["FullName"] = user.FullName;
-					row["Enabled"] = !members.ContainsKey(user.UserID) && !currentMembers.ContainsKey(user.UserID);
+					row["Enabled"] = !members.ContainsKey(user.ID) && !currentMembers.ContainsKey(user.ID);
 
 					userTable.Rows.Add(row);
 				}
@@ -321,7 +321,7 @@ namespace Novell.iFolderApp.Web
 
 			// bind
 			UserData.DataSource = userTable;
-			UserData.DataKeyField = "UserID";
+			UserData.DataKeyField = "ID";
 			UserData.DataBind();
 		}
 
@@ -332,7 +332,7 @@ namespace Novell.iFolderApp.Web
 		{
 			// member
 			DataTable memberTable = new DataTable();
-			memberTable.Columns.Add("UserID");
+			memberTable.Columns.Add("ID");
 			memberTable.Columns.Add("FullName");
 			memberTable.Columns.Add("Enabled", typeof(bool));
 
@@ -348,7 +348,7 @@ namespace Novell.iFolderApp.Web
 				MemberInfo member = (MemberInfo)memberList[i];
 
 				DataRow row = memberTable.NewRow();
-				row["UserID"] = member.UserID;
+				row["ID"] = member.ID;
 				row["FullName"] = member.FullName;
 				row["Enabled"] = member.Removable;
 
@@ -359,7 +359,7 @@ namespace Novell.iFolderApp.Web
 
 			// bind
 			MemberData.DataSource = memberTable;
-			MemberData.DataKeyField = "UserID";
+			MemberData.DataKeyField = "ID";
 			MemberData.DataBind();
 		}
 
@@ -491,7 +491,7 @@ namespace Novell.iFolderApp.Web
 				// add
 				iFolderUser user = web.GetUser((string)e.CommandArgument);
 
-				members.Add(user.UserID, new MemberInfo(user));
+				members.Add(user.ID, new MemberInfo(user));
 
 				// reset pagging
 				MemberPagging.Index = 0;
@@ -626,7 +626,7 @@ namespace Novell.iFolderApp.Web
 		[Serializable]
 		private class MemberInfo : IComparable
 		{
-			private string userID;
+			private string id;
 			private string username;
 			private string fullName;
 			private bool removable;
@@ -638,7 +638,7 @@ namespace Novell.iFolderApp.Web
 			
 			public MemberInfo(iFolderUser user, bool removable)
 			{
-				this.userID = user.UserID;
+				this.id = user.ID;
 				this.username = user.UserName;
 				this.fullName = user.FullName;
 				this.removable = removable;
@@ -647,9 +647,9 @@ namespace Novell.iFolderApp.Web
 			
 			#region Properties
 			
-			public string UserID
+			public string ID
 			{
-				get { return userID; }
+				get { return id; }
 			}
 
 			public string Username

@@ -216,7 +216,7 @@ namespace Novell.iFolderApp.Web
 
 				iFolderName.Text = ifolder.Name;
 				iFolderDescription.Text = ifolder.Description;
-				iFolderOwner.Text = ifolder.OwnerName;
+				iFolderOwner.Text = ifolder.OwnerFullName;
 				iFolderSize.Text = WebUtility.FormatSize(ifolder.Size, rm);
 				iFolderMemberCount.Text = ifolder.MemberCount.ToString();
 				iFolderFileCount.Text = ifolder.FileCount.ToString();
@@ -240,7 +240,7 @@ namespace Novell.iFolderApp.Web
 
 			// member
 			DataTable memberTable = new DataTable();
-			memberTable.Columns.Add("UserID");
+			memberTable.Columns.Add("ID");
 			memberTable.Columns.Add("Name");
 			memberTable.Columns.Add("Rights");
 
@@ -255,7 +255,7 @@ namespace Novell.iFolderApp.Web
 				{
 					DataRow row = memberTable.NewRow();
 
-					row["UserID"] = member.UserID;
+					row["ID"] = member.ID;
 					row["Name"] = member.FullName;
 					row["Rights"] = WebUtility.FormatRights(member.Rights, rm);
 
