@@ -68,8 +68,9 @@ namespace Simias.mDns
 			[ MarshalAs( UnmanagedType.ByValTStr, SizeConst=256 ) ]
 			public String PublicKey = null;
 
-			public long HostAddress;
-			
+			[ MarshalAs( UnmanagedType.ByValTStr, SizeConst=16 ) ]
+			public String HostAddress = null;
+
 			public int Port;
 		}
 		#endregion
@@ -115,6 +116,7 @@ namespace Simias.mDns
 		private const string host = "RHost";
 		private const string path = "RPath";
 		private const string port = "RPort";
+		private const string address = "RHostAddress";
 		private const string key = "RPublicKey";
 
 		public static ArrayList MemberList = new ArrayList();
@@ -148,6 +150,14 @@ namespace Simias.mDns
 			get { return path; }
 		}
 
+		/// <summary>
+		/// Gets the host address property name used in the simias member object
+		/// </summary>
+		public string HostAddressProperty
+		{
+			get { return address; }
+		}
+		
 		/// <summary>
 		/// Gets the port property name used in the simias member object
 		/// </summary>
@@ -407,6 +417,7 @@ namespace Simias.mDns
 					{
 						log.Debug( "  user: " + info.Name );
 						log.Debug( "  host: " + info.Host );
+						log.Debug( "  address: " + info.HostAddress );
 						log.Debug( "  port: " + info.Port.ToString() );
 						
 						Simias.Storage.Member member =
@@ -423,6 +434,11 @@ namespace Simias.mDns
 								new Property( browser.PathProperty,	info.ServicePath );
 							path.LocalProperty = true;
 							member.Properties.AddProperty( path );
+
+							Property hostaddr = 
+								new Property( browser.HostAddressProperty, info.HostAddress );
+							hostaddr.LocalProperty = true;
+							member.Properties.AddProperty( hostaddr );
 
 							Property rport = new Property( browser.PortProperty, info.Port.ToString() );
 							rport.LocalProperty = true;

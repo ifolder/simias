@@ -47,11 +47,11 @@ typedef	int	pid_t;
 #define	kSimiasMaxServicePath		128
 #define	kSimiasMaxPublicKey			256
 #define kSimiasMaxDescription		256
-#define	kDNSMaxTextualIP			16
+#define	kDNSMaxTextualIP				16
 
 // Note: Bonjour's max domain name is 1005 but for now we're
 // just going to support local. so our's is much smaller
-#define	kSimiasMaxDomainName		128
+#define	kSimiasMaxDomainName			128
 #define	kSimiasMaxServiceName		128
 
 #ifndef kDNSServiceInterfaceIndexAny 
@@ -101,7 +101,7 @@ typedef struct tagMemberInfo
 	char				HostName[kSimiasMaxDomainName];
 	char				ServicePath[kSimiasMaxServicePath];
 	unsigned char	PublicKey[kSimiasMaxPublicKey];
-	char				HostAddress[16];
+	char				HostAddress[kDNSMaxTextualIP];
 	int			    Port;
 
 } MemberInfo, *PMemberInfo;

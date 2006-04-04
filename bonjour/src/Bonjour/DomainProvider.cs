@@ -130,19 +130,25 @@ namespace Simias
 					log.Debug( "  getting the host property " );
 					string hostName =
 						member.Properties.GetSingleProperty( browser.HostProperty ).Value as string;
-					log.Debug( "  resolving host: " + hostName );
-
-					IPHostEntry host = Dns.GetHostByName( hostName );
-					long addr = host.AddressList[0].Address;
 					string ipAddr = 
-						String.Format( "{0}.{1}.{2}.{3}", 
-						( addr & 0x000000FF ),
-						( ( addr >> 8 ) & 0x000000FF ),
-						( ( addr >> 16 ) & 0x000000FF ),
-						( ( addr >> 24 ) & 0x000000FF ) );
-
-					string port = member.Properties.GetSingleProperty( browser.PortProperty ).Value as string;
-					string path = member.Properties.GetSingleProperty( browser.PathProperty ).Value as string;
+						member.Properties.GetSingleProperty( browser.HostAddressProperty ).Value as string;
+					if ( ipAddr == null || ipAddr == "" )
+					{
+						log.Debug( "Resolving host: " + hostName );
+						IPHostEntry host = Dns.GetHostByName( hostName );
+						long addr = host.AddressList[0].Address;
+						ipAddr = 
+							String.Format( "{0}.{1}.{2}.{3}", 
+								( addr & 0x000000FF ),
+								( ( addr >> 8 ) & 0x000000FF ),
+								( ( addr >> 16 ) & 0x000000FF ),
+								( ( addr >> 24 ) & 0x000000FF ) );
+					}
+					
+					string port = 
+						member.Properties.GetSingleProperty( browser.PortProperty ).Value as string;
+					string path = 
+						member.Properties.GetSingleProperty( browser.PathProperty ).Value as string;
 					
 					log.Debug( "  path: " + path );
 					log.Debug( "  port: " + port );

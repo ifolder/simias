@@ -60,14 +60,14 @@ DNSSD_API
 ResolveCollectionInfoCallback(
 	DNSServiceRef		client, 
 	DNSServiceFlags		flags, 
-	uint32_t			ifIndex, 
+	uint32_t				ifIndex, 
 	DNSServiceErrorType errorCode,
 	const char			*pFullName, 
 	const char			*pHostTarget, 
-	uint16_t			opaqueport, 
-	uint16_t			txtLen, 
+	uint16_t				opaqueport, 
+	uint16_t				txtLen, 
 	const char			*pTxt,
-	void				*pContext)
+	void					*pContext)
 {
 	PCollectionInfoCtx pCtx = ( PCollectionInfoCtx ) pContext;
 	unsigned char label[32];
