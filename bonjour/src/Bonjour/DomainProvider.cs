@@ -267,6 +267,7 @@ namespace Simias
 				else
 				if ( status.UserID == mdnsSession.MemberID )
 				{
+					log.Debug( "found mdns-session now checking member" );
 					// State should be 1
 					string encodedSecret = ctx.Request.Headers[ "mdns-secret" ];
 					if ( encodedSecret != null && encodedSecret != "" )
@@ -315,6 +316,11 @@ namespace Simias
 							}
 						}
 					}
+				}
+				else
+				{
+					log.Debug( "found the mdns-session but the member ID didn't match" );
+					ctx.Session[ mdnsSessionTag ] = null;
 				}
 			}
 
