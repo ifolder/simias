@@ -106,7 +106,7 @@
 							
 							<asp:TemplateColumn ItemStyle-CssClass="cb">
 								<itemtemplate>
-									<asp:CheckBox ID="Select" runat="server" />
+									<asp:CheckBox ID="Select" Enabled='<%# !(bool)DataBinder.Eval(Container.DataItem, "IsOwner") %>' runat="server" />
 								</itemtemplate>
 							</asp:TemplateColumn>
 							

@@ -243,6 +243,7 @@ namespace Novell.iFolderApp.Web
 			memberTable.Columns.Add("ID");
 			memberTable.Columns.Add("Name");
 			memberTable.Columns.Add("Rights");
+			memberTable.Columns.Add("IsOwner", typeof(bool));
 
 			try
 			{
@@ -257,7 +258,8 @@ namespace Novell.iFolderApp.Web
 
 					row["ID"] = member.ID;
 					row["Name"] = member.FullName;
-					row["Rights"] = WebUtility.FormatRights(member.Rights, rm);
+					row["Rights"] = member.IsOwner ? GetString("OWNER") : WebUtility.FormatRights(member.Rights, rm);
+					row["IsOwner"] = member.IsOwner;
 
 					memberTable.Rows.Add(row);
 				}
