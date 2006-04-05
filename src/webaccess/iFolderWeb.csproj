@@ -183,6 +183,33 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "Footer.ascx"
+                    SubType = "UserControl"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Footer.ascx.cs"
+                    DependentUpon = "Footer.ascx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Footer.ascx.resx"
+                    DependentUpon = "Footer.ascx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Header.ascx.cs"
+                    DependentUpon = "Footer.ascx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Header.ascx.resx"
+                    DependentUpon = "Header.ascx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "Global.asax"
                     SubType = "Component"
                     BuildAction = "Content"
@@ -202,17 +229,6 @@
                     RelPath = "Header.ascx"
                     SubType = "UserControl"
                     BuildAction = "Content"
-                />
-                <File
-                    RelPath = "Header.ascx.cs"
-                    DependentUpon = "Header.ascx"
-                    SubType = "ASPXCodeBehind"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Header.ascx.resx"
-                    DependentUpon = "Header.ascx.cs"
-                    BuildAction = "EmbeddedResource"
                 />
                 <File
                     RelPath = "iFolder.aspx"

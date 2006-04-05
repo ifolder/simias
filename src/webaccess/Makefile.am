@@ -8,6 +8,7 @@ iFolderWeb_CSFILES = \
 	$(srcdir)/Entries.aspx.cs \
 	$(srcdir)/Entry.aspx.cs \
 	$(srcdir)/Error.aspx.cs \
+	$(srcdir)/Footer.ascx.cs \
 	$(srcdir)/Global.asax.cs \
 	$(srcdir)/Header.ascx.cs \
 	$(srcdir)/iFolder.aspx.cs \
@@ -58,6 +59,7 @@ iFolderWeb_FORMS = \
 	iFolders.aspx \
 	Login.aspx \
 	Share.aspx \
+	Footer.ascx \
 	Header.ascx \
 	Message.ascx \
 	Pagging.ascx \
