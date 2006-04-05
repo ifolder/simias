@@ -181,7 +181,7 @@ QueryRecordCallback(
 		
 		sprintf( 
 			pCtx->pInfo->HostAddress, 
-			"%2u.%2u.%2u.%2u", 
+			"%u.%u.%u.%u", 
 			pBufPtr[0], 
 			pBufPtr[1], 
 			pBufPtr[2], 
