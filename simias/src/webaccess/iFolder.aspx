@@ -145,7 +145,7 @@
 							
 							<asp:TemplateColumn ItemStyle-CssClass="icon">
 								<itemtemplate>
-									<asp:Image ImageUrl='images/16/text-x-generic.png' runat="server" />
+									<asp:Image ImageUrl='images/16/user.png' runat="server" />
 								</itemtemplate>
 							</asp:TemplateColumn>
 							
