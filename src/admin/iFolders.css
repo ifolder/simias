@@ -24,14 +24,56 @@
 	width: 100%;
 }
 
-.ifolderlistheader td
+.ifolderlistheader
 {
-	color: black;
-	font-size: 0.8em;
-	font-weight: bold;
-	background-color: #efeee9;
+	clear: left;
 	border-top: solid 1px black;
 	border-bottom: solid 1px black;
+	border-collapse: collapse;
+	height: 1.5em;
+	width: 100%;
+}
+
+.ifolderlistheader td
+{
+	font-weight: bold;
+	font-size: 0.8em;
+	color: black;
+	background-color: #efeee9;
+}
+
+.ifolderlistheader .checkboxcolumn
+{
+	width: 2em;
+}
+
+.ifolderlistheader .typecolumn
+{
+	width: 4em;
+}
+
+.ifolderlistheader .namecolumn
+{
+	width: 18em;
+}
+
+.ifolderlistheader .ownercolumn
+{
+	width: 16em;
+}
+
+.ifolderlistheader .memberscolumn
+{
+	width: 9em;
+}
+
+.ifolderlistheader .lastmodifiedcolumn
+{
+	width: 15em;
+}
+
+.ifolderlistheader .sizecolumn
+{
 }
 
 .ifolderlistitem
@@ -52,24 +94,62 @@
 
 .ifolderitem2
 {
-	width: 3em;
+	width: 3.3em;
 }
 
 .ifolderitem2 img
 {
-	padding-left: .3em;
+	padding-left: .2em;
 }
 
 .ifolderitem3
 {
-	width: 22em;
+	width: 16.1em;
 }
 
 .ifolderitem4
 {
-	width: 12em;
+	width: 14.3em;
 }
 
 .ifolderitem5
 {
+	width: 7.9em;
+}
+
+.ifolderitem6
+{
+	width: 13.5em;
+}
+
+.ifolderitem7
+{
+}
+
+#DeleteButton
+{
+	float: left;
+	margin-top: .5em;
+}
+
+#DisableButton
+{
+	float: left;
+	margin-top: .5em;
+	margin-left: .3em;
+	width: 5em;
+}
+
+#EnableButton
+{
+	float: left;
+	margin-top: .5em;
+	margin-left: .3em;
+	width: 4.6em;
+}
+
+#CreateButton
+{
+	float: right;
+	margin-top: .5em;
 }

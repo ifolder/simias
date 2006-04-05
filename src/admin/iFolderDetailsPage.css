@@ -113,11 +113,13 @@
 #MemberDeleteButton
 {
 	float:left;
+	margin-left: .4em;
 }
 
 #MemberOwnerButton
 {
 	float: left;
+	margin-left: .4em;
 }
 
 #MemberAddButton

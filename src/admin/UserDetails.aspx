@@ -101,6 +101,36 @@
 				
 				</div>
 
+				<table class="ifolderlistheader" cellpadding="0" cellspacing="0" border="0">
+			
+					<tr>
+						<td class="checkboxcolumn">
+							<asp:CheckBox 
+								ID="AlliFoldersCheckBox" 
+								Runat="server" 
+								OnCheckedChanged="OnAlliFoldersChecked" 
+								AutoPostBack="True"	/>
+						</td>
+					
+						<td class="typecolumn">
+							<%= GetString( "TYPE" ) %>
+						</td>
+						
+						<td class="namecolumn">
+							<%= GetString( "NAME" ) %>
+						</td>
+						
+						<td class="ownercolumn">
+							<%= GetString( "OWNER" ) %>
+						</td>
+						
+						<td class="sizecolumn">
+							<%= GetString( "SIZE" ) %>
+						</td>
+					</tr>
+			
+				</table>
+
 				<asp:datagrid 
 					id="iFolderList" 
 					runat="server" 
@@ -109,9 +139,8 @@
 					CellPadding="0"
 					CellSpacing="0" 
 					GridLines="None" 
-					ShowHeader="True" 
+					ShowHeader="False" 
 					CssClass="ifolderlist" 
-					HeaderStyle-CssClass="ifolderlistheader"
 					AlternatingItemStyle-CssClass="ifolderlistaltitem" 
 					ItemStyle-CssClass="ifolderlistitem">
 					
@@ -119,15 +148,9 @@
 					
 						<asp:BoundColumn DataField="IDField" Visible="False" />
 						
+						<asp:BoundColumn DataField="DisabledField" Visible="False" />
+						
 						<asp:TemplateColumn ItemStyle-CssClass="ifolderitem1">
-							<HeaderTemplate>
-								<asp:CheckBox 
-									ID="iFolderAllCheckBox" 
-									Runat="server" 
-									AutoPostBack="True" 
-									OnCheckedChanged="OnAlliFoldersChecked" />
-							</HeaderTemplate>
-							
 							<ItemTemplate>
 								<asp:CheckBox 
 									ID="iFolderListCheckBox" 
@@ -181,6 +204,20 @@
 					Enabled="False" 
 					CssClass="actionbuttons"
 					OnClick="OnDeleteiFolder" />
+					
+				<asp:Button 
+					ID="DisableiFolderButton" 
+					Runat="server" 
+					CssClass="actionbuttons" 
+					Enabled="False"
+					OnClick="OnDisableiFolder" />
+					
+				<asp:Button 
+					ID="EnableiFolderButton" 
+					Runat="server" 
+					CssClass="actionbuttons" 
+					Enabled="False"
+					OnClick="OnEnableiFolder" />
 					
 				<asp:Button 
 					ID="CreateiFolderButton" 

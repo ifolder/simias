@@ -46,11 +46,14 @@ namespace Novell.iFolderWeb.Admin
 		/// iFolder list data grid column indices.
 		/// </summary>
 		private const int iFolderIDColumn = 0;
-		private const int iFolderCheckColumn = 1;
-		private const int iFolderTypeColumn = 2;
-		private const int iFolderNameColumn = 3;
-		private const int iFolderOwnerColumn = 4;
-		private const int iFolderSizeColumn = 5;
+		private const int iFolderDisabledColumn = 1;
+		private const int iFolderCheckColumn = 2;
+		private const int iFolderTypeColumn = 3;
+		private const int iFolderNameColumn = 4;
+		private const int iFolderOwnerColumn = 5;
+		private const int iFolderSizeMemberCountColumn = 6;
+		private const int iFolderLastModifiedColumn = 7;
+		private const int iFolderSizeColumn = 8;
 
 		/// <summary>
 		/// iFolder Connection
@@ -61,6 +64,12 @@ namespace Novell.iFolderWeb.Admin
 		/// Resource Manager
 		/// </summary>
 		private ResourceManager rm;
+
+
+		/// <summary>
+		/// Control that checks or unchecks all of the ifolders in the current view.
+		/// </summary>
+		protected CheckBox AlliFoldersCheckBox;
 
 
 		/// <summary>
@@ -79,9 +88,39 @@ namespace Novell.iFolderWeb.Admin
 		/// </summary>
 		protected iFolderSearch iFolderSearch;
 
+
+		/// <summary>
+		/// Delete ifolder button control.
+		/// </summary>
+		protected Button DeleteButton;
+
+		/// <summary>
+		/// Disable ifolder button control.
+		/// </summary>
+		protected Button DisableButton;
+
+		/// <summary>
+		/// Enable ifolder button control.
+		/// </summary>
+		protected Button EnableButton;
+
+		/// <summary>
+		/// Create ifolder button control.
+		/// </summary>
+		protected Button CreateButton;
+
 		#endregion
 
 		#region Properties
+
+		/// <summary>
+		/// Gets or sets the ifolders that are checked in the list.
+		/// </summary>
+		private Hashtable CheckediFolders
+		{
+			get { return ViewState[ "CheckediFolders" ] as Hashtable; }
+			set { ViewState[ "CheckediFolders" ] = value; }
+		}
 
 		/// <summary>
 		/// Gets or sets the current iFolder offset.
@@ -122,6 +161,8 @@ namespace Novell.iFolderWeb.Admin
 			dt.Columns.Add( new DataColumn( "DisabledField", typeof( bool ) ) );
 			dt.Columns.Add( new DataColumn( "NameField", typeof( string ) ) );
 			dt.Columns.Add( new DataColumn( "OwnerNameField", typeof( string ) ) );
+			dt.Columns.Add( new DataColumn( "MemberCountField", typeof( string ) ) );
+			dt.Columns.Add( new DataColumn( "LastModifiedField", typeof( string ) ) );
 			dt.Columns.Add( new DataColumn( "SizeField", typeof( string ) ) );
 
 			// Get the iFolder list for this user.
@@ -143,7 +184,9 @@ namespace Novell.iFolderWeb.Admin
 				dr[ 4 ] = !folder.Enabled;
 				dr[ 5 ] = folder.Name;
 				dr[ 6 ] = folder.OwnerFullName;
-				dr[ 7 ] = Utils.ConvertToUnitString( folder.Size, true, rm );
+				dr[ 7 ] = folder.MemberCount.ToString();
+				dr[ 8 ] = folder.LastModified.ToShortDateString();
+				dr[ 9 ] = Utils.ConvertToUnitString( folder.Size, true, rm );
 
 				dt.Rows.Add( dr );
 			}
@@ -160,6 +203,8 @@ namespace Novell.iFolderWeb.Admin
 				dr[ 5 ] = String.Empty;
 				dr[ 6 ] = String.Empty;
 				dr[ 7 ] = String.Empty;
+				dr[ 8 ] = String.Empty;
+				dr[ 9 ] = String.Empty;
 
 				dt.Rows.Add( dr );
 			}
@@ -169,6 +214,21 @@ namespace Novell.iFolderWeb.Admin
 
 			// Build the data view from the table.
 			return new DataView( dt );
+		}
+
+		/// <summary>
+		/// Gets an ifolder policy object that is set-able.
+		/// </summary>
+		/// <param name="ifolderID"></param>
+		/// <returns></returns>
+		private iFolderPolicy GetiFolderPolicyObject( string ifolderID )
+		{
+			iFolderPolicy policy = new iFolderPolicy();
+			policy.iFolderID = ifolderID;
+			policy.FileSizeLimit = policy.SpaceLimit = policy.SyncInterval = -1;
+			policy.FileTypesExcludes = policy.FileTypesIncludes = null;
+			policy.Locked = false;
+			return policy;
 		}
 
 		/// <summary>
@@ -198,14 +258,16 @@ namespace Novell.iFolderWeb.Admin
 			if ( !IsPostBack )
 			{
 				// Initialize the localized fields.
-				iFolderList.Columns[ iFolderTypeColumn ].HeaderText = GetString( "TYPE" );
-				iFolderList.Columns[ iFolderNameColumn ].HeaderText = GetString( "NAME" );
-				iFolderList.Columns[ iFolderOwnerColumn ].HeaderText = GetString( "OWNER" );
-				iFolderList.Columns[ iFolderSizeColumn ].HeaderText = GetString( "SIZE" );
+				DeleteButton.Text = GetString( "DELETE" );
+				DisableButton.Text = GetString( "DISABLE" );
+				EnableButton.Text = GetString( "ENABLE" );
+				CreateButton.Text = GetString( "CREATE" );
 
 				// Initialize state variables.
 				CurrentiFolderOffset = 0;
 				TotaliFolders = 0;
+				AlliFoldersCheckBox.Checked = false;
+				CheckediFolders = new Hashtable();
 			}
 		}
 
@@ -220,6 +282,17 @@ namespace Novell.iFolderWeb.Admin
 		}
 
 		/// <summary>
+		/// Enables or disables the ifolder action buttons.
+		/// </summary>
+		private void SetActionButtons()
+		{
+			Hashtable ht = CheckediFolders;
+			DeleteButton.Enabled = ( ht.Count > 0 ) ? true : false;
+			DisableButton.Enabled = ht.ContainsValue( Boolean.FalseString );
+			EnableButton.Enabled = ht.ContainsValue( Boolean.TrueString );
+		}
+
+		/// <summary>
 		/// Sets the page button state of the ifolder list.
 		/// </summary>
 		private void SetPageButtonState()
@@ -230,6 +303,34 @@ namespace Novell.iFolderWeb.Admin
 				TotaliFolders, 
 				GetString( "IFOLDERS" ),
 				GetString( "IFOLDER" ) );
+		}
+
+		/// <summary>
+		/// Sets the ifolder synchronization status on all selected ifolders.
+		/// </summary>
+		/// <param name="syncStatus">If true then all selected ifolders will be enabled.</param>
+		private void SetSelectediFolderStatus( bool syncStatus )
+		{
+			foreach( string ifolderID in CheckediFolders.Keys )
+			{
+				// Don't set the status if already set.
+				if ( CheckediFolders[ ifolderID ] as string != syncStatus.ToString() )
+				{
+					iFolderPolicy policy = GetiFolderPolicyObject( ifolderID );
+					policy.Locked = syncStatus;
+					web.SetiFolderPolicy( policy );
+				}
+			}
+
+			// Clear the checked members.
+			CheckediFolders.Clear();
+			AlliFoldersCheckBox.Checked = false;
+
+			// Set the action buttons.
+			SetActionButtons();
+
+			// Rebind the data source with the new data.
+			GetiFolders();
 		}
 
 		#endregion
@@ -250,11 +351,11 @@ namespace Novell.iFolderWeb.Admin
 		/// <summary>
 		/// Returns the checked state for the specified member.
 		/// </summary>
-		/// <param name="iFolderID">ID of the ifolder</param>
+		/// <param name="id">ID of the ifolder</param>
 		/// <returns>True if ifolder is checked.</returns>
-		protected bool GetMemberCheckedState( Object iFolderID )
+		protected bool GetMemberCheckedState( Object id )
 		{
-			return false;
+			return CheckediFolders.ContainsKey( id ) ? true : false;
 		}
 
 		/// <summary>
@@ -281,10 +382,87 @@ namespace Novell.iFolderWeb.Admin
 		/// <summary>
 		/// Event handler that gets called when the check all iFolders checkbox is selected.
 		/// </summary>
-		/// <param name="sender"></param>
+		/// <param name="source"></param>
 		/// <param name="e"></param>
-		protected void OnAlliFoldersChecked( object sender, EventArgs e )
+		protected void OnAlliFoldersChecked( object source, EventArgs e )
 		{
+			CheckBox checkBox = source as CheckBox;
+			foreach( DataGridItem item in iFolderList.Items )
+			{
+				// In order to be checked, the row must not be empty.
+				string ifolderID = item.Cells[ 0 ].Text;
+				if ( ifolderID != "&nbsp;" )
+				{
+					if ( checkBox.Checked )
+					{
+						CheckediFolders[ ifolderID ] = item.Cells[ iFolderDisabledColumn ].Text;
+					}
+					else
+					{
+						// Remove this ifolder the list.
+						CheckediFolders.Remove( ifolderID );
+					}
+				}
+			}
+
+			// Set the action buttons appropriately.
+			SetActionButtons();
+
+			// Rebind the data source with the new data.
+			GetiFolders();
+		}
+
+		/// <summary>
+		/// Event handler that gets called with the create ifolder button is clicked.
+		/// </summary>
+		/// <param name="source"></param>
+		/// <param name="e"></param>
+		protected void OnCreateButton_Click( object source, EventArgs e )
+		{
+			Page.Response.Redirect( String.Format( "MemberSelect.aspx?op=createifolder&owner={0}", web.GetAuthenticatedUser().ID ), true );
+		}
+
+		/// <summary>
+		/// Event handler that gets called with the delete ifolder button is clicked.
+		/// </summary>
+		/// <param name="source"></param>
+		/// <param name="e"></param>
+		protected void OnDeleteButton_Click( object source, EventArgs e )
+		{
+			foreach( string ifolderID in CheckediFolders.Keys )
+			{
+				web.DeleteiFolder( ifolderID );
+			}
+
+			// Clear the checked members.
+			CheckediFolders.Clear();
+			AlliFoldersCheckBox.Checked = false;
+
+			// Set the action buttons.
+			SetActionButtons();
+
+			// Rebind the data source with the new data.
+			GetiFolders();
+		}
+
+		/// <summary>
+		/// Event handler that gets called with the disable ifolder button is clicked.
+		/// </summary>
+		/// <param name="source"></param>
+		/// <param name="e"></param>
+		protected void OnDisableButton_Click( object source, EventArgs e )
+		{
+			SetSelectediFolderStatus( true );
+		}
+
+		/// <summary>
+		/// Event handler that gets called with the enable ifolder button is clicked.
+		/// </summary>
+		/// <param name="source"></param>
+		/// <param name="e"></param>
+		protected void OnEnableButton_Click( object source, EventArgs e )
+		{
+			SetSelectediFolderStatus( false );
 		}
 
 		/// <summary>
@@ -294,6 +472,26 @@ namespace Novell.iFolderWeb.Admin
 		/// <param name="e"></param>
 		protected void OniFolderChecked( object source, EventArgs e )
 		{
+			// Get the data grid row for this member.
+			CheckBox checkBox = source as CheckBox;
+			DataGridItem item = checkBox.Parent.Parent as DataGridItem;
+			string ifolderID = item.Cells[ iFolderIDColumn ].Text;
+			if ( ifolderID != "&nbsp;" )
+			{
+				// iFolder is being added.
+				if ( checkBox.Checked )
+				{
+					CheckediFolders[ ifolderID ] = item.Cells[ iFolderDisabledColumn ].Text;
+				}
+				else
+				{
+					// Remove this ifolder from the list.
+					CheckediFolders.Remove( ifolderID );
+				}
+			}
+
+			// Set the ifolder action buttons.
+			SetActionButtons();
 		}
 
 		/// <summary>
