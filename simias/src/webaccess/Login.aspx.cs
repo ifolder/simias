@@ -217,7 +217,11 @@ namespace Novell.iFolderApp.Web
 
 				// update web url
 				// always use the original path from the WSDL file
-				UriBuilder webUrl = new UriBuilder(System.Configuration.ConfigurationSettings.AppSettings.Get("SimiasUrl"));
+				string url = System.Configuration.ConfigurationSettings.AppSettings.Get("SimiasUrl");
+#if TESTING
+				url = "http://localhost:8086";
+#endif
+				UriBuilder webUrl = new UriBuilder(url);
 				webUrl.Path = (new Uri(web.Url)).PathAndQuery;
 				web.Url = webUrl.Uri.ToString();
 
