@@ -60,6 +60,14 @@ a:hover
 	padding: 0 12px 0 12px;
 }
 
+#footer
+{
+	font-size: 0.9em;
+	background-color: #99CCFF;
+	margin: 16px 0 0 0;
+	padding: 4px 8px 4px 8px;
+}
+
 .columns
 {
 	width: 100%;

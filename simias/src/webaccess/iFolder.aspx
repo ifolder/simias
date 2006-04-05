@@ -2,6 +2,7 @@
 <%@ Register TagPrefix="iFolder" TagName="Header" Src="Header.ascx" %>
 <%@ Register TagPrefix="iFolder" TagName="Message" Src="Message.ascx" %>
 <%@ Register TagPrefix="iFolder" TagName="Pagging" Src="Pagging.ascx" %>
+<%@ Register TagPrefix="iFolder" TagName="Footer" Src="Footer.ascx" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 
@@ -203,6 +204,8 @@
 	
 		</div>
 		
+		<iFolder:Footer runat="server" />
+
 	</div>
 	
 </form>

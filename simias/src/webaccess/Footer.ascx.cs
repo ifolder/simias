@@ -35,9 +35,9 @@ using System.Resources;
 namespace Novell.iFolderApp.Web
 {
 	/// <summary>
-	///	Header
+	///	Footer
 	/// </summary>
-	public class Header : UserControl
+	public class Footer : UserControl
 	{
 		/// <summary>
 		/// Log
@@ -46,35 +46,15 @@ namespace Novell.iFolderApp.Web
 			System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.Name);
 
 		/// <summary>
-		/// Settings Button
+		/// iFolder Connection
 		/// </summary>
-		protected HyperLink SettingsButton;
-		
-		/// <summary>
-		/// Help Button
-		/// </summary>
-		protected HyperLink HelpButton;
-		
-		/// <summary>
-		/// Logout Button
-		/// </summary>
-		protected LinkButton LogoutButton;
-		
-		/// <summary>
-		/// User Name
-		/// </summary>
-		protected Literal FullName;
+		private iFolderWeb web;
 
 		/// <summary>
 		/// Resource Manager
 		/// </summary>
 		private ResourceManager rm;
 	
-		/// <summary>
-		/// Max Header String Length
-		/// </summary>
-		private readonly static int MAX_HEADER_STRING = 30;
-
 		/// <summary>
 		/// Page Load
 		/// </summary>
@@ -86,41 +66,11 @@ namespace Novell.iFolderApp.Web
 			rm = (ResourceManager) Application["RM"];
 
 			// check connection
-			iFolderWeb web = (iFolderWeb)Session["Connection"];
-			if (web == null) Logout(GetString("MESSAGE.INFORMATION"), GetString("LOGIN.LOSTSESSION"));
+			web = (iFolderWeb)Session["Connection"];
 			
 			if (!IsPostBack)
 			{
-				// full name
-				FullName.Text = Trim((string)Session["UserFullName"], MAX_HEADER_STRING);
-				
-				// strings
-				//SettingsButton.Text = GetString("SETTINGS");
-				//HelpButton.Text = GetString("HELP");
-				LogoutButton.Text = GetString("LOGOUT");
-
-				// help
-				//HelpButton.NavigateUrl = String.Format("help/{0}/index.html",
-				//	Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName);
 			}
-		}
-
-		/// <summary>
-		/// Trim a string with an ellipses.
-		/// </summary>
-		/// <param name="text"></param>
-		/// <param name="length"></param>
-		/// <returns></returns>
-		private string Trim(string text, int length)
-		{
-			string result = text;
-
-			if ((text != null) && (text.Length > length))
-			{
-				result = String.Format("{0}{1}", text.Substring(0, length), GetString("ELLIPSES"));
-			}
-
-			return result;
 		}
 
 		/// <summary>
@@ -151,33 +101,8 @@ namespace Novell.iFolderApp.Web
 		private void InitializeComponent()
 		{
 			this.Load += new System.EventHandler(this.Page_Load);
-			this.LogoutButton.Click += new System.EventHandler(this.LogoutButton_Click);
 		}
 		
 		#endregion
-
-		/// <summary>
-		/// Logout Button Handler
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void LogoutButton_Click(object sender, System.EventArgs e)
-		{
-			Logout(GetString("MESSAGE.INFORMATION"), GetString("LOGIN.LOGOUT"));
-		}
-
-		private void Logout(string type, string message)
-		{
-			FormsAuthentication.SignOut();
-			
-			// double-check that the session is abandoned
-			Session.Abandon();
-
-			log.Info(Context, "Logout Successful");
-
-			Response.Redirect(String.Format(
-				"Login.aspx?Message={0}",
-				Context.Server.UrlEncode(message)));
-		}
 	}
 }
