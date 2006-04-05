@@ -714,7 +714,7 @@ namespace Novell.iFolderApp.Web
 				}
 			}
 
-			// remove entries
+			// delete entries
 			if (entryList != null)
 			{
 				try

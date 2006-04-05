@@ -59,6 +59,11 @@ namespace Novell.iFolderApp.Web
 		protected Button SearchButton;
 
 		/// <summary>
+		/// The Delete Button
+		/// </summary>
+		protected LinkButton DeleteButton;
+
+		/// <summary>
 		/// iFolder Data
 		/// </summary>
 		protected DataGrid iFolderData;
@@ -103,6 +108,7 @@ namespace Novell.iFolderApp.Web
 				iFolderPagging.LabelPlural = GetString("IFOLDERS");
 				NewiFolderLink.Text = GetString("NEW");
 				SearchButton.Text = GetString("SEARCH");
+				DeleteButton.Text = GetString("DELETE");
 
 				// search pattern
 				ViewState["SearchPattern"] = null;
@@ -200,6 +206,8 @@ namespace Novell.iFolderApp.Web
 			this.Load += new System.EventHandler(this.Page_Load);
 			this.iFolderPagging.PageChange += new EventHandler(iFolderPagging_PageChange);
 			this.SearchButton.Click += new EventHandler(SearchButton_Click);
+			this.DeleteButton.PreRender += new EventHandler(DeleteButton_PreRender);
+			this.DeleteButton.Click += new EventHandler(DeleteButton_Click);
 		}
 
 		#endregion
@@ -241,6 +249,62 @@ namespace Novell.iFolderApp.Web
 			iFolderPagging.Index = 0;
 
 			BindData();
+		}
+
+		/// <summary>
+		/// Delete Button Pre-Render
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void DeleteButton_PreRender(object sender, EventArgs e)
+		{
+			DeleteButton.Attributes["onclick"] = "return ConfirmDelete(this.form);";
+		}
+
+		/// <summary>
+		/// Delete Button Click
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void DeleteButton_Click(object sender, EventArgs e)
+		{
+			string ifolderList = null;
+
+			// selected iFolders
+			foreach(DataGridItem item in iFolderData.Items)
+			{
+				CheckBox checkBox = (CheckBox) item.FindControl("Select");
+
+				if (checkBox.Checked)
+				{
+					string id = item.Cells[0].Text;
+
+					if (ifolderList == null)
+					{
+						ifolderList = id;
+					}
+					else
+					{
+						ifolderList = String.Format("{0},{1}", ifolderList, id);
+					}
+				}
+			}
+
+			// delete iFolders
+			if (ifolderList != null)
+			{
+				try
+				{
+					web.DeleteiFolder(ifolderList);
+				}
+				catch(SoapException ex)
+				{
+					HandleException(ex);
+				}
+
+				iFolderPagging.Index = 0;
+				BindData();
+			}
 		}
 	}
 }

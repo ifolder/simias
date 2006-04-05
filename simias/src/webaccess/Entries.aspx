@@ -20,7 +20,7 @@
 	
 		function ConfirmDelete(f)
 		{
-			return confirm("<%= GetString("ENTRY.DELETEPROMPT") %>");
+			return confirm("<%= GetString("ENTRY.CONFIRMDELETE") %>");
 		}
 	
 		function SubmitKeyDown(e, b)
@@ -35,7 +35,6 @@
 			
 			return result;
 		}
-	
 
 		function SelectionUpdate(cb)
 		{

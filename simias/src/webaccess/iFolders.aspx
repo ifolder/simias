@@ -17,6 +17,44 @@
 	</style>
 
 	<script type="text/javascript">
+	
+		function ConfirmDelete(f)
+		{
+			return confirm("<%= GetString("IFOLDER.CONFIRMDELETE") %>");
+		}
+	
+		function SelectionUpdate(cb)
+		{
+			var f = cb.form;
+			var count = 0;
+			
+			for(i=0; i < f.elements.length; i++)
+			{
+				var e = f.elements[i];
+				
+				if ((e.type == "checkbox") && (e.checked))
+				{
+					count++;
+				}
+			}
+
+			document.getElementById("DeleteButton").style.display = (count > 0) ? "" : "none";
+			document.getElementById("DeleteDisabled").style.display = (count > 0) ? "none" : "";
+		}
+	
+		function SubmitKeyDown(e, b)
+		{
+			var result = true;
+			
+			if ((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13))
+			{
+				document.getElementById(b).click();
+				result = false;
+			} 
+			
+			return result;
+		}
+
 
 		function SubmitKeyDown(e, b)
 		{
@@ -69,7 +107,7 @@
 						<table><tr><td>
 						<asp:HyperLink ID="NewiFolderLink" NavigateUrl="Share.aspx" runat="server" />
 						|
-						Delete	
+						<span id="DeleteDisabled"><%= GetString("DELETE") %></span><asp:LinkButton ID="DeleteButton" style="display:none;" runat="server" />	
 						</td><td class="search">
 							<asp:TextBox ID="SearchPattern" CssClass="searchPattern" runat="server" onkeydown="return SubmitKeyDown(event, 'SearchButton');" />
 							<asp:Button ID="SearchButton" CssClass="hide" runat="server" />
@@ -89,7 +127,7 @@
 							
 							<asp:TemplateColumn ItemStyle-CssClass="cb">
 								<itemtemplate>
-									<asp:CheckBox runat="server" />
+									<asp:CheckBox ID="Select" onclick="SelectionUpdate(this)" runat="server" />
 								</itemtemplate>
 							</asp:TemplateColumn>
 							
