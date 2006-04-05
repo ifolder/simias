@@ -638,6 +638,35 @@ namespace iFolder.WebService
 
 		#endregion
 
+		#region Policy
+		
+		/// <summary>
+		/// Get the Authenticated User Policy
+		/// </summary>
+		/// <returns>A UserPolicy Object</returns>
+		[WebMethod(
+			 Description="Get the Authenticated User Policy",
+			 EnableSession=true)]
+		public UserPolicy GetAuthenticatedUserPolicy()
+		{
+			UserPolicy result = null;
+
+			try
+			{
+				string accessID = GetAccessID();
+
+				result = UserPolicy.GetPolicy(accessID);
+			}
+			catch(Exception e)
+			{
+				SmartException.Throw(e);
+			}
+
+			return result;
+		}
+
+		#endregion
+
 		#region Entries
 
 		/// <summary>
