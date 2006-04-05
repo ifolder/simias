@@ -150,6 +150,16 @@
 											</div>
 										</itemtemplate>
 									</asp:TemplateColumn>
+									<asp:TemplateColumn ItemStyle-CssClass="icon">
+										<itemtemplate>
+											<asp:LinkButton CommandName="Add" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "ID") %>' Visible='<%# (bool)DataBinder.Eval(Container.DataItem, "Enabled") %>' runat="server">
+												<asp:Image ImageUrl='images/16/user.png' runat="server" />
+											</asp:LinkButton>
+											<div visible='<%# !(bool)DataBinder.Eval(Container.DataItem, "Enabled") %>'  runat="server">
+												<asp:Image ImageUrl='images/16/user-disabled.png' runat="server" />
+											</div>
+										</itemtemplate>
+									</asp:TemplateColumn>
 									<asp:TemplateColumn ItemStyle-CssClass="name">
 										<itemtemplate>
 											<asp:LinkButton CommandName="Add" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "ID") %>' Visible='<%# (bool)DataBinder.Eval(Container.DataItem, "Enabled") %>' runat="server">
@@ -194,6 +204,16 @@
 											</asp:LinkButton>
 											<div visible='<%# !(bool)DataBinder.Eval(Container.DataItem, "Enabled") %>'  runat="server">
 												<asp:Image ImageUrl='images/16/list-remove-disabled.png' runat="server" />
+											</div>
+										</itemtemplate>
+									</asp:TemplateColumn>
+									<asp:TemplateColumn ItemStyle-CssClass="icon">
+										<itemtemplate>
+											<asp:LinkButton CommandName="Remove" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "ID") %>' Visible='<%# (bool)DataBinder.Eval(Container.DataItem, "Enabled") %>' runat="server">
+												<asp:Image ImageUrl='images/16/user.png' runat="server" />
+											</asp:LinkButton>
+											<div visible='<%# !(bool)DataBinder.Eval(Container.DataItem, "Enabled") %>'  runat="server">
+												<asp:Image ImageUrl='images/16/user-disabled.png' runat="server" />
 											</div>
 										</itemtemplate>
 									</asp:TemplateColumn>
