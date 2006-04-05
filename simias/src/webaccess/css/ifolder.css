@@ -62,10 +62,13 @@ a:hover
 
 #footer
 {
-	font-size: 0.9em;
-	background-color: #99CCFF;
+	color: #666666;
+	background-color: #CCCCCC;
+
+	font-size: 0.8em;
 	margin: 16px 0 0 0;
 	padding: 4px 8px 4px 8px;
+	text-align: center;
 }
 
 .columns

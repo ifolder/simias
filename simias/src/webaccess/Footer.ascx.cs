@@ -46,6 +46,11 @@ namespace Novell.iFolderApp.Web
 			System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.Name);
 
 		/// <summary>
+		/// Space Used
+		/// </summary>
+		protected Literal SpaceUsed;
+
+		/// <summary>
 		/// iFolder Connection
 		/// </summary>
 		private iFolderWeb web;
@@ -74,6 +79,28 @@ namespace Novell.iFolderApp.Web
 		}
 
 		/// <summary>
+		/// Bind the Data to the Page.
+		/// </summary>
+		private void BindData()
+		{
+			UserPolicy policy = web.GetAuthenticatedUserPolicy();
+	
+			if (policy.SpaceLimitEffective == 0)
+			{
+				// no limit
+				SpaceUsed.Text = String.Format(GetString("FORMAT.SPACEUSED"),
+					WebUtility.FormatSize(policy.SpaceUsed, rm));
+			}
+			else
+			{
+				// limit
+				SpaceUsed.Text = String.Format(GetString("FORMAT.SPACEUSEDAVAILABLE"),
+					WebUtility.FormatSize(policy.SpaceUsed, rm),
+					WebUtility.FormatSize(policy.SpaceAvailable,rm));
+			}
+		}
+		
+		/// <summary>
 		/// Get a Localized String
 		/// </summary>
 		/// <param name="key"></param>
@@ -101,8 +128,21 @@ namespace Novell.iFolderApp.Web
 		private void InitializeComponent()
 		{
 			this.Load += new System.EventHandler(this.Page_Load);
+			this.PreRender += new EventHandler(Footer_PreRender);
 		}
 		
 		#endregion
+
+		/// <summary>
+		/// Footer Pre-Render
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void Footer_PreRender(object sender, EventArgs e)
+		{
+			// bind
+			// NOTE: bind the footer late so modifications can be shown
+			BindData();
+		}
 	}
 }

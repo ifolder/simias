@@ -453,4 +453,10 @@
 	<data name="REMOVE">
 		<value>Remove</value>
 	</data>
+	<data name="FORMAT.SPACEUSED">
+		<value>{0} of Space Used</value>
+	</data>
+	<data name="FORMAT.SPACEUSEDAVAILABLE">
+		<value>{0} of Space Used / {1} of Space Available</value>
+	</data>
 </root>

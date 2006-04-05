@@ -2,5 +2,5 @@
 
 <!-- footer -->
 <div id="footer">
-	
+	<asp:Literal ID="SpaceUsed" runat="server" />	
 </div>
