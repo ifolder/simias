@@ -35,18 +35,55 @@
 			<iFolder:iFolderSearch ID="iFolderSearch" Runat="server" />
 					
 			<div class="ifoldersnav">
-	
+			
+				<table class="ifolderlistheader" cellpadding="0" cellspacing="0" border="0">
+			
+					<tr>
+						<td class="checkboxcolumn">
+							<asp:CheckBox 
+								ID="AlliFoldersCheckBox" 
+								Runat="server" 
+								OnCheckedChanged="OnAlliFoldersChecked" 
+								AutoPostBack="True"	/>
+						</td>
+					
+						<td class="typecolumn">
+							<%= GetString( "TYPE" ) %>
+						</td>
+						
+						<td class="namecolumn">
+							<%= GetString( "NAME" ) %>
+						</td>
+						
+						<td class="ownercolumn">
+							<%= GetString( "OWNER" ) %>
+						</td>
+						
+						<td class="memberscolumn">
+							<%= GetString( "MEMBERS" ) %>
+						</td>
+						
+						<td class="lastmodifiedcolumn">
+							<%= GetString( "LASTMODIFIED" ) %>
+						</td>
+						
+						<td class="sizecolumn">
+							<%= GetString( "SIZE" ) %>
+						</td>
+					</tr>
+			
+				</table>
+			
 				<asp:datagrid 
 					id="iFolderList" 
 					runat="server" 
 					AutoGenerateColumns="False" 
-					PageSize="11" 
+					PageSize="15" 
 					CellPadding="0"
 					CellSpacing="0" 
 					GridLines="None" 
-					ShowHeader="True" 
+					ShowHeader="False" 
 					CssClass="ifolderlist" 
-					HeaderStyle-CssClass="ifolderlistheader"
 					AlternatingItemStyle-CssClass="ifolderlistaltitem" 
 					ItemStyle-CssClass="ifolderlistitem">
 					
@@ -54,15 +91,9 @@
 					
 						<asp:BoundColumn DataField="IDField" Visible="False" />
 						
+						<asp:BoundColumn DataField="DisabledField" Visible="False" />
+						
 						<asp:TemplateColumn ItemStyle-CssClass="ifolderitem1">
-							<HeaderTemplate>
-								<asp:CheckBox 
-									ID="iFolderAllCheckBox" 
-									Runat="server" 
-									AutoPostBack="True" 
-									OnCheckedChanged="OnAlliFoldersChecked" />
-							</HeaderTemplate>
-							
 							<ItemTemplate>
 								<asp:CheckBox 
 									ID="iFolderListCheckBox" 
@@ -102,13 +133,44 @@
 							</ItemTemplate>
 						</asp:TemplateColumn>
 						
-						<asp:BoundColumn ItemStyle-CssClass="ifolderitem5" DataField="SizeField" />
+						<asp:BoundColumn ItemStyle-CssClass="ifolderitem5" DataField="MemberCountField" />
+						
+						<asp:BoundColumn ItemStyle-CssClass="ifolderitem6" DataField="LastModifiedField" />
+						
+						<asp:BoundColumn ItemStyle-CssClass="ifolderitem7" DataField="SizeField" />
 						
 					</Columns>
 					
 				</asp:datagrid>
 				
 				<ifolder:PageFooter ID="iFolderListFooter" Runat="server" />
+				
+				<asp:Button 
+					ID="DeleteButton" 
+					Runat="server" 
+					CssClass="ifolderbuttons" 
+					Enabled="False"
+					OnClick="OnDeleteButton_Click" />
+					
+				<asp:Button 
+					ID="DisableButton" 
+					Runat="server" 
+					CssClass="ifolderbuttons" 
+					Enabled="False"
+					OnClick="OnDisableButton_Click" />
+					
+				<asp:Button 
+					ID="EnableButton" 
+					Runat="server" 
+					CssClass="ifolderbuttons" 
+					Enabled="False"
+					OnClick="OnEnableButton_Click" />
+					
+				<asp:Button 
+					ID="CreateButton" 
+					Runat="server" 
+					CssClass="ifolderbuttons"
+					OnClick="OnCreateButton_Click" />
 						
 			</div>
 					

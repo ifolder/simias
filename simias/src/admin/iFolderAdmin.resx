@@ -102,6 +102,9 @@
 	<data name="DESCRIPTIONTAG">
 		<value>Description:</value>
 	</data>
+	<data name="DISABLE">
+		<value>Disable</value>
+	</data>
 	<data name="DISKQUOTA">
 		<value>Disk Quota</value>
 	</data>
@@ -110,6 +113,9 @@
 	</data>
 	<data name="ELLIPSES">
 		<value> . . .</value>
+	</data>
+	<data name="ENABLE">
+		<value>Enable</value>
 	</data>
 	<data name="ENABLED">
 		<value>Enabled</value>
@@ -230,6 +236,9 @@
 	</data>
 	<data name="LASTLOGINTIMETAG">
 		<value>Last Login Time:</value>
+	</data>
+	<data name="LASTMODIFIED">
+		<value>Last Modified</value>
 	</data>
 	<data name="LASTNAME">
 		<value>Last Name</value>

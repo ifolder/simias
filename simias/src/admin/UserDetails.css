@@ -96,12 +96,44 @@ div#shared li.sharedifolders a:link, div#shared li.sharedifolders a:visited
 	width: 100%;
 }
 
+.ifolderlistheader
+{
+	clear: left;
+	border-bottom: solid 1px black;
+	border-collapse: collapse;
+	height: 1.5em;
+	width: 100%;
+}
+
 .ifolderlistheader td
 {
 	color: black;
 	font-size: 0.8em;
 	background-color: #efeee9;
-	border-bottom: black 1px solid;
+}
+
+.ifolderlistheader .checkboxcolumn
+{
+	width: 2em;
+}
+
+.ifolderlistheader .typecolumn
+{
+	width: 3.6em;
+}
+
+.ifolderlistheader .namecolumn
+{
+	width: 24.6em;
+}
+
+.ifolderlistheader .ownercolumn
+{
+	width: 13.4em;
+}
+
+.ifolderlistheader .sizecolumn
+{
 }
 
 .ifolderlistitem
@@ -127,7 +159,7 @@ div#shared li.sharedifolders a:link, div#shared li.sharedifolders a:visited
 
 .ifolderitem2 img
 {
-	padding-left: .3em;
+	padding-left: .2em;
 }
 
 .ifolderitem3
@@ -147,13 +179,22 @@ div#shared li.sharedifolders a:link, div#shared li.sharedifolders a:visited
 #DeleteiFolderButton
 {
 	float:left;
-	width: 4.5em;
+}
+
+#DisableiFolderButton
+{
+	float: left;
+	margin-left: .4em;
+}
+
+#EnableiFolderButton
+{
+	float: left;
+	margin-left: .4em;
 }
 
 #CreateiFolderButton
 {
 	float: right;
-	width:4.5em;
-	margin-right: 0;
 }
 
