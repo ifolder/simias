@@ -27,6 +27,7 @@ using System.Xml;
 using System.Xml.Serialization;
 using System.Text.RegularExpressions;
 
+using Simias.Client;
 using Simias.Storage;
 using Simias.Web;
 
@@ -242,61 +243,6 @@ namespace iFolder.WebService
 		}
 
 		/// <summary>
-		/// Get iFolders
-		/// </summary>
-		/// <param name="type">iFolder Type</param>
-		/// <param name="index">The Search Start Index</param>
-		/// <param name="count">The Search Max Count of Results</param>
-		/// <param name="total">The Total Number of Results</param>
-		/// <param name="accessID">The Access User ID</param>
-		/// <returns>An Array of iFolder Objects</returns>
-		public static iFolder[] GetiFolders(iFolderType type, int index, int count, out int total, string accessID)
-		{
-			Store store = Store.GetStore();
-
-			// admin ID
-			Domain domain = store.GetDomain(store.DefaultDomain);
-			String adminID = domain.Owner.UserID;
-
-			ICSList collections = store.GetCollectionsByType(iFolderCollectionType);
-
-			// sort the list
-			ArrayList sortList = new ArrayList();
-			
-			foreach(ShallowNode sn in collections)
-			{
-				sortList.Add(sn);
-			}
-			
-			sortList.Sort();
-
-			// build the result list
-			ArrayList list = new ArrayList();
-			int i = 0;
-
-			foreach(ShallowNode sn in sortList)
-			{
-				Collection c = store.GetCollectionByID(sn.ID);
-
-				if (((c != null) && (c.IsType(iFolderCollectionType)))
-					&& ((type != iFolderType.Orphaned) || (c.Owner.UserID == adminID)))
-				{
-					if ((i >= index) && (((count <= 0) || i < (count + index))))
-					{
-						list.Add(new iFolder(c, accessID));
-					}
-
-					++i;
-				}
-			}
-
-			// save total
-			total = i;
-
-			return (iFolder[])list.ToArray(typeof(iFolder));
-		}
-			
-		/// <summary>
 		/// Get iFolders by Member
 		/// </summary>
 		/// <param name="userID">The User ID</param>
@@ -408,6 +354,7 @@ namespace iFolder.WebService
 		/// <summary>
 		/// Get iFolders by Name
 		/// </summary>
+		/// <param name="type">iFolder Type</param>
 		/// <param name="operation">The Search Operation</param>
 		/// <param name="pattern">The Search Pattern</param>
 		/// <param name="index">The Search Start Index</param>
@@ -415,9 +362,13 @@ namespace iFolder.WebService
 		/// <param name="total">The Total Number of Results</param>
 		/// <param name="accessID">The Access User ID</param>
 		/// <returns>An Array of iFolder Objects</returns>
-		public static iFolder[] GetiFoldersByName(SearchOperation operation, string pattern, int index, int count, out int total, string accessID)
+		public static iFolder[] GetiFoldersByName(iFolderType type, SearchOperation operation, string pattern, int index, int count, out int total, string accessID)
 		{
 			Store store = Store.GetStore();
+
+			// admin ID
+			Domain domain = store.GetDomain(store.DefaultDomain);
+			String adminID = domain.Owner.UserID;
 
 			// search operator
 			SearchOp searchOperation;
@@ -447,32 +398,27 @@ namespace iFolder.WebService
 			
 			ICSList collections = store.GetCollectionsByName(pattern, searchOperation);
 
-			// sort the list
-			ArrayList sortList = new ArrayList();
-			
-			foreach(ShallowNode sn in collections)
-			{
-				sortList.Add(sn);
-			}
-			
-			sortList.Sort();
-
 			// build the result list
 			ArrayList list = new ArrayList();
 			int i = 0;
 
-			foreach(ShallowNode sn in sortList)
+			foreach(ShallowNode sn in collections)
 			{
-				Collection c = store.GetCollectionByID(sn.ID);
-
-				if ((c != null) && (c.IsType(iFolderCollectionType)))
+				// throw away non-collections
+				if (sn.IsBaseType(NodeTypes.CollectionType))
 				{
-					if ((i >= index) && (((count <= 0) || i < (count + index))))
-					{
-						list.Add(new iFolder(c, accessID));
-					}
+					Collection c = store.GetCollectionByID(sn.ID);
 
-					++i;
+					if (((c != null) && (c.IsType(iFolderCollectionType)))
+						&& ((type != iFolderType.Orphaned) || (c.Owner.UserID == adminID)))
+					{
+						if ((i >= index) && (((count <= 0) || i < (count + index))))
+						{
+							list.Add(new iFolder(c, accessID));
+						}
+
+						++i;
+					}
 				}
 			}
 

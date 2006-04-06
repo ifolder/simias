@@ -28,7 +28,9 @@ iFolderWebService_CSFILES = \
 	$(srcdir)/MemberRole.cs \
 	$(srcdir)/ChangeEntry.cs \
 	$(srcdir)/NodeUtility.cs \
-	$(srcdir)/IdentityPolicy.cs
+	$(srcdir)/IdentityPolicy.cs \
+	$(srcdir)/SampleData.cs
+	
 	
 iFolderWebService_WEBFILES = \
 	$(srcdir)/iFolderAdmin.asmx \
