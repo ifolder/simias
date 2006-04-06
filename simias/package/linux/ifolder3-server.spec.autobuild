@@ -8,7 +8,7 @@
 # Please submit bugfixes or comments via http://bugs.opensuse.org
 #
 # norootforbuild
-# neededforbuild  libstdc++-devel libstdc++ compat-libstdc++ gcc-c++ mod_mono mono-devel mono-core mono-data mono-web pkgconfig libxml2 libxml2-devel glib2 glib2-devel e2fsprogs e2fsprogs-devel log4net libflaim libflaim-devel
+# neededforbuild  libstdc++-devel libstdc++ compat-libstdc++ gcc-c++ mod_mono mono-devel mono-core mono-data mono-web mono-winforms pkgconfig libxml2 libxml2-devel glib2 glib2-devel e2fsprogs e2fsprogs-devel log4net libflaim libflaim-devel
 
 BuildRequires: libstdc++-devel libstdc++ compat-libstdc++ gcc-c++ mod_mono mono-devel mono-core mono-data mono-web pkgconfig libxml2 libxml2-devel glib2 glib2-devel e2fsprogs e2fsprogs-devel log4net libflaim libflaim-devel
 
