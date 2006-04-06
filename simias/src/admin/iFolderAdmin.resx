@@ -57,6 +57,9 @@
 	<data name="ALL">
 		<value>All</value>
 	</data>
+	<data name="ALLFIELDSREQUIRED">
+		<value>All fields must be filled in.</value>
+	</data>
 	<data name="ALLOW">
 		<value>Allow</value>
 	</data>
@@ -89,6 +92,9 @@
 	</data>
 	<data name="CREATENEWIFOLDER">
 		<value>Create New iFolder</value>
+	</data>
+	<data name="CREATEUSER">
+		<value>Create User</value>
 	</data>
 	<data name="CZECH">
 		<value>Czech</value>
@@ -144,6 +150,9 @@
 	<data name="ERRORNOSYNCINTERVAL">
 		<value>No synchronization interval was specified.</value>
 	</data>
+	<data name="ERRORTEMPLATE">
+		<value>Error: {0}</value>
+	</data>
 	<data name="ERRORTYPE">
 		<value>Unexpected Error</value>
 	</data>
@@ -170,6 +179,9 @@
 	</data>
 	<data name="FIRSTNAME">
 		<value>First Name</value>
+	</data>
+	<data name="FIRSTNAMETAG">
+		<value>First Name:</value>
 	</data>
 	<data name="FIRSTPAGE">
 		<value>First Page</value>
@@ -242,6 +254,9 @@
 	</data>
 	<data name="LASTNAME">
 		<value>Last Name</value>
+	</data>
+	<data name="LASTNAMETAG">
+		<value>Last Name:</value>
 	</data>
 	<data name="LASTPAGE">
 		<value>Last Page</value>
@@ -369,6 +384,12 @@
 	<data name="PAGENUMBERFORMAT">
 		<value>{0} - {1} of {2} {3}</value>
 	</data>
+	<data name="PASSWORDSDONOTMATCH">
+		<value>The passwords are not the same.</value>
+	</data>
+	<data name="PASSWORDTAG">
+		<value>Password:</value>
+	</data>
 	<data name="PATHTAG">
 		<value>Path:</value>
 	</data>
@@ -398,6 +419,9 @@
 	</data>
 	<data name="REMOVEMEMBERS">
 		<value>Remove Users</value>
+	</data>
+	<data name="RETYPEPASSWORDTAG">
+		<value>Retype Password:</value>
 	</data>
 	<data name="RIGHTS">
 		<value>Rights</value>
@@ -488,6 +512,9 @@
 	</data>
 	<data name="USERNAME">
 		<value>User Name</value>
+	</data>
+	<data name="USERNAMETAG">
+		<value>User Name:</value>
 	</data>
 	<data name="USERS">
 		<value>Users</value>

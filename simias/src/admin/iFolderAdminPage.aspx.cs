@@ -1,5 +1,5 @@
 /***********************************************************************
- *  $RCSfile: iFolderAdmin.aspx.cs,v $
+ *  $RCSfile: iFolderAdminPage.aspx.cs,v $
  * 
  *  Copyright (C) 2006 Novell, Inc.
  *
@@ -37,7 +37,7 @@ namespace Novell.iFolderWeb.Admin
 	/// <summary>
 	/// Summary description for WebForm1.
 	/// </summary>
-	public class WebForm1 : System.Web.UI.Page
+	public class iFolderAdminPage : System.Web.UI.Page
 	{
 		/// <summary>
 		/// iFolder Connection

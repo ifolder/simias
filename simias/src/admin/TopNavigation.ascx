@@ -26,7 +26,21 @@
 	
 </div>
 
-<div id="detailtop">
-	Bread Crumb List
+<div class="detailtop">
+
+	<asp:Label ID="BreadCrumbList" Runat="server" CssClass="breadcrumbs" />
+	
+	<asp:LinkButton 
+		ID="LogoutButton" 
+		Runat="server" 
+		CssClass="logoutbutton" 
+		OnClick="OnLogoutButton_Click" /> 
+	
+</div>
+
+<div id="ErrorPanel" runat="server" class="errorpanel">
+
+	<asp:Label ID="ErrorMsg" Runat="server" />
+
 </div>
 

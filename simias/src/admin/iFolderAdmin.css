@@ -14,9 +14,10 @@ p, tr, td, ol, ul
 
 .container
 {
-	float: left;
-	background-color: #fff;
 	border: 1px solid #666666;
+	height: auto;
+	margin-left: auto;
+	margin-right: auto;
 	width: 61em;
 }
 
@@ -27,15 +28,12 @@ p, tr, td, ol, ul
 
 #top
 {
+	float: left;
 	background-color: #0054A6;
 	background-image: url(images/banner-fill.png);
 	background-repeat: repeat-x;
+	width: 100%;
 	height: 5.9em;
-}
-
-.content
-{
-	float: left;
 }
 
 .footer
@@ -47,16 +45,16 @@ p, tr, td, ol, ul
 	border-top: 1px solid gray;
 }
 
-#detailtop
+.detailtop
 {
-	padding: .2em .9em .4em;
-	margin-bottom: .2em;
+	float: left;
+	padding: .3em .3em .2em .2em;
+	height: 1.5em;
 	color: #000099;
 	background-color: #99CCFF;
 	border-right: 1px solid #999999;
 	border-bottom: 1px solid #999999;
 	border-left: 1px solid #999999;
-	clear: left;
 }
 
 #policynav
@@ -64,9 +62,8 @@ p, tr, td, ol, ul
 	float: left;
 	padding-right: 1em;
 	padding-left: 1em;
-	/*padding-bottom: 1em;*/
-	max-width: 16em;
 	width: 17em;
+	margin-bottom: .5em;
 }
 
 #policynav div
@@ -205,7 +202,7 @@ img
 
 .filetypecontrolbutton
 {
-	margin-top: .3em;
+	margin-top: .5em;
 	width: 4.5em;
 }
 
@@ -339,5 +336,32 @@ body#users li.users a, body#ifolders li.ifolders a, body#server li.server a, bod
 .footertable td.rightfooter
 {
 	width: 25%;
+}
+
+.logoutbutton
+{
+	float: right;
+	text-decoration: none;
+	font-weight: bolder;
+}
+
+.breadcrumbs
+{
+	float: left;
+}
+
+.errorpanel
+{
+	clear: both;
+	border: maroon 2px solid;
+	padding-right: 0.5em;
+	padding-left: 0.5em;
+	font-weight: bolder;
+	padding-bottom: 0.5em;
+	color: red;
+	padding-top: 0.5em;
+	height: 3em;
+	background-color: #ffff99;
+	text-align: center;
 }
 

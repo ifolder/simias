@@ -66,6 +66,12 @@ namespace Novell.iFolderWeb.Admin
 		/// </summary>
 		protected PageFooter AccountsFooter;
 
+
+		/// <summary>
+		/// Create user button.
+		/// </summary>
+		protected Button CreateButton;
+
 		#endregion
 
 		#region Properties
@@ -92,25 +98,6 @@ namespace Novell.iFolderWeb.Admin
 		#endregion
 
 		#region Private Methods
-
-		/// <summary>
-		/// Event handler for when a datagrid item is bound.
-		/// </summary>
-		/// <param name="source"></param>
-		/// <param name="e"></param>
-		private void Accounts_DataGridItemBound( Object source, DataGridItemEventArgs e )
-		{
-			if ( ( e.Item.ItemType == ListItemType.Item ) || ( e.Item.ItemType == ListItemType.AlternatingItem ) )
-			{
-				// Check for any rows that are not supposed to be displayed and disable the image.
-				// All of the other cells should contain empty strings.
-				DataTable dt = ( Accounts.DataSource as DataView ).Table;
-				if ( ( bool )dt.Rows[ e.Item.DataSetIndex ][ "VisibleField" ] == false )
-				{
-					( e.Item.Cells[ 0 ].FindControl( "UserImage" ) as System.Web.UI.WebControls.Image ).Visible = false;
-				}
-			}
-		}
 
 		/// <summary>
 		/// Creates a DataSource containing user names from a search.
@@ -210,6 +197,13 @@ namespace Novell.iFolderWeb.Admin
 				// Initialize state variables.
 				CurrentUserOffset = 0;
 				TotalUsers = 0;
+
+				IdentityPolicy policy = web.GetIdentityPolicy();
+				if ( policy.CanCreate )
+				{
+					CreateButton.Text = GetString( "CREATE" );
+					CreateButton.Visible = true;
+				}
 			}
 		}
 
@@ -260,6 +254,16 @@ namespace Novell.iFolderWeb.Admin
 		protected string GetUserImage( Object isAdmin )
 		{
 			return ( bool )isAdmin ? "images/ifolder_admin.gif" : "images/ifolder_user.gif";
+		}
+
+		/// <summary>
+		/// Event handler that gets called when the create user button is clicked.
+		/// </summary>
+		/// <param name="source"></param>
+		/// <param name="e"></param>
+		protected void OnCreateButton_Click( object source, EventArgs e )
+		{
+			Response.Redirect( "CreateUser.aspx" );
 		}
 
 		/// <summary>
@@ -380,7 +384,6 @@ namespace Novell.iFolderWeb.Admin
 			}
 
 			MemberSearch.Click += new System.EventHandler( SearchButton_Click );
-			Accounts.ItemDataBound += new DataGridItemEventHandler( Accounts_DataGridItemBound );
 
 			AccountsFooter.PageFirstClick += new ImageClickEventHandler( PageFirstButton_Click );
 			AccountsFooter.PagePreviousClick += new ImageClickEventHandler( PagePreviousButton_Click );

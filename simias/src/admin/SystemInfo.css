@@ -3,7 +3,7 @@
 	padding-right: 1em;
 	padding-left: 1em;
 	float: left;
-	width: 40em;
+	width: 39em;
 	border-right: 1px dotted #999999;
 }
 
@@ -13,7 +13,6 @@
 	float: left;
 	padding-bottom: 1em;
 	width: 100%;
-	min-width: 40em;
 }
 
 .detailinfo th

@@ -125,6 +125,26 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "CreateUser.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "CreateUser.aspx.cs"
+                    DependentUpon = "CreateUser.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "CreateUser.aspx.resx"
+                    DependentUpon = "CreateUser.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "CreateUser.css"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Default.aspx"
                     BuildAction = "Content"
                 />
@@ -235,27 +255,27 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "iFolderAdmin.aspx"
-                    SubType = "Form"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "iFolderAdmin.aspx.cs"
-                    DependentUpon = "iFolderAdmin.aspx"
-                    SubType = "ASPXCodeBehind"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "iFolderAdmin.aspx.resx"
-                    DependentUpon = "iFolderAdmin.aspx.cs"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
                     RelPath = "iFolderAdmin.css"
                     BuildAction = "Content"
                 />
                 <File
                     RelPath = "iFolderAdmin.resx"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "iFolderAdminPage.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "iFolderAdminPage.aspx.cs"
+                    DependentUpon = "iFolderAdminPage.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "iFolderAdminPage.aspx.resx"
+                    DependentUpon = "iFolderAdminPage.aspx.cs"
                     BuildAction = "EmbeddedResource"
                 />
                 <File
