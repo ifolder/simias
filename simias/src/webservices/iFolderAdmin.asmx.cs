@@ -271,7 +271,7 @@ namespace iFolder.WebService
 			{
 				Authorize();
 
-				result = iFolder.GetiFolders(type, index, count, out total, null);
+				result = iFolder.GetiFoldersByName(type, SearchOperation.BeginsWith, "", index, count, out total, null);
 			}
 			catch(Exception e)
 			{
@@ -333,7 +333,7 @@ namespace iFolder.WebService
 			{
 				Authorize();
 
-				result = iFolder.GetiFoldersByName(operation, pattern, index, count, out total, null);
+				result = iFolder.GetiFoldersByName(iFolderType.All, operation, pattern, index, count, out total, null);
 			}
 			catch(Exception e)
 			{
@@ -1203,6 +1203,28 @@ namespace iFolder.WebService
 		}
 
 		*/
+		#endregion
+
+		#region Sample Data
+		
+		/// <summary>
+		/// GenerateSampleData
+		/// </summary>
+		[WebMethod(
+			 Description="Get the Authenticated User",
+			 EnableSession=true)]
+		public void GenerateSampleData()
+		{
+			try
+			{
+				SampleData.Generate();
+			}
+			catch(Exception e)
+			{
+				SmartException.Throw(e);
+			}
+		}
+
 		#endregion
 
 		#region Utility
