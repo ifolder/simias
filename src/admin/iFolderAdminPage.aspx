@@ -1,4 +1,4 @@
-<%@ Page language="c#" Codebehind="iFolderAdmin.aspx.cs" AutoEventWireup="false" Inherits="Novell.iFolderWeb.Admin.WebForm1" %>
+<%@ Page language="c#" Codebehind="iFolderAdminPage.aspx.cs" AutoEventWireup="false" Inherits="Novell.iFolderWeb.Admin.iFolderAdminPage" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
 <html>
 	
@@ -11,6 +11,7 @@
 		
 	<style type="text/css">
 		@import url(iFolderAdmin.css);
+		@import url(iFolderAdminPage.css);
 	</style>
 	
 </head>

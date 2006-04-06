@@ -56,7 +56,8 @@
 								<asp:Image 
 									ID="UserImage" 
 									Runat="server" 
-									ImageUrl='<%# GetUserImage( DataBinder.Eval( Container.DataItem, "AdminField" ) ) %>'/>
+									ImageUrl='<%# GetUserImage( DataBinder.Eval( Container.DataItem, "AdminField" ) ) %>'
+									Visible='<%# DataBinder.Eval( Container.DataItem, "VisibleField" ) %>' />
 							</ItemTemplate>
 						</asp:TemplateColumn>
 
@@ -76,6 +77,13 @@
 				</asp:datagrid>
 						
 				<ifolder:PageFooter ID="AccountsFooter" Runat="server"/>
+				
+				<asp:Button 
+					ID="CreateButton" 
+					Runat="server" 
+					CssClass="ifolderbuttons" 
+					OnClick="OnCreateButton_Click"
+					Visible="False" />
 
 			</div>
 					

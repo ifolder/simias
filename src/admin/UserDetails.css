@@ -33,6 +33,11 @@
 	border-right: 1px dotted #999999;
 }
 
+.content
+{
+	float: left;
+}
+
 .ifolderlistnav
 {
 	float: left;

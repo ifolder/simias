@@ -1088,6 +1088,7 @@ namespace Novell.iFolderWeb.Admin
 		{
 			// Enable the ok button.
 			OkButton.Enabled = true;
+			SetFocus( Description );
 		}
 
 		/// <summary>

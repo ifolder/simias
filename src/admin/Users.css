@@ -79,3 +79,9 @@
 	clear: both;
 	padding-bottom: .5em;
 }
+
+#CreateButton
+{
+	float: right;
+	margin-top: .3em;
+}

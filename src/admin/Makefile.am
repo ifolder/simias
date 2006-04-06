@@ -4,6 +4,7 @@ export MONO_PATH := $(MONO_PATH)
 iFolderAdmin_CSFILES = \
 	$(srcdir)/AccountEnabled.ascx.cs \
 	$(srcdir)/AssemblyInfo.cs \
+	$(srcdir)/CreateUser.aspx.cs \
 	$(srcdir)/Default.aspx.cs \
 	$(srcdir)/DiskSpaceQuota.ascx.cs \
 	$(srcdir)/Error.aspx.cs \
@@ -11,7 +12,7 @@ iFolderAdmin_CSFILES = \
 	$(srcdir)/FileTypeFilter.ascx.cs \
 	$(srcdir)/Global.asax.cs \
 	$(srcdir)/Header.ascx.cs \
-	$(srcdir)/iFolderAdmin.aspx.cs \
+	$(srcdir)/iFolderAdminPage.aspx.cs \
 	$(srcdir)/iFolderAdminWebProxy.cs \
 	$(srcdir)/iFolderDetailsPage.aspx.cs \
 	$(srcdir)/iFolderEnabled.ascx.cs \
@@ -61,12 +62,14 @@ iFolderAdmin_FORMS = \
 	AccountEnabled.ascx \
 	Default.aspx \
 	DiskSpaceQuota.ascx \
+	CreateUser.aspx \
+	CreateUser.css \
 	Error.aspx \
 	FileSizeFilter.ascx \
 	FileTypeFilter.ascx \
 	Global.asax \
 	Header.ascx \
-	iFolderAdmin.aspx \
+	iFolderAdminPage.aspx \
 	iFolderAdmin.css \
 	iFolderDetailsPage.aspx \
 	iFolderDetailsPage.css \

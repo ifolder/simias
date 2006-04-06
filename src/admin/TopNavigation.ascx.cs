@@ -30,6 +30,7 @@ namespace Novell.iFolderWeb.Admin
 	using System.Web.UI;
 	using System.Web.UI.WebControls;
 	using System.Web.UI.HtmlControls;
+	using System.Web.Security;
 
 	/// <summary>
 	///		Summary description for TopNavigation.
@@ -62,6 +63,27 @@ namespace Novell.iFolderWeb.Admin
 		/// Anchor controls.
 		/// </summary>
 		protected HtmlAnchor SystemLink;
+
+		/// <summary>
+		/// Logout button control.
+		/// </summary>
+		protected LinkButton LogoutButton;
+
+		/// <summary>
+		/// Breadcrumb list control.
+		/// </summary>
+		protected Label BreadCrumbList;
+
+
+		/// <summary>
+		/// Error panel control.
+		/// </summary>
+		protected HtmlGenericControl ErrorPanel;
+
+		/// <summary>
+		/// Error message control.
+		/// </summary>
+		protected Label ErrorMsg;
         
 		#endregion
 
@@ -69,6 +91,25 @@ namespace Novell.iFolderWeb.Admin
 		#endregion
 
 		#region Private Methods
+
+		/// <summary>
+		/// Logout
+		/// </summary>
+		/// <param name="type"></param>
+		/// <param name="message"></param>
+		private void Logout( string type, string message )
+		{
+			FormsAuthentication.SignOut();
+			
+			// double-check that the session is abandoned
+			Session.Abandon();
+
+			Response.Redirect( 
+				String.Format( 
+					"Login.aspx?MessageType={0}&MessageText={1}",
+					Context.Server.UrlEncode( type ),
+					Context.Server.UrlEncode( message ) ) );
+		}
 
 		/// <summary>
 		/// Page_Load()
@@ -80,8 +121,19 @@ namespace Novell.iFolderWeb.Admin
 			// localization
 			rm = Application[ "RM" ] as ResourceManager;
 
+			// Hide the error panel if previously visible.
+			if ( ErrorPanel.Visible )
+			{
+				ErrorPanel.Visible = false;
+			}
+
 			if ( !IsPostBack )
 			{
+				// Initially hide the error panel.
+				ErrorPanel.Visible = false;
+
+				LogoutButton.Text = GetString( "LOGOUT" );
+				BreadCrumbList.Text = "Breadcrumb List";
 
 				Control body = Page.FindControl( "users" );
 				if ( body != null )
@@ -135,6 +187,30 @@ namespace Novell.iFolderWeb.Admin
 		protected string GetString( string key )
 		{
 			return rm.GetString( key );
+		}
+
+		/// <summary>
+		/// Event handler that gets called when the LogoutButton is clicked.
+		/// </summary>
+		/// <param name="source"></param>
+		/// <param name="e"></param>
+		protected void OnLogoutButton_Click( object source, EventArgs e )
+		{
+			Logout(GetString( "MESSAGEINFORMATION" ), GetString( "LOGINLOGOUT" ) );
+		}
+
+		#endregion
+
+		#region Public Methods
+
+		/// <summary>
+		/// Shows up an error below the banner.
+		/// </summary>
+		/// <param name="msg"></param>
+		public void ShowError( string msg )
+		{
+			ErrorMsg.Text = String.Format( GetString( "ERRORTEMPLATE" ), msg );
+			ErrorPanel.Visible = true;
 		}
 
 		#endregion

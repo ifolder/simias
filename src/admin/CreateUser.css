@@ -1,0 +1,46 @@
+.leftnav
+{
+	padding-right: 1em;
+	padding-left: 1em;
+	float: left;
+	width: 35em;
+}
+
+.detailnav
+{
+	float: left;
+	padding-bottom: 1em;
+	width: 100%;
+}
+
+.detailinfo th
+{
+	text-align:left;
+	padding-right: .5em;
+	font-size: .8em;
+}
+
+.detailinfo td
+{
+	width: 80%;
+}
+
+.detailinfo td #UserName, .detailinfo td #FirstName, .detailinfo td #LastName,
+.detailinfo td #FullName, .detailinfo td #Password, .detailinfo td #RetypedPassword
+{
+	text-align: left;
+	width: 100%;
+	padding-left: .2em;
+}
+
+#CreateButton
+{
+	margin-top: .7em;
+	margin-right: .4em;
+	margin-left: 12em;
+}
+
+#CancelButton
+{
+	margin-top: .5em;
+}
