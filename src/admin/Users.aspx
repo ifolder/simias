@@ -35,23 +35,69 @@
 					
 			<div class="accountsnav">
 	
+				<table class="accountslistheader" cellpadding="0" cellspacing="0" border="0">
+			
+					<tr>
+						<td class="checkboxcolumn">
+							<asp:CheckBox 
+								ID="AllUsersCheckBox" 
+								Runat="server" 
+								OnCheckedChanged="OnAllUsersChecked" 
+								AutoPostBack="True"	/>
+						</td>
+					
+						<td class="typecolumn">
+							<%= GetString( "TYPE" ) %>
+						</td>
+						
+						<td class="usernamecolumn">
+							<%= GetString( "USERNAME" ) %>
+						</td>
+						
+						<td class="fullnamecolumn">
+							<%= GetString( "FULLNAME" ) %>
+						</td>
+						
+						<td class="statuscolumn">
+							<%= GetString( "ENABLED" ) %>
+						</td>
+					</tr>
+			
+				</table>
+				
 				<asp:datagrid 
 					ID="Accounts" 
 					Runat="server" 
 					AutoGenerateColumns="False" 
-					CssClass="accounts"
+					CssClass="accountslist"
 					CellPadding="0" 
 					CellSpacing="0" 
 					PageSize="15" 
 					GridLines="None" 
-					ShowHeader="True"
-					HeaderStyle-CssClass="accountsheader" 
+					ShowHeader="False"
 					AlternatingItemStyle-CssClass="accountslistaltitem"
 					ItemStyle-CssClass="accountslistitem">
 					
 					<Columns>
 					
+						<asp:BoundColumn DataField="IDField" Visible="False" />
+					
+						<asp:BoundColumn DataField="DisabledField" Visible="False" />
+						
 						<asp:TemplateColumn ItemStyle-CssClass="accountsitem1">
+							<ItemTemplate>
+								<asp:CheckBox 
+									ID="AccountsListCheckBox" 
+									Runat="server" 
+									OnCheckedChanged="OnUserChecked" 
+									AutoPostBack="True" 
+									Visible='<%# DataBinder.Eval( Container.DataItem, "VisibleField" ) %>' 
+									Checked='<%# GetMemberCheckedState( DataBinder.Eval( Container.DataItem, "IDField" ) ) %>'
+									Enabled='<%# IsUserEnabled( DataBinder.Eval( Container.DataItem, "IDField" ) ) %>' />
+							</ItemTemplate>
+						</asp:TemplateColumn>
+						
+						<asp:TemplateColumn ItemStyle-CssClass="accountsitem2">
 							<ItemTemplate>
 								<asp:Image 
 									ID="UserImage" 
@@ -62,15 +108,15 @@
 						</asp:TemplateColumn>
 
 						<asp:HyperLinkColumn 
-							ItemStyle-CssClass="accountsitem2" 
+							ItemStyle-CssClass="accountsitem3" 
 							DataTextField="NameField"
 							DataNavigateUrlField="IDField" 
 							DataNavigateUrlFormatString="UserDetails.aspx?id={0}"
 							Target="_top"/>
 							
-						<asp:BoundColumn ItemStyle-CssClass="accountsitem3" DataField="FullNameField"/>
+						<asp:BoundColumn ItemStyle-CssClass="accountsitem4" DataField="FullNameField"/>
 						
-						<asp:BoundColumn ItemStyle-CssClass="accountsitem4" DataField="StatusField"/>
+						<asp:BoundColumn ItemStyle-CssClass="accountsitem5" DataField="StatusField"/>
 						
 					</Columns>
 					
@@ -78,6 +124,28 @@
 						
 				<ifolder:PageFooter ID="AccountsFooter" Runat="server"/>
 				
+				<asp:Button 
+					ID="DeleteButton" 
+					Runat="server" 
+					CssClass="ifolderbuttons" 
+					OnClick="OnDeleteButton_Click" 
+					Enabled="False"
+					Visible="False" />
+					
+				<asp:Button 
+					ID="DisableButton" 
+					Runat="server" 
+					CssClass="ifolderbuttons" 
+					OnClick="OnDisableButton_Click"
+					Enabled="False" />
+					
+				<asp:Button 
+					ID="EnableButton" 
+					Runat="server" 
+					CssClass="ifolderbuttons" 
+					OnClick="OnEnableButton_Click"
+					Enabled="False" />
+					
 				<asp:Button 
 					ID="CreateButton" 
 					Runat="server" 

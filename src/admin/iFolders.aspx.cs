@@ -217,21 +217,6 @@ namespace Novell.iFolderWeb.Admin
 		}
 
 		/// <summary>
-		/// Gets an ifolder policy object that is set-able.
-		/// </summary>
-		/// <param name="ifolderID"></param>
-		/// <returns></returns>
-		private iFolderPolicy GetiFolderPolicyObject( string ifolderID )
-		{
-			iFolderPolicy policy = new iFolderPolicy();
-			policy.iFolderID = ifolderID;
-			policy.FileSizeLimit = policy.SpaceLimit = policy.SyncInterval = -1;
-			policy.FileTypesExcludes = policy.FileTypesIncludes = null;
-			policy.Locked = false;
-			return policy;
-		}
-
-		/// <summary>
 		/// Gets the iFolders for the current user.
 		/// </summary>
 		private void GetiFolders()
@@ -316,7 +301,7 @@ namespace Novell.iFolderWeb.Admin
 				// Don't set the status if already set.
 				if ( CheckediFolders[ ifolderID ] as string != syncStatus.ToString() )
 				{
-					iFolderPolicy policy = GetiFolderPolicyObject( ifolderID );
+					iFolderPolicy policy = Utils.GetiFolderPolicyObject( ifolderID );
 					policy.Locked = syncStatus;
 					web.SetiFolderPolicy( policy );
 				}

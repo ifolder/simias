@@ -363,6 +363,9 @@
 	<data name="NEWFILETYPE">
 		<value>New File Type</value>
 	</data>
+	<data name="NO">
+		<value>No</value>
+	</data>
 	<data name="NOITEMSFOUND">
 		<value>There were no items found.</value>
 	</data>
@@ -478,7 +481,7 @@
 		<value>System Settings</value>
 	</data>
 	<data name="TITLE">
-		<value>Novell iFolder</value>
+		<value>iFolder Administrator</value>
 	</data>
 	<data name="TOTALIFOLDERSTAG">
 		<value>Total iFolders:</value>
@@ -518,5 +521,8 @@
 	</data>
 	<data name="USERS">
 		<value>Users</value>
+	</data>
+	<data name="YES">
+		<value>Yes</value>
 	</data>
 </root>
