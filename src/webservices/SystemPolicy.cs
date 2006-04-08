@@ -125,8 +125,11 @@ namespace iFolder.WebService
 			}
 
 			// file types
-			FileTypeFilter.Set(domain, SystemPolicy.CombineFileTypes(
-				props.FileTypesIncludes, props.FileTypesExcludes));
+			if ((props.FileTypesExcludes != null) || (props.FileTypesIncludes != null))
+			{
+				FileTypeFilter.Set(domain, SystemPolicy.CombineFileTypes(
+					props.FileTypesIncludes, props.FileTypesExcludes));
+			}
 		}
 
 		/// <summary>
