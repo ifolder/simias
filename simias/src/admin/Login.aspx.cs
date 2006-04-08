@@ -55,12 +55,12 @@ namespace Novell.iFolderWeb.Admin
 		/// <summary>
 		/// Message Type
 		/// </summary>
-		protected Literal MessageType;
+		protected Label MessageType;
 
 		/// <summary>
 		/// Message
 		/// </summary>
-		protected Literal MessageText;
+		protected Label MessageText;
 
 		/// <summary>
 		/// Server URL
@@ -132,8 +132,8 @@ namespace Novell.iFolderWeb.Admin
 		private void Page_Load(object sender, EventArgs e)
 		{
 			// clear any message
-			MessageType.Text = "";
-			MessageText.Text = "";
+			MessageType.Text = String.Empty;
+			MessageText.Text = String.Empty;
 
 			// localization
 			rm = (ResourceManager) Application["RM"];

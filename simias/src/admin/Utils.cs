@@ -136,6 +136,36 @@ namespace Novell.iFolderWeb.Admin
 			return sizeString;
 		}
 
+		/// <summary>
+		/// Gets an ifolder policy object that is set-able.
+		/// </summary>
+		/// <param name="ifolderID"></param>
+		/// <returns></returns>
+		public static iFolderPolicy GetiFolderPolicyObject( string ifolderID )
+		{
+			iFolderPolicy policy = new iFolderPolicy();
+			policy.iFolderID = ifolderID;
+			policy.FileSizeLimit = policy.SpaceLimit = policy.SyncInterval = -1;
+			policy.FileTypesExcludes = policy.FileTypesIncludes = null;
+			policy.Locked = false;
+			return policy;
+		}
+
+		/// <summary>
+		/// Gets user policy object that is set-able.
+		/// </summary>
+		/// <param name="userID"></param>
+		/// <returns></returns>
+		public static UserPolicy GetUserPolicyObject( string userID )
+		{
+			UserPolicy policy = new UserPolicy();
+			policy.UserID = userID;
+			policy.FileSizeLimit = policy.SpaceLimit = policy.SyncInterval = -1;
+			policy.FileTypesExcludes = policy.FileTypesIncludes = null;
+			policy.LoginEnabled = true;
+			return policy;
+		}
+
 		#endregion
 	}
 }

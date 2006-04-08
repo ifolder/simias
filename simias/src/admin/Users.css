@@ -8,34 +8,60 @@
 .accountsnav
 {
 	width: 35em;
+	margin-top: .5em;
 }
 
-.accounts
+.accountslist
 {
-	margin-top: .5em;
-	border-top: solid 1px black;
+	clear: left;
 	width: 100%;
 }
 
-.accountsheader td
-{ 
-	color: black; 
-	font-weight: bold; 
-	font-size: 0.8em;  
+.accountslistheader
+{
+	clear: left;
+	border-top: solid 1px black;
+	border-bottom: solid 1px black;
+	border-collapse: collapse;
+	height: 1.5em;
+	width: 100%;
+}
+
+.accountslistheader td
+{
+	font-weight: bold;
+	font-size: 0.8em;
+	color: black;
 	background-color: #efeee9;
-	border-bottom: 1px solid black;	
-	padding-bottom: .1em;
-	padding-left: .4em;
+}
+
+.accountslistheader .checkboxcolumn
+{
+	width: 2em;
+}
+
+.accountslistheader .typecolumn
+{
+	width: 4em;
+}
+
+.accountslistheader .usernamecolumn
+{
+	width: 14em;
+}
+
+.accountslistheader .fullnamecolumn
+{
+	width: 18em;
+}
+
+.accountslistheader .statuscolumn
+{
 }
 
 .accountslistitem
 {
 	height: 1.5em;
-}
-
-.accountslistitem td
-{
-	padding-left: .4em;
 }
 
 .accountslistaltitem
@@ -44,34 +70,29 @@
 	background-color: #efeee9;
 }
 
-.accountslistaltitem td
-{
-	padding-left: .4em;
-}
-
 .accountsitem1
 {
-	width: 4em;
-}
-
-.accountsitem1 img
-{
-	padding-left: .3em;
+	width: 2em;
 }
 
 .accountsitem2
 {
-	width: 12em;
+	width: 3.4em;
+}
+
+.accountsitem2 img
+{
+	padding-left: .2em;
 }
 
 .accountsitem3
 {
-	width: 16em;
+	width: 12.3em;
 }
 
 .accountsitem4
 {
-	width: 4em;
+	width: 16.2em;
 }
 
 .searchnav
@@ -80,8 +101,30 @@
 	padding-bottom: .5em;
 }
 
+#DeleteButton
+{
+	float: left;
+	margin-top: .5em;
+}
+
+#DisableButton
+{
+	float: left;
+	margin-top: .5em;
+	margin-left: .3em;
+	width: 5em;
+}
+
+#EnableButton
+{
+	float: left;
+	margin-top: .5em;
+	margin-left: .3em;
+	width: 4.6em;
+}
+
 #CreateButton
 {
 	float: right;
-	margin-top: .3em;
+	margin-top: .5em;
 }
