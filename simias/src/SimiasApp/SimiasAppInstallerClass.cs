@@ -108,6 +108,23 @@ namespace Mono.ASPNET
 					Context.LogMessage( String.Format( "ERROR: Cannot find {0}", dirMappingFile ) );
 				}
 			}
+
+			// Remove simias.dll file so that it doesn't interfere.
+			string simiasDll = Path.Combine( Path.GetDirectoryName( assemblyPath ), "simias.dll" );
+			if ( File.Exists( simiasDll ) )
+			{
+				try
+				{
+					File.Delete( simiasDll );
+				}
+				catch ( Exception ex )
+				{
+					if ( Context != null )
+					{
+						Context.LogMessage( String.Format( "ERROR: Deleting simias.dll file" ) );
+					}
+				}
+			}
 		}
 
 		/// <summary>
