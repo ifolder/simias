@@ -233,6 +233,12 @@ namespace Simias.Storage
 								je.UserName = member.FN != null ? member.FN : member.Name;
 							}
 
+							if ( je.FileName == null || je.FileName.Equals( string.Empty ) )
+							{
+								// Read the filename from the journal.
+								je.FileName = searchState.GetFileName( je.FileID );
+							}
+
 							Node node = collection.GetNodeByID( je.FileID );
 							je.IsFolder = node != null && node.IsType( NodeTypes.DirNodeType );
 
@@ -715,7 +721,7 @@ namespace Simias.Storage
 				// TODO: Is there a way to update the journal for newly added files? (The journal on the
 				// the client is always a sync cycle behind the journal on the server).
 				// Add the last modifier to the journal if it isn't already there.
-				if ( fileID != null && !fileID.Equals( string.Empty ) )
+/*				if ( fileID != null && !fileID.Equals( string.Empty ) )
 				{
 					try
 					{
@@ -734,7 +740,7 @@ namespace Simias.Storage
 					}
 					catch // Ignore.
 					{}
-				}
+				}*/
 			}
 
 			return count;
@@ -755,6 +761,58 @@ namespace Simias.Storage
 		#endregion
 
 		#region Public Methods
+
+		/// <summary>
+		/// Gets the file name for a file with the specified node ID.
+		/// </summary>
+		/// <param name="nodeID">The identifier of the file to get the name of.</param>
+		/// <returns>The name of the file or an empty string if the file name is not found.</returns>
+		public string GetFileName( string nodeID )
+		{
+			string filename = string.Empty;
+
+			// Save state.
+			long previousPosition = stream.Position;
+			int previousIndex = index;
+			string[] previousRecords = new string[ records.Length ];
+			records.CopyTo( previousRecords, 0 );
+
+			// Cause the search to be performed from the end of the file.
+			index = -1;
+			records = null;
+
+			while ( true )
+			{
+				// Read the next record.
+				string record = ReadNextRecord();
+
+				// Make sure the record is valid.
+				if ( record == null || record.Equals( string.Empty ) )
+				{
+					break;
+				}
+
+				// See if the record contains the node ID.
+				if ( record.IndexOf( nodeID ) != -1 )
+				{
+					// New up a JournalEntry and check if it contains a file name.
+					JournalEntry je = new JournalEntry( record );
+					if ( je.FileName != null && !je.FileName.Equals( string.Empty ) )
+					{
+						filename = je.FileName;
+						break;
+					}
+				}
+			}			
+
+			// Restore state.
+			stream.Position = previousPosition;
+			index = previousIndex;
+			records = new string[ previousRecords.Length ];
+			previousRecords.CopyTo( records, 0 );
+
+			return filename;
+		}
 
 		/// <summary>
 		/// Get the next entry from the journal file.
@@ -1130,7 +1188,6 @@ namespace Simias.Storage
 	[ Serializable ]
 	public class JournalEntry
 	{
-		// TODO: May need to distinguish between files and directories.
 		#region Class Members
 
 		/// <summary>
