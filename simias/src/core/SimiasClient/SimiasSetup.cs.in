@@ -51,6 +51,7 @@ namespace Simias.Client
 		private static string _webbindir = "@webbindir@";
 		private static string _modulesdir = "@modulesdir@";
 		private static string _bootstrapdir = "@bootstrapdir@";
+		private static string _simiasconfdir = "@simiasconfdir@";
 		
 		// setup info
 		private static string _target = "@target@";
@@ -99,6 +100,7 @@ namespace Simias.Client
 		{
 			get { return _prefix; }
 			
+#if WINDOWS
 			set
 			{
 				// On some Windows clients, the initial prefix path is C:\ which causes
@@ -122,10 +124,12 @@ namespace Simias.Client
 				_webbindir = Path.GetFullPath(_webbindir.Replace(_prefix, value));
 				_modulesdir = Path.GetFullPath(_modulesdir.Replace(_prefix, value));
 				_bootstrapdir = Path.GetFullPath(_bootstrapdir.Replace(_prefix, value));
+				_simiasconfdir = Path.GetFullPath(_simiasconfdir.Replace(_prefix, value));
 				
 				// update prefix
 				_prefix = Path.GetFullPath(value);
 			}
+#endif
 		}
 		
 		/// <summary>
@@ -246,6 +250,14 @@ namespace Simias.Client
 		public static string bootstrapdir
 		{
 			get { return _bootstrapdir; }
+		}
+
+		/// <summary>
+		/// simiasconfdir
+		/// </summary>
+		public static string simiasconfdir
+		{
+			get { return _simiasconfdir; }
 		}
 		
 		/// <summary>

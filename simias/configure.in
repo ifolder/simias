@@ -391,7 +391,13 @@ AC_SUBST(admindir)
 #
 # Setup the bootstrapdir
 #
-bootstrapdir="${sysconfdir}/bill"
+simiasconfdir="${sysconfdir}/simias"
+AC_SUBST(simiasconfdir)
+
+#
+# Setup the bootstrapdir
+#
+bootstrapdir="${simiasconfdir}/bill"
 AC_SUBST(bootstrapdir)
 
 #
@@ -478,13 +484,18 @@ fi
 AC_SUBST(DEVENV_CONFIGURATION)
 
 #
-# Handle --with-client-setup
+# Handle --with-runasclient
 #
-AC_CHECKING([whether a location for the client-setup was specified])
+AC_CHECKING([whether a location for the runasclient was specified])
 AC_ARG_WITH(runasclient,
-	[AS_HELP_STRING([--with-client-setup],
-	[configure simias to run as a client. [Default=FALSE]])],
-	[runasclient="TRUE"],
+	[AS_HELP_STRING([--with-runasclient],
+	[configure simias to run as a client. This option will also change the default --with-simiasdatadir to the user's home directory. [Default=FALSE]])],
+	[runasclient="TRUE"
+	case $SIMIAS_OS in
+		windows) simiasdatadir='"$(shell cygpath --unix "$(USERPROFILE)")/Local Settings/Application Data/SimiasServer/simias"' ;;
+		linux) simiasdatadir="$HOME/.local/share/SimiasServer/simias" ;;
+		darwin) simiasdatadir="$HOME/.local/share/SimiasServer/simias" ;;
+	esac],
 	[runasclient="FALSE"]
 	)
 AC_SUBST(runasclient)
@@ -496,13 +507,15 @@ AC_SUBST(runasclient)
 AC_CHECKING([whether a location for the simias data directory was specified])
 AC_ARG_WITH(simiasdatadir,
 	[AS_HELP_STRING([--with-simiasdatadir=PATH],
-	[configure the directory where the simias data files will be placed. [Default="$HOME/.local/share/SimiasServer/simias"]])],
+	[configure the directory where the simias data files will be placed. [Default="/var/lib/simias"]])],
 	[simiasdatadir="$withval"],
-	[case $SIMIAS_OS in
-		windows) simiasdatadir='"$(shell cygpath --unix "$(USERPROFILE)")/Local Settings/Application Data/SimiasServer/simias"' ;;
-		linux) simiasdatadir="$HOME/.local/share/SimiasServer/simias" ;;
-		darwin) simiasdatadir="$HOME/.local/share/SimiasServer/simias" ;;
-	esac]
+	[if test "$runasclient" = "FALSE"; then
+		case $SIMIAS_OS in
+			windows) simiasdatadir='"$(shell cygpath --unix /cygdrive/c/simias"' ;;
+			linux) simiasdatadir="/var/lib/simias" ;;
+			darwin) simiasdatadir="/var/lib/simias" ;;
+		esac
+	fi]
 	)
 AC_SUBST(simiasdatadir)
 

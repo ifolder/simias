@@ -16,7 +16,7 @@ Name:         ifolder3-server
 %define buildnum @@BUILDNUM@@
 URL:          http://wwww.ifolder.com
 %define prefix /usr
-%define sysconfdir /etc/simias
+%define sysconfdir /etc
 %define libexecdir /usr/lib/simias
 %define simiasdatadir /var/lib/simias
 License:      GPL
@@ -69,9 +69,9 @@ INSTANCES_AFTER_INSTALL=$1
 
 if [ "$INSTANCES_AFTER_INSTALL" = "1" ]; then
 	# Install
-	ln -sf %{sysconfdir}/simias_server.conf /etc/apache2/conf.d/simias_server.conf
-	ln -sf %{sysconfdir}/ifolder_admin.conf /etc/apache2/conf.d/ifolder_admin.conf
-	ln -sf %{sysconfdir}/ifolder_webaccess.conf /etc/apache2/conf.d/ifolder_webaccess.conf
+	ln -sf %{sysconfdir}/simias/simias_server.conf /etc/apache2/conf.d/simias_server.conf
+	ln -sf %{sysconfdir}/simias/ifolder_admin.conf /etc/apache2/conf.d/ifolder_admin.conf
+	ln -sf %{sysconfdir}/simias/ifolder_webaccess.conf /etc/apache2/conf.d/ifolder_webaccess.conf
 
 	# setup simiasdatadir and give wwwrun user ownership
 	mkdir -p %{simiasdatadir}
@@ -94,8 +94,8 @@ fi
 %defattr(755,root,root)
 %dir %{libexecdir}
 %{prefix}/bin/*
-%dir %{sysconfdir}
-%{sysconfdir}/*
+%dir %{sysconfdir}/simias
+%{sysconfdir}/simias/*
 %{libexecdir}/*
 %{prefix}/include/*
 %{prefix}/lib/pkgconfig/simias*

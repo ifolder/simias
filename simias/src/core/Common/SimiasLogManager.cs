@@ -108,8 +108,8 @@ namespace Simias
 					{
 						// look for an exact match for the template or then use the default template
 						string bootStrapFile = null;
-						string bootStrapFile1 = Path.Combine(SimiasSetup.sysconfdir, name + ConfigFileExtension);
-						string bootStrapFile2 = Path.Combine(SimiasSetup.sysconfdir, DefaultConfigFile + ConfigFileExtension);
+						string bootStrapFile1 = Path.Combine(SimiasSetup.simiasconfdir, name + ConfigFileExtension);
+						string bootStrapFile2 = Path.Combine(SimiasSetup.simiasconfdir, DefaultConfigFile + ConfigFileExtension);
 						
 						if (File.Exists(bootStrapFile1))
 						{

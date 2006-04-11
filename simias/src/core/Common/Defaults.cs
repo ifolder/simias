@@ -52,7 +52,7 @@ namespace Simias
 				
 				// path to the defaults.config file
 				string defaultsPath = 
-					Simias.Client.SimiasSetup.sysconfdir + 
+					Simias.Client.SimiasSetup.simiasconfdir + 
 					Path.DirectorySeparatorChar.ToString() + 
 					"/defaults.config";
 				

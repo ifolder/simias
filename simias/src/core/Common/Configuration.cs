@@ -69,7 +69,7 @@ namespace Simias
 					// directory. If not, then get the global copy.
 					if ( !File.Exists( configFilePath ) || !IsValidConfigurationFile( configFilePath ) )
 					{
-						configFilePath = Path.Combine( SimiasSetup.sysconfdir, DefaultConfigFileName );
+						configFilePath = Path.Combine( SimiasSetup.simiasconfdir, DefaultConfigFileName );
 					}
 					else
 					{
