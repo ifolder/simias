@@ -956,18 +956,32 @@ namespace Simias.Sync
 		/// </summary>
 		private void Initialize()
 		{
-			fileMonitor = new FileWatcher(collection, false);
-			switch(collection.Role)
+			try
 			{
-				case SyncRoles.Master:
-				case SyncRoles.Local:
-				default:
-					timer = new Timer(callback, this, initialSyncDelay, Timeout.Infinite);				
-					break;
+				fileMonitor = new FileWatcher(collection, false);
+				switch(collection.Role)
+				{
+					case SyncRoles.Master:
+					case SyncRoles.Local:
+					default:
+						timer = new Timer(callback, this, initialSyncDelay, Timeout.Infinite);				
+						break;
 
-				case SyncRoles.Slave:
-					InitializeSlave(this);
-					break;
+					case SyncRoles.Slave:
+						InitializeSlave(this);
+						break;
+				}
+			}
+			catch ( Exception ex )
+			{
+				if (!Directory.Exists(collection.GetRootDirectory().GetFullPath(collection)))
+				{
+					collection.Commit(collection.Delete());
+				}
+				else
+				{
+					throw ex;
+				}
 			}
 		}
 
