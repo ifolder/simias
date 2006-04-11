@@ -62,8 +62,9 @@ namespace Simias.Client
 		static SimiasSetup()
 		{
 			// note: with DotNet with the entry assembly directory as the prefix
-			if (MyEnvironment.DotNet)
-			{
+//			if (MyEnvironment.DotNet)
+//			{
+#if WINDOWS
 				string newprefix = null;
 				
 				try
@@ -83,7 +84,8 @@ namespace Simias.Client
 
 				// assign
 				prefix = newprefix;
-			}
+#endif
+//			}
 		}
 
 		/// <summary>
