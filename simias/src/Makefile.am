@@ -1,6 +1,11 @@
-SUBDIRS = core server webservices webaccess admin setup
+DIST_SUBDIRS = core server webservices webaccess admin setup
 
-DIST_SUBDIRS = $(SUBDIRS)
+if SIMIAS_AS_CLIENT
+SUBDIRS = core
+else
+SUBDIRS = $(DIST_SUBDIRS)
+endif
+
 
 EXTRA_DIST = 
 

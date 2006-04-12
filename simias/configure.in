@@ -499,7 +499,7 @@ AC_ARG_WITH(runasclient,
 	[runasclient="FALSE"]
 	)
 AC_SUBST(runasclient)
-
+AM_CONDITIONAL(SIMIAS_AS_CLIENT, test "$runasclient" = "TRUE")
 
 #
 # Handle --with-simiasdatadir
