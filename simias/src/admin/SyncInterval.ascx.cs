@@ -50,12 +50,38 @@ namespace Novell.iFolderWeb.Admin
 		/// <summary>
 		/// Sync policy controls.
 		/// </summary>
-		protected CheckBox SyncIntervalCheckBox;
+		protected Label Title;
 
 		/// <summary>
 		/// Sync policy controls.
 		/// </summary>
-		protected TextBox SyncLimit;
+		protected CheckBox Enabled;
+
+		/// <summary>
+		/// Sync policy controls.
+		/// </summary>
+		protected Label LimitTag;
+
+		/// <summary>
+		/// Sync policy controls.
+		/// </summary>
+		protected TextBox LimitValue;
+
+		/// <summary>
+		/// Sync policy controls.
+		/// </summary>
+		protected Label EffectiveTag;
+
+		/// <summary>
+		/// Sync policy controls.
+		/// </summary>
+		protected Label EffectiveValue;
+
+		/// <summary>
+		/// Sync policy controls.
+		/// </summary>
+		protected Label EffectiveUnits;
+
 
 		/// <summary>
 		/// Event that notifies consumer that the sync interval has changed.
@@ -88,6 +114,14 @@ namespace Novell.iFolderWeb.Admin
 		{
 			// localization
 			rm = Application[ "RM" ] as ResourceManager;
+
+			if ( !IsPostBack )
+			{
+				Title.Text = GetString( "SYNCHRONIZATION" );
+				LimitTag.Text = GetString( "INTERVALTAG" );
+				EffectiveTag.Text = GetString( "EFFECTIVETAG" );
+				EffectiveUnits.Text = GetString( "MINUTES" );
+			}
 		}
 
 		#endregion
@@ -111,17 +145,17 @@ namespace Novell.iFolderWeb.Admin
 		/// <param name="e"></param>
 		protected void SyncCheckChanged( Object sender, EventArgs e )
 		{
-			if ( SyncIntervalCheckBox.Checked )
+			if ( Enabled.Checked )
 			{
 				int interval = ( ( EffectiveInterval == 0 ) ? DefaultSyncInterval : EffectiveInterval ) / 60;
-				SyncLimit.Text = interval.ToString();
+				LimitValue.Text = interval.ToString();
 			}
 			else
 			{
-				SyncLimit.Text = String.Empty;				
+				LimitValue.Text = String.Empty;				
 			}
 
-			SyncLimit.Enabled = SyncIntervalCheckBox.Checked;
+			LimitValue.Enabled = Enabled.Checked;
 			SyncIntervalChanged( sender, e );
 		}
 
@@ -150,15 +184,26 @@ namespace Novell.iFolderWeb.Admin
 		{
 			EffectiveInterval = policy.SyncIntervalEffective;
 
-			SyncIntervalCheckBox.Checked = SyncLimit.Enabled = ( policy.SyncInterval > 0 );
-			if ( SyncIntervalCheckBox.Checked )
+			Enabled.Checked = LimitValue.Enabled = ( policy.SyncInterval > 0 );
+			if ( Enabled.Checked )
 			{
 				int syncInterval = policy.SyncInterval / 60;
-				SyncLimit.Text = syncInterval.ToString();
+				LimitValue.Text = syncInterval.ToString();
 			}
 			else
 			{
-				SyncLimit.Text = String.Empty;
+				LimitValue.Text = String.Empty;
+			}
+
+			if ( Enabled.Checked )
+			{
+				EffectiveTag.Visible = EffectiveValue.Visible = EffectiveUnits.Visible = false;
+			}
+			else
+			{
+				int syncInterval = policy.SyncIntervalEffective / 60;
+				EffectiveTag.Visible = EffectiveValue.Visible = EffectiveUnits.Visible = true;
+				EffectiveValue.Text = syncInterval.ToString();
 			}
 		}
 
@@ -168,17 +213,29 @@ namespace Novell.iFolderWeb.Admin
 		/// <param name="policy">ifolder policy.</param>
 		public void GetSyncPolicy( iFolderPolicy policy )
 		{
-			EffectiveInterval = 0;
+			EffectiveInterval = policy.SyncIntervalEffective;
 
-			SyncIntervalCheckBox.Checked = SyncLimit.Enabled = ( policy.SyncInterval > 0 );
-			if ( SyncIntervalCheckBox.Checked )
+			Enabled.Checked = LimitValue.Enabled = ( policy.SyncInterval > 0 );
+			if ( Enabled.Checked )
 			{
 				int syncInterval = policy.SyncInterval / 60;
-				SyncLimit.Text = syncInterval.ToString();
+				LimitValue.Text = syncInterval.ToString();
 			}
 			else
 			{
-				SyncLimit.Text = String.Empty;
+				LimitValue.Text = String.Empty;
+			}
+
+			if ( ( policy.SyncIntervalEffective > 0 ) || ( policy.SyncInterval > 0 ) )
+			{
+				int syncInterval = policy.SyncIntervalEffective / 60;
+				EffectiveValue.Text = syncInterval.ToString();
+				EffectiveUnits.Text = GetString( "MINUTES" );
+			}
+			else
+			{
+				EffectiveValue.Text = GetString( "UNLIMITED" );
+				EffectiveUnits.Text = String.Empty;
 			}
 		}
 
@@ -190,16 +247,18 @@ namespace Novell.iFolderWeb.Admin
 		{
 			EffectiveInterval = 0;
 
-			SyncIntervalCheckBox.Checked = SyncLimit.Enabled = ( policy.SyncInterval > 0 );
-			if ( SyncIntervalCheckBox.Checked )
+			Enabled.Checked = LimitValue.Enabled = ( policy.SyncInterval > 0 );
+			if ( Enabled.Checked )
 			{
 				int syncInterval = policy.SyncInterval / 60;
-				SyncLimit.Text = syncInterval.ToString();
+				LimitValue.Text = syncInterval.ToString();
 			}
 			else
 			{
-				SyncLimit.Text = String.Empty;
+				LimitValue.Text = String.Empty;
 			}
+
+			EffectiveTag.Visible = EffectiveValue.Visible = EffectiveUnits.Visible = false;
 		}
 
 		/// <summary>
@@ -209,9 +268,9 @@ namespace Novell.iFolderWeb.Admin
 		public void SetSyncPolicy( UserPolicy policy )
 		{
 			// Verify that the file size value is valid.
-			if ( SyncIntervalCheckBox.Checked )
+			if ( Enabled.Checked )
 			{
-				string limitString = SyncLimit.Text;
+				string limitString = LimitValue.Text;
 				if ( ( limitString != null ) && ( limitString != String.Empty ) )
 				{
 					try
@@ -250,9 +309,9 @@ namespace Novell.iFolderWeb.Admin
 		public void SetSyncPolicy( iFolderPolicy policy )
 		{
 			// Verify that the file size value is valid.
-			if ( SyncIntervalCheckBox.Checked )
+			if ( Enabled.Checked )
 			{
-				string limitString = SyncLimit.Text;
+				string limitString = LimitValue.Text;
 				if ( ( limitString != null ) && ( limitString != String.Empty ) )
 				{
 					try
@@ -291,9 +350,9 @@ namespace Novell.iFolderWeb.Admin
 		public void SetSyncPolicy( SystemPolicy policy )
 		{
 			// Verify that the file size value is valid.
-			if ( SyncIntervalCheckBox.Checked )
+			if ( Enabled.Checked )
 			{
-				string limitString = SyncLimit.Text;
+				string limitString = LimitValue.Text;
 				if ( ( limitString != null ) && ( limitString != String.Empty ) )
 				{
 					try
@@ -348,8 +407,8 @@ namespace Novell.iFolderWeb.Admin
 		/// </summary>
 		private void InitializeComponent()
 		{
-			SyncIntervalCheckBox.CheckedChanged += new EventHandler( SyncCheckChanged );
-			SyncLimit.TextChanged += new EventHandler( SyncIntervalChanged );
+			Enabled.CheckedChanged += new EventHandler( SyncCheckChanged );
+			LimitValue.TextChanged += new EventHandler( SyncIntervalChanged );
 
 			this.Load += new System.EventHandler(this.Page_Load);
 		}

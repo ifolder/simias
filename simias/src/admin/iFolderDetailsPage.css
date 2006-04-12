@@ -3,9 +3,9 @@
 	padding-right: .6em;
 	padding-left: 1em;
 	float: left;
-	width: 39em;
-	height: 40em;
-	border-right: 1px dotted #999999;
+	width: 38em;
+	height: 50em;
+	border-right: dotted 1px #999999;
 }
 
 .detailnav

@@ -42,15 +42,27 @@ namespace Novell.iFolderWeb.Admin
 		/// </summary>
 		private ResourceManager rm;
 
-		/// <summary>
-		/// iFolder enabled policy controls.
-		/// </summary>
-		protected CheckBox DisabledCheckBox;
 
 		/// <summary>
 		/// iFolder enabled policy controls.
 		/// </summary>
 		protected HtmlGenericControl iFolderEnabledNav;
+
+		/// <summary>
+		/// iFolder enabled policy controls.
+		/// </summary>
+		protected Label Title;
+
+		/// <summary>
+		/// iFolder enabled policy controls.
+		/// </summary>
+		protected CheckBox Enabled;
+
+		/// <summary>
+		/// iFolder enabled policy controls.
+		/// </summary>
+		protected Label DisabledTag;
+
 
 		/// <summary>
 		/// Event that notifies consumer that the checkbox has changed.
@@ -73,6 +85,12 @@ namespace Novell.iFolderWeb.Admin
 		{
 			// localization
 			rm = Application[ "RM" ] as ResourceManager;
+
+			if ( !IsPostBack )
+			{
+				Title.Text = GetString( "IFOLDER" );
+				DisabledTag.Text = GetString( "IFOLDERDISABLED" );
+			}
 		}
 
 		#endregion
@@ -112,7 +130,7 @@ namespace Novell.iFolderWeb.Admin
 		/// <param name="policy">iFolder policy object</param>
 		public void GetiFolderEnabledPolicy( iFolderPolicy policy )
 		{
-			DisabledCheckBox.Checked = policy.Locked;
+			Enabled.Checked = policy.Locked;
 		}
 
 		/// <summary>
@@ -139,7 +157,7 @@ namespace Novell.iFolderWeb.Admin
 		/// <param name="policy">iFolder policy where the synchronization information will be set.</param>
 		public void SetiFolderEnabledPolicy( iFolderPolicy policy )
 		{
-			policy.Locked = DisabledCheckBox.Checked;
+			policy.Locked = Enabled.Checked;
 		}
 
 		#endregion
@@ -165,7 +183,7 @@ namespace Novell.iFolderWeb.Admin
 		/// </summary>
 		private void InitializeComponent()
 		{
-			DisabledCheckBox.CheckedChanged += new EventHandler( iFolderCheckChanged );
+			Enabled.CheckedChanged += new EventHandler( iFolderCheckChanged );
 
 			this.Load += new System.EventHandler(this.Page_Load);
 		}

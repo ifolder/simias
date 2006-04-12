@@ -1,9 +1,9 @@
 .leftnav
 {
-	padding-right: 1em;
+	padding-right: .8em;
 	padding-left: 1em;
 	float: left;
-	width: 39em;
+	width: 38em;
 	border-right: 1px dotted #999999;
 }
 

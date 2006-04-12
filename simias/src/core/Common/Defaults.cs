@@ -56,8 +56,8 @@ namespace Simias
 					Path.DirectorySeparatorChar.ToString() + 
 					"/defaults.config";
 				
-				try
-				{
+//				try
+//				{
 					XmlDocument doc = new XmlDocument();
 					doc.Load( defaultsPath );
 				
@@ -79,11 +79,11 @@ namespace Simias
 							}
 						}
 					}	
-				}
-				catch( Exception e )
-				{
-					//Console.WriteLine( e.Message );
-				}
+//				}
+//				catch( Exception e )
+//				{
+//					Console.WriteLine( e.Message );
+//				}
 				
 				return simiasDataDir;
 			}

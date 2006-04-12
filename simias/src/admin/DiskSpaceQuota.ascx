@@ -1,34 +1,86 @@
 <%@ Control Language="c#" AutoEventWireup="false" Codebehind="DiskSpaceQuota.ascx.cs" Inherits="Novell.iFolderWeb.Admin.DiskSpaceQuota" TargetSchema="http://schemas.microsoft.com/intellisense/ie5"%>
 
 <div id="quotanav">
-	<div class="policytitle"><%= GetString( "DISKQUOTA" ) %></div>
+
+	<asp:Label ID="Title" Runat="server" CssClass="policytitle" />
+	
 	<div class="policydetails">
-		<asp:CheckBox ID="QuotaEnabled" Runat="server" AutoPostBack="True" />
-		<div class="policylimit"><%= GetString( "LIMITTAG" ) %></div>
-		<asp:TextBox ID="QuotaLimit" Runat="server" CssClass="policytextbox" AutoPostBack="true" />
-		<div class="policyunits"><%= GetString( "MB" ) %></div>
-		<table id="QuotaTable" runat="server" class="PolicyTable">
+	
+		
+		<table class="policytable">
+		
 			<tr>
-				<th>
-					<%= GetString( "USEDTAG" ) %>
-				</th>
-				<td><asp:Literal ID="QuotaUsed" Runat="server" /></td>
-			</tr>
-			<tr>
-				<th>
-					<%= GetString( "AVAILABLETAG" ) %>
-				</th>
-				<td><asp:Literal ID="QuotaAvailable" Runat="server" /></td>
-			</tr>
-			<tr>
-				<th>
-					<asp:Literal ID="QuotaEffectiveHeader" Runat="server" />
-				</th>
+				<td class="policycheckbox">
+					<asp:CheckBox ID="Enabled" Runat="server" AutoPostBack="True" />
+				</td>
+				
+				<td class="policytabletag">
+					<asp:Label ID="LimitTag" Runat="server" />
+				</td>
+
+				<td class="policytablevalue">
+					<asp:TextBox ID="LimitValue" Runat="server" CssClass="policytextbox" AutoPostBack="true" />
+				</td>
+				
 				<td>
-					<asp:Literal ID="QuotaEffective" Runat="server" />
+					<%= GetString( "MB" ) %>
+				</td>		
+			</tr>
+		
+			<tr>
+				<td>
+				</td>
+				
+				<td class="policytabletag">
+					<asp:Label ID="UsedTag" Runat="server" />
+				</td>
+				
+				<td class="policytablevalue">
+					<asp:Label ID="UsedValue" Runat="server" />
+				</td>
+				
+				<td>
+					<asp:Label ID="UsedUnits" Runat="server" />
 				</td>
 			</tr>
+			
+			<tr>
+				<td>
+				</td>
+
+				<td class="policytabletag">
+					<asp:Label ID="AvailableTag" Runat="server" />
+				</td>
+				
+				<td class="policytablevalue">
+					<asp:Label ID="AvailableValue" Runat="server" />
+				</td>
+				
+				<td>
+					<asp:Label ID="AvailableUnits" Runat="server" />
+				</td>
+			</tr>
+			
+			<tr>
+				<td>
+				</td>
+
+				<td class="policytabletag">
+					<asp:Label ID="EffectiveTag" Runat="server" />
+				</td>
+				
+				<td class="policytablevalue">
+					<asp:Label ID="EffectiveValue" Runat="server" />
+				</td>
+				
+				<td>
+					<asp:Label ID="EffectiveUnits" Runat="server" />
+				</td>
+			</tr>
+			
 		</table>
+		
 	</div>
+	
 </div>
 

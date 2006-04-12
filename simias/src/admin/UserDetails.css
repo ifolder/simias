@@ -4,6 +4,13 @@
 	margin-bottom: 1em;
 }
 
+.detailnav
+{
+	border-bottom: dotted 1px #999999;
+	float: left;
+	width: 100%;
+}
+
 .detailinfo th
 {
 	text-align:left;
@@ -16,20 +23,13 @@
 	text-align: left;
 }
 
-.detailnav
-{
-	border-bottom: dotted 1px #999999;
-	float: left;
-	width: 100%;
-}
-
 .leftnav
 {
 	padding-right: .8em;
 	padding-left: 1em;
 	float: left;
-	width: 39em;
-	height: 39.5em;
+	width: 38em;
+	height: 45em;
 	border-right: 1px dotted #999999;
 }
 
@@ -129,7 +129,7 @@ div#shared li.sharedifolders a:link, div#shared li.sharedifolders a:visited
 
 .ifolderlistheader .namecolumn
 {
-	width: 24.6em;
+	width: 22.4em;
 }
 
 .ifolderlistheader .ownercolumn
@@ -169,7 +169,7 @@ div#shared li.sharedifolders a:link, div#shared li.sharedifolders a:visited
 
 .ifolderitem3
 {
-	width: 22em;
+	width: 20em;
 }
 
 .ifolderitem4

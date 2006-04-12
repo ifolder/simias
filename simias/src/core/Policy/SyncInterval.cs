@@ -333,10 +333,23 @@ namespace Simias.Policy
 		/// <param name="member">Member that policy is associated with.</param>
 		/// <param name="collection">Collection to add to the aggregate policy.</param>
 		/// <returns>A SyncInterval object that contains the policy for the specified member.</returns>
+		[ Obsolete( "This method is obsolete. Please use SyncInterval.Get( Collection collection ) instead.", false ) ]
 		static public SyncInterval Get( Member member, Collection collection )
 		{
 			// Get the aggregate policy.
+			return SyncInterval.Get( collection );
+		}
+
+		/// <summary>
+		/// Gets the aggregate sync interval for the specified member and collection.
+		/// </summary>
+		/// <param name="collection">Collection to add to the aggregate policy.</param>
+		/// <returns>A SyncInterval object that contains the policy for the specified member.</returns>
+		static public SyncInterval Get( Collection collection )
+		{
+			// Get the aggregate policy.
 			PolicyManager pm = new PolicyManager();
+			Member member = collection.Owner;
 			Policy policy = pm.GetAggregatePolicy( SyncIntervalPolicyID, member, collection );
 			return new SyncInterval( policy );
 		}

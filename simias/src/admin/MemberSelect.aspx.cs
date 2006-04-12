@@ -52,16 +52,6 @@ namespace Novell.iFolderWeb.Admin
 		private const int Member_FullNameCell = 4;
 
 		/// <summary>
-		/// Viewable SelectedMemberList data grid cell indices.
-		/// </summary>
-		private const int SelectedMember_IDCell       = 0;
-		private const int SelectedMember_CheckBoxCell = 1;
-		private const int SelectedMember_ImageCell    = 2;
-		private const int SelectedMember_UserNameCell = 3;
-		private const int SelectedMember_FullNameCell = 4;
-
-
-		/// <summary>
 		/// Operations
 		/// </summary>
 		private enum PageOp
@@ -98,19 +88,9 @@ namespace Novell.iFolderWeb.Admin
 		protected CheckBox AllMembersCheckBox;
 
 		/// <summary>
-		/// All selected members selection checkbox control.
-		/// </summary>
-		protected CheckBox AllSelectedMembersCheckBox;
-
-		/// <summary>
 		/// Web controls.
 		/// </summary>
 		protected DataGrid MemberList;
-
-		/// <summary>
-		/// Web controls.
-		/// </summary>
-		protected DataGrid SelectedMemberList;
 
 		/// <summary>
 		/// Web controls.
@@ -120,32 +100,8 @@ namespace Novell.iFolderWeb.Admin
 		/// <summary>
 		/// Web controls.
 		/// </summary>
-		protected ImageButton AddButton;
-
-		/// <summary>
-		/// Web controls.
-		/// </summary>
-		protected ImageButton RemoveButton;
-
-		/// <summary>
-		/// Web controls.
-		/// </summary>
-		protected System.Web.UI.WebControls.Image AddDisabledButton;
-
-		/// <summary>
-		/// Web controls.
-		/// </summary>
-		protected System.Web.UI.WebControls.Image RemoveDisabledButton;
-
-		/// <summary>
-		/// Web controls.
-		/// </summary>
 		protected PageFooter MemberListFooter;
 
-		/// <summary>
-		/// Web controls.
-		/// </summary>
-		protected PageFooter SelectedMemberListFooter;
 
 
 		/// <summary>
@@ -204,14 +160,6 @@ namespace Novell.iFolderWeb.Admin
 		}
 
 		/// <summary>
-		/// Returns true if any members are checked to be removed.
-		/// </summary>
-		private bool HasMembersToRemove
-		{
-			get { return ( MembersToRemove.Count > 0 ) ? true : false; }
-		}
-
-		/// <summary>
 		/// Gets the iFolder ID.
 		/// </summary>
 		private string iFolderID
@@ -226,15 +174,6 @@ namespace Novell.iFolderWeb.Admin
 
 				return param;
 			} 
-		}
-
-		/// <summary>
-		/// Gets or sets whether the MemberCheckBox is checked.
-		/// </summary>
-		private bool MembersChecked
-		{
-			get { return ( bool )ViewState[ "MembersChecked" ]; }
-			set { ViewState[ "MembersChecked" ] = AllMembersCheckBox.Checked = value; }
 		}
 
 		/// <summary>
@@ -296,48 +235,12 @@ namespace Novell.iFolderWeb.Admin
 		}
 
 		/// <summary>
-		/// Gets or sets whether the SelectedMemberCheckBox is checked.
-		/// </summary>
-		private bool SelectedMembersChecked
-		{
-			get { return ( bool )ViewState[ "SelectedMembersChecked" ]; }
-			set { ViewState[ "SelectedMembersChecked" ] = AllSelectedMembersCheckBox.Checked = value; }
-		}
-
-		/// <summary>
 		/// Gets or sets the members to add information.
 		/// </summary>
 		private Hashtable MembersToAdd
 		{
 			get { return ViewState[ "MembersToAdd" ] as Hashtable; }
 			set { ViewState[ "MembersToAdd" ] = value; }
-		}
-
-		/// <summary>
-		/// Gets or sets the members to remove information.
-		/// </summary>
-		private Hashtable MembersToRemove
-		{
-			get { return ViewState[ "MembersToRemove" ] as Hashtable; }
-			set { ViewState[ "MembersToRemove" ] = value; }
-		}
-
-		/// <summary>
-		/// Gets or sets the selected user offset.
-		/// </summary>
-		private int SelectedUserOffset
-		{
-			get { return ( int )ViewState[ "SelectedUserOffset" ]; }
-			set { ViewState[ "SelectedUserOffset" ] = value; }
-		}
-
-		/// <summary>
-		/// Gets or sets the selected member source value.
-		/// </summary>
-		private Hashtable SelectedMemberSource
-		{
-			get { return ViewState[ "SelectedMembers" ] as Hashtable; }
-			set { ViewState[ "SelectedMembers" ] = value; }
 		}
 
 		/// <summary>
@@ -433,7 +336,7 @@ namespace Novell.iFolderWeb.Admin
 				dr = dt.NewRow();
 				dr[ 0 ] = true;
 				dr[ 1 ] = user.ID;
-				dr[ 2 ] = !IsUserSelected( user.ID );
+				dr[ 2 ] = !IsExistingMember( user.ID );
 				dr[ 3 ] = user.UserName;
 				dr[ 4 ] = user.FullName;
 
@@ -474,70 +377,6 @@ namespace Novell.iFolderWeb.Admin
 		}
 
 		/// <summary>
-		/// Creates a DataSource containing user names selected from the member list.
-		/// </summary>
-		/// <returns>An DataView object containing the selected ifolder users.</returns>
-		private DataView CreateSelectedMemberList()
-		{
-			DataTable dt = new DataTable();
-			DataRow dr;
-
-			dt.Columns.Add( new DataColumn( "VisibleField", typeof( bool ) ) );
-			dt.Columns.Add( new DataColumn( "IDField", typeof( string ) ) );
-			dt.Columns.Add( new DataColumn( "EnabledField", typeof( bool ) ) );
-			dt.Columns.Add( new DataColumn( "NameField", typeof( string ) ) );
-			dt.Columns.Add( new DataColumn( "FullNameField", typeof( string ) ) );
-
-			// Fill the data table from the saved selected member list.
-			Hashtable ht = SelectedMemberSource;
-			MemberInfo[] memberInfo = new MemberInfo[ ht.Count ];
-
-			// Copy the Values to the array so that they can be sorted.
-			ht.Values.CopyTo( memberInfo, 0 );
-			Array.Sort( memberInfo );
-
-			for ( int i = 0; i < memberInfo.Length; ++i )
-			{
-				// Don't add until at the right display offset.
-				if ( i >= SelectedUserOffset )
-				{
-					// Don't add more than one page worth of data.
-					if ( i < ( SelectedUserOffset + SelectedMemberList.PageSize ) )
-					{
-						dr = dt.NewRow();
-						dr[ 0 ] = true;
-						dr[ 1 ] = memberInfo[ i ].UserID;
-						dr[ 2 ] = !IsExistingMember( memberInfo[ i ].UserID );
-						dr[ 3 ] = memberInfo[ i ].UserName;
-						dr[ 4 ] = memberInfo[ i ].FullName;
-
-						dt.Rows.Add( dr );
-					}
-					else
-					{
-						break;
-					}
-				}
-			}
-
-			// If the page size is not full, finish it with empty entries.
-			for ( int i = dt.Rows.Count; i < SelectedMemberList.PageSize; ++i )
-			{
-				dr = dt.NewRow();
-				dr[ 0 ] = false;
-				dr[ 1 ] = String.Empty;
-				dr[ 2 ] = false;
-				dr[ 3 ] = String.Empty;
-				dr[ 4 ] = String.Empty;
-
-				dt.Rows.Add( dr );
-			}
-
-			// Build the data view from the table.
-			return new DataView( dt );
-		}
-
-		/// <summary>
 		/// Returns whether the specified user is an existing member of
 		/// the current ifolder.
 		/// </summary>
@@ -555,7 +394,7 @@ namespace Novell.iFolderWeb.Admin
 		/// <returns>True if user is in the selected list.</returns>
 		private bool IsUserSelected( string userID )
 		{
-			return SelectedMemberSource.ContainsKey( userID ) ? true : IsExistingMember( userID );
+			return MembersToAdd.ContainsKey( userID ) ? true : IsExistingMember( userID );
 		}
 
 		/// <summary>
@@ -570,12 +409,7 @@ namespace Novell.iFolderWeb.Admin
 				// Check for any rows that are not supposed to be displayed and disable the image.
 				// All of the other cells should contain empty strings.
 				DataTable dt = ( MemberList.DataSource as DataView ).Table;
-				if ( ( bool )dt.Rows[ e.Item.DataSetIndex ][ "VisibleField" ] == false )
-				{
-					( e.Item.Cells[ Member_CheckBoxCell ].FindControl( "MemberItemCheckBox" ) as CheckBox ).Visible = false;
-					( e.Item.Cells[ Member_ImageCell ].FindControl( "MemberUserImage" ) as System.Web.UI.WebControls.Image ).Visible = false;
-				}
-				else
+				if ( ( bool )dt.Rows[ e.Item.DataSetIndex ][ "VisibleField" ] == true )
 				{
 					if ( ( bool )dt.Rows[ e.Item.DataSetIndex ][ "EnabledField" ] == false )
 					{
@@ -590,26 +424,6 @@ namespace Novell.iFolderWeb.Admin
 						e.Item.Cells[ Member_UserNameCell ].Attributes.Add( "class", "memberitem3" );
 						e.Item.Cells[ Member_FullNameCell ].Attributes.Add( "class", "memberitem4" );
 					}
-				}
-			}
-		}
-
-		/// <summary>
-		/// Event handler that is called when a data grid item is bound.
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void MemberSelect_SelectedItemDataBound( object sender, DataGridItemEventArgs e )
-		{
-			if ( ( e.Item.ItemType == ListItemType.AlternatingItem ) || ( e.Item.ItemType == ListItemType.Item ) )
-			{
-				// Check for any rows that are not supposed to be displayed and disable the image.
-				// All of the other cells should contain empty strings.
-				DataTable dt = ( SelectedMemberList.DataSource as DataView ).Table;
-				if ( ( bool )dt.Rows[ e.Item.DataSetIndex ][ "VisibleField" ] == false )
-				{
-					( e.Item.Cells[ SelectedMember_CheckBoxCell ].FindControl( "SelectedMemberItemCheckBox" ) as CheckBox ).Visible = false;
-					( e.Item.Cells[ SelectedMember_ImageCell ].FindControl( "SelectedMemberUserImage" ) as System.Web.UI.WebControls.Image ).Visible = false;
 				}
 			}
 		}
@@ -638,11 +452,6 @@ namespace Novell.iFolderWeb.Admin
 				NameLabel.Text = GetString( "NAMETAG" );
 				DescriptionLabel.Text = GetString( "DESCRIPTIONTAG" );
 
-				AddButton.Attributes.Add( "title", GetString( "SELECTUSERS" ) );
-				AddDisabledButton.Attributes.Add( "title", GetString( "SELECTUSERS" ) );
-				RemoveButton.Attributes.Add( "title", GetString( "REMOVEMEMBERS" ) );
-				RemoveDisabledButton.Attributes.Add( "title", GetString( "REMOVEMEMBERS" ) );
-
 				switch ( Operation )
 				{
 					case PageOp.CreateiFolder:
@@ -669,16 +478,9 @@ namespace Novell.iFolderWeb.Admin
 				}
 
 				// Initialize state variables.
-				MembersChecked = false;
-				SelectedMembersChecked = false;
 				Description.Value = String.Empty;
-
 				MembersToAdd = new Hashtable();
-				MembersToRemove = new Hashtable();
-				SelectedMemberSource = new Hashtable();
-
 				CurrentUserOffset = 0;
-				SelectedUserOffset = 0;
 				TotalUsers = 0;
 			}
 		}
@@ -690,11 +492,6 @@ namespace Novell.iFolderWeb.Admin
 		/// <param name="e"></param>
 		private void Page_PreRender(object sender, EventArgs e)
 		{
-			// Bind to the initial empty list.
-			SelectedMemberList.DataSource = CreateSelectedMemberList();
-			SelectedMemberList.DataBind();
-			SetSelectedMemberPageButtonState();
-
 			// Initially populate the member list.
 			MemberList.DataSource = CreateMemberList();
 			MemberList.DataBind();
@@ -724,57 +521,9 @@ namespace Novell.iFolderWeb.Admin
 				GetString( "USER" ) );
 		}
 
-		/// <summary>
-		/// Sets the page button state of the SelectedMember list.
-		/// </summary>
-		private void SetSelectedMemberPageButtonState()
-		{
-			SelectedMemberListFooter.SetPageButtonState( 
-				SelectedMemberList, 
-				SelectedUserOffset, 
-				SelectedMemberSource.Count,
-				GetString( "USERS" ),
-				GetString( "USER" ) );
-		}
-
 		#endregion
 
 		#region Protected Methods
-
-		/// <summary>
-		/// Adds the selected members to the selected members list.
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		protected void AddMembers( Object sender, ImageClickEventArgs e )
-		{
-			// Add each selected member to the list.
-			Hashtable ht = SelectedMemberSource;
-			foreach( MemberInfo mi in MembersToAdd.Values )
-			{
-				ht[ mi.UserID ] = mi;
-			}
-
-			// Clear out the added member list and disable the add button.
-			MembersToAdd.Clear();
-			AddButton.Visible = false;
-			AddDisabledButton.Visible = !AddButton.Visible;
-			MembersChecked = false;
-
-			// Create the new view.
-			SelectedMemberList.DataSource = CreateSelectedMemberList();
-			SelectedMemberList.DataBind();
-			SetSelectedMemberPageButtonState();
-
-			MemberList.DataSource = CreateMemberList();
-			MemberList.DataBind();
-
-			// Enable the ok button, if not creating an ifolder.
-			if ( Operation != PageOp.CreateiFolder )
-			{
-				OkButton.Enabled = ( ht.Count > 0 ) ? true : false;
-			}
-		}
 
 		/// <summary>
 		/// Event handler that gets called when all of the members in the current view
@@ -788,7 +537,7 @@ namespace Novell.iFolderWeb.Admin
 			foreach( DataGridItem item in MemberList.Items )
 			{
 				string userID = item.Cells[ Member_IDCell ].Text;
-				if ( userID != "&nbsp;" )
+				if ( userID != "&nbsp;" && !IsExistingMember( userID ) )
 				{
 					if ( checkBox.Checked )
 					{
@@ -806,56 +555,15 @@ namespace Novell.iFolderWeb.Admin
 				}
 			}
 
-			// See if there are any checked members.
-			AddButton.Visible = HasMembersToAdd;
-			AddDisabledButton.Visible = !AddButton.Visible;
-			MembersChecked = checkBox.Checked;
+			// Enable the okay button if an ifolder is not being created.
+			if ( Operation != PageOp.CreateiFolder )
+			{
+				OkButton.Enabled = HasMembersToAdd;
+			}
 
 			// Rebind the data source with the new data.
 			MemberList.DataSource = CreateMemberList();
 			MemberList.DataBind();
-		}
-
-		/// <summary>
-		/// Event handler that gets called when all of the selected members in the current view
-		/// are to be checked.
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		protected void AllSelectedMembersChecked( Object sender, EventArgs e )
-		{
-			CheckBox checkBox = sender as CheckBox;
-			foreach( DataGridItem item in SelectedMemberList.Items )
-			{
-				string userID = item.Cells[ SelectedMember_IDCell ].Text;
-
-				// Don't 
-				if ( userID != "&nbsp;" )
-				{
-					if ( checkBox.Checked )
-					{
-						MembersToRemove[ userID ] = 
-							new MemberInfo( 
-								userID, 
-								item.Cells[ SelectedMember_UserNameCell ].Text, 
-								item.Cells[ SelectedMember_FullNameCell ].Text );
-					}
-					else
-					{
-						// Remove this member from the list.
-						MembersToRemove.Remove( userID );
-					}
-				}
-			}
-
-			// See if there are any checked members.
-			RemoveButton.Visible = HasMembersToRemove;
-			RemoveDisabledButton.Visible = !RemoveButton.Visible;
-			SelectedMembersChecked = checkBox.Checked;
-
-			// Rebind the data source with the new data.
-			SelectedMemberList.DataSource = CreateSelectedMemberList();
-			SelectedMemberList.DataBind();
 		}
 
 		/// <summary>
@@ -877,16 +585,6 @@ namespace Novell.iFolderWeb.Admin
 		protected bool GetMemberCheckedState( Object userID )
 		{
 			return MembersToAdd.ContainsKey( userID ) ? true : IsUserSelected( userID as String );
-		}
-
-		/// <summary>
-		/// Returns the checked state for the specified selected member.
-		/// </summary>
-		/// <param name="userID">ID of the user</param>
-		/// <returns>True if user is to be added.</returns>
-		protected bool GetSelectedMemberCheckedState( Object userID )
-		{
-			return MembersToRemove.ContainsKey( userID );
 		}
 
 		/// <summary>
@@ -929,9 +627,11 @@ namespace Novell.iFolderWeb.Admin
 				}
 			}
 
-			// See if there are any checked members.
-			AddButton.Visible = HasMembersToAdd;
-			AddDisabledButton.Visible = !AddButton.Visible;
+			// Enable the okay button if an ifolder is not being created.
+			if ( Operation != PageOp.CreateiFolder )
+			{
+				OkButton.Enabled = HasMembersToAdd;
+			}
 		}
 
 		/// <summary>
@@ -950,9 +650,9 @@ namespace Novell.iFolderWeb.Admin
 
 			// Set the button state.
 			SetMemberPageButtonState();
-		
-			// Reset the member checkbox.
-			MembersChecked = false;
+
+			// Reset the all checked box.
+			AllMembersCheckBox.Checked = false;
 		}
 
 		/// <summary>
@@ -971,8 +671,8 @@ namespace Novell.iFolderWeb.Admin
 			// Set the button state.
 			SetMemberPageButtonState();
 
-			// Reset the member checkbox.
-			MembersChecked = false;
+			// Reset the all checked box.
+			AllMembersCheckBox.Checked = false;
 		}
 
 		/// <summary>
@@ -991,8 +691,8 @@ namespace Novell.iFolderWeb.Admin
 			// Set the button state.
 			SetMemberPageButtonState();
 
-			// Reset the member checkbox.
-			MembersChecked = false;
+			// Reset the all checked box.
+			AllMembersCheckBox.Checked = false;
 		}
 
 		/// <summary>
@@ -1015,8 +715,8 @@ namespace Novell.iFolderWeb.Admin
 			// Set the button state.
 			SetMemberPageButtonState();
 
-			// Reset the member checkbox.
-			MembersChecked = false;
+			// Reset the all checked box.
+			AllMembersCheckBox.Checked = false;
 		}
 
 		/// <summary>
@@ -1035,7 +735,7 @@ namespace Novell.iFolderWeb.Admin
 					iFolder ifolder = web.CreateiFolder( Name.Text, Owner, Description.Value );
 
 					// Add the selected users to the ifolder.
-					foreach( MemberInfo mi in SelectedMemberSource.Values )
+					foreach( MemberInfo mi in MembersToAdd.Values )
 					{
 						// Check to see if this user is already a member.
 						if ( !IsExistingMember( mi.UserID ) )
@@ -1050,7 +750,7 @@ namespace Novell.iFolderWeb.Admin
 				{
 					// Add the selected users to the ifolder.
 					string id = iFolderID;
-					foreach( MemberInfo mi in SelectedMemberSource.Values )
+					foreach( MemberInfo mi in MembersToAdd.Values )
 					{
 						// Check to see if this user is already a member.
 						if ( !IsExistingMember( mi.UserID ) )
@@ -1064,7 +764,7 @@ namespace Novell.iFolderWeb.Admin
 				case PageOp.AddAdmin:
 				{
 					// Add the selected users as admins.
-					foreach( MemberInfo mi in SelectedMemberSource.Values )
+					foreach( MemberInfo mi in MembersToAdd.Values )
 					{
 						// Check to see if this user is already a member.
 						if ( !IsExistingMember( mi.UserID ) )
@@ -1092,51 +792,6 @@ namespace Novell.iFolderWeb.Admin
 		}
 
 		/// <summary>
-		/// Removes the selected members from the selected members list.
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		protected void RemoveMembers( Object sender, ImageClickEventArgs e )
-		{
-			// Remove each selected member from the list.
-			Hashtable ht = SelectedMemberSource;
-			foreach( MemberInfo mi in MembersToRemove.Values )
-			{
-				ht.Remove( mi.UserID );
-			}
-
-			// Clear out the removed member list and disable the remove button.
-			MembersToRemove.Clear();
-			RemoveButton.Visible = false;
-			RemoveDisabledButton.Visible = !RemoveButton.Visible;
-			SelectedMembersChecked = false;
-
-			// If there are no selected members in the current view, set the current page back one page.
-			if ( SelectedUserOffset >= ht.Count )
-			{
-				SelectedUserOffset -= SelectedMemberList.PageSize;
-				if ( SelectedUserOffset < 0 )
-				{
-					SelectedUserOffset = 0;
-				}
-			}
-
-			// Create the new view.
-			SelectedMemberList.DataSource = CreateSelectedMemberList();
-			SelectedMemberList.DataBind();
-			SetSelectedMemberPageButtonState();
-
-			MemberList.DataSource = CreateMemberList();
-			MemberList.DataBind();
-
-			// Enable the ok button, if not creating an ifolder.
-			if ( Operation != PageOp.CreateiFolder )
-			{
-				OkButton.Enabled = ( ht.Count > 0 ) ? true : false;
-			}
-		}
-
-		/// <summary>
 		/// SearchButton_Click
 		/// </summary>
 		/// <param name="source"></param>
@@ -1148,123 +803,9 @@ namespace Novell.iFolderWeb.Admin
 			MemberList.DataSource = CreateMemberList();
 			MemberList.DataBind();
 			SetMemberPageButtonState();
-		}
 
-		/// <summary>
-		/// Event handler for the PageFirstButton.
-		/// </summary>
-		/// <param name="source"></param>
-		/// <param name="e"></param>
-		protected void SelectedMember_PageFirstButton_Click( object source, ImageClickEventArgs e )
-		{
-			// Set to get the first users.
-			SelectedUserOffset = 0;
-
-			// Rebind the data source with the new data.
-			SelectedMemberList.DataSource = CreateSelectedMemberList();
-			SelectedMemberList.DataBind();
-
-			// Set the button state.
-			SetSelectedMemberPageButtonState();
-
-			// Reset the member checkbox.
-			SelectedMembersChecked = false;
-		}
-
-		/// <summary>
-		/// Event that first when the MbrPageNextButton is clicked.
-		/// </summary>
-		/// <param name="source"></param>
-		/// <param name="e"></param>
-		protected void SelectedMember_PageNextButton_Click( object source, ImageClickEventArgs e)
-		{
-			SelectedUserOffset += SelectedMemberList.PageSize;
-
-			// Rebind the data source with the new data.
-			SelectedMemberList.DataSource = CreateSelectedMemberList();
-			SelectedMemberList.DataBind();
-
-			// Set the button state.
-			SetSelectedMemberPageButtonState();
-
-			// Reset the member checkbox.
-			SelectedMembersChecked = false;
-		}
-
-		/// <summary>
-		/// Event that first when the MbrPageLastButton is clicked.
-		/// </summary>
-		/// <param name="source"></param>
-		/// <param name="e"></param>
-		protected void SelectedMember_PageLastButton_Click( object source, ImageClickEventArgs e)
-		{
-			SelectedUserOffset = ( ( SelectedMemberSource.Count - 1 ) / SelectedMemberList.PageSize ) * SelectedMemberList.PageSize;
-
-			// Rebind the data source with the new data.
-			SelectedMemberList.DataSource = CreateSelectedMemberList();
-			SelectedMemberList.DataBind();
-
-			// Set the button state.
-			SetSelectedMemberPageButtonState();
-
-			// Reset the member checkbox.
-			SelectedMembersChecked = false;
-		}
-
-		/// <summary>
-		/// Event that first when the MbrPagePreviousButton is clicked.
-		/// </summary>
-		/// <param name="source"></param>
-		/// <param name="e"></param>
-		protected void SelectedMember_PagePreviousButton_Click( object source, ImageClickEventArgs e)
-		{
-			SelectedUserOffset -= SelectedMemberList.PageSize;
-			if ( SelectedUserOffset < 0 )
-			{
-				SelectedUserOffset = 0;
-			}
-
-			// Rebind the data source with the new data.
-			SelectedMemberList.DataSource = CreateSelectedMemberList();
-			SelectedMemberList.DataBind();
-
-			// Set the button state.
-			SetSelectedMemberPageButtonState();
-
-			// Reset the member checkbox.
-			SelectedMembersChecked = false;
-		}
-
-		/// <summary>
-		/// Event handler that gets called when a user in the selected member list's check
-		/// box changes.
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		protected void SelectedMemberChecked( Object sender, EventArgs e )
-		{
-			// Get the data grid row for this user.
-			DataGridItem item = ( sender as CheckBox ).Parent.Parent as DataGridItem;
-			string userID = item.Cells[ SelectedMember_IDCell ].Text;
-
-			// User is being removed.
-			if ( ( sender as CheckBox ).Checked )
-			{
-				// Add this member to the list.
-				MembersToRemove[ userID ] = 
-					new MemberInfo( 
-						userID, 
-						item.Cells[ SelectedMember_UserNameCell ].Text, 
-						item.Cells[ SelectedMember_FullNameCell ].Text );
-			}
-			else
-			{
-				MembersToRemove.Remove( userID );
-			}
-
-			// See if there are any checked members.
-			RemoveButton.Visible = HasMembersToRemove;
-			RemoveDisabledButton.Visible = !RemoveButton.Visible;
+			// Reset the all checked box.
+			AllMembersCheckBox.Checked = false;
 		}
 
 		#endregion
@@ -1300,17 +841,11 @@ namespace Novell.iFolderWeb.Admin
 			MemberSearch.Click += new System.EventHandler( SearchButton_Click );
 
 			MemberList.ItemDataBound += new DataGridItemEventHandler( MemberSelect_MemberItemDataBound );
-			SelectedMemberList.ItemDataBound += new DataGridItemEventHandler( MemberSelect_SelectedItemDataBound );
 
 			MemberListFooter.PageFirstClick += new ImageClickEventHandler( Member_PageFirstButton_Click );
 			MemberListFooter.PagePreviousClick += new ImageClickEventHandler( Member_PagePreviousButton_Click );
 			MemberListFooter.PageNextClick += new ImageClickEventHandler( Member_PageNextButton_Click );
 			MemberListFooter.PageLastClick += new ImageClickEventHandler( Member_PageLastButton_Click );
-
-			SelectedMemberListFooter.PageFirstClick += new ImageClickEventHandler( SelectedMember_PageFirstButton_Click );
-			SelectedMemberListFooter.PagePreviousClick += new ImageClickEventHandler( SelectedMember_PagePreviousButton_Click );
-			SelectedMemberListFooter.PageNextClick += new ImageClickEventHandler( SelectedMember_PageNextButton_Click );
-			SelectedMemberListFooter.PageLastClick += new ImageClickEventHandler( SelectedMember_PageLastButton_Click );
 
 			this.Load += new System.EventHandler( this.Page_Load );
 		}

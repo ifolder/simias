@@ -48,14 +48,40 @@ namespace Novell.iFolderWeb.Admin
 		private ResourceManager rm;
 
 		/// <summary>
-		/// File Size policy controls.
+		/// File size policy control.
 		/// </summary>
-		protected CheckBox FileSizeEnabled;
+		protected Label Title;
 
 		/// <summary>
-		/// File Size policy controls.
+		/// File Size policy control.
 		/// </summary>
-		protected TextBox FileSizeLimit;
+		protected CheckBox Enabled;
+
+		/// <summary>
+		/// File size policy control.
+		/// </summary>
+		protected Label LimitTag;
+
+		/// <summary>
+		/// File Size policy control.
+		/// </summary>
+		protected TextBox LimitValue;
+
+		/// <summary>
+		/// File size effective label control.
+		/// </summary>
+		protected Label EffectiveTag;
+
+		/// <summary>
+		/// File size effective display control.
+		/// </summary>
+		protected Label EffectiveValue;
+
+		/// <summary>
+		/// File size effective display control.
+		/// </summary>
+		protected Label EffectiveUnits;
+
 
 		/// <summary>
 		/// Event that notifies consumer that the file size limit has changed.
@@ -83,7 +109,14 @@ namespace Novell.iFolderWeb.Admin
 		{
 			// localization
 			rm = Application[ "RM" ] as ResourceManager;
-		}
+
+			if ( !IsPostBack )
+			{
+				Title.Text = GetString( "FILESIZE" );
+				LimitTag.Text = GetString( "LIMITTAG" );
+				EffectiveTag.Text = GetString( "EFFECTIVETAG" );
+			}
+	}
 
 		#endregion
 
@@ -96,17 +129,17 @@ namespace Novell.iFolderWeb.Admin
 		/// <param name="e"></param>
 		protected void FileSizeCheckChanged( Object sender, EventArgs e )
 		{
-			if ( FileSizeEnabled.Checked )
+			if ( Enabled.Checked )
 			{
 				long limit = ( EffectiveLimit == 0 ) ? DefaultFileSizeLimit : EffectiveLimit;
-				FileSizeLimit.Text = Utils.ConvertToUnitString( limit, false, rm );
+				LimitValue.Text = Utils.ConvertToUnitString( limit, false, rm );
 			}
 			else
 			{
-				FileSizeLimit.Text = String.Empty;
+				LimitValue.Text = String.Empty;
 			}
 
-			FileSizeLimit.Enabled = FileSizeEnabled.Checked;
+			LimitValue.Enabled = Enabled.Checked;
 			FileSizeChanged( sender, e );
 		}
 
@@ -144,11 +177,22 @@ namespace Novell.iFolderWeb.Admin
 		public void GetFileSizePolicy( UserPolicy policy )
 		{
 			EffectiveLimit = policy.FileSizeLimitEffective;
+			Enabled.Checked = LimitValue.Enabled = ( policy.FileSizeLimit > 0 );
 
-			FileSizeEnabled.Checked = FileSizeLimit.Enabled = ( policy.FileSizeLimit > 0 );
-
-			FileSizeLimit.Text = ( FileSizeEnabled.Checked ) ? 
+			LimitValue.Text = ( Enabled.Checked ) ? 
 				Utils.ConvertToUnitString( policy.FileSizeLimit, false, rm ) : String.Empty;
+
+			if ( Enabled.Checked )
+			{
+				EffectiveTag.Visible = EffectiveValue.Visible = EffectiveUnits.Visible = false;
+			}
+			else
+			{
+				string units;
+				EffectiveTag.Visible = EffectiveValue.Visible = EffectiveUnits.Visible = true;
+				EffectiveValue.Text = Utils.ConvertToUnitString( policy.FileSizeLimitEffective, rm, out units );
+				EffectiveUnits.Text = units;
+			}
 		}
 
 		/// <summary>
@@ -157,12 +201,23 @@ namespace Novell.iFolderWeb.Admin
 		/// <param name="policy">iFolder policy</param>
 		public void GetFileSizePolicy( iFolderPolicy policy )
 		{
-			EffectiveLimit = 0;
+			EffectiveLimit = policy.FileSizeLimitEffective;
+			Enabled.Checked = LimitValue.Enabled = ( policy.FileSizeLimit > 0 );
 
-			FileSizeEnabled.Checked = FileSizeLimit.Enabled = ( policy.FileSizeLimit > 0 );
-
-			FileSizeLimit.Text = ( FileSizeEnabled.Checked ) ? 
+			LimitValue.Text = ( Enabled.Checked ) ? 
 				Utils.ConvertToUnitString( policy.FileSizeLimit, false, rm ) : String.Empty;
+
+			if ( ( policy.FileSizeLimitEffective > 0 ) || ( policy.FileSizeLimit > 0 ) )
+			{
+				string units;
+				EffectiveValue.Text = Utils.ConvertToUnitString( policy.FileSizeLimitEffective, rm, out units );
+				EffectiveUnits.Text = units;
+			}
+			else
+			{
+				EffectiveValue.Text = GetString( "UNLIMITED" );
+				EffectiveUnits.Text = String.Empty;
+			}
 		}
 
 		/// <summary>
@@ -173,10 +228,12 @@ namespace Novell.iFolderWeb.Admin
 		{
 			EffectiveLimit = 0;
 
-			FileSizeEnabled.Checked = FileSizeLimit.Enabled = ( policy.FileSizeLimit > 0 );
+			Enabled.Checked = LimitValue.Enabled = ( policy.FileSizeLimit > 0 );
 
-			FileSizeLimit.Text = ( FileSizeEnabled.Checked ) ? 
+			LimitValue.Text = ( Enabled.Checked ) ? 
 				Utils.ConvertToUnitString( policy.FileSizeLimit, false, rm ) : String.Empty;
+
+			EffectiveTag.Visible = EffectiveValue.Visible = EffectiveUnits.Visible = false;
 		}
 
 		/// <summary>
@@ -186,9 +243,9 @@ namespace Novell.iFolderWeb.Admin
 		public void SetFileSizePolicy( UserPolicy policy )
 		{
 			// Verify that the file size value is valid.
-			if ( FileSizeEnabled.Checked )
+			if ( Enabled.Checked )
 			{
-				string limitString = FileSizeLimit.Text;
+				string limitString = LimitValue.Text;
 				if ( ( limitString != null ) && ( limitString != String.Empty ) )
 				{
 					try
@@ -226,9 +283,9 @@ namespace Novell.iFolderWeb.Admin
 		public void SetFileSizePolicy( iFolderPolicy policy )
 		{
 			// Verify that the file size value is valid.
-			if ( FileSizeEnabled.Checked )
+			if ( Enabled.Checked )
 			{
-				string limitString = FileSizeLimit.Text;
+				string limitString = LimitValue.Text;
 				if ( ( limitString != null ) && ( limitString != String.Empty ) )
 				{
 					try
@@ -266,9 +323,9 @@ namespace Novell.iFolderWeb.Admin
 		public void SetFileSizePolicy( SystemPolicy policy )
 		{
 			// Verify that the file size value is valid.
-			if ( FileSizeEnabled.Checked )
+			if ( Enabled.Checked )
 			{
-				string limitString = FileSizeLimit.Text;
+				string limitString = LimitValue.Text;
 				if ( ( limitString != null ) && ( limitString != String.Empty ) )
 				{
 					try
@@ -322,8 +379,8 @@ namespace Novell.iFolderWeb.Admin
 		/// </summary>
 		private void InitializeComponent()
 		{
-			FileSizeEnabled.CheckedChanged += new EventHandler( FileSizeCheckChanged );
-			FileSizeLimit.TextChanged += new EventHandler( FileSizeChanged );
+			Enabled.CheckedChanged += new EventHandler( FileSizeCheckChanged );
+			LimitValue.TextChanged += new EventHandler( FileSizeChanged );
 
 			this.Load += new System.EventHandler(this.Page_Load);
 		}

@@ -26,7 +26,7 @@
 	
 	function addFirstToFull(b)
 	{
-		if ( addToFull )
+		if ( addToFull && ( b.value.length > 0 ) )
 		{
 			var full = document.getElementById( "FullName" );
 			if ( full.value.length == 0 )
@@ -36,7 +36,7 @@
 			else
 			{
 				var s = full.value.slice( firstLength, full.value.length );
-				full.value = b.value + " " + s;
+				full.value = b.value + s;
 			}
 			
 			firstLength = b.value.length;
@@ -47,7 +47,7 @@
 	
 	function addLastToFull(b)
 	{
-		if ( addToFull )
+		if ( addToFull && ( b.value.length > 0 ) )
 		{
 			var full = document.getElementById( "FullName" );
 			if ( full.value.length == 0 )

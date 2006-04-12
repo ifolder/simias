@@ -70,7 +70,7 @@
 		<value>Available:</value>
 	</data>
 	<data name="B">
-		<value> B</value>
+		<value>B</value>
 	</data>
 	<data name="BEGINSWITH">
 		<value>Begins With</value>
@@ -196,7 +196,7 @@
 		<value>Full Name:</value>
 	</data>
 	<data name="GB">
-		<value> GB</value>
+		<value>GB</value>
 	</data>
 	<data name="GERMAN">
 		<value>German</value>
@@ -217,7 +217,7 @@
 		<value>iFolder Details</value>
 	</data>
 	<data name="IFOLDERDISABLED">
-		<value>Disable iFolder Synchronization</value>
+		<value>Disable Synchronization</value>
 	</data>
 	<data name="IFOLDERS">
 		<value>iFolders</value>
@@ -241,7 +241,7 @@
 		<value>Japanese</value>
 	</data>
 	<data name="KB">
-		<value> KB</value>
+		<value>KB</value>
 	</data>
 	<data name="LAST">
 		<value>Last</value>
@@ -331,7 +331,7 @@
 		<value>Log Out</value>
 	</data>
 	<data name="MB">
-		<value> MB</value>
+		<value>MB</value>
 	</data>
 	<data name="MEMBER">
 		<value>Member</value>
@@ -343,7 +343,7 @@
 		<value>Information:</value>
 	</data>
 	<data name="MINUTES">
-		<value> Minute(s)</value>
+		<value>Minute(s)</value>
 	</data>
 	<data name="NAME">
 		<value>Name</value>
@@ -511,7 +511,7 @@
 		<value>User Details</value>
 	</data>
 	<data name="USERLOGINDISABLED">
-		<value>Disable iFolder User Login</value>
+		<value>Disable User Login</value>
 	</data>
 	<data name="USERNAME">
 		<value>User Name</value>

@@ -15,10 +15,9 @@ p, tr, td, ol, ul
 .container
 {
 	border: 1px solid #666666;
-	height: auto;
 	margin-left: auto;
 	margin-right: auto;
-	width: 61em;
+	width: 59em;
 }
 
 .ifolderbuttons
@@ -66,54 +65,43 @@ p, tr, td, ol, ul
 	margin-bottom: .5em;
 }
 
-#policynav div
+.policydetails
 {
 	margin-bottom: 1em;
 }
 
-div.policytitle
+.policytextbox
 {
-	display: inline;
-	font-weight: bold;
-	margin-top: 1em;
-	font-size: .93em;
-}
-
-div.policydetails
-{
-	margin-left: 1em;
-}
-
-div.policylimit
-{
-	display: inline;
-	font-weight: bold;
-	margin-top: 1em;
-	font-size: .8em;
-}
-
-div.policyunits
-{
-	display: inline;
 	font-size: .9em;
+	text-align: right;
+	border-right: #f1efe2 thin solid;
+	border-top: #f1efe2 thin inset;
+	border-left: #f1efe2 thin inset;
+	border-bottom: #f1efe2 thin solid;
+	width: 4.5em;
 }
 
-table.PolicyTable
+.policytitle
+{
+	font-weight: bold;
+	margin-top: 1em;
+	font-size: 1.1em;
+}
+
+.policytable
 {
 	border-collapse: collapse;
-	margin-left: 1em;
+	width: 100%;
 }
 
-table.PolicyTable th
-{
-	text-align: left;
-	padding-right: 1em;
-	font-size: .8em;
-}
-
-table.PolicyTable td
+.policytablevalue
 {
 	text-align: right;
+}
+
+.policycheckbox
+{
+	width: 1.5em;
 }
 
 .edittext
@@ -211,31 +199,6 @@ img
 	margin-top: .1em;
 	float: right;
 	width: 4.5em;
-}
-
-.Policy
-{
-	left: 1em;
-	position: relative;
-}
-
-.policytextbox
-{
-	text-align: right;
-	margin-left: 1.4em;
-	border-right: #f1efe2 thin solid;
-	border-top: #f1efe2 thin inset;
-	border-left: #f1efe2 thin inset;
-	border-bottom: #f1efe2 thin solid;
-	font-size: .8em;
-	width: 4.5em;
-}
-
-.PolicyType
-{
-	font-size: .85em;
-	vertical-align: sub;
-	text-align: center;
 }
 
 .searchlist

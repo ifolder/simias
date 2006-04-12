@@ -2,17 +2,48 @@
 
 <div id="filesizenav">
 
-	<div class="policytitle"><%= GetString( "FILESIZE" ) %></div>
+	<asp:Label ID="Title" Runat="server" CssClass="policytitle" />
 	
 	<div class="policydetails">
-	
-		<asp:CheckBox ID="FileSizeEnabled" Runat="server" AutoPostBack="True" />
+				
+		<table class="policytable">
+
+			<tr>
+				<td class="policycheckbox">
+					<asp:CheckBox ID="Enabled" Runat="server" AutoPostBack="True" CssClass="policycheckbox" />
+				</td>
+				
+				<td class="policytabletag">
+					<asp:Label ID="LimitTag" Runat="server" />
+				</td>
+				
+				<td class="policytablevalue">
+					<asp:TextBox ID="LimitValue" Runat="server" CssClass="policytextbox" AutoPostBack="true" />
+				</td>
+				
+				<td>
+					<%= GetString( "MB" ) %>
+				</td>
+			</tr>		
 		
-		<div class="policylimit"><%= GetString( "LIMITTAG" ) %></div>
+			<tr>
+				<td>
+				</td>
+				
+				<td class="policytabletag">
+					<asp:Label ID="EffectiveTag" Runat="server" />
+				</td>
+				
+				<td class="policytablevalue">
+					<asp:Label ID="EffectiveValue" Runat="server" />
+				</td>
+				
+				<td>
+					<asp:Label ID="EffectiveUnits" Runat="server" />
+				</td>
+			</tr>
 		
-		<asp:TextBox ID="FileSizeLimit" Runat="server" CssClass="policytextbox" AutoPostBack="true" />
-			
-		<div class="policyunits"><%= GetString( "MB" ) %></div>
+		</table>
 		
 	</div>
 	

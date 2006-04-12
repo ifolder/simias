@@ -504,7 +504,7 @@ namespace iFolder.WebService
 			else
 			{
 				// check file type policy
-				FileTypeFilter filter = FileTypeFilter.Get(member, c);
+				FileTypeFilter filter = FileTypeFilter.Get(c);
 				if (!filter.Allowed(entryName))
 				{
 					throw new FileTypeException(entryName);

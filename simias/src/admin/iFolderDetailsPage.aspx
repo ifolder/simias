@@ -125,7 +125,7 @@
 					CellSpacing="0" 
 					GridLines="None"
 					AutoGenerateColumns="False" 
-					PageSize="9" 
+					PageSize="11" 
 					ShowHeader="True" 
 					CssClass="ifoldermemberlist" 
 					HeaderStyle-CssClass="ifoldermemberlistheader"

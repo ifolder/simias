@@ -1,14 +1,24 @@
 <%@ Control Language="c#" AutoEventWireup="false" Codebehind="AccountEnabled.ascx.cs" Inherits="Novell.iFolderWeb.Admin.AccountEnabled" TargetSchema="http://schemas.microsoft.com/intellisense/ie5"%>
 <div id="AccountNav" runat="server">
 
-	<div class="policytitle"><%= GetString( "ACCOUNT" ) %></div>
+	<asp:Label ID="Title" Runat="server" CssClass="policytitle" />
 	
 	<div class="policydetails">
 	
-		<asp:CheckBox ID="AccountCheckBox" Runat="server" AutoPostBack="True" />
+		<table class="policytable">
 		
-		<div class="policyunits"><%= GetString( "USERLOGINDISABLED" ) %></div>
-		
+			<tr>
+				<td class="policycheckbox">
+					<asp:CheckBox ID="Enabled" Runat="server" AutoPostBack="True" />
+				</td>
+				
+				<td colspan="3">
+					<asp:Label ID="DisabledTag" Runat="server" />
+				</td>
+			</tr>
+
+		</table>
+				
 	</div>
 	
 </div>

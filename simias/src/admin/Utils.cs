@@ -97,7 +97,7 @@ namespace Novell.iFolderWeb.Admin
 				sizeString = String.Format( "{0:##.#}", unitSize );
 				if ( appendUnits )
 				{
-					sizeString += rm.GetString( "GB" );
+					sizeString += ( " " + rm.GetString( "GB" ) );
 				}
 			}
 			else
@@ -108,7 +108,7 @@ namespace Novell.iFolderWeb.Admin
 					sizeString = String.Format( "{0:##.#}", unitSize );
 					if ( appendUnits )
 					{
-						sizeString += rm.GetString( "MB" );
+						sizeString += ( " " + rm.GetString( "MB" ) );
 					}
 				}
 				else
@@ -119,7 +119,7 @@ namespace Novell.iFolderWeb.Admin
 						sizeString = String.Format( "{0:##.#}", unitSize );
 						if ( appendUnits )
 						{
-							sizeString += rm.GetString( "KB" );
+							sizeString += ( " " + rm.GetString( "KB" ) );
 						}
 					}
 					else
@@ -127,8 +127,54 @@ namespace Novell.iFolderWeb.Admin
 						sizeString = String.Format( "{0}", size );
 						if ( appendUnits )
 						{
-							sizeString += rm.GetString( "B" );
+							sizeString += ( " " + rm.GetString( "B" ) );
 						}
+					}
+				}
+			}
+
+			return sizeString;
+		}
+
+		/// <summary>
+		/// Gets a string that represents the size in bytes of a number with the proper
+		/// unit size appended.
+		/// </summary>
+		/// <param name="size">Size of the number in bytes.</param>
+		/// <param name="rm">Resource manager object that will allow retrieval of localized strings.</param>
+		/// <param name="units">Gets the unit string.</param>
+		/// <returns>A string containing the size.</returns>
+		public static string ConvertToUnitString( long size, ResourceManager rm, out string units )
+		{
+			double dbSize = Convert.ToDouble( size );
+			string sizeString;
+
+			double unitSize = dbSize / GigaByte;
+			if ( unitSize > 1 )
+			{
+				sizeString = String.Format( "{0:##.#}", unitSize );
+				units = rm.GetString( "GB" );
+			}
+			else
+			{
+				unitSize = dbSize / MegaByte;
+				if ( unitSize > 1 )
+				{
+					sizeString = String.Format( "{0:##.#}", unitSize );
+					units = rm.GetString( "MB" );
+				}
+				else
+				{
+					unitSize = dbSize / KiloByte;
+					if ( unitSize > 1 )
+					{
+						sizeString = String.Format( "{0:##.#}", unitSize );
+						units = rm.GetString( "KB" );
+					}
+					else
+					{
+						sizeString = String.Format( "{0}", size );
+						units = rm.GetString( "B" );
 					}
 				}
 			}

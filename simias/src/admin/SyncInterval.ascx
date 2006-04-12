@@ -2,17 +2,48 @@
 
 <div id="syncnav">
 
-	<div class="policytitle"><%= GetString( "SYNCHRONIZATION" ) %></div>
+	<asp:Label ID="Title" Runat="server" CssClass="policytitle" />
 	
 	<div class="policydetails">
 	
-		<asp:CheckBox ID="SyncIntervalCheckBox" Runat="server" AutoPostBack="True" />
+		<table class="policytable">
 		
-		<div class="policylimit"><%= GetString( "INTERVALTAG" ) %></div>
+			<tr>
+				<td class="policycheckbox">
+					<asp:CheckBox ID="Enabled" Runat="server" AutoPostBack="True" CssClass="policycheckbox" />
+				</td>
+				
+				<td class="policytabletag">
+					<asp:Label ID="LimitTag" Runat="server" />
+				</td>
+				
+				<td class="policytablevalue">
+					<asp:TextBox ID="LimitValue" Runat="server" CssClass="policytextbox" AutoPostBack="true" />
+				</td>
+				
+				<td>
+					<%= GetString( "MINUTES" ) %>
+				</td>
+			</tr>
 			
-		<asp:TextBox ID="SyncLimit" Runat="server" CssClass="policytextbox" AutoPostBack="true" />
-			
-		<div class="policyunits"><%= GetString( "MINUTES" ) %></div>
+			<tr>
+				<td>
+				</td>
+				
+				<td class="policytabletag">
+					<asp:Label ID="EffectiveTag" Runat="server" />
+				</td>
+				
+				<td class="policytablevalue">
+					<asp:Label ID="EffectiveValue" Runat="server" />
+				</td>
+				
+				<td>
+					<asp:Label ID="EffectiveUnits" Runat="server" />
+				</td>
+			</tr>
+		
+		</table>
 		
 	</div>
 	

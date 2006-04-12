@@ -77,9 +77,19 @@ namespace iFolder.WebService
 		public int SyncInterval;
 
 		/// <summary>
+		/// The effective ifolder sync interval.
+		/// </summary>
+		public int SyncIntervalEffective;
+
+		/// <summary>
 		/// The File Types to Be Included
 		/// </summary>
 		public string[] FileTypesIncludes;
+
+		/// <summary>
+		/// The effective file type to be included.
+		/// </summary>
+		public string[] FileTypesIncludesEffective;
 
 		/// <summary>
 		/// The File Types to Be Excluded
@@ -87,9 +97,19 @@ namespace iFolder.WebService
 		public string[] FileTypesExcludes;
 
 		/// <summary>
+		/// The effective file types to be excluded.
+		/// </summary>
+		public string[] FileTypesExcludesEffective;
+
+		/// <summary>
 		/// The Maximum File Size Limit
 		/// </summary>
 		public long FileSizeLimit;
+
+		/// <summary>
+		/// The effective maximum file size limit.
+		/// </summary>
+		public long FileSizeLimitEffective;
 
 		/// <summary>
 		/// Constructor
@@ -137,13 +157,18 @@ namespace iFolder.WebService
 
 			// sync interval
 			props.SyncInterval = Simias.Policy.SyncInterval.GetInterval(c);
+			props.SyncIntervalEffective = Simias.Policy.SyncInterval.Get(c).Interval;
 
 			// file types
 			SystemPolicy.SplitFileTypes(FileTypeFilter.GetPatterns(c),
 				out props.FileTypesIncludes, out props.FileTypesExcludes);
 
+			SystemPolicy.SplitFileTypes(FileTypeFilter.Get(c).FilterList,
+				out props.FileTypesIncludesEffective, out props.FileTypesExcludesEffective );
+
 			// file size
 			props.FileSizeLimit = Simias.Policy.FileSizeFilter.GetLimit(c);
+			props.FileSizeLimitEffective = Simias.Policy.FileSizeFilter.Get(c).Limit;
 
 			return props;
 		}

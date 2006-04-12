@@ -158,11 +158,11 @@ namespace Simias.Policy
 		/// <summary>
 		/// Initializes a new instance of an object.
 		/// </summary>
-		/// <param name="member">Member that this file type filter is associated with.</param>
 		/// <param name="collection">Collection that this disk space quota is associated with.</param>
-		private FileTypeFilter( Member member, Collection collection )
+		private FileTypeFilter( Collection collection )
 		{
 			PolicyManager pm = new PolicyManager();
+			Member member = collection.Owner;
 			this.memberPolicy = pm.GetAggregatePolicy( FileTypeFilterPolicyID, member, true );
 			this.collectionPolicy = pm.GetAggregatePolicy( FileTypeFilterPolicyID, member, collection, true );
 		}
@@ -427,9 +427,20 @@ namespace Simias.Policy
 		/// <param name="member">Member that filter is associated with.</param>
 		/// <param name="collection">Collection to add to the aggregate quota policy.</param>
 		/// <returns>A FileTypeFilter object that contains the policy for the specified member.</returns>
+		[ Obsolete( "This method is obsolete. Please use DiskSpaceQuota.Get( Collection collection ) instead.", false ) ]
 		static public FileTypeFilter Get( Member member, Collection collection )
 		{
-			return new FileTypeFilter( member, collection );
+			return FileTypeFilter.Get( collection );
+		}
+
+		/// <summary>
+		/// Gets the aggregate file type filter policy for the specified member and collection.
+		/// </summary>
+		/// <param name="collection">Collection to add to the aggregate quota policy.</param>
+		/// <returns>A FileTypeFilter object that contains the policy for the specified member.</returns>
+		static public FileTypeFilter Get( Collection collection )
+		{
+			return new FileTypeFilter( collection );
 		}
 
 		/// <summary>

@@ -43,14 +43,25 @@ namespace Novell.iFolderWeb.Admin
 		private ResourceManager rm;
 
 		/// <summary>
-		/// Account policy controls.
-		/// </summary>
-		protected CheckBox AccountCheckBox;
-
-		/// <summary>
 		/// Account DIV.
 		/// </summary>
 		protected HtmlGenericControl AccountNav;
+
+		/// <summary>
+		/// Account policy control.
+		/// </summary>
+		protected Label Title;
+
+		/// <summary>
+		/// Account policy control.
+		/// </summary>
+		protected CheckBox Enabled;
+
+		/// <summary>
+		/// Account policy control.
+		/// </summary>
+		protected Label DisabledTag;
+
 
 		/// <summary>
 		/// Event that notifies consumer that the checkbox has changed.
@@ -73,6 +84,12 @@ namespace Novell.iFolderWeb.Admin
 		{
 			// localization
 			rm = Application[ "RM" ] as ResourceManager;
+
+			if ( !IsPostBack )
+			{
+				Title.Text = GetString( "ACCOUNT" );
+				DisabledTag.Text = GetString( "USERLOGINDISABLED" );
+			}
 		}
 
 		#endregion
@@ -130,7 +147,7 @@ namespace Novell.iFolderWeb.Admin
 		/// <param name="policy">User policy object</param>
 		public void GetAccountPolicy( UserPolicy policy )
 		{
-			AccountCheckBox.Checked = !policy.LoginEnabled;
+			Enabled.Checked = !policy.LoginEnabled;
 		}
 
 		/// <summary>
@@ -139,7 +156,7 @@ namespace Novell.iFolderWeb.Admin
 		/// <param name="policy">User policy where the account information will be set.</param>
 		public void SetAccountPolicy( UserPolicy policy )
 		{
-			policy.LoginEnabled = !AccountCheckBox.Checked;
+			policy.LoginEnabled = !Enabled.Checked;
 		}
 
 		#endregion
@@ -165,7 +182,7 @@ namespace Novell.iFolderWeb.Admin
 		/// </summary>
 		private void InitializeComponent()
 		{
-			AccountCheckBox.CheckedChanged += new EventHandler( AccountCheckChanged );
+			Enabled.CheckedChanged += new EventHandler( AccountCheckChanged );
 
 			this.Load += new System.EventHandler(this.Page_Load);
 		}

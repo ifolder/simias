@@ -74,7 +74,7 @@ namespace iFolder.WebService
 					long deltaSize = context.Request.ContentLength - (new FileInfo(backupPath)).Length;
 
 					// check file size policy
-					FileSizeFilter fsFilter = FileSizeFilter.Get(member, collection);
+					FileSizeFilter fsFilter = FileSizeFilter.Get(collection);
 					if (!fsFilter.Allowed(deltaSize))
 					{
 						throw new FileSizeException(filename);

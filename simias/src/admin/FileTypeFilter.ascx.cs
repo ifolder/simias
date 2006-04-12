@@ -46,6 +46,12 @@ namespace Novell.iFolderWeb.Admin
 
 
 		/// <summary>
+		/// File type filter control.
+		/// </summary>
+		protected Label Title;
+
+
+		/// <summary>
 		/// Non system file type policy controls.
 		/// </summary>
 		protected DataGrid FileTypeList;
@@ -138,44 +144,44 @@ namespace Novell.iFolderWeb.Admin
 		}
 
 		/// <summary>
-		/// Returns true if any FileType source entries are disabled.
+		/// Returns true if any FileType source entries are disallowed.
 		/// </summary>
-		private bool HasDisabledEntries
+		private bool HasDisallowedEntries
 		{
 			get
 			{
-				bool isDisabled = false;
+				bool isDisallowed = false;
 				foreach( FileTypeInfo fti in FileTypeSource.Values )
 				{
-					if ( fti.IsChecked && !fti.IsEnabled )
+					if ( fti.IsChecked && !fti.IsAllowed )
 					{
-						isDisabled = true;
+						isDisallowed = true;
 						break;
 					}
 				}
 
-				return isDisabled;
+				return isDisallowed;
 			}
 		}
 
 		/// <summary>
-		/// Returns true if any FileType source entries are enabled.
+		/// Returns true if any FileType source entries are allowed.
 		/// </summary>
-		private bool HasEnabledEntries
+		private bool HasAllowedEntries
 		{
 			get
 			{
-				bool isEnabled = false;
+				bool isAllowed = false;
 				foreach( FileTypeInfo fti in FileTypeSource.Values )
 				{
-					if ( fti.IsChecked && fti.IsEnabled )
+					if ( fti.IsChecked && fti.IsAllowed )
 					{
-						isEnabled = true;
+						isAllowed = true;
 						break;
 					}
 				}
 
-				return isEnabled;
+				return isAllowed;
 			}
 		}
 
@@ -203,8 +209,9 @@ namespace Novell.iFolderWeb.Admin
 
 			dt.Columns.Add( new DataColumn( "VisibleField", typeof( bool ) ) );
 			dt.Columns.Add( new DataColumn( "FileRegExField", typeof( string ) ) );
-			dt.Columns.Add( new DataColumn( "EnabledField", typeof( string ) ) );
+			dt.Columns.Add( new DataColumn( "AllowedField", typeof( string ) ) );
 			dt.Columns.Add( new DataColumn( "FileNameField", typeof( string ) ) );
+			dt.Columns.Add( new DataColumn( "EnabledField", typeof( bool ) ) );
 
 			// Fill the data table from the saved selected member list.
 			Hashtable ht = FileTypeSource;
@@ -226,8 +233,9 @@ namespace Novell.iFolderWeb.Admin
 						dr = dt.NewRow();
 						dr[ 0 ] = true;
 						dr[ 1 ] = ftInfoList[ i ].RegExFileName;
-						dr[ 2 ] = ftInfoList[ i ].IsPending ? GetString( "PENDING" ) : GetString( ftInfoList[ i ].IsEnabled ? "DENY" : "ALLOW" );
+						dr[ 2 ] = GetString( ftInfoList[ i ].IsAllowed ? "ALLOW" : "DENY" );
 						dr[ 3 ] = ftInfoList[ i ].FriendlyFileName;
+						dr[ 4 ] = ftInfoList[ i ].IsEnabled;
 
 						dt.Rows.Add( dr );
 					}
@@ -246,6 +254,7 @@ namespace Novell.iFolderWeb.Admin
 				dr[ 1 ] = String.Empty;
 				dr[ 2 ] = String.Empty;
 				dr[ 3 ] = String.Empty;
+				dr[ 4 ] = false;
 
 				dt.Rows.Add( dr );
 			}
@@ -265,7 +274,11 @@ namespace Novell.iFolderWeb.Admin
 			Hashtable ht = new Hashtable();
 			foreach( string s in policy.FileTypesExcludesEffective )
 			{
-				ht[ s ] = new FileTypeInfo( s, Utils.ConvertFromRegEx( s ), IsFilterEnabled( policy, s ), false );
+				ht[ s ] = new FileTypeInfo( 
+					s, 
+					Utils.ConvertFromRegEx( s ), 
+					IsAllowed( policy.FileTypesIncludes, s ), 
+					true );
 			}
 
 			return ht;
@@ -280,9 +293,22 @@ namespace Novell.iFolderWeb.Admin
 		{
 			// Keep the state in a hashtable.
 			Hashtable ht = new Hashtable();
+			foreach( string s in policy.FileTypesExcludesEffective )
+			{
+				ht[ s ] = new FileTypeInfo( 
+					s, 
+					Utils.ConvertFromRegEx( s ), 
+					IsAllowed( policy.FileTypesIncludesEffective, s ), 
+					false );
+			}
+
 			foreach( string s in policy.FileTypesExcludes )
 			{
-				ht[ s ] = new FileTypeInfo( s, Utils.ConvertFromRegEx( s ), IsFilterEnabled( policy, s ), false );
+				ht[ s ] = new FileTypeInfo( 
+					s, 
+					Utils.ConvertFromRegEx( s ), 
+					false, 
+					true );
 			}
 
 			return ht;
@@ -299,32 +325,21 @@ namespace Novell.iFolderWeb.Admin
 			Hashtable ht = new Hashtable();
 			foreach( string s in policy.FileTypesExcludes )
 			{
-				ht[ s ] = new FileTypeInfo( s, Utils.ConvertFromRegEx( s ), true, false );
+				ht[ s ] = new FileTypeInfo( s, Utils.ConvertFromRegEx( s ), false, true );
 			}
 
 			return ht;
 		}
 
 		/// <summary>
-		/// Gets whether the specified file type is in enabled in the exception list.
+		/// Gets whether the specified file type is allowed.
 		/// </summary>
-		/// <param name="policy">User policy</param>
+		/// <param name="effectivePolicy">Effective user policy</param>
 		/// <param name="fileType">Name of file type.</param>
 		/// <returns></returns>
-		private bool IsFilterEnabled( UserPolicy policy, string fileType )
+		private bool IsAllowed( string[] effectivePolicy, string fileType )
 		{
-			return ( Array.IndexOf( policy.FileTypesIncludes, fileType ) == -1 ) ? true : false;
-		}
-
-		/// <summary>
-		/// Gets whether the specified file type is in enabled in the exception list.
-		/// </summary>
-		/// <param name="policy">iFolder policy</param>
-		/// <param name="fileType">Name of file type.</param>
-		/// <returns></returns>
-		private bool IsFilterEnabled( iFolderPolicy policy, string fileType )
-		{
-			return ( Array.IndexOf( policy.FileTypesIncludes, fileType ) == -1 ) ? true : false;
+			return ( Array.IndexOf( effectivePolicy, fileType ) != -1 ) ? true : false;
 		}
 
 		/// <summary>
@@ -344,6 +359,8 @@ namespace Novell.iFolderWeb.Admin
 				AddButton.Text = GetString( "ADD" );
 				DenyButton.Text = GetString( "DENY" );
 				AllowButton.Text = GetString( "ALLOW" );
+
+				Title.Text = GetString( "EXCLUDEDFILES" );
 
 				// Initialize the state variables.
 				CurrentFileOffset = 0;
@@ -407,7 +424,7 @@ namespace Novell.iFolderWeb.Admin
 					if ( fti != null )
 					{
 						CheckBox checkBox = item.Cells[ 1 ].FindControl( "FileTypeCheckBox" ) as CheckBox;
-						if ( checkBox != null )
+						if ( ( checkBox != null ) && checkBox.Enabled )
 						{
 							fti.IsChecked = checkBox.Checked = allCheckBox.Checked;
 						}
@@ -423,8 +440,8 @@ namespace Novell.iFolderWeb.Admin
 			}
 			else
 			{
-				AllowButton.Enabled = HasEnabledEntries && hasEntries;
-				DenyButton.Enabled = HasDisabledEntries && hasEntries;
+				AllowButton.Enabled = HasDisallowedEntries && hasEntries;
+				DenyButton.Enabled = HasAllowedEntries && hasEntries;
 			}
 		}
 
@@ -486,7 +503,8 @@ namespace Novell.iFolderWeb.Admin
 			{
 				if ( fti.IsChecked )
 				{
-					fti.IsEnabled = fti.IsChecked = false;
+					fti.IsAllowed = true;
+					fti.IsChecked = false;
 				}
 			}
 
@@ -517,8 +535,7 @@ namespace Novell.iFolderWeb.Admin
 			{
 				if ( fti.IsChecked )
 				{
-					fti.IsEnabled = true;
-					fti.IsChecked = false;
+					fti.IsAllowed = fti.IsChecked = false;
 				}
 			}
 
@@ -548,7 +565,7 @@ namespace Novell.iFolderWeb.Admin
 			if ( ( fileName != null ) && ( fileName != String.Empty ) )
 			{
 				Hashtable ht = FileTypeSource;
-				ht[ fileName ] = new FileTypeInfo( Utils.ConvertToRegEx( fileName ), fileName, true, true );
+				ht[ fileName ] = new FileTypeInfo( Utils.ConvertToRegEx( fileName ), fileName, false, true );
 
 				// A new file was added to the list. Update the page buttons.
 				++TotalFiles;
@@ -593,8 +610,8 @@ namespace Novell.iFolderWeb.Admin
 					}
 					else
 					{
-						AllowButton.Enabled = HasEnabledEntries && hasEntries;
-						DenyButton.Enabled = HasDisabledEntries && hasEntries;
+						AllowButton.Enabled = HasDisallowedEntries && hasEntries;
+						DenyButton.Enabled = HasAllowedEntries && hasEntries;
 					}
 				}
 			}
@@ -713,8 +730,8 @@ namespace Novell.iFolderWeb.Admin
 		/// <param name="policy">iFolder policy.</param>
 		public void GetFileTypePolicy( iFolderPolicy policy )
 		{
-			// Show the proper control buttons.
-			AllowButton.Visible = DenyButton.Visible = true;
+			// Enable the add/delete controls.
+			NewFileTypeName.Visible = AddButton.Visible = DeleteButton.Visible = true;
 
 			// Create a list from the file type policy.
 			FileTypeSource = CreateFileTypeSource( policy );
@@ -753,7 +770,7 @@ namespace Novell.iFolderWeb.Admin
 			ArrayList filterList = new ArrayList();
 			foreach( FileTypeInfo fti in FileTypeSource.Values )
 			{
-				if ( fti.IsEnabled )
+				if ( fti.IsAllowed )
 				{
 					filterList.Add( fti.RegExFileName );
 				}
@@ -773,14 +790,14 @@ namespace Novell.iFolderWeb.Admin
 			ArrayList filterList = new ArrayList();
 			foreach( FileTypeInfo fti in FileTypeSource.Values )
 			{
-				if ( fti.IsEnabled )
+				if ( fti.IsEnabled && !fti.IsAllowed )
 				{
 					filterList.Add( fti.RegExFileName );
 				}
 			}
 
-			// Set the user current user policy.
-			policy.FileTypesIncludes = filterList.ToArray( typeof( string ) ) as string[];
+			// Set the current ifolder policy.
+			policy.FileTypesExcludes = filterList.ToArray( typeof( string ) ) as string[];
 		}
 
 		/// <summary>
@@ -793,10 +810,7 @@ namespace Novell.iFolderWeb.Admin
 			ArrayList filterList = new ArrayList();
 			foreach( FileTypeInfo fti in FileTypeSource.Values )
 			{
-				if ( fti.IsEnabled )
-				{
-					filterList.Add( fti.RegExFileName );
-				}
+				filterList.Add( fti.RegExFileName );
 			}
 
 			// Set the user current system policy.
@@ -858,17 +872,18 @@ namespace Novell.iFolderWeb.Admin
 			/// <summary>
 			/// If the file name is enabled as a filter.
 			/// </summary>
-			public bool IsEnabled;
+			public bool IsAllowed;
 
 			/// <summary>
-			/// True if entry has not been committed yet.
+			/// True if entry is a system level policy that can be
+			/// enabled/disabled or deleted.
 			/// </summary>
-			public bool IsPending;
+			public bool IsEnabled;
 
 			/// <summary>
 			/// True if entry has been checked in the list.
 			/// </summary>
-			public bool IsChecked;
+			public bool IsChecked = false;
 
 			#endregion
 
@@ -879,15 +894,18 @@ namespace Novell.iFolderWeb.Admin
 			/// </summary>
 			/// <param name="regExFileName"></param>
 			/// <param name="friendlyFileName"></param>
+			/// <param name="allowed"></param>
 			/// <param name="enabled"></param>
-			/// <param name="pending"></param>
-			public FileTypeInfo( string regExFileName, string friendlyFileName, bool enabled, bool pending )
+			public FileTypeInfo( 
+				string regExFileName, 
+				string friendlyFileName, 
+				bool allowed, 
+				bool enabled )
 			{
 				RegExFileName = regExFileName;
 				FriendlyFileName = friendlyFileName;
+				IsAllowed = allowed;
 				IsEnabled = enabled;
-				IsPending = pending;
-				IsChecked = false;
 			}
 
 			#endregion

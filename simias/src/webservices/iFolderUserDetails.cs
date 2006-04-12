@@ -83,7 +83,7 @@ namespace iFolder.WebService
 			: base(member, collection, domain)
 		{
 			// sync interval
-			this.SyncIntervalEffective = Simias.Policy.SyncInterval.Get(member, collection).Interval;
+			this.SyncIntervalEffective = Simias.Policy.SyncInterval.Get(collection).Interval;
 	
 			// last login
 			Member domainMember = domain.GetMemberByID(this.ID);

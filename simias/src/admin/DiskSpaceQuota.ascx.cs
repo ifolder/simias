@@ -47,40 +47,71 @@ namespace Novell.iFolderWeb.Admin
 		/// </summary>
 		private ResourceManager rm;
 
+
 		/// <summary>
-		/// Disk Quota policy controls.
+		/// Control that contains the title for the page.
 		/// </summary>
-		protected CheckBox QuotaEnabled;
+		protected Label Title;
 
 		/// <summary>
 		/// Disk Quota policy controls.
 		/// </summary>
-		protected Literal QuotaUsed;
+		protected CheckBox Enabled;
+
+		/// <summary>
+		/// Control that contains the limit tag.
+		/// </summary>
+		protected Label LimitTag;
+
+		/// <summary>
+		/// Control that contains the limit value.
+		/// </summary>
+		protected TextBox LimitValue;
 
 		/// <summary>
 		/// Disk Quota policy controls.
 		/// </summary>
-		protected Literal QuotaAvailable;
+		protected Label UsedTag;
 
 		/// <summary>
 		/// Disk Quota policy controls.
 		/// </summary>
-		protected Literal QuotaEffectiveHeader;
+		protected Label UsedValue;
 
 		/// <summary>
 		/// Disk Quota policy controls.
 		/// </summary>
-		protected Literal QuotaEffective;
+		protected Label UsedUnits;
 
 		/// <summary>
 		/// Disk Quota policy controls.
 		/// </summary>
-		protected TextBox QuotaLimit;
+		protected Label AvailableTag;
 
 		/// <summary>
-		/// Table that displays quota information.
+		/// Disk Quota policy controls.
 		/// </summary>
-		protected HtmlTable QuotaTable;
+		protected Label AvailableValue;
+
+		/// <summary>
+		/// Disk Quota policy controls.
+		/// </summary>
+		protected Label AvailableUnits;
+
+		/// <summary>
+		/// Disk Quota policy controls.
+		/// </summary>
+		protected Label EffectiveTag;
+
+		/// <summary>
+		/// Disk Quota policy controls.
+		/// </summary>
+		protected Label EffectiveValue;
+
+		/// <summary>
+		/// Disk Quota policy controls.
+		/// </summary>
+		protected Label EffectiveUnits;
 
 
 		/// <summary>
@@ -117,7 +148,11 @@ namespace Novell.iFolderWeb.Admin
 
 			if ( !IsPostBack )
 			{
-				QuotaEffectiveHeader.Text = GetString( "EFFECTIVETAG" );
+				Title.Text = GetString( "DISKQUOTA" );
+				LimitTag.Text = GetString( "LIMITTAG" );
+				UsedTag.Text = GetString ( "USEDTAG" );
+				AvailableTag.Text = GetString( "AVAILABLETAG" );
+				EffectiveTag.Text = GetString( "EFFECTIVETAG" );
 			}
 		}
 
@@ -155,17 +190,17 @@ namespace Novell.iFolderWeb.Admin
 		/// <param name="e"></param>
 		protected void QuotaCheckChanged( Object sender, EventArgs e )
 		{
-			if ( QuotaEnabled.Checked )
+			if ( Enabled.Checked )
 			{
 				long limit = ( EffectiveSpace == 0 ) ? DefaultDiskQuotaLimit : EffectiveSpace;
-				QuotaLimit.Text = Utils.ConvertToUnitString( limit, false, rm );
+				LimitValue.Text = Utils.ConvertToUnitString( limit, false, rm );
 			}
 			else
 			{
-				QuotaLimit.Text = String.Empty;
+				LimitValue.Text = String.Empty;
 			}
 
-			QuotaLimit.Enabled = QuotaEnabled.Checked;
+			LimitValue.Enabled = Enabled.Checked;
 			DiskSpaceQuotaChanged( sender, e );
 		}
 
@@ -179,24 +214,38 @@ namespace Novell.iFolderWeb.Admin
 		/// <param name="policy">User policy object</param>
 		public void GetDiskSpacePolicy( UserPolicy policy )
 		{
+			string units;
 			EffectiveSpace = policy.SpaceLimitEffective;
 
-			QuotaEnabled.Checked = QuotaLimit.Enabled = ( policy.SpaceLimit > 0 );
-			QuotaUsed.Text = Utils.ConvertToUnitString( policy.SpaceUsed, true, rm );
-			QuotaLimit.Text = QuotaEnabled.Checked ? 
+			Enabled.Checked = LimitValue.Enabled = ( policy.SpaceLimit > 0 );
+
+			UsedValue.Text = Utils.ConvertToUnitString( policy.SpaceUsed, rm, out units );
+			UsedUnits.Text = units;
+
+			LimitValue.Text = Enabled.Checked ? 
 				Utils.ConvertToUnitString( policy.SpaceLimit, false, rm ) : String.Empty;
 
 			if ( ( policy.SpaceLimitEffective > 0 ) || ( policy.SpaceLimit > 0 ) )
 			{
-				QuotaAvailable.Text = Utils.ConvertToUnitString( policy.SpaceAvailable, true, rm );
+				AvailableValue.Text = Utils.ConvertToUnitString( policy.SpaceAvailable, rm, out units );
+				AvailableUnits.Text = units;
 			}
 			else
 			{
-				QuotaAvailable.Text = GetString( "UNLIMITED" );
+				AvailableValue.Text = GetString( "UNLIMITED" );
+				AvailableUnits.Text = String.Empty;
 			}
 
-			QuotaEffectiveHeader.Visible = false;
-			QuotaEffective.Visible = false;
+			if ( Enabled.Checked )
+			{
+				EffectiveTag.Visible = EffectiveValue.Visible = EffectiveUnits.Visible = false;
+			}
+			else
+			{
+				EffectiveTag.Visible = EffectiveValue.Visible = EffectiveUnits.Visible = true;
+				EffectiveValue.Text = Utils.ConvertToUnitString( policy.SpaceLimitEffective, rm, out units );
+				EffectiveUnits.Text = units;
+			}
 		}
 
 		/// <summary>
@@ -205,21 +254,33 @@ namespace Novell.iFolderWeb.Admin
 		/// <param name="policy">iFolder policy object</param>
 		public void GetDiskSpacePolicy( iFolderPolicy policy )
 		{
+			string units;
+
 			EffectiveSpace = policy.SpaceLimitEffective;
 
-			QuotaEnabled.Checked = QuotaLimit.Enabled = ( policy.SpaceLimit > 0 );
-			QuotaUsed.Text = Utils.ConvertToUnitString( policy.SpaceUsed, true, rm );
-			QuotaEffective.Text = Utils.ConvertToUnitString( policy.SpaceLimitEffective, true, rm );
-			QuotaLimit.Text = QuotaEnabled.Checked ? 
+			Enabled.Checked = LimitValue.Enabled = ( policy.SpaceLimit > 0 );
+
+			UsedValue.Text = Utils.ConvertToUnitString( policy.SpaceUsed, rm, out units );
+			UsedUnits.Text = units;
+
+			LimitValue.Text = Enabled.Checked ? 
 				Utils.ConvertToUnitString( policy.SpaceLimit, false, rm ) : String.Empty;
 
 			if ( ( policy.SpaceLimitEffective > 0 ) || ( policy.SpaceLimit > 0 ) )
 			{
-				QuotaAvailable.Text = Utils.ConvertToUnitString( policy.SpaceAvailable, true, rm );
+				AvailableValue.Text = Utils.ConvertToUnitString( policy.SpaceAvailable, rm, out units );
+				AvailableUnits.Text = units;
+
+				EffectiveValue.Text = Utils.ConvertToUnitString( policy.SpaceLimitEffective, rm, out units );
+				EffectiveUnits.Text = units;
 			}
 			else
 			{
-				QuotaAvailable.Text = GetString( "UNLIMITED" );
+				AvailableValue.Text = GetString( "UNLIMITED" );
+				AvailableUnits.Text = String.Empty;
+
+				EffectiveValue.Text = GetString( "UNLIMITED" );
+				EffectiveUnits.Text = String.Empty;
 			}
 		}
 
@@ -231,11 +292,13 @@ namespace Novell.iFolderWeb.Admin
 		{
 			EffectiveSpace = 0;
 
-			QuotaEnabled.Checked = QuotaLimit.Enabled = ( policy.SpaceLimitUser > 0 );
-			QuotaLimit.Text = QuotaEnabled.Checked ? 
+			Enabled.Checked = LimitValue.Enabled = ( policy.SpaceLimitUser > 0 );
+			LimitValue.Text = Enabled.Checked ? 
 				Utils.ConvertToUnitString( policy.SpaceLimitUser, false, rm ) : String.Empty;
 
-			QuotaTable.Visible = false;
+			UsedTag.Visible = UsedValue.Visible = false;
+			AvailableTag.Visible = AvailableValue.Visible = false;
+			EffectiveTag.Visible = EffectiveValue.Visible = EffectiveUnits.Visible = false;
 		}
 
 		/// <summary>
@@ -245,9 +308,9 @@ namespace Novell.iFolderWeb.Admin
 		public void SetDiskSpacePolicy( UserPolicy policy )
 		{
 			// Verify that the disk space quota value is valid.
-			if ( QuotaEnabled.Checked )
+			if ( Enabled.Checked )
 			{
-				string limitString = QuotaLimit.Text;
+				string limitString = LimitValue.Text;
 				if ( ( limitString != null ) && ( limitString != String.Empty ) )
 				{
 					try
@@ -285,9 +348,9 @@ namespace Novell.iFolderWeb.Admin
 		public void SetDiskSpacePolicy( iFolderPolicy policy )
 		{
 			// Verify that the disk space quota value is valid.
-			if ( QuotaEnabled.Checked )
+			if ( Enabled.Checked )
 			{
-				string limitString = QuotaLimit.Text;
+				string limitString = LimitValue.Text;
 				if ( ( limitString != null ) && ( limitString != String.Empty ) )
 				{
 					try
@@ -325,9 +388,9 @@ namespace Novell.iFolderWeb.Admin
 		public void SetDiskSpacePolicy( SystemPolicy policy )
 		{
 			// Verify that the disk space quota value is valid.
-			if ( QuotaEnabled.Checked )
+			if ( Enabled.Checked )
 			{
-				string limitString = QuotaLimit.Text;
+				string limitString = LimitValue.Text;
 				if ( ( limitString != null ) && ( limitString != String.Empty ) )
 				{
 					try
@@ -381,8 +444,8 @@ namespace Novell.iFolderWeb.Admin
 		/// </summary>
 		private void InitializeComponent()
 		{
-			QuotaEnabled.CheckedChanged += new EventHandler( QuotaCheckChanged );
-			QuotaLimit.TextChanged += new EventHandler( DiskSpaceQuotaChanged );
+			Enabled.CheckedChanged += new EventHandler( QuotaCheckChanged );
+			LimitValue.TextChanged += new EventHandler( DiskSpaceQuotaChanged );
 
 			this.Load += new System.EventHandler(this.Page_Load);
 		}

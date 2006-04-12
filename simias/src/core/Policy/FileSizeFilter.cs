@@ -87,11 +87,11 @@ namespace Simias.Policy
 		/// <summary>
 		/// Initializes a new instance of an object.
 		/// </summary>
-		/// <param name="member">The member associated with this collection.</param>
 		/// <param name="collection">Collection that this file size filter is associated with.</param>
-		private FileSizeFilter( Member member, Collection collection )
+		private FileSizeFilter( Collection collection )
 		{
 			PolicyManager pm = new PolicyManager();
+			Member member = collection.Owner;
 			this.memberPolicy = pm.GetAggregatePolicy( FileSizeFilterPolicyID, member );
 			this.collectionPolicy = pm.GetAggregatePolicy( FileSizeFilterPolicyID, member, collection );
 			this.limit = GetAggregateLimit( collectionPolicy );
@@ -329,9 +329,20 @@ namespace Simias.Policy
 		/// <param name="member">Member that filter is associated with.</param>
 		/// <param name="collection">Collection to add to the aggregate size policy.</param>
 		/// <returns>A FileSizeFilter object that contains the policy for the specified member.</returns>
+		[ Obsolete( "This method is obsolete. Please use FileSizeFilter.Get( Collection collection ) instead.", false ) ]
 		static public FileSizeFilter Get( Member member, Collection collection )
 		{
-			return new FileSizeFilter( member, collection );
+			return FileSizeFilter.Get( collection );
+		}
+
+		/// <summary>
+		/// Gets the aggregate file size filter policy for the specified member and collection.
+		/// </summary>
+		/// <param name="collection">Collection to add to the aggregate size policy.</param>
+		/// <returns>A FileSizeFilter object that contains the policy for the specified member.</returns>
+		static public FileSizeFilter Get( Collection collection )
+		{
+			return new FileSizeFilter( collection );
 		}
 
 		/// <summary>

@@ -569,9 +569,13 @@
           <s:element minOccurs="1" maxOccurs="1" name="SpaceUsed" type="s:long" />
           <s:element minOccurs="1" maxOccurs="1" name="SpaceAvailable" type="s:long" />
           <s:element minOccurs="1" maxOccurs="1" name="SyncInterval" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="SyncIntervalEffective" type="s:int" />
           <s:element minOccurs="0" maxOccurs="1" name="FileTypesIncludes" type="tns:ArrayOfString" />
+          <s:element minOccurs="0" maxOccurs="1" name="FileTypesIncludesEffective" type="tns:ArrayOfString" />
           <s:element minOccurs="0" maxOccurs="1" name="FileTypesExcludes" type="tns:ArrayOfString" />
+          <s:element minOccurs="0" maxOccurs="1" name="FileTypesExcludesEffective" type="tns:ArrayOfString" />
           <s:element minOccurs="1" maxOccurs="1" name="FileSizeLimit" type="s:long" />
+          <s:element minOccurs="1" maxOccurs="1" name="FileSizeLimitEffective" type="s:long" />
         </s:sequence>
       </s:complexType>
       <s:element name="SetiFolderPolicy">
@@ -660,6 +664,12 @@
             <s:element minOccurs="1" maxOccurs="1" name="DeleteUserResult" type="s:boolean" />
           </s:sequence>
         </s:complexType>
+      </s:element>
+      <s:element name="GenerateSampleData">
+        <s:complexType />
+      </s:element>
+      <s:element name="GenerateSampleDataResponse">
+        <s:complexType />
       </s:element>
     </s:schema>
   </wsdl:types>
@@ -861,6 +871,12 @@
   <wsdl:message name="DeleteUserSoapOut">
     <wsdl:part name="parameters" element="tns:DeleteUserResponse" />
   </wsdl:message>
+  <wsdl:message name="GenerateSampleDataSoapIn">
+    <wsdl:part name="parameters" element="tns:GenerateSampleData" />
+  </wsdl:message>
+  <wsdl:message name="GenerateSampleDataSoapOut">
+    <wsdl:part name="parameters" element="tns:GenerateSampleDataResponse" />
+  </wsdl:message>
   <wsdl:portType name="iFolderAdminSoap">
     <wsdl:operation name="GetServer">
       <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get iFolder Server Information</documentation>
@@ -1026,6 +1042,11 @@
       <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Method to delete a user from the Simias domain</documentation>
       <wsdl:input message="tns:DeleteUserSoapIn" />
       <wsdl:output message="tns:DeleteUserSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GenerateSampleData">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get the Authenticated User</documentation>
+      <wsdl:input message="tns:GenerateSampleDataSoapIn" />
+      <wsdl:output message="tns:GenerateSampleDataSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="iFolderAdminSoap" type="tns:iFolderAdminSoap">
@@ -1327,11 +1348,20 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="GenerateSampleData">
+      <soap:operation soapAction="http://novell.com/ifolder/webservice/GenerateSampleData" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:service name="iFolderAdmin">
     <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">iFolder Admin Web Service</documentation>
     <wsdl:port name="iFolderAdminSoap" binding="tns:iFolderAdminSoap">
-      <soap:address location="http://127.0.0.1:8086/simias10/iFolderAdmin.asmx" />
+      <soap:address location="http://localhost:8086/simias10/iFolderAdmin.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

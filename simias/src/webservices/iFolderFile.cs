@@ -214,7 +214,7 @@ namespace iFolder.WebService
 				updating = true;
 
 				// check file size policy
-				FileSizeFilter fsFilter = FileSizeFilter.Get(member, collection);
+				FileSizeFilter fsFilter = FileSizeFilter.Get(collection);
 				if (!fsFilter.Allowed(deltaSize))
 				{
 					throw new FileSizeException(node.Name);

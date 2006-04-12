@@ -11,27 +11,20 @@
 
 .memberselectnav
 {
-	width: 58em;
-	padding-left: .8em;
+	padding-left: 1em;
 	padding-bottom: 1em;
-}
-
-.memberbuttonnav
-{
-	padding-left: 2em;
-	padding-right: 2em;
+	width: 25em;
 }
 
 .okcancelnav
 {
 	clear: both;
-	padding-left: 26em;
-	padding-bottom: 1em;
+	padding-top: 1em;
 }
 
 .memberlist
 {
-	width: 23em;
+	width: 100%;
 }
 
 .memberlistheader
