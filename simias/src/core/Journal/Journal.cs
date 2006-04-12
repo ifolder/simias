@@ -780,6 +780,7 @@ namespace Simias.Storage
 			// Cause the search to be performed from the end of the file.
 			index = -1;
 			records = null;
+			eof = false;
 
 			while ( true )
 			{
