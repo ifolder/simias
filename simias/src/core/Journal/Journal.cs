@@ -774,6 +774,7 @@ namespace Simias.Storage
 			// Save state.
 			long previousPosition = stream.Position;
 			int previousIndex = index;
+			bool previousEof = eof;
 			string[] previousRecords = new string[ records.Length ];
 			records.CopyTo( previousRecords, 0 );
 
@@ -809,6 +810,7 @@ namespace Simias.Storage
 			// Restore state.
 			stream.Position = previousPosition;
 			index = previousIndex;
+			eof = previousEof;
 			records = new string[ previousRecords.Length ];
 			previousRecords.CopyTo( records, 0 );
 
