@@ -598,8 +598,6 @@ src/core/SimiasLib.dll/simias.pc
 src/core/FlaimProvider/Makefile
 src/core/FlaimProvider/FlaimWrapper/Makefile
 src/core/SimiasApp/Makefile
-src/core/SimiasApp/simias
-src/core/SimiasApp/SimiasDirectoryMapping
 src/core/SimiasApp/AssemblyInfo.cs
 src/core/WebService/AssemblyInfo.cs
 src/core/WebService/Makefile
@@ -622,6 +620,9 @@ src/server/usercmd/simias-create-user
 src/server/usercmd/simias-delete-user
 src/server/usercmd/simias-user
 src/server/usercmd/simias-user.cmd
+src/client/Makefile
+src/client/simias
+src/client/SimiasDirectoryMapping
 src/webservices/Makefile
 src/webservices/AssemblyInfo.cs
 src/webaccess/Makefile

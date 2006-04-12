@@ -15,7 +15,7 @@ Simias_FLAGS = $(CSC_EXEFLAG)
 Simias_LIBS = System.dll System.Data.dll $(SYSTEM_XML) System.Web.dll $(SYSTEM_INSTALLER_LIB) SimiasClient.dll
 Simias_LIBPATH = ../SimiasClient
 
-EXTRA_DIST = App.ico $(Simias_CSFILES) AssemblyInfo.cs.in $(srcdir)/SimiasDirectoryMapping.in $(srcdir)/simias.cmd $(srcdir)/simias.in
+EXTRA_DIST = App.ico $(Simias_CSFILES) AssemblyInfo.cs.in
 
 if MAKE_DOC_FILE
 DOC_FILE = $(basename $@).doc.xml
@@ -31,7 +31,7 @@ endif
 
 all: Simias.exe
 
-Simias.exe: AssemblyInfo.cs $(Simias_CSFILES) $(Simias_RESOURCES) SimiasDirectoryMapping simias
+Simias.exe: AssemblyInfo.cs $(Simias_CSFILES) $(Simias_RESOURCES)
 	$(CSC) /out:$@ $(CSCFLAGS) $(Simias_FLAGS) $(SIMIAS_LIBS) $(Simias_LIBS:%=/r:%) $(Simias_LIBPATH:%=/lib:%) $(Simias_RESOURCES:%=$(ICON_FLAG)%) $(Simias_CSFILES_CSC) $(DOC_FILE_CMD)
 
 if DEBUG
@@ -41,24 +41,12 @@ endif
 endif
 
 install-exec-local: Simias.exe $(DATA_FILES)
-	$(mkinstalldirs) $(DESTDIR)$(webbindir) $(DESTDIR)$(bindir)
+	$(mkinstalldirs) $(DESTDIR)$(webbindir)
 	$(INSTALL_PROGRAM) Simias.exe $(DEBUG_FILES) $(DESTDIR)$(webbindir)
-	$(INSTALL_PROGRAM) SimiasDirectoryMapping $(DESTDIR)$(bindir)
-if WINDOWS
-	$(INSTALL_PROGRAM) simias.cmd $(DESTDIR)$(bindir)
-else
-	$(INSTALL_PROGRAM) simias $(DESTDIR)$(bindir)
-endif
 
 	
 uninstall-local:
 	cd $(DESTDIR)$(webbindir); rm -f Simias.exe $(DEBUG_FILES)
-	cd $(DESTDIR)$(bindir); rm -f SimiasDirectoryMapping
-if WINDOWS
-	cd $(DESTDIR)$(bindir); rm -f simias.cmd
-else
-	cd $(DESTDIR)$(bindir); rm -f simias
-endif
 
 installcheck-local: install
 	
@@ -72,5 +60,5 @@ distclean-local:
 
 maintainer-clean-local:
 	rm -rf $(COMMON_MAINTAINER_CLEAN_FILES)
-	rm -rf AssemblyInfo.cs SimiasDirectoryMapping simias
+	rm -rf AssemblyInfo.cs
 
