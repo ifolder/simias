@@ -1,12 +1,16 @@
 .headertitle
 {
 	margin-left: 1em;
-	margin-bottom: 0;
 }
 
 .tablecolumn
 {
 	width: 30em;
+}
+
+.leftnav
+{
+	float: left;
 }
 
 .memberselectnav
@@ -96,12 +100,12 @@
 {
 	clear: both;
 	margin-left: 1em;
-	margin-top: 1em;
 	padding-bottom: .5em;
 }
 
 #CreateiFolderDiv
 {
+	float: left;
 	width: 37em;
 	margin-left: 1em;
 	margin-bottom: 2em;

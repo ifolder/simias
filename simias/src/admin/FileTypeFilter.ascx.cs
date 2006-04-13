@@ -332,6 +332,28 @@ namespace Novell.iFolderWeb.Admin
 		}
 
 		/// <summary>
+		/// Checks if the specified file name is already in the list.
+		/// </summary>
+		/// <param name="fileName"></param>
+		/// <returns>True if the specified file name is already in the list.</returns>
+		private bool FileTypeExists( string fileName )
+		{
+			bool exists = false;
+
+			Hashtable ht = FileTypeSource;
+			foreach( FileTypeInfo fti in ht.Values )
+			{
+				if ( String.Compare( fti.FriendlyFileName, fileName, true ) == 0 )
+				{
+					exists = true;
+					break;
+				}
+			}
+
+			return exists;
+		}
+
+		/// <summary>
 		/// Gets whether the specified file type is allowed.
 		/// </summary>
 		/// <param name="effectivePolicy">Effective user policy</param>
@@ -365,6 +387,9 @@ namespace Novell.iFolderWeb.Admin
 				// Initialize the state variables.
 				CurrentFileOffset = 0;
 				TotalFiles = 0;
+
+				// Set the javascript function that will handle key presses.
+				NewFileTypeName.Attributes[ "OnKeyDown" ] = "return SubmitKeyDown(event, '" + AddButton.ClientID + "');";
 			}
 		}
 
@@ -379,6 +404,19 @@ namespace Novell.iFolderWeb.Admin
 				TotalFiles, 
 				GetString( "FILES" ),
 				GetString( "FILE" ) );
+		}
+
+		/// <summary>
+		/// Displays an error message on the parent page.
+		/// </summary>
+		/// <param name="errMsg"></param>
+		private void ShowError( string errMsg )
+		{
+			TopNavigation nav = Page.FindControl( "TopNav" ) as TopNavigation;
+			if ( nav != null )
+			{
+				nav.ShowError( errMsg );
+			}
 		}
 
 		#endregion
@@ -564,26 +602,34 @@ namespace Novell.iFolderWeb.Admin
 			string fileName = NewFileTypeName.Text;
 			if ( ( fileName != null ) && ( fileName != String.Empty ) )
 			{
-				Hashtable ht = FileTypeSource;
-				ht[ fileName ] = new FileTypeInfo( Utils.ConvertToRegEx( fileName ), fileName, false, true );
-
-				// A new file was added to the list. Update the page buttons.
-				++TotalFiles;
-
-				// Clear out the old entry.
-				NewFileTypeName.Text = String.Empty;
-
-				// Indicate an event that the list has changed.
-				if ( ListChanged != null )
+				// Make sure that this entry is not already in the list.
+				if ( !FileTypeExists( fileName ) )
 				{
-					ListChanged( this, e );
+					Hashtable ht = FileTypeSource;
+					ht[ fileName ] = new FileTypeInfo( Utils.ConvertToRegEx( fileName ), fileName, false, true );
+
+					// A new file was added to the list. Update the page buttons.
+					++TotalFiles;
+
+					// Clear out the old entry.
+					NewFileTypeName.Text = String.Empty;
+
+					// Indicate an event that the list has changed.
+					if ( ListChanged != null )
+					{
+						ListChanged( this, e );
+					}
+
+					// Refresh the policy view.
+					FileTypeList.DataSource = CreateFileTypeListView();
+					FileTypeList.DataBind();
+					SetPageButtonState();
+				}
+				else
+				{
+					ShowError( GetString( "FILETYPEALREADYEXISTS" ) );
 				}
 			}
-			
-			// Refresh the policy view.
-			FileTypeList.DataSource = CreateFileTypeListView();
-			FileTypeList.DataBind();
-			SetPageButtonState();
 		}
 
 		/// <summary>

@@ -201,9 +201,18 @@ namespace Novell.iFolderWeb.Admin
 			}
 			else
 			{
-				int syncInterval = policy.SyncIntervalEffective / 60;
 				EffectiveTag.Visible = EffectiveValue.Visible = EffectiveUnits.Visible = true;
-				EffectiveValue.Text = syncInterval.ToString();
+				if ( policy.SyncIntervalEffective > 0 )
+				{
+					int syncInterval = policy.SyncIntervalEffective / 60;
+					EffectiveTag.Visible = EffectiveValue.Visible = EffectiveUnits.Visible = true;
+					EffectiveValue.Text = syncInterval.ToString();
+				}
+				else
+				{
+					EffectiveValue.Text = GetString( "UNLIMITED" );
+					EffectiveUnits.Text = String.Empty;
+				}
 			}
 		}
 

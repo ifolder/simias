@@ -1,6 +1,23 @@
 <%@ Control Language="c#" AutoEventWireup="false" Codebehind="FileTypeFilter.ascx.cs" Inherits="Novell.iFolderWeb.Admin.FileTypeFilter" TargetSchema="http://schemas.microsoft.com/intellisense/ie5"%>
 <%@ Register TagPrefix="iFolder" TagName="PageFooter" Src="PageFooter.ascx" %>
 
+<script language="javascript">
+
+	function SubmitKeyDown(e, b)
+	{
+		var result = true;
+		if ((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13))
+		{
+			document.getElementById(b).click();
+			result = false;
+		} 
+		
+		return result;
+	}
+
+</script>
+
+
 <asp:Label ID="Title" Runat="server" CssClass="policytitle" />
 
 <div class="policydetails">

@@ -67,91 +67,94 @@
 			</table>
 		
 		</div>
-				
-		<h3 class="headertitle"><%= GetString( "SELECTUSERS" ) %></h3>
-	
-		<iFolder:MemberSearch ID="MemberSearch" Runat="server" />
-	
-		<div class="memberselectnav">
 
-			<!-- available member list -->
-			<table class="memberlistheader">
+		<div class="leftnav" >
 		
-				<tr>
-					<td class="checkboxcolumn">									
-						<asp:CheckBox 
-							ID="AllMembersCheckBox" 
-							Runat="server" 
-							OnCheckedChanged="AllMembersChecked" 
-							AutoPostBack="True" />
-					</td>
-				
-					<td>
-						<%= GetString( "IFOLDERUSERS" ) %>
-					</td>
-				</tr>
-		
-			</table>
-		
-			<asp:datagrid 
-				id="MemberList" 
-				runat="server" 
-				AutoGenerateColumns="False" 
-				CssClass="memberlist"
-				CellPadding="0" 
-				CellSpacing="0"
-				ShowHeader="False" 
-				PageSize="15" 
-				GridLines="None" 
-				ItemStyle-CssClass="memberlistitem"
-				AlternatingItemStyle-CssClass="memberlistaltitem">
+			<h3 class="headertitle"><%= GetString( "SELECTUSERS" ) %></h3>
+	
+			<iFolder:MemberSearch ID="MemberSearch" Runat="server" />
 			
-				<Columns>
+			<div class="memberselectnav">
 
-					<asp:BoundColumn DataField="IDField" Visible="False" />
-					
-					<asp:TemplateColumn ItemStyle-CssClass="memberitem1">
-						<ItemTemplate>
+				<table class="memberlistheader">
+			
+					<tr>
+						<td class="checkboxcolumn">									
 							<asp:CheckBox 
-								ID="MemberItemCheckBox" 
+								ID="AllMembersCheckBox" 
 								Runat="server" 
-								OnCheckedChanged="MemberChecked" 
-								AutoPostBack="true" 
-								Visible='<%# ( bool )DataBinder.Eval( Container.DataItem, "VisibleField" ) %>' 
-								Enabled='<%# ( bool )DataBinder.Eval( Container.DataItem, "EnabledField" ) %>' 
-								Checked='<%# GetMemberCheckedState( DataBinder.Eval( Container.DataItem, "IDField" ) ) %>'/>
-						</ItemTemplate>
-					</asp:TemplateColumn>
-				
-					<asp:TemplateColumn ItemStyle-CssClass="memberitem2">
-						<ItemTemplate>
-							<asp:Image 
-								ID="MemberUserImage" 
-								Runat="server" 
-								ImageUrl="images/ifolder_user.gif" 
-								Visible='<%# ( bool )DataBinder.Eval( Container.DataItem, "VisibleField" ) %>'/>
-						</ItemTemplate>
-					</asp:TemplateColumn>
-				
-					<asp:BoundColumn DataField="NameField" />
-				
-					<asp:BoundColumn DataField="FullNameField" />
-				
-				</Columns>
+								OnCheckedChanged="AllMembersChecked" 
+								AutoPostBack="True" />
+						</td>
+					
+						<td>
+							<%= GetString( "IFOLDERUSERS" ) %>
+						</td>
+					</tr>
 			
-			</asp:datagrid>
-		
-			<ifolder:PageFooter ID="MemberListFooter" Runat="server" />
+				</table>
+			
+				<asp:datagrid 
+					id="MemberList" 
+					runat="server" 
+					AutoGenerateColumns="False" 
+					CssClass="memberlist"
+					CellPadding="0" 
+					CellSpacing="0"
+					ShowHeader="False" 
+					PageSize="15" 
+					GridLines="None" 
+					ItemStyle-CssClass="memberlistitem"
+					AlternatingItemStyle-CssClass="memberlistaltitem">
+				
+					<Columns>
 
-			<div align="center" class="okcancelnav">
+						<asp:BoundColumn DataField="IDField" Visible="False" />
+						
+						<asp:TemplateColumn ItemStyle-CssClass="memberitem1">
+							<ItemTemplate>
+								<asp:CheckBox 
+									ID="MemberItemCheckBox" 
+									Runat="server" 
+									OnCheckedChanged="MemberChecked" 
+									AutoPostBack="true" 
+									Visible='<%# ( bool )DataBinder.Eval( Container.DataItem, "VisibleField" ) %>' 
+									Enabled='<%# ( bool )DataBinder.Eval( Container.DataItem, "EnabledField" ) %>' 
+									Checked='<%# GetMemberCheckedState( DataBinder.Eval( Container.DataItem, "IDField" ) ) %>'/>
+							</ItemTemplate>
+						</asp:TemplateColumn>
+					
+						<asp:TemplateColumn ItemStyle-CssClass="memberitem2">
+							<ItemTemplate>
+								<asp:Image 
+									ID="MemberUserImage" 
+									Runat="server" 
+									ImageUrl="images/ifolder_user.gif" 
+									Visible='<%# ( bool )DataBinder.Eval( Container.DataItem, "VisibleField" ) %>'/>
+							</ItemTemplate>
+						</asp:TemplateColumn>
+					
+						<asp:BoundColumn DataField="NameField" />
+					
+						<asp:BoundColumn DataField="FullNameField" />
+					
+					</Columns>
+				
+				</asp:datagrid>
 			
-				<asp:Button ID="OkButton" Runat="server" CssClass="ifolderbuttons" Enabled="False" OnClick="OkButton_Clicked" />
+				<ifolder:PageFooter ID="MemberListFooter" Runat="server" />
+
+				<div align="center" class="okcancelnav">
 				
-				<asp:Button ID="CancelButton" Runat="server" CssClass="ifolderbuttons" OnClick="CancelButton_Clicked" />
-				
+					<asp:Button ID="OkButton" Runat="server" CssClass="ifolderbuttons" Enabled="False" OnClick="OkButton_Clicked" />
+					
+					<asp:Button ID="CancelButton" Runat="server" CssClass="ifolderbuttons" OnClick="CancelButton_Clicked" />
+					
+				</div>
+
 			</div>
-
-		</div>
+			
+		</div>						
 		
 		<div class="footer">
 		</div>

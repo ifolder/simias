@@ -243,8 +243,16 @@ namespace Novell.iFolderWeb.Admin
 			else
 			{
 				EffectiveTag.Visible = EffectiveValue.Visible = EffectiveUnits.Visible = true;
-				EffectiveValue.Text = Utils.ConvertToUnitString( policy.SpaceLimitEffective, rm, out units );
-				EffectiveUnits.Text = units;
+				if ( policy.SpaceLimitEffective > 0 )
+				{
+					EffectiveValue.Text = Utils.ConvertToUnitString( policy.SpaceLimitEffective, rm, out units );
+					EffectiveUnits.Text = units;
+				}
+				else
+				{
+					EffectiveValue.Text = GetString( "UNLIMITED" );
+					EffectiveUnits.Text = String.Empty;
+				}
 			}
 		}
 

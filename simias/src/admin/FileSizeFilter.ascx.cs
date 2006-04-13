@@ -188,10 +188,19 @@ namespace Novell.iFolderWeb.Admin
 			}
 			else
 			{
-				string units;
 				EffectiveTag.Visible = EffectiveValue.Visible = EffectiveUnits.Visible = true;
-				EffectiveValue.Text = Utils.ConvertToUnitString( policy.FileSizeLimitEffective, rm, out units );
-				EffectiveUnits.Text = units;
+				if ( policy.FileSizeLimitEffective > 0 )
+				{
+					string units;
+					EffectiveTag.Visible = EffectiveValue.Visible = EffectiveUnits.Visible = true;
+					EffectiveValue.Text = Utils.ConvertToUnitString( policy.FileSizeLimitEffective, rm, out units );
+					EffectiveUnits.Text = units;
+				}
+				else
+				{
+					EffectiveValue.Text = GetString( "UNLIMITED" );
+					EffectiveUnits.Text = String.Empty;
+				}
 			}
 		}
 
