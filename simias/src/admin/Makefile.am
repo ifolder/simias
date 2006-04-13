@@ -50,7 +50,7 @@ iFolderAdmin_LIBS = \
 	$(SYSTEM_XML) \
 	System.Drawing.dll \
 	System.Web.dll \
-	System.Web.Services.dll 
+	System.Web.Services.dll
 
 if !LINUX
 	iFolderAdmin_LIBS := $(iFolderAdmin_LIBS) log4net.dll
@@ -58,50 +58,42 @@ endif
 
 iFolderAdmin_LIBPATH = $(LOG4NET_DIR)
 
+
 iFolderAdmin_FORMS = \
 	AccountEnabled.ascx \
 	Default.aspx \
 	DiskSpaceQuota.ascx \
 	CreateUser.aspx \
-	CreateUser.css \
 	Error.aspx \
 	FileSizeFilter.ascx \
 	FileTypeFilter.ascx \
 	Global.asax \
 	Header.ascx \
 	iFolderAdminPage.aspx \
-	iFolderAdmin.css \
 	iFolderDetailsPage.aspx \
-	iFolderDetailsPage.css \
 	iFolderEnabled.ascx \
 	iFolders.aspx \
-	iFolders.css \
 	iFolderSearch.ascx \
 	Log4Net.config \
 	Login.aspx \
-	Login.css \
 	MemberSearch.ascx \
 	MemberSelect.aspx \
-	MemberSelect.css \
 	PageFooter.ascx \
 	Policy.ascx \
 	Servers.aspx \
-	Servers.css \
 	SyncInterval.ascx \
 	SystemInfo.aspx \
-	SystemInfo.css \
 	TopNavigation.ascx \
 	UserDetails.aspx \
-	UserDetails.css \
 	Users.aspx \
-	Users.css \
 	Web.config
 
-EXTRA_DIST = AssemblyInfo.cs.in $(iFolderAdmin_CSFILES) $(iFolderAdmin_FORMS) images help $(iFolderAdmin_RESX)
+EXTRA_DIST = AssemblyInfo.cs.in $(iFolderAdmin_CSFILES) $(iFolderAdmin_FORMS) css images help $(iFolderAdmin_RESX)
 
 dist-hook:
 	rm -rf `find $(distdir)/help -name .svn`		
 	rm -rf `find $(distdir)/images -name .svn`		
+	rm -rf `find $(distdir)/css -name .svn`		
 
 if DEBUG
 if WINDOWS
@@ -130,6 +122,7 @@ install-exec-local: all
 	$(mkinstalldirs) $(DESTDIR)$(admindir)
 	$(mkinstalldirs) $(DESTDIR)$(admindir)/bin
 	$(mkinstalldirs) $(DESTDIR)$(admindir)/images
+	$(mkinstalldirs) $(DESTDIR)$(admindir)/css
 	$(mkinstalldirs) $(DESTDIR)$(admindir)/help
 	$(INSTALL_PROGRAM) $(iFolderAdmin_FORMS) $(DESTDIR)$(admindir)
 	$(INSTALL_PROGRAM) Novell.iFolderAdmin.dll $(DEBUG_FILES) $(DESTDIR)$(admindir)/bin
@@ -137,6 +130,8 @@ install-exec-local: all
 	rm -rf `find $(DESTDIR)$(admindir)/help -name .svn`
 	cd $(srcdir)/images; cp -r * $(DESTDIR)$(admindir)/images
 	rm -rf `find $(DESTDIR)$(admindir)/images -name .svn`
+	cd $(srcdir)/css; cp -r * $(DESTDIR)$(admindir)/css
+	rm -rf `find $(DESTDIR)$(admindir)/css -name .svn`
 if !LINUX
 	$(INSTALL_PROGRAM) $(LOG4NET_DIR)/log4net.dll $(DESTDIR)$(admindir)/bin
 endif
@@ -148,7 +143,7 @@ installcheck-local: install
 	
 clean-local:
 	rm -rf $(CLEAN_FILES) $(COMMON_CLEAN_FILES)
-    
+
 distclean-local:
 	rm -rf $(COMMON_DISTCLEAN_FILES)
 

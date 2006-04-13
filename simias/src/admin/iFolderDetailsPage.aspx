@@ -13,8 +13,8 @@
 	<title><%= GetString( "TITLE" ) %></title>
 		
 	<style type="text/css">
-		@import url(iFolderAdmin.css);
-		@import url(iFolderDetailsPage.css);
+		@import url(css/iFolderAdmin.css);
+		@import url(css/iFolderDetailsPage.css);
 	</style>
 	
 </head>

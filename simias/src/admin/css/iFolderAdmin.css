@@ -29,7 +29,7 @@ p, tr, td, ol, ul
 {
 	float: left;
 	background-color: #0054A6;
-	background-image: url(images/banner-fill.png);
+	background-image: url(../images/banner-fill.png);
 	background-repeat: repeat-x;
 	width: 100%;
 	height: 5.9em;

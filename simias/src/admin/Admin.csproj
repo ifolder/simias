@@ -141,10 +141,6 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "CreateUser.css"
-                    BuildAction = "Content"
-                />
-                <File
                     RelPath = "Default.aspx"
                     BuildAction = "Content"
                 />
@@ -255,10 +251,6 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "iFolderAdmin.css"
-                    BuildAction = "Content"
-                />
-                <File
                     RelPath = "iFolderAdmin.resx"
                     BuildAction = "EmbeddedResource"
                 />
@@ -300,10 +292,6 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "iFolderDetailsPage.css"
-                    BuildAction = "Content"
-                />
-                <File
                     RelPath = "iFolderEnabled.ascx"
                     BuildAction = "Content"
                 />
@@ -333,10 +321,6 @@
                     RelPath = "iFolders.aspx.resx"
                     DependentUpon = "iFolders.aspx.cs"
                     BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "iFolders.css"
-                    BuildAction = "Content"
                 />
                 <File
                     RelPath = "iFolderSearch.ascx"
@@ -379,10 +363,6 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "Login.css"
-                    BuildAction = "Content"
-                />
-                <File
                     RelPath = "MemberSearch.ascx"
                     SubType = "UserControl"
                     BuildAction = "Content"
@@ -413,10 +393,6 @@
                     RelPath = "MemberSelect.aspx.resx"
                     DependentUpon = "MemberSelect.aspx.cs"
                     BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "MemberSelect.css"
-                    BuildAction = "Content"
                 />
                 <File
                     RelPath = "PageFooter.ascx"
@@ -467,10 +443,6 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "Servers.css"
-                    BuildAction = "Content"
-                />
-                <File
                     RelPath = "SyncInterval.ascx"
                     SubType = "UserControl"
                     BuildAction = "Content"
@@ -501,10 +473,6 @@
                     RelPath = "SystemInfo.aspx.resx"
                     DependentUpon = "SystemInfo.aspx.cs"
                     BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "SystemInfo.css"
-                    BuildAction = "Content"
                 />
                 <File
                     RelPath = "TopNavigation.ascx"
@@ -539,10 +507,6 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "UserDetails.css"
-                    BuildAction = "Content"
-                />
-                <File
                     RelPath = "Users.aspx"
                     SubType = "Form"
                     BuildAction = "Content"
@@ -559,16 +523,52 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "Users.css"
-                    BuildAction = "Content"
-                />
-                <File
                     RelPath = "Utils.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
                     RelPath = "Web.config"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "css\CreateUser.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "css\iFolderAdmin.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "css\iFolderDetailsPage.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "css\iFolders.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "css\Login.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "css\MemberSelect.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "css\Servers.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "css\SystemInfo.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "css\UserDetails.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "css\Users.css"
                     BuildAction = "Content"
                 />
             </Include>

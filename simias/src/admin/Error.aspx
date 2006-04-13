@@ -4,7 +4,7 @@
 <head>
 <title><%= GetString("TITLE") %></title>
 <link rel="SHORTCUT ICON" href="images/N_url_shortcut.ico">
-<link rel="stylesheet" type="text/css" href="iFolderAdmin.css">
+<link rel="stylesheet" type="text/css" href="css/iFolderAdmin.css">
 </head>
 <body>
 <form runat="server">

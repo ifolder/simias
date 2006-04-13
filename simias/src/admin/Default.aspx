@@ -10,7 +10,7 @@
 	<title><%= GetString( "TITLE" ) %></title>
 		
 	<style type="text/css">
-		@import url(iFolderAdmin.css);
+		@import url(css/iFolderAdmin.css);
 	</style>
 	
 	<link rel="SHORTCUT ICON" href="images/N_url_shortcut.ico">

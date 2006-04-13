@@ -11,8 +11,8 @@
 		<title><%= GetString( "TITLE" ) %></title>
 		
 		<style type="text/css">
-			@import url( iFolderAdmin.css ); 
-			@import url( CreateUser.css ); 
+			@import url( css/iFolderAdmin.css ); 
+			@import url( css/CreateUser.css ); 
 		</style>
 		
 </head>

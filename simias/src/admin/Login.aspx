@@ -14,8 +14,8 @@
 	<link rel="SHORTCUT ICON" href="images/N_url_shortcut.ico">
 		
 	<style type="text/css">
-		@import url(iFolderAdmin.css);
-		@import url(Login.css);
+		@import url(css/iFolderAdmin.css);
+		@import url(css/Login.css);
 	</style>
 		
 	<script language="javascript">
