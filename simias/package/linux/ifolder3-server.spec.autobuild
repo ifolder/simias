@@ -98,9 +98,9 @@ fi
 %{sysconfdir}/simias/*
 %{libexecdir}/*
 %{prefix}/include/*
-%{prefix}/lib/pkgconfig/simias*
-%{prefix}/lib/libFlaim*
-%{prefix}/lib/libsimias*
+%{prefix}/%{_lib}/pkgconfig/simias*
+%{prefix}/%{_lib}/libFlaim*
+%{prefix}/%{_lib}/libsimias*
 %dir %{prefix}/share/simias
 %{prefix}/share/simias/*
 #%config(noreplace) %{prefix}/web/web.config
