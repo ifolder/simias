@@ -63,6 +63,11 @@ namespace Novell.iFolderWeb.Admin
 		private ResourceManager rm;
 
 		/// <summary>
+		/// Top navigation panel control.
+		/// </summary>
+		protected TopNavigation TopNav;
+
+		/// <summary>
 		/// Web controls.
 		/// </summary>
 		protected DataGrid Accounts;
@@ -148,6 +153,15 @@ namespace Novell.iFolderWeb.Admin
 		#endregion
 
 		#region Private Methods
+
+		/// <summary>
+		///  Builds the breadcrumb list for this page.
+		/// </summary>
+		private void BuildBreadCrumbList()
+		{
+			TopNav.AddBreadCrumb( GetString( "HOME" ), "SystemInfo.aspx" );
+			TopNav.AddBreadCrumb( GetString( "USERS" ), null );
+		}
 
 		/// <summary>
 		/// Creates a DataSource containing user names from a search.
@@ -298,6 +312,10 @@ namespace Novell.iFolderWeb.Admin
 		/// <param name="e"></param>
 		private void Page_PreRender(object sender, EventArgs e)
 		{
+			// Build the breadcrumb list.
+			BuildBreadCrumbList();
+
+			// Get the user list.
 			GetUsers();
 		}
 

@@ -23,6 +23,7 @@
 namespace Novell.iFolderWeb.Admin
 {
 	using System;
+	using System.Collections;
 	using System.Data;
 	using System.Drawing;
 	using System.Resources;
@@ -85,12 +86,52 @@ namespace Novell.iFolderWeb.Admin
 		/// </summary>
 		protected Label ErrorMsg;
         
+
+		/// <summary>
+		/// Breadcrumb control.
+		/// </summary>
+		protected DataList BreadCrumbs;
+
 		#endregion
 
 		#region Properties
+
+		/// <summary>
+		/// Gets or sets the bread crumb list.
+		/// </summary>
+		private ArrayList CrumbList
+		{
+			get { return ViewState[ "BreadCrumbs" ] as ArrayList; }
+			set { ViewState[ "BreadCrumbs" ] = value; }
+		}
+
 		#endregion
 
 		#region Private Methods
+
+		/// <summary>
+		/// Creates a data source of breadcrumbs.
+		/// </summary>
+		/// <returns>A DataView item containing breadcrumbs</returns>
+		private DataView CreateDataSource()
+		{
+			DataTable dt = new DataTable();
+			DataRow dr;
+
+			dt.Columns.Add( new DataColumn( "CrumbField", typeof( string ) ) );
+			dt.Columns.Add( new DataColumn( "LinkField", typeof( string ) ) );
+
+			foreach( BreadCrumbInfo bci in CrumbList )
+			{
+				dr = dt.NewRow();
+				dr[ 0 ] = bci.Crumb;
+				dr[ 1 ] = bci.CrumbUri;
+				dt.Rows.Add( dr );
+			}
+
+			// Build the data view from the table.
+			return new DataView( dt );
+		}
 
 		/// <summary>
 		/// Logout
@@ -133,7 +174,6 @@ namespace Novell.iFolderWeb.Admin
 				ErrorPanel.Visible = false;
 
 				LogoutButton.Text = GetString( "LOGOUT" );
-				BreadCrumbList.Text = "Breadcrumb List";
 
 				Control body = Page.FindControl( "users" );
 				if ( body != null )
@@ -172,6 +212,10 @@ namespace Novell.iFolderWeb.Admin
 						}
 					}
 				}
+
+				// Initialize the state variables.
+				BreadCrumbs.RepeatColumns = 0;
+				CrumbList = new ArrayList();
 			}
 		}
 
@@ -204,6 +248,32 @@ namespace Novell.iFolderWeb.Admin
 		#region Public Methods
 
 		/// <summary>
+		/// Adds a bread crumb to the bread crumb list.
+		/// </summary>
+		/// <param name="crumb"></param>
+		/// <param name="link"></param>
+		public void AddBreadCrumb( string crumb, string link )
+		{
+			CrumbList.Add( new BreadCrumbInfo( crumb, link ) );
+			++BreadCrumbs.RepeatColumns;
+			BreadCrumbs.DataSource = CreateDataSource();
+			BreadCrumbs.DataBind();
+		}
+
+		/// <summary>
+		/// Adds a bread crumb to the bread crumb list.
+		/// </summary>
+		/// <param name="crumbs"></param>
+		/// <param name="links"></param>
+		public void AddBreadCrumb( string[] crumbs, string[] links )
+		{
+			for ( int i = 0; i < crumbs.Length; ++i )
+			{
+				AddBreadCrumb( crumbs[ i ], links[ i ] );
+			}
+		}
+
+		/// <summary>
 		/// Shows up an error below the banner.
 		/// </summary>
 		/// <param name="msg"></param>
@@ -234,10 +304,52 @@ namespace Novell.iFolderWeb.Admin
 		///		Required method for Designer support - do not modify
 		///		the contents of this method with the code editor.
 		/// </summary>
+		/// this.Load += new System.EventHandler(this.Page_Load);
 		private void InitializeComponent()
 		{
 			this.Load += new System.EventHandler(this.Page_Load);
 		}
+
+		#endregion
+
+		#region BreadCrumbInfo
+
+		/// <summary>
+		/// Contains bread crumb information.
+		/// </summary>
+		[ Serializable() ]
+		private class BreadCrumbInfo
+		{
+			#region Class Members
+			
+			/// <summary>
+			/// The bread crumb label.
+			/// </summary>
+			public string Crumb;
+
+			/// <summary>
+			/// The uri associated with the crumb.
+			/// </summary>
+			public string CrumbUri;
+
+			#endregion
+
+			#region Constructor
+
+			/// <summary>
+			/// Constructor
+			/// </summary>
+			/// <param name="crumb"></param>
+			/// <param name="crumbUri"></param>
+			public BreadCrumbInfo( string crumb, string crumbUri )
+			{
+				Crumb = crumb;
+				CrumbUri = crumbUri;
+			}
+
+			#endregion
+		}
+
 		#endregion
 	}
 }

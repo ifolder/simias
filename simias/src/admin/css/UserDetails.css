@@ -1,6 +1,6 @@
 .actionbuttons
 {
-	margin-top: 1em;
+	margin-top: .5em;
 	margin-bottom: 1em;
 }
 
@@ -129,12 +129,12 @@ div#shared li.sharedifolders a:link, div#shared li.sharedifolders a:visited
 
 .ifolderlistheader .namecolumn
 {
-	width: 22.4em;
+	width: 22.3em;
 }
 
 .ifolderlistheader .ownercolumn
 {
-	width: 13.4em;
+	width: 13.5em;
 }
 
 .ifolderlistheader .sizecolumn

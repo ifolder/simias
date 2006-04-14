@@ -28,7 +28,28 @@
 
 <div class="detailtop">
 
-	<asp:Label ID="BreadCrumbList" Runat="server" CssClass="breadcrumbs" />
+	<asp:DataList 
+		ID="BreadCrumbs" 
+		Runat="server" 
+		CssClass="breadcrumbs" 
+		GridLines="None" 
+		RepeatDirection="Horizontal" 
+		ShowHeader="false">
+		
+		<SeparatorTemplate>
+			>
+		</SeparatorTemplate>
+		
+		<ItemTemplate>
+			<asp:HyperLink
+				Runat="server"
+				Target="_top" 
+				CssClass="breadcrumblink"
+				Text='<%# DataBinder.Eval( Container.DataItem, "CrumbField" ) %>'
+				NavigateUrl='<%# DataBinder.Eval( Container.DataItem, "LinkField" ) %>' />
+		</ItemTemplate>
+		
+	</asp:DataList>
 	
 	<asp:LinkButton 
 		ID="LogoutButton" 

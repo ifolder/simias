@@ -207,6 +207,9 @@
 	<data name="HELP">
 		<value>Help</value>
 	</data>
+	<data name="HOME">
+		<value>Home</value>
+	</data>
 	<data name="HUNGARIAN">
 		<value>Hungarian</value>
 	</data>
