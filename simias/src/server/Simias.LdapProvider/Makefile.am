@@ -5,8 +5,15 @@ LdapProvider_CSFILES = $(srcdir)/AssemblyInfo.cs $(srcdir)/LdapSettings.cs $(src
 LdapProvider_CSFILES_CSC := $(subst /,$(SEP),$(LdapProvider_CSFILES))
 LdapProvider_INCLUDES =
 LdapProvider_RESOURCES =
+
 LdapProvider_FLAGS = $(CSC_LIBFLAG)
+
+if WINDOWS
 LdapProvider_LIBPATH = ../Simias.Server ../../core/SimiasLib.dll ../../core/SimiasClient ../../../external/csharpldap $(DESTDIR)$(webbindir)
+else
+LdapProvider_LIBPATH = ../Simias.Server ../../core/SimiasLib.dll ../../core/SimiasClient $(DESTDIR)$(webbindir)
+endif
+
 LdapProvider_LIBS = System.dll System.Data.dll $(SYSTEM_XML) System.Web.dll System.Web.Services.dll SimiasLib.dll SimiasClient.dll Simias.Server.dll Novell.Directory.Ldap.dll
 
 EXTRA_DIST = $(LdapProvider_CSFILES) 
