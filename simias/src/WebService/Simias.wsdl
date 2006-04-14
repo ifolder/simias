@@ -492,6 +492,8 @@
           <xs:sequence>
             <xs:element minOccurs="0" maxOccurs="1" name="domainID" type="xs:string" />
             <xs:element minOccurs="0" maxOccurs="1" name="hostAddress" type="xs:string" />
+	    <xs:element minOccurs="0" maxOccurs="1" name="user" type="xs:string" />
+	    <xs:element minOccurs="0" maxOccurs="1" name="password" type="xs:string" />
           </xs:sequence>
         </xs:complexType>
       </xs:element>
@@ -923,6 +925,8 @@
   <message name="SetDomainHostAddressHttpGetIn">
     <part name="domainID" type="s:string" />
     <part name="hostAddress" type="s:string" />
+    <part name="user" type="s:string" />
+    <part name="password" type="s:string" />
   </message>
   <message name="SetDomainHostAddressHttpGetOut">
     <part name="Body" element="s0:boolean" />
@@ -1079,6 +1083,8 @@
   <message name="SetDomainHostAddressHttpPostIn">
     <part name="domainID" type="s:string" />
     <part name="hostAddress" type="s:string" />
+    <part name="user" type="s:string" />
+    <part name="password" type="s:string" />
   </message>
   <message name="SetDomainHostAddressHttpPostOut">
     <part name="Body" element="s0:boolean" />
