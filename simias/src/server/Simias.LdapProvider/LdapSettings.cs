@@ -29,8 +29,6 @@ using System.Reflection;
 using System.Text;
 using System.Xml;
 
-using log4net;
-
 using Simias;
 using Simias.Storage;
 
@@ -53,19 +51,15 @@ namespace Simias.LdapProvider
 		public static readonly string DomainSection = "Domain";
 		public static readonly string SimiasAdminDNKey = "AdminDN";
 
-		private static readonly string LdapSystemBookSection = "LdapSystemBook";
+		private static readonly string LdapSystemBookSection = "LdapProvider";
 		private static readonly string SearchKey = "Search";
 		public static readonly string XmlContextTag = "Context";
 		private static readonly string XmlDNAttr = "dn";
-		private static readonly string SyncIntervalKey = "SyncInterval";
-		private static readonly string SyncOnStartKey = "SyncOnStart";
 		private static readonly string NamingAttributeKey = "NamingAttribute";
 
 
 		private static readonly string DefaultUri = "ldaps://localhost/";
 
-		public static readonly int DefaultSyncInterval = (24*60*60);
-		public static readonly bool DefaultSyncOnStart = true;
 		public static readonly string DefaultNamingAttribute = "cn";
 
 		public static readonly string UriSchemeLdap = "ldap";
@@ -89,7 +83,7 @@ namespace Simias.LdapProvider
 			searchContexts = 0x00020000,
             syncInterval = 0x00040000,
             syncOnStart = 0x00080000,
-	    		namingAttribute = 0x00100000
+	    	namingAttribute = 0x00100000
 		}
 
         private ChangeMap settingChangeMap;
@@ -106,11 +100,7 @@ namespace Simias.LdapProvider
 		private XmlElement searchElement;
 
 		private ArrayList searchContexts = new ArrayList();
-        private int syncInterval = DefaultSyncInterval;
-        private bool syncOnStart = DefaultSyncOnStart;
 		private string namingAttribute = DefaultNamingAttribute;
-
-		private string storePath;
     
 		#region Properties
         public Uri Uri
@@ -206,26 +196,6 @@ namespace Simias.LdapProvider
             }
 		}
 
-        public int SyncInterval
-        {
-            get { return ( this.syncInterval ); }
-            set
-			{
-                this.syncInterval = value;
-                settingChangeMap |= ChangeMap.syncInterval;
-            }
-        }
-
-        public bool SyncOnStart
-        {
-            get { return ( this.syncOnStart ); }
-            set
-			{
-                this.syncOnStart = value;
-                settingChangeMap |= ChangeMap.syncOnStart;
-            }
-        }
-
 		public string NamingAttribute
 		{
 			get { return ( this.namingAttribute ); }
@@ -238,11 +208,9 @@ namespace Simias.LdapProvider
 		#endregion
 
 		#region Constructors
-        private LdapSettings( string storePath )
+        private LdapSettings()
         {
-			this.storePath = storePath;
-
-			Configuration config = new Configuration( storePath, true );
+			Configuration config = Store.Config;
             settingChangeMap = 0;
 
 			// <setting name="LdapUri" />
@@ -285,25 +253,6 @@ namespace Simias.LdapProvider
 				}
 			}
 
-            string syncIntString = config.Get( LdapSystemBookSection, SyncIntervalKey );
-			if ( syncIntString != null )
-			{
-				try
-				{
-					this.syncInterval = int.Parse( syncIntString );
-				}
-				catch
-				{}
-			}
-
-            string syncOnStartString = config.Get( LdapSystemBookSection, SyncOnStartKey );
-            try
-			{
-                this.SyncOnStart = bool.Parse( syncOnStartString );
-            }
-            catch
-			{}
-
 			string namingAttributeString = config.Get( LdapSystemBookSection, NamingAttributeKey );
 			if ( namingAttributeString != null )
 			{
@@ -316,7 +265,7 @@ namespace Simias.LdapProvider
 		private string GetProxyPasswordFromFile()
 		{
 			string proxyPassword = String.Empty;
-			string ppfPath = Path.Combine( storePath, ProxyPasswordFile );
+			string ppfPath = Path.Combine( Store.StorePath, ProxyPasswordFile );
 			if ( File.Exists( ppfPath ) )
 			{
 				using ( StreamReader sr = File.OpenText( ppfPath ) )
@@ -331,7 +280,7 @@ namespace Simias.LdapProvider
 
 		private void SetProxyPasswordInFile()
 		{
-			string ppfPath = Path.Combine( storePath, ProxyPasswordFile );
+			string ppfPath = Path.Combine( Store.StorePath, ProxyPasswordFile );
 			using ( StreamWriter sw = File.CreateText( ppfPath ) )
 			{
 				sw.WriteLine( password );
@@ -361,9 +310,9 @@ namespace Simias.LdapProvider
 		#endregion
 
 		#region Public Methods
-        public static LdapSettings Get( string storePath )
+        public static LdapSettings Get()
         {
-            return ( new LdapSettings( storePath ) );
+            return ( new LdapSettings( ) );
         }
 
 		public void Commit()
@@ -371,7 +320,8 @@ namespace Simias.LdapProvider
 			if (settingChangeMap != 0)
 			{
 				// Build a path to the Simias.config file.
-				string configFilePath = Path.Combine( storePath, Simias.Configuration.DefaultConfigFileName );
+				string configFilePath = 
+					Path.Combine( Store.StorePath, Simias.Configuration.DefaultConfigFileName );
 
 				// Load the configuration file into an xml document.
 				XmlDocument configDoc = new XmlDocument();
@@ -410,16 +360,6 @@ namespace Simias.LdapProvider
 							searchElement.AppendChild( element );
 						}
 					}
-				}
-
-				if ( ( settingChangeMap & ChangeMap.syncInterval ) == ChangeMap.syncInterval )
-				{
-					SetConfigValue( configDoc, LdapSystemBookSection, SyncIntervalKey, syncInterval.ToString() );
-				}
-
-				if ( ( settingChangeMap & ChangeMap.syncOnStart ) == ChangeMap.syncOnStart )
-				{
-					SetConfigValue( configDoc, LdapSystemBookSection, SyncOnStartKey, syncOnStart.ToString() );
 				}
 
 				if ( ( settingChangeMap & ChangeMap.password ) == ChangeMap.password )

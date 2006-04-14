@@ -66,15 +66,13 @@ namespace Simias.LdapProvider
 		
 		private Status syncStatus;
 		private static LdapSettings ldapSettings;
-		private bool errorDuringSync;
 		private Exception syncException;
-		private DateTime lastSyncTime;
 
-		private Property syncGUID;
 		private Store store = null;
 		private Domain domain = null;
 		
 		private LdapConnection conn = null;
+		private Simias.IdentitySync.State state = null;
 		
 		/// <summary>
 		/// Used to log messages.
@@ -667,7 +665,8 @@ namespace Simias.LdapProvider
 
 			// Now matter what always update the sync guid so
 			// the SimiasAdmin won't be deleted from Simias
-			cMember.Properties.ModifyProperty( syncGUID );
+
+			cMember.Properties.ModifyProperty( state.SyncGuid );
 			domain.Commit( cMember );
 		}
 
@@ -689,6 +688,12 @@ namespace Simias.LdapProvider
 	
 				foreach( String member in members )
 				{
+					// Check if the sync engine wants us to abort
+					if ( this.abort == true )
+					{
+						return;
+					}
+
 					log.Debug( "   Processing member: " + member );
 					count++;
 					ProcessSearchUser( conn, member );
@@ -743,6 +748,12 @@ namespace Simias.LdapProvider
 		    LdapMessage ldapMessage;
 		    while( ( ldapMessage = queue.getResponse() ) != null )
 			{
+				// Check if the sync engine wants us to abort
+				if ( this.abort == true )
+				{
+					return;
+				}
+
 				if ( ldapMessage is LdapSearchResult )
 				{
 					LdapEntry cEntry = ((LdapSearchResult) ldapMessage).Entry;
@@ -783,255 +794,108 @@ namespace Simias.LdapProvider
 		{
 			log.Debug( "ProcessUserEntry(" + entry.DN + ")" );
 
+			string commonName = String.Empty;
+			string firstName = String.Empty;
+			string lastName = String.Empty;
+			string fullName = String.Empty;
+			string distinguishedName = String.Empty;
+			string ldapGuid = null;
+
 		    char[] dnDelimiters = {',', '='};
 		    LdapAttribute timeStampAttr = null;
 
-			try
-		    {
-				timeStampAttr = entry.getAttribute( "modifytimestamp" );
-			}
-		    catch {}
-
-			//
-		    // Check if this member already exists
-			// Note: The common name or username in Simias will
-			// be set to the configured naming attribute in
-			// the ldap directory, which by default is cn
-		    //
-
-			string commonName = null;
-			string ldapGuid = null;
-			Member cMember = null;
-
+			bool attrError = false;
 			try
 			{
+				// NOTE! We need to add a method to the state object
+				// that basically says just process the member without
+				// any checks because in the case of the ldap provider
+				// we'll know nothing has changed because of the modifytimestamp
+				// attribute.  For now we'll write the property out to the store
+				// and the sync state engine is going to recheck all the member
+				// properties for changes.
+				timeStampAttr = entry.getAttribute( "modifytimestamp" );
+
 				ldapGuid = GetLdapGuid( entry );
-				if ( ldapGuid !=  null )
+				distinguishedName = entry.DN;
+
+				// retrieve from configuration the directory attribute configured
+				// for naming in Simias.  
+				LdapAttribute cAttr = 
+					entry.getAttribute( ldapSettings.NamingAttribute );
+				if ( cAttr != null && cAttr.StringValue.Length != 0 )
 				{
-					cMember = domain.GetMemberByID( ldapGuid );
-					if ( cMember != null )
-					{
-						log.Debug( "Found member by GUID" );
-						commonName = cMember.Name;
-					}
+					commonName = cAttr.StringValue;
+				}
+				else
+				if ( ldapSettings.NamingAttribute.ToLower() == LdapSettings.DefaultNamingAttribute.ToLower() )
+				{
+					// If the naming attribute is default (cn) then we want to continue
+					// to work the way we previously did so we don't break any existing installs.
+					//
+					// If the distinguishing attribute did not exist,
+					// then make the Simias username the first component
+					// of the ldap DN.
+					string[] components = entry.DN.Split( dnDelimiters );
+					commonName = components[1];
+				}
+
+				LdapAttribute givenAttr = entry.getAttribute( "givenName" );
+				if ( givenAttr != null && givenAttr.StringValue.Length != 0 )
+				{
+					firstName = givenAttr.StringValue as string;
+				}
+
+				LdapAttribute sirAttr = entry.getAttribute( "sn" );
+				if ( sirAttr != null && sirAttr.StringValue.Length != 0 )
+				{
+					lastName = sirAttr.StringValue as string;
+				}
+
+				if ( firstName != null && lastName != null )
+				{
+					fullName = firstName + " " + lastName;
 				}
 			}
 			catch( Exception gEx )
 			{
 				log.Error( gEx.Message );
 				log.Error( gEx.StackTrace );
+
+				state.ReportError( gEx.Message );
+				attrError = true;
 			}
 
-			// Did we lookup via Ldap GUID?
-			if ( cMember == null )
+			// No exception were generated gathering member info
+			// so call the sync engine to process this member
+			if ( attrError == false )
 			{
-				try
-				{
-					LdapAttribute cAttr = 
-						entry.getAttribute( ldapSettings.NamingAttribute );
-					if ( cAttr != null && cAttr.StringValue.Length != 0 )
-					{
-						commonName = cAttr.StringValue;
-						cMember = domain.GetMemberByName( cAttr.StringValue );
-					}
-					else
-					if ( ldapSettings.NamingAttribute.ToLower() == LdapSettings.DefaultNamingAttribute.ToLower() )
-					{
-						// If the naming attribute is default (cn) then we want to continue
-						// to work the way we previously did so we don't break any existing installs.
-						//
-						// If the distinguishing attribute did not exist,
-						// then make the Simias username the first component
-						// of the ldap DN.
-						string[] components = entry.DN.Split( dnDelimiters );
-						commonName = components[1];
-						cMember = domain.GetMemberByName( commonName );
-					}
-
-					if ( cMember != null )
-					{
-						//
-						// Check if the cMember.DN and the entry.DN are different
-						//
-						if (entry.DN != (string) cMember.Properties.GetSingleProperty("DN").Value)
-						{
-							log.Debug( "entry.DN != (string) cMember.Properties.GetSingleProperty(\"DN\").Value" );
-							log.Debug( "Duplicate Member.Name \"" + cMember.Name + "\"" );
-							log.Debug( "Skipped: " + entry.DN );
-							return;
-						}
-					}
-				}
-				catch {}
-			}
-
-		    if ( cMember != null )
-			{
-				//
-				// check if the ldap object's time stamp has changed
-				//
-
-				try
-				{
-					Property pStamp = null;
-					try
-					{
-						pStamp = cMember.Properties.GetSingleProperty( "LdapTimeStamp" );
-						pStamp.LocalProperty = true;
-					}
-					catch
-					{
-						pStamp = new Property( "LdapTimeStamp", "ABA" );
-						pStamp.LocalProperty = true;
-					}
-
-					if ( (string) pStamp.Value != timeStampAttr.StringValue )
-					{
-						// The time stamp changed let's look at first and
-						// last name
-
-						try
-						{
-							bool changed = false;
-
-							// If we're tracking by ldap see if the common name
-							// has changed
-							if ( ldapGuid != null )
-							{
-								LdapAttribute cnAttr = 
-									entry.getAttribute( ldapSettings.NamingAttribute );
-								if ( cnAttr != null && cnAttr.StringValue.Length != 0 )
-								{
-									if ( cnAttr.StringValue != cMember.Name )
-									{
-										commonName = cnAttr.StringValue;
-										cMember.Name = cnAttr.StringValue;
-									}
-								}
-								else
-								{
-									string[] components = entry.DN.Split( dnDelimiters );
-									commonName = components[1];
-									if ( commonName != cMember.Name )
-									{
-										cMember.Name = commonName;
-									}
-								}
-							}
-
-							LdapAttribute givenAttr = entry.getAttribute( "givenName" );
-							if ( givenAttr != null && givenAttr.StringValue.Length != 0 )
-							{
-								if ( givenAttr.StringValue != cMember.Given )
-								{
-									changed = true;
-									cMember.Given = givenAttr.StringValue;
-								}
-							}
-
-							LdapAttribute sirAttr = entry.getAttribute( "sn" );
-							if ( sirAttr != null && sirAttr.StringValue.Length != 0 )
-							{
-								if ( sirAttr.StringValue != cMember.Family )
-								{
-									cMember.Family = sirAttr.StringValue;
-									changed = true;
-								}
-							}
-
-							// Did the distinguished name change?
-							Property dnProp = cMember.Properties.GetSingleProperty( "DN" );
-							if ( dnProp != null && dnProp.ToString() != entry.DN )
-							{
-								dnProp.Value = entry.DN;
-								cMember.Properties.ModifyProperty( "DN", dnProp );
-								changed = true;
-							}
-
-							if ( changed == true &&
-								cMember.Given != null &&
-								cMember.Given != "" &&
-								cMember.Family != null &&
-								cMember.Family != "" )
-							{
-								cMember.FN = cMember.Given + " " + cMember.Family;
-							}
-						}
-						catch {}
-
-						pStamp.Value = timeStampAttr.StringValue;
-						cMember.Properties.ModifyProperty( pStamp );
-					}
-				}
-				catch{}
-
-				cMember.Properties.ModifyProperty( syncGUID );
-				domain.Commit(cMember);
-			}
-			else
-			if ( commonName != null && commonName != "" )
-			{
-				log.Debug( "Processing new member" );
-				try
-				{
-					string givenName = null;
-					string familyName = null;
-	
-					try
-					{
-						LdapAttribute givenAttr = entry.getAttribute( "givenName" );
-						if ( givenAttr != null && givenAttr.StringValue.Length != 0 )
-						{
-							givenName = givenAttr.StringValue;
-						}
-
-						LdapAttribute sirAttr = entry.getAttribute( "sn" );
-						if ( sirAttr != null && sirAttr.StringValue.Length != 0 )
-						{
-							familyName = sirAttr.StringValue;
-						}
-					}
-					catch{}
-
-					// Create a new member 
-					cMember = 
-						new Member(
-							commonName,
-							(ldapGuid != null) ? ldapGuid : Guid.NewGuid().ToString(), 
-							Simias.Storage.Access.Rights.ReadOnly,
-							givenName,
-							familyName );
-
-					// Set the local property sync guid
-					cMember.Properties.ModifyProperty( syncGUID );
-
-					// Add the DN to the member node
-					Property dn = new Property( "DN", entry.DN );
-					dn.LocalProperty = true;
-					cMember.Properties.ModifyProperty( dn );
-				}
-				catch
-				{
-					return;
-				}
-
-				//
-				// Save the Ldap object's time stamp in the member's node
-				// so we'll know in the future if the ldap object changed.
-				//
-
 				if ( timeStampAttr != null && timeStampAttr.StringValue.Length != 0 )
 				{
-					Property ltsP = new Property( "LdapTimeStamp", timeStampAttr.StringValue );
-					ltsP.LocalProperty = true;
-					cMember.Properties.ModifyProperty( ltsP );
-				}
+					Property ts = new Property( "LdapTimeStamp", timeStampAttr.StringValue );
+					ts.LocalProperty = true;
+					Property[] propertyList = { ts };
 
-				domain.Commit( cMember );
-			}
-			else
-			{
-				log.Debug( "Ldap entry did not contain the naming attribute specified - entry excluded" );
+					state.ProcessMember(
+						ldapGuid,
+						commonName,
+						firstName,
+						lastName,
+						fullName,
+						distinguishedName,
+						propertyList );
+				}
+				else
+				{
+					state.ProcessMember(
+						ldapGuid,
+						commonName,
+						firstName,
+						lastName,
+						fullName,
+						distinguishedName,
+						null );
+				}
 			}
 		}
 		
@@ -1057,26 +921,15 @@ namespace Simias.LdapProvider
 		{
 			log.Debug( "Start called" );
 
-			bool	 status = false;
-			string member;
-			string firstName;
-			string lastName;
-			string fullName;
-
+			bool status = false;
 			abort = false;
 			try
 			{
-				//
-				// Create a sync iteration guid which will be stamped
-				// in all matching objects as a local property
-				//
-
-				syncGUID = new Property("SyncGuid", Guid.NewGuid().ToString());
-				syncGUID.LocalProperty = true;
-				errorDuringSync = false;
+				this.state = State;
 
 				try
 				{	
+					ldapSettings = LdapSettings.Get();
 					log.Debug( "new LdapConnection" );
 					conn = new LdapConnection();
 
@@ -1095,7 +948,6 @@ namespace Simias.LdapProvider
 				catch( SimiasShutdownException s )
 				{
 					log.Error( s.Message );
-					errorDuringSync = true;
 					syncException = s;
 					syncStatus = Status.SyncThreadDown;
 				}
@@ -1103,20 +955,22 @@ namespace Simias.LdapProvider
 				{
 					log.Error( e.LdapErrorMessage );
 					log.Error( e.StackTrace );
-					errorDuringSync = true;
 					syncException = e;
 					syncStatus = 
 						( conn == null )
 							? Status.LdapConnectionFailure
 							: Status.LdapAuthenticationFailure;
+
+					state.ReportError( e.LdapErrorMessage );
 				}
 				catch(Exception e)
 				{
 					log.Error( e.Message );
 					log.Error( e.StackTrace );
-					errorDuringSync = true;
 					syncException = e;
 					syncStatus = Status.InternalException;
+
+					state.ReportError( e.Message );
 				}
 				finally
 				{
@@ -1127,16 +981,6 @@ namespace Simias.LdapProvider
 						conn = null;
 					}
 				}	
-				/*
-				State.ProcessMember(
-					null,
-					member,
-					firstName,
-					lastName,
-					fullName,
-					member,
-					propertyList );
-				*/
 				status = true;
 			}
 			catch( Exception e )

@@ -73,11 +73,15 @@ namespace Simias.LdapProvider
 			log.Debug( "Start called" );
 
 			// Register with the User service
+			// Note! registration is done via a config file
+
+			/*
 			if ( identityProvider == null )
 			{
 				identityProvider = new Simias.LdapProvider.User();
 				Simias.Server.User.RegisterProvider( identityProvider );
-			}	
+			}
+			*/	
 
 			// Register with the server external sync service.
 			
@@ -122,11 +126,13 @@ namespace Simias.LdapProvider
 			log.Debug( "Stop called" );
 
 			// Unregister providers
+			/*
 			if ( identityProvider != null )
 			{
 				Simias.Server.User.UnregisterProvider( identityProvider );
 				identityProvider = null;
 			}
+			*/
 		}
 		#endregion
 	}
