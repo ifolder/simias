@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simias.Rss", "Simias.Rss\Si
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simias.LdapProvider", "Simias.LdapProvider\Simias.LdapProvider.csproj", "{99F372BB-78E0-4B35-AFDA-6727FC79B4A4}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		Debug = Debug
@@ -29,6 +33,10 @@ Global
 		{5B169F8C-4159-4E28-8BD1-AF28B835904E}.Debug.Build.0 = Debug|.NET
 		{5B169F8C-4159-4E28-8BD1-AF28B835904E}.Release.ActiveCfg = Release|.NET
 		{5B169F8C-4159-4E28-8BD1-AF28B835904E}.Release.Build.0 = Release|.NET
+		{99F372BB-78E0-4B35-AFDA-6727FC79B4A4}.Debug.ActiveCfg = Debug|.NET
+		{99F372BB-78E0-4B35-AFDA-6727FC79B4A4}.Debug.Build.0 = Debug|.NET
+		{99F372BB-78E0-4B35-AFDA-6727FC79B4A4}.Release.ActiveCfg = Release|.NET
+		{99F372BB-78E0-4B35-AFDA-6727FC79B4A4}.Release.Build.0 = Release|.NET
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection
