@@ -30,10 +30,15 @@ using System.Text;
 using System.Web;
 using System.Xml;
 
+using Novell.Directory.Ldap;
+using Novell.Directory.Ldap.Utilclass;
+
 using Simias;
 using Simias.Storage;
 using Simias.Sync;
 using Simias.Server;
+
+using SCodes = Simias.Authentication.StatusCodes;
 
 namespace Simias.LdapProvider
 {
@@ -61,11 +66,11 @@ namespace Simias.LdapProvider
 		static private string providerDescription = "A provider to sync identities from a LDAP to a Simias domain";
 		
 		static private string missingDomainMessage = "Enterprise domain does not exist!";
-		//static internal string pwdProperty = "SS:PWD";
 
 		// Frequently used Simias types
 		private Store store = null;
 		private Simias.Storage.Domain domain = null;
+		private LdapSettings ldapSettings = null;
 		#endregion
 		
 		#region Properties
@@ -102,6 +107,8 @@ namespace Simias.LdapProvider
 			{
 				throw new SimiasException( User.missingDomainMessage );
 			}
+			
+			ldapSettings = LdapSettings.Get();
 			
 			
 			// Make sure the password is set on the admin
@@ -195,6 +202,351 @@ namespace Simias.LdapProvider
 			
 			return status;
 		}		
+		
+		/// <summary>
+		/// Gets the login status for the specified user.
+		/// </summary>
+		/// <param name="connection">Ldap connection to use to get the status.</param>
+		/// <param name="status">User information.</param>
+		private void GetUserStatus( bool proxyUser, LdapConnection connection, Simias.Authentication.Status status )
+		{
+			if ( connection != null )
+			{
+				// Get the search attributes for login status.
+				string[] searchAttributes = { 
+												"loginDisabled", 
+												"loginExpirationTime", 
+												"loginGraceLimit", 
+												"loginGraceRemaining",
+												"passwordAllowChange",
+												"passwordRequired",
+												"passwordExpirationTime"
+											};
+				LdapEntry ldapEntry = connection.Read( status.DistinguishedUserName, searchAttributes );
+				if ( ldapEntry != null )
+				{
+					// If the account has been disabled or the account has expired
+					// the bind will fail and we'll come through on the proxy user
+					// connection so there is no reason for the extra checking on
+					// a successful bind in the context of the actual user.
+					if ( proxyUser == true && LoginDisabled( ldapEntry ) == true )
+					{
+						status.statusCode = SCodes.AccountDisabled;
+					}
+					else
+					if ( proxyUser == true && LoginAccountExpired( ldapEntry ) == true )
+					{
+						status.statusCode = SCodes.AccountDisabled;
+					}
+					else
+					{
+						if ( LoginIsPasswordRequired( ldapEntry ) == true )
+						{
+							if ( LoginCanUserChangePassword( ldapEntry ) == true )
+							{
+								if ( LoginPasswordExpired( ldapEntry ) == true )
+								{
+									status.TotalGraceLogins = LoginGraceLimit( ldapEntry );
+									status.RemainingGraceLogins = LoginGraceRemaining( ldapEntry );
+									if ( status.TotalGraceLogins != - 1 )
+									{
+										if ( status.RemainingGraceLogins >= 0 )
+										{
+											status.statusCode = SCodes.SuccessInGrace;
+										}
+										else
+										{
+											status.statusCode = SCodes.AccountLockout;
+										}
+									}
+									else
+									{
+										status.statusCode = SCodes.AccountLockout;
+									}
+								}
+							}
+						}
+					}
+				}
+				else
+				{
+					status.statusCode = SCodes.InternalException;
+					status.ExceptionMessage = "Failed reading LDAP attributes";
+				}
+			}
+		}
+		
+		/// <summary>
+		/// Creates a proxy connection to retrieve user information for.
+		/// 
+		/// NOTE: This connection is used instead of the connection created by
+		/// the Service.Start method because there cannot be multiple outstanding
+		/// requests made on a single ldap connection.
+		/// </summary>
+		/// <returns>The LdapConnection object if successful. Otherwise a null is returned.</returns>
+		private LdapConnection BindProxyUser()
+		{
+			LdapConnection proxy;
+
+			try
+			{
+				proxy = new LdapConnection();
+				proxy.SecureSocketLayer = ldapSettings.SSL;
+				proxy.Connect( ldapSettings.Host, ldapSettings.Port );
+
+				Simias.LdapProvider.ProxyUser proxyCredentials = 
+					new Simias.LdapProvider.ProxyUser();
+
+				proxy.Bind( proxyCredentials.UserDN, proxyCredentials.Password );
+			}
+			catch( LdapException e )
+			{
+				log.Error( "LdapError:" + e.LdapErrorMessage );
+				log.Error( "Error:" + e.Message );
+				proxy = null;
+			}
+			catch( Exception e )
+			{
+				log.Error( "Error:" + e.Message );
+				proxy = null;
+			}
+
+			return proxy;
+		}
+		
+		/// <summary>
+		/// Gets the distinguished name from the member name.
+		/// </summary>
+		/// <param name="domainID">The identifier for the domain.</param>
+		/// <param name="user">The user name.</param>
+		/// <param name="distinguishedName">Receives the ldap distinguished name.</param>
+		/// <param name="id">Receives the member's user ID.</param>
+		/// <returns>True if the distinguished name was found.</returns>
+		private bool GetUserDN( string user, out string distinguishedName, out string id )
+		{
+			bool status = false;
+			Member member = null;
+
+			// Initialize the outputs.
+			distinguishedName = String.Empty;
+			id = String.Empty;
+
+			if ( domain != null )
+			{
+				member = domain.GetMemberByName( user );
+				if ( member != null )
+				{
+					Property dn = member.Properties.GetSingleProperty( "DN" );
+					if ( dn != null )
+					{
+						distinguishedName = dn.ToString();
+						id = member.UserID;
+						status = true;
+					}
+				}
+				else
+				{
+					// The specified user did not exist in the roster under 
+					// the short or common name.
+					// Let's see if the user came in fully distinguished.
+					// ex. cn=user.o=context
+
+					string dn = user.ToLower();
+					if ( dn.StartsWith( "cn=" ) == true )
+					{
+						// NDAP name to LDAP name
+						dn = dn.Replace( '.', ',' );
+						ICSList dnList = domain.Search( "DN", dn, SearchOp.Equal );
+						if ( dnList != null && dnList.Count == 1 )
+						{
+							IEnumerator dnEnum = dnList.GetEnumerator();
+							if ( dnEnum.MoveNext() == true )
+							{
+								member = new Member( domain, dnEnum.Current as ShallowNode );
+								if ( member != null )
+								{
+									distinguishedName = dn;
+									id = member.UserID;
+									status = true;
+								}
+							}
+						}
+					}
+				}
+			}
+		
+			return status;
+		}
+		
+		/// <summary>
+		/// Checks if the user's account has expired
+		/// </summary>
+		/// <param name="entry">LdapEntry</param>
+		/// <returns>true - account expired/false - account still valid or no policy</returns>
+		private static bool LoginAccountExpired( LdapEntry entry )
+		{
+			bool expired = false;
+
+			LdapAttribute attrExpiration = entry.getAttribute( "loginExpirationTime" );
+			if ( attrExpiration != null )
+			{
+				char[] exp = attrExpiration.StringValue.ToCharArray();
+
+				DateTime expiredPolicy =
+					new DateTime(
+					Convert.ToInt32( new String( exp, 0, 4 ) ),
+					Convert.ToInt32( new String( exp, 4, 2 ) ),
+					Convert.ToInt32( new String( exp, 6, 2 ) ),
+					Convert.ToInt32( new String( exp, 8, 2 ) ),
+					Convert.ToInt32( new String( exp, 10, 2 ) ),
+					Convert.ToInt32( new String( exp, 12, 2 ) ) );
+
+				if ( DateTime.UtcNow > expiredPolicy )
+				{
+					expired = true;
+				}
+			}
+
+			return expired;
+		}
+
+		/// <summary>
+		/// Checks if the user is allowed to change their password
+		/// </summary>
+		/// <param name="entry">LdapEntry</param>
+		/// <returns>true - user can change their password/false - can't change</returns>
+		private static bool LoginCanUserChangePassword( LdapEntry entry )
+		{
+			bool canChange = false;
+
+			LdapAttribute attrAllowChange = entry.getAttribute( "passwordAllowChange" );
+			if ( attrAllowChange != null )
+			{
+				if ( attrAllowChange.StringValue.ToLower() == "true" )
+				{
+					canChange = true;
+				}
+			}
+
+			return canChange;
+		}
+
+		/// <summary>
+		/// Checks if a password is required
+		/// </summary>
+		/// <param name="entry">LdapEntry</param>
+		/// <returns>true/false</returns>
+		private static bool LoginIsPasswordRequired( LdapEntry entry )
+		{
+			bool required = false;
+
+			LdapAttribute attrPasswordRequired = entry.getAttribute( "passwordRequired" );
+			if ( attrPasswordRequired != null )
+			{
+				if ( attrPasswordRequired.StringValue.ToLower() == "true" )
+				{
+					required = true;
+				}
+			}
+
+			return required;
+		}
+
+		/// <summary>
+		/// Gets the login disabled status.
+		/// </summary>
+		/// <param name="entry">LdapEntry</param>
+		/// <returns>True if login is disabled.</returns>
+		private static bool LoginDisabled( LdapEntry entry )
+		{
+			bool loginDisabled;
+			LdapAttribute attrLoginDisabled = entry.getAttribute( "loginDisabled" );
+			if ( attrLoginDisabled != null )
+			{
+				loginDisabled = Convert.ToBoolean( attrLoginDisabled.StringValue );
+			}
+			else
+			{
+				loginDisabled = false;
+			}
+
+			return loginDisabled;
+		}
+
+		/// <summary>
+		/// Gets the login grace limit.
+		/// </summary>
+		/// <param name="entry">LdapEntry</param>
+		/// <returns>The number of grace logins.</returns>
+		private static int LoginGraceLimit( LdapEntry entry )
+		{
+			int loginGraceLimit;
+
+			LdapAttribute attrLoginGraceLimit = entry.getAttribute( "loginGraceLimit" );
+			if ( attrLoginGraceLimit != null )
+			{
+				loginGraceLimit = Convert.ToInt32( attrLoginGraceLimit.StringValue );
+			}
+			else
+			{
+				loginGraceLimit = -1;
+			}
+
+			return loginGraceLimit;
+		}
+
+		/// <summary>
+		/// Gets the number of grace logins remaining.
+		/// </summary>
+		/// <param name="entry">LdapEntry</param>
+		/// <returns>The number grace logins remaining.</returns>
+		private static int LoginGraceRemaining(LdapEntry entry)
+		{
+			int loginGraceRemaining;
+
+			LdapAttribute attrLoginGraceRemaining = entry.getAttribute( "loginGraceRemaining" );
+			if ( attrLoginGraceRemaining != null )
+			{
+				loginGraceRemaining = Convert.ToInt32( attrLoginGraceRemaining.StringValue );
+			}
+			else
+			{
+				loginGraceRemaining = -1;
+			}
+			return loginGraceRemaining;
+		}
+
+		/// <summary>
+		/// Checks if the user's password has expired
+		/// </summary>
+		/// <param name="entry">LdapEntry</param>
+		/// <returns>true - password expired/false - password still valid or no policy</returns>
+		private static bool LoginPasswordExpired( LdapEntry entry )
+		{
+			bool expired = false;
+
+			LdapAttribute attrExpiration = entry.getAttribute( "passwordExpirationTime" );
+			if ( attrExpiration != null )
+			{
+				char[] exp = attrExpiration.StringValue.ToCharArray();
+
+				DateTime expiredPolicy =
+					new DateTime(
+							Convert.ToInt32( new String( exp, 0, 4 ) ),
+							Convert.ToInt32( new String( exp, 4, 2 ) ),
+							Convert.ToInt32( new String( exp, 6, 2 ) ),
+							Convert.ToInt32( new String( exp, 8, 2 ) ),
+							Convert.ToInt32( new String( exp, 10, 2 ) ),
+							Convert.ToInt32( new String( exp, 12, 2 ) ) );
+
+				if ( DateTime.UtcNow > expiredPolicy )
+				{
+					expired = true;
+				}
+			}
+
+			return expired;
+		}
 		#endregion
 		
 		#region Internal Methods
@@ -275,41 +627,87 @@ namespace Simias.LdapProvider
 		/// <returns>true - Valid password, false Invalid password</returns>
 		public bool VerifyPassword( string Username, string Password )
 		{
-			bool status;
+			log.Debug( "VerifyPassword for: " + Username );
 			
+			//
+			// BUGBUG! Status needs to be passed in from on the VerifyPassword method
+			// All current providers will need to be modified for this change
+			//
+			Simias.Authentication.Status status = new Simias.Authentication.Status( SCodes.Unknown );
+			
+			LdapConnection conn = null;
+			LdapConnection proxyConnection = null;
+			
+			// Get the distinguished name and member(user) id from the
+			// simias store rather than the ldap server
+			if ( GetUserDN( Username, out status.DistinguishedUserName, out status.UserID ) == false )
+			{
+				log.Debug( "failed to get the user's distinguished name" );
+				status.statusCode = SCodes.UnknownUser;
+				return false;
+			}
+
 			try
 			{
-				Member member = domain.GetMemberByName( Username );
-				if ( member != null )
+				conn = new LdapConnection();
+				conn.SecureSocketLayer = ldapSettings.SSL;
+				conn.Connect( ldapSettings.Host, ldapSettings.Port );
+				conn.Bind( status.DistinguishedUserName, Password );
+				status.statusCode = SCodes.Success;
+				GetUserStatus( false, conn, status );
+				return ( true );
+			}
+			catch( LdapException e )
+			{
+				log.Error( "LdapError:" + e.LdapErrorMessage );
+				log.Error( "Error:" + e.Message );
+				log.Error( "DN:" + status.DistinguishedUserName );
+
+				switch ( e.ResultCode )
 				{
-				
-					/*
-					Property pwd = member.Properties.GetSingleProperty( User.pwdProperty );
-					if ( pwd != null && ( pwd.Value as string == HashPassword( Password ) ) )
-					{
-						status = true;
-					}
-					else
-					{
-						status = false;
-					}
-					*/
-					
-					status = false;
-				}
-				else
-				{
-					status = false;
+					case LdapException.INVALID_CREDENTIALS:
+						status.statusCode = SCodes.InvalidCredentials;
+						status.ExceptionMessage = e.Message;
+						break;
+
+					default:
+						status.statusCode = SCodes.InternalException;
+						status.ExceptionMessage = e.Message;
+						proxyConnection = BindProxyUser();
+						if ( proxyConnection != null )
+						{
+							// GetUserStatus may change the status code
+							GetUserStatus( true, proxyConnection, status );
+						}
+						break;
 				}
 			}
-			catch( Exception e1 )
+			catch( Exception e )
 			{
-				log.Error( e1.Message );
-				log.Error( e1.StackTrace );
-				status = false;
-			}			
-			
-			return status;
+				log.Error( "Error:" + e.Message );
+				status.statusCode = SCodes.InternalException;
+				status.ExceptionMessage = e.Message;
+				proxyConnection = BindProxyUser();
+				if ( proxyConnection != null )
+				{
+					// GetUserStatus may change the status code
+					GetUserStatus( true, proxyConnection, status );
+				}
+			}
+			finally
+			{
+				if ( conn != null )
+				{
+					conn.Disconnect();
+				}
+				
+				if ( proxyConnection != null )
+				{
+					proxyConnection.Disconnect();
+				}
+			}
+
+			return ( false );
 		}
 		#endregion
 	}	
