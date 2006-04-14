@@ -85,8 +85,8 @@ libFlaimWrapper_la_SOURCES = 	CSPObjectIterator.cpp \
 								resource.h
 
 if LINUX
-libFlaimWrapper_la_CXXFLAGS = $(LIBFLAIM_CFLAGS) -fshort-wchar -DFLAIMWRAPPER_EXPORTS -DUNIX -D_REENTRANT -c
-libFlaimWrapper_la_LDFLAGS = $(LIBFLAIM_LIBS)
+libFlaimWrapper_la_CXXFLAGS = -fshort-wchar -DFLAIMWRAPPER_EXPORTS -DUNIX -D_REENTRANT -c
+libFlaimWrapper_la_LDFLAGS = -lflaim
 
 install-exec-local: libFlaimWrapper.la
 	$(mkinstalldirs) $(DESTDIR)$(webbindir)
