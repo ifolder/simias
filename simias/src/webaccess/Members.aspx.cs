@@ -48,6 +48,11 @@ namespace Novell.iFolderApp.Web
 		protected Context iFolderContext;
 
 		/// <summary>
+		/// Actions Container
+		/// </summary>
+		protected HtmlContainerControl Actions;
+
+		/// <summary>
 		/// Member Data
 		/// </summary>
 		protected DataGrid MemberData;
@@ -170,6 +175,10 @@ namespace Novell.iFolderApp.Web
 				// ifolder
 				iFolder ifolder = web.GetiFolder(ifolderID);
 				iFolderContext.iFolderName = ifolder.Name;
+
+				// rights
+				Actions.Visible = (ifolder.Rights == Rights.Admin);
+				MemberData.Columns[1].Visible = Actions.Visible;
 
 				// member
 				iFolderUser[] members = web.GetMembers(ifolderID, MemberPagging.Index, MemberPagging.PageSize, out total);

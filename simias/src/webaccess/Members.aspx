@@ -62,7 +62,7 @@
 		
 		<div id="nav">
 	
-			<div class="actions">
+			<div id="Actions" class="actions" runat="server">
 				<div class="action">
 					<asp:HyperLink ID="AddButton" runat="server" />
 				</div>
@@ -116,7 +116,7 @@
 						
 						<asp:TemplateColumn ItemStyle-CssClass="cb">
 							<itemtemplate>
-								<asp:CheckBox ID="Select" Enabled='<%# !(bool)DataBinder.Eval(Container.DataItem, "IsOwner") %>'  onclick="SelectionUpdate(this)" runat="server" />
+								<asp:CheckBox ID="Select" Visible='<%# Actions.Visible %>' Enabled='<%# !(bool)DataBinder.Eval(Container.DataItem, "IsOwner") %>'  onclick="SelectionUpdate(this)" runat="server" />
 							</itemtemplate>
 						</asp:TemplateColumn>
 						

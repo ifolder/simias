@@ -51,6 +51,11 @@ namespace Novell.iFolderApp.Web
 		protected Context iFolderContext;
 
 		/// <summary>
+		/// Actions Container
+		/// </summary>
+		protected HtmlContainerControl Actions;
+
+		/// <summary>
 		/// The Delete Button
 		/// </summary>
 		protected LinkButton DeleteButton;
@@ -157,6 +162,10 @@ namespace Novell.iFolderApp.Web
 				// ifolder
 				iFolder ifolder = web.GetiFolder(ifolderID);
 				iFolderContext.iFolderName = ifolder.Name;
+
+				// rights
+				Actions.Visible = (ifolder.Rights != Rights.ReadOnly);
+				EntryData.Columns[1].Visible = Actions.Visible;
 
 				// parent
 				iFolderEntry entry;

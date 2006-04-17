@@ -58,7 +58,7 @@
 		
 		<div id="nav">
 	
-			<div class="actions">
+			<div id="Actions" class="actions" runat="server">
 				<div class="action">
 					<asp:HyperLink ID="NewFolderLink" runat="server" />
 				</div>

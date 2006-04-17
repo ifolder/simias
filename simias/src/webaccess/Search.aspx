@@ -79,7 +79,7 @@
 		
 		<div id="nav">
 	
-			<div class="actions">
+			<div id="Actions" class="actions" runat="server">
 				<div class="action">
 					<span id="DeleteDisabled"><%= GetString("DELETE") %></span>
 					<asp:LinkButton ID="DeleteButton" style="display:none;" runat="server" />	
