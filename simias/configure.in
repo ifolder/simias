@@ -150,12 +150,12 @@ case $host_os in
         PKG_CHECK_MODULES(LOG4NET, log4net >= 1.2.9)
         AC_SUBST(LOG4NET_PREFIX)
         AC_SUBST(LOG4NET_LIBS)
-	# This should be here but flaim is broken so don't
-	# do this check right now
-        #PKG_CHECK_MODULES(LIBFLAIM, libflaim >= 4.8.0)
-        #AC_SUBST(LIBFLAIM_PREFIX)
-        #AC_SUBST(LIBFLAIM_LIBS)
-        #AC_SUBST(LIBFLAIM_CFLAGS)
+        
+	PKG_CHECK_MODULES(LIBFLAIM, libflaim >= 4.8.0)
+        AC_SUBST(LIBFLAIM_PREFIX)
+        AC_SUBST(LIBFLAIM_LIBS)
+        AC_SUBST(LIBFLAIM_CFLAGS)
+
 	PKG_CHECK_MODULES(UUID, uuid)
 	AC_SUBST(UUID_CFLAGS)
 	AC_SUBST(UUID_LIBS)

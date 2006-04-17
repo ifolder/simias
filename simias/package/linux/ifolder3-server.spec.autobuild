@@ -17,7 +17,7 @@ Name:         ifolder3-server
 URL:          http://wwww.ifolder.com
 %define prefix /usr
 %define sysconfdir /etc
-%define libexecdir /usr/lib/simias
+%define libexecdir %{_libdir}/simias
 %define simiasdatadir /var/lib/simias
 License:      GPL
 Group:        System/Libraries
@@ -26,6 +26,7 @@ Requires:     mono-core >= 1.1.8
 Requires:     mono-data >= 1.1.8
 Requires:     mono-web >= 1.1.8
 Requires:     log4net >= 1.2.9
+Requires:     libflaim >= 4.8.0
 Requires:     mod_mono
 Obsoletes:    %{name} < %{version}
 Version:      3.5.@@BUILDNUM@@.1
@@ -46,7 +47,7 @@ export BUILDNUM=%{buildnum}
 
 %build
 export BUILDNUM=%{buildnum}
-./autogen.sh --prefix=%{prefix} --libexecdir=%{libexecdir} --sysconfdir=%{sysconfdir} --with-simiasdatadir=%{simiasdatadir} --libdir='%_libdir'
+./autogen.sh --prefix=%{prefix} --libexecdir=%{libexecdir} --sysconfdir=%{sysconfdir} --with-simiasdatadir=%{simiasdatadir} 
 make
 #make dist
 #=============================================================================
@@ -98,9 +99,9 @@ fi
 %{sysconfdir}/simias/*
 %{libexecdir}/*
 %{prefix}/include/*
-%{prefix}/%{_lib}/pkgconfig/simias*
-%{prefix}/%{_lib}/libFlaim*
-%{prefix}/%{_lib}/libsimias*
+%{_libdir}/pkgconfig/simias*
+%{_libdir}/libFlaim*
+%{_libdir}/libsimias*
 %dir %{prefix}/share/simias
 %{prefix}/share/simias/*
 #%config(noreplace) %{prefix}/web/web.config
