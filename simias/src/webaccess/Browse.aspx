@@ -1,6 +1,7 @@
-<%@ Page Language="C#" Codebehind="iFolders.aspx.cs" AutoEventWireup="false" Inherits="Novell.iFolderApp.Web.iFoldersPage" %>
+<%@ Page Language="C#" Codebehind="Browse.aspx.cs" AutoEventWireup="false" Inherits="Novell.iFolderApp.Web.BrowsePage" %>
 <%@ Register TagPrefix="iFolder" TagName="Header" Src="Header.ascx" %>
 <%@ Register TagPrefix="iFolder" TagName="Message" Src="Message.ascx" %>
+<%@ Register TagPrefix="iFolder" TagName="Context" Src="Context.ascx" %>
 <%@ Register TagPrefix="iFolder" TagName="Quota" Src="Quota.ascx" %>
 <%@ Register TagPrefix="iFolder" TagName="Pagging" Src="Pagging.ascx" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
@@ -21,7 +22,7 @@
 	
 		function ConfirmDelete(f)
 		{
-			return confirm("<%= GetString("IFOLDER.CONFIRMDELETE") %>");
+			return confirm("<%= GetString("ENTRY.CONFIRMDELETE") %>");
 		}
 	
 		function SelectionUpdate(cb)
@@ -43,46 +44,11 @@
 			document.getElementById("DeleteDisabled").style.display = (count > 0) ? "none" : "";
 		}
 	
-		function SubmitKeyDown(e, b)
-		{
-			var result = true;
-			
-			if ((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13))
-			{
-				document.getElementById(b).click();
-				result = false;
-			} 
-			
-			return result;
-		}
-
-
-		function SubmitKeyDown(e, b)
-		{
-			var result = true;
-			
-			if ((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13))
-			{
-				document.getElementById(b).click();
-				result = false;
-			} 
-			
-			return result;
-		}
-	
-		function SetFocus()
-		{
-			document.getElementById("SearchPattern").select();
-		}
-		
-		// on load
-		window.onload = SetFocus;
-	
 	</script>
 
 </head>
 
-<body>
+<body id="browse">
 
 <div id="container">
 	
@@ -92,18 +58,16 @@
 		
 		<div id="nav">
 	
-			<div class="filter">
-				<asp:TextBox ID="SearchPattern" CssClass="filterText" runat="server" onkeydown="return SubmitKeyDown(event, 'SearchButton');" />
-				<asp:Button ID="SearchButton" CssClass="hide" runat="server" />
-			</div>
-			
 			<div class="actions">
 				<div class="action">
-					<asp:HyperLink ID="NewiFolderLink" NavigateUrl="iFolderNew.aspx" runat="server" />
+					<asp:HyperLink ID="NewFolderLink" runat="server" />
+				</div>
+				<div class="action">
+					<asp:HyperLink ID="UploadFilesLink" runat="server" />
 				</div>
 				<div class="action">
 					<span id="DeleteDisabled"><%= GetString("DELETE") %></span>
-					<asp:LinkButton ID="DeleteButton" style="display:none;" runat="server" />
+					<asp:LinkButton ID="DeleteButton" style="display:none;" runat="server" />	
 				</div>
 			</div>
 			
@@ -113,16 +77,23 @@
 	
 		<div id="content">
 		
-			<div id="context">
-				<div class="home"><%= GetString("IFOLDERS") %></div>
-			</div>
-		
+			<iFolder:Context id="iFolderContext" runat="server" />
+	
 			<iFolder:Message id="MessageBox" runat="server" />
 	
 			<div class="main">
 				
+				<div class="path">
+					<asp:Repeater ID="EntryPathList" runat="server">
+						<itemtemplate>
+							<asp:LinkButton CommandName='<%# DataBinder.Eval(Container.DataItem, "Path") %>' runat="server"> <%# DataBinder.Eval(Container.DataItem, "Name") %></asp:LinkButton> /
+						</itemtemplate>
+					</asp:Repeater>
+					<asp:Literal ID="EntryPathLeaf" runat="server" />
+				</div>
+				
 				<asp:DataGrid
-					ID="iFolderData"
+					ID="EntryData"
 					GridLines="none"
 					AutoGenerateColumns="false"
 					ShowHeader="false"
@@ -142,17 +113,13 @@
 						
 						<asp:TemplateColumn ItemStyle-CssClass="icon">
 							<itemtemplate>
-								<asp:HyperLink NavigateUrl='<%# "Browse.aspx?iFolder=" + DataBinder.Eval(Container.DataItem, "ID") %>' runat="server">
-									<asp:Image ImageUrl='<%# "images/" + DataBinder.Eval(Container.DataItem, "Image") %>' runat="server" />
-								</asp:HyperLink>
+								<asp:HyperLink NavigateUrl='<%# DataBinder.Eval(Container.DataItem, "Link") %>' runat="server"><asp:Image ImageUrl='<%# "images/" + DataBinder.Eval(Container.DataItem, "Image") %>' runat="server" /></asp:HyperLink>
 							</itemtemplate>
 						</asp:TemplateColumn>
 						
 						<asp:TemplateColumn ItemStyle-CssClass="name">
 							<itemtemplate>
-								<asp:HyperLink NavigateUrl='<%# "Browse.aspx?iFolder=" + DataBinder.Eval(Container.DataItem, "ID") %>' runat="server">
-									<%# DataBinder.Eval(Container.DataItem, "Name") %>
-								</asp:HyperLink>
+								<asp:HyperLink NavigateUrl='<%# DataBinder.Eval(Container.DataItem, "Link") %>' runat="server"><%# DataBinder.Eval(Container.DataItem, "Name") %></asp:HyperLink>
 							</itemtemplate>
 						</asp:TemplateColumn>
 						
@@ -162,10 +129,22 @@
 							</itemtemplate>
 						</asp:TemplateColumn>
 						
+						<asp:TemplateColumn ItemStyle-CssClass="size">
+							<itemtemplate>
+								<%# DataBinder.Eval(Container.DataItem, "Size") %>
+							</itemtemplate>
+						</asp:TemplateColumn>
+						
+						<asp:TemplateColumn ItemStyle-CssClass="history">
+							<itemtemplate>
+								<asp:HyperLink NavigateUrl='<%# "FileHistory.aspx?iFolder=" + DataBinder.Eval(Container.DataItem, "iFolderID") + "&Entry=" + DataBinder.Eval(Container.DataItem, "ID") %>' Visible='<%# !(bool)DataBinder.Eval(Container.DataItem, "IsDirectory") %>' runat="server"><asp:Image ImageUrl="images/document-properties.png" runat="server" /></asp:HyperLink>
+							</itemtemplate>
+						</asp:TemplateColumn>
+						
 					</columns>
 				</asp:DataGrid>
-				
-				<iFolder:Pagging id="iFolderPagging" runat="server" />
+			
+				<iFolder:Pagging id="EntryPagging" runat="server" />
 					
 			</div>
 	

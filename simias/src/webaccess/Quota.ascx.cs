@@ -35,9 +35,9 @@ using System.Resources;
 namespace Novell.iFolderApp.Web
 {
 	/// <summary>
-	///	Footer
+	///	Quota
 	/// </summary>
-	public class Footer : UserControl
+	public class Quota : UserControl
 	{
 		/// <summary>
 		/// Log
@@ -49,6 +49,11 @@ namespace Novell.iFolderApp.Web
 		/// Space Used
 		/// </summary>
 		protected Literal SpaceUsed;
+
+		/// <summary>
+		/// Space Available
+		/// </summary>
+		protected Literal SpaceAvailable;
 
 		/// <summary>
 		/// iFolder Connection
@@ -85,18 +90,17 @@ namespace Novell.iFolderApp.Web
 		{
 			UserPolicy policy = web.GetAuthenticatedUserPolicy();
 	
+			SpaceUsed.Text = WebUtility.FormatSize(policy.SpaceUsed, rm);
+			
 			if (policy.SpaceLimitEffective == 0)
 			{
 				// no limit
-				SpaceUsed.Text = String.Format(GetString("FORMAT.SPACEUSED"),
-					WebUtility.FormatSize(policy.SpaceUsed, rm));
+				SpaceAvailable.Text = GetString("NOLIMIT");
 			}
 			else
 			{
 				// limit
-				SpaceUsed.Text = String.Format(GetString("FORMAT.SPACEUSEDAVAILABLE"),
-					WebUtility.FormatSize(policy.SpaceUsed, rm),
-					WebUtility.FormatSize(policy.SpaceAvailable,rm));
+				SpaceAvailable.Text = WebUtility.FormatSize(policy.SpaceAvailable, rm);
 			}
 		}
 		
@@ -128,17 +132,17 @@ namespace Novell.iFolderApp.Web
 		private void InitializeComponent()
 		{
 			this.Load += new System.EventHandler(this.Page_Load);
-			this.PreRender += new EventHandler(Footer_PreRender);
+			this.PreRender += new EventHandler(Quota_PreRender);
 		}
 		
 		#endregion
 
 		/// <summary>
-		/// Footer Pre-Render
+		/// Quota Pre-Render
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void Footer_PreRender(object sender, EventArgs e)
+		private void Quota_PreRender(object sender, EventArgs e)
 		{
 			// bind
 			// NOTE: bind the footer late so modifications can be shown

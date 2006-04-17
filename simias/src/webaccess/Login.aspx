@@ -44,25 +44,21 @@
 		<input type="hidden" id="noscript" value="true" runat="server">
 	</noscript>
 	
-	<div id="wrapper">
+	<table class="dialog">
+		<tr><td class="title" colspan="2"></td></tr>
+		<tr><td class="message" colspan="2"><asp:Literal ID="Message" runat="server" /></td></tr>
+		<tr>
+			<td class="field"><%= GetString("LOGIN.USERNAME") %></td>
+			<td class="field"><%= GetString("LOGIN.PASSWORD") %></td>
+		</tr>
+		<tr>
+			<td class="field"><asp:TextBox ID="UserName" CssClass="field" runat="server" /></td>
+			<td class="field"><asp:TextBox ID="Password" TextMode="Password" CssClass="field" runat="server" /></td>
+		</tr>
+		<tr><td class="button" colspan="2"><asp:Button ID="LoginButton" runat="server" /></td></tr>
+		<tr><td class="copyright" colspan="2"><%= GetString("LOGIN.COPYRIGHT") %></td></tr>
+	</table>
 	
-		<table class="dialog">
-			<tr><td class="title" colspan="2"><div class="title"></div></td></tr>
-			<tr><td class="message" colspan="2"><asp:Literal ID="Message" runat="server" /></td></tr>
-			<tr>
-				<td class="field"><%= GetString("LOGIN.USERNAME") %></td>
-				<td class="field"><%= GetString("LOGIN.PASSWORD") %></td>
-			</tr>
-			<tr>
-				<td class="field"><asp:TextBox ID="UserName" CssClass="field" runat="server" /></td>
-				<td class="field"><asp:TextBox ID="Password" TextMode="Password" CssClass="field" runat="server" /></td>
-			</tr>
-			<tr><td class="button" colspan="2"><asp:Button ID="LoginButton" runat="server" /></td></tr>
-			<tr><td class="copyright" colspan="2"><%= GetString("LOGIN.COPYRIGHT") %></td></tr>
-		</table>
-	
-	</div>
-
 </form>
 
 </body>

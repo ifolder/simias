@@ -133,7 +133,7 @@
         <value>Language:</value>
     </data>
     <data name="LOGIN.COPYRIGHT">
-        <value>&amp;copy; Copyright 2005 Novell, Inc. All rights reserved.</value>
+        <value>&amp;copy; Copyright 2006 Novell, Inc. All rights reserved.</value>
     </data>
     <data name="LOGIN">
         <value>Log In</value>
@@ -453,10 +453,25 @@
     <data name="REMOVE">
         <value>Remove</value>
     </data>
-    <data name="FORMAT.SPACEUSED">
-        <value>{0} of Space Used</value>
+    <data name="UPLOADFILES">
+        <value>Upload Files</value>
     </data>
-    <data name="FORMAT.SPACEUSEDAVAILABLE">
-        <value>{0} of Space Used / {1} of Space Available</value>
+    <data name="SHARING">
+        <value>Sharing</value>
+    </data>
+    <data name="AVAILABLE">
+        <value>Available</value>
+    </data>
+    <data name="USED">
+        <value>Used</value>
+    </data>
+    <data name="NOLIMIT">
+        <value>No Limit</value>
+    </data>
+    <data name="CLOSE">
+        <value>Close</value>
+    </data>
+    <data name="FILEHISTORY">
+        <value>File History</value>
     </data>
 </root>

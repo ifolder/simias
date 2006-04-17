@@ -38,19 +38,14 @@ using System.Net;
 namespace Novell.iFolderApp.Web
 {
 	/// <summary>
-	/// iFolder Page
+	/// Members Page
 	/// </summary>
-	public class iFolderPage : Page
+	public class MembersPage : Page
 	{
 		/// <summary>
-		/// History Data
+		/// iFolder Context
 		/// </summary>
-		protected DataGrid HistoryData;
-
-		/// <summary>
-		/// History Pagging
-		/// </summary>
-		protected Pagging HistoryPagging;
+		protected Context iFolderContext;
 
 		/// <summary>
 		/// Member Data
@@ -66,16 +61,6 @@ namespace Novell.iFolderApp.Web
 		/// Message Box
 		/// </summary>
 		protected Message MessageBox;
-
-		/// <summary>
-		/// The Home Button
-		/// </summary>
-		protected HyperLink HomeButton;
-
-		/// <summary>
-		/// The iFolder Name
-		/// </summary>
-		protected Literal iFolderContextName;
 
 		/// <summary>
 		/// The Add Button
@@ -106,41 +91,6 @@ namespace Novell.iFolderApp.Web
 		/// The Owner Button
 		/// </summary>
 		protected LinkButton OwnerButton;
-
-		/// <summary>
-		/// iFolder Button
-		/// </summary>
-		protected HyperLink iFolderButton;
-		
-		/// <summary>
-		/// iFolder Description
-		/// </summary>
-		protected Literal iFolderDescription;
-		
-		/// <summary>
-		/// iFolder Owner
-		/// </summary>
-		protected Literal iFolderOwner;
-		
-		/// <summary>
-		/// iFolder Size
-		/// </summary>
-		protected Literal iFolderSize;
-
-		/// <summary>
-		/// iFolder Member Count
-		/// </summary>
-		protected Literal iFolderMemberCount;
-
-		/// <summary>
-		/// iFolder File Count
-		/// </summary>
-		protected Literal iFolderFileCount;
-
-		/// <summary>
-		/// iFolder Folder Count
-		/// </summary>
-		protected Literal iFolderFolderCount;
 
 		/// <summary>
 		/// iFolder Connection
@@ -180,10 +130,8 @@ namespace Novell.iFolderApp.Web
 
 				// url
 				AddButton.NavigateUrl = "Share.aspx?iFolder=" + ifolderID;
-				iFolderButton.NavigateUrl = "Entries.aspx?iFolder=" + ifolderID;
 
 				// strings
-				HomeButton.Text = GetString("HOME");
 				AddButton.Text = GetString("ADD");
 				RemoveButton.Text = GetString("REMOVE");
 				ReadOnlyButton.Text = GetString("RIGHTS.READONLY");
@@ -192,8 +140,6 @@ namespace Novell.iFolderApp.Web
 				OwnerButton.Text = GetString("OWNER");
 				MemberPagging.LabelSingular = GetString("MEMBER");
 				MemberPagging.LabelPlural = GetString("MEMBERS");
-				HistoryPagging.LabelSingular = GetString("CHANGE");
-				HistoryPagging.LabelPlural = GetString("CHANGES");
 			}
 		}
 
@@ -202,27 +148,7 @@ namespace Novell.iFolderApp.Web
 		/// </summary>
 		private void BindData()
 		{
-			try
-			{
-				// ifolder
-				iFolderDetails ifolder = web.GetiFolderDetails(ifolderID);
-				iFolderContextName.Text = ifolder.Name;
-
-				iFolderButton.Text = ifolder.Name;
-				iFolderDescription.Text = ifolder.Description;
-				iFolderOwner.Text = ifolder.OwnerFullName;
-				iFolderSize.Text = WebUtility.FormatSize(ifolder.Size, rm);
-				iFolderMemberCount.Text = ifolder.MemberCount.ToString();
-				iFolderFileCount.Text = ifolder.FileCount.ToString();
-				iFolderFolderCount.Text = ifolder.DirectoryCount.ToString();
-			}
-			catch(SoapException ex)
-			{
-				HandleException(ex);
-			}
-
 			BindMemberData();
-			BindHistoryData();
 		}
 
 		/// <summary>
@@ -241,6 +167,10 @@ namespace Novell.iFolderApp.Web
 
 			try
 			{
+				// ifolder
+				iFolder ifolder = web.GetiFolder(ifolderID);
+				iFolderContext.iFolderName = ifolder.Name;
+
 				// member
 				iFolderUser[] members = web.GetMembers(ifolderID, MemberPagging.Index, MemberPagging.PageSize, out total);
 				MemberPagging.Count = members.Length;
@@ -266,53 +196,6 @@ namespace Novell.iFolderApp.Web
 			// bind
 			MemberData.DataSource = memberTable;
 			MemberData.DataBind();
-		}
-
-		/// <summary>
-		/// Bind the Data to the Page.
-		/// </summary>
-		private void BindHistoryData()
-		{
-			int total = 0;
-
-			// history
-			DataTable historyTable = new DataTable();
-			historyTable.Columns.Add("Time");
-			historyTable.Columns.Add("EntryName");
-			historyTable.Columns.Add("ShortEntryName");
-			historyTable.Columns.Add("Type");
-			historyTable.Columns.Add("UserFullName");
-			historyTable.Columns.Add("Image");
-
-			try
-			{
-				// history
-				ChangeEntry[] changes = web.GetChanges(ifolderID, null, HistoryPagging.Index, HistoryPagging.PageSize, out total);
-				HistoryPagging.Count = changes.Length;
-				HistoryPagging.Total = total;
-				
-				foreach(ChangeEntry change in changes)
-				{
-					DataRow row = historyTable.NewRow();
-
-					row["Time"] = WebUtility.FormatDateTime(change.Time, rm);
-					row["EntryName"] = change.EntryName;
-					row["ShortEntryName"] = WebUtility.GetFileName(change.EntryName);
-					row["Type"] = WebUtility.FormatChangeType(change.Type, rm);
-					row["UserFullName"] = change.UserFullName;
-					row["Image"] = change.Type.ToString().ToLower();
-					
-					historyTable.Rows.Add(row);
-				}
-			}
-			catch(SoapException ex)
-			{
-				HandleException(ex);
-			}
-
-			// bind
-			HistoryData.DataSource = historyTable;
-			HistoryData.DataBind();
 		}
 
 		/// <summary>
@@ -379,7 +262,6 @@ namespace Novell.iFolderApp.Web
 		{    
 			this.Load += new System.EventHandler(this.Page_Load);
 			this.MemberPagging.PageChange += new EventHandler(MemberPagging_PageChange);
-			this.HistoryPagging.PageChange += new EventHandler(HistoryPagging_PageChange);
 			this.RemoveButton.Click += new EventHandler(RemoveButton_Click);
 			this.ReadOnlyButton.Click += new EventHandler(ReadOnlyButton_Click);
 			this.ReadWriteButton.Click += new EventHandler(ReadWriteButton_Click);
@@ -397,16 +279,6 @@ namespace Novell.iFolderApp.Web
 		private void MemberPagging_PageChange(object sender, EventArgs e)
 		{
 			BindMemberData();
-		}
-
-		/// <summary>
-		/// History Page Change
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void HistoryPagging_PageChange(object sender, EventArgs e)
-		{
-			BindHistoryData();
 		}
 
 		/// <summary>

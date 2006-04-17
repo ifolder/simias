@@ -2,7 +2,6 @@
 <%@ Register TagPrefix="iFolder" TagName="Header" Src="Header.ascx" %>
 <%@ Register TagPrefix="iFolder" TagName="Message" Src="Message.ascx" %>
 <%@ Register TagPrefix="iFolder" TagName="Pagging" Src="Pagging.ascx" %>
-<%@ Register TagPrefix="iFolder" TagName="Footer" Src="Footer.ascx" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 
@@ -34,16 +33,7 @@
 	
 		function SetFocus()
 		{
-			var name = document.getElementById("NewiFolderName");
-			
-			if (name && (name.value.length == 0))
-			{
-				name.focus();
-			}
-			else
-			{
-				document.getElementById("SearchPattern").select();
-			}
+			document.getElementById("SearchPattern").select();
 		}
 		
 		// on load
@@ -53,211 +43,174 @@
 
 </head>
 
-<body>
+<body id="share">
 
-<form runat="server">
-
-	<div id="container">
+<div id="container">
 	
+	<form runat="server">
+
 		<iFolder:Header runat="server" />
-	
-		<div id="context">
-			<asp:HyperLink ID="HomeButton" NavigateUrl="iFolders.aspx" runat="server" />
-			/
-			<span id="ShareContext" runat="server">
-				<asp:HyperLink ID="iFolderButton" runat="server" />
-				/
-				<%= GetString("SHARE") %>
-			</span>
-			<span id="CreateContext" runat="server">
-				<%= GetString("IFOLDER") %>
-			</span>
-		</div>
 		
-		<div id="main">
+		<div id="nav">
+	
+			<div class="actions">
+				<div class="action">
+					<asp:LinkButton ID="ShareButton" runat="server" />
+				</div>
+				<div class="action">
+					<asp:HyperLink ID="CancelLink" runat="server" />
+				</div>
+			</div>
+			
+		</div>
+	
+		<div id="content">
 		
 			<iFolder:Message id="MessageBox" runat="server" />
 	
-			<div id="CreateSection" class="section" runat="server">
-
-				<div class="title"><%= GetString("NEWIFOLDER") %></div>
-				
-				<div class="content">
-					
-					<table class="columns">
-						<tr>
-							<td>
-								<%= GetString("NAME") %>
-							</td>
-							<td>				
-								<%= GetString("DESCRIPTION") %>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<asp:TextBox ID="NewiFolderName" onkeydown="return SubmitKeyDown(event, 'CreateButton');" runat="server" />
-							</td>
-							<td rowspan="4">				
-								<asp:TextBox ID="NewiFolderDescription" TextMode="MultiLine" Rows="4" onkeydown="return SubmitKeyDown(event, 'CreateButton');" runat="server" />
-							</td>
-						</tr>
-						<tr>
-							<td><%= GetString("OWNER") %></td>
-						</tr>
-						<tr>
-							<td class="highlight"><%= Session["UserFullName"] %></td>
-						</tr>
-					</table>
-				
-				</div>
-							
+			<div class="section">
+				<%= GetString("SHARE") %>
 			</div>
 			
-			<div id="share" class="section">
+			<div class="main">
 				
-				<div class="title"><%= GetString("SHARE") %></div>
-					
-				<div class="content">
-					
-					<div class="search">
-						<asp:DropDownList ID="SearchPropertyList" runat="server" />
-						<asp:TextBox ID="SearchPattern" CssClass="searchPattern" runat="server" onkeydown="return SubmitKeyDown(event, 'SearchButton');" />
-						<asp:Button ID="SearchButton" CssClass="hide" runat="server" />
+				<div class="path">
+					<asp:Literal ID="iFolderName" runat="server" />
+				</div>
+
+				<div class="search">
+					<asp:DropDownList ID="SearchPropertyList" runat="server" />
+					<asp:TextBox ID="SearchPattern" CssClass="searchText" runat="server" onkeydown="return SubmitKeyDown(event, 'SearchButton');" />
+					<asp:Button ID="SearchButton" CssClass="hide" runat="server" />
+				</div>
+				
+				<table class="columns"><tr><td>
+				
+					<div id="share-users">
+			
+						<div class="sub-section"><%= GetString("AVAILABLEUSERS") %></div>
+						
+						<asp:DataGrid
+							ID="UserData"
+							GridLines="none"
+							AutoGenerateColumns="false"
+							ShowHeader="false"
+							CssClass="list"
+							ItemStyle-CssClass="row"
+							AlternatingItemStyle-CssClass="altrow"
+							runat="server">
+							
+							<columns>
+								<asp:TemplateColumn ItemStyle-CssClass="icon">
+									<itemtemplate>
+										<asp:LinkButton CommandName="Add" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "ID") %>' Visible='<%# (bool)DataBinder.Eval(Container.DataItem, "Enabled") %>' runat="server">
+											<asp:Image ImageUrl='images/list-add.png' runat="server" />
+										</asp:LinkButton>
+										<div visible='<%# !(bool)DataBinder.Eval(Container.DataItem, "Enabled") %>'  runat="server">
+											<asp:Image ImageUrl='images/list-add-disabled.png' runat="server" />
+										</div>
+									</itemtemplate>
+								</asp:TemplateColumn>
+								<asp:TemplateColumn ItemStyle-CssClass="icon">
+									<itemtemplate>
+										<asp:LinkButton CommandName="Add" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "ID") %>' Visible='<%# (bool)DataBinder.Eval(Container.DataItem, "Enabled") %>' runat="server">
+											<asp:Image ImageUrl='images/user.png' runat="server" />
+										</asp:LinkButton>
+										<div visible='<%# !(bool)DataBinder.Eval(Container.DataItem, "Enabled") %>'  runat="server">
+											<asp:Image ImageUrl='images/user-disabled.png' runat="server" />
+										</div>
+									</itemtemplate>
+								</asp:TemplateColumn>
+								<asp:TemplateColumn ItemStyle-CssClass="name">
+									<itemtemplate>
+										<asp:LinkButton CommandName="Add" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "ID") %>' Visible='<%# (bool)DataBinder.Eval(Container.DataItem, "Enabled") %>' runat="server">
+											<%# DataBinder.Eval(Container.DataItem, "FullName") %>
+										</asp:LinkButton>
+										<div visible='<%# !(bool)DataBinder.Eval(Container.DataItem, "Enabled") %>'  runat="server">
+											<%# DataBinder.Eval(Container.DataItem, "FullName") %>
+										</div>
+									</itemtemplate>
+								</asp:TemplateColumn>
+								<asp:TemplateColumn ItemStyle-CssClass="name">
+									<itemtemplate>
+										&nbsp;
+									</itemtemplate>
+								</asp:TemplateColumn>
+							</columns>
+						</asp:DataGrid>
+							
+						<iFolder:Pagging id="UserPagging" runat="server" />
+		
 					</div>
 					
-					<table class="columns"><tr><td>
-					
-						<div id="share-users">
+				</td><td>
 				
-							<div class="sub-title"><%= GetString("AVAILABLEUSERS") %></div>
-							
-							<asp:DataGrid
-								ID="UserData"
-								GridLines="none"
-								AutoGenerateColumns="false"
-								ShowHeader="false"
-								CssClass="entries"
-								runat="server">
-								
-								<columns>
-									<asp:TemplateColumn ItemStyle-CssClass="icon">
-										<itemtemplate>
-											<asp:LinkButton CommandName="Add" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "ID") %>' Visible='<%# (bool)DataBinder.Eval(Container.DataItem, "Enabled") %>' runat="server">
-												<asp:Image ImageUrl='images/16/list-add.png' runat="server" />
-											</asp:LinkButton>
-											<div visible='<%# !(bool)DataBinder.Eval(Container.DataItem, "Enabled") %>'  runat="server">
-												<asp:Image ImageUrl='images/16/list-add-disabled.png' runat="server" />
-											</div>
-										</itemtemplate>
-									</asp:TemplateColumn>
-									<asp:TemplateColumn ItemStyle-CssClass="icon">
-										<itemtemplate>
-											<asp:LinkButton CommandName="Add" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "ID") %>' Visible='<%# (bool)DataBinder.Eval(Container.DataItem, "Enabled") %>' runat="server">
-												<asp:Image ImageUrl='images/16/user.png' runat="server" />
-											</asp:LinkButton>
-											<div visible='<%# !(bool)DataBinder.Eval(Container.DataItem, "Enabled") %>'  runat="server">
-												<asp:Image ImageUrl='images/16/user-disabled.png' runat="server" />
-											</div>
-										</itemtemplate>
-									</asp:TemplateColumn>
-									<asp:TemplateColumn ItemStyle-CssClass="name">
-										<itemtemplate>
-											<asp:LinkButton CommandName="Add" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "ID") %>' Visible='<%# (bool)DataBinder.Eval(Container.DataItem, "Enabled") %>' runat="server">
-												<%# DataBinder.Eval(Container.DataItem, "FullName") %>
-											</asp:LinkButton>
-											<div visible='<%# !(bool)DataBinder.Eval(Container.DataItem, "Enabled") %>'  runat="server">
-												<%# DataBinder.Eval(Container.DataItem, "FullName") %>
-											</div>
-										</itemtemplate>
-									</asp:TemplateColumn>
-									<asp:TemplateColumn ItemStyle-CssClass="name">
-										<itemtemplate>
-											&nbsp;
-										</itemtemplate>
-									</asp:TemplateColumn>
-								</columns>
-							</asp:DataGrid>
-								
-							<iFolder:Pagging id="UserPagging" runat="server" />
+					<div id="share-members">
 			
-						</div>
+						<div class="sub-section"><%= GetString("SHAREWITH") %></div>
 						
-					</td><td>
-					
-						<div id="share-members">
-				
-							<div class="sub-title"><%= GetString("SHAREWITH") %></div>
+						<asp:DataGrid
+							ID="MemberData"
+							GridLines="none"
+							AutoGenerateColumns="false"
+							ShowHeader="false"
+							CssClass="list"
+							ItemStyle-CssClass="row"
+							AlternatingItemStyle-CssClass="altrow"
+							runat="server">
 							
-							<asp:DataGrid
-								ID="MemberData"
-								GridLines="none"
-								AutoGenerateColumns="false"
-								ShowHeader="false"
-								CssClass="entries"
-								runat="server">
-								
-								<columns>
-									<asp:TemplateColumn ItemStyle-CssClass="icon">
-										<itemtemplate>
-											<asp:LinkButton CommandName="Remove" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "ID") %>' Visible='<%# (bool)DataBinder.Eval(Container.DataItem, "Enabled") %>' runat="server">
-												<asp:Image ImageUrl='images/16/list-remove.png' runat="server" />
-											</asp:LinkButton>
-											<div visible='<%# !(bool)DataBinder.Eval(Container.DataItem, "Enabled") %>'  runat="server">
-												<asp:Image ImageUrl='images/16/list-remove-disabled.png' runat="server" />
-											</div>
-										</itemtemplate>
-									</asp:TemplateColumn>
-									<asp:TemplateColumn ItemStyle-CssClass="icon">
-										<itemtemplate>
-											<asp:LinkButton CommandName="Remove" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "ID") %>' Visible='<%# (bool)DataBinder.Eval(Container.DataItem, "Enabled") %>' runat="server">
-												<asp:Image ImageUrl='images/16/user.png' runat="server" />
-											</asp:LinkButton>
-											<div visible='<%# !(bool)DataBinder.Eval(Container.DataItem, "Enabled") %>'  runat="server">
-												<asp:Image ImageUrl='images/16/user-disabled.png' runat="server" />
-											</div>
-										</itemtemplate>
-									</asp:TemplateColumn>
-									<asp:TemplateColumn ItemStyle-CssClass="name">
-										<itemtemplate>
-											<asp:LinkButton CommandName="Remove" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "ID") %>' Visible='<%# (bool)DataBinder.Eval(Container.DataItem, "Enabled") %>' runat="server">
-												<%# DataBinder.Eval(Container.DataItem, "FullName") %>
-											</asp:LinkButton>
-											<div visible='<%# !(bool)DataBinder.Eval(Container.DataItem, "Enabled") %>'  runat="server">
-												<%# DataBinder.Eval(Container.DataItem, "FullName") %>
-											</div>
-										</itemtemplate>
-									</asp:TemplateColumn>
-									<asp:TemplateColumn ItemStyle-CssClass="name">
-										<itemtemplate>
-											&nbsp;
-										</itemtemplate>
-									</asp:TemplateColumn>
-								</columns>
-							</asp:DataGrid>
-								
-							<iFolder:Pagging id="MemberPagging" runat="server" />
-			
-						</div>
-						
-					</td></tr></table>
-				
-				</div>
-								
-			</div>
-			
-			<div class="buttons">
-				<asp:Button ID="CreateButton" runat="server" />
-				<asp:Button ID="ShareButton" runat="server" />
-				<asp:Button ID="CancelButton" runat="server" />
-			</div>
-			
-		</div>
+							<columns>
+								<asp:TemplateColumn ItemStyle-CssClass="icon">
+									<itemtemplate>
+										<asp:LinkButton CommandName="Remove" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "ID") %>' Visible='<%# (bool)DataBinder.Eval(Container.DataItem, "Enabled") %>' runat="server">
+											<asp:Image ImageUrl='images/list-remove.png' runat="server" />
+										</asp:LinkButton>
+										<div visible='<%# !(bool)DataBinder.Eval(Container.DataItem, "Enabled") %>'  runat="server">
+											<asp:Image ImageUrl='images/list-remove-disabled.png' runat="server" />
+										</div>
+									</itemtemplate>
+								</asp:TemplateColumn>
+								<asp:TemplateColumn ItemStyle-CssClass="icon">
+									<itemtemplate>
+										<asp:LinkButton CommandName="Remove" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "ID") %>' Visible='<%# (bool)DataBinder.Eval(Container.DataItem, "Enabled") %>' runat="server">
+											<asp:Image ImageUrl='images/user.png' runat="server" />
+										</asp:LinkButton>
+										<div visible='<%# !(bool)DataBinder.Eval(Container.DataItem, "Enabled") %>'  runat="server">
+											<asp:Image ImageUrl='images/user-disabled.png' runat="server" />
+										</div>
+									</itemtemplate>
+								</asp:TemplateColumn>
+								<asp:TemplateColumn ItemStyle-CssClass="name">
+									<itemtemplate>
+										<asp:LinkButton CommandName="Remove" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "ID") %>' Visible='<%# (bool)DataBinder.Eval(Container.DataItem, "Enabled") %>' runat="server">
+											<%# DataBinder.Eval(Container.DataItem, "FullName") %>
+										</asp:LinkButton>
+										<div visible='<%# !(bool)DataBinder.Eval(Container.DataItem, "Enabled") %>'  runat="server">
+											<%# DataBinder.Eval(Container.DataItem, "FullName") %>
+										</div>
+									</itemtemplate>
+								</asp:TemplateColumn>
+								<asp:TemplateColumn ItemStyle-CssClass="name">
+									<itemtemplate>
+										&nbsp;
+									</itemtemplate>
+								</asp:TemplateColumn>
+							</columns>
+						</asp:DataGrid>
+							
+						<iFolder:Pagging id="MemberPagging" runat="server" />
 		
-		<iFolder:Footer runat="server" />
-
-	</div>
+					</div>
+					
+				</td></tr></table>
+					
+			</div>
 	
-</form>
+		</div>
+	
+	</form>
+
+</div>
 
 </body>
 

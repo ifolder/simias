@@ -43,19 +43,9 @@ namespace Novell.iFolderApp.Web
 	public class SharePage : Page
 	{
 		/// <summary>
-		/// Create Context Container
+		/// iFolder Name
 		/// </summary>
-		protected HtmlContainerControl CreateContext;
-
-		/// <summary>
-		/// Share Context Container
-		/// </summary>
-		protected HtmlContainerControl ShareContext;
-
-		/// <summary>
-		/// Create Section Container
-		/// </summary>
-		protected HtmlContainerControl CreateSection;
+		protected Literal iFolderName;
 
 		/// <summary>
 		/// History Data
@@ -83,39 +73,14 @@ namespace Novell.iFolderApp.Web
 		protected Message MessageBox;
 
 		/// <summary>
-		/// The Home Button
-		/// </summary>
-		protected HyperLink HomeButton;
-
-		/// <summary>
-		/// The Create Button
-		/// </summary>
-		protected Button CreateButton;
-
-		/// <summary>
 		/// The Share Button
 		/// </summary>
-		protected Button ShareButton;
+		protected LinkButton ShareButton;
 
 		/// <summary>
-		/// The Cancel Button
+		/// The Cancel Link
 		/// </summary>
-		protected Button CancelButton;
-
-		/// <summary>
-		/// The iFolder Button
-		/// </summary>
-		protected HyperLink iFolderButton;
-
-		/// <summary>
-		/// New iFolder Name
-		/// </summary>
-		protected TextBox NewiFolderName;
-
-		/// <summary>
-		/// New iFolder Description
-		/// </summary>
-		protected TextBox NewiFolderDescription;
+		protected HyperLink CancelLink;
 
 		/// <summary>
 		/// iFolder Name
@@ -158,11 +123,6 @@ namespace Novell.iFolderApp.Web
 		private Hashtable currentMembers;
 
 		/// <summary>
-		/// Create Mode (vs. Share Mode)
-		/// </summary>
-		private bool createMode;
-
-		/// <summary>
 		/// Page Load
 		/// </summary>
 		/// <param name="sender"></param>
@@ -171,7 +131,6 @@ namespace Novell.iFolderApp.Web
 		{
 			// query
 			ifolderID = Request.QueryString.Get("iFolder");
-			createMode = (ifolderID == null) || (ifolderID.Length == 0);
 
 			// connection
 			web = (iFolderWeb)Session["Connection"];
@@ -182,15 +141,13 @@ namespace Novell.iFolderApp.Web
 			if (!IsPostBack)
 			{
 				// strings
-				HomeButton.Text = GetString("HOME");
 				UserPagging.LabelSingular = GetString("USER");
 				UserPagging.LabelPlural = GetString("USERS");
 				MemberPagging.LabelSingular = GetString("MEMBER");
 				MemberPagging.LabelPlural = GetString("MEMBERS");
 				SearchButton.Text = GetString("SEARCH");
 				ShareButton.Text = GetString("SHARE");
-				CancelButton.Text = GetString("CANCEL");
-				CreateButton.Text = GetString("CREATE");
+				CancelLink.Text = GetString("CANCEL");
 
 				// properties
 				SearchPropertyList.Items.Add(new ListItem(GetString("FIRSTNAME"), SearchProperty.Name.ToString()));
@@ -204,12 +161,8 @@ namespace Novell.iFolderApp.Web
 				currentMembers = new Hashtable();
 				ViewState["CurrentMembers"] = currentMembers;
 
-				// url
-				iFolderButton.NavigateUrl = "iFolder.aspx?iFolder=" + ifolderID;
-
-				// view
-				CreateContext.Visible = CreateSection.Visible = CreateButton.Visible = createMode;
-				ShareContext.Visible = ShareButton.Visible = !createMode;
+				// link
+				CancelLink.NavigateUrl = "Members.aspx?iFolder=" + ifolderID;
 
 				// search pattern
 				ViewState["SearchPattern"] = null;
@@ -244,36 +197,28 @@ namespace Novell.iFolderApp.Web
 		/// </summary>
 		private void BindCurrentMembersData()
 		{
-			if (createMode)
+			try
 			{
-				// add the new owner
-				currentMembers.Add((string)Session["UserID"], (string)Session["Username"]);
-			}
-			else
-			{
-				try
+				int total;
+
+				// name
+				iFolder ifolder = web.GetiFolder(ifolderID);
+				iFolderName.Text = ifolder.Name;
+
+				// current members
+				iFolderUser[] members = web.GetMembers(ifolderID, 0, 0, out total);
+
+				if (members != null)
 				{
-					int total;
-
-					// name
-					iFolder ifolder = web.GetiFolder(ifolderID);
-					iFolderButton.Text = ifolder.Name;
-
-					// current members
-					iFolderUser[] members = web.GetMembers(ifolderID, 0, 0, out total);
-
-					if (members != null)
+					foreach(iFolderUser member in members)
 					{
-						foreach(iFolderUser member in members)
-						{
-							currentMembers.Add(member.ID, member.UserName);
-						}
+						currentMembers.Add(member.ID, member.UserName);
 					}
 				}
-				catch(SoapException ex)
-				{
-					HandleException(ex);
-				}
+			}
+			catch(SoapException ex)
+			{
+				HandleException(ex);
 			}
 		}
 
@@ -435,9 +380,7 @@ namespace Novell.iFolderApp.Web
 			this.SearchButton.Click += new EventHandler(SearchButton_Click);
 			this.UserData.ItemCommand += new DataGridCommandEventHandler(UserData_ItemCommand);
 			this.MemberData.ItemCommand += new DataGridCommandEventHandler(MemberData_ItemCommand);
-			this.CreateButton.Click += new EventHandler(CreateButton_Click);
 			this.ShareButton.Click += new EventHandler(ShareButton_Click);
-			this.CancelButton.Click += new EventHandler(CancelButton_Click);
 			this.PreRender += new EventHandler(SharePage_PreRender);
 		}
 
@@ -520,39 +463,6 @@ namespace Novell.iFolderApp.Web
 		}
 
 		/// <summary>
-		/// Create Button Click
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void CreateButton_Click(object sender, EventArgs e)
-		{
-			string name = NewiFolderName.Text.Trim();
-			string description = NewiFolderName.Text.Trim();
-
-			if (name.Length == 0)
-			{
-				MessageBox.Text = GetString("IFOLDER.NONAME");
-				return;
-			}
-
-			// create iFolder
-			try
-			{
-				iFolder ifolder = web.CreateiFolder(name, description);
-
-				ifolderID = ifolder.ID;
-			}
-			catch(SoapException ex)
-			{
-				HandleException(ex);
-				return;
-			}
-
-			// add Members
-			ShareButton_Click(sender, e);
-		}
-
-		/// <summary>
 		/// Share Button Click
 		/// </summary>
 		/// <param name="sender"></param>
@@ -582,31 +492,12 @@ namespace Novell.iFolderApp.Web
 					web.AddMember(ifolderID, memberList, Rights.ReadOnly);
 				}
 
-				// back to iFolder details
-				Response.Redirect("iFolder.aspx?iFolder=" + ifolderID);
+				// back to iFolder
+				Response.Redirect("Members.aspx?iFolder=" + ifolderID);
 			}
 			catch(SoapException ex)
 			{
 				HandleException(ex);
-			}
-		}
-
-		/// <summary>
-		/// Cancel Button Click
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void CancelButton_Click(object sender, EventArgs e)
-		{
-			if (createMode)
-			{
-				// back to iFolders
-				Response.Redirect("iFolders.aspx");
-			}
-			else
-			{
-				// back to iFolder details
-				Response.Redirect("iFolder.aspx?iFolder=" + ifolderID);
 			}
 		}
 

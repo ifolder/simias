@@ -5,19 +5,26 @@ iFolderWeb_CSFILES = \
 	$(srcdir)/AssemblyInfo.cs \
 	$(srcdir)/Default.aspx.cs \
 	$(srcdir)/Download.ashx.cs \
-	$(srcdir)/Entries.aspx.cs \
-	$(srcdir)/Entry.aspx.cs \
+	$(srcdir)/Browse.aspx.cs \
+	$(srcdir)/Search.aspx.cs \
+	$(srcdir)/NewFolder.aspx.cs \
+	$(srcdir)/Upload.aspx.cs \
+	$(srcdir)/FileHistory.aspx.cs \
 	$(srcdir)/Error.aspx.cs \
-	$(srcdir)/Footer.ascx.cs \
+	$(srcdir)/Quota.ascx.cs \
 	$(srcdir)/Global.asax.cs \
 	$(srcdir)/Header.ascx.cs \
-	$(srcdir)/iFolder.aspx.cs \
+	$(srcdir)/Details.aspx.cs \
+	$(srcdir)/History.aspx.cs \
+	$(srcdir)/Members.aspx.cs \
 	$(srcdir)/iFolders.aspx.cs \
 	$(srcdir)/iFolderWebProxy.cs \
 	$(srcdir)/Login.aspx.cs \
 	$(srcdir)/Message.ascx.cs \
 	$(srcdir)/Pagging.ascx.cs \
+	$(srcdir)/Context.ascx.cs \
 	$(srcdir)/Share.aspx.cs \
+	$(srcdir)/iFolderNew.aspx.cs \
 	$(srcdir)/UploadModule.cs \
 	$(srcdir)/UploadStream.cs \
 	$(srcdir)/WebLogger.cs \
@@ -52,17 +59,24 @@ iFolderWeb_LIBPATH = $(LOG4NET_DIR)
 iFolderWeb_FORMS = \
 	Global.asax \
     Default.aspx \
-	Entries.aspx \
-	Entry.aspx \
+	Browse.aspx \
+	Search.aspx \
+	NewFolder.aspx \
+	Upload.aspx \
+	FileHistory.aspx \
 	Error.aspx \
-	iFolder.aspx \
+	Details.aspx \
+	History.aspx \
+	Members.aspx \
 	iFolders.aspx \
 	Login.aspx \
+	iFolderNew.aspx \
 	Share.aspx \
-	Footer.ascx \
+	Quota.ascx \
 	Header.ascx \
 	Message.ascx \
 	Pagging.ascx \
+	Context.ascx \
 	Download.ashx \
 	Log4Net.config \
 	Web.config

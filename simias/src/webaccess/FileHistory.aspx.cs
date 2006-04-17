@@ -38,9 +38,9 @@ using System.Net;
 namespace Novell.iFolderApp.Web
 {
 	/// <summary>
-	/// Entry Page
+	/// File History Page
 	/// </summary>
-	public class EntryPage : Page
+	public class FileHistoryPage : Page
 	{
 		/// <summary>
 		/// History Data
@@ -58,14 +58,14 @@ namespace Novell.iFolderApp.Web
 		protected Message MessageBox;
 
 		/// <summary>
-		/// The Home Button
+		/// The Close Link
 		/// </summary>
-		protected HyperLink HomeButton;
+		protected HyperLink CloseLink;
 
 		/// <summary>
 		/// The iFolder Name
 		/// </summary>
-		protected Literal iFolderName;
+		protected Literal EntryName;
 
 		/// <summary>
 		/// iFolder Connection
@@ -110,9 +110,21 @@ namespace Novell.iFolderApp.Web
 				BindData();
 
 				// strings
-				HomeButton.Text = GetString("HOME");
+				CloseLink.Text = GetString("CLOSE");
 				HistoryPagging.LabelSingular = GetString("CHANGE");
 				HistoryPagging.LabelPlural = GetString("CHANGES");
+
+				// close link
+				Uri referrer = Request.UrlReferrer;
+				if ((referrer == null) || (referrer.AbsolutePath.IndexOf("Login.aspx") != -1))
+				{
+					CloseLink.NavigateUrl = "Browse.aspx?iFolder=" + ifolderID;
+				}
+				else
+				{
+					CloseLink.NavigateUrl = referrer.ToString();
+				}
+
 			}
 		}
 
@@ -123,12 +135,12 @@ namespace Novell.iFolderApp.Web
 		{
 			try
 			{
-				// ifolder
-				iFolder ifolder = web.GetiFolder(ifolderID);
-				iFolderName.Text = ifolder.Name;
-
+				// entry
 				iFolderEntry entry = web.GetEntry(ifolderID, entryID);
+				EntryName.Text = entry.Path;
 
+				// links
+				CloseLink.NavigateUrl = String.Format("Browse.aspx?iFolder={0}&Entry={1}", ifolderID, entry.ParentID);
 			}
 			catch(SoapException ex)
 			{

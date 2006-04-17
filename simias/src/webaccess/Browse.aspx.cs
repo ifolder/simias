@@ -41,19 +41,24 @@ using System.Xml;
 namespace Novell.iFolderApp.Web
 {
 	/// <summary>
-	/// Entries Page
+	/// Browse Page
 	/// </summary>
-	public class EntriesPage : Page
+	public class BrowsePage : Page
 	{
 		/// <summary>
-		/// File Transfer Buffer Size
+		/// iFolder Context
 		/// </summary>
-		private const int BUFFERSIZE = (16 * 1024);
+		protected Context iFolderContext;
 
 		/// <summary>
-		/// The Home Button
+		/// New Folder Link
 		/// </summary>
-		protected HyperLink HomeButton;
+		protected HyperLink NewFolderLink;
+
+		/// <summary>
+		/// Upload Link
+		/// </summary>
+		protected HyperLink UploadFilesLink;
 
 		/// <summary>
 		/// Entry Path List
@@ -71,16 +76,6 @@ namespace Novell.iFolderApp.Web
 		protected LinkButton DeleteButton;
 
 		/// <summary>
-		/// Search Pattern
-		/// </summary>
-		protected TextBox SearchPattern;
-
-		/// <summary>
-		/// Search Button
-		/// </summary>
-		protected Button SearchButton;
-
-		/// <summary>
 		/// The Entry Data
 		/// </summary>
 		protected DataGrid EntryData;
@@ -89,36 +84,6 @@ namespace Novell.iFolderApp.Web
 		/// Pagging
 		/// </summary>
 		protected Pagging EntryPagging;
-
-		/// <summary>
-		/// New Folder Name
-		/// </summary>
-		protected TextBox NewFolderName;
-
-		/// <summary>
-		/// New Folder Button
-		/// </summary>
-		protected Button NewFolderButton;
-
-		/// <summary>
-		/// Upload File
-		/// </summary>
-		protected HtmlInputFile UploadFile;
-
-		/// <summary>
-		/// Upload Button
-		/// </summary>
-		protected Button UploadButton;
-
-		/// <summary>
-		/// iFolder Button
-		/// </summary>
-		protected HyperLink iFolderButton;
-
-		/// <summary>
-		/// iFolder Button
-		/// </summary>
-		protected HyperLink iFolderImageButton;
 
 		/// <summary>
 		/// Message Box
@@ -173,19 +138,15 @@ namespace Novell.iFolderApp.Web
 				BindData();
 
 				// strings
-				HomeButton.Text = GetString("HOME");
 				EntryPagging.LabelSingular = GetString("ITEM");
 				EntryPagging.LabelPlural = GetString("ITEMS");
-				NewFolderButton.Text = GetString("CREATE");
-				UploadButton.Text = GetString("UPLOAD");
+				NewFolderLink.Text = GetString("NEWFOLDER");
+				UploadFilesLink.Text = GetString("UPLOADFILES");
 				DeleteButton.Text = GetString("DELETE");
 
-				// search pattern
-				ViewState["SearchPattern"] = null;
-
-				// link
-				iFolderButton.NavigateUrl = "iFolder.aspx?iFolder=" + ifolderID;
-				iFolderImageButton.NavigateUrl = iFolderButton.NavigateUrl;
+				// links
+				NewFolderLink.NavigateUrl = String.Format("NewFolder.aspx?iFolder={0}&Entry={1}", ifolderID, entryID);
+				UploadFilesLink.NavigateUrl = String.Format("Upload.aspx?iFolder={0}&Entry={1}", ifolderID, entryID);
 			}
 			else
 			{
@@ -215,7 +176,7 @@ namespace Novell.iFolderApp.Web
 			{
 				// ifolder
 				iFolder ifolder = web.GetiFolder(ifolderID);
-				iFolderButton.Text = ifolder.Name + " " + GetString("DETAILS");
+				iFolderContext.iFolderName = ifolder.Name;
 
 				// parent
 				iFolderEntry entry;
@@ -249,9 +210,6 @@ namespace Novell.iFolderApp.Web
 		{
 			int total = 0;
 
-			// keep search pattern consistent
-			SearchPattern.Text = (string)ViewState["SearchPattern"];
-
 			// entries
 			DataTable entryTable = new DataTable();
 			entryTable.Columns.Add("ID");
@@ -266,18 +224,7 @@ namespace Novell.iFolderApp.Web
 			try
 			{
 				// entries
-				iFolderEntry[] entries;
-				
-				if ((SearchPattern.Text == null) || (SearchPattern.Text.Length == 0))
-				{
-					// no search pattern
-					entries = web.GetEntries(ifolderID, entryID, EntryPagging.Index, EntryPagging.PageSize, out total);
-				}
-				else
-				{
-					// search pattern
-					entries = web.GetEntriesByName(ifolderID, entryID, SearchOperation.BeginsWith, SearchPattern.Text, EntryPagging.Index, EntryPagging.PageSize, out total); 
-				}
+				iFolderEntry[] entries = web.GetEntries(ifolderID, entryID, EntryPagging.Index, EntryPagging.PageSize, out total);
 				
 				// pagging
 				EntryPagging.Total = total;
@@ -293,7 +240,7 @@ namespace Novell.iFolderApp.Web
 
 					if (child.IsDirectory)
 					{
-						row["Link"] = String.Format("Entries.aspx?iFolder={0}&Entry={1}",
+						row["Link"] = String.Format("Browse.aspx?iFolder={0}&Entry={1}",
 							ifolderID, child.ID);
 						row["Image"] = "folder.png";
 						row["Size"] = "";
@@ -390,9 +337,6 @@ namespace Novell.iFolderApp.Web
 			this.ID = "EntryView";
 			this.Load += new System.EventHandler(this.Page_Load);
 			this.EntryPagging.PageChange += new EventHandler(EntryPagging_PageChange);
-			this.NewFolderButton.Click += new EventHandler(NewFolderButton_Click);
-			this.UploadButton.Click += new EventHandler(UploadButton_Click);
-			this.SearchButton.Click += new EventHandler(SearchButton_Click);
 			this.DeleteButton.PreRender += new EventHandler(DeleteButton_PreRender);
 			this.DeleteButton.Click += new EventHandler(DeleteButton_Click);
 		}
@@ -476,7 +420,7 @@ namespace Novell.iFolderApp.Web
 			{
 				iFolderEntry entry = web.GetEntryByPath(ifolderID, path);
 				
-				Response.Redirect(String.Format("Entries.aspx?iFolder={0}&Entry={1}", ifolderID, entry.ID));
+				Response.Redirect(String.Format("Browse.aspx?iFolder={0}&Entry={1}", ifolderID, entry.ID));
 			}
 			catch(SoapException ex)
 			{
@@ -492,187 +436,6 @@ namespace Novell.iFolderApp.Web
 		private void EntryPagging_PageChange(object sender, EventArgs e)
 		{
 			BindData();
-		}
-
-		/// <summary>
-		/// New Folder Button Click
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void NewFolderButton_Click(object sender, EventArgs e)
-		{
-			// reset
-			ViewState["SearchPattern"] = null;
-			EntryPagging.Index = 0;
-
-			string name = NewFolderName.Text.Trim();
-			
-			// clear folder name
-			NewFolderName.Text = "";
-
-			// check for folder name
-			if (name.Length == 0)
-			{
-				// no name
-				MessageBox.Text = GetString("ENTRY.NOFOLDERNAME");
-				return;
-			}
-
-					
-			// create
-			try
-			{
-				web.CreateEntry(ifolderID, entryID, iFolderEntryType.Directory, name);
-			}
-			catch(SoapException ex)
-			{
-				HandleException(ex);
-			}
-
-			BindEntryData();
-		}
-
-		/// <summary>
-		/// Upload Button Click
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void UploadButton_Click(object sender, EventArgs e)
-		{
-			// reset
-			ViewState["SearchPattern"] = null;
-			EntryPagging.Index = 0;
-
-			// filename
-			// KLUDGE: Mono no longer recognizes backslash as a directory seperator
-			// Path.GetFileName() is not usable here for that reason
-			string filename = WebUtility.GetFileName(UploadFile.PostedFile.FileName.Trim());
-			
-			// check for file
-			if (filename.Length == 0)
-			{
-				// no file
-				MessageBox.Text = GetString("ENTRY.NOUPLOADFILE");
-
-				return;
-			}
-
-			// upload path
-			string path = String.Format("{0}/{1}", entryPath, filename);
-
-			iFolderEntry child = null;
-			bool newEntry = false;
-
-			try
-			{
-				try
-				{
-					// does the entry exist?
-					child = web.GetEntryByPath(ifolderID, path);
-				}
-				catch
-				{
-					// ignore
-				}
-
-				// create the entry
-				if (child == null)
-				{
-					child = web.CreateEntry(ifolderID, entryID, iFolderEntryType.File, filename);
-					newEntry = true;
-				}
-
-				// check for an empty file
-				if (UploadFile.PostedFile.ContentLength == 0)
-				{
-					MessageBox.Text = GetString("ENTRY.EMPTYFILE");
-
-					BindEntryData();
-
-					return;
-				}
-
-				try
-				{
-					// put
-					UriBuilder uri = new UriBuilder(web.Url);
-					
-					uri.Path = String.Format("/simias10/Upload.ashx?iFolder={0}&Entry={1}",
-						child.iFolderID, child.ID);
-
-					HttpWebRequest webRequest = (HttpWebRequest) WebRequest.Create(uri.Uri);
-					webRequest.Method = "PUT";
-					webRequest.ContentLength = UploadFile.PostedFile.ContentLength;
-					webRequest.PreAuthenticate = true;
-					webRequest.Credentials = web.Credentials;
-					webRequest.CookieContainer = web.CookieContainer;
-					webRequest.AllowWriteStreamBuffering = false;
-
-					Stream webStream = webRequest.GetRequestStream();
-
-					Stream stream = UploadFile.PostedFile.InputStream;
-					
-					try
-					{
-						byte[] buffer = new byte[BUFFERSIZE];
-
-						int count;
-						
-						while((count = stream.Read(buffer, 0, buffer.Length)) > 0)
-						{
-							webStream.Write(buffer, 0, count);
-							webStream.Flush();
-						}
-					}
-					finally
-					{
-						webStream.Close();
-						stream.Close();
-					}
-
-					// response
-					webRequest.GetResponse().Close();
-				}
-				catch
-				{
-					// remove the child if it was freshly created
-					if (newEntry)
-					{
-						try
-						{
-							web.DeleteEntry(child.iFolderID, child.ID);
-						}
-						catch
-						{
-							// ignore
-						}
-					}
-
-					throw;
-				}
-			}
-			catch(Exception ex)
-			{
-				if (!HandleException(ex)) throw;
-			}
-
-			BindEntryData();
-		}
-
-		/// <summary>
-		/// Search Button Click
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void SearchButton_Click(object sender, EventArgs e)
-		{
-			// update search pattern
-			ViewState["SearchPattern"] = SearchPattern.Text;
-
-			// reset index
-			EntryPagging.Index = 0;
-
-			BindEntryData();
 		}
 
 		/// <summary>

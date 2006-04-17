@@ -106,7 +106,7 @@ namespace Novell.iFolderApp.Web
 				// strings
 				iFolderPagging.LabelSingular = GetString("IFOLDER");
 				iFolderPagging.LabelPlural = GetString("IFOLDERS");
-				NewiFolderLink.Text = GetString("NEW");
+				NewiFolderLink.Text = GetString("NEWIFOLDER");
 				SearchButton.Text = GetString("SEARCH");
 				DeleteButton.Text = GetString("DELETE");
 

@@ -109,6 +109,38 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Browse.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Browse.aspx.cs"
+                    DependentUpon = "Browse.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Browse.aspx.resx"
+                    DependentUpon = "Browse.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Context.ascx"
+                    SubType = "UserControl"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Context.ascx.cs"
+                    DependentUpon = "Context.ascx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Context.ascx.resx"
+                    DependentUpon = "Context.ascx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "Default.aspx"
                     SubType = "Form"
                     BuildAction = "Content"
@@ -125,6 +157,22 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "Details.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Details.aspx.cs"
+                    DependentUpon = "Details.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Details.aspx.resx"
+                    DependentUpon = "Details.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "Download.ashx"
                     SubType = "Form"
                     BuildAction = "Content"
@@ -133,38 +181,6 @@
                     RelPath = "Download.ashx.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Entries.aspx"
-                    SubType = "Form"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "Entries.aspx.cs"
-                    DependentUpon = "Entries.aspx"
-                    SubType = "ASPXCodeBehind"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Entries.aspx.resx"
-                    DependentUpon = "Entries.aspx.cs"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "Entry.aspx"
-                    SubType = "Form"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "Entry.aspx.cs"
-                    DependentUpon = "Entry.aspx"
-                    SubType = "ASPXCodeBehind"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Entry.aspx.resx"
-                    DependentUpon = "Entry.aspx.cs"
-                    BuildAction = "EmbeddedResource"
                 />
                 <File
                     RelPath = "Error.aspx"
@@ -183,30 +199,19 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "Footer.ascx"
-                    SubType = "UserControl"
+                    RelPath = "FileHistory.aspx"
+                    SubType = "Form"
                     BuildAction = "Content"
                 />
                 <File
-                    RelPath = "Footer.ascx.cs"
-                    DependentUpon = "Footer.ascx"
+                    RelPath = "FileHistory.aspx.cs"
+                    DependentUpon = "FileHistory.aspx"
                     SubType = "ASPXCodeBehind"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Footer.ascx.resx"
-                    DependentUpon = "Footer.ascx.cs"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "Header.ascx.cs"
-                    DependentUpon = "Footer.ascx"
-                    SubType = "ASPXCodeBehind"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Header.ascx.resx"
-                    DependentUpon = "Header.ascx.cs"
+                    RelPath = "FileHistory.aspx.resx"
+                    DependentUpon = "FileHistory.aspx.cs"
                     BuildAction = "EmbeddedResource"
                 />
                 <File
@@ -231,19 +236,45 @@
                     BuildAction = "Content"
                 />
                 <File
-                    RelPath = "iFolder.aspx"
-                    SubType = "Form"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "iFolder.aspx.cs"
-                    DependentUpon = "iFolder.aspx"
+                    RelPath = "Header.ascx.cs"
                     SubType = "ASPXCodeBehind"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "iFolder.aspx.resx"
-                    DependentUpon = "iFolder.aspx.cs"
+                    RelPath = "Header.ascx.resx"
+                    DependentUpon = "Header.ascx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "History.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "History.aspx.cs"
+                    DependentUpon = "History.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "History.aspx.resx"
+                    DependentUpon = "History.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "iFolderNew.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "iFolderNew.aspx.cs"
+                    DependentUpon = "iFolderNew.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "iFolderNew.aspx.resx"
+                    DependentUpon = "iFolderNew.aspx.cs"
                     BuildAction = "EmbeddedResource"
                 />
                 <File
@@ -296,6 +327,22 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "Members.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Members.aspx.cs"
+                    DependentUpon = "Members.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Members.aspx.resx"
+                    DependentUpon = "Members.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "Message.ascx"
                     SubType = "UserControl"
                     BuildAction = "Content"
@@ -309,6 +356,22 @@
                 <File
                     RelPath = "Message.ascx.resx"
                     DependentUpon = "Message.ascx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "NewFolder.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "NewFolder.aspx.cs"
+                    DependentUpon = "NewFolder.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "NewFolder.aspx.resx"
+                    DependentUpon = "NewFolder.aspx.cs"
                     BuildAction = "EmbeddedResource"
                 />
                 <File
@@ -328,6 +391,38 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "Quota.ascx"
+                    SubType = "UserControl"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Quota.ascx.cs"
+                    DependentUpon = "Quota.ascx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Quota.ascx.resx"
+                    DependentUpon = "Quota.ascx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Search.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Search.aspx.cs"
+                    DependentUpon = "Search.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Search.aspx.resx"
+                    DependentUpon = "Search.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "Share.aspx"
                     SubType = "Form"
                     BuildAction = "Content"
@@ -341,6 +436,22 @@
                 <File
                     RelPath = "Share.aspx.resx"
                     DependentUpon = "Share.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Upload.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Upload.aspx.cs"
+                    DependentUpon = "Upload.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Upload.aspx.resx"
+                    DependentUpon = "Upload.aspx.cs"
                     BuildAction = "EmbeddedResource"
                 />
                 <File
