@@ -29,7 +29,9 @@ iFolderWebService_CSFILES = \
 	$(srcdir)/ChangeEntry.cs \
 	$(srcdir)/NodeUtility.cs \
 	$(srcdir)/IdentityPolicy.cs \
-	$(srcdir)/SampleData.cs
+	$(srcdir)/SampleData.cs \
+	$(srcdir)/LastSyncInfo.cs \
+	$(srcdir)/SyncServiceInfo.cs
 	
 	
 iFolderWebService_WEBFILES = \

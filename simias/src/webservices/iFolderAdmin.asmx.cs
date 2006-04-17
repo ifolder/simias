@@ -1104,105 +1104,167 @@ namespace iFolder.WebService
 
 		#endregion
 
-		#region LDAP Settings
-		/*
-		/// <summary>
-		/// Get the LDAP Settings
-		/// </summary>
-		/// <returns>A LdapSettings Object</returns>
-		[WebMethod(
-			 Description="Get the LDAP Settings",
-			 EnableSession=true)]
-		public LdapSettings GetLdapSettings()
-		{
-			LdapSettings result = null;
-
-			try
-			{
-				Authorize();
-
-				result = LdapSettings.GetSettings();
-			}
-			catch(Exception e)
-			{
-				SmartException.Throw(e);
-			}
-
-			return result;
-		}
+		#region Identity Sync
 
 		/// <summary>
-		/// Set the LDAP Settings
+		/// Method to disable the synchronization service
+		/// true - disables
+		/// false - enables the synchronization service
+		/// Note! once enabled the service will enter a
+		/// synchronization cycle ignoring the configured
+		/// sync interval time.
 		/// </summary>
-		/// <param name="settings">The LdapSettings Object</param>
+		///
 		[WebMethod(
-			 Description="Set the LDAP Settings",
-			 EnableSession=true)]
-		public void SetLdapSettings(LdapSettings settings)
+			 Description= "Disables/enables the identity synchronization service",
+			 EnableSession = true)]
+		public
+		void
+		IdentitySyncDisableService( bool Disable )
 		{
 			try
 			{
 				Authorize();
 
-				LdapSettings.SetSettings(settings);
+				Simias.IdentitySync.Service.SyncDisabled = Disable;
 			}
-			catch(Exception e)
+			catch ( Exception e )
 			{
-				SmartException.Throw(e);
+				SmartException.Throw( e );
 			}
 		}
 
 		/// <summary>
-		/// Get the LDAP Sync Status
+		/// Get detailed information about the last synchronization cycle.
 		/// </summary>
-		/// <returns>An LdapSyncStatus Object</returns>
 		[WebMethod(
-			 Description="Get the LDAP Sync Status",
-			 EnableSession=true)]
-		public LdapSyncStatus GetLdapSyncStatus()
+			 Description= "Get detailed information about the last synchronization cycle",
+			 EnableSession = true)]
+		public
+		LastSyncInfo
+		IdentitySyncGetLastInfo()
 		{
-			LdapSyncStatus result = null;
+			LastSyncInfo info = null;
 
 			try
 			{
 				Authorize();
 
-				result = LdapSyncStatus.GetStatus();
+				info = LastSyncInfo.GetLastSyncInfo();
 			}
-			catch(Exception e)
+			catch ( Exception e )
 			{
-				SmartException.Throw(e);
+				SmartException.Throw( e );
 			}
 
-			return result;
+			return info;
 		}
 
 		/// <summary>
-		/// Sync LDAP Now
+		/// Get the current status of the identity sync service thread
+		/// status could be:
+		/// Disabled
+		/// Working
+		/// Waiting
+		/// Authentication Failure
+		/// etc..
+		/// </summary>
+		///
+		[WebMethod(
+			 Description= "Get the current status of the identity sync service thread",
+			 EnableSession = true)]
+		public
+		SyncServiceInfo
+		IdentitySyncGetServiceInfo()
+		{
+			SyncServiceInfo info = null;
+
+			try
+			{
+				Authorize();
+
+				info = SyncServiceInfo.GetSyncServiceInfo();
+			}
+			catch ( Exception e )
+			{
+				SmartException.Throw( e );
+			}
+
+			return info;
+		}
+
+		/// <summary>
+		/// Method to set the grace period a member is given
+		/// before they are removed from the domain.
+		/// Members are disabled during this grace period.
+		/// Represented in seconds
 		/// </summary>
 		[WebMethod(
-			 Description="Sync with LDAP Now",
-			 EnableSession=true)]
-		public void SyncLdapNow()
+			 Description= "Set the grace period for a member",
+			 EnableSession = true)]
+		public
+		void
+		IdentitySyncSetDeleteMemberGracePeriod( int Seconds )
 		{
 			try
 			{
 				Authorize();
 
-				Simias.Service.ServiceCtl ldapService = Simias.Service.Manager.GetService(
-					"LDAP to System Address Book Sync Service");
-
-				ldapService.Custom((int)
-					Novell.AddressBook.LdapSync.LdapSystemBookService.CustomCode.SyncImmediate,
-					null);
+				Simias.IdentitySync.Service.DeleteGracePeriod = Seconds;
 			}
-			catch(Exception e)
+			catch ( Exception e )
 			{
-				SmartException.Throw(e);
+				SmartException.Throw( e );
+			}
+		}
+	
+		/// <summary>
+		/// Method to set the synchronization interval for the
+		/// sync engine.  Represented in seconds
+		/// </summary>
+		[WebMethod(
+			 Description= "Set the synchronization interval for the identity sync service",
+			 EnableSession = true)]
+		public
+		void
+		IdentitySyncSetInterval( int Seconds )
+		{
+			try
+			{
+				Authorize();
+
+				Simias.IdentitySync.Service.SyncInterval = Seconds;
+			}
+			catch ( Exception e )
+			{
+				SmartException.Throw( e );
 			}
 		}
 
-		*/
+		/// <summary>
+		/// Tells the sync service to immediately start
+		/// a synchronization cycle.
+		/// </summary>
+		///
+		[WebMethod(
+			 Description= "Cause the Identity Sync Service to synchronize immediately",
+			 EnableSession = true)]
+		public
+		void
+		IdentitySyncNow()
+		{
+			try
+			{
+				Authorize();
+
+				Simias.IdentitySync.Service.SyncNow( "" );
+			}
+			catch ( Exception e )
+			{
+				SmartException.Throw( e );
+			}
+		}
+
 		#endregion
 
 		#region Sample Data

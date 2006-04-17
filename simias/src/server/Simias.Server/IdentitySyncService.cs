@@ -512,6 +512,32 @@ namespace Simias.IdentitySync
 		}
 
 		/// <summary>
+		/// Gets the number of synchronization cycles that have performed.
+		/// </summary>
+		static public int Cycles
+		{
+			get { return cycles; }
+		}
+
+		/// <summary>
+		/// Gets/sets the number of seconds that lapse before an unknown user
+		/// is removed from the domain.
+		/// </summary>
+		static public int DeleteGracePeriod
+		{
+			get { return deleteGracePeriod; }
+			set { deleteGracePeriod = value; }
+		}
+
+		/// <summary>
+		/// Gets the last state of the identity synchronization.
+		/// </summary>
+		static public IdentitySync.State LastState
+		{
+			get { return lastState; }
+		}
+
+		/// <summary>
 		/// Returns the registered identity providers.
 		/// </summary>
 		static public IIdentitySyncProvider[] Providers
@@ -526,6 +552,47 @@ namespace Simias.IdentitySync
 				}
 				return providers;
 			}
+		}
+
+		/// <summary>
+		/// Gets the registered providers.
+		/// </summary>
+		static public Hashtable RegisteredProviders
+		{
+			get { return registeredProviders; }
+		}
+
+		/// <summary>
+		/// Gets the status.
+		/// </summary>
+		static public string Status
+		{
+			get { return status; }
+		}
+
+		/// <summary>
+		/// Sets a value indicating if synchronization is disabled.
+		/// </summary>
+		static public bool SyncDisabled
+		{
+			set { syncDisabled = value; }
+		}
+
+		/// <summary>
+		/// Gets/sets the number of seconds in the synchronization interval.
+		/// </summary>
+		static public int SyncInterval
+		{
+			get { return syncInterval; }
+			set { syncInterval = value; }
+		}
+
+		/// <summary>
+		/// Gets the date and time when the synchronization service was started.
+		/// </summary>
+		static public DateTime UpSince
+		{
+			get { return upSince; }
 		}
 		#endregion
 
