@@ -665,6 +665,85 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="IdentitySyncDisableService">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="Disable" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="IdentitySyncDisableServiceResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="IdentitySyncGetLastInfo">
+        <s:complexType />
+      </s:element>
+      <s:element name="IdentitySyncGetLastInfoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="IdentitySyncGetLastInfoResult" type="tns:LastSyncInfo" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="LastSyncInfo">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="StartTime" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="EndTime" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="MembersProcessed" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="MembersAdded" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="MembersUpdated" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="MembersDeleted" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="MembersDisabled" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="ReportedErrors" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Messages" type="tns:ArrayOfString" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="IdentitySyncGetServiceInfo">
+        <s:complexType />
+      </s:element>
+      <s:element name="IdentitySyncGetServiceInfoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="IdentitySyncGetServiceInfoResult" type="tns:SyncServiceInfo" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="SyncServiceInfo">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="UpSince" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Cycles" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Provider" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="SynchronizationInterval" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="DeleteMemberGracePeriod" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Status" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="IdentitySyncSetDeleteMemberGracePeriod">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="Seconds" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="IdentitySyncSetDeleteMemberGracePeriodResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="IdentitySyncSetInterval">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="Seconds" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="IdentitySyncSetIntervalResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="IdentitySyncNow">
+        <s:complexType />
+      </s:element>
+      <s:element name="IdentitySyncNowResponse">
+        <s:complexType />
+      </s:element>
       <s:element name="GenerateSampleData">
         <s:complexType />
       </s:element>
@@ -871,6 +950,42 @@
   <wsdl:message name="DeleteUserSoapOut">
     <wsdl:part name="parameters" element="tns:DeleteUserResponse" />
   </wsdl:message>
+  <wsdl:message name="IdentitySyncDisableServiceSoapIn">
+    <wsdl:part name="parameters" element="tns:IdentitySyncDisableService" />
+  </wsdl:message>
+  <wsdl:message name="IdentitySyncDisableServiceSoapOut">
+    <wsdl:part name="parameters" element="tns:IdentitySyncDisableServiceResponse" />
+  </wsdl:message>
+  <wsdl:message name="IdentitySyncGetLastInfoSoapIn">
+    <wsdl:part name="parameters" element="tns:IdentitySyncGetLastInfo" />
+  </wsdl:message>
+  <wsdl:message name="IdentitySyncGetLastInfoSoapOut">
+    <wsdl:part name="parameters" element="tns:IdentitySyncGetLastInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="IdentitySyncGetServiceInfoSoapIn">
+    <wsdl:part name="parameters" element="tns:IdentitySyncGetServiceInfo" />
+  </wsdl:message>
+  <wsdl:message name="IdentitySyncGetServiceInfoSoapOut">
+    <wsdl:part name="parameters" element="tns:IdentitySyncGetServiceInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="IdentitySyncSetDeleteMemberGracePeriodSoapIn">
+    <wsdl:part name="parameters" element="tns:IdentitySyncSetDeleteMemberGracePeriod" />
+  </wsdl:message>
+  <wsdl:message name="IdentitySyncSetDeleteMemberGracePeriodSoapOut">
+    <wsdl:part name="parameters" element="tns:IdentitySyncSetDeleteMemberGracePeriodResponse" />
+  </wsdl:message>
+  <wsdl:message name="IdentitySyncSetIntervalSoapIn">
+    <wsdl:part name="parameters" element="tns:IdentitySyncSetInterval" />
+  </wsdl:message>
+  <wsdl:message name="IdentitySyncSetIntervalSoapOut">
+    <wsdl:part name="parameters" element="tns:IdentitySyncSetIntervalResponse" />
+  </wsdl:message>
+  <wsdl:message name="IdentitySyncNowSoapIn">
+    <wsdl:part name="parameters" element="tns:IdentitySyncNow" />
+  </wsdl:message>
+  <wsdl:message name="IdentitySyncNowSoapOut">
+    <wsdl:part name="parameters" element="tns:IdentitySyncNowResponse" />
+  </wsdl:message>
   <wsdl:message name="GenerateSampleDataSoapIn">
     <wsdl:part name="parameters" element="tns:GenerateSampleData" />
   </wsdl:message>
@@ -1042,6 +1157,36 @@
       <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Method to delete a user from the Simias domain</documentation>
       <wsdl:input message="tns:DeleteUserSoapIn" />
       <wsdl:output message="tns:DeleteUserSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="IdentitySyncDisableService">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Disables/enables the identity synchronization service</documentation>
+      <wsdl:input message="tns:IdentitySyncDisableServiceSoapIn" />
+      <wsdl:output message="tns:IdentitySyncDisableServiceSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="IdentitySyncGetLastInfo">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get detailed information about the last synchronization cycle</documentation>
+      <wsdl:input message="tns:IdentitySyncGetLastInfoSoapIn" />
+      <wsdl:output message="tns:IdentitySyncGetLastInfoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="IdentitySyncGetServiceInfo">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get the current status of the identity sync service thread</documentation>
+      <wsdl:input message="tns:IdentitySyncGetServiceInfoSoapIn" />
+      <wsdl:output message="tns:IdentitySyncGetServiceInfoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="IdentitySyncSetDeleteMemberGracePeriod">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Set the grace period for a member</documentation>
+      <wsdl:input message="tns:IdentitySyncSetDeleteMemberGracePeriodSoapIn" />
+      <wsdl:output message="tns:IdentitySyncSetDeleteMemberGracePeriodSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="IdentitySyncSetInterval">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Set the synchronization interval for the identity sync service</documentation>
+      <wsdl:input message="tns:IdentitySyncSetIntervalSoapIn" />
+      <wsdl:output message="tns:IdentitySyncSetIntervalSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="IdentitySyncNow">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Cause the Identity Sync Service to synchronize immediately</documentation>
+      <wsdl:input message="tns:IdentitySyncNowSoapIn" />
+      <wsdl:output message="tns:IdentitySyncNowSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GenerateSampleData">
       <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get the Authenticated User</documentation>
@@ -1348,6 +1493,60 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="IdentitySyncDisableService">
+      <soap:operation soapAction="http://novell.com/ifolder/webservice/IdentitySyncDisableService" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IdentitySyncGetLastInfo">
+      <soap:operation soapAction="http://novell.com/ifolder/webservice/IdentitySyncGetLastInfo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IdentitySyncGetServiceInfo">
+      <soap:operation soapAction="http://novell.com/ifolder/webservice/IdentitySyncGetServiceInfo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IdentitySyncSetDeleteMemberGracePeriod">
+      <soap:operation soapAction="http://novell.com/ifolder/webservice/IdentitySyncSetDeleteMemberGracePeriod" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IdentitySyncSetInterval">
+      <soap:operation soapAction="http://novell.com/ifolder/webservice/IdentitySyncSetInterval" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IdentitySyncNow">
+      <soap:operation soapAction="http://novell.com/ifolder/webservice/IdentitySyncNow" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="GenerateSampleData">
       <soap:operation soapAction="http://novell.com/ifolder/webservice/GenerateSampleData" style="document" />
       <wsdl:input>
@@ -1361,7 +1560,7 @@
   <wsdl:service name="iFolderAdmin">
     <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">iFolder Admin Web Service</documentation>
     <wsdl:port name="iFolderAdminSoap" binding="tns:iFolderAdminSoap">
-      <soap:address location="http://localhost:8086/simias10/iFolderAdmin.asmx" />
+      <soap:address location="http://127.0.0.1:8086/simias10/iFolderAdmin.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>
