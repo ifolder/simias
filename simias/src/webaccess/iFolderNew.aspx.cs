@@ -178,7 +178,7 @@ namespace Novell.iFolderApp.Web
 		private void CreateButton_Click(object sender, EventArgs e)
 		{
 			string name = NewiFolderName.Text.Trim();
-			string description = NewiFolderName.Text.Trim();
+			string description = NewiFolderDescription.Text.Trim();
 
 			if (name.Length == 0)
 			{

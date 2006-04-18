@@ -27,6 +27,12 @@
 	
 		function SelectionUpdate(cb)
 		{
+			// MONO work-around
+			if (cb.nodeName != "INPUT")
+			{
+				cb = cb.firstChild;
+			}
+			
 			var f = cb.form;
 			var count = 0;
 			
