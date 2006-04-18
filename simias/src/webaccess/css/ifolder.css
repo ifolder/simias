@@ -388,9 +388,9 @@ td.seperator
 	vertical-align: top;
 }
 
-#NewiFolderName, #NewiFolderDescription
+#NewiFolderName, #NewiFolderDescription, #iFolderDescription
 {
-	width: 20em;
+	width: 30em;
 }
 
 #NewiFolderName

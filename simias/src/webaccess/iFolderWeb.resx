@@ -474,4 +474,7 @@
     <data name="FILEHISTORY">
         <value>File History</value>
     </data>
+    <data name="EDIT">
+        <value>Edit</value>
+    </data>
 </root>

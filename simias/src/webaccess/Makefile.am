@@ -25,6 +25,7 @@ iFolderWeb_CSFILES = \
 	$(srcdir)/Context.ascx.cs \
 	$(srcdir)/Share.aspx.cs \
 	$(srcdir)/iFolderNew.aspx.cs \
+	$(srcdir)/iFolderEdit.aspx.cs \
 	$(srcdir)/UploadModule.cs \
 	$(srcdir)/UploadStream.cs \
 	$(srcdir)/WebLogger.cs \
@@ -71,6 +72,7 @@ iFolderWeb_FORMS = \
 	iFolders.aspx \
 	Login.aspx \
 	iFolderNew.aspx \
+	iFolderEdit.aspx \
 	Share.aspx \
 	Quota.ascx \
 	Header.ascx \

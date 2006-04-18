@@ -262,6 +262,22 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "iFolderEdit.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "iFolderEdit.aspx.cs"
+                    DependentUpon = "iFolderEdit.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "iFolderEdit.aspx.resx"
+                    DependentUpon = "iFolderEdit.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "iFolderNew.aspx"
                     SubType = "Form"
                     BuildAction = "Content"

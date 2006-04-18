@@ -24,7 +24,8 @@
 			
 			if ((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13))
 			{
-				document.getElementById(b).click();
+				__doPostBack(b,'');
+				//document.getElementById(b).click();
 				result = false;
 			} 
 			

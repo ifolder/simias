@@ -447,7 +447,7 @@ namespace iFolder.WebService
 
 			if ((description != null) && (description.Length > 0))
 			{
-				c.Properties.AddProperty(PropertyTags.Description, description);
+				c.Properties.ModifyProperty(PropertyTags.Description, description);
 			}
 			else if (c.Properties.HasProperty(PropertyTags.Description))
 			{

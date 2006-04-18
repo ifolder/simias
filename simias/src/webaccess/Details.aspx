@@ -30,6 +30,12 @@
 		
 		<div id="nav">
 	
+			<div id="Actions" class="actions" runat="server">
+				<div class="action">
+					<asp:HyperLink ID="iFolderEditLink" runat="server" />
+				</div>
+			</div>
+			
 			<iFolder:Quota runat="server" />
 
 		</div>

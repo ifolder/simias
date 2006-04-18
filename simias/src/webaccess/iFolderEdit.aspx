@@ -1,4 +1,4 @@
-<%@ Page Language="C#" Codebehind="Upload.aspx.cs" AutoEventWireup="false" Inherits="Novell.iFolderApp.Web.UploadPage" %>
+<%@ Page Language="C#" Codebehind="iFolderEdit.aspx.cs" AutoEventWireup="false" Inherits="Novell.iFolderApp.Web.iFolderEditPage" %>
 <%@ Register TagPrefix="iFolder" TagName="Header" Src="Header.ascx" %>
 <%@ Register TagPrefix="iFolder" TagName="Message" Src="Message.ascx" %>
 <%@ Register TagPrefix="iFolder" TagName="Pagging" Src="Pagging.ascx" %>
@@ -34,7 +34,7 @@
 
 		function SetFocus()
 		{
-			document.getElementById("UploadFile").select();
+			document.getElementById("iFolderDescription").select();
 		}
 		
 		// on load
@@ -56,7 +56,7 @@
 	
 			<div class="actions">
 				<div class="action">
-					<asp:LinkButton ID="UploadButton" runat="server" />
+					<asp:LinkButton ID="SaveButton" runat="server" />
 				</div>
 				<div class="action">
 					<asp:HyperLink ID="CancelLink" runat="server" />
@@ -70,16 +70,17 @@
 			<iFolder:Message id="MessageBox" runat="server" />
 	
 			<div class="section">
-				<%= GetString("UPLOAD") %>
+				<%= GetString("EDIT") %>
 			</div>
 			
 			<div class="main">
 				
 				<div class="path">
-					<asp:Literal ID="ParentPath" runat="server" />
+					<asp:Literal ID="iFolderName" runat="server" />
 				</div>
 
-				<input id="UploadFile" type="file" runat="server" onKeyDown="return SubmitKeyDown(event, 'UploadButton');" />
+				<div class="label"><%= GetString("DESCRIPTION") %></div>
+				<asp:TextBox ID="iFolderDescription" TextMode="MultiLine" Rows="4" Width="30em" onkeydown="return SubmitKeyDown(event, 'SaveButton');" runat="server" />
 				
 			</div>
 	

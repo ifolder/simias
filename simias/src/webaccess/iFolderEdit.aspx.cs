@@ -32,65 +32,38 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
 using System.Resources;
-using System.Web.Services.Protocols;
+using System.Web.Security;
+using System.IO;
 using System.Net;
+using System.Web.Services.Protocols;
+using System.Xml;
 
 namespace Novell.iFolderApp.Web
 {
 	/// <summary>
-	/// Details Page
+	/// iFolder Edit Page
 	/// </summary>
-	public class DetailsPage : Page
+	public class iFolderEditPage : Page
 	{
 		/// <summary>
-		/// iFolder Context
-		/// </summary>
-		protected Context iFolderContext;
-
-		/// <summary>
-		/// Actions Container
-		/// </summary>
-		protected HtmlContainerControl Actions;
-
-		/// <summary>
-		/// iFolder Edit Link
-		/// </summary>
-		protected HyperLink iFolderEditLink;
-
-		/// <summary>
-		/// iFolder Button
+		/// iFolder Name
 		/// </summary>
 		protected Literal iFolderName;
-		
+
 		/// <summary>
 		/// iFolder Description
 		/// </summary>
-		protected Literal iFolderDescription;
-		
-		/// <summary>
-		/// iFolder Owner
-		/// </summary>
-		protected Literal iFolderOwner;
-		
-		/// <summary>
-		/// iFolder Size
-		/// </summary>
-		protected Literal iFolderSize;
+		protected TextBox iFolderDescription;
 
 		/// <summary>
-		/// iFolder Member Count
+		/// Save Button
 		/// </summary>
-		protected Literal iFolderMemberCount;
+		protected LinkButton SaveButton;
 
 		/// <summary>
-		/// iFolder File Count
+		/// Cancel Link
 		/// </summary>
-		protected Literal iFolderFileCount;
-
-		/// <summary>
-		/// iFolder Folder Count
-		/// </summary>
-		protected Literal iFolderFolderCount;
+		protected HyperLink CancelLink;
 
 		/// <summary>
 		/// Message Box
@@ -108,7 +81,7 @@ namespace Novell.iFolderApp.Web
 		private ResourceManager rm;
 
 		/// <summary>
-		/// iFolder ID
+		/// Current iFolder ID
 		/// </summary>
 		private string ifolderID;
 
@@ -123,21 +96,22 @@ namespace Novell.iFolderApp.Web
 			ifolderID = Request.QueryString.Get("iFolder");
 
 			// connection
-			web = (iFolderWeb) Session["Connection"];
+			web = (iFolderWeb)Session["Connection"];
 
 			// localization
 			rm = (ResourceManager) Application["RM"];
-
+			
 			if (!IsPostBack)
 			{
 				// data
 				BindData();
 
 				// strings
-				iFolderEditLink.Text = GetString("EDIT");
+				SaveButton.Text = GetString("SAVE");
+				CancelLink.Text = GetString("CANCEL");
 
-				// links
-				iFolderEditLink.NavigateUrl = "iFolderEdit.aspx?iFolder=" + ifolderID;
+				// link
+				CancelLink.NavigateUrl = "Details.aspx?iFolder=" + ifolderID;
 			}
 		}
 
@@ -149,26 +123,53 @@ namespace Novell.iFolderApp.Web
 			try
 			{
 				// ifolder
-				iFolderDetails ifolder = web.GetiFolderDetails(ifolderID);
-
-				// rights
-				Actions.Visible = (ifolder.Rights != Rights.ReadOnly);
-
+				iFolder ifolder = web.GetiFolder(ifolderID);
+				
+				// context
 				iFolderName.Text = ifolder.Name;
-				iFolderDescription.Text = ifolder.Description;
-				iFolderOwner.Text = ifolder.OwnerFullName;
-				iFolderSize.Text = WebUtility.FormatSize(ifolder.Size, rm);
-				iFolderMemberCount.Text = ifolder.MemberCount.ToString();
-				iFolderFileCount.Text = ifolder.FileCount.ToString();
-				iFolderFolderCount.Text = ifolder.DirectoryCount.ToString();
 
-				iFolderContext.iFolderName = ifolder.Name;
+				// description
+				iFolderDescription.Text = ifolder.Description;
 			}
 			catch(SoapException ex)
 			{
 				HandleException(ex);
 			}
 		}
+
+		/// <summary>
+		/// Get a Localized String
+		/// </summary>
+		/// <param name="key"></param>
+		/// <returns></returns>
+		protected string GetString(string key)
+		{
+			return WebUtility.GetString(key, rm);
+		}
+
+		#region Web Form Designer
+
+		/// <summary>
+		/// On Initialization
+		/// </summary>
+		/// <param name="e"></param>
+		override protected void OnInit(EventArgs e)
+		{
+			InitializeComponent();
+			base.OnInit(e);
+		}
+		
+		/// <summary>
+		/// Initialize the Components
+		/// </summary>
+		private void InitializeComponent()
+		{    
+			this.ID = "EntryView";
+			this.Load += new System.EventHandler(this.Page_Load);
+			this.SaveButton.Click += new EventHandler(SaveButton_Click);
+		}
+
+		#endregion
 
 		/// <summary>
 		/// Handle Exceptions
@@ -193,8 +194,37 @@ namespace Novell.iFolderApp.Web
 			// types
 			switch(type)
 			{
+				case "iFolderFileDoesNotExistException":
+				case "iFolderEntryAlreadyExistException":
+					MessageBox.Text = GetString("ENTRY.DIRALREADYEXISTS");
+					break;
+
+				case "iFolderEntryInvalidCharactersException":
+					MessageBox.Text = GetString("ENTRY.ENTRYINVALIDCHARACTERS");
+					break;
+
+				case "iFolderEntryInvalidNameException":
+					MessageBox.Text = GetString("ENTRY.ENTRYINVALIDNAME");
+					break;
+
+				case "FileSizeException":
+					MessageBox.Text = GetString("ENTRY.FILESIZEEXCEPTION");
+					break;
+
+				case "DiskQuotaException":
+					MessageBox.Text = GetString("ENTRY.DISKQUOTAEXCEPTION");
+					break;
+
+				case "FileTypeException":
+					MessageBox.Text = GetString("ENTRY.FILETYPEEXCEPTION");
+					break;
+
 				case "AccessException":
 					MessageBox.Text = GetString("ENTRY.ACCESSEXCEPTION");
+					break;
+
+				case "LockException":
+					MessageBox.Text = GetString("ENTRY.LOCKEXCEPTION");
 					break;
 
 				default:
@@ -206,35 +236,25 @@ namespace Novell.iFolderApp.Web
 		}
 
 		/// <summary>
-		/// Get a Localized String
+		/// Save Button Click
 		/// </summary>
-		/// <param name="key"></param>
-		/// <returns></returns>
-		protected string GetString(string key)
-		{
-			return WebUtility.GetString(key, rm);
-		}
-
-		#region Web Form Designer
-
-		/// <summary>
-		/// On Initialize
-		/// </summary>
+		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		override protected void OnInit(EventArgs e)
+		private void SaveButton_Click(object sender, EventArgs e)
 		{
-			InitializeComponent();
-			base.OnInit(e);
-		}
-		
-		/// <summary>
-		/// Initialize Components
-		/// </summary>
-		private void InitializeComponent()
-		{    
-			this.Load += new System.EventHandler(this.Page_Load);
-		}
+			string description = iFolderDescription.Text.Trim();
+			
+			try
+			{
+				web.SetiFolderDescription(ifolderID, description);
 
-		#endregion
+				// redirect
+				Response.Redirect("Details.aspx?iFolder=" + ifolderID);
+			}
+			catch(SoapException ex)
+			{
+				HandleException(ex);
+			}
+		}
 	}
 }
