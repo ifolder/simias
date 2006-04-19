@@ -47,7 +47,7 @@ export BUILDNUM=%{buildnum}
 
 %build
 export BUILDNUM=%{buildnum}
-./autogen.sh --prefix=%{prefix} --libexecdir=%{libexecdir} --sysconfdir=%{sysconfdir} --with-simiasdatadir=%{simiasdatadir} 
+./autogen.sh --prefix=%{prefix} --libexecdir=%{libexecdir} --sysconfdir=%{sysconfdir} --with-simiasdatadir=%{simiasdatadir} --libdir='%_libdir' 
 make
 #make dist
 #=============================================================================
