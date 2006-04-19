@@ -156,11 +156,11 @@
 			
 		</div>						
 		
-		<div class="footer">
-		</div>
-		
 	</div>
 			
+	<div class="footer">
+	</div>
+	
 </form>
 		
 </body>

@@ -17,7 +17,9 @@ p, tr, td, ol, ul
 	border: 1px solid #666666;
 	margin-left: auto;
 	margin-right: auto;
+	padding-bottom: .5em;
 	width: 59em;
+	float: left;
 }
 
 .ifolderbuttons
@@ -37,11 +39,16 @@ p, tr, td, ol, ul
 
 .footer
 {
-	clear: both;
-	margin: 0;
 	height: 1em;
 	background-color: #ddd;
-	border-top: 1px solid gray;
+	border-left: 1px solid gray;
+	border-right: 1px solid gray;
+	border-bottom: 1px solid gray;
+	margin-left: auto;
+	margin-right: auto;
+	width: 59em;
+
+float: left;	
 }
 
 .detailtop
@@ -62,7 +69,6 @@ p, tr, td, ol, ul
 	padding-right: 1em;
 	padding-left: 1em;
 	width: 17em;
-	margin-bottom: .5em;
 }
 
 .policydetails
@@ -301,11 +307,12 @@ body#users li.users a, body#ifolders li.ifolders a, body#server li.server a, bod
 	width: 25%;
 }
 
-.logoutbutton
+.logoutbutton, .logoutbutton:visited
 {
 	float: right;
 	text-decoration: none;
 	font-weight: bolder;
+	color: #000066;
 }
 
 .breadcrumbs
@@ -315,9 +322,9 @@ body#users li.users a, body#ifolders li.ifolders a, body#server li.server a, bod
 	font-size: 1em;
 }
 
-.breadcrumblink, a:active
+.breadcrumblink, .breadcrumblink:visited
 {
-	color: Black;
+	color: #000066;
 	text-decoration: none;
 }
 

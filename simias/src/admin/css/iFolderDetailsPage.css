@@ -4,7 +4,6 @@
 	padding-left: 1em;
 	float: left;
 	width: 38em;
-	height: 50em;
 	border-right: dotted 1px #999999;
 }
 
@@ -26,6 +25,7 @@
 .detailinfo td
 {
 	text-align: left;
+	font-size: 1em;
 }
 
 .detailinfo td #Description
@@ -33,12 +33,12 @@
 	text-align: left;
 	width: 80%;
 	padding-left: .2em;
+	font-size: .8em;
 }
 
 .ifoldermemberlistnav
 {
 	float: left;
-	height: 24em;
 }
 
 .ifoldermemberlist
@@ -98,14 +98,14 @@
 
 .actionbuttons
 {
-	margin-top: 1em;
+	margin-top: .5em;
 	margin-bottom: 1em;
 	width: 4.5em;
 }
 
 .rightslist
 {
-	margin-top: 1em;
+	margin-top: .5em;
 	margin-bottom: 1em;
 	margin-right: .3em;
 }
@@ -143,4 +143,3 @@
 {
 	float: left;
 }
-

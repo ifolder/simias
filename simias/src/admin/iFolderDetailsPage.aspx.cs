@@ -88,12 +88,22 @@ namespace Novell.iFolderWeb.Admin
 		/// <summary>
 		/// Controls used to display and edit iFolder information.
 		/// </summary>
+		protected Literal LastModified;
+
+		/// <summary>
+		/// Controls used to display and edit iFolder information.
+		/// </summary>
 		protected Literal Size;
 
 		/// <summary>
 		/// Controls used to display and edit iFolder information.
 		/// </summary>
-		protected Literal Shared;
+		protected Literal Directories;
+
+		/// <summary>
+		/// Controls used to display and edit iFolder information.
+		/// </summary>
+		protected Literal Files;
 
 
 		/// <summary>
@@ -228,14 +238,16 @@ namespace Novell.iFolderWeb.Admin
 		///	<returns>The name of the ifolder.</returns>
 		private string GetiFolderDetails()
 		{
-			iFolder ifolder = web.GetiFolder( iFolderID );
+			iFolderDetails ifolder = web.GetiFolderDetails( iFolderID );
 
 			Name.Text = ifolder.Name;
 			Description.Text = ifolder.Description;
 			Owner.Text = ifolder.OwnerFullName;
 			Owner.NavigateUrl= String.Format( "UserDetails.aspx?id={0}", ifolder.OwnerID );
+			LastModified.Text = ifolder.LastModified.ToString();
 			Size.Text = Utils.ConvertToUnitString( ifolder.Size, true, rm );
-			Shared.Text = ( TotaliFolderMembers > 1 ) ? Boolean.TrueString : Boolean.FalseString;
+			Directories.Text = ifolder.DirectoryCount.ToString();
+			Files.Text = ifolder.FileCount.ToString();
 			return ifolder.Name;
 		}
 

@@ -25,11 +25,11 @@
 			
 		<iFolder:TopNavigation ID="TopNav" Runat="server" />
 
-		<div class="footer">
-		</div>
-				
 	</div>
 	
+	<div class="footer">
+	</div>
+				
 </form>
 	
 </body>

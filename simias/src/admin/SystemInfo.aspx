@@ -183,11 +183,11 @@
 		
 		<ifolder:Policy ID="Policy" Runat="server" />		
 		
-		<div class="footer">
-		</div>
-				
 	</div>
 		
+	<div class="footer">
+	</div>
+				
 </form>
 
 </body>

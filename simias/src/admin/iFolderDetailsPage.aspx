@@ -89,6 +89,16 @@
 							<%= GetiFolderPath() %>
 						</td>
 					</tr>
+					
+					<tr>
+						<th>
+							<%= GetString( "MODIFIEDTAG" ) %>
+						</th>
+						
+						<td>
+							<asp:Literal ID="LastModified" Runat="server" />
+						</td>
+					</tr>
 
 					<tr>
 						<th>
@@ -99,14 +109,24 @@
 							<asp:Literal ID="Size" Runat="server" />
 						</td>
 					</tr>
+					
+					<tr>
+						<th>
+							<%= GetString( "DIRECTORIESTAG" ) %>
+						</th>
+						
+						<td>
+							<asp:Literal ID="Directories" Runat="server" />
+						</td>
+					</tr>
 
 					<tr>
 						<th>
-							<%= GetString( "SHAREDTAG" ) %>
+							<%= GetString( "FILESTAG" ) %>
 						</th>
 
 						<td>
-							<asp:Literal ID="Shared" Runat="server" />
+							<asp:Literal ID="Files" Runat="server" />
 						</td>
 					</tr>
 					
@@ -222,9 +242,9 @@
 
 		<ifolder:Policy ID="Policy" Runat="server" />
 
-		<div class="footer">
-		</div>
+	</div>
 
+	<div class="footer">
 	</div>
 
 </form>

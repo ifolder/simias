@@ -9,6 +9,7 @@
 	border-bottom: dotted 1px #999999;
 	float: left;
 	width: 100%;
+	padding-bottom: 1em;
 }
 
 .detailinfo th
@@ -29,7 +30,6 @@
 	padding-left: 1em;
 	float: left;
 	width: 38em;
-	height: 45em;
 	border-right: 1px dotted #999999;
 }
 
