@@ -223,6 +223,11 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "LastSyncInfo.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Makefile.am"
                     BuildAction = "None"
                 />
@@ -253,6 +258,11 @@
                 />
                 <File
                     RelPath = "SmartException.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SyncServiceInfo.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
