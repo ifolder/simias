@@ -137,6 +137,7 @@ namespace Novell.iFolderApp.Web
 			ifolderTable.Columns.Add("Description");
 			ifolderTable.Columns.Add("Rights");
 			ifolderTable.Columns.Add("Size");
+			ifolderTable.Columns.Add("Admin", typeof(bool));
 
 			try
 			{
@@ -156,6 +157,7 @@ namespace Novell.iFolderApp.Web
 					row["Description"] = ifolder.Description;
 					row["Rights"] = WebUtility.FormatRights(ifolder.Rights, rm);
 					row["Size"] = WebUtility.FormatSize(ifolder.Size, rm);
+					row["Admin"] = (ifolder.Rights == Rights.Admin);
 
 					ifolderTable.Rows.Add(row);
 				}

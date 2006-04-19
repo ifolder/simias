@@ -142,7 +142,7 @@
 						
 						<asp:TemplateColumn ItemStyle-CssClass="cb">
 							<itemtemplate>
-								<asp:CheckBox ID="Select" onclick="SelectionUpdate(this)" runat="server" />
+								<asp:CheckBox ID="Select" Enabled='<%# DataBinder.Eval(Container.DataItem, "Admin") %>' onclick="SelectionUpdate(this)" runat="server" />
 							</itemtemplate>
 						</asp:TemplateColumn>
 						
