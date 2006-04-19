@@ -45,6 +45,7 @@ namespace Novell.iFolderWeb.Admin
 		/// </summary>
 		private ResourceManager rm;
 
+
 		/// <summary>
 		/// Anchor controls.
 		/// </summary>
@@ -91,6 +92,12 @@ namespace Novell.iFolderWeb.Admin
 		/// Breadcrumb control.
 		/// </summary>
 		protected DataList BreadCrumbs;
+
+
+		/// <summary>
+		/// Logged in as label control.
+		/// </summary>
+		protected Label LoggedInAs;
 
 		#endregion
 
@@ -170,6 +177,9 @@ namespace Novell.iFolderWeb.Admin
 
 			if ( !IsPostBack )
 			{
+				// Show the currently logged in user.
+				LoggedInAs.Text = String.Format( GetString( "LOGGEDINAS" ), Session[ "NAME" ] );
+
 				// Initially hide the error panel.
 				ErrorPanel.Visible = false;
 

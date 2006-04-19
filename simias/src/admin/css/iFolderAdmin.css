@@ -341,3 +341,12 @@ body#users li.users a, body#ifolders li.ifolders a, body#server li.server a, bod
 	text-align: center;
 }
 
+.loggedinas
+{
+	float: right;
+	color: White;
+	font-weight: bolder;
+	margin-right: .5em;
+	margin-top: .3em;
+}
+

@@ -4,6 +4,8 @@
 
 	<div id="logo"><img src="images/if3sa-logo.png"></div>
 	
+	<asp:Label ID="LoggedInAs" Runat="server" CssClass="loggedinas" />
+	
 	<ul id="navcontainer">
 	
 		<li class="users">
