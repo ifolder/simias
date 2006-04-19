@@ -72,6 +72,13 @@ namespace Novell.iFolderWeb.Admin
 		/// </summary>
 		private ResourceManager rm;
 
+
+		/// <summary>
+		/// Top navigation panel control.
+		/// </summary>
+		protected TopNavigation TopNav;
+
+
 		/// <summary>
 		/// Web controls.
 		/// </summary>
@@ -256,6 +263,13 @@ namespace Novell.iFolderWeb.Admin
 		#endregion
 
 		#region Private Methods
+
+		/// <summary>
+		/// Builds the breadcrumb list for this page.
+		/// </summary>
+		private void BuildBreadCrumbList()
+		{
+		}
 
 		/// <summary>
 		/// Creates a list of existing admins.
@@ -473,6 +487,14 @@ namespace Novell.iFolderWeb.Admin
 					{
 						CreateiFolderDiv.Visible = false;
 						ExistingMemberList = CreateExistingAdminList();
+
+						// Show the proper tab.
+						Control body = FindControl( "ifolders" );
+						if ( body != null )
+						{
+							body.ID = "system";
+						}
+
 						break;
 					}
 				}

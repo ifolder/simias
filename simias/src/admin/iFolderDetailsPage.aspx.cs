@@ -55,6 +55,12 @@ namespace Novell.iFolderWeb.Admin
 
 
 		/// <summary>
+		/// Top navigation panel control.
+		/// </summary>
+		protected TopNavigation TopNav;
+
+
+		/// <summary>
 		/// Controls used to display and edit iFolder information.
 		/// </summary>
 		protected Literal Name;
@@ -207,9 +213,20 @@ namespace Novell.iFolderWeb.Admin
 		#region Private Methods
 
 		/// <summary>
+		///  Builds the breadcrumb list for this page.
+		/// </summary>
+		/// <param name="ifolderName">The name of the current ifolder.</param>
+		private void BuildBreadCrumbList( string ifolderName )
+		{
+			TopNav.AddBreadCrumb( GetString( "IFOLDERS" ), "iFolders.aspx" );
+			TopNav.AddBreadCrumb( ifolderName, null );
+		}
+
+		/// <summary>
 		/// Initializes the iFolder detail web controls.
 		/// </summary>
-		private void GetiFolderDetails()
+		///	<returns>The name of the ifolder.</returns>
+		private string GetiFolderDetails()
 		{
 			iFolder ifolder = web.GetiFolder( iFolderID );
 
@@ -219,6 +236,7 @@ namespace Novell.iFolderWeb.Admin
 			Owner.NavigateUrl= String.Format( "UserDetails.aspx?id={0}", ifolder.OwnerID );
 			Size.Text = Utils.ConvertToUnitString( ifolder.Size, true, rm );
 			Shared.Text = ( TotaliFolderMembers > 1 ) ? Boolean.TrueString : Boolean.FalseString;
+			return ifolder.Name;
 		}
 
 		/// <summary>
@@ -393,10 +411,13 @@ namespace Novell.iFolderWeb.Admin
 			GetiFolderMembers();
 
 			// Get the iFolder Details.
-			GetiFolderDetails();
+			string ifolderName = GetiFolderDetails();
 
 			// Fill in the policy information.
 			Policy.GetiFolderPolicies();
+
+			// Build the breadcrumb list.
+			BuildBreadCrumbList( ifolderName );
 		}
 
 		/// <summary>

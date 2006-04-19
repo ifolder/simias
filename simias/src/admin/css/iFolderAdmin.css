@@ -311,6 +311,18 @@ body#users li.users a, body#ifolders li.ifolders a, body#server li.server a, bod
 .breadcrumbs
 {
 	float: left;
+	margin-left: .5em;
+}
+
+.breadcrumblink, a:active
+{
+	color: Black;
+	text-decoration: none;
+}
+
+.breadcrumbseparator
+{
+	font-weight: bolder;
 }
 
 .errorpanel

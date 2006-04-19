@@ -75,6 +75,9 @@
 	<data name="BEGINSWITH">
 		<value>Begins With</value>
 	</data>
+	<data name="BREADCRUMBSEPARATOR">
+		<value>|</value>
+	</data>
 	<data name="CANCEL">
 		<value>Cancel</value>
 	</data>

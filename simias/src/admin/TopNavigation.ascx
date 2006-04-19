@@ -35,9 +35,11 @@
 		GridLines="None" 
 		RepeatDirection="Horizontal" 
 		ShowHeader="false">
+
+		<SeparatorStyle CssClass="breadcrumbseparator" />		
 		
 		<SeparatorTemplate>
-			>
+			<%= GetString( "BREADCRUMBSEPARATOR" ) %>
 		</SeparatorTemplate>
 		
 		<ItemTemplate>

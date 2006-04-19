@@ -67,6 +67,12 @@ namespace Novell.iFolderWeb.Admin
 
 
 		/// <summary>
+		/// Top navigation panel control.
+		/// </summary>
+		protected TopNavigation TopNav;
+
+
+		/// <summary>
 		/// Control that checks or unchecks all of the ifolders in the current view.
 		/// </summary>
 		protected CheckBox AlliFoldersCheckBox;
@@ -144,6 +150,14 @@ namespace Novell.iFolderWeb.Admin
 		#endregion
 
 		#region Private Methods
+
+		/// <summary>
+		///  Builds the breadcrumb list for this page.
+		/// </summary>
+		private void BuildBreadCrumbList()
+		{
+			TopNav.AddBreadCrumb( GetString( "IFOLDERS" ), null );
+		}
 	
 		/// <summary>
 		/// Creates a list of iFolders where the user is a member.
@@ -263,6 +277,7 @@ namespace Novell.iFolderWeb.Admin
 		/// <param name="e"></param>
 		private void Page_PreRender(object sender, EventArgs e)
 		{
+			BuildBreadCrumbList();
 			GetiFolders();
 		}
 

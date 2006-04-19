@@ -159,7 +159,6 @@ namespace Novell.iFolderWeb.Admin
 		/// </summary>
 		private void BuildBreadCrumbList()
 		{
-			TopNav.AddBreadCrumb( GetString( "HOME" ), "SystemInfo.aspx" );
 			TopNav.AddBreadCrumb( GetString( "USERS" ), null );
 		}
 

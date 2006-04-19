@@ -19,7 +19,7 @@
 	
 </head>
 
-<body id="users" runat="server">
+<body id="ifolders" runat="server">
 
 <form runat="server">
 

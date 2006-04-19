@@ -77,6 +77,12 @@ namespace Novell.iFolderWeb.Admin
 
 
 		/// <summary>
+		/// Top navigation panel control.
+		/// </summary>
+		protected TopNavigation TopNav;
+
+
+		/// <summary>
 		/// User detail controls.
 		/// </summary>
 		protected Literal FullName;
@@ -210,6 +216,16 @@ namespace Novell.iFolderWeb.Admin
 		#region Private Methods
 
 		/// <summary>
+		///  Builds the breadcrumb list for this page.
+		/// </summary>
+		/// <param name="fullName">The full name of the current user.</param>
+		private void BuildBreadCrumbList( string fullName )
+		{
+			TopNav.AddBreadCrumb( GetString( "USERS" ), "Users.aspx" );
+			TopNav.AddBreadCrumb( fullName, null );
+		}
+
+		/// <summary>
 		/// Creates a list of iFolders where the user is a member.
 		/// </summary>
 		/// <returns>A DataView object containing the iFolder list.</returns>
@@ -316,7 +332,8 @@ namespace Novell.iFolderWeb.Admin
 		/// <summary>
 		/// Gets the details about the user and fills out the details table.
 		/// </summary>
-		private void GetUserDetails()
+		/// <returns>The user's full name.</returns>
+		private string GetUserDetails()
 		{
 			// Get the iFolder user information.
 			iFolderUserDetails details = web.GetUserDetails( UserID );
@@ -330,6 +347,7 @@ namespace Novell.iFolderWeb.Admin
 			FullName.Text = details.FullName;
 			LdapContext.Text = details.LdapContext;
 			LastLogin.Text = lastLogin;
+			return details.FullName;
 		}
 
 		/// <summary>
@@ -384,7 +402,10 @@ namespace Novell.iFolderWeb.Admin
 		private void Page_PreRender(object sender, EventArgs e)
 		{
 			// Fill in the user details.
-			GetUserDetails();
+			string fullName = GetUserDetails();
+
+			// Set the breadcrumb list.
+			BuildBreadCrumbList( fullName );
 
 			// Fill in the policy information.
 			Policy.GetUserPolicies();
