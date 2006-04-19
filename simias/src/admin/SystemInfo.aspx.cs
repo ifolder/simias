@@ -53,6 +53,12 @@ namespace Novell.iFolderWeb.Admin
 
 
 		/// <summary>
+		/// Top navigation panel control.
+		/// </summary>
+		protected TopNavigation TopNav;
+
+
+		/// <summary>
 		/// iFolder system name control.
 		/// </summary>
 		protected TextBox Name;
@@ -147,6 +153,14 @@ namespace Novell.iFolderWeb.Admin
 		#endregion
 
 		#region Private Methods
+
+		/// <summary>
+		///  Builds the breadcrumb list for this page.
+		/// </summary>
+		private void BuildBreadCrumbList()
+		{
+			TopNav.AddBreadCrumb( GetString( "SYSTEM" ), null );
+		}
 
 		/// <summary>
 		/// Gets the list view of ifolder administrators.
@@ -280,6 +294,9 @@ namespace Novell.iFolderWeb.Admin
 
 			// Get the policy information.
 			Policy.GetSystemPolicies();
+
+			// Build the bread crumb list.
+			BuildBreadCrumbList();
 		}
 
 		/// <summary>

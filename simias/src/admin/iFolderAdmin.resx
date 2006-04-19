@@ -45,6 +45,12 @@
 	<data name="ADD">
 		<value>Add</value>
 	</data>
+	<data name="ADDADMINS">
+		<value>Add Administrators</value>
+	</data>
+	<data name="ADDMEMBERS">
+		<value>Add Members</value>
+	</data>
 	<data name="ADMIN">
 		<value>Admin</value>
 	</data>

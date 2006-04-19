@@ -73,7 +73,7 @@
 
 	<div class="container">
 
-		<iFolder:TopNavigation ID="Banner" Runat="server" />
+		<iFolder:TopNavigation ID="TopNav" Runat="server" />
 
 		<div class="leftnav">
 

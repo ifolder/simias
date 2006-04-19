@@ -312,6 +312,7 @@ body#users li.users a, body#ifolders li.ifolders a, body#server li.server a, bod
 {
 	float: left;
 	margin-left: .5em;
+	font-size: 1em;
 }
 
 .breadcrumblink, a:active

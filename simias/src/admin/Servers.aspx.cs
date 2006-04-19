@@ -51,12 +51,26 @@ namespace Novell.iFolderWeb.Admin
 		/// </summary>
 		private ResourceManager rm;
 
+
+		/// <summary>
+		/// Top navigation panel control.
+		/// </summary>
+		protected TopNavigation TopNav;
+
 		#endregion
 
 		#region Properties
 		#endregion
 
 		#region Private Methods
+
+		/// <summary>
+		///  Builds the breadcrumb list for this page.
+		/// </summary>
+		private void BuildBreadCrumbList()
+		{
+			TopNav.AddBreadCrumb( GetString( "SERVERS" ), null );
+		}
 
 		/// <summary>
 		/// Page_Load
@@ -74,6 +88,17 @@ namespace Novell.iFolderWeb.Admin
 			if ( !IsPostBack )
 			{
 			}
+		}
+
+		/// <summary>
+		/// Page_PreRender
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void Page_PreRender(object sender, EventArgs e)
+		{
+			// Set the breadcrumb list.
+			BuildBreadCrumbList();
 		}
 
 		#endregion
@@ -113,6 +138,12 @@ namespace Novell.iFolderWeb.Admin
 		/// </summary>
 		private void InitializeComponent()
 		{    
+			if ( !Page.IsPostBack )
+			{
+				// Set the render event to happen only on page load.
+				Page.PreRender += new EventHandler( Page_PreRender );
+			}
+
 			this.Load += new System.EventHandler(this.Page_Load);
 		}
 		#endregion

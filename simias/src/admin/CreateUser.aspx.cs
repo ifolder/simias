@@ -53,6 +53,12 @@ namespace Novell.iFolderWeb.Admin
 
 
 		/// <summary>
+		/// Top navigation panel control.
+		/// </summary>
+		protected TopNavigation TopNav;
+
+
+		/// <summary>
 		/// User name edit control.
 		/// </summary>
 		protected TextBox UserName;
@@ -132,6 +138,15 @@ namespace Novell.iFolderWeb.Admin
 		#region Private Methods
 
 		/// <summary>
+		///  Builds the breadcrumb list for this page.
+		/// </summary>
+		private void BuildBreadCrumbList()
+		{
+			TopNav.AddBreadCrumb( GetString( "USERS" ), "Users.aspx" );
+			TopNav.AddBreadCrumb( GetString( "CREATEUSER" ), null );
+		}
+
+		/// <summary>
 		/// Page_Load
 		/// </summary>
 		/// <param name="sender"></param>
@@ -156,6 +171,17 @@ namespace Novell.iFolderWeb.Admin
 				// Initialize state variables.
 				SetFocus( UserName );
 			}
+		}
+
+		/// <summary>
+		/// Page_PreRender
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void Page_PreRender(object sender, EventArgs e)
+		{
+			// Set the breadcrumb list.
+			BuildBreadCrumbList();
 		}
 
 		/// <summary>
@@ -271,6 +297,12 @@ namespace Novell.iFolderWeb.Admin
 		/// </summary>
 		private void InitializeComponent()
 		{    
+			if ( !Page.IsPostBack )
+			{
+				// Set the render event to happen only on page load.
+				Page.PreRender += new EventHandler( Page_PreRender );
+			}
+
 			this.Load += new System.EventHandler(this.Page_Load);
 		}
 

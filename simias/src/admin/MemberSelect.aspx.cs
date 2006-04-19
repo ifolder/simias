@@ -269,6 +269,57 @@ namespace Novell.iFolderWeb.Admin
 		/// </summary>
 		private void BuildBreadCrumbList()
 		{
+			// Show the proper tab.
+			Control body = FindControl( "ifolders" );
+			switch ( Operation )
+			{
+				case PageOp.CreateiFolder:
+				{
+					// Create ifolder is called from both the userdetails page and the main ifolder list
+					// page. Need to determine which one we came from.
+					Uri uri = new Uri( ReferringPage );
+					if ( uri.AbsolutePath.EndsWith( "UserDetails.aspx" ) )
+					{
+						iFolderUser user = web.GetUser( Owner );
+						TopNav.AddBreadCrumb( GetString( "USERS" ), "Users.aspx" );
+						TopNav.AddBreadCrumb( user.FullName, String.Format( "UserDetails.aspx?id={0}", user.ID ) );
+						TopNav.AddBreadCrumb( GetString( "CREATENEWIFOLDER" ), null );
+
+						if ( body != null )
+						{
+							body.ID = "users";
+						}
+					}
+					else
+					{
+						TopNav.AddBreadCrumb( GetString( "IFOLDERS" ), "iFolders.aspx" );
+						TopNav.AddBreadCrumb( GetString( "CREATENEWIFOLDER" ), null );
+					}
+					break;
+				}
+
+				case PageOp.AddMember:
+				{
+					iFolder ifolder = web.GetiFolder( iFolderID );
+					TopNav.AddBreadCrumb( GetString( "IFOLDERS" ), "iFolders.aspx" );
+					TopNav.AddBreadCrumb( ifolder.Name, String.Format( "iFolderDetailsPage.aspx?id={0}", ifolder.ID ) );
+					TopNav.AddBreadCrumb( GetString( "ADDMEMBERS" ), null );
+					break;
+				}
+
+				case PageOp.AddAdmin:
+				{
+					TopNav.AddBreadCrumb( GetString( "SYSTEM" ), "SystemInfo.aspx" );
+					TopNav.AddBreadCrumb( GetString( "ADDADMINS" ), null );
+
+					if ( body != null )
+					{
+						body.ID = "system";
+					}
+
+					break;
+				}
+			}
 		}
 
 		/// <summary>
@@ -487,14 +538,6 @@ namespace Novell.iFolderWeb.Admin
 					{
 						CreateiFolderDiv.Visible = false;
 						ExistingMemberList = CreateExistingAdminList();
-
-						// Show the proper tab.
-						Control body = FindControl( "ifolders" );
-						if ( body != null )
-						{
-							body.ID = "system";
-						}
-
 						break;
 					}
 				}
@@ -518,6 +561,9 @@ namespace Novell.iFolderWeb.Admin
 			MemberList.DataSource = CreateMemberList();
 			MemberList.DataBind();
 			SetMemberPageButtonState();
+
+			// Build the breadcrumb list.
+			BuildBreadCrumbList();
 		}
 
 		/// <summary>
