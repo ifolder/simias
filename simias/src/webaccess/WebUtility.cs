@@ -284,6 +284,17 @@ namespace Novell.iFolderApp.Web
 		}
 
 		/// <summary>
+		/// Format Yes/No
+		/// </summary>
+		/// <param name="value"></param>
+		/// <param name="rm"></param>
+		/// <returns></returns>
+		public static string FormatYesNo(bool value, ResourceManager rm)
+		{
+			return value ? WebUtility.GetString("YES", rm) : WebUtility.GetString("NO", rm);
+		}
+
+		/// <summary>
 		/// Format Change Type
 		/// </summary>
 		/// <param name="type"></param>

@@ -53,44 +53,14 @@ namespace Novell.iFolderApp.Web
 		protected HtmlContainerControl Actions;
 
 		/// <summary>
+		/// Detail Data
+		/// </summary>
+		protected DataGrid DetailData;
+
+		/// <summary>
 		/// iFolder Edit Link
 		/// </summary>
 		protected HyperLink iFolderEditLink;
-
-		/// <summary>
-		/// iFolder Button
-		/// </summary>
-		protected Literal iFolderName;
-		
-		/// <summary>
-		/// iFolder Description
-		/// </summary>
-		protected Literal iFolderDescription;
-		
-		/// <summary>
-		/// iFolder Owner
-		/// </summary>
-		protected Literal iFolderOwner;
-		
-		/// <summary>
-		/// iFolder Size
-		/// </summary>
-		protected Literal iFolderSize;
-
-		/// <summary>
-		/// iFolder Member Count
-		/// </summary>
-		protected Literal iFolderMemberCount;
-
-		/// <summary>
-		/// iFolder File Count
-		/// </summary>
-		protected Literal iFolderFileCount;
-
-		/// <summary>
-		/// iFolder Folder Count
-		/// </summary>
-		protected Literal iFolderFolderCount;
 
 		/// <summary>
 		/// Message Box
@@ -146,6 +116,11 @@ namespace Novell.iFolderApp.Web
 		/// </summary>
 		private void BindData()
 		{
+			// table
+			DataTable detailTable = new DataTable();
+			detailTable.Columns.Add("Label");
+			detailTable.Columns.Add("Value");
+
 			try
 			{
 				// ifolder
@@ -154,20 +129,29 @@ namespace Novell.iFolderApp.Web
 				// rights
 				Actions.Visible = (ifolder.Rights != Rights.ReadOnly);
 
-				iFolderName.Text = ifolder.Name;
-				iFolderDescription.Text = ifolder.Description;
-				iFolderOwner.Text = ifolder.OwnerFullName;
-				iFolderSize.Text = WebUtility.FormatSize(ifolder.Size, rm);
-				iFolderMemberCount.Text = ifolder.MemberCount.ToString();
-				iFolderFileCount.Text = ifolder.FileCount.ToString();
-				iFolderFolderCount.Text = ifolder.DirectoryCount.ToString();
-
+				// context
 				iFolderContext.iFolderName = ifolder.Name;
+
+				detailTable.Rows.Add(new object[] { GetString("NAME"), ifolder.Name });
+				detailTable.Rows.Add(new object[] { GetString("DESCRIPTION"), ifolder.Description });
+				detailTable.Rows.Add(new object[] { GetString("LASTMODIFIED"), WebUtility.FormatDate(ifolder.LastModified, rm) });
+				detailTable.Rows.Add(new object[] { GetString("RIGHTS"), ifolder.Rights });
+				detailTable.Rows.Add(new object[] { GetString("OWNER"), ifolder.OwnerFullName });
+				detailTable.Rows.Add(new object[] { GetString("SIZE"), WebUtility.FormatSize(ifolder.Size, rm) });
+				detailTable.Rows.Add(new object[] { GetString("MEMBERS"), ifolder.MemberCount.ToString() });
+				detailTable.Rows.Add(new object[] { GetString("FILES"), ifolder.FileCount.ToString() });
+				detailTable.Rows.Add(new object[] { GetString("FOLDERS"), ifolder.DirectoryCount.ToString() });
+				detailTable.Rows.Add(new object[] { GetString("PUBLISHED"), WebUtility.FormatYesNo(ifolder.Published, rm) });
+				detailTable.Rows.Add(new object[] { GetString("LOCKED"), WebUtility.FormatYesNo(!ifolder.Enabled, rm) });
 			}
 			catch(SoapException ex)
 			{
 				HandleException(ex);
 			}
+
+			// data grid
+			DetailData.DataSource = detailTable;
+			DetailData.DataBind();
 		}
 
 		/// <summary>

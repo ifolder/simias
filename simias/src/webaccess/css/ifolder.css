@@ -365,8 +365,9 @@ table.list td.history
 
 td.label
 {
-	color: #C6C6C6;
+	color: #777777;
 	text-align: right;
+	width: 10em;
 	padding-right: 8px;
 }
 

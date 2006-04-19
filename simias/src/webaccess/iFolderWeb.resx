@@ -324,9 +324,6 @@
     <data name="MEMBERS">
         <value>Members</value>
     </data>
-    <data name="SETACCESS">
-        <value>Set Access</value>
-    </data>
     <data name="HEADER.LOGGEDIN">
         <value>Logged in as</value>
     </data>
@@ -448,7 +445,7 @@
         <value>Folders</value>
     </data>
     <data name="SETRIGHTS">
-        <value>Set Rights</value>
+        <value>Set Access</value>
     </data>
     <data name="REMOVE">
         <value>Remove</value>
@@ -476,5 +473,20 @@
     </data>
     <data name="EDIT">
         <value>Edit</value>
+    </data>
+    <data name="LASTMODIFIED">
+        <value>Last Modified</value>
+    </data>
+    <data name="PUBLISHED">
+        <value>Published</value>
+    </data>
+    <data name="LOCKED">
+        <value>Locked</value>
+    </data>
+    <data name="YES">
+        <value>Yes</value>
+    </data>
+    <data name="NO">
+        <value>No</value>
     </data>
 </root>

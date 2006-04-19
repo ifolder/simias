@@ -48,34 +48,32 @@
 	
 			<div class="main">
 			
-				<table>
-					<tr>
-						<td class="label"><%= GetString("NAME") %>:</td>
-						<td><asp:Literal ID="iFolderName" runat="server" /></td>
-						<td class="seperator">&nbsp;</td>
-						<td class="label"><%= GetString("SIZE") %>:</td>
-						<td><asp:Literal ID="iFolderSize" runat="server" /></td>
-					</tr>
-					<tr>
-						<td class="label"><%= GetString("OWNER") %>:</td>
-						<td><asp:Literal ID="iFolderOwner" runat="server" /></td>
-						<td class="seperator">&nbsp;</td>
-						<td class="label"><%= GetString("FILES") %>:</td>
-						<td><asp:Literal ID="iFolderFileCount" runat="server" /></td>
-					</tr>
-					<tr>
-						<td class="label"><%= GetString("MEMBERS") %>:</td>
-						<td><asp:Literal ID="iFolderMemberCount" runat="server" /></td>
-						<td class="seperator">&nbsp;</td>
-						<td class="label"><%= GetString("FOLDERS") %>:</td>
-						<td><asp:Literal ID="iFolderFolderCount" runat="server" /></td>
-					</tr>
-					<tr>
-						<td class="label"><%= GetString("DESCRIPTION") %>:</td>
-						<td colspan="4"><asp:Literal ID="iFolderDescription" runat="server" /></td>
-					</tr>
-				</table>
-				
+				<asp:DataGrid
+					ID="DetailData"
+					GridLines="none"
+					AutoGenerateColumns="false"
+					ShowHeader="false"
+					CssClass="list"
+					ItemStyle-CssClass="row"
+					AlternatingItemStyle-CssClass="altrow"
+					runat="server">
+					
+					<columns>
+						<asp:TemplateColumn ItemStyle-CssClass="label">
+							<itemtemplate>
+								<%# DataBinder.Eval(Container.DataItem, "Label") %>:&nbsp;
+							</itemtemplate>
+						</asp:TemplateColumn>
+						
+						<asp:TemplateColumn ItemStyle-CssClass="value">
+							<itemtemplate>
+								<%# DataBinder.Eval(Container.DataItem, "Value") %>
+							</itemtemplate>
+						</asp:TemplateColumn>
+						
+					</columns>
+				</asp:DataGrid>
+
 			</div>
 	
 		</div>
