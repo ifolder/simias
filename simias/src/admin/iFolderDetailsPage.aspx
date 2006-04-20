@@ -32,7 +32,11 @@
 		
 			<div class="detailnav">
 			
-				<h3><%= GetString( "IFOLDERDETAILS" ) %></h3>
+				<div class="pagetitle">
+				
+					<%= GetString( "IFOLDERDETAILS" ) %>
+					
+				</div>
 				
 				<table class="detailinfo">
 				
@@ -137,7 +141,11 @@
 
 			<div class="ifoldermemberlistnav">
 
-				<h3><%= GetString( "MEMBERS" ) %></h3>
+				<div class="pagetitle">
+				
+					<%= GetString( "MEMBERS" ) %>
+					
+				</div>
 	
 				<asp:DataGrid 
 					ID="iFolderMemberList" 

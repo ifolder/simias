@@ -1,7 +1,6 @@
 .actionbuttons
 {
-	margin-top: .5em;
-	margin-bottom: 1em;
+	margin-top: 6px;
 }
 
 .detailnav
@@ -9,13 +8,13 @@
 	border-bottom: dotted 1px #999999;
 	float: left;
 	width: 100%;
-	padding-bottom: 1em;
+	padding-bottom: 12px;
 }
 
 .detailinfo th
 {
 	text-align:left;
-	padding-right: .8em;
+	padding-right: 8px;
 	font-size: .8em;	
 }
 
@@ -26,10 +25,11 @@
 
 .leftnav
 {
-	padding-right: .8em;
-	padding-left: 1em;
+	padding-right: 8px;
+	padding-left: 12px;
 	float: left;
 	width: 38em;
+	height: 44em;
 	border-right: 1px dotted #999999;
 }
 
@@ -66,7 +66,7 @@ ul#ifolderlisttab li
 	border-right: solid 1px Black;
 	border-top: solid 1px Black;
 	color: Black;
-	margin: .2em .2em 0 .2em;
+	margin: 2px 2px 0 2px;
 	width: 5.5em;
 	text-align: center;
 }
@@ -76,7 +76,7 @@ ul#ifolderlisttab a
 	display: block;
 	color: Black;
 	background-color: Transparent;
-	padding: .2em .2em 0 .2em;
+	padding: 3px 3px 0 3px;
 	text-decoration: none;
 }
 
@@ -164,7 +164,7 @@ div#shared li.sharedifolders a:link, div#shared li.sharedifolders a:visited
 
 .ifolderitem2 img
 {
-	padding-left: .2em;
+	padding-left: 2px;
 }
 
 .ifolderitem3
@@ -189,13 +189,13 @@ div#shared li.sharedifolders a:link, div#shared li.sharedifolders a:visited
 #DisableiFolderButton
 {
 	float: left;
-	margin-left: .4em;
+	margin-left: 6px;
 }
 
 #EnableiFolderButton
 {
 	float: left;
-	margin-left: .4em;
+	margin-left: 6px;
 }
 
 #CreateiFolderButton

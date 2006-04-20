@@ -1,51 +1,37 @@
 <%@ Page language="c#" Codebehind="Error.aspx.cs" AutoEventWireup="false" Inherits="Novell.iFolderWeb.Admin.Error" %>
-<%@ Register TagPrefix="iFolder" TagName="Header" Src="Header.ascx" %>
+<%@ Register TagPrefix="iFolder" TagName="TopNavigation" Src="TopNavigation.ascx" %>
+<%@ Register TagPrefix="iFolder" TagName="Footer" Src="Footer.ascx" %>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" > 
 <html>
+
 <head>
-<title><%= GetString("TITLE") %></title>
-<link rel="SHORTCUT ICON" href="images/N_url_shortcut.ico">
-<link rel="stylesheet" type="text/css" href="css/iFolderAdmin.css">
+
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+	<meta name="vs_targetSchema" content="http://schemas.microsoft.com/intellisense/ie5">
+
+	<title><%= GetString( "TITLE" ) %></title>
+		
+	<style type="text/css">
+		@import url(css/iFolderAdmin.css);
+		@import url(css/Error.css);
+	</style>
+
 </head>
-<body>
+
+<body id="users" runat="server">
+	
 <form runat="server">
 
-	<div class="pageRegion">
-		
-		<ifolder:header runat="server" />
+	<div class="container">
 			
-		<div class="mainRegion">
-		
-			<div class="mainContent">
-				
-				<table border="0" cellpadding="0" cellspacing="0">
-				
-					<tr><td>
-						<asp:Label ID="ErrorType" CssClass="errorType" runat="server" />
-					</td></tr>
-				
-					<tr><td>&nbsp;</td></tr>
-					
-					<tr><td>
-						<asp:Label ID="ErrorInstructions" CssClass="errorInstructions" runat="server" />
-					</td></tr>
-				
-					<tr><td>&nbsp;</td></tr>
-					
-					<tr><td>
-					</td></tr>
-	
-					<tr><td>&nbsp;</td></tr>
-					
-					<tr><td class="errorDetail"><pre><asp:Literal ID="ErrorMessage" runat="server" /></pre></td></tr>
-
-				</table>
-				
-			</div>
-	
-		</div>
+		<iFolder:TopNavigation ID="TopNav" Runat="server" />
 
 	</div>
 	
+	<ifolder:Footer id="footer" runat="server" />
+				
 </form>
+	
 </body>
+
 </html>

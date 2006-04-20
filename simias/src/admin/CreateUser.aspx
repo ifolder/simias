@@ -80,7 +80,11 @@
 
 			<div class="detailnav">
 
-				<h3><%= GetString( "CREATEUSER" ) %></h3>
+				<div class="pagetitle">
+				
+					<%= GetString( "CREATEUSER" ) %>
+					
+				</div>
 
 				<table class="detailinfo">
 
@@ -169,18 +173,22 @@
 
 				</table>
 
-				<asp:Button 
-					ID="CreateButton" 
-					Runat="server" 
-					CssClass="ifolderbuttons" 
-					OnClick="OnCreateButton_Click" />
+				<div align="center">
+				
+					<asp:Button 
+						ID="CreateButton" 
+						Runat="server" 
+						CssClass="ifolderbuttons" 
+						OnClick="OnCreateButton_Click" />
 
-				<asp:Button 
-					ID="CancelButton" 
-					Runat="server" 
-					CssClass="ifolderbuttons" 
-					OnClick="OnCancelButton_Click" />
-
+					<asp:Button 
+						ID="CancelButton" 
+						Runat="server" 
+						CssClass="ifolderbuttons" 
+						OnClick="OnCancelButton_Click" />
+						
+				</div>
+				
 			</div>
 
 		</div>

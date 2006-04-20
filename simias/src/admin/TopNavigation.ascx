@@ -57,7 +57,7 @@
 
 <div id="ErrorPanel" runat="server" class="errorpanel">
 
-	<asp:Label ID="ErrorMsg" Runat="server" />
+	<asp:Label ID="ErrorMsg" Runat="server" CssClass="errormsg" />
 
 </div>
 

@@ -238,7 +238,16 @@ namespace Novell.iFolderWeb.Admin
 		///	<returns>The name of the ifolder.</returns>
 		private string GetiFolderDetails()
 		{
-			iFolderDetails ifolder = web.GetiFolderDetails( iFolderID );
+			iFolderDetails ifolder = null;
+			try
+			{
+				ifolder = web.GetiFolderDetails( iFolderID );
+			}
+			catch ( Exception ex )
+			{
+				Response.Redirect( String.Format("Error.aspx?ex={0}", ex.Message ), true );
+				return null;
+			}
 
 			Name.Text = ifolder.Name;
 			Description.Text = ifolder.Description;
@@ -266,15 +275,23 @@ namespace Novell.iFolderWeb.Admin
 			dt.Columns.Add( new DataColumn( "FullNameField", typeof( string ) ) );
 			dt.Columns.Add( new DataColumn( "RightsField", typeof( string ) ) );
 
-			iFolder ifolder = web.GetiFolder( iFolderID );
-
 			int total;
-			iFolderUser[] memberList = 
-				web.GetMembers( 
+			iFolderUser[] memberList = null;
+
+			try
+			{
+				memberList = 
+					web.GetMembers( 
 					iFolderID, 
 					CurrentMemberOffset, 
 					iFolderMemberList.PageSize, 
 					out total );
+			}
+			catch( Exception ex )
+			{
+				Response.Redirect( String.Format( "Error.aspx?ex={0}", ex.Message ), true );
+				return null;
+			}
 
 			foreach( iFolderUser member in memberList )
 			{
@@ -419,11 +436,11 @@ namespace Novell.iFolderWeb.Admin
 		/// <param name="e"></param>
 		private void Page_PreRender( object sender, EventArgs e )
 		{
-			// Show the iFolder member list.
-			GetiFolderMembers();
-
 			// Get the iFolder Details.
 			string ifolderName = GetiFolderDetails();
+
+			// Show the iFolder member list.
+			GetiFolderMembers();
 
 			// Fill in the policy information.
 			Policy.GetiFolderPolicies();
@@ -505,9 +522,21 @@ namespace Novell.iFolderWeb.Admin
 		protected void ChangeMemberRights( object sender, EventArgs e )
 		{
 			Rights rights = GetSelectedMemberRights();
+
 			foreach( string memberID in CheckedMembers.Keys )
 			{
-				web.SetMemberRights( iFolderID, memberID, rights );
+				try
+				{
+					web.SetMemberRights( iFolderID, memberID, rights );
+				}
+				catch( Exception ex )
+				{
+					TopNav.ShowError( 
+						String.Format( GetString( "ERRORCANNOTCHANGERIGHTS" ), CheckedMembers[ memberID ] as String ), 
+						ex );
+
+					return;
+				}
 			}
 
 			// Clear the checked members.

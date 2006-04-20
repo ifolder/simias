@@ -150,6 +150,12 @@
 	<data name="EQUALS">
 		<value>Equals</value>
 	</data>
+	<data name="ERRORCANNOTCHANGERIGHTS">
+		<value>Cannot change membership rights for user {0}.</value>
+	</data>
+	<data name="ERRORCANNOTCREATEUSER">
+		<value>Cannot create user.</value>
+	</data>
 	<data name="ERRORINVALIDQUOTA">
 		<value>An invalid disk space quota value was specified.</value>
 	</data>

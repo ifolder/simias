@@ -230,18 +230,25 @@ namespace Novell.iFolderWeb.Admin
 				// Verify that the retyped password matches.
 				if ( Password.Text == RetypedPassword.Text )
 				{
-					web.CreateUser( 
-						UserName.Text, 
-						Password.Text, 
-						Guid.NewGuid().ToString(), 
-						FirstName.Text, 
-						LastName.Text, 
-						FullName.Text, 
-						String.Empty, 
-						String.Empty );
+					try
+					{
+						web.CreateUser( 
+							UserName.Text, 
+							Password.Text, 
+							Guid.NewGuid().ToString(), 
+							FirstName.Text, 
+							LastName.Text, 
+							FullName.Text, 
+							String.Empty, 
+							String.Empty );
 
-					// Return back to the referring page.
-					Page.Response.Redirect( ReferringPage, true );
+						// Return back to the referring page.
+						Page.Response.Redirect( ReferringPage, true );
+					}
+					catch ( Exception ex )
+					{
+						TopNav.ShowError( GetString( "ERRORCANNOTCREATEUSER" ), ex );
+					}
 				}
 				else
 				{

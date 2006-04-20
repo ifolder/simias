@@ -1,9 +1,10 @@
 .leftnav
 {
-	padding-right: .6em;
-	padding-left: 1em;
+	padding-right: 8px;
+	padding-left: 12px;
 	float: left;
 	width: 38em;
+	height: 45em;
 	border-right: dotted 1px #999999;
 }
 
@@ -11,14 +12,14 @@
 {
 	border-bottom: dotted 1px #999999;
 	float: left;
-	padding-bottom: 1em;
+	padding-bottom: 12px;
 	width: 100%;
 }
 
 .detailinfo th
 {
 	text-align:left;
-	padding-right: .8em;
+	padding-right: 8px;
 	font-size: .8em;	
 }
 
@@ -30,10 +31,12 @@
 
 .detailinfo td #Description
 {
+	font-family: "Trebuchet MS", Arial, Helvetica, Geneva, Swiss, SunSans-Regular, sans-serif;
+	font-size: 1em;
 	text-align: left;
 	width: 80%;
-	padding-left: .2em;
-	font-size: .8em;
+	padding-left: 4px;
+	overflow: visible;
 }
 
 .ifoldermemberlistnav
@@ -51,7 +54,7 @@
 .ifoldermemberlistheader td
 {
 	border-bottom: solid 1px black;
-	padding-left: .1em;
+	padding-left: 2px;
 	font-weight: bold;
 	font-size: 0.8em;
 	color: black;
@@ -77,14 +80,13 @@
 
 .ifoldermembersitem2
 {
-	padding-top: .2em;
-	width: 3em;
+	padding-top: 2px;
 	text-align:center;
 }
 
 .ifoldermembersitem2 img
 {
-	padding-right: .8em;
+	padding-right: 8px;
 }
 
 .ifoldermembersitem3
@@ -98,28 +100,26 @@
 
 .actionbuttons
 {
-	margin-top: .5em;
-	margin-bottom: 1em;
+	margin-top: 6px;
 	width: 4.5em;
 }
 
 .rightslist
 {
-	margin-top: .5em;
-	margin-bottom: 1em;
-	margin-right: .3em;
+	margin-top: 6px;
+	margin-right: 2px;
 }
 
 #MemberDeleteButton
 {
 	float:left;
-	margin-left: .4em;
+	margin-left: 6px;
 }
 
 #MemberOwnerButton
 {
 	float: left;
-	margin-left: .4em;
+	margin-left: 6px;
 }
 
 #MemberAddButton
@@ -135,7 +135,7 @@
 
 #DescriptionButton
 {
-	margin-left: .5em;
+	margin-left: 6px;
 	width: 4.5em;
 }
 

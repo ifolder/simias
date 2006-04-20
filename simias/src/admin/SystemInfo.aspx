@@ -32,7 +32,11 @@
 		
 			<div class="detailnav">
 			
-				<h3><%= GetString( "SYSTEMSETTINGS" ) %></h3>
+				<div class="pagetitle">
+				
+					<%= GetString( "SYSTEMSETTINGS" ) %>
+					
+				</div>
 				
 				<table class="detailinfo">
 				
@@ -82,7 +86,11 @@
 			
 			<div class="adminlistnav">
 		
-				<h3><%= GetString( "IFOLDERADMINS" ) %></h3>
+				<div class="pagetitle">
+				
+					<%= GetString( "IFOLDERADMINS" ) %>
+					
+				</div>
 				
 				<table class="adminlistheader" cellpadding="0" cellspacing="0" border="0">
 			

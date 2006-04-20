@@ -40,60 +40,49 @@ namespace Novell.iFolderWeb.Admin
 	/// </summary>
 	public class Error : System.Web.UI.Page
 	{
-		/// <summary>
-		/// Div
-		/// </summary>
-		protected HtmlGenericControl DetailsButtonRegion;
-		
-		/// <summary>
-		/// Error Type
-		/// </summary>
-		protected Label ErrorType;
-		
-		/// <summary>
-		/// Error Instructions
-		/// </summary>
-		protected Label ErrorInstructions;
-
-		/// <summary>
-		/// Error Message
-		/// </summary>
-		protected Literal ErrorMessage;
-
-		/// <summary>
-		/// Error Stack Trace
-		/// </summary>
-		protected Literal ErrorStackTrace;
+		#region Class Members
 
 		/// <summary>
 		/// Resource Manager
 		/// </summary>
 		private ResourceManager rm;
 
+
+		/// <summary>
+		/// Top navigation panel control.
+		/// </summary>
+		protected TopNavigation TopNav;
+
+		#endregion
+
+		#region Private Methods
+
 		/// <summary>
 		/// Page Load
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void Page_Load(object sender, System.EventArgs e)
+		private void Page_Load( object sender, System.EventArgs e )
 		{
 			// localization
-			rm = (ResourceManager) Application["RM"];
-				
-			// strings
-			ErrorType.Text = rm.GetString("ERRORTYPE");
-			ErrorInstructions.Text = rm.GetString("ERRORINSTRUCTIONS");
+			rm = Application[ "RM" ] as ResourceManager;
+		}
 
+		/// <summary>
+		/// Page_PreRender
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void Page_PreRender( object sender, EventArgs e )
+		{
 			// message from query string
-			string message = Request.QueryString.Get("Exception");
-
-			if ((message == null) || (message.Length < 0))
+			string message = Request.QueryString.Get( "ex" );
+			if ( ( message == null ) || ( message.Length < 0 ) )
 			{
 				// message from session
 				message = null;
 
-				Exception ex = (Exception)Session["Exception"];
-
+				Exception ex = Session[ "Exception" ] as Exception;
 				if (ex != null)
 				{
 					message = ex.ToString();
@@ -101,11 +90,15 @@ namespace Novell.iFolderWeb.Admin
 			}
 			
 			// did we find a message
-			if (message != null)
+			if ( message != null )
 			{
-				ErrorMessage.Text = "\n\n" + message + "\n";
+				TopNav.ShowError( message );
 			}
 		}
+
+		#endregion
+
+		#region Protected Methods
 
 		/// <summary>
 		/// Get a Localized String
@@ -116,6 +109,8 @@ namespace Novell.iFolderWeb.Admin
 		{
 			return rm.GetString(key);
 		}
+
+		#endregion
 
 		#region Web Form Designer
 		
@@ -134,6 +129,12 @@ namespace Novell.iFolderWeb.Admin
 		/// </summary>
 		private void InitializeComponent()
 		{    
+			if ( !Page.IsPostBack )
+			{
+				// Set the render event to happen only on page load.
+				Page.PreRender += new EventHandler( Page_PreRender );
+			}
+
 			this.Load += new System.EventHandler(this.Page_Load);
 		}
 

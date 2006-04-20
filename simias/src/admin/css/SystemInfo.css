@@ -1,7 +1,7 @@
 .leftnav
 {
-	padding-right: .8em;
-	padding-left: 1em;
+	padding-right: 8px;
+	padding-left: 12px;
 	float: left;
 	width: 38em;
 	border-right: 1px dotted #999999;
@@ -11,14 +11,14 @@
 {
 	border-bottom: dotted 1px #999999;
 	float: left;
-	padding-bottom: 1em;
+	padding-bottom: 12px;
 	width: 100%;
 }
 
 .detailinfo th
 {
 	text-align:left;
-	padding-right: .5em;
+	padding-right: 6px;
 	font-size: .8em;
 }
 
@@ -29,16 +29,20 @@
 
 .detailinfo td #Name
 {
+	font-family: "Trebuchet MS", Arial, Helvetica, Geneva, Swiss, SunSans-Regular, sans-serif;
+	font-size: 1em;
 	text-align: left;
 	width: 120%;
-	padding-left: .2em;
+	padding-left: 4px;
 }
 
 .detailinfo td #Description
 {
+	font-family: "Trebuchet MS", Arial, Helvetica, Geneva, Swiss, SunSans-Regular, sans-serif;
+	font-size: 1em;
 	text-align: left;
 	width: 120%;
-	padding-left: .2em;
+	padding-left: 4px;
 }
 
 .adminlistnav
@@ -123,15 +127,15 @@
 .deleteadminbutton
 {
 	float: left;
-	margin-top: .5em;
-	margin-bottom: 1em;
+	margin-top: 6px;
+	margin-bottom: 4px;
 	width: 4.5em;
 }
 
 .addadminbutton
 {
 	float: right;
-	margin-top: .5em;
-	margin-bottom: 1em;
+	margin-top: 6px;
+	margin-bottom: 4px;
 	width: 4.5em;
 }

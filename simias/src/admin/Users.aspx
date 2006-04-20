@@ -30,8 +30,12 @@
 	
 		<div class="nav">
 		
-			<h3><%= GetString( "IFOLDERUSERS" ) %></h3>
+			<div class="pagetitle">
+			
+				<%= GetString( "IFOLDERUSERS" ) %>
 				
+			</div>
+							
 			<iFolder:MemberSearch ID="MemberSearch" Runat="server" />
 					
 			<div class="accountsnav">

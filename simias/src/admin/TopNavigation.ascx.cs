@@ -28,9 +28,11 @@ namespace Novell.iFolderWeb.Admin
 	using System.Drawing;
 	using System.Resources;
 	using System.Web;
+	using System.Web.Services.Protocols;
 	using System.Web.UI;
 	using System.Web.UI.WebControls;
 	using System.Web.UI.HtmlControls;
+	using System.Xml;
 
 	/// <summary>
 	///		Summary description for TopNavigation.
@@ -38,6 +40,32 @@ namespace Novell.iFolderWeb.Admin
 	public class TopNavigation : System.Web.UI.UserControl
 	{
 		#region Class Members
+
+		/// <summary>
+		/// Enumeration of page tabs.
+		/// </summary>
+		public enum PageTabs
+		{
+			/// <summary>
+			/// User tab
+			/// </summary>
+			Users,
+
+			/// <summary>
+			/// iFolders tab
+			/// </summary>
+			iFolders,
+
+			/// <summary>
+			/// System tab
+			/// </summary>
+			System,
+
+			/// <summary>
+			/// Servers tab
+			/// </summary>
+			Servers
+		}
 
 		/// <summary>
 		/// Resource Manager
@@ -233,6 +261,62 @@ namespace Novell.iFolderWeb.Admin
 		}
 
 		/// <summary>
+		/// Sets the active page tab for utility pages that are used by multiple root pages.
+		/// </summary>
+		/// <param name="page"></param>
+		public void SetActivePageTab( PageTabs page )
+		{
+			Control body;
+
+			switch( page )
+			{
+				case PageTabs.iFolders:
+					body = Page.FindControl( "ifolders" );
+					if ( body != null )
+					{
+						UserLink.HRef = "Users.aspx";
+						iFolderLink.HRef = String.Empty;
+						ServerLink.HRef = "Servers.aspx";
+						SystemLink.HRef = "SystemInfo.aspx";
+					}
+					break;
+
+				case PageTabs.Servers:
+					body = Page.FindControl( "servers" );
+					if ( body != null )
+					{
+						UserLink.HRef = "Users.aspx";
+						iFolderLink.HRef = "iFolders.aspx";
+						ServerLink.HRef = String.Empty;
+						SystemLink.HRef = "SystemInfo.aspx";
+					}
+					break;
+
+				case PageTabs.System:
+					body = Page.FindControl( "system" );
+					if ( body != null )
+					{
+						UserLink.HRef = "Users.aspx";
+						iFolderLink.HRef = "iFolders.aspx";
+						ServerLink.HRef = "Servers.aspx";
+						SystemLink.HRef = String.Empty;
+					}
+					break;
+
+				case PageTabs.Users:
+					body = Page.FindControl( "users" );
+					if ( body != null )
+					{
+						UserLink.HRef = String.Empty;
+						iFolderLink.HRef = "iFolders.aspx";
+						ServerLink.HRef = "Servers.aspx";
+						SystemLink.HRef = "SystemInfo.aspx";
+					}
+					break;
+			}
+		}
+
+		/// <summary>
 		/// Shows up an error below the banner.
 		/// </summary>
 		/// <param name="msg"></param>
@@ -240,6 +324,17 @@ namespace Novell.iFolderWeb.Admin
 		{
 			ErrorMsg.Text = String.Format( GetString( "ERRORTEMPLATE" ), msg );
 			ErrorPanel.Visible = true;
+		}
+
+		/// <summary>
+		/// Shows up an error below the banner.
+		/// </summary>
+		/// <param name="msg"></param>
+		/// <param name="ex"></param>
+		public void ShowError( string msg, Exception ex )
+		{
+			string exmsg = ( ex.Message == "Complex Exception" ) ? ( ex as SoapException ).Detail.InnerText : ex.Message;
+			ShowError( String.Format( "{0}\n{1}", msg, exmsg ) );
 		}
 
 		#endregion

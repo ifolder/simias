@@ -1,22 +1,21 @@
 .leftnav
 {
-	padding-right: 1em;
-	padding-left: 1em;
+	padding-left: 12px;
 	float: left;
-	width: 35em;
+	width: 40em;
 }
 
 .detailnav
 {
 	float: left;
-	padding-bottom: 1em;
+	padding-bottom: 8px;
 	width: 100%;
 }
 
 .detailinfo th
 {
 	text-align:left;
-	padding-right: .5em;
+	padding-right: 8px;
 	font-size: .8em;
 }
 
@@ -30,17 +29,16 @@
 {
 	text-align: left;
 	width: 100%;
-	padding-left: .2em;
+	padding-left: 4px;
 }
 
 #CreateButton
 {
-	margin-top: .7em;
-	margin-right: .4em;
-	margin-left: 12em;
+	margin-top: 8px;
+	margin-right: 4px;
 }
 
 #CancelButton
 {
-	margin-top: .5em;
+	margin-top: 8px;
 }

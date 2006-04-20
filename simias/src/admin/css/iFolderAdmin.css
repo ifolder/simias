@@ -17,9 +17,17 @@ p, tr, td, ol, ul
 	border: 1px solid #666666;
 	margin-left: auto;
 	margin-right: auto;
-	padding-bottom: .5em;
+	padding-bottom: 4px;
 	width: 59em;
 	float: left;
+}
+
+.pagetitle
+{
+	margin-top: 14px;
+	margin-bottom: 14px;
+	font-size: 1.2em;
+	font-weight: bold;
 }
 
 .ifolderbuttons
@@ -64,14 +72,13 @@ p, tr, td, ol, ul
 #policynav
 {
 	float: left;
-	padding-right: 1em;
-	padding-left: 1em;
+	padding-left: 12px;
 	width: 17em;
 }
 
 .policydetails
 {
-	margin-bottom: 1em;
+	margin-bottom: 12px;
 }
 
 .policytextbox
@@ -105,7 +112,7 @@ p, tr, td, ol, ul
 
 .policycheckbox
 {
-	width: 1.5em;
+	width: 20px;
 }
 
 .edittext
@@ -132,7 +139,7 @@ img
 	border-top: solid 1px black;
 	border-bottom: solid 1px black;
 	border-collapse: collapse;
-	margin-top: .1em;
+	margin-top: 2px;
 	width: 100%;
 }
 
@@ -178,8 +185,8 @@ img
 
 .newfiletypename
 {
-	margin-top: .2em;
-	margin-bottom: .5em;
+	margin-top: 2px;
+	margin-bottom: 6px;
 	float: left;
 	border-right: #f1efe2 thin solid;
 	border-top: #f1efe2 thin inset;
@@ -194,13 +201,13 @@ img
 
 .filetypecontrolbutton
 {
-	margin-top: .5em;
+	margin-top: 6px;
 	width: 4.5em;
 }
 
 .filetypeaddbutton
 {
-	margin-top: .1em;
+	margin-top: 1px;
 	float: right;
 	width: 4.5em;
 }
@@ -216,7 +223,7 @@ img
 {
 	font-size: 1.1em;
 	font-weight: bold;
-	padding-right: .5em;
+	padding-right: 8px;
 }
 
 ul#navcontainer
@@ -234,7 +241,7 @@ ul#navcontainer li
 	float: left;
 	background-color:#EFEEE9;
 	color: Black;
-	margin: .2em .2em 0 .2em;
+	margin: 2px 2px 0 2px;
 	width: 5.5em;
 	text-align: center;
 }
@@ -245,15 +252,15 @@ ul#navcontainer a
 	color: #333333;
 	background-color: Transparent;
 	text-decoration: none;
-	padding: .2em .2em 0 .2em;
-	border-bottom: .1em solid #999999;
+	padding: 2px 2px 0 2px;
+	border-bottom: 1px solid #999999;
 }
 
 ul#navcontainer a:hover
 {
 	background-color: #696969;
 	color: White;
-	padding: .2em .2em 0 .2em;
+	padding: 2px 2px 0 2px;
 }
 
 body#users li.users a, body#ifolders li.ifolders a, body#server li.server a, body#system li.system a
@@ -261,7 +268,7 @@ body#users li.users a, body#ifolders li.ifolders a, body#server li.server a, bod
 	color: Black;
 	background-color: #99CCFF;
 	border-bottom: 1px solid #99CCFF;
-	padding: .2em .2em 0 .2em;
+	padding: 2px 2px 0 2px;
 }
 
 #logo
@@ -286,7 +293,7 @@ body#users li.users a, body#ifolders li.ifolders a, body#server li.server a, bod
 
 .footertable td
 {
-	padding-top: .4em;
+	padding-top: 4px;
 	text-align: center;
 }
 
@@ -325,7 +332,7 @@ body#users li.users a, body#ifolders li.ifolders a, body#server li.server a, bod
 .loggedinname
 {
 	float: left;
-	margin-left: .4em;
+	margin-left: 6px;
 	margin-top: 2px;
 	font-weight: bolder;
 }
@@ -333,7 +340,8 @@ body#users li.users a, body#ifolders li.ifolders a, body#server li.server a, bod
 .breadcrumbs
 {
 	float: left;
-	margin-left: .5em;
+	padding-top: 2px;
+	margin-left: 12px;
 	font-size: 1em;
 }
 
@@ -351,15 +359,16 @@ body#users li.users a, body#ifolders li.ifolders a, body#server li.server a, bod
 .errorpanel
 {
 	clear: both;
-	border: maroon 2px solid;
-	padding-right: 0.5em;
-	padding-left: 0.5em;
-	font-weight: bolder;
-	padding-bottom: 0.5em;
-	color: red;
-	padding-top: 0.5em;
 	height: 3em;
+	padding: 8px;
+	border: maroon 2px solid;
 	background-color: #ffff99;
 	text-align: center;
+}
+
+.errormsg
+{
+	color: Red;
+	font-weight: bold;
 }
 

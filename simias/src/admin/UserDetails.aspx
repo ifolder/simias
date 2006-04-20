@@ -32,7 +32,11 @@
 	
 		<div class="detailnav">
 		
-			<h3><%= GetString( "USERDETAILS" ) %></h3>
+			<div class="pagetitle">
+				
+				<%= GetString( "USERDETAILS" ) %>
+				
+			</div>
 			
 			<table class="detailinfo">
 				<tr>
@@ -71,7 +75,11 @@
 		
 		<div class="ifolderlistnav">
 		
-			<h3><%= GetString( "IFOLDERS" ) %></h3>
+			<div class="pagetitle">
+			
+				<%= GetString( "IFOLDERS" ) %>
+				
+			</div>
 			
 				<div id="CurrentTab" runat="server" class="ifoldertabnav">
 				

@@ -289,6 +289,9 @@ namespace Novell.iFolderWeb.Admin
 						{
 							body.ID = "users";
 						}
+
+						// Add the missing href to the ifolder tab and remove the user one.
+						TopNav.SetActivePageTab( TopNavigation.PageTabs.Users );
 					}
 					else
 					{
@@ -317,6 +320,8 @@ namespace Novell.iFolderWeb.Admin
 						body.ID = "system";
 					}
 
+					// Add the missing href to the ifolder tab and remove the user one.
+					TopNav.SetActivePageTab( TopNavigation.PageTabs.System );
 					break;
 				}
 			}

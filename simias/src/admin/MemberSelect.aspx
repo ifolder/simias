@@ -30,7 +30,11 @@
 				
 		<div id="CreateiFolderDiv" runat="server">
 	
-			<h3><%= GetString( "CREATENEWIFOLDER" ) %></h3>
+			<div class="pagetitle">
+				
+				<%= GetString( "CREATENEWIFOLDER" ) %>
+				
+			</div>
 		
 			<table>
 		
@@ -71,7 +75,11 @@
 
 		<div class="leftnav" >
 		
-			<h3 class="headertitle"><%= GetString( "SELECTUSERS" ) %></h3>
+			<div class="headertitle">
+				
+				<%= GetString( "SELECTUSERS" ) %>
+				
+			</div>
 	
 			<iFolder:MemberSearch ID="MemberSearch" Runat="server" />
 			

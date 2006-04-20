@@ -7,7 +7,11 @@
 <%@ Register TagPrefix="iFolder" TagName="DiskSpaceQuota" Src="DiskSpaceQuota.ascx" %>
 <div id="policynav">
 
-	<h3><%= GetString( "POLICIES" ) %></h3>
+	<div class="pagetitle">
+	
+		<%= GetString( "POLICIES" ) %>
+		
+	</div>
 	
 	<ifolder:AccountEnabled ID="AccountEnabled" Runat="server" />
 	

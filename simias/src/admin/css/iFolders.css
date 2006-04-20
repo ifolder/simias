@@ -1,21 +1,20 @@
 .nav
 {
-	padding-left: 1em;
-	padding-bottom: 1em;
-	padding-right: 1em;
+	padding-left: 12px;
+	padding-bottom: 4px;
+	padding-right: 12px;
 	float: left;
 }
 
 .searchnav
 {
 	clear: both;
-	padding-bottom: .5em;
+	padding-bottom: 8px;
 }
 
 .ifoldersnav
 {
 	width: 100%;
-	margin-top: .5em;
 }
 
 .ifolderlist
@@ -99,7 +98,7 @@
 
 .ifolderitem2 img
 {
-	padding-left: .2em;
+	padding-left: 4px;
 }
 
 .ifolderitem3
@@ -129,27 +128,27 @@
 #DeleteButton
 {
 	float: left;
-	margin-top: .5em;
+	margin-top: 6px;
 }
 
 #DisableButton
 {
 	float: left;
-	margin-top: .5em;
-	margin-left: .3em;
+	margin-top: 6px;
+	margin-left: 4px;
 	width: 5em;
 }
 
 #EnableButton
 {
 	float: left;
-	margin-top: .5em;
-	margin-left: .3em;
+	margin-top: 6px;
+	margin-left: 4px;
 	width: 4.6em;
 }
 
 #CreateButton
 {
 	float: right;
-	margin-top: .5em;
+	margin-top: 6px;
 }
