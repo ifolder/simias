@@ -80,7 +80,7 @@ namespace Novell.iFolderWeb.Admin
 		/// <summary>
 		/// Web controls.
 		/// </summary>
-		protected PageFooter AccountsFooter;
+		protected ListFooter AccountsFooter;
 
 		
 		/// <summary>

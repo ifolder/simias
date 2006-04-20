@@ -19,10 +19,10 @@ iFolderAdmin_CSFILES = \
 	$(srcdir)/iFolders.aspx.cs \
 	$(srcdir)/iFolderSearch.ascx.cs \
 	$(srcdir)/iFolderWebLogger.cs \
+	$(srcdir)/ListFooter.ascx.cs \
 	$(srcdir)/Login.aspx.cs \
 	$(srcdir)/MemberSearch.ascx.cs \
 	$(srcdir)/MemberSelect.aspx.cs \
-	$(srcdir)/PageFooter.ascx.cs \
 	$(srcdir)/Policy.ascx.cs \
 	$(srcdir)/Servers.aspx.cs \
 	$(srcdir)/SyncInterval.ascx.cs \
@@ -74,11 +74,11 @@ iFolderAdmin_FORMS = \
 	iFolderEnabled.ascx \
 	iFolders.aspx \
 	iFolderSearch.ascx \
+	ListFooter.ascx \
 	Log4Net.config \
 	Login.aspx \
 	MemberSearch.ascx \
 	MemberSelect.aspx \
-	PageFooter.ascx \
 	Policy.ascx \
 	Servers.aspx \
 	SyncInterval.ascx \

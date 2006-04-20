@@ -97,7 +97,7 @@ namespace Novell.iFolderWeb.Admin
 		/// <summary>
 		/// Admin list footer control.
 		/// </summary>
-		protected PageFooter AdminListFooter;
+		protected ListFooter AdminListFooter;
 
 		/// <summary>
 		/// Delete admin button control.

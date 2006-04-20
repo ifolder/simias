@@ -99,11 +99,6 @@ namespace Novell.iFolderWeb.Admin
 		/// </summary>
 		protected Button CancelButton;
 
-		/// <summary>
-		/// Banner control.
-		/// </summary>
-		protected TopNavigation Banner;
-
 		#endregion
 
 		#region Properties
@@ -228,7 +223,7 @@ namespace Novell.iFolderWeb.Admin
 		{
 			if ( !ValidPage )
 			{
-				Banner.ShowError( GetString( "ALLFIELDSREQUIRED" ) );
+				TopNav.ShowError( GetString( "ALLFIELDSREQUIRED" ) );
 			}
 			else
 			{
@@ -250,7 +245,7 @@ namespace Novell.iFolderWeb.Admin
 				}
 				else
 				{
-					Banner.ShowError( GetString( "PASSWORDSDONOTMATCH" ) );
+					TopNav.ShowError( GetString( "PASSWORDSDONOTMATCH" ) );
 				}
 			}
 		}

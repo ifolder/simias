@@ -31,7 +31,6 @@ namespace Novell.iFolderWeb.Admin
 	using System.Web.UI;
 	using System.Web.UI.WebControls;
 	using System.Web.UI.HtmlControls;
-	using System.Web.Security;
 
 	/// <summary>
 	///		Summary description for TopNavigation.
@@ -66,16 +65,6 @@ namespace Novell.iFolderWeb.Admin
 		/// </summary>
 		protected HtmlAnchor SystemLink;
 
-		/// <summary>
-		/// Logout button control.
-		/// </summary>
-		protected LinkButton LogoutButton;
-
-		/// <summary>
-		/// Breadcrumb list control.
-		/// </summary>
-		protected Label BreadCrumbList;
-
 
 		/// <summary>
 		/// Error panel control.
@@ -92,12 +81,6 @@ namespace Novell.iFolderWeb.Admin
 		/// Breadcrumb control.
 		/// </summary>
 		protected DataList BreadCrumbs;
-
-
-		/// <summary>
-		/// Logged in as label control.
-		/// </summary>
-		protected Label LoggedInAs;
 
 		#endregion
 
@@ -141,25 +124,6 @@ namespace Novell.iFolderWeb.Admin
 		}
 
 		/// <summary>
-		/// Logout
-		/// </summary>
-		/// <param name="type"></param>
-		/// <param name="message"></param>
-		private void Logout( string type, string message )
-		{
-			FormsAuthentication.SignOut();
-			
-			// double-check that the session is abandoned
-			Session.Abandon();
-
-			Response.Redirect( 
-				String.Format( 
-					"Login.aspx?MessageType={0}&MessageText={1}",
-					Context.Server.UrlEncode( type ),
-					Context.Server.UrlEncode( message ) ) );
-		}
-
-		/// <summary>
 		/// Page_Load()
 		/// </summary>
 		/// <param name="sender"></param>
@@ -177,13 +141,8 @@ namespace Novell.iFolderWeb.Admin
 
 			if ( !IsPostBack )
 			{
-				// Show the currently logged in user.
-				LoggedInAs.Text = String.Format( GetString( "LOGGEDINAS" ), Session[ "NAME" ] );
-
 				// Initially hide the error panel.
 				ErrorPanel.Visible = false;
-
-				LogoutButton.Text = GetString( "LOGOUT" );
 
 				Control body = Page.FindControl( "users" );
 				if ( body != null )
@@ -241,16 +200,6 @@ namespace Novell.iFolderWeb.Admin
 		protected string GetString( string key )
 		{
 			return rm.GetString( key );
-		}
-
-		/// <summary>
-		/// Event handler that gets called when the LogoutButton is clicked.
-		/// </summary>
-		/// <param name="source"></param>
-		/// <param name="e"></param>
-		protected void OnLogoutButton_Click( object source, EventArgs e )
-		{
-			Logout(GetString( "MESSAGEINFORMATION" ), GetString( "LOGINLOGOUT" ) );
 		}
 
 		#endregion

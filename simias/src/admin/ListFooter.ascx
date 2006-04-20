@@ -1,4 +1,4 @@
-<%@ Control Language="c#" AutoEventWireup="false" Codebehind="PageFooter.ascx.cs" Inherits="Novell.iFolderWeb.Admin.PageFooter" TargetSchema="http://schemas.microsoft.com/intellisense/ie5"%>
+<%@ Control Language="c#" AutoEventWireup="false" Codebehind="ListFooter.ascx.cs" Inherits="Novell.iFolderWeb.Admin.ListFooter" TargetSchema="http://schemas.microsoft.com/intellisense/ie5"%>
 
 <table class="footertable" cellpadding="0" cellspacing="0" border="0">
 

@@ -107,7 +107,7 @@ namespace Novell.iFolderWeb.Admin
 		/// <summary>
 		/// Web controls.
 		/// </summary>
-		protected PageFooter MemberListFooter;
+		protected ListFooter MemberListFooter;
 
 
 

@@ -1,7 +1,8 @@
 <%@ Page language="c#" Codebehind="SystemInfo.aspx.cs" AutoEventWireup="false" Inherits="Novell.iFolderWeb.Admin.SystemInfo" %>
 <%@ Register TagPrefix="iFolder" TagName="TopNavigation" Src="TopNavigation.ascx" %>
-<%@ Register TagPrefix="iFolder" TagName="PageFooter" Src="PageFooter.ascx" %>
+<%@ Register TagPrefix="iFolder" TagName="ListFooter" Src="ListFooter.ascx" %>
 <%@ Register TagPrefix="iFolder" TagName="Policy" Src="Policy.ascx" %>
+<%@ Register TagPrefix="iFolder" TagName="Footer" Src="Footer.ascx" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
 <html>
 	
@@ -162,7 +163,7 @@
 					
 				</asp:datagrid>
 				
-				<ifolder:PageFooter ID="AdminListFooter" Runat="server" />
+				<ifolder:ListFooter ID="AdminListFooter" Runat="server" />
 				
 				<asp:Button 
 					ID="DeleteButton" 
@@ -185,8 +186,7 @@
 		
 	</div>
 		
-	<div class="footer">
-	</div>
+	<ifolder:Footer id="footer" runat="server" />
 				
 </form>
 

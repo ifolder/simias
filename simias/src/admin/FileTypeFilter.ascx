@@ -1,5 +1,5 @@
 <%@ Control Language="c#" AutoEventWireup="false" Codebehind="FileTypeFilter.ascx.cs" Inherits="Novell.iFolderWeb.Admin.FileTypeFilter" TargetSchema="http://schemas.microsoft.com/intellisense/ie5"%>
-<%@ Register TagPrefix="iFolder" TagName="PageFooter" Src="PageFooter.ascx" %>
+<%@ Register TagPrefix="iFolder" TagName="ListFooter" Src="ListFooter.ascx" %>
 
 <script language="javascript">
 
@@ -97,7 +97,7 @@
 		
 	</asp:DataGrid>
 	
-	<ifolder:PageFooter ID="FileTypeListFooter" Runat="server" />
+	<ifolder:ListFooter ID="FileTypeListFooter" Runat="server" />
 	
 	<asp:Button 
 		ID="DeleteButton" 

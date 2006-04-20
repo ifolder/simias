@@ -1,5 +1,6 @@
 <%@ Page language="c#" Codebehind="Servers.aspx.cs" AutoEventWireup="false" Inherits="Novell.iFolderWeb.Admin.Server" %>
 <%@ Register TagPrefix="iFolder" TagName="TopNavigation" Src="TopNavigation.ascx" %>
+<%@ Register TagPrefix="iFolder" TagName="Footer" Src="Footer.ascx" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" > 
 <html>
 
@@ -27,8 +28,7 @@
 
 	</div>
 	
-	<div class="footer">
-	</div>
+	<ifolder:Footer id="footer" runat="server" />
 				
 </form>
 	

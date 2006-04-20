@@ -112,7 +112,7 @@ namespace Novell.iFolderWeb.Admin
 		/// <summary>
 		/// iFolder list footer control.
 		/// </summary>
-		protected PageFooter iFolderListFooter;
+		protected ListFooter iFolderListFooter;
 
 
 		/// <summary>

@@ -289,7 +289,7 @@
 		<value>Limit:</value>
 	</data>
 	<data name="LOGGEDINAS">
-		<value>Logged in as {0}</value>
+		<value>Logged in as</value>
 	</data>
 	<data name="LOGIN">
 		<value>Log In</value>

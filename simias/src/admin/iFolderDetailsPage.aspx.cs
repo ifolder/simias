@@ -114,7 +114,7 @@ namespace Novell.iFolderWeb.Admin
 		/// <summary>
 		/// Control that implements the paging of the member list.
 		/// </summary>
-		protected PageFooter iFolderMemberListFooter;
+		protected ListFooter iFolderMemberListFooter;
 
 
 		/// <summary>

@@ -1,20 +1,21 @@
-<%@ Register TagPrefix="iFolder" TagName="Policy" Src="Policy.ascx" %>
-<%@ Register TagPrefix="iFolder" TagName="PageFooter" Src="PageFooter.ascx" %>
-<%@ Register TagPrefix="iFolder" TagName="TopNavigation" Src="TopNavigation.ascx" %>
 <%@ Page language="c#" Codebehind="iFolderDetailsPage.aspx.cs" AutoEventWireup="false" Inherits="Novell.iFolderWeb.Admin.iFolderDetailsPage" %>
+<%@ Register TagPrefix="iFolder" TagName="TopNavigation" Src="TopNavigation.ascx" %>
+<%@ Register TagPrefix="iFolder" TagName="ListFooter" Src="ListFooter.ascx" %>
+<%@ Register TagPrefix="iFolder" TagName="Policy" Src="Policy.ascx" %>
+<%@ Register TagPrefix="iFolder" TagName="Footer" Src="Footer.ascx" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
 <html>
 
 <head>
 
+	<title><%= GetString( "TITLE" ) %></title>
+
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 	<meta name="vs_targetSchema" content="http://schemas.microsoft.com/intellisense/ie5">
-
-	<title><%= GetString( "TITLE" ) %></title>
 		
 	<style type="text/css">
-		@import url(css/iFolderAdmin.css);
-		@import url(css/iFolderDetailsPage.css);
+		@import url( css/iFolderAdmin.css ); 
+		@import url( css/iFolderDetailsPage.css ); 
 	</style>
 	
 </head>
@@ -160,30 +161,17 @@
 						
 						<asp:TemplateColumn ItemStyle-CssClass="ifoldermembersitem1">
 							<HeaderTemplate>
-								<asp:CheckBox 
-									ID="MemberAllCheckBox" 
-									Runat="server" 
-									AutoPostBack="True" 
-									OnCheckedChanged="AllMembersChecked" />
+								<asp:CheckBox ID="MemberAllCheckBox" Runat="server" AutoPostBack="True" OnCheckedChanged="AllMembersChecked" />
 							</HeaderTemplate>
 							
 							<ItemTemplate>
-								<asp:CheckBox 
-									ID="iFolderMemberListCheckBox" 
-									Runat="server" 
-									AutoPostBack="True" 
-									OnCheckedChanged="MemberChecked" 
-									Visible='<%# DataBinder.Eval( Container.DataItem, "VisibleField" )%>' 
-									Checked='<%# GetMemberCheckedState( DataBinder.Eval( Container.DataItem, "IDField" ) ) %>' />
+								<asp:CheckBox ID="iFolderMemberListCheckBox" Runat="server" AutoPostBack="True" OnCheckedChanged="MemberChecked" Visible='<%# DataBinder.Eval( Container.DataItem, "VisibleField" )%>' Checked='<%# GetMemberCheckedState( DataBinder.Eval( Container.DataItem, "IDField" ) ) %>' />
 							</ItemTemplate>
 						</asp:TemplateColumn>
 						
 						<asp:TemplateColumn ItemStyle-CssClass="ifoldermembersitem2">
 							<ItemTemplate>
-								<asp:Image 
-									ID="UserImage" 
-									Runat="server" 
-									ImageUrl='<%# GetUserImage( DataBinder.Eval( Container.DataItem, "OwnerField" ) ) %>'/>
+								<asp:Image ID="UserImage" Runat="server" ImageUrl='<%# GetUserImage( DataBinder.Eval( Container.DataItem, "OwnerField" ) ) %>'/>
 							</ItemTemplate>
 						</asp:TemplateColumn>
 						
@@ -195,7 +183,7 @@
 					
 				</asp:DataGrid>
 
-				<ifolder:PageFooter ID="iFolderMemberListFooter" Runat="server" />
+				<ifolder:ListFooter ID="iFolderMemberListFooter" Runat="server" />
 
 				<asp:DropDownList 
 					ID="MemberRightsList" 
@@ -244,11 +232,10 @@
 
 	</div>
 
-	<div class="footer">
-	</div>
+	<ifolder:Footer id="footer" runat="server" />
 
 </form>
 
 </body>
 
-</html>
+</html>

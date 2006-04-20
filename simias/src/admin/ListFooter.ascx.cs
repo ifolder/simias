@@ -1,5 +1,5 @@
 /***********************************************************************
- *  $RCSfile: PageFooter.ascx.cs,v $
+ *  $RCSfile: ListFooter.ascx.cs,v $
  * 
  *  Copyright (C) 2006 Novell, Inc.
  *
@@ -32,9 +32,9 @@ namespace Novell.iFolderWeb.Admin
 	using System.Web.UI.HtmlControls;
 
 	/// <summary>
-	///		Summary description for PageFooter.
+	///		Summary description for ListFooter.
 	/// </summary>
-	public class PageFooter : System.Web.UI.UserControl
+	public class ListFooter : System.Web.UI.UserControl
 	{
 		#region Class Members
 

@@ -59,7 +59,7 @@ namespace Novell.iFolderWeb.Admin
 		/// <summary>
 		/// Table footer control.
 		/// </summary>
-		protected PageFooter FileTypeListFooter;
+		protected ListFooter FileTypeListFooter;
 
 
 		/// <summary>
