@@ -261,11 +261,13 @@ namespace Novell.iFolderApp.Web
 		{
 			bool result = false;
 
+			/* FIXME: accept everything for now
 			if ((certificateProblem == 0) || CertificateProblem.CertEXPIRED.Equals(certificateProblem) ||
 				((certificate != null) && (certificate.GetRawCertDataString().Equals(certificateString))))
 			{
 				result = true;
 			}
+			*/
 
 			return result;
 		}
