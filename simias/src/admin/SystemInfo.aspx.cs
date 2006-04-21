@@ -177,7 +177,19 @@ namespace Novell.iFolderWeb.Admin
 			dt.Columns.Add( new DataColumn( "FullNameField", typeof( string ) ) );
 
 			int total;
-			iFolderUser[] adminList = web.GetAdministrators( CurrentAdminOffset, AdminList.PageSize, out total );
+			iFolderUser[] adminList = null;
+			try
+			{
+				adminList = web.GetAdministrators( CurrentAdminOffset, AdminList.PageSize, out total );
+			}
+			catch ( Exception ex )
+			{
+				Response.Redirect( 
+					String.Format( "Error.aspx?ex={0} {1}", GetString( "ERRORCANNOTGETADMINLIST" ), Utils.ExceptionMessage( ex ) ), 
+					true );
+
+				return null;
+			}
 
 			foreach( iFolderUser admin in adminList )
 			{
@@ -227,15 +239,24 @@ namespace Novell.iFolderWeb.Admin
 			int totaliFolders;
 			int totalUsers;
 
-			iFolderSystem system = web.GetSystem();
-			Name.Text = system.Name;
-			Description.Value = system.Description;
+			try
+			{
+				iFolderSystem system = web.GetSystem();
+				Name.Text = system.Name;
+				Description.Value = system.Description;
 
-			iFolderUser[] users = web.GetUsers( 0, 1, out totalUsers );
-			NumberOfUsers.Text = totalUsers.ToString();
+				iFolderUser[] users = web.GetUsers( 0, 1, out totalUsers );
+				NumberOfUsers.Text = totalUsers.ToString();
 
-			iFolder[] folders = web.GetiFolders( iFolderType.All, 0, 1, out totaliFolders );
-			NumberOfiFolders.Text = totaliFolders.ToString();
+				iFolder[] folders = web.GetiFolders( iFolderType.All, 0, 1, out totaliFolders );
+				NumberOfiFolders.Text = totaliFolders.ToString();
+			}
+			catch ( Exception ex )
+			{
+				Response.Redirect(
+					String.Format( "Error.aspx?ex={0} {1}", GetString( "ERRORCANNOTGETSYSTEMINFO" ), Utils.ExceptionMessage( ex ) ),
+					true );
+			}
 		}
 
 		/// <summary>
@@ -246,6 +267,16 @@ namespace Novell.iFolderWeb.Admin
 		private bool IsSuperAdmin( string id )
 		{
 			return ( SuperAdminID == id ) ? true : false;
+		}
+
+		/// <summary>
+		/// Event handler that gets called if a policy error occurs.
+		/// </summary>
+		/// <param name="source"></param>
+		/// <param name="e"></param>
+		private void OnPolicyError( object source, PolicyErrorArgs e )
+		{
+			TopNav.ShowError( e.Message, e.Exception );
 		}
 
 		/// <summary>
@@ -274,8 +305,20 @@ namespace Novell.iFolderWeb.Admin
 				CheckedMembers = new Hashtable();
 
 				// Get the owner of the system.
-				iFolder domain = web.GetiFolder( web.GetSystem().ID );
-				SuperAdminID = domain.OwnerID;
+				try
+				{
+					iFolder domain = web.GetiFolder( web.GetSystem().ID );
+					SuperAdminID = domain.OwnerID;
+				}
+				catch ( Exception ex )
+				{
+					Response.Redirect( 
+						String.Format( 
+							"Error.aspx?ex={0} {1}", 
+							GetString( "ERRORCANNOTGETDOMAIN" ), 
+							Utils.ExceptionMessage( ex ) ), 
+						true );
+				}
 			}
 		}
 
@@ -430,7 +473,16 @@ namespace Novell.iFolderWeb.Admin
 		{
 			foreach( string memberID in CheckedMembers.Keys )
 			{
-				web.RemoveAdministrator( memberID );
+				try
+				{
+					web.RemoveAdministrator( memberID );
+				}
+				catch ( Exception ex )
+				{
+					string name = CheckedMembers[ memberID ] as String;
+					TopNav.ShowError( String.Format( GetString( "ERRORCANNOTREMOVEADMIN" ), name ), ex );
+					return;
+				}
 			}
 
 			// Clear the checked members.
@@ -521,6 +573,8 @@ namespace Novell.iFolderWeb.Admin
 				// Set the render event to happen only on page load.
 				Page.PreRender += new EventHandler( Page_PreRender );
 			}
+
+			Policy.PolicyError += new Policy.PolicyErrorHandler( OnPolicyError );
 
 			AdminListFooter.PageFirstClick += new ImageClickEventHandler( PageFirstButton_Click );
 			AdminListFooter.PagePreviousClick += new ImageClickEventHandler( PagePreviousButton_Click );

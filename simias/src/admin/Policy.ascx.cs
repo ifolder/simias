@@ -89,6 +89,17 @@ namespace Novell.iFolderWeb.Admin
 		/// </summary>
 		protected Button PolicyCancelButton;
 
+
+		/// <summary>
+		/// Delegate to use to handle policy errors.
+		/// </summary>
+		public delegate void PolicyErrorHandler( object source, PolicyErrorArgs e );
+
+        /// <summary>
+		/// Event that notifies consumer that an policy error occurred.
+		/// </summary>
+		public event PolicyErrorHandler PolicyError = null;
+
 		#endregion
 
 		#region Properties
@@ -173,7 +184,21 @@ namespace Novell.iFolderWeb.Admin
 		protected void ApplyiFolderPolicy( Object sender, EventArgs e )
 		{
 			// Get the current policy settings.
-			iFolderPolicy policy = web.GetiFolderPolicy( PolicyID );
+			iFolderPolicy policy = null;
+			try
+			{
+				policy = web.GetiFolderPolicy( PolicyID );
+			}
+			catch ( Exception ex )
+			{
+				string errMsg = String.Format( GetString( "ERRORCANNOTGETIFOLDERPOLICY" ), PolicyID );
+				if ( PolicyError != null )
+				{
+					PolicyError( this, new PolicyErrorArgs( errMsg, ex ) );
+				}
+
+				return;
+			}
 
 			// Verify and apply all the ifolder specified settings to the policy object.
 			iFolderEnabled.SetiFolderEnabledPolicy( policy );
@@ -183,7 +208,21 @@ namespace Novell.iFolderWeb.Admin
 			SyncInterval.SetSyncPolicy( policy );
 
 			// Set the new policies and refresh the view.
-			web.SetiFolderPolicy( policy );
+			try
+			{
+				web.SetiFolderPolicy( policy );
+			}
+			catch ( Exception ex )
+			{
+				string errMsg = String.Format( GetString( "ERRORCANNOTSETIFOLDERPOLICY" ), PolicyID );
+				if ( PolicyError != null )
+				{
+					PolicyError( this, new PolicyErrorArgs( errMsg, ex ) );
+				}
+
+				return;
+			}
+
 			GetiFolderPolicies();
 			EnablePolicyButtons = false;
 		}
@@ -195,7 +234,21 @@ namespace Novell.iFolderWeb.Admin
 		/// <param name="e"></param>
 		protected void ApplySystemPolicy( Object sender, EventArgs e )
 		{
-			SystemPolicy policy = web.GetSystemPolicy();
+			SystemPolicy policy = null;
+
+			try
+			{
+				policy = web.GetSystemPolicy();
+			}
+			catch ( Exception ex )
+			{
+				if ( PolicyError != null )
+				{
+					PolicyError( this, new PolicyErrorArgs( GetString( "ERRORCANNOTGETSYSTEMPOLICY" ), ex ) );
+				}
+
+				return;
+			}
 
 			// Verify and apply all the user specified settings to the policy object.
 			DiskQuota.SetDiskSpacePolicy( policy );
@@ -204,7 +257,20 @@ namespace Novell.iFolderWeb.Admin
 			SyncInterval.SetSyncPolicy( policy );
 
 			// Set the new policies and refresh the view.
-			web.SetSystemPolicy( policy );
+			try
+			{
+				web.SetSystemPolicy( policy );
+			}
+			catch ( Exception ex )
+			{
+				if ( PolicyError != null )
+				{
+					PolicyError( this, new PolicyErrorArgs( GetString( "ERRORCANNOTSETSYSTEMPOLICY" ), ex ) );
+				}
+
+				return;
+			}
+
 			GetSystemPolicies();
 			EnablePolicyButtons = false;
 		}
@@ -217,7 +283,21 @@ namespace Novell.iFolderWeb.Admin
 		protected void ApplyUserPolicy( Object sender, EventArgs e )
 		{
 			// Get the current policy settings.
-			UserPolicy policy = web.GetUserPolicy( PolicyID );
+			UserPolicy policy = null;
+			try
+			{
+				policy = web.GetUserPolicy( PolicyID );
+			}
+			catch ( Exception ex )
+			{
+				string errMsg = String.Format( GetString( "ERRORCANNOTGETUSERPOLICY" ), PolicyID );
+				if ( PolicyError != null )
+				{
+					PolicyError( this, new PolicyErrorArgs( errMsg, ex ) );
+				}
+
+				return;
+			}
 
 			// Verify and apply all the user specified settings to the policy object.
 			AccountEnabled.SetAccountPolicy( policy );
@@ -227,7 +307,21 @@ namespace Novell.iFolderWeb.Admin
 			SyncInterval.SetSyncPolicy( policy );
 
 			// Set the new policies and refresh the view.
-			web.SetUserPolicy( policy );
+			try
+			{
+				web.SetUserPolicy( policy );
+			}
+			catch ( Exception ex )
+			{
+				string errMsg = String.Format( GetString( "ERRORCANNOTSETUSERPOLICY" ), PolicyID );
+				if ( PolicyError != null )
+				{
+					PolicyError( this, new PolicyErrorArgs( errMsg, ex ) );
+				}
+
+				return;
+			}
+
 			GetUserPolicies();
 			EnablePolicyButtons = false;
 		}
@@ -297,7 +391,17 @@ namespace Novell.iFolderWeb.Admin
 		/// </summary>
 		public void GetiFolderPolicies()
 		{
-			iFolderPolicy policy = web.GetiFolderPolicy( PolicyID );
+			iFolderPolicy policy = null;
+			try
+			{
+				policy = web.GetiFolderPolicy( PolicyID );
+			}
+			catch ( Exception ex )
+			{
+				string errMsg = String.Format( GetString( "ERRORCANNOTGETIFOLDERPOLICY" ), PolicyID );
+				Response.Redirect( String.Format( "Error.aspx?ex={0} {1}", errMsg, Utils.ExceptionMessage( ex ) ), true );
+				return;
+			}
 
 			AccountEnabled.GetAccountPolicy( policy );
 			iFolderEnabled.GetiFolderEnabledPolicy( policy );
@@ -312,7 +416,17 @@ namespace Novell.iFolderWeb.Admin
 		/// </summary>
 		public void GetSystemPolicies()
 		{
-			SystemPolicy policy = web.GetSystemPolicy();
+			SystemPolicy policy = null;
+			try
+			{
+				policy = web.GetSystemPolicy();
+			}
+			catch ( Exception ex )
+			{
+				string errMsg = GetString( "ERRORCANNOTGETSYSTEMPOLICY" );
+				Response.Redirect( String.Format( "Error.aspx?ex={0} {1}", errMsg, Utils.ExceptionMessage( ex ) ), true );
+				return;
+			}
 
 			AccountEnabled.GetAccountPolicy( policy );
 			iFolderEnabled.GetiFolderEnabledPolicy( policy );
@@ -327,7 +441,17 @@ namespace Novell.iFolderWeb.Admin
 		/// </summary>
 		public void GetUserPolicies()
 		{
-			UserPolicy policy = web.GetUserPolicy( PolicyID );
+			UserPolicy policy = null;
+			try
+			{
+				policy = web.GetUserPolicy( PolicyID );
+			}
+			catch ( Exception ex )
+			{
+				string errMsg = String.Format( GetString( "ERRORCANNOTGETUSERPOLICY" ), PolicyID );
+				Response.Redirect( String.Format( "Error.aspx?ex={0} {1}", errMsg, Utils.ExceptionMessage( ex ) ), true );
+				return;
+			}
 
 			AccountEnabled.GetAccountPolicy( policy );
 			iFolderEnabled.GetiFolderEnabledPolicy( policy );
@@ -388,4 +512,73 @@ namespace Novell.iFolderWeb.Admin
 		}
 		#endregion
 	}
+
+	#region PolicyEventArgs
+
+	/// <summary>
+	/// Args for policies error events.
+	/// </summary>
+	public class PolicyErrorArgs : EventArgs
+	{
+		#region Class Members
+
+		/// <summary>
+		/// Error message that occurred during policy operation.
+		/// </summary>
+		private string errorMessage;
+
+		/// <summary>
+		/// Exception that occurred during policy operation.
+		/// </summary>
+		private Exception exception;
+
+		#endregion
+
+		#region Properties
+
+		/// <summary>
+		/// Gets the error message.
+		/// </summary>
+		public string Message
+		{
+			get { return errorMessage; }
+		}
+
+		/// <summary>
+		/// Get the exception.
+		/// </summary>
+		public Exception Exception
+		{
+			get { return exception; }
+		}
+
+		#endregion
+
+		#region Constructor
+
+		/// <summary>
+		/// Constructor.
+		/// </summary>
+		/// <param name="msg"></param>
+		public PolicyErrorArgs( string msg )
+		{
+			errorMessage = msg;
+			exception = null;
+		}
+
+		/// <summary>
+		/// Constructor.
+		/// </summary>
+		/// <param name="msg"></param>
+		/// <param name="ex"></param>
+		public PolicyErrorArgs( string msg, Exception ex )
+		{
+			errorMessage = msg;
+			exception = ex;
+		}
+
+		#endregion
+	}
+
+	#endregion
 }

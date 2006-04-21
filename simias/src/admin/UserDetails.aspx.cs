@@ -85,6 +85,11 @@ namespace Novell.iFolderWeb.Admin
 		/// <summary>
 		/// User detail controls.
 		/// </summary>
+		protected Literal UserName;
+
+		/// <summary>
+		/// User detail controls.
+		/// </summary>
 		protected Literal FullName;
 
 		/// <summary>
@@ -247,20 +252,29 @@ namespace Novell.iFolderWeb.Admin
 			int total;
 			iFolder[] list;
 
-			switch ( ActiveiFolderTab )
+			try
 			{
-				case ListDisplayType.Owned:
-					list = web.GetiFoldersByMember( UserID, MemberRole.Owner, CurrentiFolderOffset, iFolderList.PageSize, out total );
-					break;
+				switch ( ActiveiFolderTab )
+				{
+					case ListDisplayType.Owned:
+						list = web.GetiFoldersByMember( UserID, MemberRole.Owner, CurrentiFolderOffset, iFolderList.PageSize, out total );
+						break;
 
-				case ListDisplayType.Shared:
-					list = web.GetiFoldersByMember( UserID, MemberRole.Shared, CurrentiFolderOffset, iFolderList.PageSize, out total );
-					break;
+					case ListDisplayType.Shared:
+						list = web.GetiFoldersByMember( UserID, MemberRole.Shared, CurrentiFolderOffset, iFolderList.PageSize, out total );
+						break;
 
-				case ListDisplayType.All:
-				default:
-					list = web.GetiFoldersByMember( UserID, MemberRole.Any, CurrentiFolderOffset, iFolderList.PageSize, out total );
-					break;
+					case ListDisplayType.All:
+					default:
+						list = web.GetiFoldersByMember( UserID, MemberRole.Any, CurrentiFolderOffset, iFolderList.PageSize, out total );
+						break;
+				}
+			}
+			catch ( Exception ex )
+			{
+				string errMsg = String.Format( GetString( "ERRORCANNOTGETIFOLDERLIST" ), UserName.Text );
+				Response.Redirect( String.Format( "Error.aspx?ex={0} {1}", errMsg, Utils.ExceptionMessage( ex ) ), true );
+				return null;
 			}
 
 			foreach( iFolder folder in list )
@@ -336,7 +350,17 @@ namespace Novell.iFolderWeb.Admin
 		private string GetUserDetails()
 		{
 			// Get the iFolder user information.
-			iFolderUserDetails details = web.GetUserDetails( UserID );
+			iFolderUserDetails details = null;
+			try
+			{
+				details = web.GetUserDetails( UserID );
+			}
+			catch ( Exception ex )
+			{
+				string errMsg = String.Format( GetString( "ERRORCANNOTGETUSER" ), UserID );
+				Response.Redirect( String.Format( "Error.aspx?ex={0} {1}", errMsg, Utils.ExceptionMessage( ex ) ), true );
+				return null;
+			}
 
 			string lastLogin = ( details.LastLogin == DateTime.MinValue ) ?
 				GetString( "NOTAVAILABLE" ) : details.LastLogin.ToString();
@@ -344,10 +368,21 @@ namespace Novell.iFolderWeb.Admin
 			int totaliFolders = details.OwnediFolderCount + details.SharediFolderCount;
 
 			// Add the information rows to the table.
+			UserName.Text = details.UserName;
 			FullName.Text = details.FullName;
 			LdapContext.Text = details.LdapContext;
 			LastLogin.Text = lastLogin;
 			return details.FullName;
+		}
+
+		/// <summary>
+		/// Event handler that gets called if a policy error occurs.
+		/// </summary>
+		/// <param name="source"></param>
+		/// <param name="e"></param>
+		private void OnPolicyError( object source, PolicyErrorArgs e )
+		{
+			TopNav.ShowError( e.Message, e.Exception );
 		}
 
 		/// <summary>
@@ -462,7 +497,15 @@ namespace Novell.iFolderWeb.Admin
 				{
 					iFolderPolicy policy = GetiFolderPolicyObject( ifolderID );
 					policy.Locked = syncStatus;
-					web.SetiFolderPolicy( policy );
+					try
+					{
+						web.SetiFolderPolicy( policy );
+					}
+					catch ( Exception ex )
+					{
+						TopNav.ShowError( GetString( "ERRORCANNOTSETIFOLDERSTATUS" ), ex );
+						return;
+					}
 				}
 			}
 
@@ -534,16 +577,6 @@ namespace Novell.iFolderWeb.Admin
 		}
 
 		/// <summary>
-		/// Gets the name of the specified user.
-		/// </summary>
-		/// <returns>The username</returns>
-		protected string GetUserName()
-		{
-			iFolderUser user = web.GetUser( UserID );
-			return user.UserName;
-		}
-
-		/// <summary>
 		/// Event handler that gets called when the check all iFolders checkbox is selected.
 		/// </summary>
 		/// <param name="sender"></param>
@@ -582,7 +615,7 @@ namespace Novell.iFolderWeb.Admin
 		/// <param name="e"></param>
 		protected void OnCreateiFolder( object source, EventArgs e )
 		{
-			Page.Response.Redirect( String.Format( "MemberSelect.aspx?op=createifolder&owner={0}", UserID ), true );
+			Page.Response.Redirect( String.Format( "MemberSelect.aspx?op=createifolder&owner={0}&name={1}", UserID, FullName.Text ), true );
 		}
 
 		/// <summary>
@@ -594,7 +627,15 @@ namespace Novell.iFolderWeb.Admin
 		{
 			foreach( string iFolderID in CheckediFolders.Keys )
 			{
-				web.DeleteiFolder( iFolderID );
+				try
+				{
+					web.DeleteiFolder( iFolderID );
+				}
+				catch ( Exception ex )
+				{
+					TopNav.ShowError( GetString( "ERRORCANNOTDELETEIFOLDER" ), ex );
+					return;
+				}
 			}
 
 			// Clear the checked members.
@@ -754,6 +795,8 @@ namespace Novell.iFolderWeb.Admin
 				// Set the render event to happen only on page load.
 				Page.PreRender += new EventHandler( Page_PreRender );
 			}
+
+			Policy.PolicyError += new Policy.PolicyErrorHandler( OnPolicyError );
 
 			iFolderListFooter.PageFirstClick += new ImageClickEventHandler( PageFirstButton_Click );
 			iFolderListFooter.PagePreviousClick += new ImageClickEventHandler( PagePreviousButton_Click );

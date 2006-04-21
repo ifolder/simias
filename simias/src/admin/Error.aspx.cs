@@ -85,7 +85,7 @@ namespace Novell.iFolderWeb.Admin
 				Exception ex = Session[ "Exception" ] as Exception;
 				if (ex != null)
 				{
-					message = ex.ToString();
+					message = Utils.ExceptionMessage( ex );
 				}
 			}
 			
@@ -94,6 +94,8 @@ namespace Novell.iFolderWeb.Admin
 			{
 				TopNav.ShowError( message );
 			}
+
+			// BUGBUG!! - Do something here if no message is available.
 		}
 
 		#endregion

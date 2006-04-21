@@ -182,25 +182,34 @@ namespace Novell.iFolderWeb.Admin
 			iFolderUser[] userList;
 			int total;
 
-			if ( MemberSearch.SearchName == String.Empty )
+			try
 			{
-				userList = web.GetUsersBySearch( 
-					MemberSearch.SearchAttribute, 
-					MemberSearch.SearchOperation, 
-					"*", 
-					CurrentUserOffset, 
-					Accounts.PageSize, 
-					out total );
+				if ( MemberSearch.SearchName == String.Empty )
+				{
+					userList = web.GetUsersBySearch( 
+						MemberSearch.SearchAttribute, 
+						MemberSearch.SearchOperation, 
+						"*", 
+						CurrentUserOffset, 
+						Accounts.PageSize, 
+						out total );
+				}
+				else
+				{
+					userList = web.GetUsersBySearch( 
+						MemberSearch.SearchAttribute, 
+						MemberSearch.SearchOperation, 
+						MemberSearch.SearchName, 
+						CurrentUserOffset, 
+						Accounts.PageSize, 
+						out total );
+				}
 			}
-			else
+			catch ( Exception ex )
 			{
-				userList = web.GetUsersBySearch( 
-					MemberSearch.SearchAttribute, 
-					MemberSearch.SearchOperation, 
-					MemberSearch.SearchName, 
-					CurrentUserOffset, 
-					Accounts.PageSize, 
-					out total );
+				string errMsg = GetString( "ERRORCANNOTGETDOMAINLIST" );
+				Response.Redirect( String.Format( "Error.aspx?ex={0} {1}", errMsg, Utils.ExceptionMessage( ex ) ), true );
+				return null;
 			}
 
 			foreach( iFolderUser user in userList )
@@ -285,7 +294,18 @@ namespace Novell.iFolderWeb.Admin
 				AllUsersCheckBox.Checked = false;
 				CheckedUsers = new Hashtable();
 
-				IdentityPolicy policy = web.GetIdentityPolicy();
+				IdentityPolicy policy = null;
+				try
+				{
+					policy = web.GetIdentityPolicy();
+				}
+				catch ( Exception ex )
+				{
+					string errMsg = GetString( "ERRORCANNOTGETIDENTITYPOLICY" );
+					Response.Redirect( String.Format( "Error.aspx?ex={0} {1}", errMsg, Utils.ExceptionMessage( ex ) ), true );
+					return;
+				}
+
 				if ( policy.CanCreate )
 				{
 					CreateButton.Text = GetString( "CREATE" );
@@ -299,8 +319,16 @@ namespace Novell.iFolderWeb.Admin
 				}
 
 				// Get the owner of the system.
-				iFolder domain = web.GetiFolder( web.GetSystem().ID );
-				SuperAdminID = domain.OwnerID;
+				try
+				{
+					iFolder domain = web.GetiFolder( web.GetSystem().ID );
+					SuperAdminID = domain.OwnerID;
+				}
+				catch ( Exception ex )
+				{
+					Response.Redirect( String.Format( "Error.aspx?ex={0} {1}", GetString( "ERRORCANNOTGETDOMAIN" ), Utils.ExceptionMessage( ex ) ), true );
+					return;
+				}
 			}
 		}
 
@@ -355,7 +383,16 @@ namespace Novell.iFolderWeb.Admin
 				{
 					UserPolicy policy = Utils.GetUserPolicyObject( userID );
 					policy.LoginEnabled = status;
-					web.SetUserPolicy( policy );
+					try
+					{
+						web.SetUserPolicy( policy );
+					}
+					catch ( Exception ex )
+					{
+						string errMsg = String.Format( GetString( "ERRORCANNOTSETUSERPOLICY" ), userID );
+						TopNav.ShowError( errMsg, ex );
+						return;
+					}
 				}
 			}
 
@@ -466,8 +503,17 @@ namespace Novell.iFolderWeb.Admin
 			foreach( string userID in CheckedUsers.Keys )
 			{
 				// BUGBUG!! - Need a call to delete by user IDs.
-				iFolderUser user = web.GetUser( userID );
-				web.DeleteUser( user.UserName );
+				try
+				{
+					iFolderUser user = web.GetUser( userID );
+					web.DeleteUser( user.UserName );
+				}
+				catch ( Exception ex )
+				{
+					string errMsg = String.Format( GetString( "ERRORCANNOTDELETEUSER" ), userID );
+					TopNav.ShowError( errMsg, ex );
+					return;
+				}
 			}
 
 			// Clear the checked members.

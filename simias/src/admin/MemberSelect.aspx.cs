@@ -184,6 +184,23 @@ namespace Novell.iFolderWeb.Admin
 		}
 
 		/// <summary>
+		/// Gets the user or iFolder name.
+		/// </summary>
+		private string iFolderName
+		{
+			get
+			{
+				string param = Request.Params[ "name" ];
+				if ( ( param == null ) || ( param == String.Empty ) )
+				{
+					throw new HttpException( ( int )HttpStatusCode.BadRequest, "No user name was specified." );
+				}
+
+				return param;
+			}
+		}
+
+		/// <summary>
 		/// Gets the operation to perform for this web page.
 		/// </summary>
 		private PageOp Operation
@@ -280,9 +297,8 @@ namespace Novell.iFolderWeb.Admin
 					Uri uri = new Uri( ReferringPage );
 					if ( uri.AbsolutePath.EndsWith( "UserDetails.aspx" ) )
 					{
-						iFolderUser user = web.GetUser( Owner );
 						TopNav.AddBreadCrumb( GetString( "USERS" ), "Users.aspx" );
-						TopNav.AddBreadCrumb( user.FullName, String.Format( "UserDetails.aspx?id={0}", user.ID ) );
+						TopNav.AddBreadCrumb( iFolderName, String.Format( "UserDetails.aspx?id={0}", Owner ) );
 						TopNav.AddBreadCrumb( GetString( "CREATENEWIFOLDER" ), null );
 
 						if ( body != null )
@@ -303,9 +319,8 @@ namespace Novell.iFolderWeb.Admin
 
 				case PageOp.AddMember:
 				{
-					iFolder ifolder = web.GetiFolder( iFolderID );
 					TopNav.AddBreadCrumb( GetString( "IFOLDERS" ), "iFolders.aspx" );
-					TopNav.AddBreadCrumb( ifolder.Name, String.Format( "iFolderDetailsPage.aspx?id={0}", ifolder.ID ) );
+					TopNav.AddBreadCrumb( iFolderName, String.Format( "iFolderDetailsPage.aspx?id={0}", iFolderID ) );
 					TopNav.AddBreadCrumb( GetString( "ADDMEMBERS" ), null );
 					break;
 				}
@@ -334,7 +349,18 @@ namespace Novell.iFolderWeb.Admin
 		private Hashtable CreateExistingAdminList()
 		{
 			int total;
-			iFolderUser[] adminList = web.GetAdministrators( 0, 0, out total );
+			iFolderUser[] adminList = null;
+			try
+			{
+				adminList = web.GetAdministrators( 0, 0, out total );
+			}
+			catch ( Exception ex )
+			{
+				string errMsg = GetString( "ERRORCANNOTGETADMINLIST" );
+				Response.Redirect( String.Format( "Error.aspx?ex={0} {1}", errMsg, Utils.ExceptionMessage( ex ) ), true );
+				return null;
+			}
+
 			Hashtable ht = new Hashtable( total );
 			foreach( iFolderUser admin in adminList )
 			{
@@ -351,7 +377,19 @@ namespace Novell.iFolderWeb.Admin
 		private Hashtable CreateExistingMemberList()
 		{
 			int total;
-			iFolderUser[] memberList = web.GetMembers( iFolderID, 0, 0, out total );
+			iFolderUser[] memberList = null;
+
+			try
+			{
+				memberList = web.GetMembers( iFolderID, 0, 0, out total );
+			}
+			catch ( Exception ex )
+			{
+				string errMsg = String.Format( GetString( "ERRORCANNOTGETMEMBERLIST" ), iFolderName );
+				Response.Redirect( String.Format( "Error.aspx?ex={0} {1}", errMsg, Utils.ExceptionMessage( ex ) ), true );
+				return null;
+			}
+
 			Hashtable ht = new Hashtable( total );
 			foreach( iFolderUser member in memberList )
 			{
@@ -380,25 +418,34 @@ namespace Novell.iFolderWeb.Admin
 			int total;
 			SearchProperty attribute = MemberSearch.SearchAttribute;
 
-			if ( MemberSearch.SearchName == String.Empty )
+			try
 			{
-				userList = web.GetUsersBySearch( 
-					attribute, 
-					MemberSearch.SearchOperation, 
-					"*", 
-					CurrentUserOffset, 
-					MemberList.PageSize, 
-					out total );
+				if ( MemberSearch.SearchName == String.Empty )
+				{
+					userList = web.GetUsersBySearch( 
+						attribute, 
+						MemberSearch.SearchOperation, 
+						"*", 
+						CurrentUserOffset, 
+						MemberList.PageSize, 
+						out total );
+				}
+				else
+				{
+					userList = web.GetUsersBySearch( 
+						attribute, 
+						MemberSearch.SearchOperation, 
+						MemberSearch.SearchName, 
+						CurrentUserOffset, 
+						MemberList.PageSize, 
+						out total );
+				}
 			}
-			else
+			catch ( Exception ex )
 			{
-				userList = web.GetUsersBySearch( 
-					attribute, 
-					MemberSearch.SearchOperation, 
-					MemberSearch.SearchName, 
-					CurrentUserOffset, 
-					MemberList.PageSize, 
-					out total );
+				string errMsg = GetString( "ERRORCANNOTGETDOMAINLIST" );
+				Response.Redirect( String.Format( "Error.aspx?ex={0} {1}", errMsg, Utils.ExceptionMessage( ex ) ), true );
+				return null;
 			}
 
 			foreach( iFolderUser user in userList )
@@ -440,7 +487,18 @@ namespace Novell.iFolderWeb.Admin
 		private Hashtable CreateNewMemberList()
 		{
 			// Get the information about the new owner.
-			iFolderUser owner = web.GetUser( Owner );
+			iFolderUser owner = null;
+			try
+			{
+				owner = web.GetUser( Owner );
+			}
+			catch ( Exception ex )
+			{
+				string errMsg = String.Format( GetString( "ERRORCANNOTGETUSER" ), Owner );
+				Response.Redirect( String.Format( "Error.aspx?ex={0} {1}", errMsg, Utils.ExceptionMessage( ex ) ), true );
+				return null;
+			}
+
 			Hashtable ht = new Hashtable();
 			ht[ owner.ID ] = new MemberInfo( owner.ID, owner.UserName, owner.FullName );
 			return ht;
@@ -805,7 +863,16 @@ namespace Novell.iFolderWeb.Admin
 				case PageOp.CreateiFolder:
 				{
 					// Create the iFolder.
-					iFolder ifolder = web.CreateiFolder( Name.Text, Owner, Description.Value );
+					iFolder ifolder = null;
+					try
+					{
+						ifolder = web.CreateiFolder( Name.Text, Owner, Description.Value );
+					}
+					catch ( Exception ex )
+					{
+						TopNav.ShowError( GetString( "ERRORCANNOTCREATEIFOLDER" ), ex );
+						return;
+					}
 
 					// Add the selected users to the ifolder.
 					foreach( MemberInfo mi in MembersToAdd.Values )
@@ -813,7 +880,16 @@ namespace Novell.iFolderWeb.Admin
 						// Check to see if this user is already a member.
 						if ( !IsExistingMember( mi.UserID ) )
 						{
-							web.AddMember( ifolder.ID, mi.UserID, Rights.ReadOnly );
+							try
+							{
+								web.AddMember( ifolder.ID, mi.UserID, Rights.ReadOnly );
+							}
+							catch ( Exception ex )
+							{
+								string errMsg = String.Format( GetString( "ERRORCANNOTADDMEMBER" ), mi.UserName, Name.Text );
+								TopNav.ShowError( errMsg, ex );
+								return;
+							}
 						}
 					}
 					break;
@@ -828,7 +904,16 @@ namespace Novell.iFolderWeb.Admin
 						// Check to see if this user is already a member.
 						if ( !IsExistingMember( mi.UserID ) )
 						{
-							web.AddMember( id, mi.UserID, Rights.ReadOnly );
+							try
+							{
+								web.AddMember( id, mi.UserID, Rights.ReadOnly );
+							}
+							catch ( Exception ex )
+							{
+								string errMsg = String.Format( GetString( "ERRORCANNOTADDMEMBER" ), mi.UserName, iFolderName );
+								TopNav.ShowError( errMsg, ex );
+								return;
+							}
 						}
 					}
 					break;
@@ -842,7 +927,16 @@ namespace Novell.iFolderWeb.Admin
 						// Check to see if this user is already a member.
 						if ( !IsExistingMember( mi.UserID ) )
 						{
-							web.AddAdministrator( mi.UserID );
+							try
+							{
+								web.AddAdministrator( mi.UserID );
+							}
+							catch( Exception ex )
+							{
+								string errMsg = String.Format( GetString( "ERRORCANNOTADDADMIN" ), mi.UserName );
+								TopNav.ShowError( errMsg, ex );
+								return;
+							}
 						}
 					}
 					break;
@@ -860,7 +954,7 @@ namespace Novell.iFolderWeb.Admin
 		protected void OnNameChanged( Object sender, EventArgs e )
 		{
 			// Enable the ok button.
-			OkButton.Enabled = true;
+			OkButton.Enabled = ( Name.Text.Length > 0 );
 			SetFocus( Description );
 		}
 

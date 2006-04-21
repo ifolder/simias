@@ -333,8 +333,7 @@ namespace Novell.iFolderWeb.Admin
 		/// <param name="ex"></param>
 		public void ShowError( string msg, Exception ex )
 		{
-			string exmsg = ( ex.Message == "Complex Exception" ) ? ( ex as SoapException ).Detail.InnerText : ex.Message;
-			ShowError( String.Format( "{0}\n{1}", msg, exmsg ) );
+			ShowError( String.Format( "{0}\n{1}", msg, Utils.ExceptionMessage( ex ) ) );
 		}
 
 		#endregion

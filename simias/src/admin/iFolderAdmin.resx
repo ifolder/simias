@@ -150,11 +150,83 @@
 	<data name="EQUALS">
 		<value>Equals</value>
 	</data>
+	<data name="ERRORCANNOTADDADMIN">
+		<value>Cannot add member {0} as an administrator.</value>
+	</data>
+	<data name="ERRORCANNOTADDMEMBER">
+		<value>Cannot add member {0} to iFolder {1}.</value>
+	</data>
 	<data name="ERRORCANNOTCHANGERIGHTS">
 		<value>Cannot change membership rights for user {0}.</value>
 	</data>
+	<data name="ERRORCANNOTCHANGEOWNER">
+		<value>Cannot change iFolder ownership.</value>
+	</data>
+	<data name="ERRORCANNOTCREATEIFOLDER">
+		<value>Cannot create iFolder.</value>
+	</data>
 	<data name="ERRORCANNOTCREATEUSER">
 		<value>Cannot create user.</value>
+	</data>
+	<data name="CANNOTDELETEIFOLDER">
+		<value>Cannot delete iFolder.</value>
+	</data>
+	<data name="ERRORCANNOTDELETEMEMBERS">
+		<value>Cannot delete iFolder member {0}.</value>
+	</data>
+	<data name="ERRORCANNOTDELETEUSER">
+		<value>Cannot delete user ID {0}.</value>
+	</data>
+	<data name="ERRORCANNOTGETADMINLIST">
+		<value>Cannot get list of administrators.</value>
+	</data>
+	<data name="ERRORCANNOTGETDOMAIN">
+		<value>Cannot get iFolder domain information.</value>
+	</data>
+	<data name="ERRORCANNOTGETDOMAINLIST">
+		<value>Cannot get available iFolder users.</value>
+	</data>
+	<data name="ERRORCANNOTGETIDENTITYPOLICY">
+		<value>Cannot get identity policy for the domain.</value>
+	</data>
+	<data name="ERRORCANNOTGETIFOLDERLIST">
+		<value>Cannot get list of iFolders for user {0}.</value>
+	</data>
+	<data name="ERRORCANNOTGETIFOLDERPOLICY">
+		<value>Cannot get policy information for iFolder ID {0}.</value>
+	</data>
+	<data name="ERRORCANNOTGETMEMBERLIST">
+		<value>Cannot get member list for iFolder {0}.</value>
+	</data>
+	<data name="ERRORCANNOTGETSYSTEMINFO">
+		<value>Cannot get iFolder system information.</value>
+	</data>
+	<data name="ERRORCANNOTGETSYSTEMPOLICY">
+		<value>Cannot get system policy information.</value>
+	</data>
+	<data name="ERRORCANNOTGETUSER">
+		<value>Cannot get information for user ID {0}.</value>
+	</data>
+	<data name="ERRORCANNOTGETUSERPOLICY">
+		<value>Cannot get user policy information for user ID {0}.</value>
+	</data>
+	<data name="ERRORCANNOTREMOVEADMIN">
+		<value>Cannot remove user {0} as an administrator.</value>
+	</data>
+	<data name="ERRORCANNOTSETDESCRIPTION">
+		<value>Cannot set iFolder description.</value>
+	</data>
+	<data name="ERRORCANNOTSETIFOLDERPOLICY">
+		<value>Cannot set policy information for iFolder ID {0}.</value>
+	</data>
+	<data name="ERRORCANNOTSETSYSTEMPOLICY">
+		<value>Cannot set system policy information.</value>
+	</data>
+	<data name="ERRORCANNOTSETIFOLDERSTATUS">
+		<value>Cannot set iFolder synchronization status.</value>
+	</data>
+	<data name="ERRORCANNOTSETUSERPOLICY">
+		<value>Cannot set user policy information for user ID {0}.</value>
 	</data>
 	<data name="ERRORINVALIDQUOTA">
 		<value>An invalid disk space quota value was specified.</value>

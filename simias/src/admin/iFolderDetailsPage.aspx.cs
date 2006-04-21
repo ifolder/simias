@@ -105,6 +105,11 @@ namespace Novell.iFolderWeb.Admin
 		/// </summary>
 		protected Literal Files;
 
+		/// <summary>
+		/// Controls used to display and edit iFolder information.
+		/// </summary>
+		protected Literal UnManagedPath;
+
 
 		/// <summary>
 		/// Control used to display iFolder members.
@@ -242,22 +247,26 @@ namespace Novell.iFolderWeb.Admin
 			try
 			{
 				ifolder = web.GetiFolderDetails( iFolderID );
+				Name.Text = ifolder.Name;
+				Description.Text = ifolder.Description;
+				Owner.Text = ifolder.OwnerFullName;
+				Owner.NavigateUrl= String.Format( "UserDetails.aspx?id={0}", ifolder.OwnerID );
+				LastModified.Text = ifolder.LastModified.ToString();
+				Size.Text = Utils.ConvertToUnitString( ifolder.Size, true, rm );
+				Directories.Text = ifolder.DirectoryCount.ToString();
+				Files.Text = ifolder.FileCount.ToString();
+
+				// Allow the browser to break up the path on separator boundries.
+				UnManagedPath.Text = ifolder.UnManagedPath.Replace( 
+					Path.DirectorySeparatorChar.ToString(), 
+					Path.DirectorySeparatorChar.ToString() + "<WBR>" );
 			}
 			catch ( Exception ex )
 			{
-				Response.Redirect( String.Format("Error.aspx?ex={0}", ex.Message ), true );
-				return null;
+				Response.Redirect( String.Format("Error.aspx?ex={0}", Utils.ExceptionMessage( ex ) ), true );
 			}
 
-			Name.Text = ifolder.Name;
-			Description.Text = ifolder.Description;
-			Owner.Text = ifolder.OwnerFullName;
-			Owner.NavigateUrl= String.Format( "UserDetails.aspx?id={0}", ifolder.OwnerID );
-			LastModified.Text = ifolder.LastModified.ToString();
-			Size.Text = Utils.ConvertToUnitString( ifolder.Size, true, rm );
-			Directories.Text = ifolder.DirectoryCount.ToString();
-			Files.Text = ifolder.FileCount.ToString();
-			return ifolder.Name;
+			return ( ifolder != null ) ? ifolder.Name : null;
 		}
 
 		/// <summary>
@@ -289,7 +298,7 @@ namespace Novell.iFolderWeb.Admin
 			}
 			catch( Exception ex )
 			{
-				Response.Redirect( String.Format( "Error.aspx?ex={0}", ex.Message ), true );
+				Response.Redirect( String.Format( "Error.aspx?ex={0}", Utils.ExceptionMessage( ex ) ), true );
 				return null;
 			}
 
@@ -392,6 +401,16 @@ namespace Novell.iFolderWeb.Admin
 		}
 
 		/// <summary>
+		/// Event handler that gets called if a policy error occurs.
+		/// </summary>
+		/// <param name="source"></param>
+		/// <param name="e"></param>
+		private void OnPolicyError( object source, PolicyErrorArgs e )
+		{
+			TopNav.ShowError( e.Message, e.Exception );
+		}
+
+		/// <summary>
 		/// Page_Load
 		/// </summary>
 		/// <param name="sender"></param>
@@ -475,7 +494,7 @@ namespace Novell.iFolderWeb.Admin
 		/// <param name="e"></param>
 		protected void AddiFolderMembers( Object sender, EventArgs e )
 		{
-			Page.Response.Redirect( String.Format( "MemberSelect.aspx?op=addmember&id={0}", iFolderID ), true );
+			Page.Response.Redirect( String.Format( "MemberSelect.aspx?op=addmember&id={0}&name={1}", iFolderID, Name.Text ), true );
 		}
 
 		/// <summary>
@@ -531,10 +550,8 @@ namespace Novell.iFolderWeb.Admin
 				}
 				catch( Exception ex )
 				{
-					TopNav.ShowError( 
-						String.Format( GetString( "ERRORCANNOTCHANGERIGHTS" ), CheckedMembers[ memberID ] as String ), 
-						ex );
-
+					string memberName = CheckedMembers[ memberID ] as String;
+					TopNav.ShowError( String.Format( GetString( "ERRORCANNOTCHANGERIGHTS" ), memberName ), ex );
 					return;
 				}
 			}
@@ -562,7 +579,17 @@ namespace Novell.iFolderWeb.Admin
 			if ( enumerator.MoveNext() )
 			{
 				string memberID = enumerator.Current as string;
-				web.SetiFolderOwner( iFolderID, memberID );
+				try
+				{
+					web.SetiFolderOwner( iFolderID, memberID );
+				}
+				catch ( Exception ex )
+				{
+					TopNav.ShowError( GetString( "ERRORCANNOTCHANGEOWNER" ), ex );
+					return;
+				}
+
+				// Show the new owner in the page.
 				Owner.Text = CheckedMembers[ memberID ] as string;
 				Owner.NavigateUrl = String.Format( "UserDetails.aspx?id={0}", memberID );
 			}
@@ -587,7 +614,16 @@ namespace Novell.iFolderWeb.Admin
 		{
 			foreach( string memberID in CheckedMembers.Keys )
 			{
-				web.RemoveMember( iFolderID, memberID );
+				try
+				{
+					web.RemoveMember( iFolderID, memberID );
+				}
+				catch ( Exception ex )
+				{
+					string memberName = CheckedMembers[ memberID ] as String;
+					TopNav.ShowError( String.Format( GetString( "ERRORCANNOTDELETEMEMBERS" ), memberName ), ex );
+					return;
+				}
 			}
 
 			// Clear the checked members.
@@ -617,23 +653,17 @@ namespace Novell.iFolderWeb.Admin
 		/// <returns>The display name of the current iFolder</returns>
 		protected string GetiFolderName()
 		{
-			iFolder ifolder = web.GetiFolder( iFolderID );
-			return ifolder.Name;
-		}
+			iFolder ifolder = null;
+			try
+			{
+				ifolder = web.GetiFolder( iFolderID );
+			}
+			catch ( Exception ex )
+			{
+				Response.Redirect( String.Format( "Error.aspx?ex={0}", Utils.ExceptionMessage( ex ) ), true );
+			}
 
-		/// <summary>
-		/// Gets the path for the current ifolder. This will return a string
-		/// that contains whitespace characters to allow firefox to wrap
-		/// the path.
-		/// </summary>
-		/// <returns></returns>
-		protected string GetiFolderPath()
-		{
-			iFolderDetails details = web.GetiFolderDetails( iFolderID );
-
-			return details.UnManagedPath.Replace( 
-				Path.DirectorySeparatorChar.ToString(), 
-				Path.DirectorySeparatorChar.ToString() + "<WBR>" );
+			return ( ifolder != null ) ? ifolder.Name : null;
 		}
 
 		/// <summary>
@@ -753,7 +783,16 @@ namespace Novell.iFolderWeb.Admin
 		/// <param name="e"></param>
 		protected void SaveDescription( object sender, EventArgs e )
 		{
-			web.SetiFolderDescription( iFolderID, Description.Text );
+			try
+			{
+				web.SetiFolderDescription( iFolderID, Description.Text );
+			}
+			catch ( Exception ex )
+			{
+				TopNav.ShowError( GetString( "ERRORCANNOTSETDESCRIPTION" ), ex );
+				return;
+			}
+
 			DescriptionButton.Enabled = false;
 		}
 
@@ -786,6 +825,8 @@ namespace Novell.iFolderWeb.Admin
 				// Set the render event to happen only on page load.
 				Page.PreRender += new EventHandler( Page_PreRender );
 			}
+
+			Policy.PolicyError += new Policy.PolicyErrorHandler( OnPolicyError );
 
 			iFolderMemberList.ItemDataBound += new DataGridItemEventHandler( iFolderMemberList_DataGridItemBound );
 

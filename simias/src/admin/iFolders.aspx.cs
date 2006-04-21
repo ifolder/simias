@@ -181,12 +181,22 @@ namespace Novell.iFolderWeb.Admin
 
 			// Get the iFolder list for this user.
 			int total;
-			iFolder[] list = web.GetiFoldersByName(
-				iFolderSearch.SearchOperation,
-				( iFolderSearch.SearchName == String.Empty ) ? "*" : iFolderSearch.SearchName, 
-				CurrentiFolderOffset, 
-				iFolderList.PageSize, 
-				out total );
+			iFolder[] list = null;
+
+			try
+			{
+				list = web.GetiFoldersByName(
+					iFolderSearch.SearchOperation,
+					( iFolderSearch.SearchName == String.Empty ) ? "*" : iFolderSearch.SearchName, 
+					CurrentiFolderOffset, 
+					iFolderList.PageSize, 
+					out total );
+			}
+			catch ( Exception ex )
+			{
+				Response.Redirect( String.Format( "Error.aspx?ex={0}", Utils.ExceptionMessage( ex ) ), true );
+				return null;
+			}
 
 			foreach( iFolder folder in list )
 			{
@@ -318,7 +328,15 @@ namespace Novell.iFolderWeb.Admin
 				{
 					iFolderPolicy policy = Utils.GetiFolderPolicyObject( ifolderID );
 					policy.Locked = syncStatus;
-					web.SetiFolderPolicy( policy );
+					try
+					{
+						web.SetiFolderPolicy( policy );
+					}
+					catch ( Exception ex )
+					{
+						TopNav.ShowError( GetString( "ERRORCANNOTSETIFOLDERSTATUS" ), ex );
+						return;
+					}
 				}
 			}
 
@@ -419,7 +437,20 @@ namespace Novell.iFolderWeb.Admin
 		/// <param name="e"></param>
 		protected void OnCreateButton_Click( object source, EventArgs e )
 		{
-			Page.Response.Redirect( String.Format( "MemberSelect.aspx?op=createifolder&owner={0}", web.GetAuthenticatedUser().ID ), true );
+			iFolderUser admin = null;
+			try
+			{
+				admin = web.GetAuthenticatedUser();
+			}
+			catch ( Exception ex )
+			{
+				string userID = Session[ "UserID" ] as String;
+				string errMsg = String.Format( GetString( "ERRORCANNOTGETUSER" ), userID );
+				Response.Redirect( String.Format( "Error.aspx?ex={0} {1}", errMsg, Utils.ExceptionMessage( ex ) ), true );
+				return;
+			}
+
+			Page.Response.Redirect( String.Format( "MemberSelect.aspx?op=createifolder&owner={0}&name={1}", admin.ID, admin.FullName ), true );
 		}
 
 		/// <summary>
@@ -431,7 +462,15 @@ namespace Novell.iFolderWeb.Admin
 		{
 			foreach( string ifolderID in CheckediFolders.Keys )
 			{
-				web.DeleteiFolder( ifolderID );
+				try
+				{
+					web.DeleteiFolder( ifolderID );
+				}
+				catch ( Exception ex )
+				{
+					TopNav.ShowError( GetString( "CANNOTDELETEIFOLDER" ), ex );
+					return;
+				}
 			}
 
 			// Clear the checked members.

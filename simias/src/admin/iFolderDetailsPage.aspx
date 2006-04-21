@@ -91,7 +91,7 @@
 						</th>
 						
 						<td>
-							<%= GetiFolderPath() %>
+							<asp:Literal ID="UnManagedPath" Runat="server" />
 						</td>
 					</tr>
 					

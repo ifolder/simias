@@ -39,6 +39,17 @@
 			</div>
 			
 			<table class="detailinfo">
+			
+				<tr>
+					<th>
+						<%= GetString( "USERNAMETAG" ) %>
+					</th>
+					
+					<td>
+						<asp:Literal ID="UserName" Runat="server" />
+					</td>
+				</tr>
+			
 				<tr>
 					<th>
 						<%= GetString( "FULLNAMETAG" ) %>

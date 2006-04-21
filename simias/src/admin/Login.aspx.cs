@@ -353,6 +353,7 @@ namespace Novell.iFolderWeb.Admin
 				// session
 				Session["Connection"] = web;
 				Session["Name"] = user.FullName;
+				Session["UserID"] = user.ID;
 
 				// ui language
 				Session["Language"] = LanguageList.SelectedValue;
