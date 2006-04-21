@@ -64,6 +64,7 @@
           <s:element minOccurs="0" maxOccurs="1" name="OwnerFullName" type="s:string" />
           <s:element minOccurs="0" maxOccurs="1" name="DomainID" type="s:string" />
           <s:element minOccurs="1" maxOccurs="1" name="Size" type="s:long" />
+          <s:element minOccurs="1" maxOccurs="1" name="IsOwner" type="s:boolean" />
           <s:element minOccurs="1" maxOccurs="1" name="Rights" type="tns:Rights" />
           <s:element minOccurs="1" maxOccurs="1" name="LastModified" type="s:dateTime" />
           <s:element minOccurs="1" maxOccurs="1" name="Published" type="s:boolean" />
@@ -87,6 +88,16 @@
         </s:complexType>
       </s:element>
       <s:element name="DeleteiFolderResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="RemoveiFolder">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ifolderID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RemoveiFolderResponse">
         <s:complexType />
       </s:element>
       <s:element name="GetiFolder">
@@ -390,6 +401,48 @@
           <s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />
         </s:sequence>
       </s:complexType>
+      <s:element name="GetiFolderPolicy">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ifolderID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetiFolderPolicyResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetiFolderPolicyResult" type="tns:iFolderPolicy" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="iFolderPolicy">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="iFolderID" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Locked" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="SpaceLimit" type="s:long" />
+          <s:element minOccurs="1" maxOccurs="1" name="SpaceLimitEffective" type="s:long" />
+          <s:element minOccurs="1" maxOccurs="1" name="SpaceUsed" type="s:long" />
+          <s:element minOccurs="1" maxOccurs="1" name="SpaceAvailable" type="s:long" />
+          <s:element minOccurs="1" maxOccurs="1" name="SyncInterval" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="SyncIntervalEffective" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="FileTypesIncludes" type="tns:ArrayOfString" />
+          <s:element minOccurs="0" maxOccurs="1" name="FileTypesIncludesEffective" type="tns:ArrayOfString" />
+          <s:element minOccurs="0" maxOccurs="1" name="FileTypesExcludes" type="tns:ArrayOfString" />
+          <s:element minOccurs="0" maxOccurs="1" name="FileTypesExcludesEffective" type="tns:ArrayOfString" />
+          <s:element minOccurs="1" maxOccurs="1" name="FileSizeLimit" type="s:long" />
+          <s:element minOccurs="1" maxOccurs="1" name="FileSizeLimitEffective" type="s:long" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="SetiFolderPolicy">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="props" type="tns:iFolderPolicy" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetiFolderPolicyResponse">
+        <s:complexType />
+      </s:element>
       <s:element name="CreateEntry">
         <s:complexType>
           <s:sequence>
@@ -646,6 +699,12 @@
   <wsdl:message name="DeleteiFolderSoapOut">
     <wsdl:part name="parameters" element="tns:DeleteiFolderResponse" />
   </wsdl:message>
+  <wsdl:message name="RemoveiFolderSoapIn">
+    <wsdl:part name="parameters" element="tns:RemoveiFolder" />
+  </wsdl:message>
+  <wsdl:message name="RemoveiFolderSoapOut">
+    <wsdl:part name="parameters" element="tns:RemoveiFolderResponse" />
+  </wsdl:message>
   <wsdl:message name="GetiFolderSoapIn">
     <wsdl:part name="parameters" element="tns:GetiFolder" />
   </wsdl:message>
@@ -748,6 +807,18 @@
   <wsdl:message name="GetAuthenticatedUserPolicySoapOut">
     <wsdl:part name="parameters" element="tns:GetAuthenticatedUserPolicyResponse" />
   </wsdl:message>
+  <wsdl:message name="GetiFolderPolicySoapIn">
+    <wsdl:part name="parameters" element="tns:GetiFolderPolicy" />
+  </wsdl:message>
+  <wsdl:message name="GetiFolderPolicySoapOut">
+    <wsdl:part name="parameters" element="tns:GetiFolderPolicyResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetiFolderPolicySoapIn">
+    <wsdl:part name="parameters" element="tns:SetiFolderPolicy" />
+  </wsdl:message>
+  <wsdl:message name="SetiFolderPolicySoapOut">
+    <wsdl:part name="parameters" element="tns:SetiFolderPolicyResponse" />
+  </wsdl:message>
   <wsdl:message name="CreateEntrySoapIn">
     <wsdl:part name="parameters" element="tns:CreateEntry" />
   </wsdl:message>
@@ -841,6 +912,11 @@
       <wsdl:input message="tns:DeleteiFolderSoapIn" />
       <wsdl:output message="tns:DeleteiFolderSoapOut" />
     </wsdl:operation>
+    <wsdl:operation name="RemoveiFolder">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Remove Rights to a iFolder</documentation>
+      <wsdl:input message="tns:RemoveiFolderSoapIn" />
+      <wsdl:output message="tns:RemoveiFolderSoapOut" />
+    </wsdl:operation>
     <wsdl:operation name="GetiFolder">
       <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get an iFolder</documentation>
       <wsdl:input message="tns:GetiFolderSoapIn" />
@@ -925,6 +1001,16 @@
       <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get the Authenticated User Policy</documentation>
       <wsdl:input message="tns:GetAuthenticatedUserPolicySoapIn" />
       <wsdl:output message="tns:GetAuthenticatedUserPolicySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetiFolderPolicy">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get iFolder Policy</documentation>
+      <wsdl:input message="tns:GetiFolderPolicySoapIn" />
+      <wsdl:output message="tns:GetiFolderPolicySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetiFolderPolicy">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Set iFolder Policy</documentation>
+      <wsdl:input message="tns:SetiFolderPolicySoapIn" />
+      <wsdl:output message="tns:SetiFolderPolicySoapOut" />
     </wsdl:operation>
     <wsdl:operation name="CreateEntry">
       <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Create An iFolder File or Directory Entry</documentation>
@@ -1018,6 +1104,15 @@
     </wsdl:operation>
     <wsdl:operation name="DeleteiFolder">
       <soap:operation soapAction="http://novell.com/ifolder/webservice/DeleteiFolder" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemoveiFolder">
+      <soap:operation soapAction="http://novell.com/ifolder/webservice/RemoveiFolder" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -1171,6 +1266,24 @@
     </wsdl:operation>
     <wsdl:operation name="GetAuthenticatedUserPolicy">
       <soap:operation soapAction="http://novell.com/ifolder/webservice/GetAuthenticatedUserPolicy" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetiFolderPolicy">
+      <soap:operation soapAction="http://novell.com/ifolder/webservice/GetiFolderPolicy" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetiFolderPolicy">
+      <soap:operation soapAction="http://novell.com/ifolder/webservice/SetiFolderPolicy" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

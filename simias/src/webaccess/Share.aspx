@@ -52,16 +52,6 @@
 		<iFolder:Header runat="server" />
 		
 		<div id="nav">
-	
-			<div class="actions">
-				<div class="action">
-					<asp:LinkButton ID="ShareButton" runat="server" />
-				</div>
-				<div class="action">
-					<asp:HyperLink ID="CancelLink" runat="server" />
-				</div>
-			</div>
-			
 		</div>
 	
 		<div id="content">
@@ -203,7 +193,12 @@
 					</div>
 					
 				</td></tr></table>
-					
+		
+				<div class="buttons">
+					<asp:Button ID="ShareButton" runat="server" />
+					<asp:Button ID="CancelButton" runat="server" />
+				</div>
+				
 			</div>
 	
 		</div>

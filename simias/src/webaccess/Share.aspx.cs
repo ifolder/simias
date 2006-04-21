@@ -75,12 +75,12 @@ namespace Novell.iFolderApp.Web
 		/// <summary>
 		/// The Share Button
 		/// </summary>
-		protected LinkButton ShareButton;
+		protected Button ShareButton;
 
 		/// <summary>
-		/// The Cancel Link
+		/// The Cancel Button
 		/// </summary>
-		protected HyperLink CancelLink;
+		protected Button CancelButton;
 
 		/// <summary>
 		/// iFolder Name
@@ -147,7 +147,7 @@ namespace Novell.iFolderApp.Web
 				MemberPagging.LabelPlural = GetString("MEMBERS");
 				SearchButton.Text = GetString("SEARCH");
 				ShareButton.Text = GetString("SHARE");
-				CancelLink.Text = GetString("CANCEL");
+				CancelButton.Text = GetString("CANCEL");
 
 				// properties
 				SearchPropertyList.Items.Add(new ListItem(GetString("FIRSTNAME"), SearchProperty.Name.ToString()));
@@ -160,9 +160,6 @@ namespace Novell.iFolderApp.Web
 				// current members
 				currentMembers = new Hashtable();
 				ViewState["CurrentMembers"] = currentMembers;
-
-				// link
-				CancelLink.NavigateUrl = "Members.aspx?iFolder=" + ifolderID;
 
 				// search pattern
 				ViewState["SearchPattern"] = null;
@@ -381,6 +378,7 @@ namespace Novell.iFolderApp.Web
 			this.UserData.ItemCommand += new DataGridCommandEventHandler(UserData_ItemCommand);
 			this.MemberData.ItemCommand += new DataGridCommandEventHandler(MemberData_ItemCommand);
 			this.ShareButton.Click += new EventHandler(ShareButton_Click);
+			this.CancelButton.Click += new EventHandler(CancelButton_Click);
 			this.PreRender += new EventHandler(SharePage_PreRender);
 		}
 
@@ -499,6 +497,17 @@ namespace Novell.iFolderApp.Web
 			{
 				if (!HandleException(ex)) throw;
 			}
+		}
+
+		/// <summary>
+		/// Cancel Button Click
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void CancelButton_Click(object sender, EventArgs e)
+		{
+			// redirect
+			Response.Redirect("Members.aspx?iFolder=" + ifolderID);
 		}
 
 		/// <summary>

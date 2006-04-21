@@ -60,9 +60,9 @@ namespace Novell.iFolderApp.Web
 		protected Button SearchButton;
 
 		/// <summary>
-		/// The Delete Button
+		/// The Remove Button
 		/// </summary>
-		protected LinkButton DeleteButton;
+		protected LinkButton RemoveButton;
 
 		/// <summary>
 		/// iFolder Data
@@ -109,7 +109,7 @@ namespace Novell.iFolderApp.Web
 				iFolderPagging.LabelPlural = GetString("IFOLDERS");
 				NewiFolderLink.Text = GetString("NEWIFOLDER");
 				SearchButton.Text = GetString("FILTER");
-				DeleteButton.Text = GetString("DELETE");
+				RemoveButton.Text = GetString("REMOVE");
 
 				// search pattern
 				ViewState["SearchPattern"] = null;
@@ -138,7 +138,7 @@ namespace Novell.iFolderApp.Web
 			ifolderTable.Columns.Add("Description");
 			ifolderTable.Columns.Add("Rights");
 			ifolderTable.Columns.Add("Size");
-			ifolderTable.Columns.Add("Admin", typeof(bool));
+			ifolderTable.Columns.Add("Owner", typeof(bool));
 
 			try
 			{
@@ -158,7 +158,7 @@ namespace Novell.iFolderApp.Web
 					row["Description"] = ifolder.Description;
 					row["Rights"] = WebUtility.FormatRights(ifolder.Rights, rm);
 					row["Size"] = WebUtility.FormatSize(ifolder.Size, rm);
-					row["Admin"] = (ifolder.Rights == Rights.Admin);
+					row["Owner"] = ifolder.IsOwner;
 
 					ifolderTable.Rows.Add(row);
 				}
@@ -209,8 +209,8 @@ namespace Novell.iFolderApp.Web
 			this.Load += new System.EventHandler(this.Page_Load);
 			this.iFolderPagging.PageChange += new EventHandler(iFolderPagging_PageChange);
 			this.SearchButton.Click += new EventHandler(SearchButton_Click);
-			this.DeleteButton.PreRender += new EventHandler(DeleteButton_PreRender);
-			this.DeleteButton.Click += new EventHandler(DeleteButton_Click);
+			this.RemoveButton.PreRender += new EventHandler(RemoveButton_PreRender);
+			this.RemoveButton.Click += new EventHandler(RemoveButton_Click);
 		}
 
 		#endregion
@@ -238,6 +238,10 @@ namespace Novell.iFolderApp.Web
 			// types
 			switch(type)
 			{
+				case "AccessException":
+					MessageBox.Text = GetString("ENTRY.ACCESSEXCEPTION");
+					break;
+
 				default:
 					result = false;
 					break;
@@ -268,21 +272,21 @@ namespace Novell.iFolderApp.Web
 		}
 
 		/// <summary>
-		/// Delete Button Pre-Render
+		/// Remove Button Pre-Render
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void DeleteButton_PreRender(object sender, EventArgs e)
+		private void RemoveButton_PreRender(object sender, EventArgs e)
 		{
-			DeleteButton.Attributes["onclick"] = "return ConfirmDelete(this.form);";
+			RemoveButton.Attributes["onclick"] = "return ConfirmRemove(this.form);";
 		}
 
 		/// <summary>
-		/// Delete Button Click
+		/// Remove Button Click
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void DeleteButton_Click(object sender, EventArgs e)
+		private void RemoveButton_Click(object sender, EventArgs e)
 		{
 			string ifolderList = null;
 
@@ -306,12 +310,12 @@ namespace Novell.iFolderApp.Web
 				}
 			}
 
-			// delete iFolders
+			// remove from iFolders
 			if (ifolderList != null)
 			{
 				try
 				{
-					web.DeleteiFolder(ifolderList);
+					web.RemoveiFolder(ifolderList);
 				}
 				catch(SoapException ex)
 				{

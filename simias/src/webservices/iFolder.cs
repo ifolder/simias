@@ -80,6 +80,11 @@ namespace iFolder.WebService
 		public long Size = 0;
 
 		/// <summary>
+		/// Owner?
+		/// </summary>
+		public bool IsOwner;
+
+		/// <summary>
 		/// iFolder/Domain Access Rights
 		/// </summary>
 		public Simias.Storage.Access.Rights Rights;
@@ -139,6 +144,7 @@ namespace iFolder.WebService
 
 			// owner
 			this.OwnerID = c.Owner.UserID;
+			this.IsOwner = (accessID != null) && (accessID == this.OwnerID);
 			Domain domain = Store.GetStore().GetDomain(this.DomainID);
 			Member domainMember = domain.GetMemberByID(this.OwnerID);
 			this.OwnerUserName = domainMember.Name;

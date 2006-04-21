@@ -186,9 +186,9 @@ namespace Novell.iFolderApp.Web
 				// read state
 				try
 				{
-					index = int.Parse(StartIndex.Text) - 1;
-					count = int.Parse(EndIndex.Text) - index;
 					total = int.Parse(TotalLabel.Text);
+					index = (total > 0) ? int.Parse(StartIndex.Text) - 1 : 0;
+					count = int.Parse(EndIndex.Text) - index;
 				}
 				catch
 				{

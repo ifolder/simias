@@ -65,6 +65,7 @@
           <s:element minOccurs="0" maxOccurs="1" name="OwnerFullName" type="s:string" />
           <s:element minOccurs="0" maxOccurs="1" name="DomainID" type="s:string" />
           <s:element minOccurs="1" maxOccurs="1" name="Size" type="s:long" />
+          <s:element minOccurs="1" maxOccurs="1" name="IsOwner" type="s:boolean" />
           <s:element minOccurs="1" maxOccurs="1" name="Rights" type="tns:Rights" />
           <s:element minOccurs="1" maxOccurs="1" name="LastModified" type="s:dateTime" />
           <s:element minOccurs="1" maxOccurs="1" name="Published" type="s:boolean" />

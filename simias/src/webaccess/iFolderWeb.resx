@@ -163,7 +163,7 @@
         <value>Modified</value>
     </data>
     <data name="IFOLDER.CONFIRMDELETE">
-        <value>Are you sure you want to delete the selected iFolders?</value>
+        <value>Are you sure you want to delete the current iFolder?</value>
     </data>
     <data name="UPLOAD">
         <value>Upload</value>
@@ -491,5 +491,11 @@
     </data>
     <data name="FILTER">
         <value>Filter</value>
+    </data>
+    <data name="IFOLDER.CONFIRMREMOVE">
+        <value>Are you sure you want to remove your access to the current iFolder?</value>
+    </data>
+    <data name="IFOLDER.CONFIRMREMOVES">
+        <value>Are you sure you want to remove your access to selected iFolders?</value>
     </data>
 </root>

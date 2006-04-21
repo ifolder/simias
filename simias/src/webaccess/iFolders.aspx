@@ -19,9 +19,9 @@
 
 	<script type="text/javascript">
 	
-		function ConfirmDelete(f)
+		function ConfirmRemove(f)
 		{
-			return confirm("<%= GetString("IFOLDER.CONFIRMDELETE") %>");
+			return confirm("<%= GetString("IFOLDER.CONFIRMREMOVES") %>");
 		}
 	
 		function SelectionUpdate(cb)
@@ -45,8 +45,8 @@
 				}
 			}
 
-			document.getElementById("DeleteButton").style.display = (count > 0) ? "" : "none";
-			document.getElementById("DeleteDisabled").style.display = (count > 0) ? "none" : "";
+			document.getElementById("RemoveButton").style.display = (count > 0) ? "" : "none";
+			document.getElementById("RemoveDisabled").style.display = (count > 0) ? "none" : "";
 		}
 	
 		function SubmitKeyDown(e, b)
@@ -89,8 +89,8 @@
 					<asp:HyperLink ID="NewiFolderLink" NavigateUrl="iFolderNew.aspx" runat="server" />
 				</div>
 				<div class="action">
-					<span id="DeleteDisabled"><%= GetString("DELETE") %></span>
-					<asp:LinkButton ID="DeleteButton" style="display:none;" runat="server" />
+					<span id="RemoveDisabled"><%= GetString("REMOVE") %></span>
+					<asp:LinkButton ID="RemoveButton" style="display:none;" runat="server" />
 				</div>
 			</div>
 			
@@ -128,7 +128,7 @@
 						
 						<asp:TemplateColumn ItemStyle-CssClass="cb">
 							<itemtemplate>
-								<asp:CheckBox ID="Select" Enabled='<%# DataBinder.Eval(Container.DataItem, "Admin") %>' onclick="SelectionUpdate(this)" runat="server" />
+								<asp:CheckBox ID="Select" Enabled='<%# !(bool) DataBinder.Eval(Container.DataItem, "Owner") %>' onclick="SelectionUpdate(this)" runat="server" />
 							</itemtemplate>
 						</asp:TemplateColumn>
 						

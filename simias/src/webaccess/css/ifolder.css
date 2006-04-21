@@ -397,7 +397,11 @@ td.seperator
 	vertical-align: top;
 }
 
-#NewiFolderName, #NewiFolderDescription, #iFolderDescription
+#NewiFolderName,
+#NewiFolderDescription,
+#iFolderDescription,
+#NewFolderName,
+#UploadFile
 {
 	width: 30em;
 }
