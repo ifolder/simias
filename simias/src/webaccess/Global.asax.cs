@@ -147,16 +147,17 @@ namespace Novell.iFolderApp.Web
 		/// <param name="e"></param>
 		protected void Application_Error(Object sender, EventArgs e)
 		{
-			/*
 			Exception ex = Server.GetLastError().GetBaseException();
 			
 			// pass the compile exceptions through for debugging
 			if (!(ex is HttpCompileException) && !(ex is InvalidCastException))
 			{
-				Server.ClearError();
-
 				// log
 				log.Error(Context, ex, "Application Error");
+
+				/*
+				// clear
+				Server.ClearError();
 
 				// NOTE: with some errors a session is not available yet and the
 				// preferred method of transfering the exception will not work
@@ -171,8 +172,8 @@ namespace Novell.iFolderApp.Web
 				{
 					Response.Redirect("Error.aspx?Exception=" + Server.UrlEncode(ex.ToString()));
 				}
+				*/
 			}
-			*/
 		}
 
 		/* NOTE: Commented out for performance per Gonzalo
