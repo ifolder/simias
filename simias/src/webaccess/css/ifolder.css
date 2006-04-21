@@ -88,6 +88,7 @@ a:hover
 	background: transparent url(../images/nav.png) left top repeat-x;
 	overflow: hidden;
 	min-height: 80px;
+	padding-bottom: 80px;
 }
 
 #nav .filter
