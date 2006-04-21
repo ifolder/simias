@@ -146,7 +146,7 @@ namespace Novell.iFolderApp.Web
 			}
 			catch(SoapException ex)
 			{
-				HandleException(ex);
+				if (!HandleException(ex)) throw;
 			}
 
 			// data grid

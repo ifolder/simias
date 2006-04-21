@@ -204,7 +204,7 @@ namespace Novell.iFolderApp.Web
 			}
 			catch(SoapException ex)
 			{
-				HandleException(ex);
+				if (!HandleException(ex)) throw;
 			}
 
 			// state
@@ -270,7 +270,7 @@ namespace Novell.iFolderApp.Web
 			}
 			catch(SoapException ex)
 			{
-				HandleException(ex);
+				if (!HandleException(ex)) throw;
 			}
 
 			// bind
@@ -433,7 +433,7 @@ namespace Novell.iFolderApp.Web
 			}
 			catch(SoapException ex)
 			{
-				HandleException(ex);
+				if (!HandleException(ex)) throw;
 			}
 		}
 
@@ -495,7 +495,7 @@ namespace Novell.iFolderApp.Web
 				}
 				catch(SoapException ex)
 				{
-					HandleException(ex);
+					if (!HandleException(ex)) throw;
 				}
 
 				EntryPagging.Index = 0;

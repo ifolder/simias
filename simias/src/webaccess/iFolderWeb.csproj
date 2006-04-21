@@ -310,10 +310,6 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "iFolderWeb.css"
-                    BuildAction = "Content"
-                />
-                <File
                     RelPath = "iFolderWeb.resx"
                     BuildAction = "EmbeddedResource"
                 />

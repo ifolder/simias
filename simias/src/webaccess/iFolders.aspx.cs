@@ -26,6 +26,7 @@ using System.Collections;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Net;
 using System.Web;
 using System.Web.SessionState;
 using System.Web.UI;
@@ -164,7 +165,7 @@ namespace Novell.iFolderApp.Web
 			}
 			catch(SoapException ex)
 			{
-				HandleException(ex);
+				if (!HandleException(ex)) throw;
 			}
 
 			// view
@@ -218,18 +219,31 @@ namespace Novell.iFolderApp.Web
 		/// Handle Exceptions
 		/// </summary>
 		/// <param name="e"></param>
-		private void HandleException(SoapException e)
+		/// <returns></returns>
+		private bool HandleException(Exception e)
 		{
-			// exception type
-			string type = WebUtility.GetSmartExceptionType(e);
+			bool result = true;
+
+			string type = e.GetType().Name;
+
+			if (e is SoapException)
+			{
+				type = WebUtility.GetSmartExceptionType(e as SoapException);
+			}
+			else if (e is WebException)
+			{
+				type = WebUtility.GetWebExceptionType(e as WebException);	
+			}
 
 			// types
 			switch(type)
 			{
 				default:
-					MessageBox.Text = type;
+					result = false;
 					break;
 			}
+
+			return result;
 		}
 
 		/// <summary>
@@ -301,7 +315,7 @@ namespace Novell.iFolderApp.Web
 				}
 				catch(SoapException ex)
 				{
-					HandleException(ex);
+					if (!HandleException(ex)) throw;
 				}
 
 				iFolderPagging.Index = 0;

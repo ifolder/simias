@@ -199,7 +199,7 @@ namespace Novell.iFolderApp.Web
 			}
 			catch(SoapException ex)
 			{
-				HandleException(ex);
+				if (!HandleException(ex)) throw;
 			}
 
 			// bind
@@ -232,6 +232,10 @@ namespace Novell.iFolderApp.Web
 			{
 				case "AccessException":
 					MessageBox.Text = GetString("ENTRY.ACCESSEXCEPTION");
+					break;
+
+				case "LockException":
+					MessageBox.Text = GetString("ENTRY.LOCKEXCEPTION");
 					break;
 
 				default:
@@ -339,7 +343,7 @@ namespace Novell.iFolderApp.Web
 				}
 				catch(SoapException ex)
 				{
-					HandleException(ex);
+					if (!HandleException(ex)) throw;
 				}
 
 				MemberPagging.Index = 0;
@@ -364,7 +368,7 @@ namespace Novell.iFolderApp.Web
 				}
 				catch(SoapException ex)
 				{
-					HandleException(ex);
+					if (!HandleException(ex)) throw;
 				}
 
 				BindMemberData();
@@ -419,7 +423,7 @@ namespace Novell.iFolderApp.Web
 				}
 				catch(SoapException ex)
 				{
-					HandleException(ex);
+					if (!HandleException(ex)) throw;
 				}
 
 				BindMemberData();

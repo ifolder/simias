@@ -133,7 +133,7 @@ namespace Novell.iFolderApp.Web
 			}
 			catch(SoapException ex)
 			{
-				HandleException(ex);
+				if (!HandleException(ex)) throw;
 			}
 		}
 
@@ -253,7 +253,7 @@ namespace Novell.iFolderApp.Web
 			}
 			catch(SoapException ex)
 			{
-				HandleException(ex);
+				if (!HandleException(ex)) throw;
 			}
 		}
 	}
