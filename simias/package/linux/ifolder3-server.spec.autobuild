@@ -30,7 +30,6 @@ Requires:     log4net >= 1.2.9
 Requires:     libflaim >= 4.8.0
 Requires:     mod_mono >= 1.1.13
 Obsoletes:    %{name} < %{version}
-Version:      3.5.@@BUILDNUM@@.1
 Release:      1
 Summary:      Collection-Oriented Data Storage
 Source:       ifolder3-server-3.5.%{buildnum}.1.tar.gz
