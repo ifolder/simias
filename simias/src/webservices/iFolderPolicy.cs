@@ -132,8 +132,9 @@ namespace iFolder.WebService
 		/// Get the iFolder Policy
 		/// </summary>
 		/// <param name="ifolderID">The iFolder ID</param>
+		/// <param name="accessID">The Access User ID</param>
 		/// <returns>An iFolderPolicy Object</returns>
-		public static iFolderPolicy GetPolicy(string ifolderID)
+		public static iFolderPolicy GetPolicy(string ifolderID, string accessID)
 		{
 			iFolderPolicy props = new iFolderPolicy();
 
@@ -144,6 +145,9 @@ namespace iFolder.WebService
 			Collection c = store.GetCollectionByID(ifolderID);
 			
 			if (c == null) throw new iFolderDoesNotExistException(ifolderID);
+
+			// impersonate
+			iFolder.Impersonate(c, accessID);
 
 			// disk space
 			DiskSpaceQuota dsq = DiskSpaceQuota.Get(c);
@@ -177,13 +181,17 @@ namespace iFolder.WebService
 		/// Set the iFolder Policy
 		/// </summary>
 		/// <param name="props">The iFolderPolicy Object</param>
-		public static void SetPolicy(iFolderPolicy props)
+		/// <param name="accessID">The Access User ID</param>
+		public static void SetPolicy(iFolderPolicy props, string accessID)
 		{
 			Store store = Store.GetStore();
 
 			Collection c = store.GetCollectionByID(props.iFolderID);
 
 			if (c == null) throw new iFolderDoesNotExistException(props.iFolderID);
+
+			// impersonate
+			iFolder.Impersonate(c, accessID);
 
 			// NOTE: always unlock the collection so other policy properties
 			// can be modified

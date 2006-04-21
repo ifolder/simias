@@ -933,7 +933,7 @@ namespace iFolder.WebService
 			{
 				Authorize();
 
-				result = iFolderPolicy.GetPolicy(ifolderID);
+				result = iFolderPolicy.GetPolicy(ifolderID, null);
 			}
 			catch(Exception e)
 			{
@@ -956,7 +956,7 @@ namespace iFolder.WebService
 			{
 				Authorize();
 
-				iFolderPolicy.SetPolicy(props);
+				iFolderPolicy.SetPolicy(props, null);
 			}
 			catch(Exception e)
 			{

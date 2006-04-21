@@ -79,10 +79,17 @@ namespace iFolder.WebService
 		/// </summary>
 		public string Status;
 
+		/// <summary>
+		/// Constructor
+		/// </summary>
 		public SyncServiceInfo()
 		{
 		}
 
+		/// <summary>
+		/// Get Sync Service Info
+		/// </summary>
+		/// <returns></returns>
 		public static SyncServiceInfo GetSyncServiceInfo()
 		{
 			SyncServiceInfo info = new SyncServiceInfo();

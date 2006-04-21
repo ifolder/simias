@@ -665,6 +665,53 @@ namespace iFolder.WebService
 			return result;
 		}
 
+		/// <summary>
+		/// Get iFolder Policy
+		/// </summary>
+		/// <param name="ifolderID">An iFolder ID</param>
+		/// <returns>A iFolderPolicy Object</returns>
+		[WebMethod(
+			 Description="Get iFolder Policy",
+			 EnableSession=true)]
+		public iFolderPolicy GetiFolderPolicy(string ifolderID)
+		{
+			iFolderPolicy result = null;
+
+			try
+			{
+				string accessID = GetAccessID();
+
+				result = iFolderPolicy.GetPolicy(ifolderID, accessID);
+			}
+			catch(Exception e)
+			{
+				SmartException.Throw(e);
+			}
+
+			return result;
+		}
+
+		/// <summary>
+		/// Set iFolder Policy
+		/// </summary>
+		/// <param name="props">The iFolderPolicy Object</param>
+		[WebMethod(
+			 Description="Set iFolder Policy",
+			 EnableSession=true)]
+		public void SetiFolderPolicy(iFolderPolicy props)
+		{
+			try
+			{
+				string accessID = GetAccessID();
+
+				iFolderPolicy.SetPolicy(props, accessID);
+			}
+			catch(Exception e)
+			{
+				SmartException.Throw(e);
+			}
+		}
+		
 		#endregion
 
 		#region Entries

@@ -256,7 +256,7 @@
         <value>Unable to communicate with the iFolder server securely.</value>
     </data>
     <data name="ENTRY.LOCKEXCEPTION">
-        <value>The upload was cancelled because the iFolder has been locked by the administrator.</value>
+        <value>The operation was cancelled because the iFolder has been locked/disabled by the administrator.</value>
     </data>
     <data name="ENTRY.ENTRYINVALIDNAME">
         <value>The specified name is invalid.</value>

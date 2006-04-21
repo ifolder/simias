@@ -114,6 +114,10 @@ namespace iFolder.WebService
 		{
 		}
 
+		/// <summary>
+		/// Get Last Sync Info
+		/// </summary>
+		/// <returns></returns>
 		public static LastSyncInfo GetLastSyncInfo()
 		{
 			if ( Service.LastState == null )

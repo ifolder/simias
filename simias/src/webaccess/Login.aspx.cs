@@ -279,7 +279,7 @@ namespace Novell.iFolderApp.Web
 				// log access
 				log.Info(Context, ex, "Login Failed");
 
-				throw ex;
+				throw;
 			}
 		}
 
@@ -435,44 +435,6 @@ namespace Novell.iFolderApp.Web
 			}
 
 			return result;
-		}
-	}
-
-	/// <summary>
-	/// List Item Text Comparer
-	/// </summary>
-	public class ListItemTextComparer : IComparer
-	{
-		/// <summary>
-		/// Case Insensitive Comparer
-		/// </summary>
-		private CaseInsensitiveComparer cic;
-
-		/// <summary>
-		/// Constructor
-		/// </summary>
-		public ListItemTextComparer()
-		{
-			cic = new CaseInsensitiveComparer();
-		}
-
-		/// <summary>
-		/// Compare
-		/// </summary>
-		/// <param name="a"></param>
-		/// <param name="b"></param>
-		/// <returns></returns>
-		public int Compare(object a, object b)
-		{
-			return cic.Compare((a as ListItem).Text, (b as ListItem).Text);
-		}
-
-		/// <summary>
-		/// Default Instance
-		/// </summary>
-		public static ListItemTextComparer Default
-		{
-			get { return new ListItemTextComparer(); }
 		}
 	}
 }
