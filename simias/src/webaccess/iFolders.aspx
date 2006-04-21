@@ -62,20 +62,6 @@
 			return result;
 		}
 
-
-		function SubmitKeyDown(e, b)
-		{
-			var result = true;
-			
-			if ((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13))
-			{
-				document.getElementById(b).click();
-				result = false;
-			} 
-			
-			return result;
-		}
-	
 		function SetFocus()
 		{
 			document.getElementById("SearchPattern").select();
@@ -98,11 +84,6 @@
 		
 		<div id="nav">
 	
-			<div class="filter">
-				<asp:TextBox ID="SearchPattern" CssClass="filterText" runat="server" onkeydown="return SubmitKeyDown(event, 'SearchButton');" />
-				<asp:Button ID="SearchButton" CssClass="hide" runat="server" />
-			</div>
-			
 			<div class="actions">
 				<div class="action">
 					<asp:HyperLink ID="NewiFolderLink" NavigateUrl="iFolderNew.aspx" runat="server" />
@@ -127,6 +108,11 @@
 	
 			<div class="main">
 				
+				<div class="filter">
+					<asp:TextBox ID="SearchPattern" CssClass="filterText" runat="server" onkeydown="return SubmitKeyDown(event, 'SearchButton');" />
+					<asp:Button ID="SearchButton" CssClass="" runat="server" />
+				</div>
+			
 				<asp:DataGrid
 					ID="iFolderData"
 					GridLines="none"

@@ -489,4 +489,7 @@
     <data name="NO">
         <value>No</value>
     </data>
+    <data name="FILTER">
+        <value>Filter</value>
+    </data>
 </root>

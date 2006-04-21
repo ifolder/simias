@@ -130,6 +130,7 @@ namespace Novell.iFolderApp.Web
 				// strings
 				EntryPagging.LabelSingular = GetString("ITEM");
 				EntryPagging.LabelPlural = GetString("ITEMS");
+				SearchButton.Text = GetString("SEARCH");
 				DeleteButton.Text = GetString("DELETE");
 
 				// search pattern
@@ -147,7 +148,6 @@ namespace Novell.iFolderApp.Web
 		private void BindData()
 		{
 			BindParentData();
-			BindEntryData();
 		}
 
 		/// <summary>

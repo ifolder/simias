@@ -58,9 +58,9 @@ namespace Novell.iFolderApp.Web
 		protected Message MessageBox;
 
 		/// <summary>
-		/// The Close Link
+		/// The Close Button
 		/// </summary>
-		protected HyperLink CloseLink;
+		protected Button CloseButton;
 
 		/// <summary>
 		/// The iFolder Name
@@ -110,21 +110,12 @@ namespace Novell.iFolderApp.Web
 				BindData();
 
 				// strings
-				CloseLink.Text = GetString("CLOSE");
+				CloseButton.Text = GetString("CLOSE");
 				HistoryPagging.LabelSingular = GetString("CHANGE");
 				HistoryPagging.LabelPlural = GetString("CHANGES");
 
-				// close link
-				Uri referrer = Request.UrlReferrer;
-				if ((referrer == null) || (referrer.AbsolutePath.IndexOf("Login.aspx") != -1))
-				{
-					CloseLink.NavigateUrl = "Browse.aspx?iFolder=" + ifolderID;
-				}
-				else
-				{
-					CloseLink.NavigateUrl = referrer.ToString();
-				}
-
+				// view
+				ViewState["Referrer"] = Request.UrlReferrer;
 			}
 		}
 
@@ -138,9 +129,6 @@ namespace Novell.iFolderApp.Web
 				// entry
 				iFolderEntry entry = web.GetEntry(ifolderID, entryID);
 				EntryName.Text = entry.Path;
-
-				// links
-				CloseLink.NavigateUrl = String.Format("Browse.aspx?iFolder={0}&Entry={1}", ifolderID, entry.ParentID);
 			}
 			catch(SoapException ex)
 			{
@@ -257,6 +245,7 @@ namespace Novell.iFolderApp.Web
 		{    
 			this.Load += new System.EventHandler(this.Page_Load);
 			this.HistoryPagging.PageChange += new EventHandler(HistoryPagging_PageChange);
+			this.CloseButton.Click += new EventHandler(CloseButton_Click);
 		}
 
 		#endregion
@@ -269,6 +258,29 @@ namespace Novell.iFolderApp.Web
 		private void HistoryPagging_PageChange(object sender, EventArgs e)
 		{
 			BindHistoryData();
+		}
+
+		/// <summary>
+		/// Close Button Click
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void CloseButton_Click(object sender, EventArgs e)
+		{
+			Uri referrer = (Uri) ViewState["Referrer"];
+			string url;
+
+			if ((referrer == null) || (referrer.AbsolutePath.IndexOf("Login.aspx") != -1))
+			{
+				url = "Browse.aspx?iFolder=" + ifolderID;
+			}
+			else
+			{
+				url = referrer.ToString();
+			}
+			
+			// redirect
+			Response.Redirect(url);
 		}
 	}
 }

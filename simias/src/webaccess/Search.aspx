@@ -106,7 +106,7 @@
 				
 				<div class="search">
 					<asp:TextBox ID="SearchPattern" CssClass="searchText" runat="server" onkeydown="return SubmitKeyDown(event, 'SearchButton');" />
-					<asp:Button ID="SearchButton" CssClass="hide" runat="server" />
+					<asp:Button ID="SearchButton" CssClass="" runat="server" />
 				</div>
 			
 				<asp:DataGrid

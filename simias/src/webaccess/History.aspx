@@ -58,7 +58,6 @@
 								<asp:Image ImageUrl='<%# "images/change-" + DataBinder.Eval(Container.DataItem, "Image") + ".png" %>' ToolTip='<%# DataBinder.Eval(Container.DataItem, "EntryName") %>' runat="server" />
 							</itemtemplate>
 						</asp:TemplateColumn>
-						<asp:BoundColumn DataField="Time" ItemStyle-CssClass="datetime" />
 						<asp:TemplateColumn ItemStyle-CssClass="name">
 							<itemtemplate>
 								<%# DataBinder.Eval(Container.DataItem, "ShortEntryName") %>
@@ -69,6 +68,7 @@
 								<%# DataBinder.Eval(Container.DataItem, "Type") + "&nbsp;" + GetString("BY") + "&nbsp;" + DataBinder.Eval(Container.DataItem, "UserFullName") %>
 							</itemtemplate>
 						</asp:TemplateColumn>
+						<asp:BoundColumn DataField="Time" ItemStyle-CssClass="datetime" />
 					</columns>
 				</asp:DataGrid>
 					

@@ -58,7 +58,7 @@
 
 </head>
 
-<body id="sharing">
+<body id="members">
 
 <div id="container">
 	

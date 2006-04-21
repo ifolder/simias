@@ -91,17 +91,6 @@ a:hover
 	padding-bottom: 80px;
 }
 
-#nav .filter
-{
-	padding: 8px;
-}
-
-#nav .filterText
-{
-	width: 96px;
-	background: #FFFFFF url(../images/filter-soft.png) 4px 2px no-repeat;
-}
-
 #nav .actions
 {
 	font-size: 0.9em;
@@ -217,7 +206,7 @@ div.message
 #browse .tabs #browseTab a,
 #search .tabs #searchTab a,
 #details .tabs #detailsTab a,
-#sharing .tabs #sharingTab a,
+#members .tabs #membersTab a,
 #history .tabs #historyTab a
 {
 	background: #E5E5F7;
@@ -244,6 +233,17 @@ div.main
 {
 	padding: 12px 8px 12px 12px;
 	font-size: 0.9em;
+}
+
+.filter
+{
+	padding: 0 0 12px 0;
+}
+
+.filterText
+{
+	width: 20em;
+	background: #FFFFFF url(../images/filter-soft.png) 4px 2px no-repeat;
 }
 
 .search
@@ -334,6 +334,8 @@ table.list td.history
 {
 	width: 16px;
 }
+
+/* custom list */
 
 /* pagging */
 

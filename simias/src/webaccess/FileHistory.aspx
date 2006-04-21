@@ -27,13 +27,6 @@
 		<iFolder:Header runat="server" />
 		
 		<div id="nav">
-	
-			<div class="actions">
-				<div class="action">
-					<asp:HyperLink ID="CloseLink" runat="server" />
-				</div>
-			</div>
-
 		</div>
 	
 		<div id="content">
@@ -66,17 +59,21 @@
 								<asp:Image ImageUrl='<%# "images/change-" + DataBinder.Eval(Container.DataItem, "Image") + ".png" %>' runat="server" />
 							</itemtemplate>
 						</asp:TemplateColumn>
-						<asp:BoundColumn DataField="Time" ItemStyle-CssClass="datetime" />
 						<asp:TemplateColumn ItemStyle-CssClass="action">
 							<itemtemplate>
 								<%# DataBinder.Eval(Container.DataItem, "Type") + "&nbsp;" + GetString("BY") + "&nbsp;" + DataBinder.Eval(Container.DataItem, "UserFullName") %>
 							</itemtemplate>
 						</asp:TemplateColumn>
+						<asp:BoundColumn DataField="Time" ItemStyle-CssClass="datetime" />
 					</columns>
 				</asp:DataGrid>
 					
 				<iFolder:Pagging id="HistoryPagging" runat="server" />
-				
+		
+				<div class="actions">
+					<asp:Button ID="CloseButton" runat="server" />
+				</div>
+	
 			</div>
 	
 		</div>

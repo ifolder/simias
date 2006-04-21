@@ -65,9 +65,9 @@ namespace Novell.iFolderApp.Web
 		protected HyperLink DetailsLink;
 
 		/// <summary>
-		/// The Sharing Link
+		/// The Members Link
 		/// </summary>
-		protected HyperLink SharingLink;
+		protected HyperLink MembersLink;
 
 		/// <summary>
 		/// The History Link
@@ -113,14 +113,14 @@ namespace Novell.iFolderApp.Web
 				BrowseLink.Text = GetString("BROWSE");
 				SearchLink.Text = GetString("SEARCH");
 				DetailsLink.Text = GetString("DETAILS");
-				SharingLink.Text = GetString("SHARING");
+				MembersLink.Text = GetString("Members");
 				HistoryLink.Text = GetString("HISTORY");
 
 				// links
 				BrowseLink.NavigateUrl = "Browse.aspx?iFolder=" + ifolderID;
 				SearchLink.NavigateUrl = "Search.aspx?iFolder=" + ifolderID;
 				DetailsLink.NavigateUrl = "Details.aspx?iFolder=" + ifolderID;
-				SharingLink.NavigateUrl = "Members.aspx?iFolder=" + ifolderID;
+				MembersLink.NavigateUrl = "Members.aspx?iFolder=" + ifolderID;
 				HistoryLink.NavigateUrl = "History.aspx?iFolder=" + ifolderID;
 			}
 		}
