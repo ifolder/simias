@@ -174,6 +174,8 @@ namespace Simias.Server
 					authProvider = new Simias.Server.Authentication();
 					DomainProvider.RegisterProvider( this.authProvider );
 				}
+
+				new Simias.Host.HostProvider( enterpriseDomain.GetServerDomain( false ) );
 			}
 		}
 

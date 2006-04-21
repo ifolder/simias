@@ -629,18 +629,18 @@ namespace Simias.Storage
 		/// </summary>
 		/// <param name="member">Member to invite.</param>
 		/// <param name="subscription">Subscription</param>
-		private void Invite( Member member, Subscription subscription)
+		private void Invite( Member member, Subscription subscription )
 		{
 			try 
 			{
 				HostNode localHost = HostNode.GetLocalHost();
 				if (Store.IsEnterpriseServer && ( localHost != null ) && ( localHost.ID != member.HomeServer.ID ) )
 				{
-					SimiasConnection connection = new SimiasConnection(subscription.DomainID, member, localHost.UserID, SimiasConnection.AuthType.PPK);
+					SimiasConnection connection = new SimiasConnection(subscription.DomainID, localHost.UserID, SimiasConnection.AuthType.PPK, member );
 					connection.Authenticate();
 					POBoxService pos = new POBoxService();
 					connection.InitializeWebClient(pos, "POService.asmx");
-					pos.SaveSubscription(subscription.Properties.ToString(false));
+					pos.SaveSubscription( subscription.Properties.ToString(false) );
 				}
 				else
 				{
@@ -655,7 +655,6 @@ namespace Simias.Storage
 				log.Error(ex.Message);
 			}
 		}
-
 
 		/// <summary>
 		/// Changes a Node object into a Tombstone object.
@@ -1455,7 +1454,7 @@ namespace Simias.Storage
 				HostNode collectionHost = HostNode.GetHostByID( Domain, subscription.HostID );
 				if ( Store.IsEnterpriseServer && ( localHost != null ) && ( localHost.ID != collectionHost.ID ) )
 				{
-					SimiasConnection connection = new SimiasConnection(subscription.DomainID, collectionHost, localHost.UserID, SimiasConnection.AuthType.PPK);
+					SimiasConnection connection = new SimiasConnection(subscription.DomainID, localHost.UserID, SimiasConnection.AuthType.PPK, collectionHost );
 					connection.Authenticate();
 					POBoxService pos = new POBoxService();
 					connection.InitializeWebClient(pos, "POService.asmx");
@@ -1488,7 +1487,7 @@ namespace Simias.Storage
 				{
 					if ( ( localHost != null ) && ( host.ID != localHost.ID ) )
 					{
-						SimiasConnection connection = new SimiasConnection(Domain, host, localHost.UserID, SimiasConnection.AuthType.PPK);
+						SimiasConnection connection = new SimiasConnection(Domain, localHost.UserID, SimiasConnection.AuthType.PPK, host );
 						connection.Authenticate();
 						POBoxService pos = new POBoxService();
 						connection.InitializeWebClient(pos, "POService.asmx");
@@ -1527,7 +1526,7 @@ namespace Simias.Storage
 				if (Store.IsEnterpriseServer && ( localHost != null ) && ( localHost.ID != homeHost.ID) )
 				{
 					// The HomeServer for the member is on another host.
-					SimiasConnection connection = new SimiasConnection(Domain, member, localHost.UserID, SimiasConnection.AuthType.PPK);
+					SimiasConnection connection = new SimiasConnection(Domain, localHost.UserID, SimiasConnection.AuthType.PPK, member );
 					connection.Authenticate();
 					POBoxService pos = new POBoxService();
 					connection.InitializeWebClient(pos, "POService.asmx");

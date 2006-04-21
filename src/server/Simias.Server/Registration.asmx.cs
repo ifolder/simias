@@ -141,7 +141,7 @@ namespace Simias.Server
 		/// </summary>
 		/// <param name="Username">Username (mandatory) short name of the user</param>
 		/// <param name="Password">Password (mandatory)</param>
-		/// <param name="UserGuild">UserGuid (optional) caller can specify the guid for the user</param>
+		/// <param name="UserGuid">UserGuid (optional) caller can specify the guid for the user</param>
 		/// <param name="FirstName">FirstName (optional) first/given name of the user</param>
 		/// <param name="LastName">LastName (optional) last/family name of the user</param>
 		/// <param name="FullName">FullName (optional) Fullname of the user</param>

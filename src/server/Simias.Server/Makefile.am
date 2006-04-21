@@ -8,9 +8,13 @@ SimiasServer_CSFILES = \
 	$(srcdir)/DomainInfo.cs \
 	$(srcdir)/ProvisionInfo.cs \
 	$(srcdir)/DomainService.asmx.cs \
+	$(srcdir)/HostProvider.cs \
+	$(srcdir)/HostService.cs \
 	$(srcdir)/IdentitySyncService.cs \
 	$(srcdir)/IIdentitySyncProvider.cs \
 	$(srcdir)/IdentitySyncManager.asmx.cs \
+	$(srcdir)/IProvisionUser.cs \
+	$(srcdir)/ProvisionInfo.cs \
 	$(srcdir)/Registration.asmx.cs \
 	$(srcdir)/IUserProvider.cs \
 	$(srcdir)/User.cs \

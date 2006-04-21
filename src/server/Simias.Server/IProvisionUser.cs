@@ -29,24 +29,43 @@ using Simias.Storage;
 
 namespace Simias.Server
 {
+	/// <summary>
+	/// ProvisionService
+	/// Simple class for registering/deregistering provisioning
+	/// providers.  The system only supports one registered provider.
+	/// 
+	/// External agents call the static method ProvisionUser to
+	/// provision a simias user into the system.
+	/// </summary>
 	public class ProvisionService
 	{
-		private delegate Simias.Host.HostInfo hostProvisionMethod(string userName);
+		private delegate Simias.Host.HostInfo hostProvisionMethod( string userName );
 		private static hostProvisionMethod callout;
-		private static readonly ISimiasLog logger = SimiasLogManager.GetLogger(typeof(ProvisionService));
+		private static readonly ISimiasLog logger = SimiasLogManager.GetLogger( typeof( ProvisionService ) );
 		
+		/// <summary>
+		/// Register a provisioning provider
+		/// </summary>
 		public static void RegisterProvider( IProvisionUserProvider provider )
 		{
 			logger.Debug( "Registering {0}", provider.GetType().ToString() );
 			callout = new hostProvisionMethod( provider.ProvisionUser );	
 		}
 
+		/// <summary>
+		/// Unregister a previously registered provisioning provider.
+		/// </summary>
 		public static void UnRegisterProvider( IProvisionUserProvider provider )
 		{
 			logger.Debug( "Unregistering {0}", provider.GetType().ToString() );
 			callout -= new hostProvisionMethod( provider.ProvisionUser );
 		}
 
+		/// <summary>
+		/// Method to provision a member into the Simias system.
+		/// The actual provisioning is handled by the registered
+		/// provider.
+		/// </summary>
 		public static Simias.Host.HostInfo ProvisionUser( string userName )
 		{
 			if (callout != null)
@@ -76,11 +95,18 @@ namespace Simias.Server
 		Simias.Host.HostInfo ProvisionUser( string userName );
 	}
 
+	/// <summary>
+	/// Load Balance is a user provisioning provider that attempts
+	/// to keep the number of users across the all servers balanced.
+	/// 
+	/// The provider does not attempt to balance load just the actual
+	/// number of users.
+	/// </summary>
 	public class LoadBalanceProvisionUserProvider : IProvisionUserProvider
 	{
 		private class HostEntry : IComparable
 		{
-			HostNode		host;
+			HostNode	host;
 			int			userCount;
 
 			internal HostEntry( HostNode hNode )
@@ -92,7 +118,7 @@ namespace Simias.Server
 
 			internal Simias.Host.HostInfo Info
 			{
-				get { return new Simias.Host.HostInfo(host); }
+				get { return new Simias.Host.HostInfo( host ); }
 			}
 
 			internal HostNode Host
@@ -107,13 +133,11 @@ namespace Simias.Server
 			}
 
 			#region IComparable Members
-
-			public int CompareTo(object obj)
+			public int CompareTo( object obj )
 			{
 				HostEntry he = obj as HostEntry;
 				return userCount.CompareTo( he.userCount );
 			}
-
 			#endregion
 		}
 
@@ -121,6 +145,13 @@ namespace Simias.Server
 		Domain domain;
 		EventSubscriber nodeEvents;
 
+		/// <summary>
+		/// Constructor for the load balance provider.
+		/// 
+		/// Read all the hosts that are members of the domain and
+		/// keep in a sorted list.  Register for member node changes
+		/// so we know when new hosts come and go in the system.
+		/// </summary>
 		public LoadBalanceProvisionUserProvider()
 		{
 			Store store = Store.GetStore();
@@ -138,6 +169,10 @@ namespace Simias.Server
 			nodeEvents.NodeCreated += new NodeEventHandler( es_NodeCreated );
 		}
 
+		/// <summary>
+		/// Dispose
+		/// Unregister from the event system.
+		/// </summary>
 		~LoadBalanceProvisionUserProvider()
 		{
 			nodeEvents.NodeCreated -= new NodeEventHandler( es_NodeCreated );
@@ -155,8 +190,7 @@ namespace Simias.Server
 		}
 	
 		#region IProvisionUserProvider Members
-
-		public Simias.Host.HostInfo ProvisionUser(string userName)
+		public Simias.Host.HostInfo ProvisionUser( string userName )
 		{
 			HostNode hn = null;
 			Member member = domain.GetMemberByName( userName );
@@ -174,23 +208,20 @@ namespace Simias.Server
 					}
 				}
 			}
+
 			return hn == null ? null : new Simias.Host.HostInfo( hn );
 		}
-	
-
 		#endregion
 	}
 
 	public class AttributeProvisionUserProvider : IProvisionUserProvider
 	{
 		#region IProvisionUserProvider Members
-
-		public Simias.Host.HostInfo ProvisionUser(string userName)
+		public Simias.Host.HostInfo ProvisionUser( string userName )
 		{
 			// TODO:  Add AttributeProvisionUserProvider.ProvisionUser implementation
 			return null;
 		}
-
 		#endregion
 	}
 }

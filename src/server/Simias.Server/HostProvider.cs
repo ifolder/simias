@@ -168,49 +168,50 @@ namespace Simias.Host
 		/// Construct a Host domain.
 		/// </summary>
 		/// <param name="domain">The enterprise domain.</param>
-		public HostProvider(Domain domain)
+		public HostProvider( Domain domain )
 		{
 			hostDomain = domain;
+
 			// Check if this is the master server.
 			bool master = (hostDomain.Role == SyncRoles.Master) ? true : false;
 			
 			// Get the HostDomain
 			// If the HostNode does not exist create it.
-			lock (typeof(HostProvider))
+			lock( typeof( HostProvider ) )
 			{
 				// Check if the host node exists.
-				string hName = Store.Config.Get(ServerSection, ServerNameKey);
-				string publicAddress = Store.Config.Get(ServerSection, PublicAddressKey);
-				string privateAddress = Store.Config.Get(ServerSection, PrivateAddressKey);
-				string masterAddress = Store.Config.Get(ServerSection, MasterAddressKey);
-				Member mNode = hostDomain.GetMemberByName(hName);
-				host = (mNode == null) ? null : new HostNode(mNode);
-				if (host == null)
+				string hName = Store.Config.Get( ServerSection, ServerNameKey );
+				string publicAddress = Store.Config.Get( ServerSection, PublicAddressKey );
+				string privateAddress = Store.Config.Get( ServerSection, PrivateAddressKey );
+				string masterAddress = Store.Config.Get( ServerSection, MasterAddressKey );
+				Member mNode = hostDomain.GetMemberByName( hName );
+				host = ( mNode == null ) ? null : new HostNode( mNode );
+				if ( host == null )
 				{
 					RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
-					if (master)
+					if( master == true )
 					{
-						host = new HostNode(hName, System.Guid.NewGuid().ToString(), publicAddress, privateAddress, rsa);
+						host = new HostNode( hName, System.Guid.NewGuid().ToString(), publicAddress, privateAddress, rsa );
 						host.IsMasterHost = true;
 					}
 					else
 					{
-						host = SlaveSetup.GetHost(Store.StorePath);
+						host = SlaveSetup.GetHost( Store.StorePath );
 						host.Proxy = true;
-						rsa = SlaveSetup.GetKeys(Store.StorePath);
+						rsa = SlaveSetup.GetKeys( Store.StorePath );
 						// TODO remove
 						Property p = new Property( PropertyTags.HostAddress, new Uri(masterAddress));
 						p.LocalProperty = true;
 						hostDomain.Properties.AddNodeProperty( p );
 						// END TODO
 					}
+
 					host.IsLocalHost = true;
-					
 					hostDomain.Commit(new Node[] {hostDomain, host});
 					
 					// Now Associate this host with the local identity.
-					store.AddDomainIdentity(hostDomain.ID, host.UserID, rsa.ToXmlString(true), CredentialType.PPK);
-					SlaveSetup.DeleteTempSetupFiles(Store.StorePath);
+					store.AddDomainIdentity( hostDomain.ID, host.UserID, rsa.ToXmlString(true), CredentialType.PPK );
+					SlaveSetup.DeleteTempSetupFiles( Store.StorePath );
 				}
 				else
 				{
@@ -226,28 +227,32 @@ namespace Simias.Host
 						host.PrivateUrl = privateAddress;
 						hostChanged = true;
 					}
-					if (hostChanged)
+
+					if ( hostChanged == true )
+					{
 						hostDomain.Commit(host);
+					}
 				}
 			}
-			if (!master)
+
+			if ( master == true )
+			{
+				// Register the ProvisionUser Provider.
+				ProvisionService.RegisterProvider( new LoadBalanceProvisionUserProvider() );
+			}
+			else
 			{
 				// Now start the sync process for the domain.
 				Thread syncThread = new Thread(new ThreadStart(SyncDomain));
 				syncThread.IsBackground = true;
 				syncThread.Start();
 			}
-			else
-			{
-				// Register the ProvisionUser Provider.
-				ProvisionService.RegisterProvider(new LoadBalanceProvisionUserProvider());
-			}
 		}
 
 		private void SyncDomain()
 		{
 			// Get a connection object to the server.
-			connection = new SimiasConnection(hostDomain.ID, hostDomain, host.UserID, SimiasConnection.AuthType.PPK);
+			connection = new SimiasConnection(hostDomain.ID, host.UserID, SimiasConnection.AuthType.PPK, hostDomain );
 			// We need to get a one time password to use to authenticate.
 			connection.Authenticate();
 			

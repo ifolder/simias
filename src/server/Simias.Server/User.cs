@@ -147,7 +147,7 @@ namespace Simias.Server
 		/// provider.  There can only be one identity provider in
 		/// the system.
 		/// </summary>
-		/// <returns>an IUserProvider instance/returns>
+		/// <returns>an IUserProvider instance</returns>
 		static public IUserProvider GetRegisteredProvider()
 		{
 			return User.provider;
@@ -156,7 +156,7 @@ namespace Simias.Server
 		/// <summary>
 		/// Method to register an identity provider with the system.
 		/// </summary>
-		/// <returns>true success - false failure/returns>
+		/// <returns>true success - false failure</returns>
 		static public bool RegisterProvider( IUserProvider provider )
 		{
 			lock( User.lockIt )
@@ -174,7 +174,7 @@ namespace Simias.Server
 		/// <summary>
 		/// Method to deregister an identity provider with the system.
 		/// </summary>
-		/// <returns>true success - false failure/returns>
+		/// <returns>true success - false failure</returns>
 		static public bool UnregisterProvider( IUserProvider provider )
 		{
 			lock( User.lockIt )
