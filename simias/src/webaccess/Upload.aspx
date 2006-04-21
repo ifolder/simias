@@ -24,8 +24,7 @@
 			
 			if ((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13))
 			{
-				__doPostBack(b,'');
-				//document.getElementById(b).click();
+				document.getElementById(b).click();
 				result = false;
 			} 
 			
@@ -53,16 +52,6 @@
 		<iFolder:Header runat="server" />
 		
 		<div id="nav">
-	
-			<div class="actions">
-				<div class="action">
-					<asp:LinkButton ID="UploadButton" runat="server" />
-				</div>
-				<div class="action">
-					<asp:HyperLink ID="CancelLink" runat="server" />
-				</div>
-			</div>
-
 		</div>
 	
 		<div id="content">
@@ -80,6 +69,11 @@
 				</div>
 
 				<input id="UploadFile" type="file" runat="server" onKeyDown="return SubmitKeyDown(event, 'UploadButton');" />
+				
+				<div class="buttons">
+					<asp:Button ID="UploadButton" runat="server" />
+					<asp:Button ID="CancelButton" runat="server" />
+				</div>
 				
 			</div>
 	

@@ -50,12 +50,12 @@ namespace Novell.iFolderApp.Web
 		/// <summary>
 		/// The Create Button
 		/// </summary>
-		protected LinkButton CreateButton;
+		protected Button CreateButton;
 
 		/// <summary>
-		/// The Cancel Link
+		/// The Cancel Button
 		/// </summary>
-		protected HyperLink CancelLink;
+		protected Button CancelButton;
 
 		/// <summary>
 		/// New iFolder Name
@@ -94,7 +94,7 @@ namespace Novell.iFolderApp.Web
 			{
 				// strings
 				CreateButton.Text = GetString("CREATE");
-				CancelLink.Text = GetString("CANCEL");
+				CancelButton.Text = GetString("CANCEL");
 			}
 		}
 
@@ -166,6 +166,7 @@ namespace Novell.iFolderApp.Web
 		{    
 			this.Load += new System.EventHandler(this.Page_Load);
 			this.CreateButton.Click += new EventHandler(CreateButton_Click);
+			this.CancelButton.Click += new EventHandler(CancelButton_Click);
 		}
 
 		#endregion
@@ -200,6 +201,17 @@ namespace Novell.iFolderApp.Web
 			{
 				if (!HandleException(ex)) throw;
 			}
+		}
+
+		/// <summary>
+		/// Cancel Button Click
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void CancelButton_Click(object sender, EventArgs e)
+		{
+			// redirect
+			Response.Redirect("iFolders.aspx");
 		}
 	}
 }

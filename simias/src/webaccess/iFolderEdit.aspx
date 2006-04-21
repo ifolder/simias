@@ -24,8 +24,7 @@
 			
 			if ((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13))
 			{
-				__doPostBack(b,'');
-				//document.getElementById(b).click();
+				document.getElementById(b).click();
 				result = false;
 			} 
 			
@@ -53,16 +52,6 @@
 		<iFolder:Header runat="server" />
 		
 		<div id="nav">
-	
-			<div class="actions">
-				<div class="action">
-					<asp:LinkButton ID="SaveButton" runat="server" />
-				</div>
-				<div class="action">
-					<asp:HyperLink ID="CancelLink" runat="server" />
-				</div>
-			</div>
-
 		</div>
 	
 		<div id="content">
@@ -81,7 +70,12 @@
 
 				<div class="label"><%= GetString("DESCRIPTION") %></div>
 				<asp:TextBox ID="iFolderDescription" TextMode="MultiLine" Rows="4" Width="30em" onkeydown="return SubmitKeyDown(event, 'SaveButton');" runat="server" />
-				
+	
+				<div class="buttons">
+					<asp:Button ID="SaveButton" runat="server" />
+					<asp:Button ID="CancelButton" runat="server" />
+				</div>
+
 			</div>
 	
 		</div>

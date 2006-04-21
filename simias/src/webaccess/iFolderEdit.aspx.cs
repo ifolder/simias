@@ -58,12 +58,12 @@ namespace Novell.iFolderApp.Web
 		/// <summary>
 		/// Save Button
 		/// </summary>
-		protected LinkButton SaveButton;
+		protected Button SaveButton;
 
 		/// <summary>
-		/// Cancel Link
+		/// Cancel Button
 		/// </summary>
-		protected HyperLink CancelLink;
+		protected Button CancelButton;
 
 		/// <summary>
 		/// Message Box
@@ -108,10 +108,7 @@ namespace Novell.iFolderApp.Web
 
 				// strings
 				SaveButton.Text = GetString("SAVE");
-				CancelLink.Text = GetString("CANCEL");
-
-				// link
-				CancelLink.NavigateUrl = "Details.aspx?iFolder=" + ifolderID;
+				CancelButton.Text = GetString("CANCEL");
 			}
 		}
 
@@ -167,6 +164,7 @@ namespace Novell.iFolderApp.Web
 			this.ID = "EntryView";
 			this.Load += new System.EventHandler(this.Page_Load);
 			this.SaveButton.Click += new EventHandler(SaveButton_Click);
+			this.CancelButton.Click += new EventHandler(CancelButton_Click);
 		}
 
 		#endregion
@@ -255,6 +253,17 @@ namespace Novell.iFolderApp.Web
 			{
 				if (!HandleException(ex)) throw;
 			}
+		}
+
+		/// <summary>
+		/// Cancel Button Click
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void CancelButton_Click(object sender, EventArgs e)
+		{
+			// redirect
+			Response.Redirect("Details.aspx?iFolder=" + ifolderID);
 		}
 	}
 }

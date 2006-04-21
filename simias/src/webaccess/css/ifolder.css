@@ -358,6 +358,11 @@ table.list td.history
 
 /* general */
 
+.buttons
+{
+	padding: 16px 0 16px 0;
+}
+
 .hide
 {
 	display: none;

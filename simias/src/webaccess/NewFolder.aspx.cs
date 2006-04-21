@@ -58,12 +58,12 @@ namespace Novell.iFolderApp.Web
 		/// <summary>
 		/// Create Button
 		/// </summary>
-		protected LinkButton CreateButton;
+		protected Button CreateButton;
 
 		/// <summary>
-		/// Cancel Link
+		/// Cancel Button
 		/// </summary>
-		protected HyperLink CancelLink;
+		protected Button CancelButton;
 
 		/// <summary>
 		/// Message Box
@@ -114,10 +114,7 @@ namespace Novell.iFolderApp.Web
 
 				// strings
 				CreateButton.Text = GetString("CREATE");
-				CancelLink.Text = GetString("CANCEL");
-
-				// link
-				CancelLink.NavigateUrl = String.Format("Browse.aspx?iFolder={0}&Entry={1}", ifolderID, entryID);
+				CancelButton.Text = GetString("CANCEL");
 			}
 		}
 
@@ -181,6 +178,7 @@ namespace Novell.iFolderApp.Web
 			this.ID = "EntryView";
 			this.Load += new System.EventHandler(this.Page_Load);
 			this.CreateButton.Click += new EventHandler(CreateButton_Click);
+			this.CancelButton.Click += new EventHandler(CancelButton_Click);
 		}
 
 		#endregion
@@ -280,6 +278,17 @@ namespace Novell.iFolderApp.Web
 			{
 				if (!HandleException(ex)) throw;
 			}
+		}
+
+		/// <summary>
+		/// Cancel Button Click
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void CancelButton_Click(object sender, EventArgs e)
+		{
+			// redirect
+			Response.Redirect(String.Format("Browse.aspx?iFolder={0}&Entry={1}", ifolderID, entryID));
 		}
 	}
 }
