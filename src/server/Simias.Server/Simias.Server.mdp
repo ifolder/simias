@@ -31,6 +31,9 @@
     <File name="./Service.cs" subtype="Code" buildaction="Compile" />
     <File name="./Stats.cs" subtype="Code" buildaction="Compile" />
     <File name="./User.cs" subtype="Code" buildaction="Compile" />
+    <File name="./IProvisionUser.cs" subtype="Code" buildaction="Compile" />
+    <File name="./HostService.cs" subtype="Code" buildaction="Compile" />
+    <File name="./HostProvider.cs" subtype="Code" buildaction="Compile" />
   </Contents>
   <References>
     <ProjectReference type="Assembly" localcopy="True" refto="../../core/SimiasLib.dll/SimiasLib.dll" />

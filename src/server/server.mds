@@ -1,18 +1,18 @@
 <Combine name="server" fileversion="2.0">
   <Configurations active="Debug">
     <Configuration name="Debug" ctype="CombineConfiguration">
-      <Entry configuration="Debug" build="True" name="UserCmd" />
-      <Entry configuration="Debug" build="True" name="Simias.HttpFile" />
-      <Entry configuration="Debug" build="True" name="Simias.Rss" />
-      <Entry configuration="Debug" build="True" name="Simias.Dav" />
-      <Entry configuration="Debug" build="True" name="Simias.Server" />
+      <Entry build="True" name="UserCmd" configuration="Debug" />
+      <Entry build="True" name="Simias.HttpFile" configuration="Debug" />
+      <Entry build="True" name="Simias.Rss" configuration="Debug" />
+      <Entry build="True" name="Simias.Dav" configuration="Debug" />
+      <Entry build="True" name="Simias.Server" configuration="Debug" />
     </Configuration>
     <Configuration name="Release" ctype="CombineConfiguration">
-      <Entry configuration="Debug" build="True" name="UserCmd" />
-      <Entry configuration="Debug" build="True" name="Simias.HttpFile" />
-      <Entry configuration="Debug" build="True" name="Simias.Rss" />
-      <Entry configuration="Debug" build="True" name="Simias.Dav" />
-      <Entry configuration="Debug" build="True" name="Simias.Server" />
+      <Entry build="True" name="UserCmd" configuration="Debug" />
+      <Entry build="True" name="Simias.HttpFile" configuration="Debug" />
+      <Entry build="True" name="Simias.Rss" configuration="Debug" />
+      <Entry build="True" name="Simias.Dav" configuration="Debug" />
+      <Entry build="True" name="Simias.Server" configuration="Debug" />
     </Configuration>
   </Configurations>
   <StartMode startupentry="UserCmd" single="True">

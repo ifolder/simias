@@ -33,6 +33,7 @@ using Simias;
 using Simias.Storage;
 using Simias.Sync;
 using Simias.POBox;
+using Simias.Server;
 
 using Simias.DomainService;
 
@@ -45,18 +46,48 @@ namespace Simias.DomainService.Web
 	[WebService(
 		Namespace="http://novell.com/simias/domain",
 		Name="Domain Service",
-		Description="Web Service providing access to domain server functionality.")]
+		Description="Web Service providing access to Simias domain services.")]
 	public class DomainService : System.Web.Services.WebService
 	{
 		private static readonly string FilesDirectory = "SimiasFiles";
+		
 
+		#region Private Methods		
+		/// <summary>
+		/// Removes the collection subscription from the 
+		/// </summary>
+		/// <param name="collection">Collection that subscription needs to be removed for.</param>
+		private void RemoveCollectionSubscription( Collection collection )
+		{
+			Store store = Store.GetStore();
+
+			// Get all subscription nodes for this collection.
+			ICSList subList = store.GetNodesByProperty( new Property( Subscription.SubscriptionCollectionIDProperty, collection.ID ), SearchOp.Equal );
+			foreach ( ShallowNode sn in subList )
+			{
+				// Get the collection object for this node.
+				Collection c = store.GetCollectionByID( sn.CollectionID );
+				if ( c != null )
+				{
+					// Delete this node from the POBox collection.
+					c.Commit( c.Delete( new Node( c, sn ) ) );
+				}
+			}
+		}
+		#endregion
+		
+
+		#region Constructors
 		/// <summary>
 		/// Constructor
 		/// </summary>
 		public DomainService()
 		{
 		}
+		#endregion
 		
+		
+		#region WebService Methods
 		/// <summary>
 		/// Get domain information
 		/// </summary>
@@ -101,6 +132,45 @@ namespace Simias.DomainService.Web
 
 			return info;
 		}
+		
+		[WebMethod(EnableSession=true)]
+		[SoapDocumentMethod]
+		public Simias.Host.HostInfo GetHomeServer( string user )
+		{
+			Simias.Server.EnterpriseDomain enterpriseDomain = 
+				new Simias.Server.EnterpriseDomain( false );
+			if ( enterpriseDomain == null )
+			{
+				throw new SimiasException( "Enterprise server domain does not exist." );
+			}
+			
+			Store store = Store.GetStore();
+			Simias.Storage.Domain domain = store.GetDomain( enterpriseDomain.ID );
+			if ( domain == null )
+			{
+				throw new SimiasException( "Enterprise server domain does not exist." );
+			}
+		
+			// find user
+			Member member = domain.GetMemberByName( user );
+			HostNode hNode = member.HomeServer;
+			if ( hNode == null )
+			{
+				return ProvisionService.ProvisionUser( user );
+			}
+			
+			return new Simias.Host.HostInfo(hNode);
+		}
+
+		[WebMethod(EnableSession=true)]
+		[SoapDocumentMethod]
+		public ProvisionInfo ProvisionUserOnServer(string user, string password, byte[] ticket)
+		{
+			// Make sure the ticket was issued by the master
+
+			return ProvisionUser( user, password );
+		}
+		
 
 		/// <summary>
 		/// Provision the user
@@ -324,5 +394,7 @@ namespace Simias.DomainService.Web
 				new Simias.Server.EnterpriseDomain( false );
 			return ( domain != null ) ? domain.ID : null;
 		}
+		
+		#endregion
 	}
 }
