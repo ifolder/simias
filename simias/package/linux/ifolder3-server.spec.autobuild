@@ -22,12 +22,13 @@ URL:          http://wwww.ifolder.com
 License:      GPL
 Group:        System/Libraries
 Autoreqprov:  on
-Requires:     mono-core >= 1.1.8
-Requires:     mono-data >= 1.1.8
-Requires:     mono-web >= 1.1.8
+Version:      3.5.@@BUILDNUM@@.1
+Requires:     mono-core >= 1.1.13
+Requires:     mono-data >= 1.1.13
+Requires:     mono-web >= 1.1.13
 Requires:     log4net >= 1.2.9
 Requires:     libflaim >= 4.8.0
-Requires:     mod_mono
+Requires:     mod_mono >= 1.1.13
 Obsoletes:    %{name} < %{version}
 Version:      3.5.@@BUILDNUM@@.1
 Release:      1
