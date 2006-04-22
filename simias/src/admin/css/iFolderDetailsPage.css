@@ -4,8 +4,12 @@
 	padding-left: 12px;
 	float: left;
 	width: 38em;
-	height: 45em;
-	border-right: dotted 1px #999999;
+}
+
+.rightnav
+{
+	float: left;
+	border-left: dotted 1px #999999;
 }
 
 .detailnav
@@ -91,6 +95,7 @@
 
 .ifoldermembersitem3
 {
+	padding-right: 6px;
 	width: 30em;
 }
 

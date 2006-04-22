@@ -51,6 +51,7 @@
 
 .accountslistheader .fullnamecolumn
 {
+	padding-right: 6px;
 	width: 18em;
 }
 
@@ -91,6 +92,7 @@
 
 .accountsitem4
 {
+	padding-right: 6px;
 	width: 16.2em;
 }
 

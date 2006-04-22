@@ -54,7 +54,7 @@
 			if ( full.value.length == 0 )
 			{
 				full.value = b.value;
-			}
+			}*
 			else
 			{
 				var s = full.value.slice( 0, firstLength + 1 );

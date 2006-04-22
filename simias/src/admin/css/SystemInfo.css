@@ -86,6 +86,7 @@
 
 .adminlistheader .usernamecolumn
 {
+	padding-right: 6px;
 	width: 12em;
 }
 
@@ -117,6 +118,7 @@
 
 .adminitem3
 {
+	padding-right: 6px;
 	width: 10.5em;
 }
 

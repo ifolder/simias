@@ -20,7 +20,7 @@
 	
 </head>
 
-<body id="users" runat="server">
+<body id="users" runat="server" style="height:100%">
 
 <form runat="server">
 
@@ -28,69 +28,69 @@
 	
 	<iFolder:TopNavigation ID="TopNav" Runat="server" />
 	
-	<div class="leftnav">
+		<div class="leftnav">
 	
-		<div class="detailnav">
+			<div class="detailnav">
 		
-			<div class="pagetitle">
+				<div class="pagetitle">
 				
-				<%= GetString( "USERDETAILS" ) %>
+					<%= GetString( "USERDETAILS" ) %>
 				
+				</div>
+			
+				<table class="detailinfo">
+			
+					<tr>
+						<th>
+							<%= GetString( "USERNAMETAG" ) %>
+						</th>
+					
+						<td>
+							<asp:Literal ID="UserName" Runat="server" />
+						</td>
+					</tr>
+			
+					<tr>
+						<th>
+							<%= GetString( "FULLNAMETAG" ) %>
+						</th>
+					
+						<td>
+							<asp:Literal ID="FullName" Runat="server" />
+						</td>
+					</tr>
+					
+					<tr>
+						<th>
+							<%= GetString( "LDAPCONTEXTTAG" ) %>
+						</th>
+					
+						<td>
+								<asp:Literal ID="LdapContext" Runat="server" />
+						</td>
+					</tr>
+				
+					<tr>
+						<th>
+							<%= GetString( "LASTLOGINTIMETAG" ) %>
+						</th>
+					
+						<td>
+							<asp:Literal ID="LastLogin" Runat="server" />
+						</td>
+					</tr>
+				
+				</table>
+			
 			</div>
-			
-			<table class="detailinfo">
-			
-				<tr>
-					<th>
-						<%= GetString( "USERNAMETAG" ) %>
-					</th>
-					
-					<td>
-						<asp:Literal ID="UserName" Runat="server" />
-					</td>
-				</tr>
-			
-				<tr>
-					<th>
-						<%= GetString( "FULLNAMETAG" ) %>
-					</th>
-					
-					<td>
-						<asp:Literal ID="FullName" Runat="server" />
-					</td>
-				</tr>
-				
-				<tr>
-					<th>
-						<%= GetString( "LDAPCONTEXTTAG" ) %>
-					</th>
-					
-					<td>
-							<asp:Literal ID="LdapContext" Runat="server" />
-					</td>
-				</tr>
-				
-				<tr>
-					<th>
-						<%= GetString( "LASTLOGINTIMETAG" ) %>
-					</th>
-					
-					<td>
-						<asp:Literal ID="LastLogin" Runat="server" />
-					</td>
-				</tr>
-				
-			</table>
-			
-		</div>
 		
-		<div class="ifolderlistnav">
+			<div class="ifolderlistnav">
 		
-			<div class="pagetitle">
+				<div class="pagetitle">
 			
-				<%= GetString( "IFOLDERS" ) %>
+					<%= GetString( "IFOLDERS" ) %>
 				
-			</div>
+				</div>
 			
 				<div id="CurrentTab" runat="server" class="ifoldertabnav">
 				
@@ -248,8 +248,8 @@
 			</div>
 			
 		</div>
-
-		<div class="content">
+		
+		<div class="rightnav">
 		
 			<ifolder:Policy ID="Policy" Runat="server" />
 			

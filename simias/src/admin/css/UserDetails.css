@@ -29,13 +29,12 @@
 	padding-left: 12px;
 	float: left;
 	width: 38em;
-	height: 44em;
-	border-right: 1px dotted #999999;
 }
 
-.content
+.rightnav
 {
 	float: left;
+	border-left: dotted 1px #999999;
 }
 
 .ifolderlistnav
@@ -202,4 +201,3 @@ div#shared li.sharedifolders a:link, div#shared li.sharedifolders a:visited
 {
 	float: right;
 }
-

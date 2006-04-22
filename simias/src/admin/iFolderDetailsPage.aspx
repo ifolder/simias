@@ -236,7 +236,11 @@
 
 		</div>
 
-		<ifolder:Policy ID="Policy" Runat="server" />
+		<div class="rightnav">
+		
+			<ifolder:Policy ID="Policy" Runat="server" />
+			
+		</div>
 
 	</div>
 

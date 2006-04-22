@@ -53,11 +53,13 @@
 
 .ifolderlistheader .namecolumn
 {
+	padding-right: 6px;
 	width: 18em;
 }
 
 .ifolderlistheader .ownercolumn
 {
+	padding-right: 6px;
 	width: 16em;
 }
 
@@ -103,11 +105,13 @@
 
 .ifolderitem3
 {
+	padding-right: 6px;
 	width: 16.1em;
 }
 
 .ifolderitem4
 {
+	padding-right: 6px;
 	width: 14.3em;
 }
 

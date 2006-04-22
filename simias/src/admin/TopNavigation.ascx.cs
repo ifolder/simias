@@ -241,6 +241,11 @@ namespace Novell.iFolderWeb.Admin
 		/// <param name="link"></param>
 		public void AddBreadCrumb( string crumb, string link )
 		{
+			if ( crumb.Length > 128 )
+			{
+				crumb = crumb.Substring( 0, 128 );
+			}
+
 			CrumbList.Add( new BreadCrumbInfo( crumb, link ) );
 			++BreadCrumbs.RepeatColumns;
 			BreadCrumbs.DataSource = CreateDataSource();
