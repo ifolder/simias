@@ -71,8 +71,8 @@ namespace Novell.iFolderApp.Web
 		/// <param name="path">The File Path String</param>
 		/// <returns>The File Name</returns>
 		public static string GetFileName(String path)
-        {
-            string result = null;
+		{
+			string result = null;
 			
 			if (path != null)
 			{
@@ -85,14 +85,36 @@ namespace Novell.iFolderApp.Web
 				if (index != -1) result = result.Substring(index + 1);
 			}
 
-            return result;
-        }
+			return result;
+		}
+
 
 		/// <summary>
-		/// Get the SmartException Class Type
+		/// Get the Exception Type
+		/// </summary>
+		/// <param name="e">The Exception</param>
+		/// <returns>The Exception Type</returns>
+		public static string GetExceptionType(Exception e)
+		{
+			string type = e.GetType().Name;
+
+			if (e is SoapException)
+			{
+				type = WebUtility.GetSmartExceptionType(e as SoapException);
+			}
+			else if (e is WebException)
+			{
+				type = WebUtility.GetWebExceptionType(e as WebException);	
+			}
+
+			return type;
+		}
+
+		/// <summary>
+		/// Get the SmartException Type
 		/// </summary>
 		/// <param name="e">The SoapException with Detail.</param>
-		/// <returns>The Class Type</returns>
+		/// <returns>The Exception Type</returns>
 		public static string GetSmartExceptionType(SoapException e)
 		{
 			// exception type
@@ -120,10 +142,10 @@ namespace Novell.iFolderApp.Web
 		}
 
 		/// <summary>
-		/// Get the WebException Class Type
+		/// Get the WebException Type
 		/// </summary>
 		/// <param name="e">The WebException with Status Detail.</param>
-		/// <returns>The Class Type</returns>
+		/// <returns>The Exception Type</returns>
 		public static string GetWebExceptionType(WebException e)
 		{
 			// exception type

@@ -197,16 +197,7 @@ namespace Novell.iFolderApp.Web
 		{
 			bool result = true;
 
-			string type = e.GetType().Name;
-
-			if (e is SoapException)
-			{
-				type = WebUtility.GetSmartExceptionType(e as SoapException);
-			}
-			else if (e is WebException)
-			{
-				type = WebUtility.GetWebExceptionType(e as WebException);	
-			}
+			string type = WebUtility.GetExceptionType(e);
 
 			// types
 			switch(type)
