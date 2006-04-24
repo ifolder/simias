@@ -28,7 +28,13 @@ SimiasServer_FLAGS = $(CSC_LIBFLAG)
 SimiasServer_LIBPATH = ../../core/SimiasLib.dll ../../core/SimiasClient $(DESTDIR)$(webbindir)
 SimiasServer_LIBS = System.dll System.Data.dll $(SYSTEM_XML) System.Web.dll System.Web.Services.dll SimiasLib.dll SimiasClient.dll
 
-EXTRA_DIST = DomainService.asmx Registration.asmx IdentitySyncManager.asmx $(SimiasServer_CSFILES) 
+EXTRA_DIST = \
+	DomainService.asmx \
+	HostAdmin.asmx \
+	HostLocation.asmx \
+	Registration.asmx \
+	IdentitySyncManager.asmx \
+	$(SimiasServer_CSFILES) 
 
 if MAKE_DOC_FILE
 DOC_FILE = $(basename $@).doc.xml
@@ -51,12 +57,12 @@ endif
 
 install-exec-local: all
 	$(mkinstalldirs) $(DESTDIR)$(webbindir) 
-	$(INSTALL_PROGRAM) DomainService.asmx IdentitySyncManager.asmx $(DEBUG_FILES) $(DESTDIR)$(webdir)
+	$(INSTALL_PROGRAM) DomainService.asmx HostAdmin.asmx HostLocation.asmx IdentitySyncManager.asmx $(DEBUG_FILES) $(DESTDIR)$(webdir)
 	$(INSTALL_PROGRAM) Registration.asmx $(DEBUG_FILES) $(DESTDIR)$(webdir)
 	$(INSTALL_PROGRAM) $(SERVER_ASSEMBLIES) $(DEBUG_CHECK_FILES) $(DESTDIR)$(webbindir)
 
 uninstall-local:
-	cd $(DESTDIR)$(webdir); rm -f DomainService.asmx IdentitySyncManager.asmx
+	cd $(DESTDIR)$(webdir); rm -f DomainService.asmx HostAdmin.asmx HostLocation.asmx IdentitySyncManager.asmx
 	cd $(DESTDIR)$(webdir); rm -f Regististration.asmx
 	cd $(DESTDIR)$(webbindir); rm -f $(SERVER_ASSEMBLIES) $(DEBUG_CHECK_FILES)
 
