@@ -330,108 +330,109 @@ namespace Novell.iFolderApp.Web
 		{
 			bool result = true;
 
-			// simias error
-			string error = null;
-			
 			try
 			{
-				error = e.Response.Headers["Simias-Error"];
+				// simias error
+				string error = e.Response.Headers["Simias-Error"];
+
+				if ((error != null) && (error.Length > 0))
+				{
+					switch(error)
+					{
+						case "InvalidCertificate":
+							Message.Text = GetString("LOGIN.TRUSTFAILED");
+							break;
+
+						case "InvalidCredentials":
+						case "UnknownUser":
+						case "InvalidPassword":
+							Message.Text = GetString("LOGIN.UNAUTHORIZED");
+							break;
+
+						case "AccountDisabled":
+						case "SimiasLoginDisabled":
+							Message.Text = GetString("LOGIN.ACCOUNTDISABLED");
+							break;
+
+						case "AccountLockout":
+							Message.Text = GetString("LOGIN.ACCOUNTLOCKED");
+							break;
+
+						default:
+							Message.Text = GetString("LOGIN.CONNECTFAILED");
+							break;
+					}
+
+				}
+			
+					// standard error
+				else
+				{
+					switch(e.Status)
+					{
+						case WebExceptionStatus.ProtocolError:
+						{
+							// http code
+							HttpStatusCode code = (e.Response as HttpWebResponse).StatusCode;
+
+							switch(code)
+							{
+								case HttpStatusCode.Unauthorized:
+									Message.Text = GetString("LOGIN.UNAUTHORIZED");
+									break;
+
+								case HttpStatusCode.Redirect:
+									string location = e.Response.Headers["Location"];
+								
+									try
+									{
+										UriBuilder uri = new UriBuilder(location);
+										uri.Path = "";
+										location = uri.ToString();
+									}
+									catch
+									{
+										// ignore
+									}
+								
+									Message.Text = String.Format("{0}<br>{1}", GetString("LOGIN.REDIRECT"), location);
+									break;
+
+								default:
+									Message.Text = GetString("LOGIN.CONNECTFAILED");
+									break;
+							}
+						}
+							break;
+				
+						case WebExceptionStatus.ConnectFailure:
+							Message.Text = GetString("LOGIN.CONNECTFAILED");
+							break;
+
+						case WebExceptionStatus.TrustFailure:
+							Message.Text = GetString("LOGIN.TRUSTFAILED");
+							break;
+
+						case WebExceptionStatus.SecureChannelFailure:
+							Message.Text = GetString("LOGIN.SECUREFAILED");
+							break;
+
+						case WebExceptionStatus.SendFailure:
+							Message.Text = GetString("LOGIN.SENDFAILED");
+							break;
+
+						default:
+							result = false;
+							break;
+					}
+				}
 			}
 			catch
 			{
-				// ignore
-			}
-
-			if ((error != null) && (error.Length > 0))
-			{
-				switch(error)
-				{
-					case "InvalidCertificate":
-						Message.Text = GetString("LOGIN.TRUSTFAILED");
-						break;
-
-					case "InvalidCredentials":
-					case "UnknownUser":
-					case "InvalidPassword":
-						Message.Text = GetString("LOGIN.UNAUTHORIZED");
-						break;
-
-					case "AccountDisabled":
-					case "SimiasLoginDisabled":
-						Message.Text = GetString("LOGIN.ACCOUNTDISABLED");
-						break;
-
-					case "AccountLockout":
-						Message.Text = GetString("LOGIN.ACCOUNTLOCKED");
-						break;
-
-					default:
-						Message.Text = GetString("LOGIN.CONNECTFAILED");
-						break;
-				}
-
-			}
-			
-			// standard error
-			else
-			{
-				switch(e.Status)
-				{
-					case WebExceptionStatus.ProtocolError:
-					{
-						// http code
-						HttpStatusCode code = (HttpStatusCode) ((e as WebException).Response as HttpWebResponse).StatusCode;
-
-						switch(code)
-						{
-							case HttpStatusCode.Unauthorized:
-								Message.Text = GetString("LOGIN.UNAUTHORIZED");
-								break;
-
-							case HttpStatusCode.Redirect:
-								string location = e.Response.Headers["Location"];
-								
-								try
-								{
-									UriBuilder uri = new UriBuilder(location);
-									uri.Path = "";
-									location = uri.ToString();
-								}
-								catch
-								{
-									// ignore
-								}
-								
-								Message.Text = String.Format("{0}<br>{1}", GetString("LOGIN.REDIRECT"), location);
-								break;
-
-							default:
-								Message.Text = GetString("LOGIN.CONNECTFAILED");
-								break;
-						}
-					}
-						break;
-				
-					case WebExceptionStatus.ConnectFailure:
-						Message.Text = GetString("LOGIN.CONNECTFAILED");
-						break;
-
-					case WebExceptionStatus.TrustFailure:
-						Message.Text = GetString("LOGIN.TRUSTFAILED");
-						break;
-
-					case WebExceptionStatus.SecureChannelFailure:
-						Message.Text = GetString("LOGIN.SECUREFAILED");
-						break;
-
-					case WebExceptionStatus.SendFailure:
-						Message.Text = GetString("LOGIN.SENDFAILED");
-						break;
-
-					default:
-						result = false;
-						break;
-				}
+				// MONO work-around
+				// The response object is being prematurely disposed on Mono.
+				// For now assume the most common error.
+				Message.Text = GetString("LOGIN.UNAUTHORIZED");
 			}
 
 			return result;
