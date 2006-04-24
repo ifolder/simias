@@ -149,6 +149,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "HostService.resx"
+                    DependentUpon = "HostService.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "IdentitySyncManager.asmx"
                     BuildAction = "Content"
                 />
