@@ -186,7 +186,7 @@ namespace Novell.iFolderApp.Web
 				ifolder = web.CreateiFolder(name, description);
 
 				// redirect
-				Response.Redirect("Members.aspx?iFolder=" + ifolder.ID);
+				Response.Redirect("Browse.aspx?iFolder=" + ifolder.ID);
 			}
 			catch(SoapException ex)
 			{
