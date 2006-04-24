@@ -10,6 +10,7 @@ iFolderAdmin_CSFILES = \
 	$(srcdir)/Error.aspx.cs \
 	$(srcdir)/FileSizeFilter.ascx.cs \
 	$(srcdir)/FileTypeFilter.ascx.cs \
+	$(srcdir)/Footer.ascx.cs \
 	$(srcdir)/Global.asax.cs \
 	$(srcdir)/Header.ascx.cs \
 	$(srcdir)/iFolderAdminPage.aspx.cs \
@@ -67,6 +68,7 @@ iFolderAdmin_FORMS = \
 	Error.aspx \
 	FileSizeFilter.ascx \
 	FileTypeFilter.ascx \
+	Footer.ascx \
 	Global.asax \
 	Header.ascx \
 	iFolderAdminPage.aspx \
