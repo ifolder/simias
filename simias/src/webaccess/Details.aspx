@@ -18,6 +18,15 @@
 		@import url(css/ifolder.css);
 	</style>
 
+	<script type="text/javascript">
+	
+		function ConfirmDelete(f)
+		{
+			return confirm("<%= GetString("IFOLDER.CONFIRMDELETE") %>");
+		}
+	
+	</script>
+	
 </head>
 
 <body id="details">
@@ -73,7 +82,11 @@
 						
 					</columns>
 				</asp:DataGrid>
-
+				
+				<div class="buttons">
+					<asp:Button ID="DeleteButton" runat="server" />
+				</div>
+			
 			</div>
 	
 		</div>

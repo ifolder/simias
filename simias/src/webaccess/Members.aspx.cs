@@ -98,6 +98,11 @@ namespace Novell.iFolderApp.Web
 		protected LinkButton OwnerButton;
 
 		/// <summary>
+		/// Self Remove Button
+		/// </summary>
+		protected Button SelfRemoveButton;
+
+		/// <summary>
 		/// iFolder Connection
 		/// </summary>
 		private iFolderWeb web;
@@ -145,6 +150,7 @@ namespace Novell.iFolderApp.Web
 				OwnerButton.Text = GetString("OWNER");
 				MemberPagging.LabelSingular = GetString("MEMBER");
 				MemberPagging.LabelPlural = GetString("MEMBERS");
+				SelfRemoveButton.Text = GetString("REMOVE");
 			}
 		}
 
@@ -179,6 +185,7 @@ namespace Novell.iFolderApp.Web
 				// rights
 				Actions.Visible = (ifolder.Rights == Rights.Admin);
 				MemberData.Columns[1].Visible = Actions.Visible;
+				SelfRemoveButton.Enabled = !ifolder.IsOwner;
 
 				// member
 				iFolderUser[] members = web.GetMembers(ifolderID, MemberPagging.Index, MemberPagging.PageSize, out total);
@@ -271,6 +278,8 @@ namespace Novell.iFolderApp.Web
 			this.ReadWriteButton.Click += new EventHandler(ReadWriteButton_Click);
 			this.AdminButton.Click += new EventHandler(AdminButton_Click);
 			this.OwnerButton.Click += new EventHandler(OwnerButton_Click);
+			this.SelfRemoveButton.PreRender += new EventHandler(SelfRemoveButton_PreRender);
+			this.SelfRemoveButton.Click += new EventHandler(SelfRemoveButton_Click);
 		}
 
 		#endregion
@@ -418,6 +427,35 @@ namespace Novell.iFolderApp.Web
 				}
 
 				BindMemberData();
+			}
+		}
+
+		/// <summary>
+		/// Self Remove Button Pre-Render
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void SelfRemoveButton_PreRender(object sender, EventArgs e)
+		{
+			SelfRemoveButton.Attributes["onclick"] = "return ConfirmRemove(this.form);";
+		}
+
+		/// <summary>
+		/// Self Remove Button Clicked
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void SelfRemoveButton_Click(object sender, EventArgs e)
+		{
+			try
+			{
+				web.RemoveiFolder(ifolderID);
+
+				Response.Redirect("iFolders.aspx");
+			}
+			catch(SoapException ex)
+			{
+				if (!HandleException(ex)) throw;
 			}
 		}
 	}

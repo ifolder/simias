@@ -63,6 +63,11 @@ namespace Novell.iFolderApp.Web
 		protected HyperLink iFolderEditLink;
 
 		/// <summary>
+		/// Delete Button
+		/// </summary>
+		protected Button DeleteButton;
+
+		/// <summary>
 		/// Message Box
 		/// </summary>
 		protected Message MessageBox;
@@ -105,6 +110,7 @@ namespace Novell.iFolderApp.Web
 
 				// strings
 				iFolderEditLink.Text = GetString("EDIT");
+				DeleteButton.Text = GetString("DELETE");
 
 				// links
 				iFolderEditLink.NavigateUrl = "iFolderEdit.aspx?iFolder=" + ifolderID;
@@ -127,7 +133,8 @@ namespace Novell.iFolderApp.Web
 				iFolderDetails ifolder = web.GetiFolderDetails(ifolderID);
 
 				// rights
-				Actions.Visible = (ifolder.Rights != Rights.ReadOnly);
+				Actions.Visible = (ifolder.Rights == Rights.Admin);
+				DeleteButton.Enabled = ifolder.IsOwner;
 
 				// context
 				iFolderContext.iFolderName = ifolder.Name;
@@ -208,8 +215,39 @@ namespace Novell.iFolderApp.Web
 		private void InitializeComponent()
 		{    
 			this.Load += new System.EventHandler(this.Page_Load);
+			this.DeleteButton.PreRender += new EventHandler(DeleteButton_PreRender);
+			this.DeleteButton.Click += new EventHandler(DeleteButton_Click);
 		}
 
 		#endregion
+
+		/// <summary>
+		/// Delete Button Pre-Render
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void DeleteButton_PreRender(object sender, EventArgs e)
+		{
+			DeleteButton.Attributes["onclick"] = "return ConfirmDelete(this.form);";
+		}
+
+		/// <summary>
+		/// Delete Button Clicked
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void DeleteButton_Click(object sender, EventArgs e)
+		{
+			try
+			{
+				web.DeleteiFolder(ifolderID);
+
+				Response.Redirect("iFolders.aspx");
+			}
+			catch(SoapException ex)
+			{
+				if (!HandleException(ex)) throw;
+			}
+		}
 	}
 }

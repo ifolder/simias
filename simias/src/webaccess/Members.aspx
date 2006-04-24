@@ -20,6 +20,11 @@
 
 	<script type="text/javascript">
 
+		function ConfirmRemove(f)
+		{
+			return confirm("<%= GetString("IFOLDER.CONFIRMREMOVE") %>");
+		}
+	
 		function SelectionUpdate(cb)
 		{
 			// MONO work-around
@@ -141,6 +146,10 @@
 					
 				<iFolder:Pagging id="MemberPagging" runat="server" />
 					
+				<div class="buttons">
+					<asp:Button ID="SelfRemoveButton" runat="server" />
+				</div>
+			
 			</div>
 	
 		</div>
