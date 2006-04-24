@@ -334,6 +334,15 @@ namespace Novell.iFolderWeb.Admin
 		/// <summary>
 		/// Shows up an error below the banner.
 		/// </summary>
+		/// <param name="ex"></param>
+		public void ShowError( Exception ex )
+		{
+			ShowError( Utils.ExceptionMessage( ex ) );
+		}
+
+		/// <summary>
+		/// Shows up an error below the banner.
+		/// </summary>
 		/// <param name="msg"></param>
 		/// <param name="ex"></param>
 		public void ShowError( string msg, Exception ex )

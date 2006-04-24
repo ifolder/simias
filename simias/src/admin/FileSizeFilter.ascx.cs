@@ -269,14 +269,14 @@ namespace Novell.iFolderWeb.Admin
 							throw new ArgumentException( GetString( "ERRORINVALIDFILESIZE" ) );
 						}
 					}
-					catch ( Exception ex )
+					catch ( FormatException )
 					{
-						Response.Redirect( "Error.aspx?Exception=" + Server.UrlEncode( ex.Message ) );
+						throw new ArgumentException( GetString( "ERRORINVALIDFILESIZE" ) );
 					}
 				}
 				else
 				{
-					Response.Redirect( "Error.aspx?Exception=" + Server.UrlEncode( GetString( "ERRORNOFILESIZE" ) ) );
+					throw new ArgumentException( GetString( "ERRORNOFILESIZE" ) );
 				}
 			}
 			else
@@ -309,14 +309,14 @@ namespace Novell.iFolderWeb.Admin
 							throw new ArgumentException( GetString( "ERRORINVALIDFILESIZE" ) );
 						}
 					}
-					catch ( Exception ex )
+					catch ( FormatException )
 					{
-						Response.Redirect( "Error.aspx?Exception=" + Server.UrlEncode( ex.Message ) );
+						throw new ArgumentException( GetString( "ERRORINVALIDFILESIZE" ) );
 					}
 				}
 				else
 				{
-					Response.Redirect( "Error.aspx?Exception=" + Server.UrlEncode( GetString( "ERRORNOFILESIZE" ) ) );
+					throw new ArgumentException( GetString( "ERRORNOFILESIZE" ) );
 				}
 			}
 			else
@@ -349,14 +349,14 @@ namespace Novell.iFolderWeb.Admin
 							throw new ArgumentException( GetString( "ERRORINVALIDFILESIZE" ) );
 						}
 					}
-					catch ( Exception ex )
+					catch ( FormatException )
 					{
-						Response.Redirect( "Error.aspx?Exception=" + Server.UrlEncode( ex.Message ) );
+						throw new ArgumentException( GetString( "ERRORINVALIDFILESIZE" ) );
 					}
 				}
 				else
 				{
-					Response.Redirect( "Error.aspx?Exception=" + Server.UrlEncode( GetString( "ERRORNOFILESIZE" ) ) );
+					throw new ArgumentException( GetString( "ERRORNOFILESIZE" ) );
 				}
 			}
 			else

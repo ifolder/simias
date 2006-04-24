@@ -168,7 +168,7 @@
 	<data name="ERRORCANNOTCREATEUSER">
 		<value>Cannot create user.</value>
 	</data>
-	<data name="CANNOTDELETEIFOLDER">
+	<data name="ERRORCANNOTDELETEIFOLDER">
 		<value>Cannot delete iFolder.</value>
 	</data>
 	<data name="ERRORCANNOTDELETEMEMBERS">
@@ -227,6 +227,9 @@
 	</data>
 	<data name="ERRORCANNOTSETUSERPOLICY">
 		<value>Cannot set user policy information for user ID {0}.</value>
+	</data>
+	<data name="ERRORINVALIDARGUMENT">
+		<value>An invalid value was specified for a policy.</value>
 	</data>
 	<data name="ERRORINVALIDQUOTA">
 		<value>An invalid disk space quota value was specified.</value>

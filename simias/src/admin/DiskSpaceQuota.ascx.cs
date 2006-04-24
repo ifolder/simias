@@ -333,14 +333,14 @@ namespace Novell.iFolderWeb.Admin
 							throw new ArgumentException( GetString( "ERRORINVALIDQUOTA" ) );
 						}
 					}
-					catch ( Exception ex )
+					catch ( FormatException )
 					{
-						Response.Redirect( "Error.aspx?Exception=" + Server.UrlEncode( ex.Message ) );
+						throw new ArgumentException( GetString( "ERRORINVALIDQUOTA" ) );
 					}
 				}
 				else
 				{
-					Response.Redirect( "Error.aspx?Exception=" + Server.UrlEncode( GetString( "ERRORNOQUOTA" ) ) );
+					throw new ArgumentException( GetString( "ERRORNOQUOTA" ) );
 				}
 			}
 			else
@@ -373,14 +373,14 @@ namespace Novell.iFolderWeb.Admin
 							throw new ArgumentException( GetString( "ERRORINVALIDQUOTA" ) );
 						}
 					}
-					catch ( Exception ex )
+					catch ( FormatException )
 					{
-						Response.Redirect( "Error.aspx?Exception=" + Server.UrlEncode( ex.Message ) );
+						throw new ArgumentException( GetString( "ERRORINVALIDQUOTA" ) );
 					}
 				}
 				else
 				{
-					Response.Redirect( "Error.aspx?Exception=" + Server.UrlEncode( GetString( "ERRORNOQUOTA" ) ) );
+					throw new ArgumentException( GetString( "ERRORNOQUOTA" ) );
 				}
 			}
 			else
@@ -413,14 +413,14 @@ namespace Novell.iFolderWeb.Admin
 							throw new ArgumentException( GetString( "ERRORINVALIDQUOTA" ) );
 						}
 					}
-					catch ( Exception ex )
+					catch ( FormatException )
 					{
-						Response.Redirect( "Error.aspx?Exception=" + Server.UrlEncode( ex.Message ) );
+						throw new ArgumentException( GetString( "ERRORINVALIDQUOTA" ) );
 					}
 				}
 				else
 				{
-					Response.Redirect( "Error.aspx?Exception=" + Server.UrlEncode( GetString( "ERRORNOQUOTA" ) ) );
+					throw new ArgumentException( GetString( "ERRORNOQUOTA" ) );
 				}
 			}
 			else

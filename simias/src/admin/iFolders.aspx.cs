@@ -468,7 +468,7 @@ namespace Novell.iFolderWeb.Admin
 				}
 				catch ( Exception ex )
 				{
-					TopNav.ShowError( GetString( "CANNOTDELETEIFOLDER" ), ex );
+					TopNav.ShowError( GetString( "ERRORCANNOTDELETEIFOLDER" ), ex );
 					return;
 				}
 			}

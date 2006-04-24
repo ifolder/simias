@@ -295,14 +295,14 @@ namespace Novell.iFolderWeb.Admin
 							throw new ArgumentException( GetString( "ERRORINVALIDSYNCINTERVAL" ) );
 						}
 					}
-					catch ( Exception ex )
+					catch ( FormatException )
 					{
-						Response.Redirect( "Error.aspx?Exception=" + Server.UrlEncode( ex.Message ) );
+						throw new ArgumentException( GetString( "ERRORINVALIDSYNCINTERVAL" ) );
 					}
 				}
 				else
 				{
-					Response.Redirect( "Error.aspx?Exception=" + Server.UrlEncode( GetString( "ERRORNOSYNCINTERVAL" ) ) );
+					throw new ArgumentException( GetString( "ERRORNOSYNCINTERVAL" ) );
 				}
 			}
 			else
@@ -336,14 +336,14 @@ namespace Novell.iFolderWeb.Admin
 							throw new ArgumentException( GetString( "ERRORINVALIDSYNCINTERVAL" ) );
 						}
 					}
-					catch ( Exception ex )
+					catch ( FormatException )
 					{
-						Response.Redirect( "Error.aspx?Exception=" + Server.UrlEncode( ex.Message ) );
+						throw new ArgumentException( GetString( "ERRORINVALIDSYNCINTERVAL" ) );
 					}
 				}
 				else
 				{
-					Response.Redirect( "Error.aspx?Exception=" + Server.UrlEncode( GetString( "ERRORNOSYNCINTERVAL" ) ) );
+					throw new ArgumentException( GetString( "ERRORNOSYNCINTERVAL" ) );
 				}
 			}
 			else
@@ -377,14 +377,14 @@ namespace Novell.iFolderWeb.Admin
 							throw new ArgumentException( GetString( "ERRORINVALIDSYNCINTERVAL" ) );
 						}
 					}
-					catch ( Exception ex )
+					catch ( FormatException )
 					{
-						Response.Redirect( "Error.aspx?Exception=" + Server.UrlEncode( ex.Message ) );
+						throw new ArgumentException( GetString( "ERRORINVALIDSYNCINTERVAL" ) );
 					}
 				}
 				else
 				{
-					Response.Redirect( "Error.aspx?Exception=" + Server.UrlEncode( GetString( "ERRORNOSYNCINTERVAL" ) ) );
+					throw new ArgumentException( GetString( "ERRORNOSYNCINTERVAL" ) );
 				}
 			}
 			else

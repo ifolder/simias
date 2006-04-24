@@ -200,13 +200,25 @@ namespace Novell.iFolderWeb.Admin
 				return;
 			}
 
-			// Verify and apply all the ifolder specified settings to the policy object.
-			iFolderEnabled.SetiFolderEnabledPolicy( policy );
-			DiskQuota.SetDiskSpacePolicy( policy );
-			FileSize.SetFileSizePolicy( policy );
-			FileType.SetFileTypePolicy( policy );
-			SyncInterval.SetSyncPolicy( policy );
+			try
+			{
+				iFolderEnabled.SetiFolderEnabledPolicy( policy );
+				DiskQuota.SetDiskSpacePolicy( policy );
+				FileSize.SetFileSizePolicy( policy );
+				FileType.SetFileTypePolicy( policy );
+				SyncInterval.SetSyncPolicy( policy );
+			}
+			catch( ArgumentException ex )
+			{
+				if ( PolicyError != null )
+				{
+					PolicyError( this, new PolicyErrorArgs( ex ) );
+				}
 
+				return;
+			}
+
+			// Verify and apply all the ifolder specified settings to the policy object.
 			// Set the new policies and refresh the view.
 			try
 			{
@@ -251,10 +263,22 @@ namespace Novell.iFolderWeb.Admin
 			}
 
 			// Verify and apply all the user specified settings to the policy object.
-			DiskQuota.SetDiskSpacePolicy( policy );
-			FileSize.SetFileSizePolicy( policy );
-			FileType.SetFileTypePolicy( policy );
-			SyncInterval.SetSyncPolicy( policy );
+			try
+			{
+				DiskQuota.SetDiskSpacePolicy( policy );
+				FileSize.SetFileSizePolicy( policy );
+				FileType.SetFileTypePolicy( policy );
+				SyncInterval.SetSyncPolicy( policy );
+			}
+			catch( ArgumentException ex )
+			{
+				if ( PolicyError != null )
+				{
+					PolicyError( this, new PolicyErrorArgs( ex ) );
+				}
+
+				return;
+			}
 
 			// Set the new policies and refresh the view.
 			try
@@ -300,11 +324,23 @@ namespace Novell.iFolderWeb.Admin
 			}
 
 			// Verify and apply all the user specified settings to the policy object.
-			AccountEnabled.SetAccountPolicy( policy );
-			DiskQuota.SetDiskSpacePolicy( policy );
-			FileSize.SetFileSizePolicy( policy );
-			FileType.SetFileTypePolicy( policy );
-			SyncInterval.SetSyncPolicy( policy );
+			try
+			{
+				AccountEnabled.SetAccountPolicy( policy );
+				DiskQuota.SetDiskSpacePolicy( policy );
+				FileSize.SetFileSizePolicy( policy );
+				FileType.SetFileTypePolicy( policy );
+				SyncInterval.SetSyncPolicy( policy );
+			}
+			catch( ArgumentException ex )
+			{
+				if ( PolicyError != null )
+				{
+					PolicyError( this, new PolicyErrorArgs( ex ) );
+				}
+
+				return;
+			}
 
 			// Set the new policies and refresh the view.
 			try
@@ -564,6 +600,16 @@ namespace Novell.iFolderWeb.Admin
 		{
 			errorMessage = msg;
 			exception = null;
+		}
+
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <param name="ex"></param>
+		public PolicyErrorArgs( Exception ex )
+		{
+			errorMessage = null;
+			exception = ex;
 		}
 
 		/// <summary>
