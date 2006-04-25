@@ -1102,6 +1102,48 @@ namespace iFolder.WebService
 			return status;
 		}
 
+		/// <summary>
+		/// Method to reset a user's password.
+		/// Note: some identity providers DO NOT allow the creation,
+		/// modification or deletion of new users
+		/// Note2: This method is probably temporary until the
+		/// self-service framework is designed and implemented.
+		/// </summary>
+		/// <param name="Username">(mandatory) short name of the user</param>
+		/// <param name="Password">(mandatory) new password to set on the user</param>
+		/// <remarks>
+		/// </remarks>
+		[WebMethod(
+		Description= "Method to reset a user's password",
+		EnableSession = true)]
+		public
+		bool
+		SetPassword( string Username, string Password )
+		{
+			bool status = false;
+			try
+			{
+				Authorize();
+
+				// Check if the registered provider allows deletes
+				IUserProvider provider = Simias.Server.User.GetRegisteredProvider();
+				UserProviderCaps caps = provider.GetCapabilities();
+				if ( caps.CanModify == true )
+				{
+					if ( Username != null && Username != "" && Password != null )
+					{
+						status = Simias.Server.User.SetPassword( Username, Password );
+					}
+				}
+			}
+			catch( Exception e )
+			{
+				SmartException.Throw( e );
+			}
+			
+			return status;
+		}
+
 		#endregion
 
 		#region Identity Sync

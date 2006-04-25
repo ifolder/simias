@@ -339,6 +339,28 @@ namespace Simias.Server
 			
 			return false;
 		}
+
+		/// <summary>
+		/// Method to set/reset a user's password
+		/// Note: This method will be replaced when the self-service
+		/// framework is designed and implemented.
+		/// </summary>
+		/// <param name="Username" mandatory="true">Username to set the password on.</param>
+		/// <param name="Password" mandatory="true">New password.</param>
+		/// <returns>true - successful</returns>
+		static public bool SetPassword( string Username, string Password )
+		{
+			bool status = false;
+			if ( User.provider != null && Username != null && Username != String.Empty && Password != null )
+			{
+				if ( User.provider.GetCapabilities().CanModify == true )
+				{
+					status = User.provider.SetPassword( Username, Password );
+				}
+			}
+
+			return status;
+		}
 		
 		static public bool VerifyPassword( string Username, string Password )
 		{
@@ -610,6 +632,41 @@ namespace Simias.Server
 			caps.ExternalSync = false;
 			
 			return caps;
+		}
+
+		/// <summary>
+		/// Method to set/reset a user's password
+		/// Note: This method will be replaced when the self-service
+		/// framework is designed and implemented.
+		/// </summary>
+		/// <param name="Username" mandatory="true">Username to set the password on.</param>
+		/// <param name="Password" mandatory="true">New password.</param>
+		/// <returns>true - successful</returns>
+		public bool SetPassword( string Username, string Password )
+		{
+			bool status = false;
+
+			try
+			{
+				Member member = domain.GetMemberByName( Username );
+				if ( member != null )
+				{
+					string hashedPwd = HashPassword( Password );
+					Property pwd = new Property( InternalUser.pwdProperty, HashPassword( Password ) );
+					pwd.LocalProperty = true;
+
+					member.Properties.ModifyProperty( pwd );
+					domain.Commit( member );
+					status = true;
+				}
+			}
+			catch( Exception e1 )
+			{
+				log.Error( e1.Message );
+				log.Error( e1.StackTrace );
+			}			
+			
+			return status;
 		}
 		
 		/// <summary>

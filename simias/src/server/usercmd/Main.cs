@@ -184,7 +184,7 @@ namespace User.Management
 			Console.WriteLine( "A command line utility to manage users in a Simias Server domain." );
 			Console.WriteLine( "UserCmd.exe action <options>" );
 //			Console.WriteLine();
-			Console.WriteLine( "    action <create|delete|modify|list>");
+			Console.WriteLine( "    action <create|delete|modify|list|setpwd>");
 			Console.WriteLine( "        Mandatory argument" );
 			Console.WriteLine();
 			Console.WriteLine( "    --url <server url>" );
@@ -352,6 +352,18 @@ namespace User.Management
 					Console.Write( "Enabled: {0}  ", user.Enabled.ToString() );
 					Console.WriteLine();
 				}
+			}
+			else
+			if ( action == "setpwd" )
+			{
+				if ( username == null || username == String.Empty || password == null )
+				{
+					Console.WriteLine( "missing mandatory command line arguments" );
+					return;
+				}
+
+				bool status = admin.SetPassword( username, password );
+				Console.WriteLine( "SetPassord for {0} - {1}", username, status.ToString() );
 			}
 			else
 			{

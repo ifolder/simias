@@ -97,7 +97,7 @@
                 <Reference
                     Name = "SimiasClient"
                     AssemblyName = "SimiasClient"
-                    HintPath = "..\..\..\..\final.enterprise\web\bin\SimiasClient.dll"
+                    HintPath = "..\..\src\core\SimiasClient\SimiasClient.dll"
                 />
             </References>
         </Build>

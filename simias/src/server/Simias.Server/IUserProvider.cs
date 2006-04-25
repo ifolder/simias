@@ -90,6 +90,16 @@ namespace Simias.Server
 		/// </summary>
 		/// <returns>providers capabilities</returns>
 		UserProviderCaps GetCapabilities();
+
+		/// <summary>
+		/// Method to set/reset a user's password
+		/// Note: This method will be replaced when the self-service
+		/// framework is designed and implemented.
+		/// </summary>
+		/// <param name="Username" mandatory="true">Username to set the password on.</param>
+		/// <param name="Password" mandatory="true">New password.</param>
+		/// <returns>true - successful</returns>
+		bool SetPassword( string Username, string Password );
 		
 		/// <summary>
 		/// Method to verify a user's password
