@@ -224,7 +224,11 @@ namespace Novell.iFolderWeb.Admin
 				HelpButton.NavigateUrl = String.Format("help/{0}/login.html", code);
 
 				// server url
-				ServerUrl.Text = System.Configuration.ConfigurationSettings.AppSettings.Get("SimiasUrl");
+	            string simiasUrl = Environment.GetEnvironmentVariable("SimiasUrl" );
+	            if(simiasUrl == null)
+					simiasUrl = System.Configuration.ConfigurationSettings.AppSettings.Get("SimiasUrl");
+
+				ServerUrl.Text = simiasUrl;
 			}
 		}
 
@@ -328,7 +332,12 @@ namespace Novell.iFolderWeb.Admin
 
 				// update web url
 				// always use the original path from the WSDL file
-				UriBuilder webUrl = new UriBuilder(System.Configuration.ConfigurationSettings.AppSettings.Get("SimiasUrl"));
+	            string simiasUrl = Environment.GetEnvironmentVariable("SimiasUrl" );
+	            if(simiasUrl == null)
+					simiasUrl = System.Configuration.ConfigurationSettings.AppSettings.Get("SimiasUrl");
+
+				UriBuilder webUrl = new UriBuilder(simiasUrl);
+
 				webUrl.Path = (new Uri(web.Url)).PathAndQuery;
 				web.Url = webUrl.Uri.ToString();
 
