@@ -57,6 +57,11 @@ namespace iFolder.WebService
 		/// The User Name
 		/// </summary>
 		public string UserName;
+
+		/// <summary>
+		/// The common language runtime version.
+		/// </summary>
+		public string ClrVersion;
 		
 		/// <summary>
 		/// Constructor
@@ -78,6 +83,8 @@ namespace iFolder.WebService
 			server.MachineName = System.Environment.MachineName;
 			server.OSVersion = System.Environment.OSVersion.ToString();
 			server.UserName = System.Environment.UserName;
+			server.ClrVersion = System.Environment.Version.ToString();
+
 
 			return server;
 		}
