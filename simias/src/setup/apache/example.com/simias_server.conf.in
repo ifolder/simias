@@ -1,0 +1,12 @@
+Include @MODMONO_CONFPATH@
+
+Alias /simias10 "@webdir@"
+AddMonoApplications examplesimias10 "/simias10:@webdir@"
+MonoSetEnv examplesimias10 SimiasDataDir=/var/lib/example.com/simias
+<Location /simias10 >
+	MonoSetServerAlias examplesimias10
+	Order allow,deny
+	Allow from all
+	SetHandler mono
+</Location>
+
