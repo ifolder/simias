@@ -361,7 +361,7 @@ body#users li.users a, body#ifolders li.ifolders a, body#server li.server a, bod
 	clear: both;
 	height: 3em;
 	padding: 8px;
-	border: maroon 2px solid;
+	border-bottom: solid 1px #999999;
 	background-color: #ffff99;
 	text-align: center;
 }

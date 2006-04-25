@@ -349,18 +349,7 @@ namespace Novell.iFolderWeb.Admin
 		private Hashtable CreateExistingAdminList()
 		{
 			int total;
-			iFolderUser[] adminList = null;
-			try
-			{
-				adminList = web.GetAdministrators( 0, 0, out total );
-			}
-			catch ( Exception ex )
-			{
-				string errMsg = GetString( "ERRORCANNOTGETADMINLIST" );
-				Response.Redirect( String.Format( "Error.aspx?ex={0} {1}", errMsg, Utils.ExceptionMessage( ex ) ), true );
-				return null;
-			}
-
+			iFolderUser[] adminList = web.GetAdministrators( 0, 0, out total );
 			Hashtable ht = new Hashtable( total );
 			foreach( iFolderUser admin in adminList )
 			{
@@ -377,19 +366,7 @@ namespace Novell.iFolderWeb.Admin
 		private Hashtable CreateExistingMemberList()
 		{
 			int total;
-			iFolderUser[] memberList = null;
-
-			try
-			{
-				memberList = web.GetMembers( iFolderID, 0, 0, out total );
-			}
-			catch ( Exception ex )
-			{
-				string errMsg = String.Format( GetString( "ERRORCANNOTGETMEMBERLIST" ), iFolderName );
-				Response.Redirect( String.Format( "Error.aspx?ex={0} {1}", errMsg, Utils.ExceptionMessage( ex ) ), true );
-				return null;
-			}
-
+			iFolderUser[] memberList = web.GetMembers( iFolderID, 0, 0, out total );
 			Hashtable ht = new Hashtable( total );
 			foreach( iFolderUser member in memberList )
 			{
@@ -414,39 +391,14 @@ namespace Novell.iFolderWeb.Admin
 			dt.Columns.Add( new DataColumn( "NameField", typeof( string ) ) );
 			dt.Columns.Add( new DataColumn( "FullNameField", typeof( string ) ) );
 
-			iFolderUser[] userList;
 			int total;
-			SearchProperty attribute = MemberSearch.SearchAttribute;
-
-			try
-			{
-				if ( MemberSearch.SearchName == String.Empty )
-				{
-					userList = web.GetUsersBySearch( 
-						attribute, 
-						MemberSearch.SearchOperation, 
-						"*", 
-						CurrentUserOffset, 
-						MemberList.PageSize, 
-						out total );
-				}
-				else
-				{
-					userList = web.GetUsersBySearch( 
-						attribute, 
-						MemberSearch.SearchOperation, 
-						MemberSearch.SearchName, 
-						CurrentUserOffset, 
-						MemberList.PageSize, 
-						out total );
-				}
-			}
-			catch ( Exception ex )
-			{
-				string errMsg = GetString( "ERRORCANNOTGETDOMAINLIST" );
-				Response.Redirect( String.Format( "Error.aspx?ex={0} {1}", errMsg, Utils.ExceptionMessage( ex ) ), true );
-				return null;
-			}
+			iFolderUser[] userList = web.GetUsersBySearch( 
+				MemberSearch.SearchAttribute, 
+				MemberSearch.SearchOperation, 
+				( MemberSearch.SearchName == String.Empty ) ? "*" : MemberSearch.SearchName, 
+				CurrentUserOffset, 
+				MemberList.PageSize, 
+				out total );
 
 			foreach( iFolderUser user in userList )
 			{
@@ -487,18 +439,7 @@ namespace Novell.iFolderWeb.Admin
 		private Hashtable CreateNewMemberList()
 		{
 			// Get the information about the new owner.
-			iFolderUser owner = null;
-			try
-			{
-				owner = web.GetUser( Owner );
-			}
-			catch ( Exception ex )
-			{
-				string errMsg = String.Format( GetString( "ERRORCANNOTGETUSER" ), Owner );
-				Response.Redirect( String.Format( "Error.aspx?ex={0} {1}", errMsg, Utils.ExceptionMessage( ex ) ), true );
-				return null;
-			}
-
+			iFolderUser owner = web.GetUser( Owner );
 			Hashtable ht = new Hashtable();
 			ht[ owner.ID ] = new MemberInfo( owner.ID, owner.UserName, owner.FullName );
 			return ht;

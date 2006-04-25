@@ -26,6 +26,8 @@ using System.Collections;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
+using System.Text;
 using System.Web;
 using System.Web.SessionState;
 using System.Web.UI;
@@ -53,6 +55,16 @@ namespace Novell.iFolderWeb.Admin
 		/// </summary>
 		protected TopNavigation TopNav;
 
+		/// <summary>
+		/// Div
+		/// </summary>
+		protected HtmlGenericControl ExceptionNav;
+
+		/// <summary>
+		/// Stack dump
+		/// </summary>
+		protected TextBox StackDump;
+
 		#endregion
 
 		#region Private Methods
@@ -79,23 +91,46 @@ namespace Novell.iFolderWeb.Admin
 			string message = Request.QueryString.Get( "ex" );
 			if ( ( message == null ) || ( message.Length < 0 ) )
 			{
-				// message from session
-				message = null;
-
 				Exception ex = Session[ "Exception" ] as Exception;
-				if (ex != null)
+				if ( ex != null )
 				{
-					message = Utils.ExceptionMessage( ex );
+					TopNav.ShowError( ex );
+
+					if ( TopNav.ShowExceptionDetail( ex ) )
+					{
+						StringWriter sw = new StringWriter();
+
+						sw.WriteLine( "Server Version: {0}", Session["Version"] );
+						sw.WriteLine( "HostName:       {0}", Session["HostName"] );
+						sw.WriteLine( "MachineName:    {0}", Session["MachineName"] );
+						sw.WriteLine( "OS Version:     {0}", Session["OSVersion"] );
+						sw.WriteLine( "CLR Version:    {0}", Session["ClrVersion"] );
+						sw.WriteLine();
+						sw.WriteLine();
+
+						sw.WriteLine( "Exception detail:" );
+						sw.WriteLine();
+						sw.WriteLine( "Exception type: {0}", TopNav.GetExceptionType( ex ) );
+						sw.WriteLine();
+						sw.WriteLine( ex.Message );
+						sw.WriteLine();
+						sw.WriteLine( ex.StackTrace );
+						StackDump.Text = sw.ToString();
+					}
+					else
+					{
+						ExceptionNav.Visible = false;
+					}
+				}
+				else
+				{
+					TopNav.ShowError( GetString( "UNKNOWNERROR" ) );
 				}
 			}
-			
-			// did we find a message
-			if ( message != null )
+			else
 			{
 				TopNav.ShowError( message );
 			}
-
-			// BUGBUG!! - Do something here if no message is available.
 		}
 
 		#endregion

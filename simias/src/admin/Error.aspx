@@ -25,7 +25,26 @@
 	<div class="container">
 			
 		<iFolder:TopNavigation ID="TopNav" Runat="server" />
+	
+		<div id="ExceptionNav" runat="server" class="exceptionnav">
+		
+			<div class="pagetitle">
 
+				<%= GetString( "ERRORDETAIL" ) %>
+					
+			</div>
+		
+			<asp:TextBox 
+				ID="StackDump" 
+				Runat="server" 
+				CssClass="stackdump" 
+				ReadOnly="True" 
+				Rows="15" 
+				TextMode="MultiLine" 
+				Wrap="True" />
+	
+		</div>
+		
 	</div>
 	
 	<ifolder:Footer id="footer" runat="server" />

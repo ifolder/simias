@@ -367,6 +367,12 @@ namespace Novell.iFolderWeb.Admin
 				// ui language
 				Session["Language"] = LanguageList.SelectedValue;
 
+				// add server information to the session.
+				Session["HostName"] = server.HostName;
+				Session["MachineName"] = server.MachineName;
+				Session["OSVersion"] = server.OSVersion;
+				Session["ClrVersion"] = server.ClrVersion;
+
 				// new language cookie for 30 days
 				Response.Cookies["language"].Value = LanguageList.SelectedValue;
 				Response.Cookies["language"].Expires = expires;

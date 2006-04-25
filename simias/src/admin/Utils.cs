@@ -21,9 +21,11 @@
  * 
  ***********************************************************************/
 using System;
+using System.Net;
 using System.Resources;
 using System.Web.Services.Protocols;
 using System.Web.UI.WebControls;
+using System.Xml;
 
 namespace Novell.iFolderWeb.Admin
 {
@@ -181,16 +183,6 @@ namespace Novell.iFolderWeb.Admin
 			}
 
 			return sizeString;
-		}
-
-		/// <summary>
-		/// Gets the exception message from the Exception object.
-		/// </summary>
-		/// <param name="ex"></param>
-		/// <returns></returns>
-		public static string ExceptionMessage( Exception ex )
-		{
-			return ( ex.Message == "Complex Exception" ) ? ( ex as SoapException ).Detail.InnerText : ex.Message;
 		}
 
 		/// <summary>

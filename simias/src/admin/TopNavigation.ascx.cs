@@ -26,6 +26,7 @@ namespace Novell.iFolderWeb.Admin
 	using System.Collections;
 	using System.Data;
 	using System.Drawing;
+	using System.Net;
 	using System.Resources;
 	using System.Web;
 	using System.Web.Services.Protocols;
@@ -265,6 +266,89 @@ namespace Novell.iFolderWeb.Admin
 			}
 		}
 
+
+		/// <summary>
+		/// Gets the exception message from the Exception object.
+		/// </summary>
+		/// <param name="e"></param>
+		/// <returns></returns>
+		public string ExceptionMessage( Exception e )
+		{
+			string type = GetExceptionType( e );
+
+			switch ( type )
+			{
+				case "AuthorizationException":
+					return GetString( "ERRORNOTADMINISTRATOR" );
+
+				case "AuthenticationException":
+					return GetString( "ERRORAUTHENTICATIONFAILED" );
+
+				case "iFolderDoesNotExistException":
+					return GetString( "ERRORIFOLDERDOESNOTEXIST" );
+
+				case "iFolderMemberDoesNotExistException":
+					return GetString( "ERRORMEMBERDOESNOTEXIST" );
+
+				case "UserDoesNotExistException":
+					return GetString( "ERRORUSERDOESNOTEXIST" );
+
+				case "LockException":
+					return GetString( "ERRORLOCKEXCEPTION" );
+
+				case "AccessException":
+					return GetString( "ERRORACCESSEXCEPTION" );
+
+				case "ArgumentException":
+					return e.Message;
+
+				default:
+					return type;
+			}
+		}
+
+		/// <summary>
+		/// Gets the exception type from the specified exception.
+		/// </summary>
+		/// <param name="e"></param>
+		/// <returns></returns>
+		public string GetExceptionType( Exception e )
+		{
+			string type = e.GetType().Name;
+
+			if ( e is SoapException )
+			{
+				try
+				{
+					XmlNode node = ( e as SoapException ).Detail.SelectSingleNode( "OriginalException" );
+					if ( node == null )
+					{
+						// try inside the <detail> tags
+						node = ( e as SoapException ).Detail.SelectSingleNode( "*/OriginalException" );
+					}
+
+					if ( node != null )
+					{
+						type = node.Attributes.GetNamedItem( "type" ).Value;
+						type = type.Substring( type.LastIndexOf( "." ) + 1 );
+					}
+				}
+				catch {}
+			}
+			else if ( e is WebException )
+			{
+				type = (e as WebException ).Status.ToString();
+
+				if ( ( e as WebException ).Status == WebExceptionStatus.ProtocolError )
+				{
+					HttpWebResponse response = ( e as WebException ).Response as HttpWebResponse;
+					type = response.StatusDescription;
+				}
+			}
+
+			return type;
+		}
+
 		/// <summary>
 		/// Sets the active page tab for utility pages that are used by multiple root pages.
 		/// </summary>
@@ -337,7 +421,7 @@ namespace Novell.iFolderWeb.Admin
 		/// <param name="ex"></param>
 		public void ShowError( Exception ex )
 		{
-			ShowError( Utils.ExceptionMessage( ex ) );
+			ShowError( ExceptionMessage( ex ) );
 		}
 
 		/// <summary>
@@ -347,7 +431,31 @@ namespace Novell.iFolderWeb.Admin
 		/// <param name="ex"></param>
 		public void ShowError( string msg, Exception ex )
 		{
-			ShowError( String.Format( "{0}\n{1}", msg, Utils.ExceptionMessage( ex ) ) );
+			ShowError( String.Format( "{0} {1}", msg, ExceptionMessage( ex ) ) );
+		}
+
+		/// <summary>
+		/// Determines whether to show exception detail based on the type of exception.
+		/// </summary>
+		/// <param name="e"></param>
+		/// <returns></returns>
+		public bool ShowExceptionDetail( Exception e )
+		{
+			switch ( GetExceptionType( e ) )
+			{
+				case "AuthorizationException":
+				case "AuthenticationException":
+				case "iFolderDoesNotExistException":
+				case "iFolderMemberDoesNotExistException":
+				case "UserDoesNotExistException":
+				case "LockException":
+				case "AccessException":
+				case "ArgumentException":
+					return false;
+
+				default:
+					return true;
+			}
 		}
 
 		#endregion

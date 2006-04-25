@@ -177,19 +177,7 @@ namespace Novell.iFolderWeb.Admin
 			dt.Columns.Add( new DataColumn( "FullNameField", typeof( string ) ) );
 
 			int total;
-			iFolderUser[] adminList = null;
-			try
-			{
-				adminList = web.GetAdministrators( CurrentAdminOffset, AdminList.PageSize, out total );
-			}
-			catch ( Exception ex )
-			{
-				Response.Redirect( 
-					String.Format( "Error.aspx?ex={0} {1}", GetString( "ERRORCANNOTGETADMINLIST" ), Utils.ExceptionMessage( ex ) ), 
-					true );
-
-				return null;
-			}
+			iFolderUser[] adminList = web.GetAdministrators( CurrentAdminOffset, AdminList.PageSize, out total );
 
 			foreach( iFolderUser admin in adminList )
 			{
@@ -239,24 +227,15 @@ namespace Novell.iFolderWeb.Admin
 			int totaliFolders;
 			int totalUsers;
 
-			try
-			{
-				iFolderSystem system = web.GetSystem();
-				Name.Text = system.Name;
-				Description.Value = system.Description;
+			iFolderSystem system = web.GetSystem();
+			Name.Text = system.Name;
+			Description.Value = system.Description;
 
-				iFolderUser[] users = web.GetUsers( 0, 1, out totalUsers );
-				NumberOfUsers.Text = totalUsers.ToString();
+			iFolderUser[] users = web.GetUsers( 0, 1, out totalUsers );
+			NumberOfUsers.Text = totalUsers.ToString();
 
-				iFolder[] folders = web.GetiFolders( iFolderType.All, 0, 1, out totaliFolders );
-				NumberOfiFolders.Text = totaliFolders.ToString();
-			}
-			catch ( Exception ex )
-			{
-				Response.Redirect(
-					String.Format( "Error.aspx?ex={0} {1}", GetString( "ERRORCANNOTGETSYSTEMINFO" ), Utils.ExceptionMessage( ex ) ),
-					true );
-			}
+			iFolder[] folders = web.GetiFolders( iFolderType.All, 0, 1, out totaliFolders );
+			NumberOfiFolders.Text = totaliFolders.ToString();
 		}
 
 		/// <summary>
@@ -305,20 +284,8 @@ namespace Novell.iFolderWeb.Admin
 				CheckedMembers = new Hashtable();
 
 				// Get the owner of the system.
-				try
-				{
-					iFolder domain = web.GetiFolder( web.GetSystem().ID );
-					SuperAdminID = domain.OwnerID;
-				}
-				catch ( Exception ex )
-				{
-					Response.Redirect( 
-						String.Format( 
-							"Error.aspx?ex={0} {1}", 
-							GetString( "ERRORCANNOTGETDOMAIN" ), 
-							Utils.ExceptionMessage( ex ) ), 
-						true );
-				}
+				iFolder domain = web.GetiFolder( web.GetSystem().ID );
+				SuperAdminID = domain.OwnerID;
 			}
 		}
 

@@ -184,22 +184,7 @@ namespace Novell.iFolderWeb.Admin
 		protected void ApplyiFolderPolicy( Object sender, EventArgs e )
 		{
 			// Get the current policy settings.
-			iFolderPolicy policy = null;
-			try
-			{
-				policy = web.GetiFolderPolicy( PolicyID );
-			}
-			catch ( Exception ex )
-			{
-				string errMsg = String.Format( GetString( "ERRORCANNOTGETIFOLDERPOLICY" ), PolicyID );
-				if ( PolicyError != null )
-				{
-					PolicyError( this, new PolicyErrorArgs( errMsg, ex ) );
-				}
-
-				return;
-			}
-
+			iFolderPolicy policy = web.GetiFolderPolicy( PolicyID );
 			try
 			{
 				iFolderEnabled.SetiFolderEnabledPolicy( policy );
@@ -246,23 +231,8 @@ namespace Novell.iFolderWeb.Admin
 		/// <param name="e"></param>
 		protected void ApplySystemPolicy( Object sender, EventArgs e )
 		{
-			SystemPolicy policy = null;
-
-			try
-			{
-				policy = web.GetSystemPolicy();
-			}
-			catch ( Exception ex )
-			{
-				if ( PolicyError != null )
-				{
-					PolicyError( this, new PolicyErrorArgs( GetString( "ERRORCANNOTGETSYSTEMPOLICY" ), ex ) );
-				}
-
-				return;
-			}
-
 			// Verify and apply all the user specified settings to the policy object.
+			SystemPolicy policy = web.GetSystemPolicy();
 			try
 			{
 				DiskQuota.SetDiskSpacePolicy( policy );
@@ -307,23 +277,7 @@ namespace Novell.iFolderWeb.Admin
 		protected void ApplyUserPolicy( Object sender, EventArgs e )
 		{
 			// Get the current policy settings.
-			UserPolicy policy = null;
-			try
-			{
-				policy = web.GetUserPolicy( PolicyID );
-			}
-			catch ( Exception ex )
-			{
-				string errMsg = String.Format( GetString( "ERRORCANNOTGETUSERPOLICY" ), PolicyID );
-				if ( PolicyError != null )
-				{
-					PolicyError( this, new PolicyErrorArgs( errMsg, ex ) );
-				}
-
-				return;
-			}
-
-			// Verify and apply all the user specified settings to the policy object.
+			UserPolicy policy = web.GetUserPolicy( PolicyID );
 			try
 			{
 				AccountEnabled.SetAccountPolicy( policy );
@@ -427,18 +381,7 @@ namespace Novell.iFolderWeb.Admin
 		/// </summary>
 		public void GetiFolderPolicies()
 		{
-			iFolderPolicy policy = null;
-			try
-			{
-				policy = web.GetiFolderPolicy( PolicyID );
-			}
-			catch ( Exception ex )
-			{
-				string errMsg = String.Format( GetString( "ERRORCANNOTGETIFOLDERPOLICY" ), PolicyID );
-				Response.Redirect( String.Format( "Error.aspx?ex={0} {1}", errMsg, Utils.ExceptionMessage( ex ) ), true );
-				return;
-			}
-
+			iFolderPolicy policy = web.GetiFolderPolicy( PolicyID );
 			AccountEnabled.GetAccountPolicy( policy );
 			iFolderEnabled.GetiFolderEnabledPolicy( policy );
 			DiskQuota.GetDiskSpacePolicy( policy );
@@ -452,18 +395,7 @@ namespace Novell.iFolderWeb.Admin
 		/// </summary>
 		public void GetSystemPolicies()
 		{
-			SystemPolicy policy = null;
-			try
-			{
-				policy = web.GetSystemPolicy();
-			}
-			catch ( Exception ex )
-			{
-				string errMsg = GetString( "ERRORCANNOTGETSYSTEMPOLICY" );
-				Response.Redirect( String.Format( "Error.aspx?ex={0} {1}", errMsg, Utils.ExceptionMessage( ex ) ), true );
-				return;
-			}
-
+			SystemPolicy policy = web.GetSystemPolicy();
 			AccountEnabled.GetAccountPolicy( policy );
 			iFolderEnabled.GetiFolderEnabledPolicy( policy );
 			DiskQuota.GetDiskSpacePolicy( policy );
@@ -477,18 +409,7 @@ namespace Novell.iFolderWeb.Admin
 		/// </summary>
 		public void GetUserPolicies()
 		{
-			UserPolicy policy = null;
-			try
-			{
-				policy = web.GetUserPolicy( PolicyID );
-			}
-			catch ( Exception ex )
-			{
-				string errMsg = String.Format( GetString( "ERRORCANNOTGETUSERPOLICY" ), PolicyID );
-				Response.Redirect( String.Format( "Error.aspx?ex={0} {1}", errMsg, Utils.ExceptionMessage( ex ) ), true );
-				return;
-			}
-
+			UserPolicy policy = web.GetUserPolicy( PolicyID );
 			AccountEnabled.GetAccountPolicy( policy );
 			iFolderEnabled.GetiFolderEnabledPolicy( policy );
 			DiskQuota.GetDiskSpacePolicy( policy );

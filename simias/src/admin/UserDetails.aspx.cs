@@ -252,29 +252,20 @@ namespace Novell.iFolderWeb.Admin
 			int total;
 			iFolder[] list;
 
-			try
+			switch ( ActiveiFolderTab )
 			{
-				switch ( ActiveiFolderTab )
-				{
-					case ListDisplayType.Owned:
-						list = web.GetiFoldersByMember( UserID, MemberRole.Owner, CurrentiFolderOffset, iFolderList.PageSize, out total );
-						break;
+				case ListDisplayType.Owned:
+					list = web.GetiFoldersByMember( UserID, MemberRole.Owner, CurrentiFolderOffset, iFolderList.PageSize, out total );
+					break;
 
-					case ListDisplayType.Shared:
-						list = web.GetiFoldersByMember( UserID, MemberRole.Shared, CurrentiFolderOffset, iFolderList.PageSize, out total );
-						break;
+				case ListDisplayType.Shared:
+					list = web.GetiFoldersByMember( UserID, MemberRole.Shared, CurrentiFolderOffset, iFolderList.PageSize, out total );
+					break;
 
-					case ListDisplayType.All:
-					default:
-						list = web.GetiFoldersByMember( UserID, MemberRole.Any, CurrentiFolderOffset, iFolderList.PageSize, out total );
-						break;
-				}
-			}
-			catch ( Exception ex )
-			{
-				string errMsg = String.Format( GetString( "ERRORCANNOTGETIFOLDERLIST" ), UserName.Text );
-				Response.Redirect( String.Format( "Error.aspx?ex={0} {1}", errMsg, Utils.ExceptionMessage( ex ) ), true );
-				return null;
+				case ListDisplayType.All:
+				default:
+					list = web.GetiFoldersByMember( UserID, MemberRole.Any, CurrentiFolderOffset, iFolderList.PageSize, out total );
+					break;
 			}
 
 			foreach( iFolder folder in list )
@@ -350,17 +341,7 @@ namespace Novell.iFolderWeb.Admin
 		private string GetUserDetails()
 		{
 			// Get the iFolder user information.
-			iFolderUserDetails details = null;
-			try
-			{
-				details = web.GetUserDetails( UserID );
-			}
-			catch ( Exception ex )
-			{
-				string errMsg = String.Format( GetString( "ERRORCANNOTGETUSER" ), UserID );
-				Response.Redirect( String.Format( "Error.aspx?ex={0} {1}", errMsg, Utils.ExceptionMessage( ex ) ), true );
-				return null;
-			}
+			iFolderUserDetails details = web.GetUserDetails( UserID );
 
 			string lastLogin = ( details.LastLogin == DateTime.MinValue ) ?
 				GetString( "NOTAVAILABLE" ) : details.LastLogin.ToString();

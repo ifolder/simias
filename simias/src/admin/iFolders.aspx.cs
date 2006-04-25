@@ -181,22 +181,12 @@ namespace Novell.iFolderWeb.Admin
 
 			// Get the iFolder list for this user.
 			int total;
-			iFolder[] list = null;
-
-			try
-			{
-				list = web.GetiFoldersByName(
-					iFolderSearch.SearchOperation,
-					( iFolderSearch.SearchName == String.Empty ) ? "*" : iFolderSearch.SearchName, 
-					CurrentiFolderOffset, 
-					iFolderList.PageSize, 
-					out total );
-			}
-			catch ( Exception ex )
-			{
-				Response.Redirect( String.Format( "Error.aspx?ex={0}", Utils.ExceptionMessage( ex ) ), true );
-				return null;
-			}
+			iFolder[] list = web.GetiFoldersByName(
+				iFolderSearch.SearchOperation,
+				( iFolderSearch.SearchName == String.Empty ) ? "*" : iFolderSearch.SearchName, 
+				CurrentiFolderOffset, 
+				iFolderList.PageSize, 
+				out total );
 
 			foreach( iFolder folder in list )
 			{
@@ -437,19 +427,7 @@ namespace Novell.iFolderWeb.Admin
 		/// <param name="e"></param>
 		protected void OnCreateButton_Click( object source, EventArgs e )
 		{
-			iFolderUser admin = null;
-			try
-			{
-				admin = web.GetAuthenticatedUser();
-			}
-			catch ( Exception ex )
-			{
-				string userID = Session[ "UserID" ] as String;
-				string errMsg = String.Format( GetString( "ERRORCANNOTGETUSER" ), userID );
-				Response.Redirect( String.Format( "Error.aspx?ex={0} {1}", errMsg, Utils.ExceptionMessage( ex ) ), true );
-				return;
-			}
-
+			iFolderUser admin = web.GetAuthenticatedUser();
 			Page.Response.Redirect( String.Format( "MemberSelect.aspx?op=createifolder&owner={0}&name={1}", admin.ID, admin.FullName ), true );
 		}
 

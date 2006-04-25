@@ -552,6 +552,10 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "css\Error.css"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "css\iFolderAdmin.css"
                     BuildAction = "Content"
                 />

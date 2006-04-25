@@ -169,7 +169,6 @@ namespace Novell.iFolderWeb.Admin
 		private DataView CreateDataSource()
 		{
 			DataTable dt = new DataTable();
-			DataRow dr;
 
 			dt.Columns.Add( new DataColumn( "VisibleField", typeof( bool ) ) );
 			dt.Columns.Add( new DataColumn( "IDField", typeof( string ) ) );
@@ -179,38 +178,16 @@ namespace Novell.iFolderWeb.Admin
 			dt.Columns.Add( new DataColumn( "FullNameField", typeof( string ) ) );
 			dt.Columns.Add( new DataColumn( "StatusField", typeof( string ) ) );
 
-			iFolderUser[] userList;
+			DataRow dr;
 			int total;
 
-			try
-			{
-				if ( MemberSearch.SearchName == String.Empty )
-				{
-					userList = web.GetUsersBySearch( 
-						MemberSearch.SearchAttribute, 
-						MemberSearch.SearchOperation, 
-						"*", 
-						CurrentUserOffset, 
-						Accounts.PageSize, 
-						out total );
-				}
-				else
-				{
-					userList = web.GetUsersBySearch( 
-						MemberSearch.SearchAttribute, 
-						MemberSearch.SearchOperation, 
-						MemberSearch.SearchName, 
-						CurrentUserOffset, 
-						Accounts.PageSize, 
-						out total );
-				}
-			}
-			catch ( Exception ex )
-			{
-				string errMsg = GetString( "ERRORCANNOTGETDOMAINLIST" );
-				Response.Redirect( String.Format( "Error.aspx?ex={0} {1}", errMsg, Utils.ExceptionMessage( ex ) ), true );
-				return null;
-			}
+			iFolderUser[] userList = web.GetUsersBySearch( 
+				MemberSearch.SearchAttribute, 
+				MemberSearch.SearchOperation, 
+				( MemberSearch.SearchName == String.Empty ) ? "*" : MemberSearch.SearchName, 
+				CurrentUserOffset, 
+				Accounts.PageSize, 
+				out total );
 
 			foreach( iFolderUser user in userList )
 			{
@@ -294,18 +271,7 @@ namespace Novell.iFolderWeb.Admin
 				AllUsersCheckBox.Checked = false;
 				CheckedUsers = new Hashtable();
 
-				IdentityPolicy policy = null;
-				try
-				{
-					policy = web.GetIdentityPolicy();
-				}
-				catch ( Exception ex )
-				{
-					string errMsg = GetString( "ERRORCANNOTGETIDENTITYPOLICY" );
-					Response.Redirect( String.Format( "Error.aspx?ex={0} {1}", errMsg, Utils.ExceptionMessage( ex ) ), true );
-					return;
-				}
-
+				IdentityPolicy policy = web.GetIdentityPolicy();
 				if ( policy.CanCreate )
 				{
 					CreateButton.Text = GetString( "CREATE" );
@@ -319,16 +285,8 @@ namespace Novell.iFolderWeb.Admin
 				}
 
 				// Get the owner of the system.
-				try
-				{
-					iFolder domain = web.GetiFolder( web.GetSystem().ID );
-					SuperAdminID = domain.OwnerID;
-				}
-				catch ( Exception ex )
-				{
-					Response.Redirect( String.Format( "Error.aspx?ex={0} {1}", GetString( "ERRORCANNOTGETDOMAIN" ), Utils.ExceptionMessage( ex ) ), true );
-					return;
-				}
+				iFolder domain = web.GetiFolder( web.GetSystem().ID );
+				SuperAdminID = domain.OwnerID;
 			}
 		}
 

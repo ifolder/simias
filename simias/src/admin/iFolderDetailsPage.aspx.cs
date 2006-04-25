@@ -243,30 +243,22 @@ namespace Novell.iFolderWeb.Admin
 		///	<returns>The name of the ifolder.</returns>
 		private string GetiFolderDetails()
 		{
-			iFolderDetails ifolder = null;
-			try
-			{
-				ifolder = web.GetiFolderDetails( iFolderID );
-				Name.Text = ifolder.Name;
-				Description.Text = ifolder.Description;
-				Owner.Text = ifolder.OwnerFullName;
-				Owner.NavigateUrl= String.Format( "UserDetails.aspx?id={0}", ifolder.OwnerID );
-				LastModified.Text = ifolder.LastModified.ToString();
-				Size.Text = Utils.ConvertToUnitString( ifolder.Size, true, rm );
-				Directories.Text = ifolder.DirectoryCount.ToString();
-				Files.Text = ifolder.FileCount.ToString();
+			iFolderDetails ifolder = web.GetiFolderDetails( iFolderID );
+			Name.Text = ifolder.Name;
+			Description.Text = ifolder.Description;
+			Owner.Text = ifolder.OwnerFullName;
+			Owner.NavigateUrl= String.Format( "UserDetails.aspx?id={0}", ifolder.OwnerID );
+			LastModified.Text = ifolder.LastModified.ToString();
+			Size.Text = Utils.ConvertToUnitString( ifolder.Size, true, rm );
+			Directories.Text = ifolder.DirectoryCount.ToString();
+			Files.Text = ifolder.FileCount.ToString();
 
-				// Allow the browser to break up the path on separator boundries.
-				UnManagedPath.Text = ifolder.UnManagedPath.Replace( 
-					Path.DirectorySeparatorChar.ToString(), 
-					Path.DirectorySeparatorChar.ToString() + "<WBR>" );
-			}
-			catch ( Exception ex )
-			{
-				Response.Redirect( String.Format("Error.aspx?ex={0}", Utils.ExceptionMessage( ex ) ), true );
-			}
+			// Allow the browser to break up the path on separator boundries.
+			UnManagedPath.Text = ifolder.UnManagedPath.Replace( 
+				Path.DirectorySeparatorChar.ToString(), 
+				Path.DirectorySeparatorChar.ToString() + "<WBR>" );
 
-			return ( ifolder != null ) ? ifolder.Name : null;
+			return ifolder.Name;
 		}
 
 		/// <summary>
@@ -285,22 +277,12 @@ namespace Novell.iFolderWeb.Admin
 			dt.Columns.Add( new DataColumn( "RightsField", typeof( string ) ) );
 
 			int total;
-			iFolderUser[] memberList = null;
-
-			try
-			{
-				memberList = 
-					web.GetMembers( 
-					iFolderID, 
-					CurrentMemberOffset, 
-					iFolderMemberList.PageSize, 
-					out total );
-			}
-			catch( Exception ex )
-			{
-				Response.Redirect( String.Format( "Error.aspx?ex={0}", Utils.ExceptionMessage( ex ) ), true );
-				return null;
-			}
+			iFolderUser[] memberList = 
+				web.GetMembers( 
+				iFolderID, 
+				CurrentMemberOffset, 
+				iFolderMemberList.PageSize, 
+				out total );
 
 			foreach( iFolderUser member in memberList )
 			{
@@ -653,17 +635,8 @@ namespace Novell.iFolderWeb.Admin
 		/// <returns>The display name of the current iFolder</returns>
 		protected string GetiFolderName()
 		{
-			iFolder ifolder = null;
-			try
-			{
-				ifolder = web.GetiFolder( iFolderID );
-			}
-			catch ( Exception ex )
-			{
-				Response.Redirect( String.Format( "Error.aspx?ex={0}", Utils.ExceptionMessage( ex ) ), true );
-			}
-
-			return ( ifolder != null ) ? ifolder.Name : null;
+			iFolder ifolder = web.GetiFolder( iFolderID );
+			return ( ifolder != null ) ? ifolder.Name : String.Empty;
 		}
 
 		/// <summary>

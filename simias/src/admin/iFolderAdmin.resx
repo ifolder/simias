@@ -150,6 +150,12 @@
 	<data name="EQUALS">
 		<value>Equals</value>
 	</data>
+	<data name="ERRORACCESSEXCEPTION">
+		<value>You do not have sufficient rights to perform the request.</value>
+	</data>
+	<data name="ERRORAUTHENTICATIONFAILED">
+		<value>Authentication failed.</value>
+	</data>
 	<data name="ERRORCANNOTADDADMIN">
 		<value>Cannot add member {0} as an administrator.</value>
 	</data>
@@ -177,39 +183,6 @@
 	<data name="ERRORCANNOTDELETEUSER">
 		<value>Cannot delete user ID {0}.</value>
 	</data>
-	<data name="ERRORCANNOTGETADMINLIST">
-		<value>Cannot get list of administrators.</value>
-	</data>
-	<data name="ERRORCANNOTGETDOMAIN">
-		<value>Cannot get iFolder domain information.</value>
-	</data>
-	<data name="ERRORCANNOTGETDOMAINLIST">
-		<value>Cannot get available iFolder users.</value>
-	</data>
-	<data name="ERRORCANNOTGETIDENTITYPOLICY">
-		<value>Cannot get identity policy for the domain.</value>
-	</data>
-	<data name="ERRORCANNOTGETIFOLDERLIST">
-		<value>Cannot get list of iFolders for user {0}.</value>
-	</data>
-	<data name="ERRORCANNOTGETIFOLDERPOLICY">
-		<value>Cannot get policy information for iFolder ID {0}.</value>
-	</data>
-	<data name="ERRORCANNOTGETMEMBERLIST">
-		<value>Cannot get member list for iFolder {0}.</value>
-	</data>
-	<data name="ERRORCANNOTGETSYSTEMINFO">
-		<value>Cannot get iFolder system information.</value>
-	</data>
-	<data name="ERRORCANNOTGETSYSTEMPOLICY">
-		<value>Cannot get system policy information.</value>
-	</data>
-	<data name="ERRORCANNOTGETUSER">
-		<value>Cannot get information for user ID {0}.</value>
-	</data>
-	<data name="ERRORCANNOTGETUSERPOLICY">
-		<value>Cannot get user policy information for user ID {0}.</value>
-	</data>
 	<data name="ERRORCANNOTREMOVEADMIN">
 		<value>Cannot remove user {0} as an administrator.</value>
 	</data>
@@ -228,8 +201,14 @@
 	<data name="ERRORCANNOTSETUSERPOLICY">
 		<value>Cannot set user policy information for user ID {0}.</value>
 	</data>
-	<data name="ERRORINVALIDARGUMENT">
-		<value>An invalid value was specified for a policy.</value>
+	<data name="ERRORDETAIL">
+		<value>Error Details</value>
+	</data>
+	<data name="ERRORIFOLDERDOESNOTEXIST">
+		<value>The iFolder does not exist.</value>
+	</data>
+	<data name="ERRORINVALIDFILESIZE">
+		<value>An invalid file size limit value was specified.</value>
 	</data>
 	<data name="ERRORINVALIDQUOTA">
 		<value>An invalid disk space quota value was specified.</value>
@@ -237,11 +216,23 @@
 	<data name="ERRORINVALIDSYNCINTERVAL">
 		<value>An invalid synchronization interval was specified.</value>
 	</data>
+	<data name="ERRORLOCKEXCEPTION">
+		<value>The operation was cancelled because the iFolder has been locked/disabled by the administrator.</value>
+	</data>
+	<data name="ERRORMEMBERDOESNOTEXIST">
+		<value>The iFolder member does not exist.</value>
+	</data>
+	<data name="ERRORNOFILESIZE">
+		<value>No file size limit value was specified.</value>
+	</data>
 	<data name="ERRORNOQUOTA">
 		<value>No disk space quota value was specified.</value>
 	</data>
 	<data name="ERRORNOSYNCINTERVAL">
 		<value>No synchronization interval was specified.</value>
+	</data>
+	<data name="ERRORNOTADMINISTRATOR">
+		<value>User is not an iFolder Administrator.</value>
 	</data>
 	<data name="ERRORTEMPLATE">
 		<value>Error: {0}</value>
@@ -251,6 +242,12 @@
 	</data>
 	<data name="ERRORINSTRUCTIONS">
 		<value>&lt;p&gt;iFolder Web Access has experience an unexpected error.&lt;/p&gt; &lt;p&gt;We apologize for any inconvenience and request that you log out and try again.&lt;/p&gt;</value>
+	</data>
+	<data name="ERRORUNKNOWNERROR">
+		<value>An unknown error has occurred.</value>
+	</data>
+	<data name="ERRORUSERDOESNOTEXIST">
+		<value>The specified iFolder user does not exist.</value>
 	</data>
 	<data name="EXCLUDEDFILES">
 		<value>Excluded Files</value>
@@ -602,6 +599,9 @@
 	</data>
 	<data name="TYPE">
 		<value>Type</value>
+	</data>
+	<data name="UNKNOWNERROR">
+		<value>An unknown error has occurred. No exception was specified.</value>
 	</data>
 	<data name="UNLIMITED">
 		<value>Unlimited</value>

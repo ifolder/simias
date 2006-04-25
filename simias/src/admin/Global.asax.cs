@@ -154,7 +154,7 @@ namespace Novell.iFolderWeb.Admin
 		/// <param name="e"></param>
 		protected void Application_Error( Object sender, EventArgs e )
 		{
-/*
+
 			Exception ex = Server.GetLastError().GetBaseException();
 			
 			// Pass the compile exceptions through for debugging
@@ -176,10 +176,9 @@ namespace Novell.iFolderWeb.Admin
 				}
 				else
 				{
-					Response.Redirect( "Error.aspx?Exception=" + Server.UrlEncode( ex.ToString() ) );
+					Response.Redirect( "Error.aspx?ex=" + Server.UrlEncode( ex.ToString() ) );
 				}
 			}
-*/			
 		}
 
 		/* NOTE: Commented out for performance per Gonzalo

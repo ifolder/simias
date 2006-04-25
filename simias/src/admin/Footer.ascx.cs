@@ -98,9 +98,12 @@ namespace Novell.iFolderWeb.Admin
 			if ( !IsPostBack )
 			{
 				// Show the currently logged in user.
-				LoggedInAs.Text = GetString( "LOGGEDINAS" );
-				LoggedInName.Text = Session[ "NAME" ] as String;
-				LogoutButton.Text = GetString( "LOGOUT" );
+				if ( Session[ "NAME" ] != null )
+				{
+					LoggedInAs.Text = GetString( "LOGGEDINAS" );
+					LoggedInName.Text = Session[ "NAME" ] as String;
+					LogoutButton.Text = GetString( "LOGOUT" );
+				}
 			}
 		}
 
