@@ -618,6 +618,20 @@ namespace Simias.LdapProvider
 			
 			return caps;
 		}
+
+		/// <summary>
+		/// Method to set/reset a user's password
+		/// Note: This method will be replaced when the self-service
+		/// framework is designed and implemented.
+		/// </summary>
+		/// <param name="Username" mandatory="true">Username to set the password on.</param>
+		/// <param name="Password" mandatory="true">New password.</param>
+		/// <returns>true - successful</returns>
+		public bool SetPassword( string Username, string Password )
+		{
+			// today we don't allow modification in the ldap provider
+			return false;
+		}
 		
 		/// <summary>
 		/// Method to verify a user's password
