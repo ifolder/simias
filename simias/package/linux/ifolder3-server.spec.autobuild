@@ -70,9 +70,7 @@ INSTANCES_AFTER_INSTALL=$1
 
 if [ "$INSTANCES_AFTER_INSTALL" = "1" ]; then
 	# Install
-	ln -sf %{sysconfdir}/simias/simias_server.conf /etc/apache2/conf.d/simias_server.conf
-	ln -sf %{sysconfdir}/simias/ifolder_admin.conf /etc/apache2/conf.d/ifolder_admin.conf
-	ln -sf %{sysconfdir}/simias/ifolder_webaccess.conf /etc/apache2/conf.d/ifolder_webaccess.conf
+	ln -sf %{sysconfdir}/simias/apache/ifolder_apache.conf /etc/apache2/conf.d/ifolder_apache.conf
 
 	# setup simiasdatadir and give wwwrun user ownership
 	mkdir -p %{simiasdatadir}
@@ -87,7 +85,7 @@ fi
 %postun
 INSTANCES_AFTER_UNINSTALL=$1
 if [ "$INSTANCES_AFTER_UNINSTALL" = "0" ]; then
-%{__rm} -rf /etc/simias
+%{__rm} -f /etc/apache2/conf.d/ifolder_apache.conf
 fi
 #=============================================================================
 
