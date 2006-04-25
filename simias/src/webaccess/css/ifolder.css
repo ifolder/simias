@@ -212,6 +212,14 @@ div.message
 	background: #E5E5F7;
 }
 
+.allPage #allTab a,
+.newPage #newTab a,
+.ownerPage #ownerTab a,
+.sharedPage #sharedTab a
+{
+	background: #E5E5F7;
+}
+
 /* path */
 
 .path

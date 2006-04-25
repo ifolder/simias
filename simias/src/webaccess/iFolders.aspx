@@ -103,7 +103,14 @@
 			<div id="context">
 				<div class="home"><%= GetString("IFOLDERS") %></div>
 			</div>
-		
+					
+			<div id="Tabs" class="AllPage tabs" runat="server">
+				<div id="allTab" class="tab"><asp:LinkButton ID="AllButton" runat="server" /></div>
+				<div id="newTab" class="tab"><asp:LinkButton ID="NewButton" runat="server" /></div>
+				<div id="ownerTab" class="tab"><asp:LinkButton ID="OwnerButton" runat="server" /></div>
+				<div id="sharedTab" class="tab"><asp:LinkButton ID="SharedButton" runat="server" /></div>
+			</div>
+			
 			<iFolder:Message id="MessageBox" runat="server" />
 	
 			<div class="main">

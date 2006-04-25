@@ -501,4 +501,10 @@
 	<data name="CREATED">
 		<value>Created</value>
 	</data>
+	<data name="ALL">
+		<value>All</value>
+	</data>
+	<data name="SHARED">
+		<value>Shared</value>
+	</data>
 </root>

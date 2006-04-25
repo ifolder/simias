@@ -50,6 +50,31 @@ namespace Novell.iFolderApp.Web
 		protected HyperLink NewiFolderLink;
 
 		/// <summary>
+		/// Actions Container
+		/// </summary>
+		protected HtmlContainerControl Tabs;
+
+		/// <summary>
+		/// Show All iFolders Button
+		/// </summary>
+		protected LinkButton AllButton;
+
+		/// <summary>
+		/// Show New iFolders Button
+		/// </summary>
+		protected LinkButton NewButton;
+
+		/// <summary>
+		/// Show Owner iFolders Button
+		/// </summary>
+		protected LinkButton OwnerButton;
+
+		/// <summary>
+		/// Show Shared iFolders Button
+		/// </summary>
+		protected LinkButton SharedButton;
+
+		/// <summary>
 		/// Search Pattern
 		/// </summary>
 		protected TextBox SearchPattern;
@@ -89,6 +114,14 @@ namespace Novell.iFolderApp.Web
 		/// </summary>
 		private ResourceManager rm;
 
+		private enum Mode
+		{
+			All,
+			New,
+			Owner,
+			Shared
+		};
+
 		/// <summary>
 		/// Page Load
 		/// </summary>
@@ -110,9 +143,14 @@ namespace Novell.iFolderApp.Web
 				NewiFolderLink.Text = GetString("NEWIFOLDER");
 				SearchButton.Text = GetString("FILTER");
 				RemoveButton.Text = GetString("REMOVE");
+				AllButton.Text = GetString("ALL");
+				NewButton.Text = GetString("NEW");
+				OwnerButton.Text = GetString("OWNER");
+				SharedButton.Text = GetString("SHARED");
 
 				// search pattern
 				ViewState["SearchPattern"] = null;
+				ViewState["Mode"] = Mode.All;
 
 				// data
 				BindData();
@@ -140,10 +178,38 @@ namespace Novell.iFolderApp.Web
 			ifolderTable.Columns.Add("Size");
 			ifolderTable.Columns.Add("Owner", typeof(bool));
 
+			// mode
+			Mode mode = (Mode) ViewState["Mode"];
+			MemberRole role = MemberRole.Any;
+			DateTime after = DateTime.MinValue;
+
+			switch(mode)
+			{
+				case Mode.New:
+					after = DateTime.Now.AddDays(-30);
+					Tabs.Attributes["class"] = "newPage tabs";
+					break;
+
+				case Mode.Owner:
+					role = MemberRole.Owner;
+					Tabs.Attributes["class"] = "ownerPage tabs";
+					break;
+
+				case Mode.Shared:
+					role = MemberRole.Shared;
+					Tabs.Attributes["class"] = "sharedPage tabs";
+					break;
+
+				case Mode.All:
+				default:
+					Tabs.Attributes["class"] = "allPage tabs";
+					break;
+			}
+
 			try
 			{
 				// data
-				iFolder[] ifolders = web.GetiFoldersBySearch(MemberRole.Any, DateTime.MinValue, SearchOperation.BeginsWith, SearchPattern.Text, iFolderPagging.Index, iFolderPagging.PageSize, out total);
+				iFolder[] ifolders = web.GetiFoldersBySearch(role, after, SearchOperation.BeginsWith, SearchPattern.Text, iFolderPagging.Index, iFolderPagging.PageSize, out total);
 				iFolderPagging.Count = ifolders.Length;
 				iFolderPagging.Total = total;
 				
@@ -211,6 +277,10 @@ namespace Novell.iFolderApp.Web
 			this.SearchButton.Click += new EventHandler(SearchButton_Click);
 			this.RemoveButton.PreRender += new EventHandler(RemoveButton_PreRender);
 			this.RemoveButton.Click += new EventHandler(RemoveButton_Click);
+			this.AllButton.Click += new EventHandler(AllButton_Click);
+			this.NewButton.Click += new EventHandler(NewButton_Click);
+			this.OwnerButton.Click += new EventHandler(OwnerButton_Click);
+			this.SharedButton.Click += new EventHandler(SharedButton_Click);
 		}
 
 		#endregion
@@ -316,6 +386,63 @@ namespace Novell.iFolderApp.Web
 				iFolderPagging.Index = 0;
 				BindData();
 			}
+		}
+
+		/// <summary>
+		/// Switch the page
+		/// </summary>
+		/// <param name="mode"></param>
+		private void SwitchPage(Mode mode)
+		{
+			ViewState["Mode"] = mode;
+
+			// reset search
+			ViewState["SearchPattern"] = null;
+
+			// reset index
+			iFolderPagging.Index = 0;
+
+			BindData();
+		}
+
+		/// <summary>
+		/// All Button Click
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void AllButton_Click(object sender, EventArgs e)
+		{
+			SwitchPage(Mode.All);
+		}
+
+		/// <summary>
+		/// New Button Click
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void NewButton_Click(object sender, EventArgs e)
+		{
+			SwitchPage(Mode.New);
+		}
+
+		/// <summary>
+		/// Owner Button Click
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void OwnerButton_Click(object sender, EventArgs e)
+		{
+			SwitchPage(Mode.Owner);
+		}
+
+		/// <summary>
+		/// Shared Button Click
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void SharedButton_Click(object sender, EventArgs e)
+		{
+			SwitchPage(Mode.Shared);
 		}
 	}
 }
