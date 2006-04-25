@@ -35,6 +35,9 @@ using Simias.Client;
 
 namespace Simias.Host
 {
+	/// <summary>
+	/// HostService - WebService class
+	/// </summary>
 	public class HostService : WebService
 	{
 		/// <summary>Instance of the store.</summary>
@@ -88,6 +91,9 @@ namespace Simias.Host
 		}
 	}
 
+	/// <summary>
+	/// HostLocation - WebService class
+	/// </summary>
 	[WebService(Namespace = "http://novell.com/simias/host/location")]
 	public class HostLocation : HostService
 	{
@@ -132,6 +138,9 @@ namespace Simias.Host
 			return null;
 		}
 
+		/// <summary>
+		///  Method to get all configured hosts
+		/// </summary>
 		[WebMethod]
 		public HostInfo[] GetHosts()
 		{
@@ -150,10 +159,14 @@ namespace Simias.Host
 			{
 				infoList = new HostInfo[0];
 			}
+
 			return infoList;
 		}
 	}
 
+	/// <summary>
+	/// HostAdmin - 
+	/// </summary>
 	[WebService(Namespace = "http://novell.com/simias/host")]
 	public class HostAdmin : HostService
 	{
@@ -162,6 +175,9 @@ namespace Simias.Host
 			get { return true; }
 		}
 
+		/// <summary>
+		/// HostAdmin - default constructor 
+		/// </summary>
 		public HostAdmin() 
 		{
 		}
@@ -299,14 +315,40 @@ namespace Simias.Host
 		}
 	}
 
+	/// <summary>
+	/// HostInfo class
+	/// </summary>
 	public class HostInfo
 	{
+		/// <summary>
+		/// Host's unique ID
+		/// </summary>
 		public string ID;
+
+		/// <summary>
+		/// External facing address for clients
+		/// </summary>
 		public string PublicAddress;
+
+		/// <summary>
+		/// Internal facing address for server to 
+		/// server communication.
+		/// </summary>
 		public string PrivateAddress;
+
+		/// <summary>
+		/// Public key for host to host authentication
+		/// </summary>
 		public string PublicKey;
+
+		/// <summary>
+		/// true = Master, false = Slave
+		/// </summary>
 		public bool Master;
 
+		/// <summary>
+		/// HostInfo default constructor
+		/// </summary>
 		public HostInfo()
 		{
 		}

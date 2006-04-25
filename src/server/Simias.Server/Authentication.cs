@@ -302,12 +302,11 @@ namespace Simias.Server
 		/// <summary>
 		/// Performs authentication to the specified domain.
 		/// </summary>
-		/// <param name="domain">Domain to authenticate to.</param>
-		/// <param name="httpContext">HTTP-specific request information. This is passed as a parameter so that a domain 
-		/// provider may modify the HTTP request by adding special headers as necessary.
+		/// <param name="Domain">Domain to authenticate to.</param>
+		/// <param name="HttpContext">HTTP-specific request information. This is passed as a parameter so that a domain
+		/// provider may modify the HTTP request by adding special headers as necessary.</param>
 		/// 
 		/// NOTE: The domain provider must NOT end the HTTP request.
-		/// </param>
 		/// <returns>The status from the authentication.</returns>
 		public
 		Simias.Authentication.Status
@@ -499,8 +498,8 @@ namespace Simias.Server
 			Collection collection = store.GetSingleCollectionByType( "Enterprise" );
 			if ( collection.ID == domainID )
 			{
-					log.Debug( "  returning true" );
-					return true;
+				log.Debug( "  returning true" );
+				return true;
 			}
 			
 			log.Debug( "  returning false" );

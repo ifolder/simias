@@ -5,6 +5,12 @@
     <setting name="AdminName" value="admin" />
     <setting name="AdminPassword" value="simias" />
   </section>
+  <section name="Server">
+    <setting name="Name" value="Host1" />
+    <setting name="PublicAddress" value="137.65.168.29" />
+    <setting name="PrivateAddress" value="137.65.168.29" />
+    <setting name="MasterAddress" value="137.65.168.29" />
+  </section>
   <section name="Authentication">
 	<setting name="SimiasAuthNotRequired" value="Registration.asmx, Login.ashx, Simias.asmx:PingSimias, DomainService.asmx:GetDomainID, pubrss.ashx, pubsfile.ashx" />
 	<setting name="SimiasRequireSSL" value="no" />

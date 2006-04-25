@@ -66,21 +66,21 @@ namespace Simias.Server
 		/// The actual provisioning is handled by the registered
 		/// provider.
 		/// </summary>
-		public static Simias.Host.HostInfo ProvisionUser( string userName )
+		public static Simias.Host.HostInfo ProvisionUser( string Username )
 		{
 			if (callout != null)
 			{
-				logger.Debug( "Provsioning user {0}", userName );
-				return callout( userName );
+				logger.Debug( "Provsioning user {0}", Username );
+				return callout( Username );
 			}
 			else
 			{
-				logger.Debug( "Provisioning user {0} using the default algorythm", userName );
-				return defaultProvisionUser( userName );
+				logger.Debug( "Provisioning user {0} using the default algorithm", Username );
+				return defaultProvisionUser( Username );
 			}
 		}
 
-		private static Simias.Host.HostInfo defaultProvisionUser( string userName )
+		private static Simias.Host.HostInfo defaultProvisionUser( string Username )
 		{
 			// Return the host we are running on.
 			return new Simias.Host.HostInfo( HostNode.GetLocalHost() );
@@ -92,6 +92,8 @@ namespace Simias.Server
 	/// </summary>
 	public interface IProvisionUserProvider
 	{
+		/// <summary>
+		/// </summary>
 		Simias.Host.HostInfo ProvisionUser( string userName );
 	}
 
@@ -159,8 +161,8 @@ namespace Simias.Server
 			HostNode[] hArray = HostNode.GetHosts( domain.ID );
 			foreach ( HostNode host in hArray )
 			{
-				HostEntry he = new HostEntry( host );
-				hosts.Add( he );
+				HostEntry hostentry = new HostEntry( host );
+				hosts.Add( hostentry );
 			}
 			
 			hosts.Sort();
@@ -183,25 +185,27 @@ namespace Simias.Server
 			Member member = domain.GetNodeByID( args.Node ) as Member;
 			if (member.IsType( HostNode.HostNodeType ) )
 			{
-				HostNode hn = new HostNode( member );
-				HostEntry he = new HostEntry( hn );
-				hosts.Add( he );
+				HostNode hostnode = new HostNode( member );
+				HostEntry hostentry = new HostEntry( hostnode );
+				hosts.Add( hostentry );
 			}
 		}
 	
 		#region IProvisionUserProvider Members
-		public Simias.Host.HostInfo ProvisionUser( string userName )
+		/// <summary>
+		/// </summary>
+		public Simias.Host.HostInfo ProvisionUser( string Username )
 		{
-			HostNode hn = null;
-			Member member = domain.GetMemberByName( userName );
+			HostNode hostnode = null;
+			Member member = domain.GetMemberByName( Username );
 			if ( member != null )
 			{
-				hn = member.HomeServer;
-				if ( hn == null )
+				hostnode = member.HomeServer;
+				if ( hostnode == null )
 				{
-					HostEntry he = (HostEntry)hosts[0];
-					hn = he.Host;
-					he.AddMember( domain, member );
+					HostEntry hostentry = hosts[0] as HostEntry;
+					hostnode = hostentry.Host;
+					hostentry.AddMember( domain, member );
 					lock ( hosts )
 					{
 						hosts.Sort();
@@ -209,14 +213,18 @@ namespace Simias.Server
 				}
 			}
 
-			return hn == null ? null : new Simias.Host.HostInfo( hn );
+			return hostnode == null ? null : new Simias.Host.HostInfo( hostnode );
 		}
 		#endregion
 	}
 
+	/// <summary>
+	/// </summary>
 	public class AttributeProvisionUserProvider : IProvisionUserProvider
 	{
 		#region IProvisionUserProvider Members
+		/// <summary>
+		/// </summary>
 		public Simias.Host.HostInfo ProvisionUser( string userName )
 		{
 			// TODO:  Add AttributeProvisionUserProvider.ProvisionUser implementation

@@ -139,6 +139,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "DomainService.asmx.resx"
+                    DependentUpon = "DomainService.asmx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "HostProvider.cs"
                     SubType = "Code"
                     BuildAction = "Compile"

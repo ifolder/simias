@@ -38,6 +38,8 @@ using Simias.Server;
 
 namespace Simias.Host
 {
+	/// <summary>
+	/// </summary>
 	public class SlaveSetup
 	{
 		private static string tempHostFileName = ".host.xml";
@@ -111,6 +113,8 @@ namespace Simias.Host
 			return rsa;
 		}
 
+		/// <summary>
+		/// </summary>
 		public static RSACryptoServiceProvider CreateKeys(string storePath)
 		{
 			try
@@ -125,6 +129,8 @@ namespace Simias.Host
 			}
 		}
 
+		/// <summary>
+		/// </summary>
 		public static void SaveInitObjects(string storePath, string domain, string owner, string host, RSACryptoServiceProvider rsa)
 		{
 			SaveDomain(storePath, domain);
@@ -173,7 +179,7 @@ namespace Simias.Host
 			hostDomain = domain;
 
 			// Check if this is the master server.
-			bool master = (hostDomain.Role == SyncRoles.Master) ? true : false;
+			bool master = ( hostDomain.Role == SyncRoles.Master ) ? true : false;
 			
 			// Get the HostDomain
 			// If the HostNode does not exist create it.

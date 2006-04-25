@@ -201,8 +201,11 @@ namespace Simias.DomainService.Web
 
 			// find user
 			Member member = domain.GetMemberByName( user );
-			if (member != null)
+			if ( member != null )
 			{
+				// Provision the user on a host
+				Simias.Server.ProvisionService.ProvisionUser( user );
+
 				info = new ProvisionInfo();
 				info.UserID = member.UserID;
 
