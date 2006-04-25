@@ -471,7 +471,7 @@ namespace iFolder.WebService
 			
 			Collection c = store.GetCollectionByID(ifolderID);
 			
-			if (c == null)  throw new iFolderDoesNotExistException(ifolderID);
+			if (c == null) throw new iFolderDoesNotExistException(ifolderID);
 
 			// impersonate
 			Impersonate(c, accessID);
@@ -492,41 +492,30 @@ namespace iFolder.WebService
 		/// <summary>
 		/// Publish an iFolder
 		/// </summary>
-		/// <param name="ifolder">The ID or friendly name of the iFolder</param>
-		/// <param name="publish">true == Publish, false == Unpublish.</param>
-		/// <param name="accessID">The Access ID</param>
-		/// <returns>true - Success, false - Failure</returns>
-		/// <remarks>Only the owner can publich an iFolder.</remarks>
-		public static bool PublishiFolder(string ifolder, bool publish, string accessID)
+		/// <param name="ifolderID">The id of the iFolder.</param>
+		/// <param name="publish">The new published state.</param>
+		/// <param name="accessID">The access id.</param>
+		/// <remarks>Only the owner of the iFolder can publish it.</remarks>
+		public static void PublishiFolder(string ifolderID, bool publish, string accessID)
 		{
 			Store store = Store.GetStore();
-			Collection c = store.GetCollectionByID( ifolder );
-			if ( c == null )
-			{
-				c = store.GetSingleCollectionByName( ifolder );
-				if ( c == null )
-				{
-					return false;
-				}
-			}
+			Collection c = store.GetCollectionByID(ifolderID);
+
+			if (c == null) throw new iFolderDoesNotExistException(ifolderID);
 			
-			if ( c.Owner.UserID != accessID )
-			{
-				return false;
-			}
+			if (c.Owner.UserID != accessID) throw new AccessException(c, null, Access.Rights.Admin, "Only the owner can publish an iFolder.");
 			
-			if ( publish == true )
+			if (publish)
 			{
-				Property pubProp = new Property( PropertyTags.Published, true );
-				c.Properties.ModifyProperty( pubProp );
+				Property prop = new Property(PropertyTags.Published, true);
+				c.Properties.ModifyProperty(prop);
 			}
 			else
 			{
-				c.Properties.DeleteSingleProperty( PropertyTags.Published );
+				c.Properties.DeleteSingleProperty(PropertyTags.Published);
 			}
 				
-			c.Commit( c );
-			return true;
+			c.Commit(c);
 		}
 	}
 }

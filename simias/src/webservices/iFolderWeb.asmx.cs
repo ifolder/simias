@@ -30,7 +30,7 @@ using System.Collections;
 namespace iFolder.WebService
 {
 	/// <summary>
-	/// iFolder Web Web Service
+	/// iFolder Web Service
 	/// </summary>
 	[WebService(
 		 Namespace="http://novell.com/ifolder/webservice/",
@@ -53,11 +53,11 @@ namespace iFolder.WebService
 
 
 		/// <summary>
-		/// Get iFolder Server Information
+		/// Get information about the authenticated user's home iFolder server.
 		/// </summary>
-		/// <returns>An iFolderServer Object</returns>
+		/// <returns>An iFolderServer object describing the user's home iFolder server.</returns>
 		[WebMethod(
-			 Description="Get iFolder Server Information",
+			 Description="Get information about the authenticated user's home iFolder server.",
 			 EnableSession=true)]
 		public iFolderServer GetServer()
 		{
@@ -76,11 +76,11 @@ namespace iFolder.WebService
 		}
 
 		/// <summary>
-		/// Get iFolder System Information
+		/// Get information about the iFolder system.
 		/// </summary>
-		/// <returns>An iFolderSystem Object</returns>
+		/// <returns>An iFolderSystem object.</returns>
 		[WebMethod(
-			 Description="Get iFolder System Information",
+			 Description="Get information about the iFolder system.",
 			 EnableSession=true)]
 		public iFolderSystem GetSystem()
 		{
@@ -103,13 +103,13 @@ namespace iFolder.WebService
 		#region iFolders
 
 		/// <summary>
-		/// Create a New iFolder
+		/// Create a new iFolder with the authenticated user as the owner.
 		/// </summary>
-		/// <param name="name">The New iFolder Name</param>
-		/// <param name="description">The New iFolder Description</param>
-		/// <returns>An iFolder Object</returns>
+		/// <param name="name">The name of the new iFolder.</param>
+		/// <param name="description">The description of the new iFolder. </param>
+		/// <returns>An iFolder object describing the new iFolder.</returns>
 		[WebMethod(
-			 Description="Create a New iFolder",
+			 Description="Create a new iFolder with the authenticated user as the owner.",
 			 EnableSession=true)]
 		public iFolder CreateiFolder(string name, string description)
 		{
@@ -132,8 +132,8 @@ namespace iFolder.WebService
 		/// <summary>
 		/// Delete an iFolder
 		/// </summary>
-		/// <param name="ifolderID">The iFolder ID</param>
-		/// <remarks>This API will accept multiple iFolder IDs in a comma delimited list.</remarks>
+		/// <param name="ifolderID">The id of the iFolder to be deleted.</param>
+		/// <remarks>This API will accept multiple iFolder ids in a comma delimited list.</remarks>
 		[WebMethod(
 			 Description="Delete an iFolder",
 			 EnableSession=true)]
@@ -171,12 +171,12 @@ namespace iFolder.WebService
 		}
 
 		/// <summary>
-		/// Remove Rights to a iFolder
+		/// Remove the authenticated user's rights to an iFolder.
 		/// </summary>
-		/// <param name="ifolderID">The iFolder ID</param>
-		/// <remarks>This API will accept multiple iFolder IDs in a comma delimited list.</remarks>
+		/// <param name="ifolderID">The id of the iFolder.</param>
+		/// <remarks>This API will accept multiple iFolder ids in a comma delimited list.</remarks>
 		[WebMethod(
-			 Description="Remove Rights to a iFolder",
+			 Description="Remove the authenticated user's rights to an iFolder.",
 			 EnableSession=true)]
 		public void RemoveiFolder(string ifolderID)
 		{
@@ -216,12 +216,12 @@ namespace iFolder.WebService
 		}
 
 		/// <summary>
-		/// Get an iFolder
+		/// Get information about an iFolder.
 		/// </summary>
-		/// <param name="ifolderID">The iFolder ID</param>
-		/// <returns>An iFolder Object</returns>
+		/// <param name="ifolderID">The id of the iFolder.</param>
+		/// <returns>An iFolder object describing the iFolder.</returns>
 		[WebMethod(
-			 Description="Get an iFolder",
+			 Description="Get information about an iFolder.",
 			 EnableSession=true)]
 		public iFolder GetiFolder(string ifolderID)
 		{
@@ -240,12 +240,13 @@ namespace iFolder.WebService
 		}
 		
 		/// <summary>
-		/// Get iFolder Details
+		/// Get detailed information about an iFolder.
 		/// </summary>
-		/// <param name="ifolderID">The iFolder ID</param>
-		/// <returns>An iFolderDetails Object</returns>
+		/// <param name="ifolderID">The id of the iFolder</param>
+		/// <returns>An iFolderDetails object describing the iFolder</returns>
+		/// <remarks>It is more expensive to call GetiFolderDetails than GetiFolder.</remarks>
 		[WebMethod(
-			 Description="Get iFolder Details",
+			 Description="Get detailed information about an iFolder.",
 			 EnableSession=true)]
 		public iFolderDetails GetiFolderDetails(string ifolderID)
 		{
@@ -264,12 +265,12 @@ namespace iFolder.WebService
 		}
 		
 		/// <summary>
-		/// Set the Description of an iFolder
+		/// Set the description of an iFolder.
 		/// </summary>
-		/// <param name="ifolderID">The iFolder ID</param>
-		/// <param name="description">The New iFolder's Description</param>
+		/// <param name="ifolderID">The id of the iFolder.</param>
+		/// <param name="description">The new description for the iFolder.</param>
 		[WebMethod(
-			 Description="Set the Description of an iFolder",
+			 Description="Set the description of an iFolder.",
 			 EnableSession=true)]
 		public void SetiFolderDescription(string ifolderID, string description)
 		{
@@ -284,14 +285,14 @@ namespace iFolder.WebService
 		}
 
 		/// <summary>
-		/// Get iFolders
+		/// Get information about all the iFolders to which the authenticate user has rights.
 		/// </summary>
-		/// <param name="index">The Search Start Index</param>
-		/// <param name="count">The Search Max Count of Results</param>
-		/// <param name="total">The Total Number of Results</param>
-		/// <returns>An Array of iFolder Objects</returns>
+		/// <param name="index">The starting index for the search results.</param>
+		/// <param name="count">The max number of search results to be returned.</param>
+		/// <param name="total">The total number of search results available.</param>
+		/// <returns>An array of iFolder objects.</returns>
 		[WebMethod(
-			 Description="Get iFolders",
+			 Description="Get information about all the iFolders to which the authenticate user has rights.",
 			 EnableSession=true)]
 		public iFolder[] GetiFolders(int index, int count, out int total)
 		{
@@ -313,12 +314,12 @@ namespace iFolder.WebService
 		}
 
 		/// <summary>
-		/// Get an iFolder by Name
+		/// Get information about an iFolder identified by the given name.
 		/// </summary>
-		/// <param name="ifolderName">The iFolder Name</param>
-		/// <returns>An iFolder Object</returns>
+		/// <param name="ifolderName">The name of the iFolder.</param>
+		/// <returns>An iFolder object.</returns>
 		[WebMethod(
-			 Description="Get an iFolder by Name",
+			 Description="Get information about an iFolder identified by the given name.",
 			 EnableSession=true)]
 		public iFolder GetiFolderByName(string ifolderName)
 		{
@@ -337,16 +338,16 @@ namespace iFolder.WebService
 		}
 		
 		/// <summary>
-		/// Get iFolders by Name
+		/// Get information about iFolders identified by the search operation and pattern.
 		/// </summary>
-		/// <param name="operation">The Search Operation</param>
-		/// <param name="pattern">The Search Pattern</param>
-		/// <param name="index">The Search Start Index</param>
-		/// <param name="count">The Search Max Count of Results</param>
-		/// <param name="total">The Total Number of Results</param>
-		/// <returns>An Array of iFolder Objects</returns>
+		/// <param name="operation">The operation for the search.</param>
+		/// <param name="pattern">The pattern for the search.</param>
+		/// <param name="index">The starting index for the search results.</param>
+		/// <param name="count">The max number of search results to be returned.</param>
+		/// <param name="total">The total number of search results available.</param>
+		/// <returns>An array of iFolder objects.</returns>
 		[WebMethod(
-			 Description="Get iFolders by Name",
+			 Description="Get information about iFolders identified by the search operation and pattern.",
 			 EnableSession=true)]
 		public iFolder[] GetiFoldersByName(SearchOperation operation, string pattern, int index, int count, out int total)
 		{
@@ -368,18 +369,18 @@ namespace iFolder.WebService
 		}
 
 		/// <summary>
-		/// Get iFolders by Name
+		/// Get information about iFolder identified by role, creation time, and search operation and pattern.
 		/// </summary>
-		/// <param name="role">Member Role</param>
-		/// <param name="after">iFolder Created After</param>
-		/// <param name="operation">The Search Operation</param>
-		/// <param name="pattern">The Search Pattern</param>
-		/// <param name="index">The Search Start Index</param>
-		/// <param name="count">The Search Max Count of Results</param>
-		/// <param name="total">The Total Number of Results</param>
-		/// <returns>An Array of iFolder Objects</returns>
+		/// <param name="role">The required authenticated user's role in the Folder.</param>
+		/// <param name="after">The required earliest limit on the creation date of the iFolder. </param>
+		/// <param name="operation">The operation for the search.</param>
+		/// <param name="pattern">The pattern for the search.</param>
+		/// <param name="index">The starting index for the search results.</param>
+		/// <param name="count">The max number of search results to be returned.</param>
+		/// <param name="total">The total number of search results available.</param>
+		/// <returns>An array of iFolder objects.</returns>
 		[WebMethod(
-			 Description="Get iFolders by Name",
+			 Description="Get information about iFolder identified by role, creation time, and search operation and pattern.",
 			 EnableSession=true)]
 		public iFolder[] GetiFoldersBySearch(MemberRole role, DateTime after, SearchOperation operation, string pattern, int index, int count, out int total)
 		{
@@ -401,23 +402,18 @@ namespace iFolder.WebService
 		}
 
 		/// <summary>
-		/// Publish an iFolder
+		/// Publish an iFolder.
 		/// </summary>
-		/// <param name="ifolder">The ID or friendly name of the iFolder.</param>
-		/// <param name="publish">true == Publish, false == Unpublish.</param>
+		/// <param name="ifolderID">The id of the iFolder.</param>
+		/// <param name="publish">The published state of the iFolder</param>
 		[WebMethod(
-			 Description="Publish an iFolder",
+			 Description="Publish an iFolder.",
 			 EnableSession=true)]
-		public void PublishiFolder(string ifolder, bool publish)
+		public void PublishiFolder(string ifolderID, bool publish)
 		{
 			try
 			{
-				if ( !iFolder.PublishiFolder( ifolder, publish, GetAccessID() ) )
-				{
-					ApplicationException ae = 
-						new ApplicationException( "Failed to publish: " + ifolder );
-					SmartException.Throw( ae );
-				}
+				iFolder.PublishiFolder(ifolderID, publish, GetAccessID());
 			}
 			catch(Exception e)
 			{
@@ -430,11 +426,11 @@ namespace iFolder.WebService
 		#region Users
 
 		/// <summary>
-		/// Get the Authenticated User
+		/// Get information about the authenticated user.
 		/// </summary>
-		/// <returns>An iFolderUser Object</returns>
+		/// <returns>An iFolderUser object describing the authenticated user.</returns>
 		[WebMethod(
-			 Description="Get the Authenticated User",
+			 Description="Get information about the authenticated user.",
 			 EnableSession=true)]
 		public iFolderUser GetAuthenticatedUser()
 		{
@@ -455,12 +451,12 @@ namespace iFolder.WebService
 		}
 
 		/// <summary>
-		/// Get a User
+		/// Get information about a user.
 		/// </summary>
-		/// <param name="userID">The User ID</param>
-		/// <returns>A User Object</returns>
+		/// <param name="userID">The id of the user.</param>
+		/// <returns>A user object.</returns>
 		[WebMethod(
-			 Description="Get a User",
+			 Description="Get information about a user.",
 			 EnableSession=true)]
 		public iFolderUser GetUser(string userID)
 		{
@@ -479,15 +475,15 @@ namespace iFolder.WebService
 		}
 
 		/// <summary>
-		/// Get the Members of an iFolder
+		/// Get information about the members of an iFolder.
 		/// </summary>
-		/// <param name="ifolderID">The iFolder ID</param>
-		/// <param name="index">The Search Start Index</param>
-		/// <param name="count">The Search Max Count of Results</param>
-		/// <param name="total">The Total Number of Results</param>
-		/// <returns>An Array of Member User Objects</returns>
+		/// <param name="ifolderID">The id of the iFolder.</param>
+		/// <param name="index">The starting index for the search results.</param>
+		/// <param name="count">The max number of search results to be returned.</param>
+		/// <param name="total">The total number of search results available.</param>
+		/// <returns>An array of iFolderUser objects describing the members.</returns>
 		[WebMethod(
-			 Description="Get the Members of an iFolder",
+			 Description="Get information about the members of an iFolder.",
 			 EnableSession=true)]
 		public iFolderUser[] GetMembers(string ifolderID, int index, int count, out int total)
 		{
@@ -506,16 +502,15 @@ namespace iFolder.WebService
 			return result;
 		}
 
-
 		/// <summary>
-		/// Set the Rights of an iFolder Member
+		/// Set the rights of a member on an iFolder.
 		/// </summary>
-		/// <param name="ifolderID">The iFolder ID</param>
-		/// <param name="userID">The Member's User ID</param>
-		/// <param name="rights">The Member's New Rights</param>
-		/// <remarks>This API will accept multiple User IDs in a comma delimited list.</remarks>
+		/// <param name="ifolderID">The id of the iFolder.</param>
+		/// <param name="userID">The user id of the member.</param>
+		/// <param name="rights">The rights to be set.</param>
+		/// <remarks>This API will accept multiple user ids in a comma delimited list.</remarks>
 		[WebMethod(
-			 Description="Set the Rights of an iFolder Member",
+			 Description="Set the rights of a member on an iFolder.",
 			 EnableSession=true)]
 		public void SetMemberRights(string ifolderID, string userID, Simias.Storage.Access.Rights rights)
 		{
@@ -551,14 +546,14 @@ namespace iFolder.WebService
 		}
 
 		/// <summary>
-		/// Add a Member to an iFolder
+		/// Add a member to an iFolder.
 		/// </summary>
-		/// <param name="ifolderID">The iFolder ID</param>
-		/// <param name="userID">The New Member's User ID</param>
-		/// <param name="rights">The New Member's Rights</param>
-		/// <remarks>This API will accept multiple User IDs in a comma delimited list.</remarks>
+		/// <param name="ifolderID">The id of iFolder.</param>
+		/// <param name="userID">The user id of the new member.</param>
+		/// <param name="rights">The rights of the new member on the iFolder.</param>
+		/// <remarks>This API will accept multiple user ids in a comma delimited list.</remarks>
 		[WebMethod(
-			 Description="Add a Member to an iFolder",
+			 Description="Add a member to an iFolder.",
 			 EnableSession=true)]
 		public void AddMember(string ifolderID, string userID, Simias.Storage.Access.Rights rights)
 		{   
@@ -595,13 +590,13 @@ namespace iFolder.WebService
 		}
 
 		/// <summary>
-		/// Remove a Member from an iFolder
+		/// Remove a member from an iFolder.
 		/// </summary>
-		/// <param name="ifolderID">The iFolder ID</param>
-		/// <param name="userID">The Member's User ID</param>
-		/// <remarks>This API will accept multiple User IDs in a comma delimited list.</remarks>
+		/// <param name="ifolderID">The id of the iFolder.</param>
+		/// <param name="userID">The user id of the member.</param>
+		/// <remarks>This API will accept multiple user ids in a comma delimited list.</remarks>
 		[WebMethod(
-			 Description="Remove a Member from an iFolder",
+			 Description="Remove a member from an iFolder.",
 			 EnableSession=true)]
 		public void RemoveMember(string ifolderID, string userID)
 		{
@@ -638,12 +633,12 @@ namespace iFolder.WebService
 		}
 
 		/// <summary>
-		/// Set the Owner of an iFolder
+		/// Set the owner of an iFolder.
 		/// </summary>
-		/// <param name="ifolderID">The iFolder ID</param>
-		/// <param name="userID">The New Owner's User ID</param>
+		/// <param name="ifolderID">The id of the iFolder.</param>
+		/// <param name="userID">The user id of the new owner.</param>
 		[WebMethod(
-			 Description="Set the Owner of an iFolder",
+			 Description="Set the owner of an iFolder.",
 			 EnableSession=true)]
 		public void SetiFolderOwner(string ifolderID, string userID)
 		{
@@ -658,11 +653,11 @@ namespace iFolder.WebService
 		}
 
 		/// <summary>
-		/// Get the iFolder Users
+		/// Get information about all of the iFolder users.
 		/// </summary>
-		/// <param name="index">The Search Start Index</param>
-		/// <param name="count">The Search Max Count of Results</param>
-		/// <param name="total">The Total Number of Results</param>
+		/// <param name="index">The starting index for the search results.</param>
+		/// <param name="count">The max number of search results to be returned.</param>
+		/// <param name="total">The total number of search results available.</param>
 		/// <returns>An array of Users</returns>
 		[WebMethod(
 			 Description="Get the iFolder Users",
@@ -685,17 +680,17 @@ namespace iFolder.WebService
 		}
 
 		/// <summary>
-		/// Search the Users of the iFolder System
+		/// Get information about all of the iFolder users identified by the search property, operation, and pattern.
 		/// </summary>
-		/// <param name="property">The Search Property</param>
-		/// <param name="operation">The Search Operation</param>
-		/// <param name="pattern">The Search Pattern</param>
-		/// <param name="index">The Search Start Index</param>
-		/// <param name="count">The Search Max Count of Results</param>
-		/// <param name="total">The Total Number of Results</param>
-		/// <returns>An Array of iFolderUser Objects</returns>
+		/// <param name="property">The property to search.</param>
+		/// <param name="operation">The operation to compare the property and pattern.</param>
+		/// <param name="pattern">The pattern to search</param>
+		/// <param name="index">The starting index for the search results.</param>
+		/// <param name="count">The max number of search results to be returned.</param>
+		/// <param name="total">The total number of search results available.</param>
+		/// <returns>An array of iFolderUser objects.</returns>
 		[WebMethod(
-			 Description="Search the Users of the iFolder System",
+			 Description="Get information about all of the iFolder users identified by the search property, operation, and pattern.",
 			 EnableSession=true)]
 		public iFolderUser[] GetUsersBySearch(SearchProperty property, SearchOperation operation, string pattern, int index, int count, out int total)
 		{
@@ -719,11 +714,11 @@ namespace iFolder.WebService
 		#region Policy
 		
 		/// <summary>
-		/// Get the Authenticated User Policy
+		/// Get policy information for the authenticated user.
 		/// </summary>
-		/// <returns>A UserPolicy Object</returns>
+		/// <returns>A UserPolicy object describing the authenticated user's policy.</returns>
 		[WebMethod(
-			 Description="Get the Authenticated User Policy",
+			 Description="Get policy information for the authenticated user.",
 			 EnableSession=true)]
 		public UserPolicy GetAuthenticatedUserPolicy()
 		{
@@ -744,12 +739,12 @@ namespace iFolder.WebService
 		}
 
 		/// <summary>
-		/// Get iFolder Policy
+		/// Get policy information for an iFolder.
 		/// </summary>
-		/// <param name="ifolderID">An iFolder ID</param>
-		/// <returns>A iFolderPolicy Object</returns>
+		/// <param name="ifolderID">The id of an iFolder.</param>
+		/// <returns>A iFolderPolicy object.</returns>
 		[WebMethod(
-			 Description="Get iFolder Policy",
+			 Description="Get policy information for an iFolder.",
 			 EnableSession=true)]
 		public iFolderPolicy GetiFolderPolicy(string ifolderID)
 		{
@@ -770,11 +765,11 @@ namespace iFolder.WebService
 		}
 
 		/// <summary>
-		/// Set iFolder Policy
+		/// Set the policy for an iFolder.
 		/// </summary>
-		/// <param name="props">The iFolderPolicy Object</param>
+		/// <param name="props">The iFolderPolicy object.</param>
 		[WebMethod(
-			 Description="Set iFolder Policy",
+			 Description="Set the policy for an iFolder.",
 			 EnableSession=true)]
 		public void SetiFolderPolicy(iFolderPolicy props)
 		{
@@ -795,15 +790,15 @@ namespace iFolder.WebService
 		#region Entries
 
 		/// <summary>
-		/// Create An iFolder File or Directory Entry
+		/// Create an iFolder entry (file or directory).
 		/// </summary>
-		/// <param name="ifolderID">The iFolder ID</param>
-		/// <param name="parentID">The Parent Entry ID</param>
-		/// <param name="type">The iFolder Entry Type</param>
-		/// <param name="entryName">The New Entry Name</param>
-		/// <returns>An iFolderEntry Object</returns>
+		/// <param name="ifolderID">The id of the iFolder.</param>
+		/// <param name="parentID">The id of the parent or containing entry.</param>
+		/// <param name="type">The type (file or directory for the entry.</param>
+		/// <param name="entryName">The name of the new entry.</param>
+		/// <returns>An iFolderEntry object describing the new entry.</returns>
 		[WebMethod(
-			 Description="Create An iFolder File or Directory Entry",
+			 Description="Create an iFolder entry (file or directory).",
 			 EnableSession=true)]
 		public iFolderEntry CreateEntry(string ifolderID, string parentID, iFolderEntryType type, string entryName)
 		{
@@ -822,13 +817,13 @@ namespace iFolder.WebService
 		}
 		
 		/// <summary>
-		/// Delete An iFolder Entry
+		/// Delete an iFolder entry.
 		/// </summary>
-		/// <param name="ifolderID">The iFolder ID</param>
-		/// <param name="entryID">The Entry ID</param>
-		/// <remarks>This API will accept multiple Entry IDs in a comma delimited list.</remarks>
+		/// <param name="ifolderID">The id of the iFolder.</param>
+		/// <param name="entryID">The id of the entry to be deleted.</param>
+		/// <remarks>This API will accept multiple entry ids in a comma delimited list.</remarks>
 		[WebMethod(
-			 Description="Delete An iFolder Entry",
+			 Description="Delete an iFolder entry.",
 			 EnableSession=true)]
 		public void DeleteEntry(string ifolderID, string entryID)
 		{
@@ -857,13 +852,13 @@ namespace iFolder.WebService
 		}
 		
 		/// <summary>
-		/// Get An iFolder Entry
+		/// Get information about an iFolder entry.
 		/// </summary>
-		/// <param name="ifolderID">The iFolder ID</param>
-		/// <param name="entryID">The Entry ID</param>
-		/// <returns>An iFolderEntry Object</returns>
+		/// <param name="ifolderID">The id of the iFolder containing the entry.</param>
+		/// <param name="entryID">The id of the entry.</param>
+		/// <returns>An iFolderEntry object.</returns>
 		[WebMethod(
-			 Description="Get An iFolder Entry",
+			 Description="Get information about an iFolder entry.",
 			 EnableSession=true)]
 		public iFolderEntry GetEntry(string ifolderID, string entryID)
 		{
@@ -882,13 +877,13 @@ namespace iFolder.WebService
 		}
 		
 		/// <summary>
-		/// Get An iFolder Entry By Relative Path
+		/// Get information about an entry identified by it's relative path in the iFolder.
 		/// </summary>
-		/// <param name="ifolderID">The iFolder ID</param>
-		/// <param name="entryPath">The Entry Path</param>
-		/// <returns>An iFolderEntry Object</returns>
+		/// <param name="ifolderID">The id of the iFolder containing the entry.</param>
+		/// <param name="entryPath">The relative path of entry.</param>
+		/// <returns>An iFolderEntry object.</returns>
 		[WebMethod(
-			 Description="Get An iFolder Entry",
+			 Description="Get information about an entry identified by it's relative path in the iFolder.",
 			 EnableSession=true)]
 		public iFolderEntry GetEntryByPath(string ifolderID, string entryPath)
 		{
@@ -907,16 +902,16 @@ namespace iFolder.WebService
 		}
 		
 		/// <summary>
-		/// Get iFolder Entries
+		/// Get information about entries in an iFolder identified by their parent entry.
 		/// </summary>
-		/// <param name="ifolderID">The iFolder ID</param>
-		/// <param name="entryID">The Parent Entry ID</param>
-		/// <param name="index">The Search Start Index</param>
-		/// <param name="count">The Search Max Count of Results</param>
-		/// <param name="total">The Total Number of Results</param>
-		/// <returns>An Array of iFolderEntry Objects</returns>
+		/// <param name="ifolderID">The id of the iFolder.</param>
+		/// <param name="entryID">The id of the parent entry (can be null for the root of the iFolder).</param>
+		/// <param name="index">The starting index for the search results.</param>
+		/// <param name="count">The max number of search results to be returned.</param>
+		/// <param name="total">The total number of search results available.</param>
+		/// <returns>An array of iFolderEntry objects.</returns>
 		[WebMethod(
-			 Description="Get iFolders Entries",
+			 Description="Get information about entries identified by their parent entry.",
 			 EnableSession=true)]
 		public iFolderEntry[] GetEntries(string ifolderID, string entryID, int index, int count, out int total)
 		{
@@ -936,18 +931,18 @@ namespace iFolder.WebService
 		}
 
 		/// <summary>
-		/// Get iFolder Entries by Name
+		/// Get information about entries in an iFolder identified by a search on the name.
 		/// </summary>
-		/// <param name="ifolderID">The iFolder ID</param>
-		/// <param name="parentID">The Parent Entry ID</param>
-		/// <param name="operation">The Search Operation</param>
-		/// <param name="pattern">The Search Pattern</param>
-		/// <param name="index">The Search Start Index</param>
-		/// <param name="count">The Search Max Count of Results</param>
-		/// <param name="total">The Total Number of Results</param>
-		/// <returns>An Array of iFolderEntry Objects</returns>
+		/// <param name="ifolderID">The id of iFolder.</param>
+		/// <param name="parentID">The id of the parent entry.</param>
+		/// <param name="operation">The operation to compare the name and search pattern.</param>
+		/// <param name="pattern">The pattern to search.</param>
+		/// <param name="index">The starting index for the search results.</param>
+		/// <param name="count">The max number of search results to be returned.</param>
+		/// <param name="total">The total number of search results available.</param>
+		/// <returns>An array of iFolderEntry objects.</returns>
 		[WebMethod(
-			 Description="Get iFolders Entries",
+			 Description="Get information about entries in an iFolder identified by a search on the name.",
 			 EnableSession=true)]
 		public iFolderEntry[] GetEntriesByName(string ifolderID, string parentID, SearchOperation operation, string pattern, int index, int count, out int total)
 		{
@@ -971,14 +966,14 @@ namespace iFolder.WebService
 		#region Changes
 		
 		/// <summary>
-		/// Get Changes
+		/// Get a history of changes to an iFolder.
 		/// </summary>
-		/// <param name="ifolderID">The iFolder ID</param>
-		/// <param name="entryID">The Entry ID</param>
-		/// <param name="index">The Search Start Index</param>
-		/// <param name="count">The Search Max Count of Results</param>
-		/// <param name="total">The Total Number of Results</param>
-		/// <returns>An Array of iFolderEntry Objects</returns>
+		/// <param name="ifolderID">The id of the iFolder.</param>
+		/// <param name="entryID">The id of entry to filter the results (can be null for no filtering).</param>
+		/// <param name="index">The starting index for the search results.</param>
+		/// <param name="count">The max number of search results to be returned.</param>
+		/// <param name="total">The total number of search results available.</param>
+		/// <returns>An array of ChangeEntry objects.</returns>
 		[WebMethod(
 			 Description="Get Changes",
 			 EnableSession=true)]
@@ -1004,13 +999,13 @@ namespace iFolder.WebService
 		#region Files
 
 		/// <summary>
-		/// Open An iFolder File For Reading
+		/// Open an iFolder file entry for reading.
 		/// </summary>
-		/// <param name="ifolderID">The ID of the iFolder.</param>
-		/// <param name="entryID">The ID of the iFolder File Entry.</param>
-		/// <returns>A File ID.</returns>
+		/// <param name="ifolderID">The id of the iFolder.</param>
+		/// <param name="entryID">The id of the file entry.</param>
+		/// <returns>A file handle.</returns>
 		[WebMethod(
-			 Description="Open An iFolder File For Reading",
+			 Description="Open an iFolder file entry for reading.",
 			 EnableSession=true)]
 		public string OpenFileRead(string ifolderID, string entryID)
 		{
@@ -1032,14 +1027,14 @@ namespace iFolder.WebService
 		}
 
 		/// <summary>
-		/// Open An iFolder File For Writing
+		/// Open an iFolder file entry for writing.
 		/// </summary>
-		/// <param name="ifolderID">The iFolder ID</param>
-		/// <param name="entryID">The File Entry ID</param>
-		/// <param name="length">The File Length</param>
-		/// <returns>A File ID</returns>
+		/// <param name="ifolderID">The id of the iFolder.</param>
+		/// <param name="entryID">The id of the file entry.</param>
+		/// <param name="length">The length of the file to be written.</param>
+		/// <returns>A file handle.</returns>
 		[WebMethod(
-			 Description="Open An iFolder File For Writing",
+			 Description="Open an iFolder file entry for writing.",
 			 EnableSession=true)]
 		public string OpenFileWrite(string ifolderID, string entryID, long length)
 		{
@@ -1061,27 +1056,27 @@ namespace iFolder.WebService
 		}
 
 		/// <summary>
-		/// Read From An iFolder File
+		/// Read from an openned iFolder file entry.
 		/// </summary>
-		/// <param name="fileID">The File ID</param>
-		/// <param name="size">The File Buffer Size</param>
-		/// <returns>An Array of Bytes</returns>
+		/// <param name="file">The file handle.</param>
+		/// <param name="size">The max size of the return buffer.</param>
+		/// <returns>An array of bytes.</returns>
 		[WebMethod(
-			 Description="Read From An iFolder File",
+			 Description="Read from an openned iFolder file entry.",
 			 EnableSession=true)]
-		public byte[] ReadFile(string fileID, int size)
+		public byte[] ReadFile(string file, int size)
 		{
 			byte[] result = null;
 
 			try
 			{
-				if (Session[fileID] != null)
+				if (Session[file] != null)
 				{
-					result = (Session[fileID] as iFolderFile).Read(size);
+					result = (Session[file] as iFolderFile).Read(size);
 				}
 				else
 				{
-					throw new iFolderFileNotOpenException(fileID);
+					throw new iFolderFileNotOpenException(file);
 				}
 			}
 			catch(Exception e)
@@ -1093,24 +1088,24 @@ namespace iFolder.WebService
 		}
 
 		/// <summary>
-		/// Write To An iFolder File
+		/// Write to an openned iFolder file entry.
 		/// </summary>
-		/// <param name="fileID">The File ID</param>
-		/// <param name="buffer">The File Buffer</param>
+		/// <param name="file">The file handle.</param>
+		/// <param name="buffer">The buffer to be written.</param>
 		[WebMethod(
-			 Description="Write To An iFolder File",
+			 Description="Write to an openned iFolder file entry.",
 			 EnableSession=true)]
-		public void WriteFile(string fileID, byte[] buffer)
+		public void WriteFile(string file, byte[] buffer)
 		{
 			try
 			{
-				if (Session[fileID] != null)
+				if (Session[file] != null)
 				{
-					(Session[fileID] as iFolderFile).Write(buffer);
+					(Session[file] as iFolderFile).Write(buffer);
 				}
 				else
 				{
-					throw new iFolderFileNotOpenException(fileID);
+					throw new iFolderFileNotOpenException(file);
 				}
 			}
 			catch(Exception e)
@@ -1120,20 +1115,20 @@ namespace iFolder.WebService
 		}
 
 		/// <summary>
-		/// Close An iFolder File
+		/// Close an openned iFolder file entry.
 		/// </summary>
-		/// <param name="fileID">The File ID</param>
+		/// <param name="file">The file handle.</param>
 		[WebMethod(
-			 Description="Close An iFolder File",
+			 Description="Close an openned iFolder file entry.",
 			 EnableSession=true)]
-		public void CloseFile(string fileID)
+		public void CloseFile(string file)
 		{
 			try
 			{
-				if (Session[fileID] != null)
+				if (Session[file] != null)
 				{
-					(Session[fileID] as iFolderFile).Close();
-					Session[fileID] = null;
+					(Session[file] as iFolderFile).Close();
+					Session[file] = null;
 				}
 			}
 			catch(Exception e)
@@ -1147,7 +1142,7 @@ namespace iFolder.WebService
 		#region Utility
 
 		/// <summary>
-		/// Get the Current Principal Access User ID
+		/// Get the authenticated user's id.
 		/// </summary>
 		private string GetAccessID()
 		{
