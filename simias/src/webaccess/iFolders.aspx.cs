@@ -143,7 +143,7 @@ namespace Novell.iFolderApp.Web
 			try
 			{
 				// data
-				iFolder[] ifolders = web.GetiFoldersByName(SearchOperation.BeginsWith, SearchPattern.Text, iFolderPagging.Index, iFolderPagging.PageSize, out total);
+				iFolder[] ifolders = web.GetiFoldersBySearch(MemberRole.Any, DateTime.MinValue, SearchOperation.BeginsWith, SearchPattern.Text, iFolderPagging.Index, iFolderPagging.PageSize, out total);
 				iFolderPagging.Count = ifolders.Length;
 				iFolderPagging.Total = total;
 				

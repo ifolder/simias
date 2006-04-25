@@ -66,6 +66,7 @@
           <s:element minOccurs="1" maxOccurs="1" name="Size" type="s:long" />
           <s:element minOccurs="1" maxOccurs="1" name="IsOwner" type="s:boolean" />
           <s:element minOccurs="1" maxOccurs="1" name="Rights" type="tns:Rights" />
+          <s:element minOccurs="1" maxOccurs="1" name="Created" type="s:dateTime" />
           <s:element minOccurs="1" maxOccurs="1" name="LastModified" type="s:dateTime" />
           <s:element minOccurs="1" maxOccurs="1" name="Published" type="s:boolean" />
           <s:element minOccurs="1" maxOccurs="1" name="Enabled" type="s:boolean" />
@@ -208,6 +209,33 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="GetiFoldersByNameResult" type="tns:ArrayOfIFolder" />
+            <s:element minOccurs="1" maxOccurs="1" name="total" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetiFoldersBySearch">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="role" type="tns:MemberRole" />
+            <s:element minOccurs="1" maxOccurs="1" name="after" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="operation" type="tns:SearchOperation" />
+            <s:element minOccurs="0" maxOccurs="1" name="pattern" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="index" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="count" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:simpleType name="MemberRole">
+        <s:restriction base="s:string">
+          <s:enumeration value="Any" />
+          <s:enumeration value="Owner" />
+          <s:enumeration value="Shared" />
+        </s:restriction>
+      </s:simpleType>
+      <s:element name="GetiFoldersBySearchResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetiFoldersBySearchResult" type="tns:ArrayOfIFolder" />
             <s:element minOccurs="1" maxOccurs="1" name="total" type="s:int" />
           </s:sequence>
         </s:complexType>
@@ -741,6 +769,12 @@
   <wsdl:message name="GetiFoldersByNameSoapOut">
     <wsdl:part name="parameters" element="tns:GetiFoldersByNameResponse" />
   </wsdl:message>
+  <wsdl:message name="GetiFoldersBySearchSoapIn">
+    <wsdl:part name="parameters" element="tns:GetiFoldersBySearch" />
+  </wsdl:message>
+  <wsdl:message name="GetiFoldersBySearchSoapOut">
+    <wsdl:part name="parameters" element="tns:GetiFoldersBySearchResponse" />
+  </wsdl:message>
   <wsdl:message name="PublishiFolderSoapIn">
     <wsdl:part name="parameters" element="tns:PublishiFolder" />
   </wsdl:message>
@@ -946,6 +980,11 @@
       <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get iFolders by Name</documentation>
       <wsdl:input message="tns:GetiFoldersByNameSoapIn" />
       <wsdl:output message="tns:GetiFoldersByNameSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetiFoldersBySearch">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get iFolders by Name</documentation>
+      <wsdl:input message="tns:GetiFoldersBySearchSoapIn" />
+      <wsdl:output message="tns:GetiFoldersBySearchSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="PublishiFolder">
       <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Publish an iFolder</documentation>
@@ -1167,6 +1206,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetiFoldersByName">
       <soap:operation soapAction="http://novell.com/ifolder/webservice/GetiFoldersByName" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetiFoldersBySearch">
+      <soap:operation soapAction="http://novell.com/ifolder/webservice/GetiFoldersBySearch" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

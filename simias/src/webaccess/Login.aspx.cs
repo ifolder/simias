@@ -374,38 +374,38 @@ namespace Novell.iFolderApp.Web
 					switch(e.Status)
 					{
 						case WebExceptionStatus.ProtocolError:
-						{
-							// http code
-							HttpStatusCode code = (e.Response as HttpWebResponse).StatusCode;
-
-							switch(code)
 							{
-								case HttpStatusCode.Unauthorized:
-									Message.Text = GetString("LOGIN.UNAUTHORIZED");
-									break;
+								// http code
+								HttpStatusCode code = (e.Response as HttpWebResponse).StatusCode;
 
-								case HttpStatusCode.Redirect:
-									string location = e.Response.Headers["Location"];
-								
-									try
-									{
-										UriBuilder uri = new UriBuilder(location);
-										uri.Path = "";
-										location = uri.ToString();
-									}
-									catch
-									{
-										// ignore
-									}
-								
-									Message.Text = String.Format("{0}<br>{1}", GetString("LOGIN.REDIRECT"), location);
-									break;
+								switch(code)
+								{
+									case HttpStatusCode.Unauthorized:
+										Message.Text = GetString("LOGIN.UNAUTHORIZED");
+										break;
 
-								default:
-									Message.Text = GetString("LOGIN.CONNECTFAILED");
-									break;
+									case HttpStatusCode.Redirect:
+										string location = e.Response.Headers["Location"];
+									
+										try
+										{
+											UriBuilder uri = new UriBuilder(location);
+											uri.Path = "";
+											location = uri.ToString();
+										}
+										catch
+										{
+											// ignore
+										}
+									
+										Message.Text = String.Format("{0}<br>{1}", GetString("LOGIN.REDIRECT"), location);
+										break;
+
+									default:
+										Message.Text = GetString("LOGIN.CONNECTFAILED");
+										break;
+								}
 							}
-						}
 							break;
 				
 						case WebExceptionStatus.ConnectFailure:

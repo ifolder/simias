@@ -368,6 +368,39 @@ namespace iFolder.WebService
 		}
 
 		/// <summary>
+		/// Get iFolders by Name
+		/// </summary>
+		/// <param name="role">Member Role</param>
+		/// <param name="after">iFolder Created After</param>
+		/// <param name="operation">The Search Operation</param>
+		/// <param name="pattern">The Search Pattern</param>
+		/// <param name="index">The Search Start Index</param>
+		/// <param name="count">The Search Max Count of Results</param>
+		/// <param name="total">The Total Number of Results</param>
+		/// <returns>An Array of iFolder Objects</returns>
+		[WebMethod(
+			 Description="Get iFolders by Name",
+			 EnableSession=true)]
+		public iFolder[] GetiFoldersBySearch(MemberRole role, DateTime after, SearchOperation operation, string pattern, int index, int count, out int total)
+		{
+			iFolder[] result = null;
+			total = 0;
+
+			try
+			{
+				string accessID = GetAccessID();
+
+				result = iFolder.GetiFoldersByMember(accessID, role, after, operation, pattern, index, count, out total, accessID);
+			}
+			catch(Exception e)
+			{
+				SmartException.Throw(e);
+			}
+
+			return result;
+		}
+
+		/// <summary>
 		/// Publish an iFolder
 		/// </summary>
 		/// <param name="ifolder">The ID or friendly name of the iFolder.</param>

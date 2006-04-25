@@ -90,6 +90,11 @@ namespace iFolder.WebService
 		public Simias.Storage.Access.Rights Rights;
 
 		/// <summary>
+		/// iFolder Created Time
+		/// </summary>
+		public DateTime Created = DateTime.MinValue;
+
+		/// <summary>
 		/// iFolder Last Modified Time
 		/// </summary>
 		public DateTime LastModified = DateTime.MinValue;
@@ -137,6 +142,7 @@ namespace iFolder.WebService
 			this.DomainID = c.Domain;
 			this.Size = c.StorageSize;
 			this.Rights = rights;
+			this.Created = NodeUtility.GetDateTimeProperty(c, PropertyTags.NodeCreationTime);
 			this.LastModified = NodeUtility.GetDateTimeProperty(c, PropertyTags.JournalModified);
 			this.Published = NodeUtility.GetBooleanProperty(c, PropertyTags.Published);
 			this.Enabled = !iFolderPolicy.IsLocked(c);
@@ -260,7 +266,7 @@ namespace iFolder.WebService
 		/// <returns>An Array of iFolder Objects</returns>
 		public static iFolder[] GetiFoldersByMember(string userID, MemberRole role, int index, int count, out int total, string accessID)
 		{
-			return GetiFoldersByMember(userID, role, SearchOperation.Contains, null, index, count, out total, accessID);
+			return GetiFoldersByMember(userID, role, DateTime.MinValue, SearchOperation.Contains, null, index, count, out total, accessID);
 		}
 		
 		/// <summary>
@@ -276,6 +282,24 @@ namespace iFolder.WebService
 		/// <param name="accessID">The Access User ID</param>
 		/// <returns>An Array of iFolder Objects</returns>
 		public static iFolder[] GetiFoldersByMember(string userID, MemberRole role, SearchOperation operation, string pattern, int index, int count, out int total, string accessID)
+		{
+			return GetiFoldersByMember(userID, role, DateTime.MinValue, SearchOperation.Contains, pattern, index, count, out total, accessID);
+		}
+
+		/// <summary>
+		/// Get iFolders by Member
+		/// </summary>
+		/// <param name="userID">The User ID</param>
+		/// <param name="role">The Member Role</param>
+		/// <param name="after">Created After Date/Time</param>
+		/// <param name="operation">The Search Operation</param>
+		/// <param name="pattern">The Search Pattern</param>
+		/// <param name="index">The Search Start Index</param>
+		/// <param name="count">The Search Max Count of Results</param>
+		/// <param name="total">The Total Number of Results</param>
+		/// <param name="accessID">The Access User ID</param>
+		/// <returns>An Array of iFolder Objects</returns>
+		public static iFolder[] GetiFoldersByMember(string userID, MemberRole role, DateTime after, SearchOperation operation, string pattern, int index, int count, out int total, string accessID)
 		{
 			Store store = Store.GetStore();
 
@@ -340,7 +364,8 @@ namespace iFolder.WebService
 				Collection c = store.GetCollectionByID(sn.ID);
 
 				if (((c != null) && (c.IsType(iFolderCollectionType)))
-					&& ((role != MemberRole.Shared) || (c.Owner.UserID != userID)))
+					&& ((role != MemberRole.Shared) || (c.Owner.UserID != userID))
+					&& ((after == DateTime.MinValue) || (after <= NodeUtility.GetDateTimeProperty(c, PropertyTags.NodeCreationTime))))
 				{
 					if ((i >= index) && (((count <= 0) || i < (count + index))))
 					{

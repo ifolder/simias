@@ -71,7 +71,7 @@
 				<div class="search">
 					<asp:DropDownList ID="SearchPropertyList" runat="server" />
 					<asp:TextBox ID="SearchPattern" CssClass="searchText" runat="server" onkeydown="return SubmitKeyDown(event, 'SearchButton');" />
-					<asp:Button ID="SearchButton" CssClass="hide" runat="server" />
+					<asp:Button ID="SearchButton" CssClass="" runat="server" />
 				</div>
 				
 				<table class="columns"><tr><td>
