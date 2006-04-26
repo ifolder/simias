@@ -1,4 +1,4 @@
-Include /etc/apache2/conf.d/mod_mono.conf
+Include @MODMONO_CONFPATH@
 
 Include @simiasconfdir@/apache/default/*.conf
 
