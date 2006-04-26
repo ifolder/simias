@@ -313,7 +313,19 @@ namespace iFolder.WebService
 		/// <param name="accessID">The Access User ID</param>
 		public static void SetMemberRights(string ifolderID, string userID, Simias.Storage.Access.Rights rights, string accessID)
 		{
-			SharedCollection.SetMemberRights(ifolderID, userID, rights.ToString(), accessID);
+			try
+			{
+				SharedCollection.SetMemberRights(ifolderID, userID, rights.ToString(), accessID);
+			}
+			catch(CollectionStoreException e)
+			{
+				if (e.Message.IndexOf("change owner's rights") != -1)
+				{
+					throw new InvalidOperationException("The rights of the owner of the iFolder can not be changed.", e);
+				}
+
+				throw;
+			}
 		}
 
 		/// <summary>
@@ -343,7 +355,20 @@ namespace iFolder.WebService
 		/// <param name="accessID">The Access User ID</param>
 		public static void RemoveMember(string ifolderID, string userID, string accessID)
 		{
-			SharedCollection.RemoveMember(ifolderID, userID, accessID);
+			try
+			{
+				SharedCollection.RemoveMember(ifolderID, userID, accessID);
+			}
+			catch(Exception e)
+			{
+				// guess and improve exception
+				if (e.Message.IndexOf("iFolder owner") != -1)
+				{
+					throw new InvalidOperationException("The owner of an iFolder can not be removed.", e);
+				}
+
+				throw;
+			}
 		}
 
 		/// <summary>

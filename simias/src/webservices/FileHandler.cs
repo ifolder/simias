@@ -137,7 +137,7 @@ namespace iFolder.WebService
 			// does member exist?
 			if (member == null)
 			{
-				throw new iFolderMemberDoesNotExistException(accessID);
+				throw new MemberDoesNotExistException(accessID);
 			}
 			
 			// impersonate
@@ -152,13 +152,13 @@ namespace iFolder.WebService
 			// does node exist
 			if (n == null)
 			{
-				throw new iFolderEntryDoesNotExistException(entryID);
+				throw new EntryDoesNotExistException(entryID);
 			}
 
 			// is the node a file
 			if (!n.IsBaseType(NodeTypes.FileNodeType))
 			{
-				throw new iFolderFileDoesNotExistException(entryID);
+				throw new FileDoesNotExistException(entryID);
 			}
 
 			// file

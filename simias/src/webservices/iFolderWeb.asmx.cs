@@ -1076,7 +1076,7 @@ namespace iFolder.WebService
 				}
 				else
 				{
-					throw new iFolderFileNotOpenException(file);
+					throw new FileNotOpenException(file);
 				}
 			}
 			catch(Exception e)
@@ -1105,7 +1105,7 @@ namespace iFolder.WebService
 				}
 				else
 				{
-					throw new iFolderFileNotOpenException(file);
+					throw new FileNotOpenException(file);
 				}
 			}
 			catch(Exception e)

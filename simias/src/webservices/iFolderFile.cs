@@ -120,7 +120,7 @@ namespace iFolder.WebService
 			// does member exist?
 			if (member == null)
 			{
-				throw new iFolderMemberDoesNotExistException(accessID);
+				throw new MemberDoesNotExistException(accessID);
 			}
 			
 			// node
@@ -129,13 +129,13 @@ namespace iFolder.WebService
 			// does the node exist?
 			if (n == null)
 			{
-				throw new iFolderEntryDoesNotExistException(entryID);
+				throw new EntryDoesNotExistException(entryID);
 			}
 
 			// is the node a file
 			if (!n.IsBaseType(NodeTypes.FileNodeType))
 			{
-				throw new iFolderFileDoesNotExistException(entryID);
+				throw new FileDoesNotExistException(entryID);
 			}
 
 			// log
@@ -195,7 +195,7 @@ namespace iFolder.WebService
 				// does the member exist?
 				if (member == null)
 				{
-					throw new iFolderMemberDoesNotExistException(accessID);
+					throw new MemberDoesNotExistException(accessID);
 				}
 				
 				// does the member have wright rights

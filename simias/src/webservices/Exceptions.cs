@@ -47,6 +47,15 @@ namespace iFolder.WebService
 		public iFolderException(string message) : base(message)
 		{
 		}
+
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <param name="message"></param>
+		/// <param name="e"></param>
+		public iFolderException(string message, Exception e) : base(message, e)
+		{
+		}
 	}
 
 	/// <summary>
@@ -107,13 +116,13 @@ namespace iFolder.WebService
 	/// <summary>
 	/// iFolder Entry Lookup Failed
 	/// </summary>
-	public class iFolderEntryDoesNotExistException : iFolderException
+	public class EntryDoesNotExistException : iFolderException
 	{
 		/// <summary>
 		/// Constructor
 		/// </summary>
 		/// <param name="message"></param>
-		public iFolderEntryDoesNotExistException(string message) : base(message)
+		public EntryDoesNotExistException(string message) : base(message)
 		{
 		}
 	}
@@ -121,13 +130,13 @@ namespace iFolder.WebService
 	/// <summary>
 	/// iFolder Entry Already Exists
 	/// </summary>
-	public class iFolderEntryAlreadyExistException : iFolderException
+	public class EntryAlreadyExistException : iFolderException
 	{
 		/// <summary>
 		/// Constructor
 		/// </summary>
 		/// <param name="message"></param>
-		public iFolderEntryAlreadyExistException(string message) : base(message)
+		public EntryAlreadyExistException(string message) : base(message)
 		{
 		}
 	}
@@ -135,13 +144,13 @@ namespace iFolder.WebService
 	/// <summary>
 	/// iFolder Entry Name Contains Invalid Characters
 	/// </summary>
-	public class iFolderEntryInvalidCharactersException : iFolderException
+	public class EntryInvalidCharactersException : iFolderException
 	{
 		/// <summary>
 		/// Constructor
 		/// </summary>
 		/// <param name="message"></param>
-		public iFolderEntryInvalidCharactersException(string message) : base(message)
+		public EntryInvalidCharactersException(string message) : base(message)
 		{
 		}
 	}
@@ -149,13 +158,13 @@ namespace iFolder.WebService
 	/// <summary>
 	/// iFolder Entry Has an Invalid Name
 	/// </summary>
-	public class iFolderEntryInvalidNameException : iFolderException
+	public class EntryInvalidNameException : iFolderException
 	{
 		/// <summary>
 		/// Constructor
 		/// </summary>
 		/// <param name="message"></param>
-		public iFolderEntryInvalidNameException(string message) : base(message)
+		public EntryInvalidNameException(string message) : base(message)
 		{
 		}
 	}
@@ -163,13 +172,13 @@ namespace iFolder.WebService
 	/// <summary>
 	/// iFolder Directory Entry Required
 	/// </summary>
-	public class iFolderDirectoryEntryRequiredException : iFolderException
+	public class DirectoryEntryRequiredException : iFolderException
 	{
 		/// <summary>
 		/// Constructor
 		/// </summary>
 		/// <param name="message"></param>
-		public iFolderDirectoryEntryRequiredException(string message) : base(message)
+		public DirectoryEntryRequiredException(string message) : base(message)
 		{
 		}
 	}
@@ -177,13 +186,13 @@ namespace iFolder.WebService
 	/// <summary>
 	/// iFolder File Lookup Failed
 	/// </summary>
-	public class iFolderFileDoesNotExistException : iFolderException
+	public class FileDoesNotExistException : iFolderException
 	{
 		/// <summary>
 		/// Constructor
 		/// </summary>
 		/// <param name="message"></param>
-		public iFolderFileDoesNotExistException(string message) : base(message)
+		public FileDoesNotExistException(string message) : base(message)
 		{
 		}
 	}
@@ -191,13 +200,13 @@ namespace iFolder.WebService
 	/// <summary>
 	/// iFolder File Not Open
 	/// </summary>
-	public class iFolderFileNotOpenException : iFolderException
+	public class FileNotOpenException : iFolderException
 	{
 		/// <summary>
 		/// Constructor
 		/// </summary>
 		/// <param name="message"></param>
-		public iFolderFileNotOpenException(string message) : base(message)
+		public FileNotOpenException(string message) : base(message)
 		{
 		}
 	}
@@ -217,15 +226,38 @@ namespace iFolder.WebService
 	}
 
 	/// <summary>
-	/// iFolder Member Lookup Failed
+	/// Invalid Operation Given
 	/// </summary>
-	public class iFolderMemberDoesNotExistException : iFolderException
+	public class InvalidOperationException : iFolderException
 	{
 		/// <summary>
 		/// Constructor
 		/// </summary>
 		/// <param name="message"></param>
-		public iFolderMemberDoesNotExistException(string message) : base(message)
+		public InvalidOperationException(string message) : base(message)
+		{
+		}
+
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <param name="message"></param>
+		/// <param name="e"></param>
+		public InvalidOperationException(string message, Exception e) : base(message, e)
+		{
+		}
+	}
+
+	/// <summary>
+	/// iFolder Member Lookup Failed
+	/// </summary>
+	public class MemberDoesNotExistException : iFolderException
+	{
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <param name="message"></param>
+		public MemberDoesNotExistException(string message) : base(message)
 		{
 		}
 	}

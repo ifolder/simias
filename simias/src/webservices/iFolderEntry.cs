@@ -147,7 +147,7 @@ namespace iFolder.WebService
 			// bad node
 			else
 			{
-				throw new iFolderEntryDoesNotExistException(n.ID);
+				throw new EntryDoesNotExistException(n.ID);
 			}
 
 			return entry;
@@ -178,7 +178,7 @@ namespace iFolder.WebService
 
 			if (n == null)
 			{
-				throw new iFolderEntryDoesNotExistException(entryID);
+				throw new EntryDoesNotExistException(entryID);
 			}
 
 			return iFolderEntry.GetEntry(c, n);
@@ -224,7 +224,7 @@ namespace iFolder.WebService
 
 			if (n == null)
 			{
-				throw new iFolderEntryDoesNotExistException(entryPath);
+				throw new EntryDoesNotExistException(entryPath);
 			}
 
 			return iFolderEntry.GetEntry(c, n);
@@ -440,7 +440,7 @@ namespace iFolder.WebService
 
 			if (member == null)
 			{
-				throw new iFolderMemberDoesNotExistException(accessID);
+				throw new MemberDoesNotExistException(accessID);
 			}
 
 			// impersonate
@@ -451,13 +451,13 @@ namespace iFolder.WebService
 			// NOTE: a new entry off the iFolder is not allowed, it must be off the root directory node or lower
 			if ((n == null) || (ifolderID.Equals(parentID)))
 			{
-				throw new iFolderEntryDoesNotExistException(parentID);
+				throw new EntryDoesNotExistException(parentID);
 			}
 			
 			// NOTE: only directories can have children
 			if (!n.IsBaseType(NodeTypes.DirNodeType))
 			{
-				throw new iFolderDirectoryEntryRequiredException(parentID);
+				throw new DirectoryEntryRequiredException(parentID);
 			}
 
 			// check the name
@@ -472,7 +472,7 @@ namespace iFolder.WebService
 			// check for existing entry (case insensitive test)
 			if (SyncFile.DoesNodeExist(c, parentDir, entryName))
 			{
-				throw new iFolderEntryAlreadyExistException(entryName);
+				throw new EntryAlreadyExistException(entryName);
 			}
 
 			// directory
@@ -562,7 +562,7 @@ namespace iFolder.WebService
 
 			if (n == null)
 			{
-				throw new iFolderEntryDoesNotExistException(entryID);
+				throw new EntryDoesNotExistException(entryID);
 			}
 		
 			// directory
@@ -572,7 +572,7 @@ namespace iFolder.WebService
 
 				if (dn.IsRoot)
 				{
-					throw new iFolderDirectoryEntryRequiredException(entryID);
+					throw new DirectoryEntryRequiredException(entryID);
 				}
 
 				string path = dn.GetFullPath(c);
@@ -604,7 +604,7 @@ namespace iFolder.WebService
 			// not an entry
 			else
 			{
-				throw new iFolderEntryDoesNotExistException(entryID);
+				throw new EntryDoesNotExistException(entryID);
 			}
 
 		}
@@ -618,13 +618,13 @@ namespace iFolder.WebService
 			// check for invalid characters
 			if (!SyncFile.IsNameValid(name) || (name.IndexOf('/') != -1))
 			{
-				throw new iFolderEntryInvalidCharactersException(name);
+				throw new EntryInvalidCharactersException(name);
 			}
 
 			// check for invalid names
 			if ((name == ".") || (name == ".."))
 			{
-				throw new iFolderEntryInvalidNameException(name);
+				throw new EntryInvalidNameException(name);
 			}
 		}
 	}

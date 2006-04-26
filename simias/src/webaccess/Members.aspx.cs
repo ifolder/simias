@@ -228,6 +228,10 @@ namespace Novell.iFolderApp.Web
 			// types
 			switch(type)
 			{
+				case "InvalidOperationException":
+					MessageBox.Text = GetString("CHANGEOWNERRIGHTSEXCEPTION");
+					break;
+
 				case "AccessException":
 					MessageBox.Text = GetString("ENTRY.ACCESSEXCEPTION");
 					break;

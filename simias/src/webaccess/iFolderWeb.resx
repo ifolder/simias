@@ -507,4 +507,10 @@
 	<data name="SHARED">
 		<value>Shared</value>
 	</data>
+    <data name="REMOVEOWNEREXCEPTION">
+        <value>The owner of an iFolder can not be removed.</value>
+    </data>
+    <data name="CHANGEOWNERRIGHTSEXCEPTION">
+        <value>The rights of the owner of an iFolder can not be changed.</value>
+    </data>
 </root>

@@ -287,7 +287,7 @@ namespace Novell.iFolderWeb.Admin
 				case "iFolderDoesNotExistException":
 					return GetString( "ERRORIFOLDERDOESNOTEXIST" );
 
-				case "iFolderMemberDoesNotExistException":
+				case "MemberDoesNotExistException":
 					return GetString( "ERRORMEMBERDOESNOTEXIST" );
 
 				case "UserDoesNotExistException":
@@ -446,7 +446,7 @@ namespace Novell.iFolderWeb.Admin
 				case "AuthorizationException":
 				case "AuthenticationException":
 				case "iFolderDoesNotExistException":
-				case "iFolderMemberDoesNotExistException":
+				case "MemberDoesNotExistException":
 				case "UserDoesNotExistException":
 				case "LockException":
 				case "AccessException":

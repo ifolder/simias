@@ -228,7 +228,7 @@ namespace iFolder.WebService
 
 				if (member == null)
 				{
-					throw new iFolderMemberDoesNotExistException(accessID);
+					throw new MemberDoesNotExistException(accessID);
 				}
 
 				collection.Impersonate(member);

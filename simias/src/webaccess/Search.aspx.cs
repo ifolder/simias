@@ -310,16 +310,16 @@ namespace Novell.iFolderApp.Web
 			// types
 			switch(type)
 			{
-				case "iFolderFileDoesNotExistException":
-				case "iFolderEntryAlreadyExistException":
+				case "FileDoesNotExistException":
+				case "EntryAlreadyExistException":
 					MessageBox.Text = GetString("ENTRY.DIRALREADYEXISTS");
 					break;
 
-				case "iFolderEntryInvalidCharactersException":
+				case "EntryInvalidCharactersException":
 					MessageBox.Text = GetString("ENTRY.ENTRYINVALIDCHARACTERS");
 					break;
 
-				case "iFolderEntryInvalidNameException":
+				case "EntryInvalidNameException":
 					MessageBox.Text = GetString("ENTRY.ENTRYINVALIDNAME");
 					break;
 

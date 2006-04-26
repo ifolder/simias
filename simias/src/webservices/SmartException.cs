@@ -67,9 +67,10 @@ namespace iFolder.WebService
 				SoapException.DetailElementName.Namespace);
 							
 			// exception type
+			string type = e.GetType().ToString();
 			attr = doc.CreateNode(XmlNodeType.Attribute,
 				TypeAttributeName, SoapException.DetailElementName.Namespace);
-			attr.Value = e.GetType().ToString();
+			attr.Value = type;
 			child.Attributes.SetNamedItem(attr);
 			
 			// exception message
@@ -77,7 +78,9 @@ namespace iFolder.WebService
 						
 			node.AppendChild(child);
 
-			throw new SoapException(e.Message, SoapException.ServerFaultCode,
+			string message = String.Format("{0}-{1}", type, e.Message);
+
+			throw new SoapException(message, SoapException.ServerFaultCode,
 				null, node);
 		}
 
@@ -87,45 +90,67 @@ namespace iFolder.WebService
 		/// <param name="exceptions"></param>
 		public static void Throw(Hashtable exceptions)
 		{
-			XmlDocument doc = new XmlDocument();
-			XmlNode node = doc.CreateNode(XmlNodeType.Element,
-				SoapException.DetailElementName.Name,
-				SoapException.DetailElementName.Namespace);
-						
-			XmlNode child;
-			XmlNode attr;
-
-			foreach(string id in exceptions.Keys)
+			if (exceptions.Count < 1)
 			{
-				Exception e = (Exception)exceptions[id];
-
-				// exception node
-				child = doc.CreateNode(XmlNodeType.Element,
-					OriginalExceptionElementName,
+				// do nothing
+			}
+			else if (exceptions.Count == 1)
+			{
+				SmartException.Throw((Exception)(new ArrayList(exceptions.Values))[0]);
+			}
+			else
+			{
+				XmlDocument doc = new XmlDocument();
+				XmlNode node = doc.CreateNode(XmlNodeType.Element,
+					SoapException.DetailElementName.Name,
 					SoapException.DetailElementName.Namespace);
 							
-				// exception type
-				attr = doc.CreateNode(XmlNodeType.Attribute,
-					TypeAttributeName, SoapException.DetailElementName.Namespace);
-				attr.Value = e.GetType().ToString();
-				child.Attributes.SetNamedItem(attr);
-			
-				// exception id
-				attr = doc.CreateNode(XmlNodeType.Attribute,
-					IDAttributeName, SoapException.DetailElementName.Namespace);
-				attr.Value = id;
-				child.Attributes.SetNamedItem(attr);
-			
-				// exception message
-				child.InnerText = e.Message;
-						
-				node.AppendChild(child);
-			}
+				XmlNode child;
+				XmlNode attr;
 
-			// only throw the exception if we have some
-			if (exceptions.Keys.Count > 0)
-			{
-				throw new SoapException(ComplexExceptionMessage,
+				string message = null;
+
+				foreach(string id in exceptions.Keys)
+				{
+					Exception e = (Exception)exceptions[id];
+
+					// exception node
+					child = doc.CreateNode(XmlNodeType.Element,
+						OriginalExceptionElementName,
+						SoapException.DetailElementName.Namespace);
+								
+					// exception type
+					string type = e.GetType().ToString();
+					attr = doc.CreateNode(XmlNodeType.Attribute,
+						TypeAttributeName, SoapException.DetailElementName.Namespace);
+					attr.Value = type;
+					child.Attributes.SetNamedItem(attr);
+				
+					// message
+					if (message == null)
+					{
+						message = String.Format("{0}-{1}", type, e.Message);
+					}
+					else
+					{
+						message = String.Format("{0}, {1}-{2}", message, type, e.Message);
+					}
+
+					// exception id
+					attr = doc.CreateNode(XmlNodeType.Attribute,
+						IDAttributeName, SoapException.DetailElementName.Namespace);
+					attr.Value = id;
+					child.Attributes.SetNamedItem(attr);
+				
+					// exception message
+					child.InnerText = e.Message;
+							
+					node.AppendChild(child);
+				}
+
+				message = String.Format("{0} : {1}", ComplexExceptionMessage, message);
+	
+				throw new SoapException(message,
 					SoapException.ServerFaultCode,
 					null, node);
 			}
