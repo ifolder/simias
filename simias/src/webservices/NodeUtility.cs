@@ -39,14 +39,14 @@ namespace iFolder.WebService
 		/// <summary>
 		/// Get a string property from a Node.
 		/// </summary>
-		/// <param name="collection">The collection object.</param>
+		/// <param name="node">The node object.</param>
 		/// <param name="property">The property name.</param>
 		/// <returns></returns>
-		public static string GetStringProperty(Collection collection, string property)
+		public static string GetStringProperty(Node node, string property)
 		{
 			string result = null;
 
-			Property p = collection.Properties.GetSingleProperty(property);
+			Property p = node.Properties.GetSingleProperty(property);
 
 			if ((p != null) && (p.Type == Syntax.String))
 			{
@@ -59,14 +59,14 @@ namespace iFolder.WebService
 		/// <summary>
 		/// Get a DateTime property from a Node.
 		/// </summary>
-		/// <param name="collection">The collection object.</param>
+		/// <param name="node">The node object.</param>
 		/// <param name="property">The property name.</param>
 		/// <returns></returns>
-		public static DateTime GetDateTimeProperty(Collection collection, string property)
+		public static DateTime GetDateTimeProperty(Node node, string property)
 		{
 			DateTime result = DateTime.MinValue;
 
-			Property p = collection.Properties.GetSingleProperty(property);
+			Property p = node.Properties.GetSingleProperty(property);
 
 			if ((p != null) && (p.Type == Syntax.DateTime))
 			{
@@ -79,12 +79,12 @@ namespace iFolder.WebService
 		/// <summary>
 		/// Get a boolean property from a Node.
 		/// </summary>
-		/// <param name="collection">The collection object.</param>
+		/// <param name="node">The node object.</param>
 		/// <param name="property">The property name.</param>
 		/// <returns>true/false</returns>
-		public static bool GetBooleanProperty(Collection collection, string property)
+		public static bool GetBooleanProperty(Node node, string property)
 		{
-			Property p = collection.Properties.GetSingleProperty( property );
+			Property p = node.Properties.GetSingleProperty( property );
 			if ( ( p != null ) && ( p.Type == Syntax.Boolean ) )
 			{
 				return (bool) p.Value;

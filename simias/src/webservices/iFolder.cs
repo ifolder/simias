@@ -291,7 +291,7 @@ namespace iFolder.WebService
 		/// </summary>
 		/// <param name="userID">The User ID</param>
 		/// <param name="role">The Member Role</param>
-		/// <param name="after">Created After Date/Time</param>
+		/// <param name="after">Shared After Date/Time</param>
 		/// <param name="operation">The Search Operation</param>
 		/// <param name="pattern">The Search Pattern</param>
 		/// <param name="index">The Search Start Index</param>
@@ -363,17 +363,28 @@ namespace iFolder.WebService
 			{
 				Collection c = store.GetCollectionByID(sn.ID);
 
-				if (((c != null) && (c.IsType(iFolderCollectionType)))
-					&& ((role != MemberRole.Shared) || (c.Owner.UserID != userID))
-					&& ((after == DateTime.MinValue) || (after <= NodeUtility.GetDateTimeProperty(c, PropertyTags.NodeCreationTime))))
-				{
-					if ((i >= index) && (((count <= 0) || i < (count + index))))
-					{
-						list.Add(new iFolder(c, accessID));
-					}
+				// is iFolder?
+				if ((c == null) || !c.IsType(iFolderCollectionType)) continue;
 
-					++i;
+				// role check
+				if ((role == MemberRole.Shared) && (c.Owner.UserID == userID)) continue;
+
+				// shared after
+				if (after != DateTime.MinValue)
+				{
+					Member member = c.GetMemberByID(userID);
+					
+					if (after > NodeUtility.GetDateTimeProperty(member, PropertyTags.NodeCreationTime))
+						continue;
 				}
+
+				// pagging
+				if ((i >= index) && (((count <= 0) || i < (count + index))))
+				{
+					list.Add(new iFolder(c, accessID));
+				}
+
+				++i;
 			}
 
 			// save total

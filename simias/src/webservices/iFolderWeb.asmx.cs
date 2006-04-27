@@ -372,7 +372,7 @@ namespace iFolder.WebService
 		/// Get information about iFolder identified by role, creation time, and search operation and pattern.
 		/// </summary>
 		/// <param name="role">The required authenticated user's role in the Folder.</param>
-		/// <param name="after">The required earliest limit on the creation date of the iFolder. </param>
+		/// <param name="after">The required earliest limit on the shared date of the iFolder. </param>
 		/// <param name="operation">The operation for the search.</param>
 		/// <param name="pattern">The pattern for the search.</param>
 		/// <param name="index">The starting index for the search results.</param>
