@@ -95,6 +95,20 @@ namespace Novell.iFolderWeb.Admin
 			// localization
 			rm = Application[ "RM" ] as ResourceManager;
 
+			// Check to see if the session is still valid.
+			if ( Session[ "Connection" ] == null )
+			{
+				// The session has timed out. Make sure it's really gone and redirect
+				// to the login page.
+				Session.Abandon();
+
+				Response.Redirect( 
+					String.Format( 
+					"Login.aspx?MessageType={0}&MessageText={1}",
+					Context.Server.UrlEncode( GetString( "LOGINERROR" ) ),
+					Context.Server.UrlEncode( GetString( "SESSIONCLOSED" ) ) ) );
+			}
+
 			if ( !IsPostBack )
 			{
 				// Show the currently logged in user.

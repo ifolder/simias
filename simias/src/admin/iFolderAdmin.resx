@@ -552,6 +552,9 @@
 	<data name="SERVERS">
 		<value>Servers</value>
 	</data>
+	<data name="SESSIONCLOSED">
+		<value>Your session has been closed. Please log in.</value>
+	</data>
 	<data name="SET">
 		<value>Set</value>
 	</data>
