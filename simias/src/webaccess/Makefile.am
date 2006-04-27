@@ -83,7 +83,7 @@ iFolderWeb_FORMS = \
 	Log4Net.config \
 	Web.config
 
-EXTRA_DIST = AssemblyInfo.cs.in $(iFolderWeb_CSFILES) $(iFolderWeb_FORMS) images css js help $(iFolderWeb_RESX)
+EXTRA_DIST = AssemblyInfo.cs.in Log4Net.config.in $(iFolderWeb_CSFILES) $(iFolderWeb_FORMS) images css js help $(iFolderWeb_RESX)
 
 dist-hook:
 	rm -rf `find $(distdir)/images -name .svn`		
@@ -147,4 +147,6 @@ distclean-local:
 
 maintainer-clean-local:
 	rm -rf $(COMMON_MAINTAINER_CLEAN_FILES)
+	rm -rf AssemblyInfo.cs
+	rm -rf Log4Net.config
 
