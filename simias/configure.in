@@ -494,9 +494,15 @@ AC_ARG_WITH(runasclient,
 	[configure simias to run as a client. This option will also change the default --with-simiasdatadir to the user's home directory. [Default=FALSE]])],
 	[runasclient="TRUE"
 	case $SIMIAS_OS in
-		windows) simiasdatadir='"$(shell cygpath --unix "$(USERPROFILE)")/Local Settings/Application Data/SimiasServer/simias"' ;;
-		linux) simiasdatadir="$HOME/.local/share/SimiasServer/simias" ;;
-		darwin) simiasdatadir="$HOME/.local/share/SimiasServer/simias" ;;
+		windows) 
+			simiasdatadir=`cygpath --windows "$USERPROFILE/Local Settings/Application Data/simias"`
+			simiaslogdir="${simiasdatadir}\\log" ;;
+		linux) 
+			simiasdatadir="$HOME/.local/share/simias"
+			simiaslogdir="${simiasdatadir}/log" ;;
+		darwin) 
+			simiasdatadir="$HOME/.local/share/simias"
+			simiaslogdir="${simiasdatadir}/log" ;;
 	esac],
 	[runasclient="FALSE"]
 	)
@@ -510,16 +516,39 @@ AC_CHECKING([whether a location for the simias data directory was specified])
 AC_ARG_WITH(simiasdatadir,
 	[AS_HELP_STRING([--with-simiasdatadir=PATH],
 	[configure the directory where the simias data files will be placed. [Default="/var/lib/simias"]])],
-	[simiasdatadir="$withval"],
+	[case $SIMIAS_OS in
+		windows) simiasdatadir=`cygpath --windows $withval` ;;
+		*) simiasdatadir="$withval" ;;
+	esac],
 	[if test "$runasclient" = "FALSE"; then
 		case $SIMIAS_OS in
-			windows) simiasdatadir='"$(shell cygpath --unix /cygdrive/c/simias"' ;;
+			windows) simiasdatadir="c:\\simias" ;;
 			linux) simiasdatadir="/var/lib/simias" ;;
 			darwin) simiasdatadir="/var/lib/simias" ;;
 		esac
 	fi]
 	)
 AC_SUBST(simiasdatadir)
+
+#
+# Handle --with-simiaslogdir
+#
+AC_CHECKING([whether a location for the simias log directory was specified])
+AC_ARG_WITH(simiaslogdir,
+	[AS_HELP_STRING([--with-simiaslogdir=PATH],
+	[configure the directory where the simias log files will be placed. [Default="${simiasdatadir}/log"]])],
+	[case $SIMIAS_OS in
+		windows) simiaslogdir=`cygpath --windows $withval` ;;
+		*) simiaslogdir="$withval" ;;
+	esac],
+	[if test "$runasclient" = "FALSE"; then
+		case $SIMIAS_OS in
+			windows) simiaslogdir="${simiasdatadir}\\log" ;;
+			*) simiaslogdir="${simiasdatadir}/log" ;;
+		esac
+	fi]
+	)
+AC_SUBST(simiaslogdir)
 
 #
 # Needed to properly set the key file conditional for SimiasClient.
@@ -632,6 +661,7 @@ src/webaccess/Makefile
 src/webaccess/AssemblyInfo.cs
 src/admin/Makefile
 src/admin/AssemblyInfo.cs
+src/admin/Log4Net.config
 src/setup/Makefile
 src/setup/apache/Makefile
 src/setup/apache/ifolder_apache.conf
