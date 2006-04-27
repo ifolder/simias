@@ -110,7 +110,7 @@ namespace Novell.iFolderWeb.Admin
 
 						sw.WriteLine( "Exception detail:" );
 						sw.WriteLine();
-						sw.WriteLine( "Exception type: {0}", TopNav.GetExceptionType( ex ) );
+						sw.WriteLine( "Exception type: {0}", TopNavigation.GetExceptionType( ex ) );
 						sw.WriteLine();
 						sw.WriteLine( ex.Message );
 						sw.WriteLine();

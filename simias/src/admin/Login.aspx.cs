@@ -349,7 +349,25 @@ namespace Novell.iFolderWeb.Admin
 				web.CookieContainer = new CookieContainer();
 
 				// user and system
-				iFolderUser user = web.GetAuthenticatedUser();
+				iFolderUser user = null;
+				try
+				{
+					user = web.GetAuthenticatedUser();
+				}
+				catch ( Exception ex )
+				{
+					if ( TopNavigation.GetExceptionType( ex ) == "AuthorizationException" )
+					{
+						MessageType.Text = rm.GetString("LOGINERROR");
+						MessageText.Text = rm.GetString( "ERRORNOTADMINISTRATOR" );
+						return;
+					}
+					else
+					{
+						throw ex;
+					}
+				}
+
 				iFolderSystem system = web.GetSystem();
 				Session["System"] = system.Name;
 				iFolderServer server = web.GetServer();

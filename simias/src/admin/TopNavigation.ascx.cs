@@ -312,7 +312,7 @@ namespace Novell.iFolderWeb.Admin
 		/// </summary>
 		/// <param name="e"></param>
 		/// <returns></returns>
-		public string GetExceptionType( Exception e )
+		public static string GetExceptionType( Exception e )
 		{
 			string type = e.GetType().Name;
 
