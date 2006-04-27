@@ -659,6 +659,7 @@ src/webservices/Makefile
 src/webservices/AssemblyInfo.cs
 src/webaccess/Makefile
 src/webaccess/AssemblyInfo.cs
+src/webaccess/Log4Net.config
 src/admin/Makefile
 src/admin/AssemblyInfo.cs
 src/admin/Log4Net.config

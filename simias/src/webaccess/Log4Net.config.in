@@ -1,6 +1,6 @@
 <log4net>
 	<appender name="RollingLogFileAppender" type="log4net.Appender.RollingFileAppender">
-		<file value="/var/log/ifolder3/web.log" />
+		<file value="@simiaslogdir@/web.log" />
 		<appendToFile value="true" />
 		<rollingStyle value="Size" />
 		<maxSizeRollBackups value="10" />
