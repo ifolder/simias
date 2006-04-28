@@ -238,6 +238,7 @@ ul#navcontainer
 
 ul#navcontainer li
 {
+	-moz-border-radius: 5px 5px 0 0;
 	float: left;
 	background-color:#EFEEE9;
 	color: Black;
@@ -248,6 +249,7 @@ ul#navcontainer li
 
 ul#navcontainer a
 {
+	-moz-border-radius: 5px 5px 0 0;
 	display: block;
 	color: #333333;
 	background-color: Transparent;

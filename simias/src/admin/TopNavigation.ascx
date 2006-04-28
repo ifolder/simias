@@ -38,9 +38,7 @@
 
 		<SeparatorStyle CssClass="breadcrumbseparator" />		
 		
-		<SeparatorTemplate>
-			<%= GetString( "BREADCRUMBSEPARATOR" ) %>
-		</SeparatorTemplate>
+		<SeparatorTemplate>|</SeparatorTemplate>
 		
 		<ItemTemplate>
 			<asp:HyperLink

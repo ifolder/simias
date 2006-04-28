@@ -59,6 +59,7 @@ ul#ifolderlisttab
 
 ul#ifolderlisttab li
 {
+	-moz-border-radius: 5px 5px 0 0;
 	float: left;
 	background-color: White;
 	border-left: solid 1px Black;
@@ -72,6 +73,7 @@ ul#ifolderlisttab li
 
 ul#ifolderlisttab a
 {
+	-moz-border-radius: 5px 5px 0 0;
 	display: block;
 	color: Black;
 	background-color: Transparent;
