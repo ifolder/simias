@@ -103,7 +103,7 @@ namespace Novell.iFolderApp.Web
 				iFolderPagging.LabelSingular = GetString("IFOLDER");
 				iFolderPagging.LabelPlural = GetString("IFOLDERS");
 				NewiFolderLink.Text = GetString("NEWIFOLDER");
-				RemoveButton.Text = GetString("REMOVE");
+				RemoveButton.Text = GetString("REMOVEMEMBERSHIP");
 
 				// data
 				BindData();

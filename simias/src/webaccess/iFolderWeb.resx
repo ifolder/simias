@@ -522,4 +522,7 @@
     <data name="QUOTA">
         <value>Quota</value>
     </data>
+    <data name="REMOVEMEMBERSHIP">
+        <value>Remove Membership</value>
+    </data>
 </root>

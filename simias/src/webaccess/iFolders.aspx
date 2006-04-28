@@ -90,7 +90,7 @@
 					</div>
 					<div class="sep">|</div>
 					<div class="action">
-						<span id="RemoveDisabled"><%= GetString("REMOVE") %></span>
+						<span id="RemoveDisabled"><%= GetString("REMOVEMEMBERSHIP") %></span>
 						<asp:LinkButton ID="RemoveButton" style="display:none;" runat="server" />
 					</div>
 				</div>
