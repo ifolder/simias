@@ -46,9 +46,9 @@ namespace Novell.iFolderApp.Web
 	public class SearchPage : Page
 	{
 		/// <summary>
-		/// iFolder Context
+		/// iFolder Context Control
 		/// </summary>
-		protected Context iFolderContext;
+		protected iFolderContextControl iFolderContext;
 
 		/// <summary>
 		/// Actions Container
@@ -61,16 +61,6 @@ namespace Novell.iFolderApp.Web
 		protected LinkButton DeleteButton;
 
 		/// <summary>
-		/// Search Pattern
-		/// </summary>
-		protected TextBox SearchPattern;
-
-		/// <summary>
-		/// Search Button
-		/// </summary>
-		protected Button SearchButton;
-
-		/// <summary>
 		/// The Entry Data
 		/// </summary>
 		protected DataGrid EntryData;
@@ -78,12 +68,12 @@ namespace Novell.iFolderApp.Web
 		/// <summary>
 		/// Pagging
 		/// </summary>
-		protected Pagging EntryPagging;
+		protected PaggingControl EntryPagging;
 
 		/// <summary>
 		/// Message Box
 		/// </summary>
-		protected Message MessageBox;
+		protected MessageControl Message;
 
 		/// <summary>
 		/// iFolder Connection
@@ -130,11 +120,7 @@ namespace Novell.iFolderApp.Web
 				// strings
 				EntryPagging.LabelSingular = GetString("ITEM");
 				EntryPagging.LabelPlural = GetString("ITEMS");
-				SearchButton.Text = GetString("SEARCH");
 				DeleteButton.Text = GetString("DELETE");
-
-				// search pattern
-				ViewState["SearchPattern"] = null;
 			}
 			else
 			{
@@ -148,6 +134,7 @@ namespace Novell.iFolderApp.Web
 		private void BindData()
 		{
 			BindParentData();
+			BindEntryData();
 		}
 
 		/// <summary>
@@ -161,7 +148,6 @@ namespace Novell.iFolderApp.Web
 			{
 				// ifolder
 				iFolder ifolder = web.GetiFolder(ifolderID);
-				iFolderContext.iFolderName = ifolder.Name;
 
 				// rights
 				Actions.Visible = (ifolder.Rights != Rights.ReadOnly);
@@ -196,8 +182,14 @@ namespace Novell.iFolderApp.Web
 		{
 			int total = 0;
 
-			// keep search pattern consistent
-			SearchPattern.Text = (string)ViewState["SearchPattern"];
+			// query
+			string pattern = Request.QueryString.Get("Pattern");
+
+			// TODO: fix
+			if ((pattern == null) || (pattern.Length == 0))
+			{
+				return;
+			}
 
 			// entries
 			DataTable entryTable = new DataTable();
@@ -213,7 +205,8 @@ namespace Novell.iFolderApp.Web
 			try
 			{
 				// entries
-				iFolderEntry[] entries = web.GetEntriesByName(ifolderID, entryID, SearchOperation.BeginsWith, SearchPattern.Text, EntryPagging.Index, EntryPagging.PageSize, out total); 
+				iFolderEntry[] entries = web.GetEntriesByName(ifolderID, entryID, SearchOperation.BeginsWith,
+					pattern, EntryPagging.Index, EntryPagging.PageSize, out total); 
 				
 				// pagging
 				EntryPagging.Total = total;
@@ -289,7 +282,6 @@ namespace Novell.iFolderApp.Web
 			this.ID = "EntryView";
 			this.Load += new System.EventHandler(this.Page_Load);
 			this.EntryPagging.PageChange += new EventHandler(EntryPagging_PageChange);
-			this.SearchButton.Click += new EventHandler(SearchButton_Click);
 			this.DeleteButton.PreRender += new EventHandler(DeleteButton_PreRender);
 			this.DeleteButton.Click += new EventHandler(DeleteButton_Click);
 		}
@@ -312,35 +304,35 @@ namespace Novell.iFolderApp.Web
 			{
 				case "FileDoesNotExistException":
 				case "EntryAlreadyExistException":
-					MessageBox.Text = GetString("ENTRY.DIRALREADYEXISTS");
+					Message.Text = GetString("ENTRY.DIRALREADYEXISTS");
 					break;
 
 				case "EntryInvalidCharactersException":
-					MessageBox.Text = GetString("ENTRY.ENTRYINVALIDCHARACTERS");
+					Message.Text = GetString("ENTRY.ENTRYINVALIDCHARACTERS");
 					break;
 
 				case "EntryInvalidNameException":
-					MessageBox.Text = GetString("ENTRY.ENTRYINVALIDNAME");
+					Message.Text = GetString("ENTRY.ENTRYINVALIDNAME");
 					break;
 
 				case "FileSizeException":
-					MessageBox.Text = GetString("ENTRY.FILESIZEEXCEPTION");
+					Message.Text = GetString("ENTRY.FILESIZEEXCEPTION");
 					break;
 
 				case "DiskQuotaException":
-					MessageBox.Text = GetString("ENTRY.DISKQUOTAEXCEPTION");
+					Message.Text = GetString("ENTRY.DISKQUOTAEXCEPTION");
 					break;
 
 				case "FileTypeException":
-					MessageBox.Text = GetString("ENTRY.FILETYPEEXCEPTION");
+					Message.Text = GetString("ENTRY.FILETYPEEXCEPTION");
 					break;
 
 				case "AccessException":
-					MessageBox.Text = GetString("ENTRY.ACCESSEXCEPTION");
+					Message.Text = GetString("ENTRY.ACCESSEXCEPTION");
 					break;
 
 				case "LockException":
-					MessageBox.Text = GetString("ENTRY.LOCKEXCEPTION");
+					Message.Text = GetString("ENTRY.LOCKEXCEPTION");
 					break;
 
 				default:
@@ -359,22 +351,6 @@ namespace Novell.iFolderApp.Web
 		private void EntryPagging_PageChange(object sender, EventArgs e)
 		{
 			BindData();
-		}
-
-		/// <summary>
-		/// Search Button Click
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void SearchButton_Click(object sender, EventArgs e)
-		{
-			// update search pattern
-			ViewState["SearchPattern"] = SearchPattern.Text;
-
-			// reset index
-			EntryPagging.Index = 0;
-
-			BindEntryData();
 		}
 
 		/// <summary>

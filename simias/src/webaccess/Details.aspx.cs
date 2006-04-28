@@ -43,11 +43,6 @@ namespace Novell.iFolderApp.Web
 	public class DetailsPage : Page
 	{
 		/// <summary>
-		/// iFolder Context
-		/// </summary>
-		protected Context iFolderContext;
-
-		/// <summary>
 		/// Actions Container
 		/// </summary>
 		protected HtmlContainerControl Actions;
@@ -70,7 +65,7 @@ namespace Novell.iFolderApp.Web
 		/// <summary>
 		/// Message Box
 		/// </summary>
-		protected Message MessageBox;
+		protected MessageControl Message;
 
 		/// <summary>
 		/// iFolder Connection
@@ -136,9 +131,6 @@ namespace Novell.iFolderApp.Web
 				Actions.Visible = (ifolder.Rights == Rights.Admin);
 				DeleteButton.Enabled = ifolder.IsOwner;
 
-				// context
-				iFolderContext.iFolderName = ifolder.Name;
-
 				detailTable.Rows.Add(new object[] { GetString("NAME"), ifolder.Name });
 				detailTable.Rows.Add(new object[] { GetString("DESCRIPTION"), ifolder.Description });
 				detailTable.Rows.Add(new object[] { GetString("LASTMODIFIED"), WebUtility.FormatDate(ifolder.LastModified, rm) });
@@ -177,7 +169,7 @@ namespace Novell.iFolderApp.Web
 			switch(type)
 			{
 				case "AccessException":
-					MessageBox.Text = GetString("ENTRY.ACCESSEXCEPTION");
+					Message.Text = GetString("ENTRY.ACCESSEXCEPTION");
 					break;
 
 				default:

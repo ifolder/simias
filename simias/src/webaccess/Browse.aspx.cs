@@ -46,11 +46,6 @@ namespace Novell.iFolderApp.Web
 	public class BrowsePage : Page
 	{
 		/// <summary>
-		/// iFolder Context
-		/// </summary>
-		protected Context iFolderContext;
-
-		/// <summary>
 		/// Actions Container
 		/// </summary>
 		protected HtmlContainerControl Actions;
@@ -88,12 +83,12 @@ namespace Novell.iFolderApp.Web
 		/// <summary>
 		/// Pagging
 		/// </summary>
-		protected Pagging EntryPagging;
+		protected PaggingControl EntryPagging;
 
 		/// <summary>
 		/// Message Box
 		/// </summary>
-		protected Message MessageBox;
+		protected MessageControl Message;
 
 		/// <summary>
 		/// iFolder Connection
@@ -167,7 +162,7 @@ namespace Novell.iFolderApp.Web
 		{
 			BindParentData();
 			BindEntryData();
-			BindContextData();
+			BindPathData();
 		}
 
 		/// <summary>
@@ -181,7 +176,6 @@ namespace Novell.iFolderApp.Web
 			{
 				// ifolder
 				iFolder ifolder = web.GetiFolder(ifolderID);
-				iFolderContext.iFolderName = ifolder.Name;
 
 				// rights
 				Actions.Visible = (ifolder.Rights != Rights.ReadOnly);
@@ -282,7 +276,7 @@ namespace Novell.iFolderApp.Web
 		/// <summary>
 		/// Bind the Data to the Page.
 		/// </summary>
-		private void BindContextData()
+		private void BindPathData()
 		{
 			// context
 			DataTable pathTable = new DataTable();
@@ -368,35 +362,35 @@ namespace Novell.iFolderApp.Web
 			{
 				case "FileDoesNotExistException":
 				case "EntryAlreadyExistException":
-					MessageBox.Text = GetString("ENTRY.DIRALREADYEXISTS");
+					Message.Text = GetString("ENTRY.DIRALREADYEXISTS");
 					break;
 
 				case "EntryInvalidCharactersException":
-					MessageBox.Text = GetString("ENTRY.ENTRYINVALIDCHARACTERS");
+					Message.Text = GetString("ENTRY.ENTRYINVALIDCHARACTERS");
 					break;
 
 				case "EntryInvalidNameException":
-					MessageBox.Text = GetString("ENTRY.ENTRYINVALIDNAME");
+					Message.Text = GetString("ENTRY.ENTRYINVALIDNAME");
 					break;
 
 				case "FileSizeException":
-					MessageBox.Text = GetString("ENTRY.FILESIZEEXCEPTION");
+					Message.Text = GetString("ENTRY.FILESIZEEXCEPTION");
 					break;
 
 				case "DiskQuotaException":
-					MessageBox.Text = GetString("ENTRY.DISKQUOTAEXCEPTION");
+					Message.Text = GetString("ENTRY.DISKQUOTAEXCEPTION");
 					break;
 
 				case "FileTypeException":
-					MessageBox.Text = GetString("ENTRY.FILETYPEEXCEPTION");
+					Message.Text = GetString("ENTRY.FILETYPEEXCEPTION");
 					break;
 
 				case "AccessException":
-					MessageBox.Text = GetString("ENTRY.ACCESSEXCEPTION");
+					Message.Text = GetString("ENTRY.ACCESSEXCEPTION");
 					break;
 
 				case "LockException":
-					MessageBox.Text = GetString("ENTRY.LOCKEXCEPTION");
+					Message.Text = GetString("ENTRY.LOCKEXCEPTION");
 					break;
 
 				default:

@@ -125,21 +125,53 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "Context.ascx"
+                    RelPath = "HomeContext.ascx"
                     SubType = "UserControl"
                     BuildAction = "Content"
                 />
                 <File
-                    RelPath = "Context.ascx.cs"
-                    DependentUpon = "Context.ascx"
+                    RelPath = "HomeContext.ascx.cs"
+                    DependentUpon = "HomeContext.ascx"
                     SubType = "ASPXCodeBehind"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Context.ascx.resx"
-                    DependentUpon = "Context.ascx.cs"
+                    RelPath = "HomeContext.ascx.resx"
+                    DependentUpon = "HomeContext.ascx.cs"
                     BuildAction = "EmbeddedResource"
                 />
+				<File
+					RelPath = "iFolderContext.ascx"
+					SubType = "UserControl"
+					BuildAction = "Content"
+				/>
+				<File
+					RelPath = "iFolderContext.ascx.cs"
+					DependentUpon = "iFolderContext.ascx"
+					SubType = "ASPXCodeBehind"
+					BuildAction = "Compile"
+				/>
+				<File
+					RelPath = "iFolderContext.ascx.resx"
+					DependentUpon = "iFolderContext.ascx.cs"
+					BuildAction = "EmbeddedResource"
+				/>
+				<File
+					RelPath = "TabControl.ascx"
+					SubType = "UserControl"
+					BuildAction = "Content"
+				/>
+				<File
+					RelPath = "TabControl.ascx.cs"
+					DependentUpon = "TabControl.ascx"
+					SubType = "ASPXCodeBehind"
+					BuildAction = "Compile"
+				/>
+				<File
+					RelPath = "TabControl.ascx.resx"
+					DependentUpon = "TabControl.ascx.cs"
+					BuildAction = "EmbeddedResource"
+				/>
                 <File
                     RelPath = "Default.aspx"
                     SubType = "Form"

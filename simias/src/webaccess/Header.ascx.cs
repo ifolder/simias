@@ -31,13 +31,14 @@ using System.Web.UI.HtmlControls;
 using System.Web.Security;
 using System.Threading;
 using System.Resources;
+using System.Web.Services.Protocols;
 
 namespace Novell.iFolderApp.Web
 {
 	/// <summary>
-	///	Header
+	///	Header Control
 	/// </summary>
-	public class Header : UserControl
+	public class HeaderControl : UserControl
 	{
 		/// <summary>
 		/// Log
@@ -48,12 +49,12 @@ namespace Novell.iFolderApp.Web
 		/// <summary>
 		/// Settings Button
 		/// </summary>
-		protected HyperLink SettingsButton;
+		protected HyperLink SettingsLink;
 		
 		/// <summary>
 		/// Help Button
 		/// </summary>
-		protected HyperLink HelpButton;
+		protected HyperLink HelpLink;
 		
 		/// <summary>
 		/// Logout Button
@@ -71,6 +72,11 @@ namespace Novell.iFolderApp.Web
 		private ResourceManager rm;
 	
 		/// <summary>
+		/// iFolder Connection
+		/// </summary>
+		private iFolderWeb web;
+
+		/// <summary>
 		/// Max Header String Length
 		/// </summary>
 		private readonly static int MAX_HEADER_STRING = 30;
@@ -82,27 +88,61 @@ namespace Novell.iFolderApp.Web
 		/// <param name="e"></param>
 		private void Page_Load(object sender, System.EventArgs e)
 		{
+			// connection
+			web = (iFolderWeb) Session["Connection"];
+
+			// check connection
+			if (web == null) Logout(GetString("LOGIN.LOSTSESSION"));
+			
 			// localization
 			rm = (ResourceManager) Application["RM"];
 
-			// check connection
-			iFolderWeb web = (iFolderWeb)Session["Connection"];
-			if (web == null) Logout(GetString("MESSAGE.INFORMATION"), GetString("LOGIN.LOSTSESSION"));
-			
 			if (!IsPostBack)
 			{
+				// data
+				BindData();
+
 				// full name
 				FullName.Text = Trim((string)Session["UserFullName"], MAX_HEADER_STRING);
 				
 				// strings
-				//SettingsButton.Text = GetString("SETTINGS");
-				//HelpButton.Text = GetString("HELP");
+				//SettingsLink.Text = GetString("SETTINGS");
+				//HelpLink.Text = GetString("HELP");
 				LogoutButton.Text = GetString("LOGOUT");
 
 				// help
 				//HelpButton.NavigateUrl = String.Format("help/{0}/index.html",
 				//	Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName);
 			}
+		}
+
+		/// <summary>
+		/// Bind the Data to the Page.
+		/// </summary>
+		private void BindData()
+		{
+		}
+
+		/// <summary>
+		/// Handle Exceptions
+		/// </summary>
+		/// <param name="e"></param>
+		/// <returns></returns>
+		private bool HandleException(Exception e)
+		{
+			bool result = true;
+
+			string type = WebUtility.GetExceptionType(e);
+
+			// types
+			switch(type)
+			{
+				default:
+					result = false;
+					break;
+			}
+
+			return result;
 		}
 
 		/// <summary>
@@ -163,10 +203,10 @@ namespace Novell.iFolderApp.Web
 		/// <param name="e"></param>
 		private void LogoutButton_Click(object sender, System.EventArgs e)
 		{
-			Logout(GetString("MESSAGE.INFORMATION"), GetString("LOGIN.LOGOUT"));
+			Logout(GetString("LOGIN.LOGOUT"));
 		}
 
-		private void Logout(string type, string message)
+		private void Logout(string message)
 		{
 			FormsAuthentication.SignOut();
 			

@@ -1,4 +1,4 @@
-<%@ Control Language="c#" AutoEventWireup="false" Codebehind="Pagging.ascx.cs" Inherits="Novell.iFolderApp.Web.Pagging" %>
+<%@ Control Language="c#" AutoEventWireup="false" Codebehind="Pagging.ascx.cs" Inherits="Novell.iFolderApp.Web.PaggingControl" %>
 
 <div class="pagging" runat="server">
 	

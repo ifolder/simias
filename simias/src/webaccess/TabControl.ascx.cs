@@ -35,20 +35,10 @@ using System.Resources;
 namespace Novell.iFolderApp.Web
 {
 	/// <summary>
-	///	Context Control
+	///	Tab Control
 	/// </summary>
-	public class Context : UserControl
+	public class TabControl : UserControl
 	{
-		/// <summary>
-		/// The Home Link
-		/// </summary>
-		protected HyperLink HomeLink;
-
-		/// <summary>
-		/// iFolder Name
-		/// </summary>
-		protected Literal iFolderNameLiteral;
-
 		/// <summary>
 		/// The Browse Link
 		/// </summary>
@@ -109,7 +99,6 @@ namespace Novell.iFolderApp.Web
 			if (!IsPostBack)
 			{
 				// strings
-				HomeLink.Text = GetString("IFOLDERS");
 				BrowseLink.Text = GetString("BROWSE");
 				SearchLink.Text = GetString("SEARCH");
 				DetailsLink.Text = GetString("DETAILS");
@@ -134,19 +123,6 @@ namespace Novell.iFolderApp.Web
 		{
 			return WebUtility.GetString(key, rm);
 		}
-
-		#region Properties
-
-		/// <summary>
-		/// iFolder Name
-		/// </summary>
-		public string iFolderName
-		{
-			get { return iFolderNameLiteral.Text; }
-			set { iFolderNameLiteral.Text = value; }
-		}
-
-		#endregion
 
 		#region Web Form Designer
 		

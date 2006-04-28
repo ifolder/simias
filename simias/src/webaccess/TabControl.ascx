@@ -1,10 +1,4 @@
-<%@ Control Language="c#" AutoEventWireup="false" Codebehind="Context.ascx.cs" Inherits="Novell.iFolderApp.Web.Context" %>
-
-<div id="context">
-	<div class="home"><asp:HyperLink ID="HomeLink" NavigateUrl="iFolders.aspx" runat="server" /></div>
-	<div class="sep">&frasl;</div>
-	<div class="page"><asp:Literal ID="iFolderNameLiteral" runat="server" /></div>
-</div>
+<%@ Control Language="c#" AutoEventWireup="false" Codebehind="TabControl.ascx.cs" Inherits="Novell.iFolderApp.Web.TabControl" %>
 
 <div class="tabs">
 	<div id="browseTab" class="tab"><asp:HyperLink ID="BrowseLink" runat="server" /></div>

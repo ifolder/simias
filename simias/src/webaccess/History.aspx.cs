@@ -43,11 +43,6 @@ namespace Novell.iFolderApp.Web
 	public class HistoryPage : Page
 	{
 		/// <summary>
-		/// iFolder Context
-		/// </summary>
-		protected Context iFolderContext;
-
-		/// <summary>
 		/// History Data
 		/// </summary>
 		protected DataGrid HistoryData;
@@ -55,12 +50,12 @@ namespace Novell.iFolderApp.Web
 		/// <summary>
 		/// History Pagging
 		/// </summary>
-		protected Pagging HistoryPagging;
+		protected PaggingControl HistoryPagging;
 
 		/// <summary>
 		/// Message Box
 		/// </summary>
-		protected Message MessageBox;
+		protected MessageControl Message;
 
 		/// <summary>
 		/// iFolder Connection
@@ -132,7 +127,6 @@ namespace Novell.iFolderApp.Web
 			{
 				// ifolder
 				iFolder ifolder = web.GetiFolder(ifolderID);
-				iFolderContext.iFolderName = ifolder.Name;
 
 				// history
 				ChangeEntry[] changes = web.GetChanges(ifolderID, null, HistoryPagging.Index, HistoryPagging.PageSize, out total);
@@ -178,7 +172,7 @@ namespace Novell.iFolderApp.Web
 			switch(type)
 			{
 				case "AccessException":
-					MessageBox.Text = GetString("ENTRY.ACCESSEXCEPTION");
+					Message.Text = GetString("ENTRY.ACCESSEXCEPTION");
 					break;
 
 				default:

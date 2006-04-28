@@ -1,4 +1,4 @@
-<%@ Control Language="c#" Codebehind="Header.ascx.cs" AutoEventWireup="false" Inherits="Novell.iFolderApp.Web.Header"%>
+<%@ Control Language="c#" Codebehind="Header.ascx.cs" AutoEventWireup="false" Inherits="Novell.iFolderApp.Web.HeaderControl"%>
 
 <!-- header -->
 <div id="header">
@@ -12,9 +12,9 @@
 		
 		<div class="controls">
 			<!--
-			<asp:HyperLink ID="SettingsButton" CssClass="bannerLink" Target="ifolderSettings" runat="server" />
+			<asp:HyperLink ID="SettingsLink" CssClass="bannerLink" Target="ifolderSettings" runat="server" />
 			|
-			<asp:HyperLink ID="HelpButton" CssClass="bannerLink" Target="ifolderHelp" runat="server" />
+			<asp:HyperLink ID="HelpLink" CssClass="bannerLink" Target="ifolderHelp" runat="server" />
 			|
 			-->
 			<asp:LinkButton ID="LogoutButton" CssClass="bannerLink" runat="server" />

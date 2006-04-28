@@ -50,12 +50,12 @@ namespace Novell.iFolderApp.Web
 		/// <summary>
 		/// History Pagging
 		/// </summary>
-		protected Pagging HistoryPagging;
+		protected PaggingControl HistoryPagging;
 
 		/// <summary>
 		/// Message Box
 		/// </summary>
-		protected Message MessageBox;
+		protected MessageControl Message;
 
 		/// <summary>
 		/// The Close Button
@@ -196,7 +196,7 @@ namespace Novell.iFolderApp.Web
 			switch(type)
 			{
 				case "AccessException":
-					MessageBox.Text = GetString("ENTRY.ACCESSEXCEPTION");
+					Message.Text = GetString("ENTRY.ACCESSEXCEPTION");
 					break;
 
 				default:

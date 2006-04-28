@@ -73,7 +73,7 @@ namespace Novell.iFolderApp.Web
 		/// <summary>
 		/// Message Box
 		/// </summary>
-		protected Message MessageBox;
+		protected MessageControl Message;
 
 		/// <summary>
 		/// iFolder Connection
@@ -204,35 +204,35 @@ namespace Novell.iFolderApp.Web
 			{
 				case "FileDoesNotExistException":
 				case "EntryAlreadyExistException":
-					MessageBox.Text = GetString("ENTRY.DIRALREADYEXISTS");
+					Message.Text = GetString("ENTRY.DIRALREADYEXISTS");
 					break;
 
 				case "EntryInvalidCharactersException":
-					MessageBox.Text = GetString("ENTRY.ENTRYINVALIDCHARACTERS");
+					Message.Text = GetString("ENTRY.ENTRYINVALIDCHARACTERS");
 					break;
 
 				case "EntryInvalidNameException":
-					MessageBox.Text = GetString("ENTRY.ENTRYINVALIDNAME");
+					Message.Text = GetString("ENTRY.ENTRYINVALIDNAME");
 					break;
 
 				case "FileSizeException":
-					MessageBox.Text = GetString("ENTRY.FILESIZEEXCEPTION");
+					Message.Text = GetString("ENTRY.FILESIZEEXCEPTION");
 					break;
 
 				case "DiskQuotaException":
-					MessageBox.Text = GetString("ENTRY.DISKQUOTAEXCEPTION");
+					Message.Text = GetString("ENTRY.DISKQUOTAEXCEPTION");
 					break;
 
 				case "FileTypeException":
-					MessageBox.Text = GetString("ENTRY.FILETYPEEXCEPTION");
+					Message.Text = GetString("ENTRY.FILETYPEEXCEPTION");
 					break;
 
 				case "AccessException":
-					MessageBox.Text = GetString("ENTRY.ACCESSEXCEPTION");
+					Message.Text = GetString("ENTRY.ACCESSEXCEPTION");
 					break;
 
 				case "LockException":
-					MessageBox.Text = GetString("ENTRY.LOCKEXCEPTION");
+					Message.Text = GetString("ENTRY.LOCKEXCEPTION");
 					break;
 
 				default:
@@ -259,7 +259,7 @@ namespace Novell.iFolderApp.Web
 			if (filename.Length == 0)
 			{
 				// no file
-				MessageBox.Text = GetString("ENTRY.NOUPLOADFILE");
+				Message.Text = GetString("ENTRY.NOUPLOADFILE");
 
 				return;
 			}
@@ -292,7 +292,7 @@ namespace Novell.iFolderApp.Web
 				// check for an empty file
 				if (UploadFile.PostedFile.ContentLength == 0)
 				{
-					MessageBox.Text = GetString("ENTRY.EMPTYFILE");
+					Message.Text = GetString("ENTRY.EMPTYFILE");
 
 					return;
 				}

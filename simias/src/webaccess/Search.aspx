@@ -1,9 +1,10 @@
 <%@ Page Language="C#" Codebehind="Search.aspx.cs" AutoEventWireup="false" Inherits="Novell.iFolderApp.Web.SearchPage" %>
-<%@ Register TagPrefix="iFolder" TagName="Header" Src="Header.ascx" %>
-<%@ Register TagPrefix="iFolder" TagName="Message" Src="Message.ascx" %>
-<%@ Register TagPrefix="iFolder" TagName="Context" Src="Context.ascx" %>
-<%@ Register TagPrefix="iFolder" TagName="Quota" Src="Quota.ascx" %>
-<%@ Register TagPrefix="iFolder" TagName="Pagging" Src="Pagging.ascx" %>
+<%@ Register TagPrefix="iFolder" TagName="HeaderControl" Src="Header.ascx" %>
+<%@ Register TagPrefix="iFolder" TagName="MessageControl" Src="Message.ascx" %>
+<%@ Register TagPrefix="iFolder" TagName="iFolderContextControl" Src="iFolderContext.ascx" %>
+<%@ Register TagPrefix="iFolder" TagName="TabControl" Src="TabControl.ascx" %>
+<%@ Register TagPrefix="iFolder" TagName="QuotaControl" Src="Quota.ascx" %>
+<%@ Register TagPrefix="iFolder" TagName="PaggingControl" Src="Pagging.ascx" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 
@@ -63,14 +64,6 @@
 			document.getElementById("DeleteDisabled").style.display = (count > 0) ? "none" : "";
 		}
 	
-		function SetFocus()
-		{
-			document.getElementById("SearchPattern").select();
-		}
-		
-		// on load
-		window.onload = SetFocus;
-
 	</script>
 
 </head>
@@ -81,32 +74,29 @@
 	
 	<form runat="server">
 
-		<iFolder:Header runat="server" />
+		<iFolder:HeaderControl runat="server" />
+		
+		<iFolder:iFolderContextControl id="iFolderContext" runat="server" />
 		
 		<div id="nav">
 	
-			<div id="Actions" class="actions" runat="server">
-				<div class="action">
-					<span id="DeleteDisabled"><%= GetString("DELETE") %></span>
-					<asp:LinkButton ID="DeleteButton" style="display:none;" runat="server" />	
-				</div>
-			</div>
-			
-			<iFolder:Quota runat="server" />
+			<iFolder:TabControl id="Tabs" runat="server" />
+	
+			<iFolder:QuotaControl runat="server" />
 
 		</div>
 	
 		<div id="content">
 		
-			<iFolder:Context id="iFolderContext" runat="server" />
-	
-			<iFolder:Message id="MessageBox" runat="server" />
+			<iFolder:MessageControl id="Message" runat="server" />
 	
 			<div class="main">
 				
-				<div class="search">
-					<asp:TextBox ID="SearchPattern" CssClass="searchText" runat="server" onkeydown="return SubmitKeyDown(event, 'SearchButton');" />
-					<asp:Button ID="SearchButton" CssClass="" runat="server" />
+				<div id="Actions" class="actions" runat="server">
+					<div class="action">
+						<span id="DeleteDisabled"><%= GetString("DELETE") %></span>
+						<asp:LinkButton ID="DeleteButton" style="display:none;" runat="server" />	
+					</div>
 				</div>
 			
 				<asp:DataGrid
@@ -161,7 +151,7 @@
 					</columns>
 				</asp:DataGrid>
 			
-				<iFolder:Pagging id="EntryPagging" runat="server" />
+				<iFolder:PaggingControl id="EntryPagging" runat="server" />
 					
 			</div>
 	

@@ -1,4 +1,4 @@
-<%@ Control Language="c#" Codebehind="Quota.ascx.cs" AutoEventWireup="false" Inherits="Novell.iFolderApp.Web.Quota"%>
+<%@ Control Language="c#" Codebehind="Quota.ascx.cs" AutoEventWireup="false" Inherits="Novell.iFolderApp.Web.QuotaControl"%>
 
 <!-- quota -->
 

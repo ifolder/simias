@@ -1,7 +1,7 @@
 <%@ Page Language="C#" Codebehind="Share.aspx.cs" AutoEventWireup="false" Inherits="Novell.iFolderApp.Web.SharePage" %>
-<%@ Register TagPrefix="iFolder" TagName="Header" Src="Header.ascx" %>
-<%@ Register TagPrefix="iFolder" TagName="Message" Src="Message.ascx" %>
-<%@ Register TagPrefix="iFolder" TagName="Pagging" Src="Pagging.ascx" %>
+<%@ Register TagPrefix="iFolder" TagName="HeaderControl" Src="Header.ascx" %>
+<%@ Register TagPrefix="iFolder" TagName="MessageControl" Src="Message.ascx" %>
+<%@ Register TagPrefix="iFolder" TagName="PaggingControl" Src="Pagging.ascx" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 
@@ -49,14 +49,14 @@
 	
 	<form runat="server">
 
-		<iFolder:Header runat="server" />
+		<iFolder:HeaderControl runat="server" />
 		
 		<div id="nav">
 		</div>
 	
 		<div id="content">
 		
-			<iFolder:Message id="MessageBox" runat="server" />
+			<iFolder:MessageControl id="Message" runat="server" />
 	
 			<div class="section">
 				<%= GetString("SHARE") %>
@@ -129,7 +129,7 @@
 							</columns>
 						</asp:DataGrid>
 							
-						<iFolder:Pagging id="UserPagging" runat="server" />
+						<iFolder:PaggingControl id="UserPagging" runat="server" />
 		
 					</div>
 					
@@ -188,7 +188,7 @@
 							</columns>
 						</asp:DataGrid>
 							
-						<iFolder:Pagging id="MemberPagging" runat="server" />
+						<iFolder:PaggingControl id="MemberPagging" runat="server" />
 		
 					</div>
 					

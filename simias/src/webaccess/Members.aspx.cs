@@ -43,11 +43,6 @@ namespace Novell.iFolderApp.Web
 	public class MembersPage : Page
 	{
 		/// <summary>
-		/// iFolder Context
-		/// </summary>
-		protected Context iFolderContext;
-
-		/// <summary>
 		/// Actions Container
 		/// </summary>
 		protected HtmlContainerControl Actions;
@@ -60,12 +55,12 @@ namespace Novell.iFolderApp.Web
 		/// <summary>
 		/// Member Pagging
 		/// </summary>
-		protected Pagging MemberPagging;
+		protected PaggingControl MemberPagging;
 
 		/// <summary>
 		/// Message Box
 		/// </summary>
-		protected Message MessageBox;
+		protected MessageControl Message;
 
 		/// <summary>
 		/// The Add Button
@@ -180,7 +175,6 @@ namespace Novell.iFolderApp.Web
 			{
 				// ifolder
 				iFolder ifolder = web.GetiFolder(ifolderID);
-				iFolderContext.iFolderName = ifolder.Name;
 
 				// rights
 				Actions.Visible = (ifolder.Rights == Rights.Admin);
@@ -229,15 +223,15 @@ namespace Novell.iFolderApp.Web
 			switch(type)
 			{
 				case "InvalidOperationException":
-					MessageBox.Text = GetString("CHANGEOWNERRIGHTSEXCEPTION");
+					Message.Text = GetString("CHANGEOWNERRIGHTSEXCEPTION");
 					break;
 
 				case "AccessException":
-					MessageBox.Text = GetString("ENTRY.ACCESSEXCEPTION");
+					Message.Text = GetString("ENTRY.ACCESSEXCEPTION");
 					break;
 
 				case "LockException":
-					MessageBox.Text = GetString("ENTRY.LOCKEXCEPTION");
+					Message.Text = GetString("ENTRY.LOCKEXCEPTION");
 					break;
 
 				default:

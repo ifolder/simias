@@ -35,9 +35,9 @@ using System.Resources;
 namespace Novell.iFolderApp.Web
 {
 	/// <summary>
-	///	Quota
+	///	Quota Control
 	/// </summary>
-	public class Quota : UserControl
+	public class QuotaControl : UserControl
 	{
 		/// <summary>
 		/// Log

@@ -1,8 +1,9 @@
 <%@ Page Language="C#" Codebehind="iFolders.aspx.cs" AutoEventWireup="false" Inherits="Novell.iFolderApp.Web.iFoldersPage" %>
-<%@ Register TagPrefix="iFolder" TagName="Header" Src="Header.ascx" %>
-<%@ Register TagPrefix="iFolder" TagName="Message" Src="Message.ascx" %>
-<%@ Register TagPrefix="iFolder" TagName="Quota" Src="Quota.ascx" %>
-<%@ Register TagPrefix="iFolder" TagName="Pagging" Src="Pagging.ascx" %>
+<%@ Register TagPrefix="iFolder" TagName="HeaderControl" Src="Header.ascx" %>
+<%@ Register TagPrefix="iFolder" TagName="HomeContextControl" Src="HomeContext.ascx" %>
+<%@ Register TagPrefix="iFolder" TagName="MessageControl" Src="Message.ascx" %>
+<%@ Register TagPrefix="iFolder" TagName="QuotaControl" Src="Quota.ascx" %>
+<%@ Register TagPrefix="iFolder" TagName="PaggingControl" Src="Pagging.ascx" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 
@@ -49,22 +50,9 @@
 			document.getElementById("RemoveDisabled").style.display = (count > 0) ? "none" : "";
 		}
 	
-		function SubmitKeyDown(e, b)
-		{
-			var result = true;
-			
-			if ((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13))
-			{
-				document.getElementById(b).click();
-				result = false;
-			} 
-			
-			return result;
-		}
-
 		function SetFocus()
 		{
-			document.getElementById("SearchPattern").select();
+			document.getElementById("HomeContext:SearchPattern").select();
 		}
 		
 		// on load
@@ -80,46 +68,33 @@
 	
 	<form runat="server">
 
-		<iFolder:Header runat="server" />
+		<iFolder:HeaderControl runat="server" />
+		
+		<iFolder:HomeContextControl id="HomeContext" runat="server" />
 		
 		<div id="nav">
 	
-			<div class="actions">
-				<div class="action">
-					<asp:HyperLink ID="NewiFolderLink" NavigateUrl="iFolderNew.aspx" runat="server" />
-				</div>
-				<div class="action">
-					<span id="RemoveDisabled"><%= GetString("REMOVE") %></span>
-					<asp:LinkButton ID="RemoveButton" style="display:none;" runat="server" />
-				</div>
-			</div>
-			
-			<iFolder:Quota runat="server" />
+			<iFolder:QuotaControl runat="server" />
 
 		</div>
 	
 		<div id="content">
 		
-			<div id="context">
-				<div class="home"><%= GetString("IFOLDERS") %></div>
-			</div>
-					
-			<div id="Tabs" class="AllPage tabs" runat="server">
-				<div id="allTab" class="tab"><asp:LinkButton ID="AllButton" runat="server" /></div>
-				<div id="newTab" class="tab"><asp:LinkButton ID="NewButton" runat="server" /></div>
-				<div id="ownerTab" class="tab"><asp:LinkButton ID="OwnerButton" runat="server" /></div>
-				<div id="sharedTab" class="tab"><asp:LinkButton ID="SharedButton" runat="server" /></div>
-			</div>
-			
-			<iFolder:Message id="MessageBox" runat="server" />
+			<iFolder:MessageControl id="Message" runat="server" />
 	
 			<div class="main">
-				
-				<div class="filter">
-					<asp:TextBox ID="SearchPattern" CssClass="filterText" runat="server" onkeydown="return SubmitKeyDown(event, 'SearchButton');" />
-					<asp:Button ID="SearchButton" CssClass="" runat="server" />
+					
+				<div class="actions">
+					<div class="action">
+						<asp:HyperLink ID="NewiFolderLink" NavigateUrl="iFolderNew.aspx" runat="server" />
+					</div>
+					<div class="sep">|</div>
+					<div class="action">
+						<span id="RemoveDisabled"><%= GetString("REMOVE") %></span>
+						<asp:LinkButton ID="RemoveButton" style="display:none;" runat="server" />
+					</div>
 				</div>
-			
+				
 				<asp:DataGrid
 					ID="iFolderData"
 					GridLines="none"
@@ -164,7 +139,7 @@
 					</columns>
 				</asp:DataGrid>
 				
-				<iFolder:Pagging id="iFolderPagging" runat="server" />
+				<iFolder:PaggingControl id="iFolderPagging" runat="server" />
 					
 			</div>
 	

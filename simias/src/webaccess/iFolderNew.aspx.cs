@@ -45,7 +45,7 @@ namespace Novell.iFolderApp.Web
 		/// <summary>
 		/// Message Box
 		/// </summary>
-		protected Message MessageBox;
+		protected MessageControl Message;
 
 		/// <summary>
 		/// The Create Button
@@ -113,13 +113,13 @@ namespace Novell.iFolderApp.Web
 			switch(type)
 			{
 				case "AccessException":
-					MessageBox.Text = GetString("ENTRY.ACCESSEXCEPTION");
+					Message.Text = GetString("ENTRY.ACCESSEXCEPTION");
 					break;
 
 				default:
 					
 					// TEMP
-					MessageBox.Text = type;
+					Message.Text = type;
 
 					result = false;
 					break;
@@ -174,7 +174,7 @@ namespace Novell.iFolderApp.Web
 
 			if (name.Length == 0)
 			{
-				MessageBox.Text = GetString("IFOLDER.NONAME");
+				Message.Text = GetString("IFOLDER.NONAME");
 				return;
 			}
 

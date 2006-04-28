@@ -33,14 +33,14 @@ using System.Web.Security;
 namespace Novell.iFolderApp.Web
 {
 	/// <summary>
-	///	Message
+	///	Message Control
 	/// </summary>
-	public class Message : UserControl
+	public class MessageControl : UserControl
 	{
 		/// <summary>
 		/// Message Div Tag
 		/// </summary>
-		protected HtmlGenericControl MessageBox;
+		protected HtmlGenericControl Message;
 
 		/// <summary>
 		/// Message Text
@@ -123,7 +123,7 @@ namespace Novell.iFolderApp.Web
 		private void Message_PreRender(object sender, EventArgs e)
 		{
 			TextLiteral.Text = text;
-			MessageBox.Visible = (text != null) && (text.Length > 0);
+			Message.Visible = (text != null) && (text.Length > 0);
 		}
 	}
 }

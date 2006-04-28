@@ -1,9 +1,10 @@
 <%@ Page Language="C#" Codebehind="Members.aspx.cs" AutoEventWireup="false" Inherits="Novell.iFolderApp.Web.MembersPage" %>
-<%@ Register TagPrefix="iFolder" TagName="Header" Src="Header.ascx" %>
-<%@ Register TagPrefix="iFolder" TagName="Message" Src="Message.ascx" %>
-<%@ Register TagPrefix="iFolder" TagName="Context" Src="Context.ascx" %>
-<%@ Register TagPrefix="iFolder" TagName="Quota" Src="Quota.ascx" %>
-<%@ Register TagPrefix="iFolder" TagName="Pagging" Src="Pagging.ascx" %>
+<%@ Register TagPrefix="iFolder" TagName="HeaderControl" Src="Header.ascx" %>
+<%@ Register TagPrefix="iFolder" TagName="iFolderContextControl" Src="iFolderContext.ascx" %>
+<%@ Register TagPrefix="iFolder" TagName="TabControl" Src="TabControl.ascx" %>
+<%@ Register TagPrefix="iFolder" TagName="MessageControl" Src="Message.ascx" %>
+<%@ Register TagPrefix="iFolder" TagName="QuotaControl" Src="Quota.ascx" %>
+<%@ Register TagPrefix="iFolder" TagName="PaggingControl" Src="Pagging.ascx" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 
@@ -69,47 +70,54 @@
 	
 	<form runat="server">
 
-		<iFolder:Header runat="server" />
+		<iFolder:HeaderControl runat="server" />
 		
+		<iFolder:iFolderContextControl id="iFolderContext" runat="server" />
+	
 		<div id="nav">
 	
-			<div id="Actions" class="actions" runat="server">
-				<div class="action">
-					<asp:HyperLink ID="AddButton" runat="server" />
-				</div>
-				<div class="action">
-					<span id="RemoveDisabled"><%= GetString("REMOVE") %></span>
-					<asp:LinkButton ID="RemoveButton" style="display:none;" runat="server" />
-				</div>
-				<div class="action">
-					<span id="ReadOnlyDisabled"><%= GetString("RIGHTS.READONLY") %></span>
-					<asp:LinkButton ID="ReadOnlyButton" style="display:none;" runat="server" />
-				</div>
-				<div class="action">
-					<span id="ReadWriteDisabled"><%= GetString("RIGHTS.READWRITE") %></span>
-					<asp:LinkButton ID="ReadWriteButton" style="display:none;" runat="server" />
-				</div>
-				<div class="action">
-					<span id="AdminDisabled"><%= GetString("RIGHTS.ADMIN") %></span>
-					<asp:LinkButton ID="AdminButton" style="display:none;" runat="server" />
-				</div>
-				<div class="action">
-					<span id="OwnerDisabled"><%= GetString("OWNER") %></span>
-					<asp:LinkButton ID="OwnerButton" style="display:none;" runat="server" />
-				</div>
-			</div>
-			
-			<iFolder:Quota runat="server" />
+			<iFolder:TabControl runat="server" />
+	
+			<iFolder:QuotaControl runat="server" />
 
 		</div>
 	
 		<div id="content">
 		
-			<iFolder:Context id="iFolderContext" runat="server" />
-	
-			<iFolder:Message id="MessageBox" runat="server" />
+			<iFolder:MessageControl id="Message" runat="server" />
 	
 			<div class="main">
+					
+				<div id="Actions" class="actions" runat="server">
+					<div class="action">
+						<asp:HyperLink ID="AddButton" runat="server" />
+					</div>
+					<div class="sep">|</div>
+					<div class="action">
+						<span id="RemoveDisabled"><%= GetString("REMOVE") %></span>
+						<asp:LinkButton ID="RemoveButton" style="display:none;" runat="server" />
+					</div>
+					<div class="sep">|</div>
+					<div class="action">
+						<span id="ReadOnlyDisabled"><%= GetString("RIGHTS.READONLY") %></span>
+						<asp:LinkButton ID="ReadOnlyButton" style="display:none;" runat="server" />
+					</div>
+					<div class="sep">|</div>
+					<div class="action">
+						<span id="ReadWriteDisabled"><%= GetString("RIGHTS.READWRITE") %></span>
+						<asp:LinkButton ID="ReadWriteButton" style="display:none;" runat="server" />
+					</div>
+					<div class="sep">|</div>
+					<div class="action">
+						<span id="AdminDisabled"><%= GetString("RIGHTS.ADMIN") %></span>
+						<asp:LinkButton ID="AdminButton" style="display:none;" runat="server" />
+					</div>
+					<div class="sep">|</div>
+					<div class="action">
+						<span id="OwnerDisabled"><%= GetString("OWNER") %></span>
+						<asp:LinkButton ID="OwnerButton" style="display:none;" runat="server" />
+					</div>
+				</div>
 				
 				<asp:DataGrid
 					ID="MemberData"
@@ -144,7 +152,7 @@
 					</columns>
 				</asp:DataGrid>
 					
-				<iFolder:Pagging id="MemberPagging" runat="server" />
+				<iFolder:PaggingControl id="MemberPagging" runat="server" />
 					
 				<div class="buttons">
 					<asp:Button ID="SelfRemoveButton" runat="server" />

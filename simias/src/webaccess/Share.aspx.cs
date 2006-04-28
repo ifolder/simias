@@ -55,7 +55,7 @@ namespace Novell.iFolderApp.Web
 		/// <summary>
 		/// History Pagging
 		/// </summary>
-		protected Pagging UserPagging;
+		protected PaggingControl UserPagging;
 
 		/// <summary>
 		/// Member Data
@@ -65,12 +65,12 @@ namespace Novell.iFolderApp.Web
 		/// <summary>
 		/// Member Pagging
 		/// </summary>
-		protected Pagging MemberPagging;
+		protected PaggingControl MemberPagging;
 
 		/// <summary>
 		/// Message Box
 		/// </summary>
-		protected Message MessageBox;
+		protected MessageControl Message;
 
 		/// <summary>
 		/// The Share Button
@@ -320,13 +320,13 @@ namespace Novell.iFolderApp.Web
 			switch(type)
 			{
 				case "AccessException":
-					MessageBox.Text = GetString("ENTRY.ACCESSEXCEPTION");
+					Message.Text = GetString("ENTRY.ACCESSEXCEPTION");
 					break;
 
 				default:
 					
 					// TEMP
-					MessageBox.Text = type;
+					Message.Text = type;
 
 					result = false;
 					break;

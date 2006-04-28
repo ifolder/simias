@@ -37,7 +37,7 @@ namespace Novell.iFolderApp.Web
 	/// <summary>
 	///	Pagging Control
 	/// </summary>
-	public class Pagging : UserControl
+	public class PaggingControl : UserControl
 	{
 		/// <summary>
 		/// Default Items / Page
