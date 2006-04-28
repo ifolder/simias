@@ -82,7 +82,7 @@
 		<value>Begins With</value>
 	</data>
 	<data name="BREADCRUMBSEPARATOR">
-		<value>|</value>
+		<value>&#124;</value>
 	</data>
 	<data name="CANCEL">
 		<value>Cancel</value>
