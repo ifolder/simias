@@ -52,7 +52,7 @@
 	
 		function SetFocus()
 		{
-			document.getElementById("HomeContext:SearchPattern").select();
+			document.getElementById("HomeContext_SearchPattern").select();
 		}
 		
 		// on load

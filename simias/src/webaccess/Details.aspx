@@ -25,6 +25,14 @@
 			return confirm("<%= GetString("IFOLDER.CONFIRMDELETE") %>");
 		}
 	
+		function SetFocus()
+		{
+			document.getElementById("iFolderContext_SearchPattern").select();
+		}
+		
+		// on load
+		window.onload = SetFocus;
+	
 	</script>
 	
 </head>

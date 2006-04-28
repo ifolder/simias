@@ -137,13 +137,13 @@ a:hover
 
 .filterText
 {
-	width: 10em;
-	background: #FFFFFF url(../images/filter-soft.png) 4px 2px no-repeat;
+	width: 12em;
+	background: #FFFFFF url(../images/search-soft.png) 4px 2px no-repeat;
 }
 
 .searchText
 {
-	width: 10em;
+	width: 12em;
 	background: #FFFFFF url(../images/search-soft.png) 4px 2px no-repeat;
 }
 
@@ -169,23 +169,39 @@ a:hover
 #nav .quota .box
 {
 	border: 1px solid #999999;
-	-moz-border-radius: 5px;
+	-moz-border-radius: 8px;
 	background-color: #FDFDFD;
-	padding: 4px;
+	padding: 0;
+}
+
+#nav .quota .box .title
+{
+	-moz-border-radius: 7px 7px 0 0;
+	color: #333333;
+	padding: 0 0 2px 0;
+	text-align: center;
+	background-color: #C8C8C8;
+	margin-bottom: 2px;
+}
+
+#nav .quota .box .data
+{
+	padding: 0 4px 4px 4px;
 }
 
 #nav .quota .box .label
 {
-	color: #C6C6C6;
+	padding: 0 4px 0 4px;
+	color: #999999;
 }
 
 /* actions */
 
 .actions
 {
-	font-size: 0.85em;
+	font-size: 0.9em;
 	padding: 0 8px 8px 16px;
-	color: #BBBBBB;
+	color: #999999;
 }
 
 .actions .action
@@ -201,7 +217,7 @@ a:hover
 
 .actions .action a
 {
-	color: #76539F;
+	color: #333333;
 }
 
 /* content */
@@ -265,7 +281,11 @@ div.message
 #members .tabs #membersTab,
 #history .tabs #historyTab
 {
+	border-top: 1px solid #C8C8C8;
 	border-right: 1px solid #FDFDFD;
+	border-bottom: 1px solid #C8C8C8;
+	border-left: 1px solid #C8C8C8;
+
 	background: #FDFDFD;
 }
 

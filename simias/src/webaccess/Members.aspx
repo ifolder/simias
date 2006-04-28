@@ -60,6 +60,14 @@
 			document.getElementById("OwnerDisabled").style.display = (count == 1) ? "none" : "";
 		}
 	
+		function SetFocus()
+		{
+			document.getElementById("iFolderContext_SearchPattern").select();
+		}
+		
+		// on load
+		window.onload = SetFocus;
+	
 	</script>
 
 </head>

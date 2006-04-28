@@ -19,6 +19,18 @@
 		@import url(css/ifolder.css);
 	</style>
 
+	<script type="text/javascript">
+	
+		function SetFocus()
+		{
+			document.getElementById("iFolderContext_SearchPattern").select();
+		}
+		
+		// on load
+		window.onload = SetFocus;
+	
+	</script>
+
 </head>
 
 <body id="history">

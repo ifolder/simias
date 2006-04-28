@@ -64,6 +64,14 @@
 			document.getElementById("DeleteDisabled").style.display = (count > 0) ? "none" : "";
 		}
 	
+		function SetFocus()
+		{
+			document.getElementById("iFolderContext_SearchPattern").select();
+		}
+		
+		// on load
+		window.onload = SetFocus;
+	
 	</script>
 
 </head>

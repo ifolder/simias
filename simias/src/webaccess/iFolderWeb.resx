@@ -519,4 +519,7 @@
     <data name="OWNED">
         <value>Owned</value>
     </data>
+    <data name="QUOTA">
+        <value>Quota</value>
+    </data>
 </root>
