@@ -528,7 +528,4 @@
     <data name="REMOVEMEMBERSHIP">
         <value>Remove Membership</value>
     </data>
-    <data name="REMOVEMYMEMBERSHIP">
-        <value>Remove My Membership</value>
-    </data>
 </root>
