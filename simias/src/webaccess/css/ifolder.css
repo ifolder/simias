@@ -83,7 +83,7 @@ a:hover
 
 #context
 {
-	background: #BBBBBB url(../images/context.png) left top repeat-x;
+	background-color: #EDEDED;
 	padding: 4px 8px 4px 8px;
 	color: #333333;
 	border-bottom: 1px solid #6E6E7A;
@@ -199,7 +199,7 @@ a:hover
 
 .actions
 {
-	font-size: 0.9em;
+	font-size: 0.85em;
 	padding: 0 8px 8px 16px;
 	color: #999999;
 }
@@ -299,10 +299,11 @@ div.message
 
 .path
 {
-	background-color: #EDEDED;
+	font-size: 1.1em;
 	padding: 2px 4px 2px 4px;
 	color: #333333;
 	margin-bottom: 8px;
+	border-bottom: 1px solid #C6C6C6;
 }
 
 .path a

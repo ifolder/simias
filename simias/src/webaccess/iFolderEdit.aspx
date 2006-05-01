@@ -64,6 +64,7 @@
 			<div class="main">
 				
 				<div class="path">
+					<asp:Image ImageUrl="images/ifolder.png" runat="server" />
 					<asp:Literal ID="iFolderName" runat="server" />
 				</div>
 

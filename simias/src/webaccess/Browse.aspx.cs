@@ -283,6 +283,7 @@ namespace Novell.iFolderApp.Web
 			pathTable.Columns.Add("Name");
 			pathTable.Columns.Add("Path");
 
+			// trim the entryPath
 			int start = 0;
 			int end = 0;
 

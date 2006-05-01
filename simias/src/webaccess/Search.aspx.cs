@@ -218,7 +218,7 @@ namespace Novell.iFolderApp.Web
 
 					row["ID"] = child.ID;
 					row["iFolderID"] = child.iFolderID;
-					row["Name"] = child.Name;
+					row["Name"] = child.Path.Substring(child.Path.IndexOf('/'));
 
 					if (child.IsDirectory)
 					{

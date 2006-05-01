@@ -40,6 +40,7 @@
 			<div class="main">
 				
 				<div class="path">
+					<asp:Image ImageUrl="images/text-x-generic.png" runat="server" />
 					<asp:Literal ID="EntryName" runat="server" />
 				</div>
 

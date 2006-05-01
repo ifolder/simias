@@ -263,7 +263,7 @@ namespace Novell.iFolderApp.Web
 				entry = web.CreateEntry(ifolderID, entryID, iFolderEntryType.Directory, name);
 
 				// redirect
-				Response.Redirect(String.Format("Browse.aspx?iFolder={0}&Entry={1}", entry.iFolderID, entry.ID));
+				Response.Redirect(String.Format("Browse.aspx?iFolder={0}&Entry={1}", entry.iFolderID, entry.ParentID));
 			}
 			catch(SoapException ex)
 			{
