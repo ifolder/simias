@@ -174,7 +174,7 @@ namespace Novell.iFolderApp.Web
 			memberTable.Columns.Add("ID");
 			memberTable.Columns.Add("Name");
 			memberTable.Columns.Add("Rights");
-			memberTable.Columns.Add("IsOwner", typeof(bool));
+			memberTable.Columns.Add("Enabled", typeof(bool));
 
 			try
 			{
@@ -191,7 +191,8 @@ namespace Novell.iFolderApp.Web
 				iFolderUser[] members = web.GetMembers(ifolderID, MemberPagging.Index, MemberPagging.PageSize, out total);
 				MemberPagging.Count = members.Length;
 				MemberPagging.Total = total;
-				
+				string accessID = (string) Session["UserID"];
+
 				foreach(iFolderUser member in members)
 				{
 					DataRow row = memberTable.NewRow();
@@ -199,7 +200,7 @@ namespace Novell.iFolderApp.Web
 					row["ID"] = member.ID;
 					row["Name"] = member.FullName;
 					row["Rights"] = member.IsOwner ? GetString("OWNER") : WebUtility.FormatRights(member.Rights, rm);
-					row["IsOwner"] = member.IsOwner;
+					row["Enabled"] = !member.IsOwner && (member.ID != accessID);
 
 					memberTable.Rows.Add(row);
 				}

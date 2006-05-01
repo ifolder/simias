@@ -56,13 +56,18 @@
 			document.getElementById("ReadOnlyButton").style.display = (count > 0) ? "" : "none";
 			document.getElementById("ReadWriteButton").style.display = (count > 0) ? "" : "none";
 			document.getElementById("AdminButton").style.display = (count > 0) ? "" : "none";
-			document.getElementById("OwnerButton").style.display = (count == 1) ? "" : "none";
 
 			document.getElementById("RemoveDisabled").style.display = (count > 0) ? "none" : "";
 			document.getElementById("ReadOnlyDisabled").style.display = (count > 0) ? "none" : "";
 			document.getElementById("ReadWriteDisabled").style.display = (count > 0) ? "none" : "";
 			document.getElementById("AdminDisabled").style.display = (count > 0) ? "none" : "";
-			document.getElementById("OwnerDisabled").style.display = (count == 1) ? "none" : "";
+			
+			// is the owner button available?
+			if (document.getElementById("OwnerButton"))
+			{
+				document.getElementById("OwnerButton").style.display = (count == 1) ? "" : "none";
+				document.getElementById("OwnerDisabled").style.display = (count == 1) ? "none" : "";
+			}
 		}
 	
 		function SetFocus()
@@ -150,7 +155,7 @@
 						
 						<asp:TemplateColumn ItemStyle-CssClass="cb">
 							<itemtemplate>
-								<asp:CheckBox ID="Select" Visible='<%# Actions.Visible %>' Enabled='<%# !(bool)DataBinder.Eval(Container.DataItem, "IsOwner") %>'  onclick="SelectionUpdate(this)" runat="server" />
+								<asp:CheckBox ID="Select" Visible='<%# Actions.Visible %>' Enabled='<%# (bool)DataBinder.Eval(Container.DataItem, "Enabled") %>'  onclick="SelectionUpdate(this)" runat="server" />
 							</itemtemplate>
 						</asp:TemplateColumn>
 						
