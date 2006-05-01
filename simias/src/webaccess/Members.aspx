@@ -26,6 +26,11 @@
 			return confirm("<%= GetString("IFOLDER.CONFIRMREMOVE") %>");
 		}
 	
+		function ConfirmChangeOwner(f)
+		{
+			return confirm("<%= GetString("IFOLDER.CONFIRMCHANGEOWNER") %>");
+		}
+	
 		function SelectionUpdate(cb)
 		{
 			// MONO work-around
@@ -120,10 +125,12 @@
 						<span id="AdminDisabled"><%= GetString("RIGHTS.ADMIN") %></span>
 						<asp:LinkButton ID="AdminButton" style="display:none;" runat="server" />
 					</div>
-					<div class="sep">|</div>
-					<div class="action">
-						<span id="OwnerDisabled"><%= GetString("OWNER") %></span>
-						<asp:LinkButton ID="OwnerButton" style="display:none;" runat="server" />
+					<div id="ActionsOwner" class="sub" runat="server">
+						<div class="sep">|</div>
+						<div class="action">
+							<span id="OwnerDisabled"><%= GetString("OWNER") %></span>
+							<asp:LinkButton ID="OwnerButton" style="display:none;" runat="server" />
+						</div>
 					</div>
 				</div>
 				

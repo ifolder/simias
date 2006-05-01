@@ -215,6 +215,12 @@ a:hover
 	padding: 0 8px 0 8px;
 }
 
+.actions .sub
+{
+	display: inline;
+	padding: 0;
+}
+
 .actions .action a
 {
 	color: #333333;

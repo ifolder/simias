@@ -48,6 +48,11 @@ namespace Novell.iFolderApp.Web
 		protected HtmlContainerControl Actions;
 
 		/// <summary>
+		/// Actions Container
+		/// </summary>
+		protected HtmlContainerControl ActionsOwner;
+
+		/// <summary>
 		/// Member Data
 		/// </summary>
 		protected DataGrid MemberData;
@@ -178,6 +183,7 @@ namespace Novell.iFolderApp.Web
 
 				// rights
 				Actions.Visible = (ifolder.Rights == Rights.Admin);
+				ActionsOwner.Visible = ifolder.IsOwner;
 				MemberData.Columns[1].Visible = Actions.Visible;
 				SelfRemoveButton.Enabled = !ifolder.IsOwner;
 
@@ -275,6 +281,7 @@ namespace Novell.iFolderApp.Web
 			this.ReadOnlyButton.Click += new EventHandler(ReadOnlyButton_Click);
 			this.ReadWriteButton.Click += new EventHandler(ReadWriteButton_Click);
 			this.AdminButton.Click += new EventHandler(AdminButton_Click);
+			this.OwnerButton.PreRender += new EventHandler(OwnerButton_PreRender);
 			this.OwnerButton.Click += new EventHandler(OwnerButton_Click);
 			this.SelfRemoveButton.PreRender += new EventHandler(SelfRemoveButton_PreRender);
 			this.SelfRemoveButton.Click += new EventHandler(SelfRemoveButton_Click);
@@ -401,6 +408,16 @@ namespace Novell.iFolderApp.Web
 		private void AdminButton_Click(object sender, EventArgs e)
 		{
 			SetRights(Rights.Admin);
+		}
+
+		/// <summary>
+		/// Owner Button Pre-Render
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void OwnerButton_PreRender(object sender, EventArgs e)
+		{
+			OwnerButton.Attributes["onclick"] = "return ConfirmChangeOwner(this.form);";
 		}
 
 		/// <summary>

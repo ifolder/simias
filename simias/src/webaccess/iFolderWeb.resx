@@ -54,6 +54,9 @@
     <data name="ENTRY.CONFIRMDELETE">
         <value>Are you sure you want to delete the selected items?</value>
     </data>
+    <data name="IFOLDER.CONFIRMCHANGEOWNER">
+        <value>Are you sure you want to give up ownership of this iFolder?</value>
+    </data>
     <data name="LOGIN.ERROR">
         <value>Error:</value>
     </data>
