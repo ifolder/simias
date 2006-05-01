@@ -1,70 +1,25 @@
-/***********************************************************************
- *  $RCSfile$
- *
- *  Copyright (C) 2006 Novell, Inc.
- *
- *  This program is free software; you can redistribute it and/or
- *  modify it under the terms of the GNU General Public
- *  License as published by the Free Software Foundation; either
- *  version 2 of the License, or (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- *  General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public
- *  License along with this program; if not, write to the Free
- *  Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
- *
- *  Author: Brady Anderson <banderso@novell.com>
- *
- ***********************************************************************/
-
 using System;
-using System.Collections;
-using System.Diagnostics;
-using System.IO;
-using System.Net;
-using System.Text;
-using System.Threading;
-using System.Xml;
 
 using Novell.Directory.Ldap;
 using Novell.Directory.Ldap.Utilclass;
 
 using Simias;
-using Simias.Event;
-using Simias.POBox;
+using Simias.LdapProvider;
 using Simias.Storage;
 
-namespace Simias.LdapProvider
+namespace Simias.ADLdapProvider
 {
-	[Serializable]
-	public enum Status
-	{
-		Syncing,
-		Sleeping,
-		LdapConnectionFailure,
-		LdapAuthenticationFailure,
-		SyncThreadDown,
-		ConfigurationError,
-		InternalException
-	}
-
 	/// <summary>
-	/// Service class used to get an execution context
-	/// so we can register ourselves with the external
-	/// sync container
+	/// Summary description for Class1.
 	/// </summary>
-	public class Sync : Simias.IIdentitySyncProvider
+	class ADSync : Simias.IIdentitySyncProvider
 	{
 		#region Class Members
-		private readonly string name = "LDAP Synchronization";
-		private readonly string description = "LDAP Synchronization provider to synchronize identities from an ldap store to a simias domain";
+		private readonly string name = "Active Directory LDAP Synchronization";
+		private readonly string description = "Active Directory LDAP Synchronization provider to synchronize identities from Active Directory to a simias domain";
 		private bool abort = false;
 		
-		private Status syncStatus;
+		private Simias.LdapProvider.Status syncStatus;
 		private static LdapSettings ldapSettings;
 		private Exception syncException;
 
@@ -156,7 +111,7 @@ namespace Simias.LdapProvider
 			Guid cGuid = new Guid( guid );
 			byte[] bGuid = cGuid.ToByteArray();
 
-			string guidFilter = "(GUID=";
+			string guidFilter = "(objectGUID=";
 			string tmp;
 
 			// The CSharpLdap SDK expects each byte to
@@ -182,7 +137,7 @@ namespace Simias.LdapProvider
 
 			try
 			{
-				LdapAttribute guidAttr = entry.getAttribute( "GUID" );
+				LdapAttribute guidAttr = entry.getAttribute( "objectGUID" );
 				if ( guidAttr != null && guidAttr.StringValue.Length != 0 )
 				{
 					byte[] bGuid = new byte[8];
@@ -193,17 +148,17 @@ namespace Simias.LdapProvider
 
 					Guid cGuid = 
 						new Guid(
-							BitConverter.ToInt32( bGuid, 0 ),
-							BitConverter.ToInt16( bGuid, 4 ),
-							BitConverter.ToInt16( bGuid, 6 ),
-							(byte) guidAttr.ByteValue[8], 
-							(byte) guidAttr.ByteValue[9],
-							(byte) guidAttr.ByteValue[10],
-							(byte) guidAttr.ByteValue[11],
-							(byte) guidAttr.ByteValue[12],
-							(byte) guidAttr.ByteValue[13],
-							(byte) guidAttr.ByteValue[14],
-							(byte) guidAttr.ByteValue[15] );
+						BitConverter.ToInt32( bGuid, 0 ),
+						BitConverter.ToInt16( bGuid, 4 ),
+						BitConverter.ToInt16( bGuid, 6 ),
+						(byte) guidAttr.ByteValue[8], 
+						(byte) guidAttr.ByteValue[9],
+						(byte) guidAttr.ByteValue[10],
+						(byte) guidAttr.ByteValue[11],
+						(byte) guidAttr.ByteValue[12],
+						(byte) guidAttr.ByteValue[13],
+						(byte) guidAttr.ByteValue[14],
+						(byte) guidAttr.ByteValue[15] );
 
 					ldapGuid = cGuid.ToString();
 				}
@@ -215,21 +170,26 @@ namespace Simias.LdapProvider
 		private bool IsUser( String[] objectClasses )
 		{
 			try
-		    {
+			{
 				foreach( string s in objectClasses )
 				{
-					if ( s.ToLower() == "inetorgperson" )
+					string lower = s.ToLower();
+					if ( lower == "inetorgperson" )
+					{
+						return true;
+					}
+					else if ( lower == "organizationalPerson" )
 					{
 						return true;
 					}
 				}
 			}
-		    catch( Exception e )
-		    {
+			catch( Exception e )
+			{
 				log.Error( "IsUser failed with exception" );
 				log.Error( e.Message );
 			}
-		    return false;
+			return false;
 		}
 
 		private bool IsGroup( String[] objectClasses )
@@ -243,13 +203,13 @@ namespace Simias.LdapProvider
 						return true;
 					}
 				}
-		    }
-		    catch( Exception e )
+			}
+			catch( Exception e )
 			{
 				log.Error( "IsGroup failed with exception" );
 				log.Error( e.Message );
 			}
-		    return false;
+			return false;
 		}
 
 		private bool IsContainer( String[] objectClasses )
@@ -285,6 +245,12 @@ namespace Simias.LdapProvider
 						log.Debug( "Processing Locality Object..." );
 						break;
 					}
+					else if ( lower == "container" )
+					{
+						isContainer = true;
+						log.Debug( "Processing Container Object..." );
+						break;
+					}
 				}
 			}
 			catch( Exception e )
@@ -299,18 +265,18 @@ namespace Simias.LdapProvider
 		private void ProcessSearchUser( LdapConnection connection, String searchUser )
 		{
 			// Since the first version of the iFolder 3.0 only
-		    // exposes a username, firstname, lastname and full
-		    // name, we'll limit the scope of the search
+			// exposes a username, firstname, lastname and full
+			// name, we'll limit the scope of the search
 			string[] searchAttributes = {	
-					"modifytimestamp",
-					ldapSettings.NamingAttribute,
-					"cn",
-					"sn",
-					"GUID",
-					"givenName",
-					"ou" };
+											"modifytimestamp",
+											ldapSettings.NamingAttribute,
+											"cn",
+											"sn", 
+											"objectGUID",
+											"givenName", 
+											"ou" };
 
-		    log.Debug( "ProcessSearchUser(" + searchUser + ")" );
+			log.Debug( "ProcessSearchUser(" + searchUser + ")" );
 
 			try
 			{
@@ -343,7 +309,7 @@ namespace Simias.LdapProvider
 			Property dn;
 			string commonName;
 			string ldapGuid;
-			string[] searchAttributes = { "cn", "sn", "GUID" };
+			string[] searchAttributes = { "cn", "sn", "objectGUID" };
 
 			try
 			{
@@ -363,7 +329,7 @@ namespace Simias.LdapProvider
 
 				try
 				{
-					entry = conn.Read( Sync.ldapSettings.AdminDN, searchAttributes );
+					entry = conn.Read( ADSync.ldapSettings.AdminDN, searchAttributes );
 				}
 				catch( LdapException lEx )
 				{
@@ -388,7 +354,7 @@ namespace Simias.LdapProvider
 				}
 
 				// Get the common name from the Simias.config.AdminDN entry
-				string[] components = Sync.ldapSettings.AdminDN.Split( dnDelimiters );
+				string[] components = ADSync.ldapSettings.AdminDN.Split( dnDelimiters );
 				commonName = ( components[0].ToLower() == "cn" ) ? components[1] : components[0];
 				if ( commonName == null || commonName == "" )
 				{
@@ -473,12 +439,12 @@ namespace Simias.LdapProvider
 			// Since the first version of the iFolder 3.0 only
 			// exposes a username, firstname, lastname and full
 			// name, we'll limit the scope of the search
-			string[] searchAttributes = {
-						"modifytimestamp",
-						"cn",
-						"sn",
-						"GUID",
-						"givenName" };
+			string[] searchAttributes = {	
+											"modifytimestamp",
+											"cn", 
+											"sn", 
+											"objectGUID",
+											"givenName" }; 
 
 			char[] dnDelimiters = {',', '='};
 			LdapEntry entry = null;
@@ -488,6 +454,13 @@ namespace Simias.LdapProvider
 			string ldapGuid = null;
 
 			log.Debug( "ProcessSimiasAdmin( " + ldapSettings.AdminDN + ")" );
+
+			string adDomain = "";
+			entry = conn.Read( "", new string[] { "defaultNamingContext" } );
+			if ( entry != null )
+			{
+				adDomain = entry.getAttribute( "defaultNamingContext" ).StringValue;
+			}
 
 			if ( domain == null )
 			{
@@ -565,11 +538,11 @@ namespace Simias.LdapProvider
 					string guidFilter = BuildGuidFilter( ldapGuid );
 					LdapSearchResults results = 
 						conn.Search(
-							"",
-							LdapConnection.SCOPE_SUB,
-							"(&(objectclass=inetOrgPerson)" + guidFilter + ")",
-							searchAttributes,
-							false);
+						adDomain,
+						LdapConnection.SCOPE_SUB, 
+						"(&(objectclass=organizationalPerson)" + guidFilter + ")",
+						searchAttributes,
+						false);
 					if ( results.hasMore() == true )
 					{
 						entry = results.next();
@@ -690,9 +663,9 @@ namespace Simias.LdapProvider
 		private void ProcessSearchGroup( LdapConnection conn, String searchGroup )
 		{
 			string[] searchAttributes = {
-			"objectClass",
-			"cn",
-			"member" };
+											"objectClass",
+											"cn",
+											"member" };
 
 			log.Debug( "ProcessSearchGroup(" + searchGroup + ")" );
 
@@ -737,14 +710,14 @@ namespace Simias.LdapProvider
 		private void ProcessSearchContainer(LdapConnection conn, String searchContainer)
 		{
 			String searchFilter = "(objectclass=user)";
-			string[] searchAttributes = {
-						"modifytimestamp",
-						ldapSettings.NamingAttribute,
-						"cn",
-						"sn",
-						"GUID",
-						"givenName",
-						"ou" };
+			string[] searchAttributes = {	
+											"modifytimestamp",
+											ldapSettings.NamingAttribute,
+											"cn", 
+											"sn", 
+											"objectGUID",
+											"givenName", 
+											"ou" };
 
 			log.Debug( "ProcessSearchContainer(" + searchContainer + ")" );
 
@@ -752,18 +725,18 @@ namespace Simias.LdapProvider
 			LdapSearchConstraints searchConstraints = new LdapSearchConstraints();
 			searchConstraints.MaxResults = 0;
 
-		    LdapSearchQueue queue = 
+			LdapSearchQueue queue = 
 				conn.Search(
-					searchContainer, 
-					LdapConnection.SCOPE_SUB, 
-					searchFilter, 
-					searchAttributes, 
-					false,
-					(LdapSearchQueue) null,
-					searchConstraints);
+				searchContainer, 
+				LdapConnection.SCOPE_SUB, 
+				searchFilter, 
+				searchAttributes, 
+				false,
+				(LdapSearchQueue) null,
+				searchConstraints);
 
-		    LdapMessage ldapMessage;
-		    while( ( ldapMessage = queue.getResponse() ) != null )
+			LdapMessage ldapMessage;
+			while( ( ldapMessage = queue.getResponse() ) != null )
 			{
 				// Check if the sync engine wants us to abort
 				if ( this.abort == true )
@@ -818,8 +791,8 @@ namespace Simias.LdapProvider
 			string distinguishedName = String.Empty;
 			string ldapGuid = null;
 
-		    char[] dnDelimiters = {',', '='};
-		    LdapAttribute timeStampAttr = null;
+			char[] dnDelimiters = {',', '='};
+			LdapAttribute timeStampAttr = null;
 
 			bool attrError = false;
 			try
@@ -839,7 +812,7 @@ namespace Simias.LdapProvider
 					commonName = cAttr.StringValue;
 				}
 				else
-				if ( ldapSettings.NamingAttribute.ToLower() == LdapSettings.DefaultNamingAttribute.ToLower() )
+					if ( ldapSettings.NamingAttribute.ToLower() == LdapSettings.DefaultNamingAttribute.ToLower() )
 				{
 					// If the naming attribute is default (cn) then we want to continue
 					// to work the way we previously did so we don't break any existing installs.
@@ -960,7 +933,7 @@ namespace Simias.LdapProvider
 				{
 					log.Error( s.Message );
 					syncException = s;
-					syncStatus = Status.SyncThreadDown;
+					syncStatus = Simias.LdapProvider.Status.SyncThreadDown;
 				}
 				catch( LdapException e )
 				{
@@ -969,8 +942,8 @@ namespace Simias.LdapProvider
 					syncException = e;
 					syncStatus = 
 						( conn == null )
-							? Status.LdapConnectionFailure
-							: Status.LdapAuthenticationFailure;
+						? Simias.LdapProvider.Status.LdapConnectionFailure
+						: Simias.LdapProvider.Status.LdapAuthenticationFailure;
 
 					state.ReportError( e.LdapErrorMessage );
 				}
@@ -979,7 +952,7 @@ namespace Simias.LdapProvider
 					log.Error( e.Message );
 					log.Error( e.StackTrace );
 					syncException = e;
-					syncStatus = Status.InternalException;
+					syncStatus = Simias.LdapProvider.Status.InternalException;
 
 					state.ReportError( e.Message );
 				}

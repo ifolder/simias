@@ -37,10 +37,11 @@ using Simias;
 using Simias.Storage;
 using Simias.Sync;
 using Simias.Server;
+using Simias.LdapProvider;
 
 using SCodes = Simias.Authentication.StatusCodes;
 
-namespace Simias.LdapProvider
+namespace Simias.ADLdapProvider
 {
 	/// <summary>
 	/// Implementation of the IUserProvider Service for
@@ -62,8 +63,8 @@ namespace Simias.LdapProvider
 		/// <summary>
 		/// String used to identify domain provider.
 		/// </summary>
-		static private string providerName = "LDAP Provider";
-		static private string providerDescription = "A provider to sync identities from a LDAP to a Simias domain";
+		static private string providerName = "Active Directory LDAP Provider";
+		static private string providerDescription = "A provider to sync identities from Active Directory to a Simias domain";
 		
 		static private string missingDomainMessage = "Enterprise domain does not exist!";
 
@@ -71,6 +72,37 @@ namespace Simias.LdapProvider
 		private Store store = null;
 		private Simias.Storage.Domain domain = null;
 		private LdapSettings ldapSettings = null;
+
+		private static long timeDelta = new DateTime( 1601, 1, 1 ).Ticks - DateTime.MinValue.Ticks;
+
+		private TimeSpan maxPwdAge = TimeSpan.Zero;
+		private TimeSpan lockoutDuration = TimeSpan.Zero;
+
+		[Flags]
+		private enum ADS_USER_FLAGS
+		{
+			SCRIPT = 0X0001, 
+			ACCOUNTDISABLE = 0X0002, 
+			HOMEDIR_REQUIRED = 0X0008, 
+			LOCKOUT = 0X0010, 
+			PASSWD_NOTREQD = 0X0020, 
+			PASSWD_CANT_CHANGE = 0X0040, 
+			ENCRYPTED_TEXT_PASSWORD_ALLOWED = 0X0080, 
+			TEMP_DUPLICATE_ACCOUNT = 0X0100, 
+			NORMAL_ACCOUNT = 0X0200, 
+			INTERDOMAIN_TRUST_ACCOUNT = 0X0800, 
+			WORKSTATION_TRUST_ACCOUNT = 0X1000, 
+			SERVER_TRUST_ACCOUNT = 0X2000, 
+			DONT_EXPIRE_PASSWD = 0X10000, 
+			MNS_LOGON_ACCOUNT = 0X20000, 
+			SMARTCARD_REQUIRED = 0X40000, 
+			TRUSTED_FOR_DELEGATION = 0X80000, 
+			NOT_DELEGATED = 0X100000, 
+			USE_DES_KEY_ONLY = 0x200000, 
+			DONT_REQUIRE_PREAUTH = 0x400000, 
+			PASSWORD_EXPIRED = 0x800000, 
+			TRUSTED_TO_AUTHENTICATE_FOR_DELEGATION = 0x1000000
+		}
 		#endregion
 		
 		#region Properties
@@ -213,15 +245,14 @@ namespace Simias.LdapProvider
 		{
 			if ( connection != null )
 			{
+				readADDomainInfo( connection );
+
 				// Get the search attributes for login status.
 				string[] searchAttributes = { 
-												"loginDisabled", 
-												"loginExpirationTime", 
-												"loginGraceLimit", 
-												"loginGraceRemaining",
-												"passwordAllowChange",
-												"passwordRequired",
-												"passwordExpirationTime"
+												"userAccountControl",
+												"accountExpires",
+												"pwdLastSet",
+												"lockoutTime"
 											};
 				LdapEntry ldapEntry = connection.Read( status.DistinguishedUserName, searchAttributes );
 				if ( ldapEntry != null )
@@ -230,42 +261,32 @@ namespace Simias.LdapProvider
 					// the bind will fail and we'll come through on the proxy user
 					// connection so there is no reason for the extra checking on
 					// a successful bind in the context of the actual user.
-					if ( proxyUser == true && LoginDisabled( ldapEntry ) == true )
+					if ( proxyUser == true && AccountDisabled( ldapEntry ) == true )
 					{
 						status.statusCode = SCodes.AccountDisabled;
 					}
-					else
-					if ( proxyUser == true && LoginAccountExpired( ldapEntry ) == true )
+					else if ( proxyUser == true && AccountExpired( ldapEntry ) == true )
 					{
 						status.statusCode = SCodes.AccountDisabled;
 					}
+					else if ( proxyUser == true && AccountLockedOut( ldapEntry ) == true )
+					{
+						status.statusCode = SCodes.AccountLockout;
+					}
 					else
 					{
-						if ( LoginIsPasswordRequired( ldapEntry ) == true )
+						if ( IsPasswordRequired( ldapEntry ) == true )
 						{
-							if ( LoginCanUserChangePassword( ldapEntry ) == true )
+							if ( CanUserChangePassword( ldapEntry ) == true )
 							{
-								if ( LoginPasswordExpired( ldapEntry ) == true )
+								int daysUntilExpired;
+								if ( IsPasswordExpired( ldapEntry, out daysUntilExpired ) == true )
 								{
-									status.TotalGraceLogins = LoginGraceLimit( ldapEntry );
-									status.RemainingGraceLogins = LoginGraceRemaining( ldapEntry );
-									// BUGBUG - if there is no grace login limit a -1 is returned, so this
-									// case should succeed but tell the user that their password is expired.
-									if ( status.TotalGraceLogins != - 1 )
-									{
-										if ( status.RemainingGraceLogins >= 0 )
-										{
-											status.statusCode = SCodes.SuccessInGrace;
-										}
-										else
-										{
-											status.statusCode = SCodes.AccountLockout;
-										}
-									}
-									else
-									{
-										status.statusCode = SCodes.AccountLockout;
-									}
+									status.statusCode = SCodes.AccountLockout;
+								}
+								else if ( status.statusCode.Equals( SCodes.Success ) )
+								{
+									status.DaysUntilPasswordExpires = daysUntilExpired;
 								}
 							}
 						}
@@ -320,7 +341,6 @@ namespace Simias.LdapProvider
 		/// <summary>
 		/// Gets the distinguished name from the member name.
 		/// </summary>
-		/// <param name="domainID">The identifier for the domain.</param>
 		/// <param name="user">The user name.</param>
 		/// <param name="distinguishedName">Receives the ldap distinguished name.</param>
 		/// <param name="id">Receives the member's user ID.</param>
@@ -382,53 +402,19 @@ namespace Simias.LdapProvider
 		}
 		
 		/// <summary>
-		/// Checks if the user's account has expired
-		/// </summary>
-		/// <param name="entry">LdapEntry</param>
-		/// <returns>true - account expired/false - account still valid or no policy</returns>
-		private bool LoginAccountExpired( LdapEntry entry )
-		{
-			bool expired = false;
-
-			LdapAttribute attrExpiration = entry.getAttribute( "loginExpirationTime" );
-			if ( attrExpiration != null )
-			{
-				char[] exp = attrExpiration.StringValue.ToCharArray();
-
-				DateTime expiredPolicy =
-					new DateTime(
-					Convert.ToInt32( new String( exp, 0, 4 ) ),
-					Convert.ToInt32( new String( exp, 4, 2 ) ),
-					Convert.ToInt32( new String( exp, 6, 2 ) ),
-					Convert.ToInt32( new String( exp, 8, 2 ) ),
-					Convert.ToInt32( new String( exp, 10, 2 ) ),
-					Convert.ToInt32( new String( exp, 12, 2 ) ) );
-
-				if ( DateTime.UtcNow > expiredPolicy )
-				{
-					expired = true;
-				}
-			}
-
-			return expired;
-		}
-
-		/// <summary>
 		/// Checks if the user is allowed to change their password
 		/// </summary>
 		/// <param name="entry">LdapEntry</param>
 		/// <returns>true - user can change their password/false - can't change</returns>
-		private bool LoginCanUserChangePassword( LdapEntry entry )
+		private bool CanUserChangePassword( LdapEntry entry )
 		{
 			bool canChange = false;
 
-			LdapAttribute attrAllowChange = entry.getAttribute( "passwordAllowChange" );
-			if ( attrAllowChange != null )
+			LdapAttribute attrAccountControl = entry.getAttribute( "userAccountControl" );
+			if ( attrAccountControl != null )
 			{
-				if ( attrAllowChange.StringValue.ToLower() == "true" )
-				{
-					canChange = true;
-				}
+				int accountControl = int.Parse( attrAccountControl.StringValue );
+				canChange = !( ( accountControl & (int)ADS_USER_FLAGS.PASSWD_CANT_CHANGE ) == (int)ADS_USER_FLAGS.PASSWD_CANT_CHANGE );
 			}
 
 			return canChange;
@@ -439,17 +425,15 @@ namespace Simias.LdapProvider
 		/// </summary>
 		/// <param name="entry">LdapEntry</param>
 		/// <returns>true/false</returns>
-		private bool LoginIsPasswordRequired( LdapEntry entry )
+		private bool IsPasswordRequired( LdapEntry entry )
 		{
 			bool required = false;
 
-			LdapAttribute attrPasswordRequired = entry.getAttribute( "passwordRequired" );
-			if ( attrPasswordRequired != null )
+			LdapAttribute attrAccountControl = entry.getAttribute( "userAccountControl" );
+			if ( attrAccountControl != null )
 			{
-				if ( attrPasswordRequired.StringValue.ToLower() == "true" )
-				{
-					required = true;
-				}
+				int accountControl = int.Parse( attrAccountControl.StringValue );
+				required = !( ( accountControl & (int)ADS_USER_FLAGS.PASSWD_NOTREQD ) == (int)ADS_USER_FLAGS.PASSWD_NOTREQD );
 			}
 
 			return required;
@@ -460,63 +444,74 @@ namespace Simias.LdapProvider
 		/// </summary>
 		/// <param name="entry">LdapEntry</param>
 		/// <returns>True if login is disabled.</returns>
-		private bool LoginDisabled( LdapEntry entry )
+		private bool AccountDisabled( LdapEntry entry )
 		{
-			bool loginDisabled;
-			LdapAttribute attrLoginDisabled = entry.getAttribute( "loginDisabled" );
-			if ( attrLoginDisabled != null )
+			bool accountDisabled = false;
+
+			LdapAttribute attrAccountControl = entry.getAttribute( "userAccountControl" );
+			if ( attrAccountControl != null )
 			{
-				loginDisabled = Convert.ToBoolean( attrLoginDisabled.StringValue );
-			}
-			else
-			{
-				loginDisabled = false;
+				int accountControl = int.Parse( attrAccountControl.StringValue );
+				accountDisabled = ( accountControl & (int)ADS_USER_FLAGS.ACCOUNTDISABLE ) == (int)ADS_USER_FLAGS.ACCOUNTDISABLE;
 			}
 
-			return loginDisabled;
+			return accountDisabled;
 		}
 
 		/// <summary>
-		/// Gets the login grace limit.
+		/// Checks if the user's account has expired
 		/// </summary>
 		/// <param name="entry">LdapEntry</param>
-		/// <returns>The number of grace logins.</returns>
-		private int LoginGraceLimit( LdapEntry entry )
+		/// <returns>true - account expired/false - account still valid or no policy</returns>
+		private bool AccountExpired( LdapEntry entry )
 		{
-			int loginGraceLimit;
+			bool expired = false;
 
-			LdapAttribute attrLoginGraceLimit = entry.getAttribute( "loginGraceLimit" );
-			if ( attrLoginGraceLimit != null )
+			LdapAttribute attrExpires = entry.getAttribute( "accountExpires" );
+			if ( attrExpires != null )
 			{
-				loginGraceLimit = Convert.ToInt32( attrLoginGraceLimit.StringValue );
-			}
-			else
-			{
-				loginGraceLimit = -1;
+				long expires = long.Parse( attrExpires.StringValue );
+				if ( expires != 0 )
+				{
+					DateTime accountExpires = new DateTime( timeDelta + expires ).ToLocalTime();
+
+					// BUGBUG - need to use the server time instead of the client time.
+					if ( accountExpires < DateTime.Now )
+					{
+						expired = true;
+					}
+				}
 			}
 
-			return loginGraceLimit;
+			return expired;
 		}
 
 		/// <summary>
-		/// Gets the number of grace logins remaining.
+		/// Checks if the user's account is locked out.
 		/// </summary>
-		/// <param name="entry">LdapEntry</param>
-		/// <returns>The number grace logins remaining.</returns>
-		private int LoginGraceRemaining(LdapEntry entry)
+		/// <param name="entry">LdapEntry for the user to check.</param>
+		/// <returns><b>True</b> if the account is locked out; otherwise, <b>False</b> is returned.</returns>
+		private bool AccountLockedOut( LdapEntry entry )
 		{
-			int loginGraceRemaining;
+			bool lockedOut = false;
 
-			LdapAttribute attrLoginGraceRemaining = entry.getAttribute( "loginGraceRemaining" );
-			if ( attrLoginGraceRemaining != null )
+			LdapAttribute attrLockoutTime = entry.getAttribute( "lockoutTime" );
+			if ( attrLockoutTime != null )
 			{
-				loginGraceRemaining = Convert.ToInt32( attrLoginGraceRemaining.StringValue );
+				long lockoutTimeValue = long.Parse( attrLockoutTime.StringValue );
+				if ( lockoutTimeValue != 0 )
+				{
+					DateTime lockoutTime = new DateTime( timeDelta + lockoutTimeValue ).ToLocalTime();
+					
+					DateTime lockPlusDuration = lockoutTime - lockoutDuration;
+					if ( lockPlusDuration > DateTime.Now )
+					{
+						lockedOut = true;
+					}
+				}
 			}
-			else
-			{
-				loginGraceRemaining = -1;
-			}
-			return loginGraceRemaining;
+
+			return lockedOut;
 		}
 
 		/// <summary>
@@ -524,31 +519,69 @@ namespace Simias.LdapProvider
 		/// </summary>
 		/// <param name="entry">LdapEntry</param>
 		/// <returns>true - password expired/false - password still valid or no policy</returns>
-		private bool LoginPasswordExpired( LdapEntry entry )
+		private bool IsPasswordExpired( LdapEntry entry, out int daysUntilExpired )
 		{
-			bool expired = false;
+			bool passwordExpired = false;
+			daysUntilExpired = -1;
 
-			LdapAttribute attrExpiration = entry.getAttribute( "passwordExpirationTime" );
-			if ( attrExpiration != null )
+			LdapAttribute attrPwdLastSet = entry.getAttribute( "pwdLastSet" );
+			if ( attrPwdLastSet != null )
 			{
-				char[] exp = attrExpiration.StringValue.ToCharArray();
-
-				DateTime expiredPolicy =
-					new DateTime(
-							Convert.ToInt32( new String( exp, 0, 4 ) ),
-							Convert.ToInt32( new String( exp, 4, 2 ) ),
-							Convert.ToInt32( new String( exp, 6, 2 ) ),
-							Convert.ToInt32( new String( exp, 8, 2 ) ),
-							Convert.ToInt32( new String( exp, 10, 2 ) ),
-							Convert.ToInt32( new String( exp, 12, 2 ) ) );
-
-				if ( DateTime.UtcNow > expiredPolicy )
+				long pwdLastSetVal = long.Parse( attrPwdLastSet.StringValue );
+				if ( pwdLastSetVal == 0 )
 				{
-					expired = true;
+					passwordExpired = true;
+				}
+				else
+				{
+					DateTime pwdLastSet = new DateTime( timeDelta + pwdLastSetVal ).ToLocalTime();
+					DateTime pwdExpires = pwdLastSet - maxPwdAge;
+					if ( pwdExpires < DateTime.Now )
+					{
+						passwordExpired = true;
+					}
+					else
+					{
+						TimeSpan pwdExpiresIn = pwdExpires - DateTime.Now;
+						daysUntilExpired = pwdExpiresIn.Days;
+					}
 				}
 			}
 
-			return expired;
+			return passwordExpired;
+		}
+
+		private void readADDomainInfo( LdapConnection conn )
+		{
+			LdapEntry entry;
+
+			// Get the DN of the Active Directory domain.
+			string adDomain = "";
+			entry = conn.Read( "", new string[] { "defaultNamingContext" } );
+			if ( entry != null )
+			{
+				adDomain = entry.getAttribute( "defaultNamingContext" ).StringValue;
+			}
+
+			// Read maxPwdAge and lockoutDuration from the Active Directory domain.
+			// TODO: What if the values cannot be read?
+			entry = conn.Read( adDomain, new string[] { "maxPwdAge", "lockoutDuration" } );
+			if ( entry != null )
+			{
+				LdapAttribute ldapAttr = entry.getAttribute( "maxPwdAge" );
+				if ( ldapAttr != null )
+				{
+					long maxPwdAgeValue = long.Parse( ldapAttr.StringValue );
+					maxPwdAge = new TimeSpan( maxPwdAgeValue );
+				}
+
+				ldapAttr = entry.getAttribute( "lockoutDuration" );
+				if ( ldapAttr != null )
+				{
+					long lockoutDurationValue = long.Parse( ldapAttr.StringValue );
+					lockoutDuration = new TimeSpan( lockoutDurationValue );
+				}
+			}
 		}
 		#endregion
 		
@@ -685,22 +718,22 @@ namespace Simias.LdapProvider
 				{
 					case LdapException.INVALID_CREDENTIALS:
 						status.statusCode = SCodes.InvalidCredentials;
-						status.ExceptionMessage = e.Message;
 						break;
 
 					default:
 						status.statusCode = SCodes.InternalException;
-						status.ExceptionMessage = e.Message;
-						if ( !doNotCheckStatus )
-						{
-							proxyConnection = BindProxyUser();
-							if ( proxyConnection != null )
-							{
-								// GetUserStatus may change the status code
-								GetUserStatus( true, proxyConnection, status );
-							}
-						}
 						break;
+				}
+
+				status.ExceptionMessage = e.Message;
+				if ( !doNotCheckStatus )
+				{
+					proxyConnection = BindProxyUser();
+					if ( proxyConnection != null )
+					{
+						// GetUserStatus may change the status code
+						GetUserStatus( true, proxyConnection, status );
+					}
 				}
 			}
 			catch( Exception e )
@@ -721,7 +754,7 @@ namespace Simias.LdapProvider
 				{
 					conn.Disconnect();
 				}
-
+				
 				if ( proxyConnection != null )
 				{
 					proxyConnection.Disconnect();

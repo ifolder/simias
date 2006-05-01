@@ -222,9 +222,9 @@ namespace Simias.Server
 		/// <summary>
 		/// Authenticates the user by name and password
 		/// </summary>
-		/// <param name="domainID">The identifier for the domain.</param>
-		/// <param name="user">The user to authenticate.</param>
-		/// <param name="password">The user's password.</param>
+		/// <param name="DomainID">The identifier for the domain.</param>
+		/// <param name="User">The user to authenticate.</param>
+		/// <param name="Password">The user's password.</param>
 		///<returns>
 		/// Returns an authentication status object
 		/// </returns>
@@ -233,39 +233,19 @@ namespace Simias.Server
 		AuthenticateByName( string DomainID, string User, string Password )
 		{
 			Simias.Authentication.Status status = new Simias.Authentication.Status( SCodes.Unknown );
+			status.DomainID = DomainID;
+			status.UserName = User;
 
 			try
 			{
-				// First verify the user exists in the Enterprise domain
-				Simias.Storage.Domain domain = store.GetDomain( DomainID );
-				if ( domain != null )
+				// Verify the credentials passed in.
+				if ( Simias.Server.User.VerifyPassword( User, Password, status ) )
 				{
-					Simias.Storage.Member member = domain.GetMemberByName( User );
-					if ( member != null )
-					{
-						if ( Simias.Server.User.VerifyPassword( member.Name, Password ) == true )
-						{
-							status.statusCode = SCodes.Success;
-							status.UserID = member.UserID;
-							status.UserName = member.Name;
-								
-							log.Info( "Authenticated User: " + member.UserID + ":" + member.Name );
-						}
-						else
-						{
-							status.statusCode = SCodes.InvalidCredentials;
-							log.Info( "Invalid credentials : " + member.Name );
-						}
-					}
-					else
-					{
-						log.Info( "Unknown user: " + User + " attempted to authenticate" );
-						status.statusCode = SCodes.UnknownUser;
-					}
+					log.Info( "Authenticated User: {0}:{1}", status.UserID, status.UserName );
 				}
 				else
 				{
-					log.Debug( "Failed to instantiate the domain" );
+					log.Info( "{0} : {1}", status.statusCode, status.UserName );
 				}
 			}
 			catch( Exception authEx )

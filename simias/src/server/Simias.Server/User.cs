@@ -34,6 +34,8 @@ using Simias;
 using Simias.Storage;
 using Simias.Sync;
 
+using SCodes = Simias.Authentication.StatusCodes;
+
 namespace Simias.Server
 {
 	/// <summary>
@@ -362,11 +364,18 @@ namespace Simias.Server
 			return status;
 		}
 		
-		static public bool VerifyPassword( string Username, string Password )
+		/// <summary>
+		/// Method to verify a user's password
+		/// </summary>
+		/// <param name="Username">User to verify the password against</param>
+		/// <param name="Password">Password to verify</param>
+		/// <param name="status">Structure used to pass additional information back to the user.</param>
+		/// <returns>true - Valid password, false Invalid password</returns>
+		static public bool VerifyPassword( string Username, string Password, Simias.Authentication.Status status )
 		{
 			if ( User.provider != null )
 			{
-				return User.provider.VerifyPassword( Username, Password );
+				return User.provider.VerifyPassword( Username, Password, status );
 			}
 		
 			return false;
@@ -508,7 +517,7 @@ namespace Simias.Server
 		/// Method to create a user/identity in the external user database.
 		/// Some external systems may not allow for creation of new users.
 		/// </summary>
-		/// <param name="Guid" mandatory="false">Guid associated to the user.</param>
+		/// <param name="Userguid" mandatory="false">Guid associated to the user.</param>
 		/// <param name="Username" mandatory="true">User or short name for the new user.</param>
 		/// <param name="Password" mandatory="true">Password associated to the user.</param>
 		/// <param name="Firstname" mandatory="false">First or given name associated to the user.</param>
@@ -674,10 +683,11 @@ namespace Simias.Server
 		/// </summary>
 		/// <param name="Username">User to verify the password against</param>
 		/// <param name="Password">Password to verify</param>
+		/// <param name="status">Structure used to pass additional information back to the user.</param>
 		/// <returns>true - Valid password, false Invalid password</returns>
-		public bool VerifyPassword( string Username, string Password )
+		public bool VerifyPassword( string Username, string Password, Simias.Authentication.Status status )
 		{
-			bool status;
+			bool result;
 			
 			try
 			{
@@ -687,26 +697,32 @@ namespace Simias.Server
 					Property pwd = member.Properties.GetSingleProperty( InternalUser.pwdProperty );
 					if ( pwd != null && ( pwd.Value as string == HashPassword( Password ) ) )
 					{
-						status = true;
+						status.statusCode = SCodes.Success;
+						result = true;
 					}
 					else
 					{
-						status = false;
+						status.statusCode = SCodes.InvalidCredentials;
+						result = false;
 					}
 				}
 				else
 				{
-					status = false;
+					log.Debug( "failed to find user: {0}", Username );
+					status.statusCode = SCodes.UnknownUser;
+					result = false;
 				}
 			}
 			catch( Exception e1 )
 			{
 				log.Error( e1.Message );
 				log.Error( e1.StackTrace );
-				status = false;
+				status.statusCode = SCodes.InternalException;
+				status.ExceptionMessage = e1.Message;
+				result = false;
 			}			
 			
-			return status;
+			return result;
 		}
 		#endregion
 	}	

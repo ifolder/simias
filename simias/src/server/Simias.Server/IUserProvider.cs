@@ -30,9 +30,24 @@ namespace Simias.Server
 	/// </summary>
 	public class UserProviderCaps
 	{
+		/// <summary>
+		/// Value used to determine if the provider supports external synchronizing.
+		/// </summary>
 		public bool ExternalSync;
+
+		/// <summary>
+		/// Value used to determine if the provider supports creating objects.
+		/// </summary>
 		public bool CanCreate;
+
+		/// <summary>
+		/// Value used to determine if the provider supports deleting objects.
+		/// </summary>
 		public bool CanDelete;
+
+		/// <summary>
+		/// Value used to determine if the provider supports modifying objects.
+		/// </summary>
 		public bool CanModify;
 	}
 	
@@ -106,8 +121,9 @@ namespace Simias.Server
 		/// </summary>
 		/// <param name="Username">User to verify the password against</param>
 		/// <param name="Password">Password to verify</param>
+		/// <param name="status">Structure used to pass additional information back to the user.</param>
 		/// <returns>true - Valid password, false Invalid password</returns>
-		bool VerifyPassword( string Username, string Password );
+		bool VerifyPassword( string Username, string Password, Simias.Authentication.Status status );
 		#endregion
 	}
 }	

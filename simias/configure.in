@@ -647,6 +647,7 @@ src/server/Simias.HttpFile/Makefile
 src/server/Simias.Rss/Makefile
 src/server/Simias.Server/Makefile
 src/server/Simias.LdapProvider/Makefile
+src/server/Simias.ADLdapProvider/Makefile
 src/server/usercmd/Makefile
 src/server/usercmd/simias-create-user
 src/server/usercmd/simias-delete-user

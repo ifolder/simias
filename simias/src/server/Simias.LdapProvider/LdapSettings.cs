@@ -47,8 +47,9 @@ namespace Simias.LdapProvider
 		private static readonly string LdapAuthenticationSection = "LdapAuthentication";
 		public static readonly string UriKey = "LdapUri";
 		public static readonly string ProxyDNKey = "ProxyDN";
+		public static readonly string ProxyPasswordKey = "ProxyPassword";
 
-		public static readonly string DomainSection = "Domain";
+		public static readonly string DomainSection = "EnterpriseDomain";
 		public static readonly string SimiasAdminDNKey = "AdminDN";
 
 		private static readonly string LdapSystemBookSection = "LdapProvider";
@@ -235,6 +236,16 @@ namespace Simias.LdapProvider
 
 			// Get the password from the file if it exists.
 			this.password = GetProxyPasswordFromFile();
+			if ( password.Equals( string.Empty ) )
+			{
+				// TODO: Remove this when the install sets the password to the password file.
+				string passwordString = config.Get( LdapAuthenticationSection, ProxyPasswordKey );
+				if ( passwordString != null )
+				{
+					password = passwordString;
+					SetProxyPasswordInFile();
+				}
+			}
 
 			string simiasAdminString = config.Get( DomainSection, SimiasAdminDNKey );
 			if ( simiasAdminString != null )

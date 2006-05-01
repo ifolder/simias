@@ -191,6 +191,13 @@ namespace Simias.Authentication
 		/// Valid if status == StatusCode.SuccessInGrace
 		/// </summary>
 		public int				RemainingGraceLogins;
+
+		/// <summary>
+		/// The number of days until the users password expires
+		/// 
+		/// Valid if status == StatusCode.Success
+		/// </summary>
+		public int				DaysUntilPasswordExpires;
 	}
 	
 	/// <summary>

@@ -296,75 +296,93 @@ namespace Simias.IdentitySync
 			catch{}
 			if ( member != null )
 			{
-				//
-				// Not sure if I modify a property with the same
-				// value that already exists will force a node
-				// update and consequently a synchronization so I'll
-				// check just to be sure.
-				//
+				bool timeStampPresent = false;
 
-				// First name change?
-				if ( Given != null && Given != "" && Given != member.Given )
+				if ( Properties != null )
 				{
-					log.Debug( "Property: {0} has changed", "Given" );
-					member.Given = Given;
-					status = MemberStatus.Updated;
-				}
-				
-				// Last name change?
-				if ( Last != null && Last != "" && Last != member.Family )
-				{
-					log.Debug( "Property: {0} has changed", "Family" );
-					member.Family = Last;
-					status = MemberStatus.Updated;
-				}
-				
-				if ( FN != null && FN != "" && FN != member.FN )
-				{
-					log.Debug( "Property: {0} has changed", "FN" );
-					member.FN = FN;
-					status = MemberStatus.Updated;
-				}
-				
-				string dn = null;
+					// check if the properties provided by the identity sync
+					// provider have changed the member object
+					// The LdapTimeStamp attribute is passed in the Properties array,
+					// so checking this first will allow us to tell if the user object
+					// has changed.
+					foreach( Property prop in Properties )
+					{
+						if ( !timeStampPresent && prop.Name.Equals( "LdapTimeStamp" ) )
+						{
+							timeStampPresent = true;
+						}
 
-				try
-				{
-					dn = member.Properties.GetSingleProperty( "DN" ).Value as string;
-				}
-				catch{}
-				Property dnProp = new Property( "DN", DN );
-				if ( DN != null && DN != "" && DN != dn )
-				{
-					log.Debug( "Property: {0} has changed", "DN" );
-					member.Properties.ModifyProperty( dnProp );
-					status = MemberStatus.Updated;
-				}
-				
-				// check if the properties provided by the identity sync
-				// provider have changed the member object
-				foreach( Property prop in Properties )
-				{
-					bool propChanged = false;
-					Property tmp = member.Properties.GetSingleProperty( prop.Name );
-					if ( tmp == null )
-					{
-						propChanged = true;
-					}
-					else if ( tmp.MultiValuedProperty == true || 
-								prop.MultiValuedProperty == true )
-					{
-						propChanged = true;
-					}
-					else if ( PropertiesEqual( tmp, prop ) == false )
-					{
-						propChanged = true;
-					}
+						bool propChanged = false;
+						Property tmp = member.Properties.GetSingleProperty( prop.Name );
+						if ( tmp == null )
+						{
+							propChanged = true;
+						}
+						else if ( tmp.MultiValuedProperty == true || 
+							prop.MultiValuedProperty == true )
+						{
+							propChanged = true;
+						}
+						else if ( PropertiesEqual( tmp, prop ) == false )
+						{
+							propChanged = true;
+						}
 					
-					if ( propChanged == true )
+						if ( propChanged == true )
+						{
+							log.Debug( "Property: {0} has changed", prop.Name );
+							member.Properties.ModifyProperty( prop );
+							status = MemberStatus.Updated;
+						}
+					}
+				}
+
+				// If the timestamp is not present or it has changed, then check/update 
+				// the rest of the attributes.
+				if ( !timeStampPresent || ( status != MemberStatus.Unchanged ) )
+				{
+					//
+					// Not sure if I modify a property with the same
+					// value that already exists will force a node
+					// update and consequently a synchronization so I'll
+					// check just to be sure.
+					//
+
+					// First name change?
+					if ( Given != null && Given != "" && Given != member.Given )
 					{
-						log.Debug( "Property: {0} has changed", prop.Name );
-						member.Properties.ModifyProperty( prop );
+						log.Debug( "Property: {0} has changed", "Given" );
+						member.Given = Given;
+						status = MemberStatus.Updated;
+					}
+				
+					// Last name change?
+					if ( Last != null && Last != "" && Last != member.Family )
+					{
+						log.Debug( "Property: {0} has changed", "Family" );
+						member.Family = Last;
+						status = MemberStatus.Updated;
+					}
+				
+					if ( FN != null && FN != "" && FN != member.FN )
+					{
+						log.Debug( "Property: {0} has changed", "FN" );
+						member.FN = FN;
+						status = MemberStatus.Updated;
+					}
+				
+					string dn = null;
+
+					try
+					{
+						dn = member.Properties.GetSingleProperty( "DN" ).Value as string;
+					}
+					catch{}
+					Property dnProp = new Property( "DN", DN );
+					if ( DN != null && DN != "" && DN != dn )
+					{
+						log.Debug( "Property: {0} has changed", "DN" );
+						member.Properties.ModifyProperty( dnProp );
 						status = MemberStatus.Updated;
 					}
 				}
