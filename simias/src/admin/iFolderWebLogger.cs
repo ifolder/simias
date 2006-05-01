@@ -40,7 +40,6 @@ namespace Novell.iFolderWeb.Admin
 		/// on what is setup in the Log4Net.conf file and the SimiasLogDir
 		/// environment variable.
 		/// </summary>
-		/// <param name="type"></param>
 		static iFolderWebLogger()
 		{
 			string logDir = Environment.GetEnvironmentVariable("SimiasLogDir" );

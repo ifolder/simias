@@ -516,7 +516,6 @@ namespace Novell.iFolderWeb.Admin
 				ReferringPage = Page.Request.UrlReferrer.ToString();
 
 				// Initialize the localized fields.
-				OkButton.Text = GetString( "OK" );
 				CancelButton.Text = GetString( "CANCEL" );
 				NameLabel.Text = GetString( "NAMETAG" );
 				DescriptionLabel.Text = GetString( "DESCRIPTIONTAG" );
@@ -525,6 +524,7 @@ namespace Novell.iFolderWeb.Admin
 				{
 					case PageOp.CreateiFolder:
 					{
+						OkButton.Text = GetString( "CREATE" );
 						CreateiFolderDiv.Visible = true;
 						ExistingMemberList = CreateNewMemberList();
 						SetFocus( Name );
@@ -533,6 +533,7 @@ namespace Novell.iFolderWeb.Admin
 
 					case PageOp.AddMember:
 					{
+						OkButton.Text = GetString( "ADD" );
 						CreateiFolderDiv.Visible = false;
 						ExistingMemberList = CreateExistingMemberList();
 						break;
@@ -540,6 +541,7 @@ namespace Novell.iFolderWeb.Admin
 
 					case PageOp.AddAdmin:
 					{
+						OkButton.Text = GetString( "ADD" );
 						CreateiFolderDiv.Visible = false;
 						ExistingMemberList = CreateExistingAdminList();
 						break;
