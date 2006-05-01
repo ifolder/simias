@@ -176,7 +176,7 @@ namespace Novell.iFolderWeb.Admin
 				Control body = Page.FindControl( "users" );
 				if ( body != null )
 				{
-					UserLink.HRef = String.Empty;
+					UserLink.HRef = null;
 					iFolderLink.HRef = "iFolders.aspx";
 					ServerLink.HRef = "Servers.aspx";
 					SystemLink.HRef = "SystemInfo.aspx";
@@ -187,7 +187,7 @@ namespace Novell.iFolderWeb.Admin
 					if ( body != null )
 					{
 						UserLink.HRef = "Users.aspx";
-						iFolderLink.HRef = String.Empty;
+						iFolderLink.HRef = null;
 						ServerLink.HRef = "Servers.aspx";
 						SystemLink.HRef = "SystemInfo.aspx";
 					}
@@ -199,13 +199,13 @@ namespace Novell.iFolderWeb.Admin
 							UserLink.HRef = "Users.aspx";
 							iFolderLink.HRef = "iFolders.aspx";
 							ServerLink.HRef = "Servers.aspx";
-							SystemLink.HRef = String.Empty;
+							SystemLink.HRef = null;
 						}
 						else
 						{
 							UserLink.HRef = "Users.aspx";
 							iFolderLink.HRef = "iFolders.aspx";
-							ServerLink.HRef = String.Empty;
+							ServerLink.HRef = null;
 							SystemLink.HRef = "SystemInfo.aspx";
 						}
 					}
