@@ -33,6 +33,39 @@ namespace Novell.iFolderWeb.Admin
 	{
 		log4net.ILog log;
 
+
+		/// <summary>
+		/// Static Constructor
+		/// This constructor will initialize the log file correctly based
+		/// on what is setup in the Log4Net.conf file and the SimiasLogDir
+		/// environment variable.
+		/// </summary>
+		/// <param name="type"></param>
+		static iFolderWebLogger()
+		{
+			string logDir = Environment.GetEnvironmentVariable("SimiasLogDir" );
+			if(logDir != null)
+			{
+				foreach (log4net.Appender.IAppender iApp in 
+							log4net.LogManager.GetRepository().GetAppenders() )
+				{
+					if(iApp is log4net.Appender.FileAppender)
+					{
+						log4net.Appender.FileAppender fApp =
+								(log4net.Appender.FileAppender)iApp;
+
+						string fileName = System.IO.Path.GetFileName(fApp.File);
+						if(fileName == null)
+							fileName = "adminweb.log";
+
+						fApp.File = System.IO.Path.Combine(logDir, fileName);
+						fApp.ActivateOptions();
+					}
+				}
+			}
+		}
+
+
 		/// <summary>
 		/// Constructor
 		/// </summary>
