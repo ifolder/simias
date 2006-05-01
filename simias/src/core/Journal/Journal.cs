@@ -24,6 +24,7 @@
 using System;
 using System.Collections;
 using System.IO;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 
@@ -43,6 +44,7 @@ namespace Simias.Storage
 	{
 		#region Class Members
 
+		static private readonly ISimiasLog log = SimiasLogManager.GetLogger( MethodBase.GetCurrentMethod().DeclaringType );
 		Store store;
 		Collection collection;
 		StoreFileNode journalNode;
@@ -398,6 +400,8 @@ namespace Simias.Storage
 		/// <param name="args">Contains the information to put in the journal.</param>
 		public void UpdateJournal( NodeEventArgs args )
 		{
+			log.Debug( "Updating journal in {0}", collection.Name );
+
 			if ( collection.Role.Equals(SyncRoles.Master) )
 			{
 				// Update the history in the journal.
@@ -432,6 +436,8 @@ namespace Simias.Storage
 						record += ":" + fn.GetRelativePath();
 					}
 				}
+
+				log.Debug( "\trecord = {0}", record );
 
 				// TODO: Can we collapse entries?
 
@@ -495,6 +501,8 @@ namespace Simias.Storage
 	internal class JournalSearchState : IDisposable
 	{
 		#region Class Members
+
+		static private readonly ISimiasLog log = SimiasLogManager.GetLogger( MethodBase.GetCurrentMethod().DeclaringType );
 
 		/// <summary>
 		/// Table used to keep track of outstanding search entries.
@@ -714,8 +722,10 @@ namespace Simias.Storage
 							count++;
 						}
 					}
-					catch ( SimiasException )
-					{}
+					catch ( SimiasException e ) // Ignore.
+					{
+						log.Debug( e.Message ); 
+					}
 				}
 
 				// TODO: Is there a way to update the journal for newly added files? (The journal on the
@@ -742,6 +752,8 @@ namespace Simias.Storage
 					{}
 				}*/
 			}
+
+			log.Debug( "{0} journal entries found.", count );
 
 			return count;
 		}
@@ -814,6 +826,7 @@ namespace Simias.Storage
 			records = new string[ previousRecords.Length ];
 			previousRecords.CopyTo( records, 0 );
 
+			log.Debug( "fileID = {0}, filename = {1}", nodeID, filename );
 			return filename;
 		}
 
@@ -844,6 +857,8 @@ namespace Simias.Storage
 				// Read the next record from the file.
 				while ( ( record = ReadNextRecord() ) != null )
 				{
+					log.Debug( "\tJournal record - {0}", record );
+
 					try
 					{
 						// New up a JournalEntry object based on the record.
@@ -852,13 +867,16 @@ namespace Simias.Storage
 						// If the JournalEntry object meets the filter criteria, we're done.
 						if ( ReturnEntry( tempEntry ) )
 						{
+							log.Debug( "\tJournal entry meets filter criteria." );
 							journalEntry = tempEntry;
 							currentRecord++;
 							break;
 						}
 					}
-					catch ( SimiasException ) // Ignore.
-					{}
+					catch ( SimiasException e ) // Ignore.
+					{
+						log.Debug( e.Message ); 
+					}
 				}
 			}
 
@@ -897,10 +915,14 @@ namespace Simias.Storage
 					{
 						currentRecord++;
 						numberOfEntries--;
+
+						log.Debug( "Journal.MoveNext - currentRecord = {0}, numberOfEntries = {1}", currentRecord, numberOfEntries );
 					}
 				}
-				catch ( SimiasException ) // Ignore.
-				{}
+				catch ( SimiasException e ) // Ignore.
+				{
+					log.Debug( e.Message ); 
+				}
 			}
 
 			return numberOfEntries == 0;
@@ -941,14 +963,18 @@ namespace Simias.Storage
 
 							if ( numberOfEntries == 0 )
 							{
+								log.Debug( "Journal.MovePrevious - currentRecord = {0}", currentRecord );
+
 								// We're done, decrement the index so that we read the correct next entry.
 								index--;
 								break;
 							}
 						}
 					}
-					catch ( SimiasException ) // Ignore.
-					{}
+					catch ( SimiasException e ) // Ignore.
+					{
+						log.Debug( e.Message ); 
+					}
 				}
 
 				if ( numberOfEntries != 0 )

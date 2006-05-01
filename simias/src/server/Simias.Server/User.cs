@@ -697,6 +697,7 @@ namespace Simias.Server
 					Property pwd = member.Properties.GetSingleProperty( InternalUser.pwdProperty );
 					if ( pwd != null && ( pwd.Value as string == HashPassword( Password ) ) )
 					{
+						status.UserID = member.UserID;
 						status.statusCode = SCodes.Success;
 						result = true;
 					}
