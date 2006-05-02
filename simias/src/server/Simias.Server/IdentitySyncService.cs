@@ -32,12 +32,34 @@ using Simias.Storage;
 
 namespace Simias.IdentitySync
 {
+	/// <summary>
+	/// The status of a member during a given synchronization cycle.
+	/// </summary>
 	public enum MemberStatus
 	{
+		/// <summary>
+		/// The member was created.
+		/// </summary>
 		Created,
+
+		/// <summary>
+		/// The member was updated.
+		/// </summary>
 		Updated,
+
+		/// <summary>
+		/// The member was not changed.
+		/// </summary>
 		Unchanged,
+
+		/// <summary>
+		/// The member was disabled.
+		/// </summary>
 		Disabled,
+
+		/// <summary>
+		/// The member was deleted.
+		/// </summary>
 		Deleted
 	}
 	
@@ -67,25 +89,37 @@ namespace Simias.IdentitySync
 		private int processed;
 		private DateTime endTime;
 		private DateTime startTime;
-		public Domain domain;
+		private Domain domain;
 		#endregion
 		
 		#region Properties
+		/// <summary>
+		/// Gets the Domain object
+		/// </summary>
 		public Domain SDomain
 		{
 			get { return domain; }
 		}
-		
+
+		/// <summary>
+		/// Gets the number of objects that were processed.
+		/// </summary>
 		public int Processed
 		{
 			get { return processed; }
 		}
-		
+
+		/// <summary>
+		/// Gets the number of errors reported.
+		/// </summary>
 		public int Errors
 		{
 			get { return reportedErrors; }
 		}
-		
+
+		/// <summary>
+		/// Gets an array of synchronization messages.
+		/// </summary>
 		public string[] Messages
 		{
 			get
@@ -98,38 +132,59 @@ namespace Simias.IdentitySync
 				return syncMessages.ToArray( typeof( string ) ) as string[];
 			}
 		}
-		
+
+		/// <summary>
+		/// Gets the number of objects that were created.
+		/// </summary>
 		public int Created
 		{
 			get { return created; }
 		}
-		
+
+		/// <summary>
+		/// Gets the number of objects that were updated.
+		/// </summary>
 		public int Updated
 		{
 			get { return updated; }
 		}
-		
+
+		/// <summary>
+		/// Gets the number of objects that were deleted.
+		/// </summary>
 		public int Deleted
 		{
 			get { return deleted; }
 		}
-		
+
+		/// <summary>
+		/// Gets the number of objects that were disabled.
+		/// </summary>
 		public int Disabled
 		{
 			get { return disabled; }
 		}
-		
+
+		/// <summary>
+		/// Gets the time that the synchronization cycle started.
+		/// </summary>
 		public DateTime StartTime
 		{
 			get { return startTime; }
 		}
-		
+
+		/// <summary>
+		/// Gets the time that the synchronization cycle ended.
+		/// </summary>
 		public DateTime EndTime
 		{
 			get { return endTime; }
 			set { endTime = value; }
 		}
-		
+
+		/// <summary>
+		/// Gets the GUID associated with the current synchronization cycle.
+		/// </summary>
 		public Property SyncGuid
 		{
 			get { return syncGuid; }
@@ -137,6 +192,10 @@ namespace Simias.IdentitySync
 		#endregion
 		
 		#region Constructors
+		/// <summary>
+		/// Constructs a State object.
+		/// </summary>
+		/// <param name="DomainID">The identifier of the domain to synchronize.</param>
 		public State( string DomainID )
 		{
 			store = Store.GetStore();
@@ -491,11 +550,6 @@ namespace Simias.IdentitySync
 		/// </summary>
 		private static readonly ISimiasLog log =
 			SimiasLogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
-		/// <summary>
-		/// Table used to keep track of provider mappings.
-		/// </summary>
-		//static private Hashtable providerTable = new Hashtable();
 
 		/// <summary>
 		/// List that holds the registered providers.

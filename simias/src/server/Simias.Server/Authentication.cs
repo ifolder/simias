@@ -282,8 +282,8 @@ namespace Simias.Server
 		/// <summary>
 		/// Performs authentication to the specified domain.
 		/// </summary>
-		/// <param name="domain">Domain to authenticate to.</param>
-		/// <param name="httpContext">HTTP-specific request information. This is passed as a parameter so that a domain 
+		/// <param name="Domain">Domain to authenticate to.</param>
+		/// <param name="HttpCtx">HTTP-specific request information. This is passed as a parameter so that a domain 
 		/// provider may modify the HTTP request by adding special headers as necessary.
 		/// 
 		/// NOTE: The domain provider must NOT end the HTTP request.
@@ -452,7 +452,6 @@ namespace Simias.Server
 		/// <summary>
 		/// Continues the search for domain members from the specified record location.
 		/// </summary>
-		/// <param name="domainID">The identifier of the domain to search for members in.</param>
 		/// <param name="searchContext">Domain provider specific search context returned by FindFirstDomainMembers method.</param>
 		/// <param name="offset">Record offset to return members from.</param>
 		/// <param name="count">Maximum number of member objects to return.</param>
@@ -554,8 +553,14 @@ namespace Simias.Server
 			return null;
 		}
 
-        
-        public Uri ResolveHostAddress(string domainID, string hostID)
+		/// <summary>
+		/// Returns the network address of the host
+		/// </summary>
+		/// <param name="domainID">Identifier of the domain where a 
+		/// collection is to be created.</param>
+		/// <param name="hostID">The host to resolve.</param>
+		/// <returns>A Uri object that contains the network location.</returns>
+		public Uri ResolveHostAddress(string domainID, string hostID)
         {
             return null;
         }

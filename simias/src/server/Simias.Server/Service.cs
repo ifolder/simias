@@ -145,10 +145,6 @@ namespace Simias.Server
 		/// <summary>
 		/// Starts the thread service.
 		/// </summary>
-		/// <param name="config">
-		/// Configuration file object for the configured store 
-		/// Store to use.
-		/// </param>
 		public void Start()
 		{
 			log.Debug( "Start called" );

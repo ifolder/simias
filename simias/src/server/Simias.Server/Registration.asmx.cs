@@ -32,16 +32,54 @@ using Simias.Storage;
 
 namespace Simias.Server
 {
+	/// <summary>
+	/// The registration status.
+	/// </summary>
 	public enum RegistrationStatus
 	{
+		/// <summary>
+		/// The user was created.
+		/// </summary>
 		UserCreated = 0,
+
+		/// <summary>
+		/// The user already exists.
+		/// </summary>
 		UserAlreadyExists,
+
+		/// <summary>
+		/// Invalid parameters were specified.
+		/// </summary>
 		InvalidParameters,
+
+		/// <summary>
+		/// Invalid domain was specified.
+		/// </summary>
 		InvalidDomain,
+
+		/// <summary>
+		/// Username policy exception.
+		/// </summary>
 		UsernamePolicyException,
+
+		/// <summary>
+		/// Password policy exception.
+		/// </summary>
 		PasswordPolicyException,
+
+		/// <summary>
+		/// No user providers are registered.
+		/// </summary>
 		NoRegisteredUserProvider,
+
+		/// <summary>
+		/// The method is not supported.
+		/// </summary>
 		MethodNotSupported,
+
+		/// <summary>
+		/// An internal exception occurred.
+		/// </summary>
 		InternalException
 	}
 	
@@ -52,10 +90,17 @@ namespace Simias.Server
 	[ Serializable ]
 	public class RegistrationInfo
 	{
+		/// <summary>
+		/// Constructs a RegistrationInfo object.
+		/// </summary>
 		public RegistrationInfo()
 		{
 		}
-		
+
+		/// <summary>
+		/// Constructs a RegistrationInfo object.
+		/// </summary>
+		/// <param name="StatusCode">The status of the registration.</param>
 		public RegistrationInfo( RegistrationStatus StatusCode )
 		{
 			Status = StatusCode;
@@ -141,7 +186,7 @@ namespace Simias.Server
 		/// </summary>
 		/// <param name="Username">Username (mandatory) short name of the user</param>
 		/// <param name="Password">Password (mandatory)</param>
-		/// <param name="UserGuild">UserGuid (optional) caller can specify the guid for the user</param>
+		/// <param name="UserGuid">UserGuid (optional) caller can specify the guid for the user</param>
 		/// <param name="FirstName">FirstName (optional) first/given name of the user</param>
 		/// <param name="LastName">LastName (optional) last/family name of the user</param>
 		/// <param name="FullName">FullName (optional) Fullname of the user</param>
