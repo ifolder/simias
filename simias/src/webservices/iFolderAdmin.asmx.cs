@@ -367,7 +367,9 @@ namespace iFolder.WebService
 
 			try
 			{
-				result = ChangeEntry.GetChanges(ifolderID, entryID, index, count, out total, GetAccessID());
+				Authorize();
+
+				result = ChangeEntry.GetChanges(ifolderID, entryID, index, count, out total, null);
 			}
 			catch(Exception e)
 			{
@@ -375,6 +377,112 @@ namespace iFolder.WebService
 			}
 
 			return result;
+		}
+
+		#endregion
+
+		#region Settings
+		
+		/// <summary>
+		/// Get a setting global to the system.
+		/// </summary>
+		/// <param name="name">The name of the setting.</param>
+		/// <returns>The value of the setting.</returns>
+		[WebMethod(
+			 Description="Get a setting global to the system.",
+			 EnableSession=true)]
+		public string GetSystemSetting(string name)
+		{
+			string result = null;
+
+			try
+			{
+				Authorize();
+
+				result = Settings.GetSystemSetting(name);
+			}
+			catch(Exception e)
+			{
+				SmartException.Throw(e);
+			}
+
+			return result;
+		}
+
+		/// <summary>
+		/// Set a setting global to the system.
+		/// </summary>
+		/// <param name="name">The name of the setting.</param>
+		/// <param name="value">The value of the setting.</param>
+		[WebMethod(
+			 Description="Set a setting global to the system.",
+			 EnableSession=true)]
+		public void SetSystemSetting(string name, string value)
+		{
+			try
+			{
+				Authorize();
+
+				Settings.SetSystemSetting(name, value);
+			}
+			catch(Exception e)
+			{
+				SmartException.Throw(e);
+			}
+
+			return;
+		}
+		
+		/// <summary>
+		/// Get a setting specific to a user.
+		/// </summary>
+		/// <param name="userID">The id of the user.</param>
+		/// <param name="name">The name of the setting.</param>
+		/// <returns>The value of the setting.</returns>
+		[WebMethod(
+			 Description="Get a setting specific to a user.",
+			 EnableSession=true)]
+		public string GetUserSetting(string userID, string name)
+		{
+			string result = null;
+
+			try
+			{
+				Authorize();
+
+				result = Settings.GetUserSetting(userID, name);
+			}
+			catch(Exception e)
+			{
+				SmartException.Throw(e);
+			}
+
+			return result;
+		}
+
+		/// <summary>
+		/// Set a setting specific to a user.
+		/// </summary>
+		/// <param name="userID">The id of the user.</param>
+		/// <param name="name">The name of the setting.</param>
+		/// <param name="value">The value of the setting.</param>
+		[WebMethod(
+			 Description="Set a setting specific to a user.",
+			 EnableSession=true)]
+		public void SetUserSetting(string userID, string name, string value)
+		{
+			try
+			{
+				Authorize();
+
+				Settings.SetUserSetting(userID, name, value);
+			}
+			catch(Exception e)
+			{
+				SmartException.Throw(e);
+			}
+
+			return;
 		}
 
 		#endregion

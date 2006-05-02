@@ -265,6 +265,58 @@
           <s:enumeration value="Unknown" />
         </s:restriction>
       </s:simpleType>
+      <s:element name="GetSystemSetting">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetSystemSettingResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetSystemSettingResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetSystemSetting">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="value" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetSystemSettingResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetUserSetting">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="userID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUserSettingResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetUserSettingResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetUserSetting">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="userID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="value" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetUserSettingResponse">
+        <s:complexType />
+      </s:element>
       <s:element name="GetAuthenticatedUser">
         <s:complexType />
       </s:element>
@@ -830,6 +882,30 @@
   <wsdl:message name="GetChangesSoapOut">
     <wsdl:part name="parameters" element="tns:GetChangesResponse" />
   </wsdl:message>
+  <wsdl:message name="GetSystemSettingSoapIn">
+    <wsdl:part name="parameters" element="tns:GetSystemSetting" />
+  </wsdl:message>
+  <wsdl:message name="GetSystemSettingSoapOut">
+    <wsdl:part name="parameters" element="tns:GetSystemSettingResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetSystemSettingSoapIn">
+    <wsdl:part name="parameters" element="tns:SetSystemSetting" />
+  </wsdl:message>
+  <wsdl:message name="SetSystemSettingSoapOut">
+    <wsdl:part name="parameters" element="tns:SetSystemSettingResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetUserSettingSoapIn">
+    <wsdl:part name="parameters" element="tns:GetUserSetting" />
+  </wsdl:message>
+  <wsdl:message name="GetUserSettingSoapOut">
+    <wsdl:part name="parameters" element="tns:GetUserSettingResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetUserSettingSoapIn">
+    <wsdl:part name="parameters" element="tns:SetUserSetting" />
+  </wsdl:message>
+  <wsdl:message name="SetUserSettingSoapOut">
+    <wsdl:part name="parameters" element="tns:SetUserSettingResponse" />
+  </wsdl:message>
   <wsdl:message name="GetAuthenticatedUserSoapIn">
     <wsdl:part name="parameters" element="tns:GetAuthenticatedUser" />
   </wsdl:message>
@@ -1059,6 +1135,26 @@
       <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get a history of changes to an iFolder.</documentation>
       <wsdl:input message="tns:GetChangesSoapIn" />
       <wsdl:output message="tns:GetChangesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSystemSetting">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get a setting global to the system.</documentation>
+      <wsdl:input message="tns:GetSystemSettingSoapIn" />
+      <wsdl:output message="tns:GetSystemSettingSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetSystemSetting">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Set a setting global to the system.</documentation>
+      <wsdl:input message="tns:SetSystemSettingSoapIn" />
+      <wsdl:output message="tns:SetSystemSettingSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUserSetting">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get a setting specific to a user.</documentation>
+      <wsdl:input message="tns:GetUserSettingSoapIn" />
+      <wsdl:output message="tns:GetUserSettingSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetUserSetting">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Set a setting specific to a user.</documentation>
+      <wsdl:input message="tns:SetUserSettingSoapIn" />
+      <wsdl:output message="tns:SetUserSettingSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetAuthenticatedUser">
       <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get information about the authenticated user.</documentation>
@@ -1300,6 +1396,42 @@
     </wsdl:operation>
     <wsdl:operation name="GetChanges">
       <soap:operation soapAction="http://novell.com/ifolder/webservice/GetChanges" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSystemSetting">
+      <soap:operation soapAction="http://novell.com/ifolder/webservice/GetSystemSetting" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetSystemSetting">
+      <soap:operation soapAction="http://novell.com/ifolder/webservice/SetSystemSetting" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserSetting">
+      <soap:operation soapAction="http://novell.com/ifolder/webservice/GetUserSetting" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetUserSetting">
+      <soap:operation soapAction="http://novell.com/ifolder/webservice/SetUserSetting" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

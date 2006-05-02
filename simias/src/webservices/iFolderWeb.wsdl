@@ -635,6 +635,31 @@
           <s:enumeration value="Unknown" />
         </s:restriction>
       </s:simpleType>
+      <s:element name="GetSetting">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetSettingResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetSettingResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetSetting">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="value" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetSettingResponse">
+        <s:complexType />
+      </s:element>
       <s:element name="OpenFileRead">
         <s:complexType>
           <s:sequence>
@@ -896,6 +921,18 @@
   <wsdl:message name="GetChangesSoapOut">
     <wsdl:part name="parameters" element="tns:GetChangesResponse" />
   </wsdl:message>
+  <wsdl:message name="GetSettingSoapIn">
+    <wsdl:part name="parameters" element="tns:GetSetting" />
+  </wsdl:message>
+  <wsdl:message name="GetSettingSoapOut">
+    <wsdl:part name="parameters" element="tns:GetSettingResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetSettingSoapIn">
+    <wsdl:part name="parameters" element="tns:SetSetting" />
+  </wsdl:message>
+  <wsdl:message name="SetSettingSoapOut">
+    <wsdl:part name="parameters" element="tns:SetSettingResponse" />
+  </wsdl:message>
   <wsdl:message name="OpenFileReadSoapIn">
     <wsdl:part name="parameters" element="tns:OpenFileRead" />
   </wsdl:message>
@@ -1083,9 +1120,19 @@
       <wsdl:output message="tns:GetEntriesByNameSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetChanges">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get Changes</documentation>
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get a history of changes to an iFolder.</documentation>
       <wsdl:input message="tns:GetChangesSoapIn" />
       <wsdl:output message="tns:GetChangesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSetting">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get a setting specific to the authenticated user.</documentation>
+      <wsdl:input message="tns:GetSettingSoapIn" />
+      <wsdl:output message="tns:GetSettingSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetSetting">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Set a setting specific to the authenticated user.</documentation>
+      <wsdl:input message="tns:SetSettingSoapIn" />
+      <wsdl:output message="tns:SetSettingSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="OpenFileRead">
       <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Open an iFolder file entry for reading.</documentation>
@@ -1396,6 +1443,24 @@
     </wsdl:operation>
     <wsdl:operation name="GetChanges">
       <soap:operation soapAction="http://novell.com/ifolder/webservice/GetChanges" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSetting">
+      <soap:operation soapAction="http://novell.com/ifolder/webservice/GetSetting" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetSetting">
+      <soap:operation soapAction="http://novell.com/ifolder/webservice/SetSetting" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

@@ -975,7 +975,7 @@ namespace iFolder.WebService
 		/// <param name="total">The total number of search results available.</param>
 		/// <returns>An array of ChangeEntry objects.</returns>
 		[WebMethod(
-			 Description="Get Changes",
+			 Description="Get a history of changes to an iFolder.",
 			 EnableSession=true)]
 		public ChangeEntry[] GetChanges(string ifolderID, string entryID, int index, int count, out int total)
 		{
@@ -992,6 +992,56 @@ namespace iFolder.WebService
 			}
 
 			return result;
+		}
+
+		#endregion
+
+		#region Settings
+		
+		/// <summary>
+		/// Get a setting specific to the authenticated user.
+		/// </summary>
+		/// <param name="name">The name of the setting.</param>
+		/// <returns>The value of the setting.</returns>
+		[WebMethod(
+			 Description="Get a setting specific to the authenticated user.",
+			 EnableSession=true)]
+		public string GetSetting(string name)
+		{
+			string result = null;
+
+			try
+			{
+				result = Settings.GetUserSetting(GetAccessID(), name);
+			}
+			catch(Exception e)
+			{
+				SmartException.Throw(e);
+			}
+
+			return result;
+		}
+
+		/// <summary>
+		/// Set a setting specific to the authenticated user.
+		/// </summary>
+		/// <param name="name">The name of the setting.</param>
+		/// <param name="value">The value of the setting.</param>
+		[WebMethod(
+			 Description="Set a setting specific to the authenticated user.",
+			 EnableSession=true)]
+		public void SetSetting(string name, string value)
+		{
+			try
+			{
+				Settings.SetUserSetting(GetAccessID(), name, value);
+			}
+			catch(Exception e)
+			{
+				SmartException.Throw(e);
+			}
+
+			return;
 		}
 
 		#endregion
