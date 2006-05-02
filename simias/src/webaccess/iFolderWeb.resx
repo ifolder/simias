@@ -57,20 +57,11 @@
     <data name="IFOLDER.CONFIRMCHANGEOWNER">
         <value>Are you sure you want to give up ownership of this iFolder?</value>
     </data>
-    <data name="LOGIN.ERROR">
-        <value>Error:</value>
-    </data>
     <data name="LOGIN.UNAUTHORIZED">
         <value>Please re-enter your username and password.</value>
     </data>
     <data name="LOGIN.CONNECTFAILED">
         <value>Unable to connect to the iFolder server.</value>
-    </data>
-    <data name="LOGIN.FAILED">
-        <value>Failed:</value>
-    </data>
-    <data name="MESSAGE.ERROR">
-        <value>Error:</value>
     </data>
     <data name="ENTRY.DIRALREADYEXISTS">
         <value>A directory with the specified name already exists at this location.</value>
@@ -96,11 +87,8 @@
     <data name="ENTRY.GB">
         <value>GB</value>
     </data>
-    <data name="ERROR.TYPE">
-        <value>Unexpected Error</value>
-    </data>
-    <data name="ERROR.INSTRUCTIONS">
-        <value>&lt;p&gt;iFolder Web Access has experience an unexpected error.&lt;/p&gt; &lt;p&gt;We apologize for any inconvenience and request that you log out and try again.&lt;/p&gt;</value>
+    <data name="ERROR.MESSAGE">
+        <value>&lt;p&gt;iFolder Web Access has experience an unexpected error.&lt;/p&gt; &lt;p&gt;We apologize for any inconvenience and request that you log in and try again.&lt;/p&gt;</value>
     </data>
     <data name="ENTRY.NOUPLOADFILE">
         <value>A file is required.</value>

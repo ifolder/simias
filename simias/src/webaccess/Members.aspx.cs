@@ -191,7 +191,7 @@ namespace Novell.iFolderApp.Web
 				iFolderUser[] members = web.GetMembers(ifolderID, MemberPagging.Index, MemberPagging.PageSize, out total);
 				MemberPagging.Count = members.Length;
 				MemberPagging.Total = total;
-				string accessID = (string) Session["UserID"];
+				string accessID = (Session["User"] as iFolderUser).ID;
 
 				foreach(iFolderUser member in members)
 				{

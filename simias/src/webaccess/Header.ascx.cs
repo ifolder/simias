@@ -103,7 +103,7 @@ namespace Novell.iFolderApp.Web
 				BindData();
 
 				// full name
-				FullName.Text = Trim((string)Session["UserFullName"], MAX_HEADER_STRING);
+				FullName.Text = Trim((Session["User"] as iFolderUser).FullName, MAX_HEADER_STRING);
 				
 				// strings
 				//SettingsLink.Text = GetString("SETTINGS");

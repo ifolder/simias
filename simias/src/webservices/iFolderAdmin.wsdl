@@ -762,12 +762,6 @@
       <s:element name="IdentitySyncNowResponse">
         <s:complexType />
       </s:element>
-      <s:element name="GenerateSampleData">
-        <s:complexType />
-      </s:element>
-      <s:element name="GenerateSampleDataResponse">
-        <s:complexType />
-      </s:element>
     </s:schema>
   </wsdl:types>
   <wsdl:message name="GetServerSoapIn">
@@ -1010,45 +1004,39 @@
   <wsdl:message name="IdentitySyncNowSoapOut">
     <wsdl:part name="parameters" element="tns:IdentitySyncNowResponse" />
   </wsdl:message>
-  <wsdl:message name="GenerateSampleDataSoapIn">
-    <wsdl:part name="parameters" element="tns:GenerateSampleData" />
-  </wsdl:message>
-  <wsdl:message name="GenerateSampleDataSoapOut">
-    <wsdl:part name="parameters" element="tns:GenerateSampleDataResponse" />
-  </wsdl:message>
   <wsdl:portType name="iFolderAdminSoap">
     <wsdl:operation name="GetServer">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get iFolder Server Information</documentation>
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get information about the current iFolder server.</documentation>
       <wsdl:input message="tns:GetServerSoapIn" />
       <wsdl:output message="tns:GetServerSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetSystem">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get iFolder System Information</documentation>
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get information about the iFolder system.</documentation>
       <wsdl:input message="tns:GetSystemSoapIn" />
       <wsdl:output message="tns:GetSystemSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="CreateiFolder">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Create a New iFolder</documentation>
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Create a new iFolder.</documentation>
       <wsdl:input message="tns:CreateiFolderSoapIn" />
       <wsdl:output message="tns:CreateiFolderSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="DeleteiFolder">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Delete an iFolder</documentation>
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Delete an iFolder.</documentation>
       <wsdl:input message="tns:DeleteiFolderSoapIn" />
       <wsdl:output message="tns:DeleteiFolderSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetiFolder">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get an iFolder</documentation>
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get information about an iFolder.</documentation>
       <wsdl:input message="tns:GetiFolderSoapIn" />
       <wsdl:output message="tns:GetiFolderSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetiFolderDetails">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get iFolder Details</documentation>
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get detailed information about an iFolder.</documentation>
       <wsdl:input message="tns:GetiFolderDetailsSoapIn" />
       <wsdl:output message="tns:GetiFolderDetailsSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="SetiFolderDescription">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Set the Description of an iFolder</documentation>
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Set the description of an iFolder.</documentation>
       <wsdl:input message="tns:SetiFolderDescriptionSoapIn" />
       <wsdl:output message="tns:SetiFolderDescriptionSoapOut" />
     </wsdl:operation>
@@ -1058,57 +1046,57 @@
       <wsdl:output message="tns:GetiFoldersSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetiFoldersByMember">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get iFolders by Member</documentation>
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get information about all iFolders identified by a member.</documentation>
       <wsdl:input message="tns:GetiFoldersByMemberSoapIn" />
       <wsdl:output message="tns:GetiFoldersByMemberSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetiFoldersByName">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get iFolders by Name</documentation>
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get information about all iFolders identified by a search on the it's name.</documentation>
       <wsdl:input message="tns:GetiFoldersByNameSoapIn" />
       <wsdl:output message="tns:GetiFoldersByNameSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetChanges">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get Changes</documentation>
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get a history of changes to an iFolder.</documentation>
       <wsdl:input message="tns:GetChangesSoapIn" />
       <wsdl:output message="tns:GetChangesSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetAuthenticatedUser">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get the Authenticated User</documentation>
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get information about the authenticated user.</documentation>
       <wsdl:input message="tns:GetAuthenticatedUserSoapIn" />
       <wsdl:output message="tns:GetAuthenticatedUserSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="SetMemberRights">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Set the Rights of an iFolder Member</documentation>
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Set the rights of a member on an iFolder.</documentation>
       <wsdl:input message="tns:SetMemberRightsSoapIn" />
       <wsdl:output message="tns:SetMemberRightsSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="AddMember">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Add a Member to an iFolder</documentation>
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Add a member to an iFolder.</documentation>
       <wsdl:input message="tns:AddMemberSoapIn" />
       <wsdl:output message="tns:AddMemberSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="RemoveMember">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Remove a Member from an iFolder</documentation>
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Remove a member from an iFolder.</documentation>
       <wsdl:input message="tns:RemoveMemberSoapIn" />
       <wsdl:output message="tns:RemoveMemberSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="SetiFolderOwner">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Set the Owner of an iFolder</documentation>
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Set the owner of an iFolder.</documentation>
       <wsdl:input message="tns:SetiFolderOwnerSoapIn" />
       <wsdl:output message="tns:SetiFolderOwnerSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetMembers">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get the Members of an iFolder</documentation>
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get information about the members of an iFolder.</documentation>
       <wsdl:input message="tns:GetMembersSoapIn" />
       <wsdl:output message="tns:GetMembersSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetUsers">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get the iFolder Users</documentation>
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get information about all of the iFolder users.</documentation>
       <wsdl:input message="tns:GetUsersSoapIn" />
       <wsdl:output message="tns:GetUsersSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetUser">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get a User</documentation>
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get information about a user.</documentation>
       <wsdl:input message="tns:GetUserSoapIn" />
       <wsdl:output message="tns:GetUserSoapOut" />
     </wsdl:operation>
@@ -1118,57 +1106,57 @@
       <wsdl:output message="tns:GetUserDetailsSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetUsersBySearch">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Search the Users of the iFolder System</documentation>
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get information about all of the iFolder users identified by the search property, operation, and pattern.</documentation>
       <wsdl:input message="tns:GetUsersBySearchSoapIn" />
       <wsdl:output message="tns:GetUsersBySearchSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="AddAdministrator">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Give a User Administration Rights</documentation>
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Grant a user system administration rights.</documentation>
       <wsdl:input message="tns:AddAdministratorSoapIn" />
       <wsdl:output message="tns:AddAdministratorSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="RemoveAdministrator">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Remove Administration Rights from a User</documentation>
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Revoke system administration rights from a user.</documentation>
       <wsdl:input message="tns:RemoveAdministratorSoapIn" />
       <wsdl:output message="tns:RemoveAdministratorSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetAdministrators">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get all the Administrators</documentation>
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get information about all the administrators.</documentation>
       <wsdl:input message="tns:GetAdministratorsSoapIn" />
       <wsdl:output message="tns:GetAdministratorsSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetSystemPolicy">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get the System Policy</documentation>
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get policy information for the system.</documentation>
       <wsdl:input message="tns:GetSystemPolicySoapIn" />
       <wsdl:output message="tns:GetSystemPolicySoapOut" />
     </wsdl:operation>
     <wsdl:operation name="SetSystemPolicy">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Set the System Policy</documentation>
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Set policy for the iFolder system.</documentation>
       <wsdl:input message="tns:SetSystemPolicySoapIn" />
       <wsdl:output message="tns:SetSystemPolicySoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetUserPolicy">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get User Policy</documentation>
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get policy information for a user.</documentation>
       <wsdl:input message="tns:GetUserPolicySoapIn" />
       <wsdl:output message="tns:GetUserPolicySoapOut" />
     </wsdl:operation>
     <wsdl:operation name="SetUserPolicy">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Set User Policy</documentation>
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Set the policy for a user.</documentation>
       <wsdl:input message="tns:SetUserPolicySoapIn" />
       <wsdl:output message="tns:SetUserPolicySoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetiFolderPolicy">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get iFolder Policy</documentation>
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get policy information for an iFolder.</documentation>
       <wsdl:input message="tns:GetiFolderPolicySoapIn" />
       <wsdl:output message="tns:GetiFolderPolicySoapOut" />
     </wsdl:operation>
     <wsdl:operation name="SetiFolderPolicy">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Set iFolder Policy</documentation>
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Set the policy for an iFolder.</documentation>
       <wsdl:input message="tns:SetiFolderPolicySoapIn" />
       <wsdl:output message="tns:SetiFolderPolicySoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetIdentityPolicy">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get the policy of the registered identity provider</documentation>
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get policy information for the registered identity provider.</documentation>
       <wsdl:input message="tns:GetIdentityPolicySoapIn" />
       <wsdl:output message="tns:GetIdentityPolicySoapOut" />
     </wsdl:operation>
@@ -1178,12 +1166,12 @@
       <wsdl:output message="tns:CreateUserSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="DeleteUser">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Method to delete a user from the Simias domain</documentation>
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Delete a user from the iFolder system.</documentation>
       <wsdl:input message="tns:DeleteUserSoapIn" />
       <wsdl:output message="tns:DeleteUserSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="SetPassword">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Method to reset a user's password</documentation>
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Set a user's password.</documentation>
       <wsdl:input message="tns:SetPasswordSoapIn" />
       <wsdl:output message="tns:SetPasswordSoapOut" />
     </wsdl:operation>
@@ -1216,11 +1204,6 @@
       <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Cause the Identity Sync Service to synchronize immediately</documentation>
       <wsdl:input message="tns:IdentitySyncNowSoapIn" />
       <wsdl:output message="tns:IdentitySyncNowSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GenerateSampleData">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Get the Authenticated User</documentation>
-      <wsdl:input message="tns:GenerateSampleDataSoapIn" />
-      <wsdl:output message="tns:GenerateSampleDataSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="iFolderAdminSoap" type="tns:iFolderAdminSoap">
@@ -1585,20 +1568,11 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GenerateSampleData">
-      <soap:operation soapAction="http://novell.com/ifolder/webservice/GenerateSampleData" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
   </wsdl:binding>
   <wsdl:service name="iFolderAdmin">
     <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">iFolder Admin Web Service</documentation>
     <wsdl:port name="iFolderAdminSoap" binding="tns:iFolderAdminSoap">
-      <soap:address location="http://localhost:8086/simias10/iFolderAdmin.asmx" />
+      <soap:address location="http://127.0.0.1:8086/simias10/iFolderAdmin.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

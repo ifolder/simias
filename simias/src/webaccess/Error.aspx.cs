@@ -32,6 +32,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
 using System.Resources;
+using System.IO;
 
 namespace Novell.iFolderApp.Web
 {
@@ -41,29 +42,19 @@ namespace Novell.iFolderApp.Web
 	public class Error : System.Web.UI.Page
 	{
 		/// <summary>
-		/// Div
-		/// </summary>
-		protected HtmlGenericControl DetailsButtonRegion;
-		
-		/// <summary>
-		/// Error Type
-		/// </summary>
-		protected Label ErrorType;
-		
-		/// <summary>
 		/// Error Instructions
 		/// </summary>
-		protected Label ErrorInstructions;
+		protected Label ErrorMessage;
 
 		/// <summary>
-		/// Error Message
+		/// Login Button
 		/// </summary>
-		protected Literal ErrorMessage;
+		protected Button LoginButton;
 
 		/// <summary>
-		/// Error Stack Trace
+		/// Error Details
 		/// </summary>
-		protected Literal ErrorStackTrace;
+		protected TextBox ErrorDetails;
 
 		/// <summary>
 		/// Resource Manager
@@ -81,30 +72,73 @@ namespace Novell.iFolderApp.Web
 			rm = (ResourceManager) Application["RM"];
 				
 			// strings
-			ErrorType.Text = GetString("ERROR.TYPE");
-			ErrorInstructions.Text = GetString("ERROR.INSTRUCTIONS");
+			ErrorMessage.Text = GetString("ERROR.MESSAGE");
+			LoginButton.Text = GetString("LOGIN");
+
+			// details
+			StringWriter details = new StringWriter();
 
 			// message from query string
 			string message = Request.QueryString.Get("Exception");
 
-			if ((message == null) || (message.Length < 0))
+			if ((message != null) && (message.Length != 0))
 			{
-				// message from session
-				message = null;
-
-				Exception ex = (Exception)Session["Exception"];
-
-				if (ex != null)
-				{
-					message = ex.ToString();
-				}
+				details.WriteLine("Message: {0}", message);
+				details.WriteLine();
 			}
 			
-			// did we find a message
-			if (message != null)
+			// session additions
+			if (Session != null)
 			{
-				ErrorMessage.Text = "\n\n" + message + "\n";
+				// exception
+				Exception ex = (Exception) Session["Exception"];
+				if (ex != null)
+				{
+					details.WriteLine("Exception Message: {0}", ex.Message);
+					details.WriteLine("Exception Type: {0}", ex.GetType());
+					details.WriteLine("Exception Site: {0}", ex.TargetSite);
+					details.WriteLine("Exception Source: {0}", ex.Source);
+					details.WriteLine();
+					details.WriteLine("Exception Stack:");
+					details.WriteLine();
+					details.WriteLine(ex);
+					details.WriteLine();
+				}
+
+				// user
+				iFolderUser user = (iFolderUser) Session["User"];
+				if (user != null)
+				{
+					details.WriteLine("Username: {0}", user.UserName);
+					details.WriteLine("User Full Name: {0}", user.FullName);
+					details.WriteLine();
+				}
+
+				// system
+				iFolderSystem system = (iFolderSystem) Session["System"];
+				if (system != null)
+				{
+					details.WriteLine("System iFolder Name: {0}", system.Name);
+					details.WriteLine("System iFolder Version: {0}", system.Version);
+					details.WriteLine();
+				}
+				
+				// server
+				iFolderServer server = (iFolderServer) Session["Server"];
+				if (server != null)
+				{
+					details.WriteLine("Server iFolder Version: {0}", server.Version);
+					details.WriteLine("Server CLR Version: {0}", server.ClrVersion);
+					details.WriteLine("Server Host: {0}", server.HostName);
+					details.WriteLine("Server Machine: {0}", server.MachineName);
+					details.WriteLine("Server Operating System: {0}", server.OSVersion);
+					details.WriteLine("Server Username: {0}", server.UserName);
+					details.WriteLine();
+				}
 			}
+
+			// details
+			ErrorDetails.Text = details.ToString();
 		}
 
 		/// <summary>
@@ -135,8 +169,19 @@ namespace Novell.iFolderApp.Web
 		private void InitializeComponent()
 		{    
 			this.Load += new System.EventHandler(this.Page_Load);
+			this.LoginButton.Click += new EventHandler(LoginButton_Click);
 		}
 
 		#endregion
+
+		/// <summary>
+		/// Login Button Clicked
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void LoginButton_Click(object sender, EventArgs e)
+		{
+			Response.Redirect("Login.aspx");
+		}
 	}
 }

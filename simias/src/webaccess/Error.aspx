@@ -1,51 +1,56 @@
-<%@ Page language="c#" Codebehind="Error.aspx.cs" AutoEventWireup="false" Inherits="Novell.iFolderApp.Web.Error" %>
-<%@ Register TagPrefix="iFolder" TagName="Header" Src="Header.ascx" %>
+<%@ Page language="C#" Codebehind="Error.aspx.cs" AutoEventWireup="false" Inherits="Novell.iFolderApp.Web.Error" %>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
+
 <head>
-<title><%= GetString("TITLE") %></title>
-<link rel="SHORTCUT ICON" href="images/N_url_shortcut.ico">
-<link rel="stylesheet" type="text/css" href="iFolderWeb.css">
-</head>
-<body>
-<form runat="server">
-
-	<div class="pageRegion">
-		
-		<ifolder:header runat="server" />
-			
-		<div class="mainRegion">
-		
-			<div class="mainContent">
-				
-				<table border="0" cellpadding="0" cellspacing="0">
-				
-					<tr><td>
-						<asp:Label ID="ErrorType" CssClass="errorType" runat="server" />
-					</td></tr>
-				
-					<tr><td>&nbsp;</td></tr>
-					
-					<tr><td>
-						<asp:Label ID="ErrorInstructions" CssClass="errorInstructions" runat="server" />
-					</td></tr>
-				
-					<tr><td>&nbsp;</td></tr>
-					
-					<tr><td>
-					</td></tr>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 	
-					<tr><td>&nbsp;</td></tr>
-					
-					<tr><td class="errorDetail"><pre><asp:Literal ID="ErrorMessage" runat="server" /></pre></td></tr>
+	<title><%= GetString("TITLE") %></title>
+	
+	<link rel="SHORTCUT ICON" href="images/ifolder.ico">
 
-				</table>
+	<style type="text/css">
+		@import url(css/ifolder.css);
+	</style>
+
+</head>
+
+<body>
+
+<div id="container">
+	
+	<form runat="server">
+
+		<div id="header">
+			<div class="panel">
+			</div>
+		</div>		
+
+		<div id="nav">
+		</div>
+	
+		<div id="content">
+		
+			<div class="main">
+				
+				<asp:Label ID="ErrorMessage" CssClass="errorMessage" runat="server" />
+				
+				<asp:Button ID="LoginButton" runat="server" />
+				
+				<br><br>
+				
+				<div>
+					<asp:TextBox ID="ErrorDetails" TextMode="MultiLine" Wrap="False" Rows="16" CssClass="errorDetails" runat="server" />
+				</div>
 				
 			</div>
 	
 		</div>
-
-	</div>
 	
-</form>
+	</form>
+
+</div>
+
 </body>
+
 </html>

@@ -57,6 +57,7 @@ a:hover
 #header .panel
 {
 	background: transparent url(../images/title2.png) left top no-repeat;
+	height: 40px;
 	padding: 8px;
 	font-size: 0.7em;
 	text-align: right;
@@ -485,6 +486,19 @@ td.seperator
 #share-members
 {
 	padding-left: 12px;
+}
+
+/* error */
+
+.errorMessage
+{
+	font-size: 1.1em;
+}
+
+.errorDetails
+{
+	width: 98%;
+	background-color: #EAEAEA;
 }
 
 /* login */

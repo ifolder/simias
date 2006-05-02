@@ -155,7 +155,6 @@ namespace Novell.iFolderApp.Web
 				// log
 				log.Error(Context, ex, "Application Error");
 
-				/*
 				// clear
 				Server.ClearError();
 
@@ -172,7 +171,6 @@ namespace Novell.iFolderApp.Web
 				{
 					Response.Redirect("Error.aspx?Exception=" + Server.UrlEncode(ex.ToString()));
 				}
-				*/
 			}
 		}
 

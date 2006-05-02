@@ -218,12 +218,12 @@ namespace Novell.iFolderApp.Web
 				// update web url
 				// always use the original path from the WSDL file
 	            string url = Environment.GetEnvironmentVariable("SimiasUrl" );
-	            if(url == null)
-					url = System.Configuration.ConfigurationSettings.AppSettings.Get("SimiasUrl");
+	            if (url == null) url = System.Configuration.ConfigurationSettings.AppSettings.Get("SimiasUrl");
 
 #if TESTING
 				url = "http://localhost:8086";
 #endif
+
 				UriBuilder webUrl = new UriBuilder(url);
 				webUrl.Path = (new Uri(web.Url)).PathAndQuery;
 				web.Url = webUrl.Uri.ToString();
@@ -235,12 +235,14 @@ namespace Novell.iFolderApp.Web
 				// cookies
 				web.CookieContainer = new CookieContainer();
 
-				// user and system
+				// user, system, and server
 				iFolderUser user = web.GetAuthenticatedUser();
+				Session["Connection"] = web;
+				Session["User"] = user;
 				iFolderSystem system = web.GetSystem();
-				Session["System"] = system.Name;
+				Session["System"] = system;
 				iFolderServer server = web.GetServer();
-				Session["Version"] = server.Version;
+				Session["Server"] = server;
 
 				// new username cookie for 30 days
 				Response.Cookies.Remove("username");
@@ -249,6 +251,7 @@ namespace Novell.iFolderApp.Web
 
 				// configuration
 				int max = PaggingControl.DEFAULT_ITEMS_PER_PAGE;
+				
 				try
 				{
 					max = int.Parse(System.Configuration.ConfigurationSettings.AppSettings.Get("ItemsPerPage"));
@@ -256,12 +259,7 @@ namespace Novell.iFolderApp.Web
 				catch
 				{
 				}
-
-				// session
-				Session["Connection"] = web;
-				Session["UserID"] = user.ID;
-				Session["Username"] = user.UserName;
-				Session["UserFullName"] = user.FullName;
+				
 				Session["ItemsPerPage"] = max;
 
 				// log access
