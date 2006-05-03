@@ -2,7 +2,7 @@ Include @MODMONO_CONFPATH@
 
 Alias /admin "@admindir@"
 AddMonoApplications exampleadmin "/admin:@admindir@"
-MonoSetEnv exampleadmin SimiasUrl=http://example.com:80
+MonoSetEnv exampleadmin SimiasUrl=http://example.com:80;SimiasLogDir=/var/lib/ifolder/example.com
 <Location /admin >
 	MonoSetServerAlias exampleadmin
 	Order allow,deny

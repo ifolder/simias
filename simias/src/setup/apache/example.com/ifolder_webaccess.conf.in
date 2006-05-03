@@ -2,7 +2,7 @@ Include @MODMONO_CONFPATH@
 
 Alias /ifolder "@webaccessdir@"
 AddMonoApplications exampleifolder "/ifolder:@webaccessdir@"
-MonoSetEnv exampleifolder SimiasUrl=http://example.com:80
+MonoSetEnv exampleifolder SimiasUrl=http://example.com:80;SimiasLogDir=/var/lib/ifolder/example.com
 <Location /ifolder >
 	MonoSetServerAlias exampleifolder
 	Order allow,deny
