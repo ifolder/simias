@@ -40,11 +40,6 @@ namespace Novell.iFolderApp.Web
 	public class PaggingControl : UserControl
 	{
 		/// <summary>
-		/// Default Items / Page
-		/// </summary>
-		public static int DEFAULT_ITEMS_PER_PAGE = 50;
-
-		/// <summary>
 		/// Pagging Start Index
 		/// </summary>
 		protected Literal StartIndex;
@@ -155,11 +150,11 @@ namespace Novell.iFolderApp.Web
 			// page size
 			try
 			{
-				page = (int)Session["ItemsPerPage"];
+				page = (Session["Settings"] as WebSettings).PageSize;
 			}
 			catch
 			{
-				page = DEFAULT_ITEMS_PER_PAGE;
+				page = WebSettings.PageSizeDefault;
 			}
 		}
 

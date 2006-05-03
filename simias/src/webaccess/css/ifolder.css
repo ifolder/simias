@@ -73,6 +73,7 @@ a:hover
 #header .panel .controls
 {
 	display: inline;
+	color: #C6C6C6;
 }
 
 #header .panel .controls a
@@ -139,13 +140,15 @@ a:hover
 .filterText
 {
 	width: 12em;
-	background: #FFFFFF url(../images/search-soft.png) 4px 2px no-repeat;
+	background: #FFFFFF url(../images/search.png) 2px 2px no-repeat;
+	padding-left: 22px;
 }
 
 .searchText
 {
 	width: 12em;
-	background: #FFFFFF url(../images/search-soft.png) 4px 2px no-repeat;
+	background: #FFFFFF url(../images/search.png) 2px 2px no-repeat;
+	padding-left: 22px;
 }
 
 /* nav */
@@ -332,7 +335,6 @@ table.list
 {
 	width: 98%;
 	border-collapse: collapse;
-	table-layout: fixed;
 	color: #333333;
 	empty-cells: show;
 }
@@ -452,6 +454,11 @@ td.seperator
 }
 
 /* misc */
+
+.highlight
+{
+	background-color: yellow;
+}
 
 .columns
 {

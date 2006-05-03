@@ -11,9 +11,9 @@
 		</div>
 		
 		<div class="controls">
-			<!--
-			<asp:HyperLink ID="SettingsLink" CssClass="bannerLink" Target="ifolderSettings" runat="server" />
+			<asp:HyperLink ID="SettingsLink" CssClass="bannerLink" NavigateUrl="Settings.aspx" runat="server" />
 			|
+			<!--
 			<asp:HyperLink ID="HelpLink" CssClass="bannerLink" Target="ifolderHelp" runat="server" />
 			|
 			-->

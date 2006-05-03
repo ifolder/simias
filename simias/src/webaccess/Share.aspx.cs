@@ -150,7 +150,7 @@ namespace Novell.iFolderApp.Web
 				CancelButton.Text = GetString("CANCEL");
 
 				// properties
-				SearchPropertyList.Items.Add(new ListItem(GetString("FIRSTNAME"), SearchProperty.Name.ToString()));
+				SearchPropertyList.Items.Add(new ListItem(GetString("FIRSTNAME"), SearchProperty.FirstName.ToString()));
 				SearchPropertyList.Items.Add(new ListItem(GetString("LASTNAME"), SearchProperty.LastName.ToString()));
 
 				// members
@@ -238,19 +238,37 @@ namespace Novell.iFolderApp.Web
 			try
 			{
 				// user
+				SearchProperty prop = (SearchProperty)Enum.Parse(typeof(SearchProperty), SearchPropertyList.SelectedItem.Value);
+
 				iFolderUser[] users = web.GetUsersBySearch(
-					(SearchProperty)Enum.Parse(typeof(SearchProperty), SearchPropertyList.SelectedItem.Value),
-					SearchOperation.BeginsWith, SearchPattern.Text,
+					prop, SearchOperation.BeginsWith, SearchPattern.Text,
 					UserPagging.Index, UserPagging.PageSize, out total);
 				UserPagging.Count = users.Length;
 				UserPagging.Total = total;
 				
+				string name;
+
 				foreach(iFolderUser user in users)
 				{
 					DataRow row = userTable.NewRow();
 
+					// display name
+					switch(prop)
+					{
+						case SearchProperty.LastName:
+							name = String.Format("{0}{1}{2}", user.LastName,
+								GetString("LASTFIRSTNAMESEP"), user.FirstName);
+							break;
+
+						case SearchProperty.FirstName:
+						default:
+							name = String.Format("{0}{1}{2}", user.FirstName,
+								GetString("FIRSTLASTNAMESEP"), user.LastName);
+							break;
+					}
+
 					row["ID"] = user.ID;
-					row["FullName"] = user.FullName;
+					row["FullName"] = name;
 					row["Enabled"] = !members.ContainsKey(user.ID) && !currentMembers.ContainsKey(user.ID);
 
 					userTable.Rows.Add(row);

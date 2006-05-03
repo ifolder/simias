@@ -28,9 +28,11 @@ iFolderWeb_CSFILES = \
 	$(srcdir)/Share.aspx.cs \
 	$(srcdir)/iFolderNew.aspx.cs \
 	$(srcdir)/iFolderEdit.aspx.cs \
+	$(srcdir)/Settings.aspx.cs \
 	$(srcdir)/UploadModule.cs \
 	$(srcdir)/UploadStream.cs \
 	$(srcdir)/WebLogger.cs \
+	$(srcdir)/WebSettings.cs \
 	$(srcdir)/WebUtility.cs
 	
 iFolderWeb_CSFILES_CSC := $(subst /,$(SEP),$(iFolderWeb_CSFILES))
@@ -61,7 +63,7 @@ iFolderWeb_LIBPATH = $(LOG4NET_DIR)
 
 iFolderWeb_FORMS = \
 	Global.asax \
-    Default.aspx \
+	Default.aspx \
 	Browse.aspx \
 	Search.aspx \
 	NewFolder.aspx \
@@ -76,6 +78,7 @@ iFolderWeb_FORMS = \
 	iFolderNew.aspx \
 	iFolderEdit.aspx \
 	Share.aspx \
+	Settings.aspx \
 	Quota.ascx \
 	Header.ascx \
 	Message.ascx \

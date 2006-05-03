@@ -516,4 +516,16 @@
     <data name="REMOVEMEMBERSHIP">
         <value>Remove Membership</value>
     </data>
+    <data name="SETTINGS">
+        <value>Settings</value>
+    </data>
+    <data name="PAGESIZE">
+        <value>Page Size</value>
+    </data>
+    <data name="FIRSTLASTNAMESEP">
+        <value>&amp;nbsp;</value>
+    </data>
+    <data name="LASTFIRSTNAMESEP">
+        <value>,&amp;nbsp;</value>
+    </data>
 </root>

@@ -125,54 +125,6 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "HomeContext.ascx"
-                    SubType = "UserControl"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "HomeContext.ascx.cs"
-                    DependentUpon = "HomeContext.ascx"
-                    SubType = "ASPXCodeBehind"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "HomeContext.ascx.resx"
-                    DependentUpon = "HomeContext.ascx.cs"
-                    BuildAction = "EmbeddedResource"
-                />
-				<File
-					RelPath = "iFolderContext.ascx"
-					SubType = "UserControl"
-					BuildAction = "Content"
-				/>
-				<File
-					RelPath = "iFolderContext.ascx.cs"
-					DependentUpon = "iFolderContext.ascx"
-					SubType = "ASPXCodeBehind"
-					BuildAction = "Compile"
-				/>
-				<File
-					RelPath = "iFolderContext.ascx.resx"
-					DependentUpon = "iFolderContext.ascx.cs"
-					BuildAction = "EmbeddedResource"
-				/>
-				<File
-					RelPath = "TabControl.ascx"
-					SubType = "UserControl"
-					BuildAction = "Content"
-				/>
-				<File
-					RelPath = "TabControl.ascx.cs"
-					DependentUpon = "TabControl.ascx"
-					SubType = "ASPXCodeBehind"
-					BuildAction = "Compile"
-				/>
-				<File
-					RelPath = "TabControl.ascx.resx"
-					DependentUpon = "TabControl.ascx.cs"
-					BuildAction = "EmbeddedResource"
-				/>
-                <File
                     RelPath = "Default.aspx"
                     SubType = "Form"
                     BuildAction = "Content"
@@ -269,6 +221,7 @@
                 />
                 <File
                     RelPath = "Header.ascx.cs"
+                    DependentUpon = "Header.ascx"
                     SubType = "ASPXCodeBehind"
                     BuildAction = "Compile"
                 />
@@ -291,6 +244,38 @@
                 <File
                     RelPath = "History.aspx.resx"
                     DependentUpon = "History.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "HomeContext.ascx"
+                    SubType = "UserControl"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "HomeContext.ascx.cs"
+                    DependentUpon = "HomeContext.ascx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "HomeContext.ascx.resx"
+                    DependentUpon = "HomeContext.ascx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "iFolderContext.ascx"
+                    SubType = "UserControl"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "iFolderContext.ascx.cs"
+                    DependentUpon = "iFolderContext.ascx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "iFolderContext.ascx.resx"
+                    DependentUpon = "iFolderContext.ascx.cs"
                     BuildAction = "EmbeddedResource"
                 />
                 <File
@@ -467,6 +452,22 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "Settings.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Settings.aspx.cs"
+                    DependentUpon = "Settings.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Settings.aspx.resx"
+                    DependentUpon = "Settings.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "Share.aspx"
                     SubType = "Form"
                     BuildAction = "Content"
@@ -480,6 +481,22 @@
                 <File
                     RelPath = "Share.aspx.resx"
                     DependentUpon = "Share.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "TabControl.ascx"
+                    SubType = "UserControl"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "TabControl.ascx.cs"
+                    DependentUpon = "TabControl.ascx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TabControl.ascx.resx"
+                    DependentUpon = "TabControl.ascx.cs"
                     BuildAction = "EmbeddedResource"
                 />
                 <File
@@ -514,6 +531,11 @@
                 />
                 <File
                     RelPath = "WebLogger.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "WebSettings.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

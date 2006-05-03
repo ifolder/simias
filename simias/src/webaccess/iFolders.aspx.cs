@@ -36,6 +36,7 @@ using System.Resources;
 using System.Web.Security;
 using System.Web.Services.Protocols;
 using System.Xml;
+using System.Text.RegularExpressions;
 
 namespace Novell.iFolderApp.Web
 {
@@ -155,18 +156,32 @@ namespace Novell.iFolderApp.Web
 			try
 			{
 				// data
-				iFolder[] ifolders = web.GetiFoldersBySearch(role, after, SearchOperation.BeginsWith,
+				iFolder[] ifolders = web.GetiFoldersBySearch(role, after, SearchOperation.Contains,
 					HomeContext.Pattern, iFolderPagging.Index, iFolderPagging.PageSize, out total);
 				iFolderPagging.Count = ifolders.Length;
 				iFolderPagging.Total = total;
 				
+				string name;
+				bool pattern = (HomeContext.Pattern != null) && (HomeContext.Pattern.Length > 0);
+
 				foreach(iFolder ifolder in ifolders)
 				{
 					DataRow row = ifolderTable.NewRow();
 
+					// selected name
+					if (pattern)
+					{
+						name = Regex.Replace(ifolder.Name, String.Format("({0})", HomeContext.Pattern),
+							"<span class='highlight'>${1}</span>", RegexOptions.IgnoreCase);
+					}
+					else
+					{
+						name = ifolder.Name;
+					}
+
 					row["ID"] = ifolder.ID;
 					row["Image"] = "ifolder.png";
-					row["Name"] = ifolder.Name;
+					row["Name"] = name;
 					row["LastModified"] = WebUtility.FormatDate(ifolder.LastModified, rm);
 					row["Description"] = ifolder.Description;
 					row["Rights"] = WebUtility.FormatRights(ifolder.Rights, rm);

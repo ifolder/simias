@@ -37,6 +37,7 @@ using System.IO;
 using System.Net;
 using System.Web.Services.Protocols;
 using System.Xml;
+using System.Text.RegularExpressions;
 
 namespace Novell.iFolderApp.Web
 {
@@ -205,20 +206,33 @@ namespace Novell.iFolderApp.Web
 			try
 			{
 				// entries
-				iFolderEntry[] entries = web.GetEntriesByName(ifolderID, entryID, SearchOperation.BeginsWith,
+				iFolderEntry[] entries = web.GetEntriesByName(ifolderID, entryID, SearchOperation.Contains,
 					pattern, EntryPagging.Index, EntryPagging.PageSize, out total); 
 				
 				// pagging
 				EntryPagging.Total = total;
 				EntryPagging.Count = entries.Length;
 
+				string name;
+				string path;
+
 				foreach(iFolderEntry child in entries)
 				{
 					DataRow row = entryTable.NewRow();
 
+					// selected name
+					name = Regex.Replace(child.Name, String.Format("({0})", pattern),
+						"<span class='highlight'>${1}</span>", RegexOptions.IgnoreCase);
+					
+					// remove the iFolder name from the path
+					path = child.Path.Substring(child.Path.IndexOf('/'));
+					
+					// remove the file name from the path
+					path = path.Substring(0, path.LastIndexOf('/') + 1);
+					
 					row["ID"] = child.ID;
 					row["iFolderID"] = child.iFolderID;
-					row["Name"] = child.Path.Substring(child.Path.IndexOf('/'));
+					row["Name"] = path + name;
 
 					if (child.IsDirectory)
 					{

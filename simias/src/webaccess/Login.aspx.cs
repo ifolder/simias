@@ -249,18 +249,9 @@ namespace Novell.iFolderApp.Web
 				Response.Cookies["username"].Value = user.UserName;
 				Response.Cookies["username"].Expires = expires;
 
-				// configuration
-				int max = PaggingControl.DEFAULT_ITEMS_PER_PAGE;
-				
-				try
-				{
-					max = int.Parse(System.Configuration.ConfigurationSettings.AppSettings.Get("ItemsPerPage"));
-				}
-				catch
-				{
-				}
-				
-				Session["ItemsPerPage"] = max;
+				// settings
+				WebSettings settings = new WebSettings(web);
+				Session["Settings"] = settings;
 
 				// log access
 				log.Info(Context, "Login Successful");

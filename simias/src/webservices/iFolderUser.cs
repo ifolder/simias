@@ -53,6 +53,16 @@ namespace iFolder.WebService
 		public string FullName;
 
 		/// <summary>
+		/// The User First Name
+		/// </summary>
+		public string FirstName;
+
+		/// <summary>
+		/// The User Last Name
+		/// </summary>
+		public string LastName;
+
+		/// <summary>
 		/// The User Rights in the iFolder/Domain
 		/// </summary>
 		public Simias.Storage.Access.Rights Rights;
@@ -87,6 +97,8 @@ namespace iFolder.WebService
 			this.UserName = member.Name;
             this.Rights = member.Rights;
 			this.FullName = (member.FN != null) ? member.FN : member.Name;
+			this.FirstName = member.Given;
+			this.LastName = member.Family;
 			this.Enabled = !(domain.IsLoginDisabled(this.ID));
 			this.IsOwner = (member.UserID == collection.Owner.UserID);
 
@@ -95,7 +107,9 @@ namespace iFolder.WebService
 			if (collection != domain)
 			{
 				Member domainMember = domain.GetMemberByID(this.ID);
-				this.FullName = domainMember.FN;
+				this.FullName = (domainMember.FN != null) ? domainMember.FN : domainMember.Name;
+				this.FirstName = domainMember.Given;
+				this.LastName = domainMember.Family;
 			}
 		}
 
