@@ -12,6 +12,11 @@ p, tr, td, ol, ul
 	font-size: .9em;
 }
 
+a:visited
+{
+	color: #0000EE;
+}
+
 .container
 {
 	border: 1px solid #666666;

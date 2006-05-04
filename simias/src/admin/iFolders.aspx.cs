@@ -428,7 +428,7 @@ namespace Novell.iFolderWeb.Admin
 		protected void OnCreateButton_Click( object source, EventArgs e )
 		{
 			iFolderUser admin = web.GetAuthenticatedUser();
-			Page.Response.Redirect( String.Format( "MemberSelect.aspx?op=createifolder&owner={0}&name={1}", admin.ID, admin.FullName ), true );
+			Page.Response.Redirect( "CreateiFolder.aspx", true );
 		}
 
 		/// <summary>

@@ -49,7 +49,10 @@
 		<value>Add Administrators</value>
 	</data>
 	<data name="ADDMEMBERS">
-		<value>Add Members</value>
+		<value>Add iFolder Members</value>
+	</data>
+	<data name="ADDMEMBERSTOIFOLDER">
+		<value>Add additional members to iFolder &quot;{0}&quot;</value>
 	</data>
 	<data name="ADMIN">
 		<value>Admin</value>
@@ -77,6 +80,9 @@
 	</data>
 	<data name="B">
 		<value>B</value>
+	</data>
+	<data name="BACK">
+		<value>Back</value>
 	</data>
 	<data name="BEGINSWITH">
 		<value>Begins With</value>
@@ -315,6 +321,9 @@
 	<data name="IFOLDERDISABLED">
 		<value>Disable Synchronization</value>
 	</data>
+	<data name="IFOLDERISOWNEDBY">
+		<value>Owned by {0}</value>
+	</data>
 	<data name="IFOLDERS">
 		<value>iFolders</value>
 	</data>
@@ -459,6 +468,9 @@
 	<data name="NEWIFOLDERNAMETAG">
 		<value>iFolder Name:</value>
 	</data>
+	<data name="NEXT">
+		<value>Next</value>
+	</data>
 	<data name="NEXTPAGE">
 		<value>Next Page</value>
 	</data>
@@ -542,6 +554,9 @@
 	</data>
 	<data name="SELECTEDUSERS">
 		<value>Selected Users</value>
+	</data>
+	<data name="SELECTIFOLDEROWNER">
+		<value>Select owner for iFolder &quot;{0}&quot;</value>
 	</data>
 	<data name="SELECTUSERS">
 		<value>Select Users</value>

@@ -248,10 +248,12 @@ namespace Novell.iFolderWeb.Admin
 			Description.Text = ifolder.Description;
 			Owner.Text = ifolder.OwnerFullName;
 			Owner.NavigateUrl= String.Format( "UserDetails.aspx?id={0}", ifolder.OwnerID );
-			LastModified.Text = ifolder.LastModified.ToString();
 			Size.Text = Utils.ConvertToUnitString( ifolder.Size, true, rm );
 			Directories.Text = ifolder.DirectoryCount.ToString();
 			Files.Text = ifolder.FileCount.ToString();
+
+			LastModified.Text = ( ifolder.LastModified == DateTime.MinValue ) ? 
+				DateTime.Now.ToString() : ifolder.LastModified.ToString();
 
 			// Allow the browser to break up the path on separator boundries.
 			UnManagedPath.Text = ifolder.UnManagedPath.Replace( 
@@ -476,7 +478,14 @@ namespace Novell.iFolderWeb.Admin
 		/// <param name="e"></param>
 		protected void AddiFolderMembers( Object sender, EventArgs e )
 		{
-			Page.Response.Redirect( String.Format( "MemberSelect.aspx?op=addmember&id={0}&name={1}", iFolderID, Name.Text ), true );
+			Page.Response.Redirect( 
+				String.Format( 
+					"MemberSelect.aspx?op=addmember&id={0}&name={1}&desc={2}&fn={3}", 
+					iFolderID, 
+					Name.Text,
+					Description.Text,
+					Owner.Text), 
+				true );
 		}
 
 		/// <summary>

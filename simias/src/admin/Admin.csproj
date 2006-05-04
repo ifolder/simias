@@ -125,6 +125,22 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "CreateiFolder.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "CreateiFolder.aspx.cs"
+                    DependentUpon = "CreateiFolder.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "CreateiFolder.aspx.resx"
+                    DependentUpon = "CreateiFolder.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "CreateUser.aspx"
                     SubType = "Form"
                     BuildAction = "Content"
@@ -427,6 +443,22 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "OwnerSelect.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "OwnerSelect.aspx.cs"
+                    DependentUpon = "OwnerSelect.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "OwnerSelect.aspx.resx"
+                    DependentUpon = "OwnerSelect.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "Policy.ascx"
                     SubType = "UserControl"
                     BuildAction = "Content"
@@ -548,6 +580,10 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "css\CreateiFolder.css"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "css\CreateUser.css"
                     BuildAction = "Content"
                 />
@@ -573,6 +609,10 @@
                 />
                 <File
                     RelPath = "css\MemberSelect.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "css\OwnerSelect.css"
                     BuildAction = "Content"
                 />
                 <File

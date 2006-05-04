@@ -2,26 +2,22 @@
 {
 	margin-left: 12px;
 	margin-top: 14px;
-	margin-bottom: 14px;
+	padding-bottom: 12px;
 	font-size: 1.2em;
 	font-weight: bold;
-}
-
-.tablecolumn
-{
-	width: 30em;
 }
 
 .leftnav
 {
 	float: left;
+	margin-right: 12px;
 }
 
 .memberselectnav
 {
 	padding-left: 12px;
 	padding-bottom: 4px;
-	width: 25em;
+	width: 29em;
 }
 
 .okcancelnav
@@ -107,36 +103,9 @@
 	padding-bottom: 6px;
 }
 
-#CreateiFolderDiv
+#SubHeaderTitle
 {
 	float: left;
-	width: 37em;
-	padding-left: 12px;
-	margin-bottom: 24px;
-}
-
-#CreateiFolderDiv td
-{
-	vertical-align: top;
-}
-
-#NameLabel
-{
-	font-weight: bold;
-}
-
-#Name
-{
-	width: 100%;
-}
-
-#DescriptionLabel
-{
-	font-weight: bold;
-}
-
-#Description
-{
-	overflow: auto;
-	width: 100%;
+	font-size: .7em;
+	padding-bottom: 12px;
 }

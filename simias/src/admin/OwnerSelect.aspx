@@ -1,4 +1,4 @@
-<%@ Page language="c#" Codebehind="MemberSelect.aspx.cs" AutoEventWireup="false" Inherits="Novell.iFolderWeb.Admin.MemberSelect" %>
+<%@ Page language="c#" Codebehind="OwnerSelect.aspx.cs" AutoEventWireup="false" Inherits="Novell.iFolderWeb.Admin.OwnerSelect" %>
 <%@ Register TagPrefix="iFolder" TagName="MemberSearch" Src="MemberSearch.ascx" %>
 <%@ Register TagPrefix="iFolder" TagName="TopNavigation" Src="TopNavigation.ascx" %>
 <%@ Register TagPrefix="iFolder" TagName="ListFooter" Src="ListFooter.ascx" %>
@@ -15,14 +15,14 @@
 	
 	<style type="text/css">
 		@import url(css/iFolderAdmin.css);
-		@import url(css/MemberSelect.css);
+		@import url(css/OwnerSelect.css);
 	</style>
 	
 </head>
 
 <body id="ifolders" runat="server">
 
-<form runat="server">
+<form runat="server" ID="Form1">
 
 	<div class="container">
 			
@@ -34,8 +34,6 @@
 				
 				<asp:Label ID="HeaderTitle" Runat="server" />
 				
-				<asp:Label ID="SubHeaderTitle" Runat="server" />
-				
 			</div>
 	
 			<iFolder:MemberSearch ID="MemberSearch" Runat="server" />
@@ -45,14 +43,6 @@
 				<table class="memberlistheader">
 			
 					<tr>
-						<td class="checkboxcolumn">									
-							<asp:CheckBox 
-								ID="AllMembersCheckBox" 
-								Runat="server" 
-								OnCheckedChanged="AllMembersChecked" 
-								AutoPostBack="True" />
-						</td>
-					
 						<td>
 							<%= GetString( "IFOLDERUSERS" ) %>
 						</td>
@@ -71,26 +61,14 @@
 					PageSize="15" 
 					GridLines="None" 
 					ItemStyle-CssClass="memberlistitem"
-					AlternatingItemStyle-CssClass="memberlistaltitem">
+					AlternatingItemStyle-CssClass="memberlistaltitem"
+					SelectedItemStyle-CssClass="memberselecteditem">
 				
 					<Columns>
-
+					
 						<asp:BoundColumn DataField="IDField" Visible="False" />
 						
 						<asp:TemplateColumn ItemStyle-CssClass="memberitem1">
-							<ItemTemplate>
-								<asp:CheckBox 
-									ID="MemberItemCheckBox" 
-									Runat="server" 
-									OnCheckedChanged="MemberChecked" 
-									AutoPostBack="true" 
-									Visible='<%# ( bool )DataBinder.Eval( Container.DataItem, "VisibleField" ) %>' 
-									Enabled='<%# ( bool )DataBinder.Eval( Container.DataItem, "EnabledField" ) %>' 
-									Checked='<%# GetMemberCheckedState( DataBinder.Eval( Container.DataItem, "IDField" ) ) %>'/>
-							</ItemTemplate>
-						</asp:TemplateColumn>
-					
-						<asp:TemplateColumn ItemStyle-CssClass="memberitem2">
 							<ItemTemplate>
 								<asp:Image 
 									ID="MemberUserImage" 
@@ -100,9 +78,18 @@
 							</ItemTemplate>
 						</asp:TemplateColumn>
 					
-						<asp:BoundColumn DataField="NameField" />
-					
-						<asp:BoundColumn DataField="FullNameField" />
+						<asp:TemplateColumn ItemStyle-CssClass="memberitem2">
+							<ItemTemplate>
+								<asp:LinkButton 
+									ID="MemberName" 
+									Runat="server" 
+									OnClick="OnMemberName_Click"
+									Text='<%# DataBinder.Eval( Container.DataItem, "NameField" ) %>'
+									Visible='<%# ( bool )DataBinder.Eval( Container.DataItem, "VisibleField" ) %>'/>
+							</ItemTemplate>
+						</asp:TemplateColumn>
+						
+						<asp:BoundColumn DataField="FullNameField" ItemStyle-CssClass="memberitem3" />
 					
 					</Columns>
 				
@@ -116,13 +103,14 @@
 						ID="BackButton"
 						Runat="server"
 						CssClass="ifolderbuttons"
-						OnClick="BackButton_Clicked" />
+						OnClick="BackButton_Clicked" />					
 				
 					<asp:Button 
-						ID="OkButton" 
+						ID="NextButton" 
 						Runat="server" 
 						CssClass="ifolderbuttons" 
-						OnClick="OkButton_Clicked" />
+						Enabled="False" 
+						OnClick="NextButton_Clicked" />
 					
 					<asp:Button 
 						ID="CancelButton" 

@@ -27,6 +27,7 @@ using System.Data;
 using System.Drawing;
 using System.Net;
 using System.Resources;
+using System.Text;
 using System.Web;
 using System.Web.SessionState;
 using System.Web.UI;
@@ -78,6 +79,21 @@ namespace Novell.iFolderWeb.Admin
 		/// </summary>
 		protected TopNavigation TopNav;
 
+		/// <summary>
+		/// Page title control.
+		/// </summary>
+		protected Label HeaderTitle;
+
+		/// <summary>
+		/// Page subtitle control.
+		/// </summary>
+		protected Label SubHeaderTitle;
+
+
+		/// <summary>
+		/// Web controls.
+		/// </summary>
+		protected Button BackButton;
 
 		/// <summary>
 		/// Web controls.
@@ -109,33 +125,6 @@ namespace Novell.iFolderWeb.Admin
 		/// </summary>
 		protected ListFooter MemberListFooter;
 
-
-
-		/// <summary>
-		/// Control that contains the create ifolder controls.
-		/// </summary>
-		protected HtmlGenericControl CreateiFolderDiv;
-
-		/// <summary>
-		/// Control that specifies the new ifolder label.
-		/// </summary>
-		protected Label NameLabel;
-
-		/// <summary>
-		/// Control that gets the name for the new ifolder.
-		/// </summary>
-		protected TextBox Name;
-
-		/// <summary>
-		/// Control that specifies the new ifolder description.
-		/// </summary>
-		protected Label DescriptionLabel;
-
-		/// <summary>
-		/// Control that gets the description for the new ifolder.
-		/// </summary>
-		protected HtmlTextArea Description;
-
 		#endregion
 
 		#region Properties
@@ -150,12 +139,41 @@ namespace Novell.iFolderWeb.Admin
 		}
 
 		/// <summary>
+		/// Gets the iFolder Description.
+		/// </summary>
+		private string iFolderDescription
+		{
+			get 
+			{ 
+				string param = Request.Params[ "desc" ];
+				return ( param == null ) ? String.Empty : param;
+			} 
+		}
+
+		/// <summary>
 		/// Gets or sets the existing members list.
 		/// </summary>
 		private Hashtable ExistingMemberList
 		{
 			get { return ViewState[ "ExistingMembers" ] as Hashtable; }
 			set { ViewState[ "ExistingMembers" ] = value; }
+		}
+
+		/// <summary>
+		/// Gets the full name of the owner of the iFolder.
+		/// </summary>
+		private string FullName
+		{
+			get 
+			{ 
+				string param = Request.Params[ "fn" ];
+				if ( ( param == null ) || ( param == String.Empty ) )
+				{
+					throw new HttpException( ( int )HttpStatusCode.BadRequest, "No full name was specified." );
+				}
+
+				return param;
+			}
 		}
 
 		/// <summary>
@@ -201,6 +219,35 @@ namespace Novell.iFolderWeb.Admin
 		}
 
 		/// <summary>
+		/// Gets the owner of the iFolder.
+		/// </summary>
+		private string iFolderOwner
+		{
+			get 
+			{ 
+				string param = Request.Params[ "owner" ];
+				if ( ( param == null ) || ( param == String.Empty ) )
+				{
+					throw new HttpException( ( int )HttpStatusCode.BadRequest, "No owner was specified." );
+				}
+
+				return param;
+			}
+		}
+
+		/// <summary>
+		/// Gets the starting member list page of the previous owner select page.
+		/// </summary>
+		private string MemberListPage
+		{
+			get 
+			{ 
+				string param = Request.Params[ "pg" ];
+				return ( ( param == null ) || ( param == String.Empty ) ) ? "0" : param;
+			} 
+		}
+
+		/// <summary>
 		/// Gets the operation to perform for this web page.
 		/// </summary>
 		private PageOp Operation
@@ -233,23 +280,6 @@ namespace Novell.iFolderWeb.Admin
 		}
 
 		/// <summary>
-		/// Gets the owner of the iFolder.
-		/// </summary>
-		private string Owner
-		{
-			get 
-			{ 
-				string param = Request.Params[ "owner" ];
-				if ( ( param == null ) || ( param == String.Empty ) )
-				{
-					throw new HttpException( ( int )HttpStatusCode.BadRequest, "No owner was specified." );
-				}
-
-				return param;
-			}
-		}
-
-		/// <summary>
 		/// Gets or sets the referring page.
 		/// </summary>
 		private string ReferringPage
@@ -263,8 +293,8 @@ namespace Novell.iFolderWeb.Admin
 		/// </summary>
 		private Hashtable MembersToAdd
 		{
-			get { return ViewState[ "MembersToAdd" ] as Hashtable; }
-			set { ViewState[ "MembersToAdd" ] = value; }
+			get { return Session[ "MembersToAdd" ] as Hashtable; }
+			set { Session[ "MembersToAdd" ] = value; }
 		}
 
 		/// <summary>
@@ -298,7 +328,7 @@ namespace Novell.iFolderWeb.Admin
 					if ( uri.AbsolutePath.EndsWith( "UserDetails.aspx" ) )
 					{
 						TopNav.AddBreadCrumb( GetString( "USERS" ), "Users.aspx" );
-						TopNav.AddBreadCrumb( iFolderName, String.Format( "UserDetails.aspx?id={0}", Owner ) );
+						TopNav.AddBreadCrumb( FullName, String.Format( "UserDetails.aspx?id={0}", iFolderOwner ) );
 						TopNav.AddBreadCrumb( GetString( "CREATENEWIFOLDER" ), null );
 
 						if ( body != null )
@@ -439,7 +469,7 @@ namespace Novell.iFolderWeb.Admin
 		private Hashtable CreateNewMemberList()
 		{
 			// Get the information about the new owner.
-			iFolderUser owner = web.GetUser( Owner );
+			iFolderUser owner = web.GetUser( iFolderOwner );
 			Hashtable ht = new Hashtable();
 			ht[ owner.ID ] = new MemberInfo( owner.ID, owner.UserName, owner.FullName );
 			return ht;
@@ -512,45 +542,79 @@ namespace Novell.iFolderWeb.Admin
 
 			if ( !IsPostBack )
 			{
-				// Remember the page that we came from.
-				ReferringPage = Page.Request.UrlReferrer.ToString();
-
 				// Initialize the localized fields.
+				BackButton.Text = GetString( "BACK" );
 				CancelButton.Text = GetString( "CANCEL" );
-				NameLabel.Text = GetString( "NAMETAG" );
-				DescriptionLabel.Text = GetString( "DESCRIPTIONTAG" );
 
 				switch ( Operation )
 				{
 					case PageOp.CreateiFolder:
 					{
+						// Initialize state variables.
+						if ( MembersToAdd == null )
+						{
+							MembersToAdd = new Hashtable();
+						}
+
+						// Initialize localized fields.
+						HeaderTitle.Text = String.Format( GetString( "ADDMEMBERSTOIFOLDER" ), iFolderName );
+						SubHeaderTitle.Text = String.Format( GetString( "IFOLDERISOWNEDBY" ), FullName );
 						OkButton.Text = GetString( "CREATE" );
-						CreateiFolderDiv.Visible = true;
+
+						// Remember the page that we came from.
+						string param = Request.Params[ "ref" ];
+						ReferringPage = ( ( param == null ) || ( param == String.Empty ) ) ? 
+							Page.Request.UrlReferrer.ToString() : param;
+
+						// Create an existing member list.
 						ExistingMemberList = CreateNewMemberList();
-						SetFocus( Name );
 						break;
 					}
 
 					case PageOp.AddMember:
 					{
+						// Initialize state variables.
+						MembersToAdd = new Hashtable();
+
+						// Initialize localized fields.
+						HeaderTitle.Text = String.Format( GetString( "ADDMEMBERSTOIFOLDER" ), iFolderName );
+						SubHeaderTitle.Text = String.Format( GetString( "IFOLDERISOWNEDBY" ), FullName );
 						OkButton.Text = GetString( "ADD" );
-						CreateiFolderDiv.Visible = false;
+
+						// Hide the back button.
+						BackButton.Visible = false;
+						
+						// Remember the page that we came from.
+						ReferringPage = Page.Request.UrlReferrer.ToString();
+
+						// Create an existing member list.
 						ExistingMemberList = CreateExistingMemberList();
 						break;
 					}
 
 					case PageOp.AddAdmin:
 					{
+						// Initialize state variables.
+						MembersToAdd = new Hashtable();
+
+						// Initialize localized fields.
+						HeaderTitle.Text = GetString( "ADDADMINS" );
+						SubHeaderTitle.Visible = false;
 						OkButton.Text = GetString( "ADD" );
-						CreateiFolderDiv.Visible = false;
+
+						// Hide the back button.
+						BackButton.Visible = false;
+						
+						// Remember the page that we came from.
+						ReferringPage = Page.Request.UrlReferrer.ToString();
+
+						// Create an existing member list.
 						ExistingMemberList = CreateExistingAdminList();
 						break;
 					}
 				}
 
 				// Initialize state variables.
-				Description.Value = String.Empty;
-				MembersToAdd = new Hashtable();
 				CurrentUserOffset = 0;
 				TotalUsers = 0;
 			}
@@ -570,16 +634,6 @@ namespace Novell.iFolderWeb.Admin
 
 			// Build the breadcrumb list.
 			BuildBreadCrumbList();
-		}
-
-		/// <summary>
-		/// Sets focus to the specified control.
-		/// </summary>
-		/// <param name="ctrl"></param>
-		private void SetFocus( System.Web.UI.Control ctrl )
-		{
-			string s = "<SCRIPT language='javascript'>document.getElementById('" + ctrl.ClientID + "').focus() </SCRIPT>";
-			Page.RegisterStartupScript( "focus", s );
 		}
 
 		/// <summary>
@@ -629,15 +683,45 @@ namespace Novell.iFolderWeb.Admin
 				}
 			}
 
-			// Enable the okay button if an ifolder is not being created.
-			if ( Operation != PageOp.CreateiFolder )
-			{
-				OkButton.Enabled = HasMembersToAdd;
-			}
-
 			// Rebind the data source with the new data.
 			MemberList.DataSource = CreateMemberList();
 			MemberList.DataBind();
+		}
+
+		/// <summary>
+		/// Event handler for the back button.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		protected void BackButton_Clicked( Object sender, EventArgs e )
+		{
+			Uri uri = new Uri( ReferringPage );
+			if ( uri.AbsolutePath.EndsWith( "UserDetails.aspx" ) )
+			{
+				// Return back to the referring page.
+				Page.Response.Redirect( 
+					String.Format( 
+					"CreateiFolder.aspx?&owner={0}&fn={1}&name={2}&desc={3}&ref={4}", 
+					iFolderOwner,
+					FullName,
+					iFolderName, 
+					iFolderDescription,
+					ReferringPage ), 
+					true );
+			}
+			else
+			{
+				// Return back to the referring page.
+				Page.Response.Redirect( 
+					String.Format( 
+					"OwnerSelect.aspx?&name={0}&desc={1}&owner={2}&pg={3}&ref={4}", 
+					iFolderName, 
+					iFolderDescription,
+					iFolderOwner,
+					MemberListPage,
+					ReferringPage ), 
+					true );
+			}
 		}
 
 		/// <summary>
@@ -699,12 +783,6 @@ namespace Novell.iFolderWeb.Admin
 					// Remove this member from the list.
 					MembersToAdd.Remove( userID );
 				}
-			}
-
-			// Enable the okay button if an ifolder is not being created.
-			if ( Operation != PageOp.CreateiFolder )
-			{
-				OkButton.Enabled = HasMembersToAdd;
 			}
 		}
 
@@ -809,10 +887,14 @@ namespace Novell.iFolderWeb.Admin
 					iFolder ifolder = null;
 					try
 					{
-						ifolder = web.CreateiFolder( Name.Text, Owner, Description.Value );
+						ifolder = web.CreateiFolder( iFolderName, iFolderOwner, iFolderDescription );
 					}
 					catch ( Exception ex )
 					{
+						// Clear out the member list because it is saved on the session.
+						MembersToAdd.Clear();
+						MembersToAdd = null;
+
 						TopNav.ShowError( GetString( "ERRORCANNOTCREATEIFOLDER" ), ex );
 						return;
 					}
@@ -829,12 +911,22 @@ namespace Novell.iFolderWeb.Admin
 							}
 							catch ( Exception ex )
 							{
-								string errMsg = String.Format( GetString( "ERRORCANNOTADDMEMBER" ), mi.UserName, Name.Text );
+								// Clear out the member list because it is saved on the session.
+								MembersToAdd.Clear();
+								MembersToAdd = null;
+
+								string errMsg = String.Format( GetString( "ERRORCANNOTADDMEMBER" ), mi.UserName, iFolderName );
 								TopNav.ShowError( errMsg, ex );
 								return;
 							}
 						}
 					}
+
+					// Clear out the member list because it is saved on the session.
+					MembersToAdd.Clear();
+					MembersToAdd = null;
+
+					Page.Response.Redirect( String.Format( "iFolderDetailsPage.aspx?id={0}", ifolder.ID ), true );
 					break;
 				}
 
@@ -853,12 +945,20 @@ namespace Novell.iFolderWeb.Admin
 							}
 							catch ( Exception ex )
 							{
+								// Clear out the member list because it is saved on the session.
+								MembersToAdd.Clear();
+								MembersToAdd = null;
+
 								string errMsg = String.Format( GetString( "ERRORCANNOTADDMEMBER" ), mi.UserName, iFolderName );
 								TopNav.ShowError( errMsg, ex );
 								return;
 							}
 						}
 					}
+
+					// Clear out the member list because it is saved on the session.
+					MembersToAdd.Clear();
+					MembersToAdd = null;
 					break;
 				}
 
@@ -876,29 +976,25 @@ namespace Novell.iFolderWeb.Admin
 							}
 							catch( Exception ex )
 							{
+								// Clear out the member list because it is saved on the session.
+								MembersToAdd.Clear();
+								MembersToAdd = null;
+
 								string errMsg = String.Format( GetString( "ERRORCANNOTADDADMIN" ), mi.UserName );
 								TopNav.ShowError( errMsg, ex );
 								return;
 							}
 						}
 					}
+
+					// Clear out the member list because it is saved on the session.
+					MembersToAdd.Clear();
+					MembersToAdd = null;
 					break;
 				}
 			}
 			
 			Page.Response.Redirect( ReferringPage, true );
-		}
-
-		/// <summary>
-		/// Event handler that gets called when the ifolder name text changes.
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		protected void OnNameChanged( Object sender, EventArgs e )
-		{
-			// Enable the ok button.
-			OkButton.Enabled = ( Name.Text.Length > 0 );
-			SetFocus( Description );
 		}
 
 		/// <summary>
