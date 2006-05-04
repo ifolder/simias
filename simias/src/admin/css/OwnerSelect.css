@@ -1,0 +1,90 @@
+.headertitle
+{
+	margin-left: 12px;
+	margin-top: 14px;
+	padding-bottom: 12px;
+	font-size: 1.2em;
+	font-weight: bold;
+}
+
+.leftnav
+{
+	float: left;
+	margin-right: 12px;
+}
+
+.memberselectnav
+{
+	padding-left: 12px;
+	padding-bottom: 4px;
+	width: 29em;
+}
+
+.okcancelnav
+{
+	clear: both;
+	padding-top: 6px;
+}
+
+.memberlist
+{
+	width: 100%;
+}
+
+.memberlistheader
+{
+	border-top: solid 1px black;
+	border-bottom: solid 1px black;
+	border-collapse: collapse;
+	width: 100%;
+}
+
+.memberlistheader td
+{
+	padding-left: 2px;
+	font-weight: bold;
+	font-size: 0.8em;
+	color: black;
+	background-color: #efeee9;
+}
+
+.memberlistheader .checkboxcolumn
+{
+	width: 1em;
+}
+
+.memberlistitem
+{
+	height: 22px;
+}
+
+.memberlistaltitem
+{
+	height: 22px;
+	background-color: #efeee9;
+}
+
+.memberitem1
+{
+	padding-left: 4px;
+	padding-top: 3px;
+	width: 2em;
+}
+
+.memberitem2
+{
+	width: 13em;
+}
+
+.memberselecteditem
+{
+	height: 22px;
+	background-color: #99ffcc;
+}
+
+.searchnav
+{
+	clear: both;
+	margin-left: 12px;
+	padding-bottom: 6px;
+}
