@@ -4,6 +4,7 @@ export MONO_PATH := $(MONO_PATH)
 iFolderAdmin_CSFILES = \
 	$(srcdir)/AccountEnabled.ascx.cs \
 	$(srcdir)/AssemblyInfo.cs \
+	$(srcdir)/CreateiFolder.aspx.cs \
 	$(srcdir)/CreateUser.aspx.cs \
 	$(srcdir)/Default.aspx.cs \
 	$(srcdir)/DiskSpaceQuota.ascx.cs \
@@ -63,9 +64,10 @@ iFolderAdmin_LIBPATH = $(LOG4NET_DIR)
 
 iFolderAdmin_FORMS = \
 	AccountEnabled.ascx \
+	CreateiFolder.aspx \
+	CreateUser.aspx \
 	Default.aspx \
 	DiskSpaceQuota.ascx \
-	CreateUser.aspx \
 	Error.aspx \
 	FileSizeFilter.ascx \
 	FileTypeFilter.ascx \
