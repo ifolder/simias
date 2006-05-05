@@ -565,7 +565,7 @@ namespace Simias.OpenLdapProvider
 							{
 								bool changed = false;
 	
-								// If we're tracking by ldap see if the common name
+								// If we're tracking by ldap see if the naming attribute
 								// has changed
 								LdapAttribute namingAttr = entry.getAttribute( ldapSettings.NamingAttribute );
 								if ( namingAttr != null && namingAttr.StringValue.Length != 0 )

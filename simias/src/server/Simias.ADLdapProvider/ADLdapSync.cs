@@ -466,6 +466,7 @@ namespace Simias.ADLdapProvider
 			// name, we'll limit the scope of the search
 			string[] searchAttributes = {	
 											"modifytimestamp",
+											ldapSettings.NamingAttribute,
 											"cn", 
 											"sn", 
 											"objectGUID",
@@ -606,14 +607,14 @@ namespace Simias.ADLdapProvider
 							{
 								bool changed = false;
 	
-								// If we're tracking by ldap see if the common name
+								// If we're tracking by ldap see if the naming attribute
 								// has changed
-								LdapAttribute cnAttr = entry.getAttribute( "cn" );
-								if ( cnAttr != null && cnAttr.StringValue.Length != 0 )
+								LdapAttribute namingAttr = entry.getAttribute( ldapSettings.NamingAttribute );
+								if ( namingAttr != null && namingAttr.StringValue.Length != 0 )
 								{
-									if ( cnAttr.StringValue != cMember.Name )
+									if ( namingAttr.StringValue != cMember.Name )
 									{
-										cMember.Name = cnAttr.StringValue;
+										cMember.Name = namingAttr.StringValue;
 									}
 								}
 	
