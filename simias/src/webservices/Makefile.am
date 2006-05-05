@@ -67,7 +67,7 @@ iFolder.WebService.dll: $(iFolderWebService_CSFILES) $(iFolderWebService_RESOURC
 	$(CSC) /out:$@ $(CSCFLAGS) $(iFolderWebService_FLAGS) $(iFolderWebService_LIBS:%=/r:%) $(iFolderWebService_LIBPATH:%=/lib:%) $(LOG4NET_LIBS) $(iFolderWebService_RESOURCES:%=$(ICON_FLAG)%) $(iFolderWebService_CSFILES_CSC) $(DOC_FILE_CMD)
 
 GenerateWsdl.exe: GenerateWsdl.cs
-	$(CSC) /out:$@ $(CSCFLAGS) $(CSC_EXEFLAG) /r:iFolder.WebService.dll $<
+	$(CSC) /out:$@ $(CSCFLAGS) $(CSC_EXEFLAG) $(iFolderWebService_LIBS:%=/r:%) /r:iFolder.WebService.dll $<
 
 copy:
 	cp ../core/SimiasClient/SimiasClient.dll .
