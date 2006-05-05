@@ -324,10 +324,18 @@ namespace User.Management
 						userPolicy.SpaceLimit =  Convert.ToInt64( quota );
 						changed = true;
 					}
-
+					
+					// Note handle other user policy settings
+					
 					if ( changed == true )
 					{
 						admin.SetUserPolicy( userPolicy );
+					}
+					
+					if ( password != null )
+					{
+						bool status = admin.SetPassword( username, password );
+						Console.WriteLine( "SetPassord for {0} - {1}", username, status.ToString() );
 					}
 				}
 			}

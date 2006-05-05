@@ -19,7 +19,6 @@
   <Contents>
     <File name="./Main.cs" subtype="Code" buildaction="Compile" />
     <File name="./AssemblyInfo.cs" subtype="Code" buildaction="Compile" />
-    <File name="./RegistrationService.cs" subtype="Code" buildaction="Compile" />
     <File name="./AdminService.cs" subtype="Code" buildaction="Compile" />
   </Contents>
   <References>
