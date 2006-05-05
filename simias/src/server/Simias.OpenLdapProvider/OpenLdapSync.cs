@@ -30,18 +30,18 @@ using Simias;
 using Simias.LdapProvider;
 using Simias.Storage;
 
-namespace Simias.ADLdapProvider
+namespace Simias.OpenLdapProvider
 {
 	/// <summary>
 	/// Service class used to get an execution context
 	/// so we can register ourselves with the external
 	/// sync container
 	/// </summary>
-	class ADSync : Simias.IIdentitySyncProvider
+	class OpenSync : Simias.IIdentitySyncProvider
 	{
 		#region Class Members
-		private readonly string name = "Active Directory LDAP Synchronization";
-		private readonly string description = "Active Directory LDAP Synchronization provider to synchronize identities from Active Directory to a simias domain";
+		private readonly string name = "Open LDAP Synchronization";
+		private readonly string description = "Open LDAP Synchronization provider to synchronize identities from Active Directory to a simias domain";
 		private bool abort = false;
 		
 		private Simias.LdapProvider.Status syncStatus;
@@ -133,26 +133,7 @@ namespace Simias.ADLdapProvider
 		
 		private string BuildGuidFilter( string guid )
 		{
-			Guid cGuid = new Guid( guid );
-			byte[] bGuid = cGuid.ToByteArray();
-
-			string guidFilter = "(objectGUID=";
-			string tmp;
-
-			// The CSharpLdap SDK expects each byte to
-			// be zero padded else an exception is thrown
-			for( int i = 0; i < 16; i++ )
-			{
-				guidFilter += "\\";
-				tmp = Convert.ToString( bGuid[i], 16 );
-				if ( tmp.Length == 1 )
-				{
-					guidFilter += "0";
-				}
-				guidFilter += tmp;
-			}
-
-			guidFilter += ")";
+			string guidFilter = string.Format( "(uidNumber={0})", guid );
 			return guidFilter;
 		}
 
@@ -162,33 +143,14 @@ namespace Simias.ADLdapProvider
 
 			try
 			{
-				LdapAttribute guidAttr = entry.getAttribute( "objectGUID" );
+				LdapAttribute guidAttr = entry.getAttribute( "uidNumber" );
 				if ( guidAttr != null && guidAttr.StringValue.Length != 0 )
 				{
-					byte[] bGuid = new byte[8];
-					for( int i = 0; i < 8; i++ )
-					{
-						bGuid[i] = (byte) guidAttr.ByteValue[i];
-					}
-
-					Guid cGuid = 
-						new Guid(
-						BitConverter.ToInt32( bGuid, 0 ),
-						BitConverter.ToInt16( bGuid, 4 ),
-						BitConverter.ToInt16( bGuid, 6 ),
-						(byte) guidAttr.ByteValue[8], 
-						(byte) guidAttr.ByteValue[9],
-						(byte) guidAttr.ByteValue[10],
-						(byte) guidAttr.ByteValue[11],
-						(byte) guidAttr.ByteValue[12],
-						(byte) guidAttr.ByteValue[13],
-						(byte) guidAttr.ByteValue[14],
-						(byte) guidAttr.ByteValue[15] );
-
-					ldapGuid = cGuid.ToString();
+					ldapGuid = guidAttr.StringValue;
 				}
 			}
 			catch{}
+
 			return ldapGuid;
 		}
 
@@ -200,10 +162,6 @@ namespace Simias.ADLdapProvider
 				{
 					string lower = s.ToLower();
 					if ( lower == "inetorgperson" )
-					{
-						return true;
-					}
-					else if ( lower == "organizationalPerson" )
 					{
 						return true;
 					}
@@ -270,10 +228,10 @@ namespace Simias.ADLdapProvider
 						log.Debug( "Processing Locality Object..." );
 						break;
 					}
-					else if ( lower == "container" )
+					else if ( lower == "dcobject" )
 					{
 						isContainer = true;
-						log.Debug( "Processing Container Object..." );
+						log.Debug( "Processing DomainComponent Object..." );
 						break;
 					}
 				}
@@ -297,7 +255,7 @@ namespace Simias.ADLdapProvider
 											ldapSettings.NamingAttribute,
 											"cn",
 											"sn", 
-											"objectGUID",
+											"uidNumber",
 											"givenName", 
 											"ou" };
 
@@ -334,7 +292,7 @@ namespace Simias.ADLdapProvider
 			Property dn;
 			string commonName;
 			string ldapGuid;
-			string[] searchAttributes = { "cn", "sn", "objectGUID" };
+			string[] searchAttributes = { "cn", "sn", "uidNumber" };
 
 			try
 			{
@@ -354,7 +312,7 @@ namespace Simias.ADLdapProvider
 
 				try
 				{
-					entry = conn.Read( ADSync.ldapSettings.AdminDN, searchAttributes );
+					entry = conn.Read( OpenSync.ldapSettings.AdminDN, searchAttributes );
 				}
 				catch( LdapException lEx )
 				{
@@ -379,7 +337,7 @@ namespace Simias.ADLdapProvider
 				}
 
 				// Get the common name from the Simias.config.AdminDN entry
-				string[] components = ADSync.ldapSettings.AdminDN.Split( dnDelimiters );
+				string[] components = OpenSync.ldapSettings.AdminDN.Split( dnDelimiters );
 				commonName = ( components[0].ToLower() == "cn" ) ? components[1] : components[0];
 				if ( commonName == null || commonName == "" )
 				{
@@ -466,9 +424,10 @@ namespace Simias.ADLdapProvider
 			// name, we'll limit the scope of the search
 			string[] searchAttributes = {	
 											"modifytimestamp",
+											ldapSettings.NamingAttribute,
 											"cn", 
 											"sn", 
-											"objectGUID",
+											"uidNumber",
 											"givenName" }; 
 
 			char[] dnDelimiters = {',', '='};
@@ -481,10 +440,10 @@ namespace Simias.ADLdapProvider
 			log.Debug( "ProcessSimiasAdmin( " + ldapSettings.AdminDN + ")" );
 
 			string namingContext = "";
-			entry = conn.Read( "", new string[] { "defaultNamingContext" } );
+			entry = conn.Read( "", new string[] { "namingContexts" } );
 			if ( entry != null )
 			{
-				namingContext = entry.getAttribute( "defaultNamingContext" ).StringValue;
+				namingContext = entry.getAttribute( "namingContexts" ).StringValue;
 			}
 
 			if ( domain == null )
@@ -565,7 +524,7 @@ namespace Simias.ADLdapProvider
 						conn.Search(
 						namingContext,
 						LdapConnection.SCOPE_SUB, 
-						"(&(objectclass=organizationalPerson)" + guidFilter + ")",
+						"(&(objectclass=inetOrgPerson)" + guidFilter + ")",
 						searchAttributes,
 						false);
 					if ( results.hasMore() == true )
@@ -608,12 +567,12 @@ namespace Simias.ADLdapProvider
 	
 								// If we're tracking by ldap see if the common name
 								// has changed
-								LdapAttribute cnAttr = entry.getAttribute( "cn" );
-								if ( cnAttr != null && cnAttr.StringValue.Length != 0 )
+								LdapAttribute namingAttr = entry.getAttribute( ldapSettings.NamingAttribute );
+								if ( namingAttr != null && namingAttr.StringValue.Length != 0 )
 								{
-									if ( cnAttr.StringValue != cMember.Name )
+									if ( namingAttr.StringValue != cMember.Name )
 									{
-										cMember.Name = cnAttr.StringValue;
+										cMember.Name = namingAttr.StringValue;
 									}
 								}
 	
@@ -734,13 +693,13 @@ namespace Simias.ADLdapProvider
 
 		private void ProcessSearchContainer(LdapConnection conn, String searchContainer)
 		{
-			String searchFilter = "(objectclass=user)";
+			String searchFilter = "(objectclass=inetOrgPerson)";
 			string[] searchAttributes = {	
 											"modifytimestamp",
 											ldapSettings.NamingAttribute,
 											"cn", 
 											"sn", 
-											"objectGUID",
+											"uidNumber",
 											"givenName", 
 											"ou" };
 
