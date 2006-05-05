@@ -180,15 +180,13 @@ namespace Novell.iFolderWeb.Admin
 			dt.Columns.Add( new DataColumn( "SizeField", typeof( string ) ) );
 
 			// Get the iFolder list for this user.
-			int total;
-			iFolder[] list = web.GetiFoldersByName(
+			iFolderSet list = web.GetiFoldersByName(
 				iFolderSearch.SearchOperation,
 				( iFolderSearch.SearchName == String.Empty ) ? "*" : iFolderSearch.SearchName, 
 				CurrentiFolderOffset, 
-				iFolderList.PageSize, 
-				out total );
+				iFolderList.PageSize );
 
-			foreach( iFolder folder in list )
+			foreach( iFolder folder in list.Items )
 			{
 				dr = dt.NewRow();
 				dr[ 0 ] = true;
@@ -224,7 +222,7 @@ namespace Novell.iFolderWeb.Admin
 			}
 
 			// Remember the total number of users.
-			TotaliFolders = total;
+			TotaliFolders = list.Total;
 
 			// Build the data view from the table.
 			return new DataView( dt );

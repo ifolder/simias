@@ -3,6 +3,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iFolder.WebService", "iFold
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenerateWsdl", "GenerateWsdl.csproj", "{D38AADF0-0B2D-4B3F-9211-95C0E8E1841C}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		Debug = Debug
@@ -13,6 +17,10 @@ Global
 		{0F363672-13F2-4B0D-8F5C-D53273119499}.Debug.Build.0 = Debug|.NET
 		{0F363672-13F2-4B0D-8F5C-D53273119499}.Release.ActiveCfg = Release|.NET
 		{0F363672-13F2-4B0D-8F5C-D53273119499}.Release.Build.0 = Release|.NET
+		{D38AADF0-0B2D-4B3F-9211-95C0E8E1841C}.Debug.ActiveCfg = Debug|.NET
+		{D38AADF0-0B2D-4B3F-9211-95C0E8E1841C}.Debug.Build.0 = Debug|.NET
+		{D38AADF0-0B2D-4B3F-9211-95C0E8E1841C}.Release.ActiveCfg = Release|.NET
+		{D38AADF0-0B2D-4B3F-9211-95C0E8E1841C}.Release.Build.0 = Release|.NET
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection

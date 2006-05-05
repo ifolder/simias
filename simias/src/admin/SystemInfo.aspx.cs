@@ -176,10 +176,9 @@ namespace Novell.iFolderWeb.Admin
 			dt.Columns.Add( new DataColumn( "NameField", typeof( string ) ) );
 			dt.Columns.Add( new DataColumn( "FullNameField", typeof( string ) ) );
 
-			int total;
-			iFolderUser[] adminList = web.GetAdministrators( CurrentAdminOffset, AdminList.PageSize, out total );
+			iFolderUserSet adminList = web.GetAdministrators( CurrentAdminOffset, AdminList.PageSize );
 
-			foreach( iFolderUser admin in adminList )
+			foreach( iFolderUser admin in adminList.Items )
 			{
 				dr = dt.NewRow();
 				dr[ 0 ] = true;
@@ -203,7 +202,7 @@ namespace Novell.iFolderWeb.Admin
 			}
 
 			// Remember the total number of users.
-			TotalAdmins = total;
+			TotalAdmins = adminList.Total;
 
 			// Build the data view from the table.
 			return new DataView( dt );
@@ -224,18 +223,15 @@ namespace Novell.iFolderWeb.Admin
 		/// </summary>
 		private void GetSystemInformation()
 		{
-			int totaliFolders;
-			int totalUsers;
-
 			iFolderSystem system = web.GetSystem();
 			Name.Text = system.Name;
 			Description.Value = system.Description;
 
-			iFolderUser[] users = web.GetUsers( 0, 1, out totalUsers );
-			NumberOfUsers.Text = totalUsers.ToString();
+			iFolderUserSet users = web.GetUsers( 0, 1 );
+			NumberOfUsers.Text = users.Total.ToString();
 
-			iFolder[] folders = web.GetiFolders( iFolderType.All, 0, 1, out totaliFolders );
-			NumberOfiFolders.Text = totaliFolders.ToString();
+			iFolderSet ifolders = web.GetiFolders( iFolderType.All, 0, 1 );
+			NumberOfiFolders.Text = ifolders.Total.ToString();
 		}
 
 		/// <summary>

@@ -378,10 +378,9 @@ namespace Novell.iFolderWeb.Admin
 		/// <returns></returns>
 		private Hashtable CreateExistingAdminList()
 		{
-			int total;
-			iFolderUser[] adminList = web.GetAdministrators( 0, 0, out total );
-			Hashtable ht = new Hashtable( total );
-			foreach( iFolderUser admin in adminList )
+			iFolderUserSet adminList = web.GetAdministrators( 0, 0 );
+			Hashtable ht = new Hashtable( adminList.Total );
+			foreach( iFolderUser admin in adminList.Items )
 			{
 				ht[ admin.ID ] = new MemberInfo( admin.ID, admin.UserName, admin.FullName );
 			}
@@ -395,10 +394,9 @@ namespace Novell.iFolderWeb.Admin
 		/// <returns></returns>
 		private Hashtable CreateExistingMemberList()
 		{
-			int total;
-			iFolderUser[] memberList = web.GetMembers( iFolderID, 0, 0, out total );
-			Hashtable ht = new Hashtable( total );
-			foreach( iFolderUser member in memberList )
+			iFolderUserSet memberList = web.GetMembers( iFolderID, 0, 0 );
+			Hashtable ht = new Hashtable( memberList.Total );
+			foreach( iFolderUser member in memberList.Items )
 			{
 				ht[ member.ID ] = new MemberInfo( member.ID, member.UserName, member.FullName );
 			}
@@ -421,16 +419,14 @@ namespace Novell.iFolderWeb.Admin
 			dt.Columns.Add( new DataColumn( "NameField", typeof( string ) ) );
 			dt.Columns.Add( new DataColumn( "FullNameField", typeof( string ) ) );
 
-			int total;
-			iFolderUser[] userList = web.GetUsersBySearch( 
+			iFolderUserSet userList = web.GetUsersBySearch( 
 				MemberSearch.SearchAttribute, 
 				MemberSearch.SearchOperation, 
 				( MemberSearch.SearchName == String.Empty ) ? "*" : MemberSearch.SearchName, 
 				CurrentUserOffset, 
-				MemberList.PageSize, 
-				out total );
+				MemberList.PageSize );
 
-			foreach( iFolderUser user in userList )
+			foreach( iFolderUser user in userList.Items )
 			{
 				dr = dt.NewRow();
 				dr[ 0 ] = true;
@@ -456,7 +452,7 @@ namespace Novell.iFolderWeb.Admin
 			}
 
 			// Remember the total number of users.
-			TotalUsers = total;
+			TotalUsers = userList.Total;
 
 			// Build the data view from the table.
 			return new DataView( dt );

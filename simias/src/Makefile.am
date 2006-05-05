@@ -3,7 +3,7 @@ DIST_SUBDIRS = core client server webservices webaccess admin setup
 if SIMIAS_AS_CLIENT
 SUBDIRS = core client
 else
-SUBDIRS = core server webservices webaccess admin setup
+SUBDIRS = core server webservices webaccess admin setup utils
 endif
 
 

@@ -143,8 +143,6 @@ namespace Novell.iFolderApp.Web
 		/// </summary>
 		private void BindParentData()
 		{
-			int total = 0;
-
 			try
 			{
 				// ifolder
@@ -159,7 +157,7 @@ namespace Novell.iFolderApp.Web
 
 				if ((entryID == null) || (entryID.Length == 0))
 				{
-					entry = web.GetEntries(ifolderID, ifolderID, 0, 1, out total)[0];
+					entry = web.GetEntries(ifolderID, ifolderID, 0, 1).Items[0];
 					entryID = entry.ID;
 				}
 				else
@@ -181,8 +179,6 @@ namespace Novell.iFolderApp.Web
 		/// </summary>
 		private void BindEntryData()
 		{
-			int total = 0;
-
 			// query
 			string pattern = Request.QueryString.Get("Pattern");
 
@@ -206,17 +202,17 @@ namespace Novell.iFolderApp.Web
 			try
 			{
 				// entries
-				iFolderEntry[] entries = web.GetEntriesByName(ifolderID, entryID, SearchOperation.Contains,
-					pattern, EntryPagging.Index, EntryPagging.PageSize, out total); 
+				iFolderEntrySet entries = web.GetEntriesByName(ifolderID, entryID, SearchOperation.Contains,
+					pattern, EntryPagging.Index, EntryPagging.PageSize); 
 				
 				// pagging
-				EntryPagging.Total = total;
-				EntryPagging.Count = entries.Length;
+				EntryPagging.Total = entries.Total;
+				EntryPagging.Count = entries.Items.Length;
 
 				string name;
 				string path;
 
-				foreach(iFolderEntry child in entries)
+				foreach(iFolderEntry child in entries.Items)
 				{
 					DataRow row = entryTable.NewRow();
 

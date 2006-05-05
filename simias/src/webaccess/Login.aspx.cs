@@ -241,7 +241,7 @@ namespace Novell.iFolderApp.Web
 				Session["User"] = user;
 				iFolderSystem system = web.GetSystem();
 				Session["System"] = system;
-				iFolderServer server = web.GetServer();
+				iFolderServer server = web.GetHomeServer();
 				Session["Server"] = server;
 
 				// new username cookie for 30 days

@@ -36,6 +36,41 @@ using Simias.Sync;
 namespace iFolder.WebService
 {
 	/// <summary>
+	/// An iFolder Entry Result Set
+	/// </summary>
+	[Serializable]
+	public class iFolderEntrySet
+	{
+		/// <summary>
+		/// An Array of Entries
+		/// </summary>
+		public iFolderEntry[] Items;
+
+		/// <summary>
+		/// The Total Number of Entries
+		/// </summary>
+		public int Total;
+
+		/// <summary>
+		/// Default Constructor
+		/// </summary>
+		public iFolderEntrySet()
+		{
+		}
+
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <param name="items"></param>
+		/// <param name="total"></param>
+		public iFolderEntrySet(iFolderEntry[] items, int total)
+		{
+			this.Items = items;
+			this.Total = total;
+		}
+	}
+
+	/// <summary>
 	/// An iFolder Entry
 	/// </summary>
 	[Serializable]
@@ -236,12 +271,13 @@ namespace iFolder.WebService
 		/// <param name="ifolderID">The ID of the iFolder.</param>
 		/// <param name="entryID">The ID of the Parent Entry.</param>
 		/// <param name="index">The Search Start Index</param>
-		/// <param name="count">The Search Max Count of Results</param>
-		/// <param name="total">The Total Number of Results</param>
+		/// <param name="max">The Search Max Count of Results</param>
 		/// <param name="accessID">The Access User ID.</param>
-		/// <returns>An Array of iFolderEntry Objects</returns>
-		public static iFolderEntry[] GetEntries(string ifolderID, string entryID, int index, int count, out int total, string accessID)
+		/// <returns>A Set of iFolderEntry Objects</returns>
+		public static iFolderEntrySet GetEntries(string ifolderID, string entryID, int index, int max, string accessID)
 		{
+			int total = 0;
+
 			Store store = Store.GetStore();
 
 			Collection c = store.GetCollectionByID(ifolderID);
@@ -278,7 +314,7 @@ namespace iFolder.WebService
 				{
 					if (sn.IsBaseType(NodeTypes.FileNodeType) || sn.IsBaseType(NodeTypes.DirNodeType))
 					{
-						if ((i >= index) && (((count <= 0) || i < (count + index))))
+						if ((i >= index) && (((max <= 0) || i < (max + index))))
 						{
 							Node n = c.GetNodeByID(sn.ID);
 
@@ -301,7 +337,7 @@ namespace iFolder.WebService
 				total = 1;
 			}
 
-			return (iFolderEntry[])list.ToArray(typeof(iFolderEntry));
+			return new iFolderEntrySet((iFolderEntry[])list.ToArray(typeof(iFolderEntry)), total);
 		}
 		
 		/// <summary>
@@ -312,11 +348,10 @@ namespace iFolder.WebService
 		/// <param name="operation">The Search Operation</param>
 		/// <param name="pattern">The Search Pattern</param>
 		/// <param name="index">The Search Start Index</param>
-		/// <param name="count">The Search Max Count of Results</param>
-		/// <param name="total">The Total Number of Results</param>
+		/// <param name="max">The Search Max Count of Results</param>
 		/// <param name="accessID">The Access User ID.</param>
-		/// <returns>An Array of iFolderEntry Objects</returns>
-		public static iFolderEntry[] GetEntriesByName(string ifolderID, string parentID, SearchOperation operation, string pattern, int index, int count, out int total, string accessID)
+		/// <returns>A Set of iFolderEntry Objects</returns>
+		public static iFolderEntrySet GetEntriesByName(string ifolderID, string parentID, SearchOperation operation, string pattern, int index, int max, string accessID)
 		{
 			Store store = Store.GetStore();
 
@@ -396,7 +431,7 @@ namespace iFolder.WebService
 			{
 				if (sn.IsBaseType(NodeTypes.FileNodeType) || sn.IsBaseType(NodeTypes.DirNodeType))
 				{
-					if ((i >= index) && (((count <= 0) || i < (count + index))))
+					if ((i >= index) && (((max <= 0) || i < (max + index))))
 					{
 						Node n = c.GetNodeByID(sn.ID);
 
@@ -407,10 +442,7 @@ namespace iFolder.WebService
 				}
 			}
 
-			// save total
-			total = i;
-
-			return (iFolderEntry[])list.ToArray(typeof(iFolderEntry));
+			return new iFolderEntrySet((iFolderEntry[])list.ToArray(typeof(iFolderEntry)), i);
 		}
 		
 		/// <summary>

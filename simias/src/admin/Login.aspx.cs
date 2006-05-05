@@ -370,7 +370,7 @@ namespace Novell.iFolderWeb.Admin
 
 				iFolderSystem system = web.GetSystem();
 				Session["System"] = system.Name;
-				iFolderServer server = web.GetServer();
+				iFolderServer server = web.GetHomeServer();
 				Session["Version"] = server.Version;
 
 				// new username cookie for 30 days

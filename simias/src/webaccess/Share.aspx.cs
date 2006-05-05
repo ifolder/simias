@@ -196,21 +196,16 @@ namespace Novell.iFolderApp.Web
 		{
 			try
 			{
-				int total;
-
 				// name
 				iFolder ifolder = web.GetiFolder(ifolderID);
 				iFolderName.Text = ifolder.Name;
 
 				// current members
-				iFolderUser[] members = web.GetMembers(ifolderID, 0, 0, out total);
+				iFolderUserSet members = web.GetMembers(ifolderID, 0, 0);
 
-				if (members != null)
+				foreach(iFolderUser member in members.Items)
 				{
-					foreach(iFolderUser member in members)
-					{
-						currentMembers.Add(member.ID, member.UserName);
-					}
+					currentMembers.Add(member.ID, member.UserName);
 				}
 			}
 			catch(SoapException ex)
@@ -224,8 +219,6 @@ namespace Novell.iFolderApp.Web
 		/// </summary>
 		private void BindUserData()
 		{
-			int total = 0;
-
 			// keep search pattern consistent
 			SearchPattern.Text = (string)ViewState["SearchPattern"];
 
@@ -240,15 +233,15 @@ namespace Novell.iFolderApp.Web
 				// user
 				SearchProperty prop = (SearchProperty)Enum.Parse(typeof(SearchProperty), SearchPropertyList.SelectedItem.Value);
 
-				iFolderUser[] users = web.GetUsersBySearch(
+				iFolderUserSet users = web.GetUsersBySearch(
 					prop, SearchOperation.BeginsWith, SearchPattern.Text,
-					UserPagging.Index, UserPagging.PageSize, out total);
-				UserPagging.Count = users.Length;
-				UserPagging.Total = total;
+					UserPagging.Index, UserPagging.PageSize);
+				UserPagging.Count = users.Items.Length;
+				UserPagging.Total = users.Total;
 				
 				string name;
 
-				foreach(iFolderUser user in users)
+				foreach(iFolderUser user in users.Items)
 				{
 					DataRow row = userTable.NewRow();
 

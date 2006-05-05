@@ -3,6 +3,7 @@ export MONO_PATH := $(MONO_PATH)
 
 iFolderWebService_CSFILES = \
 	$(srcdir)/AssemblyInfo.cs \
+	$(srcdir)/iFolderCommon.cs \
 	$(srcdir)/iFolderAdmin.asmx.cs \
 	$(srcdir)/iFolderWeb.asmx.cs \
 	$(srcdir)/iFolder.cs \
@@ -60,10 +61,25 @@ DOC_FILE_CMD = /doc:$(DOC_FILE)
 DOC_FILE_CLEAN = *.doc.xml
 endif
 
-all: iFolder.WebService.dll
+all: iFolder.WebService.dll GenerateWsdl.exe iFolderWeb.wsdl iFolderAdmin.wsdl
 
 iFolder.WebService.dll: $(iFolderWebService_CSFILES) $(iFolderWebService_RESOURCES)
 	$(CSC) /out:$@ $(CSCFLAGS) $(iFolderWebService_FLAGS) $(iFolderWebService_LIBS:%=/r:%) $(iFolderWebService_LIBPATH:%=/lib:%) $(LOG4NET_LIBS) $(iFolderWebService_RESOURCES:%=$(ICON_FLAG)%) $(iFolderWebService_CSFILES_CSC) $(DOC_FILE_CMD)
+
+GenerateWsdl.exe: GenerateWsdl.cs
+	$(CSC) /out:$@ $(CSCFLAGS) $(CSC_EXEFLAG) /r:iFolder.WebService.dll $<
+
+copy:
+	cp ../core/SimiasClient/SimiasClient.dll .
+	cp ../core/SimiasLib.dll/SimiasLib.dll .
+	cp ../server/Simias.Server/Simias.Server.dll .
+
+iFolderWeb.wsdl: copy iFolder.WebService.dll GenerateWsdl.exe
+	$(MONO) GenerateWsdl.exe iFolder.WebService.dll iFolder.WebService.iFolderWeb http://127.0.0.1:8086/simias10/iFolderWeb.asmx $@
+
+iFolderAdmin.wsdl: copy iFolder.WebService.dll GenerateWsdl.exe
+	$(MONO) GenerateWsdl.exe iFolder.WebService.dll iFolder.WebService.iFolderAdmin http://127.0.0.1:8086/simias10/iFolderAdmin.asmx $@
+
 
 if DEBUG
 if WINDOWS
@@ -84,13 +100,13 @@ uninstall-local:
 
 installcheck-local: install
 	
-CLEAN_FILES = iFolder.WebService.dll $(DOC_FILE_CLEAN) 
+CLEAN_FILES = iFolder.WebService.dll GenerateWsdl.exe iFolderWeb.wsdl iFolderAdmin.wsdl $(DOC_FILE_CLEAN) 
 
 clean-local:
 	rm -rf $(CLEAN_FILES) $(COMMON_CLEAN_FILES)
 
 distclean-local:
-	rm -rf $(COMMON_DISTCLEAN_FILES)
+	rm -rf $(COMMON_DISTCLEAN_FILES) SimiasClient.dll SimiasLib.dll SimiasServer.dll
 
 maintainer-clean-local:
 	rm -rf $(COMMON_MAINTAINER_CLEAN_FILES)

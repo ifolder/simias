@@ -167,8 +167,6 @@ namespace Novell.iFolderApp.Web
 		/// </summary>
 		private void BindMemberData()
 		{
-			int total = 0;
-
 			// member
 			DataTable memberTable = new DataTable();
 			memberTable.Columns.Add("ID");
@@ -188,12 +186,12 @@ namespace Novell.iFolderApp.Web
 				SelfRemoveButton.Enabled = !ifolder.IsOwner;
 
 				// member
-				iFolderUser[] members = web.GetMembers(ifolderID, MemberPagging.Index, MemberPagging.PageSize, out total);
-				MemberPagging.Count = members.Length;
-				MemberPagging.Total = total;
+				iFolderUserSet members = web.GetMembers(ifolderID, MemberPagging.Index, MemberPagging.PageSize);
+				MemberPagging.Count = members.Items.Length;
+				MemberPagging.Total = members.Total;
 				string accessID = (Session["User"] as iFolderUser).ID;
 
-				foreach(iFolderUser member in members)
+				foreach(iFolderUser member in members.Items)
 				{
 					DataRow row = memberTable.NewRow();
 

@@ -34,6 +34,41 @@ using Simias.Web;
 namespace iFolder.WebService
 {
 	/// <summary>
+	/// An iFolder Result Set
+	/// </summary>
+	[Serializable]
+	public class iFolderSet
+	{
+		/// <summary>
+		/// An Array of iFolders
+		/// </summary>
+		public iFolder[] Items;
+
+		/// <summary>
+		/// The Total Number of iFolders
+		/// </summary>
+		public int Total;
+
+		/// <summary>
+		/// Default Constructor
+		/// </summary>
+		public iFolderSet()
+		{
+		}
+
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <param name="items"></param>
+		/// <param name="total"></param>
+		public iFolderSet(iFolder[] items, int total)
+		{
+			this.Items = items;
+			this.Total = total;
+		}
+	}
+
+	/// <summary>
 	/// An iFolder
 	/// </summary>
 	[Serializable]
@@ -260,13 +295,12 @@ namespace iFolder.WebService
 		/// <param name="userID">The User ID</param>
 		/// <param name="role">The Member Role</param>
 		/// <param name="index">The Search Start Index</param>
-		/// <param name="count">The Search Max Count of Results</param>
-		/// <param name="total">The Total Number of Results</param>
+		/// <param name="max">The Search Max Count of Results</param>
 		/// <param name="accessID">The Access User ID</param>
-		/// <returns>An Array of iFolder Objects</returns>
-		public static iFolder[] GetiFoldersByMember(string userID, MemberRole role, int index, int count, out int total, string accessID)
+		/// <returns>A Set of iFolder Objects</returns>
+		public static iFolderSet GetiFoldersByMember(string userID, MemberRole role, int index, int max, string accessID)
 		{
-			return GetiFoldersByMember(userID, role, DateTime.MinValue, SearchOperation.Contains, null, index, count, out total, accessID);
+			return GetiFoldersByMember(userID, role, DateTime.MinValue, SearchOperation.Contains, null, index, max, accessID);
 		}
 		
 		/// <summary>
@@ -277,13 +311,12 @@ namespace iFolder.WebService
 		/// <param name="operation">The Search Operation</param>
 		/// <param name="pattern">The Search Pattern</param>
 		/// <param name="index">The Search Start Index</param>
-		/// <param name="count">The Search Max Count of Results</param>
-		/// <param name="total">The Total Number of Results</param>
+		/// <param name="max">The Search Max Count of Results</param>
 		/// <param name="accessID">The Access User ID</param>
-		/// <returns>An Array of iFolder Objects</returns>
-		public static iFolder[] GetiFoldersByMember(string userID, MemberRole role, SearchOperation operation, string pattern, int index, int count, out int total, string accessID)
+		/// <returns>A Set of iFolder Objects</returns>
+		public static iFolderSet GetiFoldersByMember(string userID, MemberRole role, SearchOperation operation, string pattern, int index, int max, string accessID)
 		{
-			return GetiFoldersByMember(userID, role, DateTime.MinValue, SearchOperation.Contains, pattern, index, count, out total, accessID);
+			return GetiFoldersByMember(userID, role, DateTime.MinValue, SearchOperation.Contains, pattern, index, max, accessID);
 		}
 
 		/// <summary>
@@ -295,11 +328,10 @@ namespace iFolder.WebService
 		/// <param name="operation">The Search Operation</param>
 		/// <param name="pattern">The Search Pattern</param>
 		/// <param name="index">The Search Start Index</param>
-		/// <param name="count">The Search Max Count of Results</param>
-		/// <param name="total">The Total Number of Results</param>
+		/// <param name="max">The Search Max Count of Results</param>
 		/// <param name="accessID">The Access User ID</param>
-		/// <returns>An Array of iFolder Objects</returns>
-		public static iFolder[] GetiFoldersByMember(string userID, MemberRole role, DateTime after, SearchOperation operation, string pattern, int index, int count, out int total, string accessID)
+		/// <returns>A Set of iFolder Objects</returns>
+		public static iFolderSet GetiFoldersByMember(string userID, MemberRole role, DateTime after, SearchOperation operation, string pattern, int index, int max, string accessID)
 		{
 			Store store = Store.GetStore();
 
@@ -379,7 +411,7 @@ namespace iFolder.WebService
 				}
 
 				// pagging
-				if ((i >= index) && (((count <= 0) || i < (count + index))))
+				if ((i >= index) && (((max <= 0) || i < (max + index))))
 				{
 					list.Add(new iFolder(c, accessID));
 				}
@@ -387,10 +419,7 @@ namespace iFolder.WebService
 				++i;
 			}
 
-			// save total
-			total = i;
-
-			return (iFolder[])list.ToArray(typeof(iFolder));
+			return new iFolderSet((iFolder[])list.ToArray(typeof(iFolder)), i);
 		}
 
 		/// <summary>
@@ -400,11 +429,10 @@ namespace iFolder.WebService
 		/// <param name="operation">The Search Operation</param>
 		/// <param name="pattern">The Search Pattern</param>
 		/// <param name="index">The Search Start Index</param>
-		/// <param name="count">The Search Max Count of Results</param>
-		/// <param name="total">The Total Number of Results</param>
+		/// <param name="max">The Search Max Count of Results</param>
 		/// <param name="accessID">The Access User ID</param>
-		/// <returns>An Array of iFolder Objects</returns>
-		public static iFolder[] GetiFoldersByName(iFolderType type, SearchOperation operation, string pattern, int index, int count, out int total, string accessID)
+		/// <returns>A Set of iFolder Objects</returns>
+		public static iFolderSet GetiFoldersByName(iFolderType type, SearchOperation operation, string pattern, int index, int max, string accessID)
 		{
 			Store store = Store.GetStore();
 
@@ -454,7 +482,7 @@ namespace iFolder.WebService
 					if (((c != null) && (c.IsType(iFolderCollectionType)))
 						&& ((type != iFolderType.Orphaned) || (c.Owner.UserID == adminID)))
 					{
-						if ((i >= index) && (((count <= 0) || i < (count + index))))
+						if ((i >= index) && (((max <= 0) || i < (max + index))))
 						{
 							list.Add(new iFolder(c, accessID));
 						}
@@ -464,10 +492,7 @@ namespace iFolder.WebService
 				}
 			}
 
-			// save total
-			total = i;
-
-			return (iFolder[])list.ToArray(typeof(iFolder));
+			return new iFolderSet((iFolder[])list.ToArray(typeof(iFolder)), i);
 		}
 
 		/// <summary>

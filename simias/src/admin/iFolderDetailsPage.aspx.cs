@@ -278,15 +278,13 @@ namespace Novell.iFolderWeb.Admin
 			dt.Columns.Add( new DataColumn( "FullNameField", typeof( string ) ) );
 			dt.Columns.Add( new DataColumn( "RightsField", typeof( string ) ) );
 
-			int total;
-			iFolderUser[] memberList = 
+			iFolderUserSet memberList = 
 				web.GetMembers( 
 				iFolderID, 
 				CurrentMemberOffset, 
-				iFolderMemberList.PageSize, 
-				out total );
+				iFolderMemberList.PageSize );
 
-			foreach( iFolderUser member in memberList )
+			foreach( iFolderUser member in memberList.Items )
 			{
 				dr = dt.NewRow();
 				dr[ 0 ] = true;
@@ -312,7 +310,7 @@ namespace Novell.iFolderWeb.Admin
 			}
 
 			// Remember the total number of users.
-			TotaliFolderMembers = total;
+			TotaliFolderMembers = memberList.Total;
 
 			// Build the data view from the table.
 			return new DataView( dt );

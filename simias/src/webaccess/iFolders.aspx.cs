@@ -116,8 +116,6 @@ namespace Novell.iFolderApp.Web
 		/// </summary>
 		private void BindData()
 		{
-			int total = 0;
-
 			// table
 			DataTable ifolderTable = new DataTable();
 			ifolderTable.Columns.Add("ID");
@@ -156,15 +154,15 @@ namespace Novell.iFolderApp.Web
 			try
 			{
 				// data
-				iFolder[] ifolders = web.GetiFoldersBySearch(role, after, SearchOperation.Contains,
-					HomeContext.Pattern, iFolderPagging.Index, iFolderPagging.PageSize, out total);
-				iFolderPagging.Count = ifolders.Length;
-				iFolderPagging.Total = total;
+				iFolderSet ifolders = web.GetiFoldersBySearch(role, after, SearchOperation.Contains,
+					HomeContext.Pattern, iFolderPagging.Index, iFolderPagging.PageSize);
+				iFolderPagging.Count = ifolders.Items.Length;
+				iFolderPagging.Total = ifolders.Total;
 				
 				string name;
 				bool pattern = (HomeContext.Pattern != null) && (HomeContext.Pattern.Length > 0);
 
-				foreach(iFolder ifolder in ifolders)
+				foreach(iFolder ifolder in ifolders.Items)
 				{
 					DataRow row = ifolderTable.NewRow();
 

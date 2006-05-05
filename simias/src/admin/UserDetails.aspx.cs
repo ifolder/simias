@@ -249,26 +249,25 @@ namespace Novell.iFolderWeb.Admin
 			dt.Columns.Add( new DataColumn( "SizeField", typeof( string ) ) );
 
 			// Get the iFolder list for this user.
-			int total;
-			iFolder[] list;
+			iFolderSet list;
 
 			switch ( ActiveiFolderTab )
 			{
 				case ListDisplayType.Owned:
-					list = web.GetiFoldersByMember( UserID, MemberRole.Owner, CurrentiFolderOffset, iFolderList.PageSize, out total );
+					list = web.GetiFoldersByMember( UserID, MemberRole.Owner, CurrentiFolderOffset, iFolderList.PageSize );
 					break;
 
 				case ListDisplayType.Shared:
-					list = web.GetiFoldersByMember( UserID, MemberRole.Shared, CurrentiFolderOffset, iFolderList.PageSize, out total );
+					list = web.GetiFoldersByMember( UserID, MemberRole.Shared, CurrentiFolderOffset, iFolderList.PageSize );
 					break;
 
 				case ListDisplayType.All:
 				default:
-					list = web.GetiFoldersByMember( UserID, MemberRole.Any, CurrentiFolderOffset, iFolderList.PageSize, out total );
+					list = web.GetiFoldersByMember( UserID, MemberRole.Any, CurrentiFolderOffset, iFolderList.PageSize );
 					break;
 			}
 
-			foreach( iFolder folder in list )
+			foreach( iFolder folder in list.Items )
 			{
 				dr = dt.NewRow();
 				dr[ 0 ] = true;
@@ -300,7 +299,7 @@ namespace Novell.iFolderWeb.Admin
 			}
 
 			// Remember the total number of users.
-			TotaliFolders = total;
+			TotaliFolders = list.Total;
 
 			// Build the data view from the table.
 			return new DataView( dt );

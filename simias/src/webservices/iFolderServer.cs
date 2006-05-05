@@ -22,6 +22,7 @@
  ***********************************************************************/
  
 using System;
+using System.Collections;
 
 using Simias.Storage;
 
@@ -71,10 +72,10 @@ namespace iFolder.WebService
 		}
 
 		/// <summary>
-		/// Get the iFolder Server Information Object
+		/// Get the iFolder Home Server Information Object
 		/// </summary>
 		/// <returns>An iFolder Server Object</returns>
-		public static iFolderServer GetServer()
+		public static iFolderServer GetHomeServer()
 		{
 			iFolderServer server = new iFolderServer();
 
@@ -85,8 +86,20 @@ namespace iFolder.WebService
 			server.UserName = System.Environment.UserName;
 			server.ClrVersion = System.Environment.Version.ToString();
 
-
 			return server;
+		}
+
+		/// <summary>
+		/// Get the iFolder Server Information Objects
+		/// </summary>
+		/// <returns>An Array of iFolder Server Object</returns>
+		public static iFolderServer[] GetServers()
+		{
+			ArrayList list = new ArrayList();
+			
+			list.Add(GetHomeServer());
+
+			return (iFolderServer[])list.ToArray(typeof(iFolderServer));
 		}
 	}
 }

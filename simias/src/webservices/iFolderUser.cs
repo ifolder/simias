@@ -32,6 +32,41 @@ using Simias.Web;
 namespace iFolder.WebService
 {
 	/// <summary>
+	/// An iFolder User Result Set
+	/// </summary>
+	[Serializable]
+	public class iFolderUserSet
+	{
+		/// <summary>
+		/// An Array of iFolder Users
+		/// </summary>
+		public iFolderUser[] Items;
+
+		/// <summary>
+		/// The Total Number of iFolder Users
+		/// </summary>
+		public int Total;
+
+		/// <summary>
+		/// Default Constructor
+		/// </summary>
+		public iFolderUserSet()
+		{
+		}
+
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <param name="items"></param>
+		/// <param name="total"></param>
+		public iFolderUserSet(iFolderUser[] items, int total)
+		{
+			this.Items = items;
+			this.Total = total;
+		}
+	}
+
+	/// <summary>
 	/// An iFolder User
 	/// </summary>
 	[Serializable]
@@ -78,6 +113,11 @@ namespace iFolder.WebService
 		public bool IsOwner;
 
 		/// <summary>
+		/// The User Email Address
+		/// </summary>
+		public string Email;
+
+		/// <summary>
 		/// Constructor
 		/// </summary>
 		public iFolderUser()
@@ -93,6 +133,8 @@ namespace iFolder.WebService
 		/// <returns>An iFolderUser Object</returns>
 		protected iFolderUser(Member member, Collection collection, Domain domain)
 		{
+			const string EmailProperty = "Email";
+
 			this.ID = member.UserID;
 			this.UserName = member.Name;
             this.Rights = member.Rights;
@@ -101,6 +143,7 @@ namespace iFolder.WebService
 			this.LastName = member.Family;
 			this.Enabled = !(domain.IsLoginDisabled(this.ID));
 			this.IsOwner = (member.UserID == collection.Owner.UserID);
+			this.Email = NodeUtility.GetStringProperty(member, EmailProperty);
 
 			// NOTE: The member object may not be complete if it did not come from the
 			// domain object.
@@ -110,7 +153,63 @@ namespace iFolder.WebService
 				this.FullName = (domainMember.FN != null) ? domainMember.FN : domainMember.Name;
 				this.FirstName = domainMember.Given;
 				this.LastName = domainMember.Family;
+				this.Email = NodeUtility.GetStringProperty(member, EmailProperty);
 			}
+		}
+
+		/// <summary>
+		/// Update a User.
+		/// </summary>
+		/// <param name="userID">The User ID</param>
+		/// <param name="user">The iFolderUser object with updated fields.</param>
+		/// <param name="accessID">The Access User ID</param>
+		/// <returns>An updated iFolderUser Object</returns>
+		public static iFolderUser SetUser(string userID, iFolderUser user, string accessID)
+		{
+			Store store = Store.GetStore();
+
+			Domain domain = store.GetDomain(store.DefaultDomain);
+
+			// impersonate
+			iFolder.Impersonate(domain, accessID);
+
+			Member member = domain.GetMemberByID(userID);
+
+			// check username also
+			if (member == null) member = domain.GetMemberByName(userID);
+
+			// not found
+			if (member == null) throw new UserDoesNotExistException(userID);
+
+			// update values
+			member.FN = user.FullName;
+			member.Given = user.FirstName;
+			member.Family = user.LastName;
+			member.Properties.ModifyProperty("Email", user.Email);
+
+			// no full name policy
+			if (((user.FullName == null) || (user.FullName.Length == 0))
+				&& ((user.FirstName != null) && (user.FirstName.Length != 0))
+				&& ((user.LastName != null) && (user.LastName.Length != 0)))
+			{
+				member.FN = String.Format("{0} {1}", user.FirstName, user.LastName);
+			}
+
+			// commit
+			domain.Commit(member);
+
+			return GetUser(userID, accessID);
+		}
+
+		/// <summary>
+		/// Get a Member of an iFolder
+		/// </summary>
+		/// <param name="userID">The User ID</param>
+		/// <param name="accessID">The Access User ID</param>
+		/// <returns>An iFolderUser Object</returns>
+		public static iFolderUser GetUser(string userID, string accessID)
+		{
+			return GetUser(null, userID, accessID);
 		}
 
 		/// <summary>
@@ -146,6 +245,10 @@ namespace iFolder.WebService
 
 			Member member = c.GetMemberByID(userID);
 
+			// check username also
+			if (member == null) member = c.GetMemberByName(userID);
+
+			// not found
 			if (member == null) throw new UserDoesNotExistException(userID);
 
 			// user
@@ -157,11 +260,10 @@ namespace iFolder.WebService
 		/// </summary>
 		/// <param name="ifolderID">The iFolder ID</param>
 		/// <param name="index">The Search Start Index</param>
-		/// <param name="count">The Search Max Count of Results</param>
-		/// <param name="total">The Total Number of Results</param>
+		/// <param name="max">The Search Max Count of Results</param>
 		/// <param name="accessID">The Access User ID</param>
-		/// <returns>An Array of iFolderUser Objects</returns>
-		public static iFolderUser[] GetUsers(string ifolderID, int index, int count, out int total, string accessID)
+		/// <returns>An iFolder User Set</returns>
+		public static iFolderUserSet GetUsers(string ifolderID, int index, int max, string accessID)
 		{
 			Store store = Store.GetStore();
 
@@ -206,7 +308,7 @@ namespace iFolder.WebService
 			{
 				Member member = new Member(c, sn);
 
-				if ((i >= index) && (((count <= 0) || i < (count + index))))
+				if ((i >= index) && (((max <= 0) || i < (max + index))))
 				{
 					list.Add(new iFolderUser(member, c, domain));
 				}
@@ -214,10 +316,7 @@ namespace iFolder.WebService
 				++i;
 			}
 
-			// save total
-			total = i;
-
-			return (iFolderUser[])list.ToArray(typeof(iFolderUser));
+			return new iFolderUserSet((iFolderUser[])list.ToArray(typeof(iFolderUser)), i);
 		}
 
 		/// <summary>
@@ -227,11 +326,10 @@ namespace iFolder.WebService
 		/// <param name="operation">The Search Operator</param>
 		/// <param name="pattern">The Search Pattern</param>
 		/// <param name="index">The Search Start Index</param>
-		/// <param name="count">The Search Max Count of Results</param>
-		/// <param name="total">The Total Number of Results</param>
+		/// <param name="max">The Search Max Count of Results</param>
 		/// <param name="accessID">The Access User ID</param>
-		/// <returns>An Array of iFolderUser Objects</returns>
-		public static iFolderUser[] GetUsers(SearchProperty property, SearchOperation operation, string pattern, int index, int count, out int total, string accessID)
+		/// <returns>An iFolder User Set</returns>
+		public static iFolderUserSet GetUsers(SearchProperty property, SearchOperation operation, string pattern, int index, int max, string accessID)
 		{
 			Store store = Store.GetStore();
 
@@ -272,7 +370,7 @@ namespace iFolder.WebService
 					searchProperty = BaseSchema.ObjectName;
 					break;
 
-				case SearchProperty.Name:
+				case SearchProperty.FullName:
 					searchProperty = PropertyTags.FullName;
 					break;
 
@@ -303,7 +401,7 @@ namespace iFolder.WebService
 			{
 				if (sn.IsBaseType(NodeTypes.MemberType))
 				{
-					if ((i >= index) && (((count <= 0) || i < (count + index))))
+					if ((i >= index) && (((max <= 0) || i < (max + index))))
 					{
 						list.Add(new iFolderUser(new Member(domain, sn), domain, domain));
 					}
@@ -312,10 +410,7 @@ namespace iFolder.WebService
 				}
 			}
 
-			// save total
-			total = i;
-
-			return (iFolderUser[])list.ToArray(typeof(iFolderUser));
+			return new iFolderUserSet((iFolderUser[])list.ToArray(typeof(iFolderUser)), i);
 		}
 
 		/// <summary>
@@ -463,13 +558,12 @@ namespace iFolder.WebService
 		/// Get the Administrators
 		/// </summary>
 		/// <param name="index">The Search Start Index</param>
-		/// <param name="count">The Search Max Count of Results</param>
-		/// <param name="total">The Total Number of Results</param>
+		/// <param name="max">The Search Max Count of Results</param>
 		/// <remarks>
 		/// A User is a system administrator if the user has "Admin" rights in the domain.
 		/// </remarks>
-		/// <returns>An Array of iFolderUser Objects</returns>
-		public static iFolderUser[] GetAdministrators(int index, int count, out int total)
+		/// <returns>An iFolder User Set</returns>
+		public static iFolderUserSet GetAdministrators(int index, int max)
 		{
 			Store store = Store.GetStore();
 
@@ -493,7 +587,7 @@ namespace iFolder.WebService
 
 			foreach(ShallowNode sn in sortList)
 			{
-				if ((i >= index) && (((count <= 0) || i < (count + index))))
+				if ((i >= index) && (((max <= 0) || i < (max + index))))
 				{
 					Member member = new Member(domain, sn);
 
@@ -503,10 +597,7 @@ namespace iFolder.WebService
 				++i;
 			}
 
-			// save total
-			total = i;
-
-			return (iFolderUser[])list.ToArray(typeof(iFolderUser));
+			return new iFolderUserSet((iFolderUser[])list.ToArray(typeof(iFolderUser)), i);
 		}
 	}
 }

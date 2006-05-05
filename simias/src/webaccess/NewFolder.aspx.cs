@@ -130,9 +130,7 @@ namespace Novell.iFolderApp.Web
 
 				if ((entryID == null) || (entryID.Length == 0))
 				{
-					int total;
-
-					entry = web.GetEntries(ifolderID, ifolderID, 0, 1, out total)[0];
+					entry = web.GetEntries(ifolderID, ifolderID, 0, 1).Items[0];
 					entryID = entry.ID;
 				}
 				else

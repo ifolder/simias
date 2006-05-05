@@ -158,6 +158,11 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "iFolderCommon.cs"
+                    SubType = "Component"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "iFolderDetails.cs"
                     SubType = "Code"
                     BuildAction = "Compile"

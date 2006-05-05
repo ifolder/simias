@@ -58,6 +58,41 @@ namespace iFolder.WebService
 	}
 
 	/// <summary>
+	/// A Change Entry Result Set
+	/// </summary>
+	[Serializable]
+	public class ChangeEntrySet
+	{
+		/// <summary>
+		/// An Array of Change Entries
+		/// </summary>
+		public ChangeEntry[] Items;
+
+		/// <summary>
+		/// The Total Number of Change Entries
+		/// </summary>
+		public int Total;
+
+		/// <summary>
+		/// Default Constructor
+		/// </summary>
+		public ChangeEntrySet()
+		{
+		}
+
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <param name="items"></param>
+		/// <param name="total"></param>
+		public ChangeEntrySet(ChangeEntry[] items, int total)
+		{
+			this.Items = items;
+			this.Total = total;
+		}
+	}
+
+	/// <summary>
 	/// Change Entry
 	/// </summary>
 	[Serializable]
@@ -144,19 +179,19 @@ namespace iFolder.WebService
 		/// <param name="ifolderID">The iFolder ID</param>
 		/// <param name="entryID">The iFolder Entry ID</param>
 		/// <param name="index">The Search Start Index</param>
-		/// <param name="count">The Search Max Count of Results</param>
-		/// <param name="total">The Total Number of Results</param>
+		/// <param name="max">The Search Max Count of Results</param>
 		/// <param name="accessID">The Access User ID</param>
-		/// <returns>An Array of ChangeEntry Objects</returns>
-		public static ChangeEntry[] GetChanges(string ifolderID, string entryID, int index, int count, out int total, string accessID)
+		/// <returns>A Set of ChangeEntry Objects</returns>
+		public static ChangeEntrySet GetChanges(string ifolderID, string entryID, int index, int max, string accessID)
 		{
 			JournalEntry[] entries;
 
 			// TODO: access check?
 
 			// get entries
+			int total = 0;
 			Journal journal = new Journal(ifolderID);
-			journal.GetSeekEntries(entryID, null, count, (uint)index, out entries, out total);
+			journal.GetSeekEntries(entryID, null, max, (uint)index, out entries, out total);
 
 			// list
 			ArrayList list = new ArrayList();
@@ -166,7 +201,7 @@ namespace iFolder.WebService
 				list.Add(new ChangeEntry(entry));
 			}
 			
-			return (ChangeEntry[])list.ToArray(typeof(ChangeEntry));
+			return new ChangeEntrySet((ChangeEntry[])list.ToArray(typeof(ChangeEntry)), total);
 		}
 	}
 }

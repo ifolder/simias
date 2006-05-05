@@ -36,9 +36,9 @@ namespace iFolder.WebService
 		UserName,
 
 		/// <summary>
-		/// iFolder User Name
+		/// iFolder User Full Name
 		/// </summary>
-		Name,
+		FullName,
 
 		/// <summary>
 		/// iFolder User Last Name

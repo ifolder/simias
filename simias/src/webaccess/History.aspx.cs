@@ -112,8 +112,6 @@ namespace Novell.iFolderApp.Web
 		/// </summary>
 		private void BindHistoryData()
 		{
-			int total = 0;
-
 			// history
 			DataTable historyTable = new DataTable();
 			historyTable.Columns.Add("Time");
@@ -129,11 +127,11 @@ namespace Novell.iFolderApp.Web
 				iFolder ifolder = web.GetiFolder(ifolderID);
 
 				// history
-				ChangeEntry[] changes = web.GetChanges(ifolderID, null, HistoryPagging.Index, HistoryPagging.PageSize, out total);
-				HistoryPagging.Count = changes.Length;
-				HistoryPagging.Total = total;
+				ChangeEntrySet changes = web.GetChanges(ifolderID, null, HistoryPagging.Index, HistoryPagging.PageSize);
+				HistoryPagging.Count = changes.Items.Length;
+				HistoryPagging.Total = changes.Total;
 				
-				foreach(ChangeEntry change in changes)
+				foreach(ChangeEntry change in changes.Items)
 				{
 					DataRow row = historyTable.NewRow();
 

@@ -39,7 +39,7 @@ namespace iFolder.WebService
 		 Namespace="http://novell.com/ifolder/webservice/",
 		 Name="iFolderAdmin",
 		 Description="iFolder Admin Web Service")]
-	public class iFolderAdmin : System.Web.Services.WebService
+	public class iFolderAdmin : iFolderCommon
 	{
 		#region Constructors
 
@@ -50,60 +50,6 @@ namespace iFolder.WebService
 		{
 		}
 
-		#endregion
-
-		#region System
-
-		/// <summary>
-		/// Get information about the current iFolder server.
-		/// </summary>
-		/// <returns>An iFolderServer object describing the current server.</returns>
-		[WebMethod(
-			 Description="Get information about the current iFolder server.",
-			 EnableSession=true)]
-		public iFolderServer GetServer()
-		{
-			iFolderServer result = null;
-
-			try
-			{
-				Authorize();
-
-				result = iFolderServer.GetServer();
-			}
-			catch(Exception e)
-			{
-				SmartException.Throw(e);
-			}
-
-			return result;
-		}
-
-		/// <summary>
-		/// Get information about the iFolder system.
-		/// </summary>
-		/// <returns>An iFolderSystem object describing the system.</returns>
-		[WebMethod(
-			 Description="Get information about the iFolder system.",
-			 EnableSession=true)]
-		public iFolderSystem GetSystem()
-		{
-			iFolderSystem result = null;
-
-			try
-			{
-				Authorize();
-
-				result = iFolderSystem.GetSystem();
-			}
-			catch(Exception e)
-			{
-				SmartException.Throw(e);
-			}
-
-			return result;
-		}
-		
 		#endregion
 
 		#region iFolder
@@ -137,142 +83,24 @@ namespace iFolder.WebService
 		}
 
 		/// <summary>
-		/// Delete an iFolder.
-		/// </summary>
-		/// <param name="ifolderID">The id of iFolder to delete.</param>
-		/// <remarks>This API will accept multiple iFolder ids in a comma delimited list.</remarks>
-		[WebMethod(
-			 Description="Delete an iFolder.",
-			 EnableSession=true)]
-		public void DeleteiFolder(string ifolderID)
-		{
-			Hashtable exceptions = new Hashtable();
-
-			try
-			{
-				Authorize();
-
-				string[] ids = ifolderID.Split(new char[] {',', ' '});
-
-				foreach(string id in ids)
-				{
-					if (id.Length > 0)
-					{
-						try
-						{
-							iFolder.DeleteiFolder(id, null);
-						}
-						catch(Exception e)
-						{
-							exceptions.Add(id, e);
-						}
-					}
-				}
-			}
-			catch(Exception e)
-			{
-				SmartException.Throw(e);
-			}
-
-			SmartException.Throw(exceptions);
-		}
-
-		/// <summary>
-		/// Get information about an iFolder.
-		/// </summary>
-		/// <param name="ifolderID">The id of the iFolder.</param>
-		/// <returns>An iFolder object.</returns>
-		[WebMethod(
-			 Description="Get information about an iFolder.",
-			 EnableSession=true)]
-		public iFolder GetiFolder(string ifolderID)
-		{
-			iFolder result = null;
-
-			try
-			{
-				Authorize();
-
-				result = iFolder.GetiFolder(ifolderID, null);
-			}
-			catch(Exception e)
-			{
-				SmartException.Throw(e);
-			}
-
-			return result;
-		}
-		
-		/// <summary>
-		/// Get detailed information about an iFolder.
-		/// </summary>
-		/// <param name="ifolderID">The id of the iFolder.</param>
-		/// <returns>An iFolderDetails object.</returns>
-		/// <remarks>It is more expensive to call GetiFolderDetails than GetiFolder.</remarks>
-		[WebMethod(
-			 Description="Get detailed information about an iFolder.",
-			 EnableSession=true)]
-		public iFolderDetails GetiFolderDetails(string ifolderID)
-		{
-			iFolderDetails result = null;
-
-			try
-			{
-				Authorize();
-
-				result = iFolderDetails.GetiFolderDetails(ifolderID, null);
-			}
-			catch(Exception e)
-			{
-				SmartException.Throw(e);
-			}
-
-			return result;
-		}
-		
-		/// <summary>
-		/// Set the description of an iFolder.
-		/// </summary>
-		/// <param name="ifolderID">The id of the iFolder.</param>
-		/// <param name="description">The new description for the iFolder.</param>
-		[WebMethod(
-			 Description="Set the description of an iFolder.",
-			 EnableSession=true)]
-		public void SetiFolderDescription(string ifolderID, string description)
-		{
-			try
-			{
-				Authorize();
-
-				iFolder.SetDescription(ifolderID, description, null);
-			}
-			catch(Exception e)
-			{
-				SmartException.Throw(e);
-			}
-		}
-
-		/// <summary>
 		/// Get inforamtion about all iFolders.
 		/// </summary>
 		/// <param name="type">An iFolder type filter of the results.</param>
 		/// <param name="index">The starting index for the search results.</param>
-		/// <param name="count">The max number of search results to be returned.</param>
-		/// <param name="total">The total number of search results available.</param>
-		/// <returns>An array of iFolder objects.</returns>
+		/// <param name="max">The max number of search results to be returned.</param>
+		/// <returns>A set of iFolder objects.</returns>
 		[WebMethod(
 			 Description="Get iFolders",
 			 EnableSession=true)]
-		public iFolder[] GetiFolders(iFolderType type, int index, int count, out int total)
+		public iFolderSet GetiFolders(iFolderType type, int index, int max)
 		{
-			iFolder[] result = null;
-			total = 0;
+			iFolderSet result = null;
 
 			try
 			{
 				Authorize();
 
-				result = iFolder.GetiFoldersByName(type, SearchOperation.BeginsWith, "", index, count, out total, null);
+				result = iFolder.GetiFoldersByName(type, SearchOperation.BeginsWith, "", index, max, null);
 			}
 			catch(Exception e)
 			{
@@ -288,22 +116,20 @@ namespace iFolder.WebService
 		/// <param name="userID">The user id of the member.</param>
 		/// <param name="role">The member's role in the iFolder.</param>
 		/// <param name="index">The starting index for the search results.</param>
-		/// <param name="count">The max number of search results to be returned.</param>
-		/// <param name="total">The total number of search results available.</param>
-		/// <returns>An array of iFolder objects.</returns>
+		/// <param name="max">The max number of search results to be returned.</param>
+		/// <returns>A set of iFolder objects.</returns>
 		[WebMethod(
 			 Description="Get information about all iFolders identified by a member.",
 			 EnableSession=true)]
-		public iFolder[] GetiFoldersByMember(string userID, MemberRole role, int index, int count, out int total)
+		public iFolderSet GetiFoldersByMember(string userID, MemberRole role, int index, int max)
 		{
-			iFolder[] result = null;
-			total = 0;
+			iFolderSet result = null;
 
 			try
 			{
 				Authorize();
 
-				result = iFolder.GetiFoldersByMember(userID, role, index, count, out total, null);
+				result = iFolder.GetiFoldersByMember(userID, role, index, max, null);
 			}
 			catch(Exception e)
 			{
@@ -320,56 +146,19 @@ namespace iFolder.WebService
 		/// <param name="pattern">The pattern to search.</param>
 		/// <param name="index">The starting index for the search results.</param>
 		/// <param name="count">The max number of search results to be returned.</param>
-		/// <param name="total">The total number of search results available.</param>
-		/// <returns>An array of iFolder objects.</returns>
+		/// <returns>A set of iFolder objects.</returns>
 		[WebMethod(
 			 Description="Get information about all iFolders identified by a search on the it's name.",
 			 EnableSession=true)]
-		public iFolder[] GetiFoldersByName(SearchOperation operation, string pattern, int index, int count, out int total)
+		public iFolderSet GetiFoldersByName(SearchOperation operation, string pattern, int index, int count)
 		{
-			iFolder[] result = null;
-			total = 0;
+			iFolderSet result = null;
 
 			try
 			{
 				Authorize();
 
-				result = iFolder.GetiFoldersByName(iFolderType.All, operation, pattern, index, count, out total, null);
-			}
-			catch(Exception e)
-			{
-				SmartException.Throw(e);
-			}
-
-			return result;
-		}
-
-		#endregion
-
-		#region Changes
-		
-		/// <summary>
-		/// Get a history of changes to an iFolder.
-		/// </summary>
-		/// <param name="ifolderID">The id of the iFolder.</param>
-		/// <param name="entryID">The id of entry to filter the results (can be null for no filtering).</param>
-		/// <param name="index">The starting index for the search results.</param>
-		/// <param name="count">The max number of search results to be returned.</param>
-		/// <param name="total">The total number of search results available.</param>
-		/// <returns>An array of ChangeEntry objects.</returns>
-		[WebMethod(
-			 Description="Get a history of changes to an iFolder.",
-			 EnableSession=true)]
-		public ChangeEntry[] GetChanges(string ifolderID, string entryID, int index, int count, out int total)
-		{
-			ChangeEntry[] result = null;
-			total = 0;
-
-			try
-			{
-				Authorize();
-
-				result = ChangeEntry.GetChanges(ifolderID, entryID, index, count, out total, null);
+				result = iFolder.GetiFoldersByName(iFolderType.All, operation, pattern, index, count, GetAccessID());
 			}
 			catch(Exception e)
 			{
@@ -487,16 +276,39 @@ namespace iFolder.WebService
 
 		#endregion
 
-		#region User
-
+		#region Users
 		/// <summary>
-		/// Get information about the authenticated user.
+		/// Create a new user in the iFolder system.
 		/// </summary>
-		/// <returns>An iFolderUser object describing the authenticated user.</returns>
+		/// <param name="username">A short unique name for the user (required).</param>
+		/// <param name="password">The password for the user (required).</param>
+		/// <param name="guid">A GUID for the user (optional).</param>
+		/// <param name="firstName">The first/given name of the user (optional).</param>
+		/// <param name="lastName">The last/family name of the user (optional).</param>
+		/// <param name="fullName">The full name of the user (optional).</param>
+		/// <param name="dn">The distinguished name, from an external identity store, for the user (optional).</param>
+		/// <param name="email">The primary email address of the user (optional).</param>
+		/// <returns>An iFolderUser object describing the new user.</returns>
+		/// <remarks>
+		/// Some identity providers DO NOT allow the creation,
+		/// modification or deletion of new users.
+		/// </remarks>
+		/// <remarks>
+		/// If the firstName and lastName are specified but the fullName is null, the fullName is
+		/// created with the firstName and lastName.
+		/// </remarks>
 		[WebMethod(
-			 Description="Get information about the authenticated user.",
-			 EnableSession=true)]
-		public iFolderUser GetAuthenticatedUser()
+			 Description= "Create a new user in the iFolder system.",
+			 EnableSession = true)]
+		public iFolderUser CreateUser(
+			string 	username,
+			string 	password,
+			string 	guid,
+			string 	firstName,
+			string 	lastName,
+			string 	fullName,
+			string	dn,
+			string	email)
 		{
 			iFolderUser result = null;
 
@@ -504,48 +316,69 @@ namespace iFolder.WebService
 			{
 				Authorize();
 
-				result = iFolderUser.GetUser(null, GetAccessID(), null);
+				// check if the registered provider allows user creation
+				IUserProvider provider = Simias.Server.User.GetRegisteredProvider();
+				UserProviderCaps caps = provider.GetCapabilities();
+				
+				if (caps.CanCreate == false)
+				{
+					throw new NotSupportedException("The current identity provider does not allow user creation.");
+				}
+				else if (username == null || username.Length == 0 || password == null)
+				{
+					throw new InvalidOperationException("Missing required parameters.");
+				}
+				else
+				{
+					Simias.Server.User user = new Simias.Server.User(username);
+					user.FirstName = firstName;
+					user.LastName = lastName;
+					user.UserGuid = guid;
+					user.FullName = fullName;
+					user.DN = dn;
+					user.Email = email;
+				
+					RegistrationInfo info = user.Create(password);
+
+					result = iFolderUser.GetUser(info.UserGuid, GetAccessID());
+				}
 			}
 			catch(Exception e)
 			{
 				SmartException.Throw(e);
 			}
-
+			
 			return result;
 		}
-
+		
 		/// <summary>
-		/// Set the rights of a member on an iFolder.
+		/// Delete a user from the iFolder system.
 		/// </summary>
-		/// <param name="ifolderID">The id of the iFolder.</param>
-		/// <param name="userID">The user id of the member.</param>
-		/// <param name="rights">The rights to be set.</param>
-		/// <remarks>This API will accept multiple user ids in a comma delimited list.</remarks>
+		/// <param name="userID">The ID of the user to be deleted.</param>
+		/// <remarks>
+		/// Some identity providers DO NOT allow the creation,
+		/// modification or deletion of new users.
+		/// </remarks>
 		[WebMethod(
-			 Description="Set the rights of a member on an iFolder.",
-			 EnableSession=true)]
-		public void SetMemberRights(string ifolderID, string userID, Simias.Storage.Access.Rights rights)
+			 Description= "Delete a user from the iFolder system.",
+			 EnableSession = true)]
+		public bool DeleteUser(string userID)
 		{
-			Hashtable exceptions = new Hashtable();
-
+			bool status = false;
 			try
 			{
 				Authorize();
 
-				string[] ids = userID.Split(new char[] {',', ' '});
-
-				foreach(string id in ids)
+				// check if the registered provider allows deletes
+				IUserProvider provider = Simias.Server.User.GetRegisteredProvider();
+				UserProviderCaps caps = provider.GetCapabilities();
+				
+				if (caps.CanDelete == true)
 				{
-					if (id.Length > 0)
+					if ((userID != null) && (userID.Length != 0))
 					{
-						try
-						{
-							iFolderUser.SetMemberRights(ifolderID, id, rights, null);
-						}
-						catch(Exception e)
-						{
-							exceptions.Add(id, e);
-						}
+						Simias.Server.User user = new Simias.Server.User(userID);
+						status = user.Delete();
 					}
 				}
 			}
@@ -553,43 +386,78 @@ namespace iFolder.WebService
 			{
 				SmartException.Throw(e);
 			}
-
-			SmartException.Throw(exceptions);
+			
+			return status;
 		}
 
 		/// <summary>
-		/// Add a member to an iFolder.
+		/// Update a user in the iFolder system.
 		/// </summary>
-		/// <param name="ifolderID">The id of iFolder.</param>
-		/// <param name="userID">The user id of the new member.</param>
-		/// <param name="rights">The rights of the new member on the iFolder.</param>
-		/// <remarks>This API will accept multiple user ids in a comma delimited list.</remarks>
+		/// <param name="userID">The ID of the user to be updated.</param>
+		/// <param name="user">The update iFolderUser object (FullName, FirstName, LastName, Email).</param>
+		/// <remarks>
+		/// Some identity providers DO NOT allow the creation,
+		/// modification or deletion of new users.
+		/// </remarks>
 		[WebMethod(
-			 Description="Add a member to an iFolder.",
-			 EnableSession=true)]
-		public void AddMember(string ifolderID, string userID, Simias.Storage.Access.Rights rights)
-		{   
-			Hashtable exceptions = new Hashtable();
+			 Description= "Update a user in the iFolder system (FullName, FirstName, LastName, Email).",
+			 EnableSession = true)]
+		public iFolderUser SetUser(string userID, iFolderUser user)
+		{
+			iFolderUser result = null;
+
+			try
+			{
+				Authorize();
+
+				// check if the registered provider allows deletes
+				IUserProvider provider = Simias.Server.User.GetRegisteredProvider();
+				UserProviderCaps caps = provider.GetCapabilities();
+				
+				if (caps.CanModify == false)
+				{
+					throw new NotSupportedException("The current identity provider does not allow user modification.");
+				}
+
+				result = iFolderUser.SetUser(userID, user, GetAccessID());
+			}
+			catch(Exception e)
+			{
+				SmartException.Throw(e);
+			}
+			
+			return result;
+		}
+
+		/// <summary>
+		/// Set a user's password.
+		/// </summary>
+		/// <param name="userID">The username of the user.</param>
+		/// <param name="password">The new password for the user.</param>
+		/// <remarks>
+		/// Some identity providers DO NOT allow the creation,
+		/// modification or deletion of new users.
+		/// </remarks>
+		[WebMethod(
+			 Description= "Set a user's password.",
+			 EnableSession = true)]
+		public bool SetPassword(string userID, string password)
+		{
+			bool status = false;
 			
 			try
 			{
 				Authorize();
 
-				string[] ids = userID.Split(new char[] {',', ' '});
-
-				foreach(string id in ids)
+				// check if the registered provider allows modification
+				IUserProvider provider = Simias.Server.User.GetRegisteredProvider();
+				UserProviderCaps caps = provider.GetCapabilities();
+				
+				if (caps.CanModify == true)
 				{
-					if (id.Length > 0)
+					if ((userID != null) && (userID.Length != 0) && (password != null))
 					{
-						try
-						{
-							iFolderUser.AddMember(ifolderID, id, rights, null);
-						}
-						catch(Exception e)
-						{
-							// save any exceptions
-							exceptions.Add(id, e);
-						}
+						status = Simias.Server.User.SetPassword(userID, password);
 					}
 				}
 			}
@@ -597,218 +465,13 @@ namespace iFolder.WebService
 			{
 				SmartException.Throw(e);
 			}
-
-			SmartException.Throw(exceptions);
+			
+			return status;
 		}
 
-		/// <summary>
-		/// Remove a member from an iFolder.
-		/// </summary>
-		/// <param name="ifolderID">The id of the iFolder.</param>
-		/// <param name="userID">The user id of the member.</param>
-		/// <remarks>This API will accept multiple user ids in a comma delimited list.</remarks>
-		[WebMethod(
-			 Description="Remove a member from an iFolder.",
-			 EnableSession=true)]
-		public void RemoveMember(string ifolderID, string userID)
-		{
-			Hashtable exceptions = new Hashtable();
+		#endregion
 
-			try
-			{
-				Authorize();
-
-				string[] ids = userID.Split(new char[] {',', ' '});
-
-				foreach(string id in ids)
-				{
-					if (id.Length > 0)
-					{
-						try
-						{
-							iFolderUser.RemoveMember(ifolderID, id, null);
-						}
-						catch(Exception e)
-						{
-							exceptions.Add(id, e);
-						}
-					}
-				}
-
-			}
-			catch(Exception e)
-			{
-				SmartException.Throw(e);
-			}
-	
-			SmartException.Throw(exceptions);
-		}
-
-		/// <summary>
-		/// Set the owner of an iFolder.
-		/// </summary>
-		/// <param name="ifolderID">The id of the iFolder.</param>
-		/// <param name="userID">The user id of the new owner.</param>
-		[WebMethod(
-			 Description="Set the owner of an iFolder.",
-			 EnableSession=true)]
-		public void SetiFolderOwner(string ifolderID, string userID)
-		{
-			try
-			{
-				Authorize();
-
-				iFolderUser.SetOwner(ifolderID, userID, null);
-			}
-			catch(Exception e)
-			{
-				SmartException.Throw(e);
-			}
-		}
-
-		/// <summary>
-		/// Get information about the members of an iFolder.
-		/// </summary>
-		/// <param name="ifolderID">The id of the iFolder.</param>
-		/// <param name="index">The starting index for the search results.</param>
-		/// <param name="count">The max number of search results to be returned.</param>
-		/// <param name="total">The total number of search results available.</param>
-		/// <returns>An array of iFolderUser objects describing the members.</returns>
-		[WebMethod(
-			 Description="Get information about the members of an iFolder.",
-			 EnableSession=true)]
-		public iFolderUser[] GetMembers(string ifolderID, int index, int count, out int total)
-		{
-			iFolderUser[] result = null;
-			total = 0;
-
-			try
-			{
-				Authorize();
-
-				result = iFolderUser.GetUsers(ifolderID, index, count, out total, null);
-			}
-			catch(Exception e)
-			{
-				SmartException.Throw(e);
-			}
-
-			return result;
-		}
-
-		/// <summary>
-		/// Get information about all of the iFolder users.
-		/// </summary>
-		/// <param name="index">The starting index for the search results.</param>
-		/// <param name="count">The max number of search results to be returned.</param>
-		/// <param name="total">The total number of search results available.</param>
-		/// <returns>An array of iFolderUser objects.</returns>
-		[WebMethod(
-			 Description="Get information about all of the iFolder users.",
-			 EnableSession=true)]
-		public iFolderUser[] GetUsers(int index, int count, out int total)
-		{
-			iFolderUser[] result = null;
-			total = 0;
-
-			try
-			{
-				Authorize();
-
-				result = iFolderUser.GetUsers(null, index, count, out total, null);
-			}
-			catch(Exception e)
-			{
-				SmartException.Throw(e);
-			}
-
-			return result;
-		}
-
-		/// <summary>
-		/// Get information about a user.
-		/// </summary>
-		/// <param name="userID">The id of the user.</param>
-		/// <returns>A iFolderUser object.</returns>
-		[WebMethod(
-			 Description="Get information about a user.",
-			 EnableSession=true)]
-		public iFolderUser GetUser(string userID)
-		{
-			iFolderUser result = null;
-
-			try
-			{
-				Authorize();
-
-				result = iFolderUser.GetUser(null, userID, null);
-			}
-			catch(Exception e)
-			{
-				SmartException.Throw(e);
-			}
-
-			return result;
-		}
-
-		/// <summary>
-		/// Get detailed information about a user.
-		/// </summary>
-		/// <param name="userID">The id of the user.</param>
-		/// <returns>A iFolderUserDetails object.</returns>
-		/// <remarks>It is more expensive to call GetUserDetails than GetUser.</remarks>
-		[WebMethod(
-			 Description="Get User Details",
-			 EnableSession=true)]
-		public iFolderUserDetails GetUserDetails(string userID)
-		{
-			iFolderUserDetails result = null;
-
-			try
-			{
-				Authorize();
-
-				result = iFolderUserDetails.GetDetails(userID);
-			}
-			catch(Exception e)
-			{
-				SmartException.Throw(e);
-			}
-
-			return result;
-		}
-
-		/// <summary>
-		/// Get information about all of the iFolder users identified by the search property, operation, and pattern.
-		/// </summary>
-		/// <param name="property">The property to search.</param>
-		/// <param name="operation">The operation to compare the property and pattern.</param>
-		/// <param name="pattern">The pattern to search</param>
-		/// <param name="index">The starting index for the search results.</param>
-		/// <param name="count">The max number of search results to be returned.</param>
-		/// <param name="total">The total number of search results available.</param>
-		/// <returns>An array of iFolderUser objects.</returns>
-		[WebMethod(
-			 Description="Get information about all of the iFolder users identified by the search property, operation, and pattern.",
-			 EnableSession=true)]
-		public iFolderUser[] GetUsersBySearch(SearchProperty property, SearchOperation operation, string pattern, int index, int count, out int total)
-		{
-			iFolderUser[] result = null;
-			total = 0;
-
-			try
-			{
-				Authorize();
-
-				result = iFolderUser.GetUsers(property, operation, pattern, index, count, out total, null);
-			}
-			catch(Exception e)
-			{
-				SmartException.Throw(e);
-			}
-
-			return result;
-		}
+		#region Administrators
 
 		/// <summary>
 		/// Grant a user system administration rights.
@@ -898,23 +561,21 @@ namespace iFolder.WebService
 		/// Get information about all the administrators.
 		/// </summary>
 		/// <param name="index">The starting index for the search results.</param>
-		/// <param name="count">The max number of search results to be returned.</param>
-		/// <param name="total">The total number of search results available.</param>
+		/// <param name="max">The max number of search results to be returned.</param>
 		/// <remarks>A user is an administrator if the user has "Admin" rights in the domain.</remarks>
 		/// <returns>An array of iFolderUser objects describing the administrators.</returns>
 		[WebMethod(
 			 Description="Get information about all the administrators.",
 			 EnableSession=true)]
-		public iFolderUser[] GetAdministrators(int index, int count, out int total)
+		public iFolderUserSet GetAdministrators(int index, int max)
 		{
-			iFolderUser[] result = null;
-			total = 0;
+			iFolderUserSet result = null;
 
 			try
 			{
 				Authorize();
 
-				result = iFolderUser.GetAdministrators(index, count, out total);
+				result = iFolderUser.GetAdministrators(index, max);
 			}
 			catch(Exception e)
 			{
@@ -1093,159 +754,6 @@ namespace iFolder.WebService
 			return result;
 		}
 		
-		/// <summary>
-		/// Create a new user in the iFolder system.
-		/// </summary>
-		/// <param name="username">A short unique name for the user (mandatory).</param>
-		/// <param name="password">The password for the user (mandatory).</param>
-		/// <param name="userGuid">A GUID for the user (optional).</param>
-		/// <param name="firstName">The first/given name of the user (optional).</param>
-		/// <param name="lastName">The last/family name of the user (optional).</param>
-		/// <param name="fullName">The full name of the user (optional).</param>
-		/// <param name="dn">The distinguished name, from an external identity store, for the user (optional).</param>
-		/// <param name="email">The primary email address of the user (optional).</param>
-		/// <returns>An iFolderUser object describing the new user.</returns>
-		/// <remarks>
-		/// Some identity providers DO NOT allow the creation,
-		/// modification or deletion of new users.
-		/// </remakrs>
-		/// <remarks>
-		/// If the firstName and lastName are specified but the fullName is null, the fullName is
-		/// created with the firstName and lastName.
-		/// </remarks>
-		[WebMethod(
-			Description= "Method to create a new user in the Simias domain",
-			EnableSession = true)]
-		public RegistrationInfo CreateUser(
-			string 	Username,
-			string 	Password,
-			string 	UserGuid,
-			string 	FirstName,
-			string 	LastName,
-			string 	FullName,
-			string	DistinguishedName,
-			string	Email)
-		{
-			RegistrationInfo info = null;
-
-			try
-			{
-				Authorize();
-
-				// check if the registered provider allows user creation
-				IUserProvider provider = Simias.Server.User.GetRegisteredProvider();
-				UserProviderCaps caps = provider.GetCapabilities();
-				
-				if (caps.CanCreate == false)
-				{
-					info = new RegistrationInfo(RegistrationStatus.MethodNotSupported);
-					info.Message = "Identity provider does not allow creation";
-				}
-				else if (Username == null || Username == "" || Password == null)
-				{
-					info = new RegistrationInfo(RegistrationStatus.InvalidParameters);
-					info.Message = "Missing mandatory parameters";
-				}
-				else
-				{
-					Simias.Server.User user = new Simias.Server.User(Username);
-					user.FirstName = FirstName;
-					user.LastName = LastName;
-					user.UserGuid = UserGuid;
-					user.FullName = FullName;
-					user.DN = DistinguishedName;
-					user.Email = Email;
-				
-					info = user.Create(Password);
-				}
-			}
-			catch(Exception e)
-			{
-				SmartException.Throw(e);
-			}
-			
-			return info;
-		}
-		
-		/// <summary>
-		/// Delete a user from the iFolder system.
-		/// </summary>
-		/// <param name="username">The username of the user to be deleted.</param>
-		/// <remarks>
-		/// Some identity providers DO NOT allow the creation,
-		/// modification or deletion of new users.
-		/// </remarks>
-		[WebMethod(
-			Description= "Delete a user from the iFolder system.",
-			EnableSession = true)]
-		public bool DeleteUser(string Username)
-		{
-			bool status = false;
-			try
-			{
-				Authorize();
-
-				// check if the registered provider allows deletes
-				IUserProvider provider = Simias.Server.User.GetRegisteredProvider();
-				UserProviderCaps caps = provider.GetCapabilities();
-				
-				if (caps.CanDelete == true)
-				{
-					if ((Username != null) && (Username != ""))
-					{
-						Simias.Server.User user = new Simias.Server.User(Username);
-						status = user.Delete();
-					}
-				}
-			}
-			catch(Exception e)
-			{
-				SmartException.Throw(e);
-			}
-			
-			return status;
-		}
-
-		/// <summary>
-		/// Set a user's password.
-		/// </summary>
-		/// <param name="username">The username of the user.</param>
-		/// <param name="password">The new password for the user.</param>
-		/// <remarks>
-		/// Some identity providers DO NOT allow the creation,
-		/// modification or deletion of new users.
-		/// </remarks>
-		[WebMethod(
-			Description= "Set a user's password.",
-			EnableSession = true)]
-		public bool SetPassword(string Username, string Password)
-		{
-			bool status = false;
-			
-			try
-			{
-				Authorize();
-
-				// check if the registered provider allows modification
-				IUserProvider provider = Simias.Server.User.GetRegisteredProvider();
-				UserProviderCaps caps = provider.GetCapabilities();
-				
-				if (caps.CanModify == true)
-				{
-					if ((Username != null) && (Username != "") && (Password != null))
-					{
-						status = Simias.Server.User.SetPassword(Username, Password);
-					}
-				}
-			}
-			catch(Exception e)
-			{
-				SmartException.Throw(e);
-			}
-			
-			return status;
-		}
-
 		#endregion
 
 		#region Identity Sync
@@ -1414,44 +922,53 @@ namespace iFolder.WebService
 		#region Utility
 
 		/// <summary>
+		/// Get the access user's id.
+		/// </summary>
+		protected override string GetAccessID()
+		{
+			// no access control as Admin
+			return null;
+		}
+
+		/// <summary>
 		/// Get the authenticated user's id.
 		/// </summary>
-		private string GetAccessID()
+		protected override string GetUserID()
 		{
 			// check authentication
-			string accessID = Context.User.Identity.Name;
+			string userID = Context.User.Identity.Name;
 
-			if ((accessID == null) || (accessID.Length == 0))
+			if ((userID == null) || (userID.Length == 0))
 			{
 				throw new AuthenticationException();
 			}
 
-			return accessID;
+			return userID;
 		}
 
 		/// <summary>
 		/// Authorize the authenticated user.
 		/// </summary>
-		private void Authorize()
+		protected override void Authorize()
 		{
 			// check authentication
-			string accessID = GetAccessID();
+			string userID = GetUserID();
 
 			// check for an admin ID cache
 			string adminID = (string)Session["AdminID"];
 
 			// check the ID cache
-			if ((adminID == null) || (adminID.Length == 0) || (!adminID.Equals(accessID)))
+			if ((adminID == null) || (adminID.Length == 0) || (!adminID.Equals(userID)))
 			{
-				if (iFolderUser.IsAdministrator(accessID))
+				if (iFolderUser.IsAdministrator(userID))
 				{
 					// authorized
-					Session["AdminID"] = accessID;
+					Session["AdminID"] = userID;
 				}
 				else
 				{
 					// unauthroized
-					throw new AuthorizationException(accessID);
+					throw new AuthorizationException(userID);
 				}
 			}
 		}
