@@ -31,6 +31,7 @@ using System.Web;
 using System.Xml;
 
 using Simias;
+using Simias.Client;
 using Simias.Storage;
 using Simias.Sync;
 
@@ -339,8 +340,84 @@ namespace Simias.Server
 		{
 			if ( User.provider != null )
 			{
-				// FIXME:: Fixup up collections the user is a member of
-				return User.provider.Delete( this.username );
+				// Get the domain for this user.
+				Domain domain = this.store.GetDomain( this.store.DefaultDomain );
+				if ( domain != null )
+				{
+					// Get the user's information by ID first.
+					Member member = domain.GetMemberByID( this.username );
+					if ( member == null )
+					{
+						// Try getting the member by name.
+						member = domain.GetMemberByName( this.username );
+					}
+
+					// Make sure that we found the member.
+					if ( member != null )
+					{
+						// Get the owner for the domain.
+						Member domainOwner = domain.Owner;
+
+						// Don't let the administrator be deleted.
+						if ( member.UserID != domainOwner.UserID )
+						{
+							// Get all of the collections for this user.
+							// BUGBUG!!! - This will need to be changed for multi-server.
+							ICSList collections = this.store.GetCollectionsByUser( member.UserID );
+							foreach( ShallowNode sn in collections )
+							{
+								Collection c = new Collection( this.store, sn );
+								if ( c.Owner.UserID == member.UserID )
+								{
+									// Don't orphan POBoxes.
+									if ( !c.IsBaseType( NodeTypes.POBoxType ) )
+									{
+										// Orphan this collection and assign it to the administrator.
+										// BUGBUG!!! - Need to handle the case where the administrator is on
+										// a different server. This collection would then need to be moved.
+
+										// Check if administrator is a member.
+										Member adminMember = c.GetMemberByID( domainOwner.UserID );
+										if ( adminMember == null )
+										{
+											adminMember = new Member( domainOwner );
+											c.Commit( adminMember );
+										}
+
+										// Change the owner to administrator and delete the old member.
+										c.Commit( c.ChangeOwner( adminMember, Access.Rights.Deny ) );
+
+										// Set the old member id to the previous owner.
+										c.PreviousOwner = member.UserID;
+										c.Commit();
+									}
+									else
+									{
+										// Delete the POBox.
+										c.Commit( c.Delete() );
+									}
+								}
+								else
+								{
+									// Don't remove the user from the domain collection.
+									if ( c.ID != domain.ID )
+									{
+										// Find the member in this collection.
+										Member cMember = c.GetMemberByID( member.UserID );
+										if ( cMember != null )
+										{
+											// Remove this collection's user membership.
+											c.Commit( c.Delete( cMember ) );
+										}
+									}
+								}
+							}
+
+							// Delete the user from the system.
+							return User.provider.Delete( this.username );
+						}
+					}
+				}
 			}
 			
 			return false;
