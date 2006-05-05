@@ -309,31 +309,62 @@ namespace User.Management
 			else
 			if ( action == "delete" )
 			{
+				bool status = admin.DeleteUser( username );
+				if ( verbose == true )
+				{
+					Console.WriteLine( "Deleting user {0}  Status {1)", username, status.ToString() );
+				}
 			}
 			else
 			if ( action == "modify" )
 			{
-				iFolderUser user =
-					admin.GetUser( username );
-
+				iFolderUser user = admin.GetUser( username );
 				if ( user != null )
 				{
-                    bool changed = false;
-					UserPolicy userPolicy = admin.GetUserPolicy( user.ID );
-					
 					if ( quota != null )
 					{
-						if ( verbose == true )
+						bool changed = false;
+						UserPolicy userPolicy = admin.GetUserPolicy( user.ID );
+						if ( quota != null )
 						{
-							Console.WriteLine( "Changing quota from {0} to {1}", userPolicy.SpaceLimit, Convert.ToInt64( quota ) );
+							if ( verbose == true )
+							{
+								Console.WriteLine( "Changing quota from {0} to {1}", userPolicy.SpaceLimit, Convert.ToInt64( quota ) );
+							}
+							userPolicy.SpaceLimit =  Convert.ToInt64( quota );
+							changed = true;
 						}
-						userPolicy.SpaceLimit =  Convert.ToInt64( quota );
-						changed = true;
+
+						if ( changed == true )
+						{
+							admin.SetUserPolicy( userPolicy );
+						}
 					}
 
-					if ( changed == true )
+					if ( email != null || first != null || last != null || full != null )
 					{
-						admin.SetUserPolicy( userPolicy );
+						if ( first != null )
+						{
+							user.FirstName = first;
+						}
+
+						if ( last != null )
+						{
+							user.LastName = last;
+						}
+
+						if ( full != null )
+						{
+							user.FullName = full;
+						}
+
+						if ( email != null )
+						{
+							user.Email = email;
+						}
+
+						// Write the changes
+						admin.SetUser( user.ID, user );
 					}
 				}
 			}
