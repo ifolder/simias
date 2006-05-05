@@ -53,6 +53,8 @@ iFolderWebService_LIBS = System.dll System.Data.dll $(SYSTEM_XML) System.Web.dll
 endif
 iFolderWebService_LIBPATH = $(LOG4NET_DIR) ../core/SimiasClient ../core/SimiasLib.dll ../server/Simias.Server
 
+GenerateWsdl_LIBS = System.dll System.Data.dll $(SYSTEM_XML) System.Web.dll System.Web.Services.dll iFolder.WebService.dll
+
 EXTRA_DIST =  AssemblyInfo.cs.in $(iFolderWebService_WEBFILES) $(iFolderWebService_CSFILES) iFolderAdmin.wsdl iFolderWeb.wsdl
 
 if MAKE_DOC_FILE
@@ -67,7 +69,7 @@ iFolder.WebService.dll: $(iFolderWebService_CSFILES) $(iFolderWebService_RESOURC
 	$(CSC) /out:$@ $(CSCFLAGS) $(iFolderWebService_FLAGS) $(iFolderWebService_LIBS:%=/r:%) $(iFolderWebService_LIBPATH:%=/lib:%) $(LOG4NET_LIBS) $(iFolderWebService_RESOURCES:%=$(ICON_FLAG)%) $(iFolderWebService_CSFILES_CSC) $(DOC_FILE_CMD)
 
 GenerateWsdl.exe: GenerateWsdl.cs
-	$(CSC) /out:$@ $(CSCFLAGS) $(CSC_EXEFLAG) $(iFolderWebService_LIBS:%=/r:%) /r:iFolder.WebService.dll $<
+	$(CSC) /out:$@ $(CSCFLAGS) $(CSC_EXEFLAG) $(GenerateWsdl_LIBS:%=/r:%) $<
 
 copy:
 	cp ../core/SimiasClient/SimiasClient.dll .
