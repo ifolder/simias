@@ -649,11 +649,6 @@ src/server/Simias.Server/Makefile
 src/server/Simias.LdapProvider/Makefile
 src/server/Simias.ADLdapProvider/Makefile
 src/server/Simias.OpenLdapProvider/Makefile
-src/server/usercmd/Makefile
-src/server/usercmd/simias-create-user
-src/server/usercmd/simias-delete-user
-src/server/usercmd/simias-user
-src/server/usercmd/simias-user.cmd
 src/client/Makefile
 src/client/simias
 src/client/SimiasDirectoryMapping
@@ -676,6 +671,12 @@ src/setup/apache/example.com/Makefile
 src/setup/apache/example.com/ifolder_admin.conf
 src/setup/apache/example.com/ifolder_webaccess.conf
 src/setup/apache/example.com/simias_server.conf
+src/utils/Makefile
+src/utils/usercmd/Makefile
+src/utils/usercmd/simias-create-user
+src/utils/usercmd/simias-delete-user
+src/utils/usercmd/simias-user
+src/utils/usercmd/simias-user.cmd
 test/Makefile
 test/Common/Makefile
 test/ChangeLog/Makefile
