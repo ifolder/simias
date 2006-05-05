@@ -63,8 +63,8 @@ namespace Simias.OpenLdapProvider
 		/// <summary>
 		/// String used to identify domain provider.
 		/// </summary>
-		static private string providerName = "Active Directory LDAP Provider";
-		static private string providerDescription = "A provider to sync identities from Active Directory to a Simias domain";
+		static private string providerName = "Open LDAP Provider";
+		static private string providerDescription = "A provider to sync identities from OpenLDAP to a Simias domain";
 		
 		static private string missingDomainMessage = "Enterprise domain does not exist!";
 
@@ -74,35 +74,6 @@ namespace Simias.OpenLdapProvider
 		private LdapSettings ldapSettings = null;
 
         private static DateTime jan_1_1970 = new DateTime( 1970, 1, 1 );
-
-		private TimeSpan maxPwdAge = TimeSpan.Zero;
-		private TimeSpan lockoutDuration = TimeSpan.Zero;
-
-		[Flags]
-		private enum ADS_USER_FLAGS
-		{
-			SCRIPT = 0X0001, 
-			ACCOUNTDISABLE = 0X0002, 
-			HOMEDIR_REQUIRED = 0X0008, 
-			LOCKOUT = 0X0010, 
-			PASSWD_NOTREQD = 0X0020, 
-			PASSWD_CANT_CHANGE = 0X0040, 
-			ENCRYPTED_TEXT_PASSWORD_ALLOWED = 0X0080, 
-			TEMP_DUPLICATE_ACCOUNT = 0X0100, 
-			NORMAL_ACCOUNT = 0X0200, 
-			INTERDOMAIN_TRUST_ACCOUNT = 0X0800, 
-			WORKSTATION_TRUST_ACCOUNT = 0X1000, 
-			SERVER_TRUST_ACCOUNT = 0X2000, 
-			DONT_EXPIRE_PASSWD = 0X10000, 
-			MNS_LOGON_ACCOUNT = 0X20000, 
-			SMARTCARD_REQUIRED = 0X40000, 
-			TRUSTED_FOR_DELEGATION = 0X80000, 
-			NOT_DELEGATED = 0X100000, 
-			USE_DES_KEY_ONLY = 0x200000, 
-			DONT_REQUIRE_PREAUTH = 0x400000, 
-			PASSWORD_EXPIRED = 0x800000, 
-			TRUSTED_TO_AUTHENTICATE_FOR_DELEGATION = 0x1000000
-		}
 		#endregion
 		
 		#region Properties
@@ -123,7 +94,6 @@ namespace Simias.OpenLdapProvider
 		/// </summary>
 		public User()
 		{
-			System.Diagnostics.Debugger.Break();
 			store = Store.GetStore();
 			if ( store.DefaultDomain == null )
 			{
