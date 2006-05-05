@@ -39,17 +39,17 @@ namespace Novell.iFolderWeb.Admin
 		/// <summary>
 		/// Default constant for Byte.
 		/// </summary>
-		public const double KiloByte = 1024;
+		public const decimal KiloByte = 1024;
 
 		/// <summary>
 		/// Default constant for MegaByte.
 		/// </summary>
-		public const double MegaByte = KiloByte * 1024;
+		public const decimal MegaByte = KiloByte * 1024;
 
 		/// <summary>
 		/// Default constant for GigaByte.
 		/// </summary>
-		public const double GigaByte = MegaByte * 1024;
+		public const decimal GigaByte = MegaByte * 1024;
 
 		#endregion
 
@@ -82,6 +82,25 @@ namespace Novell.iFolderWeb.Admin
 		}
 
 		/// <summary>
+		/// Converts the size to megabytes.
+		/// </summary>
+		/// <param name="size">Size of the number in bytes.</param>
+		/// <param name="appendUnits">If true the proper units are appended.</param>
+		/// <param name="rm">Resource manager object that will allow retrieval of localized strings.</param>
+		/// <returns>A string containing the size in megabytes.</returns>
+		public static string ConvertToMBString( long size, bool appendUnits, ResourceManager rm )
+		{
+			decimal units = Convert.ToDecimal( size ) / MegaByte;
+			string sizeString = ( units > 0 ) ? String.Format( "{0:##.##}", units ) : "0";
+			if ( appendUnits )
+			{
+				sizeString += ( " " + rm.GetString( "MB" ) );
+			}
+
+			return sizeString;
+		}
+
+		/// <summary>
 		/// Gets a string that represents the size in bytes of a number with the proper
 		/// unit size appended.
 		/// </summary>
@@ -91,13 +110,13 @@ namespace Novell.iFolderWeb.Admin
 		/// <returns>A string containing the size.</returns>
 		public static string ConvertToUnitString( long size, bool appendUnits, ResourceManager rm )
 		{
-			double dbSize = Convert.ToDouble( size );
+			decimal dbSize = Convert.ToDecimal( size );
 			string sizeString;
 
-			double unitSize = dbSize / GigaByte;
-			if ( unitSize > 1 )
+			decimal unitSize = dbSize / GigaByte;
+			if ( unitSize >= 1 )
 			{
-				sizeString = String.Format( "{0:##.#}", unitSize );
+				sizeString = String.Format( "{0:##.##}", unitSize );
 				if ( appendUnits )
 				{
 					sizeString += ( " " + rm.GetString( "GB" ) );
@@ -106,9 +125,9 @@ namespace Novell.iFolderWeb.Admin
 			else
 			{
 				unitSize = dbSize / MegaByte;
-				if ( unitSize > 1 )
+				if ( unitSize >= 1 )
 				{
-					sizeString = String.Format( "{0:##.#}", unitSize );
+					sizeString = String.Format( "{0:##.##}", unitSize );
 					if ( appendUnits )
 					{
 						sizeString += ( " " + rm.GetString( "MB" ) );
@@ -117,9 +136,9 @@ namespace Novell.iFolderWeb.Admin
 				else
 				{
 					unitSize = dbSize / KiloByte;
-					if ( unitSize > 1 )
+					if ( unitSize >= 1 )
 					{
-						sizeString = String.Format( "{0:##.#}", unitSize );
+						sizeString = String.Format( "{0:##.##}", unitSize );
 						if ( appendUnits )
 						{
 							sizeString += ( " " + rm.GetString( "KB" ) );
@@ -149,10 +168,10 @@ namespace Novell.iFolderWeb.Admin
 		/// <returns>A string containing the size.</returns>
 		public static string ConvertToUnitString( long size, ResourceManager rm, out string units )
 		{
-			double dbSize = Convert.ToDouble( size );
+			decimal dbSize = Convert.ToDecimal( size );
 			string sizeString;
 
-			double unitSize = dbSize / GigaByte;
+			decimal unitSize = dbSize / GigaByte;
 			if ( unitSize > 1 )
 			{
 				sizeString = String.Format( "{0:##.#}", unitSize );

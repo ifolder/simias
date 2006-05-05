@@ -132,7 +132,7 @@ namespace Novell.iFolderWeb.Admin
 			if ( Enabled.Checked )
 			{
 				long limit = ( EffectiveLimit == 0 ) ? DefaultFileSizeLimit : EffectiveLimit;
-				LimitValue.Text = Utils.ConvertToUnitString( limit, false, rm );
+				LimitValue.Text = Utils.ConvertToMBString( limit, false, rm );
 			}
 			else
 			{
@@ -180,7 +180,7 @@ namespace Novell.iFolderWeb.Admin
 			Enabled.Checked = LimitValue.Enabled = ( policy.FileSizeLimit > 0 );
 
 			LimitValue.Text = ( Enabled.Checked ) ? 
-				Utils.ConvertToUnitString( policy.FileSizeLimit, false, rm ) : String.Empty;
+				Utils.ConvertToMBString( policy.FileSizeLimit, false, rm ) : String.Empty;
 
 			if ( Enabled.Checked )
 			{
@@ -191,10 +191,9 @@ namespace Novell.iFolderWeb.Admin
 				EffectiveTag.Visible = EffectiveValue.Visible = EffectiveUnits.Visible = true;
 				if ( policy.FileSizeLimitEffective > 0 )
 				{
-					string units;
 					EffectiveTag.Visible = EffectiveValue.Visible = EffectiveUnits.Visible = true;
-					EffectiveValue.Text = Utils.ConvertToUnitString( policy.FileSizeLimitEffective, rm, out units );
-					EffectiveUnits.Text = units;
+					EffectiveValue.Text = Utils.ConvertToMBString( policy.FileSizeLimitEffective, false, rm );
+					EffectiveUnits.Text = GetString( "MB" );
 				}
 				else
 				{
@@ -214,13 +213,12 @@ namespace Novell.iFolderWeb.Admin
 			Enabled.Checked = LimitValue.Enabled = ( policy.FileSizeLimit > 0 );
 
 			LimitValue.Text = ( Enabled.Checked ) ? 
-				Utils.ConvertToUnitString( policy.FileSizeLimit, false, rm ) : String.Empty;
+				Utils.ConvertToMBString( policy.FileSizeLimit, false, rm ) : String.Empty;
 
 			if ( ( policy.FileSizeLimitEffective > 0 ) || ( policy.FileSizeLimit > 0 ) )
 			{
-				string units;
-				EffectiveValue.Text = Utils.ConvertToUnitString( policy.FileSizeLimitEffective, rm, out units );
-				EffectiveUnits.Text = units;
+				EffectiveValue.Text = Utils.ConvertToMBString( policy.FileSizeLimitEffective, false, rm );
+				EffectiveUnits.Text = GetString( "MB" );
 			}
 			else
 			{
@@ -240,7 +238,7 @@ namespace Novell.iFolderWeb.Admin
 			Enabled.Checked = LimitValue.Enabled = ( policy.FileSizeLimit > 0 );
 
 			LimitValue.Text = ( Enabled.Checked ) ? 
-				Utils.ConvertToUnitString( policy.FileSizeLimit, false, rm ) : String.Empty;
+				Utils.ConvertToMBString( policy.FileSizeLimit, false, rm ) : String.Empty;
 
 			EffectiveTag.Visible = EffectiveValue.Visible = EffectiveUnits.Visible = false;
 		}
@@ -259,10 +257,11 @@ namespace Novell.iFolderWeb.Admin
 				{
 					try
 					{
-						long limit = Convert.ToInt64( limitString );
+						decimal limit = Convert.ToDecimal( limitString );
 						if ( limit > 0 )
 						{
-							policy.FileSizeLimit = limit * 1048576;
+							// Convert megabytes to bytes.
+							policy.FileSizeLimit = Convert.ToInt64( Decimal.Round( limit, 2 ) * 1048576 );
 						}
 						else
 						{
@@ -299,10 +298,11 @@ namespace Novell.iFolderWeb.Admin
 				{
 					try
 					{
-						long limit = Convert.ToInt64( limitString );
+						decimal limit = Convert.ToDecimal( limitString );
 						if ( limit > 0 )
 						{
-							policy.FileSizeLimit = limit * 1048576;
+							// Convert megabytes to bytes.
+							policy.FileSizeLimit = Convert.ToInt64( Decimal.Round( limit, 2 ) * 1048576 );
 						}
 						else
 						{
@@ -339,10 +339,11 @@ namespace Novell.iFolderWeb.Admin
 				{
 					try
 					{
-						long limit = Convert.ToInt64( limitString );
+						decimal limit = Convert.ToDecimal( limitString );
 						if ( limit > 0 )
 						{
-							policy.FileSizeLimit = limit * 1048576;
+							// Convert megabytes to bytes.
+							policy.FileSizeLimit = Convert.ToInt64( Decimal.Round( limit, 2 ) * 1048576 );
 						}
 						else
 						{
