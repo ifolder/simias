@@ -20,6 +20,7 @@
  *  Author: Mike Lasky (mlasky@novell.com)
  * 
  ***********************************************************************/
+
 namespace Novell.iFolderWeb.Admin
 {
 	using System;

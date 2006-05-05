@@ -48,11 +48,6 @@ namespace Novell.iFolderWeb.Admin
 
 
 		/// <summary>
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.IContainer components = null;
-
-		/// <summary>
 		/// Constructor
 		/// </summary>
 		public Global()
@@ -209,7 +204,6 @@ namespace Novell.iFolderWeb.Admin
 		/// </summary>
 		private void InitializeComponent()
 		{    
-			this.components = new System.ComponentModel.Container();
 		}
 
 		#endregion

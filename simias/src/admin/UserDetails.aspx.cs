@@ -20,6 +20,7 @@
  *  Author: Mike Lasky (mlasky@novell.com)
  * 
  ***********************************************************************/
+
 using System;
 using System.Collections;
 using System.Collections.Specialized;
@@ -344,8 +345,6 @@ namespace Novell.iFolderWeb.Admin
 
 			string lastLogin = ( details.LastLogin == DateTime.MinValue ) ?
 				GetString( "NOTAVAILABLE" ) : details.LastLogin.ToString();
-
-			int totaliFolders = details.OwnediFolderCount + details.SharediFolderCount;
 
 			// Add the information rows to the table.
 			UserName.Text = details.UserName;

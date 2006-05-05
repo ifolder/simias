@@ -20,6 +20,7 @@
  *  Author: Mike Lasky (mlasky@novell.com)
  * 
  ***********************************************************************/
+
 using System;
 using System.Collections;
 using System.ComponentModel;
@@ -174,14 +175,6 @@ namespace Novell.iFolderWeb.Admin
 
 				return param;
 			}
-		}
-
-		/// <summary>
-		/// Returns true if any members are checked to be added.
-		/// </summary>
-		private bool HasMembersToAdd
-		{
-			get { return ( MembersToAdd.Count > 0 ) ? true : false; }
 		}
 
 		/// <summary>

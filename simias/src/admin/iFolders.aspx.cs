@@ -20,6 +20,7 @@
  *  Author: Mike Lasky (mlasky@novell.com)
  * 
  ***********************************************************************/
+
 using System;
 using System.Collections;
 using System.ComponentModel;
@@ -425,7 +426,6 @@ namespace Novell.iFolderWeb.Admin
 		/// <param name="e"></param>
 		protected void OnCreateButton_Click( object source, EventArgs e )
 		{
-			iFolderUser admin = web.GetAuthenticatedUser();
 			Page.Response.Redirect( "CreateiFolder.aspx", true );
 		}
 

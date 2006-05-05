@@ -20,6 +20,7 @@
  *  Author: Mike Lasky (mlasky@novell.com)
  * 
  ***********************************************************************/
+
 using System;
 using System.Collections;
 using System.ComponentModel;
@@ -40,11 +41,6 @@ namespace Novell.iFolderWeb.Admin
 	public class iFolderAdminPage : System.Web.UI.Page
 	{
 		/// <summary>
-		/// iFolder Connection
-		/// </summary>
-		private iFolderAdmin web;
-
-		/// <summary>
 		/// Resource Manager
 		/// </summary>
 		private ResourceManager rm;
@@ -53,9 +49,6 @@ namespace Novell.iFolderWeb.Admin
 		{
 			if ( !IsPostBack )
 			{
-				// connection
-				web = Session[ "Connection" ] as iFolderAdmin;
-
 				// localization
 				rm = Application[ "RM" ] as ResourceManager;
 			}

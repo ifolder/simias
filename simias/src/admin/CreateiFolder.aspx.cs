@@ -20,6 +20,7 @@
  *  Author: Mike Lasky (mlasky@novell.com)
  * 
  ***********************************************************************/
+
 using System;
 using System.Collections;
 using System.ComponentModel;
@@ -42,11 +43,6 @@ namespace Novell.iFolderWeb.Admin
 	{
 		#region Class Members
 	
-		/// <summary>
-		/// iFolder Connection
-		/// </summary>
-		private iFolderAdmin web;
-
 		/// <summary>
 		/// Resource Manager
 		/// </summary>
@@ -211,9 +207,6 @@ namespace Novell.iFolderWeb.Admin
 		/// <param name="e"></param>
 		private void Page_Load( object sender, System.EventArgs e )
 		{
-			// connection
-			web = Session[ "Connection" ] as iFolderAdmin;
-
 			// localization
 			rm = Application[ "RM" ] as ResourceManager;
 
