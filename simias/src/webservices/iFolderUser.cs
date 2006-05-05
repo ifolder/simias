@@ -73,6 +73,11 @@ namespace iFolder.WebService
 	public class iFolderUser
 	{
 		/// <summary>
+		/// Email Property Name
+		/// </summary>
+		private static string EmailProperty = "Email";
+
+		/// <summary>
 		/// The User ID
 		/// </summary>
 		public string ID;
@@ -133,8 +138,6 @@ namespace iFolder.WebService
 		/// <returns>An iFolderUser Object</returns>
 		protected iFolderUser(Member member, Collection collection, Domain domain)
 		{
-			const string EmailProperty = "Email";
-
 			this.ID = member.UserID;
 			this.UserName = member.Name;
             this.Rights = member.Rights;
@@ -185,7 +188,7 @@ namespace iFolder.WebService
 			member.FN = user.FullName;
 			member.Given = user.FirstName;
 			member.Family = user.LastName;
-			member.Properties.ModifyProperty("Email", user.Email);
+			member.Properties.ModifyProperty(EmailProperty, user.Email);
 
 			// no full name policy
 			if (((user.FullName == null) || (user.FullName.Length == 0))
