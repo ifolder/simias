@@ -380,7 +380,7 @@ namespace Simias.Server
 										Member adminMember = c.GetMemberByID( domainOwner.UserID );
 										if ( adminMember == null )
 										{
-											adminMember = new Member( domainOwner );
+											adminMember = new Member( domainOwner.Name, domainOwner.UserID, Access.Rights.Admin );
 											c.Commit( adminMember );
 										}
 
