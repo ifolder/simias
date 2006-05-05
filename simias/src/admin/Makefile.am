@@ -108,7 +108,6 @@ endif
 endif
 
 CLEAN_FILES = Novell.iFolderAdmin.dll \
-	Novell.iFolderAdmin.doc.xml \
 	$(iFolderAdmin_RESOURCES) \
 	$(DEBUG_FILES)
 
@@ -118,7 +117,7 @@ iFolderAdminWebProxy.cs: ../webservices/iFolderAdmin.wsdl
 	wsdl /nologo /out:$@ $<
 
 Novell.iFolderAdmin.dll: iFolderAdminWebProxy.cs $(iFolderAdmin_CSFILES) $(iFolderAdmin_RESOURCES)
-	$(CSC) /out:$@ $(CSCFLAGS) $(iFolderAdmin_FLAGS) $(iFolderAdmin_LIBS:%=/r:%) $(iFolderAdmin_RESOURCES:%=/res:%) $(iFolderAdmin_LIBPATH:%=/lib:%) $(LOG4NET_LIBS) $(iFolderAdmin_CSFILES_CSC) /doc:iFolderAdmin.doc.xml
+	$(CSC) /out:$@ $(CSCFLAGS) $(iFolderAdmin_FLAGS) $(iFolderAdmin_LIBS:%=/r:%) $(iFolderAdmin_RESOURCES:%=/res:%) $(iFolderAdmin_LIBPATH:%=/lib:%) $(LOG4NET_LIBS) $(iFolderAdmin_CSFILES_CSC)
 
 Novell.iFolderWeb.Admin.%.resources : %.resx
 	$(RESGEN) $< $@
