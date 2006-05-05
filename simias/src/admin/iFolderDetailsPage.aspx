@@ -18,6 +18,16 @@
 		@import url( css/iFolderDetailsPage.css ); 
 	</style>
 	
+	<script language="javascript">
+
+		function EnableSaveButton()
+		{
+			document.getElementById( "DescriptionButton" ).disabled = false;
+		}
+
+	</script>
+	
+	
 </head>
 
 <body id="ifolders">
@@ -60,7 +70,7 @@
 								ID="Description" 
 								Runat="server" 
 								CssClass="edittext" 
-								AutoPostBack="true" 
+								onkeypress="EnableSaveButton()" 
 								OnTextChanged="DescriptionChanged" />
 								
 							<asp:Button 

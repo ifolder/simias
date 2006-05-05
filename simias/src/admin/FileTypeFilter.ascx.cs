@@ -389,7 +389,7 @@ namespace Novell.iFolderWeb.Admin
 				TotalFiles = 0;
 
 				// Set the javascript function that will handle key presses.
-				NewFileTypeName.Attributes[ "OnKeyDown" ] = "return SubmitKeyDown(event, '" + AddButton.ClientID + "');";
+				NewFileTypeName.Attributes[ "OnKeyPress" ] = "return SubmitKeyDown(event, '" + AddButton.ClientID + "');";
 			}
 		}
 
@@ -629,6 +629,10 @@ namespace Novell.iFolderWeb.Admin
 				{
 					ShowError( GetString( "FILETYPEALREADYEXISTS" ) );
 				}
+			}
+			else
+			{
+				AddButton.Enabled = false;
 			}
 		}
 

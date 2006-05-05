@@ -321,18 +321,6 @@ namespace Novell.iFolderWeb.Admin
 			}
 		}
 
-		/// <summary>
-		/// Event handler that gets called when the ifolder name text changes.
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		protected void OnNameChanged( Object sender, EventArgs e )
-		{
-			// Enable the ok button.
-			NextButton.Enabled = ( Name.Text.Length > 0 );
-			SetFocus( Description );
-		}
-
 		#endregion
 
 		#region Web Form Designer generated code

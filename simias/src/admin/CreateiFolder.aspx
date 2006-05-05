@@ -16,6 +16,15 @@
 		@import url(css/CreateiFolder.css);
 	</style>
 	
+	<script language="javascript">
+
+		function EnableNextButton()
+		{
+			document.getElementById( "NextButton" ).disabled = false;
+		}
+
+	</script>
+
 </head>
 
 <body id="ifolders" runat="server">
@@ -46,8 +55,7 @@
 							ID="Name" 
 							Runat="server" 
 							CssClass="edittext"
-							AutoPostBack="True"
-							OnTextChanged="OnNameChanged" />
+							onkeypress="EnableNextButton()" />
 					</td>
 				</tr>
 			

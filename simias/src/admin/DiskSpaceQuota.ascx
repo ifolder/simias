@@ -1,5 +1,24 @@
 <%@ Control Language="c#" AutoEventWireup="false" Codebehind="DiskSpaceQuota.ascx.cs" Inherits="Novell.iFolderWeb.Admin.DiskSpaceQuota" TargetSchema="http://schemas.microsoft.com/intellisense/ie5"%>
 
+<script language="javascript">
+
+	function EnableButtons()
+	{
+		var saveButton = document.getElementById( "Policy_PolicyApplyButton" );
+		if ( saveButton != null )
+		{
+			saveButton.disabled = false;
+		}
+		
+		var cancelButton = document.getElementById( "Policy_PolicyCancelButton" );
+		if ( cancelButton != null )
+		{
+			cancelButton.disabled = false;
+		}
+	}
+
+</script>
+
 <div id="quotanav">
 
 	<asp:Label ID="Title" Runat="server" CssClass="policytitle" />
@@ -19,7 +38,11 @@
 				</td>
 
 				<td class="policytablevalue">
-					<asp:TextBox ID="LimitValue" Runat="server" CssClass="policytextbox" AutoPostBack="true" />
+					<asp:TextBox 
+						ID="LimitValue" 
+						Runat="server" 
+						CssClass="policytextbox" 
+						onkeypress="EnableButtons()" />
 				</td>
 				
 				<td>

@@ -324,7 +324,6 @@ body#users li.users a, body#ifolders li.ifolders a, body#server li.server a, bod
 	margin-right: 8px;
 	margin-top: 2px;
 	float: right;
-	text-decoration: none;
 	font-weight: bolder;
 	color: #000066;
 }
@@ -355,7 +354,6 @@ body#users li.users a, body#ifolders li.ifolders a, body#server li.server a, bod
 .breadcrumblink, .breadcrumblink:visited
 {
 	color: #000066;
-	text-decoration: none;
 }
 
 .breadcrumbseparator

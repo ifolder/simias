@@ -6,11 +6,16 @@
 	function SubmitKeyDown(e, b)
 	{
 		var result = true;
+		var button = document.getElementById(b);
 		if ((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13))
 		{
-			document.getElementById(b).click();
+			button.click();
 			result = false;
-		} 
+		}
+		else
+		{
+			button.disabled = false;
+		}
 		
 		return result;
 	}
@@ -33,6 +38,7 @@
 		Runat="server" 
 		CssClass="filetypeaddbutton" 
 		OnClick="OnFileTypeAddClick"
+		Enabled="False"
 		Visible="False" />
 		
 	<table class="filetypelistheader">

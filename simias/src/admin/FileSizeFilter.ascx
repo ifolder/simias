@@ -1,5 +1,24 @@
 <%@ Control Language="c#" AutoEventWireup="false" Codebehind="FileSizeFilter.ascx.cs" Inherits="Novell.iFolderWeb.Admin.FileSizeFilter" TargetSchema="http://schemas.microsoft.com/intellisense/ie5"%>
 
+<script language="javascript">
+
+	function EnableButtons()
+	{
+		var saveButton = document.getElementById( "Policy_PolicyApplyButton" );
+		if ( saveButton != null )
+		{
+			saveButton.disabled = false;
+		}
+		
+		var cancelButton = document.getElementById( "Policy_PolicyCancelButton" );
+		if ( cancelButton != null )
+		{
+			cancelButton.disabled = false;
+		}
+	}
+
+</script>
+
 <div id="filesizenav">
 
 	<asp:Label ID="Title" Runat="server" CssClass="policytitle" />
@@ -18,7 +37,11 @@
 				</td>
 				
 				<td class="policytablevalue">
-					<asp:TextBox ID="LimitValue" Runat="server" CssClass="policytextbox" AutoPostBack="true" />
+					<asp:TextBox 
+						ID="LimitValue" 
+						Runat="server" 
+						CssClass="policytextbox" 
+						onkeypress="EnableButtons()" />
 				</td>
 				
 				<td>

@@ -142,7 +142,7 @@ namespace Novell.iFolderWeb.Admin
 				SetFocus( SearchNameTextBox );
 
 				// Set the javascript function that will handle key presses.
-				SearchNameTextBox.Attributes[ "OnKeyDown" ] = "return SubmitKeyDown(event, '" + SearchButton.ClientID + "');";
+				SearchNameTextBox.Attributes[ "OnKeyPress" ] = "return SubmitKeyDown(event, '" + SearchButton.ClientID + "');";
 			}
 		}
 
