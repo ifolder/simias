@@ -174,53 +174,6 @@ namespace iFolder.WebService
 		}
 
 		/// <summary>
-		/// Remove the authenticated user's rights to an iFolder.
-		/// </summary>
-		/// <param name="ifolderID">The id of the iFolder.</param>
-		/// <remarks>This API will accept multiple iFolder ids in a comma delimited list.</remarks>
-		[WebMethod(
-			 Description="Remove the authenticated user's rights to an iFolder.",
-			 EnableSession=true)]
-		public void RemoveiFolder(string ifolderID)
-		{
-			Hashtable exceptions = new Hashtable();
-
-			try
-			{
-				Authorize();
-
-				string accessID = GetAccessID();
-
-				string[] ids = ifolderID.Split(new char[] {',', ' '});
-
-				foreach(string id in ids)
-				{
-					if (id.Length > 0)
-					{
-						try
-						{
-							// NOTE: the accessID on this call in null, because
-							// we want the user to be able to remove themselves 
-							// from any iFolder regardless of rights
-							iFolderUser.RemoveMember(id, accessID, null);
-						}
-						catch(Exception e)
-						{
-							exceptions.Add(id, e);
-						}
-					}
-				}
-
-			}
-			catch(Exception e)
-			{
-				SmartException.Throw(e);
-			}
-	
-			SmartException.Throw(exceptions);
-		}
-
-		/// <summary>
 		/// Get information about an iFolder.
 		/// </summary>
 		/// <param name="ifolderID">The id of the iFolder.</param>

@@ -463,7 +463,7 @@ namespace Novell.iFolderApp.Web
 		{
 			try
 			{
-				web.RemoveiFolder(ifolderID);
+				web.RemoveMembership(ifolderID);
 
 				Response.Redirect("iFolders.aspx");
 			}

@@ -325,7 +325,7 @@ namespace Novell.iFolderApp.Web
 			{
 				try
 				{
-					web.RemoveiFolder(ifolderList);
+					web.RemoveMembership(ifolderList);
 				}
 				catch(SoapException ex)
 				{

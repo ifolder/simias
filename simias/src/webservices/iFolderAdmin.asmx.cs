@@ -277,6 +277,7 @@ namespace iFolder.WebService
 		#endregion
 
 		#region Users
+		
 		/// <summary>
 		/// Create a new user in the iFolder system.
 		/// </summary>
