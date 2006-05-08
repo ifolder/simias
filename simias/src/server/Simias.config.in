@@ -5,16 +5,12 @@
     <setting name="AdminName" value="admin" />
     <setting name="AdminPassword" value="simias" />
   </section>
+  <section name="Server">
+    <setting name="Name" value="Host1" />
+  </section>
   <section name="Authentication">
 	<setting name="SimiasAuthNotRequired" value="Registration.asmx, Login.ashx, Simias.asmx:PingSimias, DomainService.asmx:GetDomainID, pubrss.ashx, pubsfile.ashx" />
 	<setting name="SimiasRequireSSL" value="no" />
-  </section>
-  <section name="LdapAuthentication">
-	<setting name="LdapUri" value="@LdapUriValue@" />
-	<setting name="ProxyDN" value="@ProxyDNValue@" />
-  </section>
-  <section name="LdapProvider">
-	<setting name="NamingAttribute" value="cn" />
   </section>
   <section name="Identity">
 	<setting name="Assembly" value="Simias.Server" />
@@ -26,10 +22,6 @@
 	<!--
 	<setting name="Assembly" value="Simias.MdbSync" />
 	<setting name="Class" value="Simias.MdbSync.User" />
-	-->
-	<!--
-	<setting name="Assembly" value="Simias.LdapProvider" />
-	<setting name="Class" value="Simias.LdapProvider.User" />
 	-->
   </section>
   <section name="StoreProvider">

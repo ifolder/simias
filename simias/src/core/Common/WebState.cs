@@ -370,50 +370,46 @@ namespace Simias
 
 		static Hashtable	connectionTable = new Hashtable();
 
-		#region Constructor
-
-		private HostConnection(string domainID, Collection collection, string userID, SimiasConnection.AuthType authType)
+		#region Constructors
+		private HostConnection( string domainID, string userID, SimiasConnection.AuthType authType, Collection collection )
 		{
 			this.domainID = domainID;
 			this.userID = userID;
 			this.collectionID = collection.ID;
 			this.hostID = collection.HostID;
 			this.authType = authType;
-			baseUri = DomainProvider.ResolveLocation(collection).ToString();
+			baseUri = DomainProvider.ResolveLocation( collection ).ToString();
 		}
 
-		private HostConnection(string domainID, Member member, string userID, SimiasConnection.AuthType authType)
+		private HostConnection( string domainID, string userID, SimiasConnection.AuthType authType, Member member )
 		{
 			this.domainID = domainID;
 			this.userID = userID;
 			this.collectionID = domainID;
 			this.hostID = member.HomeServer.UserID;
 			this.authType = authType;
-			baseUri = DomainProvider.ResolvePOBoxLocation(domainID, member.UserID).ToString();
+			baseUri = DomainProvider.ResolvePOBoxLocation( domainID, member.UserID ).ToString();
 		}
 
-		private HostConnection(string domainID, HostNode host, string userID, SimiasConnection.AuthType authType)
+		private HostConnection( string domainID, string userID, SimiasConnection.AuthType authType, HostNode host )
 		{
 			this.domainID = domainID;
 			this.userID = userID;
 			this.collectionID = domainID;
 			this.hostID = host.UserID;
 			this.authType = authType;
-			baseUri = DomainProvider.ResolveHostAddress(domainID, host.UserID).ToString();
+			baseUri = DomainProvider.ResolveHostAddress( domainID, host.UserID ).ToString();
 		}
-
-
 		#endregion
 
 		#region Private Methods
-
 		private void IntitalizeConnection()
 		{
-			if (!initialized)
+			if ( initialized == false )
 			{
 				try
 				{
-					connectionState = new WebState(domainID, collectionID, userID, authType);
+					connectionState = new WebState( domainID, collectionID, userID, authType );
 					initialized = true;
 				}
 				catch (NeedCredentialsException)
@@ -422,11 +418,9 @@ namespace Simias
 				}
 			}
 		}
-		
 		#endregion
 
 		#region Public Methods
-		
 		/// <summary>
 		/// Get a connection that can be used to access the host of specified collection.
 		/// </summary>
@@ -435,7 +429,7 @@ namespace Simias
 		/// <param name="userID">The user to authenticate as.</param>
 		/// <param name="authType">The type of authentication.</param>
 		/// <returns>Connection</returns>
-		internal static HostConnection GetConnection(string domainID, Collection collection, string userID, SimiasConnection.AuthType authType)
+		internal static HostConnection GetConnection( string domainID, string userID, SimiasConnection.AuthType authType, Collection collection )
 		{
 			HostConnection conn;
 			string key = collection.HostID;
@@ -446,7 +440,7 @@ namespace Simias
 					conn = (HostConnection)connectionTable[key];
 					if (conn == null)
 					{
-						conn = new HostConnection(domainID, collection, userID, authType);
+						conn = new HostConnection( domainID, userID, authType, collection );
 						conn.key = key;
 						connectionTable[key] = conn;
 					}
@@ -454,7 +448,7 @@ namespace Simias
 			}
 			else
 			{
-				conn = new HostConnection(domainID, collection, userID, authType);
+				conn = new HostConnection( domainID, userID, authType, collection );
 			}
 			conn.IntitalizeConnection();
 			return conn;
@@ -468,7 +462,7 @@ namespace Simias
 		/// <param name="userID">The user to authenticate as.</param>
 		/// <param name="authType">The authentication type.</param>
 		/// <returns>a connection.</returns>
-		internal static HostConnection GetConnection(string domainID, Member member, string userID, SimiasConnection.AuthType authType)
+		internal static HostConnection GetConnection(string domainID, string userID, SimiasConnection.AuthType authType, Member member )
 		{
 			HostConnection conn;
 			string key = member.HomeServer.UserID;
@@ -479,7 +473,7 @@ namespace Simias
 					conn = (HostConnection)connectionTable[key];
 					if (conn == null)
 					{
-						conn = new HostConnection(domainID, member, userID, authType);
+						conn = new HostConnection( domainID, userID, authType, member );
 						conn.key = key;
 						connectionTable[key] = conn;
 					}
@@ -487,7 +481,7 @@ namespace Simias
 			}
 			else
 			{
-				conn = new HostConnection(domainID, member, userID, authType);
+				conn = new HostConnection( domainID, userID, authType, member );
 			}
 			conn.IntitalizeConnection();
 			return conn;
@@ -501,7 +495,7 @@ namespace Simias
 		/// <param name="userID">The user to authenticate as.</param>
 		/// <param name="authType">The authentication type.</param>
 		/// <returns>a connection.</returns>
-		internal static HostConnection GetConnection(string domainID, HostNode host, string userID, SimiasConnection.AuthType authType)
+		internal static HostConnection GetConnection( string domainID, string userID, SimiasConnection.AuthType authType, HostNode host )
 		{
 			HostConnection conn;
 			string key = host.UserID;
@@ -512,7 +506,7 @@ namespace Simias
 					conn = (HostConnection)connectionTable[key];
 					if (conn == null)
 					{
-						conn = new HostConnection(domainID, host, userID, authType);
+						conn = new HostConnection( domainID, userID, authType, host );
 						conn.key = key;
 						connectionTable[key] = conn;
 					}
@@ -520,7 +514,7 @@ namespace Simias
 			}
 			else
 			{
-				conn = new HostConnection(domainID, host, userID, authType);
+				conn = new HostConnection( domainID, userID, authType, host );
 			}
 			conn.IntitalizeConnection();
 			return conn;
@@ -541,12 +535,12 @@ namespace Simias
 		
 		internal HttpWebRequest GetRequest(string uri)
 		{
-			HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
-			connectionState.InitializeWebRequest(request, domainID);
+			HttpWebRequest request = (HttpWebRequest)WebRequest.Create( uri );
+			connectionState.InitializeWebRequest( request, domainID );
 			return request;
 		}
 
-		internal HttpWebResponse GetResponse(HttpWebRequest webRequest)
+		internal HttpWebResponse GetResponse( HttpWebRequest webRequest )
 		{
 			try
 			{
@@ -558,11 +552,11 @@ namespace Simias
 				HttpWebResponse resp = webEx.Response as HttpWebResponse;
 				if ( resp != null )
 				{
-					if ( resp.StatusCode == HttpStatusCode.Unauthorized)
+					if ( resp.StatusCode == HttpStatusCode.Unauthorized )
 					{
 						initialized = false;
 						authenticated = false;
-						if (authType == SimiasConnection.AuthType.PPK)
+						if ( authType == SimiasConnection.AuthType.PPK )
 						{
 							Authenticate();
 						}
@@ -581,24 +575,25 @@ namespace Simias
 			return false;
 		}
 
-		internal void InitializeWebClient(HttpWebClientProtocol request)
+		internal void InitializeWebClient( HttpWebClientProtocol request )
 		{
-			connectionState.InitializeWebClient(request, domainID);
+			connectionState.InitializeWebClient( request, domainID );
 		}
 
 		internal bool Authenticate()
 		{
-			if (!authenticated)
+			if ( authenticated == false )
 			{
 				bool bstatus = false;
-				if (authType == SimiasConnection.AuthType.PPK)
+				if ( authType == SimiasConnection.AuthType.PPK )
 				{
-					bstatus = Simias.Authentication.Http.AuthenticateWithPPK(domainID, userID, baseUri);
+					bstatus = Simias.Authentication.Http.AuthenticateWithPPK( domainID, userID, baseUri );
 				}
 				else
 				{
 				}
-				if (bstatus)
+
+				if ( bstatus == true )
 				{
 					authenticated = true;
 				}
@@ -624,19 +619,18 @@ namespace Simias
 		
 		#endregion
 		
-		#region Constructor
-
+		#region Constructors
 		/// <summary>
 		/// Get a connection that can be used to access the specified collection.
 		/// </summary>
 		/// <param name="domainID">The domain ID</param>
-		/// <param name="collection">The collection to be accessed</param>
 		/// <param name="userID">The user to authenticate as.</param>
 		/// <param name="authType">The type of authentication.</param>
+		/// <param name="collection">The collection to be accessed</param>
 		/// <returns>Connection</returns>
-		public SimiasConnection(string domainID, Collection collection, string userID, AuthType authType)
+		public SimiasConnection( string domainID, string userID, AuthType authType, Collection collection )
 		{
-			connection = HostConnection.GetConnection(domainID, collection, userID, authType);
+			connection = HostConnection.GetConnection( domainID, userID, authType, collection );
 			IntitalizeConnection();
 		}
 
@@ -647,8 +641,8 @@ namespace Simias
 		/// <param name="collection">The collection to be accessed</param>
 		/// <param name="userID">The user to authenticate as.</param>
 		/// <returns>Connection</returns>
-		public SimiasConnection(string domainID, Collection collection, string userID) :
-			this (domainID, collection, userID, AuthType.BASIC)
+		public SimiasConnection( string domainID, string userID, Collection collection ) :
+			this ( domainID, userID, AuthType.BASIC, collection )
 		{
 		}
 
@@ -656,13 +650,13 @@ namespace Simias
 		/// Get a connection that can be used to access the specified host.
 		/// </summary>
 		/// <param name="domainID">The domain ID</param>
-		/// <param name="collection">The Host to connect to</param>
 		/// <param name="userID">The user to authenticate as.</param>
 		/// <param name="authType">The authentication type.</param>
+		/// <param name="host">The Host to connect to</param>
 		/// <returns>Connection</returns>
-		public SimiasConnection(string domainID, HostNode host, string userID, AuthType authType)
+		public SimiasConnection( string domainID, string userID, AuthType authType, HostNode host )
 		{
-			connection = HostConnection.GetConnection(domainID, host, userID, authType);
+			connection = HostConnection.GetConnection( domainID, userID, authType, host );
 			IntitalizeConnection();
 		}
 
@@ -670,11 +664,11 @@ namespace Simias
 		/// Get a connection that can be used to access the specified host.
 		/// </summary>
 		/// <param name="domainID">The domain ID</param>
-		/// <param name="collection">The Host to connect to</param>
 		/// <param name="userID">The user to authenticate as.</param>
+		/// <param name="host">The Host to connect to</param>
 		/// <returns>Connection</returns>
-		public SimiasConnection(string domainID, HostNode host, string userID) :
-			this (domainID, host, userID, AuthType.BASIC)
+		public SimiasConnection( string domainID, string userID, HostNode host ) :
+			this( domainID, userID, AuthType.BASIC, host )
 		{
 		}
 
@@ -682,13 +676,13 @@ namespace Simias
 		/// Get a connection to the home server of the specified member
 		/// </summary>
 		/// <param name="domainID">The domain ID</param>
-		/// <param name="member">The member</param>
 		/// <param name="userID">The user to authenticate as.</param>
 		/// <param name="authType">The authentication type.</param>
+		/// <param name="member">The member</param>
 		/// <returns>a connection.</returns>
-		public SimiasConnection(string domainID, Member member, string userID, AuthType authType)
+		public SimiasConnection( string domainID, string userID, AuthType authType, Member member )
 		{
-			connection = HostConnection.GetConnection(domainID, member, userID, authType);
+			connection = HostConnection.GetConnection(domainID, userID, authType, member );
 			IntitalizeConnection();
 		}
 		
@@ -696,21 +690,20 @@ namespace Simias
 		/// Get a connection to the home server of the specified member
 		/// </summary>
 		/// <param name="domainID">The domain ID</param>
-		/// <param name="member">The member</param>
 		/// <param name="userID">The user to authenticate as.</param>
+		/// <param name="member">The member</param>
 		/// <returns>a connection.</returns>
-		public SimiasConnection(string domainID, Member member, string userID) :
-			this(domainID, member, userID, AuthType.BASIC)
+		public SimiasConnection( string domainID, string userID, Member member ) :
+			this( domainID, userID, AuthType.BASIC, member )
 		{
 		}
 		
 		#endregion
 
 		#region Private Methods
-
 		private void IntitalizeConnection()
 		{
-			System.UriBuilder uri = new UriBuilder(connection.HostUri);
+			System.UriBuilder uri = new UriBuilder( connection.HostUri );
 			// TODO
 			/*
 			if (collection.UseSSL)
@@ -724,21 +717,18 @@ namespace Simias
 			*/
 			baseUri = uri.Uri.ToString().TrimEnd('/') + '/';
 		}
-	
 		#endregion
 
 		#region Public Methods
-		
-		
 		public void ClearConnection()
 		{
 			connection.ClearConnection();
 		}
 		
-		public HttpWebRequest GetRequest(string servicePath)
+		public HttpWebRequest GetRequest( string servicePath )
 		{
 			string uri = baseUri + servicePath.TrimStart('/');
-			return connection.GetRequest(uri);
+			return connection.GetRequest( uri );
 		}
 
 		public HttpWebResponse GetResponse(HttpWebRequest webRequest)
@@ -757,6 +747,5 @@ namespace Simias
 			return connection.Authenticate();
 		}
 	}
-
 	#endregion
 }

@@ -134,6 +134,21 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "HostProvider.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "HostService.cs"
+                    SubType = "Component"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "HostService.resx"
+                    DependentUpon = "HostService.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "IdentitySyncManager.asmx"
                     BuildAction = "Content"
                 />
@@ -150,6 +165,11 @@
                 />
                 <File
                     RelPath = "IIdentitySyncProvider.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "IProvisionUser.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -185,6 +205,11 @@
                 />
                 <File
                     RelPath = "User.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Utils.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

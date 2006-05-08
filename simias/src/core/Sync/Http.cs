@@ -193,7 +193,7 @@ namespace Simias.Sync.Http
 		/// <param name="collection"></param>
 		/// <param name="userName"></param>
 		/// <param name="userID"></param>
-		public HttpSyncProxy(Collection collection, string userName, string userID)
+		public HttpSyncProxy( Collection collection, string userName, string userID )
 		{
 			collectionID = collection.ID;
 			collectionName = collection.Name;
@@ -201,7 +201,7 @@ namespace Simias.Sync.Http
 			url = collection.MasterUrl.ToString().TrimEnd('/') + "/SyncHandler.ashx";
 			this.userName = userName;
 			this.userID = userID;
-			connection = new SimiasConnection(domainId, collection, userID, Store.IsEnterpriseServer ? SimiasConnection.AuthType.PPK : SimiasConnection.AuthType.BASIC);
+			connection = new SimiasConnection( domainId, userID, Store.IsEnterpriseServer ? SimiasConnection.AuthType.PPK : SimiasConnection.AuthType.BASIC, collection );
 			connection.Authenticate();
 		}
 

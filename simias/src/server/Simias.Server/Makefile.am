@@ -8,9 +8,12 @@ SimiasServer_CSFILES = \
 	$(srcdir)/DomainInfo.cs \
 	$(srcdir)/ProvisionInfo.cs \
 	$(srcdir)/DomainService.asmx.cs \
+	$(srcdir)/HostProvider.cs \
+	$(srcdir)/HostService.cs \
 	$(srcdir)/IdentitySyncService.cs \
 	$(srcdir)/IIdentitySyncProvider.cs \
 	$(srcdir)/IdentitySyncManager.asmx.cs \
+	$(srcdir)/IProvisionUser.cs \
 	$(srcdir)/Registration.asmx.cs \
 	$(srcdir)/IUserProvider.cs \
 	$(srcdir)/User.cs \
@@ -47,12 +50,12 @@ endif
 
 install-exec-local: all
 	$(mkinstalldirs) $(DESTDIR)$(webbindir) 
-	$(INSTALL_PROGRAM) DomainService.asmx IdentitySyncManager.asmx $(DEBUG_FILES) $(DESTDIR)$(webdir)
+	$(INSTALL_PROGRAM) DomainService.asmx HostAdmin.asmx HostLocation.asmx IdentitySyncManager.asmx $(DEBUG_FILES) $(DESTDIR)$(webdir)
 	$(INSTALL_PROGRAM) Registration.asmx $(DEBUG_FILES) $(DESTDIR)$(webdir)
 	$(INSTALL_PROGRAM) $(SERVER_ASSEMBLIES) $(DEBUG_CHECK_FILES) $(DESTDIR)$(webbindir)
 
 uninstall-local:
-	cd $(DESTDIR)$(webdir); rm -f DomainService.asmx IdentitySyncManager.asmx
+	cd $(DESTDIR)$(webdir); rm -f DomainService.asmx HostAdmin.asmx HostLocation.asmx IdentitySyncManager.asmx
 	cd $(DESTDIR)$(webdir); rm -f Regististration.asmx
 	cd $(DESTDIR)$(webbindir); rm -f $(SERVER_ASSEMBLIES) $(DEBUG_CHECK_FILES)
 

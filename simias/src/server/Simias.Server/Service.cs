@@ -155,6 +155,8 @@ namespace Simias.Server
 			EnterpriseDomain enterpriseDomain = new EnterpriseDomain( true );
 			if ( enterpriseDomain != null )
 			{
+				new Simias.Host.HostProvider( enterpriseDomain.GetServerDomain( false ) );
+
 				// Valid enterprise domain - start the external
 				// identity sync service
 				Simias.IdentitySync.Service.Start();
