@@ -81,6 +81,10 @@ namespace Simias.Sync
 		const string lastDredgeProp = "LastDredgeTime";
 		DateTime dredgeTimeStamp;
 		bool needToDredge = true;
+		public bool NeedToDredge
+		{
+			set { needToDredge = value; }
+		}
 		DateTime lastDredgeTime = DateTime.MinValue;
 		bool foundChange;
 		string rootPath;
