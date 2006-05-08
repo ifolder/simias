@@ -218,6 +218,63 @@ namespace Simias.Server
 		#endregion
 	}
 
+
+	/// <summary>
+	/// Master host is a user provisioning provider that always
+	/// provisions users to the master host.
+	/// 
+	/// Note: this provider is used for testing purposes or if
+	/// a server is deployed in a single server only installation.
+	/// </summary>
+	public class MasterHostProvisionProvider : IProvisionUserProvider
+	{
+		ArrayList hosts = new ArrayList();
+		Domain domain;
+		HostNode masterHost = null;
+
+		/// <summary>
+		/// Constructor for the master host provider.
+		/// 
+		/// Find the master host and store an instance of
+		/// the host object.
+		/// </summary>
+		public MasterHostProvisionProvider()
+		{
+			Store store = Store.GetStore();
+			domain = store.GetDomain( store.DefaultDomain );
+			HostNode[] hArray = HostNode.GetHosts( domain.ID );
+			foreach ( HostNode host in hArray )
+			{
+				if ( host.IsMasterHost == true )
+				{
+					masterHost = host;
+					break;
+				}
+			}
+		}
+		#region IProvisionUserProvider Members
+		/// <summary>
+		/// </summary>
+		public Simias.Host.HostInfo ProvisionUser( string Username )
+		{
+			HostNode hostnode = null;
+			Member member = domain.GetMemberByName( Username );
+			if ( member != null )
+			{
+				// Note! member.HomeServer is an expensive property for get/set
+				hostnode = member.HomeServer;
+				if ( hostnode == null )
+				{
+					hostnode = masterHost;
+					member.HomeServer = masterHost;
+				}
+			}
+
+			return hostnode == null ? null : new Simias.Host.HostInfo( hostnode );
+		}
+		#endregion
+	}
+
 	/// <summary>
 	/// </summary>
 	public class AttributeProvisionUserProvider : IProvisionUserProvider
