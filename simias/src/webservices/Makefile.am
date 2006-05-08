@@ -34,8 +34,7 @@ iFolderWebService_CSFILES = \
 	$(srcdir)/SampleData.cs \
 	$(srcdir)/LastSyncInfo.cs \
 	$(srcdir)/SyncServiceInfo.cs
-	
-	
+
 iFolderWebService_WEBFILES = \
 	$(srcdir)/iFolderAdmin.asmx \
 	$(srcdir)/iFolderWeb.asmx \
@@ -55,7 +54,7 @@ iFolderWebService_LIBPATH = $(LOG4NET_DIR) ../core/SimiasClient ../core/SimiasLi
 
 GenerateWsdl_LIBS = System.dll System.Data.dll $(SYSTEM_XML) System.Web.dll System.Web.Services.dll iFolder.WebService.dll
 
-EXTRA_DIST =  AssemblyInfo.cs.in $(iFolderWebService_WEBFILES) $(iFolderWebService_CSFILES) iFolderAdmin.wsdl iFolderWeb.wsdl
+EXTRA_DIST =  AssemblyInfo.cs.in $(iFolderWebService_WEBFILES) $(iFolderWebService_CSFILES)
 
 if MAKE_DOC_FILE
 DOC_FILE = $(basename $@).doc.xml
@@ -81,7 +80,6 @@ iFolderWeb.wsdl: copy iFolder.WebService.dll GenerateWsdl.exe
 
 iFolderAdmin.wsdl: copy iFolder.WebService.dll GenerateWsdl.exe
 	$(MONO) GenerateWsdl.exe iFolder.WebService.dll iFolder.WebService.iFolderAdmin http://127.0.0.1:8086/simias10/iFolderAdmin.asmx $@
-
 
 if DEBUG
 if WINDOWS
