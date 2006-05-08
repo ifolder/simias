@@ -366,6 +366,15 @@ namespace User.Management
 						// Write the changes
 						admin.SetUser( user.ID, user );
 					}
+
+					if ( password != null )
+					{
+						bool status = admin.SetPassword( username, password );
+						if ( verbose == true )
+						{
+							Console.WriteLine( "SetPassord for {0} - {1}", username, status.ToString() );
+						}
+					}
 				}
 			}
 			else
