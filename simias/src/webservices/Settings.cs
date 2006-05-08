@@ -133,8 +133,8 @@ namespace iFolder.WebService
 		{
 			Store store = Store.GetStore();
 
-			// find the POBox
-			POBox box = POBox.FindPOBox(store, store.DefaultDomain, userID);
+			// get the POBox
+			POBox box = POBox.GetPOBox(store, store.DefaultDomain, userID);
 
 			if (box == null)
 			{
@@ -155,8 +155,8 @@ namespace iFolder.WebService
 		{
 			Store store = Store.GetStore();
 
-			// find the POBox
-			POBox box = POBox.FindPOBox(store, store.DefaultDomain, userID);
+			// get the POBox
+			POBox box = POBox.GetPOBox(store, store.DefaultDomain, userID);
 
 			if (box == null)
 			{
