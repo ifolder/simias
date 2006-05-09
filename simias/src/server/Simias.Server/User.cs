@@ -489,6 +489,7 @@ namespace Simias.Server
 		
 		static private string missingDomainMessage = "Enterprise domain does not exist!";
 		static private string memberMarker = "Internal";
+		static private string userType = "User";
 		static private string pwdProperty = "PWD";
 
 		// Frequently used Simias types
@@ -655,7 +656,7 @@ namespace Simias.Server
 								? new Property( "DN", Distinguished )
 								: new Property( "DN", Username);
 					member.Properties.ModifyProperty( dnProp );
-
+					domain.SetType( member as Node, InternalUser.userType );
 					domain.SetType( member as Node, InternalUser.memberMarker );
 					domain.Commit( member );
 							

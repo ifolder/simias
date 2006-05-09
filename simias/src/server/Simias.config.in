@@ -1,7 +1,7 @@
 <configuration>
   <section name="EnterpriseDomain">
-    <setting name="ServerName" value="iFolder Server" />
-    <setting name="Description" value="iFolder Enterprise Server" />
+    <setting name="SystemName" value="iFolder" />
+    <setting name="Description" value="iFolder Enterprise System" />
     <setting name="AdminName" value="admin" />
     <setting name="AdminPassword" value="simias" />
   </section>

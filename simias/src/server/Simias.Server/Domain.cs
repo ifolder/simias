@@ -48,8 +48,8 @@ namespace Simias.Server
 		/// are usually overridden from properties in the
 		/// Simias.config file.
 		/// </summary>
-		private string domainName = "Simias Server";
-		private string hostAddress;
+		private string domainName = "Simias";
+		private string hostAddress = String.Empty;
 		private string description = "Enterprise server domain";
 		private string admin = "admin";
 		//private string adminPassword = "simias";
@@ -110,7 +110,7 @@ namespace Simias.Server
 			domain = this.GetServerDomain( Create );
 			if ( domain == null )
 			{
-				throw new SimiasException( "Enterprise server domain could not created or initialized" );
+				throw new SimiasException( "Enterprise domain could not created or initialized" );
 			}
 		}
 		#endregion
@@ -142,20 +142,20 @@ namespace Simias.Server
 				{
 					// Bootstrap the domain from the Simias.config file
 					Simias.Configuration config = Store.Config;
-					string cfgValue = config.Get( "EnterpriseDomain", "ServerName" );
-					if ( cfgValue != null && cfgValue != "" )
+					string cfgValue = config.Get( "EnterpriseDomain", "SystemName" );
+					if ( cfgValue != null && cfgValue != String.Empty )
 					{
 						this.domainName = cfgValue;
 					}
 
 					cfgValue = config.Get( "EnterpriseDomain", "Description" );
-					if ( cfgValue != null && cfgValue != "" )
+					if ( cfgValue != null && cfgValue != String.Empty )
 					{
 						this.description = cfgValue;
 					}
 
 					cfgValue = config.Get( "EnterpriseDomain", "AdminName" );
-					if ( cfgValue != null && cfgValue != "" )
+					if ( cfgValue != null && cfgValue != String.Empty )
 					{
 						this.admin = cfgValue;
 					}
@@ -192,6 +192,7 @@ namespace Simias.Server
 							Access.Rights.Admin );
 
 					member.IsOwner = true;
+					enterpriseDomain.SetType( member as Node, "User" );
 					
 					// Marker so we know this member was created internally
 					// and not through an external identity sync.
