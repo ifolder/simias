@@ -47,6 +47,7 @@ namespace Simias.Storage
 		static private readonly ISimiasLog log = SimiasLogManager.GetLogger( MethodBase.GetCurrentMethod().DeclaringType );
 		Store store;
 		Collection collection;
+		Domain domain;
 		StoreFileNode journalNode;
 		string tempFile = string.Empty;
 		bool collectionModified = false;
@@ -66,6 +67,12 @@ namespace Simias.Storage
 			if ( collection == null )
 			{
 				throw new SimiasException( string.Format( "Unable to instantiate collection for ID '{0}'", collectionID ) );
+			}
+
+			domain = store.GetDomain( collection.Domain );
+			if ( domain == null )
+			{
+				throw new SimiasException( string.Format( "Unable to instantiate domain for ID '{0}'", collection.Domain ) );
 			}
 
 			// Check if this node already has a journal.
@@ -238,11 +245,10 @@ namespace Simias.Storage
 							if ( je.FileName == null || je.FileName.Equals( string.Empty ) )
 							{
 								// Read the filename from the journal.
-								je.FileName = searchState.GetFileName( je.FileID );
+								EntryTypes entryType;
+								je.FileName = searchState.GetFileName( je.FileID, out entryType );
+								je.EntryType = entryType;
 							}
-
-							Node node = collection.GetNodeByID( je.FileID );
-							je.IsFolder = node != null && node.IsType( NodeTypes.DirNodeType );
 
 							tempList.Add( je );
 							--count;
@@ -418,24 +424,63 @@ namespace Simias.Storage
 					filename = journalNode.GetFullPath( collection );
 				}
 
-				// Build the record.
-				// eventType:modifierID:nodeID:timeStamp:relativePath
-				string record = Enum.Format( typeof( EventType ), args.EventType, "d" ) + ":" + args.Modifier + ":" + args.Node + ":" + args.TimeStamp.Ticks.ToString();
+				// Get the data for the record.
+				int type = (int)args.EventType;
+				string name = string.Empty;
 
 				if ( args.EventType != EventType.NodeDeleted )
 				{
+					Node node = collection.GetNodeByID( args.Node );
+
 					// If the node hasn't been deleted, get the relative path (if applicable).
 					if ( args.Type == NodeTypes.DirNodeType )
 					{
-						DirNode dn = new DirNode( collection.GetNodeByID( args.Node ) );
-						record += ":" + dn.GetRelativePath();
+						type |= (int)EntryTypes.Folder;
+						DirNode dn = new DirNode( node );
+						if ( dn != null )
+						{
+							name = ":" + dn.GetRelativePath();
+						}
 					}
 					else if ( args.Type == NodeTypes.FileNodeType )
 					{
-						FileNode fn = new FileNode( collection.GetNodeByID( args.Node ) );
-						record += ":" + fn.GetRelativePath();
+						type |= (int)EntryTypes.File;
+						FileNode fn = new FileNode( node );
+						if ( fn != null )
+						{
+							name = ":" + fn.GetRelativePath();
+						}
+					}
+					else
+					{
+						// For member nodes, put the full name in the relative path field.
+						type |= (int)EntryTypes.Member;
+						Member member = new Member( node );
+						if ( member != null )
+						{
+							Member dMember = domain.GetMemberByID( member.UserID );
+							if ( dMember != null )
+							{
+								if ( dMember.FN != null && !dMember.FN.Equals( string.Empty ) )
+								{
+									name = ":" + dMember.FN;
+								}
+								else
+								{
+									name = ":" + dMember.Name;
+								}
+							}
+							else
+							{
+								name = ":" + member.Name;
+							}
+						}
 					}
 				}
+
+				// Build the record.
+				// eventType:modifierID:nodeID:timeStamp:relativePath
+				string record = type.ToString() + ":" + args.Modifier + ":" + args.Node + ":" + args.TimeStamp.Ticks.ToString() + name;
 
 				log.Debug( "\trecord = {0}", record );
 
@@ -778,10 +823,14 @@ namespace Simias.Storage
 		/// Gets the file name for a file with the specified node ID.
 		/// </summary>
 		/// <param name="nodeID">The identifier of the file to get the name of.</param>
+		/// <param name="entryType">Upon successful return, contains the type of entry for the 
+		/// given nodeID.</param>
 		/// <returns>The name of the file or an empty string if the file name is not found.</returns>
-		public string GetFileName( string nodeID )
+		public string GetFileName( string nodeID, out EntryTypes entryType )
 		{
+			// Initialize return values.
 			string filename = string.Empty;
+			entryType = EntryTypes.Unknown;
 
 			// Save state.
 			long previousPosition = stream.Position;
@@ -814,6 +863,7 @@ namespace Simias.Storage
 					if ( je.FileName != null && !je.FileName.Equals( string.Empty ) )
 					{
 						filename = je.FileName;
+						entryType = je.EntryType;
 						break;
 					}
 				}
@@ -1212,12 +1262,71 @@ namespace Simias.Storage
 	}
 
 	/// <summary>
+	/// The change types for an entry.
+	/// </summary>
+	[Flags]
+	public enum ChangeTypes
+	{
+		/// <summary>
+		/// The object was added.
+		/// </summary>
+		Add = 1,
+
+		/// <summary>
+		/// The object was deleted.
+		/// </summary>
+		Delete = 2,
+
+		/// <summary>
+		/// The object was changed.
+		/// </summary>
+		Modify = 4,
+
+		/// <summary>
+		/// The operation on the object is unknown.
+		/// </summary>
+		Unknown = 8
+	}
+
+	/// <summary>
+	/// Types of entries in the journal.
+	/// </summary>
+	[Flags]
+	public enum EntryTypes
+	{
+		/// <summary>
+		/// An entry for a file.
+		/// </summary>
+		File = 16,
+
+		/// <summary>
+		/// An entry for a folder.
+		/// </summary>
+		Folder = 32,
+
+		/// <summary>
+		/// An entry for a member.
+		/// </summary>
+		Member = 64,
+
+		/// <summary>
+		/// The entry type is unknown.
+		/// </summary>
+		Unknown = 128
+	};
+		
+	/// <summary>
 	/// Summary description for JournalEntry.
 	/// </summary>
 	[ Serializable ]
 	public class JournalEntry
 	{
 		#region Class Members
+
+		/// <summary>
+		/// The type of object that this entry refers to.
+		/// </summary>
+		private EntryTypes entryType = EntryTypes.Unknown;
 
 		/// <summary>
 		/// A value used to indicate if this JournalEntry pertains to a folder.
@@ -1227,7 +1336,7 @@ namespace Simias.Storage
 		/// <summary>
 		/// The type of change that this entry refers to.
 		/// </summary>
-		private string type;
+		private ChangeTypes changeType;
 
 		/// <summary>
 		/// The name of the file that this entry refers to.
@@ -1259,6 +1368,23 @@ namespace Simias.Storage
 		#region Properties
 
 		/// <summary>
+		/// Gets the change type of the entry.
+		/// </summary>
+		public ChangeTypes ChangeType
+		{
+			get { return changeType; }
+		}
+
+		/// <summary>
+		/// Gets/sets the type of entry.
+		/// </summary>
+		public EntryTypes EntryType
+		{
+			get { return entryType; }
+			set { entryType = value; }
+		}
+
+		/// <summary>
 		/// Gets the identifier for the file or folder.
 		/// </summary>
 		public string FileID
@@ -1278,6 +1404,7 @@ namespace Simias.Storage
 		/// <summary>
 		/// Gets/sets a value indicating if this entry is related to a folder.
 		/// </summary>
+		[ Obsolete( "This property is obsolete. Please use the EntryType property instead.", false ) ]
 		public bool IsFolder
 		{
 			get { return isFolder; }
@@ -1295,9 +1422,10 @@ namespace Simias.Storage
 		/// <summary>
 		/// Gets the type of this entry.
 		/// </summary>
+		[ Obsolete( "This property is obsolete. Please use the ChangeType property instead.", false ) ]
 		public string Type
 		{
-			get { return type; }
+			get { return changeType.ToString(); }
 		}
 
 		/// <summary>
@@ -1324,36 +1452,36 @@ namespace Simias.Storage
 		/// <summary>
 		/// Instantiates a JournalEntry object.
 		/// </summary>
-		/// <param name="type">The type of change that caused the entry.</param>
+		/// <param name="changeType">The type of change that caused the entry.</param>
 		/// <param name="userID">The identifier of the user that made the change.</param>
 		/// <param name="timeStamp">The time that the change occurred.</param>
-		public JournalEntry( string type, string userID, string timeStamp ) :
-			this( type, string.Empty, userID, new DateTime( long.Parse( timeStamp ) ) )
+		public JournalEntry( ChangeTypes changeType, string userID, string timeStamp ) :
+			this( changeType, string.Empty, userID, new DateTime( long.Parse( timeStamp ) ) )
 		{
 		}
 
 		/// <summary>
 		/// Instantiates a JournalEntry object.
 		/// </summary>
-		/// <param name="type">The type of change that caused the entry.</param>
+		/// <param name="changeType">The type of change that caused the entry.</param>
 		/// <param name="fileName">The name of the file that the journal entry applies to.</param>
 		/// <param name="userID">The identifier of the user that made the change.</param>
 		/// <param name="timeStamp">The time that the change occurred.</param>
-		public JournalEntry( string type, string fileName, string userID, string timeStamp ) :
-			this( type, fileName, userID, new DateTime( long.Parse( timeStamp ) ) )
+		public JournalEntry( ChangeTypes changeType, string fileName, string userID, string timeStamp ) :
+			this( changeType, fileName, userID, new DateTime( long.Parse( timeStamp ) ) )
 		{
 		}
 
 		/// <summary>
 		/// Instantiates a JournalEntry object.
 		/// </summary>
-		/// <param name="type">The type of change that caused the entry.</param>
+		/// <param name="changeType">The type of change that caused the entry.</param>
 		/// <param name="fileName">The name of the file that the journal entry applies to.</param>
 		/// <param name="userID">The identifier of the user that made the change.</param>
 		/// <param name="timeStamp">The time that the change occurred.</param>
-		public JournalEntry( string type, string fileName, string userID, DateTime timeStamp )
+		public JournalEntry( ChangeTypes changeType, string fileName, string userID, DateTime timeStamp )
 		{
-			this.type = type;
+			this.changeType = changeType;
 			this.FileName = fileName;
 			this.userID = userID;
 			this.timeStamp = timeStamp;
@@ -1373,21 +1501,9 @@ namespace Simias.Storage
 				throw new SimiasException( "Incomplete record" );
 			}
 			
-			switch (  entries[0] )
-			{
-				case "1":
-					type = "add";
-					break;
-				case "2":
-					type = "delete";
-					break;
-				case "4":
-					type = "modify";
-					break;
-				default:
-					type = "unknown";
-					break;
-			}
+			int types = int.Parse( entries[0] );
+			changeType = (ChangeTypes)(types & 0xf);
+			entryType = (EntryTypes)(types & 0xf0);
 
 			this.userID = entries[1];
 			this.fileID = entries[2];

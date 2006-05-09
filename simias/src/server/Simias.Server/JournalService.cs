@@ -82,7 +82,11 @@ namespace Novell.Journaling
 					// Process the event.
 					if (!shuttingDown)
 					{
-						if ( args.Type.Equals( NodeTypes.FileNodeType ) || args.Type.Equals( NodeTypes.DirNodeType ) )
+						if ( args.Type.Equals( NodeTypes.FileNodeType ) || 
+							args.Type.Equals( NodeTypes.DirNodeType ) ||
+							( args.Type.Equals( NodeTypes.MemberType ) && 
+							( args.EventType.Equals( EventType.NodeCreated ) ||
+							args.EventType.Equals( EventType.NodeDeleted ) ) ) )
 						{
 							Journal journal = new Journal( args.Collection );
 							journal.UpdateJournal( args );
