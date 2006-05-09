@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://novell.com/simias/host" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" targetNamespace="http://novell.com/simias/host" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://novell.com/simias/host">
+      <s:element name="SetHomeServer">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="userID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="serverID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetHomeServerResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="SetHomeServerResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MigrateUser">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="userID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MigrateUserResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="MigrateUserResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ProvisionUser">
+        <s:complexType />
+      </s:element>
+      <s:element name="ProvisionUserResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ProvisionUserResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddHost">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="publicAddress" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="privateAddress" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="publicKey" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddHostResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AddHostResult" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="created" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteHost">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="id" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteHostResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetConfiguration">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetConfigurationResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetConfigurationResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetDomain">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetDomainResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetDomainResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetDomainOwner">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetDomainOwnerResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetDomainOwnerResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="SetHomeServerSoapIn">
+    <wsdl:part name="parameters" element="tns:SetHomeServer" />
+  </wsdl:message>
+  <wsdl:message name="SetHomeServerSoapOut">
+    <wsdl:part name="parameters" element="tns:SetHomeServerResponse" />
+  </wsdl:message>
+  <wsdl:message name="MigrateUserSoapIn">
+    <wsdl:part name="parameters" element="tns:MigrateUser" />
+  </wsdl:message>
+  <wsdl:message name="MigrateUserSoapOut">
+    <wsdl:part name="parameters" element="tns:MigrateUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="ProvisionUserSoapIn">
+    <wsdl:part name="parameters" element="tns:ProvisionUser" />
+  </wsdl:message>
+  <wsdl:message name="ProvisionUserSoapOut">
+    <wsdl:part name="parameters" element="tns:ProvisionUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddHostSoapIn">
+    <wsdl:part name="parameters" element="tns:AddHost" />
+  </wsdl:message>
+  <wsdl:message name="AddHostSoapOut">
+    <wsdl:part name="parameters" element="tns:AddHostResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteHostSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteHost" />
+  </wsdl:message>
+  <wsdl:message name="DeleteHostSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteHostResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetConfigurationSoapIn">
+    <wsdl:part name="parameters" element="tns:GetConfiguration" />
+  </wsdl:message>
+  <wsdl:message name="GetConfigurationSoapOut">
+    <wsdl:part name="parameters" element="tns:GetConfigurationResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetDomainSoapIn">
+    <wsdl:part name="parameters" element="tns:GetDomain" />
+  </wsdl:message>
+  <wsdl:message name="GetDomainSoapOut">
+    <wsdl:part name="parameters" element="tns:GetDomainResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetDomainOwnerSoapIn">
+    <wsdl:part name="parameters" element="tns:GetDomainOwner" />
+  </wsdl:message>
+  <wsdl:message name="GetDomainOwnerSoapOut">
+    <wsdl:part name="parameters" element="tns:GetDomainOwnerResponse" />
+  </wsdl:message>
+  <wsdl:portType name="HostAdminSoap">
+    <wsdl:operation name="SetHomeServer">
+      <wsdl:input message="tns:SetHomeServerSoapIn" />
+      <wsdl:output message="tns:SetHomeServerSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MigrateUser">
+      <wsdl:input message="tns:MigrateUserSoapIn" />
+      <wsdl:output message="tns:MigrateUserSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ProvisionUser">
+      <wsdl:input message="tns:ProvisionUserSoapIn" />
+      <wsdl:output message="tns:ProvisionUserSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddHost">
+      <wsdl:input message="tns:AddHostSoapIn" />
+      <wsdl:output message="tns:AddHostSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteHost">
+      <wsdl:input message="tns:DeleteHostSoapIn" />
+      <wsdl:output message="tns:DeleteHostSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetConfiguration">
+      <wsdl:input message="tns:GetConfigurationSoapIn" />
+      <wsdl:output message="tns:GetConfigurationSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDomain">
+      <wsdl:input message="tns:GetDomainSoapIn" />
+      <wsdl:output message="tns:GetDomainSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDomainOwner">
+      <wsdl:input message="tns:GetDomainOwnerSoapIn" />
+      <wsdl:output message="tns:GetDomainOwnerSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="HostAdminSoap" type="tns:HostAdminSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />
+    <wsdl:operation name="SetHomeServer">
+      <soap:operation soapAction="http://novell.com/simias/host/SetHomeServer" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MigrateUser">
+      <soap:operation soapAction="http://novell.com/simias/host/MigrateUser" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ProvisionUser">
+      <soap:operation soapAction="http://novell.com/simias/host/ProvisionUser" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddHost">
+      <soap:operation soapAction="http://novell.com/simias/host/AddHost" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteHost">
+      <soap:operation soapAction="http://novell.com/simias/host/DeleteHost" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetConfiguration">
+      <soap:operation soapAction="http://novell.com/simias/host/GetConfiguration" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDomain">
+      <soap:operation soapAction="http://novell.com/simias/host/GetDomain" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDomainOwner">
+      <soap:operation soapAction="http://novell.com/simias/host/GetDomainOwner" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="HostAdmin">
+    <documentation xmlns="http://schemas.xmlsoap.org/wsdl/" />
+    <wsdl:port name="HostAdminSoap" binding="tns:HostAdminSoap">
+      <soap:address location="http://localhost:8086/simias10/HostAdmin.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
