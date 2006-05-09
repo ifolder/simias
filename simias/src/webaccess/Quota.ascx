@@ -2,7 +2,7 @@
 
 <!-- quota -->
 
-<div class="quota">
+<div id="quota" class="group">
 	
 	<div class="box">
 	

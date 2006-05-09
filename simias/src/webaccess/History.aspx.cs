@@ -115,11 +115,12 @@ namespace Novell.iFolderApp.Web
 			// history
 			DataTable historyTable = new DataTable();
 			historyTable.Columns.Add("Time");
-			historyTable.Columns.Add("EntryName");
-			historyTable.Columns.Add("ShortEntryName");
+			historyTable.Columns.Add("Name");
+			historyTable.Columns.Add("ShortName");
 			historyTable.Columns.Add("Type");
 			historyTable.Columns.Add("UserFullName");
-			historyTable.Columns.Add("Image");
+			historyTable.Columns.Add("TypeImage");
+			historyTable.Columns.Add("ActionImage");
 
 			try
 			{
@@ -136,11 +137,12 @@ namespace Novell.iFolderApp.Web
 					DataRow row = historyTable.NewRow();
 
 					row["Time"] = WebUtility.FormatDateTime(change.Time, rm);
-					row["EntryName"] = change.EntryName;
-					row["ShortEntryName"] = WebUtility.GetFileName(change.EntryName);
-					row["Type"] = WebUtility.FormatChangeType(change.Type, rm);
+					row["Name"] = change.Name;
+					row["ShortName"] = WebUtility.GetFileName(change.Name);
+					row["Type"] = WebUtility.FormatChangeAction(change.Action, rm);
 					row["UserFullName"] = change.UserFullName;
-					row["Image"] = change.Type.ToString().ToLower();
+					row["TypeImage"] = change.Type.ToString().ToLower();
+					row["ActionImage"] = change.Action.ToString().ToLower();
 					
 					historyTable.Rows.Add(row);
 				}

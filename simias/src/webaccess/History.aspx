@@ -70,12 +70,17 @@
 					<columns>
 						<asp:TemplateColumn ItemStyle-CssClass="icon">
 							<itemtemplate>
-								<asp:Image ImageUrl='<%# "images/change-" + DataBinder.Eval(Container.DataItem, "Image") + ".png" %>' ToolTip='<%# DataBinder.Eval(Container.DataItem, "EntryName") %>' runat="server" />
+								<asp:Image ImageUrl='<%# "images/change-" + DataBinder.Eval(Container.DataItem, "TypeImage") + ".png" %>' ToolTip='<%# DataBinder.Eval(Container.DataItem, "Name") %>' runat="server" />
+							</itemtemplate>
+						</asp:TemplateColumn>
+						<asp:TemplateColumn ItemStyle-CssClass="icon">
+							<itemtemplate>
+								<asp:Image ImageUrl='<%# "images/change-" + DataBinder.Eval(Container.DataItem, "ActionImage") + ".png" %>' ToolTip='<%# DataBinder.Eval(Container.DataItem, "Name") %>' runat="server" />
 							</itemtemplate>
 						</asp:TemplateColumn>
 						<asp:TemplateColumn ItemStyle-CssClass="name">
 							<itemtemplate>
-								<%# DataBinder.Eval(Container.DataItem, "ShortEntryName") %>
+								<%# DataBinder.Eval(Container.DataItem, "ShortName") %>
 							</itemtemplate>
 						</asp:TemplateColumn>
 						<asp:TemplateColumn ItemStyle-CssClass="action">

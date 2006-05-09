@@ -34,7 +34,39 @@ namespace iFolder.WebService
 	/// Change Type
 	/// </summary>
 	[Serializable]
-	public enum ChangeType
+	public enum ChangeEntryType
+	{
+		/// <summary>
+		/// iFolder
+		/// </summary>
+		iFolder,
+
+		/// <summary>
+		/// File
+		/// </summary>
+		File,
+
+		/// <summary>
+		/// Directory
+		/// </summary>
+		Directory,
+
+		/// <summary>
+		/// Member
+		/// </summary>
+		Member,
+
+		/// <summary>
+		/// Unknown
+		/// </summary>
+		Unknown
+	}
+
+	/// <summary>
+	/// Change Action
+	/// </summary>
+	[Serializable]
+	public enum ChangeEntryAction
 	{
 		/// <summary>
 		/// Add
@@ -104,19 +136,24 @@ namespace iFolder.WebService
 		public DateTime Time;
 		
 		/// <summary>
-		/// Change Type
+		/// Change Object Type
 		/// </summary>
-		public ChangeType Type;
+		public ChangeEntryType Type;
 
 		/// <summary>
-		/// Change Entry ID
+		/// Change Action
 		/// </summary>
-		public string EntryID;
+		public ChangeEntryAction Action;
 
 		/// <summary>
-		/// Change Entry Name
+		/// Change Object ID
 		/// </summary>
-		public string EntryName;
+		public string ID;
+
+		/// <summary>
+		/// Change Object Name
+		/// </summary>
+		public string Name;
 
 		/// <summary>
 		/// Changed by User ID
@@ -127,11 +164,6 @@ namespace iFolder.WebService
 		/// Changed by User Full Name
 		/// </summary>
 		public string UserFullName;
-
-		/// <summary>
-		/// Is the Entry a Directory?
-		/// </summary>
-		public bool IsDirectory = false;
 
 		/// <summary>
 		/// Constructor
@@ -146,29 +178,58 @@ namespace iFolder.WebService
 		public ChangeEntry(JournalEntry entry)
 		{
 			this.Time = entry.TimeStamp;
-			this.EntryID = entry.FileID;
-			this.EntryName = entry.FileName;
+			this.ID = entry.FileID;
+			this.Name = entry.FileName;
 			this.UserID = entry.UserID;
 			this.UserFullName = entry.UserName;
-			this.IsDirectory = entry.IsFolder;
 
-			// parse the journal entry type
-			switch(entry.Type)
+			// parse the journal entry type to object type
+			switch(entry.EntryType)
 			{
-				case "modify":
-					this.Type = ChangeType.Modify;
+				case EntryTypes.File:
+					this.Type = ChangeEntryType.File;
 					break;
 
-				case "add":
-					this.Type = ChangeType.Add;
+				case EntryTypes.Folder:
+					// check for iFolder
+					if (this.Name.IndexOf('/') == -1)
+					{
+						this.Type = ChangeEntryType.iFolder;
+					}
+					else
+					{
+						this.Type = ChangeEntryType.Directory;
+					}
 					break;
 
-				case "delete":
-					this.Type = ChangeType.Delete;
+				case EntryTypes.Member:
+					this.Type = ChangeEntryType.Member;
 					break;
 
+				case EntryTypes.Unknown:
 				default:
-					this.Type = ChangeType.Unknown;
+					this.Type = ChangeEntryType.Unknown;
+					break;
+			}
+
+			// parse the journal change type to change action
+			switch(entry.ChangeType)
+			{
+				case ChangeTypes.Modify:
+					this.Action = ChangeEntryAction.Modify;
+					break;
+
+				case ChangeTypes.Add:
+					this.Action = ChangeEntryAction.Add;
+					break;
+
+				case ChangeTypes.Delete:
+					this.Action = ChangeEntryAction.Delete;
+					break;
+
+				case ChangeTypes.Unknown:
+				default:
+					this.Action = ChangeEntryAction.Unknown;
 					break;
 			}
 		}

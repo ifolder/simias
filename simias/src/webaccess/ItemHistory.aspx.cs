@@ -38,9 +38,9 @@ using System.Net;
 namespace Novell.iFolderApp.Web
 {
 	/// <summary>
-	/// File History Page
+	/// Item History Page
 	/// </summary>
-	public class FileHistoryPage : Page
+	public class ItemHistoryPage : Page
 	{
 		/// <summary>
 		/// History Data
@@ -63,9 +63,14 @@ namespace Novell.iFolderApp.Web
 		protected Button CloseButton;
 
 		/// <summary>
-		/// The iFolder Name
+		/// The Item Name
 		/// </summary>
-		protected Literal EntryName;
+		protected Literal ItemName;
+
+		/// <summary>
+		/// The Item Image
+		/// </summary>
+		protected System.Web.UI.WebControls.Image ItemImage;
 
 		/// <summary>
 		/// iFolder Connection
@@ -83,9 +88,14 @@ namespace Novell.iFolderApp.Web
 		private string ifolderID;
 
 		/// <summary>
-		/// Entry ID
+		/// Item ID
 		/// </summary>
-		private string entryID;
+		private string itemID;
+
+		/// <summary>
+		/// Item Type
+		/// </summary>
+		private string type;
 
 		/// <summary>
 		/// Page Load
@@ -96,7 +106,8 @@ namespace Novell.iFolderApp.Web
 		{
 			// query
 			ifolderID = Request.QueryString.Get("iFolder");
-			entryID = Request.QueryString.Get("Entry");
+			itemID = Request.QueryString.Get("Item");
+			type = Request.QueryString.Get("Type");
 
 			// connection
 			web = (iFolderWeb)Session["Connection"];
@@ -108,6 +119,9 @@ namespace Novell.iFolderApp.Web
 			{
 				// data
 				BindData();
+
+				// image
+				ItemImage.ImageUrl = String.Format("images/change-{0}.png", type.ToLower());
 
 				// strings
 				CloseButton.Text = GetString("CLOSE");
@@ -126,9 +140,23 @@ namespace Novell.iFolderApp.Web
 		{
 			try
 			{
-				// entry
-				iFolderEntry entry = web.GetEntry(ifolderID, entryID);
-				EntryName.Text = entry.Path;
+				ChangeEntryType changeEntryType = (ChangeEntryType) Enum.Parse(typeof(ChangeEntryType), type);
+
+				switch(changeEntryType)
+				{
+					case ChangeEntryType.File:
+					case ChangeEntryType.Directory:
+                        // entry
+						iFolderEntry entry = web.GetEntry(ifolderID, itemID);
+						ItemName.Text = entry.Path;
+						break;
+
+					case ChangeEntryType.Member:
+						iFolderUser member = web.GetUser(itemID);
+						ItemName.Text = member.FullName;
+						break;
+				}
+
 			}
 			catch(SoapException ex)
 			{
@@ -153,7 +181,7 @@ namespace Novell.iFolderApp.Web
 			try
 			{
 				// history
-				ChangeEntrySet changes = web.GetChanges(ifolderID, entryID, HistoryPagging.Index, HistoryPagging.PageSize);
+				ChangeEntrySet changes = web.GetChanges(ifolderID, itemID, HistoryPagging.Index, HistoryPagging.PageSize);
 				HistoryPagging.Count = changes.Items.Length;
 				HistoryPagging.Total = changes.Total;
 				
@@ -162,9 +190,9 @@ namespace Novell.iFolderApp.Web
 					DataRow row = historyTable.NewRow();
 
 					row["Time"] = WebUtility.FormatDateTime(change.Time, rm);
-					row["Type"] = WebUtility.FormatChangeType(change.Type, rm);
+					row["Type"] = WebUtility.FormatChangeAction(change.Action, rm);
 					row["UserFullName"] = change.UserFullName;
-					row["Image"] = change.Type.ToString().ToLower();
+					row["Image"] = change.Action.ToString().ToLower();
 
 					historyTable.Rows.Add(row);
 				}

@@ -9,7 +9,7 @@ iFolderWeb_CSFILES = \
 	$(srcdir)/Search.aspx.cs \
 	$(srcdir)/NewFolder.aspx.cs \
 	$(srcdir)/Upload.aspx.cs \
-	$(srcdir)/FileHistory.aspx.cs \
+	$(srcdir)/ItemHistory.aspx.cs \
 	$(srcdir)/Error.aspx.cs \
 	$(srcdir)/Quota.ascx.cs \
 	$(srcdir)/Global.asax.cs \
@@ -68,7 +68,7 @@ iFolderWeb_FORMS = \
 	Search.aspx \
 	NewFolder.aspx \
 	Upload.aspx \
-	FileHistory.aspx \
+	ItemHistory.aspx \
 	Error.aspx \
 	Details.aspx \
 	History.aspx \

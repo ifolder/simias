@@ -319,28 +319,28 @@ namespace Novell.iFolderApp.Web
 		/// <summary>
 		/// Format Change Type
 		/// </summary>
-		/// <param name="type"></param>
+		/// <param name="action"></param>
 		/// <param name="rm"></param>
 		/// <returns></returns>
-		public static string FormatChangeType(ChangeType type, ResourceManager rm)
+		public static string FormatChangeAction(ChangeEntryAction action, ResourceManager rm)
 		{
 			string result;
 
-			switch(type)
+			switch(action)
 			{
-				case ChangeType.Modify:
+				case ChangeEntryAction.Modify:
 					result = WebUtility.GetString("CHANGE.MODIFY", rm);
 					break;
 
-				case ChangeType.Add:
+				case ChangeEntryAction.Add:
 					result = WebUtility.GetString("CHANGE.ADD", rm);
 					break;
 
-				case ChangeType.Delete:
+				case ChangeEntryAction.Delete:
 					result = WebUtility.GetString("CHANGE.DELETE", rm);
 					break;
 
-				case ChangeType.Unknown:
+				case ChangeEntryAction.Unknown:
 				default:
 					result = WebUtility.GetString("CHANGE.UNKNOWN", rm);
 					break;

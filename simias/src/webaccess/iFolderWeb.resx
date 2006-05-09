@@ -459,9 +459,6 @@
     <data name="CLOSE">
         <value>Close</value>
     </data>
-    <data name="FILEHISTORY">
-        <value>File History</value>
-    </data>
     <data name="EDIT">
         <value>Edit</value>
     </data>
@@ -527,5 +524,8 @@
     </data>
     <data name="LASTFIRSTNAMESEP">
         <value>,&amp;nbsp;</value>
+    </data>
+    <data name="ACTIONS">
+        <value>Actions</value>
     </data>
 </root>

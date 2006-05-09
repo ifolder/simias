@@ -169,6 +169,12 @@
 						
 						<asp:BoundColumn DataField="Rights" ItemStyle-CssClass="rights" />
 						
+						<asp:TemplateColumn ItemStyle-CssClass="history" Visible="False">
+							<itemtemplate>
+								<asp:HyperLink NavigateUrl='<%# "ItemHistory.aspx?iFolder=" + DataBinder.Eval(Container.DataItem, "iFolderID") + "&Item=" + DataBinder.Eval(Container.DataItem, "ID") + "&Type=Member" %>' runat="server"><asp:Image ImageUrl="images/document-properties.png" runat="server" /></asp:HyperLink>
+							</itemtemplate>
+						</asp:TemplateColumn>
+
 					</columns>
 				</asp:DataGrid>
 					

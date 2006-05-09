@@ -1,4 +1,4 @@
-<%@ Page Language="C#" Codebehind="FileHistory.aspx.cs" AutoEventWireup="false" Inherits="Novell.iFolderApp.Web.FileHistoryPage" %>
+<%@ Page Language="C#" Codebehind="ItemHistory.aspx.cs" AutoEventWireup="false" Inherits="Novell.iFolderApp.Web.ItemHistoryPage" %>
 <%@ Register TagPrefix="iFolder" TagName="HeaderControl" Src="Header.ascx" %>
 <%@ Register TagPrefix="iFolder" TagName="MessageControl" Src="Message.ascx" %>
 <%@ Register TagPrefix="iFolder" TagName="PaggingControl" Src="Pagging.ascx" %>
@@ -34,14 +34,14 @@
 			<iFolder:MessageControl id="Message" runat="server" />
 	
 			<div class="section">
-				<%= GetString("FILEHISTORY") %>
+				<%= GetString("HISTORY") %>
 			</div>
 			
 			<div class="main">
 				
 				<div class="path">
-					<asp:Image ImageUrl="images/text-x-generic.png" runat="server" />
-					<asp:Literal ID="EntryName" runat="server" />
+					<asp:Image ID="ItemImage" runat="server" />
+					<asp:Literal ID="ItemName" runat="server" />
 				</div>
 
 				<asp:DataGrid

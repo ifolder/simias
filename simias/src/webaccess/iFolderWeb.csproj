@@ -183,19 +183,19 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "FileHistory.aspx"
+                    RelPath = "ItemHistory.aspx"
                     SubType = "Form"
                     BuildAction = "Content"
                 />
                 <File
-                    RelPath = "FileHistory.aspx.cs"
-                    DependentUpon = "FileHistory.aspx"
+                    RelPath = "ItemHistory.aspx.cs"
+                    DependentUpon = "ItemHistory.aspx"
                     SubType = "ASPXCodeBehind"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "FileHistory.aspx.resx"
-                    DependentUpon = "FileHistory.aspx.cs"
+                    RelPath = "ItemHistory.aspx.resx"
+                    DependentUpon = "ItemHistory.aspx.cs"
                     BuildAction = "EmbeddedResource"
                 />
                 <File

@@ -56,11 +56,6 @@ namespace Novell.iFolderApp.Web
 		protected HyperLink NewiFolderLink;
 
 		/// <summary>
-		/// The Remove Button
-		/// </summary>
-		protected LinkButton RemoveButton;
-
-		/// <summary>
 		/// iFolder Data
 		/// </summary>
 		protected DataGrid iFolderData;
@@ -104,7 +99,6 @@ namespace Novell.iFolderApp.Web
 				iFolderPagging.LabelSingular = GetString("IFOLDER");
 				iFolderPagging.LabelPlural = GetString("IFOLDERS");
 				NewiFolderLink.Text = GetString("NEWIFOLDER");
-				RemoveButton.Text = GetString("REMOVEMEMBERSHIP");
 
 				// data
 				BindData();
@@ -125,7 +119,7 @@ namespace Novell.iFolderApp.Web
 			ifolderTable.Columns.Add("Description");
 			ifolderTable.Columns.Add("Rights");
 			ifolderTable.Columns.Add("Size");
-			ifolderTable.Columns.Add("Owner", typeof(bool));
+			ifolderTable.Columns.Add("OwnerFullName");
 
 			// category
 			iFolderCategory category = HomeContext.Category;
@@ -184,7 +178,7 @@ namespace Novell.iFolderApp.Web
 					row["Description"] = ifolder.Description;
 					row["Rights"] = WebUtility.FormatRights(ifolder.Rights, rm);
 					row["Size"] = WebUtility.FormatSize(ifolder.Size, rm);
-					row["Owner"] = ifolder.IsOwner;
+					row["OwnerFullName"] = ifolder.OwnerFullName;
 
 					ifolderTable.Rows.Add(row);
 				}
@@ -234,8 +228,6 @@ namespace Novell.iFolderApp.Web
 			this.ID = "iFolderView";
 			this.Load += new System.EventHandler(this.Page_Load);
 			this.iFolderPagging.PageChange += new EventHandler(iFolderPagging_PageChange);
-			this.RemoveButton.PreRender += new EventHandler(RemoveButton_PreRender);
-			this.RemoveButton.Click += new EventHandler(RemoveButton_Click);
 			this.HomeContext.Search += new EventHandler(HomeContext_Search);
 		}
 
@@ -279,62 +271,6 @@ namespace Novell.iFolderApp.Web
 		private void iFolderPagging_PageChange(object sender, EventArgs e)
 		{
 			BindData();
-		}
-
-		/// <summary>
-		/// Remove Button Pre-Render
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void RemoveButton_PreRender(object sender, EventArgs e)
-		{
-			RemoveButton.Attributes["onclick"] = "return ConfirmRemove(this.form);";
-		}
-
-		/// <summary>
-		/// Remove Button Click
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void RemoveButton_Click(object sender, EventArgs e)
-		{
-			string ifolderList = null;
-
-			// selected iFolders
-			foreach(DataGridItem item in iFolderData.Items)
-			{
-				CheckBox checkBox = (CheckBox) item.FindControl("Select");
-
-				if (checkBox.Checked)
-				{
-					string id = item.Cells[0].Text;
-
-					if (ifolderList == null)
-					{
-						ifolderList = id;
-					}
-					else
-					{
-						ifolderList = String.Format("{0},{1}", ifolderList, id);
-					}
-				}
-			}
-
-			// remove from iFolders
-			if (ifolderList != null)
-			{
-				try
-				{
-					web.RemoveMembership(ifolderList);
-				}
-				catch(SoapException ex)
-				{
-					if (!HandleException(ex)) throw;
-				}
-
-				iFolderPagging.Index = 0;
-				BindData();
-			}
 		}
 
 		/// <summary>

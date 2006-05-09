@@ -157,7 +157,7 @@
 						
 						<asp:TemplateColumn ItemStyle-CssClass="history">
 							<itemtemplate>
-								<asp:HyperLink NavigateUrl='<%# "FileHistory.aspx?iFolder=" + DataBinder.Eval(Container.DataItem, "iFolderID") + "&Entry=" + DataBinder.Eval(Container.DataItem, "ID") %>' Visible='<%# !(bool)DataBinder.Eval(Container.DataItem, "IsDirectory") %>' runat="server"><asp:Image ImageUrl="images/document-properties.png" runat="server" /></asp:HyperLink>
+								<asp:HyperLink NavigateUrl='<%# "ItemHistory.aspx?iFolder=" + DataBinder.Eval(Container.DataItem, "iFolderID") + "&Item=" + DataBinder.Eval(Container.DataItem, "ID") + "&Type=File" %>' Visible='<%# !(bool)DataBinder.Eval(Container.DataItem, "IsDirectory") %>' runat="server"><asp:Image ImageUrl="images/document-properties.png" runat="server" /></asp:HyperLink>
 							</itemtemplate>
 						</asp:TemplateColumn>
 						

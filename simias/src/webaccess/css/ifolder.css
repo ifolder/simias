@@ -164,13 +164,13 @@ a:hover
 	border-collapse: collapse;
 }
 
-#nav .quota
+#nav .group
 {
-	padding: 16px 8px 8px 8px;
+	padding: 16px 8px 0 8px;
 	font-size: 0.7em;
 }
 
-#nav .quota .box
+#nav .group .box
 {
 	border: 1px solid #999999;
 	-moz-border-radius: 8px;
@@ -178,7 +178,7 @@ a:hover
 	padding: 0;
 }
 
-#nav .quota .box .title
+#nav .group .box .title
 {
 	-moz-border-radius: 7px 7px 0 0;
 	color: #333333;
@@ -188,12 +188,27 @@ a:hover
 	margin-bottom: 2px;
 }
 
-#nav .quota .box .data
+#nav #actions .box .title
+{
+	background-color: #C5E3C5;
+}
+
+#nav #quota .box .title
+{
+	background-color: #E3C5C5;
+}
+
+#nav .group .box .data
 {
 	padding: 0 4px 4px 4px;
 }
 
-#nav .quota .box .label
+#nav .group .box .link
+{
+	padding: 0 4px 4px 4px;
+}
+
+#nav .group .box .label
 {
 	padding: 0 4px 0 4px;
 	color: #999999;
@@ -397,6 +412,11 @@ table.list td.size
 }
 
 table.list td.rights
+{
+	width: 8em;
+}
+
+table.list td.owner
 {
 	width: 8em;
 }

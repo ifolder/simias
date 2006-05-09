@@ -20,11 +20,6 @@
 
 	<script type="text/javascript">
 	
-		function ConfirmRemove(f)
-		{
-			return confirm("<%= GetString("IFOLDER.CONFIRMREMOVES") %>");
-		}
-	
 		function SelectionUpdate(cb)
 		{
 			// MONO work-around
@@ -74,6 +69,18 @@
 		
 		<div id="nav">
 	
+			<div id="actions" class="group">
+				<div class="box">
+				
+					<div class="title"><%= GetString("ACTIONS") %></div>
+			
+					<div class="link">
+						<asp:HyperLink ID="NewiFolderLink" NavigateUrl="iFolderNew.aspx" runat="server" />
+					</div>
+					
+				</div>
+			</div>
+			
 			<iFolder:QuotaControl runat="server" />
 
 		</div>
@@ -84,17 +91,6 @@
 	
 			<div class="main">
 					
-				<div class="actions">
-					<div class="action">
-						<asp:HyperLink ID="NewiFolderLink" NavigateUrl="iFolderNew.aspx" runat="server" />
-					</div>
-					<div class="sep">|</div>
-					<div class="action">
-						<span id="RemoveDisabled"><%= GetString("REMOVEMEMBERSHIP") %></span>
-						<asp:LinkButton ID="RemoveButton" style="display:none;" runat="server" />
-					</div>
-				</div>
-				
 				<asp:DataGrid
 					ID="iFolderData"
 					GridLines="none"
@@ -107,12 +103,6 @@
 					
 					<columns>
 						<asp:BoundColumn DataField="ID" Visible="False" />
-						
-						<asp:TemplateColumn ItemStyle-CssClass="cb">
-							<itemtemplate>
-								<asp:CheckBox ID="Select" Enabled='<%# !(bool) DataBinder.Eval(Container.DataItem, "Owner") %>' onclick="SelectionUpdate(this)" runat="server" />
-							</itemtemplate>
-						</asp:TemplateColumn>
 						
 						<asp:TemplateColumn ItemStyle-CssClass="icon">
 							<itemtemplate>
@@ -133,6 +123,12 @@
 						<asp:TemplateColumn ItemStyle-CssClass="date">
 							<itemtemplate>
 								<%# DataBinder.Eval(Container.DataItem, "LastModified") %>
+							</itemtemplate>
+						</asp:TemplateColumn>
+						
+						<asp:TemplateColumn ItemStyle-CssClass="owner">
+							<itemtemplate>
+								<%# DataBinder.Eval(Container.DataItem, "OwnerFullName") %>
 							</itemtemplate>
 						</asp:TemplateColumn>
 						
