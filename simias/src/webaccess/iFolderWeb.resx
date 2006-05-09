@@ -528,4 +528,10 @@
     <data name="ACTIONS">
         <value>Actions</value>
     </data>
+    <data name="IFOLDERQUOTA">
+        <value>iFolder Quota</value>
+    </data>
+    <data name="HOMEQUOTA">
+        <value>My Quota</value>
+    </data>
 </root>

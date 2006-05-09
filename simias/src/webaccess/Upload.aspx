@@ -1,6 +1,7 @@
 <%@ Page Language="C#" Codebehind="Upload.aspx.cs" AutoEventWireup="false" Inherits="Novell.iFolderApp.Web.UploadPage" %>
 <%@ Register TagPrefix="iFolder" TagName="HeaderControl" Src="Header.ascx" %>
 <%@ Register TagPrefix="iFolder" TagName="MessageControl" Src="Message.ascx" %>
+<%@ Register TagPrefix="iFolder" TagName="QuotaControl" Src="Quota.ascx" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 
@@ -51,6 +52,9 @@
 		<iFolder:HeaderControl runat="server" />
 		
 		<div id="nav">
+
+			<iFolder:QuotaControl runat="server" />
+
 		</div>
 	
 		<div id="content">

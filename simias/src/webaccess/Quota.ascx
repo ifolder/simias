@@ -6,7 +6,7 @@
 	
 	<div class="box">
 	
-		<div class="title"><%= GetString("QUOTA") %></div>
+		<div class="title"><asp:Literal ID="Title" runat="server" /></div>
 
 		<div class="label"><%= GetString("USED") %>:</div>
 		<div class="data"><asp:Literal ID="SpaceUsed" runat="server" /></div>

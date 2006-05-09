@@ -46,6 +46,11 @@ namespace Novell.iFolderApp.Web
 			System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.Name);
 
 		/// <summary>
+		/// Title
+		/// </summary>
+		protected Literal Title;
+
+		/// <summary>
 		/// Space Used
 		/// </summary>
 		protected Literal SpaceUsed;
@@ -56,15 +61,20 @@ namespace Novell.iFolderApp.Web
 		protected Literal SpaceAvailable;
 
 		/// <summary>
-		/// iFolder Connection
-		/// </summary>
-		private iFolderWeb web;
-
-		/// <summary>
 		/// Resource Manager
 		/// </summary>
 		private ResourceManager rm;
+
+		/// <summary>
+		/// iFolder Connection
+		/// </summary>
+		private iFolderWeb web;
 	
+		/// <summary>
+		/// iFolder ID
+		/// </summary>
+		private string ifolderID;
+
 		/// <summary>
 		/// Page Load
 		/// </summary>
@@ -72,6 +82,9 @@ namespace Novell.iFolderApp.Web
 		/// <param name="e"></param>
 		private void Page_Load(object sender, System.EventArgs e)
 		{
+			// query
+			ifolderID = Request.QueryString.Get("iFolder");
+
 			// localization
 			rm = (ResourceManager) Application["RM"];
 
@@ -88,11 +101,33 @@ namespace Novell.iFolderApp.Web
 		/// </summary>
 		private void BindData()
 		{
-			UserPolicy policy = web.GetAuthenticatedUserPolicy();
-	
-			SpaceUsed.Text = WebUtility.FormatSize(policy.SpaceUsed, rm);
+			long used;
+			long limit;
+
+			if ((ifolderID != null) && (ifolderID.Length != 0))
+			{
+				// ifolder
+				iFolderPolicy policy = web.GetiFolderPolicy(ifolderID);
+				used = policy.SpaceUsed;
+				limit = policy.SpaceLimitEffective;
+
+				Title.Text = GetString("IFOLDERQUOTA");
+			}
+			else
+			{
+				// global
+				UserPolicy policy = web.GetAuthenticatedUserPolicy();
+				used = policy.SpaceUsed;
+				limit = policy.SpaceLimitEffective;
+
+				Title.Text = GetString("HOMEQUOTA");
+			}
+
+			// used
+			SpaceUsed.Text = WebUtility.FormatSize(used, rm);
 			
-			if (policy.SpaceLimitEffective == 0)
+			// limit
+			if (limit == 0)
 			{
 				// no limit
 				SpaceAvailable.Text = GetString("NOLIMIT");
@@ -100,7 +135,7 @@ namespace Novell.iFolderApp.Web
 			else
 			{
 				// limit
-				SpaceAvailable.Text = WebUtility.FormatSize(policy.SpaceAvailable, rm);
+				SpaceAvailable.Text = WebUtility.FormatSize(limit, rm);
 			}
 		}
 		
