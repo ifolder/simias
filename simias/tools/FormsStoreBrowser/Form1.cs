@@ -791,28 +791,6 @@ namespace StoreBrowser
 			}
 		}
 
-		private Uri GetLocalUri()
-		{
-			Uri uri = null;
-
-			// Start simias so we can get a local URI if there is one.
-			try
-			{
-				Manager manager = new Manager( Environment.GetCommandLineArgs() );
-				if ( ( manager.DataPath != null ) || ( Directory.Exists( storePath ) ) )
-				{
-					manager.Start();
-					uri = manager.WebServiceUri;
-					storePath = manager.DataPath;
-					manager.Stop();
-				}
-			}
-			catch ( ApplicationException )
-			{}
-
-			return uri;
-		}
-
 		private void Form1_Load(object sender, System.EventArgs e)
 		{
 			this.listView1.Hide();
@@ -821,43 +799,6 @@ namespace StoreBrowser
 			this.AcceptButton = this.searchEditor1.SearchButton;
 
 			LoadRecentStores();
-
-			Uri uri = GetLocalUri();
-			if ( uri != null )
-			{
-				hostName = uri.AbsoluteUri;
-				if ( GetBrowserWithCredentials( true ) )
-				{
-					this.Text = "Store Browser : " + hostName;
-					browser.Show();
-					AddRecentMI( new RecentStore( hostName ) );
-				}
-			}
-			else
-			{
-				hostName = "https://ifoldertest218.provo.novell.com/simias10";
-				HostDialog hDiag = new HostDialog(hostName, false);
-				while ( true )
-				{
-					if (hDiag.ShowDialog() == DialogResult.OK)
-					{
-						hostName = hDiag.HostName;
-						if ( GetBrowserWithCredentials( false ) )
-						{
-							this.Text = "Store Browser : " + hostName;
-							browser.Show();
-							AddRecentMI( new RecentStore( hostName, username, password ) );
-							break;
-						}
-					}
-					else
-					{
-						SaveRecentStores();
-						Application.Exit();
-						break;
-					}
-				}
-			}
 		}
 
 		private bool GetBrowserWithCredentials( bool local )
