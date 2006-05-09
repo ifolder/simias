@@ -270,7 +270,8 @@ ul#navcontainer a:hover
 	padding: 2px 2px 0 2px;
 }
 
-body#users li.users a, body#ifolders li.ifolders a, body#server li.server a, body#system li.system a
+body#users li.users a, body#ifolders li.ifolders a, body#server li.server a, body#system li.system a,
+body#reports li.reports a
 {
 	color: Black;
 	background-color: #99CCFF;

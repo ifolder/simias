@@ -66,7 +66,12 @@ namespace Novell.iFolderWeb.Admin
 			/// <summary>
 			/// Servers tab
 			/// </summary>
-			Servers
+			Servers,
+
+			/// <summary>
+			/// Reports tab
+			/// </summary>
+			Reports
 		}
 
 		/// <summary>
@@ -94,6 +99,11 @@ namespace Novell.iFolderWeb.Admin
 		/// Anchor controls.
 		/// </summary>
 		protected HtmlAnchor SystemLink;
+
+		/// <summary>
+		/// Anchor controls.
+		/// </summary>
+		protected HtmlAnchor ReportsLink;
 
 
 		/// <summary>
@@ -181,6 +191,7 @@ namespace Novell.iFolderWeb.Admin
 					iFolderLink.HRef = "iFolders.aspx";
 					ServerLink.HRef = "Servers.aspx";
 					SystemLink.HRef = "SystemInfo.aspx";
+					ReportsLink.HRef = "Reports.aspx";
 				}
 				else
 				{
@@ -191,6 +202,7 @@ namespace Novell.iFolderWeb.Admin
 						iFolderLink.HRef = null;
 						ServerLink.HRef = "Servers.aspx";
 						SystemLink.HRef = "SystemInfo.aspx";
+						ReportsLink.HRef = "Reports.aspx";
 					}
 					else
 					{
@@ -201,13 +213,27 @@ namespace Novell.iFolderWeb.Admin
 							iFolderLink.HRef = "iFolders.aspx";
 							ServerLink.HRef = "Servers.aspx";
 							SystemLink.HRef = null;
+							ReportsLink.HRef = "Reports.aspx";
 						}
 						else
 						{
-							UserLink.HRef = "Users.aspx";
-							iFolderLink.HRef = "iFolders.aspx";
-							ServerLink.HRef = null;
-							SystemLink.HRef = "SystemInfo.aspx";
+							body = Page.FindControl( "server" );
+							if ( body != null )
+							{
+								UserLink.HRef = "Users.aspx";
+								iFolderLink.HRef = "iFolders.aspx";
+								ServerLink.HRef = null;
+								SystemLink.HRef = "SystemInfo.aspx";
+								ReportsLink.HRef = "Reports.aspx";
+							}
+							else
+							{
+								UserLink.HRef = "Users.aspx";
+								iFolderLink.HRef = "iFolders.aspx";
+								ServerLink.HRef = "Servers.aspx";
+								SystemLink.HRef = "SystemInfo.aspx";
+								ReportsLink.HRef = null;
+							}
 						}
 					}
 				}
@@ -365,9 +391,10 @@ namespace Novell.iFolderWeb.Admin
 					if ( body != null )
 					{
 						UserLink.HRef = "Users.aspx";
-						iFolderLink.HRef = String.Empty;
+						iFolderLink.HRef = null;
 						ServerLink.HRef = "Servers.aspx";
 						SystemLink.HRef = "SystemInfo.aspx";
+						ReportsLink.HRef = "Reports.aspx";
 					}
 					break;
 
@@ -377,8 +404,9 @@ namespace Novell.iFolderWeb.Admin
 					{
 						UserLink.HRef = "Users.aspx";
 						iFolderLink.HRef = "iFolders.aspx";
-						ServerLink.HRef = String.Empty;
+						ServerLink.HRef = null;
 						SystemLink.HRef = "SystemInfo.aspx";
+						ReportsLink.HRef = "Reports.aspx";
 					}
 					break;
 
@@ -389,7 +417,8 @@ namespace Novell.iFolderWeb.Admin
 						UserLink.HRef = "Users.aspx";
 						iFolderLink.HRef = "iFolders.aspx";
 						ServerLink.HRef = "Servers.aspx";
-						SystemLink.HRef = String.Empty;
+						SystemLink.HRef = null;
+						ReportsLink.HRef = "Reports.aspx";
 					}
 					break;
 
@@ -397,10 +426,23 @@ namespace Novell.iFolderWeb.Admin
 					body = Page.FindControl( "users" );
 					if ( body != null )
 					{
-						UserLink.HRef = String.Empty;
+						UserLink.HRef = null;
 						iFolderLink.HRef = "iFolders.aspx";
 						ServerLink.HRef = "Servers.aspx";
 						SystemLink.HRef = "SystemInfo.aspx";
+						ReportsLink.HRef = "Reports.aspx";
+					}
+					break;
+
+				case PageTabs.Reports:
+					body = Page.FindControl( "reports" );
+					if ( body != null )
+					{
+						UserLink.HRef = "Users.aspx";
+						iFolderLink.HRef = "iFolders.aspx";
+						ServerLink.HRef = "Servers.aspx";
+						SystemLink.HRef = "SystemInfo.aspx";
+						ReportsLink.HRef = null;
 					}
 					break;
 			}

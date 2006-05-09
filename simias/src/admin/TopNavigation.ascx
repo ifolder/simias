@@ -22,6 +22,10 @@
 			<a id="ServerLink" runat="server"><%= GetString( "SERVERS" ) %></a>
 		</li>
 		
+		<li class="reports">
+			<a id="ReportsLink" runat="server"><%= GetString( "REPORTS" ) %></a>
+		</li>
+		
 	</ul>
 	
 </div>

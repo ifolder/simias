@@ -475,6 +475,22 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "Reports.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Reports.aspx.cs"
+                    DependentUpon = "Reports.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Reports.aspx.resx"
+                    DependentUpon = "Reports.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "Servers.aspx"
                     SubType = "Form"
                     BuildAction = "Content"
@@ -613,6 +629,10 @@
                 />
                 <File
                     RelPath = "css\OwnerSelect.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "css\Reports.css"
                     BuildAction = "Content"
                 />
                 <File

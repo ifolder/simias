@@ -537,6 +537,9 @@
 	<data name="REMOVEMEMBERS">
 		<value>Remove Users</value>
 	</data>
+	<data name="REPORTS">
+		<value>Reports</value>
+	</data>
 	<data name="RETYPEPASSWORDTAG">
 		<value>Retype Password:</value>
 	</data>
