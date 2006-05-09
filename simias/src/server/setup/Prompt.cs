@@ -23,6 +23,7 @@
 
 using System;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace Novell.iFolder.Utility
 {
@@ -31,6 +32,12 @@ namespace Novell.iFolder.Utility
 	/// </summary>
 	public class Prompt
 	{
+		static bool canPrompt = false;
+		public static bool CanPrompt
+		{
+			get { return canPrompt; }
+			set { canPrompt = value; }
+		}
 		/// <summary>
 		/// Constructor
 		/// </summary>
@@ -44,7 +51,7 @@ namespace Novell.iFolder.Utility
 		/// <param name="prompt">The Prompt String</param>
 		/// <param name="defaultValue">The Default Value</param>
 		/// <returns>A String Object</returns>
-		public static string ForString(string prompt, string defaultValue)
+		private static string ForString(string prompt, string defaultValue)
 		{
 			Console.Write("{0}? [{1}]: ", prompt, defaultValue);
 			string response = Console.ReadLine();
@@ -58,12 +65,40 @@ namespace Novell.iFolder.Utility
 		}
 
 		/// <summary>
+		/// Prompt for and get the value for the option.
+		/// </summary>
+		/// <param name="option">The option to prompt for.</param>
+		public static void ForOption(Option option)
+		{
+			if (!option.Assigned && option.Prompt && CanPrompt)
+			{
+				if (option.Description != null)
+				{
+					Console.WriteLine();
+					Console.WriteLine("----- {0} -----", option.Title.ToUpper());
+					// Format the description.
+					Regex lineSplitter = new Regex(@".{0,50}[^\s]*");
+					MatchCollection matches = lineSplitter.Matches(option.Description);
+					foreach (Match line in matches)
+					{	
+						Console.WriteLine(line.Value.Trim());
+					}
+					Console.WriteLine();
+				}
+				if (option.GetType() == typeof(BoolOption))
+					option.Value = ForYesNo(option.Title, Boolean.Parse(option.DefaultValue)).ToString();
+				else
+					option.Value = ForString(option.Title, option.DefaultValue);
+			}
+		}
+
+		/// <summary>
 		/// Prompt for a Yes/No Value
 		/// </summary>
 		/// <param name="prompt">The Prompt String</param>
 		/// <param name="defaultValue">The Default Value</param>
 		/// <returns>A bool Object</returns>
-		public static bool ForYesNo(string prompt, bool defaultValue)
+		private static bool ForYesNo(string prompt, bool defaultValue)
 		{
 			bool result = defaultValue;
 

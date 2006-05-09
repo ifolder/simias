@@ -28,9 +28,12 @@ using System.Xml;
 using System.Diagnostics;
 using System.Threading;
 using System.Text;
+using System.Text.RegularExpressions;
+using System.Security.Cryptography;
 
 using Simias;
 using Simias.Client;
+using Simias.Storage;
 using Novell.iFolder;
 //using Novell.iFolder.Ldap;
 using Novell.iFolder.Utility;
@@ -59,6 +62,12 @@ namespace Novell.iFolder
 		private static readonly string ModulesDir = "modules";
 		private static readonly string ServerInstallPath = Path.Combine(SimiasSetup.prefix, "server");
 
+		private static string ServerSection = "Server";
+		private static string ServerNameKey = "Name";
+		private static string MasterAddressKey = "MasterAddress";
+		private static string PublicAddressKey = "PublicAddress";
+		private static string PrivateAddressKey = "PrivateAddress";
+
 		#endregion
 
 		#region Member Fields
@@ -67,11 +76,6 @@ namespace Novell.iFolder
 		/// Command Arguments
 		/// </summary>
 		string[] args;
-
-		/// <summary>
-		/// Configure Apache
-		/// </summary>
-		bool apache = true;
 
 		/// <summary>
 		/// Apache User
@@ -84,73 +88,137 @@ namespace Novell.iFolder
 		string apacheGroup = "www";
 
 		/// <summary>
-		/// Path to the simias store data directory.
+		/// The uri to the ldap server.
 		/// </summary>
+		Uri ldapUrl;
 		string storePath;
+		
+		/// <summary>
+		/// The path to the config file.
+		/// </summary>
+		string configFilePath;
 
+		string domainId;
+		System.Net.NetworkCredential credentials;
+		
 		#endregion
 
 		#region Options
 
 		/// <summary>
-		/// Simias System Name
+		/// The store path.
 		/// </summary>
-		public Option help = new Option("help,?", "Usage Help", false, null);
+		public Option path = new Option("path,p", "Store Path", "Path to the Simias Store", true, null);
+
+		/// <summary>
+		/// The port to listen on.
+		/// </summary>
+		public NoPromptOption port = new NoPromptOption("listen-port", "Listen Port", "The port to listen on", false, null);
+
+		/// <summary>
+		/// The name of this server.
+		/// </summary>
+		public Option serverName = new Option("server-name", "Server Name", "The name of this server", true, System.Net.Dns.GetHostName());
+		
+		/// <summary>
+		/// The public address or name for this server.
+		/// </summary>
+		public Option publicUrl = new Option("public-url", "Public URL", "Public URL of this Simias Server", true, null);
+		
+		/// <summary>
+		/// The Private address or name for this server.
+		/// </summary>
+		public Option privateUrl = new Option("private-url", "Private URL", "Private URL of this Simias Server", true, null);
+
+		/// <summary>
+		/// Use SSL;
+		/// </summary>
+		public Option useSsl = new BoolOption("use-ssl", "SSL", "Require SSL to communicate with this server", false, true);
+		
+		/// <summary>
+		/// Slave Server.
+		/// </summary>
+		public BoolOption slaveServer = new BoolOption("slave-server,ss", "Slave Server", "Install into existing Simias Domain", false, false);
+		
+		/// <summary>
+		/// The master server address.
+		/// </summary>
+		public Option masterAddress = new Option("master-address,ma", "Master Server Address", "Address of the Master Server", false, null);
 
 		/// <summary>
 		/// Simias System Name
 		/// </summary>
-		public Option systemName = new Option("system-name", "System Name", true, "Simias System");
+		public NoPromptOption help = new NoPromptOption("help,?", "Usage Help", "Show This Screen", false, null);
+
+		/// <summary>
+		/// Simias System Name
+		/// </summary>
+		public Option systemName = new Option("system-name", "System Name", "A name used to identify the Simias system to users.", true, "Simias System");
 
 		/// <summary>
 		/// Simias System Description
 		/// </summary>
-		public Option systemDescription = new Option("system-description", "System Description", false, "");
+		public Option systemDescription = new Option("system-description", "System Description", "A detailed description of the Simias system for users.", false, "Simias Enterprise Server");
 
 		/// <summary>
 		/// LDAP URL
 		/// </summary>
-		public Option ldapUrl = new Option("ldap-url", "LDAP URL", true, MyEnvironment.Windows ? "ldap://localhost" : "ldaps://localhost");
+//		public Option ldapServer = new Option("ldap-Server", "LDAP Server", "The host or ip address of an LDAP server.  The server will be searched for users to provision into Simias and will be used by Simias for authentication.", true, null);
+
+		/// <summary>
+		/// LDAP Secure
+		/// </summary>
+//		public BoolOption secure = new BoolOption("ldap-ssl", "LDAP Secure", "Require a secure connection between the LDAP server and the Simias server", false, true);
 
 		/// <summary>
 		/// LDAP Admin DN
 		/// </summary>
-		public Option ldapAdminDN = new Option("ldap-admin-dn", "LDAP Admin DN", true, "cn=admin,o=novell");
+//		public Option ldapAdminDN = new Option("ldap-admin-dn", "LDAP Admin DN", "An existing LDAP user, used by this script only, to connect to the LDAP server and create and/or check required LDAP users for Simias.", true, "cn=admin,o=novell");
 
 		/// <summary>
 		/// LDAP Admin Password
 		/// </summary>
-		public Option ldapAdminPassword = new Option("ldap-admin-password", "LDAP Admin Password", true, "novell");
+//		public Option ldapAdminPassword = new Option("ldap-admin-password", "LDAP Admin Password", null, true, "novell");
 
 		/// <summary>
 		/// System Admin DN
 		/// </summary>
-		public Option systemAdminDN = new Option("system-admin-dn", "System Admin DN", true, "cn=SimiasAdmin,o=novell");
+		public Option systemAdminDN = new Option("system-admin-dn", "System Admin DN", "An LDAP user that will be used as a new Simias system's default administrator.  If this user does not already exist in the LDAP tree it will be created. The user's dn, but not the user's password, is stored by Simias.", true, "cn=SimiasAdmin,o=novell");
 
 		/// <summary>
 		/// System Admin Password
 		/// </summary>
-		public Option systemAdminPassword = new Option("system-admin-password", "System Admin Password", true, "novell");
+		public Option systemAdminPassword = new Option("system-admin-password", "System Admin Password", null, true, "novell");
 
 		/// <summary>
 		/// LDAP Proxy DN
 		/// </summary>
-		public Option ldapProxyDN = new Option("ldap-proxy-dn", "LDAP Proxy DN", true, "cn=SimiasProxy,o=novell");
+//		public Option ldapProxyDN = new Option("ldap-proxy-dn", "LDAP Proxy DN", "An LDAP user that will be used to provision the users between Simias and the LDAP server.  If this user does not already exist in the LDAP tree it will be created and granted read rights at the root of the tree. The user's dn and password are stored by Simias.", true, "cn=SimiasProxy,o=novell");
 
 		/// <summary>
 		/// LDAP Proxy Password
 		/// </summary>
-		public Option ldapProxyPassword = new Option("ldap-proxy-password", "LDAP Proxy Password", true, "novell");
+//		public Option ldapProxyPassword = new Option("ldap-proxy-password", "LDAP Proxy Password", null, true, "novell");
 
 		/// <summary>
 		/// LDAP Search Context
 		/// </summary>
-		public Option ldapSearchContext = new Option("ldap-search-context", "LDAP Search Context", false, "o=novell");
+//		public Option ldapSearchContext = new Option("ldap-search-context", "LDAP Search Context", "A list of LDAP tree contexts (delimited by '#') that will be searched for users to provision into Simias.", false, "o=novell");
 
 		/// <summary>
 		/// Login Type based on what attribute
 		/// </summary>
-		public Option namingAttribute = new Option("naming-attribute", "Naming Attribute", true, "cn");
+//		public Option namingAttribute = new Option("naming-attribute", "Naming Attribute", "The LDAP attribute you want all users to login using.  I.E. 'cn' or 'email'.", true, "cn");
+
+		/// <summary>
+		/// Use apache.
+		/// </summary>
+		public BoolOption apache = new BoolOption("apache", "Configure Apache", "Configure Simias to run behing Apache", false, true);
+
+		/// <summary>
+		/// Prompt for options.
+		/// </summary>
+		public NoPromptOption prompt = new NoPromptOption("prompt", "Prompt For Options", "Prompt the user for missing options", false, null);
 
 		#endregion
 
@@ -162,24 +230,138 @@ namespace Novell.iFolder
 		/// <param name="cmdArgs">Command Arguments</param>
 		SimiasServerSetup(string[] cmdArgs)
 		{
-			if (cmdArgs.Length == 0)
+			args = cmdArgs;
+			System.Net.IPHostEntry hostInfo = System.Net.Dns.GetHostByName(System.Net.Dns.GetHostName());
+			Uri pubUrl = new Uri(Uri.UriSchemeHttps + "://" + hostInfo.AddressList[0].ToString() + "/simias10");
+			publicUrl.DefaultValue = pubUrl.ToString();
+			if (MyEnvironment.Windows)
 			{
-				throw new ApplicationException("Simias data store path was not specified.");
+				// On windows we do not want to prompt for these values.
+				apache.Value = false;
 			}
-
-			// Assume that the first argument is a path.
-			storePath = ProcessSimiasDataPath(cmdArgs[0]);
-			if ( storePath == null )
-			{
-				throw new Exception("An invalid Simias store path was specified.");
-			}
-
-			// Copy the rest of the command line strings to the array of arguments.
-			args = new string[cmdArgs.Length - 1];
-			Array.Copy(cmdArgs, 1, args, 0, args.Length);
+			path.OnOptionEntered = new Option.OptionEnteredHandler(OnPath);
+			slaveServer.OnOptionEntered = new Option.OptionEnteredHandler(OnSlave);
+			publicUrl.OnOptionEntered = new Option.OptionEnteredHandler(OnPublicUrl);
+			privateUrl.OnOptionEntered = new Option.OptionEnteredHandler(OnPrivateUrl);
+			masterAddress.OnOptionEntered = new Option.OptionEnteredHandler(OnMasterAddress);
 		}
 
 		#endregion
+
+		#region Option Handlers
+		private bool OnPath()
+		{
+			storePath = Path.GetFullPath(path.Value);
+			if (Path.GetFileName(storePath) != "simias")
+				storePath = Path.Combine(storePath, "simias");
+			configFilePath = Path.Combine(storePath, Simias.Configuration.DefaultConfigFileName);
+			SetupConfigFiles();
+			UpdateDefaults();
+			return true;
+		}
+
+		private bool OnSlave()
+		{
+			if (!((BoolOption)slaveServer).Value)
+			{
+				masterAddress.Prompt = false;
+			}
+			return true;
+		}
+
+		private bool OnPublicUrl()
+		{
+			privateUrl.DefaultValue = publicUrl.Value;
+			publicUrl.InternalValue = AddVirtualPath(publicUrl.Value);
+			Uri pubUri = new Uri(publicUrl.Value);
+			if (string.Compare(pubUri.Scheme, Uri.UriSchemeHttps, true) == 0)
+				useSsl.Value = true.ToString();
+			else
+				useSsl.Value = false.ToString();
+			port.Value = pubUri.Port.ToString();
+			return true;
+		}
+
+		private bool OnPrivateUrl()
+		{
+			privateUrl.InternalValue = AddVirtualPath(privateUrl.Value);
+			return true;
+		}
+
+		private bool OnMasterAddress()
+		{
+			// Don't prompt for the following options. They are not needed 
+			// or will be obtained from the master.
+			// system
+			masterAddress.InternalValue = AddVirtualPath(masterAddress.Value);
+			
+			systemName.Prompt = false;
+			systemName.Required = false;
+
+			systemDescription.Prompt = false;
+			systemDescription.Required = false;
+	
+			/*
+			// ldap uri
+			ldapServer.Prompt = false;
+			ldapServer.Required = false;
+
+			secure.Prompt = false;
+			secure.Required = false;
+
+			// naming Attribute
+			namingAttribute.Prompt = false;
+			namingAttribute.Required = false;
+
+			// ldap proxy dn
+			ldapProxyDN.Prompt = false;
+			ldapProxyDN.Required = false;
+				
+			// ldap proxy password
+			ldapProxyPassword.Prompt = false;
+			ldapProxyPassword.Required = false;
+
+			ldapSearchContext.Prompt = false;
+			ldapSearchContext.Required = false;
+				
+			//Don't prompt for the following option.
+			ldapAdminDN.Prompt = false;
+			ldapAdminDN.Required = false;
+
+			ldapAdminPassword.Prompt = false;
+			ldapAdminPassword.Required = false;
+			*/
+
+			return true;
+		}
+			
+		#endregion
+
+		private string AddVirtualPath(string path)
+		{
+			path = path.TrimEnd('/');
+			if (!path.EndsWith("/simias10"))
+				path += "/simias10";
+			return path;
+		}
+
+		private HostAdmin GetHostAdminService()
+		{
+			HostAdmin adminService = new HostAdmin();
+			InitializeServiceUrl(adminService);
+			return adminService;
+		}
+
+		private void InitializeServiceUrl(System.Web.Services.Protocols.WebClientProtocol service)
+		{
+			UriBuilder serverUrl = new UriBuilder(service.Url);
+			Uri masterUri = new Uri(masterAddress.Value);
+			serverUrl.Host = masterUri.Host;
+			serverUrl.Port = masterUri.Port;
+			string target = service.Url.Substring(service.Url.LastIndexOf('/'));
+			serverUrl.Path = masterUri.AbsolutePath + target;
+			service.Url = serverUrl.ToString();
+		}
 
 		/// <summary>
 		/// Initialize
@@ -212,17 +394,10 @@ namespace Novell.iFolder
 				// ignore
 			}
 
-			// Setup links to the store.
-			SetupStoreLinks();
 		}
 
-
-		/// <summary>
-		/// Setup the Simias Server
-		/// </summary>
-		void Setup()
+		void Configure()
 		{
-			Initialize();
 			ParseArguments();
 			SetupSimias();
 			SetupPermissions();
@@ -242,15 +417,16 @@ namespace Novell.iFolder
 			if (args.Length == 0)
 			{
 				// prompt
-				UpdateDefaults();
+				Prompt.CanPrompt = true;
+				prompt.Value = true.ToString();
 				PromptForArguments();
 			}
 			else
 			{
 				// environment variables
 				systemAdminPassword.FromEnvironment(SIMIAS_SYSTEM_ADMIN_PASSWORD);
-				ldapProxyPassword.FromEnvironment(SIMIAS_LDAP_PROXY_PASSWORD);
-				ldapAdminPassword.FromEnvironment(SIMIAS_LDAP_ADMIN_PASSWORD);
+				//ldapProxyPassword.FromEnvironment(SIMIAS_LDAP_PROXY_PASSWORD);
+				//ldapAdminPassword.FromEnvironment(SIMIAS_LDAP_ADMIN_PASSWORD);
 
 				// parse arguments
 				Options.ParseArguments(this, args);
@@ -261,14 +437,51 @@ namespace Novell.iFolder
 					ShowUsage();
 				}
 
+				if (prompt.Assigned)
+				{
+					Prompt.CanPrompt = true;
+					PromptForArguments();
+				}
+				else
+				{
 #if DEBUG
-				// show options for debugging
-				Options.WriteOptions(this, Console.Out);
-				Console.WriteLine();
+					// show options for debugging
+					Options.WriteOptions(this, Console.Out);
+					Console.WriteLine();
 #endif
+					// check for required options
+					Options.CheckRequiredOptions(this);
+				}
+			}
 
-				// check for required options
-				Options.CheckRequiredOptions(this);
+			if (this.slaveServer.Value)
+			{
+				try
+				{
+					// Get the Domain ID from the domain service on the master.
+					DomainService dService = new DomainService();
+					InitializeServiceUrl(dService);
+					domainId = dService.GetDomainID();
+				
+					// Get the configuration file from the master server.
+					string[] dnSegs = systemAdminDN.Value.Split(new char[] {',', '=', '.'});
+					string admin = ( dnSegs.Length == 1 ) ? dnSegs[0] : dnSegs[1];
+					credentials = new System.Net.NetworkCredential( admin, systemAdminPassword.Value, domainId);
+					HostAdmin adminService = this.GetHostAdminService();
+					adminService.Credentials = credentials;
+					string configXml = adminService.GetConfiguration();
+					//ldapProxyPassword.Value = adminService.GetProxyInfo();
+					XmlDocument configDoc = new XmlDocument();
+					configDoc.LoadXml(configXml);
+					CommitConfiguration(configDoc);
+					GetSettingsFromConfig();
+				}
+				catch (Exception ex)
+				{
+					Console.WriteLine("Failed setting up slave server");
+					Console.WriteLine(ex.StackTrace);
+					System.Environment.Exit(-1);
+				}
 			}
 		}
 
@@ -281,74 +494,16 @@ namespace Novell.iFolder
 			Console.Write("The script is intended for testing purposes only. ");
 			Console.WriteLine();
 
-			PromptForOption(systemName, "A name used to identify the Simias system to users.");
-			PromptForOption(systemDescription, "A detailed description of the Simias system for users.");
+			Option[] options = Options.GetOptions(this);
+			foreach(Option option in options)
+			{
+				Prompt.ForOption(option);
+			}
 
-			// ldap URL
-			WriteSection("LDAP Server", "The host or ip address of an LDAP server.  The server will be searched for users to provision into Simias and will be used by Simias for authentication.");
-			Uri uri = new Uri(ldapUrl.Value);
-			UriBuilder newUri = new UriBuilder();
-			bool secure = uri.Scheme.ToLower().Equals(LdapUtility.LDAP_SCHEME_SECURE) ? true : false;
-			newUri.Host = Prompt.ForString("LDAP Server", uri.Host);
-			if (MyEnvironment.Windows)
-			{
-				// Not supported on windows right now.
-				secure = false;
-			}
-			else
-			{
-				secure = Prompt.ForYesNo("Require a secure connection between the LDAP server and the Simias server", secure);
-			}
-			newUri.Scheme = secure ? LdapUtility.LDAP_SCHEME_SECURE : LdapUtility.LDAP_SCHEME;
-			ldapUrl.Value = newUri.ToString();
 			
-			PromptForOption(ldapAdminDN, "An existing LDAP user, used by this script only, to connect to the LDAP server and create and/or check required LDAP users for Simias.");
-			PromptForOption(ldapAdminPassword);
-
-			PromptForOption(systemAdminDN, "An LDAP user that will be used as a new Simias system's default administrator.  If this user does not already exist in the LDAP tree it will be created. The user's dn, but not the user's password, is stored by Simias.");
-			PromptForOption(systemAdminPassword);
-
-			PromptForOption(ldapProxyDN, "An LDAP user that will be used to provision the users between Simias and the LDAP server.  If this user does not already exist in the LDAP tree it will be created and granted read rights at the root of the tree. The user's dn and password are stored by Simias.");
-			PromptForOption(ldapProxyPassword);
-
-			PromptForOption(ldapSearchContext, "A list of LDAP tree contexts (delimited by '#') that will be searched for users to provision into Simias." );
-
-			PromptForOption(namingAttribute, "The LDAP attribute you want all users to login using.  I.E. 'cn' or 'email'." );
-
-
-			if (!MyEnvironment.Windows)
-			{
-				Console.WriteLine();
-				Console.WriteLine("Perform the necessary setup for Simias to run behind Apache?");
-				apache = Prompt.ForYesNo("Configure Apache", apache);
-			}
-			else
-			{
-				apache = false;
-			}
-
 			Console.WriteLine();
 			Console.WriteLine("Working...");
 			Console.WriteLine();
-		}
-
-		private void WriteSection(string title, string text)
-		{
-			Console.WriteLine();
-			Console.WriteLine("----- {0} -----", title.ToUpper());
-			Console.WriteLine(text);
-			Console.WriteLine();
-		}
-
-		private void PromptForOption(Option option)
-		{
-			option.Value = Prompt.ForString(option.Description, option.DefaultValue);
-		}
-
-		private void PromptForOption(Option option, string text)
-		{
-			WriteSection(option.Description, text);
-			PromptForOption(option);
 		}
 
 		/// <summary>
@@ -356,53 +511,146 @@ namespace Novell.iFolder
 		/// </summary>
 		void UpdateDefaults()
 		{
-			Configuration config = new Configuration( storePath, true );
-
-			// system
-			string systemNameStr = config.Get("Domain", "EnterpriseName");
-			systemName.DefaultValue = (systemNameStr != null) ? systemNameStr : systemName.Value;
-
-			string systemDescriptionStr = config.Get("Domain", "EnterpriseDescription");
-			systemDescription.DefaultValue = (systemDescriptionStr != null) ? systemDescriptionStr : systemDescription.Value;
-
-			// system admin dn
-			string systemAdminDNStr = config.Get("Domain", "AdminDN");
-			systemAdminDN.DefaultValue = (systemAdminDNStr != null) ? systemAdminDNStr : systemAdminDN.Value;
-
-			/*
-			// ldap settings
-			Ldap.LdapSettings ldapSettings = Ldap.LdapSettings.Get(storePath);
-
-			// ldap uri
-			ldapUrl.DefaultValue = ldapSettings.Uri.ToString();
-
-			// naming Attribute
-			namingAttribute.DefaultValue = ldapSettings.NamingAttribute.ToString();
-
-			// ldap proxy dn
-			if ((ldapSettings.ProxyDN != null) && (ldapSettings.ProxyDN.Length > 0))
+			try
 			{
-				ldapProxyDN.DefaultValue = ldapSettings.ProxyDN;
-			}
+				Configuration config = new Configuration( storePath, true );
+
+				// server name
+				string serverNameStr = config.Get(ServerSection, ServerNameKey);
+				serverName.DefaultValue = (serverNameStr == null) ? System.Net.Dns.GetHostName() : serverNameStr;
+
+				// Public address
+				Uri defaultUrl = new Uri(Uri.UriSchemeHttps + "://" + System.Net.Dns.GetHostByName(System.Net.Dns.GetHostName()).AddressList[0].ToString() + "/simias10");
+				string pubAddress = config.Get(ServerSection, PublicAddressKey);
+				publicUrl.DefaultValue = (pubAddress == null) ? defaultUrl.ToString() : pubAddress;
+
+				// Private address
+				string privAddress = config.Get(ServerSection, PrivateAddressKey);
+				privateUrl.DefaultValue = (privAddress == null) ? defaultUrl.ToString() : privAddress;
+
+				// system
+				string systemNameStr = config.Get( "EnterpriseDomain", "SystemName" );
+				systemName.DefaultValue = (systemNameStr != null) ? systemNameStr : systemName.Value;
+
+				string systemDescriptionStr = config.Get( "EnterpriseDomain", "Description");
+				systemDescription.DefaultValue = (systemDescriptionStr != null) ? systemDescriptionStr : systemDescription.Value;
+
+				// system admin dn
+				string systemAdminDNStr = config.Get( "EnterpriseDomain", "AdminName");
+				systemAdminDN.DefaultValue = (systemAdminDNStr != null) ? systemAdminDNStr : systemAdminDN.Value;
+
+				// ldap settings
+				//Ldap.LdapSettings ldapSettings = Ldap.LdapSettings.Get(storePath);
+
+				// ldap uri
+				//ldapServer.DefaultValue = ldapSettings.Uri.Host;
+
+				// naming Attribute
+				//namingAttribute.DefaultValue = ldapSettings.NamingAttribute.ToString();
+
+				/*
+				// ldap proxy dn
+				if ((ldapSettings.ProxyDN != null) && (ldapSettings.ProxyDN.Length > 0))
+				{
+					ldapProxyDN.DefaultValue = ldapSettings.ProxyDN;
+				}
 			
-			// ldap proxy password
-			if ((ldapSettings.ProxyPassword != null) && (ldapSettings.ProxyPassword.Length > 0))
-			{
-				ldapProxyPassword.DefaultValue = ldapSettings.ProxyPassword;
-			}
+				// ldap proxy password
+				if ((ldapSettings.ProxyPassword != null) && (ldapSettings.ProxyPassword.Length > 0))
+				{
+					ldapProxyPassword.DefaultValue = ldapSettings.ProxyPassword;
+				}
 
-			// context
-			string contexts = "";
-			foreach(string context in ldapSettings.SearchContexts)
-			{
-				contexts += (context + "#");
-			}
+				// context
+				string contexts = "";
+				foreach(string context in ldapSettings.SearchContexts)
+				{
+					contexts += (context + "#");
+				}
 
-			if (contexts.Length > 1)
-			{
-				ldapSearchContext.DefaultValue = contexts.Substring(0, contexts.Length - 1);
+				if (contexts.Length > 1)
+				{
+					ldapSearchContext.DefaultValue = contexts.Substring(0, contexts.Length - 1);
+				}
+				*/
+
+				// Get the Slave settings. This must be last.
+				string masterAddressStr = config.Get( ServerSection, MasterAddressKey );
+				if ( masterAddressStr != null )
+				{
+					slaveServer.Value = true;
+					masterAddress.Value = masterAddressStr;
+				}
 			}
-			*/
+			catch{}
+		}
+
+		/// <summary>
+		/// Get the settings from the config file.
+		/// This is used to get the settings from the master server
+		/// config file.
+		/// </summary>
+		private void GetSettingsFromConfig()
+		{
+			try
+			{
+				Configuration config = new Configuration( storePath, true );
+
+				// Make sure that our name does not conflict with the master.
+				// server Name
+				string serverNameStr = config.Get(ServerSection, ServerNameKey);
+				if (serverNameStr == serverName.Value)
+				{
+					Console.WriteLine("The server name must be unique");
+					Environment.Exit(-1);
+				}
+				
+				// system
+				systemName.Value = config.Get( "EnterpriseDomain", "SystemName" );
+				systemDescription.Value = config.Get( "EnterpriseDomain", "Description" );
+				
+				// system admin dn
+				systemAdminDN.Value = config.Get( "EnterpriseDomain", "AdminName" );
+				
+				/*
+				// ldap settings
+				Ldap.LdapSettings ldapSettings = Ldap.LdapSettings.Get(storePath);
+
+				// ldap uri
+				// We may need to use a different ldap server prompt for it.
+				// Prompt for the ldap server.
+				ldapServer.DefaultValue = ldapSettings.Uri.Host;
+				ldapServer.Prompt = true;
+				Prompt.ForOption(ldapServer);
+				secure.Prompt = true;
+				Prompt.ForOption(secure);
+				
+				// naming Attribute
+				namingAttribute.Value = ldapSettings.NamingAttribute.ToString();
+
+				// ldap proxy dn
+				ldapProxyDN.Value = ldapSettings.ProxyDN;
+				
+				// ldap proxy password
+				if ((ldapSettings.ProxyPassword != null) && (ldapSettings.ProxyPassword.Length > 0))
+				{
+					ldapProxyPassword.DefaultValue = ldapSettings.ProxyPassword;
+				}
+
+				// context
+				string contexts = "";
+				foreach(string context in ldapSettings.SearchContexts)
+				{
+					contexts += (context + "#");
+				}
+
+				if (contexts.Length > 1)
+				{
+					ldapSearchContext.Value = contexts.Substring(0, contexts.Length - 1);
+				}
+				*/
+			}
+			catch{}
 		}
 	
 		private bool SetConfigValue(XmlDocument document, string section, string key, string configValue)
@@ -416,18 +664,27 @@ namespace Novell.iFolder
 				element.SetAttribute(ValueAttr, configValue);
 				status = true;
 			}
-
+			else
+			{
+				element = document.CreateElement(SettingTag);
+				element.SetAttribute(NameAttr, key);
+				element.SetAttribute(ValueAttr, configValue);
+				str = string.Format("//{0}[@{1}='{2}']", SectionTag, NameAttr, section);
+				XmlElement eSection = (XmlElement)document.DocumentElement.SelectSingleNode(str);
+				eSection.AppendChild(element);
+				status = true;
+			}
 			return status;
 		}
 
-		private void CommitConfiguration(string configFilePath, XmlDocument document)
+		private void CommitConfiguration(XmlDocument document)
 		{
 			// Write the configuration file settings.
-			XmlTextWriter xtw = new XmlTextWriter(configFilePath, Encoding.UTF8);
+			XmlTextWriter xtw = new XmlTextWriter( configFilePath, Encoding.UTF8 );
 			try
 			{
 				xtw.Formatting = Formatting.Indented;
-				document.WriteTo(xtw);
+				document.WriteTo( xtw );
 			}
 			finally
 			{
@@ -443,29 +700,44 @@ namespace Novell.iFolder
 		/// </summary>
 		void SetupSimias()
 		{
-			string configFilePath = Path.Combine(storePath, Simias.Configuration.DefaultConfigFileName);
-			Console.Write("Configuring {0}...", configFilePath);
+			Console.Write( "Configuring {0}...", configFilePath );
 
 			// Load the configuration file into an xml document.
 			XmlDocument document = new XmlDocument();
 			document.Load( configFilePath );
 
 			// system
-			SetConfigValue( document, "Domain", "EnterpriseName", systemName.Value);
-			SetConfigValue( document, "Domain", "EnterpriseDescription", systemDescription.Value);
+			SetConfigValue( document, "EnterpriseDomain", "SystemName", systemName.Value );
+			SetConfigValue( document, "EnterpriseDomain", "Description", systemDescription.Value );
+			SetConfigValue( document, "Authentication", "SimiasRequireSSL", bool.Parse(useSsl.Value) ? "yes" : "no");
+
+			// server
+			if( slaveServer.Value )
+			{
+				SetConfigValue( document, ServerSection, MasterAddressKey, masterAddress.Value);
+			}
+
+			SetConfigValue( document, ServerSection, ServerNameKey, serverName.Value);
+			SetConfigValue( document, ServerSection, PublicAddressKey, publicUrl.Value );
+			SetConfigValue( document, ServerSection, PrivateAddressKey, privateUrl.Value );
 
 			// system admin dn
-			SetConfigValue( document, "Domain", "AdminDN", systemAdminDN.Value);
+			SetConfigValue( document, "EnterpriseDomain", "AdminName", systemAdminDN.Value );
 
 			// Commit the config file changes.
-			CommitConfiguration( configFilePath, document );
+			CommitConfiguration( document );
 
 			/*
 			// ldap settings
+			UriBuilder newUri = new UriBuilder();
+			newUri.Host = ldapServer.Value;
+			newUri.Scheme = secure.Value ? LdapUtility.LDAP_SCHEME_SECURE : LdapUtility.LDAP_SCHEME;
+			ldapUrl = new Uri(newUri.ToString());
+			
 			Ldap.LdapSettings ldapSettings = Ldap.LdapSettings.Get(storePath);
 
 			// ldap uri
-			ldapSettings.Uri = new Uri(ldapUrl.Value);
+			ldapSettings.Uri = ldapUrl;
 
 			// ldap proxy
 			ldapSettings.ProxyDN = ldapProxyDN.Value;
@@ -485,20 +757,51 @@ namespace Novell.iFolder
 				}
 			}
 			ldapSettings.SearchContexts = list;
-
-			// interval
-			ldapSettings.SyncInterval = Ldap.LdapSettings.DefaultSyncInterval;
-
-			// sync on start
-			ldapSettings.SyncOnStart = Ldap.LdapSettings.DefaultSyncOnStart;
-		
-			// naming attribute to control login
-			ldapSettings.NamingAttribute = namingAttribute.Value;
-			ldapSettings.Commit();
-			
 			*/
 
-			Console.WriteLine("Done");
+			if( slaveServer.Value )
+			{
+				//ldapSettings.SyncInterval = int.MaxValue;
+				//ldapSettings.SyncOnStart = false;
+				// We need to authenticate to get the domain and owner.
+				HostAdmin adminService = GetHostAdminService();
+				adminService.Credentials = credentials;
+				adminService.PreAuthenticate = true;
+				// Get and save the domain.
+				string domain = adminService.GetDomain();
+				// Get and save the owner.
+				string dOwner = adminService.GetDomainOwner();
+				// Get and save the keypair.
+				RSACryptoServiceProvider rsa = Simias.Host.SlaveSetup.CreateKeys( storePath );
+				// Join this host to the server and save the node.
+				bool created;
+				string host = 
+					adminService.AddHost( 
+						serverName.Value, 
+						publicUrl.Value, 
+						privateUrl.Value, 
+						rsa.ToXmlString( false ),
+						out created );
+				if (host != null && host.Length != 0 && created)
+				{
+					// Save the objects so that they can be created later.
+					Simias.Host.SlaveSetup.SaveInitObjects( storePath, domain, dOwner, host, rsa );
+				}
+			}
+			else
+			{
+				// interval
+				//ldapSettings.SyncInterval = Ldap.LdapSettings.DefaultSyncInterval;
+
+				// sync on start
+				//ldapSettings.SyncOnStart = Ldap.LdapSettings.DefaultSyncOnStart;
+			}
+		
+			// naming attribute to control login
+			//ldapSettings.NamingAttribute = namingAttribute.Value;
+			//ldapSettings.Commit();
+
+			Console.WriteLine( "Done" );
 		}
 
 		/// <summary>
@@ -510,7 +813,7 @@ namespace Novell.iFolder
 
 			Console.Write("Configuring {0}...", path);
 
-			if (MyEnvironment.Mono && apache)
+			if (apache.Value)
 			{
 				// create configuration
 				using(StreamWriter writer = File.CreateText(path))
@@ -535,7 +838,7 @@ namespace Novell.iFolder
 					writer.WriteLine();
 					writer.WriteLine("Alias /{0} \"{1}\"", alias, SimiasSetup.webdir);
 					writer.WriteLine("AddMonoApplications {0} \"/{0}:{1}\"", alias, SimiasSetup.webdir);
-					writer.WriteLine("MonoSetEnv {0} \"SimiasRunAsServer=true;SimiasDataPath={1}\"", alias, storePath);
+					writer.WriteLine("MonoSetEnv {0} \"SimiasRunAsServer=true;SimiasDataPath={1}\"", alias, this.storePath);
 					writer.WriteLine("<Location /{0} >", alias);
 					writer.WriteLine("\tMonoSetServerAlias {0}", alias);
 					writer.WriteLine("\tOrder allow,deny");
@@ -560,24 +863,23 @@ namespace Novell.iFolder
 			}
 		}
 
+		/*
 		/// <summary>
 		/// Setup the LDAP server
 		/// </summary>
-		
-		/*
 		void SetupLdap()
 		{
-			LdapUtility ldapUtility = new LdapUtility(ldapUrl.Value, ldapAdminDN.Value, ldapAdminPassword.Value);
+			LdapUtility ldapUtility = new LdapUtility(ldapUrl.ToString() , ldapAdminDN.Value, ldapAdminPassword.Value);
 
 			// intall SSL root certificate
-			Console.Write("Installing certificate from {0}...", ldapUrl.Value);
+			Console.Write("Installing certificate from {0}...", ldapUrl.ToString());
 				
 			if (ldapUtility.Secure && MyEnvironment.Mono)
 			{
 				const string certfile = "RootCert.cer";
-
+								
 				if (Execute("./get-root-certificate", "{0} {1} {2} {3} get {4}",
-					ldapUtility.Host, ldapUtility.Port, ldapUtility.DN, ldapUtility.Password, certfile) == 0)
+					ldapUtility.Host, ldapUtility.Port, systemAdminDN.Value, systemAdminPassword.Value, certfile) == 0)
 				{
 					Console.WriteLine();
 
@@ -607,145 +909,111 @@ namespace Novell.iFolder
 			}
 
 			// connect
-			Console.Write("Connecting to {0}...", ldapUrl.Value);
+			Console.Write("Connecting to {0}...", ldapUrl.ToString());
 
-			ldapUtility.Connect();
-
-			Console.WriteLine("Done");
-
-			// create admin
-			Console.Write("Creating {0}...", systemAdminDN.Value);
-
-			if (ldapUtility.CreateUser(systemAdminDN.Value, systemAdminPassword.Value))
+			if (!slaveServer.Value)
 			{
-				Console.WriteLine("Done");
-			}
-			else
-			{
-				Console.WriteLine("Skipped (User Exists)");
-			}
-
-			// create proxy
-			Console.Write("Creating {0}...", ldapProxyDN.Value);
-
-			if (ldapUtility.CreateUser(ldapProxyDN.Value, ldapProxyPassword.Value))
-			{
-				// use the container of the system admin user
-				string containerDN = "";
-				string[] parts = ldapAdminDN.Value.Split(new char[] { ',' }, 2);
-				if (parts.Length == 2) containerDN = parts[1];
-
-				// rights
-				Console.Write("Granting Read Rights to {0} on {1}...", ldapProxyDN.Value, containerDN);
-
-				ldapUtility.GrantReadRights(ldapProxyDN.Value, containerDN);
+				ldapUtility.Connect();
 
 				Console.WriteLine("Done");
-			}
-			else
-			{
-				Console.WriteLine("Skipped (User Exists)");
-			}
 
-			// disconnect
-			ldapUtility.Disconnect();
+				// create admin
+				Console.Write("Creating {0}...", systemAdminDN.Value);
+
+				if (ldapUtility.CreateUser(systemAdminDN.Value, systemAdminPassword.Value))
+				{
+					Console.WriteLine("Done");
+				}
+				else
+				{
+					Console.WriteLine("Skipped (User Exists)");
+				}
+
+				// create proxy
+				Console.Write("Creating {0}...", ldapProxyDN.Value);
+
+				if (ldapUtility.CreateUser(ldapProxyDN.Value, ldapProxyPassword.Value))
+				{
+					// use the container of the system admin user
+					string containerDN = "";
+					string[] parts = ldapAdminDN.Value.Split(new char[] { ',' }, 2);
+					if (parts.Length == 2) containerDN = parts[1];
+
+					// rights
+					Console.Write("Granting Read Rights to {0} on {1}...", ldapProxyDN.Value, containerDN);
+
+					ldapUtility.GrantReadRights(ldapProxyDN.Value, containerDN);
+
+					Console.WriteLine("Done");
+				}
+				else
+				{
+					Console.WriteLine("Skipped (User Exists)");
+				}
+
+				// disconnect
+				ldapUtility.Disconnect();
+			}
 
 			// check admin
 			Console.Write("Checking {0}...", systemAdminDN.Value);
-			ldapUtility = new LdapUtility(ldapUrl.Value, systemAdminDN.Value, systemAdminPassword.Value);
+			ldapUtility = new LdapUtility(ldapUrl.ToString(), systemAdminDN.Value, systemAdminPassword.Value);
 			ldapUtility.Connect();
 			ldapUtility.Disconnect();
 			Console.WriteLine("Done");
 
 			// check proxy
 			Console.Write("Checking {0}...", ldapProxyDN.Value);
-			ldapUtility = new LdapUtility(ldapUrl.Value, ldapProxyDN.Value, ldapProxyPassword.Value);
+			ldapUtility = new LdapUtility(ldapUrl.ToString(), ldapProxyDN.Value, ldapProxyPassword.Value);
 			ldapUtility.Connect();
 			ldapUtility.Disconnect();
 			Console.WriteLine("Done");
 		}
 		*/
 
-		private void SetupStoreLinks()
+		private void SetupConfigFiles()
 		{
 			// Setup the links to the store configuration.
-			Console.Write("Setting up store links...");
+			Console.Write("Setting up store Configuration files...");
+
+			// Make sure the store path exists.
+			if ( System.IO.Directory.Exists( storePath ) == false )
+			{
+				System.IO.Directory.CreateDirectory( storePath );
+			}
 				
-			if (MyEnvironment.Mono)
+			// Make sure that the configuration file exists.
+			string destConfigFile = configFilePath;
+			string srcConfigFile = Path.Combine( ServerInstallPath, Configuration.DefaultConfigFileName );
+			if (!File.Exists(destConfigFile))
 			{
-				// Create the store directory if needed.
-				if (!System.IO.Directory.Exists(storePath))
-				{
-					System.IO.Directory.CreateDirectory(storePath);
-				}
-
-				// Make sure that the configuration file exists.
-				if (!File.Exists(Path.Combine(ServerInstallPath, Configuration.DefaultConfigFileName)))
-				{
-					throw new ApplicationException(String.Format("The {0} file does not exist in the {1} directory", Configuration.DefaultConfigFileName, ServerInstallPath));
-				}
-
-				// Create symlinks from the store area to the installed configuration files.
-				if ( Execute( "ln", "-sf {0} {1}",
-					Path.Combine(ServerInstallPath, Simias.Configuration.DefaultConfigFileName),
-					Path.Combine(storePath, Simias.Configuration.DefaultConfigFileName)) != 0)
-				{
-					throw new Exception(String.Format("Unable to create link for file {0}.", Simias.Configuration.DefaultConfigFileName));
-				}
-
-				// Make sure that the log4net file exists.
-				if (!File.Exists(Path.Combine(ServerInstallPath, Log4NetFile)))
-				{
-					throw new ApplicationException(String.Format("The {0} file does not exist in the {1} directory", Log4NetFile, ServerInstallPath));
-				}
-
-				if ( Execute( "ln", "-sf {0} {1}",
-					Path.Combine(ServerInstallPath, Log4NetFile),
-					Path.Combine(storePath, Log4NetFile)) != 0)
-				{
-					throw new Exception(String.Format("Unable to create link for file {0}.", Log4NetFile));
-				}
-
-				// Make sure that the modules directory exists.
-				if (!System.IO.Directory.Exists(Path.Combine(ServerInstallPath, ModulesDir)))
-				{
-					throw new ApplicationException(String.Format("The {0} directory does not exist", Path.Combine(ServerInstallPath, ModulesDir)));
-				}
-
-				if ( Execute( "ln", "-sfT {0} {1}",
-					Path.Combine(ServerInstallPath, ModulesDir),
-					Path.Combine(storePath, ModulesDir)) != 0)
-				{
-					throw new Exception(String.Format("Unable to create link for file {0}.", ModulesDir));
-				}
-			}
-			else
-			{
-				// Make sure the store path exists.
-				if (!System.IO.Directory.Exists(storePath))
-				{
-					throw new Exception(String.Format("Store path {0} does not exist.", storePath));
-				}
-
-				// Make sure that the configuration file exists.
-				if (!File.Exists(Path.Combine(storePath, Configuration.DefaultConfigFileName)))
-				{
-					throw new ApplicationException(String.Format("The {0} file does not exist in the {1} directory", Configuration.DefaultConfigFileName, storePath));
-				}
-
-				// Make sure that the log4net file exists.
-				if (!File.Exists(Path.Combine(storePath, Log4NetFile)))
-				{
-					throw new ApplicationException(String.Format("The {0} file does not exist in the {1} directory", Log4NetFile, storePath));
-				}
-
-				// Make sure that the modules directory exists.
-				if (!System.IO.Directory.Exists(Path.Combine(storePath, ModulesDir)))
-				{
-					throw new ApplicationException(String.Format("The {0} directory does not exist", Path.Combine(storePath, ModulesDir)));
-				}
+				File.Copy( srcConfigFile, destConfigFile );
 			}
 
+			// Make sure that the log4net file exists.
+			string destLog4NetFile = Path.Combine( storePath, Log4NetFile );
+			string srcLog4NetFile = Path.Combine( ServerInstallPath, Log4NetFile );
+			if ( File.Exists( destLog4NetFile ) == false )
+			{
+				File.Copy( srcLog4NetFile, destLog4NetFile );
+			}
+
+			// Make sure that the modules directory exists.
+			string destModulesDir = Path.Combine( storePath, ModulesDir );
+			string srcModulesDir = Path.Combine( ServerInstallPath, ModulesDir );
+			if ( System.IO.Directory.Exists( destModulesDir ) == false )
+			{
+				System.IO.Directory.CreateDirectory( destModulesDir );
+				string[] files = System.IO.Directory.GetFiles( srcModulesDir );
+				foreach (string file in files)
+				{
+					string fname = Path.GetFileName(file);
+					File.Copy(
+						Path.Combine( srcModulesDir, fname ),
+						Path.Combine( destModulesDir, fname ) );
+				}
+			}
+			
 			Console.WriteLine("Done");
 		}
 
@@ -754,7 +1022,7 @@ namespace Novell.iFolder
 			// Setup the permissions to the store configuration.
 			Console.Write("Setting up permissions...");
 				
-			if (MyEnvironment.Mono && apache)
+			if ( MyEnvironment.Mono && apache.Value )
 			{
 				if ( storePath.TrimEnd( new char[] { '/' } ).EndsWith( "simias" ) )
 				{
@@ -780,27 +1048,34 @@ namespace Novell.iFolder
 			Console.Write("Setting up script files...");
 
 			string fileData;
-			string filePath = Path.Combine(SimiasSetup.bindir, MyEnvironment.Windows ? "simias-server.cmd" : "simias-server");
+			string templatePath = Path.Combine(SimiasSetup.bindir, "simias-server" + (MyEnvironment.Windows ? ".cmd" : ""));
+			string scriptPath = Path.Combine(SimiasSetup.bindir, serverName.Value + (MyEnvironment.Windows ? ".cmd" : ""));
 			try
 			{
-				using (StreamReader sr = new StreamReader(filePath))
+				using (StreamReader sr = new StreamReader(templatePath))
 				{
 					fileData = sr.ReadToEnd();
 				}
 
 				fileData = fileData.Replace("DataDir=\"\"", String.Format("DataDir=\"{0}\"", storePath));
-				
-				using (StreamWriter sw = new StreamWriter(filePath))
+				fileData = fileData.Replace("Port=\"\"", String.Format("Port=\"{0}\"", port.Value));
+				using (StreamWriter sw = new StreamWriter(scriptPath))
 				{
 					sw.WriteLine(fileData);
+				}
+				if (MyEnvironment.Mono)
+				{
+					// Make sure the execute bit is set.
+					Execute("chmod", "ug+x {0}", scriptPath);
 				}
 			}
 			catch
 			{
-				throw new Exception(String.Format("Unable to set simias data path in {0}", filePath));
+				throw new Exception(String.Format("Unable to set simias data path in {0}", scriptPath));
 			}
 
 			Console.WriteLine("Done");
+			Console.WriteLine("Run {0} script to load the server", scriptPath);
 		}
 
 		private void SetupLog4Net()
@@ -847,12 +1122,24 @@ namespace Novell.iFolder
 
 			foreach(Option o in options)
 			{
+				int nameCount = 0;
 				foreach(string name in o.Names)
 				{
-					Console.WriteLine("\t{0}", name);
+					Console.Write("{0}--{1}", nameCount == 0 ? "\n\t" : ", ", name);
+					nameCount++;
 				}
-
-				Console.WriteLine("\t\t\t\t{0}", o.Description);
+	
+				// Format the description.
+				string description = o.Description == null ? o.Title : o.Description;
+				Regex lineSplitter = new Regex(@".{0,50}[^\s]*");
+				MatchCollection matches = lineSplitter.Matches(description);
+				Console.WriteLine();
+				if (o.Required)
+					Console.WriteLine("\t\t(REQUIRED)");
+				foreach (Match line in matches)
+				{	
+					Console.WriteLine("\t\t{0}", line.Value.Trim());
+				}
 			}
 
 			Console.WriteLine();
@@ -932,7 +1219,8 @@ namespace Novell.iFolder
 			try
 			{
 				SimiasServerSetup setup = new SimiasServerSetup(args);
-				setup.Setup();
+				setup.Initialize();
+				setup.Configure();
 			}
 			catch(Exception e)
 			{

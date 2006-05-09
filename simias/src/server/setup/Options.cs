@@ -184,7 +184,7 @@ namespace Novell.iFolder.Utility
 			foreach(FieldInfo field in fields)
 			{
 				// only add the Option fields
-				if (field.FieldType.Equals(typeof(Option)))
+				if (field.FieldType.Equals(typeof(Option)) || field.FieldType.IsSubclassOf(typeof(Option)))
 				{
 					result.Add(field.GetValue(obj));
 				}
@@ -200,22 +200,36 @@ namespace Novell.iFolder.Utility
 	public class Option
 	{
 		private string[] names;
+		private string title;
 		private string description;
 		private bool required;
 		private string defaultValue;
 		private bool assigned;
 		private string val;
+		/// <summary>
+		/// True if the option should be prompted for.
+		/// </summary>
+		protected bool prompt = true;
+		private OptionEnteredHandler onOptionEntered;
 
+
+		/// <summary>
+		/// Delegate to handle the entered option.
+		/// </summary>
+		public delegate bool OptionEnteredHandler();
+		
 		/// <summary>
 		/// Constructor
 		/// </summary>
 		/// <param name="names">A comma-delimited list of option names.</param>
+		/// <param name="title">A title for the option.</param>
 		/// <param name="description">A description of the option.</param>
 		/// <param name="required">Is this option required?</param>
 		/// <param name="defaultValue">The option default value;</param>
-		public Option(string names, string description, bool required, string defaultValue)
+		public Option(string names, string title, string description, bool required, string defaultValue)
 		{
 			this.names = names.Split(',');
+			this.title = title;
 			this.description = description;
 			this.required = required;
 			this.defaultValue = defaultValue;
@@ -240,6 +254,14 @@ namespace Novell.iFolder.Utility
 		}
 
 		/// <summary>
+		/// Get the option title
+		/// </summary>
+		public string Title
+		{
+			get { return title; }
+		}
+
+		/// <summary>
 		/// The Option Description
 		/// </summary>
 		public string Description
@@ -253,6 +275,7 @@ namespace Novell.iFolder.Utility
 		public bool Required
 		{
 			get { return required; }
+			set { required = value; }
 		}
 
 		/// <summary>
@@ -278,19 +301,8 @@ namespace Novell.iFolder.Utility
 		/// </summary>
 		public string Value
 		{
-			get
-			{
-				string result = val;
-
-				if (!Assigned)
-				{
-					// use the default value if the option was not assigned\
-					result = defaultValue;
-				}
-
-				return result;
-			}
-			
+			get { return Assigned ? val : defaultValue; }
+				
 			set
 			{
 				// save the value
@@ -298,7 +310,34 @@ namespace Novell.iFolder.Utility
 
 				// mark the option assigned
 				assigned = true;
+				if (onOptionEntered != null)
+					onOptionEntered();
 			}
+		}
+
+		/// <summary>
+		/// Set the value without calling delegate.
+		/// </summary>
+		internal string InternalValue
+		{
+			set { val = value; assigned = true; }
+		}
+
+		/// <summary>
+		/// Should we prompt for this option.
+		/// </summary>
+		public bool Prompt
+		{
+			get { return prompt; }
+			set { prompt = value; }
+		}
+
+		/// <summary>
+		/// Sets the handler for the option.
+		/// </summary>
+		public OptionEnteredHandler OnOptionEntered
+		{
+			set { onOptionEntered = value; }
 		}
 
 		/// <summary>
@@ -365,6 +404,77 @@ namespace Novell.iFolder.Utility
 		/// <param name="message"></param>
 		public RequiredOptionNotAssignedException(string message) : base(message)
 		{
+		}
+	}
+
+	/// <summary>
+	/// A Boolean Command-Line Option
+	/// </summary>
+	public class BoolOption : Option
+	{
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <param name="names">A comma-delimited list of option names.</param>
+		/// <param name="title">A title for the option.</param>
+		/// <param name="description">A description of the option.</param>
+		/// <param name="required">Is this option required?</param>
+		/// <param name="defaultValue">The option default value;</param>
+		public BoolOption(string names, string title, string description, bool required, bool defaultValue) :
+			base (names, title, description, required, defaultValue.ToString())
+		{
+		}
+
+		/// <summary>
+		/// The Option Default Value
+		/// </summary>
+		public new bool DefaultValue
+		{
+			get { return Boolean.Parse(base.DefaultValue); }
+			set { base.DefaultValue = value.ToString(); }
+		}
+
+
+		/// <summary>
+		/// The Option Value
+		/// </summary>
+		public new bool Value
+		{
+			get
+			{
+				string result = base.Value;
+				if (!Assigned)
+				{
+					// use the default value if the option was not assigned\
+					result = base.DefaultValue;
+				}
+				return Boolean.Parse(result);
+			}
+			set 
+			{		
+				// save the value
+				base.Value = value.ToString();
+			}
+		}
+	}
+
+	/// <summary>
+	/// A Boolean Command-Line Option
+	/// </summary>
+	public class NoPromptOption : Option
+	{
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <param name="names">A comma-delimited list of option names.</param>
+		/// <param name="title">A title for the option.</param>
+		/// <param name="description">A description of the option.</param>
+		/// <param name="required">Is this option required?</param>
+		/// <param name="defaultValue">The option default value;</param>
+		public NoPromptOption(string names, string title, string description, bool required, string defaultValue) :
+			base (names, title, description, required, defaultValue)
+		{
+			prompt = false;
 		}
 	}
 }

@@ -85,24 +85,29 @@
                     HintPath = "..\..\..\..\stage\web\bin\SimiasClient.dll"
                 />
                 <Reference
-                    Name = "Novell.Directory.Ldap"
-                    AssemblyName = "Novell.Directory.Ldap"
-                    HintPath = "..\..\external\CsharpLDAP\Novell.Directory.Ldap.dll"
-                />
-                <Reference
-                    Name = "Mono.Security"
-                    AssemblyName = "Mono.Security"
-                    HintPath = "..\..\external\CsharpLDAP\Mono.Security.dll"
-                />
-                <Reference
                     Name = "SimiasLib"
                     AssemblyName = "SimiasLib"
                     HintPath = "..\..\..\..\final.standalone\web\bin\SimiasLib.dll"
                 />
                 <Reference
-                    Name = "Novell.Simias.Enterprise"
-                    AssemblyName = "Novell.Simias.Enterprise"
-                    HintPath = "..\..\..\..\final.enterprise\web\bin\Novell.Simias.Enterprise.dll"
+                    Name = "Simias.Server"
+                    AssemblyName = "Simias.Server"
+                    HintPath = "..\Simias.Server\Simias.Server.dll"
+                />
+                <Reference
+                    Name = "Novell.Directory.Ldap"
+                    AssemblyName = "Novell.Directory.Ldap"
+                    HintPath = "..\..\..\external\csharpldap\Novell.Directory.Ldap.dll"
+                />
+                <Reference
+                    Name = "Mono.Security"
+                    AssemblyName = "Mono.Security"
+                    HintPath = "..\..\..\external\csharpldap\Mono.Security.dll"
+                />
+                <Reference
+                    Name = "System.Web.Services"
+                    AssemblyName = "System.Web.Services"
+                    HintPath = "..\..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Web.Services.dll"
                 />
             </References>
         </Build>
@@ -113,13 +118,8 @@
                     BuildAction = "Content"
                 />
                 <File
-                    RelPath = "AssemblyInfo.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "LdapUtility.cs"
-                    SubType = "Code"
+                    RelPath = "HostAdmin.cs"
+                    SubType = "code"
                     BuildAction = "Compile"
                 />
                 <File
