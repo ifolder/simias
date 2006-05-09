@@ -2,7 +2,7 @@
 
 <script language="javascript">
 
-	function EnableButtons()
+	function EnableSyncIntervalButtons()
 	{
 		var saveButton = document.getElementById( "Policy_PolicyApplyButton" );
 		if ( saveButton != null )
@@ -41,7 +41,7 @@
 						ID="LimitValue" 
 						Runat="server" 
 						CssClass="policytextbox" 
-						onkeypress="EnableButtons()" />
+						onkeypress="EnableSyncIntervalButtons()" />
 				</td>
 				
 				<td>

@@ -286,7 +286,7 @@ namespace Simias.Storage
 		/// </summary>
 		public int Interval
 		{
-			get { return SyncInterval.Get( GetCurrentMember(), this ).Interval; }
+			get { return SyncInterval.Get( this ).Interval; }
 		}
 
 		/// <summary>

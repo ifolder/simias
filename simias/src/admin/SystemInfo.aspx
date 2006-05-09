@@ -18,6 +18,16 @@
 		@import url(css/SystemInfo.css);
 	</style>
 	
+	<script language="javascript">
+
+		function EnableSystemButtons()
+		{
+			document.getElementById( "SaveButton" ).disabled = false;
+			document.getElementById( "CancelButton" ).disabled = false;
+		}
+
+	</script>
+	
 </head>
 
 <body id="system" runat="server">
@@ -46,7 +56,11 @@
 						</th>
 						
 						<td>
-							<asp:TextBox ID="Name" Runat="server" CssClass="edittext" />
+							<asp:TextBox 
+								ID="Name" 
+								Runat="server" 
+								CssClass="edittext"
+								onkeypress="EnableSystemButtons()" />
 						</td>
 					</tr>
 					
@@ -56,7 +70,13 @@
 						</th>
 						
 						<td>
-							<textarea id="Description" runat="server" class="edittext" Rows="2" wrap="soft"></textarea>
+							<textarea 
+								id="Description" 
+								runat="server" 
+								class="edittext" 
+								Rows="2" 
+								wrap="soft"
+								onkeypress="EnableSystemButtons()"></textarea>
 						</td>
 					</tr>
 					
@@ -82,6 +102,20 @@
 					
 				</table>
 
+				<asp:Button 
+					ID="CancelButton" 
+					Runat="server" 
+					CssClass="ifolderbuttons"
+					Enabled="False"
+					OnClick="OnCancelButton_Click" />
+					
+				<asp:Button 
+					ID="SaveButton" 
+					Runat="server" 
+					CssClass="ifolderbuttons"
+					Enabled="False"
+					OnClick="OnSaveButton_Click" />
+					
 			</div>
 			
 			<div class="adminlistnav">

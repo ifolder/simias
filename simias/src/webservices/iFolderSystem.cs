@@ -79,5 +79,21 @@ namespace iFolder.WebService
 
             return system;
 		}
+
+		/// <summary>
+		/// Sets iFolder system information
+		/// </summary>
+		/// <param name="system">An iFolderSystem Object</param>
+		public static void SetSystem(iFolderSystem system)
+		{
+			Store store = Store.GetStore();
+			
+			Domain domain = store.GetDomain(store.DefaultDomain);
+
+			domain.Name = system.Name;
+			domain.Description = system.Description;
+
+			domain.Commit();
+		}
     }
 }

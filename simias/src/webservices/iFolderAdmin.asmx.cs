@@ -472,6 +472,31 @@ namespace iFolder.WebService
 
 		#endregion
 
+		#region System
+
+		/// <summary>
+		/// Update the editable information for the iFolder system.
+		/// </summary>
+		/// <param name="system">The update iFolderSystem object (Name, Description).</param>
+		[WebMethod(
+			 Description= "Update the editable information for the iFolder system (Name, Description).",
+			 EnableSession = true)]
+		public void SetSystem(iFolderSystem system)
+		{
+			try
+			{
+				Authorize();
+
+				iFolderSystem.SetSystem(system);
+			}
+			catch(Exception e)
+			{
+				SmartException.Throw(e);
+			}
+		}
+
+		#endregion
+
 		#region Administrators
 
 		/// <summary>

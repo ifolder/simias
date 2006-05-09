@@ -311,12 +311,16 @@ namespace iFolder.WebService
 			{
 				Member member = new Member(c, sn);
 
-				if ((i >= index) && (((max <= 0) || i < (max + index))))
+				// Don't include the Host objects as iFolder users.
+				if (!member.IsType("Host"))
 				{
-					list.Add(new iFolderUser(member, c, domain));
-				}
+					if ((i >= index) && (((max <= 0) || i < (max + index))))
+					{
+						list.Add(new iFolderUser(member, c, domain));
+					}
 
-				++i;
+					++i;
+				}
 			}
 
 			return new iFolderUserSet((iFolderUser[])list.ToArray(typeof(iFolderUser)), i);
@@ -404,12 +408,18 @@ namespace iFolder.WebService
 			{
 				if (sn.IsBaseType(NodeTypes.MemberType))
 				{
-					if ((i >= index) && (((max <= 0) || i < (max + index))))
-					{
-						list.Add(new iFolderUser(new Member(domain, sn), domain, domain));
-					}
+					Member member = new Member(domain, sn);
 
-					++i;
+					// Don't include Host objects as iFolder users.
+					if (!member.IsType("Host"))
+					{
+						if ((i >= index) && (((max <= 0) || i < (max + index))))
+						{
+							list.Add(new iFolderUser(member, domain, domain));
+						}
+
+						++i;
+					}
 				}
 			}
 
@@ -590,14 +600,18 @@ namespace iFolder.WebService
 
 			foreach(ShallowNode sn in sortList)
 			{
-				if ((i >= index) && (((max <= 0) || i < (max + index))))
+				Member member = new Member(domain, sn);
+
+				// Don't include Host objects as iFolder administrators.
+				if (!member.IsType("Host"))
 				{
-					Member member = new Member(domain, sn);
+					if ((i >= index) && (((max <= 0) || i < (max + index))))
+					{
+						list.Add(new iFolderUser(member, domain, domain));
+					}
 
-					list.Add(new iFolderUser(member, domain, domain));
+					++i;
 				}
-
-				++i;
 			}
 
 			return new iFolderUserSet((iFolderUser[])list.ToArray(typeof(iFolderUser)), i);

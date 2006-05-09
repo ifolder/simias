@@ -2,7 +2,7 @@
 
 <script language="javascript">
 
-	function EnableButtons()
+	function EnableDiskQuotaButtons()
 	{
 		var saveButton = document.getElementById( "Policy_PolicyApplyButton" );
 		if ( saveButton != null )
@@ -42,7 +42,7 @@
 						ID="LimitValue" 
 						Runat="server" 
 						CssClass="policytextbox" 
-						onkeypress="EnableButtons()" />
+						onkeypress="EnableDiskQuotaButtons()" />
 				</td>
 				
 				<td>

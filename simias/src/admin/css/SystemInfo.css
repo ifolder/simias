@@ -11,20 +11,21 @@
 {
 	border-bottom: dotted 1px #999999;
 	float: left;
-	padding-bottom: 12px;
+	padding-bottom: 8px;
 	width: 100%;
+}
+
+.detailinfo
+{
+	width: 100%;
+	table-layout: fixed;
 }
 
 .detailinfo th
 {
 	text-align:left;
-	padding-right: 6px;
 	font-size: .8em;
-}
-
-.detailinfo td
-{
-	width: 80%;
+	width: 7.5em;
 }
 
 .detailinfo td #Name
@@ -32,8 +33,8 @@
 	font-family: "Trebuchet MS", Arial, Helvetica, Geneva, Swiss, SunSans-Regular, sans-serif;
 	font-size: 1em;
 	text-align: left;
-	width: 120%;
 	padding-left: 4px;
+	width: 100%;
 }
 
 .detailinfo td #Description
@@ -41,8 +42,8 @@
 	font-family: "Trebuchet MS", Arial, Helvetica, Geneva, Swiss, SunSans-Regular, sans-serif;
 	font-size: 1em;
 	text-align: left;
-	width: 120%;
 	padding-left: 4px;
+	width: 100%;
 }
 
 .adminlistnav
@@ -140,4 +141,15 @@
 	margin-top: 6px;
 	margin-bottom: 4px;
 	width: 4.5em;
+}
+
+#SaveButton
+{
+	float: right;
+}
+
+#CancelButton
+{
+	margin-left: 4px;
+	float: right;
 }

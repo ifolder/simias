@@ -70,6 +70,16 @@ namespace Novell.iFolderWeb.Admin
 		protected HtmlTextArea Description;
 
 		/// <summary>
+		/// iFolder system cancel button control.
+		/// </summary>
+		protected Button CancelButton;
+
+		/// <summary>
+		/// iFolder system save button control.
+		/// </summary>
+		protected Button SaveButton;
+
+		/// <summary>
 		/// Number of users control.
 		/// </summary>
 		protected Literal NumberOfUsers;
@@ -273,6 +283,8 @@ namespace Novell.iFolderWeb.Admin
 				// Initialize the localized fields.
 				DeleteButton.Text = GetString( "DELETE" );
 				AddButton.Text = GetString( "ADD" );
+				SaveButton.Text = GetString( "SAVE" );
+				CancelButton.Text = GetString( "CANCEL" );
 
 				// Initialize state variables.
 				CurrentAdminOffset = 0;
@@ -429,6 +441,17 @@ namespace Novell.iFolderWeb.Admin
 		}
 
 		/// <summary>
+		/// Event that gets called when the cancel button is clicked.
+		/// </summary>
+		/// <param name="source"></param>
+		/// <param name="e"></param>
+		protected void OnCancelButton_Click( object source, EventArgs e )
+		{
+			// Refresh system information.
+			GetSystemInformation();
+		}
+
+		/// <summary>
 		/// Event handler that gets called when the delete admin button is clicked.
 		/// </summary>
 		/// <param name="source"></param>
@@ -458,6 +481,19 @@ namespace Novell.iFolderWeb.Admin
 
 			// Rebind the data source with the new data.
 			GetiFolderAdminList();
+		}
+
+		/// <summary>
+		/// Event that gets called when the save button is clicked.
+		/// </summary>
+		/// <param name="source"></param>
+		/// <param name="e"></param>
+		protected void OnSaveButton_Click( object source, EventArgs e )
+		{
+			iFolderSystem system = new iFolderSystem();
+			system.Name = Name.Text;
+			system.Description = Description.Value;
+			web.SetSystem( system );
 		}
 
 		/// <summary>
