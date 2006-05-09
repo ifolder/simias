@@ -5,6 +5,7 @@
 <%@ Register TagPrefix="iFolder" TagName="TabControl" Src="TabControl.ascx" %>
 <%@ Register TagPrefix="iFolder" TagName="QuotaControl" Src="Quota.ascx" %>
 <%@ Register TagPrefix="iFolder" TagName="PaggingControl" Src="Pagging.ascx" %>
+<%@ Register TagPrefix="iFolder" TagName="iFolderActionsControl" Src="iFolderActions.ascx" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 
@@ -77,6 +78,8 @@
 	
 			<iFolder:TabControl id="Tabs" runat="server" />
 	
+			<iFolder:iFolderActionsControl runat="server" />
+
 			<iFolder:QuotaControl runat="server" />
 
 		</div>

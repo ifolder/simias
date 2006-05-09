@@ -5,6 +5,7 @@
 <%@ Register TagPrefix="iFolder" TagName="MessageControl" Src="Message.ascx" %>
 <%@ Register TagPrefix="iFolder" TagName="QuotaControl" Src="Quota.ascx" %>
 <%@ Register TagPrefix="iFolder" TagName="PaggingControl" Src="Pagging.ascx" %>
+<%@ Register TagPrefix="iFolder" TagName="iFolderActionsControl" Src="iFolderActions.ascx" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 
@@ -21,11 +22,6 @@
 
 	<script type="text/javascript">
 
-		function ConfirmRemove(f)
-		{
-			return confirm("<%= GetString("IFOLDER.CONFIRMREMOVE") %>");
-		}
-	
 		function ConfirmChangeOwner(f)
 		{
 			return confirm("<%= GetString("IFOLDER.CONFIRMCHANGEOWNER") %>");
@@ -96,6 +92,8 @@
 	
 			<iFolder:TabControl runat="server" />
 	
+			<iFolder:iFolderActionsControl runat="server" />
+
 			<iFolder:QuotaControl runat="server" />
 
 		</div>
@@ -180,10 +178,6 @@
 					
 				<iFolder:PaggingControl id="MemberPagging" runat="server" />
 					
-				<div class="buttons">
-					<asp:Button ID="SelfRemoveButton" runat="server" />
-				</div>
-			
 			</div>
 	
 		</div>

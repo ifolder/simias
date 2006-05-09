@@ -23,6 +23,7 @@ iFolderWeb_CSFILES = \
 	$(srcdir)/Message.ascx.cs \
 	$(srcdir)/Pagging.ascx.cs \
 	$(srcdir)/HomeContext.ascx.cs \
+	$(srcdir)/iFolderActions.ascx.cs \
 	$(srcdir)/iFolderContext.ascx.cs \
 	$(srcdir)/TabControl.ascx.cs \
 	$(srcdir)/Share.aspx.cs \
@@ -85,6 +86,7 @@ iFolderWeb_FORMS = \
 	Pagging.ascx \
 	HomeContext.ascx \
 	iFolderContext.ascx \
+	iFolderActions.ascx \
 	TabControl.ascx \
 	Download.ashx \
 	Log4Net.config \

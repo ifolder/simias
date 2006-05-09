@@ -22,40 +22,29 @@
  ***********************************************************************/
 
 using System;
-using System.Collections;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Web;
-using System.Web.SessionState;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
+using System.Web.Security;
+using System.Threading;
 using System.Resources;
 using System.Web.Services.Protocols;
-using System.Net;
 
 namespace Novell.iFolderApp.Web
 {
 	/// <summary>
-	/// Details Page
+	///	iFolder Actions Control
 	/// </summary>
-	public class DetailsPage : Page
+	public class iFolderActionsControl : UserControl
 	{
 		/// <summary>
-		/// Actions Container
+		/// Log
 		/// </summary>
-		protected HtmlContainerControl Actions;
-
-		/// <summary>
-		/// Detail Data
-		/// </summary>
-		protected DataGrid DetailData;
-
-		/// <summary>
-		/// iFolder Edit Link
-		/// </summary>
-		protected HyperLink iFolderEditLink;
+		private static readonly WebLogger log = new WebLogger(
+			System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.Name);
 
 		/// <summary>
 		/// Message Box
@@ -63,15 +52,35 @@ namespace Novell.iFolderApp.Web
 		protected MessageControl Message;
 
 		/// <summary>
-		/// iFolder Connection
+		/// Remove Container
 		/// </summary>
-		private iFolderWeb web;
+		protected HtmlContainerControl Remove;
+
+		/// <summary>
+		/// Remove iFolder Membership Button
+		/// </summary>
+		protected LinkButton RemoveButton;
+
+		/// <summary>
+		/// Delete Container
+		/// </summary>
+		protected HtmlContainerControl Delete;
+
+		/// <summary>
+		/// Delete iFolder Button
+		/// </summary>
+		protected LinkButton DeleteButton;
 
 		/// <summary>
 		/// Resource Manager
 		/// </summary>
 		private ResourceManager rm;
 
+		/// <summary>
+		/// iFolder Connection
+		/// </summary>
+		private iFolderWeb web;
+	
 		/// <summary>
 		/// iFolder ID
 		/// </summary>
@@ -82,27 +91,24 @@ namespace Novell.iFolderApp.Web
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void Page_Load(object sender, EventArgs e)
+		private void Page_Load(object sender, System.EventArgs e)
 		{
 			// query
 			ifolderID = Request.QueryString.Get("iFolder");
 
-			// connection
-			web = (iFolderWeb) Session["Connection"];
-
 			// localization
 			rm = (ResourceManager) Application["RM"];
 
+			// check connection
+			web = (iFolderWeb)Session["Connection"];
+			
 			if (!IsPostBack)
 			{
-				// data
 				BindData();
 
 				// strings
-				iFolderEditLink.Text = GetString("EDIT");
-
-				// links
-				iFolderEditLink.NavigateUrl = "iFolderEdit.aspx?iFolder=" + ifolderID;
+				RemoveButton.Text = GetString("REMOVEMEMBERSHIP");
+				DeleteButton.Text = GetString("DELETEIFOLDER");
 			}
 		}
 
@@ -111,42 +117,19 @@ namespace Novell.iFolderApp.Web
 		/// </summary>
 		private void BindData()
 		{
-			// table
-			DataTable detailTable = new DataTable();
-			detailTable.Columns.Add("Label");
-			detailTable.Columns.Add("Value");
-
 			try
 			{
-				// ifolder
-				iFolderDetails ifolder = web.GetiFolderDetails(ifolderID);
+				iFolder ifolder = web.GetiFolder(ifolderID);
 
-				// rights
-				Actions.Visible = (ifolder.Rights == Rights.Admin);
-
-				detailTable.Rows.Add(new object[] { GetString("NAME"), ifolder.Name });
-				detailTable.Rows.Add(new object[] { GetString("DESCRIPTION"), ifolder.Description });
-				detailTable.Rows.Add(new object[] { GetString("LASTMODIFIED"), WebUtility.FormatDate(ifolder.LastModified, rm) });
-				detailTable.Rows.Add(new object[] { GetString("CREATED"), WebUtility.FormatDate(ifolder.Created, rm) });
-				detailTable.Rows.Add(new object[] { GetString("RIGHTS"), ifolder.Rights });
-				detailTable.Rows.Add(new object[] { GetString("OWNER"), ifolder.OwnerFullName });
-				detailTable.Rows.Add(new object[] { GetString("SIZE"), WebUtility.FormatSize(ifolder.Size, rm) });
-				detailTable.Rows.Add(new object[] { GetString("MEMBERS"), ifolder.MemberCount.ToString() });
-				detailTable.Rows.Add(new object[] { GetString("FILES"), ifolder.FileCount.ToString() });
-				detailTable.Rows.Add(new object[] { GetString("FOLDERS"), ifolder.DirectoryCount.ToString() });
-				detailTable.Rows.Add(new object[] { GetString("PUBLISHED"), WebUtility.FormatYesNo(ifolder.Published, rm) });
-				detailTable.Rows.Add(new object[] { GetString("LOCKED"), WebUtility.FormatYesNo(!ifolder.Enabled, rm) });
+				Remove.Visible = !ifolder.IsOwner;
+				Delete.Visible = ifolder.IsOwner;
 			}
 			catch(SoapException ex)
 			{
 				if (!HandleException(ex)) throw;
 			}
-
-			// data grid
-			DetailData.DataSource = detailTable;
-			DetailData.DataBind();
 		}
-
+		
 		/// <summary>
 		/// Handle Exceptions
 		/// </summary>
@@ -163,6 +146,10 @@ namespace Novell.iFolderApp.Web
 			{
 				case "AccessException":
 					Message.Text = GetString("ENTRY.ACCESSEXCEPTION");
+					break;
+
+				case "LockException":
+					Message.Text = GetString("ENTRY.LOCKEXCEPTION");
 					break;
 
 				default:
@@ -184,9 +171,9 @@ namespace Novell.iFolderApp.Web
 		}
 
 		#region Web Form Designer
-
+		
 		/// <summary>
-		/// On Initialize
+		/// On Intialize
 		/// </summary>
 		/// <param name="e"></param>
 		override protected void OnInit(EventArgs e)
@@ -199,10 +186,72 @@ namespace Novell.iFolderApp.Web
 		/// Initialize Components
 		/// </summary>
 		private void InitializeComponent()
-		{    
+		{
 			this.Load += new System.EventHandler(this.Page_Load);
+			this.RemoveButton.PreRender += new EventHandler(RemoveButton_PreRender);
+			this.RemoveButton.Click += new EventHandler(RemoveButton_Click);
+			this.DeleteButton.PreRender += new EventHandler(DeleteButton_PreRender);
+			this.DeleteButton.Click += new EventHandler(DeleteButton_Click);
+		}
+		
+		#endregion
+
+		/// <summary>
+		/// Remove Buton Pre-Render
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void RemoveButton_PreRender(object sender, EventArgs e)
+		{
+			RemoveButton.Attributes["onclick"] = "return ConfirmRemove(this.form);";
 		}
 
-		#endregion
+		/// <summary>
+		/// Remove Button Click
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void RemoveButton_Click(object sender, EventArgs e)
+		{
+			try
+			{
+				web.RemoveMembership(ifolderID);
+
+				Response.Redirect("iFolders.aspx");
+			}
+			catch(SoapException ex)
+			{
+				if (!HandleException(ex)) throw;
+			}
+		}
+
+		/// <summary>
+		/// Delete Button Pre-Render
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void DeleteButton_PreRender(object sender, EventArgs e)
+		{
+			DeleteButton.Attributes["onclick"] = "return ConfirmDelete(this.form);";
+		}
+
+		/// <summary>
+		/// Delete Button Click
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void DeleteButton_Click(object sender, EventArgs e)
+		{
+			try
+			{
+				web.DeleteiFolder(ifolderID);
+
+				Response.Redirect("iFolders.aspx");
+			}
+			catch(SoapException ex)
+			{
+				if (!HandleException(ex)) throw;
+			}
+		}
 	}
 }

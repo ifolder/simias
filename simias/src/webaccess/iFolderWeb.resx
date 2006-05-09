@@ -534,4 +534,7 @@
     <data name="HOMEQUOTA">
         <value>My Quota</value>
     </data>
+    <data name="DELETEIFOLDER">
+        <value>Delete iFolder</value>
+    </data>
 </root>

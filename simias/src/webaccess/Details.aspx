@@ -4,6 +4,7 @@
 <%@ Register TagPrefix="iFolder" TagName="TabControl" Src="TabControl.ascx" %>
 <%@ Register TagPrefix="iFolder" TagName="MessageControl" Src="Message.ascx" %>
 <%@ Register TagPrefix="iFolder" TagName="QuotaControl" Src="Quota.ascx" %>
+<%@ Register TagPrefix="iFolder" TagName="iFolderActionsControl" Src="iFolderActions.ascx" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 
@@ -19,11 +20,6 @@
 	</style>
 
 	<script type="text/javascript">
-	
-		function ConfirmDelete(f)
-		{
-			return confirm("<%= GetString("IFOLDER.CONFIRMDELETE") %>");
-		}
 	
 		function SetFocus()
 		{
@@ -51,6 +47,8 @@
 	
 			<iFolder:TabControl runat="server" />
 	
+			<iFolder:iFolderActionsControl runat="server" />
+
 			<iFolder:QuotaControl runat="server" />
 
 		</div>
@@ -93,10 +91,6 @@
 					</columns>
 				</asp:DataGrid>
 				
-				<div class="buttons">
-					<asp:Button ID="DeleteButton" runat="server" />
-				</div>
-			
 			</div>
 	
 		</div>

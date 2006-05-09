@@ -200,17 +200,18 @@ a:hover
 
 #nav .group .box .data
 {
-	padding: 0 4px 4px 4px;
+	padding: 0 4px 4px 8px;
 }
 
 #nav .group .box .link
 {
-	padding: 0 4px 4px 4px;
+	padding: 0 4px 4px 16px;
+	text-indent: -8px;
 }
 
 #nav .group .box .label
 {
-	padding: 0 4px 0 4px;
+	padding: 0 4px 0 8px;
 	color: #999999;
 }
 
