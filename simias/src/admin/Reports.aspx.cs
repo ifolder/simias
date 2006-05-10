@@ -26,6 +26,7 @@ using System.Collections;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Resources;
 using System.Web;
 using System.Web.SessionState;
@@ -42,10 +43,10 @@ namespace Novell.iFolderWeb.Admin
 	{
 		#region Class Members
 
-		//		/// <summary>
-		//		/// iFolder Connection
-		//		/// </summary>
-		//		private iFolderAdmin web;
+		/// <summary>
+		/// iFolder Connection
+		/// </summary>
+		private iFolderAdmin web;
 
 		/// <summary>
 		/// Resource Manager
@@ -58,9 +59,60 @@ namespace Novell.iFolderWeb.Admin
 		/// </summary>
 		protected TopNavigation TopNav;
 
+		/// <summary>
+		/// Enable reporting control.
+		/// </summary>
+		protected CheckBox EnableReporting;
+
+		/// <summary>
+		/// Enable reporting label control.
+		/// </summary>
+		protected Label EnableReportingLabel;
+
+		/// <summary>
+		/// Reporting frequency list control.
+		/// </summary>
+		protected RadioButtonList FrequencyList;
+
+		/// <summary>
+		/// Reporting time of day control.
+		/// </summary>
+		protected DropDownList TimeOfDayList;
+
+		/// <summary>
+		/// Reporting day of month control.
+		/// </summary>
+		protected DropDownList DayOfMonthList;
+
+		/// <summary>
+		/// Reporting day of week control.
+		/// </summary>
+		protected DropDownList DayOfWeekList;
+
+		/// <summary>
+		/// Day label control.
+		/// </summary>
+		protected Label DayLabel;
+
+		/// <summary>
+		/// Report format control.
+		/// </summary>
+		protected DropDownList FormatList;
+
+		/// <summary>
+		/// Report location control.
+		/// </summary>
+		protected RadioButtonList ReportLocation;
+
+		/// <summary>
+		/// Summary label control.
+		/// </summary>
+		protected Label Summary;
+
 		#endregion
 
 		#region Properties
+
 		#endregion
 
 		#region Private Methods
@@ -74,6 +126,124 @@ namespace Novell.iFolderWeb.Admin
 		}
 
 		/// <summary>
+		/// Displays the day control based on the frequency control value.
+		/// </summary>
+		private void DisplayDayControl()
+		{
+			switch ( FrequencyList.SelectedIndex )
+			{
+				case 0:
+					DayLabel.Text = "&nbsp;";
+					DayOfWeekList.Visible = DayOfMonthList.Visible = false;
+					break;
+
+				case 1:
+					DayLabel.Text = GetString( "EVERYTAG" );
+					DayOfWeekList.Visible = true;
+					DayOfMonthList.Visible = false;
+					break;
+
+				case 2:
+					DayLabel.Text = GetString( "DAYTAG" );
+					DayOfMonthList.Visible = true;
+					DayOfWeekList.Visible = false;
+					break;
+			}
+		}
+
+		/// <summary>
+		/// Displays a summary of the report configuration selections.
+		/// </summary>
+		private void DisplaySummary()
+		{
+			switch ( FrequencyList.SelectedIndex )
+			{
+				case 0:
+					Summary.Text = 
+						String.Format( 
+							GetString( "GENERATEDAILYREPORT" ), 
+							TimeOfDayList.SelectedValue );
+					break;
+
+				case 1:
+					Summary.Text = 
+						String.Format( 
+							GetString( "GENERATEWEEKLYREPORT" ), 
+							DayOfWeekList.SelectedValue, 
+							TimeOfDayList.SelectedValue );
+					break;
+
+				case 2:
+					Summary.Text = 
+						String.Format( 
+							GetString( "GENERATEMONTHLYREPORT" ), 
+							DayOfMonthList.SelectedValue, 
+							TimeOfDayList.SelectedValue );
+					break;
+			}
+		}
+
+		/// <summary>
+		/// Initializes the DayOfMonth dropdown list containing the first 28 days of the month.
+		/// </summary>
+		private void InitializeDayOfMonthList()
+		{
+			string[] days = new string[ 28 ];
+			for ( int i = 0; i < days.Length; ++i )
+			{
+				days[ i ] = Convert.ToString( i + 1 );
+			}
+
+			DayOfMonthList.DataSource = days;
+			DayOfMonthList.DataBind();
+		}
+
+		/// <summary>
+		/// Initializes the time of day values in the dropdown list.
+		/// </summary>
+		private void InitializeTimeOfDayList()
+		{
+			string[] times = new string[ 96 ];
+
+			int hours = 0;
+			int minutes = 0;
+			for( int i = 0; i < times.Length; ++i )
+			{
+				DateTime dt = new DateTime( 1962, 2, 11, hours, minutes, 0 );
+				times[ i ] = dt.ToString( "t" );
+
+				minutes += 15;
+				if ( minutes > 45 )
+				{
+					++hours;
+					minutes = 0;
+				}
+			}
+
+			TimeOfDayList.DataSource = times;
+			TimeOfDayList.DataBind();
+		}
+
+		/// <summary>
+		/// Initializes the DayOfWeek dropdown list containing the names of the days of the week.
+		/// </summary>
+		private void InitializeDayOfWeekList()
+		{
+			DayOfWeekList.DataSource = new DateTimeFormatInfo().DayNames;
+			DayOfWeekList.DataBind();
+		}
+
+		/// <summary>
+		/// Initializes the Format dropdown list containting the report formatting types.
+		/// </summary>
+		private void InitializeReportFormat()
+		{
+			string[] formats = new string[] { GetString( "CSVFORMAT" ) };
+			FormatList.DataSource = formats;
+			FormatList.DataBind();
+		}
+
+		/// <summary>
 		/// Page_Load
 		/// </summary>
 		/// <param name="sender"></param>
@@ -81,13 +251,31 @@ namespace Novell.iFolderWeb.Admin
 		private void Page_Load( object sender, System.EventArgs e )
 		{
 			// connection
-			//			web = Session[ "Connection" ] as iFolderAdmin;
+			web = Session[ "Connection" ] as iFolderAdmin;
 
 			// localization
 			rm = Application[ "RM" ] as ResourceManager;
 
 			if ( !IsPostBack )
 			{
+				// Initialize the localized fields.
+				EnableReportingLabel.Text = GetString( "ENABLEREPORTING" );
+				FrequencyList.Items[ 0 ].Text = GetString( "DAILY" );
+				FrequencyList.Items[ 1 ].Text = GetString( "WEEKLY" );
+				FrequencyList.Items[ 2 ].Text = GetString( "MONTHLY" );
+				FrequencyList.SelectedIndex = 0;
+
+				ReportLocation.Items[ 0 ].Text = GetString( "REPORTIFOLDER" );
+				ReportLocation.Items[ 1 ].Text = GetString( "REPORTDIRECTORY" );
+				ReportLocation.SelectedIndex = 1;
+
+				EnableReporting.Checked = IsReportingEnabled();
+
+				// Populate the dropdown lists.
+				InitializeTimeOfDayList();
+				InitializeDayOfWeekList();
+				InitializeDayOfMonthList();
+				InitializeReportFormat();
 			}
 		}
 
@@ -100,6 +288,12 @@ namespace Novell.iFolderWeb.Admin
 		{
 			// Set the breadcrumb list.
 			BuildBreadCrumbList();
+
+			// Initialize the day control.
+			DisplayDayControl();
+
+			// Display the summary.
+			DisplaySummary();
 		}
 
 		#endregion
@@ -114,6 +308,76 @@ namespace Novell.iFolderWeb.Admin
 		protected string GetString( string key )
 		{
 			return rm.GetString( key );
+		}
+
+		/// <summary>
+		/// Returns whether or not reporting is enabled.
+		/// </summary>
+		/// <returns>True if reporting is enabled, otherwise false is returned.</returns>
+		protected bool IsReportingEnabled()
+		{
+			return true;
+		}
+
+		/// <summary>
+		/// Event handler that gets called when the day of month selection changes.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		protected void OnDayOfMonthList_Changed( object sender, EventArgs e )
+		{
+			DisplaySummary();
+		}
+
+		/// <summary>
+		/// Event handler that gets called when the day of week selection changes.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		protected void OnDayOfWeekList_Changed( object sender, EventArgs e )
+		{
+			DisplaySummary();
+		}
+
+		/// <summary>
+		/// Event handler that gets called when the FrequencyList selection changes.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		protected void OnFrequencyList_Changed( object sender, EventArgs e )
+		{
+			DisplayDayControl();
+			DisplaySummary();
+		}
+
+		/// <summary>
+		/// Event handler that gets called when the report FormatList selection changes.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		protected void OnFormatList_Changed( object sender, EventArgs e )
+		{
+			DisplaySummary();
+		}
+
+		/// <summary>
+		/// Event handler that gets called when the report location selection changes.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		protected void OnReportLocation_Changed( object sender, EventArgs e )
+		{
+			DisplaySummary();
+		}
+
+		/// <summary>
+		/// Event handler that gets called when the time of day selection changes.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		protected void OnTimeOfDayList_Changed( object sender, EventArgs e )
+		{
+			DisplaySummary();
 		}
 
 		#endregion

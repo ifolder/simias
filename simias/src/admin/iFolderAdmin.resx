@@ -75,6 +75,9 @@
 	<data name="ASSIGNADMINISTRATORS">
 		<value>Assign Administrators</value>
 	</data>
+	<data name="ATTAG">
+		<value>At:</value>
+	</data>
 	<data name="AVAILABLETAG">
 		<value>Available:</value>
 	</data>
@@ -96,6 +99,9 @@
 	<data name="CHINESE-TRADITIONAL">
 		<value>Chinese-Traditional</value>
 	</data>
+	<data name="CONFIGUREREPORTING">
+		<value>Configure Reporting</value>
+	</data>
 	<data name="CONTAINS">
 		<value>Contains</value>
 	</data>
@@ -108,8 +114,17 @@
 	<data name="CREATEUSER">
 		<value>Create User</value>
 	</data>
+	<data name="CSVFORMAT">
+		<value>Comma Separated Value</value>
+	</data>
 	<data name="CZECH">
 		<value>Czech</value>
+	</data>
+	<data name="DAILY">
+		<value>Daily</value>
+	</data>
+	<data name="DAYTAG">
+		<value>Day:</value>
 	</data>
 	<data name="DELETE">
 		<value>Delete</value>
@@ -143,6 +158,9 @@
 	</data>
 	<data name="ENABLEDTAG">
 		<value>Enabled:</value>
+	</data>
+	<data name="ENABLEREPORTING">
+		<value>Enable Reporting</value>
 	</data>
 	<data name="ENDSWITH">
 		<value>Ends With</value>
@@ -252,6 +270,9 @@
 	<data name="ERRORUSERDOESNOTEXIST">
 		<value>The specified iFolder user does not exist.</value>
 	</data>
+	<data name="EVERYTAG">
+		<value>Every:</value>
+	</data>
 	<data name="EXCLUDEDFILES">
 		<value>Excluded Files</value>
 	</data>
@@ -285,8 +306,14 @@
 	<data name="FIRSTPAGE">
 		<value>First Page</value>
 	</data>
+	<data name="FORMATTAG">
+		<value>Format:</value>
+	</data>
 	<data name="FRENCH">
 		<value>French</value>
+	</data>
+	<data name="FREQUENCY">
+		<value>Frequency</value>
 	</data>
 	<data name="FULLNAME">
 		<value>Full Name</value>
@@ -296,6 +323,15 @@
 	</data>
 	<data name="GB">
 		<value>GB</value>
+	</data>
+	<data name="GENERATEDAILYREPORT">
+		<value>Generate report everyday at {0}</value>
+	</data>
+	<data name="GENERATEMONTHLYREPORT">
+		<value>Generate report on day {0} of every month at {1}</value>
+	</data>
+	<data name="GENERATEWEEKLYREPORT">
+		<value>Generate report every {0} at {1}</value>
 	</data>
 	<data name="GERMAN">
 		<value>German</value>
@@ -456,6 +492,9 @@
 	<data name="MODIFIEDTAG">
 		<value>Modified:</value>
 	</data>
+	<data name="MONTHLY">
+		<value>Monthly</value>
+	</data>
 	<data name="NAME">
 		<value>Name</value>
 	</data>
@@ -488,6 +527,9 @@
 	</data>
 	<data name="OK">
 		<value>OK</value>
+	</data>
+	<data name="OUTPUT">
+		<value>Output</value>
 	</data>
 	<data name="OWNED">
 		<value>Owned</value>
@@ -536,6 +578,12 @@
 	</data>
 	<data name="REMOVEMEMBERS">
 		<value>Remove Users</value>
+	</data>
+	<data name="REPORTDIRECTORY">
+		<value>Report Directory</value>
+	</data>
+	<data name="REPORTIFOLDER">
+		<value>Report iFolder</value>
 	</data>
 	<data name="REPORTS">
 		<value>Reports</value>
@@ -644,6 +692,12 @@
 	</data>
 	<data name="USERS">
 		<value>Users</value>
+	</data>
+	<data name="WEEKLY">
+		<value>Weekly</value>
+	</data>
+	<data name="WHEN">
+		<value>When</value>
 	</data>
 	<data name="YES">
 		<value>Yes</value>

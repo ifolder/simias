@@ -25,6 +25,171 @@
 	<div class="container">
 			
 		<iFolder:TopNavigation ID="TopNav" Runat="server" />
+		
+		<div class="leftnav">
+
+			<div class="detailnav">
+
+				<div class="pagetitle">
+				
+					<%= GetString( "CONFIGUREREPORTING" ) %>
+					
+				</div>
+				
+				<asp:CheckBox 
+					ID="EnableReporting" 
+					Runat="server" 
+					AutoPostBack="True" />
+					
+				<asp:Label ID="EnableReportingLabel" Runat="server" />
+				
+				<table class="frequency" >
+				
+					<tr>
+						<th colspan="2">
+						
+							<%= GetString( "FREQUENCY" ) %>
+							
+						</th>
+					</tr>
+			
+					<tr>
+						<td>
+						
+							<asp:RadioButtonList 
+								ID="FrequencyList" 
+								Runat="server" 
+								AutoPostBack="True" 
+								RepeatDirection="Vertical"
+								OnSelectedIndexChanged="OnFrequencyList_Changed">
+								
+								<asp:ListItem></asp:ListItem>
+								<asp:ListItem></asp:ListItem>
+								<asp:ListItem></asp:ListItem>
+								
+							</asp:RadioButtonList>
+							
+						</td>	
+					</tr>
+					
+				</table>
+				
+				<table class="when">
+				
+					<tr>
+						<th colspan="2">
+						
+							<%= GetString( "WHEN" ) %>
+							
+						</th>
+					</tr>
+					
+					<tr>
+					
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						
+					</tr>
+					
+					<tr>
+						<td class="whenlabel">
+						
+							<asp:Label ID="DayLabel" Runat="server" />
+							
+						</td>
+						
+						<td>
+						
+							<asp:DropDownList
+								ID="DayOfMonthList"
+								Runat="server"
+								AutoPostBack="True"
+								OnSelectedIndexChanged="OnDayOfMonthList_Changed"
+								Visible="False" />
+								
+							<asp:DropDownList
+								ID="DayOfWeekList"
+								Runat="server"
+								AutoPostBack="True"
+								OnSelectedIndexChanged="OnDayOfWeekList_Changed"
+								Visible="False" />
+								
+						</td>
+					</tr>
+					
+					<tr>
+						<td class="whenlabel">
+						
+							<%= GetString( "ATTAG" ) %>
+							
+						</td>
+						
+						<td>
+						
+							<asp:DropDownList 
+								ID="TimeOfDayList" 
+								Runat="server" 
+								AutoPostBack="True" 
+								OnSelectedIndexChanged="OnTimeOfDayList_Changed" />
+								
+						</td>
+					</tr>
+				
+				</table>
+				
+				<table class="format">
+				
+					<tr>
+						<th colspan="2">
+						
+							<%= GetString( "OUTPUT" ) %>
+							
+						</th>
+					</tr>
+					
+					<tr>
+						<td>
+
+							<asp:RadioButtonList
+								ID="ReportLocation" 
+								Runat="server" 
+								AutoPostBack="True" 
+								RepeatDirection="Vertical"
+								OnSelectedIndexChanged="OnReportLocation_Changed">
+								
+								<asp:ListItem></asp:ListItem>
+								<asp:ListItem></asp:ListItem>
+								
+							</asp:RadioButtonList>
+							
+						</td>
+					</tr>
+					
+					<tr>
+						<td>
+						
+							<%= GetString( "FORMATTAG" ) %>
+							
+							<asp:DropDownList
+								ID="FormatList"
+								Runat="server"
+								AutoPostBack="True"
+								OnSelectedIndexChanged="OnFormatList_Changed" />
+								
+						</td>
+					</tr>
+					
+				</table>
+				
+				<div class="summary">
+				
+					<asp:Label ID="Summary" Runat="server" />
+				
+				</div>
+				
+			</div>
+			
+		</div>
 
 	</div>
 	
