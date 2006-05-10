@@ -469,6 +469,11 @@ td.label
 	padding-right: 8px;
 }
 
+td.value
+{
+	width: 100em;
+}
+
 td.seperator
 {
 	padding-left: 32px;
@@ -483,12 +488,12 @@ td.seperator
 
 .columns
 {
-	width: 100%;
+	width: 98%;
 }
 
 .columns td
 {
-	width: 50%;
+	width: 49%;
 	vertical-align: top;
 }
 

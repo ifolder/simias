@@ -43,19 +43,34 @@ namespace Novell.iFolderApp.Web
 	public class DetailsPage : Page
 	{
 		/// <summary>
-		/// Actions Container
+		/// Property Actions Container
 		/// </summary>
-		protected HtmlContainerControl Actions;
+		protected HtmlContainerControl PropertyActions;
 
 		/// <summary>
-		/// Detail Data
+		/// Property Data
 		/// </summary>
-		protected DataGrid DetailData;
+		protected DataGrid PropertyData;
 
 		/// <summary>
-		/// iFolder Edit Link
+		/// Property Edit Link
 		/// </summary>
-		protected HyperLink iFolderEditLink;
+		protected HyperLink PropertyEditLink;
+
+		/// <summary>
+		/// Policy Actions Container
+		/// </summary>
+		protected HtmlContainerControl PolicyActions;
+
+		/// <summary>
+		/// Policy Data
+		/// </summary>
+		protected DataGrid PolicyData;
+
+		/// <summary>
+		/// Policy Edit Link
+		/// </summary>
+		protected HyperLink PolicyEditLink;
 
 		/// <summary>
 		/// Message Box
@@ -99,10 +114,12 @@ namespace Novell.iFolderApp.Web
 				BindData();
 
 				// strings
-				iFolderEditLink.Text = GetString("EDIT");
+				PropertyEditLink.Text = GetString("EDIT");
+				PolicyEditLink.Text = GetString("EDIT");
 
 				// links
-				iFolderEditLink.NavigateUrl = "iFolderEdit.aspx?iFolder=" + ifolderID;
+				PropertyEditLink.NavigateUrl = "iFolderEdit.aspx?iFolder=" + ifolderID;
+				PolicyEditLink.NavigateUrl = "iFolderPolicyEdit.aspx?iFolder=" + ifolderID;
 			}
 		}
 
@@ -111,10 +128,19 @@ namespace Novell.iFolderApp.Web
 		/// </summary>
 		private void BindData()
 		{
+			BindPropertyData();
+			BindPolicyData();
+		}
+
+		/// <summary>
+		/// Bind the Data to the Page.
+		/// </summary>
+		private void BindPropertyData()
+		{
 			// table
-			DataTable detailTable = new DataTable();
-			detailTable.Columns.Add("Label");
-			detailTable.Columns.Add("Value");
+			DataTable propertyTable = new DataTable();
+			propertyTable.Columns.Add("Label");
+			propertyTable.Columns.Add("Value");
 
 			try
 			{
@@ -122,20 +148,20 @@ namespace Novell.iFolderApp.Web
 				iFolderDetails ifolder = web.GetiFolderDetails(ifolderID);
 
 				// rights
-				Actions.Visible = (ifolder.Rights == Rights.Admin);
+				PropertyActions.Visible = (ifolder.Rights == Rights.Admin);
 
-				detailTable.Rows.Add(new object[] { GetString("NAME"), ifolder.Name });
-				detailTable.Rows.Add(new object[] { GetString("DESCRIPTION"), ifolder.Description });
-				detailTable.Rows.Add(new object[] { GetString("LASTMODIFIED"), WebUtility.FormatDate(ifolder.LastModified, rm) });
-				detailTable.Rows.Add(new object[] { GetString("CREATED"), WebUtility.FormatDate(ifolder.Created, rm) });
-				detailTable.Rows.Add(new object[] { GetString("RIGHTS"), ifolder.Rights });
-				detailTable.Rows.Add(new object[] { GetString("OWNER"), ifolder.OwnerFullName });
-				detailTable.Rows.Add(new object[] { GetString("SIZE"), WebUtility.FormatSize(ifolder.Size, rm) });
-				detailTable.Rows.Add(new object[] { GetString("MEMBERS"), ifolder.MemberCount.ToString() });
-				detailTable.Rows.Add(new object[] { GetString("FILES"), ifolder.FileCount.ToString() });
-				detailTable.Rows.Add(new object[] { GetString("FOLDERS"), ifolder.DirectoryCount.ToString() });
-				detailTable.Rows.Add(new object[] { GetString("PUBLISHED"), WebUtility.FormatYesNo(ifolder.Published, rm) });
-				detailTable.Rows.Add(new object[] { GetString("LOCKED"), WebUtility.FormatYesNo(!ifolder.Enabled, rm) });
+				propertyTable.Rows.Add(new object[] { GetString("NAME"), ifolder.Name });
+				propertyTable.Rows.Add(new object[] { GetString("DESCRIPTION"), ifolder.Description });
+				propertyTable.Rows.Add(new object[] { GetString("LASTMODIFIED"), WebUtility.FormatDate(ifolder.LastModified, rm) });
+				propertyTable.Rows.Add(new object[] { GetString("CREATED"), WebUtility.FormatDate(ifolder.Created, rm) });
+				propertyTable.Rows.Add(new object[] { GetString("RIGHTS"), ifolder.Rights });
+				propertyTable.Rows.Add(new object[] { GetString("OWNER"), ifolder.OwnerFullName });
+				propertyTable.Rows.Add(new object[] { GetString("SIZE"), WebUtility.FormatSize(ifolder.Size, rm) });
+				propertyTable.Rows.Add(new object[] { GetString("MEMBERS"), ifolder.MemberCount.ToString() });
+				propertyTable.Rows.Add(new object[] { GetString("FILES"), ifolder.FileCount.ToString() });
+				propertyTable.Rows.Add(new object[] { GetString("FOLDERS"), ifolder.DirectoryCount.ToString() });
+				propertyTable.Rows.Add(new object[] { GetString("PUBLISHED"), WebUtility.FormatYesNo(ifolder.Published, rm) });
+				propertyTable.Rows.Add(new object[] { GetString("LOCKED"), WebUtility.FormatYesNo(!ifolder.Enabled, rm) });
 			}
 			catch(SoapException ex)
 			{
@@ -143,8 +169,39 @@ namespace Novell.iFolderApp.Web
 			}
 
 			// data grid
-			DetailData.DataSource = detailTable;
-			DetailData.DataBind();
+			PropertyData.DataSource = propertyTable;
+			PropertyData.DataBind();
+		}
+
+		/// <summary>
+		/// Bind the Data to the Page.
+		/// </summary>
+		private void BindPolicyData()
+		{
+			// table
+			DataTable policyTable = new DataTable();
+			policyTable.Columns.Add("Label");
+			policyTable.Columns.Add("Value");
+
+			try
+			{
+				// ifolder
+				iFolderPolicy policy = web.GetiFolderPolicy(ifolderID);
+
+				// rights
+				//PolicyActions.Visible = (ifolder.Rights == Rights.Admin);
+				PolicyActions.Visible = false;
+
+				policyTable.Rows.Add(new object[] { GetString("SYNCINTERVAL"), policy.SyncIntervalEffective });
+			}
+			catch(SoapException ex)
+			{
+				if (!HandleException(ex)) throw;
+			}
+
+			// data grid
+			PolicyData.DataSource = policyTable;
+			PolicyData.DataBind();
 		}
 
 		/// <summary>

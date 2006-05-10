@@ -59,38 +59,82 @@
 	
 			<div class="main">
 				
-				<div id="Actions" class="actions" runat="server">
-					<div class="action">
-						<asp:HyperLink ID="iFolderEditLink" runat="server" />
-					</div>
-				</div>
-				
-				<asp:DataGrid
-					ID="DetailData"
-					GridLines="none"
-					AutoGenerateColumns="false"
-					ShowHeader="false"
-					CssClass="list"
-					ItemStyle-CssClass="row"
-					AlternatingItemStyle-CssClass="altrow"
-					runat="server">
+				<div>
 					
-					<columns>
-						<asp:TemplateColumn ItemStyle-CssClass="label">
-							<itemtemplate>
-								<%# DataBinder.Eval(Container.DataItem, "Label") %>:&nbsp;
-							</itemtemplate>
-						</asp:TemplateColumn>
+					<div class="section"><%= GetString("PROPERTIES") %></div>
 						
-						<asp:TemplateColumn ItemStyle-CssClass="value">
-							<itemtemplate>
-								<%# DataBinder.Eval(Container.DataItem, "Value") %>
-							</itemtemplate>
-						</asp:TemplateColumn>
+					<div id="PropertyActions" class="actions" runat="server">
+						<div class="action">
+							<asp:HyperLink ID="PropertyEditLink" runat="server" />
+						</div>
+					</div>
+					
+					<asp:DataGrid
+						ID="PropertyData"
+						GridLines="none"
+						AutoGenerateColumns="false"
+						ShowHeader="false"
+						CssClass="list"
+						ItemStyle-CssClass="row"
+						AlternatingItemStyle-CssClass="altrow"
+						runat="server">
 						
-					</columns>
-				</asp:DataGrid>
+						<columns>
+							<asp:TemplateColumn ItemStyle-CssClass="label">
+								<itemtemplate>
+									<%# DataBinder.Eval(Container.DataItem, "Label") %>:&nbsp;
+								</itemtemplate>
+							</asp:TemplateColumn>
+							
+							<asp:TemplateColumn ItemStyle-CssClass="value">
+								<itemtemplate>
+									<%# DataBinder.Eval(Container.DataItem, "Value") %>
+								</itemtemplate>
+							</asp:TemplateColumn>
+							
+						</columns>
+					</asp:DataGrid>
 				
+				</div>
+					
+				<div visible="false" runat="server">
+					
+					<div class="section"><%= GetString("POLICY") %></div>
+						
+					<div id="PolicyActions" class="actions" runat="server">
+						<div class="action">
+							<asp:HyperLink ID="PolicyEditLink" runat="server" />
+						</div>
+					</div>
+					
+					<asp:DataGrid
+						ID="PolicyData"
+						GridLines="none"
+						AutoGenerateColumns="false"
+						ShowHeader="false"
+						CssClass="list"
+						ItemStyle-CssClass="row"
+						AlternatingItemStyle-CssClass="altrow"
+						runat="server">
+						
+						<columns>
+							<asp:TemplateColumn ItemStyle-CssClass="label">
+								<itemtemplate>
+									<%# DataBinder.Eval(Container.DataItem, "Label") %>:&nbsp;
+								</itemtemplate>
+							</asp:TemplateColumn>
+							
+							<asp:TemplateColumn ItemStyle-CssClass="value">
+								<itemtemplate>
+									<%# DataBinder.Eval(Container.DataItem, "Value") %>
+								</itemtemplate>
+							</asp:TemplateColumn>
+							
+						</columns>
+					</asp:DataGrid>
+				
+				</div>
+
 			</div>
 	
 		</div>

@@ -537,4 +537,10 @@
     <data name="DELETEIFOLDER">
         <value>Delete iFolder</value>
     </data>
+    <data name="PROPERTIES">
+        <value>Properties</value>
+    </data>
+    <data name="POLICY">
+        <value>Policy</value>
+    </data>
 </root>
