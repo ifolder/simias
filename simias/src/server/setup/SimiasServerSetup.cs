@@ -106,9 +106,14 @@ namespace Novell.iFolder
 		#region Options
 
 		/// <summary>
+		/// The default configuration path.
+		/// </summary>
+		public Option defaultConfigPath = new Option("defaultConfigPath,p", "Default Configuration Path", "Path to the default configuration files", true, null);
+
+		/// <summary>
 		/// The store path.
 		/// </summary>
-		public Option path = new Option("path,p", "Store Path", "Path to the Simias Store", true, null);
+		public Option path = new Option("path,p", "Server's Data Path", "Path to the server's data files", true, null);
 
 		/// <summary>
 		/// The port to listen on.
@@ -231,19 +236,25 @@ namespace Novell.iFolder
 		SimiasServerSetup(string[] cmdArgs)
 		{
 			args = cmdArgs;
-			System.Net.IPHostEntry hostInfo = System.Net.Dns.GetHostByName(System.Net.Dns.GetHostName());
-			Uri pubUrl = new Uri(Uri.UriSchemeHttps + "://" + hostInfo.AddressList[0].ToString() + "/simias10");
+			System.Net.IPHostEntry hostInfo = System.Net.Dns.GetHostByName( System.Net.Dns.GetHostName() );
+			Uri pubUrl = new Uri( Uri.UriSchemeHttps + "://" + hostInfo.AddressList[0].ToString() + "/simias10" );
 			publicUrl.DefaultValue = pubUrl.ToString();
-			if (MyEnvironment.Windows)
+			if ( MyEnvironment.Windows )
 			{
 				// On windows we do not want to prompt for these values.
 				apache.Value = false;
 			}
-			path.OnOptionEntered = new Option.OptionEnteredHandler(OnPath);
-			slaveServer.OnOptionEntered = new Option.OptionEnteredHandler(OnSlave);
-			publicUrl.OnOptionEntered = new Option.OptionEnteredHandler(OnPublicUrl);
-			privateUrl.OnOptionEntered = new Option.OptionEnteredHandler(OnPrivateUrl);
-			masterAddress.OnOptionEntered = new Option.OptionEnteredHandler(OnMasterAddress);
+
+			if ( SetupDefaultConfigPath() == false )
+			{
+				defaultConfigPath.OnOptionEntered = new Option.OptionEnteredHandler( OnDefaultConfig );
+			}
+
+			path.OnOptionEntered = new Option.OptionEnteredHandler( OnPath );
+			slaveServer.OnOptionEntered = new Option.OptionEnteredHandler( OnSlave );
+			publicUrl.OnOptionEntered = new Option.OptionEnteredHandler( OnPublicUrl );
+			privateUrl.OnOptionEntered = new Option.OptionEnteredHandler( OnPrivateUrl );
+			masterAddress.OnOptionEntered = new Option.OptionEnteredHandler( OnMasterAddress );
 		}
 
 		#endregion
@@ -251,13 +262,31 @@ namespace Novell.iFolder
 		#region Option Handlers
 		private bool OnPath()
 		{
-			storePath = Path.GetFullPath(path.Value);
-			if (Path.GetFileName(storePath) != "simias")
-				storePath = Path.Combine(storePath, "simias");
-			configFilePath = Path.Combine(storePath, Simias.Configuration.DefaultConfigFileName);
+			storePath = Path.GetFullPath( path.Value );
+			if ( Path.GetFileName(storePath) != "simias" )
+			{
+				storePath = Path.Combine( storePath, "simias" );
+			}
+
+			//configFilePath = Path.Combine( storePath, Simias.Configuration.DefaultConfigFileName );
 			SetupConfigFiles();
 			UpdateDefaults();
 			return true;
+		}
+
+		private bool OnDefaultConfig()
+		{
+			string configPath = Path.GetFullPath( defaultConfigPath.Value );
+			if ( System.IO.Directory.Exists( configPath ) == true )
+			{
+				if ( File.Exists( Path.Combine( configPath, Simias.Configuration.DefaultConfigFileName ) ) == true )
+				{
+					configFilePath = configPath;
+					return true;
+				}
+			}
+
+			return false;
 		}
 
 		private bool OnSlave()
@@ -494,15 +523,14 @@ namespace Novell.iFolder
 			Console.Write("The script is intended for testing purposes only. ");
 			Console.WriteLine();
 
-			Option[] options = Options.GetOptions(this);
-			foreach(Option option in options)
+			Option[] options = Options.GetOptions( this );
+			foreach( Option option in options )
 			{
-				Prompt.ForOption(option);
+				Prompt.ForOption( option );
 			}
 
-			
 			Console.WriteLine();
-			Console.WriteLine("Working...");
+			Console.WriteLine( "Working..." );
 			Console.WriteLine();
 		}
 
@@ -983,16 +1011,18 @@ namespace Novell.iFolder
 			}
 				
 			// Make sure that the configuration file exists.
-			string destConfigFile = configFilePath;
-			string srcConfigFile = Path.Combine( ServerInstallPath, Configuration.DefaultConfigFileName );
-			if (!File.Exists(destConfigFile))
+			// 
+			string srcConfigFile = Path.Combine( configFilePath, "bill" );
+			srcConfigFile = Path.Combine( configFilePath, Configuration.DefaultConfigFileName );
+			string destConfigFile = Path.Combine( storePath, Configuration.DefaultConfigFileName );
+			if ( File.Exists( destConfigFile ) == false )
 			{
 				File.Copy( srcConfigFile, destConfigFile );
 			}
 
 			// Make sure that the log4net file exists.
 			string destLog4NetFile = Path.Combine( storePath, Log4NetFile );
-			string srcLog4NetFile = Path.Combine( ServerInstallPath, Log4NetFile );
+			string srcLog4NetFile = Path.Combine( configFilePath, Log4NetFile );
 			if ( File.Exists( destLog4NetFile ) == false )
 			{
 				File.Copy( srcLog4NetFile, destLog4NetFile );
@@ -1000,7 +1030,8 @@ namespace Novell.iFolder
 
 			// Make sure that the modules directory exists.
 			string destModulesDir = Path.Combine( storePath, ModulesDir );
-			string srcModulesDir = Path.Combine( ServerInstallPath, ModulesDir );
+			string srcModulesDir = Path.Combine( configFilePath, "bill" );
+			srcModulesDir = Path.Combine( configFilePath, ModulesDir );
 			if ( System.IO.Directory.Exists( destModulesDir ) == false )
 			{
 				System.IO.Directory.CreateDirectory( destModulesDir );
@@ -1015,6 +1046,48 @@ namespace Novell.iFolder
 			}
 			
 			Console.WriteLine("Done");
+		}
+
+		// Method to discover the path to the default config files
+		private bool SetupDefaultConfigPath()
+		{
+			// Check /etc first
+			string configPath = 
+				String.Format( "{0}{1}{2}{3}{4}{5}",
+					Path.DirectorySeparatorChar.ToString(),
+					"etc", 
+					Path.DirectorySeparatorChar.ToString(),
+					"simias",
+					Path.DirectorySeparatorChar.ToString(),
+					"bill" );
+
+			if ( System.IO.Directory.Exists( configPath ) == true )
+			{
+				if ( File.Exists( Path.Combine( configPath, Simias.Configuration.DefaultConfigFileName ) ) == true )
+				{
+					configFilePath = configPath;
+					return true;
+				}
+			}
+
+			// Check the target area
+			configPath = 
+				String.Format( "{0}{1}{2}{3}",
+					Path.DirectorySeparatorChar.ToString(),
+					"etc", 
+					Path.DirectorySeparatorChar.ToString(),
+					"bill" );
+
+			if ( System.IO.Directory.Exists( configPath ) == true )
+			{
+				if ( File.Exists( Path.Combine( configPath, Simias.Configuration.DefaultConfigFileName ) ) == true )
+				{
+					configFilePath = configPath; 
+					return true;
+				}
+			}
+
+			return false;
 		}
 
 		private void SetupPermissions()
