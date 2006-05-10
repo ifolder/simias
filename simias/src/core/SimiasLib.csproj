@@ -80,11 +80,6 @@
                     HintPath = "..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.XML.dll"
                 />
                 <Reference
-                    Name = "log4net"
-                    AssemblyName = "log4net"
-                    HintPath = "external\log4net\bin\net\1.1\release\log4net.dll"
-                />
-                <Reference
                     Name = "System.Security"
                     AssemblyName = "System.Security"
                     HintPath = "..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Security.dll"
@@ -108,6 +103,11 @@
                     Name = "SimiasClient"
                     Project = "{E38BAF80-9B31-4D15-A002-E775B96FAFA6}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                />
+                <Reference
+                    Name = "log4net"
+                    AssemblyName = "log4net"
+                    HintPath = "..\..\external\log4net\bin\net\1.1\release\log4net.dll"
                 />
             </References>
         </Build>

@@ -64,7 +64,7 @@ endif
 
 all: iFolder.WebService.dll GenerateWsdl.exe iFolderWeb.wsdl iFolderAdmin.wsdl
 
-iFolder.WebService.dll: $(iFolderWebService_CSFILES) $(iFolderWebService_RESOURCES)
+iFolder.WebService.dll: copy $(iFolderWebService_CSFILES) $(iFolderWebService_RESOURCES)
 	$(CSC) /out:$@ $(CSCFLAGS) $(iFolderWebService_FLAGS) $(iFolderWebService_LIBS:%=/r:%) $(iFolderWebService_LIBPATH:%=/lib:%) $(LOG4NET_LIBS) $(iFolderWebService_RESOURCES:%=$(ICON_FLAG)%) $(iFolderWebService_CSFILES_CSC)
 
 GenerateWsdl.exe: GenerateWsdl.cs
@@ -87,7 +87,7 @@ DEBUG_FILES = iFolder.WebService.pdb
 endif
 endif
 
-install-exec-local: iFolder.WebService.dll $(DATA_FILES)
+install-exec-local: all $(DATA_FILES)
 	$(mkinstalldirs) $(DESTDIR)$(webdir)
 	$(mkinstalldirs) $(DESTDIR)$(webbindir)
 	$(mkinstalldirs) $(DESTDIR)$(sysconfdir)
@@ -103,10 +103,10 @@ installcheck-local: install
 CLEAN_FILES = iFolder.WebService.dll GenerateWsdl.exe iFolderWeb.wsdl iFolderAdmin.wsdl $(DOC_FILE_CLEAN) 
 
 clean-local:
-	rm -rf $(CLEAN_FILES) $(COMMON_CLEAN_FILES)
+	rm -rf $(CLEAN_FILES) $(COMMON_CLEAN_FILES) SimiasClient.dll SimiasLib.dll SimiasServer.dll
 
 distclean-local:
-	rm -rf $(COMMON_DISTCLEAN_FILES) SimiasClient.dll SimiasLib.dll SimiasServer.dll
+	rm -rf $(COMMON_DISTCLEAN_FILES)
 
 maintainer-clean-local:
 	rm -rf $(COMMON_MAINTAINER_CLEAN_FILES)

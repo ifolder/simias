@@ -27,6 +27,7 @@ using System.Security.Cryptography;
 using System.Diagnostics;
 using System.IO;
 using System.Xml;
+using System.Threading;
 
 using Simias;
 using Simias.Client;
@@ -726,19 +727,39 @@ namespace Simias.Storage
 		/// <returns>The member ID for the current/impersonating user.</returns>
 		private string GetCurrentPrincipal()
 		{
-			string currentUserID;
+			string currentUserID = null;
 
+			// check the impersonation first
 			if ( accessControl.IsImpersonating )
 			{
 				currentUserID = accessControl.ImpersonationMember.UserID;
 			}
-			else
+
+			// check the current principal set by the authentication module
+			else if ( ( Thread.CurrentPrincipal != null ) && ( Thread.CurrentPrincipal.Identity != null )
+				&& ( Thread.CurrentPrincipal.Identity.Name != null )
+				&& ( Thread.CurrentPrincipal.Identity.Name.Length != 0 ) )
+			{
+				string id = Thread.CurrentPrincipal.Identity.Name;
+				Store store = Store.GetStore();
+				Domain domain = store.GetDomain(store.DefaultDomain);
+
+				if ( domain.GetMemberByID( id ) != null )
+				{
+					currentUserID = id;
+				}
+			}
+				
+			// use the domain identity
+			if ( currentUserID == null )
 			{
 				currentUserID = store.GetUserIDFromDomainID( Domain );
-				if ( currentUserID == null )
-				{
-					currentUserID = store.CurrentUser.ID;
-				}
+			}
+
+			// use the store current user
+			if ( currentUserID == null )
+			{
+				currentUserID = store.CurrentUser.ID;
 			}
 
 			return currentUserID;
