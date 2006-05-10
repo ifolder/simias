@@ -278,14 +278,14 @@ namespace iFolder.WebService
 		/// Get a history of changes to an iFolder.
 		/// </summary>
 		/// <param name="ifolderID">The id of the iFolder.</param>
-		/// <param name="entryID">The id of entry to filter the results (can be null for no filtering).</param>
+		/// <param name="itemID">The id of item to filter the results (can be null for no filtering).</param>
 		/// <param name="index">The starting index for the search results.</param>
 		/// <param name="max">The max number of search results to be returned.</param>
 		/// <returns>A set of ChangeEntry objects.</returns>
 		[WebMethod(
 			 Description="Get a history of changes to an iFolder.",
 			 EnableSession=true)]
-		public ChangeEntrySet GetChanges(string ifolderID, string entryID, int index, int max)
+		public ChangeEntrySet GetChanges(string ifolderID, string itemID, int index, int max)
 		{
 			ChangeEntrySet result = null;
 
@@ -293,7 +293,7 @@ namespace iFolder.WebService
 			{
 				Authorize();
 
-				result = ChangeEntry.GetChanges(ifolderID, entryID, index, max, GetAccessID());
+				result = ChangeEntry.GetChanges(ifolderID, itemID, index, max, GetAccessID());
 			}
 			catch(Exception e)
 			{

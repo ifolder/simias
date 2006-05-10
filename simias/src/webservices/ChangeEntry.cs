@@ -238,21 +238,34 @@ namespace iFolder.WebService
 		/// Get Changes
 		/// </summary>
 		/// <param name="ifolderID">The iFolder ID</param>
-		/// <param name="entryID">The iFolder Entry ID</param>
+		/// <param name="itemID">The Item ID</param>
 		/// <param name="index">The Search Start Index</param>
 		/// <param name="max">The Search Max Count of Results</param>
 		/// <param name="accessID">The Access User ID</param>
 		/// <returns>A Set of ChangeEntry Objects</returns>
-		public static ChangeEntrySet GetChanges(string ifolderID, string entryID, int index, int max, string accessID)
+		public static ChangeEntrySet GetChanges(string ifolderID, string itemID, int index, int max, string accessID)
 		{
 			JournalEntry[] entries;
 
 			// TODO: access check?
 
+			// check for a member and convert the User ID to a Node ID
+			if ((itemID != null) && (itemID.Length != 0))
+			{
+				Store store = Store.GetStore();
+				Collection collection = store.GetCollectionByID(ifolderID);
+
+				if (collection == null) throw new iFolderDoesNotExistException(ifolderID);
+
+				Member member = collection.GetMemberByID(itemID);
+
+				if (member != null) itemID = member.ID;
+			}
+
 			// get entries
 			int total = 0;
 			Journal journal = new Journal(ifolderID);
-			journal.GetSeekEntries(entryID, null, max, (uint)index, out entries, out total);
+			journal.GetSeekEntries(itemID, null, max, (uint)index, out entries, out total);
 
 			// list
 			ArrayList list = new ArrayList();
