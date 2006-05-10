@@ -191,6 +191,9 @@ namespace Simias.Web
 		private static readonly ISimiasLog log = SimiasLogManager.GetLogger(typeof(SimiasService));
 		private static int simiasReferenceCount = 0;
 
+		private static string DomainServiceType = "Domain Service";
+		private static string DomainServicePath = "/simias10/DomainService.asmx";
+
 		/// <summary>
 		/// Creates the SimiasService and sets up logging
 		/// </summary>
@@ -1011,12 +1014,22 @@ log.Debug("SimiasWebService.ConnectToDomain() called to connect to {0} as {1}", 
 				}
 				else
 				{
-					Uri hostLocation = WSInspection.GetServiceUrl( hostAddress, "Domain Service", user, password );
-					if ( hostLocation != null )
+					Uri hostLocation = WSInspection.GetServiceUrl( hostAddress, DomainServiceType, user, password );
+					if ( hostLocation == null )
 					{
-						DomainProvider.SetHostLocation( domainID, hostLocation );
-						addressSet = true;
+						// There was a failure in obtaining the service url. Try a hard coded one.
+						if ( hostAddress.StartsWith( Uri.UriSchemeHttp ) || hostAddress.StartsWith( Uri.UriSchemeHttps ) )
+						{	
+							hostLocation = new Uri( hostAddress.TrimEnd( new char[] {'/'} ) + DomainServicePath ); 
+						}
+						else
+						{
+							hostLocation = new Uri( Uri.UriSchemeHttp + Uri.SchemeDelimiter + hostAddress.TrimEnd( new char[] {'/'} ) + DomainServicePath );
+						}
 					}
+
+					DomainProvider.SetHostLocation( domainID, hostLocation );
+					addressSet = true;
 				}
 			}
 			catch ( Exception ex )
