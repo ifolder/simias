@@ -67,7 +67,7 @@ namespace iFolder.WebService
 					context.Response.Clear();
 					context.Response.AddHeader("Content-Disposition",
 						String.Format("attachment; filename=\"{0}\"",
-						HttpUtility.UrlEncode(filename, System.Text.Encoding.UTF8)));
+						HttpUtility.UrlEncode(filename, System.Text.Encoding.UTF8).Replace("+", "%20")));
 					context.Response.AddHeader("Content-Length", stream.Length.ToString());
 					context.Response.ContentType = "application/octet-stream";
 					context.Response.BufferOutput = false;
