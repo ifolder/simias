@@ -58,7 +58,7 @@ namespace Novell.iFolderApp.Web
 		/// <summary>
 		/// Upload File
 		/// </summary>
-		protected HtmlInputFile UploadFile;
+		protected HtmlInputFile UploadFile1, UploadFile2, UploadFile3, UploadFile4, UploadFile5;
 
 		/// <summary>
 		/// Upload Button
@@ -248,110 +248,20 @@ namespace Novell.iFolderApp.Web
 		/// <param name="e"></param>
 		private void UploadButton_Click(object sender, EventArgs e)
 		{
-			// filename
-			// KLUDGE: Mono no longer recognizes backslash as a directory seperator
-			// Path.GetFileName() is not usable here for that reason
-			string filename = WebUtility.GetFileName(UploadFile.PostedFile.FileName.Trim());
-			
-			// check for file
-			if (filename.Length == 0)
+			HtmlInputFile[] inputs = 
 			{
-				// no file
-				Message.Text = GetString("ENTRY.NOUPLOADFILE");
-
-				return;
-			}
-
-			// upload path
-			string path = String.Format("{0}/{1}", ParentPath.Text, filename);
-
-			iFolderEntry child = null;
-			bool newEntry = false;
+				UploadFile1,
+				UploadFile2,
+				UploadFile3,
+				UploadFile4,
+				UploadFile5
+			};
 
 			try
 			{
-				try
+				foreach(HtmlInputFile input in inputs)
 				{
-					// does the entry exist?
-					child = web.GetEntryByPath(ifolderID, path);
-				}
-				catch
-				{
-					// ignore
-				}
-
-				// create the entry
-				if (child == null)
-				{
-					child = web.CreateEntry(ifolderID, entryID, iFolderEntryType.File, filename);
-					newEntry = true;
-				}
-
-				// check for an empty file
-				if (UploadFile.PostedFile.ContentLength == 0)
-				{
-					Message.Text = GetString("ENTRY.EMPTYFILE");
-
-					return;
-				}
-
-				try
-				{
-					// put
-					UriBuilder uri = new UriBuilder(web.Url);
-					
-					uri.Path = String.Format("/simias10/Upload.ashx?iFolder={0}&Entry={1}",
-						child.iFolderID, child.ID);
-
-					HttpWebRequest webRequest = (HttpWebRequest) WebRequest.Create(uri.Uri);
-					webRequest.Method = "PUT";
-					webRequest.ContentLength = UploadFile.PostedFile.ContentLength;
-					webRequest.PreAuthenticate = true;
-					webRequest.Credentials = web.Credentials;
-					webRequest.CookieContainer = web.CookieContainer;
-					webRequest.AllowWriteStreamBuffering = false;
-
-					Stream webStream = webRequest.GetRequestStream();
-
-					Stream stream = UploadFile.PostedFile.InputStream;
-					
-					try
-					{
-						byte[] buffer = new byte[BUFFERSIZE];
-
-						int count;
-						
-						while((count = stream.Read(buffer, 0, buffer.Length)) > 0)
-						{
-							webStream.Write(buffer, 0, count);
-							webStream.Flush();
-						}
-					}
-					finally
-					{
-						webStream.Close();
-						stream.Close();
-					}
-
-					// response
-					webRequest.GetResponse().Close();
-				}
-				catch
-				{
-					// remove the child if it was freshly created
-					if (newEntry)
-					{
-						try
-						{
-							web.DeleteEntry(child.iFolderID, child.ID);
-						}
-						catch
-						{
-							// ignore
-						}
-					}
-
-					throw;
+					UploadFile(input);
 				}
 
 				// redirect
@@ -361,6 +271,69 @@ namespace Novell.iFolderApp.Web
 			{
 				if (!HandleException(ex)) throw;
 			}
+		}
+
+		private void UploadFile(HtmlInputFile input)
+		{
+			if (input == null) return;
+
+			// filename
+			// KLUDGE: Mono no longer recognizes backslash as a directory seperator
+			// Path.GetFileName() is not usable here for that reason
+			string filename = WebUtility.GetFileName(input.PostedFile.FileName.Trim());
+			
+			// check for file
+			if (filename.Length == 0) return;
+
+			// upload path
+			string path = String.Format("{0}/{1}", ParentPath.Text, filename);
+
+			// check for an empty file
+			if (input.PostedFile.ContentLength == 0)
+			{
+				Message.Text = GetString("ENTRY.EMPTYFILE");
+
+				return;
+			}
+
+			// put
+			UriBuilder uri = new UriBuilder(web.Url);
+			
+			uri.Path = String.Format("/simias10/Upload.ashx?iFolder={0}&Path={1}",
+				ifolderID, path);
+
+			HttpWebRequest webRequest = (HttpWebRequest) WebRequest.Create(uri.Uri);
+			webRequest.Method = "PUT";
+			webRequest.ContentLength = input.PostedFile.ContentLength;
+			webRequest.PreAuthenticate = true;
+			webRequest.Credentials = web.Credentials;
+			webRequest.CookieContainer = web.CookieContainer;
+			webRequest.AllowWriteStreamBuffering = false;
+
+			Stream webStream = webRequest.GetRequestStream();
+
+			Stream stream = input.PostedFile.InputStream;
+			
+			try
+			{
+				byte[] buffer = new byte[BUFFERSIZE];
+
+				int count;
+				
+				while((count = stream.Read(buffer, 0, buffer.Length)) > 0)
+				{
+					webStream.Write(buffer, 0, count);
+					webStream.Flush();
+				}
+			}
+			finally
+			{
+				webStream.Close();
+				stream.Close();
+			}
+
+			// response
+			webRequest.GetResponse().Close();
 		}
 
 		/// <summary>

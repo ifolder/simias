@@ -33,7 +33,7 @@
 
 		function SetFocus()
 		{
-			document.getElementById("UploadFile").select();
+			document.getElementById("UploadFile1").select();
 		}
 		
 		// on load
@@ -72,8 +72,26 @@
 					<asp:Literal ID="ParentPath" runat="server" />
 				</div>
 
-				<input id="UploadFile" type="file" runat="server" onKeyDown="return SubmitKeyDown(event, 'UploadButton');" />
+				<div>
 				
+				<div class="file">
+					<input id="UploadFile1" type="file" size="32" runat="server" onKeyDown="return SubmitKeyDown(event, 'UploadButton');" />
+				</div>
+				
+				<div class="file">
+					<input id="UploadFile2" type="file" size="32" runat="server" onKeyDown="return SubmitKeyDown(event, 'UploadButton');" />
+				</div>
+				
+				<div class="file">
+					<input id="UploadFile3" type="file" size="32" runat="server" onKeyDown="return SubmitKeyDown(event, 'UploadButton');" />
+				</div>
+				
+				<div class="file">
+					<input id="UploadFile4" type="file" size="32" runat="server" onKeyDown="return SubmitKeyDown(event, 'UploadButton');" />
+				</div>
+				
+				</div>
+
 				<div class="buttons">
 					<asp:Button ID="UploadButton" runat="server" />
 					<asp:Button ID="CancelButton" runat="server" />

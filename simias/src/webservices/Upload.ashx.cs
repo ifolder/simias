@@ -65,13 +65,31 @@ namespace iFolder.WebService
 					throw new AccessException(collection, member, Access.Rights.ReadWrite);
 				}
 
-				// backup file
-				string backupPath = String.Format("{0}.simias.temp", path);
-				File.Copy(path, backupPath, true);
+				string backupPath = null;
+				long backupLength = 0;
+
+				// new file?
+				if (node == null)
+				{
+					filename = System.IO.Path.GetFileName(entryPath);
+
+					Node parent = iFolderEntry.GetEntryByPath(collection,
+						System.IO.Path.GetDirectoryName(entryPath).Replace('\\', '/'));
+
+					node = (FileNode) iFolderEntry.CreateEntry(collection, parent,
+						iFolderEntryType.File, filename, out filePath);
+				}
+				else
+				{
+					// backup file
+					backupPath = String.Format("{0}.simias.temp", filePath);
+					File.Copy(filePath, backupPath, true);
+					backupLength = (new FileInfo(backupPath)).Length;
+				}
 
 				try
 				{
-					long deltaSize = context.Request.ContentLength - (new FileInfo(backupPath)).Length;
+					long deltaSize = context.Request.ContentLength - backupLength;
 
 					// check file size policy
 					FileSizeFilter fsFilter = FileSizeFilter.Get(collection);
@@ -88,7 +106,7 @@ namespace iFolder.WebService
 					}
 
 					// lock the file
-					FileStream stream = File.Open(path, FileMode.Create, FileAccess.Write, FileShare.None);
+					FileStream stream = File.Open(filePath, FileMode.Create, FileAccess.Write, FileShare.None);
 			
 					// reader
 					Stream reader = context.Request.InputStream;
@@ -125,7 +143,7 @@ namespace iFolder.WebService
 				catch
 				{
 					// restore backup
-					File.Copy(backupPath, path, true);
+					if (backupPath != null) File.Copy(backupPath, filePath, true);
 
 					// log
 					log.LogAccess("Upload", node.GetRelativePath(), node.ID, "Failed");
@@ -135,7 +153,7 @@ namespace iFolder.WebService
 				finally
 				{
 					// delete backup file
-					if (File.Exists(backupPath))
+					if ((backupPath != null) && File.Exists(backupPath))
 					{
 						File.Delete(backupPath);
 					}

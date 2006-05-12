@@ -27,6 +27,7 @@ using System.Web;
 using System.Web.SessionState;
 using System.Net;
 using System.Resources;
+using System.Text;
 
 namespace Novell.iFolderApp.Web
 {
@@ -84,6 +85,13 @@ namespace Novell.iFolderApp.Web
 				// filename
 				string filename = webResponse.Headers["Content-Disposition"];
 				filename = filename.Substring(filename.IndexOf('=') + 1);
+
+				// filename fix-up for Firefox and Safari
+				if ((context.Request.UserAgent.IndexOf("Firefox") != -1)
+					|| (context.Request.UserAgent.IndexOf("Safari") != -1))
+				{
+					filename = HttpUtility.UrlDecode(filename, System.Text.Encoding.UTF8);
+				}
 
 				// response
 				context.Response.Clear();

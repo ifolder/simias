@@ -48,6 +48,11 @@ namespace iFolder.WebService
 		protected string entryID;
 		
 		/// <summary>
+		/// Entry Path
+		/// </summary>
+		protected string entryPath;
+		
+		/// <summary>
 		/// Access ID
 		/// </summary>
 		protected string accessID;
@@ -80,7 +85,7 @@ namespace iFolder.WebService
 		/// <summary>
 		/// File Path
 		/// </summary>
-		protected string path;
+		protected string filePath;
 
 		/// <summary>
 		/// Access Log
@@ -111,6 +116,7 @@ namespace iFolder.WebService
 			// query
 			ifolderID = context.Request.QueryString["iFolder"];
 			entryID = context.Request.QueryString["Entry"];
+			entryPath = context.Request.QueryString["Path"];
 			
 			// authentication
 			accessID = context.User.Identity.Name;
@@ -147,24 +153,35 @@ namespace iFolder.WebService
 			log = new SimiasAccessLogger(member.Name, collection.ID);
 
 			// node
-			Node n = collection.GetNodeByID(entryID);
+			Node n = null;
 
-			// does node exist
-			if (n == null)
+			// use the path
+			if ((entryPath != null) && (entryPath.Length != 0))
 			{
-				throw new EntryDoesNotExistException(entryID);
+				n = iFolderEntry.GetEntryByPath(collection, entryPath);
 			}
 
-			// is the node a file
-			if (!n.IsBaseType(NodeTypes.FileNodeType))
+			// use the id
+			if ((entryID != null) && (entryID.Length != 0))
 			{
-				throw new FileDoesNotExistException(entryID);
+				n = collection.GetNodeByID(entryID);
 			}
 
-			// file
-			node = (FileNode)n;
-			filename = node.GetFileName();
-			path = node.GetFullPath(collection);
+			// check node
+			if (n != null)
+			{
+				// is the node a file
+				if (!n.IsBaseType(NodeTypes.FileNodeType))
+				{
+					throw new FileDoesNotExistException(entryID);
+				}
+
+				// file
+				node = (FileNode)n;
+
+				filename = node.GetFileName();
+				filePath = node.GetFullPath(collection);
+			}
 		}
 
 		/// <summary>

@@ -500,10 +500,14 @@ td.seperator
 #NewiFolderName,
 #NewiFolderDescription,
 #iFolderDescription,
-#NewFolderName,
-#UploadFile
+#NewFolderName
 {
 	width: 30em;
+}
+
+.file
+{
+	padding: 4px 0px 0px 8px;
 }
 
 #NewiFolderName

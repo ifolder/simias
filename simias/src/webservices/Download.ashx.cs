@@ -58,8 +58,15 @@ namespace iFolder.WebService
 				// initialize
 				Initialize(context);
 
+				// does node exist
+				if (node == null)
+				{
+					string id = ((entryID != null) && (entryID.Length != 0)) ? entryID : entryPath;
+					throw new EntryDoesNotExistException(id);
+				}
+
 				// lock the file
-				FileStream stream = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.Read);
+				FileStream stream = File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.Read);
 			
 				try
 				{

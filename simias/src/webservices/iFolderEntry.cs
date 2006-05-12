@@ -240,6 +240,24 @@ namespace iFolder.WebService
 			// impersonate
 			iFolder.Impersonate(c, accessID);
 
+			Node n = GetEntryByPath(c, entryPath);
+
+			if (n == null)
+			{
+				throw new EntryDoesNotExistException(entryPath);
+			}
+
+			return iFolderEntry.GetEntry(c, n);
+		}
+
+		/// <summary>
+		/// Get an iFolder Entry By Relative Path
+		/// </summary>
+		/// <param name="c"></param>
+		/// <param name="entryPath"></param>
+		/// <returns></returns>
+		internal static Node GetEntryByPath(Collection c, string entryPath)
+		{
 			Node n = null;
 
 			entryPath = entryPath.Trim(new char[] { '/' });
@@ -256,13 +274,8 @@ namespace iFolder.WebService
 					break;
 				}
 			}
-
-			if (n == null)
-			{
-				throw new EntryDoesNotExistException(entryPath);
-			}
-
-			return iFolderEntry.GetEntry(c, n);
+		
+			return n;
 		}
 
 		/// <summary>
@@ -478,34 +491,10 @@ namespace iFolder.WebService
 			// impersonate
 			iFolder.Impersonate(c, accessID);
 			
-			Node n = c.GetNodeByID(parentID);
+			Node parent = c.GetNodeByID(parentID);
 
-			// NOTE: a new entry off the iFolder is not allowed, it must be off the root directory node or lower
-			if ((n == null) || (ifolderID.Equals(parentID)))
-			{
-				throw new EntryDoesNotExistException(parentID);
-			}
-			
-			// NOTE: only directories can have children
-			if (!n.IsBaseType(NodeTypes.DirNodeType))
-			{
-				throw new DirectoryEntryRequiredException(parentID);
-			}
-
-			// check the name
-			CheckName(entryName);
-
-			// create new path
-			DirNode parentDir = (DirNode)n;
-			string path = parentDir.GetFullPath(c);
-			path = System.IO.Path.Combine(path, entryName);
-			string id = null;
-
-			// check for existing entry (case insensitive test)
-			if (SyncFile.DoesNodeExist(c, parentDir, entryName))
-			{
-				throw new EntryAlreadyExistException(entryName);
-			}
+			string path;
+			Node entry = CreateEntry(c, parent, type, entryName, out path);
 
 			// directory
 			if (type == iFolderEntryType.Directory)
@@ -513,13 +502,12 @@ namespace iFolder.WebService
 				try
 				{
 					// create directory and node
-					Directory.CreateDirectory(path);
+					DirectoryInfo info = Directory.CreateDirectory(path);
 
-					DirNode newDir = new DirNode(c, parentDir, entryName);
+					// update
+					(entry as DirNode).CreationTime = info.CreationTime;
 
-					c.Commit(newDir);
-
-					id = newDir.ID;
+					c.Commit(entry);
 				}
 				catch
 				{
@@ -532,7 +520,7 @@ namespace iFolder.WebService
 				}
 			}
 			
-			// file
+				// file
 			else
 			{
 				// check file type policy
@@ -547,11 +535,10 @@ namespace iFolder.WebService
 					// create the file and node
 					File.Create(path).Close();
 
-					FileNode newFile = new FileNode(c, parentDir, entryName);
+					// update
+					(entry as FileNode).UpdateFileInfo(c);
 
-					c.Commit(newFile);
-
-					id = newFile.ID;
+					c.Commit(entry);
 				}
 				catch
 				{
@@ -565,9 +552,70 @@ namespace iFolder.WebService
 			}
 
 			// open the new node
-			n = c.GetNodeByID(id);
+			Node n = c.GetNodeByID(entry.ID);
 
 			return iFolderEntry.GetEntry(c, n);
+		}
+		
+		/// <summary>
+		/// Create An iFolder Entry
+		/// </summary>
+		/// <param name="c"></param>
+		/// <param name="parent"></param>
+		/// <param name="type"></param>
+		/// <param name="entryName"></param>
+		/// <param name="path"></param>
+		/// <returns></returns>
+		internal static Node CreateEntry(Collection c, Node parent,
+			iFolderEntryType type, string entryName, out string path)
+		{
+			Node result = null;
+
+			// NOTE: a new entry off the iFolder is not allowed, it must be off the root directory node or lower
+			if ((parent == null) || (c.ID.Equals(parent.ID)))
+			{
+				throw new EntryDoesNotExistException(parent.ID);
+			}
+			
+			// NOTE: only directories can have children
+			if (!parent.IsBaseType(NodeTypes.DirNodeType))
+			{
+				throw new DirectoryEntryRequiredException(parent.ID);
+			}
+
+			// check the name
+			CheckName(entryName);
+
+			// create new path
+			DirNode parentDirNode = (DirNode) parent;
+			path = parentDirNode.GetFullPath(c);
+			path = System.IO.Path.Combine(path, entryName);
+
+			// check for existing entry (case insensitive test)
+			if (SyncFile.DoesNodeExist(c, parentDirNode, entryName))
+			{
+				throw new EntryAlreadyExistException(entryName);
+			}
+
+			// directory
+			if (type == iFolderEntryType.Directory)
+			{
+				result = new DirNode(c, parentDirNode, entryName);
+			}
+			// file
+			else
+			{
+				// check file type policy
+				FileTypeFilter filter = FileTypeFilter.Get(c);
+				if (!filter.Allowed(entryName))
+				{
+					throw new FileTypeException(entryName);
+				}
+
+				result = new FileNode(c, parentDirNode, entryName);
+			}
+
+			return result;
 		}
 		
 		/// <summary>
