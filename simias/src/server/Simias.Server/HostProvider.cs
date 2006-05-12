@@ -47,79 +47,79 @@ namespace Simias.Host
 		private static string tempDomainFileName = ".domain.xml";
 		private static string tempOwnerFileName = ".owner.xml";
 
-		private static void SaveXmlDoc(string storePath, string fileName, string sObject)
+		private static void SaveXmlDoc( string storePath, string fileName, string sObject )
 		{
-			string fullPath = Path.Combine(storePath, fileName);
-			StreamWriter stream = new StreamWriter(File.Open(fullPath, FileMode.Create, FileAccess.Write, FileShare.None));
-			stream.Write(sObject);
+			string fullPath = Path.Combine( storePath, fileName );
+			StreamWriter stream = new StreamWriter( File.Open( fullPath, FileMode.Create, FileAccess.Write, FileShare.None ) );
+			stream.Write( sObject );
 			stream.Close();
 		}
 
-		private static string GetXmlDoc(string storePath, string fileName)
+		private static string GetXmlDoc( string storePath, string fileName )
 		{
-			string fullPath = Path.Combine(storePath, fileName);
-			StreamReader stream = new StreamReader(File.Open(fullPath, FileMode.Open, FileAccess.Read, FileShare.None));
+			string fullPath = Path.Combine( storePath, fileName );
+			StreamReader stream = new StreamReader( File.Open( fullPath, FileMode.Open, FileAccess.Read, FileShare.None ) );
 			string objectXml = stream.ReadToEnd();
 			stream.Close();
 			return objectXml;
 		}
 	
-		internal static Domain GetDomain(string storePath)
+		internal static Domain GetDomain( string storePath )
 		{
 			XmlDocument doc = new XmlDocument();
-			doc.LoadXml(GetXmlDoc(storePath, tempDomainFileName));
-			Domain domain = (Domain)Node.NodeFactory(Store.GetStore(), doc);
+			doc.LoadXml( GetXmlDoc( storePath, tempDomainFileName ) );
+			Domain domain = (Domain)Node.NodeFactory( Store.GetStore(), doc );
 			domain.Proxy = true;
 			return domain;
 		}
 
-		private static void SaveDomain(string storePath, string domain)
+		private static void SaveDomain( string storePath, string domain )
 		{
-			SaveXmlDoc(storePath, tempDomainFileName, domain);
+			SaveXmlDoc( storePath, tempDomainFileName, domain );
 		}
 
-		internal static Member GetOwner(string storePath)
+		internal static Member GetOwner( string storePath )
 		{
 			XmlDocument doc = new XmlDocument();
-			doc.LoadXml(GetXmlDoc(storePath, tempOwnerFileName));
-			Member owner = (Member)Node.NodeFactory(Store.GetStore(), doc);
+			doc.LoadXml( GetXmlDoc( storePath, tempOwnerFileName ) );
+			Member owner = (Member)Node.NodeFactory( Store.GetStore(), doc );
 			owner.Proxy = true;
 			return owner;
 		}
 
-		private static void SaveOwner(string storePath, string owner)
+		private static void SaveOwner( string storePath, string owner )
 		{
-			SaveXmlDoc(storePath, tempOwnerFileName, owner);
+			SaveXmlDoc( storePath, tempOwnerFileName, owner );
 		}
 
-		internal static HostNode GetHost(string storePath)
+		internal static HostNode GetHost( string storePath )
 		{
 			XmlDocument doc = new XmlDocument();
-			doc.LoadXml(GetXmlDoc(storePath, tempHostFileName));
-			HostNode hnode = new HostNode(Node.NodeFactory(Store.GetStore(), doc));
+			doc.LoadXml( GetXmlDoc( storePath, tempHostFileName ) );
+			HostNode hnode = new HostNode( Node.NodeFactory( Store.GetStore(), doc ) );
 			return hnode;
 		}
 
-		private static void SaveHost(string storePath, string host)
+		private static void SaveHost( string storePath, string host )
 		{
-			SaveXmlDoc(storePath, tempHostFileName, host);
+			SaveXmlDoc( storePath, tempHostFileName, host );
 		}
 
-		internal static RSACryptoServiceProvider GetKeys(string storePath)
+		internal static RSACryptoServiceProvider GetKeys( string storePath )
 		{
 			RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
-			string keys = GetXmlDoc(storePath, tempPPKFileName);
-			rsa.FromXmlString(keys);
+			string keys = GetXmlDoc( storePath, tempPPKFileName );
+			rsa.FromXmlString( keys );
 			return rsa;
 		}
 
 		/// <summary>
 		/// </summary>
-		public static RSACryptoServiceProvider CreateKeys(string storePath)
+		public static RSACryptoServiceProvider CreateKeys( string storePath )
 		{
 			try
 			{
-				RSACryptoServiceProvider rsa = GetKeys(storePath);
+				RSACryptoServiceProvider rsa = GetKeys( storePath );
 				return rsa;
 			}
 			catch
@@ -131,20 +131,20 @@ namespace Simias.Host
 
 		/// <summary>
 		/// </summary>
-		public static void SaveInitObjects(string storePath, string domain, string owner, string host, RSACryptoServiceProvider rsa)
+		public static void SaveInitObjects( string storePath, string domain, string owner, string host, RSACryptoServiceProvider rsa )
 		{
-			SaveDomain(storePath, domain);
-			SaveOwner(storePath, owner);
-			SaveHost(storePath, host);
-			SaveXmlDoc(storePath, tempPPKFileName, rsa.ToXmlString(true));
+			SaveDomain( storePath, domain );
+			SaveOwner( storePath, owner );
+			SaveHost( storePath, host );
+			SaveXmlDoc( storePath, tempPPKFileName, rsa.ToXmlString( true ) );
 		}
 				
-		internal static void DeleteTempSetupFiles(string storePath)
+		internal static void DeleteTempSetupFiles( string storePath )
 		{
-			File.Delete(Path.Combine(storePath, tempDomainFileName));
-			File.Delete(Path.Combine(storePath, tempDomainFileName));
-			File.Delete(Path.Combine(storePath, tempHostFileName));
-			File.Delete(Path.Combine(storePath, tempPPKFileName));
+			File.Delete( Path.Combine( storePath, tempDomainFileName ) );
+			File.Delete( Path.Combine( storePath, tempDomainFileName ) );
+			File.Delete( Path.Combine( storePath, tempHostFileName ) );
+			File.Delete( Path.Combine( storePath, tempPPKFileName ) );
 		}
 	}
 
@@ -168,7 +168,6 @@ namespace Simias.Host
 		private CollectionSyncClient syncClient;
 		private AutoResetEvent syncEvent = new AutoResetEvent(false);
 		private SimiasConnection connection;
-		
 		
 		/// <summary>
 		/// Construct a Host domain.
@@ -232,14 +231,14 @@ namespace Simias.Host
 						host.Proxy = true;
 						rsa = SlaveSetup.GetKeys( Store.StorePath );
 						// TODO remove
-						Property p = new Property( PropertyTags.HostAddress, new Uri(masterAddress));
+						Property p = new Property( PropertyTags.HostAddress, new Uri( masterAddress ) );
 						p.LocalProperty = true;
 						hostDomain.Properties.AddNodeProperty( p );
 						// END TODO
 					}
 
 					host.IsLocalHost = true;
-					hostDomain.Commit(new Node[] {hostDomain, host});
+					hostDomain.Commit( new Node[] { hostDomain, host } );
 					
 					// Now Associate this host with the local identity.
 					store.AddDomainIdentity( hostDomain.ID, host.UserID, rsa.ToXmlString(true), CredentialType.PPK );
@@ -276,7 +275,7 @@ namespace Simias.Host
 			else
 			{
 				// Now start the sync process for the domain.
-				Thread syncThread = new Thread(new ThreadStart(SyncDomain));
+				Thread syncThread = new Thread( new ThreadStart( SyncDomain ) );
 				syncThread.IsBackground = true;
 				syncThread.Start();
 			}
@@ -284,13 +283,30 @@ namespace Simias.Host
 
 		private void SyncDomain()
 		{
-			// Get a connection object to the server.
-			connection = new SimiasConnection(hostDomain.ID, host.UserID, SimiasConnection.AuthType.PPK, hostDomain );
-			// We need to get a one time password to use to authenticate.
-			connection.Authenticate();
+			int retry = 10;
+			while( true )
+			{
+				try
+				{
+					// Get a connection object to the server.
+					connection = new SimiasConnection( hostDomain.ID, host.UserID, SimiasConnection.AuthType.PPK, hostDomain );
+
+					// We need to get a one time password to use to authenticate.
+					connection.Authenticate();
+					break;
+				}
+				catch
+				{
+					Thread.Sleep( 10000 );
+					if ( retry <= 0 )
+					{
+						break;
+					}
+				}
+			}
 			
-			syncClient = new CollectionSyncClient(hostDomain.ID, new TimerCallback(TimerFired));
-			while (true)
+			syncClient = new CollectionSyncClient( hostDomain.ID, new TimerCallback( TimerFired ) );
+			while ( true )
 			{
 				syncEvent.WaitOne();
 				try
@@ -298,7 +314,7 @@ namespace Simias.Host
 					syncClient.SyncNow();
 				}
 				catch {}
-				syncClient.Reschedule(true, 30);
+				syncClient.Reschedule( true, 30 );
 			}
 		}
 
@@ -306,7 +322,7 @@ namespace Simias.Host
 		/// Called by The CollectionSyncClient when it is time to run another sync pass.
 		/// </summary>
 		/// <param name="collectionClient">The client that is ready to sync.</param>
-		public void TimerFired(object collectionClient)
+		public void TimerFired( object collectionClient )
 		{
 			syncEvent.Set();
 		}

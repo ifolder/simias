@@ -124,6 +124,7 @@ namespace Simias.Server
 		{
 			//  Check if the Server domain exists in the store
 			Simias.Storage.Domain enterpriseDomain = null;
+			bool master = true;
 			
 			try
 			{
@@ -160,6 +161,12 @@ namespace Simias.Server
 						this.admin = cfgValue;
 					}
 
+					cfgValue = config.Get( "Server", "MasterAddress" );
+					if ( cfgValue != null && cfgValue != String.Empty )
+					{
+						master = false;
+					}
+
 					/*
 					cfgValue = config.Get( "EnterpriseDomain", "AdminPassword" );
 					if ( cfgValue != null && cfgValue != "" )
@@ -167,44 +174,56 @@ namespace Simias.Server
 						this.adminPassword = cfgValue;
 					}
 					*/
-				
-					this.id = Guid.NewGuid().ToString();
 
-					// Create the enterprise server domain.
-					enterpriseDomain = 
-						new Simias.Storage.Domain(
+					if ( master == true )
+					{
+						this.id = Guid.NewGuid().ToString();
+
+						// Create the enterprise server domain.
+						enterpriseDomain = 
+							new Simias.Storage.Domain(
 							store, 
 							this.domainName, 
 							this.id,
 							this.description, 
 							Simias.Sync.SyncRoles.Master, 
-                            Simias.Storage.Domain.ConfigurationType.ClientServer );
+							Simias.Storage.Domain.ConfigurationType.ClientServer );
 
-					// This needs to be added to allow the enterprise location provider
-					// to be able to resolve this domain.
-					enterpriseDomain.SetType( enterpriseDomain, "Enterprise" );
+						// This needs to be added to allow the enterprise location provider
+						// to be able to resolve this domain.
+						enterpriseDomain.SetType( enterpriseDomain, "Enterprise" );
 
-					// Create the owner member for the domain.
-					Member member = 
-						new Member(
-							this.admin, 
-							Guid.NewGuid().ToString(), 
-							Access.Rights.Admin );
+						// Create the owner member for the domain.
+						Member member = 
+							new Member(	this.admin, Guid.NewGuid().ToString(), Access.Rights.Admin );
 
-					member.IsOwner = true;
-					enterpriseDomain.SetType( member as Node, "User" );
+						member.IsOwner = true;
+						enterpriseDomain.SetType( member as Node, "User" );
 					
-					// Marker so we know this member was created internally
-					// and not through an external identity sync.
-					enterpriseDomain.SetType( member as Node, "Internal" );
+						// Marker so we know this member was created internally
+						// and not through an external identity sync.
+						enterpriseDomain.SetType( member as Node, "Internal" );
 					
-					enterpriseDomain.Commit( new Node[] { enterpriseDomain, member } );
+						enterpriseDomain.Commit( new Node[] { enterpriseDomain, member } );
 					
-					// Set the domain default
-					store.DefaultDomain = enterpriseDomain.ID;
+						// Set the domain default
+						store.DefaultDomain = enterpriseDomain.ID;
 
-					// Create the name mapping.
-					store.AddDomainIdentity( enterpriseDomain.ID, member.UserID );
+						// Create the name mapping.
+						store.AddDomainIdentity( enterpriseDomain.ID, member.UserID );
+					}
+					else
+					{
+						// Slave host so create the proxy domain and owner.
+						enterpriseDomain = Simias.Host.SlaveSetup.GetDomain( Store.StorePath );
+						store.DefaultDomain = enterpriseDomain.ID;
+						enterpriseDomain.Role = Simias.Sync.SyncRoles.Slave;
+						Member owner = Simias.Host.SlaveSetup.GetOwner( Store.StorePath );
+						enterpriseDomain.SetType( enterpriseDomain, "Enterprise" );
+						enterpriseDomain.Proxy = true;
+						owner.Proxy = true;
+						enterpriseDomain.Commit(new Node[] { enterpriseDomain, owner } );
+					}
 				}
 			}
 			catch( Exception gssd )

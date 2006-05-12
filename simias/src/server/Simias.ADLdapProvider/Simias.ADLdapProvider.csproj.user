@@ -1,7 +1,7 @@
 <VisualStudioProject>
     <CSHARP LastOpenVersion = "7.10.3077" >
         <Build>
-            <Settings ReferencePath = "C:\dev\simias\external\log4net\bin\net\1.1\release\;C:\dev\simias\external\csharpldap\;C:\dev\simias\src\server\Simias.Server\;C:\dev\simias\src\core\SimiasClient\;C:\dev\simias\src\core\SimiasLib.dll\;C:\dev\simias\src\server\Simias.LdapProvider\;C:\wa\simias\simias\external\log4net\bin\net\1.1\release\;C:\wa\simias\simias\external\csharpldap\;C:\wa\simias\simias\src\server\Simias.Server\;C:\wa\simias\simias\src\core\SimiasClient\;C:\wa\simias\simias\src\core\SimiasLib.dll\;C:\wa\simias\simias\src\server\Simias.LdapProvider\" >
+            <Settings ReferencePath = "C:\dev\simias\external\log4net\bin\net\1.1\release\;C:\dev\simias\external\csharpldap\;C:\dev\simias\src\server\Simias.Server\;C:\dev\simias\src\core\SimiasClient\;C:\dev\simias\src\core\SimiasLib.dll\;C:\dev\simias\src\server\Simias.LdapProvider\;C:\wa\simias\simias\external\log4net\bin\net\1.1\release\;C:\wa\simias\simias\external\csharpldap\;C:\wa\simias\simias\src\server\Simias.Server\;C:\wa\simias\simias\src\core\SimiasClient\;C:\wa\simias\simias\src\core\SimiasLib.dll\;C:\wa\simias\simias\src\server\Simias.LdapProvider\;C:\trunk\simias\external\log4net\bin\net\1.1\release\;C:\trunk\simias\external\csharpldap\;C:\trunk\simias\src\server\Simias.Server\;C:\trunk\simias\src\core\SimiasClient\;C:\trunk\simias\src\core\SimiasLib.dll\;C:\trunk\simias\src\server\Simias.LdapProvider\" >
                 <Config
                     Name = "Debug"
                     EnableASPDebugging = "false"

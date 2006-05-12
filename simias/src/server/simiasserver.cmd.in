@@ -1,7 +1,7 @@
 @echo off
 rem ######################################################################
 rem
-rem  $RCSfile$
+rem  $RCSfile: simias-server.cmd,v $
 rem
 rem  Copyright (C) 2004 Novell, Inc.
 rem
@@ -11,4 +11,19 @@ rem ######################################################################
 
 cd %0%\..
 
+set DataDir=""
+IF %DataDir%=="" GOTO NOSETUP
+set Port=""
+IF %Port%=="" GOTO NOPORT
+
+@web\bin\Simias.exe --datadir %DataDir% --runasserver --port %Port% %*
+GOTO END
+
+:NOPORT
+@web\bin\Simias.exe --datadir %DataDir% --runasserver %*
+GOTO END
+
+:NOSETUP
 @web\bin\Simias.exe --datadir "@simiasdatadir@" %*
+
+:END

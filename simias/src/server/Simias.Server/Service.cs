@@ -148,6 +148,8 @@ namespace Simias.Server
 		public void Start()
 		{
 			log.Debug( "Start called" );
+
+			Thread.Sleep( 30 * 1000 );
 			
 			// Instantiate the server domain
 			// The domain will be created the first time the
@@ -155,7 +157,7 @@ namespace Simias.Server
 			EnterpriseDomain enterpriseDomain = new EnterpriseDomain( true );
 			if ( enterpriseDomain != null )
 			{
-				new Simias.Host.HostProvider( enterpriseDomain.GetServerDomain( false ) );
+				new Simias.Host.HostProvider( new EnterpriseDomain( false ).GetServerDomain( false ) );
 
 				// Valid enterprise domain - start the external
 				// identity sync service

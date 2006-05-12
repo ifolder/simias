@@ -381,13 +381,13 @@ namespace Novell.iFolder
 			return adminService;
 		}
 
-		private void InitializeServiceUrl(System.Web.Services.Protocols.WebClientProtocol service)
+		private void InitializeServiceUrl( System.Web.Services.Protocols.WebClientProtocol service )
 		{
-			UriBuilder serverUrl = new UriBuilder(service.Url);
-			Uri masterUri = new Uri(masterAddress.Value);
+			UriBuilder serverUrl = new UriBuilder( service.Url );
+			Uri masterUri = new Uri( masterAddress.Value );
 			serverUrl.Host = masterUri.Host;
 			serverUrl.Port = masterUri.Port;
-			string target = service.Url.Substring(service.Url.LastIndexOf('/'));
+			string target = service.Url.Substring( service.Url.LastIndexOf( '/' ) );
 			serverUrl.Path = masterUri.AbsolutePath + target;
 			service.Url = serverUrl.ToString();
 		}
@@ -402,16 +402,16 @@ namespace Novell.iFolder
 			try
 			{
 				// uid.conf
-				using (TextReader reader = (TextReader)File.OpenText(Path.GetFullPath("/etc/apache2/uid.conf")))
+				using( TextReader reader = (TextReader)File.OpenText( Path.GetFullPath( "/etc/apache2/uid.conf" ) ) )
 				{
 					string line;
-					while((line = reader.ReadLine()) != null)
+					while( ( line = reader.ReadLine() ) != null )
 					{
-						if (line.StartsWith("User"))
+						if ( line.StartsWith( "User" ) )
 						{
 							apacheUser = line.Split()[1];
 						}
-						else if (line.StartsWith("Group"))
+						else if ( line.StartsWith( "Group" ) )
 						{
 							apacheGroup = line.Split()[1];
 						}
@@ -705,10 +705,10 @@ namespace Novell.iFolder
 			return status;
 		}
 
-		private void CommitConfiguration(XmlDocument document)
+		private void CommitConfiguration( XmlDocument document )
 		{
 			// Write the configuration file settings.
-			XmlTextWriter xtw = new XmlTextWriter( configFilePath, Encoding.UTF8 );
+			XmlTextWriter xtw = new XmlTextWriter( Path.Combine( configFilePath, Configuration.DefaultConfigFileName ), Encoding.UTF8 );
 			try
 			{
 				xtw.Formatting = Formatting.Indented;
@@ -719,7 +719,6 @@ namespace Novell.iFolder
 				xtw.Close();
 			}
 		}
-
 		#endregion
 
 		/// <summary>
@@ -732,15 +731,15 @@ namespace Novell.iFolder
 
 			// Load the configuration file into an xml document.
 			XmlDocument document = new XmlDocument();
-			document.Load( configFilePath );
+			document.Load( Path.Combine( configFilePath, Configuration.DefaultConfigFileName ) );
 
 			// system
 			SetConfigValue( document, "EnterpriseDomain", "SystemName", systemName.Value );
 			SetConfigValue( document, "EnterpriseDomain", "Description", systemDescription.Value );
-			SetConfigValue( document, "Authentication", "SimiasRequireSSL", bool.Parse(useSsl.Value) ? "yes" : "no");
+			SetConfigValue( document, "Authentication", "SimiasRequireSSL", bool.Parse( useSsl.Value ) ? "yes" : "no");
 
 			// server
-			if( slaveServer.Value )
+			if( slaveServer.Value == true )
 			{
 				SetConfigValue( document, ServerSection, MasterAddressKey, masterAddress.Value);
 			}
@@ -787,7 +786,7 @@ namespace Novell.iFolder
 			ldapSettings.SearchContexts = list;
 			*/
 
-			if( slaveServer.Value )
+			if( slaveServer.Value == true )
 			{
 				//ldapSettings.SyncInterval = int.MaxValue;
 				//ldapSettings.SyncOnStart = false;
@@ -795,6 +794,7 @@ namespace Novell.iFolder
 				HostAdmin adminService = GetHostAdminService();
 				adminService.Credentials = credentials;
 				adminService.PreAuthenticate = true;
+
 				// Get and save the domain.
 				string domain = adminService.GetDomain();
 				// Get and save the owner.
@@ -810,7 +810,7 @@ namespace Novell.iFolder
 						privateUrl.Value, 
 						rsa.ToXmlString( false ),
 						out created );
-				if (host != null && host.Length != 0 && created)
+				if ( host != null && host.Length != 0 && created )
 				{
 					// Save the objects so that they can be created later.
 					Simias.Host.SlaveSetup.SaveInitObjects( storePath, domain, dOwner, host, rsa );
@@ -837,14 +837,13 @@ namespace Novell.iFolder
 		/// </summary>
 		void SetupModMono()
 		{
-			string path = Path.GetFullPath("/etc/apache2/conf.d/simias.conf");
-
+			string path = Path.GetFullPath( "/etc/apache2/conf.d/simias.conf" );
 			Console.Write("Configuring {0}...", path);
 
-			if (apache.Value)
+			if ( apache.Value == true )
 			{
 				// create configuration
-				using(StreamWriter writer = File.CreateText(path))
+				using( StreamWriter writer = File.CreateText( path ) )
 				{
 					/* example
 					Include /etc/apache2/conf.d/mod_mono.conf
@@ -862,7 +861,7 @@ namespace Novell.iFolder
 				
 					string alias = "simias10";
 
-					writer.WriteLine("Include /etc/apache2/conf.d/mod_mono.conf");
+					writer.WriteLine( "Include /etc/apache2/conf.d/mod_mono.conf" );
 					writer.WriteLine();
 					writer.WriteLine("Alias /{0} \"{1}\"", alias, SimiasSetup.webdir);
 					writer.WriteLine("AddMonoApplications {0} \"/{0}:{1}\"", alias, SimiasSetup.webdir);
@@ -1013,7 +1012,7 @@ namespace Novell.iFolder
 			// Make sure that the configuration file exists.
 			// 
 			string srcConfigFile = Path.Combine( configFilePath, "bill" );
-			srcConfigFile = Path.Combine( configFilePath, Configuration.DefaultConfigFileName );
+			srcConfigFile = Path.Combine( srcConfigFile, Configuration.DefaultConfigFileName );
 			string destConfigFile = Path.Combine( storePath, Configuration.DefaultConfigFileName );
 			if ( File.Exists( destConfigFile ) == false )
 			{
@@ -1031,7 +1030,7 @@ namespace Novell.iFolder
 			// Make sure that the modules directory exists.
 			string destModulesDir = Path.Combine( storePath, ModulesDir );
 			string srcModulesDir = Path.Combine( configFilePath, "bill" );
-			srcModulesDir = Path.Combine( configFilePath, ModulesDir );
+			srcModulesDir = Path.Combine( srcModulesDir, ModulesDir );
 			if ( System.IO.Directory.Exists( destModulesDir ) == false )
 			{
 				System.IO.Directory.CreateDirectory( destModulesDir );
@@ -1093,62 +1092,63 @@ namespace Novell.iFolder
 		private void SetupPermissions()
 		{
 			// Setup the permissions to the store configuration.
-			Console.Write("Setting up permissions...");
+			Console.Write( "Setting up permissions..." );
 				
 			if ( MyEnvironment.Mono && apache.Value )
 			{
 				if ( storePath.TrimEnd( new char[] { '/' } ).EndsWith( "simias" ) )
 				{
-					if (Execute("chown", "{0}:{1} {2}", apacheUser, apacheGroup, System.IO.Directory.GetParent(storePath).FullName) != 0)
+					if ( Execute( "chown", "{0}:{1} {2}", apacheUser, apacheGroup, System.IO.Directory.GetParent( storePath ).FullName ) != 0 )
 					{
-						throw new Exception("Unable to set an owner for the store path.");
+						throw new Exception( "Unable to set an owner for the store path." );
 					}
 				}
 				else
 				{
-					if (Execute("chown", "{0}:{1} {2}", apacheUser, apacheGroup, storePath) != 0)
+					if ( Execute( "chown", "{0}:{1} {2}", apacheUser, apacheGroup, storePath ) != 0 )
 					{
-						throw new Exception("Unable to set an owner for the store path.");
+						throw new Exception( "Unable to set an owner for the store path." );
 					}
 				}
 			}
 
-			Console.WriteLine("Done");
+			Console.WriteLine( "Done" );
 		}
 
 		private void SetupScriptFiles()
 		{
-			Console.Write("Setting up script files...");
+			Console.Write( "Setting up script files..." );
 
 			string fileData;
-			string templatePath = Path.Combine(SimiasSetup.bindir, "simias-server" + (MyEnvironment.Windows ? ".cmd" : ""));
-			string scriptPath = Path.Combine(SimiasSetup.bindir, serverName.Value + (MyEnvironment.Windows ? ".cmd" : ""));
+			string templatePath = Path.Combine( SimiasSetup.bindir, "simiasserver" + ( MyEnvironment.Windows ? ".cmd" : "" ) );
+			string scriptPath = Path.Combine( SimiasSetup.bindir, serverName.Value + ( MyEnvironment.Windows ? ".cmd" : "" ) );
 			try
 			{
-				using (StreamReader sr = new StreamReader(templatePath))
+				using ( StreamReader sr = new StreamReader( templatePath ) )
 				{
 					fileData = sr.ReadToEnd();
 				}
 
-				fileData = fileData.Replace("DataDir=\"\"", String.Format("DataDir=\"{0}\"", storePath));
-				fileData = fileData.Replace("Port=\"\"", String.Format("Port=\"{0}\"", port.Value));
-				using (StreamWriter sw = new StreamWriter(scriptPath))
+				fileData = fileData.Replace( "DataDir=\"\"", String.Format( "DataDir=\"{0}\"", storePath ) );
+				fileData = fileData.Replace( "Port=\"\"", String.Format( "Port=\"{0}\"", port.Value ) );
+				using ( StreamWriter sw = new StreamWriter( scriptPath ) )
 				{
-					sw.WriteLine(fileData);
+					sw.WriteLine( fileData );
 				}
-				if (MyEnvironment.Mono)
+
+				if ( MyEnvironment.Mono )
 				{
 					// Make sure the execute bit is set.
-					Execute("chmod", "ug+x {0}", scriptPath);
+					Execute( "chmod", "ug+x {0}", scriptPath );
 				}
 			}
 			catch
 			{
-				throw new Exception(String.Format("Unable to set simias data path in {0}", scriptPath));
+				throw new Exception( String.Format( "Unable to set simias data path in {0}", scriptPath ) );
 			}
 
-			Console.WriteLine("Done");
-			Console.WriteLine("Run {0} script to load the server", scriptPath);
+			Console.WriteLine( "Done" );
+			Console.WriteLine( "Run {0} script to load the server", scriptPath );
 		}
 
 		private void SetupLog4Net()
@@ -1235,14 +1235,9 @@ namespace Novell.iFolder
 		/// <returns>The results of the command.</returns>
 		static int Execute(string command, string format, params object[] args)
 		{
-			string arguments = String.Format(format, args);
-
-			ProcessStartInfo info = new ProcessStartInfo(command, arguments);
-
+			ProcessStartInfo info = new ProcessStartInfo( command, String.Format( format, args ) );
 			Process p = Process.Start(info);
-
 			p.WaitForExit();
-
 			return p.ExitCode;
 		}
 
