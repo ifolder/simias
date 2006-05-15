@@ -16,11 +16,11 @@ IF %DataDir%=="" GOTO NOSETUP
 set Port=""
 IF %Port%=="" GOTO NOPORT
 
-@web\bin\Simias.exe --datadir %DataDir% --runasserver --port %Port% %*
+@web\bin\Simias.exe --datadir %DataDir% --port %Port% %*
 GOTO END
 
 :NOPORT
-@web\bin\Simias.exe --datadir %DataDir% --runasserver %*
+@web\bin\Simias.exe --datadir %DataDir%  %*
 GOTO END
 
 :NOSETUP
