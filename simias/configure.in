@@ -612,6 +612,7 @@ src/core/Makefile
 src/core/Common/MyDns.cs
 src/core/Common/Simias.config
 src/core/Common/defaults.config
+src/core/Common/Simias.log4net
 src/core/SimiasClient/Makefile
 src/core/SimiasClient/AssemblyInfo.cs
 src/core/SimiasClient/SimiasSetup.cs
