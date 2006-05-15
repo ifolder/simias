@@ -149,7 +149,7 @@ namespace Simias.Server
 		{
 			log.Debug( "Start called" );
 
-			Thread.Sleep( 30 * 1000 );
+			//Thread.Sleep( 30 * 1000 );
 			
 			// Instantiate the server domain
 			// The domain will be created the first time the
