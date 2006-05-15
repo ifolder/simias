@@ -60,7 +60,7 @@ namespace Novell.iFolder
 
 		private static readonly string Log4NetFile = "Simias.log4net";
 		private static readonly string ModulesDir = "modules";
-		private static readonly string ServerInstallPath = Path.Combine(SimiasSetup.prefix, "server");
+		private static readonly string ServerInstallPath = Path.Combine( SimiasSetup.prefix, "server" );
 
 		private static string ServerSection = "Server";
 		private static string ServerNameKey = "Name";
@@ -90,8 +90,15 @@ namespace Novell.iFolder
 		/// <summary>
 		/// The uri to the ldap server.
 		/// </summary>
-		Uri ldapUrl;
+		//Uri ldapUrl;
+
 		string storePath;
+
+		/// <summary>
+		/// The path to the directory where the
+		/// config file lives.
+		/// </summary>
+		string configPath;
 		
 		/// <summary>
 		/// The path to the config file.
@@ -188,7 +195,7 @@ namespace Novell.iFolder
 		/// <summary>
 		/// System Admin DN
 		/// </summary>
-		public Option systemAdminDN = new Option("system-admin-dn", "System Admin DN", "An LDAP user that will be used as a new Simias system's default administrator.  If this user does not already exist in the LDAP tree it will be created. The user's dn, but not the user's password, is stored by Simias.", true, "cn=SimiasAdmin,o=novell");
+		public Option systemAdminDN = new Option("system-admin-dn", "System Admin", "The Simias default administrator.  If the system is configured to use an external identity source, the distinguished name (dn) should be used.", true, "admin");
 
 		/// <summary>
 		/// System Admin Password
@@ -224,11 +231,9 @@ namespace Novell.iFolder
 		/// Prompt for options.
 		/// </summary>
 		public NoPromptOption prompt = new NoPromptOption("prompt", "Prompt For Options", "Prompt the user for missing options", false, null);
-
 		#endregion
 
 		#region Constructors
-
 		/// <summary>
 		/// Constructor
 		/// </summary>
@@ -237,7 +242,7 @@ namespace Novell.iFolder
 		{
 			args = cmdArgs;
 			System.Net.IPHostEntry hostInfo = System.Net.Dns.GetHostByName( System.Net.Dns.GetHostName() );
-			Uri pubUrl = new Uri( Uri.UriSchemeHttps + "://" + hostInfo.AddressList[0].ToString() + "/simias10" );
+			Uri pubUrl = new Uri( Uri.UriSchemeHttp + "://" + hostInfo.AddressList[0].ToString() + ":8086" + "/simias10" );
 			publicUrl.DefaultValue = pubUrl.ToString();
 			if ( MyEnvironment.Windows )
 			{
@@ -245,7 +250,12 @@ namespace Novell.iFolder
 				apache.Value = false;
 			}
 
-			if ( SetupDefaultConfigPath() == false )
+			if ( SetupDefaultConfigPath() == true )
+			{
+				defaultConfigPath.Prompt = false;
+				defaultConfigPath.Required = false;
+			}
+			else
 			{
 				defaultConfigPath.OnOptionEntered = new Option.OptionEnteredHandler( OnDefaultConfig );
 			}
@@ -263,12 +273,11 @@ namespace Novell.iFolder
 		private bool OnPath()
 		{
 			storePath = Path.GetFullPath( path.Value );
-			if ( Path.GetFileName(storePath) != "simias" )
+			if ( Path.GetFileName( storePath ) != "simias" )
 			{
 				storePath = Path.Combine( storePath, "simias" );
 			}
 
-			//configFilePath = Path.Combine( storePath, Simias.Configuration.DefaultConfigFileName );
 			SetupConfigFiles();
 			UpdateDefaults();
 			return true;
@@ -276,12 +285,12 @@ namespace Novell.iFolder
 
 		private bool OnDefaultConfig()
 		{
-			string configPath = Path.GetFullPath( defaultConfigPath.Value );
+			configPath = Path.GetFullPath( defaultConfigPath.Value );
 			if ( System.IO.Directory.Exists( configPath ) == true )
 			{
 				if ( File.Exists( Path.Combine( configPath, Simias.Configuration.DefaultConfigFileName ) ) == true )
 				{
-					configFilePath = configPath;
+					configFilePath = Path.Combine( configPath, Simias.Configuration.DefaultConfigFileName );
 					return true;
 				}
 			}
@@ -291,7 +300,7 @@ namespace Novell.iFolder
 
 		private bool OnSlave()
 		{
-			if (!((BoolOption)slaveServer).Value)
+			if (!( (BoolOption) slaveServer ).Value )
 			{
 				masterAddress.Prompt = false;
 			}
@@ -301,9 +310,9 @@ namespace Novell.iFolder
 		private bool OnPublicUrl()
 		{
 			privateUrl.DefaultValue = publicUrl.Value;
-			publicUrl.InternalValue = AddVirtualPath(publicUrl.Value);
-			Uri pubUri = new Uri(publicUrl.Value);
-			if (string.Compare(pubUri.Scheme, Uri.UriSchemeHttps, true) == 0)
+			publicUrl.InternalValue = AddVirtualPath( publicUrl.Value );
+			Uri pubUri = new Uri( publicUrl.Value );
+			if ( string.Compare( pubUri.Scheme, Uri.UriSchemeHttps, true ) == 0 )
 				useSsl.Value = true.ToString();
 			else
 				useSsl.Value = false.ToString();
@@ -313,7 +322,7 @@ namespace Novell.iFolder
 
 		private bool OnPrivateUrl()
 		{
-			privateUrl.InternalValue = AddVirtualPath(privateUrl.Value);
+			privateUrl.InternalValue = AddVirtualPath( privateUrl.Value );
 			return true;
 		}
 
@@ -322,7 +331,7 @@ namespace Novell.iFolder
 			// Don't prompt for the following options. They are not needed 
 			// or will be obtained from the master.
 			// system
-			masterAddress.InternalValue = AddVirtualPath(masterAddress.Value);
+			masterAddress.InternalValue = AddVirtualPath( masterAddress.Value );
 			
 			systemName.Prompt = false;
 			systemName.Required = false;
@@ -363,21 +372,23 @@ namespace Novell.iFolder
 
 			return true;
 		}
-			
 		#endregion
 
-		private string AddVirtualPath(string path)
+		private string AddVirtualPath( string path )
 		{
-			path = path.TrimEnd('/');
-			if (!path.EndsWith("/simias10"))
+			path = path.TrimEnd( '/' );
+			if ( path.EndsWith( "/simias10" ) == false )
+			{
 				path += "/simias10";
+			}
+
 			return path;
 		}
 
 		private HostAdmin GetHostAdminService()
 		{
 			HostAdmin adminService = new HostAdmin();
-			InitializeServiceUrl(adminService);
+			InitializeServiceUrl( adminService );
 			return adminService;
 		}
 
@@ -443,7 +454,7 @@ namespace Novell.iFolder
 		/// </summary>
 		void ParseArguments()
 		{
-			if (args.Length == 0)
+			if ( args.Length == 0 )
 			{
 				// prompt
 				Prompt.CanPrompt = true;
@@ -453,20 +464,20 @@ namespace Novell.iFolder
 			else
 			{
 				// environment variables
-				systemAdminPassword.FromEnvironment(SIMIAS_SYSTEM_ADMIN_PASSWORD);
+				systemAdminPassword.FromEnvironment( SIMIAS_SYSTEM_ADMIN_PASSWORD );
 				//ldapProxyPassword.FromEnvironment(SIMIAS_LDAP_PROXY_PASSWORD);
 				//ldapAdminPassword.FromEnvironment(SIMIAS_LDAP_ADMIN_PASSWORD);
 
 				// parse arguments
-				Options.ParseArguments(this, args);
+				Options.ParseArguments( this, args );
 
 				// help
-				if (help.Assigned)
+				if ( help.Assigned )
 				{
 					ShowUsage();
 				}
 
-				if (prompt.Assigned)
+				if ( prompt.Assigned )
 				{
 					Prompt.CanPrompt = true;
 					PromptForArguments();
@@ -475,21 +486,21 @@ namespace Novell.iFolder
 				{
 #if DEBUG
 					// show options for debugging
-					Options.WriteOptions(this, Console.Out);
+					Options.WriteOptions( this, Console.Out );
 					Console.WriteLine();
 #endif
 					// check for required options
-					Options.CheckRequiredOptions(this);
+					Options.CheckRequiredOptions( this );
 				}
 			}
 
-			if (this.slaveServer.Value)
+			if ( this.slaveServer.Value )
 			{
 				try
 				{
 					// Get the Domain ID from the domain service on the master.
 					DomainService dService = new DomainService();
-					InitializeServiceUrl(dService);
+					InitializeServiceUrl( dService );
 					domainId = dService.GetDomainID();
 				
 					// Get the configuration file from the master server.
@@ -501,15 +512,15 @@ namespace Novell.iFolder
 					string configXml = adminService.GetConfiguration();
 					//ldapProxyPassword.Value = adminService.GetProxyInfo();
 					XmlDocument configDoc = new XmlDocument();
-					configDoc.LoadXml(configXml);
-					CommitConfiguration(configDoc);
+					configDoc.LoadXml( configXml );
+					CommitConfiguration( configDoc );
 					GetSettingsFromConfig();
 				}
 				catch (Exception ex)
 				{
-					Console.WriteLine("Failed setting up slave server");
-					Console.WriteLine(ex.StackTrace);
-					System.Environment.Exit(-1);
+					Console.WriteLine( "Failed setting up slave server" );
+					Console.WriteLine( ex.StackTrace );
+					System.Environment.Exit( -1 );
 				}
 			}
 		}
@@ -548,24 +559,30 @@ namespace Novell.iFolder
 				serverName.DefaultValue = (serverNameStr == null) ? System.Net.Dns.GetHostName() : serverNameStr;
 
 				// Public address
-				Uri defaultUrl = new Uri(Uri.UriSchemeHttps + "://" + System.Net.Dns.GetHostByName(System.Net.Dns.GetHostName()).AddressList[0].ToString() + "/simias10");
-				string pubAddress = config.Get(ServerSection, PublicAddressKey);
-				publicUrl.DefaultValue = (pubAddress == null) ? defaultUrl.ToString() : pubAddress;
+				Uri defaultUrl = 
+					new Uri( 
+							Uri.UriSchemeHttp + 
+							"://" + 
+							System.Net.Dns.GetHostByName(System.Net.Dns.GetHostName()).AddressList[0].ToString() + 
+							":8086" +
+							"/simias10");
+				string pubAddress = config.Get( ServerSection, PublicAddressKey );
+				publicUrl.DefaultValue = ( pubAddress == null ) ? defaultUrl.ToString() : pubAddress;
 
 				// Private address
-				string privAddress = config.Get(ServerSection, PrivateAddressKey);
-				privateUrl.DefaultValue = (privAddress == null) ? defaultUrl.ToString() : privAddress;
+				string privAddress = config.Get( ServerSection, PrivateAddressKey );
+				privateUrl.DefaultValue = ( privAddress == null ) ? defaultUrl.ToString() : privAddress;
 
 				// system
 				string systemNameStr = config.Get( "EnterpriseDomain", "SystemName" );
-				systemName.DefaultValue = (systemNameStr != null) ? systemNameStr : systemName.Value;
+				systemName.DefaultValue = ( systemNameStr != null ) ? systemNameStr : systemName.Value;
 
-				string systemDescriptionStr = config.Get( "EnterpriseDomain", "Description");
-				systemDescription.DefaultValue = (systemDescriptionStr != null) ? systemDescriptionStr : systemDescription.Value;
+				string systemDescriptionStr = config.Get( "EnterpriseDomain", "Description" );
+				systemDescription.DefaultValue = ( systemDescriptionStr != null ) ? systemDescriptionStr : systemDescription.Value;
 
 				// system admin dn
-				string systemAdminDNStr = config.Get( "EnterpriseDomain", "AdminName");
-				systemAdminDN.DefaultValue = (systemAdminDNStr != null) ? systemAdminDNStr : systemAdminDN.Value;
+				string systemAdminDNStr = config.Get( "EnterpriseDomain", "AdminName" );
+				systemAdminDN.DefaultValue = ( systemAdminDNStr != null ) ? systemAdminDNStr : systemAdminDN.Value;
 
 				// ldap settings
 				//Ldap.LdapSettings ldapSettings = Ldap.LdapSettings.Get(storePath);
@@ -626,10 +643,10 @@ namespace Novell.iFolder
 
 				// Make sure that our name does not conflict with the master.
 				// server Name
-				string serverNameStr = config.Get(ServerSection, ServerNameKey);
-				if (serverNameStr == serverName.Value)
+				string serverNameStr = config.Get( ServerSection, ServerNameKey );
+				if ( serverNameStr == serverName.Value )
 				{
-					Console.WriteLine("The server name must be unique");
+					Console.WriteLine( "The server name must be unique" );
 					Environment.Exit(-1);
 				}
 				
@@ -708,7 +725,8 @@ namespace Novell.iFolder
 		private void CommitConfiguration( XmlDocument document )
 		{
 			// Write the configuration file settings.
-			XmlTextWriter xtw = new XmlTextWriter( Path.Combine( configFilePath, Configuration.DefaultConfigFileName ), Encoding.UTF8 );
+			XmlTextWriter xtw = 
+				new XmlTextWriter( Path.Combine( storePath, Configuration.DefaultConfigFileName ), Encoding.UTF8 );
 			try
 			{
 				xtw.Formatting = Formatting.Indented;
@@ -723,33 +741,41 @@ namespace Novell.iFolder
 
 		/// <summary>
 		/// Setup the Simias.config File
-		/// Write the options to the simias-server-bootstrap.config file.
+		/// Write the options to the Simias.config file in the datadir.
 		/// </summary>
 		void SetupSimias()
 		{
-			Console.Write( "Configuring {0}...", configFilePath );
+			// Start with default
+			string configFile = configFilePath;
+			if ( File.Exists( Path.Combine( storePath, Configuration.DefaultConfigFileName ) ) == true )
+			{
+				configFile = Path.Combine( storePath, Configuration.DefaultConfigFileName );
+			}
+
+			Console.Write( "Configuring {0}...", configFile );
 
 			// Load the configuration file into an xml document.
 			XmlDocument document = new XmlDocument();
-			document.Load( Path.Combine( configFilePath, Configuration.DefaultConfigFileName ) );
+			document.Load( configFile );
 
 			// system
 			SetConfigValue( document, "EnterpriseDomain", "SystemName", systemName.Value );
 			SetConfigValue( document, "EnterpriseDomain", "Description", systemDescription.Value );
 			SetConfigValue( document, "Authentication", "SimiasRequireSSL", bool.Parse( useSsl.Value ) ? "yes" : "no");
-
-			// server
-			if( slaveServer.Value == true )
+			SetConfigValue( document, "EnterpriseDomain", "AdminName", systemAdminDN.Value );
+			if ( slaveServer.Value == true )
 			{
 				SetConfigValue( document, ServerSection, MasterAddressKey, masterAddress.Value);
 			}
+			else
+			{
+				SetConfigValue( document, "EnterpriseDomain", "AdminPassword", systemAdminPassword.Value );
+			}
 
+			// server
 			SetConfigValue( document, ServerSection, ServerNameKey, serverName.Value);
 			SetConfigValue( document, ServerSection, PublicAddressKey, publicUrl.Value );
 			SetConfigValue( document, ServerSection, PrivateAddressKey, privateUrl.Value );
-
-			// system admin dn
-			SetConfigValue( document, "EnterpriseDomain", "AdminName", systemAdminDN.Value );
 
 			// Commit the config file changes.
 			CommitConfiguration( document );
@@ -1001,7 +1027,7 @@ namespace Novell.iFolder
 		private void SetupConfigFiles()
 		{
 			// Setup the links to the store configuration.
-			Console.Write("Setting up store Configuration files...");
+			Console.Write( "Setting up store Configuration files..." );
 
 			// Make sure the store path exists.
 			if ( System.IO.Directory.Exists( storePath ) == false )
@@ -1009,19 +1035,21 @@ namespace Novell.iFolder
 				System.IO.Directory.CreateDirectory( storePath );
 			}
 				
-			// Make sure that the configuration file exists.
+			// Copy the default configuration file
 			// 
-			string srcConfigFile = Path.Combine( configFilePath, "bill" );
-			srcConfigFile = Path.Combine( srcConfigFile, Configuration.DefaultConfigFileName );
 			string destConfigFile = Path.Combine( storePath, Configuration.DefaultConfigFileName );
 			if ( File.Exists( destConfigFile ) == false )
 			{
-				File.Copy( srcConfigFile, destConfigFile );
+				File.Copy( configFilePath, destConfigFile );
 			}
+
+			// trim off "bill" for log4net
+			string comp = Path.DirectorySeparatorChar.ToString() + "bill";
+			string srcLog = configPath.TrimEnd( comp.ToCharArray() );
 
 			// Make sure that the log4net file exists.
 			string destLog4NetFile = Path.Combine( storePath, Log4NetFile );
-			string srcLog4NetFile = Path.Combine( configFilePath, Log4NetFile );
+			string srcLog4NetFile = Path.Combine( srcLog, Log4NetFile );
 			if ( File.Exists( destLog4NetFile ) == false )
 			{
 				File.Copy( srcLog4NetFile, destLog4NetFile );
@@ -1029,29 +1057,28 @@ namespace Novell.iFolder
 
 			// Make sure that the modules directory exists.
 			string destModulesDir = Path.Combine( storePath, ModulesDir );
-			string srcModulesDir = Path.Combine( configFilePath, "bill" );
-			srcModulesDir = Path.Combine( srcModulesDir, ModulesDir );
+			string srcModulesDir = Path.Combine( configPath, ModulesDir );
 			if ( System.IO.Directory.Exists( destModulesDir ) == false )
 			{
 				System.IO.Directory.CreateDirectory( destModulesDir );
 				string[] files = System.IO.Directory.GetFiles( srcModulesDir );
-				foreach (string file in files)
+				foreach( string file in files )
 				{
-					string fname = Path.GetFileName(file);
+					string fname = Path.GetFileName( file );
 					File.Copy(
 						Path.Combine( srcModulesDir, fname ),
 						Path.Combine( destModulesDir, fname ) );
 				}
 			}
 			
-			Console.WriteLine("Done");
+			Console.WriteLine( "Done" );
 		}
 
 		// Method to discover the path to the default config files
 		private bool SetupDefaultConfigPath()
 		{
 			// Check /etc first
-			string configPath = 
+			string path =
 				String.Format( "{0}{1}{2}{3}{4}{5}",
 					Path.DirectorySeparatorChar.ToString(),
 					"etc", 
@@ -1060,32 +1087,42 @@ namespace Novell.iFolder
 					Path.DirectorySeparatorChar.ToString(),
 					"bill" );
 
-			if ( System.IO.Directory.Exists( configPath ) == true )
+			if ( System.IO.Directory.Exists( path ) == true )
 			{
-				if ( File.Exists( Path.Combine( configPath, Simias.Configuration.DefaultConfigFileName ) ) == true )
+				if ( File.Exists( Path.Combine( path, Simias.Configuration.DefaultConfigFileName ) ) == true )
 				{
-					configFilePath = configPath;
+					configPath = path;
+					configFilePath = Path.Combine( configPath, Simias.Configuration.DefaultConfigFileName );
 					return true;
 				}
 			}
 
 			// Check the target area
-			configPath = 
-				String.Format( "{0}{1}{2}{3}",
+			path = 
+				String.Format( "{0}{1}{2}{3}{4}",
+					System.IO.Directory.GetCurrentDirectory(),
 					Path.DirectorySeparatorChar.ToString(),
 					"etc", 
 					Path.DirectorySeparatorChar.ToString(),
-					"bill" );
+					"simias" );
 
-			if ( System.IO.Directory.Exists( configPath ) == true )
+			if ( System.IO.Directory.Exists( path ) == true )
 			{
-				if ( File.Exists( Path.Combine( configPath, Simias.Configuration.DefaultConfigFileName ) ) == true )
+				// bill/Simias.config exist?
+				path = Path.Combine( path, "bill" );
+				if ( System.IO.Directory.Exists( path ) == true )
 				{
-					configFilePath = configPath; 
-					return true;
+					configPath = path;
+
+					if ( File.Exists( Path.Combine( configPath, Simias.Configuration.DefaultConfigFileName ) ) == true )
+					{
+						configFilePath = Path.Combine( configPath, Simias.Configuration.DefaultConfigFileName ); 
+						return true;
+					}
 				}
 			}
 
+			configPath = null;
 			return false;
 		}
 
@@ -1120,8 +1157,10 @@ namespace Novell.iFolder
 			Console.Write( "Setting up script files..." );
 
 			string fileData;
-			string templatePath = Path.Combine( SimiasSetup.bindir, "simiasserver" + ( MyEnvironment.Windows ? ".cmd" : "" ) );
-			string scriptPath = Path.Combine( SimiasSetup.bindir, serverName.Value + ( MyEnvironment.Windows ? ".cmd" : "" ) );
+//			string templatePath = Path.Combine( SimiasSetup.bindir, "simiasserver" + ( MyEnvironment.Windows ? ".cmd" : "" ) );
+//			string scriptPath = Path.Combine( SimiasSetup.bindir, serverName.Value + ( MyEnvironment.Windows ? ".cmd" : "" ) );
+			string templatePath = Path.Combine( System.IO.Directory.GetCurrentDirectory(), "simiasserver" + ( MyEnvironment.Windows ? ".cmd" : "" ) );
+			string scriptPath = Path.Combine( System.IO.Directory.GetCurrentDirectory(), serverName.Value + ( MyEnvironment.Windows ? ".cmd" : "" ) );
 			try
 			{
 				using ( StreamReader sr = new StreamReader( templatePath ) )
@@ -1153,30 +1192,30 @@ namespace Novell.iFolder
 
 		private void SetupLog4Net()
 		{
-			Console.Write("Setting up Log4Net file...");
+			Console.Write( "Setting up Log4Net file..." );
 
 			string fileData;
-			string filePath = Path.Combine(storePath, "Simias.log4net");
+			string filePath = Path.Combine( storePath, "Simias.log4net" );
 			try
 			{
-				using (StreamReader sr = new StreamReader(filePath))
+				using ( StreamReader sr = new StreamReader( filePath ) )
 				{
 					fileData = sr.ReadToEnd();
 				}
 
-				fileData = fileData.Replace("@_LogFilePath_@", storePath.Replace( '\\', '/' ) );
+				fileData = fileData.Replace( "@_LogFilePath_@", storePath.Replace( '\\', '/' ) );
 
-				using (StreamWriter sw = new StreamWriter(filePath))
+				using ( StreamWriter sw = new StreamWriter( filePath ) )
 				{
-					sw.WriteLine(fileData);
+					sw.WriteLine( fileData );
 				}
 			}
 			catch
 			{
-				throw new Exception(String.Format("Unable to set log file path in {0}", filePath));
+				throw new Exception( String.Format( "Unable to set log file path in {0}", filePath ) );
 			}
 
-			Console.WriteLine("Done");
+			Console.WriteLine( "Done" );
 		}
 
 		#region Utilities
@@ -1186,19 +1225,19 @@ namespace Novell.iFolder
 		/// </summary>
 		private void ShowUsage()
 		{
-			Console.WriteLine("USAGE: simias-server-setup <Path to Simias data directory> [OPTIONS]");
+			Console.WriteLine( "USAGE: simias-server-setup <Path to Simias data directory> [OPTIONS]" );
 			Console.WriteLine();
-			Console.WriteLine("OPTIONS:");
+			Console.WriteLine( "OPTIONS:" );
 			Console.WriteLine();
 
-			Option[] options = Options.GetOptions(this);
+			Option[] options = Options.GetOptions( this );
 
-			foreach(Option o in options)
+			foreach( Option o in options )
 			{
 				int nameCount = 0;
-				foreach(string name in o.Names)
+				foreach( string name in o.Names )
 				{
-					Console.Write("{0}--{1}", nameCount == 0 ? "\n\t" : ", ", name);
+					Console.Write( "{0}--{1}", nameCount == 0 ? "\n\t" : ", ", name );
 					nameCount++;
 				}
 	
@@ -1286,7 +1325,7 @@ namespace Novell.iFolder
 		
 			try
 			{
-				SimiasServerSetup setup = new SimiasServerSetup(args);
+				SimiasServerSetup setup = new SimiasServerSetup( args );
 				setup.Initialize();
 				setup.Configure();
 			}
@@ -1310,7 +1349,6 @@ namespace Novell.iFolder
 
 			Environment.Exit(0);
 		}
-
 		#endregion
 	}
 }
