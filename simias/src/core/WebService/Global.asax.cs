@@ -292,10 +292,49 @@ namespace Simias.Web
 #endif
 			Environment.CurrentDirectory = SimiasSetup.webbindir;
 
-
 			if ( verbose )
 			{
 				Console.Error.WriteLine("Simias Process Starting");
+			}
+
+			// See if the log directory has been created.
+			if ( !Directory.Exists( SimiasSetup.simiaslogdir ) )
+			{
+				try
+				{
+					Directory.CreateDirectory( SimiasSetup.simiaslogdir );
+				}
+				catch ( UnauthorizedAccessException ex )
+				{
+					// Don't have rights in the directory. Repoint to where we know
+					// we have rights and log the error.
+					SimiasSetup.simiaslogdir = SimiasSetup.simiasdatadir + "/log";
+					Directory.CreateDirectory( SimiasSetup.simiaslogdir );
+					if ( verbose )
+					{
+						Console.Error.WriteLine( "WARNING: Reset Simias log directory to {0}", SimiasSetup.simiaslogdir );
+					}
+				}
+			}
+
+			// See if the report directory has been created.
+			if ( !Directory.Exists( SimiasSetup.simiasreportdir ) )
+			{
+				try
+				{
+					Directory.CreateDirectory( SimiasSetup.simiasreportdir );
+				}
+				catch ( UnauthorizedAccessException ex )
+				{
+					// Don't have rights in the directory. Repoint to where we know
+					// we have rights and log the error.
+					SimiasSetup.simiasreportdir = SimiasSetup.simiasdatadir + "/report";
+					Directory.CreateDirectory( SimiasSetup.simiasreportdir );
+					if ( verbose )
+					{
+						Console.Error.WriteLine( "WARNING: Reset Simias report directory to {0}", SimiasSetup.simiasreportdir );
+					}
+				}
 			}
 
 			serviceManager = Simias.Service.Manager.GetManager();
