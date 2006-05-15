@@ -52,6 +52,8 @@ namespace Simias.Web
 		private static string EnvSimiasRunAsClient = "SimiasRunAsClient";
 		private static string EnvSimiasDataDir = "SimiasDataDir";
 		private static string EnvSimiasVerbose = "SimiasVerbose";
+		private static string EnvSimiasLogDir = "SimiasLogDir";
+		private static string EnvSimiasReportDir = "SimiasReportDir";
 		
 		/// <summary>
 		/// Object used to manage the simias services.
@@ -82,6 +84,16 @@ namespace Simias.Web
 		/// Path to the simias data area.
 		/// </summary>
 		private static string simiasDataPath = null;
+
+		/// <summary>
+		/// Path to the simias log files.
+		/// </summary>
+		private static string simiasLogDir = null;
+
+		/// <summary>
+		/// Path to the simias report files.
+		/// </summary>
+		private static string simiasReportDir = null;
 
 		/// <summary>
 		/// Port used as an IPC between application domains.
@@ -129,11 +141,12 @@ namespace Simias.Web
 				Console.Error.WriteLine("Local service port = {0}", localServicePort );
 			}
 
-			// check the current datadir, if it's not setup then
-			// copy the bootstrap files there
-			// only do this if we are starting up as a server
-			if(runAsServer)
+			// Check the current datadir, if it's not setup then copy the bootstrap files there
+			// only do this if we are starting up as a server.
+			if( runAsServer )
+			{
 				Setup_Datadir();
+			}
 
 			// Initialize the store.
 			Store.Initialize( simiasDataPath, runAsServer, localServicePort );
@@ -224,12 +237,40 @@ namespace Simias.Web
 		{
 			string tmpPath;
 			if( Environment.GetEnvironmentVariable( EnvSimiasRunAsClient ) != null )
+			{
 				runAsServer = false;
+			}
+
 			tmpPath = Environment.GetEnvironmentVariable( EnvSimiasDataDir );
-			if(tmpPath != null)
+			if( tmpPath != null )
+			{
 				simiasDataPath = tmpPath.Trim( new char [] { '\"' } );
+			}
+
+			tmpPath = Environment.GetEnvironmentVariable( EnvSimiasLogDir );
+			if ( tmpPath != null )
+			{
+				simiasLogDir = tmpPath.Trim( new char [] { '\"' } );
+			}
+			else
+			{
+				simiasLogDir = SimiasSetup.simiaslogdir;
+			}
+
+			tmpPath = Environment.GetEnvironmentVariable( EnvSimiasReportDir );
+			if ( tmpPath != null )
+			{
+				simiasReportDir = tmpPath.Trim( new char [] { '\"' } );
+			}
+			else
+			{
+				simiasReportDir = SimiasSetup.simiasreportdir;
+			}
+
 			if( Environment.GetEnvironmentVariable( EnvSimiasVerbose ) != null )
+			{
 				verbose = true;
+			}
 		}
 
 
@@ -298,17 +339,17 @@ namespace Simias.Web
 			}
 
 			// See if the log directory has been created.
-			if ( !Directory.Exists( SimiasSetup.simiaslogdir ) )
+			if ( !Directory.Exists( simiasLogDir ) )
 			{
 				try
 				{
-					Directory.CreateDirectory( SimiasSetup.simiaslogdir );
+					Directory.CreateDirectory( simiasLogDir );
 				}
-				catch ( UnauthorizedAccessException ex )
+				catch ( UnauthorizedAccessException )
 				{
 					// Don't have rights in the directory. Repoint to where we know
 					// we have rights and log the error.
-					SimiasSetup.simiaslogdir = SimiasSetup.simiasdatadir + "/log";
+					SimiasSetup.simiaslogdir = simiasDataPath + "/log";
 					Directory.CreateDirectory( SimiasSetup.simiaslogdir );
 					if ( verbose )
 					{
@@ -318,17 +359,17 @@ namespace Simias.Web
 			}
 
 			// See if the report directory has been created.
-			if ( !Directory.Exists( SimiasSetup.simiasreportdir ) )
+			if ( !Directory.Exists( simiasReportDir ) )
 			{
 				try
 				{
-					Directory.CreateDirectory( SimiasSetup.simiasreportdir );
+					Directory.CreateDirectory( simiasReportDir );
 				}
-				catch ( UnauthorizedAccessException ex )
+				catch ( UnauthorizedAccessException )
 				{
 					// Don't have rights in the directory. Repoint to where we know
 					// we have rights and log the error.
-					SimiasSetup.simiasreportdir = SimiasSetup.simiasdatadir + "/report";
+					SimiasSetup.simiasreportdir = simiasDataPath + "/report";
 					Directory.CreateDirectory( SimiasSetup.simiasreportdir );
 					if ( verbose )
 					{
