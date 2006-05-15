@@ -495,14 +495,17 @@ AC_ARG_WITH(runasclient,
 	[runasclient="TRUE"
 	case $SIMIAS_OS in
 		windows) 
-			simiasdatadir=`cygpath --windows "$USERPROFILE/Local Settings/Application Data/simias"`
-			simiaslogdir="${simiasdatadir}" ;;
+			simiasdatadir=`cygpath --mixed "$USERPROFILE/Local Settings/Application Data/simias"`
+			simiaslogdir="${simiasdatadir}"
+			simiasreportdir="${simiasdatadir}" ;;
 		linux) 
 			simiasdatadir="$HOME/.local/share/simias"
-			simiaslogdir="${simiasdatadir}" ;;
+			simiaslogdir="${simiasdatadir}"
+			simiasreportdir="${simiasdatadir}" ;;
 		darwin) 
 			simiasdatadir="$HOME/.local/share/simias"
-			simiaslogdir="${simiasdatadir}" ;;
+			simiaslogdir="${simiasdatadir}"
+			simiasreportdir="${simiasdatadir}" ;;
 	esac],
 	[runasclient="FALSE"]
 	)
@@ -517,12 +520,12 @@ AC_ARG_WITH(simiasdatadir,
 	[AS_HELP_STRING([--with-simiasdatadir=PATH],
 	[configure the directory where the simias data files will be placed. [Default="/var/lib/simias"]])],
 	[case $SIMIAS_OS in
-		windows) simiasdatadir=`cygpath --windows $withval` ;;
+		windows) simiasdatadir=`cygpath --mixed $withval` ;;
 		*) simiasdatadir="$withval" ;;
 	esac],
 	[if test "$runasclient" = "FALSE"; then
 		case $SIMIAS_OS in
-			windows) simiasdatadir="c:\\simias" ;;
+			windows) simiasdatadir="c:/simias" ;;
 			linux) simiasdatadir="/var/lib/simias" ;;
 			darwin) simiasdatadir="/var/lib/simias" ;;
 		esac
@@ -538,17 +541,31 @@ AC_ARG_WITH(simiaslogdir,
 	[AS_HELP_STRING([--with-simiaslogdir=PATH],
 	[configure the directory where the simias log files will be placed. [Default="${simiasdatadir}/log"]])],
 	[case $SIMIAS_OS in
-		windows) simiaslogdir=`cygpath --windows $withval` ;;
+		windows) simiaslogdir=`cygpath --mixed $withval` ;;
 		*) simiaslogdir="$withval" ;;
 	esac],
 	[if test "$runasclient" = "FALSE"; then
-		case $SIMIAS_OS in
-			windows) simiaslogdir="${simiasdatadir}" ;;
-			*) simiaslogdir="${simiasdatadir}" ;;
-		esac
+		simiaslogdir="${simiasdatadir}/log"
 	fi]
 	)
 AC_SUBST(simiaslogdir)
+
+#
+# Handle --with-simiasreportdir
+#
+AC_CHECKING([whether a location for the simias report directory was specified])
+AC_ARG_WITH(simiasreportdir,
+	[AS_HELP_STRING([--with-simiasreportdir=PATH],
+	[configure the directory where the simias report files will be placed. [Default="${simiasdatadir}/report"]])],
+	[case $SIMIAS_OS in
+		windows) simiasreportdir=`cygpath --mixed $withval` ;;
+		*) simiasreportdir="$withval" ;;
+	esac],
+	[if test "$runasclient" = "FALSE"; then
+		simiasreportdir="${simiasdatadir}/report"
+	fi]
+	)
+AC_SUBST(simiasreportdir)
 
 #
 # Needed to properly set the key file conditional for SimiasClient.
