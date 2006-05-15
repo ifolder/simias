@@ -496,16 +496,13 @@ AC_ARG_WITH(runasclient,
 	case $SIMIAS_OS in
 		windows) 
 			simiasdatadir=`cygpath --mixed "$USERPROFILE/Local Settings/Application Data/simias"`
-			simiaslogdir="${simiasdatadir}"
-			simiasreportdir="${simiasdatadir}" ;;
+			simiaslogdir="${simiasdatadir}" ;;
 		linux) 
 			simiasdatadir="$HOME/.local/share/simias"
-			simiaslogdir="${simiasdatadir}"
-			simiasreportdir="${simiasdatadir}" ;;
+			simiaslogdir="${simiasdatadir}" ;;
 		darwin) 
 			simiasdatadir="$HOME/.local/share/simias"
-			simiaslogdir="${simiasdatadir}"
-			simiasreportdir="${simiasdatadir}" ;;
+			simiaslogdir="${simiasdatadir}" ;;
 	esac],
 	[runasclient="FALSE"]
 	)
@@ -549,23 +546,6 @@ AC_ARG_WITH(simiaslogdir,
 	fi]
 	)
 AC_SUBST(simiaslogdir)
-
-#
-# Handle --with-simiasreportdir
-#
-AC_CHECKING([whether a location for the simias report directory was specified])
-AC_ARG_WITH(simiasreportdir,
-	[AS_HELP_STRING([--with-simiasreportdir=PATH],
-	[configure the directory where the simias report files will be placed. [Default="${simiasdatadir}/report"]])],
-	[case $SIMIAS_OS in
-		windows) simiasreportdir=`cygpath --mixed $withval` ;;
-		*) simiasreportdir="$withval" ;;
-	esac],
-	[if test "$runasclient" = "FALSE"; then
-		simiasreportdir="${simiasdatadir}/report"
-	fi]
-	)
-AC_SUBST(simiasreportdir)
 
 #
 # Needed to properly set the key file conditional for SimiasClient.
