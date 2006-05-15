@@ -52,8 +52,6 @@ namespace Simias.Web
 		private static string EnvSimiasRunAsClient = "SimiasRunAsClient";
 		private static string EnvSimiasDataDir = "SimiasDataDir";
 		private static string EnvSimiasVerbose = "SimiasVerbose";
-		private static string EnvSimiasLogDir = "SimiasLogDir";
-		private static string EnvSimiasReportDir = "SimiasReportDir";
 		
 		/// <summary>
 		/// Object used to manage the simias services.
@@ -84,16 +82,6 @@ namespace Simias.Web
 		/// Path to the simias data area.
 		/// </summary>
 		private static string simiasDataPath = null;
-
-		/// <summary>
-		/// Path to the simias log files.
-		/// </summary>
-		private static string simiasLogDir = null;
-
-		/// <summary>
-		/// Path to the simias report files.
-		/// </summary>
-		private static string simiasReportDir = null;
 
 		/// <summary>
 		/// Port used as an IPC between application domains.
@@ -247,26 +235,6 @@ namespace Simias.Web
 				simiasDataPath = tmpPath.Trim( new char [] { '\"' } );
 			}
 
-			tmpPath = Environment.GetEnvironmentVariable( EnvSimiasLogDir );
-			if ( tmpPath != null )
-			{
-				simiasLogDir = tmpPath.Trim( new char [] { '\"' } );
-			}
-			else
-			{
-				simiasLogDir = SimiasSetup.simiaslogdir;
-			}
-
-			tmpPath = Environment.GetEnvironmentVariable( EnvSimiasReportDir );
-			if ( tmpPath != null )
-			{
-				simiasReportDir = tmpPath.Trim( new char [] { '\"' } );
-			}
-			else
-			{
-				simiasReportDir = SimiasSetup.simiasreportdir;
-			}
-
 			if( Environment.GetEnvironmentVariable( EnvSimiasVerbose ) != null )
 			{
 				verbose = true;
@@ -336,46 +304,6 @@ namespace Simias.Web
 			if ( verbose )
 			{
 				Console.Error.WriteLine("Simias Process Starting");
-			}
-
-			// See if the log directory has been created.
-			if ( !Directory.Exists( simiasLogDir ) )
-			{
-				try
-				{
-					Directory.CreateDirectory( simiasLogDir );
-				}
-				catch ( UnauthorizedAccessException )
-				{
-					// Don't have rights in the directory. Repoint to where we know
-					// we have rights and log the error.
-					SimiasSetup.simiaslogdir = simiasDataPath + "/log";
-					Directory.CreateDirectory( SimiasSetup.simiaslogdir );
-					if ( verbose )
-					{
-						Console.Error.WriteLine( "WARNING: Reset Simias log directory to {0}", SimiasSetup.simiaslogdir );
-					}
-				}
-			}
-
-			// See if the report directory has been created.
-			if ( !Directory.Exists( simiasReportDir ) )
-			{
-				try
-				{
-					Directory.CreateDirectory( simiasReportDir );
-				}
-				catch ( UnauthorizedAccessException )
-				{
-					// Don't have rights in the directory. Repoint to where we know
-					// we have rights and log the error.
-					SimiasSetup.simiasreportdir = simiasDataPath + "/report";
-					Directory.CreateDirectory( SimiasSetup.simiasreportdir );
-					if ( verbose )
-					{
-						Console.Error.WriteLine( "WARNING: Reset Simias report directory to {0}", SimiasSetup.simiasreportdir );
-					}
-				}
 			}
 
 			serviceManager = Simias.Service.Manager.GetManager();

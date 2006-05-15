@@ -1209,7 +1209,7 @@ namespace Simias.Storage
 			try
 			{
 				// Get the path to the store managed directory for this collection.
-				string logFileDir = Path.Combine( Store.StorePath, "log" );
+				string logFileDir = Path.Combine( Store.StorePath, "changelog" );
 				if ( !Directory.Exists( logFileDir ) )
 				{
 					Directory.CreateDirectory( logFileDir );

@@ -292,6 +292,14 @@ namespace Simias.Storage
 		}
 
 		/// <summary>
+		/// Specifies the reports directory.
+		/// </summary>
+		public static string ReportPath
+		{
+			get { return Path.Combine( StorePath, "report" ); }
+		}
+
+		/// <summary>
 		///  Specifies where the default store path
 		/// </summary>
 		public static string StorePath
@@ -347,6 +355,12 @@ namespace Simias.Storage
 			// Set the managed and unmanaged paths to the store.
 			storeManagedPath = Path.Combine( storePath, storeManagedDirectoryName );
 			storeUnmanagedPath = Path.Combine( storePath, storeUnmanagedDirectoryName );
+
+			// Create the report directory if it doesn't exist.
+			if ( !Directory.Exists( ReportPath ) )
+			{
+				Directory.CreateDirectory( ReportPath );
+			}
 
 			// Either create the store or authenticate to it.
 			if ( created )
