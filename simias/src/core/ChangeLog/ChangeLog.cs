@@ -1834,7 +1834,7 @@ namespace Simias.Storage
 			mutex = new LogMutex( collectionID );
 
 			// Build the log file path.
-			logFilePath = Path.Combine( Path.Combine( Store.StorePath, "log" ), collection.ID + ".changelog" );
+			logFilePath = Path.Combine( Path.Combine( Store.StorePath, "changelog" ), collection.ID + ".changelog" );
 		}
 		#endregion
 
