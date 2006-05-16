@@ -66,7 +66,7 @@ make DESTDIR=$RPM_BUILD_ROOT install
 INSTANCES_AFTER_INSTALL=$1
 if [ "$INSTANCES_AFTER_INSTALL" = "2" ]; then
        # Future location of all of our upgrade stuff from 3.2 to 3.5
-	if -e %{simiasdatadir}/log; then
+	if test -e %{simiasdatadir}/log; then
 		mv %{simiasdatadir}/log %{simiasdatadir}/changelog
 	fi
 fi
