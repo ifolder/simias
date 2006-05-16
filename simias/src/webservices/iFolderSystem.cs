@@ -24,6 +24,7 @@
 using System;
 
 using Simias.Storage;
+using Simias.Server;
 
 namespace iFolder.WebService
 {
@@ -54,6 +55,22 @@ namespace iFolder.WebService
 		public string Description;
 
 		/// <summary>
+		/// Identifier for the System Report iFolder where iFolder 
+		/// reports will be generated.
+		/// </summary>
+		public string ReportiFolderID;
+
+		/// <summary>
+		/// Report collection name for the System Report iFolder.
+		/// </summary>
+		public string ReportiFolderName;
+
+		/// <summary>
+		/// Directory path where iFolder reports will be generated.
+		/// </summary>
+		public string ReportDirectory;
+
+		/// <summary>
 		/// Constructor
 		/// </summary>
 		public iFolderSystem()
@@ -76,6 +93,11 @@ namespace iFolder.WebService
 			system.Name = domain.Name;
 			system.Version = domain.DomainVersion.ToString();
 			system.Description = domain.Description;
+
+			Report report = new Report();
+			system.ReportDirectory = report.ReportPath;
+			system.ReportiFolderID = report.ReportCollectionID;
+			system.ReportiFolderName = report.ReportCollectionName;
 
             return system;
 		}
