@@ -505,9 +505,14 @@ td.seperator
 	width: 30em;
 }
 
-.file
+.files
 {
-	padding: 4px 0px 0px 8px;
+	width: 98%;
+}
+
+.files div
+{
+	padding-top: 4px;
 }
 
 #NewiFolderName

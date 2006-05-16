@@ -72,24 +72,28 @@
 					<asp:Literal ID="ParentPath" runat="server" />
 				</div>
 
-				<div>
-				
-				<div class="file">
-					<input id="UploadFile1" type="file" size="32" runat="server" onKeyDown="return SubmitKeyDown(event, 'UploadButton');" />
-				</div>
-				
-				<div class="file">
-					<input id="UploadFile2" type="file" size="32" runat="server" onKeyDown="return SubmitKeyDown(event, 'UploadButton');" />
-				</div>
-				
-				<div class="file">
-					<input id="UploadFile3" type="file" size="32" runat="server" onKeyDown="return SubmitKeyDown(event, 'UploadButton');" />
-				</div>
-				
-				<div class="file">
-					<input id="UploadFile4" type="file" size="32" runat="server" onKeyDown="return SubmitKeyDown(event, 'UploadButton');" />
-				</div>
-				
+				<div class="files">
+					
+					<div>
+						<input id="UploadFile1" type="file" size="32" runat="server" onKeyDown="return SubmitKeyDown(event, 'UploadButton');" />
+					</div>
+					
+					<div>
+						<input id="UploadFile2" type="file" size="32" runat="server" onKeyDown="return SubmitKeyDown(event, 'UploadButton');" />
+					</div>
+					
+					<div>
+						<input id="UploadFile3" type="file" size="32" runat="server" onKeyDown="return SubmitKeyDown(event, 'UploadButton');" />
+					</div>
+					
+					<div>
+						<input id="UploadFile4" type="file" size="32" runat="server" onKeyDown="return SubmitKeyDown(event, 'UploadButton');" />
+					</div>
+					
+					<div>
+						<input id="UploadFile5" type="file" size="32" runat="server" onKeyDown="return SubmitKeyDown(event, 'UploadButton');" />
+					</div>
+					
 				</div>
 
 				<div class="buttons">
