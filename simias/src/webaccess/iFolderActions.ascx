@@ -6,12 +6,12 @@
 	
 	<script type="text/javascript">
 
-		function ConfirmRemove(f)
+		function ConfirmiFolderRemove(f)
 		{
 			return confirm("<%= GetString("IFOLDER.CONFIRMREMOVE") %>");
 		}
 	
-		function ConfirmDelete(f)
+		function ConfirmiFolderDelete(f)
 		{
 			return confirm("<%= GetString("IFOLDER.CONFIRMDELETE") %>");
 		}

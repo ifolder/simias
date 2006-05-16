@@ -203,7 +203,7 @@ namespace Novell.iFolderApp.Web
 		/// <param name="e"></param>
 		private void RemoveButton_PreRender(object sender, EventArgs e)
 		{
-			RemoveButton.Attributes["onclick"] = "return ConfirmRemove(this.form);";
+			RemoveButton.Attributes["onclick"] = "return ConfirmiFolderRemove(this.form);";
 		}
 
 		/// <summary>
@@ -232,7 +232,7 @@ namespace Novell.iFolderApp.Web
 		/// <param name="e"></param>
 		private void DeleteButton_PreRender(object sender, EventArgs e)
 		{
-			DeleteButton.Attributes["onclick"] = "return ConfirmDelete(this.form);";
+			DeleteButton.Attributes["onclick"] = "return ConfirmiFolderDelete(this.form);";
 		}
 
 		/// <summary>

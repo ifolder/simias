@@ -56,11 +56,6 @@ namespace Novell.iFolderApp.Web
 		protected Literal ParentPath;
 
 		/// <summary>
-		/// Upload File
-		/// </summary>
-		protected HtmlInputFile UploadFile1, UploadFile2, UploadFile3, UploadFile4, UploadFile5;
-
-		/// <summary>
 		/// Upload Button
 		/// </summary>
 		protected Button UploadButton;
@@ -248,20 +243,11 @@ namespace Novell.iFolderApp.Web
 		/// <param name="e"></param>
 		private void UploadButton_Click(object sender, EventArgs e)
 		{
-			HtmlInputFile[] inputs = 
-			{
-				UploadFile1,
-				UploadFile2,
-				UploadFile3,
-				UploadFile4,
-				UploadFile5
-			};
-
 			try
 			{
-				foreach(HtmlInputFile input in inputs)
+				foreach(string name in Request.Files)
 				{
-					UploadFile(input);
+					UploadFile(Request.Files[name]);
 				}
 
 				// redirect
@@ -273,14 +259,12 @@ namespace Novell.iFolderApp.Web
 			}
 		}
 
-		private void UploadFile(HtmlInputFile input)
+		private void UploadFile(HttpPostedFile file)
 		{
-			if (input == null) return;
-
 			// filename
 			// KLUDGE: Mono no longer recognizes backslash as a directory seperator
 			// Path.GetFileName() is not usable here for that reason
-			string filename = WebUtility.GetFileName(input.PostedFile.FileName.Trim());
+			string filename = WebUtility.GetFileName(file.FileName.Trim());
 			
 			// check for file
 			if (filename.Length == 0) return;
@@ -289,7 +273,7 @@ namespace Novell.iFolderApp.Web
 			string path = String.Format("{0}/{1}", ParentPath.Text, filename);
 
 			// check for an empty file
-			if (input.PostedFile.ContentLength == 0)
+			if (file.ContentLength == 0)
 			{
 				Message.Text = GetString("ENTRY.EMPTYFILE");
 
@@ -304,7 +288,7 @@ namespace Novell.iFolderApp.Web
 
 			HttpWebRequest webRequest = (HttpWebRequest) WebRequest.Create(uri.Uri);
 			webRequest.Method = "PUT";
-			webRequest.ContentLength = input.PostedFile.ContentLength;
+			webRequest.ContentLength = file.ContentLength;
 			webRequest.PreAuthenticate = true;
 			webRequest.Credentials = web.Credentials;
 			webRequest.CookieContainer = web.CookieContainer;
@@ -312,7 +296,7 @@ namespace Novell.iFolderApp.Web
 
 			Stream webStream = webRequest.GetRequestStream();
 
-			Stream stream = input.PostedFile.InputStream;
+			Stream stream = file.InputStream;
 			
 			try
 			{
