@@ -66,9 +66,10 @@ namespace iFolder.WebService
 		public string ReportiFolderName;
 
 		/// <summary>
-		/// Directory path where iFolder reports will be generated.
+		/// Directory path where iFolder reports will be generated if
+		/// not specified to use the report iFolder.
 		/// </summary>
-		public string ReportDirectory;
+		public string ReportPath;
 
 		/// <summary>
 		/// Constructor
@@ -95,7 +96,7 @@ namespace iFolder.WebService
 			system.Description = domain.Description;
 
 			Report report = new Report();
-			system.ReportDirectory = report.ReportPath;
+			system.ReportPath = report.ReportPath;
 			system.ReportiFolderID = report.ReportCollectionID;
 			system.ReportiFolderName = report.ReportCollectionName;
 
