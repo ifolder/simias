@@ -211,6 +211,9 @@ namespace Simias.Server
 
 						// Create the name mapping.
 						store.AddDomainIdentity( enterpriseDomain.ID, member.UserID );
+
+						// Create the report collection.
+						Report.CreateReportCollection( store, enterpriseDomain );
 					}
 					else
 					{

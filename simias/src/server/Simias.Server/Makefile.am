@@ -15,6 +15,7 @@ SimiasServer_CSFILES = \
 	$(srcdir)/IdentitySyncManager.asmx.cs \
 	$(srcdir)/IProvisionUser.cs \
 	$(srcdir)/Registration.asmx.cs \
+	$(srcdir)/Report.cs \
 	$(srcdir)/IUserProvider.cs \
 	$(srcdir)/User.cs \
 	$(srcdir)/JournalService.cs \
