@@ -113,14 +113,14 @@ namespace Novell.iFolder
 		#region Options
 
 		/// <summary>
-		/// The default configuration path.
-		/// </summary>
-		public Option defaultConfigPath = new Option("defaultConfigPath,p", "Default Configuration Path", "Path to the default configuration files", true, null);
-
-		/// <summary>
 		/// The store path.
 		/// </summary>
 		public Option path = new Option("path,p", "Server's Data Path", "Path to the server's data files", true, null);
+
+		/// <summary>
+		/// The default configuration path.
+		/// </summary>
+		public Option defaultConfigPath = new Option("defaultConfigPath,p", "Default Configuration Path", "Path to the default configuration files", true, null);
 
 		/// <summary>
 		/// The port to listen on.
@@ -250,17 +250,9 @@ namespace Novell.iFolder
 				apache.Value = false;
 			}
 
-			if ( SetupDefaultConfigPath() == true )
-			{
-				defaultConfigPath.Prompt = false;
-				defaultConfigPath.Required = false;
-			}
-			else
-			{
-				defaultConfigPath.OnOptionEntered = new Option.OptionEnteredHandler( OnDefaultConfig );
-			}
-
 			path.OnOptionEntered = new Option.OptionEnteredHandler( OnPath );
+			defaultConfigPath.OnOptionEntered = new Option.OptionEnteredHandler( OnDefaultConfig );
+
 			slaveServer.OnOptionEntered = new Option.OptionEnteredHandler( OnSlave );
 			publicUrl.OnOptionEntered = new Option.OptionEnteredHandler( OnPublicUrl );
 			privateUrl.OnOptionEntered = new Option.OptionEnteredHandler( OnPrivateUrl );
@@ -278,8 +270,34 @@ namespace Novell.iFolder
 				storePath = Path.Combine( storePath, "simias" );
 			}
 
-			SetupConfigFiles();
-			UpdateDefaults();
+			// Check if a configuration file exists in the store path location
+			if ( System.IO.Directory.Exists( storePath ) == true )
+			{
+				if ( File.Exists( Path.Combine( storePath, Simias.Configuration.DefaultConfigFileName ) ) == true )
+				{
+					configFilePath = Path.Combine( storePath, Simias.Configuration.DefaultConfigFileName );
+					configPath = storePath;
+
+					UpdateDefaults();
+
+					defaultConfigPath.Prompt = false;
+					defaultConfigPath.Required = false;
+
+					return true;
+				}
+			}
+
+			// Check if a default Simias.config exists in the normal 
+			// specified areas
+			if ( SetupDefaultConfigPath() == true )
+			{
+				defaultConfigPath.Prompt = false;
+				defaultConfigPath.Required = false;
+
+				SetupConfigFiles();
+				UpdateDefaults();
+			}
+			
 			return true;
 		}
 
@@ -291,6 +309,9 @@ namespace Novell.iFolder
 				if ( File.Exists( Path.Combine( configPath, Simias.Configuration.DefaultConfigFileName ) ) == true )
 				{
 					configFilePath = Path.Combine( configPath, Simias.Configuration.DefaultConfigFileName );
+
+					SetupConfigFiles();
+					UpdateDefaults();
 					return true;
 				}
 			}
@@ -1193,9 +1214,43 @@ namespace Novell.iFolder
 		private void SetupLog4Net()
 		{
 			Console.Write( "Setting up Log4Net file..." );
-
-			string fileData;
 			string filePath = Path.Combine( storePath, "Simias.log4net" );
+
+			char[] seps = {'/', '\\'};
+
+			// update log file names to process name
+			XmlDocument doc = new XmlDocument();
+			doc.Load( filePath );
+
+			XmlNodeList list = doc.GetElementsByTagName( "file" );						
+			for ( int i = 0; i < list.Count; i++ )
+			{   
+				XmlNode attr = list[i].Attributes.GetNamedItem( "value" );
+
+				string[] comps = attr.Value.Split( seps );
+				attr.Value = Path.Combine( storePath, "log" );
+				attr.Value = Path.Combine( attr.Value, comps[ comps.Length - 1 ] );
+				string logDir = System.IO.Directory.GetParent(attr.Value).FullName;
+				if ( System.IO.Directory.Exists( logDir ) == false )
+				{
+					System.IO.Directory.CreateDirectory( logDir );
+				}
+			}
+
+			list = doc.GetElementsByTagName( "header" );
+			for ( int i = 0; i < list.Count; i++ )
+			{   
+				XmlNode attr = list[i].Attributes.GetNamedItem( "value" );
+				attr.Value = attr.Value.Replace( "%n", Environment.NewLine );
+			}
+
+			XmlTextWriter writer = new XmlTextWriter( filePath, null );
+			writer.Formatting = Formatting.Indented;
+			doc.Save( writer );
+			writer.Close();
+
+			/*
+			string fileData;
 			try
 			{
 				using ( StreamReader sr = new StreamReader( filePath ) )
@@ -1214,6 +1269,7 @@ namespace Novell.iFolder
 			{
 				throw new Exception( String.Format( "Unable to set log file path in {0}", filePath ) );
 			}
+			*/
 
 			Console.WriteLine( "Done" );
 		}
