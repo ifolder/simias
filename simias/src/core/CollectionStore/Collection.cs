@@ -634,8 +634,12 @@ namespace Simias.Storage
 		{
 			try 
 			{
+				// BUGBUG!! - Brady - Need to fix up this code to remove remote POBoxes.
 				HostNode localHost = HostNode.GetLocalHost();
-				if (Store.IsEnterpriseServer && ( localHost != null ) && ( localHost.ID != member.HomeServer.ID ) )
+				if (Store.IsEnterpriseServer && 
+					( localHost != null ) && 
+					( member.HomeServer != null ) && 
+					( localHost.ID != member.HomeServer.ID ) )
 				{
 					SimiasConnection connection = new SimiasConnection(subscription.DomainID, localHost.UserID, SimiasConnection.AuthType.PPK, member );
 					connection.Authenticate();
