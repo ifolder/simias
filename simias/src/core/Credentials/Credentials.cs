@@ -197,7 +197,7 @@ namespace Simias.Authentication
 		/// 
 		/// Valid if status == StatusCode.Success
 		/// </summary>
-		public int				DaysUntilPasswordExpires;
+		public int				DaysUntilPasswordExpires = -1;
 	}
 	
 	/// <summary>

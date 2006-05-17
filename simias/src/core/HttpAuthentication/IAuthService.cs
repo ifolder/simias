@@ -52,6 +52,7 @@ namespace Simias.Security.Web.AuthenticationService
 		public static string Path = "/simias10/Login.ashx";
 
 		// Response headers set by the Http Authentication Module
+		public readonly static string DaysUntilPwdExpiresHeader = "Simias-Days-Until-Pwd-Expires";
 		public readonly static string GraceTotalHeader = "Simias-Grace-Total";
 		public readonly static string GraceRemainingHeader = "Simias-Grace-Remaining";
 		public readonly static string SimiasErrorHeader = "Simias-Error";

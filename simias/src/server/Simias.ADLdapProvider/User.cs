@@ -261,26 +261,26 @@ namespace Simias.ADLdapProvider
 					// the bind will fail and we'll come through on the proxy user
 					// connection so there is no reason for the extra checking on
 					// a successful bind in the context of the actual user.
-					if ( proxyUser == true && AccountDisabled( ldapEntry ) == true )
+					if ( proxyUser == true && AccountDisabled( ldapEntry ) )
 					{
 						status.statusCode = SCodes.AccountDisabled;
 					}
-					else if ( proxyUser == true && AccountExpired( ldapEntry ) == true )
+					else if ( proxyUser == true && AccountExpired( ldapEntry ) )
 					{
 						status.statusCode = SCodes.AccountDisabled;
 					}
-					else if ( proxyUser == true && AccountLockedOut( ldapEntry ) == true )
+					else if ( proxyUser == true && AccountLockedOut( ldapEntry ) )
 					{
 						status.statusCode = SCodes.AccountLockout;
 					}
 					else
 					{
-						if ( IsPasswordRequired( ldapEntry ) == true )
+						if ( IsPasswordRequired( ldapEntry ) )
 						{
-							if ( CanUserChangePassword( ldapEntry ) == true )
+							if ( CanUserChangePassword( ldapEntry ) )
 							{
 								int daysUntilExpired;
-								if ( IsPasswordExpired( ldapEntry, out daysUntilExpired ) == true )
+								if ( IsPasswordExpired( ldapEntry, out daysUntilExpired ) )
 								{
 									status.statusCode = SCodes.AccountLockout;
 								}
@@ -471,7 +471,8 @@ namespace Simias.ADLdapProvider
 			if ( attrExpires != null )
 			{
 				long expires = long.Parse( attrExpires.StringValue );
-				if ( expires != 0 )
+				if ( ( expires != 0 ) &&
+					( expires != 0x7FFFFFFFFFFFFFFF ) )
 				{
 					DateTime accountExpires = new DateTime( timeDelta + expires ).ToLocalTime();
 
@@ -524,26 +525,36 @@ namespace Simias.ADLdapProvider
 			bool passwordExpired = false;
 			daysUntilExpired = -1;
 
-			LdapAttribute attrPwdLastSet = entry.getAttribute( "pwdLastSet" );
-			if ( attrPwdLastSet != null )
+			LdapAttribute attr = entry.getAttribute( "userAccountControl" );
+			if ( attr != null )
 			{
-				long pwdLastSetVal = long.Parse( attrPwdLastSet.StringValue );
-				if ( pwdLastSetVal == 0 )
+				// Check account control to see if the password is set to never expire.
+				int accountControl = int.Parse( attr.StringValue );
+				if ( ( accountControl & (int)ADS_USER_FLAGS.DONT_EXPIRE_PASSWD ) != (int)ADS_USER_FLAGS.DONT_EXPIRE_PASSWD )
 				{
-					passwordExpired = true;
-				}
-				else
-				{
-					DateTime pwdLastSet = new DateTime( timeDelta + pwdLastSetVal ).ToLocalTime();
-					DateTime pwdExpires = pwdLastSet - maxPwdAge;
-					if ( pwdExpires < DateTime.Now )
+					attr = entry.getAttribute( "pwdLastSet" );
+					if ( attr != null )
 					{
-						passwordExpired = true;
-					}
-					else
-					{
-						TimeSpan pwdExpiresIn = pwdExpires - DateTime.Now;
-						daysUntilExpired = pwdExpiresIn.Days;
+						long pwdLastSetVal = long.Parse( attr.StringValue );
+						if ( pwdLastSetVal == 0 )
+						{
+							passwordExpired = true;
+						}
+						else
+						{
+							// Convert the value to a local time value.
+							DateTime pwdLastSet = new DateTime( timeDelta + pwdLastSetVal ).ToLocalTime();
+							DateTime pwdExpires = pwdLastSet - maxPwdAge;
+							if ( pwdExpires < DateTime.Now )
+							{
+								passwordExpired = true;
+							}
+							else
+							{
+								TimeSpan pwdExpiresIn = pwdExpires - DateTime.Now;
+								daysUntilExpired = pwdExpiresIn.Days;
+							}
+						}
 					}
 				}
 			}

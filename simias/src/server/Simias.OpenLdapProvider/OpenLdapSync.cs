@@ -130,7 +130,9 @@ namespace Simias.OpenLdapProvider
 				}
 			}
 		}
-		
+
+		// TODO: May need to investigate to see if the GUID needs to be stored in simias in a different
+		// format.
 		private string BuildGuidFilter( string guid )
 		{
 			string guidFilter = string.Format( "(uidNumber={0})", guid );

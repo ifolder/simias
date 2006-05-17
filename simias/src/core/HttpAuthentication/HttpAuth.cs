@@ -67,6 +67,7 @@ namespace Simias.Authentication
 			SimiasLogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
 		// Response headers set by the Http Authentication Module
+		public readonly static string DaysUntilPwdExpiresHeader = "Simias-Days-Until-Pwd-Expires";
 		public readonly static string GraceTotalHeader = "Simias-Grace-Total";
 		public readonly static string GraceRemainingHeader = "Simias-Grace-Remaining";
 		public readonly static string SimiasErrorHeader = "Simias-Error";
@@ -104,6 +105,17 @@ namespace Simias.Authentication
 		{
 			switch ( status.statusCode )
 			{
+				case StatusCodes.Success:
+				{
+					if ( status.DaysUntilPasswordExpires != -1 )
+					{
+						ctx.Response.AppendHeader(
+							DaysUntilPwdExpiresHeader,
+							status.DaysUntilPasswordExpires.ToString() );
+					}
+					break;
+				}
+
 				case StatusCodes.SuccessInGrace:
 				{
 					ctx.Response.AppendHeader(
@@ -281,7 +293,8 @@ namespace Simias.Authentication
 						return null;
 					}
 
-					if ( status.statusCode == StatusCodes.SuccessInGrace )
+					if ( status.statusCode == StatusCodes.SuccessInGrace ||
+						status.statusCode == StatusCodes.Success )
 					{
 						Simias.Authentication.Http.SetResponseHeaders( ctx, status );
 					}

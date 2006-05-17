@@ -340,10 +340,10 @@ namespace Simias.OpenLdapProvider
 					// The specified user did not exist in the roster under 
 					// the short or common name.
 					// Let's see if the user came in fully distinguished.
-					// ex. cn=user.o=context
+					// ex. cn=user.o=context OR uid=user.o=context
 
 					string dn = user.ToLower();
-					if ( dn.StartsWith( "cn=" ) == true )
+					if ( dn.StartsWith( "cn=" ) || dn.StartsWith( "uid=" ) )
 					{
 						// NDAP name to LDAP name
 						dn = dn.Replace( '.', ',' );
