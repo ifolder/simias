@@ -1478,7 +1478,14 @@ namespace Simias.Storage
 								// Make sure that it is okay to indicate an event.
 								if ( node.IndicateEvent )
 								{
-									NodeEventArgs args = new NodeEventArgs( store.Publisher, node.ID, id, modifier, node.Type, EventType.NodeChanged, 0, commitTime, node.MasterIncarnation, node.LocalIncarnation, fileSize );
+									int eventId = 0;
+
+									if ( node.IsBaseType( NodeTypes.MemberType ) )
+									{
+										eventId = GetEventId( node );
+									}
+
+									NodeEventArgs args = new NodeEventArgs( store.Publisher, node.ID, id, modifier, node.Type, EventType.NodeChanged, eventId, commitTime, node.MasterIncarnation, node.LocalIncarnation, fileSize );
 									args.LocalOnly = node.LocalChanges;
 									store.EventPublisher.RaiseEvent( args );
 
