@@ -344,7 +344,7 @@ namespace Novell.iFolderWeb.Admin
 			iFolderUserDetails details = web.GetUserDetails( UserID );
 
 			string lastLogin = ( details.LastLogin == DateTime.MinValue ) ?
-				GetString( "NOTAVAILABLE" ) : details.LastLogin.ToString();
+				GetString( "NOTAVAILABLE" ) : Utils.ToDateTimeString( details.LastLogin );
 
 			// Add the information rows to the table.
 			UserName.Text = details.UserName;

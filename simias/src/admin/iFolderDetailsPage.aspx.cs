@@ -254,7 +254,8 @@ namespace Novell.iFolderWeb.Admin
 			Files.Text = ifolder.FileCount.ToString();
 
 			LastModified.Text = ( ifolder.LastModified == DateTime.MinValue ) ? 
-				DateTime.Now.ToString() : ifolder.LastModified.ToString();
+				Utils.ToDateTimeString( DateTime.Now ) : 
+				Utils.ToDateTimeString( ifolder.LastModified );
 
 			// Allow the browser to break up the path on separator boundries.
 			UnManagedPath.Text = ifolder.UnManagedPath.Replace( 

@@ -45,6 +45,12 @@ namespace Novell.iFolderWeb.Admin
 		#region Class Members
 
 		/// <summary>
+		/// Log
+		/// </summary>
+		private static readonly iFolderWebLogger log = new iFolderWebLogger(
+			System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.Name);
+
+		/// <summary>
 		/// Name of the iFolder report settings.
 		/// </summary>
 		private const string ReportSettingName = "iFolderSystemReportConfiguration";
@@ -329,6 +335,7 @@ namespace Novell.iFolderWeb.Admin
 		/// </summary>
 		private void InitializeTimeOfDayList()
 		{
+			log.Debug( Context, "Current short time format = {0}", new DateTimeFormatInfo().ShortTimePattern );
 			string[] times = new string[ 96 ];
 
 			int hours = 0;
@@ -336,7 +343,7 @@ namespace Novell.iFolderWeb.Admin
 			for( int i = 0; i < times.Length; ++i )
 			{
 				DateTime dt = DateTime.Parse( new TimeSpan( hours, minutes, 0 ).ToString() );
-				times[ i ] = dt.ToString( "t" );
+				times[ i ] = Utils.ToDateTimeString( "t", dt );
 
 				minutes += 15;
 				if ( minutes > 45 )

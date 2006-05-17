@@ -24,6 +24,7 @@
 using System;
 using System.Net;
 using System.Resources;
+using System.Threading;
 using System.Web.Services.Protocols;
 using System.Web.UI.WebControls;
 using System.Xml;
@@ -233,6 +234,27 @@ namespace Novell.iFolderWeb.Admin
 			policy.FileTypesExcludes = policy.FileTypesIncludes = null;
 			policy.LoginEnabled = true;
 			return policy;
+		}
+
+		/// <summary>
+		/// Formats the DateTime to a string for the CurrentUICulture on the current thread.
+		/// </summary>
+		/// <param name="dt"></param>
+		/// <returns></returns>
+		public static string ToDateTimeString( DateTime dt )
+		{
+			return dt.ToString( Thread.CurrentThread.CurrentUICulture );
+		}
+
+		/// <summary>
+		/// Formats the DateTime to a string for the CurrentUICulture on the current thread.
+		/// </summary>
+		/// <param name="format"></param>
+		/// <param name="dt"></param>
+		/// <returns></returns>
+		public static string ToDateTimeString( string format, DateTime dt )
+		{
+			return dt.ToString( format, Thread.CurrentThread.CurrentUICulture );
 		}
 
 		#endregion

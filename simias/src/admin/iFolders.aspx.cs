@@ -198,7 +198,7 @@ namespace Novell.iFolderWeb.Admin
 				dr[ 5 ] = folder.Name;
 				dr[ 6 ] = folder.OwnerFullName;
 				dr[ 7 ] = folder.MemberCount.ToString();
-				dr[ 8 ] = folder.LastModified.ToShortDateString();
+				dr[ 8 ] = Utils.ToDateTimeString( "d", folder.LastModified );
 				dr[ 9 ] = Utils.ConvertToUnitString( folder.Size, true, rm );
 
 				dt.Rows.Add( dr );
