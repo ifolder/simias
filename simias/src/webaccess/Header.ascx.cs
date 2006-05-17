@@ -82,21 +82,29 @@ namespace Novell.iFolderApp.Web
 		private readonly static int MAX_HEADER_STRING = 30;
 
 		/// <summary>
+		/// Page Init
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void Page_Init(object sender, EventArgs e)
+		{
+			// localization
+			rm = (ResourceManager) Application["RM"];
+
+			// connection
+			web = (iFolderWeb) Session["Connection"];
+
+			// check connection
+			if (web == null) Logout(GetString("LOGIN.LOSTSESSION"));
+		}
+
+		/// <summary>
 		/// Page Load
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void Page_Load(object sender, System.EventArgs e)
 		{
-			// connection
-			web = (iFolderWeb) Session["Connection"];
-
-			// check connection
-			if (web == null) Logout(GetString("LOGIN.LOSTSESSION"));
-			
-			// localization
-			rm = (ResourceManager) Application["RM"];
-
 			if (!IsPostBack)
 			{
 				// data
@@ -190,6 +198,7 @@ namespace Novell.iFolderApp.Web
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.Init += new EventHandler(Page_Init);
 			this.Load += new System.EventHandler(this.Page_Load);
 			this.LogoutButton.Click += new System.EventHandler(this.LogoutButton_Click);
 		}
