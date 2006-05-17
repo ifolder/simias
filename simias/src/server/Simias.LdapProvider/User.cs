@@ -249,18 +249,12 @@ namespace Simias.LdapProvider
 								{
 									status.TotalGraceLogins = LoginGraceLimit( ldapEntry );
 									status.RemainingGraceLogins = LoginGraceRemaining( ldapEntry );
-									// BUGBUG - if there is no grace login limit a -1 is returned, so this
-									// case should succeed but tell the user that their password is expired.
-									if ( status.TotalGraceLogins != - 1 )
+
+									if ( status.statusCode == SCodes.Success &&
+										( status.TotalGraceLogins == -1 ||
+										status.RemainingGraceLogins >= 0 ) )
 									{
-										if ( status.RemainingGraceLogins >= 0 )
-										{
-											status.statusCode = SCodes.SuccessInGrace;
-										}
-										else
-										{
-											status.statusCode = SCodes.AccountLockout;
-										}
+										status.statusCode = SCodes.SuccessInGrace;
 									}
 									else
 									{
@@ -492,6 +486,7 @@ namespace Simias.LdapProvider
 			}
 			else
 			{
+				// There is not a grace login limit set.
 				loginGraceLimit = -1;
 			}
 
@@ -685,22 +680,22 @@ namespace Simias.LdapProvider
 				{
 					case LdapException.INVALID_CREDENTIALS:
 						status.statusCode = SCodes.InvalidCredentials;
-						status.ExceptionMessage = e.Message;
 						break;
 
 					default:
 						status.statusCode = SCodes.InternalException;
-						status.ExceptionMessage = e.Message;
-						if ( !doNotCheckStatus )
-						{
-							proxyConnection = BindProxyUser();
-							if ( proxyConnection != null )
-							{
-								// GetUserStatus may change the status code
-								GetUserStatus( true, proxyConnection, status );
-							}
-						}
 						break;
+				}
+
+				status.ExceptionMessage = e.Message;
+				if ( !doNotCheckStatus )
+				{
+					proxyConnection = BindProxyUser();
+					if ( proxyConnection != null )
+					{
+						// GetUserStatus may change the status code
+						GetUserStatus( true, proxyConnection, status );
+					}
 				}
 			}
 			catch( Exception e )
