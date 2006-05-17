@@ -32,7 +32,7 @@ a
 
 a:link, a:visited, a:active
 {
-	text-decoration: none;
+	text-decoration: underline;
 }
 
 a:hover
@@ -505,14 +505,27 @@ td.seperator
 	width: 30em;
 }
 
-.files
+#files
 {
 	width: 98%;
+	padding-top: 12px;
 }
 
-.files div
+#files div
 {
-	padding-top: 4px;
+	background: transparent url(../images/text-x-generic.png) top left no-repeat;
+	padding: 0 0 8px 22px;
+	height: 16px;
+}
+
+#files div a
+{
+	padding-left: 12px;
+	font-size: 0.9em;
+}
+
+.file
+{
 }
 
 #NewiFolderName

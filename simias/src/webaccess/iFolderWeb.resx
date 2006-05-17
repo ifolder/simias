@@ -543,4 +543,7 @@
     <data name="POLICY">
         <value>Policy</value>
     </data>
+    <data name="FILES.REMOVE">
+        <value>remove</value>
+    </data>
 </root>

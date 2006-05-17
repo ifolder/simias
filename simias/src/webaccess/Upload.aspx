@@ -16,30 +16,7 @@
 		@import url(css/ifolder.css);
 	</style>
 
-	<script type="text/javascript">
-	
-		function SubmitKeyDown(e, b)
-		{
-			var result = true;
-			
-			if ((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13))
-			{
-				document.getElementById(b).click();
-				result = false;
-			} 
-			
-			return result;
-		}
-
-		function SetFocus()
-		{
-			document.getElementById("UploadFile1").select();
-		}
-		
-		// on load
-		window.onload = SetFocus;
-	
-	</script>
+	<script type="text/javascript" src="js/multifile.js"></script>
 
 </head>
 
@@ -72,29 +49,18 @@
 					<asp:Literal ID="ParentPath" runat="server" />
 				</div>
 
-				<div class="files">
-					
-					<div>
-						<input id="UploadFile1" type="file" size="32" runat="server" onKeyDown="return SubmitKeyDown(event, 'UploadButton');" />
-					</div>
-					
-					<div>
-						<input id="UploadFile2" type="file" size="32" runat="server" onKeyDown="return SubmitKeyDown(event, 'UploadButton');" />
-					</div>
-					
-					<div>
-						<input id="UploadFile3" type="file" size="32" runat="server" onKeyDown="return SubmitKeyDown(event, 'UploadButton');" />
-					</div>
-					
-					<div>
-						<input id="UploadFile4" type="file" size="32" runat="server" onKeyDown="return SubmitKeyDown(event, 'UploadButton');" />
-					</div>
-					
-					<div>
-						<input id="UploadFile5" type="file" size="32" runat="server" onKeyDown="return SubmitKeyDown(event, 'UploadButton');" />
-					</div>
-					
+				<div>
+					<input id="file_0" name="file_0" type="file" size="0" runat="server" />
 				</div>
+				
+				<div id="files">
+				</div>
+				
+				<script type="text/javascript">
+					var mf = new MultiFile(document.getElementById('files'), 10);
+					mf.addElement(document.getElementById('file_0'));
+					mf.button_text = "<%= GetString("FILES.REMOVE") %>";
+				</script>
 
 				<div class="buttons">
 					<asp:Button ID="UploadButton" runat="server" />
