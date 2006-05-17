@@ -33,6 +33,7 @@ using System.Web.SessionState;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
+using System.Xml;
 
 namespace Novell.iFolderWeb.Admin
 {
@@ -42,6 +43,11 @@ namespace Novell.iFolderWeb.Admin
 	public class Reports : System.Web.UI.Page
 	{
 		#region Class Members
+
+		/// <summary>
+		/// Name of the iFolder report settings.
+		/// </summary>
+		private const string ReportSettingName = "iFolderSystemReportConfiguration";
 
 		/// <summary>
 		/// iFolder Connection
@@ -109,9 +115,46 @@ namespace Novell.iFolderWeb.Admin
 		/// </summary>
 		protected Label Summary;
 
+		/// <summary>
+		/// Save button control.
+		/// </summary>
+		protected Button SaveReportConfig;
+
+		/// <summary>
+		/// Cancel button control.
+		/// </summary>
+		protected Button CancelReportConfig;
+
 		#endregion
 
 		#region Properties
+
+		/// <summary>
+		/// Gets or sets the report ID in the ViewState.
+		/// </summary>
+		private string ReportID
+		{
+			get { return ViewState[ "ReportID" ] as string; }
+			set { ViewState[ "ReportID" ] = value; }
+		}
+
+		/// <summary>
+		/// Gets or sets the report name in the ViewState.
+		/// </summary>
+		private string ReportName
+		{
+			get { return ViewState[ "ReportName" ] as string; }
+			set { ViewState[ "ReportName" ] = value; }
+		}
+
+		/// <summary>
+		/// Gets or set the report path in the ViewState.
+		/// </summary>
+		private string ReportPath
+		{
+			get { return ViewState[ "ReportPath" ] as string; }
+			set { ViewState[ "ReportPath" ] = value; }
+		}
 
 		#endregion
 
@@ -123,6 +166,31 @@ namespace Novell.iFolderWeb.Admin
 		private void BuildBreadCrumbList()
 		{
 			TopNav.AddBreadCrumb( GetString( "REPORTS" ), null );
+		}
+
+		/// <summary>
+		/// Correlates the TimeSpan object to a list index.
+		/// </summary>
+		/// <param name="time"></param>
+		/// <returns></returns>
+		private int ConvertTimeToIndex( TimeSpan time )
+		{
+			int index = time.Hours * 4;
+
+			if ( ( time.Minutes > 0 ) && ( time.Minutes <= 15 ) )
+			{
+				index += 1;
+			}
+			else if ( ( time.Minutes > 15 ) && ( time.Minutes <= 30 ) )
+			{
+				index += 2;
+			}
+			else if ( ( time.Minutes > 30 ) && ( time.Minutes <= 45 ) )
+			{
+				index += 3;
+			}
+
+			return index;
 		}
 
 		/// <summary>
@@ -154,15 +222,29 @@ namespace Novell.iFolderWeb.Admin
 		/// <summary>
 		/// Displays a summary of the report configuration selections.
 		/// </summary>
-		private void DisplaySummary()
+		/// <param name="hasChanged"></param>
+		private void DisplaySummary( bool hasChanged)
 		{
+			string location = null;
+			switch ( ReportLocation.SelectedIndex )
+			{
+				case 0:
+					location = String.Format( "{0} {1}", GetString( "REPORTIFOLDERTAG" ), ReportName );
+					break;
+
+				case 1:
+					location = String.Format( "{0} {1}", GetString( "REPORTDIRECTORYTAG" ), ReportPath );
+					break;
+			}
+
 			switch ( FrequencyList.SelectedIndex )
 			{
 				case 0:
 					Summary.Text = 
 						String.Format( 
 							GetString( "GENERATEDAILYREPORT" ), 
-							TimeOfDayList.SelectedValue );
+							TimeOfDayList.SelectedValue,
+							location );
 					break;
 
 				case 1:
@@ -170,7 +252,8 @@ namespace Novell.iFolderWeb.Admin
 						String.Format( 
 							GetString( "GENERATEWEEKLYREPORT" ), 
 							DayOfWeekList.SelectedValue, 
-							TimeOfDayList.SelectedValue );
+							TimeOfDayList.SelectedValue,
+							location );
 					break;
 
 				case 2:
@@ -178,9 +261,52 @@ namespace Novell.iFolderWeb.Admin
 						String.Format( 
 							GetString( "GENERATEMONTHLYREPORT" ), 
 							DayOfMonthList.SelectedValue, 
-							TimeOfDayList.SelectedValue );
+							TimeOfDayList.SelectedValue,
+							location );
 					break;
 			}
+
+			// Enable or disable the save and cancel buttons.
+			SaveReportConfig.Enabled = CancelReportConfig.Enabled = hasChanged;
+		}
+
+		/// <summary>
+		/// Gets the report configuration from the server.
+		/// </summary>
+		private void GetReportConfiguration()
+		{
+			// Get the system information.
+			iFolderSystem system = web.GetSystem();
+
+			// If there are no report settings saved, use the default settings.
+			string settings = web.GetiFolderSetting(system.ReportiFolderID, ReportSettingName );
+			ReportConfig rc = ( settings != null ) ? new ReportConfig( settings ) : new ReportConfig();
+
+			// Set the web page selections.
+			EnableReporting.Checked = Summary.Visible = rc.Enabled;
+
+			FrequencyList.Enabled = rc.Enabled;
+			FrequencyList.SelectedIndex = ( int )rc.Frequency;
+
+			ReportLocation.Enabled = rc.Enabled;
+			ReportLocation.SelectedIndex = rc.IsiFolder ? 0 : 1;
+
+			DayOfMonthList.Enabled = rc.Enabled;
+			DayOfMonthList.SelectedIndex = rc.DayOfMonth - 1;
+
+			DayOfWeekList.Enabled = rc.Enabled;
+			DayOfWeekList.SelectedIndex = ( int )rc.Weekday;
+
+			TimeOfDayList.Enabled = rc.Enabled;
+			TimeOfDayList.SelectedIndex = ConvertTimeToIndex( rc.TimeOfDay );
+
+			FormatList.Enabled = rc.Enabled;
+			FormatList.SelectedIndex = ( int )rc.Format;
+
+			// Save the report settings in the ViewState.
+			ReportID = system.ReportiFolderID;
+			ReportName = system.ReportiFolderName;
+			ReportPath = system.ReportPath;
 		}
 
 		/// <summary>
@@ -209,7 +335,7 @@ namespace Novell.iFolderWeb.Admin
 			int minutes = 0;
 			for( int i = 0; i < times.Length; ++i )
 			{
-				DateTime dt = new DateTime( 1962, 2, 11, hours, minutes, 0 );
+				DateTime dt = DateTime.Parse( new TimeSpan( hours, minutes, 0 ).ToString() );
 				times[ i ] = dt.ToString( "t" );
 
 				minutes += 15;
@@ -263,13 +389,12 @@ namespace Novell.iFolderWeb.Admin
 				FrequencyList.Items[ 0 ].Text = GetString( "DAILY" );
 				FrequencyList.Items[ 1 ].Text = GetString( "WEEKLY" );
 				FrequencyList.Items[ 2 ].Text = GetString( "MONTHLY" );
-				FrequencyList.SelectedIndex = 0;
 
 				ReportLocation.Items[ 0 ].Text = GetString( "REPORTIFOLDER" );
 				ReportLocation.Items[ 1 ].Text = GetString( "REPORTDIRECTORY" );
-				ReportLocation.SelectedIndex = 1;
 
-				EnableReporting.Checked = IsReportingEnabled();
+				SaveReportConfig.Text = GetString( "SAVE" );
+				CancelReportConfig.Text = GetString( "CANCEL" );
 
 				// Populate the dropdown lists.
 				InitializeTimeOfDayList();
@@ -289,11 +414,14 @@ namespace Novell.iFolderWeb.Admin
 			// Set the breadcrumb list.
 			BuildBreadCrumbList();
 
+			// Get the report configuration.
+			GetReportConfiguration();
+
 			// Initialize the day control.
 			DisplayDayControl();
 
 			// Display the summary.
-			DisplaySummary();
+			DisplaySummary( false );
 		}
 
 		#endregion
@@ -311,12 +439,16 @@ namespace Novell.iFolderWeb.Admin
 		}
 
 		/// <summary>
-		/// Returns whether or not reporting is enabled.
+		/// Event handler that gets called when the cancel report button is clicked.
 		/// </summary>
-		/// <returns>True if reporting is enabled, otherwise false is returned.</returns>
-		protected bool IsReportingEnabled()
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		protected void OnCancelReport_Click( object sender, EventArgs e )
 		{
-			return true;
+			// Restore to previous settings.
+			GetReportConfiguration();
+			DisplayDayControl();
+			DisplaySummary( false );
 		}
 
 		/// <summary>
@@ -326,7 +458,7 @@ namespace Novell.iFolderWeb.Admin
 		/// <param name="e"></param>
 		protected void OnDayOfMonthList_Changed( object sender, EventArgs e )
 		{
-			DisplaySummary();
+			DisplaySummary( true );
 		}
 
 		/// <summary>
@@ -336,7 +468,27 @@ namespace Novell.iFolderWeb.Admin
 		/// <param name="e"></param>
 		protected void OnDayOfWeekList_Changed( object sender, EventArgs e )
 		{
-			DisplaySummary();
+			DisplaySummary( true );
+		}
+
+		/// <summary>
+		/// Event handler that gets called when the enable reporting checkbox is checked.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		protected void OnEnableReporting_Changed( object sender, EventArgs e )
+		{
+			bool isChecked = ( sender as CheckBox ).Checked;
+
+			Summary.Visible =
+			FrequencyList.Enabled =
+			ReportLocation.Enabled =
+			DayOfMonthList.Enabled =
+			DayOfWeekList.Enabled =
+			TimeOfDayList.Enabled =
+			FormatList.Enabled = isChecked;
+
+			SaveReportConfig.Enabled = CancelReportConfig.Enabled = true;
 		}
 
 		/// <summary>
@@ -347,7 +499,7 @@ namespace Novell.iFolderWeb.Admin
 		protected void OnFrequencyList_Changed( object sender, EventArgs e )
 		{
 			DisplayDayControl();
-			DisplaySummary();
+			DisplaySummary( true );
 		}
 
 		/// <summary>
@@ -357,7 +509,7 @@ namespace Novell.iFolderWeb.Admin
 		/// <param name="e"></param>
 		protected void OnFormatList_Changed( object sender, EventArgs e )
 		{
-			DisplaySummary();
+			DisplaySummary( true );
 		}
 
 		/// <summary>
@@ -367,7 +519,56 @@ namespace Novell.iFolderWeb.Admin
 		/// <param name="e"></param>
 		protected void OnReportLocation_Changed( object sender, EventArgs e )
 		{
-			DisplaySummary();
+			DisplaySummary( true );
+		}
+
+		/// <summary>
+		/// Event handler that gets called when the save report button is clicked.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		protected void OnSaveReport_Click( object sender, EventArgs e )
+		{
+			ReportConfig rc = new ReportConfig();
+
+			// Set the new values in the report configuration.
+			rc.Enabled = EnableReporting.Checked;
+
+			// Report frequency.
+			rc.Frequency = ( ReportConfig.ReportFrequency )Enum.Parse( 
+				typeof( ReportConfig.ReportFrequency ), 
+				FrequencyList.SelectedValue, 
+				true );
+
+			// Report time of day.
+			DateTime dt = DateTime.Parse( TimeOfDayList.SelectedValue );
+			rc.TimeOfDay = new TimeSpan( dt.Hour, dt.Minute, 0 );
+
+			// Report day of month.
+			rc.DayOfMonth = Convert.ToInt32( DayOfMonthList.SelectedValue );
+
+			// Report day of week.
+			rc.Weekday = ( DayOfWeek )Enum.Parse(
+				typeof( DayOfWeek ),
+				DayOfWeekList.SelectedValue,
+				true );
+
+			// Report format.
+			switch ( FormatList.SelectedIndex )
+			{
+				case 0:
+					rc.Format = ReportConfig.ReportFormat.CSV;
+					break;
+			}
+
+			// Report location.
+			rc.IsiFolder = ( ReportLocation.SelectedIndex == 0 ) ? true : false;
+
+			// Call to set the settings.
+			web.SetiFolderSetting( ReportID, ReportSettingName, rc.ToString() );
+
+			// Disable the save and cancel buttons.
+			SaveReportConfig.Enabled = CancelReportConfig.Enabled = false;
 		}
 
 		/// <summary>
@@ -377,7 +578,7 @@ namespace Novell.iFolderWeb.Admin
 		/// <param name="e"></param>
 		protected void OnTimeOfDayList_Changed( object sender, EventArgs e )
 		{
-			DisplaySummary();
+			DisplaySummary( true );
 		}
 
 		#endregion
@@ -411,6 +612,366 @@ namespace Novell.iFolderWeb.Admin
 
 			this.Load += new System.EventHandler(this.Page_Load);
 		}
+		#endregion
+
+		#region Report Configuration Object
+
+		/// <summary>
+		/// Class used to implement the ifolder system report configuration.
+		/// </summary>
+		private class ReportConfig
+		{
+			#region Class Members
+
+			/// <summary>
+			/// Output format for the report.
+			/// </summary>
+			public enum ReportFormat
+			{
+				/// <summary>
+				/// Comma Separated Value (CSV) format.
+				/// </summary>
+				CSV
+			}
+
+			/// <summary>
+			/// How often the report is generated.
+			/// </summary>
+			public enum ReportFrequency
+			{
+				/// <summary>
+				/// Generate the report every day.
+				/// </summary>
+				Daily,
+
+				/// <summary>
+				/// Generate the report once a week.
+				/// </summary>
+				Weekly,
+
+				/// <summary>
+				/// Generate the report once a month.
+				/// </summary>
+				Monthly
+			}
+
+			/// <summary>
+			/// Indicates if reporting is enabled/disabled.
+			/// </summary>
+			private bool enabled = false;
+
+			/// <summary>
+			/// How often to generate the report.
+			/// </summary>
+			private ReportFrequency frequency = ReportFrequency.Daily;
+
+			/// <summary>
+			/// The day of the week to generate the report if frequency
+			/// is weekly.
+			/// </summary>
+			private DayOfWeek weekday = DayOfWeek.Sunday;
+
+			/// <summary>
+			/// The day of the month to generate the report if frequency
+			/// is monthly.
+			/// </summary>
+			private int dayOfMonth = 1;
+
+			/// <summary>
+			/// The time of day to generate the report. This value represents
+			/// the fraction of the day elapsed since midnight.
+			/// </summary>
+			private TimeSpan timeOfDay = new TimeSpan( 0, 0, 0 );
+
+			/// <summary>
+			/// Indicates if the report output path is an iFolder.
+			/// </summary>
+			private bool isiFolder = false;
+
+			/// <summary>
+			/// The output report format to use.
+			/// </summary>
+			private ReportFormat format = ReportFormat.CSV;
+
+			#endregion
+
+			#region Properties
+
+			/// <summary>
+			/// Gets or sets the day of the month to generate report
+			/// if frequency is Monthly.
+			/// </summary>
+			public int DayOfMonth
+			{
+				get { return dayOfMonth; }
+				set
+				{
+					if ( ( value >= 1 ) && ( value <= 28 ) )
+					{
+						dayOfMonth = value;
+					}
+					else
+					{
+						throw new ArgumentOutOfRangeException();
+					}
+				}
+			}
+
+			/// <summary>
+			/// Gets whether reporting is enabled.
+			/// </summary>
+			public bool Enabled
+			{
+				get { return enabled; }
+				set { enabled = value; }
+			}
+
+			/// <summary>
+			/// Gets or sets the output report format to us.
+			/// </summary>
+			public ReportFormat Format
+			{
+				get { return format; }
+				set { format = value; }
+			}
+
+			/// <summary>
+			/// Gets or sets the frequency of report generation.
+			/// </summary>
+			public ReportFrequency Frequency
+			{
+				get { return frequency; }
+				set { frequency = value; }
+			}
+
+			/// <summary>
+			/// Gets or sets whether the ReportPath is an iFolder.
+			/// </summary>
+			public bool IsiFolder
+			{
+				get { return isiFolder; }
+				set { isiFolder = value; }
+			}
+
+			/// <summary>
+			/// Gets or sets the time of day to generate the report. This 
+			/// value represents the fraction of the day elapsed since 
+			/// midnight.
+			/// </summary>
+			public TimeSpan TimeOfDay
+			{
+				get { return timeOfDay; }
+				set { timeOfDay = value; }
+			}
+
+			/// <summary>
+			/// Gets or sets the day of the week to generate report
+			/// if frequency is Weekly.
+			/// </summary>
+			public DayOfWeek Weekday
+			{
+				get { return weekday; }
+				set { weekday = value; }
+			}
+
+			#endregion
+
+			#region Constructor
+
+			/// <summary>
+			/// Constructor
+			/// </summary>
+			public ReportConfig()
+			{
+			}
+
+			/// <summary>
+			/// Constructor
+			/// </summary>
+			/// <param name="settings">Settings string from the server.</param>
+			public ReportConfig( string settings )
+			{
+				// Parse the settings string into the object members.
+				ParseSettings( settings );
+			}
+
+			#endregion
+
+			#region Private Methods
+
+			/// <summary>
+			/// Parses the settings string into its configuration settings.
+			/// </summary>
+			/// <param name="settings"></param>
+			private void ParseSettings( string settings )
+			{
+				XmlDocument doc = new XmlDocument();
+				doc.LoadXml( settings );
+
+				// Get whether reporting is enabled.
+				Enabled = Boolean.Parse( doc.DocumentElement.GetAttribute( "enabled" ) );
+				if ( Enabled )
+				{
+					// Get the frequency of the report generation.
+					XmlElement element = doc.DocumentElement.SelectSingleNode( "generate" ) as XmlElement;
+					if ( element != null )
+					{
+						string s = element.GetAttribute( "frequency" );
+						if ( s != String.Empty )
+						{
+							Frequency = ( ReportFrequency )Enum.Parse( 
+								typeof( ReportFrequency ), 
+								s, 
+								true );
+						}
+						else
+						{
+							throw new ApplicationException( "Invalid report settings format. No frequency attribute was specified." );
+						}
+					}
+					else
+					{
+						throw new ApplicationException( "Invalid report settings format. No generate element was specified." );
+					}
+
+
+					// All frequencies will have a time specified.
+					XmlElement child = element.SelectSingleNode( "time" ) as XmlElement;
+					if ( child != null )
+					{
+						DateTime dt = DateTime.Parse( child.InnerText );
+						TimeOfDay = new TimeSpan( dt.Hour, dt.Minute, 0 );
+					}
+					else
+					{
+						throw new ApplicationException( "Invalid report settings format. No time element was specified." );
+					}
+
+					// Depending on the frequency type, the time parameters will be different.
+					switch ( frequency )
+					{
+						case ReportFrequency.Daily:
+							break;
+
+						case ReportFrequency.Weekly:
+							// Get the day of the week.
+							child = element.SelectSingleNode( "dayofweek" ) as XmlElement;
+							if ( child != null )
+							{
+								Weekday = ( DayOfWeek )Enum.Parse( typeof( DayOfWeek ), child.InnerText, true );
+							}
+							else
+							{
+								throw new ApplicationException( "Invalid report settings format. No day of week element was specified." );
+							}
+							break;
+
+						case ReportFrequency.Monthly:
+							// Get the day of the month.
+							child = element.SelectSingleNode( "dayofmonth" ) as XmlElement;
+							if ( child != null )
+							{
+								DayOfMonth = Convert.ToInt32( child.InnerText );
+							}
+							else
+							{
+								throw new ApplicationException( "Invalid report settings format. No day of month element was specified." );
+							}
+							break;
+					}
+
+					// Get the report location information.
+					element = doc.DocumentElement.SelectSingleNode( "location" ) as XmlElement;
+					if ( element != null )
+					{
+						IsiFolder = ( element.InnerText == "ifolder" ) ? true : false;
+					}
+					else
+					{
+						throw new ApplicationException( "Invalid report settings format. No location element was specified." );
+					}
+
+					// Get the report format.
+					element = doc.DocumentElement.SelectSingleNode( "format" ) as XmlElement;
+					if ( element != null )
+					{
+						Format = ( ReportFormat )Enum.Parse( typeof( ReportFormat ), element.InnerText, true );
+					}
+					else
+					{
+						throw new ApplicationException( "Invalid report settings format. No format element was specified." );
+					}
+				}
+			}
+			
+			#endregion
+
+			#region Public Methods
+
+			/// <summary>
+			/// Converts the report object to a settings string.
+			/// </summary>
+			/// <returns>A string that contains the report configuration settings.</returns>
+			public override string ToString()
+			{
+				XmlDocument doc = new XmlDocument();
+
+				// Create the document root.
+				XmlElement rootElement = doc.CreateElement( "report" );
+				rootElement.SetAttribute( "enabled", Enabled.ToString() );
+				doc.AppendChild( rootElement );
+
+				// If reporting is enabled continue to build the string. Otherwise we're done.
+				if ( Enabled )
+				{
+					// Create the frequency of the report generation.
+					XmlElement parent = doc.CreateElement( "generate" );
+					parent.SetAttribute( "frequency", Frequency.ToString() );
+					rootElement.AppendChild( parent );
+
+					// Create the time element.
+					XmlElement child = doc.CreateElement( "time" );
+					child.InnerText = TimeOfDay.ToString();
+					parent.AppendChild( child );
+
+					// Depending on the frequency type, the time parameters will be different.
+					switch ( Frequency )
+					{
+						case ReportFrequency.Daily:
+							break;
+
+						case ReportFrequency.Weekly:
+							// Create the day of the week.
+							child = doc.CreateElement( "dayofweek" );
+							child.InnerText = Weekday.ToString();
+							parent.AppendChild( child );
+							break;
+
+						case ReportFrequency.Monthly:
+							// Create the day of the month.
+							child = doc.CreateElement( "dayofmonth" );
+							child.InnerText = DayOfMonth.ToString();
+							parent.AppendChild( child );
+							break;
+					}
+
+					// Create the report location information.
+					parent = doc.CreateElement( "location" );
+					parent.InnerText = ( IsiFolder ) ? "ifolder" : "directory";
+					rootElement.AppendChild( parent );
+
+					// Create the report format.
+					parent = doc.CreateElement( "format" );
+					parent.InnerText = Format.ToString();
+					rootElement.AppendChild( parent );
+				}
+
+				return doc.InnerXml;
+			}
+
+			#endregion
+		}
+
 		#endregion
 	}
 }

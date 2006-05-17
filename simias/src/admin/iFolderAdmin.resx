@@ -115,7 +115,7 @@
 		<value>Create User</value>
 	</data>
 	<data name="CSVFORMAT">
-		<value>Comma Separated Value</value>
+		<value>Text CSV</value>
 	</data>
 	<data name="CZECH">
 		<value>Czech</value>
@@ -325,13 +325,13 @@
 		<value>GB</value>
 	</data>
 	<data name="GENERATEDAILYREPORT">
-		<value>Generate report everyday at {0}</value>
+		<value>Generate report everyday at {0} to the {1}</value>
 	</data>
 	<data name="GENERATEMONTHLYREPORT">
-		<value>Generate report on day {0} of every month at {1}</value>
+		<value>Generate report on day {0} of every month at {1} to the {2}</value>
 	</data>
 	<data name="GENERATEWEEKLYREPORT">
-		<value>Generate report every {0} at {1}</value>
+		<value>Generate report every {0} at {1} to the {2}</value>
 	</data>
 	<data name="GERMAN">
 		<value>German</value>
@@ -582,8 +582,14 @@
 	<data name="REPORTDIRECTORY">
 		<value>Report Directory</value>
 	</data>
+	<data name="REPORTDIRECTORYTAG">
+		<value>directory:</value>
+	</data>
 	<data name="REPORTIFOLDER">
 		<value>Report iFolder</value>
+	</data>
+	<data name="REPORTIFOLDERTAG">
+		<value>iFolder:</value>
 	</data>
 	<data name="REPORTS">
 		<value>Reports</value>

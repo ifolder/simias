@@ -39,7 +39,8 @@
 				<asp:CheckBox 
 					ID="EnableReporting" 
 					Runat="server" 
-					AutoPostBack="True" />
+					AutoPostBack="True"
+					OnCheckedChanged="OnEnableReporting_Changed" />
 					
 				<asp:Label ID="EnableReportingLabel" Runat="server" />
 				
@@ -185,6 +186,24 @@
 				
 					<asp:Label ID="Summary" Runat="server" />
 				
+				</div>
+				
+				<div class="reportbuttons">
+				
+					<asp:Button 
+						ID="SaveReportConfig" 
+						Runat="server" 
+						CssClass="ifolderbuttons"
+						Enabled="False"
+						OnClick="OnSaveReport_Click" />
+						
+					<asp:Button 
+						ID="CancelReportConfig" 
+						Runat="server" 
+						CssClass="ifolderbuttons"
+						Enabled="False"
+						OnClick="OnCancelReport_Click" />
+					
 				</div>
 				
 			</div>

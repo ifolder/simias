@@ -2,6 +2,7 @@
 {
 	padding-left: 12px;
 	float: left;
+	width: 100%;
 }
 
 #EnableReporting
@@ -67,9 +68,18 @@
 	padding-top: 4px;
 	padding-left: 4px;
 	margin-bottom: 8px;
+	width: 90%;
 }
 
 #Time
 {
 	width: 100%;
+}
+
+.reportbuttons
+{
+	float: left;
+	clear: left;
+	padding-left: 4px;
+	padding-bottom: 8px;
 }
