@@ -136,6 +136,16 @@ namespace Simias.Server
 					{
 						this.domainName = enterpriseDomain.Name;
 						this.id = enterpriseDomain.ID;
+
+						// For backwards compatibility, if the report collection does not
+						// exist because the store was created with a previous version of
+						// simias, check and create it here.
+						// Don't create this directory on a slave server.
+						if ( enterpriseDomain.Role == SyncRoles.Master )
+						{
+							// Create the report collection.
+							Report.CreateReportCollection( store, enterpriseDomain );
+						}
 					}
 				}
 
