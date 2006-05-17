@@ -770,6 +770,69 @@ namespace Simias.Storage
 		}
 
 		/// <summary>
+		/// Maps member rights to an event Id to be passed in NodeEventArgs.
+		/// </summary>
+		/// <param name="node">The node that represents the member object.</param>
+		/// <returns>The event Id for the rights.</returns>
+		private int GetEventId( Node node )
+		{
+			int eventId = 0;
+
+			Property pNew = node.Properties.GetSingleProperty( PropertyTags.Ace );
+			if ( pNew != null )
+			{
+				if ( node.DiskNode != null )
+				{
+					Property pOld = node.DiskNode.Properties.GetSingleProperty( PropertyTags.Ace );
+					if ( ( pOld != null ) && !pOld.ValueString.Equals( pNew.ValueString ) )
+					{
+						AccessControlEntry oldAce = new AccessControlEntry( pOld );
+						AccessControlEntry newAce = new AccessControlEntry( pNew );
+						switch ( oldAce.Rights )
+						{
+							case Access.Rights.ReadOnly:
+								eventId =
+									newAce.Rights.Equals( Access.Rights.ReadWrite ) ?
+									(int)MemberRights.ReadOnlyToReadWrite :
+									(int)MemberRights.ReadOnlyToAdmin;
+								break;
+							case Access.Rights.ReadWrite:
+								eventId =
+									newAce.Rights.Equals( Access.Rights.ReadOnly ) ?
+									(int)MemberRights.ReadWriteToReadOnly :
+									(int)MemberRights.ReadWriteToAdmin;
+								break;
+							case Access.Rights.Admin:
+								eventId =
+									newAce.Rights.Equals( Access.Rights.ReadOnly ) ?
+									(int)MemberRights.AdminToReadOnly :
+									(int)MemberRights.AdminToReadWrite;
+								break;
+						}
+					}
+				}
+				else
+				{
+					AccessControlEntry ace = new AccessControlEntry( pNew );
+					switch ( ace.Rights )
+					{
+						case Access.Rights.ReadOnly:
+							eventId = (int)MemberRights.ReadOnly;
+							break;
+						case Access.Rights.ReadWrite:
+							eventId = (int)MemberRights.ReadWrite;
+							break;
+						case Access.Rights.Admin:
+							eventId = (int)MemberRights.Admin;
+							break;
+					}
+				}
+			}
+
+			return eventId;
+		}
+
+		/// <summary>
 		/// Increments the local incarnation property.
 		///
 		/// NOTE: The database must be locked before making this call and must continue to be held until
@@ -1259,6 +1322,8 @@ namespace Simias.Storage
 								// Update the cache before indicating the event.
 								store.Cache.Add( this, node );
 
+								int eventId = 0;
+
 								// If this is a collection being created, create a change log for it.
 								if ( node.IsType( NodeTypes.CollectionType ) )
 								{
@@ -1266,6 +1331,8 @@ namespace Simias.Storage
 								}
 								else if ( node.IsBaseType( NodeTypes.MemberType ) )
 								{
+									eventId = GetEventId( node );
+
 									// See if the invitation event is to be processed. Only generate
 									// subscriptions for base collection types. LocalDatabase, Domain,
 									// etc. base types do not ever have subscriptions made.
@@ -1285,7 +1352,7 @@ namespace Simias.Storage
 								}
 
 								// Indicate the event.
-								NodeEventArgs args = new NodeEventArgs( store.Publisher, node.ID, id, modifier, node.Type, EventType.NodeCreated, 0, commitTime, node.MasterIncarnation, node.LocalIncarnation, fileSize );
+								NodeEventArgs args = new NodeEventArgs( store.Publisher, node.ID, id, modifier, node.Type, EventType.NodeCreated, eventId, commitTime, node.MasterIncarnation, node.LocalIncarnation, fileSize );
 								args.LocalOnly = node.LocalChanges;
 								store.EventPublisher.RaiseEvent( args );
 								node.Properties.State = PropertyList.PropertyListState.Update;
@@ -1297,14 +1364,20 @@ namespace Simias.Storage
 								// Update the cache before indicating the event.
 								store.Cache.Add( this, node );
 
+								int eventId = 0;
+
 								// If this is a collection being created, create a change log for it.
 								if ( node.IsType( NodeTypes.CollectionType ) )
 								{
 									changeLog.CreateChangeLogWriter( node.ID );
 								}
+								else if ( node.IsType( NodeTypes.MemberType ) )
+								{
+									eventId = GetEventId( node );
+								}
 
 								// Indicate the event.
-								NodeEventArgs args = new NodeEventArgs( store.Publisher, node.ID, id, modifier, node.Type, EventType.NodeCreated, 0, commitTime, node.MasterIncarnation, node.LocalIncarnation, fileSize );
+								NodeEventArgs args = new NodeEventArgs( store.Publisher, node.ID, id, modifier, node.Type, EventType.NodeCreated, eventId, commitTime, node.MasterIncarnation, node.LocalIncarnation, fileSize );
 								args.LocalOnly = node.LocalChanges;
 								store.EventPublisher.RaiseEvent( args );
 								node.Properties.State = PropertyList.PropertyListState.Update;
@@ -1347,6 +1420,13 @@ namespace Simias.Storage
 
 							case PropertyList.PropertyListState.Import:
 							{
+								int eventId = 0;
+
+								if ( node.IsBaseType( NodeTypes.MemberType ) )
+								{
+									eventId = GetEventId( node );
+								}
+
 								// Update the cache before indicating the event.
 								store.Cache.Add( this, node );
 
@@ -1364,7 +1444,7 @@ namespace Simias.Storage
 								}
 
 								// Indicate the event.
-								NodeEventArgs args = new NodeEventArgs( "Sync", node.ID, id, modifier, node.Type, ( node.DiskNode != null ) ? EventType.NodeChanged : EventType.NodeCreated, 0, commitTime, node.MasterIncarnation, node.LocalIncarnation, fileSize );
+								NodeEventArgs args = new NodeEventArgs( "Sync", node.ID, id, modifier, node.Type, ( node.DiskNode != null ) ? EventType.NodeChanged : EventType.NodeCreated, eventId, commitTime, node.MasterIncarnation, node.LocalIncarnation, fileSize );
 								args.LocalOnly = node.LocalChanges;
 								store.EventPublisher.RaiseEvent( args );
 								node.Properties.State = PropertyList.PropertyListState.Update;

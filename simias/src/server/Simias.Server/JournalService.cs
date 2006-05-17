@@ -86,7 +86,9 @@ namespace Novell.Journaling
 							args.Type.Equals( NodeTypes.DirNodeType ) ||
 							( args.Type.Equals( NodeTypes.MemberType ) && 
 							( args.EventType.Equals( EventType.NodeCreated ) ||
-							args.EventType.Equals( EventType.NodeDeleted ) ) ) )
+							args.EventType.Equals( EventType.NodeDeleted ) ||
+							( args.EventType.Equals( EventType.NodeChanged ) &&
+							args.EventId != 0 ) ) ) )
 						{
 							Journal journal = new Journal( args.Collection );
 							journal.UpdateJournal( args );

@@ -425,7 +425,7 @@ namespace Simias.Storage
 				}
 
 				// Get the data for the record.
-				int type = (int)args.EventType;
+				int type = (int)args.EventType | args.EventId;
 				string name = string.Empty;
 
 				if ( args.EventType != EventType.NodeDeleted )
@@ -1297,22 +1297,74 @@ namespace Simias.Storage
 		/// <summary>
 		/// An entry for a file.
 		/// </summary>
-		File = 16,
+		File = 0x10,
 
 		/// <summary>
 		/// An entry for a folder.
 		/// </summary>
-		Folder = 32,
+		Folder = 0x20,
 
 		/// <summary>
 		/// An entry for a member.
 		/// </summary>
-		Member = 64,
+		Member = 0x40,
 
 		/// <summary>
 		/// The entry type is unknown.
 		/// </summary>
-		Unknown = 128
+		Unknown = 0x80
+	};
+
+	/// <summary>
+	/// Rights for a member entry.
+	/// </summary>
+	[Flags]
+	public enum MemberRights
+	{
+		/// <summary>
+		/// The member was assigned ReadOnly rights.
+		/// </summary>
+		ReadOnly = 0,
+
+		/// <summary>
+		/// The members rights were changed from ReadOnly to ReadWrite.
+		/// </summary>
+		ReadOnlyToReadWrite = 0x100,
+
+		/// <summary>
+		/// The members rights were changed from ReadOnly to Admin.
+		/// </summary>
+		ReadOnlyToAdmin = 0x200,
+
+		/// <summary>
+		/// The member was assigned ReadWrite rights.
+		/// </summary>
+		ReadWrite = 0x400,
+
+		/// <summary>
+		/// The members rights were changed from ReadWrite to ReadOnly.
+		/// </summary>
+		ReadWriteToReadOnly = 0x800,
+
+		/// <summary>
+		/// The members rights were changed from ReadWrite to Admin.
+		/// </summary>
+		ReadWriteToAdmin = 0x1000,
+
+		/// <summary>
+		/// The member was assigned Admin rights.
+		/// </summary>
+		Admin = 0x2000,
+
+		/// <summary>
+		/// The members rights were changed from Admin to ReadOnly.
+		/// </summary>
+		AdminToReadOnly = 0x4000,
+
+		/// <summary>
+		/// The members rights were changed from Admin to ReadWrite.
+		/// </summary>
+		AdminToReadWrite = 0x8000
 	};
 		
 	/// <summary>
@@ -1322,6 +1374,11 @@ namespace Simias.Storage
 	public class JournalEntry
 	{
 		#region Class Members
+
+		/// <summary>
+		/// The rights for a member entry type.
+		/// </summary>
+		private MemberRights memberRights;
 
 		/// <summary>
 		/// The type of object that this entry refers to.
@@ -1409,6 +1466,14 @@ namespace Simias.Storage
 		{
 			get { return isFolder; }
 			set { isFolder = value; }
+		}
+
+		/// <summary>
+		/// Gets the rights for a member entry.
+		/// </summary>
+		public MemberRights MemberRights
+		{
+			get { return memberRights; }
 		}
 
 		/// <summary>
@@ -1504,6 +1569,7 @@ namespace Simias.Storage
 			int types = int.Parse( entries[0] );
 			changeType = (ChangeTypes)(types & 0xf);
 			entryType = (EntryTypes)(types & 0xf0);
+			memberRights = (MemberRights)(types & 0xff00);
 
 			this.userID = entries[1];
 			this.fileID = entries[2];
