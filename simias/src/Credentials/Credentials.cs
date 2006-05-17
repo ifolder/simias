@@ -341,9 +341,12 @@ namespace Simias.Authentication
 							null,
 							casaInstance,
 							args);
-						
-					if ( casaPassword != null && casaUsername != null && (string) casaUsername == ID )
+							
+					if ( casaPassword != null && 
+						casaUsername != null && 
+						(string) casaUsername.ToString().ToLower() == ID.ToLower() )
 					{
+						log.Debug( "Using CASA credentials for: " + ID );
 						this.password = casaPassword.ToString();
 						this.Save( false );
 					}
