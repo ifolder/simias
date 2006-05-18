@@ -354,7 +354,7 @@ namespace Simias.Storage
 				try
 				{
 					// Default the user name to the local logged in user.
-					string userName = Environment.UserName;
+					string userName = MyEnvironment.UserName;
 
 					// Get the name of the user to create as the identity.
 					if ( IsEnterpriseServer )

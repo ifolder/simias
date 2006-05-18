@@ -153,7 +153,7 @@ namespace Simias.Client
 			}
 
 			string localDomain = localPassword.Substring( 0, GuidLength );
-			webClient.Credentials = new NetworkCredential( Environment.UserName, localPassword, localDomain );
+			webClient.Credentials = new NetworkCredential( MyEnvironment.UserName, localPassword, localDomain );
 			webClient.PreAuthenticate = true;
 
 			// BUGBUG!! - Force mono to authenticate everytime until cookies work on a loopback
