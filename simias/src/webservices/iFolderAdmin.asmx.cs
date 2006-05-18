@@ -277,13 +277,13 @@ namespace iFolder.WebService
 		/// <summary>
 		/// Get a setting specific to an iFolder.
 		/// </summary>
-		/// <param name="iFolderID">The id of the iFolder.</param>
+		/// <param name="ifolderID">The id of the iFolder.</param>
 		/// <param name="name">The name of the setting.</param>
 		/// <returns>The value of the setting.</returns>
 		[WebMethod(
 			 Description="Get a setting specific to an iFolder.",
 			 EnableSession=true)]
-		public string GetiFolderSetting(string iFolderID, string name)
+		public string GetiFolderSetting(string ifolderID, string name)
 		{
 			string result = null;
 
@@ -291,7 +291,7 @@ namespace iFolder.WebService
 			{
 				Authorize();
 
-				result = Settings.GetCollectionSetting(iFolderID, name);
+				result = Settings.GetCollectionSetting(ifolderID, name);
 			}
 			catch(Exception e)
 			{
@@ -304,19 +304,19 @@ namespace iFolder.WebService
 		/// <summary>
 		/// Set a setting specific to an iFolder.
 		/// </summary>
-		/// <param name="userID">The id of the iFolder.</param>
+		/// <param name="ifolderID">The id of the iFolder.</param>
 		/// <param name="name">The name of the setting.</param>
 		/// <param name="value">The value of the setting.</param>
 		[WebMethod(
 			 Description="Set a setting specific to an iFolder.",
 			 EnableSession=true)]
-		public void SetiFolderSetting(string iFolderID, string name, string value)
+		public void SetiFolderSetting(string ifolderID, string name, string value)
 		{
 			try
 			{
 				Authorize();
 
-				Settings.SetCollectionSetting(iFolderID, name, value);
+				Settings.SetCollectionSetting(ifolderID, name, value);
 			}
 			catch(Exception e)
 			{

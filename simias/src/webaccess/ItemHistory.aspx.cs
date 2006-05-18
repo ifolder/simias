@@ -177,6 +177,7 @@ namespace Novell.iFolderApp.Web
 			historyTable.Columns.Add("Type");
 			historyTable.Columns.Add("UserFullName");
 			historyTable.Columns.Add("Image");
+			historyTable.Columns.Add("NewRights");
 
 			try
 			{
@@ -193,6 +194,15 @@ namespace Novell.iFolderApp.Web
 					row["Type"] = WebUtility.FormatChangeAction(change.Action, rm);
 					row["UserFullName"] = change.UserFullName;
 					row["Image"] = change.Action.ToString().ToLower();
+
+					if ((change.Type == ChangeEntryType.Member) && (change.Action != ChangeEntryAction.Delete))
+					{
+						row["NewRights"] = WebUtility.FormatRights(change.MemberNewRights, rm);
+					}
+					else
+					{
+						row["NewRights"] = "";
+					}
 
 					historyTable.Rows.Add(row);
 				}

@@ -84,6 +84,7 @@
 						<asp:TemplateColumn ItemStyle-CssClass="name">
 							<itemtemplate>
 								<%# DataBinder.Eval(Container.DataItem, "ShortName") %>
+								<span class="rights"><%# DataBinder.Eval(Container.DataItem, "NewRights") %></span>
 							</itemtemplate>
 						</asp:TemplateColumn>
 						<asp:TemplateColumn ItemStyle-CssClass="action">

@@ -62,6 +62,11 @@
 						</asp:TemplateColumn>
 						<asp:TemplateColumn ItemStyle-CssClass="action">
 							<itemtemplate>
+								<%# DataBinder.Eval(Container.DataItem, "NewRights") %>
+							</itemtemplate>
+						</asp:TemplateColumn>
+						<asp:TemplateColumn ItemStyle-CssClass="action">
+							<itemtemplate>
 								<%# DataBinder.Eval(Container.DataItem, "Type") + "&nbsp;" + GetString("BY") + "&nbsp;" + DataBinder.Eval(Container.DataItem, "UserFullName") %>
 							</itemtemplate>
 						</asp:TemplateColumn>

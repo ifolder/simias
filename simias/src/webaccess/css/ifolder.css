@@ -481,6 +481,13 @@ td.seperator
 
 /* misc */
 
+span.rights
+{
+	font-size: 0.8em;
+	font-style: italic;
+	color: #777777;
+}
+
 .highlight
 {
 	background-color: yellow;
