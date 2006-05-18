@@ -27,10 +27,9 @@
 
 	</script>
 	
-	
 </head>
 
-<body id="ifolders">
+<body id="ifolders" runat="server">
 
 <form runat="server">
 
