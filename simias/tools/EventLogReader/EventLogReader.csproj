@@ -90,14 +90,14 @@
                     HintPath = "..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.XML.dll"
                 />
                 <Reference
-                    Name = "SimiasClient"
-                    AssemblyName = "SimiasClient"
-                    HintPath = "..\..\stage\web\bin\SimiasClient.dll"
+                    Name = "SimiasLib"
+                    AssemblyName = "SimiasLib"
+                    HintPath = "..\..\src\core\SimiasLib.dll\SimiasLib.dll"
                 />
                 <Reference
-                    Name = "Simias"
-                    AssemblyName = "Simias"
-                    HintPath = "..\..\stage\web\bin\SimiasLib.dll"
+                    Name = "SimiasClient"
+                    AssemblyName = "SimiasClient"
+                    HintPath = "..\..\src\core\SimiasClient\SimiasClient.dll"
                 />
             </References>
         </Build>
