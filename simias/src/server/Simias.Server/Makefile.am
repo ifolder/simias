@@ -23,12 +23,17 @@ SimiasServer_CSFILES = \
 	
 SimiasServer_CSFILES_CSC := $(subst /,$(SEP),$(SimiasServer_CSFILES))
 SimiasServer_INCLUDES =
-SimiasServer_RESOURCES =
+
+SimiasServer_RESX = \
+	$(srcdir)/Report.resx
+
+SimiasServer_RESOURCES := $(SimiasServer_RESX:$(srcdir)/%.resx=$(srcdir)/Simias.Server.%.resources)
+
 SimiasServer_FLAGS = $(CSC_LIBFLAG)
 SimiasServer_LIBPATH = ../../core/SimiasLib.dll ../../core/SimiasClient $(DESTDIR)$(webbindir)
 SimiasServer_LIBS = System.dll System.Data.dll $(SYSTEM_XML) System.Web.dll System.Web.Services.dll SimiasLib.dll SimiasClient.dll
 
-EXTRA_DIST = DomainService.asmx Registration.asmx IdentitySyncManager.asmx $(SimiasServer_CSFILES) 
+EXTRA_DIST = DomainService.asmx Registration.asmx IdentitySyncManager.asmx $(SimiasServer_CSFILES) $(SimiasServer_RESX)
 
 if MAKE_DOC_FILE
 DOC_FILE = $(basename $@).doc.xml
@@ -38,10 +43,13 @@ endif
 
 SERVER_ASSEMBLIES := Simias.Server.dll
 
-Simias.Server.dll: $(SimiasServer_CSFILES) $(SimiasServer_RESOURCES)
-	$(CSC) /out:$@ $(CSCFLAGS) $(SimiasServer_FLAGS) $(SimiasServer_LIBPATH:%=/lib:%) $(SimiasServer_LIBS:%=/r:%) $(SimiasServer_RESOURCES:%=$(ICON_FLAG)%) $(SimiasServer_CSFILES_CSC) $(DOC_FILE_CMD)
-	
 all: $(SERVER_ASSEMBLIES)
+
+Simias.Server.dll: $(SimiasServer_CSFILES) $(SimiasServer_RESOURCES)
+	$(CSC) /out:$@ $(CSCFLAGS) $(SimiasServer_FLAGS) $(SimiasServer_LIBPATH:%=/lib:%) $(SimiasServer_LIBS:%=/r:%) $(SimiasServer_RESOURCES:%=/res:%) $(SimiasServer_CSFILES_CSC) $(DOC_FILE_CMD)
+	
+Simias.Server.%.resources : %.resx
+	$(RESGEN) $< $@
 
 if DEBUG
 if WINDOWS
@@ -65,7 +73,7 @@ installcheck-local: install
 .PHONY: test
 test: installcheck
 
-CLEAN_FILES = $(SERVER_ASSEMBLIES) $(DOC_FILE_CLEAN)
+CLEAN_FILES = $(SERVER_ASSEMBLIES) $(DOC_FILE_CLEAN) $(SimiasServer_RESOURCES)
 
 clean-local:
 	rm -rf $(CLEAN_FILES) $(COMMON_CLEAN_FILES)

@@ -204,6 +204,10 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Report.resx"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "Service.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
