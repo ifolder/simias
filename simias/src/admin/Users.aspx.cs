@@ -194,7 +194,7 @@ namespace Novell.iFolderWeb.Admin
 				dr[ 0 ] = true;
 				dr[ 1 ] = user.ID;
 				dr[ 2 ] = !user.Enabled;
-				dr[ 3 ] = ( user.Rights == Rights.Admin ) ? true : false;
+				dr[ 3 ] = ( user.MemberRights == Rights.Admin ) ? true : false;
 				dr[ 4 ] = user.UserName;
 				dr[ 5 ] = user.FullName;
 				dr[ 6 ] = GetString( user.Enabled ? "YES" : "NO" );

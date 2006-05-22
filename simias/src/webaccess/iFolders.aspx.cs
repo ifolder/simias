@@ -176,7 +176,7 @@ namespace Novell.iFolderApp.Web
 					row["Name"] = name;
 					row["LastModified"] = WebUtility.FormatDate(ifolder.LastModified, rm);
 					row["Description"] = ifolder.Description;
-					row["Rights"] = WebUtility.FormatRights(ifolder.Rights, rm);
+					row["Rights"] = WebUtility.FormatRights(ifolder.MemberRights, rm);
 					row["Size"] = WebUtility.FormatSize(ifolder.Size, rm);
 					row["OwnerFullName"] = ifolder.OwnerFullName;
 

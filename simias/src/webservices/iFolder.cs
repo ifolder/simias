@@ -122,7 +122,7 @@ namespace iFolder.WebService
 		/// <summary>
 		/// iFolder/Domain Access Rights
 		/// </summary>
-		public Simias.Storage.Access.Rights Rights;
+		public Rights MemberRights;
 
 		/// <summary>
 		/// iFolder Created Time
@@ -169,14 +169,14 @@ namespace iFolder.WebService
 		protected iFolder(Collection c, string accessID)
 		{
 			// impersonate
-			Access.Rights rights = Impersonate(c, accessID);
+			Rights rights = Impersonate(c, accessID);
 
 			this.ID = c.ID;
 			this.Name = c.Name;
 			this.Description = NodeUtility.GetStringProperty(c, PropertyTags.Description);
 			this.DomainID = c.Domain;
 			this.Size = c.StorageSize;
-			this.Rights = rights;
+			this.MemberRights = rights;
 			this.Created = NodeUtility.GetDateTimeProperty(c, PropertyTags.NodeCreationTime);
 			this.LastModified = NodeUtility.GetDateTimeProperty(c, PropertyTags.JournalModified);
 			this.Published = NodeUtility.GetBooleanProperty(c, PropertyTags.Published);
@@ -252,10 +252,10 @@ namespace iFolder.WebService
 		/// </summary>
 		/// <param name="collection">The iFolder Collection</param>
 		/// <param name="accessID">The Access User ID</param>
-		/// <returns>Access Rights</returns>
-		public static Access.Rights Impersonate(Collection collection, string accessID)
+		/// <returns>Member Rights</returns>
+		public static Rights Impersonate(Collection collection, string accessID)
 		{
-			Simias.Storage.Access.Rights rights = Simias.Storage.Access.Rights.Deny;
+			Rights rights = Rights.Unknown;
 
 			if ((accessID != null) && (accessID.Length != 0))
 			{
@@ -268,12 +268,12 @@ namespace iFolder.WebService
 
 				collection.Impersonate(member);
 
-				rights = member.Rights;
+				rights = RightsUtility.Convert(member.Rights);
 			}
 			else
 			{
 				// assume Admin rights with no access ID
-				rights = Simias.Storage.Access.Rights.Admin;
+				rights = Rights.Admin;
 			}
 
 			return rights;
@@ -539,7 +539,8 @@ namespace iFolder.WebService
 
 			if (c == null) throw new iFolderDoesNotExistException(ifolderID);
 			
-			if (c.Owner.UserID != accessID) throw new AccessException(c, null, Access.Rights.Admin, "Only the owner can publish an iFolder.");
+			if (c.Owner.UserID != accessID)
+				throw new AccessException(c, null, Access.Rights.Admin, "Only the owner can publish an iFolder.");
 			
 			if (publish)
 			{

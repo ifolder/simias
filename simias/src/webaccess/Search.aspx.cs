@@ -149,7 +149,7 @@ namespace Novell.iFolderApp.Web
 				iFolder ifolder = web.GetiFolder(ifolderID);
 
 				// rights
-				Actions.Visible = (ifolder.Rights != Rights.ReadOnly);
+				Actions.Visible = (ifolder.MemberRights != Rights.ReadOnly);
 				EntryData.Columns[1].Visible = Actions.Visible;
 
 				// parent

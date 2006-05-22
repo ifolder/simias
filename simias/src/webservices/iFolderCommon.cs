@@ -342,7 +342,7 @@ namespace iFolder.WebService
 		[WebMethod(
 			 Description="Set the rights of a member on an iFolder.",
 			 EnableSession=true)]
-		public void SetMemberRights(string ifolderID, string userID, Simias.Storage.Access.Rights rights)
+		public void SetMemberRights(string ifolderID, string userID, Rights rights)
 		{
 			Hashtable exceptions = new Hashtable();
 
@@ -385,7 +385,7 @@ namespace iFolder.WebService
 		[WebMethod(
 			 Description="Add a member to an iFolder.",
 			 EnableSession=true)]
-		public void AddMember(string ifolderID, string userID, Simias.Storage.Access.Rights rights)
+		public void AddMember(string ifolderID, string userID, Rights rights)
 		{   
 			Hashtable exceptions = new Hashtable();
 			

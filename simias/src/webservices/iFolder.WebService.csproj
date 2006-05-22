@@ -252,6 +252,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Rights.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "SampleData.cs"
                     SubType = "Code"
                     BuildAction = "Compile"

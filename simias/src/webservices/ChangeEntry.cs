@@ -168,12 +168,12 @@ namespace iFolder.WebService
 		/// <summary>
 		/// Member's New Rights
 		/// </summary>
-		public Access.Rights MemberNewRights;
+		public Rights MemberNewRights;
 
 		/// <summary>
 		/// Member's Old Rights
 		/// </summary>
-		public Access.Rights MemberOldRights;
+		public Rights MemberOldRights;
 
 		/// <summary>
 		/// Constructor
@@ -247,53 +247,53 @@ namespace iFolder.WebService
 			switch(entry.MemberRights)
 			{
 				case MemberRights.Admin:
-					MemberNewRights = Access.Rights.Admin;
-					MemberOldRights = Access.Rights.Deny;
+					MemberNewRights = Rights.Admin;
+					MemberOldRights = Rights.Unknown;
 					break;
 
 				case MemberRights.ReadWriteToAdmin:
-					MemberNewRights = Access.Rights.Admin;
-					MemberOldRights = Access.Rights.ReadWrite;
+					MemberNewRights = Rights.Admin;
+					MemberOldRights = Rights.ReadWrite;
 					break;
 
 				case MemberRights.ReadOnlyToAdmin:
-					MemberNewRights = Access.Rights.Admin;
-					MemberOldRights = Access.Rights.ReadOnly;
+					MemberNewRights = Rights.Admin;
+					MemberOldRights = Rights.ReadOnly;
 					break;
 
 				case MemberRights.ReadWrite:
-					MemberNewRights = Access.Rights.ReadWrite;
-					MemberOldRights = Access.Rights.Deny;
+					MemberNewRights = Rights.ReadWrite;
+					MemberOldRights = Rights.Unknown;
 					break;
 
 				case MemberRights.AdminToReadWrite:
-					MemberNewRights = Access.Rights.ReadWrite;
-					MemberOldRights = Access.Rights.Admin;
+					MemberNewRights = Rights.ReadWrite;
+					MemberOldRights = Rights.Admin;
 					break;
 
 				case MemberRights.ReadOnlyToReadWrite:
-					MemberNewRights = Access.Rights.ReadWrite;
-					MemberOldRights = Access.Rights.ReadOnly;
+					MemberNewRights = Rights.ReadWrite;
+					MemberOldRights = Rights.ReadOnly;
 					break;
 
 				case MemberRights.ReadOnly:
-					MemberNewRights = Access.Rights.ReadOnly;
-					MemberOldRights = Access.Rights.Deny;
+					MemberNewRights = Rights.ReadOnly;
+					MemberOldRights = Rights.Unknown;
 					break;
 
 				case MemberRights.AdminToReadOnly:
-					MemberNewRights = Access.Rights.ReadOnly;
-					MemberOldRights = Access.Rights.Admin;
+					MemberNewRights = Rights.ReadOnly;
+					MemberOldRights = Rights.Admin;
 					break;
 
 				case MemberRights.ReadWriteToReadOnly:
-					MemberNewRights = Access.Rights.ReadOnly;
-					MemberOldRights = Access.Rights.ReadWrite;
+					MemberNewRights = Rights.ReadOnly;
+					MemberOldRights = Rights.ReadWrite;
 					break;
 
 				default:
-					MemberNewRights = Access.Rights.Deny;
-					MemberOldRights = Access.Rights.Deny;
+					MemberNewRights = Rights.Unknown;
+					MemberOldRights = Rights.Unknown;
 					break;
 			}
 		}

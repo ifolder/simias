@@ -293,7 +293,7 @@ namespace Novell.iFolderWeb.Admin
 				dr[ 1 ] = member.IsOwner;
 				dr[ 2 ] = member.ID;
 				dr[ 3 ] = member.FullName;
-				dr[ 4 ] = member.Rights.ToString();
+				dr[ 4 ] = member.MemberRights.ToString();
 
 				dt.Rows.Add( dr );
 			}

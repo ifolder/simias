@@ -105,7 +105,7 @@ namespace iFolder.WebService
 		/// <summary>
 		/// The User Rights in the iFolder/Domain
 		/// </summary>
-		public Simias.Storage.Access.Rights Rights;
+		public Rights MemberRights;
 
 		/// <summary>
 		/// Is the User's Login Enabled
@@ -140,7 +140,7 @@ namespace iFolder.WebService
 		{
 			this.ID = member.UserID;
 			this.UserName = member.Name;
-            this.Rights = member.Rights;
+            this.MemberRights = RightsUtility.Convert(member.Rights);
 			this.FullName = (member.FN != null) ? member.FN : member.Name;
 			this.FirstName = member.Given;
 			this.LastName = member.Family;
@@ -433,11 +433,11 @@ namespace iFolder.WebService
 		/// <param name="userID">The Member User ID</param>
 		/// <param name="rights">The New Rights</param>
 		/// <param name="accessID">The Access User ID</param>
-		public static void SetMemberRights(string ifolderID, string userID, Simias.Storage.Access.Rights rights, string accessID)
+		public static void SetMemberRights(string ifolderID, string userID, Rights rights, string accessID)
 		{
 			try
 			{
-				SharedCollection.SetMemberRights(ifolderID, userID, rights.ToString(), accessID);
+				SharedCollection.SetMemberRights(ifolderID, userID, RightsUtility.Convert(rights).ToString(), accessID);
 			}
 			catch(CollectionStoreException e)
 			{
@@ -457,11 +457,12 @@ namespace iFolder.WebService
 		/// <param name="userID">The User ID</param>
 		/// <param name="rights">The New Rights</param>
 		/// <param name="accessID">The Access User ID</param>
-		public static void AddMember(string ifolderID, string userID, Simias.Storage.Access.Rights rights, string accessID)
+		public static void AddMember(string ifolderID, string userID, Rights rights, string accessID)
 		{
 			try
 			{
-				SharedCollection.AddMember(ifolderID, userID, rights.ToString(), iFolder.iFolderCollectionType, accessID);
+				SharedCollection.AddMember(ifolderID, userID, RightsUtility.Convert(rights).ToString(),
+					iFolder.iFolderCollectionType, accessID);
 			}
 			catch(ExistsException)
 			{
@@ -509,7 +510,7 @@ namespace iFolder.WebService
 			catch
 			{
 				// member does not exist
-				AddMember(ifolderID, userID, Access.Rights.Admin, accessID);
+				AddMember(ifolderID, userID, Rights.Admin, accessID);
 			}
 
 			// note: default the previous owner to "ReadOnly" rights
@@ -548,7 +549,7 @@ namespace iFolder.WebService
 
 			Domain domain = store.GetDomain(store.DefaultDomain);
 
-			SetMemberRights(domain.ID, userID, Access.Rights.Admin, null);
+			SetMemberRights(domain.ID, userID, Rights.Admin, null);
 		}
 
 		/// <summary>
@@ -564,7 +565,7 @@ namespace iFolder.WebService
 
 			Domain domain = store.GetDomain(store.DefaultDomain);
 
-			SetMemberRights(domain.ID, userID, Access.Rights.ReadOnly, null);
+			SetMemberRights(domain.ID, userID, Rights.ReadOnly, null);
 		}
 
 		/// <summary>

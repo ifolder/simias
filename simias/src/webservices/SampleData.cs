@@ -199,7 +199,7 @@ namespace iFolder.WebService
 		{
 			try
 			{
-				iFolderUser.AddMember(id, member, Simias.Storage.Access.Rights.ReadOnly, null);
+				iFolderUser.AddMember(id, member, Rights.ReadOnly, null);
 			}
 			catch
 			{

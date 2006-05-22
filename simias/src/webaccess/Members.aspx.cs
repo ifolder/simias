@@ -175,7 +175,7 @@ namespace Novell.iFolderApp.Web
 				iFolder ifolder = web.GetiFolder(ifolderID);
 
 				// rights
-				Actions.Visible = (ifolder.Rights == Rights.Admin);
+				Actions.Visible = (ifolder.MemberRights == Rights.Admin);
 				ActionsOwner.Visible = ifolder.IsOwner;
 				MemberData.Columns[1].Visible = Actions.Visible;
 
@@ -191,7 +191,7 @@ namespace Novell.iFolderApp.Web
 
 					row["ID"] = member.ID;
 					row["Name"] = member.FullName;
-					row["Rights"] = member.IsOwner ? GetString("OWNER") : WebUtility.FormatRights(member.Rights, rm);
+					row["Rights"] = member.IsOwner ? GetString("OWNER") : WebUtility.FormatRights(member.MemberRights, rm);
 					row["Enabled"] = !member.IsOwner && (member.ID != accessID);
 					row["iFolderID"] = ifolderID;
 
