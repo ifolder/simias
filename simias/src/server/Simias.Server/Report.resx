@@ -102,4 +102,7 @@
 	<data name="ORPHANED_OWNER">
 		<value>Orphaned Owner</value>
 	</data>
+	<data name="LAST_SYNC_TIME">
+		<value>Last Sync Time</value>
+	</data>
 </root>

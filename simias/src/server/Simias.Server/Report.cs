@@ -26,6 +26,7 @@ using System.Globalization;
 using System.IO;
 using System.Reflection;
 using System.Resources;
+using System.Text;
 using System.Timers;
 using System.Threading;
 using System.Xml;
@@ -72,7 +73,8 @@ namespace Simias.Server
 			OwnerLastLogin,
 			OwnerDisabled,
 			PreviousOwner,
-			OrphanedOwner
+			OrphanedOwner,
+			LastSyncTime
 		};
 
 		/// <summary>
@@ -211,6 +213,7 @@ namespace Simias.Server
 			columns[ ( int )ColumnID.OwnerDisabled ]  = new ReportColumn( GetString( "OWNER_DISABLED" ) );
 			columns[ ( int )ColumnID.PreviousOwner ]  = new ReportColumn( GetString( "PREVIOUS_OWNER" ) );
 			columns[ ( int )ColumnID.OrphanedOwner ]  = new ReportColumn( GetString( "ORPHANED_OWNER" ) );
+			columns[ ( int )ColumnID.LastSyncTime ]   = new ReportColumn( GetString( "LAST_SYNC_TIME" ), "{0:G}" );
 		}
 
 		/// <summary>
@@ -368,7 +371,7 @@ namespace Simias.Server
 					// cells
 					cells[ ( int )ColumnID.ReportTime ] = currentReportTime;
 					cells[ ( int )ColumnID.iFolderSystem ] = domain.Name;
-					cells[ ( int )ColumnID.iFolderServer ] = "localhost";
+					cells[ ( int )ColumnID.iFolderServer ] = Environment.MachineName;
 					cells[ ( int )ColumnID.iFolderID ] = ifolder.ID;
 					cells[ ( int )ColumnID.iFolderName ] = ifolder.Name;
 					cells[ ( int )ColumnID.iFolderSize ] = ifolder.StorageSize / MB;
@@ -386,6 +389,7 @@ namespace Simias.Server
 					cells[ ( int )ColumnID.OwnerDisabled ] = domain.IsLoginDisabled( owner.UserID );
 					cells[ ( int )ColumnID.PreviousOwner ] = ifolder.PreviousOwner;
 					cells[ ( int )ColumnID.OrphanedOwner ] = ifolder.Properties.GetSingleProperty( "OrphanedOwner" );
+					cells[ ( int )ColumnID.LastSyncTime ] = ifolder.Properties.GetSingleProperty( "LastModified" );
 
 					WriteRow( file, columns, cells );
 				}
@@ -676,12 +680,17 @@ namespace Simias.Server
 		/// <param name="columns">Object that contains the header strings.</param>
 		private void WriteHeaderRow( StreamWriter writer, ReportColumn[] columns )
 		{
+			StringBuilder sb = new StringBuilder( 1024 );
 			for ( int i = 0; i < columns.Length; ++i )
 			{
-				writer.Write( "\"{0}\"{1}", columns[ i ].Header, ( i < ( columns.Length - 1 ) ) ? "," : "" );
+				sb.AppendFormat( "{0}", columns[ i ].Header );
+				if ( i < ( columns.Length - 1 ) )
+				{
+					sb.Append( "," );
+				}
 			}
 
-			writer.WriteLine();
+			writer.WriteLine( sb.ToString() );
 		}
 
 		/// <summary>
@@ -692,14 +701,17 @@ namespace Simias.Server
 		/// <param name="cells">Object that contains the data.</param>
 		private void WriteRow( StreamWriter writer, ReportColumn[] columns, object[] cells )
 		{
+			StringBuilder sb = new StringBuilder( 1024 );
 			for ( int i = 0; i < columns.Length; ++i )
 			{
-				writer.Write( "\"" + columns[ i ].Format + "\"{1}", 
-					cells[ i ], 
-					( i < ( columns.Length - 1 ) ) ? "," : "" );
+				sb.AppendFormat( columns[ i ].Format, cells[ i ] );
+				if ( i < ( columns.Length - 1 ) )
+				{
+					sb.Append( "," );
+				}
 			}
 
-			writer.WriteLine();
+			writer.WriteLine( sb.ToString() );
 		}
 
 		#endregion
@@ -1106,8 +1118,8 @@ namespace Simias.Server
 			/// <param name="format">Data format string.</param>
 			public ReportColumn( string header, string format )
 			{
-				this.header = header;
-				this.format = format;
+				this.header = "\"" + header + "\"";
+				this.format = "\"" + format + "\"";
 			}
 
 			#endregion
