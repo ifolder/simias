@@ -235,7 +235,8 @@ namespace Simias.DomainWatcher
 											Guid.NewGuid().ToString(),
 											"12" );
 
-									if ( authStatus.statusCode == SCodes.UnknownUser )
+									if ( authStatus.statusCode == SCodes.UnknownUser ||
+										authStatus.statusCode == SCodes.InvalidCertificate )
 									{
 										raiseEvent = true;
 									}
