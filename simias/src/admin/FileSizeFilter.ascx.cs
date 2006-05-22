@@ -41,7 +41,7 @@ namespace Novell.iFolderWeb.Admin
 		/// <summary>
 		/// Default limit for the file size filter.
 		/// </summary>
-		private const long DefaultFileSizeLimit = 10 * 1024;
+		private const long DefaultFileSizeLimit = 1024 * 1024;
 
 		/// <summary>
 		/// Resource Manager
@@ -259,7 +259,7 @@ namespace Novell.iFolderWeb.Admin
 					try
 					{
 						decimal limit = Convert.ToDecimal( limitString );
-						if ( limit > 0 )
+						if ( limit >= 1 )
 						{
 							// Convert megabytes to bytes.
 							policy.FileSizeLimit = Convert.ToInt64( Decimal.Round( limit, 2 ) * 1048576 );
@@ -300,7 +300,7 @@ namespace Novell.iFolderWeb.Admin
 					try
 					{
 						decimal limit = Convert.ToDecimal( limitString );
-						if ( limit > 0 )
+						if ( limit >= 1 )
 						{
 							// Convert megabytes to bytes.
 							policy.FileSizeLimit = Convert.ToInt64( Decimal.Round( limit, 2 ) * 1048576 );
@@ -341,7 +341,7 @@ namespace Novell.iFolderWeb.Admin
 					try
 					{
 						decimal limit = Convert.ToDecimal( limitString );
-						if ( limit > 0 )
+						if ( limit >= 1 )
 						{
 							// Convert megabytes to bytes.
 							policy.FileSizeLimit = Convert.ToInt64( Decimal.Round( limit, 2 ) * 1048576 );

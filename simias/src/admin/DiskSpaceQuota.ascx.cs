@@ -41,7 +41,7 @@ namespace Novell.iFolderWeb.Admin
 		/// <summary>
 		/// Default constants.
 		/// </summary>
-		private const long DefaultDiskQuotaLimit = 100 * 1024;
+		private const long DefaultDiskQuotaLimit = 100 * 1024 * 1024;
 
 		/// <summary>
 		/// Resource Manager
@@ -322,7 +322,7 @@ namespace Novell.iFolderWeb.Admin
 					try
 					{
 						decimal limit = Convert.ToDecimal( limitString );
-						if ( limit > 0 )
+						if ( limit >= 1 )
 						{
 							// Convert from megabytes back to bytes.
 							policy.SpaceLimit = Convert.ToInt64( Decimal.Round( limit, 2 ) * 1048576 );
@@ -363,7 +363,7 @@ namespace Novell.iFolderWeb.Admin
 					try
 					{
 						decimal limit = Convert.ToDecimal( limitString );
-						if ( limit > 0 )
+						if ( limit >= 1 )
 						{
 							// Convert from megabytes back to bytes.
 							policy.SpaceLimit = Convert.ToInt64( Decimal.Round( limit, 2 ) * 1048576 );
@@ -404,7 +404,7 @@ namespace Novell.iFolderWeb.Admin
 					try
 					{
 						decimal limit = Convert.ToDecimal( limitString );
-						if ( limit > 0 )
+						if ( limit >= 1 )
 						{
 							// Convert from megabytes back to bytes.
 							policy.SpaceLimitUser = Convert.ToInt64( Decimal.Round( limit, 2 ) * 1048576 );

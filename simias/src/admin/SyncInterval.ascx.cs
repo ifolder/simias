@@ -286,7 +286,7 @@ namespace Novell.iFolderWeb.Admin
 					try
 					{
 						int limit = Convert.ToInt32( limitString );
-						if ( limit > 0 )
+						if ( limit >= 5 )
 						{
 							// Convert the interval from minutes to seconds.
 							policy.SyncInterval = limit * 60;
@@ -327,7 +327,7 @@ namespace Novell.iFolderWeb.Admin
 					try
 					{
 						int limit = Convert.ToInt32( limitString );
-						if ( limit > 0 )
+						if ( limit >= 5 )
 						{
 							// Convert the interval from minutes to seconds.
 							policy.SyncInterval = limit * 60;
@@ -368,7 +368,7 @@ namespace Novell.iFolderWeb.Admin
 					try
 					{
 						int limit = Convert.ToInt32( limitString );
-						if ( limit > 0 )
+						if ( limit >= 5 )
 						{
 							// Convert the interval from minutes to seconds.
 							policy.SyncInterval = limit * 60;
