@@ -93,7 +93,7 @@ namespace Simias.Server
 		/// <summary>
 		/// Well-known identifier for the report collection.
 		/// </summary>
-		private static string reportCollectionID = "3E49B2F8-C13E-45d1-B69E-811521411ABA";
+		private static string reportCollectionID = "3e49b2f8-c13e-45d1-b69e-811521411aba";
 
 		/// <summary>
 		/// Report collection name.
@@ -619,7 +619,7 @@ namespace Simias.Server
 		private void SettingsWatcher_NodeCreated( NodeEventArgs args )
 		{
 			// Check if this node is a settings type node.
-			Node settings = store.GetCollectionByID( args.ID );
+			Node settings = reportCollection.GetNodeByID( args.ID );
 			if ( ( settings != null ) && settings.IsType( "Settings" ) )
 			{
 				log.Debug( "Report configuration node has been created." );
@@ -648,8 +648,7 @@ namespace Simias.Server
 		{
 			SettingsWatcherStop();
 
-			settingsWatcher = new EventSubscriber();
-			settingsWatcher.CollectionId = reportCollectionID;
+			settingsWatcher = new EventSubscriber( reportCollectionID );
 			settingsWatcher.NodeCreated += new NodeEventHandler( SettingsWatcher_NodeCreated );
 			settingsWatcher.NodeDeleted += new NodeEventHandler( SettingsWatcher_NodeDeleted );
 			settingsWatcher.Enabled = true;
@@ -665,6 +664,7 @@ namespace Simias.Server
 				settingsWatcher.Enabled = false;
 				settingsWatcher.NodeCreated -= new NodeEventHandler( SettingsWatcher_NodeCreated );
 				settingsWatcher.NodeDeleted -= new NodeEventHandler( SettingsWatcher_NodeDeleted );
+				settingsWatcher.Dispose();
 				settingsWatcher = null;
 			}
 		}
