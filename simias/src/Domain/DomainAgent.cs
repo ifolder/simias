@@ -228,7 +228,9 @@ namespace Simias.DomainServices
 			}
 			catch(WebException webEx)
 			{
-				if (webEx.Status == WebExceptionStatus.TrustFailure)
+				// Mono needs an extra test here because it sucks pond water
+				// if (webEx.Status == WebExceptionStatus.TrustFailure)
+				if(TestTrustFailure(host.Host, webEx))
 				{
 					// The Certificate is invalid.
 					status.statusCode = SCodes.InvalidCertificate;
@@ -404,7 +406,9 @@ namespace Simias.DomainServices
 			}
 			catch (WebException we)
 			{
-				if (we.Status == WebExceptionStatus.TrustFailure)
+				// Mono needs an extra test here
+				// if (we.Status == WebExceptionStatus.TrustFailure)
+				if(TestTrustFailure(host, we))
 				{
 					status = new Simias.Authentication.Status();
 					status.statusCode = Simias.Authentication.StatusCodes.InvalidCertificate;
@@ -933,6 +937,21 @@ namespace Simias.DomainServices
 				return collection.StorageSize;
 			}
 		}
+
+		static public bool TestTrustFailure(string host, WebException we)
+		{
+			if (we.Status == WebExceptionStatus.TrustFailure )
+			{
+				return true;
+			}
+			CertPolicy.CertificateState cs = CertPolicy.GetCertificate(host);
+			if (cs != null && !cs.Accepted)
+			{
+				return true;
+			}
+			return false;
+		}
+
 		#endregion
 	}
 

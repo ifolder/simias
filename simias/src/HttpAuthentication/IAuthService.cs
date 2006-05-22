@@ -67,7 +67,7 @@ namespace Simias.Security.Web.AuthenticationService
        /// <summary>
        /// Authenticates the user with password
        /// </summary>
-       /// <returns>
+	/// <returns>
        /// Returns a string representing the user name for the identity
        /// of the principle to be set on the current context and session.
        /// </returns>
@@ -77,7 +77,7 @@ namespace Simias.Security.Web.AuthenticationService
 		/// <summary>
 		/// Authenticates the user by name and password
 		/// </summary>
-        /// <returns>
+		 /// <returns>
 		/// Returns an authentication status object
 		/// </returns>
 
@@ -86,7 +86,7 @@ namespace Simias.Security.Web.AuthenticationService
 		/// <summary>
 		/// Authenticates the user using their unique ID and a password
 		/// </summary>
-        /// <returns>
+		 /// <returns>
 		/// Returns an authentication status object
 		/// </returns>
 
