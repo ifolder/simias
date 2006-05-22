@@ -781,9 +781,10 @@ namespace Simias.Storage
 			Property pNew = node.Properties.GetSingleProperty( PropertyTags.Ace );
 			if ( pNew != null )
 			{
-				if ( node.DiskNode != null )
+				Node oldNode = GetNodeByID( node.ID );
+				if ( oldNode != null )
 				{
-					Property pOld = node.DiskNode.Properties.GetSingleProperty( PropertyTags.Ace );
+					Property pOld = oldNode.Properties.GetSingleProperty( PropertyTags.Ace );
 					if ( ( pOld != null ) && !pOld.ValueString.Equals( pNew.ValueString ) )
 					{
 						AccessControlEntry oldAce = new AccessControlEntry( pOld );
