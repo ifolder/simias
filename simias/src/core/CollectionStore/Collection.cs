@@ -781,10 +781,9 @@ namespace Simias.Storage
 			Property pNew = node.Properties.GetSingleProperty( PropertyTags.Ace );
 			if ( pNew != null )
 			{
-				Node oldNode = GetNodeByID( node.ID );
-				if ( oldNode != null )
+				if ( node.DiskNode != null )
 				{
-					Property pOld = oldNode.Properties.GetSingleProperty( PropertyTags.Ace );
+					Property pOld = node.DiskNode.Properties.GetSingleProperty( PropertyTags.Ace );
 					if ( ( pOld != null ) && !pOld.ValueString.Equals( pNew.ValueString ) )
 					{
 						AccessControlEntry oldAce = new AccessControlEntry( pOld );
@@ -1473,6 +1472,13 @@ namespace Simias.Storage
 
 							case PropertyList.PropertyListState.Update:
 							{
+								bool isMemberNode = node.IsBaseType( NodeTypes.MemberType );
+								if ( isMemberNode )
+								{
+									// Need to get the old node so that we can map rights changes.
+									node.DiskNode = GetNodeByID( node.ID );
+								}
+
 								// Update the cache before indicating the event.
 								store.Cache.Add( this, node );
 
@@ -1481,7 +1487,7 @@ namespace Simias.Storage
 								{
 									int eventId = 0;
 
-									if ( node.IsBaseType( NodeTypes.MemberType ) )
+									if ( isMemberNode )
 									{
 										eventId = GetEventId( node );
 									}
