@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:s0="http://novell.com/ifolder/web/encodedTypes" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://novell.com/ifolder/web/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" targetNamespace="http://novell.com/ifolder/web/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema targetNamespace="http://novell.com/ifolder/web/encodedTypes">
+      <s:import namespace="http://schemas.xmlsoap.org/soap/encoding/" />
+      <s:import namespace="http://schemas.xmlsoap.org/wsdl/" />
+      <s:complexType name="ArrayOfString">
+        <s:complexContent mixed="false">
+          <s:restriction base="soapenc:Array">
+            <s:attribute wsdl:arrayType="s:string[]" ref="soapenc:arrayType" />
+          </s:restriction>
+        </s:complexContent>
+      </s:complexType>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="GetUpdateFilesSoapIn" />
+  <wsdl:message name="GetUpdateFilesSoapOut">
+    <wsdl:part name="GetUpdateFilesResult" type="s0:ArrayOfString" />
+  </wsdl:message>
+  <wsdl:message name="IsUpdateAvailableSoapIn">
+    <wsdl:part name="platform" type="s:string" />
+    <wsdl:part name="currentVersion" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="IsUpdateAvailableSoapOut">
+    <wsdl:part name="IsUpdateAvailableResult" type="s:string" />
+  </wsdl:message>
+  <wsdl:portType name="ClientUpdateSoap">
+    <wsdl:operation name="GetUpdateFiles">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Gets the update files associated with the specified version.</documentation>
+      <wsdl:input message="tns:GetUpdateFilesSoapIn" />
+      <wsdl:output message="tns:GetUpdateFilesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="IsUpdateAvailable">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Is Client Update Available</documentation>
+      <wsdl:input message="tns:IsUpdateAvailableSoapIn" />
+      <wsdl:output message="tns:IsUpdateAvailableSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ClientUpdateSoap" type="tns:ClientUpdateSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />
+    <wsdl:operation name="GetUpdateFiles">
+      <soap:operation soapAction="http://novell.com/ifolder/web/GetUpdateFiles" style="rpc" />
+      <wsdl:input>
+        <soap:body use="encoded" namespace="http://novell.com/ifolder/web/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="encoded" namespace="http://novell.com/ifolder/web/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IsUpdateAvailable">
+      <soap:operation soapAction="http://novell.com/ifolder/web/IsUpdateAvailable" style="rpc" />
+      <wsdl:input>
+        <soap:body use="encoded" namespace="http://novell.com/ifolder/web/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="encoded" namespace="http://novell.com/ifolder/web/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ClientUpdate">
+    <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Client Update Web Service</documentation>
+    <wsdl:port name="ClientUpdateSoap" binding="tns:ClientUpdateSoap">
+      <soap:address location="http://127.0.0.1:4909/simias10/mlasky/ClientUpdate.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
