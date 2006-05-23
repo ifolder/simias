@@ -1,0 +1,580 @@
+/***********************************************************************
+ *  $RCSfile: Catalog.cs,v $
+ *
+ *  Copyright (C) 2006 Novell, Inc.
+ *
+ *  This program is free software; you can redistribute it and/or
+ *  modify it under the terms of the GNU General Public
+ *  License as published by the Free Software Foundation; either
+ *  version 2 of the License, or (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *  General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public
+ *  License along with this program; if not, write to the Free
+ *  Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ *
+ *  Author: Brady Anderson <banderso@novell.com>
+ *
+ ***********************************************************************/
+
+using System;
+using System.Collections;
+using System.IO;
+using System.Threading;
+
+using Simias;
+using Simias.Client;
+using Simias.Client.Event;
+using Simias.Service;
+using Simias.Storage;
+using Simias.Sync;
+
+namespace Simias.Server
+{
+	/// <summary>
+	/// Class to manage the creation, deletion and querying
+	/// of a global collection catalog that is replicated 
+	/// across all simias servers within a simias system.
+	/// </summary>
+	public class Catalog
+	{
+		#region Types
+
+		private static readonly ISimiasLog log = 
+			SimiasLogManager.GetLogger( System.Reflection.MethodBase.GetCurrentMethod().DeclaringType );
+
+		//static Hashtable journals;
+		private static string lockObj = "locker";
+		private static EventSubscriber storeEvents;
+		private static Queue eventQueue;
+		private static ManualResetEvent queueEvent;
+		private static Thread catThread;
+		private static bool down = false;
+		private static bool started = false;
+		private static Store store;
+		private static Domain domain;
+		private static Collection catalog;
+		internal static string catalogID = "A93266FD-55DE-4590-B1C7-428F2FED815D";
+		internal static string catalogName = "Collection Catalogue";
+		#endregion
+
+		#region Properties
+		#endregion
+
+		#region Constructors
+
+		static Catalog()
+		{
+			store = Store.GetStore();
+			domain = store.GetDomain( store.DefaultDomain );
+
+			try
+			{
+				catalog = store.GetCollectionByID( catalogID );
+			}
+			catch{}
+		}
+		#endregion
+
+		#region Private Methods
+		static private void OnEvent( NodeEventArgs args )
+		{
+			lock( eventQueue )
+			{
+				eventQueue.Enqueue( args );
+				queueEvent.Set();
+			}
+		}
+
+		/// <summary>
+		/// Creates the Collection Catalog
+		/// </summary>
+		/// <returns>Generates an exception if an error occurs.</returns>
+		static private void CreateCollectionCatalog()
+		{
+			if ( domain != null )
+			{
+				// The collection catalog is only created on the master server
+				// but replicated and updated on slaves
+				if ( domain.Role == SyncRoles.Master )
+				{
+					catalog = store.GetCollectionByID( catalogID );
+					if ( catalog == null )
+					{
+						Collection tempCatalog;
+						ArrayList nodes = new ArrayList();
+
+						// Create the collection catalog.
+						tempCatalog = new Collection( store, catalogName, catalogID, domain.ID );
+						tempCatalog.SetType( tempCatalog, "Catalog" );
+						nodes.Add( tempCatalog );
+
+						// All host nodes must be added as members to the collection
+						Member member;
+						HostNode[] hosts = Simias.Storage.HostNode.GetHosts( domain.ID );
+						foreach( HostNode host in hosts )
+						{
+							member = new Member( host.Name, host.UserID, Access.Rights.Admin );
+							tempCatalog.SetType( member, "Host" );
+							nodes.Add( member );
+						}
+
+						// Add the admin user for the domain as the owner.
+						member = new Member( domain.Owner.Name, domain.Owner.UserID, Access.Rights.Admin );
+						member.IsOwner = true;	
+						nodes.Add( member );
+
+						// Commit the changes.
+						//catalog.Commit( new Node[] { catalog, member } );
+						tempCatalog.Commit( nodes.ToArray( typeof( Node ) ) as Node[] );
+						catalog = tempCatalog;
+					}
+				}
+			}
+		}
+
+		/// <summary>
+		/// Process any store events that have been placed
+		/// on the queue.
+		/// </summary>
+		/// <returns>N/A - returns when local object down == true.</returns>
+		static private void ProcessEvents()
+		{
+			while( down == false )
+			{
+				// Wait for something to be added to the queue.
+				queueEvent.WaitOne();
+
+				// Now loop until the queue is emptied.
+				while( true )
+				{
+					NodeEventArgs args;
+					lock( eventQueue )
+					{
+						if ( eventQueue.Count == 0 )
+						{
+							queueEvent.Reset();
+							break;
+						}
+
+						args = eventQueue.Dequeue() as NodeEventArgs;
+					}
+
+					if ( args.Collection.Equals( catalogID ) == true )
+					{
+						log.Debug( "Received an event generated by the catalog collection - ignoring" );
+						continue;
+					}
+
+					// Process the event.
+					if ( down == false )
+					{
+						if ( args.Type.Equals( NodeTypes.CollectionType ) &&
+								args.EventType.Equals( EventType.NodeCreated ) )
+						{
+							CatalogEntry entry = Catalog.GetEntryByCollectionID( args.Collection );
+							if ( entry == null )
+							{
+								entry = new CatalogEntry( args.Collection );
+								catalog.Commit( entry );
+							}
+							log.Info( "Collection: {0} created", args.Collection );
+						}
+						else if ( args.Type.Equals( NodeTypes.CollectionType ) &&
+									args.EventType.Equals( EventType.NodeDeleted ) )
+						{
+							log.Debug( "Collection: {0} deleted", args.Collection );
+							try
+							{
+								CatalogEntry entry = Catalog.GetEntryByCollectionID( args.Collection );
+								log.Debug( "Deleting Catalog Entry {0}", entry.ID );
+								catalog.Commit( catalog.Delete( entry ) );
+							}
+							catch{}
+						}
+						else if ( args.Type.Equals( NodeTypes.MemberType ) &&
+									args.EventType.Equals( EventType.NodeCreated ) )
+						{
+							CatalogEntry entry = Catalog.GetEntryByCollectionID( args.Collection );
+							if ( entry != null )
+							{
+								try
+								{
+									Collection col = store.GetCollectionByID( args.Collection );
+									Member member = new Member( col.GetNodeByID( args.Node ) );
+									if ( entry.AddMember( member.UserID, args.Node ) == true )
+									{
+										log.Debug( "Member {0} added to collection {1}", member.UserID, col.ID );
+									}
+
+									// DEBUG CODE
+									CatalogEntry[] entries = Catalog.GetAllEntriesByUserID( member.UserID );
+									foreach( CatalogEntry ce in entries )
+									{
+										log.Debug( "" );
+										log.Debug( "Catalog Entry" );
+										log.Debug( "\t{0}", ce.Name );
+										log.Debug( "\tCID: {0}", ce.CollectionID );
+										log.Debug( "\tHID: {0}", ce.HostID );
+
+										string[] members = ce.UserIDs;
+										log.Debug( "\tMembers" );
+										foreach( string userid in members )
+										{
+											log.Debug( "\t\t{0}", userid );
+										}
+										log.Debug( "" );
+									}
+									// END DEBUG CODE
+								}
+								catch{}
+
+							}
+						}
+						else if ( args.Type.Equals( NodeTypes.MemberType ) &&
+									args.EventType.Equals( EventType.NodeDeleted ) )
+						{
+							log.Debug( "Member {0} deleted from collection {0}", args.Node, args.Collection );
+
+							// Get all catalog entries the user is a member of then
+							// delete the mids property for each entry
+
+							CatalogEntry entry;
+							Property midsProp = new Property( CatalogEntry.MemberProperty, args.Node );
+							ICSList nodes = store.GetNodesByProperty( midsProp, SearchOp.Ends );
+							foreach( ShallowNode sn in nodes )
+							{
+								entry = new CatalogEntry( sn );
+
+								log.Debug( "removing mid from entry {0}", entry.ID );
+								entry.RemoveMember( args.Node );
+							}
+						}
+					}
+					else
+					{
+						log.Info( "Lost event for node ID = '{0}'. Event type = '{1}'. Node type = '{2}'", args.Node, args.EventType, args.Type );
+					}
+				}
+			}
+		}
+		
+		#endregion
+
+		#region Public Methods
+
+		/// <summary>
+		/// Method to retrieve all collection IDs the specified user
+		/// is a member of.
+		/// </summary>
+		static public string[] GetAllCollectionIDsByUserID( string UserID )
+		{
+			CatalogEntry entry = null;
+			ArrayList collections = new ArrayList();
+
+			Property midsProp = new Property( CatalogEntry.MemberProperty, UserID );
+			ICSList nodes = store.GetNodesByProperty( midsProp, SearchOp.Begins );
+			foreach( ShallowNode sn in nodes )
+			{
+				entry = new CatalogEntry( sn );
+				collections.Add( entry.CollectionID );
+			}
+
+			return collections.ToArray( typeof( string ) ) as string[];
+		}
+
+		/// <summary>
+		/// Method to retrieve all catalog entry IDs the specified user
+		/// is a member of.
+		/// </summary>
+		static public string[] GetAllEntryIDsByUserID( string UserID )
+		{
+			Property midsProp = new Property( CatalogEntry.MemberProperty, UserID );
+			ICSList nodes = store.GetNodesByProperty( midsProp, SearchOp.Begins );
+			string[] entryids = new string[ nodes.Count ];
+			int x = 0;
+			foreach( ShallowNode sn in nodes )
+			{
+				entryids[ x++ ] = sn.ID;
+			}
+
+			return entryids;
+		}
+
+		/// <summary>
+		/// Method to retrieve all catalog entries the specified user
+		/// is a member of.
+		/// </summary>
+		static public CatalogEntry[] GetAllEntriesByUserID( string UserID )
+		{
+			ArrayList entries = new ArrayList();
+
+			Property midsProp = new Property( CatalogEntry.MemberProperty, UserID );
+			ICSList nodes = store.GetNodesByProperty( midsProp, SearchOp.Begins );
+			foreach( ShallowNode sn in nodes )
+			{
+				entries.Add( new CatalogEntry( sn ) );
+			}
+
+			return entries.ToArray( typeof( CatalogEntry ) ) as CatalogEntry[];
+		}
+
+		/// <summary>
+		/// Get a catalog entry for the specified collection
+		/// </summary>
+		static public CatalogEntry GetEntryByCollectionID( string CollectionID )
+		{
+			CatalogEntry entry = null;
+
+			Property colProp = new Property( CatalogEntry.CollectionProperty, CollectionID );
+			ICSList nodes = store.GetNodesByProperty( colProp, SearchOp.Equal );
+			foreach( ShallowNode sn in nodes )
+			{
+				entry = new CatalogEntry( sn );
+				break;
+			}
+
+			return entry;
+		}
+
+		/// <summary>
+		/// Called to start the catalog service.
+		/// </summary>
+		static internal bool StartCatalogService()
+		{
+			lock( lockObj )
+			{
+				if ( started == true )
+				{
+					log.Info( "StartCatalogService failed because the service is already running." );
+					return false;
+				}
+
+				// If we're on the master server make sure the catalog collection
+				// has been created
+				CreateCollectionCatalog();
+
+				down = false;
+				eventQueue = new Queue();
+				queueEvent = new ManualResetEvent( false );
+
+				// Setup an event handler to subscribe to all store events
+				storeEvents = new EventSubscriber();
+				storeEvents.NodeChanged += new NodeEventHandler( OnEvent );
+				storeEvents.NodeCreated += new NodeEventHandler( OnEvent );
+				storeEvents.NodeDeleted += new NodeEventHandler( OnEvent );
+
+				catThread = new Thread( new ThreadStart( ProcessEvents ) );
+				catThread.IsBackground = true;
+				catThread.Start();
+
+				log.Debug( "Collection Catalog service started..." );
+				started = true;
+			}
+
+			return true;
+		}
+
+
+		/// <summary>
+		/// Called to stop the catalog service.
+		/// </summary>
+		static internal void StopCatalogService()
+		{
+			down = true;
+			lock ( lockObj )
+			{
+				queueEvent.Set();
+			}
+
+			catThread.Join();
+			storeEvents.Dispose();
+			Thread.Sleep( 0 );
+			started = false;
+			log.Debug( "Collection Catalog Service stopped..." );
+		}
+		#endregion
+
+	}
+
+	/// <summary>
+	/// Catalog Entry
+	/// A catalog entry is a node that belongs to the system
+	/// catalog collection that replicates across all servers
+	/// in a multi-server ifolder system.
+	/// There should be one catalog entry for each collection
+	/// in the system which makes it possible to find any collection
+	/// from any host in the system.
+	/// The three distinguishing properties on a CatalogEntry are:
+	///   HostID - Host where the associated collection lives
+	///   CollectionID - Associated Collection ID
+	///   UserIDs - List of members for the associated collection.
+	/// </summary>
+	public class CatalogEntry : Node
+	{
+		#region Types
+		static private Store store;
+		static private Collection catalog;
+		static private string localhostID;
+
+		// Distinguishing properties for a node
+		// to be a CatalogEntry
+		static internal string CollectionProperty = "cid";
+		static internal string HostProperty = "hid";
+		static internal string MemberProperty = "mid";
+
+		private static readonly ISimiasLog log = 
+			SimiasLogManager.GetLogger( System.Reflection.MethodBase.GetCurrentMethod().DeclaringType );
+		#endregion
+
+		#region Properties
+		/// <summary>
+		/// Returns the actual collection this entry relates to
+		/// </summary>
+		public string CollectionID
+		{
+			get
+			{
+				return this.Properties.GetSingleProperty( CollectionProperty ).Value as string;
+ 			}
+		}
+
+		/// <summary>
+		/// Returns the HostID where this collection is located
+		/// </summary>
+		public string HostID
+		{
+			get
+			{
+				return this.Properties.GetSingleProperty( HostProperty ).Value as string;
+			}
+		}
+
+		/// <summary>
+		/// Returns an array of UserIDs which are members of the collection
+		/// </summary>
+		public string[] UserIDs
+		{
+			get
+			{
+				string[] userids = null;
+				MultiValuedList mv = this.Properties.GetProperties( MemberProperty );
+				if ( mv.Count > 0 )
+				{
+					userids = new string[ mv.Count ];
+					int x = 0;
+					foreach( Property prop in mv )
+					{
+						string[] comps = ( (string) prop.Value ).Split( ':' );
+						userids[ x++ ] = comps[0];
+					}
+				}
+
+				return userids;
+			}
+		}
+		#endregion
+
+		#region Constructor
+
+		static CatalogEntry()
+		{
+			store = Store.GetStore();
+			catalog = store.GetCollectionByID( Catalog.catalogID );
+			if ( catalog == null )
+			{
+				throw new SimiasException( "Failed to find the catalog collection" );
+			}
+
+			HostNode local = HostNode.GetLocalHost();
+			localhostID = local.UserID;
+		}
+
+		internal CatalogEntry( ShallowNode sn ) : base( CatalogEntry.catalog, sn )
+		{
+
+
+		}
+
+		internal CatalogEntry( string collectionID )
+		{
+			Property cprop = new Property( CollectionProperty, collectionID );
+			this.Properties.ModifyProperty( cprop );
+
+			Property hprop = new Property( HostProperty, localhostID );
+			this.Properties.ModifyProperty( hprop );
+
+			Collection col = store.GetCollectionByID( collectionID );
+			if ( col != null )
+			{
+				this.Name = col.Name;
+			}
+		}
+		#endregion
+
+		#region Private Methods
+
+		#endregion
+
+		#region Public Methods
+		/// <summary>
+		/// Add a member member to the catalog entry.
+		/// Note: called when a new member is added to the collection.
+		/// 
+		/// Kludge: When a member node is deleted, the simias event framework
+		/// does NOT pass the member's user ID in event record only the node ID.
+		/// Since the node has already been deleted when we get the event it's pretty
+		/// much useless unless the service is just logging that a delete occurred.
+		/// So for the catalog both the memberID and the nodeID will be saved
+		/// this way we can matchup the delete of the member ace if it ever
+		/// does occurr.
+		/// </summary>
+		internal bool AddMember( string UserID, string NodeID )
+		{
+			MultiValuedList mv = this.Properties.GetProperties( MemberProperty );
+			foreach( Property prop in mv )
+			{
+				string[] comps =  ( (string) prop.Value ).Split( ':' );
+				if ( comps[0] == UserID && comps[1] == NodeID )
+				{
+					return false;
+				}
+			}
+
+			string storageFormat = String.Format( "{0}:{1}", UserID, NodeID );
+			this.Properties.AddProperty( new Property( MemberProperty, storageFormat ) );
+			catalog.Commit( this );
+			return true;
+		}
+
+		/// <summary>
+		/// Remove a member from the catalog entry.
+		/// Note: called when a member is removed from the collection.
+		/// See above explanation for kludgy format
+		/// </summary>
+		internal bool RemoveMember( string NodeID )
+		{
+			MultiValuedList mv = this.Properties.GetProperties( MemberProperty );
+			foreach( Property prop in mv )
+			{
+				string[] comps = ( (string) prop.Value ).Split( ':' );
+				if ( comps.Length == 2 && comps[1] == NodeID )
+				{
+					prop.Delete();
+					//this.Properties.DeleteSingleProperty( prop );
+					catalog.Commit( this );
+					log.Debug( "deleting user property!" );
+					//prop.Delete();
+					return true;
+				}
+			}
+
+			return false;
+		}
+		#endregion 
+	}
+}
