@@ -647,6 +647,8 @@ src/server/Simias.Server/Makefile
 src/server/Simias.LdapProvider/Makefile
 src/server/Simias.ADLdapProvider/Makefile
 src/server/Simias.OpenLdapProvider/Makefile
+src/server/Simias.ClientUpdate/Makefile
+src/server/Simias.ClientUpdate/AssemblyInfo.cs
 src/client/Makefile
 src/client/simias
 src/client/SimiasDirectoryMapping
