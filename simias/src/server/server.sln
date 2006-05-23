@@ -27,7 +27,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimiasServerSetup", "setup\
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientUpdate", "ClientUpdate\ClientUpdate.csproj", "{D2793964-4AF4-44EA-8B73-A5E6F853E7BE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simias.ClientUpdate", "Simias.ClientUpdate\ClientUpdate.csproj", "{D2793964-4AF4-44EA-8B73-A5E6F853E7BE}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
