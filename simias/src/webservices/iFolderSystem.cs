@@ -95,10 +95,9 @@ namespace iFolder.WebService
 			system.Version = domain.DomainVersion.ToString();
 			system.Description = domain.Description;
 
-			Report report = new Report();
-			system.ReportPath = report.ReportPath;
-			system.ReportiFolderID = report.ReportCollectionID;
-			system.ReportiFolderName = report.ReportCollectionName;
+			system.ReportPath = Report.ReportPath;
+			system.ReportiFolderID = Report.ReportCollectionID;
+			system.ReportiFolderName = Report.ReportCollectionName;
 
             return system;
 		}

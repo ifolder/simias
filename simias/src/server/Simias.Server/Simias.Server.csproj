@@ -134,6 +134,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Exceptions.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "HostProvider.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -206,6 +211,15 @@
                 <File
                     RelPath = "Report.resx"
                     BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "ReportLogHandler.ashx"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "ReportLogHandler.ashx.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
                 />
                 <File
                     RelPath = "Service.cs"

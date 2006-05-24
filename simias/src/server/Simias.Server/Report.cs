@@ -152,9 +152,22 @@ namespace Simias.Server
 		#region Properties
 
 		/// <summary>
+		/// Returns the currently configured report path, either the
+		/// local directory path or the ifolder report path.
+		/// </summary>
+		public static string CurrentReportPath
+		{
+			get
+			{
+				Report report = new Report();
+				return ( report.GetReportConfiguration().IsiFolder ) ? ReportiFolderPath : ReportPath;
+			}
+		}
+
+		/// <summary>
 		/// Returns the well-known report collection identifier.
 		/// </summary>
-		public string ReportCollectionID
+		public static string ReportCollectionID
 		{
 			get { return reportCollectionID; }
 		}
@@ -162,7 +175,7 @@ namespace Simias.Server
 		/// <summary>
 		/// Returns the well-known report collection name.
 		/// </summary>
-		public string ReportCollectionName
+		public static string ReportCollectionName
 		{
 			get { return reportCollectionName; }
 		}
@@ -170,9 +183,33 @@ namespace Simias.Server
 		/// <summary>
 		/// Returns the absolute path to the report directory.
 		/// </summary>
-		public string ReportPath
+		public static string ReportPath
 		{
 			get { return Path.Combine( Store.StorePath, "report" ); }
+		}
+
+		/// <summary>
+		/// Returns the absolute path to the iFolder report directory.
+		/// </summary>
+		public static string ReportiFolderPath
+		{
+			get
+			{
+				Store store = Store.GetStore();
+				Collection report = store.GetCollectionByID( reportCollectionID );
+				if ( report == null )
+				{
+					throw new SimiasException( "Cannot find report collection." );
+				}
+
+				DirNode root = report.GetRootDirectory();
+				if ( root == null )
+				{
+					throw new SimiasException( "Cannot find root DirNode for report collection." );
+				}
+
+				return root.GetFullPath( report );
+			}
 		}
 
 		#endregion
@@ -462,7 +499,7 @@ namespace Simias.Server
 			ReportConfig config = null;
 
 			// Get the report configuration node.
-			Node node = reportCollection.GetNodeByID( reportConfigNodeID );
+			Node node = reportCollection.GetSingleNodeByType( "Settings" );
 			if ( node != null )
 			{
 				// Get the settings property for the reporting.

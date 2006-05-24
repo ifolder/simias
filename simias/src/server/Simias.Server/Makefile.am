@@ -6,6 +6,7 @@ SimiasServer_CSFILES = \
 	$(srcdir)/Authentication.cs \
 	$(srcdir)/Domain.cs \
 	$(srcdir)/DomainInfo.cs \
+	$(srcdir)/Exceptions.cs \
 	$(srcdir)/ProvisionInfo.cs \
 	$(srcdir)/DomainService.asmx.cs \
 	$(srcdir)/HostProvider.cs \
@@ -16,6 +17,7 @@ SimiasServer_CSFILES = \
 	$(srcdir)/IProvisionUser.cs \
 	$(srcdir)/Registration.asmx.cs \
 	$(srcdir)/Report.cs \
+	$(srcdir)/ReportLogHandler.ashx.cs \
 	$(srcdir)/IUserProvider.cs \
 	$(srcdir)/User.cs \
 	$(srcdir)/JournalService.cs \
@@ -33,7 +35,7 @@ SimiasServer_FLAGS = $(CSC_LIBFLAG)
 SimiasServer_LIBPATH = ../../core/SimiasLib.dll ../../core/SimiasClient $(DESTDIR)$(webbindir)
 SimiasServer_LIBS = System.dll System.Data.dll $(SYSTEM_XML) System.Web.dll System.Web.Services.dll SimiasLib.dll SimiasClient.dll
 
-EXTRA_DIST = DomainService.asmx Registration.asmx IdentitySyncManager.asmx $(SimiasServer_CSFILES) $(SimiasServer_RESX)
+EXTRA_DIST = DomainService.asmx Registration.asmx IdentitySyncManager.asmx $(SimiasServer_CSFILES) $(SimiasServer_RESX) ReportLogHandler.ashx
 
 if MAKE_DOC_FILE
 DOC_FILE = $(basename $@).doc.xml
@@ -60,12 +62,12 @@ endif
 install-exec-local: all
 	$(mkinstalldirs) $(DESTDIR)$(webbindir) 
 	$(INSTALL_PROGRAM) DomainService.asmx HostAdmin.asmx HostLocation.asmx IdentitySyncManager.asmx $(DEBUG_FILES) $(DESTDIR)$(webdir)
-	$(INSTALL_PROGRAM) Registration.asmx $(DEBUG_FILES) $(DESTDIR)$(webdir)
+	$(INSTALL_PROGRAM) Registration.asmx ReportLogHandler.ashx $(DEBUG_FILES) $(DESTDIR)$(webdir)
 	$(INSTALL_PROGRAM) $(SERVER_ASSEMBLIES) $(DEBUG_CHECK_FILES) $(DESTDIR)$(webbindir)
 
 uninstall-local:
 	cd $(DESTDIR)$(webdir); rm -f DomainService.asmx HostAdmin.asmx HostLocation.asmx IdentitySyncManager.asmx
-	cd $(DESTDIR)$(webdir); rm -f Regististration.asmx
+	cd $(DESTDIR)$(webdir); rm -f Regististration.asmx ReportLogHandler.ashx
 	cd $(DESTDIR)$(webbindir); rm -f $(SERVER_ASSEMBLIES) $(DEBUG_CHECK_FILES)
 
 installcheck-local: install
