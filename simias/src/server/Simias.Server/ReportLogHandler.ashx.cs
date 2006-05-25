@@ -58,6 +58,7 @@ namespace Simias.Server
 		/// </summary>
 		static private string Length = "length";
 		static private string Offset = "offset";
+		static private string Size = "size";
 
 		#endregion
 
@@ -98,40 +99,64 @@ namespace Simias.Server
 		/// <param name="filePath">Path to the file.</param>
 		/// <param name="offset">Offset to start reading at.</param>
 		/// <param name="length">Length of data to return.</param>
-		/// <returns>A string containing data read from the specified offset.</returns>
-		private string GetFileData( string filePath, long offset, int length )
+		/// <returns>A byte array containing data read from the specified offset.</returns>
+		private byte[] GetFileData( string filePath, long offset, int length )
 		{
-			using( FileStream fs = new FileStream( filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite ) )
+			FileStream fs = new FileStream( filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite );
+			using( BinaryReader br = new BinaryReader( fs ) )
 			{
-				byte[] buffer = new byte[ length ];
-				int readLength = 0;
-
 				// If the offset is negative, offset from the end of the file.
 				if ( offset < 0 )
 				{
-					offset = fs.Length + offset;
+					offset = br.BaseStream.Length + offset;
 					if ( offset < 0 )
 					{
 						offset = 0;
 					}
 				}
-
-				try
+				else
 				{
-					fs.Seek( offset, SeekOrigin.Begin );
-					readLength = fs.Read( buffer, 0, buffer.Length );
-					log.Debug( "Read {0} bytes from log file {1} at offset = {2} with length = {3}", readLength, filePath, offset, buffer.Length );
-				}
-				catch ( IOException ex )
-				{
-					log.Debug( "GetLogFileData caught exception: {0}", ex.Message );
-					readLength = 0;
+					// Don't go beyond the end of the file.
+					if ( offset > br.BaseStream.Length )
+					{
+						offset = br.BaseStream.Length;
+					}
 				}
 
-				return ( readLength > 0 ) ? 
-					new UTF8Encoding().GetString( buffer, 0, readLength ) : 
-					String.Empty;
+				// Zero length array.
+				byte[] buffer = new byte[ 0 ];
+
+				if ( length > 0 )
+				{
+					try
+					{
+						br.BaseStream.Position = offset;
+						buffer = br.ReadBytes( length );
+					}
+					catch ( EndOfStreamException )
+					{}
+				}
+
+				log.Debug( "Read {0} bytes from log file {1} at offset = {2} with length = {3}", buffer.Length, filePath, offset, length );
+				return buffer;
 			}
+		}
+
+		/// <summary>
+		/// Returns the length of the file in bytes.
+		/// </summary>
+		/// <param name="filePath">Path to get the file length for.</param>
+		/// <returns>The length of the file in bytes.</returns>
+		private long GetFileLength( string filePath )
+		{
+			long length = 0;
+
+			using ( FileStream fs = new FileStream( filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite ) )
+			{
+				length = fs.Length;
+			}
+
+			return length;
 		}
 
 		/// <summary>
@@ -199,70 +224,98 @@ namespace Simias.Server
 					// The file name of the url is the file that is to be downloaded.
 					string fileName = Path.GetFileName( request.Url.LocalPath );
 
+					// Query strings.
 					NameValueCollection query = request.QueryString;
-					long offset = ( query[ Offset ] != null ) ? Convert.ToInt64( query[ "Offset" ] ) : 0;
+					long offset = ( query[ Offset ] != null ) ? Convert.ToInt64( query[ Offset ] ) : 0;
 					int length = ( query[ Length ] != null ) ? Convert.ToInt32( query[ Length ] ) : DefaultLength;
+
+					// Setup the response.
+					response.Clear();
+					response.Cache.SetCacheability( HttpCacheability.NoCache );
+					response.BufferOutput = false;
 
 					// Determine the file download type.
 					switch( Path.GetExtension( fileName ) )
 					{
 						case ".log":
 
-							string logData = String.Empty;
-							if ( length > 0 )
+							// Full path to the log file.
+							string logFilePath = Path.Combine( SimiasSetup.simiaslogdir, fileName );
+							byte[] logData = null;
+
+							// See if there is a string that is asking for the length of the file.
+							if ( query[ Size ] != null )
 							{
-								logData = GetFileData( 
-									Path.Combine( SimiasSetup.simiaslogdir, fileName ), 
-									offset, 
-									length );
+								UTF8Encoding encoder = new UTF8Encoding();
+								logData = encoder.GetBytes( GetFileLength( logFilePath ).ToString() );
+							}
+							else
+							{
+								try
+								{
+									logData = GetFileData( logFilePath, offset, length );
+								}
+								catch ( IOException ex )
+								{
+									log.Debug( "Error: reading log file: {0}", ex.Message );
+									throw ex;
+								}
+
+								// Information for the download dialog.
+								response.AddHeader( 
+									"Content-Disposition", 
+									String.Format("attachment; filename={0}", fileName ) );
 							}
 
-							response.Clear();
-							response.Cache.SetCacheability( HttpCacheability.NoCache );
-							response.BufferOutput = false;
-							response.StatusCode = ( int )HttpStatusCode.OK;
 							response.ContentType = "text/plain";
-
-							response.AddHeader( 
-								"Content-Disposition", 
-								String.Format("attachment; filename={0}", fileName ) );
-
 							response.AddHeader("Content-Length", logData.Length.ToString() );
-
-							response.Output.WriteLine( logData );
+							response.OutputStream.Write( logData, 0, logData.Length );
+							response.Close();
 
 							break;
 
 						case ".csv":
 
-							string csvData = String.Empty;
-							if ( length > 0 )
+							// Full path to the report file.
+							string csvFilePath = Path.Combine( Report.CurrentReportPath, fileName );
+							byte[] csvData = new byte[ 0 ];
+
+							if ( query[ Size ] != null )
 							{
-								csvData = GetFileData( 
-									Path.Combine( Report.CurrentReportPath, fileName ), 
-									offset, 
-									length );
+								UTF8Encoding encoder = new UTF8Encoding();
+								csvData = encoder.GetBytes( GetFileLength( csvFilePath ).ToString() );
+								response.ContentType = "text/plain";
+							}
+							else
+							{
+								try
+								{
+									csvData = GetFileData( csvFilePath, offset, length );
+								}
+								catch ( IOException ex )
+								{
+									log.Debug( "Error: reading report file: {0}", ex.Message );
+									throw ex;
+								}
+
+								// Information for the download dialog.
+								response.AddHeader(
+									"Content-Disposition", 
+									String.Format("attachment; filename={0}", fileName ) );
+
+								response.ContentType = "text/csv";
 							}
 
-							response.Clear();
-							response.Cache.SetCacheability( HttpCacheability.NoCache );
-							response.BufferOutput = false;
-							response.StatusCode = ( int )HttpStatusCode.OK;
-							response.ContentType = "text/csv";
-
-							response.AddHeader(
-								"Content-Disposition", 
-								String.Format("attachment; filename={0}", fileName ) );
-
 							response.AddHeader("Content-Length", csvData.Length.ToString() );
-
-							response.Output.WriteLine( csvData );
+							response.OutputStream.Write( csvData, 0, csvData.Length );
+							response.Close();
 
 							break;
 
 						default:
 							log.Debug( "Error: Invalid query string value" );
 							response.StatusCode = ( int )HttpStatusCode.BadRequest;
+							response.Close();
 							break;
 					}
 				}
@@ -270,6 +323,7 @@ namespace Simias.Server
 				{
 					log.Debug( "Error: Invalid http method - {0}", request.HttpMethod );
 					response.StatusCode = ( int )HttpStatusCode.BadRequest;
+					response.Close();
 				}
 			}
 			catch ( Exception ex )
@@ -277,6 +331,7 @@ namespace Simias.Server
 				log.Debug( "Error: {0}", ex.Message );
 				log.Debug( "Stack trace: {0}", ex.StackTrace );
 				response.StatusCode = ( int ) HttpStatusCode.InternalServerError;
+				response.Close();
 			}
 		}
 
