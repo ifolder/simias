@@ -2137,10 +2137,15 @@ namespace Simias.Storage
 								createCollection = true;
 							}
 
-							// Update the last modified time.
-							Property property = new Property( PropertyTags.LastModified, DateTime.Now );
-							property.LocalProperty = true;
-							node.Properties.ModifyNodeProperty( property );
+							// Update the last modified time if the node is not being imported.  If
+							// the node is imported, the last modified time will be updated during
+							// ProcessCommit().
+							if ( !node.Properties.State.Equals( PropertyList.PropertyListState.Import ) )
+							{
+								Property property = new Property( PropertyTags.LastModified, DateTime.Now );
+								property.LocalProperty = true;
+								node.Properties.ModifyNodeProperty( property );
+							}
 
 							// Remember the slot in the list where the collection object is.
 							hasCollection = true;
