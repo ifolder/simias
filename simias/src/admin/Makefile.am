@@ -27,6 +27,7 @@ iFolderAdmin_CSFILES = \
 	$(srcdir)/MemberSelect.aspx.cs \
 	$(srcdir)/OwnerSelect.aspx.cs \
 	$(srcdir)/Policy.ascx.cs \
+	$(srcdir)/ReportLogHandler.ashx.cs \
 	$(srcdir)/Reports.aspx.cs \
 	$(srcdir)/Servers.aspx.cs \
 	$(srcdir)/SyncInterval.ascx.cs \
@@ -87,6 +88,7 @@ iFolderAdmin_FORMS = \
 	MemberSelect.aspx \
 	OwnerSelect.aspx \
 	Policy.ascx \
+	ReportLogHandler.ashx \
 	Reports.aspx \
 	Servers.aspx \
 	SyncInterval.ascx \

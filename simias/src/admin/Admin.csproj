@@ -475,6 +475,15 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "ReportLogHandler.ashx"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "ReportLogHandler.ashx.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Reports.aspx"
                     SubType = "Form"
                     BuildAction = "Content"
