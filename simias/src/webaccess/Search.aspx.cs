@@ -239,8 +239,8 @@ namespace Novell.iFolderApp.Web
 					}
 					else
 					{
-						row["Link"] = String.Format("Download.ashx?iFolder={0}&Entry={1}&Parent={2}",
-							ifolderID, child.ID, child.ParentID);
+						row["Link"] = String.Format("Download.ashx?iFolder={0}&Entry={1}",
+							ifolderID, child.ID);
 						row["Image"] = "text-x-generic.png";
 						row["Size"] = WebUtility.FormatSize(child.Size, rm);
 					}

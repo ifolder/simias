@@ -59,7 +59,6 @@ namespace Novell.iFolderApp.Web
 			// query
 			string ifolderID = context.Request.QueryString["iFolder"];
 			string entryID = context.Request.QueryString["Entry"];
-			string parentID = context.Request.QueryString["Parent"];
 			
 			try
 			{
@@ -123,8 +122,8 @@ namespace Novell.iFolderApp.Web
 				ResourceManager rm = (ResourceManager) context.Application["RM"];
 
 				context.Server.Transfer(String.Format(
-					"Entries.aspx?iFolder={0}&Entry={1}&Message={2}",
-					ifolderID, parentID,
+					"{0}&Message={1}",
+					context.Request.UrlReferrer,
 					context.Server.UrlEncode(WebUtility.GetString("ENTRY.FAILEDDOWNLOAD", rm))));
 			}
 		}
