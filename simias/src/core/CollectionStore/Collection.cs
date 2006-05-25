@@ -909,11 +909,6 @@ namespace Simias.Storage
 				node.Properties.ModifyNodeProperty( PropertyTags.LastModifier, GetCurrentPrincipal() );
 			}
 
-			// Update the last modified time.
-			Property property = new Property( PropertyTags.LastModified, commitTime );
-			property.LocalProperty = true;
-			node.Properties.ModifyNodeProperty( property );
-
 			// Update the local incarnation value to the specified value.
 			node.Properties.ModifyNodeProperty( PropertyTags.LocalIncarnation, incarnationValue );
 		}
@@ -1677,8 +1672,10 @@ namespace Simias.Storage
 				MultiValuedList localProps = new MultiValuedList( oldNode.Properties, Property.Local );
 				foreach ( Property p in localProps )
 				{
-					// Don't copy over a collision property and update property.
-					if ( ( p.Name != PropertyTags.Collision ) && ( p.Name != PropertyTags.NodeUpdateTime ) )
+					// Don't copy over a collision property, update property, or last modified property.
+					if ( ( p.Name != PropertyTags.Collision ) && 
+						( p.Name != PropertyTags.NodeUpdateTime ) &&
+						( p.Name != PropertyTags.LastModified ) )
 					{
 						node.Properties.AddNodeProperty( p );
 					}
@@ -1964,6 +1961,11 @@ namespace Simias.Storage
 				// Assign the collection id.
 				node.Properties.AddNodeProperty( BaseSchema.CollectionId, id );
 			}
+
+			// Update the last modified time on the node.
+			property = new Property( PropertyTags.LastModified, DateTime.Now );
+			property.LocalProperty = true;
+			node.Properties.ModifyNodeProperty( property );
 		}
 		#endregion
 
@@ -2135,16 +2137,6 @@ namespace Simias.Storage
 							else if ( node.Properties.State == PropertyList.PropertyListState.Add )
 							{
 								createCollection = true;
-							}
-
-							// Update the last modified time if the node is not being imported.  If
-							// the node is imported, the last modified time will be updated during
-							// ProcessCommit().
-							if ( !node.Properties.State.Equals( PropertyList.PropertyListState.Import ) )
-							{
-								Property property = new Property( PropertyTags.LastModified, DateTime.Now );
-								property.LocalProperty = true;
-								node.Properties.ModifyNodeProperty( property );
 							}
 
 							// Remember the slot in the list where the collection object is.
@@ -2346,11 +2338,6 @@ namespace Simias.Storage
 							commitList = new Node[ nodeList2.Length + 1 ];
 							nodeList2.CopyTo( commitList, 0 );
 							Collection collection = store.GetCollectionByID( ID );
-
-							// Update the last modified time.
-							Property property = new Property( PropertyTags.LastModified, DateTime.Now );
-							property.LocalProperty = true;
-							collection.Properties.ModifyNodeProperty( property );
 
 							// Add the collection to the list.
 							commitList[ commitList.Length - 1 ] = collection;
