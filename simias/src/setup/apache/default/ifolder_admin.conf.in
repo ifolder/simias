@@ -6,7 +6,7 @@ AddMonoApplications admin "/admin:@admindir@"
 	MonoSetServerAlias admin
 	Order allow,deny
 	Allow from all
-	AddHandler mono asax aspx ascx asmx ashx
+	AddHandler mono asax aspx ascx asmx ashx log csv
 	DirectoryIndex Default.aspx index.html
 </Location>
 
