@@ -541,83 +541,6 @@ namespace Simias.Server
 		{
 			syncEvent.Set();
 		}
-		#endregion
-
-		#region Public Methods
-		/// <summary>
-		/// Method to retrieve all collection IDs the specified user
-		/// is a member of.
-		/// </summary>
-		static public string[] GetAllCollectionIDsByUserID( string UserID )
-		{
-			CatalogEntry entry = null;
-			Property midsProp = new Property( CatalogEntry.MemberProperty, UserID );
-			ICSList nodes = store.GetNodesByProperty( midsProp, SearchOp.Begins );
-			string[] collectionids = new string[ nodes.Count ];
-			int x = 0;
-			
-			foreach( ShallowNode sn in nodes )
-			{
-				entry = new CatalogEntry( sn );
-				collectionids[ x++ ] = entry.CollectionID;
-			}
-
-			return collectionids;
-		}
-
-		/// <summary>
-		/// Method to retrieve all catalog entry IDs the specified user
-		/// is a member of.
-		/// </summary>
-		static public string[] GetAllEntryIDsByUserID( string UserID )
-		{
-			Property midsProp = new Property( CatalogEntry.MemberProperty, UserID );
-			ICSList nodes = store.GetNodesByProperty( midsProp, SearchOp.Begins );
-			string[] entryids = new string[ nodes.Count ];
-			int x = 0;
-			foreach( ShallowNode sn in nodes )
-			{
-				entryids[ x++ ] = sn.ID;
-			}
-
-			return entryids;
-		}
-
-		/// <summary>
-		/// Method to retrieve all catalog entries the specified user
-		/// is a member of.
-		/// </summary>
-		static public CatalogEntry[] GetAllEntriesByUserID( string UserID )
-		{
-			ArrayList entries = new ArrayList();
-
-			Property midsProp = new Property( CatalogEntry.MemberProperty, UserID );
-			ICSList nodes = store.GetNodesByProperty( midsProp, SearchOp.Begins );
-			foreach( ShallowNode sn in nodes )
-			{
-				entries.Add( new CatalogEntry( sn ) );
-			}
-
-			return entries.ToArray( typeof( CatalogEntry ) ) as CatalogEntry[];
-		}
-
-		/// <summary>
-		/// Get a catalog entry for the specified collection
-		/// </summary>
-		static public CatalogEntry GetEntryByCollectionID( string CollectionID )
-		{
-			CatalogEntry entry = null;
-
-			Property colProp = new Property( CatalogEntry.CollectionProperty, CollectionID );
-			ICSList nodes = store.GetNodesByProperty( colProp, SearchOp.Equal );
-			foreach( ShallowNode sn in nodes )
-			{
-				entry = new CatalogEntry( sn );
-				break;
-			}
-
-			return entry;
-		}
 
 		/// <summary>
 		/// Method to guarantee that all hosts are
@@ -650,7 +573,9 @@ namespace Simias.Server
 				}
 			}
 		}
+		#endregion
 
+		#region Internal Methods
 		/// <summary>
 		/// Called to start the catalog service.
 		/// </summary>
@@ -746,6 +671,82 @@ namespace Simias.Server
 		}
 		#endregion
 
+		#region Public Methods
+		/// <summary>
+		/// Method to retrieve all collection IDs the specified user
+		/// is a member of.
+		/// </summary>
+		static public string[] GetAllCollectionIDsByUserID( string UserID )
+		{
+			CatalogEntry entry = null;
+			Property midsProp = new Property( CatalogEntry.MemberProperty, UserID );
+			ICSList nodes = store.GetNodesByProperty( midsProp, SearchOp.Begins );
+			string[] collectionids = new string[ nodes.Count ];
+			int x = 0;
+			
+			foreach( ShallowNode sn in nodes )
+			{
+				entry = new CatalogEntry( sn );
+				collectionids[ x++ ] = entry.CollectionID;
+			}
+
+			return collectionids;
+		}
+
+		/// <summary>
+		/// Method to retrieve all catalog entry IDs the specified user
+		/// is a member of.
+		/// </summary>
+		static public string[] GetAllEntryIDsByUserID( string UserID )
+		{
+			Property midsProp = new Property( CatalogEntry.MemberProperty, UserID );
+			ICSList nodes = store.GetNodesByProperty( midsProp, SearchOp.Begins );
+			string[] entryids = new string[ nodes.Count ];
+			int x = 0;
+			foreach( ShallowNode sn in nodes )
+			{
+				entryids[ x++ ] = sn.ID;
+			}
+
+			return entryids;
+		}
+
+		/// <summary>
+		/// Method to retrieve all catalog entries the specified user
+		/// is a member of.
+		/// </summary>
+		static public CatalogEntry[] GetAllEntriesByUserID( string UserID )
+		{
+			ArrayList entries = new ArrayList();
+
+			Property midsProp = new Property( CatalogEntry.MemberProperty, UserID );
+			ICSList nodes = store.GetNodesByProperty( midsProp, SearchOp.Begins );
+			foreach( ShallowNode sn in nodes )
+			{
+				entries.Add( new CatalogEntry( sn ) );
+			}
+
+			return entries.ToArray( typeof( CatalogEntry ) ) as CatalogEntry[];
+		}
+
+		/// <summary>
+		/// Get a catalog entry for the specified collection
+		/// </summary>
+		static public CatalogEntry GetEntryByCollectionID( string CollectionID )
+		{
+			CatalogEntry entry = null;
+
+			Property colProp = new Property( CatalogEntry.CollectionProperty, CollectionID );
+			ICSList nodes = store.GetNodesByProperty( colProp, SearchOp.Equal );
+			foreach( ShallowNode sn in nodes )
+			{
+				entry = new CatalogEntry( sn );
+				break;
+			}
+
+			return entry;
+		}
+		#endregion
 	}
 
 	/// <summary>
