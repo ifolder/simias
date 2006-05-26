@@ -5,13 +5,14 @@ SimiasServerSetup_CSFILES = \
 	$(srcdir)/SimiasServerSetup.cs \
 	$(srcdir)/HostAdmin.cs \
 	$(srcdir)/Options.cs \
-	$(srcdir)/Prompt.cs
+	$(srcdir)/Prompt.cs \
+	$(srcdir)/LdapUtility.cs
 	
 SimiasServerSetup_CSFILES_CSC := $(subst /,$(SEP),$(SimiasServerSetup_CSFILES))
 SimiasServerSetup_INCLUDES =
 SimiasServerSetup_RESOURCES = $(srcdir)/App$(ICON_EXT)
 SimiasServerSetup_FLAGS = $(CSC_EXEFLAG)
-SimiasServerSetup_LIBPATH = $(LOG4NET_DIR) ../../core/SimiasLib.dll ../../core/SimiasClient ../Simias.Server ../../../external/csharpldap  
+SimiasServerSetup_LIBPATH = $(LOG4NET_DIR) ../../core/SimiasLib.dll ../../core/SimiasClient ../Simias.Server ../../../external/csharpldap ../Simias.LdapProvider
 SimiasServerSetup_LIBS1 = \
 	System.dll \
 	System.Data.dll \
@@ -22,7 +23,8 @@ SimiasServerSetup_LIBS1 = \
 	Simias.Server.dll \
 	Mono.Security.dll \
 	SimiasLib.dll \
-	SimiasClient.dll
+	SimiasClient.dll \
+	Simias.LdapProvider.dll
 
 if !WINDOWS
 	SimiasServerSetup_LIBS := $(SimiasServerSetup_LIBS1) Mono.Posix.dll

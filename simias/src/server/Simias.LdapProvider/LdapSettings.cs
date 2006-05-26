@@ -34,6 +34,32 @@ using Simias.Storage;
 
 namespace Simias.LdapProvider
 {
+	/// <summary>
+	/// The LDAP directory type.
+	/// </summary>
+	public enum LdapDirectoryType
+	{
+		/// <summary>
+		/// unknown
+		/// </summary>
+		Unknown,
+
+		/// <summary>
+		/// eDirectory
+		/// </summary>
+		eDirectory,
+
+		/// <summary>
+		/// Active Directory
+		/// </summary>
+		ActiveDirectory,
+
+		/// <summary>
+		/// OpenLDAP
+		/// </summary>
+		OpenLDAP
+	}
+
 	public class LdapSettings
     {
 	    #region Fields
@@ -50,7 +76,7 @@ namespace Simias.LdapProvider
 		public static readonly string ProxyPasswordKey = "ProxyPassword";
 
 		public static readonly string DomainSection = "EnterpriseDomain";
-		public static readonly string SimiasAdminDNKey = "AdminDN";
+		public static readonly string SimiasAdminDNKey = "AdminName";
 
 		private static readonly string LdapSystemBookSection = "LdapProvider";
 		private static readonly string SearchKey = "Search";
@@ -58,6 +84,9 @@ namespace Simias.LdapProvider
 		private static readonly string XmlDNAttr = "dn";
 		private static readonly string NamingAttributeKey = "NamingAttribute";
 
+		private static readonly string IdentitySection = "Identity";
+		private static readonly string AssemblyKey = "Assembly";
+		private static readonly string ClassKey = "Class";
 
 		private static readonly string DefaultUri = "ldaps://localhost/";
 
@@ -93,6 +122,7 @@ namespace Simias.LdapProvider
 		private string scheme;
         private string host;
         private int port;
+		private LdapDirectoryType ldapType;
 
         private string proxy = String.Empty;
 		private string password = String.Empty;
@@ -102,71 +132,81 @@ namespace Simias.LdapProvider
 
 		private ArrayList searchContexts = new ArrayList();
 		private string namingAttribute = DefaultNamingAttribute;
+
+		private string storePath;
     
 		#region Properties
-        public Uri Uri
-        {
-			get { return( this.uri ); }
-            set
-			{
-				this.uri = value;
-				this.scheme = uri.Scheme;
-				this.host = uri.Host;
-				if ( ( this.port = uri.Port ) == -1 )
-				{
-					this.port = SSL ? UriPortLdaps : UriPortLdap;
-				}
-
-                settingChangeMap |= ChangeMap.uri;
-            }
-        }
-
-		public string Scheme
+		/// <summary>
+		/// Gets the admin DN.
+		/// </summary>
+		public string AdminDN
 		{
-			get { return (this.scheme); }
+			get { return ( this.simiasAdmin ); }
+		}
+
+		/// <summary>
+		/// Sets the LDAP directory type.
+		/// </summary>
+		public LdapDirectoryType DirectoryType
+		{
+			set { ldapType = value; }
+		}
+
+		/// <summary>
+		/// Gets/sets the host.
+		/// </summary>
+		public string Host
+		{
+			get { return (this.host); }
 			set
 			{
-				this.scheme = value;
-				settingChangeMap |= ChangeMap.scheme;
+				this.host = value;
+				settingChangeMap |= ChangeMap.host;
 			}
 		}
 
-        public string Host
-        {
-            get { return (this.host); }
-            set
+		/// <summary>
+		/// Gets/sets the naming attribute.
+		/// </summary>
+		public string NamingAttribute
+		{
+			get { return ( this.namingAttribute ); }
+			set
 			{
-                this.host = value;
-                settingChangeMap |= ChangeMap.host;
-            }
-        }
+				this.namingAttribute = value;
+				settingChangeMap |= ChangeMap.namingAttribute;
+			}
+		}
 
-        public bool SSL
-        {
-            get { return ( this.Scheme.Equals( UriSchemeLdaps ) ? true : false ); }
-            set { this.Scheme = value ? UriSchemeLdaps : UriSchemeLdap; }
-        }
-
-        public int Port
-        {
+		/// <summary>
+		/// Gets/sets the port.
+		/// </summary>
+		public int Port
+		{
 			get { return (this.port); }
-            set
+			set
 			{
-                this.port = value;
-                settingChangeMap |= ChangeMap.port;
-            }
-        }
+				this.port = value;
+				settingChangeMap |= ChangeMap.port;
+			}
+		}
 
-        public string ProxyDN
-        {
-            get { return ( this.proxy ); }
-            set
+		/// <summary>
+		/// Gets/sets the proxy DN.
+		/// </summary>
+		public string ProxyDN
+		{
+			get { return ( this.proxy ); }
+			set
 			{
-                this.proxy = value;
-                settingChangeMap |= ChangeMap.proxy;
-            }
-        }
+				this.proxy = value;
+				settingChangeMap |= ChangeMap.proxy;
+			}
+		}
 
+		/// <summary>
+		/// Gets/sets the proxy password.
+		/// </summary>
 		public string ProxyPassword
 		{
 			get { return ( this.password ); }
@@ -177,15 +217,26 @@ namespace Simias.LdapProvider
 			}
 		}
 
-		public string AdminDN
+		/// <summary>
+		/// Gets/sets the scheme.
+		/// </summary>
+		public string Scheme
 		{
-			get { return ( this.simiasAdmin ); }
+			get { return (this.scheme); }
+			set
+			{
+				this.scheme = value;
+				settingChangeMap |= ChangeMap.scheme;
+			}
 		}
 
+		/// <summary>
+		/// Gets/sets the contexts that are searched when provisioning users.
+		/// </summary>
 		public IEnumerable SearchContexts
 		{
 			get { return ( ( IEnumerable ) this.searchContexts.Clone() ); }
-            set
+			set
 			{
 				searchContexts.Clear();
 				foreach ( string context in value )
@@ -193,25 +244,46 @@ namespace Simias.LdapProvider
 					searchContexts.Add( context );
 				}
 
-                settingChangeMap |= ChangeMap.searchContexts;
-            }
+				settingChangeMap |= ChangeMap.searchContexts;
+			}
 		}
 
-		public string NamingAttribute
+		/// <summary>
+		/// Gets/sets a value indicating if SSL is being used.
+		/// </summary>
+		public bool SSL
 		{
-			get { return ( this.namingAttribute ); }
-        		set
+			get { return ( this.Scheme.Equals( UriSchemeLdaps ) ? true : false ); }
+			set { this.Scheme = value ? UriSchemeLdaps : UriSchemeLdap; }
+		}
+
+		/// <summary>
+		/// Gets/sets the Uri of the LDAP server.
+		/// </summary>
+		public Uri Uri
+		{
+			get { return( this.uri ); }
+			set
 			{
-        	        this.namingAttribute = value;
-       	        	settingChangeMap |= ChangeMap.namingAttribute;
-	    		}
+				this.uri = value;
+				this.scheme = uri.Scheme;
+				this.host = uri.Host;
+				if ( ( this.port = uri.Port ) == -1 )
+				{
+					this.port = SSL ? UriPortLdaps : UriPortLdap;
+				}
+
+				settingChangeMap |= ChangeMap.uri;
+			}
 		}
 		#endregion
 
 		#region Constructors
-        private LdapSettings()
+        private LdapSettings( string storePath )
         {
-			Configuration config = Store.Config;
+			this.storePath = storePath;
+
+			Configuration config = new Configuration( storePath, true );
             settingChangeMap = 0;
 
 			// <setting name="LdapUri" />
@@ -236,16 +308,6 @@ namespace Simias.LdapProvider
 
 			// Get the password from the file if it exists.
 			this.password = GetProxyPasswordFromFile();
-			if ( password.Equals( string.Empty ) )
-			{
-				// TODO: Remove this when the install sets the password to the password file.
-				string passwordString = config.Get( LdapAuthenticationSection, ProxyPasswordKey );
-				if ( passwordString != null )
-				{
-					password = passwordString;
-					SetProxyPasswordInFile();
-				}
-			}
 
 			string simiasAdminString = config.Get( DomainSection, SimiasAdminDNKey );
 			if ( simiasAdminString != null )
@@ -276,7 +338,7 @@ namespace Simias.LdapProvider
 		private string GetProxyPasswordFromFile()
 		{
 			string proxyPassword = String.Empty;
-			string ppfPath = Path.Combine( Store.StorePath, ProxyPasswordFile );
+			string ppfPath = Path.Combine( storePath, ProxyPasswordFile );
 			if ( File.Exists( ppfPath ) )
 			{
 				using ( StreamReader sr = File.OpenText( ppfPath ) )
@@ -291,7 +353,7 @@ namespace Simias.LdapProvider
 
 		private void SetProxyPasswordInFile()
 		{
-			string ppfPath = Path.Combine( Store.StorePath, ProxyPasswordFile );
+			string ppfPath = Path.Combine( storePath, ProxyPasswordFile );
 			using ( StreamWriter sw = File.CreateText( ppfPath ) )
 			{
 				sw.WriteLine( password );
@@ -302,11 +364,31 @@ namespace Simias.LdapProvider
 		{
 			bool status = false;
 
+			// Build an xpath for the setting.
 			string str = string.Format( "//{0}[@{1}='{2}']/{3}[@{1}='{4}']", SectionTag, NameAttr, section, SettingTag, key );
 			XmlElement element = ( XmlElement )document.DocumentElement.SelectSingleNode( str );
 			if ( element != null )
 			{
 				element.SetAttribute( ValueAttr, configValue );
+				status = true;
+			}
+			else
+			{
+				// The setting doesn't exist, so create it.
+				element = document.CreateElement(SettingTag);
+				element.SetAttribute(NameAttr, key);
+				element.SetAttribute(ValueAttr, configValue);
+				str = string.Format("//{0}[@{1}='{2}']", SectionTag, NameAttr, section);
+				XmlElement eSection = (XmlElement)document.DocumentElement.SelectSingleNode(str);
+				if ( eSection == null )
+				{
+					// If the section doesn't exist, create it.
+					eSection = document.CreateElement( SectionTag );
+					eSection.SetAttribute( NameAttr, section );
+					document.DocumentElement.AppendChild( eSection );
+				}
+
+				eSection.AppendChild(element);
 				status = true;
 			}
 
@@ -321,9 +403,9 @@ namespace Simias.LdapProvider
 		#endregion
 
 		#region Public Methods
-        public static LdapSettings Get()
+        public static LdapSettings Get( string storePath )
         {
-            return ( new LdapSettings( ) );
+            return ( new LdapSettings( storePath ) );
         }
 
 		public void Commit()
@@ -332,7 +414,7 @@ namespace Simias.LdapProvider
 			{
 				// Build a path to the Simias.config file.
 				string configFilePath = 
-					Path.Combine( Store.StorePath, Simias.Configuration.DefaultConfigFileName );
+					Path.Combine( storePath, Simias.Configuration.DefaultConfigFileName );
 
 				// Load the configuration file into an xml document.
 				XmlDocument configDoc = new XmlDocument();
@@ -376,6 +458,24 @@ namespace Simias.LdapProvider
 				if ( ( settingChangeMap & ChangeMap.password ) == ChangeMap.password )
 				{
 					SetProxyPasswordInFile();
+				}
+
+				switch ( ldapType )
+				{
+					case LdapDirectoryType.ActiveDirectory:
+						SetConfigValue( configDoc, IdentitySection, AssemblyKey, "Simias.ADLdapProvider" );
+						SetConfigValue( configDoc, IdentitySection, ClassKey, "Simias.ADLdapProvider.User" );
+						break;
+					case LdapDirectoryType.eDirectory:
+						SetConfigValue( configDoc, IdentitySection, AssemblyKey, "Simias.LdapProvider" );
+						SetConfigValue( configDoc, IdentitySection, ClassKey, "Simias.LdapProvider.User" );
+						break;
+					case LdapDirectoryType.OpenLDAP:
+						SetConfigValue( configDoc, IdentitySection, AssemblyKey, "Simias.OpenLdapProvider" );
+						SetConfigValue( configDoc, IdentitySection, ClassKey, "Simias.OpenLdapProvider.User" );
+						break;
+					default:
+						throw new Exception( "The LDAP directory type is unknown!" );
 				}
 
 				// Write the configuration file settings.

@@ -141,7 +141,7 @@ namespace Simias.ADLdapProvider
 				throw new SimiasException( User.missingDomainMessage );
 			}
 			
-			ldapSettings = LdapSettings.Get();
+			ldapSettings = LdapSettings.Get( Store.StorePath );
 			
 			
 			// Make sure the password is set on the admin

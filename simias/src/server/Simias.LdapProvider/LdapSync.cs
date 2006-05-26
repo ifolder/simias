@@ -940,8 +940,8 @@ namespace Simias.LdapProvider
 				this.state = State;
 
 				try
-				{	
-					ldapSettings = LdapSettings.Get();
+				{
+					ldapSettings = LdapSettings.Get( Store.StorePath );
 					log.Debug( "new LdapConnection" );
 					conn = new LdapConnection();
 

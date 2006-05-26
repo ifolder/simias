@@ -109,6 +109,11 @@
                     AssemblyName = "SimiasLib"
                     HintPath = "..\..\core\SimiasLib.dll\SimiasLib.dll"
                 />
+                <Reference
+                    Name = "Simias.LdapProvider"
+                    AssemblyName = "Simias.LdapProvider"
+                    HintPath = "..\Simias.LdapProvider\Simias.LdapProvider.dll"
+                />
             </References>
         </Build>
         <Files>
@@ -120,6 +125,11 @@
                 <File
                     RelPath = "HostAdmin.cs"
                     SubType = "code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "LdapUtility.cs"
+                    SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File

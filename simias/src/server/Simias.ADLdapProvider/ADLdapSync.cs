@@ -939,7 +939,7 @@ namespace Simias.ADLdapProvider
 
 				try
 				{	
-					ldapSettings = LdapSettings.Get();
+					ldapSettings = LdapSettings.Get( Store.StorePath );
 					log.Debug( "new LdapConnection" );
 					conn = new LdapConnection();
 

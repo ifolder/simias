@@ -34,8 +34,8 @@ using System.Security.Cryptography;
 using Simias;
 using Simias.Client;
 using Simias.Storage;
+using Simias.LdapProvider;
 using Novell.iFolder;
-//using Novell.iFolder.Ldap;
 using Novell.iFolder.Utility;
 
 namespace Novell.iFolder
@@ -90,7 +90,9 @@ namespace Novell.iFolder
 		/// <summary>
 		/// The uri to the ldap server.
 		/// </summary>
-		//Uri ldapUrl;
+		Uri ldapUrl;
+
+		bool usingLDAP = true;
 
 		string storePath;
 
@@ -173,24 +175,29 @@ namespace Novell.iFolder
 		public Option systemDescription = new Option("system-description", "System Description", "A detailed description of the Simias system for users.", false, "Simias Enterprise Server");
 
 		/// <summary>
+		/// Use LDAP
+		/// </summary>
+		public BoolOption useLdap = new BoolOption("use-ldap", "Use LDAP", "Use LDAP to provision and authenticate users?", false, true);
+
+		/// <summary>
 		/// LDAP URL
 		/// </summary>
-//		public Option ldapServer = new Option("ldap-Server", "LDAP Server", "The host or ip address of an LDAP server.  The server will be searched for users to provision into Simias and will be used by Simias for authentication.", true, null);
+		public Option ldapServer = new Option("ldap-Server", "LDAP Server", "The host or ip address of an LDAP server.  The server will be searched for users to provision into Simias and will be used by Simias for authentication.", true, null);
 
 		/// <summary>
 		/// LDAP Secure
 		/// </summary>
-//		public BoolOption secure = new BoolOption("ldap-ssl", "LDAP Secure", "Require a secure connection between the LDAP server and the Simias server", false, true);
+		public BoolOption secure = new BoolOption("ldap-ssl", "LDAP Secure", "Require a secure connection between the LDAP server and the Simias server", false, true);
 
 		/// <summary>
 		/// LDAP Admin DN
 		/// </summary>
-//		public Option ldapAdminDN = new Option("ldap-admin-dn", "LDAP Admin DN", "An existing LDAP user, used by this script only, to connect to the LDAP server and create and/or check required LDAP users for Simias.", true, "cn=admin,o=novell");
+		public Option ldapAdminDN = new Option("ldap-admin-dn", "LDAP Admin DN", "An existing LDAP user, used by this script only, to connect to the LDAP server and create and/or check required LDAP users for Simias.", true, "cn=admin,o=novell");
 
 		/// <summary>
 		/// LDAP Admin Password
 		/// </summary>
-//		public Option ldapAdminPassword = new Option("ldap-admin-password", "LDAP Admin Password", null, true, "novell");
+		public Option ldapAdminPassword = new Option("ldap-admin-password", "LDAP Admin Password", null, true, "novell");
 
 		/// <summary>
 		/// System Admin DN
@@ -205,22 +212,22 @@ namespace Novell.iFolder
 		/// <summary>
 		/// LDAP Proxy DN
 		/// </summary>
-//		public Option ldapProxyDN = new Option("ldap-proxy-dn", "LDAP Proxy DN", "An LDAP user that will be used to provision the users between Simias and the LDAP server.  If this user does not already exist in the LDAP tree it will be created and granted read rights at the root of the tree. The user's dn and password are stored by Simias.", true, "cn=SimiasProxy,o=novell");
+		public Option ldapProxyDN = new Option("ldap-proxy-dn", "LDAP Proxy DN", "An LDAP user that will be used to provision the users between Simias and the LDAP server.  If this user does not already exist in the LDAP tree it will be created and granted read rights at the root of the tree. The user's dn and password are stored by Simias.", true, "cn=SimiasProxy,o=novell");
 
 		/// <summary>
 		/// LDAP Proxy Password
 		/// </summary>
-//		public Option ldapProxyPassword = new Option("ldap-proxy-password", "LDAP Proxy Password", null, true, "novell");
+		public Option ldapProxyPassword = new Option("ldap-proxy-password", "LDAP Proxy Password", null, true, "novell");
 
 		/// <summary>
 		/// LDAP Search Context
 		/// </summary>
-//		public Option ldapSearchContext = new Option("ldap-search-context", "LDAP Search Context", "A list of LDAP tree contexts (delimited by '#') that will be searched for users to provision into Simias.", false, "o=novell");
+		public Option ldapSearchContext = new Option("ldap-search-context", "LDAP Search Context", "A list of LDAP tree contexts (delimited by '#') that will be searched for users to provision into Simias.", false, "o=novell");
 
 		/// <summary>
 		/// Login Type based on what attribute
 		/// </summary>
-//		public Option namingAttribute = new Option("naming-attribute", "Naming Attribute", "The LDAP attribute you want all users to login using.  I.E. 'cn' or 'email'.", true, "cn");
+		public Option namingAttribute = new Option("naming-attribute", "Naming Attribute", "The LDAP attribute you want all users to login using.  I.E. 'cn' or 'email'.", true, "cn");
 
 		/// <summary>
 		/// Use apache.
@@ -257,6 +264,7 @@ namespace Novell.iFolder
 			publicUrl.OnOptionEntered = new Option.OptionEnteredHandler( OnPublicUrl );
 			privateUrl.OnOptionEntered = new Option.OptionEnteredHandler( OnPrivateUrl );
 			masterAddress.OnOptionEntered = new Option.OptionEnteredHandler( OnMasterAddress );
+			useLdap.OnOptionEntered = new Option.OptionEnteredHandler( OnLdap );
 		}
 
 		#endregion
@@ -319,6 +327,19 @@ namespace Novell.iFolder
 			return false;
 		}
 
+		private bool OnLdap()
+		{
+			if ( !useLdap.Value )
+			{
+				usingLDAP = ldapServer.Prompt = secure.Prompt = ldapAdminDN.Prompt =
+					ldapAdminPassword.Prompt = ldapProxyDN.Prompt =
+					ldapProxyPassword.Prompt = ldapSearchContext.Prompt = 
+					namingAttribute.Prompt = false;
+			}
+
+			return true;
+		}
+
 		private bool OnSlave()
 		{
 			if (!( (BoolOption) slaveServer ).Value )
@@ -360,7 +381,9 @@ namespace Novell.iFolder
 			systemDescription.Prompt = false;
 			systemDescription.Required = false;
 	
-			/*
+			useLdap.Prompt = false;
+			useLdap.Required = false;
+
 			// ldap uri
 			ldapServer.Prompt = false;
 			ldapServer.Required = false;
@@ -389,7 +412,6 @@ namespace Novell.iFolder
 
 			ldapAdminPassword.Prompt = false;
 			ldapAdminPassword.Required = false;
-			*/
 
 			return true;
 		}
@@ -463,7 +485,10 @@ namespace Novell.iFolder
 			SetupSimias();
 			SetupPermissions();
 			SetupModMono();
-			//SetupLdap();
+			if ( usingLDAP )
+			{
+				SetupLdap();
+			}
 			SetupScriptFiles();
 			SetupLog4Net();
 		}
@@ -486,8 +511,8 @@ namespace Novell.iFolder
 			{
 				// environment variables
 				systemAdminPassword.FromEnvironment( SIMIAS_SYSTEM_ADMIN_PASSWORD );
-				//ldapProxyPassword.FromEnvironment(SIMIAS_LDAP_PROXY_PASSWORD);
-				//ldapAdminPassword.FromEnvironment(SIMIAS_LDAP_ADMIN_PASSWORD);
+				ldapProxyPassword.FromEnvironment(SIMIAS_LDAP_PROXY_PASSWORD);
+				ldapAdminPassword.FromEnvironment(SIMIAS_LDAP_ADMIN_PASSWORD);
 
 				// parse arguments
 				Options.ParseArguments( this, args );
@@ -515,7 +540,7 @@ namespace Novell.iFolder
 				}
 			}
 
-			if ( this.slaveServer.Value )
+			if ( slaveServer.Value )
 			{
 				try
 				{
@@ -531,7 +556,7 @@ namespace Novell.iFolder
 					HostAdmin adminService = this.GetHostAdminService();
 					adminService.Credentials = credentials;
 					string configXml = adminService.GetConfiguration();
-					//ldapProxyPassword.Value = adminService.GetProxyInfo();
+//					ldapProxyPassword.Value = adminService.GetProxyInfo();
 					XmlDocument configDoc = new XmlDocument();
 					configDoc.LoadXml( configXml );
 					CommitConfiguration( configDoc );
@@ -606,15 +631,15 @@ namespace Novell.iFolder
 				systemAdminDN.DefaultValue = ( systemAdminDNStr != null ) ? systemAdminDNStr : systemAdminDN.Value;
 
 				// ldap settings
-				//Ldap.LdapSettings ldapSettings = Ldap.LdapSettings.Get(storePath);
+				LdapSettings ldapSettings = LdapSettings.Get( storePath );
 
 				// ldap uri
-				//ldapServer.DefaultValue = ldapSettings.Uri.Host;
+				ldapServer.DefaultValue = ldapSettings.Uri.Host;
 
 				// naming Attribute
-				//namingAttribute.DefaultValue = ldapSettings.NamingAttribute.ToString();
+				namingAttribute.DefaultValue = ldapSettings.NamingAttribute.ToString();
 
-				/*
+				
 				// ldap proxy dn
 				if ((ldapSettings.ProxyDN != null) && (ldapSettings.ProxyDN.Length > 0))
 				{
@@ -638,7 +663,6 @@ namespace Novell.iFolder
 				{
 					ldapSearchContext.DefaultValue = contexts.Substring(0, contexts.Length - 1);
 				}
-				*/
 
 				// Get the Slave settings. This must be last.
 				string masterAddressStr = config.Get( ServerSection, MasterAddressKey );
@@ -678,9 +702,8 @@ namespace Novell.iFolder
 				// system admin dn
 				systemAdminDN.Value = config.Get( "EnterpriseDomain", "AdminName" );
 				
-				/*
 				// ldap settings
-				Ldap.LdapSettings ldapSettings = Ldap.LdapSettings.Get(storePath);
+				LdapSettings ldapSettings = LdapSettings.Get( storePath );
 
 				// ldap uri
 				// We may need to use a different ldap server prompt for it.
@@ -714,7 +737,6 @@ namespace Novell.iFolder
 				{
 					ldapSearchContext.Value = contexts.Substring(0, contexts.Length - 1);
 				}
-				*/
 			}
 			catch{}
 		}
@@ -723,23 +745,46 @@ namespace Novell.iFolder
 		{
 			bool status = false;
 
+			// Build an xpath for the setting.
 			string str = string.Format("//{0}[@{1}='{2}']/{3}[@{1}='{4}']", SectionTag, NameAttr, section, SettingTag, key);
 			XmlElement element = ( XmlElement )document.DocumentElement.SelectSingleNode(str);
-			if (element != null)
+			if ( configValue == null )
 			{
-				element.SetAttribute(ValueAttr, configValue);
-				status = true;
+				// If a null value is passed in, remove the element.
+				try
+				{
+					element.ParentNode.RemoveChild( element );
+				}
+				catch {}
 			}
 			else
 			{
-				element = document.CreateElement(SettingTag);
-				element.SetAttribute(NameAttr, key);
-				element.SetAttribute(ValueAttr, configValue);
-				str = string.Format("//{0}[@{1}='{2}']", SectionTag, NameAttr, section);
-				XmlElement eSection = (XmlElement)document.DocumentElement.SelectSingleNode(str);
-				eSection.AppendChild(element);
-				status = true;
+				if (element != null)
+				{
+					element.SetAttribute(ValueAttr, configValue);
+					status = true;
+				}
+				else
+				{
+					// The setting doesn't exist, so create it.
+					element = document.CreateElement(SettingTag);
+					element.SetAttribute(NameAttr, key);
+					element.SetAttribute(ValueAttr, configValue);
+					str = string.Format("//{0}[@{1}='{2}']", SectionTag, NameAttr, section);
+					XmlElement eSection = (XmlElement)document.DocumentElement.SelectSingleNode(str);
+					if ( eSection == null )
+					{
+						// If the section doesn't exist, create it.
+						eSection = document.CreateElement( SectionTag );
+						eSection.SetAttribute( NameAttr, section );
+						document.DocumentElement.AppendChild( eSection );
+					}
+
+					eSection.AppendChild(element);
+					status = true;
+				}
 			}
+
 			return status;
 		}
 
@@ -784,13 +829,13 @@ namespace Novell.iFolder
 			SetConfigValue( document, "EnterpriseDomain", "Description", systemDescription.Value );
 			SetConfigValue( document, "Authentication", "SimiasRequireSSL", bool.Parse( useSsl.Value ) ? "yes" : "no");
 			SetConfigValue( document, "EnterpriseDomain", "AdminName", systemAdminDN.Value );
-			if ( slaveServer.Value == true )
+			if ( slaveServer.Value )
 			{
 				SetConfigValue( document, ServerSection, MasterAddressKey, masterAddress.Value);
 			}
 			else
 			{
-				SetConfigValue( document, "EnterpriseDomain", "AdminPassword", systemAdminPassword.Value );
+				SetConfigValue( document, "EnterpriseDomain", "AdminPassword", usingLDAP ? null : systemAdminPassword.Value );
 			}
 
 			// server
@@ -801,42 +846,10 @@ namespace Novell.iFolder
 			// Commit the config file changes.
 			CommitConfiguration( document );
 
-			/*
-			// ldap settings
-			UriBuilder newUri = new UriBuilder();
-			newUri.Host = ldapServer.Value;
-			newUri.Scheme = secure.Value ? LdapUtility.LDAP_SCHEME_SECURE : LdapUtility.LDAP_SCHEME;
-			ldapUrl = new Uri(newUri.ToString());
-			
-			Ldap.LdapSettings ldapSettings = Ldap.LdapSettings.Get(storePath);
-
-			// ldap uri
-			ldapSettings.Uri = ldapUrl;
-
-			// ldap proxy
-			ldapSettings.ProxyDN = ldapProxyDN.Value;
-			ldapSettings.ProxyPassword = ldapProxyPassword.Value;
-
-			// context
-			ArrayList list = new ArrayList();
-			if (ldapSearchContext.Assigned)
+			if( slaveServer.Value )
 			{
-				string[] contexts = ldapSearchContext.Value.Split(new char[] { '#' });
-				foreach(string context in contexts)
-				{
-					if ((context != null) && (context.Length > 0))
-					{
-						list.Add(context);
-					}
-				}
-			}
-			ldapSettings.SearchContexts = list;
-			*/
-
-			if( slaveServer.Value == true )
-			{
-				//ldapSettings.SyncInterval = int.MaxValue;
-				//ldapSettings.SyncOnStart = false;
+//				ldapSettings.SyncInterval = int.MaxValue;
+//				ldapSettings.SyncOnStart = false;
 				// We need to authenticate to get the domain and owner.
 				HostAdmin adminService = GetHostAdminService();
 				adminService.Credentials = credentials;
@@ -866,16 +879,12 @@ namespace Novell.iFolder
 			else
 			{
 				// interval
-				//ldapSettings.SyncInterval = Ldap.LdapSettings.DefaultSyncInterval;
+//				ldapSettings.SyncInterval = Ldap.LdapSettings.DefaultSyncInterval;
 
 				// sync on start
-				//ldapSettings.SyncOnStart = Ldap.LdapSettings.DefaultSyncOnStart;
+//				ldapSettings.SyncOnStart = Ldap.LdapSettings.DefaultSyncOnStart;
 			}
 		
-			// naming attribute to control login
-			//ldapSettings.NamingAttribute = namingAttribute.Value;
-			//ldapSettings.Commit();
-
 			Console.WriteLine( "Done" );
 		}
 
@@ -937,12 +946,16 @@ namespace Novell.iFolder
 			}
 		}
 
-		/*
 		/// <summary>
 		/// Setup the LDAP server
 		/// </summary>
 		void SetupLdap()
 		{
+			UriBuilder newUri = new UriBuilder();
+			newUri.Host = ldapServer.Value;
+			newUri.Scheme = secure.Value ? LdapSettings.UriSchemeLdaps : LdapSettings.UriSchemeLdap;
+			ldapUrl = new Uri(newUri.ToString());
+
 			LdapUtility ldapUtility = new LdapUtility(ldapUrl.ToString() , ldapAdminDN.Value, ldapAdminPassword.Value);
 
 			// intall SSL root certificate
@@ -1033,8 +1046,19 @@ namespace Novell.iFolder
 			Console.Write("Checking {0}...", systemAdminDN.Value);
 			ldapUtility = new LdapUtility(ldapUrl.ToString(), systemAdminDN.Value, systemAdminPassword.Value);
 			ldapUtility.Connect();
-			ldapUtility.Disconnect();
 			Console.WriteLine("Done");
+
+			// get the directory type.
+			Console.Write("Querying for directory type...");
+			LdapDirectoryType directoryType = ldapUtility.QueryDirectoryType();
+			Console.WriteLine( " {0}", directoryType );
+
+			if ( directoryType.Equals( LdapDirectoryType.Unknown ) )
+			{
+				throw new Exception( string.Format( "Unable to determine directory type for {0}", ldapUtility.Host ) );
+			}
+
+			ldapUtility.Disconnect();
 
 			// check proxy
 			Console.Write("Checking {0}...", ldapProxyDN.Value);
@@ -1042,8 +1066,43 @@ namespace Novell.iFolder
 			ldapUtility.Connect();
 			ldapUtility.Disconnect();
 			Console.WriteLine("Done");
+
+			Console.Write( "Adding LDAP settings to {0}...", Path.Combine( storePath, "Simias.config" ) );
+
+			// Update simias.config file
+			LdapSettings ldapSettings = LdapSettings.Get( storePath );
+
+			ldapSettings.DirectoryType = directoryType;
+
+			// ldap uri
+			ldapSettings.Uri = ldapUrl;
+
+			// ldap proxy
+			ldapSettings.ProxyDN = ldapProxyDN.Value;
+			ldapSettings.ProxyPassword = ldapProxyPassword.Value;
+
+			// context
+			// TODO: Validate the search list.
+			ArrayList list = new ArrayList();
+			if (ldapSearchContext.Assigned)
+			{
+				string[] contexts = ldapSearchContext.Value.Split(new char[] { '#' });
+				foreach(string context in contexts)
+				{
+					if ((context != null) && (context.Length > 0))
+					{
+						list.Add(context);
+					}
+				}
+			}
+			ldapSettings.SearchContexts = list;
+
+			// naming attribute to control login
+			ldapSettings.NamingAttribute = namingAttribute.Value;
+			ldapSettings.Commit();
+
+			Console.WriteLine( "Done" );
 		}
-		*/
 
 		private void SetupConfigFiles()
 		{

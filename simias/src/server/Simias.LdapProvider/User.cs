@@ -91,6 +91,7 @@ namespace Simias.LdapProvider
 		/// </summary>
 		public User()
 		{
+			System.Diagnostics.Debugger.Break();
 			store = Store.GetStore();
 			if ( store.DefaultDomain == null )
 			{
@@ -109,7 +110,7 @@ namespace Simias.LdapProvider
 				throw new SimiasException( User.missingDomainMessage );
 			}
 			
-			ldapSettings = LdapSettings.Get();
+			ldapSettings = LdapSettings.Get( Store.StorePath );
 			
 			
 			// Make sure the password is set on the admin

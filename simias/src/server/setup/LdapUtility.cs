@@ -26,6 +26,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 
 using Novell.Directory.Ldap;
+using Simias.LdapProvider;
 
 namespace Novell.iFolder.Utility
 {
@@ -34,6 +35,7 @@ namespace Novell.iFolder.Utility
 	/// </summary>
 	public class LdapUtility
 	{
+		#region Class Members
 		/// <summary>
 		/// LDAP Scheme
 		/// </summary>
@@ -53,7 +55,10 @@ namespace Novell.iFolder.Utility
 		private bool secure;
 		private string dn;
 		private string password;
+		private LdapDirectoryType ldapType = LdapDirectoryType.Unknown;
+		#endregion
 
+		#region Constructor
 		/// <summary>
 		/// Constructor
 		/// </summary>
@@ -79,7 +84,9 @@ namespace Novell.iFolder.Utility
 			this.dn = dn;
 			this.password = password;
 		}
+		#endregion
 
+		#region Public Methods
 		/// <summary>
 		/// Connect and/or Bind to the LDAP Server
 		/// </summary>
@@ -108,6 +115,8 @@ namespace Novell.iFolder.Utility
 		/// <returns>true, if the user was created. false, if the user already exists.</returns>
 		public bool CreateUser(string dn, string password)
 		{
+			// TODO: Modify this to support OpenLDAP and Active Directory.
+
 			// KLUDGE: The search method is currently failing with the LDAP libraries.
 
 			//LdapSearchResults results = connection.Search(proxyDN,
@@ -152,6 +161,8 @@ namespace Novell.iFolder.Utility
 		/// <param name="containerDN">The LDAP Container DN</param>
 		public void GrantReadRights(string userDN, string containerDN)
 		{
+			// TODO: Modify this to support OpenLDAP and Active Directory.
+
 			LdapAttribute attribute = new LdapAttribute("acl", new String[]
 			{
 				String.Format("1#subtree#{0}#[Entry Rights]", userDN),
@@ -165,11 +176,65 @@ namespace Novell.iFolder.Utility
 		}
 
 		/// <summary>
+		/// Queries to find the type of directory  
+		/// </summary>
+		/// <returns>The LDAP directory type.</returns>
+		public LdapDirectoryType QueryDirectoryType()
+		{
+			LdapEntry entry = connection.Read( "" );
+			LdapAttribute attr = entry.getAttribute( "vendorName" );
+			if ( attr != null )
+			{
+				ldapType = LdapDirectoryType.eDirectory;
+			}
+			else
+			{
+				attr = entry.getAttribute( "defaultNamingContext" );
+				if ( attr != null )
+				{
+					ldapType = LdapDirectoryType.ActiveDirectory;
+				}
+				else
+				{
+					ldapType = LdapDirectoryType.OpenLDAP;
+				}
+			}
+
+			return ldapType;
+		}
+		#endregion
+
+		#region Properties
+		/// <summary>
+		/// LDAP Bind User DN
+		/// </summary>
+		public string DN
+		{
+			get { return dn; }
+		}
+
+		/// <summary>
 		/// LDAP Host
 		/// </summary>
 		public string Host
 		{
 			get { return host; }
+		}
+
+		/// <summary>
+		/// Gets the LDAP directory type.
+		/// </summary>
+		public LdapDirectoryType DirectoryType
+		{
+			get { return ldapType; }
+		}
+
+		/// <summary>
+		/// LDAP Bind User Password
+		/// </summary>
+		public string Password
+		{
+			get { return password; }
 		}
 
 		/// <summary>
@@ -187,21 +252,6 @@ namespace Novell.iFolder.Utility
 		{
 			get { return secure; }
 		}
-
-		/// <summary>
-		/// LDAP Bind User DN
-		/// </summary>
-		public string DN
-		{
-			get { return dn; }
-		}
-
-		/// <summary>
-		/// LDAP Bind User Password
-		/// </summary>
-		public string Password
-		{
-			get { return password; }
-		}
+		#endregion
 	}
 }
