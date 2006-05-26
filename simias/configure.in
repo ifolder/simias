@@ -644,6 +644,7 @@ src/server/setup/Makefile
 src/server/Simias.HttpFile/Makefile
 src/server/Simias.Rss/Makefile
 src/server/Simias.Server/Makefile
+src/server/Simias.HostService/Makefile
 src/server/Simias.LdapProvider/Makefile
 src/server/Simias.ADLdapProvider/Makefile
 src/server/Simias.OpenLdapProvider/Makefile
