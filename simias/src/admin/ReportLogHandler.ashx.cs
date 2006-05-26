@@ -135,8 +135,13 @@ namespace Novell.iFolderWeb.Admin
 
 					while ( offset < fileSize )
 					{
+						// The log file size will change while we are reading the file.
+						// Don't read past what the content-length says is the size.
+						long readLength = fileSize - offset;
+						if ( readLength > buffer.Length ) readLength = buffer.Length;
+
 						// Add the query string part.
-						uri.Query = String.Format( "offset={0}&length={1}", offset, buffer.Length );
+						uri.Query = String.Format( "offset={0}&length={1}", offset, readLength );
 
 						HttpWebRequest webRequest = WebRequest.Create( uri.Uri ) as HttpWebRequest;
 						webRequest.Method = "GET";
@@ -149,9 +154,8 @@ namespace Novell.iFolderWeb.Admin
 						{
 							Stream webStream = webResponse.GetResponseStream();
 
-							int length = webStream.Read( buffer, 0, buffer.Length );
+							int length = webStream.Read( buffer, 0, ( int )readLength );
 							output.Write( buffer, 0, length );
-
 							offset += length;
 						}
 						finally
