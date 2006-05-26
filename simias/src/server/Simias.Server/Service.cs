@@ -157,7 +157,8 @@ namespace Simias.Server
 			EnterpriseDomain enterpriseDomain = new EnterpriseDomain( true );
 			if ( enterpriseDomain != null )
 			{
-				new Simias.Host.HostProvider( new EnterpriseDomain( false ).GetServerDomain( false ) );
+				new Simias.Host.HostProvider( enterpriseDomain.GetServerDomain( false ) );
+				//new Simias.Host.HostProvider( new EnterpriseDomain( false ).GetServerDomain( false ) );
 
 				// Valid enterprise domain - start the external
 				// identity sync service
@@ -174,6 +175,8 @@ namespace Simias.Server
 					authProvider = new Simias.Server.Authentication();
 					DomainProvider.RegisterProvider( this.authProvider );
 				}
+
+				Simias.Server.Catalog.StartCatalogService();
 			}
 		}
 
@@ -207,6 +210,8 @@ namespace Simias.Server
 		public void Stop()
 		{
 			log.Debug( "Stop called" );
+
+			Simias.Server.Catalog.StopCatalogService();
 			Simias.IdentitySync.Service.Stop();
 			
 			if ( syncProvider != null )
