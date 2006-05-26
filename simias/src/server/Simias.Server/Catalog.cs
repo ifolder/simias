@@ -53,13 +53,19 @@ namespace Simias.Server
 		private static Queue eventQueue;
 		private static ManualResetEvent queueEvent;
 		private static Thread catThread;
+		private static Thread catCreateThread;
 		private static bool down = false;
 		private static bool started = false;
 		private static Store store;
 		private static Domain domain;
 		private static Collection catalog;
-		internal static string catalogID = "A93266FD-55DE-4590-B1C7-428F2FED815D";
+		internal static string catalogID = "a93266fd-55de-4590-b1c7-428f2fed815d";
 		internal static string catalogName = "Collection Catalogue";
+
+		private static CollectionSyncClient syncClient;
+		private static AutoResetEvent syncEvent = new AutoResetEvent( false );
+		private static SimiasConnection connection;
+
 		#endregion
 
 		#region Properties
@@ -83,11 +89,49 @@ namespace Simias.Server
 		#region Private Methods
 		static private void OnEvent( NodeEventArgs args )
 		{
+			// Filter out events coming from the catalog
+			// collection
+			if ( args.Collection == catalogID )
+			{
+				log.Debug( "ignoring event fired from the catalog collection" );
+				return;
+			}
+
 			lock( eventQueue )
 			{
 				eventQueue.Enqueue( args );
 				queueEvent.Set();
 			}
+		}
+
+		/// <summary>
+		/// Method to get this host's node ID in the catalog collection
+		/// the node id is necessary to create a proxy node
+		/// </summary>
+		/// <returns>the host's node id from the collection catalog on the master server.</returns>
+		static private string GetNodeIDFromMaster( string HostUserID )
+		{
+			string nodeid = null;
+
+			try
+			{
+				HostLocation hostlocation = new HostLocation();
+				HostNode host = HostNode.GetMaster( domain.ID );
+				SimiasConnection conn = 
+					new SimiasConnection( domain.ID, HostNode.GetLocalHost().UserID, SimiasConnection.AuthType.PPK, host );
+				conn.InitializeWebClient( hostlocation, "HostLocation.asmx" );
+				log.Debug( "Master's HostLocation url {0}", hostlocation.Url );
+				HostInformation hostinfo = hostlocation.GetHostInfo( catalogID, HostUserID );
+				nodeid = hostinfo.ID;
+			}
+			catch( Exception ghnid )
+			{
+				log.Error( "Exception getting the remote host node id" );
+				log.Error( ghnid.Message );
+				log.Error( ghnid.StackTrace );
+			}
+
+			return nodeid;
 		}
 
 		/// <summary>
@@ -100,10 +144,11 @@ namespace Simias.Server
 			{
 				// The collection catalog is only created on the master server
 				// but replicated and updated on slaves
-				if ( domain.Role == SyncRoles.Master )
+
+				catalog = store.GetCollectionByID( catalogID );
+				if ( catalog == null )
 				{
-					catalog = store.GetCollectionByID( catalogID );
-					if ( catalog == null )
+					if ( domain.Role == SyncRoles.Master )
 					{
 						Collection tempCatalog;
 						ArrayList nodes = new ArrayList();
@@ -118,7 +163,7 @@ namespace Simias.Server
 						HostNode[] hosts = Simias.Storage.HostNode.GetHosts( domain.ID );
 						foreach( HostNode host in hosts )
 						{
-							member = new Member( host.Name, host.UserID, Access.Rights.Admin );
+							member = new Member( host.Name, host.UserID, ( host.IsMasterHost == true ) ? Access.Rights.Admin : Access.Rights.ReadWrite );
 							tempCatalog.SetType( member, "Host" );
 							nodes.Add( member );
 						}
@@ -129,10 +174,75 @@ namespace Simias.Server
 						nodes.Add( member );
 
 						// Commit the changes.
-						//catalog.Commit( new Node[] { catalog, member } );
 						tempCatalog.Commit( nodes.ToArray( typeof( Node ) ) as Node[] );
 						catalog = tempCatalog;
 					}
+				}
+			}
+		}
+
+		/// <summary>
+		/// Method to create the proxy catalog collection.
+		/// The proxy catalog collection cannot be created
+		/// until the slave server has successfully downloaded
+		/// the domain from the master server.
+		/// This method is called in a new thread and will
+		/// continually poll for the master host in the
+		/// domain.  Once the master host is known the 
+		/// catalog proxy is created and the thread will 
+		/// terminate.
+		/// </summary>
+		/// <returns>N/A.</returns>
+		static private void CreateCatalogProxy()
+		{
+			while( catalog == null && down == false )
+			{
+				log.Debug( "Attempting to create the proxy catalog" );
+
+				// First call the master server to retreive the node id
+				// of this host's membership in the catalog collection
+				HostNode host = HostNode.GetLocalHost();
+				string hostnodeid = GetNodeIDFromMaster( host.UserID );
+				if ( hostnodeid != null )
+				{
+					try
+					{
+						// Create a proxy catalog collection
+						Collection proxyCatalog;
+						ArrayList nodes = new ArrayList();
+
+						proxyCatalog = new Collection( store, catalogName, catalogID, domain.ID );
+						proxyCatalog.Proxy = true;
+						proxyCatalog.SetType( proxyCatalog, "Catalog" );
+						proxyCatalog.Role = Simias.Sync.SyncRoles.Slave;
+
+						// Get the Host ID from the domain
+						Property hostid = domain.Properties.GetSingleProperty( PropertyTags.HostID );
+						Property hid = new Property( PropertyTags.HostID, hostid.Value );
+						proxyCatalog.HostID = hid.Value as string;
+						nodes.Add( proxyCatalog );
+
+						// Add the local host as a proxy member of the collection
+						Member member = new Member( host.Name, hostnodeid, host.UserID, Access.Rights.Admin, null );
+						member.IsOwner = true;
+						member.Proxy = true;
+						proxyCatalog.SetType( member, "Host" );
+						nodes.Add( member );
+
+						// Commit the changes.
+						proxyCatalog.Commit( nodes.ToArray( typeof( Node ) ) as Node[] );
+						catalog = proxyCatalog;
+					}
+					catch( Exception ccp )
+					{
+						log.Error( "Exception creating proxy catalog collection" );
+						log.Error( ccp.Message );
+						log.Error( ccp.StackTrace );
+					}
+				}
+				else
+				{
+					syncEvent.WaitOne( 30000, false );
 				}
 			}
 		}
@@ -166,7 +276,7 @@ namespace Simias.Server
 
 					if ( args.Collection.Equals( catalogID ) == true )
 					{
-						log.Debug( "Received an event generated by the catalog collection - ignoring" );
+						log.Debug( "Received an event generated within the catalog collection - ignoring" );
 						continue;
 					}
 
@@ -176,13 +286,22 @@ namespace Simias.Server
 						if ( args.Type.Equals( NodeTypes.CollectionType ) &&
 								args.EventType.Equals( EventType.NodeCreated ) )
 						{
-							CatalogEntry entry = Catalog.GetEntryByCollectionID( args.Collection );
-							if ( entry == null )
+							try
 							{
-								entry = new CatalogEntry( args.Collection );
-								catalog.Commit( entry );
+								CatalogEntry entry = Catalog.GetEntryByCollectionID( args.Collection );
+								if ( entry == null )
+								{
+									entry = new CatalogEntry( args.Collection );
+									catalog.Commit( entry );
+								}
+								log.Info( "Collection: {0} created", args.Collection );
 							}
-							log.Info( "Collection: {0} created", args.Collection );
+							catch( Exception cnc )
+							{
+								log.Error( "Exception in Collection Create event" );
+								log.Error( cnc.Message );
+								log.Error( cnc.StackTrace );
+							}
 						}
 						else if ( args.Type.Equals( NodeTypes.CollectionType ) &&
 									args.EventType.Equals( EventType.NodeDeleted ) )
@@ -231,8 +350,27 @@ namespace Simias.Server
 									}
 									// END DEBUG CODE
 								}
-								catch{}
+								catch( Exception mc )
+								{
+									log.Error( "Exception in Member Create event" );
+									log.Error( mc.Message );
+									log.Error( mc.StackTrace );
+								}
+							}
 
+							// Check if the event was a Host created in the default domain
+							// if so we want to add him as a member to the catalog collection
+							if ( domain.Role == Simias.Sync.SyncRoles.Master && args.Collection == domain.ID )
+							{
+								try
+								{
+									Node node = domain.GetNodeByID( args.Node );
+									if ( node != null && node.IsType( "Host" ) == true )
+									{
+										UpdateHostList();
+									}
+								}
+								catch{}
 							}
 						}
 						else if ( args.Type.Equals( NodeTypes.MemberType ) &&
@@ -240,18 +378,27 @@ namespace Simias.Server
 						{
 							log.Debug( "Member {0} deleted from collection {0}", args.Node, args.Collection );
 
-							// Get all catalog entries the user is a member of then
-							// delete the mids property for each entry
-
-							CatalogEntry entry;
-							Property midsProp = new Property( CatalogEntry.MemberProperty, args.Node );
-							ICSList nodes = store.GetNodesByProperty( midsProp, SearchOp.Ends );
-							foreach( ShallowNode sn in nodes )
+							try
 							{
-								entry = new CatalogEntry( sn );
+								// Get all catalog entries the user is a member of then
+								// delete the mids property for each entry
 
-								log.Debug( "removing mid from entry {0}", entry.ID );
-								entry.RemoveMember( args.Node );
+								CatalogEntry entry;
+								Property midsProp = new Property( CatalogEntry.MemberProperty, args.Node );
+								ICSList nodes = store.GetNodesByProperty( midsProp, SearchOp.Ends );
+								foreach( ShallowNode sn in nodes )
+								{
+									entry = new CatalogEntry( sn );
+
+									log.Debug( "removing mid from entry {0}", entry.ID );
+									entry.RemoveMember( args.Node );
+								}
+							}
+							catch( Exception md )
+							{
+								log.Error( "Exception in Delete Member event" );
+								log.Error( md.Message );
+								log.Error( md.StackTrace );
 							}
 						}
 					}
@@ -262,11 +409,78 @@ namespace Simias.Server
 				}
 			}
 		}
-		
+
+		static private void SyncCatalog()
+		{
+			int retry = 10;
+			while( down == false )
+			{
+				if ( catalog == null )
+				{
+					syncEvent.WaitOne( 10000, false );
+					continue;
+				}
+
+				HostNode host = null;
+				try
+				{
+					host = HostNode.GetLocalHost();
+					log.Debug( "Creating a simias connection as {0}", host.Name );
+					connection = new SimiasConnection( domain.ID, host.UserID, SimiasConnection.AuthType.PPK, domain );
+
+					// We need to get a one time password to use to authenticate.
+					connection.Authenticate();
+					break;
+				}
+				catch( Exception sc )
+				{
+					log.Error( "Exception creating a SimiasConnection as {0} to {1}", host.Name, domain.Name );
+					log.Error( sc.Message );
+					log.Error( sc.StackTrace );
+				
+					Thread.Sleep( 10000 );
+					if ( retry <= 0 )
+					{
+						break;
+					}
+				}
+			}
+			
+			syncClient = new CollectionSyncClient( catalog.ID, new TimerCallback( TimerFired ) );
+			while ( true )
+			{
+				syncEvent.WaitOne();
+				if ( down == true )
+				{
+					break;
+				}
+
+				try
+				{
+					syncClient.SyncNow();
+				}
+				catch {}
+
+				if ( down == true )
+				{
+					break;
+				}
+
+				syncClient.Reschedule( true, 30 );
+			}
+		}
+
+		/// <summary>
+		/// Called by The CollectionSyncClient when it is time to run another sync pass.
+		/// </summary>
+		/// <param name="collectionClient">The client that is ready to sync.</param>
+		internal static void TimerFired( object collectionClient )
+		{
+			syncEvent.Set();
+		}
 		#endregion
 
 		#region Public Methods
-
 		/// <summary>
 		/// Method to retrieve all collection IDs the specified user
 		/// is a member of.
@@ -274,17 +488,18 @@ namespace Simias.Server
 		static public string[] GetAllCollectionIDsByUserID( string UserID )
 		{
 			CatalogEntry entry = null;
-			ArrayList collections = new ArrayList();
-
 			Property midsProp = new Property( CatalogEntry.MemberProperty, UserID );
 			ICSList nodes = store.GetNodesByProperty( midsProp, SearchOp.Begins );
+			string[] collectionids = new string[ nodes.Count ];
+			int x = 0;
+			
 			foreach( ShallowNode sn in nodes )
 			{
 				entry = new CatalogEntry( sn );
-				collections.Add( entry.CollectionID );
+				collectionids[ x++ ] = entry.CollectionID;
 			}
 
-			return collections.ToArray( typeof( string ) ) as string[];
+			return collectionids;
 		}
 
 		/// <summary>
@@ -342,6 +557,38 @@ namespace Simias.Server
 		}
 
 		/// <summary>
+		/// Method to guarantee that all hosts are
+		/// members of the Catalog collection.
+		/// </summary>
+		static private void UpdateHostList()
+		{
+			if ( domain.Role == Simias.Sync.SyncRoles.Master )
+			{
+				try
+				{
+					log.Debug( "Checking for new hosts" );
+					HostNode[] hosts = Simias.Storage.HostNode.GetHosts( domain.ID );
+					foreach( HostNode host in hosts )
+					{
+						Member member = catalog.GetMemberByID( host.UserID );
+						if ( member == null )
+						{
+							member = new Member( host.Name, host.UserID, Access.Rights.ReadWrite );
+							catalog.SetType( member, "Host" );
+							catalog.Commit( member );
+							log.Debug( "Added host {0} to the catalog collection member list", member.Name );
+						}
+					}
+				}
+				catch( Exception uhl )
+				{
+					log.Error( uhl.Message );
+					log.Error( uhl.StackTrace );
+				}
+			}
+		}
+
+		/// <summary>
 		/// Called to start the catalog service.
 		/// </summary>
 		static internal bool StartCatalogService()
@@ -354,11 +601,30 @@ namespace Simias.Server
 					return false;
 				}
 
-				// If we're on the master server make sure the catalog collection
-				// has been created
-				CreateCollectionCatalog();
-
 				down = false;
+
+				// The collection catalog is only created on the master server
+				// but replicated and updated on slaves
+				catalog = store.GetCollectionByID( catalogID );
+				if ( catalog == null )
+				{
+					if ( domain.Role == SyncRoles.Master )
+					{
+						CreateCollectionCatalog();
+						UpdateHostList();
+					}
+					else
+					{
+						// The proxy catalog cannot be created until the domain from
+						// master has synchronized to this slave.  That said, the
+						// proxy collection is created in the background once the 
+						// domain information is in sync.
+						catCreateThread = new Thread( new ThreadStart( CreateCatalogProxy ) );
+						catCreateThread.IsBackground = true;
+						catCreateThread.Start();
+					}
+				}
+
 				eventQueue = new Queue();
 				queueEvent = new ManualResetEvent( false );
 
@@ -368,9 +634,18 @@ namespace Simias.Server
 				storeEvents.NodeCreated += new NodeEventHandler( OnEvent );
 				storeEvents.NodeDeleted += new NodeEventHandler( OnEvent );
 
+				// Create a thread to process queued events
 				catThread = new Thread( new ThreadStart( ProcessEvents ) );
 				catThread.IsBackground = true;
 				catThread.Start();
+
+				if ( domain.Role == Simias.Sync.SyncRoles.Slave )
+				{
+					// Now start the sync process for the catalog collection.
+					Thread syncThread = new Thread( new ThreadStart( SyncCatalog ) );
+					syncThread.IsBackground = true;
+					syncThread.Start();
+				}
 
 				log.Debug( "Collection Catalog service started..." );
 				started = true;
@@ -379,20 +654,17 @@ namespace Simias.Server
 			return true;
 		}
 
-
 		/// <summary>
 		/// Called to stop the catalog service.
 		/// </summary>
 		static internal void StopCatalogService()
 		{
 			down = true;
-			lock ( lockObj )
-			{
-				queueEvent.Set();
-			}
-
+			queueEvent.Set();
 			catThread.Join();
 			storeEvents.Dispose();
+			Thread.Sleep( 0 );
+			syncEvent.Set();
 			Thread.Sleep( 0 );
 			started = false;
 			log.Debug( "Collection Catalog Service stopped..." );
@@ -565,10 +837,8 @@ namespace Simias.Server
 				if ( comps.Length == 2 && comps[1] == NodeID )
 				{
 					prop.Delete();
-					//this.Properties.DeleteSingleProperty( prop );
 					catalog.Commit( this );
 					log.Debug( "deleting user property!" );
-					//prop.Delete();
 					return true;
 				}
 			}
