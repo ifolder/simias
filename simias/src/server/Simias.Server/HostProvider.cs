@@ -39,6 +39,68 @@ using Simias.Server;
 namespace Simias.Host
 {
 	/// <summary>
+	/// HostInfo class
+	/// </summary>
+	public class HostInfo
+	{
+		/// <summary>
+		/// Host's unique ID
+		/// </summary>
+		public string ID;
+
+		/// <summary>
+		/// Host's name
+		/// </summary>
+		public string Name;
+
+		/// <summary>
+		/// Host's user/member ID which is consistent
+		/// across all collections the host is 
+		/// a member of.
+		/// </summary>
+		public string MemberID;
+
+		/// <summary>
+		/// External facing address for clients
+		/// </summary>
+		public string PublicAddress;
+
+		/// <summary>
+		/// Internal facing address for server to 
+		/// server communication.
+		/// </summary>
+		public string PrivateAddress;
+
+		/// <summary>
+		/// Public key for host to host authentication
+		/// </summary>
+		public string PublicKey;
+
+		/// <summary>
+		/// true = Master, false = Slave
+		/// </summary>
+		public bool Master;
+
+		/// <summary>
+		/// HostInfo default constructor
+		/// </summary>
+		public HostInfo()
+		{
+		}
+
+		internal HostInfo( HostNode node )
+		{
+			ID = node.ID;
+			MemberID = node.UserID;
+			Name = node.Name;
+			PublicAddress = node.PublicUrl;
+			PrivateAddress = node.PrivateUrl;
+			PublicKey = node.PublicKey.ToXmlString( false );
+			Master = node.IsMasterHost;
+		}
+	}
+
+	/// <summary>
 	/// </summary>
 	public class SlaveSetup
 	{
