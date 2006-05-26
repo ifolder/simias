@@ -1,4 +1,4 @@
-SUBDIRS = Simias.Server Simias.HttpFile Simias.Rss Simias.LdapProvider Simias.ADLdapProvider Simias.OpenLdapProvider Simias.ClientUpdate
+SUBDIRS = Simias.Server Simias.HostService Simias.HttpFile Simias.Rss Simias.LdapProvider Simias.ADLdapProvider Simias.OpenLdapProvider Simias.ClientUpdate
 
 DIST_SUBDIRS = $(SUBDIRS) setup
 
