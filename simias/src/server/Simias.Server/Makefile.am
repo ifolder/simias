@@ -4,13 +4,14 @@ export MONO_PATH := $(MONO_PATH):$(DESTDIR)$(libdir)
 SimiasServer_CSFILES = \
 	$(srcdir)/Service.cs \
 	$(srcdir)/Authentication.cs \
+	$(srcdir)/Catalog.cs \
 	$(srcdir)/Domain.cs \
 	$(srcdir)/DomainInfo.cs \
 	$(srcdir)/Exceptions.cs \
 	$(srcdir)/ProvisionInfo.cs \
 	$(srcdir)/DomainService.asmx.cs \
+	$(srcdir)/HostLocationService.cs \
 	$(srcdir)/HostProvider.cs \
-	$(srcdir)/HostService.cs \
 	$(srcdir)/IdentitySyncService.cs \
 	$(srcdir)/IIdentitySyncProvider.cs \
 	$(srcdir)/IdentitySyncManager.asmx.cs \
@@ -61,12 +62,12 @@ endif
 
 install-exec-local: all
 	$(mkinstalldirs) $(DESTDIR)$(webbindir) 
-	$(INSTALL_PROGRAM) DomainService.asmx HostAdmin.asmx HostLocation.asmx IdentitySyncManager.asmx $(DEBUG_FILES) $(DESTDIR)$(webdir)
+	$(INSTALL_PROGRAM) DomainService.asmx IdentitySyncManager.asmx $(DEBUG_FILES) $(DESTDIR)$(webdir)
 	$(INSTALL_PROGRAM) Registration.asmx ReportLogHandler.ashx $(DEBUG_FILES) $(DESTDIR)$(webdir)
 	$(INSTALL_PROGRAM) $(SERVER_ASSEMBLIES) $(DEBUG_CHECK_FILES) $(DESTDIR)$(webbindir)
 
 uninstall-local:
-	cd $(DESTDIR)$(webdir); rm -f DomainService.asmx HostAdmin.asmx HostLocation.asmx IdentitySyncManager.asmx
+	cd $(DESTDIR)$(webdir); rm -f DomainService.asmx IdentitySyncManager.asmx
 	cd $(DESTDIR)$(webdir); rm -f Regististration.asmx ReportLogHandler.ashx
 	cd $(DESTDIR)$(webbindir); rm -f $(SERVER_ASSEMBLIES) $(DEBUG_CHECK_FILES)
 
