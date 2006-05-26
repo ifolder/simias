@@ -295,30 +295,85 @@ namespace User.Management
                         full,
                         null,
                         email);
-                }
-                catch( Exception ex )
-                {
-                    Console.WriteLine( ex );
-                }
 
-                if ( user != null )
-				{
-					Console.WriteLine( "successful" );
+					if ( user != null )
+					{
+						Console.WriteLine( "Successful" );
+					}
 				}
+				catch( WebException we )
+				{
+					if ( we.Message.LastIndexOf( "401" ) != 0 )
+					{
+						Console.WriteLine( "Failed - Invalid admin credentials" );
+					}
+					else
+					{
+						Console.Write( "Failed - " );
+						Console.WriteLine( we.Message );
+					}
+				}
+				catch( Exception ex )
+                {
+					Console.WriteLine( "Failed creating {0}'s account", username );
+                }
 			}
 			else
 			if ( action == "delete" )
 			{
-				bool status = admin.DeleteUser( username );
-				if ( verbose == true )
+				try
 				{
-					Console.WriteLine( "Deleting user {0}  Status {1)", username, status.ToString() );
+					bool status = admin.DeleteUser( username );
+					if ( verbose == true )
+					{
+						Console.WriteLine( "Deleting user {0}  Status {1)", username, status.ToString() );
+					}
+				}
+				catch( WebException we )
+				{
+					if ( we.Message.LastIndexOf( "401" ) != 0 )
+					{
+						Console.WriteLine( "Failed - Invalid admin credentials" );
+					}
+					else
+					{
+						Console.Write( "Failed - " );
+						Console.WriteLine( we.Message );
+					}
+				}
+				catch( Exception ex )
+				{
+					Console.WriteLine( "Failed deleting {0}'s account", username );
 				}
 			}
 			else
 			if ( action == "modify" )
 			{
-				iFolderUser user = admin.GetUser( username );
+				iFolderUser user = null;
+				bool exception = false;
+				try
+				{
+					user = admin.GetUser( username );
+				} 
+				catch( WebException we )
+				{
+					if ( we.Message.LastIndexOf( "401" ) != 0 )
+					{
+						Console.WriteLine( "Failed - Invalid admin credentials" );
+					}
+					else
+					{
+						Console.Write( "Failed - " );
+						Console.WriteLine( we.Message );
+					}
+					exception = true;
+				}
+				catch( Exception ex )
+				{
+					Console.WriteLine( "Failed deleting {0}'s account", username );
+					exception = true;
+				}
+
 				if ( user != null )
 				{
 					if ( quota != null )
@@ -376,25 +431,47 @@ namespace User.Management
 						}
 					}
 				}
+				else if ( exception == false )
+				{
+					Console.WriteLine( "Failed - user {0} does not exist", username );
+				}
 			}
 			else
 			if ( action == "list" )
 			{
-				iFolderUserSet userSet =
-					admin.GetUsers( 0, 0 );
+				try
+				{
+					iFolderUserSet userSet = admin.GetUsers( 0, 0 );
 					//admin.GetUsersBySearch( SearchProperty.UserName, SearchOperation.BeginsWith, "*", 0, 0 );
 					
-				foreach( iFolderUser user in userSet.Items )
-				{
-					Console.Write( "ID: {0}  ", user.ID );
-					Console.Write( "User: {0}  ", user.UserName );
-					if ( user.FullName != null && user.FullName != "" )
+					foreach( iFolderUser user in userSet.Items )
 					{
-						Console.Write( "Fullname: {0}  ", user.FullName );
-					}
+						Console.Write( "ID: {0}  ", user.ID );
+						Console.Write( "User: {0}  ", user.UserName );
+						if ( user.FullName != null && user.FullName != "" )
+						{
+							Console.Write( "Fullname: {0}  ", user.FullName );
+						}
 					
-					Console.Write( "Enabled: {0}  ", user.Enabled.ToString() );
-					Console.WriteLine();
+						Console.Write( "Enabled: {0}  ", user.Enabled.ToString() );
+						Console.WriteLine();
+					}
+				}
+				catch( WebException we )
+				{
+					if ( we.Message.LastIndexOf( "401" ) != 0 )
+					{
+						Console.WriteLine( "Failed - Invalid admin credentials" );
+					}
+					else
+					{
+						Console.Write( "Failed - " );
+						Console.WriteLine( we.Message );
+					}
+				}
+				catch( Exception ex )
+				{
+					Console.WriteLine( "Failed getting a list of users" );
 				}
 			}
 			else
@@ -406,8 +483,27 @@ namespace User.Management
 					return;
 				}
 
-				bool status = admin.SetPassword( username, password );
-				Console.WriteLine( "SetPassord for {0} - {1}", username, status.ToString() );
+				try
+				{
+					bool status = admin.SetPassword( username, password );
+					Console.WriteLine( "SetPassord for {0} - {1}", username, status.ToString() );
+				}
+				catch( WebException we )
+				{
+					if ( we.Message.LastIndexOf( "401" ) != 0 )
+					{
+						Console.WriteLine( "Failed - Invalid admin credentials" );
+					}
+					else
+					{
+						Console.Write( "Failed - " );
+						Console.WriteLine( we.Message );
+					}
+				}
+				catch( Exception ex )
+				{
+					Console.WriteLine( "Failed setting {0}'s password", username );
+				}
 			}
 			else
 			{
