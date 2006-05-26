@@ -120,7 +120,8 @@ namespace Novell.iFolderWeb.Admin
 					// Setup the response.
 					response.Clear();
 					response.BufferOutput = false;
-					response.Cache.SetExpires( DateTime.MinValue );
+					response.Cache.SetCacheability( HttpCacheability.Private );
+					response.Cache.SetExpires( DateTime.Now );
 					response.AddHeader( "Content-Disposition", String.Format( "attachment; filename={0}", fileName ) );
 					response.AddHeader("Content-Length", fileSize.ToString() );
 					response.ContentType = ( Path.GetExtension( fileName ) == ".log" ) ? "text/plain" : "text/csv";
