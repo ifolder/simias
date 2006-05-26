@@ -245,6 +245,10 @@ namespace Simias.Server
 					syncEvent.WaitOne( 30000, false );
 				}
 			}
+
+			Thread scanThread = new Thread( new ThreadStart( Catalog.ScanCollections ) );
+			scanThread.IsBackground = true;
+			scanThread.Start();
 		}
 
 		/// <summary>
@@ -407,6 +411,65 @@ namespace Simias.Server
 						log.Info( "Lost event for node ID = '{0}'. Event type = '{1}'. Node type = '{2}'", args.Node, args.EventType, args.Type );
 					}
 				}
+			}
+		}
+
+		/// <summary>
+		/// Method to update the collection catalog with
+		/// any collections that may have been missed via
+		/// the event system.
+		/// </summary>
+		/// <returns>N/A </returns>
+		static private void ScanCollections()
+		{
+			CatalogEntry catentry;
+
+			if ( catalog != null )
+			{
+				log.Debug( "Starting collection scan..." );
+				ICSList collections = store.GetCollectionsByDomain( domain.ID );
+				foreach( ShallowNode sn in collections )
+				{
+					// service stopping?
+					if ( down == true )
+					{
+						break;
+					}
+
+					try
+					{
+						if ( sn.IsBaseType( NodeTypes.DomainType ) == false &&
+							sn.IsBaseType( NodeTypes.POBoxType) == false &&
+							sn.ID != catalogID )
+						{
+							catentry = GetEntryByCollectionID( sn.ID );
+							if ( catentry == null )
+							{
+								log.Debug( "creating catalog entry for {0}", sn.Name );
+								catentry = new CatalogEntry( sn.ID, sn.Name );
+								Collection col = new Collection( store, sn );
+								ICSList members = col.GetMemberList();
+								foreach( ShallowNode msn in members )
+								{
+									Member member = new Member( col, msn );
+									catentry.AddMember( member.UserID, member.ID );
+								}
+								catalog.Commit( catentry );
+							}
+							else
+							{
+								log.Debug( "catalog entry exists for {0}", sn.Name );
+							}
+						}
+					}
+					catch( Exception sc )
+					{
+						log.Error( "Exception scanning collections" );
+						log.Error( sc.Message );
+						log.Error( sc.StackTrace );
+					}
+				}
+				log.Debug( "Collection scan finished" );
 			}
 		}
 
@@ -593,6 +656,8 @@ namespace Simias.Server
 		/// </summary>
 		static internal bool StartCatalogService()
 		{
+			Thread scanThread;
+
 			lock( lockObj )
 			{
 				if ( started == true )
@@ -612,6 +677,10 @@ namespace Simias.Server
 					{
 						CreateCollectionCatalog();
 						UpdateHostList();
+
+						scanThread = new Thread( new ThreadStart( ScanCollections ) );
+						scanThread.IsBackground = true;
+						scanThread.Start();
 					}
 					else
 					{
@@ -623,6 +692,12 @@ namespace Simias.Server
 						catCreateThread.IsBackground = true;
 						catCreateThread.Start();
 					}
+				}
+				else
+				{
+					scanThread = new Thread( new ThreadStart( ScanCollections ) );
+					scanThread.IsBackground = true;
+					scanThread.Start();
 				}
 
 				eventQueue = new Queue();
@@ -786,6 +861,18 @@ namespace Simias.Server
 				this.Name = col.Name;
 			}
 		}
+
+		internal CatalogEntry( string CollectionID, string Name  )
+		{
+			Property cprop = new Property( CollectionProperty, CollectionID );
+			this.Properties.ModifyProperty( cprop );
+
+			Property hprop = new Property( HostProperty, localhostID );
+			this.Properties.ModifyProperty( hprop );
+
+			this.Name = Name;
+		}
+
 		#endregion
 
 		#region Private Methods
