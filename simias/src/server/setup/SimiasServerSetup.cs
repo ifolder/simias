@@ -342,9 +342,17 @@ namespace Novell.iFolder
 
 		private bool OnSlave()
 		{
-			if (!( (BoolOption) slaveServer ).Value )
+			if ( !slaveServer.Value )
 			{
 				masterAddress.Prompt = false;
+			}
+			else
+			{
+				// LDAP information will be read from the master.
+				usingLDAP = ldapServer.Prompt = secure.Prompt = ldapAdminDN.Prompt =
+					ldapAdminPassword.Prompt = ldapProxyDN.Prompt =
+					ldapProxyPassword.Prompt = ldapSearchContext.Prompt = 
+					namingAttribute.Prompt = false;
 			}
 			return true;
 		}
@@ -705,41 +713,44 @@ namespace Novell.iFolder
 				
 				// system admin dn
 				systemAdminDN.Value = config.Get( "EnterpriseDomain", "AdminName" );
-				
-				// ldap settings
-				LdapSettings ldapSettings = LdapSettings.Get( storePath );
 
-				// ldap uri
-				// We may need to use a different ldap server prompt for it.
-				// Prompt for the ldap server.
-				ldapServer.DefaultValue = ldapSettings.Uri.Host;
-				ldapServer.Prompt = true;
-				Prompt.ForOption(ldapServer);
-				secure.Prompt = true;
-				Prompt.ForOption(secure);
-				
-				// naming Attribute
-				namingAttribute.Value = ldapSettings.NamingAttribute.ToString();
-
-				// ldap proxy dn
-				ldapProxyDN.Value = ldapSettings.ProxyDN;
-				
-				// ldap proxy password
-				if ((ldapSettings.ProxyPassword != null) && (ldapSettings.ProxyPassword.Length > 0))
+				if ( usingLDAP )
 				{
-					ldapProxyPassword.DefaultValue = ldapSettings.ProxyPassword;
-				}
+					// ldap settings
+					LdapSettings ldapSettings = LdapSettings.Get( storePath );
 
-				// context
-				string contexts = "";
-				foreach(string context in ldapSettings.SearchContexts)
-				{
-					contexts += (context + "#");
-				}
+					// ldap uri
+					// We may need to use a different ldap server prompt for it.
+					// Prompt for the ldap server.
+					ldapServer.DefaultValue = ldapSettings.Uri.Host;
+					ldapServer.Prompt = true;
+					Prompt.ForOption(ldapServer);
+					secure.Prompt = true;
+					Prompt.ForOption(secure);
+				
+					// naming Attribute
+					namingAttribute.Value = ldapSettings.NamingAttribute.ToString();
 
-				if (contexts.Length > 1)
-				{
-					ldapSearchContext.Value = contexts.Substring(0, contexts.Length - 1);
+					// ldap proxy dn
+					ldapProxyDN.Value = ldapSettings.ProxyDN;
+				
+					// ldap proxy password
+					if ((ldapSettings.ProxyPassword != null) && (ldapSettings.ProxyPassword.Length > 0))
+					{
+						ldapProxyPassword.DefaultValue = ldapSettings.ProxyPassword;
+					}
+
+					// context
+					string contexts = "";
+					foreach(string context in ldapSettings.SearchContexts)
+					{
+						contexts += (context + "#");
+					}
+
+					if (contexts.Length > 1)
+					{
+						ldapSearchContext.Value = contexts.Substring(0, contexts.Length - 1);
+					}
 				}
 			}
 			catch{}
