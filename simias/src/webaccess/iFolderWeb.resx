@@ -546,4 +546,7 @@
     <data name="FILES.REMOVE">
         <value>remove</value>
     </data>
+    <data name="MINIMUMBROWSER">
+        <value>You are currently running an unsupported browser. You can continue, but it is recommended that you use one of the following browsers: Firefox&amp;nbsp;1.5+, IE&amp;nbsp;6.0+, or Safari&amp;nbsp;2.0.3+</value>
+    </data>
 </root>

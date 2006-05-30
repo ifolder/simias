@@ -37,6 +37,7 @@ using System.Net;
 using System.Threading;
 using System.Globalization;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Novell.iFolderApp.Web
 {
@@ -70,6 +71,11 @@ namespace Novell.iFolderApp.Web
 		/// Login Button
 		/// </summary>
 		protected Button LoginButton;
+
+		/// <summary>
+		/// Browser Warning
+		/// </summary>
+		protected Label BrowserWarning;
 
 		/// <summary>
 		/// Resource Manager
@@ -116,6 +122,9 @@ namespace Novell.iFolderApp.Web
 
 				// strings
 				LoginButton.Text = GetString("LOGIN");
+
+				// check browser version
+				CheckBrowserVersion();
 			}
 		}
 
@@ -129,6 +138,62 @@ namespace Novell.iFolderApp.Web
 			return WebUtility.GetString(key, rm);
 		}
 
+		/// <summary>
+		/// Check the browser version
+		/// </summary>
+		private void CheckBrowserVersion()
+		{
+			// IE
+			Regex regexIE = new Regex(@"MSIE (?'version'\d+\.\d+)");
+			const float minVersionIE = 6.0F;
+			float versionIE = GetBrowserVersion(Request.UserAgent, regexIE);
+
+			// Firefox
+			Regex regexFirefox = new Regex(@"Firefox[ /](?'version'\d+\.\d+)");
+			const float minVersionFirefox = 1.5F;
+			float versionFirefox = GetBrowserVersion(Request.UserAgent, regexFirefox);
+
+			// Safari
+			Regex regexSafari = new Regex(@"Safari[ /](?'version'\d+\.\d+)");
+			const float minVersionSafari = 417.9F;
+			float versionSafari = GetBrowserVersion(Request.UserAgent, regexSafari);
+
+			// check versions
+			// this will be true if none of the browsers are matched or
+			// if one is found and the version is below the minimum
+			if (((versionIE == 0) || (versionIE < minVersionIE)) 
+				&& ((versionFirefox == 0) || (versionFirefox < minVersionFirefox))
+				&& ((versionSafari == 0) || (versionSafari < minVersionSafari)))
+			{
+				BrowserWarning.Text = GetString("MINIMUMBROWSER");
+			}
+		}
+
+		/// <summary>
+		/// Get the browser version
+		/// </summary>
+		/// <param name="agent"></param>
+		/// <param name="regex"></param>
+		/// <returns></returns>
+		private float GetBrowserVersion(string agent, Regex regex)
+		{
+			float result = 0;
+			Match match;
+
+			if (((match = regex.Match(agent)) != null) && match.Success)
+			{
+				try
+				{
+					result = float.Parse(match.Groups["version"].Value);
+				}
+				catch
+				{
+					// ignore
+				}
+			}
+
+			return result;
+		}
 
 		#region Web Form Designer
 		

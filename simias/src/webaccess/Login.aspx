@@ -59,6 +59,10 @@
 		<tr><td class="copyright" colspan="2"><%= GetString("LOGIN.COPYRIGHT") %></td></tr>
 	</table>
 	
+	<div class="warning">
+		<asp:Label ID="BrowserWarning" runat="server" />
+	</div>
+	
 </form>
 
 </body>

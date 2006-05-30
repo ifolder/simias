@@ -624,3 +624,18 @@ span.rights
 	border-top: 1px solid #003366;
 	background-color: #E1E1E1;
 }
+
+#login .warning
+{
+	position: absolute;
+	width: 540px;
+	height: 200px;
+	margin-left: -250px;
+	margin-top: 140px;
+	top: 48%;
+	left: 48%;
+	
+	color: #FF0000;
+	font-weight: bold;
+	text-align: center;
+}
