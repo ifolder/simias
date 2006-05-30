@@ -27,7 +27,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimiasServerSetup", "setup\
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simias.ClientUpdate", "Simias.ClientUpdate\ClientUpdate.csproj", "{D2793964-4AF4-44EA-8B73-A5E6F853E7BE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simias.HostService", "Simias.HostService\Simias.HostService.csproj", "{FD8F235E-CCB2-482E-8AD1-1B4F61313A7B}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientUpdate", "Simias.ClientUpdate\ClientUpdate.csproj", "{D2793964-4AF4-44EA-8B73-A5E6F853E7BE}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
@@ -65,6 +69,10 @@ Global
 		{585EF3B4-A345-461F-B4D3-1FB1F4613089}.Debug.Build.0 = Debug|.NET
 		{585EF3B4-A345-461F-B4D3-1FB1F4613089}.Release.ActiveCfg = Release|.NET
 		{585EF3B4-A345-461F-B4D3-1FB1F4613089}.Release.Build.0 = Release|.NET
+		{FD8F235E-CCB2-482E-8AD1-1B4F61313A7B}.Debug.ActiveCfg = Debug|.NET
+		{FD8F235E-CCB2-482E-8AD1-1B4F61313A7B}.Debug.Build.0 = Debug|.NET
+		{FD8F235E-CCB2-482E-8AD1-1B4F61313A7B}.Release.ActiveCfg = Release|.NET
+		{FD8F235E-CCB2-482E-8AD1-1B4F61313A7B}.Release.Build.0 = Release|.NET
 		{D2793964-4AF4-44EA-8B73-A5E6F853E7BE}.Debug.ActiveCfg = Debug|.NET
 		{D2793964-4AF4-44EA-8B73-A5E6F853E7BE}.Debug.Build.0 = Debug|.NET
 		{D2793964-4AF4-44EA-8B73-A5E6F853E7BE}.Release.ActiveCfg = Release|.NET

@@ -482,7 +482,11 @@ namespace Novell.iFolder
 		void Configure()
 		{
 			ParseArguments();
-			SetupSimias();
+			if ( SetupSimias() == false )
+			{
+				return;
+			}
+
 			SetupPermissions();
 			SetupModMono();
 			if ( usingLDAP )
@@ -809,8 +813,10 @@ namespace Novell.iFolder
 		/// Setup the Simias.config File
 		/// Write the options to the Simias.config file in the datadir.
 		/// </summary>
-		void SetupSimias()
+		bool SetupSimias()
 		{
+			bool status = true;
+
 			// Start with default
 			string configFile = configFilePath;
 			if ( File.Exists( Path.Combine( storePath, Configuration.DefaultConfigFileName ) ) == true )
@@ -862,7 +868,7 @@ namespace Novell.iFolder
 				// Get and save the keypair.
 				RSACryptoServiceProvider rsa = Simias.Host.SlaveSetup.CreateKeys( storePath );
 				// Join this host to the server and save the node.
-				bool created;
+				bool created = false;
 				string host = 
 					adminService.AddHost( 
 						serverName.Value, 
@@ -870,10 +876,18 @@ namespace Novell.iFolder
 						privateUrl.Value, 
 						rsa.ToXmlString( false ),
 						out created );
-				if ( host != null && host.Length != 0 && created )
+				if ( host != null && host.Length != 0 )
 				{
-					// Save the objects so that they can be created later.
-					Simias.Host.SlaveSetup.SaveInitObjects( storePath, domain, dOwner, host, rsa );
+					if ( created == true )
+					{
+						// Save the objects so that they can be created later.
+						Simias.Host.SlaveSetup.SaveInitObjects( storePath, domain, dOwner, host, rsa );
+					}
+					else
+					{
+						Console.WriteLine( "{0} has already been created and added to the iFolder system.  Please choose a different host name", serverName.Value );
+						status = false;
+					}
 				}
 			}
 			else
@@ -885,7 +899,8 @@ namespace Novell.iFolder
 //				ldapSettings.SyncOnStart = Ldap.LdapSettings.DefaultSyncOnStart;
 			}
 		
-			Console.WriteLine( "Done" );
+			Console.WriteLine( "SetupSimias - {0}", ( status == true ) ? "Done" : "Failed" );
+			return status;
 		}
 
 		/// <summary>

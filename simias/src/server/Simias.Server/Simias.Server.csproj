@@ -114,6 +114,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Catalog.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Domain.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -139,19 +144,14 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "HostLocationService.cs"
+                    SubType = "code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "HostProvider.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "HostService.cs"
-                    SubType = "Component"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "HostService.resx"
-                    DependentUpon = "HostService.cs"
-                    BuildAction = "EmbeddedResource"
                 />
                 <File
                     RelPath = "IdentitySyncManager.asmx"
