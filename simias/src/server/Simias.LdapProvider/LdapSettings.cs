@@ -122,7 +122,7 @@ namespace Simias.LdapProvider
 		private string scheme;
         private string host;
         private int port;
-		private LdapDirectoryType ldapType;
+		private LdapDirectoryType ldapType = LdapDirectoryType.Unknown;
 
         private string proxy = String.Empty;
 		private string password = String.Empty;
@@ -145,10 +145,11 @@ namespace Simias.LdapProvider
 		}
 
 		/// <summary>
-		/// Sets the LDAP directory type.
+		/// Gets/sets the LDAP directory type.
 		/// </summary>
 		public LdapDirectoryType DirectoryType
 		{
+			get { return ldapType; }
 			set { ldapType = value; }
 		}
 
@@ -286,6 +287,23 @@ namespace Simias.LdapProvider
 			Configuration config = new Configuration( storePath, true );
             settingChangeMap = 0;
 
+			string identity = config.Get( IdentitySection, AssemblyKey );
+			if ( identity != null )
+			{
+				switch ( identity )
+				{
+					case "Simias.LdapProvider":
+						ldapType = LdapDirectoryType.eDirectory;
+						break;
+					case "Simias.ADLdapProvider":
+						ldapType = LdapDirectoryType.ActiveDirectory;
+						break;
+					case "Simias.OpenLdapProvider":
+						ldapType = LdapDirectoryType.OpenLDAP;
+						break;
+				}
+			}
+
 			// <setting name="LdapUri" />
 			string uriString = config.Get( LdapAuthenticationSection, UriKey );
 			if ( uriString != null )
@@ -398,7 +416,26 @@ namespace Simias.LdapProvider
 		private XmlElement GetSearchElement( XmlDocument document )
 		{
 			string str = String.Format( "//{0}[@{1}='{2}']/{3}[@{1}='{4}']", SectionTag, NameAttr, LdapSystemBookSection, SettingTag, SearchKey );
-			return ( XmlElement )document.DocumentElement.SelectSingleNode( str );
+			XmlElement element = ( XmlElement )document.DocumentElement.SelectSingleNode( str );
+			if ( element == null )
+			{
+				// The setting doesn't exist, so create it.
+				element = document.CreateElement( SettingTag );
+				element.SetAttribute( NameAttr, SearchKey );
+				str = string.Format( "//{0}[@{1}='{2}']", SectionTag, NameAttr, LdapSystemBookSection );
+				XmlElement eSection = ( XmlElement )document.DocumentElement.SelectSingleNode(str);
+				if ( eSection == null )
+				{
+					// If the section doesn't exist, create it.
+					eSection = document.CreateElement( SectionTag );
+					eSection.SetAttribute( NameAttr, LdapSystemBookSection );
+					document.DocumentElement.AppendChild( eSection );
+				}
+
+				eSection.AppendChild(element);
+			}
+
+			return element;
 		}
 		#endregion
 
@@ -433,6 +470,11 @@ namespace Simias.LdapProvider
 				if ( ( settingChangeMap & ChangeMap.proxy ) == ChangeMap.proxy )
 				{
 					SetConfigValue( configDoc, LdapAuthenticationSection, ProxyDNKey, proxy );
+				}
+
+				if ( ( settingChangeMap & ChangeMap.namingAttribute ) == ChangeMap.namingAttribute )
+				{
+					SetConfigValue( configDoc, LdapSystemBookSection, NamingAttributeKey, namingAttribute );
 				}
 
 				if ( ( settingChangeMap & ChangeMap.searchContexts ) == ChangeMap.searchContexts )

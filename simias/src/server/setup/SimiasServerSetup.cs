@@ -568,6 +568,7 @@ namespace Novell.iFolder
 					HostAdmin adminService = this.GetHostAdminService();
 					adminService.Credentials = credentials;
 					string configXml = adminService.GetConfiguration();
+					// TODO: need to get the proxy password ... should we prompt for it?
 //					ldapProxyPassword.Value = adminService.GetProxyInfo();
 					XmlDocument configDoc = new XmlDocument();
 					configDoc.LoadXml( configXml );
@@ -714,43 +715,21 @@ namespace Novell.iFolder
 				// system admin dn
 				systemAdminDN.Value = config.Get( "EnterpriseDomain", "AdminName" );
 
+				// ldap settings
+				LdapSettings ldapSettings = LdapSettings.Get( storePath );
+				usingLDAP = ldapSettings.DirectoryType != LdapDirectoryType.Unknown;
+
 				if ( usingLDAP )
 				{
-					// ldap settings
-					LdapSettings ldapSettings = LdapSettings.Get( storePath );
-
 					// ldap uri
 					// We may need to use a different ldap server prompt for it.
 					// Prompt for the ldap server.
+					ldapServer.Description = "The host or ip address of an LDAP server.  The server will be used by Simias for authentication.";
 					ldapServer.DefaultValue = ldapSettings.Uri.Host;
 					ldapServer.Prompt = true;
 					Prompt.ForOption(ldapServer);
 					secure.Prompt = true;
 					Prompt.ForOption(secure);
-				
-					// naming Attribute
-					namingAttribute.Value = ldapSettings.NamingAttribute.ToString();
-
-					// ldap proxy dn
-					ldapProxyDN.Value = ldapSettings.ProxyDN;
-				
-					// ldap proxy password
-					if ((ldapSettings.ProxyPassword != null) && (ldapSettings.ProxyPassword.Length > 0))
-					{
-						ldapProxyPassword.DefaultValue = ldapSettings.ProxyPassword;
-					}
-
-					// context
-					string contexts = "";
-					foreach(string context in ldapSettings.SearchContexts)
-					{
-						contexts += (context + "#");
-					}
-
-					if (contexts.Length > 1)
-					{
-						ldapSearchContext.Value = contexts.Substring(0, contexts.Length - 1);
-					}
 				}
 			}
 			catch{}

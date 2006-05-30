@@ -91,7 +91,6 @@ namespace Simias.LdapProvider
 		/// </summary>
 		public User()
 		{
-			System.Diagnostics.Debugger.Break();
 			store = Store.GetStore();
 			if ( store.DefaultDomain == null )
 			{

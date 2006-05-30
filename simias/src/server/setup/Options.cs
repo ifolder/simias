@@ -267,6 +267,7 @@ namespace Novell.iFolder.Utility
 		public string Description
 		{
 			get { return description; }
+			set { description = value; }
 		}
 
 		/// <summary>
