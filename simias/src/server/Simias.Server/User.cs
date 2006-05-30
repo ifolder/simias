@@ -139,6 +139,8 @@ namespace Simias.Server
 		public User( string Username )
 		{
 			username = Username;
+			fullname = Username;
+
 			store = Store.GetStore();
 		}
 		#endregion
@@ -214,6 +216,13 @@ namespace Simias.Server
 						{
 							// Call the user provider to create the user
 							log.Debug( "Creating member: {0}", this.username );
+
+							// guarantee a full name exists
+							if ( this.fullname == null )
+							{
+								this.fullname = this.username;
+							}
+
 							info = User.provider.Create(
 										this.userguid,
 										this.username,

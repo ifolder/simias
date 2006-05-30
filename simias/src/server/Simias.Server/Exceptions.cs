@@ -84,4 +84,63 @@ namespace Simias.Server
 		{
 		}
 	}
+
+	/// <summary>
+	/// Specified member already exists
+	/// </summary>
+	public class MemberNameAlreadyExists : ServerException
+	{
+		private string membername;
+		static private string basemessage = "The specified member already exists in the server domain";
+
+		/// <summary>
+		/// Returns the specified member name that did not exist
+		/// </summary>
+		public string MemberName
+		{
+			get
+			{
+				return membername;
+			}
+		}
+
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <param name="MemberName"></param>
+		public MemberNameAlreadyExists( string MemberName ) : base( MemberNameAlreadyExists.basemessage )
+		{
+			membername = MemberName;
+		}
+	}
+
+	/// <summary>
+	/// Specified member does not exist
+	/// </summary>
+	public class MemberNameDoesNotExist : ServerException
+	{
+		private string membername;
+		static private string basemessage = "The specified member does not exist in the server domain";
+
+		/// <summary>
+		/// Returns the specified member name that did not exist
+		/// </summary>
+		public string MemberName
+		{
+			get
+			{
+				return membername;
+			}
+		}
+
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <param name="MemberName"></param>
+		public MemberNameDoesNotExist( string MemberName ) : base( MemberNameDoesNotExist.basemessage )
+		{
+			membername = MemberName;
+		}
+	}
+
 }
