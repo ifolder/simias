@@ -31,6 +31,7 @@ using System.Threading;
 using Simias;
 using Simias.Storage;
 using Simias.Client;
+using Simias.Server;
 //using Simias.Enterprise;
 
 namespace Simias.Host
@@ -123,6 +124,28 @@ namespace Simias.Host
 		}
 
 		/// <summary>
+		/// Returns the associated host information for a given collection.
+		/// </summary>
+		/// <param name="CollectionID">The id of a collection.</param>
+		/// <returns>HostInformation.</returns>
+		[WebMethod(EnableSession=true)]
+		public HostInformation GetCollectionLocation( string CollectionID )
+		{
+			HostInformation hostinformation = null;
+			CatalogEntry catEntry = Catalog.GetEntryByCollectionID( CollectionID );
+			if ( catEntry != null )
+			{
+				HostNode hostnode = HostNode.GetHostByID( store.DefaultDomain, catEntry.HostID );
+				if ( hostnode != null )
+				{
+					hostinformation = new HostInformation( hostnode );
+				}
+			}
+
+			return hostinformation;
+		}
+
+		/// <summary>
 		/// Returns the home server for the specified user.
 		/// </summary>
 		/// <param name="userName">The name of the user.</param>
@@ -131,13 +154,23 @@ namespace Simias.Host
 		public HostInformation GetHomeServer( string Username )
 		{
 			Member member = GetDomainMemberByName( Username );
-			HostNode host = member.HomeServer;
-			if ( host != null )
+			if ( member != null )
 			{
-				// We need to provision this user.
-				// This is a single server system.
-				return new HostInformation( host );
+				HostNode host = member.HomeServer;
+				if ( host != null )
+				{
+					return new HostInformation( host );
+				}
+
+				// Call the provision service to provision this
+				// user to a host
+				HostInfo info = ProvisionService.ProvisionUser( Username );
+				if ( info != null )
+				{
+					return new HostInformation( info );
+				}
 			}
+
 			return null;
 		}
 
@@ -148,7 +181,7 @@ namespace Simias.Host
 		public HostInformation GetHostInfo( string CollectionID, string HostID )
 		{
 			HostInformation hostinfo = null;
-			if ( CollectionID == String.Empty )
+			if ( CollectionID == null || CollectionID == String.Empty )
 			{
 				HostNode hn = HostNode.GetHostByID( hostDomain.ID, HostID );
 				hostinfo = new HostInformation( hn );
@@ -397,6 +430,17 @@ namespace Simias.Host
 			PrivateAddress = node.PrivateUrl;
 			PublicKey = node.PublicKey.ToXmlString( false );
 			Master = node.IsMasterHost;
+		}
+
+		internal HostInformation( Simias.Host.HostInfo info )
+		{
+			ID = info.ID;
+			MemberID = info.MemberID;
+			Name = info.Name;
+			PublicAddress = info.PublicAddress;
+			PrivateAddress = info.PrivateAddress;
+			PublicKey = info.PublicKey;
+			Master = info.Master;
 		}
 	}
 }
