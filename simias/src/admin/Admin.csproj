@@ -411,6 +411,15 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "LogTailHandler.ashx"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "LogTailHandler.ashx.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "MemberSearch.ascx"
                     SubType = "UserControl"
                     BuildAction = "Content"

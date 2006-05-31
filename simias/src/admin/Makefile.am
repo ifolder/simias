@@ -23,6 +23,7 @@ iFolderAdmin_CSFILES = \
 	$(srcdir)/iFolderWebLogger.cs \
 	$(srcdir)/ListFooter.ascx.cs \
 	$(srcdir)/Login.aspx.cs \
+	$(srcdir)/LogTailHandler.ashx.cs \
 	$(srcdir)/MemberSearch.ascx.cs \
 	$(srcdir)/MemberSelect.aspx.cs \
 	$(srcdir)/OwnerSelect.aspx.cs \
@@ -84,6 +85,7 @@ iFolderAdmin_FORMS = \
 	ListFooter.ascx \
 	Log4Net.config \
 	Login.aspx \
+	LogTailHandler.ashx \
 	MemberSearch.ascx \
 	MemberSelect.aspx \
 	OwnerSelect.aspx \
