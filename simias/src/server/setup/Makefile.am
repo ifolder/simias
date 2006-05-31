@@ -32,11 +32,17 @@ else
 	SimiasServerSetup_LIBS := $(SimiasServerSetup_LIBS1)
 endif
 
-EXTRA_DIST = $(SimiasServerSetup_CSFILES) simias-server-setup.in simias-server-setup.cmd App.ico SimiasServerSetup.exe.config AssemblyInfo.cs.in
+EXTRA_DIST = $(SimiasServerSetup_CSFILES) $(srcdir)/simias-server-setup.in simias-server-setup.cmd App.ico SimiasServerSetup.exe.config AssemblyInfo.cs.in
 
 AssemblyInfo.cs: $(srcdir)/AssemblyInfo.cs.in Makefile
 	sed -e 's,@_VERSION_@,@VERSION@,g' $< > $@
 	chmod +x $@
+	
+simias-server-setup: $(srcdir)/simias-server-setup.in
+if !WINDOWS
+	sed -e 's,@_webbindir_@,@webbindir@,g' -e 's,@_bindir_@,@bindir@,g' $< > $@
+	chmod +x $@
+endif		
 	
 if MAKE_DOC_FILE
 DOC_FILE = $(basename $@).doc.xml
@@ -46,7 +52,7 @@ endif
 
 all: SimiasServerSetup.exe
 
-SimiasServerSetup.exe: $(SimiasServerSetup_CSFILES) $(SimiasServerSetup_RESOURCES)
+SimiasServerSetup.exe: $(SimiasServerSetup_CSFILES) $(SimiasServerSetup_RESOURCES) simias-server-setup
 	$(CSC) /out:$@ $(CSCFLAGS) $(SimiasServerSetup_FLAGS) $(SIMIAS_LIBS) $(SimiasServerSetup_LIBS:%=/r:%) $(SimiasServerSetup_LIBPATH:%=/lib:%) $(SimiasServerSetup_RESOURCES:%=$(ICON_FLAG)%) $(SimiasServerSetup_CSFILES_CSC) $(DOC_FILE_CMD)
 
 if DEBUG
