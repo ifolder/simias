@@ -1212,8 +1212,6 @@ namespace Novell.iFolder
 			int lastComp = cwd.LastIndexOf( Path.DirectorySeparatorChar );
 			cwd = cwd.Remove( lastComp, ( cwd.Length - lastComp ) );
 			
-			Console.WriteLine( "Here! {0}", cwd );
-			
 			path = 
 				String.Format( "{0}{1}{2}{3}{4}",
 					cwd,
