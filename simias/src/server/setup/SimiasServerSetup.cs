@@ -1206,6 +1206,37 @@ namespace Novell.iFolder
 					}
 				}
 			}
+			
+			// backup up one component in case we're in {target}/bin			
+			string cwd = System.IO.Directory.GetCurrentDirectory().TrimEnd( Path.DirectorySeparatorChar );
+			int lastComp = cwd.LastIndexOf( Path.DirectorySeparatorChar );
+			cwd = cwd.Remove( lastComp, ( cwd.Length - lastComp ) );
+			
+			Console.WriteLine( "Here! {0}", cwd );
+			
+			path = 
+				String.Format( "{0}{1}{2}{3}{4}",
+					cwd,
+					Path.DirectorySeparatorChar.ToString(),
+					"etc", 
+					Path.DirectorySeparatorChar.ToString(),
+					"simias" );
+
+			if ( System.IO.Directory.Exists( path ) == true )
+			{
+				// bill/Simias.config exist?
+				path = Path.Combine( path, "bill" );
+				if ( System.IO.Directory.Exists( path ) == true )
+				{
+					configPath = path;
+
+					if ( File.Exists( Path.Combine( configPath, Simias.Configuration.DefaultConfigFileName ) ) == true )
+					{
+						configFilePath = Path.Combine( configPath, Simias.Configuration.DefaultConfigFileName ); 
+						return true;
+					}
+				}
+			}
 
 			configPath = null;
 			return false;
