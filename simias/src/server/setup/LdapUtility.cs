@@ -133,17 +133,45 @@ namespace Novell.iFolder.Utility
 			}
 			catch
 			{
-
-				// parse the cn
-				Regex cnRegex = new Regex(@"^cn=(.*?),.*$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-				string cn = cnRegex.Replace(dn, "$1");;
-
-				// create user attributes
 				LdapAttributeSet attributeSet = new LdapAttributeSet();
-				attributeSet.Add(new LdapAttribute("objectclass", "inetOrgPerson"));                
-				attributeSet.Add(new LdapAttribute("cn", cn));               
-				attributeSet.Add(new LdapAttribute("sn", cn));        
-				attributeSet.Add(new LdapAttribute("userpassword", password));                                           
+				switch ( ldapType )
+				{
+					case LdapDirectoryType.ActiveDirectory:
+					{
+						// TODO:
+						break;
+					}
+					case LdapDirectoryType.eDirectory:
+					{
+						// parse the cn
+						Regex cnRegex = new Regex(@"^cn=(.*?),.*$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+						string cn = cnRegex.Replace(dn, "$1");
+
+						// create user attributes
+						attributeSet.Add(new LdapAttribute("objectClass", "inetOrgPerson"));
+						attributeSet.Add(new LdapAttribute("cn", cn));
+						attributeSet.Add(new LdapAttribute("sn", cn));
+						attributeSet.Add(new LdapAttribute("userPassword", password));
+						break;
+					}
+					case LdapDirectoryType.OpenLDAP:
+					{
+						Regex uidRegex = new Regex(@"^uid=(.*?),.*$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+						string uid = uidRegex.Replace(dn, "$1");
+
+						// I think we can get away with just creating an inetOrgPerson ...
+						// we don't need a posixAccount ... hmm, maybe a shadowAccount
+						// so that the password can expire?
+						attributeSet.Add(new LdapAttribute("objectClass", "inetOrgPerson"));//new string[]{"inetOrgPerson", "posixAccount", "shadowAccount"}));
+						attributeSet.Add(new LdapAttribute("uid", uid));
+						attributeSet.Add(new LdapAttribute("cn", uid));
+						attributeSet.Add(new LdapAttribute("sn", uid));
+						attributeSet.Add(new LdapAttribute("givenName", uid));
+						// TODO: Need to encrypt the password first.
+						attributeSet.Add(new LdapAttribute("userPassword", password));
+						break;
+					}
+				}
                                     
 				// add user entry
 				LdapEntry entry = new LdapEntry(dn, attributeSet);
@@ -201,6 +229,27 @@ namespace Novell.iFolder.Utility
 			}
 
 			return ldapType;
+		}
+
+		/// <summary>
+		/// Validates a context.
+		/// </summary>
+		/// <param name="context">The context to validate.</param>
+		/// <returns><b>True</b> if the context is valid; otherwise, <b>False</b> is returned.</returns>
+		public bool ValidateSearchContext( string context )
+		{
+			bool result = false;
+
+			try
+			{
+				// find
+				connection.Read( context );
+				result = true;
+			}
+			catch
+			{}
+
+			return result;
 		}
 		#endregion
 

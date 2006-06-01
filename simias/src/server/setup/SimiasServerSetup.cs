@@ -1002,13 +1002,22 @@ namespace Novell.iFolder
 
 			// connect
 			Console.Write("Connecting to {0}...", ldapUrl.ToString());
+			ldapUtility.Connect();
+
+			Console.WriteLine("Done");
+
+			// get the directory type.
+			Console.Write("Querying for directory type...");
+			LdapDirectoryType directoryType = ldapUtility.QueryDirectoryType();
+			Console.WriteLine( " {0}", directoryType );
+
+			if ( directoryType.Equals( LdapDirectoryType.Unknown ) )
+			{
+				throw new Exception( string.Format( "Unable to determine directory type for {0}", ldapUtility.Host ) );
+			}
 
 			if (!slaveServer.Value)
 			{
-				ldapUtility.Connect();
-
-				Console.WriteLine("Done");
-
 				// create admin
 				Console.Write("Creating {0}...", systemAdminDN.Value);
 
@@ -1026,50 +1035,41 @@ namespace Novell.iFolder
 
 				if (ldapUtility.CreateUser(ldapProxyDN.Value, ldapProxyPassword.Value))
 				{
-					// use the container of the system admin user
-					string containerDN = "";
-					string[] parts = ldapAdminDN.Value.Split(new char[] { ',' }, 2);
-					if (parts.Length == 2) containerDN = parts[1];
+					if ( ldapUtility.DirectoryType.Equals( LdapDirectoryType.eDirectory ) )
+					{
+						// use the container of the system admin user
+						string containerDN = "";
+						string[] parts = ldapAdminDN.Value.Split(new char[] { ',' }, 2);
+						if (parts.Length == 2) containerDN = parts[1];
 
-					// rights
-					Console.Write("Granting Read Rights to {0} on {1}...", ldapProxyDN.Value, containerDN);
+						// rights
+						Console.Write("Granting Read Rights to {0} on {1}...", ldapProxyDN.Value, containerDN);
 
-					ldapUtility.GrantReadRights(ldapProxyDN.Value, containerDN);
+						ldapUtility.GrantReadRights(ldapProxyDN.Value, containerDN);
 
-					Console.WriteLine("Done");
+						Console.WriteLine("Done");
+					}
 				}
 				else
 				{
 					Console.WriteLine("Skipped (User Exists)");
 				}
-
-				// disconnect
-				ldapUtility.Disconnect();
 			}
+
+			// disconnect
+			ldapUtility.Disconnect();
 
 			// check admin
 			Console.Write("Checking {0}...", systemAdminDN.Value);
 			ldapUtility = new LdapUtility(ldapUrl.ToString(), systemAdminDN.Value, systemAdminPassword.Value);
 			ldapUtility.Connect();
 			Console.WriteLine("Done");
-
-			// get the directory type.
-			Console.Write("Querying for directory type...");
-			LdapDirectoryType directoryType = ldapUtility.QueryDirectoryType();
-			Console.WriteLine( " {0}", directoryType );
-
-			if ( directoryType.Equals( LdapDirectoryType.Unknown ) )
-			{
-				throw new Exception( string.Format( "Unable to determine directory type for {0}", ldapUtility.Host ) );
-			}
-
 			ldapUtility.Disconnect();
 
 			// check proxy
 			Console.Write("Checking {0}...", ldapProxyDN.Value);
 			ldapUtility = new LdapUtility(ldapUrl.ToString(), ldapProxyDN.Value, ldapProxyPassword.Value);
 			ldapUtility.Connect();
-			ldapUtility.Disconnect();
 			Console.WriteLine("Done");
 
 			Console.Write( "Adding LDAP settings to {0}...", Path.Combine( storePath, "Simias.config" ) );
@@ -1087,7 +1087,6 @@ namespace Novell.iFolder
 			ldapSettings.ProxyPassword = ldapProxyPassword.Value;
 
 			// context
-			// TODO: Validate the search list.
 			ArrayList list = new ArrayList();
 			if (ldapSearchContext.Assigned)
 			{
@@ -1096,10 +1095,17 @@ namespace Novell.iFolder
 				{
 					if ((context != null) && (context.Length > 0))
 					{
+						if ( !ldapUtility.ValidateSearchContext( context ) )
+						{
+							throw new Exception( string.Format( "Invalid context entered: {0}", context ) );
+						}
+
 						list.Add(context);
 					}
 				}
 			}
+			ldapUtility.Disconnect();
+
 			ldapSettings.SearchContexts = list;
 
 			// naming attribute to control login
