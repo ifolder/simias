@@ -1,7 +1,7 @@
 #!/bin/sh
 #######################################################################
 #
-#  $RCSfile$
+#  $RCSfile: simias-server.in,v $
 #
 #  Copyright (C) 2004 Novell, Inc.
 #
@@ -9,17 +9,32 @@
 #
 #######################################################################
 
-export MONO_PATH=@webbindir@:$MONO_PATH
+export MONO_PATH=@_webbindir_@:$MONO_PATH
 
 if [ "${OSTYPE:0:6}" == "darwin" ]
 then
 	echo "Increasing ulimit -n to 2048"
-	export DYLD_LIBRARY_PATH=@webbindir@:/Library/Frameworks/Mono.framework/Versions/Current/lib:$DYLD_LIBRARY_PATH
+	export DYLD_LIBRARY_PATH=@_webbindir_@:/Library/Frameworks/Mono.framework/Versions/Current/lib:$DYLD_LIBRARY_PATH
 	ulimit -n 2048
 else
-	export LD_LIBRARY_PATH=@webbindir@:$LD_LIBRARY_PATH
+	export LD_LIBRARY_PATH=@_webbindir_@:$LD_LIBRARY_PATH
 fi
 
-cd @bindir@
-mono @webbindir@/Simias.exe --datadir @simiasdatadir@ $@
+DataDir=""
+if [ "$DataDir" == "" ]
+then
+    echo "Error: The Simias server has not been configured."
+    echo "Please run simias-server-setup in order to configure the"
+    echo "Simias server."
+else
+    cd @_bindir_@
+    Port=""
+if [ "$Port" == "" ]
+then
+    mono @_webbindir_@/Simias.exe --datadir \"$DataDir\" $@
+else
+	mono @_webbindir_@/Simias.exe --datadir \"$DataDir\" --port $Port $@
+fi
+fi
+
 

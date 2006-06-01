@@ -13,7 +13,13 @@ DOC_FILE_CMD = /doc:$(DOC_FILE)
 DOC_FILE_CLEAN = *.doc.xml
 endif
 
-all:
+simiasserver: $(srcdir)/simiasserver.in
+if !WINDOWS
+	sed -e 's,@_webbindir_@,@webbindir@,g' -e 's,@_bindir_@,@bindir@,g' $< > $@
+	chmod +x $@
+endif		
+
+all: simiasserver
 
 install-exec-local: all
 	$(mkinstalldirs) $(DESTDIR)$(webbindir) $(DESTDIR)$(bootstrapdir) $(DESTDIR)$(bootstrapdir)/modules
