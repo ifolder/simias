@@ -100,7 +100,7 @@ iFolderAdmin_FORMS = \
 	Users.aspx \
 	Web.config
 
-EXTRA_DIST = AssemblyInfo.cs.in Log4Net.config.in $(iFolderAdmin_CSFILES) $(iFolderAdmin_FORMS) css images help $(iFolderAdmin_RESX)
+EXTRA_DIST = AssemblyInfo.cs.in Log4Net.config.in $(iFolderAdmin_CSFILES) $(iFolderAdmin_FORMS) css images help $(iFolderAdmin_RESX) tail.txt
 
 dist-hook:
 	rm -rf `find $(distdir)/help -name .svn`		
@@ -135,8 +135,10 @@ install-exec-local: all
 	$(mkinstalldirs) $(DESTDIR)$(admindir)/images
 	$(mkinstalldirs) $(DESTDIR)$(admindir)/css
 	$(mkinstalldirs) $(DESTDIR)$(admindir)/help
+	$(mkinstalldirs) $(DESTDIR)$(admindir)/tail
 	$(INSTALL_PROGRAM) $(iFolderAdmin_FORMS) $(DESTDIR)$(admindir)
 	$(INSTALL_PROGRAM) Novell.iFolderAdmin.dll $(DEBUG_FILES) $(DESTDIR)$(admindir)/bin
+	$(INSTALL_PROGRAM) tail.txt $(DESTDIR)$(admindir)/tail
 	cd $(srcdir)/help; cp -r * $(DESTDIR)$(admindir)/help
 	rm -rf `find $(DESTDIR)$(admindir)/help -name .svn`
 	cd $(srcdir)/images; cp -r * $(DESTDIR)$(admindir)/images
