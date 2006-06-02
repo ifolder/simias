@@ -126,15 +126,54 @@ namespace Simias.Security
 			Store store = Store.GetStore();
 			Domain domain = store.GetDomain(store.LocalDomain);
 			ICSList certs = domain.GetNodesByType(CertType);
+
+			// We need to get rid of any duplicate certificates that may exist.
+			Hashtable ht = new Hashtable();
+			ArrayList nodesToDelete = new ArrayList();
+
 			foreach(ShallowNode sn in certs)
 			{
 				Node node = new Node(domain, sn);
 				try
 				{
 					string host = node.Properties.GetSingleProperty(hostProperty).Value.ToString();
+
+					if (ht.Contains(host))
+					{
+						// A duplicate exists, use the most recent one.
+						Node dupNode = (Node)ht[host];
+
+						DateTime nodeTime = (DateTime)node.Properties.GetSingleProperty(PropertyTags.NodeCreationTime).Value;
+						DateTime dupNodeTime = (DateTime)dupNode.Properties.GetSingleProperty(PropertyTags.NodeCreationTime).Value;
+
+						if (dupNodeTime > nodeTime)
+						{
+							nodesToDelete.Add( node );							
+							node = dupNode;
+						}
+						else
+						{
+							nodesToDelete.Add(dupNode);
+							ht[host] = node;
+						}
+					}
+					else
+					{
+						ht.Add(host, node);
+					}
+
 					string sCert = node.Properties.GetSingleProperty(certificateProperty).Value.ToString();
 					byte[] certificate = Convert.FromBase64String(sCert);
 					CertPolicy.StoreCertificate(certificate, host);
+				}
+				catch {}
+			}
+
+			if (nodesToDelete.Count > 0)
+			{
+				try
+				{
+					domain.Commit(domain.Delete((Node[])(nodesToDelete.ToArray(typeof(Node)))));
 				}
 				catch {}
 			}
