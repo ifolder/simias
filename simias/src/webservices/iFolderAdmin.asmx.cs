@@ -524,6 +524,39 @@ namespace iFolder.WebService
 
 		#endregion
 
+		#region Servers
+
+		/// <summary>
+		/// Get information about all iFolder Servers identified by a search on the it's name.
+		/// </summary>
+		/// <param name="operation">The operation to compare the name and pattern.</param>
+		/// <param name="pattern">The pattern to search.</param>
+		/// <param name="index">The starting index for the search results.</param>
+		/// <param name="count">The max number of search results to be returned.</param>
+		/// <returns>A set of iFolder Server objects.</returns>
+		[WebMethod(
+			 Description="Get information about all iFolder Servers identified by a search on the it's name.",
+			 EnableSession=true)]
+		public iFolderServerSet GetiFolderServersByName(SearchOperation operation, string pattern, int index, int count)
+		{
+			iFolderServerSet result = null;
+
+			try
+			{
+				Authorize();
+
+				result = iFolderServer.GetServersByName(iFolderServerType.All, operation, pattern, index, count);
+			}
+			catch(Exception e)
+			{
+				SmartException.Throw(e);
+			}
+
+			return result;
+		}
+
+		#endregion
+
 		#region System
 
 		/// <summary>

@@ -24,10 +24,46 @@
 using System;
 using System.Collections;
 
+using Simias.Client;
 using Simias.Storage;
 
 namespace iFolder.WebService
 {
+	/// <summary>
+	/// An iFolder Server Result Set
+	/// </summary>
+	[Serializable]
+	public class iFolderServerSet
+	{
+		/// <summary>
+		/// An Array of iFolder Servers
+		/// </summary>
+		public iFolderServer[] Items;
+
+		/// <summary>
+		/// The Total Number of iFolder Servers
+		/// </summary>
+		public int Total;
+
+		/// <summary>
+		/// Default Constructor
+		/// </summary>
+		public iFolderServerSet()
+		{
+		}
+
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <param name="items"></param>
+		/// <param name="total"></param>
+		public iFolderServerSet(iFolderServer[] items, int total)
+		{
+			this.Items = items;
+			this.Total = total;
+		}
+	}
+
 	/// <summary>
 	/// An iFolder Server
 	/// </summary>
@@ -63,12 +99,51 @@ namespace iFolder.WebService
 		/// The common language runtime version.
 		/// </summary>
 		public string ClrVersion;
+
+		/// <summary>
+		/// The public address for this server.
+		/// </summary>
+		public string PublicUrl;
+
+		/// <summary>
+		/// The private address for this server.
+		/// </summary>
+		public string PrivateUrl;
+
+		/// <summary>
+		/// True if this server is the master.
+		/// </summary>
+		public bool IsMaster;
+
+		/// <summary>
+		/// True if this server is the local server.
+		/// </summary>
+		public bool IsLocal;
+
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		public iFolderServer() : this(HostNode.GetLocalHost())
+		{
+		}
 		
 		/// <summary>
 		/// Constructor
 		/// </summary>
-		public iFolderServer()
+		/// <param name="server">HostNode object</param>
+		public iFolderServer(HostNode server)
 		{
+			Version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+			HostName = System.Net.Dns.GetHostName();
+			MachineName = System.Environment.MachineName;
+			OSVersion = System.Environment.OSVersion.ToString();
+			UserName = System.Environment.UserName;
+			ClrVersion = System.Environment.Version.ToString();
+
+			PublicUrl = server.PublicUrl;
+			PrivateUrl = server.PrivateUrl;
+			IsMaster = server.IsMasterHost;
+			IsLocal = server.IsLocalHost;
 		}
 
 		/// <summary>
@@ -77,16 +152,7 @@ namespace iFolder.WebService
 		/// <returns>An iFolder Server Object</returns>
 		public static iFolderServer GetHomeServer()
 		{
-			iFolderServer server = new iFolderServer();
-
-			server.Version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
-			server.HostName = System.Net.Dns.GetHostName();
-			server.MachineName = System.Environment.MachineName;
-			server.OSVersion = System.Environment.OSVersion.ToString();
-			server.UserName = System.Environment.UserName;
-			server.ClrVersion = System.Environment.Version.ToString();
-
-			return server;
+			return new iFolderServer();
 		}
 
 		/// <summary>
@@ -100,6 +166,122 @@ namespace iFolder.WebService
 			list.Add(GetHomeServer());
 
 			return (iFolderServer[])list.ToArray(typeof(iFolderServer));
+		}
+
+		/// <summary>
+		/// Get an iFolder Server Information object.
+		/// </summary>
+		/// <param name="serverID">The Server ID</param>
+		/// <returns>An iFolderServer Object</returns>
+		public static iFolderServer GetServer(string serverID)
+		{
+			Store store = Store.GetStore();
+
+			// use host id
+			HostNode host = HostNode.GetHostByID(store.DefaultDomain, serverID);
+
+			// check username also
+			if (host == null) host = HostNode.GetHostByName(store.DefaultDomain, serverID);
+
+			// not found
+			if (host == null) throw new ServerDoesNotExistException(serverID);
+
+			// server
+			return new iFolderServer(host);
+		}
+
+		/// <summary>
+		/// Get an iFolder Server Information object by Name
+		/// </summary>
+		/// <param name="serverName">The iFolder Server Name</param>
+		/// <returns>An iFolder Server Object</returns>
+		public static iFolderServer GetServerByName(string serverName)
+		{
+			Store store = Store.GetStore();
+			
+			HostNode host = HostNode.GetHostByName(store.DefaultDomain, serverName);
+
+			// not found
+			if (host == null) throw new ServerDoesNotExistException(serverName);
+
+			// server
+			return new iFolderServer(host);
+		}
+
+		/// <summary>
+		/// Get iFolder Servers by Name
+		/// </summary>
+		/// <param name="type">iFolder Server Type</param>
+		/// <param name="operation">The Search Operation</param>
+		/// <param name="pattern">The Search Pattern</param>
+		/// <param name="index">The Search Start Index</param>
+		/// <param name="max">The Search Max Count of Results</param>
+		/// <returns>A Set of iFolder Server Objects</returns>
+		public static iFolderServerSet GetServersByName(iFolderServerType type, SearchOperation operation, string pattern, int index, int max)
+		{
+			bool isMaster = ((type == iFolderServerType.Master) || (type == iFolderServerType.All));
+			bool isLocal = ((type == iFolderServerType.Local) || (type == iFolderServerType.All));
+
+			Store store = Store.GetStore();
+
+			// domain
+			Domain domain = store.GetDomain(store.DefaultDomain);
+
+			// search operator
+			SearchOp searchOperation;
+
+			switch(operation)
+			{
+				case SearchOperation.BeginsWith:
+					searchOperation = SearchOp.Begins;
+					break;
+
+				case SearchOperation.EndsWith:
+					searchOperation = SearchOp.Ends;
+					break;
+
+				case SearchOperation.Contains:
+					searchOperation = SearchOp.Contains;
+					break;
+
+				case SearchOperation.Equals:
+					searchOperation = SearchOp.Equal;
+					break;
+
+				default:
+					searchOperation = SearchOp.Contains;
+					break;
+			}
+			
+			ICSList members = domain.Search(BaseSchema.ObjectName, pattern, searchOperation);
+
+			// build the result list
+			ArrayList list = new ArrayList();
+			int i = 0;
+
+			foreach(ShallowNode sn in members)
+			{
+				// throw away non-members
+				if (sn.IsBaseType(NodeTypes.MemberType))
+				{
+					Member member = new Member(domain, sn);
+
+					if (member.IsType(HostNode.HostNodeType))
+					{
+						HostNode node = new HostNode(member);
+
+						if ((i >= index) && ((max <= 0) || i < (max + index))
+							&& ((isMaster && node.IsMasterHost) || (isLocal && node.IsLocalHost)))
+						{
+							list.Add(new iFolderServer(node));
+						}
+
+						++i;
+					}
+				}
+			}
+
+			return new iFolderServerSet(list.ToArray(typeof(iFolderServer)) as iFolderServer[], i);
 		}
 	}
 }

@@ -39,4 +39,25 @@ namespace iFolder.WebService
 		/// </summary>
 		Orphaned,
 	}
+
+	/// <summary>
+	/// iFolder Server Type
+	/// </summary>
+	public enum iFolderServerType
+	{
+		/// <summary>
+		/// All
+		/// </summary>
+		All,
+
+		/// <summary>
+		/// Master
+		/// </summary>
+		Master,
+
+		/// <summary>
+		/// Local
+		/// </summary>
+		Local,
+	}
 }

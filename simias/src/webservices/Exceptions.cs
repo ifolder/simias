@@ -303,4 +303,18 @@ namespace iFolder.WebService
 		{
 		}
 	}
+
+	/// <summary>
+	/// Server Lookup Failed
+	/// </summary>
+	public class ServerDoesNotExistException : iFolderException
+	{
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <param name="message"></param>
+		public ServerDoesNotExistException(string message) : base(message)
+		{
+		}
+	}
 }
