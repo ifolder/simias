@@ -33,16 +33,16 @@ using Simias.Server;
 namespace iFolder.WebService
 {
 	/// <summary>
-	/// iFolder Common Web Service
+	/// iFolder Common Local Web Service
 	/// </summary>
-	public abstract class iFolderCommon : System.Web.Services.WebService
+	public abstract class iFolderCommonLocal : System.Web.Services.WebService
 	{
 		#region Constructors
 		
 		/// <summary>
 		/// Constructor
 		/// </summary>
-		public iFolderCommon()
+		public iFolderCommonLocal()
 		{
 		}
 		
@@ -57,7 +57,7 @@ namespace iFolder.WebService
 		[WebMethod(
 			 Description="Get information about the iFolder system.",
 			 EnableSession=true)]
-		public iFolderSystem GetSystem()
+		public virtual iFolderSystem GetSystem()
 		{
 			iFolderSystem result = null;
 
@@ -74,7 +74,6 @@ namespace iFolder.WebService
 
 			return result;
 		}
-		
 
 		/// <summary>
 		/// Get information about the authenticated user's home iFolder server.
@@ -83,7 +82,7 @@ namespace iFolder.WebService
 		[WebMethod(
 			 Description="Get information about the authenticated user's home iFolder server.",
 			 EnableSession=true)]
-		public iFolderServer GetHomeServer()
+		public virtual iFolderServer GetHomeServer()
 		{
 			iFolderServer result = null;
 
@@ -108,7 +107,7 @@ namespace iFolder.WebService
 		[WebMethod(
 			 Description="Get information about all the iFolder servers.",
 			 EnableSession=true)]
-		public iFolderServer[] GetServers()
+		public virtual iFolderServer[] GetServers()
 		{
 			iFolderServer[] result = null;
 
@@ -117,6 +116,36 @@ namespace iFolder.WebService
 				Authorize();
 
 				result = iFolderServer.GetServers();
+			}
+			catch(Exception e)
+			{
+				SmartException.Throw(e);
+			}
+
+			return result;
+		}
+
+		/// <summary>
+		/// Get information about iFolder Servers identified by a search on name.
+		/// </summary>
+		/// <param name="operation">The operation to compare the name and pattern.</param>
+		/// <param name="pattern">The pattern to search.</param>
+		/// <param name="index">The starting index for the search results.</param>
+		/// <param name="count">The max number of search results to be returned.</param>
+		/// <returns>A set of iFolder Server objects.</returns>
+		[WebMethod(
+			 Description="Get information about iFolder Servers identified by a search on name.",
+			 EnableSession=true)]
+		public virtual iFolderServerSet GetServersByName(SearchOperation operation, string pattern,
+			int index, int count)
+		{
+			iFolderServerSet result = null;
+
+			try
+			{
+				Authorize();
+
+				result = iFolderServer.GetServersByName(iFolderServerType.All, operation, pattern, index, count);
 			}
 			catch(Exception e)
 			{
@@ -138,7 +167,7 @@ namespace iFolder.WebService
 		[WebMethod(
 			 Description="Delete an iFolder",
 			 EnableSession=true)]
-		public void DeleteiFolder(string ifolderID)
+		public virtual void DeleteiFolder(string ifolderID)
 		{
 			Hashtable exceptions = new Hashtable();
 
@@ -181,7 +210,7 @@ namespace iFolder.WebService
 		[WebMethod(
 			 Description="Get information about an iFolder.",
 			 EnableSession=true)]
-		public iFolder GetiFolder(string ifolderID)
+		public virtual iFolder GetiFolder(string ifolderID)
 		{
 			iFolder result = null;
 
@@ -208,7 +237,7 @@ namespace iFolder.WebService
 		[WebMethod(
 			 Description="Get detailed information about an iFolder.",
 			 EnableSession=true)]
-		public iFolderDetails GetiFolderDetails(string ifolderID)
+		public virtual iFolderDetails GetiFolderDetails(string ifolderID)
 		{
 			iFolderDetails result = null;
 
@@ -234,7 +263,7 @@ namespace iFolder.WebService
 		[WebMethod(
 			 Description="Set the description of an iFolder.",
 			 EnableSession=true)]
-		public void SetiFolderDescription(string ifolderID, string description)
+		public virtual void SetiFolderDescription(string ifolderID, string description)
 		{
 			try
 			{
@@ -256,7 +285,7 @@ namespace iFolder.WebService
 		[WebMethod(
 			 Description="Publish an iFolder.",
 			 EnableSession=true)]
-		public void PublishiFolder(string ifolderID, bool publish)
+		public virtual void PublishiFolder(string ifolderID, bool publish)
 		{
 			try
 			{
@@ -285,7 +314,7 @@ namespace iFolder.WebService
 		[WebMethod(
 			 Description="Get a history of changes to an iFolder.",
 			 EnableSession=true)]
-		public ChangeEntrySet GetChanges(string ifolderID, string itemID, int index, int max)
+		public virtual ChangeEntrySet GetChanges(string ifolderID, string itemID, int index, int max)
 		{
 			ChangeEntrySet result = null;
 
@@ -314,7 +343,7 @@ namespace iFolder.WebService
 		[WebMethod(
 			 Description="Get information about the authenticated user.",
 			 EnableSession=true)]
-		public iFolderUser GetAuthenticatedUser()
+		public virtual iFolderUser GetAuthenticatedUser()
 		{
 			iFolderUser result = null;
 
@@ -342,7 +371,7 @@ namespace iFolder.WebService
 		[WebMethod(
 			 Description="Set the rights of a member on an iFolder.",
 			 EnableSession=true)]
-		public void SetMemberRights(string ifolderID, string userID, Rights rights)
+		public virtual void SetMemberRights(string ifolderID, string userID, Rights rights)
 		{
 			Hashtable exceptions = new Hashtable();
 
@@ -385,7 +414,7 @@ namespace iFolder.WebService
 		[WebMethod(
 			 Description="Add a member to an iFolder.",
 			 EnableSession=true)]
-		public void AddMember(string ifolderID, string userID, Rights rights)
+		public virtual void AddMember(string ifolderID, string userID, Rights rights)
 		{   
 			Hashtable exceptions = new Hashtable();
 			
@@ -428,7 +457,7 @@ namespace iFolder.WebService
 		[WebMethod(
 			 Description="Remove a member from an iFolder.",
 			 EnableSession=true)]
-		public void RemoveMember(string ifolderID, string userID)
+		public virtual void RemoveMember(string ifolderID, string userID)
 		{
 			Hashtable exceptions = new Hashtable();
 
@@ -470,7 +499,7 @@ namespace iFolder.WebService
 		[WebMethod(
 			 Description="Set the owner of an iFolder.",
 			 EnableSession=true)]
-		public void SetiFolderOwner(string ifolderID, string userID)
+		public virtual void SetiFolderOwner(string ifolderID, string userID)
 		{
 			try
 			{
@@ -494,7 +523,7 @@ namespace iFolder.WebService
 		[WebMethod(
 			 Description="Get information about the members of an iFolder.",
 			 EnableSession=true)]
-		public iFolderUserSet GetMembers(string ifolderID, int index, int max)
+		public virtual iFolderUserSet GetMembers(string ifolderID, int index, int max)
 		{
 			iFolderUserSet result = null;
 
@@ -521,7 +550,7 @@ namespace iFolder.WebService
 		[WebMethod(
 			 Description="Get information about all of the iFolder users.",
 			 EnableSession=true)]
-		public iFolderUserSet GetUsers(int index, int max)
+		public virtual iFolderUserSet GetUsers(int index, int max)
 		{
 			iFolderUserSet result = null;
 
@@ -547,7 +576,7 @@ namespace iFolder.WebService
 		[WebMethod(
 			 Description="Get information about a user using an id or username.",
 			 EnableSession=true)]
-		public iFolderUser GetUser(string userID)
+		public virtual iFolderUser GetUser(string userID)
 		{
 			iFolderUser result = null;
 
@@ -574,7 +603,7 @@ namespace iFolder.WebService
 		[WebMethod(
 			 Description="Get User Details",
 			 EnableSession=true)]
-		public iFolderUserDetails GetUserDetails(string userID)
+		public virtual iFolderUserDetails GetUserDetails(string userID)
 		{
 			iFolderUserDetails result = null;
 
@@ -604,7 +633,7 @@ namespace iFolder.WebService
 		[WebMethod(
 			 Description="Get information about all of the iFolder users identified by the search property, operation, and pattern.",
 			 EnableSession=true)]
-		public iFolderUserSet GetUsersBySearch(SearchProperty property, SearchOperation operation, string pattern, int index, int max)
+		public virtual iFolderUserSet GetUsersBySearch(SearchProperty property, SearchOperation operation, string pattern, int index, int max)
 		{
 			iFolderUserSet result = null;
 

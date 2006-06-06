@@ -36,7 +36,7 @@ namespace iFolder.WebService
 		 Namespace="http://novell.com/ifolder/webservice/",
 		 Name="iFolderWeb",
 		 Description="iFolder Web Service")]
-	public class iFolderWeb : iFolderCommon
+	public class iFolderWeb : iFolderWebLocal
 	{
 		#region Constructors
 
@@ -49,34 +49,300 @@ namespace iFolder.WebService
 
 		#endregion
 
-		#region iFolders
+		#region Common System
 
 		/// <summary>
-		/// Get information about all the iFolders to which the authenticate user has rights.
+		/// Get information about the iFolder system.
+		/// </summary>
+		/// <returns>An iFolderSystem object describing the system.</returns>
+		[WebMethod(
+			 Description="Get information about the iFolder system.",
+			 EnableSession=true)]
+		public override iFolderSystem GetSystem()
+		{
+			return base.GetSystem();
+		}
+		
+		/// <summary>
+		/// Get information about the authenticated user's home iFolder server.
+		/// </summary>
+		/// <returns>An iFolderServer object describing the user's home iFolder server.</returns>
+		[WebMethod(
+			 Description="Get information about the authenticated user's home iFolder server.",
+			 EnableSession=true)]
+		public override iFolderServer GetHomeServer()
+		{
+			return base.GetHomeServer();
+		}
+
+		/// <summary>
+		/// Get information about all the iFolder servers.
+		/// </summary>
+		/// <returns>An array of iFolderServer objects.</returns>
+		[WebMethod(
+			 Description="Get information about all the iFolder servers.",
+			 EnableSession=true)]
+		public override iFolderServer[] GetServers()
+		{
+			return base.GetServers();
+		}
+
+		/// <summary>
+		/// Get information about iFolder Servers identified by a search on name.
+		/// </summary>
+		/// <param name="operation">The operation to compare the name and pattern.</param>
+		/// <param name="pattern">The pattern to search.</param>
+		/// <param name="index">The starting index for the search results.</param>
+		/// <param name="count">The max number of search results to be returned.</param>
+		/// <returns>A set of iFolder Server objects.</returns>
+		[WebMethod(
+			 Description="Get information about iFolder Servers identified by a search on name.",
+			 EnableSession=true)]
+		public override iFolderServerSet GetServersByName(SearchOperation operation, string pattern,
+			int index, int count)
+		{
+			return base.GetServersByName(operation, pattern, index, count);
+		}
+
+		#endregion
+
+		#region Common iFolders
+
+		/// <summary>
+		/// Delete an iFolder
+		/// </summary>
+		/// <param name="ifolderID">The id of the iFolder to be deleted.</param>
+		/// <remarks>This API will accept multiple iFolder ids in a comma delimited list.</remarks>
+		[WebMethod(
+			 Description="Delete an iFolder",
+			 EnableSession=true)]
+		public override void DeleteiFolder(string ifolderID)
+		{
+			base.DeleteiFolder(ifolderID);
+		}
+
+		/// <summary>
+		/// Get information about an iFolder.
+		/// </summary>
+		/// <param name="ifolderID">The id of the iFolder.</param>
+		/// <returns>An iFolder object describing the iFolder.</returns>
+		[WebMethod(
+			 Description="Get information about an iFolder.",
+			 EnableSession=true)]
+		public override iFolder GetiFolder(string ifolderID)
+		{
+			return base.GetiFolder(ifolderID);
+		}
+		
+		/// <summary>
+		/// Get detailed information about an iFolder.
+		/// </summary>
+		/// <param name="ifolderID">The id of the iFolder</param>
+		/// <returns>An iFolderDetails object describing the iFolder</returns>
+		/// <remarks>It is more expensive to call GetiFolderDetails than GetiFolder.</remarks>
+		[WebMethod(
+			 Description="Get detailed information about an iFolder.",
+			 EnableSession=true)]
+		public override iFolderDetails GetiFolderDetails(string ifolderID)
+		{
+			return base.GetiFolderDetails(ifolderID);
+		}
+		
+		/// <summary>
+		/// Set the description of an iFolder.
+		/// </summary>
+		/// <param name="ifolderID">The id of the iFolder.</param>
+		/// <param name="description">The new description for the iFolder.</param>
+		[WebMethod(
+			 Description="Set the description of an iFolder.",
+			 EnableSession=true)]
+		public override void SetiFolderDescription(string ifolderID, string description)
+		{
+			base.SetiFolderDescription(ifolderID, description);
+		}
+
+		/// <summary>
+		/// Publish an iFolder.
+		/// </summary>
+		/// <param name="ifolderID">The id of the iFolder.</param>
+		/// <param name="publish">The published state of the iFolder</param>
+		[WebMethod(
+			 Description="Publish an iFolder.",
+			 EnableSession=true)]
+		public override void PublishiFolder(string ifolderID, bool publish)
+		{
+			base.PublishiFolder(ifolderID, publish);
+		}
+
+		#endregion
+
+		#region Common Changes
+		
+		/// <summary>
+		/// Get a history of changes to an iFolder.
+		/// </summary>
+		/// <param name="ifolderID">The id of the iFolder.</param>
+		/// <param name="itemID">The id of item to filter the results (can be null for no filtering).</param>
+		/// <param name="index">The starting index for the search results.</param>
+		/// <param name="max">The max number of search results to be returned.</param>
+		/// <returns>A set of ChangeEntry objects.</returns>
+		[WebMethod(
+			 Description="Get a history of changes to an iFolder.",
+			 EnableSession=true)]
+		public override ChangeEntrySet GetChanges(string ifolderID, string itemID, int index, int max)
+		{
+			return base.GetChanges(ifolderID, itemID, index, max);
+		}
+
+		#endregion
+
+		#region Common Users
+
+		/// <summary>
+		/// Get information about the authenticated user.
+		/// </summary>
+		/// <returns>An iFolderUser object describing the authenticated user.</returns>
+		[WebMethod(
+			 Description="Get information about the authenticated user.",
+			 EnableSession=true)]
+		public override iFolderUser GetAuthenticatedUser()
+		{
+			return base.GetAuthenticatedUser();
+		}
+
+		/// <summary>
+		/// Set the rights of a member on an iFolder.
+		/// </summary>
+		/// <param name="ifolderID">The id of the iFolder.</param>
+		/// <param name="userID">The user id of the member.</param>
+		/// <param name="rights">The rights to be set.</param>
+		/// <remarks>This API will accept multiple user ids in a comma delimited list.</remarks>
+		[WebMethod(
+			 Description="Set the rights of a member on an iFolder.",
+			 EnableSession=true)]
+		public override void SetMemberRights(string ifolderID, string userID, Rights rights)
+		{
+			base.SetMemberRights(ifolderID, userID, rights);
+		}
+
+		/// <summary>
+		/// Add a member to an iFolder.
+		/// </summary>
+		/// <param name="ifolderID">The id of iFolder.</param>
+		/// <param name="userID">The user id of the new member.</param>
+		/// <param name="rights">The rights of the new member on the iFolder.</param>
+		/// <remarks>This API will accept multiple user ids in a comma delimited list.</remarks>
+		[WebMethod(
+			 Description="Add a member to an iFolder.",
+			 EnableSession=true)]
+		public override void AddMember(string ifolderID, string userID, Rights rights)
+		{   
+			base.AddMember(ifolderID, userID, rights);
+		}
+
+		/// <summary>
+		/// Remove a member from an iFolder.
+		/// </summary>
+		/// <param name="ifolderID">The id of the iFolder.</param>
+		/// <param name="userID">The user id of the member.</param>
+		/// <remarks>This API will accept multiple user ids in a comma delimited list.</remarks>
+		[WebMethod(
+			 Description="Remove a member from an iFolder.",
+			 EnableSession=true)]
+		public override void RemoveMember(string ifolderID, string userID)
+		{
+			base.RemoveMember(ifolderID, userID);
+		}
+
+		/// <summary>
+		/// Set the owner of an iFolder.
+		/// </summary>
+		/// <param name="ifolderID">The id of the iFolder.</param>
+		/// <param name="userID">The user id of the new owner.</param>
+		[WebMethod(
+			 Description="Set the owner of an iFolder.",
+			 EnableSession=true)]
+		public override void SetiFolderOwner(string ifolderID, string userID)
+		{
+			base.SetiFolderOwner(ifolderID, userID);
+		}
+
+		/// <summary>
+		/// Get information about the members of an iFolder.
+		/// </summary>
+		/// <param name="ifolderID">The id of the iFolder.</param>
+		/// <param name="index">The starting index for the search results.</param>
+		/// <param name="max">The max number of search results to be returned.</param>
+		/// <returns>A set of iFolderUser objects describing the members.</returns>
+		[WebMethod(
+			 Description="Get information about the members of an iFolder.",
+			 EnableSession=true)]
+		public override iFolderUserSet GetMembers(string ifolderID, int index, int max)
+		{
+			return base.GetMembers(ifolderID, index, max);
+		}
+
+		/// <summary>
+		/// Get information about all of the iFolder users.
 		/// </summary>
 		/// <param name="index">The starting index for the search results.</param>
 		/// <param name="max">The max number of search results to be returned.</param>
-		/// <returns>A set of iFolder objects.</returns>
+		/// <returns>A set of iFolderUser objects.</returns>
 		[WebMethod(
-			 Description="Get information about all the iFolders to which the authenticate user has rights.",
+			 Description="Get information about all of the iFolder users.",
 			 EnableSession=true)]
-		public iFolderSet GetiFolders(int index, int max)
+		public override iFolderUserSet GetUsers(int index, int max)
 		{
-			iFolderSet result = null;
-
-			try
-			{
-				string accessID = GetAccessID();
-
-				result = iFolder.GetiFoldersByMember(accessID, MemberRole.Any, index, max, accessID);
-			}
-			catch(Exception e)
-			{
-				SmartException.Throw(e);
-			}
-
-			return result;
+			return base.GetUsers(index, max);
 		}
+
+		/// <summary>
+		/// Get information about a user using an id or username.
+		/// </summary>
+		/// <param name="userID">The id or username of the user.</param>
+		/// <returns>A iFolderUser object.</returns>
+		[WebMethod(
+			 Description="Get information about a user using an id or username.",
+			 EnableSession=true)]
+		public override iFolderUser GetUser(string userID)
+		{
+			return base.GetUser(userID);
+		}
+
+		/// <summary>
+		/// Get detailed information about a user.
+		/// </summary>
+		/// <param name="userID">The id of the user.</param>
+		/// <returns>A iFolderUserDetails object.</returns>
+		/// <remarks>It is more expensive to call GetUserDetails than GetUser.</remarks>
+		[WebMethod(
+			 Description="Get User Details",
+			 EnableSession=true)]
+		public override iFolderUserDetails GetUserDetails(string userID)
+		{
+			return base.GetUserDetails(userID);
+		}
+
+		/// <summary>
+		/// Get information about all of the iFolder users identified by the search property, operation, and pattern.
+		/// </summary>
+		/// <param name="property">The property to search.</param>
+		/// <param name="operation">The operation to compare the property and pattern.</param>
+		/// <param name="pattern">The pattern to search</param>
+		/// <param name="index">The starting index for the search results.</param>
+		/// <param name="max">The max number of search results to be returned.</param>
+		/// <returns>A set of iFolderUser objects.</returns>
+		[WebMethod(
+			 Description="Get information about all of the iFolder users identified by the search property, operation, and pattern.",
+			 EnableSession=true)]
+		public override iFolderUserSet GetUsersBySearch(SearchProperty property, SearchOperation operation, string pattern, int index, int max)
+		{
+			return base.GetUsersBySearch(property, operation, pattern, index, max);
+		}
+
+		#endregion
+
+		#region iFolders
 
 		/// <summary>
 		/// Create a new iFolder with the authenticated user as the owner.
@@ -87,24 +353,23 @@ namespace iFolder.WebService
 		[WebMethod(
 			 Description="Create a new iFolder with the authenticated user as the owner.",
 			 EnableSession=true)]
-		public iFolder CreateiFolder(string name, string description)
+		public override iFolder CreateiFolder(string name, string description)
 		{
-			iFolder result = null;
+			return base.CreateiFolder(name, description);
+		}
 
-			try
-			{
-				Authorize();
-
-				string accessID = GetAccessID();
-
-				result = iFolder.CreateiFolder(name, accessID, description, accessID);
-			}
-			catch(Exception e)
-			{
-				SmartException.Throw(e);
-			}
-
-			return result;
+		/// <summary>
+		/// Get information about all the iFolders to which the authenticate user has rights.
+		/// </summary>
+		/// <param name="index">The starting index for the search results.</param>
+		/// <param name="max">The max number of search results to be returned.</param>
+		/// <returns>A set of iFolder objects.</returns>
+		[WebMethod(
+			 Description="Get information about all the iFolders to which the authenticate user has rights.",
+			 EnableSession=true)]
+		public override iFolderSet GetiFolders(int index, int max)
+		{
+			return base.GetiFolders(index, max);
 		}
 
 		/// <summary>
@@ -118,24 +383,9 @@ namespace iFolder.WebService
 		[WebMethod(
 			 Description="Get information about iFolders identified by the search operation and pattern.",
 			 EnableSession=true)]
-		public iFolderSet GetiFoldersByName(SearchOperation operation, string pattern, int index, int max)
+		public override iFolderSet GetiFoldersByName(SearchOperation operation, string pattern, int index, int max)
 		{
-			iFolderSet result = null;
-
-			try
-			{
-				Authorize();
-
-				string accessID = GetAccessID();
-
-				result = iFolder.GetiFoldersByMember(GetUserID(), MemberRole.Any, operation, pattern, index, max, GetAccessID());
-			}
-			catch(Exception e)
-			{
-				SmartException.Throw(e);
-			}
-
-			return result;
+			return base.GetiFoldersByName(operation, pattern, index, max);
 		}
 
 		/// <summary>
@@ -151,24 +401,9 @@ namespace iFolder.WebService
 		[WebMethod(
 			 Description="Get information about iFolder identified by role, creation time, and search operation and pattern.",
 			 EnableSession=true)]
-		public iFolderSet GetiFoldersBySearch(MemberRole role, DateTime after, SearchOperation operation, string pattern, int index, int max)
+		public override iFolderSet GetiFoldersBySearch(MemberRole role, DateTime after, SearchOperation operation, string pattern, int index, int max)
 		{
-			iFolderSet result = null;
-
-			try
-			{
-				Authorize();
-
-				string accessID = GetAccessID();
-
-				result = iFolder.GetiFoldersByMember(accessID, role, after, operation, pattern, index, max, accessID);
-			}
-			catch(Exception e)
-			{
-				SmartException.Throw(e);
-			}
-
-			return result;
+			return base.GetiFoldersBySearch(role, after, operation, pattern, index, max);
 		}
 
 		#endregion
@@ -183,43 +418,9 @@ namespace iFolder.WebService
 		[WebMethod(
 			 Description="Remove the authenticated user's membership to an iFolder.",
 			 EnableSession=true)]
-		public void RemoveMembership(string ifolderID)
+		public override void RemoveMembership(string ifolderID)
 		{
-			Hashtable exceptions = new Hashtable();
-
-			try
-			{
-				Authorize();
-
-				string accessID = GetAccessID();
-
-				string[] ids = ifolderID.Split(new char[] {',', ' '});
-
-				foreach(string id in ids)
-				{
-					if (id.Length > 0)
-					{
-						try
-						{
-							// NOTE: the accessID on this call in null, because
-							// we want the user to be able to remove themselves 
-							// from any iFolder regardless of rights
-							iFolderUser.RemoveMember(id, accessID, null);
-						}
-						catch(Exception e)
-						{
-							exceptions.Add(id, e);
-						}
-					}
-				}
-
-			}
-			catch(Exception e)
-			{
-				SmartException.Throw(e);
-			}
-	
-			SmartException.Throw(exceptions);
+			base.RemoveMembership(ifolderID);
 		}
 
 		#endregion
@@ -233,22 +434,9 @@ namespace iFolder.WebService
 		[WebMethod(
 			 Description="Get policy information for the authenticated user.",
 			 EnableSession=true)]
-		public UserPolicy GetAuthenticatedUserPolicy()
+		public override UserPolicy GetAuthenticatedUserPolicy()
 		{
-			UserPolicy result = null;
-
-			try
-			{
-				string accessID = GetAccessID();
-
-				result = UserPolicy.GetPolicy(accessID);
-			}
-			catch(Exception e)
-			{
-				SmartException.Throw(e);
-			}
-
-			return result;
+			return base.GetAuthenticatedUserPolicy();
 		}
 
 		/// <summary>
@@ -259,43 +447,21 @@ namespace iFolder.WebService
 		[WebMethod(
 			 Description="Get policy information for an iFolder.",
 			 EnableSession=true)]
-		public iFolderPolicy GetiFolderPolicy(string ifolderID)
+		public override iFolderPolicy GetiFolderPolicy(string ifolderID)
 		{
-			iFolderPolicy result = null;
-
-			try
-			{
-				string accessID = GetAccessID();
-
-				result = iFolderPolicy.GetPolicy(ifolderID, accessID);
-			}
-			catch(Exception e)
-			{
-				SmartException.Throw(e);
-			}
-
-			return result;
+			return base.GetiFolderPolicy(ifolderID);
 		}
 
 		/// <summary>
 		/// Set the policy for an iFolder.
 		/// </summary>
-		/// <param name="props">The iFolderPolicy object.</param>
+		/// <param name="policy">The iFolderPolicy object.</param>
 		[WebMethod(
 			 Description="Set the policy for an iFolder.",
 			 EnableSession=true)]
-		public void SetiFolderPolicy(iFolderPolicy props)
+		public override void SetiFolderPolicy(iFolderPolicy policy)
 		{
-			try
-			{
-				string accessID = GetAccessID();
-
-				iFolderPolicy.SetPolicy(props, accessID);
-			}
-			catch(Exception e)
-			{
-				SmartException.Throw(e);
-			}
+			base.SetiFolderPolicy(policy);
 		}
 		
 		#endregion
@@ -313,20 +479,9 @@ namespace iFolder.WebService
 		[WebMethod(
 			 Description="Create an iFolder entry (file or directory).",
 			 EnableSession=true)]
-		public iFolderEntry CreateEntry(string ifolderID, string parentID, iFolderEntryType type, string entryName)
+		public override iFolderEntry CreateEntry(string ifolderID, string parentID, iFolderEntryType type, string entryName)
 		{
-			iFolderEntry result = null;
-
-			try
-			{
-				result = iFolderEntry.CreateEntry(ifolderID, parentID, type, entryName, GetAccessID());
-			}
-			catch(Exception e)
-			{
-				SmartException.Throw(e);
-			}
-
-			return result;
+			return base.CreateEntry(ifolderID, parentID, type, entryName);
 		}
 		
 		/// <summary>
@@ -338,30 +493,9 @@ namespace iFolder.WebService
 		[WebMethod(
 			 Description="Delete an iFolder entry.",
 			 EnableSession=true)]
-		public void DeleteEntry(string ifolderID, string entryID)
+		public override void DeleteEntry(string ifolderID, string entryID)
 		{
-			Hashtable exceptions = new Hashtable();
-
-			string accessID = GetAccessID();
-
-			string[] ids = entryID.Split(new char[] {',', ' '});
-
-			foreach(string id in ids)
-			{
-				if (id.Length > 0)
-				{
-					try
-					{
-						iFolderEntry.DeleteEntry(ifolderID, id, accessID);
-					}
-					catch(Exception e)
-					{
-						exceptions.Add(id, e);
-					}
-				}
-			}
-
-			SmartException.Throw(exceptions);
+			base.DeleteEntry(ifolderID, entryID);
 		}
 		
 		/// <summary>
@@ -373,20 +507,9 @@ namespace iFolder.WebService
 		[WebMethod(
 			 Description="Get information about an iFolder entry.",
 			 EnableSession=true)]
-		public iFolderEntry GetEntry(string ifolderID, string entryID)
+		public override iFolderEntry GetEntry(string ifolderID, string entryID)
 		{
-			iFolderEntry result = null;
-
-			try
-			{
-				result = iFolderEntry.GetEntry(ifolderID, entryID, GetAccessID());
-			}
-			catch(Exception e)
-			{
-				SmartException.Throw(e);
-			}
-
-			return result;
+			return base.GetEntry(ifolderID, entryID);
 		}
 		
 		/// <summary>
@@ -398,20 +521,9 @@ namespace iFolder.WebService
 		[WebMethod(
 			 Description="Get information about an entry identified by it's relative path in the iFolder.",
 			 EnableSession=true)]
-		public iFolderEntry GetEntryByPath(string ifolderID, string entryPath)
+		public override iFolderEntry GetEntryByPath(string ifolderID, string entryPath)
 		{
-			iFolderEntry result = null;
-
-			try
-			{
-				result = iFolderEntry.GetEntryByPath(ifolderID, entryPath, GetAccessID());
-			}
-			catch(Exception e)
-			{
-				SmartException.Throw(e);
-			}
-
-			return result;
+			return base.GetEntryByPath(ifolderID, entryPath);
 		}
 		
 		/// <summary>
@@ -425,20 +537,9 @@ namespace iFolder.WebService
 		[WebMethod(
 			 Description="Get information about entries identified by their parent entry.",
 			 EnableSession=true)]
-		public iFolderEntrySet GetEntries(string ifolderID, string entryID, int index, int max)
+		public override iFolderEntrySet GetEntries(string ifolderID, string entryID, int index, int max)
 		{
-			iFolderEntrySet result = null;
-
-			try
-			{
-				result = iFolderEntry.GetEntries(ifolderID, entryID, index, max, GetAccessID());
-			}
-			catch(Exception e)
-			{
-				SmartException.Throw(e);
-			}
-
-			return result;
+			return base.GetEntries(ifolderID, entryID, index, max);
 		}
 
 		/// <summary>
@@ -454,20 +555,9 @@ namespace iFolder.WebService
 		[WebMethod(
 			 Description="Get information about entries in an iFolder identified by a search on the name.",
 			 EnableSession=true)]
-		public iFolderEntrySet GetEntriesByName(string ifolderID, string parentID, SearchOperation operation, string pattern, int index, int max)
+		public override iFolderEntrySet GetEntriesByName(string ifolderID, string parentID, SearchOperation operation, string pattern, int index, int max)
 		{
-			iFolderEntrySet result = null;
-
-			try
-			{
-				result = iFolderEntry.GetEntriesByName(ifolderID, parentID, operation, pattern, index, max, GetAccessID());
-			}
-			catch(Exception e)
-			{
-				SmartException.Throw(e);
-			}
-
-			return result;
+			return base.GetEntriesByName(ifolderID, parentID, operation, pattern, index, max);
 		}
 
 		#endregion
@@ -482,20 +572,9 @@ namespace iFolder.WebService
 		[WebMethod(
 			 Description="Get a setting specific to the authenticated user.",
 			 EnableSession=true)]
-		public string GetSetting(string name)
+		public override string GetSetting(string name)
 		{
-			string result = null;
-
-			try
-			{
-				result = Settings.GetUserSetting(GetAccessID(), name);
-			}
-			catch(Exception e)
-			{
-				SmartException.Throw(e);
-			}
-
-			return result;
+			return base.GetSetting(name);
 		}
 
 		/// <summary>
@@ -506,18 +585,9 @@ namespace iFolder.WebService
 		[WebMethod(
 			 Description="Set a setting specific to the authenticated user.",
 			 EnableSession=true)]
-		public void SetSetting(string name, string value)
+		public override void SetSetting(string name, string value)
 		{
-			try
-			{
-				Settings.SetUserSetting(GetAccessID(), name, value);
-			}
-			catch(Exception e)
-			{
-				SmartException.Throw(e);
-			}
-
-			return;
+			base.SetSetting(name, value);
 		}
 
 		#endregion
@@ -533,23 +603,9 @@ namespace iFolder.WebService
 		[WebMethod(
 			 Description="Open an iFolder file entry for reading.",
 			 EnableSession=true)]
-		public string OpenFileRead(string ifolderID, string entryID)
+		public override string OpenFileRead(string ifolderID, string entryID)
 		{
-			string id = null;
-
-			try
-			{
-				iFolderFile file = new iFolderFile(ifolderID, entryID, GetAccessID());
-				file.OpenRead();
-				id = file.ID;
-				Session[id] = file;
-			}
-			catch(Exception e)
-			{
-				SmartException.Throw(e);
-			}
-
-			return id;
+			return base.OpenFileRead(ifolderID, entryID);
 		}
 
 		/// <summary>
@@ -562,23 +618,9 @@ namespace iFolder.WebService
 		[WebMethod(
 			 Description="Open an iFolder file entry for writing.",
 			 EnableSession=true)]
-		public string OpenFileWrite(string ifolderID, string entryID, long length)
+		public override string OpenFileWrite(string ifolderID, string entryID, long length)
 		{
-			string id = null;
-
-			try
-			{
-				iFolderFile file = new iFolderFile(ifolderID, entryID, GetAccessID());
-				file.OpenWrite(length);
-				id = file.ID;
-				Session[id] = file;
-			}
-			catch(Exception e)
-			{
-				SmartException.Throw(e);
-			}
-
-			return id;
+			return base.OpenFileWrite(ifolderID, entryID, length);
 		}
 
 		/// <summary>
@@ -590,27 +632,9 @@ namespace iFolder.WebService
 		[WebMethod(
 			 Description="Read from an openned iFolder file entry.",
 			 EnableSession=true)]
-		public byte[] ReadFile(string file, int size)
+		public override byte[] ReadFile(string file, int size)
 		{
-			byte[] result = null;
-
-			try
-			{
-				if (Session[file] != null)
-				{
-					result = (Session[file] as iFolderFile).Read(size);
-				}
-				else
-				{
-					throw new FileNotOpenException(file);
-				}
-			}
-			catch(Exception e)
-			{
-				SmartException.Throw(e);
-			}
-
-			return result;
+			return base.ReadFile(file, size);
 		}
 
 		/// <summary>
@@ -621,23 +645,9 @@ namespace iFolder.WebService
 		[WebMethod(
 			 Description="Write to an openned iFolder file entry.",
 			 EnableSession=true)]
-		public void WriteFile(string file, byte[] buffer)
+		public override void WriteFile(string file, byte[] buffer)
 		{
-			try
-			{
-				if (Session[file] != null)
-				{
-					(Session[file] as iFolderFile).Write(buffer);
-				}
-				else
-				{
-					throw new FileNotOpenException(file);
-				}
-			}
-			catch(Exception e)
-			{
-				SmartException.Throw(e);
-			}
+			base.WriteFile(file, buffer);
 		}
 
 		/// <summary>
@@ -647,57 +657,9 @@ namespace iFolder.WebService
 		[WebMethod(
 			 Description="Close an openned iFolder file entry.",
 			 EnableSession=true)]
-		public void CloseFile(string file)
+		public override void CloseFile(string file)
 		{
-			try
-			{
-				if (Session[file] != null)
-				{
-					(Session[file] as iFolderFile).Close();
-					Session[file] = null;
-				}
-			}
-			catch(Exception e)
-			{
-				SmartException.Throw(e);
-			}
-		}
-
-		#endregion
-
-		#region Utility
-
-
-		/// <summary>
-		/// Get the access user's id.
-		/// </summary>
-		protected override string GetAccessID()
-		{
-			return GetUserID();
-		}
-
-		/// <summary>
-		/// Get the authenticated user's id.
-		/// </summary>
-		protected override string GetUserID()
-		{
-			// check authentication
-			string userID = Context.User.Identity.Name;
-
-			if ((userID == null) || (userID.Length == 0))
-			{
-				throw new AuthenticationException();
-			}
-
-			return userID;
-		}
-
-		/// <summary>
-		/// Authorize the authenticated user.
-		/// </summary>
-		protected override void Authorize()
-		{
-			// no authorization needed
+			base.CloseFile(file);
 		}
 
 		#endregion
