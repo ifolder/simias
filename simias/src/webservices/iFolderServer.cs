@@ -71,6 +71,11 @@ namespace iFolder.WebService
 	public class iFolderServer
 	{
 		/// <summary>
+		/// Server ID
+		/// </summary>
+		public string ID;
+		
+		/// <summary>
 		/// Server Version
 		/// </summary>
 		public string Version;
@@ -133,17 +138,18 @@ namespace iFolder.WebService
 		/// <param name="server">HostNode object</param>
 		public iFolderServer(HostNode server)
 		{
+			ID = server.UserID;
+			PublicUrl = server.PublicUrl;
+			PrivateUrl = server.PrivateUrl;
+			IsMaster = server.IsMasterHost;
+			IsLocal = server.IsLocalHost;
+
 			Version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
 			HostName = System.Net.Dns.GetHostName();
 			MachineName = System.Environment.MachineName;
 			OSVersion = System.Environment.OSVersion.ToString();
 			UserName = System.Environment.UserName;
 			ClrVersion = System.Environment.Version.ToString();
-
-			PublicUrl = server.PublicUrl;
-			PrivateUrl = server.PrivateUrl;
-			IsMaster = server.IsMasterHost;
-			IsLocal = server.IsLocalHost;
 		}
 
 		/// <summary>
