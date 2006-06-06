@@ -127,9 +127,10 @@ case $host_os in
         AC_SUBST(LOG4NET_LIBS)
 		# this needs to be here but libflaim is broken right now
 		# so don't do this check
-        #PKG_CHECK_MODULES(LIBFLAIM, libflaim >= 4.8.0)
-        #AC_SUBST(LOG4NET_PREFIX)
-        #AC_SUBST(LOG4NET_LIBS)
+        PKG_CHECK_MODULES(LIBFLAIM, libflaim >= 4.8.0)
+        AC_SUBST(LIBFLAIM_PREFIX)
+        AC_SUBST(LIBFLAIM_LIBS)
+	AC_SUBST(LIBFLAIM_CFLAGS)
     ;;
     darwin*)
 		# fix up the flaim libraries
