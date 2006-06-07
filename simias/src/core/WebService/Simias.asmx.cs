@@ -191,6 +191,9 @@ namespace Simias.Web
 		private static readonly ISimiasLog log = SimiasLogManager.GetLogger(typeof(SimiasService));
 		private static int simiasReferenceCount = 0;
 
+		private static string DomainServiceType = "Domain Service";
+		private static string DomainServicePath = "/simias10/DomainService.asmx";
+
 		/// <summary>
 		/// Creates the SimiasService and sets up logging
 		/// </summary>
@@ -982,31 +985,50 @@ log.Debug("SimiasWebService.ConnectToDomain() called to connect to {0} as {1}", 
 		/// <param name="hostAddress">The new IP host address for the domain. If the port has
 		/// changed, then specify the port by appending a ':' + the port number to the host
 		/// address.</param>
+		/// <param name="user">The user changing the address.</param>
+		/// <param name="password">The password of the user.</param>
 		/// <returns>True if new address was set. Otherwise false is returned.</returns>
 		[WebMethod(EnableSession=true, Description="Sets a new server network address for a client.")]
 		[SoapDocumentMethod]
-		public bool SetDomainHostAddress( string domainID, string hostAddress )
+		public bool SetDomainHostAddress( string domainID, string hostAddress, string user, string password )
 		{
 			bool addressSet = false;
 
 			try
 			{
-				// Get the current address for this domain.
-				Uri currentAddress = DomainProvider.ResolveLocation( domainID );
-				if ( currentAddress != null )
+				// Normalize the host adddress.
+				string[] components = hostAddress.ToLower().Split( new char[] { ':' } );
+				if ( components.Length > 1 )
 				{
-					// Normalize the host adddress.
-					string[] components = hostAddress.ToLower().Split( new char[] { ':' } );
-					UriBuilder ub = new UriBuilder( currentAddress );
-					ub.Host = components[ 0 ];
-
-					// See if a port was specified.
-					if ( components.Length > 1 )
+					// Get the current address for this domain.
+					Uri currentAddress = DomainProvider.ResolveLocation( domainID );
+					if ( currentAddress != null )
 					{
+						UriBuilder ub = new UriBuilder( currentAddress );
+						ub.Host = components[ 0 ];
 						ub.Port = Convert.ToInt32( components[ 1 ] );
+
+						DomainProvider.SetHostLocation( domainID, ub.Uri );
+						addressSet = true;
+					}
+				}
+				else
+				{
+					Uri hostLocation = WSInspection.GetServiceUrl( hostAddress, DomainServiceType, user, password );
+					if ( hostLocation == null )
+					{
+						// There was a failure in obtaining the service url. Try a hard coded one.
+						if ( hostAddress.StartsWith( Uri.UriSchemeHttp ) || hostAddress.StartsWith( Uri.UriSchemeHttps ) )
+						{	
+							hostLocation = new Uri( hostAddress.TrimEnd( new char[] {'/'} ) + DomainServicePath ); 
+						}
+						else
+						{
+							hostLocation = new Uri( Uri.UriSchemeHttp + Uri.SchemeDelimiter + hostAddress.TrimEnd( new char[] {'/'} ) + DomainServicePath );
+						}
 					}
 
-					DomainProvider.SetHostLocation( domainID, ub.Uri );
+					DomainProvider.SetHostLocation( domainID, hostLocation );
 					addressSet = true;
 				}
 			}
