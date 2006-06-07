@@ -126,7 +126,7 @@ namespace Simias.Storage
 
 		#endregion
 
-		#region Consturctors
+		#region Constructors
 		/// <summary>
 		/// Construct a new host node.
 		/// </summary>
@@ -148,7 +148,7 @@ namespace Simias.Storage
 		/// <param name="privateUrl">The private URL for the host.</param>
 		/// <param name="publicKey"></param>
 		public HostNode(string name, string userId, string publicUrl, string privateUrl, RSACryptoServiceProvider publicKey) :
-			base(name, userId, Access.Rights.Admin, publicKey)
+			base(name, userId, Access.Rights.ReadOnly, publicKey)
 		{
 			// Set the Addresses.
 			// Get the port that we are using.
