@@ -219,7 +219,10 @@ namespace Simias.DomainServices
 				}
 				finally
 				{
-					response.Close ();
+					if (response != null)
+					{
+						response.Close ();
+					}
 				}
 			}
 
