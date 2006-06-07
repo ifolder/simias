@@ -609,10 +609,6 @@ namespace Simias.DomainServices
 						basic.Save( false );
 						SetDomainState( DomainID, true, true );
 					}
-					else
-					{
-						status = new Simias.Authentication.Status( SCodes.UnknownDomain );
-					}
 				}
 				else
 				{
