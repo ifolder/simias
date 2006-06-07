@@ -285,6 +285,7 @@ namespace Simias.Host
 					if( master == true )
 					{
 						host = new HostNode( hName, System.Guid.NewGuid().ToString(), publicAddress, privateAddress, rsa );
+						host.Rights = Simias.Storage.Access.Rights.Admin;
 						host.IsMasterHost = true;
 					}
 					else

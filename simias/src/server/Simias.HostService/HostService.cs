@@ -369,6 +369,67 @@ namespace Simias.Host
 		{
 			return domain.Owner.Properties.ToString(true);
 		}
+
+		/// <summary>
+		/// Method to set/reset public and private addresses
+		/// of a host
+		/// Note: The Host parameter can be represented as
+		/// the Host ID or the Host name.  If the Host
+		/// is null local host is assumed.
+		/// </summary>
+		/// <param name="Host"></param>
+		/// <param name="PublicAddress"></param>
+		/// <param name="PrivateAddress"></param>
+		/// <returns></returns>
+		[WebMethod( EnableSession = true )]
+		public void SetHostAddress( string Host, string PublicUrl, string PrivateUrl )
+		{
+			// Validate parameters
+			if ( PublicUrl == null && PrivateUrl == null )
+			{
+				throw new SimiasException( "Invalid parameter" );
+			}
+
+			HostNode host = null;
+			if ( Host == null || Host == String.Empty )
+			{
+				host = HostNode.GetLocalHost();
+			}
+			else
+			{
+				try
+				{
+					host = HostNode.GetHostByID( domain.ID, Host );
+				}
+				catch{}
+				if ( host == null )
+				{
+					try
+					{
+						host = HostNode.GetHostByName( domain.ID, Host );
+					} 
+					catch{}
+				}
+
+				if ( host == null )
+				{
+					throw new SimiasException( String.Format( "Specified host {0} does not exist", Host ) );
+				}
+			}
+
+			if ( PrivateUrl != null && PrivateUrl != String.Empty )
+			{
+				host.PrivateUrl = PrivateUrl;
+			}
+
+			if ( PublicUrl != null && PublicUrl != String.Empty )
+			{
+				host.PublicUrl = PublicUrl;
+			}
+
+			// Save the changes
+			domain.Commit( host );
+		}
 	}
 
 	/// <summary>
