@@ -416,7 +416,7 @@ namespace iFolder.WebService
 			 EnableSession=true)]
 		public override iFolderSet GetiFoldersByName(SearchOperation operation, string pattern, int index, int count)
 		{
-			return GetiFoldersByName(operation, pattern, index, count);
+			return base.GetiFoldersByName(operation, pattern, index, count);
 		}
 
 		#endregion

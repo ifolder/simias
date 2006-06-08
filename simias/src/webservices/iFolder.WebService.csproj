@@ -110,7 +110,7 @@
                 <File
                     RelPath = "iFolderAdmin.asmx.cs"
                     DependentUpon = "iFolderAdmin.asmx"
-                    SubType = "Component"
+                    SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
@@ -130,7 +130,7 @@
                 <File
                     RelPath = "iFolderWeb.asmx.cs"
                     DependentUpon = "iFolderWeb.asmx"
-                    SubType = "Component"
+                    SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
