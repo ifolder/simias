@@ -522,7 +522,7 @@ span.rights
 {
 	background: transparent url(../images/text-x-generic.png) top left no-repeat;
 	padding: 0 0 8px 22px;
-	height: 16px;
+	min-height: 16px;
 }
 
 #files div a
