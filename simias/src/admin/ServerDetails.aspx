@@ -17,7 +17,7 @@
 	</style>
 
 </head>
-
+	
 <body id="server" runat="server">
 	
 <form runat="server" ID="Form1">
@@ -106,8 +106,9 @@
 					AutoPostBack="True" />
 				
 				<asp:Button 
-					ID="DownloadReport" 
-					Runat="server" 
+					ID="ViewReportButton" 
+					Runat="server"
+					CssClass="ifolderbuttons"
 					Enabled="False" />
 			
 			</div>
@@ -230,6 +231,45 @@
 				
 			</div>
 			
+			<asp:DropDownList 
+				ID="LogList" 
+				Runat="server" 
+				AutoPostBack="True" />
+			
+			<asp:Button 
+				ID="ViewLogButton" 
+				Runat="server" 
+				CssClass="ifolderbuttons" 
+				OnClick="ViewLogFile" />
+				
+			<asp:TextBox 
+				ID="LogText" 
+				Runat="server" 
+				CssClass="logtext" 
+				ReadOnly="True" 
+				Rows="15" 
+				TextMode="MultiLine" 
+				Wrap="True" />
+				
+			<div class="loglevel">
+			
+				<asp:Label 
+					ID="LogLevelLabel" 
+					Runat="server" />
+					
+				<asp:DropDownList 
+					ID="LogLevelList" 
+					Runat="server" 
+					AutoPostBack="True" />
+				
+				<asp:Button 
+					ID="LogLevelButton" 
+					Runat="server" 
+					CssClass="ifolderbuttons" 
+					Enabled="False" />
+					
+			</div>
+				
 		</div>
 		
 	</div>

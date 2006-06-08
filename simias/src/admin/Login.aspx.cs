@@ -168,7 +168,7 @@ namespace Novell.iFolderWeb.Admin
 				// culture info
 				string code = Thread.CurrentThread.CurrentUICulture.Name;
 
-				if ((Context.Request != null) && (Request.UserLanguages.Length > 0))
+				if ((Context.Request != null) && (Request.UserLanguages != null ) && (Request.UserLanguages.Length > 0))
 				{
 					code = Request.UserLanguages[0];
 				}

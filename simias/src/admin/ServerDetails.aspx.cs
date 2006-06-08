@@ -26,7 +26,10 @@ using System.Collections;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
+using System.Net;
 using System.Resources;
+using System.Text;
 using System.Web;
 using System.Web.SessionState;
 using System.Web.UI;
@@ -137,9 +140,40 @@ namespace Novell.iFolderWeb.Admin
 		protected DropDownList ReportList;
 
 		/// <summary>
-		/// Report download button control.
+		/// Report file view button control.
 		/// </summary>
-		protected Button DownloadReport;
+		protected Button ViewReportButton;
+
+
+		/// <summary>
+		/// Log list control.
+		/// </summary>
+		protected DropDownList LogList;
+
+		/// <summary>
+		/// Log text control.
+		/// </summary>
+		protected TextBox LogText;
+
+		/// <summary>
+		/// Log file view button control.
+		/// </summary>
+		protected Button ViewLogButton;
+
+		/// <summary>
+		/// Log level label control.
+		/// </summary>
+		protected Label LogLevelLabel;
+
+		/// <summary>
+		/// Log level list control.
+		/// </summary>
+		protected DropDownList LogLevelList;
+
+		/// <summary>
+		/// Log level button control.
+		/// </summary>
+		protected Button LogLevelButton;
 
 		#endregion
 
@@ -165,6 +199,38 @@ namespace Novell.iFolderWeb.Admin
 		{
 			TopNav.AddBreadCrumb( GetString( "SERVERS" ), "Servers.aspx" );
 			TopNav.AddBreadCrumb( serverName, null );
+		}
+
+		/// <summary>
+		/// Gets the list of files to display in the log file list.
+		/// </summary>
+		private void GetLogList()
+		{
+			ArrayList files = new ArrayList();
+
+			// BUGBUG!! - Make a websvc call to determine the
+			// available log files and only add those to the list.
+
+			files.Add( GetString( "SYSTEMLOGFILE" ) );
+			files.Add( GetString( "ACCESSLOGFILE" ) );
+			files.Add( GetString( "ADMINLOGFILE" ) );
+			files.Add( GetString( "WEBACCESSLOGFILE" ) );
+
+			LogList.DataSource = files;
+			LogList.DataBind();
+
+			ArrayList levels = new ArrayList();
+
+			levels.Add( GetString( "ALL" ) );
+			levels.Add( GetString( "DEBUG" ) );
+			levels.Add( GetString( "INFO" ) );
+			levels.Add( GetString( "WARN" ) );
+			levels.Add( GetString( "ERROR" ) );
+			levels.Add( GetString( "FATAL" ) );
+			levels.Add( GetString( "OFF" ) );
+
+			LogLevelList.DataSource = levels;
+			LogLevelList.DataBind();
 		}
 
 		/// <summary>
@@ -200,17 +266,31 @@ namespace Novell.iFolderWeb.Admin
 			PublicIP.Text = server.PublicUrl;
 			PrivateIP.Text = server.PrivateUrl;
 
-			Status.Text = "Up";
-			UserCount.Text = "123";
-			iFolderCount.Text = "1234";
-			LoggedOnUsersCount.Text = "45";
-			SessionCount.Text = "56";
-			DiskSpaceUsed.Text = "560 MB";
-			DiskSpaceAvailable.Text = "145032 MB";
-			LdapStatus.Text = "Up";
-			MaxConnectionCount.Text = "40";
+			Status.Text = "(Not Implemented)";
+			UserCount.Text = "(Not Implemented)";
+			iFolderCount.Text = "(Not Implemented)";
+			LoggedOnUsersCount.Text = "(Not Implemented)";
+			SessionCount.Text = "(Not Implemented)";
+			DiskSpaceUsed.Text = "(Not Implemented)";
+			DiskSpaceAvailable.Text = "(Not Implemented)";
+			LdapStatus.Text = "(Not Implemented)";
+			MaxConnectionCount.Text = "(Not Implemented)";
 
 			return server.Name;
+		}
+
+		private void GetTailData()
+		{
+			StringWriter sw = new StringWriter();
+			try
+			{
+				Server.Execute( "LogTailHandler.ashx?Simias.log&lines=30", sw );
+				LogText.Text = sw.ToString();
+			}
+			finally
+			{
+				sw.Close();
+			}
 		}
 
 		/// <summary>
@@ -229,7 +309,10 @@ namespace Novell.iFolderWeb.Admin
 			if ( !IsPostBack )
 			{
 				// Initialize the localized fields.
-				DownloadReport.Text = GetString( "DOWNLOAD" );
+				ViewReportButton.Text = GetString( "VIEW" );
+				ViewLogButton.Text = GetString( "VIEW" );
+				LogLevelButton.Text = GetString( "SET" );
+				LogLevelLabel.Text = GetString( "LOGLEVELTAG" );
 
 				// Initialize state variables.
 			}
@@ -247,6 +330,8 @@ namespace Novell.iFolderWeb.Admin
 			BuildBreadCrumbList( serverName );
 
 			GetReportList();
+			GetLogList();
+//			GetTailData();
 		}
 
 		#endregion
@@ -261,6 +346,31 @@ namespace Novell.iFolderWeb.Admin
 		protected string GetString( string key )
 		{
 			return rm.GetString( key );
+		}
+
+		/// <summary>
+		/// Event handler that gets called when the TailButton is clicked.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		protected void ViewLogFile( object sender, EventArgs e )
+		{
+			string logFileName = "Simias.log";
+			if ( LogList.SelectedValue == GetString( "WEBACCESSLOGFILE" ) )
+			{
+				logFileName = "webaccess.log";
+			}
+			else if ( LogList.SelectedValue == GetString( "ACCESSLOGFILE" ) )
+			{
+				logFileName = "Simias.access.log";
+			}
+			else if ( LogList.SelectedValue == GetString( "ADMINLOGFILE" ) )
+			{
+				logFileName = "adminweb.log";
+			}
+
+			// Send a request to the log file handler.
+			Response.Redirect( logFileName );
 		}
 
 		#endregion

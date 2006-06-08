@@ -39,6 +39,9 @@
 	<resheader name="Writer">
 		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
 	</resheader>
+	<data name="ACCESSLOGFILE">
+		<value>User Access</value>
+	</data>
 	<data name="ACCOUNT">
 		<value>Account</value>
 	</data>
@@ -62,6 +65,9 @@
 	</data>
 	<data name="ADMINISTRATORS">
 		<value>Administrators</value>
+	</data>
+	<data name="ADMINLOGFILE">
+		<value>Web Administrator</value>
 	</data>
 	<data name="ALL">
 		<value>All</value>
@@ -126,6 +132,9 @@
 	<data name="DAYTAG">
 		<value>Day:</value>
 	</data>
+	<data name="DEBUG">
+		<value>Debug</value>
+	</data>
 	<data name="DELETE">
 		<value>Delete</value>
 	</data>
@@ -185,6 +194,9 @@
 	</data>
 	<data name="EQUALS">
 		<value>Equals</value>
+	</data>
+	<data name="ERROR">
+		<value>Error</value>
 	</data>
 	<data name="ERRORACCESSEXCEPTION">
 		<value>You do not have sufficient rights to perform the request.</value>
@@ -291,6 +303,9 @@
 	<data name="EXCLUDEDFILES">
 		<value>Excluded Files</value>
 	</data>
+	<data name="FATAL">
+		<value>Fatal</value>
+	</data>
 	<data name="FILE">
 		<value>File</value>
 	</data>
@@ -386,6 +401,9 @@
 	</data>
 	<data name="IFOLDERUSERS">
 		<value>iFolder Users</value>
+	</data>
+	<data name="INFO">
+		<value>Info</value>
 	</data>
 	<data name="INHEIRITEDPOLICY">
 		<value>(Inheirited Policy)</value>
@@ -495,6 +513,9 @@
 	<data name="LOGINUSERNAME">
 		<value>Username:</value>
 	</data>
+	<data name="LOGLEVELTAG">
+		<value>Log Level:</value>
+	</data>
 	<data name="LOGOUT">
 		<value>Log Out</value>
 	</data>
@@ -554,6 +575,9 @@
 	</data>
 	<data name="NOTAVAILABLE">
 		<value>Not Available</value>
+	</data>
+	<data name="OFF">
+		<value>Off</value>
 	</data>
 	<data name="OK">
 		<value>OK</value>
@@ -717,6 +741,9 @@
 	<data name="SYSTEM">
 		<value>System</value>
 	</data>
+	<data name="SYSTEMLOGFILE">
+		<value>System</value>
+	</data>
 	<data name="SYSTEMSETTINGS">
 		<value>System Settings</value>
 	</data>
@@ -770,6 +797,15 @@
 	</data>
 	<data name="USERSTAG">
 		<value>Users:</value>
+	</data>
+	<data name="VIEW">
+		<value>View</value>
+	</data>
+	<data name="WARN">
+		<value>Warn</value>
+	</data>
+	<data name="WEBACCESSLOGFILE">
+		<value>Web Access</value>
 	</data>
 	<data name="WEEKLY">
 		<value>Weekly</value>
