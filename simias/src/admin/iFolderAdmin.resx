@@ -144,6 +144,21 @@
 	<data name="DISKQUOTA">
 		<value>Disk Quota</value>
 	</data>
+	<data name="DISKSPACEAVAILABLETAG">
+		<value>Disk Space Available:</value>
+	</data>
+	<data name="DISKSPACEUSEDTAG">
+		<value>Disk Space Used:</value>
+	</data>
+	<data name="DNSNAME">
+		<value>DNS Name</value>
+	</data>
+	<data name="DNSNAMETAG">
+		<value>DNS Name:</value>
+	</data>
+	<data name="DOWNLOAD">
+		<value>Download</value>
+	</data>
 	<data name="EFFECTIVETAG">
 		<value>Effective:</value>
 	</data>
@@ -363,6 +378,9 @@
 	<data name="IFOLDERS">
 		<value>iFolders</value>
 	</data>
+	<data name="IFOLDERSTAG">
+		<value>iFolders:</value>
+	</data>
 	<data name="IFOLDERUSERDETAILS">
 		<value>iFolder User Details</value>
 	</data>
@@ -405,11 +423,17 @@
 	<data name="LDAPCONTEXTTAG">
 		<value>Ldap Context:</value>
 	</data>
+	<data name="LDAPSTATUSTAG">
+		<value>LDAP Status:</value>
+	</data>
 	<data name="LIMITTAG">
 		<value>Limit:</value>
 	</data>
 	<data name="LOGGEDINAS">
 		<value>Logged in as</value>
+	</data>
+	<data name="LOGGEDONUSERSTAG">
+		<value>Logged On Users:</value>
 	</data>
 	<data name="LOGIN">
 		<value>Log In</value>
@@ -473,6 +497,12 @@
 	</data>
 	<data name="LOGOUT">
 		<value>Log Out</value>
+	</data>
+	<data name="MASTER">
+		<value>Master</value>
+	</data>
+	<data name="MAXCONNECTIONSTAG">
+		<value>Maximum Connections:</value>
 	</data>
 	<data name="MB">
 		<value>MB</value>
@@ -570,6 +600,18 @@
 	<data name="PREVIOUSPAGE">
 		<value>Previous Page</value>
 	</data>
+	<data name="PRIVATEIPTAG">
+		<value>Private IP Address:</value>
+	</data>
+	<data name="PRIVATEURI">
+		<value>Private IP Address</value>
+	</data>
+	<data name="PUBLICIPTAG">
+		<value>Public IP Address:</value>
+	</data>
+	<data name="PUBLICURI">
+		<value>Public IP Address</value>
+	</data>
 	<data name="READONLY">
 		<value>Read Only</value>
 	</data>
@@ -618,11 +660,29 @@
 	<data name="SELECTUSERS">
 		<value>Select Users</value>
 	</data>
+	<data name="SERVER">
+		<value>Server</value>
+	</data>
+	<data name="SERVERDETAILS">
+		<value>Server Details</value>
+	</data>
+	<data name="SERVERLOGS">
+		<value>Server Logs</value>
+	</data>
+	<data name="SERVERREPORTS">
+		<value>Server Reports</value>
+	</data>
 	<data name="SERVERS">
 		<value>Servers</value>
 	</data>
+	<data name="SERVERSTATUS">
+		<value>Server Status</value>
+	</data>
 	<data name="SESSIONCLOSED">
 		<value>Your session has been closed. Please log in.</value>
+	</data>
+	<data name="SESSIONSTAG">
+		<value>Sessions:</value>
 	</data>
 	<data name="SET">
 		<value>Set</value>
@@ -636,6 +696,9 @@
 	<data name="SIZETAG">
 		<value>Size:</value>
 	</data>
+	<data name="SLAVE">
+		<value>Slave</value>
+	</data>
 	<data name="SLOVAK">
 		<value>Slovak</value>
 	</data>
@@ -644,6 +707,9 @@
 	</data>
 	<data name="STATUS">
 		<value>Status</value>
+	</data>
+	<data name="STATUSTAG">
+		<value>Status:</value>
 	</data>
 	<data name="SYNCHRONIZATION">
 		<value>Synchronization</value>
@@ -672,6 +738,9 @@
 	<data name="TYPE">
 		<value>Type</value>
 	</data>
+	<data name="TYPETAG">
+		<value>Type:</value>
+	</data>
 	<data name="UNKNOWNERROR">
 		<value>An unknown error has occurred. No exception was specified.</value>
 	</data>
@@ -698,6 +767,9 @@
 	</data>
 	<data name="USERS">
 		<value>Users</value>
+	</data>
+	<data name="USERSTAG">
+		<value>Users:</value>
 	</data>
 	<data name="WEEKLY">
 		<value>Weekly</value>

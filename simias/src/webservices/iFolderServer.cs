@@ -74,6 +74,11 @@ namespace iFolder.WebService
 		/// Server ID
 		/// </summary>
 		public string ID;
+
+		/// <summary>
+		/// Server Name
+		/// </summary>
+		public string Name;
 		
 		/// <summary>
 		/// Server Version
@@ -139,6 +144,7 @@ namespace iFolder.WebService
 		public iFolderServer(HostNode server)
 		{
 			ID = server.UserID;
+			Name = server.Name;
 			PublicUrl = server.PublicUrl;
 			PrivateUrl = server.PrivateUrl;
 			IsMaster = server.IsMasterHost;

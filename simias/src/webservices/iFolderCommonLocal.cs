@@ -101,6 +101,32 @@ namespace iFolder.WebService
 		}
 
 		/// <summary>
+		/// Get information about an iFolder Server.
+		/// </summary>
+		/// <param name="serverID">The id of the iFolder Server.</param>
+		/// <returns>An iFolderServer object describing the iFolder Server.</returns>
+		[WebMethod(
+			 Description="Get information about an iFolder Server.",
+			 EnableSession=true)]
+		public virtual iFolderServer GetServer(string serverID)
+		{
+			iFolderServer result = null;
+
+			try
+			{
+				Authorize();
+
+				result = iFolderServer.GetServer(serverID);
+			}
+			catch(Exception e)
+			{
+				SmartException.Throw(e);
+			}
+
+			return result;
+		}
+		
+		/// <summary>
 		/// Get information about all the iFolder servers.
 		/// </summary>
 		/// <returns>An array of iFolderServer objects.</returns>

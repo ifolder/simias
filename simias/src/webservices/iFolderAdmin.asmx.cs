@@ -76,6 +76,19 @@ namespace iFolder.WebService
 		}
 
 		/// <summary>
+		/// Get information about an iFolder Server.
+		/// </summary>
+		/// <param name="serverID">The id of the iFolder Server.</param>
+		/// <returns>An iFolderServer object describing the iFolder Server.</returns>
+		[WebMethod(
+			 Description="Get information about an iFolder Server.",
+			 EnableSession=true)]
+		public override iFolderServer GetServer(string serverID)
+		{
+			return base.GetServer(serverID);
+		}
+		
+		/// <summary>
 		/// Get information about all the iFolder servers.
 		/// </summary>
 		/// <returns>An array of iFolderServer objects.</returns>

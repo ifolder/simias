@@ -509,6 +509,22 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "ServerDetails.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "ServerDetails.aspx.cs"
+                    DependentUpon = "ServerDetails.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ServerDetails.aspx.resx"
+                    DependentUpon = "ServerDetails.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "Servers.aspx"
                     SubType = "Form"
                     BuildAction = "Content"
@@ -651,6 +667,10 @@
                 />
                 <File
                     RelPath = "css\Reports.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "css\ServerDetails.css"
                     BuildAction = "Content"
                 />
                 <File
