@@ -135,7 +135,7 @@ namespace Simias.OpenLdapProvider
 		// format.
 		private string BuildGuidFilter( string guid )
 		{
-			string guidFilter = string.Format( "(uidNumber={0})", guid );
+			string guidFilter = string.Format( "(uid={0})", guid );
 			return guidFilter;
 		}
 
@@ -145,7 +145,7 @@ namespace Simias.OpenLdapProvider
 
 			try
 			{
-				LdapAttribute guidAttr = entry.getAttribute( "uidNumber" );
+				LdapAttribute guidAttr = entry.getAttribute( "uid" );
 				if ( guidAttr != null && guidAttr.StringValue.Length != 0 )
 				{
 					ldapGuid = guidAttr.StringValue;
@@ -257,7 +257,7 @@ namespace Simias.OpenLdapProvider
 											ldapSettings.NamingAttribute,
 											"cn",
 											"sn", 
-											"uidNumber",
+											"uid",
 											"givenName", 
 											"ou" };
 
@@ -294,7 +294,7 @@ namespace Simias.OpenLdapProvider
 			Property dn;
 			string commonName;
 			string ldapGuid;
-			string[] searchAttributes = { "cn", "sn", "uidNumber" };
+			string[] searchAttributes = { "cn", "sn", "uid" };
 
 			try
 			{
@@ -429,7 +429,7 @@ namespace Simias.OpenLdapProvider
 											ldapSettings.NamingAttribute,
 											"cn", 
 											"sn", 
-											"uidNumber",
+											"uid",
 											"givenName" }; 
 
 			char[] dnDelimiters = {',', '='};
@@ -701,7 +701,7 @@ namespace Simias.OpenLdapProvider
 											ldapSettings.NamingAttribute,
 											"cn", 
 											"sn", 
-											"uidNumber",
+											"uid",
 											"givenName", 
 											"ou" };
 

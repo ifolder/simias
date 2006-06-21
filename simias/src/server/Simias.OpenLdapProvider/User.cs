@@ -378,13 +378,7 @@ namespace Simias.OpenLdapProvider
 		{
 			bool canChange = true;
 
-			/* TODO: check if OpenLDAP supports this.
-			LdapAttribute attrAccountControl = entry.getAttribute( "userAccountControl" );
-			if ( attrAccountControl != null )
-			{
-				int accountControl = int.Parse( attrAccountControl.StringValue );
-				canChange = !( ( accountControl & (int)ADS_USER_FLAGS.PASSWD_CANT_CHANGE ) == (int)ADS_USER_FLAGS.PASSWD_CANT_CHANGE );
-			}*/
+			// TODO: check if OpenLDAP supports this.
 
 			return canChange;
 		}
@@ -398,13 +392,7 @@ namespace Simias.OpenLdapProvider
 		{
 			bool required = true;
 
-			/* TODO: check if OpenLDAP supports this		
-			LdapAttribute attrAccountControl = entry.getAttribute( "userAccountControl" );
-			if ( attrAccountControl != null )
-			{
-				int accountControl = int.Parse( attrAccountControl.StringValue );
-				required = !( ( accountControl & (int)ADS_USER_FLAGS.PASSWD_NOTREQD ) == (int)ADS_USER_FLAGS.PASSWD_NOTREQD );
-			}*/
+			// TODO: check if OpenLDAP supports this		
 
 			return required;
 		}
@@ -418,13 +406,7 @@ namespace Simias.OpenLdapProvider
 		{
 			bool accountDisabled = false;
 
-			/* TODO: check if OpenLDAP supports this		
-			LdapAttribute attrAccountControl = entry.getAttribute( "userAccountControl" );
-			if ( attrAccountControl != null )
-			{
-				int accountControl = int.Parse( attrAccountControl.StringValue );
-				accountDisabled = ( accountControl & (int)ADS_USER_FLAGS.ACCOUNTDISABLE ) == (int)ADS_USER_FLAGS.ACCOUNTDISABLE;
-			}*/
+			// TODO: check if OpenLDAP supports this		
 
 			return accountDisabled;
 		}
@@ -438,22 +420,7 @@ namespace Simias.OpenLdapProvider
 		{
 			bool expired = false;
 
-			/* TODO: check if OpenLDAP supports this		
-			LdapAttribute attrExpires = entry.getAttribute( "accountExpires" );
-			if ( attrExpires != null )
-			{
-				long expires = long.Parse( attrExpires.StringValue );
-				if ( expires != 0 )
-				{
-					DateTime accountExpires = new DateTime( timeDelta + expires ).ToLocalTime();
-
-					// BUGBUG - need to use the server time instead of the client time.
-					if ( accountExpires < DateTime.Now )
-					{
-						expired = true;
-					}
-				}
-			}*/
+			// TODO: check if OpenLDAP supports this		
 
 			return expired;
 		}
@@ -467,22 +434,7 @@ namespace Simias.OpenLdapProvider
 		{
 			bool lockedOut = false;
 
-			/* TODO: check if OpenLDAP supports this		
-			LdapAttribute attrLockoutTime = entry.getAttribute( "lockoutTime" );
-			if ( attrLockoutTime != null )
-			{
-				long lockoutTimeValue = long.Parse( attrLockoutTime.StringValue );
-				if ( lockoutTimeValue != 0 )
-				{
-					DateTime lockoutTime = new DateTime( timeDelta + lockoutTimeValue ).ToLocalTime();
-					
-					DateTime lockPlusDuration = lockoutTime - lockoutDuration;
-					if ( lockPlusDuration > DateTime.Now )
-					{
-						lockedOut = true;
-					}
-				}
-			}*/
+			// TODO: check if OpenLDAP supports this		
 
 			return lockedOut;
 		}
@@ -497,7 +449,7 @@ namespace Simias.OpenLdapProvider
 			bool passwordExpired = false;
 			daysUntilExpired = -1;
 
-			LdapAttribute attrPwdLastSet = entry.getAttribute( "shadowLastChange" );
+/*			LdapAttribute attrPwdLastSet = entry.getAttribute( "shadowLastChange" );
 			if ( attrPwdLastSet != null )
 			{
 				long pwdLastSetVal = long.Parse( attrPwdLastSet.StringValue );
@@ -517,7 +469,7 @@ namespace Simias.OpenLdapProvider
 						daysUntilExpired = pwdExpires.Day - DateTime.Now.Day;
 					}
 				}
-			}
+			}*/
 
 			return passwordExpired;
 		}
@@ -643,7 +595,7 @@ namespace Simias.OpenLdapProvider
 					throw new LdapException( "Anonymous bind is not allowed", LdapException.INAPPROPRIATE_AUTHENTICATION, "Anonymous bind is not allowed" );
 				}
 				status.statusCode = SCodes.Success;
-				GetUserStatus( false, conn, status );
+//				GetUserStatus( false, conn, status );
 				return ( true );
 			}
 			catch( LdapException e )
@@ -670,7 +622,7 @@ namespace Simias.OpenLdapProvider
 					if ( proxyConnection != null )
 					{
 						// GetUserStatus may change the status code
-						GetUserStatus( true, proxyConnection, status );
+//						GetUserStatus( true, proxyConnection, status );
 					}
 				}
 			}
@@ -683,7 +635,7 @@ namespace Simias.OpenLdapProvider
 				if ( proxyConnection != null )
 				{
 					// GetUserStatus may change the status code
-					GetUserStatus( true, proxyConnection, status );
+//					GetUserStatus( true, proxyConnection, status );
 				}
 			}
 			finally
