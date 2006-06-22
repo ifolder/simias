@@ -250,7 +250,7 @@ namespace Novell.iFolderWeb.Admin
 		/// <returns></returns>
 		protected string GetServerImage( object type )
 		{
-			return ( String.Compare( type as string, GetString( "MASTER" ) ) == 0 ) ? "images/Master.png" : "images/Slave.png";
+			return ( String.Compare( type as string, GetString( "MASTER" ) ) == 0 ) ? "images/master.png" : "images/slave.png";
 		}
 
 		/// <summary>
