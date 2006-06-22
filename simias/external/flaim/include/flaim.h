@@ -1244,18 +1244,18 @@ Desc: This include file contains the structure definitions and prototypes
 		}
 
 		void * operator new(
-			unsigned			uiSize);
+			unsigned long			uiSize);
 
 		void * operator new(
-			unsigned			uiSize,
+			unsigned long			uiSize,
 			char *			pszFile,
 			int				iLine);
 
 		void * operator new[](
-			unsigned			uiSize);
+			unsigned long			uiSize);
 
 		void * operator new[](
-			unsigned			uiSize,
+			unsigned long			uiSize,
 			char *			pszFile,
 			int				iLine);
 
@@ -4250,18 +4250,18 @@ typedef struct
 		}
 
 		void * operator new(
-			unsigned			uiSize);
+			unsigned long			uiSize);
 
 		void * operator new(
-			unsigned			uiSize,
+			unsigned long			uiSize,
 			char *			pszFile,
 			int				iLine);
 
 		void * operator new[](
-			unsigned			uiSize);
+			unsigned long			uiSize);
 
 		void * operator new[](
-			unsigned			uiSize,
+			unsigned long			uiSize,
 			char *			pszFile,
 			int				iLine);
 
