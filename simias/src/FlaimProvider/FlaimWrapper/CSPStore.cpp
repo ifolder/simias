@@ -1037,7 +1037,7 @@ RCODE CSPStore::Search(FLMUNICODE *pCollectionId, FLMUNICODE *pProperty, FLMINT 
 
 				if (caseSensitive)
 				{
-					rc = FlmCursorSetMode(cursor, FLM_WILD);
+					rc = FlmCursorSetMode(cursor, FLM_COMP_WILD);
 				}
 				rc = FlmCursorAddField(cursor, fieldId, 0);
 				if (RC_OK(rc))
