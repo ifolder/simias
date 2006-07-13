@@ -43,6 +43,7 @@ AC_SUBST(SIMIAS_OS)
 AM_CONDITIONAL(LINUX, test "$SIMIAS_OS" = "linux")
 AM_CONDITIONAL(WINDOWS, test "$SIMIAS_OS" = "windows")
 AM_CONDITIONAL(DARWIN, test "$SIMIAS_OS" = "darwin")
+AM_CONDITIONAL(DARWIN_X86, test "$host_cpu" = "i686")
 AM_CONDITIONAL(MONO, test "$CSC" = "mcs")
 AM_CONDITIONAL(DOTNET, test "$CSC" = "csc")
 
@@ -133,8 +134,15 @@ case $host_os in
 	AC_SUBST(LIBFLAIM_CFLAGS)
     ;;
     darwin*)
-		# fix up the flaim libraries
-        ranlib external/libflaim/OSX/libflaim.a
+	# fix up the flaim libraries
+	case $host_cpu in
+		i686*)
+			ranlib external/libflaim/OSX-x86/libxflaim.a
+			;;
+		*)
+     			ranlib external/libflaim/OSX/libflaim.a
+			;;
+	esac
     ;;
 esac
 
@@ -195,10 +203,17 @@ case $SIMIAS_OS in
 		# LD='$(CXX) -dynamiclib '
 		StoreProviderAssembly="SimiasLib.dll"
 		StoreProviderType="Simias.Storage.Provider.Flaim.FlaimProvider"
-		GSOAP_PATH="$TOOLDIR/gsoap/macosx-2.7"
 		#StoreProviderAssembly="SqliteProvider.dll"
 		#StoreProviderType="Simias.Storage.Provider.Sqlite.SqliteProvider"
     	libexecdir="${exec_prefix}"
+	case $host_cpu in
+		i686*)
+			GSOAP_PATH="$TOOLDIR/gsoap/macosx-x86-2.7"
+			;;
+		*)
+			GSOAP_PATH="$TOOLDIR/gsoap/macosx-2.7"
+			;;
+	esac
     ;;
     #
     # Linux-specific configuration

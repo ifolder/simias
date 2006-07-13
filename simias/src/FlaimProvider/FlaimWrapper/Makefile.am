@@ -103,7 +103,11 @@ endif
 if DARWIN
 libFlaimWrapper_la_CXXFLAGS = -I"../../../external/libflaim" -fshort-wchar -DFLAIMWRAPPER_EXPORTS -DUNIX -D_REENTRANT -DOSX -c
 
-libFlaimWrapper_la_LDFLAGS = -L"../../../external/libflaim/osx" -static -lflaim
+if DARWIN_X86
+libFlaimWrapper_la_LDFLAGS = -L"../../../external/libflaim/OSX-x86" -static -lflaim -arch i386
+else
+libFlaimWrapper_la_LDFLAGS = -L"../../../external/libflaim/OSX" -static -lflaim
+endif
 
 install-exec-local: libFlaimWrapper.la
 	$(mkinstalldirs) $(DESTDIR)$(webbindir)
