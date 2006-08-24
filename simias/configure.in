@@ -634,12 +634,11 @@ src/core/POBoxWS/AssemblyInfo.cs
 src/core/POBoxWS/Makefile
 src/core/SyncService/AssemblyInfo.cs
 src/core/SyncService/Makefile
-src/core/SqliteProvider/Makefile
 src/core/libsimias/Makefile
 src/server/Makefile
 src/server/Simias.config
-src/server/simiasserver.cmd
-src/server/simiasserver
+src/server/simias-server.cmd
+src/server/simias-server
 src/server/setup/Makefile
 src/server/Simias.HttpFile/Makefile
 src/server/Simias.Rss/Makefile
