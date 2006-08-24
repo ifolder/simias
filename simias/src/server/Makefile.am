@@ -13,6 +13,8 @@ DOC_FILE_CMD = /doc:$(DOC_FILE)
 DOC_FILE_CLEAN = *.doc.xml
 endif
 
+
+
 simiasserver: $(srcdir)/simiasserver.in
 if !WINDOWS
 	sed -e 's,@_webbindir_@,@webbindir@,g' -e 's,@_bindir_@,@bindir@,g' $< > $@
@@ -49,11 +51,12 @@ CLEAN_FILES = $(DOC_FILE_CLEAN)
 
 clean-local:
 	rm -rf $(CLEAN_FILES) $(COMMON_CLEAN_FILES)
+	rm -rf simiasserver simiasserver.cmd
 
 #distclean-local:
 #	rm -rf $(COMMON_DISTCLEAN_FILES)
 
 maintainer-clean-local:
 	rm -rf $(COMMON_MAINTAINER_CLEAN_FILES)
-	rm -rf Simias.config simiasserver simiasserver.cmd
+	rm -rf simiasserver simiasserver.cmd
 
