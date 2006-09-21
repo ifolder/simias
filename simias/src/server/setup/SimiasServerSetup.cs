@@ -68,6 +68,7 @@ namespace Novell.iFolder
 		private static string PublicAddressKey = "PublicAddress";
 		private static string PrivateAddressKey = "PrivateAddress";
 
+		private static string TemplateScriptFile = "simias-server";
 		#endregion
 
 		#region Member Fields
@@ -1279,22 +1280,24 @@ namespace Novell.iFolder
 			string fileData;
 //			string templatePath = Path.Combine( SimiasSetup.bindir, "simiasserver" + ( MyEnvironment.Windows ? ".cmd" : "" ) );
 //			string scriptPath = Path.Combine( SimiasSetup.bindir, serverName.Value + ( MyEnvironment.Windows ? ".cmd" : "" ) );
-			string templatePath = Path.Combine( System.IO.Directory.GetCurrentDirectory(), "simiasserver" + ( MyEnvironment.Windows ? ".cmd" : "" ) );
+			string templatePath = Path.Combine( System.IO.Directory.GetCurrentDirectory(), SimiasServerSetup.TemplateScriptFile + ( MyEnvironment.Windows ? ".cmd" : "" ) );
 			string scriptPath = Path.Combine( System.IO.Directory.GetCurrentDirectory(), serverName.Value + ( MyEnvironment.Windows ? ".cmd" : "" ) );
+			
 			try
 			{
 				using ( StreamReader sr = new StreamReader( templatePath ) )
 				{
 					fileData = sr.ReadToEnd();
 				}
-
+				
 				fileData = fileData.Replace( "DataDir=\"\"", String.Format( "DataDir=\"{0}\"", storePath ) );
 				fileData = fileData.Replace( "Port=\"\"", String.Format( "Port=\"{0}\"", port.Value ) );
+				
 				using ( StreamWriter sw = new StreamWriter( scriptPath ) )
 				{
 					sw.WriteLine( fileData );
 				}
-
+				
 				if ( MyEnvironment.Mono )
 				{
 					// Make sure the execute bit is set.
