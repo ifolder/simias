@@ -410,6 +410,21 @@ namespace Simias.Storage
 			this ( storeObject, collectionName, Guid.NewGuid().ToString(), domainID )
 		{
 		}
+		
+		// BUGBUG Encryption Here.
+		// Add Constructor to accept encryption key.
+		/// <summary>
+		/// Constructor to create a new Collection object.
+		/// </summary>
+		/// <param name="storeObject">Store object that this collection belongs to.</param>
+		/// <param name="collectionName">This is the friendly name that is used by applications to describe the collection.</param>
+		/// <param name="domainID">The domain that this object is stored in.</param>
+		public Collection( Store storeObject, string collectionName, string domainID, string encryptionKey ) :
+			this ( storeObject, collectionName, Guid.NewGuid().ToString(), domainID )
+		{
+		}
+		
+		
 
 		/// <summary>
 		/// Constructor to create a new Collection object.

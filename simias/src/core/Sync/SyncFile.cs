@@ -262,6 +262,20 @@ namespace Simias.Sync
 			//Log.log.Debug("Writing File {0} : offset = {1}", file, WritePosition);
 			workStream.Write(stream, count);
 		}
+		
+		// BUGBUG Encryption Here.
+		// Add decryption here.
+		/// <summary>
+		/// Writes data from buffer into file.
+		/// </summary>
+		/// <param name="stream">The stream to write.</param>
+		/// <param name="count">The number of bytes to write.</param>
+		/// <param name="count">The encryption Key.</param>
+		public int Write(Stream inStream, int count, string encryptionKey)
+		{
+			workStream.Write(stream, count, encryptionKey);
+		}
+		
 
 		/// <summary>
 		/// Copyt the data from the original file into the new file.

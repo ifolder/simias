@@ -466,7 +466,10 @@ namespace Simias.Sync
 				HttpWebResponse response = syncService.ReadFile(seg, blockSize);
 				Stream inStream = response.GetResponseStream();
 				try
-				{
+				{	
+					// BUGBUG Encryption Here.
+					// Add decryption here.
+					// Call new Write override.
 					int bytesToWrite = (int)Math.Min(sizeRemaining, (seg.EndBlock - seg.StartBlock + 1) * blockSize);
 					WritePosition = (long)seg.StartBlock * (long)blockSize;
 					Write(inStream, bytesToWrite);
@@ -778,6 +781,8 @@ namespace Simias.Sync
 					ReadPosition = seg.Offset;
 					while (leftToSend > 0)
 					{	
+						// BUGBUG Encryption Here.
+						// Add encryption here.
 						if (stopping)
 							break;
 						int bytesToSend = (int)Math.Min(MaxXFerSize, leftToSend);
@@ -807,6 +812,10 @@ namespace Simias.Sync
 		/// <param name="blockSize">The size of the hashed data blocks.</param>
 		private void GetUploadFileMap(out long sizeToSync, out ArrayList copyArray, out ArrayList writeArray, out int blockSize)
 		{
+			// BUGBUG Encryption Here.
+			// Could Create hash map here use to calculate upload data.
+			// Save hashmap to send to server.
+		
 			sizeToSync = 0;
 			copyArray = new ArrayList();
 			writeArray = new ArrayList();

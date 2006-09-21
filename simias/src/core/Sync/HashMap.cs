@@ -187,6 +187,10 @@ namespace Simias.Sync.Delta
 		/// </summary>
 		private static void HashMapThread()
 		{
+			// BUGBUG Encryption Here.
+			// Not needed map is generated on client.
+			
+		
 			// Now see if we have any work queued.
 			while (true)
 			{

@@ -657,6 +657,10 @@ namespace Simias.Sync.Http
 				response.Close();
 			}
 		}
+		
+		// BUGBUG Encryption Here.
+		// Add Client side 
+		public void PutHashMap()
 
 		/// <summary>
 		/// Called to copy data from the original file on the server to the new file.
@@ -1057,6 +1061,8 @@ namespace Simias.Sync.Http
 
 		public void PutHashMap(HttpRequest request, HttpResponse response)
 		{
+			// BUGBUG Encryption Here.
+			// Store hash map in temporary location
 			return;
 		}
 
