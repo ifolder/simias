@@ -419,7 +419,7 @@ namespace Simias.Storage
 		/// <param name="storeObject">Store object that this collection belongs to.</param>
 		/// <param name="collectionName">This is the friendly name that is used by applications to describe the collection.</param>
 		/// <param name="domainID">The domain that this object is stored in.</param>
-		public Collection( Store storeObject, string collectionName, string domainID, string encryptionKey ) :
+		public Collection( Store storeObject, string collectionName, string domainID, byte[] encryptionKey ) :
 			this ( storeObject, collectionName, Guid.NewGuid().ToString(), domainID )
 		{
 		}

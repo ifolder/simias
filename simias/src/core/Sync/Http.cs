@@ -661,6 +661,8 @@ namespace Simias.Sync.Http
 		// BUGBUG Encryption Here.
 		// Add Client side 
 		public void PutHashMap()
+		{
+		}
 
 		/// <summary>
 		/// Called to copy data from the original file on the server to the new file.

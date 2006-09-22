@@ -273,7 +273,7 @@ namespace Simias.Sync
 		// Add decryption here.
 		public int Write(Stream inStream, int size, string encryptionKey)
 		{
-			
+			return -1;
 		}
 		
 		/// <summary>

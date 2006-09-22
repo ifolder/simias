@@ -274,6 +274,7 @@ namespace Simias.Sync
 		public int Write(Stream inStream, int count, string encryptionKey)
 		{
 			workStream.Write(stream, count, encryptionKey);
+			return -1;
 		}
 		
 
