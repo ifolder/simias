@@ -21,5 +21,5 @@ else
 fi
 
 cd @_bindir_@
-mono @_webbindir_@/Simias.exe $@
+mono @_webbindir_@/Simias.exe --runasclient $@
 

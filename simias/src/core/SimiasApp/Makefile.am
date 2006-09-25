@@ -36,12 +36,11 @@ endif
 
 all: Simias.exe
 
-Simias.exe: AssemblyInfo.cs $(Simias_CSFILES) $(Simias_RESOURCES) simias
+Simias.exe: AssemblyInfo $(Simias_CSFILES) $(Simias_RESOURCES) simias
 	$(CSC) /out:$@ $(CSCFLAGS) $(Simias_FLAGS) $(SIMIAS_LIBS) $(Simias_LIBS:%=/r:%) $(Simias_LIBPATH:%=/lib:%) $(Simias_RESOURCES:%=$(ICON_FLAG)%) $(Simias_CSFILES_CSC) $(DOC_FILE_CMD)
 
-AssemblyInfo.cs: $(srcdir)/AssemblyInfo.cs.in 
-	sed -e 's,@_VERSION_@,@VERSION@,g' $< > $@
-	chmod +x $@
+AssemblyInfo: $(srcdir)/AssemblyInfo.cs.in 
+	sed -e 's,@_VERSION_@,@VERSION@,g' $< > AssemblyInfo.cs
 
 simias: $(srcdir)/simias.in
 if !WINDOWS
@@ -60,9 +59,14 @@ install-exec-local: Simias.exe $(DATA_FILES)
 	$(INSTALL_PROGRAM) Simias.exe $(DEBUG_FILES) $(DESTDIR)$(webbindir)
 if WINDOWS
 	$(INSTALL_PROGRAM) $(MONO_WEBSERVER_PATH)/Mono.Security.dll $(DESTDIR)$(webbindir)
+endif
+
+if SIMIAS_AS_CLIENT
+if WINDOWS
 	$(INSTALL_PROGRAM) simias.cmd $(DESTDIR)$(bindir)
 else
 	$(INSTALL_PROGRAM) simias $(DESTDIR)$(bindir)
+endif
 endif
 
 if !GACD_MONO_WEBSERVER
@@ -86,7 +90,7 @@ endif
 
 installcheck-local: install
 	
-CLEAN_FILES = Simias.exe Mono.WebServer.dll Mono.Security.dll $(DOC_FILE_CLEAN) AssemblyInfo.cs simias
+CLEAN_FILES = Simias.exe Mono.WebServer.dll Mono.Security.dll $(DOC_FILE_CLEAN) AssemblyInfo.cs simias simias.cmd
 
 clean-local:
 	rm -rf $(CLEAN_FILES) $(COMMON_CLEAN_FILES)
