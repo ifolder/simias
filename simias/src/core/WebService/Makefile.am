@@ -34,9 +34,17 @@ install-exec-local: Simias.Web.dll $(DATA_FILES)
 	$(INSTALL_PROGRAM) Global.asax Simias.asmx $(DEBUG_FILES) $(DESTDIR)$(webdir)
 	$(INSTALL_PROGRAM) Simias.Web.dll $(DEBUG_FILES) $(DESTDIR)$(webbindir)
 if WINDOWS
+if SIMIAS_AS_CLIENT
+	$(INSTALL_PROGRAM) win.client.web.config $(DESTDIR)$(webdir)/web.config
+else
 	$(INSTALL_PROGRAM) win.web.config $(DESTDIR)$(webdir)/web.config
+endif
+else
+if SIMIAS_AS_CLIENT
+	$(INSTALL_PROGRAM) mono.client.web.config $(DESTDIR)$(webdir)/web.config
 else
 	$(INSTALL_PROGRAM) mono.web.config $(DESTDIR)$(webdir)/web.config
+endif
 endif	
 	
 uninstall-local:
