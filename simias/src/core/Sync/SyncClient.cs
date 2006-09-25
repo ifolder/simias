@@ -1387,6 +1387,8 @@ namespace Simias.Sync
 				catch {}
 				offset += batchCount;
 			}
+			// Update the collection in case it changed.
+			collection.Refresh();
 		}
 	
 		/// <summary>
@@ -1561,9 +1563,31 @@ namespace Simias.Sync
 								{
 									Directory.Move(oldPath, path);
 								}
-								catch (IOException)
+								catch (IOException ex)
 								{
-									// This directory has already been moved by the parent move.
+									// We got here because of one of the following.
+									// 1 The destination directory already exists
+									// 2 The source and destion are the same.
+									// 3 The directory is in use and could not be moved.
+									if (Directory.Exists(path))
+									{
+										if ((oldPath != path) && (string.Compare(oldPath, path, true) == 0))
+										{
+											// This was a case rename. Move to a temporary name and then to the
+											// new name.
+											string tmpName = oldPath + ".simias~";
+											Directory.Move(oldPath, tmpName);
+											Directory.Move(tmpName, path);
+										}
+										// This directory has already been moved by the parent move.
+									}
+									else
+									{
+										// The path does not exist we could not create the directory.
+										// Probably because it is open.
+										log.Info("Could not rename directory {0}. Possibly in use.", oldPath);
+										throw ex;
+									}
 								}
 							}
 						}
@@ -1600,6 +1624,22 @@ namespace Simias.Sync
 								collection.Commit(cfNode);
 								break;
 							}
+						}
+					}
+					else
+					{
+						// If we have a node with the same fspath and a unique ID this is a conflict delete the local dir node.
+						ICSList nodeList = collection.Search(PropertyTags.FileSystemPath, node.GetRelativePath(), SearchOp.Equal);
+						foreach (ShallowNode sn in nodeList)
+						{
+							if (sn.ID == node.ID)
+								continue;
+							// We have a dir conflict. delete the local DirNode
+							Node conflictDir = collection.GetNodeByID(sn.ID);
+							Node[] deleted = collection.Delete(conflictDir, PropertyTags.Parent);
+							collection.Commit(deleted);
+							fileMonitor.NeedToDredge = true;
+							break;
 						}
 					}
 					collection.Commit(node);

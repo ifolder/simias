@@ -99,6 +99,20 @@ namespace Simias.Client
 		}
 
 		/// <summary>
+		/// Get the username for the current session
+		/// </summary>
+		public static string UserName
+		{
+			get
+			{
+				// Stip off all components that backslash separated as is
+				// the case when the machine is connected to Active Directory
+				string[] comps = Environment.UserName.Split( '\\' );
+				return comps[ comps.Length - 1 ];
+			}
+		}
+
+		/// <summary>
 		/// Discover and set the runtime ID
 		/// </summary>
 		private static void SetRuntimeID()

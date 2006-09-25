@@ -493,11 +493,21 @@ namespace Simias.Sync
 				if (oldNode != null)
 				{
 					// Check if this was a rename.
+					// If the old path does not equal the new path
+					// Delete the old file.
 					string oldPath = oldNode.GetFullPath(collection);
 					try
 					{
-						if (oldPath != file)
-							File.Delete(oldPath);
+						if (MyEnvironment.Windows)
+						{
+							if (string.Compare(oldPath, file, true) != 0)
+								File.Delete(oldPath);
+						}
+						else
+						{
+							if (oldPath != file)
+								File.Delete(oldPath);
+						}
 					}
 					catch {};
 				}
