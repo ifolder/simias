@@ -781,6 +781,8 @@ namespace SimiasApp
 			SimiasStatus status = SimiasStatus.Success;
 			for ( int i = 0; ( status == SimiasStatus.Success ) && ( i < args.Length ); ++i )
 			{
+				Console.Error.WriteLine( args[ i ].ToLower() );
+				
 				switch ( args[ i ].ToLower() )
 				{
 					case "--port":
@@ -795,6 +797,12 @@ namespace SimiasApp
 							status = SimiasStatus.InvalidCommandLine;
 						}
 
+						break;
+					}
+
+					case "--runasclient":
+					{
+						runAsServer = false;
 						break;
 					}
 
@@ -1563,7 +1571,7 @@ namespace SimiasApp
 						MyEnvironment.DotNet ? String.Empty : ApplicationPath + " ",
 						port,
 						ipcPort,
-						runAsServer ? "--runasserver " : String.Empty,
+						runAsServer ? "--runasserver " : "--runasclient ",
 						simiasDataPath,
 						verbose ? " --verbose" : String.Empty );
 
@@ -1668,6 +1676,7 @@ namespace SimiasApp
 	                	Console.WriteLine( "cmdline: {0}", cmdLine );
 	                }
 	               
+	       
 	                AppServer.AddApplicationsFromCommandLine( cmdLine );
 	                AppServer.Start( true );
 	         
