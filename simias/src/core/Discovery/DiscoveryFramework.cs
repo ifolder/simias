@@ -1,3 +1,27 @@
+/***********************************************************************
+ *  $RCSfile$
+ *
+ *  Copyright (C) 2005 Novell, Inc.
+ *
+ *  This program is free software; you can redistribute it and/or
+ *  modify it under the terms of the GNU General Public
+ *  License as published by the Free Software Foundation; either
+ *  version 2 of the License, or (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *  General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public
+ *  License along with this program; if not, write to the Free
+ *  Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ *
+ *  Author: Kalidas Balakrishnan <bkalidas@novell.com>
+ *
+ ***********************************************************************/
+
+
 using System;
 using System.Collections;
 
@@ -24,39 +48,43 @@ namespace Simias.Discovery
 			return collList;
 		}
 		
-		public CollectionInfo GetDetailedCollectionInformation(string collectionID, string hostID)
+		public CollectionInfo GetDetailedCollectionInformation(string domainID, string collectionID, HostNode hNode)
 		{
 
+			Member member = Store.GetStore().GetDomain( domainID ).GetCurrentMember();
 			DiscoveryService dService = new DiscoveryService();
-			CollectionInfo collInformation = dService.GetCollectionInfo(collectionID);
-			return collInformation;
+			SimiasConnection smConn = new SimiasConnection(domainID, member.UserID, SimiasConnection.AuthType.BASIC, hNode);
+			smConn.InitializeWebClient(dService, "DiscoveryService.asmx");
+
+			
+			return dService.GetCollectionInfo(collectionID);
 
 		}
 
-		public bool CreateProxyCollection(Store store, string collectionName, string domainID, string hostID, string collectionID)
+		public bool CreateProxyCollection(string collectionName, string domainID, HostNode hNode, string collectionID)
 		{
+			Store store = Store.GetStore();
 			ArrayList commitList = new ArrayList();
 			SimiasConnection smConn;
 			DiscoveryService dService = new DiscoveryService();
 			
 			Collection c = new Collection(store, collectionName, domainID);
-			string uID = store.GetUserIDFromDomainID(domainID);
 			Domain domain = store.GetDomain(domainID);
-			HostNode hNode = store.GetNodeByID(collectionID, hostID)
+			Member member = domain.GetCurrentMember();
 			
-			c.HostID = hostID;
+//			HostNode hNode = store.GetNodeByID(collectionID, hostID)
+			
+			c.HostID = hNode.ID;
 			
 			commitList.Add(c);
 
-			Member member = new Member(/*need username, rights*/);
 			member.IsOwner = true;
 			member.Proxy = true;
 			commitList.Add(member);
 
 			//should we get the connection for the particular member or host?
-			smConn = new SimiasConnection(domainID, uID, SimiasConnection.AuthType.BASIC, hNode);
-			smConn.Authenticate();
-			smConn.InitializeWebClient(DiscoveryService, "DiscoveryService.asmx");
+			smConn = new SimiasConnection(domainID, member.UserID, SimiasConnection.AuthType.BASIC, hNode);
+			smConn.InitializeWebClient(dService, "DiscoveryService.asmx");
 			// calls the GetCollectionDirNodeID WebService API
 			string dirNodeID = dService.GetCollectionDirNodeID ( c.ID );
 			DirNode dirNode = new DirNode(c, dirNodeID);
@@ -73,13 +101,17 @@ namespace Simias.Discovery
 			return true;
 		}
 
-		public bool RemoveMembership(string collectionID, string UserID)
+		public bool RemoveMembership(string domainID, string memberID, string collectionID, HostNode hNode)
 		{
-
+			Member member = Store.GetStore().GetDomain( domainID ).GetCurrentMember();
+			DiscoveryService dService = new DiscoveryService();
+			SimiasConnection smConn = new SimiasConnection(domainID, member.UserID, SimiasConnection.AuthType.BASIC, hNode);
+			smConn.InitializeWebClient(dService, "DiscoveryService.asmx");
 			// call the web service method
 			return {
-				RemoveMemberFromCollection( collectionID, UserID);
+				dService.RemoveMemberFromCollection( collectionID, memberID);
 				}
 		}
 	}
 }
+
