@@ -20,7 +20,7 @@ Simias_FLAGS = $(CSC_EXEFLAG)
 Simias_LIBS = System.dll System.Data.dll $(SYSTEM_XML) System.Web.dll $(SYSTEM_INSTALLER_LIB) SimiasClient.dll Mono.WebServer.dll
 Simias_LIBPATH = ../SimiasClient $(MONO_WEBSERVER_PATH)
 
-EXTRA_DIST = App.ico $(Simias_CSFILES) AssemblyInfo.cs.in $(srcdir)/simias.cmd $(srcdir)/simias.in
+EXTRA_DIST = App.ico $(Simias_CSFILES) AssemblyInfo.cs.in $(srcdir)/simias.cmd $(srcdir)/simias.in $(srcdir)/SimiasDirectoryMapping.in
 
 if MAKE_DOC_FILE
 DOC_FILE = $(basename $@).doc.xml
@@ -36,7 +36,7 @@ endif
 
 all: Simias.exe
 
-Simias.exe: AssemblyInfo $(Simias_CSFILES) $(Simias_RESOURCES) simias
+Simias.exe: AssemblyInfo $(Simias_CSFILES) $(Simias_RESOURCES) simias DirectoryMapping
 	$(CSC) /out:$@ $(CSCFLAGS) $(Simias_FLAGS) $(SIMIAS_LIBS) $(Simias_LIBS:%=/r:%) $(Simias_LIBPATH:%=/lib:%) $(Simias_RESOURCES:%=$(ICON_FLAG)%) $(Simias_CSFILES_CSC) $(DOC_FILE_CMD)
 
 AssemblyInfo: $(srcdir)/AssemblyInfo.cs.in 
@@ -47,6 +47,10 @@ if !WINDOWS
 	sed -e 's,@_webbindir_@,@webbindir@,g' -e 's,@_bindir_@,@bindir@,g' $< > $@
 	chmod +x $@
 endif	
+
+DirectoryMapping: $(srcdir)/SimiasDirectoryMapping.in
+	sed -e 's,@_mappingpath_@,$(SIMIAS_PATH),g' $< > SimiasDirectoryMapping
+	chmod +x SimiasDirectoryMapping
 
 if DEBUG
 if WINDOWS
@@ -62,6 +66,7 @@ if WINDOWS
 endif
 
 if SIMIAS_AS_CLIENT
+	$(INSTALL_PROGRAM) SimiasDirectoryMapping $(DESTDIR)$(bindir)
 if WINDOWS
 	$(INSTALL_PROGRAM) simias.cmd $(DESTDIR)$(bindir)
 else
@@ -76,6 +81,7 @@ endif
 	
 uninstall-local:
 	cd $(DESTDIR)$(webbindir); rm -f Simias.exe $(DEBUG_FILES)
+	cd $(DESTDIR)$(bindir); rm -f SimiasDirectoryMapping
 if WINDOWS
 	cd $(DESTDIR)$(webbindir); rm -f Mono.Security.dll $(DEBUG_FILES)
 	cd $(DESTDIR)$(bindir); rm -f simias.cmd
@@ -90,7 +96,7 @@ endif
 
 installcheck-local: install
 	
-CLEAN_FILES = Simias.exe Mono.WebServer.dll Mono.Security.dll $(DOC_FILE_CLEAN) AssemblyInfo.cs simias simias.cmd
+CLEAN_FILES = Simias.exe Mono.WebServer.dll Mono.Security.dll $(DOC_FILE_CLEAN) AssemblyInfo.cs simias simias.cmd SimiasDirectoryMapping
 
 clean-local:
 	rm -rf $(CLEAN_FILES) $(COMMON_CLEAN_FILES)
