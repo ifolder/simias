@@ -34,9 +34,11 @@ using System.Threading;
 using System.Web;
 using System.Xml;
 
+using Mono.WebServer;
+
 using Simias.Client;
 
-namespace Mono.ASPNET
+namespace SimiasApp
 {
 	/// <summary>
 	/// Implements the web server functionality for Simias.
@@ -198,7 +200,12 @@ namespace Mono.ASPNET
 		private Socket ipcServerSocket = null;
 		private Socket ipcMessageSocket = null;
 		private bool ipcIsClosed = false;
-
+		
+		/// <summary>
+		/// This instance of the ASP application server
+		/// </summary>
+        	private ApplicationServer AppServer = null;
+		
 		/// <summary>
 		/// Event used to hold the main execution thread until signaled to shut down.
 		/// </summary>
@@ -791,6 +798,12 @@ namespace Mono.ASPNET
 						break;
 					}
 
+					case "--runasclient":
+					{
+						runAsServer = false;
+						break;
+					}
+
 					case "--runasserver":
 					{
 						runAsServer = true;
@@ -1014,6 +1027,7 @@ namespace Mono.ASPNET
 				{
 					Console.Error.WriteLine( "Ping exception: {0}", ex.Message );
 				}
+				pingStatus = true;
 			}
 
 			return pingStatus;
@@ -1555,7 +1569,7 @@ namespace Mono.ASPNET
 						MyEnvironment.DotNet ? String.Empty : ApplicationPath + " ",
 						port,
 						ipcPort,
-						runAsServer ? "--runasserver " : String.Empty,
+						runAsServer ? "--runasserver " : "--runasclient ",
 						simiasDataPath,
 						verbose ? " --verbose" : String.Empty );
 
@@ -1638,15 +1652,42 @@ namespace Mono.ASPNET
 					{
 						args.Add( "--verbose" );
 					}
+					
+	                // Start up the web server
+	                //string path = Directory.GetCurrentDirectory();
+	                XSPWebSource websource = new XSPWebSource( IPAddress.Any, ub.Port );
+	                AppServer = new ApplicationServer( websource );
 
+					// Applications from the command line must be
+					// in the following format:
+	                //"[[hostname:]port:]VPath:realpath"
+
+	                string cmdLine = 
+	                	ub.Port.ToString() + 
+	                	":/simias10:" + 
+	                	rootPath + 
+	                	Path.DirectorySeparatorChar.ToString() +
+	                	"web";
+	                	
+	               	if ( verbose == true )
+	               	{
+	                	Console.WriteLine( "cmdline: {0}", cmdLine );
+	                }
+	               
+	       
+	                AppServer.AddApplicationsFromCommandLine( cmdLine );
+	                AppServer.Start( true );
+	         
 					// Start the Xsp server.
-					Server.Start( args.ToArray( typeof( string ) ) as string[] );
+					//Server.Start( args.ToArray( typeof( string ) ) as string[] );
 
+					Thread.Sleep( 32 );
+					
 					// Start the IPC mechanism listening for messages.
 					StartServerIpc();
 
 					// Wait for the server listener to start.
-					Thread.Sleep( 100 );
+					Thread.Sleep( 32 );
 					if ( PingWebService( ub.Uri, simiasDataPath ) )
 					{
 						// Write out the web service uri and data store path to stdout.
@@ -1676,7 +1717,8 @@ namespace Mono.ASPNET
 					StopServerIpc();
 
 					// Stop the server before exiting.
-					Server.Stop();
+					AppServer.Stop();
+					//Server.Stop();
 				}
 				else
 				{
@@ -1902,9 +1944,9 @@ namespace Mono.ASPNET
 		{
 			try
 			{
-    				prctl( 15 /* PR_SET_NAME */, Encoding.ASCII.GetBytes(name + "\0"), 0, 0, 0);
-    			}
-    			catch{}
+   				prctl( 15 /* PR_SET_NAME */, Encoding.ASCII.GetBytes(name + "\0"), 0, 0, 0);
+   			}
+   			catch{}
 		}	
 		#endif		
 	}
