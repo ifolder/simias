@@ -505,6 +505,18 @@ AC_SUBST(XML2_CFLAGS)
 AC_SUBST(XML2_LIBS)
 
 #
+# Configure MONO_WEBSERVER
+#
+MONO_WEBSERVER="no"
+if test -e "/usr/lib/mono/1.0/Mono.WebServer.dll"; then
+	MONO_WEBSERVER="yes"
+fi
+
+AC_SUBST(MONO_WEBSERVER)
+AM_CONDITIONAL(GACD_MONO_WEBSERVER, test "$MONO_WEBSERVER" = "yes")
+
+
+#
 # Configure files
 #
 AC_OUTPUT([
