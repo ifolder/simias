@@ -43,11 +43,12 @@ namespace Simias.Discovery
 
 	public class CollectionList
 	{
-		private static readonly ISimiasLog log = SimiasLogManager.GetLogger(typeof(CollectionList));
+		private static readonly ISimiasLog log = 
+			SimiasLogManager.GetLogger( System.Reflection.MethodBase.GetCurrentMethod().DeclaringType );
 		/// <summary>
 		/// List used to hold shared Collection for processing.
 		/// </summary>
-		private static internal IList collectionList = new IList();
+		internal static ArrayList collectionList = new ArrayList();
 
 		/// <summary>
 		/// Event used to signal thread that items have been placed on the queue.
@@ -64,7 +65,7 @@ namespace Simias.Discovery
 		/// </summary>
 		private bool killThread = false;
 
-		public CollectionList GetCollectionList()
+		static public ArrayList GetCollectionList()
 		{
 			return collectionList;
 		}
@@ -88,7 +89,7 @@ namespace Simias.Discovery
 				int waitTime;
 				try
 				{
-					ListItem CollectionList = GetCollectionList(out waitTime);
+					ListItem CollectionList = GetCollectionListItem(out waitTime);
 
 					if(CollectionList == null)
 					{
@@ -104,29 +105,39 @@ namespace Simias.Discovery
 			}
 		}
 
-		private ListItem GetCollectionList(out int waitTime)
+		private ListItem GetCollectionListItem(out int waitTime)
 		{
+			ListItem lItem = null;
 			waitTime = Timeout.Infinite;
-			Member member = Store.GetStore().GetDomain( domainID ).GetCurrentMember();
-			DiscoveryService dService = new DiscoveryService();
-			SimiasConnection smConn = new SimiasConnection(domainID, member.ID, SimiasConnection.AuthType.BASIC, hNode);
-			smConn.InitializeWebClient(dService, "DiscoveryService.asmx");
-			
-			lock (typeof(CollectionList))
+			Store store = Simias.Discovery.DiscService.store;
+			string uID = store.GetUserIDFromDomainID(store.DefaultDomain);
+			try
 			{
-				int nextProcessTime = Int32.MaxValue;
-				Store locStore = Simias.Discovery.DiscoveryService.store;
-				ICSList domList = locStore.GetDomainList();
-				foreach (Domain domain in domList)
+				SimiasConnection smConn = new SimiasConnection(store.DefaultDomain, uID, SimiasConnection.AuthType.BASIC, HostNode.GetLocalHost());
+				DiscoveryService dService = new DiscoveryService();
+				smConn.InitializeWebClient(dService, "DiscoveryService.asmx");
+				
+				lock (typeof(CollectionList))
 				{
-					Member member = domain.GetCurrentMember();
-					ArrayList CollectionArray = dService.GetAllCollectionIDsByUser(member.UserID);
-					ListItem lItem = new ListItem(CollectionArray);
-					lItem.ProcessTime = DateTime.Now + TimeSpan.FromSeconds( 10 );
-					AddCollection( lItem );
+					int nextProcessTime = Int32.MaxValue;
+					Store locStore = Simias.Discovery.DiscService.store;
+					ICSList domList = locStore.GetDomainList();
+					foreach (Domain domain in domList)
+					{
+						Member cmember = domain.GetCurrentMember();
+						ArrayList CollectionArray = new ArrayList(dService.GetAllCollectionIDsByUser(cmember.UserID));
+						lItem = new ListItem(CollectionArray, domain.Name);
+						lItem.ProcessTime = DateTime.Now + TimeSpan.FromSeconds( 10 );
+						AddCollection( lItem );
+					}
+					waitTime = nextProcessTime;
 				}
-				waitTime = nextProcessTime;
 			}
+			catch(Exception ex)
+			{
+				log.Error(ex.Message);
+			}
+			return lItem;
 		}
 		
 		private bool AddCollection(ListItem lItem)
@@ -163,6 +174,7 @@ namespace Simias.Discovery
 	{
 		private ArrayList sharedCollection;
 		private DateTime processTime;
+		private String domName;
  
 
 		/// <summary>
@@ -188,9 +200,10 @@ namespace Simias.Discovery
 		/// </summary>
 		/// <param name="collectionList">The CollectionList associated with this sharedCollection.</param>
 		/// <param name="sharedCollection">The Collection to be display.</param>
-		public ListItem(ArayList shColl)
+		public ListItem(ArrayList shColl, String domainName)
 		{
 			this.sharedCollection = shColl;
+			this.domName = domainName;
 			this.processTime = DateTime.Now;
 		}
 	}

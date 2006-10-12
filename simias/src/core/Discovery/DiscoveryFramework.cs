@@ -24,8 +24,14 @@
 
 using System;
 using System.Collections;
+using System.IO;
+using System.Net;
+using System.Net.Sockets;
+using System.Threading;
+using System.Xml;
 
 using Simias;
+using Simias.Service;
 using Simias.Client;
 using Simias.Storage;
 using Simias.Sync;
@@ -36,28 +42,38 @@ namespace Simias.Discovery
 {
 	public class DiscoveryFramework
 	{
-		private CollectionList collList;
+		private ArrayList collList;
+		private static readonly ISimiasLog log = 
+			SimiasLogManager.GetLogger( System.Reflection.MethodBase.GetCurrentMethod().DeclaringType );
 
 		public DiscoveryFramework()
 		{
-			collList = CollectionList.GetCollectionList();
+			collList = Simias.Discovery.CollectionList.GetCollectionList();
 		}
 		
-		public CollectionList GetListOfCollections()
+		public ArrayList GetListOfCollections()
 		{
 			return collList;
 		}
 		
 		public CollectionInfo GetDetailedCollectionInformation(string domainID, string collectionID, HostNode hNode)
 		{
+			CollectionInfo colInfo = null;
 
 			Member member = Store.GetStore().GetDomain( domainID ).GetCurrentMember();
-			DiscoveryService dService = new DiscoveryService();
-			SimiasConnection smConn = new SimiasConnection(domainID, member.UserID, SimiasConnection.AuthType.BASIC, hNode);
-			smConn.InitializeWebClient(dService, "DiscoveryService.asmx");
-
+			try
+			{
+				SimiasConnection smConn = new SimiasConnection(domainID, member.UserID, SimiasConnection.AuthType.BASIC, hNode);
+				DiscoveryService dService = new DiscoveryService();
+				smConn.InitializeWebClient(dService, "DiscoveryService.asmx");
+				colInfo = dService.GetCollectionInfo(collectionID);
+			}
+			catch(Exception ex)
+			{
+				log.Error(ex.Message);
+			}
 			
-			return dService.GetCollectionInfo(collectionID);
+			return colInfo;
 
 		}
 
@@ -66,7 +82,6 @@ namespace Simias.Discovery
 			Store store = Store.GetStore();
 			ArrayList commitList = new ArrayList();
 			SimiasConnection smConn;
-			DiscoveryService dService = new DiscoveryService();
 			
 			Collection c = new Collection(store, collectionName, domainID);
 			Domain domain = store.GetDomain(domainID);
@@ -82,35 +97,50 @@ namespace Simias.Discovery
 			member.Proxy = true;
 			commitList.Add(member);
 
-			//should we get the connection for the particular member or host?
-			smConn = new SimiasConnection(domainID, member.UserID, SimiasConnection.AuthType.BASIC, hNode);
-			smConn.InitializeWebClient(dService, "DiscoveryService.asmx");
-			// calls the GetCollectionDirNodeID WebService API
-			string dirNodeID = dService.GetCollectionDirNodeID ( c.ID );
-			DirNode dirNode = new DirNode(c, dirNodeID);
-			string path = dirNode.GetFullPath(c);
-			
-			if (!Directory.Exists(path)) Directory.CreateDirectory(path);
-
-				dirNode.Proxy = true;
-				commitList.Add(dirNode);
-			
-			c.Proxy = true;
-			c.Commit((Node[]) commitList.ToArray(typeof(Node)));
+			try
+			{
+				//should we get the connection for the particular member or host?
+				smConn = new SimiasConnection(domainID, member.UserID, SimiasConnection.AuthType.BASIC, hNode);
+				DiscoveryService dService = new DiscoveryService();
+				smConn.InitializeWebClient(dService, "DiscoveryService.asmx");
+				// calls the GetCollectionDirNodeID WebService API
+				string dirNodeID = dService.GetCollectionDirNodeID ( c.ID );
+				DirNode dirNode = new DirNode(c, dirNodeID);
+				string path = dirNode.GetFullPath(c);
+				
+				if (!Directory.Exists(path)) Directory.CreateDirectory(path);
+				
+					dirNode.Proxy = true;
+					commitList.Add(dirNode);
+				
+				c.Proxy = true;
+				c.Commit((Node[]) commitList.ToArray(typeof(Node)));
+			}
+			catch(Exception ex)
+			{
+				log.Error(ex.Message);
+			}
 
 			return true;
 		}
 
 		public bool RemoveMembership(string domainID, string memberID, string collectionID, HostNode hNode)
 		{
+			bool removed = false;
 			Member member = Store.GetStore().GetDomain( domainID ).GetCurrentMember();
-			DiscoveryService dService = new DiscoveryService();
-			SimiasConnection smConn = new SimiasConnection(domainID, member.UserID, SimiasConnection.AuthType.BASIC, hNode);
-			smConn.InitializeWebClient(dService, "DiscoveryService.asmx");
-			// call the web service method
-			return {
-				dService.RemoveMemberFromCollection( collectionID, memberID);
-				}
+			try
+			{
+				DiscoveryService dService = new DiscoveryService();
+				SimiasConnection smConn = new SimiasConnection(domainID, member.UserID, SimiasConnection.AuthType.BASIC, hNode);
+				smConn.InitializeWebClient(dService, "DiscoveryService.asmx");
+				removed = dService.RemoveMemberFromCollection( collectionID, memberID);
+			}
+			catch(Exception ex)
+			{
+				log.Error(ex.Message);
+			}
+
+			return removed;
 		}
 	}
 }

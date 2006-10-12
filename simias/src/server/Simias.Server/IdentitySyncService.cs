@@ -467,7 +467,7 @@ namespace Simias.IdentitySync
 					member.FN = FN;
 					
 					Property dn = new Property( "DN", DN );
-					dn.LocalProperty = true;
+//					dn.LocalProperty = true; //Kalis commented, for the ifolder webaccess to login to the slave
 					member.Properties.ModifyProperty( dn );
 					
 					// commit all properties passed in from

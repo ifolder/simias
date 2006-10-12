@@ -60,7 +60,7 @@ namespace Simias.Discovery
 		/// <summary>
 		/// Store object.
 		/// </summary>
-		private Store store;
+		internal static Store store;
 		
 		#endregion
 
@@ -123,7 +123,7 @@ namespace Simias.Discovery
 		/// </summary>
 		public void Stop()
 		{
-			lock ( typeof( DiscoveryService) )
+			lock ( typeof( DiscService) )
 			{
 				if ( collectionList != null )
 				{

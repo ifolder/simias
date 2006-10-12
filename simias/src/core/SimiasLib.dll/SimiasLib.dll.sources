@@ -68,6 +68,10 @@ AssemblyInfo.cs
 ../POBox/SubscriptionInfo.cs
 ../POBox/SubscriptionStatus.cs
 ../POBox/SubscriptionThread.cs
+../Discovery/Discovery.cs
+../Discovery/DiscoveryFramework.cs
+../Discovery/DiscoveryServiceProxy.cs
+../Discovery/Service.cs
 ../Policy/DiskSpaceQuota.cs
 ../Policy/FileSizeFilter.cs
 ../Policy/FileTypeFilter.cs
