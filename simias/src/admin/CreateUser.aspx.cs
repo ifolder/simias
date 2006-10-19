@@ -121,9 +121,10 @@ namespace Novell.iFolderWeb.Admin
 			get
 			{
 				return ( ( UserName.Text.Length > 0 ) &&
-					( FirstName.Text.Length > 0 ) &&
-					( LastName.Text.Length > 0 ) &&
-					( FullName.Text.Length > 0 ) &&
+// The following fields are not mandatory 					 
+// 					( FirstName.Text.Length > 0 ) &&
+// 					( LastName.Text.Length > 0 ) &&
+// 					( FullName.Text.Length > 0 ) &&
 					( Password.Text.Length > 0 ) &&
 					( RetypedPassword.Text.Length > 0 ) );
 			}
