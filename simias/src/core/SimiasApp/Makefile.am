@@ -7,13 +7,18 @@ else
 SYSTEM_INSTALLER_LIB =
 endif
 
-Simias_CSFILES = $(srcdir)/AssemblyInfo.cs $(srcdir)/Simias.cs $(srcdir)/server.cs $(srcdir)/ApplicationServer.cs $(srcdir)/IApplicationHost.cs $(srcdir)/IWebSource.cs $(srcdir)/Tracing.cs $(srcdir)/XSPApplicationHost.cs $(srcdir)/BaseApplicationHost.cs $(srcdir)/BaseRequestBroker.cs $(srcdir)/MonoWorkerRequest.cs $(srcdir)/XSPWorkerRequest.cs $(srcdir)/LingeringNetworkStream.cs $(srcdir)/InitialWorkerRequest.cs $(srcdir)/SimiasAppInstallerClass.cs
+MONO_WEBSERVER_PATH = ../../external/Mono.WebServer
+
+Simias_CSFILES = $(srcdir)/AssemblyInfo.cs \
+		$(srcdir)/Simias.cs \
+		$(srcdir)/SimiasAppInstallerClass.cs
+
 Simias_CSFILES_CSC := $(subst /,$(SEP),$(Simias_CSFILES))
 Simias_INCLUDES =
 Simias_RESOURCES = $(srcdir)/App$(ICON_EXT)
 Simias_FLAGS = $(CSC_EXEFLAG)
-Simias_LIBS = System.dll System.Data.dll $(SYSTEM_XML) System.Web.dll $(SYSTEM_INSTALLER_LIB) SimiasClient.dll
-Simias_LIBPATH = ../SimiasClient
+Simias_LIBS = System.dll System.Data.dll $(SYSTEM_XML) System.Web.dll $(SYSTEM_INSTALLER_LIB) SimiasClient.dll Mono.WebServer.dll
+Simias_LIBPATH = ../SimiasClient $(MONO_WEBSERVER_PATH)
 
 EXTRA_DIST = App.ico $(Simias_CSFILES) AssemblyInfo.cs.in
 
