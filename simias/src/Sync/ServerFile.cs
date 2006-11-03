@@ -143,10 +143,11 @@ namespace Simias.Sync
 				}
 			}
 			base.Close(commit);
-			if (commit == true)
-			{
-				map.CreateHashMap();
-			}
+			// Not required since it is done in client side
+			//if (commit == true)
+			//{
+			//	map.CreateHashMap();
+			//}
 			return status;
 		}
 
@@ -160,6 +161,14 @@ namespace Simias.Sync
 		public FileStream GetHashMap(out int entryCount, out int blockSize)
 		{
 			return map.GetHashMapStream(out entryCount, out blockSize, false, oldNode.LocalIncarnation);
+		}
+
+		/// <summary>
+		/// Put the hashmap for this file
+		/// </summary>
+		public void PutHashMap(Stream stream, int Size)
+		{
+			map.StoreHashMapFile(stream, Size);
 		}
 	}
 

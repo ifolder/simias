@@ -160,6 +160,32 @@ namespace Simias.Sync
 		}
 
 		/// <summary>
+		/// Called to create the hash map for the uploaded file.
+		/// </summary>
+		public void CreateHashMap()
+		{
+			map.CreateHashMapFile();
+		}
+
+		/// <summary>
+		/// Called to delete the hash map since it is not stored in the simias client
+		/// </summary>
+		public void DeleteHashMap()
+		{
+			map.Delete();
+		}
+
+		/// <summary>
+		/// Called to get the hash map stream for the uploaded file.
+		/// </summary>
+		public FileStream GetHashMap(out int entryCount, out int blockSize)
+		{
+			//TBD find out why old node was used in server 
+			//arg. false, here the create hash map is obtained
+			return map.GetHashMapStream(out entryCount, out blockSize, false, node.LocalIncarnation);
+		}
+
+		/// <summary>
 		/// Called to close the file and cleanup resources.
 		/// </summary>
 		protected void Close()

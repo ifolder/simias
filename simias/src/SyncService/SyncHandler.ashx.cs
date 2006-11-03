@@ -93,6 +93,9 @@ namespace Simias.Sync.Web
 							case SyncMethod.GetHashMap2:
 								Service.GetHashMap(Request, Response, true);
 								break;
+							case SyncMethod.PutHashMap:
+								Service.PutHashMap(Request, Response);
+								break;
 							case SyncMethod.ReadFile:
 								Service.ReadFile(Request, Response);
 								break;
