@@ -143,13 +143,11 @@ namespace Simias.Sync
 				}
 			}
 			base.Close(commit);
-			if (commit == true)
-			{
-				// BUGBUG Encryption Here.
-				// Don't create hash map move the map pushed from client.
-		
-				map.CreateHashMap();
-			}
+			// Not required since it is done in client side
+			//if (commit == true)
+			//{
+			//	map.CreateHashMap();
+			//}
 			return status;
 		}
 
