@@ -163,6 +163,10 @@ namespace Simias.Sync.Http
 		/// 
 		/// </summary>
 		EndSync,
+		/// <summary>
+		/// 
+		/// </summary>
+		PutHashMap,
 	}
 
 	/// <summary>
@@ -658,10 +662,39 @@ namespace Simias.Sync.Http
 			}
 		}
 		
-		// BUGBUG Encryption Here.
-		// Add Client side 
-		public void PutHashMap()
+		/// <summary>
+		/// Put the HashMap for the syned file.
+		/// </summary>
+		public void PutHashMap(FileStream mapStream, int Count, int blockSize)
 		{
+			HttpWebRequest request = GetRequest(SyncMethod.PutHashMap);
+
+			// set the count
+			request.ContentLength = length; 
+
+			// Get the length to send.
+			WebHeaderCollection headers = request.Headers;
+			headers.Add(SyncHeaders.ObjectCount, length.ToString());
+
+			// point the request stream
+			StreamStream ss = new StreamStream(request.GetRequestStream());
+			//write into the request stream
+			ss.Write(mapStream, length);		
+			
+			// get the response
+			HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+
+			try 
+			{
+				if(response.StatusCode != HttpStatusCode.OK)
+				{
+					throw GetException(response);
+				}
+			}
+			finally
+			{
+				response.Close();
+			}				
 		}
 
 		/// <summary>
@@ -1061,11 +1094,19 @@ namespace Simias.Sync.Http
 			response.AddHeader(SyncHeaders.ObjectCount, "0");
 		}
 
+		/// <summary>
+		///<Put the hash map for this file>
+		/// </summary>
 		public void PutHashMap(HttpRequest request, HttpResponse response)
 		{
-			// BUGBUG Encryption Here.
-			// Store hash map in temporary location
-			return;
+			string sCount = request.Headers.Get(SyncHeaders.ObjectCount);			
+			if (sCount == null)
+			{
+				response.StatusCode = (int)HttpStatusCode.BadRequest;
+				return;
+			}			
+			int count = int.Parse(sCount);	
+			service.PutHashMap(request.InputStream, count);
 		}
 
 		/// <summary>

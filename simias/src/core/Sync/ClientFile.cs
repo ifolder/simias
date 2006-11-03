@@ -674,6 +674,7 @@ namespace Simias.Sync
 		{
 			this.node = node;
 			this.syncService = syncService;
+			map = new HashMap(collection, node);
 		}
 
 		#endregion
@@ -937,6 +938,35 @@ namespace Simias.Sync
 				sizeToSync += segLen;
 			}
 		}
+
+		/// <summary>
+		/// Called to upload the hash map of the uploaded file
+		/// </summary>
+		public void UploadHashMap()
+		{
+			int 		entryCount;
+			int 		blockSize;
+			FileStream mapStream = null;
+			try
+			{
+				CreateHashMap();
+				// Send the hash map
+				mapStream = GetHashMap(out entryCount, out blockSize);
+				if(mapStream != null)
+				{
+					mapStream.Position=0;
+					syncService.PutHashMap(mapStream, (int)mapStream.Length);
+					//not saved in the simias client, may be in future for down sync perf. enhancement 
+					DeleteHashMap();
+				}
+				//catch at ProcessFilesToServer
+			}
+			finally
+			{
+				if(mapStream !=null)
+					mapStream.Close();
+			}			
+		}				
 
 		/// <summary>
 		/// Called to get a string description of the Diffs.

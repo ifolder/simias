@@ -164,6 +164,14 @@ namespace Simias.Sync
 		{
 			return map.GetHashMapStream(out entryCount, out blockSize, false, oldNode.LocalIncarnation);
 		}
+		
+		/// <summary>
+		/// Put the hashmap for this file
+		/// </summary>
+		public void PutHashMap(Stream stream, int Size)
+		{
+			map.StoreHashMapFile(stream, Size);
+		}
 	}
 
 	/// <summary>

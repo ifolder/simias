@@ -367,6 +367,33 @@ namespace Simias.Sync.Delta
 		}
 
 		/// <summary>
+		/// Store the Hash Map
+		/// </summary>
+		public void StoreHashMapFile(Stream stream, int Size)
+		{
+			string mapFile = file;
+			
+			// Delete the existing file, any way we are going to store the new one
+			if(File.Exists(mapFile))
+				Delete();
+			
+			FileStream HashStream = File.OpenWrite(mapFile);
+			try
+			{
+				StreamStream ss = new StreamStream(HashStream);
+				ss.Write(stream, Size);
+			}
+			catch (Exception ex)
+			{
+				throw ex;
+			}				
+			finally
+			{
+				HashStream.Close();
+			}
+		}
+
+		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="reader"></param>

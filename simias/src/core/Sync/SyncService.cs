@@ -844,6 +844,19 @@ namespace Simias.Sync
 		}
 
 		/// <summary>
+		/// Put a HashMap of the file.
+		/// </summary>
+		public void PutHashMap(Stream stream, int Size)
+		{
+			if (inFile != null)
+			{
+				inFile.PutHashMap(stream, Size);
+			}
+			
+			logger.LogAccess("PutMapFile", inFile.Name, collection.ID, "Success");
+		}
+
+		/// <summary>
 		/// Write the included data to the new file.
 		/// </summary>
 		/// <param name="stream">The stream to write.</param>

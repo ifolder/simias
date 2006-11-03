@@ -1988,6 +1988,11 @@ namespace Simias.Sync
 								lock (this) {syncFile = file;}
 								log.Info("Uploading File {0} to server", file.Name);
 								success = file.UploadFile();
+								if(success)
+								{
+									log.Info("Uploading hash map for File {0} to server", file.Name)
+									file.UploadHashMap();
+								}
 							}
 							finally
 							{
