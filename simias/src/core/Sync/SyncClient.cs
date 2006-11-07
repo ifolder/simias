@@ -1990,7 +1990,7 @@ namespace Simias.Sync
 								success = file.UploadFile();
 								if(success)
 								{
-									log.Info("Uploading hash map for File {0} to server", file.Name)
+									log.Info("Uploading hash map for File {0} to server", file.Name);
 									file.UploadHashMap();
 								}
 							}

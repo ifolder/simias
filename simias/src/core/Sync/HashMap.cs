@@ -226,7 +226,7 @@ namespace Simias.Sync.Delta
 		/// <summary>
 		/// 
 		/// </summary>
-		private void CreateHashMapFile()
+		public void CreateHashMapFile()
 		{
 			FileStream mapSrcStream = File.Open(node.GetFullPath(collection), FileMode.Open, FileAccess.Read, FileShare.Read);	
 			int blockSize = CalculateBlockSize(mapSrcStream.Length);

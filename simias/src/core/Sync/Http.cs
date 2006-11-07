@@ -665,7 +665,7 @@ namespace Simias.Sync.Http
 		/// <summary>
 		/// Put the HashMap for the syned file.
 		/// </summary>
-		public void PutHashMap(FileStream mapStream, int Count, int blockSize)
+		public void PutHashMap(FileStream mapStream, int  length)
 		{
 			HttpWebRequest request = GetRequest(SyncMethod.PutHashMap);
 
