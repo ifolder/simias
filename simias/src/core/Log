@@ -1,5 +1,9 @@
 2006-11-13  Sushma Rai <rsushma@novell.com>
 
+	* Sync/StreamStream.cs: Removed duplicate Write method. 
+
+2006-11-13  Sushma Rai <rsushma@novell.com>
+
 	* Simias.Web/SharedCollection.cs (CreateLocalSharedCollection): Added
 	new. Constructor with encryption_status.
 	(CreateSharedCollection): Added new. Constructor with encryption_status

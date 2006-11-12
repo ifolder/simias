@@ -323,13 +323,6 @@ namespace Simias.Sync
 			writeComplete.Set();
 		}
 		
-		// BUGBUG Encryption Here.
-		// Add decryption here.
-		public int Write(Stream inStream, int size, string encryptionKey)
-		{
-			return -1;
-		}
-		
 		/// <summary>
 		/// Write the data from the supplied stream to this stream.
 		/// </summary>
@@ -377,6 +370,7 @@ namespace Simias.Sync
 			writeComplete.WaitOne();
 			writeComplete.Set();
 		}
+
 		/// <summary>
 		/// 
 		/// </summary>
