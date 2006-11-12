@@ -622,7 +622,7 @@ namespace Simias.Sync.Http
 			seg.Serialize(writer);
 			writer.Close();
 			HttpWebResponse response = connection.GetResponse(request);
-            if (response.StatusCode == HttpStatusCode.OK)
+			if (response.StatusCode == HttpStatusCode.OK)
 			{
 				return response;
 			}
@@ -641,10 +641,32 @@ namespace Simias.Sync.Http
 		{
 			HttpWebRequest request = GetRequest(SyncMethod.WriteFile);
 			WebHeaderCollection headers = request.Headers;
+
+			// check if encryption is set
+			bool encryptionSet = false;
+			if (collection.Properties.HasProperty( PropertyTags.EncryptionStatus ))
+				encryptionSet = true;
+
+			if (encryptionSet)
+			{
+				int reminder = count % 8;
+				if(reminder != 0)
+					request.ContentLength = count + (8 - reminder); //adjust the length
+				else
+					request.ContentLength = count;
+			}
+			else
+				request.ContentLength = count;
+
 			request.ContentLength = count;
 			headers.Add(SyncHeaders.Range, offset.ToString() + "-" + ((long)(offset + count)).ToString());
 			Stream rStream = request.GetRequestStream();
-			int bytesRead = stream.Read(rStream, count);
+
+			int bytesRead; 
+			if (encryptionSet)
+				bytesRead = stream.Read(rStream, count, "12345ABCDE!@#$%"); //TODO: autogenerate passphrase
+			else
+				bytesRead = stream.Read(rStream, count);
 			if (bytesRead != count)
 				throw new SimiasException("Could not write all data.");
 			rStream.Close();
@@ -1129,7 +1151,7 @@ namespace Simias.Sync.Http
 				byte[] buffer = new byte[blockSize];
 				Stream outStream = response.OutputStream;
 				int readSize = (seg.EndBlock - seg.StartBlock +1) * blockSize;
-                int bytesRead = service.Read(outStream, (long)seg.StartBlock * (long)blockSize, readSize);
+				int bytesRead = service.Read(outStream, (long)seg.StartBlock * (long)blockSize, readSize);
 				outStream.Close();
 			}
 			else

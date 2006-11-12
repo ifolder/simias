@@ -22,8 +22,10 @@
  ***********************************************************************/
 using System;
 using System.IO;
+using System.Text;
 using System.Collections;
 using System.Threading;
+using Simias.Encryption;
 
 namespace Simias.Sync
 {
@@ -221,6 +223,58 @@ namespace Simias.Sync
 		}
 
 		/// <summary>
+		/// Read into the supplied stream.
+		/// </summary>
+		/// <param name="outStream">The stream to recieve the data.</param>
+		/// <param name="count">The number of bytes to read.</param>
+		/// <param name="encryption_key">The key string to encrypt the data.</param>
+		/// <returns>The number of bytes read.</returns>
+		public int Read(Stream outStream, int count, string encryption_key)
+		{
+			wStream = outStream;
+			int paddingLength = 0, reminder = 0;
+			int bytesLeft = count;
+
+			while(bytesLeft > 0)
+			{
+				byte[] buffer = GetBuffer();
+				int bytesRead = stream.Read(buffer, 0, Math.Min(bytesLeft, buffer.Length));
+				if (bytesRead != 0)
+				{
+					UTF8Encoding utf8 = new UTF8Encoding();
+					Blowfish bf = new Blowfish(utf8.GetBytes(encryption_key));
+					
+					reminder = (int) bytesRead % 8;
+					if (reminder != 0)
+					{
+						paddingLength = 0;
+						paddingLength = 8 - reminder;
+					}
+				
+					if (paddingLength > 0) {
+						// add padding
+						for (int i=0; i< paddingLength; i++) 
+							buffer [bytesRead+i] = 0; //TODO: use some other signature
+					}
+					int totalRead = bytesRead + paddingLength;
+				
+					bf.Encipher (buffer, totalRead);
+
+					writeComplete.WaitOne();
+					if (exception != null)
+						throw exception;
+					outStream.BeginWrite(buffer, 0, totalRead, new AsyncCallback(Read_WriteComplete), buffer);
+					bytesLeft -= bytesRead;
+				}
+				else break;
+			}
+			writeComplete.WaitOne();
+			writeComplete.Set();
+			wStream = null;
+			return count - bytesLeft;
+		}
+
+		/// <summary>
 		/// The async write has completed.
 		/// </summary>
 		/// <param name="result">The results of the async write.</param>
@@ -254,7 +308,7 @@ namespace Simias.Sync
 			while(bytesLeft > 0)
 			{
 				byte[] buffer = GetBuffer();
-                int bytesRead = inStream.Read(buffer, 0, Math.Min(buffer.Length, bytesLeft));
+                		int bytesRead = inStream.Read(buffer, 0, Math.Min(buffer.Length, bytesLeft));
 				if (bytesRead != 0)
 				{
 					writeComplete.WaitOne();
@@ -276,6 +330,53 @@ namespace Simias.Sync
 			return -1;
 		}
 		
+		/// <summary>
+		/// Write the data from the supplied stream to this stream.
+		/// </summary>
+		/// <param name="inStream">The data to write.</param>
+		/// <param name="count">The number of bytes to write.</param>
+		/// <param name="encryption_key">Key to encrypt the data with.</param>
+		public void Write(Stream inStream, int count, string encryption_key)
+		{
+			// not used 
+			int bytesLeft = count;
+			while(bytesLeft > 0)
+			{
+				byte[] buffer = GetBuffer();
+                		int bytesRead = inStream.Read(buffer, 0, Math.Min(buffer.Length, bytesLeft));
+				if (bytesRead != 0)
+				{
+					UTF8Encoding utf8 = new UTF8Encoding();
+					Blowfish bf = new Blowfish(utf8.GetBytes(encryption_key));
+					
+					int reminder = 0, paddingLength = 0;
+					reminder = (int) bytesRead % 8;
+					if (reminder != 0)
+					{
+						paddingLength = 0;
+						paddingLength = 8 - reminder;
+					}
+				
+					if (paddingLength > 0) {
+						// add padding
+						for (int i=0; i< paddingLength; i++) 
+							buffer [bytesRead+i] = 0; //TODO: use some other signature
+					}
+					
+					int totalRead = bytesRead + paddingLength;
+					
+					bf.Decipher (buffer, buffer.Length);	
+					writeComplete.WaitOne();
+					if (exception != null)
+						throw exception;
+					stream.BeginWrite(buffer, 0, totalRead, new AsyncCallback(Write_WriteComplete), buffer);
+					bytesLeft -= bytesRead;
+				}
+				else break;
+			}
+			writeComplete.WaitOne();
+			writeComplete.Set();
+		}
 		/// <summary>
 		/// 
 		/// </summary>

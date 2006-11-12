@@ -1,3 +1,20 @@
+2006-11-13  Sushma Rai <rsushma@novell.com>
+
+	* Sync/Http.cs (WriteFile): Checking if the encrypption is set or not,
+	and if it is set, increasing the ContentLength, so that it becomes 
+	multiple of 8, and calling Read() with pass-phrase. 
+
+	* Sync/ClientFile.cs (DownLoadFile): If encryption is selected, 
+	adjusting the stream size to multiple of 8, padding it at the end and
+	sending it to Decipher() to decrypt the data. 
+	
+	* Sync/StreamStream.cs (Read): Added new with encryption key.
+	(Write): Similar
+
+	* SimiasLib.dll/SimiasLib.dll.sources: Added Encryption/Blowfish.cs
+
+	* Encryption/Blowfish.cs: New.
+
 2006-11-12  Russ Young <ryoung@novell.com>
 	
 	* SimiasApp/Makefile.am : Corrected external directory path for

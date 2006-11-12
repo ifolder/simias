@@ -22,6 +22,7 @@
  ***********************************************************************/
 using System;
 using System.IO;
+using System.Text;
 using System.Xml;
 using System.Collections;
 using System.Security.Cryptography;
@@ -33,6 +34,7 @@ using Simias.Storage;
 using Simias.Sync.Http;
 using Simias.Sync.Delta;
 using Simias.Event;
+using Simias.Encryption;
 
 namespace Simias.Sync
 {
@@ -431,7 +433,8 @@ namespace Simias.Sync
 			long	fileSize = Length;
 			long	sizeToSync;
 			long	sizeRemaining;
-			int		blockSize;
+			int	blockSize;
+			bool    encryptionSet = false;
 
 			long[] fileMap = GetDownloadFileMap(out sizeToSync, out blockSize);
 			sizeRemaining = sizeToSync;
@@ -457,6 +460,15 @@ namespace Simias.Sync
 				}
 			}
 				
+			// check for encryption
+			if (collection.Properties.HasProperty( PropertyTags.EncryptionStatus ))
+				encryptionSet = true;
+
+			//if (encryptionSet) {
+				const string key = "12345ABCDE!@#$%"; // TODO: autogenerate pass-phrase
+				UTF8Encoding utf8 = new UTF8Encoding();
+				Blowfish bf = new Blowfish(utf8.GetBytes(key));
+			//}
 			
 			// Get the file blocks from the server.
 			foreach (DownloadSegment seg in downloadMap)
@@ -467,12 +479,34 @@ namespace Simias.Sync
 				Stream inStream = response.GetResponseStream();
 				try
 				{	
-					// BUGBUG Encryption Here.
-					// Add decryption here.
-					// Call new Write override.
 					int bytesToWrite = (int)Math.Min(sizeRemaining, (seg.EndBlock - seg.StartBlock + 1) * blockSize);
+
+					Log.log.Debug("Encryption is selected, decrypting the file");
 					WritePosition = (long)seg.StartBlock * (long)blockSize;
-					Write(inStream, bytesToWrite);
+
+					if (encryptionSet)
+					{
+						int read = 0, offset = 0, reminder = 0, paddingLength = 0;
+
+						if ((reminder = bytesToWrite % 8) != 0)
+							paddingLength = (8 - reminder);
+						
+						byte [] inStream_byteArr = new byte[bytesToWrite+paddingLength];
+
+						read = inStream.Read (inStream_byteArr, offset, bytesToWrite + paddingLength);
+						if (paddingLength > 0)
+						{
+							int i = 0;
+							for(i=0; i< paddingLength; i++) 
+								inStream_byteArr[read+i] = 0; // TODO: pad with some other signature
+						}
+
+						bf.Decipher (inStream_byteArr, inStream_byteArr.Length);
+						Stream Padded_inStream = new MemoryStream(inStream_byteArr) as Stream;
+						Write(Padded_inStream, read);
+					}
+					else 
+						Write(inStream, bytesToWrite);
 					sizeRemaining -= bytesToWrite;
 					eventPublisher.RaiseEvent(new FileSyncEventArgs(collection.ID, ObjectType.File, false, Name, fileSize, sizeToSync, sizeRemaining, Direction.Downloading));
 				}
@@ -813,10 +847,6 @@ namespace Simias.Sync
 		/// <param name="blockSize">The size of the hashed data blocks.</param>
 		private void GetUploadFileMap(out long sizeToSync, out ArrayList copyArray, out ArrayList writeArray, out int blockSize)
 		{
-			// BUGBUG Encryption Here.
-			// Could Create hash map here use to calculate upload data.
-			// Save hashmap to send to server.
-		
 			sizeToSync = 0;
 			copyArray = new ArrayList();
 			writeArray = new ArrayList();

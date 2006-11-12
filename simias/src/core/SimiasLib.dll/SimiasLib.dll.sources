@@ -1,4 +1,5 @@
 AssemblyInfo.cs
+../Encryption/Blowfish.cs
 ../Events/DefaultSubscriber.cs
 ../Events/EventBroker.cs
 ../Events/EventPublisher.cs
