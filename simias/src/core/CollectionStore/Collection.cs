@@ -88,6 +88,10 @@ namespace Simias.Storage
 		/// the collection to make changes.
 		/// </summary>
 		private string lockString = null;
+
+		private int encryption_status;
+		private string passphrase;
+
 		#endregion
 
 		#region Properties
@@ -134,6 +138,30 @@ namespace Simias.Storage
 				return domainID;
 			}
 		}
+
+		public int Encryption_Status
+		{
+			get
+			{
+				// TODO: have a enum instead of hardcoded values
+				encryption_status = 40;
+				if(Properties.HasProperty( PropertyTags.EncryptionStatus ))
+				{
+					Console.WriteLine("property added");
+					encryption_status = 10;
+				}
+				else if(Properties.HasProperty( PropertyTags.SSL ))
+				{
+					Console.WriteLine("Dom id prop is there");
+					encryption_status = 20;
+				}
+				else
+					encryption_status = 30;
+
+				return encryption_status;
+			}
+		}
+
 
 		/// <summary>
 		/// Gets the directory where store managed files are kept.
@@ -411,8 +439,6 @@ namespace Simias.Storage
 		{
 		}
 		
-		// BUGBUG Encryption Here.
-		// Add Constructor to accept encryption key.
 		/// <summary>
 		/// Constructor to create a new Collection object.
 		/// </summary>
@@ -484,6 +510,12 @@ namespace Simias.Storage
 			createManagedPath = collection.createManagedPath;
 		}
 
+		//TODO: add comment
+		public Collection( Store storeObject, string collectionName, string domainID, int encryption_status ) :
+			this ( storeObject, collectionName, Guid.NewGuid().ToString(), domainID, encryption_status )
+		{
+		}
+
 		/// <summary>
 		/// Constructor to create a new Collection object.
 		/// </summary>
@@ -521,6 +553,12 @@ namespace Simias.Storage
 			createManagedPath = !Directory.Exists( ManagedPath );
 		}
 
+
+		public Collection( Store storeObject, string collectionName, string collectionID, string domainID, int encryption_status ) :
+			this( storeObject, collectionName, collectionID, NodeTypes.CollectionType, domainID, encryption_status )
+		{
+		}
+
 		/// <summary>
 		/// Constructor to create a new Collection object.
 		/// </summary>
@@ -547,6 +585,34 @@ namespace Simias.Storage
 			accessControl = new AccessControl( this );
 			createManagedPath = !Directory.Exists( ManagedPath );
 		}
+
+		internal protected Collection( Store storeObject, string collectionName, string collectionID, string collectionType, string domainID, int encryption_status ) :
+			base( collectionName, collectionID, collectionType)
+		{
+			store = storeObject;
+			this.encryption_status = encryption_status;
+
+			// Don't allow this collection to be created, if one already exist by the same id.
+			if ( store.GetCollectionByID( id ) != null )
+				throw new AlreadyExistsException( String.Format( "The collection: {0} - ID: {1} already exists.", collectionName, collectionID ) );
+			
+			// Add that this is a Collection type if it is specified as a derived type.
+			if ( collectionType != NodeTypes.CollectionType )
+				properties.AddNodeProperty( PropertyTags.Types, NodeTypes.CollectionType );
+
+			// Add the domain ID as a property.
+			properties.AddNodeProperty( PropertyTags.DomainID, domainID );
+		
+			if (encryption_status == 0)
+				 properties.AddNodeProperty( PropertyTags.EncryptionStatus, encryption_status);
+			else if (encryption_status == 1)
+				properties.AddNodeProperty( PropertyTags.SSL, encryption_status);
+
+			// Setup the access control for this collection.
+			accessControl = new AccessControl( this );
+			createManagedPath = !Directory.Exists( ManagedPath );
+		}
+
 		#endregion
 
 		#region Private Methods

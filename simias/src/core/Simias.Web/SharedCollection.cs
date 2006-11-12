@@ -277,8 +277,25 @@ namespace Simias.Web
 						Type, true, LocalPath);
 		}
 
+		public static Collection CreateLocalSharedCollection(
+				string LocalPath, string DomainID, int encryption_status, string Type)
+		{
+			Store store = Store.GetStore();
+
+			Domain domain = store.GetDomain(DomainID);
+			if(domain == null)
+				throw new Exception("Unable to obtain specified domain");
+
+			Simias.Storage.Member member = domain.GetCurrentMember();
+			if(member == null)
+				throw new Exception("Unable to obtain current member");
 
 
+			String name = Path.GetFileName(LocalPath);
+
+			return CreateSharedCollection(name, DomainID, encryption_status, member.UserID, 
+						Type, true, LocalPath);
+		}
 
 		/// <summary>
 		/// WebMethod that creates and SharedCollection
@@ -337,6 +354,14 @@ namespace Simias.Web
 		{
 			return (CreateSharedCollection(Name, DomainID, UserID, Type,
 				UnmanagedFiles, CollectionPath, null, null));
+		}
+
+		public static Collection CreateSharedCollection(
+			string Name, string DomainID, int encryption_status, string UserID, string Type,
+			bool UnmanagedFiles, string CollectionPath)
+		{
+			return (CreateSharedCollection(Name, DomainID, encryption_status, UserID, Type,
+				UnmanagedFiles, CollectionPath, null));
 		}
 
 		/// <summary>
@@ -496,6 +521,138 @@ namespace Simias.Web
 		}
 
 
+		public static Collection CreateSharedCollection(
+			string Name, string DomainID, int encryption_status, string UserID, string Type,
+			bool UnmanagedFiles, string CollectionPath, string Description)
+		{
+			ArrayList nodeList = new ArrayList();
+			
+			log.Debug( "CreateSharedCollection entered" );
+			log.Debug( "  DomainID:    " + DomainID );
+			log.Debug( "  UserID:      " + UserID );
+			log.Debug( "  Collection:  " + Name );
+			log.Debug( "  Type:        " + Type );
+			if ( Description != null && Description != "" )
+			{
+				log.Debug( "  Description: " + Description );
+			}
+
+			// check DomainID and default
+			if (DomainID == null)
+			{
+				DomainID = Store.GetStore().DefaultDomain;
+			}
+
+			// if they are attempting to create a Collection using
+			// a path, then check to see if that path can be used
+			if (UnmanagedFiles && (CollectionPath != null) )
+			{
+				CollectionPathStatus pStatus;
+
+				pStatus = CheckCollectionPath(CollectionPath);
+				switch(pStatus)
+				{
+					case CollectionPathStatus.ValidPath:
+						break;
+					case CollectionPathStatus.RootOfDrivePath:
+						throw new Exception("RootOfDrivePath");
+					case CollectionPathStatus.InvalidCharactersPath:
+						throw new Exception("InvalidCharactersPath");
+					case CollectionPathStatus.AtOrInsideStorePath:
+						throw new Exception("AtOrInsideStorePath");
+					case CollectionPathStatus.ContainsStorePath:
+						throw new Exception("ContainsStorePath");
+					case CollectionPathStatus.NotFixedDrivePath:
+						throw new Exception("NotFixedDrivePath");
+					case CollectionPathStatus.SystemDirectoryPath:
+						throw new Exception("SystemDirectoryPath");
+					case CollectionPathStatus.SystemDrivePath:
+						throw new Exception("SystemDrivePath");
+					case CollectionPathStatus.IncludesWinDirPath:
+						throw new Exception("IncludesWinDirPath");
+					case CollectionPathStatus.IncludesProgFilesPath:
+						throw new Exception("IncludesProgFilesPath");
+					case CollectionPathStatus.DoesNotExistPath:
+						throw new Exception("DoesNotExistPath");
+					case CollectionPathStatus.NoReadRightsPath:
+						throw new Exception("NoReadRightsPath");
+					case CollectionPathStatus.NoWriteRightsPath:
+						throw new Exception("NoWriteRightsPath");
+					case CollectionPathStatus.ContainsCollectionPath:
+						throw new Exception("ContainsCollectionPath");
+					case CollectionPathStatus.AtOrInsideCollectionPath:
+						throw new Exception("AtOrInsideCollectionPath");
+				}
+			}
+
+			Store store = Store.GetStore();
+
+			// Create the Collection and set it as an iFolder
+			Collection c = new Collection(store, Name, DomainID, encryption_status);
+
+			// type
+			if( (Type != null) && (Type.Length > 0) )
+				c.SetType(c, Type);
+
+			// description
+			if ((Description != null) && (Description.Length > 0))
+			{
+				c.Properties.AddProperty(PropertyTags.Description, Description);
+			}
+
+			nodeList.Add(c);
+
+			// Create the member and add it as the owner
+			Domain domain = store.GetDomain(DomainID);
+			if(domain == null)
+				throw new Exception("Unable to obtain default domain");
+
+			Simias.Storage.Member member = domain.GetMemberByID(UserID);
+			if(member == null)
+				throw new Exception("UserID is invalid");
+				
+			Simias.Storage.Member newMember = 
+					new Simias.Storage.Member(	member.Name,
+												member.UserID,
+												Access.Rights.Admin);
+			newMember.IsOwner = true;
+			nodeList.Add(newMember);
+
+			if(UnmanagedFiles)
+			{
+				string dirNodePath;
+
+				if( (CollectionPath == null) || (CollectionPath.Length == 0) )
+				{
+					// create a root dir node for this iFolder in the
+					// ~/.local/shared/simias/SimiasFiles/<guid>/name
+					// directory
+					dirNodePath = Path.Combine(Store.StorePath, FilesDirName);
+					dirNodePath = Path.Combine(dirNodePath, c.ID);
+					dirNodePath = Path.Combine(dirNodePath, Name);
+
+					if(!Directory.Exists(dirNodePath) )
+						Directory.CreateDirectory(dirNodePath);
+				}
+				else
+					dirNodePath = CollectionPath;
+
+				if(!Directory.Exists(dirNodePath) )
+					throw new Exception("Path did not exist");
+
+				// create root directory node
+				DirNode dn = new DirNode(c, dirNodePath);
+				nodeList.Add(dn);
+			}
+
+			// Commit the new collection and the fileNode at the root
+			c.Commit(nodeList.ToArray( typeof( Node) ) as Node[] );
+
+			AddSubscription( store, c, member, 
+					newMember, SubscriptionStates.Ready, Type);
+
+			return c;
+		}
 
 
 		/// <summary>
@@ -517,8 +674,6 @@ namespace Simias.Web
 			return(	CheckCollectionPath(path) == 
 						CollectionPathStatus.ValidPath);
 		}
-
-
 
 
 		/// <summary>

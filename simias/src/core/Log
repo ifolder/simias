@@ -1,5 +1,18 @@
 2006-11-13  Sushma Rai <rsushma@novell.com>
 
+	* Simias.Web/SharedCollection.cs (CreateLocalSharedCollection): Added
+	new. Constructor with encryption_status.
+	(CreateSharedCollection): Added new. Constructor with encryption_status
+	(CreateSharedCollection): Added new. Constructor with encryption_status
+	and Description.
+	
+	* CollectionStore/Collection.cs: Added a property Encryption_Status to
+	collection, to read the encryption status. 
+	Added constructors for collection object with encryption_status.
+	(Patch submitted by "Ramesh Sundar <sramesh@novell.com>"
+	
+2006-11-13  Sushma Rai <rsushma@novell.com>
+
 	* Sync/Http.cs (WriteFile): Checking if the encrypption is set or not,
 	and if it is set, increasing the ContentLength, so that it becomes 
 	multiple of 8, and calling Read() with pass-phrase. 
