@@ -1106,7 +1106,6 @@ namespace SimiasApp
 				{
 					Console.Error.WriteLine( "Ping exception: {0}", ex.Message );
 				}
-				pingStatus = true;
 			}
 
 			return pingStatus;
@@ -1657,7 +1656,7 @@ namespace SimiasApp
 						MyEnvironment.DotNet ? String.Empty : ApplicationPath + " ",
 						port,
 						ipcPort,
-						runAsServer ? "--runasserver" : "--runasclient ",
+						runAsServer ? "--runasserver " : "--runasclient ",
 						simiasDataPath,
 						verbose ? " --verbose" : String.Empty,
 						( altAppPath != null ) ? " --addpath " + altAppPath : String.Empty );
@@ -1759,8 +1758,8 @@ namespace SimiasApp
 	                string cmdLine = 
 	                	ub.Port.ToString() + 
 	                	":/simias10:" + 
-	                	rootPath + 
-	                	Path.DirectorySeparatorChar.ToString() +
+	                	rootPath +
+	                	(rootPath.Length != 0 ? Path.DirectorySeparatorChar.ToString() : "") +
 			        "web";
 
 	               	if ( verbose == true )

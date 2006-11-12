@@ -1,0 +1,10 @@
+2006-11-12  Russ Young <ryoung@novell.com>
+	
+	* SimiasApp/Makefile.am : Corrected external directory path for
+	mono.webserver
+		
+	* SimiasApp/Simias.cs (PingWebService) : Dont set pingStatus to true on a
+	exception
+	(StartSimiasChild) : Add whitespace to command line options.
+	
+	

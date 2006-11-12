@@ -7,7 +7,7 @@ else
 SYSTEM_INSTALLER_LIB =
 endif
 
-MONO_WEBSERVER_PATH = ../../external/Mono.WebServer
+MONO_WEBSERVER_PATH = ../../../external/Mono.WebServer
 
 Simias_CSFILES = $(srcdir)/AssemblyInfo.cs \
 		$(srcdir)/Simias.cs \
