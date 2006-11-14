@@ -1,7 +1,7 @@
 /***********************************************************************
  *  $RCSfile$
  *
- *  Copyright (C) 2005 Novell, Inc.
+ *  Copyright (C) 2006 Novell, Inc.
  *
  *  This program is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU General Public
@@ -45,6 +45,11 @@ namespace Simias.DiscoveryService.Web
 		/// </summary>
 		public string ID;
 		
+		/// <summary>
+		/// The iFolder ID
+		/// </summary>
+		public string CollectionID;
+
 		/// <summary>
 		/// The iFolder Name
 		/// </summary>
@@ -95,6 +100,30 @@ namespace Simias.DiscoveryService.Web
 		/// </summary>
 		public int MemberCount = 0;
 
+		/// <summary>
+		/// HostNode ID
+		/// </summary>
+		public string HostID;
+
+		/// <summary>
+		/// DirNode ID
+		/// </summary>
+		public string DirNodeID;
+
+		/// <summary>
+		/// DirNode Name
+		/// </summary>
+		public string DirNodeName;
+
+		/// <summary>
+		/// DirNode ID
+		/// </summary>
+		public string MemberNodeID;
+
+		/// <summary>
+		/// DirNode Name
+		/// </summary>
+		public string UserRights;
 
 	        public CollectionInfo ()
 		{
@@ -142,11 +171,16 @@ namespace Simias.DiscoveryService.Web
 	        public CollectionInfo ( string CollectionID )
 		{
 		        Collection c = Store.GetStore().GetCollectionByID( CollectionID );
+		        CatalogEntry entry = Catalog.GetEntryByCollectionID( CollectionID );
 
-			this.ID = c.ID;
+			this.ID = entry.ID;
+			this.CollectionID = c.ID;
 			this.Name = c.Name;
 			this.Description = GetStringProperty(c, PropertyTags.Description);
 			this.DomainID = c.Domain;
+			this.HostID = c.HostID;
+			this.DirNodeID = c.GetRootDirectory().ID;
+			this.DirNodeName = c.GetRootDirectory().Name;
 			this.Size = c.StorageSize;
 			this.Created = GetDateTimeProperty(c, PropertyTags.NodeCreationTime);
 			this.LastModified = GetDateTimeProperty(c, PropertyTags.JournalModified);
@@ -160,14 +194,42 @@ namespace Simias.DiscoveryService.Web
 			this.OwnerFullName = (fullName != null) ? fullName : this.OwnerUserName;
 
 		}
+	        public CollectionInfo ( string CollectionID, string UserID )
+		{
+		        Collection c = Store.GetStore().GetCollectionByID( CollectionID );
+		        CatalogEntry entry = Catalog.GetEntryByCollectionID( CollectionID );
+
+			this.ID = entry.ID;
+			this.CollectionID = c.ID;
+			this.Name = c.Name;
+			this.Description = GetStringProperty(c, PropertyTags.Description);
+			this.DomainID = c.Domain;
+			this.HostID = c.HostID;
+			this.DirNodeID = c.GetRootDirectory().ID;
+			this.DirNodeName = c.GetRootDirectory().Name;
+			this.Size = c.StorageSize;
+			this.Created = GetDateTimeProperty(c, PropertyTags.NodeCreationTime);
+			this.LastModified = GetDateTimeProperty(c, PropertyTags.JournalModified);
+			this.MemberCount = c.GetMemberList().Count;
+
+			this.OwnerID = c.Owner.UserID;
+			Domain domain = Store.GetStore().GetDomain(this.DomainID);
+			Member domainMember = domain.GetMemberByID(this.OwnerID);
+			this.OwnerUserName = domainMember.Name;
+			string fullName = domainMember.FN;
+			this.OwnerFullName = (fullName != null) ? fullName : this.OwnerUserName;
+//current user information
+			Member member = c.GetMemberByID (UserID);
+			this.MemberNodeID = member.ID;
+			this.UserRights = member.Rights.ToString();
+		}
+
 	}
 
 
         [WebService(Namespace="http://novell.com/simias/discovery/")]
 	public class DiscoveryService : System.Web.Services.WebService
 	{
-//		private static readonly ISimiasLog log = SimiasLogManager.GetLogger(typeof(DiscoveryService));
-
 		/// <summary>
 		/// </summary>
 		public DiscoveryService()
@@ -181,6 +243,20 @@ namespace Simias.DiscoveryService.Web
 		public string[] GetAllCollectionIDsByUser ( string UserID )
 		{
   		        return Catalog.GetAllCollectionIDsByUserID( UserID );
+		}
+
+                //get all the collections that this user is associated with.
+	    [WebMethod(EnableSession=true)]
+		[SoapDocumentMethod]
+		public ArrayList GetAllCollectionsByUser ( string UserID )
+		{
+		        ArrayList collectionList = new ArrayList ();
+  		        string[] collectionIDs = Catalog.GetAllCollectionIDsByUserID( UserID );
+			foreach (string id in collectionIDs )
+			{
+			    collectionList.Add (new CollectionInfo (id, UserID));
+			}
+			return collectionList;
 		}
 
                 //get all the members in this collection

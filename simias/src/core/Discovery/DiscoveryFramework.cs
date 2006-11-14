@@ -42,7 +42,7 @@ namespace Simias.Discovery
 {
 	public class DiscoveryFramework
 	{
-		private ArrayList collList;
+		private static ArrayList collList;
 		private static readonly ISimiasLog log = 
 			SimiasLogManager.GetLogger( System.Reflection.MethodBase.GetCurrentMethod().DeclaringType );
 
@@ -51,11 +51,23 @@ namespace Simias.Discovery
 			collList = Simias.Discovery.CollectionList.GetCollectionList();
 		}
 		
-		public ArrayList GetListOfCollections()
+		public static ArrayList GetListOfCollections()
 		{
 			return collList;
 		}
 		
+		public static ArrayList GetCollectionsForDomain( string DomainID)
+		{
+		        ArrayList collectionList = new ArrayList ();
+		        foreach (CollectionInfo ci in collList)
+			{
+			    if ( ci.DomainID != DomainID)
+				continue;
+			    collectionList.Add (ci);
+			}
+			return collectionList;
+		}
+
 		public CollectionInfo GetDetailedCollectionInformation(string domainID, string collectionID, HostNode hNode)
 		{
 			CollectionInfo colInfo = null;
@@ -66,7 +78,7 @@ namespace Simias.Discovery
 				SimiasConnection smConn = new SimiasConnection(domainID, member.UserID, SimiasConnection.AuthType.BASIC, hNode);
 				DiscoveryService dService = new DiscoveryService();
 				smConn.InitializeWebClient(dService, "DiscoveryService.asmx");
-				colInfo = dService.GetCollectionInfo(collectionID);
+				colInfo = dService.GetCollectionInfo (collectionID);
 			}
 			catch(Exception ex)
 			{
@@ -77,51 +89,68 @@ namespace Simias.Discovery
 
 		}
 
-		public bool CreateProxyCollection(string collectionName, string domainID, HostNode hNode, string collectionID)
+		public static CollectionInfo GetCollectionInfo (string collectionID)
 		{
-			Store store = Store.GetStore();
+//		        ArrayList collectionList =  GetListOfCollections();
+
+			ArrayList collectionList = Simias.Discovery.CollectionList.GetCollectionList();
+			foreach( CollectionInfo c in collectionList)
+			{
+			        if (c.CollectionID != collectionID)
+				        continue;
+				return c;
+ 			}
+
+			return null;
+		}
+
+//		public static void CreateProxyCollection (Store store, string DomainID,string iFolderID, string localPath )
+		public static void CreateProxy (Store store, string DomainID,string iFolderID, string localPath )
+		{
 			ArrayList commitList = new ArrayList();
-			SimiasConnection smConn;
-			
-			Collection c = new Collection(store, collectionName, domainID);
-			Domain domain = store.GetDomain(domainID);
-			Member member = domain.GetCurrentMember();
-			
-//			HostNode hNode = store.GetNodeByID(collectionID, hostID)
-			
-			c.HostID = hNode.ID;
+
+			CollectionInfo cinfo = DiscoveryFramework.GetCollectionInfo (iFolderID);
+
+			Collection c = new Collection(store, cinfo.Name,
+						      cinfo.CollectionID, DomainID);
+
+			c.HostID = cinfo.HostID;
+//			c.HostID = HostNode.GetLocalHost().UserID; ///this is what is done in subscriptions .. but why ??
 			
 			commitList.Add(c);
 
+			// Create the member node
+                        Domain domain = store.GetDomain(DomainID);
+			Member m = domain.GetCurrentMember ();
+
+			Member member = new Member(m.Name, cinfo.MemberNodeID, m.UserID, Simias.Storage.Access.Rights.Admin, null);
 			member.IsOwner = true;
 			member.Proxy = true;
 			commitList.Add(member);
 
-			try
-			{
-				//should we get the connection for the particular member or host?
-				smConn = new SimiasConnection(domainID, member.UserID, SimiasConnection.AuthType.BASIC, hNode);
-				DiscoveryService dService = new DiscoveryService();
-				smConn.InitializeWebClient(dService, "DiscoveryService.asmx");
-				// calls the GetCollectionDirNodeID WebService API
-				string dirNodeID = dService.GetCollectionDirNodeID ( c.ID );
-				DirNode dirNode = new DirNode(c, dirNodeID);
-				string path = dirNode.GetFullPath(c);
-				
-				if (!Directory.Exists(path)) Directory.CreateDirectory(path);
-				
-					dirNode.Proxy = true;
-					commitList.Add(dirNode);
-				
-				c.Proxy = true;
-				c.Commit((Node[]) commitList.ToArray(typeof(Node)));
-			}
-			catch(Exception ex)
-			{
-				log.Error(ex.Message);
-			}
+                        //NOTE : Do proper checking before commiting code
+// 			if (((this.DirNodeID != null) && (this.DirNodeID.Length > 0))
+// 				&& (this.DirNodeName != null) && (this.DirNodeName.Length > 0)
+// 				&& (this.CollectionRoot != null) && (this.CollectionRoot.Length > 0))
+// 			{
 
-			return true;
+                        //DN Syncing issue
+ 			DirNode dn = new DirNode(c, localPath, cinfo.DirNodeID);
+// 			DirNode dn = new DirNode(c, localPath);
+ 			if (!Directory.Exists(localPath)) Directory.CreateDirectory(localPath);
+
+			//NOTE : Wont work. Exception : Cannot change a system property.
+
+// 			Property path = new Property( PropertyTags.FileSystemPath, localPath );
+// 			path.LocalProperty = true; 
+// 			dn.Properties.ModifyProperty( path );
+
+ 			dn.Proxy = true;
+ 			commitList.Add(dn);
+//			}
+
+			c.Proxy = true;
+			c.Commit((Node[]) commitList.ToArray(typeof(Node)));
 		}
 
 		public bool RemoveMembership(string domainID, string memberID, string collectionID, HostNode hNode)
@@ -144,4 +173,5 @@ namespace Simias.Discovery
 		}
 	}
 }
+
 

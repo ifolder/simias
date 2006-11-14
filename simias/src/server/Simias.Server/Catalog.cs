@@ -672,6 +672,7 @@ namespace Simias.Server
 		#endregion
 
 		#region Public Methods
+
 		/// <summary>
 		/// Method to retrieve all collection IDs the specified user
 		/// is a member of.

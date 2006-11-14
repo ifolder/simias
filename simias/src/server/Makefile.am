@@ -1,11 +1,11 @@
-SUBDIRS = Simias.Server Simias.HostService Simias.HttpFile Simias.Rss Simias.LdapProvider Simias.ADLdapProvider Simias.OpenLdapProvider Simias.ClientUpdate setup
+SUBDIRS = Simias.Server Simias.HostService Simias.HttpFile Simias.Rss Simias.LdapProvider Simias.ADLdapProvider Simias.OpenLdapProvider Simias.ClientUpdate
 
 DIST_SUBDIRS = $(SUBDIRS) setup
 
 # handle Mono secondary dependencies
 export MONO_PATH := $(MONO_PATH):$(DESTDIR)$(libdir)
 
-EXTRA_DIST = Simias.config.in Simias.Server.conf simiasserver.in simiasserver.cmd.in 
+EXTRA_DIST = Simias.config.in Simias.Server.conf simias-server.in simias-server.cmd.in 
 
 if MAKE_DOC_FILE
 DOC_FILE = $(basename $@).doc.xml

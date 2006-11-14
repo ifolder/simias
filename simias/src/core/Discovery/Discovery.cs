@@ -90,7 +90,6 @@ namespace Simias.Discovery
 				try
 				{
 					ListItem CollectionList = GetCollectionListItem(out waitTime);
-
 					if(CollectionList == null)
 					{
 						// Wait for an item to be placed.
@@ -99,7 +98,7 @@ namespace Simias.Discovery
 				}
 				catch( Exception e )
 				{
-					log.Debug( e, "Exception in CollectionList thread - Ignored" );
+					log.Debug( e, "Exception in CollectionList thread - Ignored : {0}" ,e.ToString () );
 					Thread.Sleep( 10 * 1000 );
 				}
 			}
@@ -107,35 +106,70 @@ namespace Simias.Discovery
 
 		private ListItem GetCollectionListItem(out int waitTime)
 		{
+
 			ListItem lItem = null;
-			waitTime = Timeout.Infinite;
-			Store store = Simias.Discovery.DiscService.store;
-			string uID = store.GetUserIDFromDomainID(store.DefaultDomain);
+
+//TODO : Use proper waittime instead of hardcoding.
+
+//			waitTime = Timeout.Infinite;
+
 			try
 			{
-				SimiasConnection smConn = new SimiasConnection(store.DefaultDomain, uID, SimiasConnection.AuthType.BASIC, HostNode.GetLocalHost());
-				DiscoveryService dService = new DiscoveryService();
-				smConn.InitializeWebClient(dService, "DiscoveryService.asmx");
 				
 				lock (typeof(CollectionList))
 				{
 					int nextProcessTime = Int32.MaxValue;
-					Store locStore = Simias.Discovery.DiscService.store;
-					ICSList domList = locStore.GetDomainList();
-					foreach (Domain domain in domList)
+
+					Store localStore = Store.GetStore();
+					ArrayList CollectionArray;
+					ArrayList CollectionIDArray;
+					ICSList domainList = localStore.GetDomainList();
+				    
+					foreach (ShallowNode sn in domainList)
 					{
-						Member cmember = domain.GetCurrentMember();
-						ArrayList CollectionArray = new ArrayList(dService.GetAllCollectionIDsByUser(cmember.UserID));
-						lItem = new ListItem(CollectionArray, domain.Name);
+
+                                                Domain domain = localStore.GetDomain ( sn.ID );
+                                                HostNode masterNode = HostNode.GetMaster ( sn.ID );
+						try {
+						    Member cmember = domain.GetCurrentMember();
+
+						    SimiasConnection smConn = new SimiasConnection(sn.ID, cmember.UserID,
+												   SimiasConnection.AuthType.PPK,
+												   masterNode);
+
+						    DiscoveryService dService = new DiscoveryService();
+						    dService.Url = masterNode.PrivateUrl;
+
+						    smConn.Authenticate ();
+						    smConn.InitializeWebClient(dService, "DiscoveryService.asmx");
+
+						    CollectionIDArray = new ArrayList(dService.GetAllCollectionIDsByUser(cmember.UserID));
+						    CollectionArray = new ArrayList(dService.GetAllCollectionsByUser(cmember.UserID));
+
+						} catch (Exception e) {
+
+						    // Skips the local domain as there is no DiscoveryWS.
+						    // If DiscoveryWs is N/A  or not running , we skip.
+						    log.Debug ("GetCollectionList : Skipping Domain : {0} ID : {1} Trace : {2}", 
+							       domain.Name, domain.ID, e.ToString());
+						    continue;
+						}
+
+						lItem = new ListItem(CollectionIDArray, sn.Name);
+						    
 						lItem.ProcessTime = DateTime.Now + TimeSpan.FromSeconds( 10 );
-						AddCollection( lItem );
+						    //need to rework this area.
+						collectionList = CollectionArray;    
+//						AddCollection( lItem );
 					}
-					waitTime = nextProcessTime;
+//					waitTime = nextProcessTime;
+                        //BUG : Hardcoded value.
+		        waitTime = 400;
 				}
 			}
 			catch(Exception ex)
 			{
-				log.Error(ex.Message);
+				log.Error( "Final Exception : " + ex.ToString());
 			}
 			return lItem;
 		}

@@ -340,7 +340,7 @@ namespace Simias.Security.Web
 		{
 			// See if this request requires authentication.
 			string webService = Path.GetFileName( context.Request.FilePath );
-			if ( !unauthenticatedServices.ContainsKey( webService.ToLower() ) )
+			if ( unauthenticatedServices.ContainsKey( webService.ToLower() ) )
 			{
 				// See if this request method requires authentication.
 				string soapPath = context.Request.Headers[ "SOAPAction" ];
