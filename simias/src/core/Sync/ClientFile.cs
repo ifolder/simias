@@ -465,9 +465,8 @@ namespace Simias.Sync
 				encryptionSet = true;
 
 			//if (encryptionSet) {
-				const string key = "12345ABCDE!@#$%"; // TODO: autogenerate pass-phrase
 				UTF8Encoding utf8 = new UTF8Encoding();
-				Blowfish bf = new Blowfish(utf8.GetBytes(key));
+				Blowfish bf = new Blowfish(utf8.GetBytes(node.ID));
 			//}
 			
 			// Get the file blocks from the server.
@@ -821,7 +820,7 @@ namespace Simias.Sync
 						if (stopping)
 							break;
 						int bytesToSend = (int)Math.Min(MaxXFerSize, leftToSend);
-						syncService.WriteFile(OutStream, ReadPosition, bytesToSend);
+						syncService.WriteFile(OutStream, ReadPosition, bytesToSend, node.ID);
 						leftToSend -= bytesToSend;
 						sizeRemaining -= bytesToSend;
 						eventPublisher.RaiseEvent(new FileSyncEventArgs(collection.ID, ObjectType.File, false, Name, fileSize, sizeToSync, sizeRemaining, Direction.Uploading));

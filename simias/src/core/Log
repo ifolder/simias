@@ -1,3 +1,14 @@
+2006-11-14  Sushma Rai <rsushma@novell.com>
+
+	* Sync/ClientFile.cs (DownLoadFile): Using node ID as the key for
+	decryption.
+	(UploadFile): Passing node ID to WriteFile()
+
+	* Sync/Http.cs (class HttpSyncProxy): Added Collection, fixes build 
+	issue.
+	(WriteFile): Added one more parameter to include node ID, which is
+	used as the encryption key.
+
 2006-11-13  Sushma Rai <rsushma@novell.com>
 
 	* Sync/StreamStream.cs: Removed duplicate Write method. 

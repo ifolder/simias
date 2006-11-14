@@ -175,6 +175,7 @@ namespace Simias.Sync.Http
 	public class HttpSyncProxy
 	{
 		double						serverVersion;
+		Collection                                      collection;
 		string						collectionID;
 		string						collectionName;
 		string						domainId;
@@ -637,7 +638,7 @@ namespace Simias.Sync.Http
 		/// <param name="stream">The stream containing the data.</param>
 		/// <param name="offset">The offset to write at.</param>
 		/// <param name="count">The number of bytes to write.</param>
-		public void WriteFile(StreamStream stream, long offset, int count)
+		public void WriteFile(StreamStream stream, long offset, int count, string node_id)
 		{
 			HttpWebRequest request = GetRequest(SyncMethod.WriteFile);
 			WebHeaderCollection headers = request.Headers;
@@ -664,7 +665,7 @@ namespace Simias.Sync.Http
 
 			int bytesRead; 
 			if (encryptionSet)
-				bytesRead = stream.Read(rStream, count, "12345ABCDE!@#$%"); //TODO: autogenerate passphrase
+				bytesRead = stream.Read(rStream, count, node_id);
 			else
 				bytesRead = stream.Read(rStream, count);
 			if (bytesRead != count)
