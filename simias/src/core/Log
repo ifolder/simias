@@ -1,3 +1,7 @@
+2006-11-15  Ramesh Sunder <sramesh@novell.com>
+
+	* Storage/PropertyTags.cs: Added properties for Encryption and SSL
+
 2006-11-14  Sushma Rai <rsushma@novell.com>
 
 	* Sync/ClientFile.cs (DownLoadFile): Using node ID as the key for
@@ -23,8 +27,8 @@
 	
 	* CollectionStore/Collection.cs: Added a property Encryption_Status to
 	collection, to read the encryption status. 
-	Added constructors for collection object with encryption_status.
-	(Patch submitted by "Ramesh Sundar <sramesh@novell.com>"
+	Added constructors for creating collection object with encryption_status.
+	(Patch submitted by "Ramesh Sunder <sramesh@novell.com>"
 	
 2006-11-13  Sushma Rai <rsushma@novell.com>
 
