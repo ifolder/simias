@@ -89,7 +89,7 @@ namespace Simias.Storage
 		static public string DomainID = "DomainID";
 
 
-		static public string EncryptionStatus = "EncryptionStatus"
+		static public string EncryptionStatus = "EncryptionStatus";
 		static public string SSL = "SSL";
 
 		/// <summary>
