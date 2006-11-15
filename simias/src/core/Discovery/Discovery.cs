@@ -112,6 +112,7 @@ namespace Simias.Discovery
 //TODO : Use proper waittime instead of hardcoding.
 
 //			waitTime = Timeout.Infinite;
+			waitTime = 400;
 
 			try
 			{
