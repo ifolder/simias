@@ -88,6 +88,10 @@ namespace Simias.Storage
 		/// </summary>
 		static public string DomainID = "DomainID";
 
+
+		static public string EncryptionStatus = "EncryptionStatus"
+		static public string SSL = "SSL";
+
 		/// <summary>
 		/// Well known property name.
 		/// </summary>
@@ -363,6 +367,8 @@ namespace Simias.Storage
 			systemPropertyTable.Add( DefaultDomain, null );
 			systemPropertyTable.Add( Domain, null );
 			systemPropertyTable.Add( DomainID, null );
+			systemPropertyTable.Add( EncryptionStatus, null );
+			systemPropertyTable.Add( SSL, null );
 			systemPropertyTable.Add( DomainType, null );
 			systemPropertyTable.Add( FileLength, null );
 			systemPropertyTable.Add( FileSystemPath, null );
