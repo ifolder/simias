@@ -677,9 +677,10 @@ namespace Simias.Storage
 		/// <returns>A path string that represents the store unmanaged path.</returns>
 		internal string GetStoreUnmanagedPath( string collectionID )
 		{
-			return Path.Combine( storeUnmanagedPath, collectionID.ToLower() );
+			string tmpPath;
+			tmpPath = Path.Combine(storeUnmanagedPath, '0'+collectionID.Substring(0,1));
+			return Path.Combine( tmpPath, collectionID.ToLower() );
 		}
-
 		/// <summary>
 		/// Acquires the store lock protecting the database against simultaneous commits.
 		/// </summary>

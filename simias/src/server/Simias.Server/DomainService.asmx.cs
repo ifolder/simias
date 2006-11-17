@@ -289,6 +289,7 @@ namespace Simias.DomainService.Web
 			{
 				// files path
 				string path = Path.Combine(Store.StorePath, FilesDirectory);
+				path = Path.Combine(path, '0'+collectionID.Substring(0,1));
 				path = Path.Combine(path, collectionID);
 				path = Path.Combine(path, rootDirName);
 

@@ -174,9 +174,9 @@ namespace Simias.Client
 
 			// BUGBUG!! - Force mono to authenticate everytime until cookies work on a loopback
 			// connection.
-#if WINDOWS
+//#if WINDOWS
 			webClient.CookieContainer = cookies;
-#endif
+//#endif
 		}
 
 		/// <summary>
