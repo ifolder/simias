@@ -278,7 +278,7 @@ namespace Novell.iFolderApp.Web
 			try
 			{
 				// connection
-				iFolderWeb web = new iFolderWeb();
+				iFolderWeb weblogin = new iFolderWeb();
 
 				// update web url
 				// always use the original path from the WSDL file
@@ -289,8 +289,26 @@ namespace Novell.iFolderApp.Web
 				url = "http://localhost:8086";
 #endif
 
+				UriBuilder loginUrl = new UriBuilder(url);
+				loginUrl.Path = (new Uri(weblogin.Url)).PathAndQuery;
+				weblogin.Url = loginUrl.Uri.ToString();
+
+				// credentials
+				weblogin.PreAuthenticate = true;
+				weblogin.Credentials = new NetworkCredential(username, password);
+			
+				// cookies
+				weblogin.CookieContainer = new CookieContainer();
+
+				iFolderUser loginuser = weblogin.GetAuthenticatedUser();
+
+				url = weblogin.GetHomeServerForUser ( username, password );
+
+				iFolderWeb web = new iFolderWeb();
+
 				UriBuilder webUrl = new UriBuilder(url);
 				webUrl.Path = (new Uri(web.Url)).PathAndQuery;
+
 				web.Url = webUrl.Uri.ToString();
 
 				// credentials
@@ -302,6 +320,7 @@ namespace Novell.iFolderApp.Web
 
 				// user, system, and server
 				iFolderUser user = web.GetAuthenticatedUser();
+
 				Session["Connection"] = web;
 				Session["User"] = user;
 				iFolderSystem system = web.GetSystem();
@@ -386,7 +405,6 @@ namespace Novell.iFolderApp.Web
 		private bool HandleException(WebException e)
 		{
 			bool result = true;
-
 			try
 			{
 				// simias error
@@ -491,7 +509,6 @@ namespace Novell.iFolderApp.Web
 				// For now assume the most common error.
 				Message.Text = GetString("LOGIN.UNAUTHORIZED");
 			}
-
 			return result;
 		}
 	}

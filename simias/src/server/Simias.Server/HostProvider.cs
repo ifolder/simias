@@ -332,8 +332,8 @@ namespace Simias.Host
 			if ( master == true )
 			{
 				// Register the ProvisionUser Provider.
-				//ProvisionService.RegisterProvider( new LoadBalanceProvisionUserProvider() );
-				ProvisionService.RegisterProvider( new MasterHostProvisionProvider() );
+				ProvisionService.RegisterProvider( new LoadBalanceProvisionUserProvider() );
+				//ProvisionService.RegisterProvider( new MasterHostProvisionProvider() );
 			}
 			else
 			{

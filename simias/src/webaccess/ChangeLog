@@ -1,0 +1,3 @@
+2006-11-20  Johnny Jacob  <jjohnny@novell.com>
+
+	* Login.aspx.cs : Find the homeserver URL and login.

@@ -123,6 +123,11 @@ namespace iFolder.WebService
 		public string Email;
 
 		/// <summary>
+		/// The User HomeServer Name
+		/// </summary>
+	        public string HomeServer;
+
+		/// <summary>
 		/// Constructor
 		/// </summary>
 		public iFolderUser()
@@ -147,6 +152,11 @@ namespace iFolder.WebService
 			this.Enabled = !(domain.IsLoginDisabled(this.ID));
 			this.IsOwner = (member.UserID == collection.Owner.UserID);
 			this.Email = NodeUtility.GetStringProperty(member, EmailProperty);
+
+			if ( member.HomeServer != null )
+			    this.HomeServer = (member.HomeServer.Name == null ) ? string.Empty : member.HomeServer.Name;
+			else 
+			    this.HomeServer = string.Empty;
 
 			// NOTE: The member object may not be complete if it did not come from the
 			// domain object.

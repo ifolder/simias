@@ -23,6 +23,7 @@
  
 using System;
 using System.Collections;
+using System.Net;
 
 using Simias.Client;
 using Simias.Storage;
@@ -159,6 +160,54 @@ namespace iFolder.WebService
 		}
 
 		/// <summary>
+		/// Get the Master iFolder Server in the system
+		/// </summary>
+		/// <returns>An iFolder Server Object</returns>
+	        public static iFolderServer GetMasterServer ()
+		{
+		        iFolderServerSet ServerList = GetServersByName (iFolderServerType.Master, SearchOperation.BeginsWith, "*", 0, 0);
+			iFolderServer MasterServer = null;
+			foreach (iFolderServer server in ServerList.Items)
+			{
+			    if (server.IsMaster)
+			    {
+				MasterServer = server;
+				break;
+			    }
+			}
+
+		        return MasterServer;
+		}
+
+
+		/// <summary>
+		/// Get the HomeServer URL for User.
+		/// </summary>
+		/// <returns>Return the URL for the server </returns>
+		public static string GetHomeServerForUser( string username, string password )
+		{
+//
+		        string publicUrl;
+			try
+			{
+			        iFolderServer MasterServer = GetMasterServer();
+			        DomainService domainService = new DomainService();
+
+				domainService.Url = MasterServer.PublicUrl + "/DomainService.asmx";
+				domainService.Credentials = new NetworkCredential(username, password);
+				domainService.PreAuthenticate = true;
+
+				publicUrl = domainService.GetHomeServer( username ).PublicAddress;
+
+			}
+			catch ( Exception ex )
+			{
+			        throw (ex);
+			}
+			return publicUrl;
+		}
+
+		/// <summary>
 		/// Get the iFolder Home Server Information Object
 		/// </summary>
 		/// <returns>An iFolder Server Object</returns>
@@ -282,8 +331,8 @@ namespace iFolder.WebService
 					{
 						HostNode node = new HostNode(member);
 
-						if ((i >= index) && ((max <= 0) || i < (max + index))
-							&& ((isMaster && node.IsMasterHost) || (isLocal && node.IsLocalHost)))
+					        if ((i >= index) && ((max <= 0) || i < (max + index)))
+						    //&& ((isMaster && node.IsMasterHost) || (isLocal && node.IsLocalHost)))
 						{
 							list.Add(new iFolderServer(node));
 						}

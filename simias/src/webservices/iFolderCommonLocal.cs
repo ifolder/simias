@@ -151,6 +151,23 @@ namespace iFolder.WebService
 			return result;
 		}
 
+
+		/// <summary>
+		/// Get the home server for the user
+		/// </summary>
+		/// <returns>Publiv url of the home server.</returns>
+		[WebMethod(
+			 Description="Get the home server for the user.",
+			 EnableSession=true)]
+		public virtual string GetHomeServerForUser( string username , string password)
+		{
+		        string result;
+
+			result = iFolderServer.GetHomeServerForUser ( username, password );
+
+			return result;
+		}
+
 		/// <summary>
 		/// Get information about iFolder Servers identified by a search on name.
 		/// </summary>

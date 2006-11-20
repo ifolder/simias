@@ -75,6 +75,19 @@ namespace iFolder.WebService
 			return base.GetHomeServer();
 		}
 
+	        /// <summary>
+		/// Get the HomeServer for the specified user
+		/// </summary>
+		/// <returns>HomeServer ID</returns>
+		[WebMethod(
+			 Description="Get the homeserver for the user.Server Provisioning will be done if user has no HomeServer.",
+			 EnableSession=true)]
+		public override string GetHomeServerForUser( string username, string password )
+		{
+		        //Note : DomainService.GetHomeServer will be called.
+			return base.GetHomeServerForUser ( username, password );
+		}
+
 		/// <summary>
 		/// Get information about an iFolder Server.
 		/// </summary>

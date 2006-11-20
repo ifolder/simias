@@ -62,6 +62,9 @@
 						<td class="fullnamecolumn">
 							<%= GetString( "FULLNAME" ) %>
 						</td>
+						<td class="fullnamecolumn">
+						    <%= GetString( "HOME" ) %>
+						</td>
 						
 						<td class="statuscolumn">
 							<%= GetString( "ENABLED" ) %>
@@ -121,6 +124,7 @@
 							
 						<asp:BoundColumn ItemStyle-CssClass="accountsitem4" DataField="FullNameField"/>
 						
+						<asp:BoundColumn ItemStyle-CssClass="accountsitem4" DataField="HomeServerField"/>
 						<asp:BoundColumn ItemStyle-CssClass="accountsitem5" DataField="StatusField"/>
 						
 					</Columns>

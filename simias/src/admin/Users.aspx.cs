@@ -51,7 +51,8 @@ namespace Novell.iFolderWeb.Admin
 		private const int AccountsTypeColumn = 3;
 		private const int AccountsNameColumn = 4;
 		private const int AccountsFullNameColumn = 5;
-		private const int AccountsStatusColumn = 6;
+		private const int AccountsHomeServerColumn = 6;
+		private const int AccountsStatusColumn = 7;
 
 		/// <summary>
 		/// iFolder Connection
@@ -177,6 +178,7 @@ namespace Novell.iFolderWeb.Admin
 			dt.Columns.Add( new DataColumn( "AdminField", typeof( bool ) ) );
 			dt.Columns.Add( new DataColumn( "NameField", typeof( string ) ) );
 			dt.Columns.Add( new DataColumn( "FullNameField", typeof( string ) ) );
+			dt.Columns.Add( new DataColumn( "HomeServerField", typeof( string ) ) );
 			dt.Columns.Add( new DataColumn( "StatusField", typeof( string ) ) );
 
 			DataRow dr;
@@ -197,7 +199,8 @@ namespace Novell.iFolderWeb.Admin
 				dr[ 3 ] = ( user.MemberRights == Rights.Admin ) ? true : false;
 				dr[ 4 ] = user.UserName;
 				dr[ 5 ] = user.FullName;
-				dr[ 6 ] = GetString( user.Enabled ? "YES" : "NO" );
+				dr[ 6 ] = ( user.HomeServer == string.Empty ) ? "<font color=red>N/A</font>" : user.HomeServer;
+				dr[ 7 ] = GetString( user.Enabled ? "YES" : "NO" );
 
 				dt.Rows.Add( dr );
 			}
@@ -213,6 +216,7 @@ namespace Novell.iFolderWeb.Admin
 				dr[ 4 ] = String.Empty;
 				dr[ 5 ] = String.Empty;
 				dr[ 6 ] = String.Empty;
+				dr[ 7 ] = String.Empty;
 
 				dt.Rows.Add( dr );
 			}

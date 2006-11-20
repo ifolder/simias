@@ -1,3 +1,9 @@
-/* DomainService.asmx.cs -> creates the unmanaged files with an indirection
+2006-11-20  Johnny Jacob  <jjohnny@novell.com>
 
-/* IdentitySyncService.cs -> Change to enable webaccess to login slaves
+	* HostProvider.cs : Enable loadbalance user provisioner.
+
+2006-11-19  Balakrishnan KalIdas  <BKalidas@novell.com>
+	
+        * DomainService.asmx.cs : creates the unmanaged files with an indirection
+
+	* IdentitySyncService.cs : Change to enable webaccess to login slaves

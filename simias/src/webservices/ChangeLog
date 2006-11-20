@@ -1,0 +1,12 @@
+2006-11-20  Johnny Jacob  <jjohnny@novell.com>
+
+	* iFolderServer.cs (GetMasterServer) : Added. Return the master
+	server object in the system.
+	(GetHomeServerForUser) : Get the homeserver url for the user.
+	* iFolderCommonLocal.cs (GetHomeServerForUser) : Added. WebMethod
+	for GetHomeServerForUser
+	* iFolderUser.cs : Constructor will get the homeserver for the
+	user.
+	* iFolderAdmin.asmx.cs : Added. WebMethod for
+	GetHomeServerForUser.
+	
