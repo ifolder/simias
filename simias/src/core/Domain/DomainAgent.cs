@@ -234,8 +234,8 @@ namespace Simias.DomainServices
 			catch(WebException webEx)
 			{
 				// Changed the test for a mono bug
-				if (webEx.Status == WebExceptionStatus.TrustFailure)
-//				if(TestTrustFailure(host.Host, webEx))
+				//if (webEx.Status == WebExceptionStatus.TrustFailure)
+				if(TestTrustFailure(host.Host, webEx))
 				{
 					// The Certificate is invalid.
 					status.statusCode = SCodes.InvalidCertificate;
@@ -403,8 +403,8 @@ namespace Simias.DomainServices
 			catch (WebException we)
 			{
 				// this is a fix for mono, it can't handle TrustFailures
-				if (we.Status == WebExceptionStatus.TrustFailure)
-//				if(TestTrustFailure(host, we))
+				//if (we.Status == WebExceptionStatus.TrustFailure)
+				if(TestTrustFailure(host, we))
 				{
 					status = new Simias.Authentication.Status();
 					status.statusCode = Simias.Authentication.StatusCodes.InvalidCertificate;
@@ -704,10 +704,10 @@ namespace Simias.DomainServices
 			{
 				log.Debug( we.Message );
 				// This is a fix for mono
-				if ( we.Status == WebExceptionStatus.TrustFailure )
-//				Uri uri = DomainProvider.ResolveLocation( DomainID );
-//				Uri domainServiceUrl = new Uri( uri.ToString().TrimEnd( new char[] {'/'} ) + DomainService );
-//				if(TestTrustFailure(domainServiceUrl.Host, we))
+				//if ( we.Status == WebExceptionStatus.TrustFailure )
+				Uri uri = DomainProvider.ResolveLocation( DomainID );
+				Uri domainServiceUrl = new Uri( uri.ToString().TrimEnd( new char[] {'/'} ) + DomainService );
+				if(TestTrustFailure(domainServiceUrl.Host, we))
 				{
 					domainUp = true;
 				}
@@ -1050,7 +1050,7 @@ namespace Simias.DomainServices
 			}
 		}
 
-/*		static public bool TestTrustFailure(string host, WebException we)
+		static public bool TestTrustFailure(string host, WebException we)
 		{
 			if (we.Status == WebExceptionStatus.TrustFailure )
 			{
@@ -1063,7 +1063,7 @@ namespace Simias.DomainServices
 			}
 			return false;
 		}
-*/
+
 		#endregion
 	}
 
