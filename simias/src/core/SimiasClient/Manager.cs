@@ -119,7 +119,8 @@ namespace Simias.Client
 				catch
 				{
 					// Use the relative default path;
-					applicationPath = "web/bin/Simias.exe";
+					applicationPath = MyEnvironment.Windows ? "web/bin/Simias.exe" :
+						"../lib/simias/web/bin/Simias.exe";
 				}
 
 				return applicationPath;
