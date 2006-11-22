@@ -825,14 +825,7 @@ namespace Simias.Storage
 				&& ( Thread.CurrentPrincipal.Identity.Name != null )
 				&& ( Thread.CurrentPrincipal.Identity.Name.Length != 0 ) )
 			{
-				string id = Thread.CurrentPrincipal.Identity.Name;
-				Store store = Store.GetStore();
-				Domain domain = store.GetDomain(store.DefaultDomain);
-
-				if ( domain.GetMemberByID( id ) != null )
-				{
-					currentUserID = id;
-				}
+				currentUserID = Thread.CurrentPrincipal.Identity.Name;
 			}
 				
 			// use the domain identity

@@ -117,7 +117,10 @@ namespace Simias.Client
 					}
 				}
 				catch
-				{}
+				{
+					// Use the relative default path;
+					applicationPath = "web/bin/Simias.exe";
+				}
 
 				return applicationPath;
 			}
@@ -311,7 +314,7 @@ namespace Simias.Client
 			string args = String.Format( "{0}{1}{2}{3}{4}{5}{6}", 
 				IsWindows ? String.Empty : String.Format( "\"{0}\" ", applicationPath),
 				( simiasDataPath != null ) ? String.Format( "--datadir \"{0}\" ", simiasDataPath ) : String.Empty, 
-				( isServer == true ) ? "--runasserver " : String.Empty, 
+				( isServer == false ) ? "--runasclient " : String.Empty, 
 				( port != null ) ? String.Format( "--port {0}", port ) : String.Empty,
 				( showConsole == true ) ? " --showconsole" : String.Empty,
 				( verbose == true ) ? " --verbose" : String.Empty,

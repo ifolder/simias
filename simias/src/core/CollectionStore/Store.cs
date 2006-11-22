@@ -357,7 +357,7 @@ namespace Simias.Storage
 			storeUnmanagedPath = Path.Combine( storePath, storeUnmanagedDirectoryName );
 
 			// Create the report directory if it doesn't exist.
-			if ( !Directory.Exists( ReportPath ) )
+			if ( IsEnterpriseServer && !Directory.Exists( ReportPath ) )
 			{
 				Directory.CreateDirectory( ReportPath );
 			}
