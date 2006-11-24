@@ -1,0 +1,6 @@
+2006-11-24  Sushma Rai  <rsushma@novell.com>
+
+	* class SimiasServerSetup: Changed the default config path commandline 
+	option switch to c instead of p which is used for data path.
+	Made ldap optional, so that using the non-interactive mode LDAP can be
+	configured.

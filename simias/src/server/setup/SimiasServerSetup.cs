@@ -93,7 +93,7 @@ namespace Novell.iFolder
 		/// </summary>
 		Uri ldapUrl;
 
-		bool usingLDAP = true;
+		bool usingLDAP = false;
 
 		string storePath;
 
@@ -123,7 +123,7 @@ namespace Novell.iFolder
 		/// <summary>
 		/// The default configuration path.
 		/// </summary>
-		public Option defaultConfigPath = new Option("defaultConfigPath,p", "Default Configuration Path", "Path to the default configuration files", true, null);
+		public Option defaultConfigPath = new Option("defaultConfigPath,c", "Default Configuration Path", "Path to the default configuration files", true, null); 
 
 		/// <summary>
 		/// The port to listen on.
@@ -183,7 +183,7 @@ namespace Novell.iFolder
 		/// <summary>
 		/// LDAP URL
 		/// </summary>
-		public Option ldapServer = new Option("ldap-Server", "LDAP Server", "The host or ip address of an LDAP server.  The server will be searched for users to provision into Simias and will be used by Simias for authentication.", true, null);
+		public Option ldapServer = new Option("ldap-Server", "LDAP Server", "The host or ip address of an LDAP server.  The server will be searched for users to provision into Simias and will be used by Simias for authentication.", false, null);
 
 		/// <summary>
 		/// LDAP Secure
@@ -193,12 +193,12 @@ namespace Novell.iFolder
 		/// <summary>
 		/// LDAP Admin DN
 		/// </summary>
-		public Option ldapAdminDN = new Option("ldap-admin-dn", "LDAP Admin DN", "An existing LDAP user, used by this script only, to connect to the LDAP server and create and/or check required LDAP users for Simias.", true, "cn=admin,o=novell");
+		public Option ldapAdminDN = new Option("ldap-admin-dn", "LDAP Admin DN", "An existing LDAP user, used by this script only, to connect to the LDAP server and create and/or check required LDAP users for Simias.", false, "cn=admin,o=novell");
 
 		/// <summary>
 		/// LDAP Admin Password
 		/// </summary>
-		public Option ldapAdminPassword = new Option("ldap-admin-password", "LDAP Admin Password", null, true, "novell");
+		public Option ldapAdminPassword = new Option("ldap-admin-password", "LDAP Admin Password", null, false, "novell");
 
 		/// <summary>
 		/// System Admin DN
@@ -213,12 +213,12 @@ namespace Novell.iFolder
 		/// <summary>
 		/// LDAP Proxy DN
 		/// </summary>
-		public Option ldapProxyDN = new Option("ldap-proxy-dn", "LDAP Proxy DN", "An LDAP user that will be used to provision the users between Simias and the LDAP server.  If this user does not already exist in the LDAP tree it will be created and granted read rights at the root of the tree. The user's dn and password are stored by Simias.", true, "cn=SimiasProxy,o=novell");
+		public Option ldapProxyDN = new Option("ldap-proxy-dn", "LDAP Proxy DN", "An LDAP user that will be used to provision the users between Simias and the LDAP server.  If this user does not already exist in the LDAP tree it will be created and granted read rights at the root of the tree. The user's dn and password are stored by Simias.", false, "cn=SimiasProxy,o=novell");
 
 		/// <summary>
 		/// LDAP Proxy Password
 		/// </summary>
-		public Option ldapProxyPassword = new Option("ldap-proxy-password", "LDAP Proxy Password", null, true, "novell");
+		public Option ldapProxyPassword = new Option("ldap-proxy-password", "LDAP Proxy Password", null, false, "novell");
 
 		/// <summary>
 		/// LDAP Search Context
@@ -228,12 +228,12 @@ namespace Novell.iFolder
 		/// <summary>
 		/// Login Type based on what attribute
 		/// </summary>
-		public Option namingAttribute = new Option("naming-attribute", "Naming Attribute", "The LDAP attribute you want all users to login using.  I.E. 'cn' or 'email'.", true, "cn");
+		public Option namingAttribute = new Option("naming-attribute", "Naming Attribute", "The LDAP attribute you want all users to login using.  I.E. 'cn' or 'email'.", false, "cn");
 
 		/// <summary>
 		/// Use apache.
 		/// </summary>
-		public BoolOption apache = new BoolOption("apache", "Configure Apache", "Configure Simias to run behing Apache", false, true);
+		public BoolOption apache = new BoolOption("apache", "Configure Apache", "Configure Simias to run behing Apache", false, false);
 
 		/// <summary>
 		/// Prompt for options.
