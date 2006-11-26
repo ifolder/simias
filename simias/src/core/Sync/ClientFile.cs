@@ -434,9 +434,10 @@ namespace Simias.Sync
 			long	sizeToSync;
 			long	sizeRemaining;
 			int	blockSize;
-			bool    encryptionSet = false;
-
+			Blowfish bf = null;
+		
 			long[] fileMap = GetDownloadFileMap(out sizeToSync, out blockSize);
+			//Size need to be synced from server
 			sizeRemaining = sizeToSync;
 			WritePosition = 0;
 				
@@ -460,14 +461,11 @@ namespace Simias.Sync
 				}
 			}
 				
-			// check for encryption
-			if (collection.Properties.HasProperty( PropertyTags.EncryptionStatus ))
-				encryptionSet = true;
-
-			//if (encryptionSet) {
+			//if (collection.Properties.HasProperty( PropertyTags.EncryptionStatus )==true)
+			{
 				UTF8Encoding utf8 = new UTF8Encoding();
-				Blowfish bf = new Blowfish(utf8.GetBytes(node.ID));
-			//}
+				bf = new Blowfish(utf8.GetBytes(node.ID));
+			}
 			
 			// Get the file blocks from the server.
 			foreach (DownloadSegment seg in downloadMap)
@@ -480,32 +478,30 @@ namespace Simias.Sync
 				{	
 					int bytesToWrite = (int)Math.Min(sizeRemaining, (seg.EndBlock - seg.StartBlock + 1) * blockSize);
 
-					Log.log.Debug("Encryption is selected, decrypting the file");
 					WritePosition = (long)seg.StartBlock * (long)blockSize;
-
-					if (encryptionSet)
+					
+					//if (collection.Properties.HasProperty( PropertyTags.EncryptionStatus )==true)
 					{
-						int read = 0, offset = 0, reminder = 0, paddingLength = 0;
+						byte [] inStream_byteArr = new byte[bytesToWrite];
 
-						if ((reminder = bytesToWrite % 8) != 0)
-							paddingLength = (8 - reminder);
-						
-						byte [] inStream_byteArr = new byte[bytesToWrite+paddingLength];
+						int read = inStream.Read (inStream_byteArr, 0, bytesToWrite);
 
-						read = inStream.Read (inStream_byteArr, offset, bytesToWrite + paddingLength);
-						if (paddingLength > 0)
-						{
-							int i = 0;
-							for(i=0; i< paddingLength; i++) 
-								inStream_byteArr[read+i] = 0; // TODO: pad with some other signature
-						}
-
-						bf.Decipher (inStream_byteArr, inStream_byteArr.Length);
+						bf.Decipher (inStream_byteArr, bytesToWrite);
 						Stream Padded_inStream = new MemoryStream(inStream_byteArr) as Stream;
+
+						//discard the padded bytes
+						if((sizeRemaining -bytesToWrite) ==0)
+						{
+							if(node.Length%8 !=0)
+							{
+								read = read-(int)(8-(node.Length%8));
+							}
+						}
 						Write(Padded_inStream, read);
+						Padded_inStream.Close();
 					}
-					else 
-						Write(inStream, bytesToWrite);
+					//else 
+						//Write(inStream, bytesToWrite);
 					sizeRemaining -= bytesToWrite;
 					eventPublisher.RaiseEvent(new FileSyncEventArgs(collection.ID, ObjectType.File, false, Name, fileSize, sizeToSync, sizeRemaining, Direction.Downloading));
 				}
@@ -544,30 +540,50 @@ namespace Simias.Sync
 		private long[] GetDownloadFileMap(out long sizeToSync, out int blockSize)
 		{
 			// Since we are doing the diffing on the client we will download all blocks that
-			// don't match.
-			table.Clear();
-			HashData[] serverHashMap;
-			long[] fileMap;
-			blockSize = 0;
-			
-			if (ReadStream != null)
-				serverHashMap = syncService.GetHashMap(out blockSize);
-			else
-				serverHashMap = new HashData[0];
+                        // don't match.
+                        table.Clear();
+                        HashData[] serverHashMap;
+                        long[] fileMap;
+                        blockSize = 0;
+			long remainingBytes;
 
-			if (serverHashMap.Length == 0)
+                        if (ReadStream != null)
+                                serverHashMap = syncService.GetHashMap(out blockSize);
+                        else
+                                serverHashMap = new HashData[0];
+
+                        if (serverHashMap.Length == 0)
+                        {
+					//if (collection.Properties.HasProperty( PropertyTags.EncryptionStatus )==true)
+					{
+						if(node.Length%8 !=0)
+							sizeToSync = node.Length+ (8-(node.Length%8));
+						else
+							sizeToSync = node.Length;
+					}
+                                //else
+                                        //sizeToSync = node.Length;
+
+
+                                fileMap = new long[HashMap.GetBlockCount(node.Length, out blockSize)];
+                                for (int i = 0; i < fileMap.Length; ++i)
+                                        fileMap[i] = -1;
+                                return fileMap;
+                        }
+
+                     sizeToSync = (long)blockSize * (long)serverHashMap.Length;
+                      //if (collection.Properties.HasProperty( PropertyTags.EncryptionStatus )==true)
 			{
-				sizeToSync = node.Length;
-				fileMap = new long[HashMap.GetBlockCount(node.Length, out blockSize)];
-				for (int i = 0; i < fileMap.Length; ++i)
-					fileMap[i] = -1;
-				return fileMap;
+				if(node.Length%8 !=0) 
+					remainingBytes = (node.Length+(8-(node.Length%8))) % blockSize;
+				else
+					remainingBytes = node.Length % blockSize;
 			}
-			
-			sizeToSync = (long)blockSize * (long)serverHashMap.Length;
-			long remainingBytes = node.Length % blockSize;
-			if (remainingBytes != 0)
-				sizeToSync = sizeToSync - blockSize + remainingBytes;
+			//else
+				//long remainingBytes = node.Length % blockSize;
+                        if (remainingBytes != 0)
+                                sizeToSync = sizeToSync - blockSize + remainingBytes;
+	
 			table.Add(serverHashMap);
 			fileMap = new long[serverHashMap.Length];
 

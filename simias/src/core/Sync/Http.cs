@@ -638,40 +638,29 @@ namespace Simias.Sync.Http
 		/// <param name="stream">The stream containing the data.</param>
 		/// <param name="offset">The offset to write at.</param>
 		/// <param name="count">The number of bytes to write.</param>
-		public void WriteFile(StreamStream stream, long offset, int count, string node_id)
+		public void WriteFile(StreamStream stream, long offset, int count, string EncryptionKey)
 		{
 			HttpWebRequest request = GetRequest(SyncMethod.WriteFile);
 			WebHeaderCollection headers = request.Headers;
-
-			// check if encryption is set
-			bool encryptionSet = false;
-			if (collection.Properties.HasProperty( PropertyTags.EncryptionStatus ))
-				encryptionSet = true;
-
-			if (encryptionSet)
-			{
-				int reminder = count % 8;
-				if(reminder != 0)
-					request.ContentLength = count + (8 - reminder); //adjust the length
-				else
-					request.ContentLength = count;
-			}
-			else
-				request.ContentLength = count;
-
-			request.ContentLength = count;
-			headers.Add(SyncHeaders.Range, offset.ToString() + "-" + ((long)(offset + count)).ToString());
+			int bytesRead;
+			
 			Stream rStream = request.GetRequestStream();
+                     
+			//if (collection.Properties.HasProperty( PropertyTags.EncryptionStatus )== true)
+			{
+				//bytesRead will be more if padding doen in encryption
+				bytesRead = stream.Read(rStream, count, EncryptionKey);
+			}
+			//else
+				//bytesRead = stream.Read(rStream, count);
 
-			int bytesRead; 
-			if (encryptionSet)
-				bytesRead = stream.Read(rStream, count, node_id);
-			else
-				bytesRead = stream.Read(rStream, count);
-			if (bytesRead != count)
+			headers.Add(SyncHeaders.Range, offset.ToString() + "-" + ((long)(offset +bytesRead)).ToString());
+						
+			if (bytesRead < count)
 				throw new SimiasException("Could not write all data.");
+
 			rStream.Close();
-			HttpWebResponse response = connection.GetResponse(request);
+			HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 			try
 			{
 				if (response.StatusCode != HttpStatusCode.OK)

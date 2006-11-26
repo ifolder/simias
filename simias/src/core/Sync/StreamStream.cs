@@ -234,6 +234,7 @@ namespace Simias.Sync
 			wStream = outStream;
 			int paddingLength = 0, reminder = 0;
 			int bytesLeft = count;
+			
 
 			while(bytesLeft > 0)
 			{
@@ -271,7 +272,7 @@ namespace Simias.Sync
 			writeComplete.WaitOne();
 			writeComplete.Set();
 			wStream = null;
-			return count - bytesLeft;
+			return count - bytesLeft + paddingLength;
 		}
 
 		/// <summary>
