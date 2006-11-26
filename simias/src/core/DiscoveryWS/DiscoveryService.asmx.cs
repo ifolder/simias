@@ -218,7 +218,7 @@ namespace Simias.DiscoveryService.Web
 			this.OwnerUserName = domainMember.Name;
 			string fullName = domainMember.FN;
 			this.OwnerFullName = (fullName != null) ? fullName : this.OwnerUserName;
-//current user information
+
 			Member member = c.GetMemberByID (UserID);
 			this.MemberNodeID = member.ID;
 			this.UserRights = member.Rights.ToString();
