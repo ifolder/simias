@@ -233,7 +233,7 @@ namespace Novell.iFolder
 		/// <summary>
 		/// Use apache.
 		/// </summary>
-		public BoolOption apache = new BoolOption("apache", "Configure Apache", "Configure Simias to run behing Apache", false, false);
+		public BoolOption apache = new BoolOption("apache", "Configure Apache", "Configure Simias to run behind Apache", false, false);
 
 		/// <summary>
 		/// Prompt for options.
