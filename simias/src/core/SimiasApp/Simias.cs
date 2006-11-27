@@ -1755,19 +1755,13 @@ namespace SimiasApp
 					// in the following format:
 	                //"[[hostname:]port:]VPath:realpath"
 
-	                string cmdLine = 
-	                	ub.Port.ToString() + 
-	                	":/simias10:" + 
-	                	rootPath +
-	                	(rootPath.Length != 0 ? Path.DirectorySeparatorChar.ToString() : "") +
-			        "web";
+	                string cmdLine = ub.Port.ToString() + ":" + virtPath;
 
 	               	if ( verbose == true )
 	               	{
 	                	Console.WriteLine( "cmdline: {0}", cmdLine );
 	                }
 	               
-	       
 	                AppServer.AddApplicationsFromCommandLine( cmdLine );
 	                AppServer.Start( true );
 	         

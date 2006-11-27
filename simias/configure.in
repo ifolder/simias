@@ -226,6 +226,7 @@ case $SIMIAS_OS in
 		GSOAP_PATH="$TOOLDIR/gsoap/macosx-2.7"
 		#StoreProviderAssembly="SqliteProvider.dll"
 		#StoreProviderType="Simias.Storage.Provider.Sqlite.SqliteProvider"
+		mappingpath="${exec_prefix}/web/bin/Simias.exe"
     ;;
     #
     # Linux-specific configuration
@@ -262,6 +263,7 @@ case $SIMIAS_OS in
 		StoreProviderAssembly="SimiasLib.dll"
 		StoreProviderType="Simias.Storage.Provider.Flaim.FlaimProvider"
 		GSOAP_PATH="$TOOLDIR/gsoap/linux-2.7"
+		mappingpath="${exec_prefix}/web/bin/Simias.exe"
     ;;
     #
     # Windows-specific configuration
@@ -335,6 +337,7 @@ case $SIMIAS_OS in
     	libdir="${exec_prefix}"
 		StoreProviderAssembly="SimiasLib.dll"
 		StoreProviderType="Simias.Storage.Provider.Flaim.FlaimProvider"
+		mappingpath=`cygpath --windows ${exec_prefix}/web/bin/Simias.exe`
     ;;
 esac
 AC_SUBST(CDEF)
@@ -368,6 +371,7 @@ AC_SUBST(STORELIB_PATH)
 AC_SUBST(StoreProviderAssembly)
 AC_SUBST(StoreProviderType)
 AC_SUBST(GSOAP_PATH)
+AC_SUBST(mappingpath)
 
 # We have our own "standard" directories for web services.
 #
@@ -377,6 +381,7 @@ modulesdir="${webdir}/modules"
 AC_SUBST(webdir)
 AC_SUBST(webbindir)
 AC_SUBST(modulesdir)
+
 
 #
 # Setup standard directories for webaccess app domain
