@@ -1719,34 +1719,26 @@ namespace SimiasApp
 				}
 
 				// Split the application path into root and web paths.
-				string appPath = ( MyEnvironment.Platform != MyPlatformID.Windows ) ? ApplicationPath : ApplicationPath.ToLower();
+				string appPath;
+				if (MyEnvironment.Windows)
+				{
+					appPath = ApplicationPath.ToLower();
+					int driveIndex = appPath.IndexOf(Path.VolumeSeparatorChar);
+					if (driveIndex != 0)
+					{
+						driveIndex++;
+					}
+					appPath = appPath.Substring(driveIndex).Replace(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+				}
+				else
+				{
+					appPath = ApplicationPath;
+				}
+
 				int index =  appPath.LastIndexOf( "web" );
 				if ( index != -1 )
 				{
-					// Get the parent directory to the "web/bin" directory.
-					string rootPath = ApplicationPath.Substring( 0, index ).TrimEnd( new char[] { Path.DirectorySeparatorChar } );
-					string virtPath = String.Format( "{0}:{1}", ub.Uri.AbsolutePath, ApplicationPath.Substring( index, 3 ) );
-					if ( altAppPath != null )
-					{
-						virtPath = virtPath + "," + altAppPath;
-					}
-
-					// Build the argument list for the Xsp server.
-					ArrayList args = new ArrayList();
-					args.Add( "--root" );
-					args.Add( rootPath );
-					args.Add( "--applications" );
-					args.Add( virtPath );
-					args.Add( "--port" );
-					args.Add( ub.Port.ToString() );
-					args.Add( "--nonstop" );
-
-					if ( verbose )
-					{
-						args.Add( "--verbose" );
-					}
-					
-	                // Start up the web server
+					// Start up the web server
 	                //string path = Directory.GetCurrentDirectory();
 	                XSPWebSource websource = new XSPWebSource( IPAddress.Any, ub.Port );
 	                AppServer = new ApplicationServer( websource );
@@ -1754,20 +1746,21 @@ namespace SimiasApp
 					// Applications from the command line must be
 					// in the following format:
 	                //"[[hostname:]port:]VPath:realpath"
-
-	                string cmdLine = ub.Port.ToString() + ":" + virtPath;
+					
+					string cmdLine = 
+						ub.Port.ToString() + ":" + 
+						ub.Uri.AbsolutePath + ":" +
+						appPath.Substring( 0, index + 3 );
 
 	               	if ( verbose == true )
 	               	{
-	                	Console.WriteLine( "cmdline: {0}", cmdLine );
+	                	Console.Error.WriteLine( "cmdline: {0}", cmdLine );
 	                }
 	               
-	                AppServer.AddApplicationsFromCommandLine( cmdLine );
+					// Start the Xsp server.
+					AppServer.AddApplicationsFromCommandLine( cmdLine );
 	                AppServer.Start( true );
 	         
-					// Start the Xsp server.
-					//Server.Start( args.ToArray( typeof( string ) ) as string[] );
-
 					Thread.Sleep( 32 );
 					
 					// Start the IPC mechanism listening for messages.
