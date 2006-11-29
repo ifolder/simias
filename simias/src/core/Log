@@ -1,3 +1,8 @@
+2006-11-29  B S Srinidhi  <srinidhi@novell.com>
+
+	* Makefile.am: Removed obsoleted SqliteProvider from the EXTRA_DIST
+	variable.
+
 2006-11-15  Ramesh Sunder <sramesh@novell.com>
 
 	* Storage/PropertyTags.cs: Added properties for Encryption and SSL

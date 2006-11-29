@@ -1,0 +1,4 @@
+2006-11-29  B S Srinidhi  <srinidhi@novell.com>
+
+	* Makefile.am: Fixed correct folder selections while building the
+	client and server package.

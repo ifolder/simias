@@ -12,7 +12,7 @@ if WINDOWS
 SUBDIRS = SimiasClient SimiasLib.dll FlaimProvider WebService SyncService POBoxWS SimiasApp libsimias
 endif
 
-EXTRA_DIST = ifdata simias-snakeoil.keys SqliteProvider
+EXTRA_DIST = ifdata simias-snakeoil.keys
 
 install-exec-local:
 	$(mkinstalldirs) $(DESTDIR)$(webbindir)
