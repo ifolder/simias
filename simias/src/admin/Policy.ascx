@@ -5,6 +5,8 @@
 <%@ Register TagPrefix="iFolder" TagName="FileTypeFilter" Src="FileTypeFilter.ascx" %>
 <%@ Register TagPrefix="iFolder" TagName="FileSizeFilter" Src="FileSizeFilter.ascx" %>
 <%@ Register TagPrefix="iFolder" TagName="DiskSpaceQuota" Src="DiskSpaceQuota.ascx" %>
+<%@ Register TagPrefix="iFolder" TagName="SecurityState" Src="SecurityState.ascx" %>
+
 <div id="policynav">
 
 	<div class="pagetitle">
@@ -25,6 +27,8 @@
 	
 	<ifolder:SyncInterval ID="SyncInterval" Runat="server" />
 	
+	<ifolder:SecurityState ID="SecurityState" Runat="server" />
+
 	<table>
 	
 		<tr>

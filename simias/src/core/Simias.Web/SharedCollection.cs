@@ -278,7 +278,7 @@ namespace Simias.Web
 		}
 
 		public static Collection CreateLocalSharedCollection(
-				string LocalPath, string DomainID, int encryption_status, string Type)
+				string LocalPath, string DomainID, int securityStatus, string Type)
 		{
 			Store store = Store.GetStore();
 
@@ -293,7 +293,7 @@ namespace Simias.Web
 
 			String name = Path.GetFileName(LocalPath);
 
-			return CreateSharedCollection(name, DomainID, encryption_status, member.UserID, 
+			return CreateSharedCollection(name, DomainID, securityStatus, member.UserID, 
 						Type, true, LocalPath);
 		}
 
@@ -357,10 +357,10 @@ namespace Simias.Web
 		}
 
 		public static Collection CreateSharedCollection(
-			string Name, string DomainID, int encryption_status, string UserID, string Type,
+			string Name, string DomainID, int securityStatus, string UserID, string Type,
 			bool UnmanagedFiles, string CollectionPath)
 		{
-			return (CreateSharedCollection(Name, DomainID, encryption_status, UserID, Type,
+			return (CreateSharedCollection(Name, DomainID, securityStatus, UserID, Type,
 				UnmanagedFiles, CollectionPath, null));
 		}
 
@@ -522,7 +522,7 @@ namespace Simias.Web
 
 
 		public static Collection CreateSharedCollection(
-			string Name, string DomainID, int encryption_status, string UserID, string Type,
+			string Name, string DomainID, int securityStatus, string UserID, string Type,
 			bool UnmanagedFiles, string CollectionPath, string Description)
 		{
 			ArrayList nodeList = new ArrayList();
@@ -588,7 +588,7 @@ namespace Simias.Web
 			Store store = Store.GetStore();
 
 			// Create the Collection and set it as an iFolder
-			Collection c = new Collection(store, Name, DomainID, encryption_status);
+			Collection c = new Collection(store, Name, DomainID, securityStatus);
 
 			// type
 			if( (Type != null) && (Type.Length > 0) )

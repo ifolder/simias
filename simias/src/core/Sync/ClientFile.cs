@@ -460,11 +460,22 @@ namespace Simias.Sync
 					DownloadSegment.AddToArray(downloadMap, new DownloadSegment(i), blockSize);
 				}
 			}
-				
-			//if (collection.Properties.HasProperty( PropertyTags.EncryptionStatus )==true)
+			bool Encrypted = false;
+			int value=0;
+			int boundary=0;
+			string EncryptionType;
+                     	Property p = collection.Properties.FindSingleValue(PropertyTags.SecurityStatus);
+			value = (p!=null) ? (int) p.Value : 0; 
+			value=value & 1;//replace with enum type
+			if(value != 0) Encrypted = true;
+			if(Encrypted == true)
 			{
 				UTF8Encoding utf8 = new UTF8Encoding();
 				bf = new Blowfish(utf8.GetBytes(node.ID));
+				p = collection.Properties.FindSingleValue(PropertyTags.EncryptionType);
+	                        EncryptionType = (p!=null) ? (string) p.Value : "";
+        	                if(EncryptionType == "BlowFish")
+                        	        boundary=8;
 			}
 			
 			// Get the file blocks from the server.
@@ -480,7 +491,7 @@ namespace Simias.Sync
 
 					WritePosition = (long)seg.StartBlock * (long)blockSize;
 					
-					//if (collection.Properties.HasProperty( PropertyTags.EncryptionStatus )==true)
+					if(Encrypted == true)	
 					{
 						byte [] inStream_byteArr = new byte[bytesToWrite];
 
@@ -492,16 +503,16 @@ namespace Simias.Sync
 						//discard the padded bytes
 						if((sizeRemaining -bytesToWrite) ==0)
 						{
-							if(node.Length%8 !=0)
+							if(node.Length%boundary !=0)
 							{
-								read = read-(int)(8-(node.Length%8));
+								read = read-(int)(boundary-(node.Length%boundary));
 							}
 						}
 						Write(Padded_inStream, read);
 						Padded_inStream.Close();
 					}
-					//else 
-						//Write(inStream, bytesToWrite);
+					else 
+						Write(inStream, bytesToWrite);
 					sizeRemaining -= bytesToWrite;
 					eventPublisher.RaiseEvent(new FileSyncEventArgs(collection.ID, ObjectType.File, false, Name, fileSize, sizeToSync, sizeRemaining, Direction.Downloading));
 				}
@@ -546,6 +557,20 @@ namespace Simias.Sync
                         long[] fileMap;
                         blockSize = 0;
 			long remainingBytes;
+			bool Encrypted = false;
+                        int value=0;
+			string EncryptionType;
+			int boundary=0;			
+
+                        Property p = collection.Properties.FindSingleValue(PropertyTags.SecurityStatus);
+                        value = (p!=null) ? (int) p.Value : 0;
+			value = value & 1;//replace with enum
+                        if(value != 0) Encrypted = true;
+
+			p = collection.Properties.FindSingleValue(PropertyTags.EncryptionType);
+                        EncryptionType = (p!=null) ? (string) p.Value : "";
+                        if(EncryptionType == "BlowFish")
+				boundary=8;
 
                         if (ReadStream != null)
                                 serverHashMap = syncService.GetHashMap(out blockSize);
@@ -554,16 +579,15 @@ namespace Simias.Sync
 
                         if (serverHashMap.Length == 0)
                         {
-					//if (collection.Properties.HasProperty( PropertyTags.EncryptionStatus )==true)
-					{
-						if(node.Length%8 !=0)
-							sizeToSync = node.Length+ (8-(node.Length%8));
-						else
-							sizeToSync = node.Length;
-					}
-                                //else
-                                        //sizeToSync = node.Length;
-
+				if( Encrypted == true)
+				{
+					if(node.Length%8 !=0)
+						sizeToSync = node.Length+ (boundary-(node.Length%boundary));
+					else
+						sizeToSync = node.Length;
+				}
+                                else
+                                        sizeToSync = node.Length;
 
                                 fileMap = new long[HashMap.GetBlockCount(node.Length, out blockSize)];
                                 for (int i = 0; i < fileMap.Length; ++i)
@@ -572,15 +596,15 @@ namespace Simias.Sync
                         }
 
                      sizeToSync = (long)blockSize * (long)serverHashMap.Length;
-                      //if (collection.Properties.HasProperty( PropertyTags.EncryptionStatus )==true)
+			if( Encrypted == true)
 			{
-				if(node.Length%8 !=0) 
-					remainingBytes = (node.Length+(8-(node.Length%8))) % blockSize;
+				if(node.Length%boundary !=0) 
+					remainingBytes = (node.Length+(boundary-(node.Length%boundary))) % blockSize;
 				else
 					remainingBytes = node.Length % blockSize;
 			}
-			//else
-				//long remainingBytes = node.Length % blockSize;
+			else
+				remainingBytes = node.Length % blockSize;
                         if (remainingBytes != 0)
                                 sizeToSync = sizeToSync - blockSize + remainingBytes;
 	
@@ -821,6 +845,13 @@ namespace Simias.Sync
 			{
 				syncService.CopyFile(copyArray, blockSize);
 			}
+			bool Encrypted=false;
+			int value=0;
+			Property p = collection.Properties.FindSingleValue(PropertyTags.SecurityStatus);
+                        value = (p!=null) ? (int) p.Value : 0;
+                        value = value & 1;//replace with enum
+                        if(value == 1) Encrypted = true;
+
 			
 			foreach(OffsetSegment seg in writeArray)
 			{
@@ -836,7 +867,11 @@ namespace Simias.Sync
 						if (stopping)
 							break;
 						int bytesToSend = (int)Math.Min(MaxXFerSize, leftToSend);
-						syncService.WriteFile(OutStream, ReadPosition, bytesToSend, node.ID);
+						if(Encrypted)		
+							syncService.WriteFile(OutStream, ReadPosition, bytesToSend, node.ID);
+						else
+							syncService.WriteFile(OutStream, ReadPosition, bytesToSend, null);
+			
 						leftToSend -= bytesToSend;
 						sizeRemaining -= bytesToSend;
 						eventPublisher.RaiseEvent(new FileSyncEventArgs(collection.ID, ObjectType.File, false, Name, fileSize, sizeToSync, sizeRemaining, Direction.Uploading));

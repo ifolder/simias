@@ -646,13 +646,13 @@ namespace Simias.Sync.Http
 			
 			Stream rStream = request.GetRequestStream();
                      
-			//if (collection.Properties.HasProperty( PropertyTags.EncryptionStatus )== true)
+			if (EncryptionKey !=null)
 			{
 				//bytesRead will be more if padding doen in encryption
 				bytesRead = stream.Read(rStream, count, EncryptionKey);
 			}
-			//else
-				//bytesRead = stream.Read(rStream, count);
+			else
+				bytesRead = stream.Read(rStream, count);
 
 			headers.Add(SyncHeaders.Range, offset.ToString() + "-" + ((long)(offset +bytesRead)).ToString());
 						

@@ -50,6 +50,9 @@ namespace iFolder.WebService
         /// The User Disk Space Limit
         /// </summary>
         public long SpaceLimit;
+
+// Added by ramesh
+		public int EncryptionStatus;
         
 		/// <summary>
 		/// The Effective User Disk Space Limit
@@ -142,6 +145,7 @@ namespace iFolder.WebService
 			props.SpaceAvailable = quota.AvailableSpace;
 
 			props.SpaceLimit = DiskSpaceQuota.GetLimit(member);
+			props.EncryptionStatus = Simias.Policy.SecurityState.GetStatus( member );
 
 			// file size
 			props.FileSizeLimit = FileSizeFilter.GetLimit(member);
@@ -184,6 +188,10 @@ namespace iFolder.WebService
 			{
 				domain.SetLoginDisabled(props.UserID, true);
 			}
+
+
+// Added by Ramesh
+			Simias.Policy.SecurityState.Create( member, props.EncryptionStatus );
 
 			// disk space
 			if (props.SpaceLimit >= 0)

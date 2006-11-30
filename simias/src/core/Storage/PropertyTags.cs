@@ -89,8 +89,8 @@ namespace Simias.Storage
 		static public string DomainID = "DomainID";
 
 
-		static public string EncryptionStatus = "EncryptionStatus";
-		static public string SSL = "SSL";
+		static public string SecurityStatus = "SecurityStatus";
+		static public string EncryptionType = "EncryptionType";
 
 		/// <summary>
 		/// Well known property name.
@@ -367,8 +367,7 @@ namespace Simias.Storage
 			systemPropertyTable.Add( DefaultDomain, null );
 			systemPropertyTable.Add( Domain, null );
 			systemPropertyTable.Add( DomainID, null );
-			systemPropertyTable.Add( EncryptionStatus, null );
-			systemPropertyTable.Add( SSL, null );
+			systemPropertyTable.Add( SecurityStatus, null );
 			systemPropertyTable.Add( DomainType, null );
 			systemPropertyTable.Add( FileLength, null );
 			systemPropertyTable.Add( FileSystemPath, null );
@@ -377,7 +376,7 @@ namespace Simias.Storage
 			systemPropertyTable.Add( HostID, null );
 			systemPropertyTable.Add( Journal, null );
 			systemPropertyTable.Add( JournalFor, null );
-        	systemPropertyTable.Add( LastLoginTime, null );
+	        	systemPropertyTable.Add( LastLoginTime, null );
 			systemPropertyTable.Add( LastAccessTime, null );
 			systemPropertyTable.Add( LastModified, null );
 			systemPropertyTable.Add( LastModifier, null );

@@ -64,6 +64,9 @@ namespace Novell.iFolderWeb.Admin
 		/// </summary>
 		protected DiskSpaceQuota DiskQuota;
 
+// Added by ramesh
+		protected SecurityState SecurityState;
+
 		/// <summary>
 		/// File size filter control.
 		/// </summary>
@@ -78,7 +81,6 @@ namespace Novell.iFolderWeb.Admin
 		/// Sync interval control.
 		/// </summary>
 		protected SyncInterval SyncInterval;
-
 
 		/// <summary>
 		/// Policy buttons that submit or cancel policy changes.
@@ -240,6 +242,12 @@ namespace Novell.iFolderWeb.Admin
 				FileSize.SetFileSizePolicy( policy );
 				FileType.SetFileTypePolicy( policy );
 				SyncInterval.SetSyncPolicy( policy );
+
+
+
+			// Added by Ramesh
+				SecurityState.SetEncryptionPolicy( policy );
+
 			}
 			catch( ArgumentException ex )
 			{
@@ -286,6 +294,7 @@ namespace Novell.iFolderWeb.Admin
 				FileSize.SetFileSizePolicy( policy );
 				FileType.SetFileTypePolicy( policy );
 				SyncInterval.SetSyncPolicy( policy );
+				SecurityState.SetEncryptionPolicy( policy );
 			}
 			catch( ArgumentException ex )
 			{
@@ -372,7 +381,6 @@ namespace Novell.iFolderWeb.Admin
 		{
 			EnablePolicyButtons = true;
 		}
-
 		#endregion
 
 		#region Public Methods
@@ -386,6 +394,7 @@ namespace Novell.iFolderWeb.Admin
 			AccountEnabled.GetAccountPolicy( policy );
 			iFolderEnabled.GetiFolderEnabledPolicy( policy );
 			DiskQuota.GetDiskSpacePolicy( policy );
+			SecurityState.GetEncryptionPolicy( policy );
 			FileSize.GetFileSizePolicy( policy );
 			FileType.GetFileTypePolicy( policy );
 			SyncInterval.GetSyncPolicy( policy );
@@ -400,6 +409,8 @@ namespace Novell.iFolderWeb.Admin
 			AccountEnabled.GetAccountPolicy( policy );
 			iFolderEnabled.GetiFolderEnabledPolicy( policy );
 			DiskQuota.GetDiskSpacePolicy( policy );
+			SecurityState.GetEncryptionPolicy( policy );
+
 			FileSize.GetFileSizePolicy( policy );
 			FileType.GetFileTypePolicy( policy );
 			SyncInterval.GetSyncPolicy( policy );
@@ -414,6 +425,8 @@ namespace Novell.iFolderWeb.Admin
 			AccountEnabled.GetAccountPolicy( policy );
 			iFolderEnabled.GetiFolderEnabledPolicy( policy );
 			DiskQuota.GetDiskSpacePolicy( policy );
+			SecurityState.GetEncryptionPolicy( policy );
+
 			FileSize.GetFileSizePolicy( policy );
 			FileType.GetFileTypePolicy( policy );
 			SyncInterval.GetSyncPolicy( policy );
@@ -448,6 +461,8 @@ namespace Novell.iFolderWeb.Admin
 			FileSize.LimitChanged += new EventHandler( PolicyChanged );
 			FileType.ListChanged += new EventHandler( PolicyChanged );
 			SyncInterval.IntervalChanged += new EventHandler( PolicyChanged );
+			SecurityState.CheckChanged += new EventHandler( PolicyChanged );
+			
 
 			// Set the policy button events to the proper event handlers.
 			if ( IsUser )

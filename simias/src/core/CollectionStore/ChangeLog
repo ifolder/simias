@@ -1,1 +1,7 @@
 /* Store.cs -> Now includes the indirection for Unmanaged files
+
+2006-11-30	Ramesh Sunder <sramesh@novell.com>
+
+	* Collection.cs: Modified constructors to support encryption. Added Property for security status
+
+

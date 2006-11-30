@@ -115,6 +115,18 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "EncryptionState.ascx"
+                    SubType = "UserControl"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "EncryptionState.ascx.cs"
+                    DependentUpon = "EncryptionState.ascx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+
+                <File
                     RelPath = "AccountEnabled.ascx.resx"
                     DependentUpon = "AccountEnabled.ascx.cs"
                     BuildAction = "EmbeddedResource"

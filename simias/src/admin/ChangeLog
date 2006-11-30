@@ -3,3 +3,17 @@
 	* Users.aspx.cs : Added new data column for HomeServer.
 
 	* Users.aspx : Added Title and Column for HomeServer.
+
+2006-11-30
+
+	* Policy.ascx.cs : Made entries for rendering Security Policy
+		
+	* Policy.ascx : Made entries for rendering Security Policy
+	
+	* SecurityPolicy.ascx : New "ascx" file for displaying security poliicy on web console
+
+	* SecurityPolicy.ascx.cs : New file. Code behind file for EncryptionPolicy.ascx
+
+	* Makefile.am : Made entries for building new files
+
+

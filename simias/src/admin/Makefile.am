@@ -8,6 +8,7 @@ iFolderAdmin_CSFILES = \
 	$(srcdir)/CreateUser.aspx.cs \
 	$(srcdir)/Default.aspx.cs \
 	$(srcdir)/DiskSpaceQuota.ascx.cs \
+	$(srcdir)/SecurityState.ascx.cs \
 	$(srcdir)/Error.aspx.cs \
 	$(srcdir)/FileSizeFilter.ascx.cs \
 	$(srcdir)/FileTypeFilter.ascx.cs \
@@ -72,6 +73,7 @@ iFolderAdmin_FORMS = \
 	CreateUser.aspx \
 	Default.aspx \
 	DiskSpaceQuota.ascx \
+	SecurityState.ascx \
 	Error.aspx \
 	FileSizeFilter.ascx \
 	FileTypeFilter.ascx \

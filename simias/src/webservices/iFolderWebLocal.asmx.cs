@@ -266,7 +266,6 @@ namespace iFolder.WebService
 			try
 			{
 				string accessID = GetAccessID();
-
 				result = iFolderPolicy.GetPolicy(ifolderID, accessID);
 			}
 			catch(Exception e)
@@ -276,6 +275,60 @@ namespace iFolder.WebService
 
 			return result;
 		}
+
+//Added by Ramesh
+
+
+                private int DeriveStatus(int system, int user, int preference)
+                {
+                        if( preference != 0)    // server wins
+                        {
+                                if(system != 0)
+                                        return system;
+                                return user;
+                        }
+                        else                    // user wins
+                        {
+                                if(user != 0)
+                                        return user;
+                                return system;
+                        }
+                }
+
+
+
+		[WebMethod(
+			 Description="Get policy information for an iFolder.",
+			 EnableSession=true)]
+		public virtual int GetEncryptionPolicy()
+		{
+			UserPolicy user = null;
+			SystemPolicy system = null;
+			try
+			{
+				int SysEncrPolicy, UserEncrPolicy, securityStatus=0;
+				string accessID = GetAccessID();
+				user = UserPolicy.GetPolicy(accessID);
+				system = SystemPolicy.GetPolicy();
+				UserEncrPolicy = user.EncryptionStatus;
+				SysEncrPolicy = system.EncryptionStatus;
+                                securityStatus += DeriveStatus(SysEncrPolicy%4, UserEncrPolicy%4, (UserEncrPolicy & 0x10000));
+                                SysEncrPolicy = SysEncrPolicy/4;
+                                UserEncrPolicy = UserEncrPolicy/4;
+                                securityStatus += 4*(DeriveStatus(SysEncrPolicy%4, UserEncrPolicy%4, UserEncrPolicy & 0x100000));
+				return securityStatus;
+
+				
+			}
+			catch(Exception e)
+			{
+				SmartException.Throw(e);
+			}
+			return 0;
+			
+			
+		}
+
 
 		/// <summary>
 		/// Set the policy for an iFolder.

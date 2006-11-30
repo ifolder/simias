@@ -451,6 +451,13 @@ namespace iFolder.WebService
 		{
 			return base.GetiFolderPolicy(ifolderID);
 		}
+		[WebMethod(
+			 Description="Get policy information for an iFolder.",
+			 EnableSession=true)]
+		public override int GetEncryptionPolicy()
+		{
+			return base.GetEncryptionPolicy();
+		}
 
 		/// <summary>
 		/// Set the policy for an iFolder.

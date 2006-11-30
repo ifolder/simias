@@ -45,6 +45,9 @@ namespace iFolder.WebService
 		/// The iFolder Sync Interval
 		/// </summary>
 		public int SyncInterval;
+// Added by Ramesh
+
+		public int EncryptionStatus;
 
 		/// <summary>
 		/// The Maximum File Size Limit
@@ -88,6 +91,8 @@ namespace iFolder.WebService
 
 			// file size
 			props.FileSizeLimit = FileSizeFilter.GetLimit(domain);
+			
+			props.EncryptionStatus = Simias.Policy.SecurityState.GetStatus(domain);
 
 			// file types
 			SystemPolicy.SplitFileTypes(FileTypeFilter.GetPatterns(domain),
@@ -117,6 +122,9 @@ namespace iFolder.WebService
 			{
 				Simias.Policy.SyncInterval.Set(domain, props.SyncInterval);
 			}
+			// Added by Ramesh
+			//Encryption Status
+			Simias.Policy.SecurityState.Create(domain, props.EncryptionStatus);
 
 			// file size
 			if (props.FileSizeLimit >= 0)

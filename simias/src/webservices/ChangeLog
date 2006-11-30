@@ -9,4 +9,16 @@
 	user.
 	* iFolderAdmin.asmx.cs : Added. WebMethod for
 	GetHomeServerForUser.
+
+2006-11-30  Ramesh Sunder  <sramesh@novell.com>
+
+        * iFolderWeb.asmx.cs : Added a webmethod to get the security policy
+
+        * UserPolicy.cs : Made entries for setting up user-level security policy
+
+        * SystemPolicy.cs : Made entries for setting up system-level security policy
+
+        * iFolderWebLocal.asmx.cs : Added a webmethod for obtaining the security policy
+
+
 	

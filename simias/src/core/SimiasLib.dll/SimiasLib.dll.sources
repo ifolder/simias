@@ -70,6 +70,7 @@ AssemblyInfo.cs
 ../POBox/SubscriptionStatus.cs
 ../POBox/SubscriptionThread.cs
 ../Policy/DiskSpaceQuota.cs
+../Policy/SecurityState.cs
 ../Policy/FileSizeFilter.cs
 ../Policy/FileTypeFilter.cs
 ../Policy/SyncInterval.cs

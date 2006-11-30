@@ -89,7 +89,7 @@ namespace Simias.Storage
 		/// </summary>
 		private string lockString = null;
 
-		private int encryption_status;
+		private int securityStatus;
 		private string passphrase;
 
 		#endregion
@@ -139,26 +139,15 @@ namespace Simias.Storage
 			}
 		}
 
-		public int Encryption_Status
+		public int SecurityStatus
 		{
 			get
 			{
 				// TODO: have a enum instead of hardcoded values
-				encryption_status = 40;
-				if(Properties.HasProperty( PropertyTags.EncryptionStatus ))
-				{
-					Console.WriteLine("property added");
-					encryption_status = 10;
-				}
-				else if(Properties.HasProperty( PropertyTags.SSL ))
-				{
-					Console.WriteLine("Dom id prop is there");
-					encryption_status = 20;
-				}
-				else
-					encryption_status = 30;
-
-				return encryption_status;
+				int securityStatus = 0;
+				Property p = properties.FindSingleValue(PropertyTags.SecurityStatus);
+				securityStatus = (p!=null) ? (int) p.Value : 0;
+				return securityStatus;
 			}
 		}
 
@@ -511,8 +500,8 @@ namespace Simias.Storage
 		}
 
 		//TODO: add comment
-		public Collection( Store storeObject, string collectionName, string domainID, int encryption_status ) :
-			this ( storeObject, collectionName, Guid.NewGuid().ToString(), domainID, encryption_status )
+		public Collection( Store storeObject, string collectionName, string domainID, int securityStatus ) :
+			this ( storeObject, collectionName, Guid.NewGuid().ToString(), domainID, securityStatus )
 		{
 		}
 
@@ -554,8 +543,8 @@ namespace Simias.Storage
 		}
 
 
-		public Collection( Store storeObject, string collectionName, string collectionID, string domainID, int encryption_status ) :
-			this( storeObject, collectionName, collectionID, NodeTypes.CollectionType, domainID, encryption_status )
+		public Collection( Store storeObject, string collectionName, string collectionID, string domainID, int securityStatus ) :
+			this( storeObject, collectionName, collectionID, NodeTypes.CollectionType, domainID, securityStatus )
 		{
 		}
 
@@ -586,11 +575,12 @@ namespace Simias.Storage
 			createManagedPath = !Directory.Exists( ManagedPath );
 		}
 
-		internal protected Collection( Store storeObject, string collectionName, string collectionID, string collectionType, string domainID, int encryption_status ) :
+		internal protected Collection( Store storeObject, string collectionName, string collectionID, string collectionType, string domainID, int securityStatus ) :
 			base( collectionName, collectionID, collectionType)
 		{
+			string defaultAlg="BlowFish";
 			store = storeObject;
-			this.encryption_status = encryption_status;
+			this.securityStatus = securityStatus;
 
 			// Don't allow this collection to be created, if one already exist by the same id.
 			if ( store.GetCollectionByID( id ) != null )
@@ -602,11 +592,15 @@ namespace Simias.Storage
 
 			// Add the domain ID as a property.
 			properties.AddNodeProperty( PropertyTags.DomainID, domainID );
-		
-			if (encryption_status == 0)
-				 properties.AddNodeProperty( PropertyTags.EncryptionStatus, encryption_status);
-			else if (encryption_status == 1)
-				properties.AddNodeProperty( PropertyTags.SSL, encryption_status);
+			/*	
+			if (securityStatus == 0)
+				 properties.AddNodeProperty( PropertyTags.SecurityStatus, securityStatus);
+			else if (securityStatus == 1)
+				properties.AddNodeProperty( PropertyTags.SSL, securityStatus);
+			*/
+			properties.AddNodeProperty(PropertyTags.SecurityStatus, securityStatus);
+			if( securityStatus % 2 == 1)
+				properties.AddNodeProperty(PropertyTags.EncryptionType, defaultAlg);
 
 			// Setup the access control for this collection.
 			accessControl = new AccessControl( this );
