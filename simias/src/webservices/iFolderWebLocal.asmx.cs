@@ -38,6 +38,19 @@ namespace iFolder.WebService
 		 Description="iFolder Web Local Service")]
 	public class iFolderWebLocal : iFolderCommonLocal
 	{
+
+	        enum Securitystate
+        	{
+                	encrypt = 1,
+	                enforceEncrypt = 2,
+        	        encryptionState = 3,
+                	SSL = 4,
+	                enforceSSL = 8,
+        	        SSLState = 12,
+                	UserEncrypt = 16,
+	                UserSSL = 32
+        	}
+
 		#region Constructors
 
 		/// <summary>
@@ -312,10 +325,15 @@ namespace iFolder.WebService
 				system = SystemPolicy.GetPolicy();
 				UserEncrPolicy = user.EncryptionStatus;
 				SysEncrPolicy = system.EncryptionStatus;
+
+                                securityStatus += DeriveStatus( (SysEncrPolicy & (int)Securitystate.encryptionState), (UserEncrPolicy &(int)Securitystate.encryptionState ), (UserEncrPolicy & (int)Securitystate.UserEncrypt));
+                                securityStatus += DeriveStatus( (SysEncrPolicy & (int)Securitystate.SSLState), (UserEncrPolicy & (int)Securitystate.SSLState), (UserEncrPolicy & (int)Securitystate.UserSSL));
+				/*
                                 securityStatus += DeriveStatus(SysEncrPolicy%4, UserEncrPolicy%4, (UserEncrPolicy & 0x10000));
                                 SysEncrPolicy = SysEncrPolicy/4;
                                 UserEncrPolicy = UserEncrPolicy/4;
                                 securityStatus += 4*(DeriveStatus(SysEncrPolicy%4, UserEncrPolicy%4, UserEncrPolicy & 0x100000));
+				*/
 				return securityStatus;
 
 				

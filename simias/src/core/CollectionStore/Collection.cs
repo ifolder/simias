@@ -47,6 +47,10 @@ namespace Simias.Storage
 	/// </summary>
 	public class Collection : Node, IEnumerable
 	{
+		enum Encryption
+		{
+			Encrypted = 1
+		}
 		#region Class Members
 		/// <summary>
 		/// Used to log messages.
@@ -599,7 +603,8 @@ namespace Simias.Storage
 				properties.AddNodeProperty( PropertyTags.SSL, securityStatus);
 			*/
 			properties.AddNodeProperty(PropertyTags.SecurityStatus, securityStatus);
-			if( securityStatus % 2 == 1)
+//			if( securityStatus % 2 == 1)
+			if( (securityStatus & (int)Encryption.Encrypted) == (int)Encryption.Encrypted)
 				properties.AddNodeProperty(PropertyTags.EncryptionType, defaultAlg);
 
 			// Setup the access control for this collection.
