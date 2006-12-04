@@ -121,7 +121,7 @@ namespace Simias.Discovery
 		// On a right-click refresh we need to signal the thread  
 		private void GetCollectionListItem(out int waitTime)
 		{
-			waitTime = Timeout.Infinite;
+			waitTime = preAuthTime;
 
 			try
 			{
@@ -155,12 +155,29 @@ namespace Simias.Discovery
 							bool activeDomain = dAgent.IsDomainActive(domain.ID);
 							bool authenticatedDomain = dAgent.IsDomainAuthenticated(domain.ID); 
 
-							if(activeDomain && (authenticatedDomain && !processedOne))
-								processedOne = true;
-							else 
-								//raise the credential event only if active and not authenticated 
-								if(activeDomain && !authenticatedDomain) 
+							if(activeDomain)
+							{
+								if(authenticatedDomain)
+								{
+									//not even one is processed, then this will get processed immediately
+									// and change the cycle time down
+									if(!processedOne)
+										processedOne = true;
+									else
+									{
+									// we have processed atleast one, so cycle time will get set
+									}
+								}
+								else
+								{
 									new EventPublisher().RaiseEvent( new NeedCredentialsEventArgs( domain.ID) );
+									continue;
+								}
+							}
+							else
+							{
+								continue;
+							}
 
 							dService.Url = masterNode.PrivateUrl;
 								
@@ -184,10 +201,9 @@ namespace Simias.Discovery
 				}
 				// next wait cycle
 				// we might need to get this from a preference setting -- TODO
+				// need to see if we need to dynamically increase the preAuthTime based on the active domain count
 				if(processedOne)
 					waitTime = defaultWait; 
-				else
-					waitTime = preAuthTime;
 
 				log.Debug("waittime set to {0} ms", waitTime);
 			}
