@@ -89,7 +89,7 @@ namespace Simias.Discovery
 
 		}
 
-		public static CollectionInfo GetCollectionInfo (string collectionID)
+		public static CollectionInfo GetCollectionInfo (string collectionID)
 		{
 //		        ArrayList collectionList =  GetListOfCollections();
 
@@ -173,5 +173,6 @@ namespace Simias.Discovery
 		}
 	}
 }
+
 
 

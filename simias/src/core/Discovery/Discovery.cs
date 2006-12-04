@@ -36,7 +36,8 @@ using Simias.Event;
 using Simias.POBox;
 using Simias.Service;
 using Simias.Storage;
-
+using Simias.DomainServices;
+using Simias.Client.Event;
 
 namespace Simias.Discovery
 {
@@ -56,15 +57,28 @@ namespace Simias.Discovery
 		private AutoResetEvent listEvent = new AutoResetEvent( false );
 
 		/// <summary>
-		/// Table used for quick lookup of collection information.
+		/// The default process cycle time for the shared collection.
 		/// </summary>
-		private Hashtable subTable = new Hashtable();
+		private const int defaultWait = 60 * 1000; // 60 secs
+
+		/// <summary>
+		/// The default pre Authentication cycle time for the shared collection.
+		/// </summary>
+		private const int preAuthTime = 5 * 1000; // 5 secs
+
+		/// <summary>
+		/// Atleast one domain should be processed for shared collection display.
+		/// </summary>
+		private bool processedOne = false;
 
 		/// <summary>
 		/// Tells the Collection List thread to exit.
 		/// </summary>
 		private bool killThread = false;
 
+		//TODO - we need to ensure collectionList has latest data when a Refresh is triggered
+		// now the collectionList gets populated every 60 secs - even this should be configurable from user end.
+		// we need to expose a function that will trigger the listEvent, so that the timer expires and the list is generated.
 		static public ArrayList GetCollectionList()
 		{
 			return collectionList;
@@ -89,12 +103,11 @@ namespace Simias.Discovery
 				int waitTime;
 				try
 				{
-					ListItem CollectionList = GetCollectionListItem(out waitTime);
-					if(CollectionList == null)
-					{
-						// Wait for an item to be placed.
-						listEvent.WaitOne( waitTime, true );
-					}
+					GetCollectionListItem(out waitTime);
+					//Wait unconditionally
+					// Wait for next cycle.
+					listEvent.WaitOne( waitTime, true );
+					processedOne = false;
 				}
 				catch( Exception e )
 				{
@@ -104,22 +117,16 @@ namespace Simias.Discovery
 			}
 		}
 
-		private ListItem GetCollectionListItem(out int waitTime)
+		//No time processing is done, we will default to 1 min cycle. We might need to get this info from Preference or Web Access page.
+		// On a right-click refresh we need to signal the thread  
+		private void GetCollectionListItem(out int waitTime)
 		{
-
-			ListItem lItem = null;
-
-//TODO : Use proper waittime instead of hardcoding.
-
-//			waitTime = Timeout.Infinite;
-			waitTime = 400;
+			waitTime = Timeout.Infinite;
 
 			try
 			{
-				
 				lock (typeof(CollectionList))
 				{
-					int nextProcessTime = Int32.MaxValue;
 
 					Store localStore = Store.GetStore();
 					ArrayList CollectionArray;
@@ -129,73 +136,77 @@ namespace Simias.Discovery
 					foreach (ShallowNode sn in domainList)
 					{
 
-                                                Domain domain = localStore.GetDomain ( sn.ID );
-                                                HostNode masterNode = HostNode.GetMaster ( sn.ID );
+						Domain domain = localStore.GetDomain ( sn.ID );
+						// skip local domain
+						if(domain.Name.Equals(Store.LocalDomainName))
+							continue;
+						HostNode masterNode = HostNode.GetMaster ( sn.ID );
+
 						try {
-						    Member cmember = domain.GetCurrentMember();
-
-						    SimiasConnection smConn = new SimiasConnection(sn.ID, cmember.UserID,
-												   SimiasConnection.AuthType.PPK,
+							log.Debug("GetCollectionList - Try");
+							Member cmember = domain.GetCurrentMember();
+								
+							SimiasConnection smConn = new SimiasConnection(sn.ID, cmember.UserID,
+												   SimiasConnection.AuthType.BASIC,
 												   masterNode);
+								
+							DiscoveryService dService = new DiscoveryService();
+							DomainAgent dAgent = new DomainAgent();
+							bool activeDomain = dAgent.IsDomainActive(domain.ID);
+							bool authenticatedDomain = dAgent.IsDomainAuthenticated(domain.ID); 
 
-						    DiscoveryService dService = new DiscoveryService();
-						    dService.Url = masterNode.PrivateUrl;
+							if(activeDomain && (authenticatedDomain && !processedOne))
+								processedOne = true;
+							else 
+								//raise the credential event only if active and not authenticated 
+								if(activeDomain && !authenticatedDomain) 
+									new EventPublisher().RaiseEvent( new NeedCredentialsEventArgs( domain.ID) );
 
-						    smConn.Authenticate ();
-						    smConn.InitializeWebClient(dService, "DiscoveryService.asmx");
-
-						    CollectionIDArray = new ArrayList(dService.GetAllCollectionIDsByUser(cmember.UserID));
-						    CollectionArray = new ArrayList(dService.GetAllCollectionsByUser(cmember.UserID));
-
-						} catch (Exception e) {
-
-						    // Skips the local domain as there is no DiscoveryWS.
-						    // If DiscoveryWs is N/A  or not running , we skip.
-						    log.Debug ("GetCollectionList : Skipping Domain : {0} ID : {1} Trace : {2}", 
-							       domain.Name, domain.ID, e.ToString());
-						    continue;
+							dService.Url = masterNode.PrivateUrl;
+								
+							smConn.Authenticate ();
+							smConn.InitializeWebClient(dService, "DiscoveryService.asmx");
+								
+							CollectionIDArray = new ArrayList(dService.GetAllCollectionIDsByUser(cmember.UserID));
+							CollectionArray = new ArrayList(dService.GetAllCollectionsByUser(cmember.UserID));
 						}
-
-						lItem = new ListItem(CollectionIDArray, sn.Name);
-						    
-						lItem.ProcessTime = DateTime.Now + TimeSpan.FromSeconds( 10 );
-						    //need to rework this area.
+						catch (Exception e) 
+						{
+							// If DiscoveryWs is N/A  or not running , we skip.
+							log.Debug ("GetCollectionList : Skipping Domain : {0} ID : {1} Trace : {2}", 
+							domain.Name, domain.ID, e.ToString());
+							continue;
+						}
+						//need to rework this area.
 						collectionList = CollectionArray;    
-//						AddCollection( lItem );
 					}
-//					waitTime = nextProcessTime;
-                        //BUG : Hardcoded value.
-		        waitTime = 400;
+
 				}
+				// next wait cycle
+				// we might need to get this from a preference setting -- TODO
+				if(processedOne)
+					waitTime = defaultWait; 
+				else
+					waitTime = preAuthTime;
+
+				log.Debug("waittime set to {0} ms", waitTime);
 			}
 			catch(Exception ex)
 			{
 				log.Error( "Final Exception : " + ex.ToString());
 			}
-			return lItem;
+			return;
 		}
 		
-		private bool AddCollection(ListItem lItem)
-		{
-			bool exists = true;
-
-			collectionList.Add( lItem );
-			exists = false;
-			log.Debug( "Added Collection.");
-			listEvent.Set();
-
-			return exists;
-		}
-		
+					
 		/// <summary>
-		/// Stops the subscription service thread.
+		/// Stops the Collection list  thread.
 		/// </summary>
 		public void Stop()
 		{
 			lock( typeof( CollectionList ) )
 			{
 				collectionList.Clear();
-				subTable.Clear();
 			}
 
 			killThread = true;
@@ -203,44 +214,6 @@ namespace Simias.Discovery
 			log.Debug( "CollectionList service stopped." );
 		}
 
-	}
-
-	public class ListItem
-	{
-		private ArrayList sharedCollection;
-		private DateTime processTime;
-		private String domName;
- 
-
-		/// <summary>
-		/// Gets the SharedCollection associated with this instance.
-		/// </summary>
-		public ArrayList SharedCollection
-		{
-			get{ return sharedCollection; }
-		}
-
-		/// <summary>
-		/// Gets or set the wait time before processing this item.
-		/// </summary>
-		public DateTime ProcessTime
-		{
-			get { return processTime; }
-			set { processTime = value; }
-		}
-
- 		
-		/// <summary>
-		/// Initializes an instance of the object.
-		/// </summary>
-		/// <param name="collectionList">The CollectionList associated with this sharedCollection.</param>
-		/// <param name="sharedCollection">The Collection to be display.</param>
-		public ListItem(ArrayList shColl, String domainName)
-		{
-			this.sharedCollection = shColl;
-			this.domName = domainName;
-			this.processTime = DateTime.Now;
-		}
 	}
 }
 
