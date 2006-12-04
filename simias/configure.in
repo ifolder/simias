@@ -226,7 +226,7 @@ case $SIMIAS_OS in
 		GSOAP_PATH="$TOOLDIR/gsoap/macosx-2.7"
 		#StoreProviderAssembly="SqliteProvider.dll"
 		#StoreProviderType="Simias.Storage.Provider.Sqlite.SqliteProvider"
-		mappingpath="${exec_prefix}lib/simias/web/bin/Simias.exe"
+		mappingpath="${exec_prefix}/lib/simias/web/bin/Simias.exe"
     ;;
     #
     # Linux-specific configuration
