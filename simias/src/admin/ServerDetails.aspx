@@ -109,7 +109,7 @@
 					ID="ViewReportButton" 
 					Runat="server"
 					CssClass="ifolderbuttons"
-					Enabled="False" />
+				        OnClick="ViewReportFile" />
 			
 			</div>
 				
@@ -156,7 +156,7 @@
 							<asp:Literal ID="iFolderCount" Runat="server" />
 						</td>
 					</tr>
-					
+<!--					
 					<tr>
 						<th>
 							<%= GetString( "LOGGEDONUSERSTAG" ) %>
@@ -196,7 +196,7 @@
 							<asp:Literal ID="DiskSpaceAvailable" Runat="server" />
 						</td>
 					</tr>
-					
+-->					
 					<tr>
 						<th>
 							<%= GetString( "LDAPSTATUSTAG" ) %>
@@ -206,8 +206,9 @@
 							<asp:Literal ID="LdapStatus" Runat="server" />
 						</td>
 					</tr>
-					
+<!--					
 					<tr>
+
 						<th>
 							<%= GetString( "MAXCONNECTIONSTAG" ) %>
 						</th>
@@ -216,7 +217,7 @@
 							<asp:Literal ID="MaxConnectionCount" Runat="server" />
 						</td>
 					</tr>
-					
+-->					
 				</table>
 
 			</div>
@@ -231,6 +232,11 @@
 				
 			</div>
 			
+			<asp:Label 
+				ID="LogLabel" 
+				Visible = "False"
+				Runat="server" />
+
 			<asp:DropDownList 
 				ID="LogList" 
 				Runat="server" 
@@ -241,18 +247,9 @@
 				Runat="server" 
 				CssClass="ifolderbuttons" 
 				OnClick="ViewLogFile" />
-				
-			<asp:TextBox 
-				ID="LogText" 
-				Runat="server" 
-				CssClass="logtext" 
-				ReadOnly="True" 
-				Rows="15" 
-				TextMode="MultiLine" 
-				Wrap="True" />
-				
-			<div class="loglevel">
-			
+
+-			<div class="loglevel">
+
 				<asp:Label 
 					ID="LogLevelLabel" 
 					Runat="server" />
@@ -267,9 +264,7 @@
 					Runat="server" 
 					CssClass="ifolderbuttons" 
 					Enabled="False" />
-					
 			</div>
-				
 		</div>
 		
 	</div>

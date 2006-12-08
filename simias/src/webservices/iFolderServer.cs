@@ -24,9 +24,11 @@
 using System;
 using System.Collections;
 using System.Net;
+using System.IO;
 
 using Simias.Client;
 using Simias.Storage;
+using Simias.Server;
 
 namespace iFolder.WebService
 {
@@ -132,6 +134,11 @@ namespace iFolder.WebService
 		public bool IsLocal;
 
 		/// <summary>
+		/// Number of users provisioned.
+		/// </summary>
+		public int UserCount;
+
+		/// <summary>
 		/// Constructor
 		/// </summary>
 		public iFolderServer() : this(HostNode.GetLocalHost())
@@ -150,6 +157,7 @@ namespace iFolder.WebService
 			PrivateUrl = server.PrivateUrl;
 			IsMaster = server.IsMasterHost;
 			IsLocal = server.IsLocalHost;
+			UserCount = server.GetHostedMembers().Count;
 
 			Version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
 			HostName = System.Net.Dns.GetHostName();
@@ -179,6 +187,28 @@ namespace iFolder.WebService
 		        return MasterServer;
 		}
 
+
+		/// <summary>
+		/// Get the HomeServer URL for User.
+		/// </summary>
+		/// <returns>Return the URL for the server </returns>
+		public static string[] GetReports ()
+		{
+			Store store = Store.GetStore();
+			string ReportPath = Report.CurrentReportPath;
+
+			DirectoryInfo di = new DirectoryInfo (ReportPath);
+
+			FileInfo[] finfo = di.GetFiles();
+
+			string[] files = new string [finfo.Length];
+			int x = 0;
+			// BUG : no proper exception handling.
+		        foreach (FileInfo fi  in finfo)
+		                files [x++] = fi.Name;
+
+			return files;
+		}
 
 		/// <summary>
 		/// Get the HomeServer URL for User.

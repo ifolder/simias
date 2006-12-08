@@ -95,7 +95,7 @@ namespace Simias.Server
 		/// <summary>
 		/// Well-known identifier for the report collection.
 		/// </summary>
-		private static string reportCollectionID = "3e49b2f8-c13e-45d1-b69e-811521411aba";
+		private static string reportCollectionID;
 
 		/// <summary>
 		/// Report collection name.
@@ -160,7 +160,21 @@ namespace Simias.Server
 			get
 			{
 				Report report = new Report();
-				return ( report.GetReportConfiguration().IsiFolder ) ? ReportiFolderPath : ReportPath;
+				ReportConfig rc = report.GetReportConfiguration();
+
+			        //NOTE : Check to ensure ReportConfig availability. If reports is not configured
+				//ReportConfig will not be available 
+
+				if (rc != null && rc.IsiFolder)
+				{
+				        Store store = Store.GetStore();
+				        Collection reportCollection = store.GetSingleCollectionByType( "Reports" );
+        				DirNode dirNode = reportCollection.GetRootDirectory();
+
+					return dirNode.GetFullPath( reportCollection );
+				} else {
+ 				        return ReportPath;
+ 				}
 			}
 		}
 
@@ -169,7 +183,15 @@ namespace Simias.Server
 		/// </summary>
 		public static string ReportCollectionID
 		{
-			get { return reportCollectionID; }
+			get { 
+			        if (reportCollectionID == null)
+				{
+				        Store store = Store.GetStore();
+					Domain domain = store.GetDomain( store.DefaultDomain );
+					reportCollectionID = store.GetSingleCollectionByType( "Reports" ).ID;
+				}
+			        return reportCollectionID;
+			}
 		}
 
 		/// <summary>
@@ -196,7 +218,8 @@ namespace Simias.Server
 			get
 			{
 				Store store = Store.GetStore();
-				Collection report = store.GetCollectionByID( reportCollectionID );
+				Collection report = store.GetSingleCollectionByType( "Reports" );
+
 				if ( report == null )
 				{
 					throw new SimiasException( "Cannot find report collection." );
@@ -224,9 +247,10 @@ namespace Simias.Server
 			// Initialize the resources.
 			resourceManager = new ResourceManager( "Simias.Server.Report", Assembly.GetExecutingAssembly() );
 
-			// Initalize the name of the report collection.
-			Store store = Store.GetStore();
-			Domain domain = store.GetDomain( store.DefaultDomain );
+ 			// Initalize the name of the report collection.
+ 			Store store = Store.GetStore();
+ 			Domain domain = store.GetDomain( store.DefaultDomain );
+
 			reportCollectionName = domain.Name + " " + GetString( "REPORTS" ); 
 
 			// columns
@@ -267,7 +291,11 @@ namespace Simias.Server
 			timer.Elapsed += new System.Timers.ElapsedEventHandler( GenerateReportThread );
 
 			// Get the report collection object.
-			reportCollection = store.GetCollectionByID( reportCollectionID );
+
+			reportCollection = store.GetSingleCollectionByType( "Reports" );
+			reportCollectionID = reportCollection.ID;
+
+                        //not necessary anymore .. 
 			if ( reportCollectionID == null )
 			{
 				log.Error( "The report collection {0} cannot be found.", ReportCollectionName );
@@ -501,8 +529,7 @@ namespace Simias.Server
 			// Get the report configuration node.
 			Node node = reportCollection.GetSingleNodeByType( "Settings" );
 			if ( node != null )
-			{
-				// Get the settings property for the reporting.
+			{				// Get the settings property for the reporting.
 				Property p = node.Properties.GetSingleProperty( "iFolderSystemReportConfiguration" );
 				if ( p != null )
 				{
@@ -689,6 +716,11 @@ namespace Simias.Server
 		{
 			SettingsWatcherStop();
 
+			if (reportCollectionID == null)
+			{
+			        reportCollectionID = store.GetSingleCollectionByType( "Reports" ).ID;
+			}
+
 			settingsWatcher = new EventSubscriber( reportCollectionID );
 			settingsWatcher.NodeCreated += new NodeEventHandler( SettingsWatcher_NodeCreated );
 			settingsWatcher.NodeDeleted += new NodeEventHandler( SettingsWatcher_NodeDeleted );
@@ -764,14 +796,16 @@ namespace Simias.Server
 		internal static Collection CreateReportCollection( Store store, Domain domain )
 		{
 			// Check to see if the report has already been created.
-			Collection report = store.GetCollectionByID( reportCollectionID );
+			Collection report = store.GetSingleCollectionByType( "Reports" );
+
 			if ( report == null )
 			{
 				// Create the new report.
-				report = new Collection( store, reportCollectionName, reportCollectionID, domain.ID );
+				report = new Collection( store, reportCollectionName, domain.ID );
 
 				// Set the type as an iFolder so it can be accessed and shared by iFolder.
 				report.SetType( report, "iFolder" );
+				report.SetType( report, "Reports" );
 
 				// Add the admin user for the domain as the owner.
 				Member member = new Member( domain.Owner.Name, domain.Owner.UserID, Access.Rights.Admin );
@@ -790,6 +824,8 @@ namespace Simias.Server
 				// Commit the changes.
 				report.Commit( new Node[] { report, member, dirNode } );
 			}
+
+			reportCollectionID = report.ID;			 
 
 			return report;
 		}

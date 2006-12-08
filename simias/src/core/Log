@@ -1,3 +1,12 @@
+2006-12-4  Johnny Jacob  <jjohnny@novell.com>
+	
+	* WebService/mono.server.web.config : Added. web.config file for
+	server.
+	* WebService/win.server.web.config : Added. web.config file for
+	server.
+	* WebService/Makefile.am : Check for server or client installation
+	and copy the correct web.config file.
+	
 2006-11-29  B S Srinidhi  <srinidhi@novell.com>
 
 	* Makefile.am: Removed obsoleted SqliteProvider from the EXTRA_DIST

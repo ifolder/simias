@@ -51,6 +51,11 @@ namespace Novell.iFolderWeb.Admin
 		private iFolderAdmin web;
 
 		/// <summary>
+		/// iFolder Connection to the remote server
+		/// </summary>
+	        private iFolderAdmin remoteweb;
+
+		/// <summary>
 		/// Resource Manager
 		/// </summary>
 		private ResourceManager rm;
@@ -166,6 +171,11 @@ namespace Novell.iFolderWeb.Admin
 		protected Label LogLevelLabel;
 
 		/// <summary>
+		/// Log level label control.
+		/// </summary>
+		protected Label LogLabel;
+
+		/// <summary>
 		/// Log level list control.
 		/// </summary>
 		protected DropDownList LogLevelList;
@@ -174,6 +184,11 @@ namespace Novell.iFolderWeb.Admin
 		/// Log level button control.
 		/// </summary>
 		protected Button LogLevelButton;
+
+		/// <summary>
+		/// Log level button control.
+		/// </summary>
+		protected string redirectUrl;
 
 		#endregion
 
@@ -213,8 +228,10 @@ namespace Novell.iFolderWeb.Admin
 
 			files.Add( GetString( "SYSTEMLOGFILE" ) );
 			files.Add( GetString( "ACCESSLOGFILE" ) );
-			files.Add( GetString( "ADMINLOGFILE" ) );
-			files.Add( GetString( "WEBACCESSLOGFILE" ) );
+
+			//TODO :
+			//files.Add( GetString( "ADMINLOGFILE" ) );
+			//files.Add( GetString( "WEBACCESSLOGFILE" ) );
 
 			LogList.DataSource = files;
 			LogList.DataBind();
@@ -240,13 +257,21 @@ namespace Novell.iFolderWeb.Admin
 		{
 			ArrayList reports = new ArrayList();
 			
-			reports.Add( "ifolder-MELDELL-20060606-233000.csv" );
-			reports.Add( "ifolder-MELDELL-20060605-233000.csv" );
-			reports.Add( "ifolder-MELDELL-20060604-233000.csv" );
-			reports.Add( "ifolder-MELDELL-20060603-233000.csv" );
-			reports.Add( "ifolder-MELDELL-20060602-233000.csv" );
-			reports.Add( "ifolder-MELDELL-20060601-233000.csv" );
-			reports.Add( "ifolder-MELDELL-20060631-233000.csv" );
+			string[] files = remoteweb.GetReports();    
+
+			try {
+			        foreach (string file in files)
+				        reports.Add( file );
+
+		        } catch (Exception e) {
+				reports.Add ("N/A");
+			}
+
+			if (files.Length == 0) {
+				reports.Add ("N/A");
+				ReportList.Enabled = false;
+				ViewReportButton.Enabled = false;
+			}
 
 			ReportList.DataSource = reports;
 			ReportList.DataBind();
@@ -259,7 +284,17 @@ namespace Novell.iFolderWeb.Admin
 		private string GetServerDetails()
 		{
 			iFolderServer server = web.GetServer( ServerID );
-			
+
+			remoteweb.PreAuthenticate = true;
+			remoteweb.Credentials = web.Credentials;
+
+		        remoteweb.Url = server.PublicUrl + "/iFolderAdmin.asmx";
+			remoteweb.GetAuthenticatedUser();
+			    
+			redirectUrl = server.PublicUrl;
+
+			server = remoteweb.GetServer ( ServerID);
+
 			Name.Text = server.Name;
 			Type.Text = GetString( server.IsMaster ? "MASTER" : "SLAVE" );
 			DnsName.Text = server.HostName;
@@ -267,14 +302,17 @@ namespace Novell.iFolderWeb.Admin
 			PrivateIP.Text = server.PrivateUrl;
 
 			Status.Text = "(Not Implemented)";
-			UserCount.Text = "(Not Implemented)";
-			iFolderCount.Text = "(Not Implemented)";
-			LoggedOnUsersCount.Text = "(Not Implemented)";
-			SessionCount.Text = "(Not Implemented)";
-			DiskSpaceUsed.Text = "(Not Implemented)";
-			DiskSpaceAvailable.Text = "(Not Implemented)";
-			LdapStatus.Text = "(Not Implemented)";
-			MaxConnectionCount.Text = "(Not Implemented)";
+			UserCount.Text = server.UserCount.ToString();
+
+			iFolderSet ifolders = remoteweb.GetiFolders( iFolderType.All, 0, 1 );
+			iFolderCount.Text = ifolders.Total.ToString();
+
+			//LoggedOnUsersCount.Text = "(Not Implemented)";
+ 			//SessionCount.Text = "(Not Implemented)";
+ 			//DiskSpaceUsed.Text = "(Not Implemented)";
+ 			//DiskSpaceAvailable.Text = "(Not Implemented)";
+			LdapStatus.Text = "(Not Implemented)"; //remoteweb.IdentitySyncGetServiceInfo ().Status;
+ 			//MaxConnectionCount.Text = "(Not Implemented)";
 
 			return server.Name;
 		}
@@ -303,6 +341,8 @@ namespace Novell.iFolderWeb.Admin
 			// connection
 			web = Session[ "Connection" ] as iFolderAdmin;
 
+			remoteweb = new iFolderAdmin ();
+
 			// localization
 			rm = Application[ "RM" ] as ResourceManager;
 
@@ -313,6 +353,14 @@ namespace Novell.iFolderWeb.Admin
 				ViewLogButton.Text = GetString( "VIEW" );
 				LogLevelButton.Text = GetString( "SET" );
 				LogLevelLabel.Text = GetString( "LOGLEVELTAG" );
+				LogLabel.Text = GetString( "LOGTAG" );
+
+ 				//TODO : Future!
+ 			        //LoggedOnUsersCount.Visible = false;
+ 			        //SessionCount.Visible = false;
+ 				//DiskSpaceUsed.Visible = false;
+ 				//DiskSpaceAvailable.Visible = false;
+ 				//MaxConnectionCount.Visible = false;
 
 				// Initialize state variables.
 			}
@@ -331,7 +379,9 @@ namespace Novell.iFolderWeb.Admin
 
 			GetReportList();
 			GetLogList();
-//			GetTailData();
+
+			//TODO : future!
+			//GetTailData();
 		}
 
 		#endregion
@@ -349,7 +399,22 @@ namespace Novell.iFolderWeb.Admin
 		}
 
 		/// <summary>
-		/// Event handler that gets called when the TailButton is clicked.
+		/// Event handler that gets called when the ViewReport Button is clicked.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		protected void ViewReportFile( object sender, EventArgs e )
+		{
+			string reportFileName = ReportList.SelectedValue;
+
+			// Send a request to the report/log file handler.
+			// TODO : use the public url of the system we are displaying and redirect there .
+			if (reportFileName != null && reportFileName != string.Empty )
+			        Response.Redirect ( web.GetServer( ServerID ).PublicUrl + "/admindata/" +reportFileName );
+		}
+
+		/// <summary>
+		/// Event handler that gets called when the ViewLog Button is clicked.
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -370,7 +435,7 @@ namespace Novell.iFolderWeb.Admin
 			}
 
 			// Send a request to the log file handler.
-			Response.Redirect( logFileName );
+			Response.Redirect( web.GetServer( ServerID ).PublicUrl + "/admindata/" + logFileName );
 		}
 
 		#endregion

@@ -1,3 +1,11 @@
+2006-12-8  Johnny Jacob  <jjohnny@novell.com>
+
+	* Simias.Server/Domain.cs : create the reportcollection on both
+	server and client.
+	* Simias.Server/Report.cs : Remove static
+	ReportCollectionID. Create reports on master and slaves. Improved
+	currentreportpath.
+	
 2006-11-29  B S Srinidhi  <srinidhi@novell.com>
 
 	* Makefile.am: Fixed file names in EXTRA_DIST variable.

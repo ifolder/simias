@@ -141,11 +141,9 @@ namespace Simias.Server
 						// exist because the store was created with a previous version of
 						// simias, check and create it here.
 						// Don't create this directory on a slave server.
-						if ( enterpriseDomain.Role == SyncRoles.Master )
-						{
-							// Create the report collection.
-							Report.CreateReportCollection( store, enterpriseDomain );
-						}
+
+                                                //TODO : Check with migration !!
+						Report.CreateReportCollection( store, enterpriseDomain );
 					}
 				}
 
@@ -221,9 +219,6 @@ namespace Simias.Server
 
 						// Create the name mapping.
 						store.AddDomainIdentity( enterpriseDomain.ID, member.UserID );
-
-						// Create the report collection.
-						Report.CreateReportCollection( store, enterpriseDomain );
 					}
 					else
 					{
@@ -237,6 +232,8 @@ namespace Simias.Server
 						owner.Proxy = true;
 						enterpriseDomain.Commit(new Node[] { enterpriseDomain, owner } );
 					}
+
+					Report.CreateReportCollection( store, enterpriseDomain );
 				}
 			}
 			catch( Exception gssd )

@@ -514,7 +514,10 @@
 		<value>Username:</value>
 	</data>
 	<data name="LOGLEVELTAG">
-		<value>Log Level:</value>
+		<value>Log Level</value>
+	</data>
+	<data name="LOGTAG">
+		<value>Log</value>
 	</data>
 	<data name="LOGOUT">
 		<value>Log Out</value>

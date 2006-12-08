@@ -169,6 +169,31 @@ namespace iFolder.WebService
 		}
 
 		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns>An array of iFolderServer objects.</returns>
+		[WebMethod(
+			 Description="Get information about the reports.",
+			 EnableSession=true)]
+		public virtual string[] GetReports()
+		{
+			string[] result = null;
+
+			try
+			{
+				Authorize();
+
+				result = iFolderServer.GetReports ();
+			}
+			catch(Exception e)
+			{
+				SmartException.Throw(e);
+			}
+
+			return result;
+		}
+
+		/// <summary>
 		/// Get information about iFolder Servers identified by a search on name.
 		/// </summary>
 		/// <param name="operation">The operation to compare the name and pattern.</param>

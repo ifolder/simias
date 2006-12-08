@@ -9,7 +9,7 @@ SimiasWebService_FLAGS = $(CSC_LIBFLAG)
 SimiasWebService_LIBS = System.dll System.Data.dll $(SYSTEM_XML) System.Web.dll System.Web.Services.dll SimiasClient.dll SimiasLib.dll
 SimiasWebService_LIBPATH = ../SimiasClient ../SimiasLib.dll $(NOVELL_SECURITY_DIR)
 WebServerDir = ../../../external/Mono.WebServer/
-EXTRA_DIST = win.web.config mono.web.config Global.asax Simias.asmx Simias.wsdl $(SimiasWebService_CSFILES) AssemblyInfo.cs.in
+EXTRA_DIST = win.server.web.config mono.server.web.config win.web.config mono.web.config Global.asax Simias.asmx Simias.wsdl $(SimiasWebService_CSFILES) AssemblyInfo.cs.in
 
 if MAKE_DOC_FILE
 DOC_FILE = $(basename $@).doc.xml
@@ -33,12 +33,22 @@ install-exec-local: Simias.Web.dll $(DATA_FILES)
 	$(mkinstalldirs) $(DESTDIR)$(webbindir)
 	$(INSTALL_PROGRAM) Global.asax Simias.asmx $(DEBUG_FILES) $(DESTDIR)$(webdir)
 	$(INSTALL_PROGRAM) Simias.Web.dll $(DEBUG_FILES) $(DESTDIR)$(webbindir)
+
+if SIMIAS_AS_CLIENT
 if WINDOWS
 	$(INSTALL_PROGRAM) win.web.config $(DESTDIR)$(webdir)/web.config
 	$(INSTALL_PROGRAM) $(WebServerDir)Mono.WebServer.dll $(WebServerDir)Mono.Security.dll $(DESTDIR)$(webbindir)
 else
 	$(INSTALL_PROGRAM) mono.web.config $(DESTDIR)$(webdir)/web.config
 endif	
+else
+if WINDOWS
+	$(INSTALL_PROGRAM) win.server.web.config $(DESTDIR)$(webdir)/web.config
+	$(INSTALL_PROGRAM) $(WebServerDir)Mono.WebServer.dll $(WebServerDir)Mono.Security.dll $(DESTDIR)$(webbindir)
+else
+	$(INSTALL_PROGRAM) mono.server.web.config $(DESTDIR)$(webdir)/web.config
+endif	
+endif
 	
 uninstall-local:
 	cd $(DESTDIR)$(webdir); rm -f web.config Global.asax Simias.asmx $(DEBUG_FILES)

@@ -1,3 +1,9 @@
+2006-12-8  Johnny Jacob  <jjohnny@novell.com?
+
+	* iFolderAdmin.asmx.cs (GetReports) : Web method Added.
+	* iFolderCommonLocal.cs (GetReports) : Virtual Function added.
+	* iFolderServer.cs (GetReports) : GetRepots implementation added.
+	
 2006-11-20  Johnny Jacob  <jjohnny@novell.com>
 
 	* iFolderServer.cs (GetMasterServer) : Added. Return the master
