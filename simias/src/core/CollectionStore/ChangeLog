@@ -1,3 +1,8 @@
+2006-12-08 Kalidas Balakrishnan <bkalidas@novell.com>
+
+*Store.cs: more implementation for the Unmanaged path
+*Collection.cs: more interface implementation for Unmanaged Path for future expansion
+
 /* Store.cs -> Now includes the indirection for Unmanaged files
 
 2006-11-30	Ramesh Sunder <sramesh@novell.com>

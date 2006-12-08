@@ -174,6 +174,15 @@ namespace Simias.Storage
 		}
 
 		/// <summary>
+		/// Gets the Indirection Prefix to where the data files are stored if this is an enterprise
+		/// server. Otherwise this returns a null.
+		/// </summary>
+		public string UnmanagedPrefix
+		{
+			get { return ( Store.IsEnterpriseServer ) ? store.GetStoreUnmanagedPrefix( store.Version ) : null; }
+		}
+
+		/// <summary>
 		/// Get the master url where the collection is hosted.
 		/// </summary>
 		public Uri MasterUrl

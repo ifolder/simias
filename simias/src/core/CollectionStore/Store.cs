@@ -63,6 +63,12 @@ namespace Simias.Storage
 		static private string storeUnmanagedDirectoryName = "SimiasFiles";
 
 		/// <summary>
+		/// Indirection Prefix and Prefix length where store unmanaged files are kept.
+		/// </summary>
+		static private string storeUnmanagedPrefix = "0";
+		static private int storeUnmanagedPrefixLength = 1;
+
+		/// <summary>
 		/// File used to store the local password used to authenticate local
 		/// web services.
 		/// </summary>
@@ -678,9 +684,23 @@ namespace Simias.Storage
 		internal string GetStoreUnmanagedPath( string collectionID )
 		{
 			string tmpPath;
-			tmpPath = Path.Combine(storeUnmanagedPath, '0'+collectionID.Substring(0,1));
+			tmpPath = Path.Combine(storeUnmanagedPath, storeUnmanagedPrefix+collectionID.Substring(0,storeUnmanagedPrefixLength));
 			return Path.Combine( tmpPath, collectionID.ToLower() );
 		}
+
+		
+		/// <summary>
+		/// Gets a path to where the store unmanaged files for the specified collection should be created.
+		/// </summary>
+		/// <param name="collectionID">Collection identifier that files will be associated with.</param>
+		/// <returns>A path string that represents the store unmanaged path.</returns>
+		internal string GetStoreUnmanagedPrefix(string StoreVersion)
+		{
+			// keep compiler happy - used in future to determine the prefix based on the store version.
+			StoreVersion = StoreVersion;
+			return storeUnmanagedPrefix;
+		}
+
 		/// <summary>
 		/// Acquires the store lock protecting the database against simultaneous commits.
 		/// </summary>

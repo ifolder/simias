@@ -288,9 +288,10 @@ namespace Simias.DomainService.Web
 				&& (rootDirName != null) && (rootDirName.Length > 0))
 			{
 				// files path
-				string path = Path.Combine(Store.StorePath, FilesDirectory);
-				path = Path.Combine(path, '0'+collectionID.Substring(0,1));
-				path = Path.Combine(path, collectionID);
+//				string path = Path.Combine(Store.StorePath, FilesDirectory);
+//				path = Path.Combine(path, '0'+collectionID.Substring(0,1));
+//				path = Path.Combine(path, collectionID);
+				string path = Store.GetStoreUnmanagedPath(collectionID);
 				path = Path.Combine(path, rootDirName);
 
 				// create root directory node

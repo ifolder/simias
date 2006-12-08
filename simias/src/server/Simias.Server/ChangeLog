@@ -1,3 +1,6 @@
+2006-12-08 Kalidas Balakrishnan <bkalidas@novell.com>
+	*DomainService.asmx.cs:(CreateMaster)updated the way indirections are handled based on new interface
+
 2006-11-20  Johnny Jacob  <jjohnny@novell.com>
 
 	* HostProvider.cs : Enable loadbalance user provisioner.

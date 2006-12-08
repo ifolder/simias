@@ -388,7 +388,7 @@ namespace Simias.Web
 		{
 			ArrayList nodeList = new ArrayList();
 			
-			log.Debug( "CreateSharedCollection entered" );
+			log.Debug( "CreateSharedCollection-1 entered" );
 			log.Debug( "  DomainID:    " + DomainID );
 			log.Debug( "  UserID:      " + UserID );
 			log.Debug( "  Collection:  " + Name );
@@ -490,11 +490,11 @@ namespace Simias.Web
 				if( (CollectionPath == null) || (CollectionPath.Length == 0) )
 				{
 					// create a root dir node for this iFolder in the
-					// ~/.local/shared/simias/SimiasFiles/<guid>/name
+					// <data-dir>/simias/SimiasFiles/xx/<guid>/name
 					// directory
-					dirNodePath = Path.Combine(Store.StorePath, FilesDirName);
-					dirNodePath = Path.Combine(dirNodePath, c.ID);
+					dirNodePath = c.UnmanagedPath;
 					dirNodePath = Path.Combine(dirNodePath, Name);
+					log.Debug("dirnodepath {0}", dirNodePath);
 
 					if(!Directory.Exists(dirNodePath) )
 						Directory.CreateDirectory(dirNodePath);
@@ -517,6 +517,7 @@ namespace Simias.Web
 			AddSubscription( store, c, member, 
 				newMember, SubscriptionStates.Ready, Type);
 #endif
+			log.Debug("CreateSharedCollection-1 - End");
 			return c;
 		}
 
@@ -527,7 +528,7 @@ namespace Simias.Web
 		{
 			ArrayList nodeList = new ArrayList();
 			
-			log.Debug( "CreateSharedCollection entered" );
+			log.Debug( "CreateSharedCollection-2 entered" );
 			log.Debug( "  DomainID:    " + DomainID );
 			log.Debug( "  UserID:      " + UserID );
 			log.Debug( "  Collection:  " + Name );
@@ -612,9 +613,9 @@ namespace Simias.Web
 				throw new Exception("UserID is invalid");
 				
 			Simias.Storage.Member newMember = 
-					new Simias.Storage.Member(	member.Name,
-												member.UserID,
-												Access.Rights.Admin);
+					new Simias.Storage.Member(member.Name,
+								  member.UserID,
+								  Access.Rights.Admin);
 			newMember.IsOwner = true;
 			nodeList.Add(newMember);
 
@@ -627,9 +628,9 @@ namespace Simias.Web
 					// create a root dir node for this iFolder in the
 					// ~/.local/shared/simias/SimiasFiles/<guid>/name
 					// directory
-					dirNodePath = Path.Combine(Store.StorePath, FilesDirName);
-					dirNodePath = Path.Combine(dirNodePath, c.ID);
+					dirNodePath = c.UnmanagedPath;
 					dirNodePath = Path.Combine(dirNodePath, Name);
+					log.Debug("dirnodepath {0}", dirNodePath);
 
 					if(!Directory.Exists(dirNodePath) )
 						Directory.CreateDirectory(dirNodePath);
@@ -651,6 +652,7 @@ namespace Simias.Web
 			AddSubscription( store, c, member, 
 					newMember, SubscriptionStates.Ready, Type);
 
+			log.Debug("CreateSharedCollection-2 - End");
 			return c;
 		}
 
