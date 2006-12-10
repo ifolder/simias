@@ -336,6 +336,8 @@ namespace Novell.iFolder
 					ldapAdminPassword.Prompt = ldapProxyDN.Prompt =
 					ldapProxyPassword.Prompt = ldapSearchContext.Prompt = 
 					namingAttribute.Prompt = false;
+			} else {
+			        usingLDAP = true;
 			}
 
 			return true;
