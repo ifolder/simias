@@ -41,6 +41,7 @@ namespace iFolder.WebService
 			"Feb",
 			"Mar",
 			"Apr",
+			"May",
 			"Jun",
 			"Jul",
 			"Aug",

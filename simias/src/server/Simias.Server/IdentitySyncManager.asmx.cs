@@ -168,6 +168,7 @@ namespace Simias.IdentitySync
 			"Feb",
 			"Mar",
 			"Apr",
+			"May",
 			"Jun",
 			"Jul",
 			"Aug",
