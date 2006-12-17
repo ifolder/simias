@@ -1,0 +1,5 @@
+2006-12-18  B S Srinidhi  <srinidhi@novell.com>
+
+	* linux/simias.spec.autobuild: Updated the %files section to reflect
+	the current directory structure. Removed the post-install and
+	post-uninstall scriptlets.
