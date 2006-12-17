@@ -1,3 +1,7 @@
+2006-12-12  Johnny Jacob  <jjohnny@novell.com>
+
+	*setup/SimiasServerSetup.cs : s/SimiasDataPath/SimiasDataDir .
+	
 2006-12-11  Johnny Jacob  <jjohnny@novell.com>
 
 	* setup/SimiasServerSetup.cs : set 'usingLDAP' varible based on

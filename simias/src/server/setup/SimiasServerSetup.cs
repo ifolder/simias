@@ -929,7 +929,7 @@ namespace Novell.iFolder
 					writer.WriteLine();
 					writer.WriteLine("Alias /{0} \"{1}\"", alias, SimiasSetup.webdir);
 					writer.WriteLine("AddMonoApplications {0} \"/{0}:{1}\"", alias, SimiasSetup.webdir);
-					writer.WriteLine("MonoSetEnv {0} \"SimiasRunAsServer=true;SimiasDataPath={1}\"", alias, this.storePath);
+					writer.WriteLine("MonoSetEnv {0} \"SimiasRunAsServer=true;SimiasDataDir={1}\"", alias, this.storePath);
 					writer.WriteLine("<Location /{0} >", alias);
 					writer.WriteLine("\tMonoSetServerAlias {0}", alias);
 					writer.WriteLine("\tOrder allow,deny");
