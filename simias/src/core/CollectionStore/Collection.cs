@@ -2753,7 +2753,7 @@ namespace Simias.Storage
 			}
 
 			return node;
-	
+		}	
 
 		/// <summary>
 		/// Get all Node objects that have the specified name.
