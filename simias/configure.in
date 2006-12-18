@@ -653,8 +653,6 @@ src/core/SyncService/Makefile
 src/core/libsimias/Makefile
 src/server/Makefile
 src/server/Simias.config
-src/server/simias-server.cmd
-src/server/simias-server
 src/server/setup/Makefile
 src/server/Simias.HttpFile/Makefile
 src/server/Simias.Rss/Makefile

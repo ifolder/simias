@@ -1,3 +1,9 @@
+2006-12-19  B S Srinidhi  <srinidhi@novell.com>
+
+	* linux/simias.spec.autobuild: Added xsp into BuildRequires as well
+	as "# neededforbuild" tags. Fixed the typo in naming the xsp package
+	in Requires tag.
+
 2006-12-18  B S Srinidhi  <srinidhi@novell.com>
 
 	* linux/simias.spec.autobuild: Updated the %files section to reflect

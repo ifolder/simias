@@ -8,9 +8,9 @@
 # Please submit bugfixes or comments via http://bugs.opensuse.org
 #
 # norootforbuild
-# neededforbuild  libstdc++-devel libstdc++ compat-libstdc++ gcc-c++ mono-devel mono-core mono-data mono-web pkgconfig libxml2 libxml2-devel glib2 glib2-devel e2fsprogs e2fsprogs-devel log4net libflaim libflaim-devel
+# neededforbuild  libstdc++-devel libstdc++ compat-libstdc++ gcc-c++ mono-devel mono-core mono-data mono-web pkgconfig libxml2 libxml2-devel glib2 glib2-devel e2fsprogs e2fsprogs-devel log4net libflaim libflaim-devel xsp
 
-BuildRequires: libstdc++-devel libstdc++ compat-libstdc++ gcc-c++ mono-devel mono-core mono-data mono-web pkgconfig libxml2 libxml2-devel glib2 glib2-devel e2fsprogs e2fsprogs-devel log4net libflaim libflaim-devel
+BuildRequires: libstdc++-devel libstdc++ compat-libstdc++ gcc-c++ mono-devel mono-core mono-data mono-web pkgconfig libxml2 libxml2-devel glib2 glib2-devel e2fsprogs e2fsprogs-devel log4net libflaim libflaim-devel xsp
 
 Name:         simias
 %define buildnum @@BUILDNUM@@
@@ -24,7 +24,7 @@ Requires:     mono-core >= 1.1.13
 Requires:     mono-data >= 1.1.13
 Requires:     mono-web >= 1.1.13
 Requires:     log4net
-Requires:     mono-xsp >= 1.1.18
+Requires:     xsp >= 1.1.18
 Obsoletes:    %{name} < %{version}
 Version:      1.5.@@BUILDNUM@@.1
 Release:      1
