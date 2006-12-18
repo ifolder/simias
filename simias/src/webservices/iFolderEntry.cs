@@ -707,6 +707,33 @@ namespace iFolder.WebService
 				throw new EntryInvalidNameException(name);
 			}
 		}
+		
+		/// <summary>
+		/// set the lenghth of the file from web access
+		/// </summary>
+		public static void SetFileLength(string ifolderID, string entryID,  string accessID, long length)
+		{
+			Store store = Store.GetStore();
+
+			Collection c = store.GetCollectionByID(ifolderID);
+
+			if (c == null)
+			{
+				throw new iFolderDoesNotExistException(ifolderID);
+			}
+
+			iFolder.Impersonate(c, accessID);
+
+			Node n = c.GetNodeByID(entryID);
+
+			if (n == null)
+			{
+				throw new EntryDoesNotExistException(entryID);
+			}
+			
+			FileNode fileNode = (FileNode)FileNode.NodeFactory(c, n);
+			fileNode.Length =  length;
+		}
 	}
 
 	/// <summary>

@@ -37,6 +37,8 @@ using System.IO;
 using System.Net;
 using System.Web.Services.Protocols;
 using System.Xml;
+using System.Text;
+using Simias.Encryption;
 
 namespace Novell.iFolderApp.Web
 {
@@ -91,6 +93,11 @@ namespace Novell.iFolderApp.Web
 		private string entryID;
 
 		/// <summary>
+		/// EncryptionAlgorithm
+		/// </summary>
+		private  string EncryptionAlgorithm;
+
+		/// <summary>
 		/// Page Load
 		/// </summary>
 		/// <param name="sender"></param>
@@ -106,6 +113,9 @@ namespace Novell.iFolderApp.Web
 
 			// localization
 			rm = (ResourceManager) Application["RM"];
+
+			iFolder ifolder = web.GetiFolder(ifolderID);
+			EncryptionAlgorithm = ifolder.EncryptionAlgorithm;
 			
 			if (!IsPostBack)
 			{
@@ -139,6 +149,9 @@ namespace Novell.iFolderApp.Web
 				}
 				
 				ParentPath.Text = entry.Path;
+				
+				//Enable SSL in web access can be configured by the admin
+				// SSL property is used only for thick client to server communication and vice versa
 			}
 			catch(SoapException ex)
 			{
@@ -250,8 +263,7 @@ namespace Novell.iFolderApp.Web
 					UploadFile(Request.Files[name]);
 				}
 
-				// redirect
-				Response.Redirect(String.Format("Browse.aspx?iFolder={0}&Entry={1}", ifolderID, entryID));
+				Response.Redirect(String.Format("Browse.aspx?iFolder={0}&Entry={1}&Alg={2}", ifolderID, entryID, EncryptionAlgorithm));
 			}
 			catch(Exception ex)
 			{
@@ -261,6 +273,22 @@ namespace Novell.iFolderApp.Web
 
 		private void UploadFile(HttpPostedFile file)
 		{
+			//Blowfish Algorithm assumed here
+			Blowfish	bf=null;
+			int		boundary=0;
+			int 		count=0;
+			bool 	EncryptionEnabled = true;
+			
+			if(EncryptionAlgorithm == "")
+					EncryptionEnabled = false;				
+			
+			if(EncryptionEnabled)
+			{
+				UTF8Encoding utf8 = new UTF8Encoding();
+				bf = new Blowfish(utf8.GetBytes("123456789012345"));
+				boundary = 8;
+			}
+
 			// filename
 			// KLUDGE: Mono no longer recognizes backslash as a directory seperator
 			// Path.GetFileName() is not usable here for that reason
@@ -283,12 +311,16 @@ namespace Novell.iFolderApp.Web
 			// put
 			UriBuilder uri = new UriBuilder(web.Url);
 			
-			uri.Path = String.Format("/simias10/Upload.ashx?iFolder={0}&Path={1}",
-				ifolderID, path);
+			uri.Path = String.Format("/simias10/Upload.ashx?iFolder={0}&Path={1}&Length={2}",
+				ifolderID, path, file.ContentLength.ToString());
 
 			HttpWebRequest webRequest = (HttpWebRequest) WebRequest.Create(uri.Uri);
 			webRequest.Method = "PUT";
-			webRequest.ContentLength = file.ContentLength;
+			count = file.ContentLength;
+			if(EncryptionEnabled && (count %boundary !=0))
+				count += boundary - (count %boundary);
+			webRequest.ContentLength = count;
+			
 			webRequest.PreAuthenticate = true;
 			webRequest.Credentials = web.Credentials;
 			webRequest.CookieContainer = web.CookieContainer;
@@ -301,12 +333,18 @@ namespace Novell.iFolderApp.Web
 			try
 			{
 				byte[] buffer = new byte[BUFFERSIZE];
-
-				int count;
-				
+					
 				while((count = stream.Read(buffer, 0, buffer.Length)) > 0)
 				{
+					if(EncryptionEnabled)
+					{
+						if(count %boundary !=0)
+							count += boundary - (count %boundary);
+
+						bf.Encipher(buffer, count);
+					}					
 					webStream.Write(buffer, 0, count);
+					
 					webStream.Flush();
 				}
 			}
@@ -318,6 +356,16 @@ namespace Novell.iFolderApp.Web
 
 			// response
 			webRequest.GetResponse().Close();
+
+			//Set the file length here
+			try
+			{
+				//web.SetFileLength(ifolderID, entryID, file.ContentLength);
+			}
+			catch(SoapException ex)
+			{
+				if (!HandleException(ex)) throw;
+			}
 		}
 
 		/// <summary>

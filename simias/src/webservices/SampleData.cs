@@ -179,8 +179,8 @@ namespace iFolder.WebService
 
 			try
 			{
-				iFolder ifolder = iFolder.CreateiFolder(name, owner, name, owner);
-				id = ifolder.ID;
+				//iFolder ifolder = iFolder.CreateiFolder(name, owner, name, owner);
+				//id = ifolder.ID;
 			}
 			catch
 			{

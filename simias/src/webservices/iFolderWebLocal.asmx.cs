@@ -41,14 +41,14 @@ namespace iFolder.WebService
 
 	        enum Securitystate
         	{
-                	encrypt = 1,
-	                enforceEncrypt = 2,
-        	        encryptionState = 3,
-                	SSL = 4,
-	                enforceSSL = 8,
-        	        SSLState = 12,
-                	UserEncrypt = 16,
-	                UserSSL = 32
+			encrypt = 1,
+			enforceEncrypt = 2,
+			encryptionState = 3,
+			SSL = 4,
+			enforceSSL = 8,
+			SSLState = 12,
+			UserEncrypt = 16,
+			UserSSL = 32
         	}
 
 		#region Constructors
@@ -100,7 +100,7 @@ namespace iFolder.WebService
 		[WebMethod(
 			 Description="Create a new iFolder with the authenticated user as the owner.",
 			 EnableSession=true)]
-		public virtual iFolder CreateiFolder(string name, string description)
+		public virtual iFolder CreateiFolder(string name, string description, bool ssl, string encryptionAlgorithm)
 		{
 			iFolder result = null;
 
@@ -110,7 +110,7 @@ namespace iFolder.WebService
 
 				string accessID = GetAccessID();
 
-				result = iFolder.CreateiFolder(name, accessID, description, accessID);
+				result = iFolder.CreateiFolder(name, accessID, description, accessID, ssl, encryptionAlgorithm);
 			}
 			catch(Exception e)
 			{
@@ -289,27 +289,10 @@ namespace iFolder.WebService
 			return result;
 		}
 
-//Added by Ramesh
-
-
-                private int DeriveStatus(int system, int user, int preference)
-                {
-                        if( preference != 0)    // server wins
-                        {
-                                if(system != 0)
-                                        return system;
-                                return user;
-                        }
-                        else                    // user wins
-                        {
-                                if(user != 0)
-                                        return user;
-                                return system;
-                        }
-                }
-
-
-
+		/// <summary>
+		/// Get the policy for an iFolder.
+		/// </summary>
+		/// <param name="policy">The iFolderPolicy object.</param>
 		[WebMethod(
 			 Description="Get policy information for an iFolder.",
 			 EnableSession=true)]
@@ -317,34 +300,23 @@ namespace iFolder.WebService
 		{
 			UserPolicy user = null;
 			SystemPolicy system = null;
+			int SysEncrPolicy = 0, UserEncrPolicy = 0, securityStatus = 0;
 			try
 			{
-				int SysEncrPolicy, UserEncrPolicy, securityStatus=0;
 				string accessID = GetAccessID();
 				user = UserPolicy.GetPolicy(accessID);
 				system = SystemPolicy.GetPolicy();
 				UserEncrPolicy = user.EncryptionStatus;
 				SysEncrPolicy = system.EncryptionStatus;
 
-                                securityStatus += DeriveStatus( (SysEncrPolicy & (int)Securitystate.encryptionState), (UserEncrPolicy &(int)Securitystate.encryptionState ), (UserEncrPolicy & (int)Securitystate.UserEncrypt));
-                                securityStatus += DeriveStatus( (SysEncrPolicy & (int)Securitystate.SSLState), (UserEncrPolicy & (int)Securitystate.SSLState), (UserEncrPolicy & (int)Securitystate.UserSSL));
-				/*
-                                securityStatus += DeriveStatus(SysEncrPolicy%4, UserEncrPolicy%4, (UserEncrPolicy & 0x10000));
-                                SysEncrPolicy = SysEncrPolicy/4;
-                                UserEncrPolicy = UserEncrPolicy/4;
-                                securityStatus += 4*(DeriveStatus(SysEncrPolicy%4, UserEncrPolicy%4, UserEncrPolicy & 0x100000));
-				*/
-				return securityStatus;
-
-				
+				securityStatus += DeriveStatus( (SysEncrPolicy & (int)Securitystate.encryptionState), (UserEncrPolicy &(int)Securitystate.encryptionState ), (UserEncrPolicy & (int)Securitystate.UserEncrypt));
+				securityStatus += DeriveStatus( (SysEncrPolicy & (int)Securitystate.SSLState), (UserEncrPolicy & (int)Securitystate.SSLState), (UserEncrPolicy & (int)Securitystate.UserSSL));
 			}
 			catch(Exception e)
 			{
 				SmartException.Throw(e);
 			}
-			return 0;
-			
-			
+			return securityStatus;
 		}
 
 
@@ -733,6 +705,24 @@ namespace iFolder.WebService
 				SmartException.Throw(e);
 			}
 		}
+		
+		/// set the file length
+		/// </summary>
+		/// <param name="file">The file handle.</param>
+		[WebMethod(
+			 Description="Set the basefile node length.",
+			 EnableSession=true)]
+		public virtual void SetFileLength(string ifolderID, string nodeID, long length)
+		{
+			try
+			{
+				iFolderEntry.SetFileLength(ifolderID, nodeID, GetAccessID(), length);		
+			}
+			catch(Exception e)
+			{
+				SmartException.Throw(e);
+			}
+		}
 
 		#endregion
 
@@ -769,6 +759,27 @@ namespace iFolder.WebService
 		protected override void Authorize()
 		{
 			// no authorization needed
+		}
+
+		/// <summary>
+		/// Get the policy for an iFolder.
+		/// </summary>
+		/// <param name="policy">The iFolderPolicy object.</param>
+		private int DeriveStatus(int system, int user, int preference)
+		{
+			//Preference is not done
+			if( preference != 0)
+			{
+				if(system != 0)
+				    return system;
+				return user;
+			}
+			else
+			{
+				if(user != 0)
+				    return user;
+				return system;
+			}
 		}
 
 		#endregion

@@ -68,7 +68,11 @@
 				
 				<div class="label"><%= GetString("DESCRIPTION") %></div>
 				<asp:TextBox ID="NewiFolderDescription" TextMode="MultiLine" Rows="4" onkeydown="return SubmitKeyDown(event, 'CreateButton');" runat="server" />
-	
+		
+				<div class="label"><%= "Security " %></div>
+				<asp:CheckBox ID="Encryption" runat="server" />
+				<asp:CheckBox ID="ssl" runat="server" />
+				
 				<div class="buttons">
 					<asp:Button ID="CreateButton" runat="server" />
 					<asp:Button ID="CancelButton" runat="server" />

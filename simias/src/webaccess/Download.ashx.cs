@@ -28,6 +28,8 @@ using System.Web.SessionState;
 using System.Net;
 using System.Resources;
 using System.Text;
+using Simias.Encryption;
+//using iFolder.WebService;
 
 namespace Novell.iFolderApp.Web
 {
@@ -56,9 +58,13 @@ namespace Novell.iFolderApp.Web
 		/// <param name="context">The HttpContext object</param>
 		public void ProcessRequest(HttpContext context)
 		{
+			Blowfish	bf=null;
+		  	int		boundary=0;
+			int 		count=0;
+			long		bytesWritten = 0;
 			// query
 			string ifolderID = context.Request.QueryString["iFolder"];
-			string entryID = context.Request.QueryString["Entry"];
+			string entryID = context.Request.QueryString["Entry"];			
 			
 			try
 			{
@@ -99,16 +105,35 @@ namespace Novell.iFolderApp.Web
 				context.Response.ContentType = "application/octet-stream";
 				context.Response.BufferOutput = false;
 
+				iFolder ifolder = web.GetiFolder(ifolderID);
+				iFolderEntry nodeEntry = web.GetEntry(ifolderID, entryID);
+
+				if(ifolder.EncryptionAlgorithm !="")
+				{
+					UTF8Encoding utf8 = new UTF8Encoding();
+					bf = new Blowfish(utf8.GetBytes("123456789012345"));
+					boundary =8;
+				}
+
 				try
 				{
 					Stream output = context.Response.OutputStream;
 
 					byte[] buffer = new byte[BUFFERSIZE];
-					int count = 0;
 
 					while((count = webStream.Read(buffer, 0, BUFFERSIZE)) > 0)
-					{
+					{					
+						if(ifolder.EncryptionAlgorithm !="")
+						{
+							bf.Decipher (buffer, count);
+							
+							if((bytesWritten+count) > nodeEntry.Size)
+								count = count -(boundary - (int)(nodeEntry.Size % boundary));
+							
+						}														
 						output.Write(buffer, 0, count);
+
+						bytesWritten +=count;
 						output.Flush();
 					}
 				}

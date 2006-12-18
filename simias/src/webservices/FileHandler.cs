@@ -88,6 +88,12 @@ namespace iFolder.WebService
 		protected string filePath;
 
 		/// <summary>
+		/// File length
+		/// </summary>
+		protected long Length;
+		
+
+		/// <summary>
 		/// Access Log
 		/// </summary>
 		protected SimiasAccessLogger log;
@@ -117,6 +123,7 @@ namespace iFolder.WebService
 			ifolderID = context.Request.QueryString["iFolder"];
 			entryID = context.Request.QueryString["Entry"];
 			entryPath = context.Request.QueryString["Path"];
+				
 			
 			// authentication
 			accessID = context.User.Identity.Name;

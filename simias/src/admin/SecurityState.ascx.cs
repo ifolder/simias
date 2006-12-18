@@ -224,10 +224,6 @@ namespace Novell.iFolderWeb.Admin
 		/// <param name="policy">System policy object</param>
 		public void GetEncryptionPolicy( SystemPolicy policy )
 		{
-		//	EncryptNav.Visible = true;
-//			if( !Enabled.Checked )
-//				return;
-
 			int securityStatus = policy.EncryptionStatus;
 			encryption.Checked = enforceEncryption.Checked = ssl.Checked = enforceSSL.Checked = false;
 			int status = securityStatus & (int) Encryption.Encrypt;
@@ -267,10 +263,6 @@ namespace Novell.iFolderWeb.Admin
 		/// <param name="policy">User policy object</param>
 		public void GetEncryptionPolicy( UserPolicy policy )
 		{
-	//		EncryptNav.Visible = false;
-	//		Enabled.Checked = !policy.LoginEnabled;
-//			if( !Enabled.Checked )
-//				return;
 			int securityStatus = policy.EncryptionStatus;
 			int status;
 			encryption.Checked = enforceEncryption.Checked = ssl.Checked = enforceSSL.Checked = false;
@@ -311,10 +303,6 @@ namespace Novell.iFolderWeb.Admin
 		/// <param name="policy">User policy where the account information will be set.</param>
 		public void SetEncryptionPolicy( SystemPolicy policy )
 		{
-		//	policy.LoginEnabled = !Enabled.Checked;
-	// Added by ramesh
-//			if(!Enabled.Checked)
-//				return;
 			int securityStatus=0;
 			if( encryption.Checked)
 				securityStatus += (int) Encryption.Encrypt; //1;
@@ -329,10 +317,6 @@ namespace Novell.iFolderWeb.Admin
 
 		public void SetEncryptionPolicy( UserPolicy policy )
 		{
-		//	policy.LoginEnabled = !Enabled.Checked;
-	// Added by ramesh
-//			if(!Enabled.Checked)
-//				return;
 			int securityStatus=0;
 			if( encryption.Checked)
 				securityStatus += (int)Encryption.Encrypt; //1;

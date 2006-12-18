@@ -435,6 +435,8 @@ namespace Simias.Sync
 			long	sizeRemaining;
 			int	blockSize;
 			Blowfish bf = null;
+			string EncryptionAlgorithm = "";
+			int boundary = 0;
 		
 			long[] fileMap = GetDownloadFileMap(out sizeToSync, out blockSize);
 			//Size need to be synced from server
@@ -460,22 +462,19 @@ namespace Simias.Sync
 					DownloadSegment.AddToArray(downloadMap, new DownloadSegment(i), blockSize);
 				}
 			}
-			bool Encrypted = false;
-			int value=0;
-			int boundary=0;
-			string EncryptionType;
-                     	Property p = collection.Properties.FindSingleValue(PropertyTags.SecurityStatus);
-			value = (p!=null) ? (int) p.Value : 0; 
-			value=value & 1;//replace with enum type
-			if(value != 0) Encrypted = true;
-			if(Encrypted == true)
+			
+			Property p = collection.Properties.FindSingleValue(PropertyTags.EncryptionType);
+			EncryptionAlgorithm = (p!=null) ? (string) p.Value as string : "";
+			
+			if(EncryptionAlgorithm != "")	
 			{
-				UTF8Encoding utf8 = new UTF8Encoding();
-				bf = new Blowfish(utf8.GetBytes(node.ID));
-				p = collection.Properties.FindSingleValue(PropertyTags.EncryptionType);
-	                        EncryptionType = (p!=null) ? (string) p.Value : "";
-        	                if(EncryptionType == "BlowFish")
-                        	        boundary=8;
+				// Only blowfish is supported
+				if(EncryptionAlgorithm == "BlowFish")
+				{
+					UTF8Encoding utf8 = new UTF8Encoding();
+					bf = new Blowfish(utf8.GetBytes("123456789012345"));
+					boundary = 8;
+				}
 			}
 			
 			// Get the file blocks from the server.
@@ -491,7 +490,7 @@ namespace Simias.Sync
 
 					WritePosition = (long)seg.StartBlock * (long)blockSize;
 					
-					if(Encrypted == true)	
+					if(EncryptionAlgorithm != "")	
 					{
 						byte [] inStream_byteArr = new byte[bytesToWrite];
 
@@ -551,26 +550,24 @@ namespace Simias.Sync
 		private long[] GetDownloadFileMap(out long sizeToSync, out int blockSize)
 		{
 			// Since we are doing the diffing on the client we will download all blocks that
-                        // don't match.
-                        table.Clear();
-                        HashData[] serverHashMap;
-                        long[] fileMap;
-                        blockSize = 0;
+			// don't match.
+			table.Clear();
+			HashData[] serverHashMap;
+			long[] fileMap;
+			blockSize = 0;
 			long remainingBytes;
 			bool Encrypted = false;
-                        int value=0;
-			string EncryptionType;
+			bool value=false;
+			string EncryptionType="";
 			int boundary=0;			
 
-                        Property p = collection.Properties.FindSingleValue(PropertyTags.SecurityStatus);
-                        value = (p!=null) ? (int) p.Value : 0;
-			value = value & 1;//replace with enum
-                        if(value != 0) Encrypted = true;
-
-			p = collection.Properties.FindSingleValue(PropertyTags.EncryptionType);
-                        EncryptionType = (p!=null) ? (string) p.Value : "";
-                        if(EncryptionType == "BlowFish")
+			Property p = collection.Properties.FindSingleValue(PropertyTags.EncryptionType);
+			EncryptionType = (p!=null) ?  p.Value as string : "";
+			if(EncryptionType == "BlowFish")
+			{
+				Encrypted =  true;
 				boundary=8;
+			}
 
                         if (ReadStream != null)
                                 serverHashMap = syncService.GetHashMap(out blockSize);
@@ -836,6 +833,7 @@ namespace Simias.Sync
 			ArrayList copyArray;
 			ArrayList writeArray;
 			int blockSize;
+			string EncryptionAlgorithm="";
 			GetUploadFileMap(out sizeToSync, out copyArray, out writeArray, out blockSize);
 			sizeRemaining = sizeToSync;
 			
@@ -845,13 +843,9 @@ namespace Simias.Sync
 			{
 				syncService.CopyFile(copyArray, blockSize);
 			}
-			bool Encrypted=false;
-			int value=0;
-			Property p = collection.Properties.FindSingleValue(PropertyTags.SecurityStatus);
-                        value = (p!=null) ? (int) p.Value : 0;
-                        value = value & 1;//replace with enum
-                        if(value == 1) Encrypted = true;
-
+			
+			Property p = collection.Properties.FindSingleValue(PropertyTags.EncryptionType);
+			EncryptionAlgorithm = (p!=null) ? (string) p.Value as string : "";
 			
 			foreach(OffsetSegment seg in writeArray)
 			{
@@ -867,8 +861,8 @@ namespace Simias.Sync
 						if (stopping)
 							break;
 						int bytesToSend = (int)Math.Min(MaxXFerSize, leftToSend);
-						if(Encrypted)		
-							syncService.WriteFile(OutStream, ReadPosition, bytesToSend, node.ID);
+						if(EncryptionAlgorithm != "")	
+							syncService.WriteFile(OutStream, ReadPosition, bytesToSend, EncryptionAlgorithm);
 						else
 							syncService.WriteFile(OutStream, ReadPosition, bytesToSend, null);
 			

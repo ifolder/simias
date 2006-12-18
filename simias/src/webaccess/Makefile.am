@@ -34,7 +34,9 @@ iFolderWeb_CSFILES = \
 	$(srcdir)/UploadStream.cs \
 	$(srcdir)/WebLogger.cs \
 	$(srcdir)/WebSettings.cs \
-	$(srcdir)/WebUtility.cs
+	$(srcdir)/WebUtility.cs \
+	$(srcdir)/../core/Encryption/Blowfish.cs
+
 	
 iFolderWeb_CSFILES_CSC := $(subst /,$(SEP),$(iFolderWeb_CSFILES))
 

@@ -155,6 +155,16 @@ namespace iFolder.WebService
 		internal static readonly string iFolderCollectionType = "iFolder";
 
 		/// <summary>
+		/// bitmap has encryption and SSL state for the ifolder
+		/// </summary>
+		public uint IfolderSecurity = 0;
+
+		/// <summary>
+		/// If encryption enabled, the algorithm type
+		/// </summary>
+		public string EncryptionAlgorithm = "";
+		
+		/// <summary>
 		/// Constructor
 		/// </summary>
 		public iFolder()
@@ -191,6 +201,9 @@ namespace iFolder.WebService
 			this.OwnerUserName = domainMember.Name;
 			string fullName = domainMember.FN;
 			this.OwnerFullName = (fullName != null) ? fullName : this.OwnerUserName;
+
+			//Only algorithm is needed by the middle tier, ssl can be configured by the admin
+			this.EncryptionAlgorithm = c.EncryptionAlgorithm;
 		}
 
 		/// <summary>
@@ -201,14 +214,14 @@ namespace iFolder.WebService
 		/// <param name="description">The iFolder Description</param>
 		/// <param name="accessID">The Access ID</param>
 		/// <returns>An iFolder Object</returns>
-		public static iFolder CreateiFolder(string name, string userID, string description, string accessID)
+		public static iFolder CreateiFolder(string name, string userID, string description, string accessID, bool ssl, string encryptionAlgorithm)
 		{
 			// NOTE: because the name of the iFolder will also be the
 			// name of entry, we must check it
 			iFolderEntry.CheckName(name);
 
 			Collection c = SharedCollection.CreateSharedCollection(
-				name, null, userID, iFolderCollectionType, true, null, description, accessID);
+				name, null, ssl, userID, iFolderCollectionType, true, null, description, accessID, encryptionAlgorithm);
 
 			return new iFolder(c, null);
 		}

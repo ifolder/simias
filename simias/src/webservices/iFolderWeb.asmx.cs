@@ -353,9 +353,9 @@ namespace iFolder.WebService
 		[WebMethod(
 			 Description="Create a new iFolder with the authenticated user as the owner.",
 			 EnableSession=true)]
-		public override iFolder CreateiFolder(string name, string description)
+		public override iFolder CreateiFolder(string name, string description, bool ssl, string EncryptionAlgorithm)
 		{
-			return base.CreateiFolder(name, description);
+			return base.CreateiFolder(name, description, ssl,EncryptionAlgorithm);
 		}
 
 		/// <summary>
@@ -667,6 +667,18 @@ namespace iFolder.WebService
 		public override void CloseFile(string file)
 		{
 			base.CloseFile(file);
+		}
+
+		/// <summary>
+		/// Set the file length
+		/// </summary>
+		/// <param name="file">The file handle.</param>
+		[WebMethod(
+			 Description="Close an openned iFolder file entry.",
+			 EnableSession=true)]
+		public override void SetFileLength(string ifolderID, string nodeID, long length)
+		{
+			base.SetFileLength( ifolderID,  nodeID,  length);
 		}
 
 		#endregion

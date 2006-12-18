@@ -93,8 +93,16 @@ namespace Simias.Storage
 		/// </summary>
 		private string lockString = null;
 
-		private int securityStatus;
-		private string passphrase;
+		/// <summary>
+		/// folder security (encryption and SSL)
+		/// </summary>
+		private bool ssl;
+
+		/// <summary>
+		/// Encryption Algorithm type
+		/// </summary>
+		private string encryptionAlgorithm;
+		
 
 		#endregion
 
@@ -142,16 +150,30 @@ namespace Simias.Storage
 				return domainID;
 			}
 		}
-
-		public int SecurityStatus
+		
+		/// <summary>
+		/// Gets the SSL
+		/// </summary>
+		public bool SSL
 		{
 			get
 			{
-				// TODO: have a enum instead of hardcoded values
-				int securityStatus = 0;
 				Property p = properties.FindSingleValue(PropertyTags.SecurityStatus);
-				securityStatus = (p!=null) ? (int) p.Value : 0;
-				return securityStatus;
+				bool ssl = (p!=null) ? (bool) p.Value : false;
+				return ssl;
+			}
+		}
+		
+		/// <summary>
+		/// Gets the encryption algorithm
+		/// </summary>
+		public string EncryptionAlgorithm
+		{
+			get
+			{
+				Property p = properties.FindSingleValue(PropertyTags.EncryptionType);
+				string encryptionAlgorithm = (p!=null) ? (string) p.Value as string : "";
+				return encryptionAlgorithm;
 			}
 		}
 
@@ -513,8 +535,8 @@ namespace Simias.Storage
 		}
 
 		//TODO: add comment
-		public Collection( Store storeObject, string collectionName, string domainID, int securityStatus ) :
-			this ( storeObject, collectionName, Guid.NewGuid().ToString(), domainID, securityStatus )
+		public Collection( Store storeObject, string collectionName, string domainID, bool ssl, string encryptionAlgorithm ) :
+			this ( storeObject, collectionName, Guid.NewGuid().ToString(), domainID, ssl, encryptionAlgorithm)
 		{
 		}
 
@@ -556,8 +578,8 @@ namespace Simias.Storage
 		}
 
 
-		public Collection( Store storeObject, string collectionName, string collectionID, string domainID, int securityStatus ) :
-			this( storeObject, collectionName, collectionID, NodeTypes.CollectionType, domainID, securityStatus )
+		public Collection( Store storeObject, string collectionName, string collectionID, string domainID, bool ssl, string encryptionAlgorithm) :
+			this( storeObject, collectionName, collectionID, NodeTypes.CollectionType, domainID, ssl, encryptionAlgorithm )
 		{
 		}
 
@@ -588,12 +610,12 @@ namespace Simias.Storage
 			createManagedPath = !Directory.Exists( ManagedPath );
 		}
 
-		internal protected Collection( Store storeObject, string collectionName, string collectionID, string collectionType, string domainID, int securityStatus ) :
+		internal protected Collection( Store storeObject, string collectionName, string collectionID, string collectionType, string domainID, bool ssl, string encryptionAlgorithm) :
 			base( collectionName, collectionID, collectionType)
 		{
-			string defaultAlg="BlowFish";
 			store = storeObject;
-			this.securityStatus = securityStatus;
+			this.ssl = ssl;
+			this.encryptionAlgorithm = encryptionAlgorithm;
 
 			// Don't allow this collection to be created, if one already exist by the same id.
 			if ( store.GetCollectionByID( id ) != null )
@@ -605,16 +627,10 @@ namespace Simias.Storage
 
 			// Add the domain ID as a property.
 			properties.AddNodeProperty( PropertyTags.DomainID, domainID );
-			/*	
-			if (securityStatus == 0)
-				 properties.AddNodeProperty( PropertyTags.SecurityStatus, securityStatus);
-			else if (securityStatus == 1)
-				properties.AddNodeProperty( PropertyTags.SSL, securityStatus);
-			*/
-			properties.AddNodeProperty(PropertyTags.SecurityStatus, securityStatus);
-//			if( securityStatus % 2 == 1)
-			if( (securityStatus & (int)Encryption.Encrypted) == (int)Encryption.Encrypted)
-				properties.AddNodeProperty(PropertyTags.EncryptionType, defaultAlg);
+
+			properties.AddNodeProperty(PropertyTags.SecurityStatus, ssl);
+
+			properties.AddNodeProperty(PropertyTags.EncryptionType, encryptionAlgorithm);
 
 			// Setup the access control for this collection.
 			accessControl = new AccessControl( this );
@@ -2737,7 +2753,7 @@ namespace Simias.Storage
 			}
 
 			return node;
-		}
+	
 
 		/// <summary>
 		/// Get all Node objects that have the specified name.

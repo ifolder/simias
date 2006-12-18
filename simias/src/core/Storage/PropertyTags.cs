@@ -88,8 +88,14 @@ namespace Simias.Storage
 		/// </summary>
 		static public string DomainID = "DomainID";
 
-
+		/// <summary>
+		/// Well known property name (bitmap, hosts encryption and SSL, new things can also be added here in future)
+		/// </summary>
 		static public string SecurityStatus = "SecurityStatus";
+
+		/// <summary>
+		/// Well known property name.
+		/// </summary>
 		static public string EncryptionType = "EncryptionType";
 
 		/// <summary>

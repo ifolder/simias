@@ -68,6 +68,16 @@ namespace Novell.iFolderApp.Web
 		protected TextBox NewiFolderDescription;
 
 		/// <summary>
+		/// Encrypt the file data
+		/// </summary>
+		protected CheckBox Encryption;
+
+		/// <summary>
+		/// ssl the thick client to server data transfer
+		/// </summary>
+		protected CheckBox ssl;
+
+		/// <summary>
 		/// iFolder Connection
 		/// </summary>
 		private iFolderWeb web;
@@ -76,6 +86,17 @@ namespace Novell.iFolderApp.Web
 		/// Resource Manager
 		/// </summary>
 		private ResourceManager rm;
+
+		/// <summary>
+		/// SSL
+		/// </summary>
+		bool SSL;
+
+		/// <summary>
+		/// Encry Algorithm (in future it can be selected from gui)
+		/// </summary>
+		string EncryptionAlgorithm="";
+		
 
 		/// <summary>
 		/// Page Load
@@ -95,6 +116,36 @@ namespace Novell.iFolderApp.Web
 				// strings
 				CreateButton.Text = GetString("CREATE");
 				CancelButton.Text = GetString("CANCEL");
+				//Localization need to be enabled
+				Encryption.Text = GetString("Encryption");
+				ssl.Text = GetString("Secure Data Transfer");
+				ChangeStatus();
+			}
+		}
+		
+		/// <summary>		
+		/// Get the policy from the server and displayed in the check box
+		/// </summary>
+		private void ChangeStatus()
+		{
+			int SecurityPolicy= web.GetEncryptionPolicy();
+
+			Encryption.Checked = ssl.Checked = false;
+			Encryption.Enabled = ssl.Enabled = false;
+			
+			if(SecurityPolicy !=0)
+			{
+				SecurityPolicy = SecurityPolicy >> 1;
+				if(SecurityPolicy%2 != 1)
+					Encryption.Enabled = true;
+				else
+					Encryption.Checked = true;
+				
+				SecurityPolicy = SecurityPolicy >> 2;
+				if(SecurityPolicy%2 !=1)
+					ssl.Enabled = true;
+				else
+					ssl.Checked = true;
 			}
 		}
 
@@ -179,11 +230,16 @@ namespace Novell.iFolderApp.Web
 			}
 
 			// create iFolder
-			iFolder ifolder;
-				
+			iFolder ifolder;				
 			try
 			{
-				ifolder = web.CreateiFolder(name, description);
+				if(Encryption.Checked == true)
+					EncryptionAlgorithm = "BlowFish";
+				if(ssl.Checked == true)
+					SSL = true;
+					
+				// Send the ifolder Name, Description, Security details and the encryption algorithm
+				ifolder = web.CreateiFolder(name, description, SSL, EncryptionAlgorithm);
 
 				// redirect
 				Response.Redirect("Browse.aspx?iFolder=" + ifolder.ID);

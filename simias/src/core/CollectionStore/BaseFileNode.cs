@@ -305,6 +305,28 @@ namespace Simias.Storage
 
 			return infoChanged;
 		}
+		public bool UpdateWebFileInfo( Collection collection, long length)
+		{
+			bool infoChanged = false;
+			if ( File.Exists( GetFullPath(collection) ) )
+			{
+				// Get the file information for this file and set it as properties in the object.
+				FileInfo fi = new FileInfo( GetFullPath(collection) );
+				Length = length;
+
+				// Don't update the creation time if it already exists.
+				if ( CreationTime == DateTime.MinValue )
+				{
+					CreationTime = fi.CreationTime;
+				}
+
+				LastAccessTime = fi.LastAccessTime;
+				LastWriteTime = fi.LastWriteTime;
+				infoChanged = true;
+			}
+
+			return infoChanged;
+		}
 		#endregion
 	}
 }

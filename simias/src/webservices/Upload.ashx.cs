@@ -58,6 +58,7 @@ namespace iFolder.WebService
 			{
 				// initialize
 				Initialize(context);
+				Length = int.Parse(context.Request.QueryString["Length"]);
 
 				// does member have write rights
 				if ((member.Rights != Access.Rights.Admin) && (member.Rights != Access.Rights.ReadWrite))
@@ -134,7 +135,8 @@ namespace iFolder.WebService
 					}
 
 					// update node
-					node.UpdateFileInfo(collection);
+					node.UpdateWebFileInfo(collection, Length);
+					//node.UpdateFileInfo(collection);
 					collection.Commit(node);
 
 					// log

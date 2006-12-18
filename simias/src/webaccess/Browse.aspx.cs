@@ -128,6 +128,7 @@ namespace Novell.iFolderApp.Web
 
 			// connection
 			web = (iFolderWeb)Session["Connection"];
+			iFolder ifolder = web.GetiFolder(ifolderID);
 
 			// localization
 			rm = (ResourceManager) Application["RM"];
@@ -146,7 +147,8 @@ namespace Novell.iFolderApp.Web
 
 				// links
 				NewFolderLink.NavigateUrl = String.Format("NewFolder.aspx?iFolder={0}&Entry={1}", ifolderID, entryID);
-				UploadFilesLink.NavigateUrl = String.Format("Upload.aspx?iFolder={0}&Entry={1}", ifolderID, entryID);
+				//UploadFilesLink.NavigateUrl = String.Format("Upload.aspx?iFolder={0}&Entry={1}", ifolderID, entryID);
+				UploadFilesLink.NavigateUrl = String.Format("Upload.aspx?iFolder={0}&Entry={1}&Alg={1}", ifolderID, entryID, ifolder.EncryptionAlgorithm);
 			}
 			else
 			{

@@ -45,8 +45,10 @@ namespace iFolder.WebService
 		/// The iFolder Sync Interval
 		/// </summary>
 		public int SyncInterval;
-// Added by Ramesh
 
+		/// <summary>
+		/// The iFolder Sync Interval
+		/// </summary>
 		public int EncryptionStatus;
 
 		/// <summary>

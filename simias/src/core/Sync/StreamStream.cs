@@ -229,7 +229,7 @@ namespace Simias.Sync
 		/// <param name="count">The number of bytes to read.</param>
 		/// <param name="encryption_key">The key string to encrypt the data.</param>
 		/// <returns>The number of bytes read.</returns>
-		public int Read(Stream outStream, int count, string encryption_key)
+		public int Read(Stream outStream, int count, string encryptionAlgorithm)
 		{
 			wStream = outStream;
 			int paddingLength = 0, reminder = 0;
@@ -242,8 +242,12 @@ namespace Simias.Sync
 				int bytesRead = stream.Read(buffer, 0, Math.Min(bytesLeft, buffer.Length));
 				if (bytesRead != 0)
 				{
+					//Blowfish is the default algorithm
+					if(encryptionAlgorithm != "BlowFish")
+						throw exception;
+					
 					UTF8Encoding utf8 = new UTF8Encoding();
-					Blowfish bf = new Blowfish(utf8.GetBytes(encryption_key));
+					Blowfish bf = new Blowfish(utf8.GetBytes("123456789012345"));
 					
 					reminder = (int) bytesRead % 8;
 					if (reminder != 0)
