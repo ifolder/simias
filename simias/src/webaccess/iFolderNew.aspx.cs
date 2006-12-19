@@ -42,6 +42,14 @@ namespace Novell.iFolderApp.Web
 	/// </summary>
 	public class iFolderNewPage : Page
 	{
+                enum SecurityState
+                {
+                        encryption = 1,
+                        enforceEncryption = 2,
+                        SSL = 4,
+                        enforceSSL = 8
+                }
+
 		/// <summary>
 		/// Message Box
 		/// </summary>
@@ -129,24 +137,26 @@ namespace Novell.iFolderApp.Web
 		private void ChangeStatus()
 		{
 			int SecurityPolicy= web.GetEncryptionPolicy();
+                        Encryption.Checked = ssl.Checked = false;
+                        Encryption.Enabled = ssl.Enabled = false;
 
-			Encryption.Checked = ssl.Checked = false;
-			Encryption.Enabled = ssl.Enabled = false;
-			
-			if(SecurityPolicy !=0)
-			{
-				SecurityPolicy = SecurityPolicy >> 1;
-				if(SecurityPolicy%2 != 1)
-					Encryption.Enabled = true;
-				else
-					Encryption.Checked = true;
-				
-				SecurityPolicy = SecurityPolicy >> 2;
-				if(SecurityPolicy%2 !=1)
-					ssl.Enabled = true;
-				else
-					ssl.Checked = true;
-			}
+                        if(SecurityPolicy !=0)
+                        {
+                                if( (SecurityPolicy & (int)SecurityState.encryption) == (int) SecurityState.encryption)
+                                {
+                                        if( (SecurityPolicy & (int)SecurityState.enforceEncryption) == (int) SecurityState.enforceEncryption)
+                                                Encryption.Checked = true;
+                                        else
+                                                Encryption.Enabled = true;
+                                }
+                                if( (SecurityPolicy & (int)SecurityState.SSL) == (int) SecurityState.SSL)
+                                {
+                                        if( (SecurityPolicy & (int)SecurityState.enforceSSL) == (int) SecurityState.enforceSSL)
+                                                ssl.Checked = true;
+                                        else
+                                                ssl.Enabled = true;
+                                }
+                        }
 		}
 
 		/// <summary>
