@@ -9,4 +9,5 @@
 
 	* Collection.cs: Modified constructors to support encryption. Added Property for security status
 
+	* Collection.cs : Added Property to retrieve and set the encryption algorithm
 

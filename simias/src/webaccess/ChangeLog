@@ -1,3 +1,11 @@
+2006-12-18  Arul Selvan	 <rarul@novell.com>
+
+	* iFolderNew.aspx : Added fields for supporting encryption and ssl features
+
+	* Upload.aspx.cs : Modified for uploading the files as per security requirement (encrypted or non-encrypted)
+
+	* Download.asmx.cs : Changes to download a files (both encrypted and non-encrypted)
+
 2006-11-20  Johnny Jacob  <jjohnny@novell.com>
 
 	* Login.aspx.cs : Find the homeserver URL and login.

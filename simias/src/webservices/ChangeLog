@@ -1,3 +1,7 @@
+2006-12-18  Arul Selvan  <rarul@novell.com>
+
+	* iFolderWebLocal.asmx.cx: Added a web method for setting actual file length 
+
 2006-12-15  Johnny Jacob  <jjohnny@novell.com>	
 
 	* LastSyncInfo.cs : MonthsOfYear. Added missing 'May'
