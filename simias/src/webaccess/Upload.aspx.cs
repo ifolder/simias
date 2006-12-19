@@ -261,7 +261,6 @@ namespace Novell.iFolderApp.Web
 				foreach(string name in Request.Files)
 				{
 					UploadFile(Request.Files[name]);
-					UploadHashMap(Request.Files[name]);
 				}
 
 				Response.Redirect(String.Format("Browse.aspx?iFolder={0}&Entry={1}&Alg={2}", ifolderID, entryID, EncryptionAlgorithm));
