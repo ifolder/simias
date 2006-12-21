@@ -220,20 +220,41 @@ namespace iFolder.WebService
 		        string publicUrl;
 			try
 			{
-			        iFolderServer MasterServer = GetMasterServer();
-			        DomainService domainService = new DomainService();
+			        Store store = Store.GetStore();
+				Domain domain = store.GetDomain(store.DefaultDomain);
 
-				domainService.Url = MasterServer.PublicUrl + "/DomainService.asmx";
-				domainService.Credentials = new NetworkCredential(username, password);
-				domainService.PreAuthenticate = true;
+				// find user
+				Member member = domain.GetMemberByName( username );
 
-				publicUrl = domainService.GetHomeServer( username ).PublicAddress;
+				if (member == null) throw new UserDoesNotExistException( username );
+
+				HostNode hNode = member.HomeServer;
+
+				if ( hNode == null )
+				{
+				        //User still not provisioned. Talk to Master Server.
+				        //Note : User provisioning is done only in master!!
+
+				        iFolderServer MasterServer = GetMasterServer();
+					DomainService domainService = new DomainService();
+
+					domainService.Url = MasterServer.PublicUrl + "/DomainService.asmx";
+					domainService.Credentials = new NetworkCredential(username, password);
+					domainService.PreAuthenticate = true;
+
+					publicUrl = domainService.GetHomeServer( username ).PublicAddress;
+				} else {
+				        //Yay!! User already provisioned.
+				        publicUrl = hNode.PublicUrl;
+				}
+
 
 			}
 			catch ( Exception ex )
 			{
 			        throw (ex);
 			}
+
 			return publicUrl;
 		}
 

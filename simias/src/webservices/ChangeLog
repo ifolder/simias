@@ -1,3 +1,8 @@
+2006-12-22  Johnny Jacob  <jjohnny@novell.com>
+
+	* iFolderServer.cs (GetHomeServerForUser) : Talk to Master only if
+	the user doesnt have a HomeServer.
+	
 2006-12-18  Arul Selvan  <rarul@novell.com>
 
 	* iFolderWebLocal.asmx.cx: Added a web method for setting actual file length 
