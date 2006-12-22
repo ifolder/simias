@@ -783,9 +783,8 @@ namespace Simias.Web
                                         // create a root dir node for this iFolder in the
                                         // ~/.local/shared/simias/SimiasFiles/<guid>/name
                                         // directory
-                                        dirNodePath = Path.Combine(Store.StorePath, FilesDirName);
-                                        dirNodePath = Path.Combine(dirNodePath, c.ID);
-                                        dirNodePath = Path.Combine(dirNodePath, Name);
+						dirNodePath = c.UnmanagedPath;
+						dirNodePath = Path.Combine(dirNodePath, Name);
 
                                         if(!Directory.Exists(dirNodePath) )
                                                 Directory.CreateDirectory(dirNodePath);
