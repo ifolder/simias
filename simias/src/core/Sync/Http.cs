@@ -691,7 +691,8 @@ namespace Simias.Sync.Http
 			// point the request stream
 			StreamStream ss = new StreamStream(request.GetRequestStream());
 			//write into the request stream
-			ss.Write(mapStream, length);		
+			ss.Write(mapStream, length);	
+			ss.Close();	
 			
 			// get the response
 			HttpWebResponse response = (HttpWebResponse)request.GetResponse();
@@ -753,7 +754,7 @@ namespace Simias.Sync.Http
 		/// </summary>
 		public void CloseFile()
 		{
-			CloseFile(false);
+			SyncNodeStatus stat = CloseFile(false);
 		}
 
 		/// <summary>
@@ -1198,6 +1199,8 @@ namespace Simias.Sync.Http
 		/// <param name="response">The HttpResponse.</param>
 		public void CloseFile(HttpRequest request, HttpResponse response)
 		{
+			try
+			{
 			BinaryReader reader = new BinaryReader(request.InputStream);
 			bool commit = reader.ReadBoolean();
 			SyncNodeStatus status = service.CloseFileNode(commit);
@@ -1206,6 +1209,10 @@ namespace Simias.Sync.Http
 			BinaryWriter writer = new BinaryWriter(response.OutputStream);
 			status.Serialize(writer);
 			writer.Close();
+			}
+			catch(Exception e)
+			{
+			}
 		}
 
 		/// <summary>
