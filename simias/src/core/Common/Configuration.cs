@@ -44,8 +44,25 @@ namespace Simias
 		private const string NameAttr = "name";
 		private const string ValueAttr = "value";
 		private const string DefaultSection = "SimiasDefault";
+		public string ConfigPath;
+		private static string defaultConfigPath;
 
 		private XmlDocument configDoc;
+		public static string DefaultPath
+		{
+			get
+			{
+				return defaultConfigPath;
+			}
+		}
+
+		public static string DefaultFilePath
+		{
+			get
+			{
+				return defaultConfigPath;
+			}
+		}
 
 		#endregion
 
@@ -59,7 +76,7 @@ namespace Simias
 		public Configuration( string storePath, bool isServer )
 		{
 			// The server's Simias.config file must always be in the data directory.
-			string configFilePath = Path.Combine( storePath, DefaultConfigFileName );
+			defaultConfigPath = ConfigPath = Path.Combine( storePath, DefaultConfigFileName );
 			
 			if ( !isServer )
 			{
@@ -67,9 +84,9 @@ namespace Simias
 				{
 					// See if there is an overriding Simias.config file in the client's data
 					// directory. If not, then get the global copy.
-					if ( !File.Exists( configFilePath ) || !IsValidConfigurationFile( configFilePath ) )
+					if ( !File.Exists( ConfigPath ) || !IsValidConfigurationFile( ConfigPath ) )
 					{
-						configFilePath = Path.Combine( SimiasSetup.simiasconfdir, DefaultConfigFileName );
+						ConfigPath = Path.Combine( SimiasSetup.simiasconfdir, DefaultConfigFileName );
 					}
 					else
 					{
@@ -79,14 +96,14 @@ namespace Simias
 			}
 
 			// Check to see if the file already exists.
-			if ( !File.Exists( configFilePath ) )
+			if ( !File.Exists( ConfigPath ) )
 			{
-				throw new SimiasException( String.Format( "Cannot locate configuration file: {0}", configFilePath ) );
+				throw new SimiasException( String.Format( "Cannot locate configuration file: {0}", ConfigPath ) );
 			}
 
 			// Load the configuration document from the file.
 			configDoc = new XmlDocument();
-			configDoc.Load( configFilePath );
+			configDoc.Load( ConfigPath );
 		}
 
 		#endregion
