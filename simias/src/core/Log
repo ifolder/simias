@@ -1,3 +1,10 @@
+2007-1-4  Johnny Jacob  <jjohnny@novell.com>
+
+	* Discovery : Initial commit for Discovery Framework, Discovery
+	Thread Service from discovery branch. 
+	* SimiasLib.dll/SimiasLib.dll.sources: Add DiscoveryFramework to simiaslib.dll
+	* SimiasLib.dll/SimiasLib.conf : Include DiscoveryThread Services.
+	
 2006-12-4  Johnny Jacob  <jjohnny@novell.com>
 	
 	* WebService/mono.server.web.config : Added. web.config file for

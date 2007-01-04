@@ -331,6 +331,11 @@ namespace Simias.Server
 									Member member = new Member( col.GetNodeByID( args.Node ) );
 									if ( entry.AddMember( member.UserID, args.Node ) == true )
 									{
+									        if (member.IsOwner)
+									        {
+										    entry.AddOwner (member.UserID);
+										    log.Debug( "OwnerID {0} added to collection {1}", member.UserID, col.ID );
+									        }
 										log.Debug( "Member {0} added to collection {1}", member.UserID, col.ID );
 									}
 
@@ -452,6 +457,11 @@ namespace Simias.Server
 								foreach( ShallowNode msn in members )
 								{
 									Member member = new Member( col, msn );
+									if (member.IsOwner)
+									{
+									    catentry.AddOwner ( member.UserID );
+									}
+									    
 									catentry.AddMember( member.UserID, member.ID );
 								}
 								catalog.Commit( catentry );
@@ -714,7 +724,7 @@ namespace Simias.Server
 		/// <summary>
 		/// Method to retrieve all catalog entries the specified user
 		/// is a member of.
-		/// </summary>
+		/// </summary> 
 		static public CatalogEntry[] GetAllEntriesByUserID( string UserID )
 		{
 			ArrayList entries = new ArrayList();
@@ -774,6 +784,8 @@ namespace Simias.Server
 		static internal string CollectionProperty = "cid";
 		static internal string HostProperty = "hid";
 		static internal string MemberProperty = "mid";
+		static internal string OwnerProperty = "oid";
+       	static internal string SizeProperty = "size";
 
 		private static readonly ISimiasLog log = 
 			SimiasLogManager.GetLogger( System.Reflection.MethodBase.GetCurrentMethod().DeclaringType );
@@ -800,6 +812,29 @@ namespace Simias.Server
 			{
 				return this.Properties.GetSingleProperty( HostProperty ).Value as string;
 			}
+		}
+
+		/// <summary>
+		/// Returns the size of the data in this collection
+		/// </summary>
+		public long CollectionSize
+		{
+			get
+			{
+				Property p = this.Properties.GetSingleProperty( SizeProperty );
+				return ( p != null ) ? ( long )p.Value : 0;
+ 			}
+		}
+
+		/// <summary>
+		/// Returns the size of the data in this collection
+		/// </summary>
+		public string OwnerID
+		{
+			get
+			{
+				return this.Properties.GetSingleProperty( OwnerProperty ).Value as string;
+ 			}
 		}
 
 		/// <summary>
@@ -860,6 +895,9 @@ namespace Simias.Server
 			if ( col != null )
 			{
 				this.Name = col.Name;
+
+			        Property sprop = new Property( SizeProperty, col.StorageSize );
+			        this.Properties.ModifyProperty( sprop );
 			}
 		}
 
@@ -870,6 +908,13 @@ namespace Simias.Server
 
 			Property hprop = new Property( HostProperty, localhostID );
 			this.Properties.ModifyProperty( hprop );
+
+			Collection col = store.GetCollectionByID( CollectionID );
+			if ( col != null )
+			{
+			        Property sprop = new Property( SizeProperty, col.StorageSize );
+				this.Properties.ModifyProperty( sprop );
+			}
 
 			this.Name = Name;
 		}
@@ -933,6 +978,14 @@ namespace Simias.Server
 
 			return false;
 		}
+
+		internal void AddOwner( string UserID )
+		{
+		       Property oprop = new Property( OwnerProperty, UserID );
+		       this.Properties.ModifyProperty( oprop );
+		}
+
+
 		#endregion 
 	}
 }

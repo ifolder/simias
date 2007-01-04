@@ -1,4 +1,4 @@
-SUBDIRS = Simias.Server Simias.HostService Simias.HttpFile Simias.Rss Simias.LdapProvider Simias.ADLdapProvider Simias.OpenLdapProvider Simias.ClientUpdate setup
+SUBDIRS = Simias.Server Simias.HostService Simias.HttpFile Simias.Rss Simias.LdapProvider Simias.ADLdapProvider Simias.OpenLdapProvider Simias.ClientUpdate setup DiscoveryWS
 
 DIST_SUBDIRS = $(SUBDIRS) setup
 
