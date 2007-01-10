@@ -263,7 +263,7 @@ case $SIMIAS_OS in
 		StoreProviderAssembly="SimiasLib.dll"
 		StoreProviderType="Simias.Storage.Provider.Flaim.FlaimProvider"
 		GSOAP_PATH="$TOOLDIR/gsoap/linux-2.7"
-		mappingpath="${exec_prefix}lib/simias/web/bin/Simias.exe"
+		mappingpath="${exec_prefix}/lib/simias/web/bin/Simias.exe"
     ;;
     #
     # Windows-specific configuration
