@@ -76,10 +76,10 @@ namespace Novell.iFolder.Utility
 				LDAP_SCHEME_SECURE) ? true : false;
 
 			// port
-			/*
+			
 			port = (ldapUrl.Port != -1) ? ldapUrl.Port : (secure ?
-				Ldap.LdapSettings.UriPortLdaps : Ldap.LdapSettings.UriPortLdap);
-			*/
+				LdapSettings.UriPortLdaps : LdapSettings.UriPortLdap);
+			
 
 			this.dn = dn;
 			this.password = password;

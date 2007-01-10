@@ -828,6 +828,7 @@ namespace Novell.iFolder
 			SetConfigValue( document, "EnterpriseDomain", "Description", systemDescription.Value );
 			SetConfigValue( document, "Authentication", "SimiasRequireSSL", bool.Parse( useSsl.Value ) ? "yes" : "no");
 			SetConfigValue( document, "EnterpriseDomain", "AdminName", systemAdminDN.Value );
+			SetConfigValue( document, "StoreProvider", "path", storePath );
 			if ( slaveServer.Value )
 			{
 				SetConfigValue( document, ServerSection, MasterAddressKey, masterAddress.Value);
@@ -967,14 +968,14 @@ namespace Novell.iFolder
 			LdapUtility ldapUtility = new LdapUtility(ldapUrl.ToString() , ldapAdminDN.Value, ldapAdminPassword.Value);
 
 			// intall SSL root certificate
-			Console.Write("Installing certificate from {0}...", ldapUrl.ToString());
+			Console.Write("Installing certificate from {0}...\n", ldapUrl.ToString());
 				
 			if (ldapUtility.Secure && MyEnvironment.Mono)
 			{
 				const string certfile = "RootCert.cer";
 								
 				if (Execute("./get-root-certificate", "{0} {1} {2} {3} get {4}",
-					ldapUtility.Host, ldapUtility.Port, systemAdminDN.Value, systemAdminPassword.Value, certfile) == 0)
+					ldapUtility.Host, ldapUtility.Port, ldapAdminDN.Value, ldapAdminPassword.Value, certfile) == 0)
 				{
 					Console.WriteLine();
 
@@ -1258,14 +1259,14 @@ namespace Novell.iFolder
 			{
 				if ( storePath.TrimEnd( new char[] { '/' } ).EndsWith( "simias" ) )
 				{
-					if ( Execute( "chown", "{0}:{1} {2}", apacheUser, apacheGroup, System.IO.Directory.GetParent( storePath ).FullName ) != 0 )
+					if ( Execute( "chown", " -R {0}:{1} {2}", apacheUser, apacheGroup, System.IO.Directory.GetParent( storePath ).FullName ) != 0 )
 					{
 						throw new Exception( "Unable to set an owner for the store path." );
 					}
 				}
 				else
 				{
-					if ( Execute( "chown", "{0}:{1} {2}", apacheUser, apacheGroup, storePath ) != 0 )
+					if ( Execute( "chown", "-R {0}:{1} {2}", apacheUser, apacheGroup, storePath ) != 0 )
 					{
 						throw new Exception( "Unable to set an owner for the store path." );
 					}
