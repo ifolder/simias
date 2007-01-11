@@ -1,3 +1,9 @@
+2007-Jan-12  Johnny Jacob  <jjohnny@novell.com>
+	
+	* Options.cs : Added Debug code to print Env Variables parsed.
+	* SimiasServerSetup : s/ldap-Server/ldap-server (rev 6650) and
+	s/defaultConfigPath/default-config-path (rev 6651).
+
 2007-Jan-10 Kalidas Balakrishnan <bkalidas@novell.com>
 
 SimiasServerSetup.cs - enabled apache permissions for all directories in the store. Added the store path in the config file for iFolder TSA to get the store
