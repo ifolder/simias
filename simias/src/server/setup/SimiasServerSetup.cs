@@ -123,7 +123,7 @@ namespace Novell.iFolder
 		/// <summary>
 		/// The default configuration path.
 		/// </summary>
-		public Option defaultConfigPath = new Option("defaultConfigPath,c", "Default Configuration Path", "Path to the default configuration files", true, null); 
+		public Option defaultConfigPath = new Option("default-config-path,c", "Default Configuration Path", "Path to the default configuration files", true, null); 
 
 		/// <summary>
 		/// The port to listen on.
