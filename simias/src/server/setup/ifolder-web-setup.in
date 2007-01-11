@@ -1,0 +1,18 @@
+#!/bin/sh
+#######################################################################
+#
+#  $RCSfile$
+#
+#  Copyright (C) 2007 Novell, Inc.
+#
+#  Author: Kalidas Balakrishnan <bkalidas@novell.com>
+#
+#######################################################################
+
+export MONO_PATH=@_webbindir_@:@_bindir_@
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:@_webbindir_@
+export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:@_webbindir_@
+cd @_bindir_@
+
+mono @_bindir_@/iFolderWebSetup.exe "$@"
+

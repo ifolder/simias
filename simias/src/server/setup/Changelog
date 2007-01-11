@@ -1,3 +1,10 @@
+2007-Jan-12 Kalidas Balakrishnan <bkaldias@novell.com>
+        * SimiasServerSetup.cs - moved the permission setting after setting up the log directories
+        * Makefile.am - updated the makefile to build Web Access and Web Admin setup utilities
+        * iFolderWedSetup.cs - Added this file for Web Access setup
+        * iFolderAdminSetup.cs - Added this file for Web Admin setup
+        Added ifolder-web-setup.in and ifolder-admin-setup.in scripts
+
 2007-Jan-12  Johnny Jacob  <jjohnny@novell.com>
 	
 	* Options.cs : Added Debug code to print Env Variables parsed.

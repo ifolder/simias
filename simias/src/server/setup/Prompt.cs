@@ -51,7 +51,7 @@ namespace Novell.iFolder.Utility
 		/// <param name="prompt">The Prompt String</param>
 		/// <param name="defaultValue">The Default Value</param>
 		/// <returns>A String Object</returns>
-		private static string ForString(string prompt, string defaultValue)
+		public static string ForString(string prompt, string defaultValue)
 		{
 			Console.Write("{0}? [{1}]: ", prompt, defaultValue);
 			string response = Console.ReadLine();
@@ -98,7 +98,7 @@ namespace Novell.iFolder.Utility
 		/// <param name="prompt">The Prompt String</param>
 		/// <param name="defaultValue">The Default Value</param>
 		/// <returns>A bool Object</returns>
-		private static bool ForYesNo(string prompt, bool defaultValue)
+		public static bool ForYesNo(string prompt, bool defaultValue)
 		{
 			bool result = defaultValue;
 
