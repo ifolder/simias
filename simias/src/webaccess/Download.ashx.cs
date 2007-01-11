@@ -99,14 +99,16 @@ namespace Novell.iFolderApp.Web
 				}
 
 				// response
+				iFolder ifolder = web.GetiFolder(ifolderID);
+				iFolderEntry nodeEntry = web.GetEntry(ifolderID, entryID);
+				
 				context.Response.Clear();
 				context.Response.AddHeader("Content-Disposition", String.Format("attachment; filename={0}", filename));
-				context.Response.AddHeader("Content-Length", webResponse.ContentLength.ToString());
+				//context.Response.AddHeader("Content-Length", webResponse.ContentLength.ToString());
+				context.Response.AddHeader("Content-Length", nodeEntry.Size.ToString());//actual size (padd bytes discarded below)
 				context.Response.ContentType = "application/octet-stream";
 				context.Response.BufferOutput = false;
 
-				iFolder ifolder = web.GetiFolder(ifolderID);
-				iFolderEntry nodeEntry = web.GetEntry(ifolderID, entryID);
 
 				if(ifolder.EncryptionAlgorithm !="")
 				{
