@@ -183,7 +183,7 @@ namespace Novell.iFolder
 		/// <summary>
 		/// LDAP URL
 		/// </summary>
-		public Option ldapServer = new Option("ldap-Server", "LDAP Server", "The host or ip address of an LDAP server.  The server will be searched for users to provision into Simias and will be used by Simias for authentication.", false, null);
+		public Option ldapServer = new Option("ldap-server", "LDAP Server", "The host or ip address of an LDAP server.  The server will be searched for users to provision into Simias and will be used by Simias for authentication.", false, null);
 
 		/// <summary>
 		/// LDAP Secure
