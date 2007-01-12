@@ -175,6 +175,12 @@ namespace Novell.iFolderApp.Web
 			try
 			{
 				// ifolder
+                                string ifolderLocation = web.GetiFolderLocation (ifolderID);
+
+				UriBuilder remoteurl = new UriBuilder(ifolderLocation);
+				remoteurl.Path = (new Uri(web.Url)).PathAndQuery;
+				web.Url = remoteurl.Uri.ToString();
+
 				iFolder ifolder = web.GetiFolder(ifolderID);
 
 				// rights
@@ -224,6 +230,14 @@ namespace Novell.iFolderApp.Web
 
 			try
 			{
+
+                                //Location of ifolder.
+                                string ifolderLocation = web.GetiFolderLocation (ifolderID);
+
+				UriBuilder remoteurl = new UriBuilder(ifolderLocation);
+				remoteurl.Path = (new Uri(web.Url)).PathAndQuery;
+				web.Url = remoteurl.Uri.ToString();
+
 				// entries
 				iFolderEntrySet entries = web.GetEntries(ifolderID, entryID, EntryPagging.Index, EntryPagging.PageSize);
 				

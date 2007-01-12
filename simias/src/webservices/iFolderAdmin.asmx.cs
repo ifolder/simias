@@ -93,6 +93,18 @@ namespace iFolder.WebService
 		/// </summary>
 		/// <returns>HomeServer ID</returns>
 		[WebMethod(
+		         Description="Get the private url of ifolder's homeserver.",
+			 EnableSession=true)]
+		public override string GetiFolderLocation( string ifolderID )
+		{
+                         return base.GetiFolderLocation (ifolderID);
+		}
+
+	        /// <summary>
+		/// Get the HomeServer for the specified user
+		/// </summary>
+		/// <returns>HomeServer ID</returns>
+		[WebMethod(
 			 Description="Fetch the list of available reports.",
 			 EnableSession=true)]
 		public override string[] GetReports()

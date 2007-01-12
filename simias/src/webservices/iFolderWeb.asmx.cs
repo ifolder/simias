@@ -134,6 +134,18 @@ namespace iFolder.WebService
 			return base.GetiFolder(ifolderID);
 		}
 		
+	        /// <summary>
+		/// Get the HomeServer for the specified user
+		/// </summary>
+		/// <returns>HomeServer ID</returns>
+		[WebMethod(
+			 Description="Get the private url of ifolder's homeserver",
+			 EnableSession=true)]
+		public override string GetiFolderLocation( string ifolderID )
+		{
+                         return base.GetiFolderLocation (ifolderID);
+		}
+
 		/// <summary>
 		/// Get detailed information about an iFolder.
 		/// </summary>

@@ -30,6 +30,7 @@ using System.Text.RegularExpressions;
 using Simias.Client;
 using Simias.Storage;
 using Simias.Web;
+using Simias.Server;
 
 namespace iFolder.WebService
 {
@@ -149,6 +150,11 @@ namespace iFolder.WebService
 		/// </summary>
 		public int MemberCount = 0;
 
+  		/// <summary>
+ 		/// HostID of the location of the collection
+ 		/// </summary>
+ 	        public string HostID;
+
 		/// <summary>
 		/// The Collection Type of an iFolder
 		/// </summary>
@@ -185,6 +191,11 @@ namespace iFolder.WebService
 			this.Name = c.Name;
 			this.Description = NodeUtility.GetStringProperty(c, PropertyTags.Description);
 			this.DomainID = c.Domain;
+
+			this.HostID = c.HostID;
+			//Note : All iFolders (collections) have HostID. But A Domain on Master doesnt have it.
+			if (this.HostID == null)    this.HostID = String.Empty;
+
 			this.Size = c.StorageSize;
 			this.MemberRights = rights;
 			this.Created = NodeUtility.GetDateTimeProperty(c, PropertyTags.NodeCreationTime);
@@ -204,6 +215,49 @@ namespace iFolder.WebService
 
 			//Only algorithm is needed by the middle tier, ssl can be configured by the admin
 			this.EncryptionAlgorithm = c.EncryptionAlgorithm;
+		}
+
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <param name="ce">The Catalog Entry</param>
+		/// <param name="accessID">The Access User ID</param>
+		protected iFolder(CatalogEntry ce, string accessID)
+		{
+			// impersonate
+//		        Rights rights = Impersonate(ce, accessID);
+                        //TODO :
+		        Rights rights = Rights.Admin;
+
+			this.ID = ce.CollectionID;
+			this.Name = ce.Name;
+                        //TODO:
+//			this.Description = NodeUtility.GetStringProperty(c, PropertyTags.Description);
+			this.Description = String.Empty;
+
+			this.HostID = ce.HostID;
+			this.Size = ce.CollectionSize;
+			this.MemberRights = rights;
+			this.Created = NodeUtility.GetDateTimeProperty(ce, PropertyTags.NodeCreationTime);
+			this.LastModified = NodeUtility.GetDateTimeProperty(ce, PropertyTags.JournalModified);
+			this.Published = NodeUtility.GetBooleanProperty(ce, PropertyTags.Published);
+                        //BUG : TODO
+//			this.Enabled = !iFolderPolicy.IsLocked(c);
+			this.Enabled = true;
+			this.MemberCount = ce.UserIDs.Length;
+
+			// owner
+			this.OwnerID = ce.OwnerID;
+			this.IsOwner = (accessID != null) && (accessID == this.OwnerID);
+
+			Store store = Store.GetStore();
+			Domain domain = store.GetDomain(store.DefaultDomain);
+			this.DomainID = domain.ID;
+			Member domainMember = domain.GetMemberByID(this.OwnerID);
+
+			this.OwnerUserName = domainMember.Name;
+			string fullName = domainMember.FN;
+			this.OwnerFullName = (fullName != null) ? fullName : this.OwnerUserName;
 		}
 
 		/// <summary>
@@ -227,6 +281,22 @@ namespace iFolder.WebService
 		}
 
 		/// <summary>
+		/// Get the private url of iFolder's HomeServer
+		/// </summary>
+		/// <param name="name">The iFolder ID</param>
+		/// <returns>Private url of iFolder's HomeServer</returns>
+	        public static string GetiFolderLocation (string ifolderID)
+		{
+			Store store = Store.GetStore ();
+		        Domain domain = store.GetDomain(store.DefaultDomain);
+
+		        CatalogEntry ce = Catalog.GetEntryByCollectionID (ifolderID);
+
+			HostNode remoteHost =  new HostNode (domain.GetMemberByID(ce.HostID));
+
+			return remoteHost.PublicUrl;
+		}
+		/// <summary>
 		/// Get an iFolder
 		/// </summary>
 		/// <param name="ifolderID">The iFolder ID</param>
@@ -235,12 +305,17 @@ namespace iFolder.WebService
 		public static iFolder GetiFolder(string ifolderID, string accessID)
 		{
 			Store store = Store.GetStore();
-			
+
 			Collection c = store.GetCollectionByID(ifolderID);
-			
-			if (c == null)  throw new iFolderDoesNotExistException(ifolderID);
+
+			if (c == null)
+			{
+		                CatalogEntry ce = Catalog.GetEntryByCollectionID (ifolderID);
+			        return new iFolder (ce, accessID);
+			}
 
 			return new iFolder(c, accessID);
+
 		}
 
 		/// <summary>
@@ -254,7 +329,7 @@ namespace iFolder.WebService
 			Store store = Store.GetStore();
 			
 			Collection c = store.GetSingleCollectionByName(ifolderName);
-			
+
 			if (c == null)  throw new iFolderDoesNotExistException(ifolderName);
 
 			return new iFolder(c, accessID);
@@ -346,19 +421,10 @@ namespace iFolder.WebService
 		/// <returns>A Set of iFolder Objects</returns>
 		public static iFolderSet GetiFoldersByMember(string userID, MemberRole role, DateTime after, SearchOperation operation, string pattern, int index, int max, string accessID)
 		{
-			Store store = Store.GetStore();
 
-			// get a list of members
-			ICSList collections;
-			
-			if (role == MemberRole.Owner)
-			{
-				collections = store.GetCollectionsByOwner(userID);
-			}
-			else
-			{
-				collections = store.GetCollectionsByUser(userID);
-			}
+			CatalogEntry[] catalogEntries;
+
+		        catalogEntries = Catalog.GetAllEntriesByUserID (userID);			
 
 			// match the pattern
 			Regex regex = null;
@@ -390,43 +456,59 @@ namespace iFolder.WebService
 			// sort the list
 			ArrayList sortList = new ArrayList();
 			
-			foreach(ShallowNode sn in collections)
+			foreach(CatalogEntry ce in catalogEntries)
 			{
-				if ((regex == null) || regex.Match(sn.Name).Success)
+			        if (role == MemberRole.Owner) 
 				{
-					sortList.Add(sn);
+				    //Only Owned iFolders
+				    if (!(ce.OwnerID == userID))
+					    continue;
+				}
+				if (role == MemberRole.Shared)
+				{
+				    //Only Shared iFolders
+    				    if (ce.OwnerID == userID)
+					    continue;
+				}
+
+				if ((regex == null) || regex.Match(ce.Name).Success)
+				{
+					sortList.Add(ce);
 				}
 			}
 			
 			sortList.Sort();
 
+			if (sortList == null )
+			    throw new Exception ("ifolder.cs : sortlist is null");
+
 			// build the result list
 			ArrayList list = new ArrayList();
 			int i = 0;
 
-			foreach(ShallowNode sn in sortList)
+			foreach(CatalogEntry ce in sortList)
 			{
-				Collection c = store.GetCollectionByID(sn.ID);
-
 				// is iFolder?
-				if ((c == null) || !c.IsType(iFolderCollectionType)) continue;
+				//TODO : collection type from catalog
+//				if ((c == null) || !c.IsType(iFolderCollectionType)) continue;
 
 				// role check
-				if ((role == MemberRole.Shared) && (c.Owner.UserID == userID)) continue;
+//				if ((role == MemberRole.Shared) && (ce.Owner.UserID == userID)) continue;
 
-				// shared after
-				if (after != DateTime.MinValue)
-				{
-					Member member = c.GetMemberByID(userID);
+			        // This information is not available in CatalogEntry.
+// 				// shared after
+// 				if (after != DateTime.MinValue)
+// 				{
+// 					Member member = c.GetMemberByID(userID);
 					
-					if (after > NodeUtility.GetDateTimeProperty(member, PropertyTags.NodeCreationTime))
-						continue;
-				}
+// 					if (after > NodeUtility.GetDateTimeProperty(ce, PropertyTags.NodeCreationTime))
+// 						continue;
+// 				}
 
 				// pagging
 				if ((i >= index) && (((max <= 0) || i < (max + index))))
 				{
-					list.Add(new iFolder(c, accessID));
+					list.Add(new iFolder(ce, accessID));
 				}
 
 				++i;
@@ -447,6 +529,7 @@ namespace iFolder.WebService
 		/// <returns>A Set of iFolder Objects</returns>
 		public static iFolderSet GetiFoldersByName(iFolderType type, SearchOperation operation, string pattern, int index, int max, string accessID)
 		{
+
 			Store store = Store.GetStore();
 
 			// admin ID

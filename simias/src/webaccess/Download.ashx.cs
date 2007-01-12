@@ -74,7 +74,14 @@ namespace Novell.iFolderApp.Web
 
 				// request
 				UriBuilder uri = new UriBuilder(web.Url);
-						
+
+			        // Location of ifolder.
+                                string ifolderLocation = web.GetiFolderLocation (ifolderID);
+
+				UriBuilder remoteurl = new UriBuilder(ifolderLocation);
+				remoteurl.Path = (new Uri(web.Url)).PathAndQuery;
+				web.Url = remoteurl.Uri.ToString();
+
 				uri.Path = String.Format("/simias10/Download.ashx?iFolder={0}&Entry={1}", ifolderID, entryID);
 
 				HttpWebRequest webRequest = (HttpWebRequest) WebRequest.Create(uri.Uri);

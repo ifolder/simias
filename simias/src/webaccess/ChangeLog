@@ -1,3 +1,8 @@
+2007-01-12  Johnny Jacob  <jjohnny@novell.com>
+
+	* Browse.aspx.cs : Resolve the location of remote iFolder.
+	* Download.ashx.cs : Resolve the location of remote iFolder.
+	
 2006-12-18  Arul Selvan	 <rarul@novell.com>
 
 	* iFolderNew.aspx : Added fields for supporting encryption and ssl features

@@ -1,3 +1,12 @@
+2007-01-12  Johnny Jacob  <jjohnny@novell.com>
+
+	* iFolderCommonLocal.cs (GetiFolderLocation) : Added. Get the
+	location of the remote ifolder.
+	* iFolder.cs : HostID added. New Constructor to handle
+	CatalogEntry.
+	* iFolder.cs (GetiFolderLocation) : Added. Get the
+	location of the remote ifolder.
+	
 2006-12-22  Johnny Jacob  <jjohnny@novell.com>
 
 	* iFolderServer.cs (GetHomeServerForUser) : Talk to Master only if

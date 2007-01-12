@@ -101,6 +101,31 @@ namespace iFolder.WebService
 		}
 
 		/// <summary>
+		/// Get the location of the iFolder
+		/// </summary>
+		/// <returns>The PrivateUrl of the iFolder's HomeServer.</returns>
+		[WebMethod(
+			 Description="Get information about the authenticated user's home iFolder server.",
+			 EnableSession=true)]
+		public virtual string GetiFolderLocation ( string ifolderID )
+		{
+		        string result = null;
+
+			try
+			{
+				Authorize();
+
+				result = iFolder.GetiFolderLocation ( ifolderID );
+			}
+			catch(Exception e)
+			{
+				SmartException.Throw(e);
+			}
+
+			return result;
+		}
+
+		/// <summary>
 		/// Get information about an iFolder Server.
 		/// </summary>
 		/// <param name="serverID">The id of the iFolder Server.</param>
@@ -281,11 +306,9 @@ namespace iFolder.WebService
 		public virtual iFolder GetiFolder(string ifolderID)
 		{
 			iFolder result = null;
-
 			try
 			{
 				Authorize();
-
 				result = iFolder.GetiFolder(ifolderID, GetAccessID());
 			}
 			catch(Exception e)

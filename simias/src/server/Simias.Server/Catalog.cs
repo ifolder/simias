@@ -331,7 +331,7 @@ namespace Simias.Server
 									Member member = new Member( col.GetNodeByID( args.Node ) );
 									if ( entry.AddMember( member.UserID, args.Node ) == true )
 									{
-									        if (member.IsOwner)
+									        if (col.GetMemberByID(member.UserID).IsOwner)
 									        {
 										    entry.AddOwner (member.UserID);
 										    log.Debug( "OwnerID {0} added to collection {1}", member.UserID, col.ID );
@@ -785,7 +785,7 @@ namespace Simias.Server
 		static internal string HostProperty = "hid";
 		static internal string MemberProperty = "mid";
 		static internal string OwnerProperty = "oid";
-       	static internal string SizeProperty = "size";
+		static internal string SizeProperty = "size";
 
 		private static readonly ISimiasLog log = 
 			SimiasLogManager.GetLogger( System.Reflection.MethodBase.GetCurrentMethod().DeclaringType );
@@ -983,6 +983,7 @@ namespace Simias.Server
 		{
 		       Property oprop = new Property( OwnerProperty, UserID );
 		       this.Properties.ModifyProperty( oprop );
+		       catalog.Commit( this );
 		}
 
 
