@@ -926,7 +926,7 @@ namespace Novell.iFolder
 				
 					string alias = "simias10";
 
-					writer.WriteLine( "Include /etc/apache2/conf.d/mod_mono.conf" );
+					writer.WriteLine( "Include /etc/apache2/mod_mono.conf" );
 					writer.WriteLine();
 					writer.WriteLine("Alias /{0} \"{1}\"", alias, SimiasSetup.webdir);
 					writer.WriteLine("AddMonoApplications {0} \"/{0}:{1}\"", alias, SimiasSetup.webdir);

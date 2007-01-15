@@ -346,7 +346,7 @@ namespace Novell.iFolderApp.Web
                     sslPrefix = "#";
                 }
 
-				writer.WriteLine("Include /etc/apache2/conf.d/mod_mono.conf");
+				writer.WriteLine("Include /etc/apache2/mod_mono.conf");
 				writer.WriteLine();
 				writer.WriteLine("Alias /{0} \"{1}\"", alias, webPath);
 				writer.WriteLine("AddMonoApplications {0} \"/{0}:{1}\"", alias, webPath);
