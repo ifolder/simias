@@ -57,6 +57,17 @@ static void init_gsoap (struct soap *p_soap);
 static void cleanup_gsoap (struct soap *p_soap);
 static char *get_soap_url(bool reread_config);
 
+char* DerivePassword(char* str)
+{
+        char* ptr;
+        if( (ptr=strchr( str, ':')) !=NULL)
+        {
+                return ptr+1;
+        }
+        else return str;
+}
+
+
 /* Function Implementations */
 int
 simias_get_local_service_url(char **url)
@@ -233,7 +244,7 @@ simias_get_domains(bool only_slaves, SimiasDomainInfo **ret_domainsA[])
 	init_gsoap(&soap);
 	if (simias_get_web_service_credential(username, password) == SIMIAS_SUCCESS) {
 		soap.userid = username;
-		soap.passwd = password;
+		soap.passwd = DerivePassword(password);
 	}
 	soap_call___ns1__GetDomains(&soap, soap_url, NULL, &req, &resp);
 	if (soap.error) {
