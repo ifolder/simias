@@ -70,9 +70,9 @@ namespace Simias
 		/// </summary>
 		public static void ResetConfiguration()
 		{
-            LogManager.ResetConfiguration();
+			LogManager.ResetConfiguration();
 
-            log4net.Config.XmlConfigurator.ConfigureAndWatch(new FileInfo(configFile));
+			log4net.Config.DOMConfigurator.ConfigureAndWatch(new FileInfo(configFile));
 		}
 
 		/// <summary>
