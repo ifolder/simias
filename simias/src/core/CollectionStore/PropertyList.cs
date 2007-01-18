@@ -789,20 +789,29 @@ namespace Simias.Storage
 		/// Removes all properties from the specified document that are marked as non-transient.
 		/// </summary>
 		/// <param name="document">Xml document that describes the Node object's properties.</param>
-		internal void StripLocalProperties( XmlDocument document )
-		{
-			// Strip out any non-transient values.
-			XmlNodeList nonTransList = document.DocumentElement.SelectNodes( "//" + XmlTags.PropertyTag + "[@" + XmlTags.FlagsAttr + "]" );
-			foreach( XmlNode tempNode in nonTransList )
-			{
-				uint flags = Convert.ToUInt32( tempNode.Attributes[ XmlTags.FlagsAttr ].Value );
-				if ( ( flags & Property.Local ) == Property.Local )
-				{
-					// Remove this property out of the document.
-					tempNode.ParentNode.RemoveChild( tempNode );
-				}
-			}
-		}
+ 		internal void StripLocalProperties( XmlDocument document )
+ 		{
+		    XmlNodeList nonTransList = document.DocumentElement.SelectNodes( "//" + XmlTags.PropertyTag + "[@" + XmlTags.FlagsAttr + "]" );
+		    ArrayList nodeArray = new ArrayList ();
+
+		    //Why two loops ?? refer : http://bugzilla.ximian.com/show_bug.cgi?id=80542
+		    foreach ( XmlNode currentNode in nonTransList )
+		    {
+			    nodeArray.Add (currentNode);
+		    }
+
+		    foreach ( XmlNode currentNode in nodeArray )
+		    {
+			    uint flags = Convert.ToUInt32( currentNode.Attributes[ XmlTags.FlagsAttr ].Value );
+ 			    if ( ( flags & Property.Local ) == Property.Local )
+ 			    {
+ 				    // Remove this property out of the document.
+				    currentNode.ParentNode.RemoveChild (currentNode);
+ 			    }
+		    }
+ 		}
+
+
 		#endregion
 
 		#region Public Methods
