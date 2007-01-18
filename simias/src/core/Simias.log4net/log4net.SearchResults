@@ -1,0 +1,6 @@
+---- ConfigureAndWatch Matches (5 in 2 files) ----
+DOMConfigurator.cs (src\config):		static public void ConfigureAndWatch(FileInfo configFile)
+DOMConfigurator.cs (src\config):			ConfigureAndWatch(LogManager.GetLoggerRepository(Assembly.GetCallingAssembly()), configFile);
+DOMConfigurator.cs (src\config):		static public void ConfigureAndWatch(ILoggerRepository repository, FileInfo configFile)
+DOMConfigurator.cs (src\config):				LogLog.Error("DOMConfigurator: ConfigureAndWatch called with null 'configFile' parameter");
+DOMConfiguratorAttribute.cs (src\config):				DOMConfigurator.ConfigureAndWatch(repository as Hierarchy, new FileInfo(fullPath2ConfigFile));
