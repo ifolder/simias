@@ -147,9 +147,9 @@ DOCDIR="$SRCDIR/doc"
 
 case $host_os in
     linux*)
-        PKG_CHECK_MODULES(LOG4NET, log4net >= 1.2.9)
-        AC_SUBST(LOG4NET_PREFIX)
-        AC_SUBST(LOG4NET_LIBS)
+        #PKG_CHECK_MODULES(LOG4NET, log4net >= 1.2.9)
+        #AC_SUBST(LOG4NET_PREFIX)
+        #AC_SUBST(LOG4NET_LIBS)
         
 	PKG_CHECK_MODULES(LIBFLAIM, libflaim >= 4.8.0)
         AC_SUBST(LIBFLAIM_PREFIX)
