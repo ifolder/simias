@@ -239,8 +239,5 @@ AssemblyInfo.cs
 ../Simias.log4net/src/spi/LoggerWrapperImpl.cs
 ../Simias.log4net/src/spi/LoggingEvent.cs
 ../Simias.log4net/src/spi/LogImpl.cs
-../Simias.log4net/src/config/
-../Simias.log4net/src/config
-../Simias.log4net/src/config
-../Simias.log4net/src/config
+../Simias.log4net/src/spi/WrapperMap.cs
 
