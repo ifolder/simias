@@ -54,7 +54,7 @@ namespace Simias.Storage
 		/// <summary>
 		/// Used to keep track of changes to the layout of the store database.
 		/// </summary>
-		static private string storeVersion = "1.0.1";
+		static private string storeVersion = "1.1.0";
 
 		/// <summary>
 		/// Directories where store-managed and unmanaged files are kept.
@@ -330,6 +330,14 @@ namespace Simias.Storage
 			{
 				Property p = LocalDb.Properties.FindSingleValue( PropertyTags.StoreVersion );
 				return ( p != null ) ? p.ToString() : "Unknown version";
+			}
+		}
+
+		public static string storeversion
+		{
+			get
+			{
+				return storeVersion;
 			}
 		}
 

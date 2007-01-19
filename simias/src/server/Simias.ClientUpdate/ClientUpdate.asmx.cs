@@ -57,6 +57,10 @@ namespace Novell.iFolder.Enterprise.Web
 		internal static string PlatformType = "PlatformType";
 		private static string VersionString = "Version";
 
+		private  string[,] VersionCompatibilityTable = new string[,]{
+								{"1.0.1", "3.0", "3.4"},
+								{"1.1.0", "3.5", "3.5"}
+								};
 		/// <summary>
 		/// Xml tags used to defined the version information in the version.config file.
 		/// Format of the version.config file for Windows is as follows:
@@ -92,7 +96,9 @@ namespace Novell.iFolder.Enterprise.Web
 		private static string UnixVersionFile = "unix-version.config";
 
 		#endregion
-
+		public ClientUpdate()
+		{
+		}
 		#region Private Methods
 		/// <summary>
 		/// Gets the iFolder application file name from the specified directory.
@@ -227,7 +233,6 @@ namespace Novell.iFolder.Enterprise.Web
 
 		private static string[] GetDistributionFileList( string distribution )
 		{
-			log.Debug( "GetDistributionFileList(\"{0}\")", distribution );
 			string[] files = null;
 
 			XmlDocument document = GetUnixConfigDocument();
@@ -241,12 +246,10 @@ namespace Novell.iFolder.Enterprise.Web
 			XmlNode downloadDirectoryNode = distributionNode.SelectSingleNode( DownloadDirectoryTag + "/text()" );
 			if ( downloadDirectoryNode == null )
 			{
-				log.Debug( "download-directory tag is null" );
 				return null;
 			}
 
 			string downloadDirectory = Path.Combine( SimiasSetup.webdir, Path.Combine( UnixUpdateDir, downloadDirectoryNode.Value ) );
-			log.Debug( "downloadDirectory: {0}", downloadDirectory );
 			if ( Directory.Exists( downloadDirectory ) )
 			{
 				files = Directory.GetFiles( downloadDirectory );
@@ -267,7 +270,6 @@ namespace Novell.iFolder.Enterprise.Web
 				}
 			}
 			
-			log.Debug( "Returning {0} files", files == null ? 0 : files.Length );
 			return files;
 		}
 		#endregion
@@ -307,14 +309,88 @@ namespace Novell.iFolder.Enterprise.Web
 						fileList = GetDistributionFileList( Session[ PlatformType ] as string );
 					}
 				}
+
 			}
 			catch ( Exception ex )
 			{
 				log.Error( "Error: {0}, getting update files.", ex.Message );
 			}
+			Console.WriteLine("out of getupdate files");
 
 			return fileList;
 		}
+
+		/// <summary>
+		/// Checks to see if a new version of the iFolder client application is available.
+		/// </summary>
+		/// <param name="platform">The operating system platform the client is running on.</param>
+		/// <param name="currentVersion">The version of the iFolder application that the
+		/// client is currently running.</param>
+		/// <returns>The version of the update if available. Otherwise null is returned.</returns>
+		[WebMethod(
+			 Description="Is Client Update Available",
+			 EnableSession=true)]
+		[SoapRpcMethod]
+		public string IsUpdateAvailableActual( string platform, string currentVersion )
+		{
+			log.Debug("In IsUpdateAvailableActual");
+			string updateVersion = null;
+			try
+			{
+				Session[ PlatformType ] = platform;
+				Version applicationVersion = null;
+				Version min= null, max = null;
+
+				// The update is platform specific.
+				if ( platform == MyPlatformID.Windows.ToString() )
+				{
+					// See if there is an iFolder application update available.
+					applicationVersion = GetiFolderWindowsApplicationVersion();
+				}
+				else
+				{
+					// See if there is an iFolder application update availble
+					applicationVersion = GetDistributionVersion(platform);
+				}
+			
+				// Get the application version from store.
+				applicationVersion = new Version(Simias.Storage.Store.storeversion);
+				for( int i=0; i<VersionCompatibilityTable.Length; i+=3)
+				{
+					if(VersionCompatibilityTable[i/3,0] == applicationVersion.ToString() )
+					{
+						min = new Version(VersionCompatibilityTable[i/3,1]);
+						max = new Version(VersionCompatibilityTable[i/3,2]);
+						break;
+					}
+				}
+
+				if ( applicationVersion != null )
+				{
+					// For Client Upgrade needed min > current version
+					if( (max.Major > (new Version(currentVersion)).Major) ||( (max.Major == (new Version(currentVersion)).Major) && max.Minor > (new Version(currentVersion)).Minor))
+				//	if ( applicationVersion > new Version( currentVersion ) )
+					{
+						updateVersion = applicationVersion.ToString();
+						Session[ VersionString ] = updateVersion;
+					}
+					/*
+                                        else if(applicationVersion < new Version( currentVersion))
+                                        {
+                                                updateVersion = "Server is older";
+                                                Session[ VersionString ] = updateVersion;
+                                        }
+					*/
+				}
+			}
+			catch ( Exception ex )
+			{
+				log.Error( "Error: {0}, checking for application update.", ex.Message );
+			}
+
+			return updateVersion;
+		}
+
 
 		/// <summary>
 		/// Checks to see if a new version of the iFolder client application is available.
@@ -335,6 +411,7 @@ namespace Novell.iFolder.Enterprise.Web
 			{
 				Session[ PlatformType ] = platform;
 				Version applicationVersion = null;
+				Version min= null, max = null;
 
 				
 				// The update is platform specific.
@@ -348,14 +425,35 @@ namespace Novell.iFolder.Enterprise.Web
 					// See if there is an iFolder application update availble
 					applicationVersion = GetDistributionVersion(platform);
 				}
+			
+				// Get the application version from store.
+				applicationVersion = new Version(Simias.Storage.Store.storeversion);
+				for( int i=0; i<VersionCompatibilityTable.Length; i+=3)
+				{
+					if(VersionCompatibilityTable[i/3,0] == applicationVersion.ToString() )
+					{
+						min = new Version(VersionCompatibilityTable[i/3,1]);
+						max = new Version(VersionCompatibilityTable[i/3,2]);
+						break;
+					}
+				}
 
 				if ( applicationVersion != null )
 				{
-					if ( applicationVersion > new Version( currentVersion ) )
+					// For Client Upgrade needed min > current version
+					if( (min.Major > (new Version(currentVersion)).Major) ||( (min.Major == (new Version(currentVersion)).Major) && min.Minor > (new Version(currentVersion)).Minor))
+				//	if ( applicationVersion > new Version( currentVersion ) )
 					{
 						updateVersion = applicationVersion.ToString();
 						Session[ VersionString ] = updateVersion;
 					}
+					/*
+                                        else if(applicationVersion < new Version( currentVersion))
+                                        {
+                                                updateVersion = "Server is older";
+                                                Session[ VersionString ] = updateVersion;
+                                        }
+					*/
 				}
 			}
 			catch ( Exception ex )
@@ -365,6 +463,76 @@ namespace Novell.iFolder.Enterprise.Web
 
 			return updateVersion;
 		}
+
+		/// <summary>
+		/// Checks to see if a the server is running an older version of simias 
+		/// </summary>
+		/// <param name="platform">The operating system platform the client is running on.</param>
+		/// <param name="currentVersion">The version of the iFolder application that the
+		/// client is currently running.</param>
+		/// <returns>The version of the update if available. Otherwise null is returned.</returns>
+		[WebMethod(
+			 Description="Is server older",
+			 EnableSession=true)]
+		[SoapRpcMethod]
+		public bool IsServerOlder( string platform, string currentVersion )
+		{
+			log.Debug("IsUpdateAvailable(\"{0}\", \"{1}\")", platform, currentVersion);
+			string updateVersion = null;
+			bool serverOlder = false;
+			Version min=null, max=null;
+			try
+			{
+				Session[ PlatformType ] = platform;
+				Version applicationVersion = null;
+
+				
+				// The update is platform specific.
+				if ( platform == MyPlatformID.Windows.ToString() )
+				{
+					// See if there is an iFolder application update available.
+					applicationVersion = GetiFolderWindowsApplicationVersion();
+				}
+				else
+				{
+					// See if there is an iFolder application update availble
+					applicationVersion = GetDistributionVersion(platform);
+				}
+				// Get the application version from store.
+				applicationVersion = new Version(Simias.Storage.Store.storeversion);
+				for( int i=0; i<VersionCompatibilityTable.Length; i+=3)
+				{
+					if(VersionCompatibilityTable[i/3,0] == applicationVersion.ToString() )
+					{
+						min = new Version(VersionCompatibilityTable[i/3,1]);
+						max = new Version(VersionCompatibilityTable[i/3,2]);
+						break;
+					}
+				}
+				if ( applicationVersion != null )
+				{
+					Version ClientVersion = new Version(currentVersion);
+					if( max.Major == 0)
+					{
+						serverOlder = false;
+					}
+					else if(max.Major < ClientVersion.Major ||(max.Major== ClientVersion.Major && max.Minor < ClientVersion.Minor))
+                                        {
+                                                // updateVersion = "Server is older";
+						serverOlder = true;
+                                                Session[ VersionString ] = updateVersion;
+                                        }
+				}
+			}
+			catch ( Exception ex )
+			{
+				log.Error( "Error: {0}, checking for application update.", ex.Message );
+			}
+
+			return serverOlder;
+		}
+
+
 
 		public static string GetDistributionDownloadDirectory( string distribution )
 		{

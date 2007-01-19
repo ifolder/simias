@@ -113,6 +113,21 @@ namespace Simias.Authentication
 		Timeout = 0x1f000102,
 
 		/// <summary>
+		/// The version of the server and client does not match. to be upgraded.
+		/// </summary>
+		OlderVersion = 0x1f000103,
+
+		/// <summary>
+		/// The version of the server is older.
+		/// </summary>
+		ServerOld = 0x1f000104,
+
+		/// <summary>
+		/// The version of the server is older.
+		/// </summary>
+		UpgradeNeeded = 0x1f000105,
+
+		/// <summary>
 		/// Authentication failed with an unknown reason
 		/// </summary>
 		Unknown = 0x1f001fff
