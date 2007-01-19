@@ -72,7 +72,7 @@ namespace Simias
 		{
 			LogManager.ResetConfiguration();
 
-			log4net.Config.DOMConfigurator.ConfigureAndWatch(new FileInfo(configFile));
+			log4net.Config.XmlConfigurator.ConfigureAndWatch(new FileInfo(configFile));
 		}
 
 		/// <summary>

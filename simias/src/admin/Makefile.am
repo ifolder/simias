@@ -1,6 +1,5 @@
 # handle Mono secondary dependencies
 export MONO_PATH := $(MONO_PATH)
-
 iFolderAdmin_CSFILES = \
 	$(srcdir)/AccountEnabled.ascx.cs \
 	$(srcdir)/AssemblyInfo.cs \
@@ -58,13 +57,14 @@ iFolderAdmin_LIBS = \
 	$(SYSTEM_XML) \
 	System.Drawing.dll \
 	System.Web.dll \
-	System.Web.Services.dll
+	System.Web.Services.dll \
+	$(srcdir)/../core/SimiasLib.dll/SimiasLib.dll
 
 if !LINUX
 	iFolderAdmin_LIBS := $(iFolderAdmin_LIBS) log4net.dll
 endif
 
-iFolderAdmin_LIBPATH = $(LOG4NET_DIR)
+#iFolderAdmin_LIBPATH = $(LOG4NET_DIR)
 
 
 iFolderAdmin_FORMS = \
@@ -127,7 +127,7 @@ iFolderAdminWebProxy.cs: ../webservices/iFolderAdmin.wsdl
 	wsdl /nologo /out:$@ $<
 
 Novell.iFolderAdmin.dll: iFolderAdminWebProxy.cs $(iFolderAdmin_CSFILES) $(iFolderAdmin_RESOURCES)
-	$(CSC) /out:$@ $(CSCFLAGS) $(iFolderAdmin_FLAGS) $(iFolderAdmin_LIBS:%=/r:%) $(iFolderAdmin_RESOURCES:%=/res:%) $(iFolderAdmin_LIBPATH:%=/lib:%) $(LOG4NET_LIBS) $(iFolderAdmin_CSFILES_CSC)
+	$(CSC) /out:$@ $(CSCFLAGS) $(iFolderAdmin_FLAGS) $(iFolderAdmin_LIBS:%=/r:%) $(iFolderAdmin_RESOURCES:%=/res:%) $(iFolderAdmin_LIBPATH:%=/lib:%) $(iFolderAdmin_CSFILES_CSC)
 
 Novell.iFolderWeb.Admin.%.resources : %.resx
 	$(RESGEN) $< $@

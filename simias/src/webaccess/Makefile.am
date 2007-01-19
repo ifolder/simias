@@ -34,8 +34,8 @@ iFolderWeb_CSFILES = \
 	$(srcdir)/UploadStream.cs \
 	$(srcdir)/WebLogger.cs \
 	$(srcdir)/WebSettings.cs \
-	$(srcdir)/WebUtility.cs \
-	$(srcdir)/../core/Encryption/Blowfish.cs
+	$(srcdir)/WebUtility.cs 
+#	$(srcdir)/../core/Encryption/Blowfish.cs
 
 	
 iFolderWeb_CSFILES_CSC := $(subst /,$(SEP),$(iFolderWeb_CSFILES))
@@ -56,8 +56,8 @@ iFolderWeb_LIBS = \
 	$(SYSTEM_XML) \
 	System.Drawing.dll \
 	System.Web.dll \
-	System.Web.Services.dll
-
+	System.Web.Services.dll \
+	$(srcdir)/../core/SimiasLib.dll/SimiasLib.dll
 if !LINUX
 	iFolderWeb_LIBS := $(iFolderWeb_LIBS) log4net.dll
 endif
