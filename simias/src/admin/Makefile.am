@@ -60,9 +60,9 @@ iFolderAdmin_LIBS = \
 	System.Web.Services.dll \
 	$(srcdir)/../core/SimiasLib.dll/SimiasLib.dll
 
-if !LINUX
-	iFolderAdmin_LIBS := $(iFolderAdmin_LIBS) log4net.dll
-endif
+#if !LINUX
+#	iFolderAdmin_LIBS := $(iFolderAdmin_LIBS) log4net.dll
+#endif
 
 #iFolderAdmin_LIBPATH = $(LOG4NET_DIR)
 
@@ -149,9 +149,9 @@ install-exec-local: all
 	rm -rf `find $(DESTDIR)$(admindir)/images -name .svn`
 	cd $(srcdir)/css; cp -r * $(DESTDIR)$(admindir)/css
 	rm -rf `find $(DESTDIR)$(admindir)/css -name .svn`
-if !LINUX
-	$(INSTALL_PROGRAM) $(LOG4NET_DIR)/log4net.dll $(DESTDIR)$(admindir)/bin
-endif
+#if !LINUX
+#	$(INSTALL_PROGRAM) $(LOG4NET_DIR)/log4net.dll $(DESTDIR)$(admindir)/bin
+#endif
 
 uninstall-local:
 	rm -rf $(DESTDIR)$(admindir)
