@@ -26,6 +26,7 @@ using System.Collections;
 using System.Security.Cryptography;
 using System.Diagnostics;
 using System.IO;
+using System.Text;
 using System.Xml;
 using System.Threading;
 
@@ -102,6 +103,11 @@ namespace Simias.Storage
 		/// Encryption Algorithm type
 		/// </summary>
 		private string encryptionAlgorithm;
+
+		/// <summary>
+		/// Encryption key
+		/// </summary>
+		private string encryptionKey;
 		
 
 		#endregion
@@ -174,6 +180,18 @@ namespace Simias.Storage
 				Property p = properties.FindSingleValue(PropertyTags.EncryptionType);
 				string encryptionAlgorithm = (p!=null) ? (string) p.Value as string : "";
 				return encryptionAlgorithm;
+			}
+		}
+		/// <summary>
+		/// Gets the encryption algorithm
+		/// </summary>
+		public string EncryptionKey
+		{
+			get
+			{
+				Property p = properties.FindSingleValue(PropertyTags.EncryptionKey);
+				string encryptionKey = (p!=null) ? (string) p.Value as string : "";
+				return encryptionKey;
 			}
 		}
 
@@ -616,6 +634,8 @@ namespace Simias.Storage
 			store = storeObject;
 			this.ssl = ssl;
 			this.encryptionAlgorithm = encryptionAlgorithm;
+			if(encryptionAlgorithm !="")
+				this.encryptionKey= "123456789012345";
 
 			// Don't allow this collection to be created, if one already exist by the same id.
 			if ( store.GetCollectionByID( id ) != null )
@@ -632,6 +652,12 @@ namespace Simias.Storage
 
 			properties.AddNodeProperty(PropertyTags.EncryptionType, encryptionAlgorithm);
 
+			if(encryptionAlgorithm !="")
+			{
+				this.encryptionKey= "123456789012345";
+				properties.AddNodeProperty(PropertyTags.EncryptionKey, this.encryptionKey);
+			}
+			
 			// Setup the access control for this collection.
 			accessControl = new AccessControl( this );
 			createManagedPath = !Directory.Exists( ManagedPath );

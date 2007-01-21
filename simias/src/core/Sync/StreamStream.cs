@@ -229,7 +229,7 @@ namespace Simias.Sync
 		/// <param name="count">The number of bytes to read.</param>
 		/// <param name="encryption_key">The key string to encrypt the data.</param>
 		/// <returns>The number of bytes read.</returns>
-		public int Read(Stream outStream, int count, string encryptionAlgorithm)
+		public int Read(Stream outStream, int count, string encryptionAlgorithm, string EncryptionKey)
 		{
 			wStream = outStream;
 			int paddingLength = 0, reminder = 0;
@@ -247,7 +247,7 @@ namespace Simias.Sync
 						throw exception;
 					
 					UTF8Encoding utf8 = new UTF8Encoding();
-					Blowfish bf = new Blowfish(utf8.GetBytes("123456789012345"));
+					Blowfish bf = new Blowfish(utf8.GetBytes(EncryptionKey));
 					
 					reminder = (int) bytesRead % 8;
 					if (reminder != 0)
@@ -278,6 +278,7 @@ namespace Simias.Sync
 			wStream = null;
 			return count - bytesLeft + paddingLength;
 		}
+
 
 		/// <summary>
 		/// The async write has completed.

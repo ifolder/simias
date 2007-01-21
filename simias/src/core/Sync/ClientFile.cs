@@ -437,6 +437,7 @@ namespace Simias.Sync
 			Blowfish bf = null;
 			string EncryptionAlgorithm = "";
 			int boundary = 0;
+
 		
 			long[] fileMap = GetDownloadFileMap(out sizeToSync, out blockSize);
 			//Size need to be synced from server
@@ -465,14 +466,16 @@ namespace Simias.Sync
 			
 			Property p = collection.Properties.FindSingleValue(PropertyTags.EncryptionType);
 			EncryptionAlgorithm = (p!=null) ? (string) p.Value as string : "";
-			
-			if(EncryptionAlgorithm != "")	
+			if(EncryptionAlgorithm !="")
 			{
+				p = collection.Properties.FindSingleValue(PropertyTags.EncryptionKey);
+				string EncryptionKey = (p!=null) ? (string) p.Value as string : null;
+		
 				// Only blowfish is supported
 				if(EncryptionAlgorithm == "BlowFish")
 				{
 					UTF8Encoding utf8 = new UTF8Encoding();
-					bf = new Blowfish(utf8.GetBytes("123456789012345"));
+					bf = new Blowfish(utf8.GetBytes(EncryptionKey));
 					boundary = 8;
 				}
 			}
@@ -834,6 +837,7 @@ namespace Simias.Sync
 			ArrayList writeArray;
 			int blockSize;
 			string EncryptionAlgorithm="";
+			string EncryptionKey;
 			GetUploadFileMap(out sizeToSync, out copyArray, out writeArray, out blockSize);
 			sizeRemaining = sizeToSync;
 			
@@ -861,10 +865,14 @@ namespace Simias.Sync
 						if (stopping)
 							break;
 						int bytesToSend = (int)Math.Min(MaxXFerSize, leftToSend);
-						if(EncryptionAlgorithm != "")	
-							syncService.WriteFile(OutStream, ReadPosition, bytesToSend, EncryptionAlgorithm);
+						if(EncryptionAlgorithm != "")
+						{
+							p = collection.Properties.FindSingleValue(PropertyTags.EncryptionKey);
+							EncryptionKey = (p!=null) ? (string) p.Value as string : null;
+							syncService.WriteFile(OutStream, ReadPosition, bytesToSend, EncryptionAlgorithm, EncryptionKey);
+						}
 						else
-							syncService.WriteFile(OutStream, ReadPosition, bytesToSend, null);
+							syncService.WriteFile(OutStream, ReadPosition, bytesToSend, null, null);
 			
 						leftToSend -= bytesToSend;
 						sizeRemaining -= bytesToSend;

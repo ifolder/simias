@@ -26,6 +26,7 @@ using System.Web;
 using System.Web.SessionState;
 using System.Net;
 using System.Collections;
+using System.Threading;
 using Simias;
 
 using Simias.Event;
@@ -638,7 +639,7 @@ namespace Simias.Sync.Http
 		/// <param name="stream">The stream containing the data.</param>
 		/// <param name="offset">The offset to write at.</param>
 		/// <param name="count">The number of bytes to write.</param>
-		public void WriteFile(StreamStream stream, long offset, int count, string encryptionAlgorithm)
+		public void WriteFile(StreamStream stream, long offset, int count, string encryptionAlgorithm, string EncryptionKey)
 		{
 			HttpWebRequest request = GetRequest(SyncMethod.WriteFile);
 			WebHeaderCollection headers = request.Headers;
@@ -649,7 +650,7 @@ namespace Simias.Sync.Http
 			if (encryptionAlgorithm !=null)
 			{
 				//bytesRead will be more if padding doen in encryption
-				bytesRead = stream.Read(rStream, count, encryptionAlgorithm);
+				bytesRead = stream.Read(rStream, count, encryptionAlgorithm, EncryptionKey);
 			}
 			else
 				bytesRead = stream.Read(rStream, count);
