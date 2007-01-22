@@ -37,7 +37,7 @@ namespace Simias.Sync
 		Stream					stream;
 		Stream					wStream;
 		static Queue			Buffer = Queue.Synchronized(new Queue(2));
-		static int				buffSize = 1024 * 32;
+		static int				buffSize = 1024 * 64;
 		AutoResetEvent			writeComplete = new AutoResetEvent(true);
 		Exception				exception;
 			

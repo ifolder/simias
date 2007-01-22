@@ -498,7 +498,6 @@ namespace Novell.iFolder
 				return;
 			}
 
-			SetupPermissions();
 			SetupModMono();
 			if ( usingLDAP )
 			{
@@ -506,6 +505,7 @@ namespace Novell.iFolder
 			}
 			SetupScriptFiles();
 			SetupLog4Net();
+			SetupPermissions();
 		}
 
 		#region Arguments
@@ -828,7 +828,7 @@ namespace Novell.iFolder
 			SetConfigValue( document, "EnterpriseDomain", "Description", systemDescription.Value );
 			SetConfigValue( document, "Authentication", "SimiasRequireSSL", bool.Parse( useSsl.Value ) ? "yes" : "no");
 			SetConfigValue( document, "EnterpriseDomain", "AdminName", systemAdminDN.Value );
-			SetConfigValue( document, "StoreProvider", "path", storePath );
+			SetConfigValue( document, "StoreProvider", "Path", storePath );
 			if ( slaveServer.Value )
 			{
 				SetConfigValue( document, ServerSection, MasterAddressKey, masterAddress.Value);

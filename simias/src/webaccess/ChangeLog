@@ -1,3 +1,6 @@
+2007-01-22 Kalidas Balakrishnan <bkalidas@novell.com>
+	*Download.ashx.cs : Updated the buffer size
+
 2007-01-12  Johnny Jacob  <jjohnny@novell.com>
 
 	* Browse.aspx.cs : Resolve the location of remote iFolder.

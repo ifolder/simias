@@ -41,7 +41,7 @@ namespace Novell.iFolderApp.Web
 		/// <summary>
 		/// File Transfer Buffer Size
 		/// </summary>
-		private const int BUFFERSIZE = (16 * 1024);
+		private const int BUFFERSIZE = (64 * 1024);
 
 		/// <summary>
 		/// Constructor

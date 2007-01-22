@@ -36,7 +36,7 @@ namespace iFolder.WebService
 	/// </summary>
 	public class DownloadHandler : FileHandler
 	{
-		const int BUFFERSIZE = (16 * 1024);
+		const int BUFFERSIZE = (64 * 1024);
 
 		/// <summary>
 		/// Constructor
