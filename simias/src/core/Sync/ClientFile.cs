@@ -1034,19 +1034,18 @@ namespace Simias.Sync
 				CreateHashMap();
 				// Send the hash map
 				mapStream = GetHashMap(out entryCount, out blockSize);
-				if(mapStream != null)
-				{
-					mapStream.Position=0;
-					syncService.PutHashMap(mapStream, (int)mapStream.Length);
-					//not saved in the simias client, may be in future for down sync perf. enhancement 
-					DeleteHashMap();
-				}
+				
+				mapStream.Position=0;
+				syncService.PutHashMap(mapStream, (int)mapStream.Length);
+				//not saved in the simias client, may be in future for down sync perf. enhancement 
 				//catch at ProcessFilesToServer
 			}
 			finally
 			{
 				if(mapStream !=null)
 					mapStream.Close();
+				
+				DeleteHashMap();				
 			}			
 		}				
 
