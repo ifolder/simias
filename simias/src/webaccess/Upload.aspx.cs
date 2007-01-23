@@ -98,6 +98,11 @@ namespace Novell.iFolderApp.Web
 		private  string EncryptionAlgorithm;
 
 		/// <summary>
+		/// EncryptionKey
+		/// </summary>
+		private  string EncryptionKey;
+
+		/// <summary>
 		/// Page Load
 		/// </summary>
 		/// <param name="sender"></param>
@@ -116,6 +121,7 @@ namespace Novell.iFolderApp.Web
 
 			iFolder ifolder = web.GetiFolder(ifolderID);
 			EncryptionAlgorithm = ifolder.EncryptionAlgorithm;
+			EncryptionKey = ifolder.EncryptionKey;
 			
 			if (!IsPostBack)
 			{
@@ -285,7 +291,7 @@ namespace Novell.iFolderApp.Web
 			if(EncryptionEnabled)
 			{
 				UTF8Encoding utf8 = new UTF8Encoding();
-				bf = new Blowfish(utf8.GetBytes("123456789012345"));
+				bf = new Blowfish(utf8.GetBytes(EncryptionKey));
 				boundary = 8;
 			}
 

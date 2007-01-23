@@ -169,6 +169,11 @@ namespace iFolder.WebService
 		/// If encryption enabled, the algorithm type
 		/// </summary>
 		public string EncryptionAlgorithm = "";
+
+		/// <summary>
+		/// If encryption enabled, the encryptionkey
+		/// </summary>
+		public string EncryptionKey = "";
 		
 		/// <summary>
 		/// Constructor
@@ -215,6 +220,7 @@ namespace iFolder.WebService
 
 			//Only algorithm is needed by the middle tier, ssl can be configured by the admin
 			this.EncryptionAlgorithm = c.EncryptionAlgorithm;
+			this.EncryptionKey= c.EncryptionKey;
 		}
 
 		/// <summary>

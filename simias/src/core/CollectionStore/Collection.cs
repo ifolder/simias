@@ -654,7 +654,7 @@ namespace Simias.Storage
 
 			if(encryptionAlgorithm !="")
 			{
-				this.encryptionKey= "123456789012345";
+				this.encryptionKey= "123456789098765";
 				properties.AddNodeProperty(PropertyTags.EncryptionKey, this.encryptionKey);
 			}
 			

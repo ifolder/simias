@@ -120,7 +120,7 @@ namespace Novell.iFolderApp.Web
 				if(ifolder.EncryptionAlgorithm !="")
 				{
 					UTF8Encoding utf8 = new UTF8Encoding();
-					bf = new Blowfish(utf8.GetBytes("123456789012345"));
+					bf = new Blowfish(utf8.GetBytes(ifolder.EncryptionKey));
 					boundary =8;
 				}
 
