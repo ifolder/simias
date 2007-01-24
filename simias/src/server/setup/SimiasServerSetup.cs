@@ -158,7 +158,7 @@ namespace Novell.iFolder
 		/// <summary>
 		/// The master server address.
 		/// </summary>
-		public Option masterAddress = new Option("master-address,ma", "Master Server Address", "Address of the Master Server", false, null);
+		public Option masterAddress = new Option("master-address,ma", "Master Server Private URL", "Private URL of Master Server", false, null);
 
 		/// <summary>
 		/// Simias System Name
@@ -250,7 +250,7 @@ namespace Novell.iFolder
 		{
 			args = cmdArgs;
 			System.Net.IPHostEntry hostInfo = System.Net.Dns.GetHostByName( System.Net.Dns.GetHostName() );
-			Uri pubUrl = new Uri( Uri.UriSchemeHttp + "://" + hostInfo.AddressList[0].ToString() + ":8086" + "/simias10" );
+			Uri pubUrl = new Uri( Uri.UriSchemeHttp + "://" + hostInfo.AddressList[0].ToString() + ":80" + "/simias10" );
 			publicUrl.DefaultValue = pubUrl.ToString();
 			if ( MyEnvironment.Windows )
 			{
@@ -626,7 +626,7 @@ namespace Novell.iFolder
 							Uri.UriSchemeHttp + 
 							"://" + 
 							System.Net.Dns.GetHostByName(System.Net.Dns.GetHostName()).AddressList[0].ToString() + 
-							":8086" +
+							":80" +
 							"/simias10");
 				string pubAddress = config.Get( ServerSection, PublicAddressKey );
 				publicUrl.DefaultValue = ( pubAddress == null ) ? defaultUrl.ToString() : pubAddress;

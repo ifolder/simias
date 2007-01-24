@@ -1,3 +1,8 @@
+25-01-2007  Johnny Jacob  <jjohnny@novell.com>
+
+	* SimiasServerSetup.cs : Changed default port example for
+	Private/Public URL to 80.
+	
 2007-1-4  Johnny Jacob  <jjohnny@novell.com>
 
 	* DiscoveryWS : Initial Commit for Discovery WebService from
