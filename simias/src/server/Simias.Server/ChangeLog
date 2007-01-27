@@ -1,3 +1,8 @@
+2007-01-23  Johnny Jacob  <jjohnny@novell.com>
+
+	* Report.cs : Create the report collection with the server
+	name. Fixes #233087.
+	
 2006-12-15  Johnny Jacob  <jjohnny@novell.com>
 
 	* IdentitySyncManager.asmx.cs : MonthsOfYear. Added missing May.

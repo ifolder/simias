@@ -251,7 +251,11 @@ namespace Simias.Server
  			Store store = Store.GetStore();
  			Domain domain = store.GetDomain( store.DefaultDomain );
 
-			reportCollectionName = domain.Name + " " + GetString( "REPORTS" ); 
+		        //Note : During First instance, Domain has just been created. So take serverName from the configuration files.
+			Simias.Configuration config = Store.Config;
+			string serverName = config.Get( "Server", "Name" );
+
+			reportCollectionName = domain.Name + "-" + serverName  + "-" + GetString( "REPORTS" ); 
 
 			// columns
 			columns[ ( int )ColumnID.ReportTime ]     = new ReportColumn( GetString( "REPORT_TIME" ), "{0:G}" );
