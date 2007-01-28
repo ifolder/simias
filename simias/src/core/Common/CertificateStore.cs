@@ -36,7 +36,9 @@ namespace Simias.Security
 	{
 		const string certificateProperty = "Certificate";
 		const string hostProperty = "Host";
+		const string raProperty = "RecoveryAgent";
 		const string CertType = "X509Certificate";
+		static public ArrayList CertRAList = new ArrayList();
 
 		private static string GetHostFromUri( string uriString )
 		{
@@ -119,10 +121,80 @@ namespace Simias.Security
 		}
 
 		/// <summary>
+		/// Get the list of Recovery Agents 
+		/// </summary>
+		/// <returns>The list as a String array.</returns>
+		public static ArrayList GetRAList()
+		{
+			if(CertRAList.Count > 0)
+				return CertRAList;
+			else
+				return null;
+		}
+
+		/// <summary>
+		/// Get the Certificate for the specified store.
+		/// </summary>
+		/// <param name="host">The host who owns the certificate.</param>
+		/// <returns>The certificate as a byte array.</returns>
+		public static byte[] GetRACertificate(string recoveryAgnt)
+		{
+			CertPolicy.CertificateState cs = CertPolicy.GetRACertificate(recoveryAgnt);
+			if (cs != null)
+			{
+				return cs.Certificate.GetRawCertData();
+			}
+			return null;
+		}
+
+		/// <summary>
+		/// Store the certificate for the specified host.
+		/// </summary>
+		/// <param name="certificate">The certificate to store.</param>
+		/// <param name="host">The host the certificate belongs to.</param>
+		/// <param name="persist">If true save in store.</param>
+		public static void StoreRACertificate(byte[] certificate, string recoveryAgnt, bool persist)
+		{
+			CertRAList.Add(recoveryAgnt);
+			CertPolicy.StoreRACertificate(certificate, recoveryAgnt);
+			if (persist)
+			{
+				// Save the cert in the store.
+				Store store = Store.GetStore();
+				Domain domain = store.GetDomain(store.LocalDomain);
+
+				// Check for an existing cert in the store.
+				Node cn = null;
+				ICSList nodeList = domain.Search(raProperty, recoveryAgnt, SearchOp.Equal);
+				foreach (ShallowNode sn in nodeList)
+				{
+					cn = new Node(domain, sn);
+					if (!cn.IsType( CertType))
+					{
+						cn = null;
+						continue;
+					}
+					break;
+				}
+
+				if (cn == null)
+				{
+					// The cert doesn't exist ... create it.
+					cn = new Node("Certificate for " + recoveryAgnt);
+					domain.SetType(cn, CertType);
+					cn.Properties.ModifyNodeProperty(new Property(raProperty, recoveryAgnt));
+				}
+				cn.Properties.ModifyNodeProperty(new Property(certificateProperty, Convert.ToBase64String(certificate)));
+				domain.Commit(cn);
+			}
+		}
+
+		/// <summary>
 		/// 
 		/// </summary>
 		public static void LoadCertsFromStore()
 		{
+			string rAgent;
 			Store store = Store.GetStore();
 			Domain domain = store.GetDomain(store.LocalDomain);
 			ICSList certs = domain.GetNodesByType(CertType);
@@ -130,41 +202,75 @@ namespace Simias.Security
 			// We need to get rid of any duplicate certificates that may exist.
 			Hashtable ht = new Hashtable();
 			ArrayList nodesToDelete = new ArrayList();
-
+// it is assumed the host name and the Recovery agent name doesn't clash -- need to validate
+//need to see if this code can be optimized - TODO
 			foreach(ShallowNode sn in certs)
 			{
 				Node node = new Node(domain, sn);
 				try
 				{
 					string host = node.Properties.GetSingleProperty(hostProperty).Value.ToString();
-
-					if (ht.Contains(host))
+					rAgent = node.Properties.GetSingleProperty(raProperty).Value.ToString();
+					if(host != null)
 					{
-						// A duplicate exists, use the most recent one.
-						Node dupNode = (Node)ht[host];
-
-						DateTime nodeTime = (DateTime)node.Properties.GetSingleProperty(PropertyTags.NodeCreationTime).Value;
-						DateTime dupNodeTime = (DateTime)dupNode.Properties.GetSingleProperty(PropertyTags.NodeCreationTime).Value;
-
-						if (dupNodeTime > nodeTime)
+						if (ht.Contains(host))
 						{
-							nodesToDelete.Add( node );							
-							node = dupNode;
+							// A duplicate exists, use the most recent one.
+							Node dupNode = (Node)ht[host];
+						
+							DateTime nodeTime = (DateTime)node.Properties.GetSingleProperty(PropertyTags.NodeCreationTime).Value;
+							DateTime dupNodeTime = (DateTime)dupNode.Properties.GetSingleProperty(PropertyTags.NodeCreationTime).Value;
+						
+							if (dupNodeTime > nodeTime)
+							{
+								nodesToDelete.Add( node );							
+								node = dupNode;
+							}
+							else
+							{
+								nodesToDelete.Add(dupNode);
+								ht[host] = node;
+							}
 						}
 						else
 						{
-							nodesToDelete.Add(dupNode);
-							ht[host] = node;
+							ht.Add(host, node);
 						}
+						string sCert = node.Properties.GetSingleProperty(certificateProperty).Value.ToString();
+						byte[] certificate = Convert.FromBase64String(sCert);
+						CertPolicy.StoreCertificate(certificate, host);
 					}
-					else
+					
+					if(rAgent != null)
 					{
-						ht.Add(host, node);
+						if (ht.Contains(rAgent))
+						{
+							// A duplicate exists, use the most recent one.
+							Node dupNode = (Node)ht[rAgent];
+						
+							DateTime nodeTime = (DateTime)node.Properties.GetSingleProperty(PropertyTags.NodeCreationTime).Value;
+							DateTime dupNodeTime = (DateTime)dupNode.Properties.GetSingleProperty(PropertyTags.NodeCreationTime).Value;
+						
+							if (dupNodeTime > nodeTime)
+							{
+								nodesToDelete.Add( node );							
+								node = dupNode;
+							}
+							else
+							{
+								nodesToDelete.Add(dupNode);
+								ht[rAgent] = node;
+							}
+						}
+						else
+						{
+							ht.Add(rAgent, node);
+						}
+						string sCert = node.Properties.GetSingleProperty(certificateProperty).Value.ToString();
+						byte[] certificate = Convert.FromBase64String(sCert);
+						CertPolicy.StoreRACertificate(certificate, rAgent);
 					}
 
-					string sCert = node.Properties.GetSingleProperty(certificateProperty).Value.ToString();
-					byte[] certificate = Convert.FromBase64String(sCert);
-					CertPolicy.StoreCertificate(certificate, host);
 				}
 				catch {}
 			}

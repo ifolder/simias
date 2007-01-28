@@ -93,6 +93,9 @@ namespace Simias.Client
 
 		static public Hashtable CertTable = Hashtable.Synchronized(new Hashtable());
 
+		static public Hashtable CertRATable = Hashtable.Synchronized(new Hashtable());
+
+
 		/// <summary>
 		/// The default certificate policy.
 		/// </summary>
@@ -156,6 +159,22 @@ namespace Simias.Client
 		}
 
 		/// <summary>
+		/// Get the Certificate for the specified store.
+		/// </summary>
+		/// <param name="host">The host who owns the certificate.</param>
+		/// <returns>The certificate as a byte array.</returns>
+		public static CertificateState GetRACertificate(string recoveryAgnt)
+		{
+			CertificateState cs = CertRATable[recoveryAgnt] as CertificateState;
+			if (cs != null)
+			{
+				return cs;
+			}
+			return null;
+		}
+
+
+		/// <summary>
 		/// Store the certificate for the specified host.
 		/// </summary>
 		/// <param name="certificate">The certificate to store.</param>
@@ -163,6 +182,16 @@ namespace Simias.Client
 		public static void StoreCertificate(byte[] certificate, string host)
 		{
 			CertTable[host] = new CertificateState(new X509Certificate(certificate), true, CertificateProblem.CertOK);
+		}
+
+		/// <summary>
+		/// Store the certificate for the specified host.
+		/// </summary>
+		/// <param name="certificate">The certificate to store.</param>
+		/// <param name="host">The host the certificate belongs to.</param>
+		public static void StoreRACertificate(byte[] certificate, string recoveryAgent)
+		{
+			CertRATable[recoveryAgent] = new CertificateState(new X509Certificate(certificate), true, CertificateProblem.CertOK);
 		}
 
 		#region ICertificatePolicy Members

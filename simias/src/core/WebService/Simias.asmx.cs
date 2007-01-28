@@ -963,6 +963,44 @@ log.Debug("SimiasWebService.ConnectToDomain() called to connect to {0} as {1}", 
 			// Normalize the host address.
 			Simias.Security.CertificateStore.StoreCertificate(certificate, host.ToLower(), true);
 		}
+
+		
+		/// <summary>
+		/// WebMethod to get the list of recovery agents.
+		/// </summary>
+		/// <returns></returns>
+		[WebMethod(EnableSession=true, Description="Get the Recovery Agent List.")]
+		[SoapDocumentMethod]
+		public ArrayList GetRAList()
+		{
+			return Simias.Security.CertificateStore.GetRAList();
+		}
+
+		/// <summary>
+		/// WebMethod to get the RA certificate for the specified host.
+		/// </summary>
+		/// <param name="host"></param>
+		/// <returns></returns>
+		[WebMethod(EnableSession=true, Description="Get the Recovery Agent certificate of the domain.")]
+		[SoapDocumentMethod]
+		public byte[] GetRACertificate(string rAgent)
+		{
+			// Normalize the RA name.
+			return Simias.Security.CertificateStore.GetRACertificate(rAgent.ToLower());
+		}
+
+		/// <summary>
+		/// WebMethod to Store the RA certificate for the domain.
+		/// </summary>
+		/// <param name="certificate">The certificate to store.</param>
+		/// <param name="host">The host the certificate belongs to.</param>
+		[WebMethod(EnableSession=true, Description="Store the certificate for the Domain.")]
+		[SoapDocumentMethod]
+		public void StoreRACertificate(byte[] certificate, string rAgent)
+		{
+			// Normalize the RA name.
+			Simias.Security.CertificateStore.StoreRACertificate(certificate, rAgent.ToLower(), true);
+		}
 		
 		/// <summary>
 		/// Returns the characters which cannot be used for filenames in the

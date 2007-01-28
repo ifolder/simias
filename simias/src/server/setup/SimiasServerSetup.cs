@@ -30,6 +30,7 @@ using System.Threading;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Security.Cryptography;
+using System.Security.Cryptography.X509Certificates;
 
 using Simias;
 using Simias.Client;
@@ -96,6 +97,7 @@ namespace Novell.iFolder
 		bool usingLDAP = false;
 
 		string storePath;
+		string raPath;
 
 		/// <summary>
 		/// The path to the directory where the
@@ -153,7 +155,7 @@ namespace Novell.iFolder
 		/// <summary>
 		/// Slave Server.
 		/// </summary>
-		public BoolOption slaveServer = new BoolOption("slave-server,ss", "Slave Server", "Install into existing Simias Domain", false, false);
+		public BoolOption slaveServer = new BoolOption("slave-server,ssl", "Slave Server", "Install into existing Simias Domain", false, false);
 		
 		/// <summary>
 		/// The master server address.
@@ -174,6 +176,16 @@ namespace Novell.iFolder
 		/// Simias System Description
 		/// </summary>
 		public Option systemDescription = new Option("system-description", "System Description", "A detailed description of the Simias system for users.", false, "Simias Enterprise Server");
+
+		/// <summary>
+		/// Use LDAP
+		/// </summary>
+		public BoolOption useRA = new BoolOption("use-recovery-agent", "Use Key Recovery Agent", "Use Key Recovery Agents to recovery the encryption key if the user forgets the pass-phrase used for encryption?", false, true);
+
+		/// <summary>
+		/// LDAP URL
+		/// </summary>
+		public Option recoveryAgentCertificatePath = new Option("ra-cert-path", "Recovery Agent Certificate Path", "The path where the Recovery agent certificates are stored.", false, null);
 
 		/// <summary>
 		/// Use LDAP
@@ -252,6 +264,7 @@ namespace Novell.iFolder
 			System.Net.IPHostEntry hostInfo = System.Net.Dns.GetHostByName( System.Net.Dns.GetHostName() );
 			Uri pubUrl = new Uri( Uri.UriSchemeHttp + "://" + hostInfo.AddressList[0].ToString() + ":80" + "/simias10" );
 			publicUrl.DefaultValue = pubUrl.ToString();
+			ldapServer.DefaultValue = hostInfo.AddressList[0].ToString();
 			if ( MyEnvironment.Windows )
 			{
 				// On windows we do not want to prompt for these values.
@@ -266,6 +279,8 @@ namespace Novell.iFolder
 			privateUrl.OnOptionEntered = new Option.OptionEnteredHandler( OnPrivateUrl );
 			masterAddress.OnOptionEntered = new Option.OptionEnteredHandler( OnMasterAddress );
 			useLdap.OnOptionEntered = new Option.OptionEnteredHandler( OnLdap );
+			useRA.OnOptionEntered = new Option.OptionEnteredHandler( OnRA );
+			recoveryAgentCertificatePath.OnOptionEntered = new Option.OptionEnteredHandler( OnRAPath );
 		}
 
 		#endregion
@@ -341,6 +356,22 @@ namespace Novell.iFolder
 			}
 
 			return true;
+		}
+
+		private bool OnRA()
+		{
+			if ( !useRA.Value )
+			{
+				recoveryAgentCertificatePath.Prompt = false;
+			} 
+			
+			return true;
+		}
+
+		private bool OnRAPath()
+		{
+			raPath = Path.GetFullPath( recoveryAgentCertificatePath.Value );
+			return System.IO.Directory.Exists( raPath );
 		}
 
 		private bool OnSlave()
@@ -842,6 +873,8 @@ namespace Novell.iFolder
 			SetConfigValue( document, ServerSection, ServerNameKey, serverName.Value);
 			SetConfigValue( document, ServerSection, PublicAddressKey, publicUrl.Value );
 			SetConfigValue( document, ServerSection, PrivateAddressKey, privateUrl.Value );
+			if( useRA.Value )
+				SetConfigValue( document, ServerSection, "RAPath", recoveryAgentCertificatePath.Value );
 
 			// Commit the config file changes.
 			CommitConfiguration( document );
@@ -961,6 +994,11 @@ namespace Novell.iFolder
 		void SetupLdap()
 		{
 			UriBuilder newUri = new UriBuilder();
+			if(ldapServer.Value.Equals("localhost"))
+			{
+				System.Net.IPHostEntry hostInfo = System.Net.Dns.GetHostByName( System.Net.Dns.GetHostName() );
+				ldapServer.Value = hostInfo.AddressList[0].ToString();
+			}
 			newUri.Host = ldapServer.Value;
 			newUri.Scheme = secure.Value ? LdapSettings.UriSchemeLdaps : LdapSettings.UriSchemeLdap;
 			ldapUrl = new Uri(newUri.ToString());
@@ -978,14 +1016,22 @@ namespace Novell.iFolder
 					ldapUtility.Host, ldapUtility.Port, ldapAdminDN.Value, ldapAdminPassword.Value, certfile) == 0)
 				{
 					Console.WriteLine();
+					X509Certificate ldapCert = X509Certificate.CreateFromCertFile(certfile);
+					string certDetail = "LDAP Certication Details: {0} Issuer: {1}{2} Format: {3}{4} Raw Data: {5}{6}";
+					certDetail = String.Format(certDetail, 
+						Environment.NewLine, ldapCert.GetIssuerName(), Environment.NewLine, ldapCert.GetFormat(), Environment.NewLine,ldapCert.GetRawCertDataString(), Environment.NewLine);
+					BoolOption ldapCertAcc = new BoolOption("ldap-cert-acceptance", "Accept LDAP Certificate", certDetail, false, true);
+					ldapCertAcc.Prompt = true;
+					Prompt.ForOption(ldapCertAcc);
 
-					if (Execute("certmgr", "-add -c -m Trust {0}", certfile) == 0)
+					if (ldapCertAcc.Value == true && Execute("certmgr", "-add -c -m Trust {0}", certfile) == 0)
 					{
 						Console.WriteLine("Done");
 					}
 					else
 					{
 						Console.WriteLine("Failed (Install Certificate)");
+						throw new Exception( string.Format( "User Certificate validation failed for {0}", ldapUtility.Host ) );
 					}
 				}
 				else
@@ -1003,6 +1049,7 @@ namespace Novell.iFolder
 			{
 				Console.WriteLine("Skipped ({0})", ldapUtility.Secure ? "Mono Only" : "Not Required");
 			}
+
 
 			// connect
 			Console.Write("Connecting to {0}...", ldapUrl.ToString());

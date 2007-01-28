@@ -506,6 +506,7 @@ namespace Simias.Storage
 
 					// Create the certificate policy and load the certs.
 					new CertPolicy();
+					//read the list of certificates and add it to the policy - call StoreRACertificate() -- TODO
 					Simias.Security.CertificateStore.LoadCertsFromStore();
 				}
 
