@@ -180,12 +180,12 @@ namespace Novell.iFolder
 		/// <summary>
 		/// Use LDAP
 		/// </summary>
-		public BoolOption useRA = new BoolOption("use-recovery-agent", "Use Key Recovery Agent", "Use Key Recovery Agents to recovery the encryption key if the user forgets the pass-phrase used for encryption?", false, true);
+		public BoolOption useRA = new BoolOption("use-recovery-agent", "Use Key Recovery Agent", "Use Key Recovery Agents to recovery the encryption key if the user forgets the pass-phrase used for encryption?", false, false);
 
 		/// <summary>
 		/// LDAP URL
 		/// </summary>
-		public Option recoveryAgentCertificatePath = new Option("ra-cert-path", "Recovery Agent Certificate Path", "The path where the Recovery agent certificates are stored.", false, null);
+		public Option recoveryAgentCertificatePath = new Option("ra-cert-path", "Recovery Agent Certificate Path", "Path to the Recovery agent certificate's.", false, null);
 
 		/// <summary>
 		/// Use LDAP
@@ -1017,9 +1017,10 @@ namespace Novell.iFolder
 				{
 					Console.WriteLine();
 					X509Certificate ldapCert = X509Certificate.CreateFromCertFile(certfile);
-					string certDetail = "LDAP Certication Details: {0} Issuer: {1}{2} Format: {3}{4} Raw Data: {5}{6}";
+					string certDetail = "LDAP Certication Details: {0} Issuer: {1} Format: {2} Effective Date: {3} Expiry Date: {4} Certificate Hash: {5}{6}";
 					certDetail = String.Format(certDetail, 
-						Environment.NewLine, ldapCert.GetIssuerName(), Environment.NewLine, ldapCert.GetFormat(), Environment.NewLine,ldapCert.GetRawCertDataString(), Environment.NewLine);
+						Environment.NewLine, ldapCert.GetIssuerName(), ldapCert.GetFormat(), ldapCert.GetEffectiveDateString(), ldapCert.GetExpirationDateString(), 
+						ldapCert.GetCertHashString(), Environment.NewLine );
 					BoolOption ldapCertAcc = new BoolOption("ldap-cert-acceptance", "Accept LDAP Certificate", certDetail, false, true);
 					ldapCertAcc.Prompt = true;
 					Prompt.ForOption(ldapCertAcc);
