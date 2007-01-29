@@ -128,6 +128,16 @@ namespace Simias.Authentication
 		UpgradeNeeded = 0x1f000105,
 
 		/// <summary>
+		/// The version of the server is older.
+		/// </summary>
+		PassPhraseNotSet = 0x1f000106,
+
+		/// <summary>
+		/// The version of the server is older.
+		/// </summary>
+		PassPhraseInvalid = 0x1f000106,
+
+		/// <summary>
 		/// Authentication failed with an unknown reason
 		/// </summary>
 		Unknown = 0x1f001fff

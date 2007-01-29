@@ -1181,6 +1181,110 @@ log.Debug("SimiasWebService.ConnectToDomain() called to connect to {0} as {1}", 
 				return simiasReferenceCount;
 			}
 		}
+		///<summary>
+		///set/validate the passphrase
+		///</summary>
+		///<returns>passPhrase.</returns>
+		[WebMethod(EnableSession=true, Description="Set/Validate the passphrase.")]
+		[SoapDocumentMethod]
+		public Simias.Authentication.Status SetPassPhrase(string domainID, string passPhrase)
+		{
+			log.Debug( "SetPassPhrase - called" );
+			Store store = Store.GetStore();
+			Simias.Storage.Domain domain = store.GetDomain(domainID);
+			if( domain == null )
+			{
+				return new Simias.Authentication.Status( Simias.Authentication.StatusCodes.UnknownDomain );
+			}
+
+			Simias.Storage.Member member = domain.GetCurrentMember();
+			if( member == null )
+			{
+				return new Simias.Authentication.Status( Simias.Authentication.StatusCodes.UnknownUser );
+			}
+
+			log.Debug( "SetPassPhrase  User: " + member.Name );
+
+
+			Collection collection = store.GetCollectionByID(member.ID);
+
+			Property p = collection.Properties.GetSingleProperty(PropertyTags.EncryptionBlob);
+			string oldBlob = (p!=null) ? (string) p.Value as string : "";
+			if(oldBlob =="")
+			{
+				log.Info( "SetPassPhrase  User: " + member.Name );
+				//Get the random key
+				TripleDESCryptoServiceProvider tDesKey = new TripleDESCryptoServiceProvider();
+				//tDesKey.KeySize();
+				UTF8Encoding utf8 = new UTF8Encoding();
+				string encryptionKey = utf8.GetString(tDesKey.Key);
+
+				// Encrypt the key, algorithm here
+
+				//Add the encrypted key, algorithm type as a user node property
+				collection.Properties.AddNodeProperty(PropertyTags.EncryptionKey, "123456789012345" as string);
+				collection.Properties.AddNodeProperty(PropertyTags.EncryptionType, "BlowFish" as string);
+
+				//Using the unencrypted key, algorithm type and create the blob  add as user node property
+				PassPhrase blob = new PassPhrase("123456789012345","blowFish");
+				collection.Properties.AddNodeProperty(PropertyTags.EncryptionBlob, blob.HashPassPhrase());
+				return new Simias.Authentication.Status  (Simias.Authentication.StatusCodes.Success);			
+			}
+			else
+			{
+				//Decrypt the node properties (key, algorithm) using the passphrase provided by the user
+
+				//Retrieve the old unencrypted blob (already done see above)			
+				
+				//Create the new blob using the decrypted key and algorithm
+				PassPhrase  newBlob = new PassPhrase("123456789012345","blowFish");
+				
+				//validate the blobs
+				if(String.Equals(newBlob.HashPassPhrase(), oldBlob)==true)
+				{
+					log.Debug( "Validating the user entered passphrase: passphrase match succeded");
+					return new Simias.Authentication.Status(Simias.Authentication.StatusCodes.Success);			
+				}
+				else
+				{
+					log.Debug( "Validating the user entered passphrase: passphrase match failed");
+					return new Simias.Authentication.Status(Simias.Authentication.StatusCodes.PassPhraseInvalid);
+				}
+			}
+		}
+		
+		///<summary>
+		///</summary>
+		///<returns></returns>
+		[WebMethod(EnableSession=true, Description="Returns the passphrase state.")]
+		[SoapDocumentMethod]
+		public Simias.Authentication.Status IsPassPhraseSet (string domainID)
+		{
+			log.Debug( "IsPassPhraseSet - called" );
+			Store store = Store.GetStore();
+			Simias.Storage.Domain domain = store.GetDomain(domainID);
+			if( domain == null )
+			{
+				return new Simias.Authentication.Status( Simias.Authentication.StatusCodes.UnknownDomain );
+			}
+
+			Simias.Storage.Member member = domain.GetCurrentMember();
+			if( member == null )
+			{
+				return new Simias.Authentication.Status( Simias.Authentication.StatusCodes.UnknownUser );
+			}
+
+			log.Debug( "IsPassPhraseSet User: " + member.Name );
+
+			
+			Collection collection = store.GetCollectionByID(member.ID);
+			Property p = collection.Properties.GetSingleProperty(PropertyTags.EncryptionBlob);
+			string EncryptionBlob = (p!=null) ? (string) p.Value as string : "";
+			if(EncryptionBlob =="")
+				return new Simias.Authentication.Status( Simias.Authentication.StatusCodes.Success);			
+			else	
+				return new Simias.Authentication.Status( Simias.Authentication.StatusCodes.PassPhraseNotSet);
+		}
 
 		/// <summary>
 		/// Gets the directory path to the Simias data area.

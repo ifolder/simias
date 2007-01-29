@@ -106,6 +106,11 @@ namespace Simias.Storage
 		/// <summary>
 		/// Well known property name.
 		/// </summary>
+		static public string EncryptionBlob= "EncryptionBlob";
+
+		/// <summary>
+		/// Well known property name.
+		/// </summary>
 		static public string DomainType = "DomainType";
 
 		/// <summary>

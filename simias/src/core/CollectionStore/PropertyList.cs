@@ -290,7 +290,7 @@ namespace Simias.Storage
 		/// </summary>
 		/// <param name="name">Name of the property to add.</param>
 		/// <param name="propertyValue">String value of the property to add.</param>
-		internal void AddNodeProperty( string name, string propertyValue )
+		public void AddNodeProperty( string name, string propertyValue )
 		{
 			AddNodeProperty( new Property( name, propertyValue ) );
 		}

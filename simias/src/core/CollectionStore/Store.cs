@@ -1582,4 +1582,36 @@ namespace Simias.Storage
 		}
 		#endregion
 	}
+	/// <summary>
+	/// This is the top level object for thePassPhrase
+	/// </summary>
+	public sealed class PassPhrase
+	{
+		string 	Algorithm;
+		string	Key;
+		double	KeyVersion;
+		int		KeySize;
+
+		public PassPhrase(string EncryptionKey, string EncryptionAlgorithm)
+		{
+			Algorithm 	= EncryptionAlgorithm;
+			Key			= EncryptionKey;
+			KeyVersion	= 1.0;
+			KeySize		= 448;
+		}
+		public string HashPassPhrase()
+		{
+			string SerialPass = this.Serialize();
+
+			UTF8Encoding utf8 = new UTF8Encoding();
+			MD5 md5 = new MD5CryptoServiceProvider();
+			byte[] hashedObject = new MD5CryptoServiceProvider().ComputeHash(utf8.GetBytes(this.Serialize()));
+			return Convert.ToBase64String(hashedObject);
+		}
+		public string Serialize()
+		{
+			string SerialPass = this.Algorithm+this.Key+this.KeyVersion.ToString()+this.KeySize.ToString();
+			return SerialPass;
+		}
+	}
 }

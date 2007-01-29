@@ -29,6 +29,7 @@ using System.IO;
 using System.Text;
 using System.Xml;
 using System.Threading;
+using System.Security.Cryptography;
 
 using Simias;
 using Simias.Client;
@@ -180,7 +181,7 @@ namespace Simias.Storage
 				Property p = properties.FindSingleValue(PropertyTags.EncryptionType);
 				string encryptionAlgorithm = (p!=null) ? (string) p.Value as string : "";
 				return encryptionAlgorithm;
-			}
+			}			
 		}
 		/// <summary>
 		/// Gets the encryption algorithm
@@ -634,8 +635,6 @@ namespace Simias.Storage
 			store = storeObject;
 			this.ssl = ssl;
 			this.encryptionAlgorithm = encryptionAlgorithm;
-			if(encryptionAlgorithm !="")
-				this.encryptionKey= "123456789012345";
 
 			// Don't allow this collection to be created, if one already exist by the same id.
 			if ( store.GetCollectionByID( id ) != null )
@@ -654,7 +653,11 @@ namespace Simias.Storage
 
 			if(encryptionAlgorithm !="")
 			{
-				this.encryptionKey= "123456789098765";
+				TripleDESCryptoServiceProvider tDesKey = new TripleDESCryptoServiceProvider();
+				//tDesKey.KeySize();
+
+				UTF8Encoding utf8 = new UTF8Encoding();				
+				this.encryptionKey = utf8.GetString(tDesKey.Key);
 				properties.AddNodeProperty(PropertyTags.EncryptionKey, this.encryptionKey);
 			}
 			

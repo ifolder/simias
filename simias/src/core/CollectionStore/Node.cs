@@ -377,6 +377,18 @@ namespace Simias.Storage
 		}
 
 		/// <summary>
+		///
+		/// </summary>
+		public string EncryptionBlob
+		{
+			get 
+			{
+				Property p = properties.FindSingleValue( PropertyTags.EncryptionBlob);
+				return (p!=null) ? (string) p.Value as string : "";
+			}
+		}
+
+		/// <summary>
 		/// Gets or sets whether the commit code should continue to process invitation
 		/// events for this node.
 		/// </summary>
