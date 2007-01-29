@@ -232,9 +232,9 @@
           <xs:enumeration value="InternalException" />
           <xs:enumeration value="MethodNotSupported" />
           <xs:enumeration value="Timeout" />
-	  <xs:enumeration value="OlderVersion" />
-	  <xs:enumeration value="ServerOld" />
-	  <xs:enumeration value="UpgradeNeeded" />
+          <xs:enumeration value="OlderVersion" />
+          <xs:enumeration value="ServerOld" />
+          <xs:enumeration value="UpgradeNeeded" />
           <xs:enumeration value="Unknown" />
         </xs:restriction>
       </xs:simpleType>
@@ -282,6 +282,7 @@
           <xs:element minOccurs="0" maxOccurs="1" name="ExceptionMessage" type="xs:string" />
           <xs:element minOccurs="1" maxOccurs="1" name="TotalGraceLogins" type="xs:int" />
           <xs:element minOccurs="1" maxOccurs="1" name="RemainingGraceLogins" type="xs:int" />
+          <xs:element minOccurs="1" maxOccurs="1" name="DaysUntilPasswordExpires" type="xs:int" />
         </xs:sequence>
       </xs:complexType>
       <xs:element name="LoginToRemoteDomainResponse">
@@ -480,6 +481,46 @@
       <xs:element name="StoreCertificateResponse">
         <xs:complexType />
       </xs:element>
+      <xs:element name="GetRAList">
+        <xs:complexType />
+      </xs:element>
+      <xs:complexType name="ArrayOfAnyType">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="anyType" nillable="true" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="GetRAListResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetRAListResult" type="s0:ArrayOfAnyType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetRACertificate">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="rAgent" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetRACertificateResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetRACertificateResult" type="xs:base64Binary" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="StoreRACertificate">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="certificate" type="xs:base64Binary" />
+            <xs:element minOccurs="0" maxOccurs="1" name="rAgent" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="StoreRACertificateResponse">
+        <xs:complexType />
+      </xs:element>
       <xs:element name="GetInvalidSyncFilenameChars">
         <xs:complexType />
       </xs:element>
@@ -495,8 +536,8 @@
           <xs:sequence>
             <xs:element minOccurs="0" maxOccurs="1" name="domainID" type="xs:string" />
             <xs:element minOccurs="0" maxOccurs="1" name="hostAddress" type="xs:string" />
-	    <xs:element minOccurs="0" maxOccurs="1" name="user" type="xs:string" />
-	    <xs:element minOccurs="0" maxOccurs="1" name="password" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="user" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="password" type="xs:string" />
           </xs:sequence>
         </xs:complexType>
       </xs:element>
@@ -585,230 +626,260 @@
           </xs:sequence>
         </xs:complexType>
       </xs:element>
-      <xs:element name="string" type="xs:string" />
-      <xs:element name="DomainInformation" type="s0:DomainInformation" />
-      <xs:element name="ArrayOfDomainInformation" type="s0:ArrayOfDomainInformation" />
-      <xs:element name="Status" type="s0:Status" />
+      <xs:element name="string" nillable="true" type="xs:string" />
+      <xs:element name="DomainInformation" nillable="true" type="s0:DomainInformation" />
+      <xs:element name="ArrayOfDomainInformation" nillable="true" type="s0:ArrayOfDomainInformation" />
+      <xs:element name="Status" nillable="true" type="s0:Status" />
       <xs:element name="boolean" type="xs:boolean" />
       <xs:element name="int" type="xs:int" />
-      <xs:element name="base64Binary" type="xs:base64Binary" />
+      <xs:element name="base64Binary" nillable="true" type="xs:base64Binary" />
+      <xs:element name="ArrayOfAnyType" nillable="true" type="s0:ArrayOfAnyType" />
+    </xs:schema>
+    <xs:schema xmlns:tns="http://novell.com/simias/web/AbstractTypes" targetNamespace="http://novell.com/simias/web/AbstractTypes" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:import namespace="http://schemas.xmlsoap.org/soap/encoding/" />
+      <xs:simpleType name="CredentialType">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="None" />
+          <xs:enumeration value="NotRequired" />
+          <xs:enumeration value="Basic" />
+          <xs:enumeration value="PPK" />
+        </xs:restriction>
+      </xs:simpleType>
     </xs:schema>
   </types>
   <message name="PingSimiasSoapIn">
-    <part name="parameters" element="s0:PingSimias" />
+    <part element="s0:PingSimias" name="parameters" />
   </message>
   <message name="PingSimiasSoapOut">
-    <part name="parameters" element="s0:PingSimiasResponse" />
+    <part element="s0:PingSimiasResponse" name="parameters" />
   </message>
   <message name="AddMemberToDomainSoapIn">
-    <part name="parameters" element="s0:AddMemberToDomain" />
+    <part element="s0:AddMemberToDomain" name="parameters" />
   </message>
   <message name="AddMemberToDomainSoapOut">
-    <part name="parameters" element="s0:AddMemberToDomainResponse" />
+    <part element="s0:AddMemberToDomainResponse" name="parameters" />
   </message>
   <message name="RemoveMemberFromDomainSoapIn">
-    <part name="parameters" element="s0:RemoveMemberFromDomain" />
+    <part element="s0:RemoveMemberFromDomain" name="parameters" />
   </message>
   <message name="RemoveMemberFromDomainSoapOut">
-    <part name="parameters" element="s0:RemoveMemberFromDomainResponse" />
+    <part element="s0:RemoveMemberFromDomainResponse" name="parameters" />
   </message>
   <message name="FindCloseMembersSoapIn">
-    <part name="parameters" element="s0:FindCloseMembers" />
+    <part element="s0:FindCloseMembers" name="parameters" />
   </message>
   <message name="FindCloseMembersSoapOut">
-    <part name="parameters" element="s0:FindCloseMembersResponse" />
+    <part element="s0:FindCloseMembersResponse" name="parameters" />
   </message>
   <message name="FindFirstMembersSoapIn">
-    <part name="parameters" element="s0:FindFirstMembers" />
+    <part element="s0:FindFirstMembers" name="parameters" />
   </message>
   <message name="FindFirstMembersSoapOut">
-    <part name="parameters" element="s0:FindFirstMembersResponse" />
+    <part element="s0:FindFirstMembersResponse" name="parameters" />
   </message>
   <message name="FindFirstSpecificMembersSoapIn">
-    <part name="parameters" element="s0:FindFirstSpecificMembers" />
+    <part element="s0:FindFirstSpecificMembers" name="parameters" />
   </message>
   <message name="FindFirstSpecificMembersSoapOut">
-    <part name="parameters" element="s0:FindFirstSpecificMembersResponse" />
+    <part element="s0:FindFirstSpecificMembersResponse" name="parameters" />
   </message>
   <message name="FindNextMembersSoapIn">
-    <part name="parameters" element="s0:FindNextMembers" />
+    <part element="s0:FindNextMembers" name="parameters" />
   </message>
   <message name="FindNextMembersSoapOut">
-    <part name="parameters" element="s0:FindNextMembersResponse" />
+    <part element="s0:FindNextMembersResponse" name="parameters" />
   </message>
   <message name="FindPreviousMembersSoapIn">
-    <part name="parameters" element="s0:FindPreviousMembers" />
+    <part element="s0:FindPreviousMembers" name="parameters" />
   </message>
   <message name="FindPreviousMembersSoapOut">
-    <part name="parameters" element="s0:FindPreviousMembersResponse" />
+    <part element="s0:FindPreviousMembersResponse" name="parameters" />
   </message>
   <message name="FindSeekMembersSoapIn">
-    <part name="parameters" element="s0:FindSeekMembers" />
+    <part element="s0:FindSeekMembers" name="parameters" />
   </message>
   <message name="FindSeekMembersSoapOut">
-    <part name="parameters" element="s0:FindSeekMembersResponse" />
+    <part element="s0:FindSeekMembersResponse" name="parameters" />
   </message>
   <message name="GetSimiasInformationSoapIn">
-    <part name="parameters" element="s0:GetSimiasInformation" />
+    <part element="s0:GetSimiasInformation" name="parameters" />
   </message>
   <message name="GetSimiasInformationSoapOut">
-    <part name="parameters" element="s0:GetSimiasInformationResponse" />
+    <part element="s0:GetSimiasInformationResponse" name="parameters" />
   </message>
   <message name="GetDomainInformationSoapIn">
-    <part name="parameters" element="s0:GetDomainInformation" />
+    <part element="s0:GetDomainInformation" name="parameters" />
   </message>
   <message name="GetDomainInformationSoapOut">
-    <part name="parameters" element="s0:GetDomainInformationResponse" />
+    <part element="s0:GetDomainInformationResponse" name="parameters" />
   </message>
   <message name="GetDomainsSoapIn">
-    <part name="parameters" element="s0:GetDomains" />
+    <part element="s0:GetDomains" name="parameters" />
   </message>
   <message name="GetDomainsSoapOut">
-    <part name="parameters" element="s0:GetDomainsResponse" />
+    <part element="s0:GetDomainsResponse" name="parameters" />
   </message>
   <message name="LoginToRemoteDomainSoapIn">
-    <part name="parameters" element="s0:LoginToRemoteDomain" />
+    <part element="s0:LoginToRemoteDomain" name="parameters" />
   </message>
   <message name="LoginToRemoteDomainSoapOut">
-    <part name="parameters" element="s0:LoginToRemoteDomainResponse" />
+    <part element="s0:LoginToRemoteDomainResponse" name="parameters" />
   </message>
   <message name="LogoutFromRemoteDomainSoapIn">
-    <part name="parameters" element="s0:LogoutFromRemoteDomain" />
+    <part element="s0:LogoutFromRemoteDomain" name="parameters" />
   </message>
   <message name="LogoutFromRemoteDomainSoapOut">
-    <part name="parameters" element="s0:LogoutFromRemoteDomainResponse" />
+    <part element="s0:LogoutFromRemoteDomainResponse" name="parameters" />
   </message>
   <message name="DisableDomainAutoLoginSoapIn">
-    <part name="parameters" element="s0:DisableDomainAutoLogin" />
+    <part element="s0:DisableDomainAutoLogin" name="parameters" />
   </message>
   <message name="DisableDomainAutoLoginSoapOut">
-    <part name="parameters" element="s0:DisableDomainAutoLoginResponse" />
+    <part element="s0:DisableDomainAutoLoginResponse" name="parameters" />
   </message>
   <message name="IsDomainActiveSoapIn">
-    <part name="parameters" element="s0:IsDomainActive" />
+    <part element="s0:IsDomainActive" name="parameters" />
   </message>
   <message name="IsDomainActiveSoapOut">
-    <part name="parameters" element="s0:IsDomainActiveResponse" />
+    <part element="s0:IsDomainActiveResponse" name="parameters" />
   </message>
   <message name="SetDomainActiveSoapIn">
-    <part name="parameters" element="s0:SetDomainActive" />
+    <part element="s0:SetDomainActive" name="parameters" />
   </message>
   <message name="SetDomainActiveSoapOut">
-    <part name="parameters" element="s0:SetDomainActiveResponse" />
+    <part element="s0:SetDomainActiveResponse" name="parameters" />
   </message>
   <message name="SetDomainInactiveSoapIn">
-    <part name="parameters" element="s0:SetDomainInactive" />
+    <part element="s0:SetDomainInactive" name="parameters" />
   </message>
   <message name="SetDomainInactiveSoapOut">
-    <part name="parameters" element="s0:SetDomainInactiveResponse" />
+    <part element="s0:SetDomainInactiveResponse" name="parameters" />
   </message>
   <message name="ValidCredentialsSoapIn">
-    <part name="parameters" element="s0:ValidCredentials" />
+    <part element="s0:ValidCredentials" name="parameters" />
   </message>
   <message name="ValidCredentialsSoapOut">
-    <part name="parameters" element="s0:ValidCredentialsResponse" />
+    <part element="s0:ValidCredentialsResponse" name="parameters" />
   </message>
   <message name="SetDomainCredentialsSoapIn">
-    <part name="parameters" element="s0:SetDomainCredentials" />
+    <part element="s0:SetDomainCredentials" name="parameters" />
   </message>
   <message name="SetDomainCredentialsSoapOut">
-    <part name="parameters" element="s0:SetDomainCredentialsResponse" />
+    <part element="s0:SetDomainCredentialsResponse" name="parameters" />
   </message>
   <message name="GetDomainCredentialsSoapIn">
-    <part name="parameters" element="s0:GetDomainCredentials" />
+    <part element="s0:GetDomainCredentials" name="parameters" />
   </message>
   <message name="GetDomainCredentialsSoapOut">
-    <part name="parameters" element="s0:GetDomainCredentialsResponse" />
+    <part element="s0:GetDomainCredentialsResponse" name="parameters" />
   </message>
   <message name="ConnectToDomainSoapIn">
-    <part name="parameters" element="s0:ConnectToDomain" />
+    <part element="s0:ConnectToDomain" name="parameters" />
   </message>
   <message name="ConnectToDomainSoapOut">
-    <part name="parameters" element="s0:ConnectToDomainResponse" />
+    <part element="s0:ConnectToDomainResponse" name="parameters" />
   </message>
   <message name="LeaveDomainSoapIn">
-    <part name="parameters" element="s0:LeaveDomain" />
+    <part element="s0:LeaveDomain" name="parameters" />
   </message>
   <message name="LeaveDomainSoapOut">
-    <part name="parameters" element="s0:LeaveDomainResponse" />
+    <part element="s0:LeaveDomainResponse" name="parameters" />
   </message>
   <message name="SetDefaultDomainSoapIn">
-    <part name="parameters" element="s0:SetDefaultDomain" />
+    <part element="s0:SetDefaultDomain" name="parameters" />
   </message>
   <message name="SetDefaultDomainSoapOut">
-    <part name="parameters" element="s0:SetDefaultDomainResponse" />
+    <part element="s0:SetDefaultDomainResponse" name="parameters" />
   </message>
   <message name="GetDefaultDomainIDSoapIn">
-    <part name="parameters" element="s0:GetDefaultDomainID" />
+    <part element="s0:GetDefaultDomainID" name="parameters" />
   </message>
   <message name="GetDefaultDomainIDSoapOut">
-    <part name="parameters" element="s0:GetDefaultDomainIDResponse" />
+    <part element="s0:GetDefaultDomainIDResponse" name="parameters" />
   </message>
   <message name="GetCertificateSoapIn">
-    <part name="parameters" element="s0:GetCertificate" />
+    <part element="s0:GetCertificate" name="parameters" />
   </message>
   <message name="GetCertificateSoapOut">
-    <part name="parameters" element="s0:GetCertificateResponse" />
+    <part element="s0:GetCertificateResponse" name="parameters" />
   </message>
   <message name="StoreCertificateSoapIn">
-    <part name="parameters" element="s0:StoreCertificate" />
+    <part element="s0:StoreCertificate" name="parameters" />
   </message>
   <message name="StoreCertificateSoapOut">
-    <part name="parameters" element="s0:StoreCertificateResponse" />
+    <part element="s0:StoreCertificateResponse" name="parameters" />
+  </message>
+  <message name="GetRAListSoapIn">
+    <part element="s0:GetRAList" name="parameters" />
+  </message>
+  <message name="GetRAListSoapOut">
+    <part element="s0:GetRAListResponse" name="parameters" />
+  </message>
+  <message name="GetRACertificateSoapIn">
+    <part element="s0:GetRACertificate" name="parameters" />
+  </message>
+  <message name="GetRACertificateSoapOut">
+    <part element="s0:GetRACertificateResponse" name="parameters" />
+  </message>
+  <message name="StoreRACertificateSoapIn">
+    <part element="s0:StoreRACertificate" name="parameters" />
+  </message>
+  <message name="StoreRACertificateSoapOut">
+    <part element="s0:StoreRACertificateResponse" name="parameters" />
   </message>
   <message name="GetInvalidSyncFilenameCharsSoapIn">
-    <part name="parameters" element="s0:GetInvalidSyncFilenameChars" />
+    <part element="s0:GetInvalidSyncFilenameChars" name="parameters" />
   </message>
   <message name="GetInvalidSyncFilenameCharsSoapOut">
-    <part name="parameters" element="s0:GetInvalidSyncFilenameCharsResponse" />
+    <part element="s0:GetInvalidSyncFilenameCharsResponse" name="parameters" />
   </message>
   <message name="SetDomainHostAddressSoapIn">
-    <part name="parameters" element="s0:SetDomainHostAddress" />
+    <part element="s0:SetDomainHostAddress" name="parameters" />
   </message>
   <message name="SetDomainHostAddressSoapOut">
-    <part name="parameters" element="s0:SetDomainHostAddressResponse" />
+    <part element="s0:SetDomainHostAddressResponse" name="parameters" />
   </message>
   <message name="SetProxyAddressSoapIn">
-    <part name="parameters" element="s0:SetProxyAddress" />
+    <part element="s0:SetProxyAddress" name="parameters" />
   </message>
   <message name="SetProxyAddressSoapOut">
-    <part name="parameters" element="s0:SetProxyAddressResponse" />
+    <part element="s0:SetProxyAddressResponse" name="parameters" />
   </message>
   <message name="CanShareServiceSoapIn">
-    <part name="parameters" element="s0:CanShareService" />
+    <part element="s0:CanShareService" name="parameters" />
   </message>
   <message name="CanShareServiceSoapOut">
-    <part name="parameters" element="s0:CanShareServiceResponse" />
+    <part element="s0:CanShareServiceResponse" name="parameters" />
   </message>
   <message name="StopSimiasProcessSoapIn">
-    <part name="parameters" element="s0:StopSimiasProcess" />
+    <part element="s0:StopSimiasProcess" name="parameters" />
   </message>
   <message name="StopSimiasProcessSoapOut">
-    <part name="parameters" element="s0:StopSimiasProcessResponse" />
+    <part element="s0:StopSimiasProcessResponse" name="parameters" />
   </message>
   <message name="AddSimiasReferenceSoapIn">
-    <part name="parameters" element="s0:AddSimiasReference" />
+    <part element="s0:AddSimiasReference" name="parameters" />
   </message>
   <message name="AddSimiasReferenceSoapOut">
-    <part name="parameters" element="s0:AddSimiasReferenceResponse" />
+    <part element="s0:AddSimiasReferenceResponse" name="parameters" />
   </message>
   <message name="RemoveSimiasReferenceSoapIn">
-    <part name="parameters" element="s0:RemoveSimiasReference" />
+    <part element="s0:RemoveSimiasReference" name="parameters" />
   </message>
   <message name="RemoveSimiasReferenceSoapOut">
-    <part name="parameters" element="s0:RemoveSimiasReferenceResponse" />
+    <part element="s0:RemoveSimiasReferenceResponse" name="parameters" />
   </message>
   <message name="GetSimiasDataPathSoapIn">
-    <part name="parameters" element="s0:GetSimiasDataPath" />
+    <part element="s0:GetSimiasDataPath" name="parameters" />
   </message>
   <message name="GetSimiasDataPathSoapOut">
-    <part name="parameters" element="s0:GetSimiasDataPathResponse" />
+    <part element="s0:GetSimiasDataPathResponse" name="parameters" />
   </message>
   <message name="GetSimiasProcessIDSoapIn">
-    <part name="parameters" element="s0:GetSimiasProcessID" />
+    <part element="s0:GetSimiasProcessID" name="parameters" />
   </message>
   <message name="GetSimiasProcessIDSoapOut">
-    <part name="parameters" element="s0:GetSimiasProcessIDResponse" />
+    <part element="s0:GetSimiasProcessIDResponse" name="parameters" />
   </message>
   <message name="PingSimiasHttpGetIn" />
   <message name="PingSimiasHttpGetOut" />
@@ -833,32 +904,32 @@
   <message name="FindCloseMembersHttpGetOut" />
   <message name="GetSimiasInformationHttpGetIn" />
   <message name="GetSimiasInformationHttpGetOut">
-    <part name="Body" element="s0:string" />
+    <part element="s0:string" name="Body" />
   </message>
   <message name="GetDomainInformationHttpGetIn">
     <part name="domainID" type="s:string" />
   </message>
   <message name="GetDomainInformationHttpGetOut">
-    <part name="Body" element="s0:DomainInformation" />
+    <part element="s0:DomainInformation" name="Body" />
   </message>
   <message name="GetDomainsHttpGetIn">
     <part name="onlySlaves" type="s:boolean" />
   </message>
   <message name="GetDomainsHttpGetOut">
-    <part name="Body" element="s0:ArrayOfDomainInformation" />
+    <part element="s0:ArrayOfDomainInformation" name="Body" />
   </message>
   <message name="LoginToRemoteDomainHttpGetIn">
     <part name="domainID" type="s:string" />
     <part name="password" type="s:string" />
   </message>
   <message name="LoginToRemoteDomainHttpGetOut">
-    <part name="Body" element="s0:Status" />
+    <part element="s0:Status" name="Body" />
   </message>
   <message name="LogoutFromRemoteDomainHttpGetIn">
     <part name="domainID" type="s:string" />
   </message>
   <message name="LogoutFromRemoteDomainHttpGetOut">
-    <part name="Body" element="s0:Status" />
+    <part element="s0:Status" name="Body" />
   </message>
   <message name="DisableDomainAutoLoginHttpGetIn">
     <part name="domainID" type="s:string" />
@@ -868,34 +939,40 @@
     <part name="domainID" type="s:string" />
   </message>
   <message name="IsDomainActiveHttpGetOut">
-    <part name="Body" element="s0:boolean" />
+    <part element="s0:boolean" name="Body" />
   </message>
   <message name="SetDomainActiveHttpGetIn">
     <part name="domainID" type="s:string" />
   </message>
   <message name="SetDomainActiveHttpGetOut">
-    <part name="Body" element="s0:int" />
+    <part element="s0:int" name="Body" />
   </message>
   <message name="SetDomainInactiveHttpGetIn">
     <part name="domainID" type="s:string" />
   </message>
   <message name="SetDomainInactiveHttpGetOut">
-    <part name="Body" element="s0:int" />
+    <part element="s0:int" name="Body" />
   </message>
   <message name="ValidCredentialsHttpGetIn">
     <part name="domainID" type="s:string" />
     <part name="memberID" type="s:string" />
   </message>
   <message name="ValidCredentialsHttpGetOut">
-    <part name="Body" element="s0:boolean" />
+    <part element="s0:boolean" name="Body" />
   </message>
+  <message name="SetDomainCredentialsHttpGetIn">
+    <part name="domainID" type="s:string" />
+    <part name="credentials" type="s:string" />
+    <part name="type" xmlns:q1="http://novell.com/simias/web/AbstractTypes" type="q1:CredentialType" />
+  </message>
+  <message name="SetDomainCredentialsHttpGetOut" />
   <message name="ConnectToDomainHttpGetIn">
     <part name="UserName" type="s:string" />
     <part name="Password" type="s:string" />
     <part name="Host" type="s:string" />
   </message>
   <message name="ConnectToDomainHttpGetOut">
-    <part name="Body" element="s0:DomainInformation" />
+    <part element="s0:DomainInformation" name="Body" />
   </message>
   <message name="LeaveDomainHttpGetIn">
     <part name="DomainID" type="s:string" />
@@ -908,22 +985,37 @@
   <message name="SetDefaultDomainHttpGetOut" />
   <message name="GetDefaultDomainIDHttpGetIn" />
   <message name="GetDefaultDomainIDHttpGetOut">
-    <part name="Body" element="s0:string" />
+    <part element="s0:string" name="Body" />
   </message>
   <message name="GetCertificateHttpGetIn">
     <part name="host" type="s:string" />
   </message>
   <message name="GetCertificateHttpGetOut">
-    <part name="Body" element="s0:base64Binary" />
+    <part element="s0:base64Binary" name="Body" />
   </message>
   <message name="StoreCertificateHttpGetIn">
     <part name="certificate" type="s:base64Binary" />
     <part name="host" type="s:string" />
   </message>
   <message name="StoreCertificateHttpGetOut" />
+  <message name="GetRAListHttpGetIn" />
+  <message name="GetRAListHttpGetOut">
+    <part element="s0:ArrayOfAnyType" name="Body" />
+  </message>
+  <message name="GetRACertificateHttpGetIn">
+    <part name="rAgent" type="s:string" />
+  </message>
+  <message name="GetRACertificateHttpGetOut">
+    <part element="s0:base64Binary" name="Body" />
+  </message>
+  <message name="StoreRACertificateHttpGetIn">
+    <part name="certificate" type="s:base64Binary" />
+    <part name="rAgent" type="s:string" />
+  </message>
+  <message name="StoreRACertificateHttpGetOut" />
   <message name="GetInvalidSyncFilenameCharsHttpGetIn" />
   <message name="GetInvalidSyncFilenameCharsHttpGetOut">
-    <part name="Body" element="s0:string" />
+    <part element="s0:string" name="Body" />
   </message>
   <message name="SetDomainHostAddressHttpGetIn">
     <part name="domainID" type="s:string" />
@@ -932,7 +1024,7 @@
     <part name="password" type="s:string" />
   </message>
   <message name="SetDomainHostAddressHttpGetOut">
-    <part name="Body" element="s0:boolean" />
+    <part element="s0:boolean" name="Body" />
   </message>
   <message name="SetProxyAddressHttpGetIn">
     <part name="hostUri" type="s:string" />
@@ -941,32 +1033,32 @@
     <part name="proxyPassword" type="s:string" />
   </message>
   <message name="SetProxyAddressHttpGetOut">
-    <part name="Body" element="s0:boolean" />
+    <part element="s0:boolean" name="Body" />
   </message>
   <message name="CanShareServiceHttpGetIn">
     <part name="simiasDataPath" type="s:string" />
     <part name="isClient" type="s:boolean" />
   </message>
   <message name="CanShareServiceHttpGetOut">
-    <part name="Body" element="s0:boolean" />
+    <part element="s0:boolean" name="Body" />
   </message>
   <message name="StopSimiasProcessHttpGetIn" />
   <message name="StopSimiasProcessHttpGetOut" />
   <message name="AddSimiasReferenceHttpGetIn" />
   <message name="AddSimiasReferenceHttpGetOut">
-    <part name="Body" element="s0:int" />
+    <part element="s0:int" name="Body" />
   </message>
   <message name="RemoveSimiasReferenceHttpGetIn" />
   <message name="RemoveSimiasReferenceHttpGetOut">
-    <part name="Body" element="s0:int" />
+    <part element="s0:int" name="Body" />
   </message>
   <message name="GetSimiasDataPathHttpGetIn" />
   <message name="GetSimiasDataPathHttpGetOut">
-    <part name="Body" element="s0:string" />
+    <part element="s0:string" name="Body" />
   </message>
   <message name="GetSimiasProcessIDHttpGetIn" />
   <message name="GetSimiasProcessIDHttpGetOut">
-    <part name="Body" element="s0:int" />
+    <part element="s0:int" name="Body" />
   </message>
   <message name="PingSimiasHttpPostIn" />
   <message name="PingSimiasHttpPostOut" />
@@ -991,32 +1083,32 @@
   <message name="FindCloseMembersHttpPostOut" />
   <message name="GetSimiasInformationHttpPostIn" />
   <message name="GetSimiasInformationHttpPostOut">
-    <part name="Body" element="s0:string" />
+    <part element="s0:string" name="Body" />
   </message>
   <message name="GetDomainInformationHttpPostIn">
     <part name="domainID" type="s:string" />
   </message>
   <message name="GetDomainInformationHttpPostOut">
-    <part name="Body" element="s0:DomainInformation" />
+    <part element="s0:DomainInformation" name="Body" />
   </message>
   <message name="GetDomainsHttpPostIn">
     <part name="onlySlaves" type="s:boolean" />
   </message>
   <message name="GetDomainsHttpPostOut">
-    <part name="Body" element="s0:ArrayOfDomainInformation" />
+    <part element="s0:ArrayOfDomainInformation" name="Body" />
   </message>
   <message name="LoginToRemoteDomainHttpPostIn">
     <part name="domainID" type="s:string" />
     <part name="password" type="s:string" />
   </message>
   <message name="LoginToRemoteDomainHttpPostOut">
-    <part name="Body" element="s0:Status" />
+    <part element="s0:Status" name="Body" />
   </message>
   <message name="LogoutFromRemoteDomainHttpPostIn">
     <part name="domainID" type="s:string" />
   </message>
   <message name="LogoutFromRemoteDomainHttpPostOut">
-    <part name="Body" element="s0:Status" />
+    <part element="s0:Status" name="Body" />
   </message>
   <message name="DisableDomainAutoLoginHttpPostIn">
     <part name="domainID" type="s:string" />
@@ -1026,34 +1118,40 @@
     <part name="domainID" type="s:string" />
   </message>
   <message name="IsDomainActiveHttpPostOut">
-    <part name="Body" element="s0:boolean" />
+    <part element="s0:boolean" name="Body" />
   </message>
   <message name="SetDomainActiveHttpPostIn">
     <part name="domainID" type="s:string" />
   </message>
   <message name="SetDomainActiveHttpPostOut">
-    <part name="Body" element="s0:int" />
+    <part element="s0:int" name="Body" />
   </message>
   <message name="SetDomainInactiveHttpPostIn">
     <part name="domainID" type="s:string" />
   </message>
   <message name="SetDomainInactiveHttpPostOut">
-    <part name="Body" element="s0:int" />
+    <part element="s0:int" name="Body" />
   </message>
   <message name="ValidCredentialsHttpPostIn">
     <part name="domainID" type="s:string" />
     <part name="memberID" type="s:string" />
   </message>
   <message name="ValidCredentialsHttpPostOut">
-    <part name="Body" element="s0:boolean" />
+    <part element="s0:boolean" name="Body" />
   </message>
+  <message name="SetDomainCredentialsHttpPostIn">
+    <part name="domainID" type="s:string" />
+    <part name="credentials" type="s:string" />
+    <part name="type" xmlns:q2="http://novell.com/simias/web/AbstractTypes" type="q2:CredentialType" />
+  </message>
+  <message name="SetDomainCredentialsHttpPostOut" />
   <message name="ConnectToDomainHttpPostIn">
     <part name="UserName" type="s:string" />
     <part name="Password" type="s:string" />
     <part name="Host" type="s:string" />
   </message>
   <message name="ConnectToDomainHttpPostOut">
-    <part name="Body" element="s0:DomainInformation" />
+    <part element="s0:DomainInformation" name="Body" />
   </message>
   <message name="LeaveDomainHttpPostIn">
     <part name="DomainID" type="s:string" />
@@ -1066,22 +1164,37 @@
   <message name="SetDefaultDomainHttpPostOut" />
   <message name="GetDefaultDomainIDHttpPostIn" />
   <message name="GetDefaultDomainIDHttpPostOut">
-    <part name="Body" element="s0:string" />
+    <part element="s0:string" name="Body" />
   </message>
   <message name="GetCertificateHttpPostIn">
     <part name="host" type="s:string" />
   </message>
   <message name="GetCertificateHttpPostOut">
-    <part name="Body" element="s0:base64Binary" />
+    <part element="s0:base64Binary" name="Body" />
   </message>
   <message name="StoreCertificateHttpPostIn">
     <part name="certificate" type="s:base64Binary" />
     <part name="host" type="s:string" />
   </message>
   <message name="StoreCertificateHttpPostOut" />
+  <message name="GetRAListHttpPostIn" />
+  <message name="GetRAListHttpPostOut">
+    <part element="s0:ArrayOfAnyType" name="Body" />
+  </message>
+  <message name="GetRACertificateHttpPostIn">
+    <part name="rAgent" type="s:string" />
+  </message>
+  <message name="GetRACertificateHttpPostOut">
+    <part element="s0:base64Binary" name="Body" />
+  </message>
+  <message name="StoreRACertificateHttpPostIn">
+    <part name="certificate" type="s:base64Binary" />
+    <part name="rAgent" type="s:string" />
+  </message>
+  <message name="StoreRACertificateHttpPostOut" />
   <message name="GetInvalidSyncFilenameCharsHttpPostIn" />
   <message name="GetInvalidSyncFilenameCharsHttpPostOut">
-    <part name="Body" element="s0:string" />
+    <part element="s0:string" name="Body" />
   </message>
   <message name="SetDomainHostAddressHttpPostIn">
     <part name="domainID" type="s:string" />
@@ -1090,7 +1203,7 @@
     <part name="password" type="s:string" />
   </message>
   <message name="SetDomainHostAddressHttpPostOut">
-    <part name="Body" element="s0:boolean" />
+    <part element="s0:boolean" name="Body" />
   </message>
   <message name="SetProxyAddressHttpPostIn">
     <part name="hostUri" type="s:string" />
@@ -1099,507 +1212,667 @@
     <part name="proxyPassword" type="s:string" />
   </message>
   <message name="SetProxyAddressHttpPostOut">
-    <part name="Body" element="s0:boolean" />
+    <part element="s0:boolean" name="Body" />
   </message>
   <message name="CanShareServiceHttpPostIn">
     <part name="simiasDataPath" type="s:string" />
     <part name="isClient" type="s:boolean" />
   </message>
   <message name="CanShareServiceHttpPostOut">
-    <part name="Body" element="s0:boolean" />
+    <part element="s0:boolean" name="Body" />
   </message>
   <message name="StopSimiasProcessHttpPostIn" />
   <message name="StopSimiasProcessHttpPostOut" />
   <message name="AddSimiasReferenceHttpPostIn" />
   <message name="AddSimiasReferenceHttpPostOut">
-    <part name="Body" element="s0:int" />
+    <part element="s0:int" name="Body" />
   </message>
   <message name="RemoveSimiasReferenceHttpPostIn" />
   <message name="RemoveSimiasReferenceHttpPostOut">
-    <part name="Body" element="s0:int" />
+    <part element="s0:int" name="Body" />
   </message>
   <message name="GetSimiasDataPathHttpPostIn" />
   <message name="GetSimiasDataPathHttpPostOut">
-    <part name="Body" element="s0:string" />
+    <part element="s0:string" name="Body" />
   </message>
   <message name="GetSimiasProcessIDHttpPostIn" />
   <message name="GetSimiasProcessIDHttpPostOut">
-    <part name="Body" element="s0:int" />
+    <part element="s0:int" name="Body" />
   </message>
   <portType name="Simias Web ServiceSoap">
     <operation name="PingSimias">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Allows a client to ping to make sure the Web Service is up and running</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Allows a client to ping to make sure the Web Service is up and running</wsdl:documentation>
       <input message="s0:PingSimiasSoapIn" />
       <output message="s0:PingSimiasSoapOut" />
-      <documentation>Allows a client to ping to make sure the Web Service is up and running</documentation>
     </operation>
     <operation name="AddMemberToDomain">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Add a member to the domain.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Add a member to the domain.</wsdl:documentation>
       <input message="s0:AddMemberToDomainSoapIn" />
       <output message="s0:AddMemberToDomainSoapOut" />
-      <documentation>Add a member to the domain.</documentation>
     </operation>
     <operation name="RemoveMemberFromDomain">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Remove a member from the domain.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Remove a member from the domain.</wsdl:documentation>
       <input message="s0:RemoveMemberFromDomainSoapIn" />
       <output message="s0:RemoveMemberFromDomainSoapOut" />
-      <documentation>Remove a member from the domain.</documentation>
     </operation>
     <operation name="FindCloseMembers">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">End the search for domain members.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">End the search for domain members.</wsdl:documentation>
       <input message="s0:FindCloseMembersSoapIn" />
       <output message="s0:FindCloseMembersSoapOut" />
-      <documentation>End the search for domain members.</documentation>
     </operation>
     <operation name="FindFirstMembers">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Starts a search for all domain members.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Starts a search for all domain members.</wsdl:documentation>
       <input message="s0:FindFirstMembersSoapIn" />
       <output message="s0:FindFirstMembersSoapOut" />
-      <documentation>Starts a search for all domain members.</documentation>
     </operation>
     <operation name="FindFirstSpecificMembers">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Starts a search for a specific set of domain members.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Starts a search for a specific set of domain members.</wsdl:documentation>
       <input message="s0:FindFirstSpecificMembersSoapIn" />
       <output message="s0:FindFirstSpecificMembersSoapOut" />
-      <documentation>Starts a search for a specific set of domain members.</documentation>
     </operation>
     <operation name="FindNextMembers">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Continues the search for domain members from the current record location.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Continues the search for domain members from the current record location.</wsdl:documentation>
       <input message="s0:FindNextMembersSoapIn" />
       <output message="s0:FindNextMembersSoapOut" />
-      <documentation>Continues the search for domain members from the current record location.</documentation>
     </operation>
     <operation name="FindPreviousMembers">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Continues the search for domain members previous to the current record location.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Continues the search for domain members previous to the current record location.</wsdl:documentation>
       <input message="s0:FindPreviousMembersSoapIn" />
       <output message="s0:FindPreviousMembersSoapOut" />
-      <documentation>Continues the search for domain members previous to the current record location.</documentation>
     </operation>
     <operation name="FindSeekMembers">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Continues the search for domain members from the specified record location.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Continues the search for domain members from the specified record location.</wsdl:documentation>
       <input message="s0:FindSeekMembersSoapIn" />
       <output message="s0:FindSeekMembersSoapOut" />
-      <documentation>Continues the search for domain members from the specified record location.</documentation>
     </operation>
     <operation name="GetSimiasInformation">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">GetSimiasInformation</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">GetSimiasInformation</wsdl:documentation>
       <input message="s0:GetSimiasInformationSoapIn" />
       <output message="s0:GetSimiasInformationSoapOut" />
-      <documentation>GetSimiasInformation</documentation>
     </operation>
     <operation name="GetDomainInformation">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">GetDomainInformation</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">GetDomainInformation</wsdl:documentation>
       <input message="s0:GetDomainInformationSoapIn" />
       <output message="s0:GetDomainInformationSoapOut" />
-      <documentation>GetDomainInformation</documentation>
     </operation>
     <operation name="GetDomains">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get a list of local domains</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get a list of local domains</wsdl:documentation>
       <input message="s0:GetDomainsSoapIn" />
       <output message="s0:GetDomainsSoapOut" />
-      <documentation>Get a list of local domains</documentation>
     </operation>
     <operation name="LoginToRemoteDomain">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Login or authenticate to a remote domain</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Login or authenticate to a remote domain</wsdl:documentation>
       <input message="s0:LoginToRemoteDomainSoapIn" />
       <output message="s0:LoginToRemoteDomainSoapOut" />
-      <documentation>Login or authenticate to a remote domain</documentation>
     </operation>
     <operation name="LogoutFromRemoteDomain">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Logout from a remote domain</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Logout from a remote domain</wsdl:documentation>
       <input message="s0:LogoutFromRemoteDomainSoapIn" />
       <output message="s0:LogoutFromRemoteDomainSoapOut" />
-      <documentation>Logout from a remote domain</documentation>
     </operation>
     <operation name="DisableDomainAutoLogin">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Disable automatic authentication to the specified domain</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Disable automatic authentication to the specified domain</wsdl:documentation>
       <input message="s0:DisableDomainAutoLoginSoapIn" />
       <output message="s0:DisableDomainAutoLoginSoapOut" />
-      <documentation>Disable automatic authentication to the specified domain</documentation>
     </operation>
     <operation name="IsDomainActive">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">WebMethod to check if a domain is active</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">WebMethod to check if a domain is active</wsdl:documentation>
       <input message="s0:IsDomainActiveSoapIn" />
       <output message="s0:IsDomainActiveSoapOut" />
-      <documentation>WebMethod to check if a domain is active</documentation>
     </operation>
     <operation name="SetDomainActive">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">SetDomainActive - enables synchronization to the remote server</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">SetDomainActive - enables synchronization to the remote server</wsdl:documentation>
       <input message="s0:SetDomainActiveSoapIn" />
       <output message="s0:SetDomainActiveSoapOut" />
-      <documentation>SetDomainActive - enables synchronization to the remote server</documentation>
     </operation>
     <operation name="SetDomainInactive">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">SetDomainInactive - disables remote synchronization</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">SetDomainInactive - disables remote synchronization</wsdl:documentation>
       <input message="s0:SetDomainInactiveSoapIn" />
       <output message="s0:SetDomainInactiveSoapOut" />
-      <documentation>SetDomainInactive - disables remote synchronization</documentation>
     </operation>
     <operation name="ValidCredentials">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">ValidCredentials</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">ValidCredentials</wsdl:documentation>
       <input message="s0:ValidCredentialsSoapIn" />
       <output message="s0:ValidCredentialsSoapOut" />
-      <documentation>ValidCredentials</documentation>
     </operation>
     <operation name="SetDomainCredentials">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sets domain credentials in the local store</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sets domain credentials in the local store</wsdl:documentation>
       <input message="s0:SetDomainCredentialsSoapIn" />
       <output message="s0:SetDomainCredentialsSoapOut" />
-      <documentation>Sets domain credentials in the local store</documentation>
     </operation>
     <operation name="GetDomainCredentials">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the saved credentials from a domain</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the saved credentials from a domain</wsdl:documentation>
       <input message="s0:GetDomainCredentialsSoapIn" />
       <output message="s0:GetDomainCredentialsSoapOut" />
-      <documentation>Get the saved credentials from a domain</documentation>
     </operation>
     <operation name="ConnectToDomain">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Connects to a Domain</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Connects to a Domain</wsdl:documentation>
       <input message="s0:ConnectToDomainSoapIn" />
       <output message="s0:ConnectToDomainSoapOut" />
-      <documentation>Connects to a Domain</documentation>
     </operation>
     <operation name="LeaveDomain">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Removes a domain account from the workstation</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Removes a domain account from the workstation</wsdl:documentation>
       <input message="s0:LeaveDomainSoapIn" />
       <output message="s0:LeaveDomainSoapOut" />
-      <documentation>Removes a domain account from the workstation</documentation>
     </operation>
     <operation name="SetDefaultDomain">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Change the default domain to the specified domain ID</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Change the default domain to the specified domain ID</wsdl:documentation>
       <input message="s0:SetDefaultDomainSoapIn" />
       <output message="s0:SetDefaultDomainSoapOut" />
-      <documentation>Change the default domain to the specified domain ID</documentation>
     </operation>
     <operation name="GetDefaultDomainID">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the ID of the default domain</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the ID of the default domain</wsdl:documentation>
       <input message="s0:GetDefaultDomainIDSoapIn" />
       <output message="s0:GetDefaultDomainIDSoapOut" />
-      <documentation>Get the ID of the default domain</documentation>
     </operation>
     <operation name="GetCertificate">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the certificate of the specified host.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the certificate of the specified host.</wsdl:documentation>
       <input message="s0:GetCertificateSoapIn" />
       <output message="s0:GetCertificateSoapOut" />
-      <documentation>Get the certificate of the specified host.</documentation>
     </operation>
     <operation name="StoreCertificate">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Store the certificate for the specified host.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Store the certificate for the specified host.</wsdl:documentation>
       <input message="s0:StoreCertificateSoapIn" />
       <output message="s0:StoreCertificateSoapOut" />
-      <documentation>Store the certificate for the specified host.</documentation>
+    </operation>
+    <operation name="GetRAList">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the Recovery Agent List.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the Recovery Agent List.</wsdl:documentation>
+      <input message="s0:GetRAListSoapIn" />
+      <output message="s0:GetRAListSoapOut" />
+    </operation>
+    <operation name="GetRACertificate">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the Recovery Agent certificate of the domain.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the Recovery Agent certificate of the domain.</wsdl:documentation>
+      <input message="s0:GetRACertificateSoapIn" />
+      <output message="s0:GetRACertificateSoapOut" />
+    </operation>
+    <operation name="StoreRACertificate">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Store the certificate for the Domain.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Store the certificate for the Domain.</wsdl:documentation>
+      <input message="s0:StoreRACertificateSoapIn" />
+      <output message="s0:StoreRACertificateSoapOut" />
     </operation>
     <operation name="GetInvalidSyncFilenameChars">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the characters which cannot be used for filenames in the Simias namespace (files and folders that contain any of these characters cannot be synchronized with iFolder and conflicts will be generated).</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the characters which cannot be used for filenames in the Simias namespace (files and folders that contain any of these characters cannot be synchronized with iFolder and conflicts will be generated).</wsdl:documentation>
       <input message="s0:GetInvalidSyncFilenameCharsSoapIn" />
       <output message="s0:GetInvalidSyncFilenameCharsSoapOut" />
-      <documentation>Returns the characters which cannot be used for filenames in the Simias namespace (files and folders that contain any of these characters cannot be synchronized with iFolder and conflicts will be generated).</documentation>
     </operation>
     <operation name="SetDomainHostAddress">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sets a new server network address for a client.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sets a new server network address for a client.</wsdl:documentation>
       <input message="s0:SetDomainHostAddressSoapIn" />
       <output message="s0:SetDomainHostAddressSoapOut" />
-      <documentation>Sets a new server network address for a client.</documentation>
     </operation>
     <operation name="SetProxyAddress">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sets a new proxy address for the specified host.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sets a new proxy address for the specified host.</wsdl:documentation>
       <input message="s0:SetProxyAddressSoapIn" />
       <output message="s0:SetProxyAddressSoapOut" />
-      <documentation>Sets a new proxy address for the specified host.</documentation>
     </operation>
     <operation name="CanShareService">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Checks to see if this instance of Simias is shareable.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Checks to see if this instance of Simias is shareable.</wsdl:documentation>
       <input message="s0:CanShareServiceSoapIn" />
       <output message="s0:CanShareServiceSoapOut" />
-      <documentation>Checks to see if this instance of Simias is shareable.</documentation>
     </operation>
     <operation name="StopSimiasProcess">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Shuts down the controlling server process.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Shuts down the controlling server process.</wsdl:documentation>
       <input message="s0:StopSimiasProcessSoapIn" />
       <output message="s0:StopSimiasProcessSoapOut" />
-      <documentation>Shuts down the controlling server process.</documentation>
     </operation>
     <operation name="AddSimiasReference">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Increments the reference count that keeps Simias services running.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Increments the reference count that keeps Simias services running.</wsdl:documentation>
       <input message="s0:AddSimiasReferenceSoapIn" />
       <output message="s0:AddSimiasReferenceSoapOut" />
-      <documentation>Increments the reference count that keeps Simias services running.</documentation>
     </operation>
     <operation name="RemoveSimiasReference">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Decrements the Simias service reference count and signals the server to stop if the count goes to zero.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Decrements the Simias service reference count and signals the server to stop if the count goes to zero.</wsdl:documentation>
       <input message="s0:RemoveSimiasReferenceSoapIn" />
       <output message="s0:RemoveSimiasReferenceSoapOut" />
-      <documentation>Decrements the Simias service reference count and signals the server to stop if the count goes to zero.</documentation>
     </operation>
     <operation name="GetSimiasDataPath">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets the directory path to the Simias data area.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets the directory path to the Simias data area.</wsdl:documentation>
       <input message="s0:GetSimiasDataPathSoapIn" />
       <output message="s0:GetSimiasDataPathSoapOut" />
-      <documentation>Gets the directory path to the Simias data area.</documentation>
     </operation>
     <operation name="GetSimiasProcessID">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets the process ID for the current running process.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets the process ID for the current running process.</wsdl:documentation>
       <input message="s0:GetSimiasProcessIDSoapIn" />
       <output message="s0:GetSimiasProcessIDSoapOut" />
-      <documentation>Gets the process ID for the current running process.</documentation>
     </operation>
   </portType>
   <portType name="Simias Web ServiceHttpGet">
     <operation name="PingSimias">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Allows a client to ping to make sure the Web Service is up and running</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Allows a client to ping to make sure the Web Service is up and running</wsdl:documentation>
       <input message="s0:PingSimiasHttpGetIn" />
       <output message="s0:PingSimiasHttpGetOut" />
-      <documentation>Allows a client to ping to make sure the Web Service is up and running</documentation>
     </operation>
     <operation name="AddMemberToDomain">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Add a member to the domain.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Add a member to the domain.</wsdl:documentation>
       <input message="s0:AddMemberToDomainHttpGetIn" />
       <output message="s0:AddMemberToDomainHttpGetOut" />
-      <documentation>Add a member to the domain.</documentation>
     </operation>
     <operation name="RemoveMemberFromDomain">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Remove a member from the domain.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Remove a member from the domain.</wsdl:documentation>
       <input message="s0:RemoveMemberFromDomainHttpGetIn" />
       <output message="s0:RemoveMemberFromDomainHttpGetOut" />
-      <documentation>Remove a member from the domain.</documentation>
     </operation>
     <operation name="FindCloseMembers">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">End the search for domain members.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">End the search for domain members.</wsdl:documentation>
       <input message="s0:FindCloseMembersHttpGetIn" />
       <output message="s0:FindCloseMembersHttpGetOut" />
-      <documentation>End the search for domain members.</documentation>
     </operation>
     <operation name="GetSimiasInformation">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">GetSimiasInformation</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">GetSimiasInformation</wsdl:documentation>
       <input message="s0:GetSimiasInformationHttpGetIn" />
       <output message="s0:GetSimiasInformationHttpGetOut" />
-      <documentation>GetSimiasInformation</documentation>
     </operation>
     <operation name="GetDomainInformation">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">GetDomainInformation</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">GetDomainInformation</wsdl:documentation>
       <input message="s0:GetDomainInformationHttpGetIn" />
       <output message="s0:GetDomainInformationHttpGetOut" />
-      <documentation>GetDomainInformation</documentation>
     </operation>
     <operation name="GetDomains">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get a list of local domains</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get a list of local domains</wsdl:documentation>
       <input message="s0:GetDomainsHttpGetIn" />
       <output message="s0:GetDomainsHttpGetOut" />
-      <documentation>Get a list of local domains</documentation>
     </operation>
     <operation name="LoginToRemoteDomain">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Login or authenticate to a remote domain</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Login or authenticate to a remote domain</wsdl:documentation>
       <input message="s0:LoginToRemoteDomainHttpGetIn" />
       <output message="s0:LoginToRemoteDomainHttpGetOut" />
-      <documentation>Login or authenticate to a remote domain</documentation>
     </operation>
     <operation name="LogoutFromRemoteDomain">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Logout from a remote domain</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Logout from a remote domain</wsdl:documentation>
       <input message="s0:LogoutFromRemoteDomainHttpGetIn" />
       <output message="s0:LogoutFromRemoteDomainHttpGetOut" />
-      <documentation>Logout from a remote domain</documentation>
     </operation>
     <operation name="DisableDomainAutoLogin">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Disable automatic authentication to the specified domain</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Disable automatic authentication to the specified domain</wsdl:documentation>
       <input message="s0:DisableDomainAutoLoginHttpGetIn" />
       <output message="s0:DisableDomainAutoLoginHttpGetOut" />
-      <documentation>Disable automatic authentication to the specified domain</documentation>
     </operation>
     <operation name="IsDomainActive">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">WebMethod to check if a domain is active</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">WebMethod to check if a domain is active</wsdl:documentation>
       <input message="s0:IsDomainActiveHttpGetIn" />
       <output message="s0:IsDomainActiveHttpGetOut" />
-      <documentation>WebMethod to check if a domain is active</documentation>
     </operation>
     <operation name="SetDomainActive">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">SetDomainActive - enables synchronization to the remote server</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">SetDomainActive - enables synchronization to the remote server</wsdl:documentation>
       <input message="s0:SetDomainActiveHttpGetIn" />
       <output message="s0:SetDomainActiveHttpGetOut" />
-      <documentation>SetDomainActive - enables synchronization to the remote server</documentation>
     </operation>
     <operation name="SetDomainInactive">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">SetDomainInactive - disables remote synchronization</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">SetDomainInactive - disables remote synchronization</wsdl:documentation>
       <input message="s0:SetDomainInactiveHttpGetIn" />
       <output message="s0:SetDomainInactiveHttpGetOut" />
-      <documentation>SetDomainInactive - disables remote synchronization</documentation>
     </operation>
     <operation name="ValidCredentials">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">ValidCredentials</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">ValidCredentials</wsdl:documentation>
       <input message="s0:ValidCredentialsHttpGetIn" />
       <output message="s0:ValidCredentialsHttpGetOut" />
-      <documentation>ValidCredentials</documentation>
+    </operation>
+    <operation name="SetDomainCredentials">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sets domain credentials in the local store</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sets domain credentials in the local store</wsdl:documentation>
+      <input message="s0:SetDomainCredentialsHttpGetIn" />
+      <output message="s0:SetDomainCredentialsHttpGetOut" />
     </operation>
     <operation name="ConnectToDomain">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Connects to a Domain</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Connects to a Domain</wsdl:documentation>
       <input message="s0:ConnectToDomainHttpGetIn" />
       <output message="s0:ConnectToDomainHttpGetOut" />
-      <documentation>Connects to a Domain</documentation>
     </operation>
     <operation name="LeaveDomain">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Removes a domain account from the workstation</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Removes a domain account from the workstation</wsdl:documentation>
       <input message="s0:LeaveDomainHttpGetIn" />
       <output message="s0:LeaveDomainHttpGetOut" />
-      <documentation>Removes a domain account from the workstation</documentation>
     </operation>
     <operation name="SetDefaultDomain">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Change the default domain to the specified domain ID</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Change the default domain to the specified domain ID</wsdl:documentation>
       <input message="s0:SetDefaultDomainHttpGetIn" />
       <output message="s0:SetDefaultDomainHttpGetOut" />
-      <documentation>Change the default domain to the specified domain ID</documentation>
     </operation>
     <operation name="GetDefaultDomainID">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the ID of the default domain</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the ID of the default domain</wsdl:documentation>
       <input message="s0:GetDefaultDomainIDHttpGetIn" />
       <output message="s0:GetDefaultDomainIDHttpGetOut" />
-      <documentation>Get the ID of the default domain</documentation>
     </operation>
     <operation name="GetCertificate">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the certificate of the specified host.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the certificate of the specified host.</wsdl:documentation>
       <input message="s0:GetCertificateHttpGetIn" />
       <output message="s0:GetCertificateHttpGetOut" />
-      <documentation>Get the certificate of the specified host.</documentation>
     </operation>
     <operation name="StoreCertificate">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Store the certificate for the specified host.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Store the certificate for the specified host.</wsdl:documentation>
       <input message="s0:StoreCertificateHttpGetIn" />
       <output message="s0:StoreCertificateHttpGetOut" />
-      <documentation>Store the certificate for the specified host.</documentation>
+    </operation>
+    <operation name="GetRAList">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the Recovery Agent List.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the Recovery Agent List.</wsdl:documentation>
+      <input message="s0:GetRAListHttpGetIn" />
+      <output message="s0:GetRAListHttpGetOut" />
+    </operation>
+    <operation name="GetRACertificate">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the Recovery Agent certificate of the domain.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the Recovery Agent certificate of the domain.</wsdl:documentation>
+      <input message="s0:GetRACertificateHttpGetIn" />
+      <output message="s0:GetRACertificateHttpGetOut" />
+    </operation>
+    <operation name="StoreRACertificate">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Store the certificate for the Domain.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Store the certificate for the Domain.</wsdl:documentation>
+      <input message="s0:StoreRACertificateHttpGetIn" />
+      <output message="s0:StoreRACertificateHttpGetOut" />
     </operation>
     <operation name="GetInvalidSyncFilenameChars">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the characters which cannot be used for filenames in the Simias namespace (files and folders that contain any of these characters cannot be synchronized with iFolder and conflicts will be generated).</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the characters which cannot be used for filenames in the Simias namespace (files and folders that contain any of these characters cannot be synchronized with iFolder and conflicts will be generated).</wsdl:documentation>
       <input message="s0:GetInvalidSyncFilenameCharsHttpGetIn" />
       <output message="s0:GetInvalidSyncFilenameCharsHttpGetOut" />
-      <documentation>Returns the characters which cannot be used for filenames in the Simias namespace (files and folders that contain any of these characters cannot be synchronized with iFolder and conflicts will be generated).</documentation>
     </operation>
     <operation name="SetDomainHostAddress">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sets a new server network address for a client.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sets a new server network address for a client.</wsdl:documentation>
       <input message="s0:SetDomainHostAddressHttpGetIn" />
       <output message="s0:SetDomainHostAddressHttpGetOut" />
-      <documentation>Sets a new server network address for a client.</documentation>
     </operation>
     <operation name="SetProxyAddress">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sets a new proxy address for the specified host.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sets a new proxy address for the specified host.</wsdl:documentation>
       <input message="s0:SetProxyAddressHttpGetIn" />
       <output message="s0:SetProxyAddressHttpGetOut" />
-      <documentation>Sets a new proxy address for the specified host.</documentation>
     </operation>
     <operation name="CanShareService">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Checks to see if this instance of Simias is shareable.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Checks to see if this instance of Simias is shareable.</wsdl:documentation>
       <input message="s0:CanShareServiceHttpGetIn" />
       <output message="s0:CanShareServiceHttpGetOut" />
-      <documentation>Checks to see if this instance of Simias is shareable.</documentation>
     </operation>
     <operation name="StopSimiasProcess">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Shuts down the controlling server process.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Shuts down the controlling server process.</wsdl:documentation>
       <input message="s0:StopSimiasProcessHttpGetIn" />
       <output message="s0:StopSimiasProcessHttpGetOut" />
-      <documentation>Shuts down the controlling server process.</documentation>
     </operation>
     <operation name="AddSimiasReference">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Increments the reference count that keeps Simias services running.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Increments the reference count that keeps Simias services running.</wsdl:documentation>
       <input message="s0:AddSimiasReferenceHttpGetIn" />
       <output message="s0:AddSimiasReferenceHttpGetOut" />
-      <documentation>Increments the reference count that keeps Simias services running.</documentation>
     </operation>
     <operation name="RemoveSimiasReference">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Decrements the Simias service reference count and signals the server to stop if the count goes to zero.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Decrements the Simias service reference count and signals the server to stop if the count goes to zero.</wsdl:documentation>
       <input message="s0:RemoveSimiasReferenceHttpGetIn" />
       <output message="s0:RemoveSimiasReferenceHttpGetOut" />
-      <documentation>Decrements the Simias service reference count and signals the server to stop if the count goes to zero.</documentation>
     </operation>
     <operation name="GetSimiasDataPath">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets the directory path to the Simias data area.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets the directory path to the Simias data area.</wsdl:documentation>
       <input message="s0:GetSimiasDataPathHttpGetIn" />
       <output message="s0:GetSimiasDataPathHttpGetOut" />
-      <documentation>Gets the directory path to the Simias data area.</documentation>
     </operation>
     <operation name="GetSimiasProcessID">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets the process ID for the current running process.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets the process ID for the current running process.</wsdl:documentation>
       <input message="s0:GetSimiasProcessIDHttpGetIn" />
       <output message="s0:GetSimiasProcessIDHttpGetOut" />
-      <documentation>Gets the process ID for the current running process.</documentation>
     </operation>
   </portType>
   <portType name="Simias Web ServiceHttpPost">
     <operation name="PingSimias">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Allows a client to ping to make sure the Web Service is up and running</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Allows a client to ping to make sure the Web Service is up and running</wsdl:documentation>
       <input message="s0:PingSimiasHttpPostIn" />
       <output message="s0:PingSimiasHttpPostOut" />
-      <documentation>Allows a client to ping to make sure the Web Service is up and running</documentation>
     </operation>
     <operation name="AddMemberToDomain">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Add a member to the domain.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Add a member to the domain.</wsdl:documentation>
       <input message="s0:AddMemberToDomainHttpPostIn" />
       <output message="s0:AddMemberToDomainHttpPostOut" />
-      <documentation>Add a member to the domain.</documentation>
     </operation>
     <operation name="RemoveMemberFromDomain">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Remove a member from the domain.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Remove a member from the domain.</wsdl:documentation>
       <input message="s0:RemoveMemberFromDomainHttpPostIn" />
       <output message="s0:RemoveMemberFromDomainHttpPostOut" />
-      <documentation>Remove a member from the domain.</documentation>
     </operation>
     <operation name="FindCloseMembers">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">End the search for domain members.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">End the search for domain members.</wsdl:documentation>
       <input message="s0:FindCloseMembersHttpPostIn" />
       <output message="s0:FindCloseMembersHttpPostOut" />
-      <documentation>End the search for domain members.</documentation>
     </operation>
     <operation name="GetSimiasInformation">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">GetSimiasInformation</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">GetSimiasInformation</wsdl:documentation>
       <input message="s0:GetSimiasInformationHttpPostIn" />
       <output message="s0:GetSimiasInformationHttpPostOut" />
-      <documentation>GetSimiasInformation</documentation>
     </operation>
     <operation name="GetDomainInformation">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">GetDomainInformation</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">GetDomainInformation</wsdl:documentation>
       <input message="s0:GetDomainInformationHttpPostIn" />
       <output message="s0:GetDomainInformationHttpPostOut" />
-      <documentation>GetDomainInformation</documentation>
     </operation>
     <operation name="GetDomains">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get a list of local domains</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get a list of local domains</wsdl:documentation>
       <input message="s0:GetDomainsHttpPostIn" />
       <output message="s0:GetDomainsHttpPostOut" />
-      <documentation>Get a list of local domains</documentation>
     </operation>
     <operation name="LoginToRemoteDomain">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Login or authenticate to a remote domain</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Login or authenticate to a remote domain</wsdl:documentation>
       <input message="s0:LoginToRemoteDomainHttpPostIn" />
       <output message="s0:LoginToRemoteDomainHttpPostOut" />
-      <documentation>Login or authenticate to a remote domain</documentation>
     </operation>
     <operation name="LogoutFromRemoteDomain">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Logout from a remote domain</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Logout from a remote domain</wsdl:documentation>
       <input message="s0:LogoutFromRemoteDomainHttpPostIn" />
       <output message="s0:LogoutFromRemoteDomainHttpPostOut" />
-      <documentation>Logout from a remote domain</documentation>
     </operation>
     <operation name="DisableDomainAutoLogin">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Disable automatic authentication to the specified domain</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Disable automatic authentication to the specified domain</wsdl:documentation>
       <input message="s0:DisableDomainAutoLoginHttpPostIn" />
       <output message="s0:DisableDomainAutoLoginHttpPostOut" />
-      <documentation>Disable automatic authentication to the specified domain</documentation>
     </operation>
     <operation name="IsDomainActive">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">WebMethod to check if a domain is active</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">WebMethod to check if a domain is active</wsdl:documentation>
       <input message="s0:IsDomainActiveHttpPostIn" />
       <output message="s0:IsDomainActiveHttpPostOut" />
-      <documentation>WebMethod to check if a domain is active</documentation>
     </operation>
     <operation name="SetDomainActive">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">SetDomainActive - enables synchronization to the remote server</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">SetDomainActive - enables synchronization to the remote server</wsdl:documentation>
       <input message="s0:SetDomainActiveHttpPostIn" />
       <output message="s0:SetDomainActiveHttpPostOut" />
-      <documentation>SetDomainActive - enables synchronization to the remote server</documentation>
     </operation>
     <operation name="SetDomainInactive">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">SetDomainInactive - disables remote synchronization</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">SetDomainInactive - disables remote synchronization</wsdl:documentation>
       <input message="s0:SetDomainInactiveHttpPostIn" />
       <output message="s0:SetDomainInactiveHttpPostOut" />
-      <documentation>SetDomainInactive - disables remote synchronization</documentation>
     </operation>
     <operation name="ValidCredentials">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">ValidCredentials</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">ValidCredentials</wsdl:documentation>
       <input message="s0:ValidCredentialsHttpPostIn" />
       <output message="s0:ValidCredentialsHttpPostOut" />
-      <documentation>ValidCredentials</documentation>
+    </operation>
+    <operation name="SetDomainCredentials">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sets domain credentials in the local store</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sets domain credentials in the local store</wsdl:documentation>
+      <input message="s0:SetDomainCredentialsHttpPostIn" />
+      <output message="s0:SetDomainCredentialsHttpPostOut" />
     </operation>
     <operation name="ConnectToDomain">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Connects to a Domain</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Connects to a Domain</wsdl:documentation>
       <input message="s0:ConnectToDomainHttpPostIn" />
       <output message="s0:ConnectToDomainHttpPostOut" />
-      <documentation>Connects to a Domain</documentation>
     </operation>
     <operation name="LeaveDomain">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Removes a domain account from the workstation</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Removes a domain account from the workstation</wsdl:documentation>
       <input message="s0:LeaveDomainHttpPostIn" />
       <output message="s0:LeaveDomainHttpPostOut" />
-      <documentation>Removes a domain account from the workstation</documentation>
     </operation>
     <operation name="SetDefaultDomain">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Change the default domain to the specified domain ID</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Change the default domain to the specified domain ID</wsdl:documentation>
       <input message="s0:SetDefaultDomainHttpPostIn" />
       <output message="s0:SetDefaultDomainHttpPostOut" />
-      <documentation>Change the default domain to the specified domain ID</documentation>
     </operation>
     <operation name="GetDefaultDomainID">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the ID of the default domain</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the ID of the default domain</wsdl:documentation>
       <input message="s0:GetDefaultDomainIDHttpPostIn" />
       <output message="s0:GetDefaultDomainIDHttpPostOut" />
-      <documentation>Get the ID of the default domain</documentation>
     </operation>
     <operation name="GetCertificate">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the certificate of the specified host.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the certificate of the specified host.</wsdl:documentation>
       <input message="s0:GetCertificateHttpPostIn" />
       <output message="s0:GetCertificateHttpPostOut" />
-      <documentation>Get the certificate of the specified host.</documentation>
     </operation>
     <operation name="StoreCertificate">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Store the certificate for the specified host.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Store the certificate for the specified host.</wsdl:documentation>
       <input message="s0:StoreCertificateHttpPostIn" />
       <output message="s0:StoreCertificateHttpPostOut" />
-      <documentation>Store the certificate for the specified host.</documentation>
+    </operation>
+    <operation name="GetRAList">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the Recovery Agent List.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the Recovery Agent List.</wsdl:documentation>
+      <input message="s0:GetRAListHttpPostIn" />
+      <output message="s0:GetRAListHttpPostOut" />
+    </operation>
+    <operation name="GetRACertificate">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the Recovery Agent certificate of the domain.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the Recovery Agent certificate of the domain.</wsdl:documentation>
+      <input message="s0:GetRACertificateHttpPostIn" />
+      <output message="s0:GetRACertificateHttpPostOut" />
+    </operation>
+    <operation name="StoreRACertificate">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Store the certificate for the Domain.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Store the certificate for the Domain.</wsdl:documentation>
+      <input message="s0:StoreRACertificateHttpPostIn" />
+      <output message="s0:StoreRACertificateHttpPostOut" />
     </operation>
     <operation name="GetInvalidSyncFilenameChars">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the characters which cannot be used for filenames in the Simias namespace (files and folders that contain any of these characters cannot be synchronized with iFolder and conflicts will be generated).</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the characters which cannot be used for filenames in the Simias namespace (files and folders that contain any of these characters cannot be synchronized with iFolder and conflicts will be generated).</wsdl:documentation>
       <input message="s0:GetInvalidSyncFilenameCharsHttpPostIn" />
       <output message="s0:GetInvalidSyncFilenameCharsHttpPostOut" />
-      <documentation>Returns the characters which cannot be used for filenames in the Simias namespace (files and folders that contain any of these characters cannot be synchronized with iFolder and conflicts will be generated).</documentation>
     </operation>
     <operation name="SetDomainHostAddress">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sets a new server network address for a client.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sets a new server network address for a client.</wsdl:documentation>
       <input message="s0:SetDomainHostAddressHttpPostIn" />
       <output message="s0:SetDomainHostAddressHttpPostOut" />
-      <documentation>Sets a new server network address for a client.</documentation>
     </operation>
     <operation name="SetProxyAddress">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sets a new proxy address for the specified host.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sets a new proxy address for the specified host.</wsdl:documentation>
       <input message="s0:SetProxyAddressHttpPostIn" />
       <output message="s0:SetProxyAddressHttpPostOut" />
-      <documentation>Sets a new proxy address for the specified host.</documentation>
     </operation>
     <operation name="CanShareService">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Checks to see if this instance of Simias is shareable.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Checks to see if this instance of Simias is shareable.</wsdl:documentation>
       <input message="s0:CanShareServiceHttpPostIn" />
       <output message="s0:CanShareServiceHttpPostOut" />
-      <documentation>Checks to see if this instance of Simias is shareable.</documentation>
     </operation>
     <operation name="StopSimiasProcess">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Shuts down the controlling server process.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Shuts down the controlling server process.</wsdl:documentation>
       <input message="s0:StopSimiasProcessHttpPostIn" />
       <output message="s0:StopSimiasProcessHttpPostOut" />
-      <documentation>Shuts down the controlling server process.</documentation>
     </operation>
     <operation name="AddSimiasReference">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Increments the reference count that keeps Simias services running.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Increments the reference count that keeps Simias services running.</wsdl:documentation>
       <input message="s0:AddSimiasReferenceHttpPostIn" />
       <output message="s0:AddSimiasReferenceHttpPostOut" />
-      <documentation>Increments the reference count that keeps Simias services running.</documentation>
     </operation>
     <operation name="RemoveSimiasReference">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Decrements the Simias service reference count and signals the server to stop if the count goes to zero.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Decrements the Simias service reference count and signals the server to stop if the count goes to zero.</wsdl:documentation>
       <input message="s0:RemoveSimiasReferenceHttpPostIn" />
       <output message="s0:RemoveSimiasReferenceHttpPostOut" />
-      <documentation>Decrements the Simias service reference count and signals the server to stop if the count goes to zero.</documentation>
     </operation>
     <operation name="GetSimiasDataPath">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets the directory path to the Simias data area.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets the directory path to the Simias data area.</wsdl:documentation>
       <input message="s0:GetSimiasDataPathHttpPostIn" />
       <output message="s0:GetSimiasDataPathHttpPostOut" />
-      <documentation>Gets the directory path to the Simias data area.</documentation>
     </operation>
     <operation name="GetSimiasProcessID">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets the process ID for the current running process.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets the process ID for the current running process.</wsdl:documentation>
       <input message="s0:GetSimiasProcessIDHttpPostIn" />
       <output message="s0:GetSimiasProcessIDHttpPostOut" />
-      <documentation>Gets the process ID for the current running process.</documentation>
     </operation>
   </portType>
   <binding name="Simias Web ServiceSoap" type="s0:Simias Web ServiceSoap">
@@ -1847,6 +2120,33 @@
         <soap:body use="literal" />
       </output>
     </operation>
+    <operation name="GetRAList">
+      <soap:operation soapAction="http://novell.com/simias/web/GetRAList" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="GetRACertificate">
+      <soap:operation soapAction="http://novell.com/simias/web/GetRACertificate" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="StoreRACertificate">
+      <soap:operation soapAction="http://novell.com/simias/web/StoreRACertificate" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
     <operation name="GetInvalidSyncFilenameChars">
       <soap:operation soapAction="http://novell.com/simias/web/GetInvalidSyncFilenameChars" style="document" />
       <input>
@@ -2047,6 +2347,13 @@
         <mime:mimeXml part="Body" />
       </output>
     </operation>
+    <operation name="SetDomainCredentials">
+      <http:operation location="/SetDomainCredentials" />
+      <input>
+        <http:urlEncoded />
+      </input>
+      <output />
+    </operation>
     <operation name="ConnectToDomain">
       <http:operation location="/ConnectToDomain" />
       <input>
@@ -2090,6 +2397,31 @@
     </operation>
     <operation name="StoreCertificate">
       <http:operation location="/StoreCertificate" />
+      <input>
+        <http:urlEncoded />
+      </input>
+      <output />
+    </operation>
+    <operation name="GetRAList">
+      <http:operation location="/GetRAList" />
+      <input>
+        <http:urlEncoded />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="GetRACertificate">
+      <http:operation location="/GetRACertificate" />
+      <input>
+        <http:urlEncoded />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="StoreRACertificate">
+      <http:operation location="/StoreRACertificate" />
       <input>
         <http:urlEncoded />
       </input>
@@ -2293,6 +2625,13 @@
         <mime:mimeXml part="Body" />
       </output>
     </operation>
+    <operation name="SetDomainCredentials">
+      <http:operation location="/SetDomainCredentials" />
+      <input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </input>
+      <output />
+    </operation>
     <operation name="ConnectToDomain">
       <http:operation location="/ConnectToDomain" />
       <input>
@@ -2336,6 +2675,31 @@
     </operation>
     <operation name="StoreCertificate">
       <http:operation location="/StoreCertificate" />
+      <input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </input>
+      <output />
+    </operation>
+    <operation name="GetRAList">
+      <http:operation location="/GetRAList" />
+      <input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="GetRACertificate">
+      <http:operation location="/GetRACertificate" />
+      <input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="StoreRACertificate">
+      <http:operation location="/StoreRACertificate" />
       <input>
         <mime:content type="application/x-www-form-urlencoded" />
       </input>
@@ -2422,15 +2786,16 @@
     </operation>
   </binding>
   <service name="Simias Web Service">
-    <port name="Simias Web ServiceSoap" binding="s0:Simias Web ServiceSoap">
-      <soap:address location="http://127.0.0.1:8086/simias10/Simias.asmx" />
+    <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Web Service providing access to Simias</wsdl:documentation>
+    <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Web Service providing access to Simias</wsdl:documentation>
+    <port binding="s0:Simias Web ServiceSoap" name="Simias Web ServiceSoap">
+      <soap:address location="http://164.99.169.193:8086/simias10/Simias.asmx" />
     </port>
-    <port name="Simias Web ServiceHttpGet" binding="s0:Simias Web ServiceHttpGet">
-      <http:address location="http://127.0.0.1:8086/simias10/Simias.asmx" />
+    <port binding="s0:Simias Web ServiceHttpGet" name="Simias Web ServiceHttpGet">
+      <http:address location="http://164.99.169.193:8086/simias10/Simias.asmx" />
     </port>
-    <port name="Simias Web ServiceHttpPost" binding="s0:Simias Web ServiceHttpPost">
-      <http:address location="http://127.0.0.1:8086/simias10/Simias.asmx" />
+    <port binding="s0:Simias Web ServiceHttpPost" name="Simias Web ServiceHttpPost">
+      <http:address location="http://164.99.169.193:8086/simias10/Simias.asmx" />
     </port>
-    <documentation>Web Service providing access to Simias</documentation>
   </service>
 </definitions>
