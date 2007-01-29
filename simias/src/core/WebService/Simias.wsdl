@@ -235,6 +235,8 @@
           <xs:enumeration value="OlderVersion" />
           <xs:enumeration value="ServerOld" />
           <xs:enumeration value="UpgradeNeeded" />
+          <xs:enumeration value="PassPhraseNotSet" />
+          <xs:enumeration value="PassPhraseInvalid" />
           <xs:enumeration value="Unknown" />
         </xs:restriction>
       </xs:simpleType>
@@ -606,6 +608,35 @@
           </xs:sequence>
         </xs:complexType>
       </xs:element>
+      <xs:element name="SetPassPhrase">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="domainID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="passPhrase" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SetPassPhraseResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="SetPassPhraseResult" type="s0:Status" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="IsPassPhraseSet">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="domainID" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="IsPassPhraseSetResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="IsPassPhraseSetResult" type="s0:Status" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
       <xs:element name="GetSimiasDataPath">
         <xs:complexType />
       </xs:element>
@@ -869,6 +900,18 @@
   <message name="RemoveSimiasReferenceSoapOut">
     <part element="s0:RemoveSimiasReferenceResponse" name="parameters" />
   </message>
+  <message name="SetPassPhraseSoapIn">
+    <part element="s0:SetPassPhrase" name="parameters" />
+  </message>
+  <message name="SetPassPhraseSoapOut">
+    <part element="s0:SetPassPhraseResponse" name="parameters" />
+  </message>
+  <message name="IsPassPhraseSetSoapIn">
+    <part element="s0:IsPassPhraseSet" name="parameters" />
+  </message>
+  <message name="IsPassPhraseSetSoapOut">
+    <part element="s0:IsPassPhraseSetResponse" name="parameters" />
+  </message>
   <message name="GetSimiasDataPathSoapIn">
     <part element="s0:GetSimiasDataPath" name="parameters" />
   </message>
@@ -1052,6 +1095,19 @@
   <message name="RemoveSimiasReferenceHttpGetOut">
     <part element="s0:int" name="Body" />
   </message>
+  <message name="SetPassPhraseHttpGetIn">
+    <part name="domainID" type="s:string" />
+    <part name="passPhrase" type="s:string" />
+  </message>
+  <message name="SetPassPhraseHttpGetOut">
+    <part element="s0:Status" name="Body" />
+  </message>
+  <message name="IsPassPhraseSetHttpGetIn">
+    <part name="domainID" type="s:string" />
+  </message>
+  <message name="IsPassPhraseSetHttpGetOut">
+    <part element="s0:Status" name="Body" />
+  </message>
   <message name="GetSimiasDataPathHttpGetIn" />
   <message name="GetSimiasDataPathHttpGetOut">
     <part element="s0:string" name="Body" />
@@ -1230,6 +1286,19 @@
   <message name="RemoveSimiasReferenceHttpPostIn" />
   <message name="RemoveSimiasReferenceHttpPostOut">
     <part element="s0:int" name="Body" />
+  </message>
+  <message name="SetPassPhraseHttpPostIn">
+    <part name="domainID" type="s:string" />
+    <part name="passPhrase" type="s:string" />
+  </message>
+  <message name="SetPassPhraseHttpPostOut">
+    <part element="s0:Status" name="Body" />
+  </message>
+  <message name="IsPassPhraseSetHttpPostIn">
+    <part name="domainID" type="s:string" />
+  </message>
+  <message name="IsPassPhraseSetHttpPostOut">
+    <part element="s0:Status" name="Body" />
   </message>
   <message name="GetSimiasDataPathHttpPostIn" />
   <message name="GetSimiasDataPathHttpPostOut">
@@ -1462,6 +1531,18 @@
       <input message="s0:RemoveSimiasReferenceSoapIn" />
       <output message="s0:RemoveSimiasReferenceSoapOut" />
     </operation>
+    <operation name="SetPassPhrase">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set/Validate the passphrase.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set/Validate the passphrase.</wsdl:documentation>
+      <input message="s0:SetPassPhraseSoapIn" />
+      <output message="s0:SetPassPhraseSoapOut" />
+    </operation>
+    <operation name="IsPassPhraseSet">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the passphrase state.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the passphrase state.</wsdl:documentation>
+      <input message="s0:IsPassPhraseSetSoapIn" />
+      <output message="s0:IsPassPhraseSetSoapOut" />
+    </operation>
     <operation name="GetSimiasDataPath">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets the directory path to the Simias data area.</wsdl:documentation>
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets the directory path to the Simias data area.</wsdl:documentation>
@@ -1662,6 +1743,18 @@
       <input message="s0:RemoveSimiasReferenceHttpGetIn" />
       <output message="s0:RemoveSimiasReferenceHttpGetOut" />
     </operation>
+    <operation name="SetPassPhrase">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set/Validate the passphrase.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set/Validate the passphrase.</wsdl:documentation>
+      <input message="s0:SetPassPhraseHttpGetIn" />
+      <output message="s0:SetPassPhraseHttpGetOut" />
+    </operation>
+    <operation name="IsPassPhraseSet">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the passphrase state.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the passphrase state.</wsdl:documentation>
+      <input message="s0:IsPassPhraseSetHttpGetIn" />
+      <output message="s0:IsPassPhraseSetHttpGetOut" />
+    </operation>
     <operation name="GetSimiasDataPath">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets the directory path to the Simias data area.</wsdl:documentation>
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets the directory path to the Simias data area.</wsdl:documentation>
@@ -1861,6 +1954,18 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Decrements the Simias service reference count and signals the server to stop if the count goes to zero.</wsdl:documentation>
       <input message="s0:RemoveSimiasReferenceHttpPostIn" />
       <output message="s0:RemoveSimiasReferenceHttpPostOut" />
+    </operation>
+    <operation name="SetPassPhrase">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set/Validate the passphrase.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set/Validate the passphrase.</wsdl:documentation>
+      <input message="s0:SetPassPhraseHttpPostIn" />
+      <output message="s0:SetPassPhraseHttpPostOut" />
+    </operation>
+    <operation name="IsPassPhraseSet">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the passphrase state.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the passphrase state.</wsdl:documentation>
+      <input message="s0:IsPassPhraseSetHttpPostIn" />
+      <output message="s0:IsPassPhraseSetHttpPostOut" />
     </operation>
     <operation name="GetSimiasDataPath">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets the directory path to the Simias data area.</wsdl:documentation>
@@ -2210,6 +2315,24 @@
         <soap:body use="literal" />
       </output>
     </operation>
+    <operation name="SetPassPhrase">
+      <soap:operation soapAction="http://novell.com/simias/web/SetPassPhrase" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="IsPassPhraseSet">
+      <soap:operation soapAction="http://novell.com/simias/web/IsPassPhraseSet" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
     <operation name="GetSimiasDataPath">
       <soap:operation soapAction="http://novell.com/simias/web/GetSimiasDataPath" style="document" />
       <input>
@@ -2481,6 +2604,24 @@
     </operation>
     <operation name="RemoveSimiasReference">
       <http:operation location="/RemoveSimiasReference" />
+      <input>
+        <http:urlEncoded />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="SetPassPhrase">
+      <http:operation location="/SetPassPhrase" />
+      <input>
+        <http:urlEncoded />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="IsPassPhraseSet">
+      <http:operation location="/IsPassPhraseSet" />
       <input>
         <http:urlEncoded />
       </input>
@@ -2766,6 +2907,24 @@
         <mime:mimeXml part="Body" />
       </output>
     </operation>
+    <operation name="SetPassPhrase">
+      <http:operation location="/SetPassPhrase" />
+      <input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="IsPassPhraseSet">
+      <http:operation location="/IsPassPhraseSet" />
+      <input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
     <operation name="GetSimiasDataPath">
       <http:operation location="/GetSimiasDataPath" />
       <input>
@@ -2789,13 +2948,13 @@
     <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Web Service providing access to Simias</wsdl:documentation>
     <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Web Service providing access to Simias</wsdl:documentation>
     <port binding="s0:Simias Web ServiceSoap" name="Simias Web ServiceSoap">
-      <soap:address location="http://164.99.169.193:8086/simias10/Simias.asmx" />
+      <soap:address location="http://164.99.169.155:8086/simias10/Simias.asmx" />
     </port>
     <port binding="s0:Simias Web ServiceHttpGet" name="Simias Web ServiceHttpGet">
-      <http:address location="http://164.99.169.193:8086/simias10/Simias.asmx" />
+      <http:address location="http://164.99.169.155:8086/simias10/Simias.asmx" />
     </port>
     <port binding="s0:Simias Web ServiceHttpPost" name="Simias Web ServiceHttpPost">
-      <http:address location="http://164.99.169.193:8086/simias10/Simias.asmx" />
+      <http:address location="http://164.99.169.155:8086/simias10/Simias.asmx" />
     </port>
   </service>
 </definitions>

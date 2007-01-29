@@ -135,7 +135,7 @@ namespace Simias.Authentication
 		/// <summary>
 		/// The version of the server is older.
 		/// </summary>
-		PassPhraseInvalid = 0x1f000106,
+		PassPhraseInvalid = 0x1f000107,
 
 		/// <summary>
 		/// Authentication failed with an unknown reason

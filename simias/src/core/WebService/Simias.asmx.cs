@@ -1220,13 +1220,24 @@ log.Debug("SimiasWebService.ConnectToDomain() called to connect to {0} as {1}", 
 				UTF8Encoding utf8 = new UTF8Encoding();
 				string encryptionKey = utf8.GetString(tDesKey.Key);
 
-				// Encrypt the key, algorithm here
+				// Encrypt the key, algorithm here using the passphrase
+				byte[] IV = new byte[0];
+				byte[] Buffer = new byte[encryptionKey.Length];
+				Stream Outstream  = new MemoryStream(Buffer) as Stream;
+				CryptoStream cStream = new CryptoStream(Outstream, tDesKey.CreateEncryptor(utf8.GetBytes(passPhrase), IV), CryptoStreamMode.Write);
+				StreamWriter eStream = new StreamWriter(cStream);
+				eStream.WriteLine(encryptionKey);//encrypt the date
+				byte[] Encryptedkey = new byte[Outstream.Length];
+				Outstream.Read(Encryptedkey, 0, encryptionKey.Length);//read the encrypted date
+				eStream.Close();
+				cStream.Close();
+				Outstream.Close();	
 
 				//Add the encrypted key, algorithm type as a user node property
-				collection.Properties.AddNodeProperty(PropertyTags.EncryptionKey, "123456789012345" as string);
-				collection.Properties.AddNodeProperty(PropertyTags.EncryptionType, "BlowFish" as string);
+				collection.Properties.AddNodeProperty(PropertyTags.EncryptionKey, utf8.GetString(Encryptedkey));
+				collection.Properties.AddNodeProperty(PropertyTags.EncryptionType, "BlowFish");
 
-				//Using the unencrypted key, algorithm type and create the blob  add as user node property
+				//Using the unencrypted key, algorithm type and create the blob and add as a property
 				PassPhrase blob = new PassPhrase("123456789012345","blowFish");
 				collection.Properties.AddNodeProperty(PropertyTags.EncryptionBlob, blob.HashPassPhrase());
 				return new Simias.Authentication.Status  (Simias.Authentication.StatusCodes.Success);			
@@ -1234,11 +1245,26 @@ log.Debug("SimiasWebService.ConnectToDomain() called to connect to {0} as {1}", 
 			else
 			{
 				//Decrypt the node properties (key, algorithm) using the passphrase provided by the user
+				Property pty = collection.Properties.GetSingleProperty(PropertyTags.EncryptionKey);
+				string encryptedkey = (pty!=null) ? (string) pty.Value as string : "";
+				
+				TripleDESCryptoServiceProvider tDesKey = new TripleDESCryptoServiceProvider();
+				UTF8Encoding utf8 = new UTF8Encoding();
+
+				byte[] IV = new byte[0];
+				byte[] Buffer = new byte[encryptedkey.Length];
+				Stream Outstream  = new MemoryStream(Buffer) as Stream;
+				CryptoStream cStream = new CryptoStream(Outstream, tDesKey.CreateDecryptor(utf8.GetBytes(passPhrase), IV), CryptoStreamMode.Read);
+				StreamReader eStream = new StreamReader(cStream);
+				string Decryptedkey = eStream.ReadLine();//decrypt the date
+				eStream.Close();
+				cStream.Close();
+				Outstream.Close();	
 
 				//Retrieve the old unencrypted blob (already done see above)			
 				
 				//Create the new blob using the decrypted key and algorithm
-				PassPhrase  newBlob = new PassPhrase("123456789012345","blowFish");
+				PassPhrase  newBlob = new PassPhrase(Decryptedkey,"blowFish");
 				
 				//validate the blobs
 				if(String.Equals(newBlob.HashPassPhrase(), oldBlob)==true)
@@ -1282,9 +1308,9 @@ log.Debug("SimiasWebService.ConnectToDomain() called to connect to {0} as {1}", 
 			Property p = collection.Properties.GetSingleProperty(PropertyTags.EncryptionBlob);
 			string EncryptionBlob = (p!=null) ? (string) p.Value as string : "";
 			if(EncryptionBlob =="")
-				return new Simias.Authentication.Status( Simias.Authentication.StatusCodes.Success);			
+				return new Simias.Authentication.Status( Simias.Authentication.StatusCodes.PassPhraseNotSet);			
 			else	
-				return new Simias.Authentication.Status( Simias.Authentication.StatusCodes.PassPhraseNotSet);
+				return new Simias.Authentication.Status( Simias.Authentication.StatusCodes.Success);
 		}
 
 		/// <summary>
