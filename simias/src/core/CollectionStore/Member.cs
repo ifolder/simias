@@ -44,6 +44,67 @@ namespace Simias.Storage
 		private AccessControlEntry ace;
 		#endregion
 
+		/// <summary>
+		/// Encryption Blob used only for user collection (not for ifolder collection etc)
+		/// </summary>
+		private string encryptionKey;
+
+		/// <summary>
+		/// Encryption Blob used only for user collection (not for ifolder collection etc)
+		/// </summary>
+		private string encryptionType;
+
+		/// <summary>
+		/// Encryption Blob used only for user collection (not for ifolder collection etc)
+		/// </summary>
+		private string encryptionBlob;
+
+		/// <summary>
+		/// Gets the encryption blob
+		/// </summary>
+		public string EncryptionKey
+		{
+			get
+			{
+				Property p = properties.FindSingleValue(PropertyTags.EncryptionKey);
+				string encryptionBlob = (p!=null) ? (string) p.Value as string : "";
+				return encryptionBlob;
+			}
+			set
+			{
+				properties.AddNodeProperty(PropertyTags.EncryptionKey, value);
+			}
+		}
+		/// <summary>
+		/// Gets the encryption blob
+		/// </summary>
+		public string EncryptionType
+		{
+			get
+			{
+				Property p = properties.FindSingleValue(PropertyTags.EncryptionType);
+				string encryptionBlob = (p!=null) ? (string) p.Value as string : "";
+				return encryptionBlob;
+			}
+			set
+			{
+				properties.AddNodeProperty(PropertyTags.EncryptionType, value);
+			}
+		}
+		public string EncryptionBlob
+		{
+			get
+			{
+				Property p = properties.FindSingleValue(PropertyTags.EncryptionBlob);
+				string encryptionBlob = (p!=null) ? (string) p.Value as string : "";
+				return encryptionBlob;
+			}
+			set
+			{
+				properties.AddNodeProperty(PropertyTags.EncryptionBlob, value);
+			}
+		}
+
 		#region Properties
 		/// <summary>
 		/// Gets the access control entry stored on this object.

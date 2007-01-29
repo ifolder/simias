@@ -44,6 +44,7 @@ using Simias.Authentication;
 using Simias.Client;
 using Simias.DomainServices;
 using Simias.Storage;
+using Simias.Client;
 using Simias.Sync;
 using Simias.Security.Web.AuthenticationService;
 //using Simias.POBox;
@@ -648,6 +649,8 @@ namespace Simias.Web
 			}
 
 			log.Debug( "  User: " + member.Name );
+			SetPassPhrase(domainID, "1234567890123456");
+			IsPassPhraseSet(domainID);
 			
 			DomainAgent domainAgent = new DomainAgent();
 			return domainAgent.Login( domainID, member.Name, password );
@@ -1195,89 +1198,104 @@ log.Debug("SimiasWebService.ConnectToDomain() called to connect to {0} as {1}", 
 			Simias.Storage.Domain domain = store.GetDomain(domainID);
 			if( domain == null )
 			{
+				log.Debug( "domain null" );
 				return new Simias.Authentication.Status( Simias.Authentication.StatusCodes.UnknownDomain );
 			}
 
 			Simias.Storage.Member member = domain.GetCurrentMember();
 			if( member == null )
 			{
+				log.Debug( "member null" );
 				return new Simias.Authentication.Status( Simias.Authentication.StatusCodes.UnknownUser );
 			}
-
 			log.Debug( "SetPassPhrase  User: " + member.Name );
 
-
-			Collection collection = store.GetCollectionByID(member.ID);
-
-			Property p = collection.Properties.GetSingleProperty(PropertyTags.EncryptionBlob);
-			string oldBlob = (p!=null) ? (string) p.Value as string : "";
-			if(oldBlob =="")
+			try
 			{
-				log.Info( "SetPassPhrase  User: " + member.Name );
-				//Get the random key
-				TripleDESCryptoServiceProvider tDesKey = new TripleDESCryptoServiceProvider();
-				//tDesKey.KeySize();
-				UTF8Encoding utf8 = new UTF8Encoding();
-				string encryptionKey = utf8.GetString(tDesKey.Key);
-
-				// Encrypt the key, algorithm here using the passphrase
-				byte[] IV = new byte[0];
-				byte[] Buffer = new byte[encryptionKey.Length];
-				Stream Outstream  = new MemoryStream(Buffer) as Stream;
-				CryptoStream cStream = new CryptoStream(Outstream, tDesKey.CreateEncryptor(utf8.GetBytes(passPhrase), IV), CryptoStreamMode.Write);
-				StreamWriter eStream = new StreamWriter(cStream);
-				eStream.WriteLine(encryptionKey);//encrypt the date
-				byte[] Encryptedkey = new byte[Outstream.Length];
-				Outstream.Read(Encryptedkey, 0, encryptionKey.Length);//read the encrypted date
-				eStream.Close();
-				cStream.Close();
-				Outstream.Close();	
-
-				//Add the encrypted key, algorithm type as a user node property
-				collection.Properties.AddNodeProperty(PropertyTags.EncryptionKey, utf8.GetString(Encryptedkey));
-				collection.Properties.AddNodeProperty(PropertyTags.EncryptionType, "BlowFish");
-
-				//Using the unencrypted key, algorithm type and create the blob and add as a property
-				PassPhrase blob = new PassPhrase("123456789012345","blowFish");
-				collection.Properties.AddNodeProperty(PropertyTags.EncryptionBlob, blob.HashPassPhrase());
-				return new Simias.Authentication.Status  (Simias.Authentication.StatusCodes.Success);			
-			}
-			else
-			{
-				//Decrypt the node properties (key, algorithm) using the passphrase provided by the user
-				Property pty = collection.Properties.GetSingleProperty(PropertyTags.EncryptionKey);
-				string encryptedkey = (pty!=null) ? (string) pty.Value as string : "";
-				
-				TripleDESCryptoServiceProvider tDesKey = new TripleDESCryptoServiceProvider();
-				UTF8Encoding utf8 = new UTF8Encoding();
-
-				byte[] IV = new byte[0];
-				byte[] Buffer = new byte[encryptedkey.Length];
-				Stream Outstream  = new MemoryStream(Buffer) as Stream;
-				CryptoStream cStream = new CryptoStream(Outstream, tDesKey.CreateDecryptor(utf8.GetBytes(passPhrase), IV), CryptoStreamMode.Read);
-				StreamReader eStream = new StreamReader(cStream);
-				string Decryptedkey = eStream.ReadLine();//decrypt the date
-				eStream.Close();
-				cStream.Close();
-				Outstream.Close();	
-
-				//Retrieve the old unencrypted blob (already done see above)			
-				
-				//Create the new blob using the decrypted key and algorithm
-				PassPhrase  newBlob = new PassPhrase(Decryptedkey,"blowFish");
-				
-				//validate the blobs
-				if(String.Equals(newBlob.HashPassPhrase(), oldBlob)==true)
+				string oldBlob = member.EncryptionBlob;
+				if(oldBlob =="")
 				{
-					log.Debug( "Validating the user entered passphrase: passphrase match succeded");
-					return new Simias.Authentication.Status(Simias.Authentication.StatusCodes.Success);			
+					log.Debug( "SetPassPhrase  trying to get oldBlob is : NULL, setting the passphrase" );
+					
+					//Get the random key
+					TripleDESCryptoServiceProvider tDesKey = new TripleDESCryptoServiceProvider();
+					//tDesKey.KeySize();
+					UTF8Encoding utf8 = new UTF8Encoding();
+					string encryptionKey = utf8.GetString(tDesKey.Key);
+
+					// Encrypt the key, algorithm here using the passphrase
+					byte[] IV = new byte[0];
+					byte[] Buffer = new byte[1000];
+					Stream Outstream  = new MemoryStream(Buffer) as Stream;
+					tDesKey.KeySize = 128;
+					tDesKey.Key = utf8.GetBytes(passPhrase);
+					CryptoStream cStream = new CryptoStream(Outstream, tDesKey.CreateEncryptor(utf8.GetBytes(passPhrase), IV), CryptoStreamMode.Write);
+					StreamWriter eStream = new StreamWriter(cStream);
+					eStream.WriteLine(encryptionKey);//encrypt the date
+					byte[] Encryptedkey = new byte[Outstream.Length];
+					Outstream.Read(Encryptedkey, 0, encryptionKey.Length);//read the encrypted date
+					eStream.Close();
+					cStream.Close();
+					Outstream.Close();	
+					log.Debug( "TO be Encrypted Key : {0}", encryptionKey);
+
+					//Add the encrypted key, algorithm type as a user node property
+					member.EncryptionKey = utf8.GetString(Encryptedkey);
+					member.encryptionType = "blowFish";
+
+					//Using the unencrypted key, algorithm type and create the blob and add as a property
+					PassPhrase blob = new PassPhrase(passPhrase,"blowFish");
+					member.EncryptionBlob = blob.HashPassPhrase();
+					
+					log.Debug( "SetPassPhrase  got set congratulations.............................{0}",member.EncryptionBlob);
+					return new Simias.Authentication.Status  (Simias.Authentication.StatusCodes.Success);			
 				}
 				else
 				{
-					log.Debug( "Validating the user entered passphrase: passphrase match failed");
-					return new Simias.Authentication.Status(Simias.Authentication.StatusCodes.PassPhraseInvalid);
+					log.Debug( "SetPassPhrase  validate the passphrase: " );
+
+					//Decrypt the node properties (key, algorithm) using the passphrase provided by the user
+					string encryptedkey = member.EncryptionKey;
+					
+					TripleDESCryptoServiceProvider tDesKey = new TripleDESCryptoServiceProvider();
+					UTF8Encoding utf8 = new UTF8Encoding();
+
+					byte[] IV = new byte[0];
+					byte[] Buffer = new byte[1000];
+					Stream Outstream  = new MemoryStream(Buffer) as Stream;
+					tDesKey.KeySize = 128;
+					tDesKey.Key = utf8.GetBytes(passPhrase);					
+					CryptoStream cStream = new CryptoStream(Outstream, tDesKey.CreateDecryptor(utf8.GetBytes(passPhrase), IV), CryptoStreamMode.Read);
+					StreamReader eStream = new StreamReader(cStream);
+					string Decryptedkey = eStream.ReadLine();//decrypt the date
+					eStream.Close();
+					cStream.Close();
+					Outstream.Close();	
+
+					log.Debug( "Decrypted Key : {0}", Decryptedkey);
+
+					//Retrieve the old unencrypted blob (already done see above)
+					
+					//Create the new blob using the decrypted key and algorithm
+					PassPhrase  newBlob = new PassPhrase(Decryptedkey,"blowFish");
+					
+					//validate the blobs
+					if(String.Equals(newBlob.HashPassPhrase(), oldBlob)==true)
+					{
+						log.Debug( "Validating the user entered passphrase: passphrase match succeded.........oldBlob :{0}.......NewBlob: {1}",oldBlob, newBlob.HashPassPhrase());
+						return new Simias.Authentication.Status(Simias.Authentication.StatusCodes.Success);			
+					}
+					else
+					{
+						log.Debug( "Validating the user entered passphrase: passphrase match failed..........oldBlob :{0}.......NewBlob: {1}",oldBlob, newBlob.HashPassPhrase());
+						return new Simias.Authentication.Status(Simias.Authentication.StatusCodes.PassPhraseInvalid);
+					}
 				}
 			}
+			finally
+			{
+
+			}			
 		}
 		
 		///<summary>
@@ -1303,15 +1321,20 @@ log.Debug("SimiasWebService.ConnectToDomain() called to connect to {0} as {1}", 
 
 			log.Debug( "IsPassPhraseSet User: " + member.Name );
 
-			
-			Collection collection = store.GetCollectionByID(member.ID);
-			Property p = collection.Properties.GetSingleProperty(PropertyTags.EncryptionBlob);
-			string EncryptionBlob = (p!=null) ? (string) p.Value as string : "";
+			string EncryptionBlob = member.EncryptionBlob;
+					
 			if(EncryptionBlob =="")
+			{
+				log.Info( "IsPassPhraseSet : FALSE" );
 				return new Simias.Authentication.Status( Simias.Authentication.StatusCodes.PassPhraseNotSet);			
+			}
 			else	
+			{
+				log.Info( "IsPassPhraseSet User: TRUE" );
 				return new Simias.Authentication.Status( Simias.Authentication.StatusCodes.Success);
+			}
 		}
+			
 
 		/// <summary>
 		/// Gets the directory path to the Simias data area.
