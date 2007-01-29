@@ -649,7 +649,9 @@ namespace Simias.Web
 			}
 
 			log.Debug( "  User: " + member.Name );
-		
+			SetPassPhrase(domainID, "1234567890123456");
+			IsPassPhraseSet(domainID);
+			
 			DomainAgent domainAgent = new DomainAgent();
 			return domainAgent.Login( domainID, member.Name, password );
 		}
@@ -1239,7 +1241,7 @@ log.Debug("SimiasWebService.ConnectToDomain() called to connect to {0} as {1}", 
 
 					//Add the encrypted key, algorithm type as a user node property
 					member.EncryptionKey = utf8.GetString(Encryptedkey);
-					member.encryptionType = "blowFish";
+					member.EncryptionType = "blowFish";
 
 					//Using the unencrypted key, algorithm type and create the blob and add as a property
 					PassPhrase blob = new PassPhrase(passPhrase,"blowFish");

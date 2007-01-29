@@ -45,17 +45,17 @@ namespace Simias.Storage
 		#endregion
 
 		/// <summary>
-		/// Encryption Blob used only for user collection (not for ifolder collection etc)
+
 		/// </summary>
 		private string encryptionKey;
 
 		/// <summary>
-		/// Encryption Blob used only for user collection (not for ifolder collection etc)
+
 		/// </summary>
 		private string encryptionType;
 
 		/// <summary>
-		/// Encryption Blob used only for user collection (not for ifolder collection etc)
+
 		/// </summary>
 		private string encryptionBlob;
 
@@ -67,8 +67,8 @@ namespace Simias.Storage
 			get
 			{
 				Property p = properties.FindSingleValue(PropertyTags.EncryptionKey);
-				string encryptionBlob = (p!=null) ? (string) p.Value as string : "";
-				return encryptionBlob;
+				string encryptionKey = (p!=null) ? (string) p.Value as string : "";
+				return encryptionKey;
 			}
 			set
 			{
@@ -83,8 +83,8 @@ namespace Simias.Storage
 			get
 			{
 				Property p = properties.FindSingleValue(PropertyTags.EncryptionType);
-				string encryptionBlob = (p!=null) ? (string) p.Value as string : "";
-				return encryptionBlob;
+				string encryptionType = (p!=null) ? (string) p.Value as string : "";
+				return encryptionType;
 			}
 			set
 			{

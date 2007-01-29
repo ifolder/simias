@@ -660,6 +660,7 @@ namespace Simias.Storage
 
 				UTF8Encoding utf8 = new UTF8Encoding();				
 				this.encryptionKey = utf8.GetString(tDesKey.Key);
+				this.encryptionKey = "123456789012345";
 				properties.AddNodeProperty(PropertyTags.EncryptionKey, this.encryptionKey);
 			}
 			
