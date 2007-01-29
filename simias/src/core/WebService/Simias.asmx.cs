@@ -649,8 +649,8 @@ namespace Simias.Web
 			}
 
 			log.Debug( "  User: " + member.Name );
-			SetPassPhrase(domainID, "1234567890123456");
-			IsPassPhraseSet(domainID);
+			//SetPassPhrase(domainID, "1234567890123456");
+			//IsPassPhraseSet(domainID);
 			
 			DomainAgent domainAgent = new DomainAgent();
 			return domainAgent.Login( domainID, member.Name, password );
