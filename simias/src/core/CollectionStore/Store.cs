@@ -29,6 +29,7 @@ using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using System.Xml;
+using System.Text;
 
 using Simias;
 using Simias.Client;

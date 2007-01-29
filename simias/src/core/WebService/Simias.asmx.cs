@@ -35,6 +35,7 @@ using System.Web.Services.Protocols;
 using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
+using System.Security.Cryptography;
 
 //using Novell.Security.ClientPasswordManager;
 
