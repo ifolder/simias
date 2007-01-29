@@ -26,6 +26,7 @@ using System.Collections;
 using System.IO;
 using System.Net;
 using System.Security.Cryptography;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using System.Xml;
 
@@ -507,6 +508,19 @@ namespace Simias.Storage
 					// Create the certificate policy and load the certs.
 					new CertPolicy();
 					//read the list of certificates and add it to the policy - call StoreRACertificate() -- TODO
+					Simias.Configuration config = Store.Config;
+					string raPath = config.Get( "Server", "RAPath" );
+
+					if (raPath != String.Empty && raPath != "")
+					{
+					        string[] racertFiles = Directory.GetFiles( raPath, "*.cer" );
+						foreach ( string file in racertFiles )
+						{
+						        X509Certificate raCert = X509Certificate.CreateFromCertFile(file);
+							Simias.Security.CertificateStore.StoreRACertificate (raCert.GetRawCertData(), raCert.GetIssuerName(), true);
+						}
+					}
+
 					Simias.Security.CertificateStore.LoadCertsFromStore();
 				}
 
