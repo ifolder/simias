@@ -825,7 +825,22 @@ namespace Simias.Web
 			store.SetDomainCredentials(domainID, credentials, type);
 		}
 
-
+                /// <summary>
+                /// Stores the passphrase in the local store.
+                /// </summary>
+                /// <param name="domainID"> The ID of the domain to store the passphrase
+                /// on.</param>
+                /// <param name="passPhrase">Passphrase to store.</param>
+                /// <param name="type">Type of passphrase.</param>
+                [WebMethod(EnableSession=true, Description="Stores domain passphrase in the local store")]
+                [SoapDocumentMethod]
+                public void StorePassPhrase(    string domainID,
+                                                                                        string passPhrase,
+                                                                                        CredentialType type)
+                {
+                        Store store = Store.GetStore();
+                        store.StorePassPhrase(domainID, passPhrase, type);
+                }
 
 
 		/// <summary>
@@ -843,8 +858,20 @@ namespace Simias.Web
 			return store.GetDomainCredentials(domainID, out userID, out credentials);
 		}
 
-
-
+               /// <summary>
+                /// Gets the credentials from the specified domain object.
+                /// </summary>
+                /// <param name="domainID">The ID of the domain to set the credentials on.</param>
+                /// <param name="userID">Gets the ID of the user.</param>
+                /// <param name="passPhrase">Gets the passPhrase for the domain.</param>
+                /// <returns>The type of credentials.</returns>
+                [WebMethod(EnableSession=true, Description="Get the saved credentials from a domain")]
+                [SoapDocumentMethod]
+                public CredentialType GetPassPhrase(string domainID, out string userID, out string passPhrase)
+                {
+                        Store store = Store.GetStore();
+                        return store.GetPassPhrase(domainID, out userID, out passPhrase);
+                }
 
 		/// <summary>
 		/// WebMethod that connects up an iFolder Domain

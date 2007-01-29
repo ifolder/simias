@@ -59,6 +59,8 @@ namespace Simias.Storage
 		static private readonly string UserTag = "User";
 		static private readonly string CredentialTag = "Credential";
 		static private readonly string TypeTag = "Type";
+		static private readonly string PassPhraseTag = "PassPhrase";
+		static private readonly string PassPhraseTypeTag = "PassPhraseType";
 
 		/// <summary>
 		/// Handle to the store.
@@ -530,6 +532,47 @@ namespace Simias.Storage
 			return credType;
 		}
 
+
+		/// <summary>
+		/// Gets the user identifier and  pass-phrase for the specified domain.
+		/// </summary>
+		/// <param name="domainID">The identifier for the domain.</param>
+		/// <param name="userID">Gets the userID of the user associated with the specified domain.</param>
+		/// <param name="credentials">Gets the credentials for the user.</param>
+		/// <returns>CredentialType enumerated object.</returns>
+		internal CredentialType GetPassPhrase( string domainID, out string userID, out string  passPhrase)
+		{
+			// Find the property associated with the domain.
+			XmlDocument document = GetDocumentByDomain( domainID );
+			if ( document == null )
+			{
+				throw new CollectionStoreException( "The specified domain does not exist." );
+			}
+
+			// Return the User ID.
+			userID = document.DocumentElement.GetAttribute( UserTag );
+
+			// Get the credential type.
+			string credTypeString = document.DocumentElement.GetAttribute( PassPhraseTypeTag );
+			CredentialType credType = ( CredentialType )Enum.Parse( typeof( CredentialType ), credTypeString, true );
+
+			// Return the credentials.
+			passPhrase = document.DocumentElement.GetAttribute( PassPhraseTag );
+			if ( passPhrase != String.Empty )
+			{
+				if ( credType == CredentialType.Basic )
+				{
+					passPhrase = DecryptCredential( passPhrase );
+				}
+			}
+			else
+			{
+				passPhrase = null;
+			}
+
+			return credType;
+		}
+
 		/// <summary>
 		/// Sets the credentials for the specified domain.
 		/// </summary>
@@ -569,6 +612,49 @@ namespace Simias.Storage
 			}
 
 			mapDoc.DocumentElement.SetAttribute( TypeTag, type.ToString() );
+			p.SetPropertyValue( mapDoc );
+			return this;
+		}
+
+		/// <summary>
+		/// Stores the passphrase for the specified domain.
+		/// </summary>
+		/// <param name="domainID">The domain to store the passphrase for.</param>
+		/// <param name="passPhrase">The domain passphrase.</param>
+		/// <param name="type">Type of credentials.</param>
+		/// <returns>The modified identity object.</returns>
+		internal Identity StorePassPhrase( string domainID, string passPhrase, CredentialType type )
+		{
+			Property p = GetPropertyByDomain( domainID );
+			if ( p == null )
+			{
+				throw new CollectionStoreException( "There is no mapping for this domain." );
+			}
+
+			// Set the password on the mapping.
+			XmlDocument mapDoc = p.Value as XmlDocument;
+			if ( type == CredentialType.None )
+			{
+				if ( domainID == StoreReference.LocalDomain )
+				{
+					throw new CollectionStoreException( "Cannot remove the local domain credentials." );
+				}
+
+				mapDoc.DocumentElement.RemoveAttribute( CredentialTag );
+			}
+			else
+			{
+				if ( type == CredentialType.Basic )
+				{
+					mapDoc.DocumentElement.SetAttribute( PassPhraseTag, EncryptCredential( passPhrase ) );
+				}
+				else
+				{
+					mapDoc.DocumentElement.SetAttribute( PassPhraseTag, passPhrase );
+				}
+			}
+
+			mapDoc.DocumentElement.SetAttribute( PassPhraseTypeTag, type.ToString() );
 			p.SetPropertyValue( mapDoc );
 			return this;
 		}

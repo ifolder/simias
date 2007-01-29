@@ -395,6 +395,18 @@
       <xs:element name="SetDomainCredentialsResponse">
         <xs:complexType />
       </xs:element>
+      <xs:element name="StorePassPhrase">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="domainID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="passPhrase" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="type" type="s0:CredentialType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="StorePassPhraseResponse">
+        <xs:complexType />
+      </xs:element>
       <xs:element name="GetDomainCredentials">
         <xs:complexType>
           <xs:sequence>
@@ -408,6 +420,22 @@
             <xs:element minOccurs="1" maxOccurs="1" name="GetDomainCredentialsResult" type="s0:CredentialType" />
             <xs:element minOccurs="0" maxOccurs="1" name="userID" type="xs:string" />
             <xs:element minOccurs="0" maxOccurs="1" name="credentials" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetPassPhrase">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="domainID" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetPassPhraseResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="GetPassPhraseResult" type="s0:CredentialType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="userID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="passPhrase" type="xs:string" />
           </xs:sequence>
         </xs:complexType>
       </xs:element>
@@ -798,11 +826,23 @@
   <message name="SetDomainCredentialsSoapOut">
     <part element="s0:SetDomainCredentialsResponse" name="parameters" />
   </message>
+  <message name="StorePassPhraseSoapIn">
+    <part element="s0:StorePassPhrase" name="parameters" />
+  </message>
+  <message name="StorePassPhraseSoapOut">
+    <part element="s0:StorePassPhraseResponse" name="parameters" />
+  </message>
   <message name="GetDomainCredentialsSoapIn">
     <part element="s0:GetDomainCredentials" name="parameters" />
   </message>
   <message name="GetDomainCredentialsSoapOut">
     <part element="s0:GetDomainCredentialsResponse" name="parameters" />
+  </message>
+  <message name="GetPassPhraseSoapIn">
+    <part element="s0:GetPassPhrase" name="parameters" />
+  </message>
+  <message name="GetPassPhraseSoapOut">
+    <part element="s0:GetPassPhraseResponse" name="parameters" />
   </message>
   <message name="ConnectToDomainSoapIn">
     <part element="s0:ConnectToDomain" name="parameters" />
@@ -1009,6 +1049,12 @@
     <part name="type" xmlns:q1="http://novell.com/simias/web/AbstractTypes" type="q1:CredentialType" />
   </message>
   <message name="SetDomainCredentialsHttpGetOut" />
+  <message name="StorePassPhraseHttpGetIn">
+    <part name="domainID" type="s:string" />
+    <part name="passPhrase" type="s:string" />
+    <part name="type" xmlns:q2="http://novell.com/simias/web/AbstractTypes" type="q2:CredentialType" />
+  </message>
+  <message name="StorePassPhraseHttpGetOut" />
   <message name="ConnectToDomainHttpGetIn">
     <part name="UserName" type="s:string" />
     <part name="Password" type="s:string" />
@@ -1198,9 +1244,15 @@
   <message name="SetDomainCredentialsHttpPostIn">
     <part name="domainID" type="s:string" />
     <part name="credentials" type="s:string" />
-    <part name="type" xmlns:q2="http://novell.com/simias/web/AbstractTypes" type="q2:CredentialType" />
+    <part name="type" xmlns:q3="http://novell.com/simias/web/AbstractTypes" type="q3:CredentialType" />
   </message>
   <message name="SetDomainCredentialsHttpPostOut" />
+  <message name="StorePassPhraseHttpPostIn">
+    <part name="domainID" type="s:string" />
+    <part name="passPhrase" type="s:string" />
+    <part name="type" xmlns:q4="http://novell.com/simias/web/AbstractTypes" type="q4:CredentialType" />
+  </message>
+  <message name="StorePassPhraseHttpPostOut" />
   <message name="ConnectToDomainHttpPostIn">
     <part name="UserName" type="s:string" />
     <part name="Password" type="s:string" />
@@ -1429,11 +1481,23 @@
       <input message="s0:SetDomainCredentialsSoapIn" />
       <output message="s0:SetDomainCredentialsSoapOut" />
     </operation>
+    <operation name="StorePassPhrase">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Stores domain passphrase in the local store</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Stores domain passphrase in the local store</wsdl:documentation>
+      <input message="s0:StorePassPhraseSoapIn" />
+      <output message="s0:StorePassPhraseSoapOut" />
+    </operation>
     <operation name="GetDomainCredentials">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the saved credentials from a domain</wsdl:documentation>
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the saved credentials from a domain</wsdl:documentation>
       <input message="s0:GetDomainCredentialsSoapIn" />
       <output message="s0:GetDomainCredentialsSoapOut" />
+    </operation>
+    <operation name="GetPassPhrase">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the saved credentials from a domain</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the saved credentials from a domain</wsdl:documentation>
+      <input message="s0:GetPassPhraseSoapIn" />
+      <output message="s0:GetPassPhraseSoapOut" />
     </operation>
     <operation name="ConnectToDomain">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Connects to a Domain</wsdl:documentation>
@@ -1647,6 +1711,12 @@
       <input message="s0:SetDomainCredentialsHttpGetIn" />
       <output message="s0:SetDomainCredentialsHttpGetOut" />
     </operation>
+    <operation name="StorePassPhrase">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Stores domain passphrase in the local store</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Stores domain passphrase in the local store</wsdl:documentation>
+      <input message="s0:StorePassPhraseHttpGetIn" />
+      <output message="s0:StorePassPhraseHttpGetOut" />
+    </operation>
     <operation name="ConnectToDomain">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Connects to a Domain</wsdl:documentation>
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Connects to a Domain</wsdl:documentation>
@@ -1858,6 +1928,12 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sets domain credentials in the local store</wsdl:documentation>
       <input message="s0:SetDomainCredentialsHttpPostIn" />
       <output message="s0:SetDomainCredentialsHttpPostOut" />
+    </operation>
+    <operation name="StorePassPhrase">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Stores domain passphrase in the local store</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Stores domain passphrase in the local store</wsdl:documentation>
+      <input message="s0:StorePassPhraseHttpPostIn" />
+      <output message="s0:StorePassPhraseHttpPostOut" />
     </operation>
     <operation name="ConnectToDomain">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Connects to a Domain</wsdl:documentation>
@@ -2162,8 +2238,26 @@
         <soap:body use="literal" />
       </output>
     </operation>
+    <operation name="StorePassPhrase">
+      <soap:operation soapAction="http://novell.com/simias/web/StorePassPhrase" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
     <operation name="GetDomainCredentials">
       <soap:operation soapAction="http://novell.com/simias/web/GetDomainCredentials" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="GetPassPhrase">
+      <soap:operation soapAction="http://novell.com/simias/web/GetPassPhrase" style="document" />
       <input>
         <soap:body use="literal" />
       </input>
@@ -2477,6 +2571,13 @@
       </input>
       <output />
     </operation>
+    <operation name="StorePassPhrase">
+      <http:operation location="/StorePassPhrase" />
+      <input>
+        <http:urlEncoded />
+      </input>
+      <output />
+    </operation>
     <operation name="ConnectToDomain">
       <http:operation location="/ConnectToDomain" />
       <input>
@@ -2773,6 +2874,13 @@
       </input>
       <output />
     </operation>
+    <operation name="StorePassPhrase">
+      <http:operation location="/StorePassPhrase" />
+      <input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </input>
+      <output />
+    </operation>
     <operation name="ConnectToDomain">
       <http:operation location="/ConnectToDomain" />
       <input>
@@ -2948,13 +3056,13 @@
     <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Web Service providing access to Simias</wsdl:documentation>
     <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Web Service providing access to Simias</wsdl:documentation>
     <port binding="s0:Simias Web ServiceSoap" name="Simias Web ServiceSoap">
-      <soap:address location="http://164.99.169.155:8086/simias10/Simias.asmx" />
+      <soap:address location="http://localhost:8086/simias10/Simias.asmx" />
     </port>
     <port binding="s0:Simias Web ServiceHttpGet" name="Simias Web ServiceHttpGet">
-      <http:address location="http://164.99.169.155:8086/simias10/Simias.asmx" />
+      <http:address location="http://localhost:8086/simias10/Simias.asmx" />
     </port>
     <port binding="s0:Simias Web ServiceHttpPost" name="Simias Web ServiceHttpPost">
-      <http:address location="http://164.99.169.155:8086/simias10/Simias.asmx" />
+      <http:address location="http://localhost:8086/simias10/Simias.asmx" />
     </port>
   </service>
 </definitions>
