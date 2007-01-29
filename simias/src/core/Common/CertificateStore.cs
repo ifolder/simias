@@ -38,7 +38,6 @@ namespace Simias.Security
 		const string hostProperty = "Host";
 		const string raProperty = "RecoveryAgent";
 		const string CertType = "X509Certificate";
-		static public ArrayList CertRAList = new ArrayList();
 
 		private static string GetHostFromUri( string uriString )
 		{
@@ -126,10 +125,7 @@ namespace Simias.Security
 		/// <returns>The list as a String array.</returns>
 		public static ArrayList GetRAList()
 		{
-			if(CertRAList.Count > 0)
-				return CertRAList;
-			else
-				return null;
+			return CertPolicy.GetRAList();
 		}
 
 		/// <summary>
@@ -155,13 +151,12 @@ namespace Simias.Security
 		/// <param name="persist">If true save in store.</param>
 		public static void StoreRACertificate(byte[] certificate, string recoveryAgnt, bool persist)
 		{
-			CertRAList.Add(recoveryAgnt);
 			CertPolicy.StoreRACertificate(certificate, recoveryAgnt);
 			if (persist)
 			{
 				// Save the cert in the store.
 				Store store = Store.GetStore();
-				Domain domain = store.GetDomain(store.LocalDomain);
+				Domain domain = store.GetDomain(store.DefaultDomain);
 
 				// Check for an existing cert in the store.
 				Node cn = null;
@@ -196,93 +191,77 @@ namespace Simias.Security
 		{
 			string rAgent;
 			Store store = Store.GetStore();
-			Domain domain = store.GetDomain(store.LocalDomain);
-			ICSList certs = domain.GetNodesByType(CertType);
+			ICSList domainList = store.GetDomainList();
+			Boolean isLocalDomain = false;
 
 			// We need to get rid of any duplicate certificates that may exist.
 			Hashtable ht = new Hashtable();
 			ArrayList nodesToDelete = new ArrayList();
-// it is assumed the host name and the Recovery agent name doesn't clash -- need to validate
-//need to see if this code can be optimized - TODO
-			foreach(ShallowNode sn in certs)
+			
+			foreach (ShallowNode snd in domainList)
 			{
-				Node node = new Node(domain, sn);
-				try
+				Domain domain = store.GetDomain ( snd.ID );
+				ICSList certs = domain.GetNodesByType(CertType);
+				ht.Clear();
+				nodesToDelete.Clear();
+
+				isLocalDomain = domain.Name.Equals(Store.LocalDomainName);
+
+				foreach(ShallowNode sn in certs)
 				{
-					string host = node.Properties.GetSingleProperty(hostProperty).Value.ToString();
-					rAgent = node.Properties.GetSingleProperty(raProperty).Value.ToString();
-					if(host != null)
+					Node node = new Node(domain, sn);
+					try
 					{
-						if (ht.Contains(host))
+						string nodeProperty = node.Properties.GetSingleProperty(isLocalDomain?hostProperty:raProperty).Value.ToString();
+						if(nodeProperty != null)
 						{
-							// A duplicate exists, use the most recent one.
-							Node dupNode = (Node)ht[host];
-						
-							DateTime nodeTime = (DateTime)node.Properties.GetSingleProperty(PropertyTags.NodeCreationTime).Value;
-							DateTime dupNodeTime = (DateTime)dupNode.Properties.GetSingleProperty(PropertyTags.NodeCreationTime).Value;
-						
-							if (dupNodeTime > nodeTime)
+							if (ht.Contains(nodeProperty))
 							{
-								nodesToDelete.Add( node );							
-								node = dupNode;
+								// A duplicate exists, use the most recent one.
+								Node dupNode = (Node)ht[nodeProperty];
+							
+								DateTime nodeTime = (DateTime)node.Properties.GetSingleProperty(PropertyTags.NodeCreationTime).Value;
+								DateTime dupNodeTime = (DateTime)dupNode.Properties.GetSingleProperty(PropertyTags.NodeCreationTime).Value;
+							
+								if (dupNodeTime > nodeTime)
+								{
+									nodesToDelete.Add( node );							
+									node = dupNode;
+								}
+								else
+								{
+									nodesToDelete.Add(dupNode);
+									ht[nodeProperty] = node;
+								}
 							}
 							else
 							{
-								nodesToDelete.Add(dupNode);
-								ht[host] = node;
+								ht.Add(nodeProperty, node);
 							}
-						}
-						else
-						{
-							ht.Add(host, node);
-						}
-						string sCert = node.Properties.GetSingleProperty(certificateProperty).Value.ToString();
-						byte[] certificate = Convert.FromBase64String(sCert);
-						CertPolicy.StoreCertificate(certificate, host);
-					}
-					
-					if(rAgent != null)
-					{
-						if (ht.Contains(rAgent))
-						{
-							// A duplicate exists, use the most recent one.
-							Node dupNode = (Node)ht[rAgent];
-						
-							DateTime nodeTime = (DateTime)node.Properties.GetSingleProperty(PropertyTags.NodeCreationTime).Value;
-							DateTime dupNodeTime = (DateTime)dupNode.Properties.GetSingleProperty(PropertyTags.NodeCreationTime).Value;
-						
-							if (dupNodeTime > nodeTime)
-							{
-								nodesToDelete.Add( node );							
-								node = dupNode;
-							}
+							string sCert = node.Properties.GetSingleProperty(certificateProperty).Value.ToString();
+							byte[] certificate = Convert.FromBase64String(sCert);
+							
+							if(isLocalDomain)
+								CertPolicy.StoreCertificate(certificate, nodeProperty);
 							else
-							{
-								nodesToDelete.Add(dupNode);
-								ht[rAgent] = node;
-							}
+								CertPolicy.StoreRACertificate(certificate, nodeProperty);
 						}
-						else
-						{
-							ht.Add(rAgent, node);
-						}
-						string sCert = node.Properties.GetSingleProperty(certificateProperty).Value.ToString();
-						byte[] certificate = Convert.FromBase64String(sCert);
-						CertPolicy.StoreRACertificate(certificate, rAgent);
 					}
-
+					catch {}
 				}
-				catch {}
-			}
-
-			if (nodesToDelete.Count > 0)
-			{
-				try
+						
+				if (nodesToDelete.Count > 0)
 				{
-					domain.Commit(domain.Delete((Node[])(nodesToDelete.ToArray(typeof(Node)))));
+					try
+					{
+						domain.Commit(domain.Delete((Node[])(nodesToDelete.ToArray(typeof(Node)))));
+					}
+					catch {}
 				}
-				catch {}
+
+
 			}
+
 		}
 	}
 }

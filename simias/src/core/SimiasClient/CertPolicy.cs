@@ -95,6 +95,7 @@ namespace Simias.Client
 
 		static public Hashtable CertRATable = Hashtable.Synchronized(new Hashtable());
 
+		static public ArrayList CertRAList = new ArrayList();
 
 		/// <summary>
 		/// The default certificate policy.
@@ -159,6 +160,18 @@ namespace Simias.Client
 		}
 
 		/// <summary>
+		/// Get the list of Recovery Agents 
+		/// </summary>
+		/// <returns>The list as a String array.</returns>
+		public static ArrayList GetRAList()
+		{
+			if(CertRAList.Count > 0)
+				return CertRAList;
+			else
+				return null;
+		}
+
+		/// <summary>
 		/// Get the Certificate for the specified store.
 		/// </summary>
 		/// <param name="host">The host who owns the certificate.</param>
@@ -191,6 +204,7 @@ namespace Simias.Client
 		/// <param name="host">The host the certificate belongs to.</param>
 		public static void StoreRACertificate(byte[] certificate, string recoveryAgent)
 		{
+			CertRAList.Add(recoveryAgent);
 			CertRATable[recoveryAgent] = new CertificateState(new X509Certificate(certificate), true, CertificateProblem.CertOK);
 		}
 
