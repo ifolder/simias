@@ -649,9 +649,7 @@ namespace Simias.Web
 			}
 
 			log.Debug( "  User: " + member.Name );
-			SetPassPhrase(domainID, "1234567890123456");
-			IsPassPhraseSet(domainID);
-			
+		
 			DomainAgent domainAgent = new DomainAgent();
 			return domainAgent.Login( domainID, member.Name, password );
 		}
@@ -1333,8 +1331,7 @@ log.Debug("SimiasWebService.ConnectToDomain() called to connect to {0} as {1}", 
 				log.Info( "IsPassPhraseSet User: TRUE" );
 				return new Simias.Authentication.Status( Simias.Authentication.StatusCodes.Success);
 			}
-		}
-			
+		}			
 
 		/// <summary>
 		/// Gets the directory path to the Simias data area.
