@@ -1,6 +1,6 @@
 <configuration>
   <section name ="Authentication">
-    <setting name="SimiasAuthNotRequired" value="Login.ashx, Simias.asmx:PingSimias, POService.asmx:Invite" />
+    <setting name="SimiasAuthNotRequired" value="Login.ashx, Simias.asmx:PingSimias, POService.asmx:Invite, Simias.asmx:GetRAList, Simias.asmx:GetRACertificate" />
     <setting name="SimiasRequireSSL" value="no" />
   </section>
   <section name="StoreProvider">

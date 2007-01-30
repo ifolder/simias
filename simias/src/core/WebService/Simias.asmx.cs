@@ -1002,9 +1002,17 @@ log.Debug("SimiasWebService.ConnectToDomain() called to connect to {0} as {1}", 
 		/// <returns></returns>
 		[WebMethod(EnableSession=true, Description="Get the Recovery Agent List.")]
 		[SoapDocumentMethod]
-		public ArrayList GetRAList()
+		public string[] GetRAList()
 		{
-			return Simias.Security.CertificateStore.GetRAList();
+		    ArrayList list = Simias.Security.CertificateStore.GetRAList();
+		    string[] ralist = new string [ list.Count ];
+		    int i=0;
+
+		    foreach (string ra in list)
+		    {
+			ralist[ i++ ] = ra;
+		    }
+		    return ralist;
 		}
 
 		/// <summary>
