@@ -1285,7 +1285,7 @@ log.Debug("SimiasWebService.ConnectToDomain() called to connect to {0} as {1}", 
 		///<returns>passPhrase.</returns>
 		[WebMethod(EnableSession=true, Description="Reset passphrase and recovery agent.")]
 		[SoapDocumentMethod]
-		public Simias.Authentication.Status SetPassPhrase(string domainID, string oldPass, string newPass, string recoveryAgentName, string publicKey)
+		public Simias.Authentication.Status ReSetPassPhrase(string domainID, string oldPass, string newPass, string recoveryAgentName, string publicKey)
 		{
 			//temp
 			return new Simias.Authentication.Status( Simias.Authentication.StatusCodes.UnknownDomain );							
