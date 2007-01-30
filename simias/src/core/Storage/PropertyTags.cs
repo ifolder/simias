@@ -111,6 +111,16 @@ namespace Simias.Storage
 		/// <summary>
 		/// Well known property name.
 		/// </summary>
+		static public string RAName= "RAName";
+
+		/// <summary>
+		/// Well known property name.
+		/// </summary>
+		static public string RAPublicKey= "RAPublicKey";
+
+		/// <summary>
+		/// Well known property name.
+		/// </summary>
 		static public string DomainType = "DomainType";
 
 		/// <summary>

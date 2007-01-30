@@ -1015,6 +1015,7 @@ log.Debug("SimiasWebService.ConnectToDomain() called to connect to {0} as {1}", 
 		    return ralist;
 		}
 
+
 		/// <summary>
 		/// WebMethod to get the RA certificate for the specified host.
 		/// </summary>
@@ -1220,13 +1221,43 @@ log.Debug("SimiasWebService.ConnectToDomain() called to connect to {0} as {1}", 
 				return simiasReferenceCount;
 			}
 		}
+
+		
 		///<summary>
-		///set/validate the passphrase
+		///Validate the passphrase for the correctness
 		///</summary>
 		///<returns>passPhrase.</returns>
-		[WebMethod(EnableSession=true, Description="Set/Validate the passphrase.")]
+		[WebMethod(EnableSession=true, Description="Validate the passphrase for the correctness.")]
+		[SoapDocumentMethod]	
+		public Simias.Authentication.Status ValidatePassPhrase(string domainID, string passPhrase)
+		{
+			log.Debug( "ValidatePassPhrase - called" );
+			Store store = Store.GetStore();
+			Simias.Storage.Domain domain = store.GetDomain(domainID);
+			if( domain == null )
+			{
+				log.Debug( "ValidatePassPhrase domain null" );
+				return new Simias.Authentication.Status( Simias.Authentication.StatusCodes.UnknownDomain );
+			}
+
+			Simias.Storage.Member member = domain.GetCurrentMember();
+			if( member == null )
+			{
+				log.Debug( "ValidatePassPhrase member null" );
+				return new Simias.Authentication.Status( Simias.Authentication.StatusCodes.UnknownUser );
+			}
+			log.Debug( "SetPassPhrase  User: " + member.Name );
+
+			return member.ValidatePassPhrase(passPhrase);
+		}
+
+		///<summary>
+		///Set the passphrase and recovery agent
+		///</summary>
+		///<returns>passPhrase.</returns>
+		[WebMethod(EnableSession=true, Description="Set the passphrase and recovery agent.")]
 		[SoapDocumentMethod]
-		public Simias.Authentication.Status SetPassPhrase(string domainID, string passPhrase)
+		public Simias.Authentication.Status SetPassPhrase(string domainID, string passPhrase, string recoveryAgentName, string publicKey)
 		{
 			log.Debug( "SetPassPhrase - called" );
 			Store store = Store.GetStore();
@@ -1245,95 +1276,42 @@ log.Debug("SimiasWebService.ConnectToDomain() called to connect to {0} as {1}", 
 			}
 			log.Debug( "SetPassPhrase  User: " + member.Name );
 
-			try
-			{
-				string oldBlob = member.EncryptionBlob;
-				if(oldBlob =="")
-				{
-					log.Debug( "SetPassPhrase  trying to get oldBlob is : NULL, setting the passphrase" );
-					
-					//Get the random key
-					TripleDESCryptoServiceProvider tDesKey = new TripleDESCryptoServiceProvider();
-					//tDesKey.KeySize();
-					UTF8Encoding utf8 = new UTF8Encoding();
-					string encryptionKey = utf8.GetString(tDesKey.Key);
-
-					// Encrypt the key, algorithm here using the passphrase
-					byte[] IV = new byte[0];
-					byte[] Buffer = new byte[1000];
-					Stream Outstream  = new MemoryStream(Buffer) as Stream;
-					tDesKey.KeySize = 128;
-					tDesKey.Key = utf8.GetBytes(passPhrase);
-					CryptoStream cStream = new CryptoStream(Outstream, tDesKey.CreateEncryptor(utf8.GetBytes(passPhrase), IV), CryptoStreamMode.Write);
-					StreamWriter eStream = new StreamWriter(cStream);
-					eStream.WriteLine(encryptionKey);//encrypt the date
-					byte[] Encryptedkey = new byte[Outstream.Length];
-					Outstream.Read(Encryptedkey, 0, encryptionKey.Length);//read the encrypted date
-					eStream.Close();
-					cStream.Close();
-					Outstream.Close();	
-					log.Debug( "TO be Encrypted Key : {0}", encryptionKey);
-
-					//Add the encrypted key, algorithm type as a user node property
-					member.EncryptionKey = utf8.GetString(Encryptedkey);
-					member.EncryptionType = "blowFish";
-
-					//Using the unencrypted key, algorithm type and create the blob and add as a property
-					PassPhrase blob = new PassPhrase(passPhrase,"blowFish");
-					member.EncryptionBlob = blob.HashPassPhrase();
-					
-					log.Debug( "SetPassPhrase  got set congratulations.............................{0}",member.EncryptionBlob);
-					return new Simias.Authentication.Status  (Simias.Authentication.StatusCodes.Success);			
-				}
-				else
-				{
-					log.Debug( "SetPassPhrase  validate the passphrase: " );
-
-					//Decrypt the node properties (key, algorithm) using the passphrase provided by the user
-					string encryptedkey = member.EncryptionKey;
-					
-					TripleDESCryptoServiceProvider tDesKey = new TripleDESCryptoServiceProvider();
-					UTF8Encoding utf8 = new UTF8Encoding();
-
-					byte[] IV = new byte[0];
-					byte[] Buffer = new byte[1000];
-					Stream Outstream  = new MemoryStream(Buffer) as Stream;
-					tDesKey.KeySize = 128;
-					tDesKey.Key = utf8.GetBytes(passPhrase);					
-					CryptoStream cStream = new CryptoStream(Outstream, tDesKey.CreateDecryptor(utf8.GetBytes(passPhrase), IV), CryptoStreamMode.Read);
-					StreamReader eStream = new StreamReader(cStream);
-					string Decryptedkey = eStream.ReadLine();//decrypt the date
-					eStream.Close();
-					cStream.Close();
-					Outstream.Close();	
-
-					log.Debug( "Decrypted Key : {0}", Decryptedkey);
-
-					//Retrieve the old unencrypted blob (already done see above)
-					
-					//Create the new blob using the decrypted key and algorithm
-					PassPhrase  newBlob = new PassPhrase(Decryptedkey,"blowFish");
-					
-					//validate the blobs
-					if(String.Equals(newBlob.HashPassPhrase(), oldBlob)==true)
-					{
-						log.Debug( "Validating the user entered passphrase: passphrase match succeded.........oldBlob :{0}.......NewBlob: {1}",oldBlob, newBlob.HashPassPhrase());
-						return new Simias.Authentication.Status(Simias.Authentication.StatusCodes.Success);			
-					}
-					else
-					{
-						log.Debug( "Validating the user entered passphrase: passphrase match failed..........oldBlob :{0}.......NewBlob: {1}",oldBlob, newBlob.HashPassPhrase());
-						return new Simias.Authentication.Status(Simias.Authentication.StatusCodes.PassPhraseInvalid);
-					}
-				}
-			}
-			finally
-			{
-
-			}			
+			return member.SetPassPhrase(passPhrase, publicKey, recoveryAgentName);
 		}
 		
 		///<summary>
+		///Reset passphrase and recovery agent
+		///</summary>
+		///<returns>passPhrase.</returns>
+		[WebMethod(EnableSession=true, Description="Reset passphrase and recovery agent.")]
+		[SoapDocumentMethod]
+		public Simias.Authentication.Status SetPassPhrase(string domainID, string oldPass, string newPass, string recoveryAgentName, string publicKey)
+		{
+			//temp
+			return new Simias.Authentication.Status( Simias.Authentication.StatusCodes.UnknownDomain );							
+			
+			//reset either or both
+			/*log.Debug( "SetPassPhrase - called" );
+			Store store = Store.GetStore();
+			Simias.Storage.Domain domain = store.GetDomain(domainID);
+			if( domain == null )
+			{
+				log.Debug( "domain null" );
+				return new Simias.Authentication.Status( Simias.Authentication.StatusCodes.UnknownDomain );
+			}
+
+			Simias.Storage.Member member = domain.GetCurrentMember();
+			if( member == null )
+			{
+				log.Debug( "member null" );
+				return new Simias.Authentication.Status( Simias.Authentication.StatusCodes.UnknownUser );
+			}
+			log.Debug( "SetPassPhrase  User: " + member.Name );
+			*/
+		}
+		
+		///<summary>
+		///Returns the passphrase state
 		///</summary>
 		///<returns></returns>
 		[WebMethod(EnableSession=true, Description="Returns the passphrase state.")]

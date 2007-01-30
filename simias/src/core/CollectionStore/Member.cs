@@ -22,11 +22,14 @@
  ***********************************************************************/
 
 using System;
+using System.IO;
+using System.Text;
 using System.Collections;
 using System.Security.Cryptography;
 using System.Xml;
 
 using Simias.Client;
+using Simias.Storage;
 
 namespace Simias.Storage
 {
@@ -60,6 +63,16 @@ namespace Simias.Storage
 		private string encryptionBlob;
 
 		/// <summary>
+
+		/// </summary>
+		private string raName;
+
+		/// <summary>
+
+		/// </summary>
+		private string raPublicKey;
+
+		/// <summary>
 		/// Gets the encryption blob
 		/// </summary>
 		public string EncryptionKey
@@ -91,6 +104,9 @@ namespace Simias.Storage
 				properties.AddNodeProperty(PropertyTags.EncryptionType, value);
 			}
 		}
+		/// <summary>
+		/// Gets the encryption blob
+		/// </summary>
 		public string EncryptionBlob
 		{
 			get
@@ -102,6 +118,38 @@ namespace Simias.Storage
 			set
 			{
 				properties.AddNodeProperty(PropertyTags.EncryptionBlob, value);
+			}
+		}
+		/// <summary>
+		/// Gets the encryption blob
+		/// </summary>
+		public string RAName
+		{
+			get
+			{
+				Property p = properties.FindSingleValue(PropertyTags.RAName);
+				string name = (p!=null) ? (string) p.Value as string : "";
+				return name;
+			}
+			set
+			{
+				properties.AddNodeProperty(PropertyTags.RAName, value);
+			}
+		}
+		/// <summary>
+		/// Gets the encryption blob
+		/// </summary>
+		public string RAPublicKey
+		{
+			get
+			{
+				Property p = properties.FindSingleValue(PropertyTags.RAPublicKey);
+				string key = (p!=null) ? (string) p.Value as string : "";
+				return key;
+			}
+			set
+			{
+				properties.AddNodeProperty(PropertyTags.RAPublicKey, value);
 			}
 		}
 
@@ -458,6 +506,107 @@ namespace Simias.Storage
 		internal void UpdateAccessControl()
 		{
 			ace.Rights = AceProperty.Rights;
+		}
+
+		/// <summary>
+		/// Validate the passphrase for the correctness
+		/// </summary>
+		public Simias.Authentication.Status ValidatePassPhrase(string passPhrase)
+		{
+			string oldBlob = this.EncryptionBlob;
+
+			if(oldBlob ==null)
+			{
+				//log.Info( "IsPassPhraseSet : FALSE" );
+				return new Simias.Authentication.Status( Simias.Authentication.StatusCodes.PassPhraseNotSet);
+			}
+			else
+			{
+				//log.Debug( "SetPassPhrase  validate the passphrase: " );
+
+				//Decrypt the node properties (key, algorithm) using the passphrase provided by the user
+				string encryptedkey = this.EncryptionKey;
+				
+				TripleDESCryptoServiceProvider tDesKey = new TripleDESCryptoServiceProvider();
+				UTF8Encoding utf8 = new UTF8Encoding();
+
+				byte[] IV = new byte[0];
+				byte[] Buffer = utf8.GetBytes(encryptedkey);
+				Stream Outstream  = new MemoryStream(Buffer) as Stream;
+				tDesKey.KeySize = 128;
+				tDesKey.Key = utf8.GetBytes(passPhrase);					
+				CryptoStream cStream = new CryptoStream(Outstream, tDesKey.CreateDecryptor(utf8.GetBytes(passPhrase), IV), CryptoStreamMode.Read);
+				StreamReader eStream = new StreamReader(cStream);
+				string Decryptedkey = eStream.ReadLine();//decrypt the date
+				eStream.Close();
+				cStream.Close();
+				Outstream.Close();	
+
+				//log.Debug( "Decrypted Key : {0}", Decryptedkey);
+
+				//Retrieve the old unencrypted blob (already done see above)
+				
+				//Create the new blob using the decrypted key and algorithm
+				PassPhrase  newBlob = new PassPhrase(Decryptedkey,"blowFish");
+				
+				//validate the blobs
+				if(String.Equals(newBlob.HashPassPhrase(), oldBlob)==true)
+				{
+					//log.Debug( "Validating the user entered passphrase: passphrase match succeded.........oldBlob :{0}.......NewBlob: {1}",oldBlob, newBlob.HashPassPhrase());
+					return new Simias.Authentication.Status(Simias.Authentication.StatusCodes.Success);			
+				}
+				else
+				{
+					//log.Debug( "Validating the user entered passphrase: passphrase match failed..........oldBlob :{0}.......NewBlob: {1}",oldBlob, newBlob.HashPassPhrase());
+					return new Simias.Authentication.Status(Simias.Authentication.StatusCodes.PassPhraseInvalid);
+				}
+			}
+		}		
+
+		/// <summary>
+		/// Validate the passphrase for the correctness
+		/// </summary>
+		public Simias.Authentication.Status SetPassPhrase(string passPhrase, string RAName, string PublicKey)
+		{
+			string oldBlob = this.EncryptionBlob;
+
+			//log.Debug( "SetPassPhrase  trying to get oldBlob is : NULL, setting the passphrase" );
+
+			this.RAName = RAName;
+			this.RAPublicKey = PublicKey;
+
+			//Get the random key
+			TripleDESCryptoServiceProvider tDesKey = new TripleDESCryptoServiceProvider();
+			//tDesKey.KeySize();
+			UTF8Encoding utf8 = new UTF8Encoding();
+			string encryptionKey = utf8.GetString(tDesKey.Key);
+
+			// Encrypt the key, algorithm here using the passphrase
+			byte[] IV = new byte[0];
+			byte[] Buffer = new byte[1000];
+			Stream Outstream  = new MemoryStream(Buffer) as Stream;
+			tDesKey.KeySize = 128;
+			tDesKey.Key = utf8.GetBytes(passPhrase);
+			CryptoStream cStream = new CryptoStream(Outstream, tDesKey.CreateEncryptor(utf8.GetBytes(passPhrase), IV), CryptoStreamMode.Write);
+			StreamWriter eStream = new StreamWriter(cStream);
+			eStream.WriteLine(encryptionKey);//encrypt the date
+			byte[] Encryptedkey = new byte[Outstream.Length];
+			Outstream.Read(Encryptedkey, 0, encryptionKey.Length);//read the encrypted date
+			eStream.Close();
+			cStream.Close();
+			Outstream.Close();	
+			//log.Debug( "TO be Encrypted Key : {0}", encryptionKey);
+
+			//Add the encrypted key, algorithm type as a user node property
+			this.EncryptionKey = utf8.GetString(Encryptedkey);
+			this.EncryptionType = "blowFish";
+
+			//Using the unencrypted key, algorithm type and create the blob and add as a property
+			PassPhrase blob = new PassPhrase(passPhrase,"blowFish");
+			this.EncryptionBlob = blob.HashPassPhrase();
+
+			//og.Debug( "SetPassPhrase  got set congratulations.............................{0}",member.EncryptionBlob);
+			return new Simias.Authentication.Status  (Simias.Authentication.StatusCodes.Success); 
 		}
 		#endregion
 	}
