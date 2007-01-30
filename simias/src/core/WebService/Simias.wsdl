@@ -235,6 +235,8 @@
           <xs:enumeration value="OlderVersion" />
           <xs:enumeration value="ServerOld" />
           <xs:enumeration value="UpgradeNeeded" />
+          <xs:enumeration value="PassPhraseNotSet" />
+          <xs:enumeration value="PassPhraseInvalid" />
           <xs:enumeration value="Unknown" />
         </xs:restriction>
       </xs:simpleType>
@@ -393,6 +395,18 @@
       <xs:element name="SetDomainCredentialsResponse">
         <xs:complexType />
       </xs:element>
+      <xs:element name="StorePassPhrase">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="domainID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="passPhrase" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="type" type="s0:CredentialType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="StorePassPhraseResponse">
+        <xs:complexType />
+      </xs:element>
       <xs:element name="GetDomainCredentials">
         <xs:complexType>
           <xs:sequence>
@@ -406,6 +420,22 @@
             <xs:element minOccurs="1" maxOccurs="1" name="GetDomainCredentialsResult" type="s0:CredentialType" />
             <xs:element minOccurs="0" maxOccurs="1" name="userID" type="xs:string" />
             <xs:element minOccurs="0" maxOccurs="1" name="credentials" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetPassPhrase">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="domainID" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetPassPhraseResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="GetPassPhraseResult" type="s0:CredentialType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="userID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="passPhrase" type="xs:string" />
           </xs:sequence>
         </xs:complexType>
       </xs:element>
@@ -606,6 +636,35 @@
           </xs:sequence>
         </xs:complexType>
       </xs:element>
+      <xs:element name="SetPassPhrase">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="domainID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="passPhrase" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SetPassPhraseResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="SetPassPhraseResult" type="s0:Status" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="IsPassPhraseSet">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="domainID" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="IsPassPhraseSetResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="IsPassPhraseSetResult" type="s0:Status" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
       <xs:element name="GetSimiasDataPath">
         <xs:complexType />
       </xs:element>
@@ -767,11 +826,23 @@
   <message name="SetDomainCredentialsSoapOut">
     <part element="s0:SetDomainCredentialsResponse" name="parameters" />
   </message>
+  <message name="StorePassPhraseSoapIn">
+    <part element="s0:StorePassPhrase" name="parameters" />
+  </message>
+  <message name="StorePassPhraseSoapOut">
+    <part element="s0:StorePassPhraseResponse" name="parameters" />
+  </message>
   <message name="GetDomainCredentialsSoapIn">
     <part element="s0:GetDomainCredentials" name="parameters" />
   </message>
   <message name="GetDomainCredentialsSoapOut">
     <part element="s0:GetDomainCredentialsResponse" name="parameters" />
+  </message>
+  <message name="GetPassPhraseSoapIn">
+    <part element="s0:GetPassPhrase" name="parameters" />
+  </message>
+  <message name="GetPassPhraseSoapOut">
+    <part element="s0:GetPassPhraseResponse" name="parameters" />
   </message>
   <message name="ConnectToDomainSoapIn">
     <part element="s0:ConnectToDomain" name="parameters" />
@@ -868,6 +939,18 @@
   </message>
   <message name="RemoveSimiasReferenceSoapOut">
     <part element="s0:RemoveSimiasReferenceResponse" name="parameters" />
+  </message>
+  <message name="SetPassPhraseSoapIn">
+    <part element="s0:SetPassPhrase" name="parameters" />
+  </message>
+  <message name="SetPassPhraseSoapOut">
+    <part element="s0:SetPassPhraseResponse" name="parameters" />
+  </message>
+  <message name="IsPassPhraseSetSoapIn">
+    <part element="s0:IsPassPhraseSet" name="parameters" />
+  </message>
+  <message name="IsPassPhraseSetSoapOut">
+    <part element="s0:IsPassPhraseSetResponse" name="parameters" />
   </message>
   <message name="GetSimiasDataPathSoapIn">
     <part element="s0:GetSimiasDataPath" name="parameters" />
@@ -966,6 +1049,12 @@
     <part name="type" xmlns:q1="http://novell.com/simias/web/AbstractTypes" type="q1:CredentialType" />
   </message>
   <message name="SetDomainCredentialsHttpGetOut" />
+  <message name="StorePassPhraseHttpGetIn">
+    <part name="domainID" type="s:string" />
+    <part name="passPhrase" type="s:string" />
+    <part name="type" xmlns:q2="http://novell.com/simias/web/AbstractTypes" type="q2:CredentialType" />
+  </message>
+  <message name="StorePassPhraseHttpGetOut" />
   <message name="ConnectToDomainHttpGetIn">
     <part name="UserName" type="s:string" />
     <part name="Password" type="s:string" />
@@ -1051,6 +1140,19 @@
   <message name="RemoveSimiasReferenceHttpGetIn" />
   <message name="RemoveSimiasReferenceHttpGetOut">
     <part element="s0:int" name="Body" />
+  </message>
+  <message name="SetPassPhraseHttpGetIn">
+    <part name="domainID" type="s:string" />
+    <part name="passPhrase" type="s:string" />
+  </message>
+  <message name="SetPassPhraseHttpGetOut">
+    <part element="s0:Status" name="Body" />
+  </message>
+  <message name="IsPassPhraseSetHttpGetIn">
+    <part name="domainID" type="s:string" />
+  </message>
+  <message name="IsPassPhraseSetHttpGetOut">
+    <part element="s0:Status" name="Body" />
   </message>
   <message name="GetSimiasDataPathHttpGetIn" />
   <message name="GetSimiasDataPathHttpGetOut">
@@ -1142,9 +1244,15 @@
   <message name="SetDomainCredentialsHttpPostIn">
     <part name="domainID" type="s:string" />
     <part name="credentials" type="s:string" />
-    <part name="type" xmlns:q2="http://novell.com/simias/web/AbstractTypes" type="q2:CredentialType" />
+    <part name="type" xmlns:q3="http://novell.com/simias/web/AbstractTypes" type="q3:CredentialType" />
   </message>
   <message name="SetDomainCredentialsHttpPostOut" />
+  <message name="StorePassPhraseHttpPostIn">
+    <part name="domainID" type="s:string" />
+    <part name="passPhrase" type="s:string" />
+    <part name="type" xmlns:q4="http://novell.com/simias/web/AbstractTypes" type="q4:CredentialType" />
+  </message>
+  <message name="StorePassPhraseHttpPostOut" />
   <message name="ConnectToDomainHttpPostIn">
     <part name="UserName" type="s:string" />
     <part name="Password" type="s:string" />
@@ -1230,6 +1338,19 @@
   <message name="RemoveSimiasReferenceHttpPostIn" />
   <message name="RemoveSimiasReferenceHttpPostOut">
     <part element="s0:int" name="Body" />
+  </message>
+  <message name="SetPassPhraseHttpPostIn">
+    <part name="domainID" type="s:string" />
+    <part name="passPhrase" type="s:string" />
+  </message>
+  <message name="SetPassPhraseHttpPostOut">
+    <part element="s0:Status" name="Body" />
+  </message>
+  <message name="IsPassPhraseSetHttpPostIn">
+    <part name="domainID" type="s:string" />
+  </message>
+  <message name="IsPassPhraseSetHttpPostOut">
+    <part element="s0:Status" name="Body" />
   </message>
   <message name="GetSimiasDataPathHttpPostIn" />
   <message name="GetSimiasDataPathHttpPostOut">
@@ -1360,11 +1481,23 @@
       <input message="s0:SetDomainCredentialsSoapIn" />
       <output message="s0:SetDomainCredentialsSoapOut" />
     </operation>
+    <operation name="StorePassPhrase">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Stores domain passphrase in the local store</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Stores domain passphrase in the local store</wsdl:documentation>
+      <input message="s0:StorePassPhraseSoapIn" />
+      <output message="s0:StorePassPhraseSoapOut" />
+    </operation>
     <operation name="GetDomainCredentials">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the saved credentials from a domain</wsdl:documentation>
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the saved credentials from a domain</wsdl:documentation>
       <input message="s0:GetDomainCredentialsSoapIn" />
       <output message="s0:GetDomainCredentialsSoapOut" />
+    </operation>
+    <operation name="GetPassPhrase">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the saved credentials from a domain</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the saved credentials from a domain</wsdl:documentation>
+      <input message="s0:GetPassPhraseSoapIn" />
+      <output message="s0:GetPassPhraseSoapOut" />
     </operation>
     <operation name="ConnectToDomain">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Connects to a Domain</wsdl:documentation>
@@ -1461,6 +1594,18 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Decrements the Simias service reference count and signals the server to stop if the count goes to zero.</wsdl:documentation>
       <input message="s0:RemoveSimiasReferenceSoapIn" />
       <output message="s0:RemoveSimiasReferenceSoapOut" />
+    </operation>
+    <operation name="SetPassPhrase">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set/Validate the passphrase.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set/Validate the passphrase.</wsdl:documentation>
+      <input message="s0:SetPassPhraseSoapIn" />
+      <output message="s0:SetPassPhraseSoapOut" />
+    </operation>
+    <operation name="IsPassPhraseSet">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the passphrase state.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the passphrase state.</wsdl:documentation>
+      <input message="s0:IsPassPhraseSetSoapIn" />
+      <output message="s0:IsPassPhraseSetSoapOut" />
     </operation>
     <operation name="GetSimiasDataPath">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets the directory path to the Simias data area.</wsdl:documentation>
@@ -1566,6 +1711,12 @@
       <input message="s0:SetDomainCredentialsHttpGetIn" />
       <output message="s0:SetDomainCredentialsHttpGetOut" />
     </operation>
+    <operation name="StorePassPhrase">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Stores domain passphrase in the local store</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Stores domain passphrase in the local store</wsdl:documentation>
+      <input message="s0:StorePassPhraseHttpGetIn" />
+      <output message="s0:StorePassPhraseHttpGetOut" />
+    </operation>
     <operation name="ConnectToDomain">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Connects to a Domain</wsdl:documentation>
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Connects to a Domain</wsdl:documentation>
@@ -1661,6 +1812,18 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Decrements the Simias service reference count and signals the server to stop if the count goes to zero.</wsdl:documentation>
       <input message="s0:RemoveSimiasReferenceHttpGetIn" />
       <output message="s0:RemoveSimiasReferenceHttpGetOut" />
+    </operation>
+    <operation name="SetPassPhrase">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set/Validate the passphrase.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set/Validate the passphrase.</wsdl:documentation>
+      <input message="s0:SetPassPhraseHttpGetIn" />
+      <output message="s0:SetPassPhraseHttpGetOut" />
+    </operation>
+    <operation name="IsPassPhraseSet">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the passphrase state.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the passphrase state.</wsdl:documentation>
+      <input message="s0:IsPassPhraseSetHttpGetIn" />
+      <output message="s0:IsPassPhraseSetHttpGetOut" />
     </operation>
     <operation name="GetSimiasDataPath">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets the directory path to the Simias data area.</wsdl:documentation>
@@ -1766,6 +1929,12 @@
       <input message="s0:SetDomainCredentialsHttpPostIn" />
       <output message="s0:SetDomainCredentialsHttpPostOut" />
     </operation>
+    <operation name="StorePassPhrase">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Stores domain passphrase in the local store</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Stores domain passphrase in the local store</wsdl:documentation>
+      <input message="s0:StorePassPhraseHttpPostIn" />
+      <output message="s0:StorePassPhraseHttpPostOut" />
+    </operation>
     <operation name="ConnectToDomain">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Connects to a Domain</wsdl:documentation>
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Connects to a Domain</wsdl:documentation>
@@ -1861,6 +2030,18 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Decrements the Simias service reference count and signals the server to stop if the count goes to zero.</wsdl:documentation>
       <input message="s0:RemoveSimiasReferenceHttpPostIn" />
       <output message="s0:RemoveSimiasReferenceHttpPostOut" />
+    </operation>
+    <operation name="SetPassPhrase">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set/Validate the passphrase.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set/Validate the passphrase.</wsdl:documentation>
+      <input message="s0:SetPassPhraseHttpPostIn" />
+      <output message="s0:SetPassPhraseHttpPostOut" />
+    </operation>
+    <operation name="IsPassPhraseSet">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the passphrase state.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the passphrase state.</wsdl:documentation>
+      <input message="s0:IsPassPhraseSetHttpPostIn" />
+      <output message="s0:IsPassPhraseSetHttpPostOut" />
     </operation>
     <operation name="GetSimiasDataPath">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets the directory path to the Simias data area.</wsdl:documentation>
@@ -2057,8 +2238,26 @@
         <soap:body use="literal" />
       </output>
     </operation>
+    <operation name="StorePassPhrase">
+      <soap:operation soapAction="http://novell.com/simias/web/StorePassPhrase" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
     <operation name="GetDomainCredentials">
       <soap:operation soapAction="http://novell.com/simias/web/GetDomainCredentials" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="GetPassPhrase">
+      <soap:operation soapAction="http://novell.com/simias/web/GetPassPhrase" style="document" />
       <input>
         <soap:body use="literal" />
       </input>
@@ -2210,6 +2409,24 @@
         <soap:body use="literal" />
       </output>
     </operation>
+    <operation name="SetPassPhrase">
+      <soap:operation soapAction="http://novell.com/simias/web/SetPassPhrase" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="IsPassPhraseSet">
+      <soap:operation soapAction="http://novell.com/simias/web/IsPassPhraseSet" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
     <operation name="GetSimiasDataPath">
       <soap:operation soapAction="http://novell.com/simias/web/GetSimiasDataPath" style="document" />
       <input>
@@ -2354,6 +2571,13 @@
       </input>
       <output />
     </operation>
+    <operation name="StorePassPhrase">
+      <http:operation location="/StorePassPhrase" />
+      <input>
+        <http:urlEncoded />
+      </input>
+      <output />
+    </operation>
     <operation name="ConnectToDomain">
       <http:operation location="/ConnectToDomain" />
       <input>
@@ -2481,6 +2705,24 @@
     </operation>
     <operation name="RemoveSimiasReference">
       <http:operation location="/RemoveSimiasReference" />
+      <input>
+        <http:urlEncoded />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="SetPassPhrase">
+      <http:operation location="/SetPassPhrase" />
+      <input>
+        <http:urlEncoded />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="IsPassPhraseSet">
+      <http:operation location="/IsPassPhraseSet" />
       <input>
         <http:urlEncoded />
       </input>
@@ -2632,6 +2874,13 @@
       </input>
       <output />
     </operation>
+    <operation name="StorePassPhrase">
+      <http:operation location="/StorePassPhrase" />
+      <input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </input>
+      <output />
+    </operation>
     <operation name="ConnectToDomain">
       <http:operation location="/ConnectToDomain" />
       <input>
@@ -2759,6 +3008,24 @@
     </operation>
     <operation name="RemoveSimiasReference">
       <http:operation location="/RemoveSimiasReference" />
+      <input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="SetPassPhrase">
+      <http:operation location="/SetPassPhrase" />
+      <input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="IsPassPhraseSet">
+      <http:operation location="/IsPassPhraseSet" />
       <input>
         <mime:content type="application/x-www-form-urlencoded" />
       </input>
