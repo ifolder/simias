@@ -1191,6 +1191,18 @@ namespace Simias.Storage
 		}
 
 		/// <summary>
+		/// Gets the  passphrasefor the specified domain.
+		/// </summary>
+		/// <param name="domainID">Identifier of the domain to get the credentials from.</param>
+		/// <param name="userID">Gets the identifier of the domain user.</param>
+		/// <param name="passPhrase">Gets the passPhrase for the domain.</param>
+		/// <returns>The type of credentials.</returns>
+		public bool GetRememberOption( string domainID )
+		{
+			return CurrentUser.GetRememberOption( domainID );
+		}
+
+		/// <summary>
 		/// Gets the Domain object that the specified user belongs to.
 		/// </summary>
 		/// <param name="userID">Identifier for the user.</param>
@@ -1331,9 +1343,9 @@ namespace Simias.Storage
 		/// <param name="domainID">The domain ID to store the passphrase for.</param>
 		/// <param name="passPhrase">Credentials for the domain.</param>
 		/// <param name="credType">Type of credentials being stored.</param>
-		public void StorePassPhrase( string domainID, string passPhrase, CredentialType credType )
+		public void StorePassPhrase( string domainID, string passPhrase, CredentialType credType, bool rememberPassPhrase )
 		{
-			LocalDb.Commit( CurrentUser.StorePassPhrase( domainID.ToLower(), passPhrase, credType ) );
+			LocalDb.Commit( CurrentUser.StorePassPhrase( domainID.ToLower(), passPhrase, credType, rememberPassPhrase ) );
 		}
 
 		#endregion

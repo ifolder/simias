@@ -836,10 +836,10 @@ namespace Simias.Web
                 [SoapDocumentMethod]
                 public void StorePassPhrase(    string domainID,
                                                                                         string passPhrase,
-                                                                                        CredentialType type)
+                                                                                        CredentialType type, bool rememberPassPhrase)
                 {
                         Store store = Store.GetStore();
-                        store.StorePassPhrase(domainID, passPhrase, type);
+                        store.StorePassPhrase(domainID, passPhrase, type, rememberPassPhrase);
                 }
 
 
@@ -871,6 +871,21 @@ namespace Simias.Web
                 {
                         Store store = Store.GetStore();
                         return store.GetPassPhrase(domainID, out userID, out passPhrase);
+                }
+
+               /// <summary>
+                /// Gets the credentials from the specified domain object.
+                /// </summary>
+                /// <param name="domainID">The ID of the domain to set the credentials on.</param>
+                /// <param name="userID">Gets the ID of the user.</param>
+                /// <param name="passPhrase">Gets the passPhrase for the domain.</param>
+                /// <returns>The type of credentials.</returns>
+                [WebMethod(EnableSession=true, Description="Get the saved credentials from a domain")]
+                [SoapDocumentMethod]
+                public bool GetRememberOption(string domainID)
+                {
+                        Store store = Store.GetStore();
+                        return store.GetRememberOption(domainID);
                 }
 
 		/// <summary>

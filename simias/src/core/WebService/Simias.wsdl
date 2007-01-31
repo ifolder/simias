@@ -402,6 +402,7 @@
             <xs:element minOccurs="0" maxOccurs="1" name="domainID" type="xs:string" />
             <xs:element minOccurs="0" maxOccurs="1" name="passPhrase" type="xs:string" />
             <xs:element minOccurs="1" maxOccurs="1" name="type" type="s0:CredentialType" />
+            <xs:element minOccurs="1" maxOccurs="1" name="rememberPassPhrase" type="xs:boolean" />
           </xs:sequence>
         </xs:complexType>
       </xs:element>
@@ -437,6 +438,20 @@
             <xs:element minOccurs="1" maxOccurs="1" name="GetPassPhraseResult" type="s0:CredentialType" />
             <xs:element minOccurs="0" maxOccurs="1" name="userID" type="xs:string" />
             <xs:element minOccurs="0" maxOccurs="1" name="passPhrase" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetRememberOption">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="domainID" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetRememberOptionResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="GetRememberOptionResult" type="xs:boolean" />
           </xs:sequence>
         </xs:complexType>
       </xs:element>
@@ -880,6 +895,12 @@
   <message name="GetPassPhraseSoapOut">
     <part element="s0:GetPassPhraseResponse" name="parameters" />
   </message>
+  <message name="GetRememberOptionSoapIn">
+    <part element="s0:GetRememberOption" name="parameters" />
+  </message>
+  <message name="GetRememberOptionSoapOut">
+    <part element="s0:GetRememberOptionResponse" name="parameters" />
+  </message>
   <message name="ConnectToDomainSoapIn">
     <part element="s0:ConnectToDomain" name="parameters" />
   </message>
@@ -1101,8 +1122,15 @@
     <part name="domainID" type="s:string" />
     <part name="passPhrase" type="s:string" />
     <part name="type" xmlns:q2="http://novell.com/simias/web/AbstractTypes" type="q2:CredentialType" />
+    <part name="rememberPassPhrase" type="s:boolean" />
   </message>
   <message name="StorePassPhraseHttpGetOut" />
+  <message name="GetRememberOptionHttpGetIn">
+    <part name="domainID" type="s:string" />
+  </message>
+  <message name="GetRememberOptionHttpGetOut">
+    <part element="s0:boolean" name="Body" />
+  </message>
   <message name="ConnectToDomainHttpGetIn">
     <part name="UserName" type="s:string" />
     <part name="Password" type="s:string" />
@@ -1318,8 +1346,15 @@
     <part name="domainID" type="s:string" />
     <part name="passPhrase" type="s:string" />
     <part name="type" xmlns:q4="http://novell.com/simias/web/AbstractTypes" type="q4:CredentialType" />
+    <part name="rememberPassPhrase" type="s:boolean" />
   </message>
   <message name="StorePassPhraseHttpPostOut" />
+  <message name="GetRememberOptionHttpPostIn">
+    <part name="domainID" type="s:string" />
+  </message>
+  <message name="GetRememberOptionHttpPostOut">
+    <part element="s0:boolean" name="Body" />
+  </message>
   <message name="ConnectToDomainHttpPostIn">
     <part name="UserName" type="s:string" />
     <part name="Password" type="s:string" />
@@ -1585,6 +1620,12 @@
       <input message="s0:GetPassPhraseSoapIn" />
       <output message="s0:GetPassPhraseSoapOut" />
     </operation>
+    <operation name="GetRememberOption">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the saved credentials from a domain</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the saved credentials from a domain</wsdl:documentation>
+      <input message="s0:GetRememberOptionSoapIn" />
+      <output message="s0:GetRememberOptionSoapOut" />
+    </operation>
     <operation name="ConnectToDomain">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Connects to a Domain</wsdl:documentation>
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Connects to a Domain</wsdl:documentation>
@@ -1815,6 +1856,12 @@
       <input message="s0:StorePassPhraseHttpGetIn" />
       <output message="s0:StorePassPhraseHttpGetOut" />
     </operation>
+    <operation name="GetRememberOption">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the saved credentials from a domain</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the saved credentials from a domain</wsdl:documentation>
+      <input message="s0:GetRememberOptionHttpGetIn" />
+      <output message="s0:GetRememberOptionHttpGetOut" />
+    </operation>
     <operation name="ConnectToDomain">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Connects to a Domain</wsdl:documentation>
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Connects to a Domain</wsdl:documentation>
@@ -2044,6 +2091,12 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Stores domain passphrase in the local store</wsdl:documentation>
       <input message="s0:StorePassPhraseHttpPostIn" />
       <output message="s0:StorePassPhraseHttpPostOut" />
+    </operation>
+    <operation name="GetRememberOption">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the saved credentials from a domain</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the saved credentials from a domain</wsdl:documentation>
+      <input message="s0:GetRememberOptionHttpPostIn" />
+      <output message="s0:GetRememberOptionHttpPostOut" />
     </operation>
     <operation name="ConnectToDomain">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Connects to a Domain</wsdl:documentation>
@@ -2387,6 +2440,15 @@
         <soap:body use="literal" />
       </output>
     </operation>
+    <operation name="GetRememberOption">
+      <soap:operation soapAction="http://novell.com/simias/web/GetRememberOption" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
     <operation name="ConnectToDomain">
       <soap:operation soapAction="http://novell.com/simias/web/ConnectToDomain" style="document" />
       <input>
@@ -2718,6 +2780,15 @@
       </input>
       <output />
     </operation>
+    <operation name="GetRememberOption">
+      <http:operation location="/GetRememberOption" />
+      <input>
+        <http:urlEncoded />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
     <operation name="ConnectToDomain">
       <http:operation location="/ConnectToDomain" />
       <input>
@@ -3038,6 +3109,15 @@
         <mime:content type="application/x-www-form-urlencoded" />
       </input>
       <output />
+    </operation>
+    <operation name="GetRememberOption">
+      <http:operation location="/GetRememberOption" />
+      <input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
     </operation>
     <operation name="ConnectToDomain">
       <http:operation location="/ConnectToDomain" />

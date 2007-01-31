@@ -61,6 +61,7 @@ namespace Simias.Storage
 		static private readonly string TypeTag = "Type";
 		static private readonly string PassPhraseTag = "PassPhrase";
 		static private readonly string PassPhraseTypeTag = "PassPhraseType";
+		static private readonly string RememberPassPhraseTag = "RememberPassPhrase";
 
 		/// <summary>
 		/// Handle to the store.
@@ -532,6 +533,31 @@ namespace Simias.Storage
 			return credType;
 		}
 
+		/// <summary>
+		/// Gets the user identifier and  pass-phrase for the specified domain.
+		/// </summary>
+		/// <param name="domainID">The identifier for the domain.</param>
+		/// <param name="userID">Gets the userID of the user associated with the specified domain.</param>
+		/// <param name="credentials">Gets the credentials for the user.</param>
+		/// <returns>CredentialType enumerated object.</returns>
+		internal bool GetRememberOption( string domainID)
+		{
+			string remember;
+			// Find the property associated with the domain.
+			XmlDocument document = GetDocumentByDomain( domainID );
+			if ( document == null )
+			{
+				throw new CollectionStoreException( "The specified domain does not exist." );
+			}
+
+			// Return the remember 
+			remember = document.DocumentElement.GetAttribute( RememberPassPhraseTag );
+			if (remember == "true")
+				return true;
+			else
+				return false;
+				
+		}
 
 		/// <summary>
 		/// Gets the user identifier and  pass-phrase for the specified domain.
@@ -623,7 +649,7 @@ namespace Simias.Storage
 		/// <param name="passPhrase">The domain passphrase.</param>
 		/// <param name="type">Type of credentials.</param>
 		/// <returns>The modified identity object.</returns>
-		internal Identity StorePassPhrase( string domainID, string passPhrase, CredentialType type )
+		internal Identity StorePassPhrase( string domainID, string passPhrase, CredentialType type, bool rememberPassPhrase)
 		{
 			Property p = GetPropertyByDomain( domainID );
 			if ( p == null )
@@ -635,23 +661,24 @@ namespace Simias.Storage
 			XmlDocument mapDoc = p.Value as XmlDocument;
 			if ( type == CredentialType.None )
 			{
-				if ( domainID == StoreReference.LocalDomain )
-				{
-					throw new CollectionStoreException( "Cannot remove the local domain credentials." );
-				}
-
-				mapDoc.DocumentElement.RemoveAttribute( CredentialTag );
+				mapDoc.DocumentElement.RemoveAttribute( PassPhraseTag );
+				mapDoc.DocumentElement.RemoveAttribute(RememberPassPhraseTag);
 			}
 			else
 			{
 				if ( type == CredentialType.Basic )
 				{
-					mapDoc.DocumentElement.SetAttribute( PassPhraseTag, EncryptCredential( passPhrase ) );
+					if( passPhrase != null && passPhrase != "")
+						mapDoc.DocumentElement.SetAttribute( PassPhraseTag, EncryptCredential( passPhrase ) );
 				}
 				else
 				{
 					mapDoc.DocumentElement.SetAttribute( PassPhraseTag, passPhrase );
 				}
+				if(rememberPassPhrase)
+					mapDoc.DocumentElement.SetAttribute( RememberPassPhraseTag, "true");
+				else
+					mapDoc.DocumentElement.SetAttribute( RememberPassPhraseTag, "false");
 			}
 
 			mapDoc.DocumentElement.SetAttribute( PassPhraseTypeTag, type.ToString() );
