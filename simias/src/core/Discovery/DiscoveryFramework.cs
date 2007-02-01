@@ -99,13 +99,16 @@ namespace Simias.Discovery
 		{
 			ArrayList collectionList = Simias.Discovery.CollectionList.GetCollectionList();
 
-			foreach( CollectionInfo c in collectionList)
+			//TEMPFIX : We'll wait if we the obj is updating.
+			lock (collectionList)
 			{
+			    foreach( CollectionInfo c in collectionList)
+			    {
 			        if (c.CollectionID != collectionID)
 				        continue;
 				return c;
- 			}
-
+			    }
+			}
 			return null;
 		}
 

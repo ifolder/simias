@@ -59,7 +59,7 @@ namespace Simias.Discovery
 		/// <summary>
 		/// The default process cycle time for the shared collection.
 		/// </summary>
-		private const int defaultWait = 60 * 1000; // 60 secs
+		private const int defaultWait = 10 * 1000; // 10 secs
 
 		/// <summary>
 		/// The default pre Authentication cycle time for the shared collection.
@@ -127,12 +127,14 @@ namespace Simias.Discovery
 
 			try
 			{
-				lock (typeof(CollectionList))
+			        lock (collectionList)
 				{
 
 					Store localStore = Store.GetStore();
 					ArrayList CollectionArray;
 					CatalogInfo[] CatalogInfoArray;
+
+					collectionList.Clear();
 
 					ICSList domainList = localStore.GetDomainList();
 				    
@@ -191,6 +193,8 @@ namespace Simias.Discovery
 							CatalogInfoArray = dService.GetAllCatalogInfoForUser (cmember.UserID);
 
 						        CollectionArray = new ArrayList ( Simias.Discovery.DiscoveryFramework.GetDetailedCollectionInformation (sn.ID, CatalogInfoArray));
+							log.Info ("CatalogInfoArray : {1} | CollectionArray : {0}", CollectionArray.Count, CatalogInfoArray.Length);
+
 							//TODO : Test this section for MultiDomain. Check for performance issues.
 						}
 						catch (Exception e) 
@@ -201,7 +205,10 @@ namespace Simias.Discovery
 							continue;
 						}
 						//Get Information from all the Domain and make it available for consumption
-						collectionList = CollectionArray;    
+						// Add elemetn here . instead of assiging.
+
+						collectionList.AddRange (CollectionArray);
+		                                log.Debug ("collectionList : {0}",collectionList.Count);
 					}
 				}
 				// next wait cycle
