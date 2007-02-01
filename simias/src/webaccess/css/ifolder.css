@@ -456,6 +456,12 @@ table.list td.history
 	padding: 16px 0 16px 0;
 }
 
+
+.labels
+{
+	padding: 8px 4px 8px 4px;
+}
+
 .hide
 {
 	display: none;

@@ -146,6 +146,80 @@ namespace iFolder.WebService
                          return base.GetiFolderLocation (ifolderID);
 		}
 
+	        /// <summary>
+		/// Get the recovery agent list
+		/// </summary>
+		/// <returns>list as a string array</returns>
+		[WebMethod(
+			 Description="Get the list of recovery agents",
+			 EnableSession=true)]
+		public override ArrayList GetRAList()
+		{
+                         return base.GetRAList(); 
+		}
+
+		
+		/// <summary>
+		/// Get the recovery Agent certificate
+		/// </summary>
+		/// <returns>byte array containing the certificate </returns>
+		[WebMethod(
+			 Description="Get the RA Certificate",
+			 EnableSession=true)]
+		public override byte[] GetRACertificate(string rAgent)
+		{
+                         return base.GetRACertificate(rAgent); 
+		}
+		
+		
+		/// <summary>
+		/// Get the PassPhrase status 
+		/// </summary>
+		/// <returns>the status </returns>
+		[WebMethod(
+			 Description="Get the PassPhrase status",
+			 EnableSession=true)]
+		public override Simias.Authentication.Status IsPassPhraseSet ()
+                {
+			 
+			return base.IsPassPhraseSet();
+		}
+		
+		///<summary>
+		///Validate the passphrase for the correctness
+		///</summary>
+		///<returns>passPhrase.</returns>
+		[WebMethod(EnableSession=true, Description="Validate the passphrase for the correctness.")]
+		[SoapDocumentMethod]	
+		public override Simias.Authentication.Status ValidatePassPhrase(string passPhrase)
+		{
+			return base.ValidatePassPhrase(passPhrase);
+			
+		}
+		
+		///<summary>
+		///Set the passphrase and recovery agent
+		///</summary>
+		///<returns>passPhrase.</returns>
+		[WebMethod(EnableSession=true, Description="Set the passphrase and recovery agent.")]
+		[SoapDocumentMethod]
+		public override Simias.Authentication.Status SetPassPhrase(string passPhrase, string recoveryAgentName, string publicKey)
+		{
+			return base.SetPassPhrase(passPhrase, recoveryAgentName, publicKey);
+		}
+		
+		
+		///<summary>
+		///Reset passphrase and recovery agent
+		///</summary>
+		///<returns>passPhrase.</returns>
+		[WebMethod(EnableSession=true, Description="Reset passphrase and recovery agent.")]
+		[SoapDocumentMethod]
+		public override Simias.Authentication.Status ReSetPassPhrase(string oldPass, string newPass, string recoveryAgentName, string publicKey)
+		{
+			return base.ReSetPassPhrase(oldPass, newPass, recoveryAgentName, publicKey);
+		}
+
 		/// <summary>
 		/// Get detailed information about an iFolder.
 		/// </summary>

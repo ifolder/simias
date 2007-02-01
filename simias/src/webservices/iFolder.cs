@@ -302,6 +302,68 @@ namespace iFolder.WebService
 
 			return remoteHost.PublicUrl;
 		}
+
+		
+		/// <summary>
+		/// Get the recovery agent list
+		/// </summary>
+		/// <returns>The list as a string array</returns>
+		public static ArrayList GetRAList()
+		{
+			return Simias.Security.CertificateStore.GetRAList();
+		}
+			
+	
+		/// <summary>
+		/// Get the Certificate for the specified store.
+		/// </summary>
+		/// <param name="host">The host who owns the certificate.</param>
+		/// <returns>The certificate as a byte array.</returns>
+		public static byte[] GetRACertificate(string rAgent)
+                {
+			// Normalize the RA name.
+			return Simias.Security.CertificateStore.GetRACertificate(rAgent.ToLower());
+		}
+		
+		///<summary>
+		///</summary>
+		///<returns></returns>
+		/*public static Simias.Authentication.Status IsPassPhraseSet (string domainID)
+		{
+			
+			//log.Debug( "IsPassPhraseSet - called" );
+			Store store = Store.GetStore();
+			//Simias.Storage.Domain defaultdomain = store.GetDomain(store.DefaultDomain);
+			Simias.Storage.Domain domain = store.GetDomain(domainID);
+			if( domain == null )
+			{
+			return new Simias.Authentication.Status( Simias.Authentication.StatusCodes.UnknownDomain );
+			}
+		
+			Simias.Storage.Member member = domain.GetCurrentMember();
+			if( member == null )
+			{
+				return new Simias.Authentication.Status( Simias.Authentication.StatusCodes.UnknownUser );
+			}
+
+			//log.Debug( "IsPassPhraseSet User: " + member.Name );
+
+			string EncryptionBlob = member.EncryptionBlob;
+
+			if(EncryptionBlob =="")
+			{
+				//log.Info( "IsPassPhraseSet : FALSE" );
+				return new Simias.Authentication.Status( Simias.Authentication.StatusCodes.PassPhraseNotSet);
+			}
+			else
+			{
+				//log.Info( "IsPassPhraseSet User: TRUE" );
+				return new Simias.Authentication.Status( Simias.Authentication.StatusCodes.Success);
+			}
+		}*/
+
+
+	
 		/// <summary>
 		/// Get an iFolder
 		/// </summary>

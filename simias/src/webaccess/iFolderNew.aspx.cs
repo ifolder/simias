@@ -78,13 +78,49 @@ namespace Novell.iFolderApp.Web
 		/// <summary>
 		/// Encrypt the file data
 		/// </summary>
-		protected CheckBox Encryption;
+		protected RadioButton Encryption;
 
-		/// <summary>
+		/*/// <summary>
 		/// ssl the thick client to server data transfer
 		/// </summary>
-		protected CheckBox ssl;
+		protected CheckBox ssl;*/
 
+		/// <summary>
+		/// share the thick client to server data transfer
+		/// </summary>
+		protected RadioButton shared;
+		
+		/// <summary>
+		/// List the RA Agents
+		/// </summary>
+		protected DropDownList RAList;
+
+		/// <summary>
+		/// The Select RA Label
+		/// </summary>
+		protected Label SelectLabel;
+
+		/// <summary>
+		/// The pass-phrase Label Button
+		/// </summary>
+		protected Label PassPhraseLabel;
+
+		/// <summary>
+		/// The pass-phrase Label Button
+		/// </summary>
+		protected Label VerifyPassPhraseLabel;
+
+
+		/// <summary>
+		/// pass-phrase text box
+		/// </summary>
+		protected TextBox PassPhraseText;
+
+		/// <summary>
+		/// pass-phrase text box
+		/// </summary>
+		protected TextBox VerifyPassPhraseText;
+		
 		/// <summary>
 		/// iFolder Connection
 		/// </summary>
@@ -96,9 +132,9 @@ namespace Novell.iFolderApp.Web
 		private ResourceManager rm;
 
 		/// <summary>
-		/// SSL
+		/// SHARED
 		/// </summary>
-		bool SSL;
+		bool SHARED;
 
 		/// <summary>
 		/// Encry Algorithm (in future it can be selected from gui)
@@ -125,16 +161,26 @@ namespace Novell.iFolderApp.Web
 				CreateButton.Text = GetString("CREATE");
 				CancelButton.Text = GetString("CANCEL");
 				//Localization need to be enabled
-				Encryption.Text = GetString("Encryption");
-				ssl.Text = GetString("Secure Data Transfer");
-				ChangeStatus();
+				Encryption.Text = GetString("Encrypttheifolder");
+				Encryption.ToolTip = GetString("EncryptionCondition");
+				//ssl.Text = GetString("Secure Data Transfer");
+				shared.Text = GetString("SHARE");
+				shared.Checked = true;
+				shared.ToolTip = GetString("ShareCondition");
+				SelectLabel.Text = GetString("SELECTRECOVERYAGENT");
+				PassPhraseLabel.Text = GetString("ENTERPASSPHRASE");
+				VerifyPassPhraseLabel.Text = GetString("Pleasereenterpassphrase");
+				VerifyPassPhraseLabel.Visible=VerifyPassPhraseText.Visible = false;
+				RAList.Enabled = false;
+				PassPhraseText.Enabled = false;
+				//ChangeStatus();
 			}
 		}
 		
 		/// <summary>		
 		/// Get the policy from the server and displayed in the check box
 		/// </summary>
-		private void ChangeStatus()
+		/*private void ChangeStatus()
 		{
 			int SecurityPolicy= web.GetEncryptionPolicy();
                         Encryption.Checked = ssl.Checked = false;
@@ -157,7 +203,7 @@ namespace Novell.iFolderApp.Web
                                                 ssl.Enabled = true;
                                 }
                         }
-		}
+		}*/
 
 		/// <summary>
 		/// Handle Exceptions
@@ -219,9 +265,72 @@ namespace Novell.iFolderApp.Web
 			this.Load += new System.EventHandler(this.Page_Load);
 			this.CreateButton.Click += new EventHandler(CreateButton_Click);
 			this.CancelButton.Click += new EventHandler(CancelButton_Click);
+			this.Encryption.CheckedChanged += new EventHandler(Encryption_CheckedChanged);
+			this.shared.CheckedChanged += new EventHandler(shared_CheckedChanged);
 		}
 
 		#endregion
+
+		/// <summary>
+		/// Encrypt radio button checked/unchecked
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void Encryption_CheckedChanged(object sender, EventArgs e)
+		{
+			string name = NewiFolderName.Text.Trim();
+
+			if (name.Length == 0)
+			{
+				Encryption.Checked = false;
+				return;
+			}
+			if(Encryption.Checked)
+			{	
+				Status obj = web.IsPassPhraseSet();
+				
+				if(obj.statusCode == StatusCodes.Success )
+				{
+					RAList.Enabled =VerifyPassPhraseLabel.Visible = VerifyPassPhraseText.Visible = false;
+					PassPhraseText.Enabled = true;
+				}
+				else
+				{
+					object [] RAListObj= web.GetRAList();
+					if (RAListObj != null)
+					{
+						ArrayList RAListElements = new ArrayList(RAListObj);
+						RAList.DataSource = RAListElements;
+						RAList.DataBind();
+						RAList.SelectedIndex = 0;
+						RAList.Enabled =PassPhraseText.Enabled = VerifyPassPhraseLabel.Visible = VerifyPassPhraseText.Visible =true;
+					}
+					
+				}	
+			}	
+		}
+
+		/// <summary>
+		/// shared radio button checked/unchecked
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void shared_CheckedChanged(object sender, EventArgs e)
+		{
+			string name = NewiFolderName.Text.Trim();
+			if(shared.Checked)
+			{
+				RAList.Enabled = false;
+				PassPhraseText.Enabled = false;
+				VerifyPassPhraseLabel.Visible = VerifyPassPhraseText.Visible = false;
+			}
+			if (name.Length == 0)
+			{
+				shared.Checked = true;
+				return;
+			}
+		
+		}
 
 		/// <summary>
 		/// Create Button Click
@@ -232,6 +341,8 @@ namespace Novell.iFolderApp.Web
 		{
 			string name = NewiFolderName.Text.Trim();
 			string description = NewiFolderDescription.Text.Trim();
+			string PassPhraseStr = PassPhraseText.Text.Trim();
+			string VerifyPassPhraseStr = VerifyPassPhraseText.Text.Trim();
 
 			if (name.Length == 0)
 			{
@@ -244,12 +355,61 @@ namespace Novell.iFolderApp.Web
 			try
 			{
 				if(Encryption.Checked == true)
+				{
 					EncryptionAlgorithm = "BlowFish";
-				if(ssl.Checked == true)
-					SSL = true;
+					Status obj = web.IsPassPhraseSet();
+				
+					if(obj.statusCode == StatusCodes.Success )
+					{  // it means user had already set the pass-phrase, now verify
+						Status ObjValidate = web.ValidatePassPhrase(PassPhraseStr);
+						if(ObjValidate.statusCode != StatusCodes.Success)
+						{
+							Message.Text = GetString("Wrongpassphrase");
+							PassPhraseText.Text = "";
+							return;
+						}
+					}
+					else
+					{
+						string RAName = RAList.SelectedValue;
+						// if there was not any RA, then ifolder can not be encrypted.
+						/*if(RAName.Equals(""))
+						{
+							Message.Text = GetString("NoRAavailable");
+							return;
+						}
+						else*/
+						if(! RAName.Equals(""))
+						{
+							if(PassPhraseStr.Length == 0 || VerifyPassPhraseStr.Length == 0)
+							{
+								Message.Text = GetString("IFOLDER.NOPASSPHRASE");
+								return;
+							} 
+							if(! PassPhraseStr.Equals(VerifyPassPhraseStr))
+							{
+								Message.Text = GetString("Passphrasesdonotmatch");
+								VerifyPassPhraseText.Text = "";
+								return;
+							}
+							byte [] RACertificateObj = web.GetRACertificate(RAName);
+							//TODO : show the certificate and do blah-blah 
+							//TODO : This public key ... how to get it ? 
+							string PublicKey = "";
+							Status ObjSetPassPhrase = web.SetPassPhrase(PassPhraseStr, RAName, PublicKey);
+						}					
+					}	
+				}
+				/*if(ssl.Checked == true)
+					SSL = true;*/
+				
+				if(shared.Checked == true)
+					SHARED = true;
 					
 				// Send the ifolder Name, Description, Security details and the encryption algorithm
-				ifolder = web.CreateiFolder(name, description, SSL, EncryptionAlgorithm);
+				ifolder = web.CreateiFolder(name, description, SHARED, EncryptionAlgorithm);
+
+				//ifolder = web.CreateiFolder(name, description, SSL, EncryptionAlgorithm);
 
 				// redirect
 				Response.Redirect("Browse.aspx?iFolder=" + ifolder.ID);
@@ -259,7 +419,7 @@ namespace Novell.iFolderApp.Web
 				if (!HandleException(ex)) throw;
 			}
 		}
-
+		
 		/// <summary>
 		/// Cancel Button Click
 		/// </summary>

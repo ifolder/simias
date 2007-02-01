@@ -28,6 +28,7 @@ using Simias;
 using Simias.Client;
 using Simias.Storage;
 using Simias.Web;
+using Simias.Authentication;
 
 namespace iFolder.WebService
 {
@@ -627,5 +628,126 @@ namespace iFolder.WebService
 
 			return new iFolderUserSet((iFolderUser[])list.ToArray(typeof(iFolderUser)), i);
 		}
+	
+
+
+		///<summary>
+		///</summary>
+		///<returns></returns>
+		public static Simias.Authentication.Status IsPassPhraseSet (string domainID)
+		{
+
+			//log.Debug( "IsPassPhraseSet - called" );
+			Store store = Store.GetStore();
+			Simias.Storage.Domain domain = store.GetDomain(domainID);
+			if( domain == null )
+			{
+			return new Simias.Authentication.Status( Simias.Authentication.StatusCodes.UnknownDomain );
+			}
+
+			Simias.Storage.Member member = domain.GetCurrentMember();
+			if( member == null )
+			{
+				return new Simias.Authentication.Status( Simias.Authentication.StatusCodes.UnknownUser );
+			}
+
+			//log.Debug( "IsPassPhraseSet User: " + member.Name );
+
+			string EncryptionBlob = member.EncryptionBlob;
+
+			if(EncryptionBlob =="")
+			{
+				//log.Info( "IsPassPhraseSet : FALSE" );
+				return new Simias.Authentication.Status( Simias.Authentication.StatusCodes.PassPhraseNotSet);
+			}
+			else
+			{
+				//log.Info( "IsPassPhraseSet User: TRUE" );
+				return new Simias.Authentication.Status( Simias.Authentication.StatusCodes.Success);
+			}
+		}
+		
+		///<summary>
+		///Validate the passphrase for the correctness
+		///</summary>
+		///<returns>passPhrase.</returns>
+		public static Simias.Authentication.Status ValidatePassPhrase(string domainID, string passPhrase)
+		{
+			//log.Debug( "ValidatePassPhrase - called" );
+			Store store = Store.GetStore();
+			Simias.Storage.Domain domain = store.GetDomain(domainID);
+			if( domain == null )
+			{
+				//log.Debug( "ValidatePassPhrase domain null" );
+				return new Simias.Authentication.Status( Simias.Authentication.StatusCodes.UnknownDomain );
+			}
+
+			Simias.Storage.Member member = domain.GetCurrentMember();
+			if( member == null )
+			{
+				//log.Debug( "ValidatePassPhrase member null" );
+				return new Simias.Authentication.Status( Simias.Authentication.StatusCodes.UnknownUser );
+			}
+			//log.Debug( "SetPassPhrase  User: " + member.Name );
+
+			return member.ValidatePassPhrase(passPhrase);
+		}
+		
+		///<summary>
+		///Set the passphrase and recovery agent
+		///</summary>
+		///<returns>passPhrase.</returns>
+		public static Simias.Authentication.Status SetPassPhrase(string domainID, string passPhrase, string recoveryAgentName, string publicKey)
+		{
+			//log.Debug( "SetPassPhrase - called" );
+			Store store = Store.GetStore();
+			Simias.Storage.Domain domain = store.GetDomain(domainID);
+			if( domain == null )
+			{
+				//log.Debug( "domain null" );
+				return new Simias.Authentication.Status( Simias.Authentication.StatusCodes.UnknownDomain );
+			}
+
+			Simias.Storage.Member member = domain.GetCurrentMember();
+			if( member == null )
+			{
+				//log.Debug( "member null" );
+				return new Simias.Authentication.Status( Simias.Authentication.StatusCodes.UnknownUser );
+			}
+			//log.Debug( "SetPassPhrase  User: " + member.Name );
+
+			return member.SetPassPhrase(passPhrase, publicKey, recoveryAgentName);
+		}
+		
+		///<summary>
+		///Reset passphrase and recovery agent
+		///</summary>
+		///<returns>passPhrase.</returns>
+		public static Simias.Authentication.Status ReSetPassPhrase(string domainID, string oldPass, string newPass, string recoveryAgentName, string publicKey)
+		{
+			//temp
+			return new Simias.Authentication.Status( Simias.Authentication.StatusCodes.UnknownDomain );							
+			
+			//reset either or both
+			/* //log.Debug( "SetPassPhrase - called" );
+			Store store = Store.GetStore();
+			Simias.Storage.Domain domain = store.GetDomain(domainID);
+			if( domain == null )
+			{
+				//log.Debug( "domain null" );
+				return new Simias.Authentication.Status( Simias.Authentication.StatusCodes.UnknownDomain );
+			}
+
+			Simias.Storage.Member member = domain.GetCurrentMember();
+			if( member == null )
+			{
+				//log.Debug( "member null" );
+				return new Simias.Authentication.Status( Simias.Authentication.StatusCodes.UnknownUser );
+			}
+			//log.Debug( "SetPassPhrase  User: " + member.Name );
+			*/
+		}
+		
+		
 	}
 }

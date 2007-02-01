@@ -125,6 +125,161 @@ namespace iFolder.WebService
 			return result;
 		}
 
+		
+		/// <summary>
+		/// Get the list of recovery agents
+		/// </summary>
+		/// <returns>The list containing recovery agents name</returns>
+		[WebMethod(
+			 Description="Get the list of recovery agents",
+			 EnableSession=true)]
+		public virtual ArrayList GetRAList ()
+		{
+		        ArrayList result = null;
+
+			try
+			{
+				Authorize();
+
+				result = iFolder.GetRAList ();
+			}
+			catch(Exception e)
+			{
+				SmartException.Throw(e);
+			}
+
+			return result;
+		}
+		
+			
+		/// <summary>
+		/// Get the RA Certificate
+		/// </summary>
+		/// <returns>The byte array containing the certificate</returns>
+		[WebMethod(
+			 Description="Get the RA Certificate",
+			 EnableSession=true)]
+		public virtual byte[] GetRACertificate(string rAgent)
+		{
+		        byte [] result = null;
+
+			try
+			{
+				Authorize();
+
+				result = iFolder.GetRACertificate (rAgent);
+			}
+			catch(Exception e)
+			{
+				SmartException.Throw(e);
+			}
+
+			return result;
+		}
+	
+		/// <summary>
+		/// Get the PassPhrase Status 
+		/// </summary>
+		/// <returns>The Status of pass-phrase</returns>
+		[WebMethod(
+			 Description="Get the pass-phrase status",
+			 EnableSession=true)]
+		public virtual Simias.Authentication.Status IsPassPhraseSet ()
+		{
+			Store store = Store.GetStore();
+			Simias.Storage.Domain domain = store.GetDomain(store.DefaultDomain);
+		    Simias.Authentication.Status result = new Simias.Authentication.Status( Simias.Authentication.StatusCodes.UnknownDomain );
+
+			try
+			{
+				Authorize();
+
+				result = iFolderUser.IsPassPhraseSet(domain.ToString());
+			}
+			catch(Exception e)
+			{
+				SmartException.Throw(e);
+			}
+
+			return result;
+		}
+		
+		///<summary>
+		///Validate the passphrase for the correctness
+		///</summary>
+		///<returns>passPhrase.</returns>
+		[WebMethod(EnableSession=true, Description="Validate the passphrase for the correctness.")]
+		[SoapDocumentMethod]	
+		public virtual Simias.Authentication.Status ValidatePassPhrase(string passPhrase)
+		{
+			Store store = Store.GetStore();
+			Simias.Storage.Domain domain = store.GetDomain(store.DefaultDomain);
+		    Simias.Authentication.Status result = new Simias.Authentication.Status( Simias.Authentication.StatusCodes.UnknownDomain );
+		    try
+			{
+				Authorize();
+
+				result = iFolderUser.ValidatePassPhrase(domain.ToString(), passPhrase);
+			}
+			catch(Exception e)
+			{
+				SmartException.Throw(e);
+			}
+
+			return result;
+	
+		}
+		
+		///<summary>
+		///Set the passphrase and recovery agent
+		///</summary>
+		///<returns>passPhrase.</returns>
+		[WebMethod(EnableSession=true, Description="Set the passphrase and recovery agent.")]
+		[SoapDocumentMethod]
+		public virtual Simias.Authentication.Status SetPassPhrase(string passPhrase, string recoveryAgentName, string publicKey)
+		{
+			Store store = Store.GetStore();
+			Simias.Storage.Domain domain = store.GetDomain(store.DefaultDomain);
+		    Simias.Authentication.Status result = new Simias.Authentication.Status( Simias.Authentication.StatusCodes.UnknownDomain );
+		    try
+			{
+				Authorize();
+
+				result = iFolderUser.SetPassPhrase(domain.ToString(), passPhrase, recoveryAgentName, publicKey );
+			}
+			catch(Exception e)
+			{
+				SmartException.Throw(e);
+			}
+
+			return result;
+		}
+		
+		///<summary>
+		///Reset passphrase and recovery agent
+		///</summary>
+		///<returns>passPhrase.</returns>
+		[WebMethod(EnableSession=true, Description="Reset passphrase and recovery agent.")]
+		[SoapDocumentMethod]
+		public virtual Simias.Authentication.Status ReSetPassPhrase(string oldPass, string newPass, string recoveryAgentName, string publicKey)
+		{
+			Store store = Store.GetStore();
+			Simias.Storage.Domain domain = store.GetDomain(store.DefaultDomain);
+		    Simias.Authentication.Status result = new Simias.Authentication.Status( Simias.Authentication.StatusCodes.UnknownDomain );
+		    try
+			{
+				Authorize();
+
+				result = iFolderUser.ReSetPassPhrase(domain.ToString(),  oldPass, newPass, recoveryAgentName, publicKey);
+			}
+			catch(Exception e)
+			{
+				SmartException.Throw(e);
+			}
+
+			return result;
+		}
+
 		/// <summary>
 		/// Get information about an iFolder Server.
 		/// </summary>

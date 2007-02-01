@@ -29,7 +29,8 @@
 			
 			return result;
 		}
-	
+		
+		
 		function SetFocus()
 		{
 			document.getElementById("NewiFolderName").select();
@@ -54,7 +55,7 @@
 		</div>
 	
 		<div id="content">
-		
+			
 			<iFolder:MessageControl id="Message" runat="server" />
 	
 			<div class="section">
@@ -63,16 +64,24 @@
 			
 			<div class="main">
 				
-				<div class="label"><%= GetString("NAME") %></div>
+				<div class="label" ><b><%= GetString("NAME") %></b></div>
 				<asp:TextBox ID="NewiFolderName" onkeydown="return SubmitKeyDown(event, 'CreateButton');" runat="server" />
 				
-				<div class="label"><%= GetString("DESCRIPTION") %></div>
-				<asp:TextBox ID="NewiFolderDescription" TextMode="MultiLine" Rows="4" onkeydown="return SubmitKeyDown(event, 'CreateButton');" runat="server" />
+				<div class="label"><b><%= GetString("DESCRIPTION") %></b></div>
+				<asp:TextBox ID="NewiFolderDescription" TextMode="MultiLine" Rows="4" onkeydown="return SubmitKeyDown(event, 'CreateButton');" runat="server" /><br><br>
 		
-				<div class="label"><%= "Security " %></div>
-				<asp:CheckBox ID="Encryption" runat="server" />
-				<asp:CheckBox ID="ssl" runat="server" />
+				<div class="label"><b><%= "Type " %></b></div>
+				<asp:RadioButton ID="Encryption" runat="server" GroupName="SecurityGroup" AutoPostBack="true" />
 				
+				<asp:RadioButton ID="shared" runat="server" GroupName="SecurityGroup" AutoPostBack="true" />
+				
+				<div class="labels"></div>
+				<asp:Label ID="SelectLabel" runat="server" />
+				<asp:DropDownList ID="RAList" runat="server" /><br ><br>
+				<asp:Label ID="PassPhraseLabel" runat="server" />
+				<asp:TextBox ID="PassPhraseText" runat="server" /><br><br>
+				<asp:Label ID="VerifyPassPhraseLabel" runat="server" />
+				<asp:TextBox ID="VerifyPassPhraseText" runat="server" onkeydown="return SubmitKeyDown(event, 'CreateButton');"/>
 				<div class="buttons">
 					<asp:Button ID="CreateButton" runat="server" />
 					<asp:Button ID="CancelButton" runat="server" />
