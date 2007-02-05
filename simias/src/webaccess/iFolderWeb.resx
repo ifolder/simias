@@ -322,6 +322,9 @@
         <value>Details</value>
     </data>
     <data name="SHARE">
+        <value>Share</value>
+    </data>
+    <data name="SHARABLE">
         <value>Sharable</value>
     </data>
     <data name="INFO">

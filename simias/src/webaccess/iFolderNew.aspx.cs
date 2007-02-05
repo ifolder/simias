@@ -164,7 +164,7 @@ namespace Novell.iFolderApp.Web
 				Encryption.Text = GetString("Encrypttheifolder");
 				Encryption.ToolTip = GetString("EncryptionCondition");
 				//ssl.Text = GetString("Secure Data Transfer");
-				shared.Text = GetString("SHARE");
+				shared.Text = GetString("SHARABLE");
 				shared.Checked = true;
 				shared.ToolTip = GetString("ShareCondition");
 				SelectLabel.Text = GetString("SELECTRECOVERYAGENT");
@@ -173,37 +173,64 @@ namespace Novell.iFolderApp.Web
 				VerifyPassPhraseLabel.Visible=VerifyPassPhraseText.Visible = false;
 				RAList.Enabled = false;
 				PassPhraseText.Enabled = false;
-				//ChangeStatus();
+				ChangeStatus();
 			}
 		}
 		
 		/// <summary>		
 		/// Get the policy from the server and displayed in the check box
 		/// </summary>
-		/*private void ChangeStatus()
+		private void ChangeStatus()
 		{
 			int SecurityPolicy= web.GetEncryptionPolicy();
-                        Encryption.Checked = ssl.Checked = false;
-                        Encryption.Enabled = ssl.Enabled = false;
+                        Encryption.Checked = shared.Checked = false;
+                        Encryption.Enabled = shared.Enabled = false;
 
                         if(SecurityPolicy !=0)
                         {
                                 if( (SecurityPolicy & (int)SecurityState.encryption) == (int) SecurityState.encryption)
                                 {
                                         if( (SecurityPolicy & (int)SecurityState.enforceEncryption) == (int) SecurityState.enforceEncryption)
+                                        {
                                                 Encryption.Checked = true;
+                                         		Encryption.Enabled = true;
+                                         		shared.Enabled = false;
+                                        }        
                                         else
-                                                Encryption.Enabled = true;
+                                        {
+												Encryption.Enabled = true;
+												shared.Enabled = true;
+												shared.Checked = true;
+                                        }       
                                 }
-                                if( (SecurityPolicy & (int)SecurityState.SSL) == (int) SecurityState.SSL)
+                                else
+                                {
+									Encryption.Checked = false;
+									Encryption.Enabled = false;
+									shared.Enabled = true;
+									shared.Checked = true;
+                                }
+                                /*if( (SecurityPolicy & (int)SecurityState.SSL) == (int) SecurityState.SSL)
                                 {
                                         if( (SecurityPolicy & (int)SecurityState.enforceSSL) == (int) SecurityState.enforceSSL)
-                                                ssl.Checked = true;
+                                        {
+                                                shared.Checked = true;
+                                        }  
                                         else
-                                                ssl.Enabled = true;
-                                }
+                                        {
+                                                shared.Enabled = true;
+                                          		//Encryption.Enabled = false;      
+                                        }  
+                                }*/
                         }
-		}*/
+                        else
+                        {
+							Encryption.Checked = false;
+							Encryption.Enabled = false;
+							shared.Enabled = true;
+							shared.Checked = true;
+                        }
+		}
 
 		/// <summary>
 		/// Handle Exceptions
