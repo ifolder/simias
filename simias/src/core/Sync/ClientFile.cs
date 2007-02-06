@@ -435,7 +435,8 @@ namespace Simias.Sync
 			long	sizeRemaining;
 			int	blockSize;
 			Blowfish bf = null;
-			string EncryptionAlgorithm = "";
+			string EncryptionAlgorithm;
+			string EncryptionKey ;
 			int boundary = 0;
 
 		
@@ -463,22 +464,26 @@ namespace Simias.Sync
 					DownloadSegment.AddToArray(downloadMap, new DownloadSegment(i), blockSize);
 				}
 			}
-			
+
+			/// Get the key and decrypt it to Decrypt the file data
 			Property p = collection.Properties.FindSingleValue(PropertyTags.EncryptionType);
 			EncryptionAlgorithm = (p!=null) ? (string) p.Value as string : "";
 			if(EncryptionAlgorithm !="")
 			{
 				p = collection.Properties.FindSingleValue(PropertyTags.EncryptionKey);
-				string EncryptionKey = (p!=null) ? (string) p.Value as string : null;
-		
+				string EncryptedKey = (p!=null) ? (string) p.Value as string : null;
+
+				Key key = new Key(EncryptedKey , "TripleDES");//send the key size and algorithm
+				key.DecrypytKey("1234567890123456", out EncryptionKey);//send the passphrase to decrypt the key
+				Log.log.Debug("Arul DownloadFile EncryptionKey = {0}", EncryptionKey); 
+				
 				// Only blowfish is supported
-				if(EncryptionAlgorithm == "BlowFish")
-				{
-					UTF8Encoding utf8 = new UTF8Encoding();
-					bf = new Blowfish(utf8.GetBytes(EncryptionKey));
-					boundary = 8;
-				}
+				//if(EncryptionAlgorithm == "BlowFish")
+				UTF8Encoding utf8 = new UTF8Encoding();
+				bf = new Blowfish(utf8.GetBytes(EncryptionKey));
+				boundary = 8;
 			}
+			
 			
 			// Get the file blocks from the server.
 			foreach (DownloadSegment seg in downloadMap)
@@ -836,8 +841,9 @@ namespace Simias.Sync
 			ArrayList copyArray;
 			ArrayList writeArray;
 			int blockSize;
-			string EncryptionAlgorithm="";
-			string EncryptionKey;
+			string EncryptionAlgorithm;
+			string EncryptionKey="";
+
 			GetUploadFileMap(out sizeToSync, out copyArray, out writeArray, out blockSize);
 			sizeRemaining = sizeToSync;
 			
@@ -848,8 +854,17 @@ namespace Simias.Sync
 				syncService.CopyFile(copyArray, blockSize);
 			}
 			
+			/// Get the key and decrypt it to encrypt the file data
 			Property p = collection.Properties.FindSingleValue(PropertyTags.EncryptionType);
 			EncryptionAlgorithm = (p!=null) ? (string) p.Value as string : "";
+			if(EncryptionAlgorithm != "")
+			{
+				p = collection.Properties.FindSingleValue(PropertyTags.EncryptionKey);
+				string EncryptedKey = (p!=null) ? (string) p.Value as string : null;
+
+				Key key = new Key(EncryptedKey , "TripleDES");//send the key size and algorithm
+				key.DecrypytKey("1234567890123456", out EncryptionKey);//send the passphrase to decrypt the key
+			}
 			
 			foreach(OffsetSegment seg in writeArray)
 			{
@@ -867,8 +882,6 @@ namespace Simias.Sync
 						int bytesToSend = (int)Math.Min(MaxXFerSize, leftToSend);
 						if(EncryptionAlgorithm != "")
 						{
-							p = collection.Properties.FindSingleValue(PropertyTags.EncryptionKey);
-							EncryptionKey = (p!=null) ? (string) p.Value as string : null;
 							syncService.WriteFile(OutStream, ReadPosition, bytesToSend, EncryptionAlgorithm, EncryptionKey);
 						}
 						else
@@ -889,6 +902,7 @@ namespace Simias.Sync
 		#endregion
 
 		#region private
+
 
 		/// <summary>
 		/// Gets the copy and write arrays that are used to create the file on the server.

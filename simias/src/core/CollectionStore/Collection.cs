@@ -108,10 +108,7 @@ namespace Simias.Storage
 		/// <summary>
 		/// Encryption key
 		/// </summary>
-		private string encryptionKey;
-
-
-		
+		private string encryptionKey;		
 
 		#endregion
 
@@ -655,12 +652,11 @@ namespace Simias.Storage
 
 			if(encryptionAlgorithm !="")
 			{
-				TripleDESCryptoServiceProvider tDesKey = new TripleDESCryptoServiceProvider();
-				//tDesKey.KeySize();
-
-				UTF8Encoding utf8 = new UTF8Encoding();				
-				this.encryptionKey = utf8.GetString(tDesKey.Key);
-				this.encryptionKey = "123456789012345";
+				Key key = new Key(128, "TripleDES");//send the key size and algorithm
+				string EncryptedKey;
+				key.EncrypytKey("1234567890123456", out EncryptedKey);//send the passphrase to encrypt the key
+				this.encryptionKey = EncryptedKey;
+				log.Debug( "Arul - EN key={0}",this.encryptionKey);
 				properties.AddNodeProperty(PropertyTags.EncryptionKey, this.encryptionKey);
 			}
 			
@@ -668,7 +664,7 @@ namespace Simias.Storage
 			accessControl = new AccessControl( this );
 			createManagedPath = !Directory.Exists( ManagedPath );
 		}
-
+			
 		#endregion
 
 		#region Private Methods

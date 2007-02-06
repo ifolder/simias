@@ -22,6 +22,7 @@
  ***********************************************************************/
 using System;
 using System.IO;
+using System.Text;
 using System.Threading;
 using System.Collections;
 using System.Security.Cryptography;
@@ -786,6 +787,42 @@ namespace Simias.Sync
 			return path.IndexOfAny(InvalidChars) == -1 ? true : false;
 		}
 
+		/// <summary>
+		/// Gets the passphrase from the domain
+		/// </summary>
+		public void GetEncryptionCredentials(out string EncryptionAlgorithm, out string Key)
+		{
+			string userID;
+			string passPhrase;
+			string encyptedKey;
+
+			Property p = collection.Properties.FindSingleValue(PropertyTags.EncryptionType);
+			EncryptionAlgorithm = (p!=null) ? (string) p.Value as string : "";
+
+			p = collection.Properties.FindSingleValue(PropertyTags.EncryptionKey);
+			encyptedKey = (p!=null) ? (string) p.Value as string : null;
+
+			//Get the passphrase to decrypt the DEK
+			Store store = Store.GetStore();
+			//CredentialType type = 
+                     store.GetPassPhrase(collection.Domain, out userID, out passPhrase);
+
+			TripleDESCryptoServiceProvider tDesKey = new TripleDESCryptoServiceProvider();
+			UTF8Encoding utf8 = new UTF8Encoding();
+
+			byte[] IV = new byte[0];
+			byte[] Buffer = utf8.GetBytes(encyptedKey);
+			Stream Outstream  = new MemoryStream(Buffer) as Stream;
+			tDesKey.KeySize = 128;
+			tDesKey.Key = utf8.GetBytes(passPhrase);					
+			CryptoStream cStream = new CryptoStream(Outstream, tDesKey.CreateDecryptor(utf8.GetBytes(passPhrase), IV), CryptoStreamMode.Read);
+			StreamReader eStream = new StreamReader(cStream);
+			string Decryptedkey = eStream.ReadLine();//decrypted key
+			eStream.Close();
+			cStream.Close();
+			Outstream.Close();
+			Key=Decryptedkey;
+		}
 		#endregion
 	}
 
