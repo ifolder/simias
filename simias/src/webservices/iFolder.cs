@@ -265,9 +265,29 @@ namespace iFolder.WebService
 			string fullName = domainMember.FN;
 			this.OwnerFullName = (fullName != null) ? fullName : this.OwnerUserName;
 		}
+		
+		/// <summary>
+                /// Create an iFolder through web admin
+                /// </summary>
+                /// <param name="name">The iFolder Name</param>
+                /// <param name="userID">The User ID of the iFolder Owner</param>
+                /// <param name="description">The iFolder Description</param>
+                /// <param name="accessID">The Access ID</param>
+                /// <returns>An iFolder Object</returns>
+                public static iFolder CreateiFolder(string name, string userID, string description)
+                {
+                        // NOTE: because the name of the iFolder will also be the
+                        // name of entry, we must check it
+                        iFolderEntry.CheckName(name);
+
+                        Collection c = SharedCollection.CreateSharedCollection(
+                                name, userID, iFolderCollectionType, true, null);
+
+                        return new iFolder(c, null);
+                }
 
 		/// <summary>
-		/// Create an iFolder
+		/// Create an iFolder through web access
 		/// </summary>
 		/// <param name="name">The iFolder Name</param>
 		/// <param name="userID">The User ID of the iFolder Owner</param>

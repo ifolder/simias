@@ -72,7 +72,7 @@ namespace iFolder.WebService
 			{
 				Authorize();
 
-				//result = iFolder.CreateiFolder(name, userID, description, null);
+			        result = iFolder.CreateiFolder(name, userID, description);
 			}
 			catch(Exception e)
 			{
