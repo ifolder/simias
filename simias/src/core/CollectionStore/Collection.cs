@@ -656,7 +656,7 @@ namespace Simias.Storage
 				string EncryptedKey;
 				key.EncrypytKey("1234567890123456", out EncryptedKey);//send the passphrase to encrypt the key
 				this.encryptionKey = EncryptedKey;
-				log.Debug( "Arul - EN key={0}",this.encryptionKey);
+								
 				properties.AddNodeProperty(PropertyTags.EncryptionKey, this.encryptionKey);
 			}
 			

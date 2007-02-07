@@ -475,7 +475,7 @@ namespace Simias.Sync
 
 				Key key = new Key(EncryptedKey , "TripleDES");//send the key size and algorithm
 				key.DecrypytKey("1234567890123456", out EncryptionKey);//send the passphrase to decrypt the key
-				Log.log.Debug("Arul DownloadFile EncryptionKey = {0}", EncryptionKey); 
+				Log.log.Debug("DownloadFile CryptoKey = {0}", EncryptionKey); 
 				
 				// Only blowfish is supported
 				//if(EncryptionAlgorithm == "BlowFish")
@@ -863,7 +863,9 @@ namespace Simias.Sync
 				string EncryptedKey = (p!=null) ? (string) p.Value as string : null;
 
 				Key key = new Key(EncryptedKey , "TripleDES");//send the key size and algorithm
+				Log.log.Debug("Arul UploadFile EncryptionKey 1 = {0}", EncryptedKey); 
 				key.DecrypytKey("1234567890123456", out EncryptionKey);//send the passphrase to decrypt the key
+				Log.log.Debug("UploadFile CryptoKey = {0}", EncryptionKey); 
 			}
 			
 			foreach(OffsetSegment seg in writeArray)

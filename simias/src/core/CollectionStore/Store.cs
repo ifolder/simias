@@ -20,7 +20,6 @@
  *  Author: Mike Lasky <mlasky@novell.com>
  *
  ***********************************************************************/
-
 using System;
 using System.Collections;
 using System.IO;
@@ -1624,19 +1623,17 @@ namespace Simias.Storage
 		}
 		#endregion
 	}
-}
+
 	
-/// <summary>
-/// Key class, only TripleDES algorithmsupported
-/// </summary>
-namespace Simias.Storage
-{	
+	/// <summary>
+	/// Key class, only TripleDES algorithmsupported
+	/// </summary>
 	public sealed class Key
 	{
 		/// <summary>
 		/// The Algorithm name
 		/// </summary>
-		string 	Algorithm;
+		string 	CryptoAlgorithm;
 		
 		/// <summary>
 		/// Key Name
@@ -1646,38 +1643,38 @@ namespace Simias.Storage
 		/// <summary>
 		/// Key version
 		/// </summary>
-		double	KeyVersion;
+		double	CryptoKeyVersion;
 
 		/// <summary>
 		/// Key Size
 		/// </summary>
-		int		KeySize;
+		int		CryptoKeySize;
 
 		/// <summary>
 		/// Constructs  the object
 		/// </summary>
 		/// <param name="key"></param>
 		/// <param name="algorithm"></param>
-		internal Key(string Key, string EncryptionAlgorithm)
+		internal Key(string Key, string Algorithm)
 		{
-			KeyVersion	= 1.0;
-			KeySize		= 128;
-			Algorithm 	= EncryptionAlgorithm;
-			CryptoKey	= Key;
+			CryptoKeyVersion	= 1.0;
+			CryptoKeySize	= 128;
+			CryptoAlgorithm 	= Algorithm;
+			CryptoKey		= Key;
 		}
 
 		/// <summary>
 		/// Constructs a the blob object
 		/// </summary>
-		internal Key(int KeySize, string EncryptionAlgorithm)
+		internal Key(int KeySize, string Algorithm)
 		{
-			KeyVersion	= 1.0;
-			KeySize		= 128;
-			Algorithm 	= EncryptionAlgorithm;
+			CryptoKeyVersion	= 1.0;
+			CryptoKeySize	= 128;
+			CryptoAlgorithm 	= Algorithm;
 			
 			//only TripleDES supported
 			TripleDESCryptoServiceProvider tDesKey = new TripleDESCryptoServiceProvider();
-			tDesKey.KeySize	= 128;
+			tDesKey.KeySize	= CryptoKeySize;
 			tDesKey.GenerateKey();
 			UTF8Encoding utf8 = new UTF8Encoding();
 			CryptoKey	= utf8.GetString(tDesKey.Key);
@@ -1689,7 +1686,7 @@ namespace Simias.Storage
 		public string GetKey()
 		{
 			//ADD  a property instead of function
-			return CryptoKey;			
+			return this.CryptoKey;			
 		}
 
 		/// <summary>
@@ -1697,71 +1694,66 @@ namespace Simias.Storage
 		/// </summary>		
 		public string HashKey()
 		{
-			string SerialPass = this.Serialize();
-
 			UTF8Encoding utf8 = new UTF8Encoding();
 			MD5 md5 = new MD5CryptoServiceProvider();
-			byte[] hashedObject = new MD5CryptoServiceProvider().ComputeHash(utf8.GetBytes(this.Serialize()));
+			byte[] hashedObject = new MD5CryptoServiceProvider().ComputeHash(utf8.GetBytes(this.CryptoAlgorithm+this.CryptoKey+this.CryptoKeyVersion.ToString()+this.CryptoKeySize.ToString()));
 			return Convert.ToBase64String(hashedObject);
 		}
-		
-		/// <summary>
-		/// Serilaize the object
-		/// </summary>	
-		public string Serialize()
-		{
-			string SerialPass = this.Algorithm+this.CryptoKey+this.KeyVersion.ToString()+this.KeySize.ToString();
-			return SerialPass;
-		}
 
 		/// <summary>
-		/// Encrypt the key using passphrase
-		/// </summary>	
-		public void EncrypytKey(string passPhrase, out string EncryptedKey) 
-		{
-			UTF8Encoding utf8 = new UTF8Encoding();		
-			TripleDESCryptoServiceProvider tDesKey = new TripleDESCryptoServiceProvider();
-			tDesKey.KeySize = this.KeySize;
-			tDesKey.GenerateKey();
-
-			tDesKey.Key = utf8.GetBytes(passPhrase);
-
-			byte[] IV = new byte[0];
-			byte[] Buffer = new byte[1000];
-			Stream Outstream  = new MemoryStream(Buffer) as Stream;
-			
-			CryptoStream cStream = new CryptoStream(Outstream, tDesKey.CreateEncryptor(tDesKey.Key, IV), CryptoStreamMode.Write);
-			StreamWriter eStream = new StreamWriter(cStream);
-			eStream.WriteLine(CryptoKey);//encrypt the date
-			byte[] Encryptedkey = new byte[Outstream.Length];
-			Outstream.Read(Encryptedkey, 0, CryptoKey.Length);//read the encrypted date
-			eStream.Close();
-			cStream.Close();
-			Outstream.Close();	
-			EncryptedKey=CryptoKey = utf8.GetString(Encryptedkey);			
-		}
-		
-		/// <summary>
-		/// Decrypt the key using passphrase
-		/// </summary>	
-		public void DecrypytKey(string PassPhrase, out string DecryptedKey) 
-		{
+		/// Encrypt the key in the instance and returns
+		/// </summary>
+		public void EncrypytKey(string PassPhrase, out string EncryptedKey) 
+	       {
 			UTF8Encoding utf8 = new UTF8Encoding();
-
-			byte[] Buffer = new byte[1000];
-			utf8.GetBytes( this.CryptoKey, 0, this.CryptoKey.Length, Buffer, 0 );			
+			TripleDESCryptoServiceProvider m_des = new TripleDESCryptoServiceProvider();
 			byte[] IV = new byte[0];
-			
-			Stream Outstream  = new MemoryStream(Buffer) as Stream;
-			TripleDESCryptoServiceProvider tDesKey = new TripleDESCryptoServiceProvider();
-			tDesKey.KeySize = this.KeySize;
-			tDesKey.Key = utf8.GetBytes(PassPhrase);
-			CryptoStream cStream = new CryptoStream(Outstream, tDesKey.CreateDecryptor(utf8.GetBytes(PassPhrase), IV), CryptoStreamMode.Read);
-			StreamReader eStream = new StreamReader(cStream);
-			DecryptedKey = eStream.ReadLine();//decrypt the date
-			eStream.Close();
-			cStream.Close();
-			Outstream.Close();	
+			m_des.KeySize = this.CryptoKeySize;
+			//m_des.Key = utf8.GetBytes(PassPhrase);
+
+			byte[] input = utf8.GetBytes(this.CryptoKey);
+			byte[] output = Transform(input, m_des.CreateEncryptor(utf8.GetBytes(PassPhrase), IV));
+			EncryptedKey = Convert.ToBase64String(output);
+			//EncryptedKey=utf8.GetString(output);
+	       }
+
+		/// <summary>
+		/// Decrypt the key in the instance and returns
+		/// </summary>
+		public void DecrypytKey(string PassPhrase, out string DecryptedKey) 
+		{		
+			UTF8Encoding utf8 = new UTF8Encoding();
+			TripleDESCryptoServiceProvider m_des = new TripleDESCryptoServiceProvider();
+			byte[] IV = new byte[0];
+			m_des.KeySize = this.CryptoKeySize;
+			//m_des.Key = utf8.GetBytes(PassPhrase);
+
+
+			byte[] input = utf8.GetBytes(this.CryptoKey);
+			byte[] output = Transform(input, m_des.CreateDecryptor(utf8.GetBytes(PassPhrase), IV));
+			DecryptedKey = utf8.GetString(output);
+		}
+		
+		/// <summary>
+		/// Internal to the class
+		/// </summary>
+		private byte[] Transform(byte[] input,  ICryptoTransform CryptoTransform)
+		{
+			// create the necessary streams
+			MemoryStream memStream = new MemoryStream();
+			CryptoStream cryptStream = new CryptoStream(memStream, CryptoTransform, CryptoStreamMode.Write);
+			// transform the bytes as requested
+			cryptStream.Write(input, 0, input.Length);
+			cryptStream.FlushFinalBlock();
+			// Read the memory stream and
+			// convert it back into byte array
+			memStream.Position = 0;
+			byte[] result = memStream.ToArray();
+			// close and release the streams
+			memStream.Close();
+			cryptStream.Close();
+			// hand back the encrypted buffer
+			return result;
 		}
 	}
 }
