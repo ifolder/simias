@@ -521,12 +521,12 @@ namespace Novell.iFolder
 
 		}
 
-		void Configure()
+		bool Configure()
 		{
 			ParseArguments();
 			if ( SetupSimias() == false )
 			{
-				return;
+				return false;
 			}
 
 			SetupModMono();
@@ -537,6 +537,7 @@ namespace Novell.iFolder
 			SetupScriptFiles();
 			SetupLog4Net();
 			SetupPermissions();
+			return true;
 		}
 
 		#region Arguments
@@ -1536,7 +1537,8 @@ namespace Novell.iFolder
 			{
 				SimiasServerSetup setup = new SimiasServerSetup( args );
 				setup.Initialize();
-				setup.Configure();
+				if( setup.Configure() == false )
+					Environment.Exit(-1);;
 			}
 			catch(Exception e)
 			{
