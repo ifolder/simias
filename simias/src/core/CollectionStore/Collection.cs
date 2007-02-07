@@ -652,11 +652,11 @@ namespace Simias.Storage
 
 			if(encryptionAlgorithm !="")
 			{
-				string EncryptedKey;
+				string EncryptedKey = "";
 				Key key = new Key(128, "TripleDES");//send the key size and algorithm
-				log.Debug( "Create iFolder encrypted cryptokey ={0}......", EncryptedKey);				
 				key.EncrypytKey("1234567890123456", out EncryptedKey);//send the passphrase to encrypt the key
 				this.encryptionKey = EncryptedKey;								
+				log.Debug( "Create iFolder encrypted cryptokey ={0}......", EncryptedKey);				
 				properties.AddNodeProperty(PropertyTags.EncryptionKey, this.encryptionKey);
 			}
 			
