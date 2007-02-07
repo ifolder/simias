@@ -1655,12 +1655,13 @@ namespace Simias.Storage
 		/// </summary>
 		/// <param name="key"></param>
 		/// <param name="algorithm"></param>
-		internal Key(string Key, string Algorithm)
+		internal Key(string CrypKey, string Algorithm)
 		{
 			CryptoKeyVersion	= 1.0;
 			CryptoKeySize	= 128;
 			CryptoAlgorithm 	= Algorithm;
-			CryptoKey		= Key;
+			UTF8Encoding utf8 = new UTF8Encoding();
+			CryptoKey		= CrypKey;
 		}
 
 		/// <summary>
@@ -1709,27 +1710,23 @@ namespace Simias.Storage
 			TripleDESCryptoServiceProvider m_des = new TripleDESCryptoServiceProvider();
 			byte[] IV = new byte[0];
 			m_des.KeySize = this.CryptoKeySize;
-			//m_des.Key = utf8.GetBytes(PassPhrase);
-
+			
 			byte[] input = utf8.GetBytes(this.CryptoKey);
 			byte[] output = Transform(input, m_des.CreateEncryptor(utf8.GetBytes(PassPhrase), IV));
 			EncryptedKey = Convert.ToBase64String(output);
-			//EncryptedKey=utf8.GetString(output);
 	       }
 
 		/// <summary>
 		/// Decrypt the key in the instance and returns
 		/// </summary>
 		public void DecrypytKey(string PassPhrase, out string DecryptedKey) 
-		{		
+		{
 			UTF8Encoding utf8 = new UTF8Encoding();
 			TripleDESCryptoServiceProvider m_des = new TripleDESCryptoServiceProvider();
 			byte[] IV = new byte[0];
 			m_des.KeySize = this.CryptoKeySize;
-			//m_des.Key = utf8.GetBytes(PassPhrase);
 
-
-			byte[] input = utf8.GetBytes(this.CryptoKey);
+			byte[] input = Convert.FromBase64String(this.CryptoKey);
 			byte[] output = Transform(input, m_des.CreateDecryptor(utf8.GetBytes(PassPhrase), IV));
 			DecryptedKey = utf8.GetString(output);
 		}
