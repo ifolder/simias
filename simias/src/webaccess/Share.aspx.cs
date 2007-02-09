@@ -150,6 +150,7 @@ namespace Novell.iFolderApp.Web
 				CancelButton.Text = GetString("CANCEL");
 
 				// properties
+				SearchPropertyList.Items.Add(new ListItem(GetString("USERNAME"), SearchProperty.UserName.ToString()));
 				SearchPropertyList.Items.Add(new ListItem(GetString("FIRSTNAME"), SearchProperty.FirstName.ToString()));
 				SearchPropertyList.Items.Add(new ListItem(GetString("LASTNAME"), SearchProperty.LastName.ToString()));
 
@@ -248,6 +249,10 @@ namespace Novell.iFolderApp.Web
 					// display name
 					switch(prop)
 					{
+					        case SearchProperty.UserName:
+						    name = user.UserName;
+						    break;
+
 						case SearchProperty.LastName:
 							name = String.Format("{0}{1}{2}", user.LastName,
 								GetString("LASTFIRSTNAMESEP"), user.FirstName);

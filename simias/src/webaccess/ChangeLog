@@ -1,3 +1,7 @@
+2007-02-09  Johnny Jacob  <jjohnny@novell.com>
+
+	* Share.aspx.cs : Add UserName to the searchbar. Fixes #235073.
+	
 2007-01-22 Kalidas Balakrishnan <bkalidas@novell.com>
 	*Download.ashx.cs : Updated the buffer size
 
