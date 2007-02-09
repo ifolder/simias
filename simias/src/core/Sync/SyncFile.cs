@@ -790,38 +790,42 @@ namespace Simias.Sync
 		/// <summary>
 		/// Gets the passphrase from the domain
 		/// </summary>
-		public void GetEncryptionCredentials(out string EncryptionAlgorithm, out string Key)
+		public bool GetCryptoKey(out string EncryptionKey)
 		{
-			string userID;
-			string passPhrase;
-			string encyptedKey;
+			try
+			{
+				string EncryptionAlgorithm="";
+				Property p = collection.Properties.FindSingleValue(PropertyTags.EncryptionType);
+				EncryptionAlgorithm = (p!=null) ? (string) p.Value as string : "";
+				if(EncryptionAlgorithm != "")
+				{
+					p = collection.Properties.FindSingleValue(PropertyTags.EncryptionKey);
+					string EncryptedKey = (p!=null) ? (string) p.Value as string : null;
 
-			Property p = collection.Properties.FindSingleValue(PropertyTags.EncryptionType);
-			EncryptionAlgorithm = (p!=null) ? (string) p.Value as string : "";
+					Key key = new Key(EncryptedKey);//send the key size and algorithm
+					key.DecrypytKey("1234567890123456", out EncryptionKey);//send the passphrase to decrypt the key
+				
+					p = collection.Properties.FindSingleValue(PropertyTags.EncryptionBlob);
+					string EncryptionBlob = (p!=null) ? (string) p.Value as string : null;
+					if(EncryptionBlob == null)
+						throw new CollectionStoreException("The specified cryptographic key not found");
+					
+					Key hashKey = new Key(EncryptionKey);
+					if(hashKey.HashKey() != EncryptionBlob)
+						throw new CollectionStoreException("The specified cryptographic key not found");
 
-			p = collection.Properties.FindSingleValue(PropertyTags.EncryptionKey);
-			encyptedKey = (p!=null) ? (string) p.Value as string : null;
-
-			//Get the passphrase to decrypt the DEK
-			Store store = Store.GetStore();
-			//CredentialType type = 
-                     store.GetPassPhrase(collection.Domain, out userID, out passPhrase);
-
-			TripleDESCryptoServiceProvider tDesKey = new TripleDESCryptoServiceProvider();
-			UTF8Encoding utf8 = new UTF8Encoding();
-
-			byte[] IV = new byte[0];
-			byte[] Buffer = utf8.GetBytes(encyptedKey);
-			Stream Outstream  = new MemoryStream(Buffer) as Stream;
-			tDesKey.KeySize = 128;
-			tDesKey.Key = utf8.GetBytes(passPhrase);					
-			CryptoStream cStream = new CryptoStream(Outstream, tDesKey.CreateDecryptor(utf8.GetBytes(passPhrase), IV), CryptoStreamMode.Read);
-			StreamReader eStream = new StreamReader(cStream);
-			string Decryptedkey = eStream.ReadLine();//decrypted key
-			eStream.Close();
-			cStream.Close();
-			Outstream.Close();
-			Key=Decryptedkey;
+					return true;
+				}
+				else
+				{
+					EncryptionKey = "";
+					return false;
+				}
+			}
+			catch (Exception ex)
+			{
+				throw ex;	
+			}
 		}
 		#endregion
 	}

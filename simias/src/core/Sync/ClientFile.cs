@@ -435,7 +435,7 @@ namespace Simias.Sync
 			long	sizeRemaining;
 			int	blockSize;
 			Blowfish bf = null;
-			string EncryptionAlgorithm;
+			bool needDecryption=false;
 			string EncryptionKey ;
 			int boundary = 0;
 
@@ -466,19 +466,11 @@ namespace Simias.Sync
 			}
 
 			/// Get the key and decrypt it to Decrypt the file data
-			Property p = collection.Properties.FindSingleValue(PropertyTags.EncryptionType);
-			EncryptionAlgorithm = (p!=null) ? (string) p.Value as string : "";
-			if(EncryptionAlgorithm !="")
+			if(GetCryptoKey(out EncryptionKey)== true);
 			{
-				p = collection.Properties.FindSingleValue(PropertyTags.EncryptionKey);
-				string EncryptedKey = (p!=null) ? (string) p.Value as string : null;
-
-				Key key = new Key(EncryptedKey , "TripleDES");//send the key size and algorithm
-				key.DecrypytKey("1234567890123456", out EncryptionKey);//send the passphrase to decrypt the key
+				needDecryption=true;
 				Log.log.Debug("DownloadFile CryptoKey = {0}", EncryptionKey); 
-				
-				// Only blowfish is supported
-				//if(EncryptionAlgorithm == "BlowFish")
+
 				UTF8Encoding utf8 = new UTF8Encoding();
 				bf = new Blowfish(utf8.GetBytes(EncryptionKey));
 				boundary = 8;
@@ -498,7 +490,7 @@ namespace Simias.Sync
 
 					WritePosition = (long)seg.StartBlock * (long)blockSize;
 					
-					if(EncryptionAlgorithm != "")	
+					if(needDecryption == true)	
 					{
 						byte [] inStream_byteArr = new byte[bytesToWrite];
 
@@ -841,7 +833,7 @@ namespace Simias.Sync
 			ArrayList copyArray;
 			ArrayList writeArray;
 			int blockSize;
-			string EncryptionAlgorithm;
+			bool needEncryption=false;
 			string EncryptionKey="";
 
 			GetUploadFileMap(out sizeToSync, out copyArray, out writeArray, out blockSize);
@@ -855,18 +847,12 @@ namespace Simias.Sync
 			}
 			
 			/// Get the key and decrypt it to encrypt the file data
-			Property p = collection.Properties.FindSingleValue(PropertyTags.EncryptionType);
-			EncryptionAlgorithm = (p!=null) ? (string) p.Value as string : "";
-			if(EncryptionAlgorithm != "")
+			if(GetCryptoKey(out EncryptionKey)== true);
 			{
-				p = collection.Properties.FindSingleValue(PropertyTags.EncryptionKey);
-				string EncryptedKey = (p!=null) ? (string) p.Value as string : null;
-
-				Key key = new Key(EncryptedKey , "TripleDES");//send the key size and algorithm
-				Log.log.Debug("Arul UploadFile EncryptionKey 1 = {0}", EncryptedKey); 
-				key.DecrypytKey("1234567890123456", out EncryptionKey);//send the passphrase to decrypt the key
+				needEncryption = true;
 				Log.log.Debug("UploadFile CryptoKey = {0}", EncryptionKey); 
 			}
+			
 			
 			foreach(OffsetSegment seg in writeArray)
 			{
@@ -882,9 +868,9 @@ namespace Simias.Sync
 						if (stopping)
 							break;
 						int bytesToSend = (int)Math.Min(MaxXFerSize, leftToSend);
-						if(EncryptionAlgorithm != "")
+						if(needEncryption == true)
 						{
-							syncService.WriteFile(OutStream, ReadPosition, bytesToSend, EncryptionAlgorithm, EncryptionKey);
+							syncService.WriteFile(OutStream, ReadPosition, bytesToSend, "BlowFish", EncryptionKey);
 						}
 						else
 							syncService.WriteFile(OutStream, ReadPosition, bytesToSend, null, null);

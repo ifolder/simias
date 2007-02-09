@@ -511,58 +511,46 @@ namespace Simias.Storage
 		/// <summary>
 		/// Validate the passphrase for the correctness
 		/// </summary>
-		public Simias.Authentication.Status ValidatePassPhrase(string passPhrase)
+		public bool MemberValidatePassPhrase(string passPhrase)
 		{
-			string Decryptedkey;
-			string Encryptedkey = this.EncryptionKey;
-			string OldBlob = this.EncryptionBlob;
-
-			if(OldBlob == null)			
-			{
-				//log.Info( "IsPassPhraseSet : FALSE" );
-				return new Simias.Authentication.Status( Simias.Authentication.StatusCodes.PassPhraseNotSet);
-			}
+			//this.EncryptionBlob;
+			string NewBlob = "simias";
+			string OldBlob = "simias";
 			
-			Key key = new Key(Encryptedkey, "TripleDES");
-			key.DecrypytKey(passPhrase,  out Decryptedkey);
-
-			//Create the new blob using the decrypted key and algorithm
-			Key  newKey = new Key(Decryptedkey,"BlowFish");
-			string NewBlob = newKey.HashKey();
-
 			//validate the blobs
 			if(String.Equals(NewBlob, OldBlob)==true)
 			{
 				//log.Debug( "Validating the user entered passphrase: passphrase match succeded.........oldBlob :{0}.......NewBlob: {1}",oldBlob, newBlob.HashPassPhrase());
-				return new Simias.Authentication.Status(Simias.Authentication.StatusCodes.Success);			
+				return true;
 			}
 			else
 			{
 				//log.Debug( "Validating the user entered passphrase: passphrase match failed..........oldBlob :{0}.......NewBlob: {1}",oldBlob, newBlob.HashPassPhrase());
-				return new Simias.Authentication.Status(Simias.Authentication.StatusCodes.PassPhraseInvalid);
+				return false;
 			}
-		}	
+		}
 	
 
 		/// <summary>
-		/// Validate the passphrase for the correctness
+		/// 
 		/// </summary>
-		public Simias.Authentication.Status SetPassPhrase(string passPhrase, string RAName, string PublicKey)
+		public bool MemberSetPassPhrase(string PassPhraseBlob, string RAName, string RAPublicKey)
 		{
-			string CryptoKey;
-			string OldBlob = this.EncryptionBlob;
-
-			//log.Debug( "SetPassPhrase  trying to get oldBlob is : NULL, setting the passphrase" );
+			this.EncryptionBlob = PassPhraseBlob;
 			this.RAName = RAName;
-			this.RAPublicKey = PublicKey;
+			this.RAPublicKey = RAPublicKey;
+			return true;
+		}
 
-			Key key = new Key(128, "BlowFish");
-			string EnKey;
-			key.EncrypytKey(passPhrase, out EnKey);
-			this.EncryptionBlob = key.HashKey();
-			
-			//log.Debug( "SetPassPhrase  got set congratulations.............................{0}",member.EncryptionBlob);
-			return new Simias.Authentication.Status  (Simias.Authentication.StatusCodes.Success); 
+		/// <summary>
+		/// 
+		/// </summary>
+		public bool MemberIsPassPhraseSet()
+		{
+			if(this.EncryptionBlob != null )
+				return true;
+			else
+				return false;		
 		}
 		#endregion
 	}

@@ -108,7 +108,12 @@ namespace Simias.Storage
 		/// <summary>
 		/// Encryption key
 		/// </summary>
-		private string encryptionKey;		
+		private string encryptionKey;
+
+		/// <summary>
+		/// Encryption Blob
+		/// </summary>
+		private string encryptionBlob;
 
 		#endregion
 
@@ -192,6 +197,19 @@ namespace Simias.Storage
 				Property p = properties.FindSingleValue(PropertyTags.EncryptionKey);
 				string encryptionKey = (p!=null) ? (string) p.Value as string : "";
 				return encryptionKey;
+			}
+		}
+
+		/// <summary>
+		/// Gets the encryption algorithm
+		/// </summary>
+		public string EncryptionBlob
+		{
+			get
+			{
+				Property p = properties.FindSingleValue(PropertyTags.EncryptionBlob);
+				string encryptionBlob = (p!=null) ? (string) p.Value as string : "";
+				return encryptionBlob;
 			}
 		}
 
@@ -652,13 +670,16 @@ namespace Simias.Storage
 
 			if(encryptionAlgorithm !="")
 			{
-				string EncryptedKey = "";
-				Key key = new Key(128, "TripleDES");//send the key size and algorithm
-				key.EncrypytKey("1234567890123456", out EncryptedKey);//send the passphrase to encrypt the key
-				this.encryptionKey = EncryptedKey;								
-				log.Debug( "Create iFolder encrypted cryptokey ={0}......", EncryptedKey);				
+				Key key = new Key(128);//send the key size
+				key.EncrypytKey("1234567890123456", out this.encryptionKey);//send the passphrase to encrypt the key
+				this.encryptionBlob = key.HashKey();
+
+				log.Debug( "Create iFolder encrypted cryptokey ={0}", this.encryptionKey);
+				
 				properties.AddNodeProperty(PropertyTags.EncryptionKey, this.encryptionKey);
+				properties.AddNodeProperty(PropertyTags.EncryptionBlob, this.encryptionBlob);
 			}
+			
 			
 			// Setup the access control for this collection.
 			accessControl = new AccessControl( this );

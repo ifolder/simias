@@ -1631,19 +1631,9 @@ namespace Simias.Storage
 	public sealed class Key
 	{
 		/// <summary>
-		/// The Algorithm name
-		/// </summary>
-		string 	CryptoAlgorithm;
-		
-		/// <summary>
 		/// Key Name
 		/// </summary>
 		string	CryptoKey;
-
-		/// <summary>
-		/// Key version
-		/// </summary>
-		double	CryptoKeyVersion;
 
 		/// <summary>
 		/// Key Size
@@ -1655,11 +1645,9 @@ namespace Simias.Storage
 		/// </summary>
 		/// <param name="key"></param>
 		/// <param name="algorithm"></param>
-		internal Key(string CrypKey, string Algorithm)
+		internal Key(string CrypKey)
 		{
-			CryptoKeyVersion	= 1.0;
 			CryptoKeySize	= 128;
-			CryptoAlgorithm 	= Algorithm;
 			UTF8Encoding utf8 = new UTF8Encoding();
 			CryptoKey		= CrypKey;
 		}
@@ -1667,12 +1655,10 @@ namespace Simias.Storage
 		/// <summary>
 		/// Constructs a the blob object
 		/// </summary>
-		internal Key(int KeySize, string Algorithm)
+		internal Key(int KeySize)
 		{
-			CryptoKeyVersion	= 1.0;
 			CryptoKeySize	= 128;
-			CryptoAlgorithm 	= Algorithm;
-			
+		
 			//only TripleDES supported
 			TripleDESCryptoServiceProvider tDesKey = new TripleDESCryptoServiceProvider();
 			tDesKey.KeySize	= CryptoKeySize;
@@ -1697,7 +1683,7 @@ namespace Simias.Storage
 		{
 			UTF8Encoding utf8 = new UTF8Encoding();
 			MD5 md5 = new MD5CryptoServiceProvider();
-			byte[] hashedObject = new MD5CryptoServiceProvider().ComputeHash(utf8.GetBytes(this.CryptoAlgorithm+this.CryptoKey+this.CryptoKeyVersion.ToString()+this.CryptoKeySize.ToString()));
+			byte[] hashedObject = new MD5CryptoServiceProvider().ComputeHash(utf8.GetBytes(+this.CryptoKey));
 			return Convert.ToBase64String(hashedObject);
 		}
 
