@@ -281,6 +281,14 @@ namespace Novell.iFolderWeb.Admin
 					IsAllowed( policy.FileTypesIncludes, s ), 
 					true );
 			}
+			foreach( string s in policy.FileTypesIncludes )
+			{
+				ht[ s ] = new FileTypeInfo( 
+					s, 
+					Utils.ConvertFromRegEx( s ), 
+					true, 
+					true );
+			}
 
 			return ht;
 		}
@@ -766,6 +774,7 @@ namespace Novell.iFolderWeb.Admin
 			// Show the proper control buttons.
 			AllowButton.Visible = DenyButton.Visible = true;
 
+			NewFileTypeName.Visible = AddButton.Visible = true;
 			// Create a list from the file type policy.
 			FileTypeSource = CreateFileTypeSource( policy );
 
@@ -818,17 +827,23 @@ namespace Novell.iFolderWeb.Admin
 		public void SetFileTypePolicy( UserPolicy policy )
 		{
 			// Build a list of checked file types.
-			ArrayList filterList = new ArrayList();
+			ArrayList filterListAllow = new ArrayList();
+			ArrayList filterListDeny = new ArrayList();
 			foreach( FileTypeInfo fti in FileTypeSource.Values )
 			{
 				if ( fti.IsAllowed )
 				{
-					filterList.Add( fti.RegExFileName );
+					filterListAllow.Add( fti.RegExFileName );
+				}
+				else
+				{
+					filterListDeny.Add( fti.RegExFileName );	
 				}
 			}
 
 			// Set the user current user policy.
-			policy.FileTypesIncludes = filterList.ToArray( typeof( string ) ) as string[];
+			policy.FileTypesIncludes = filterListAllow.ToArray( typeof( string ) ) as string[];
+			policy.FileTypesExcludes = filterListDeny.ToArray( typeof( string ) ) as string[];
 		}
 
 		/// <summary>

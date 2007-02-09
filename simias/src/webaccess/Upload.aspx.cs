@@ -346,7 +346,6 @@ namespace Novell.iFolderApp.Web
 					{
 						if(count %boundary !=0)
 							count += boundary - (count %boundary);
-
 						bf.Encipher(buffer, count);
 					}					
 					webStream.Write(buffer, 0, count);
@@ -357,12 +356,12 @@ namespace Novell.iFolderApp.Web
 			finally
 			{
 				webStream.Close();
-				stream.Close();
+				stream.Close();	
 			}
-
+				
 			// response
 			webRequest.GetResponse().Close();
-
+					
 			//Set the file length here
 			try
 			{

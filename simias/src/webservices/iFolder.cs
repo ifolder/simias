@@ -245,7 +245,7 @@ namespace iFolder.WebService
 			this.Size = ce.CollectionSize;
 			this.MemberRights = rights;
 			this.Created = NodeUtility.GetDateTimeProperty(ce, PropertyTags.NodeCreationTime);
-			this.LastModified = NodeUtility.GetDateTimeProperty(ce, PropertyTags.JournalModified);
+			this.LastModified = NodeUtility.GetDateTimeProperty(ce, PropertyTags.LastModified);
 			this.Published = NodeUtility.GetBooleanProperty(ce, PropertyTags.Published);
                         //BUG : TODO
 //			this.Enabled = !iFolderPolicy.IsLocked(c);
