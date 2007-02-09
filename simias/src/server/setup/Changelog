@@ -1,3 +1,8 @@
+2007-02-09  Johnny Jacob  <jjohnny@novell.com>
+
+	* setup/SimiasServerSetup.cs : Don't Prompt for LDAP details if it is a
+	slave. Use configuration from master. Fixes #236245.
+	
 2007-Jan-22 Kalidas Balakrishnan <bkalidas@novell.com>
 	*SimiasServerSetup.cs - updated for ifolder-tsa to work
 2007-Jan-12 Kalidas Balakrishnan <bkaldias@novell.com>

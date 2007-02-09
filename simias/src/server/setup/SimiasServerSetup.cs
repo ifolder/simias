@@ -758,12 +758,14 @@ namespace Novell.iFolder
 				{
 					// ldap uri
 					// We may need to use a different ldap server prompt for it.
-					// Prompt for the ldap server.
+					// Prompt for the ldap server if its not a slave server
 					ldapServer.Description = "The host or ip address of an LDAP server.  The server will be used by Simias for authentication.";
 					ldapServer.DefaultValue = ldapSettings.Uri.Host;
-					ldapServer.Prompt = true;
+					ldapServer.Prompt = !slaveServer.Value;
 					Prompt.ForOption(ldapServer);
-					secure.Prompt = true;
+
+					secure.DefaultValue = ldapSettings.SSL;
+					secure.Prompt = !slaveServer.Value;
 					Prompt.ForOption(secure);
 				}
 			}
