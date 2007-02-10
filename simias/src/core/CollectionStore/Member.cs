@@ -73,7 +73,7 @@ namespace Simias.Storage
 		private string raPublicKey;
 
 		/// <summary>
-		/// Gets the encryption blob
+		/// Get/Set the encryption key
 		/// </summary>
 		public string EncryptionKey
 		{
@@ -509,48 +509,46 @@ namespace Simias.Storage
 		}
 
 		/// <summary>
-		/// Validate the passphrase for the correctness
+		/// Set the passphrase(key encrypted by passphrase and SHA1 of key) and recovery agent name and key
 		/// </summary>
-		public bool ValidatePassPhrase(string passPhrase)
+		public bool SetPassPhrase(string EncryptedCryptoKey, string CryptoKeyBlob, string RAName, string PublicKey)
 		{
-			//this.EncryptionBlob;
-			string NewBlob = "simias";
-			string OldBlob = "simias";
+			if(EncryptedCryptoKey !=null)
+				properties.AddNodeProperty(PropertyTags.EncryptionKey, EncryptedCryptoKey);
+			if(CryptoKeyBlob !=null)
+				properties.AddNodeProperty(PropertyTags.EncryptionBlob, CryptoKeyBlob);
+			if(RAName !=null)
+				properties.AddNodeProperty(PropertyTags.RAName, RAName);
+			if(PublicKey !=null)
+				properties.AddNodeProperty(PropertyTags.RAPublicKey, PublicKey);
 			
-			//validate the blobs
-			if(String.Equals(NewBlob, OldBlob)==true)
-			{
-				//log.Debug( "Validating the user entered passphrase: passphrase match succeded.........oldBlob :{0}.......NewBlob: {1}",oldBlob, newBlob.HashPassPhrase());
-				return true;
-			}
-			else
-			{
-				//log.Debug( "Validating the user entered passphrase: passphrase match failed..........oldBlob :{0}.......NewBlob: {1}",oldBlob, newBlob.HashPassPhrase());
-				return false;
-			}
-		}
-	
-
-		/// <summary>
-		/// 
-		/// </summary>
-		public bool SetPassPhrase(string PassPhraseBlob, string RAName, string RAPublicKey)
-		{
-			this.EncryptionBlob = PassPhraseBlob;
-			this.RAName = RAName;
-			this.RAPublicKey = RAPublicKey;
 			return true;
 		}
-
+		
 		/// <summary>
-		/// 
+		/// Validate the passphrase
 		/// </summary>
-		public bool MemberIsPassPhraseSet()
+		public bool ValidatePassPhrase(string CryptoKeyBlob)
 		{
-			if(this.EncryptionBlob != null )
+			string  OldCryptoKeyBlob = this.EncryptionBlob;
+			
+			if(String.Equals(CryptoKeyBlob, OldCryptoKeyBlob)==true)							
 				return true;
-			else
-				return false;		
+			else			
+				return false;
+		}
+		
+		/// <summary>
+		/// Validate the passphrase
+		/// </summary>
+		public bool IsPassPhraseSet()
+		{
+			string  CryptoKeyBlob = this.EncryptionBlob;
+			
+			if(CryptoKeyBlob !=null)
+				return true;
+			else			
+				return false;
 		}
 		#endregion
 	}

@@ -102,7 +102,6 @@ namespace iFolder.WebService
 		/// The User Last Name
 		/// </summary>
 		public string LastName;
-
 		/// <summary>
 		/// The User Rights in the iFolder/Domain
 		/// </summary>
@@ -690,7 +689,11 @@ namespace iFolder.WebService
 			}
 			//log.Debug( "SetPassPhrase  User: " + member.Name );
 
-			return member.ValidatePassPhrase(passPhrase);
+			if(member.ValidatePassPhrase(passPhrase) == true)
+oKeyBlob) == true)
+				return new Simias.Authentication.Status( Simias.Authentication.Stat
+usCodes.S
+				return new Simias.Authentication.Status( Simias.Authentication.StatusCodes.PassPhraseInvalid);
 		}
 		
 		///<summary>
@@ -716,7 +719,10 @@ namespace iFolder.WebService
 			}
 			//log.Debug( "SetPassPhrase  User: " + member.Name );
 
-			return member.SetPassPhrase(passPhrase, publicKey, recoveryAgentName);
+			if(member.SetPassPhrase("EncryptedCryptoKey", passPhrase, recoveryAgentName, publicKey)== true)
+				return new Simias.Authentication.Status(Simias.Authentication.StatusCodes.Success);
+			else
+				return new Simias.Authentication.Status(Simias.Authentication.StatusCodes.PassPhraseNotSet);
 		}
 		
 		///<summary>
