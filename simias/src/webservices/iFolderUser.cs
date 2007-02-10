@@ -690,9 +690,8 @@ namespace iFolder.WebService
 			//log.Debug( "SetPassPhrase  User: " + member.Name );
 
 			if(member.ValidatePassPhrase(passPhrase) == true)
-oKeyBlob) == true)
-				return new Simias.Authentication.Status( Simias.Authentication.Stat
-usCodes.S
+				return new Simias.Authentication.Status( Simias.Authentication.StatusCodes.Success );
+			else
 				return new Simias.Authentication.Status( Simias.Authentication.StatusCodes.PassPhraseInvalid);
 		}
 		
