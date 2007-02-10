@@ -511,7 +511,7 @@ namespace Simias.Storage
 		/// <summary>
 		/// Validate the passphrase for the correctness
 		/// </summary>
-		public bool MemberValidatePassPhrase(string passPhrase)
+		public bool ValidatePassPhrase(string passPhrase)
 		{
 			//this.EncryptionBlob;
 			string NewBlob = "simias";
@@ -534,7 +534,7 @@ namespace Simias.Storage
 		/// <summary>
 		/// 
 		/// </summary>
-		public bool MemberSetPassPhrase(string PassPhraseBlob, string RAName, string RAPublicKey)
+		public bool SetPassPhrase(string PassPhraseBlob, string RAName, string RAPublicKey)
 		{
 			this.EncryptionBlob = PassPhraseBlob;
 			this.RAName = RAName;
