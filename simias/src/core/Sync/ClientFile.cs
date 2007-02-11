@@ -466,7 +466,7 @@ namespace Simias.Sync
 			}
 
 			/// Get the key and decrypt it to Decrypt the file data
-			if(GetCryptoKey(out EncryptionKey)== true);
+			if(GetCryptoKey(out EncryptionKey)== true)
 			{
 				needDecryption=true;
 				Log.log.Debug("DownloadFile CryptoKey = {0}", EncryptionKey); 
@@ -847,7 +847,7 @@ namespace Simias.Sync
 			}
 			
 			/// Get the key and decrypt it to encrypt the file data
-			if(GetCryptoKey(out EncryptionKey)== true);
+			if(GetCryptoKey(out EncryptionKey)== true)
 			{
 				needEncryption = true;
 				Log.log.Debug("UploadFile CryptoKey = {0}", EncryptionKey); 
