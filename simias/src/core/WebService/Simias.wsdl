@@ -652,12 +652,77 @@
           </xs:sequence>
         </xs:complexType>
       </xs:element>
-      <xs:element name="SetPassPhrase">
+      <xs:element name="ServerSetPassPhrase">
         <xs:complexType>
           <xs:sequence>
             <xs:element minOccurs="0" maxOccurs="1" name="DomainID" type="xs:string" />
             <xs:element minOccurs="0" maxOccurs="1" name="EncryptedCryptoKey" type="xs:string" />
             <xs:element minOccurs="0" maxOccurs="1" name="CryptoKeyBlob" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="RAName" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="RAPublicKey" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ServerSetPassPhraseResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="ServerSetPassPhraseResult" type="s0:Status" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ServerReSetPassPhrase">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="DomainID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="OldCryptoKeyBlob" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="EncryptedCryptoKey" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="CryptoKeyBlob" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="RAName" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="RAPublicKey" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ServerReSetPassPhraseResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="ServerReSetPassPhraseResult" type="s0:Status" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ServerValidatePassPhrase">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="DomainID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="CryptoKeyBlob" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ServerValidatePassPhraseResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="ServerValidatePassPhraseResult" type="s0:Status" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ServerIsPassPhraseSet">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="DomainID" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ServerIsPassPhraseSetResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="ServerIsPassPhraseSetResult" type="s0:Status" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SetPassPhrase">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="DomainID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="PassPhrase" type="xs:string" />
             <xs:element minOccurs="0" maxOccurs="1" name="RAName" type="xs:string" />
             <xs:element minOccurs="0" maxOccurs="1" name="RAPublicKey" type="xs:string" />
           </xs:sequence>
@@ -674,9 +739,8 @@
         <xs:complexType>
           <xs:sequence>
             <xs:element minOccurs="0" maxOccurs="1" name="DomainID" type="xs:string" />
-            <xs:element minOccurs="0" maxOccurs="1" name="OldCryptoKeyBlob" type="xs:string" />
-            <xs:element minOccurs="0" maxOccurs="1" name="EncryptedCryptoKey" type="xs:string" />
-            <xs:element minOccurs="0" maxOccurs="1" name="CryptoKeyBlob" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="OldPassPhrase" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="PassPhrase" type="xs:string" />
             <xs:element minOccurs="0" maxOccurs="1" name="RAName" type="xs:string" />
             <xs:element minOccurs="0" maxOccurs="1" name="RAPublicKey" type="xs:string" />
           </xs:sequence>
@@ -693,7 +757,7 @@
         <xs:complexType>
           <xs:sequence>
             <xs:element minOccurs="0" maxOccurs="1" name="DomainID" type="xs:string" />
-            <xs:element minOccurs="0" maxOccurs="1" name="CryptoKeyBlob" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="PassPhrase" type="xs:string" />
           </xs:sequence>
         </xs:complexType>
       </xs:element>
@@ -999,6 +1063,30 @@
   <message name="RemoveSimiasReferenceSoapOut">
     <part element="s0:RemoveSimiasReferenceResponse" name="parameters" />
   </message>
+  <message name="ServerSetPassPhraseSoapIn">
+    <part element="s0:ServerSetPassPhrase" name="parameters" />
+  </message>
+  <message name="ServerSetPassPhraseSoapOut">
+    <part element="s0:ServerSetPassPhraseResponse" name="parameters" />
+  </message>
+  <message name="ServerReSetPassPhraseSoapIn">
+    <part element="s0:ServerReSetPassPhrase" name="parameters" />
+  </message>
+  <message name="ServerReSetPassPhraseSoapOut">
+    <part element="s0:ServerReSetPassPhraseResponse" name="parameters" />
+  </message>
+  <message name="ServerValidatePassPhraseSoapIn">
+    <part element="s0:ServerValidatePassPhrase" name="parameters" />
+  </message>
+  <message name="ServerValidatePassPhraseSoapOut">
+    <part element="s0:ServerValidatePassPhraseResponse" name="parameters" />
+  </message>
+  <message name="ServerIsPassPhraseSetSoapIn">
+    <part element="s0:ServerIsPassPhraseSet" name="parameters" />
+  </message>
+  <message name="ServerIsPassPhraseSetSoapOut">
+    <part element="s0:ServerIsPassPhraseSetResponse" name="parameters" />
+  </message>
   <message name="SetPassPhraseSoapIn">
     <part element="s0:SetPassPhrase" name="parameters" />
   </message>
@@ -1219,10 +1307,43 @@
   <message name="RemoveSimiasReferenceHttpGetOut">
     <part element="s0:int" name="Body" />
   </message>
-  <message name="SetPassPhraseHttpGetIn">
+  <message name="ServerSetPassPhraseHttpGetIn">
     <part name="DomainID" type="s:string" />
     <part name="EncryptedCryptoKey" type="s:string" />
     <part name="CryptoKeyBlob" type="s:string" />
+    <part name="RAName" type="s:string" />
+    <part name="RAPublicKey" type="s:string" />
+  </message>
+  <message name="ServerSetPassPhraseHttpGetOut">
+    <part element="s0:Status" name="Body" />
+  </message>
+  <message name="ServerReSetPassPhraseHttpGetIn">
+    <part name="DomainID" type="s:string" />
+    <part name="OldCryptoKeyBlob" type="s:string" />
+    <part name="EncryptedCryptoKey" type="s:string" />
+    <part name="CryptoKeyBlob" type="s:string" />
+    <part name="RAName" type="s:string" />
+    <part name="RAPublicKey" type="s:string" />
+  </message>
+  <message name="ServerReSetPassPhraseHttpGetOut">
+    <part element="s0:Status" name="Body" />
+  </message>
+  <message name="ServerValidatePassPhraseHttpGetIn">
+    <part name="DomainID" type="s:string" />
+    <part name="CryptoKeyBlob" type="s:string" />
+  </message>
+  <message name="ServerValidatePassPhraseHttpGetOut">
+    <part element="s0:Status" name="Body" />
+  </message>
+  <message name="ServerIsPassPhraseSetHttpGetIn">
+    <part name="DomainID" type="s:string" />
+  </message>
+  <message name="ServerIsPassPhraseSetHttpGetOut">
+    <part element="s0:Status" name="Body" />
+  </message>
+  <message name="SetPassPhraseHttpGetIn">
+    <part name="DomainID" type="s:string" />
+    <part name="PassPhrase" type="s:string" />
     <part name="RAName" type="s:string" />
     <part name="RAPublicKey" type="s:string" />
   </message>
@@ -1231,9 +1352,8 @@
   </message>
   <message name="ReSetPassPhraseHttpGetIn">
     <part name="DomainID" type="s:string" />
-    <part name="OldCryptoKeyBlob" type="s:string" />
-    <part name="EncryptedCryptoKey" type="s:string" />
-    <part name="CryptoKeyBlob" type="s:string" />
+    <part name="OldPassPhrase" type="s:string" />
+    <part name="PassPhrase" type="s:string" />
     <part name="RAName" type="s:string" />
     <part name="RAPublicKey" type="s:string" />
   </message>
@@ -1242,7 +1362,7 @@
   </message>
   <message name="ValidatePassPhraseHttpGetIn">
     <part name="DomainID" type="s:string" />
-    <part name="CryptoKeyBlob" type="s:string" />
+    <part name="PassPhrase" type="s:string" />
   </message>
   <message name="ValidatePassPhraseHttpGetOut">
     <part element="s0:Status" name="Body" />
@@ -1445,10 +1565,43 @@
   <message name="RemoveSimiasReferenceHttpPostOut">
     <part element="s0:int" name="Body" />
   </message>
-  <message name="SetPassPhraseHttpPostIn">
+  <message name="ServerSetPassPhraseHttpPostIn">
     <part name="DomainID" type="s:string" />
     <part name="EncryptedCryptoKey" type="s:string" />
     <part name="CryptoKeyBlob" type="s:string" />
+    <part name="RAName" type="s:string" />
+    <part name="RAPublicKey" type="s:string" />
+  </message>
+  <message name="ServerSetPassPhraseHttpPostOut">
+    <part element="s0:Status" name="Body" />
+  </message>
+  <message name="ServerReSetPassPhraseHttpPostIn">
+    <part name="DomainID" type="s:string" />
+    <part name="OldCryptoKeyBlob" type="s:string" />
+    <part name="EncryptedCryptoKey" type="s:string" />
+    <part name="CryptoKeyBlob" type="s:string" />
+    <part name="RAName" type="s:string" />
+    <part name="RAPublicKey" type="s:string" />
+  </message>
+  <message name="ServerReSetPassPhraseHttpPostOut">
+    <part element="s0:Status" name="Body" />
+  </message>
+  <message name="ServerValidatePassPhraseHttpPostIn">
+    <part name="DomainID" type="s:string" />
+    <part name="CryptoKeyBlob" type="s:string" />
+  </message>
+  <message name="ServerValidatePassPhraseHttpPostOut">
+    <part element="s0:Status" name="Body" />
+  </message>
+  <message name="ServerIsPassPhraseSetHttpPostIn">
+    <part name="DomainID" type="s:string" />
+  </message>
+  <message name="ServerIsPassPhraseSetHttpPostOut">
+    <part element="s0:Status" name="Body" />
+  </message>
+  <message name="SetPassPhraseHttpPostIn">
+    <part name="DomainID" type="s:string" />
+    <part name="PassPhrase" type="s:string" />
     <part name="RAName" type="s:string" />
     <part name="RAPublicKey" type="s:string" />
   </message>
@@ -1457,9 +1610,8 @@
   </message>
   <message name="ReSetPassPhraseHttpPostIn">
     <part name="DomainID" type="s:string" />
-    <part name="OldCryptoKeyBlob" type="s:string" />
-    <part name="EncryptedCryptoKey" type="s:string" />
-    <part name="CryptoKeyBlob" type="s:string" />
+    <part name="OldPassPhrase" type="s:string" />
+    <part name="PassPhrase" type="s:string" />
     <part name="RAName" type="s:string" />
     <part name="RAPublicKey" type="s:string" />
   </message>
@@ -1468,7 +1620,7 @@
   </message>
   <message name="ValidatePassPhraseHttpPostIn">
     <part name="DomainID" type="s:string" />
-    <part name="CryptoKeyBlob" type="s:string" />
+    <part name="PassPhrase" type="s:string" />
   </message>
   <message name="ValidatePassPhraseHttpPostOut">
     <part element="s0:Status" name="Body" />
@@ -1728,6 +1880,30 @@
       <input message="s0:RemoveSimiasReferenceSoapIn" />
       <output message="s0:RemoveSimiasReferenceSoapOut" />
     </operation>
+    <operation name="ServerSetPassPhrase">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set the passphrase and recovery agent.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set the passphrase and recovery agent.</wsdl:documentation>
+      <input message="s0:ServerSetPassPhraseSoapIn" />
+      <output message="s0:ServerSetPassPhraseSoapOut" />
+    </operation>
+    <operation name="ServerReSetPassPhrase">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Reset passphrase and recovery agent.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Reset passphrase and recovery agent.</wsdl:documentation>
+      <input message="s0:ServerReSetPassPhraseSoapIn" />
+      <output message="s0:ServerReSetPassPhraseSoapOut" />
+    </operation>
+    <operation name="ServerValidatePassPhrase">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validate the passphrase for the correctness.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validate the passphrase for the correctness.</wsdl:documentation>
+      <input message="s0:ServerValidatePassPhraseSoapIn" />
+      <output message="s0:ServerValidatePassPhraseSoapOut" />
+    </operation>
+    <operation name="ServerIsPassPhraseSet">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the passphrase state.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the passphrase state.</wsdl:documentation>
+      <input message="s0:ServerIsPassPhraseSetSoapIn" />
+      <output message="s0:ServerIsPassPhraseSetSoapOut" />
+    </operation>
     <operation name="SetPassPhrase">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set the passphrase and recovery agent.</wsdl:documentation>
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set the passphrase and recovery agent.</wsdl:documentation>
@@ -1964,6 +2140,30 @@
       <input message="s0:RemoveSimiasReferenceHttpGetIn" />
       <output message="s0:RemoveSimiasReferenceHttpGetOut" />
     </operation>
+    <operation name="ServerSetPassPhrase">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set the passphrase and recovery agent.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set the passphrase and recovery agent.</wsdl:documentation>
+      <input message="s0:ServerSetPassPhraseHttpGetIn" />
+      <output message="s0:ServerSetPassPhraseHttpGetOut" />
+    </operation>
+    <operation name="ServerReSetPassPhrase">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Reset passphrase and recovery agent.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Reset passphrase and recovery agent.</wsdl:documentation>
+      <input message="s0:ServerReSetPassPhraseHttpGetIn" />
+      <output message="s0:ServerReSetPassPhraseHttpGetOut" />
+    </operation>
+    <operation name="ServerValidatePassPhrase">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validate the passphrase for the correctness.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validate the passphrase for the correctness.</wsdl:documentation>
+      <input message="s0:ServerValidatePassPhraseHttpGetIn" />
+      <output message="s0:ServerValidatePassPhraseHttpGetOut" />
+    </operation>
+    <operation name="ServerIsPassPhraseSet">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the passphrase state.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the passphrase state.</wsdl:documentation>
+      <input message="s0:ServerIsPassPhraseSetHttpGetIn" />
+      <output message="s0:ServerIsPassPhraseSetHttpGetOut" />
+    </operation>
     <operation name="SetPassPhrase">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set the passphrase and recovery agent.</wsdl:documentation>
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set the passphrase and recovery agent.</wsdl:documentation>
@@ -2199,6 +2399,30 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Decrements the Simias service reference count and signals the server to stop if the count goes to zero.</wsdl:documentation>
       <input message="s0:RemoveSimiasReferenceHttpPostIn" />
       <output message="s0:RemoveSimiasReferenceHttpPostOut" />
+    </operation>
+    <operation name="ServerSetPassPhrase">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set the passphrase and recovery agent.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set the passphrase and recovery agent.</wsdl:documentation>
+      <input message="s0:ServerSetPassPhraseHttpPostIn" />
+      <output message="s0:ServerSetPassPhraseHttpPostOut" />
+    </operation>
+    <operation name="ServerReSetPassPhrase">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Reset passphrase and recovery agent.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Reset passphrase and recovery agent.</wsdl:documentation>
+      <input message="s0:ServerReSetPassPhraseHttpPostIn" />
+      <output message="s0:ServerReSetPassPhraseHttpPostOut" />
+    </operation>
+    <operation name="ServerValidatePassPhrase">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validate the passphrase for the correctness.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validate the passphrase for the correctness.</wsdl:documentation>
+      <input message="s0:ServerValidatePassPhraseHttpPostIn" />
+      <output message="s0:ServerValidatePassPhraseHttpPostOut" />
+    </operation>
+    <operation name="ServerIsPassPhraseSet">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the passphrase state.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the passphrase state.</wsdl:documentation>
+      <input message="s0:ServerIsPassPhraseSetHttpPostIn" />
+      <output message="s0:ServerIsPassPhraseSetHttpPostOut" />
     </operation>
     <operation name="SetPassPhrase">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set the passphrase and recovery agent.</wsdl:documentation>
@@ -2599,6 +2823,42 @@
         <soap:body use="literal" />
       </output>
     </operation>
+    <operation name="ServerSetPassPhrase">
+      <soap:operation soapAction="http://novell.com/simias/web/ServerSetPassPhrase" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="ServerReSetPassPhrase">
+      <soap:operation soapAction="http://novell.com/simias/web/ServerReSetPassPhrase" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="ServerValidatePassPhrase">
+      <soap:operation soapAction="http://novell.com/simias/web/ServerValidatePassPhrase" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="ServerIsPassPhraseSet">
+      <soap:operation soapAction="http://novell.com/simias/web/ServerIsPassPhraseSet" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
     <operation name="SetPassPhrase">
       <soap:operation soapAction="http://novell.com/simias/web/SetPassPhrase" style="document" />
       <input>
@@ -2929,6 +3189,42 @@
         <mime:mimeXml part="Body" />
       </output>
     </operation>
+    <operation name="ServerSetPassPhrase">
+      <http:operation location="/ServerSetPassPhrase" />
+      <input>
+        <http:urlEncoded />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="ServerReSetPassPhrase">
+      <http:operation location="/ServerReSetPassPhrase" />
+      <input>
+        <http:urlEncoded />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="ServerValidatePassPhrase">
+      <http:operation location="/ServerValidatePassPhrase" />
+      <input>
+        <http:urlEncoded />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="ServerIsPassPhraseSet">
+      <http:operation location="/ServerIsPassPhraseSet" />
+      <input>
+        <http:urlEncoded />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
     <operation name="SetPassPhrase">
       <http:operation location="/SetPassPhrase" />
       <input>
@@ -3252,6 +3548,42 @@
     </operation>
     <operation name="RemoveSimiasReference">
       <http:operation location="/RemoveSimiasReference" />
+      <input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="ServerSetPassPhrase">
+      <http:operation location="/ServerSetPassPhrase" />
+      <input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="ServerReSetPassPhrase">
+      <http:operation location="/ServerReSetPassPhrase" />
+      <input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="ServerValidatePassPhrase">
+      <http:operation location="/ServerValidatePassPhrase" />
+      <input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="ServerIsPassPhraseSet">
+      <http:operation location="/ServerIsPassPhraseSet" />
       <input>
         <mime:content type="application/x-www-form-urlencoded" />
       </input>

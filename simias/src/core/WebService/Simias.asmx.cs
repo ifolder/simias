@@ -1243,7 +1243,7 @@ log.Debug("SimiasWebService.ConnectToDomain() called to connect to {0} as {1}", 
 		///<returns>passPhrase.</returns>
 		[WebMethod(EnableSession=true, Description="Set the passphrase and recovery agent.")]
 		[SoapDocumentMethod]
-		public Simias.Authentication.Status SetPassPhrase(string DomainID, string EncryptedCryptoKey, string CryptoKeyBlob, string RAName, string RAPublicKey)
+		public Simias.Authentication.Status ServerSetPassPhrase(string DomainID, string EncryptedCryptoKey, string CryptoKeyBlob, string RAName, string RAPublicKey)
 		{
 			log.Debug("SetPassPhrase - called");
 			Store store = Store.GetStore();
@@ -1272,7 +1272,7 @@ log.Debug("SimiasWebService.ConnectToDomain() called to connect to {0} as {1}", 
 		///<returns>passPhrase.</returns>
 		[WebMethod(EnableSession=true, Description="Reset passphrase and recovery agent.")]
 		[SoapDocumentMethod]
-		public Simias.Authentication.Status ReSetPassPhrase(string DomainID, string OldCryptoKeyBlob, string EncryptedCryptoKey, string CryptoKeyBlob, string RAName, string RAPublicKey)
+		public Simias.Authentication.Status ServerReSetPassPhrase(string DomainID, string OldCryptoKeyBlob, string EncryptedCryptoKey, string CryptoKeyBlob, string RAName, string RAPublicKey)
 		{
 			log.Debug("ReSetPassPhrase - called");
 			Store store = Store.GetStore();
@@ -1306,7 +1306,7 @@ log.Debug("SimiasWebService.ConnectToDomain() called to connect to {0} as {1}", 
 		///<returns>passPhrase.</returns>
 		[WebMethod(EnableSession=true, Description="Validate the passphrase for the correctness.")]
 		[SoapDocumentMethod]	
-		public Simias.Authentication.Status ValidatePassPhrase(string DomainID, string CryptoKeyBlob)
+		public Simias.Authentication.Status ServerValidatePassPhrase(string DomainID, string CryptoKeyBlob)
 		{
 			log.Debug("ValidatePassPhrase - called");
 			Store store = Store.GetStore();
@@ -1337,7 +1337,7 @@ log.Debug("SimiasWebService.ConnectToDomain() called to connect to {0} as {1}", 
 		///<returns></returns>
 		[WebMethod(EnableSession=true, Description="Returns the passphrase state.")]
 		[SoapDocumentMethod]
-		public Simias.Authentication.Status IsPassPhraseSet (string DomainID)
+		public Simias.Authentication.Status ServerIsPassPhraseSet (string DomainID)
 		{
 			log.Debug("IsPassPhraseSet - called");
 			Store store = Store.GetStore();
@@ -1367,6 +1367,111 @@ log.Debug("SimiasWebService.ConnectToDomain() called to connect to {0} as {1}", 
 				log.Info("IsPassPhraseSet User: TRUE");
 				return new Simias.Authentication.Status( Simias.Authentication.StatusCodes.PassPhraseNotSet);
 			}
+		}
+
+		///<summary>
+		///Set the passphrase and recovery agent in the simias client
+		///</summary>
+		///<returns>passPhrase.</returns>
+		[WebMethod(EnableSession=true, Description="Set the passphrase and recovery agent.")]
+		[SoapDocumentMethod]
+		public Simias.Authentication.Status SetPassPhrase(string DomainID, string PassPhrase, string RAName, string RAPublicKey)
+		{
+			log.Debug("SetPassPhrase - called");
+			Store store = Store.GetStore();
+			Simias.Storage.Domain domain = store.GetDomain(DomainID);
+			if(domain == null )
+			{
+				log.Debug("domain null");
+				return new Simias.Authentication.Status(Simias.Authentication.StatusCodes.UnknownDomain );
+			}
+			Simias.Storage.Member member = domain.GetCurrentMember();
+			if(member == null )
+			{
+				log.Debug("ValidatePassPhrase member null");
+				return new Simias.Authentication.Status(Simias.Authentication.StatusCodes.UnknownUser );
+			}		
+
+			return new Simias.Authentication.Status(Simias.Authentication.StatusCodes.Success);
+		}
+		
+		///<summary>
+		///Reset passphrase and recovery agent
+		///</summary>
+		///<returns>passPhrase.</returns>
+		[WebMethod(EnableSession=true, Description="Reset passphrase and recovery agent.")]
+		[SoapDocumentMethod]
+		public Simias.Authentication.Status ReSetPassPhrase(string DomainID, string OldPassPhrase, string PassPhrase, string RAName, string RAPublicKey)
+		{
+			log.Debug("ReSetPassPhrase - called");
+			Store store = Store.GetStore();
+			Simias.Storage.Domain domain = store.GetDomain(DomainID);
+			if(domain == null )
+			{
+				log.Debug("domain null" );
+				return new Simias.Authentication.Status( Simias.Authentication.StatusCodes.UnknownDomain );
+			}
+			Simias.Storage.Member member = domain.GetCurrentMember();
+			if(member == null )
+			{
+				log.Debug("ValidatePassPhrase member null");
+				return new Simias.Authentication.Status( Simias.Authentication.StatusCodes.UnknownUser );
+			}
+			return new Simias.Authentication.Status(Simias.Authentication.StatusCodes.Success);
+		}
+
+		///<summary>
+		///Validate the passphrase for the correctness (client only)
+		///</summary>
+		///<returns>passPhrase.</returns>
+		[WebMethod(EnableSession=true, Description="Validate the passphrase for the correctness.")]
+		[SoapDocumentMethod]	
+		public Simias.Authentication.Status ValidatePassPhrase(string DomainID, string PassPhrase)
+		{
+			log.Debug("ValidatePassPhrase - called");
+			Store store = Store.GetStore();
+			Simias.Storage.Domain domain = store.GetDomain(DomainID);
+			if(domain == null)
+			{
+				log.Debug("ValidatePassPhrase domain null");
+				return new Simias.Authentication.Status( Simias.Authentication.StatusCodes.UnknownDomain );
+			}
+
+			Simias.Storage.Member member = domain.GetCurrentMember();
+			if(member == null)
+			{
+				log.Debug("ValidatePassPhrase member null");
+				return new Simias.Authentication.Status( Simias.Authentication.StatusCodes.UnknownUser );
+			}
+			log.Debug("SetPassPhrase  User: " + member.Name);			
+
+			return new Simias.Authentication.Status( Simias.Authentication.StatusCodes.Success );
+		}
+		
+		///<summary>
+		///Returns the passphrase state (client only)
+		///</summary>
+		///<returns></returns>
+		[WebMethod(EnableSession=true, Description="Returns the passphrase state.")]
+		[SoapDocumentMethod]
+		public Simias.Authentication.Status IsPassPhraseSet (string DomainID)
+		{
+			log.Debug("IsPassPhraseSet - called");
+			Store store = Store.GetStore();
+			Simias.Storage.Domain domain = store.GetDomain(DomainID);
+			if(domain == null)
+			{
+				return new Simias.Authentication.Status( Simias.Authentication.StatusCodes.UnknownDomain );
+			}
+
+			Simias.Storage.Member member = domain.GetCurrentMember();
+			if(member == null)
+			{
+				return new Simias.Authentication.Status( Simias.Authentication.StatusCodes.UnknownUser );
+			}
+
+			log.Debug("IsPassPhraseSet User: " + member.Name);
+			return new Simias.Authentication.Status( Simias.Authentication.StatusCodes.Success);			
 		}
 	
 
