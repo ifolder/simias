@@ -345,45 +345,6 @@ namespace iFolder.WebService
 			return Simias.Security.CertificateStore.GetRACertificate(rAgent.ToLower());
 		}
 		
-		///<summary>
-		///</summary>
-		///<returns></returns>
-		/*public static Simias.Authentication.Status IsPassPhraseSet (string domainID)
-		{
-			
-			//log.Debug( "IsPassPhraseSet - called" );
-			Store store = Store.GetStore();
-			//Simias.Storage.Domain defaultdomain = store.GetDomain(store.DefaultDomain);
-			Simias.Storage.Domain domain = store.GetDomain(domainID);
-			if( domain == null )
-			{
-			return new Simias.Authentication.Status( Simias.Authentication.StatusCodes.UnknownDomain );
-			}
-		
-			Simias.Storage.Member member = domain.GetCurrentMember();
-			if( member == null )
-			{
-				return new Simias.Authentication.Status( Simias.Authentication.StatusCodes.UnknownUser );
-			}
-
-			//log.Debug( "IsPassPhraseSet User: " + member.Name );
-
-			string EncryptionBlob = member.EncryptionBlob;
-
-			if(EncryptionBlob =="")
-			{
-				//log.Info( "IsPassPhraseSet : FALSE" );
-				return new Simias.Authentication.Status( Simias.Authentication.StatusCodes.PassPhraseNotSet);
-			}
-			else
-			{
-				//log.Info( "IsPassPhraseSet User: TRUE" );
-				return new Simias.Authentication.Status( Simias.Authentication.StatusCodes.Success);
-			}
-		}*/
-
-
-	
 		/// <summary>
 		/// Get an iFolder
 		/// </summary>
@@ -398,7 +359,7 @@ namespace iFolder.WebService
 
 			if (c == null)
 			{
-		                CatalogEntry ce = Catalog.GetEntryByCollectionID (ifolderID);
+					CatalogEntry ce = Catalog.GetEntryByCollectionID (ifolderID);
 			        return new iFolder (ce, accessID);
 			}
 

@@ -249,6 +249,12 @@
     <data name="RIGHTS">
         <value>Access</value>
     </data>
+    <data name="ACCEPT">
+        <value>Accept</value>
+    </data>
+    <data name="DENY">
+        <value>Back</value>
+    </data>
     <data name="RIGHTS.ADMIN">
         <value>Full Control</value>
     </data>

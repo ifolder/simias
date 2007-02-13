@@ -33,6 +33,7 @@ iFolderWeb_CSFILES = \
 	$(srcdir)/UploadModule.cs \
 	$(srcdir)/UploadStream.cs \
 	$(srcdir)/WebLogger.cs \
+	$(srcdir)/iFolderCertificate.aspx.cs \
 	$(srcdir)/WebSettings.cs \
 	$(srcdir)/WebUtility.cs 
 #	$(srcdir)/../core/Encryption/Blowfish.cs
@@ -82,6 +83,7 @@ iFolderWeb_FORMS = \
 	iFolderEdit.aspx \
 	Share.aspx \
 	Settings.aspx \
+	iFolderCertificate.aspx \
 	Quota.ascx \
 	Header.ascx \
 	Message.ascx \

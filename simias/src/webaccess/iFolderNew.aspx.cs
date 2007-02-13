@@ -177,6 +177,34 @@ namespace Novell.iFolderApp.Web
 			}
 		}
 		
+		/// <summayr>
+		/// Whenever encryption is checked by user or enforced in the policy , then this will be called 
+		/// <summary>
+		private void ChangeForEncryption()
+		{
+			Status obj = web.IsPassPhraseSet();
+				
+			if(obj.statusCode == StatusCodes.Success )
+			{
+				RAList.Enabled =VerifyPassPhraseLabel.Visible = VerifyPassPhraseText.Visible = false;
+				PassPhraseText.Enabled = true;
+			}
+			else
+			{
+				object [] RAListObj= web.GetRAList();
+				if (RAListObj != null)
+				{
+					ArrayList RAListElements = new ArrayList(RAListObj);
+					RAList.DataSource = RAListElements;
+					RAList.DataBind();
+					RAList.SelectedIndex = 0;
+					RAList.Enabled =PassPhraseText.Enabled = VerifyPassPhraseLabel.Visible = VerifyPassPhraseText.Visible =true;
+				}
+				
+			}	
+		}
+		
+		
 		/// <summary>		
 		/// Get the policy from the server and displayed in the check box
 		/// </summary>
@@ -195,6 +223,7 @@ namespace Novell.iFolderApp.Web
                                                 Encryption.Checked = true;
                                          		Encryption.Enabled = true;
                                          		shared.Enabled = false;
+                                         		ChangeForEncryption();
                                         }        
                                         else
                                         {
@@ -314,26 +343,7 @@ namespace Novell.iFolderApp.Web
 			}
 			if(Encryption.Checked)
 			{	
-				Status obj = web.IsPassPhraseSet();
-				
-				if(obj.statusCode == StatusCodes.Success )
-				{
-					RAList.Enabled =VerifyPassPhraseLabel.Visible = VerifyPassPhraseText.Visible = false;
-					PassPhraseText.Enabled = true;
-				}
-				else
-				{
-					object [] RAListObj= web.GetRAList();
-					if (RAListObj != null)
-					{
-						ArrayList RAListElements = new ArrayList(RAListObj);
-						RAList.DataSource = RAListElements;
-						RAList.DataBind();
-						RAList.SelectedIndex = 0;
-						RAList.Enabled =PassPhraseText.Enabled = VerifyPassPhraseLabel.Visible = VerifyPassPhraseText.Visible =true;
-					}
-					
-				}	
+				ChangeForEncryption();
 			}	
 		}
 
@@ -419,11 +429,15 @@ namespace Novell.iFolderApp.Web
 								VerifyPassPhraseText.Text = "";
 								return;
 							}
-							byte [] RACertificateObj = web.GetRACertificate(RAName);
+							//byte [] RACertificateObj = web.GetRACertificate(RAName);
 							//TODO : show the certificate and do blah-blah 
-							//TODO : This public key ... how to get it ? 
-							string PublicKey = "";
-							Status ObjSetPassPhrase = web.SetPassPhrase(PassPhraseStr, RAName, PublicKey);
+							//TODO : This public key ... how to get it ?
+							
+							Response.Redirect(String.Format("iFolderCertificate.aspx?RAName={0}&PassPhrase={1}&EncryptionAlgorithm={2}&name={3}&description={4}",
+															RAName, PassPhraseStr, EncryptionAlgorithm, name, description));
+							
+							//string PublicKey = "";
+							//Status ObjSetPassPhrase = web.SetPassPhrase(PassPhraseStr, RAName, PublicKey);
 						}					
 					}	
 				}
