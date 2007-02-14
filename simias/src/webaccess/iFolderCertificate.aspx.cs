@@ -123,7 +123,7 @@ namespace Novell.iFolderApp.Web
 			{
 				byte [] RACertificateObj = web.GetRACertificate(RAName);
 				
-				if(RACertificateObj != null)
+				if(RACertificateObj != null && RACertificateObj.Length != 0)
 				{	
 					System.Security.Cryptography.X509Certificates.X509Certificate cert = new System.Security.Cryptography.X509Certificates.X509Certificate(RACertificateObj);
 					string IssuerName =cert.GetIssuerName();
@@ -133,7 +133,6 @@ namespace Novell.iFolderApp.Web
 					CertPublicKey = cert.GetPublicKey();
 					NewiFolderName.Text = "Issuer Name: "+IssuerName+"\nEffective Date: "+EffectiveDate+"\nExpiry Date: "+ExpiryDate+"\n";
 					NewiFolderName.Text += "Certificate\n"+CertHash.ToString()+"\n";
-			
 				}
 			}
 			catch(SoapException ex)
