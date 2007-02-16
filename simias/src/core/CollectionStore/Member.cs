@@ -49,6 +49,8 @@ namespace Simias.Storage
 
 		/// <summary>
 
+		private static readonly ISimiasLog log = SimiasLogManager.GetLogger(typeof(Member));
+
 		/// </summary>
 		private string encryptionKey;
 
@@ -511,44 +513,255 @@ namespace Simias.Storage
 		/// <summary>
 		/// Set the passphrase(key encrypted by passphrase and SHA1 of key) and recovery agent name and key
 		/// </summary>
-		public bool SetPassPhrase(string EncryptedCryptoKey, string CryptoKeyBlob, string RAName, string PublicKey)
+		public void ServerSetPassPhrase(string EncryptedCryptoKey, string CryptoKeyBlob, string RAName, string PublicKey)
 		{
-			if(EncryptedCryptoKey !=null)
-				properties.AddNodeProperty(PropertyTags.EncryptionKey, EncryptedCryptoKey);
-			if(CryptoKeyBlob !=null)
-				properties.AddNodeProperty(PropertyTags.EncryptionBlob, CryptoKeyBlob);
-			if(RAName !=null)
-				properties.AddNodeProperty(PropertyTags.RAName, RAName);
-			if(PublicKey !=null)
-				properties.AddNodeProperty(PropertyTags.RAPublicKey, PublicKey);
+			Store store = Store.GetStore();
+			string DomainID = this.GetDomainID(store);
+			string UserID = store.GetUserIDFromDomainID(DomainID);
+
+			Domain domain = store.GetDomain(GetDomainID(store));	
+			Member member = domain.GetMemberByID(UserID);
 			
-			return true;
+			log.Debug("ServerSetPassPhrase user:{0}...userID={1}",member.Name, UserID);
+			log.Debug("ServerSetPassPhrase Commit {0}...{1}...{2}...{3}",EncryptedCryptoKey, CryptoKeyBlob,RAName, PublicKey);
+			
+			if(EncryptedCryptoKey !=null)
+			{
+				//member.properties.AddNodeProperty(PropertyTags.EncryptionKey, EncryptedCryptoKey);
+				Property p = new Property(PropertyTags.EncryptionKey, EncryptedCryptoKey);
+				this.properties.ModifyNodeProperty(p);
+			}
+			if(CryptoKeyBlob !=null)
+			{
+				//member.properties.AddNodeProperty(PropertyTags.EncryptionBlob, CryptoKeyBlob);
+				Property p = new Property(PropertyTags.EncryptionBlob, CryptoKeyBlob);
+				this.properties.ModifyNodeProperty(p);
+			}
+			if(RAName !=null)
+			{
+				//member.properties.AddNodeProperty(PropertyTags.RAName, RAName);
+				Property p = new Property(PropertyTags.RAName, RAName);
+				this.properties.ModifyNodeProperty(p);
+			}
+			if(PublicKey !=null)
+			{
+				//member.properties.AddNodeProperty(PropertyTags.RAPublicKey, PublicKey);
+				Property p = new Property(PropertyTags.RAPublicKey, PublicKey);
+				this.properties.ModifyNodeProperty(p);
+			}
+			domain.Commit(this);
 		}
 		
 		/// <summary>
 		/// Validate the passphrase
 		/// </summary>
-		public bool ValidatePassPhrase(string CryptoKeyBlob)
+		public string ServerGetEncrypPassKey()
 		{
-			string  OldCryptoKeyBlob = this.EncryptionBlob;
-			
-			if(String.Equals(CryptoKeyBlob, OldCryptoKeyBlob)==true)							
-				return true;
-			else			
-				return false;
+			log.Debug("ServerGetEncrypPassKey : getting PassKey:{0}",this.EncryptionKey);
+			return this.EncryptionKey;
 		}
+
+		/// <summary>
+		/// Validate the passphrase
+		/// </summary>
+		public string ServerGetPassKeyHash()
+		{
+			log.Debug("ServerGetPassKeyHash : getting KeyHash :{0}", this.EncryptionBlob);
+			return this.EncryptionBlob;
+		}
+		
+		/// <summary>
+		/// Set the passphrase(key encrypted by passphrase and SHA1 of key) and recovery agent name and key
+		/// </summary>
+		public void SetPassPhrase(string PassPhrase, string RAName, string PublicKey)
+		{
+			try
+			{
+				Store store = Store.GetStore();
+				string DomainID = this.GetDomainID(store);
+				string UserID = store.GetUserIDFromDomainID(DomainID);
+				HostNode host = this.HomeServer; //home server
+
+				log.Debug("SetPassPhrase member entry");
+				
+				SimiasConnection smConn = new SimiasConnection(DomainID,
+															UserID,
+															SimiasConnection.AuthType.BASIC,
+															host);
+				SimiasWebService svc = new SimiasWebService();
+				svc.Url = host.PublicUrl;
+
+				smConn.Authenticate ();
+				smConn.InitializeWebClient(svc, "Simias.asmx");
+
+				Key key = new Key(128);
+				string EncrypCryptoKey;
+				key.EncrypytKey(PassPhrase, out EncrypCryptoKey);
+				Key HashKey = new Key(EncrypCryptoKey);
+				
+				log.Debug("SetPassPhrase {0}...{1}...{2}...{3}",EncrypCryptoKey, HashKey.HashKey(), RAName, PublicKey);
+				svc.ServerSetPassPhrase(DomainID, UserID, EncrypCryptoKey, HashKey.HashKey(), RAName, PublicKey);
+			}
+			catch(Exception ex)
+			{
+				log.Debug("SetPassPhrase : {0}", ex.Message);
+				throw ex;
+			}
+		}
+
+		/// <summary>
+		/// Set the passphrase(key encrypted by passphrase and SHA1 of key) and recovery agent name and key
+		/// </summary>
+		public bool ReSetPassPhrase(string OldPassPhrase, string PassPhrase, string RAName, string PublicKey)
+		{
+			if(ValidatePassPhrase(OldPassPhrase) != Simias.Authentication.StatusCodes.Success)
+				return false;
+			try
+			{	
+				
+				Store store = Store.GetStore();
+				string DomainID = this.GetDomainID(store);
+				string UserID = store.GetUserIDFromDomainID(DomainID);
+				HostNode host = this.HomeServer; //home server
+				
+				SimiasConnection smConn = new SimiasConnection(DomainID,
+															UserID,
+															SimiasConnection.AuthType.BASIC,
+															host);
+				SimiasWebService svc = new SimiasWebService();
+				svc.Url = host.PublicUrl;
+
+				smConn.Authenticate ();
+				smConn.InitializeWebClient(svc, "Simias.asmx");
+
+				Key key = new Key(128);
+				string EncrypCryptoKey;
+				key.EncrypytKey(PassPhrase, out EncrypCryptoKey);			
+				Key HashKey = new Key(EncrypCryptoKey);
+				
+				svc.ServerSetPassPhrase(DomainID, UserID, EncrypCryptoKey, HashKey.HashKey(), RAName, PublicKey);
+			}
+			catch(Exception ex)
+			{
+				log.Debug("ReSetPassPhrase : {0}", ex.Message);
+				throw ex;
+			}
+					
+			return true;				
+		}
+		
+		/// <summary>
+		/// Validate the passphrase
+		/// </summary>
+		public Simias.Authentication.StatusCodes ValidatePassPhrase(string PassPhrase)
+		{
+			string OldHash = null;
+			string NewHash = null;
+			
+			try
+			{
+				Store store = Store.GetStore();
+				string DomainID = this.GetDomainID(store);
+				string UserID = store.GetUserIDFromDomainID(DomainID);
+				HostNode host = this.HomeServer; //home server
+
+				Simias.Storage.Domain domain = store.GetDomain(DomainID);
+				Simias.Storage.Member member = domain.GetCurrentMember();
+				log.Debug("Member ValidatePassPhrase User:{0}...{1}...{2} ", member.Name, member.UserID, UserID);
+				
+				SimiasConnection smConn = new SimiasConnection(DomainID,
+															UserID,
+															SimiasConnection.AuthType.BASIC,
+															host);
+				SimiasWebService svc = new SimiasWebService();
+				svc.Url = host.PublicUrl;
+
+				smConn.Authenticate ();
+				smConn.InitializeWebClient(svc, "Simias.asmx");			
+
+				log.Debug("ValidatePassPhrase : got PassKey");
+				string EncrypCryptoKey = svc.ServerGetEncrypPassKey(DomainID, UserID);
+				log.Debug("ValidatePassPhrase : got PassKey:{0}",EncrypCryptoKey);
+
+				//Decrypt it
+				string DecryptedCryptoKey; 
+				Key DeKey = new Key(EncrypCryptoKey);
+				DeKey.DecrypytKey(PassPhrase, out DecryptedCryptoKey);
+
+				//Encrypt using passphrase
+				string EncryptedCryptoKey;
+				Key EnKey = new Key(DecryptedCryptoKey);
+				EnKey.EncrypytKey(PassPhrase, out EncryptedCryptoKey);
+
+				//SHA1
+				Key HashKey = new Key(EncryptedCryptoKey);
+				NewHash = HashKey.HashKey();
+
+				OldHash = svc.ServerGetPassKeyHash(DomainID, UserID);
+				log.Debug("ValidatePassPhrase : getting OldHash:{0}", OldHash);
+			}
+			catch(Exception ex)
+			{
+				log.Debug("ValidatePassPhrase : {0}", ex.Message);
+				throw ex;
+			}
+			
+			//Compare
+			log.Debug("ValidatePassPhrase : Comparing blobs {0}...{1}",OldHash, NewHash);
+			if(String.Equals(OldHash, NewHash)==true)
+			{
+				log.Debug("ValidatePassPhrase : true");
+				return Simias.Authentication.StatusCodes.Success;
+			}
+			else	
+			{
+				log.Debug("ValidatePassPhrase : false");			
+				return Simias.Authentication.StatusCodes.PassPhraseInvalid;
+			}
+		}
+
 		
 		/// <summary>
 		/// Validate the passphrase
 		/// </summary>
 		public bool IsPassPhraseSet()
 		{
-			string  CryptoKeyBlob = this.EncryptionBlob;
+			string  CryptoKeyBlob = null;
+			try
+			{
+				Store store = Store.GetStore();
+				string DomainID = this.GetDomainID(store);
+				string UserID = store.GetUserIDFromDomainID(DomainID);
+				HostNode host = this.HomeServer; //home server
+				
+				SimiasConnection smConn = new SimiasConnection(DomainID,
+															UserID,
+															SimiasConnection.AuthType.BASIC,
+															host);
+				SimiasWebService svc = new SimiasWebService();
+				svc.Url = host.PublicUrl;
+
+				smConn.Authenticate ();
+				smConn.InitializeWebClient(svc, "Simias.asmx");
+				CryptoKeyBlob =  svc.ServerGetPassKeyHash(DomainID, UserID);
+			}
+			catch(Exception ex)
+			{
+				log.Debug("IsPassPhraseSet : {0}", ex.Message);
+				throw ex;
+			}
 			
-			if(CryptoKeyBlob !=null)
-				return true;
-			else			
+			log.Debug("IsPassPhraseSet :{0}", CryptoKeyBlob);
+			if(CryptoKeyBlob == String.Empty)
+			{
+				log.Debug("IsPassPhraseSet : false");
 				return false;
+			}
+			else	
+			{
+				log.Debug("IsPassPhraseSet : true");
+				return true;
+			}
 		}
 		#endregion
 	}

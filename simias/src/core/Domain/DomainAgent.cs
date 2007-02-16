@@ -62,6 +62,8 @@ namespace Simias.DomainServices
 		private static string DomainServicePath = "/simias10/DomainService.asmx";
 		private static string DomainService = "/DomainService.asmx";
 
+		private CollectionSyncClient syncClient;
+
 		/// <summary>
 		/// Property name for declaring a domain active/inactive.
 		/// If the property doesn't exist on a Domain, then that
@@ -540,7 +542,19 @@ namespace Simias.DomainServices
 			// Domain is ready to sync
 			this.SetDomainActive( domainInfo.ID );
 			status.DomainID = domainInfo.ID;
+
+			//Down Sync the domain
+			log.Debug("Arul synNow() calling");
+			syncClient = new CollectionSyncClient(domainInfo.ID, new TimerCallback( TimerFired ) );			
+			syncClient.SyncNow();
+			log.Debug("Arul synNow() done..................");
 			return status;
+		}
+		
+		///call back for sync
+		public void TimerFired( object collectionClient )
+		{
+
 		}
 
 		/// <summary>
@@ -624,6 +638,14 @@ namespace Simias.DomainServices
 			{
 				status = new Simias.Authentication.Status( SCodes.UnknownDomain );
 			}
+
+			//Down Sync the domain
+			log.Debug("Arul synNow() calling.....from .......login");
+			this.SetDomainActive( DomainID );
+			syncClient = new CollectionSyncClient(DomainID, new TimerCallback( TimerFired ) );			
+			syncClient.SyncNow();
+			log.Debug("Arul synNow() done.......from ....login");
+			
 
 			log.Debug( "Login - exit  Status: " + status.statusCode.ToString() );
 			return status;

@@ -1657,7 +1657,7 @@ namespace Simias.Storage
 		/// </summary>
 		internal Key(int KeySize)
 		{
-			CryptoKeySize	= 128;
+			CryptoKeySize	= KeySize;
 		
 			//only TripleDES supported
 			TripleDESCryptoServiceProvider tDesKey = new TripleDESCryptoServiceProvider();
