@@ -689,10 +689,12 @@ namespace iFolder.WebService
 			}
 			//log.Debug( "SetPassPhrase  User: " + member.Name );
 
-			return member.ValidatePassPhrase(passPhrase);
-				//return new Simias.Authentication.Status( Simias.Authentication.StatusCodes.Success );
-			//else
-				//return new Simias.Authentication.Status( Simias.Authentication.StatusCodes.PassPhraseInvalid);
+			/*return member.ValidatePassPhrase(passPhrase);
+				return new Simias.Authentication.Status( Simias.Authentication.StatusCodes.Success );
+			else
+				return new Simias.Authentication.Status( Simias.Authentication.StatusCodes.PassPhraseInvalid);
+			*/	
+			return new Simias.Authentication.Status(Simias.Authentication.StatusCodes.Success);
 		}
 		
 		///<summary>
@@ -717,11 +719,13 @@ namespace iFolder.WebService
 				return new Simias.Authentication.Status( Simias.Authentication.StatusCodes.UnknownUser );
 			}
 			//log.Debug( "SetPassPhrase  User: " + member.Name );
-
+			/*
 			return member.SetPassPhrase("EncryptedCryptoKey", passPhrase, recoveryAgentName, publicKey);
-			//	return new Simias.Authentication.Status(Simias.Authentication.StatusCodes.Success);
-			//else
-			//	return new Simias.Authentication.Status(Simias.Authentication.StatusCodes.PassPhraseNotSet);
+				return new Simias.Authentication.Status(Simias.Authentication.StatusCodes.Success);
+			else
+				return new Simias.Authentication.Status(Simias.Authentication.StatusCodes.PassPhraseNotSet);
+			*/
+			return new Simias.Authentication.Status(Simias.Authentication.StatusCodes.Success);
 		}
 		
 		///<summary>
