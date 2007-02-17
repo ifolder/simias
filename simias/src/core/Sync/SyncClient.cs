@@ -524,6 +524,7 @@ namespace Simias.Sync
 		static int		BATCH_SIZE = 50;
 		private const string	ServerCLContextProp = "ServerCLContext";
 		private const string	ClientCLContextProp = "ClientCLContext";
+		private Object syncObject = new Object();
 		int				nodesToSync = 0;
 		static int		initialSyncDelay = 10 * 1000; // 10 seconds.
 		DateTime		syncStartTime; // Time stamp when sync was called.
@@ -532,6 +533,7 @@ namespace Simias.Sync
 		bool			firstSync = true;
 		bool			yielded = false;
 		DateTime		lastSyncTime = DateTime.MinValue;
+		public static bool	running = false;
 		
 		/// <summary>
 		/// Returns true if we should yield our timeslice.
@@ -724,6 +726,7 @@ namespace Simias.Sync
 				eventPublisher.RaiseEvent(new CollectionSyncEventArgs(collection.Name, collection.ID, Action.StartLocalSync, true, false));
 				syncStartTime = DateTime.Now;
 				queuedChanges = false;
+				running = true;
 				serverStatus = StartSyncStatus.Success;
 				// Refresh the collection.
 				collection.Refresh();
@@ -851,28 +854,31 @@ namespace Simias.Sync
 						case Access.Rights.ReadWrite:
 							try
 							{
-								while (true)
+								lock(syncObject)
 								{
-									int filesFromServer;
-									// Now lets determine the files that need to be synced.
-									if (si.ChangesOnly)
+									while (true)
 									{
-										// We only need to look at the changed nodes.
-										ProcessChangedNodeStamps(cstamps, ref tempServerContext);
-										cstamps = null;
+										int filesFromServer;
+										// Now lets determine the files that need to be synced.
+										if (si.ChangesOnly)
+										{
+											// We only need to look at the changed nodes.
+											ProcessChangedNodeStamps(cstamps, ref tempServerContext);
+											cstamps = null;
+										}
+										else
+										{
+											// We don't have any state. So do a full sync.
+											ReconcileAllNodeStamps();
+										}
+										filesFromServer = workArray.DownCount;
+										queuedChanges = true;
+										ExecuteSync();
+										if (!si.ChangesOnly)
+											break;
+										if (filesFromServer == 0 || filesFromServer == workArray.DownCount)
+											break;
 									}
-									else
-									{
-										// We don't have any state. So do a full sync.
-										ReconcileAllNodeStamps();
-									}
-									filesFromServer = workArray.DownCount;
-									queuedChanges = true;
-									ExecuteSync();
-									if (!si.ChangesOnly)
-										break;
-									if (filesFromServer == 0 || filesFromServer == workArray.DownCount)
-										break;
 								}
 							}
 							finally
@@ -896,6 +902,7 @@ namespace Simias.Sync
 			finally
 			{
 				serverAlive = sAlive;
+				running = false;
 				eventPublisher.RaiseEvent(new CollectionSyncEventArgs(collection.Name, collection.ID, Action.StopSync, sAlive, yielded));
 			}
 		}

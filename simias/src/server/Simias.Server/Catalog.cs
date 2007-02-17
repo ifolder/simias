@@ -549,6 +549,8 @@ namespace Simias.Server
 		/// <param name="collectionClient">The client that is ready to sync.</param>
 		internal static void TimerFired( object collectionClient )
 		{
+			while(CollectionSyncClient.running)
+				Thread.Sleep(1000);
 			syncEvent.Set();
 		}
 
