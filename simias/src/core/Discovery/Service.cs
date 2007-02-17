@@ -75,6 +75,20 @@ namespace Simias.Discovery
 		#endregion
 
 		#region IThreadService Members
+		public static void UpdateCollectionList()
+		{
+			if(!CollectionList.processed)
+				return;
+
+			CollectionList.processed = false;
+			CollectionList.listEvent.Set();
+
+			while(!CollectionList.processed)
+			{
+				Thread.Sleep(1000);
+			}
+			return;
+		}	
 		/// <summary>
 		/// Starts the thread service.
 		/// </summary>
