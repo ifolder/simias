@@ -384,17 +384,20 @@ namespace Novell.iFolder
 			{
 				// LDAP information will be read from the master.
 				usingLDAP = ldapServer.Prompt = secure.Prompt = ldapAdminDN.Prompt =
-					ldapAdminPassword.Prompt = ldapProxyDN.Prompt =
-					ldapProxyPassword.Prompt = ldapSearchContext.Prompt = 
-					namingAttribute.Prompt = false;
+					ldapProxyDN.Prompt = ldapSearchContext.Prompt = 
+					ldapProxyPassword.Prompt = namingAttribute.Prompt = false;
 			}
 			return true;
 		}
 
 		private bool OnPublicUrl()
 		{
-			privateUrl.DefaultValue = publicUrl.Value;
-			publicUrl.InternalValue = AddVirtualPath( publicUrl.Value );
+			//privateUrl.DefaultValue = publicUrl.Value;
+			if (!publicUrl.Value.ToLower().StartsWith(Uri.UriSchemeHttp))
+			{
+				publicUrl.Value = (new UriBuilder(Uri.UriSchemeHttp, publicUrl.Value)).ToString();
+			}
+			privateUrl.DefaultValue = publicUrl.InternalValue = AddVirtualPath( publicUrl.Value );
 			Uri pubUri = new Uri( publicUrl.Value );
 			if ( string.Compare( pubUri.Scheme, Uri.UriSchemeHttps, true ) == 0 )
 				useSsl.Value = true.ToString();
@@ -406,6 +409,10 @@ namespace Novell.iFolder
 
 		private bool OnPrivateUrl()
 		{
+			if (!privateUrl.Value.ToLower().StartsWith(Uri.UriSchemeHttp))
+			{
+				privateUrl.Value = (new UriBuilder(Uri.UriSchemeHttp, privateUrl.Value)).ToString();
+			}
 			privateUrl.InternalValue = AddVirtualPath( privateUrl.Value );
 			return true;
 		}
@@ -415,6 +422,10 @@ namespace Novell.iFolder
 			// Don't prompt for the following options. They are not needed 
 			// or will be obtained from the master.
 			// system
+			if (!masterAddress.Value.ToLower().StartsWith(Uri.UriSchemeHttp))
+			{
+				masterAddress.Value = (new UriBuilder(Uri.UriSchemeHttp, masterAddress.Value)).ToString();
+			}
 			masterAddress.InternalValue = AddVirtualPath( masterAddress.Value );
 			
 			systemName.Prompt = false;
@@ -452,8 +463,8 @@ namespace Novell.iFolder
 			ldapAdminDN.Prompt = false;
 			ldapAdminDN.Required = false;
 
-			ldapAdminPassword.Prompt = false;
-			ldapAdminPassword.Required = false;
+//			ldapAdminPassword.Prompt = false;
+//			ldapAdminPassword.Required = false;
 
 			return true;
 		}
@@ -753,12 +764,13 @@ namespace Novell.iFolder
 				// ldap settings
 				LdapSettings ldapSettings = LdapSettings.Get( storePath );
 				usingLDAP = ldapSettings.DirectoryType != LdapDirectoryType.Unknown;
+				ldapProxyDN.Value = ldapSettings.ProxyDN;
 
 				if ( usingLDAP )
 				{
 					// ldap uri
 					// We may need to use a different ldap server prompt for it.
-					// Prompt for the ldap server if its not a slave server
+					// Prompt for the ldap server.
 					ldapServer.Description = "The host or ip address of an LDAP server.  The server will be used by Simias for authentication.";
 					ldapServer.DefaultValue = ldapSettings.Uri.Host;
 					ldapServer.Prompt = !slaveServer.Value;
@@ -1020,10 +1032,7 @@ namespace Novell.iFolder
 				{
 					Console.WriteLine();
 					X509Certificate ldapCert = X509Certificate.CreateFromCertFile(certfile);
-					string certDetail = "LDAP Certication Details: {0} Issuer: {1} Format: {2} Effective Date: {3} Expiry Date: {4} Certificate Hash: {5}{6}";
-					certDetail = String.Format(certDetail, 
-						Environment.NewLine, ldapCert.GetIssuerName(), ldapCert.GetFormat(), ldapCert.GetEffectiveDateString(), ldapCert.GetExpirationDateString(), 
-						ldapCert.GetCertHashString(), Environment.NewLine );
+					string certDetail = ldapCert.ToString(true);
 					BoolOption ldapCertAcc = new BoolOption("ldap-cert-acceptance", "Accept LDAP Certificate", certDetail, false, true);
 					ldapCertAcc.Prompt = true;
 					Prompt.ForOption(ldapCertAcc);
@@ -1121,12 +1130,6 @@ namespace Novell.iFolder
 			Console.WriteLine("Done");
 			ldapUtility.Disconnect();
 
-			// check proxy
-			Console.Write("Checking {0}...", ldapProxyDN.Value);
-			ldapUtility = new LdapUtility(ldapUrl.ToString(), ldapProxyDN.Value, ldapProxyPassword.Value);
-			ldapUtility.Connect();
-			Console.WriteLine("Done");
-
 			Console.Write( "Adding LDAP settings to {0}...", Path.Combine( storePath, "Simias.config" ) );
 
 			// Update simias.config file
@@ -1141,30 +1144,38 @@ namespace Novell.iFolder
 			ldapSettings.ProxyDN = ldapProxyDN.Value;
 			ldapSettings.ProxyPassword = ldapProxyPassword.Value;
 
-			// context
-			ArrayList list = new ArrayList();
-			if (ldapSearchContext.Assigned)
+			if (!slaveServer.Value)
 			{
-				string[] contexts = ldapSearchContext.Value.Split(new char[] { '#' });
-				foreach(string context in contexts)
+				// check proxy
+				Console.Write("Checking {0}...", ldapProxyDN.Value);
+				ldapUtility = new LdapUtility(ldapUrl.ToString(), ldapProxyDN.Value, ldapProxyPassword.Value);
+				ldapUtility.Connect();
+				Console.WriteLine("Done");
+				// context
+				ArrayList list = new ArrayList();
+				if (ldapSearchContext.Assigned)
 				{
-					if ((context != null) && (context.Length > 0))
+					string[] contexts = ldapSearchContext.Value.Split(new char[] { '#' });
+					foreach(string context in contexts)
 					{
-						if ( !ldapUtility.ValidateSearchContext( context ) )
+						if ((context != null) && (context.Length > 0))
 						{
-							throw new Exception( string.Format( "Invalid context entered: {0}", context ) );
+							if ( !ldapUtility.ValidateSearchContext( context ) )
+							{
+								throw new Exception( string.Format( "Invalid context entered: {0}", context ) );
+							}
+				
+							list.Add(context);
 						}
-
-						list.Add(context);
 					}
 				}
+				ldapUtility.Disconnect();
+				ldapSettings.SearchContexts = list;
+				
+				// naming attribute to control login
+				ldapSettings.NamingAttribute = namingAttribute.Value;
 			}
-			ldapUtility.Disconnect();
 
-			ldapSettings.SearchContexts = list;
-
-			// naming attribute to control login
-			ldapSettings.NamingAttribute = namingAttribute.Value;
 			ldapSettings.Commit();
 
 			Console.WriteLine( "Done" );
@@ -1310,13 +1321,15 @@ namespace Novell.iFolder
 			{
 				if ( storePath.TrimEnd( new char[] { '/' } ).EndsWith( "simias" ) )
 				{
-					if ( Execute( "chown", " -R {0}:{1} {2}", apacheUser, apacheGroup, System.IO.Directory.GetParent( storePath ).FullName ) != 0 )
+				//	if ( Execute( "chown", " -R {0}:{1} {2}", apacheUser, apacheGroup, System.IO.Directory.GetParent( storePath ).FullName ) != 0 )
+					if( Execute( "chown", " -R {0}:{1} {2}", apacheUser, apacheGroup, storePath ) != 0 )
 					{
 						throw new Exception( "Unable to set an owner for the store path." );
 					}
 				}
 				else
 				{
+					storePath = Path.Combine(storePath, "simias");
 					if ( Execute( "chown", "-R {0}:{1} {2}", apacheUser, apacheGroup, storePath ) != 0 )
 					{
 						throw new Exception( "Unable to set an owner for the store path." );
