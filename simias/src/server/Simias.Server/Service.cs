@@ -97,7 +97,7 @@ namespace Simias.Server
 							{
 								foreach( Type itype in ctype.GetInterfaces() )
 								{
-									if ( itype == typeof( Simias.IIdentitySyncProvider ) )
+									if ( Simias.IdentitySync.Service.master && itype == typeof( Simias.IIdentitySyncProvider ) )
 									{
 										syncProvider = 
 											Activator.CreateInstance( ctype ) as IIdentitySyncProvider;

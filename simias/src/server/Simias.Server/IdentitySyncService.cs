@@ -569,6 +569,7 @@ namespace Simias.IdentitySync
 		static internal string status;
 		static internal DateTime upSince;
 		static internal int cycles = 0;
+		static internal bool master = true;
 		
 		static internal IdentitySync.State lastState = null;
 		static string disabledAtProperty = "IdentitySync:DisabledAt";
@@ -966,6 +967,12 @@ namespace Simias.IdentitySync
 		public static int SyncNow( string data )
 		{
 			log.Debug( "SyncNow called" );
+			if ( !master )
+			{
+				log.Debug( "Identity sync service disabled in Slave" );
+				return -1;
+			}
+
 			if ( running == false )
 			{
 				log.Debug( "  synchronization service not running" );
@@ -985,6 +992,14 @@ namespace Simias.IdentitySync
 		/// <returns>N/A</returns>
 		static public void Start( )
 		{
+			Simias.Configuration config = Store.Config;
+			string cfgValue = config.Get( "Server", "MasterAddress" );
+			if ( cfgValue != null || cfgValue != String.Empty )
+			{
+				master = false;
+				log.Debug( "Identity sync service disabled in Slave" );
+				return;
+			}
 			if ( running == true )
 			{
 				log.Debug( "Identity sync service is already running" );
