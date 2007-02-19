@@ -44,8 +44,6 @@ endif
 install-exec-local: all
 	$(mkinstalldirs) $(DESTDIR)$(webbindir) $(DESTDIR)$(modulesdir) $(DESTDIR)$(simiasconfdir) $(DESTDIR)$(datadir)/simias
 	$(INSTALL_PROGRAM) SimiasLib.dll $(DEBUG_FILES) $(DESTDIR)$(webbindir)
-	ln -sf $(DESTDIR)$(webbindir)/SimiasLib.dll $(DESTDIR)$(webbindir)/../../admin/bin/
-	ln -sf $(DESTDIR)$(webbindir)/SimiasLib.dll $(DESTDIR)$(webbindir)/../../webaccess/bin/
 	$(INSTALL_PROGRAM) SimiasLib.conf $(DESTDIR)$(modulesdir)
 	$(mkinstalldirs) $(DESTDIR)$(libdir)/pkgconfig
 	$(INSTALL_PROGRAM) simias.pc $(DESTDIR)$(libdir)/pkgconfig
