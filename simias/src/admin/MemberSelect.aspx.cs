@@ -568,7 +568,7 @@ namespace Novell.iFolderWeb.Admin
 						// Initialize localized fields.
 						HeaderTitle.Text = String.Format( GetString( "ADDMEMBERSTOIFOLDER" ), iFolderName );
 						SubHeaderTitle.Text = String.Format( GetString( "IFOLDERISOWNEDBY" ), FullName );
-						OkButton.Text = GetString( "ADD" );
+						OkButton.Text = GetString( "OK" );
 
 						// Hide the back button.
 						BackButton.Visible = false;
