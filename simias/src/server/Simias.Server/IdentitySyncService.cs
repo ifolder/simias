@@ -994,7 +994,8 @@ namespace Simias.IdentitySync
 		{
 			Simias.Configuration config = Store.Config;
 			string cfgValue = config.Get( "Server", "MasterAddress" );
-			if ( cfgValue != null || cfgValue != String.Empty )
+			log.Debug("cfgValue {0}", cfgValue);
+			if ( cfgValue != null ) // || cfgValue != String.Empty )
 			{
 				master = false;
 				log.Debug( "Identity sync service disabled in Slave" );
