@@ -168,7 +168,14 @@
 				</asp:DataGrid>
 			
 				<iFolder:PaggingControl id="EntryPagging" runat="server" />
+				
+				<div class="labels"></div>	
 					
+					<asp:Label ID="PassPhraseLabel" Visible = "false" runat="server" />
+					<asp:TextBox ID="PassPhraseText" Visible = "false"  runat="server" /><br><br>
+					<asp:Button ID="OKButton" Visible = "false"  runat="server" />
+					<asp:Button ID="CancelButton" Visible = "false"  runat="server" />
+				
 			</div>
 	
 		</div>

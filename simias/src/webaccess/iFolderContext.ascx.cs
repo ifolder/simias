@@ -93,6 +93,27 @@ namespace Novell.iFolderApp.Web
 
 			if (!IsPostBack)
 			{
+				/*string PassPhrase = Session["SessionPassPhrase"] as string;
+				ifolderID = Request.QueryString.Get("iFolder");
+				iFolder ifolder = web.GetiFolder(ifolderID);
+				string EncryptionAlgorithm = ifolder.EncryptionAlgorithm;
+				SearchPattern.Enabled = true;
+				if(PassPhrase == null && EncryptionAlgorithm == "")
+				{
+					// it means , this is not an encrypted ifolder 
+					// enable the search text box
+					SearchPattern.Enabled = true;
+				}
+				else if(PassPhrase != null)
+				{
+					// user is in current session , so enable it 
+					SearchPattern.Enabled = true;			
+				}	
+				else if(PassPhrase == null && web.IsPassPhraseSet())
+				{
+					SearchPattern.Enabled = false;
+				}*/
+				
 				// query
 				SearchPattern.Text = Request.QueryString.Get("Pattern");
 
@@ -192,6 +213,7 @@ namespace Novell.iFolderApp.Web
 		
 		#endregion
 
+			
 		/// <summary>
 		/// Search Pattern Text Changed
 		/// </summary>
@@ -199,8 +221,8 @@ namespace Novell.iFolderApp.Web
 		/// <param name="e"></param>
 		private void SearchPattern_TextChanged(object sender, EventArgs e)
 		{
-			Response.Redirect(String.Format("Search.aspx?iFolder={0}&Pattern={1}", ifolderID,
-				Server.UrlEncode(Pattern)));
+				Response.Redirect(String.Format("Search.aspx?iFolder={0}&Pattern={1}", ifolderID,
+					Server.UrlEncode(Pattern)));
 		}
 	}
 }

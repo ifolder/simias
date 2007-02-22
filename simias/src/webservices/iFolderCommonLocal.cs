@@ -133,9 +133,9 @@ namespace iFolder.WebService
 		[WebMethod(
 			 Description="Get the list of recovery agents",
 			 EnableSession=true)]
-		public virtual ArrayList GetRAList ()
+		public virtual string[] GetRAList ()
 		{
-		        ArrayList result = null;
+		        string[] result = null;
 
 			try
 			{
@@ -184,17 +184,18 @@ namespace iFolder.WebService
 		[WebMethod(
 			 Description="Get the pass-phrase status",
 			 EnableSession=true)]
-		public virtual Simias.Authentication.Status IsPassPhraseSet ()
+		public virtual bool IsPassPhraseSet ()
 		{
 			Store store = Store.GetStore();
 			Simias.Storage.Domain domain = store.GetDomain(store.DefaultDomain);
-		    Simias.Authentication.Status result = new Simias.Authentication.Status( Simias.Authentication.StatusCodes.UnknownDomain );
+		   // Simias.Authentication.Status result = new Simias.Authentication.Status( Simias.Authentication.StatusCodes.UnknownDomain );
+			bool result = false;
 
 			try
 			{
 				Authorize();
 
-				result = iFolderUser.IsPassPhraseSet(domain.ToString());
+				result = iFolderUser.IsPassPhraseSet(domain.ID, GetAccessID());
 			}
 			catch(Exception e)
 			{
@@ -219,7 +220,7 @@ namespace iFolder.WebService
 			{
 				Authorize();
 
-				result = iFolderUser.ValidatePassPhrase(domain.ToString(), passPhrase);
+				result = iFolderUser.ValidatePassPhrase(domain.ID, passPhrase, GetAccessID());
 			}
 			catch(Exception e)
 			{
@@ -236,23 +237,21 @@ namespace iFolder.WebService
 		///<returns>passPhrase.</returns>
 		[WebMethod(EnableSession=true, Description="Set the passphrase and recovery agent.")]
 		[SoapDocumentMethod]
-		public virtual Simias.Authentication.Status SetPassPhrase(string passPhrase, string recoveryAgentName, string publicKey)
+		public virtual void SetPassPhrase(string passPhrase, string recoveryAgentName, string publicKey)
 		{
 			Store store = Store.GetStore();
 			Simias.Storage.Domain domain = store.GetDomain(store.DefaultDomain);
-		    Simias.Authentication.Status result = new Simias.Authentication.Status( Simias.Authentication.StatusCodes.UnknownDomain );
 		    try
 			{
 				Authorize();
 
-				result = iFolderUser.SetPassPhrase(domain.ToString(), passPhrase, recoveryAgentName, publicKey );
+				iFolderUser.SetPassPhrase(domain.ID, passPhrase, recoveryAgentName, publicKey, GetAccessID() );
 			}
 			catch(Exception e)
 			{
 				SmartException.Throw(e);
 			}
 
-			return result;
 		}
 		
 		///<summary>
@@ -261,16 +260,16 @@ namespace iFolder.WebService
 		///<returns>passPhrase.</returns>
 		[WebMethod(EnableSession=true, Description="Reset passphrase and recovery agent.")]
 		[SoapDocumentMethod]
-		public virtual Simias.Authentication.Status ReSetPassPhrase(string oldPass, string newPass, string recoveryAgentName, string publicKey)
+		public virtual bool ReSetPassPhrase(string oldPass, string newPass, string recoveryAgentName, string publicKey)
 		{
 			Store store = Store.GetStore();
 			Simias.Storage.Domain domain = store.GetDomain(store.DefaultDomain);
-		    Simias.Authentication.Status result = new Simias.Authentication.Status( Simias.Authentication.StatusCodes.UnknownDomain );
+			bool result = false;
 		    try
 			{
 				Authorize();
 
-				result = iFolderUser.ReSetPassPhrase(domain.ToString(),  oldPass, newPass, recoveryAgentName, publicKey);
+				result = iFolderUser.ReSetPassPhrase(domain.ID,  oldPass, newPass, recoveryAgentName, publicKey, GetAccessID());
 			}
 			catch(Exception e)
 			{

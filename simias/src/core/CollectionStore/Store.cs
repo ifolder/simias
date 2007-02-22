@@ -1697,7 +1697,7 @@ namespace Simias.Storage
 	/// <summary>
 	/// Key class, only TripleDES algorithmsupported
 	/// </summary>
-	public sealed class Key
+	public  class Key 
 	{
 		/// <summary>
 		/// Key Name
@@ -1714,7 +1714,7 @@ namespace Simias.Storage
 		/// </summary>
 		/// <param name="key"></param>
 		/// <param name="algorithm"></param>
-		internal Key(string CrypKey)
+		public Key(string CrypKey)
 		{
 			CryptoKeySize	= 128;
 			UTF8Encoding utf8 = new UTF8Encoding();
@@ -1724,7 +1724,7 @@ namespace Simias.Storage
 		/// <summary>
 		/// Constructs a the blob object
 		/// </summary>
-		internal Key(int KeySize)
+		public Key(int KeySize)
 		{
 			CryptoKeySize	= KeySize;
 		

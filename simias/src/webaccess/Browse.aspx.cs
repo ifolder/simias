@@ -114,6 +114,26 @@ namespace Novell.iFolderApp.Web
 		/// Current Parent Entry Path
 		/// </summary>
 		private string entryPath;
+		
+		/// <summary>
+		/// The pass-phrase Label 
+		/// </summary>
+		protected Label PassPhraseLabel;
+
+		/// <summary>
+		/// pass-phrase text box
+		/// </summary>
+		protected TextBox PassPhraseText;
+		
+		/// <summary>
+		/// The OK Button
+		/// </summary>
+		protected Button OKButton;
+
+		/// <summary>
+		/// The Cancel Button
+		/// </summary>
+		protected Button CancelButton;
 
 		/// <summary>
 		/// Page Load
@@ -125,7 +145,7 @@ namespace Novell.iFolderApp.Web
 			// query
 			ifolderID = Request.QueryString.Get("iFolder");
 			entryID = Request.QueryString.Get("Entry");
-
+			
 			// connection
 			web = (iFolderWeb)Session["Connection"];
 			iFolder ifolder = web.GetiFolder(ifolderID);
@@ -135,20 +155,9 @@ namespace Novell.iFolderApp.Web
 			
 			if (!IsPostBack)
 			{
-				// data
-				BindData();
-
-				// strings
-				EntryPagging.LabelSingular = GetString("ITEM");
-				EntryPagging.LabelPlural = GetString("ITEMS");
-				NewFolderLink.Text = GetString("NEWFOLDER");
-				UploadFilesLink.Text = GetString("UPLOADFILES");
-				DeleteButton.Text = GetString("DELETE");
-
-				// links
-				NewFolderLink.NavigateUrl = String.Format("NewFolder.aspx?iFolder={0}&Entry={1}", ifolderID, entryID);
-				//UploadFilesLink.NavigateUrl = String.Format("Upload.aspx?iFolder={0}&Entry={1}", ifolderID, entryID);
-				UploadFilesLink.NavigateUrl = String.Format("Upload.aspx?iFolder={0}&Entry={1}&Alg={1}", ifolderID, entryID, ifolder.EncryptionAlgorithm);
+				// this function will check whether an ifolder is encrypted or not, if yes, it will ask for passphrase
+				// if passphrase matches , then the real page will be loaded. 
+				CheckForPassPhrase();			
 			}
 			else
 			{
@@ -156,7 +165,115 @@ namespace Novell.iFolderApp.Web
 				entryPath = (string)ViewState["EntryPath"];
 			}
 		}
+		/// <summary>
+		/// Start the binding of data to the Page.
+		/// </summary>
+		private void StartBindingData()
+		{
+			// data
+			BindData();
+			iFolder ifolder = web.GetiFolder(ifolderID);
+			// strings
+			EntryPagging.LabelSingular = GetString("ITEM");
+			EntryPagging.LabelPlural = GetString("ITEMS");
+			NewFolderLink.Text = GetString("NEWFOLDER");
+			UploadFilesLink.Text = GetString("UPLOADFILES");
+			DeleteButton.Text = GetString("DELETE");
 
+			// links
+			NewFolderLink.NavigateUrl = String.Format("NewFolder.aspx?iFolder={0}&Entry={1}", ifolderID, entryID);
+			//UploadFilesLink.NavigateUrl = String.Format("Upload.aspx?iFolder={0}&Entry={1}", ifolderID, entryID);
+			UploadFilesLink.NavigateUrl = String.Format("Upload.aspx?iFolder={0}&Entry={1}&Alg={1}", ifolderID, entryID, ifolder.EncryptionAlgorithm);
+			
+			PassPhraseLabel.Visible = PassPhraseText.Visible = OKButton.Visible = CancelButton.Visible = false;		
+		}
+		
+		/// <summary>
+		/// before loading the page, see if the ifolder was encrypted and show the page accordingly
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void CheckForPassPhrase()
+		{
+			string PassPhrase = Session["SessionPassPhrase"] as string;
+			ifolderID = Request.QueryString.Get("iFolder");
+			iFolder ifolder = web.GetiFolder(ifolderID);
+			string EncryptionAlgorithm = ifolder.EncryptionAlgorithm;
+			if(EncryptionAlgorithm == null || (EncryptionAlgorithm == String.Empty))
+			{
+			 	// It is not an encrypted ifolder , just return and display normal page
+				
+				PassPhraseLabel.Visible = PassPhraseText.Visible = OKButton.Visible = CancelButton.Visible = false;
+				StartBindingData();
+			}
+			else if(PassPhrase != null)
+		     {
+				// User is in current session and has already given the passphrase, use this
+			
+				PassPhraseLabel.Visible = PassPhraseText.Visible = OKButton.Visible = CancelButton.Visible = false;
+				StartBindingData();
+			}
+			else 
+			{
+				PassPhraseLabel.Visible = PassPhraseText.Visible = OKButton.Visible = CancelButton.Visible = true;
+				PassPhraseLabel.Text = GetString("ENTERPASSPHRASE");
+				OKButton.Text = GetString("OK");
+				CancelButton.Text = GetString("CANCEL");
+			}	
+		}
+		
+		/// <summary>
+		/// OK Button Click, It will validate the passphrase, and then it will load page.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void OKButton_Click(object sender, EventArgs e)
+		{
+			string PassPhrase = Session["SessionPassPhrase"] as string;
+			ifolderID = Request.QueryString.Get("iFolder");
+			iFolder ifolder = web.GetiFolder(ifolderID);
+			string EncryptionAlgorithm = ifolder.EncryptionAlgorithm;
+			if(EncryptionAlgorithm != "")
+			{
+				string PassPhraseStr = PassPhraseText.Text.Trim();
+				if(PassPhraseStr == String.Empty)
+				{
+					Message.Text = GetString("Wrongpassphrase");
+					PassPhraseText.Text = "";
+					return;
+				}
+				Status ObjValidate = web.ValidatePassPhrase(PassPhraseStr);
+				if(ObjValidate.statusCode != StatusCodes.Success)
+				{
+					Message.Text = GetString("Wrongpassphrase");
+					PassPhraseText.Text = "";
+					return;
+				}
+				Session["SessionPassPhrase"]=PassPhraseStr;
+				StartBindingData();
+			}
+		}
+		
+		/// <summary>
+		/// Cancel Button Click
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void CancelButton_Click(object sender, EventArgs e)
+		{
+			try
+			{
+				Response.Redirect(String.Format("iFolders.aspx"));
+			}
+			catch(SoapException ex)
+			{
+				if (!HandleException(ex)) throw;
+			}
+	
+		}
+		
+		
+		
 		/// <summary>
 		/// Bind the Data to the Page.
 		/// </summary>
@@ -175,7 +292,7 @@ namespace Novell.iFolderApp.Web
 			try
 			{
 				// ifolder
-                                string ifolderLocation = web.GetiFolderLocation (ifolderID);
+                string ifolderLocation = web.GetiFolderLocation (ifolderID);
 
 				UriBuilder remoteurl = new UriBuilder(ifolderLocation);
 				remoteurl.Path = (new Uri(web.Url)).PathAndQuery;
@@ -231,8 +348,8 @@ namespace Novell.iFolderApp.Web
 			try
 			{
 
-                                //Location of ifolder.
-                                string ifolderLocation = web.GetiFolderLocation (ifolderID);
+                //Location of ifolder.
+                string ifolderLocation = web.GetiFolderLocation (ifolderID);
 
 				UriBuilder remoteurl = new UriBuilder(ifolderLocation);
 				remoteurl.Path = (new Uri(web.Url)).PathAndQuery;
@@ -261,9 +378,10 @@ namespace Novell.iFolderApp.Web
 						row["Size"] = "";
 					}
 					else
-					{
-						row["Link"] = String.Format("Download.ashx?iFolder={0}&Entry={1}",
-							ifolderID, child.ID);
+					{  
+						string PassPhrase = Session["SessionPassPhrase"] as string;
+						row["Link"] = String.Format("Download.ashx?iFolder={0}&Entry={1}&passPhrase={2}",
+							ifolderID, child.ID, PassPhrase);
 						row["Image"] = "text-x-generic.png";
 						row["Size"] = WebUtility.FormatSize(child.Size, rm);
 					}
@@ -273,6 +391,7 @@ namespace Novell.iFolderApp.Web
 					
 					entryTable.Rows.Add(row);
 				}
+				
 			}
 			catch(SoapException ex)
 			{
@@ -355,6 +474,8 @@ namespace Novell.iFolderApp.Web
 			this.EntryPagging.PageChange += new EventHandler(EntryPagging_PageChange);
 			this.DeleteButton.PreRender += new EventHandler(DeleteButton_PreRender);
 			this.DeleteButton.Click += new EventHandler(DeleteButton_Click);
+			this.OKButton.Click += new EventHandler(OKButton_Click);
+			this.CancelButton.Click += new EventHandler(CancelButton_Click);
 		}
 
 		#endregion
@@ -484,6 +605,7 @@ namespace Novell.iFolderApp.Web
 				}
 			}
 
+			
 			// delete entries
 			if (entryList != null)
 			{

@@ -61,7 +61,10 @@
 					mf.addElement(document.getElementById('file_0'));
 					mf.button_text = "<%= GetString("FILES.REMOVE") %>";
 				</script>
-
+				<div class="labels"></div>
+					<asp:Label ID="PassPhraseLabel" Visible="false" runat="server" />
+					<asp:TextBox ID="PassPhraseText" Visible="false" runat="server" /><br><br>
+				
 				<div class="buttons">
 					<asp:Button ID="UploadButton" runat="server" />
 					<asp:Button ID="CancelButton" runat="server" />

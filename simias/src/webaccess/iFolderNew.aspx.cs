@@ -182,20 +182,21 @@ namespace Novell.iFolderApp.Web
 		/// <summary>
 		private void ChangeForEncryption()
 		{
-			Status obj = web.IsPassPhraseSet();
+			bool PPSet = web.IsPassPhraseSet();
 				
-			if(obj.statusCode == StatusCodes.Success )
+			if(PPSet )
 			{
 				RAList.Enabled =VerifyPassPhraseLabel.Visible = VerifyPassPhraseText.Visible = false;
 				PassPhraseText.Enabled = true;
 			}
 			else
 			{
-				object [] RAListObj= web.GetRAList();
-				if (RAListObj != null)
+				string [] RAListStr= web.GetRAList();
+				if (RAListStr != null)
 				{
-					ArrayList RAListElements = new ArrayList(RAListObj);
-					RAList.DataSource = RAListElements;
+					//ArrayList RAListElements = new ArrayList(RAListObj);
+					//RAList.DataSource = RAListElements;
+					RAList.DataSource = RAListStr;
 					RAList.DataBind();
 					RAList.SelectedIndex = 0;
 					RAList.Enabled =PassPhraseText.Enabled = VerifyPassPhraseLabel.Visible = VerifyPassPhraseText.Visible =true;
@@ -394,9 +395,9 @@ namespace Novell.iFolderApp.Web
 				if(Encryption.Checked == true)
 				{
 					EncryptionAlgorithm = "BlowFish";
-					Status obj = web.IsPassPhraseSet();
+					bool PPSet = web.IsPassPhraseSet();
 				
-					if(obj.statusCode == StatusCodes.Success )
+					if(PPSet)
 					{  // it means user had already set the pass-phrase, now verify
 						Status ObjValidate = web.ValidatePassPhrase(PassPhraseStr);
 						if(ObjValidate.statusCode != StatusCodes.Success)
@@ -405,6 +406,7 @@ namespace Novell.iFolderApp.Web
 							PassPhraseText.Text = "";
 							return;
 						}
+						Session["SessionPassPhrase"]=PassPhraseStr;
 					}
 					else
 					{
@@ -420,7 +422,7 @@ namespace Novell.iFolderApp.Web
 						{
 							if(PassPhraseStr.Length == 0 || VerifyPassPhraseStr.Length == 0)
 							{
-								Message.Text = GetString("IFOLDER.NOPASSPHRASE");
+								Message.Text = GetString("Wrongpassphrase");
 								return;
 							} 
 							if(! PassPhraseStr.Equals(VerifyPassPhraseStr))
@@ -429,10 +431,8 @@ namespace Novell.iFolderApp.Web
 								VerifyPassPhraseText.Text = "";
 								return;
 							}
-							//byte [] RACertificateObj = web.GetRACertificate(RAName);
-							//TODO : show the certificate and do blah-blah 
-							//TODO : This public key ... how to get it ?
-							
+														
+							Session["SessionPassPhrase"]=PassPhraseStr;
 							Response.Redirect(String.Format("iFolderCertificate.aspx?RAName={0}&PassPhrase={1}&EncryptionAlgorithm={2}&name={3}&description={4}",
 															RAName, PassPhraseStr, EncryptionAlgorithm, name, description));
 							

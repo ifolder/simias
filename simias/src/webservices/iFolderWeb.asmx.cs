@@ -153,7 +153,7 @@ namespace iFolder.WebService
 		[WebMethod(
 			 Description="Get the list of recovery agents",
 			 EnableSession=true)]
-		public override ArrayList GetRAList()
+		public override string[] GetRAList()
 		{
                          return base.GetRAList(); 
 		}
@@ -175,11 +175,11 @@ namespace iFolder.WebService
 		/// <summary>
 		/// Get the PassPhrase status 
 		/// </summary>
-		/// <returns>the status </returns>
+		/// <returns>the bool value </returns>
 		[WebMethod(
 			 Description="Get the PassPhrase status",
 			 EnableSession=true)]
-		public override Simias.Authentication.Status IsPassPhraseSet ()
+		public override bool IsPassPhraseSet ()
                 {
 			 
 			return base.IsPassPhraseSet();
@@ -203,9 +203,9 @@ namespace iFolder.WebService
 		///<returns>passPhrase.</returns>
 		[WebMethod(EnableSession=true, Description="Set the passphrase and recovery agent.")]
 		[SoapDocumentMethod]
-		public override Simias.Authentication.Status SetPassPhrase(string passPhrase, string recoveryAgentName, string publicKey)
+		public override void SetPassPhrase(string passPhrase, string recoveryAgentName, string publicKey)
 		{
-			return base.SetPassPhrase(passPhrase, recoveryAgentName, publicKey);
+			base.SetPassPhrase(passPhrase, recoveryAgentName, publicKey);
 		}
 		
 		
@@ -215,7 +215,7 @@ namespace iFolder.WebService
 		///<returns>passPhrase.</returns>
 		[WebMethod(EnableSession=true, Description="Reset passphrase and recovery agent.")]
 		[SoapDocumentMethod]
-		public override Simias.Authentication.Status ReSetPassPhrase(string oldPass, string newPass, string recoveryAgentName, string publicKey)
+		public override bool ReSetPassPhrase(string oldPass, string newPass, string recoveryAgentName, string publicKey)
 		{
 			return base.ReSetPassPhrase(oldPass, newPass, recoveryAgentName, publicKey);
 		}

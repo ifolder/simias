@@ -29,6 +29,7 @@ using System.Net;
 using System.Resources;
 using System.Text;
 using Simias.Encryption;
+using Simias.Storage;
 //using iFolder.WebService;
 
 namespace Novell.iFolderApp.Web
@@ -118,10 +119,15 @@ namespace Novell.iFolderApp.Web
 
 
 				if(ifolder.EncryptionAlgorithm !="")
-				{
+				{  
+					string PassPhrase = context.Request.QueryString["PassPhrase"];
 					UTF8Encoding utf8 = new UTF8Encoding();
-					bf = new Blowfish(utf8.GetBytes(ifolder.EncryptionKey));
-					boundary =8;
+					string DecryptedCryptoKey;
+					Key key = new Key(ifolder.EncryptionKey);
+					key.DecrypytKey(PassPhrase, out DecryptedCryptoKey);
+					//Decrypt the key using passphrase and use it
+					bf = new Blowfish(utf8.GetBytes(DecryptedCryptoKey));
+					boundary = 8;					
 				}
 
 				try

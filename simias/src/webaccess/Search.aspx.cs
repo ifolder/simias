@@ -115,6 +115,13 @@ namespace Novell.iFolderApp.Web
 			
 			if (!IsPostBack)
 			{
+				if(! IfSearchEnabled())
+				{
+					// Don't load this page , if passphrase was not provided for that encrypted ifolder.
+					Response.Redirect(String.Format("Browse.aspx?iFolder={0}&Entry={1}", ifolderID,
+					entryID));
+				}
+				
 				// data
 				BindData();
 
@@ -127,6 +134,27 @@ namespace Novell.iFolderApp.Web
 			{
 				entryID = (string)ViewState["EntryID"];
 			}
+		}
+
+		private bool IfSearchEnabled()
+		{
+			string PassPhrase = Session["SessionPassPhrase"] as string;
+			ifolderID = Request.QueryString.Get("iFolder");
+			iFolder ifolder = web.GetiFolder(ifolderID);
+			string EncryptionAlgorithm = ifolder.EncryptionAlgorithm;
+			if(EncryptionAlgorithm == null || (EncryptionAlgorithm == String.Empty))
+			{
+				// it means , this is not an encrypted ifolder 
+				// enable the search 
+				return true;
+			}
+			else if(PassPhrase != null)
+			{
+				// user is in current session , so enable it 
+				return true;
+			}
+			else
+				return false;
 		}
 
 		/// <summary>

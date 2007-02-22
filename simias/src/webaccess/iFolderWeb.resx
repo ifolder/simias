@@ -172,7 +172,7 @@
         <value>Passphrases do not match.</value>
     </data>
     <data name="Wrongpassphrase">
-        <value>Wrong Passphrase !!!</value>
+        <value>Invalid Passphrase </value>
     </data>
     <data name="ENTRY.FOLDERNAME">
         <value>Folder Name:</value>

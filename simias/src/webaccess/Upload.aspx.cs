@@ -39,6 +39,7 @@ using System.Web.Services.Protocols;
 using System.Xml;
 using System.Text;
 using Simias.Encryption;
+using Simias.Storage;
 
 namespace Novell.iFolderApp.Web
 {
@@ -56,6 +57,16 @@ namespace Novell.iFolderApp.Web
 		/// Parent Entry Path
 		/// </summary>
 		protected Literal ParentPath;
+
+		/// <summary>
+		/// The pass-phrase Label 
+		/// </summary>
+		protected Label PassPhraseLabel;
+		
+		/// <summary>
+		/// pass-phrase text box
+		/// </summary>
+		protected TextBox PassPhraseText;
 
 		/// <summary>
 		/// Upload Button
@@ -125,9 +136,21 @@ namespace Novell.iFolderApp.Web
 			
 			if (!IsPostBack)
 			{
+				string PassPhrase = Session["SessionPassPhrase"] as string;
+				if(PassPhrase == null)
+				{
+					bool PPSet = web.IsPassPhraseSet();
+				
+					if(PPSet && EncryptionAlgorithm != "")
+					{
+						PassPhraseLabel.Visible = true;
+						PassPhraseText.Visible = true;
+						PassPhraseLabel.Text = GetString("ENTERPASSPHRASE");
+					}
+				}	
 				// data
 				BindData();
-
+				
 				// strings
 				UploadButton.Text = GetString("UPLOAD");
 				CancelButton.Text = GetString("CANCEL");
@@ -264,9 +287,29 @@ namespace Novell.iFolderApp.Web
 		{
 			try
 			{
+				bool PPSet = web.IsPassPhraseSet();
+				string PassPhraseStr = null;
+				if(PPSet && PassPhraseLabel.Visible)
+				{
+					PassPhraseStr = PassPhraseText.Text.Trim();
+					
+					if(PassPhraseStr.Length == 0)
+					{
+						Message.Text = GetString("IFOLDER.NOPASSPHRASE");
+						return;
+					}
+					// verify the entered pass-phrase
+					Status ObjValidate = web.ValidatePassPhrase(PassPhraseStr);
+					if(ObjValidate.statusCode != StatusCodes.Success)
+					{
+						Message.Text = GetString("Wrongpassphrase");
+						PassPhraseText.Text = "";
+						return;
+					}
+				}
 				foreach(string name in Request.Files)
 				{
-					UploadFile(Request.Files[name]);
+					UploadFile(Request.Files[name], PassPhraseStr);
 				}
 
 				Response.Redirect(String.Format("Browse.aspx?iFolder={0}&Entry={1}&Alg={2}", ifolderID, entryID, EncryptionAlgorithm));
@@ -277,7 +320,7 @@ namespace Novell.iFolderApp.Web
 			}
 		}
 
-		private void UploadFile(HttpPostedFile file)
+		private void UploadFile(HttpPostedFile file, string PassPhraseStr)
 		{
 			//Blowfish Algorithm assumed here
 			Blowfish	bf=null;
@@ -285,13 +328,26 @@ namespace Novell.iFolderApp.Web
 			int 		count=0;
 			bool 	EncryptionEnabled = true;
 			
-			if(EncryptionAlgorithm == "")
-					EncryptionEnabled = false;				
+			string PassPhrase = Session["SessionPassPhrase"] as string;
 			
-			if(EncryptionEnabled)
+			bool PPSet = web.IsPassPhraseSet();
+			
+			if(EncryptionAlgorithm == "")
+					EncryptionEnabled = false;	
+			else
+			{
+				if(PassPhrase == null )
+					PassPhrase = PassPhraseStr;
+			}
+			
+			if(EncryptionEnabled )
 			{
 				UTF8Encoding utf8 = new UTF8Encoding();
-				bf = new Blowfish(utf8.GetBytes(EncryptionKey));
+				string DecryptedCryptoKey;
+				Key key = new Key(EncryptionKey);
+				key.DecrypytKey(PassPhrase, out DecryptedCryptoKey);
+				//Decrypt the key using passphrase and use it
+				bf = new Blowfish(utf8.GetBytes(DecryptedCryptoKey));
 				boundary = 8;
 			}
 

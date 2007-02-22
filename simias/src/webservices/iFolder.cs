@@ -328,9 +328,17 @@ namespace iFolder.WebService
 		/// Get the recovery agent list
 		/// </summary>
 		/// <returns>The list as a string array</returns>
-		public static ArrayList GetRAList()
+		public static string[] GetRAList()
 		{
-			return Simias.Security.CertificateStore.GetRAList();
+			ArrayList list = Simias.Security.CertificateStore.GetRAList();
+		    string[] ralist = new string [ list.Count ];
+		    int i=0;
+
+		    foreach (string ra in list)
+		    {
+			ralist[ i++ ] = ra;
+		    }
+		    return ralist;
 		}
 			
 	

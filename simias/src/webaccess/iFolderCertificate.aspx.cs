@@ -211,7 +211,7 @@ namespace Novell.iFolderApp.Web
 		/// <param name="e"></param>
 		private void AcceptButton_Click(object sender, EventArgs e)
 		{
-			string RAName, PassPhraseStr, EncryptionAlgorithm, PublicKey = "1" ;
+			string RAName, PassPhraseStr, EncryptionAlgorithm, PublicKey = "1";
 			string name, description;
 			bool SHARED = false;
 			
@@ -224,9 +224,9 @@ namespace Novell.iFolderApp.Web
 			description = Request.QueryString.Get("description");
 			if(CertPublicKey != null)
 				PublicKey = CertPublicKey.ToString();
-				
-			Status ObjSetPassPhrase = web.SetPassPhrase(PassPhraseStr, RAName, PublicKey);
 			
+			//Status ObjSetPassPhrase = web.SetPassPhrase(PassPhraseStr, RAName, PublicKey);
+			web.SetPassPhrase(PassPhraseStr, RAName, PublicKey);
 			// Send the ifolder Name, Description, Security details and the encryption algorithm
 			ifolder = web.CreateiFolder(name, description, SHARED, EncryptionAlgorithm);
 			

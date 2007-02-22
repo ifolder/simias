@@ -751,7 +751,6 @@ namespace Simias.Storage
 				log.Debug("IsPassPhraseSet : {0}", ex.Message);
 				throw ex;
 			}
-			
 			log.Debug("IsPassPhraseSet :{0}", CryptoKeyBlob);
 			if(CryptoKeyBlob == String.Empty)
 			{
