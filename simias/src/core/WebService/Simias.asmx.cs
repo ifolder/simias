@@ -1349,10 +1349,10 @@ log.Debug("SimiasWebService.ConnectToDomain() called to connect to {0} as {1}", 
 		///<returns>passPhrase.</returns>
 		[WebMethod(EnableSession=true, Description="Validate the passphrase for the correctness.")]
 		[SoapDocumentMethod]	
-		public  CollectionKey GetiFolderCryptoKeys(string DomainID,  string UserID, int Index)
+		public  Simias.Storage.CollectionKey GetiFolderCryptoKeys(string DomainID,  string UserID, int Index)
 		{
 			log.Debug("GetiFoldersCryptoKeys called");
-			CollectionKey cKey=null;
+			Simias.Storage.CollectionKey cKey=null;
 			try
 			{
 				Store store = Store.GetStore();							
@@ -1371,7 +1371,7 @@ log.Debug("SimiasWebService.ConnectToDomain() called to connect to {0} as {1}", 
 		///<returns>passPhrase.</returns>
 		[WebMethod(EnableSession=true, Description="Validate the passphrase for the correctness.")]
 		[SoapDocumentMethod]	
-		public  bool SetiFolderCryptoKeys(string DomainID,  string UserID, CollectionKey CKey)
+		public  bool SetiFolderCryptoKeys(string DomainID,  string UserID, Simias.Storage.CollectionKey CKey)
 		{
 			log.Debug("GetiFoldersCryptoKeys called");
 			bool status = false;
