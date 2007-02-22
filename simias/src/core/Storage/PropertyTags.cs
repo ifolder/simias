@@ -106,6 +106,11 @@ namespace Simias.Storage
 		/// <summary>
 		/// Well known property name.
 		/// </summary>
+		static public string RecoveryKey= "RecoveryKey";
+
+		/// <summary>
+		/// Well known property name.
+		/// </summary>
 		static public string EncryptionBlob= "EncryptionBlob";
 
 		/// <summary>

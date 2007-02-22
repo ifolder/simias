@@ -569,6 +569,7 @@ namespace Simias.Storage
 			log.Debug("ServerGetPassKeyHash : getting KeyHash :{0}", this.EncryptionBlob);
 			return this.EncryptionBlob;
 		}
+
 		
 		/// <summary>
 		/// Set the passphrase(key encrypted by passphrase and SHA1 of key) and recovery agent name and key

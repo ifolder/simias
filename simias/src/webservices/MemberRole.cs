@@ -40,6 +40,11 @@ namespace iFolder.WebService
 		Owner,
 
 		/// <summary>
+		/// Owner
+		/// </summary>
+		Encrypted,
+
+		/// <summary>
 		/// Shared (Member, but not Owner)
 		/// </summary>
 		Shared,

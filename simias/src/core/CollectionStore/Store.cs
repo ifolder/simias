@@ -971,6 +971,57 @@ namespace Simias.Storage
 			return ownerList;
 		}
 
+		public CollectionKey GetCollectionCryptoKeysByOwner( string userID, string domainID, int index)
+		{
+			userID = userID.ToLower();
+			domainID = ( domainID != null ) ? domainID.ToLower() : null;
+			CollectionKey  cKey = null;
+			int count = 0;
+
+			// Get all of the collections that the user is a member of in the specified domain.
+			ICSList collectionList = GetCollectionsByUser( userID );
+			foreach( ShallowNode sn in collectionList )
+			{
+				Collection c = new Collection( this, sn );
+				if((c.EncryptionAlgorithm !="") && (c.Owner.UserID == userID) && ((c.Domain == domainID)))
+				{
+					if(count == index)
+					{
+						cKey = new  CollectionKey(c.ID, c.EncryptionKey, "Recovery Key");
+						break;
+					}
+					count++;
+				}
+			}
+			return cKey;
+		}
+		public bool SetCollectionCryptoKeysByOwner( string userID, string domainID, CollectionKey cKey)
+		{
+			userID = userID.ToLower();
+			domainID = ( domainID != null ) ? domainID.ToLower() : null;
+			bool status = false;
+
+			// Get all of the collections that the user is a member of in the specified domain.
+			ICSList collectionList = GetCollectionsByUser( userID );
+			foreach ( ShallowNode sn in collectionList )
+			{
+				Collection c = new Collection( this, sn );
+				if((c.EncryptionAlgorithm !="") && (c.Owner.UserID == userID) && ((c.Domain == domainID)))
+				{
+					if(c.ID == cKey.NodeID)
+					{
+						c.EncryptionKey = cKey.PEDEK;
+						c.RecoveryKey = cKey.REDEK;
+						c.Commit();
+						
+						status = true;
+						break;
+					}
+				}
+			}
+			return status;
+		}
+
 		/// <summary>
 		/// Gets all collections that contain node objects with the specified property.
 		/// </summary>
@@ -1624,6 +1675,24 @@ namespace Simias.Storage
 		#endregion
 	}
 
+	[Serializable]
+	public sealed class CollectionKey
+	{
+		public string 	NodeID;
+		public string	PEDEK;
+		public string	REDEK;	
+
+		public CollectionKey()
+		{
+
+		}
+		public CollectionKey(string nodeID, string EncryptionKey, string RecoveryKey)
+		{
+			NodeID = nodeID;
+			PEDEK = EncryptionKey;
+			REDEK = RecoveryKey;				
+		}
+	}
 	
 	/// <summary>
 	/// Key class, only TripleDES algorithmsupported

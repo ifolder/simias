@@ -188,7 +188,7 @@ namespace Simias.Storage
 			}			
 		}
 		/// <summary>
-		/// Gets the encryption algorithm
+		/// Get/Set the passphrase encrypted encryption key 
 		/// </summary>
 		public string EncryptionKey
 		{
@@ -198,10 +198,14 @@ namespace Simias.Storage
 				string encryptionKey = (p!=null) ? (string) p.Value as string : "";
 				return encryptionKey;
 			}
+			set
+			{	Property p = new Property( PropertyTags.EncryptionKey, value );
+				properties.ModifyNodeProperty(p);
+			}
 		}
 
 		/// <summary>
-		/// Gets the encryption algorithm
+		/// Gets the encryption Blob
 		/// </summary>
 		public string EncryptionBlob
 		{
@@ -210,6 +214,23 @@ namespace Simias.Storage
 				Property p = properties.FindSingleValue(PropertyTags.EncryptionBlob);
 				string encryptionBlob = (p!=null) ? (string) p.Value as string : "";
 				return encryptionBlob;
+			}
+		}
+
+		/// <summary>
+		/// Get/Set the Recovery agent encrypted encryption key
+		/// </summary>
+		public string RecoveryKey
+		{
+			get
+			{
+				Property p = properties.FindSingleValue(PropertyTags.RecoveryKey);
+				string recoveryKey = (p!=null) ? (string) p.Value as string : "";
+				return recoveryKey;
+			}
+			set
+			{	Property p = new Property(PropertyTags.RecoveryKey, value);
+				properties.ModifyNodeProperty(p);
 			}
 		}
 

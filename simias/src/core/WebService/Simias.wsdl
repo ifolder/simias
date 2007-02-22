@@ -237,7 +237,6 @@
           <xs:enumeration value="UpgradeNeeded" />
           <xs:enumeration value="PassPhraseNotSet" />
           <xs:enumeration value="PassPhraseInvalid" />
-          <xs:enumeration value="PassPhraseAlreadySet" />
           <xs:enumeration value="Unknown" />
         </xs:restriction>
       </xs:simpleType>
@@ -701,6 +700,45 @@
           </xs:sequence>
         </xs:complexType>
       </xs:element>
+      <xs:element name="GetiFolderCryptoKeys">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="DomainID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="UserID" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="Index" type="xs:int" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="CollectionKey">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="NodeID" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="PEDEK" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="REDEK" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="GetiFolderCryptoKeysResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetiFolderCryptoKeysResult" type="s0:CollectionKey" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SetiFolderCryptoKeys">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="DomainID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="UserID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="CKey" type="s0:CollectionKey" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SetiFolderCryptoKeysResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="SetiFolderCryptoKeysResult" type="xs:boolean" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
       <xs:element name="SetPassPhrase">
         <xs:complexType>
           <xs:sequence>
@@ -793,6 +831,7 @@
       <xs:element name="int" type="xs:int" />
       <xs:element name="base64Binary" nillable="true" type="xs:base64Binary" />
       <xs:element name="ArrayOfString" nillable="true" type="s0:ArrayOfString" />
+      <xs:element name="CollectionKey" nillable="true" type="s0:CollectionKey" />
     </xs:schema>
     <xs:schema xmlns:tns="http://novell.com/simias/web/AbstractTypes" targetNamespace="http://novell.com/simias/web/AbstractTypes" xmlns:xs="http://www.w3.org/2001/XMLSchema">
       <xs:import namespace="http://schemas.xmlsoap.org/soap/encoding/" />
@@ -1064,6 +1103,18 @@
   <message name="ServerGetPassKeyHashSoapOut">
     <part element="s0:ServerGetPassKeyHashResponse" name="parameters" />
   </message>
+  <message name="GetiFolderCryptoKeysSoapIn">
+    <part element="s0:GetiFolderCryptoKeys" name="parameters" />
+  </message>
+  <message name="GetiFolderCryptoKeysSoapOut">
+    <part element="s0:GetiFolderCryptoKeysResponse" name="parameters" />
+  </message>
+  <message name="SetiFolderCryptoKeysSoapIn">
+    <part element="s0:SetiFolderCryptoKeys" name="parameters" />
+  </message>
+  <message name="SetiFolderCryptoKeysSoapOut">
+    <part element="s0:SetiFolderCryptoKeysResponse" name="parameters" />
+  </message>
   <message name="SetPassPhraseSoapIn">
     <part element="s0:SetPassPhrase" name="parameters" />
   </message>
@@ -1308,6 +1359,14 @@
   </message>
   <message name="ServerGetPassKeyHashHttpGetOut">
     <part element="s0:string" name="Body" />
+  </message>
+  <message name="GetiFolderCryptoKeysHttpGetIn">
+    <part name="DomainID" type="s:string" />
+    <part name="UserID" type="s:string" />
+    <part name="Index" type="s:int" />
+  </message>
+  <message name="GetiFolderCryptoKeysHttpGetOut">
+    <part element="s0:CollectionKey" name="Body" />
   </message>
   <message name="SetPassPhraseHttpGetIn">
     <part name="DomainID" type="s:string" />
@@ -1557,6 +1616,14 @@
   </message>
   <message name="ServerGetPassKeyHashHttpPostOut">
     <part element="s0:string" name="Body" />
+  </message>
+  <message name="GetiFolderCryptoKeysHttpPostIn">
+    <part name="DomainID" type="s:string" />
+    <part name="UserID" type="s:string" />
+    <part name="Index" type="s:int" />
+  </message>
+  <message name="GetiFolderCryptoKeysHttpPostOut">
+    <part element="s0:CollectionKey" name="Body" />
   </message>
   <message name="SetPassPhraseHttpPostIn">
     <part name="DomainID" type="s:string" />
@@ -1857,6 +1924,18 @@
       <input message="s0:ServerGetPassKeyHashSoapIn" />
       <output message="s0:ServerGetPassKeyHashSoapOut" />
     </operation>
+    <operation name="GetiFolderCryptoKeys">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validate the passphrase for the correctness.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validate the passphrase for the correctness.</wsdl:documentation>
+      <input message="s0:GetiFolderCryptoKeysSoapIn" />
+      <output message="s0:GetiFolderCryptoKeysSoapOut" />
+    </operation>
+    <operation name="SetiFolderCryptoKeys">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validate the passphrase for the correctness.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validate the passphrase for the correctness.</wsdl:documentation>
+      <input message="s0:SetiFolderCryptoKeysSoapIn" />
+      <output message="s0:SetiFolderCryptoKeysSoapOut" />
+    </operation>
     <operation name="SetPassPhrase">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set the passphrase and recovery agent.</wsdl:documentation>
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set the passphrase and recovery agent.</wsdl:documentation>
@@ -2111,6 +2190,12 @@
       <input message="s0:ServerGetPassKeyHashHttpGetIn" />
       <output message="s0:ServerGetPassKeyHashHttpGetOut" />
     </operation>
+    <operation name="GetiFolderCryptoKeys">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validate the passphrase for the correctness.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validate the passphrase for the correctness.</wsdl:documentation>
+      <input message="s0:GetiFolderCryptoKeysHttpGetIn" />
+      <output message="s0:GetiFolderCryptoKeysHttpGetOut" />
+    </operation>
     <operation name="SetPassPhrase">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set the passphrase and recovery agent.</wsdl:documentation>
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set the passphrase and recovery agent.</wsdl:documentation>
@@ -2364,6 +2449,12 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validate the passphrase for the correctness.</wsdl:documentation>
       <input message="s0:ServerGetPassKeyHashHttpPostIn" />
       <output message="s0:ServerGetPassKeyHashHttpPostOut" />
+    </operation>
+    <operation name="GetiFolderCryptoKeys">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validate the passphrase for the correctness.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validate the passphrase for the correctness.</wsdl:documentation>
+      <input message="s0:GetiFolderCryptoKeysHttpPostIn" />
+      <output message="s0:GetiFolderCryptoKeysHttpPostOut" />
     </operation>
     <operation name="SetPassPhrase">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set the passphrase and recovery agent.</wsdl:documentation>
@@ -2791,6 +2882,24 @@
         <soap:body use="literal" />
       </output>
     </operation>
+    <operation name="GetiFolderCryptoKeys">
+      <soap:operation soapAction="http://novell.com/simias/web/GetiFolderCryptoKeys" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="SetiFolderCryptoKeys">
+      <soap:operation soapAction="http://novell.com/simias/web/SetiFolderCryptoKeys" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
     <operation name="SetPassPhrase">
       <soap:operation soapAction="http://novell.com/simias/web/SetPassPhrase" style="document" />
       <input>
@@ -3148,6 +3257,15 @@
         <mime:mimeXml part="Body" />
       </output>
     </operation>
+    <operation name="GetiFolderCryptoKeys">
+      <http:operation location="/GetiFolderCryptoKeys" />
+      <input>
+        <http:urlEncoded />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
     <operation name="SetPassPhrase">
       <http:operation location="/SetPassPhrase" />
       <input>
@@ -3498,6 +3616,15 @@
     </operation>
     <operation name="ServerGetPassKeyHash">
       <http:operation location="/ServerGetPassKeyHash" />
+      <input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="GetiFolderCryptoKeys">
+      <http:operation location="/GetiFolderCryptoKeys" />
       <input>
         <mime:content type="application/x-www-form-urlencoded" />
       </input>

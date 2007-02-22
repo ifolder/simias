@@ -1334,13 +1334,57 @@ log.Debug("SimiasWebService.ConnectToDomain() called to connect to {0} as {1}", 
 					log.Debug("member does not exist.");
 					throw new SimiasException("member does not exist.");
 				}
-				KeyHash = member.ServerGetPassKeyHash();
+				KeyHash = member.ServerGetPassKeyHash();		
 			}
 			catch(Exception ex)
 			{
 				log.Debug("ServerGetPassKeyHash Exception:.............{0}", ex.Message);
 			}
 			return KeyHash;
+		}
+
+		///<summary>
+		///Set the ifolder crypto keys
+		///</summary>
+		///<returns>passPhrase.</returns>
+		[WebMethod(EnableSession=true, Description="Validate the passphrase for the correctness.")]
+		[SoapDocumentMethod]	
+		public  CollectionKey GetiFolderCryptoKeys(string DomainID,  string UserID, int Index)
+		{
+			log.Debug("GetiFoldersCryptoKeys called");
+			CollectionKey cKey=null;
+			try
+			{
+				Store store = Store.GetStore();							
+				cKey = store.GetCollectionCryptoKeysByOwner(UserID, DomainID, Index);
+			}
+			catch(Exception ex)
+			{
+				log.Debug("GetCollectionCryptoKeysByOwner: {0}", ex.Message);
+			}
+			return cKey;
+		}
+		
+		///<summary>
+		///Set the ifolder crypto keys
+		///</summary>
+		///<returns>passPhrase.</returns>
+		[WebMethod(EnableSession=true, Description="Validate the passphrase for the correctness.")]
+		[SoapDocumentMethod]	
+		public  bool SetiFolderCryptoKeys(string DomainID,  string UserID, CollectionKey CKey)
+		{
+			log.Debug("GetiFoldersCryptoKeys called");
+			bool status = false;
+			try
+			{
+				Store store = Store.GetStore();							
+				status = store.SetCollectionCryptoKeysByOwner(UserID, DomainID, CKey);
+			}
+			catch(Exception ex)
+			{
+				log.Debug("GetiFoldersCryptoKeysByOwner: {0}", ex.Message);
+			}
+			return status;
 		}
 		
 		///<summary>
