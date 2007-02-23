@@ -801,9 +801,15 @@ namespace Simias.Sync
 				{
 					p = collection.Properties.FindSingleValue(PropertyTags.EncryptionKey);
 					string EncryptedKey = (p!=null) ? (string) p.Value as string : null;
-
+					
+					string userID = null, PassPhrase = null;
+					Store store = Store.GetStore();
+		                        store.GetPassPhrase(collection.Domain, out userID, out PassPhrase);
+					if(PassPhrase ==null)
+						throw new CollectionStoreException("Passphrase not provided");
+			
 					Key key = new Key(EncryptedKey);//send the key size and algorithm
-					key.DecrypytKey("1234567890123456", out EncryptionKey);//send the passphrase to decrypt the key
+					key.DecrypytKey(PassPhrase, out EncryptionKey);//send the passphrase to decrypt the key
 				
 					p = collection.Properties.FindSingleValue(PropertyTags.EncryptionBlob);
 					string EncryptionBlob = (p!=null) ? (string) p.Value as string : null;

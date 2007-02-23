@@ -691,8 +691,13 @@ namespace Simias.Storage
 
 			if(encryptionAlgorithm !="")
 			{
+				string userID = null, PassPhrase = null;
+				store.GetPassPhrase(this.Domain, out userID, out PassPhrase);
+                        	if(PassPhrase ==null)
+                        		throw new CollectionStoreException("Passphrase not provided");
+
 				Key key = new Key(128);//send the key size
-				key.EncrypytKey("1234567890123456", out this.encryptionKey);//send the passphrase to encrypt the key
+				key.EncrypytKey(PassPhrase, out this.encryptionKey);//send the passphrase to encrypt the key
 				this.encryptionBlob = key.HashKey();
 
 				log.Debug( "Create iFolder encrypted cryptokey ={0}", this.encryptionKey);

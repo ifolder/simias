@@ -172,6 +172,8 @@ namespace Simias.DiscoveryService.Web
 		/// DirNode Name
 		/// </summary>
 		public string UserRights;
+		
+		public string encryptionAlgorithm;
 
 	        public CollectionInfo ()
 		{
@@ -241,6 +243,10 @@ namespace Simias.DiscoveryService.Web
 			this.OwnerUserName = domainMember.Name;
 			string fullName = domainMember.FN;
 			this.OwnerFullName = (fullName != null) ? fullName : this.OwnerUserName;
+			if( c.EncryptionAlgorithm != null)
+				this.encryptionAlgorithm = c.EncryptionAlgorithm;
+			else
+				this.encryptionAlgorithm = "No Encryption";
 
 		}
 
@@ -275,6 +281,10 @@ namespace Simias.DiscoveryService.Web
 			Member member = c.GetMemberByID (UserID);
 			this.MemberNodeID = member.ID;
 			this.UserRights = member.Rights.ToString();
+			if( c.EncryptionAlgorithm != null)
+				this.encryptionAlgorithm = c.EncryptionAlgorithm;
+			else
+				this.encryptionAlgorithm = "No Encryption";
 		}
 
 	}
