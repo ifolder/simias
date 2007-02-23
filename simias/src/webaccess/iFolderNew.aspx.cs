@@ -182,12 +182,19 @@ namespace Novell.iFolderApp.Web
 		/// <summary>
 		private void ChangeForEncryption()
 		{
-			bool PPSet = web.IsPassPhraseSet();
+			bool PassPhraseSet = web.IsPassPhraseSet();
 				
-			if(PPSet )
+			if(PassPhraseSet )
 			{
 				RAList.Enabled =VerifyPassPhraseLabel.Visible = VerifyPassPhraseText.Visible = false;
 				PassPhraseText.Enabled = true;
+				string SessionPassPhrase = Session["SessionPassPhrase"] as string;
+				if(SessionPassPhrase != null)
+				{
+					// user is in current session, so don't ask again for the passphrase
+					RAList.Enabled =VerifyPassPhraseLabel.Visible = VerifyPassPhraseText.Visible = false;
+					PassPhraseText.Enabled = false;
+				}
 			}
 			else
 			{
@@ -381,6 +388,7 @@ namespace Novell.iFolderApp.Web
 			string description = NewiFolderDescription.Text.Trim();
 			string PassPhraseStr = PassPhraseText.Text.Trim();
 			string VerifyPassPhraseStr = VerifyPassPhraseText.Text.Trim();
+			string SessionPassPhrase = Session["SessionPassPhrase"] as string;
 
 			if (name.Length == 0)
 			{
@@ -395,18 +403,28 @@ namespace Novell.iFolderApp.Web
 				if(Encryption.Checked == true)
 				{
 					EncryptionAlgorithm = "BlowFish";
-					bool PPSet = web.IsPassPhraseSet();
+					bool PassPhraseSet = web.IsPassPhraseSet();
 				
-					if(PPSet)
+					if(PassPhraseSet)
 					{  // it means user had already set the pass-phrase, now verify
-						Status ObjValidate = web.ValidatePassPhrase(PassPhraseStr);
-						if(ObjValidate.statusCode != StatusCodes.Success)
+						if(PassPhraseStr.Length == 0 && SessionPassPhrase == null)
 						{
 							Message.Text = GetString("Wrongpassphrase");
-							PassPhraseText.Text = "";
 							return;
+						} 
+						if(SessionPassPhrase == null)
+						{
+							Status ObjValidate = web.ValidatePassPhrase(PassPhraseStr);
+							if(ObjValidate.statusCode != StatusCodes.Success)
+							{
+								Message.Text = GetString("Wrongpassphrase");
+								PassPhraseText.Text = "";
+								return;
+							}
+							Session["SessionPassPhrase"]=PassPhraseStr;
 						}
-						Session["SessionPassPhrase"]=PassPhraseStr;
+						else
+							PassPhraseStr = SessionPassPhrase;
 					}
 					else
 					{
