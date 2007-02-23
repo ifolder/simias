@@ -30,6 +30,8 @@ using System.Xml;
 
 using Simias.Client;
 using Simias.Storage;
+using Simias.CryptoKey;
+
 
 namespace Simias.Storage
 {
@@ -613,13 +615,12 @@ namespace Simias.Storage
 		/// <summary>
 		/// Set the passphrase(key encrypted by passphrase and SHA1 of key) and recovery agent name and key
 		/// </summary>
-		public bool ReSetPassPhrase(string OldPassPhrase, string PassPhrase, string RAName, string PublicKey)
+		public bool ReSetPassPhrase(string OldPassphrase, string Passphrase, string RAName, string PublicKey)
 		{
-			if(ValidatePassPhrase(OldPassPhrase) != Simias.Authentication.StatusCodes.Success)
+			if(ValidatePassPhrase(OldPassphrase) != Simias.Authentication.StatusCodes.Success)
 				return false;
 			try
 			{	
-				
 				Store store = Store.GetStore();
 				string DomainID = this.GetDomainID(store);
 				string UserID = store.GetUserIDFromDomainID(DomainID);
@@ -636,20 +637,46 @@ namespace Simias.Storage
 				smConn.InitializeWebClient(svc, "Simias.asmx");
 
 				Key key = new Key(128);
-				string EncrypCryptoKey;
-				key.EncrypytKey(PassPhrase, out EncrypCryptoKey);			
+				string EncrypCryptoKey = null;
+				key.EncrypytKey(Passphrase, out EncrypCryptoKey);			
 				Key HashKey = new Key(EncrypCryptoKey);
 				
 				svc.ServerSetPassPhrase(DomainID, UserID, EncrypCryptoKey, HashKey.HashKey(), RAName, PublicKey);
+
+				CollectionKey OldKey = null;
+				CollectionKey NewKey = new CollectionKey();
+				int index = 0;
+				string DecryptedKey = null;
+				string EncryptedKey = null;
+				
+				while((OldKey = svc.GetiFolderCryptoKeys(DomainID, UserID, index)) != null)
+				{
+					//Decrypt and encrypt the key
+					Simias.Storage.Key DeKey = new Key(OldKey.PEDEK);	
+					DeKey.DecrypytKey(OldPassphrase, out DecryptedKey);
+					Simias.Storage.Key EnKey = new Key(DecryptedKey);
+					EnKey.EncrypytKey(Passphrase, out EncryptedKey);
+
+					//Send back to server					
+					NewKey.NodeID = OldKey.NodeID;
+					NewKey.PEDEK = EncryptedKey;
+					NewKey.REDEK = OldKey.REDEK;
+					if(svc.SetiFolderCryptoKeys(DomainID, UserID, NewKey)==false)
+					{
+						log.Debug("ReSetPassPhrase : failed for ifolder ID:", NewKey.NodeID);
+						throw new CollectionStoreException("The specified cryptographic key not found");
+					}
+					index++;
+				}
 			}
 			catch(Exception ex)
 			{
 				log.Debug("ReSetPassPhrase : {0}", ex.Message);
 				throw ex;
 			}
-					
-			return true;				
+			return true;
 		}
+		
 		
 		/// <summary>
 		/// Validate the passphrase

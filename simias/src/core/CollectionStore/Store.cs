@@ -39,6 +39,8 @@ using Simias.Storage.Provider;
 using Simias.Sync;
 using Persist = Simias.Storage.Provider;
 
+
+
 namespace Simias.Storage
 {
 	/// <summary>
@@ -987,7 +989,11 @@ namespace Simias.Storage
 				{
 					if(count == index)
 					{
-						cKey = new  CollectionKey(c.ID, c.EncryptionKey, "Recovery Key");
+						//cKey = new  CollectionKey(c.ID, c.EncryptionKey, c.RecoveryKey);
+						cKey = new  CollectionKey();
+						cKey.NodeID = c.ID;
+						cKey.PEDEK = c.EncryptionKey;
+						cKey.REDEK= c.RecoveryKey;
 						break;
 					}
 					count++;
@@ -1675,24 +1681,6 @@ namespace Simias.Storage
 		#endregion
 	}
 
-	[Serializable]
-	public sealed class CollectionKey
-	{
-		public string 	NodeID;
-		public string	PEDEK;
-		public string	REDEK;	
-
-		public CollectionKey()
-		{
-
-		}
-		public CollectionKey(string nodeID, string EncryptionKey, string RecoveryKey)
-		{
-			NodeID = nodeID;
-			PEDEK = EncryptionKey;
-			REDEK = RecoveryKey;				
-		}
-	}
 	
 	/// <summary>
 	/// Key class, only TripleDES algorithmsupported
@@ -1809,3 +1797,4 @@ namespace Simias.Storage
 		}
 	}
 }
+

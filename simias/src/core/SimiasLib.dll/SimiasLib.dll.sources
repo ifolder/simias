@@ -29,6 +29,7 @@ AssemblyInfo.cs
 ../CollectionStore/Property.cs
 ../CollectionStore/PropertyList.cs
 ../CollectionStore/ShallowNode.cs
+../CollectionStore/CryptoKey.cs
 ../CollectionStore/Store.cs
 ../CollectionStore/StoreFileNode.cs
 ../Common/CertificateStore.cs
