@@ -469,7 +469,6 @@ namespace Simias.Sync
 			if(GetCryptoKey(out EncryptionKey)== true)
 			{
 				needDecryption=true;
-				Log.log.Debug("DownloadFile CryptoKey = {0}", EncryptionKey); 
 
 				UTF8Encoding utf8 = new UTF8Encoding();
 				bf = new Blowfish(utf8.GetBytes(EncryptionKey));
@@ -850,7 +849,6 @@ namespace Simias.Sync
 			if(GetCryptoKey(out EncryptionKey)== true)
 			{
 				needEncryption = true;
-				Log.log.Debug("UploadFile CryptoKey = {0}", EncryptionKey); 
 			}
 			
 			

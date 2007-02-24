@@ -739,6 +739,21 @@
           </xs:sequence>
         </xs:complexType>
       </xs:element>
+      <xs:element name="GetMemberRAKey">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="DomainID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="UserID" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetMemberRAKeyResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetMemberRAKeyResult" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
       <xs:element name="SetPassPhrase">
         <xs:complexType>
           <xs:sequence>
@@ -1115,6 +1130,12 @@
   <message name="SetiFolderCryptoKeysSoapOut">
     <part element="s0:SetiFolderCryptoKeysResponse" name="parameters" />
   </message>
+  <message name="GetMemberRAKeySoapIn">
+    <part element="s0:GetMemberRAKey" name="parameters" />
+  </message>
+  <message name="GetMemberRAKeySoapOut">
+    <part element="s0:GetMemberRAKeyResponse" name="parameters" />
+  </message>
   <message name="SetPassPhraseSoapIn">
     <part element="s0:SetPassPhrase" name="parameters" />
   </message>
@@ -1367,6 +1388,13 @@
   </message>
   <message name="GetiFolderCryptoKeysHttpGetOut">
     <part element="s0:CollectionKey" name="Body" />
+  </message>
+  <message name="GetMemberRAKeyHttpGetIn">
+    <part name="DomainID" type="s:string" />
+    <part name="UserID" type="s:string" />
+  </message>
+  <message name="GetMemberRAKeyHttpGetOut">
+    <part element="s0:string" name="Body" />
   </message>
   <message name="SetPassPhraseHttpGetIn">
     <part name="DomainID" type="s:string" />
@@ -1624,6 +1652,13 @@
   </message>
   <message name="GetiFolderCryptoKeysHttpPostOut">
     <part element="s0:CollectionKey" name="Body" />
+  </message>
+  <message name="GetMemberRAKeyHttpPostIn">
+    <part name="DomainID" type="s:string" />
+    <part name="UserID" type="s:string" />
+  </message>
+  <message name="GetMemberRAKeyHttpPostOut">
+    <part element="s0:string" name="Body" />
   </message>
   <message name="SetPassPhraseHttpPostIn">
     <part name="DomainID" type="s:string" />
@@ -1936,6 +1971,12 @@
       <input message="s0:SetiFolderCryptoKeysSoapIn" />
       <output message="s0:SetiFolderCryptoKeysSoapOut" />
     </operation>
+    <operation name="GetMemberRAKey">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validate the passphrase for the correctness.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validate the passphrase for the correctness.</wsdl:documentation>
+      <input message="s0:GetMemberRAKeySoapIn" />
+      <output message="s0:GetMemberRAKeySoapOut" />
+    </operation>
     <operation name="SetPassPhrase">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set the passphrase and recovery agent.</wsdl:documentation>
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set the passphrase and recovery agent.</wsdl:documentation>
@@ -2196,6 +2237,12 @@
       <input message="s0:GetiFolderCryptoKeysHttpGetIn" />
       <output message="s0:GetiFolderCryptoKeysHttpGetOut" />
     </operation>
+    <operation name="GetMemberRAKey">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validate the passphrase for the correctness.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validate the passphrase for the correctness.</wsdl:documentation>
+      <input message="s0:GetMemberRAKeyHttpGetIn" />
+      <output message="s0:GetMemberRAKeyHttpGetOut" />
+    </operation>
     <operation name="SetPassPhrase">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set the passphrase and recovery agent.</wsdl:documentation>
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set the passphrase and recovery agent.</wsdl:documentation>
@@ -2455,6 +2502,12 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validate the passphrase for the correctness.</wsdl:documentation>
       <input message="s0:GetiFolderCryptoKeysHttpPostIn" />
       <output message="s0:GetiFolderCryptoKeysHttpPostOut" />
+    </operation>
+    <operation name="GetMemberRAKey">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validate the passphrase for the correctness.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validate the passphrase for the correctness.</wsdl:documentation>
+      <input message="s0:GetMemberRAKeyHttpPostIn" />
+      <output message="s0:GetMemberRAKeyHttpPostOut" />
     </operation>
     <operation name="SetPassPhrase">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set the passphrase and recovery agent.</wsdl:documentation>
@@ -2900,6 +2953,15 @@
         <soap:body use="literal" />
       </output>
     </operation>
+    <operation name="GetMemberRAKey">
+      <soap:operation soapAction="http://novell.com/simias/web/GetMemberRAKey" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
     <operation name="SetPassPhrase">
       <soap:operation soapAction="http://novell.com/simias/web/SetPassPhrase" style="document" />
       <input>
@@ -3266,6 +3328,15 @@
         <mime:mimeXml part="Body" />
       </output>
     </operation>
+    <operation name="GetMemberRAKey">
+      <http:operation location="/GetMemberRAKey" />
+      <input>
+        <http:urlEncoded />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
     <operation name="SetPassPhrase">
       <http:operation location="/SetPassPhrase" />
       <input>
@@ -3625,6 +3696,15 @@
     </operation>
     <operation name="GetiFolderCryptoKeys">
       <http:operation location="/GetiFolderCryptoKeys" />
+      <input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="GetMemberRAKey">
+      <http:operation location="/GetMemberRAKey" />
       <input>
         <mime:content type="application/x-www-form-urlencoded" />
       </input>

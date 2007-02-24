@@ -559,7 +559,6 @@ namespace Simias.Storage
 		/// </summary>
 		public string ServerGetEncrypPassKey()
 		{
-			log.Debug("ServerGetEncrypPassKey : getting PassKey:{0}",this.EncryptionKey);
 			return this.EncryptionKey;
 		}
 
@@ -568,7 +567,6 @@ namespace Simias.Storage
 		/// </summary>
 		public string ServerGetPassKeyHash()
 		{
-			log.Debug("ServerGetPassKeyHash : getting KeyHash :{0}", this.EncryptionBlob);
 			return this.EncryptionBlob;
 		}
 
@@ -676,7 +674,14 @@ namespace Simias.Storage
 			}
 			return true;
 		}
-		
+
+		/// <summary>
+		/// Get the Member RA Key
+		/// </summary>
+		public string GetMemberRAKey()
+		{
+			return this.RAPublicKey;		
+		}
 		
 		/// <summary>
 		/// Validate the passphrase
