@@ -228,7 +228,7 @@ namespace Simias.Host
 		/// The ID of the Host domain. used for Host to Host authentication.
 		/// </summary>
 		private CollectionSyncClient syncClient;
-		private static AutoResetEvent syncEvent = new AutoResetEvent(false);
+		private AutoResetEvent syncEvent = new AutoResetEvent(false);
 		private SimiasConnection connection;
 		
 		/// <summary>
@@ -389,14 +389,6 @@ namespace Simias.Host
 		{
 			while(CollectionSyncClient.running)
 				Thread.Sleep(1000);
-			syncEvent.Set();
-		}
-		/// <summary>
-		/// Called by login handler
-		/// </summary>
-		/// <param name="collectionClient">The client that is ready to sync.</param>
-		public void SyncFromLogin()
-		{
 			syncEvent.Set();
 		}
 	}
