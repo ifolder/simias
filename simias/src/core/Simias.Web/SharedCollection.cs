@@ -1270,8 +1270,9 @@ namespace Simias.Web
 				// first clean out all subscriptions for this iFolder
 				// if we are the server in a workgroup, then this
 				// will clean out everyone else's subscriptions too
-//				RemoveAllSubscriptions(store, collection);
-				RemoveLocalCollection(store, collection);
+//                              RemoveAllSubscriptions(store, collection);
+                                RemoveLocalCollection(store, collection);
+
 #endif
 				collection.Commit(collection.Delete());
 			}
@@ -1309,7 +1310,104 @@ namespace Simias.Web
 		}
 
 
+                /// <summary>
+                /// WebMethod that removes a SharedCollection from the local store
+                /// but will leave the subscription intact.  It will result in
+                /// removing the SharedCollection from this computer but remain
+                /// a member.
+                /// </summary>
+                /// <param name = "CollectionID">
+                /// The ID of the collection representing this iFolder to delete
+                /// </param>
+                /// <returns>
+                /// The subscription for this iFolder
+                /// </returns>
+                public static CollectionInfo RevertSharedCollection(string CollectionID)
+                {
+                        log.Debug( "RevertSharedCollection called" );
+                        log.Debug( "  ID: " + CollectionID );
 
+                        Store store = Store.GetStore();
+                        Collection collection = store.GetCollectionByID(CollectionID);
+                        if(collection == null)
+                                throw new Exception("Invalid CollectionID");
+
+                        log.Debug( "  Name: " + collection.Name );
+                        CollectionInfo cinfo = DiscoveryFramework.GetCollectionInfo(collection.ID);
+                        log.Debug("cinfo {0}", cinfo);
+                // need to Fix this...Workgroup mastered, then delete the collection membership itself, not doing now.
+/*
+                        if(cinfo != null)
+                        {
+                                if(collection.Role == SyncRoles.Master)
+                                {
+                                        Domain domain = store.GetDomain( collection.Domain );
+                                        if ( domain != null &&
+                                                domain.ConfigType == Simias.Storage.Domain.ConfigurationType.Workgroup )
+                                        {
+                                                poBox.Commit( poBox.Delete( sub ) );
+                                                sub = null;
+                                        }
+
+                                }
+                        }
+*/
+/*
+                        // Get the subscription for this iFolder to return.
+                        Subscription sub = null;
+
+                        // Get the member's POBox
+                        Simias.POBox.POBox poBox =
+                                Simias.POBox.POBox.GetPOBox( store, collection.Domain );
+                        if (poBox != null)
+                        {
+                                Member member = collection.GetCurrentMember();
+
+                                // Search for the matching subscription
+                                sub = poBox.GetSubscriptionByCollectionID( collection.ID, member.UserID );
+
+                                // If this collection is workgroup mastered delete the
+                                // subscription as well
+                                if ( sub != null && collection.Role == SyncRoles.Master )
+                                {
+                                        Domain domain = store.GetDomain( collection.Domain );
+                                        if ( domain != null &&
+                                                domain.ConfigType == Simias.Storage.Domain.ConfigurationType.Workgroup )
+                                        {
+                                                poBox.Commit( poBox.Delete( sub ) );
+                                                sub = null;
+                                        }
+                                }
+                        }
+*/
+                        collection.Commit( collection.Delete() );
+                        return cinfo;
+                }
+
+                /// <summary>
+                /// Utility method that will find all subscriptions to a collection
+                /// and remove the subscription to this collection
+                /// </summary>
+                /// <param name = "store">
+                /// The store where the POBox and collection for this subscription
+                /// is to be found.
+                /// </param>
+                /// <param name = "collection">
+                /// The Collection for which the subscription is being removed
+                /// </param>
+                private static void RemoveLocalCollection(Store store, Collection col)
+                {
+                        Domain domain = store.GetDomain(col.Domain);
+                        log.Debug("Remove called ID {0}", col.ID);
+                        if (domain != null)
+                        {
+                                Collection c = store.GetCollectionByID(col.ID);
+                             if(c != null)
+                             {
+                                  c.Commit( c.Delete() );
+                             }
+                        }
+                }
 
 
 		/// <summary>
