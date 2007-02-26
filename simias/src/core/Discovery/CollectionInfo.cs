@@ -90,8 +90,6 @@ namespace Simias.Discovery
 		/// </summary>
 		public int MemberCount = 0;
 
-		public string encryptionAlgorithm;
-
 
 	        public CollectionInfo ()
 		{
@@ -155,7 +153,6 @@ namespace Simias.Discovery
 			this.OwnerUserName = domainMember.Name;
 			string fullName = domainMember.FN;
 			this.OwnerFullName = (fullName != null) ? fullName : this.OwnerUserName;
-			this.encryptionAlgorithm = c.EncryptionAlgorithm;
 
 		}
 	}

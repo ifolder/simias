@@ -164,6 +164,27 @@ namespace Simias.Discovery
 
 			return removed;
 		}
+
+                public static void DeleteCollectionInCatalog(string domainID, string collectionID)
+                {
+			log.Debug("Domain ID {0}, col ID {1}", domainID, collectionID);
+                        Member member = Store.GetStore().GetDomain( domainID ).GetCurrentMember();
+			HostNode hNode = HostNode.GetMaster(domainID);
+                        try
+                        {
+                                DiscoveryService dService = new DiscoveryService();
+                                SimiasConnection smConn = new SimiasConnection(domainID, member.UserID, SimiasConnection.AuthType.BASIC, hNode);
+                                smConn.InitializeWebClient(dService, "DiscoveryService.asmx");
+                                dService.DeleteCollectionInCatalog( collectionID );
+                        }
+                        catch(Exception ex)
+                        {
+                                log.Error(ex.Message);
+                        }
+
+                        return ;
+		}
+
 	}
 }
 

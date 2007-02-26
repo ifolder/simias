@@ -172,8 +172,6 @@ namespace Simias.DiscoveryService.Web
 		/// DirNode Name
 		/// </summary>
 		public string UserRights;
-		
-		public string encryptionAlgorithm;
 
 	        public CollectionInfo ()
 		{
@@ -224,7 +222,8 @@ namespace Simias.DiscoveryService.Web
 
 		        CatalogEntry entry = Catalog.GetEntryByCollectionID( CollectionID );
 
-			this.ID = entry.ID;
+//			this.ID = entry.ID;
+			this.ID = c.ID;
 			this.CollectionID = c.ID;
 			this.Name = c.Name;
 			this.Description = GetStringProperty(c, PropertyTags.Description);
@@ -243,10 +242,6 @@ namespace Simias.DiscoveryService.Web
 			this.OwnerUserName = domainMember.Name;
 			string fullName = domainMember.FN;
 			this.OwnerFullName = (fullName != null) ? fullName : this.OwnerUserName;
-			if( c.EncryptionAlgorithm != null)
-				this.encryptionAlgorithm = c.EncryptionAlgorithm;
-			else
-				this.encryptionAlgorithm = "No Encryption";
 
 		}
 
@@ -256,7 +251,8 @@ namespace Simias.DiscoveryService.Web
 
 		        CatalogEntry entry = Catalog.GetEntryByCollectionID( CollectionID );
 
-			this.ID = entry.ID;
+//			this.ID = entry.ID;
+			this.ID = c.ID;
 			this.CollectionID = c.ID;
 			this.Name = c.Name;
 			this.Description = GetStringProperty(c, PropertyTags.Description);
@@ -281,10 +277,6 @@ namespace Simias.DiscoveryService.Web
 			Member member = c.GetMemberByID (UserID);
 			this.MemberNodeID = member.ID;
 			this.UserRights = member.Rights.ToString();
-			if( c.EncryptionAlgorithm != null)
-				this.encryptionAlgorithm = c.EncryptionAlgorithm;
-			else
-				this.encryptionAlgorithm = "No Encryption";
 		}
 
 	}
@@ -365,6 +357,21 @@ namespace Simias.DiscoveryService.Web
 			}
 			return false;
  		}
+
+                [WebMethod(EnableSession=true)]
+                [SoapDocumentMethod]
+                public void DeleteCollectionInCatalog( string CollectionID)
+                {
+                        IsCollectionOnHost ( CollectionID );
+
+                        Collection collection = Store.GetStore().GetCollectionByID( CollectionID );
+
+                        if ( collection != null )
+                        {
+				Catalog.DeleteEntryByCollectionID(CollectionID);
+                        }
+                        return ;
+                }
 
 		/// <summary>
 		/// Get Collection Information

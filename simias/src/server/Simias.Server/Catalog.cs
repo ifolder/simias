@@ -758,6 +758,19 @@ namespace Simias.Server
 
 			return entry;
 		}
+
+                /// <summary>
+                /// Delete a catalog entry for the specified collection
+                /// </summary>
+                static public void DeleteEntryByCollectionID( string CollectionID )
+                {
+                        CatalogEntry entry = GetEntryByCollectionID(CollectionID);
+			if(entry != null)
+				catalog.Commit(catalog.Delete(entry));
+
+                        return ;
+                }
+
 		#endregion
 	}
 

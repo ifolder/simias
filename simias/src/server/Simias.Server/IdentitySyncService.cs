@@ -561,7 +561,7 @@ namespace Simias.IdentitySync
 		static bool running = false;
 		static bool quit;
 		static internal bool syncOnStart = true;
-		static internal int syncInterval = 30;
+		static internal int syncInterval = 900; //15 mins
 		static internal int deleteGracePeriod = 60 * 60 * 24 * 5;  // 5 days
 		static internal bool syncDisabled = false;
 		static Thread syncThread = null;

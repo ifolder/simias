@@ -451,7 +451,7 @@ namespace Simias.Server
 				// Verify the credentials passed in.
 				if ( Simias.Server.User.VerifyPassword( User, Password, status ) )
 				{
-					log.Info( "Authenticated User: {0}:{1}", status.UserID, status.UserName );
+					log.Info( "Authenticated User: {0}:{1} {2}", status.UserID, status.UserName, status.statusCode );
 				}
 				else
 				{

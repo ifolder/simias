@@ -54,7 +54,7 @@ namespace Simias.Discovery
 		/// <summary>
 		/// Event used to signal thread that items have been placed on the queue.
 		/// </summary>
-		internal static AutoResetEvent listEvent = new AutoResetEvent( false );
+		public AutoResetEvent listEvent = new AutoResetEvent( false );
 
 		/// <summary>
 		/// The default process cycle time for the shared collection.
@@ -70,7 +70,8 @@ namespace Simias.Discovery
 		/// Atleast one domain should be processed for shared collection display.
 		/// </summary>
 		private bool processedOne = false;
-		internal static bool processed = false;
+		public bool processed = false;
+
 
 		/// <summary>
 		/// Tells the Collection List thread to exit.
@@ -96,7 +97,8 @@ namespace Simias.Discovery
 			thread.Priority = ThreadPriority.BelowNormal;
 			thread.Start();
 		}
-		
+
+
 		private void Run()
 		{
 			while ( !( Simias.Service.Manager.ShuttingDown || killThread ) )
