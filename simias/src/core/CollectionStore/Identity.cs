@@ -566,7 +566,7 @@ namespace Simias.Storage
 		/// <param name="userID">Gets the userID of the user associated with the specified domain.</param>
 		/// <param name="credentials">Gets the credentials for the user.</param>
 		/// <returns>CredentialType enumerated object.</returns>
-		internal CredentialType GetPassPhrase( string domainID, out string userID, out string  passPhrase)
+		internal string GetPassPhrase( string domainID)
 		{
 			// Find the property associated with the domain.
 			XmlDocument document = GetDocumentByDomain( domainID );
@@ -575,15 +575,12 @@ namespace Simias.Storage
 				throw new CollectionStoreException( "The specified domain does not exist." );
 			}
 
-			// Return the User ID.
-			userID = document.DocumentElement.GetAttribute( UserTag );
-
 			// Get the credential type.
 			string credTypeString = document.DocumentElement.GetAttribute( PassPhraseTypeTag );
 			CredentialType credType = ( CredentialType )Enum.Parse( typeof( CredentialType ), credTypeString, true );
 
 			// Return the credentials.
-			passPhrase = document.DocumentElement.GetAttribute( PassPhraseTag );
+			string passPhrase = document.DocumentElement.GetAttribute( PassPhraseTag );
 			if ( passPhrase != String.Empty )
 			{
 				if ( credType == CredentialType.Basic )
@@ -596,7 +593,7 @@ namespace Simias.Storage
 				passPhrase = null;
 			}
 
-			return credType;
+			return passPhrase;
 		}
 
 		/// <summary>

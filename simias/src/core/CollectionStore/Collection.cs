@@ -592,8 +592,8 @@ namespace Simias.Storage
 		}
 
 		//TODO: add comment
-		public Collection( Store storeObject, string collectionName, string domainID, bool ssl, string encryptionAlgorithm ) :
-			this ( storeObject, collectionName, Guid.NewGuid().ToString(), domainID, ssl, encryptionAlgorithm)
+		public Collection( Store storeObject, string collectionName, string domainID, bool ssl, string encryptionAlgorithm, string passphrase ) :
+			this ( storeObject, collectionName, Guid.NewGuid().ToString(), domainID, ssl, encryptionAlgorithm, passphrase)
 		{
 		}
 
@@ -635,8 +635,8 @@ namespace Simias.Storage
 		}
 
 
-		public Collection( Store storeObject, string collectionName, string collectionID, string domainID, bool ssl, string encryptionAlgorithm) :
-			this( storeObject, collectionName, collectionID, NodeTypes.CollectionType, domainID, ssl, encryptionAlgorithm )
+		public Collection( Store storeObject, string collectionName, string collectionID, string domainID, bool ssl, string encryptionAlgorithm, string passphrase) :
+			this( storeObject, collectionName, collectionID, NodeTypes.CollectionType, domainID, ssl, encryptionAlgorithm, passphrase)
 		{
 		}
 
@@ -667,7 +667,7 @@ namespace Simias.Storage
 			createManagedPath = !Directory.Exists( ManagedPath );
 		}
 
-		internal protected Collection( Store storeObject, string collectionName, string collectionID, string collectionType, string domainID, bool ssl, string encryptionAlgorithm) :
+		internal protected Collection( Store storeObject, string collectionName, string collectionID, string collectionType, string domainID, bool ssl, string encryptionAlgorithm, string passphrase) :
 			base( collectionName, collectionID, collectionType)
 		{
 			store = storeObject;
@@ -691,13 +691,11 @@ namespace Simias.Storage
 
 			if(encryptionAlgorithm !="")
 			{
-				string userID = null, PassPhrase = null;
-				store.GetPassPhrase(this.Domain, out userID, out PassPhrase);
-                        	if(PassPhrase ==null)
-                        		throw new CollectionStoreException("Passphrase not provided");
-
-				Key key = new Key(128);//send the key size
-				key.EncrypytKey(PassPhrase, out this.encryptionKey);//send the passphrase to encrypt the key
+				if(passphrase ==null)
+					throw new CollectionStoreException("Passphrase not provided");
+				
+				Key key = new Key((passphrase.Length)*8);//Here we expect the passphrase size multiple of 8
+				key.EncrypytKey(passphrase, out this.encryptionKey);//send the passphrase to encrypt the key
 				this.encryptionBlob = key.HashKey();
 
 				log.Debug( "Create iFolder encrypted cryptokey ={0}", this.encryptionKey);

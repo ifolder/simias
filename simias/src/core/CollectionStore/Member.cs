@@ -574,7 +574,7 @@ namespace Simias.Storage
 		/// <summary>
 		/// Set the passphrase(key encrypted by passphrase and SHA1 of key) and recovery agent name and key
 		/// </summary>
-		public void SetPassPhrase(string PassPhrase, string RAName, string PublicKey)
+		public void SetPassPhrase(string Passphrase, string RAName, string PublicKey)
 		{
 			try
 			{
@@ -595,9 +595,9 @@ namespace Simias.Storage
 				smConn.Authenticate ();
 				smConn.InitializeWebClient(svc, "Simias.asmx");
 
-				Key key = new Key(128);
+				Key key = new Key((Passphrase.Length)*8);//create the key 
 				string EncrypCryptoKey;
-				key.EncrypytKey(PassPhrase, out EncrypCryptoKey);
+				key.EncrypytKey(Passphrase, out EncrypCryptoKey); //encrypt the key
 				Key HashKey = new Key(EncrypCryptoKey);
 				
 				log.Debug("SetPassPhrase {0}...{1}...{2}...{3}",EncrypCryptoKey, HashKey.HashKey(), RAName, PublicKey);

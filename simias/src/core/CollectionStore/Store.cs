@@ -1242,9 +1242,9 @@ namespace Simias.Storage
 		/// <param name="userID">Gets the identifier of the domain user.</param>
 		/// <param name="passPhrase">Gets the passPhrase for the domain.</param>
 		/// <returns>The type of credentials.</returns>
-		public CredentialType GetPassPhrase( string domainID, out string userID, out string passPhrase )
+		public string GetPassPhrase( string domainID)
 		{
-			return CurrentUser.GetPassPhrase( domainID, out userID, out passPhrase );
+			return CurrentUser.GetPassPhrase( domainID);
 		}
 
 		/// <summary>
@@ -1704,7 +1704,6 @@ namespace Simias.Storage
 		/// <param name="algorithm"></param>
 		public Key(string CrypKey)
 		{
-			CryptoKeySize	= 128;
 			UTF8Encoding utf8 = new UTF8Encoding();
 			CryptoKey		= CrypKey;
 		}
@@ -1764,6 +1763,8 @@ namespace Simias.Storage
 		/// </summary>
 		public void DecrypytKey(string PassPhrase, out string DecryptedKey) 
 		{
+			this.CryptoKeySize	= (PassPhrase.Length)*8;
+			
 			UTF8Encoding utf8 = new UTF8Encoding();
 			TripleDESCryptoServiceProvider m_des = new TripleDESCryptoServiceProvider();
 			byte[] IV = new byte[0];

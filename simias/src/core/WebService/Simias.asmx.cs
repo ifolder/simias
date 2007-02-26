@@ -869,10 +869,10 @@ namespace Simias.Web
                 /// <returns>The type of credentials.</returns>
                 [WebMethod(EnableSession=true, Description="Get the saved credentials from a domain")]
                 [SoapDocumentMethod]
-                public CredentialType GetPassPhrase(string domainID, out string userID, out string passPhrase)
+                public string GetPassPhrase(string domainID)
                 {
                         Store store = Store.GetStore();
-                        return store.GetPassPhrase(domainID, out userID, out passPhrase);
+                        return store.GetPassPhrase(domainID);
                 }
 
                /// <summary>

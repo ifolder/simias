@@ -434,9 +434,7 @@
       <xs:element name="GetPassPhraseResponse">
         <xs:complexType>
           <xs:sequence>
-            <xs:element minOccurs="1" maxOccurs="1" name="GetPassPhraseResult" type="s0:CredentialType" />
-            <xs:element minOccurs="0" maxOccurs="1" name="userID" type="xs:string" />
-            <xs:element minOccurs="0" maxOccurs="1" name="passPhrase" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="GetPassPhraseResult" type="xs:string" />
           </xs:sequence>
         </xs:complexType>
       </xs:element>
@@ -1243,6 +1241,12 @@
     <part name="rememberPassPhrase" type="s:boolean" />
   </message>
   <message name="StorePassPhraseHttpGetOut" />
+  <message name="GetPassPhraseHttpGetIn">
+    <part name="domainID" type="s:string" />
+  </message>
+  <message name="GetPassPhraseHttpGetOut">
+    <part element="s0:string" name="Body" />
+  </message>
   <message name="GetRememberOptionHttpGetIn">
     <part name="domainID" type="s:string" />
   </message>
@@ -1500,6 +1504,12 @@
     <part name="rememberPassPhrase" type="s:boolean" />
   </message>
   <message name="StorePassPhraseHttpPostOut" />
+  <message name="GetPassPhraseHttpPostIn">
+    <part name="domainID" type="s:string" />
+  </message>
+  <message name="GetPassPhraseHttpPostOut">
+    <part element="s0:string" name="Body" />
+  </message>
   <message name="GetRememberOptionHttpPostIn">
     <part name="domainID" type="s:string" />
   </message>
@@ -2070,6 +2080,12 @@
       <input message="s0:StorePassPhraseHttpGetIn" />
       <output message="s0:StorePassPhraseHttpGetOut" />
     </operation>
+    <operation name="GetPassPhrase">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the saved credentials from a domain</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the saved credentials from a domain</wsdl:documentation>
+      <input message="s0:GetPassPhraseHttpGetIn" />
+      <output message="s0:GetPassPhraseHttpGetOut" />
+    </operation>
     <operation name="GetRememberOption">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the saved credentials from a domain</wsdl:documentation>
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the saved credentials from a domain</wsdl:documentation>
@@ -2329,6 +2345,12 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Stores domain passphrase in the local store</wsdl:documentation>
       <input message="s0:StorePassPhraseHttpPostIn" />
       <output message="s0:StorePassPhraseHttpPostOut" />
+    </operation>
+    <operation name="GetPassPhrase">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the saved credentials from a domain</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the saved credentials from a domain</wsdl:documentation>
+      <input message="s0:GetPassPhraseHttpPostIn" />
+      <output message="s0:GetPassPhraseHttpPostOut" />
     </operation>
     <operation name="GetRememberOption">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the saved credentials from a domain</wsdl:documentation>
@@ -3087,6 +3109,15 @@
       </input>
       <output />
     </operation>
+    <operation name="GetPassPhrase">
+      <http:operation location="/GetPassPhrase" />
+      <input>
+        <http:urlEncoded />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
     <operation name="GetRememberOption">
       <http:operation location="/GetRememberOption" />
       <input>
@@ -3452,6 +3483,15 @@
         <mime:content type="application/x-www-form-urlencoded" />
       </input>
       <output />
+    </operation>
+    <operation name="GetPassPhrase">
+      <http:operation location="/GetPassPhrase" />
+      <input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
     </operation>
     <operation name="GetRememberOption">
       <http:operation location="/GetRememberOption" />

@@ -278,7 +278,7 @@ namespace Simias.Web
 		}
 
 		public static Collection CreateLocalSharedCollection(
-				string LocalPath, string DomainID, bool ssl, string Type, string encryptionAlgorithm)
+				string LocalPath, string DomainID, bool Ssl, string Type, string EncryptionAlgorithm, string Passphrase)
 		{
 			Store store = Store.GetStore();
 
@@ -293,8 +293,8 @@ namespace Simias.Web
 
 			String name = Path.GetFileName(LocalPath);
 
-			return CreateSharedCollection(name, DomainID, ssl, member.UserID, 
-						Type, true, LocalPath, encryptionAlgorithm);
+			return CreateSharedCollection(name, DomainID, Ssl, member.UserID, 
+						Type, true, LocalPath, EncryptionAlgorithm, Passphrase);
 		}
 
 		/// <summary>
@@ -357,11 +357,11 @@ namespace Simias.Web
 		}
 
 		public static Collection CreateSharedCollection(
-			string Name, string DomainID, bool ssl, string UserID, string Type,
-			bool UnmanagedFiles, string CollectionPath, string encryptionAlgorithm)
+			string Name, string DomainID, bool Ssl, string UserID, string Type,
+			bool UnmanagedFiles, string CollectionPath, string EncryptionAlgorithm, string Passphrase)
 		{
-			return (CreateSharedCollection(Name, DomainID, ssl, UserID, Type,
-				UnmanagedFiles, CollectionPath, null, encryptionAlgorithm));
+			return (CreateSharedCollection(Name, DomainID, Ssl, UserID, Type,
+				UnmanagedFiles, CollectionPath, null, EncryptionAlgorithm, Passphrase));
 		}
 
 		/// <summary>
@@ -523,8 +523,8 @@ namespace Simias.Web
 
 
 		public static Collection CreateSharedCollection(
-			string Name, string DomainID, bool ssl, string UserID, string Type,
-			bool UnmanagedFiles, string CollectionPath, string Description, string encryptionAlgorithm)
+			string Name, string DomainID, bool Ssl, string UserID, string Type,
+			bool UnmanagedFiles, string CollectionPath, string Description, string EncryptionAlgorithm, string Passphrase)
 		{
 			ArrayList nodeList = new ArrayList();
 			
@@ -589,7 +589,7 @@ namespace Simias.Web
 			Store store = Store.GetStore();
 
 			// Create the Collection and set it as an iFolder
-			Collection c = new Collection(store, Name, DomainID, ssl, encryptionAlgorithm);
+			Collection c = new Collection(store, Name, DomainID, Ssl, EncryptionAlgorithm, Passphrase);
 
 			// type
 			if( (Type != null) && (Type.Length > 0) )
@@ -675,8 +675,8 @@ namespace Simias.Web
 		/// <param name="AccessID">The access ID for impersonation.</param>
 		/// <returns>The Collection object that was created.</returns>
 		public static Collection CreateSharedCollection(
-			string Name, string DomainID, bool ssl, string UserID, string Type,
-			bool UnmanagedFiles, string CollectionPath, string Description, string AccessID, string EncryptionAlgorithm)
+			string Name, string DomainID, bool Ssl, string UserID, string Type,
+			bool UnmanagedFiles, string CollectionPath, string Description, string AccessID, string EncryptionAlgorithm, string Passphrase)
 		{
                         ArrayList nodeList = new ArrayList();
 
@@ -744,7 +744,7 @@ namespace Simias.Web
                         if(domain == null)
                                 throw new Exception("Unable to obtain default domain");
 
-                        Collection c = new Collection( store, Name, DomainID, ssl, EncryptionAlgorithm);
+                        Collection c = new Collection( store, Name, DomainID, Ssl, EncryptionAlgorithm, Passphrase);
 
 
                         if (AccessID != null)
