@@ -239,4 +239,5 @@ public class CollectionInfo {
     
     /// <remarks/>
     public string UserRights;
+    public string encryptionAlgorithm;
 }
