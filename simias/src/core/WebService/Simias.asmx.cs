@@ -1388,40 +1388,6 @@ log.Debug("SimiasWebService.ConnectToDomain() called to connect to {0} as {1}", 
 			return status;
 		}
 		
-		///<summary>
-		///Get the member RA public key 
-		///</summary>
-		///<returns>passPhrase.</returns>
-		[WebMethod(EnableSession=true, Description="Validate the passphrase for the correctness.")]
-		[SoapDocumentMethod]	
-		public string GetMemberRAKey(string DomainID,  string UserID)
-		{
-			log.Debug("GetMemberRAKey - called");
-			string RAKey = null;
-			try
-			{
-				Store store = Store.GetStore();
-				Simias.Storage.Domain domain = store.GetDomain(DomainID);
-				if(domain == null )
-				{
-					log.Debug("GetMemberRAKey domain null" );
-					return null;
-				}
-				Simias.Storage.Member member = domain.GetCurrentMember();
-				if(member == null )
-				{
-					log.Debug("GetMemberRAKey member null");
-					return null;
-				}
-				RAKey = member.GetMemberRAKey();
-			}
-			catch(Exception ex)
-			{
-				log.Debug("GetMemberRAKey Exception:{0} ", ex.Message);
-				throw ex;
-			}
-			return RAKey;
-		}
 		
 		///<summary>
 		///Set the passphrase and recovery agent in the simias client

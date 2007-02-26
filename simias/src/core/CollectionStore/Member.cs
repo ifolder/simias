@@ -675,13 +675,6 @@ namespace Simias.Storage
 			return true;
 		}
 
-		/// <summary>
-		/// Get the Member RA Key
-		/// </summary>
-		public string GetMemberRAKey()
-		{
-			return this.RAPublicKey;		
-		}
 		
 		/// <summary>
 		/// Validate the passphrase
