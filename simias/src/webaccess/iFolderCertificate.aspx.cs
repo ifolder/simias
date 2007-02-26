@@ -228,7 +228,7 @@ namespace Novell.iFolderApp.Web
 			//Status ObjSetPassPhrase = web.SetPassPhrase(PassPhraseStr, RAName, PublicKey);
 			web.SetPassPhrase(PassPhraseStr, RAName, PublicKey);
 			// Send the ifolder Name, Description, Security details and the encryption algorithm
-			ifolder = web.CreateiFolder(name, description, SHARED, EncryptionAlgorithm);
+			ifolder = web.CreateiFolder(name, description, SHARED, EncryptionAlgorithm, PassPhraseStr);
 			
 			// redirect
 			Response.Redirect("Browse.aspx?iFolder=" + ifolder.ID);

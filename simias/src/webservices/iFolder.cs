@@ -294,15 +294,13 @@ namespace iFolder.WebService
 		/// <param name="description">The iFolder Description</param>
 		/// <param name="accessID">The Access ID</param>
 		/// <returns>An iFolder Object</returns>
-		public static iFolder CreateiFolder(string name, string userID, string description, string accessID, bool ssl, string encryptionAlgorithm)
+		public static iFolder CreateiFolder(string name, string userID, string description, string accessID, bool ssl, string encryptionAlgorithm, string PassPhrase)
 		{
 			// NOTE: because the name of the iFolder will also be the
 			// name of entry, we must check it
 			iFolderEntry.CheckName(name);
-
 			Collection c = SharedCollection.CreateSharedCollection(
-				name, null, ssl, userID, iFolderCollectionType, true, null, description, accessID, encryptionAlgorithm);
-
+				name, null, ssl, userID, iFolderCollectionType, true, null, description, accessID, encryptionAlgorithm, PassPhrase);
 			return new iFolder(c, null);
 		}
 
@@ -330,15 +328,19 @@ namespace iFolder.WebService
 		/// <returns>The list as a string array</returns>
 		public static string[] GetRAList()
 		{
-			ArrayList list = Simias.Security.CertificateStore.GetRAList();
-		    string[] ralist = new string [ list.Count ];
-		    int i=0;
+		    ArrayList list = Simias.Security.CertificateStore.GetRAList();
+		    if(list.Count > 0)
+		    {		
+		    	string[] ralist = new string [ list.Count ];
+		    	int i=0;
 
-		    foreach (string ra in list)
-		    {
-			ralist[ i++ ] = ra;
+		    	foreach (string ra in list)
+		    	{
+				ralist[ i++ ] = ra;
+		    	}
+		    	return ralist;
 		    }
-		    return ralist;
+		    return null;	
 		}
 			
 	

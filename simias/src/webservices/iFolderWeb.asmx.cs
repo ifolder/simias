@@ -157,7 +157,6 @@ namespace iFolder.WebService
 		{
                          return base.GetRAList(); 
 		}
-
 		
 		/// <summary>
 		/// Get the recovery Agent certificate
@@ -439,9 +438,9 @@ namespace iFolder.WebService
 		[WebMethod(
 			 Description="Create a new iFolder with the authenticated user as the owner.",
 			 EnableSession=true)]
-		public override iFolder CreateiFolder(string name, string description, bool ssl, string EncryptionAlgorithm)
+		public override iFolder CreateiFolder(string name, string description, bool ssl, string EncryptionAlgorithm, string PassPhrase)
 		{
-			return base.CreateiFolder(name, description, ssl,EncryptionAlgorithm);
+			return base.CreateiFolder(name, description, ssl,EncryptionAlgorithm, PassPhrase);
 		}
 
 		/// <summary>

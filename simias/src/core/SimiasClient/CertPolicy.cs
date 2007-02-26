@@ -165,10 +165,7 @@ namespace Simias.Client
 		/// <returns>The list as a String array.</returns>
 		public static ArrayList GetRAList()
 		{
-			if(CertRAList.Count > 0)
 				return CertRAList;
-			else
-				return null;
 		}
 
 		/// <summary>

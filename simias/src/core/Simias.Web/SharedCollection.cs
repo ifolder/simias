@@ -294,7 +294,7 @@ namespace Simias.Web
 
 			String name = Path.GetFileName(LocalPath);
 
-			return CreateSharedCollection(name, DomainID, ssl, member.UserID, 
+			return CreateSharedCollection(name, DomainID, Ssl, member.UserID, 
 						Type, true, LocalPath, EncryptionAlgorithm, Passphrase);
 		}
 

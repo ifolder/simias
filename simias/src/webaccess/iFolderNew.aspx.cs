@@ -186,14 +186,17 @@ namespace Novell.iFolderApp.Web
 				
 			if(PassPhraseSet )
 			{
-				RAList.Enabled =VerifyPassPhraseLabel.Visible = VerifyPassPhraseText.Visible = false;
+				SelectLabel.Visible = RAList.Visible = VerifyPassPhraseLabel.Visible = VerifyPassPhraseText.Visible = false;
 				PassPhraseText.Enabled = true;
 				string SessionPassPhrase = Session["SessionPassPhrase"] as string;
 				if(SessionPassPhrase != null)
 				{
 					// user is in current session, so don't ask again for the passphrase
-					RAList.Enabled =VerifyPassPhraseLabel.Visible = VerifyPassPhraseText.Visible = false;
-					PassPhraseText.Enabled = false;
+					PassPhraseLabel.Visible = PassPhraseText.Enabled = PassPhraseText.Visible = false;
+				}
+				else
+				{
+					PassPhraseText.Enabled = PassPhraseText.Visible = true;
 				}
 			}
 			else
@@ -206,9 +209,14 @@ namespace Novell.iFolderApp.Web
 					RAList.DataSource = RAListStr;
 					RAList.DataBind();
 					RAList.SelectedIndex = 0;
-					RAList.Enabled =PassPhraseText.Enabled = VerifyPassPhraseLabel.Visible = VerifyPassPhraseText.Visible =true;
+					SelectLabel.Visible = RAList.Enabled = RAList.Visible = true;
 				}
-				
+				else
+				{
+					SelectLabel.Visible = RAList.Enabled = RAList.Visible = false;
+				}
+	
+				PassPhraseText.Enabled = PassPhraseText.Visible = VerifyPassPhraseLabel.Visible = VerifyPassPhraseText.Visible =true;
 			}	
 		}
 		
@@ -238,6 +246,7 @@ namespace Novell.iFolderApp.Web
 												Encryption.Enabled = true;
 												shared.Enabled = true;
 												shared.Checked = true;
+												ChangeForEncryption();
                                         }       
                                 }
                                 else
@@ -267,6 +276,13 @@ namespace Novell.iFolderApp.Web
 							shared.Enabled = true;
 							shared.Checked = true;
                         }
+                        
+                        if(shared.Checked)
+						{
+							RAList.Enabled = false;
+							PassPhraseText.Enabled = false;
+							VerifyPassPhraseLabel.Visible = VerifyPassPhraseText.Visible = false;
+						}
 		}
 
 		/// <summary>
@@ -367,6 +383,7 @@ namespace Novell.iFolderApp.Web
 			{
 				RAList.Enabled = false;
 				PassPhraseText.Enabled = false;
+				PassPhraseText.Text = "";
 				VerifyPassPhraseLabel.Visible = VerifyPassPhraseText.Visible = false;
 			}
 			if (name.Length == 0)
@@ -389,7 +406,6 @@ namespace Novell.iFolderApp.Web
 			string PassPhraseStr = PassPhraseText.Text.Trim();
 			string VerifyPassPhraseStr = VerifyPassPhraseText.Text.Trim();
 			string SessionPassPhrase = Session["SessionPassPhrase"] as string;
-
 			if (name.Length == 0)
 			{
 				Message.Text = GetString("IFOLDER.NONAME");
@@ -422,6 +438,7 @@ namespace Novell.iFolderApp.Web
 								return;
 							}
 							Session["SessionPassPhrase"]=PassPhraseStr;
+							
 						}
 						else
 							PassPhraseStr = SessionPassPhrase;
@@ -429,13 +446,7 @@ namespace Novell.iFolderApp.Web
 					else
 					{
 						string RAName = RAList.SelectedValue;
-						// if there was not any RA, then ifolder can not be encrypted.
-						/*if(RAName.Equals(""))
-						{
-							Message.Text = GetString("NoRAavailable");
-							return;
-						}
-						else*/
+						
 						if(! RAName.Equals(""))
 						{
 							if(PassPhraseStr.Length == 0 || VerifyPassPhraseStr.Length == 0)
@@ -454,9 +465,14 @@ namespace Novell.iFolderApp.Web
 							Response.Redirect(String.Format("iFolderCertificate.aspx?RAName={0}&PassPhrase={1}&EncryptionAlgorithm={2}&name={3}&description={4}",
 															RAName, PassPhraseStr, EncryptionAlgorithm, name, description));
 							
-							//string PublicKey = "";
-							//Status ObjSetPassPhrase = web.SetPassPhrase(PassPhraseStr, RAName, PublicKey);
-						}					
+						}
+						else
+						{
+							RAName = null;
+							string PublicKey = null;
+							web.SetPassPhrase(PassPhraseStr, RAName, PublicKey);
+							Session["SessionPassPhrase"]=PassPhraseStr;
+						}	
 					}	
 				}
 				/*if(ssl.Checked == true)
@@ -464,9 +480,12 @@ namespace Novell.iFolderApp.Web
 				
 				if(shared.Checked == true)
 					SHARED = true;
+				else
+					SHARED = false;
 					
 				// Send the ifolder Name, Description, Security details and the encryption algorithm
-				ifolder = web.CreateiFolder(name, description, SHARED, EncryptionAlgorithm);
+				
+				ifolder = web.CreateiFolder(name, description, SHARED, EncryptionAlgorithm, PassPhraseStr);
 
 				//ifolder = web.CreateiFolder(name, description, SSL, EncryptionAlgorithm);
 

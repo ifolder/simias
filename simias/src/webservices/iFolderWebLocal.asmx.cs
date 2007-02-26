@@ -100,7 +100,7 @@ namespace iFolder.WebService
 		[WebMethod(
 			 Description="Create a new iFolder with the authenticated user as the owner.",
 			 EnableSession=true)]
-		public virtual iFolder CreateiFolder(string name, string description, bool ssl, string encryptionAlgorithm)
+		public virtual iFolder CreateiFolder(string name, string description, bool ssl, string encryptionAlgorithm, string PassPhrase)
 		{
 			iFolder result = null;
 
@@ -109,8 +109,7 @@ namespace iFolder.WebService
 				Authorize();
 
 				string accessID = GetAccessID();
-
-				result = iFolder.CreateiFolder(name, accessID, description, accessID, ssl, encryptionAlgorithm);
+				result = iFolder.CreateiFolder(name, accessID, description, accessID, ssl, encryptionAlgorithm, PassPhrase);
 			}
 			catch(Exception e)
 			{

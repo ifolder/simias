@@ -1706,6 +1706,7 @@ namespace Simias.Storage
 		{
 			UTF8Encoding utf8 = new UTF8Encoding();
 			CryptoKey		= CrypKey;
+			CryptoKeySize	= 128;
 		}
 
 		/// <summary>

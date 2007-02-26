@@ -151,7 +151,6 @@ namespace iFolder.WebService
 			return result;
 		}
 		
-			
 		/// <summary>
 		/// Get the RA Certificate
 		/// </summary>

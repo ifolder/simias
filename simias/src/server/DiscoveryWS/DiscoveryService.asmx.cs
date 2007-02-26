@@ -172,7 +172,7 @@ namespace Simias.DiscoveryService.Web
 		/// DirNode Name
 		/// </summary>
 		public string UserRights;
-		public strin encryptionAlgorithm;
+		public string encryptionAlgorithm;
 
 	        public CollectionInfo ()
 		{
