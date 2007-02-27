@@ -694,7 +694,7 @@ namespace Simias.Storage
 				if(passphrase ==null)
 					throw new CollectionStoreException("Passphrase not provided");
 				
-				Key key = new Key((passphrase.Length)*8);//Here we expect the passphrase size multiple of 8
+				Key key = new Key(128);//Here we expect the passphrase size multiple of 8
 				key.EncrypytKey(passphrase, out this.encryptionKey);//send the passphrase to encrypt the key
 				this.encryptionBlob = key.HashKey();
 

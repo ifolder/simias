@@ -1706,7 +1706,6 @@ namespace Simias.Storage
 		{
 			UTF8Encoding utf8 = new UTF8Encoding();
 			CryptoKey		= CrypKey;
-			CryptoKeySize	= 128;
 		}
 
 		/// <summary>
@@ -1749,6 +1748,8 @@ namespace Simias.Storage
 		/// </summary>
 		public void EncrypytKey(string PassPhrase, out string EncryptedKey) 
 	       {
+	       	this.CryptoKeySize	= (PassPhrase.Length)*8;
+
 			UTF8Encoding utf8 = new UTF8Encoding();
 			TripleDESCryptoServiceProvider m_des = new TripleDESCryptoServiceProvider();
 			byte[] IV = new byte[0];
