@@ -245,7 +245,8 @@ namespace Simias
 						if ( ( creds.AuthType == "basic" ) && ( creds.DomainID == store.LocalDomain ) )
 						{
 							// Get the member of the local domain and compare the passwords.
-							Member member = domain.GetMemberByName( creds.Username );
+							string CurrentUserID = store.GetUserIDFromDomainID(creds.DomainID);
+							Member member = domain.GetMemberByID(CurrentUserID);
 							if ( ( member != null ) && ( store.LocalPassword == creds.Password ) )
 							{
 								status.UserName = member.Name;
