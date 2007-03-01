@@ -764,9 +764,13 @@ namespace Simias.Server
                 /// </summary>
                 static public void DeleteEntryByCollectionID( string CollectionID )
                 {
+			Collection c = store.GetCollectionByID(CollectionID);
                         CatalogEntry entry = GetEntryByCollectionID(CollectionID);
 			if(entry != null)
+			{
 				catalog.Commit(catalog.Delete(entry));
+				c.Commit(c.Delete());
+			}
 
                         return ;
                 }
@@ -976,12 +980,13 @@ namespace Simias.Server
 		/// Note: called when a member is removed from the collection.
 		/// See above explanation for kludgy format
 		/// </summary>
-		internal bool RemoveMember( string NodeID )
+		public bool RemoveMember( string NodeID )
 		{
 			MultiValuedList mv = this.Properties.GetProperties( MemberProperty );
 			foreach( Property prop in mv )
 			{
 				string[] comps = ( (string) prop.Value ).Split( ':' );
+				log.Debug("comp1 {0} comp2 {1}", comps[0], comps[1]);
 				if ( comps.Length == 2 && comps[1] == NodeID )
 				{
 					prop.Delete();

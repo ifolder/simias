@@ -1739,7 +1739,7 @@ namespace Simias.Storage
 		{
 			UTF8Encoding utf8 = new UTF8Encoding();
 			MD5 md5 = new MD5CryptoServiceProvider();
-			byte[] hashedObject = new MD5CryptoServiceProvider().ComputeHash(utf8.GetBytes(+this.CryptoKey));
+			byte[] hashedObject = new MD5CryptoServiceProvider().ComputeHash(utf8.GetBytes(this.CryptoKey));
 			return Convert.ToBase64String(hashedObject);
 		}
 
