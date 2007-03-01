@@ -360,12 +360,13 @@ namespace Simias.DiscoveryService.Web
 
 		        Collection collection = Store.GetStore().GetCollectionByID( CollectionID );
 			Member member = collection.GetMemberByID( UserID );
-			CatalogEntry entry = Catalog.GetEntryByCollectionID( CollectionID );
+//			CatalogEntry entry = Catalog.GetEntryByCollectionID( CollectionID );
 
 			if ( member != null )
 			{
-				entry.RemoveMember(member.UserID);
-//				collection.Commit( collection.Delete( member ) );
+			        //Note : When collection is deleted, information in catalog will be updated.
+//				entry.RemoveMember(member.UserID);
+				collection.Commit( collection.Delete( member ) );
 				return true;
 			}
 			return false;
