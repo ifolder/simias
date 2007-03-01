@@ -544,10 +544,17 @@ namespace Simias.DomainServices
 			status.DomainID = domainInfo.ID;
 
 			//Down Sync the domain
-			log.Debug("Arul synNow() calling");
+			HostInfo info = domainService.GetHomeServer(user);
+			if(baseUrl  != info.PublicAddress)
+			{
+				log.Debug("Waiting for the home server to sync the master user");
+				Thread.Sleep( 33 * 1000 );
+			}
+			
+			log.Debug("Attach sync begin");
 			syncClient = new CollectionSyncClient(domainInfo.ID, new TimerCallback( TimerFired ) );			
 			syncClient.SyncNow();
-			log.Debug("Arul synNow() done..................");
+			log.Debug("Attach sync done");
 			return status;
 		}
 		
@@ -638,14 +645,6 @@ namespace Simias.DomainServices
 			{
 				status = new Simias.Authentication.Status( SCodes.UnknownDomain );
 			}
-
-			//Down Sync the domain
-			log.Debug("Arul synNow() calling.....from .......login");
-			this.SetDomainActive( DomainID );
-			syncClient = new CollectionSyncClient(DomainID, new TimerCallback( TimerFired ) );			
-			syncClient.SyncNow();
-			log.Debug("Arul synNow() done.......from ....login");
-			
 
 			log.Debug( "Login - exit  Status: " + status.statusCode.ToString() );
 			return status;

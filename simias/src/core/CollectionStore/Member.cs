@@ -666,8 +666,6 @@ namespace Simias.Storage
 					}
 					index++;
 				}
-				ExportiFoldersCryptoKeys("/home/ifolder/keys.txt");
-				ImportiFoldersCryptoKeys(null, "/home/ifolder/keys.txt");
 			}
 			catch(Exception ex)
 			{
