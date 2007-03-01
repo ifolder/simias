@@ -737,6 +737,29 @@
           </xs:sequence>
         </xs:complexType>
       </xs:element>
+      <xs:element name="ExportiFoldersCryptoKeys">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="DomainID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="FilePath" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ExportiFoldersCryptoKeysResponse">
+        <xs:complexType />
+      </xs:element>
+      <xs:element name="ImportiFoldersCryptoKeys">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="DomainID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="OneTimePassphrase" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="FilePath" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ImportiFoldersCryptoKeysResponse">
+        <xs:complexType />
+      </xs:element>
       <xs:element name="SetPassPhrase">
         <xs:complexType>
           <xs:sequence>
@@ -1113,6 +1136,18 @@
   <message name="SetiFolderCryptoKeysSoapOut">
     <part element="s0:SetiFolderCryptoKeysResponse" name="parameters" />
   </message>
+  <message name="ExportiFoldersCryptoKeysSoapIn">
+    <part element="s0:ExportiFoldersCryptoKeys" name="parameters" />
+  </message>
+  <message name="ExportiFoldersCryptoKeysSoapOut">
+    <part element="s0:ExportiFoldersCryptoKeysResponse" name="parameters" />
+  </message>
+  <message name="ImportiFoldersCryptoKeysSoapIn">
+    <part element="s0:ImportiFoldersCryptoKeys" name="parameters" />
+  </message>
+  <message name="ImportiFoldersCryptoKeysSoapOut">
+    <part element="s0:ImportiFoldersCryptoKeysResponse" name="parameters" />
+  </message>
   <message name="SetPassPhraseSoapIn">
     <part element="s0:SetPassPhrase" name="parameters" />
   </message>
@@ -1372,6 +1407,17 @@
   <message name="GetiFolderCryptoKeysHttpGetOut">
     <part element="s0:CollectionKey" name="Body" />
   </message>
+  <message name="ExportiFoldersCryptoKeysHttpGetIn">
+    <part name="DomainID" type="s:string" />
+    <part name="FilePath" type="s:string" />
+  </message>
+  <message name="ExportiFoldersCryptoKeysHttpGetOut" />
+  <message name="ImportiFoldersCryptoKeysHttpGetIn">
+    <part name="DomainID" type="s:string" />
+    <part name="OneTimePassphrase" type="s:string" />
+    <part name="FilePath" type="s:string" />
+  </message>
+  <message name="ImportiFoldersCryptoKeysHttpGetOut" />
   <message name="SetPassPhraseHttpGetIn">
     <part name="DomainID" type="s:string" />
     <part name="PassPhrase" type="s:string" />
@@ -1635,6 +1681,17 @@
   <message name="GetiFolderCryptoKeysHttpPostOut">
     <part element="s0:CollectionKey" name="Body" />
   </message>
+  <message name="ExportiFoldersCryptoKeysHttpPostIn">
+    <part name="DomainID" type="s:string" />
+    <part name="FilePath" type="s:string" />
+  </message>
+  <message name="ExportiFoldersCryptoKeysHttpPostOut" />
+  <message name="ImportiFoldersCryptoKeysHttpPostIn">
+    <part name="DomainID" type="s:string" />
+    <part name="OneTimePassphrase" type="s:string" />
+    <part name="FilePath" type="s:string" />
+  </message>
+  <message name="ImportiFoldersCryptoKeysHttpPostOut" />
   <message name="SetPassPhraseHttpPostIn">
     <part name="DomainID" type="s:string" />
     <part name="PassPhrase" type="s:string" />
@@ -1923,28 +1980,40 @@
       <output message="s0:ServerSetPassPhraseSoapOut" />
     </operation>
     <operation name="ServerGetEncrypPassKey">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validate the passphrase for the correctness.</wsdl:documentation>
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validate the passphrase for the correctness.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">ServerGetEncrypPassKey.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">ServerGetEncrypPassKey.</wsdl:documentation>
       <input message="s0:ServerGetEncrypPassKeySoapIn" />
       <output message="s0:ServerGetEncrypPassKeySoapOut" />
     </operation>
     <operation name="ServerGetPassKeyHash">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validate the passphrase for the correctness.</wsdl:documentation>
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validate the passphrase for the correctness.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">ServerGetPassKeyHash.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">ServerGetPassKeyHash.</wsdl:documentation>
       <input message="s0:ServerGetPassKeyHashSoapIn" />
       <output message="s0:ServerGetPassKeyHashSoapOut" />
     </operation>
     <operation name="GetiFolderCryptoKeys">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validate the passphrase for the correctness.</wsdl:documentation>
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validate the passphrase for the correctness.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">GetiFolderCryptoKeys.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">GetiFolderCryptoKeys.</wsdl:documentation>
       <input message="s0:GetiFolderCryptoKeysSoapIn" />
       <output message="s0:GetiFolderCryptoKeysSoapOut" />
     </operation>
     <operation name="SetiFolderCryptoKeys">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validate the passphrase for the correctness.</wsdl:documentation>
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validate the passphrase for the correctness.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">SetiFolderCryptoKeys.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">SetiFolderCryptoKeys.</wsdl:documentation>
       <input message="s0:SetiFolderCryptoKeysSoapIn" />
       <output message="s0:SetiFolderCryptoKeysSoapOut" />
+    </operation>
+    <operation name="ExportiFoldersCryptoKeys">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">ExportiFoldersCryptoKeys.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">ExportiFoldersCryptoKeys.</wsdl:documentation>
+      <input message="s0:ExportiFoldersCryptoKeysSoapIn" />
+      <output message="s0:ExportiFoldersCryptoKeysSoapOut" />
+    </operation>
+    <operation name="ImportiFoldersCryptoKeys">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">ImportiFoldersCryptoKeys.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">ImportiFoldersCryptoKeys.</wsdl:documentation>
+      <input message="s0:ImportiFoldersCryptoKeysSoapIn" />
+      <output message="s0:ImportiFoldersCryptoKeysSoapOut" />
     </operation>
     <operation name="SetPassPhrase">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set the passphrase and recovery agent.</wsdl:documentation>
@@ -2195,22 +2264,34 @@
       <output message="s0:ServerSetPassPhraseHttpGetOut" />
     </operation>
     <operation name="ServerGetEncrypPassKey">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validate the passphrase for the correctness.</wsdl:documentation>
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validate the passphrase for the correctness.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">ServerGetEncrypPassKey.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">ServerGetEncrypPassKey.</wsdl:documentation>
       <input message="s0:ServerGetEncrypPassKeyHttpGetIn" />
       <output message="s0:ServerGetEncrypPassKeyHttpGetOut" />
     </operation>
     <operation name="ServerGetPassKeyHash">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validate the passphrase for the correctness.</wsdl:documentation>
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validate the passphrase for the correctness.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">ServerGetPassKeyHash.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">ServerGetPassKeyHash.</wsdl:documentation>
       <input message="s0:ServerGetPassKeyHashHttpGetIn" />
       <output message="s0:ServerGetPassKeyHashHttpGetOut" />
     </operation>
     <operation name="GetiFolderCryptoKeys">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validate the passphrase for the correctness.</wsdl:documentation>
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validate the passphrase for the correctness.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">GetiFolderCryptoKeys.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">GetiFolderCryptoKeys.</wsdl:documentation>
       <input message="s0:GetiFolderCryptoKeysHttpGetIn" />
       <output message="s0:GetiFolderCryptoKeysHttpGetOut" />
+    </operation>
+    <operation name="ExportiFoldersCryptoKeys">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">ExportiFoldersCryptoKeys.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">ExportiFoldersCryptoKeys.</wsdl:documentation>
+      <input message="s0:ExportiFoldersCryptoKeysHttpGetIn" />
+      <output message="s0:ExportiFoldersCryptoKeysHttpGetOut" />
+    </operation>
+    <operation name="ImportiFoldersCryptoKeys">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">ImportiFoldersCryptoKeys.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">ImportiFoldersCryptoKeys.</wsdl:documentation>
+      <input message="s0:ImportiFoldersCryptoKeysHttpGetIn" />
+      <output message="s0:ImportiFoldersCryptoKeysHttpGetOut" />
     </operation>
     <operation name="SetPassPhrase">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set the passphrase and recovery agent.</wsdl:documentation>
@@ -2461,22 +2542,34 @@
       <output message="s0:ServerSetPassPhraseHttpPostOut" />
     </operation>
     <operation name="ServerGetEncrypPassKey">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validate the passphrase for the correctness.</wsdl:documentation>
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validate the passphrase for the correctness.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">ServerGetEncrypPassKey.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">ServerGetEncrypPassKey.</wsdl:documentation>
       <input message="s0:ServerGetEncrypPassKeyHttpPostIn" />
       <output message="s0:ServerGetEncrypPassKeyHttpPostOut" />
     </operation>
     <operation name="ServerGetPassKeyHash">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validate the passphrase for the correctness.</wsdl:documentation>
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validate the passphrase for the correctness.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">ServerGetPassKeyHash.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">ServerGetPassKeyHash.</wsdl:documentation>
       <input message="s0:ServerGetPassKeyHashHttpPostIn" />
       <output message="s0:ServerGetPassKeyHashHttpPostOut" />
     </operation>
     <operation name="GetiFolderCryptoKeys">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validate the passphrase for the correctness.</wsdl:documentation>
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Validate the passphrase for the correctness.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">GetiFolderCryptoKeys.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">GetiFolderCryptoKeys.</wsdl:documentation>
       <input message="s0:GetiFolderCryptoKeysHttpPostIn" />
       <output message="s0:GetiFolderCryptoKeysHttpPostOut" />
+    </operation>
+    <operation name="ExportiFoldersCryptoKeys">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">ExportiFoldersCryptoKeys.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">ExportiFoldersCryptoKeys.</wsdl:documentation>
+      <input message="s0:ExportiFoldersCryptoKeysHttpPostIn" />
+      <output message="s0:ExportiFoldersCryptoKeysHttpPostOut" />
+    </operation>
+    <operation name="ImportiFoldersCryptoKeys">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">ImportiFoldersCryptoKeys.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">ImportiFoldersCryptoKeys.</wsdl:documentation>
+      <input message="s0:ImportiFoldersCryptoKeysHttpPostIn" />
+      <output message="s0:ImportiFoldersCryptoKeysHttpPostOut" />
     </operation>
     <operation name="SetPassPhrase">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set the passphrase and recovery agent.</wsdl:documentation>
@@ -2922,6 +3015,24 @@
         <soap:body use="literal" />
       </output>
     </operation>
+    <operation name="ExportiFoldersCryptoKeys">
+      <soap:operation soapAction="http://novell.com/simias/web/ExportiFoldersCryptoKeys" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="ImportiFoldersCryptoKeys">
+      <soap:operation soapAction="http://novell.com/simias/web/ImportiFoldersCryptoKeys" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
     <operation name="SetPassPhrase">
       <soap:operation soapAction="http://novell.com/simias/web/SetPassPhrase" style="document" />
       <input>
@@ -3297,6 +3408,20 @@
         <mime:mimeXml part="Body" />
       </output>
     </operation>
+    <operation name="ExportiFoldersCryptoKeys">
+      <http:operation location="/ExportiFoldersCryptoKeys" />
+      <input>
+        <http:urlEncoded />
+      </input>
+      <output />
+    </operation>
+    <operation name="ImportiFoldersCryptoKeys">
+      <http:operation location="/ImportiFoldersCryptoKeys" />
+      <input>
+        <http:urlEncoded />
+      </input>
+      <output />
+    </operation>
     <operation name="SetPassPhrase">
       <http:operation location="/SetPassPhrase" />
       <input>
@@ -3671,6 +3796,20 @@
       <output>
         <mime:mimeXml part="Body" />
       </output>
+    </operation>
+    <operation name="ExportiFoldersCryptoKeys">
+      <http:operation location="/ExportiFoldersCryptoKeys" />
+      <input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </input>
+      <output />
+    </operation>
+    <operation name="ImportiFoldersCryptoKeys">
+      <http:operation location="/ImportiFoldersCryptoKeys" />
+      <input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </input>
+      <output />
     </operation>
     <operation name="SetPassPhrase">
       <http:operation location="/SetPassPhrase" />

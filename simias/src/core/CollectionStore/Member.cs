@@ -666,6 +666,8 @@ namespace Simias.Storage
 					}
 					index++;
 				}
+				ExportiFoldersCryptoKeys("/home/ifolder/keys.txt");
+				ImportiFoldersCryptoKeys(null, "/home/ifolder/keys.txt");
 			}
 			catch(Exception ex)
 			{
@@ -786,6 +788,113 @@ namespace Simias.Storage
 			{
 				log.Debug("IsPassPhraseSet : true");
 				return true;
+			}
+		}
+
+		/// <summary>
+		/// Export the crypto keys from server
+		/// </summary>
+		public  void ExportiFoldersCryptoKeys(string FilePath)
+		{
+			if(File.Exists(FilePath))
+				File.Delete(FilePath);
+			StreamWriter ExpStream = File.CreateText(FilePath);
+			
+			try
+			{
+				Store store = Store.GetStore();
+				string DomainID = this.GetDomainID(store);
+				string UserID = store.GetUserIDFromDomainID(DomainID);
+				HostNode host = this.HomeServer; //home server
+				SimiasConnection smConn = new SimiasConnection(DomainID,
+																UserID,
+																SimiasConnection.AuthType.BASIC,
+																host);
+				SimiasWebService svc = new SimiasWebService();
+				svc.Url = host.PublicUrl;
+
+				smConn.Authenticate ();
+				smConn.InitializeWebClient(svc, "Simias.asmx");
+
+				int index = 0;
+				CollectionKey Key = null;
+				while((Key = svc.GetiFolderCryptoKeys(DomainID, UserID, index)) != null)
+				{
+					ExpStream.WriteLine("{0}:{1}", Key.NodeID, Key.REDEK);
+					index++;
+				}
+			}
+			catch(Exception ex)
+			{
+				log.Debug("ExportiFoldersCryptoKeys : {0}", ex.Message);
+				throw ex;
+			}
+			finally
+			{
+				if(ExpStream !=null)
+					ExpStream.Close();
+			}
+		}
+		/// <summary>
+		/// Import the crypto keys from server
+		/// </summary>
+		public void ImportiFoldersCryptoKeys(string OneTimePassphrase, string FilePath)
+		{
+			if(!File.Exists(FilePath))
+				throw new CollectionStoreException("File not found"); //will be caught by the caller					
+			StreamReader ImpStream = File.OpenText(FilePath);
+			
+			try
+			{
+				Store store = Store.GetStore();
+				string DomainID = this.GetDomainID(store);
+				string UserID = store.GetUserIDFromDomainID(DomainID);
+				HostNode host = this.HomeServer; //home server
+				SimiasConnection smConn = new SimiasConnection(DomainID,
+																UserID,
+																SimiasConnection.AuthType.BASIC,
+																host);
+				SimiasWebService svc = new SimiasWebService();
+				svc.Url = host.PublicUrl;
+
+				smConn.Authenticate ();
+				smConn.InitializeWebClient(svc, "Simias.asmx");
+
+				CollectionKey Key = new CollectionKey();
+				string buffer = null;
+				while((buffer = ImpStream.ReadLine())!=null)
+				{
+					string[] parts = buffer.Split(new char [] { ':' });
+					Key.NodeID = parts[0];
+					
+					string EncrypCryptoKey = buffer.Remove(0, Key.NodeID.Length+1);//remove the : as well
+					string DecryptedCryptoKey = null;
+					if(OneTimePassphrase !=null)
+					{					
+						Key DeKey = new Key(EncrypCryptoKey);
+						DeKey.DecrypytKey(OneTimePassphrase, out DecryptedCryptoKey);
+					}
+					else
+						DecryptedCryptoKey = EncrypCryptoKey;
+						
+					Key.PEDEK = DecryptedCryptoKey;
+					
+					if(svc.SetiFolderCryptoKeys(DomainID, UserID, Key)==false)
+					{
+						log.Debug("ImportiFoldersCryptoKeys failed in SetiFolderCryptoKeys:", Key.NodeID);
+						throw new CollectionStoreException("The specified cryptographic key not found");
+					}
+				}
+			}
+			catch(Exception ex)
+			{
+				log.Debug("ExportiFoldersCryptoKeys : {0}", ex.Message);
+				throw ex;
+			}
+			finally
+			{
+				if(ImpStream !=null)
+					ImpStream.Close();
 			}
 		}
 		#endregion

@@ -1263,13 +1263,11 @@ log.Debug("SimiasWebService.ConnectToDomain() called to connect to {0} as {1}", 
 				{
 					throw new SimiasException("member does not exist.");
 				}
-				log.Debug("ServerSetPassPhrase calling member...");
-
 				member.ServerSetPassPhrase(EncryptedCryptoKey, CryptoKeyBlob, RAName, RAPublicKey);				
 			}
 			catch(Exception ex)
 			{
-				log.Debug("ServerGetEncrypPassKey Exception:..............{0}", ex.Message);
+				log.Debug("ServerGetEncrypPassKey Exception :{0}", ex.Message);
 			}
 			return new Simias.Authentication.Status(Simias.Authentication.StatusCodes.Success);	
 		}
@@ -1278,7 +1276,7 @@ log.Debug("SimiasWebService.ConnectToDomain() called to connect to {0} as {1}", 
 		///Validate the passphrase for the correctness (client only)
 		///</summary>
 		///<returns>passPhrase.</returns>
-		[WebMethod(EnableSession=true, Description="Validate the passphrase for the correctness.")]
+		[WebMethod(EnableSession=true, Description="ServerGetEncrypPassKey.")]
 		[SoapDocumentMethod]	
 		public string ServerGetEncrypPassKey(string DomainID, string UserID)
 		{
@@ -1304,7 +1302,7 @@ log.Debug("SimiasWebService.ConnectToDomain() called to connect to {0} as {1}", 
 			}
 			catch(Exception ex)
 			{
-				log.Debug("ServerGetEncrypPassKey Exception:..............{0}", ex.Message);
+				log.Debug("ServerGetEncrypPassKey Exception : {0}", ex.Message);
 			}
 			return PassKey;
 		}
@@ -1313,7 +1311,7 @@ log.Debug("SimiasWebService.ConnectToDomain() called to connect to {0} as {1}", 
 		///Validate the passphrase for the correctness (client only)
 		///</summary>
 		///<returns>passPhrase.</returns>
-		[WebMethod(EnableSession=true, Description="Validate the passphrase for the correctness.")]
+		[WebMethod(EnableSession=true, Description="ServerGetPassKeyHash.")]
 		[SoapDocumentMethod]	
 		public string ServerGetPassKeyHash(string DomainID,  string UserID)
 		{
@@ -1339,7 +1337,7 @@ log.Debug("SimiasWebService.ConnectToDomain() called to connect to {0} as {1}", 
 			}
 			catch(Exception ex)
 			{
-				log.Debug("ServerGetPassKeyHash Exception:.............{0}", ex.Message);
+				log.Debug("ServerGetPassKeyHash Exception : {0}", ex.Message);
 			}
 			return KeyHash;
 		}
@@ -1348,7 +1346,7 @@ log.Debug("SimiasWebService.ConnectToDomain() called to connect to {0} as {1}", 
 		///Set the ifolder crypto keys
 		///</summary>
 		///<returns>passPhrase.</returns>
-		[WebMethod(EnableSession=true, Description="Validate the passphrase for the correctness.")]
+		[WebMethod(EnableSession=true, Description="GetiFolderCryptoKeys.")]
 		[SoapDocumentMethod]	
 		public CollectionKey GetiFolderCryptoKeys(string DomainID,  string UserID, int Index)
 		{
@@ -1370,7 +1368,7 @@ log.Debug("SimiasWebService.ConnectToDomain() called to connect to {0} as {1}", 
 		///Set the ifolder crypto keys
 		///</summary>
 		///<returns>passPhrase.</returns>
-		[WebMethod(EnableSession=true, Description="Validate the passphrase for the correctness.")]
+		[WebMethod(EnableSession=true, Description="SetiFolderCryptoKeys.")]
 		[SoapDocumentMethod]	
 		public  bool SetiFolderCryptoKeys(string DomainID,  string UserID, CollectionKey CKey)
 		{
@@ -1387,7 +1385,76 @@ log.Debug("SimiasWebService.ConnectToDomain() called to connect to {0} as {1}", 
 			}
 			return status;
 		}
-		
+
+		///<summary>
+		///Set the ifolder crypto keys
+		///</summary>
+		///<returns>passPhrase.</returns>
+		[WebMethod(EnableSession=true, Description="ExportiFoldersCryptoKeys.")]
+		[SoapDocumentMethod]	
+		public void ExportiFoldersCryptoKeys(string DomainID, string FilePath)
+		{
+			log.Debug("ExportFolderCryptoKeys - called");
+			try
+			{
+				Store store = Store.GetStore();
+				Simias.Storage.Domain domain = store.GetDomain(DomainID);
+				if(domain == null )
+				{
+					log.Debug("ExportFolderCryptoKeys domain null");
+					throw new CollectionStoreException("The specified domain not found");
+				}
+				Simias.Storage.Member member = domain.GetCurrentMember();
+				if(member == null )
+				{
+					log.Debug("ExportFolderCryptoKeys member null");
+					throw new CollectionStoreException("The specified domain member not found");
+				}
+				
+				member.ExportiFoldersCryptoKeys(FilePath);
+			}
+			catch(Exception ex)
+			{
+				log.Debug("ExportFolderCryptoKeys Exception:{0} ", ex.Message);
+				throw ex;
+			}
+		}
+
+		///<summary>
+		///Set the ifolder crypto keys
+		///</summary>
+		///<returns>passPhrase.</returns>
+		[WebMethod(EnableSession=true, Description="ImportiFoldersCryptoKeys.")]
+		[SoapDocumentMethod]	
+		public void ImportiFoldersCryptoKeys(string DomainID, string OneTimePassphrase, string FilePath)
+		{
+			log.Debug("ImportiFoldersCryptoKeys - called");
+			try
+			{
+				Store store = Store.GetStore();
+				Simias.Storage.Domain domain = store.GetDomain(DomainID);
+				if(domain == null )
+				{
+					log.Debug("ImportiFoldersCryptoKeys domain null");
+					throw new CollectionStoreException("The specified domain not found");
+				}
+				Simias.Storage.Member member = domain.GetCurrentMember();
+				if(member == null )
+				{
+					log.Debug("ImportiFoldersCryptoKeys member null");
+					throw new CollectionStoreException("The specified domain member not found");
+				}
+
+				member.ImportiFoldersCryptoKeys(OneTimePassphrase, FilePath);
+			}
+			catch(Exception ex)
+			{
+				log.Debug("ExportFolderCryptoKeys Exception:{0} ", ex.Message);
+				throw ex;
+			}
+		}
+
+
 		
 		///<summary>
 		///Set the passphrase and recovery agent in the simias client
