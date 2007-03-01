@@ -146,16 +146,17 @@ namespace Simias.Discovery
 			c.Commit((Node[]) commitList.ToArray(typeof(Node)));
 		}
 
-		public bool RemoveMembership(string domainID, string memberID, string collectionID, HostNode hNode)
+		public static bool RemoveMembership(string domainID, string collectionID)
 		{
 			bool removed = false;
 			Member member = Store.GetStore().GetDomain( domainID ).GetCurrentMember();
+			HostNode hNode = member.HomeServer;
 			try
 			{
 				DiscoveryService dService = new DiscoveryService();
 				SimiasConnection smConn = new SimiasConnection(domainID, member.UserID, SimiasConnection.AuthType.BASIC, hNode);
 				smConn.InitializeWebClient(dService, "DiscoveryService.asmx");
-				removed = dService.RemoveMemberFromCollection( collectionID, memberID);
+				removed = dService.RemoveMemberFromCollection( collectionID, member.UserID);
 			}
 			catch(Exception ex)
 			{
@@ -169,7 +170,8 @@ namespace Simias.Discovery
                 {
 			log.Debug("Domain ID {0}, col ID {1}", domainID, collectionID);
                         Member member = Store.GetStore().GetDomain( domainID ).GetCurrentMember();
-			HostNode hNode = HostNode.GetMaster(domainID);
+			HostNode hNode = member.HomeServer;
+			log.Debug("Host ID {0}", member.HomeServer.UserID);
                         try
                         {
                                 DiscoveryService dService = new DiscoveryService();

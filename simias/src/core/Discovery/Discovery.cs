@@ -59,7 +59,7 @@ namespace Simias.Discovery
 		/// <summary>
 		/// The default process cycle time for the shared collection.
 		/// </summary>
-		private const int defaultWait = 10 * 1000; // 10 secs
+		private const int defaultWait = 360 * 1000; // 5 mins
 
 		/// <summary>
 		/// The default pre Authentication cycle time for the shared collection.

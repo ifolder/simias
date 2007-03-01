@@ -1240,6 +1240,7 @@ namespace Simias.Web
 		public static void DeleteSharedCollection(string CollectionID, string accessID)
 		{
 			Store store = Store.GetStore();
+			log.Debug("Delete called {0}", CollectionID);
 			Collection collection = store.GetCollectionByID(CollectionID);
 			if(collection != null)
 			{
@@ -1265,17 +1266,9 @@ namespace Simias.Web
 					}
 				}
 			
-#if ( !REMOVE_OLD_INVITATION )
-				// first clean out all subscriptions for this iFolder
-				// if we are the server in a workgroup, then this
-				// will clean out everyone else's subscriptions too
-//                              RemoveAllSubscriptions(store, collection);
-                                RemoveLocalCollection(store, collection);
-
-#endif
 				collection.Commit(collection.Delete());
 			}
-			else
+/*			else
 			{
 				// Look for a subscription Node by it's ID. Should only ever return a single node.
 				ICSList nodeList = store.GetNodesByProperty(new Property(BaseSchema.ObjectId, CollectionID), SearchOp.Equal);
@@ -1305,7 +1298,7 @@ namespace Simias.Web
 				{
 					throw new Exception("Multiple objects returned for the same ID.");
 				}
-			}
+			}*/
 		}
 
 
@@ -1889,7 +1882,6 @@ namespace Simias.Web
 		}
 
 
-
 #if ( !REMOVE_OLD_INVITATION )
 		/// <summary>
 		/// Utility method that should be moved into the POBox class.
@@ -1981,30 +1973,6 @@ namespace Simias.Web
 			}
 		}
 
-                /// <summary>
-                /// Utility method that will find all subscriptions to a collection
-                /// and remove the subscription to this collection
-                /// </summary>
-                /// <param name = "store">
-                /// The store where the POBox and collection for this subscription
-                /// is to be found.
-                /// </param>
-                /// <param name = "collection">
-                /// The Collection for which the subscription is being removed
-                /// </param>
-                private static void RemoveLocalCollection(Store store, Collection col)
-                {
-                        Domain domain = store.GetDomain(col.Domain);
-			log.Debug("Remove called ID {0}", col.ID);
-                        if (domain != null)
-                        {
-				Collection c = store.GetCollectionByID(col.ID);
-                             if(c != null)
-                             {
-                                  c.Commit( c.Delete() );
-                             }
-                        }
-                }
 
 
 		/// <summary>
