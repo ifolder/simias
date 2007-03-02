@@ -75,8 +75,7 @@ namespace Novell.iFolderApp.Web
 		/// </summary>
 		private ResourceManager rm;
 
-		private static readonly ISimiasLog log = SimiasLogManager.GetLogger(typeof(Member));
-		
+	
 
 		/// <summary>
 		/// Page Load
@@ -209,7 +208,6 @@ namespace Novell.iFolderApp.Web
 				//try getting publickey from current session
 				CertPublicKey = Session["CertPublicKey"] as byte [] ;
 
-				//log.Debug();
 				UTF8Encoding utf8 = new UTF8Encoding();
 				string PublicKey = utf8.GetString(CertPublicKey);
 					
