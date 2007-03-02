@@ -202,7 +202,7 @@ namespace iFolder.WebService
 		///<returns>passPhrase.</returns>
 		[WebMethod(EnableSession=true, Description="Set the passphrase and recovery agent.")]
 		[SoapDocumentMethod]
-		public override void SetPassPhrase(string passPhrase, string recoveryAgentName, byte [] publicKey)
+		public override void SetPassPhrase(string passPhrase, string recoveryAgentName, string publicKey)
 		{
 			base.SetPassPhrase(passPhrase, recoveryAgentName, publicKey);
 		}
@@ -753,6 +753,22 @@ namespace iFolder.WebService
 		public override void SetFileLength(string ifolderID, string nodeID, long length)
 		{
 			base.SetFileLength( ifolderID,  nodeID,  length);
+		}
+
+		///<summary>
+		///Padding of passphrase so that it is >=16 and multiple of 8
+		///</summary>
+		///<returns>padded passPhrase.</returns>
+		public string DoPadding(string Passhrase)
+		{
+			string NewPassphrase = Passhrase;
+
+			while(NewPassphrase.Length % 8 !=0 || NewPassphrase.Length < 16)
+			{
+				NewPassphrase += NewPassphrase;
+				NewPassphrase = NewPassphrase.Remove((NewPassphrase.Length /8)*8, NewPassphrase.Length%8);
+			}
+			return NewPassphrase;
 		}
 
 		#endregion

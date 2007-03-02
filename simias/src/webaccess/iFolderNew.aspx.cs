@@ -134,7 +134,7 @@ namespace Novell.iFolderApp.Web
 		/// <summary>
 		/// SHARED
 		/// </summary>
-		bool SHARED;
+		bool Sharable;
 
 		/// <summary>
 		/// Encry Algorithm (in future it can be selected from gui)
@@ -169,7 +169,7 @@ namespace Novell.iFolderApp.Web
 				shared.ToolTip = GetString("ShareCondition");
 				SelectLabel.Text = GetString("SELECTRECOVERYAGENT");
 				PassPhraseLabel.Text = GetString("ENTERPASSPHRASE");
-				VerifyPassPhraseLabel.Text = GetString("Pleasereenterpassphrase");
+				VerifyPassPhraseLabel.Text = GetString("REENTER_PASSPHRASE");
 				VerifyPassPhraseLabel.Visible=VerifyPassPhraseText.Visible = false;
 				RAList.Enabled = false;
 				PassPhraseText.Enabled = false;
@@ -403,12 +403,36 @@ namespace Novell.iFolderApp.Web
 		{
 			string name = NewiFolderName.Text.Trim();
 			string description = NewiFolderDescription.Text.Trim();
-			string PassPhraseStr = DoPadding(PassPhraseText.Text.Trim());
-			string VerifyPassPhraseStr = DoPadding(VerifyPassPhraseText.Text.Trim());
+			string PassPhraseStr = PassPhraseText.Text.Trim();
+			string VerifyPassPhraseStr = VerifyPassPhraseText.Text.Trim();
 			string SessionPassPhrase = Session["SessionPassPhrase"] as string;
-			if (name.Length == 0)
+
+			//Validate the inputs
+			if(name.Length == 0)
 			{
 				Message.Text = GetString("IFOLDER.NONAME");
+				return;
+			}
+
+			//Very first time this code will be executed
+			if(Encryption.Checked == true && (web.IsPassPhraseSet()==false))
+			{
+				if((PassPhraseStr == "" || VerifyPassPhraseStr == ""))
+				{
+					Message.Text = GetString("ENTER_PASSPHRASE");
+					return;
+				}
+				if((! PassPhraseStr.Equals(VerifyPassPhraseStr)))
+				{
+					Message.Text = GetString("PASSPHRASE_NOT_MATCH");
+					VerifyPassPhraseText.Text = "";
+					return;
+				}
+			}
+			else if(Encryption.Checked == true && PassPhraseStr == "" && SessionPassPhrase == null)
+			{
+				//create encrypted folder and pasphrase is not provided
+				Message.Text = GetString("ENTER_PASSPHRASE");
 				return;
 			}
 
@@ -419,85 +443,59 @@ namespace Novell.iFolderApp.Web
 				if(Encryption.Checked == true)
 				{
 					EncryptionAlgorithm = "BlowFish";
-					bool PassPhraseSet = web.IsPassPhraseSet();
-				
-					if(PassPhraseSet)
-					{  // it means user had already set the pass-phrase, now verify
+					Sharable = false;
+
+					//If not avaiable in the session 
+					if(SessionPassPhrase == null)
+					{
+						PassPhraseStr =  DoPadding(PassPhraseStr);
 						
-						if(PassPhraseStr.Length == 0 && SessionPassPhrase == null)
+						bool PassPhraseSet = web.IsPassPhraseSet();
+						if(PassPhraseSet)
 						{
-							Message.Text = GetString("Wrongpassphrase");
-							return;
-						} 
-						if(SessionPassPhrase == null)
-						{
-							try{
 							Status ObjValidate = web.ValidatePassPhrase(PassPhraseStr);
 							if(ObjValidate.statusCode != StatusCodes.Success)
 							{
-								Message.Text = GetString("Wrongpassphrase");
+								Message.Text = GetString("PASSPHRASE.NOT.MATCH");
 								PassPhraseText.Text = "";
 								return;
 							}
-							Session["SessionPassPhrase"]=PassPhraseStr;
-							}catch(SoapException ex)
-							 {
-									Message.Text = ex.Message;
-									return;
-							 }
+							else
+								Session["SessionPassPhrase"]= PassPhraseStr;	
 						}
-						else
-							PassPhraseStr = SessionPassPhrase;
+						else 
+						{
+							//This block will get executed very first time
+							if(RAList.SelectedValue	!= "")
+							{
+								Session["SessionPassPhrase"] = PassPhraseStr;
+								Response.Redirect(String.Format("iFolderCertificate.aspx?RAName={0}&PassPhrase={1}&EncryptionAlgorithm={2}&name={3}&description={4}",
+												RAList.SelectedValue, PassPhraseStr, EncryptionAlgorithm, name, description));
+								//SetPassphrase will be done in the redirected page and store in the session
+							}
+							else
+							{
+								//This case should come when no RA is configured by the admin
+								web.SetPassPhrase(PassPhraseStr, null, null);
+								Session["SessionPassPhrase"] = PassPhraseStr;
+							}
+						}
 					}
 					else
-					{
-						string RAName = RAList.SelectedValue;
-						
-						if(! RAName.Equals(""))
-						{
-							if(PassPhraseStr.Length == 0 || VerifyPassPhraseStr.Length == 0)
-							{
-								Message.Text = GetString("Wrongpassphrase");
-								return;
-							} 
-							if(! PassPhraseStr.Equals(VerifyPassPhraseStr))
-							{
-								Message.Text = GetString("Passphrasesdonotmatch");
-								VerifyPassPhraseText.Text = "";
-								return;
-							}
-														
-							Session["SessionPassPhrase"]=PassPhraseStr;
-							Response.Redirect(String.Format("iFolderCertificate.aspx?RAName={0}&PassPhrase={1}&EncryptionAlgorithm={2}&name={3}&description={4}",
-															RAName, PassPhraseStr, EncryptionAlgorithm, name, description));
-							
-						}
-						else
-						{
-							RAName = null;
-							byte [] PublicKey = null;
-							web.SetPassPhrase(PassPhraseStr, RAName, PublicKey);
-							Session["SessionPassPhrase"]=PassPhraseStr;
-						}	
-					}	
+						PassPhraseStr = Session["SessionPassPhrase"] as string;
 				}
-				/*if(ssl.Checked == true)
-					SSL = true;*/
-				
-				if(shared.Checked == true)
-					SHARED = true;
 				else
-					SHARED = false;
+				{
+					PassPhraseStr = null;
+					//if not encrypted then sharable must be true
+					Sharable = true;
+				}
 					
-				// Send the ifolder Name, Description, Security details and the encryption algorithm
-				
-				ifolder = web.CreateiFolder(name, description, SHARED, EncryptionAlgorithm, PassPhraseStr);
-
-				//ifolder = web.CreateiFolder(name, description, SSL, EncryptionAlgorithm);
-
-				// redirect
+				// Send the ifolder Name, Description, Security details and the encryption algorithm				
+				ifolder = web.CreateiFolder(name, description, Sharable, EncryptionAlgorithm, PassPhraseStr);
+				// Redirect to the browser page
 				Response.Redirect("Browse.aspx?iFolder=" + ifolder.ID);
-			}
+			}	
 			catch(SoapException ex)
 			{
 				if (!HandleException(ex))
@@ -505,7 +503,6 @@ namespace Novell.iFolderApp.Web
 					Message.Text = ex.Message;
 					return;
 				}
-				//throw;
 			}
 		}
 		
@@ -514,27 +511,18 @@ namespace Novell.iFolderApp.Web
 		///Padding of passphrase so that it is >=16 and multiple of 8
 		///</summary>
 		///<returns>padded passPhrase.</returns>
-		
-		private string DoPadding(string PassPhrase)
+		public string DoPadding(string Passhrase)
 		{
-			int length = PassPhrase.Length;
-			int paddinglength = (length <= 16) ? (16 - length) : (length%8 == 0 ? 0: (8 - (length%8)) );
-			if(paddinglength == 0)
-				return PassPhrase;
-			char[] PaddedString = new char[paddinglength+length];
-			int index = 0 ;
-			int i;
-			for (i = 0 ; i < (paddinglength+length) ; i++)
+			string NewPassphrase = Passhrase;
+
+			while(NewPassphrase.Length % 8 !=0 || NewPassphrase.Length < 16)
 			{
-				PaddedString[i] = PassPhrase[index];
-				if((i+1)%(length) == 0)
-					index = 0;
-				else
-					index++;
+				NewPassphrase += Passhrase;
+				if(NewPassphrase.Length < 16)
+					continue;
+				NewPassphrase = NewPassphrase.Remove((NewPassphrase.Length /8)*8, NewPassphrase.Length%8);
 			}
-			
-			string ReturnPassPhrase = new String(PaddedString);
-			return ReturnPassPhrase;
+			return NewPassphrase;
 		}
 		
 		/// <summary>

@@ -44,7 +44,7 @@
 			<div class="main">
 		
 				<div class="label" ></div>
-				<asp:TextBox ID="NewiFolderName" columns="50" rows="12" ReadOnly="true" TextMode="MultiLine" BorderStyle="Ridge" runat="server" />
+				<asp:TextBox ID="CertDetails" columns="50" rows="12" ReadOnly="true" TextMode="MultiLine" BorderStyle="Ridge" runat="server" />
 			
 				<div class="buttons">
 					<asp:Button ID="AcceptButton" runat="server" />

@@ -165,13 +165,13 @@
     <data name="CREATE">
         <value>Create</value>
     </data>
-    <data name="ENTERPASSPHRASE">
+    <data name="ENTER_PASSPHRASE">
         <value>Enter the Passphrase  :   </value>
     </data>
-    <data name="Passphrasesdonotmatch">
+    <data name="PASSPHRASE_NOT_MATCH">
         <value>Passphrases do not match.</value>
     </data>
-    <data name="Wrongpassphrase">
+    <data name="PASSPHRASE_INCORRECT">
         <value>Invalid Passphrase </value>
     </data>
     <data name="ENTRY.FOLDERNAME">
@@ -210,7 +210,7 @@
     <data name="MESSAGE.WARNING">
         <value>Warning:</value>
     </data>
-    <data name="Pleasereenterpassphrase">
+    <data name="REENTER_PASSPHRASE">
         <value>Re-enter the Passphrase :</value>
     </data>
     <data name="NoRAavailable">

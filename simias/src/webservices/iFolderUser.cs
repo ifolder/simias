@@ -730,7 +730,7 @@ namespace iFolder.WebService
 		///Set the passphrase and recovery agent
 		///</summary>
 		///<returns>passPhrase.</returns>
-		public static void SetPassPhrase(string DomainID, string PassPhrase, string RAName, byte [] RAPublicKey, string AccessID)
+		public static void SetPassPhrase(string DomainID, string PassPhrase, string RAName, string RAPublicKey, string AccessID)
 		{
 			try
 			{

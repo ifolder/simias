@@ -34,6 +34,8 @@ using System.Web.UI.HtmlControls;
 using System.Resources;
 using System.Web.Services.Protocols;
 using System.Net;
+using System.Text;
+
 
 namespace Novell.iFolderApp.Web
 {
@@ -51,7 +53,7 @@ namespace Novell.iFolderApp.Web
 		/// <summary>
 		/// The text box to display certificate
 		/// </summary>
-		protected TextBox NewiFolderName;
+		protected TextBox CertDetails;
 
 		/// <summary>
 		/// The Accept Button
@@ -72,11 +74,8 @@ namespace Novell.iFolderApp.Web
 		/// Resource Manager
 		/// </summary>
 		private ResourceManager rm;
-		
-		/// <summary>
-		/// public key
-		/// </summary>
-		byte [] CertPublicKey;
+
+		private static readonly ISimiasLog log = SimiasLogManager.GetLogger(typeof(Member));
 		
 
 		/// <summary>
@@ -86,10 +85,6 @@ namespace Novell.iFolderApp.Web
 		/// <param name="e"></param>
 		private void Page_Load(object sender, EventArgs e)
 		{
-			//string RAName; 
-			// query
-			//RAName = Request.QueryString.Get("RAName");
-
 			// connection
 			web = (iFolderWeb)Session["Connection"];
 
@@ -100,8 +95,7 @@ namespace Novell.iFolderApp.Web
 			{
 				// data
 				BindData();
-				
-				
+								
 				// strings
 				AcceptButton.Text = GetString("ACCEPT");
 				DenyButton.Text = GetString("DENY");
@@ -117,18 +111,16 @@ namespace Novell.iFolderApp.Web
 		private void BindData()
 		{
 			string RAName; 
-			byte [] CertPublicKey = null;
+
 			// query
 			RAName = Request.QueryString.Get("RAName");
 			byte [] RACertificateObj = web.GetRACertificate(RAName);
 			
 			if(RACertificateObj != null && RACertificateObj.Length != 0)
 			{	
-				System.Security.Cryptography.X509Certificates.X509Certificate cert = new System.Security.Cryptography.X509Certificates.X509Certificate(RACertificateObj);
-				string certdetail = cert.ToString(true);
-				CertPublicKey = cert.GetPublicKey();
-				NewiFolderName.Text = certdetail;
-    			Session["CertPublicKey"] = CertPublicKey;
+				System.Security.Cryptography.X509Certificates.X509Certificate Cert = new System.Security.Cryptography.X509Certificates.X509Certificate(RACertificateObj);
+				CertDetails.Text = Cert.ToString(true);
+				Session["CertPublicKey"] = Cert.GetPublicKey();
 			}
 		}
 
@@ -203,32 +195,39 @@ namespace Novell.iFolderApp.Web
 			string RAName, PassPhraseStr, EncryptionAlgorithm;
 			byte [] CertPublicKey;
 			string name, description;
-			bool SHARED = false;
 			
 			iFolder ifolder;
 			try
 			{
 				RAName = Request.QueryString.Get("RAName");
-				PassPhraseStr = Request.QueryString.Get("PassPhrase");
+				//PassPhraseStr = Request.QueryString.Get("PassPhrase");
+				PassPhraseStr = Session["SessionPassPhrase"] as string;
 				EncryptionAlgorithm = Request.QueryString.Get("EncryptionAlgorithm");
 				name = Request.QueryString.Get("name");
 				description = Request.QueryString.Get("description");
 			
 				//try getting publickey from current session
 				CertPublicKey = Session["CertPublicKey"] as byte [] ;
-			
-				web.SetPassPhrase(PassPhraseStr, RAName, CertPublicKey);
-							
+
+				//log.Debug();
+				UTF8Encoding utf8 = new UTF8Encoding();
+				string PublicKey = utf8.GetString(CertPublicKey);
+					
+				web.SetPassPhrase(PassPhraseStr, RAName, PublicKey);
+
 				// Send the ifolder Name, Description, Security details and the encryption algorithm
-				ifolder = web.CreateiFolder(name, description, SHARED, EncryptionAlgorithm, PassPhraseStr);
+				ifolder = web.CreateiFolder(name, description, false, EncryptionAlgorithm, PassPhraseStr);
 			
 				// redirect
 				Response.Redirect("Browse.aspx?iFolder=" + ifolder.ID);
 			}
 			catch(SoapException ex)
 			{
-				Message.Text = ex.Message; 
-				AcceptButton.Enabled = false;
+				if(!HandleException(ex))
+				{
+					Message.Text = ex.Message; 
+					AcceptButton.Enabled = false;
+				}
 				return;
 			}
 		}

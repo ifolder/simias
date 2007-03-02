@@ -236,7 +236,7 @@ namespace iFolder.WebService
 		///<returns>passPhrase.</returns>
 		[WebMethod(EnableSession=true, Description="Set the passphrase and recovery agent.")]
 		[SoapDocumentMethod]
-		public virtual void SetPassPhrase(string passPhrase, string recoveryAgentName, byte [] publicKey)
+		public virtual void SetPassPhrase(string passPhrase, string recoveryAgentName, string publicKey)
 		{
 			Store store = Store.GetStore();
 			Simias.Storage.Domain domain = store.GetDomain(store.DefaultDomain);

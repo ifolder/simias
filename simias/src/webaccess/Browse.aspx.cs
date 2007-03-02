@@ -235,24 +235,32 @@ namespace Novell.iFolderApp.Web
 			string EncryptionAlgorithm = ifolder.EncryptionAlgorithm;
 			if(EncryptionAlgorithm != "")
 			{
-				string PassPhraseStr = DoPadding(PassPhraseText.Text.Trim());
+				string PassPhraseStr = PassPhraseText.Text.Trim();
 				if(PassPhraseStr == String.Empty)
 				{
-					Message.Text = GetString("Wrongpassphrase");
+					Message.Text = GetString("PASSPHRASE_INCORRECT");
 					PassPhraseText.Text = "";
 					return;
 				}
 				try
 				{
+					PassPhraseStr = DoPadding(PassPhraseStr);
 					Status ObjValidate = web.ValidatePassPhrase(PassPhraseStr);
 					if(ObjValidate.statusCode != StatusCodes.Success)
 					{
-						Message.Text = GetString("Wrongpassphrase");
+						Message.Text = GetString("PASSPHRASE_INCORRECT");
 						PassPhraseText.Text = "";
 						return;
 					}
 					Session["SessionPassPhrase"]= PassPhraseStr;
-				}catch(SoapException ex)
+				}
+				catch(SoapException ex)
+				{
+					if (!HandleException(ex))				
+						Message.Text = ex.Message;
+					return;				
+				}
+				catch(Exception ex)
 				{
 					Message.Text = ex.Message;
 					return;
@@ -265,27 +273,18 @@ namespace Novell.iFolderApp.Web
 		///Padding of passphrase so that it is >=16 and multiple of 8
 		///</summary>
 		///<returns>padded passPhrase.</returns>
-		
-		private string DoPadding(string PassPhrase)
+		public string DoPadding(string Passhrase)
 		{
-			int length = PassPhrase.Length;
-			int paddinglength = (length <= 16) ? (16 - length) : (length%8 == 0 ? 0: (8 - (length%8)) );
-			if(paddinglength == 0)
-				return PassPhrase;
-			char[] PaddedString = new char[paddinglength+length];
-			int index = 0 ;
-			int i;
-			for (i = 0 ; i < (paddinglength+length) ; i++)
+			string NewPassphrase = Passhrase;
+
+			while(NewPassphrase.Length % 8 !=0 || NewPassphrase.Length < 16)
 			{
-				PaddedString[i] = PassPhrase[index];
-				if((i+1)%(length) == 0)
-					index = 0;
-				else
-					index++;
+				NewPassphrase += Passhrase;
+				if(NewPassphrase.Length < 16)
+					continue;
+				NewPassphrase = NewPassphrase.Remove((NewPassphrase.Length /8)*8, NewPassphrase.Length%8);
 			}
-			
-			string ReturnPassPhrase = new String(PaddedString);
-			return ReturnPassPhrase;
+			return NewPassphrase;
 		}
 		
 		/// <summary>
