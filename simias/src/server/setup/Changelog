@@ -1,3 +1,8 @@
+2007-03-03  Johnny Jacob  <jjohnny@novell.com>
+
+	* SimiasServerSetup.cs : Prompt for Apache User/Group if n/a. Use
+	avail LDAP credentials in Slave.
+	
 2007-02-09  Johnny Jacob  <jjohnny@novell.com>
 
 	* setup/SimiasServerSetup.cs : Don't Prompt for LDAP details if it is a

@@ -80,16 +80,6 @@ namespace Novell.iFolder
 		string[] args;
 
 		/// <summary>
-		/// Apache User
-		/// </summary>
-		string apacheUser = "wwwrun";
-
-		/// <summary>
-		/// Apache Group
-		/// </summary>
-		string apacheGroup = "www";
-
-		/// <summary>
 		/// The uri to the ldap server.
 		/// </summary>
 		Uri ldapUrl;
@@ -248,6 +238,16 @@ namespace Novell.iFolder
 		public BoolOption apache = new BoolOption("apache", "Configure Apache", "Configure Simias to run behind Apache", false, false);
 
 		/// <summary>
+		/// Apache User.
+		/// </summary>
+		public Option apacheUser = new Option("apache-user", "Apache User", "Apache User", false, "wwwrun");
+
+		/// <summary>
+		/// Apache Group.
+		/// </summary>
+		public Option apacheGroup = new Option("apache-group", "Apache Group", "Apache Group", false, "www");
+
+		/// <summary>
 		/// Prompt for options.
 		/// </summary>
 		public NoPromptOption prompt = new NoPromptOption("prompt", "Prompt For Options", "Prompt the user for missing options", false, null);
@@ -281,6 +281,7 @@ namespace Novell.iFolder
 			useLdap.OnOptionEntered = new Option.OptionEnteredHandler( OnLdap );
 			useRA.OnOptionEntered = new Option.OptionEnteredHandler( OnRA );
 			recoveryAgentCertificatePath.OnOptionEntered = new Option.OptionEnteredHandler( OnRAPath );
+			apache.OnOptionEntered = new Option.OptionEnteredHandler ( OnApache );
 		}
 
 		#endregion
@@ -386,6 +387,15 @@ namespace Novell.iFolder
 				usingLDAP = ldapServer.Prompt = secure.Prompt = ldapAdminDN.Prompt =
 					ldapProxyDN.Prompt = ldapSearchContext.Prompt = 
 					ldapProxyPassword.Prompt = namingAttribute.Prompt = false;
+			}
+			return true;
+		}
+
+		private bool OnApache()
+		{
+			if ( !apache.Value )
+			{
+				apacheUser.Prompt = apacheGroup.Prompt = false;
 			}
 			return true;
 		}
@@ -516,18 +526,19 @@ namespace Novell.iFolder
 					{
 						if ( line.StartsWith( "User" ) )
 						{
-							apacheUser = line.Split()[1];
+							apacheUser.Value = line.Split()[1];
 						}
 						else if ( line.StartsWith( "Group" ) )
 						{
-							apacheGroup = line.Split()[1];
+							apacheGroup.Value = line.Split()[1];
 						}
 					}
 				}
 			}
-			catch
+			catch ( Exception e )
 			{
-				// ignore
+				// Failed. Prompt for apache user & group.
+			        apacheUser.Prompt = apacheGroup.Prompt = true;
 			}
 
 		}
@@ -999,6 +1010,7 @@ namespace Novell.iFolder
 			}
 			else
 			{
+       			        apacheUser.Prompt = apacheGroup.Prompt = false;
 				Console.WriteLine("Skipped (Apache & Mono Only)");
 			}
 		}
@@ -1008,6 +1020,7 @@ namespace Novell.iFolder
 		/// </summary>
 		void SetupLdap()
 		{
+			LdapUtility ldapUtility;
 			UriBuilder newUri = new UriBuilder();
 			if(ldapServer.Value.Equals("localhost"))
 			{
@@ -1018,7 +1031,14 @@ namespace Novell.iFolder
 			newUri.Scheme = secure.Value ? LdapSettings.UriSchemeLdaps : LdapSettings.UriSchemeLdap;
 			ldapUrl = new Uri(newUri.ToString());
 
-			LdapUtility ldapUtility = new LdapUtility(ldapUrl.ToString() , ldapAdminDN.Value, ldapAdminPassword.Value);
+			if (!slaveServer.Value) // Master
+			{
+			        ldapUtility = new LdapUtility(ldapUrl.ToString() , ldapAdminDN.Value, ldapAdminPassword.Value);
+			}
+			else //Slave
+			{
+    			        ldapUtility = new LdapUtility(ldapUrl.ToString() , systemAdminDN.Value, systemAdminPassword.Value);
+			}
 
 			// intall SSL root certificate
 			Console.Write("Installing certificate from {0}...\n", ldapUrl.ToString());
@@ -1028,7 +1048,8 @@ namespace Novell.iFolder
 				const string certfile = "RootCert.cer";
 								
 				if (Execute("./get-root-certificate", "{0} {1} {2} {3} get {4}",
-					ldapUtility.Host, ldapUtility.Port, ldapAdminDN.Value, ldapAdminPassword.Value, certfile) == 0)
+					    ldapUtility.Host, ldapUtility.Port, slaveServer.Value ? systemAdminDN.Value : ldapAdminDN.Value,
+					    slaveServer.Value ? systemAdminPassword.Value : ldapAdminPassword.Value, certfile) == 0)
 				{
 					Console.WriteLine();
 					X509Certificate ldapCert = X509Certificate.CreateFromCertFile(certfile);
@@ -1322,7 +1343,7 @@ namespace Novell.iFolder
 				if ( storePath.TrimEnd( new char[] { '/' } ).EndsWith( "simias" ) )
 				{
 				//	if ( Execute( "chown", " -R {0}:{1} {2}", apacheUser, apacheGroup, System.IO.Directory.GetParent( storePath ).FullName ) != 0 )
-					if( Execute( "chown", " -R {0}:{1} {2}", apacheUser, apacheGroup, storePath ) != 0 )
+					if( Execute( "chown", " -R {0}:{1} {2}", apacheUser.Value, apacheGroup.Value, storePath ) != 0 )
 					{
 						throw new Exception( "Unable to set an owner for the store path." );
 					}
@@ -1330,7 +1351,7 @@ namespace Novell.iFolder
 				else
 				{
 					storePath = Path.Combine(storePath, "simias");
-					if ( Execute( "chown", "-R {0}:{1} {2}", apacheUser, apacheGroup, storePath ) != 0 )
+					if ( Execute( "chown", "-R {0}:{1} {2}", apacheUser.Value, apacheGroup.Value, storePath ) != 0 )
 					{
 						throw new Exception( "Unable to set an owner for the store path." );
 					}
