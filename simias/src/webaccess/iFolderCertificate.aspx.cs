@@ -17,7 +17,7 @@
  *  License along with this program; if not, write to the Free
  *  Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
- *  Author: Rob
+ *  Author: Anil
  *
  ***********************************************************************/
 
@@ -49,7 +49,7 @@ namespace Novell.iFolderApp.Web
 		protected MessageControl Message;
 
 		/// <summary>
-		/// The text box
+		/// The text box to display certificate
 		/// </summary>
 		protected TextBox NewiFolderName;
 
@@ -101,7 +101,7 @@ namespace Novell.iFolderApp.Web
 				// data
 				BindData();
 				
-				CertPublicKey = null;
+				
 				// strings
 				AcceptButton.Text = GetString("ACCEPT");
 				DenyButton.Text = GetString("DENY");
@@ -117,32 +117,21 @@ namespace Novell.iFolderApp.Web
 		private void BindData()
 		{
 			string RAName; 
+			byte [] CertPublicKey = null;
 			// query
 			RAName = Request.QueryString.Get("RAName");
-			try
-			{
-				byte [] RACertificateObj = web.GetRACertificate(RAName);
-				
-				if(RACertificateObj != null && RACertificateObj.Length != 0)
-				{	
-					System.Security.Cryptography.X509Certificates.X509Certificate cert = new System.Security.Cryptography.X509Certificates.X509Certificate(RACertificateObj);
-					string IssuerName =cert.GetIssuerName();
-					string EffectiveDate =cert.GetEffectiveDateString();
-					string ExpiryDate = cert.GetExpirationDateString();
-					byte [] CertHash = cert.GetCertHash();
-					CertPublicKey = cert.GetPublicKey();
-					NewiFolderName.Text = "Issuer Name: "+IssuerName+"\nEffective Date: "+EffectiveDate+"\nExpiry Date: "+ExpiryDate+"\n";
-					NewiFolderName.Text += "Certificate\n"+CertHash.ToString()+"\n";
-				}
+			byte [] RACertificateObj = web.GetRACertificate(RAName);
+			
+			if(RACertificateObj != null && RACertificateObj.Length != 0)
+			{	
+				System.Security.Cryptography.X509Certificates.X509Certificate cert = new System.Security.Cryptography.X509Certificates.X509Certificate(RACertificateObj);
+				string certdetail = cert.ToString(true);
+				CertPublicKey = cert.GetPublicKey();
+				NewiFolderName.Text = certdetail;
+    			Session["CertPublicKey"] = CertPublicKey;
 			}
-			catch(SoapException ex)
-			{
-				if (!HandleException(ex)) throw;
-			}
-
 		}
 
-		
 
 		/// <summary>
 		/// Handle Exceptions
@@ -211,27 +200,37 @@ namespace Novell.iFolderApp.Web
 		/// <param name="e"></param>
 		private void AcceptButton_Click(object sender, EventArgs e)
 		{
-			string RAName, PassPhraseStr, EncryptionAlgorithm, PublicKey = "1";
+			string RAName, PassPhraseStr, EncryptionAlgorithm;
+			byte [] CertPublicKey;
 			string name, description;
 			bool SHARED = false;
 			
 			iFolder ifolder;
+			try
+			{
+				RAName = Request.QueryString.Get("RAName");
+				PassPhraseStr = Request.QueryString.Get("PassPhrase");
+				EncryptionAlgorithm = Request.QueryString.Get("EncryptionAlgorithm");
+				name = Request.QueryString.Get("name");
+				description = Request.QueryString.Get("description");
 			
-			RAName = Request.QueryString.Get("RAName");
-			PassPhraseStr = Request.QueryString.Get("PassPhrase");
-			EncryptionAlgorithm = Request.QueryString.Get("EncryptionAlgorithm");
-			name = Request.QueryString.Get("name");
-			description = Request.QueryString.Get("description");
-			if(CertPublicKey != null)
-				PublicKey = CertPublicKey.ToString();
+				//try getting publickey from current session
+				CertPublicKey = Session["CertPublicKey"] as byte [] ;
 			
-			//Status ObjSetPassPhrase = web.SetPassPhrase(PassPhraseStr, RAName, PublicKey);
-			web.SetPassPhrase(PassPhraseStr, RAName, PublicKey);
-			// Send the ifolder Name, Description, Security details and the encryption algorithm
-			ifolder = web.CreateiFolder(name, description, SHARED, EncryptionAlgorithm, PassPhraseStr);
+				web.SetPassPhrase(PassPhraseStr, RAName, CertPublicKey);
+							
+				// Send the ifolder Name, Description, Security details and the encryption algorithm
+				ifolder = web.CreateiFolder(name, description, SHARED, EncryptionAlgorithm, PassPhraseStr);
 			
-			// redirect
-			Response.Redirect("Browse.aspx?iFolder=" + ifolder.ID);
+				// redirect
+				Response.Redirect("Browse.aspx?iFolder=" + ifolder.ID);
+			}
+			catch(SoapException ex)
+			{
+				Message.Text = ex.Message; 
+				AcceptButton.Enabled = false;
+				return;
+			}
 		}
 		
 		/// <summary>

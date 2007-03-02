@@ -403,8 +403,8 @@ namespace Novell.iFolderApp.Web
 		{
 			string name = NewiFolderName.Text.Trim();
 			string description = NewiFolderDescription.Text.Trim();
-			string PassPhraseStr = PassPhraseText.Text.Trim();
-			string VerifyPassPhraseStr = VerifyPassPhraseText.Text.Trim();
+			string PassPhraseStr = DoPadding(PassPhraseText.Text.Trim());
+			string VerifyPassPhraseStr = DoPadding(VerifyPassPhraseText.Text.Trim());
 			string SessionPassPhrase = Session["SessionPassPhrase"] as string;
 			if (name.Length == 0)
 			{
@@ -423,6 +423,7 @@ namespace Novell.iFolderApp.Web
 				
 					if(PassPhraseSet)
 					{  // it means user had already set the pass-phrase, now verify
+						
 						if(PassPhraseStr.Length == 0 && SessionPassPhrase == null)
 						{
 							Message.Text = GetString("Wrongpassphrase");
@@ -430,6 +431,7 @@ namespace Novell.iFolderApp.Web
 						} 
 						if(SessionPassPhrase == null)
 						{
+							try{
 							Status ObjValidate = web.ValidatePassPhrase(PassPhraseStr);
 							if(ObjValidate.statusCode != StatusCodes.Success)
 							{
@@ -438,7 +440,11 @@ namespace Novell.iFolderApp.Web
 								return;
 							}
 							Session["SessionPassPhrase"]=PassPhraseStr;
-							
+							}catch(SoapException ex)
+							 {
+									Message.Text = ex.Message;
+									return;
+							 }
 						}
 						else
 							PassPhraseStr = SessionPassPhrase;
@@ -469,7 +475,7 @@ namespace Novell.iFolderApp.Web
 						else
 						{
 							RAName = null;
-							string PublicKey = null;
+							byte [] PublicKey = null;
 							web.SetPassPhrase(PassPhraseStr, RAName, PublicKey);
 							Session["SessionPassPhrase"]=PassPhraseStr;
 						}	
@@ -494,8 +500,41 @@ namespace Novell.iFolderApp.Web
 			}
 			catch(SoapException ex)
 			{
-				if (!HandleException(ex)) throw;
+				if (!HandleException(ex))
+				{
+					Message.Text = ex.Message;
+					return;
+				}
+				//throw;
 			}
+		}
+		
+		
+		///<summary>
+		///Padding of passphrase so that it is >=16 and multiple of 8
+		///</summary>
+		///<returns>padded passPhrase.</returns>
+		
+		private string DoPadding(string PassPhrase)
+		{
+			int length = PassPhrase.Length;
+			int paddinglength = (length <= 16) ? (16 - length) : (length%8 == 0 ? 0: (8 - (length%8)) );
+			if(paddinglength == 0)
+				return PassPhrase;
+			char[] PaddedString = new char[paddinglength+length];
+			int index = 0 ;
+			int i;
+			for (i = 0 ; i < (paddinglength+length) ; i++)
+			{
+				PaddedString[i] = PassPhrase[index];
+				if((i+1)%(length) == 0)
+					index = 0;
+				else
+					index++;
+			}
+			
+			string ReturnPassPhrase = new String(PaddedString);
+			return ReturnPassPhrase;
 		}
 		
 		/// <summary>

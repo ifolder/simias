@@ -202,22 +202,11 @@ namespace iFolder.WebService
 		///<returns>passPhrase.</returns>
 		[WebMethod(EnableSession=true, Description="Set the passphrase and recovery agent.")]
 		[SoapDocumentMethod]
-		public override void SetPassPhrase(string passPhrase, string recoveryAgentName, string publicKey)
+		public override void SetPassPhrase(string passPhrase, string recoveryAgentName, byte [] publicKey)
 		{
 			base.SetPassPhrase(passPhrase, recoveryAgentName, publicKey);
 		}
 		
-		
-		///<summary>
-		///Reset passphrase and recovery agent
-		///</summary>
-		///<returns>passPhrase.</returns>
-		[WebMethod(EnableSession=true, Description="Reset passphrase and recovery agent.")]
-		[SoapDocumentMethod]
-		public override bool ReSetPassPhrase(string oldPass, string newPass, string recoveryAgentName, string publicKey)
-		{
-			return base.ReSetPassPhrase(oldPass, newPass, recoveryAgentName, publicKey);
-		}
 
 		/// <summary>
 		/// Get detailed information about an iFolder.

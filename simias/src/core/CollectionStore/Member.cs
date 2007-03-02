@@ -515,7 +515,7 @@ namespace Simias.Storage
 		/// <summary>
 		/// Set the passphrase(key encrypted by passphrase and SHA1 of key) and recovery agent name and key
 		/// </summary>
-		public void ServerSetPassPhrase(string EncryptedCryptoKey, string CryptoKeyBlob, string RAName, string PublicKey)
+		public void ServerSetPassPhrase(string EncryptedCryptoKey, string CryptoKeyBlob, string RAName, byte [] PublicKey)
 		{
 			Store store = Store.GetStore();
 			string DomainID = this.GetDomainID(store);
@@ -525,7 +525,7 @@ namespace Simias.Storage
 			Member member = domain.GetMemberByID(UserID);
 			
 			log.Debug("ServerSetPassPhrase user:{0}...userID={1}",member.Name, UserID);
-			log.Debug("ServerSetPassPhrase Commit {0}...{1}...{2}...{3}",EncryptedCryptoKey, CryptoKeyBlob,RAName, PublicKey);
+			//log.Debug("ServerSetPassPhrase Commit {0}...{1}...{2}...{3}",EncryptedCryptoKey, CryptoKeyBlob,RAName, PublicKey);
 			
 			if(EncryptedCryptoKey !=null)
 			{

@@ -157,7 +157,7 @@ namespace Novell.iFolderApp.Web
 			{
 				// this function will check whether an ifolder is encrypted or not, if yes, it will ask for passphrase
 				// if passphrase matches , then the real page will be loaded. 
-				CheckForPassPhrase();			
+				CheckForThePassPhrase();			
 			}
 			else
 			{
@@ -193,7 +193,7 @@ namespace Novell.iFolderApp.Web
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void CheckForPassPhrase()
+		private void CheckForThePassPhrase()
 		{
 			string PassPhrase = Session["SessionPassPhrase"] as string;
 			ifolderID = Request.QueryString.Get("iFolder");
@@ -229,29 +229,63 @@ namespace Novell.iFolderApp.Web
 		/// <param name="e"></param>
 		private void OKButton_Click(object sender, EventArgs e)
 		{
-			string PassPhrase = Session["SessionPassPhrase"] as string;
+			//string PassPhrase = Session["SessionPassPhrase"] as string;
 			ifolderID = Request.QueryString.Get("iFolder");
 			iFolder ifolder = web.GetiFolder(ifolderID);
 			string EncryptionAlgorithm = ifolder.EncryptionAlgorithm;
 			if(EncryptionAlgorithm != "")
 			{
-				string PassPhraseStr = PassPhraseText.Text.Trim();
+				string PassPhraseStr = DoPadding(PassPhraseText.Text.Trim());
 				if(PassPhraseStr == String.Empty)
 				{
 					Message.Text = GetString("Wrongpassphrase");
 					PassPhraseText.Text = "";
 					return;
 				}
-				Status ObjValidate = web.ValidatePassPhrase(PassPhraseStr);
-				if(ObjValidate.statusCode != StatusCodes.Success)
+				try
 				{
-					Message.Text = GetString("Wrongpassphrase");
-					PassPhraseText.Text = "";
+					Status ObjValidate = web.ValidatePassPhrase(PassPhraseStr);
+					if(ObjValidate.statusCode != StatusCodes.Success)
+					{
+						Message.Text = GetString("Wrongpassphrase");
+						PassPhraseText.Text = "";
+						return;
+					}
+					Session["SessionPassPhrase"]= PassPhraseStr;
+				}catch(SoapException ex)
+				{
+					Message.Text = ex.Message;
 					return;
 				}
-				Session["SessionPassPhrase"]=PassPhraseStr;
 				StartBindingData();
 			}
+		}
+		
+		///<summary>
+		///Padding of passphrase so that it is >=16 and multiple of 8
+		///</summary>
+		///<returns>padded passPhrase.</returns>
+		
+		private string DoPadding(string PassPhrase)
+		{
+			int length = PassPhrase.Length;
+			int paddinglength = (length <= 16) ? (16 - length) : (length%8 == 0 ? 0: (8 - (length%8)) );
+			if(paddinglength == 0)
+				return PassPhrase;
+			char[] PaddedString = new char[paddinglength+length];
+			int index = 0 ;
+			int i;
+			for (i = 0 ; i < (paddinglength+length) ; i++)
+			{
+				PaddedString[i] = PassPhrase[index];
+				if((i+1)%(length) == 0)
+					index = 0;
+				else
+					index++;
+			}
+			
+			string ReturnPassPhrase = new String(PaddedString);
+			return ReturnPassPhrase;
 		}
 		
 		/// <summary>

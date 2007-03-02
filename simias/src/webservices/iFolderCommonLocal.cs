@@ -236,7 +236,7 @@ namespace iFolder.WebService
 		///<returns>passPhrase.</returns>
 		[WebMethod(EnableSession=true, Description="Set the passphrase and recovery agent.")]
 		[SoapDocumentMethod]
-		public virtual void SetPassPhrase(string passPhrase, string recoveryAgentName, string publicKey)
+		public virtual void SetPassPhrase(string passPhrase, string recoveryAgentName, byte [] publicKey)
 		{
 			Store store = Store.GetStore();
 			Simias.Storage.Domain domain = store.GetDomain(store.DefaultDomain);
@@ -253,30 +253,6 @@ namespace iFolder.WebService
 
 		}
 		
-		///<summary>
-		///Reset passphrase and recovery agent
-		///</summary>
-		///<returns>passPhrase.</returns>
-		[WebMethod(EnableSession=true, Description="Reset passphrase and recovery agent.")]
-		[SoapDocumentMethod]
-		public virtual bool ReSetPassPhrase(string oldPass, string newPass, string recoveryAgentName, string publicKey)
-		{
-			Store store = Store.GetStore();
-			Simias.Storage.Domain domain = store.GetDomain(store.DefaultDomain);
-			bool result = false;
-		    try
-			{
-				Authorize();
-
-				result = iFolderUser.ReSetPassPhrase(domain.ID,  oldPass, newPass, recoveryAgentName, publicKey, GetAccessID());
-			}
-			catch(Exception e)
-			{
-				SmartException.Throw(e);
-			}
-
-			return result;
-		}
 
 		/// <summary>
 		/// Get information about an iFolder Server.

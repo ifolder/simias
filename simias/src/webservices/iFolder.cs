@@ -286,6 +286,7 @@ namespace iFolder.WebService
                         return new iFolder(c, null);
                 }
 
+
 		/// <summary>
 		/// Create an iFolder through web access
 		/// </summary>
@@ -350,9 +351,9 @@ namespace iFolder.WebService
 		/// <param name="host">The host who owns the certificate.</param>
 		/// <returns>The certificate as a byte array.</returns>
 		public static byte[] GetRACertificate(string rAgent)
-                {
+        {
 			// Normalize the RA name.
-			return Simias.Security.CertificateStore.GetRACertificate(rAgent.ToLower());
+			return Simias.Security.CertificateStore.GetRACertificate(rAgent);
 		}
 		
 		/// <summary>

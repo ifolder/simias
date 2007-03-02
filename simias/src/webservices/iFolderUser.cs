@@ -666,6 +666,7 @@ namespace iFolder.WebService
 			}
 		}
 		
+		
 		///<summary>
 		///Validate the passphrase for the correctness
 		///</summary>
@@ -687,7 +688,7 @@ namespace iFolder.WebService
 				log.Debug("ValidatePassPhrase : got PassKey");
 				string EncrypCryptoKey = member.ServerGetEncrypPassKey();
 				log.Debug("ValidatePassPhrase : got PassKey:{0}",EncrypCryptoKey);
-
+			
 				//Decrypt it
 				string DecryptedCryptoKey; 
 				Key DeKey = new Key(EncrypCryptoKey);
@@ -702,7 +703,7 @@ namespace iFolder.WebService
 				Key HashKey = new Key(EncryptedCryptoKey);
 				NewHash = HashKey.HashKey();
 
-				OldHash = member.ServerGetPassKeyHash();//DomainID, UserID);
+				OldHash = member.ServerGetPassKeyHash();
 				log.Debug("ValidatePassPhrase : getting OldHash:{0}", OldHash);
 			}
 			catch(Exception ex)
@@ -729,7 +730,7 @@ namespace iFolder.WebService
 		///Set the passphrase and recovery agent
 		///</summary>
 		///<returns>passPhrase.</returns>
-		public static void SetPassPhrase(string DomainID, string PassPhrase, string RAName, string RAPublicKey, string AccessID)
+		public static void SetPassPhrase(string DomainID, string PassPhrase, string RAName, byte [] RAPublicKey, string AccessID)
 		{
 			try
 			{
@@ -749,43 +750,9 @@ namespace iFolder.WebService
 			catch(Exception ex)
 			{
 				log.Debug("SetPassPhrase : {0}", ex.Message);
-				throw ex;
+				//throw ex;
 			}
 		}
-		
-		///<summary>
-		///Reset passphrase and recovery agent
-		///</summary>
-		///<returns>bool value </returns>
-		public static bool ReSetPassPhrase(string DomainID, string OldPassPhrase, string PassPhrase, string RAName, string RAPublicKey, string AccessID)
-		{
-			
-			if( ValidatePassPhrase(DomainID, OldPassPhrase, AccessID).statusCode != Simias.Authentication.StatusCodes.Success)
-				return false;
-			try
-			{	
-				
-				Store store = Store.GetStore();
-				string UserID = store.GetUserIDFromDomainID(DomainID);
-				
-				Collection collection = store.GetCollectionByID(DomainID);
-				Simias.Storage.Member member = collection.GetMemberByID(AccessID);
-				
-				Key key = new Key(128);
-				string EncrypCryptoKey;
-				key.EncrypytKey(PassPhrase, out EncrypCryptoKey);			
-				Key HashKey = new Key(EncrypCryptoKey);
-				
-				member.ServerSetPassPhrase( EncrypCryptoKey, HashKey.HashKey(), RAName, RAPublicKey);
-			}
-			catch(Exception ex)
-			{
-				log.Debug("ReSetPassPhrase : {0}", ex.Message);
-				throw ex;
-			}
-					
-			return true;			
-		}	
 		
 	}
 }
