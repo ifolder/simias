@@ -298,9 +298,9 @@ namespace Simias.Sync
 		/// <param name="stream">The stream to write.</param>
 		/// <param name="count">The number of bytes to write.</param>
 		/// <param name="count">The encryption Key.</param>
-		public int Write(Stream inStream, int count, string encryptionKey)
+		public int Write(Stream stream, int count,  int actualCount, string encryptionAlgorithm, string encryptionKey)
 		{
-			workStream.Write(stream, count, encryptionKey);
+			workStream.Write(stream, count, actualCount, encryptionAlgorithm, encryptionKey);
 			return -1;
 		}
 		
@@ -580,7 +580,7 @@ namespace Simias.Sync
 		/// <summary>The ID of the node.</summary>
 		protected string		nodeID;
 		/// <summary>The maximun size of a transfer.</summary>
-		protected const int		MaxXFerSize = 1024 * 300;
+		protected const int		MaxXFerSize = 1024 * 256;
 		/// <summary>The name of the actual file.</summary>
 		protected string		file;
 		/// <summary>The name of the working file.</summary>

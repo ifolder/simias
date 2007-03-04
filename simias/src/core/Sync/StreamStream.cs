@@ -40,6 +40,9 @@ namespace Simias.Sync
 		static int				buffSize = 1024 * 64;
 		AutoResetEvent			writeComplete = new AutoResetEvent(true);
 		Exception				exception;
+
+		private static readonly ISimiasLog log = SimiasLogManager.GetLogger(typeof(StreamStream));
+
 			
 		/// <summary>
 		/// Constructor.
@@ -262,7 +265,6 @@ namespace Simias.Sync
 							buffer [bytesRead+i] = 0; //TODO: use some other signature
 					}
 					int totalRead = bytesRead + paddingLength;
-				
 					bf.Encipher (buffer, totalRead);
 
 					writeComplete.WaitOne();
@@ -335,44 +337,51 @@ namespace Simias.Sync
 		/// <param name="inStream">The data to write.</param>
 		/// <param name="count">The number of bytes to write.</param>
 		/// <param name="encryption_key">Key to encrypt the data with.</param>
-		public void Write(Stream inStream, int count, string encryption_key)
+		public void Write(Stream inStream, int count, int actualCount, string encryptionAlgorithm, string EncryptionKey)
 		{
-			// not used 
 			int bytesLeft = count;
+			int bytesToWrite;
 			while(bytesLeft > 0)
 			{
 				byte[] buffer = GetBuffer();
-                		int bytesRead = inStream.Read(buffer, 0, Math.Min(buffer.Length, bytesLeft));
+                		int bytesRead = 0;
+				int bytesToRead = Math.Min(buffer.Length, bytesLeft);
+				
+				while(bytesToRead !=0)		
+				{
+					int currentRead = inStream.Read(buffer, bytesRead, bytesToRead);
+					if(currentRead==0)
+						break;
+					bytesRead +=currentRead;
+					bytesToRead -=currentRead;				
+				}
+                		
 				if (bytesRead != 0)
 				{
+					if(encryptionAlgorithm != "BlowFish")
+						throw exception;
+					
 					UTF8Encoding utf8 = new UTF8Encoding();
-					Blowfish bf = new Blowfish(utf8.GetBytes(encryption_key));
+					Blowfish bf = new Blowfish(utf8.GetBytes(EncryptionKey));
+					bf.Decipher (buffer, buffer.Length);
 					
-					int reminder = 0, paddingLength = 0;
-					reminder = (int) bytesRead % 8;
-					if (reminder != 0)
-					{
-						paddingLength = 0;
-						paddingLength = 8 - reminder;
-					}
-				
-					if (paddingLength > 0) {
-						// add padding
-						for (int i=0; i< paddingLength; i++) 
-							buffer [bytesRead+i] = 0; //TODO: use some other signature
-					}
+					//Discard the bytes padded
+					if((bytesLeft - bytesRead == 0) && (actualCount != count))
+						bytesToWrite = bytesRead -(count-actualCount);
+					else					
+						bytesToWrite = bytesRead;
+
+					log.Debug("bytes to write 	:{0}", bytesRead);
 					
-					int totalRead = bytesRead + paddingLength;
-					
-					bf.Decipher (buffer, buffer.Length);	
 					writeComplete.WaitOne();
 					if (exception != null)
 						throw exception;
-					stream.BeginWrite(buffer, 0, totalRead, new AsyncCallback(Write_WriteComplete), buffer);
+					stream.BeginWrite(buffer, 0, bytesToWrite, new AsyncCallback(Write_WriteComplete), buffer);
 					bytesLeft -= bytesRead;
 				}
 				else break;
 			}
+
 			writeComplete.WaitOne();
 			writeComplete.Set();
 		}

@@ -469,9 +469,6 @@ namespace Simias.Sync
 			if(GetCryptoKey(out EncryptionKey)== true)
 			{
 				needDecryption=true;
-
-				UTF8Encoding utf8 = new UTF8Encoding();
-				bf = new Blowfish(utf8.GetBytes(EncryptionKey));
 				boundary = 8;
 			}
 			
@@ -491,26 +488,17 @@ namespace Simias.Sync
 					
 					if(needDecryption == true)	
 					{
-						byte [] inStream_byteArr = new byte[bytesToWrite];
+						int actualBytesToWrite;
+						if((sizeRemaining -bytesToWrite) == 0 && (node.Length%boundary !=0))
+							 actualBytesToWrite = bytesToWrite -(int)(boundary-(node.Length%boundary));
+						else
+							actualBytesToWrite = bytesToWrite;
 
-						int read = inStream.Read (inStream_byteArr, 0, bytesToWrite);
-
-						bf.Decipher (inStream_byteArr, bytesToWrite);
-						Stream Padded_inStream = new MemoryStream(inStream_byteArr) as Stream;
-
-						//discard the padded bytes
-						if((sizeRemaining -bytesToWrite) ==0)
-						{
-							if(node.Length%boundary !=0)
-							{
-								read = read-(int)(boundary-(node.Length%boundary));
-							}
-						}
-						Write(Padded_inStream, read);
-						Padded_inStream.Close();
+						Write(inStream, bytesToWrite, actualBytesToWrite , "BlowFish", EncryptionKey);
 					}
-					else 
+					else
 						Write(inStream, bytesToWrite);
+
 					sizeRemaining -= bytesToWrite;
 					eventPublisher.RaiseEvent(new FileSyncEventArgs(collection.ID, ObjectType.File, false, Name, fileSize, sizeToSync, sizeRemaining, Direction.Downloading));
 				}
