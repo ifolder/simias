@@ -1,6 +1,6 @@
 # handle Mono secondary dependencies
 export MONO_PATH := $(MONO_PATH)
-
+SUBDIRS = CertCheck
 SimiasServerSetup_CSFILES = \
 	$(srcdir)/SimiasServerSetup.cs \
 	$(srcdir)/HostAdmin.cs \
@@ -21,10 +21,17 @@ iFolderAdminSetup_CSFILES = \
 	$(srcdir)/Options.cs \
 	$(srcdir)/Prompt.cs \
 	$(srcdir)/LdapUtility.cs
+
+iFolderUtilitySetup_CSFILES = \
+        $(srcdir)/utility.cs \
+	$(srcdir)/Options.cs \
+	$(srcdir)/Prompt.cs 
+
 	
 SimiasServerSetup_CSFILES_CSC := $(subst /,$(SEP),$(SimiasServerSetup_CSFILES))
 iFolderWebSetup_CSFILES_CSC := $(subst /,$(SEP),$(iFolderWebSetup_CSFILES))
 iFolderAdminSetup_CSFILES_CSC := $(subst /,$(SEP),$(iFolderAdminSetup_CSFILES))
+iFolderUtilitySetup_CSFILES_CSC := $(subst /,$(SEP),$(iFolderUtilitySetup_CSFILES))
 SimiasServerSetup_INCLUDES =
 SimiasServerSetup_RESOURCES = $(srcdir)/App$(ICON_EXT)
 SimiasServerSetup_FLAGS = $(CSC_EXEFLAG)
@@ -48,7 +55,7 @@ else
 	SimiasServerSetup_LIBS := $(SimiasServerSetup_LIBS1)
 endif
 
-EXTRA_DIST = $(SimiasServerSetup_CSFILES) $(srcdir)/iFolderWebSetup.cs iFolderAdminSetup.cs simias-server-setup.in simias-server-setup.cmd App.ico SimiasServerSetup.exe.config iFolderWebSetup.exe.config ifolder-web-setup.in iFolderAdminSetup.exe.config ifolder-admin-setup.in AssemblyInfo.cs.in
+EXTRA_DIST = $(SimiasServerSetup_CSFILES) $(srcdir)/iFolderWebSetup.cs iFolderAdminSetup.cs utility.cs simias-server-setup.in simias-server-setup.cmd App.ico SimiasServerSetup.exe.config iFolderWebSetup.exe.config ifolder-web-setup.in iFolderAdminSetup.exe.config ifolder-admin-setup.in AssemblyInfo.cs.in
 
 AssemblyInfo.cs: $(srcdir)/AssemblyInfo.cs.in Makefile
 	sed -e 's,@_VERSION_@,@VERSION@,g' $< > $@
@@ -78,7 +85,7 @@ DOC_FILE_CMD = /doc:$(DOC_FILE)
 DOC_FILE_CLEAN = *.doc.xml
 endif
 
-all: SimiasServerSetup.exe iFolderWebSetup.exe iFolderAdminSetup.exe
+all: SimiasServerSetup.exe iFolderWebSetup.exe iFolderAdminSetup.exe utility.exe
 
 SimiasServerSetup.exe: $(SimiasServerSetup_CSFILES) $(SimiasServerSetup_RESOURCES) simias-server-setup
 	$(CSC) /out:$@ $(CSCFLAGS) $(SimiasServerSetup_FLAGS) $(SIMIAS_LIBS) $(SimiasServerSetup_LIBS:%=/r:%) $(SimiasServerSetup_LIBPATH:%=/lib:%) $(SimiasServerSetup_RESOURCES:%=$(ICON_FLAG)%) $(SimiasServerSetup_CSFILES_CSC) $(DOC_FILE_CMD)
@@ -86,6 +93,9 @@ iFolderWebSetup.exe: $(iFolderWebSetup_CSFILES) $(SimiasServerSetup_RESOURCES) i
 	$(CSC) /out:$@ $(CSCFLAGS) $(SimiasServerSetup_FLAGS) $(SIMIAS_LIBS) $(SimiasServerSetup_LIBS:%=/r:%) $(SimiasServerSetup_LIBPATH:%=/lib:%) $(SimiasServerSetup_RESOURCES:%=$(ICON_FLAG)%) $(iFolderWebSetup_CSFILES_CSC) $(DOC_FILE_CMD)
 iFolderAdminSetup.exe: $(iFolderAdminSetup_CSFILES) $(SimiasServerSetup_RESOURCES) ifolder-admin-setup
 	$(CSC) /out:$@ $(CSCFLAGS) $(SimiasServerSetup_FLAGS) $(SIMIAS_LIBS) $(SimiasServerSetup_LIBS:%=/r:%) $(SimiasServerSetup_LIBPATH:%=/lib:%) $(SimiasServerSetup_RESOURCES:%=$(ICON_FLAG)%) $(iFolderAdminSetup_CSFILES_CSC) $(DOC_FILE_CMD)
+
+utility.exe: $(iFolderUtilitySetup_CSFILES) $(SimiasServerSetup_RESOURCES) 
+	$(CSC) /out:$@ $(CSCFLAGS) $(SimiasServerSetup_FLAGS) $(SIMIAS_LIBS) $(SimiasServerSetup_LIBS:%=/r:%) $(SimiasServerSetup_LIBPATH:%=/lib:%) $(SimiasServerSetup_RESOURCES:%=$(ICON_FLAG)%) $(iFolderUtilitySetup_CSFILES_CSC) $(DOC_FILE_CMD)
 
 if DEBUG
 if WINDOWS
