@@ -381,7 +381,7 @@ namespace Simias.Storage
 			}
 
 			// Either create the store or authenticate to it.
-			if ( created )
+			if ( created )		// store is newly created...
 			{
 				try
 				{
@@ -450,7 +450,7 @@ namespace Simias.Storage
 					throw;
 				}
 			}
-			else
+			else		// store already existing
 			{
 				// Get the local database object.
 				LocalDatabase ldb = GetDatabaseObject();
@@ -458,10 +458,21 @@ namespace Simias.Storage
 				{
 					throw new DoesNotExistException( "Local database object does not exist." );
 				}
-
 				// Compare the store version to make sure that it is correct.
-				if ( storeVersion != Version )
+				if( Version == "1.0.1")
 				{
+					try
+					{
+						ldb.Properties.AddNodeProperty( PropertyTags.StoreVersion, storeVersion );
+						ldb.Commit();
+					}
+					catch(Exception e)
+					{
+					}
+				}
+				else if ( storeVersion != Version )
+				{
+					// Change the store version if the store version is 1.0.1
 					throw new SimiasException( String.Format( "Incompatible database version. Expected version {0} - Found version {1}.", storeVersion, Version ) );
 				}
 
