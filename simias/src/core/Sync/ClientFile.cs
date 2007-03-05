@@ -898,8 +898,9 @@ namespace Simias.Sync
 			{
 				serverHashMap = syncService.GetHashMap(out blockSize);
 			}
-			
-			if (serverHashMap == null || serverHashMap.Length == 0)
+
+			//If not available in server and encrypted file
+			if (serverHashMap == null || serverHashMap.Length == 0 || IsEncryptionEnabled() == true)
 			{
 				// Send the whole file.
 				sizeToSync = Length;

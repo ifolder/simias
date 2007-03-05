@@ -788,7 +788,21 @@ namespace Simias.Sync
 		}
 
 		/// <summary>
-		/// Gets the passphrase from the domain
+		/// Test if encryption is enabled
+		/// </summary>
+		public bool IsEncryptionEnabled()
+		{
+			string EncryptionAlgorithm="";
+			Property p = collection.Properties.FindSingleValue(PropertyTags.EncryptionType);
+			EncryptionAlgorithm = (p!=null) ? (string) p.Value as string : "";
+			if(EncryptionAlgorithm =="")
+				return false;
+			else
+				return true;
+		}
+
+		/// <summary>
+		/// Gets the crypto key
 		/// </summary>
 		public bool GetCryptoKey(out string EncryptionKey)
 		{
