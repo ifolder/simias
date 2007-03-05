@@ -1501,12 +1501,12 @@ namespace Novell.iFolder
 			}
 
 			Console.WriteLine();
-			Console.WriteLine("ENVIRONMENT VARIABLES:");
-			Console.WriteLine();
-			Console.WriteLine("\t{0}{1}\t\t\t\tLDAP Admin Password", SIMIAS_LDAP_ADMIN_PASSWORD, Environment.NewLine);
-			Console.WriteLine("\t{0}{1}\t\t\t\tSystem Admin Password", SIMIAS_SYSTEM_ADMIN_PASSWORD, Environment.NewLine);
-			Console.WriteLine("\t{0}{1}\t\t\t\tLDAP Proxy Password", SIMIAS_LDAP_PROXY_PASSWORD, Environment.NewLine);
-			Console.WriteLine();
+// 			Console.WriteLine("ENVIRONMENT VARIABLES:");
+// 			Console.WriteLine();
+// 			Console.WriteLine("\t{0}{1}\t\t\t\tLDAP Admin Password", SIMIAS_LDAP_ADMIN_PASSWORD, Environment.NewLine);
+// 			Console.WriteLine("\t{0}{1}\t\t\t\tSystem Admin Password", SIMIAS_SYSTEM_ADMIN_PASSWORD, Environment.NewLine);
+// 			Console.WriteLine("\t{0}{1}\t\t\t\tLDAP Proxy Password", SIMIAS_LDAP_PROXY_PASSWORD, Environment.NewLine);
+// 			Console.WriteLine();
 
 			Environment.Exit(-1);
 		}

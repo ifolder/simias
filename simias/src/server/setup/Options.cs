@@ -350,7 +350,7 @@ namespace Novell.iFolder.Utility
 			string temp = Environment.GetEnvironmentVariable(variable);
 
 			//DEBUG Code : Print any Env Variables parsed.
-		        Console.Error.WriteLine ("Env Variable : {0} Value : {1}",variable, temp);
+		        //Console.Error.WriteLine ("Env Variable : {0} Value : {1}",variable, temp);
 
 			if ((temp != null) && (temp.Length > 0))
 			{
