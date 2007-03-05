@@ -134,7 +134,7 @@ uninstall-local:
 
 installcheck-local: install
 	
-CLEAN_FILES = SimiasServerSetup.exe iFolderWebSetup.exe iFolderAdminSetup.exe $(DOC_FILE_CLEAN) AssemblyInfo.cs
+CLEAN_FILES = simias-server-setup ifolder-admin-setup ifolder-web-setup SimiasServerSetup.exe iFolderWebSetup.exe iFolderAdminSetup.exe $(DOC_FILE_CLEAN) AssemblyInfo.cs
 
 clean-local:
 	rm -rf $(CLEAN_FILES) $(COMMON_CLEAN_FILES)

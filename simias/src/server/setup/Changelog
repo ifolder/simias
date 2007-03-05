@@ -1,3 +1,8 @@
+2007-03-05  B S Srinidhi  <srinidhi@novell.com>
+
+	* Makefile.am: Remove generated scripts (patch by Jan-Simon Möller).
+	Fixes #248723.
+
 2007-03-03  Johnny Jacob  <jjohnny@novell.com>
 
 	* SimiasServerSetup.cs : Prompt for Apache User/Group if n/a. Use
@@ -10,6 +15,7 @@
 	
 2007-Jan-22 Kalidas Balakrishnan <bkalidas@novell.com>
 	*SimiasServerSetup.cs - updated for ifolder-tsa to work
+	
 2007-Jan-12 Kalidas Balakrishnan <bkaldias@novell.com>
         * SimiasServerSetup.cs - moved the permission setting after setting up the log directories
         * Makefile.am - updated the makefile to build Web Access and Web Admin setup utilities
