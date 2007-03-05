@@ -97,6 +97,7 @@ namespace Simias.Discovery
 
 		public static CollectionInfo GetCollectionInfo (string collectionID)
 		{
+		        Simias.Discovery.DiscService.UpdateCollectionList();
 			ArrayList collectionList = Simias.Discovery.CollectionList.GetCollectionList();
 
 			//TEMPFIX : We'll wait if we the obj is updating.
