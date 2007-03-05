@@ -1,6 +1,6 @@
 # handle Mono secondary dependencies
 export MONO_PATH := $(MONO_PATH)
-SUBDIRS = CertCheck
+SUBDIRS = 
 SimiasServerSetup_CSFILES = \
 	$(srcdir)/SimiasServerSetup.cs \
 	$(srcdir)/HostAdmin.cs \
