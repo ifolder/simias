@@ -119,6 +119,7 @@ else
 	$(INSTALL_PROGRAM) simias-server-setup $(DESTDIR)$(bindir)
 	$(INSTALL_PROGRAM) ifolder-web-setup $(DESTDIR)$(bindir)
 	$(INSTALL_PROGRAM) ifolder-admin-setup $(DESTDIR)$(bindir)
+	$(INSTALL_PROGRAM) utility.exe $(DEBUG_FILES) $(DESTDIR)$(bindir)
 endif
 
 uninstall-local:
@@ -131,6 +132,7 @@ uninstall-local:
 	cd $(DESTDIR)$(bindir); rm -f iFolderAdminSetup.exe $(DEBUG_FILES)
 	cd $(DESTDIR)$(bindir); rm -f ifolder-admin-setup ifolder-admin-setup.cmd
 	cd $(DESTDIR)$(bindir); rm -f iFolderAdminSetup.exe.config
+	cd $(DESTDIR)$(bindir); rm -f utility.exe
 
 installcheck-local: install
 	
