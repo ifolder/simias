@@ -208,8 +208,7 @@ namespace Novell.iFolderApp.Web
 				//try getting publickey from current session
 				CertPublicKey = Session["CertPublicKey"] as byte [] ;
 
-				UTF8Encoding utf8 = new UTF8Encoding();
-				string PublicKey = utf8.GetString(CertPublicKey);
+				string PublicKey = Encoding.ASCII.GetString(CertPublicKey);
 					
 				web.SetPassPhrase(PassPhraseStr, RAName, PublicKey);
 

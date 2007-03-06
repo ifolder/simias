@@ -513,14 +513,18 @@ namespace Novell.iFolderApp.Web
 		///<returns>padded passPhrase.</returns>
 		public string DoPadding(string Passhrase)
 		{
+			// Any chnage in thie function need to be synced with ifolder client as well
+			int minimumLength = 16;
+			int incLength = 8;
+			
 			string NewPassphrase = Passhrase;
 
-			while(NewPassphrase.Length % 8 !=0 || NewPassphrase.Length < 16)
+			while(NewPassphrase.Length % incLength !=0 || NewPassphrase.Length < minimumLength)
 			{
 				NewPassphrase += Passhrase;
-				if(NewPassphrase.Length < 16)
+				if(NewPassphrase.Length < minimumLength)
 					continue;
-				NewPassphrase = NewPassphrase.Remove((NewPassphrase.Length /8)*8, NewPassphrase.Length%8);
+				NewPassphrase = NewPassphrase.Remove((NewPassphrase.Length /incLength)*incLength, NewPassphrase.Length % incLength);
 			}
 			return NewPassphrase;
 		}

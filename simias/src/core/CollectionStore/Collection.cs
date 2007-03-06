@@ -39,6 +39,7 @@ using Simias.POBox;
 using Simias.Policy;
 using Simias.Storage.Provider;
 using Simias.Sync;
+using Simias.CryptoKey;
 using Persist = Simias.Storage.Provider;
 
 namespace Simias.Storage
@@ -109,6 +110,11 @@ namespace Simias.Storage
 		/// Encryption key
 		/// </summary>
 		private string encryptionKey;
+
+		/// <summary>
+		/// Encryption key
+		/// </summary>
+		private string recoveryKey;
 
 		/// <summary>
 		/// Encryption Blob
@@ -702,8 +708,12 @@ namespace Simias.Storage
 				
 				properties.AddNodeProperty(PropertyTags.EncryptionKey, this.encryptionKey);
 				properties.AddNodeProperty(PropertyTags.EncryptionBlob, this.encryptionBlob);
+
+				log.Debug("Owner.RAPublicKey ={0}", Owner.RAPublicKey);
+				RecoveryAgent agent = new RecoveryAgent(Owner.RAPublicKey);
+				this.recoveryKey = agent.EncodeMessage(this.encryptionKey);
+				properties.AddNodeProperty(PropertyTags.RecoveryKey, this.recoveryKey);
 			}
-			
 			
 			// Setup the access control for this collection.
 			accessControl = new AccessControl( this );
