@@ -469,15 +469,17 @@ namespace Novell.iFolderApp.Web
 							if(RAList.SelectedValue	!= "")
 							{
 								Session["SessionPassPhrase"] = PassPhraseStr;
-								Response.Redirect(String.Format("iFolderCertificate.aspx?RAName={0}&PassPhrase={1}&EncryptionAlgorithm={2}&name={3}&description={4}",
+								Response.Redirect(String.Format("iFolderCertificate.aspx?RAName={0}&EncryptionAlgorithm={1}&name={2}&description={3}",
 												RAList.SelectedValue, PassPhraseStr, EncryptionAlgorithm, name, description));
 								//SetPassphrase will be done in the redirected page and store in the session
 							}
 							else
 							{
 								//This case should come when no RA is configured by the admin
-								web.SetPassPhrase(PassPhraseStr, null, null);
-								Session["SessionPassPhrase"] = PassPhraseStr;
+								//web.SetPassPhrase(PassPhraseStr, null, null);
+								//Session["SessionPassPhrase"] = PassPhraseStr;
+								Message.Text = GetString("CONFIG_RECOVERY_AGENT");
+								return;
 							}
 						}
 					}

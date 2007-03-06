@@ -29,7 +29,6 @@ using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using System.Xml;
-using Mono.Security.Authenticode;
 
 namespace Simias.CryptoKey
 {
@@ -91,26 +90,28 @@ namespace Simias.CryptoKey
 		///</summary>
 		public string EncodeMessage(string message)
 		{
-			string encodedMessage = "junk";
+			string encodedMessage ;
+			byte [] Exponent = {1,0,1};
 
-		/*	try
+			try
 			{
+				RSAParameters rsaParameters = new RSAParameters();
+				rsaParameters.Modulus = publicKey;
+				rsaParameters.Exponent = Exponent;
 				// Construct a formatter with the specified RSA key.
-				RSAPKCS1KeyExchangeFormatter keyEncryptor =
-				new RSAPKCS1KeyExchangeFormatter(publicKey);
-
+				RSACryptoServiceProvider RSA = new RSACryptoServiceProvider();
+				RSA.ImportParameters(rsaParameters);
+				
 				// Convert the message to bytes to create the encrypted data.
 				UTF8Encoding Utf8 = new UTF8Encoding();
 				byte[] byteMessage = Utf8.GetBytes(message);
-				encodedMessage = Utf8.GetString(keyEncryptor.CreateKeyExchange(byteMessage));
+				encodedMessage = Utf8.GetString(RSA.Encrypt(byteMessage, false));
 			}
 			catch (Exception ex)
 			{
 				throw ex;
-			}
-		*/	
+			}			
 			return encodedMessage;
-		
 		}
 	}
 }
