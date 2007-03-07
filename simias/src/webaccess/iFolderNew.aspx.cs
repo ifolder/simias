@@ -470,7 +470,7 @@ namespace Novell.iFolderApp.Web
 							{
 								Session["SessionPassPhrase"] = PassPhraseStr;
 								Response.Redirect(String.Format("iFolderCertificate.aspx?RAName={0}&EncryptionAlgorithm={1}&name={2}&description={3}",
-												RAList.SelectedValue, PassPhraseStr, EncryptionAlgorithm, name, description));
+												RAList.SelectedValue, PassPhraseStr, name, description));
 								//SetPassphrase will be done in the redirected page and store in the session
 							}
 							else
