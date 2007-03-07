@@ -65,9 +65,29 @@ namespace Novell.iFolderWeb.Admin
 		protected TextBox Name;
 
 		/// <summary>
+		/// External Identity Sync Interval Tag
+		/// </summary>
+		protected Literal IDSyncTag;
+
+		/// <summary>
+		/// External Identity Sync Interval Tag
+		/// </summary>
+		protected Literal IDSyncMinutesTag;
+
+		/// <summary>
+		/// External Identity Sync Interval
+		/// </summary>
+		protected TextBox IDSyncInterval;
+
+		/// <summary>
 		/// iFolder system description control.
 		/// </summary>
 		protected HtmlTextArea Description;
+
+		/// <summary>
+		/// External Identity Sync Now Button
+		/// </summary>
+		protected Button SyncNowButton;
 
 		/// <summary>
 		/// iFolder system cancel button control.
@@ -119,6 +139,18 @@ namespace Novell.iFolderWeb.Admin
 		/// Add admin button control.
 		/// </summary>
 		protected Button AddButton;
+
+		/// <summary>
+		/// External ID Store status
+		/// </summary>
+
+		protected bool ExternalIdentities;
+
+		/// <summary>
+		/// Current server master/slave role
+		/// </summary>
+
+		protected bool IsMaster;
 
 		#endregion
 
@@ -230,6 +262,31 @@ namespace Novell.iFolderWeb.Admin
 		}
 
 		/// <summary>
+		/// Show/Hide Identity Sync Widgets based on policy
+		/// </summary>
+		private void ShowIdentitySync()
+		{
+                        if (ExternalIdentities && IsMaster) 
+			{
+			    ExternalIdentities = true;
+			    IDSyncInterval.Visible = true;
+
+			    IDSyncMinutesTag.Text = GetString ("MINUTES");
+			    IDSyncMinutesTag.Visible = true;
+
+			    IDSyncTag.Text = GetString ("IDENTITYSYNCTAG");
+			    IDSyncTag.Visible = true;
+
+			    SyncNowButton.Text = GetString("SYNCNOW");
+			    SyncNowButton.Visible = true;
+		        } else {
+			    IDSyncInterval.Visible = false;
+			    IDSyncTag.Visible = false;
+			    IDSyncMinutesTag.Visible = false;
+			    SyncNowButton.Visible = false;
+			}
+		}
+		/// <summary>
 		/// Gets the displayable ifolder system information.
 		/// </summary>
 		private void GetSystemInformation()
@@ -243,6 +300,9 @@ namespace Novell.iFolderWeb.Admin
 
 			iFolderSet ifolders = web.GetiFolders( iFolderType.All, 0, 1 );
 			NumberOfiFolders.Text = ifolders.Total.ToString();
+
+			if (ExternalIdentities && IsMaster)  
+			       IDSyncInterval.Text = (web.IdentitySyncGetServiceInfo().SynchronizationInterval / 60).ToString();
 		}
 
 		/// <summary>
@@ -278,6 +338,9 @@ namespace Novell.iFolderWeb.Admin
 			// localization
 			rm = Application[ "RM" ] as ResourceManager;
 
+			ExternalIdentities = web.GetIdentityPolicy().ExternalIdentities;
+			IsMaster = web.GetHomeServer().IsMaster;
+
 			if ( !IsPostBack )
 			{
 				// Initialize the localized fields.
@@ -291,6 +354,8 @@ namespace Novell.iFolderWeb.Admin
 				TotalAdmins = 0;
 				AllAdminsCheckBox.Checked = false;
 				CheckedMembers = new Hashtable();
+
+				ShowIdentitySync();
 
 				// Get the owner of the system.
 				iFolder domain = web.GetiFolder( web.GetSystem().ID );
@@ -313,7 +378,6 @@ namespace Novell.iFolderWeb.Admin
 
 			// Get the policy information.
 			Policy.GetSystemPolicies();
-
 			// Build the bread crumb list.
 			BuildBreadCrumbList();
 		}
@@ -330,6 +394,7 @@ namespace Novell.iFolderWeb.Admin
 				GetString( "ADMINISTRATORS" ),
 				GetString( "ADMINISTRATOR" ) );
 		}
+
 
 		#endregion
 
@@ -441,6 +506,16 @@ namespace Novell.iFolderWeb.Admin
 		}
 
 		/// <summary>
+		/// Event that gets called when the SyncNow button is clicked.
+		/// </summary>
+		/// <param name="source"></param>
+		/// <param name="e"></param>
+		protected void OnSyncNowButton_Click( object source, EventArgs e )
+		{
+		        web.IdentitySyncNow ();
+		}
+
+		/// <summary>
 		/// Event that gets called when the cancel button is clicked.
 		/// </summary>
 		/// <param name="source"></param>
@@ -494,6 +569,18 @@ namespace Novell.iFolderWeb.Admin
 			system.Name = Name.Text;
 			system.Description = Description.Value;
 			web.SetSystem( system );
+
+			if (ExternalIdentities && IsMaster)
+			{
+			        int syncInterval = Int32.Parse (IDSyncInterval.Text);
+				syncInterval = syncInterval * 60;
+				if (syncInterval > 0 ) {
+				        web.IdentitySyncSetInterval (syncInterval);
+				} else {
+				        IDSyncInterval.Text = (web.IdentitySyncGetServiceInfo().SynchronizationInterval / 60).ToString();
+				        TopNav.ShowError( GetString ("ERRORINVALIDSYNCINTERVAL"));
+				}
+			}
 		}
 
 		/// <summary>

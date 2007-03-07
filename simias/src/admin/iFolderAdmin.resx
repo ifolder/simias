@@ -375,6 +375,9 @@
 	<data name="HUNGARIAN">
 		<value>Hungarian</value>
 	</data>
+	<data name="IDENTITYSYNCTAG">
+		<value>Identity Sync</value>
+	</data>
 	<data name="IFOLDER">
 		<value>iFolder</value>
 	</data>
@@ -737,6 +740,9 @@
 	</data>
 	<data name="STATUSTAG">
 		<value>Status:</value>
+	</data>
+	<data name="SYNCNOW">
+		<value>Sync Now</value>
 	</data>
 	<data name="SYNCHRONIZATION">
 		<value>Synchronization</value>

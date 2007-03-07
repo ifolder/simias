@@ -1,3 +1,15 @@
+2006-11-17 Johnny Jacob <jjohnny@novell.com>
+	
+	* iFolderAdmin.resx : Added data for IDENTITYSYNCTAG and IFOLDER
+	
+	* SystemInfo.aspx : Added IDSyncInterval,IDSyncMinutesTag,
+	SyncNowButton widgets
+	
+	* SystemInfo.aspx.cs : (ShowIdentitySync) : Added. Decides whether
+	to show/hide ID Sync UI.
+	(OnSyncNowButton_Click) : Added. Initiate the ID Sync immediately
+	when 'Sync Now' clicked.
+	(OnSaveButton_Click) : Validate SyncInterval and set it.
 2006-12-8  Johnny Jacob  <jjohnny@novell.com
 
 	* ServerDetails.aspx.cs (GetLogList): Removed adminlogfile and

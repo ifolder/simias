@@ -82,6 +82,29 @@
 					
 					<tr>
 						<th>
+							<asp:Literal ID="IDSyncTag" Runat="server" />
+						</th>
+						
+						<td>
+							<asp:TextBox 
+								ID="IDSyncInterval" 
+								Runat="server" 
+								CssClass="syncnowtextbox"
+								onkeypress="EnableSystemButtons()" />
+
+							<asp:Literal ID="IDSyncMinutesTag" Runat="server" />
+
+							<asp:Button 
+								ID="SyncNowButton" 
+								Runat="server" 
+								CssClass="syncnowbutton"
+								Enabled="True"
+								OnClick="OnSyncNowButton_Click" />
+						</td>
+					</tr>
+
+					<tr>
+						<th>
 							<%= GetString( "TOTALUSERSTAG" ) %>
 						</th>
 						

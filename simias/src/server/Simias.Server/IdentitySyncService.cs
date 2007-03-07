@@ -656,8 +656,19 @@ namespace Simias.IdentitySync
 		/// </summary>
 		static public int SyncInterval
 		{
-			get { return syncInterval; }
-			set { syncInterval = value; }
+			get { 
+			    return syncInterval; 
+			}
+			set {
+			    //Save this value in Domain.
+			    Store store = Store.GetStore ();
+			    Domain domain = store.GetDomain ( store.DefaultDomain );
+			    Property syncIntervalProp = new Property( "IDSyncInterval" , value );
+			    domain.Properties.ModifyProperty( syncIntervalProp );
+			    domain.Commit( domain );
+
+			    syncInterval = value; 
+			}
 		}
 
 		/// <summary>
@@ -1008,6 +1019,7 @@ namespace Simias.IdentitySync
 			}
 			
 			log.Debug( "Start - called" );
+
 			quit = false;
 			syncEvent = new AutoResetEvent( false );
 			syncThread = new Thread( new ThreadStart( SyncThread ) );
@@ -1054,6 +1066,15 @@ namespace Simias.IdentitySync
 			Simias.IdentitySync.Service.cycles = 0;
 			
 			syncEvent.WaitOne( 1000 * 10, false );
+
+ 		        Store store = Store.GetStore ();
+ 			Domain domain = store.GetDomain ( store.DefaultDomain );
+
+ 			if( domain.Properties.GetSingleProperty( "IDSyncInterval" ) == null)
+			       SyncInterval = 900; //15 Mins Default Value. Save it in Domain.
+ 			else
+ 			       syncInterval = (int) domain.Properties.GetSingleProperty( "IDSyncInterval" ).Value;
+
 			while ( quit == false )
 			{
 				running = true;
