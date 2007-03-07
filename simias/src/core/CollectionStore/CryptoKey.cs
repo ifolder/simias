@@ -110,7 +110,7 @@ namespace Simias.CryptoKey
 			catch (Exception ex)
 			{
 				throw ex;
-			}			
+			}
 			return encodedMessage;
 		}
 	}

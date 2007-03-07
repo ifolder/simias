@@ -598,8 +598,8 @@ namespace Simias.Storage
 		}
 
 		//TODO: add comment
-		public Collection( Store storeObject, string collectionName, string domainID, bool ssl, string encryptionAlgorithm, string passphrase ) :
-			this ( storeObject, collectionName, Guid.NewGuid().ToString(), domainID, ssl, encryptionAlgorithm, passphrase)
+		public Collection( Store storeObject, string collectionName, string domainID, bool ssl, string encryptionAlgorithm, string passphrase, string raPublicKey ) :
+			this ( storeObject, collectionName, Guid.NewGuid().ToString(), domainID, ssl, encryptionAlgorithm, passphrase, raPublicKey)
 		{
 		}
 
@@ -641,8 +641,8 @@ namespace Simias.Storage
 		}
 
 
-		public Collection( Store storeObject, string collectionName, string collectionID, string domainID, bool ssl, string encryptionAlgorithm, string passphrase) :
-			this( storeObject, collectionName, collectionID, NodeTypes.CollectionType, domainID, ssl, encryptionAlgorithm, passphrase)
+		public Collection( Store storeObject, string collectionName, string collectionID, string domainID, bool ssl, string encryptionAlgorithm, string passphrase, string raPublicKey) :
+			this( storeObject, collectionName, collectionID, NodeTypes.CollectionType, domainID, ssl, encryptionAlgorithm, passphrase, raPublicKey)
 		{
 		}
 
@@ -673,7 +673,7 @@ namespace Simias.Storage
 			createManagedPath = !Directory.Exists( ManagedPath );
 		}
 
-		internal protected Collection( Store storeObject, string collectionName, string collectionID, string collectionType, string domainID, bool ssl, string encryptionAlgorithm, string passphrase) :
+		internal protected Collection( Store storeObject, string collectionName, string collectionID, string collectionType, string domainID, bool ssl, string encryptionAlgorithm, string passphrase, string raPublicKey) :
 			base( collectionName, collectionID, collectionType)
 		{
 			store = storeObject;
@@ -704,13 +704,13 @@ namespace Simias.Storage
 				key.EncrypytKey(passphrase, out this.encryptionKey);//send the passphrase to encrypt the key
 				this.encryptionBlob = key.HashKey();
 
-				log.Debug( "Create iFolder encrypted cryptokey ={0}", this.encryptionKey);
-				
 				properties.AddNodeProperty(PropertyTags.EncryptionKey, this.encryptionKey);
 				properties.AddNodeProperty(PropertyTags.EncryptionBlob, this.encryptionBlob);
 
-				log.Debug("Owner.RAPublicKey ={0}", Owner.RAPublicKey);
-				RecoveryAgent agent = new RecoveryAgent(Owner.RAPublicKey);
+				if(raPublicKey ==null)
+					throw new CollectionStoreException("Recovery agent not configured");
+				
+				RecoveryAgent agent = new RecoveryAgent(raPublicKey);
 				this.recoveryKey = agent.EncodeMessage(this.encryptionKey);
 				properties.AddNodeProperty(PropertyTags.RecoveryKey, this.recoveryKey);
 			}

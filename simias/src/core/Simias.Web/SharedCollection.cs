@@ -588,8 +588,16 @@ namespace Simias.Web
 
 			Store store = Store.GetStore();
 
+			Domain domain = store.GetDomain(DomainID);
+			if(domain == null)
+				throw new Exception("Unable to obtain default domain");
+
+			Simias.Storage.Member member = domain.GetMemberByID(UserID);
+			if(member == null)
+				throw new Exception("UserID is invalid");
+
 			// Create the Collection and set it as an iFolder
-			Collection c = new Collection(store, Name, DomainID, Ssl, EncryptionAlgorithm, Passphrase);
+			Collection c = new Collection(store, Name, DomainID, Ssl, EncryptionAlgorithm, Passphrase, member.RAPublicKey);
 
 			// type
 			if( (Type != null) && (Type.Length > 0) )
@@ -604,14 +612,6 @@ namespace Simias.Web
 			nodeList.Add(c);
 
 			// Create the member and add it as the owner
-			Domain domain = store.GetDomain(DomainID);
-			if(domain == null)
-				throw new Exception("Unable to obtain default domain");
-
-			Simias.Storage.Member member = domain.GetMemberByID(UserID);
-			if(member == null)
-				throw new Exception("UserID is invalid");
-				
 			Simias.Storage.Member newMember = 
 					new Simias.Storage.Member(member.Name,
 								  member.UserID,
@@ -743,8 +743,12 @@ namespace Simias.Web
                         Domain domain = store.GetDomain(DomainID);
                         if(domain == null)
                                 throw new Exception("Unable to obtain default domain");
+						
+			   Simias.Storage.Member member = domain.GetMemberByID(UserID);
+			   if(member == null)
+				throw new Exception("UserID is invalid");
 
-                        Collection c = new Collection( store, Name, DomainID, Ssl, EncryptionAlgorithm, Passphrase);
+                        Collection c = new Collection( store, Name, DomainID, Ssl, EncryptionAlgorithm, Passphrase, member.RAPublicKey);
 
 
                         if (AccessID != null)
@@ -763,11 +767,7 @@ namespace Simias.Web
                         nodeList.Add(c);
 
                         // Create the member and add it as the owner
-                        Simias.Storage.Member member = domain.GetMemberByID(UserID);
-                        if(member == null)
-                                throw new Exception("UserID is invalid");
-
-                        Simias.Storage.Member newMember =
+			  Simias.Storage.Member newMember =
                                         new Simias.Storage.Member(      member.Name,
                                                                                                 member.UserID,
                                                                                                 Access.Rights.Admin);

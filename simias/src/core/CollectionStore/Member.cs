@@ -525,29 +525,24 @@ namespace Simias.Storage
 			Member member = domain.GetMemberByID(UserID);
 			
 			log.Debug("ServerSetPassPhrase user:{0}...userID={1}",member.Name, UserID);
-			//log.Debug("ServerSetPassPhrase Commit {0}...{1}...{2}...{3}",EncryptedCryptoKey, CryptoKeyBlob,RAName, PublicKey);
-			
+						
 			if(EncryptedCryptoKey !=null)
 			{
-				//member.properties.AddNodeProperty(PropertyTags.EncryptionKey, EncryptedCryptoKey);
 				Property p = new Property(PropertyTags.EncryptionKey, EncryptedCryptoKey);
 				this.properties.ModifyNodeProperty(p);
 			}
 			if(CryptoKeyBlob !=null)
 			{
-				//member.properties.AddNodeProperty(PropertyTags.EncryptionBlob, CryptoKeyBlob);
 				Property p = new Property(PropertyTags.EncryptionBlob, CryptoKeyBlob);
 				this.properties.ModifyNodeProperty(p);
 			}
 			if(RAName !=null)
 			{
-				//member.properties.AddNodeProperty(PropertyTags.RAName, RAName);
 				Property p = new Property(PropertyTags.RAName, RAName);
 				this.properties.ModifyNodeProperty(p);
 			}
 			if(PublicKey !=null)
 			{
-				//member.properties.AddNodeProperty(PropertyTags.RAPublicKey, PublicKey);
 				Property p = new Property(PropertyTags.RAPublicKey, PublicKey);
 				this.properties.ModifyNodeProperty(p);
 			}
@@ -583,8 +578,6 @@ namespace Simias.Storage
 				string UserID = store.GetUserIDFromDomainID(DomainID);
 				HostNode host = this.HomeServer; //home server
 
-				log.Debug("SetPassPhrase member entry");
-				
 				SimiasConnection smConn = new SimiasConnection(DomainID,
 															UserID,
 															SimiasConnection.AuthType.BASIC,
@@ -693,7 +686,6 @@ namespace Simias.Storage
 
 				Simias.Storage.Domain domain = store.GetDomain(DomainID);
 				Simias.Storage.Member member = domain.GetCurrentMember();
-				log.Debug("Member ValidatePassPhrase User:{0}...{1}...{2} ", member.Name, member.UserID, UserID);
 				
 				SimiasConnection smConn = new SimiasConnection(DomainID,
 															UserID,
@@ -705,9 +697,7 @@ namespace Simias.Storage
 				smConn.Authenticate ();
 				smConn.InitializeWebClient(svc, "Simias.asmx");			
 
-				log.Debug("ValidatePassPhrase : got PassKey");
 				string EncrypCryptoKey = svc.ServerGetEncrypPassKey(DomainID, UserID);
-				log.Debug("ValidatePassPhrase : got PassKey:{0}",EncrypCryptoKey);
 
 				//Decrypt it
 				string DecryptedCryptoKey; 
@@ -724,7 +714,6 @@ namespace Simias.Storage
 				NewHash = HashKey.HashKey();
 
 				OldHash = svc.ServerGetPassKeyHash(DomainID, UserID);
-				log.Debug("ValidatePassPhrase : getting OldHash:{0}", OldHash);
 			}
 			catch(Exception ex)
 			{
