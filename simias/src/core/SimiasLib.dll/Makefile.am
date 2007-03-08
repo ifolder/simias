@@ -10,7 +10,7 @@ SIMIAS_FLAGS = $(CSC_LIBFLAG) /unsafe
 if LINUX
 SIMIAS_LIBS1 = System.dll System.Data.dll $(SYSTEM_XML) System.Security.dll System.Runtime.Remoting.dll System.Web.dll System.Web.Services.dll SimiasClient.dll
 else
-SIMIAS_LIBS1 = System.dll System.Data.dll $(SYSTEM_XML) System.Security.dll System.Runtime.Remoting.dll System.Web.dll System.Web.Services.dll SimiasClient.dll log4net.dll 
+SIMIAS_LIBS1 = System.dll System.Data.dll $(SYSTEM_XML) System.Security.dll System.Runtime.Remoting.dll System.Web.dll System.Web.Services.dll SimiasClient.dll
 endif
 SIMIAS_LIBPATH = $(LOG4NET_DIR) ../SimiasClient
 

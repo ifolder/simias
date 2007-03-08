@@ -587,7 +587,7 @@ namespace Simias.Web
 			}
 
 			Store store = Store.GetStore();
-			try{
+			
 			Domain domain = store.GetDomain(DomainID);
 			if(domain == null)
 				throw new Exception("Unable to obtain default domain");
@@ -646,12 +646,7 @@ namespace Simias.Web
 				DirNode dn = new DirNode(c, dirNodePath);
 				nodeList.Add(dn);
 			}
-			}
-			catch(Exception ex)
-			{
-				log.Debug("Shared collection {0} ", ex.Message);
-				throw ex;
-			}
+			
 
 			// Commit the new collection and the fileNode at the root
 			c.Commit(nodeList.ToArray( typeof( Node) ) as Node[] );
