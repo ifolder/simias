@@ -476,10 +476,9 @@ namespace Novell.iFolderApp.Web
 							else
 							{
 								//This case should come when no RA is configured by the admin
-								//web.SetPassPhrase(PassPhraseStr, null, null);
-								//Session["SessionPassPhrase"] = PassPhraseStr;
-								Message.Text = GetString("CONFIG_RECOVERY_AGENT");
-								return;
+								PassPhraseStr =  DoPadding(PassPhraseStr);
+								web.SetPassPhrase(PassPhraseStr, null, null);
+								Session["SessionPassPhrase"] = PassPhraseStr;
 							}
 						}
 					}

@@ -587,7 +587,7 @@ namespace Simias.Web
 			}
 
 			Store store = Store.GetStore();
-
+			try{
 			Domain domain = store.GetDomain(DomainID);
 			if(domain == null)
 				throw new Exception("Unable to obtain default domain");
@@ -595,6 +595,7 @@ namespace Simias.Web
 			Simias.Storage.Member member = domain.GetMemberByID(UserID);
 			if(member == null)
 				throw new Exception("UserID is invalid");
+			
 
 			// Create the Collection and set it as an iFolder
 			Collection c = new Collection(store, Name, DomainID, Ssl, EncryptionAlgorithm, Passphrase, member.RAPublicKey);
@@ -644,6 +645,12 @@ namespace Simias.Web
 				// create root directory node
 				DirNode dn = new DirNode(c, dirNodePath);
 				nodeList.Add(dn);
+			}
+			}
+			catch(Exception ex)
+			{
+				log.Debug("Shared collection {0} ", ex.Message);
+				throw ex;
 			}
 
 			// Commit the new collection and the fileNode at the root
