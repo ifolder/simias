@@ -704,15 +704,16 @@ namespace Simias.Storage
 				key.EncrypytKey(passphrase, out this.encryptionKey);//send the passphrase to encrypt the key
 				this.encryptionBlob = key.HashKey();
 
-				log.Debug( "Create iFolder encrypted cryptokey ={0}", this.encryptionKey);
-				
+			
 				properties.AddNodeProperty(PropertyTags.EncryptionKey, this.encryptionKey);
 				properties.AddNodeProperty(PropertyTags.EncryptionBlob, this.encryptionBlob);
 
-				RecoveryAgent agent = new RecoveryAgent(raPublicKey);
-				this.recoveryKey = agent.EncodeMessage(this.encryptionKey);
-				properties.AddNodeProperty(PropertyTags.RecoveryKey, this.recoveryKey);
-				log.Debug( "Create iFolder encrypted recoveryKey ={0}", this.recoveryKey);
+				if(raPublicKey !="")
+				{
+					RecoveryAgent agent = new RecoveryAgent(raPublicKey);
+					this.recoveryKey = agent.EncodeMessage(this.encryptionKey);
+					properties.AddNodeProperty(PropertyTags.RecoveryKey, this.recoveryKey);
+				}
 			}
 			
 			// Setup the access control for this collection.
