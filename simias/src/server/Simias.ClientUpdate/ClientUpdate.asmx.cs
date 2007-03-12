@@ -59,7 +59,7 @@ namespace Novell.iFolder.Enterprise.Web
 
 		private  string[,] VersionCompatibilityTable = new string[,]{
 								{"1.0.1", "3.0", "3.4"},
-								{"1.1.0", "3.5", "3.5"}
+								{"1.1.0", "3.6", "3.6"}
 								};
 		/// <summary>
 		/// Xml tags used to defined the version information in the version.config file.
@@ -444,7 +444,8 @@ namespace Novell.iFolder.Enterprise.Web
 					if( (min.Major > (new Version(currentVersion)).Major) ||( (min.Major == (new Version(currentVersion)).Major) && min.Minor > (new Version(currentVersion)).Minor))
 				//	if ( applicationVersion > new Version( currentVersion ) )
 					{
-						updateVersion = applicationVersion.ToString();
+						//updateVersion = applicationVersion.ToString();
+						updateVersion = max.ToString();
 						Session[ VersionString ] = updateVersion;
 					}
 					/*
