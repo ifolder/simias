@@ -213,6 +213,9 @@
     <data name="MESSAGE.WARNING">
         <value>Warning:</value>
     </data>
+    <data name="ENTERPASSPHRASE">
+        <value>Enter Passphrase :</value>
+    </data>
     <data name="REENTER_PASSPHRASE">
         <value>Re-enter the Passphrase :</value>
     </data>

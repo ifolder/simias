@@ -199,8 +199,8 @@ namespace Novell.iFolderApp.Web
 			try
 			{
 				RAName = Request.QueryString.Get("RAName");
-				//PassPhraseStr = Request.QueryString.Get("PassPhrase");
-				PassPhraseStr = Session["SessionPassPhrase"] as string;
+				PassPhraseStr = Request.QueryString.Get("PassPhrase");
+				//PassPhraseStr = Session["SessionPassPhrase"] as string;
 				EncryptionAlgorithm = Request.QueryString.Get("EncryptionAlgorithm");
 				name = Request.QueryString.Get("name");
 				description = Request.QueryString.Get("description");
@@ -214,6 +214,8 @@ namespace Novell.iFolderApp.Web
 
 				// Send the ifolder Name, Description, Security details and the encryption algorithm
 				ifolder = web.CreateiFolder(name, description, false, EncryptionAlgorithm, PassPhraseStr);
+			
+				Session["SessionPassPhrase"] = PassPhraseStr;
 			
 				// redirect
 				Response.Redirect("Browse.aspx?iFolder=" + ifolder.ID);
