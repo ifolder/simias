@@ -1,3 +1,8 @@
+2007-03-07  B S Srinidhi  <srinidhi@novell.com>
+
+	* Makefile.am : Copy the SimiasLib.dll instead of symlinking it -
+	creates problems when building the RPM.
+
 2007-02-09  Johnny Jacob  <jjohnny@novell.com>
 
 	* Share.aspx.cs : Add UserName to the searchbar. Fixes #235073.
