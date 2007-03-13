@@ -369,18 +369,10 @@ namespace Novell.iFolder.Enterprise.Web
 				{
 					// For Client Upgrade needed min > current version
 					if( (max.Major > (new Version(currentVersion)).Major) ||( (max.Major == (new Version(currentVersion)).Major) && max.Minor > (new Version(currentVersion)).Minor))
-				//	if ( applicationVersion > new Version( currentVersion ) )
 					{
-						updateVersion = applicationVersion.ToString();
+						updateVersion = max.ToString();
 						Session[ VersionString ] = updateVersion;
 					}
-					/*
-                                        else if(applicationVersion < new Version( currentVersion))
-                                        {
-                                                updateVersion = "Server is older";
-                                                Session[ VersionString ] = updateVersion;
-                                        }
-					*/
 				}
 			}
 			catch ( Exception ex )
@@ -442,19 +434,10 @@ namespace Novell.iFolder.Enterprise.Web
 				{
 					// For Client Upgrade needed min > current version
 					if( (min.Major > (new Version(currentVersion)).Major) ||( (min.Major == (new Version(currentVersion)).Major) && min.Minor > (new Version(currentVersion)).Minor))
-				//	if ( applicationVersion > new Version( currentVersion ) )
 					{
-						//updateVersion = applicationVersion.ToString();
 						updateVersion = max.ToString();
 						Session[ VersionString ] = updateVersion;
 					}
-					/*
-                                        else if(applicationVersion < new Version( currentVersion))
-                                        {
-                                                updateVersion = "Server is older";
-                                                Session[ VersionString ] = updateVersion;
-                                        }
-					*/
 				}
 			}
 			catch ( Exception ex )
