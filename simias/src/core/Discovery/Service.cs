@@ -81,7 +81,9 @@ namespace Simias.Discovery
 			collectionList.processed = false;
 			while(!collectionList.processed)
 			{
+#if WINDOWS
 				Thread.Sleep(3000);
+#endif
 			}
 			return;
 		}
