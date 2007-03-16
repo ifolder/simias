@@ -8,13 +8,12 @@
 # Please submit bugfixes or comments via http://bugs.opensuse.org
 #
 # norootforbuild
-# neededforbuild  libstdc++-devel libstdc++ compat-libstdc++ gcc-c++ mod_mono mono-devel mono-core mono-data mono-web mono-winforms pkgconfig libxml2 libxml2-devel glib2 glib2-devel e2fsprogs e2fsprogs-devel log4net libflaim libflaim-devel
 
-BuildRequires: libstdc++-devel libstdc++ compat-libstdc++ gcc-c++ mod_mono mono-devel mono-core mono-data mono-web pkgconfig libxml2 libxml2-devel glib2 glib2-devel e2fsprogs e2fsprogs-devel log4net libflaim libflaim-devel
+BuildRequires: libstdc++-devel libstdc++ compat-libstdc++ gcc-c++ mod_mono mono-devel mono-core mono-data mono-web pkgconfig libxml2 libxml2-devel glib2 glib2-devel e2fsprogs e2fsprogs-devel libflaim libflaim-devel xsp
 
 Name:         ifolder3-server
 %define buildnum @@BUILDNUM@@
-URL:          http://wwww.ifolder.com
+URL:          http://www.ifolder.com
 %define prefix /usr
 %define sysconfdir /etc
 %define libexecdir %{_libdir}/simias
@@ -26,7 +25,6 @@ Version:      3.5.@@BUILDNUM@@.1
 Requires:     mono-core >= 1.1.13
 Requires:     mono-data >= 1.1.13
 Requires:     mono-web >= 1.1.13
-Requires:     log4net >= 1.2.9
 Requires:     libflaim >= 4.8.0
 Requires:     mod_mono >= 1.1.13
 Obsoletes:    %{name} < %{version}
@@ -48,7 +46,7 @@ export BUILDNUM=%{buildnum}
 %build
 export BUILDNUM=%{buildnum}
 ./autogen.sh --prefix=%{prefix} --libexecdir=%{libexecdir} --sysconfdir=%{sysconfdir} --with-simiasdatadir=%{simiasdatadir} --libdir='%_libdir' 
-make
+#make
 #make dist
 #=============================================================================
 
@@ -63,6 +61,13 @@ make DESTDIR=$RPM_BUILD_ROOT install
 #=============================================================================
 
 %post
+[ -f %{prefix}/lib/simias/admin/bin/SimiasLib.dll ] || \
+ln -sf %{prefix}/lib/simias/web/bin/SimiasLib.dll %{prefix}/lib/simias/admin/bin/SimiasLib.dll
+[ -f %{prefix}/lib/simias/webaccess/bin/SimiasLib.dll ] || \
+ln -sf %{prefix}/lib/simias/web/bin/SimiasLib.dll %{prefix}/lib/simias/webaccess/bin/SimiasLib.dll
+/sbin/ldconfig
+echo "Run %{prefix}/bin/simias-server-setup to configure the server"
+
 INSTANCES_AFTER_INSTALL=$1
 if [ "$INSTANCES_AFTER_INSTALL" = "2" ]; then
        # Future location of all of our upgrade stuff from 3.2 to 3.5
