@@ -1,5 +1,10 @@
 2007-03-16  B S Srinidhi  <srinidhi@novell.com>
 
+	* linux/simias.spec.autobuild : Updated BuildRequires and other
+	small changes
+
+2007-03-16  B S Srinidhi  <srinidhi@novell.com>
+
 	* linux/ifolder3-server.spec.autobuild : Updated some of the post
 	(un)install section commands and a few other changes
 
