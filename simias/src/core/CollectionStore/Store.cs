@@ -1764,12 +1764,11 @@ namespace Simias.Storage
 			UTF8Encoding utf8 = new UTF8Encoding();
 			TripleDESCryptoServiceProvider m_des = new TripleDESCryptoServiceProvider();
 
-			//byte[] IV = new byte[0];
 			byte[] IV ={0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0};			
 			m_des.KeySize = this.CryptoKeySize;
 
-			m_des.Mode = CipherMode.CBC;
-			m_des.Padding = PaddingMode.PKCS7;			
+			//m_des.Mode = CipherMode.CBC;
+			//m_des.Padding = PaddingMode.PKCS7;			
 			
 			byte[] input = utf8.GetBytes(this.CryptoKey);
 			byte[] output = Transform(input, m_des.CreateEncryptor(utf8.GetBytes(PassPhrase), IV));
@@ -1786,12 +1785,12 @@ namespace Simias.Storage
 			
 			UTF8Encoding utf8 = new UTF8Encoding();
 			TripleDESCryptoServiceProvider m_des = new TripleDESCryptoServiceProvider();
-			//byte[] IV = new byte[0];
+
 			byte[] IV ={0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0};			
 			m_des.KeySize = this.CryptoKeySize;
 			
-			m_des.Mode = CipherMode.CBC;
-			m_des.Padding = PaddingMode.PKCS7;
+			//m_des.Mode = CipherMode.CBC;
+			//m_des.Padding = PaddingMode.PKCS7;
 
 			byte[] input = Convert.FromBase64String(this.CryptoKey);
 			byte[] output = Transform(input, m_des.CreateDecryptor(utf8.GetBytes(PassPhrase), IV));
