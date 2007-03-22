@@ -1007,6 +1007,9 @@ RCODE CSPStore::GetObject(FLMUNICODE *pProperty, FLMUNICODE *pValue, int* pnChar
 	return (rc);
 }
 
+#ifndef FLM_COMP_WILD
+#define FLM_COMP_WILD FLM_WILD
+#endif
 
 RCODE CSPStore::Search(FLMUNICODE *pCollectionId, FLMUNICODE *pProperty, FLMINT op, FLMUNICODE *pValue, FLMUNICODE* pType, FLMBOOL caseSensitive, FLMUINT *pCount, CSPObjectIterator **ppIterator)
 {
