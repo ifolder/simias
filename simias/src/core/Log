@@ -1,3 +1,8 @@
+2007-03-26  Johnny Jacob  <jjohnny@novell.com>
+	
+	* Discovery/DiscoveryFramework.cs (RemoveMembership) : Resolve the
+	localtion of collection and remove member. Fixes #256595.
+	
 2007-1-4  Johnny Jacob  <jjohnny@novell.com>
 
 	* Discovery : Initial commit for Discovery Framework, Discovery

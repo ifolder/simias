@@ -150,8 +150,11 @@ namespace Simias.Discovery
 		public static bool RemoveMembership(string domainID, string collectionID)
 		{
 			bool removed = false;
-			Member member = Store.GetStore().GetDomain( domainID ).GetCurrentMember();
-			HostNode hNode = member.HomeServer;
+			Domain domain = Store.GetStore().GetDomain( domainID );
+			Member member = domain.GetCurrentMember();
+			CollectionInfo ci = GetCollectionInfo (collectionID);
+			HostNode hNode = HostNode.GetHostByID (domainID, ci.HostID);
+
 			try
 			{
 				DiscoveryService dService = new DiscoveryService();
