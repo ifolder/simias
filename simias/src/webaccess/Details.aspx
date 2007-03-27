@@ -45,7 +45,7 @@
 	
 		<div id="nav">
 	
-			<iFolder:TabControl runat="server" />
+			<iFolder:TabControl id="Tabs" runat="server" />
 	
 			<iFolder:iFolderActionsControl runat="server" />
 

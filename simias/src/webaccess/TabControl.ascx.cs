@@ -57,7 +57,7 @@ namespace Novell.iFolderApp.Web
 		/// <summary>
 		/// The Members Link
 		/// </summary>
-		protected HyperLink MembersLink;
+		public HyperLink MembersLink;
 
 		/// <summary>
 		/// The History Link

@@ -201,22 +201,25 @@ namespace Novell.iFolderApp.Web
 			}
 			else
 			{
-				string [] RAListStr= web.GetRAList();
-				if (RAListStr != null)
+				string [] RAListStrTemp= web.GetRAList();
+				string [] RAListStr = new string [RAListStrTemp.Length + 1];
+				// making 1st entry of dropdownlist as None
+				RAListStr[0] = GetString("NONE");
+				for (int i = 1; i <= RAListStrTemp.Length ; i++)
+					RAListStr[i] = String.Copy(RAListStrTemp[i-1]);
+				if (RAListStrTemp != null)
 				{
-					//ArrayList RAListElements = new ArrayList(RAListObj);
-					//RAList.DataSource = RAListElements;
 					RAList.DataSource = RAListStr;
 					RAList.DataBind();
-					RAList.SelectedIndex = 0;
 					SelectLabel.Visible = RAList.Enabled = RAList.Visible = true;
 				}
 				else
 				{
+					// admin had not configurred Recovery-agent 
 					SelectLabel.Visible = RAList.Enabled = RAList.Visible = false;
 				}
 	
-				PassPhraseText.Enabled = PassPhraseText.Visible = VerifyPassPhraseLabel.Visible = VerifyPassPhraseText.Visible =true;
+				PassPhraseText.Enabled = PassPhraseText.Visible = VerifyPassPhraseLabel.Visible = VerifyPassPhraseText.Visible = VerifyPassPhraseText.Enabled = true;
 			}	
 		}
 		
@@ -245,7 +248,7 @@ namespace Novell.iFolderApp.Web
                                         {
 												Encryption.Enabled = true;
 												shared.Enabled = true;
-												shared.Checked = true;
+												Encryption.Checked = true; 
 												ChangeForEncryption();
                                         }       
                                 }
@@ -281,7 +284,7 @@ namespace Novell.iFolderApp.Web
 						{
 							RAList.Enabled = false;
 							PassPhraseText.Enabled = false;
-							VerifyPassPhraseLabel.Visible = VerifyPassPhraseText.Visible = false;
+							VerifyPassPhraseText.Enabled = false;
 						}
 		}
 
@@ -358,13 +361,6 @@ namespace Novell.iFolderApp.Web
 		/// <param name="e"></param>
 		private void Encryption_CheckedChanged(object sender, EventArgs e)
 		{
-			string name = NewiFolderName.Text.Trim();
-
-			if (name.Length == 0)
-			{
-				Encryption.Checked = false;
-				return;
-			}
 			if(Encryption.Checked)
 			{	
 				ChangeForEncryption();
@@ -378,18 +374,14 @@ namespace Novell.iFolderApp.Web
 		/// <param name="e"></param>
 		private void shared_CheckedChanged(object sender, EventArgs e)
 		{
-			string name = NewiFolderName.Text.Trim();
 			if(shared.Checked)
 			{
+				RAList.SelectedValue = GetString("NONE");
 				RAList.Enabled = false;
 				PassPhraseText.Enabled = false;
 				PassPhraseText.Text = "";
-				VerifyPassPhraseLabel.Visible = VerifyPassPhraseText.Visible = false;
-			}
-			if (name.Length == 0)
-			{
-				shared.Checked = true;
-				return;
+				VerifyPassPhraseText.Enabled = false;
+				VerifyPassPhraseText.Text = "";
 			}
 		
 		}
@@ -456,7 +448,7 @@ namespace Novell.iFolderApp.Web
 							Status ObjValidate = web.ValidatePassPhrase(PassPhraseStr);
 							if(ObjValidate.statusCode != StatusCodes.Success)
 							{
-								Message.Text = GetString("PASSPHRASE.NOT.MATCH");
+								Message.Text = GetString("PASSPHRASE_INCORRECT");
 								PassPhraseText.Text = "";
 								return;
 							}
@@ -466,7 +458,8 @@ namespace Novell.iFolderApp.Web
 						else 
 						{
 							//This block will get executed very first time
-							if(RAList.SelectedValue	!= "")
+							
+							if(web.GetRAList() != null)
 							{
 								Response.Redirect(String.Format("iFolderCertificate.aspx?RAName={0}&EncryptionAlgorithm={1}&PassPhrase={2}&name={3}&description={4}",
 												RAList.SelectedValue, EncryptionAlgorithm, PassPhraseStr, name, description));
@@ -520,7 +513,8 @@ namespace Novell.iFolderApp.Web
 			int incLength = 8;
 			
 			string NewPassphrase = Passhrase;
-
+			
+			//Any padding change need to be replicated to thick clients and also should take care the already encrypted ifolders
 			while(NewPassphrase.Length % incLength !=0 || NewPassphrase.Length < minimumLength)
 			{
 				NewPassphrase += Passhrase;
@@ -541,5 +535,6 @@ namespace Novell.iFolderApp.Web
 			// redirect
 			Response.Redirect("iFolders.aspx");
 		}
+		
 	}
 }

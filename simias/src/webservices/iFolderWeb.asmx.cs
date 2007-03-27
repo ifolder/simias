@@ -183,6 +183,19 @@ namespace iFolder.WebService
 			 
 			return base.IsPassPhraseSet();
 		}
+
+		/// <summary>
+		/// Checks whether an encrypted ifolders should be shown 
+		/// </summary>
+		/// <returns>the bool value </returns>
+		[WebMethod(
+			 Description="checks for showing Tabs for encrypted ifolder",
+			 EnableSession=true)]
+		public override bool ShowTabDetails (string PassPhrase, string EncryptionAlgorithm)
+                {
+			 
+			return base.ShowTabDetails(PassPhrase, EncryptionAlgorithm);
+		}
 		
 		///<summary>
 		///Validate the passphrase for the correctness

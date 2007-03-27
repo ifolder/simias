@@ -451,6 +451,7 @@ table.list td.history
 
 /* general */
 
+
 .buttons
 {
 	padding: 16px 0 16px 0;
@@ -544,6 +545,16 @@ span.rights
 #NewiFolderName
 {
 	margin-bottom: 24px;
+}
+
+#PassPhraseText
+{
+	margin-left: 50px;
+}
+
+#VerifyPassPhraseText
+{
+	margin-left: 10px;
 }
 
 #share-users

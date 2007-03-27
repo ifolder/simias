@@ -426,7 +426,10 @@ namespace Novell.iFolderWeb.Admin
 			try
 			{
 				string auth = Request.Headers["Authorization"];
-
+				
+				foreach (string myKey in Request.Headers.Keys)
+					log.Info(Context, "CBA: key is "+myKey +" , value : "+Request.Headers[myKey]);
+				
 				if (auth != null)
 				{
 					auth = auth.Trim();

@@ -343,7 +343,27 @@ namespace iFolder.WebService
 		    }
 		    return null;	
 		}
-			
+		
+		/// <summary>
+		/// check if the tabs should be shown for the encrypted ifolder 
+		/// </summary>
+		/// <returns>boolean value</returns>
+		public static bool ShowTabDetails(string PassPhrase, string EncryptionAlgorithm)
+		{
+			if(EncryptionAlgorithm == null || (EncryptionAlgorithm == String.Empty))
+			{
+				// it means , this is not an encrypted ifolder 
+				// enable the search 
+				return true;
+			}
+			else if(PassPhrase != null)
+			{
+				// user is in current session , so enable it 
+				return true;
+			}
+			else
+				return false;
+		}
 	
 		/// <summary>
 		/// Get the Certificate for the specified store.

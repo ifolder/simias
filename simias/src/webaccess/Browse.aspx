@@ -104,14 +104,19 @@
 					<div class="action">
 						<asp:HyperLink ID="NewFolderLink" runat="server" />
 					</div>
-					<div class="sep">|</div>
+					
+					<div class="sep"></div>
+						<asp:Label ID="FirstSingleStick" runat="server" /> 
 					<div class="action">
 						<asp:HyperLink ID="UploadFilesLink" runat="server" />
 					</div>
-					<div class="sep">|</div>
+					
+					<div class="sep"></div>
+						<asp:Label ID="SecondSingleStick" runat="server" /> 
 					<div class="action">
-						<span id="DeleteDisabled"><%= GetString("DELETE") %></span>
-						<asp:LinkButton ID="DeleteButton" style="display:none;" runat="server" />	
+						<!--<span id="DeleteDisabled"> <%= GetString("DELETE") %></span> -->
+						<asp:Label ID="DeleteDisabled" runat="server" /> 
+						<asp:LinkButton ID="DeleteButton" style="display:none;" runat="server" /> 	
 					</div>
 				</div>
 				
@@ -172,7 +177,7 @@
 				<div class="labels"></div>	
 					
 					<asp:Label ID="PassPhraseLabel" Visible = "false" runat="server" />
-					<asp:TextBox ID="PassPhraseText" Visible = "false"  runat="server" /><br><br>
+					<asp:TextBox ID="PassPhraseText" TextMode="Password" Visible = "false"  runat="server" /><br><br>
 					<asp:Button ID="OKButton" Visible = "false"  runat="server" />
 					<asp:Button ID="CancelButton" Visible = "false"  runat="server" />
 				

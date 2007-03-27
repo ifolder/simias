@@ -36,14 +36,11 @@
 		<div id="content">
 			
 			<iFolder:MessageControl id="Message" runat="server" />
-	
-			<div class="section">
-				<%= GetString("CERTIFICATE") %>
-			</div>
 			
 			<div class="main">
 		
 				<div class="label" ></div>
+				<asp:Literal ID="Certificate" runat="server" /> <br> <br>
 				<asp:TextBox ID="CertDetails" columns="50" rows="12" ReadOnly="true" TextMode="MultiLine" BorderStyle="Ridge" runat="server" />
 			
 				<div class="buttons">

@@ -51,6 +51,12 @@ namespace Novell.iFolderApp.Web
 		protected MessageControl Message;
 
 		/// <summary>
+		/// The Literal
+		/// </summary>
+		protected Literal Certificate;
+
+
+		/// <summary>
 		/// The text box to display certificate
 		/// </summary>
 		protected TextBox CertDetails;
@@ -96,7 +102,18 @@ namespace Novell.iFolderApp.Web
 				BindData();
 								
 				// strings
-				AcceptButton.Text = GetString("ACCEPT");
+				string RAName = Request.QueryString.Get("RAName");
+				if(! RAName.Equals(GetString("NONE")))
+				{
+					Certificate.Text = GetString("CERTIFICATE");
+					AcceptButton.Text = GetString("ACCEPT");
+				}	
+				else
+				{
+					AcceptButton.Text = GetString("CREATE");
+					Certificate.Visible = false;
+					CertDetails.Visible = false;
+				}
 				DenyButton.Text = GetString("DENY");
 				
 				// view
@@ -113,15 +130,25 @@ namespace Novell.iFolderApp.Web
 
 			// query
 			RAName = Request.QueryString.Get("RAName");
-			byte [] RACertificateObj = web.GetRACertificate(RAName);
 			
-			if(RACertificateObj != null && RACertificateObj.Length != 0)
-			{	
-				System.Security.Cryptography.X509Certificates.X509Certificate Cert = new System.Security.Cryptography.X509Certificates.X509Certificate(RACertificateObj);
-				CertDetails.Text = Cert.ToString(true);
-				Session["CertPublicKey"] = Cert.GetPublicKey();
+			//proceed only if there is a valid RAName 
+			if(! RAName.Equals(GetString("NONE")))
+			{
+				byte [] RACertificateObj = web.GetRACertificate(RAName);
+			
+				if(RACertificateObj != null && RACertificateObj.Length != 0)
+				{	
+					System.Security.Cryptography.X509Certificates.X509Certificate Cert = new System.Security.Cryptography.X509Certificates.X509Certificate(RACertificateObj);
+					CertDetails.Text = Cert.ToString(true);
+					Session["CertPublicKey"] = Cert.GetPublicKey();
+				}
 			}
-		}
+			else
+			{
+				Message.Text = GetString("NO.RA.SELECTED");
+				return;
+			}
+		}	
 
 
 		/// <summary>
@@ -205,12 +232,19 @@ namespace Novell.iFolderApp.Web
 				name = Request.QueryString.Get("name");
 				description = Request.QueryString.Get("description");
 			
-				//try getting publickey from current session
-				CertPublicKey = Session["CertPublicKey"] as byte [] ;
+				// If there was not any RA selected then RAName and PublicKey will be null
+			
+				if(! RAName.Equals(GetString("NONE")))
+				{
+					//try getting publickey from current session
+					CertPublicKey = Session["CertPublicKey"] as byte [] ;
 
-				string PublicKey = Encoding.ASCII.GetString(CertPublicKey);
+					string PublicKey = Encoding.ASCII.GetString(CertPublicKey);
 					
-				web.SetPassPhrase(PassPhraseStr, RAName, PublicKey);
+					web.SetPassPhrase(PassPhraseStr, RAName, PublicKey);
+				}
+				else
+					web.SetPassPhrase(PassPhraseStr, null, null);
 
 				// Send the ifolder Name, Description, Security details and the encryption algorithm
 				ifolder = web.CreateiFolder(name, description, false, EncryptionAlgorithm, PassPhraseStr);

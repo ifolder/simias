@@ -75,6 +75,11 @@ namespace Novell.iFolderApp.Web
 		/// Message Box
 		/// </summary>
 		protected MessageControl Message;
+		
+		/// <summary>
+		/// Different Tabs
+		/// </summary>
+		protected TabControl Tabs;
 
 		/// <summary>
 		/// iFolder Connection
@@ -122,6 +127,14 @@ namespace Novell.iFolderApp.Web
 					entryID));
 				}
 				
+				iFolder ifolder = web.GetiFolder(ifolderID);
+				string EncryptionAlgorithm = ifolder.EncryptionAlgorithm;
+				if(!(EncryptionAlgorithm == null || (EncryptionAlgorithm == String.Empty)))
+				{
+					// It is an encrypted ifolder , Make the Members tab invisible
+					Tabs.MembersLink.Visible = false;
+				}
+				
 				// data
 				BindData();
 
@@ -135,27 +148,18 @@ namespace Novell.iFolderApp.Web
 				entryID = (string)ViewState["EntryID"];
 			}
 		}
-
+	
+		/// <summary>
+		/// Determine to show the search tab or not for encrypted folders
+		/// </summary>
 		private bool IfSearchEnabled()
 		{
 			string PassPhrase = Session["SessionPassPhrase"] as string;
 			ifolderID = Request.QueryString.Get("iFolder");
 			iFolder ifolder = web.GetiFolder(ifolderID);
 			string EncryptionAlgorithm = ifolder.EncryptionAlgorithm;
-			if(EncryptionAlgorithm == null || (EncryptionAlgorithm == String.Empty))
-			{
-				// it means , this is not an encrypted ifolder 
-				// enable the search 
-				return true;
-			}
-			else if(PassPhrase != null)
-			{
-				// user is in current session , so enable it 
-				return true;
-			}
-			else
-				return false;
-		}
+			return web.ShowTabDetails(PassPhrase, EncryptionAlgorithm);
+		}	
 
 		/// <summary>
 		/// Bind the Data to the Page.

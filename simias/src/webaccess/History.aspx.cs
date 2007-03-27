@@ -56,6 +56,11 @@ namespace Novell.iFolderApp.Web
 		/// Message Box
 		/// </summary>
 		protected MessageControl Message;
+		
+		/// <summary>
+		/// Different Tabs
+		/// </summary>
+		protected TabControl Tabs;
 
 		/// <summary>
 		/// iFolder Connection
@@ -90,6 +95,24 @@ namespace Novell.iFolderApp.Web
 
 			if (!IsPostBack)
 			{
+			
+				iFolder ifolder = web.GetiFolder(ifolderID);
+				
+				//Load this page only if passphrase was provided for the encrypted iFolder
+				if(! IfHistoryEnabled())
+				{
+					// Return to Browse page, if passphrase was not provided for that encrypted ifolder.
+					
+					Response.Redirect(String.Format("Browse.aspx?iFolder={0}", ifolderID));
+				}
+				
+				string EncryptionAlgorithm = ifolder.EncryptionAlgorithm;
+				if(!(EncryptionAlgorithm == null || (EncryptionAlgorithm == String.Empty)))
+				{
+					// It is an encrypted ifolder , Make the Members tab invisible^M
+					Tabs.MembersLink.Visible = false;
+				}
+			
 				// data
 				BindData();
 
@@ -98,6 +121,19 @@ namespace Novell.iFolderApp.Web
 				HistoryPagging.LabelPlural = GetString("CHANGES");
 			}
 		}
+		
+		/// <summary>
+		/// Determine to show the history tab or not for encrypted folders
+		/// </summary>
+		private bool IfHistoryEnabled()
+		{
+			string PassPhrase = Session["SessionPassPhrase"] as string;
+			ifolderID = Request.QueryString.Get("iFolder");
+			iFolder ifolder = web.GetiFolder(ifolderID);
+			string EncryptionAlgorithm = ifolder.EncryptionAlgorithm;
+			return web.ShowTabDetails(PassPhrase, EncryptionAlgorithm);	
+				
+		}	
 
 		/// <summary>
 		/// Bind the Data to the Page.

@@ -153,6 +153,9 @@
     <data name="SIZE">
         <value>Size</value>
     </data>
+    <data name="TYPE">
+        <value>Type</value>
+    </data>
     <data name="MODIFIED">
         <value>Modified</value>
     </data>
@@ -166,10 +169,10 @@
         <value>Create</value>
     </data>
     <data name="ENTER_PASSPHRASE">
-        <value>Enter the Passphrase  :   </value>
+        <value>Enter the Passphrase     </value>
     </data>
     <data name="PASSPHRASE_NOT_MATCH">
-        <value>Passphrases do not match.</value>
+        <value>Passphrases do not match</value>
     </data>
     <data name="PASSPHRASE_INCORRECT">
         <value>Invalid Passphrase </value>
@@ -251,6 +254,12 @@
     </data>
     <data name="IFOLDER.NOPASSPHRASE">
         <value> Passphrase must be entered for encryption</value>
+    </data>
+    <data name="NONE">
+        <value>None</value>
+    </data>
+    <data name="NO.RA.SELECTED">
+        <value>No recovery agent selected so recovery of passphrase is not possible</value>
     </data>
     <data name="RIGHTS">
         <value>Access</value>

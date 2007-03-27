@@ -150,6 +150,26 @@ namespace iFolder.WebService
 			return result;
 		}
 
+		/// Whether the tab should be shown or not for encrypted folder
+		/// </summary>
+		/// <param name="file">passphrase and encryptionalgo name</param>
+		[WebMethod(
+			 Description="checks whether the tab should be shown or not for encrypted folder",
+			 EnableSession=true)]
+		public virtual bool ShowTabDetails(string PassPhrase, string EncryptionAlgorithm)
+		{
+			bool result = true;
+			try
+			{
+				result = iFolder.ShowTabDetails(PassPhrase, EncryptionAlgorithm);
+			}
+			catch(Exception e)
+			{
+				SmartException.Throw(e);
+			}
+			return result;
+		}
+
 		/// <summary>
 		/// Get information about iFolder identified by role, creation time, and search operation and pattern.
 		/// </summary>
@@ -722,6 +742,7 @@ namespace iFolder.WebService
 				SmartException.Throw(e);
 			}
 		}
+
 
 		#endregion
 

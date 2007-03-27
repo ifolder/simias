@@ -74,6 +74,21 @@ namespace Novell.iFolderApp.Web
 		/// The Delete Button
 		/// </summary>
 		protected LinkButton DeleteButton;
+		
+		/// <summary>
+		/// The DeleteDisabled Label
+		/// </summary>
+		protected Label DeleteDisabled;
+
+		/// <summary>
+		/// The separator stick
+		/// </summary>
+		protected Label FirstSingleStick;
+
+		/// <summary>
+		/// The separator stick
+		/// </summary>
+		protected Label SecondSingleStick;
 
 		/// <summary>
 		/// The Entry Data
@@ -89,6 +104,11 @@ namespace Novell.iFolderApp.Web
 		/// Message Box
 		/// </summary>
 		protected MessageControl Message;
+		
+		/// <summary>
+		/// Different Tabs
+		/// </summary>
+		protected TabControl Tabs;
 
 		/// <summary>
 		/// iFolder Connection
@@ -155,6 +175,13 @@ namespace Novell.iFolderApp.Web
 			
 			if (!IsPostBack)
 			{
+				string EncryptionAlgorithm = ifolder.EncryptionAlgorithm;
+				if(!(EncryptionAlgorithm == null || (EncryptionAlgorithm == String.Empty)))
+				{
+					// It is an encrypted ifolder , Make the Members tab invisible^M
+					Tabs.MembersLink.Visible = false;
+				}
+				
 				// this function will check whether an ifolder is encrypted or not, if yes, it will ask for passphrase
 				// if passphrase matches , then the real page will be loaded. 
 				CheckForThePassPhrase();			
@@ -179,7 +206,14 @@ namespace Novell.iFolderApp.Web
 			NewFolderLink.Text = GetString("NEWFOLDER");
 			UploadFilesLink.Text = GetString("UPLOADFILES");
 			DeleteButton.Text = GetString("DELETE");
-
+			DeleteDisabled.Text = GetString("DELETE");
+			FirstSingleStick.Text = "|";
+			SecondSingleStick.Text = "|";
+			DeleteDisabled.Visible = true;
+			EntryPagging.Visible = true;
+			FirstSingleStick.Visible = true;
+			SecondSingleStick.Visible = true;
+			
 			// links
 			NewFolderLink.NavigateUrl = String.Format("NewFolder.aspx?iFolder={0}&Entry={1}", ifolderID, entryID);
 			//UploadFilesLink.NavigateUrl = String.Format("Upload.aspx?iFolder={0}&Entry={1}", ifolderID, entryID);
@@ -208,17 +242,23 @@ namespace Novell.iFolderApp.Web
 			}
 			else if(PassPhrase != null)
 		     {
-				// User is in current session and has already given the passphrase, use this
+				// User is in current session and has already given the passphrase, use this and display normal page 
 			
 				PassPhraseLabel.Visible = PassPhraseText.Visible = OKButton.Visible = CancelButton.Visible = false;
 				StartBindingData();
 			}
 			else 
 			{
+				//user must enter passphrase now, so relevant fields are disabled/enabled here 
 				PassPhraseLabel.Visible = PassPhraseText.Visible = OKButton.Visible = CancelButton.Visible = true;
+				
 				PassPhraseLabel.Text = GetString("ENTERPASSPHRASE");
 				OKButton.Text = GetString("OK");
 				CancelButton.Text = GetString("CANCEL");
+				DeleteDisabled.Visible = false;
+				EntryPagging.Visible = false;
+				FirstSingleStick.Visible = false;
+				SecondSingleStick.Visible = false;
 			}	
 		}
 		
