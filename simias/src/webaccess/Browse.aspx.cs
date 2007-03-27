@@ -326,7 +326,14 @@ namespace Novell.iFolderApp.Web
 				NewPassphrase += Passhrase;
 				if(NewPassphrase.Length < minimumLength)
 					continue;
-				NewPassphrase = NewPassphrase.Remove((NewPassphrase.Length /incLength)*incLength, NewPassphrase.Length % incLength);
+
+				int RequiredLength;
+				if((((Passhrase.Length/incLength)+1)*incLength) < minimumLength)
+					RequiredLength = minimumLength;
+				else
+					RequiredLength = ((Passhrase.Length/incLength)+1)*incLength;
+
+				NewPassphrase = NewPassphrase.Remove(RequiredLength, NewPassphrase.Length-RequiredLength);
 			}
 			return NewPassphrase;
 		}
