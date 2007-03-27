@@ -258,6 +258,10 @@ namespace Simias.Server
 		/// <returns>N/A - returns when local object down == true.</returns>
 		static private void ProcessEvents()
 		{
+		        //In Slaves ,The first time.. Wait till the catalog is created.
+			while ( catalog == null )
+			    Thread.Sleep (3 * 1000); //Wait For 3 seconds.
+
 			while( down == false )
 			{
 				// Wait for something to be added to the queue.
@@ -427,11 +431,11 @@ namespace Simias.Server
 		/// <returns>N/A </returns>
 		static private void ScanCollections()
 		{
-			CatalogEntry catentry;
-
 			if ( catalog != null )
 			{
 				log.Debug( "Starting collection scan..." );
+
+				CatalogEntry catentry;
 				ICSList collections = store.GetCollectionsByDomain( domain.ID );
 				foreach( ShallowNode sn in collections )
 				{
