@@ -539,7 +539,7 @@ namespace Simias.Sync
 			// Since we are doing the diffing on the client we will download all blocks that
 			// don't match.
 			table.Clear();
-			HashData[] serverHashMap;
+			HashData[] serverHashMap = null;
 			long[] fileMap;
 			blockSize = 0;
 			long remainingBytes;
@@ -548,36 +548,36 @@ namespace Simias.Sync
 			string EncryptionType="";
 			int boundary=0;			
 
-			Property p = collection.Properties.FindSingleValue(PropertyTags.EncryptionType);
-			EncryptionType = (p!=null) ?  p.Value as string : "";
-			if(EncryptionType == "BlowFish")
+			if(IsEncryptionEnabled() == true)
 			{
 				Encrypted =  true;
 				boundary=8;
 			}
 
-                        if (ReadStream != null)
-                                serverHashMap = syncService.GetHashMap(out blockSize);
-                        else
-                                serverHashMap = new HashData[0];
+			if(ReadStream != null)
+				serverHashMap = syncService.GetHashMap(out blockSize);
+			else
+				serverHashMap = new HashData[0];
 
-                        if (serverHashMap.Length == 0)
-                        {
-				if( Encrypted == true)
+			if(serverHashMap == null || serverHashMap.Length == 0 || Encrypted == true)
+			{
+				Log.log.Debug("Full file download");
+				
+				if(Encrypted == true)
 				{
-					if(node.Length%8 !=0)
+					if(node.Length%boundary !=0)
 						sizeToSync = node.Length+ (boundary-(node.Length%boundary));
 					else
 						sizeToSync = node.Length;
 				}
-                                else
-                                        sizeToSync = node.Length;
+				else
+					sizeToSync = node.Length;
 
-                                fileMap = new long[HashMap.GetBlockCount(node.Length, out blockSize)];
-                                for (int i = 0; i < fileMap.Length; ++i)
-                                        fileMap[i] = -1;
-                                return fileMap;
-                        }
+				fileMap = new long[HashMap.GetBlockCount(node.Length, out blockSize)];
+				for (int i = 0; i < fileMap.Length; ++i)
+					fileMap[i] = -1;
+				return fileMap;
+			}
 
                      sizeToSync = (long)blockSize * (long)serverHashMap.Length;
 			if( Encrypted == true)
@@ -589,8 +589,8 @@ namespace Simias.Sync
 			}
 			else
 				remainingBytes = node.Length % blockSize;
-                        if (remainingBytes != 0)
-                                sizeToSync = sizeToSync - blockSize + remainingBytes;
+			if(remainingBytes != 0)
+				sizeToSync = sizeToSync - blockSize + remainingBytes;
 	
 			table.Add(serverHashMap);
 			fileMap = new long[serverHashMap.Length];

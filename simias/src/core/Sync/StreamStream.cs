@@ -371,8 +371,6 @@ namespace Simias.Sync
 					else					
 						bytesToWrite = bytesRead;
 
-					log.Debug("bytes to write 	:{0}", bytesRead);
-					
 					writeComplete.WaitOne();
 					if (exception != null)
 						throw exception;
