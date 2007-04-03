@@ -473,8 +473,8 @@ namespace Novell.iFolder
 			ldapAdminDN.Prompt = false;
 			ldapAdminDN.Required = false;
 
-//			ldapAdminPassword.Prompt = false;
-//			ldapAdminPassword.Required = false;
+			ldapAdminPassword.Prompt = false;
+			ldapAdminPassword.Required = false;
 
 			return true;
 		}
