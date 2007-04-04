@@ -588,6 +588,15 @@ namespace Simias.Storage
 				smConn.Authenticate ();
 				smConn.InitializeWebClient(svc, "Simias.asmx");
 
+				//Randomize the passphrase and use it for encryption and decryption
+				int  rand = 0;
+				int hash = Passphrase.GetHashCode();				
+				Random seed = new Random(hash);				
+				for (int i=0; i<1000; i++)					
+					rand= seed.Next();				
+				Passphrase = rand.ToString();				
+				Passphrase = DoPadding(Passphrase);	
+
 				Key key = new Key((Passphrase.Length)*8);//create the key 
 				string EncrypCryptoKey;
 				key.EncrypytKey(Passphrase, out EncrypCryptoKey); //encrypt the key
@@ -626,6 +635,15 @@ namespace Simias.Storage
 
 				smConn.Authenticate ();
 				smConn.InitializeWebClient(svc, "Simias.asmx");
+
+				//Randomize the passphrase and use it for encryption and decryption
+				int  rand = 0;
+				int hash = Passphrase.GetHashCode();				
+				Random seed = new Random(hash);				
+				for (int i=0; i<1000; i++)					
+					rand= seed.Next();				
+				Passphrase = rand.ToString();				
+				Passphrase = DoPadding(Passphrase);	
 
 				Key key = new Key(128);
 				string EncrypCryptoKey = null;
@@ -697,6 +715,15 @@ namespace Simias.Storage
 				smConn.Authenticate ();
 				smConn.InitializeWebClient(svc, "Simias.asmx");			
 
+				//Randomize the passphrase and use it for encryption and decryption
+				int  rand = 0;
+				int hash = Passphrase.GetHashCode();				
+				Random seed = new Random(hash);				
+				for (int i=0; i<1000; i++)					
+					rand= seed.Next();				
+				Passphrase = rand.ToString();				
+				Passphrase = DoPadding(Passphrase);	
+
 				string EncrypCryptoKey = svc.ServerGetEncrypPassKey(DomainID, UserID);
 
 				//Decrypt it
@@ -734,6 +761,36 @@ namespace Simias.Storage
 				return Simias.Authentication.StatusCodes.PassPhraseInvalid;
 			}
 		}
+
+		///<summary>
+		///Padding of passphrase so that it is >=16 and multiple of 8
+		///</summary>
+		///<returns>padded passPhrase.</returns>
+		public string DoPadding(string Passhrase)
+		{
+			// Any chnage in thie function need to be synced with ifolder client as well
+			int minimumLength = 16;
+			int incLength = 8;
+			
+			string NewPassphrase = Passhrase;
+
+			while(NewPassphrase.Length % incLength !=0 || NewPassphrase.Length < minimumLength)
+			{
+				NewPassphrase += Passhrase;
+				if(NewPassphrase.Length < minimumLength)
+					continue;
+
+				int RequiredLength;
+				if((((Passhrase.Length/incLength)+1)*incLength) < minimumLength)
+					RequiredLength = minimumLength;
+				else
+					RequiredLength = ((Passhrase.Length/incLength)+1)*incLength;
+
+				NewPassphrase = NewPassphrase.Remove(RequiredLength, NewPassphrase.Length-RequiredLength);
+			}
+			return NewPassphrase;
+		}
+
 
 		
 		/// <summary>

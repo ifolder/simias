@@ -440,8 +440,6 @@ namespace Novell.iFolderApp.Web
 					//If not avaiable in the session 
 					if(SessionPassPhrase == null)
 					{
-						PassPhraseStr =  DoPadding(PassPhraseStr);
-						
 						bool PassPhraseSet = web.IsPassPhraseSet();
 						if(PassPhraseSet)
 						{
@@ -502,36 +500,7 @@ namespace Novell.iFolderApp.Web
 		}
 		
 		
-		///<summary>
-		///Padding of passphrase so that it is >=16 and multiple of 8
-		///</summary>
-		///<returns>padded passPhrase.</returns>
-		public string DoPadding(string Passhrase)
-		{
-			// Any chnage in thie function need to be synced with ifolder client as well
-			int minimumLength = 16;
-			int incLength = 8;
-			
-			string NewPassphrase = Passhrase;
-			
-			//Any padding change need to be replicated to thick clients and also should take care the already encrypted ifolders
-			while(NewPassphrase.Length % incLength !=0 || NewPassphrase.Length < minimumLength)
-			{
-				NewPassphrase += Passhrase;
-				if(NewPassphrase.Length < minimumLength)
-					continue;
-
-				int RequiredLength;
-				if((((Passhrase.Length/incLength)+1)*incLength) < minimumLength)
-					RequiredLength = minimumLength;
-				else
-					RequiredLength = ((Passhrase.Length/incLength)+1)*incLength;
-
-				NewPassphrase = NewPassphrase.Remove(RequiredLength, NewPassphrase.Length-RequiredLength);
-			}
-			return NewPassphrase;
-		}
-		
+	
 		/// <summary>
 		/// Cancel Button Click
 		/// </summary>

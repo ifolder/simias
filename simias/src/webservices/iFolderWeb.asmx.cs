@@ -767,36 +767,6 @@ namespace iFolder.WebService
 		{
 			base.SetFileLength( ifolderID,  nodeID,  length);
 		}
-
-		///<summary>
-		///Padding of passphrase so that it is >=16 and multiple of 8
-		///</summary>
-		///<returns>padded passPhrase.</returns>
-		public string DoPadding(string Passhrase)
-		{
-			// Any chnage in thie function need to be synced with ifolder client as well
-			int minimumLength = 16;
-			int incLength = 8;
-			
-			string NewPassphrase = Passhrase;
-
-			while(NewPassphrase.Length % incLength !=0 || NewPassphrase.Length < minimumLength)
-			{
-				NewPassphrase += Passhrase;
-				if(NewPassphrase.Length < minimumLength)
-					continue;
-
-				int RequiredLength;
-				if((((Passhrase.Length/incLength)+1)*incLength) < minimumLength)
-					RequiredLength = minimumLength;
-				else
-					RequiredLength = ((Passhrase.Length/incLength)+1)*incLength;
-
-				NewPassphrase = NewPassphrase.Remove(RequiredLength, NewPassphrase.Length-RequiredLength);
-			}
-			return NewPassphrase;
-		}
-
 		#endregion
 	}
 }
