@@ -638,12 +638,21 @@ namespace Simias.Storage
 
 				//Randomize the passphrase and use it for encryption and decryption
 				int  rand = 0;
-				int hash = Passphrase.GetHashCode();				
-				Random seed = new Random(hash);				
-				for (int i=0; i<1000; i++)					
-					rand= seed.Next();				
-				Passphrase = rand.ToString();				
+				int hash = Passphrase.GetHashCode();
+				Random seed = new Random(hash);
+				for (int i=0; i<1000; i++)
+					rand= seed.Next();		
+				Passphrase = rand.ToString();	
 				Passphrase = DoPadding(Passphrase);	
+
+				//Randomize the passphrase and use it for encryption and decryption
+				int  randOld = 0;
+				int hashOld = OldPassphrase.GetHashCode();
+				Random seedOld = new Random(hashOld);
+				for (int i=0; i<1000; i++)
+					randOld= seedOld.Next();
+				OldPassphrase = randOld.ToString();
+				OldPassphrase = DoPadding(OldPassphrase);
 
 				Key key = new Key(128);
 				string EncrypCryptoKey = null;
@@ -690,7 +699,7 @@ namespace Simias.Storage
 		/// <summary>
 		/// Validate the passphrase
 		/// </summary>
-		public Simias.Authentication.StatusCodes ValidatePassPhrase(string PassPhrase)
+		public Simias.Authentication.StatusCodes ValidatePassPhrase(string Passphrase)
 		{
 			string OldHash = null;
 			string NewHash = null;
@@ -729,12 +738,12 @@ namespace Simias.Storage
 				//Decrypt it
 				string DecryptedCryptoKey; 
 				Key DeKey = new Key(EncrypCryptoKey);
-				DeKey.DecrypytKey(PassPhrase, out DecryptedCryptoKey);
+				DeKey.DecrypytKey(Passphrase, out DecryptedCryptoKey);
 
 				//Encrypt using passphrase
 				string EncryptedCryptoKey;
 				Key EnKey = new Key(DecryptedCryptoKey);
-				EnKey.EncrypytKey(PassPhrase, out EncryptedCryptoKey);
+				EnKey.EncrypytKey(Passphrase, out EncryptedCryptoKey);
 
 				//SHA1
 				Key HashKey = new Key(EncryptedCryptoKey);
