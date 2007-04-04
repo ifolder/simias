@@ -37,7 +37,7 @@ namespace Novell.iFolderWeb.Admin
 	using System.Xml;
 
 	/// <summary>
-	///		Summary description for TopNavigation.
+	///Summary description for TopNavigation.
 	/// </summary>
 	public class TopNavigation : System.Web.UI.UserControl
 	{
@@ -228,11 +228,24 @@ namespace Novell.iFolderWeb.Admin
 							}
 							else
 							{
-								UserLink.HRef = "Users.aspx";
-								iFolderLink.HRef = "iFolders.aspx";
-								ServerLink.HRef = "Servers.aspx";
-								SystemLink.HRef = "SystemInfo.aspx";
-								ReportsLink.HRef = null;
+								
+								body = Page.FindControl( "report" );
+                                                        	if ( body != null )
+								{
+									UserLink.HRef = "Users.aspx";
+									iFolderLink.HRef = "iFolders.aspx";
+									ServerLink.HRef = "Servers.aspx";
+									SystemLink.HRef = "SystemInfo.aspx";
+									ReportsLink.HRef = null;
+								}
+								else
+								{
+									UserLink.HRef = "Users.aspx";
+                                                                        iFolderLink.HRef = "iFolders.aspx";
+                                                                        ServerLink.HRef = "Servers.aspx";
+                                                                        SystemLink.HRef = "SystemInfo.aspx";
+									ReportsLink.HRef = "Reports.aspx";
+								}
 							}
 						}
 					}
@@ -343,7 +356,8 @@ namespace Novell.iFolderWeb.Admin
 		{
 			string type = e.GetType().Name;
 
-			if ( e is SoapException )
+	
+		if ( e is SoapException )
 			{
 				try
 				{
