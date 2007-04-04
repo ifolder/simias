@@ -1,3 +1,8 @@
+2007-04-03  Johnny Jacob  <jjohnny@novell.com>
+
+	* ReportLogHandler.ashx.cs : Read logfile from datadir and not
+	from the default one. Fixes 252283.
+	
 2007-03-16  Johnny Jacob  <jjohnny@novell.com>
 
 	* catalog.cs (ProcessEvents) : Wait till catalog collection is

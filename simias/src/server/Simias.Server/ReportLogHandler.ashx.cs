@@ -60,6 +60,11 @@ namespace Simias.Server
 		static private string Offset = "offset";
 		static private string Size = "size";
 
+		/// <summary>
+		/// Name of log directory
+		/// </summary>
+		static private string logDirName = "log";
+
 		#endregion
 
 		#region Private Methods
@@ -240,7 +245,8 @@ namespace Simias.Server
 						case ".log":
 
 							// Full path to the log file.
-							string logFilePath = Path.Combine( SimiasSetup.simiaslogdir, fileName );
+						        string logDir = Path.Combine ( Store.StorePath, logDirName);
+							string logFilePath = Path.Combine( logDir, fileName );
 							byte[] logData = null;
 
 							// See if there is a string that is asking for the length of the file.
