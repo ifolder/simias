@@ -1,3 +1,7 @@
+2007-04-07  B S Srinidhi <srinidhi.bs@gmail.com>
+
+	* css/Users.css : Allow the table to consume 100% of available space
+
 2007-03-07  B S Srinidhi  <srinidhi@novell.com>
 
 	* Makefile.am : Copy the SimiasLib.dll instead of symlinking it -

@@ -1,13 +1,14 @@
 .nav
 {
 	padding-left: 12px;
+	padding-right: 12px;
 	padding-bottom: 4px;
 	float: left;
 }
 
 .accountsnav
 {
-	width: 35em;
+	width: 100%;
 }
 
 .accountslist
