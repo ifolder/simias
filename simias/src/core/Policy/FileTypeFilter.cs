@@ -1,25 +1,26 @@
-/***********************************************************************
- *  $RCSfile$
- *
- *  Copyright (C) 2004 Novell, Inc.
- *
- *  This program is free software; you can redistribute it and/or
- *  modify it under the terms of the GNU General Public
- *  License as published by the Free Software Foundation; either
- *  version 2 of the License, or (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- *  General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public
- *  License along with this program; if not, write to the Free
- *  Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
- *
- *  Author: Mike Lasky <mlasky@novell.com>
- *
- ***********************************************************************/
+/****************************************************************************
+ |
+ | Copyright (c) [2007] Novell, Inc.
+ | All Rights Reserved.
+ |
+ | This program is free software; you can redistribute it and/or
+ | modify it under the terms of version 2 of the GNU General Public License as
+ | published by the Free Software Foundation.
+ |
+ | This program is distributed in the hope that it will be useful,
+ | but WITHOUT ANY WARRANTY; without even the implied warranty of
+ | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ | GNU General Public License for more details.
+ |
+ | You should have received a copy of the GNU General Public License
+ | along with this program; if not, contact Novell, Inc.
+ |
+ | To contact Novell about this file by physical or electronic mail,
+ | you may find current contact information at www.novell.com 
+ |
+ | Author: Mike Lasky <mlasky@novell.com> 
+ |
+ |***************************************************************************/
 
 using System;
 using System.Collections;
@@ -36,6 +37,7 @@ namespace Simias.Policy
 	public struct FileTypeEntry
 	{
 		#region Class Members
+
 		/// <summary>
 		/// File extension to add as filter.
 		/// </summary>
@@ -113,6 +115,12 @@ namespace Simias.Policy
 	public class FileTypeFilter
 	{
 		#region Class Members
+		
+		/// <summary>
+		/// Used to log messages.
+		/// </summary>
+		static private readonly ISimiasLog log = SimiasLogManager.GetLogger( typeof( Store ) );
+
 		/// <summary>
 		/// Well known name for the file type filter policy.
 		/// </summary>
@@ -577,12 +585,6 @@ namespace Simias.Policy
 				isAllowed = ( memberPolicy.Apply( fullPath ) == Rule.Result.Allow );
 			}
 
-			// See if there is a collection policy that limits the types of files in the collection.
-			if ( ( collectionPolicy != null ) && isAllowed )
-			{
-				// Apply the rule to see if the file type is allowed in the collection.
-				isAllowed = ( collectionPolicy.Apply( fullPath ) == Rule.Result.Allow );
-			}
 
 			return isAllowed;
 		}

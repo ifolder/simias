@@ -36,6 +36,7 @@ namespace iFolder.WebService
 	[Serializable]
 	public class UserPolicy 
 	{
+		 private static readonly ISimiasLog log = SimiasLogManager.GetLogger(typeof(Member));
 		/// <summary>
 		/// The User ID
 		/// </summary>

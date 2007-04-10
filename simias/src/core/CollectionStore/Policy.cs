@@ -1,25 +1,26 @@
-/***********************************************************************
- *  $RCSfile$
- *
- *  Copyright (C) 2004 Novell, Inc.
- *
- *  This program is free software; you can redistribute it and/or
- *  modify it under the terms of the GNU General Public
- *  License as published by the Free Software Foundation; either
- *  version 2 of the License, or (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- *  General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public
- *  License along with this program; if not, write to the Free
- *  Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
- *
- *  Author: Mike Lasky <mlasky@novell.com>
- *
- ***********************************************************************/
+/****************************************************************************
+ |
+ | Copyright (c) [2007] Novell, Inc.
+ | All Rights Reserved.
+ |
+ | This program is free software; you can redistribute it and/or
+ | modify it under the terms of version 2 of the GNU General Public License as
+ | published by the Free Software Foundation.
+ |
+ | This program is distributed in the hope that it will be useful,
+ | but WITHOUT ANY WARRANTY; without even the implied warranty of
+ | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ | GNU General Public License for more details.
+ |
+ | You should have received a copy of the GNU General Public License
+ | along with this program; if not, contact Novell, Inc.
+ |
+ | To contact Novell about this file by physical or electronic mail,
+ | you may find current contact information at www.novell.com 
+ |
+ | Author: Mike Lasky <mlasky@novell.com>
+ |
+ |***************************************************************************/
 
 using System;
 using System.Collections;
@@ -41,6 +42,12 @@ namespace Simias.Policy
 	public class Policy : Node
 	{
 		#region Class Members
+
+		/// <summary>
+                /// Used to log messages.
+                /// </summary>
+                static private readonly ISimiasLog log = SimiasLogManager.GetLogger( typeof( Store ) );
+
 		/// <summary>
 		/// Property names to store rules and time condition on the policy Node.
 		/// </summary>
@@ -395,6 +402,7 @@ namespace Simias.Policy
 		/// <returns>True if the policy allows the operation, otherwise false is returned.</returns>
 		public Rule.Result Apply( object input )
 		{
+			Rule.Result ResultValue = Rule.Result.Allow;
 			// Walk through the aggregate policy list in order if it is enabled. 
 			// Otherwise just use the current policy.
 			Policy[] policyArray = IsAggregate ? aggregatePolicy.ToArray( typeof( Policy ) ) as Policy[] : new Policy[] { this };
@@ -413,20 +421,19 @@ namespace Simias.Policy
 							return Rule.Result.Allow;
 						}
 					}
-
 					// Check the exclude list to see if it passes.
 					foreach ( Rule exclusion in GetExclusionList( policy ) )
 					{
 						// Apply the rule to see if it passes.
 						if ( exclusion.Apply( input ) == Rule.Result.Deny )
 						{
-							return Rule.Result.Deny;
+							ResultValue = Rule.Result.Deny;
 						}
 					}
 				}
 			}
 
-			return Rule.Result.Allow;
+			return ResultValue;
 		}
 
 		/// <summary>
@@ -486,6 +493,11 @@ namespace Simias.Policy
 	public class PolicyManager
 	{
 		#region Class Members
+		/// <summary>
+                /// Used to log messages.
+                /// </summary>
+                static private readonly ISimiasLog log = SimiasLogManager.GetLogger( typeof( Store ) );
+
 		/// <summary>
 		/// Store handle.
 		/// </summary>

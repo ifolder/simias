@@ -36,6 +36,8 @@ namespace iFolder.WebService
 	[Serializable]
 	public class SystemPolicy 
 	{
+		private static readonly ISimiasLog log = SimiasLogManager.GetLogger(typeof(Member));
+
 		/// <summary>
 		/// The Disk Space Limit for Users
 		/// </summary>
