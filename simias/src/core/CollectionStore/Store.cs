@@ -532,7 +532,8 @@ namespace Simias.Storage
 							foreach ( string file in racertFiles )
 							{
 							        X509Certificate raCert = X509Certificate.CreateFromCertFile(file);
-								Simias.Security.CertificateStore.StoreRACertificate (raCert.GetRawCertData(), raCert.GetIssuerName(), true);
+								Simias.Security.CertificateStore.StoreRACertificate (raCert.GetRawCertData(), raCert.GetIssuerName().ToLower(), true);
+
 							}
 						}
 					} catch (Exception e) {
