@@ -1,3 +1,8 @@
+2007-04-11  B S Srinidhi  <srinidhi@novell.com>
+
+	* linux/ifolder3-server.spec.autobuild : Included update-alternatives
+	in BuildRequires.
+
 2007-03-16  B S Srinidhi  <srinidhi@novell.com>
 
 	* linux/simias.spec.autobuild : Updated BuildRequires and other

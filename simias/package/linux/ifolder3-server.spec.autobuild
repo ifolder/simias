@@ -9,7 +9,7 @@
 #
 # norootforbuild
 
-BuildRequires: libstdc++-devel libstdc++ compat-libstdc++ gcc-c++ mod_mono mono-devel mono-core mono-data mono-web pkgconfig libxml2 libxml2-devel glib2 glib2-devel e2fsprogs e2fsprogs-devel libflaim libflaim-devel xsp
+BuildRequires: libstdc++-devel libstdc++ compat-libstdc++ gcc-c++ mod_mono mono-devel mono-core mono-data mono-web pkgconfig libxml2 libxml2-devel glib2 glib2-devel e2fsprogs e2fsprogs-devel libflaim libflaim-devel xsp update-alternatives
 
 Name:         ifolder3-server
 %define buildnum @@BUILDNUM@@
