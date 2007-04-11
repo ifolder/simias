@@ -585,7 +585,11 @@ namespace Simias.Policy
 				isAllowed = ( memberPolicy.Apply( fullPath ) == Rule.Result.Allow );
 			}
 
-
+			if ( ( collectionPolicy != null ) && isAllowed )
+			{
+ 				// Apply the rule to see if the file type is allowed in the collection.
+ 				isAllowed = ( collectionPolicy.Apply( fullPath ) == Rule.Result.Allow );
+			}
 			return isAllowed;
 		}
 		#endregion
