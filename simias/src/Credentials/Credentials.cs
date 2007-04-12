@@ -113,6 +113,11 @@ namespace Simias.Authentication
 		Timeout = 0x1f000102,
 
 		/// <summary>
+		/// We are talking with a incompatible server.
+		/// </summary>
+		ServerInCompatible = 0x1f000103,
+
+		/// <summary>
 		/// Authentication failed with an unknown reason
 		/// </summary>
 		Unknown = 0x1f001fff

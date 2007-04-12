@@ -232,6 +232,7 @@
           <xs:enumeration value="InternalException" />
           <xs:enumeration value="MethodNotSupported" />
           <xs:enumeration value="Timeout" />
+          <xs:enumeration value="ServerInCompatible" />
           <xs:enumeration value="Unknown" />
         </xs:restriction>
       </xs:simpleType>
