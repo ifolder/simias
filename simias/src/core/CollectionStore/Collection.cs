@@ -700,17 +700,12 @@ namespace Simias.Storage
 				if(passphrase ==null)
 					throw new CollectionStoreException("Passphrase not provided");
 
-				//Randomize the passphrase and use it for encryption and decryption
-				int  rand = 0;
-				int hash = passphrase.GetHashCode();				
-				Random seed = new Random(hash);				
-				for (int i=0; i<1000; i++)					
-					rand= seed.Next();				
-				passphrase = rand.ToString();				
-				passphrase = DoPadding(passphrase);	
+				//Hash the passphrase and use it for encryption and decryption
+				PassphraseHash hash = new PassphraseHash();
+				byte[] Passphrase = hash.HashPassPhrase(passphrase);	
 				
 				Key key = new Key(128);
-				key.EncrypytKey(passphrase, out this.encryptionKey);
+				key.EncrypytKey(Passphrase, out this.encryptionKey);
 				this.encryptionBlob = key.HashKey();
 			
 				properties.AddNodeProperty(PropertyTags.EncryptionKey, this.encryptionKey);
@@ -729,35 +724,7 @@ namespace Simias.Storage
 			createManagedPath = !Directory.Exists( ManagedPath );
 		}
 
-		///<summary>
-		///Padding of passphrase so that it is >=16 and multiple of 8
-		///</summary>
-		///<returns>padded passPhrase.</returns>
-		public string DoPadding(string Passhrase)
-		{
-			// Any chnage in thie function need to be synced with ifolder client as well
-			int minimumLength = 16;
-			int incLength = 8;
-			
-			string NewPassphrase = Passhrase;
-
-			while(NewPassphrase.Length % incLength !=0 || NewPassphrase.Length < minimumLength)
-			{
-				NewPassphrase += Passhrase;
-				if(NewPassphrase.Length < minimumLength)
-					continue;
-
-				int RequiredLength;
-				if((((Passhrase.Length/incLength)+1)*incLength) < minimumLength)
-					RequiredLength = minimumLength;
-				else
-					RequiredLength = ((Passhrase.Length/incLength)+1)*incLength;
-
-				NewPassphrase = NewPassphrase.Remove(RequiredLength, NewPassphrase.Length-RequiredLength);
-			}
-			return NewPassphrase;
-		}	
-			
+		
 		#endregion
 
 		#region Private Methods

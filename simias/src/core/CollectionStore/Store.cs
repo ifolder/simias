@@ -1776,6 +1776,24 @@ namespace Simias.Storage
 			EncryptedKey = Convert.ToBase64String(output);
 			m_des.Clear();
 	       }
+		public void EncrypytKey(byte[] PassPhrase, out string EncryptedKey) 
+	       {
+	       	this.CryptoKeySize	= (PassPhrase.Length)*8;
+
+			UTF8Encoding utf8 = new UTF8Encoding();
+			TripleDESCryptoServiceProvider m_des = new TripleDESCryptoServiceProvider();
+
+			byte[] IV ={0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0};			
+			m_des.KeySize = this.CryptoKeySize;
+
+			//m_des.Mode = CipherMode.CBC;
+			//m_des.Padding = PaddingMode.PKCS7;			
+			
+			byte[] input = utf8.GetBytes(this.CryptoKey);
+			byte[] output = Transform(input, m_des.CreateEncryptor(PassPhrase, IV));
+			EncryptedKey = Convert.ToBase64String(output);
+			m_des.Clear();
+	       }
 
 		/// <summary>
 		/// Decrypt the key in the instance and returns
@@ -1795,6 +1813,25 @@ namespace Simias.Storage
 
 			byte[] input = Convert.FromBase64String(this.CryptoKey);
 			byte[] output = Transform(input, m_des.CreateDecryptor(utf8.GetBytes(PassPhrase), IV));
+			DecryptedKey = utf8.GetString(output);
+			m_des.Clear();
+		}
+
+		public void DecrypytKey(byte[] PassPhrase, out string DecryptedKey) 
+		{
+			this.CryptoKeySize	= (PassPhrase.Length)*8;
+			
+			UTF8Encoding utf8 = new UTF8Encoding();
+			TripleDESCryptoServiceProvider m_des = new TripleDESCryptoServiceProvider();
+
+			byte[] IV ={0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0};			
+			m_des.KeySize = this.CryptoKeySize;
+			
+			//m_des.Mode = CipherMode.CBC;
+			//m_des.Padding = PaddingMode.PKCS7;
+
+			byte[] input = Convert.FromBase64String(this.CryptoKey);
+			byte[] output = Transform(input, m_des.CreateDecryptor(PassPhrase, IV));
 			DecryptedKey = utf8.GetString(output);
 			m_des.Clear();
 		}

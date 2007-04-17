@@ -588,18 +588,13 @@ namespace Simias.Storage
 				smConn.Authenticate ();
 				smConn.InitializeWebClient(svc, "Simias.asmx");
 
-				//Randomize the passphrase and use it for encryption and decryption
-				int  rand = 0;
-				int hash = Passphrase.GetHashCode();				
-				Random seed = new Random(hash);				
-				for (int i=0; i<1000; i++)					
-					rand= seed.Next();				
-				Passphrase = rand.ToString();				
-				Passphrase = DoPadding(Passphrase);	
-
-				Key key = new Key((Passphrase.Length)*8);//create the key 
+				//Hash the passphrase and use it for encryption and decryption
+				PassphraseHash hash = new PassphraseHash();
+				byte[] passphrase = hash.HashPassPhrase(Passphrase);
+				
+				Key key = new Key((passphrase.Length)*8);//create the key 
 				string EncrypCryptoKey;
-				key.EncrypytKey(Passphrase, out EncrypCryptoKey); //encrypt the key
+				key.EncrypytKey(passphrase, out EncrypCryptoKey); //encrypt the key
 				Key HashKey = new Key(EncrypCryptoKey);
 				
 				log.Debug("SetPassPhrase {0}...{1}...{2}...{3}",EncrypCryptoKey, HashKey.HashKey(), RAName, PublicKey);
@@ -636,27 +631,16 @@ namespace Simias.Storage
 				smConn.Authenticate ();
 				smConn.InitializeWebClient(svc, "Simias.asmx");
 
-				//Randomize the passphrase and use it for encryption and decryption
-				int  rand = 0;
-				int hash = Passphrase.GetHashCode();
-				Random seed = new Random(hash);
-				for (int i=0; i<1000; i++)
-					rand= seed.Next();		
-				Passphrase = rand.ToString();	
-				Passphrase = DoPadding(Passphrase);	
+				//Hash the passphrase and use it for encryption and decryption
+				PassphraseHash hash = new PassphraseHash();
+				byte[] passphrase = hash.HashPassPhrase(Passphrase);
 
-				//Randomize the passphrase and use it for encryption and decryption
-				int  randOld = 0;
-				int hashOld = OldPassphrase.GetHashCode();
-				Random seedOld = new Random(hashOld);
-				for (int i=0; i<1000; i++)
-					randOld= seedOld.Next();
-				OldPassphrase = randOld.ToString();
-				OldPassphrase = DoPadding(OldPassphrase);
+				//Hash the passphrase and use it for encryption and decryption
+				byte[] oldPassphrase = hash.HashPassPhrase(OldPassphrase);
 
 				Key key = new Key(128);
 				string EncrypCryptoKey = null;
-				key.EncrypytKey(Passphrase, out EncrypCryptoKey);			
+				key.EncrypytKey(passphrase, out EncrypCryptoKey);			
 				Key HashKey = new Key(EncrypCryptoKey);
 				
 				svc.ServerSetPassPhrase(DomainID, UserID, EncrypCryptoKey, HashKey.HashKey(), RAName, PublicKey);
@@ -671,9 +655,9 @@ namespace Simias.Storage
 				{
 					//Decrypt and encrypt the key
 					Simias.Storage.Key DeKey = new Key(OldKey.PEDEK);	
-					DeKey.DecrypytKey(OldPassphrase, out DecryptedKey);
+					DeKey.DecrypytKey(oldPassphrase, out DecryptedKey);
 					Simias.Storage.Key EnKey = new Key(DecryptedKey);
-					EnKey.EncrypytKey(Passphrase, out EncryptedKey);
+					EnKey.EncrypytKey(passphrase, out EncryptedKey);
 
 					//Send back to server					
 					NewKey.NodeID = OldKey.NodeID;
@@ -724,26 +708,21 @@ namespace Simias.Storage
 				smConn.Authenticate ();
 				smConn.InitializeWebClient(svc, "Simias.asmx");			
 
-				//Randomize the passphrase and use it for encryption and decryption
-				int  rand = 0;
-				int hash = Passphrase.GetHashCode();				
-				Random seed = new Random(hash);				
-				for (int i=0; i<1000; i++)					
-					rand= seed.Next();				
-				Passphrase = rand.ToString();				
-				Passphrase = DoPadding(Passphrase);	
+				//Hash the passphrase and use it for encryption and decryption
+				PassphraseHash hash = new PassphraseHash();
+				byte[] passphrase = hash.HashPassPhrase(Passphrase);	
 
 				string EncrypCryptoKey = svc.ServerGetEncrypPassKey(DomainID, UserID);
 
 				//Decrypt it
 				string DecryptedCryptoKey; 
 				Key DeKey = new Key(EncrypCryptoKey);
-				DeKey.DecrypytKey(Passphrase, out DecryptedCryptoKey);
+				DeKey.DecrypytKey(passphrase, out DecryptedCryptoKey);
 
 				//Encrypt using passphrase
 				string EncryptedCryptoKey;
 				Key EnKey = new Key(DecryptedCryptoKey);
-				EnKey.EncrypytKey(Passphrase, out EncryptedCryptoKey);
+				EnKey.EncrypytKey(passphrase, out EncryptedCryptoKey);
 
 				//SHA1
 				Key HashKey = new Key(EncryptedCryptoKey);
@@ -771,36 +750,27 @@ namespace Simias.Storage
 			}
 		}
 
-		///<summary>
-		///Padding of passphrase so that it is >=16 and multiple of 8
-		///</summary>
-		///<returns>padded passPhrase.</returns>
-		public string DoPadding(string Passhrase)
+		/// <summary>
+		/// Hash the passphrase
+		/// </summary>
+		public byte[] HashPassPhrase(string Passphrase)
 		{
-			// Any chnage in thie function need to be synced with ifolder client as well
-			int minimumLength = 16;
-			int incLength = 8;
-			
-			string NewPassphrase = Passhrase;
-
-			while(NewPassphrase.Length % incLength !=0 || NewPassphrase.Length < minimumLength)
+			byte[] salt={0x1, 0x2, 0x3, 0x4, 0x5, 0x6, 0x7, 0x8};
+			UTF8Encoding utf8 = new UTF8Encoding();
+			byte[] data = utf8.GetBytes(Passphrase);
+			HMACSHA1 sha1= new HMACSHA1();
+			sha1.Key = salt;
+			for(int i=0; i<1000; i++)
 			{
-				NewPassphrase += Passhrase;
-				if(NewPassphrase.Length < minimumLength)
-					continue;
-
-				int RequiredLength;
-				if((((Passhrase.Length/incLength)+1)*incLength) < minimumLength)
-					RequiredLength = minimumLength;
-				else
-					RequiredLength = ((Passhrase.Length/incLength)+1)*incLength;
-
-				NewPassphrase = NewPassphrase.Remove(RequiredLength, NewPassphrase.Length-RequiredLength);
-			}
+				sha1.ComputeHash(data);					
+				data = sha1.Hash;
+			}			
+			byte[] NewPassphrase = new byte[data.Length+4]; //20+4
+			Array.Copy(data, 0, NewPassphrase, 0,data.Length);
+			Array.Copy(data, 0, NewPassphrase, 20, 4);
+			log.Debug("HashPassPhrase passphrase :{0}....:length{1}", utf8.GetString(NewPassphrase), NewPassphrase.Length);
 			return NewPassphrase;
 		}
-
-
 		
 		/// <summary>
 		/// Validate the passphrase
@@ -951,5 +921,32 @@ namespace Simias.Storage
 			}
 		}
 		#endregion
+	}
+	
+	/// <summary>
+	/// Hash the passphrase
+	/// </summary>
+	class PassphraseHash
+	{
+		public PassphraseHash()
+		{
+		}
+		public byte[] HashPassPhrase(string Passphrase)
+		{
+			byte[] salt={0x1, 0x2, 0x3, 0x4, 0x5, 0x6, 0x7, 0x8};
+			UTF8Encoding utf8 = new UTF8Encoding();
+			byte[] data = utf8.GetBytes(Passphrase);
+			HMACSHA1 sha1= new HMACSHA1();
+			sha1.Key = salt;
+			for(int i=0; i<1000; i++)
+			{
+				sha1.ComputeHash(data);					
+				data = sha1.Hash;
+			}			
+			byte[] NewPassphrase = new byte[data.Length+4]; //20+4
+			Array.Copy(data, 0, NewPassphrase, 0,data.Length);
+			Array.Copy(data, 0, NewPassphrase, 20, 4);
+			return NewPassphrase;
+		}
 	}
 }

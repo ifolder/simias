@@ -689,24 +689,19 @@ namespace iFolder.WebService
 				string EncrypCryptoKey = member.ServerGetEncrypPassKey();
 				log.Debug("ValidatePassPhrase : got PassKey:{0}",EncrypCryptoKey);
 
-				//Randomize the passphrase and use it for encryption and decryption
-				int  rand = 0;
-				int hash = Passphrase.GetHashCode();
-				Random seed = new Random(hash);
-				for (int i=0; i<1000; i++)
-					 rand= seed.Next();
-				Passphrase = rand.ToString();
-				Passphrase = DoPadding(Passphrase);
+				//Hash the passphrase and use it for encryption and decryption
+				PassphraseHash hash = new PassphraseHash();
+				byte[] passphrase = hash.HashPassPhrase(Passphrase);	
 			
 				//Decrypt it
 				string DecryptedCryptoKey; 
 				Key DeKey = new Key(EncrypCryptoKey);
-				DeKey.DecrypytKey(Passphrase, out DecryptedCryptoKey);
+				DeKey.DecrypytKey(passphrase, out DecryptedCryptoKey);
 
 				//Encrypt using passphrase
 				string EncryptedCryptoKey;
 				Key EnKey = new Key(DecryptedCryptoKey);
-				EnKey.EncrypytKey(Passphrase, out EncryptedCryptoKey);
+				EnKey.EncrypytKey(passphrase, out EncryptedCryptoKey);
 
 				//SHA1
 				Key HashKey = new Key(EncryptedCryptoKey);
@@ -748,18 +743,13 @@ namespace iFolder.WebService
 				Collection collection = store.GetCollectionByID(DomainID);
 				Simias.Storage.Member member = collection.GetMemberByID(AccessID);
 
-				//Randomize the passphrase and use it for encryption and decryption
-				int  rand = 0;
-				int hash = Passphrase.GetHashCode();
-				Random seed = new Random(hash);
-				for (int i=0; i<1000; i++)
-					rand= seed.Next();
-				Passphrase = rand.ToString();
-				Passphrase = DoPadding(Passphrase);
+				//Hash the passphrase and use it for encryption and decryption
+				PassphraseHash hash = new PassphraseHash();
+				byte[] passphrase = hash.HashPassPhrase(Passphrase);	
 				
 				Key key = new Key(128);
 				string EncrypCryptoKey;
-				key.EncrypytKey(Passphrase, out EncrypCryptoKey);
+				key.EncrypytKey(passphrase, out EncrypCryptoKey);
 				Key HashKey = new Key(EncrypCryptoKey);
 				
 				log.Debug("SetPassPhrase {0}...{1}...{2}...{3}",EncrypCryptoKey, HashKey.HashKey(), RAName, RAPublicKey);
@@ -770,37 +760,6 @@ namespace iFolder.WebService
 				log.Debug("SetPassPhrase : {0}", ex.Message);
 				//throw ex;
 			}
-		}
-
-		///<summary>
-		///Padding of passphrase so that it is >=16 and multiple of 8
-		///</summary>
-		///<returns>padded passPhrase.</returns>
-		public static string DoPadding(string Passhrase)
-		{
-			// Any chnage in this function need to be synced with other places (web access and simias client)
-			int minimumLength = 16;
-			int incLength = 8;
-			
-			string NewPassphrase = Passhrase;
-			
-			//Any padding change need to be replicated to thick clients and also should take care the already encrypted ifolders
-			while(NewPassphrase.Length % incLength !=0 || NewPassphrase.Length < minimumLength)
-			{
-				NewPassphrase += Passhrase;
-				if(NewPassphrase.Length < minimumLength)
-					continue;
-
-				int RequiredLength;
-				if((((Passhrase.Length/incLength)+1)*incLength) < minimumLength)
-					RequiredLength = minimumLength;
-				else
-					RequiredLength = ((Passhrase.Length/incLength)+1)*incLength;
-
-				NewPassphrase = NewPassphrase.Remove(RequiredLength, NewPassphrase.Length-RequiredLength);
-			}
-			return NewPassphrase;
-		}
-		
+		}		
 	}
 }
