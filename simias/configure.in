@@ -500,14 +500,14 @@ AC_ARG_WITH(runasclient,
 	[runasclient="TRUE"
 	case $SIMIAS_OS in
 		windows) 
-			simiasdatadir=`cygpath --mixed "$USERPROFILE/Local Settings/Application Data/simias"`
-			simiaslogdir="${simiasdatadir}" ;;
+			simiasdatadir=`cygpath --mixed "$APPDATA/simias"`
+			simiaslogdir="\${APPDATA}/simias" ;;
 		linux) 
 			simiasdatadir="$HOME/.local/share/simias"
-			simiaslogdir="${simiasdatadir}" ;;
+			simiaslogdir="\${HOME}/.local/share/simias" ;;
 		darwin) 
 			simiasdatadir="$HOME/.local/share/simias"
-			simiaslogdir="${simiasdatadir}" ;;
+			simiaslogdir="\${HOME}/.local/share/simias" ;;
 	esac],
 	[runasclient="FALSE"]
 	)
