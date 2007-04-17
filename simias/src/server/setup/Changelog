@@ -1,3 +1,8 @@
+2007-04-17  Johnny Jacob  <jjohnny@novell.com>
+
+	* SimiasServerSetup.cs : Check for Invalid Chars in server name and
+          reprompt. In non-interactive throw exception.
+
 2007-03-05  B S Srinidhi  <srinidhi@novell.com>
 
 	* Makefile.am: Remove generated scripts (patch by Jan-Simon Möller).

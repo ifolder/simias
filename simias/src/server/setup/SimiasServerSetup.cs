@@ -70,6 +70,10 @@ namespace Novell.iFolder
 		private static string PrivateAddressKey = "PrivateAddress";
 
 		private static string TemplateScriptFile = "simias-server";
+
+	        //Invalid Character List.
+		public static char[] InvalidChars = {'\\', ':', '*', '?', '\"', '<', '>', '|', ' '};
+
 		#endregion
 
 		#region Member Fields
@@ -274,6 +278,7 @@ namespace Novell.iFolder
 			path.OnOptionEntered = new Option.OptionEnteredHandler( OnPath );
 			defaultConfigPath.OnOptionEntered = new Option.OptionEnteredHandler( OnDefaultConfig );
 
+			serverName.OnOptionEntered = new Option.OptionEnteredHandler( OnServerName );
 			slaveServer.OnOptionEntered = new Option.OptionEnteredHandler( OnSlave );
 			publicUrl.OnOptionEntered = new Option.OptionEnteredHandler( OnPublicUrl );
 			privateUrl.OnOptionEntered = new Option.OptionEnteredHandler( OnPrivateUrl );
@@ -323,6 +328,27 @@ namespace Novell.iFolder
 				UpdateDefaults();
 			}
 			
+			return true;
+		}
+
+		private bool OnServerName()
+		{
+		    //Check For invalid characters
+		        if (serverName.Value.IndexOfAny(InvalidChars) == -1 ? false : true )
+			{
+			        if (!Prompt.CanPrompt)
+				{
+				    throw new Exception ("Server Name contains invalid characters");
+				}
+
+			        Console.WriteLine ("ServerName contains invalid characters. Please re-enter Server Name");
+
+			        serverName.Assigned = false;
+				serverName.Prompt = true;
+
+				Prompt.ForOption (serverName);
+				return true;
+			}
 			return true;
 		}
 
