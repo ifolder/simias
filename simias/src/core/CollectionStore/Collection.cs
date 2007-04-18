@@ -710,6 +710,7 @@ namespace Simias.Storage
 			
 				properties.AddNodeProperty(PropertyTags.EncryptionKey, this.encryptionKey);
 				properties.AddNodeProperty(PropertyTags.EncryptionBlob, this.encryptionBlob);
+				properties.AddNodeProperty(PropertyTags.EncryptionVersion, "version_1.0");
 
 				if(raPublicKey !="")
 				{

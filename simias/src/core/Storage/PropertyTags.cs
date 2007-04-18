@@ -106,12 +106,17 @@ namespace Simias.Storage
 		/// <summary>
 		/// Well known property name.
 		/// </summary>
-		static public string RecoveryKey= "RecoveryKey";
+		static public string EncryptionVersion= "EncryptionVersion";
 
 		/// <summary>
 		/// Well known property name.
 		/// </summary>
 		static public string EncryptionBlob= "EncryptionBlob";
+
+		/// <summary>
+		/// Well known property name.
+		/// </summary>
+		static public string RecoveryKey= "RecoveryKey";
 
 		/// <summary>
 		/// Well known property name.
@@ -399,6 +404,13 @@ namespace Simias.Storage
 			systemPropertyTable.Add( Domain, null );
 			systemPropertyTable.Add( DomainID, null );
 			systemPropertyTable.Add( SecurityStatus, null );
+			systemPropertyTable.Add( EncryptionType, null);
+			systemPropertyTable.Add( EncryptionKey, null);
+			systemPropertyTable.Add( EncryptionVersion, null);
+			systemPropertyTable.Add( EncryptionBlob, null);
+			systemPropertyTable.Add( RecoveryKey, null);
+			systemPropertyTable.Add( RAName, null);
+			systemPropertyTable.Add( RAPublicKey, null);
 			systemPropertyTable.Add( DomainType, null );
 			systemPropertyTable.Add( FileLength, null );
 			systemPropertyTable.Add( FileSystemPath, null );

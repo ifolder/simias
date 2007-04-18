@@ -344,8 +344,13 @@ namespace Novell.iFolderApp.Web
 			{
 				UTF8Encoding utf8 = new UTF8Encoding();
 				string DecryptedCryptoKey;
+
+				//Hash the passphrase and use it for encryption and decryption
+				PassphraseHash hash = new PassphraseHash();
+				byte[] passphrase = hash.HashPassPhrase(PassPhrase);	
+				
 				Key key = new Key(EncryptionKey);
-				key.DecrypytKey(PassPhrase, out DecryptedCryptoKey);
+				key.DecrypytKey(passphrase, out DecryptedCryptoKey);
 				//Decrypt the key using passphrase and use it
 				bf = new Blowfish(utf8.GetBytes(DecryptedCryptoKey));
 				boundary = 8;

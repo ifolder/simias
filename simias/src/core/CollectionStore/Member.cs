@@ -546,6 +546,10 @@ namespace Simias.Storage
 				Property p = new Property(PropertyTags.RAPublicKey, PublicKey);
 				this.properties.ModifyNodeProperty(p);
 			}
+			
+			Property prty = new Property(PropertyTags.EncryptionVersion, "version_1.0");
+			this.properties.ModifyNodeProperty(prty);			
+			
 			domain.Commit(this);
 		}
 		
@@ -926,14 +930,22 @@ namespace Simias.Storage
 	/// <summary>
 	/// Hash the passphrase
 	/// </summary>
-	class PassphraseHash
+	public class PassphraseHash
 	{
 		public PassphraseHash()
 		{
 		}
 		public byte[] HashPassPhrase(string Passphrase)
 		{
-			byte[] salt={0x1, 0x2, 0x3, 0x4, 0x5, 0x6, 0x7, 0x8};
+			/*change to PasswordDeriveBytes.CryptDeriveKey once the  implementation is done mono
+
+			PasswordDeriveBytes pdb = new PasswordDeriveBytes(Passphrase, salt);
+			TripleDESCryptoServiceProvider tdes = new TripleDESCryptoServiceProvider();
+			tdes.Key = pdb.CryptDeriveKey("TripleDES", "SHA1", 192, tdes.IV);
+			//tdes.Key is the NewPassphrase
+			
+			*/
+			byte[] salt={0x49, 0x46, 0x4F, 0x4C, 0x44, 0x45, 0x52};
 			UTF8Encoding utf8 = new UTF8Encoding();
 			byte[] data = utf8.GetBytes(Passphrase);
 			HMACSHA1 sha1= new HMACSHA1();
