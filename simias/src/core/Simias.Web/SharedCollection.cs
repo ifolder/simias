@@ -1327,8 +1327,8 @@ namespace Simias.Web
                                 throw new Exception("Invalid CollectionID");
 
                         log.Debug( "  Name: " + collection.Name );
-                        CollectionInfo cinfo = DiscoveryFramework.GetCollectionInfo(collection.ID);
-                        log.Debug("cinfo {0}", cinfo);
+//                        CollectionInfo cinfo = DiscoveryFramework.GetCollectionInfo(collection.ID);
+//                        log.Debug("cinfo {0}", cinfo);
                 // need to Fix this...Workgroup mastered, then delete the collection membership itself, not doing now.
 /*
                         if(cinfo != null)

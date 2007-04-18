@@ -97,7 +97,7 @@ namespace Simias.Discovery
 
 		public static CollectionInfo GetCollectionInfo (string collectionID)
 		{
-		        Simias.Discovery.DiscService.UpdateCollectionList();
+			Simias.Discovery.DiscService.UpdateCollectionList();
 			ArrayList collectionList = Simias.Discovery.CollectionList.GetCollectionList();
 
 			//TEMPFIX : We'll wait if we the obj is updating.
@@ -113,11 +113,11 @@ namespace Simias.Discovery
 			return null;
 		}
 
-		public static void CreateProxy (Store store, string DomainID,string iFolderID, string localPath )
+		public static void CreateProxy (Store store, CollectionInfo cinfo, string DomainID,string iFolderID, string localPath )
 		{
 			ArrayList commitList = new ArrayList();
 
-			CollectionInfo cinfo = DiscoveryFramework.GetCollectionInfo (iFolderID);
+//			CollectionInfo cinfo = DiscoveryFramework.GetCollectionInfo (iFolderID);
 
 			Collection c = new Collection(store, cinfo.Name,
 						      cinfo.CollectionID, DomainID);
@@ -152,8 +152,8 @@ namespace Simias.Discovery
 			bool removed = false;
 			Domain domain = Store.GetStore().GetDomain( domainID );
 			Member member = domain.GetCurrentMember();
-			CollectionInfo ci = GetCollectionInfo (collectionID);
-			HostNode hNode = HostNode.GetHostByID (domainID, ci.HostID);
+//			CollectionInfo ci = GetCollectionInfo (collectionID);
+			HostNode hNode = member.HomeServer;
 
 			try
 			{

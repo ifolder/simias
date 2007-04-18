@@ -79,14 +79,10 @@ namespace Simias.Discovery
 		{
 			collectionList.listEvent.Set();
 			collectionList.processed = false;
-			#if WINDOWS
 			while(!collectionList.processed)
 			{
-
-				Thread.Sleep(3000);
-
+				Thread.Sleep(0);
 			}
-			#endif
 			return;
 		}
 		
