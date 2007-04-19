@@ -528,7 +528,7 @@ namespace Simias.Storage
 
 					        if (raPath != String.Empty && raPath != "")
 						{
-					                string[] racertFiles = Directory.GetFiles( raPath, "*.cer" );
+					                string[] racertFiles = Directory.GetFiles( raPath, "*.der" );
 							foreach ( string file in racertFiles )
 							{
 							        X509Certificate raCert = X509Certificate.CreateFromCertFile(file);
