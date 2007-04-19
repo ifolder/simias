@@ -202,13 +202,15 @@ namespace Novell.iFolderApp.Web
 			else
 			{
 				string [] RAListStrTemp= web.GetRAList();
-				string [] RAListStr = new string [RAListStrTemp.Length + 1];
-				// making 1st entry of dropdownlist as None
-				RAListStr[0] = GetString("NONE");
-				for (int i = 1; i <= RAListStrTemp.Length ; i++)
-					RAListStr[i] = String.Copy(RAListStrTemp[i-1]);
+				
 				if (RAListStrTemp != null)
 				{
+					string [] RAListStr = new string [RAListStrTemp.Length + 1];
+					// making 1st entry of dropdownlist as None
+					RAListStr[0] = GetString("NONE");
+					//There may be a case that there is no certificate in the configured certificate path
+					for (int i = 1; i <= RAListStrTemp.Length ; i++)
+						RAListStr[i] = String.Copy(RAListStrTemp[i-1]);
 					RAList.DataSource = RAListStr;
 					RAList.DataBind();
 					SelectLabel.Visible = RAList.Enabled = RAList.Visible = true;
