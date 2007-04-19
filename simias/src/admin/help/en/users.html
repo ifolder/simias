@@ -1,0 +1,175 @@
+<html>
+
+   <head>
+     <meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+     
+     <!-- Novell iFolder 3.x iManager Plugin  --> 
+   
+     <title>iFolder Users </title>  	 
+        
+     <!-- Metadata -->
+   
+     <meta name="Author" content="iFolder 3.x Documentation Manager">
+     <meta name="date" content="02-17-2005">
+     <meta name="modified" content="06-29-2005"> 
+	 
+	 <!-- iManager Documentation Stylesheet -->
+	 
+	 <link rel="stylesheet" href="hf_style.css" type="text/css"> 
+	 
+	 <!--  Style definitions for this Help page: body plus help banner layer
+		  and help content layer. The style definition is commented to prevent
+		  older browsers from presenting the style information as part of the 
+		  page itself. 
+      -->
+	
+     
+<style type= "text/css" media="screen">
+       <!--
+       
+         body           {  font-family: Arial, Helvetica, Geneva;
+									background: white
+url(../../images/helphead_bg.gif) repeat-x 0% 0% }
+		      
+         #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px;
+									width: 380px; visibility: visible }
+			   
+         #helpcontent    { position: absolute; top: 37px; left: 10px; 
+	                        width: 93%; visibility: visible }
+
+       -->
+     </style>
+  
+   
+
+
+</head>
+   
+   <!-- This is the start of the body. It underlays the help banner layer 
+         and help content layers. -->
+	 
+   <body bgcolor="white" marginwidth="0" marginheight="0" 
+         leftmargin="0" topmargin="0">
+<!-- This is the start of the Help Banner Layer --> <div id="headgraphic"> <img src="../../images/h1_help.gif" width="380" height="32"   border="0"></div><!-- This is end of the Help Banner Layer --> 
+<!-- This is the start of the Help Content Layer --> <div id="helpcontent"> <!-- The Page Heading uses CSS style "head3b". This creates an H3 header
+            with a line beneath it.
+       --> 
+  <h3 class="head3b">Managing a User Account</h3>
+  <p> Use this interface to manage iFolder users in the selected iFolder domain. 
+    The search tool helps you locate the Novell iFolder<SUP><SMALL>&reg;</SMALL></SUP> 
+    3.6 user account you want to manage. </p>
+	<BLOCKQUOTE CLASS="blockquote"><P><BR><A HREF="#browseuser" TARGET="_self">Browsing the Users</A><BR><A HREF="#browsesearch" TARGET="_self">Browsing 
+the Users in the Search Results </A><BR> 
+<A HREF="#enabledisableuser" TARGET="_self">Enabling or Disabling an iFolder user</A><br><A HREF="#accessusers" TARGET="_self">Accessing the Users 
+Details Page </A> </P></BLOCKQUOTE>
+  <H4><A NAME="browseusers"></A>Browsing the Users <br>
+  </H4>
+  <OL><LI>
+      <P>In Web Admin,ensure that you are on iFolders Users page. </P>
+	  <P>If not, click the Users tab to open the iFolder Users page. </P>
+</LI><LI><P>Select a name criterion (User Name, 
+First Name, Last Name).</P></LI><LI><P>Select a filter criterion (Contains, Begins 
+With, Ends With, Equals).</P></LI><LI><P>Use one or more of the following search 
+methods, then click Search:</P><UL><LI><P>Type the name of the user in the Search 
+Users field.</P></LI><LI><P>Type one or more letters in the Search Users field.</P></LI><LI><P>Type 
+an asterisk (*) in the Search Users field to return a list of all Users on the 
+system.</P></LI><LI><P>Leave the Search Users field empty to return a list of 
+all Users on the system.</P></LI></UL>
+      <P>Do not click anywhere in the page until the page completely refreshes, 
+        then you can browse, sort, or manage the users listed in the Search Results 
+        report. </P>
+    </LI></OL><H4><A NAME="browsesearch"></A>Browsing 
+the Users in the Search Results</H4>
+  <P>Scroll up and down to browse the search results and locate the user you want 
+    to manage. The combination of the username and the first and last names help 
+    to identify the user you want.</P>
+  <H4><A NAME="sort"></A>Sorting 
+the Users in the Search Results</H4>
+  <P>Your search results are initially displayed by username in alphabetical order. 
+    Click the column heading link to initiate the sort with that column as the 
+    primary key. Click the same heading link to initiate a sort in the reverse 
+    sort order.</P>
+  <BLOCKQUOTE><P><B>Type</B><BR>An 
+icon indicating whether the user has the iFolder Admin right (user wearing a referee-striped 
+uniform) or is a normal user (user icon).<BR><BR><B>Name</B><BR>
+The username assigned 
+to the user account, such as jsmith or john.smith@example.com. Click the User Name link to manage User policies 
+and iFolders for the user. <BR>
+<BR><B>Full Name</B><BR>The first and last name 
+of the user account. </BLOCKQUOTE>
+  <H4><A NAME="enabledisableuser"></A>Enabling or Disabling an iFolder user</H4>
+	
+  <p> Follow the steps given below:</p> 
+  <OL>
+    <LI> 
+      <P>Locate the iFolder user you want to manage, then select the check box 
+        next to the user.</P>
+    </LI>
+    <ul> <li>
+      <P>Click Enable to enable the user.</P>
+      <P>This will allow the user to log in and synchronize iFolders.</P>
+    
+    <LI> 
+      <P>Click Disable to disable the user.</P>
+      <P> If the user is logged in when you make this change, the user’s session 
+        continues until the user logs out. The policy takes effect the next time 
+        the user attempts to log in to the account. To have the lockout take effect 
+        immediately, you must restart the Apache services for the iFolder server, 
+        which disconnects all active sessions, including the user’s session.</P>
+    </LI></ul>
+  </OL>
+<H3><A NAME="newuser"></A>Creating a New iFolder User</H3><br>
+ <BLOCKQUOTE><P><B><FONT SIZE="-1">NOTE:</FONT></B> <FONT SIZE="-1">You can create only non-LDAP users.
+</FONT></P></BLOCKQUOTE>
+<OL><LI>
+      <P>On the iFolder Users page, click New.</P>
+	  <P>The iFolder User creation page opens to the Users tab </P>
+    </LI>
+    <LI>Specify the following information and then click Create.
+  </ol>
+  <P><BLOCKQUOTE>
+    <B>User Name</B><BR>
+    Assign a username to the user account, such as jsmith or john.smith@example.com. 
+    <BR>
+	<BR>
+    <B>First Name</B><BR>
+    First name of the user.<br>
+    <BR>
+    <B>Last Name</B><BR>
+    Last name of the user. <BR>
+<BR><B>Full Name</B><BR>The first and last name 
+of the user account. <br>
+<BR>
+    <B>Password</B><BR>
+    Assign a password for the user account.<br>
+    <BR>
+    <B>Retype password</B><BR>
+    Retype the password to verify it. <BR>
+  </BLOCKQUOTE>
+  <h4><a name="accessusers"></a>Accessing the Users Details Page</h4>
+  <p> Follow the procedure given below:</p>
+  
+  <ol>
+    <li> 
+      <p>On the iFolder user page, use the search tool to locate the user whose 
+        iFolder account you want to manage.</p>
+    </li>
+    <li> 
+      <p>Click the user's name link to open the User Details page to the Users 
+        tab.</p>
+    </li>
+  </ol>
+<P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P>
+  
+  <H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Related Topics" align="top"> 
+Related Topics</H4>
+  
+  <BLOCKQUOTE class="task1"><P><A HREF="userdetails.html">User Details</A><BR><A HREF="ifolderdetails.html">Managing iFolder Details
+</A><BR><A HREF="ifolders.html">Managing an iFolder</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P><P>&nbsp;</P><P CLASS="copyright">A 
+trademark symbol (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP>, 
+etc.) denotes a Novell trademark. An asterisk (*) denotes a third-party trademark. 
+For more information, see <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Legal 
+Notices</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
+</body>
+
+</html>

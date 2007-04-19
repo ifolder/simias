@@ -1,0 +1,512 @@
+<html>
+
+   <head>
+     <meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+     
+     <!-- Novell iFolder 3.6 Web Admin Help  --> 
+   
+     <title>iFolder Details</title>  	 
+     
+ 
+     <!-- Metadata -->
+   
+     <meta name="Author" content="iFolder 3.6 Documentation Manager">
+     <meta name="date" content="02-17-2005">
+     <meta name="modified" content="02-29-2007"> 
+	 
+	 <!-- iManager Documentation Stylesheet -->
+	 
+	 <link rel="stylesheet" href="hf_style.css" type="text/css"> 
+	 
+	 <!--  Style definitions for this Help page: body plus help banner layer
+		  and help content layer. The style definition is commented to prevent
+		  older browsers from presenting the style information as part of the 
+		  page itself. 
+      -->
+	
+     
+<style type= "text/css" media="screen">
+       <!--
+       
+         body           {  font-family: Arial, Helvetica, Geneva;
+									background: white
+url(../../images/helphead_bg.gif) repeat-x 0% 0% }
+		      
+         #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px;
+									width: 380px; visibility: visible }
+			   
+         #helpcontent    { position: absolute; top: 37px; left: 10px; 
+	                        width: 93%; visibility: visible }
+ 
+       -->
+     </style>
+  
+   
+
+
+</head>
+   
+   <!-- This is the start of the body. It underlays the help banner layer 
+         and help content layers. -->
+	 
+   <body bgcolor="white" marginwidth="0" marginheight="0" 
+         leftmargin="0" topmargin="0">
+<!-- This is the start of the Help Banner Layer --> <div id="headgraphic"> <img src="../../images/h1_help.gif" width="380" height="32"   border="0"></div><!-- This is end of the Help Banner Layer --> 
+<!-- This is the start of the Help Content Layer --> <div id="helpcontent"> <!-- The Page Heading uses CSS style "head3b". This creates an H3 header
+            with a line beneath it.
+       --> 
+  <h3 class="head3b">Managing iFolder Details</h3>
+  <p> Use this interface to 
+manage the ownership, policies, and membership of a selected iFolder. </p><BLOCKQUOTE CLASS="blockquote"><P><A HREF="#general" TARGET="_self">Viewing iFolder Details
+</A> <BR><A HREF="#members" TARGET="_self">Members 
+ </A><BR><A HREF="#policies" TARGET="_self">Policies</A> </P></BLOCKQUOTE>
+  
+ 
+  <H4><A NAME="general"></A>Viewing iFolder Details</H4>
+  <P>You 
+can view the following information:</P><TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
+        <P>iFolder Name</P>
+      </TD><TD>
+        <P>The name assigned to the iFolder </P>
+      </TD><TR><TD VALIGN="TOP">
+        <P>Description</P>
+      </TD><TD>
+        <P>A short description about the iFolder </P>
+      </TD><TR><TD VALIGN="TOP"><P>Owner 
+</P></TD><TD><P>The username of the owner of the selected iFolder. For orphaned 
+iFolders, the iFolder Admin user is made the  owner until the iFolder 
+can be reassigned or deleted.</P>
+<P>The iFolder owner has the Full Control right 
+to the iFolder. The owner manages membership and access rights for users, and 
+can remove the Full Control right for any member. With an enterprise server, the 
+disk space used by the owner&#146;s iFolders counts against the owner&#146;s user 
+account quotas on the enterprise server.</P></TD></TR><TR><TD VALIGN="TOP"><P>Path</P></TD><TD><P>The 
+actual location of the iFolder and its data on the server. For example:</P><P>/var/opt/novell/ifolder3/simias/SimiasFiles/<I>e84fdc6e-3d51-49df-ae3f-8c9213c76994</I>/&lt;iFolder_Name&gt;</P><P>In 
+this example, <I>e84fdc6e-3d51-49df-ae3f-8c9213c76994</I> is the unique ID of 
+the iFolder share.</P></TD><TR><TD VALIGN="TOP">
+        <P>Modified</P>
+      </TD><TD>
+        <P>The last modified time and date of the iFolder</P>
+      </TD><TR><TD VALIGN="TOP"><P>Size</P></TD><TD>
+        <P>Size of the iFolder</P>
+      </TD><TR><TD VALIGN="TOP">
+        <P>Directories</P>
+      </TD><TD>
+        <P>Total number of directories in the iFolder</P>
+      </TD><TR><TD VALIGN="TOP">
+        <P>Files</P>
+      </TD><TD>
+        <P>Total number of files in the iFolder</P>
+      </TD></TR></TABLE>
+	  
+  <H3><a name="members"></a>Members </H3>
+  <p> You can view the members' name, type and access rights assigned to them. 
+    You are allowed to add or delete an owner, assign ownership, and set access 
+    rights to a selected member. 
+  <H4><A NAME="share"></A>Adding 
+a Member</H4><OL><LI>
+      <P>On the iFolder Details page, click Add.</P>
+    </LI><LI>
+      <P>Search for the user you want to make a member, select the check box next 
+        to the user's name, then click Add.<BR>
+        <BR>
+        By default, the user is given Read Only access to the iFolder.</P>
+    </LI><LI>
+      <P>(Optional) Select the User check box, then select Rights and specify 
+        the Access right as Admin, Read/Write, or Read Only , then click Set.<BR>
+        <BR>
+        Wait for the page to refresh. The user's icon should reflect the new access 
+        right. </P>
+    </LI></OL>
+<H4>Understanding iFolder Access Rights </H4>
+<p>The iFolder client supports the owner and three levels of access for members of an iFolder:</p>
+<BLOCKQUOTE>
+  <P><B>Owner<BR>
+    </B>Only one user serves as the owner of an iFolder. This is typically the user who created the iFolder. The owner user can use the iFolder client to transfer ownership to another member of the iFolder. The iFolder Admin user can transfer ownership to any user on the iFolder server from the iFolder &gt; General tab.</P>
+  <P>The owner of an iFolder has the Full Control right. This user has read/write access to the iFolder, manages membership and access rights for member users, and can remove the Full Control right for any member. With an enterprise server, the disk space used by the owner&#146;s iFolders count against the owner&#146;s user disk quotas on the enterprise server.</P>
+    <P>If a user is deleted as a user for the iFolder system, the iFolders owned 
+      by the user are orphaned. Orphaned iFolders are temporarily assigned to 
+      the iFolder Admin user as owner. Membership and synchronization continues 
+      for other users while the iFolder Admin user determines whether an orphaned 
+      iFolder should be deleted or assigned to a new owner.</P>
+  <P><B>Full Control</B><BR>
+    A member of the shared iFolder, with the Full Control access right. The user with the Full Control right has read/write access to the iFolder and manages membership and access rights for all users except the owner.</P>
+  <P><B>Read/Write</B><BR>
+    A member of the shared iFolder, with the Read/Write access right to directories and files in the iFolder.</P>
+  <P><B>Read Only</B><BR>
+    A member of the shared iFolder, with the Read Only access right to directories and files in the iFolder. This member can copy an iFolder file to another location and modify it outside the iFolder.</P>
+</BLOCKQUOTE>
+<p>The following table describes the capabilities associated with each level of access for users.</p>
+  <TABLE WIDTH="93%" BORDER="1">
+    <tr class="HEADERROW"> 
+      <th  CLASS="tablehead2">Capabilities</th>
+      <th  CLASS="tablehead2">Owner</th>
+      <th  CLASS="tablehead2">Full&nbsp;Control</th>
+      <th  CLASS="tablehead2">Read/Write</th>
+      <th  CLASS="tablehead2">Read&nbsp;Only</th>
+    </tr>
+    <tr > 
+      <td  scope="row"> 
+        <p >Reassign ownership to another user</p>
+      </td>
+      <td >
+        <p >Yes</p>
+      </td>
+      <td >
+        <p >No</p>
+      </td>
+      <td >
+        <p >No</p>
+      </td>
+      <td >
+        <p >No</p>
+      </td>
+    </tr>
+    <tr > 
+      <td  scope="row"> 
+        <p >Set a quota for the iFolder</p>
+      </td>
+      <td >
+        <p >Yes</p>
+      </td>
+      <td >
+        <p >No</p>
+      </td>
+      <td >
+        <p >No</p>
+      </td>
+      <td >
+        <p >No</p>
+      </td>
+    </tr>
+    <tr > 
+      <td  scope="row"> 
+        <p >Make the iFolder available to other users (sharing)</p>
+      </td>
+      <td >
+        <p >Yes</p>
+      </td>
+      <td >
+        <p >Yes</p>
+      </td>
+      <td >
+        <p >No</p>
+      </td>
+      <td >
+        <p >No</p>
+      </td>
+    </tr>
+    <tr > 
+      <td  scope="row"> 
+        <p >Make the iFolder unavailable to other users (stop sharing)</p>
+      </td>
+      <td >
+        <p >Yes</p>
+      </td>
+      <td >
+        <p >Yes, except the owner</p>
+      </td>
+      <td >
+        <p >No</p>
+      </td>
+      <td >
+        <p >No</p>
+      </td>
+    </tr>
+    <tr > 
+      <td  scope="row"> 
+        <p >Assign iFolder access rights for other users</p>
+      </td>
+      <td >
+        <p >Yes</p>
+      </td>
+      <td >
+        <p >Yes, except the owner</p>
+      </td>
+      <td >
+        <p >No</p>
+      </td>
+      <td >
+        <p >No</p>
+      </td>
+    </tr>
+    <tr > 
+      <td  scope="row"> 
+        <p >Read directories and files in the iFolder </p>
+      </td>
+      <td >
+        <p >Yes</p>
+      </td>
+      <td >
+        <p >Yes</p>
+      </td>
+      <td >
+        <p >Yes</p>
+      </td>
+      <td >
+        <p >Yes</p>
+      </td>
+    </tr>
+    <tr > 
+      <td  scope="row"> 
+        <p >Add, modify, or delete directories and files in the iFolder</p>
+      </td>
+      <td >
+        <p >Yes</p>
+      </td>
+      <td >
+        <p >Yes</p>
+      </td>
+      <td >
+        <p >Yes</p>
+      </td>
+      <td >
+        <p >No</p>
+      </td>
+    </tr>
+    <tr > 
+      <td  scope="row"> 
+        <p >Rename directories and files in an iFolder</p>
+      </td>
+      <td >
+        <p >Yes</p>
+      </td>
+      <td >
+        <p >Yes</p>
+      </td>
+      <td >
+        <p >Yes</p>
+      </td>
+      <td >
+        <p >Yes</p>
+      </td>
+    </tr>
+    <tr > 
+      <td  scope="row"> 
+        <p >Rename the iFolder</p>
+      </td>
+      <td >
+        <p >No</p>
+      </td>
+      <td >
+        <p >No</p>
+      </td>
+      <td >
+        <p >No</p>
+      </td>
+      <td >
+        <p >No</p>
+      </td>
+    </tr>
+    <tr > 
+      <td  scope="row"> 
+        <p >Set up an iFolder on multiple computers</p>
+      </td>
+      <td >
+        <p >Yes</p>
+      </td>
+      <td >
+        <p >Yes</p>
+      </td>
+      <td >
+        <p >Yes</p>
+      </td>
+      <td >
+        <p >Yes</p>
+      </td>
+    </tr>
+    <tr > 
+      <td  scope="row"> 
+        <p >Revert an iFolder (do not participate on a local computer)</p>
+      </td>
+      <td >
+        <p >Yes</p>
+      </td>
+      <td >
+        <p >Yes</p>
+      </td>
+      <td >
+        <p >Yes</p>
+      </td>
+      <td >
+        <p >Yes</p>
+      </td>
+    </tr>
+    <tr > 
+      <td  scope="row"> 
+        <p >Delete an available iFolder to decline participating</p>
+      </td>
+      <td >
+        <p >Yes</p>
+      </td>
+      <td >
+        <p >Yes</p>
+      </td>
+      <td >
+        <p >Yes</p>
+      </td>
+      <td >
+        <p >Yes</p>
+      </td>
+    </tr>
+    <tr > 
+      <td  scope="row"> 
+        <p >Delete the iFolder and delete the iFolder and its files from the server 
+          (make it a normal folder again and no longer share it with others)</p>
+      </td>
+      <td >
+        <p >Yes</p>
+      </td>
+      <td >
+        <p >No</p>
+      </td>
+      <td >
+        <p >No</p>
+      </td>
+      <td >
+        <p >No</p>
+      </td>
+    </tr>
+  </table>
+<H4>Setting 
+  the iFolder Access Right for a Member</H4>
+  
+<OL><LI>
+      <P>On the iFolder Details page, select the check box next to the member 
+        whose access right you want to manage.</P>
+    </LI><LI>
+      <P>Select the Rights drop-down menu, then select the Admin, Read/Write, 
+        or Read Only right.<BR>
+        <BR>Wait for the page to refresh. The user's icon should reflect the 
+new access right.</P></LI></OL>
+  <H4>Removing a Member</H4>
+<ol>
+    <li>On the iFolder Details page, select the check box next to the member user's 
+      name.</li>
+    <li>Click Delete. </li>
+</ol>
+<P>The user's local copy of the data remains on the 
+user's computer, but the user no longer has access to the server copy of the iFolder 
+data.</P><P> <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top" TITLE="Go to top"></A></P>
+	  <H4>Changing the Owner</H4>
+<P>When you 
+change the owner of an iFolder, the existing owner becomes a member of the iFolder 
+and is assigned the Read/Write right. For orphaned iFolders, the iFolder Admin 
+becomes the owner until the iFolder can be reassigned to a new owner or deleted. If the new owner is not currently a member 
+of the iFolder, a subscription notification is sent to the user's iFolder account.</P>
+  <OL>
+    <LI> 
+      <P>On the iFolder Details page, search for the user you want to assign as 
+        the new owner of the iFolder.</P>
+    </LI>
+    <LI>
+      <P>Select the check box next to the user's name, then click Owner.</P>
+    </LI>
+    
+  </OL>
+  <P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P>
+  <H3><A NAME="policy"></A>Policies</H3>
+  
+  <P>The following table lists the policies you can manage for any given iFolder. 
+    Modify one or more of the following values, then click Save to apply the new settings: </P>
+<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
+        <P>Disable Synchronization &nbsp;</P>
+      </TD><TD>
+        <P>Select this option to turn off synchronization, usually temporarily. 
+        </P>
+        <P>Deselect this option to allow the synchronization of data in the iFolder.</P>
+        <P>Default value: Enabled, Yes</P>
+      </TD></TR><TR><TD VALIGN="TOP">
+        <P>Disk Quota&nbsp;</P>
+      </TD><TD>
+        <P>Select the Limit check box, then specify the maximum size (in MB) for 
+          the selected iFolder.</P>
+        <P>If you enable a system-wide iFolder quota, a user's account quota overrides 
+          it, whether the user quota is lower or higher than the system quota. 
+        </P>
+        <P>Default value: Disabled, No Limit</P>
+      </TD></TR><TR><TD VALIGN="TOP">
+        <P> Used</P>
+        <P>(View only)&nbsp;</P></TD><TD><P>Reports how much space the iFolder 
+data currently consumes.</P></TD></TR><TR><TD VALIGN="TOP">
+        <P>Available</P>
+        <P>(View only)&nbsp;</P></TD><TD>
+        <P>Reports how much space is available on the server for the iFolder data.</P>
+      </TD></TR><TR><TD VALIGN="TOP">
+        <P>Effective</P>
+        <P>(View only)&nbsp;</P></TD><TD>
+        <P>Reports effective space available on the server for the iFolder data.</P>
+      </TD></TR>
+	  <TR><TD VALIGN="TOP">
+        <p>File Size</p>
+      </TD>
+      <TD> <B>Limit</B><BR>
+          Specifies the maximum total file size (in MB) that an iFolder user 
+          is allowed to use, across all iFolders the user owns for the selected 
+          user account. <br>
+          <BR>
+        <B>Effective</B><BR>
+        Effective file size allocated for the user.<br>
+		<ul><P><font size="-1"><b>IMPORTANT:</b> Users cannot successfully synchronize 
+          files of a size that would cause a quota to be exceeded. If they try 
+          to do so, only part of the file is synchronized, resulting in data corruption.</font></P></ul>
+      </TD></TR>
+	  <TR>
+      <TD VALIGN="TOP"> 
+        <p>Excluded Files</p>
+      </TD>
+      <TD> 
+        <P>Specifies a list of file types to include or to exclude from synchronization 
+          for the selected iFolder.</P>
+        <p>The file manager files called thumbs.db and .DS_Store are never synchronized. 
+        </p>
+    
+        <P>To add a file extension to an inclusion or exclusion filter, type the 
+          extension (such as .mpg), then click Add to apply the filter. </P>
+        <P>To exclude a file type from the restricted file types, select the check 
+          box adjacent to the file type, then click Delete.</P>
+         
+        <P>Default value: Disabled, Allow all file types or the System-wide settings</P>
+      </TD></TR>
+	
+      
+<TR><TD VALIGN="TOP">
+        <P> Synchronization Interval &nbsp;</P>
+      </TD><TD><P>Select the Synchronization interval check box to enable a minimum interval setting for the selected iFolder, then specify the minimum value in seconds that users are allowed to set on their clients.</P>
+  <P>      To disable the setting, deselect the Synchronization Interval check box. If the option is disabled, the value reported is No Limit.</P>
+        <P> If this option is enabled, the minimum synchronization interval specifies 
+          the minimum interval in seconds that a user's client can check iFolder 
+          data on the server and local iFolders to identify files that need to 
+          be downloaded or uploaded.</P>
+  <P>      The effective minimum synchronization interval is always the largest value from the following settings:</P>
+  <ul>
+    <li>
+            <p> The system policy (the default of zero), unless there is a user 
+              policy set. If a user policy is set, the user policy overrides the 
+              system policy, whether it is larger or smaller in value.</p>
+    </li>
+    <li>
+      <p> The local machine policy, or the setting on the client machine synchronizing with the server</p>
+    </li>
+    <li>
+      <p> The iFolder (collection) policy</p>
+    </li>
+  </ul>  
+        <P> Default value: Enabled, 0 seconds</P>
+      </TD>
+</TR></TABLE><BR><P> 
+  <P>&nbsp; </P>
+  <H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Related Topics" align="top"> 
+Related Topics</H4><BLOCKQUOTE class="task1"><P ><A HREF="ifolders.html">Managing iFolders 
+</A><BR><A HREF="users.html">Managing Users 
+</A><BR><A HREF="userdetails.html">User Details</A><BR><A HREF="servers.html#orphan" TARGET="_self">Managing 
+iFolder Servers</A>
+    </P>
+  </BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P><P>&nbsp;</P><P CLASS="copyright">A 
+trademark symbol (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP>, 
+etc.) denotes a Novell trademark. An asterisk (*) denotes a third-party trademark. 
+For more information, see <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Legal 
+Notices</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
+</body>
+
+</html>

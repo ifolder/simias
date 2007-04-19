@@ -56,35 +56,62 @@ url(../../images/helphead_bg.gif) repeat-x 0% 0% }
 <div id="helpcontent"> <!-- The Page Heading uses CSS style "head3b". This creates an H3 header
             with a line beneath it.
        --> 
-  <h3 class="head3b">Logging In to Web Admin</h3>
+  <h3 class="head3b">Launching Web Admin</h3>
   
-  <P>Log in to Novell iFolder<SUP><SMALL>®</SMALL></SUP> 3.6 Web Admin to manage 
-    ifolders and users. The iFolder Admin username and password are authenticated 
-    against the LDAP directory services. </P>
-  <P>You can also specify which of the supported languages to use. This is typically 
-    the same language as the language code of the iFolder enterprise server and 
-    your local computer. Make sure to configure your browser's Languages setting 
-    to support the desired language. </P>
-<OL>
-  <LI>
-  <P>Specify the username and password for the iFolder account you want to 
-  access. <BR><BR>Usernames and passwords are case sensitive. </P>
-  <LI>
-  <P>Use the Languages drop-down list to specify which language you want to use 
-  to access your files. <BR></P>
-  <LI>
-  <P>Click Log In.</P></LI></OL>
+  <p>Web Admin console will let you manage servers, policy settings, iFolder users, 
+    and ifolders in a given iFolder 3.6 domain.You can enable users to iFolder 
+    domain from LDAP users and manage iFolder servers participating in the iFolder 
+    domain. With Web admin, you can also enforce encryption on users.Web Admin 
+    console will have the capability to produce enhanced reports that include 
+    overall server status, iFolder account reports and user account information. 
+  </p>
+	
   
-     
-   
+	<BLOCKQUOTE>
+    <P><B><FONT SIZE="-1">NOTE:</FONT></B> <FONT SIZE="-1">You cannot manage Novell 
+      iFolder 2.1<I>x</I> servers with the Novell iFolder 3.6 plug-in to iManager.</FONT></P>
+  </BLOCKQUOTE>
   
+    
+      
+  <p> To access the iFolder Management page:</p>
  
-   
+	<ol>
+    <li> 
+      <p> In iManager, expand the iFolder Management role. <br>
+      </p>
+    </li>
+    <li> 
+      <p>Click Launch Web Admin to open the iFolder server selection page.<br>
+      </p>
+    </li>
+	 <li> 
+      <p>Specify the iFolder Enterprise server DNS name or IP address.<br>
+      </p>
+    </li>
+    <LI>
+      <p>Do one of the following: </p>
+      <ul>
+        <li> 
+          <P>If you logged in to iManager with the same username as the iFolder 
+            Admin user of the Web Admin, select Authenticate Using Current iManager 
+            Credentials.</p>
+        </li>
+        <li>
+          <p>If you logged in to iManager with a different username than the iFolder 
+            Admin user of the Web Admin, leave the check box Authenticate Using 
+            Current iManager Credentials unselected. In the Web admin login page, 
+            specify the iFolder Admin username and password. </P>
+			
+        </LI>
+      </ul>
+    </li>
+    <li>Click OK.</li>
+  </ol>
+ <p> Based on the above selection, you are directed either to the Web admin users page or the Web admin login page respectively.</p>  
 <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A>
 <H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Related Topics" align="top"> 
-Related Topics</H4>
-<BLOCKQUOTE class="task1"><P><A HREF="webacc.html">Launching Web Admin</A>
-<BR><A HREF="member.html">Managing Web Admin Console</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P><P>&nbsp;</P><P CLASS="copyright">A 
+Related Topics</H4><BLOCKQUOTE class="task1"><P ><A HREF="login.html">Logging into Web Admin</A><BR><A HREF="member.html">Managing Web Admin Console</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P><P>&nbsp;</P><P CLASS="copyright">A 
 trademark symbol (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP>, 
 etc.) denotes a Novell trademark. An asterisk (*) denotes a third-party 
 trademark. For more information, see <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Legal 
