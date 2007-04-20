@@ -663,6 +663,7 @@ namespace Simias.Sync
 					}
 				}
 				timer.Change(seconds * 1000, Timeout.Infinite);
+				yielded = false;//dredge the collection
 			}
 		}
 
