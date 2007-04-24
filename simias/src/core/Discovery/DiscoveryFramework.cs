@@ -68,29 +68,49 @@ namespace Simias.Discovery
 			return collectionList;
 		}
 
-		public static ArrayList GetDetailedCollectionInformation (string domainID, CatalogInfo[] catalogInfoArray)
+		public static ArrayList GetDetailedCollectionInformation (string domainID, CatalogInfo[] catalogInfoArray, DiscoveryService dService)
 		{
 		        ArrayList colInfo = new ArrayList();
+			string hostID = null;
+			DiscoveryService locService = dService;
+			DiscoveryService discService = null;
 
  			Member member = Store.GetStore().GetDomain( domainID ).GetCurrentMember();
 
 			foreach ( CatalogInfo ci in catalogInfoArray )
 			{
-			    //TODO : Get the collection information form a host in one call.
+			    // TODO: Get the collection information form a host in one call.
 			    try
 			    {
-				    HostNode hNode = HostNode.GetHostByID (domainID, ci.HostID);
-				    SimiasConnection smConn = new SimiasConnection(domainID, member.UserID, SimiasConnection.AuthType.BASIC, hNode);
-				    DiscoveryService dService = new DiscoveryService();
-				    smConn.InitializeWebClient(dService, "DiscoveryService.asmx");
-				    colInfo.Add (dService.GetCollectionInfo (ci.CollectionID, member.UserID));
+			    		if(hostID != null && hostID != ci.HostID)
+			    		{
+						HostNode hNode = HostNode.GetHostByID (domainID, ci.HostID);
+						SimiasConnection smConn = new SimiasConnection(domainID, member.UserID, SimiasConnection.AuthType.BASIC, hNode);
+						discService = new DiscoveryService();
+						smConn.InitializeWebClient(discService, "DiscoveryService.asmx");
+						locService = discService;
+						hostID = ci.HostID;
+			    		}
+					else
+					{
+						// TODO: this assumes the first entry is from home server
+						hostID = ci.HostID;
+					}
+					// TODO: need to make the call return an array for a particular host
+				    colInfo.Add (locService.GetCollectionInfo (ci.CollectionID, member.UserID));
 			    }
 			    catch(Exception ex)
 			    {
 				    log.Error(ex.Message);
 			    }
+				finally
+				{
+					if(discService != null)
+						discService = null;
+				}
 			}
-
+			
+			locService = null;
 			return colInfo;
 
 		}

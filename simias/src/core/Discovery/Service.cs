@@ -77,8 +77,8 @@ namespace Simias.Discovery
 		#region IThreadService Members
 		public static void UpdateCollectionList()
 		{
-			collectionList.listEvent.Set();
 			collectionList.processed = false;
+			collectionList.listEvent.Set();
 			while(!collectionList.processed)
 			{
 				Thread.Sleep(0);

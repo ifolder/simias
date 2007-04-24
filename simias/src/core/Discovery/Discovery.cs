@@ -150,12 +150,12 @@ namespace Simias.Discovery
 						// skip local domain
 						if(domain.Name.Equals(Store.LocalDomainName))
 							continue;
-						// Why master server ? we should be using the user's homeserver here.
-						HostNode masterNode = HostNode.GetMaster ( sn.ID );
+
+						Member cmember = domain.GetCurrentMember();
+						HostNode masterNode = cmember.HomeServer;
 
 						try {
 							log.Debug("GetCollectionList - Try");
-							Member cmember = domain.GetCurrentMember();
 								
 							SimiasConnection smConn = new SimiasConnection(sn.ID, cmember.UserID,
 												   SimiasConnection.AuthType.BASIC,
@@ -197,7 +197,7 @@ namespace Simias.Discovery
 								
 							CatalogInfoArray = dService.GetAllCatalogInfoForUser (cmember.UserID);
 
-						        CollectionArray = new ArrayList ( Simias.Discovery.DiscoveryFramework.GetDetailedCollectionInformation (sn.ID, CatalogInfoArray));
+						        CollectionArray = new ArrayList ( Simias.Discovery.DiscoveryFramework.GetDetailedCollectionInformation (sn.ID, CatalogInfoArray, dService));
 							log.Info ("CatalogInfoArray : {1} | CollectionArray : {0}", CollectionArray.Count, CatalogInfoArray.Length);
 
 							//TODO : Test this section for MultiDomain. Check for performance issues.
