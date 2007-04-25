@@ -162,6 +162,16 @@ namespace Simias.Web
 
 
 		/// <summary>
+		/// Whether this Member object is a user object.
+		/// </summary>
+		public bool	IsHost;
+
+ 		/// <summary>
+		/// Property tag for User object.
+ 		/// </summary>
+	        static private readonly string HostTag = "Host";
+
+		/// <summary>
 		/// </summary>
 		public MemberInfo()
 		{
@@ -178,6 +188,7 @@ namespace Simias.Web
 			this.FullName = member.FN;
 			this.AccessRights = (int) member.Rights;
 			this.IsOwner = member.IsOwner;
+			this.IsHost = member.IsType (HostTag);
 		}
 	}
 

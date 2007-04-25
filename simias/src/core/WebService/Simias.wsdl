@@ -68,6 +68,7 @@
           <xs:element minOccurs="0" maxOccurs="1" name="FullName" type="xs:string" />
           <xs:element minOccurs="1" maxOccurs="1" name="AccessRights" type="xs:int" />
           <xs:element minOccurs="1" maxOccurs="1" name="IsOwner" type="xs:boolean" />
+          <xs:element minOccurs="1" maxOccurs="1" name="IsHost" type="xs:boolean" />
         </xs:sequence>
       </xs:complexType>
       <xs:element name="FindFirstMembersResponse">
