@@ -154,6 +154,8 @@ namespace Novell.iFolderWeb.Admin
 		/// </summary>
 		protected Policy Policy;
 
+		protected string currentServerURL;
+
 		#endregion
 
 		#region Properties
@@ -244,7 +246,15 @@ namespace Novell.iFolderWeb.Admin
 		///	<returns>The name of the ifolder.</returns>
 		private string GetiFolderDetails()
 		{
+                        //Resolve the location of iFolder.
+                        string ifolderLocation = web.GetiFolderLocation (iFolderID);
+
+			UriBuilder remoteurl = new UriBuilder(ifolderLocation);
+			remoteurl.Path = (new Uri(web.Url)).PathAndQuery;
+			web.Url = remoteurl.Uri.ToString();
+
 			iFolderDetails ifolder = web.GetiFolderDetails( iFolderID );
+
 			Name.Text = ifolder.Name;
 			Description.Text = ifolder.Description;
 			Owner.Text = ifolder.OwnerFullName;
@@ -403,7 +413,8 @@ namespace Novell.iFolderWeb.Admin
 		{
 			// connection
 			web = Session[ "Connection" ] as iFolderAdmin;
-
+			currentServerURL = web.Url;
+    
 			// localization
 			rm = Application[ "RM" ] as ResourceManager;
 
@@ -432,6 +443,10 @@ namespace Novell.iFolderWeb.Admin
 			}
 		}
 
+		private void Page_Unload(object sender, System.EventArgs e)
+		{
+		        web.Url = currentServerURL;
+		}
 		/// <summary>
 		/// Page_PreRender
 		/// </summary>
@@ -818,6 +833,7 @@ namespace Novell.iFolderWeb.Admin
 			iFolderMemberListFooter.PageLastClick += new ImageClickEventHandler( PageLastButton_Click );
 
 			this.Load += new System.EventHandler(this.Page_Load);
+			this.Unload += new System.EventHandler (this.Page_Unload);
 		}
 		#endregion
 	}

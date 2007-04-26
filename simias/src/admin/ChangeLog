@@ -1,3 +1,8 @@
+2007-04-26  Johnny Jacob  <jjohnny@novell.com>
+	
+	* iFolderDetailsPage.aspx.cs : Resolve the location of iFolder
+	before any calls. Restore the Current server URL during page_unload.
+	
 2007-04-07  B S Srinidhi <srinidhi.bs@gmail.com>
 
 	* css/Users.css : Allow the table to consume 100% of available space
