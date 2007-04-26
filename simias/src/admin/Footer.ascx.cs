@@ -60,6 +60,11 @@ namespace Novell.iFolderWeb.Admin
 		/// </summary>
 		protected LinkButton LogoutButton;
 
+		/// <summary>
+		/// IChain cookie name
+		/// </summary>
+		private readonly static string IChainCookieName = "IPCZQ0";
+
 		#endregion
 
 		#region Properties
@@ -74,16 +79,25 @@ namespace Novell.iFolderWeb.Admin
 		/// <param name="message"></param>
 		private void Logout( string type, string message )
 		{
+		        string logoutRedirectURL = String.Format("Login.aspx?Message={0}&MessageText={1}", Context.Server.UrlEncode( type ), Context.Server.UrlEncode(message));
+
+			for (int i=0; i< Request.Cookies.Count; i++)
+			{
+			        if (Request.Cookies[i].Name.StartsWith (IChainCookieName)) 
+				{
+				        logoutRedirectURL = "ICLogout.aspx" ;
+					Response.Redirect(logoutRedirectURL);
+					break;
+				}
+			}
+
 			FormsAuthentication.SignOut();
 			
 			// double-check that the session is abandoned
 			Session.Abandon();
 
-			Response.Redirect( 
-				String.Format( 
-				"Login.aspx?MessageType={0}&MessageText={1}",
-				Context.Server.UrlEncode( type ),
-				Context.Server.UrlEncode( message ) ) );
+			Response.Redirect(logoutRedirectURL);
+
 		}
 
 		/// <summary>

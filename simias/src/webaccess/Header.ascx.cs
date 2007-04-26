@@ -82,6 +82,11 @@ namespace Novell.iFolderApp.Web
 		private readonly static int MAX_HEADER_STRING = 30;
 
 		/// <summary>
+		/// IChain cookie name
+		/// </summary>
+		private readonly static string IChainCookieName = "IPCZQ0";
+
+		/// <summary>
 		/// Page Init
 		/// </summary>
 		/// <param name="sender"></param>
@@ -217,6 +222,18 @@ namespace Novell.iFolderApp.Web
 
 		private void Logout(string message)
 		{
+		        string logoutRedirectURL = String.Format("Login.aspx?Message={0}", Context.Server.UrlEncode(message));
+
+			for (int i=0; i< Request.Cookies.Count; i++)
+			{
+			        if (Request.Cookies[i].Name.StartsWith (IChainCookieName)) 
+				{
+				        logoutRedirectURL = "ICLogout.aspx" ;
+					Response.Redirect(logoutRedirectURL);
+					break;
+				}
+			}
+
 			FormsAuthentication.SignOut();
 			
 			// double-check that the session is abandoned
@@ -224,9 +241,7 @@ namespace Novell.iFolderApp.Web
 
 			log.Info(Context, "Logout Successful");
 
-			Response.Redirect(String.Format(
-				"Login.aspx?Message={0}",
-				Context.Server.UrlEncode(message)));
+			Response.Redirect(logoutRedirectURL);
 		}
 	}
 }

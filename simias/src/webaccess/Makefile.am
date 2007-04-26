@@ -20,6 +20,7 @@ iFolderWeb_CSFILES = \
 	$(srcdir)/iFolders.aspx.cs \
 	$(srcdir)/iFolderWebProxy.cs \
 	$(srcdir)/Login.aspx.cs \
+	$(srcdir)/ICLogout.aspx.cs \
 	$(srcdir)/Message.ascx.cs \
 	$(srcdir)/Pagging.ascx.cs \
 	$(srcdir)/HomeContext.ascx.cs \
@@ -79,6 +80,7 @@ iFolderWeb_FORMS = \
 	Members.aspx \
 	iFolders.aspx \
 	Login.aspx \
+	ICLogout.aspx \
 	iFolderNew.aspx \
 	iFolderEdit.aspx \
 	Share.aspx \
