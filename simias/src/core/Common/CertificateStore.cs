@@ -38,6 +38,7 @@ namespace Simias.Security
 		const string hostProperty = "Host";
 		const string raProperty = "RecoveryAgent";
 		const string CertType = "X509Certificate";
+		static private readonly ISimiasLog log = SimiasLogManager.GetLogger( typeof( Store ) );
 
 		private static string GetHostFromUri( string uriString )
 		{
@@ -125,6 +126,7 @@ namespace Simias.Security
 		/// <returns>The list as a String array.</returns>
 		public static ArrayList GetRAList()
 		{
+			log.Debug("Ramesh: In GetRAList certificate store");
 			return CertPolicy.GetRAList();
 		}
 
@@ -135,6 +137,7 @@ namespace Simias.Security
 		/// <returns>The certificate as a byte array.</returns>
 		public static byte[] GetRACertificate(string recoveryAgnt)
 		{
+			log.Debug("Ramesh: In Get RA Certificate in certificate store");
 			CertPolicy.CertificateState cs = CertPolicy.GetRACertificate(recoveryAgnt);
 			if (cs != null)
 			{

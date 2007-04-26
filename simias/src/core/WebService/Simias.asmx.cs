@@ -1043,6 +1043,30 @@ log.Debug("SimiasWebService.ConnectToDomain() called to connect to {0} as {1}", 
 		    return ralist;
 		}
 
+		/// <summary>
+		/// WebMethod to get the list of recovery agents.
+		/// </summary>
+		/// <returns></returns>
+		[WebMethod(EnableSession=true, Description="Get the Recovery Agent List.")]
+		[SoapDocumentMethod]
+		public string[] GetRAListOnClient(string DomainID)
+		{
+			Store store = Store.GetStore();
+			Simias.Storage.Domain domain = store.GetDomain(DomainID);
+			string UserID = store.GetUserIDFromDomainID(DomainID);
+			Member m = domain.GetMemberByID(UserID);
+			HostNode host = m.HomeServer; //home server
+			SimiasConnection smConn = new SimiasConnection(DomainID,
+									UserID,
+									SimiasConnection.AuthType.BASIC,
+									host);
+			SimiasWebService svc = new SimiasWebService();
+			svc.Url = host.PublicUrl;
+			smConn.Authenticate ();
+			smConn.InitializeWebClient(svc, "Simias.asmx");
+			return svc.GetRAList();
+		}
+
 
 		/// <summary>
 		/// WebMethod to get the RA certificate for the specified host.
@@ -1056,6 +1080,32 @@ log.Debug("SimiasWebService.ConnectToDomain() called to connect to {0} as {1}", 
 			// Normalize the RA name.
 			return Simias.Security.CertificateStore.GetRACertificate(rAgent.ToLower());
 		}
+
+		/// <summary>
+		/// WebMethod to get the list of recovery agents.
+		/// </summary>
+		/// <returns></returns>
+		[WebMethod(EnableSession=true, Description="Get the Recovery Agent List.")]
+		[SoapDocumentMethod]
+		public byte[] GetRACertificateOnClient(string DomainID, string rAgent)
+		{
+			Store store = Store.GetStore();
+			Simias.Storage.Domain domain = store.GetDomain(DomainID);
+			string UserID = store.GetUserIDFromDomainID(DomainID);
+			Member m = domain.GetMemberByID(UserID);
+			HostNode host = m.HomeServer; //home server
+			SimiasConnection smConn = new SimiasConnection(DomainID,
+									UserID,
+									SimiasConnection.AuthType.BASIC,
+									host);
+			SimiasWebService svc = new SimiasWebService();
+			svc.Url = host.PublicUrl;
+			smConn.Authenticate ();
+			smConn.InitializeWebClient(svc, "Simias.asmx");
+			return svc.GetRACertificate(rAgent);
+		}
+
+
 
 		/// <summary>
 		/// WebMethod to Store the RA certificate for the domain.
