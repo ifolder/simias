@@ -3,6 +3,7 @@ export MONO_PATH := $(MONO_PATH):$(DESTDIR)$(libdir)
 
 SimiasServer_CSFILES = \
 	$(srcdir)/Service.cs \
+	$(srcdir)/AssemblyInfo.cs \
 	$(srcdir)/Authentication.cs \
 	$(srcdir)/Catalog.cs \
 	$(srcdir)/Domain.cs \
@@ -36,7 +37,7 @@ SimiasServer_FLAGS = $(CSC_LIBFLAG)
 SimiasServer_LIBPATH = ../../core/SimiasLib.dll ../../core/SimiasClient $(DESTDIR)$(webbindir)
 SimiasServer_LIBS = System.dll System.Data.dll $(SYSTEM_XML) System.Web.dll System.Web.Services.dll SimiasLib.dll SimiasClient.dll
 
-EXTRA_DIST = DomainService.asmx Registration.asmx IdentitySyncManager.asmx $(SimiasServer_CSFILES) $(SimiasServer_RESX) ReportLogHandler.ashx
+EXTRA_DIST =  AssemblyInfo.cs.in DomainService.asmx Registration.asmx IdentitySyncManager.asmx $(SimiasServer_CSFILES) $(SimiasServer_RESX) ReportLogHandler.ashx
 
 if MAKE_DOC_FILE
 DOC_FILE = $(basename $@).doc.xml
@@ -86,4 +87,5 @@ clean-local:
 
 maintainer-clean-local:
 	rm -rf $(COMMON_MAINTAINER_CLEAN_FILES)
+	rm -rf AssemblyInfo.cs
 

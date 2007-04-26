@@ -56,9 +56,10 @@ using System.Runtime.CompilerServices;
 //       documentation for more information on this.
 //
 [assembly: AssemblyDelaySign(false)]
-#if STRONGNAME
-[assembly: AssemblyKeyFile("simiasclient.snk")]
-#else
-[assembly: AssemblyKeyFile("")]
-#endif
+//#if STRONGNAME
+//[assembly: AssemblyKeyFile("simiasclient.snk")]
+//#else
+//[assembly: AssemblyKeyFile("")]
+//#endif
+[assembly: AssemblyKeyFile("../../../PublicPrivateKeyFile.snk")]
 [assembly: AssemblyKeyName("")]

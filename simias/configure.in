@@ -659,6 +659,7 @@ src/server/DiscoveryWS/AssemblyInfo.cs
 src/server/Simias.HttpFile/Makefile
 src/server/Simias.Rss/Makefile
 src/server/Simias.Server/Makefile
+src/server/Simias.Server/AssemblyInfo.cs
 src/server/Simias.HostService/Makefile
 src/server/Simias.LdapProvider/Makefile
 src/server/Simias.ADLdapProvider/Makefile
@@ -708,5 +709,6 @@ package/darwin/Makefile
 package/linux/simias.spec
 doc/Makefile
 ])
+
 
 

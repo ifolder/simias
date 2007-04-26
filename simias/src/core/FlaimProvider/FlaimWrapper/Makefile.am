@@ -18,6 +18,7 @@ FlaimWrapper_SRCFILES = \
 	CSPStoreObject.cpp \
 	FlaimWrapper.cpp
 
+
 FlaimWrapper_OBJFILES = \
 	CSPObjectIterator$(OBJ_EXT) \
 	CSPropertyIterator$(OBJ_EXT) \
@@ -25,7 +26,8 @@ FlaimWrapper_OBJFILES = \
 	CSPStoreObject$(OBJ_EXT) \
 	FlaimWrapper$(OBJ_EXT)
 
-EXTRA_DIST = $(FlaimWrapper_SRCFILES)
+
+EXTRA_DIST = $(FlaimWrapper_SRCFILES) 
 
 
 FlaimWrapper_Target = $(LIB_PREF)FlaimWrapper$(SHARED_LIB_EXT)
@@ -35,8 +37,8 @@ OBJS = $(FlaimWrapper_OBJFILES)
 all: $(TARGETS)
 
 
-$(FlaimWrapper_Target): $(OBJS)
-	$(LD) $^ $(LDOUT)$@ $(MYLDFLAGS)
+$(FlaimWrapper_Target): $(OBJS) 
+	$(LD) $^ $(LDOUT)$@ $(MYLDFLAGS)  
 
 %$(OBJ_EXT) : %.cpp
 	$(CXX) $(CXX_FLAGS) $<
