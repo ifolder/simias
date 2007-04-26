@@ -24,6 +24,7 @@
 
 using System;
 using System.Collections;
+using System.Collections.Specialized;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
@@ -71,43 +72,45 @@ namespace Simias.Discovery
 		public static ArrayList GetDetailedCollectionInformation (string domainID, CatalogInfo[] catalogInfoArray, DiscoveryService dService)
 		{
 		        ArrayList colInfo = new ArrayList();
-			string hostID = null;
 			DiscoveryService locService = dService;
-			DiscoveryService discService = null;
+
+			NameValueCollection collectionsOnHost = new NameValueCollection();
 
  			Member member = Store.GetStore().GetDomain( domainID ).GetCurrentMember();
 
 			foreach ( CatalogInfo ci in catalogInfoArray )
 			{
-			    // TODO: Get the collection information form a host in one call.
-			    try
-			    {
-			    		if(hostID != null && hostID != ci.HostID)
-			    		{
-						HostNode hNode = HostNode.GetHostByID (domainID, ci.HostID);
-						SimiasConnection smConn = new SimiasConnection(domainID, member.UserID, SimiasConnection.AuthType.BASIC, hNode);
-						discService = new DiscoveryService();
-						smConn.InitializeWebClient(discService, "DiscoveryService.asmx");
-						locService = discService;
-						hostID = ci.HostID;
-			    		}
-					else
-					{
-						// TODO: this assumes the first entry is from home server
-						hostID = ci.HostID;
-					}
-					// TODO: need to make the call return an array for a particular host
-				    colInfo.Add (locService.GetCollectionInfo (ci.CollectionID, member.UserID));
-			    }
-			    catch(Exception ex)
-			    {
-				    log.Error(ex.Message);
-			    }
-				finally
+			        //Collect all the CollectionIDs for HostID.
+			        collectionsOnHost.Add ( ci.HostID, ci.CollectionID );
+			}
+
+			foreach ( string hostID in collectionsOnHost.AllKeys)
+			{
+			        try 
 				{
-					if(discService != null)
-						discService = null;
+				       if (hostID == member.HomeServer.UserID)
+				       {
+					   //We already have a connection. Reuse it.
+					       colInfo.AddRange (locService.GetAllCollectionInfo (collectionsOnHost.GetValues (hostID), member.UserID));
+				       }
+				       else 
+				       {
+					   //Get all collection info in one call.
+					       HostNode hNode = HostNode.GetHostByID (domainID, hostID);
+					       SimiasConnection smConn = new SimiasConnection(domainID,
+											      member.UserID,
+											      SimiasConnection.AuthType.BASIC, 
+											      hNode);
+					       DiscoveryService discService = new DiscoveryService();
+					       smConn.InitializeWebClient(discService, "DiscoveryService.asmx");
+					       colInfo.AddRange (discService.GetAllCollectionInfo (collectionsOnHost.GetValues (hostID), member.UserID));
+				       }
 				}
+				catch(Exception ex)
+				{
+				        log.Error(ex.Message);
+				}
+
 			}
 			
 			locService = null;

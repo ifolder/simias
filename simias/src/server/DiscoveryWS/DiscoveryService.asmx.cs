@@ -402,6 +402,32 @@ namespace Simias.DiscoveryService.Web
 		}
 
 		/// <summary>
+		/// Get Collection Information
+		/// </summary>
+		/// <param name="collectionID">The ID of the collection to check for.</param>
+		/// <returns>CollectionInfo for the collection</returns>
+		[WebMethod(EnableSession=true)]
+		[SoapDocumentMethod]
+		public CollectionInfo[] GetAllCollectionInfo ( string[] CollectionIDs, string UserID)
+		{
+			ArrayList CollectionInfos = new ArrayList();
+
+			foreach( string CollectionID in CollectionIDs )
+			{
+			        try 
+				{
+				    CollectionInfos.Add( GetCollectionInfo ( CollectionID, UserID  ) );
+				} 
+				catch ( Exception e )
+				{
+				    //Nothing. We just continue .. :-)
+				}
+			}
+
+			return CollectionInfos.ToArray( typeof( CollectionInfo ) ) as CollectionInfo[];
+		}
+
+		/// <summary>
 		/// Fetches the DirNodeID for Collection
 		/// </summary>
 		/// <param name="collectionID">The ID of the collection</param>

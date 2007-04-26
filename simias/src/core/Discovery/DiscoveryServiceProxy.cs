@@ -144,6 +144,25 @@ public class DiscoveryService : System.Web.Services.Protocols.SoapHttpClientProt
         return ((CollectionInfo)(results[0]));
     }
     
+    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/discovery/GetAllCollectionInfo", RequestNamespace="http://novell.com/simias/discovery/", ResponseNamespace="http://novell.com/simias/discovery/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
+    public CollectionInfo[] GetAllCollectionInfo(string[] CollectionIDs, string UserID) {
+        object[] results = this.Invoke("GetAllCollectionInfo", new object[] {
+            CollectionIDs,
+            UserID});
+        return ((CollectionInfo[])(results[0]));
+    }
+    
+    public System.IAsyncResult BeginGetAllCollectionInfo(string[] CollectionIDs, string UserID, System.AsyncCallback callback, object asyncState) {
+        return this.BeginInvoke("GetAllCollectionInfo", new object[] {
+            CollectionIDs,
+            UserID}, callback, asyncState);
+    }
+    
+    public CollectionInfo[] EndGetAllCollectionInfo(System.IAsyncResult asyncResult) {
+        object[] results = this.EndInvoke(asyncResult);
+        return ((CollectionInfo[])(results[0]));
+    }
+    
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/discovery/GetCollectionDirNodeID", RequestNamespace="http://novell.com/simias/discovery/", ResponseNamespace="http://novell.com/simias/discovery/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public string GetCollectionDirNodeID(string CollectionID) {
         object[] results = this.Invoke("GetCollectionDirNodeID", new object[] {
