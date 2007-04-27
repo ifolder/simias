@@ -850,10 +850,14 @@ namespace Simias.Sync
 					while (leftToSend > 0)
 					{	
 						// BUGBUG Encryption Here.
-						// Add encryption here.
+						// Add encryption here.							
 						if (stopping)
 							break;
 						int bytesToSend = (int)Math.Min(MaxXFerSize, leftToSend);
+						
+						//If simias runs behind apache with mod mono server, first 16k transfer failes, as workd around two 8k blocks are sent
+						if(leftToSend ==  0x4000)
+							bytesToSend = 0x2000;						
 						if(needEncryption == true)
 						{
 							syncService.WriteFile(OutStream, ReadPosition, bytesToSend, "BlowFish", EncryptionKey);

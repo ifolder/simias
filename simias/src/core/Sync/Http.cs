@@ -639,7 +639,7 @@ namespace Simias.Sync.Http
 		/// <param name="stream">The stream containing the data.</param>
 		/// <param name="offset">The offset to write at.</param>
 		/// <param name="count">The number of bytes to write.</param>
-		public void WriteFile(StreamStream stream, long offset, int count, string encryptionAlgorithm, string EncryptionKey)
+		public void WriteFile(StreamStream stream, long offset, int count, string encryptionAlgorithm, string EncryptionKey, bool modMonoServerBug)
 		{
 			HttpWebRequest request = GetRequest(SyncMethod.WriteFile);
 			WebHeaderCollection headers = request.Headers;
