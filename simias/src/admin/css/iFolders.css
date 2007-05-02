@@ -26,8 +26,8 @@
 .ifolderlistheader
 {
 	clear: left;
-	border-top: solid 1px black;
-	border-bottom: solid 1px black;
+	border-top: solid 1px #999;
+	border-bottom: solid 1px #999;
 	border-collapse: collapse;
 	height: 1.5em;
 	width: 100%;

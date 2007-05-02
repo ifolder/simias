@@ -10,9 +10,5 @@
 		Runat="server" 
 		CssClass="logoutbutton" 
 		OnClick="OnLogoutButton_Click" /> 
-		
-	&nbsp;
-	&nbsp;
-	&nbsp;
-		
+			
 </div>

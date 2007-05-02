@@ -21,6 +21,7 @@
 .detailinfo td
 {
 	text-align: left;
+	font-size: .8em;
 }
 
 .leftnav
@@ -45,7 +46,7 @@
 .ifoldertabnav
 {
 	height: 1.5em;
-	border-bottom: solid 1px Black;
+	border-bottom: solid 1px #999;
 }
 
 ul#ifolderlisttab
@@ -62,9 +63,9 @@ ul#ifolderlisttab li
 	-moz-border-radius: 5px 5px 0 0;
 	float: left;
 	background-color: White;
-	border-left: solid 1px Black;
-	border-right: solid 1px Black;
-	border-top: solid 1px Black;
+	border-left: solid 1px #999;
+	border-right: solid 1px #999;
+	border-top: solid 1px #999;
 	color: Black;
 	margin: 2px 2px 0 2px;
 	width: 5.5em;
@@ -105,7 +106,7 @@ div#shared li.sharedifolders a:link, div#shared li.sharedifolders a:visited
 .ifolderlistheader
 {
 	clear: left;
-	border-bottom: solid 1px black;
+	border-bottom: solid 1px #999;
 	border-collapse: collapse;
 	height: 1.5em;
 	width: 100%;

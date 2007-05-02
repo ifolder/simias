@@ -167,8 +167,8 @@
 		</div>
 
 	</div>
-
-	<ifolder:Footer Runat="server" />
+ <!-- moved to new location in header 
+	<ifolder:Footer Runat="server" />  -->
 				
 </form>
 

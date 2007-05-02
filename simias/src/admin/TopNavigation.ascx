@@ -1,10 +1,17 @@
 <%@ Control Language="c#" AutoEventWireup="false" Codebehind="TopNavigation.ascx.cs" Inherits="Novell.iFolderWeb.Admin.TopNavigation" TargetSchema="http://schemas.microsoft.com/intellisense/ie5"%>
+<%@ Register TagPrefix="iFolder" TagName="Footer" Src="Footer.ascx" %>
 
 <div id="top">
 
-	<div id="logo"><img src="images/if3sa-logo.png"></div>
+	<div id="logo">
+
+	<!-- hide image <img src="images/if3sa-logo.png"> -->
+
+	<ifolder:Footer Runat="server" />
+
+	</div>
 	
-	<ul id="navcontainer">
+	<ul id="navcontainer"> 
 	
 		<li class="users">
 			<a id="UserLink" runat="server"><%= GetString( "USERS") %></a>
@@ -29,6 +36,7 @@
 	</ul>
 	
 </div>
+
 
 <div class="detailtop">
 

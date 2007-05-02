@@ -28,7 +28,7 @@
 		
 		<div class="leftnav">
 
-			<div class="detailnav">
+<!-- 			<div class="detailnav"> -->
 
 				<div class="pagetitle">
 				
@@ -206,13 +206,13 @@
 					
 				</div>
 				
-			</div>
+<!--			</div> -->
 			
 		</div>
 
 	</div>
 	
-	<ifolder:Footer id="footer" runat="server" />
+<!-- 	<ifolder:Footer id="footer" runat="server" /> -->
 				
 </form>
 	

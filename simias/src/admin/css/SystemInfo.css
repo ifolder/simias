@@ -28,6 +28,12 @@
 	width: 7.5em;
 }
 
+.detailinfo td
+{
+	text-align: left;
+	font-size: .8em;
+}
+
 .detailinfo td #Name
 {
 	font-family: "Trebuchet MS", Arial, Helvetica, Geneva, Swiss, SunSans-Regular, sans-serif;
@@ -60,8 +66,8 @@
 .adminlistheader
 {
 	clear: left;
-	border-top: solid 1px black;
-	border-bottom: solid 1px black;
+	border-top: solid 1px #999;
+	border-bottom: solid 1px #999;
 	border-collapse: collapse;
 	height: 1.5em;
 	width: 100%;

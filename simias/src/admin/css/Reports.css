@@ -1,13 +1,19 @@
 .leftnav
 {
-	padding-left: 12px;
+        padding-left: 12px;
+        padding-bottom: 4px;
+        padding-right: 12px;
 	float: left;
-	width: 100%;
 }
 
 #EnableReporting
 {
 	margin-left: 0;
+}
+
+#EnableReportingLabel
+{
+	font-size: .8em;
 }
 
 .frequency
@@ -19,6 +25,12 @@
 	border: solid 1px #D4D0C8;
 	height: 7em;
 	width: 6em;
+	font-size: 1em;
+}
+
+#FrequencyList, #ReportLocation
+{
+	font-size: 1.2em;
 }
 
 .frequency th
@@ -39,6 +51,7 @@
 	text-align: left;
 	height: 7em;
 	width: 11em;
+	font-size: 1em;
 }
 
 .whenlabel
@@ -58,6 +71,7 @@
 	padding-bottom: 6px;
 	border: solid 1px #D4D0C8;
 	text-align: left;
+	font-size: 1em;
 	height: 7em;
 }
 
@@ -69,6 +83,7 @@
 	padding-left: 4px;
 	margin-bottom: 8px;
 	width: 90%;
+	font-size: .8em;
 }
 
 #Time

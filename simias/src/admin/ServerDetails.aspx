@@ -269,7 +269,7 @@
 		
 	</div>
 	
-	<ifolder:Footer id="footer" runat="server" />
+<!-- 	<ifolder:Footer id="footer" runat="server" /> -->
 				
 </form>
 	

@@ -8,10 +8,11 @@
 
 .loginbanner
 {
-	border: solid 1px #e50000;
-	background-color: #e50000;
+	border: solid 1px #BABDB6;
+	background: #ffffff url(../images/login_title.png) top left no-repeat;
+//	background-color: #e50000;
 	width: 35em;
-	height: 2.5em;
+	height: 56px;
 }
 
 .loginbanner img
@@ -26,25 +27,33 @@
 	text-decoration: none;
 	color: white;
 	float: right;
-	margin-top: .6em;
+	margin-top: .55em;
 	margin-right: .5em;
+}
+
+.loginbanner .ServerIP
+{
+	padding-top: 36px;
 }
 
 .logincontent
 {
-	border: solid 1px #BABDB6;
+	border-right: solid 1px #BABDB6;
+	border-left: solid 1px #BABDB6;
 	border-top-width: 0;
-	background-color: #edeeec;
+	background-color: white;
 	width: 35em;
 }
 
 .logincontent .logincontentlabel
 {
-	width: 20%;
+	text-align: right;
+//	width: 20%;
 }
 
 .logincontent .logincontenttext
 {
+	text-align: center;
 	padding-right: 2em;
 }
 
@@ -74,12 +83,15 @@
 	background-color: #edeeec;
 	border: 1px solid #BABDB6;
 	width: 35em;
+	height: 19px;
+	padding-top: 3px;
+	text-align: left;
 }
 
 .loginDialog .copyrightText
 {
 	font-size: 0.7em;
-	padding-top: 4px;
+	padding-top: 7px;
 	padding-left: 10px;
 }
 

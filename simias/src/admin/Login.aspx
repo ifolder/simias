@@ -60,27 +60,35 @@
 
 		<div class="loginbanner">
 				
-			<img src="images/login_title.gif" alt='<%= GetString("TITLE") %>'>
+			<!-- <img src="images/login_title.png" alt='<%= GetString("TITLE") %>'> -->
 
+			<div>
 			<asp:HyperLink 
 				ID="HelpButton" 
 				CssClass="loginHelp" 
 				Target="ifolderHelp" 
 				NavigateUrl="help/login.html"
 				runat="server" />
+
+			</div>
+			<div class="ServerIP">
+				<%= GetString("LOGINIFOLDERSERVER") %>
+			<asp:Literal ID="ServerUrl" runat="server" />
+			</div>
 		
 		</div>
 
 		<div class="logincontent">
 		
-			<table cellpadding="8px" cellspacing="0" width="100%">
+			<table cellpadding="8px" cellspacing="0" width="80%">
 			
 				<tr>
-					<td class="logincontentlabel">
+					<td class="logincontentlabel" style="display:none">
 						<asp:Label ID="MessageType" runat="server" />
 					</td>
+				
 					
-					<td class="logincontenttext">
+					<td class="logincontenttext" colspan="2">
 						<asp:Label ID="MessageText" runat="server" />
 						&nbsp;
 					</td>
@@ -129,12 +137,12 @@
 			
 		<div class="loginfooter">
 	
-			<%= GetString("LOGINIFOLDERSERVER") %>
+		<!--	<%= GetString("LOGINIFOLDERSERVER") %>
 			<asp:Literal ID="ServerUrl" runat="server" />
 
-			<br>				
+			<br>				-->
 			
-			<%= GetString("LOGINCOPYRIGHT") %>
+			&nbsp;&nbsp;<%= GetString("LOGINCOPYRIGHT") %>
 		</div>
 			
 	</div>

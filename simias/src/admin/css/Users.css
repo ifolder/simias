@@ -1,14 +1,13 @@
 .nav
 {
 	padding-left: 12px;
-	padding-right: 12px;
 	padding-bottom: 4px;
 	float: left;
 }
 
 .accountsnav
 {
-	width: 100%;
+	width: 98%;
 }
 
 .accountslist
@@ -20,8 +19,8 @@
 .accountslistheader
 {
 	clear: left;
-	border-top: solid 1px black;
-	border-bottom: solid 1px black;
+	border-top: solid 1px #999;
+	border-bottom: solid 1px #999;
 	border-collapse: collapse;
 	height: 1.5em;
 	width: 100%;

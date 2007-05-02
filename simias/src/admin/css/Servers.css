@@ -26,8 +26,8 @@
 .serverlistheader
 {
 	clear: left;
-	border-top: solid 1px black;
-	border-bottom: solid 1px black;
+	border-top: solid 1px #999;
+	border-bottom: solid 1px #999;
 	border-collapse: collapse;
 	height: 1.5em;
 	width: 100%;
@@ -35,7 +35,7 @@
 
 .serverlistheader td
 {
-	padding-left: 8px;
+	padding-left: 3px;
 	font-weight: bold;
 	font-size: 0.8em;
 	color: black;
@@ -44,27 +44,27 @@
 
 .serverlistheader .typecolumn
 {
-	width: 3.2em;
+	width: 2.6em;
 }
 
 .serverlistheader .namecolumn
 {
-	width: 12em;
+	width: 7.4em;
 }
 
 .serverlistheader .dnscolumn
 {
-	width: 15em;
+	width: 13.5em;
 }
 
 .serverlistheader .publicuricolumn
 {
-	width: 10em;
+	width: 15.5em;
 }
 
 .serverlistheader .privateuricolumn
 {
-	width: 10em;
+	width: 15.5em;
 }
 
 .serverlistitem
@@ -80,31 +80,31 @@
 
 .serveritem1
 {
-	width: 4em;
+	width: 2.6em;
 }
 
 .serveritem1 img
 {
-	padding-left: 12px;
+	padding-left: 6px;
 }
 
 .serveritem2
 {
-	width: 11.3em;
+	width: 7.3em;
 }
 
 .serveritem3
 {
-	width: 14em;
+	width: 12em;
 }
 
 .serveritem4
 {
-	width: 9.6em;
+	width: 14em;
 }
 
 .serveritem5
 {
-	width: 9.6em;
+	width: 14.2em;
 }
 

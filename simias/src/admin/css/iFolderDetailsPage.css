@@ -30,7 +30,7 @@
 .detailinfo td
 {
 	text-align: left;
-	font-size: 1em;
+	font-size: .8em;
 }
 
 .detailinfo td #Description
@@ -50,14 +50,14 @@
 
 .ifoldermemberlist
 {
-	border-top: solid 1px black;
-	border-bottom: solid 1px black;
+	border-top: solid 1px #999;
+	border-bottom: solid 1px #999;
 	width: 100%;
 }
 
 .ifoldermemberlistheader td
 {
-	border-bottom: solid 1px black;
+	border-bottom: solid 1px #999;
 	padding-left: 2px;
 	font-weight: bold;
 	font-size: 0.8em;
