@@ -634,13 +634,13 @@
 		<value>Private IP Address:</value>
 	</data>
 	<data name="PRIVATEURI">
-		<value>Private IP Address</value>
+		<value>Private URL</value>
 	</data>
 	<data name="PUBLICIPTAG">
 		<value>Public IP Address:</value>
 	</data>
 	<data name="PUBLICURI">
-		<value>Public IP Address</value>
+		<value>Public URL</value>
 	</data>
 	<data name="READONLY">
 		<value>Read Only</value>
