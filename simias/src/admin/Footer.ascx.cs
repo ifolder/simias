@@ -1,25 +1,25 @@
-/***********************************************************************
- *  $RCSfile: Footer.ascx.cs,v $
- * 
- *  Copyright (C) 2006 Novell, Inc.
- *
- *  This program is free software; you can redistribute it and/or
- *  modify it under the terms of the GNU General Public
- *  License as published by the Free Software Foundation; either
- *  version 2 of the License, or (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- *  General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public
- *  License along with this program; if not, write to the Free
- *  Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
- *
- *  Author: Mike Lasky (mlasky@novell.com)
- * 
- ***********************************************************************/
+/****************************************************************************
+ |
+ | Copyright (c) [2007] Novell, Inc.
+ | All Rights Reserved.
+ |
+ | This program is free software; you can redistribute it and/or
+ | modify it under the terms of version 2 of the GNU General Public License as
+ | published by the Free Software Foundation.
+ |
+ | This program is distributed in the hope that it will be useful,
+ | but WITHOUT ANY WARRANTY; without even the implied warranty of
+ | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ | GNU General Public License for more details.
+ |
+ | You should have received a copy of the GNU General Public License
+ | along with this program; if not, contact Novell, Inc.
+ |
+ | To contact Novell about this file by physical or electronic mail,
+ | you may find current contact information at www.novell.com
+
+ | Author: Mike Lasky (mlasky@novell.com)
+ |***************************************************************************/
 
 namespace Novell.iFolderWeb.Admin
 {
@@ -54,6 +54,11 @@ namespace Novell.iFolderWeb.Admin
 		/// Logged in name label control.
 		/// </summary>
 		protected Label LoggedInName;
+		
+		/// <summary>
+		/// Anchor controls.
+		/// </summary>
+		protected HyperLink HelpButton;
 
 		/// <summary>
 		/// Logout button control.
@@ -109,6 +114,9 @@ namespace Novell.iFolderWeb.Admin
 		{
 			// localization
 			rm = Application[ "RM" ] as ResourceManager;
+			
+			// get the language which admin had chosen during login
+			string code = Session["language"] as string;
 
 			// Check to see if the session is still valid.
 			if ( Session[ "Connection" ] == null )
@@ -131,6 +139,8 @@ namespace Novell.iFolderWeb.Admin
 				{
 					LoggedInAs.Text = GetString( "LOGGEDINAS" );
 					LoggedInName.Text = Session[ "NAME" ] as String;
+					HelpButton.Text = GetString( "HELP" );
+					HelpButton.NavigateUrl = String.Format("help/{0}/{1}", code, "member.html");
 					LogoutButton.Text = GetString( "LOGOUT" );
 				}
 			}
@@ -186,6 +196,38 @@ namespace Novell.iFolderWeb.Admin
 			this.Load += new System.EventHandler(this.Page_Load);
 		}
 		
+		#endregion
+		
+		#region Public Methods
+		/// <summary>
+		/// Adds the page name to the help link.
+		/// </summary>
+		/// <param name="PageName"></param>
+		public void AddHelpLink( string PageName)
+		{
+			// get the language which admin had chosen during logging in
+			string code = Session["language"] as string;
+			if(PageName.Equals(GetString("USERS")))
+				HelpButton.NavigateUrl = String.Format("help/{0}/{1}", code, "users.html");
+			else if(PageName.Equals(GetString("IFOLDERS")))
+				HelpButton.NavigateUrl = String.Format("help/{0}/{1}", code, "ifolders.html");
+			else if(PageName.Equals(GetString("SYSTEM")))
+				HelpButton.NavigateUrl = String.Format("help/{0}/{1}", code, "systeminfo.html");
+			else if(PageName.Equals(GetString("SERVERS")))
+				HelpButton.NavigateUrl = String.Format("help/{0}/{1}", code, "servers.html");
+			else if(PageName.Equals(GetString("REPORTS")))
+				HelpButton.NavigateUrl = String.Format("help/{0}/{1}", code, "reports.html");
+			else if(PageName.Equals(GetString("USERDETAILS")))
+				HelpButton.NavigateUrl = String.Format("help/{0}/{1}", code, "userdetails.html");
+			else if(PageName.Equals(GetString("IFOLDERDETAILS")))
+				HelpButton.NavigateUrl = String.Format("help/{0}/{1}", code, "ifolderdetails.html");
+			else if(PageName.Equals(GetString("CREATENEWIFOLDER")))
+				HelpButton.NavigateUrl = String.Format("help/{0}/{1}", code, "createifolder.html");
+			else if(PageName.Equals(GetString("SERVERDETAILS")))
+				HelpButton.NavigateUrl = String.Format("help/{0}/{1}", code, "serverdetails.html");
+			else
+				HelpButton.NavigateUrl = String.Format("help/{0}/{1}", code, "member.html");
+		}
 		#endregion
 	}
 }

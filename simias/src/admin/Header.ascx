@@ -25,7 +25,7 @@
 								<table border="0" cellspacing="0" cellpadding="0" height="30">
 									<tr>
 										<td nowrap align="center" class="tabOptionCell" style="background-image:url(images/tab_option_pattern.gif); background-repeat: repeat-x;">
-											<asp:HyperLink ID="HelpButton" CssClass="bannerLink" Target="ifolderHelp" NavigateUrl="help/index.html" runat="server" />
+											<asp:HyperLink ID="HelpButton" CssClass="bannerLink" Target="ifolderHelp" NavigateUrl="help/index.html" runat="server" /> 
 										</td>
 									</tr>
 								</table>

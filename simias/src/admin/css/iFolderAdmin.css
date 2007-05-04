@@ -81,6 +81,28 @@ a:visited
 	
 }
 
+#top .controls
+{
+	float:right ; 
+	display: inline;
+	margin-right: 2px;
+	margin-top: 2px;
+	
+}
+
+.helplinkcss
+{
+	font-size: .95em;
+	font-weight: bolder;
+	color: #000066;
+}
+
+/*.helplinkcss:visited
+{
+	color: #EFEEE9;
+}*/
+ 
+
 .detailtop
 {
 	float: left;

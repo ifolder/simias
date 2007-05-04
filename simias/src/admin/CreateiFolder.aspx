@@ -89,8 +89,7 @@
 		</div>
 
 	</div>
-
-	<ifolder:Footer id="footer" runat="server" />			
+		
 	
 </form>
 		

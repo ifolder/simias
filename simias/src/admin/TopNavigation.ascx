@@ -7,7 +7,7 @@
 
 	<!-- hide image <img src="images/if3sa-logo.png"> -->
 
-	<ifolder:Footer Runat="server" />
+	<iFolder:Footer ID="footer" Runat="server" />
 
 	</div>
 	

@@ -4,11 +4,18 @@
 	<asp:Label ID="LoggedInAs" Runat="server" CssClass="loggedinas" />
 	
 	<asp:Label ID="LoggedInName" Runat="server" CssClass="loggedinname" />
-	
-	<asp:LinkButton 
-		ID="LogoutButton" 
-		Runat="server" 
-		CssClass="logoutbutton" 
-		OnClick="OnLogoutButton_Click" /> 
-			
+		
+	<div class="controls">
+		<asp:HyperLink
+			ID="HelpButton"
+			Runat="server"
+			Target="ifolderHelp"
+			CssClass="helplinkcss" />
+		|
+		<asp:LinkButton 
+			ID="LogoutButton" 
+			Runat="server" 
+			CssClass="helplinkcss" 
+			OnClick="OnLogoutButton_Click" /> 
+	</div>		
 </div>

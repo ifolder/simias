@@ -115,6 +115,8 @@ namespace Novell.iFolderWeb.Admin
 		private void BuildBreadCrumbList()
 		{
 			TopNav.AddBreadCrumb( GetString( "SERVERS" ), null );
+			// Pass this page information to create the help link
+			TopNav.AddHelpLink(GetString("SERVERS"));
 		}
 	
 		/// <summary>
