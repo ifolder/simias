@@ -823,10 +823,12 @@ namespace Simias.Storage
 		/// </summary>
 		public  void ExportiFoldersCryptoKeys(string FilePath)
 		{
-			if(File.Exists(FilePath))
-				File.Delete(FilePath);
-			StreamWriter ExpStream = File.CreateText(FilePath);
-			
+			XmlDocument document = new XmlDocument();
+			XmlDeclaration xmlDeclaration = document.CreateXmlDeclaration("1.0","utf-8",null); 
+			document.InsertBefore(xmlDeclaration, document.DocumentElement); 
+			XmlElement title  = document.CreateElement("CryptoKeyRecovery");
+			document.AppendChild(title);
+
 			try
 			{
 				Store store = Store.GetStore();
@@ -847,9 +849,17 @@ namespace Simias.Storage
 				CollectionKey Key = null;
 				while((Key = svc.GetiFolderCryptoKeys(DomainID, UserID, index)) != null)
 				{
-					ExpStream.WriteLine("{0}:{1}", Key.NodeID, Key.REDEK);
+					XmlNode newElem1 = document.CreateNode("element", "NodeID", "");
+       				newElem1.InnerText = Key.NodeID;
+					document.DocumentElement.AppendChild(newElem1);
+					XmlNode newElem2 = document.CreateNode("element", "Key", "");
+       				newElem2.InnerText = Key.REDEK;
+				       document.DocumentElement.AppendChild(newElem2);
 					index++;
 				}
+				if(File.Exists(FilePath))
+					File.Delete(FilePath);
+				document.Save(FilePath);
 			}
 			catch(Exception ex)
 			{
@@ -858,8 +868,6 @@ namespace Simias.Storage
 			}
 			finally
 			{
-				if(ExpStream !=null)
-					ExpStream.Close();
 			}
 		}
 		/// <summary>
