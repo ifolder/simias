@@ -1,3 +1,9 @@
+2007-05-07  Johnny Jacob  <jjohnny@novell.com>
+
+	* SimiasClient/DomainService.cs (GetHosts): Added. 
+	* Domain/DomainAgent.cs  (GetHomeServer): Provision only if server
+	is master.
+
 2007-03-26  Johnny Jacob  <jjohnny@novell.com>
 	
 	* Discovery/DiscoveryFramework.cs (RemoveMembership) : Resolve the

@@ -135,6 +135,37 @@ namespace Simias.DomainService.Web
 		
 		[WebMethod(EnableSession=true)]
 		[SoapDocumentMethod]
+		public Simias.Host.HostInfo[] GetHosts()
+		{
+			Simias.Server.EnterpriseDomain enterpriseDomain = 
+				new Simias.Server.EnterpriseDomain( false );
+			if ( enterpriseDomain == null )
+			{
+				throw new SimiasException( "Enterprise server domain does not exist." );
+			}
+			
+			Simias.Host.HostInfo[] infoList;
+			HostNode[] hosts = HostNode.GetHosts(enterpriseDomain.ID);
+
+			if (hosts.Length > 0)
+			{
+				infoList = new Simias.Host.HostInfo[hosts.Length];
+				int i = 0;
+				foreach (HostNode hn in hosts)
+				{
+					infoList[i++] = new Simias.Host.HostInfo(hn);
+				}
+			}
+			else
+			{
+				infoList = new Simias.Host.HostInfo[0];
+			}
+
+			return infoList;
+		}
+
+		[WebMethod(EnableSession=true)]
+		[SoapDocumentMethod]
 		public Simias.Host.HostInfo GetHomeServer( string user )
 		{
 			Simias.Server.EnterpriseDomain enterpriseDomain = 
@@ -156,8 +187,14 @@ namespace Simias.DomainService.Web
 			HostNode hNode = member.HomeServer;
 			if ( hNode == null )
 			{
-				return ProvisionService.ProvisionUser( user );
-			}
+			        if (HostNode.GetLocalHost().IsMasterHost)
+				        return ProvisionService.ProvisionUser( user );
+				else 
+				{
+				        return null;
+					//need to get the home server from master.
+				}
+			} 
 			
 			return new Simias.Host.HostInfo(hNode);
 		}

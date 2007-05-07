@@ -49,6 +49,21 @@ public class DomainService : System.Web.Services.Protocols.SoapHttpClientProtoco
         object[] results = this.EndInvoke(asyncResult);
         return ((DomainInfo)(results[0]));
     }
+
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/domain/GetHosts", RequestNamespace="http://novell.com/simias/domain", ResponseNamespace="http://novell.com/simias/domain", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
+        public HostInfo[] GetHosts() {
+            object[] results = this.Invoke("GetHosts", new object[0]);
+            return ((HostInfo[])(results[0]));
+        }
+        
+        public System.IAsyncResult BeginGetHosts(System.AsyncCallback callback, object asyncState) {
+            return this.BeginInvoke("GetHosts", new object[0], callback, asyncState);
+        }
+        
+        public HostInfo[] EndGetHosts(System.IAsyncResult asyncResult) {
+            object[] results = this.EndInvoke(asyncResult);
+            return ((HostInfo[])(results[0]));
+        }
     
     /// <remarks/>
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/domain/GetHomeServer", RequestNamespace="http://novell.com/simias/domain", ResponseNamespace="http://novell.com/simias/domain", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]

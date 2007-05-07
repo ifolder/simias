@@ -470,7 +470,30 @@ namespace Simias.DomainServices
 			string hostID = null;
 			try
 			{
-				HostInfo hInfo = domainService.GetHomeServer(user);
+//Provisioning should be done only in master.
+
+				    HostInfo hInfo = domainService.GetHomeServer(user);
+				    if (hInfo == null)
+				    {
+					    string masterServerURL = null;
+					    HostInfo[] serverList = domainService.GetHosts ();
+					    foreach (HostInfo server in serverList)
+					    {
+						if (server.Master)
+						    masterServerURL = server.PublicAddress;
+					    }
+				    
+					    //Now Talk to the master server and provision the user.
+					    DomainService ds = new DomainService();
+					    ds.CookieContainer = cookies;
+					    ds.Url = (new Uri(masterServerURL.TrimEnd( new char[] {'/'} ) + DomainService)).ToString();
+					    ds.Credentials = myCred;
+					    ds.PreAuthenticate = true;
+//					    ds.Proxy = ProxyState.GetProxyState( domainServiceUrl );
+					    ds.AllowAutoRedirect = true;
+					    hInfo = ds.GetHomeServer(user);
+				}
+
 				domainServiceUrl = new Uri(hInfo.PublicAddress.TrimEnd( new char[] {'/'} ) + DomainService);
 				domainService.Url = domainServiceUrl.ToString();
 				hostID = hInfo.ID;
