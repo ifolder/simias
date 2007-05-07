@@ -391,6 +391,31 @@ namespace Novell.iFolderWeb.Admin
 
 		#region Protected Methods
 
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		protected void DownloadFile( string url, string fileName )
+		{
+		        string fileurl = url + fileName;
+			WebClient wc = new WebClient ();
+ 			wc.Credentials = web.Credentials;
+
+			Byte[] fileData = null;
+			fileData =  wc.DownloadData ( fileurl );
+
+			Response.Clear();
+			Response.Cache.SetCacheability( HttpCacheability.NoCache );
+			Response.BufferOutput = false;
+			Response.AddHeader( 
+					"Content-Disposition", 
+					String.Format("attachment; filename={0}", fileName ) );
+			Response.ContentType = "text/plain";
+			Response.AddHeader("Content-Length", fileData.Length.ToString() );
+			Response.OutputStream.Write( fileData , 0, fileData.Length );
+
+			Response.Close();
+		}
+
 		/// <summary>
 		/// Get a Localized String
 		/// </summary>
@@ -413,7 +438,11 @@ namespace Novell.iFolderWeb.Admin
 			// Send a request to the report/log file handler.
 			// TODO : use the public url of the system we are displaying and redirect there .
 			if (reportFileName != null && reportFileName != string.Empty )
-			        Response.Redirect ( web.GetServer( ServerID ).PublicUrl + "/admindata/" +reportFileName );
+			{
+			       string fileurl = web.GetServer( ServerID ).PrivateUrl + "/admindata/";
+			       DownloadFile (fileurl, reportFileName);
+			}
+
 		}
 
 		/// <summary>
@@ -438,7 +467,9 @@ namespace Novell.iFolderWeb.Admin
 			}
 
 			// Send a request to the log file handler.
-			Response.Redirect( web.GetServer( ServerID ).PublicUrl + "/admindata/" + logFileName );
+		        string fileurl = web.GetServer( ServerID ).PrivateUrl + "/admindata/";
+			DownloadFile (fileurl, logFileName);
+
 		}
 
 		#endregion

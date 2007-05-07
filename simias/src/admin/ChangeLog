@@ -1,3 +1,8 @@
+2007-05-07  Johnny Jacob  <jjohnny@novell.com>
+	
+	* ServerDetails.aspx.cs : Dont prompt for credentials while
+	downloading logs/reports. Fixes #252282.
+	
 2007-04-26  Johnny Jacob  <jjohnny@novell.com>
 	
 	* iFolderDetailsPage.aspx.cs : Resolve the location of iFolder
