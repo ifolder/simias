@@ -194,6 +194,8 @@
 						
 						<asp:BoundColumn ItemStyle-CssClass="ifoldermembersitem3" DataField="FullNameField" />
 						
+						<asp:BoundColumn ItemStyle-CssClass="ifoldermembersitem5" DataField="UserNameField" />
+						
 						<asp:BoundColumn ItemStyle-CssClass="ifoldermembersitem4" DataField="RightsField" />
 						
 					</Columns>

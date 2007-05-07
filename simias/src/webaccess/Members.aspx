@@ -165,6 +165,8 @@
 						
 						<asp:BoundColumn DataField="Name" ItemStyle-CssClass="name" />
 						
+						<asp:BoundColumn DataField="UserName" ItemStyle-CssClass='name' />
+						
 						<asp:BoundColumn DataField="Rights" ItemStyle-CssClass="rights" />
 						
 						<asp:TemplateColumn ItemStyle-CssClass="history">

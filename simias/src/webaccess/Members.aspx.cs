@@ -165,6 +165,7 @@ namespace Novell.iFolderApp.Web
 			DataTable memberTable = new DataTable();
 			memberTable.Columns.Add("ID");
 			memberTable.Columns.Add("Name");
+			memberTable.Columns.Add("UserName");
 			memberTable.Columns.Add("Rights");
 			memberTable.Columns.Add("Enabled", typeof(bool));
 			memberTable.Columns.Add("iFolderID");
@@ -191,6 +192,7 @@ namespace Novell.iFolderApp.Web
 
 					row["ID"] = member.ID;
 					row["Name"] = member.FullName;
+					row["UserName"] = member.UserName;
 					row["Rights"] = member.IsOwner ? GetString("OWNER") : WebUtility.FormatRights(member.MemberRights, rm);
 					row["Enabled"] = !member.IsOwner && (member.ID != accessID);
 					row["iFolderID"] = ifolderID;

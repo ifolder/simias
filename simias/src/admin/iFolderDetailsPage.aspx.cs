@@ -291,6 +291,7 @@ namespace Novell.iFolderWeb.Admin
 			dt.Columns.Add( new DataColumn( "OwnerField", typeof( bool ) ) );
 			dt.Columns.Add( new DataColumn( "IDField", typeof( string ) ) );
 			dt.Columns.Add( new DataColumn( "FullNameField", typeof( string ) ) );
+			dt.Columns.Add( new DataColumn( "UserNameField", typeof( string ) ) );
 			dt.Columns.Add( new DataColumn( "RightsField", typeof( string ) ) );
 
 			iFolderUserSet memberList = 
@@ -306,7 +307,8 @@ namespace Novell.iFolderWeb.Admin
 				dr[ 1 ] = member.IsOwner;
 				dr[ 2 ] = member.ID;
 				dr[ 3 ] = member.FullName;
-				dr[ 4 ] = member.MemberRights.ToString();
+				dr[ 4 ] = member.UserName;
+				dr[ 5 ] = member.MemberRights.ToString();
 
 				dt.Rows.Add( dr );
 			}
@@ -320,6 +322,7 @@ namespace Novell.iFolderWeb.Admin
 				dr[ 2 ] = String.Empty;
 				dr[ 3 ] = String.Empty;
 				dr[ 4 ] = String.Empty;
+				dr[ 5 ] = String.Empty;
 
 				dt.Rows.Add( dr );
 			}
@@ -426,7 +429,8 @@ namespace Novell.iFolderWeb.Admin
 				// Initialize the localized fields.
 				iFolderMemberList.Columns[ 3 ].HeaderText = GetString( "TYPE" );
 				iFolderMemberList.Columns[ 4 ].HeaderText = GetString( "NAME" );
-				iFolderMemberList.Columns[ 5 ].HeaderText = GetString( "RIGHTS" );
+				iFolderMemberList.Columns[ 5 ].HeaderText = GetString( "USERNAME" );
+				iFolderMemberList.Columns[ 6 ].HeaderText = GetString( "RIGHTS" );
 
 				DescriptionButton.Text = GetString( "SAVE" );
 				MemberDeleteButton.Text = GetString( "DELETE" );
