@@ -65,7 +65,7 @@
 
 		<iFolder:HeaderControl runat="server" />
 		
-		<iFolder:HomeContextControl id="HomeContext" runat="server" />
+	<!--	<iFolder:HomeContextControl id="HomeContext" runat="server" />  -->
 		
 		<div id="nav">
 	
@@ -86,11 +86,28 @@
 		</div>
 	
 		<div id="content">
+
+<iFolder:HomeContextControl id="HomeContext" runat="server" />
 		
 			<iFolder:MessageControl id="Message" runat="server" />
 	
 			<div class="main">
-					
+
+			<!-- added header for list -->
+			<div class="ListHead">iFolders</div>
+
+			<!-- added for action menus - change to include server side hyperlink -->
+			<div id="iFolderActions" class="actions">
+				<div class="action">New iFolder</div>
+				<div class="sep">|</div>
+				<div class="action">Remove Membership</div>
+				<div class="sep">|</div>
+				<div class="action">Delete</div>
+			</div>
+
+			<!-- added to show column heading style -->
+			<div class="ColumnHead">Name</div>
+
 				<asp:DataGrid
 					ID="iFolderData"
 					GridLines="none"

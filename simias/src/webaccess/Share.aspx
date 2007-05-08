@@ -59,26 +59,38 @@
 			<iFolder:MessageControl id="Message" runat="server" />
 	
 			<div class="section">
-				<%= GetString("SHARE") %>
+				<%= GetString("SHARE") %> 
+				
 			</div>
 			
 			<div class="main">
-				
+			<!-- move to show as part of heading above -->	
 				<div class="path">
 					<asp:Literal ID="iFolderName" runat="server" />
 				</div>
 
 				<div class="search">
-					<asp:DropDownList ID="SearchPropertyList" runat="server" />
-					<asp:TextBox ID="SearchPattern" CssClass="searchText" runat="server" onkeydown="return SubmitKeyDown(event, 'SearchButton');" />
-					<asp:Button ID="SearchButton" CssClass="" runat="server" />
+					<table>
+						<tr>
+							<td colspan="3">Search for users that contain:</td>
+						</tr>
+						<tr>
+							<td><asp:DropDownList ID="SearchPropertyList" runat="server" /></td>
+							<td><asp:TextBox ID="SearchPattern" CssClass="searchText" runat="server" onkeydown="return SubmitKeyDown(event, 'SearchButton');" /></td>
+					<td><asp:Button ID="SearchButton" CssClass="" runat="server" /></td>
+						</tr>
+						<tr>
+							<td>&nbsp;</td>
+							<td class="information">(e.g. Fred, Fr*, re, etc.)</td>
+						</tr>
+					</table>
 				</div>
 				
 				<table class="columns"><tr><td>
 				
 					<div id="share-users">
 			
-						<div class="sub-section"><%= GetString("AVAILABLEUSERS") %></div>
+						<div class="ListHead"><%= GetString("AVAILABLEUSERS") %></div>
 						
 						<asp:DataGrid
 							ID="UserData"
@@ -137,7 +149,7 @@
 				
 					<div id="share-members">
 			
-						<div class="sub-section"><%= GetString("SHAREWITH") %></div>
+						<div class="ListHead"><%= GetString("SHAREWITH") %></div>
 						
 						<asp:DataGrid
 							ID="MemberData"

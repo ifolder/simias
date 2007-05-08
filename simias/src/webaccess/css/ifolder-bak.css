@@ -1,0 +1,647 @@
+/* ifolder.css */
+
+body, p, td, th, div, blockquote, dl, ul, ol
+{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+html, body, #container
+{
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	height: 100%;
+}
+
+body
+{
+	background-color: #FDFDFD;
+	color: #333333;
+	font-size: 0.9em;
+}
+
+img
+{
+	border: 0;
+}
+
+a
+{
+	color: #333333;
+}
+
+a:link, a:visited, a:active
+{
+	text-decoration: underline;
+}
+
+a:hover
+{
+	text-decoration: underline;
+}
+
+#container
+{
+	background: transparent url(../images/side.png) left top repeat-y;
+}
+
+/* header */
+
+#header
+{
+	background: transparent url(../images/header.png) left top repeat-x;
+	height: 40px;
+	overflow: hidden;
+}
+
+#header .panel
+{
+	background: transparent url(../images/title2.png) left top no-repeat;
+	height: 40px;
+	padding: 8px;
+	font-size: 0.7em;
+	text-align: right;
+}
+
+#header .panel .identity
+{
+	display: inline;
+	padding-right: 32px;
+	color: #C6C6C6;
+}
+
+#header .panel .controls
+{
+	display: inline;
+	color: #C6C6C6;
+}
+
+#header .panel .controls a
+{
+	color: #C6C6C6;
+}
+
+/* context */
+
+#context
+{
+	background-color: #EDEDED;
+	padding: 4px 8px 4px 8px;
+	color: #333333;
+	border-bottom: 1px solid #6E6E7A;
+	vertical-align: middle;
+}
+
+#context table
+{
+	border: 0;
+	margin: 0;
+	padding: 0;
+	border-collapse: collapse;
+	width: 100%;
+}
+
+#context input, #context select
+{
+	margin: 0;
+}
+
+#context img
+{
+	padding-right: 4px;
+	vertical-align: top;
+}
+
+#context .home
+{
+	width: 5em;
+}
+
+#context .sep
+{
+	width: 16px;
+	text-align: left;
+}
+
+#context .ifolder
+{
+}
+
+#context .home a
+{
+	color: #333333;
+}
+
+#context .filter, #context .search
+{
+	text-align: right;
+}
+
+.filterText
+{
+	width: 12em;
+	background: #FFFFFF url(../images/search.png) 2px 2px no-repeat;
+	padding-left: 22px;
+}
+
+.searchText
+{
+	width: 12em;
+	background: #FFFFFF url(../images/search.png) 2px 2px no-repeat;
+	padding-left: 22px;
+}
+
+/* nav */
+
+#nav
+{
+	float: left;
+	width: 119px;
+	background: transparent url(../images/nav.png) left top repeat-x;
+	min-height: 80px;
+	padding-bottom: 80px;
+	border-right: 1px solid #C8C8C8;
+	border-collapse: collapse;
+}
+
+#nav .group
+{
+	padding: 16px 8px 0 8px;
+	font-size: 0.7em;
+}
+
+#nav .group .box
+{
+	border: 1px solid #999999;
+	-moz-border-radius: 8px;
+	background-color: #FDFDFD;
+	padding: 0;
+}
+
+#nav .group .box .title
+{
+	-moz-border-radius: 7px 7px 0 0;
+	color: #333333;
+	padding: 0 0 2px 0;
+	text-align: center;
+	background-color: #C8C8C8;
+	margin-bottom: 2px;
+}
+
+#nav #actions .box .title
+{
+	background-color: #C5E3C5;
+}
+
+#nav #quota .box .title
+{
+	background-color: #E3C5C5;
+}
+
+#nav .group .box .data
+{
+	padding: 0 4px 4px 8px;
+}
+
+#nav .group .box .link
+{
+	padding: 0 4px 4px 16px;
+	text-indent: -8px;
+}
+
+#nav .group .box .label
+{
+	padding: 0 4px 0 8px;
+	color: #999999;
+}
+
+/* actions */
+
+.actions
+{
+	font-size: 0.85em;
+	padding: 0 8px 8px 16px;
+	color: #999999;
+}
+
+.actions .action
+{
+	display: inline;
+}
+
+.actions .sep
+{
+	display: inline;
+	padding: 0 8px 0 8px;
+}
+
+.actions .sub
+{
+	display: inline;
+	padding: 0;
+}
+
+.actions .action a
+{
+	color: #333333;
+}
+
+/* content */
+
+#content
+{
+	background-color: #FDFDFD;
+	margin-left: 120px;
+	min-width: 20em;
+}
+
+.section
+{
+	font-size: 1.1em;
+	padding: 8px;
+}
+
+.sub-section
+{
+	padding: 4px;
+}
+
+/* message */
+
+div.message
+{
+	background-color: #FFFF00;
+	border: 2px solid #333333;
+	color: #333333;
+	padding: 8px;
+	margin: 8px;
+}
+
+/* tabs */
+
+.tabs
+{
+	padding: 16px 0 0 8px;
+	font-size: 0.9em;
+	overflow: hidden;
+	margin-right: -1px;
+	border-collapse: collapse;
+}
+
+.tabs .tab
+{
+	-moz-border-radius: 8px 0 0 8px;
+	border-collapse: collapse;
+}
+
+.tabs .tab a
+{
+	display: block;
+	padding: 4px 0 4px 8px;
+	color: #5555BE;
+}
+
+#browse .tabs #browseTab,
+#search .tabs #searchTab,
+#details .tabs #detailsTab,
+#members .tabs #membersTab,
+#history .tabs #historyTab
+{
+	border-top: 1px solid #C8C8C8;
+	border-right: 1px solid #FDFDFD;
+	border-bottom: 1px solid #C8C8C8;
+	border-left: 1px solid #C8C8C8;
+
+	background: #FDFDFD;
+}
+
+/* path */
+
+.path
+{
+	font-size: 1.1em;
+	padding: 2px 4px 2px 4px;
+	color: #333333;
+	margin-bottom: 8px;
+	border-bottom: 1px solid #C6C6C6;
+}
+
+.path a
+{
+	color: #333333;
+}
+
+.path img
+{
+	padding-right: 4px;
+	vertical-align: top;
+}
+
+/* main */
+
+div.main
+{
+	padding: 12px 8px 12px 12px;
+	font-size: 0.9em;
+}
+
+/* list */
+
+table.list
+{
+	width: 98%;
+	border-collapse: collapse;
+	color: #333333;
+	empty-cells: show;
+}
+
+table.list tr.row
+{
+	background-color: #ECF3FD;
+}
+
+table.list tr.altrow
+{
+}
+
+table.list a
+{
+	color: #333333;
+}
+
+table.list img
+{
+	vertical-align: middle;
+}
+
+table.list td
+{
+	padding: 2px;
+	overflow: hidden;
+}
+
+table.list td.cb
+{
+	width: 22px;
+}
+
+table.list td.icon
+{
+	width: 20px;
+}
+
+table.list td.name
+{
+}
+
+table.list td.datetime
+{
+}
+
+table.list td.action
+{
+}
+
+table.list td.date
+{
+	width: 8em;
+}
+
+table.list td.size
+{
+	width: 8em;
+}
+
+table.list td.rights
+{
+	width: 8em;
+}
+
+table.list td.owner
+{
+	width: 8em;
+}
+
+table.list td.history
+{
+	width: 16px;
+}
+
+/* pagging */
+
+.pagging
+{
+	font-size: 0.9em;
+	padding: 8px 12px 8px 12px;
+	text-align: center;
+	vertical-align: middle;
+}
+
+.pagging .index
+{
+	display: inline;
+	padding: 0px 8px 0 8px;
+}
+
+.pagging input, .pagging img
+{
+	padding: 0px 4px 0 4px;
+	vertical-align: top;
+}
+
+/* general */
+
+.buttons
+{
+	padding: 16px 0 16px 0;
+}
+
+
+.labels
+{
+	padding: 8px 4px 8px 4px;
+}
+
+.hide
+{
+	display: none;
+}
+
+td.label
+{
+	color: #777777;
+	text-align: right;
+	width: 10em;
+	padding-right: 8px;
+}
+
+td.value
+{
+	width: 100em;
+}
+
+td.seperator
+{
+	padding-left: 32px;
+}
+
+/* misc */
+
+span.rights
+{
+	font-size: 0.8em;
+	font-style: italic;
+	color: #777777;
+}
+
+.highlight
+{
+	background-color: yellow;
+}
+
+.columns
+{
+	width: 98%;
+}
+
+.columns td
+{
+	width: 49%;
+	vertical-align: top;
+}
+
+#NewiFolderName,
+#NewiFolderDescription,
+#iFolderDescription,
+#NewFolderName
+{
+	width: 30em;
+}
+
+#files
+{
+	width: 98%;
+	padding-top: 12px;
+}
+
+#files div
+{
+	background: transparent url(../images/text-x-generic.png) top left no-repeat;
+	padding: 0 0 8px 22px;
+	min-height: 16px;
+}
+
+#files div a
+{
+	padding-left: 12px;
+	font-size: 0.9em;
+}
+
+.file
+{
+}
+
+#NewiFolderName
+{
+	margin-bottom: 24px;
+}
+
+#share-users
+{
+	padding-right: 12px;
+}
+
+#share-members
+{
+	padding-left: 12px;
+}
+
+/* error */
+
+.errorMessage
+{
+	font-size: 1.1em;
+}
+
+.errorDetails
+{
+	width: 98%;
+	background-color: #EAEAEA;
+}
+
+/* login */
+
+#login table.dialog
+{
+	position: absolute;
+	width: 400px;
+	height: 200px;
+	margin-left: -200px;
+	margin-top: -100px;
+	top: 48%;
+	left: 48%;
+
+	border-right: 1px solid #333333;
+	border-bottom: 1px solid #333333;
+	border-left: 1px solid #333333;
+
+	padding: 0;
+	border-collapse: collapse;
+	empty-cells: show;
+
+	color: #333333;
+	background: #FFFFFF url(../images/header.png) top left repeat-x;
+}
+
+#login td.title
+{
+	height: 40px;
+	background: transparent url(../images/title.png) top left no-repeat;
+}
+
+#login td.field
+{
+	padding: 0px 8px 0px 8px;
+}
+
+#login td.message
+{
+	padding: 8px 8px 12px 8px;
+	color: #333333;
+	text-align: center;
+}
+
+#login input.field
+{
+	width: 14em;
+}
+
+#login td.button
+{
+	text-align: right;
+	padding: 8px 8px 8px 8px;
+}
+
+#login td.copyright
+{
+	color: #333333;
+	font-size: 0.8em;
+	padding: 4px 4px 4px 4px;
+	border-top: 1px solid #003366;
+	background-color: #E1E1E1;
+}
+
+#login .warning
+{
+	position: absolute;
+	width: 540px;
+	height: 200px;
+	margin-left: -250px;
+	margin-top: 140px;
+	top: 48%;
+	left: 48%;
+	
+	color: #FF0000;
+	font-weight: bold;
+	text-align: center;
+}

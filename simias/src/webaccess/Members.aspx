@@ -86,7 +86,7 @@
 
 		<iFolder:HeaderControl runat="server" />
 		
-		<iFolder:iFolderContextControl id="iFolderContext" runat="server" />
+	<!-- moved	<iFolder:iFolderContextControl id="iFolderContext" runat="server" /> -->
 	
 		<div id="nav">
 	
@@ -99,6 +99,8 @@
 		</div>
 	
 		<div id="content">
+<!-- moved from container -->
+				<iFolder:iFolderContextControl id="iFolderContext" runat="server" /> 
 		
 			<iFolder:MessageControl id="Message" runat="server" />
 	
@@ -137,6 +139,11 @@
 					</div>
 				</div>
 				
+
+			<!-- added to show column heading style -->
+			<div class="ColumnHead">Name - add proper column names here</div>
+			
+
 				<asp:DataGrid
 					ID="MemberData"
 					GridLines="none"
@@ -164,8 +171,6 @@
 						</asp:TemplateColumn>
 						
 						<asp:BoundColumn DataField="Name" ItemStyle-CssClass="name" />
-						
-						<asp:BoundColumn DataField="UserName" ItemStyle-CssClass='name' />
 						
 						<asp:BoundColumn DataField="Rights" ItemStyle-CssClass="rights" />
 						

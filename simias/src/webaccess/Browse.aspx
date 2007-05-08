@@ -72,7 +72,7 @@
 
 		<iFolder:HeaderControl runat="server" />
 		
-		<iFolder:iFolderContextControl id="iFolderContext" runat="server" />
+<!--		<iFolder:iFolderContextControl id="iFolderContext" runat="server" /> -->
 	
 		<div id="nav">
 	
@@ -85,12 +85,13 @@
 		</div>
 	
 		<div id="content">
+		<iFolder:iFolderContextControl id="iFolderContext" runat="server" />
 		
 			<iFolder:MessageControl id="Message" runat="server" />
 	
 			<div class="main">
 				
-				<div class="path">
+				<div class="path" style="display:none">
 					<asp:Image ImageUrl="images/folder.png" runat="server" />
 					<asp:Repeater ID="EntryPathList" runat="server">
 						<itemtemplate>
@@ -120,6 +121,10 @@
 					</div>
 				</div>
 				
+                                <!-- added to show column heading style -->
+                                <!-- column headings must line up with columns to be effective -->
+                                <div class="ColumnHead">Name</div>
+
 				<asp:DataGrid
 					ID="EntryData"
 					GridLines="none"

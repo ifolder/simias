@@ -41,11 +41,11 @@
 
 		<iFolder:HeaderControl runat="server" />
 		
-		<iFolder:iFolderContextControl id="iFolderContext" runat="server" />
+<!-- moved		<iFolder:iFolderContextControl id="iFolderContext" runat="server" />  -->
 	
 		<div id="nav">
 	
-			<iFolder:TabControl id="Tabs" runat="server" />
+			<iFolder:TabControl runat="server" />
 	
 			<iFolder:iFolderActionsControl runat="server" />
 
@@ -54,6 +54,8 @@
 		</div>
 	
 		<div id="content">
+
+<!-- moved from container -->		<iFolder:iFolderContextControl id="iFolderContext" runat="server" />  
 		
 			<iFolder:MessageControl id="Message" runat="server" />
 	
@@ -61,13 +63,13 @@
 				
 				<div>
 					
-					<div class="section"><%= GetString("PROPERTIES") %></div>
+				<!-- hide - don't need	<div class="section"><%= GetString("PROPERTIES") %></div> -->
 						
 					<div id="PropertyActions" class="actions" runat="server">
 						<div class="action">
 							<asp:HyperLink ID="PropertyEditLink" runat="server" />
 						</div>
-					</div>
+					</div> 
 					
 					<asp:DataGrid
 						ID="PropertyData"

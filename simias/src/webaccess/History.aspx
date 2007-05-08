@@ -42,11 +42,11 @@
 
 		<iFolder:HeaderControl runat="server" />
 		
-		<iFolder:iFolderContextControl id="iFolderContext" runat="server" />
+<!-- moved		<iFolder:iFolderContextControl id="iFolderContext" runat="server" />  -->
 	
 		<div id="nav">
 	
-			<iFolder:TabControl id="Tabs" runat="server" />
+			<iFolder:TabControl runat="server" />
 	
 			<iFolder:iFolderActionsControl runat="server" />
 
@@ -55,10 +55,15 @@
 		</div>
 	
 		<div id="content">
+
+<!-- moved here from container -->	<iFolder:iFolderContextControl id="iFolderContext" runat="server" /> 
 		
 			<iFolder:MessageControl id="Message" runat="server" />
 	
 			<div class="main">
+
+			<!-- added to show column heading style -->
+			<div class="ColumnHead">Name - add respective column headings, inline w/columns</div>
 				
 				<asp:DataGrid
 					ID="HistoryData"
