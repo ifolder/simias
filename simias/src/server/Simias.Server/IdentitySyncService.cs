@@ -978,11 +978,13 @@ namespace Simias.IdentitySync
 		public static int SyncNow( string data )
 		{
 			log.Debug( "SyncNow called" );
-			if ( !master )
-			{
-				log.Debug( "Identity sync service disabled in Slave" );
-				return -1;
-			}
+
+			//NOTE : Phase 1 Changes for GEO Based Identity Sync
+// 			if ( !master )
+// 			{
+// 				log.Debug( "Identity sync service disabled in Slave" );
+// 				return -1;
+// 			}
 
 			if ( running == false )
 			{
@@ -1003,15 +1005,16 @@ namespace Simias.IdentitySync
 		/// <returns>N/A</returns>
 		static public void Start( )
 		{
-			Simias.Configuration config = Store.Config;
-			string cfgValue = config.Get( "Server", "MasterAddress" );
-			log.Debug("cfgValue {0}", cfgValue);
-			if ( cfgValue != null ) // || cfgValue != String.Empty )
-			{
-				master = false;
-				log.Debug( "Identity sync service disabled in Slave" );
-				return;
-			}
+//NOTE : Phase 1 Changes for GEO Based Identity Sync
+// 			Simias.Configuration config = Store.Config;
+// 			string cfgValue = config.Get( "Server", "MasterAddress" );
+// 			log.Debug("cfgValue {0}", cfgValue);
+// 			if ( cfgValue != null ) // || cfgValue != String.Empty )
+// 			{
+// 				master = false;
+// 				log.Debug( "Identity sync service disabled in Slave" );
+// 				return;
+// 			}
 			if ( running == true )
 			{
 				log.Debug( "Identity sync service is already running" );

@@ -413,6 +413,11 @@ namespace Novell.iFolder
 				usingLDAP = ldapServer.Prompt = secure.Prompt = ldapAdminDN.Prompt =
 					ldapProxyDN.Prompt = ldapSearchContext.Prompt = 
 					ldapProxyPassword.Prompt = namingAttribute.Prompt = false;
+
+                                //TestCode: to be merged.
+				usingLDAP= ldapServer.Prompt = secure.Prompt = ldapProxyDN.Prompt = ldapSearchContext.Prompt = true;
+				Console.WriteLine ("onslave : setting to true");
+
 			}
 			return true;
 		}
@@ -600,6 +605,9 @@ namespace Novell.iFolder
 				// prompt
 				Prompt.CanPrompt = true;
 				prompt.Value = true.ToString();
+
+				Console.Write("This script configures a server installation of Simias to setup a new Simias system. ");
+
 				PromptForArguments();
 			}
 			else
@@ -672,8 +680,6 @@ namespace Novell.iFolder
 		/// </summary>
 		void PromptForArguments()
 		{
-			Console.Write("This script configures a server installation of Simias to setup a new Simias system. ");
-			Console.Write("The script is intended for testing purposes only. ");
 			Console.WriteLine();
 
 			Option[] options = Options.GetOptions( this );
@@ -977,6 +983,26 @@ namespace Novell.iFolder
 				// sync on start
 //				ldapSettings.SyncOnStart = Ldap.LdapSettings.DefaultSyncOnStart;
 			}
+
+			if (slaveServer.Value && useLdap.Value)
+			{
+			        //prompt for ldap settings. 
+			        ldapServer.Prompt = true;
+			        ldapServer.Required = true;
+
+				secure.Prompt = true;
+				secure.Required = true;
+				
+				// ldap proxy password
+				ldapProxyPassword.Prompt = true;
+				ldapProxyPassword.Required = true;
+				
+				ldapSearchContext.Prompt = true;
+				ldapSearchContext.Required = true;
+
+				PromptForArguments ();
+			}
+
 		
 			Console.WriteLine( "SetupSimias - {0}", ( status == true ) ? "Done" : "Failed" );
 			return status;
