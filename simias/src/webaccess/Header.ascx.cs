@@ -120,7 +120,7 @@ namespace Novell.iFolderApp.Web
 				
 				// strings
 				SettingsLink.Text = GetString("SETTINGS");
-				//HelpLink.Text = GetString("HELP");
+				HelpLink.Text = GetString("HELP");
 				LogoutButton.Text = GetString("LOGOUT");
 
 				// help
@@ -243,5 +243,43 @@ namespace Novell.iFolderApp.Web
 
 			Response.Redirect(logoutRedirectURL);
 		}
+		
+		#region Public Methods
+		
+		/// <summary>
+		/// Adds the page name to the help link.
+		/// </summary>
+		/// <param name="PageName"></param>
+		public void AddHelpLink( string PageName)
+		{
+			// get the language which admin had chosen during logging in
+			string code = Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName;
+			if(PageName.Equals(GetString("BROWSE")))
+				HelpLink.NavigateUrl = String.Format("help/{0}/{1}", code, "browse.html");
+			else if(PageName.Equals(GetString("IFOLDERS")))
+				HelpLink.NavigateUrl = String.Format("help/{0}/{1}", code, "home.html");
+			else if(PageName.Equals(GetString("SEARCH")))
+				HelpLink.NavigateUrl = String.Format("help/{0}/{1}", code, "search.html");
+			else if(PageName.Equals(GetString("MEMBERS")))
+				HelpLink.NavigateUrl = String.Format("help/{0}/{1}", code, "members.html");
+			else if(PageName.Equals(GetString("HISTORY")))
+				HelpLink.NavigateUrl = String.Format("help/{0}/{1}", code, "history.html");
+			else if(PageName.Equals(GetString("DETAILS")))
+				HelpLink.NavigateUrl = String.Format("help/{0}/{1}", code, "details.html");
+			else if(PageName.Equals(GetString("IFOLDERNEW")))
+				HelpLink.NavigateUrl = String.Format("help/{0}/{1}", code, "newifolder.html");
+			else if(PageName.Equals(GetString("CERTIFICATE")))
+				HelpLink.NavigateUrl = String.Format("help/{0}/{1}", code, "newifolder.html");	
+			else if(PageName.Equals(GetString("UPLOAD")))
+				HelpLink.NavigateUrl = String.Format("help/{0}/{1}", code, "upload.html");
+			else if(PageName.Equals(GetString("NEWFOLDER")))
+				HelpLink.NavigateUrl = String.Format("help/{0}/{1}", code, "newfolder.html");
+			else if(PageName.Equals(GetString("SHARE")))
+				HelpLink.NavigateUrl = String.Format("help/{0}/{1}", code, "share.html");
+			else 
+				HelpLink.NavigateUrl = String.Format("help/{0}/{1}", code, "home.html");
+		}
+		
+		#endregion
 	}
 }

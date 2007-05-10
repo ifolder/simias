@@ -114,7 +114,7 @@
 								<asp:Image 
 									ID="iFolderListImage" 
 									Runat="server" 
-									ImageUrl='<%# GetiFolderImage( DataBinder.Eval( Container.DataItem, "DisabledField" ), DataBinder.Eval( Container.DataItem, "SharedField" ) ) %>' 
+									ImageUrl='<%# GetiFolderImage( DataBinder.Eval( Container.DataItem, "DisabledField" ), DataBinder.Eval( Container.DataItem, "SharedField" ), DataBinder.Eval( Container.DataItem, "EncryptedField" ) ) %>'
 									Visible='<%# DataBinder.Eval( Container.DataItem, "VisibleField" ) %>'/>
 							</ItemTemplate>
 						</asp:TemplateColumn>

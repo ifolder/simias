@@ -77,6 +77,11 @@ namespace Novell.iFolderApp.Web
 		protected MessageControl Message;
 		
 		/// <summary>
+		/// Header page
+		/// </summary>
+		protected HeaderControl Head;
+		
+		/// <summary>
 		/// Different Tabs
 		/// </summary>
 		protected TabControl Tabs;
@@ -168,6 +173,8 @@ namespace Novell.iFolderApp.Web
 		{
 			BindParentData();
 			BindEntryData();
+			// Pass this page information to create the help link
+			Head.AddHelpLink(GetString("SEARCH"));
 		}
 
 		/// <summary>

@@ -13,10 +13,8 @@
 		<div class="controls">
 			<asp:HyperLink ID="SettingsLink" CssClass="bannerLink" NavigateUrl="Settings.aspx" runat="server" />
 			|
-			<!--
 			<asp:HyperLink ID="HelpLink" CssClass="bannerLink" Target="ifolderHelp" runat="server" />
 			|
-			-->
 			<asp:LinkButton ID="LogoutButton" CssClass="bannerLink" runat="server" />
 		</div>
 	

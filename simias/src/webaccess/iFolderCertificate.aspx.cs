@@ -49,6 +49,11 @@ namespace Novell.iFolderApp.Web
 		/// Message Box
 		/// </summary>
 		protected MessageControl Message;
+		
+		/// <summary>
+		/// Header control 
+		/// </summary>
+		protected HeaderControl Head;
 
 		/// <summary>
 		/// The Literal
@@ -148,6 +153,9 @@ namespace Novell.iFolderApp.Web
 				Message.Text = GetString("NO.RA.SELECTED");
 				return;
 			}
+
+			// Pass the page information so that it can be added to help link 
+			Head.AddHelpLink(GetString("CERTIFICATE"));
 		}	
 
 

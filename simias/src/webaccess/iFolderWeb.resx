@@ -288,13 +288,13 @@
     <data name="LOGIN.SECUREFAILED">
         <value>Unable to communicate with the iFolder server securely.</value>
     </data>
-    <data name="Encrypttheifolder">
+    <data name="ENCRYPTTHEIFOLDER">
         <value>Encryption Enabled</value>
     </data>
-    <data name="EncryptionCondition">
+    <data name="ENCRYPTIONCONDITION">
         <value>Encrypted iFolder cannot be shared</value>
     </data>
-    <data name="ShareCondition">
+    <data name="SHARECONDITION">
         <value>Sharable iFolder cannot be encrypted</value>
     </data>
     <data name="ENTRY.LOCKEXCEPTION">
@@ -368,6 +368,9 @@
     </data>
     <data name="MEMBERS">
         <value>Members</value>
+    </data>
+    <data name="IFOLDERNEW">
+        <value>New iFolder</value>
     </data>
     <data name="HEADER.LOGGEDIN">
         <value>Logged in as</value>

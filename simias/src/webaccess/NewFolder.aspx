@@ -48,7 +48,7 @@
 	
 	<form runat="server">
 
-		<iFolder:HeaderControl runat="server" />
+		<iFolder:HeaderControl id="Head" runat="server" />
 		
 		<div id="nav">
 		</div>

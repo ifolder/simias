@@ -40,7 +40,7 @@
 	
 	<form runat="server">
 
-		<iFolder:HeaderControl runat="server" />
+		<iFolder:HeaderControl id="Head" runat="server" />
 		
 <!-- moved		<iFolder:iFolderContextControl id="iFolderContext" runat="server" />  -->
 	

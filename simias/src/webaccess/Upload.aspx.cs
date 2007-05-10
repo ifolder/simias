@@ -84,6 +84,11 @@ namespace Novell.iFolderApp.Web
 		protected MessageControl Message;
 
 		/// <summary>
+		/// Header page
+		/// </summary>
+		protected HeaderControl Head;
+		
+		/// <summary>
 		/// iFolder Connection
 		/// </summary>
 		private iFolderWeb web;
@@ -178,6 +183,9 @@ namespace Novell.iFolderApp.Web
 				}
 				
 				ParentPath.Text = entry.Path;
+				
+				// Pass this page information to create the help link
+				Head.AddHelpLink(GetString("UPLOAD"));
 				
 				//Enable SSL in web access can be configured by the admin
 				// SSL property is used only for thick client to server communication and vice versa

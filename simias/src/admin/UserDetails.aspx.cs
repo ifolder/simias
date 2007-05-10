@@ -249,6 +249,7 @@ namespace Novell.iFolderWeb.Admin
 			dt.Columns.Add( new DataColumn( "OwnerIDField", typeof( string ) ) );
 			dt.Columns.Add( new DataColumn( "SharedField", typeof( bool ) ) );
 			dt.Columns.Add( new DataColumn( "DisabledField", typeof( bool ) ) );
+			dt.Columns.Add( new DataColumn( "EncryptedField", typeof( bool ) ) );
 			dt.Columns.Add( new DataColumn( "NameField", typeof( string ) ) );
 			dt.Columns.Add( new DataColumn( "OwnerNameField", typeof( string ) ) );
 			dt.Columns.Add( new DataColumn( "SizeField", typeof( string ) ) );
@@ -274,15 +275,25 @@ namespace Novell.iFolderWeb.Admin
 
 			foreach( iFolder folder in list.Items )
 			{
+				bool encrypted = false;
+				iFolder ifolder = web.GetiFolder(folder.ID);
+				string EncryptionAlgorithm = ifolder.EncryptionAlgorithm;
+				if(!(EncryptionAlgorithm == null || (EncryptionAlgorithm == String.Empty)))
+				{
+					// It is an encrypted ifolder 
+					encrypted = true;
+				}
+			
 				dr = dt.NewRow();
 				dr[ 0 ] = true;
 				dr[ 1 ] = folder.ID;
 				dr[ 2 ] = folder.OwnerID;
 				dr[ 3 ] = ( folder.MemberCount > 1 ) ? true : false;
 				dr[ 4 ] = !folder.Enabled;
-				dr[ 5 ] = folder.Name;
-				dr[ 6 ] = folder.OwnerFullName;
-				dr[ 7 ] = Utils.ConvertToUnitString( folder.Size, true, rm );
+				dr[ 5 ] = ( encrypted ) ? true : false;
+				dr[ 6 ] = folder.Name;
+				dr[ 7 ] = folder.OwnerFullName;
+				dr[ 8 ] = Utils.ConvertToUnitString( folder.Size, true, rm );
 
 				dt.Rows.Add( dr );
 			}
@@ -296,9 +307,10 @@ namespace Novell.iFolderWeb.Admin
 				dr[ 2 ] = String.Empty;
 				dr[ 3 ] = false;
 				dr[ 4 ] = false;
-				dr[ 5 ] = String.Empty;
+				dr[ 5 ] = false;
 				dr[ 6 ] = String.Empty;
 				dr[ 7 ] = String.Empty;
+				dr[ 8 ] = String.Empty;
 
 				dt.Rows.Add( dr );
 			}
@@ -523,9 +535,14 @@ namespace Novell.iFolderWeb.Admin
 		/// <param name="disabled"></param>
 		/// <param name="shared"></param>
 		/// <returns></returns>
-		protected string GetiFolderImage( object disabled, object shared )
+		protected string GetiFolderImage( object disabled, object shared , object encrypted)
 		{
-			return ( bool )disabled ? "images/ifolder_16-gray.gif" : ( bool )shared ? "images/ifolder_16.gif" : "images/ifolder_16.gif";
+			if( (bool) disabled)
+				return "images/ifolder_16-gray.gif";
+			else if( (bool) encrypted)
+				return "images/encrypt_ilock2_16.gif";
+			
+			return ( bool )shared ? "images/ifolder_16.gif" : "images/ifolder_16.gif";
 		}
 
 		/// <summary>

@@ -58,6 +58,11 @@ namespace Novell.iFolderApp.Web
 		protected MessageControl Message;
 		
 		/// <summary>
+		/// Header page
+		/// </summary>
+		protected HeaderControl Head;
+		
+		/// <summary>
 		/// Different Tabs
 		/// </summary>
 		protected TabControl Tabs;
@@ -141,6 +146,8 @@ namespace Novell.iFolderApp.Web
 		private void BindData()
 		{
 			BindHistoryData();
+			// Pass this page information to create the help link
+			Head.AddHelpLink(GetString("HISTORY"));
 		}
 
 		/// <summary>

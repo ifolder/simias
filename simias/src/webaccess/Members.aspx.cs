@@ -66,6 +66,11 @@ namespace Novell.iFolderApp.Web
 		/// Message Box
 		/// </summary>
 		protected MessageControl Message;
+		
+		/// <summary>
+		/// Header page
+		/// </summary>
+		protected HeaderControl Head;
 
 		/// <summary>
 		/// The Add Button
@@ -154,6 +159,8 @@ namespace Novell.iFolderApp.Web
 		private void BindData()
 		{
 			BindMemberData();
+			// Pass this page information to create the help link
+			Head.AddHelpLink(GetString("MEMBERS"));
 		}
 
 		/// <summary>

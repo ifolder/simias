@@ -54,6 +54,11 @@ namespace Novell.iFolderApp.Web
 		/// iFolder Image Link
 		/// </summary>
 		protected HyperLink iFolderImageLink;
+		
+		/// <summary>
+		/// iFolder Image Url
+		/// </summary>
+		protected System.Web.UI.WebControls.Image iFolderImageUrl;
 
 		/// <summary>
 		/// Search Pattern
@@ -122,6 +127,19 @@ namespace Novell.iFolderApp.Web
 
 				// strings
 				HomeLink.Text = GetString("HOME");
+				
+				bool encrypted = false;
+				iFolder folder = web.GetiFolder(ifolderID);
+				string EncryptionAlgorithm = folder.EncryptionAlgorithm;
+				if(!(EncryptionAlgorithm == null || (EncryptionAlgorithm == String.Empty)))
+				{
+					// It is an encrypted ifolder 
+					encrypted = true;
+				}
+				
+				bool shared = ( folder.MemberCount > 1 ) ? true : false;
+				
+				iFolderImageUrl.ImageUrl = encrypted ? "images/encrypt_ilock2_16.gif" : (shared ? "images/ifolder.png" : "images/ifolder.png");
 
 				// links
 				iFolderLink.NavigateUrl = iFolderImageLink.NavigateUrl =

@@ -63,7 +63,7 @@
 	
 	<form runat="server">
 
-		<iFolder:HeaderControl runat="server" />
+		<iFolder:HeaderControl id="Head" runat="server" />
 		
 	<!--	<iFolder:HomeContextControl id="HomeContext" runat="server" />  -->
 		

@@ -69,6 +69,11 @@ namespace Novell.iFolderApp.Web
 		/// Message Box
 		/// </summary>
 		protected MessageControl Message;
+		
+		/// <summary>
+		/// Header page
+		/// </summary>
+		protected HeaderControl Head;
 
 		/// <summary>
 		/// iFolder Connection
@@ -153,11 +158,25 @@ namespace Novell.iFolderApp.Web
 				iFolderPagging.Count = ifolders.Items.Length;
 				iFolderPagging.Total = ifolders.Total;
 				
-				string name;
+				string name, ImageUrl;
 				bool pattern = (HomeContext.Pattern != null) && (HomeContext.Pattern.Length > 0);
 
 				foreach(iFolder ifolder in ifolders.Items)
 				{
+				
+					bool encrypted = false;
+					iFolder folder = web.GetiFolder(ifolder.ID);
+					string EncryptionAlgorithm = folder.EncryptionAlgorithm;
+					if(!(EncryptionAlgorithm == null || (EncryptionAlgorithm == String.Empty)))
+					{
+						// It is an encrypted ifolder 
+						encrypted = true;
+					}
+					
+					bool shared = ( ifolder.MemberCount > 1 ) ? true : false;
+					
+					ImageUrl = (encrypted) ? "encrypt_ilock2_16.gif" : (shared ? "ifolder.png" : "ifolder.png");
+
 					DataRow row = ifolderTable.NewRow();
 
 					// selected name
@@ -172,7 +191,7 @@ namespace Novell.iFolderApp.Web
 					}
 
 					row["ID"] = ifolder.ID;
-					row["Image"] = "ifolder.png";
+					row["Image"] = ImageUrl;
 					row["Name"] = name;
 					row["LastModified"] = WebUtility.FormatDate(ifolder.LastModified, rm);
 					row["Description"] = ifolder.Description;
@@ -196,6 +215,9 @@ namespace Novell.iFolderApp.Web
 			iFolderData.DataKeyField = "ID";
 			iFolderData.DataSource = ifolderView;
 			iFolderData.DataBind();
+			
+			// Pass this page information to create the help link
+			Head.AddHelpLink(GetString("IFOLDERS"));
 		}
 
 		/// <summary>

@@ -15,7 +15,7 @@
 		
 		<td class="ifolder">
 			<asp:HyperLink ID="iFolderImageLink" runat="server">
-				<asp:Image ImageUrl="images/ifolder.png" runat="server" />
+				<asp:Image ID="iFolderImageUrl" ImageUrl="images/ifolder.png" runat="server" />
 			</asp:HyperLink>
 			<asp:HyperLink ID="iFolderLink" NavigateUrl="iFolders.aspx" runat="server" />
 		</td>

@@ -54,6 +54,11 @@ namespace Novell.iFolderApp.Web
 		/// Message Box
 		/// </summary>
 		protected MessageControl Message;
+		
+		/// <summary>
+		/// Header page
+		/// </summary>
+		protected HeaderControl Head;
 
 		/// <summary>
 		/// The Create Button
@@ -161,12 +166,12 @@ namespace Novell.iFolderApp.Web
 				CreateButton.Text = GetString("CREATE");
 				CancelButton.Text = GetString("CANCEL");
 				//Localization need to be enabled
-				Encryption.Text = GetString("Encrypttheifolder");
-				Encryption.ToolTip = GetString("EncryptionCondition");
+				Encryption.Text = GetString("ENCRYPTTHEIFOLDER");
+				Encryption.ToolTip = GetString("ENCRYPTIONCONDITION");
 				//ssl.Text = GetString("Secure Data Transfer");
 				shared.Text = GetString("SHARABLE");
 				shared.Checked = true;
-				shared.ToolTip = GetString("ShareCondition");
+				shared.ToolTip = GetString("SHARECONDITION");
 				SelectLabel.Text = GetString("SELECTRECOVERYAGENT");
 				PassPhraseLabel.Text = GetString("ENTERPASSPHRASE");
 				VerifyPassPhraseLabel.Text = GetString("REENTER_PASSPHRASE");
@@ -174,6 +179,9 @@ namespace Novell.iFolderApp.Web
 				RAList.Enabled = false;
 				PassPhraseText.Enabled = false;
 				ChangeStatus();
+				
+				// Pass this page information to create the help link
+				Head.AddHelpLink(GetString("IFOLDERNEW"));
 			}
 		}
 		

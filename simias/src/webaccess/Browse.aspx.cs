@@ -106,6 +106,11 @@ namespace Novell.iFolderApp.Web
 		protected MessageControl Message;
 		
 		/// <summary>
+		/// Header page
+		/// </summary>
+		protected HeaderControl Head;
+		
+		/// <summary>
 		/// Different Tabs
 		/// </summary>
 		protected TabControl Tabs;
@@ -175,6 +180,10 @@ namespace Novell.iFolderApp.Web
 			
 			if (!IsPostBack)
 			{
+			
+				// Pass this page information to create the help link
+				Head.AddHelpLink(GetString("BROWSE"));
+				
 				string EncryptionAlgorithm = ifolder.EncryptionAlgorithm;
 				if(!(EncryptionAlgorithm == null || (EncryptionAlgorithm == String.Empty)))
 				{
