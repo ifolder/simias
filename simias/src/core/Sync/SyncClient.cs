@@ -2008,7 +2008,10 @@ namespace Simias.Sync
 								lock (this) {syncFile = null;}
 								switch (syncStatus.status)
 								{
-									case SyncStatus.Success:
+									case SyncStatus.OnlyDateModified:										
+									case SyncStatus.Success:	
+										if(syncStatus.status == SyncStatus.OnlyDateModified)
+											log.Info("Cancelled Uploading File {0} : reason {1}", file.Name, syncStatus.status.ToString());
 										workArray.RemoveNodeToServer(nodeID);
 										break;
 									case SyncStatus.InProgess:

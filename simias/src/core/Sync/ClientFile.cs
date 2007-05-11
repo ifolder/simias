@@ -800,7 +800,12 @@ namespace Simias.Sync
 						node.Properties.DeleteSingleProperty(PropertyTags.SyncStatusTag);
 						collection.Commit(node);
 					}
-			}
+				}
+
+				// check for client error and data conflict
+				if(commit == false && DateConflict == true)
+					status.status = SyncStatus.OnlyDateModified;
+				
 				return status;
 			}
 			finally
@@ -824,6 +829,11 @@ namespace Simias.Sync
 			string EncryptionKey="";
 
 			GetUploadFileMap(out sizeToSync, out copyArray, out writeArray, out blockSize);
+			if(sizeToSync == 0)
+			{
+				DateConflict = true;
+				return false;			
+			}	
 			sizeRemaining = sizeToSync;
 			
 			eventPublisher.RaiseEvent(new FileSyncEventArgs(collection.ID, ObjectType.File, false, Name, fileSize, sizeToSync, sizeRemaining, Direction.Uploading));
@@ -1004,8 +1014,35 @@ namespace Simias.Sync
 				}
 			}
 
+			// Check the last block match to avoid the data conflicts
+			bool		lastBlockMatch = false;
+			if(writeArray.Count == 0)
+			{
+				long saveReadPosition= ReadPosition;
+				ReadPosition = blockSize*(serverHashMap.Length-1);
+				bytesRead = outStream.Read(buffer, 0, blockSize); //buffer readoffset is zero
+				if(bytesRead > 0)//if equal to zero, the file ends at rsync block size
+				{
+					HashEntry Entry = new HashEntry();
+					Entry.WeakHash = wh.ComputeHash(buffer, 0, (ushort)bytesRead);
+					if (table.Contains(Entry.WeakHash))
+					{
+						Entry.StrongHash = sh.ComputeHash(buffer, 0, (ushort)bytesRead);
+						HashEntry match = table.GetEntry(Entry);
+						if (match != null)
+						{
+							lastBlockMatch = true;
+							long blockOffset = ReadPosition - bytesRead;
+							BlockSegment.AddToArray(copyArray, new BlockSegment(blockOffset, match.BlockNumber), bytesRead);
+						}					
+					}
+				}
+				if(writeArray.Count == 0)//If the last block doen't match set back the ReadPosition 
+					ReadPosition = saveReadPosition;	
+			}	
+
 			// Get the remaining changes.
-			if ((endOfLastMatch + 1) != endByte)//== 0 && endByte != 0)
+			if ((endOfLastMatch + 1) != endByte && lastBlockMatch == false)
 			{
 				long segLen = endByte - endOfLastMatch + 1;
 				long segOffset = ReadPosition - segLen;

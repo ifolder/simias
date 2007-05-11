@@ -99,6 +99,10 @@ namespace Simias.Client
 		/// The Object is readonly.
 		/// </summary>
 		ReadOnly,
+		/// <summary>
+		/// Only date changed for thsi file
+		/// </summary>
+		OnlyDateModified,
 	}
 
 	#endregion

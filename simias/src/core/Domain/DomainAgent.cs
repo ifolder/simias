@@ -468,11 +468,12 @@ namespace Simias.DomainServices
 
 			// Get the Home Server.
 			string hostID = null;
+			HostInfo hInfo = new HostInfo();
 			try
 			{
 //Provisioning should be done only in master.
 
-				    HostInfo hInfo = domainService.GetHomeServer(user);
+				    hInfo = domainService.GetHomeServer(user);
 				    if (hInfo == null)
 				    {
 					    string masterServerURL = null;
@@ -567,8 +568,7 @@ namespace Simias.DomainServices
 			status.DomainID = domainInfo.ID;
 
 			//Down Sync the domain
-			HostInfo info = domainService.GetHomeServer(user);
-			if(baseUrl  != info.PublicAddress)
+			if(hInfo.Master == false)
 			{
 				log.Debug("Waiting for the home server to sync the master user");
 				Thread.Sleep( 33 * 1000 );

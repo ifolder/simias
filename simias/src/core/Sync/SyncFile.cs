@@ -570,6 +570,7 @@ namespace Simias.Sync
 		#region fields
 
 		bool					nameConflict = false;
+		bool					dateConflict = false;
 		protected Node			conflictingNode = null;
 		/// <summary>Used to signal to stop upload or downloading the file.</summary>
 		protected bool			stopping = false;
@@ -727,6 +728,15 @@ namespace Simias.Sync
 		{
 			get {return nameConflict;}
 			set {nameConflict = value;}
+		}
+
+		/// <summary>
+		/// Gets or Sets a NameConflict.
+		/// </summary>
+		protected bool DateConflict
+		{
+			get {return dateConflict;}
+			set {dateConflict = value;}
 		}
 
 		#endregion
