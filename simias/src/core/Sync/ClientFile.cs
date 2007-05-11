@@ -559,7 +559,7 @@ namespace Simias.Sync
 			else
 				serverHashMap = new HashData[0];
 
-			if(serverHashMap == null || serverHashMap.Length == 0 || Encrypted == true)
+			if(serverHashMap == null || serverHashMap.Length == 0)
 			{
 				Log.log.Debug("Full file download");
 				
