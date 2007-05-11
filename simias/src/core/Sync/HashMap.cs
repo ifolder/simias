@@ -446,11 +446,6 @@ namespace Simias.Sync.Delta
 					currentBlock++,
 					wh.ComputeHash(buffer, 0, (UInt16)bytesRead),
 					sh.ComputeHash(buffer, 0, bytesRead)).Serialize(writer);
-				Log.log.Debug("weak hash {0}...{1}..{2}", wh.ComputeHash(buffer, 0, (UInt16)bytesRead), inStream.Position, bytesRead);
-				Log.log.Debug("data 0 :{0}",(char)buffer[0]);
-				Log.log.Debug("data 1 :{0}",(char)buffer[1]);
-				Log.log.Debug("data 2 :{0}",(char)buffer[2]);	
-				
 			}
 		}
 	}

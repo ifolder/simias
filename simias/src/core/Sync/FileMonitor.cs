@@ -307,10 +307,6 @@ namespace Simias.Sync
 			FileInfo fi = new FileInfo(path);
 			TimeSpan ts = fi.LastWriteTime - fn.LastWriteTime;
 
-			log.Debug("File  {0}", path);			
-			log.Debug("File LastWriteTime..... {0}", fn.LastWriteTime);			
-			log.Debug("iFileLastWriteTime..... {0}", fi.LastWriteTime );
-			
 			// Fat32 has a 2 second time resolution, Linux has a 1 second resolution. Check for > 1;
 			if ((fi.Length != fn.Length || ((uint)ts.Seconds > 1)) && (fn.UpdateFileInfo(collection, path)))
 			{
