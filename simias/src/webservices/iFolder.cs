@@ -611,13 +611,15 @@ namespace iFolder.WebService
 		{
 
 			Store store = Store.GetStore();
+			
+			CatalogEntry[] catalogEntries;
 
 			// admin ID
 			Domain domain = store.GetDomain(store.DefaultDomain);
 			String adminID = domain.Owner.UserID;
 
 			// search operator
-			SearchOp searchOperation;
+			SearchOp searchOperation = SearchOp.Contains;
 
 			switch(operation)
 			{
@@ -642,30 +644,24 @@ namespace iFolder.WebService
 					break;
 			}
 			
-			ICSList collections = store.GetCollectionsByName(pattern, searchOperation);
+			catalogEntries = Catalog.GetAllEntriesByName (pattern, searchOperation);
 
 			// build the result list
 			ArrayList list = new ArrayList();
-			int i = 0;
 
-			foreach(ShallowNode sn in collections)
-			{
-				// throw away non-collections
-				if (sn.IsBaseType(NodeTypes.CollectionType))
-				{
-					Collection c = store.GetCollectionByID(sn.ID);
-
-					if (((c != null) && (c.IsType(iFolderCollectionType)))
-						&& ((type != iFolderType.Orphaned) || (c.Owner.UserID == adminID)))
-					{
-						if ((i >= index) && (((max <= 0) || i < (max + index))))
-						{
-							list.Add(new iFolder(c, accessID));
-						}
-
-						++i;
-					}
-				}
+			int i=0;
+			foreach(CatalogEntry ce in catalogEntries)
+ 			{
+				try 
+			    {
+				   list.Add(new iFolder(ce, accessID));			    
+				   ++i;
+			    } 
+			    catch ( Exception e )
+			    {
+				   //Use Better filtering: Any non collection entry should be discarded.
+				   continue;
+			    }
 			}
 
 			return new iFolderSet((iFolder[])list.ToArray(typeof(iFolder)), i);

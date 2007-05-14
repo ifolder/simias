@@ -262,7 +262,7 @@ namespace Novell.iFolderWeb.Admin
 			Description.Text = ifolder.Description;
 			Owner.Text = ifolder.OwnerFullName;
 			Owner.NavigateUrl= String.Format( "UserDetails.aspx?id={0}", ifolder.OwnerID );
-			Size.Text = Utils.ConvertToUnitString( ifolder.Size, true, rm );
+			//Size.Text = Utils.ConvertToUnitString( ifolder.Size, true, rm );
 			Directories.Text = ifolder.DirectoryCount.ToString();
 			Files.Text = ifolder.FileCount.ToString();
 

@@ -51,10 +51,6 @@
 							<%= GetString( "NAME" ) %>
 						</td>
 						
-						<td class="dnscolumn">
-							<%= GetString( "DNSNAME" ) %>
-						</td>
-						
 						<td class="publicuricolumn">
 							<%= GetString( "PUBLICURI" ) %>
 						</td>
@@ -63,9 +59,6 @@
 							<%= GetString( "PRIVATEURI" ) %>
 						</td>
 						
-						<td class="statuscolumn">
-							<%= GetString( "STATUS" ) %>
-						</td>
 					</tr>
 			
 				</table>
@@ -103,14 +96,10 @@
 							DataNavigateUrlField="IDField"
 							DataNavigateUrlFormatString="ServerDetails.aspx?id={0}" 
 							Target="_top" />
-							
-						<asp:BoundColumn ItemStyle-CssClass="serveritem3" DataField="DnsField" />
-						
+								
 						<asp:BoundColumn ItemStyle-CssClass="serveritem4" DataField="PublicUriField" />
 						
 						<asp:BoundColumn ItemStyle-CssClass="serveritem5" DataField="PrivateUriField" />
-						
-						<asp:BoundColumn ItemStyle-CssClass="serveritem6" DataField="StatusField" />
 							
 					</Columns>
 					

@@ -113,16 +113,6 @@
 							<asp:Literal ID="LastModified" Runat="server" />
 						</td>
 					</tr>
-
-					<tr>
-						<th>
-							<%= GetString( "SIZETAG" ) %>
-						</th>
-
-						<td>
-							<asp:Literal ID="Size" Runat="server" />
-						</td>
-					</tr>
 					
 					<tr>
 						<th>

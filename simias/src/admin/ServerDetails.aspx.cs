@@ -224,6 +224,19 @@ namespace Novell.iFolderWeb.Admin
 		/// </summary>
 		private void GetLogList()
 		{
+			ArrayList levels = new ArrayList();
+
+			levels.Add( GetString( "ALL" ) );
+			levels.Add( GetString( "DEBUG" ) );
+			levels.Add( GetString( "INFO" ) );
+			levels.Add( GetString( "WARN" ) );
+			levels.Add( GetString( "ERROR" ) );
+			levels.Add( GetString( "FATAL" ) );
+			levels.Add( GetString( "OFF" ) );
+
+			LogLevelList.DataSource = levels;
+			LogLevelList.DataBind();
+		
 			ArrayList files = new ArrayList();
 
 			// BUGBUG!! - Make a websvc call to determine the
@@ -239,18 +252,7 @@ namespace Novell.iFolderWeb.Admin
 			LogList.DataSource = files;
 			LogList.DataBind();
 
-			ArrayList levels = new ArrayList();
-
-			levels.Add( GetString( "ALL" ) );
-			levels.Add( GetString( "DEBUG" ) );
-			levels.Add( GetString( "INFO" ) );
-			levels.Add( GetString( "WARN" ) );
-			levels.Add( GetString( "ERROR" ) );
-			levels.Add( GetString( "FATAL" ) );
-			levels.Add( GetString( "OFF" ) );
-
-			LogLevelList.DataSource = levels;
-			LogLevelList.DataBind();
+			
 		}
 
 		/// <summary>
@@ -260,17 +262,20 @@ namespace Novell.iFolderWeb.Admin
 		{
 			ArrayList reports = new ArrayList();
 			
-			string[] files = remoteweb.GetReports();    
+			string[] files = null;    
 
 			try {
+					files = remoteweb.GetReports();
 			        foreach (string file in files)
 				        reports.Add( file );
 
-		        } catch (Exception e) {
+		        } 
+			catch (Exception e) 
+			{
 				reports.Add ("N/A");
 			}
 
-			if (files.Length == 0) {
+			if (files == null || files.Length == 0) {
 				reports.Add ("N/A");
 				ReportList.Enabled = false;
 				ViewReportButton.Enabled = false;
@@ -292,29 +297,45 @@ namespace Novell.iFolderWeb.Admin
 			remoteweb.Credentials = web.Credentials;
 
 		        remoteweb.Url = server.PublicUrl + "/iFolderAdmin.asmx";
-			remoteweb.GetAuthenticatedUser();
 			    
 			redirectUrl = server.PublicUrl;
 
-			server = remoteweb.GetServer ( ServerID);
+			Status.Text = "Online";
+			LdapStatus.Text = "N/A";
+			iFolderCount.Text = "N/A";
+			DnsName.Text = "N/A";
+			UserCount.Text = "N/A";
+			Name.Text = server.Name;
+ 
+			try 
+			{
+			        remoteweb.GetAuthenticatedUser();
+				server = remoteweb.GetServer ( ServerID);
+				DnsName.Text = server.HostName;
+				UserCount.Text = server.UserCount.ToString();
+ 
+				iFolderSet ifolders = remoteweb.GetiFolders( iFolderType.All, 0, 1 );
+				iFolderCount.Text = ifolders.Total.ToString();
+
+				LdapStatus.Text = remoteweb.IdentitySyncGetServiceInfo ().Status;
+			}
+			catch ( Exception e)
+			{
+			        remoteweb = web;
+			        Status.Text = "<font color=red><b>Offline</b></font>";
+				TopNav.ShowInfo (String.Format ("Unable to reach {0}. Displaying minimal information", Name.Text));
+			}
 
 			Name.Text = server.Name;
 			Type.Text = GetString( server.IsMaster ? "MASTER" : "SLAVE" );
-			DnsName.Text = server.HostName;
 			PublicIP.Text = server.PublicUrl;
 			PrivateIP.Text = server.PrivateUrl;
-
-			Status.Text = "(Not Implemented)";
-			UserCount.Text = server.UserCount.ToString();
-
-			iFolderSet ifolders = remoteweb.GetiFolders( iFolderType.All, 0, 1 );
-			iFolderCount.Text = ifolders.Total.ToString();
 
 			//LoggedOnUsersCount.Text = "(Not Implemented)";
  			//SessionCount.Text = "(Not Implemented)";
  			//DiskSpaceUsed.Text = "(Not Implemented)";
  			//DiskSpaceAvailable.Text = "(Not Implemented)";
-			LdapStatus.Text = "(Not Implemented)"; //remoteweb.IdentitySyncGetServiceInfo ().Status;
+			//LdapStatus.Text = "(Not Implemented)"; //remoteweb.IdentitySyncGetServiceInfo ().Status;
  			//MaxConnectionCount.Text = "(Not Implemented)";
 
 			return server.Name;
@@ -414,6 +435,30 @@ namespace Novell.iFolderWeb.Admin
 			Response.OutputStream.Write( fileData , 0, fileData.Length );
 
 			Response.Close();
+		}
+
+		/// <summary>
+		/// Event handler that gets called when the ViewLog Button is clicked.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		protected void LogLevelButtonClicked( object sender, EventArgs e )
+		{
+			LoggerType loggerType = LoggerType.RootLogger;
+			string logLevel = "INFO";
+
+			if ( LogList.SelectedValue == GetString( "ACCESSLOGFILE" ) )
+			{
+			        loggerType = LoggerType.AccessLogger;
+			}
+			else
+			{
+			        loggerType = LoggerType.RootLogger;
+			}
+
+			logLevel = LogLevelList.SelectedValue;
+
+			web.SetLogLevel (loggerType, logLevel.ToUpper());
 		}
 
 		/// <summary>

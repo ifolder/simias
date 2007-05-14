@@ -975,6 +975,52 @@ namespace iFolder.WebService
 				SmartException.Throw(e);
 			}
 		}
+		
+		/// <summary>
+		/// Get LogLevel Information
+		/// </summary>
+		///
+		[WebMethod(
+			 Description= "Fetches the logleve information.",
+			 EnableSession = true)]
+		public virtual string[] GetLogLevels()
+		{
+		        string[] result = null;
+
+			try
+			{
+				Authorize();
+
+				result = iFolderServer.GetLogLevels();
+			}
+			catch(Exception e)
+			{
+				SmartException.Throw(e);
+			}
+
+			return result;
+		}
+
+		/// <summary>
+		/// Set LogLevel Information
+		/// </summary>
+		///
+		[WebMethod(
+			 Description= "Fetches the logleve information.",
+			 EnableSession = true)]
+		public virtual void SetLogLevel(iFolderServer.LoggerType type, string logLevel)
+		{
+			try
+			{
+				Authorize();
+
+				iFolderServer.SetLogLevel(type, logLevel);
+			}
+			catch(Exception e)
+			{
+				SmartException.Throw(e);
+			}
+		}
 
 		#endregion
 

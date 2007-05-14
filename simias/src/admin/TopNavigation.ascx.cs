@@ -117,7 +117,16 @@ namespace Novell.iFolderWeb.Admin
 		/// Error message control.
 		/// </summary>
 		protected Label ErrorMsg;
-        
+		
+		// <summary>
+		/// Message panel control.
+		/// </summary>
+		protected HtmlGenericControl MessagePanel;
+ 
+ 		/// <summary>
+		/// Error message control.
+		/// </summary>
+		protected Label InfoMsg;
 
 		/// <summary>
 		/// Breadcrumb control.
@@ -185,11 +194,17 @@ namespace Novell.iFolderWeb.Admin
 			{
 				ErrorPanel.Visible = false;
 			}
+			
+			if ( MessagePanel.Visible )
+			{
+				ErrorPanel.Visible = false;
+			}
 
 			if ( !IsPostBack )
 			{
 				// Initially hide the error panel.
 				ErrorPanel.Visible = false;
+				MessagePanel.Visible = false;
 
 				Control body = Page.FindControl( "users" );
 				if ( body != null )
@@ -467,6 +482,16 @@ namespace Novell.iFolderWeb.Admin
 					}
 					break;
 			}
+		}
+
+		/// <summary>
+		/// Shows up an error below the banner.
+		/// </summary>
+		/// <param name="msg"></param>
+		public void ShowInfo( string msg )
+		{
+			InfoMsg.Text = String.Format( msg );
+			MessagePanel.Visible = true;
 		}
 
 		/// <summary>

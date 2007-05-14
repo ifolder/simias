@@ -71,9 +71,6 @@
 							<%= GetString( "LASTMODIFIED" ) %>
 						</td>
 						
-						<td class="sizecolumn">
-							<%= GetString( "SIZE" ) %>
-						</td>
 					</tr>
 			
 				</table>
@@ -140,8 +137,6 @@
 						<asp:BoundColumn ItemStyle-CssClass="ifolderitem5" DataField="MemberCountField" />
 						
 						<asp:BoundColumn ItemStyle-CssClass="ifolderitem6" DataField="LastModifiedField" />
-						
-						<asp:BoundColumn ItemStyle-CssClass="ifolderitem7" DataField="SizeField" />
 						
 					</Columns>
 					

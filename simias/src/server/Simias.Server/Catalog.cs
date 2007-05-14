@@ -746,6 +746,26 @@ namespace Simias.Server
 		}
 
 		/// <summary>
+		/// Get all the entries in the catalogue
+		/// </summary> 
+		static public CatalogEntry[] GetAllEntriesByName (string name, SearchOp searchOp)
+		{
+			ArrayList entries = new ArrayList();
+
+			Property p = new Property( BaseSchema.ObjectName, name );
+
+			ICSList nodes = catalog.Search( p, searchOp );
+
+			foreach( ShallowNode sn in nodes )
+			{
+			    if (sn.Type != "Member" && sn.Type != "StoreFileNode")
+				entries.Add( new CatalogEntry( sn ) );
+			}
+
+			return entries.ToArray( typeof( CatalogEntry ) ) as CatalogEntry[];
+		}
+
+		/// <summary>
 		/// Get a catalog entry for the specified collection
 		/// </summary>
 		static public CatalogEntry GetEntryByCollectionID( string CollectionID )

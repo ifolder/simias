@@ -867,6 +867,31 @@ namespace iFolder.WebService
 			base.IdentitySyncNow();
 		}
 
+		/// <summary>
+		/// Get the loglevels set in Simias.log4net
+		/// </summary>
+		///
+		[WebMethod(
+			 Description= "Cause the Identity Sync Service to synchronize immediately.",
+			 EnableSession = true)]
+		public override string[] GetLogLevels()
+		{
+			return base.GetLogLevels();
+		}
+
+		/// <summary>
+		/// Get the loglevels set in Simias.log4net
+		/// </summary>
+		///
+		[WebMethod(
+			 Description= "Cause the Identity Sync Service to synchronize immediately.",
+			 EnableSession = true)]
+		public override void SetLogLevel(iFolderServer.LoggerType type, string logLevel )
+		{
+			base.SetLogLevel(type, logLevel);
+		}
+
+
 		#endregion
 	}
 }

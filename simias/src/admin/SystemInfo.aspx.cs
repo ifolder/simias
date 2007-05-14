@@ -151,6 +151,8 @@ namespace Novell.iFolderWeb.Admin
 		/// </summary>
 
 		protected bool IsMaster;
+		
+		protected string currentServerURL;
 
 		#endregion
 
@@ -332,10 +334,43 @@ namespace Novell.iFolderWeb.Admin
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
+		private void ConnectToMaster ( )
+		{
+		    
+		        iFolderServer[] list = web.GetServers();
+
+			foreach( iFolderServer server in list )
+			{
+			        if (!server.IsMaster)
+				{
+				       UriBuilder remoteurl = new UriBuilder(server.PublicUrl);
+				       remoteurl.Path = (new Uri(web.Url)).PathAndQuery;
+				       web.Url = remoteurl.Uri.ToString();
+				       break;
+				}
+			}
+
+			try 
+			{
+				iFolder domain = web.GetiFolder( web.GetSystem().ID );
+				SuperAdminID = domain.OwnerID;
+			}
+			catch (Exception e )
+			{
+			        web.Url = currentServerURL;
+			        throw new Exception ("Unable to connect to master server");
+			}
+		}
+		/// <summary>
+		/// Page_Load
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void Page_Load( object sender, System.EventArgs e )
 		{
 			// connection
 			web = Session[ "Connection" ] as iFolderAdmin;
+			currentServerURL = web.Url;
 
 			// localization
 			rm = Application[ "RM" ] as ResourceManager;
@@ -359,9 +394,6 @@ namespace Novell.iFolderWeb.Admin
 
 				ShowIdentitySync();
 
-				// Get the owner of the system.
-				iFolder domain = web.GetiFolder( web.GetSystem().ID );
-				SuperAdminID = domain.OwnerID;
 			}
 		}
 
@@ -372,6 +404,8 @@ namespace Novell.iFolderWeb.Admin
 		/// <param name="e"></param>
 		private void Page_PreRender( object source, EventArgs e )
 		{
+			ConnectToMaster ();
+			
 			// Show the ifolder system information.
 			GetSystemInformation();
 

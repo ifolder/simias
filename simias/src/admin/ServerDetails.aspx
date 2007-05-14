@@ -70,7 +70,7 @@
 					
 					<tr>
 						<th>
-							<%= GetString( "PUBLICIPTAG" ) %>
+							<%= GetString( "PUBLICURI" ) %>
 						</th>
 						
 						<td>
@@ -80,7 +80,7 @@
 					
 					<tr>
 						<th>
-							<%= GetString( "PRIVATEIPTAG" ) %>
+							<%= GetString( "PRIVATEURI" ) %>
 						</th>
 						
 						<td>
@@ -248,7 +248,6 @@
 				CssClass="ifolderbuttons" 
 				OnClick="ViewLogFile" />
 
--			<div class="loglevel">
 
 				<asp:Label 
 					ID="LogLevelLabel" 
@@ -263,8 +262,8 @@
 					ID="LogLevelButton" 
 					Runat="server" 
 					CssClass="ifolderbuttons" 
-					Enabled="False" />
-			</div>
+					OnClick="LogLevelButtonClicked"
+					Enabled="True" />
 		</div>
 		
 	</div>

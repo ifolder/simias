@@ -55,7 +55,6 @@ namespace Novell.iFolderWeb.Admin
 		private const int iFolderOwnerColumn = 5;
 		private const int iFolderSizeMemberCountColumn = 6;
 		private const int iFolderLastModifiedColumn = 7;
-		private const int iFolderSizeColumn = 8;
 
 		/// <summary>
 		/// iFolder Connection
@@ -212,7 +211,6 @@ namespace Novell.iFolderWeb.Admin
 				dr[ 7 ] = folder.OwnerFullName;
 				dr[ 8 ] = folder.MemberCount.ToString();
 				dr[ 9 ] = Utils.ToDateTimeString( "d", folder.LastModified );
-				dr[ 10 ] = Utils.ConvertToUnitString( folder.Size, true, rm );;
 
 				dt.Rows.Add( dr );
 			}
@@ -231,7 +229,6 @@ namespace Novell.iFolderWeb.Admin
 				dr[ 7 ] = String.Empty;
 				dr[ 8 ] = String.Empty;
 				dr[ 9 ] = String.Empty;
-				dr[ 10 ] = String.Empty;
 
 				dt.Rows.Add( dr );
 			}

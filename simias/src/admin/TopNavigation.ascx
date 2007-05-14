@@ -71,3 +71,9 @@
 
 </div>
 
+<div id="MessagePanel" runat="server" class="messagepanel">
+
+	<asp:Label ID="InfoMsg" Runat="server" CssClass="messagemsg" />
+
++</div>
+

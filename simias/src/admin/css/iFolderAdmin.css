@@ -423,3 +423,19 @@ body#reports li.reports a
 	font-weight: bold;
 }
 
+.messagepanel
+{
+	clear: both;
+	height: 3em;
+	padding: 8px;
+	border-bottom: solid 1px #999999;
+	background-color: #a3ffa3;
+	text-align: center;
+}
+
+.messagemsg
+{
+	color: Red;
+	font-weight: bold;
+}
+

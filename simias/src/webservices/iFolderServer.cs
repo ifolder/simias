@@ -25,6 +25,8 @@ using System;
 using System.Collections;
 using System.Net;
 using System.IO;
+using System.Xml;
+using System.Text;
 
 using Simias.Client;
 using Simias.Storage;
@@ -139,6 +141,36 @@ namespace iFolder.WebService
 		public int UserCount;
 
 		/// <summary>
+		/// xpath for access-logger log level in Simias.log4net
+		/// </summary>
+	        private const string xpathAccessLogger = "//logger[@name='AccessLogger']/level";
+
+		/// <summary>
+		/// xpath for root-logger log level in Simias.log4net
+		/// </summary>
+	        private const string xpathRootLogger = "//root/level";
+
+	        public enum LoggerType
+		{
+		    /// <summary>
+		    /// iFolder User Username
+		    /// </summary>
+		    RootLogger = 0,
+
+		    /// <summary>
+		    /// iFolder User Full Name
+		    /// </summary>
+		    AccessLogger = 1,
+		}
+
+// 	        public readonly string log4netConfigurationPath;
+	        
+// 	        static iFolderServer ()
+// 		{
+// 		    log4netConfiguration = Store.GetStore().StorePath;
+// 		}
+
+		/// <summary>
 		/// Constructor
 		/// </summary>
 		public iFolderServer() : this(HostNode.GetLocalHost())
@@ -210,6 +242,76 @@ namespace iFolder.WebService
 			return files;
 		}
 
+        public static string[] GetLogLevels ()
+		{
+		        string[] loglevels = new string[2];
+			Store store = Store.GetStore();
+			string log4netConfigurationPath = Path.Combine ( Store.StorePath, "Simias.log4net");
+
+			XmlDocument configDoc = new XmlDocument ();
+			configDoc.Load (log4netConfigurationPath);
+
+			loglevels [(int)LoggerType.RootLogger] = GetXmlKeyValue (configDoc, xpathRootLogger, "value");
+			loglevels [(int)LoggerType.AccessLogger] = GetXmlKeyValue (configDoc, xpathAccessLogger, "value");
+
+			return loglevels;
+		}
+
+		/// <summary>
+		/// Get the HomeServer URL for User.
+		/// </summary>
+		/// <returns>Return the URL for the server </returns>
+	    public static void SetLogLevel (LoggerType loggerType, string logLevel)
+		{
+			Store store = Store.GetStore();
+			string log4netConfigurationPath = Path.Combine ( Store.StorePath, "Simias.log4net");
+
+			XmlDocument configDoc = new XmlDocument ();
+			configDoc.Load (log4netConfigurationPath);
+
+			switch (loggerType)
+			{
+			        case LoggerType.RootLogger:
+				        SetXmlKeyValue (configDoc, xpathRootLogger, "value", logLevel);
+				break;
+
+			        case LoggerType.AccessLogger:
+				        SetXmlKeyValue (configDoc, xpathAccessLogger, "value", logLevel);
+				break;
+			}
+
+			CommitConfiguration (configDoc, log4netConfigurationPath);
+		}
+
+
+        private static string GetXmlKeyValue( XmlDocument xmldoc, string xpath, string attribute )
+		{
+			XmlElement xmlElement = xmldoc.DocumentElement.SelectSingleNode( xpath ) as XmlElement;
+			return xmlElement.GetAttribute (attribute);
+		}
+
+	        private static void SetXmlKeyValue( XmlDocument xmldoc, string xpath, string attribute, string value )
+		{
+			XmlElement xmlElement = xmldoc.DocumentElement.SelectSingleNode( xpath ) as XmlElement;
+			xmlElement.SetAttribute (attribute, value);
+		}
+
+		private static void CommitConfiguration( XmlDocument document, string tofile )
+		{
+			// Write the configuration file settings.
+			XmlTextWriter xtw = 
+				new XmlTextWriter( tofile, Encoding.UTF8 );
+			try
+			{
+				xtw.Formatting = Formatting.Indented;
+				document.WriteTo( xtw );
+			}
+			finally
+			{
+				xtw.Close();
+			}
+		}
+
 		/// <summary>
 		/// Get the HomeServer URL for User.
 		/// </summary>
@@ -273,11 +375,9 @@ namespace iFolder.WebService
 		/// <returns>An Array of iFolder Server Object</returns>
 		public static iFolderServer[] GetServers()
 		{
-			ArrayList list = new ArrayList();
-			
-			list.Add(GetHomeServer());
+			iFolderServerSet list = GetServersByName ( iFolderServerType.All, SearchOperation.BeginsWith, "", 0, 0);
 
-			return (iFolderServer[])list.ToArray(typeof(iFolderServer));
+			return list.Items;
 		}
 
 		/// <summary>
