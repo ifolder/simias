@@ -68,6 +68,7 @@ namespace Novell.iFolder
 		private static string MasterAddressKey = "MasterAddress";
 		private static string PublicAddressKey = "PublicAddress";
 		private static string PrivateAddressKey = "PrivateAddress";
+		private static string oldConfigPath = "/var/lib/wwwrun/.local/share/simias/";
 
 		private static string TemplateScriptFile = "simias-server";
 
@@ -157,7 +158,7 @@ namespace Novell.iFolder
 		public Option masterAddress = new Option("master-address,ma", "Master Server Private URL", "Private URL of Master Server", false, null);
 
 		/// <summary>
-		/// Simias System Name
+		/// Display Help
 		/// </summary>
 		public NoPromptOption help = new NoPromptOption("help,?", "Usage Help", "Show This Screen", false, null);
 
@@ -255,6 +256,11 @@ namespace Novell.iFolder
 		/// Prompt for options.
 		/// </summary>
 		public NoPromptOption prompt = new NoPromptOption("prompt", "Prompt For Options", "Prompt the user for missing options", false, null);
+
+		/// <summary>
+		/// Upgrade 3.2
+		/// </summary>
+		public NoPromptOption upgrade = new NoPromptOption("upgrade,ug", "Upgrade from 3.2 or older version of iFolder", "Auto Upgrade the store", false, null);
 		#endregion
 
 		#region Constructors
@@ -287,6 +293,7 @@ namespace Novell.iFolder
 			useRA.OnOptionEntered = new Option.OptionEnteredHandler( OnRA );
 			recoveryAgentCertificatePath.OnOptionEntered = new Option.OptionEnteredHandler( OnRAPath );
 			apache.OnOptionEntered = new Option.OptionEnteredHandler ( OnApache );
+			upgrade.OnOptionEntered = new Option.OptionEnteredHandler ( OnUpgrade );
 		}
 
 		#endregion
@@ -626,6 +633,12 @@ namespace Novell.iFolder
 					ShowUsage();
 				}
 
+				if(upgrade.Assigned)
+				{
+					Prompt.CanPrompt = true;
+					PromptForArguments();
+				}
+
 				if ( prompt.Assigned )
 				{
 					Prompt.CanPrompt = true;
@@ -691,6 +704,120 @@ namespace Novell.iFolder
 			Console.WriteLine();
 			Console.WriteLine( "Working..." );
 			Console.WriteLine();
+		}
+
+		private bool OnUpgrade()
+		{
+			Configuration oldConfig = new Configuration( oldConfigPath, true );
+			publicUrl.Prompt = privateUrl.Prompt = serverName.Prompt = true;
+			
+			// Public address
+			Uri defaultUrl = 
+				new Uri( 
+						Uri.UriSchemeHttp + 
+						"://" + 
+						System.Net.Dns.GetHostByName(System.Net.Dns.GetHostName()).AddressList[0].ToString() + 
+						":80" +
+						"/simias10");
+			
+			string systemNameStr = oldConfig.Get( "Domain", "EnterpriseName" );
+			systemName.DefaultValue = ( systemNameStr != null ) ? systemNameStr : systemName.Value;
+//			systemName.Assigned = true;
+			Console.WriteLine("System Name: {0}", systemName.DefaultValue);
+			
+			string systemDescriptionStr = oldConfig.Get( "Domain", "EnterpriseDescription" );
+			systemDescription.DefaultValue = ( systemDescriptionStr != null ) ? systemDescriptionStr : systemDescription.Value;
+//			systemDescription.Assigned = true;
+			Console.WriteLine("System Desc: {0}", systemDescription.DefaultValue);
+			
+			// system admin dn
+			string systemAdminDNStr = oldConfig.Get( "Domain", "AdminDN" );
+			systemAdminDN.DefaultValue = ( systemAdminDNStr != null ) ? systemAdminDNStr : systemAdminDN.Value;
+//			systemAdminDN.Assigned = true;
+			Console.WriteLine("System Admin DN Name: {0}", systemAdminDN.DefaultValue);
+
+			string storeDataPath = oldConfig.Get( "StoreProvider", "Path" );
+			path.DefaultValue = ( storeDataPath != null ) ? storeDataPath : path.Value;
+//			path.Assigned = true;
+			storePath = Path.GetFullPath(path.Value);
+                        if ( Path.GetFileName( storePath ) != "simias" )
+                        {
+                                storePath = Path.Combine( storePath, "simias" );
+                        }
+
+			Console.WriteLine("Path Name: {0}", path.DefaultValue);
+
+			// ldap settings
+			LdapSettings ldapSettings = LdapSettings.Get( oldConfigPath, true );
+			
+			// ldap uri
+			ldapServer.DefaultValue = ldapSettings.Uri.Host;
+			
+			// naming Attribute
+			namingAttribute.DefaultValue = ldapSettings.NamingAttribute.ToString();
+			Console.WriteLine("naming attr: {0}", namingAttribute.DefaultValue);
+			
+			
+			// ldap proxy dn
+			if ((ldapSettings.ProxyDN != null) && (ldapSettings.ProxyDN.Length > 0))
+			{
+				ldapProxyDN.DefaultValue = ldapSettings.ProxyDN;
+				Console.WriteLine("ldapProxyDN: {0}", ldapProxyDN.DefaultValue);
+			}
+			
+			// ldap proxy password
+			if ((ldapSettings.ProxyPassword != null) && (ldapSettings.ProxyPassword.Length > 0))
+			{
+				ldapProxyPassword.DefaultValue = ldapSettings.ProxyPassword;
+			}
+			
+			// context
+			string contexts = "";
+			foreach(string context in ldapSettings.SearchContexts)
+			{
+				contexts += (context + "#");
+			}
+			
+			if (contexts.Length > 1)
+			{
+				ldapSearchContext.Value = ldapSearchContext.DefaultValue = contexts.Substring(0, contexts.Length - 1);
+				Console.WriteLine("ldapSearch Name: {0}", ldapSearchContext.DefaultValue);
+				ldapSearchContext.Assigned = true;
+			}
+
+			//Information already fetched from config
+			systemName.Prompt = systemDescription.Prompt = systemAdminDN.Prompt = path.Prompt = false;
+			systemName.Required = systemDescription.Required = systemAdminDN.Required = path.Required = false;
+			
+			// LDAP information will be read from the old config.
+			useLdap.Prompt = ldapServer.Prompt = secure.Prompt = ldapAdminDN.Prompt =
+				ldapProxyDN.Prompt = ldapSearchContext.Prompt = 
+				namingAttribute.Prompt = false;
+
+			useLdap.Required = ldapServer.Required = secure.Required = ldapAdminDN.Required =
+				ldapProxyDN.Required = ldapSearchContext.Required = 
+				namingAttribute.Required = false;
+
+			usingLDAP = true;
+
+                        // Check if a default Simias.config exists in the normal
+                        // specified areas
+                        if ( SetupDefaultConfigPath() == true )
+                        {
+                                defaultConfigPath.Prompt = false;
+                                defaultConfigPath.Required = false;
+
+                                SetupConfigFiles();
+                        //        UpdateDefaults();
+                        }
+
+			//Convert the log to Changelog
+			string changelogPath = Path.GetFullPath(storePath+"/log");
+			string changelogPathNew = Path.GetFullPath(storePath+"/changelog");
+			Console.WriteLine("old {0} New {1}", changelogPath, changelogPathNew);
+			System.IO.Directory.Move(changelogPath, changelogPathNew);
+
+			return true;
 		}
 
 		/// <summary>
@@ -1098,6 +1225,9 @@ namespace Novell.iFolder
 			if (ldapUtility.Secure && MyEnvironment.Mono)
 			{
 				const string certfile = "RootCert.cer";
+				Console.WriteLine("{0} {1} {2} {3} get {4}",
+                                            ldapUtility.Host, ldapUtility.Port, slaveServer.Value ? systemAdminDN.Value : ldapAdminDN.Value,
+                                            slaveServer.Value ? systemAdminPassword.Value : ldapAdminPassword.Value, certfile);
 								
 				if (Execute("./get-root-certificate", "{0} {1} {2} {3} get {4}",
 					    ldapUtility.Host, ldapUtility.Port, slaveServer.Value ? systemAdminDN.Value : ldapAdminDN.Value,

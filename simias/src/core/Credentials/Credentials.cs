@@ -325,13 +325,14 @@ namespace Simias.Authentication
 		public BasicCredentials( string DomainID, string CollectionID, string ID ) :
 				base( DomainID, CollectionID, ID )
 		{
-			this.store = Store.GetStore();
+//			this.store = Store.GetStore();
 			//ValidateArguments( DomainID, CollectionID, MemberID );
 			
 			if ( this.Cached == true )
 			{
 				this.password = this.Blob as string;
 			}
+#if CASA			
 			else
 			if ( store.DefaultDomain == DomainID && casaAssembly != null )
 			{
@@ -379,6 +380,7 @@ namespace Simias.Authentication
 					log.Error( e.StackTrace );
 				}
 			}
+#endif //CASA			
 		}
 		
 		/// <summary>

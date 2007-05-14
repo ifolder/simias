@@ -76,9 +76,12 @@ namespace Simias.LdapProvider
 		public static readonly string ProxyPasswordKey = "ProxyPassword";
 
 		public static readonly string DomainSection = "EnterpriseDomain";
+		public static readonly string OldDomainSection = "Domain";
 		public static readonly string SimiasAdminDNKey = "AdminName";
+		public static readonly string SimiasOldAdminDNKey = "AdminDN";
 
 		private static readonly string LdapSystemBookSection = "LdapProvider";
+		private static readonly string OldLdapSystemBookSection = "LdapSystemBook";
 		private static readonly string SearchKey = "Search";
 		public static readonly string XmlContextTag = "Context";
 		private static readonly string XmlDNAttr = "dn";
@@ -350,6 +353,67 @@ namespace Simias.LdapProvider
 				this.namingAttribute = namingAttributeString;
 			}
         }
+
+		
+        private LdapSettings( string storePath, bool upgrade )
+        {
+        	if(upgrade)
+        	{
+				this.storePath = storePath;
+				
+				Configuration config = new Configuration( storePath, true );
+				settingChangeMap = 0;
+				
+				ldapType = LdapDirectoryType.eDirectory;
+				
+				// <setting name="LdapUri" />
+				string uriString = config.Get( LdapAuthenticationSection, UriKey );
+				if ( uriString != null )
+				{
+					this.uri = new Uri( uriString );
+				}
+				
+				this.scheme = uri.Scheme;
+				this.host = uri.Host;
+				if ( ( this.port = uri.Port ) == -1 )
+				{
+					this.port = SSL ? UriPortLdaps : UriPortLdap;
+				}
+				
+				string proxyString = config.Get( LdapAuthenticationSection, ProxyDNKey );
+				if ( proxyString != null )
+				{
+					proxy = proxyString;
+				}
+				
+				// Get the password from the file if it exists.
+				this.password = GetProxyPasswordFromFile();
+				
+				string simiasAdminString = config.Get( OldDomainSection, SimiasOldAdminDNKey );
+				if ( simiasAdminString != null )
+				{
+					simiasAdmin = simiasAdminString;
+				}
+				
+				// <setting name="Search" />
+				searchElement = config.GetElement( OldLdapSystemBookSection, SearchKey );
+				if ( searchElement != null )
+				{
+					XmlNodeList contextNodes = searchElement.SelectNodes( XmlContextTag );
+					foreach( XmlElement contextNode in contextNodes )
+					{
+						searchContexts.Add( contextNode.GetAttribute( XmlDNAttr ) );
+					}
+				}
+				
+				string namingAttributeString = config.Get( OldLdapSystemBookSection, NamingAttributeKey );
+				if ( namingAttributeString != null )
+				{
+					this.namingAttribute = namingAttributeString;
+				}
+        	}
+				
+        }
 		#endregion
 
 		#region Private Methods
@@ -440,6 +504,14 @@ namespace Simias.LdapProvider
 		#endregion
 
 		#region Public Methods
+        public static LdapSettings Get( string storePath, bool upgrade )
+        {
+        	if(upgrade)
+	            return ( new LdapSettings( storePath, upgrade ) );
+		else
+	            return ( new LdapSettings( storePath ) );
+        }
+
         public static LdapSettings Get( string storePath )
         {
             return ( new LdapSettings( storePath ) );
