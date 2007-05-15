@@ -319,7 +319,18 @@ namespace Novell.iFolderApp.Web
 				web.CookieContainer = new CookieContainer();
 
 				// user, system, and server
-				iFolderUser user = web.GetAuthenticatedUser();
+				iFolderUser user = null;;
+				try
+				{
+					user = web.GetAuthenticatedUser();
+				}
+				catch ( WebException ex)
+				{
+					log.Info(Context, ex, "Login Failed");
+ 
+					if (!HandleException(ex)) throw;
+				}
+
 
 				Session["Connection"] = web;
 				Session["User"] = user;
