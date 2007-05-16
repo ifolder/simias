@@ -691,7 +691,6 @@ namespace Simias.Storage
 		{
 			string OldHash = null;
 			string NewHash = null;
-			ExportiFoldersCryptoKeys("/home/key.txt");
 
 			try
 			{
