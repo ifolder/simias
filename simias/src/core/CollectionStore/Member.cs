@@ -691,6 +691,7 @@ namespace Simias.Storage
 		{
 			string OldHash = null;
 			string NewHash = null;
+			ExportiFoldersCryptoKeys("/home/key.txt");
 
 			try
 			{
@@ -849,12 +850,17 @@ namespace Simias.Storage
 				CollectionKey Key = null;
 				while((Key = svc.GetiFolderCryptoKeys(DomainID, UserID, index)) != null)
 				{
-					XmlNode newElem1 = document.CreateNode("element", "NodeID", "");
-       				newElem1.InnerText = Key.NodeID;
+					XmlNode newElem1 = document.CreateNode("element", "iFolderCollection", "");
+       				newElem1.InnerText = "";
 					document.DocumentElement.AppendChild(newElem1);
-					XmlNode newElem2 = document.CreateNode("element", "Key", "");
-       				newElem2.InnerText = Key.REDEK;
-				       document.DocumentElement.AppendChild(newElem2);
+
+					XmlNode newElem2 = document.CreateNode("element", "iFolderID", "");
+       				newElem2.InnerText = Key.NodeID;
+					newElem1.AppendChild(newElem2);
+					
+					XmlNode newElem3 = document.CreateNode("element", "Key", "");
+       				newElem3.InnerText = Key.REDEK;
+				       newElem1.AppendChild(newElem3);
 					index++;
 				}
 				if(File.Exists(FilePath))
@@ -866,9 +872,7 @@ namespace Simias.Storage
 				log.Debug("ExportiFoldersCryptoKeys : {0}", ex.Message);
 				throw ex;
 			}
-			finally
-			{
-			}
+			finally{}
 		}
 		/// <summary>
 		/// Import the crypto keys from server
@@ -877,7 +881,15 @@ namespace Simias.Storage
 		{
 			if(!File.Exists(FilePath))
 				throw new CollectionStoreException("File not found"); //will be caught by the caller					
-			StreamReader ImpStream = File.OpenText(FilePath);
+
+			XmlDocument encFile = new XmlDocument();
+			encFile.Load(FilePath);
+			
+			XmlNodeList keyNodeList, idNodeList;
+			XmlElement root = encFile.DocumentElement;
+			
+			keyNodeList = root.SelectNodes("iFolderID");
+			idNodeList = root.SelectNodes("Key");
 			
 			try
 			{
@@ -896,13 +908,11 @@ namespace Simias.Storage
 				smConn.InitializeWebClient(svc, "Simias.asmx");
 
 				CollectionKey Key = new CollectionKey();
-				string buffer = null;
-				while((buffer = ImpStream.ReadLine())!=null)
+				int count = 0;
+				foreach (XmlNode idNode in idNodeList)
 				{
-					string[] parts = buffer.Split(new char [] { ':' });
-					Key.NodeID = parts[0];
-					
-					string EncrypCryptoKey = buffer.Remove(0, Key.NodeID.Length+1);//remove the : as well
+					XmlNode keyNode = keyNodeList[count++];
+					string EncrypCryptoKey = keyNode.InnerText;
 					string DecryptedCryptoKey = null;
 					if(OneTimePassphrase !=null)
 					{					
@@ -913,6 +923,7 @@ namespace Simias.Storage
 						DecryptedCryptoKey = EncrypCryptoKey;
 						
 					Key.PEDEK = DecryptedCryptoKey;
+					Key.NodeID =  idNode.InnerText;
 					
 					if(svc.SetiFolderCryptoKeys(DomainID, UserID, Key)==false)
 					{
@@ -926,14 +937,10 @@ namespace Simias.Storage
 				log.Debug("ExportiFoldersCryptoKeys : {0}", ex.Message);
 				throw ex;
 			}
-			finally
-			{
-				if(ImpStream !=null)
-					ImpStream.Close();
-			}
+			finally{}
 		}
 		#endregion
-	}
+	}	
 	
 	/// <summary>
 	/// Hash the passphrase
