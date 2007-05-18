@@ -21,7 +21,7 @@
 		</td>
 		
 		<!-- remove from breadcrumb header for all pages, and add to search page only -->
-		<td class="search" style="display:none">
+		<td class="search" >
 			<asp:TextBox ID="SearchPattern" AutoPostBack="true" CssClass="searchText" runat="server" />
 		</td>
 		

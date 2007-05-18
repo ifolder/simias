@@ -54,7 +54,9 @@
 	
 		function SetFocus()
 		{
-			document.getElementById("iFolderContext_SearchPattern").select();
+			// document.getElementById("iFolderContext_SearchPattern").select(); 
+			// Only search page should have the search box, so disabling from other pages 
+			document.getElementById("iFolderContext_SearchPattern").style.display = "none";
 		}
 		
 		// on load

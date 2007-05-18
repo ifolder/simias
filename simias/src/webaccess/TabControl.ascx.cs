@@ -57,7 +57,7 @@ namespace Novell.iFolderApp.Web
 		/// <summary>
 		/// The Members Link
 		/// </summary>
-		public HyperLink MembersLink;
+		protected HyperLink MembersLink;
 
 		/// <summary>
 		/// The History Link
@@ -146,5 +146,14 @@ namespace Novell.iFolderApp.Web
 		}
 
 		#endregion
+		
+		/// <summary>
+		/// Make memberstab invisible for encrypted ifolders
+		/// </summary>
+		public void MakeMembersLinkInvisible()
+		{
+			MembersLink.Visible = false;
+		}
+		
 	}
 }

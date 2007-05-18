@@ -193,7 +193,9 @@ namespace Novell.iFolderWeb.Admin
 			foreach( iFolder folder in list.Items )
 			{
 				bool encrypted = false;
-				string EncryptionAlgorithm = folder.EncryptionAlgorithm;
+				
+				iFolder ifolder = web.GetiFolder(folder.ID);
+				string EncryptionAlgorithm = ifolder.EncryptionAlgorithm;
 				if(!(EncryptionAlgorithm == null || (EncryptionAlgorithm == String.Empty)))
 				{
 					// It is an encrypted ifolder 

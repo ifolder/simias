@@ -137,7 +137,7 @@ namespace Novell.iFolderApp.Web
 				if(!(EncryptionAlgorithm == null || (EncryptionAlgorithm == String.Empty)))
 				{
 					// It is an encrypted ifolder , Make the Members tab invisible
-					Tabs.MembersLink.Visible = false;
+					Tabs.MakeMembersLinkInvisible();
 				}
 				
 				// data

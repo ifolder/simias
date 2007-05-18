@@ -24,7 +24,9 @@
 	
 		function SetFocus()
 		{
-			document.getElementById("iFolderContext_SearchPattern").select();
+			//document.getElementById("iFolderContext_SearchPattern").select();
+			// Only search page should have the search box, so disabling from other pages 
+			document.getElementById("iFolderContext_SearchPattern").style.display = "none";
 		}
 		
 		// on load
@@ -46,7 +48,7 @@
 	
 		<div id="nav">
 	
-			<iFolder:TabControl runat="server" />
+			<iFolder:TabControl id="Tabs" runat="server" />
 	
 			<iFolder:iFolderActionsControl runat="server" />
 

@@ -158,8 +158,8 @@ a:hover
 .searchText
 {
 	width: 12em;
-//	background: #FFFFFF url(../images/search.png) 2px 2px no-repeat;
-	padding-left: 2px;
+	background: #FFFFFF url(../images/filter.png) 2px 2px no-repeat;
+	padding-left: 24px;
 }
 
 /* nav */
