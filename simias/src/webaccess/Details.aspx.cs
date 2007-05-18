@@ -202,7 +202,6 @@ namespace Novell.iFolderApp.Web
 				propertyTable.Rows.Add(new object[] { GetString("MEMBERS"), ifolder.MemberCount.ToString() });
 				propertyTable.Rows.Add(new object[] { GetString("FILES"), ifolder.FileCount.ToString() });
 				propertyTable.Rows.Add(new object[] { GetString("FOLDERS"), ifolder.DirectoryCount.ToString() });
-				propertyTable.Rows.Add(new object[] { GetString("PUBLISHED"), WebUtility.FormatYesNo(ifolder.Published, rm) });
 				propertyTable.Rows.Add(new object[] { GetString("LOCKED"), WebUtility.FormatYesNo(!ifolder.Enabled, rm) });
 			}
 			catch(SoapException ex)
