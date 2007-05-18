@@ -252,7 +252,6 @@ namespace Novell.iFolderWeb.Admin
 			dt.Columns.Add( new DataColumn( "EncryptedField", typeof( bool ) ) );
 			dt.Columns.Add( new DataColumn( "NameField", typeof( string ) ) );
 			dt.Columns.Add( new DataColumn( "OwnerNameField", typeof( string ) ) );
-			dt.Columns.Add( new DataColumn( "SizeField", typeof( string ) ) );
 
 			// Get the iFolder list for this user.
 			iFolderSet list;
@@ -293,7 +292,6 @@ namespace Novell.iFolderWeb.Admin
 				dr[ 5 ] = ( encrypted ) ? true : false;
 				dr[ 6 ] = folder.Name;
 				dr[ 7 ] = folder.OwnerFullName;
-				dr[ 8 ] = Utils.ConvertToUnitString( folder.Size, true, rm );
 
 				dt.Rows.Add( dr );
 			}
@@ -310,7 +308,6 @@ namespace Novell.iFolderWeb.Admin
 				dr[ 5 ] = false;
 				dr[ 6 ] = String.Empty;
 				dr[ 7 ] = String.Empty;
-				dr[ 8 ] = String.Empty;
 
 				dt.Rows.Add( dr );
 			}
@@ -399,7 +396,6 @@ namespace Novell.iFolderWeb.Admin
 				iFolderList.Columns[ iFolderTypeColumn ].HeaderText = GetString( "TYPE" );
 				iFolderList.Columns[ iFolderNameColumn ].HeaderText = GetString( "NAME" );
 				iFolderList.Columns[ iFolderOwnerColumn ].HeaderText = GetString( "OWNER" );
-				iFolderList.Columns[ iFolderSizeColumn ].HeaderText = GetString( "SIZE" );
 
 				DeleteiFolderButton.Text = GetString( "DELETE" );
 				DisableiFolderButton.Text = GetString( "DISABLE" );

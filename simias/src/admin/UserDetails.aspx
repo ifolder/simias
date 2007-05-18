@@ -143,10 +143,6 @@
 						<td class="ownercolumn">
 							<%= GetString( "OWNER" ) %>
 						</td>
-						
-						<td class="sizecolumn">
-							<%= GetString( "SIZE" ) %>
-						</td>
 					</tr>
 			
 				</table>
@@ -209,8 +205,6 @@
 								</asp:HyperLink>
 							</ItemTemplate>
 						</asp:TemplateColumn>
-						
-						<asp:BoundColumn ItemStyle-CssClass="ifolderitem5" DataField="SizeField" />
 						
 					</Columns>
 					

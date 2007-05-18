@@ -1,5 +1,9 @@
 2007-05-07  Johnny Jacob  <jjohnny@novell.com>
 	
+	* UserDetails.aspx.cs : Removing 'Size' column.
+	
+2007-05-07  Johnny Jacob  <jjohnny@novell.com>
+	
 	* ServerDetails.aspx.cs : Dont prompt for credentials while
 	downloading logs/reports. Fixes #252282.
 	
