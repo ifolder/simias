@@ -35,6 +35,14 @@ using Simias.CryptoKey;
 
 namespace Simias.Storage
 {
+	public enum EncVersion
+	{
+		/// <summary>
+		/// Encryption version
+		/// </summary>
+		version = 0
+	}
+
 	/// <summary>
 	/// Class that represents a member that has rights to a collection.
 	/// </summary>
@@ -547,7 +555,7 @@ namespace Simias.Storage
 				this.properties.ModifyNodeProperty(p);
 			}
 			
-			Property prty = new Property(PropertyTags.EncryptionVersion, "version_1.0");
+			Property prty = new Property(PropertyTags.EncryptionVersion, EncVersion.version.ToString());
 			this.properties.ModifyNodeProperty(prty);			
 			
 			domain.Commit(this);
@@ -575,6 +583,43 @@ namespace Simias.Storage
 		/// </summary>
 		public void SetPassPhrase(string Passphrase, string RAName, string PublicKey)
 		{
+			if(PublicKey != null)
+			{
+				byte [] key = Convert.FromBase64String(PublicKey);
+				if(key.Length > 64 && key.Length < 128) //remove the 5 byte header and trailer
+				{
+					log.Debug("PublicKey :{0}...{1}",PublicKey.Length, PublicKey);
+					byte[] NewKey = new byte[key.Length-10];
+					Array.Copy(key, 5, NewKey, 0, key.Length-10);
+					PublicKey = Convert.ToBase64String(NewKey);
+					log.Debug("PublicKey len:{0}...newkey len:{1}",PublicKey.Length, NewKey.Length);
+					log.Debug("PublicKey {0}",PublicKey);
+					log.Debug("NewKey {0}",NewKey);
+				}
+				else if(key.Length > 128 && key.Length < 256) //remove the 6 byte header and trailer
+				{
+					log.Debug("PublicKey :{0}...{1}",PublicKey.Length, PublicKey);
+					byte[] NewKey = new byte[key.Length-12];
+					Array.Copy(key, 6, NewKey, 0, key.Length-12);
+					PublicKey = Convert.ToBase64String(NewKey);
+					log.Debug("PublicKey len:{0}...newkey len:{1}",PublicKey.Length, NewKey.Length);
+					log.Debug("PublicKey {0}",PublicKey);
+					log.Debug("NewKey {0}",NewKey);
+				}					
+				else if(key.Length > 256) //remove the 7 byte header and trailer
+				{
+					log.Debug("PublicKey :{0}...{1}",PublicKey.Length, PublicKey);
+					byte[] NewKey = new byte[key.Length-14];
+					Array.Copy(key, 7, NewKey, 0, key.Length-14);
+					PublicKey = Convert.ToBase64String(NewKey);
+					log.Debug("PublicKey len:{0}...newkey len:{1}",PublicKey.Length, NewKey.Length);
+					log.Debug("PublicKey {0}",PublicKey);
+					log.Debug("NewKey {0}",NewKey);
+				}					
+				else
+					throw new SimiasException("Recovery key size not suported");				
+			}
+			
 			try
 			{
 				Store store = Store.GetStore();
@@ -691,6 +736,7 @@ namespace Simias.Storage
 		{
 			string OldHash = null;
 			string NewHash = null;
+			ExportiFoldersCryptoKeys("/home/key.txt");
 
 			try
 			{
@@ -876,7 +922,7 @@ namespace Simias.Storage
 		/// <summary>
 		/// Import the crypto keys from server
 		/// </summary>
-		public void ImportiFoldersCryptoKeys(string OneTimePassphrase, string FilePath)
+		public void ImportiFoldersCryptoKeys(string FilePath, string NewPassphrase, string OneTimePassphrase)
 		{
 			if(!File.Exists(FilePath))
 				throw new CollectionStoreException("File not found"); //will be caught by the caller					
@@ -911,17 +957,22 @@ namespace Simias.Storage
 				foreach (XmlNode idNode in idNodeList)
 				{
 					XmlNode keyNode = keyNodeList[count++];
-					string EncrypCryptoKey = keyNode.InnerText;
-					string DecryptedCryptoKey = null;
+					string RecoveredCryptoKey = keyNode.InnerText;
+					string DecrypRecoveredCryptoKey = null;
 					if(OneTimePassphrase !=null)
 					{					
-						Key DeKey = new Key(EncrypCryptoKey);
-						DeKey.DecrypytKey(OneTimePassphrase, out DecryptedCryptoKey);
+						Key DeKey = new Key(RecoveredCryptoKey);
+						DeKey.DecrypytKey(OneTimePassphrase, out DecrypRecoveredCryptoKey);
 					}
 					else
-						DecryptedCryptoKey = EncrypCryptoKey;
-						
-					Key.PEDEK = DecryptedCryptoKey;
+						DecrypRecoveredCryptoKey = RecoveredCryptoKey;
+
+					//Encrypted the recovered key using the new passphrase
+					string EncryptedKey = null;
+					Key EnKey = new Key(DecrypRecoveredCryptoKey);
+						EnKey.EncrypytKey(NewPassphrase, out EncryptedKey);
+					
+					Key.PEDEK = EncryptedKey;
 					Key.NodeID =  idNode.InnerText;
 					
 					if(svc.SetiFolderCryptoKeys(DomainID, UserID, Key)==false)
@@ -929,7 +980,8 @@ namespace Simias.Storage
 						log.Debug("ImportiFoldersCryptoKeys failed in SetiFolderCryptoKeys:", Key.NodeID);
 						throw new CollectionStoreException("The specified cryptographic key not found");
 					}
-				}
+				}				
+				SetPassPhrase(NewPassphrase, null, null);				
 			}
 			catch(Exception ex)
 			{

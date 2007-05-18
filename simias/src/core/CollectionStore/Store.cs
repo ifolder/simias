@@ -1693,7 +1693,6 @@ namespace Simias.Storage
 		#endregion
 	}
 
-	
 	/// <summary>
 	/// Key class, only TripleDES algorithmsupported
 	/// </summary>

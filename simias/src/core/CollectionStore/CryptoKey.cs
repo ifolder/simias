@@ -82,7 +82,7 @@ namespace Simias.CryptoKey
 		///</summary>
 		public RecoveryAgent(string RAPublicKey)
 		{
-			publicKey	 = Encoding.ASCII.GetBytes(RAPublicKey);
+			publicKey	 = Convert.FromBase64String(RAPublicKey);
 		}
 
 		///<summary>
@@ -105,7 +105,7 @@ namespace Simias.CryptoKey
 				// Convert the message to bytes to create the encrypted data.
 				UTF8Encoding Utf8 = new UTF8Encoding();
 				byte[] byteMessage = Utf8.GetBytes(message);
-				encodedMessage = Utf8.GetString(RSA.Encrypt(byteMessage, false));
+				encodedMessage = Convert.ToBase64String(RSA.Encrypt(byteMessage, false));
 			}
 			catch (Exception ex)
 			{

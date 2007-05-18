@@ -1487,7 +1487,7 @@ log.Debug("SimiasWebService.ConnectToDomain() called to connect to {0} as {1}", 
 		///<returns>passPhrase.</returns>
 		[WebMethod(EnableSession=true, Description="ImportiFoldersCryptoKeys.")]
 		[SoapDocumentMethod]	
-		public void ImportiFoldersCryptoKeys(string DomainID, string OneTimePassphrase, string FilePath)
+		public void ImportiFoldersCryptoKeys(string DomainID, string NewPassphrase, string OneTimePassphrase, string FilePath)
 		{
 			log.Debug("ImportiFoldersCryptoKeys - called");
 			try
@@ -1506,7 +1506,7 @@ log.Debug("SimiasWebService.ConnectToDomain() called to connect to {0} as {1}", 
 					throw new CollectionStoreException("The specified domain member not found");
 				}
 
-				member.ImportiFoldersCryptoKeys(OneTimePassphrase, FilePath);
+				member.ImportiFoldersCryptoKeys(FilePath, NewPassphrase, OneTimePassphrase);
 			}
 			catch(Exception ex)
 			{
