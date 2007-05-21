@@ -716,7 +716,7 @@ namespace Simias.Storage
 				if(raPublicKey !="")
 				{
 					RecoveryAgent agent = new RecoveryAgent(raPublicKey);
-					this.recoveryKey = agent.EncodeMessage(this.encryptionKey);
+					this.recoveryKey = agent.EncodeMessage(key.GetKey());
 					properties.AddNodeProperty(PropertyTags.RecoveryKey, this.recoveryKey);
 				}
 			}

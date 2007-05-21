@@ -845,7 +845,7 @@ namespace Simias.Sync
 					
 					Key hashKey = new Key(EncryptionKey);
 					if(hashKey.HashKey() != EncryptionBlob)
-						throw new CollectionStoreException("The specified cryptographic key not found");
+						throw new CollectionStoreException("The specified cryptographic key does not match");
 
 					return true;
 				}

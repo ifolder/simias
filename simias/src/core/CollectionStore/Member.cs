@@ -588,33 +588,21 @@ namespace Simias.Storage
 				byte [] key = Convert.FromBase64String(PublicKey);
 				if(key.Length > 64 && key.Length < 128) //remove the 5 byte header and trailer
 				{
-					log.Debug("PublicKey :{0}...{1}",PublicKey.Length, PublicKey);
 					byte[] NewKey = new byte[key.Length-10];
 					Array.Copy(key, 5, NewKey, 0, key.Length-10);
 					PublicKey = Convert.ToBase64String(NewKey);
-					log.Debug("PublicKey len:{0}...newkey len:{1}",PublicKey.Length, NewKey.Length);
-					log.Debug("PublicKey {0}",PublicKey);
-					log.Debug("NewKey {0}",NewKey);
 				}
 				else if(key.Length > 128 && key.Length < 256) //remove the 6 byte header and trailer
 				{
-					log.Debug("PublicKey :{0}...{1}",PublicKey.Length, PublicKey);
 					byte[] NewKey = new byte[key.Length-12];
 					Array.Copy(key, 6, NewKey, 0, key.Length-12);
 					PublicKey = Convert.ToBase64String(NewKey);
-					log.Debug("PublicKey len:{0}...newkey len:{1}",PublicKey.Length, NewKey.Length);
-					log.Debug("PublicKey {0}",PublicKey);
-					log.Debug("NewKey {0}",NewKey);
 				}					
 				else if(key.Length > 256) //remove the 7 byte header and trailer
 				{
-					log.Debug("PublicKey :{0}...{1}",PublicKey.Length, PublicKey);
 					byte[] NewKey = new byte[key.Length-14];
 					Array.Copy(key, 7, NewKey, 0, key.Length-14);
 					PublicKey = Convert.ToBase64String(NewKey);
-					log.Debug("PublicKey len:{0}...newkey len:{1}",PublicKey.Length, NewKey.Length);
-					log.Debug("PublicKey {0}",PublicKey);
-					log.Debug("NewKey {0}",NewKey);
 				}					
 				else
 					throw new SimiasException("Recovery key size not suported");				
@@ -952,32 +940,37 @@ namespace Simias.Storage
 				smConn.Authenticate ();
 				smConn.InitializeWebClient(svc, "Simias.asmx");
 
-				CollectionKey Key = new CollectionKey();
+				CollectionKey cKey = new CollectionKey();
 				int count = 0;
 				foreach (XmlNode idNode in idNodeList)
 				{
+					PassphraseHash hash = new PassphraseHash();
+					
 					XmlNode keyNode = keyNodeList[count++];
 					string RecoveredCryptoKey = keyNode.InnerText;
 					string DecrypRecoveredCryptoKey = null;
 					if(OneTimePassphrase !=null)
 					{					
+						byte[] Passphrase = hash.HashPassPhrase(OneTimePassphrase);	
 						Key DeKey = new Key(RecoveredCryptoKey);
-						DeKey.DecrypytKey(OneTimePassphrase, out DecrypRecoveredCryptoKey);
+						DeKey.DecrypytKey(Passphrase, out DecrypRecoveredCryptoKey);
 					}
 					else
 						DecrypRecoveredCryptoKey = RecoveredCryptoKey;
 
 					//Encrypted the recovered key using the new passphrase
+					byte[] passphrase = hash.HashPassPhrase(NewPassphrase);	
 					string EncryptedKey = null;
 					Key EnKey = new Key(DecrypRecoveredCryptoKey);
-						EnKey.EncrypytKey(NewPassphrase, out EncryptedKey);
+						EnKey.EncrypytKey(passphrase, out EncryptedKey);
 					
-					Key.PEDEK = EncryptedKey;
-					Key.NodeID =  idNode.InnerText;
+					cKey.PEDEK = EncryptedKey;
+					cKey.NodeID =  idNode.InnerText;
+					cKey.EBlob =  EnKey.HashKey();
 					
-					if(svc.SetiFolderCryptoKeys(DomainID, UserID, Key)==false)
+					if(svc.SetiFolderCryptoKeys(DomainID, UserID, cKey)==false)
 					{
-						log.Debug("ImportiFoldersCryptoKeys failed in SetiFolderCryptoKeys:", Key.NodeID);
+						log.Debug("ImportiFoldersCryptoKeys failed in SetiFolderCryptoKeys:", cKey.NodeID);
 						throw new CollectionStoreException("The specified cryptographic key not found");
 					}
 				}				

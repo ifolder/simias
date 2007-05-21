@@ -46,6 +46,11 @@ namespace Simias.CryptoKey
 		public string	PEDEK;
 
 		/// <summary>
+		/// EncryptionBlob
+		/// </summary>
+		public string 	EBlob;
+
+		/// <summary>
 		/// recovery agent encrypted data encryption key
 		/// </summary>
 		public string	REDEK;	

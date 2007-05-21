@@ -1030,6 +1030,7 @@ namespace Simias.Storage
 					{
 						c.EncryptionKey = cKey.PEDEK;
 						c.RecoveryKey = cKey.REDEK;
+						c.EncryptionBlob = cKey.EBlob;
 						c.Commit();
 						
 						status = true;
