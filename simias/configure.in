@@ -45,7 +45,24 @@ AM_CONDITIONAL(DARWIN, test "$SIMIAS_OS" = "darwin")
 AM_CONDITIONAL(MONO, test "$CSC" = "mcs")
 AM_CONDITIONAL(DOTNET, test "$CSC" = "csc")
 
+
 #
+# Check for a 32 / 64 
+#HACK ALERT : for libflaim 64bit builds
+case $host_cpu in
+    x86_64)
+	LIB64='lib64'
+    ;;
+    amd64)
+	LIB64='lib64'
+    ;;
+    *)
+	LIB64='lib'
+    ;;
+esac
+
+AC_SUBST(LIB64)
+
 # Check for a resource compiler
 #
 AC_CHECK_PROG(RESGEN, resgen, resgen)
