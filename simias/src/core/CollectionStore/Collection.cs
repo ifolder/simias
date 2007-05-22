@@ -221,6 +221,10 @@ namespace Simias.Storage
 				string encryptionBlob = (p!=null) ? (string) p.Value as string : "";
 				return encryptionBlob;
 			}
+			set
+			{
+				properties.AddNodeProperty(PropertyTags.EncryptionBlob, value);
+			}
 		}
 
 		/// <summary>

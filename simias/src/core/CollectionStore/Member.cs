@@ -966,7 +966,8 @@ namespace Simias.Storage
 					
 					cKey.PEDEK = EncryptedKey;
 					cKey.NodeID =  idNode.InnerText;
-					cKey.EBlob =  EnKey.HashKey();
+					cKey.REDEK =  EnKey.HashKey();
+
 					
 					if(svc.SetiFolderCryptoKeys(DomainID, UserID, cKey)==false)
 					{
