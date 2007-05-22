@@ -1,3 +1,8 @@
+2007-05-18  Johnny Jacob  <jjohnny@novell.com>
+
+	* iFolder.cs (CreateiFolder) : Include description while creating
+	ifolder. Fixes #273372.
+	
 2007-05-03  B S Srinidhi  <srinidhi@novell.com>
 
 	* iFolderAdmin.*.resx : Updated string translations

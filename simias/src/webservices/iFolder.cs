@@ -281,7 +281,7 @@ namespace iFolder.WebService
                         iFolderEntry.CheckName(name);
 
                         Collection c = SharedCollection.CreateSharedCollection(
-                                name, userID, iFolderCollectionType, true, null);
+			               name, null, userID, iFolderCollectionType, true, null, description, null);
 
                         return new iFolder(c, null);
                 }
