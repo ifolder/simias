@@ -414,6 +414,31 @@ namespace Simias.Server
 								log.Error( md.StackTrace );
 							}
 						}
+						else if ( args.Type.Equals( NodeTypes.MemberType ) &&
+									args.EventType.Equals( EventType.NodeChanged ) )
+						{
+							log.Debug( "Member {0} modified in collection {0}", args.Node, args.Collection );
+							CatalogEntry entry = Catalog.GetEntryByCollectionID( args.Collection );
+
+							try
+							{
+								Collection col = store.GetCollectionByID( args.Collection );
+								Member member = new Member( col.GetNodeByID( args.Node ) );
+
+							        if (member != null && col.GetMemberByID(member.UserID).IsOwner)
+							        {
+								       entry.AddOwner (member.UserID);
+								       log.Debug( "Owner Change : OwnerID {0} added to collection {1}", member.UserID, col.ID );
+							        }
+							}
+							catch( Exception md )
+							{
+								log.Error( "Exception in Modify Member event" );
+								log.Error( md.Message );
+								log.Error( md.StackTrace );
+							}
+						}
+
 					}
 					else
 					{

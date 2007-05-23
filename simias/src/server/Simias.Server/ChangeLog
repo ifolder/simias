@@ -1,3 +1,8 @@
+2007-05-18  Johnny Jacob  <jjohnny@novell.com>
+
+	* Catalog.cs : Detect and update catalog when owner of a
+	collection is changed. Fixes #273662, #268251.
+	
 2007-04-03  Johnny Jacob  <jjohnny@novell.com>
 
 	* ReportLogHandler.ashx.cs : Read logfile from datadir and not

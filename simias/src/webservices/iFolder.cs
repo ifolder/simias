@@ -261,9 +261,20 @@ namespace iFolder.WebService
 			this.DomainID = domain.ID;
 			Member domainMember = domain.GetMemberByID(this.OwnerID);
 
-			this.OwnerUserName = domainMember.Name;
-			string fullName = domainMember.FN;
-			this.OwnerFullName = (fullName != null) ? fullName : this.OwnerUserName;
+			if (domainMember != null)
+			{
+			        string name = domainMember.Name;
+ 			        string fullName = domainMember.FN;
+
+			    	this.OwnerUserName = (name != null) ? name : String.Empty;
+				this.OwnerFullName = (fullName != null) ? fullName : this.OwnerUserName;
+			}
+			else
+			{
+			        this.OwnerUserName = String.Empty;
+				this.OwnerFullName = String.Empty;
+			}
+
 		}
 		
 		/// <summary>
