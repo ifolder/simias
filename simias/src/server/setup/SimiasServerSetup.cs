@@ -52,6 +52,7 @@ namespace Novell.iFolder
 		private static readonly string SIMIAS_SYSTEM_ADMIN_PASSWORD = "SIMIAS_SYSTEM_ADMIN_PASSWORD";
 		private static readonly string SIMIAS_LDAP_PROXY_PASSWORD = "SIMIAS_LDAP_PROXY_PASSWORD";
 		private static readonly string SIMIAS_LDAP_ADMIN_PASSWORD = "SIMIAS_LDAP_ADMIN_PASSWORD";
+		private static readonly string SIMIAS_UPGRADE = "UPGRADE";
 
 		// Configuration file xml tags
 		private static readonly string SectionTag = "section";
@@ -623,6 +624,7 @@ namespace Novell.iFolder
 				systemAdminPassword.FromEnvironment( SIMIAS_SYSTEM_ADMIN_PASSWORD );
 				ldapProxyPassword.FromEnvironment(SIMIAS_LDAP_PROXY_PASSWORD);
 				ldapAdminPassword.FromEnvironment(SIMIAS_LDAP_ADMIN_PASSWORD);
+				upgrade.FromEnvironment(SIMIAS_UPGRADE);
 
 				// parse arguments
 				Options.ParseArguments( this, args );
