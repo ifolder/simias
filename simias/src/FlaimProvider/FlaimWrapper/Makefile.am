@@ -86,7 +86,14 @@ libFlaimWrapper_la_SOURCES = 	CSPObjectIterator.cpp \
 
 if LINUX
 libFlaimWrapper_la_CXXFLAGS = $(LIBFLAIM_CFLAGS) -fshort-wchar -DFLAIMWRAPPER_EXPORTS -DUNIX -D_REENTRANT -c
-libFlaimWrapper_la_LDFLAGS = $(LIBFLAIM_LIBS)
+
+lib=@LIB64@
+
+# NOTE: The following is a _hack_.
+LIBFLAIM_LIBS_HACK = "-lpthread -lrt -lstdc++ -ldl -lncurses /usr/$(lib)/libflaim.a"
+
+libFlaimWrapper_la_LDFLAGS = $(LIBFLAIM_LIBS_HACK)
+
 
 install-exec-local: libFlaimWrapper.la
 	$(mkinstalldirs) $(DESTDIR)$(webbindir)
