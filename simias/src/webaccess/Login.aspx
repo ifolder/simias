@@ -44,8 +44,10 @@
 		<input type="hidden" id="noscript" value="true" runat="server">
 	</noscript>
 	
-	<table class="dialog">
-		<tr><td class="title" colspan="2"></td></tr>
+	<table class="dialog"> 
+		<tr>
+			<td class="title" colspan="2"><asp:HyperLink ID="HelpButton"  style="float:right; margin: -25px 5px 0px 0px; color:white; position: relative; text-decoration: none; font-size: 1em; font-weight: bold;" Target="ifolderHelp" NavigateUrl="help/login.html" runat="server" /></td>
+		</tr>
 		<tr><td class="message" colspan="2"><asp:Literal ID="Message" runat="server" /></td></tr>
 		<tr>
 			<td class="field" style="text-align:right"><%= GetString("LOGIN.USERNAME") %></td>

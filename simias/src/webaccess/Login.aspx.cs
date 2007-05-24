@@ -56,6 +56,11 @@ namespace Novell.iFolderApp.Web
 		/// Message
 		/// </summary>
 		protected Literal Message;
+		
+		/// <summary>
+		/// Help Button
+		/// </summary>
+		protected HyperLink HelpButton;
 
 		/// <summary>
 		/// User Name
@@ -122,6 +127,11 @@ namespace Novell.iFolderApp.Web
 
 				// strings
 				LoginButton.Text = GetString("LOGIN");
+				HelpButton.Text = GetString("HELP");
+				
+				// help
+				string code = Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName;
+				HelpButton.NavigateUrl = String.Format("help/{0}/login.html", code);
 
 				// check browser version
 				CheckBrowserVersion();
