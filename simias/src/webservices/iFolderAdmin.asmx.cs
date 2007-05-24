@@ -891,6 +891,32 @@ namespace iFolder.WebService
 			base.SetLogLevel(type, logLevel);
 		}
 
+		/// <summary>
+		/// Get information about a user using an id or username.
+		/// </summary>
+		/// <param name="userID">The id or username of the user.</param>
+		/// <returns>A iFolderUser object.</returns>
+		[WebMethod(
+			 Description="Get information about a user using an id or username.",
+			 EnableSession=true)]
+		public override LdapInfo GetLdapDetails()
+		{
+			return base.GetLdapDetails ();
+
+		}
+
+		/// <summary>
+		/// Set information about a user using an id or username.
+		/// </summary>
+		/// <param name="userID">The id or username of the user.</param>
+		/// <returns>A iFolderUser object.</returns>
+		[WebMethod(
+			 Description="Get information about a user using an id or username.",
+			 EnableSession=true)]
+		public override void SetLdapDetails(LdapInfo ldapInfo)
+		{
+			base.SetLdapDetails (ldapInfo);
+		}
 
 		#endregion
 	}

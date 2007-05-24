@@ -29,6 +29,7 @@ using System.Collections;
 
 using Simias.Storage;
 using Simias.Server;
+using Simias.LdapProvider;
 
 namespace iFolder.WebService
 {
@@ -1020,6 +1021,48 @@ namespace iFolder.WebService
 			{
 				SmartException.Throw(e);
 			}
+		}
+
+		/// <summary>
+		/// Get LogLevel Information
+		/// </summary>
+		///
+		[WebMethod(
+			 Description= "Fetches the logleve information.",
+			 EnableSession = true)]
+		public virtual LdapInfo GetLdapDetails()
+		{
+		    LdapInfo result = null;
+
+		    try 
+		    {
+		        result = iFolderServer.GetLdapDetails ();
+		    } 
+		    catch (Exception e)
+		    {
+			SmartException.Throw (e);
+		    }
+
+		    return result;
+		}
+		/// <summary>
+		/// Get LogLevel Information
+		/// </summary>
+		///
+		[WebMethod(
+			 Description= "Fetches the logleve information.",
+			 EnableSession = true)]
+		public virtual void SetLdapDetails(LdapInfo ldapInfo)
+		{
+
+		    try 
+		    {
+		        iFolderServer.SetLdapDetails (ldapInfo);
+		    } 
+		    catch (Exception e)
+		    {
+			SmartException.Throw (e);
+		    }
 		}
 
 		#endregion

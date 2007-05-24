@@ -139,6 +139,65 @@ namespace Novell.iFolderWeb.Admin
 		/// </summary>
 		protected Literal MaxConnectionCount;
 
+		/// <summary>
+		/// LDAP Server name.
+		/// </summary>
+		protected TextBox LdapServer;
+
+		/// <summary>
+		/// LDAP Cycles
+		/// </summary>
+		protected Literal LdapCycles;
+
+		/// <summary>
+		/// Server maximum connection count control
+		/// </summary>
+		protected Literal LdapUpSince;
+
+		/// <summary>
+		/// LDAP Proxy User
+		/// </summary>
+		protected Literal LdapProxyUser;
+
+		/// <summary>
+		/// LDAP SSL
+		/// </summary>
+		protected Literal LdapSsl;
+
+		/// <summary>
+		/// External Identity Sync Interval
+		/// </summary>
+		protected TextBox LdapSearchContext;
+
+		/// <summary>
+		/// Member Delete Grace Interval
+		/// </summary>
+		protected TextBox LdapDeleteGraceInterval;
+
+		/// <summary>
+		/// Member Delete Grace Interval
+		/// </summary>
+		protected TextBox IDSyncInterval;
+
+		/// <summary>
+		/// Log list control.
+		/// </summary>
+		protected DropDownList LdapSslList;
+
+		/// <summary>
+		/// External Identity Sync Now Button
+		/// </summary>
+		protected Button SyncNowButton;
+
+		/// <summary>
+		/// LDAP cancel button control.
+		/// </summary>
+		protected Button CancelButton;
+
+		/// <summary>
+		/// LDAP save button control.
+		/// </summary>
+		protected Button SaveButton;
 
 		/// <summary>
 		/// Report list control.
@@ -341,6 +400,48 @@ namespace Novell.iFolderWeb.Admin
 			return server.Name;
 		}
 
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns>The name of the host node.</returns>
+		private void GetLdapDetails()
+		{
+		    //Pick the information from SyncService
+		        SyncServiceInfo syncInfo = remoteweb.IdentitySyncGetServiceInfo();
+			LdapUpSince.Text = syncInfo.UpSince;
+			LdapCycles.Text = syncInfo.Cycles.ToString();
+			LdapDeleteGraceInterval.Text = ( syncInfo.DeleteMemberGracePeriod / 60).ToString();
+			IDSyncInterval.Text = (syncInfo.SynchronizationInterval / 60).ToString();
+
+		    //Pick information from IdentityProvider
+			LdapInfo ldapInfo = remoteweb.GetLdapDetails();
+			LdapServer.Text = ldapInfo.Host ;
+			LdapSearchContext.Text = ldapInfo.SearchContexts;
+			LdapProxyUser.Text = ldapInfo.ProxyDN;
+//			LdapSsl.Text = ldapInfo.SSL ? GetString ("YES") : GetString ("NO");
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns>The name of the host node.</returns>
+		private void SetLdapDetails()
+		{
+		    //Pick the information from SyncService
+		        SyncServiceInfo syncInfo = remoteweb.IdentitySyncGetServiceInfo();
+			LdapUpSince.Text = syncInfo.UpSince;
+			LdapCycles.Text = syncInfo.Cycles.ToString();
+
+		    //Pick information from IdentityProvider
+			LdapInfo ldapInfo = remoteweb.GetLdapDetails();
+			LdapServer.Text = ldapInfo.Host ;
+			LdapSearchContext.Text = ldapInfo.SearchContexts;
+			LdapProxyUser.Text = ldapInfo.ProxyDN;
+			LdapSsl.Text = ldapInfo.SSL ? GetString ("YES") : GetString ("NO");
+		}
+
+
 		private void GetTailData()
 		{
 			StringWriter sw = new StringWriter();
@@ -378,6 +479,17 @@ namespace Novell.iFolderWeb.Admin
 				LogLevelButton.Text = GetString( "SET" );
 				LogLevelLabel.Text = GetString( "LOGLEVELTAG" );
 				LogLabel.Text = GetString( "LOGTAG" );
+ 				SaveButton.Text = GetString( "SAVE" );
+ 				CancelButton.Text = GetString( "CANCEL" );
+				SyncNowButton.Text = GetString ("SYNCNOW");
+
+				ArrayList options = new ArrayList();
+
+				options.Add( GetString( "YES" ) );
+				options.Add( GetString( "NO" ) );
+
+				LdapSslList.DataSource = options;
+				LdapSslList.DataBind();
 
  				//TODO : Future!
  			        //LoggedOnUsersCount.Visible = false;
@@ -403,6 +515,7 @@ namespace Novell.iFolderWeb.Admin
 
 			GetReportList();
 			GetLogList();
+			GetLdapDetails ();
 
 			//TODO : future!
 			//GetTailData();
@@ -460,6 +573,52 @@ namespace Novell.iFolderWeb.Admin
 
 			web.SetLogLevel (loggerType, logLevel.ToUpper());
 		}
+
+		/// <summary>
+		/// Event that gets called when the save button is clicked.
+		/// </summary>
+		/// <param name="source"></param>
+		/// <param name="e"></param>
+		protected void OnSaveButton_Click( object source, EventArgs e )
+		{
+		    
+		        LdapInfo ldapInfo = new LdapInfo ();
+			ldapInfo.Host = LdapServer.Text;
+			ldapInfo.SearchContexts = LdapSearchContext.Text;
+			LdapProxyUser.Text = ldapInfo.ProxyDN;
+			ldapInfo.SSL = (LdapSslList.SelectedValue == GetString("YES")) ? true : false;
+
+			remoteweb.SetLdapDetails (ldapInfo);
+
+		        int syncInterval = Int32.Parse (IDSyncInterval.Text);
+			syncInterval = syncInterval * 60;
+			if (syncInterval > 0 ) {
+			        remoteweb.IdentitySyncSetInterval (syncInterval);
+			} else {
+			        TopNav.ShowError( GetString ("ERRORINVALIDSYNCINTERVAL"));
+			}
+		}
+
+		/// <summary>
+		/// Event that gets called when the SyncNow button is clicked.
+		/// </summary>
+		/// <param name="source"></param>
+		/// <param name="e"></param>
+		protected void OnSyncNowButton_Click( object source, EventArgs e )
+		{
+		        web.IdentitySyncNow ();
+		}
+
+		/// <summary>
+		/// Event that gets called when the cancel button is clicked.
+		/// </summary>
+		/// <param name="source"></param>
+		/// <param name="e"></param>
+		protected void OnCancelButton_Click( object source, EventArgs e )
+		{
+
+		}
+
 
 		/// <summary>
 		/// Get a Localized String

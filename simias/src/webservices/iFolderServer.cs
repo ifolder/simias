@@ -31,6 +31,7 @@ using System.Text;
 using Simias.Client;
 using Simias.Storage;
 using Simias.Server;
+using Simias.LdapProvider;
 
 namespace iFolder.WebService
 {
@@ -219,6 +220,40 @@ namespace iFolder.WebService
 		        return MasterServer;
 		}
 
+		/// <summary>
+		/// Get LDAP details
+		/// </summary>
+		/// <returns>Return the URL for the server </returns>
+		public static LdapInfo GetLdapDetails ()
+		{
+		    LdapSettings ldapSettings = LdapSettings.Get ( Store.StorePath );
+		    return new LdapInfo (ldapSettings) ;
+		}
+
+		/// <summary>
+		/// Get LDAP details
+		/// </summary>
+		/// <returns>Return the URL for the server </returns>
+		public static void SetLdapDetails (LdapInfo ldapInfo)
+		{
+		    LdapSettings ldapSettings = LdapSettings.Get ( Store.StorePath );
+		    ldapSettings.Host = ldapInfo.Host;
+		    ldapSettings.SSL = ldapInfo.SSL;
+
+		    ArrayList list = new ArrayList();
+		    string[] contexts = ldapInfo.SearchContexts.Split(new char[] { '#' });
+
+		    foreach(string context in contexts)
+		    {
+			if ((context != null) && (context.Length > 0))
+			{
+			    list.Add (context);
+			}
+		    }
+		    ldapSettings.SearchContexts = list;
+
+		    ldapSettings.Commit();
+		}
 
 		/// <summary>
 		/// Get the HomeServer URL for User.
@@ -496,4 +531,57 @@ namespace iFolder.WebService
 			return new iFolderServerSet(list.ToArray(typeof(iFolderServer)) as iFolderServer[], i);
 		}
 	}
+	/// <summary>
+	/// An iFolder Server
+	/// </summary>
+	[Serializable]
+	public class LdapInfo
+	{
+		/// <summary>
+		/// Gets/sets the host.
+		/// </summary>
+	        public string Host;
+
+		/// <summary>
+		/// Gets/sets the contexts that are searched when provisioning users.
+		/// </summary>
+	        public string SearchContexts;
+
+		/// <summary>
+		/// Gets/sets the host.
+		/// </summary>
+	        public string ProxyDN;
+
+		/// <summary>
+		/// Gets/sets a value indicating if SSL is being used.
+		/// </summary>
+	        public bool SSL;
+	    
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		public LdapInfo () 
+		{
+		}
+
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <param name="server">HostNode object</param>
+
+		public LdapInfo ( LdapSettings ldapSettings)
+		{
+		        this.Host = ldapSettings.Host;
+			this.ProxyDN = ldapSettings.ProxyDN;
+			this.SSL = ldapSettings.SSL;
+
+			this.SearchContexts = "";
+			foreach(string context in ldapSettings.SearchContexts)
+			{
+				SearchContexts += (context + "#");
+			}
+
+		}
+	}
+
 }

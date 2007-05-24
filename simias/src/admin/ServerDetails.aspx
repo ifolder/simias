@@ -16,6 +16,17 @@
 		@import url(css/ServerDetails.css);
 	</style>
 
+	<script language="javascript">
+
+		function EnableSystemButtons()
+		{
+			document.getElementById( "SaveButton" ).disabled = false;
+			document.getElementById( "CancelButton" ).disabled = false;
+		}
+
+	</script>
+
+
 </head>
 	
 <body id="server" runat="server">
@@ -265,7 +276,146 @@
 					OnClick="LogLevelButtonClicked"
 					Enabled="True" />
 		</div>
+		<div class="lognav">
 		
+			<div class="pagetitle">
+			
+<!-- 				<%= GetString( "SERVERLOGS" ) %> -->
+				LDAP Details
+				
+			</div>
+				<table class="detailinfo">
+					
+					<tr>
+						<th>
+							<%= GetString( "LDAPSERVER" ) %>
+						</th>
+						
+						<td>
+							<asp:TextBox 
+								ID="LdapServer" 
+								Runat="server" 
+								CssClass="syncnowtextbox"
+								onkeypress="EnableSystemButtons()" />
+						</td>
+					</tr>
+
+					<tr>
+						<th>
+							<%= GetString( "LDAPUPSINCE" ) %>
+						</th>
+						
+						<td>
+							<asp:Literal ID="LdapUpSince" Runat="server" />
+						</td>
+					</tr>
+
+					<tr>
+						<th>
+							<%= GetString( "LDAPSSL" ) %>
+						</th>
+						
+						<td>
+							<asp:DropDownList 
+									  ID="LdapSslList" 
+									  Runat="server" 
+									  AutoPostBack="True" />
+						</td>
+					</tr>
+
+				
+					<tr>
+						<th>
+							<%= GetString( "LDAPPROXYUSER" ) %>
+						</th>
+						
+						<td>
+							<asp:Literal ID="LdapProxyUser" Runat="server" />
+						</td>
+					</tr>
+
+					<tr>
+						<th>
+							<%= GetString( "LDAPCYCLES" ) %>
+						</th>
+						
+						<td>
+							<asp:Literal ID="LdapCycles" Runat="server" />
+						</td>
+					</tr>
+
+					<tr>
+						<th>
+							<%= GetString( "IDENTITYSYNCTAG" ) %>
+						</th>
+
+						<th>						
+							<asp:TextBox 
+								ID="IDSyncInterval" 
+								Runat="server" 
+								CssClass="syncnowtextbox"
+								onkeypress="EnableSystemButtons()" />
+
+							<%= GetString( "MINUTES" ) %>
+
+							<asp:Button 
+								ID="SyncNowButton" 
+								Runat="server" 
+								CssClass="syncnowbutton"
+								OnClick="OnSyncNowButton_Click"			
+								Enabled="True"
+								/>
+						</th>
+					</tr>
+
+					<tr>
+						<th>
+							<%= GetString( "LDAPMEMBERDELETEGRACEINT" ) %>
+						</th>
+						
+						<td>
+							<asp:TextBox 
+								ID="LdapDeleteGraceInterval" 
+								Runat="server" 
+								CssClass="syncnowtextbox"
+								onkeypress="EnableSystemButtons()"/>
+
+							<%= GetString( "MINUTES" ) %>
+						</td>
+					</tr>
+					<tr>
+						<th>
+							<%= GetString( "LDAPCONTEXTTAG" ) %>
+						</th>
+						
+						<td>
+							<asp:TextBox 
+								ID="LdapSearchContext" 
+								Runat="server" 
+								CssClass="syncnowtextbox"
+								onkeypress="EnableSystemButtons()"/>
+						</td>
+					</tr>
+
+					<tr> 
+						<td>
+							<asp:Button	
+									ID="CancelButton" 
+									Runat="server"	
+									CssClass="ifolderbuttons"
+									Enabled="False"
+									/>
+					
+							<asp:Button 
+								    ID="SaveButton" 
+								    Runat="server" 
+								    CssClass="ifolderbuttons"
+								    Enabled="False"
+								    />
+						</td>
+					</tr>>
+
+		</div>		
 	</div>
 	
 <!-- 	<ifolder:Footer id="footer" runat="server" /> -->

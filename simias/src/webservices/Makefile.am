@@ -58,11 +58,11 @@ iFolderWebServiceLocal_INCLUDES =
 iFolderWebServiceLocal_RESOURCES =
 iFolderWebServiceLocal_FLAGS = $(CSC_LIBFLAG)
 if LINUX
-iFolderWebServiceLocal_LIBS = System.dll System.Data.dll $(SYSTEM_XML) System.Web.dll System.Web.Services.dll SimiasLib.dll SimiasClient.dll Simias.Server.dll
+iFolderWebServiceLocal_LIBS = System.dll System.Data.dll $(SYSTEM_XML) System.Web.dll System.Web.Services.dll SimiasLib.dll SimiasClient.dll Simias.Server.dll Simias.LdapProvider.dll 
 else
-iFolderWebServiceLocal_LIBS = System.dll System.Data.dll $(SYSTEM_XML) System.Web.dll System.Web.Services.dll SimiasLib.dll SimiasClient.dll Simias.Server.dll 
+iFolderWebServiceLocal_LIBS = System.dll System.Data.dll $(SYSTEM_XML) System.Web.dll System.Web.Services.dll SimiasLib.dll SimiasClient.dll Simias.Server.dll Simias.LdapProvider.dll 
 endif
-iFolderWebServiceLocal_LIBPATH = $(LOG4NET_DIR) ../core/SimiasClient ../core/SimiasLib.dll ../server/Simias.Server
+iFolderWebServiceLocal_LIBPATH = $(LOG4NET_DIR) ../core/SimiasClient ../core/SimiasLib.dll ../server/Simias.Server ../server/Simias.LdapProvider/
 
 GenerateWsdl_LIBS = System.dll System.Data.dll $(SYSTEM_XML) System.Web.dll System.Web.Services.dll
 
@@ -71,11 +71,11 @@ iFolderWebService_INCLUDES =
 iFolderWebService_RESOURCES =
 iFolderWebService_FLAGS = $(CSC_LIBFLAG)
 if LINUX
-iFolderWebService_LIBS = System.dll System.Data.dll $(SYSTEM_XML) System.Web.dll System.Web.Services.dll SimiasLib.dll SimiasClient.dll Simias.Server.dll iFolder.WebService.Local.dll
+iFolderWebService_LIBS = System.dll System.Data.dll $(SYSTEM_XML) System.Web.dll System.Web.Services.dll SimiasLib.dll SimiasClient.dll Simias.Server.dll iFolder.WebService.Local.dll 
 else
-iFolderWebService_LIBS = System.dll System.Data.dll $(SYSTEM_XML) System.Web.dll System.Web.Services.dll SimiasLib.dll SimiasClient.dll Simias.Server.dll iFolder.WebService.Local.dll
+iFolderWebService_LIBS = System.dll System.Data.dll $(SYSTEM_XML) System.Web.dll System.Web.Services.dll SimiasLib.dll SimiasClient.dll Simias.Server.dll iFolder.WebService.Local.dll 
 endif
-iFolderWebService_LIBPATH = $(LOG4NET_DIR) ../core/SimiasClient ../core/SimiasLib.dll ../server/Simias.Server
+iFolderWebService_LIBPATH = $(LOG4NET_DIR) ../core/SimiasClient ../core/SimiasLib.dll ../server/Simias.Server 
 
 EXTRA_DIST =  AssemblyInfo.cs.in $(iFolderWebServiceLocal_WEBFILES) $(iFolderWebServiceLocal_CSFILES)
 
@@ -100,6 +100,7 @@ copy:
 	cp ../core/SimiasClient/SimiasClient.dll .
 	cp ../core/SimiasLib.dll/SimiasLib.dll .
 	cp ../server/Simias.Server/Simias.Server.dll .
+	cp ../server/Simias.LdapProvider/Simias.LdapProvider.dll .
 
 iFolderWebLocalProxy.cs: iFolderWebLocal.wsdl
 	wsdl /nologo /namespace:iFolder.WebService.Web /out:$@ $<

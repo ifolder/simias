@@ -441,11 +441,29 @@
 	<data name="LASTPAGE">
 		<value>Last Page</value>
 	</data>
+	<data name="LDAPSERVER">
+		<value>Ldap Server:</value>
+	</data>
+	<data name="LDAPCYCLES">
+		<value>Cycles :</value>
+	</data>
+	<data name="LDAPMEMBERDELETEGRACEINT">
+		<value>Delete member grace interval :</value>
+	</data>
+	<data name="LDAPUPSINCE">
+		<value>Up Since</value>
+	</data>
 	<data name="LDAPCONTEXTTAG">
 		<value>Ldap Context:</value>
 	</data>
 	<data name="LDAPSTATUSTAG">
 		<value>LDAP Status:</value>
+	</data>
+	<data name="LDAPSSL">
+		<value>LDAP SSL:</value>
+	</data>
+	<data name="LDAPPROXYUSER">
+		<value>Proxy User:</value>
 	</data>
 	<data name="LIMITTAG">
 		<value>Limit:</value>
