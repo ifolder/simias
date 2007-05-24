@@ -679,6 +679,37 @@
           </xs:sequence>
         </xs:complexType>
       </xs:element>
+      <xs:element name="ServerSetDefaultAccount">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="DomainID" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="UserID" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="iFolderID" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ServerSetDefaultAccountResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="ServerSetDefaultAccountResult" type="xs:boolean"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ServerGetDefaultiFolder">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="DomainID" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="UserID" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ServerGetDefaultiFolderResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="ServerGetDefaultiFolderResult" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
       <xs:element name="ServerSetPassPhrase">
         <xs:complexType>
           <xs:sequence>
@@ -805,6 +836,35 @@
         <xs:complexType>
           <xs:sequence>
             <xs:element minOccurs="0" maxOccurs="1" name="SetPassPhraseResult" type="s0:Status"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="DefaultAccount">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="DomainID" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="iFolderID" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="DefaultAccountResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="DefaultAccountResult" type="xs:boolean"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetDefaultiFolder">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="DomainID" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetDefaultiFolderResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetDefaultiFolderResult" type="xs:string"/>
           </xs:sequence>
         </xs:complexType>
       </xs:element>
@@ -1149,6 +1209,18 @@
   <message name="RemoveSimiasReferenceSoapOut">
     <part element="s0:RemoveSimiasReferenceResponse" name="parameters"/>
   </message>
+  <message name="ServerSetDefaultAccountSoapIn">
+    <part element="s0:ServerSetDefaultAccount" name="parameters"/>
+  </message>
+  <message name="ServerSetDefaultAccountSoapOut">
+    <part element="s0:ServerSetDefaultAccountResponse" name="parameters"/>
+  </message>
+  <message name="ServerGetDefaultiFolderSoapIn">
+    <part element="s0:ServerGetDefaultiFolder" name="parameters"/>
+  </message>
+  <message name="ServerGetDefaultiFolderSoapOut">
+    <part element="s0:ServerGetDefaultiFolderResponse" name="parameters"/>
+  </message>
   <message name="ServerSetPassPhraseSoapIn">
     <part element="s0:ServerSetPassPhrase" name="parameters"/>
   </message>
@@ -1196,6 +1268,18 @@
   </message>
   <message name="SetPassPhraseSoapOut">
     <part element="s0:SetPassPhraseResponse" name="parameters"/>
+  </message>
+  <message name="DefaultAccountSoapIn">
+    <part element="s0:DefaultAccount" name="parameters"/>
+  </message>
+  <message name="DefaultAccountSoapOut">
+    <part element="s0:DefaultAccountResponse" name="parameters"/>
+  </message>
+  <message name="GetDefaultiFolderSoapIn">
+    <part element="s0:GetDefaultiFolder" name="parameters"/>
+  </message>
+  <message name="GetDefaultiFolderSoapOut">
+    <part element="s0:GetDefaultiFolderResponse" name="parameters"/>
   </message>
   <message name="ReSetPassPhraseSoapIn">
     <part element="s0:ReSetPassPhrase" name="parameters"/>
@@ -1430,6 +1514,21 @@
   <message name="RemoveSimiasReferenceHttpGetOut">
     <part element="s0:int" name="Body"/>
   </message>
+  <message name="ServerSetDefaultAccountHttpGetIn">
+    <part name="DomainID" type="s:string"/>
+    <part name="UserID" type="s:string"/>
+    <part name="iFolderID" type="s:string"/>
+  </message>
+  <message name="ServerSetDefaultAccountHttpGetOut">
+    <part element="s0:boolean" name="Body"/>
+  </message>
+  <message name="ServerGetDefaultiFolderHttpGetIn">
+    <part name="DomainID" type="s:string"/>
+    <part name="UserID" type="s:string"/>
+  </message>
+  <message name="ServerGetDefaultiFolderHttpGetOut">
+    <part element="s0:string" name="Body"/>
+  </message>
   <message name="ServerSetPassPhraseHttpGetIn">
     <part name="DomainID" type="s:string"/>
     <part name="UserID" type="s:string"/>
@@ -1483,6 +1582,19 @@
   </message>
   <message name="SetPassPhraseHttpGetOut">
     <part element="s0:Status" name="Body"/>
+  </message>
+  <message name="DefaultAccountHttpGetIn">
+    <part name="DomainID" type="s:string"/>
+    <part name="iFolderID" type="s:string"/>
+  </message>
+  <message name="DefaultAccountHttpGetOut">
+    <part element="s0:boolean" name="Body"/>
+  </message>
+  <message name="GetDefaultiFolderHttpGetIn">
+    <part name="DomainID" type="s:string"/>
+  </message>
+  <message name="GetDefaultiFolderHttpGetOut">
+    <part element="s0:string" name="Body"/>
   </message>
   <message name="ReSetPassPhraseHttpGetIn">
     <part name="DomainID" type="s:string"/>
@@ -1718,6 +1830,21 @@
   <message name="RemoveSimiasReferenceHttpPostOut">
     <part element="s0:int" name="Body"/>
   </message>
+  <message name="ServerSetDefaultAccountHttpPostIn">
+    <part name="DomainID" type="s:string"/>
+    <part name="UserID" type="s:string"/>
+    <part name="iFolderID" type="s:string"/>
+  </message>
+  <message name="ServerSetDefaultAccountHttpPostOut">
+    <part element="s0:boolean" name="Body"/>
+  </message>
+  <message name="ServerGetDefaultiFolderHttpPostIn">
+    <part name="DomainID" type="s:string"/>
+    <part name="UserID" type="s:string"/>
+  </message>
+  <message name="ServerGetDefaultiFolderHttpPostOut">
+    <part element="s0:string" name="Body"/>
+  </message>
   <message name="ServerSetPassPhraseHttpPostIn">
     <part name="DomainID" type="s:string"/>
     <part name="UserID" type="s:string"/>
@@ -1771,6 +1898,19 @@
   </message>
   <message name="SetPassPhraseHttpPostOut">
     <part element="s0:Status" name="Body"/>
+  </message>
+  <message name="DefaultAccountHttpPostIn">
+    <part name="DomainID" type="s:string"/>
+    <part name="iFolderID" type="s:string"/>
+  </message>
+  <message name="DefaultAccountHttpPostOut">
+    <part element="s0:boolean" name="Body"/>
+  </message>
+  <message name="GetDefaultiFolderHttpPostIn">
+    <part name="DomainID" type="s:string"/>
+  </message>
+  <message name="GetDefaultiFolderHttpPostOut">
+    <part element="s0:string" name="Body"/>
   </message>
   <message name="ReSetPassPhraseHttpPostIn">
     <part name="DomainID" type="s:string"/>
@@ -2056,6 +2196,18 @@
       <input message="s0:RemoveSimiasReferenceSoapIn"/>
       <output message="s0:RemoveSimiasReferenceSoapOut"/>
     </operation>
+    <operation name="ServerSetDefaultAccount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set the passphrase and recovery agent.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set the passphrase and recovery agent.</wsdl:documentation>
+      <input message="s0:ServerSetDefaultAccountSoapIn"/>
+      <output message="s0:ServerSetDefaultAccountSoapOut"/>
+    </operation>
+    <operation name="ServerGetDefaultiFolder">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set the passphrase and recovery agent.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set the passphrase and recovery agent.</wsdl:documentation>
+      <input message="s0:ServerGetDefaultiFolderSoapIn"/>
+      <output message="s0:ServerGetDefaultiFolderSoapOut"/>
+    </operation>
     <operation name="ServerSetPassPhrase">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set the passphrase and recovery agent.</wsdl:documentation>
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set the passphrase and recovery agent.</wsdl:documentation>
@@ -2103,6 +2255,18 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set the passphrase and recovery agent.</wsdl:documentation>
       <input message="s0:SetPassPhraseSoapIn"/>
       <output message="s0:SetPassPhraseSoapOut"/>
+    </operation>
+    <operation name="DefaultAccount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set the passphrase and recovery agent.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set the passphrase and recovery agent.</wsdl:documentation>
+      <input message="s0:DefaultAccountSoapIn"/>
+      <output message="s0:DefaultAccountSoapOut"/>
+    </operation>
+    <operation name="GetDefaultiFolder">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set the passphrase and recovery agent.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set the passphrase and recovery agent.</wsdl:documentation>
+      <input message="s0:GetDefaultiFolderSoapIn"/>
+      <output message="s0:GetDefaultiFolderSoapOut"/>
     </operation>
     <operation name="ReSetPassPhrase">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Reset passphrase and recovery agent.</wsdl:documentation>
@@ -2352,6 +2516,18 @@
       <input message="s0:RemoveSimiasReferenceHttpGetIn"/>
       <output message="s0:RemoveSimiasReferenceHttpGetOut"/>
     </operation>
+    <operation name="ServerSetDefaultAccount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set the passphrase and recovery agent.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set the passphrase and recovery agent.</wsdl:documentation>
+      <input message="s0:ServerSetDefaultAccountHttpGetIn"/>
+      <output message="s0:ServerSetDefaultAccountHttpGetOut"/>
+    </operation>
+    <operation name="ServerGetDefaultiFolder">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set the passphrase and recovery agent.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set the passphrase and recovery agent.</wsdl:documentation>
+      <input message="s0:ServerGetDefaultiFolderHttpGetIn"/>
+      <output message="s0:ServerGetDefaultiFolderHttpGetOut"/>
+    </operation>
     <operation name="ServerSetPassPhrase">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set the passphrase and recovery agent.</wsdl:documentation>
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set the passphrase and recovery agent.</wsdl:documentation>
@@ -2393,6 +2569,18 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set the passphrase and recovery agent.</wsdl:documentation>
       <input message="s0:SetPassPhraseHttpGetIn"/>
       <output message="s0:SetPassPhraseHttpGetOut"/>
+    </operation>
+    <operation name="DefaultAccount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set the passphrase and recovery agent.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set the passphrase and recovery agent.</wsdl:documentation>
+      <input message="s0:DefaultAccountHttpGetIn"/>
+      <output message="s0:DefaultAccountHttpGetOut"/>
+    </operation>
+    <operation name="GetDefaultiFolder">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set the passphrase and recovery agent.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set the passphrase and recovery agent.</wsdl:documentation>
+      <input message="s0:GetDefaultiFolderHttpGetIn"/>
+      <output message="s0:GetDefaultiFolderHttpGetOut"/>
     </operation>
     <operation name="ReSetPassPhrase">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Reset passphrase and recovery agent.</wsdl:documentation>
@@ -2642,6 +2830,18 @@
       <input message="s0:RemoveSimiasReferenceHttpPostIn"/>
       <output message="s0:RemoveSimiasReferenceHttpPostOut"/>
     </operation>
+    <operation name="ServerSetDefaultAccount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set the passphrase and recovery agent.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set the passphrase and recovery agent.</wsdl:documentation>
+      <input message="s0:ServerSetDefaultAccountHttpPostIn"/>
+      <output message="s0:ServerSetDefaultAccountHttpPostOut"/>
+    </operation>
+    <operation name="ServerGetDefaultiFolder">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set the passphrase and recovery agent.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set the passphrase and recovery agent.</wsdl:documentation>
+      <input message="s0:ServerGetDefaultiFolderHttpPostIn"/>
+      <output message="s0:ServerGetDefaultiFolderHttpPostOut"/>
+    </operation>
     <operation name="ServerSetPassPhrase">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set the passphrase and recovery agent.</wsdl:documentation>
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set the passphrase and recovery agent.</wsdl:documentation>
@@ -2683,6 +2883,18 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set the passphrase and recovery agent.</wsdl:documentation>
       <input message="s0:SetPassPhraseHttpPostIn"/>
       <output message="s0:SetPassPhraseHttpPostOut"/>
+    </operation>
+    <operation name="DefaultAccount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set the passphrase and recovery agent.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set the passphrase and recovery agent.</wsdl:documentation>
+      <input message="s0:DefaultAccountHttpPostIn"/>
+      <output message="s0:DefaultAccountHttpPostOut"/>
+    </operation>
+    <operation name="GetDefaultiFolder">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set the passphrase and recovery agent.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set the passphrase and recovery agent.</wsdl:documentation>
+      <input message="s0:GetDefaultiFolderHttpPostIn"/>
+      <output message="s0:GetDefaultiFolderHttpPostOut"/>
     </operation>
     <operation name="ReSetPassPhrase">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Reset passphrase and recovery agent.</wsdl:documentation>
@@ -3095,6 +3307,24 @@
         <soap:body use="literal"/>
       </output>
     </operation>
+    <operation name="ServerSetDefaultAccount">
+      <soap:operation soapAction="http://novell.com/simias/web/ServerSetDefaultAccount" style="document"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="ServerGetDefaultiFolder">
+      <soap:operation soapAction="http://novell.com/simias/web/ServerGetDefaultiFolder" style="document"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
     <operation name="ServerSetPassPhrase">
       <soap:operation soapAction="http://novell.com/simias/web/ServerSetPassPhrase" style="document"/>
       <input>
@@ -3160,6 +3390,24 @@
     </operation>
     <operation name="SetPassPhrase">
       <soap:operation soapAction="http://novell.com/simias/web/SetPassPhrase" style="document"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="DefaultAccount">
+      <soap:operation soapAction="http://novell.com/simias/web/DefaultAccount" style="document"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="GetDefaultiFolder">
+      <soap:operation soapAction="http://novell.com/simias/web/GetDefaultiFolder" style="document"/>
       <input>
         <soap:body use="literal"/>
       </input>
@@ -3515,6 +3763,24 @@
         <mime:mimeXml part="Body"/>
       </output>
     </operation>
+    <operation name="ServerSetDefaultAccount">
+      <http:operation location="/ServerSetDefaultAccount"/>
+      <input>
+        <http:urlEncoded/>
+      </input>
+      <output>
+        <mime:mimeXml part="Body"/>
+      </output>
+    </operation>
+    <operation name="ServerGetDefaultiFolder">
+      <http:operation location="/ServerGetDefaultiFolder"/>
+      <input>
+        <http:urlEncoded/>
+      </input>
+      <output>
+        <mime:mimeXml part="Body"/>
+      </output>
+    </operation>
     <operation name="ServerSetPassPhrase">
       <http:operation location="/ServerSetPassPhrase"/>
       <input>
@@ -3567,6 +3833,24 @@
     </operation>
     <operation name="SetPassPhrase">
       <http:operation location="/SetPassPhrase"/>
+      <input>
+        <http:urlEncoded/>
+      </input>
+      <output>
+        <mime:mimeXml part="Body"/>
+      </output>
+    </operation>
+    <operation name="DefaultAccount">
+      <http:operation location="/DefaultAccount"/>
+      <input>
+        <http:urlEncoded/>
+      </input>
+      <output>
+        <mime:mimeXml part="Body"/>
+      </output>
+    </operation>
+    <operation name="GetDefaultiFolder">
+      <http:operation location="/GetDefaultiFolder"/>
       <input>
         <http:urlEncoded/>
       </input>
@@ -3922,6 +4206,24 @@
         <mime:mimeXml part="Body"/>
       </output>
     </operation>
+    <operation name="ServerSetDefaultAccount">
+      <http:operation location="/ServerSetDefaultAccount"/>
+      <input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </input>
+      <output>
+        <mime:mimeXml part="Body"/>
+      </output>
+    </operation>
+    <operation name="ServerGetDefaultiFolder">
+      <http:operation location="/ServerGetDefaultiFolder"/>
+      <input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </input>
+      <output>
+        <mime:mimeXml part="Body"/>
+      </output>
+    </operation>
     <operation name="ServerSetPassPhrase">
       <http:operation location="/ServerSetPassPhrase"/>
       <input>
@@ -3974,6 +4276,24 @@
     </operation>
     <operation name="SetPassPhrase">
       <http:operation location="/SetPassPhrase"/>
+      <input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </input>
+      <output>
+        <mime:mimeXml part="Body"/>
+      </output>
+    </operation>
+    <operation name="DefaultAccount">
+      <http:operation location="/DefaultAccount"/>
+      <input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </input>
+      <output>
+        <mime:mimeXml part="Body"/>
+      </output>
+    </operation>
+    <operation name="GetDefaultiFolder">
+      <http:operation location="/GetDefaultiFolder"/>
       <input>
         <mime:content type="application/x-www-form-urlencoded"/>
       </input>

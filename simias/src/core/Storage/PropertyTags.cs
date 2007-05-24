@@ -116,6 +116,11 @@ namespace Simias.Storage
 		/// <summary>
 		/// Well known property name.
 		/// </summary>
+		static public string DefaultAccount= "DefaultAccount";
+
+		/// <summary>
+		/// Well known property name.
+		/// </summary>
 		static public string RecoveryKey= "RecoveryKey";
 
 		/// <summary>
@@ -408,6 +413,7 @@ namespace Simias.Storage
 			systemPropertyTable.Add( EncryptionKey, null);
 			systemPropertyTable.Add( EncryptionVersion, null);
 			systemPropertyTable.Add( EncryptionBlob, null);
+			systemPropertyTable.Add( DefaultAccount, null);
 			systemPropertyTable.Add( RecoveryKey, null);
 			systemPropertyTable.Add( RAName, null);
 			systemPropertyTable.Add( RAPublicKey, null);

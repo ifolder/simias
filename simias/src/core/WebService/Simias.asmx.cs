@@ -1306,6 +1306,73 @@ log.Debug("SimiasWebService.ConnectToDomain() called to connect to {0} as {1}", 
 		///<returns>passPhrase.</returns>
 		[WebMethod(EnableSession=true, Description="Set the passphrase and recovery agent.")]
 		[SoapDocumentMethod]
+		public bool ServerSetDefaultAccount(string DomainID, string UserID, string iFolderID)
+		{
+			log.Debug("Ramesh: ServerSetDefaultAccount called");
+			try
+			{
+				Store store = Store.GetStore();
+				Domain domain = store.GetDomain(DomainID);
+				if(domain == null)
+				{
+					throw new SimiasException("Enterprise server domain does not exist.");
+				}	
+			
+				// Member info
+				Simias.Storage.Member member = domain.GetMemberByID(UserID);
+				if(member == null)
+				{
+					throw new SimiasException("member does not exist.");
+				}
+				return member.ServerSetDefaultAccount(iFolderID);
+			}
+			catch(Exception ex)
+			{
+				log.Debug("Ramesh: SetDefault account: {0}", ex.Message);
+				return false;
+			}
+		}
+
+		///<summary>
+		///Set the passphrase and recovery agent in the simias client
+		///</summary>
+		///<returns>passPhrase.</returns>
+		[WebMethod(EnableSession=true, Description="Set the passphrase and recovery agent.")]
+		[SoapDocumentMethod]
+		public string ServerGetDefaultiFolder(string DomainID, string UserID)
+		{
+			log.Debug("Ramesh: ServerGetDefaultiFolder called");
+			try
+			{
+				Store store = Store.GetStore();
+				Domain domain = store.GetDomain(DomainID);
+				if(domain == null)
+				{
+					throw new SimiasException("Enterprise server domain does not exist.");
+				}	
+			
+				// Member info
+				Simias.Storage.Member member = domain.GetMemberByID(UserID);
+				if(member == null)
+				{
+					throw new SimiasException("member does not exist.");
+				}
+				return member.ServerGetDefaultiFolder();
+			}
+			catch(Exception ex)
+			{
+				log.Debug("Ramesh: GetDefault account: {0}", ex.Message);
+				return null;
+			}
+		}
+
+
+		///<summary>
+		///Set the passphrase and recovery agent in the simias client
+		///</summary>
+		///<returns>passPhrase.</returns>
+		[WebMethod(EnableSession=true, Description="Set the passphrase and recovery agent.")]
+		[SoapDocumentMethod]
 		public Simias.Authentication.Status ServerSetPassPhrase(string DomainID, string UserID, string EncryptedCryptoKey, string CryptoKeyBlob, string RAName, string RAPublicKey)
 		{
 			log.Debug("ServerSetPassPhrase called");
@@ -1551,7 +1618,71 @@ log.Debug("SimiasWebService.ConnectToDomain() called to connect to {0} as {1}", 
 			}
 			return new Simias.Authentication.Status(Simias.Authentication.StatusCodes.Success);
 		}
-		
+
+		///<summary>
+		///Set the passphrase and recovery agent in the simias client
+		///</summary>
+		///<returns>passPhrase.</returns>
+		[WebMethod(EnableSession=true, Description="Set the passphrase and recovery agent.")]
+		[SoapDocumentMethod]
+		public bool DefaultAccount(string DomainID, string iFolderID)
+		{
+			log.Debug("Ramesh: Default account called");
+			try
+			{
+				Store store = Store.GetStore();
+				Simias.Storage.Domain domain = store.GetDomain(DomainID);
+				if(domain == null )
+				{
+					log.Debug("Default Account domain Null");
+					return false;
+				}
+				Simias.Storage.Member member = domain.GetCurrentMember();
+				if(member == null )
+				{
+					log.Debug("default account member null");
+					return false;
+				}
+				return member.DefaultAccount(iFolderID);
+			}
+			catch(Exception ex)
+			{
+				log.Debug("Ramesh: Exception: {0}", ex.Message);
+				return false;
+			}
+		}
+		///<summary>
+		///Set the passphrase and recovery agent in the simias client
+		///</summary>
+		///<returns>passPhrase.</returns>
+		[WebMethod(EnableSession=true, Description="Set the passphrase and recovery agent.")]
+		[SoapDocumentMethod]
+		public string GetDefaultiFolder(string DomainID)
+		{
+			log.Debug("Ramesh: Default account called");
+			try
+			{
+				Store store = Store.GetStore();
+				Simias.Storage.Domain domain = store.GetDomain(DomainID);
+				if(domain == null )
+				{
+					log.Debug("Default Account domain Null");
+					return null;
+				}
+				Simias.Storage.Member member = domain.GetCurrentMember();
+				if(member == null )
+				{
+					log.Debug("default account member null");
+					return null;
+				}
+				return member.GetDefaultiFolder();
+			}
+			catch(Exception ex)
+			{
+				log.Debug("Ramesh: Exception: {0}", ex.Message);
+				return null;
+			}
+		}
 		///<summary>
 		///Reset passphrase and recovery agent
 		///</summary>

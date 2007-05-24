@@ -523,6 +523,75 @@ namespace Simias.Storage
 		/// <summary>
 		/// Set the passphrase(key encrypted by passphrase and SHA1 of key) and recovery agent name and key
 		/// </summary>
+		public bool ServerSetDefaultAccount(string iFolderID)
+		{
+			try
+			{
+				Store store = Store.GetStore();
+				string DomainID = this.GetDomainID(store);
+				string UserID = store.GetUserIDFromDomainID(DomainID);
+
+				Domain domain = store.GetDomain(GetDomainID(store));	
+				Member member = domain.GetMemberByID(UserID);
+				
+				log.Debug("ServerSetdefault account: user:{0}...userID={1}",member.Name, UserID);
+			//	if(iFolderID !=null)
+			//	{
+					Property p = new Property(PropertyTags.DefaultAccount, iFolderID);
+					this.properties.ModifyNodeProperty(p);
+					log.Debug("Ramesh: Modified default account to: {0}", iFolderID);
+			//	}
+				Property pr = this.properties.FindSingleValue( PropertyTags.DefaultAccount);
+				string iFID = (pr!=null) ? pr.Value as string : null;
+				if( iFID != null)
+					log.Debug("Ramesh: ServerGetDefault: got {0}", iFID);
+				else
+					log.Debug("Ramesh: ServerGetDefault gives null");
+				domain.Commit(this);
+				
+				return true;
+			}
+			catch(Exception ex)
+			{
+				log.Debug("Ramesh: exception: {0}", ex.Message);
+				return false;
+			}
+		}
+
+		/// <summary>
+		/// Set the passphrase(key encrypted by passphrase and SHA1 of key) and recovery agent name and key
+		/// </summary>
+		public string ServerGetDefaultiFolder()
+		{
+			try
+			{
+				Store store = Store.GetStore();
+				string DomainID = this.GetDomainID(store);
+				string UserID = store.GetUserIDFromDomainID(DomainID);
+
+				Domain domain = store.GetDomain(GetDomainID(store));	
+				Member member = domain.GetMemberByID(UserID);
+				
+				log.Debug("ServerGetdefaultiFolder user:{0}...userID={1}",member.Name, UserID);
+				Property p = this.properties.FindSingleValue( PropertyTags.DefaultAccount);
+				string iFolderID = (p!=null) ? p.Value as string : null;
+				if( iFolderID != null)
+					log.Debug("Ramesh: ServerGetDefault: got {0}", iFolderID);
+				else
+					log.Debug("Ramesh: ServerGetDefault gives null");
+				return iFolderID;
+			}
+			catch(Exception ex)
+			{
+				log.Debug("Ramesh: exception: {0}", ex.Message);
+				return null;
+			}
+		}
+
+
+		/// <summary>
+		/// Set the passphrase(key encrypted by passphrase and SHA1 of key) and recovery agent name and key
+		/// </summary>
 		public void ServerSetPassPhrase(string EncryptedCryptoKey, string CryptoKeyBlob, string RAName, string PublicKey)
 		{
 			Store store = Store.GetStore();
@@ -642,6 +711,62 @@ namespace Simias.Storage
 				log.Debug("SetPassPhrase : {0}", ex.Message);
 				throw ex;
 			}
+		}
+
+		public bool DefaultAccount(string iFolderID)
+		{
+			try
+			{
+				Store store = Store.GetStore();
+				string DomainID = this.GetDomainID(store);
+				string UserID = store.GetUserIDFromDomainID(DomainID);
+				HostNode host = this.HomeServer; //home server
+
+				SimiasConnection smConn = new SimiasConnection(DomainID,
+															UserID,
+															SimiasConnection.AuthType.BASIC,
+															host);
+				SimiasWebService svc = new SimiasWebService();
+				svc.Url = host.PublicUrl;
+
+				smConn.Authenticate ();
+				smConn.InitializeWebClient(svc, "Simias.asmx");		
+				return svc.ServerSetDefaultAccount(DomainID, UserID, iFolderID);
+			}
+			catch(Exception ex)
+			{
+				log.Debug("SetPassPhrase : {0}", ex.Message);
+				return false;
+			}
+			return false;
+		}
+
+		public string GetDefaultiFolder()
+		{
+			try
+			{
+				Store store = Store.GetStore();
+				string DomainID = this.GetDomainID(store);
+				string UserID = store.GetUserIDFromDomainID(DomainID);
+				HostNode host = this.HomeServer; //home server
+
+				SimiasConnection smConn = new SimiasConnection(DomainID,
+															UserID,
+															SimiasConnection.AuthType.BASIC,
+															host);
+				SimiasWebService svc = new SimiasWebService();
+				svc.Url = host.PublicUrl;
+
+				smConn.Authenticate ();
+				smConn.InitializeWebClient(svc, "Simias.asmx");		
+				return svc.ServerGetDefaultiFolder(DomainID, UserID);
+			}
+			catch(Exception ex)
+			{
+				log.Debug("SetPassPhrase : {0}", ex.Message);
+				return null;
+			}
+			return null;
 		}
 
 		/// <summary>
