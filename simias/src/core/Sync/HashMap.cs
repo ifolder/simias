@@ -428,10 +428,12 @@ namespace Simias.Sync.Delta
 		/// <param name="blockSize">The size of the hashed data blocks.</param>
 		public static void SerializeHashMap(Stream inStream, BinaryWriter writer, int blockSize)
 		{
-			if (inStream.Length <= blockSize)
-			{
-				return;
-			}
+			//
+			//if (inStream.Length <= blockSize)
+			//{
+			//	return;
+			//}
+			
 			byte[]			buffer = new byte[blockSize];
 			StrongHash		sh = new StrongHash();
 			WeakHash		wh = new WeakHash();

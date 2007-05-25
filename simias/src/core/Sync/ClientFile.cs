@@ -559,10 +559,8 @@ namespace Simias.Sync
 			else
 				serverHashMap = new HashData[0];
 
-			if(serverHashMap == null || serverHashMap.Length == 0)
+			if(serverHashMap == null || serverHashMap.Length == 0 || IsEncryptionEnabled() == true)
 			{
-				Log.log.Debug("Full file download");
-				
 				if(Encrypted == true)
 				{
 					if(node.Length%boundary !=0)
@@ -831,6 +829,7 @@ namespace Simias.Sync
 			GetUploadFileMap(out sizeToSync, out copyArray, out writeArray, out blockSize);
 			if(sizeToSync == 0)
 			{
+				Log.log.Debug("only date conflict soe revert back the changed made in the server");
 				DateConflict = true;
 				return false;			
 			}	
@@ -917,11 +916,21 @@ namespace Simias.Sync
 			//If not available in server and encrypted file
 			if (serverHashMap == null || serverHashMap.Length == 0 || IsEncryptionEnabled() == true)
 			{
+				Log.log.Debug("Full file download");
+				
+				if(serverHashMap == null)
+					Log.log.Debug("serverHashMap is null");
+				else
+					Log.log.Debug("serverHashMap.Length :{0}", serverHashMap.Length);
+								
 				// Send the whole file.
 				sizeToSync = Length;
 				writeArray.Add(new OffsetSegment(sizeToSync, 0));
 				return;
 			}
+
+			Log.log.Debug("GetUploadFileMap called.....");
+
 
 			table.Clear();
 			table.Add(serverHashMap);
@@ -1013,11 +1022,12 @@ namespace Simias.Sync
 					break;
 				}
 			}
-
+			Log.log.Debug("writeArray.Count:{0} ", writeArray.Count);
 			// Check the last block match to avoid the data conflicts
 			bool		lastBlockMatch = false;
 			if(writeArray.Count == 0)
 			{
+				Log.log.Debug("no data change ");
 				long saveReadPosition= ReadPosition;
 				ReadPosition = blockSize*(serverHashMap.Length-1);
 				bytesRead = outStream.Read(buffer, 0, blockSize); //buffer readoffset is zero
@@ -1031,6 +1041,7 @@ namespace Simias.Sync
 						HashEntry match = table.GetEntry(Entry);
 						if (match != null)
 						{
+							Log.log.Debug("last block also no data change so add into copy array");
 							lastBlockMatch = true;
 							long blockOffset = ReadPosition - bytesRead;
 							BlockSegment.AddToArray(copyArray, new BlockSegment(blockOffset, match.BlockNumber), bytesRead);
@@ -1065,7 +1076,7 @@ namespace Simias.Sync
 				CreateHashMap();
 				// Send the hash map
 				mapStream = GetHashMap(out entryCount, out blockSize);
-				
+				Log.log.Debug("mapStream.Length :{0}", mapStream.Length);
 				mapStream.Position=0;
 				syncService.PutHashMap(mapStream, (int)mapStream.Length);
 				//not saved in the simias client, may be in future for down sync perf. enhancement 
