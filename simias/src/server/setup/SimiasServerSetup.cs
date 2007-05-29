@@ -176,7 +176,7 @@ namespace Novell.iFolder
 		/// <summary>
 		/// Use LDAP
 		/// </summary>
-		public BoolOption useRA = new BoolOption("use-recovery-agent", "Use Key Recovery Agent", "Use Key Recovery Agents to recovery the encryption key if the user forgets the pass-phrase used for encryption?", false, false);
+		public BoolOption useRA = new BoolOption("use-recovery-agent", "Use Key Recovery Agent", "Use Key Recovery Agents to recovery the encryption key if the user forgets the pass-phrase used for encryption?", false, true);
 
 		/// <summary>
 		/// LDAP URL
