@@ -588,6 +588,11 @@ namespace Novell.iFolderWeb.Admin
 			LdapProxyUser.Text = ldapInfo.ProxyDN;
 			ldapInfo.SSL = (LdapSslList.SelectedValue == GetString("YES")) ? true : false;
 
+			remoteweb.PreAuthenticate = true;
+			remoteweb.Credentials = web.Credentials;
+
+		        remoteweb.Url = PublicIP.Text + "/iFolderAdmin.asmx";
+		        remoteweb.GetAuthenticatedUser();
 			remoteweb.SetLdapDetails (ldapInfo);
 
 		        int syncInterval = Int32.Parse (IDSyncInterval.Text);

@@ -411,6 +411,7 @@
 								    Runat="server" 
 								    CssClass="ifolderbuttons"
 								    Enabled="False"
+								    OnClick="OnSaveButton_Click"		    
 								    />
 						</td>
 					</tr>>
