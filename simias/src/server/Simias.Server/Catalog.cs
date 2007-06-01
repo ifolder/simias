@@ -489,6 +489,14 @@ namespace Simias.Server
 									if (member.IsOwner)
 									{
 									    catentry.AddOwner ( member.UserID );
+
+									    // Note : Required during upgrade (3.2 - 3.6) .
+									    if ( member.HomeServer == null )
+									    {
+										member.HomeServer = HostNode.GetLocalHost();
+										domain.Commit(member);
+									    }
+
 									}
 									    
 									catentry.AddMember( member.UserID, member.ID );
