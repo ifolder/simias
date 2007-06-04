@@ -738,6 +738,33 @@ namespace iFolder.WebService
 		{
 			try
 			{
+				if(RAPublicKey != null)
+				{
+					byte [] key = Convert.FromBase64String(RAPublicKey);
+					if(key.Length > 64 && key.Length < 128) //remove the 5 byte header and trailer
+					{
+						byte[] NewKey = new byte[key.Length-10];
+						Array.Copy(key, 5, NewKey, 0, key.Length-10);
+						RAPublicKey = Convert.ToBase64String(NewKey);
+					}
+					else if(key.Length > 128 && key.Length < 256) //remove the 6 byte header and trailer
+					{
+						byte[] NewKey = new byte[key.Length-12];
+						Array.Copy(key, 6, NewKey, 0, key.Length-12);
+						RAPublicKey = Convert.ToBase64String(NewKey);
+					}					
+					else if(key.Length > 256) //remove the 7 byte header and trailer
+					{
+						byte[] NewKey = new byte[key.Length-14];
+						Array.Copy(key, 7, NewKey, 0, key.Length-14);
+						RAPublicKey = Convert.ToBase64String(NewKey);
+					}					
+					else
+						throw new SimiasException("Recovery key size not suported");				
+				}
+		
+		
+			
 				Store store = Store.GetStore();
 								
 				Collection collection = store.GetCollectionByID(DomainID);
@@ -747,9 +774,9 @@ namespace iFolder.WebService
 				PassphraseHash hash = new PassphraseHash();
 				byte[] passphrase = hash.HashPassPhrase(Passphrase);	
 				
-				Key key = new Key(128);
+				Key RAkey = new Key(128);
 				string EncrypCryptoKey;
-				key.EncrypytKey(passphrase, out EncrypCryptoKey);
+				RAkey.EncrypytKey(passphrase, out EncrypCryptoKey);
 				Key HashKey = new Key(EncrypCryptoKey);
 				
 				log.Debug("SetPassPhrase {0}...{1}...{2}...{3}",EncrypCryptoKey, HashKey.HashKey(), RAName, RAPublicKey);

@@ -454,10 +454,11 @@ namespace Novell.iFolderWeb.Admin
 				{
 					string username = Request.Form.Get("UserName");
 					string password = Request.Form.Get("Password");
-					if ((username.Length > 0) && (password.Length > 0))
-					{
-						DoLogin(username, password, false);
-					}
+					if(username != null && password != null)
+						if ((username.Length > 0) && (password.Length > 0))
+						{
+							DoLogin(username, password, false);
+						}
 				}
 			}
 			catch(Exception e)

@@ -752,7 +752,6 @@ namespace Simias.Web
 
                         Collection c = new Collection( store, Name, DomainID, Ssl, EncryptionAlgorithm, Passphrase, member.RAPublicKey);
 
-
                         if (AccessID != null)
                                 c.Impersonate(domain.GetMemberByID(AccessID));
 

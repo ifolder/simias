@@ -247,13 +247,13 @@ namespace Novell.iFolderApp.Web
 					//try getting publickey from current session
 					CertPublicKey = Session["CertPublicKey"] as byte [] ;
 
-					string PublicKey = Encoding.ASCII.GetString(CertPublicKey);
+					string PublicKey = Convert.ToBase64String(CertPublicKey);
 					
 					web.SetPassPhrase(PassPhraseStr, RAName, PublicKey);
 				}
 				else
 					web.SetPassPhrase(PassPhraseStr, null, null);
-
+				
 				// Send the ifolder Name, Description, Security details and the encryption algorithm
 				ifolder = web.CreateiFolder(name, description, false, EncryptionAlgorithm, PassPhraseStr);
 			
