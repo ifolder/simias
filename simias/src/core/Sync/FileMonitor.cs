@@ -81,6 +81,8 @@ namespace Simias.Sync
 		const string lastDredgeProp = "LastDredgeTime";
 		DateTime dredgeTimeStamp;
 		bool needToDredge = true;
+		int limit = 100;
+		int ct = 0;
 		public bool NeedToDredge
 		{
 			set { needToDredge = value; }
@@ -676,6 +678,24 @@ namespace Simias.Sync
 			return false;
 		}
 
+		private bool CheckSuspend
+		{
+			// Read the limit from the setup
+			//limit = Simias.Client.SimiasSetup.Limit;
+			//log.Debug("Ramesh: Setting the limit to {0}", limit);
+			get
+			{
+				ct++;
+			
+				if( ct > limit)
+				{
+					ct =0;
+					return true;
+				}
+				return false;
+			}
+		}
+
 		/// <summary>
 		/// 
 		/// </summary>
@@ -720,7 +740,11 @@ namespace Simias.Sync
 					{
 						if (Simias.Service.Manager.ShuttingDown)
 							return;
-			
+						if(CheckSuspend)
+						{
+							Thread.Sleep(0);
+						}
+
 						string fName = Path.GetFileName(file);
 						ShallowNode sn = (ShallowNode)existingNodes[fName];
 						if (sn != null)
@@ -740,7 +764,10 @@ namespace Simias.Sync
 					{
 						if (Simias.Service.Manager.ShuttingDown)
 							return;
-			
+						if(CheckSuspend)
+						{
+							Thread.Sleep(0);
+						}
 						string dName = Path.GetFileName(dir);
 						ShallowNode sn = (ShallowNode)existingNodes[dName];
 						if (sn != null)
@@ -754,14 +781,16 @@ namespace Simias.Sync
 							DirNode newDir = CreateDirNode(dir, dnode, false);
 						}
 					}
-			
 					// look for deleted files.
 					// All remaining nodes need to be deleted.
 					foreach (ShallowNode sn in existingNodes.Values)
 					{
 						if (Simias.Service.Manager.ShuttingDown)
 							return;
-			
+						if(CheckSuspend)
+						{
+							Thread.Sleep(0);
+						}
 						DeleteNode(new Node(collection, sn));
 					}
 				}
@@ -772,7 +801,10 @@ namespace Simias.Sync
 					{
 						if (Simias.Service.Manager.ShuttingDown)
 							return;
-			
+						if(CheckSuspend)
+						{
+							Thread.Sleep(0);
+						}
 						if (File.GetLastWriteTime(file) > lastDredgeTime)
 						{
 							if (dnode == null)
@@ -785,7 +817,10 @@ namespace Simias.Sync
 					{
 						if (Simias.Service.Manager.ShuttingDown)
 							return;
-			
+						if(CheckSuspend)
+						{
+							Thread.Sleep(0);
+						}
 						if (Directory.GetLastWriteTime(dir) > lastDredgeTime)
 						{
 							if (dnode == null)

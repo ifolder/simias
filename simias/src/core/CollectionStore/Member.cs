@@ -579,6 +579,17 @@ namespace Simias.Storage
 					log.Debug("Ramesh: ServerGetDefault: got {0}", iFolderID);
 				else
 					log.Debug("Ramesh: ServerGetDefault gives null");
+				if( iFolderID != null)
+				{
+					Collection col = store.GetCollectionByID( iFolderID );
+					if( col == null)
+					{
+						log.Debug("RAMESH: Collection does not exist: ");
+						iFolderID = null;
+					}
+					else
+						log.Debug("RAMESH: Collection Exists:");
+				}
 				return iFolderID;
 			}
 			catch(Exception ex)
