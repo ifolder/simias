@@ -595,7 +595,8 @@ namespace Novell.iFolder
 			{
 				SetupLdap();
 			}
-			SetupScriptFiles();
+			if(apache.Value == false)
+				SetupScriptFiles(); //not needed for OES as iFolder runs behind apache. Also helps rpm Uninstall.
 			SetupLog4Net();
 			SetupPermissions();
 			return true;
