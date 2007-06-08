@@ -140,6 +140,8 @@ CLEAN_FILES = simias-server-setup ifolder-admin-setup ifolder-web-setup SimiasSe
 
 clean-local:
 	rm -rf $(CLEAN_FILES) $(COMMON_CLEAN_FILES)
+	
+distclean: distclean-local
 
 distclean-local:
 	rm -rf $(COMMON_DISTCLEAN_FILES)

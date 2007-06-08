@@ -58,6 +58,15 @@
 			<td class="field" style="text-align:right"><%= GetString("LOGIN.PASSWORD") %></td>
 			<td class="field"><asp:TextBox ID="Password" TextMode="Password" CssClass="field" runat="server" /></td>
 		</tr>
+				<tr>
+					<td class="field" style="text-align:right">
+						<%= GetString("LOGIN.LANGUAGE") %>
+					</td>
+					
+					<td class="field">
+						<asp:DropDownList ID="LanguageList" runat="server" />
+					</td>
+				</tr>
 		<tr>
 			<td>&nbsp;</td>
 			<td class="button" style="text-align:left"><asp:Button ID="LoginButton" runat="server" /></td>

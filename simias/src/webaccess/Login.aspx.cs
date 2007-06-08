@@ -78,6 +78,11 @@ namespace Novell.iFolderApp.Web
 		protected Button LoginButton;
 
 		/// <summary>
+		/// Language List
+		/// </summary>
+		protected DropDownList LanguageList;
+
+		/// <summary>
 		/// Browser Warning
 		/// </summary>
 		protected Label BrowserWarning;
@@ -86,6 +91,28 @@ namespace Novell.iFolderApp.Web
 		/// Resource Manager
 		/// </summary>
 		private ResourceManager rm;
+
+		/// <summary>
+		/// Languages
+		/// </summary>
+		private ListItem[] languages =
+		{
+			// language list
+			new ListItem("ENGLISH", "en"),
+			new ListItem("CHINESE-SIMPLIFIED", "zh-CN"),
+			new ListItem("CHINESE-TRADITIONAL", "zh-TW"),
+			new ListItem("CZECH", "cs"),
+			new ListItem("FRENCH", "fr"),
+			new ListItem("GERMAN", "de"),
+			new ListItem("HUNGARIAN", "hu"),
+			new ListItem("ITALIAN", "it"),
+			new ListItem("JAPANESE", "ja"),
+			new ListItem("POLISH", "pl"),
+			new ListItem("PORTUGUESE-BRAZIL", "pt-BR"),
+			new ListItem("RUSSIAN", "ru"),
+			new ListItem("SPANISH", "es"),
+			new ListItem("SLOVAK", "sk"),
+		};
 	
 		/// <summary>
 		/// Page Load
@@ -118,19 +145,69 @@ namespace Novell.iFolderApp.Web
 
 				// cookies
 				HttpCookie usernameCookie = Request.Cookies["username"];
+				HttpCookie languageCookie = Request.Cookies["language"];
 
 				// username
 				if (usernameCookie != null)
 				{
 					UserName.Text = HttpUtility.UrlDecode(usernameCookie.Value);
 				}
+				// culture info
+				string code = Thread.CurrentThread.CurrentUICulture.Name;
+
+				if ((Context.Request != null) && (Request.UserLanguages.Length > 0))
+				{
+					code = Request.UserLanguages[0];
+				}
+				
+				// check language cookie
+				if ((languageCookie != null) && (languageCookie.Value != null)
+					&& (languageCookie.Value.Length > 0))
+				{
+					code = languageCookie.Value;
+				}
+
+				// set the code
+				try
+				{
+					Thread.CurrentThread.CurrentUICulture =
+						CultureInfo.CreateSpecificCulture(code);
+				}
+				catch(Exception ex)
+				{
+					log.Info(Context, ex, "Culture: {0}", code);
+				}
+				// loop and localize languages
+				bool found = false;
+				foreach(ListItem language in languages)
+				{
+					language.Text = rm.GetString(language.Text);
+
+					if (code.ToLower().StartsWith(language.Value.ToLower()))
+					{
+						language.Selected = true;
+						found = true;
+					}
+				}
+
+				// default to first language
+				if (!found)
+				{
+					languages[0].Selected = true;
+				}
+
+				// sort languages
+				Array.Sort(languages, ListItemTextComparer.Default);
+
+				// add languages
+				LanguageList.Items.AddRange(languages);
 
 				// strings
 				LoginButton.Text = GetString("LOGIN");
 				HelpButton.Text = GetString("HELP");
 				
 				// help
-				string code = Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName;
+				code = Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName;
 				HelpButton.NavigateUrl = String.Format("help/{0}/login.html", code);
 
 				// check browser version
@@ -534,3 +611,42 @@ namespace Novell.iFolderApp.Web
 		}
 	}
 }
+
+/// <summary>
+/// List Item Text Comparer
+/// </summary>
+public class ListItemTextComparer : IComparer
+{
+	/// <summary>
+	/// Case Insensitive Comparer
+	/// </summary>
+	private CaseInsensitiveComparer cic;
+
+	/// <summary>
+	/// Constructor
+	/// </summary>
+	public ListItemTextComparer()
+	{
+		cic = new CaseInsensitiveComparer();
+	}
+
+	/// <summary>
+	/// Compare
+	/// </summary>
+	/// <param name="a"></param>
+	/// <param name="b"></param>
+	/// <returns></returns>
+	public int Compare(object a, object b)
+	{
+		return cic.Compare((a as ListItem).Text, (b as ListItem).Text);
+	}
+
+	/// <summary>
+	/// Default Instance
+	/// </summary>
+	public static ListItemTextComparer Default
+	{
+		get { return new ListItemTextComparer(); }
+	}
+}
+

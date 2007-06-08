@@ -279,7 +279,7 @@ namespace Simias.Authentication
 					if ( status.UserID == null || status.UserID == "")
 					{
 						ctx.Response.StatusCode = 500;
-						ctx.Response.StatusDescription = "Unknown";
+						ctx.Response.StatusDescription = "Unknown UserID";
 						ctx.ApplicationInstance.CompleteRequest();
 						return null;
 					}
@@ -288,7 +288,7 @@ namespace Simias.Authentication
 					if ( member == null )
 					{
 						ctx.Response.StatusCode = 500;
-						ctx.Response.StatusDescription = "Unknown";
+						ctx.Response.StatusDescription = "Unknown Member in Domain";
 						ctx.ApplicationInstance.CompleteRequest();
 						return null;
 					}
@@ -349,7 +349,7 @@ namespace Simias.Authentication
 				if ( status.UserID == null || status.UserID == "")
 				{
 					ctx.Response.StatusCode = 500;
-					ctx.Response.StatusDescription = "Unknown";
+					ctx.Response.StatusDescription = "Unknown UserID-2";
 					ctx.ApplicationInstance.CompleteRequest();
 					return null;
 				}
@@ -358,7 +358,7 @@ namespace Simias.Authentication
 				if ( member == null )
 				{
 					ctx.Response.StatusCode = 500;
-					ctx.Response.StatusDescription = "Unknown";
+					ctx.Response.StatusDescription = "Unknown Member in Domain-2";
 					ctx.ApplicationInstance.CompleteRequest();
 					return null;
 				}

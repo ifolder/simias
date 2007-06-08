@@ -862,26 +862,30 @@ namespace Simias.DomainServices
 			
 			// Find the user's POBox for this domain.
 			POBox.POBox poBox = POBox.POBox.FindPOBox(store, domainID, userID);
-			if (poBox == null)
+			//POBox will not be available for new accounts, so remove only if available
+/*			if (poBox == null)
 			{
 				throw new SimiasException(String.Format("Cannot find POBox belonging to domain {0}", domainID));
-			}
+			}*/
 
 			try
 			{
-				// Delete the POBox for this domain which will start the domain cleanup process.
-				poBox.Commit(poBox.Delete());
-
-				// Remove the domain from the table
-				lock (domainTable)
+				if(poBox != null)
 				{
-					domainTable.Remove(domainID);
-				}
-
-				if (!localOnly)
-				{
-					// Remove the user from the domain server.
-					domainService.RemoveServerCollections(domainID, userID);
+					// Delete the POBox for this domain which will start the domain cleanup process.
+					poBox.Commit(poBox.Delete());
+					
+					// Remove the domain from the table
+					lock (domainTable)
+					{
+						domainTable.Remove(domainID);
+					}
+					
+					if (!localOnly)
+					{
+						// Remove the user from the domain server.
+						domainService.RemoveServerCollections(domainID, userID);
+					}
 				}
 			}
 			finally

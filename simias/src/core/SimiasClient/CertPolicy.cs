@@ -201,7 +201,10 @@ namespace Simias.Client
 		/// <param name="host">The host the certificate belongs to.</param>
 		public static void StoreRACertificate(byte[] certificate, string recoveryAgent)
 		{
-			CertRAList.Add(recoveryAgent);
+			if(CertRAList.Contains(recoveryAgent) == false)
+				CertRAList.Add(recoveryAgent);
+			if(CertRATable.ContainsKey(recoveryAgent))
+				CertRATable.Remove(recoveryAgent);
 			CertRATable[recoveryAgent] = new CertificateState(new X509Certificate(certificate), true, CertificateProblem.CertOK);
 		}
 

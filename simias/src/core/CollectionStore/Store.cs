@@ -521,6 +521,7 @@ namespace Simias.Storage
 
 					// Create the certificate policy and load the certs.
 					new CertPolicy();
+					X509Certificate raCert = null;
 					try 
 					{
 					        Simias.Configuration config = Store.Config;
@@ -531,7 +532,15 @@ namespace Simias.Storage
 					                string[] racertFiles = Directory.GetFiles( raPath, "*.?er" );
 							foreach ( string file in racertFiles )
 							{
-								X509Certificate raCert = X509Certificate.CreateFromCertFile(file);
+								try
+								{
+							       	 raCert = X509Certificate.CreateFromCertFile(file);
+								}
+								catch(CryptographicException ce)
+								{
+									log.Debug("Exception {0}, File: {1}", ce.ToString(), file);
+									continue;
+								}
 								Simias.Security.CertificateStore.StoreRACertificate (raCert.GetRawCertData(), raCert.GetIssuerName().ToLower(), true);
 							}
 						}
