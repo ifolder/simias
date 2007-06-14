@@ -57,6 +57,16 @@ namespace Novell.iFolderWeb.Admin
 		private const int iFolderLastModifiedColumn = 7;
 
 		/// <summary>
+		/// iFolder list display types.
+		/// </summary>
+		private enum ListDisplayType
+		{
+		
+				All,
+				Orphaned
+		}
+
+		/// <summary>
 		/// iFolder Connection
 		/// </summary>
 		private iFolderAdmin web;
@@ -115,6 +125,21 @@ namespace Novell.iFolderWeb.Admin
 		/// Create ifolder button control.
 		/// </summary>
 		protected Button CreateButton;
+		
+		/// <summary>
+		/// iFolder list view tab controls.
+		/// </summary>
+		protected LinkButton AlliFoldersLink;
+		
+		/// <summary>
+		/// iFolder list view tab controls.
+		/// </summary>
+		protected LinkButton OrphanediFoldersLink;
+		
+		/// <summary>
+		/// iFolder list view tab controls.
+		/// </summary>
+		protected HtmlGenericControl CurrentTab;
 
 		#endregion
 
@@ -127,6 +152,15 @@ namespace Novell.iFolderWeb.Admin
 		{
 			get { return ViewState[ "CheckediFolders" ] as Hashtable; }
 			set { ViewState[ "CheckediFolders" ] = value; }
+		}
+
+		/// <summary>
+		/// Gets or sets the active ifolder tab.
+		/// </summary>
+		private ListDisplayType ActiveiFolderTab
+		{
+			get { return ( ListDisplayType )ViewState[ "ActiveTab" ]; }
+			set { ViewState[ "ActiveTab" ] = value; }
 		}
 
 		/// <summary>
@@ -184,11 +218,26 @@ namespace Novell.iFolderWeb.Admin
 			dt.Columns.Add( new DataColumn( "SizeField", typeof( string ) ) );
 
 			// Get the iFolder list for this user.
-			iFolderSet list = web.GetiFoldersByName(
-				iFolderSearch.SearchOperation,
-				( iFolderSearch.SearchName == String.Empty ) ? "*" : iFolderSearch.SearchName, 
-				CurrentiFolderOffset, 
-				iFolderList.PageSize );
+			
+			iFolderSet list ;
+			
+			switch(ActiveiFolderTab)
+			{
+				case ListDisplayType.Orphaned:
+					list = web.GetOrphanediFolders(iFolderSearch.SearchOperation, 
+							( iFolderSearch.SearchName == String.Empty) ? "*" : iFolderSearch.SearchName,
+								CurrentiFolderOffset,
+								iFolderList.PageSize);
+					break;
+					
+				case ListDisplayType.All:
+				default:
+					list = web.GetiFoldersByName(iFolderSearch.SearchOperation, 
+						( iFolderSearch.SearchName == String.Empty) ? "*" : iFolderSearch.SearchName,
+						CurrentiFolderOffset,iFolderList.PageSize);
+					break;
+			}			
+			
 
 			foreach( iFolder folder in list.Items )
 			{
@@ -273,13 +322,22 @@ namespace Novell.iFolderWeb.Admin
 				DisableButton.Text = GetString( "DISABLE" );
 				EnableButton.Text = GetString( "ENABLE" );
 				CreateButton.Text = GetString( "CREATE" );
+				
+				AlliFoldersLink.Text = GetString( "ALL" );
+				OrphanediFoldersLink.Text = GetString( "ORPHANED" );
 
 				// Initialize state variables.
 				CurrentiFolderOffset = 0;
 				TotaliFolders = 0;
 				AlliFoldersCheckBox.Checked = false;
 				CheckediFolders = new Hashtable();
+				
+				//Set the active ifolder tab
+				ActiveiFolderTab = ListDisplayType.All;
+				
 			}
+			// Set the active ifolder display tab
+			SetActiveiFolderListTab( ActiveiFolderTab );
 		}
 
 		/// <summary>
@@ -302,6 +360,17 @@ namespace Novell.iFolderWeb.Admin
 			DeleteButton.Enabled = ( ht.Count > 0 ) ? true : false;
 			DisableButton.Enabled = ht.ContainsValue( Boolean.FalseString );
 			EnableButton.Enabled = ht.ContainsValue( Boolean.TrueString );
+		}
+		
+		/// <summary>
+		/// Sets the active ifolder list display tab.
+		/// </summary>
+		/// <param name="activeTab"></param>
+		/// <returns>The active list tab.</returns>
+		private void SetActiveiFolderListTab( ListDisplayType activeTab )
+		{
+			ActiveiFolderTab = activeTab;
+			CurrentTab.ID = activeTab.ToString();
 		}
 
 		/// <summary>
@@ -356,7 +425,32 @@ namespace Novell.iFolderWeb.Admin
 		#endregion
 
 		#region Protected Methods
-
+		
+		/// <summary>
+		/// Event handler that gets called when the all ifolders tab is clicked.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		protected void AlliFolders_Clicked( Object sender, EventArgs e )
+		{
+			SetActiveiFolderListTab( ListDisplayType.All );
+			CreateButton.Enabled = true;
+			GetiFolders();
+		}
+		
+		
+		/// <summary>
+		/// Event handler that gets called when the orphaned ifolders tab is clicked.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		protected void OrphanediFolders_Clicked( Object sender, EventArgs e )
+		{
+			SetActiveiFolderListTab( ListDisplayType.Orphaned );
+			CreateButton.Enabled = false;
+			GetiFolders();
+		}
+		
 		/// <summary>
 		/// Gets the image representing the iFolder type.
 		/// </summary>

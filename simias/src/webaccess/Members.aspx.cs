@@ -435,7 +435,8 @@ namespace Novell.iFolderApp.Web
 			{
 				try
 				{
-					web.SetiFolderOwner(ifolderID, ownerID);
+					// 3rd argument is false because its not going to adopt any orphaned ifolder
+					web.SetiFolderOwner(ifolderID, ownerID, false);
 				}
 				catch(SoapException ex)
 				{

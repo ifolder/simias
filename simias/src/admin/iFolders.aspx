@@ -35,7 +35,29 @@
 				<%= GetString( "IFOLDERS" ) %>
 			
 			</div>
-				
+			
+			<div id="CurrentTab" runat="server" class="ifoldertabnav">
+
+				<ul id="ifolderlisttab">
+					<li class="allifolders">
+						<asp:LinkButton
+							ID="AlliFoldersLink"
+							Runat="server"
+							OnClick="AlliFolders_Clicked" />
+					</li>
+	
+					<li class="orphanedifolders">
+						<asp:LinkButton
+							ID="OrphanediFoldersLink"
+							Runat="server"
+							OnClick="OrphanediFolders_Clicked" />
+					</li>
+	
+				</ul>
+
+			</div>
+
+			
 			<iFolder:iFolderSearch ID="iFolderSearch" Runat="server" />
 					
 			<div class="ifoldersnav">

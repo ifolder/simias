@@ -513,7 +513,7 @@ namespace iFolder.WebService
 		/// <param name="ifolderID">The iFolder ID</param>
 		/// <param name="userID">The User ID</param>
 		/// <param name="accessID">The Access User ID</param>
-		public static void SetOwner(string ifolderID, string userID, string accessID)
+		public static void SetOwner(string ifolderID, string userID, string accessID, bool OrphanAdopt)
 		{
 			try
 			{
@@ -528,6 +528,20 @@ namespace iFolder.WebService
 
 			// note: default the previous owner to "ReadOnly" rights
 			SharedCollection.ChangeOwner(ifolderID, userID, Access.Rights.ReadOnly.ToString(), accessID);
+			
+			//If orphaned collection was adopted then delete the 'OrphanedOwner' property
+			if(OrphanAdopt)
+			{
+				Store store = Store.GetStore();
+				Collection c = store.GetCollectionByID(ifolderID);
+				if (c == null)  throw new iFolderDoesNotExistException(ifolderID);
+				Property p = c.Properties.GetSingleProperty( "OrphanedOwner" );
+				if ( p != null )
+				{
+					c.Properties.DeleteSingleProperty( "OrphanedOwner" );
+					c.Commit();
+				}
+			}	
 		}
 
 		/// <summary>

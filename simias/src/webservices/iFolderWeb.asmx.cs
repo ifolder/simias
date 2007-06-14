@@ -349,9 +349,10 @@ namespace iFolder.WebService
 		[WebMethod(
 			 Description="Set the owner of an iFolder.",
 			 EnableSession=true)]
-		public override void SetiFolderOwner(string ifolderID, string userID)
+		public override void SetiFolderOwner(string ifolderID, string userID, bool OrphanAdopt)
 		{
-			base.SetiFolderOwner(ifolderID, userID);
+			OrphanAdopt = false;
+			base.SetiFolderOwner(ifolderID, userID, OrphanAdopt);
 		}
 
 		/// <summary>

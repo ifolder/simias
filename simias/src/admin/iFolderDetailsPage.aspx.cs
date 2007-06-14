@@ -61,6 +61,10 @@ namespace Novell.iFolderWeb.Admin
 		/// </summary>
 		protected TopNavigation TopNav;
 
+		/// <summary>
+		/// Web Controls.
+		/// </summary>
+		protected MemberSearch MemberSearch;
 
 		/// <summary>
 		/// Controls used to display and edit iFolder information.
@@ -106,6 +110,16 @@ namespace Novell.iFolderWeb.Admin
 		/// Controls used to display and edit iFolder information.
 		/// </summary>
 		protected Literal Files;
+		
+		/// <summary>
+		/// Controls used to display and edit iFolder information.
+		/// </summary>
+		protected Literal Orphan;
+		
+		/// <summary>
+		/// Control used to adopt the orphaned ifolders.
+		/// </summary>
+		protected Button AdoptButton;
 
 		/// <summary>
 		/// Controls used to display and edit iFolder information.
@@ -265,6 +279,23 @@ namespace Novell.iFolderWeb.Admin
 			//Size.Text = Utils.ConvertToUnitString( ifolder.Size, true, rm );
 			Directories.Text = ifolder.DirectoryCount.ToString();
 			Files.Text = ifolder.FileCount.ToString();
+			
+			string IsOrphaned = web.IsOrphanediFolder(iFolderID);
+			
+			if(IsOrphaned.Equals(""))
+			{
+				Orphan.Text = GetString( "NO" );
+				AdoptButton.Text = GetString("ADOPT");
+				AdoptButton.Visible = false;
+			}
+			else
+			{
+				//it has returned the previous owner id of this orphaned ifolder
+				Orphan.Visible = true;
+				Orphan.Text = GetString( "YES" );
+				AdoptButton.Visible = true;
+				AdoptButton.Enabled = true;
+			}	
 
 			LastModified.Text = ( ifolder.LastModified == DateTime.MinValue ) ? 
 				Utils.ToDateTimeString( DateTime.Now ) : 
@@ -282,7 +313,7 @@ namespace Novell.iFolderWeb.Admin
 		/// Gets the member list view for the specified ifolder.
 		/// </summary>
 		/// <returns></returns>
-		private DataView GetiFolderMemberList()
+		private DataView GetiFolderMemberList(bool AdoptButtonClicked)
 		{
 			DataTable dt = new DataTable();
 			DataRow dr;
@@ -299,6 +330,11 @@ namespace Novell.iFolderWeb.Admin
 				iFolderID, 
 				CurrentMemberOffset, 
 				iFolderMemberList.PageSize );
+				
+			// userList if adoptButton was clicked
+			iFolderUserSet userList = web.GetUsers( 
+					CurrentMemberOffset, 
+					iFolderMemberList.PageSize );		
 
 			foreach( iFolderUser member in memberList.Items )
 			{
@@ -312,6 +348,44 @@ namespace Novell.iFolderWeb.Admin
 
 				dt.Rows.Add( dr );
 			}
+			
+			//if Adopt button was clicked, then show all the users from domain
+			if(AdoptButtonClicked)
+			{
+				
+					
+				int NoOfRows = dt.Rows.Count;	
+					
+				foreach( iFolderUser user in userList.Items )
+				{
+					bool UserAlready = false;
+					for (int i = 0; i < NoOfRows; i++)
+					{
+						if(user.ID == (String)dt.Rows[i][2])
+						{
+							UserAlready = true;
+							break;
+						}
+					}	
+						
+					if(!UserAlready)
+					{
+						dr = dt.NewRow();
+						dr[0] = true;
+						dr[1] = false;
+						dr[2] = user.ID;
+						dr[3] = user.FullName;
+						dr[4] = "<font color=red>N/A</font>";
+						
+						dt.Rows.Add(dr);
+						
+					}
+				
+				}	
+				
+				AdoptButton.Enabled = false;
+			}
+ 
 
 			// If the page size is not full, finish it with empty entries.
 			for ( int i = dt.Rows.Count; i < iFolderMemberList.PageSize; ++i )
@@ -328,7 +402,10 @@ namespace Novell.iFolderWeb.Admin
 			}
 
 			// Remember the total number of users.
-			TotaliFolderMembers = memberList.Total;
+			if(AdoptButtonClicked)
+				TotaliFolderMembers = userList.Total;
+			else	
+				TotaliFolderMembers = memberList.Total;
 
 			// Build the data view from the table.
 			return new DataView( dt );
@@ -339,9 +416,20 @@ namespace Novell.iFolderWeb.Admin
 		/// </summary>
 		private void GetiFolderMembers()
 		{
-			iFolderMemberList.DataSource = GetiFolderMemberList();
+			bool AdoptButtonClicked = false;
+			iFolderMemberList.DataSource = GetiFolderMemberList(AdoptButtonClicked);
 			iFolderMemberList.DataBind();
 			SetPageButtonState();
+		}
+		
+		/// <summary>
+		/// Gets the iFolder members
+		/// </summary>
+		private void GetiFolderMembers(bool AdoptButtonClicked)
+ 		{
+ 			iFolderMemberList.DataSource = GetiFolderMemberList(AdoptButtonClicked);
+ 			iFolderMemberList.DataBind();
+ 			SetPageButtonState();
 		}
 
 		/// <summary>
@@ -388,7 +476,7 @@ namespace Novell.iFolderWeb.Admin
 				}
 
 				// Disable the owner of the iFolder from being checked and removed from the ifolder.
-				if ( ( bool )dt.Rows[ e.Item.DataSetIndex ][ "OwnerField" ] == true )
+				if ( ( bool )dt.Rows[ e.Item.DataSetIndex ][ "OwnerField" ] == true && (!AdoptButton.Visible || AdoptButton.Enabled))
 				{
 					( e.Item.Cells[ 0 ].FindControl( "iFolderMemberListCheckBox" ) as CheckBox ).Enabled = false;
 				}
@@ -433,6 +521,7 @@ namespace Novell.iFolderWeb.Admin
 				iFolderMemberList.Columns[ 6 ].HeaderText = GetString( "RIGHTS" );
 
 				DescriptionButton.Text = GetString( "SAVE" );
+				AdoptButton.Text = GetString( "ADOPT" );
 				MemberDeleteButton.Text = GetString( "DELETE" );
 				MemberAddButton.Text = GetString( "ADD" );
 				MemberOwnerButton.Text = GetString( "OWNER" );
@@ -538,12 +627,12 @@ namespace Novell.iFolderWeb.Admin
 			}
 
 			// See if there are any checked members.
-			EnableMemberActionButtons = ( CheckedMembers.Count > 0 );
-			EnableOwnerActionButton = ( CheckedMembers.Count == 1 );
+			EnableMemberActionButtons = (( CheckedMembers.Count > 0 ) && (!AdoptButton.Visible || AdoptButton.Enabled));
+			EnableOwnerActionButton = (( CheckedMembers.Count == 1 ) && (!AdoptButton.Visible && AdoptButton.Enabled)); 
 			MembersChecked = checkBox.Checked;
 
 			// Rebind the data source with the new data.
-			GetiFolderMembers();
+			GetiFolderMembers(AdoptButton.Visible && !AdoptButton.Enabled);
 		}
 
 		/// <summary>
@@ -594,7 +683,7 @@ namespace Novell.iFolderWeb.Admin
 				string memberID = enumerator.Current as string;
 				try
 				{
-					web.SetiFolderOwner( iFolderID, memberID );
+					web.SetiFolderOwner( iFolderID, memberID, (AdoptButton.Visible && !AdoptButton.Enabled) );
 				}
 				catch ( Exception ex )
 				{
@@ -605,6 +694,16 @@ namespace Novell.iFolderWeb.Admin
 				// Show the new owner in the page.
 				Owner.Text = CheckedMembers[ memberID ] as string;
 				Owner.NavigateUrl = String.Format( "UserDetails.aspx?id={0}", memberID );
+				
+				//if orphaned property was removed then the buttons are changed 
+				string IsOrphaned = web.IsOrphanediFolder(iFolderID);
+			
+				if(IsOrphaned.Equals(""))
+				{
+					Orphan.Text = GetString( "NO" );
+					AdoptButton.Text = GetString("ADOPT");
+					AdoptButton.Visible = false;
+				}
 			}
 
 			// Clear the checked members.
@@ -613,6 +712,8 @@ namespace Novell.iFolderWeb.Admin
 
 			// Disable the action buttons.
 			EnableMemberActionButtons = EnableOwnerActionButton = false;
+			
+			//string ifolderName = GetiFolderDetails();
 
 			// Rebind the data source with the new data.
 			GetiFolderMembers();
@@ -726,7 +827,7 @@ namespace Novell.iFolderWeb.Admin
 			}
 
 			// See if there are any checked members.
-			EnableMemberActionButtons = ( CheckedMembers.Count > 0 );
+			EnableMemberActionButtons = (( CheckedMembers.Count > 0 ) && (!AdoptButton.Visible || AdoptButton.Enabled));
 			EnableOwnerActionButton = ( CheckedMembers.Count == 1 );
 		}
 
@@ -739,7 +840,7 @@ namespace Novell.iFolderWeb.Admin
 		{
 			// Set to get the first members.
 			CurrentMemberOffset = 0;
-			GetiFolderMembers();
+			GetiFolderMembers(AdoptButton.Visible && !AdoptButton.Enabled);
 		}
 
 		/// <summary>
@@ -755,7 +856,7 @@ namespace Novell.iFolderWeb.Admin
 				CurrentMemberOffset = 0;
 			}
 
-			GetiFolderMembers();
+			GetiFolderMembers(AdoptButton.Visible && !AdoptButton.Enabled);
 		}
 
 		/// <summary>
@@ -766,7 +867,7 @@ namespace Novell.iFolderWeb.Admin
 		protected void PageNextButton_Click( object source, ImageClickEventArgs e)
 		{
 			CurrentMemberOffset += iFolderMemberList.PageSize;
-			GetiFolderMembers();
+			GetiFolderMembers(AdoptButton.Visible && !AdoptButton.Enabled);
 		}
 
 		/// <summary>
@@ -777,7 +878,7 @@ namespace Novell.iFolderWeb.Admin
 		protected void PageLastButton_Click( object source, ImageClickEventArgs e)
 		{
 			CurrentMemberOffset = ( ( TotaliFolderMembers - 1 ) / iFolderMemberList.PageSize ) * iFolderMemberList.PageSize;
-			GetiFolderMembers();
+			GetiFolderMembers(AdoptButton.Visible && !AdoptButton.Enabled);
 		}
 
 		/// <summary>
@@ -798,6 +899,18 @@ namespace Novell.iFolderWeb.Admin
 			}
 
 			DescriptionButton.Enabled = false;
+		}
+
+		/// <summary>
+		/// Event handler that gets called when the Adopt button is clicked.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		protected void AdoptOrphanediFolder( object sender, EventArgs e )
+		{
+			bool AdoptButtonClicked = true;
+			GetiFolderMembers(AdoptButtonClicked);
+
 		}
 
 		#endregion

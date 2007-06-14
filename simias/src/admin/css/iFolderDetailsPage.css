@@ -43,6 +43,13 @@
 	overflow: visible;
 }
 
+.selectownerbuttons
+{
+	width: 7.5em;
+	color: black;
+}
+
+
 .ifoldermemberlistnav
 {
 	float: left;
@@ -119,6 +126,12 @@
 {
 	margin-top: 6px;
 	margin-right: 2px;
+}
+
+#DescriptionButton
+{
+	margin-left: 6px;
+	width: 10.5em;
 }
 
 #MemberDeleteButton

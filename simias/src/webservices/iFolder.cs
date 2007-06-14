@@ -73,7 +73,7 @@ namespace iFolder.WebService
 	/// An iFolder
 	/// </summary>
 	[Serializable]
-	public class iFolder
+	public class iFolder:IComparable
 	{
 		/// <summary>
 		/// The iFolder ID
@@ -276,6 +276,16 @@ namespace iFolder.WebService
 			}
 
 		}
+		
+		public int CompareTo(object iFolderobj)
+		{
+			iFolder Compare = (iFolder) iFolderobj;
+			int result = this.Name.CompareTo(Compare.Name);
+			if(result == 0)
+				result = this.Name.CompareTo(Compare.Name);
+			return result;
+		}
+		
 		
 		/// <summary>
                 /// Create an iFolder through web admin
@@ -677,6 +687,132 @@ namespace iFolder.WebService
 
 			return new iFolderSet((iFolder[])list.ToArray(typeof(iFolder)), i);
 		}
+
+		/// <summary>
+		/// Get Orphaned iFolders 
+		/// </summary>
+		/// <param name="operation">The Search Operation</param>
+		/// <param name="pattern">The Search Pattern</param>
+		/// <param name="index">The Search Start Index</param>
+		/// <param name="max">The Search Max Count of Results</param>
+		/// <param name="accessID">The Access User ID</param>
+		/// <returns>A Set of iFolder Objects</returns>
+		public static iFolderSet GetOrphanediFolders(SearchOperation operation, string pattern, int index, int max, string accessID  )
+		{
+			Store store = Store.GetStore();
+
+			// Get the default domain.
+			Domain domain = store.GetDomain( store.DefaultDomain );
+			if ( domain != null )
+			{
+				// Get all of the collections that have been orphaned.
+					
+				// search operator
+				SearchOp searchOperation = SearchOp.Begins;
+
+				 // match the pattern
+				Regex regex = null;
+				
+				if ((pattern != null) && (pattern.Length > 0) && !pattern.Equals("*"))
+				{
+
+					switch(operation)
+					{
+						case SearchOperation.BeginsWith:
+							searchOperation = SearchOp.Begins;
+							pattern = "^" + pattern;
+							break;
+
+						case SearchOperation.EndsWith:
+							searchOperation = SearchOp.Ends;
+							pattern = pattern + "$";
+							break;
+
+						case SearchOperation.Equals:
+							searchOperation = SearchOp.Equal;
+							pattern = "^" + pattern + "$";
+							break;
+
+						case SearchOperation.Contains:
+						default:
+							searchOperation = SearchOp.Contains;
+							break;
+					}
+				
+					
+					regex = new Regex(pattern, RegexOptions.IgnoreCase);
+				}
+				Property p = new Property ( "OrphanedOwner", "cn"); 	
+				ICSList OrphanList = store.GetCollectionsByProperty( p, searchOperation );
+
+				// build the result list
+				ArrayList list = new ArrayList();
+				ArrayList duplist = new ArrayList();
+				int i = 0;
+				if ( OrphanList.Count > 0 )
+				{
+					foreach( ShallowNode sn in OrphanList )
+					{
+						//throw non-collections
+						if(sn.IsBaseType(NodeTypes.CollectionType))
+						{
+							 if ( regex == null || regex.Match(sn.Name).Success)
+							{
+								Collection c = store.GetCollectionByID(sn.ID);
+								if((c != null &&(c.IsType(iFolderCollectionType))))
+								{
+									Property OrphanedOwnerProperty = c.Properties.GetSingleProperty( "OrphanedOwner" );
+									if ( OrphanedOwnerProperty != null )
+									{
+										if((i >= index) && (((max <= 0) || i < (max + index))))
+										{
+											if(! duplist.Contains(sn.ID))
+											{
+												duplist.Add(sn.ID);
+												list.Add(new iFolder(c,accessID));	
+												++i;
+											}
+										}
+									}	
+								}
+							}
+						}
+					}
+				}
+				list.Sort();
+				return new iFolderSet((iFolder[])list.ToArray(typeof(iFolder)), i);
+			}
+			else 
+				throw new Exception ("ifolder.cs : Can not get the default domain for the store. ");
+		}
+
+		/// <summary>
+		/// check the orphaned property of an ifolder 
+		/// </summary>
+		/// <param name="ifolderID">The iFolder ID</param>
+		/// <param name="accessID">The Access User ID</param>
+		/// <returns>a string 'false' if the ifolder is not orphaned otherwise returns userID of prev owner</returns>
+
+		public static string IsOrphanediFolder(string iFolderID, string AccessID)
+		{
+			string isorphaned = "";
+
+			Store store = Store.GetStore();
+			Collection c = store.GetCollectionByID(iFolderID);
+			if (c == null)  throw new iFolderDoesNotExistException(iFolderID);
+			Property p = c.Properties.GetSingleProperty( "OrphanedOwner" );
+			if ( p != null )
+			{
+				//if (c.OrphanedOwner != null )//&& (!(c.PreviousOwner.Equals("PrevOwner"))))	
+				//isorphaned = c.OrphanedOwner;
+				isorphaned = p.Value as string;
+				
+			}	
+			return isorphaned;
+		}
+
+
+
 
 		/// <summary>
 		/// Se the Description of an iFolder

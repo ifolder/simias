@@ -100,6 +100,33 @@ namespace iFolder.WebService
                          return base.GetiFolderLocation (ifolderID);
 		}
 
+		    /// <summary>
+		/// Get the Orphaned ifolders 
+		/// </summary>
+		/// <returns> a list of orphaned ifolders</returns>
+		[WebMethod(
+		         Description="Get the list of orphaned ifolders",
+			 EnableSession=true)]
+		public override iFolderSet GetOrphanediFolders(SearchOperation operation, string pattern, int index, int max  )
+		{
+                         return base.GetOrphanediFolders ( operation, pattern, index, max );
+		}
+
+		
+
+	        /// <summary>
+		/// check the Orphaned property 
+		/// </summary>
+		/// <returns> a string value </returns>
+		[WebMethod(
+		         Description="check the orphaned property",
+			 EnableSession=true)]
+		public override string IsOrphanediFolder(string iFolderID)
+		{
+                         return base.IsOrphanediFolder ( iFolderID );
+		}
+
+
 	        /// <summary>
 		/// Get the HomeServer for the specified user
 		/// </summary>
@@ -312,9 +339,9 @@ namespace iFolder.WebService
 		[WebMethod(
 			 Description="Set the owner of an iFolder.",
 			 EnableSession=true)]
-		public override void SetiFolderOwner(string ifolderID, string userID)
+		public override void SetiFolderOwner(string ifolderID, string userID, bool OrphanAdopt)
 		{
-			base.SetiFolderOwner(ifolderID, userID);
+			base.SetiFolderOwner(ifolderID, userID, OrphanAdopt);
 		}
 
 		/// <summary>

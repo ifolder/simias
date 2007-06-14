@@ -134,6 +134,23 @@
 						</td>
 					</tr>
 					
+					<tr>
+						<th>
+							<%= GetString( "ORPHANTAG" ) %>
+						</th>
+						
+						<td>
+							<asp:Literal ID="Orphan" Runat="server" />
+							<asp:Button 
+								ID="AdoptButton" 
+								Runat="server"
+								CssClass="selectownerbuttons"
+								Visible="False" 
+								OnClick="AdoptOrphanediFolder" />
+						</td>
+					</tr>	
+	
+					
 				</table>
 
 			</div>

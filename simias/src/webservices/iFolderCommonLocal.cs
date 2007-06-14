@@ -125,7 +125,58 @@ namespace iFolder.WebService
 			return result;
 		}
 
+		/// <summary>
+		/// Get all the searched orphaned ifolders 
+		/// </summary>
+		/// <returns>a list of orphaned ifolders. </returns>
 		
+		[WebMethod(
+			 Description="Get Orphaned iFolders",
+			 EnableSession=true)]
+		public virtual iFolderSet GetOrphanediFolders(SearchOperation operation, string pattern, int index, int max  )
+		{
+			iFolderSet OrphiFolderList = new iFolderSet();
+			try
+			{
+				Authorize();
+
+				OrphiFolderList = iFolder.GetOrphanediFolders ( operation, pattern, index, max, GetAccessID() );
+			}
+			catch(Exception e)
+			{
+				SmartException.Throw(e);
+			}
+
+			return OrphiFolderList;
+		}
+
+		/// <summary>
+		/// Checks whether an ifolder is orphaned or not 
+		/// </summary>
+		/// <returns>. string 'false' if the ifolder is not orphaned otherwise returns userID of prev owner</returns>
+
+		[WebMethod(
+			 Description="check orphaned property",
+			 EnableSession=true)]
+		public virtual string IsOrphanediFolder(string iFolderID)
+		{
+			string isorphaned = "";
+			
+			try
+			{
+				Authorize();
+
+				isorphaned = iFolder.IsOrphanediFolder (iFolderID, GetAccessID() );
+			}
+			catch(Exception e)
+			{
+				SmartException.Throw(e);
+			}
+			return isorphaned;
+		}	
+
+		
+	
 		/// <summary>
 		/// Get the list of recovery agents
 		/// </summary>
@@ -719,13 +770,13 @@ namespace iFolder.WebService
 		[WebMethod(
 			 Description="Set the owner of an iFolder.",
 			 EnableSession=true)]
-		public virtual void SetiFolderOwner(string ifolderID, string userID)
+		public virtual void SetiFolderOwner(string ifolderID, string userID, bool OrphanAdopt)
 		{
 			try
 			{
 				Authorize();
 
-				iFolderUser.SetOwner(ifolderID, userID, GetAccessID());
+				iFolderUser.SetOwner(ifolderID, userID, GetAccessID(), OrphanAdopt);
 			}
 			catch(Exception e)
 			{

@@ -69,6 +69,9 @@
 	<data name="ADMINLOGFILE">
 		<value>Web Administrator</value>
 	</data>
+	<data name="ADOPT">
+		<value>Adopt</value>
+	</data>
 	<data name="ALL">
 		<value>All</value>
 	</data>
@@ -602,6 +605,12 @@
 	</data>
 	<data name="OFF">
 		<value>Off</value>
+	</data>
+	<data name="ORPHANED">
+		<value>Orphan</value>
+	</data>
+	<data name="ORPHANTAG">
+		<value>Orphan :</value>
 	</data>
 	<data name="OK">
 		<value>OK</value>
