@@ -31,7 +31,7 @@ if WINDOWS
 OUT_DIR := $(shell cygpath --windows $(CUR_DIR))
 MERGE_MODULES_WIN  := $(shell cygpath --windows "$(USERPROFILE)\My Documents\My InstallShield DevStudio Projects\MergeModules")
 MERGE_MODULES_UNIX := $(shell cygpath --unix "$(USERPROFILE)\My Documents\My InstallShield DevStudio Projects\MergeModules")
-ISSABLD_DIR := $(shell cygpath --windows `dirname $(ISSABLD)`)
+ISSABLD_DIR := $(shell cygpath --windows `dirname "$(ISSABLD)"`)
 endif
 
 RELEASE = 1
@@ -146,7 +146,7 @@ $(PACKAGE)-configure: $(PACKAGE)-dist
 	cd MSI/BUILD; \
 		tar -xzf $(CUR_DIR)/$(top_srcdir)/$(PACKAGE)-$(VERSION).tar.gz
 	cd MSI/BUILD/$(PACKAGE)-$(VERSION); \
-		./configure --prefix=$(CUR_DIR)/MSI/INSTALL $(DEBUG_OPTION)
+		./configure --prefix=$(CUR_DIR)/MSI/INSTALL $(DEBUG_OPTION) --with-runasclient
 	
 $(PACKAGE)-dist:
 	$(MAKE) -C $(top_srcdir) dist
