@@ -389,7 +389,7 @@ namespace Novell.iFolderApp.Web
 
 				iFolderUser loginuser = weblogin.GetAuthenticatedUser();
 
-				url = weblogin.GetHomeServerForUser ( username, password );
+				url = weblogin.GetHomeServerForUser ( loginuser.UserName, password );
 
 				iFolderWeb web = new iFolderWeb();
 
