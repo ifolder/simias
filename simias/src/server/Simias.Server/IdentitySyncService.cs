@@ -598,8 +598,19 @@ namespace Simias.IdentitySync
 		/// </summary>
 		static public int DeleteGracePeriod
 		{
-			get { return deleteGracePeriod; }
-			set { deleteGracePeriod = value; }
+			get { return deleteGracePeriod;
+			}
+			set
+			{ 
+			    Store store = Store.GetStore ();
+			    Domain domain = store.GetDomain ( store.DefaultDomain );
+			    Property deleteGracePeriodProp = new Property( "DeleteGracePeriod" , value );
+			    deleteGracePeriodProp.LocalProperty = true;
+			    domain.Properties.ModifyProperty( deleteGracePeriodProp );
+			    domain.Commit( domain );
+
+			    deleteGracePeriod = value; 
+			}
 		}
 
 		/// <summary>
@@ -664,6 +675,7 @@ namespace Simias.IdentitySync
 			    Store store = Store.GetStore ();
 			    Domain domain = store.GetDomain ( store.DefaultDomain );
 			    Property syncIntervalProp = new Property( "IDSyncInterval" , value );
+			    syncIntervalProp.LocalProperty = true;
 			    domain.Properties.ModifyProperty( syncIntervalProp );
 			    domain.Commit( domain );
 

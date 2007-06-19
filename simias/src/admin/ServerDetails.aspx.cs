@@ -602,6 +602,15 @@ namespace Novell.iFolderWeb.Admin
 			} else {
 			        TopNav.ShowError( GetString ("ERRORINVALIDSYNCINTERVAL"));
 			}
+
+		        int deleteGracePeriod = Int32.Parse (LdapDeleteGraceInterval.Text);
+			deleteGracePeriod = deleteGracePeriod * 60;
+			if (deleteGracePeriod > 0 ) {
+			        remoteweb.IdentitySyncSetDeleteMemberGracePeriod (deleteGracePeriod);
+			} else {
+			        TopNav.ShowError( GetString ("ERRORINVALIDSYNCINTERVAL"));
+			}
+
 		}
 
 		/// <summary>
