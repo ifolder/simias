@@ -1346,11 +1346,11 @@ namespace Simias.Storage
 									}
 									else 
 									{
-										log.Debug("Arul client roll back initiated");
 										//will get executed while roll back the client file if upload is not needed (date conflict)
 										Property rollBack = node.Properties.FindSingleValue(PropertyTags.Rollback);
 										if(rollBack != null)
 										{
+											log.Debug("Roll back to previous version number");
 											//Decrement the local incarnation number for the object.
 											DecrementLocalIncarnation( mergeNode);
 											//Delete the property
