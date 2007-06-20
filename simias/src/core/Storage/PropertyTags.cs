@@ -46,6 +46,11 @@ namespace Simias.Storage
 		/// <summary>
 		/// Well known property name.
 		/// </summary>
+		static public string Rollback = "Rollback";
+
+		/// <summary>
+		/// Well known property name.
+		/// </summary>
 		static public string CollisionPolicy = "CollPol";
 
 		/// <summary>

@@ -1106,6 +1106,25 @@ namespace Simias.Storage
 		}
 
 		/// <summary>
+		/// Decrements the local incarnation property.
+		///
+		/// NOTE: The database must be locked before making this call and must continue to be held until
+		/// this node has been committed to disk.
+		/// </summary>
+		/// <param name="node">Node object that contains the local incarnation value.</param>
+		/// <param name="commitTime">The time of the commit operation.</param>
+		private void DecrementLocalIncarnation( Node node)
+		{
+			ulong incarnationValue = node.LocalIncarnation - 1;
+
+			// Update the modifier on the node.
+			node.Properties.ModifyNodeProperty( PropertyTags.LastModifier, GetCurrentPrincipal());
+
+			// Update the local incarnation value to the specified value.
+			node.Properties.ModifyNodeProperty( PropertyTags.LocalIncarnation, incarnationValue);
+		}
+
+		/// <summary>
 		/// Returns whether the specified Node object is a deleted Node object type.
 		/// </summary>
 		/// <param name="node">Node to check to see if it is a deleted Node object.</param>
@@ -1324,6 +1343,19 @@ namespace Simias.Storage
 
 										// Set the node update time.
 										mergeNode.UpdateTime = commitTime;
+									}
+									else 
+									{
+										log.Debug("Arul client roll back initiated");
+										//will get executed while roll back the client file if upload is not needed (date conflict)
+										Property rollBack = node.Properties.FindSingleValue(PropertyTags.Rollback);
+										if(rollBack != null)
+										{
+											//Decrement the local incarnation number for the object.
+											DecrementLocalIncarnation( mergeNode);
+											//Delete the property
+											this.Properties.DeleteSingleProperty(PropertyTags.Rollback); 
+										}
 									}
 
 									// Update the old node with the new merged data.

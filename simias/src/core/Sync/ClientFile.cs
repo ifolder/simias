@@ -829,8 +829,13 @@ namespace Simias.Sync
 			GetUploadFileMap(out sizeToSync, out copyArray, out writeArray, out blockSize);
 			if(sizeToSync == 0)
 			{
-				Log.log.Debug("only date conflict soe revert back the changed made in the server");
+				Log.log.Debug("only date conflict so revert back the changed made in the server and client");
 				DateConflict = true;
+
+				Property p = new Property(PropertyTags.Rollback, true);
+				p.LocalProperty = true;
+				node.Properties.ModifyProperty(p); 
+				collection.Commit(node);
 				return false;			
 			}	
 			sizeRemaining = sizeToSync;
