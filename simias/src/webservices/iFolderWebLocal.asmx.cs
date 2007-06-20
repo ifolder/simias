@@ -327,9 +327,7 @@ namespace iFolder.WebService
 				system = SystemPolicy.GetPolicy();
 				UserEncrPolicy = user.EncryptionStatus;
 				SysEncrPolicy = system.EncryptionStatus;
-
-				securityStatus += DeriveStatus( (SysEncrPolicy & (int)Securitystate.encryptionState), (UserEncrPolicy &(int)Securitystate.encryptionState ), (UserEncrPolicy & (int)Securitystate.UserEncrypt));
-				securityStatus += DeriveStatus( (SysEncrPolicy & (int)Securitystate.SSLState), (UserEncrPolicy & (int)Securitystate.SSLState), (UserEncrPolicy & (int)Securitystate.UserSSL));
+				securityStatus += DeriveStatus( SysEncrPolicy, UserEncrPolicy, UserEncrPolicy);
 			}
 			catch(Exception e)
 			{
@@ -788,7 +786,7 @@ namespace iFolder.WebService
 		private int DeriveStatus(int system, int user, int preference)
 		{
 			//Preference is not done
-			if( preference != 0)
+			if( preference == 0)
 			{
 				if(system != 0)
 				    return system;

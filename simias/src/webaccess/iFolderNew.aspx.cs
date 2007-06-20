@@ -245,6 +245,7 @@ namespace Novell.iFolderApp.Web
 
                         if(SecurityPolicy !=0)
                         {
+                        		
                                 if( (SecurityPolicy & (int)SecurityState.encryption) == (int) SecurityState.encryption)
                                 {
                                         if( (SecurityPolicy & (int)SecurityState.enforceEncryption) == (int) SecurityState.enforceEncryption)
@@ -264,6 +265,7 @@ namespace Novell.iFolderApp.Web
                                 }
                                 else
                                 {
+                                	// it means enforce sharing is enabled for this user. 
 									Encryption.Checked = false;
 									Encryption.Enabled = false;
 									shared.Enabled = true;

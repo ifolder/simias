@@ -30,6 +30,8 @@ namespace Novell.iFolderWeb.Admin
 	using System.Web;
 	using System.Web.UI.WebControls;
 	using System.Web.UI.HtmlControls;
+	using Simias;
+	using Simias.Storage;
 
 	/// <summary>
 	///		Summary description for AccountEnabled.
@@ -39,6 +41,8 @@ namespace Novell.iFolderWeb.Admin
 		
 		public enum Encryption
 		{
+			//EnforceSSL is currently used to denote EnforceSharing, pl don't remove it.
+			
 			None = 0,
 			Encrypt = 1,
 			EnforceEncrypt = 2,
@@ -84,7 +88,7 @@ namespace Novell.iFolderWeb.Admin
 		protected CheckBox ssl;
 		protected CheckBox enforceSSL;
 
-
+		private iFolderAdmin web;
 
 		/// <summary>
 		/// Account policy control.
@@ -96,6 +100,17 @@ namespace Novell.iFolderWeb.Admin
 		/// Event that notifies consumer that the checkbox has changed.
 		/// </summary>
 		public event EventHandler CheckChanged = null;
+
+		/// <summary>
+		/// to keep track of encryption check box on page load
+		/// </summary>
+		protected bool EncryptionWasChecked;
+	
+		/// <summary>
+		/// to keep track whether sharing was enforced for this particular user earlier
+		/// </summary>
+		protected bool SharingWasEnforced;
+
 
 		#endregion
 
@@ -119,25 +134,27 @@ namespace Novell.iFolderWeb.Admin
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void Page_Load(object sender, System.EventArgs e)
-		{
+		{web = Session[ "Connection" ] as iFolderAdmin;
 			// localization
 			rm = Application[ "RM" ] as ResourceManager;
 
 			if ( !IsPostBack )
 			{
 				EncryptionTitle.Text = "Encryption";
-				SSLTitle.Text = "Secure Data Transfer";
+				//SSLTitle.Text = "Secure Data Transfer";
 //				EncryptionTag.Text = "Set Encryption";
 //				Enabled.Checked = false;
 				encryption.Text = "On";
-				ssl.Text = "On";
+				//ssl.Text = "On";
 		//		lbl_encryption.Text = "Encrypt";
 		//		lbl_ssl.Text = "Use SSL";
+				ssl.Visible = enforceSSL.Visible = false;
 				enforceEncryption.Text = "Enforced";
-				enforceSSL.Text = "Enforced";
+				//enforceSSL.Text = "Enforced";
 				enforceEncryption.Enabled = enforceSSL.Enabled = false;
 				encryption.Enabled = ssl.Enabled = true;
-				encryption.Checked = enforceEncryption.Checked = ssl.Checked = enforceSSL.Checked = false;
+				encryption.Checked = enforceEncryption.Checked = false;
+				//ssl.Checked = enforceSSL.Checked = false;
 				
 			}
 		}
@@ -170,7 +187,7 @@ namespace Novell.iFolderWeb.Admin
 			}
 		
 		}
-		protected void sslCheckChanged( Object sender, EventArgs e )
+		/*protected void sslCheckChanged( Object sender, EventArgs e )
 		{
 			if( ssl.Checked == true)
 			{
@@ -186,7 +203,7 @@ namespace Novell.iFolderWeb.Admin
 				CheckChanged( sender, e );
 			}
 
-		}
+		}*/
 		protected void EnforceCheckChanged( Object sender, EventArgs e )
 		{
 			if( CheckChanged != null )
@@ -229,7 +246,7 @@ namespace Novell.iFolderWeb.Admin
 			int status = securityStatus & (int) Encryption.Encrypt;
 			if( status == (int)Encryption.Encrypt)
 			{
-				encryption.Checked = true;
+				encryption.Checked = true;	 
 				enforceEncryption.Enabled = true;
 				status = securityStatus & (int) Encryption.EnforceEncrypt;
 				if( status == (int)Encryption.EnforceEncrypt )
@@ -240,7 +257,7 @@ namespace Novell.iFolderWeb.Admin
 				enforceEncryption.Checked = false;
 				enforceEncryption.Enabled = false;
 			}
-			status = securityStatus & (int) Encryption.SSL;
+			/*status = securityStatus & (int) Encryption.SSL;
 			if( status == (int)Encryption.SSL )
 			{
 				ssl.Checked = true;
@@ -253,7 +270,7 @@ namespace Novell.iFolderWeb.Admin
 			{
 				enforceSSL.Checked = false;
 				enforceSSL.Enabled = false;
-			}
+			}*/
 
 		}
 		
@@ -266,36 +283,60 @@ namespace Novell.iFolderWeb.Admin
 			int securityStatus = policy.EncryptionStatus;
 			int status;
 			encryption.Checked = enforceEncryption.Checked = ssl.Checked = enforceSSL.Checked = false;
-			status = securityStatus & (int) Encryption.Encrypt;
-			if( status  == (int)Encryption.Encrypt )
+			SystemPolicy SystemPolicy = web.GetSystemPolicy();
+			int SysEncrPolicy = SystemPolicy.EncryptionStatus;
+			int DerivedStatus = 0;
+			Session["SharingWasEnforced"] = "false";
+			Session["EncryptionWasChecked"] = "false";
+			DerivedStatus = DeriveStatus(SysEncrPolicy, securityStatus, securityStatus);
+			if(DerivedStatus != 0)
 			{
-				encryption.Checked = true;
-				enforceEncryption.Enabled = true;
-				status = securityStatus & (int) Encryption.EnforceEncrypt;
-				if( status == (int)Encryption.EnforceEncrypt)
-					enforceEncryption.Checked = true;
+				if( (DerivedStatus & (int)Encryption.Encrypt) == (int) Encryption.Encrypt)
+				{
+					Session["EncryptionWasChecked"] = "true";
+                	if( (DerivedStatus & (int)Encryption.EnforceEncrypt) == (int) Encryption.EnforceEncrypt)
+                	{
+                    	encryption.Checked = enforceEncryption.Checked = true;
+                    	enforceEncryption.Enabled = true;
+               		}
+					else
+                	{
+                  		encryption.Checked = true; 
+                    	enforceEncryption.Checked = false;
+                     	enforceEncryption.Enabled = true;
+                    }
+				}
+				else if((DerivedStatus & (int) Encryption.EnforceSSL) == (int) Encryption.EnforceSSL)
+				{
+					// this is the case of enforceSharing for the particular user on userlevel policy
+					encryption.Checked = enforceEncryption.Checked = false;
+					Session["SharingWasEnforced"] = "true";
+				}
 			}
-			else
-			{
-				enforceEncryption.Checked = false;
-				enforceEncryption.Enabled = false;
-			}
-			status = securityStatus & (int) Encryption.SSL;
-			if( status == (int)Encryption.SSL)
-			{
-				ssl.Checked = true;
-				enforceSSL.Enabled = true;
-				status = securityStatus & (int) Encryption.EnforceSSL;
-				if( status == (int)Encryption.EnforceSSL)
-					enforceSSL.Checked = true;
-			}
-			else
-			{
-				enforceSSL.Checked = false;
-				enforceSSL.Enabled = false;
-			}
-		
+		}	
+			
+		///<summary>
+        /// Get the policy for an iFolder.
+        /// </summary>
+        /// <param name="policy">The iFolderPolicy object.</param>
+		private int DeriveStatus(int system, int user, int preference)
+		{
+			//Preference is not done
+			if( preference == 0)
+            {
+            	if(system != 0)
+            		return system;
+            	return user;
+            }
+            else
+            {
+            	if(user != 0)
+            		return user;
+            	return system;
+            }
 		}
+
+		
 
 		/// <summary>
 		/// Sets the account policy for the user.
@@ -318,14 +359,28 @@ namespace Novell.iFolderWeb.Admin
 		public void SetEncryptionPolicy( UserPolicy policy )
 		{
 			int securityStatus=0;
+			string SharingWasEnforced = Session["SharingWasEnforced"] as string;
+			string EncryptionWasChecked = Session["EncryptionWasChecked"] as string;
 			if( encryption.Checked)
 				securityStatus += (int)Encryption.Encrypt; //1;
 			if(enforceEncryption.Checked)
 				securityStatus += (int)Encryption.EnforceEncrypt; //2;
-			if(ssl.Checked)
-				securityStatus += (int)Encryption.SSL; //4;
-			if(enforceSSL.Checked)
-				securityStatus += (int)Encryption.EnforceSSL; //8;
+				
+				//obsolete
+			//if(ssl.Checked)
+				//securityStatus += (int)Encryption.SSL; //4;
+			//if(enforceSSL.Checked)
+				//securityStatus += (int)Encryption.EnforceSSL; //8;
+				
+			// Temporarily i am using enforceSSL for enforceSharing , because enforseSSL is obsolete and enforceSharing is needed.
+			// Apply enforceSharing on user level only if encryption check box was 'on' or earlier sharing was enforced for this user
+			
+			
+			if((SharingWasEnforced.Equals("true") || EncryptionWasChecked.Equals("true")) && encryption.Checked == false && enforceEncryption.Checked == false)
+				securityStatus += (int) Encryption.EnforceSSL ; //8
+			Session["SharingWasEnforced"] = "false";
+			Session["EncryptionWasChecked"] = "false";
+				
 			policy.EncryptionStatus = securityStatus;
 		}
 
@@ -355,7 +410,7 @@ namespace Novell.iFolderWeb.Admin
 		{
 		//	Enabled.CheckedChanged += new EventHandler( EncryptionCheckChanged );
 			encryption.CheckedChanged += new EventHandler( EncryptionCheckChanged );
-			ssl.CheckedChanged += new EventHandler( sslCheckChanged );
+			//ssl.CheckedChanged += new EventHandler( sslCheckChanged );
 			enforceEncryption.CheckedChanged += new EventHandler( EnforceCheckChanged);
 			enforceSSL.CheckedChanged += new EventHandler( EnforceCheckChanged );
 
