@@ -197,7 +197,7 @@ namespace Simias
 			this.user = user;
 			this.collectionId = collectionId;
 			logger = LogManager.GetLogger(AccessLoggerName);
-					
+
 			lock (typeof (SimiasAccessLogger))
 			{
 				if (FormatString == null)
@@ -212,7 +212,7 @@ namespace Simias
 							if (line.StartsWith("#Fields:"))
 							{
 								Fields = line.ToLower();
-								string [] fields = Fields.Split(" \t".ToCharArray());
+								string [] fields = Fields.Split("**".ToCharArray());
 					
 								// Now create the format string.
 								StringBuilder sb = new StringBuilder(512);

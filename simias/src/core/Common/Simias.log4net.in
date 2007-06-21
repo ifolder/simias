@@ -29,7 +29,7 @@
 			<maxSizeRollBackups value="10" />
 			
 			<layout type="log4net.Layout.PatternLayout">
-				<header value="#version: 1.0%n#Fields:\tdate\ttime\tmethod\tstatus\tuser\turi\tid\t%n" />
+				<header value="#version: 1.0%n#Fields:**date**time**method**status**user**uri**id**%n" />
 			</layout>
 		</appender>
 		
