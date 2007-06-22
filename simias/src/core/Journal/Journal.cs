@@ -485,10 +485,12 @@ namespace Simias.Storage
 				log.Debug( "\trecord = {0}", record );
 
 				// TODO: Can we collapse entries?
-
-				using ( StreamWriter sw = File.AppendText( filename ) )
+				lock (this)
 				{
-					sw.WriteLine( record );
+					using ( StreamWriter sw = File.AppendText( filename ) )
+					{
+						sw.WriteLine( record );
+					}
 				}
 
 
