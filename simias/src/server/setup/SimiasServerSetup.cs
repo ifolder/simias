@@ -118,11 +118,11 @@ namespace Novell.iFolder
 		/// </summary>
 		public Option path = new Option("path,p", "Server's Data Path", "Path to the server's data files", true, null);
 
-		/// <summary>
+/*		/// <summary>
 		/// The default configuration path.
 		/// </summary>
-		public Option defaultConfigPath = new Option("default-config-path,c", "Default Configuration Path", "Path to the default configuration files", true, null); 
-
+		public Option defaultConfigPath = new Option("default-config-path,c", "Default Configuration Path", "Path to the default configuration files", false, null); 
+*/
 		/// <summary>
 		/// The port to listen on.
 		/// </summary>
@@ -283,7 +283,7 @@ namespace Novell.iFolder
 			}
 
 			path.OnOptionEntered = new Option.OptionEnteredHandler( OnPath );
-			defaultConfigPath.OnOptionEntered = new Option.OptionEnteredHandler( OnDefaultConfig );
+//			defaultConfigPath.OnOptionEntered = new Option.OptionEnteredHandler( OnDefaultConfig );
 
 			serverName.OnOptionEntered = new Option.OptionEnteredHandler( OnServerName );
 			slaveServer.OnOptionEntered = new Option.OptionEnteredHandler( OnSlave );
@@ -318,8 +318,8 @@ namespace Novell.iFolder
 
 					UpdateDefaults();
 
-					defaultConfigPath.Prompt = false;
-					defaultConfigPath.Required = false;
+//					defaultConfigPath.Prompt = false;
+//					defaultConfigPath.Required = false;
 
 					return true;
 				}
@@ -329,8 +329,8 @@ namespace Novell.iFolder
 			// specified areas
 			if ( SetupDefaultConfigPath() == true )
 			{
-				defaultConfigPath.Prompt = false;
-				defaultConfigPath.Required = false;
+//				defaultConfigPath.Prompt = false;
+//				defaultConfigPath.Required = false;
 
 				SetupConfigFiles();
 				UpdateDefaults();
@@ -360,7 +360,7 @@ namespace Novell.iFolder
 			return true;
 		}
 
-		private bool OnDefaultConfig()
+/*		private bool OnDefaultConfig()
 		{
 			configPath = Path.GetFullPath( defaultConfigPath.Value );
 			if ( System.IO.Directory.Exists( configPath ) == true )
@@ -377,7 +377,7 @@ namespace Novell.iFolder
 
 			return false;
 		}
-
+*/
 		private bool OnLdap()
 		{
 			if ( !useLdap.Value )
@@ -807,8 +807,8 @@ namespace Novell.iFolder
                         // specified areas
                         if ( SetupDefaultConfigPath() == true )
                         {
-                                defaultConfigPath.Prompt = false;
-                                defaultConfigPath.Required = false;
+//                                defaultConfigPath.Prompt = false;
+//                                defaultConfigPath.Required = false;
 
                                 SetupConfigFiles();
                         //        UpdateDefaults();
