@@ -148,8 +148,8 @@ namespace Simias.Sync
 			this.onServer = onServer;
 //			this.collectionId = collection.ID;
 			
-			if (!MyEnvironment.Mono)
-			{
+//			if (!MyEnvironment.Mono)
+//			{
 				// We are on .Net use events to watch for changes.
 				DirNode rootDir = collection.GetRootDirectory();
 				if (rootDir != null)
@@ -166,7 +166,7 @@ namespace Simias.Sync
 					watcher.EnableRaisingEvents = true;
 					// Now dredge to find any files that were changed while we were down.
 				}
-			}
+//			}
 			disposed = false;
 		}
 
