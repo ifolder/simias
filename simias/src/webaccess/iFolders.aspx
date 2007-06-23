@@ -65,7 +65,7 @@
 
 		<iFolder:HeaderControl id="Head" runat="server" />
 		
-	<!--	<iFolder:HomeContextControl id="HomeContext" runat="server" />  -->
+		<iFolder:HomeContextControl id="HomeContext" runat="server" />   
 		
 		<div id="nav">
 	
@@ -86,8 +86,7 @@
 		</div>
 	
 		<div id="content">
-
-<iFolder:HomeContextControl id="HomeContext" runat="server" />
+ <!-- <iFolder:HomeContextControl id="HomeContext" runat="server" /> -->
 		
 			<iFolder:MessageControl id="Message" runat="server" />
 	
@@ -106,7 +105,13 @@
 			</div>
 
 			<!-- added to show column heading style -->
-			<div class="ColumnHead">Name</div>
+			<div class="ColumnHead">
+			<div class="disp">Name</div>
+			<div class="datesep"></div>
+			<div class="disp">Date</div>
+			<div class="sep"></div>
+			<div class="disp">Owner</div>
+			</div>
 
 				<asp:DataGrid
 					ID="iFolderData"

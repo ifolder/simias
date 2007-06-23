@@ -58,8 +58,6 @@ a:hover
 {
 	background: transparent url(../images/title2.png) left top no-repeat;
 	height: 56px;
-//	padding-top: 37px;
-//	padding-right: 15px;
 	font-size: 0.7em;
 
 }
@@ -184,14 +182,12 @@ a:hover
 #nav .group .box
 {
 	border: 1px solid #999999;
-//	-moz-border-radius: 8px;
 	background-color: #FDFDFD;
 	padding: 0;
 }
 
 #nav .group .box .title
 {
-//	-moz-border-radius: 7px 7px 0 0;
 	color: #333333;
 	padding: 2px 0 4px 4px;
 	text-align: left;
@@ -237,9 +233,7 @@ a:hover
 	background-color: #EDEDED;
 	font-size: 0.8em;
 	padding: 2px 6px 4px 8px;
-//	border-bottom: 1px solid #999999;
 	color: #999999;
-//	margin-bottom: 4px;
 }
 
 .actions .action
@@ -705,10 +699,43 @@ span.rights
 	background-color: #EDEDED;
 	font-size: 0.8em;
 	font-weight: bold;
-	padding: 2px 6px 4px 8px;
+	padding: 2px 6px 4px 28px;
 	border-bottom: 1px solid #999999;
-//	color: #999999;
 	margin-bottom: 4px;
+}
+
+.ColumnHead .disp
+{
+	display: inline;
+	text-align: left;
+}
+
+.ColumnHead .datesep
+{
+	display: inline;
+	text-align: left;
+	padding-right: 890px;
+}
+
+.ColumnHead .sep
+{
+	display: inline;
+	text-align: left;
+	padding-right: 50px;
+}
+
+.ColumnHead .historysep
+{
+	display: inline;
+	text-align: left;
+	padding-right: 30px;
+}
+
+.ColumnHead .hissep
+{
+	display: inline;
+	text-align: left;
+	padding-right: 400px;
 }
 
 /* Search Form */

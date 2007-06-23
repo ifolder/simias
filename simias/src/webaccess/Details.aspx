@@ -43,7 +43,7 @@
 
 		<iFolder:HeaderControl id="Head" runat="server" />
 		
-<!-- moved		<iFolder:iFolderContextControl id="iFolderContext" runat="server" />  -->
+		<iFolder:iFolderContextControl id="iFolderContext" runat="server" /> 
 	
 		<div id="nav">
 	
@@ -56,8 +56,8 @@
 		</div>
 	
 		<div id="content">
-
-<!-- moved from container -->		<iFolder:iFolderContextControl id="iFolderContext" runat="server" />  
+<!--
+		<iFolder:iFolderContextControl id="iFolderContext" runat="server" /> --> 
 		
 			<iFolder:MessageControl id="Message" runat="server" />
 	

@@ -50,13 +50,13 @@
 	<form runat="server">
 
 		<iFolder:HeaderControl id="Head" runat="server" />
+			<iFolder:MessageControl id="Message" runat="server" />
 		
 		<div id="nav">
 		</div>
 	
 		<div id="content">
 		
-			<iFolder:MessageControl id="Message" runat="server" />
 	
 			<div class="section">
 				<%= GetString("SHARE") %> 

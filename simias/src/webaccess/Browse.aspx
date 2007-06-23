@@ -73,23 +73,21 @@
 	<form runat="server">
 
 		<iFolder:HeaderControl id="Head" runat="server" />
+		<iFolder:iFolderContextControl id="iFolderContext" runat="server" /> 
 		
-<!--		<iFolder:iFolderContextControl id="iFolderContext" runat="server" /> -->
 	
-		<div id="nav">
-	
+		<div id="nav">	
 			<iFolder:TabControl id="Tabs" runat="server" />
 	
 			<iFolder:iFolderActionsControl runat="server" />
 
 			<iFolder:QuotaControl runat="server" />
 
-		</div>
-	
+	</div>
 		<div id="content">
-		<iFolder:iFolderContextControl id="iFolderContext" runat="server" />
+<!--		<iFolder:iFolderContextControl id="iFolderContext" runat="server" /> -->
 		
-			<iFolder:MessageControl id="Message" runat="server" />
+			<iFolder:MessageControl id="Message" runat="server" /> 
 	
 			<div class="main">
 				
@@ -124,8 +122,16 @@
 				</div>
 				
                                 <!-- added to show column heading style -->
-                                <!-- column headings must line up with columns to be effective -->
-                                <div class="ColumnHead">Name</div>
+	                        <div class="ColumnHead">
+        	                <div class="disp">Name</div>
+                	        <div class="datesep"></div>
+                        	<div class="disp">Date</div>
+	                        <div class="sep"></div>
+        	                <div class="disp">Size</div>
+	                        <div class="historysep"></div>
+        	                <div class="disp">History</div> 
+                	        </div>
+
 
 				<asp:DataGrid
 					ID="EntryData"
