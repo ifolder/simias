@@ -52,7 +52,7 @@ namespace Simias.Client
 		private static string _modulesdir = "@modulesdir@";
 		private static string _bootstrapdir = "@bootstrapdir@";
 		private static string _simiasconfdir = "@simiasconfdir@";
-		private static string _simiaslogdir = "@simiaslogdir@";
+//		private static string _simiaslogdir = "@simiaslogdir@";
 		
 		// setup info
 		private static string _target = "@target@";
@@ -128,7 +128,7 @@ namespace Simias.Client
 				_modulesdir = Path.GetFullPath(_modulesdir.Replace(_prefix, value));
 				_bootstrapdir = Path.GetFullPath(_bootstrapdir.Replace(_prefix, value));
 				_simiasconfdir = Path.GetFullPath(_simiasconfdir.Replace(_prefix, value));
-				_simiaslogdir = Path.GetFullPath(_simiaslogdir.Replace(_prefix, value));
+//				_simiaslogdir = Path.GetFullPath(_simiaslogdir.Replace(_prefix, value));
 				
 				// update prefix
 				_prefix = Path.GetFullPath(value);
@@ -267,10 +267,10 @@ namespace Simias.Client
 		/// <summary>
 		/// simiaslogdir
 		/// </summary>
-		public static string simiaslogdir
-		{
-			get { return _simiaslogdir; }
-		}
+//		public static string simiaslogdir
+	//	{
+		//	get { return _simiaslogdir; }
+//		}
 		
 		/// <summary>
 		/// target
