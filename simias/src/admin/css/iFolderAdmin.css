@@ -55,23 +55,12 @@ a:visited
 
 #logo
 {
-//	float: left;
 	height: 56px;
 	background: transparent url(../images/if3sa-logo.png) left top no-repeat;
 }
 
 .footer
 {
-//	float: left;
-//	height: 1.5em;
-//	background-color: #ddd;
-//	border-left: 1px solid gray;
-//	border-right: 1px solid gray;
-//	border-bottom: 1px solid gray;
- //	margin-left: auto;
- //	margin-right: auto;
-//	width: 100%;
-//	color: #000066;
 	background: transparent url(../images/Nlogo.png) right top no-repeat;
 	height: 56px;
 	padding-top: 33px;
@@ -97,10 +86,6 @@ a:visited
 	color: #000066;
 }
 
-/*.helplinkcss:visited
-{
-	color: #EFEEE9;
-}*/
  
 
 .detailtop
@@ -283,16 +268,13 @@ ul#navcontainer
 	margin: 0;
 	font-weight: bold;
 	font-size: .95em;
-//	background-color: #333;
-//	padding-top: 5.9em;  /* commented out to move above seconday breadcrumbs */
-//	padding-left: 25em;
+	padding-left: 1em;
 }
 
 ul#navcontainer li
 {
 	-moz-border-radius: 5px 5px 0 0;
 	float: left;
-//	background-color:#EFEEE9;
 	color: Black;
 	margin: 2px 2px 8px 2px;  /* modifed btm from 0 to 4px, with no effect */
 	width: 5.5em;
