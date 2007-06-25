@@ -257,6 +257,9 @@ public class CollectionInfo {
     public string MemberNodeID;
     
     /// <remarks/>
+    public string MemberUserID;
+    
+    /// <remarks/>
     public string UserRights;
     
     /// <remarks/>

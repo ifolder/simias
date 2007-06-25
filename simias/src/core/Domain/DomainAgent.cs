@@ -580,7 +580,7 @@ namespace Simias.DomainServices
 			log.Debug("Attach sync done");
 			return status;
 		}
-		
+
 		///call back for sync
 		public void TimerFired( object collectionClient )
 		{

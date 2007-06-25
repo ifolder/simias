@@ -33,6 +33,7 @@ using System.Xml;
 
 using Simias;
 using Simias.Client;
+using Simias.Authentication;
 
 namespace Novell.iFolder.Enterprise.Web
 {
@@ -57,7 +58,7 @@ namespace Novell.iFolder.Enterprise.Web
 		internal static string PlatformType = "PlatformType";
 		private static string VersionString = "Version";
 
-		private  string[,] VersionCompatibilityTable = new string[,]{
+		private  static string[,] VersionCompatibilityTable = new string[,]{
 								{"1.0.1", "3.0", "3.4"},
 								{"1.1.0", "3.5", "3.6"}
 								};
@@ -514,6 +515,106 @@ namespace Novell.iFolder.Enterprise.Web
 			}
 
 			return serverOlder;
+		}
+
+
+		/// <summary>
+		/// Checks to check for client updates and compatibility with the server.
+		/// </summary>
+		/// <param name="platform">The operating system platform the client is running on.</param>
+		/// <param name="currentVersion">The version of the iFolder application that the
+		/// client is currently running.</param>
+		/// <returns>The version of the update if available. Otherwise null is returned.</returns>
+		[WebMethod(
+			 Description="Check for Client Updates and compatibility with server",
+			 EnableSession=true)]
+		[SoapRpcMethod]
+		public StatusCodes CheckForUpdate( string platform, string currentVersion, out string serverVersion )
+		{
+			StatusCodes stat = (StatusCodes)StatusCodes.Unknown;
+			string updateVersion = null;
+			serverVersion = null;
+			try
+			{
+				Session[ PlatformType ] = platform;
+				Version applicationVersion = null;
+				Version PresServerVersion = null;
+				Version min= null, max = null;
+
+				// The update is platform specific.
+				if ( platform == MyPlatformID.Windows.ToString() )
+				{
+					// See if there is an iFolder application update available.
+					PresServerVersion = GetiFolderWindowsApplicationVersion();
+				}
+				else
+				{
+					// See if there is an iFolder application update availble
+					PresServerVersion = GetDistributionVersion(platform);
+				}
+			
+				// Get the application version from store.
+				applicationVersion = new Version(Simias.Storage.Store.storeversion);
+				for( int i=0; i<VersionCompatibilityTable.Length; i+=3)
+				{
+					if(VersionCompatibilityTable[i/3,0] == applicationVersion.ToString() )
+					{
+						min = new Version(VersionCompatibilityTable[i/3,1]);
+						max = new Version(VersionCompatibilityTable[i/3,2]);
+						break;
+					}
+				}
+
+				Version CurrentVersion = new Version(currentVersion);
+				serverVersion = max.ToString();
+				log.Debug("Ramesh: The present server version is: {0}", serverVersion.ToString());
+
+				if( applicationVersion != null)
+				{
+					if( (min.Major < CurrentVersion.Major) || (min.Major == CurrentVersion.Major && min.Minor <= CurrentVersion.Minor))
+					{
+						if( max.Major == CurrentVersion.Major && max.Minor == CurrentVersion.Minor)
+						{
+							// No Update is required...
+							stat = (StatusCodes)StatusCodes.Success;
+						}
+						else if(( max.Major > CurrentVersion.Major ) || ( max.Major == CurrentVersion.Major && max.Minor > CurrentVersion.Minor))
+						{
+							// Client Update available but not needed.....
+							stat =(StatusCodes)StatusCodes.OlderVersion;
+						}
+						else
+						{
+							// Client is of later version.  server has no clue.. Just send the server version. let the client decide
+							stat = (StatusCodes)StatusCodes.ServerOld;
+						}
+					}
+					else
+					{
+						// min.Major > CurrentVersion.Major.....
+						// Client update is needed.....
+						stat = (StatusCodes)StatusCodes.UpgradeNeeded;
+					}
+				}	
+			/*
+				if ( applicationVersion != null )
+				{
+					// For Client Upgrade needed min > current version
+					if( (min.Major > (new Version(currentVersion)).Major) ||( (min.Major == (new Version(currentVersion)).Major) && min.Minor > (new Version(currentVersion)).Minor))
+					{
+						updateVersion = max.ToString();
+						Session[ VersionString ] = updateVersion;
+					}
+				}
+			*/
+			}
+			catch ( Exception ex )
+			{
+				log.Error( "Error: {0}, checking for application update.", ex.Message );
+				return (StatusCodes)StatusCodes.Unknown;
+			}
+
+			return (StatusCodes)stat;
 		}
 
 

@@ -63,6 +63,7 @@ namespace Simias.Sync
 		internal static CollectionLock GetLock(string collectionID)
 		{
 			CollectionLock cLock;
+			Sync.Log.log.Debug("RAMESH: In Getlock");
 			lock (CollectionLocks)
 			{
 				if (totalCount > totalDepth)
@@ -84,6 +85,7 @@ namespace Simias.Sync
 					Sync.Log.log.Debug("Acquired Lock count = {0}", totalCount);
 				}
 			}
+			Sync.Log.log.Debug("RAMESH: Out of get lock");
 
 			return cLock;
 		}
@@ -204,6 +206,7 @@ namespace Simias.Sync
 			cLock = null;
 			nodeContainer = null;
 			getAllNodes = false;
+			Sync.Log.log.Debug("RAMESH: started syncservice");
 
 			collection = store.GetCollectionByID(si.CollectionID);
 			if (collection == null)

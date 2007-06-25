@@ -328,6 +328,7 @@ namespace Simias.Security.Web
 			foreach ( string s in services )
 			{
 				// Add this web service or method to the table.
+				log.Debug("Unauth service: {0}", s.Trim().ToLower());
 				unauthenticatedServices.Add( s.Trim().ToLower(), null );
 			}
 		}

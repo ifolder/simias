@@ -169,6 +169,11 @@ namespace Simias.DiscoveryService.Web
 		public string MemberNodeID;
 
 		/// <summary>
+		/// DirNode ID
+		/// </summary>
+		public string MemberUserID;
+
+		/// <summary>
 		/// DirNode Name
 		/// </summary>
 		public string UserRights;
@@ -287,6 +292,7 @@ namespace Simias.DiscoveryService.Web
 
 			Member member = c.GetMemberByID (UserID);
 			this.MemberNodeID = member.ID;
+			this.MemberUserID = member.UserID;
 			this.UserRights = member.Rights.ToString();
 		}
 
