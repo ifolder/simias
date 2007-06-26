@@ -2100,11 +2100,13 @@ namespace Simias.Storage
 			if ( memberList.Count > 0 )
 			{
 				Hashtable ownerTable = new Hashtable( memberList.Count + 1 );
+				log.Info("Member Count {0} Owner Count {1}", memberList.Count, ownerTable.Count);
 
 				// If there is a current owner, add it to the table.
 				if ( currentOwner != null )
 				{
 					ownerTable[ currentOwner.ID ] = currentOwner;
+					log.Info("Current Owner ID {0} Name {1}", currentOwner.ID, currentOwner.Name);
 				}
 
 				// Go through each node and add or remove it from the table depending on if
@@ -2114,10 +2116,12 @@ namespace Simias.Storage
 					if ( ( node.Properties.HasProperty( PropertyTags.Owner ) == true ) && 
 						( node.Properties.State != PropertyList.PropertyListState.Delete ) )
 					{
+					log.Info("Node Owner ID {0} Name {1} Owner true", node.ID, node.Name);
 						ownerTable[ node.ID ] = node;
 					}
 					else
 					{
+					log.Info("Node Owner ID {0} Name {1} Owner false", node.ID, node.Name);
 						if ( ownerTable.ContainsKey( node.ID ) )
 						{
 							ownerTable.Remove( node.ID );
@@ -2125,6 +2129,20 @@ namespace Simias.Storage
 					}
 				}
 
+				log.Info("Member Count {0} Owner Count {1}", memberList.Count, ownerTable.Count);
+				if(ownerTable.Count > 1 && currentOwner != null)
+				{
+					foreach( Node node in memberList)
+					{
+						if ( ( node.Properties.HasProperty( PropertyTags.Owner ) == true ) && (node.ID != currentOwner.ID) )
+						{
+							if(ownerTable.ContainsKey(node.ID))
+							{
+								ownerTable.Remove(node.ID);
+							}
+						}
+					}	
+				}
 				// There must be at least one owner and only one owner.
 				if ( ownerTable.Count == 0 )
 				{
