@@ -577,11 +577,15 @@ namespace Simias.Storage
 
 			// Get the credential type.
 			string credTypeString = document.DocumentElement.GetAttribute( PassPhraseTypeTag );
+			if( credTypeString == null || credTypeString == String.Empty)
+			{
+				return null;
+			}
 			CredentialType credType = ( CredentialType )Enum.Parse( typeof( CredentialType ), credTypeString, true );
 
 			// Return the credentials.
 			string passPhrase = document.DocumentElement.GetAttribute( PassPhraseTag );
-			if ( passPhrase != String.Empty )
+			if ( passPhrase != null && passPhrase != String.Empty )
 			{
 				if ( credType == CredentialType.Basic )
 				{
@@ -592,7 +596,6 @@ namespace Simias.Storage
 			{
 				passPhrase = null;
 			}
-
 			return passPhrase;
 		}
 
