@@ -421,7 +421,7 @@ namespace Simias.Storage
 		}
 
 		/// <summary>
-		/// Constructor for creating a new Member object.
+		/// Constructor for creating a new Member object. Parameter validation is the responsibility of the calling function. 
 		/// </summary>
 		/// <param name="userName">User name of the member.</param>
 		/// <param name="userGuid">Unique identifier for the user.</param>
@@ -429,7 +429,7 @@ namespace Simias.Storage
 		/// <param name="givenName">Given (first) name of the contact</param>
 		/// <param name="familyName">Family (last) name of the contact</param>
 		public Member( string userName, string userGuid, Access.Rights rights, string givenName, string familyName ) :
-			this ( userName, userGuid, rights, null )
+			this( userName, userGuid, userGuid, rights, null )
 		{
 			this.Given = givenName;
 			this.Family = familyName;
