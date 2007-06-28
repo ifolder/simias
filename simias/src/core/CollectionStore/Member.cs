@@ -666,22 +666,22 @@ namespace Simias.Storage
 			if(PublicKey != null)
 			{
 				byte [] key = Convert.FromBase64String(PublicKey);
-				if(key.Length > 64 && key.Length < 128) //remove the 5 byte header and trailer
+				if(key.Length > 64 && key.Length < 128) //remove the 5 byte header and 5 byte trailer
 				{
 					byte[] NewKey = new byte[key.Length-10];
 					Array.Copy(key, 5, NewKey, 0, key.Length-10);
 					PublicKey = Convert.ToBase64String(NewKey);
 				}
-				else if(key.Length > 128 && key.Length < 256) //remove the 6 byte header and trailer
+				else if(key.Length > 128 && key.Length < 256) //remove the 7 byte header and 5 byte trailer
 				{
 					byte[] NewKey = new byte[key.Length-12];
-					Array.Copy(key, 6, NewKey, 0, key.Length-12);
+					Array.Copy(key, 7, NewKey, 0, key.Length-12);
 					PublicKey = Convert.ToBase64String(NewKey);
 				}					
-				else if(key.Length > 256) //remove the 7 byte header and trailer
+				else if(key.Length > 256) //remove the 9 byte header and 5 byte trailer
 				{
 					byte[] NewKey = new byte[key.Length-14];
-					Array.Copy(key, 7, NewKey, 0, key.Length-14);
+					Array.Copy(key, 9, NewKey, 0, key.Length-14);
 					PublicKey = Convert.ToBase64String(NewKey);
 				}					
 				else
