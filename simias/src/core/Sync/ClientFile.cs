@@ -825,18 +825,38 @@ namespace Simias.Sync
 			int blockSize;
 			bool needEncryption=false;
 			string EncryptionKey="";
+			bool serverFileAvailable = false;
+			long serverRsyncSize = 0;
 
-			GetUploadFileMap(out sizeToSync, out copyArray, out writeArray, out blockSize);
-			if(sizeToSync == 0)
-			{
-				Log.log.Debug("only date conflict so revert back the changed made in the server and client");
-				DateConflict = true;
+			GetUploadFileMap(out sizeToSync, out copyArray, out writeArray, out blockSize, out serverFileAvailable, out serverRsyncSize);
 
-				Property p = new Property(PropertyTags.Rollback, true);
-				p.LocalProperty = true;
-				node.Properties.ModifyProperty(p); 
-				collection.Commit(node);
-				return false;			
+			/// No data to sync and file is available in server
+			if(sizeToSync == 0 && serverFileAvailable == true)
+			{	
+				/// Even the local block size changes (file grow/shrink) it doesn't matter since we are comparing the server and client file sizes
+				long localRsyncSize = (fileSize /blockSize)*blockSize;
+				if(fileSize % blockSize !=0)
+					localRsyncSize += blockSize;
+
+				Log.log.Debug("serverFileAvailable={0}", serverFileAvailable);
+				Log.log.Debug("sizeToSync 		={0}", sizeToSync);
+				Log.log.Debug("copyArray.Count	={0}", copyArray.Count);
+				Log.log.Debug("writeArray.Count	={0}", writeArray.Count);
+				Log.log.Debug("serverFileSize 	= {0}", serverRsyncSize);
+				Log.log.Debug("node.Length		= {0}", localRsyncSize);
+
+				/// If sizeToSync is zero, no need to transfer any data to server, but check the server size and client matches
+				/// there may be instances that the server file blocks need to be duplicated or removed through copyfile
+				if(localRsyncSize == serverRsyncSize)
+				{				
+					Log.log.Debug("only date conflict so revert back the changes made in the server and client");
+					DateConflict = true;
+					Property p = new Property(PropertyTags.Rollback, true);
+					p.LocalProperty = true;
+					node.Properties.ModifyProperty(p); 
+					collection.Commit(node);
+					return false;			
+				}
 			}	
 			sizeRemaining = sizeToSync;
 			
@@ -904,19 +924,23 @@ namespace Simias.Sync
 		/// <param name="copyArray">The array of BlockSegments that need to be copied from the old file.</param>
 		/// <param name="writeArray">The array of OffsetSegments that need to be sent from the client.</param>
 		/// <param name="blockSize">The size of the hashed data blocks.</param>
-		private void GetUploadFileMap(out long sizeToSync, out ArrayList copyArray, out ArrayList writeArray, out int blockSize)
+		private void GetUploadFileMap(out long sizeToSync, out ArrayList copyArray, out ArrayList writeArray, out int blockSize, out bool serverFileAvailable, out long serverRsyncSize)
 		{
 			sizeToSync = 0;
 			copyArray = new ArrayList();
 			writeArray = new ArrayList();
 			HashData[] serverHashMap = null;
 			blockSize = 0;
+			serverRsyncSize = 0;
+			serverFileAvailable = false;
 
 			// Get the hash map from the server. If the file is on the server.
 			if (node.MasterIncarnation != 0)
 			{
 				serverHashMap = syncService.GetHashMap(out blockSize);
 			}
+			if(serverHashMap != null)
+				serverFileAvailable =  true;
 
 			//If not available in server and encrypted file
 			if (serverHashMap == null || serverHashMap.Length == 0 || IsEncryptionEnabled() == true)
@@ -933,7 +957,8 @@ namespace Simias.Sync
 				writeArray.Add(new OffsetSegment(sizeToSync, 0));
 				return;
 			}
-
+			serverRsyncSize = (long)serverHashMap.Length * blockSize;
+			
 			Log.log.Debug("GetUploadFileMap called.....");
 
 
@@ -989,7 +1014,7 @@ namespace Simias.Sync
 									sizeToSync += segLen;
 								}
 								// Save the matched block.
-								long blockOffset = ReadPosition - bytesRead + startByte;
+								long blockOffset = ReadPosition - bytesRead + startByte;								
 								BlockSegment.AddToArray(copyArray, new BlockSegment(blockOffset, match.BlockNumber), blockSize);
 								
 								startByte = endByte + 1;
@@ -998,6 +1023,7 @@ namespace Simias.Sync
 								recomputeWeakHash = true;
 								continue;
 							}
+							Log.log.Debug("Add to write array...");
 						}
 						dropByte = buffer[startByte];
 						++startByte;
@@ -1027,7 +1053,7 @@ namespace Simias.Sync
 					break;
 				}
 			}
-			Log.log.Debug("writeArray.Count:{0} ", writeArray.Count);
+			Log.log.Debug("writeArray.Count:{0}  copyArray.Count:{1}", writeArray.Count, copyArray.Count);
 			// Check the last block match to avoid the data conflicts
 			bool		lastBlockMatch = false;
 			if(writeArray.Count == 0)
@@ -1068,6 +1094,7 @@ namespace Simias.Sync
 			}
 		}
 
+
 		/// <summary>
 		/// Called to upload the hash map of the uploaded file
 		/// </summary>
@@ -1094,7 +1121,8 @@ namespace Simias.Sync
 				
 				DeleteHashMap();				
 			}			
-		}				
+		}		
+
 
 		/// <summary>
 		/// Called to get a string description of the Diffs.
