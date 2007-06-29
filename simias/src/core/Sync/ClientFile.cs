@@ -830,9 +830,18 @@ namespace Simias.Sync
 
 			GetUploadFileMap(out sizeToSync, out copyArray, out writeArray, out blockSize, out serverFileAvailable, out serverRsyncSize);
 
-			/// No data to sync and file is available in server
-			if(sizeToSync == 0 && serverFileAvailable == true)
+			//Get the renamed state, if set reset back
+			Property reNamed = node.Properties.FindSingleValue(PropertyTags.ReNamed);
+			if(reNamed !=null)
+			{
+				collection.Properties.DeleteSingleProperty(PropertyTags.ReNamed); 				
+				collection.Commit(node);
+			}
+			
+			/// No data to sync and file is available in server and not renamed
+			if(sizeToSync == 0 && serverFileAvailable == true && reNamed == null)
 			{	
+								
 				/// Even the local block size changes (file grow/shrink) it doesn't matter since we are comparing the server and client file sizes
 				long localRsyncSize = (fileSize /blockSize)*blockSize;
 				if(fileSize % blockSize !=0)

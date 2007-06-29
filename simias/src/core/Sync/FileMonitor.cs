@@ -361,6 +361,12 @@ namespace Simias.Sync
 			FileInfo fi = new FileInfo(newName);
 			if (fi.Length != node.Length)
 				node.UpdateFileInfo(collection, newName);
+
+			//set the local rename property
+			Property p = new Property(PropertyTags.ReNamed, true);
+			p.LocalProperty = true;
+			node.Properties.ModifyProperty(p); 
+			
 			// Commit the directory.
 			collection.Commit(node);
 			return node;
@@ -378,6 +384,12 @@ namespace Simias.Sync
 			string relativePath = GetNormalizedRelativePath(rootPath, newPath);
 			string oldRelativePath = node.Properties.GetSingleProperty(PropertyTags.FileSystemPath).ValueString;
 			node.Properties.ModifyNodeProperty(new Property(PropertyTags.FileSystemPath, Syntax.String, relativePath));
+
+			///set the local rename property
+			///Property p = new Property(PropertyTags.ReNamed, true);
+			///p.LocalProperty = true;
+			///node.Properties.ModifyProperty(p);
+			
 			// Commit the directory.
 			collection.Commit(node);
 			// We need to rename all of the children nodes.

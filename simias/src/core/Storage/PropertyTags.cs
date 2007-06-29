@@ -51,6 +51,11 @@ namespace Simias.Storage
 		/// <summary>
 		/// Well known property name.
 		/// </summary>
+		static public string ReNamed = "ReName";
+
+		/// <summary>
+		/// Well known property name.
+		/// </summary>
 		static public string CollisionPolicy = "CollPol";
 
 		/// <summary>
