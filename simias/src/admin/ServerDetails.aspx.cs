@@ -250,6 +250,7 @@ namespace Novell.iFolderWeb.Admin
 		/// </summary>
 		protected string redirectUrl;
 
+		protected string currentServerURL;
 		#endregion
 
 		#region Properties
@@ -465,6 +466,7 @@ namespace Novell.iFolderWeb.Admin
 		{
 			// connection
 			web = Session[ "Connection" ] as iFolderAdmin;
+			currentServerURL = web.Url;
 
 			remoteweb = new iFolderAdmin ();
 
@@ -500,6 +502,11 @@ namespace Novell.iFolderWeb.Admin
 
 				// Initialize state variables.
 			}
+		}
+
+		private void Page_Unload(object sender, System.EventArgs e)
+		{
+		        web.Url = currentServerURL;
 		}
 
 		/// <summary>
@@ -720,6 +727,7 @@ namespace Novell.iFolderWeb.Admin
 			}
 
 			this.Load += new System.EventHandler(this.Page_Load);
+			this.Unload += new System.EventHandler (this.Page_Unload);
 		}
 		#endregion
 	}
