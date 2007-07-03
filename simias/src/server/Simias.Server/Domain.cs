@@ -202,8 +202,17 @@ namespace Simias.Server
 						enterpriseDomain.SetType( enterpriseDomain, "Enterprise" );
 
 						// Create the owner member for the domain.
+						string provider = null;
+						cfgValue = config.Get( "Identity", "Assembly" );
+						if ( cfgValue != null && cfgValue != String.Empty )
+						{
+						    provider = cfgValue;
+						}
+
+						this.admin = ParseUserName (this.admin, provider);
+
 						Member member = 
-							new Member(	this.admin, Guid.NewGuid().ToString(), Access.Rights.Admin );
+							new Member(this.admin, Guid.NewGuid().ToString(), Access.Rights.Admin );
 
 						member.IsOwner = true;
 						enterpriseDomain.SetType( member as Node, "User" );
@@ -245,6 +254,33 @@ namespace Simias.Server
 			return enterpriseDomain;
 		}
 
+	    //Utility Func to set the BaseSchema.Name according the naming attribute
+ 	        private string ParseUserName (string configAdminName, string provider)
+		{
+		    string attribute = null;
+		    //AD and eDir
+		    if ( provider == "Simias.ADLdapProvider" || provider == "Simias.LdapProvider" )
+			attribute = "cn";
+
+		    if ( provider == "Simias.OpenLdapProvider")
+			attribute = "uid";
+
+		    if ( attribute != null || attribute != String.Empty )
+		    {
+			string[] attributes = configAdminName.Split(',');
+
+			foreach (string attr in attributes)
+			{
+			    if (attr.StartsWith(attribute))
+			    {
+				string [] values = attr.Split ('=');
+				return values[1]; //get the second part in the split
+			    }
+			}
+		    }
+
+		    return this.admin;
+		}
 		#region Public Methods
 		#endregion
 	}
