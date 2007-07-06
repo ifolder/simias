@@ -1530,7 +1530,7 @@ namespace Novell.iFolder
 				//	if ( Execute( "chown", " -R {0}:{1} {2}", apacheUser, apacheGroup, System.IO.Directory.GetParent( storePath ).FullName ) != 0 )
 					if( Execute( "chown", " -R {0}:{1} {2}", apacheUser.Value, apacheGroup.Value, storePath ) != 0 )
 					{
-						throw new Exception( "Unable to set an owner for the store path." );
+						Console.WriteLine( "Unable to set an owner {0} for the store path.{1}", apacheUser.Value, storePath );
 					}
 				}
 				else
@@ -1538,7 +1538,7 @@ namespace Novell.iFolder
 					storePath = Path.Combine(storePath, "simias");
 					if ( Execute( "chown", "-R {0}:{1} {2}", apacheUser.Value, apacheGroup.Value, storePath ) != 0 )
 					{
-						throw new Exception( "Unable to set an owner for the store path." );
+						Console.WriteLine( "Unable to set an owner {0} for the store path.{1}", apacheUser.Value, storePath );
 					}
 				}
 			}
