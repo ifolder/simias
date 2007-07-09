@@ -144,7 +144,11 @@ namespace Novell.iFolder.Utility
 					case LdapDirectoryType.eDirectory:
 					{
 						// parse the cn
-						Regex cnRegex = new Regex(@"^cn=(.*?),.*$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+						Regex cnRegex=null;
+						if(dn.ToLower().StartsWith("cn="))
+							cnRegex = new Regex(@"^cn=(.*?),.*$",RegexOptions.IgnoreCase | RegexOptions.Compiled);
+						else if (dn.ToLower().StartsWith("uid="))
+							cnRegex = new Regex(@"^uid=(.*?),.*$",RegexOptions.IgnoreCase | RegexOptions.Compiled);
 						string cn = cnRegex.Replace(dn, "$1");
 
 						// create user attributes
@@ -156,8 +160,8 @@ namespace Novell.iFolder.Utility
 					}
 					case LdapDirectoryType.OpenLDAP:
 					{
-						Regex uidRegex = new Regex(@"^uid=(.*?),.*$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-						string uid = uidRegex.Replace(dn, "$1");
+						Regex uidRegex = new Regex(@"^(.*?)=(.*?),.*$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+						string uid = uidRegex.Replace(dn, "$2");
 
 						// I think we can get away with just creating an inetOrgPerson ...
 						// we don't need a posixAccount ... hmm, maybe a shadowAccount
@@ -167,6 +171,7 @@ namespace Novell.iFolder.Utility
 						attributeSet.Add(new LdapAttribute("cn", uid));
 						attributeSet.Add(new LdapAttribute("sn", uid));
 						attributeSet.Add(new LdapAttribute("givenName", uid));
+						attributeSet.Add(new LdapAttribute("displayName", uid));
 						// TODO: Need to encrypt the password first.
 						attributeSet.Add(new LdapAttribute("userPassword", password));
 						break;
