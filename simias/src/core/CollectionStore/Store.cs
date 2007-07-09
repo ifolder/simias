@@ -1771,7 +1771,7 @@ namespace Simias.Storage
 	       {
 	       	this.CryptoKeySize	= (PassPhrase.Length)*8;
 
-//			UTF8Encoding utf8 = new UTF8Encoding();
+			UTF8Encoding utf8 = new UTF8Encoding();
 			TripleDESCryptoServiceProvider m_des = new TripleDESCryptoServiceProvider();
 
 			byte[] IV ={0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0};			
@@ -1811,7 +1811,7 @@ namespace Simias.Storage
 		{
 			this.CryptoKeySize	= (PassPhrase.Length)*8;
 			
-//			UTF8Encoding utf8 = new UTF8Encoding();
+			UTF8Encoding utf8 = new UTF8Encoding();
 			TripleDESCryptoServiceProvider m_des = new TripleDESCryptoServiceProvider();
 
 			byte[] IV ={0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0};			
