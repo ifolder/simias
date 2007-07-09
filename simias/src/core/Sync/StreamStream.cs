@@ -249,8 +249,8 @@ namespace Simias.Sync
 					if(encryptionAlgorithm != "BlowFish")
 						throw exception;
 					
-					UTF8Encoding utf8 = new UTF8Encoding();
-					Blowfish bf = new Blowfish(utf8.GetBytes(EncryptionKey));
+//					UTF8Encoding utf8 = new UTF8Encoding();
+					Blowfish bf = new Blowfish(Convert.FromBase64String(EncryptionKey));
 					
 					reminder = (int) bytesRead % 8;
 					if (reminder != 0)
@@ -361,8 +361,8 @@ namespace Simias.Sync
 					if(encryptionAlgorithm != "BlowFish")
 						throw exception;
 					
-					UTF8Encoding utf8 = new UTF8Encoding();
-					Blowfish bf = new Blowfish(utf8.GetBytes(EncryptionKey));
+//					UTF8Encoding utf8 = new UTF8Encoding();
+					Blowfish bf = new Blowfish(Convert.FromBase64String(EncryptionKey));
 					bf.Decipher (buffer, buffer.Length);
 					
 					//Discard the bytes padded
