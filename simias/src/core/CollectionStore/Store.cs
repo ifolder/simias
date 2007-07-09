@@ -1722,16 +1722,15 @@ namespace Simias.Storage
 		/// <summary>
 		/// Constructs  the object
 		/// </summary>
-		/// <param name="key"></param>
-		/// <param name="algorithm"></param>
+		/// <param name="CrypKey"> it is Base64 string</param>
 		public Key(string CrypKey)
 		{
-			UTF8Encoding utf8 = new UTF8Encoding();
-			CryptoKey		= CrypKey;
+			CryptoKey	= CrypKey;
 		}
 
 		/// <summary>
 		/// Constructs a the blob object
+		/// <param name="KeySize"> Size of key to create in bits</param>
 		/// </summary>
 		public Key(int KeySize)
 		{
@@ -1741,8 +1740,8 @@ namespace Simias.Storage
 			TripleDESCryptoServiceProvider tDesKey = new TripleDESCryptoServiceProvider();
 			tDesKey.KeySize	= CryptoKeySize;
 			tDesKey.GenerateKey();
-			UTF8Encoding utf8 = new UTF8Encoding();
-			CryptoKey	= utf8.GetString(tDesKey.Key);
+
+			CryptoKey	= Convert.ToBase64String(tDesKey.Key);
 		}
 		
 		/// <summary>
@@ -1759,9 +1758,9 @@ namespace Simias.Storage
 		/// </summary>		
 		public string HashKey()
 		{
-			UTF8Encoding utf8 = new UTF8Encoding();
+//			UTF8Encoding utf8 = new UTF8Encoding();
 			SHA1 sha = new SHA1CryptoServiceProvider();
-			byte[] hashedObject = new SHA1CryptoServiceProvider().ComputeHash(utf8.GetBytes(this.CryptoKey));
+			byte[] hashedObject = new SHA1CryptoServiceProvider().ComputeHash(Convert.FromBase64String(this.CryptoKey));
 			return Convert.ToBase64String(hashedObject);
 		}
 
@@ -1772,7 +1771,7 @@ namespace Simias.Storage
 	       {
 	       	this.CryptoKeySize	= (PassPhrase.Length)*8;
 
-			UTF8Encoding utf8 = new UTF8Encoding();
+//			UTF8Encoding utf8 = new UTF8Encoding();
 			TripleDESCryptoServiceProvider m_des = new TripleDESCryptoServiceProvider();
 
 			byte[] IV ={0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0};			
@@ -1781,7 +1780,7 @@ namespace Simias.Storage
 			//m_des.Mode = CipherMode.CBC;
 			//m_des.Padding = PaddingMode.PKCS7;			
 			
-			byte[] input = utf8.GetBytes(this.CryptoKey);
+			byte[] input = Convert.FromBase64String(this.CryptoKey);
 			byte[] output = Transform(input, m_des.CreateEncryptor(utf8.GetBytes(PassPhrase), IV));
 			EncryptedKey = Convert.ToBase64String(output);
 			m_des.Clear();
@@ -1790,7 +1789,7 @@ namespace Simias.Storage
 	       {
 	       	this.CryptoKeySize	= (PassPhrase.Length)*8;
 
-			UTF8Encoding utf8 = new UTF8Encoding();
+//			UTF8Encoding utf8 = new UTF8Encoding();
 			TripleDESCryptoServiceProvider m_des = new TripleDESCryptoServiceProvider();
 
 			byte[] IV ={0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0};			
@@ -1799,7 +1798,7 @@ namespace Simias.Storage
 			//m_des.Mode = CipherMode.CBC;
 			//m_des.Padding = PaddingMode.PKCS7;			
 			
-			byte[] input = utf8.GetBytes(this.CryptoKey);
+			byte[] input = Convert.FromBase64String(this.CryptoKey);
 			byte[] output = Transform(input, m_des.CreateEncryptor(PassPhrase, IV));
 			EncryptedKey = Convert.ToBase64String(output);
 			m_des.Clear();
@@ -1812,7 +1811,7 @@ namespace Simias.Storage
 		{
 			this.CryptoKeySize	= (PassPhrase.Length)*8;
 			
-			UTF8Encoding utf8 = new UTF8Encoding();
+//			UTF8Encoding utf8 = new UTF8Encoding();
 			TripleDESCryptoServiceProvider m_des = new TripleDESCryptoServiceProvider();
 
 			byte[] IV ={0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0};			
@@ -1823,7 +1822,7 @@ namespace Simias.Storage
 
 			byte[] input = Convert.FromBase64String(this.CryptoKey);
 			byte[] output = Transform(input, m_des.CreateDecryptor(utf8.GetBytes(PassPhrase), IV));
-			DecryptedKey = utf8.GetString(output);
+			DecryptedKey = Convert.ToBase64String(output);
 			m_des.Clear();
 		}
 
@@ -1831,7 +1830,7 @@ namespace Simias.Storage
 		{
 			this.CryptoKeySize	= (PassPhrase.Length)*8;
 			
-			UTF8Encoding utf8 = new UTF8Encoding();
+//			UTF8Encoding utf8 = new UTF8Encoding();
 			TripleDESCryptoServiceProvider m_des = new TripleDESCryptoServiceProvider();
 
 			byte[] IV ={0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0};			
@@ -1842,7 +1841,7 @@ namespace Simias.Storage
 
 			byte[] input = Convert.FromBase64String(this.CryptoKey);
 			byte[] output = Transform(input, m_des.CreateDecryptor(PassPhrase, IV));
-			DecryptedKey = utf8.GetString(output);
+			DecryptedKey = Convert.ToBase64String(output);
 			m_des.Clear();
 		}
 		

@@ -121,7 +121,7 @@ namespace Novell.iFolderApp.Web
 				if(ifolder.EncryptionAlgorithm !="")
 				{  
 					string PassPhrase = context.Request.QueryString["PassPhrase"];
-					UTF8Encoding utf8 = new UTF8Encoding();
+//					UTF8Encoding utf8 = new UTF8Encoding();
 					string DecryptedCryptoKey;
 
 					//Hash the passphrase and use it for encryption and decryption
@@ -131,7 +131,7 @@ namespace Novell.iFolderApp.Web
 					Key key = new Key(ifolder.EncryptionKey);
 					key.DecrypytKey(passphrase, out DecryptedCryptoKey);
 					//Decrypt the key using passphrase and use it
-					bf = new Blowfish(utf8.GetBytes(DecryptedCryptoKey));
+					bf = new Blowfish(Convert.FromBase64String(DecryptedCryptoKey));
 					boundary = 8;					
 				}
 
