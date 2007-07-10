@@ -7,7 +7,7 @@ dist-hook:
 	rm -rf `find $(distdir) -name CVS`
 	rm -rf `find $(distdir) -name ".svn"`
 
-EXTRA_DIST = PublicPrivateKeyFile.snk tools/aclocal tools/gsoap external/libflaim external/log4net external/Mono.WebServer
+EXTRA_DIST = iFolder.snk tools/aclocal tools/gsoap external/libflaim external/log4net external/Mono.WebServer
 
 all:
 
