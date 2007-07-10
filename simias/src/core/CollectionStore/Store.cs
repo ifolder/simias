@@ -1039,8 +1039,8 @@ namespace Simias.Storage
 					if(c.ID == cKey.NodeID)
 					{
 						c.EncryptionKey = cKey.PEDEK;
-						//c.RecoveryKey = cKey.REDEK;
-						c.EncryptionBlob = cKey.REDEK;
+						if(cKey.REDEK !=null && cKey.REDEK !="")
+						c.RecoveryKey = cKey.REDEK; 
 						c.Commit();
 						
 						status = true;

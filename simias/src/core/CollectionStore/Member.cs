@@ -835,7 +835,7 @@ namespace Simias.Storage
 					//Send back to server					
 					NewKey.NodeID = OldKey.NodeID;
 					NewKey.PEDEK = EncryptedKey;
-					NewKey.REDEK = OldKey.REDEK; //send back the old one, since we are not changing the rcovery agent
+					NewKey.REDEK = null; // since we are not changing the recovery agent
 					if(svc.SetiFolderCryptoKeys(DomainID, UserID, NewKey)==false)
 					{
 						log.Debug("ReSetPassPhrase : failed for ifolder ID:", NewKey.NodeID);
@@ -1101,7 +1101,7 @@ namespace Simias.Storage
 					
 					cKey.PEDEK = EncryptedKey;
 					cKey.NodeID =  idNode.InnerText;
-					cKey.REDEK =  EnKey.HashKey();
+					cKey.REDEK =  null;
 
 					
 					if(svc.SetiFolderCryptoKeys(DomainID, UserID, cKey)==false)
