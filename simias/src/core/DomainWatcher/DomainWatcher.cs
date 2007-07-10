@@ -149,6 +149,7 @@ namespace Simias.DomainWatcher
 					foreach( ShallowNode shallowNode in store.GetDomainList() )
 					{
 						Domain cDomain = store.GetDomain( shallowNode.ID );
+						log.Debug("In domain watcher: domain id: {0} and wait time is {1}", shallowNode.ID, waitTime);
 					
 						// Make sure this domain is a slave since we don't watch
 						// mastered domains.
@@ -254,6 +255,19 @@ namespace Simias.DomainWatcher
 							if ( domainAgent.IsDomainAutoLoginEnabled( cDomain.ID ) == false )
 							{
 								log.Debug( "  domain: " + cDomain.Name + " auto-login is disabled" );
+								continue;
+							}
+					/*
+						The try-catch section below fixes the exception on the thick-clients during login. Wait for the member node to be synced to be synced before trying to ping the domain. 
+					*/
+							try
+							{
+								string userID = store.GetUserIDFromDomainID(shallowNode.ID);
+								Member m = cDomain.GetMemberByID(userID);
+								log.Debug("trying to get the member id: home server is: {0}", m.HomeServer.ID);
+							}
+							catch(Exception ex)
+							{
 								continue;
 							}
 							

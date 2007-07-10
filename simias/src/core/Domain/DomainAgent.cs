@@ -73,6 +73,7 @@ namespace Simias.DomainServices
 
 		private Store store = Store.GetStore();
 		private static Hashtable domainTable = new Hashtable();
+		private static string domainID;
 		#endregion
 
 		#region Constructors
@@ -133,6 +134,8 @@ namespace Simias.DomainServices
 				// Create member.
 				Access.Rights rights = ( Access.Rights )Enum.Parse( typeof( Access.Rights ), info.MemberRights );
 				Member member = new Member( info.MemberNodeName, info.MemberNodeID, info.UserID, rights, null );
+				if( member == null)
+					log.Debug("Member is null");
 				member.Proxy = true;
 				member.IsOwner = true;
 
@@ -140,6 +143,7 @@ namespace Simias.DomainServices
 			
 				// commit
 				poBox.Commit( new Node[] { poBox, member } );
+				log.Debug("Created PO Box Proxy");
 			}
 		}
 
@@ -514,6 +518,7 @@ namespace Simias.DomainServices
 			catch
 			{
 				// We are talking to an older server. We don't support multi-server.
+				log.Debug("Exception: While Logging in");
 			}
 
 			// Get just the path portion of the URL.
@@ -534,7 +539,17 @@ namespace Simias.DomainServices
 			log.Debug("Calling " + domainService.Url + " to provision the user");
 
 			// provision user
-			ProvisionInfo provisionInfo = domainService.ProvisionUser(user, password);
+			ProvisionInfo provisionInfo = null;
+			try
+			{
+				log.Debug("Calling provisioning on the server.....");
+				provisionInfo = domainService.ProvisionUser(user, password);
+				log.Debug("Prvisioned the user.....");
+			}
+			catch(Exception ex)
+			{
+				log.Debug("Exception while provisioning");
+			}
 			if (provisionInfo == null)
 			{
 				throw new ApplicationException("User does not exist on server.");
@@ -545,27 +560,37 @@ namespace Simias.DomainServices
 			// get domain info
 			DomainInfo domainInfo = domainService.GetDomainInfo(provisionInfo.UserID);
 
-			// Create domain proxy
-			CreateDomainProxy(store, provisionInfo.UserID, domainInfo, hostUri, hostID);
+			if( domainInfo != null)
+			{
+				// Create domain proxy
+			//	log.Debug("Skipping creation on domain proxy");
+				CreateDomainProxy(store, provisionInfo.UserID, domainInfo, hostUri, hostID);
 
-			// Create PO Box proxy
-			CreatePOBoxProxy(store, domainInfo.ID, provisionInfo, hostID);
+				// Create PO Box proxy
+				log.Debug("Skipping pobox creation");
+				CreatePOBoxProxy(store, domainInfo.ID, provisionInfo, hostID);
 
-			// create domain identity mapping.
-			store.AddDomainIdentity(domainInfo.ID, provisionInfo.UserID);
+				// create domain identity mapping.
+				store.AddDomainIdentity(domainInfo.ID, provisionInfo.UserID);
 
-			// authentication was successful - save the credentials
-			BasicCredentials basic = 
-				new BasicCredentials( 
+				// authentication was successful - save the credentials
+				BasicCredentials basic = 
+					new BasicCredentials( 
 						domainInfo.ID, 
 						domainInfo.ID, 
 						user, 
 						password );
-			basic.Save( false );
+				basic.Save( false );
+			}
+			else
+			{
+				log.Debug("Unable to get domaininfo");
+			}
 
 			// Domain is ready to sync
 			this.SetDomainActive( domainInfo.ID );
 			status.DomainID = domainInfo.ID;
+			SetDomainState( domainInfo.ID, true, true);
 
 			//Down Sync the domain
 			if(hInfo.Master == false)
@@ -578,6 +603,12 @@ namespace Simias.DomainServices
 			syncClient = new CollectionSyncClient(domainInfo.ID, new TimerCallback( TimerFired ) );			
 			syncClient.SyncNow();
 			log.Debug("Attach sync done");
+			if ( ( status.statusCode != SCodes.Success ) && ( status.statusCode != SCodes.SuccessInGrace ) )
+			{
+				log.Debug("Status is SUCCESS");
+			}
+			else
+				log.Debug("Status is NOT success");
 			return status;
 		}
 
@@ -827,6 +858,7 @@ namespace Simias.DomainServices
 		public void Unattach(string domainID, bool localOnly)
 		{
 			// Cannot remove the local domain.
+			log.Debug("Ramesh: Unattaching the domain");
 			if ( domainID == store.LocalDomain )
 			{
 				throw new SimiasException("The local domain cannot be removed.");
@@ -858,10 +890,13 @@ namespace Simias.DomainServices
 				WebState webState = new WebState(domainID, userID);
 				webState.InitializeWebClient(domainService, domainID);
 			}
-
-			
 			// Find the user's POBox for this domain.
 			POBox.POBox poBox = POBox.POBox.FindPOBox(store, domainID, userID);
+			System.Threading.Thread thread = new System.Threading.Thread(RemoveDomainThread);
+			DomainAgent.domainID = domainID;
+			thread.Start();
+	 	//	this.RemoveDomainInformation(domainID);
+			Collection domainColl = store.GetCollectionByID(domainID);
 			//POBox will not be available for new accounts, so remove only if available
 /*			if (poBox == null)
 			{
@@ -887,6 +922,10 @@ namespace Simias.DomainServices
 						domainService.RemoveServerCollections(domainID, userID);
 					}
 				}
+				else
+				{
+					log.Debug("Ramesh: pobox is null");
+				}
 			}
 			finally
 			{
@@ -904,6 +943,14 @@ namespace Simias.DomainServices
 				// Clear the cookies for this Uri.
 				WebState.ResetWebState(domainID);
 			}
+		}
+
+		internal void RemoveDomainThread()
+		{
+			log.Debug("Called remove domain thread");
+			this.RemoveDomainInformation(DomainAgent.domainID);
+			DomainAgent.domainID = null;
+			return;
 		}
 
 		/// <summary>
