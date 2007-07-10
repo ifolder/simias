@@ -783,7 +783,7 @@ namespace Simias.Storage
 		/// <summary>
 		/// Set the passphrase(key encrypted by passphrase and SHA1 of key) and recovery agent name and key
 		/// </summary>
-		public bool ReSetPassPhrase(string OldPassphrase, string Passphrase, string RAName, string PublicKey)
+		public bool ReSetPassPhrase(string OldPassphrase, string Passphrase, string RAName, string RAPublicKey)
 		{
 			if(ValidatePassPhrase(OldPassphrase) != Simias.Authentication.StatusCodes.Success)
 				return false;
@@ -816,7 +816,7 @@ namespace Simias.Storage
 				key.EncrypytKey(passphrase, out EncrypCryptoKey);			
 				Key HashKey = new Key(EncrypCryptoKey);
 				
-				svc.ServerSetPassPhrase(DomainID, UserID, EncrypCryptoKey, HashKey.HashKey(), RAName, PublicKey);
+				svc.ServerSetPassPhrase(DomainID, UserID, EncrypCryptoKey, HashKey.HashKey(), RAName, RAPublicKey);
 
 				CollectionKey OldKey = null;
 				CollectionKey NewKey = new CollectionKey();
@@ -834,8 +834,15 @@ namespace Simias.Storage
 
 					//Send back to server					
 					NewKey.NodeID = OldKey.NodeID;
-					NewKey.PEDEK = EncryptedKey;
-					NewKey.REDEK = null; // since we are not changing the recovery agent
+					NewKey.PEDEK = EncryptedKey;					
+					if(RAPublicKey !="" && RAName !="")
+					{
+						RecoveryAgent agent = new RecoveryAgent(RAPublicKey);
+						NewKey.REDEK = agent.EncodeMessage(DecryptedKey); // recoveryKey
+					}
+					else
+						NewKey.REDEK = null; // since we are not changing the recovery agent
+						
 					if(svc.SetiFolderCryptoKeys(DomainID, UserID, NewKey)==false)
 					{
 						log.Debug("ReSetPassPhrase : failed for ifolder ID:", NewKey.NodeID);
