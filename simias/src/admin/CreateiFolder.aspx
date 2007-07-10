@@ -18,6 +18,19 @@
 	
 	<script language="javascript">
 
+                function SubmitKeyDown(e, b)
+                {
+                        var result = true;
+
+                        if ((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13))
+                        {
+                                document.getElementById(b).click();
+                                result = false;
+                        }
+
+                        return result;
+                }
+
 		function EnableNextButton()
 		{
 			document.getElementById( "NextButton" ).disabled = false;
@@ -65,13 +78,12 @@
 					</td>
 				
 					<td class="tablecolumn">
-						<textarea 
-							id="Description" 
-							runat="server" 
-							class="edittext" 
-							rows="3" 
-							wrap="soft" NAME="Description">
-						</textarea>
+						<asp:TextBox 
+							ID="Description" 
+							TextMode="MultiLine" 
+							Rows="3"
+							onkeydown="return SubmitKeyDown(event, 'NextButton');"
+							Runat="server" />
 					</td>
 				</tr>
 			

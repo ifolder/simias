@@ -91,7 +91,7 @@ namespace Novell.iFolderWeb.Admin
 		/// <summary>
 		/// Control that gets the description for the new ifolder.
 		/// </summary>
-		protected HtmlTextArea Description;
+		protected TextBox Description;
 
 		#endregion
 
@@ -229,7 +229,7 @@ namespace Novell.iFolderWeb.Admin
 
 				// Initialize state variables.
 				Name.Text = iFolderName;
-				Description.Value = iFolderDescription;
+				Description.Text = iFolderDescription;
 				SetFocus( Name );
 
 				// If there is a name, enable the next button.
@@ -301,7 +301,7 @@ namespace Novell.iFolderWeb.Admin
 				Page.Response.Redirect( 
 					String.Format( 
 						"MemberSelect.aspx?op=createifolder&name={0}&desc={1}&owner={2}&fn={3}&ref={4}",
-						Name.Text, Description.Value, iFolderOwner, FullName, ReferringPage ), 
+						Name.Text, Description.Text, iFolderOwner, FullName, ReferringPage ), 
 					true );
 			}
 			else
@@ -310,7 +310,7 @@ namespace Novell.iFolderWeb.Admin
 					String.Format( 
 						"OwnerSelect.aspx?name={0}&desc={1}{2}&pg={3}&ref={4}",
 						Name.Text, 
-						Description.Value, 
+						Description.Text, 
 						( iFolderOwner != String.Empty ) ? "&owner=" + iFolderOwner : String.Empty,
 						OwnerListPage, 
 						ReferringPage ), 
