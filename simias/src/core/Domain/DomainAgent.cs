@@ -892,7 +892,7 @@ namespace Simias.DomainServices
 			}
 			// Find the user's POBox for this domain.
 			POBox.POBox poBox = POBox.POBox.FindPOBox(store, domainID, userID);
-			System.Threading.Thread thread = new System.Threading.Thread(RemoveDomainThread);
+			System.Threading.Thread thread = new System.Threading.Thread(new System.Threading.ThreadStart(RemoveDomainThread));
 			DomainAgent.domainID = domainID;
 			thread.Start();
 	 	//	this.RemoveDomainInformation(domainID);
