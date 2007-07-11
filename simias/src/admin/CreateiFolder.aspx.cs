@@ -295,26 +295,29 @@ namespace Novell.iFolderWeb.Admin
 		{
 			// Create ifolder is called from both the userdetails page and the main ifolder list
 			// page. Need to determine which one we came from.
-			Uri uri = new Uri( ReferringPage );
-			if ( uri.AbsolutePath.EndsWith( "UserDetails.aspx" ) )
-			{
-				Page.Response.Redirect( 
-					String.Format( 
-						"MemberSelect.aspx?op=createifolder&name={0}&desc={1}&owner={2}&fn={3}&ref={4}",
-						Name.Text, Description.Text, iFolderOwner, FullName, ReferringPage ), 
-					true );
-			}
-			else
-			{
-				Page.Response.Redirect( 
-					String.Format( 
-						"OwnerSelect.aspx?name={0}&desc={1}{2}&pg={3}&ref={4}",
-						Name.Text, 
-						Description.Text, 
-						( iFolderOwner != String.Empty ) ? "&owner=" + iFolderOwner : String.Empty,
-						OwnerListPage, 
-						ReferringPage ), 
-					true );
+			if(Name.Text.Trim().Length > 0)
+                        {
+				Uri uri = new Uri( ReferringPage );
+				if ( uri.AbsolutePath.EndsWith( "UserDetails.aspx" ) )
+				{
+					Page.Response.Redirect( 
+						String.Format( 
+							"MemberSelect.aspx?op=createifolder&name={0}&desc={1}&owner={2}&fn={3}&ref={4}",
+							Name.Text, Description.Text, iFolderOwner, FullName, ReferringPage ), 
+						true );
+				}
+				else
+				{
+					Page.Response.Redirect( 
+						String.Format( 
+							"OwnerSelect.aspx?name={0}&desc={1}{2}&pg={3}&ref={4}",
+							Name.Text, 
+							Description.Text, 
+							( iFolderOwner != String.Empty ) ? "&owner=" + iFolderOwner : String.Empty,
+							OwnerListPage, 
+							ReferringPage ), 
+						true );
+				}
 			}
 		}
 
