@@ -203,7 +203,7 @@ namespace Simias.Sync
 		/// <returns>The number of bytes read.</returns>
 		public int Read(Stream outStream, int count)
 		{
-			wStream = outStream;
+//			wStream = outStream;
 			int bytesLeft = count;
 			while(bytesLeft > 0)
 			{
@@ -212,9 +212,10 @@ namespace Simias.Sync
 				if (bytesRead != 0)
 				{
 					writeComplete.WaitOne();
+					wStream = outStream;
 					if (exception != null)
 						throw exception;
-					outStream.BeginWrite(buffer, 0, bytesRead, new AsyncCallback(Read_WriteComplete), buffer);
+					wStream.BeginWrite(buffer, 0, bytesRead, new AsyncCallback(Read_WriteComplete), buffer);
 					bytesLeft -= bytesRead;
 				}
 				else break;
