@@ -752,7 +752,7 @@ namespace iFolder.WebService
 		{
 			try
 			{
-				if(RAPublicKey != null)
+				if(RAPublicKey != null && RAPublicKey != "" && RAName != null && RAName != "")
 				{
 					byte [] key = Convert.FromBase64String(RAPublicKey);
 					if(key.Length > 64 && key.Length < 128) //remove the 5 byte header and 5 byte trailer
