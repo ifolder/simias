@@ -1307,15 +1307,24 @@ namespace Novell.iFolder
 				{
 					if ( ldapUtility.DirectoryType.Equals( LdapDirectoryType.eDirectory ) )
 					{
-						// use the container of the system admin user
-						string containerDN = "";
-						string[] parts = ldapAdminDN.Value.Split(new char[] { ',' }, 2);
-						if (parts.Length == 2) containerDN = parts[1];
-
 						// rights
-						Console.Write("Granting Read Rights to {0} on {1}...", ldapProxyDN.Value, containerDN);
+						if (ldapSearchContext.Assigned)
+						{
+							string[] contexts = ldapSearchContext.Value.Split(new char[] { '#' });
+							foreach(string context in contexts)
+							{
+								if ((context != null) && (context.Length > 0))
+								{
+									if ( !ldapUtility.ValidateSearchContext( context ) )
+									{
+										throw new Exception( string.Format( "Invalid context entered: {0}", context ) );
+									}
+									Console.Write("Granting Read Rights to {0} on {1}...", ldapProxyDN.Value, context);
+									ldapUtility.GrantReadRights(ldapProxyDN.Value, context);
+								}
+							}
+						}
 
-						ldapUtility.GrantReadRights(ldapProxyDN.Value, containerDN);
 
 						Console.WriteLine("Done");
 					}
