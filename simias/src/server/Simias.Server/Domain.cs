@@ -265,7 +265,7 @@ namespace Simias.Server
 		    if ( provider == "Simias.OpenLdapProvider")
 			attribute = "uid";
 
-		    if ( attribute != null || attribute != String.Empty )
+		    if ( attribute != null && attribute != String.Empty )
 		    {
 			string[] attributes = configAdminName.Split(',');
 
