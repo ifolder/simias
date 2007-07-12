@@ -342,7 +342,7 @@ namespace Simias.Storage
 				lock ( lockTable )
 				{
 					string ls = lockTable[ id ] as string;
-					return ( ( ls != null ) && ( ls != lockString ) ) ? true : false;
+					return ( ( ls != null ) && (lockString != null ) && (lockString != String.Empty) && ( ls != lockString ) ) ? true : false;
 				}
 			}
 		}
@@ -2360,6 +2360,7 @@ namespace Simias.Storage
 				// change the collection.
 				if ( IsLocked )
 				{
+					log.Debug("Collection is Locked {0}, {1}, {2}", id, lockTable[id], lockString);
 					throw new LockException();
 				}
 
