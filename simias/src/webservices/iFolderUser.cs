@@ -788,7 +788,7 @@ namespace iFolder.WebService
 				PassphraseHash hash = new PassphraseHash();
 				byte[] passphrase = hash.HashPassPhrase(Passphrase);	
 				
-				Key RAkey = new Key(128);
+				Key RAkey = new Key((passphrase.Length)*8);
 				string EncrypCryptoKey;
 				RAkey.EncrypytKey(passphrase, out EncrypCryptoKey);
 				Key HashKey = new Key(EncrypCryptoKey);
