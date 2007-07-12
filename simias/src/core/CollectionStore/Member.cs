@@ -663,7 +663,7 @@ namespace Simias.Storage
 		/// </summary>
 		public void SetPassPhrase(string Passphrase, string RAName, string PublicKey)
 		{
-			if(PublicKey != null)
+			if(PublicKey != null && PublicKey != "" && RAName != null && RAName != "")
 			{
 				byte [] key = Convert.FromBase64String(PublicKey);
 				if(key.Length > 64 && key.Length < 128) //remove the 5 byte header and 5 byte trailer
