@@ -828,7 +828,7 @@ namespace Novell.iFolderWeb.Admin
 
 			// See if there are any checked members.
 			EnableMemberActionButtons = (( CheckedMembers.Count > 0 ) && (!AdoptButton.Visible || AdoptButton.Enabled));
-			EnableOwnerActionButton = ( CheckedMembers.Count == 1 );
+			EnableOwnerActionButton = ( CheckedMembers.Count == 1 && !(AdoptButton.Visible && AdoptButton.Enabled) );
 		}
 
 		/// <summary>

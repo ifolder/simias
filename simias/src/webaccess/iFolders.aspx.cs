@@ -175,7 +175,7 @@ namespace Novell.iFolderApp.Web
 					
 					bool shared = ( ifolder.MemberCount > 1 ) ? true : false;
 					
-					ImageUrl = (encrypted) ? "encrypt_ilock2_16.gif" : (shared ? "ifolder.png" : "ifolder.png");
+					ImageUrl = (encrypted) ? "encrypt_ilock2_16.gif" : (shared ? "ifolder_user_16.gif" : "ifolder.png");
 
 					DataRow row = ifolderTable.NewRow();
 

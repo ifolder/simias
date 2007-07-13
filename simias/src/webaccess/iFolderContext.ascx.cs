@@ -139,7 +139,7 @@ namespace Novell.iFolderApp.Web
 				
 				bool shared = ( folder.MemberCount > 1 ) ? true : false;
 				
-				iFolderImageUrl.ImageUrl = encrypted ? "images/encrypt_ilock2_16.gif" : (shared ? "images/ifolder.png" : "images/ifolder.png");
+				iFolderImageUrl.ImageUrl = encrypted ? "images/encrypt_ilock2_16.gif" : (shared ? "images/ifolder_user_16.gif" : "images/ifolder.png");
 
 				// links
 				iFolderLink.NavigateUrl = iFolderImageLink.NavigateUrl =

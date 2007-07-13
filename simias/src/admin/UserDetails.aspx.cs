@@ -538,7 +538,7 @@ namespace Novell.iFolderWeb.Admin
 			else if( (bool) encrypted)
 				return "images/encrypt_ilock2_16.gif";
 			
-			return ( bool )shared ? "images/ifolder_16.gif" : "images/ifolder_16.gif";
+			return ( bool )shared ? "images/ifolder_user_16.gif" : "images/ifolder_16.gif";
 		}
 
 		/// <summary>
