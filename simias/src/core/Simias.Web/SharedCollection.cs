@@ -1776,7 +1776,12 @@ namespace Simias.Web
 			if ((domain != null) && (domain.SupportsNewInvitation == false))
 			{
 				// Get my member object.
-				Member currentMember = col.GetCurrentMember();
+				Member currentMember = null;
+				if((AccessID != null) && (AccessID.Length != 0))
+					currentMember = col.GetCurrentMember();
+				else
+					currentMember = col.GetMemberByID(UserID);
+					
 				if (currentMember == null)
 					throw new Exception("Invalid current member");
 
