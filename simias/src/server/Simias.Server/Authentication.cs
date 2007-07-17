@@ -520,7 +520,6 @@ namespace Simias.Server
 						// Use the specified default encoding.
 						encodingName = new string[] { defaultBasicEncodingName };
 					}
-
 					// Get the credentials from the auth header.
 					SimiasCredentials creds = new SimiasCredentials();
 					if( creds.AuthorizationHeaderToCredentials( encodedCredentials[0], encodingName[0] ) )
@@ -531,17 +530,25 @@ namespace Simias.Server
 							// Only support basic.
 							if ( creds.AuthType == "basic" )
 							{
-								try
+								Member member = Domain.GetMemberByName( creds.Username );
+								if( Domain.IsLoginDisabled( member.UserID ) != true )
 								{
-									// Authenticate the user.
-									authStatus = AuthenticateByName( Domain.ID, creds.Username, creds.Password );
+									try
+									{
+										// Authenticate the user.
+										authStatus = AuthenticateByName( Domain.ID, creds.Username, creds.Password );
+									}
+									catch( Exception e )
+									{
+										log.Error( e.Message );
+										log.Error( e.StackTrace );
+										authStatus = new Simias.Authentication.Status( SCodes.InternalException );
+										authStatus.ExceptionMessage = e.Message;
+									}
 								}
-								catch( Exception e )
+								else
 								{
-									log.Error( e.Message );
-									log.Error( e.StackTrace );
-									authStatus = new Simias.Authentication.Status( SCodes.InternalException );
-									authStatus.ExceptionMessage = e.Message;
+									authStatus = new Simias.Authentication.Status( SCodes.SimiasLoginDisabled );
 								}
 							}
 							else
@@ -571,7 +578,6 @@ namespace Simias.Server
 				authStatus = new Simias.Authentication.Status( SCodes.InternalException );
 				authStatus.ExceptionMessage = e.Message;
 			}
-
 			return authStatus;
 		}
 
