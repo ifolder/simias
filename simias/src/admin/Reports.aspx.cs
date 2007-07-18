@@ -35,6 +35,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
 using System.Xml;
+using System.Threading;
 
 namespace Novell.iFolderWeb.Admin
 {
@@ -551,7 +552,7 @@ namespace Novell.iFolderWeb.Admin
 				true );
 
 			// Report time of day.
-			DateTime dt = DateTime.Parse( TimeOfDayList.SelectedValue );
+			DateTime dt = DateTime.ParseExact( TimeOfDayList.SelectedValue.ToString(),"t",Thread.CurrentThread.CurrentUICulture.DateTimeFormat,DateTimeStyles.AllowWhiteSpaces );
 			rc.TimeOfDay = new TimeSpan( dt.Hour, dt.Minute, 0 );
 
 			// Report day of month.
