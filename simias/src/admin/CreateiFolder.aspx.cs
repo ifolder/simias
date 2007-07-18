@@ -46,6 +46,12 @@ namespace Novell.iFolderWeb.Admin
 		#region Class Members
 	
 		/// <summary>
+		/// iFolder Connection
+		/// </summary>
+		private iFolderAdmin web;
+
+	
+		/// <summary>
 		/// Resource Manager
 		/// </summary>
 		private ResourceManager rm;
@@ -211,6 +217,9 @@ namespace Novell.iFolderWeb.Admin
 		/// <param name="e"></param>
 		private void Page_Load( object sender, System.EventArgs e )
 		{
+			// connection
+			web = Session[ "Connection" ] as iFolderAdmin;
+				
 			// localization
 			rm = Application[ "RM" ] as ResourceManager;
 
@@ -260,7 +269,7 @@ namespace Novell.iFolderWeb.Admin
 			string s = "<SCRIPT language='javascript'>document.getElementById('" + ctrl.ClientID + "').focus() </SCRIPT>";
 			Page.RegisterStartupScript( "focus", s );
 		}
-
+	
 		#endregion
 
 		#region Protected Methods
@@ -273,7 +282,8 @@ namespace Novell.iFolderWeb.Admin
 		protected void CancelButton_Clicked( Object sender, EventArgs e )
 		{
 			// Return back to the referring page.
-			Page.Response.Redirect( ReferringPage, true );
+			string url = web.TrimUrl(ReferringPage);
+			Page.Response.Redirect( url, true );
 		}
 
 		/// <summary>

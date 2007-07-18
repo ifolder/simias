@@ -603,6 +603,32 @@ namespace iFolder.WebService
 			return result;
 		}
 
+		/// <summary>
+		/// To extract the aspx page from header
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		[WebMethod(
+			 Description="Get a trimmed url from full url",
+			 EnableSession=true)]
+		public virtual string TrimUrl(string FullUrl)
+		{
+			string TrimmedUrl = "iFolders.aspx";
+			try
+			{
+				if(FullUrl != "")
+				{
+					 TrimmedUrl = FullUrl.Substring(FullUrl.LastIndexOf('/') + 1);
+					 
+				}
+			}
+			catch(Exception e)
+			{
+				SmartException.Throw(e);
+			}
+			return TrimmedUrl;
+		}
+		
 		#endregion
 
 		#region User

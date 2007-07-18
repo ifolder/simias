@@ -414,7 +414,8 @@ namespace Novell.iFolderWeb.Admin
 		protected void CancelButton_Clicked( Object sender, EventArgs e )
 		{
 			// Return back to the referring page.
-			Page.Response.Redirect( ReferringPage, true );
+			string url = web.TrimUrl(ReferringPage);
+			Page.Response.Redirect( url, true );
 		}
 
 		/// <summary>

@@ -212,7 +212,8 @@ namespace Novell.iFolderWeb.Admin
 		protected void OnCancelButton_Click( object source, EventArgs e )
 		{
 			// Return back to the referring page.
-			Page.Response.Redirect( ReferringPage, true );
+			string url = web.TrimUrl(ReferringPage);
+			Page.Response.Redirect( url, true );
 		}
 
 		/// <summary>
@@ -244,7 +245,8 @@ namespace Novell.iFolderWeb.Admin
 							String.Empty );
 
 						// Return back to the referring page.
-						Page.Response.Redirect( ReferringPage, true );
+						string url = web.TrimUrl(ReferringPage);
+						Page.Response.Redirect( url, true );
 					}
 					catch ( Exception ex )
 					{

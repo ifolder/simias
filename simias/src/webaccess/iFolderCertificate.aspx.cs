@@ -121,8 +121,6 @@ namespace Novell.iFolderApp.Web
 				}
 				DenyButton.Text = GetString("DENY");
 				
-				// view
-				ViewState["Referrer"] = Request.UrlReferrer;
 			}
 		}
 
@@ -280,18 +278,7 @@ namespace Novell.iFolderApp.Web
 		/// <param name="e"></param>
 		private void DenyButton_Click(object sender, EventArgs e)
 		{
-			Uri referrer = (Uri) ViewState["Referrer"];
-			string url;
-
-			if ((referrer == null) || (referrer.AbsolutePath.IndexOf("Login.aspx") != -1))
-			{
-				url = "iFolderNew.aspx";
-			}
-			else
-			{
-				url = referrer.ToString();
-			}
-			
+			string url = "iFolderNew.aspx";
 			// redirect
 			Response.Redirect(url);
 		}

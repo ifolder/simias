@@ -303,7 +303,8 @@ namespace Novell.iFolderApp.Web
 			}
 			else
 			{
-				url = referrer.ToString();
+				string TrimmedUrl = web.TrimUrl(referrer.ToString());
+				url = TrimmedUrl;
 			}
 			
 			// redirect

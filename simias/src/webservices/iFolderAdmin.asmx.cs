@@ -271,6 +271,19 @@ namespace iFolder.WebService
 			return base.GetChanges(ifolderID, itemID, index, max);
 		}
 
+		/// <summary>
+		/// Get a trimmed url from full url
+		/// </summary>
+		/// <param name="FullUrl">Full URL to be called</param>
+		/// <returns>a trimmed url that will contain only aspx page name</returns>
+		[WebMethod(
+			 Description="Get a trimmed url from full url",
+			 EnableSession=true)]
+		public override string TrimUrl(string FullUrl)
+		{
+			return base.TrimUrl(FullUrl);
+		}
+
 		#endregion
 
 		#region Common Users
