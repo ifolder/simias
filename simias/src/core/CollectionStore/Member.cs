@@ -23,6 +23,7 @@
 
 using System;
 using System.IO;
+using System.Threading;
 using System.Text;
 using System.Collections;
 using System.Security.Cryptography;
@@ -31,6 +32,8 @@ using System.Xml;
 using Simias.Client;
 using Simias.Storage;
 using Simias.CryptoKey;
+using Simias.Sync;
+
 
 
 namespace Simias.Storage
@@ -61,28 +64,10 @@ namespace Simias.Storage
 
 		private static readonly ISimiasLog log = SimiasLogManager.GetLogger(typeof(Member));
 
-		/// </summary>
-		private string encryptionKey;
-
 		/// <summary>
 
 		/// </summary>
-		private string encryptionType;
-
-		/// <summary>
-
-		/// </summary>
-		private string encryptionBlob;
-
-		/// <summary>
-
-		/// </summary>
-		private string raName;
-
-		/// <summary>
-
-		/// </summary>
-		private string raPublicKey;
+		private CollectionSyncClient syncClient;
 
 		/// <summary>
 		/// Get/Set the encryption key
@@ -603,7 +588,7 @@ namespace Simias.Storage
 		/// <summary>
 		/// Set the passphrase(key encrypted by passphrase and SHA1 of key) and recovery agent name and key
 		/// </summary>
-		public void ServerSetPassPhrase(string EncryptedCryptoKey, string CryptoKeyBlob, string RAName, string PublicKey)
+		public void ServerSetPassPhrase(string EncryptedCryptoKey, string CryptoKeyBlob, string RAName, string RAPublicKey)
 		{
 			Store store = Store.GetStore();
 			string DomainID = this.GetDomainID(store);
@@ -629,9 +614,9 @@ namespace Simias.Storage
 				Property p = new Property(PropertyTags.RAName, RAName);
 				this.properties.ModifyNodeProperty(p);
 			}
-			if(PublicKey !=null)
+			if(RAPublicKey !=null)
 			{
-				Property p = new Property(PropertyTags.RAPublicKey, PublicKey);
+				Property p = new Property(PropertyTags.RAPublicKey, RAPublicKey);
 				this.properties.ModifyNodeProperty(p);
 			}
 			
@@ -639,6 +624,7 @@ namespace Simias.Storage
 			this.properties.ModifyNodeProperty(prty);			
 			
 			domain.Commit(this);
+			
 		}
 		
 		/// <summary>
@@ -661,35 +647,13 @@ namespace Simias.Storage
 		/// <summary>
 		/// Set the passphrase(key encrypted by passphrase and SHA1 of key) and recovery agent name and key
 		/// </summary>
-		public void SetPassPhrase(string Passphrase, string RAName, string PublicKey)
-		{
-			if(PublicKey != null && PublicKey != "" && RAName != null && RAName != "")
-			{
-				byte [] key = Convert.FromBase64String(PublicKey);
-				if(key.Length > 64 && key.Length < 128) //remove the 5 byte header and 5 byte trailer
-				{
-					byte[] NewKey = new byte[key.Length-10];
-					Array.Copy(key, 5, NewKey, 0, key.Length-10);
-					PublicKey = Convert.ToBase64String(NewKey);
-				}
-				else if(key.Length > 128 && key.Length < 256) //remove the 7 byte header and 5 byte trailer
-				{
-					byte[] NewKey = new byte[key.Length-12];
-					Array.Copy(key, 7, NewKey, 0, key.Length-12);
-					PublicKey = Convert.ToBase64String(NewKey);
-				}					
-				else if(key.Length > 256) //remove the 9 byte header and 5 byte trailer
-				{
-					byte[] NewKey = new byte[key.Length-14];
-					Array.Copy(key, 9, NewKey, 0, key.Length-14);
-					PublicKey = Convert.ToBase64String(NewKey);
-				}					
-				else
-					throw new SimiasException("Recovery key size not suported");				
-			}
-			
+		public void SetPassPhrase(string Passphrase, string RAName, string RAPublicKey)
+		{			
 			try
 			{
+				if(RAPublicKey != null && RAPublicKey != "" && RAName != null && RAName != "")
+					KeyCorrection(ref RAName, ref RAPublicKey);			
+				
 				Store store = Store.GetStore();
 				string DomainID = this.GetDomainID(store);
 				string UserID = store.GetUserIDFromDomainID(DomainID);
@@ -714,14 +678,25 @@ namespace Simias.Storage
 				key.EncrypytKey(passphrase, out EncrypCryptoKey); //encrypt the key
 				Key HashKey = new Key(EncrypCryptoKey);
 				
-				log.Debug("SetPassPhrase {0}...{1}...{2}...{3}",EncrypCryptoKey, HashKey.HashKey(), RAName, PublicKey);
-				svc.ServerSetPassPhrase(DomainID, UserID, EncrypCryptoKey, HashKey.HashKey(), RAName, PublicKey);
+				log.Debug("SetPassPhrase {0}...{1}...{2}...{3}",EncrypCryptoKey, HashKey.HashKey(), RAName, RAPublicKey);
+				svc.ServerSetPassPhrase(DomainID, UserID, EncrypCryptoKey, HashKey.HashKey(), RAName, RAPublicKey);
+
+				log.Debug("SetPassPhrase Domain sync begin");
+				syncClient = new CollectionSyncClient(DomainID, new TimerCallback( TimerFired ) );
+				syncClient.SyncNow();
+				log.Debug("SetPassPhrase Domain sync end");
 			}
 			catch(Exception ex)
 			{
 				log.Debug("SetPassPhrase : {0}", ex.Message);
 				throw ex;
 			}
+		}
+
+		///call back for sync
+		public void TimerFired( object collectionClient )
+		{
+
 		}
 
 		public bool DefaultAccount(string iFolderID)
@@ -749,7 +724,6 @@ namespace Simias.Storage
 				log.Debug("SetPassPhrase : {0}", ex.Message);
 				return false;
 			}
-			return false;
 		}
 
 		public string GetDefaultiFolder()
@@ -777,7 +751,6 @@ namespace Simias.Storage
 				log.Debug("SetPassPhrase : {0}", ex.Message);
 				return null;
 			}
-			return null;
 		}
 
 		/// <summary>
@@ -789,6 +762,9 @@ namespace Simias.Storage
 				return false;
 			try
 			{	
+				if(RAPublicKey != null && RAPublicKey != "" && RAName != null && RAName != "")
+					KeyCorrection(ref RAName, ref RAPublicKey);				
+				
 				Store store = Store.GetStore();
 				string DomainID = this.GetDomainID(store);
 				string UserID = store.GetUserIDFromDomainID(DomainID);
@@ -850,6 +826,11 @@ namespace Simias.Storage
 					}
 					index++;
 				}
+
+				log.Debug("ReSetPassPhrase Domain sync begin");
+				syncClient = new CollectionSyncClient(DomainID, new TimerCallback( TimerFired ) );
+				syncClient.SyncNow();
+				log.Debug("ReSetPassPhrase Domain sync end");
 			}
 			catch(Exception ex)
 			{
@@ -857,6 +838,38 @@ namespace Simias.Storage
 				throw ex;
 			}
 			return true;
+		}
+
+		/// <summary>
+		/// KeyCorrection
+		/// </summary>
+		public void KeyCorrection(ref string RAName, ref string RAPublicKey)
+		{
+
+			if(RAPublicKey != null && RAPublicKey != "" && RAName != null && RAName != "")
+			{
+				byte [] key = Convert.FromBase64String(RAPublicKey);
+				if(key.Length > 64 && key.Length < 128) //remove the 5 byte header and 5 byte trailer
+				{
+					byte[] NewKey = new byte[key.Length-10];
+					Array.Copy(key, 5, NewKey, 0, key.Length-10);
+					RAPublicKey = Convert.ToBase64String(NewKey);
+				}
+				else if(key.Length > 128 && key.Length < 256) //remove the 7 byte header and 5 byte trailer
+				{
+					byte[] NewKey = new byte[key.Length-12];
+					Array.Copy(key, 7, NewKey, 0, key.Length-12);
+					RAPublicKey = Convert.ToBase64String(NewKey);
+				}					
+				else if(key.Length > 256) //remove the 9 byte header and 5 byte trailer
+				{
+					byte[] NewKey = new byte[key.Length-14];
+					Array.Copy(key, 9, NewKey, 0, key.Length-14);
+					RAPublicKey = Convert.ToBase64String(NewKey);
+				}					
+				else
+					throw new SimiasException("Recovery key size not suported");
+			}
 		}
 
 		
@@ -875,9 +888,6 @@ namespace Simias.Storage
 				string UserID = store.GetUserIDFromDomainID(DomainID);
 				HostNode host = this.HomeServer; //home server
 
-				Simias.Storage.Domain domain = store.GetDomain(DomainID);
-				Simias.Storage.Member member = domain.GetCurrentMember();
-				
 				SimiasConnection smConn = new SimiasConnection(DomainID,
 															UserID,
 															SimiasConnection.AuthType.BASIC,
