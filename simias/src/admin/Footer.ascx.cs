@@ -68,7 +68,7 @@ namespace Novell.iFolderWeb.Admin
 		/// <summary>
 		/// IChain cookie name
 		/// </summary>
-		private readonly static string IChainCookieName = "IPCZQ0";
+		private readonly static string[] IChainCookieName = {"IPCZQX0","IPCZQ0"};
 
 		#endregion
 
@@ -85,13 +85,13 @@ namespace Novell.iFolderWeb.Admin
 		private void Logout( string type, string message )
 		{
 		        string logoutRedirectURL = String.Format("Login.aspx?Message={0}&MessageText={1}", Context.Server.UrlEncode( type ), Context.Server.UrlEncode(message));
-
 			for (int i=0; i< Request.Cookies.Count; i++)
 			{
-			        if (Request.Cookies[i].Name.StartsWith (IChainCookieName)) 
+			        if (Request.Cookies[i].Name.StartsWith (IChainCookieName[0]) || Request.Cookies[i].Name.StartsWith (IChainCookieName[1]) ) 
 				{
-				        logoutRedirectURL = "ICLogout.aspx" ;
-					Response.Redirect(logoutRedirectURL);
+				        string logoutURL =  Environment.GetEnvironmentVariable("LogoutUrl" );
+					if(logoutURL != null && logoutURL != String.Empty )
+				        	logoutRedirectURL =  Environment.GetEnvironmentVariable("LogoutUrl" );
 					break;
 				}
 			}

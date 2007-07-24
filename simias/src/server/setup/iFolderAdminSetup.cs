@@ -82,6 +82,11 @@ namespace Novell.iFolderApp.Web
 		public Option simiasUrl = new Option("simias-url", "iFolder URL", "The host or ip address of the iFolder server that will be used by the iFolder Web Admin application", true, "http://localhost");
 
 		/// <summary>
+		/// Simias iChain logout URL
+		/// </summary>
+		public Option logoutUrl = new Option("logout-url", "Logout URL", "Special Logout URLs for iChain / AccessGateway", true, "");
+
+		/// <summary>
 		/// Require SSL
 		/// </summary>
 		public Option requireSsl = new BoolOption("require-ssl", "Require SSL", "Require a secure connection between the browsers and the iFolder Web Admin application", false, true);
@@ -253,6 +258,9 @@ namespace Novell.iFolderApp.Web
 			newUri.Host = uri.Host;
 			requireServerSsl.DefaultValue = secure.ToString();
 
+			// Logout URL
+			Prompt.ForOption(logoutUrl);
+
 			//Require Server SSL
 			Prompt.ForOption(requireServerSsl);
 			newUri.Scheme = bool.Parse(requireServerSsl.Value) ? Uri.UriSchemeHttps : Uri.UriSchemeHttp;
@@ -350,6 +358,10 @@ namespace Novell.iFolderApp.Web
 				writer.WriteLine();
 				writer.WriteLine("Alias /{0} \"{1}\"", alias, webPath);
 				writer.WriteLine("AddMonoApplications {0} \"/{0}:{1}\"", alias, webPath);
+
+				if (logoutUrl.Value != String.Empty || logoutUrl.Value.Trim () != "" )
+				    writer.WriteLine("MonoSetEnv {1} LogoutUrl={0}",logoutUrl.Value, alias);
+
 				writer.WriteLine("<Location /{0} >", alias);
 				writer.WriteLine("\tMonoSetServerAlias {0}", alias);
 				writer.WriteLine("\tOrder allow,deny");
