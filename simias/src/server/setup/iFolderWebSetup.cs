@@ -85,7 +85,7 @@ namespace Novell.iFolderApp.Web
                 /// <summary>
                 /// Simias iChain logout URL
                 /// </summary>
-                public Option logoutUrl = new Option("logout-url", "Logout URL", "Special Logout URLs for iChain / AccessGateway", true, "");
+                public Option logoutUrl = new Option("logout-url", "Redirect URL", "Redirect URL for iChain / AccessGateway", true, "");
 
 		/// <summary>
 		/// Require SSL
