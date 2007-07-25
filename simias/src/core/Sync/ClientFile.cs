@@ -954,7 +954,7 @@ namespace Simias.Sync
 			//If not available in server and encrypted file
 			if (serverHashMap == null || serverHashMap.Length == 0 || IsEncryptionEnabled() == true)
 			{
-				Log.log.Debug("Full file download");
+				Log.log.Debug("Full file Upload");
 				
 				if(serverHashMap == null)
 					Log.log.Debug("serverHashMap is null");

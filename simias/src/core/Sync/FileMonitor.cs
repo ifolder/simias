@@ -242,6 +242,32 @@ namespace Simias.Sync
 			}
 			collection.Commit((Node[])nodeList.ToArray(typeof(Node)));
 		}
+		public static void SetRenamePropertyForDirChildren(Collection collection, DirNode dn, string oldRelativePath)
+		{
+			string relativePath = dn.GetRelativePath();
+			// We need to rename all of the children nodes.
+			ArrayList nodeList = new ArrayList();
+
+			ICSList csnList = collection.Search(PropertyTags.FileSystemPath, oldRelativePath, SearchOp.Begins);
+			foreach (ShallowNode csn in csnList)
+			{
+				// Skip the dirnode.
+				if (csn.ID == dn.ID)
+					continue;
+	
+				Node childNode = collection.GetNodeByID(csn.ID);
+				if (childNode != null)
+				{
+					Property p = new Property(PropertyTags.ReNamed, true);
+					p.LocalProperty = true;
+					childNode.Properties.ModifyProperty(p); 
+					nodeList.Add(childNode);					
+				}
+				else
+					log.Debug("SetRenamePropertyForDirChildren  child node null");
+			}
+			collection.Commit((Node[])nodeList.ToArray(typeof(Node)));
+		}
 
 		bool ExecuteBitSet(string path)
 		{
@@ -362,7 +388,8 @@ namespace Simias.Sync
 			if (fi.Length != node.Length)
 				node.UpdateFileInfo(collection, newName);
 
-			//set the local rename property
+			//set the local rename property for dir children
+			//this local property will be checked and cleard in the  the sync method ploadFile()
 			Property p = new Property(PropertyTags.ReNamed, true);
 			p.LocalProperty = true;
 			node.Properties.ModifyProperty(p); 
@@ -385,10 +412,9 @@ namespace Simias.Sync
 			string oldRelativePath = node.Properties.GetSingleProperty(PropertyTags.FileSystemPath).ValueString;
 			node.Properties.ModifyNodeProperty(new Property(PropertyTags.FileSystemPath, Syntax.String, relativePath));
 
-			///set the local rename property
-			///Property p = new Property(PropertyTags.ReNamed, true);
-			///p.LocalProperty = true;
-			///node.Properties.ModifyProperty(p);
+			//set the local rename property for dir children
+			//this local property will be checked and cleard in the  the sync method ploadFile()
+			SetRenamePropertyForDirChildren(collection, node, oldRelativePath);
 			
 			// Commit the directory.
 			collection.Commit(node);
