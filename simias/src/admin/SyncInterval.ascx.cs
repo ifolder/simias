@@ -300,6 +300,10 @@ namespace Novell.iFolderWeb.Admin
 					{
 						throw new ArgumentException( GetString( "ERRORINVALIDSYNCINTERVAL" ) );
 					}
+					catch ( OverflowException )
+					{
+						throw new ArgumentException( GetString( "ERRORINVALIDSYNCINTERVAL" ) );
+					}
 				}
 				else
 				{
@@ -341,6 +345,10 @@ namespace Novell.iFolderWeb.Admin
 					{
 						throw new ArgumentException( GetString( "ERRORINVALIDSYNCINTERVAL" ) );
 					}
+					catch ( OverflowException )
+					{
+						throw new ArgumentException( GetString( "ERRORINVALIDSYNCINTERVAL" ) );
+					}
 				}
 				else
 				{
@@ -379,6 +387,10 @@ namespace Novell.iFolderWeb.Admin
 						}
 					}
 					catch ( FormatException )
+					{
+						throw new ArgumentException( GetString( "ERRORINVALIDSYNCINTERVAL" ) );
+					}
+					catch ( OverflowException )
 					{
 						throw new ArgumentException( GetString( "ERRORINVALIDSYNCINTERVAL" ) );
 					}

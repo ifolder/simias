@@ -273,6 +273,10 @@ namespace Novell.iFolderWeb.Admin
 					{
 						throw new ArgumentException( GetString( "ERRORINVALIDFILESIZE" ) );
 					}
+                                        catch ( OverflowException )
+                                        {
+                                                throw new ArgumentException( GetString( "ERRORINVALIDFILESIZE" ) );
+                                        }
 				}
 				else
 				{
@@ -314,6 +318,10 @@ namespace Novell.iFolderWeb.Admin
 					{
 						throw new ArgumentException( GetString( "ERRORINVALIDFILESIZE" ) );
 					}
+                                        catch ( OverflowException )
+                                        {
+                                                throw new ArgumentException( GetString( "ERRORINVALIDFILESIZE" ) );
+                                        }
 				}
 				else
 				{
@@ -355,6 +363,10 @@ namespace Novell.iFolderWeb.Admin
 					{
 						throw new ArgumentException( GetString( "ERRORINVALIDFILESIZE" ) );
 					}
+                                        catch ( OverflowException )
+                                        {
+                                                throw new ArgumentException( GetString( "ERRORINVALIDFILESIZE" ) );
+                                        }
 				}
 				else
 				{

@@ -336,6 +336,10 @@ namespace Novell.iFolderWeb.Admin
 					{
 						throw new ArgumentException( GetString( "ERRORINVALIDQUOTA" ) );
 					}
+                                        catch ( OverflowException )
+                                        {
+                                                throw new ArgumentException( GetString( "ERRORINVALIDQUOTA" ) );
+                                        }
 				}
 				else
 				{
@@ -377,6 +381,10 @@ namespace Novell.iFolderWeb.Admin
 					{
 						throw new ArgumentException( GetString( "ERRORINVALIDQUOTA" ) );
 					}
+                                        catch ( OverflowException )
+                                        {
+                                                throw new ArgumentException( GetString( "ERRORINVALIDQUOTA" ) );
+                                        }
 				}
 				else
 				{
@@ -418,6 +426,10 @@ namespace Novell.iFolderWeb.Admin
 					{
 						throw new ArgumentException( GetString( "ERRORINVALIDQUOTA" ) );
 					}
+                                        catch ( OverflowException )
+                                        {
+                                                throw new ArgumentException( GetString( "ERRORINVALIDQUOTA" ) );
+                                        }
 				}
 				else
 				{
