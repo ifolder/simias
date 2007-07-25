@@ -1086,7 +1086,7 @@ namespace Simias.IdentitySync
  			Domain domain = store.GetDomain ( store.DefaultDomain );
 
  			if( domain.Properties.GetSingleProperty( "IDSyncInterval" ) == null)
-			       SyncInterval = 900; //15 Mins Default Value. Save it in Domain.
+			       SyncInterval = 60 * 60 * 24; //24 Hrs Default Value. Save it in Domain.
  			else
  			       syncInterval = (int) domain.Properties.GetSingleProperty( "IDSyncInterval" ).Value;
 
