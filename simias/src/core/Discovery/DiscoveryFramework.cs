@@ -170,14 +170,43 @@ namespace Simias.Discovery
 			c.Commit((Node[]) commitList.ToArray(typeof(Node)));
 		}
 
+		private static HostNode GetHostNode(string domainID, string collectionID)
+		{
+			try
+			{
+				HostNode hNode = null;
+				CollectionInfo ci = GetCollectionInfo(collectionID);
+				if( ci != null)
+				{
+					string hostID = ci.HostID;
+					if (hostID != null)
+					{
+						Domain domain = Store.GetStore().GetDomain( domainID );
+						Member hMember = domain.GetMemberByID(hostID);
+						if (hMember != null)
+						{
+							log.Debug("Initializing hNode");
+							hNode = new HostNode(hMember);
+						}
+        	                        }
+				}
+				return hNode;
+			}
+			catch(Exception ex)
+			{
+				log.Error(ex.Message);
+				return null;
+			}
+		}
+
 		public static bool RemoveMembership(string domainID, string collectionID)
 		{
 			bool removed = false;
 			Domain domain = Store.GetStore().GetDomain( domainID );
 			Member member = domain.GetCurrentMember();
-//			CollectionInfo ci = GetCollectionInfo (collectionID);
-			HostNode hNode = member.HomeServer;
-
+			HostNode hNode = GetHostNode(domainID, collectionID);
+			if( hNode == null)
+				hNode = member.HomeServer;
 			try
 			{
 				DiscoveryService dService = new DiscoveryService();
@@ -197,8 +226,9 @@ namespace Simias.Discovery
                 {
 			log.Debug("Domain ID {0}, col ID {1}", domainID, collectionID);
                         Member member = Store.GetStore().GetDomain( domainID ).GetCurrentMember();
-			HostNode hNode = member.HomeServer;
-			log.Debug("Host ID {0}", member.HomeServer.UserID);
+			HostNode hNode = GetHostNode(domainID, collectionID);
+			if( hNode == null)
+				hNode = member.HomeServer;
                         try
                         {
                                 DiscoveryService dService = new DiscoveryService();
