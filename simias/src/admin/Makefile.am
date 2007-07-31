@@ -38,6 +38,7 @@ iFolderAdmin_CSFILES = \
 	$(srcdir)/TopNavigation.ascx.cs \
 	$(srcdir)/UserDetails.aspx.cs \
 	$(srcdir)/Users.aspx.cs \
+	$(srcdir)/AddDataPath.aspx.cs \
 	$(srcdir)/Utils.cs
 	
 iFolderAdmin_CSFILES_CSC := $(subst /,$(SEP),$(iFolderAdmin_CSFILES))
@@ -104,6 +105,7 @@ iFolderAdmin_FORMS = \
 	TopNavigation.ascx \
 	UserDetails.aspx \
 	Users.aspx \
+	AddDataPath.aspx \
 	Web.config
 
 EXTRA_DIST = AssemblyInfo.cs.in Log4Net.config.in $(iFolderAdmin_CSFILES) $(iFolderAdmin_FORMS) css images help $(iFolderAdmin_RESX) tail.txt

@@ -852,4 +852,34 @@
 	<data name="YES">
 		<value>Yes</value>
 	</data>
+	 <data name="DATASTORE">
+                <value>Data Store</value>
+        </data>
+        <data name="ADDDATASTORE">
+                <value>Add Data Store</value>
+        </data>
+        <data name="FULLPATH:">
+                <value>Full Path:</value>
+        </data>
+        <data name="NOOFIFOLDERS">
+                <value>No of iFolders</value>
+        </data>
+        <data name="FREESPACE">
+                <value>Free Space</value>
+        </data>
+        <data name="NAME:">
+                <value>Name:</value>
+        </data>
+        <data name="FULLPATH">
+                <value>Full Path</value>
+        </data>
+        <data name="VOLUMES">
+                <value>Volumes</value>
+        </data>
+        <data name="VOLUME">
+                <value>Volume</value>
+        </data>
+	<data name="NOTMOUNTED">
+		<value>Not Mounted</value>
+	</data>
 </root>

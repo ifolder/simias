@@ -149,6 +149,11 @@ namespace Simias.Storage
 		static public string DomainType = "DomainType";
 
 		/// <summary>
+                /// Well known property name.
+                /// </summary>
+                static public string DataPath= "DataPath";
+
+		/// <summary>
 		/// Well known property name.
 		/// </summary>
 		static public readonly string Family = "Family";

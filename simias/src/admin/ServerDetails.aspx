@@ -1,9 +1,10 @@
 <%@ Register TagPrefix="iFolder" TagName="TopNavigation" Src="TopNavigation.ascx" %>
+<%@ Register TagPrefix="iFolder" TagName="ListFooter" Src="ListFooter.ascx" %>
 <%@ Register TagPrefix="iFolder" TagName="Footer" Src="Footer.ascx" %>
 <%@ Page language="c#" Codebehind="ServerDetails.aspx.cs" AutoEventWireup="false" Inherits="Novell.iFolderWeb.Admin.ServerDetails" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" > 
 <html>
-
+	
 <head>
 
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -14,6 +15,7 @@
 	<style type="text/css">
 		@import url(css/iFolderAdmin.css);
 		@import url(css/ServerDetails.css);
+		@import url(css/DataPath.css);
 	</style>
 
 	<script language="javascript">
@@ -23,7 +25,7 @@
 			document.getElementById( "SaveButton" ).disabled = false;
 			document.getElementById( "CancelButton" ).disabled = false;
 		}
-
+	
 	</script>
 
 
@@ -414,15 +416,114 @@
 								    OnClick="OnSaveButton_Click"		    
 								    />
 						</td>
-					</tr>>
-
+					</tr>
+				</table>
 		</div>		
-	</div>
+		
+		<div class = "lognav" >
+
+                        <div class="pagetitle">
+
+                               <%= GetString("DATASTORE") %>
+
+                        </div>
+                </div>
+
+                <div class="datapathsnav">
+			
+	                <table class="datapathlistheader" cellpadding="0" cellspacing="0" border="0">
+
+                              <tr>
+        		              <td class="checkboxcolumn">
+                        		     <asp:CheckBox
+                                        	  ID="AllDataPathCheckBox"
+                                                  Runat="server"
+                                                  OnCheckedChanged="OnAllDataPathChecked"
+                                                  AutoPostBack="True"     />
+                                      </td>
 	
-<!-- 	<ifolder:Footer id="footer" runat="server" /> -->
-				
+                                      <td class="namecolumn">
+                                   	   <%= GetString( "NAME" ) %>
+                                      </td>
+
+                                      <td class="fullpathcolumn">
+                                            <%= GetString( "FULLPATH" ) %>
+                                      </td>
+
+                                      <td class="freespacecolumn">
+                                            <%= GetString( "FREESPACE" ) %>
+                                      </td>
+
+				      <td class="statuscolumn">
+					    <%= GetString( "ENABLED" ) %>	
+				      </td>	
+	                    </tr>
+
+        		</table>
+			<asp:datagrid
+				id="DataPaths"
+                                Runat="server"
+                                AutoGenerateColumns="False"
+                                CssClass="datapathlist"
+                                CellPadding="0"
+                                CellSpacing="0"
+                                PageSize="5"
+                                GridLines="None"
+                                ShowHeader="False"
+                                AlternatingItemStyle-CssClass="datapathlistaltitem"
+                                ItemStyle-CssClass="datapathlistitem">
+
+                                <Columns>
+					<asp:BoundColumn DataField="DisabledField" Visible="False" />
+					<asp:TemplateColumn ItemStyle-CssClass="datapathitem1">
+						<ItemTemplate>
+							<asp:CheckBox
+                                               		   	ID="DataPathCheckBox"
+		                                                Runat="server"
+                                                  		AutoPostBack="True"  
+								OnCheckedChanged="OnPathChecked"
+								Visible='<%# DataBinder.Eval( Container.DataItem, "VisibleField" ) %>'
+								Checked='<%# GetMemberCheckedState( DataBinder.Eval( Container.DataItem, "NameField" ) ) %>'
+								Enabled='<%# IsPathEnabled( DataBinder.Eval( Container.DataItem, "NameField" ) ) %>' /> 
+                                        	</ItemTemplate>
+					</asp:TemplateColumn>
+	                                <asp:BoundColumn ItemStyle-CssClass="datapathitem2" DataField="NameField"/>
+        	                        <asp:BoundColumn ItemStyle-CssClass="datapathitem3" DataField="FullPathField"/>
+                                        <asp:BoundColumn ItemStyle-CssClass="datapathitem4" DataField="FreeSpaceField"/>
+					<asp:BoundColumn ItemStyle-CssClass="datapathitem5" DataField="StatusField"/>
+
+                                </Columns>
+
+                                </asp:datagrid>
+                                <ifolder:ListFooter ID="DataPathsFooter" Runat="server"/>
+
+
+                        <div class = "nav">
+                                <asp:Button
+                                        ID="DisableButton"
+                                        Runat="server"
+                                        CssClass="ifolderbuttons"
+                                        Enabled="False"
+                                        OnClick="OnDisableButton_Click" />
+
+                                <asp:Button
+                                        ID="EnableButton"
+                                        Runat="server"
+                                        CssClass="ifolderbuttons"
+                                        Enabled="False"
+                                        OnClick="OnEnableButton_Click" />
+
+				<asp:Button
+                                        ID="AddButton"
+                                        Runat="server"
+                                        CssClass="ifolderbuttons"
+                                        OnClick="OnAddButton_Click" />
+                        </div>
+		</div>
+        </div>
+
 </form>
-	
+
 </body>
 
 </html>

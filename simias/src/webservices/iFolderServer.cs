@@ -583,5 +583,110 @@ namespace iFolder.WebService
 
 		}
 	}
+	/// <summary>
+        /// An Volume Result Set
+        /// </summary>
+        [Serializable]
+        public class VolumesList
+        {
+                /// <summary>
+                /// An Array of Volumes
+                /// </summary>
+                public Volumes[] ItemsArray;
 
+                /// <summary>
+                /// The Total Number of Volumes
+                /// </summary>
+                public int NumberOfVolumes;
+
+                /// <summary>
+                /// Default Constructor
+                /// </summary>
+                public VolumesList()
+                {
+                }
+
+                /// <summary>
+                /// Constructor
+                /// </summary>
+                /// <param name="items"></param>
+                /// <param name="total"></param>
+                public VolumesList( Volumes[] itemsarray, int numberofvolumes )
+                {
+                        this.ItemsArray = itemsarray;
+                        this.NumberOfVolumes = numberofvolumes;
+                }
+		
+
+        }
+	
+	/// <summary>
+        /// A DataPath for the server
+        /// </summary>
+        [Serializable]
+        public class Volumes 
+        {
+                /// <summary>
+                /// Name of the DataPath
+                /// </summary>
+                public string DataPath;
+
+                /// <summary>
+                /// Fullpath for the datapath
+                /// </summary>
+                public string FullPath;
+
+		/// <summary>
+                /// Fullpath for the datapath
+                /// </summary>
+                public long AvailableFreeSpace;
+
+		/// <summary>
+                ///Status of the datapath
+                /// </summary>
+                public bool Enabled;
+
+
+                /// <summary>
+                /// Default Constructor
+                /// </summary>
+                public Volumes()
+                {
+                }
+
+                /// <summary>
+                /// Constructor
+                /// </summary>
+                /// <param name="datastore"></param>
+                public Volumes(DataStore datastore)
+                {
+                        this.DataPath = datastore.DataPath;
+                        this.FullPath = datastore.FullPath;
+			this.AvailableFreeSpace = datastore.AvailableFreeSpace;
+			this.Enabled = datastore.Enabled;
+                }
+		
+		/// <summary>
+                /// Gets an array of datastore of an iFolder Server.
+                /// </summary>
+                /// <returns>Bool true on success.</returns>
+                public static VolumesList GetVolumes(int index, int max)
+                {
+			int ItemIndex = 0;
+                        DataStore[] datastore = DataStore.GetVolumes();
+                        ArrayList DataStoreList = new ArrayList();
+                        foreach(DataStore item in datastore)
+                        {
+				
+				if (( ItemIndex >= index ) && ItemIndex < (max + index))
+				{
+                                	DataStoreList.Add(new Volumes(item));
+				}
+				++ItemIndex;
+                        }
+                        return new VolumesList(DataStoreList.ToArray(typeof(Volumes)) as Volumes[], ItemIndex);
+                }
+	}
 }
+ 
+

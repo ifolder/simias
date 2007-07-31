@@ -1003,6 +1003,62 @@ namespace iFolder.WebService
 		}
 
 		/// <summary>
+                /// Add a data  path for an iFolder Server.
+                /// </summary>
+                /// <param name="DataPathname">The name of the data store.</param>
+                /// <param name="FullPath">The Full Path of the data store.</param>
+                /// <param name="ServerID">Server ID of the server</param>
+                /// <returns>Bool true on success.</returns>
+                [WebMethod(
+                         Description="Add a data store for an iFolder Server.",
+                         EnableSession=true)]
+                public virtual bool AddDataStore(string datapathname,string fullpath,string ServerID)
+                {
+			DataStore datastore = new DataStore(datapathname, fullpath, true);
+			return datastore.AddStore(ServerID);	
+                }
+
+
+		/// <summary>
+                /// Modify data store for an iFolder Server.
+                /// </summary>
+                /// <param name="name">The name of the data store.</param>
+                /// <returns>Bool true on success.</returns>
+                [WebMethod(
+                         Description="Modify a data store for an iFolder Server.",
+                         EnableSession=true)]
+                public virtual bool ModifyStore(string datapathname, bool enabled)
+                {
+                        DataStore datastore = new DataStore();
+                        return datastore.ModifyStore(datapathname,enabled);
+                }
+
+		/// <summary>
+                /// Gets an array of datastore of an iFolder Server.
+                /// </summary>
+                /// <returns>Bool true on success.</returns>
+                [WebMethod(
+                         Description="Gets an array data store for an iFolder Server.",
+                         EnableSession=true)]
+                public virtual VolumesList GetVolumes(int index, int max)
+                {
+			VolumesList result = null;
+
+                        try
+                        {
+                                Authorize();
+
+                                result = Volumes.GetVolumes(index,max);
+                        }
+                        catch(Exception e)
+                        {
+                                SmartException.Throw(e);
+                        }
+
+                        return result;
+                }
+
+		/// <summary>
 		/// Set LogLevel Information
 		/// </summary>
 		///

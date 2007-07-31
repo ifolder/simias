@@ -126,6 +126,46 @@ namespace iFolder.WebService
                          return base.IsOrphanediFolder ( iFolderID );
 		}
 
+		/// <summary>
+                /// Add a data store for an iFolder Server.
+                /// </summary>
+                /// <param name="DataPathname">The name of the data store.</param>
+		/// <param name="FullPath">The Full Path of the data store.</param>
+		/// <param name="serverID">Server ID of the server</param>
+                /// <returns>Bool true on success.</returns>
+                [WebMethod(
+                         Description="Add a data store for an iFolder Server.",
+                         EnableSession=true)]
+                public override bool AddDataStore(string datapathname,string fullpath,string ServerID)
+                {
+                        return base.AddDataStore(datapathname,fullpath,ServerID);
+                }
+	
+		/// <summary>
+                /// Modify data store for an iFolder Server.
+                /// </summary>
+                /// <param name="name">The name of the data store.</param>
+                /// <returns>Bool true on success.</returns>
+                [WebMethod(
+                         Description="Modify a data store for an iFolder Server.",
+                         EnableSession=true)]
+                public virtual bool ModifyDataStore(string datapathname, bool enabled)
+                {
+                        return base.ModifyStore( datapathname , enabled );
+                }
+
+
+		/// <summary>
+                /// Gets all the data store for an iFolder Server.
+                /// </summary>
+                /// <returns>An array of DataPaths.</returns>
+                [WebMethod(
+                         Description="Gets all the Data Store for an iFolder Server.",
+                         EnableSession=true)]
+                public override VolumesList GetVolumes(int index, int max)
+                {
+                        return base.GetVolumes(index,max);
+                }
 
 	        /// <summary>
 		/// Get the HomeServer for the specified user

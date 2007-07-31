@@ -57,10 +57,19 @@ namespace Novell.iFolderWeb.Admin
 	        private iFolderAdmin remoteweb;
 
 		/// <summary>
+                /// Control that checks or unchecks all of the ifolders in the current view.
+                /// </summary>
+                protected CheckBox AllDataPathCheckBox;
+		
+		/// <summary>
+                /// Web controls.
+                /// </summary>^M
+                protected DataGrid DataPaths;
+
+		/// <summary>
 		/// Resource Manager
 		/// </summary>
 		private ResourceManager rm;
-
 
 		/// <summary>
 		/// Top navigation panel control.
@@ -138,6 +147,21 @@ namespace Novell.iFolderWeb.Admin
 		/// Server maximum connection count control
 		/// </summary>
 		protected Literal MaxConnectionCount;
+
+                /// <summary>
+                /// Disable datapath  button control.
+                /// </summary>
+                protected Button DisableButton;
+
+                /// <summary>
+                /// Enable datapath button control.
+                /// </summary>
+                protected Button EnableButton;
+
+                /// <summary>
+                /// Create datapath button control.
+                /// </summary>
+                protected Button AddButton;
 
 		/// <summary>
 		/// LDAP Server name.
@@ -250,7 +274,14 @@ namespace Novell.iFolderWeb.Admin
 		/// </summary>
 		protected string redirectUrl;
 
+		/// <summary>
+                /// Web controls.
+                /// </summary>
+                protected ListFooter DataPathsFooter;
+
+
 		protected string currentServerURL;
+	
 		#endregion
 
 		#region Properties
@@ -262,6 +293,34 @@ namespace Novell.iFolderWeb.Admin
 		{
 			get { return Request.Params[ "ID" ]; } 
 		}
+
+		/// <summary>
+                /// Gets or sets the current datapath offset.
+                /// </summary>
+                private int CurrentPathOffset
+                {
+                        get { return ( int )ViewState[ "CurrentPathOffset" ]; }
+                        set { ViewState[ "CurrentPathOffset" ] = value; }
+                }
+
+		/// <summary>
+                /// Gets or sets the total number of users contained in
+                /// the last search.
+                /// </summary>
+                private int TotalPaths
+                {
+                        get { return ( int )ViewState[ "TotalPaths" ]; }
+                        set { ViewState[ "TotalPaths" ] = value; }
+                }
+
+		/// <summary>
+                /// Gets or sets the paths that are checked in the list.
+                /// </summary>
+                private Hashtable CheckedPaths
+                {
+                        get { return ViewState[ "CheckedPaths" ] as Hashtable; }
+                        set { ViewState[ "CheckedPaths" ] = value; }
+                }
 
 		#endregion
 
@@ -279,6 +338,16 @@ namespace Novell.iFolderWeb.Admin
 			TopNav.AddHelpLink(GetString("SERVERDETAILS"));
 		}
 
+		/// <summary>
+                /// Enables or disables the datapath action buttons.
+                /// </summary>
+                private void SetActionButtons()
+                {
+                        Hashtable ht = CheckedPaths;
+                        DisableButton.Enabled = ht.ContainsValue( true );
+                        EnableButton.Enabled = ht.ContainsValue( true );
+                }
+		
 		/// <summary>
 		/// Gets the list of files to display in the log file list.
 		/// </summary>
@@ -401,6 +470,26 @@ namespace Novell.iFolderWeb.Admin
 			return server.Name;
 		}
 
+		/// <summary>
+                /// Sets the enabled status on all selected paths.
+                /// </summary>
+                /// <param name="status">If true then all selected paths will be enabled.</param>
+                private void SetSelectedPathStatus( bool status )
+                {
+                        foreach( string name in CheckedPaths.Keys )
+                        {
+					web.ModifyDataStore( name , status);
+			}
+			// Clear the checked members.
+                        CheckedPaths.Clear();
+                        AllDataPathCheckBox.Checked = false;
+
+                        // Set the action buttons.
+                        SetActionButtons();
+			
+			// Rebind the data source with the new data.
+                        GetDataPaths();
+		}
 
 		/// <summary>
 		/// 
@@ -493,6 +582,14 @@ namespace Novell.iFolderWeb.Admin
 				LdapSslList.DataSource = options;
 				LdapSslList.DataBind();
 
+                                DisableButton.Text = GetString( "DISABLE" );
+                                EnableButton.Text = GetString("ENABLE");
+                                AddButton.Text = GetString( "ADD" );
+				AllDataPathCheckBox.Checked = false;
+				CheckedPaths = new Hashtable();
+				CurrentPathOffset = 0;
+				TotalPaths = 0;
+
  				//TODO : Future!
  			        //LoggedOnUsersCount.Visible = false;
  			        //SessionCount.Visible = false;
@@ -510,6 +607,111 @@ namespace Novell.iFolderWeb.Admin
 		}
 
 		/// <summary>
+                /// Gets the DataPaths.
+                /// </summary>
+                private void GetDataPaths()
+                {
+                        DataPaths.DataSource = CreateDataPathList();
+                        DataPaths.DataBind();
+			SetPageButtonState();
+                }
+
+		/// <summary>
+                /// Creates a list of DataPaths
+                /// </summary>
+                /// <returns>A DataView object containing the datapath list.</returns>
+                private DataView CreateDataPathList()
+                {
+                        DataTable dt = new DataTable();
+                        DataRow dr;
+
+	
+			dt.Columns.Add( new DataColumn( "VisibleField", typeof( bool ) ) );
+			dt.Columns.Add( new DataColumn( "DisabledField", typeof( string ) ) );
+                        dt.Columns.Add( new DataColumn( "NameField", typeof( string ) ) );
+                        dt.Columns.Add( new DataColumn( "FullPathField", typeof( string ) ) );
+                        dt.Columns.Add( new DataColumn( "FreeSpaceField", typeof( string ) ) );
+			dt.Columns.Add( new DataColumn( "StatusField", typeof( string ) ) );
+			
+			VolumesList volumelist = web.GetVolumes(CurrentPathOffset , DataPaths.PageSize);
+			foreach( Volumes mntpt in volumelist.ItemsArray )
+                       	{
+                                dr = dt.NewRow();
+				String result;
+                                dr[ 0 ] = true;
+				dr[ 1 ] = false;
+				dr[ 2 ] = mntpt.DataPath;
+                                dr[ 3 ] = mntpt.FullPath;
+				if( mntpt.AvailableFreeSpace  == 0 )
+				{
+					dr [ 4 ] = rm.GetString("NOTMOUNTED");
+				}
+				else
+				{
+					int MountPointCount = 0;
+					double FreeSpace = mntpt.AvailableFreeSpace;
+					while( FreeSpace > 1024 )
+					{
+						MountPointCount ++;
+						FreeSpace = FreeSpace / 1024 ;
+					}
+                                	result = FreeSpace.ToString();
+					int index = result.IndexOf(".");
+					result = result.Substring( 0 , index + 3 );
+					switch( MountPointCount )
+					{
+						case 1:
+							result = result + "Kb";
+							break;
+						case 2:
+							result = result + "Mb";
+							break;
+						case 3:
+							result = result + "Gb";
+                                        	        break;
+						case 4:
+							result = result + "Tb";
+                	                                break;
+					}
+					dr[ 4 ] = result;
+				}
+				dr[ 5 ] = GetString( mntpt.Enabled ? "YES" : "NO" );
+                                dt.Rows.Add( dr );
+
+                        }
+			
+	
+                        for ( int RowCount = dt.Rows.Count; RowCount < DataPaths.PageSize; ++RowCount )
+                        {
+                                dr = dt.NewRow();
+                                dr[ 0 ] = false;
+                                dr[ 1 ] = false;
+                                dr[ 2 ] = String.Empty;
+                                dr[ 3 ] = String.Empty;
+				dr[ 4 ] = String.Empty;
+				dr[ 5 ] = String.Empty;
+
+                                dt.Rows.Add( dr );
+                        }
+
+			TotalPaths = volumelist.NumberOfVolumes;
+			return new DataView( dt );
+                }
+
+		/// <summary>
+                /// Sets the page button state of the Accounts list.
+                /// </summary>
+                private void SetPageButtonState()
+                {
+                        DataPathsFooter.SetPageButtonState(
+                                DataPaths,
+                                CurrentPathOffset,
+                                TotalPaths,
+                                GetString( "VOLUMES" ),
+                                GetString( "VOLUME" ) );
+                }
+
+		/// <summary>
 		/// Page_PreRender
 		/// </summary>
 		/// <param name="sender"></param>
@@ -523,6 +725,7 @@ namespace Novell.iFolderWeb.Admin
 			GetReportList();
 			GetLogList();
 			GetLdapDetails ();
+			GetDataPaths();
 
 			//TODO : future!
 			//GetTailData();
@@ -531,6 +734,56 @@ namespace Novell.iFolderWeb.Admin
 		#endregion
 
 		#region Protected Methods
+
+		/// <summary>
+                /// Event handler that gets called when the path check box is checked.
+                /// </summary>
+                /// <param name="source"></param>
+                /// <param name="e"></param>
+                protected void OnPathChecked( object source, EventArgs e )
+                {
+                        // Get the data grid row for this member.
+                        CheckBox checkBox = source as CheckBox;
+                        DataGridItem item = checkBox.Parent.Parent as DataGridItem;
+                        string name = item.Cells[ 2 ].Text;
+                        if ( name != "&nbsp;" )
+                        {
+                                // User is being added.
+                                if ( checkBox.Checked )
+                                {
+                                        CheckedPaths[ name ] = item.Cells[ 0 ].Text == Boolean.FalseString;
+                                }
+                                else
+                                {
+                                        // Remove this ifolder from the list.
+                                        CheckedPaths.Remove( name );
+                                }
+                        }
+
+                        // Set the user action buttons.
+                        SetActionButtons(); 
+                }
+
+
+		/// <summary>
+                /// Returns the checked state for the specified member.
+                /// </summary>
+                /// <param name="name">name of the datapath</param>
+                /// <returns>True if datapath is checked.</returns>
+                protected bool GetMemberCheckedState( Object name )
+                {
+                        return CheckedPaths.ContainsKey( name ) ? true : false;
+                }
+
+		/// <summary>
+                /// Gets whether the path should be able to be checked.
+                /// </summary>
+                /// <param name="path"></param>
+                /// <returns>True if the path is allowed to be checked.</returns>
+                protected bool IsPathEnabled( object name )
+                {
+                        return true;
+                }
 
 		/// </summary>
 		/// <param name="sender"></param>
@@ -652,6 +905,143 @@ namespace Novell.iFolderWeb.Admin
 		}
 
 		/// <summary>
+                /// Event handler that gets called when the check all Datapath checkbox is selected.
+                /// </summary>
+                /// <param name="source"></param>
+                /// <param name="e"></param>
+                protected void OnAllDataPathChecked( object source, EventArgs e )
+                {
+			CheckBox checkBox = source as CheckBox;
+                        foreach( DataGridItem item in DataPaths.Items )
+                        {
+                                // In order to be checked, the row must not be empty.
+                                string name = item.Cells[ 2 ].Text;
+
+                                if ( name != "&nbsp;" )
+                                {
+                                        if ( checkBox.Checked )
+                                        {
+                                                CheckedPaths[ name ] = item.Cells[ 0 ].Text == Boolean.FalseString;
+                                        }
+                                        else
+                                        {
+                                                // Remove this user from the list.
+                                                CheckedPaths.Remove( name );
+                                        }
+                                }
+                        }
+
+                        // Set the action buttons appropriately.
+                        SetActionButtons();
+
+                        // Rebind the data source with the new data.
+			GetDataPaths();
+		}
+
+		/// <summary>
+                /// Event handler that gets called when the Add DataPath button is clicked.
+                /// </summary>
+                /// <param name="source"></param>
+                /// <param name="e"></param>
+                protected void OnAddButton_Click( object source, EventArgs e )
+                {
+			string serverName = GetServerDetails();
+			Response.Redirect(String.Format("AddDataPath.aspx?ServerID={0}&serverName={1}",ServerID,serverName));
+                }
+
+		/// <summary>
+                /// Event handler that gets called with the disable datapath button is clicked.
+                /// </summary>
+                /// <param name="source"></param>
+                /// <param name="e"></param>
+                protected void OnDisableButton_Click( object source, EventArgs e )
+                {
+			 SetSelectedPathStatus( false );
+                }
+
+                /// <summary>
+                /// Event handler that gets called with the enable datapath button is clicked.
+                /// </summary>
+                /// <param name="source"></param>
+                /// <param name="e"></param>
+                protected void OnEnableButton_Click( object source, EventArgs e )
+                {
+			SetSelectedPathStatus( true );
+                }
+
+		/// <summary>
+                /// Event that first when the PageFirstButton is clicked.
+                /// </summary>
+                /// <param name="source"></param>
+                /// <param name="e"></param>
+                protected void PageFirstButton_Click( object source, ImageClickEventArgs e)
+                {
+                        // Set to get the first users.
+                        CurrentPathOffset = 0;
+
+                        // Rebind the data source with the new data.
+                        DataPaths.DataSource = CreateDataPathList();
+                        DataPaths.DataBind();
+                        // Set the button state.
+                       SetPageButtonState();;
+               }
+
+                /// <summary>
+                /// Event that first when the PagePreviousButton is clicked.
+                /// </summary>
+                /// <param name="source"></param>
+                /// <param name="e"></param>
+                protected void PagePreviousButton_Click( object source, ImageClickEventArgs e)
+               {
+                       CurrentPathOffset -= DataPaths.PageSize;
+                        if ( CurrentPathOffset < 0 )
+                        {
+                                CurrentPathOffset = 0;
+                        }
+
+                        // Rebind the data source with the new data.
+                        DataPaths.DataSource = CreateDataPathList();
+                        DataPaths.DataBind();
+
+                        // Set the button state.
+                        SetPageButtonState();;
+                }
+
+                /// <summary>
+                /// Event that first when the PageNextButton is clicked.
+                /// </summary>
+        	/// <param name="source"></param>
+                /// <param name="e"></param>
+		protected void PageNextButton_Click( object source, ImageClickEventArgs e)
+                {
+                        CurrentPathOffset += DataPaths.PageSize; 
+
+                        // Rebind the data source with the new data.
+                        DataPaths.DataSource = CreateDataPathList();
+                        DataPaths.DataBind();
+
+                        // Set the button state.
+                        SetPageButtonState();;
+                }
+
+                /// <summary>
+                /// Event that first when the PageLastButton is clicked.
+                /// </summary>
+                /// <param name="source"></param>
+                /// <param name="e"></param>
+                protected void PageLastButton_Click( object source, ImageClickEventArgs e)
+                {
+                        CurrentPathOffset = ( ( TotalPaths - 1 ) / DataPaths.PageSize ) * DataPaths.PageSize;
+
+                        // Rebind the data source with the new data.
+                        DataPaths.DataSource = CreateDataPathList();
+                        DataPaths.DataBind();
+
+                        // Set the button state.
+                        SetPageButtonState();;
+                }
+
+		/// <summary>
 		/// Event handler that gets called when the ViewReport Button is clicked.
 		/// </summary>
 		/// <param name="sender"></param>
@@ -725,6 +1115,11 @@ namespace Novell.iFolderWeb.Admin
 				// Set the render event to happen only on page load.
 				Page.PreRender += new EventHandler( Page_PreRender );
 			}
+
+			DataPathsFooter.PageFirstClick += new ImageClickEventHandler( PageFirstButton_Click );
+                        DataPathsFooter.PagePreviousClick += new ImageClickEventHandler( PagePreviousButton_Click );
+                        DataPathsFooter.PageNextClick += new ImageClickEventHandler( PageNextButton_Click );
+                        DataPathsFooter.PageLastClick += new ImageClickEventHandler( PageLastButton_Click );
 
 			this.Load += new System.EventHandler(this.Page_Load);
 			this.Unload += new System.EventHandler (this.Page_Unload);
