@@ -567,7 +567,9 @@ namespace Simias.Server
 
 				try
 				{
+					log.Debug("Catlog sync started......");
 					syncClient.SyncNow();
+					log.Debug("Catlog sync end...........");
 				}
 				catch {}
 
@@ -821,12 +823,14 @@ namespace Simias.Server
                 /// </summary>
                 static public void DeleteEntryByCollectionID( string CollectionID )
                 {
+			log.Debug("DeleteEntryByCollectionID entry");
 			Collection c = store.GetCollectionByID(CollectionID);
                         CatalogEntry entry = GetEntryByCollectionID(CollectionID);
 			if(entry != null)
 			{
 				catalog.Commit(catalog.Delete(entry));
 				c.Commit(c.Delete());
+				log.Debug("DeleteEntryByCollectionID exit");
 			}
 
                         return ;

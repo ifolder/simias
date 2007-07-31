@@ -1241,6 +1241,7 @@ namespace Simias.Web
 		public static void DeleteSharedCollection(string CollectionID, string accessID)
 		{
 			Store store = Store.GetStore();
+			log.Debug("DeleteSharedCollection called {0}");
 			log.Debug("Delete called {0}", CollectionID);
 			Collection collection = store.GetCollectionByID(CollectionID);
 			if(collection != null)

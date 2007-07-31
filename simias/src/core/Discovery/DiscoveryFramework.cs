@@ -231,6 +231,8 @@ namespace Simias.Discovery
 				hNode = member.HomeServer;
                         try
                         {
+					log.Debug("DeleteCollectionInCatalog called from client");
+
                                 DiscoveryService dService = new DiscoveryService();
                                 SimiasConnection smConn = new SimiasConnection(domainID, member.UserID, SimiasConnection.AuthType.BASIC, hNode);
                                 smConn.InitializeWebClient(dService, "DiscoveryService.asmx");

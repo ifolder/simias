@@ -1767,6 +1767,7 @@ namespace Simias.Sync
 								try
 								{
 									collection.Commit(collection.Delete(node));
+									log.Info("Commit the node delete in server");
 								}
 								catch
 								{

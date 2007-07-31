@@ -247,6 +247,7 @@ namespace Novell.iFolderWeb.Admin
 			if( status == (int)Encryption.Encrypt)
 			{
 				encryption.Checked = true;	 
+				encryption.Enabled = false;
 				enforceEncryption.Enabled = true;
 				status = securityStatus & (int) Encryption.EnforceEncrypt;
 				if( status == (int)Encryption.EnforceEncrypt )
