@@ -413,6 +413,19 @@ namespace iFolder.WebService
 		}
 
 		/// <summary>
+		/// check whether passphrase is set for a particular user.
+		/// </summary>
+		/// <param name="userID">The id of the user.</param>
+		/// <returns>A Bool value.</returns>
+		[WebMethod(
+			 Description="Get PassPhrase set status",
+			 EnableSession=true)]
+		public override bool IsPassPhraseSetForUser(string userID)
+		{
+			return base.IsPassPhraseSetForUser(userID);
+		}
+
+		/// <summary>
 		/// Get information about all of the iFolder users.
 		/// </summary>
 		/// <param name="index">The starting index for the search results.</param>

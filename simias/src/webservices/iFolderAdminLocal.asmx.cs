@@ -516,6 +516,31 @@ namespace iFolder.WebService
 			return status;
 		}
 
+		/// <summary>
+		/// return whether passphrase is set for that user.
+		/// </summary>
+		/// <param name="userID">The id of the user.</param>
+		[WebMethod(
+			 Description="check whether passphrase is set.",
+			 EnableSession=true)]
+		public virtual bool IsPassPhraseSetForUser(string userID)
+		{
+			bool PassPhraseSet = false;
+			try
+			{
+				Authorize();
+				Store store = Store.GetStore();
+				Domain domain = store.GetDomain(store.DefaultDomain);
+				PassPhraseSet = iFolderUser.IsPassPhraseSet(domain.ID, userID);
+			}
+			catch(Exception e)
+			{
+				SmartException.Throw(e);
+			}
+
+			return PassPhraseSet;
+		}
+
 		#endregion
 
 		#region System

@@ -222,6 +222,14 @@ namespace Novell.iFolderWeb.Admin
 			return rm.GetString( key );
 		}
 
+		/// <summary>
+		/// If true then PolicyID is a user ID.
+		/// </summary>
+		private bool IsUser
+		{
+			get { return Request.Path.EndsWith( "UserDetails.aspx" ); }
+		}
+
 		#endregion
 
 		#region Public Methods
@@ -246,7 +254,9 @@ namespace Novell.iFolderWeb.Admin
 			int status = securityStatus & (int) Encryption.Encrypt;
 			if( status == (int)Encryption.Encrypt)
 			{
-				encryption.Checked = true;	 
+				encryption.Checked = true;
+				/// next line for bug id 296014 , where if the encryption check box is enabled (irrespective of enforce checkbox) once on system level, it should be disabled.
+				encryption.Enabled = false;
 				encryption.Enabled = false;
 				enforceEncryption.Enabled = true;
 				status = securityStatus & (int) Encryption.EnforceEncrypt;
@@ -306,6 +316,13 @@ namespace Novell.iFolderWeb.Admin
                     	enforceEncryption.Checked = false;
                      	enforceEncryption.Enabled = true;
                     }
+                    // next check for bug id 296014 , where if this user has created an encrypted iFolder then disable the encryption check box for him. 
+                    if(IsUser)
+                    {
+                    	
+                    	if(web.IsPassPhraseSetForUser(Request.Params["ID"]))
+                    		encryption.Enabled = false;
+                    }	
 				}
 				else if((DerivedStatus & (int) Encryption.EnforceSSL) == (int) Encryption.EnforceSSL)
 				{
