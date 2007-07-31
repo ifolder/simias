@@ -68,8 +68,6 @@ namespace iFolder.WebService
 		/// </summary>
 		public string[] FileTypesExcludes;
 
-		public bool grey;
-
 		/// <summary>
 		/// Constructor
 		/// </summary>
