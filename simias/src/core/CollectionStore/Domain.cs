@@ -147,6 +147,14 @@ namespace Simias.Storage
 			Property p = new Property( PropertyTags.DomainType, configType );
 			p.LocalProperty = true;
 			properties.AddNodeProperty( p );
+			
+			// When sync the policy node (always sync is initiated from slave) is syned from master to slave
+			// the master is overwritten to slave, the slave changes will be lost
+			// when there is no change in master, the slave changes will be synced to master
+			// This is to ensure that the master policy over rides the slave policy.			
+			// Ideally we should have a master policy which is read only in slave and
+			// slave specific policy which should not be synced to master.			
+			CollisionPolicy = CollisionPolicy.ServerWins;
 		}
 
 		/// <summary>
