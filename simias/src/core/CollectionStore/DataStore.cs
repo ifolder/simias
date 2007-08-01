@@ -19,7 +19,7 @@
  *  Author: Ravi Kumar M <rkumar1@novell.com>
  *
  ***********************************************************************/
-#if mono
+#if MONO
 using System;
 using System.Collections;
 using System.IO;

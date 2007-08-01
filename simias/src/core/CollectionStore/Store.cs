@@ -743,7 +743,7 @@ namespace Simias.Storage
                         }
                         else
                         {
-				#if mono
+				#if MONO 
 				{
 	                                int LowerIndex=0,HigherIndex=0;
         	                        DataStore v = new DataStore();
