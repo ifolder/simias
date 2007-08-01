@@ -1476,6 +1476,28 @@ log.Debug("SimiasWebService.ConnectToDomain() called to connect to {0} as {1}", 
 			}
 			return KeyHash;
 		}
+		
+		///<summary>
+		///Get the ifolder crypto key hash 
+		///</summary>
+		///<returns>passPhrase.</returns>
+		[WebMethod(EnableSession=true, Description="GetCollectionHashKey.")]
+		[SoapDocumentMethod]	
+		public  string ServerGetCollectionHashKey(string CollectionID)
+		{
+			log.Debug("ServerGetCollectionHashKey called");
+			string hash = null;
+			try
+			{
+				Store store = Store.GetStore();							
+				hash = store.GetCollectionCryptoKeyHash(CollectionID);
+			}
+			catch(Exception ex)
+			{
+				log.Debug("ServerGetCollectionHashKey: {0}", ex.Message);
+			}
+			return hash;
+		}
 
 		///<summary>
 		///Set the ifolder crypto keys

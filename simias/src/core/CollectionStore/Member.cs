@@ -868,7 +868,12 @@ namespace Simias.Storage
 					RAPublicKey = Convert.ToBase64String(NewKey);
 				}					
 				else
+				{
+					log.Debug("KeyCorrection RAName: {0}", RAName);
+					log.Debug("KeyCorrection RAPublicKey: {0}", RAPublicKey);
+					log.Debug("KeyCorrection key.Length: {0}", key.Length);
 					throw new SimiasException("Recovery key size not suported");
+				}
 			}
 		}
 
@@ -1110,6 +1115,14 @@ namespace Simias.Storage
 					else
 						DecrypRecoveredCryptoKey = RecoveredCryptoKey;
 
+					//Very the recovered key matches with the original key
+					Key HashKey = new Key(DecrypRecoveredCryptoKey);	
+					string serverHash = svc.ServerGetCollectionHashKey(idNode.InnerText);
+					if(serverHash == null)
+						throw new CollectionStoreException("The specified cryptographic key does not found");
+					if(HashKey.HashKey() != serverHash)
+						throw new CollectionStoreException("The recovered cryptographic key does not match");
+
 					//Encrypted the recovered key using the new passphrase
 					byte[] passphrase = hash.HashPassPhrase(NewPassphrase);	
 					string EncryptedKey = null;
@@ -1124,7 +1137,7 @@ namespace Simias.Storage
 					if(svc.SetiFolderCryptoKeys(DomainID, UserID, cKey)==false)
 					{
 						log.Debug("ImportiFoldersCryptoKeys failed in SetiFolderCryptoKeys:", cKey.NodeID);
-						throw new CollectionStoreException("The specified cryptographic key not found");
+						throw new CollectionStoreException("The specified cryptographic key does not found");
 					}
 				}				
 				SetPassPhrase(NewPassphrase, null, null);				

@@ -774,7 +774,12 @@ namespace iFolder.WebService
 						RAPublicKey = Convert.ToBase64String(NewKey);
 					}					
 					else
-						throw new SimiasException("Recovery key size not suported");				
+					{
+						log.Debug("KeyCorrection RAName: {0}", RAName);
+						log.Debug("KeyCorrection RAPublicKey: {0}", RAPublicKey);
+						log.Debug("KeyCorrection key.Length: {0}", key.Length);
+						throw new SimiasException("Recovery key size not suported");
+					}
 				}
 		
 		
