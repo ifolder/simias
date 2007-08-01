@@ -1490,7 +1490,7 @@ log.Debug("SimiasWebService.ConnectToDomain() called to connect to {0} as {1}", 
 			try
 			{
 				Store store = Store.GetStore();							
-				//hash = store.GetCollectionCryptoKeyHash(CollectionID);
+				hash = store.GetCollectionCryptoKeyHash(CollectionID);
 			}
 			catch(Exception ex)
 			{

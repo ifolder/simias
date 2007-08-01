@@ -1116,13 +1116,13 @@ namespace Simias.Storage
 						DecrypRecoveredCryptoKey = RecoveredCryptoKey;
 
 					//Very the recovered key matches with the original key
-					/*Key HashKey = new Key(DecrypRecoveredCryptoKey);	
+					Key HashKey = new Key(DecrypRecoveredCryptoKey);	
 					string serverHash = svc.ServerGetCollectionHashKey(idNode.InnerText);
 					if(serverHash == null)
 						throw new CollectionStoreException("The specified cryptographic key does not found");
 					if(HashKey.HashKey() != serverHash)
 						throw new CollectionStoreException("The recovered cryptographic key does not match");
-					*/
+					
 					//Encrypted the recovered key using the new passphrase
 					byte[] passphrase = hash.HashPassPhrase(NewPassphrase);	
 					string EncryptedKey = null;

@@ -955,6 +955,13 @@
       <xs:element name="Status" nillable="true" type="s0:Status"/>
       <xs:element name="boolean" type="xs:boolean"/>
       <xs:element name="int" type="xs:int"/>
+	 <xs:element name="base64Binary" nillable="true" type="xs:base64Binary"/>
+      <xs:element name="ArrayOfString" nillable="true" type="s0:ArrayOfString"/>
+      <xs:element name="CollectionKey" nillable="true" type="s0:CollectionKey"/>
+    </xs:schema>
+    <xs:schema xmlns:tns="http://novell.com/simias/web/AbstractTypes" targetNamespace="http://novell.com/simias/web/AbstractTypes" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+	
       <xs:simpleType name="CredentialType">
         <xs:restriction base="xs:string">
           <xs:enumeration value="None"/>
@@ -963,9 +970,6 @@
           <xs:enumeration value="PPK"/>
         </xs:restriction>
       </xs:simpleType>
-      <xs:element name="base64Binary" nillable="true" type="xs:base64Binary"/>
-      <xs:element name="ArrayOfString" nillable="true" type="s0:ArrayOfString"/>
-      <xs:element name="CollectionKey" nillable="true" type="s0:CollectionKey"/>
     </xs:schema>
   </types>
   <message name="PingSimiasSoapIn">

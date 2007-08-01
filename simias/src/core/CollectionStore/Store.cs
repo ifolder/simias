@@ -1053,6 +1053,16 @@ namespace Simias.Storage
 			}
 			return cKey;
 		}
+
+		/// <summary>
+                /// Get the encryption key hash of the collection (for ifolder)
+                /// </summary>
+                public string GetCollectionCryptoKeyHash(string collectionID)
+                {
+                        Collection c = GetCollectionByID(collectionID);
+                        return c.EncryptionBlob;
+                }
+
 		public bool SetCollectionCryptoKeysByOwner( string userID, string domainID, CollectionKey cKey)
 		{
 			userID = userID.ToLower();
