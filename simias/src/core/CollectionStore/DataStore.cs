@@ -19,6 +19,7 @@
  *  Author: Ravi Kumar M <rkumar1@novell.com>
  *
  ***********************************************************************/
+#if mono
 using System;
 using System.Collections;
 using System.IO;
@@ -239,5 +240,4 @@ namespace Simias.Storage
        	}
 		
 }
-
-		
+#endif
