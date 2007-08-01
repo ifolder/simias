@@ -110,7 +110,7 @@
     <value>Érvénytelen lemezkvóta van megadva. Az értéknek 1 és 2e+063 - 1 között kell lennie.</value>
   </data>
   <data name="WHEN">
-    <value>Időpont</value>
+    <value>Feltétel</value>
   </data>
   <data name="LOGINSECUREFAILED">
     <value>Nem lehet biztonságosan kommunikálni az iFolder kiszolgálóval.</value>
@@ -131,7 +131,7 @@
     <value>Nap:</value>
   </data>
   <data name="WEEKLY">
-    <value>Heti</value>
+    <value>Hetenként</value>
   </data>
   <data name="MONTHLY">
     <value>Havi</value>
@@ -152,13 +152,13 @@
     <value>Előző lap</value>
   </data>
   <data name="NO">
-    <value>Nem</value>
+    <value>Nincs</value>
   </data>
   <data name="ERRORCANNOTADDMEMBER">
-    <value>{0} tagot nem lehet hozzáadni a(z) {1} iFolder mappához.</value>
+    <value>{0} tagot nem sikerült hozzáadni a(z) {1} iFolder mappához.</value>
   </data>
   <data name="IFOLDERDETAILS">
-    <value>iFolder mappa adatai</value>
+    <value>Az iFolder adatai</value>
   </data>
   <data name="ACCESSLOGFILE">
     <value>Felhasználói hozzáférés</value>
@@ -167,19 +167,19 @@
     <value>Letiltás</value>
   </data>
   <data name="LIMITTAG">
-    <value>Korlát:</value>
+    <value>Korlátozás:</value>
   </data>
   <data name="OUTPUT">
     <value>Kimenet</value>
   </data>
   <data name="NOTAVAILABLE">
-    <value>Nem használható</value>
+    <value>Nem érhető el</value>
   </data>
   <data name="FILETYPEALREADYEXISTS">
-    <value>A listában már szerepel fájl a megadott néven.</value>
+    <value>A megadott név már szerepel a listában.</value>
   </data>
   <data name="GENERATEDAILYREPORT">
-    <value>Jelentés készítése minden nap, időpont: {0}, hely: {1}</value>
+    <value>Jelentés készítése mindennap, időpont: {0}, hely: {1}</value>
   </data>
   <data name="LOGINERROR">
     <value>Hiba:</value>
@@ -194,7 +194,7 @@
     <value>Szinkronizálás</value>
   </data>
   <data name="ERRORCANNOTSETDESCRIPTION">
-    <value>Nem lehet beállítani az iFolder mappa leírását.</value>
+    <value>Nem sikerült az iFolder mappa leírásának beállítása.</value>
   </data>
   <data name="ATTAG">
     <value>Időpont:</value>
@@ -221,7 +221,7 @@
     <value>Nyelv:</value>
   </data>
   <data name="ERRORMEMBERDOESNOTEXIST">
-    <value>Az iFolder tag nem létezik.</value>
+    <value>Nem létező iFolder tag.</value>
   </data>
   <data name="REPORTDIRECTORY">
     <value>Jelentési könyvtár</value>
@@ -245,7 +245,7 @@
     <value>iFolder</value>
   </data>
   <data name="READONLY">
-    <value>Csak olvasható</value>
+    <value>Csak olvasás</value>
   </data>
   <data name="ASSIGNADMINISTRATORS">
     <value>Rendszergazdák hozzárendelése</value>
@@ -287,7 +287,7 @@
     <value>Jelentéskészítés konfigurálása</value>
   </data>
   <data name="ERRORCANNOTSETIFOLDERPOLICY">
-    <value>A(z) {0} azonosítójú iFolder házirendadatait nem lehet beállítani.</value>
+    <value>Nem sikerült beállítani a(z) {0} azonosítójú iFolder mappa házirendinformációit.</value>
   </data>
   <data name="REPORTIFOLDERTAG">
     <value>iFolder:</value>
@@ -311,7 +311,7 @@
     <value>Összesen: </value>
   </data>
   <data name="ERRORCANNOTSETIFOLDERSTATUS">
-    <value>Nem lehet beállítani az iFolder mappa szinkronizálási állapotát.</value>
+    <value>Nem sikerült beállítani az iFolder mappa szinkronizációs állapotát.</value>
   </data>
   <data name="TYPETAG">
     <value>Típus:</value>
@@ -326,7 +326,7 @@
     <value>Módosítva:</value>
   </data>
   <data name="HOME">
-    <value>Alapkönyvtár</value>
+    <value>Kezdőlap</value>
   </data>
   <data name="SESSIONCLOSED">
     <value>A munkamenet bezárult. Jelentkezzen be.</value>
@@ -335,7 +335,7 @@
     <value>Felhasználók:</value>
   </data>
   <data name="ERRORIFOLDERDOESNOTEXIST">
-    <value>Nem létező iFolder mappa.</value>
+    <value>Nem létező iFolder.</value>
   </data>
   <data name="EXCLUDEDFILES">
     <value>Kizárt fájlok</value>
@@ -344,7 +344,7 @@
     <value>Engedélyezve</value>
   </data>
   <data name="ERRORCANNOTDELETEIFOLDER">
-    <value>Az iFolder mappa nem törölhető.</value>
+    <value>Nem sikerült törölni az iFolder mappát.</value>
   </data>
   <data name="STATUS">
     <value>Állapot</value>
@@ -386,16 +386,16 @@
     <value>Új fájltípus</value>
   </data>
   <data name="ERRORCANNOTREMOVEADMIN">
-    <value>{0} felhasználó nem távolítható el a rendszergazdák közül.</value>
+    <value>{0} felhasználó nem távolítható el rendszergazdaként.</value>
   </data>
   <data name="PUBLICIPTAG">
     <value>Nyilvános IP-cím:</value>
   </data>
   <data name="CREATENEWIFOLDER">
-    <value>Új iFolder mappa létrehozása</value>
+    <value>Új iFolder létrehozása</value>
   </data>
   <data name="MESSAGEINFORMATION">
-    <value>Adatlap:</value>
+    <value>Információ:</value>
   </data>
   <data name="DENY">
     <value>Elutasítás</value>
@@ -404,13 +404,13 @@
     <value>Kiszolgáló állapota</value>
   </data>
   <data name="GENERATEWEEKLYREPORT">
-    <value>Jelentés létrehozása: minden {0}, időpont: {1}, hely: {2}</value>
+    <value>Jelentés készítése – nap: {0}, időpont: {1}, hely: {2}</value>
   </data>
   <data name="FIRST">
     <value>Első</value>
   </data>
   <data name="ERRORNOQUOTA">
-    <value>Nincs megadva érték a lemezkvótához.</value>
+    <value>Nincs megadva lemezkvóta.</value>
   </data>
   <data name="INTERVALTAG">
     <value>Időköz:</value>
@@ -419,13 +419,13 @@
     <value>Ki</value>
   </data>
   <data name="LOGINREDIRECT">
-    <value>Frissíteni kell az iFolder kiszolgáló URL-címét.</value>
+    <value>Frissíteni kell az iFolder kiszolgáló URL-jét.</value>
   </data>
   <data name="TITLE">
     <value>iFolder rendszergazda</value>
   </data>
   <data name="READWRITE">
-    <value>Olvasás/írás</value>
+    <value>Olvasás és írás</value>
   </data>
   <data name="ADMIN">
     <value>Rendszergazda</value>
@@ -440,13 +440,13 @@
     <value>Engedélyezés</value>
   </data>
   <data name="ERRORCANNOTCHANGERIGHTS">
-    <value>{0} felhasználható tagsági jogait nem lehet módosítani.</value>
+    <value>{0} felhasználó tagsági jogait nem sikerült módosítani.</value>
   </data>
   <data name="LOGINCONNECTFAILED">
-    <value>Nem lehet kapcsolódni az iFolder kiszolgálóhoz.</value>
+    <value>Nem sikerült kapcsolódni az iFolder kiszolgálóhoz.</value>
   </data>
   <data name="ERRORLOCKEXCEPTION">
-    <value>A művelet leállt, mert a rendszergazda zárolta/letiltotta az iFolder mappát.</value>
+    <value>A művelet megszakadt, mivel a rendszergazda zárolta/letiltotta az iFolder mappát.</value>
   </data>
   <data name="ADMINISTRATOR">
     <value>Rendszergazda</value>
@@ -476,22 +476,22 @@
     <value>Magán IP-cím:</value>
   </data>
   <data name="ERRORCANNOTADDADMIN">
-    <value>{0} tag nem vehető fel rendszergazdaként.</value>
+    <value>{0} tagot nem sikerült felvenni rendszergazdaként.</value>
   </data>
   <data name="ERRORCANNOTCHANGEOWNER">
-    <value>Az iFolder mappa tulajdonosa nem módosítható.</value>
+    <value>Nem sikerült az iFolder tulajdonosának módosítása.</value>
   </data>
   <data name="SELECTIFOLDEROWNER">
-    <value>Válasszon tulajdonost a(z) "{0}" iFolder mappa számára</value>
+    <value>Válasszon tulajdonost a(z)"{0}" iFolder számára</value>
   </data>
   <data name="NEXTPAGE">
     <value>Következő lap</value>
   </data>
-  <data name="TOTALIFOLDERSTAG">
-    <value>Összesen iFolder mappa:</value>
+  <data name="ADD">
+    <value>Hozzáadás</value>
   </data>
   <data name="LAST">
-    <value>Legutóbbi</value>
+    <value>Utolsó</value>
   </data>
   <data name="PORTUGUESE-BRAZIL">
     <value>portugál (brazíliai)</value>
@@ -506,7 +506,7 @@
     <value>Igaz</value>
   </data>
   <data name="INFO">
-    <value>Adatlap</value>
+    <value>Információ</value>
   </data>
   <data name="PUBLICURI">
     <value>Nyilvános IP-cím</value>
@@ -515,10 +515,10 @@
     <value>Engedélyeznie kell a böngészőben a parancsfájlok használatát.</value>
   </data>
   <data name="GENERATEMONTHLYREPORT">
-    <value>Jelentés létrehozása minden hónap {0}. napján, időpont: {1}, hely: {2}</value>
+    <value>Jelentés készítése minden hónap {0}. napján, időpont: {1}, hely: {2}</value>
   </data>
   <data name="LOGINLOGOUT">
-    <value>Kijelentkezett az iFolder használatából.</value>
+    <value>Kijelentkezett az iFolder szolgáltatásból.</value>
   </data>
   <data name="EFFECTIVETAG">
     <value>Érvényesség:</value>
@@ -527,7 +527,7 @@
     <value>Jelszó:</value>
   </data>
   <data name="LASTLOGINTIMETAG">
-    <value>Legutóbbi bejelentkezés időpontja:</value>
+    <value>Legutóbbi bejelentkezés ideje:</value>
   </data>
   <data name="REPORTDIRECTORYTAG">
     <value>könyvtár:</value>
@@ -539,7 +539,7 @@
     <value>Kiszolgálói jelentések</value>
   </data>
   <data name="NEXT">
-    <value>Tovább</value>
+    <value>Következő</value>
   </data>
   <data name="OWNED">
     <value>Tulajdonos</value>
@@ -569,7 +569,7 @@
     <value>Keresés</value>
   </data>
   <data name="ERRORTYPE">
-    <value>Váratlan hiba</value>
+    <value>Nem kezelt hiba</value>
   </data>
   <data name="FIRSTNAME">
     <value>Utónév</value>
@@ -578,7 +578,7 @@
     <value>Létrehozás</value>
   </data>
   <data name="ERRORCANNOTCREATEUSER">
-    <value>Nem lehet létrehozni a felhasználót.</value>
+    <value>Nem sikerült létrehozni a felhasználót.</value>
   </data>
   <data name="LDAPCONTEXTTAG">
     <value>Ldap-környezet:</value>
@@ -596,13 +596,16 @@
     <value>Szöveg, CSV</value>
   </data>
   <data name="SELECTUSERS">
-    <value>Felhasználók kiválasztása</value>
+    <value>Felhasználók kijelölése</value>
   </data>
   <data name="SELECTEDUSERS">
-    <value>A kijelölt felhasználók</value>
+    <value>Kijelölt felhasználók</value>
+  </data>
+  <data name="TOTALIFOLDERSTAG">
+    <value>iFolder mappák összesen:</value>
   </data>
   <data name="UNKNOWNERROR">
-    <value>Ismeretlen hiba történt. Nincs megadva kivétel.</value>
+    <value>Ismeretlen hiba történt. Nincs megadott kivétel.</value>
   </data>
   <data name="SET">
     <value>Beállítás</value>
@@ -644,10 +647,10 @@
     <value>Nincs megadva fájlméret-korlátozás.</value>
   </data>
   <data name="LOGLEVELTAG">
-    <value>Naplózási szint</value>
+    <value>Naplózás szintje</value>
   </data>
   <data name="ERRORCANNOTCREATEIFOLDER">
-    <value>Nem lehet létrehozni az iFolder mappát.</value>
+    <value>Nem sikerült az iFolder mappa létrehozása.</value>
   </data>
   <data name="LOGINNOCOOKIES">
     <value>Engedélyeznie kell a böngészőben a cookie-k használatát.</value>
@@ -662,7 +665,10 @@
     <value>Tulajdonos</value>
   </data>
   <data name="ERRORACCESSEXCEPTION">
-    <value>A kérés végrehajtásához nem rendelkezik a szükséges jogosultságokkal.</value>
+    <value>Nem rendelkezik megfelelő jogokkal a kérés végrehajtásához.</value>
+  </data>
+  <data name="SYNCNOW">
+    <value>Azonnali szinkronizálás</value>
   </data>
   <data name="NAMETAG">
     <value>Név:</value>
@@ -677,19 +683,19 @@
     <value>Vezetéknév:</value>
   </data>
   <data name="AVAILABLETAG">
-    <value>Szabad:</value>
+    <value>Használható:</value>
   </data>
   <data name="BEGINSWITH">
     <value>kezdete</value>
   </data>
   <data name="LOGGEDINAS">
-    <value>Bejelentkezett felhasználó:</value>
+    <value>Be van jelentkezve mint</value>
   </data>
   <data name="JAPANESE">
     <value>japán</value>
   </data>
   <data name="NEWIFOLDERNAMETAG">
-    <value>iFolder mappa neve:</value>
+    <value>iFolder neve:</value>
   </data>
   <data name="DESCRIPTIONTAG">
     <value>Leírás:</value>
@@ -704,10 +710,10 @@
     <value>így végződik</value>
   </data>
   <data name="DISKSPACEAVAILABLETAG">
-    <value>Rendelkezésre álló lemezterület:</value>
+    <value>Rendelkezésre álló terület:</value>
   </data>
   <data name="ERRORCANNOTSETSYSTEMPOLICY">
-    <value>Nem lehet beállítani a rendszerházirend adatait.</value>
+    <value>Nem sikerült beállítani a rendszer házirendadatait.</value>
   </data>
   <data name="MINUTES">
     <value>perc</value>
@@ -734,7 +740,7 @@
     <value>&lt;p&gt;Az iFolder Web Access váratlan hibát tapasztalt.&lt;/p&gt; &lt;p&gt;Elnézést az esetleges kényelmetlenségért, legyen szíves, jelentkezzen ki, és próbálja meg újra.&lt;/p&gt;</value>
   </data>
   <data name="NEWIFOLDERDESCRIPTIONTAG">
-    <value>iFolder mappa leírása:</value>
+    <value>iFolder leírása:</value>
   </data>
   <data name="CHINESE-TRADITIONAL">
     <value>kínai (hagyományos)</value>
@@ -758,7 +764,7 @@
     <value>olasz</value>
   </data>
   <data name="ERRORAUTHENTICATIONFAILED">
-    <value>Sikertelen hitelesítés.</value>
+    <value>A hitelesítés sikertelen volt.</value>
   </data>
   <data name="ENABLEREPORTING">
     <value>Jelentéskészítés engedélyezése</value>
@@ -773,7 +779,7 @@
     <value>Teljes név</value>
   </data>
   <data name="PASSWORDSDONOTMATCH">
-    <value>A jelszavak nem egyeznek meg.</value>
+    <value>A jelszavak nem egyeznek.</value>
   </data>
   <data name="PATHTAG">
     <value>Elérési út:</value>
@@ -800,16 +806,16 @@
     <value>Fájlok</value>
   </data>
   <data name="RETYPEPASSWORDTAG">
-    <value>Írja be újra a jelszót:</value>
+    <value>Jelszó ismételt beírása:</value>
   </data>
   <data name="ERRORCANNOTDELETEUSER">
-    <value>A(z) {0} felhasználói azonosító nem törölhető.</value>
+    <value>A(z) {0} felhasználói azonosítót nem sikerült törölni.</value>
   </data>
   <data name="USERDETAILS">
     <value>Felhasználó adatai</value>
   </data>
-  <data name="ADD">
-    <value>Hozzáadás</value>
+  <data name="IDENTITYSYNCTAG">
+    <value>Identitás szinkronizálása</value>
   </data>
   <data name="IFOLDERADMINS">
     <value>iFolder rendszergazdák</value>
@@ -818,13 +824,13 @@
     <value>A megadott iFolder felhasználó nem létezik.</value>
   </data>
   <data name="VIEW">
-    <value>Megtekintés</value>
+    <value>Nézet</value>
   </data>
   <data name="USEDTAG">
     <value>Használatban:</value>
   </data>
   <data name="REPORTIFOLDER">
-    <value>iFolder jelentéskészítése</value>
+    <value>iFolder jelentése</value>
   </data>
   <data name="WEBACCESSLOGFILE">
     <value>Webes hozzáférés</value>
@@ -833,7 +839,7 @@
     <value>Érvénytelen szinkronizálási időköz van megadva. Az értéknek 5 és 2e+031 - 1 között kell lennie.</value>
   </data>
   <data name="IFOLDERUSERS">
-    <value>iFolder-felhasználók</value>
+    <value>iFolder felhasználók</value>
   </data>
   <data name="LOGGEDONUSERSTAG">
     <value>Bejelentkezett felhasználók:</value>
@@ -848,7 +854,7 @@
     <value>Időköz:</value>
   </data>
   <data name="ERRORCANNOTDELETEMEMBERS">
-    <value>{0} iFolder-tag nem törölhető.</value>
+    <value>{0} iFolder tag nem törölhető.</value>
   </data>
   <data name="SYSTEM">
     <value>Rendszer</value>
@@ -857,7 +863,7 @@
     <value>Rendszergazdák</value>
   </data>
   <data name="ERRORCANNOTSETUSERPOLICY">
-    <value>A(z) {0} felhasználói azonosítóhoz nem lehet beállítani a házirendadatokat.</value>
+    <value>A(z) {0} felhasználói azonosítóhoz nem sikerült beállítani a házirend adatait.</value>
   </data>
   <data name="SYSTEMSETTINGS">
     <value>Rendszerbeállítások</value>

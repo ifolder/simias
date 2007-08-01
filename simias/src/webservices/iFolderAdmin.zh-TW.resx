@@ -107,10 +107,10 @@
     <value>記錄</value>
   </data>
   <data name="ERRORINVALIDQUOTA">
-    <value>指定的磁碟空間配額值無效。值必須介於 1 和 2e+063 - 1 之間。</value>
+    <value>指定了無效的磁碟空間配額值。該值必須介於 1 與 2e+063 - 1 之間。</value>
   </data>
   <data name="WHEN">
-    <value>時機</value>
+    <value>當</value>
   </data>
   <data name="LOGINSECUREFAILED">
     <value>無法安全地與 iFolder 伺服器通訊。</value>
@@ -155,7 +155,7 @@
     <value>否</value>
   </data>
   <data name="ERRORCANNOTADDMEMBER">
-    <value>無法將成員 {0} 新增至 iFolder {1}。</value>
+    <value>無法新增成員 {0} 至 iFolder {1}。</value>
   </data>
   <data name="IFOLDERDETAILS">
     <value>iFolder 詳細資料</value>
@@ -164,7 +164,7 @@
     <value>使用者存取</value>
   </data>
   <data name="DISABLE">
-    <value>停用</value>
+    <value>關閉</value>
   </data>
   <data name="LIMITTAG">
     <value>限制：</value>
@@ -176,16 +176,16 @@
     <value>無法使用</value>
   </data>
   <data name="FILETYPEALREADYEXISTS">
-    <value>指定的檔案名稱已在清單中。</value>
+    <value>指定的檔案名稱已經存在於清單中。</value>
   </data>
   <data name="GENERATEDAILYREPORT">
-    <value>每天在 {0} 時產生報告至 {1}</value>
+    <value>每天在 {0} 產生報告至 {1}</value>
   </data>
   <data name="LOGINERROR">
     <value>錯誤：</value>
   </data>
   <data name="ERRORINVALIDFILESIZE">
-    <value>指定的檔案大小限制值無效。值必須介於 1 和 2e+063 - 1 之間。</value>
+    <value>指定了無效的檔案大小限制值。該值必須介於 1 與 2e+063 - 1 之間。</value>
   </data>
   <data name="DNSNAME">
     <value>DNS 名稱</value>
@@ -197,7 +197,7 @@
     <value>無法設定 iFolder 描述。</value>
   </data>
   <data name="ATTAG">
-    <value>於：</value>
+    <value>在：</value>
   </data>
   <data name="ADDADMINS">
     <value>新增管理員</value>
@@ -221,7 +221,7 @@
     <value>語言：</value>
   </data>
   <data name="ERRORMEMBERDOESNOTEXIST">
-    <value>iFolder 成員不存在。</value>
+    <value>此 iFolder 成員不存在。</value>
   </data>
   <data name="REPORTDIRECTORY">
     <value>報告目錄</value>
@@ -284,16 +284,16 @@
     <value>葡萄牙語</value>
   </data>
   <data name="CONFIGUREREPORTING">
-    <value>設定報告</value>
+    <value>設定報告的組態</value>
   </data>
   <data name="ERRORCANNOTSETIFOLDERPOLICY">
-    <value>無法設定 iFolder ID {0} 的規則資訊。</value>
+    <value>無法為 iFolder ID {0} 設定規則資訊。</value>
   </data>
   <data name="REPORTIFOLDERTAG">
     <value>iFolder：</value>
   </data>
   <data name="NOITEMSFOUND">
-    <value>找不到項目。</value>
+    <value>找不到任何項目。</value>
   </data>
   <data name="LASTMODIFIED">
     <value>上次修改</value>
@@ -320,16 +320,16 @@
     <value>頻率</value>
   </data>
   <data name="LOGINACCOUNTLOCKED">
-    <value>您的帳戶目前已鎖定，無法使用。</value>
+    <value>您的帳戶目前已經鎖定，無法使用。</value>
   </data>
   <data name="MODIFIEDTAG">
     <value>已修改：</value>
   </data>
   <data name="HOME">
-    <value>首頁</value>
+    <value>主目錄</value>
   </data>
   <data name="SESSIONCLOSED">
-    <value>您的會期已關閉。請登入。</value>
+    <value>您的會期已經關閉。請登入。</value>
   </data>
   <data name="USERSTAG">
     <value>使用者：</value>
@@ -338,10 +338,10 @@
     <value>iFolder 不存在。</value>
   </data>
   <data name="EXCLUDEDFILES">
-    <value>排除的檔案</value>
+    <value>已排除的檔案</value>
   </data>
   <data name="ENABLED">
-    <value>已啟用</value>
+    <value>開啟</value>
   </data>
   <data name="ERRORCANNOTDELETEIFOLDER">
     <value>無法刪除 iFolder。</value>
@@ -359,7 +359,7 @@
     <value>iFolder</value>
   </data>
   <data name="UNLIMITED">
-    <value>未限制</value>
+    <value>沒有限制的</value>
   </data>
   <data name="SERVERLOGS">
     <value>伺服器記錄</value>
@@ -368,7 +368,7 @@
     <value>DNS 名稱：</value>
   </data>
   <data name="USERLOGINDISABLED">
-    <value>停用使用者登入</value>
+    <value>關閉使用者登入</value>
   </data>
   <data name="DISKSPACEUSEDTAG">
     <value>已用的磁碟空間：</value>
@@ -377,22 +377,22 @@
     <value>使用者總數：</value>
   </data>
   <data name="IFOLDERDISABLED">
-    <value>停用同步化</value>
+    <value>關閉同步化</value>
   </data>
   <data name="FRENCH">
     <value>法語</value>
   </data>
   <data name="NEWFILETYPE">
-    <value>新檔案類型</value>
+    <value>新的檔案類型</value>
   </data>
   <data name="ERRORCANNOTREMOVEADMIN">
-    <value>無法以管理員身分移除使用者 {0}。</value>
+    <value>無法將使用者 {0} 當做管理員來移除。</value>
   </data>
   <data name="PUBLICIPTAG">
     <value>公用 IP 位址：</value>
   </data>
   <data name="CREATENEWIFOLDER">
-    <value>建立新 iFolder</value>
+    <value>建立新的 iFolder</value>
   </data>
   <data name="MESSAGEINFORMATION">
     <value>資訊：</value>
@@ -404,13 +404,13 @@
     <value>伺服器狀態</value>
   </data>
   <data name="GENERATEWEEKLYREPORT">
-    <value>每隔 {0} 在 {1} 產生報告至 {2}</value>
+    <value>每 {0} 在 {1} 產生報告至 {2}</value>
   </data>
   <data name="FIRST">
     <value>第一</value>
   </data>
   <data name="ERRORNOQUOTA">
-    <value>未指定磁碟空間配額值。</value>
+    <value>未指定任何磁碟空間配額值。</value>
   </data>
   <data name="INTERVALTAG">
     <value>間隔：</value>
@@ -419,7 +419,7 @@
     <value>關閉</value>
   </data>
   <data name="LOGINREDIRECT">
-    <value>iFolder 伺服器 URL 需要更新。</value>
+    <value>「iFolder 伺服器 URL」需要更新。</value>
   </data>
   <data name="TITLE">
     <value>iFolder 管理員</value>
@@ -428,7 +428,7 @@
     <value>讀取/寫入</value>
   </data>
   <data name="ADMIN">
-    <value>管理</value>
+    <value>管理員</value>
   </data>
   <data name="ACCOUNT">
     <value>帳戶</value>
@@ -437,22 +437,22 @@
     <value>使用者名稱</value>
   </data>
   <data name="ENABLE">
-    <value>啟用</value>
+    <value>開啟</value>
   </data>
   <data name="ERRORCANNOTCHANGERIGHTS">
     <value>無法變更使用者 {0} 的成員資格權限。</value>
   </data>
   <data name="LOGINCONNECTFAILED">
-    <value>無法連接 iFolder 伺服器。</value>
+    <value>無法連接至 iFolder 伺服器。</value>
   </data>
   <data name="ERRORLOCKEXCEPTION">
-    <value>因為管理員已鎖定/停用 iFolder，所以已取消操作。</value>
+    <value>此操作已取消，因為 iFolder 已遭到管理員鎖定/關閉。</value>
   </data>
   <data name="ADMINISTRATOR">
     <value>管理員</value>
   </data>
   <data name="RUSSIAN">
-    <value>俄羅斯語</value>
+    <value>俄語</value>
   </data>
   <data name="REMOVEMEMBERS">
     <value>移除使用者</value>
@@ -467,7 +467,7 @@
     <value>伺服器</value>
   </data>
   <data name="ENABLEDTAG">
-    <value>已啟用：</value>
+    <value>開啟：</value>
   </data>
   <data name="LOGINFAILED">
     <value>失敗：</value>
@@ -476,10 +476,10 @@
     <value>私人 IP 位址：</value>
   </data>
   <data name="ERRORCANNOTADDADMIN">
-    <value>無法以管理員的身分新增成員 {0}。</value>
+    <value>無法將成員 {0} 新增為管理員。</value>
   </data>
   <data name="ERRORCANNOTCHANGEOWNER">
-    <value>無法變更 iFolder 擁有權。</value>
+    <value>無法變更 iFolder 所有權。</value>
   </data>
   <data name="SELECTIFOLDEROWNER">
     <value>選取 iFolder "{0}" 的擁有者</value>
@@ -487,8 +487,8 @@
   <data name="NEXTPAGE">
     <value>下一頁</value>
   </data>
-  <data name="TOTALIFOLDERSTAG">
-    <value>iFolder 總數：</value>
+  <data name="ADD">
+    <value>新增</value>
   </data>
   <data name="LAST">
     <value>最後</value>
@@ -515,10 +515,10 @@
     <value>您必須在瀏覽器中啟用指令碼。</value>
   </data>
   <data name="GENERATEMONTHLYREPORT">
-    <value>在每個月的第 {0} 天於 {1} 產生報告至 {2}</value>
+    <value>每月的第 {0} 天在 {1} 產生報告至 {2}</value>
   </data>
   <data name="LOGINLOGOUT">
-    <value>您現在已登出 iFolder。</value>
+    <value>您正在登出 iFolder。</value>
   </data>
   <data name="EFFECTIVETAG">
     <value>有效：</value>
@@ -539,13 +539,13 @@
     <value>伺服器報告</value>
   </data>
   <data name="NEXT">
-    <value>下一頁</value>
+    <value>下一步</value>
   </data>
   <data name="OWNED">
-    <value>擁有</value>
+    <value>擁有的</value>
   </data>
   <data name="MAXCONNECTIONSTAG">
-    <value>最大連線數：</value>
+    <value>最大連接數：</value>
   </data>
   <data name="CANCEL">
     <value>取消</value>
@@ -581,13 +581,13 @@
     <value>無法建立使用者。</value>
   </data>
   <data name="LDAPCONTEXTTAG">
-    <value>LDAP 內容：</value>
+    <value>LDAP 網路位置：</value>
   </data>
   <data name="SPANISH">
     <value>西班牙語</value>
   </data>
   <data name="LOGINCOPYRIGHT">
-    <value>&amp;copy; Copyright 2006 Novell, Inc. 版權所有。</value>
+    <value>&amp;copy; 版權 2006 Novell, Inc. 版權所有。</value>
   </data>
   <data name="DEBUG">
     <value>除錯</value>
@@ -599,10 +599,13 @@
     <value>選擇使用者</value>
   </data>
   <data name="SELECTEDUSERS">
-    <value>選取的使用者</value>
+    <value>選定使用者</value>
+  </data>
+  <data name="TOTALIFOLDERSTAG">
+    <value>iFolder 總數：</value>
   </data>
   <data name="UNKNOWNERROR">
-    <value>發生不明錯誤。未指定例外。</value>
+    <value>發生不明的錯誤。未指定任何例外。</value>
   </data>
   <data name="SET">
     <value>設定</value>
@@ -611,7 +614,7 @@
     <value>報告</value>
   </data>
   <data name="ADMINLOGFILE">
-    <value>網路管理員</value>
+    <value>Web 管理員</value>
   </data>
   <data name="CHINESE-SIMPLIFIED">
     <value>簡體中文</value>
@@ -629,10 +632,10 @@
     <value>名：</value>
   </data>
   <data name="LOGINUNAUTHORIZED">
-    <value>請重新輸入使用者名稱和密碼。</value>
+    <value>請重新輸入使用者名稱及密碼。</value>
   </data>
   <data name="INHEIRITEDPOLICY">
-    <value>(繼承規則)</value>
+    <value>(承襲的規則)</value>
   </data>
   <data name="LASTPAGE">
     <value>最後一頁</value>
@@ -641,7 +644,7 @@
     <value>包含</value>
   </data>
   <data name="ERRORNOFILESIZE">
-    <value>未指定檔案大小限制值。</value>
+    <value>未指定任何檔案大小限制值。</value>
   </data>
   <data name="LOGLEVELTAG">
     <value>記錄層級</value>
@@ -663,6 +666,9 @@
   </data>
   <data name="ERRORACCESSEXCEPTION">
     <value>您沒有足夠的權限，無法執行申請。</value>
+  </data>
+  <data name="SYNCNOW">
+    <value>立即同步化</value>
   </data>
   <data name="NAMETAG">
     <value>名稱：</value>
@@ -704,7 +710,7 @@
     <value>結束於</value>
   </data>
   <data name="DISKSPACEAVAILABLETAG">
-    <value>可用磁碟空間：</value>
+    <value>可用的磁碟空間：</value>
   </data>
   <data name="ERRORCANNOTSETSYSTEMPOLICY">
     <value>無法設定系統規則資訊。</value>
@@ -716,7 +722,7 @@
     <value>全部</value>
   </data>
   <data name="TYPE">
-    <value>輸入</value>
+    <value>類型</value>
   </data>
   <data name="STATUSTAG">
     <value>狀態：</value>
@@ -740,13 +746,13 @@
     <value>繁體中文</value>
   </data>
   <data name="ERRORUNKNOWNERROR">
-    <value>發生不明錯誤。</value>
+    <value>發生不明的錯誤。</value>
   </data>
   <data name="SYSTEMLOGFILE">
     <value>系統</value>
   </data>
   <data name="PAGENUMBERFORMAT">
-    <value>{0} - {2} {3} 的 {1}</value>
+    <value>{2} {3} 的 {0} - {1}</value>
   </data>
   <data name="ERRORNOSYNCINTERVAL">
     <value>未指定同步化間隔。</value>
@@ -761,7 +767,7 @@
     <value>驗證失敗。</value>
   </data>
   <data name="ENABLEREPORTING">
-    <value>啟用報告</value>
+    <value>開啟報告</value>
   </data>
   <data name="SESSIONSTAG">
     <value>會期：</value>
@@ -773,7 +779,7 @@
     <value>全名</value>
   </data>
   <data name="PASSWORDSDONOTMATCH">
-    <value>密碼不相同。</value>
+    <value>密碼不同。</value>
   </data>
   <data name="PATHTAG">
     <value>路徑：</value>
@@ -785,10 +791,10 @@
     <value>擁有者：</value>
   </data>
   <data name="ADDMEMBERSTOIFOLDER">
-    <value>新增其他成員至 iFolder "{0}"</value>
+    <value>新增其他成員至 iFolder「{0}」</value>
   </data>
   <data name="ALLFIELDSREQUIRED">
-    <value>所有欄位都必須填寫。</value>
+    <value>必須填入所有欄位。</value>
   </data>
   <data name="NAME">
     <value>名稱</value>
@@ -808,8 +814,8 @@
   <data name="USERDETAILS">
     <value>使用者詳細資料</value>
   </data>
-  <data name="ADD">
-    <value>新增</value>
+  <data name="IDENTITYSYNCTAG">
+    <value>身份同步化</value>
   </data>
   <data name="IFOLDERADMINS">
     <value>iFolder 管理員</value>
@@ -827,16 +833,16 @@
     <value>報告 iFolder</value>
   </data>
   <data name="WEBACCESSLOGFILE">
-    <value>網路存取</value>
+    <value>Web 存取</value>
   </data>
   <data name="ERRORINVALIDSYNCINTERVAL">
-    <value>指定的同步化間隔無效。值必須介於 5 和 2e+031 - 1 之間。</value>
+    <value>指定了無效的同步化間隔。該值必須介於 5 與 2e+031 - 1 之間。</value>
   </data>
   <data name="IFOLDERUSERS">
     <value>iFolder 使用者</value>
   </data>
   <data name="LOGGEDONUSERSTAG">
-    <value>登入使用者：</value>
+    <value>已登入的使用者：</value>
   </data>
   <data name="SIZE">
     <value>大小</value>
@@ -857,7 +863,7 @@
     <value>管理員</value>
   </data>
   <data name="ERRORCANNOTSETUSERPOLICY">
-    <value>無法設定使用者 ID {0} 的使用者規則資訊。</value>
+    <value>無法為使用者 ID {0} 設定使用者規則資訊。</value>
   </data>
   <data name="SYSTEMSETTINGS">
     <value>系統設定</value>
@@ -872,7 +878,7 @@
     <value>建立使用者</value>
   </data>
   <data name="IFOLDERISOWNEDBY">
-    <value>由 {0} 所擁有</value>
+    <value>擁有者：{0}</value>
   </data>
   <data name="SLAVE">
     <value>從屬</value>

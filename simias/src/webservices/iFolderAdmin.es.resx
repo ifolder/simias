@@ -110,7 +110,7 @@
     <value>Se ha especificado un valor de cuota de espacio no válido. El valor debe estar entre 1 y 2e+063 - 1.</value>
   </data>
   <data name="WHEN">
-    <value>When</value>
+    <value>Cuando</value>
   </data>
   <data name="LOGINSECUREFAILED">
     <value>No es posible comunicarse con el servidor iFolder de forma segura.</value>
@@ -122,7 +122,7 @@
     <value>Guardar</value>
   </data>
   <data name="EQUALS">
-    <value>Equivale a</value>
+    <value>Igual a</value>
   </data>
   <data name="SLOVAK">
     <value>Eslovaco</value>
@@ -155,7 +155,7 @@
     <value>No</value>
   </data>
   <data name="ERRORCANNOTADDMEMBER">
-    <value>No es posible añadir el componente {0} a iFolder {1}.</value>
+    <value>No es posible añadir el componente {0} a la carpeta de iFolder {1}.</value>
   </data>
   <data name="IFOLDERDETAILS">
     <value>Información de iFolder</value>
@@ -185,7 +185,7 @@
     <value>Error:</value>
   </data>
   <data name="ERRORINVALIDFILESIZE">
-    <value>Se ha especificado un valor de límite de tamaño no válido. El valor debe estar entre 1 and 2e+063 - 1.</value>
+    <value>Se ha especificado un valor de límite de tamaño no válido. El valor debe estar entre 1 y 2e+063 - 1.</value>
   </data>
   <data name="DNSNAME">
     <value>Nombre DNS</value>
@@ -239,7 +239,7 @@
     <value>Archivo</value>
   </data>
   <data name="LOGINLOSTSESSION">
-    <value>La sesión se ha cerrado. Vuelva a entrar a la sesión.</value>
+    <value>El usuario no es un administrador de iFolder.</value>
   </data>
   <data name="IFOLDER">
     <value>iFolder</value>
@@ -254,7 +254,7 @@
     <value>Advertir</value>
   </data>
   <data name="LDAPSTATUSTAG">
-    <value>Estado de LDAP:</value>
+    <value>Estado LDAP:</value>
   </data>
   <data name="PASSWORDTAG">
     <value>Contraseña:</value>
@@ -320,16 +320,16 @@
     <value>Frecuencia</value>
   </data>
   <data name="LOGINACCOUNTLOCKED">
-    <value>La cuenta está bloqueada y no está disponible.</value>
+    <value>La cuenta está bloqueada y no disponible en estos momentos.</value>
   </data>
   <data name="MODIFIEDTAG">
     <value>Modificado:</value>
   </data>
   <data name="HOME">
-    <value>Principal</value>
+    <value>Inicio</value>
   </data>
   <data name="SESSIONCLOSED">
-    <value>La sesión se ha cerrado. Vuelva a entrar a la sesión.</value>
+    <value>El usuario no es un administrador de iFolder.</value>
   </data>
   <data name="USERSTAG">
     <value>Usuarios:</value>
@@ -344,7 +344,7 @@
     <value>Habilitado</value>
   </data>
   <data name="ERRORCANNOTDELETEIFOLDER">
-    <value>No es posible suprimir iFolder.</value>
+    <value>No es posible suprimir la carpeta de iFolder.</value>
   </data>
   <data name="STATUS">
     <value>Estado</value>
@@ -482,13 +482,13 @@
     <value>No es posible cambiar la propiedad de iFolder.</value>
   </data>
   <data name="SELECTIFOLDEROWNER">
-    <value>Seleccione el propietario de iFolder "{0}"</value>
+    <value>Seleccione el propietario de la carpeta de iFolder ""{0}""</value>
   </data>
   <data name="NEXTPAGE">
     <value>Página siguiente</value>
   </data>
-  <data name="TOTALIFOLDERSTAG">
-    <value>Total de carpetas de iFolder:</value>
+  <data name="ADD">
+    <value>Añadir</value>
   </data>
   <data name="LAST">
     <value>Último</value>
@@ -521,7 +521,7 @@
     <value>Acaba de salir de iFolder.</value>
   </data>
   <data name="EFFECTIVETAG">
-    <value>Efectivo:</value>
+    <value>Vigente:</value>
   </data>
   <data name="LOGINPASSWORD">
     <value>Contraseña:</value>
@@ -560,7 +560,7 @@
     <value>Entrar</value>
   </data>
   <data name="PRIVATEURI">
-    <value>Dirección IP privada</value>
+    <value>Dirección IP privada:</value>
   </data>
   <data name="IFOLDERSTAG">
     <value>Carpetas de iFolder:</value>
@@ -600,6 +600,9 @@
   </data>
   <data name="SELECTEDUSERS">
     <value>Usuarios seleccionados</value>
+  </data>
+  <data name="TOTALIFOLDERSTAG">
+    <value>Total de carpetas de iFolder:</value>
   </data>
   <data name="UNKNOWNERROR">
     <value>Error desconocido. No se ha especificado ninguna excepción.</value>
@@ -664,6 +667,9 @@
   <data name="ERRORACCESSEXCEPTION">
     <value>No dispone de suficientes derechos para llevar a cabo la petición.</value>
   </data>
+  <data name="SYNCNOW">
+    <value>Sincronizar ahora</value>
+  </data>
   <data name="NAMETAG">
     <value>Nombre:</value>
   </data>
@@ -689,7 +695,7 @@
     <value>Japonés</value>
   </data>
   <data name="NEWIFOLDERNAMETAG">
-    <value>Nombre de iFolder:</value>
+    <value>Nombre de la carpeta de iFolder:</value>
   </data>
   <data name="DESCRIPTIONTAG">
     <value>Descripción:</value>
@@ -785,7 +791,7 @@
     <value>Propietario:</value>
   </data>
   <data name="ADDMEMBERSTOIFOLDER">
-    <value>Añadir componentes adicionales a iFolder "{0}"</value>
+    <value>Añadir componentes adicionales a iFolder ""{0}""</value>
   </data>
   <data name="ALLFIELDSREQUIRED">
     <value>Deben rellenarse todos los campos.</value>
@@ -808,8 +814,8 @@
   <data name="USERDETAILS">
     <value>Información de usuario</value>
   </data>
-  <data name="ADD">
-    <value>Añadir</value>
+  <data name="IDENTITYSYNCTAG">
+    <value>Sincronización de identidad</value>
   </data>
   <data name="IFOLDERADMINS">
     <value>Administradores de iFolder</value>

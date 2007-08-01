@@ -98,7 +98,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="SHARED">
-    <value>In condivisione</value>
+    <value>Condivisione</value>
   </data>
   <data name="LOGOUT">
     <value>Logout</value>
@@ -107,16 +107,16 @@
     <value>Log</value>
   </data>
   <data name="ERRORINVALIDQUOTA">
-    <value>Valore quota di spazio su disco specificato non valido. Il valore deve essere compreso tra 1 e 2e+063 - 1.</value>
+    <value>Valore della quota di spazio su disco specificato non valido. Il valore deve essere compreso tra 1 e 2e+063 - 1.</value>
   </data>
   <data name="WHEN">
     <value>Quando</value>
   </data>
   <data name="LOGINSECUREFAILED">
-    <value>Impossibile stabilire una comunicazione sicura con il server iFolder.</value>
+    <value>Impossibile stabilire una comunicazione protetta con il server iFolder.</value>
   </data>
   <data name="LOGINSENDFAILED">
-    <value>Impossibile comunicare con il server iFolder.</value>
+    <value>Impossibile stabilire la comunicazione con il server iFolder.</value>
   </data>
   <data name="SAVE">
     <value>Salva</value>
@@ -140,10 +140,10 @@
     <value>Cancella</value>
   </data>
   <data name="SIZETAG">
-    <value>Dimensione:</value>
+    <value>Dimensioni:</value>
   </data>
   <data name="ERRORDETAIL">
-    <value>Dettagli errore</value>
+    <value>Dettagli sull'errore</value>
   </data>
   <data name="LOGINIFOLDERSERVER">
     <value>Server iFolder:</value>
@@ -179,13 +179,13 @@
     <value>Il nome file specificato esiste già nell'elenco.</value>
   </data>
   <data name="GENERATEDAILYREPORT">
-    <value>Genera rapporto ogni giorno alle {0} fino a {1}</value>
+    <value>Genera rapporto ogni giorno dalle ore  {0} alle {1}</value>
   </data>
   <data name="LOGINERROR">
     <value>Errore:</value>
   </data>
   <data name="ERRORINVALIDFILESIZE">
-    <value>Valore limite di dimensione file specificato non valido. Il valore deve essere compreso tra 1 e 2e+063 - 1.</value>
+    <value>Valore del limite delle dimensioni file specificato non valido. Il valore deve essere compreso tra 1 e 2e+063 - 1.</value>
   </data>
   <data name="DNSNAME">
     <value>Nome DNS</value>
@@ -194,7 +194,7 @@
     <value>Sincronizzazione</value>
   </data>
   <data name="ERRORCANNOTSETDESCRIPTION">
-    <value>Impossibile impostare la descrizione della cartella iFolder</value>
+    <value>Impossibile impostare la descrizione iFolder.</value>
   </data>
   <data name="ATTAG">
     <value>Alle:</value>
@@ -212,7 +212,7 @@
     <value>Master</value>
   </data>
   <data name="DOWNLOAD">
-    <value>Scarica</value>
+    <value>Scaricamento</value>
   </data>
   <data name="USER">
     <value>Utente</value>
@@ -227,13 +227,13 @@
     <value>Directory rapporti</value>
   </data>
   <data name="LOGINTRUSTFAILED">
-    <value>Fiducia tra il server iFolder e l'accesso Web iFolder non riuscita.</value>
+    <value>Trust tra server iFolder e Accesso Web iFolder non riuscito.</value>
   </data>
   <data name="ELLIPSES">
     <value> . . .</value>
   </data>
   <data name="ERRORNOTADMINISTRATOR">
-    <value>L'utente non è un amministratore iFolder.</value>
+    <value>L'utente non è un amministratore di iFolder.</value>
   </data>
   <data name="FILE">
     <value>File</value>
@@ -287,7 +287,7 @@
     <value>Configura rapporti</value>
   </data>
   <data name="ERRORCANNOTSETIFOLDERPOLICY">
-    <value>Impossibile impostare informazioni sulle norme per ID iFolder {0}.</value>
+    <value>Impossibile impostare le informazioni sulle norme per l'ID iFolder {0}.</value>
   </data>
   <data name="REPORTIFOLDERTAG">
     <value>iFolder:</value>
@@ -311,7 +311,7 @@
     <value>Totale: </value>
   </data>
   <data name="ERRORCANNOTSETIFOLDERSTATUS">
-    <value>Impossibile impostare lo stato di sincronizzazione delle cartelle iFolder.</value>
+    <value>Impossibile impostare lo stato di sincronizzazione iFolder.</value>
   </data>
   <data name="TYPETAG">
     <value>Tipo:</value>
@@ -320,10 +320,10 @@
     <value>Frequenza</value>
   </data>
   <data name="LOGINACCOUNTLOCKED">
-    <value>Conto attualmente bloccato e non disponibile.</value>
+    <value>Il conto è attualmente bloccato e non disponibile.</value>
   </data>
   <data name="MODIFIEDTAG">
-    <value>Data di modifica:</value>
+    <value>Data modifica:</value>
   </data>
   <data name="HOME">
     <value>Home</value>
@@ -371,7 +371,7 @@
     <value>Disabilita login utente</value>
   </data>
   <data name="DISKSPACEUSEDTAG">
-    <value>Spazio su disco in uso:</value>
+    <value>Spazio su disco utilizzato:</value>
   </data>
   <data name="TOTALUSERSTAG">
     <value>Utenti totali:</value>
@@ -383,7 +383,7 @@
     <value>Francese</value>
   </data>
   <data name="NEWFILETYPE">
-    <value>Nuovo tipo file</value>
+    <value>Nuovo tipo di file</value>
   </data>
   <data name="ERRORCANNOTREMOVEADMIN">
     <value>Impossibile rimuovere l'utente {0} come amministratore.</value>
@@ -404,13 +404,13 @@
     <value>Stato server</value>
   </data>
   <data name="GENERATEWEEKLYREPORT">
-    <value>Genera rapporto ogni {0} alle {1} fino a {2}</value>
+    <value>Genera rapporto ogni {0} dalle ore {1} alle {2}</value>
   </data>
   <data name="FIRST">
     <value>Primo</value>
   </data>
   <data name="ERRORNOQUOTA">
-    <value>Nessun valore di quota di spazio su disco specificato.</value>
+    <value>Nessuna quota disco specificata.</value>
   </data>
   <data name="INTERVALTAG">
     <value>Intervallo:</value>
@@ -440,13 +440,13 @@
     <value>Abilita</value>
   </data>
   <data name="ERRORCANNOTCHANGERIGHTS">
-    <value>Impossibile modificare i diritti di appartenenza per l'utente {0}.</value>
+    <value>Impossibile modificare i diritti di appartenenza relativi all'utente  {0}.</value>
   </data>
   <data name="LOGINCONNECTFAILED">
     <value>Impossibile connettersi al server iFolder.</value>
   </data>
   <data name="ERRORLOCKEXCEPTION">
-    <value>Operazione annullata. Cartella iFolder bloccata/disabilitata dall'amministratore.</value>
+    <value>L'operazione è stata annullata poiché la cartella iFolder è stata bloccata/disabilitata dall'amministratore.</value>
   </data>
   <data name="ADMINISTRATOR">
     <value>Amministratore</value>
@@ -461,7 +461,7 @@
     <value>Nome file</value>
   </data>
   <data name="LOGINACCOUNTDISABLED">
-    <value>Conto attualmente disabilitato e non disponibile.</value>
+    <value>Il conto è attualmente disabilitato e non disponibile.</value>
   </data>
   <data name="SERVER">
     <value>Server</value>
@@ -487,11 +487,11 @@
   <data name="NEXTPAGE">
     <value>Pagina successiva</value>
   </data>
-  <data name="TOTALIFOLDERSTAG">
-    <value>Cartelle iFolder totali:</value>
+  <data name="ADD">
+    <value>Aggiungi</value>
   </data>
   <data name="LAST">
-    <value>Ultima</value>
+    <value>Ultimo</value>
   </data>
   <data name="PORTUGUESE-BRAZIL">
     <value>Portoghese (Brasile)</value>
@@ -515,19 +515,19 @@
     <value>È necessario abilitare l'esecuzione di script nel browser.</value>
   </data>
   <data name="GENERATEMONTHLYREPORT">
-    <value>Genera rapporto il giorno {0} di ogni mese alle {1} fino a {2}</value>
+    <value>Genera rapporto il giorno {0} di ogni mese dalle ore {1} alle {2}</value>
   </data>
   <data name="LOGINLOGOUT">
     <value>Logout da iFolder eseguito.</value>
   </data>
   <data name="EFFECTIVETAG">
-    <value>Data di inizio validità:</value>
+    <value>Validità:</value>
   </data>
   <data name="LOGINPASSWORD">
     <value>Password:</value>
   </data>
   <data name="LASTLOGINTIMETAG">
-    <value>Ultimo orario di login:</value>
+    <value>Ora ultimo login:</value>
   </data>
   <data name="REPORTDIRECTORYTAG">
     <value>directory:</value>
@@ -536,22 +536,22 @@
     <value>Tedesco</value>
   </data>
   <data name="SERVERREPORTS">
-    <value>Rapporti server</value>
+    <value>Rapporti del server</value>
   </data>
   <data name="NEXT">
     <value>Avanti</value>
   </data>
   <data name="OWNED">
-    <value>Con proprietà</value>
+    <value>Con proprietario</value>
   </data>
   <data name="MAXCONNECTIONSTAG">
-    <value>Numero massimo di connessioni:</value>
+    <value>Numero massimo connessioni:</value>
   </data>
   <data name="CANCEL">
     <value>Annulla</value>
   </data>
   <data name="FATAL">
-    <value>Fatale</value>
+    <value>Irreversibile</value>
   </data>
   <data name="USERNAMETAG">
     <value>Nome utente:</value>
@@ -593,13 +593,16 @@
     <value>Debug</value>
   </data>
   <data name="CSVFORMAT">
-    <value>CSV testo</value>
+    <value>Testo CSV</value>
   </data>
   <data name="SELECTUSERS">
-    <value>Selezione utenti</value>
+    <value>Seleziona utenti</value>
   </data>
   <data name="SELECTEDUSERS">
     <value>Utenti selezionati</value>
+  </data>
+  <data name="TOTALIFOLDERSTAG">
+    <value>Cartelle iFolder totali:</value>
   </data>
   <data name="UNKNOWNERROR">
     <value>Errore sconosciuto. Nessuna eccezione specificata.</value>
@@ -614,7 +617,7 @@
     <value>Amministratore Web</value>
   </data>
   <data name="CHINESE-SIMPLIFIED">
-    <value>Cinese (semplificato)</value>
+    <value>Cinese semplificato</value>
   </data>
   <data name="LOGINUSERNAME">
     <value>Nome utente:</value>
@@ -629,10 +632,10 @@
     <value>Nome:</value>
   </data>
   <data name="LOGINUNAUTHORIZED">
-    <value>Digitare di nuovo nome utente e password.</value>
+    <value>Immettere di nuovo nome utente e password.</value>
   </data>
   <data name="INHEIRITEDPOLICY">
-    <value>(norma ereditata)</value>
+    <value>(Norme ereditate)</value>
   </data>
   <data name="LASTPAGE">
     <value>Ultima pagina</value>
@@ -641,7 +644,7 @@
     <value>Contiene</value>
   </data>
   <data name="ERRORNOFILESIZE">
-    <value>Nessun valore limite di dimensioni file specificato.</value>
+    <value>Nessun limite alle dimensioni dei file specificato.</value>
   </data>
   <data name="LOGLEVELTAG">
     <value>Livello di log</value>
@@ -663,6 +666,9 @@
   </data>
   <data name="ERRORACCESSEXCEPTION">
     <value>Diritti insufficienti per eseguire la richiesta.</value>
+  </data>
+  <data name="SYNCNOW">
+    <value>Sincronizza ora</value>
   </data>
   <data name="NAMETAG">
     <value>Nome:</value>
@@ -689,7 +695,7 @@
     <value>Giapponese</value>
   </data>
   <data name="NEWIFOLDERNAMETAG">
-    <value>Nome cartella iFolder:</value>
+    <value>Nome iFolder:</value>
   </data>
   <data name="DESCRIPTIONTAG">
     <value>Descrizione:</value>
@@ -707,13 +713,13 @@
     <value>Spazio su disco disponibile:</value>
   </data>
   <data name="ERRORCANNOTSETSYSTEMPOLICY">
-    <value>Impossibile impostare informazioni sulle norme di sistema.</value>
+    <value>Impossibile impostare le informazioni sulle norme del sistema.</value>
   </data>
   <data name="MINUTES">
     <value>Minuto/i</value>
   </data>
   <data name="ALL">
-    <value>Tutti</value>
+    <value>Tutto</value>
   </data>
   <data name="TYPE">
     <value>Tipo</value>
@@ -731,16 +737,16 @@
     <value>Indietro</value>
   </data>
   <data name="ERRORINSTRUCTIONS">
-    <value>&lt;p&gt;Errore imprevisto in accesso Web iFolder.&lt;/p&gt; &lt;p&gt;Ci scusiamo per il disagio. Eseguire il logout e riprovare.&lt;/p&gt;</value>
+    <value>&lt;p&gt;Errore imprevisto di Accesso Web iFolder.&lt;/p&gt; &lt;p&gt;Ci scusiamo per il disagio. È necessario eseguire il logout e quindi nuovamente il login.&lt;/p&gt;</value>
   </data>
   <data name="NEWIFOLDERDESCRIPTIONTAG">
-    <value>Descrizione cartella iFolder:</value>
+    <value>Descrizione iFolder:</value>
   </data>
   <data name="CHINESE-TRADITIONAL">
-    <value>Cinese (tradizionale)</value>
+    <value>Cinese tradizionale</value>
   </data>
   <data name="ERRORUNKNOWNERROR">
-    <value>Errore sconosciuto.</value>
+    <value>Errore sconosciuto</value>
   </data>
   <data name="SYSTEMLOGFILE">
     <value>Sistema</value>
@@ -773,7 +779,7 @@
     <value>Nome completo</value>
   </data>
   <data name="PASSWORDSDONOTMATCH">
-    <value>Password non corrispondenti.</value>
+    <value>Le password non corrispondono.</value>
   </data>
   <data name="PATHTAG">
     <value>Percorso:</value>
@@ -785,7 +791,7 @@
     <value>Proprietario:</value>
   </data>
   <data name="ADDMEMBERSTOIFOLDER">
-    <value>Aggiungi ulteriori membri alla cartella iFolder "{0}"</value>
+    <value>Aggiungi altri membri alla cartella iFolder "{0}"</value>
   </data>
   <data name="ALLFIELDSREQUIRED">
     <value>È necessario compilare tutti i campi.</value>
@@ -800,7 +806,7 @@
     <value>File</value>
   </data>
   <data name="RETYPEPASSWORDTAG">
-    <value>Ridigita password:</value>
+    <value>Ridigitare la password:</value>
   </data>
   <data name="ERRORCANNOTDELETEUSER">
     <value>Impossibile cancellare l'ID utente {0}.</value>
@@ -808,14 +814,14 @@
   <data name="USERDETAILS">
     <value>Dettagli utente</value>
   </data>
-  <data name="ADD">
-    <value>Aggiungi</value>
+  <data name="IDENTITYSYNCTAG">
+    <value>Sincronizzazione identità</value>
   </data>
   <data name="IFOLDERADMINS">
     <value>Amministratori iFolder</value>
   </data>
   <data name="ERRORUSERDOESNOTEXIST">
-    <value>Utente iFolder specificato inesistente.</value>
+    <value>L'utente iFolder specificato non esiste.</value>
   </data>
   <data name="VIEW">
     <value>Visualizza</value>
@@ -824,19 +830,19 @@
     <value>In uso:</value>
   </data>
   <data name="REPORTIFOLDER">
-    <value>iFolder rapporti</value>
+    <value>Cartella iFolder dei rapporti</value>
   </data>
   <data name="WEBACCESSLOGFILE">
     <value>Accesso Web</value>
   </data>
   <data name="ERRORINVALIDSYNCINTERVAL">
-    <value>Intervallo di sincronizzazione specificato non valido. Il valore deve essere compreso tra 5 e 2e+031 - 1.</value>
+    <value>Intervallo di sincronizzazione specificato non valido. Il valore deve essere compreso tra 5 and 2e+031 - 1.</value>
   </data>
   <data name="IFOLDERUSERS">
     <value>Utenti iFolder</value>
   </data>
   <data name="LOGGEDONUSERSTAG">
-    <value>Utenti che hanno eseguito il login:</value>
+    <value>Utenti connessi:</value>
   </data>
   <data name="SIZE">
     <value>Dimensioni</value>
@@ -857,10 +863,10 @@
     <value>Amministratori</value>
   </data>
   <data name="ERRORCANNOTSETUSERPOLICY">
-    <value>Impossibile impostare informazioni sulle norme utente per l'ID utente {0}.</value>
+    <value>Impossibile impostare le informazioni sulle norme relative all'ID utente {0}.</value>
   </data>
   <data name="SYSTEMSETTINGS">
-    <value>Impostazioni di sistema</value>
+    <value>Impostazioni sistema</value>
   </data>
   <data name="ENGLISH">
     <value>Inglese</value>

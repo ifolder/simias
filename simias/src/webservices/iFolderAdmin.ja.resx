@@ -107,10 +107,10 @@
     <value>ログ</value>
   </data>
   <data name="ERRORINVALIDQUOTA">
-    <value>ディスク容量に無効な割り当て値が指定されました。値は1から2e+063 - 1までの値にしてください。</value>
+    <value>無効なディスク容量割り当て値が指定されました。値は1～2e+063 - 1の範囲でなければなりません。</value>
   </data>
   <data name="WHEN">
-    <value>次のとき</value>
+    <value>日時</value>
   </data>
   <data name="LOGINSECUREFAILED">
     <value>iFolderサーバと安全に通信できません。</value>
@@ -131,10 +131,10 @@
     <value>日:</value>
   </data>
   <data name="WEEKLY">
-    <value>週次</value>
+    <value>毎週</value>
   </data>
   <data name="MONTHLY">
-    <value>月次</value>
+    <value>毎月</value>
   </data>
   <data name="DELETE">
     <value>削除</value>
@@ -155,7 +155,7 @@
     <value>いいえ</value>
   </data>
   <data name="ERRORCANNOTADDMEMBER">
-    <value>メンバー {0} をiFolder {1} に追加できません。</value>
+    <value>メンバー {0} をiFolder {1}. に追加できません</value>
   </data>
   <data name="IFOLDERDETAILS">
     <value>iFolderの詳細</value>
@@ -173,19 +173,19 @@
     <value>出力</value>
   </data>
   <data name="NOTAVAILABLE">
-    <value>使用できません</value>
+    <value>使用不可</value>
   </data>
   <data name="FILETYPEALREADYEXISTS">
     <value>指定したファイル名はすでにリストに存在します。</value>
   </data>
   <data name="GENERATEDAILYREPORT">
-    <value>毎日 {0} に {1} にレポートを生成</value>
+    <value>毎日 {0} に {1} にレポートを生成します</value>
   </data>
   <data name="LOGINERROR">
     <value>エラー:</value>
   </data>
   <data name="ERRORINVALIDFILESIZE">
-    <value>無効な上限ファイルサイズが指定されました。値は1から2e+063 - 1までの値にしてください。</value>
+    <value>無効なファイルサイズ制限値が指定されました。値は1～2e+063 - 1の範囲でなければなりません。</value>
   </data>
   <data name="DNSNAME">
     <value>DNS名</value>
@@ -221,25 +221,25 @@
     <value>言語:</value>
   </data>
   <data name="ERRORMEMBERDOESNOTEXIST">
-    <value>iFolderのメンバーは存在しません。</value>
+    <value>iFolderメンバーが存在しません。</value>
   </data>
   <data name="REPORTDIRECTORY">
-    <value>レポートのディレクトリ</value>
+    <value>レポートディレクトリ</value>
   </data>
   <data name="LOGINTRUSTFAILED">
-    <value>iFolderサーバとiFolder Web Access間で信頼障害がありました。</value>
+    <value>iFolderサーバとiFolder Web Access間の信頼関係を確立できませんでした。</value>
   </data>
   <data name="ELLIPSES">
     <value> . . .</value>
   </data>
   <data name="ERRORNOTADMINISTRATOR">
-    <value>ユーザはiFolderの管理者ではありません。</value>
+    <value>ユーザはiFolder管理者ではありません。</value>
   </data>
   <data name="FILE">
     <value>ファイル</value>
   </data>
   <data name="LOGINLOSTSESSION">
-    <value>セッションは終了しました。ログインしてください。</value>
+    <value>セッションは閉じています。ログインしてください。</value>
   </data>
   <data name="IFOLDER">
     <value>iFolder</value>
@@ -254,13 +254,13 @@
     <value>警告</value>
   </data>
   <data name="LDAPSTATUSTAG">
-    <value>LDAPの状態:</value>
+    <value>LDAPステータス:</value>
   </data>
   <data name="PASSWORDTAG">
     <value>パスワード:</value>
   </data>
   <data name="FORMATTAG">
-    <value>フォーマット:</value>
+    <value>形式:</value>
   </data>
   <data name="KB">
     <value>KB</value>
@@ -284,10 +284,10 @@
     <value>ポルトガル語</value>
   </data>
   <data name="CONFIGUREREPORTING">
-    <value>レポートの設定</value>
+    <value>レポート機能の設定</value>
   </data>
   <data name="ERRORCANNOTSETIFOLDERPOLICY">
-    <value>iFolder ID {0} にポリシー情報を設定できません。</value>
+    <value>iFolder ID {0} のポリシー情報を設定できません。</value>
   </data>
   <data name="REPORTIFOLDERTAG">
     <value>iFolder:</value>
@@ -296,13 +296,13 @@
     <value>項目が見つかりませんでした。</value>
   </data>
   <data name="LASTMODIFIED">
-    <value>最終更新日</value>
+    <value>最終更新日時</value>
   </data>
   <data name="MEMBER">
     <value>メンバー</value>
   </data>
   <data name="DAILY">
-    <value>日次</value>
+    <value>毎日</value>
   </data>
   <data name="RIGHTS">
     <value>権利</value>
@@ -311,7 +311,7 @@
     <value>合計: </value>
   </data>
   <data name="ERRORCANNOTSETIFOLDERSTATUS">
-    <value>iFolder同期状態を設定できません。</value>
+    <value>iFolderの同期ステータスを設定できません。</value>
   </data>
   <data name="TYPETAG">
     <value>タイプ:</value>
@@ -320,34 +320,34 @@
     <value>頻度</value>
   </data>
   <data name="LOGINACCOUNTLOCKED">
-    <value>アカウントは現在ロックされ、使用できません。</value>
+    <value>アカウントは現在ロックされているため使用できません。</value>
   </data>
   <data name="MODIFIEDTAG">
-    <value>更新日時:</value>
+    <value>変更日時:</value>
   </data>
   <data name="HOME">
     <value>ホーム</value>
   </data>
   <data name="SESSIONCLOSED">
-    <value>セッションは終了しました。ログインしてください。</value>
+    <value>セッションは閉じています。ログインしてください。</value>
   </data>
   <data name="USERSTAG">
     <value>ユーザ:</value>
   </data>
   <data name="ERRORIFOLDERDOESNOTEXIST">
-    <value>iFolderは存在しません。</value>
+    <value>iFolderが存在しません。</value>
   </data>
   <data name="EXCLUDEDFILES">
-    <value>除外されたファイル</value>
+    <value>除外したファイル</value>
   </data>
   <data name="ENABLED">
-    <value>使用可能</value>
+    <value>有効</value>
   </data>
   <data name="ERRORCANNOTDELETEIFOLDER">
     <value>iFolderを削除できません。</value>
   </data>
   <data name="STATUS">
-    <value>状態</value>
+    <value>ステータス</value>
   </data>
   <data name="HELP">
     <value>ヘルプ</value>
@@ -371,7 +371,7 @@
     <value>ユーザログインの無効化</value>
   </data>
   <data name="DISKSPACEUSEDTAG">
-    <value>使用中のディスク容量:</value>
+    <value>使用済みディスク容量:</value>
   </data>
   <data name="TOTALUSERSTAG">
     <value>合計ユーザ:</value>
@@ -383,16 +383,16 @@
     <value>フランス語</value>
   </data>
   <data name="NEWFILETYPE">
-    <value>新規ファイルタイプ</value>
+    <value>新しいファイルタイプ</value>
   </data>
   <data name="ERRORCANNOTREMOVEADMIN">
-    <value>ユーザ {0} は管理者であるため削除できません。</value>
+    <value>ユーザ {0} を管理者として削除できません。</value>
   </data>
   <data name="PUBLICIPTAG">
     <value>パブリックIPアドレス:</value>
   </data>
   <data name="CREATENEWIFOLDER">
-    <value>新規iFolderの作成</value>
+    <value>新しいiFolderの作成</value>
   </data>
   <data name="MESSAGEINFORMATION">
     <value>情報:</value>
@@ -401,16 +401,16 @@
     <value>拒否</value>
   </data>
   <data name="SERVERSTATUS">
-    <value>サーバの状態</value>
+    <value>サーバステータス</value>
   </data>
   <data name="GENERATEWEEKLYREPORT">
-    <value>毎 {0}、{1} に {2} へのレポートを作成</value>
+    <value>{0} ごとに {1} に {2} にレポートを生成します</value>
   </data>
   <data name="FIRST">
     <value>最初</value>
   </data>
   <data name="ERRORNOQUOTA">
-    <value>ディスク容量の割り当て値が指定されていません。</value>
+    <value>ディスク容量割り当て値が指定されていません。</value>
   </data>
   <data name="INTERVALTAG">
     <value>間隔:</value>
@@ -437,16 +437,16 @@
     <value>ユーザ名</value>
   </data>
   <data name="ENABLE">
-    <value>使用可能</value>
+    <value>有効</value>
   </data>
   <data name="ERRORCANNOTCHANGERIGHTS">
-    <value>ユーザ {0} のメンバーシップ権を変更できません。</value>
+    <value>ユーザ {0} のメンバーシップを変更できません。</value>
   </data>
   <data name="LOGINCONNECTFAILED">
     <value>iFolderサーバに接続できません。</value>
   </data>
   <data name="ERRORLOCKEXCEPTION">
-    <value>iFolderが管理者によってロックされているか、無効にされているため、操作がキャンセルされました。</value>
+    <value>iFolderが管理者によってロックされているか無効にされているため、操作はキャンセルされました。</value>
   </data>
   <data name="ADMINISTRATOR">
     <value>管理者</value>
@@ -461,13 +461,13 @@
     <value>ファイル名</value>
   </data>
   <data name="LOGINACCOUNTDISABLED">
-    <value>アカウントは現在無効にされているか、使用できません。</value>
+    <value>アカウントは現在無効になっているため使用できません。</value>
   </data>
   <data name="SERVER">
     <value>サーバ</value>
   </data>
   <data name="ENABLEDTAG">
-    <value>使用可能:</value>
+    <value>有効:</value>
   </data>
   <data name="LOGINFAILED">
     <value>失敗:</value>
@@ -482,19 +482,19 @@
     <value>iFolderの所有権を変更できません。</value>
   </data>
   <data name="SELECTIFOLDEROWNER">
-    <value>iFolder「{0}」の所有者を選択</value>
+    <value>iFolder「{0}」の所有者を選択してください</value>
   </data>
   <data name="NEXTPAGE">
     <value>次のページ</value>
   </data>
-  <data name="TOTALIFOLDERSTAG">
-    <value>iFolderの合計:</value>
+  <data name="ADD">
+    <value>追加</value>
   </data>
   <data name="LAST">
-    <value>最終</value>
+    <value>最後</value>
   </data>
   <data name="PORTUGUESE-BRAZIL">
-    <value>ブラジルポルトガル語</value>
+    <value>ポルトガル語-ブラジル</value>
   </data>
   <data name="POLISH">
     <value>ポーランド語</value>
@@ -503,7 +503,7 @@
     <value>ディスク割り当て量</value>
   </data>
   <data name="TRUE">
-    <value>真</value>
+    <value>True</value>
   </data>
   <data name="INFO">
     <value>情報</value>
@@ -512,16 +512,16 @@
     <value>パブリックIPアドレス</value>
   </data>
   <data name="LOGINNOSCRIPT">
-    <value>ブラウザでスクリプトを使用可能にする必要があります。</value>
+    <value>ブラウザでスクリプトを有効にする必要があります。</value>
   </data>
   <data name="GENERATEMONTHLYREPORT">
-    <value>毎月 {0} 日の {1} に {2} へのレポートを生成</value>
+    <value>毎月 {0} 日の {1} に {2} にレポートを生成します</value>
   </data>
   <data name="LOGINLOGOUT">
     <value>iFolderからログアウトしました。</value>
   </data>
   <data name="EFFECTIVETAG">
-    <value>有効開始日:</value>
+    <value>有効:</value>
   </data>
   <data name="LOGINPASSWORD">
     <value>パスワード:</value>
@@ -536,13 +536,13 @@
     <value>ドイツ語</value>
   </data>
   <data name="SERVERREPORTS">
-    <value>サーバのレポート</value>
+    <value>サーバレポート</value>
   </data>
   <data name="NEXT">
     <value>次へ</value>
   </data>
   <data name="OWNED">
-    <value>所有者</value>
+    <value>所有</value>
   </data>
   <data name="MAXCONNECTIONSTAG">
     <value>最大接続数:</value>
@@ -551,7 +551,7 @@
     <value>キャンセル</value>
   </data>
   <data name="FATAL">
-    <value>致命的エラー</value>
+    <value>致命的</value>
   </data>
   <data name="USERNAMETAG">
     <value>ユーザ名:</value>
@@ -572,7 +572,7 @@
     <value>予期しないエラー</value>
   </data>
   <data name="FIRSTNAME">
-    <value>名</value>
+    <value>姓</value>
   </data>
   <data name="CREATE">
     <value>作成</value>
@@ -581,7 +581,7 @@
     <value>ユーザを作成できません。</value>
   </data>
   <data name="LDAPCONTEXTTAG">
-    <value>LDAPのコンテキスト:</value>
+    <value>Ldapコンテキスト:</value>
   </data>
   <data name="SPANISH">
     <value>スペイン語</value>
@@ -601,8 +601,11 @@
   <data name="SELECTEDUSERS">
     <value>選択したユーザ</value>
   </data>
+  <data name="TOTALIFOLDERSTAG">
+    <value>iFolderの合計:</value>
+  </data>
   <data name="UNKNOWNERROR">
-    <value>不明なエラーが発生しました。例外は指定されていません。</value>
+    <value>不明なエラーが発生しました。例外が指定されていません。</value>
   </data>
   <data name="SET">
     <value>設定</value>
@@ -614,7 +617,7 @@
     <value>Web管理者</value>
   </data>
   <data name="CHINESE-SIMPLIFIED">
-    <value>中国語(簡体字)</value>
+    <value>簡体字中国語</value>
   </data>
   <data name="LOGINUSERNAME">
     <value>ユーザ名:</value>
@@ -626,22 +629,22 @@
     <value>ポリシー</value>
   </data>
   <data name="FIRSTNAMETAG">
-    <value>名:</value>
+    <value>姓:</value>
   </data>
   <data name="LOGINUNAUTHORIZED">
     <value>ユーザ名とパスワードを再入力してください。</value>
   </data>
   <data name="INHEIRITEDPOLICY">
-    <value>(継承したポリシー)</value>
+    <value>(継承されたポリシー)</value>
   </data>
   <data name="LASTPAGE">
     <value>最後のページ</value>
   </data>
   <data name="CONTAINS">
-    <value>次を含む</value>
+    <value>内容</value>
   </data>
   <data name="ERRORNOFILESIZE">
-    <value>ファイルサイズの上限値が指定されませんでした。</value>
+    <value>ファイルのサイズ制限値が指定されていません。</value>
   </data>
   <data name="LOGLEVELTAG">
     <value>ログレベル</value>
@@ -650,7 +653,7 @@
     <value>iFolderを作成できません。</value>
   </data>
   <data name="LOGINNOCOOKIES">
-    <value>ブラウザでCookieを使用可能にしてください。</value>
+    <value>ブラウザでCookieを有効にする必要があります。</value>
   </data>
   <data name="OK">
     <value>OK</value>
@@ -662,7 +665,10 @@
     <value>所有者</value>
   </data>
   <data name="ERRORACCESSEXCEPTION">
-    <value>要求を実行するために必要な権限がありません。</value>
+    <value>要求を行う権利がありません。</value>
+  </data>
+  <data name="SYNCNOW">
+    <value>今すぐ同期</value>
   </data>
   <data name="NAMETAG">
     <value>名前:</value>
@@ -674,22 +680,22 @@
     <value>チェコ語</value>
   </data>
   <data name="LASTNAMETAG">
-    <value>姓:</value>
+    <value>名:</value>
   </data>
   <data name="AVAILABLETAG">
     <value>使用可能:</value>
   </data>
   <data name="BEGINSWITH">
-    <value>次で開始:</value>
+    <value>次で始まる</value>
   </data>
   <data name="LOGGEDINAS">
-    <value>次のユーザでログイン:</value>
+    <value>ログイン名</value>
   </data>
   <data name="JAPANESE">
     <value>日本語</value>
   </data>
   <data name="NEWIFOLDERNAMETAG">
-    <value>iFolderの名前:</value>
+    <value>iFolder名:</value>
   </data>
   <data name="DESCRIPTIONTAG">
     <value>説明:</value>
@@ -701,13 +707,13 @@
     <value>エラー</value>
   </data>
   <data name="ENDSWITH">
-    <value>次で終了:</value>
+    <value>次で終わる</value>
   </data>
   <data name="DISKSPACEAVAILABLETAG">
     <value>使用可能なディスク容量:</value>
   </data>
   <data name="ERRORCANNOTSETSYSTEMPOLICY">
-    <value>システムのポリシー情報を設定できません。</value>
+    <value>システムポリシー情報を設定できません。</value>
   </data>
   <data name="MINUTES">
     <value>分</value>
@@ -719,10 +725,10 @@
     <value>タイプ</value>
   </data>
   <data name="STATUSTAG">
-    <value>状態:</value>
+    <value>ステータス:</value>
   </data>
   <data name="SERVERDETAILS">
-    <value>サーバ詳細</value>
+    <value>サーバの詳細</value>
   </data>
   <data name="ERRORTEMPLATE">
     <value>エラー: {0}</value>
@@ -731,13 +737,13 @@
     <value>戻る</value>
   </data>
   <data name="ERRORINSTRUCTIONS">
-    <value>&lt;p&gt;iFolder Web Accessで予期しないエラーが発生しました。&lt;/p&gt; &lt;p&gt;ご迷惑をおかけして申し訳ございません。ログアウトして再度実行してください。&lt;/p&gt;</value>
+    <value>&lt;p&gt;iFolder Web Accessで予期しないエラーが発生しました。&lt;/p&gt; &lt;p&gt;ご不便をおかけして申し訳ありません。ログアウトしてからもう一度試してください。&lt;/p&gt;</value>
   </data>
   <data name="NEWIFOLDERDESCRIPTIONTAG">
     <value>iFolderの説明:</value>
   </data>
   <data name="CHINESE-TRADITIONAL">
-    <value>中国語(繁体字)</value>
+    <value>繁体字中国語</value>
   </data>
   <data name="ERRORUNKNOWNERROR">
     <value>不明なエラーが発生しました。</value>
@@ -758,43 +764,43 @@
     <value>イタリア語</value>
   </data>
   <data name="ERRORAUTHENTICATIONFAILED">
-    <value>認証が失敗しました。</value>
+    <value>認証に失敗しました。</value>
   </data>
   <data name="ENABLEREPORTING">
-    <value>レポートの有効化</value>
+    <value>レポート機能の有効化</value>
   </data>
   <data name="SESSIONSTAG">
     <value>セッション:</value>
   </data>
   <data name="IFOLDERUSERDETAILS">
-    <value>iFolderのユーザ詳細</value>
+    <value>iFolderユーザの詳細</value>
   </data>
   <data name="FULLNAME">
     <value>フルネーム</value>
   </data>
   <data name="PASSWORDSDONOTMATCH">
-    <value>パスワードが同じではありません。</value>
+    <value>パスワードが一致しません。</value>
   </data>
   <data name="PATHTAG">
     <value>パス:</value>
   </data>
   <data name="LASTNAME">
-    <value>姓</value>
+    <value>名</value>
   </data>
   <data name="OWNERTAG">
     <value>所有者:</value>
   </data>
   <data name="ADDMEMBERSTOIFOLDER">
-    <value>iFolder「{0}」に他のメンバーを追加</value>
+    <value>iFolder「{0}」にメンバーを追加します</value>
   </data>
   <data name="ALLFIELDSREQUIRED">
-    <value>すべてのフィールドを入力してください。</value>
+    <value>すべてのフィールドに入力する必要があります。</value>
   </data>
   <data name="NAME">
     <value>名前</value>
   </data>
   <data name="ADDMEMBERS">
-    <value>iFolderのメンバーの追加</value>
+    <value>iFolderメンバーの追加</value>
   </data>
   <data name="FILES">
     <value>ファイル</value>
@@ -803,19 +809,19 @@
     <value>パスワードの再入力:</value>
   </data>
   <data name="ERRORCANNOTDELETEUSER">
-    <value>ユーザID {0} を削除できません。</value>
+    <value>ユーザ ID {0}. を削除できません。</value>
   </data>
   <data name="USERDETAILS">
-    <value>ユーザ詳細</value>
+    <value>ユーザの詳細</value>
   </data>
-  <data name="ADD">
-    <value>追加</value>
+  <data name="IDENTITYSYNCTAG">
+    <value>識別情報の同期</value>
   </data>
   <data name="IFOLDERADMINS">
     <value>iFolder管理者</value>
   </data>
   <data name="ERRORUSERDOESNOTEXIST">
-    <value>指定したiFolderのユーザは存在しません。</value>
+    <value>指定したiFolderユーザは存在しません。</value>
   </data>
   <data name="VIEW">
     <value>表示</value>
@@ -830,13 +836,13 @@
     <value>Webアクセス</value>
   </data>
   <data name="ERRORINVALIDSYNCINTERVAL">
-    <value>無効な同期間隔が指定されました。値は5から2e+031 - 1までにしてください。</value>
+    <value>無効な同期間隔が指定されました。値は5～2e+031 - 1の範囲でなければなりません。</value>
   </data>
   <data name="IFOLDERUSERS">
     <value>iFolderユーザ</value>
   </data>
   <data name="LOGGEDONUSERSTAG">
-    <value>次のユーザでログオン済み:</value>
+    <value>ログオンユーザ:</value>
   </data>
   <data name="SIZE">
     <value>サイズ</value>
@@ -845,10 +851,10 @@
     <value>メンバー</value>
   </data>
   <data name="EVERYTAG">
-    <value>頻度:</value>
+    <value>間隔:</value>
   </data>
   <data name="ERRORCANNOTDELETEMEMBERS">
-    <value>iFolderのメンバー {0} を削除できません。</value>
+    <value>iFolderメンバー {0} を削除できません。</value>
   </data>
   <data name="SYSTEM">
     <value>システム</value>
@@ -857,7 +863,7 @@
     <value>管理者</value>
   </data>
   <data name="ERRORCANNOTSETUSERPOLICY">
-    <value>ユーザID {0} にユーザのポリシー情報を設定できません。</value>
+    <value>ユーザID {0} のユーザポリシー情報を設定できません。</value>
   </data>
   <data name="SYSTEMSETTINGS">
     <value>システム設定</value>
@@ -872,7 +878,7 @@
     <value>ユーザの作成</value>
   </data>
   <data name="IFOLDERISOWNEDBY">
-    <value>所有者 {0}</value>
+    <value>{0} が所有</value>
   </data>
   <data name="SLAVE">
     <value>スレーブ</value>

@@ -104,25 +104,25 @@
     <value>Wyloguj</value>
   </data>
   <data name="LOGTAG">
-    <value>Dziennik</value>
+    <value>Zaloguj</value>
   </data>
   <data name="ERRORINVALIDQUOTA">
-    <value>Określono nieprawidłową wartość przydziału miejsca na dysku. Wartość musi należeć do przedziału od 1 do 2e+063 - 1.</value>
+    <value>Podano nieprawidłową wartość przydziału miejsca na dysku. Wartość musi należeć do przedziału od 1 do 2e+063 - 1.</value>
   </data>
   <data name="WHEN">
     <value>Gdy</value>
   </data>
   <data name="LOGINSECUREFAILED">
-    <value>Nie można nawiązać bezpiecznego połączenia z serwerem iFolder.</value>
+    <value>Nie można bezpiecznie połączyć się z serwerem iFolder.</value>
   </data>
   <data name="LOGINSENDFAILED">
-    <value>Nie można nawiązać połączenia z serwerem iFolder.</value>
+    <value>Nie można połączyć się z serwerem iFolder.</value>
   </data>
   <data name="SAVE">
     <value>Zapisz</value>
   </data>
   <data name="EQUALS">
-    <value>Równa się</value>
+    <value>Równe</value>
   </data>
   <data name="SLOVAK">
     <value>Słowacki</value>
@@ -143,7 +143,7 @@
     <value>Rozmiar:</value>
   </data>
   <data name="ERRORDETAIL">
-    <value>Szczegóły błędu</value>
+    <value>Szczegóły dotyczące błędu</value>
   </data>
   <data name="LOGINIFOLDERSERVER">
     <value>Serwer iFolder:</value>
@@ -158,7 +158,7 @@
     <value>Nie można dodać członka {0} do iFolderu {1}.</value>
   </data>
   <data name="IFOLDERDETAILS">
-    <value>Szczegóły iFolderu</value>
+    <value>Szczegóły dotyczące iFolderu</value>
   </data>
   <data name="ACCESSLOGFILE">
     <value>Dostęp użytkownika</value>
@@ -167,7 +167,7 @@
     <value>Wyłącz</value>
   </data>
   <data name="LIMITTAG">
-    <value>Limit:</value>
+    <value>Ograniczenie:</value>
   </data>
   <data name="OUTPUT">
     <value>Wyjście</value>
@@ -176,16 +176,16 @@
     <value>Niedostępne</value>
   </data>
   <data name="FILETYPEALREADYEXISTS">
-    <value>Podana nazwa pliku już znajduje się na liście.</value>
+    <value>Określona nazwa pliku już znajduje się na liście.</value>
   </data>
   <data name="GENERATEDAILYREPORT">
-    <value>Generuj raport codziennie o {0} do {1}</value>
+    <value>Generuj raport codzienne o {0} do {1}</value>
   </data>
   <data name="LOGINERROR">
     <value>Błąd:</value>
   </data>
   <data name="ERRORINVALIDFILESIZE">
-    <value>Określono nieprawidłowy limit rozmiaru pliku. Wartość musi należeć do przedziału od 1 do 2e+063 - 1.</value>
+    <value>Podano nieprawidłową wartość ograniczenia wielkości pliku. Wartość musi należeć do przedziału od 1 do 2e+063 - 1.</value>
   </data>
   <data name="DNSNAME">
     <value>Nazwa DNS</value>
@@ -209,7 +209,7 @@
     <value>Pierwsza strona</value>
   </data>
   <data name="MASTER">
-    <value>Główny</value>
+    <value>Główne</value>
   </data>
   <data name="DOWNLOAD">
     <value>Pobierz</value>
@@ -227,7 +227,7 @@
     <value>Katalog raportów</value>
   </data>
   <data name="LOGINTRUSTFAILED">
-    <value>Niepowodzenie relacji zaufania między serwerem iFolder a programem iFolder Web Access.</value>
+    <value>Niepowodzenie relacji zaufania pomiędzy serwerem iFolder i programem iFolder Web Access.</value>
   </data>
   <data name="ELLIPSES">
     <value> . . .</value>
@@ -287,7 +287,7 @@
     <value>Konfiguruj raportowanie</value>
   </data>
   <data name="ERRORCANNOTSETIFOLDERPOLICY">
-    <value>Nie można ustawić informacji o założeniach dla iFolderu o identyfikatorze {0}.</value>
+    <value>Nie można ustawić informacji o założeniach dla identyfikatora iFolderu {0}.</value>
   </data>
   <data name="REPORTIFOLDERTAG">
     <value>iFolder:</value>
@@ -320,13 +320,13 @@
     <value>Częstotliwość</value>
   </data>
   <data name="LOGINACCOUNTLOCKED">
-    <value>Konto użytkownika jest aktualnie zablokowane i niedostępne.</value>
+    <value>Konto użytkownika jest obecnie zablokowane i niedostępne.</value>
   </data>
   <data name="MODIFIEDTAG">
-    <value>Modyfikacja:</value>
+    <value>Zmodyfikowano:</value>
   </data>
   <data name="HOME">
-    <value>Strona domowa</value>
+    <value>Folder domowy</value>
   </data>
   <data name="SESSIONCLOSED">
     <value>Sesja została zamknięta. Zaloguj się.</value>
@@ -335,10 +335,10 @@
     <value>Użytkownicy:</value>
   </data>
   <data name="ERRORIFOLDERDOESNOTEXIST">
-    <value>iFolder nie istnieje.</value>
+    <value>Ten iFolder nie istnieje.</value>
   </data>
   <data name="EXCLUDEDFILES">
-    <value>Pliki pomijane</value>
+    <value>Pliki wykluczone</value>
   </data>
   <data name="ENABLED">
     <value>Włączone</value>
@@ -359,7 +359,7 @@
     <value>iFoldery</value>
   </data>
   <data name="UNLIMITED">
-    <value>Nieograniczony</value>
+    <value>Nieograniczone</value>
   </data>
   <data name="SERVERLOGS">
     <value>Dzienniki serwera</value>
@@ -374,7 +374,7 @@
     <value>Używane miejsce na dysku:</value>
   </data>
   <data name="TOTALUSERSTAG">
-    <value>Łączna liczba użytkowników:</value>
+    <value>Łącznie użytkowników:</value>
   </data>
   <data name="IFOLDERDISABLED">
     <value>Wyłącz synchronizację</value>
@@ -386,7 +386,7 @@
     <value>Nowy typ pliku</value>
   </data>
   <data name="ERRORCANNOTREMOVEADMIN">
-    <value>Nie można usunąć użytkownika {0} jako administratora.</value>
+    <value>Nie można usunąć użytkownika {0}, ponieważ jest administratorem.</value>
   </data>
   <data name="PUBLICIPTAG">
     <value>Publiczny adres IP:</value>
@@ -395,7 +395,7 @@
     <value>Utwórz nowy iFolder</value>
   </data>
   <data name="MESSAGEINFORMATION">
-    <value>Informacje:</value>
+    <value>Informacja:</value>
   </data>
   <data name="DENY">
     <value>Odmów</value>
@@ -404,13 +404,13 @@
     <value>Stan serwera</value>
   </data>
   <data name="GENERATEWEEKLYREPORT">
-    <value>Twórz raport co {0} o {1} do {2}</value>
+    <value>Generuj raport co {0} o {1} do {2}</value>
   </data>
   <data name="FIRST">
     <value>Pierwszy</value>
   </data>
   <data name="ERRORNOQUOTA">
-    <value>Nie określono wartości przydziału miejsca na dysku.</value>
+    <value>Nie podano wartości przydziału miejsca na dysku.</value>
   </data>
   <data name="INTERVALTAG">
     <value>Interwał:</value>
@@ -419,16 +419,16 @@
     <value>Wyłączone</value>
   </data>
   <data name="LOGINREDIRECT">
-    <value>Należy zaktualizować adres URL serwera iFolder.</value>
+    <value>Należy uaktualnić adres URL serwera iFolder.</value>
   </data>
   <data name="TITLE">
     <value>Administrator iFolderu</value>
   </data>
   <data name="READWRITE">
-    <value>Odczyt zapis</value>
+    <value>Odczyt Zapis</value>
   </data>
   <data name="ADMIN">
-    <value>Administrator</value>
+    <value>Admin</value>
   </data>
   <data name="ACCOUNT">
     <value>Konto</value>
@@ -440,7 +440,7 @@
     <value>Włącz</value>
   </data>
   <data name="ERRORCANNOTCHANGERIGHTS">
-    <value>Nie można zmienić uprawnień członkowskich użytkownika {0}.</value>
+    <value>Nie można zmienić uprawnień członkostwa dla użytkownika {0}.</value>
   </data>
   <data name="LOGINCONNECTFAILED">
     <value>Nie można nawiązać połączenia z serwerem iFolder.</value>
@@ -479,34 +479,34 @@
     <value>Nie można dodać członka {0} jako administratora.</value>
   </data>
   <data name="ERRORCANNOTCHANGEOWNER">
-    <value>Nie można zmienić własności iFolderu.</value>
+    <value>Nie można zmienić prawa własności do iFolderu.</value>
   </data>
   <data name="SELECTIFOLDEROWNER">
-    <value>Wybierz właściciela iFolderu {0}</value>
+    <value>Wybierz właściciela dla iFolderu „{0}”</value>
   </data>
   <data name="NEXTPAGE">
     <value>Następna strona</value>
   </data>
-  <data name="TOTALIFOLDERSTAG">
-    <value>Łączna liczba iFolderów:</value>
+  <data name="ADD">
+    <value>Dodaj</value>
   </data>
   <data name="LAST">
     <value>Ostatni</value>
   </data>
   <data name="PORTUGUESE-BRAZIL">
-    <value>Portugalski (Brazylia)</value>
+    <value>Portugalski (brazylijski)</value>
   </data>
   <data name="POLISH">
     <value>Polski</value>
   </data>
   <data name="DISKQUOTA">
-    <value>Przydział dysku</value>
+    <value>Obszar dysku</value>
   </data>
   <data name="TRUE">
     <value>Prawda</value>
   </data>
   <data name="INFO">
-    <value>Informacje</value>
+    <value>Informacja</value>
   </data>
   <data name="PUBLICURI">
     <value>Publiczny adres IP</value>
@@ -515,13 +515,13 @@
     <value>W przeglądarce należy włączyć obsługę skryptów.</value>
   </data>
   <data name="GENERATEMONTHLYREPORT">
-    <value>Twórz raport {0} dnia każdego miesiąca o {1} do {2}</value>
+    <value>Generuj raport w {0} dniu każdego miesiąca o {1} do {2}</value>
   </data>
   <data name="LOGINLOGOUT">
-    <value>Nastąpiło wylogowanie z programu iFolder.</value>
+    <value>Wylogowano z programu iFolder.</value>
   </data>
   <data name="EFFECTIVETAG">
-    <value>Obowiązuje:</value>
+    <value>Ważne od:</value>
   </data>
   <data name="LOGINPASSWORD">
     <value>Hasło:</value>
@@ -530,16 +530,16 @@
     <value>Godzina ostatniego logowania:</value>
   </data>
   <data name="REPORTDIRECTORYTAG">
-    <value>Katalog:</value>
+    <value>katalog:</value>
   </data>
   <data name="GERMAN">
     <value>Niemiecki</value>
   </data>
   <data name="SERVERREPORTS">
-    <value>Raporty serwera</value>
+    <value>Raporty o serwerze</value>
   </data>
   <data name="NEXT">
-    <value>Następny</value>
+    <value>Dalej</value>
   </data>
   <data name="OWNED">
     <value>Właściciel</value>
@@ -590,16 +590,19 @@
     <value>&amp;copy; Copyright 2006 Novell, Inc. Wszelkie prawa zastrzeżone.</value>
   </data>
   <data name="DEBUG">
-    <value>Debugowanie</value>
+    <value>Debuguj</value>
   </data>
   <data name="CSVFORMAT">
     <value>Tekstowy CSV</value>
   </data>
   <data name="SELECTUSERS">
-    <value>Wybrani użytkownicy</value>
+    <value>Wybierz użytkowników</value>
   </data>
   <data name="SELECTEDUSERS">
     <value>Wybrani użytkownicy</value>
+  </data>
+  <data name="TOTALIFOLDERSTAG">
+    <value>Łącznie iFolderów:</value>
   </data>
   <data name="UNKNOWNERROR">
     <value>Wystąpił nieznany błąd. Nie określono wyjątku.</value>
@@ -620,7 +623,7 @@
     <value>Nazwa użytkownika:</value>
   </data>
   <data name="ALLOW">
-    <value>Zezwól</value>
+    <value>Zezwalaj</value>
   </data>
   <data name="POLICIES">
     <value>Założenia</value>
@@ -641,16 +644,16 @@
     <value>Zawiera</value>
   </data>
   <data name="ERRORNOFILESIZE">
-    <value>Nie określono wartości limitu rozmiaru pliku.</value>
+    <value>Nie podano limitu wielkości pliku.</value>
   </data>
   <data name="LOGLEVELTAG">
-    <value>Poziom dziennika</value>
+    <value>Poziom szczegółowości dziennika</value>
   </data>
   <data name="ERRORCANNOTCREATEIFOLDER">
     <value>Nie można utworzyć iFolderu.</value>
   </data>
   <data name="LOGINNOCOOKIES">
-    <value>W przeglądarce należy włączyć obsługę plików cookie.</value>
+    <value>Należy włączyć obsługę plików cookie w przeglądarce.</value>
   </data>
   <data name="OK">
     <value>OK</value>
@@ -662,7 +665,10 @@
     <value>Właściciel</value>
   </data>
   <data name="ERRORACCESSEXCEPTION">
-    <value>Nie posiadasz wystarczających uprawnień do wykonania żądania.</value>
+    <value>Użytkownik nie ma wystarczających uprawnień do wykonania żądania.</value>
+  </data>
+  <data name="SYNCNOW">
+    <value>Synchronizuj teraz</value>
   </data>
   <data name="NAMETAG">
     <value>Nazwa:</value>
@@ -710,7 +716,7 @@
     <value>Nie można ustawić informacji o założeniach systemowych.</value>
   </data>
   <data name="MINUTES">
-    <value>Minuty</value>
+    <value>min</value>
   </data>
   <data name="ALL">
     <value>Wszystko</value>
@@ -722,16 +728,16 @@
     <value>Stan:</value>
   </data>
   <data name="SERVERDETAILS">
-    <value>Szczegóły serwera</value>
+    <value>Szczegóły dotyczące serwera</value>
   </data>
   <data name="ERRORTEMPLATE">
     <value>Błąd: {0}</value>
   </data>
   <data name="BACK">
-    <value>Wstecz</value>
+    <value>Cofnij</value>
   </data>
   <data name="ERRORINSTRUCTIONS">
-    <value>&lt;p&gt;W programie iFolder Web Access wystąpił nieoczekiwany błąd.&lt;/p&gt; &lt;p&gt;Przepraszamy za wszelkie niedogodności oraz zalecamy wylogowanie się i ponowienie próby.&lt;/p&gt;</value>
+    <value>&lt;p&gt;W programie iFolder Web Access wystąpił nieoczekiwany błąd.&lt;/p&gt; &lt;p&gt;Przepraszamy za wszelkie niedogodności i zalecamy wylogowanie się i spróbowanie ponownie.&lt;/p&gt;</value>
   </data>
   <data name="NEWIFOLDERDESCRIPTIONTAG">
     <value>Opis iFolderu:</value>
@@ -746,10 +752,10 @@
     <value>System</value>
   </data>
   <data name="PAGENUMBERFORMAT">
-    <value>{0} ̵ {1} z {2} {3}</value>
+    <value>{0} - {1} z {2} {3}</value>
   </data>
   <data name="ERRORNOSYNCINTERVAL">
-    <value>Nie określono interwału synchronizacji.</value>
+    <value>Nie podano odstępu między synchronizacjami.</value>
   </data>
   <data name="FILESIZE">
     <value>Rozmiar pliku</value>
@@ -758,7 +764,7 @@
     <value>Włoski</value>
   </data>
   <data name="ERRORAUTHENTICATIONFAILED">
-    <value>Uwierzytelnianie nie powiodło się.</value>
+    <value>Uwierzytelnienie nie powiodło się.</value>
   </data>
   <data name="ENABLEREPORTING">
     <value>Włącz raportowanie</value>
@@ -767,13 +773,13 @@
     <value>Sesje:</value>
   </data>
   <data name="IFOLDERUSERDETAILS">
-    <value>Szczegóły użytkownika iFolderu</value>
+    <value>Szczegóły dotyczące użytkownika iFolderu</value>
   </data>
   <data name="FULLNAME">
     <value>Pełna nazwa</value>
   </data>
   <data name="PASSWORDSDONOTMATCH">
-    <value>Hasła nie są jednakowe.</value>
+    <value>Hasła nie są identyczne.</value>
   </data>
   <data name="PATHTAG">
     <value>Ścieżka:</value>
@@ -785,10 +791,10 @@
     <value>Właściciel:</value>
   </data>
   <data name="ADDMEMBERSTOIFOLDER">
-    <value>Dodaj dodatkowych członków do iFolderu {0}</value>
+    <value>Dodaj dodatkowych członków do iFolderu „{0}”</value>
   </data>
   <data name="ALLFIELDSREQUIRED">
-    <value>Należy wypełnić wszystkie pola.</value>
+    <value>Wszystkie pola muszą być wypełnione.</value>
   </data>
   <data name="NAME">
     <value>Nazwa</value>
@@ -800,16 +806,16 @@
     <value>Pliki</value>
   </data>
   <data name="RETYPEPASSWORDTAG">
-    <value>Wprowadź hasło ponownie:</value>
+    <value>Wpisz ponownie hasło:</value>
   </data>
   <data name="ERRORCANNOTDELETEUSER">
-    <value>Nie można usunąć użytkownika o identyfikatorze {0}.</value>
+    <value>Nie można usunąć identyfikatora użytkownika {0}.</value>
   </data>
   <data name="USERDETAILS">
-    <value>Szczegóły użytkownika</value>
+    <value>Szczegóły dotyczące użytkownika</value>
   </data>
-  <data name="ADD">
-    <value>Dodaj</value>
+  <data name="IDENTITYSYNCTAG">
+    <value>Synchronizacja tożsamości</value>
   </data>
   <data name="IFOLDERADMINS">
     <value>Administratorzy iFolderu</value>
@@ -824,16 +830,16 @@
     <value>Używane:</value>
   </data>
   <data name="REPORTIFOLDER">
-    <value>Raport o iFolderze</value>
+    <value>Raportuj o iFolderze</value>
   </data>
   <data name="WEBACCESSLOGFILE">
     <value>Web Access</value>
   </data>
   <data name="ERRORINVALIDSYNCINTERVAL">
-    <value>Określono nieprawidłowy interwał synchronizacji. Wartość musi należeć do przedziału od 5 do 2e+031 - 1.</value>
+    <value>Podano nieprawidłowy interwał czasowy między synchronizacjami. Wartość musi należeć do przedziału od 5 do 2e+031 - 1.</value>
   </data>
   <data name="IFOLDERUSERS">
-    <value>Użytkownicy iFolderu</value>
+    <value>Użytkownicy iFolderów</value>
   </data>
   <data name="LOGGEDONUSERSTAG">
     <value>Zalogowani użytkownicy:</value>
@@ -848,7 +854,7 @@
     <value>Co:</value>
   </data>
   <data name="ERRORCANNOTDELETEMEMBERS">
-    <value>Nie można usunąć członka {0} iFolderu.</value>
+    <value>Nie można usunąć członka iFolderu {0}.</value>
   </data>
   <data name="SYSTEM">
     <value>System</value>
@@ -857,7 +863,7 @@
     <value>Administratorzy</value>
   </data>
   <data name="ERRORCANNOTSETUSERPOLICY">
-    <value>Nie można ustawić informacji o założeniach użytkownika dla użytkownika o identyfikatorze {0}.</value>
+    <value>Nie można ustawić informacji o założeniach dla identyfikatora użytkownika {0}.</value>
   </data>
   <data name="SYSTEMSETTINGS">
     <value>Ustawienia systemowe</value>
@@ -872,7 +878,7 @@
     <value>Utwórz użytkownika</value>
   </data>
   <data name="IFOLDERISOWNEDBY">
-    <value>Będący własnością {0}</value>
+    <value>Właścicielem jest {0}</value>
   </data>
   <data name="SLAVE">
     <value>Podrzędny</value>
