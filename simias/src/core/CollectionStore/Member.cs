@@ -1072,14 +1072,17 @@ namespace Simias.Storage
 			if(!File.Exists(FilePath))
 				throw new CollectionStoreException("File not found"); //will be caught by the caller					
 
+			string strKey = string.Format("//{0}/{1}", "iFolderCollection", "Key");
+			string strID = string.Format("//{0}/{1}", "iFolderCollection", "iFolderID");
+			
 			XmlDocument encFile = new XmlDocument();
 			encFile.Load(FilePath);
 			
 			XmlNodeList keyNodeList, idNodeList;
 			XmlElement root = encFile.DocumentElement;
 			
-			keyNodeList = root.SelectNodes("iFolderID");
-			idNodeList = root.SelectNodes("Key");
+			keyNodeList = root.SelectNodes(strKey);
+			idNodeList = root.SelectNodes(strID);
 			
 			try
 			{
@@ -1101,12 +1104,13 @@ namespace Simias.Storage
 				int count = 0;
 				foreach (XmlNode idNode in idNodeList)
 				{
+					log.Debug("RECOVERY: Parsing Element :{0}", count);
 					PassphraseHash hash = new PassphraseHash();
 					
-					XmlNode keyNode = keyNodeList[count++];
+					XmlNode keyNode = keyNodeList[count++];					
 					string RecoveredCryptoKey = keyNode.InnerText;
 					string DecrypRecoveredCryptoKey = null;
-					if(OneTimePassphrase !=null)
+					if(OneTimePassphrase !=null && OneTimePassphrase !="")
 					{					
 						byte[] Passphrase = hash.HashPassPhrase(OneTimePassphrase);	
 						Key DeKey = new Key(RecoveredCryptoKey);
@@ -1115,13 +1119,15 @@ namespace Simias.Storage
 					else
 						DecrypRecoveredCryptoKey = RecoveredCryptoKey;
 
-					//Very the recovered key matches with the original key
+					//Verify the recovered key matches with the original key
 					Key HashKey = new Key(DecrypRecoveredCryptoKey);	
 					string serverHash = svc.ServerGetCollectionHashKey(idNode.InnerText);
 					if(serverHash == null)
-						throw new CollectionStoreException("The specified cryptographic key does not found");
+						throw new CollectionStoreException("The specified cryptographic key does not found in server");
 					if(HashKey.HashKey() != serverHash)
 						throw new CollectionStoreException("The recovered cryptographic key does not match");
+
+					log.Debug("RECOVERY: The recovery key macth with the server key");				
 					
 					//Encrypted the recovered key using the new passphrase
 					byte[] passphrase = hash.HashPassPhrase(NewPassphrase);	
@@ -1132,19 +1138,18 @@ namespace Simias.Storage
 					cKey.PEDEK = EncryptedKey;
 					cKey.NodeID =  idNode.InnerText;
 					cKey.REDEK =  null;
-
 					
 					if(svc.SetiFolderCryptoKeys(DomainID, UserID, cKey)==false)
 					{
-						log.Debug("ImportiFoldersCryptoKeys failed in SetiFolderCryptoKeys:", cKey.NodeID);
+						log.Debug("ImportiFoldersCryptoKeys failed in SetiFolderCryptoKeys:{0}", cKey.NodeID);
 						throw new CollectionStoreException("The specified cryptographic key does not found");
 					}
-				}				
+				}		
 				SetPassPhrase(NewPassphrase, null, null);				
 			}
 			catch(Exception ex)
 			{
-				log.Debug("ExportiFoldersCryptoKeys : {0}", ex.Message);
+				log.Debug("ImportiFoldersCryptoKeys : {0}", ex.Message);
 				throw ex;
 			}
 			finally{}
