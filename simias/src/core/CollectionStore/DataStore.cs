@@ -169,7 +169,7 @@ namespace Simias.Storage
 			Mono.Posix.Syscall.symlink(this.FullPath,tmppath);
 
 			string storageFormat = String.Format( "{0}|{1}", DataPath, FullPath);
-			storageFormat = String.Format( "{0}|{1}",storageFormat,Enabled.ToString());
+			storageFormat = String.Format( "{0}|{1}",storageFormat,this.Enabled.ToString());
 			HostNode host = HostNode.GetLocalHost();
 			host.Properties.AddProperty( PropertyTags.DataPath, storageFormat );
 			domain.Commit(host);
@@ -214,27 +214,38 @@ namespace Simias.Storage
 		public static DataStore[] GetVolumes()
 		{
 			HostNode host = HostNode.GetLocalHost();
-			MultiValuedList mv = host.Properties.GetProperties( PropertyTags.DataPath );
-			ArrayList VolumeList = new ArrayList();
-			int count = 1;
-			if( mv != null )
+			if( host != null )
 			{
-                        	foreach( Property prop in mv )
+				MultiValuedList mv = host.Properties.GetProperties( PropertyTags.DataPath );
+	                        ArrayList VolumeList = new ArrayList();
+        	                int count = 1;
+                	        if( mv != null )
                         	{
-					VolumeList.Add(prop.Value);
-                        	}
+	                                foreach( Property prop in mv )
+        	                        {
+                	                        VolumeList.Add(prop.Value);
+                        	        }
+	                        }	
+        	                string[] stringArray = new string[VolumeList.Count];
+                	        VolumeList.CopyTo(stringArray);
+                        	DataStore[] DataStoreArray = new DataStore[VolumeList.Count+1];
+	                        DataStoreArray[0] = new DataStore("Default-Store");
+        	                foreach(string a in stringArray)
+                	        {
+					log.Info(a,"j");
+                        	        string[] comps = a.Split( '|' );
+                                	DataStoreArray[ count ] = new DataStore(comps[0],comps[1],comps[2]);
+	                                count++;
+        	                }
+                	        return DataStoreArray;
 			}
-			string[] stringArray = new string[VolumeList.Count];
-			VolumeList.CopyTo(stringArray);
-			DataStore[] DataStoreArray = new DataStore[VolumeList.Count+1];
-			DataStoreArray[0] = new DataStore("Default-Store");
-			foreach(string a in stringArray)
+			else
 			{
-				string[] comps = a.Split( '|' );			
-				DataStoreArray[ count ] = new DataStore(comps[0],comps[1],comps[2]);
-				count++;
-			}	
-			return DataStoreArray; 
+				
+				DataStore[] DataStoreArray = new DataStore[1];
+				DataStoreArray[0] = new DataStore("Default-Store");	
+				return DataStoreArray;
+			}
 		}
 		#endregion
        	}

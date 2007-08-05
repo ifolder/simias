@@ -746,7 +746,6 @@ namespace Simias.Storage
 				#if MONO 
 				{
 	                                int LowerIndex=0,HigherIndex=0;
-        	                        DataStore v = new DataStore();
                 	                DataStore[] volumes = DataStore.GetVolumes();
                         	        foreach(DataStore item in volumes)
 	                                {
