@@ -21,3 +21,5 @@
 
 	* Collection.cs : Added Property to retrieve and set the encryption algorithm
 
+CryptoKey.cs  added for recovery encryption
+
