@@ -261,6 +261,9 @@
 	<data name="ERRORINVALIDFILESIZE">
 		<value>An invalid file size limit value was specified. Value must be between 1 and 2e+063 - 1.</value>
 	</data>
+	<data name="ERRORINVALIDLIMIT">
+                <value>An invalid file size limit value was specified. Value must be lesser than Disk Space Quota.</value>
+        </data>
 	<data name="ERRORINVALIDQUOTA">
 		<value>An invalid disk space quota value was specified. Value must be between 1 and 2e+063 - 1.</value>
 	</data>

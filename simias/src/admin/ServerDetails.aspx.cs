@@ -648,38 +648,13 @@ namespace Novell.iFolderWeb.Admin
 				}
 				else
 				{
-					int MountPointCount = 0;
-					double FreeSpace = mntpt.AvailableFreeSpace;
-					while( FreeSpace > 1024 )
-					{
-						MountPointCount ++;
-						FreeSpace = FreeSpace / 1024 ;
-					}
-                                	result = FreeSpace.ToString();
-					int index = result.IndexOf(".");
-					result = result.Substring( 0 , index + 3 );
-					switch( MountPointCount )
-					{
-						case 1:
-							result = result + "Kb";
-							break;
-						case 2:
-							result = result + "Mb";
-							break;
-						case 3:
-							result = result + "Gb";
-                                        	        break;
-						case 4:
-							result = result + "Tb";
-                	                                break;
-					}
+					result = Utils.ConvertToUnitString( mntpt.AvailableFreeSpace,true, rm ); 
 					dr[ 4 ] = result;
 				}
 				dr[ 5 ] = GetString( mntpt.Enabled ? "YES" : "NO" );
                                 dt.Rows.Add( dr );
 
                         }
-			
 	
                         for ( int RowCount = dt.Rows.Count; RowCount < DataPaths.PageSize; ++RowCount )
                         {

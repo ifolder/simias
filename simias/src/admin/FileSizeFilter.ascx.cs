@@ -307,7 +307,18 @@ namespace Novell.iFolderWeb.Admin
 						if ( limit >= 1 )
 						{
 							// Convert megabytes to bytes.
-							policy.FileSizeLimit = Convert.ToInt64( Decimal.Round( limit, 2 ) * 1048576 );
+							long filelimit = Convert.ToInt64( Decimal.Round( limit, 2 ) * 1048576 );
+							if ( policy.SpaceLimit > 0 )
+							{
+								if ( filelimit >= policy.SpaceLimit ) 
+								{
+									throw new ArgumentException( GetString( "ERRORINVALIDLIMIT" ) );
+								}
+							}
+							else
+							{
+								policy.FileSizeLimit = filelimit;
+							}
 						}
 						else
 						{

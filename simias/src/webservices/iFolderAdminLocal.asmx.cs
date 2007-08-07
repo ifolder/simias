@@ -1039,7 +1039,8 @@ namespace iFolder.WebService
                          EnableSession=true)]
                 public virtual bool AddDataStore(string datapathname,string fullpath,string ServerID)
                 {
-			DataStore datastore = new DataStore(datapathname, fullpath, true);
+			bool enabled = true;
+                        DataStore datastore = new DataStore(datapathname, fullpath, enabled);
 			return datastore.AddStore(ServerID);	
                 }
 
