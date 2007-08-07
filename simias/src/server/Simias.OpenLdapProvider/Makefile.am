@@ -1,7 +1,7 @@
 # handle Mono secondary dependencies
 export MONO_PATH := $(MONO_PATH):$(DESTDIR)$(libdir)
 
-OpenLdapProvider_CSFILES = $(srcdir)/AssemblyInfo.cs $(srcdir)/OpenLdapSync.cs $(srcdir)/User.cs 
+OpenLdapProvider_CSFILES = $(srcdir)/OpenLdapSync.cs $(srcdir)/User.cs 
 OpenLdapProvider_CSFILES_CSC := $(subst /,$(SEP),$(OpenLdapProvider_CSFILES))
 OpenLdapProvider_INCLUDES =
 OpenLdapProvider_RESOURCES =
@@ -16,7 +16,7 @@ endif
 
 OpenLdapProvider_LIBS = System.dll System.Data.dll $(SYSTEM_XML) System.Web.dll System.Web.Services.dll SimiasLib.dll SimiasClient.dll Simias.Server.dll Simias.LdapProvider.dll Novell.Directory.Ldap.dll
 
-EXTRA_DIST = $(OpenLdapProvider_CSFILES) 
+EXTRA_DIST = $(OpenLdapProvider_CSFILES) AssemblyInfo.cs.in
 
 if MAKE_DOC_FILE
 DOC_FILE = $(basename $@).doc.xml
@@ -26,8 +26,8 @@ endif
 
 SERVER_ASSEMBLIES := Simias.OpenLdapProvider.dll
 
-Simias.OpenLdapProvider.dll: $(OpenLdapProvider_CSFILES) $(OpenLdapProvider_RESOURCES)
-	$(CSC) /out:$@ $(CSCFLAGS) $(OpenLdapProvider_FLAGS) $(SIMIAS_CLIENT_LIBS) $(SIMIAS_LIBS) $(OpenLdapProvider_LIBPATH:%=/lib:%) $(OpenLdapProvider_LIBS:%=/r:%) $(OpenLdapProvider_RESOURCES:%=$(ICON_FLAG)%) $(OpenLdapProvider_CSFILES_CSC) $(DOC_FILE_CMD)
+Simias.OpenLdapProvider.dll: $(srcdir)/AssemblyInfo.cs $(OpenLdapProvider_CSFILES) $(OpenLdapProvider_RESOURCES)
+	$(CSC) /out:$@ $(CSCFLAGS) $(OpenLdapProvider_FLAGS) $(SIMIAS_CLIENT_LIBS) $(SIMIAS_LIBS) $(OpenLdapProvider_LIBPATH:%=/lib:%) $(OpenLdapProvider_LIBS:%=/r:%) $(OpenLdapProvider_RESOURCES:%=$(ICON_FLAG)%) $(srcdir)/AssemblyInfo.cs $(OpenLdapProvider_CSFILES_CSC) $(DOC_FILE_CMD)
 	
 all: $(SERVER_ASSEMBLIES) 
 
@@ -55,14 +55,17 @@ installcheck-local: install
 .PHONY: test
 test: installcheck
 
-CLEAN_FILES = $(SERVER_ASSEMBLIES) $(DOC_FILE_CLEAN) 
+CLEAN_FILES = $(SERVER_ASSEMBLIES) $(DOC_FILE_CLEAN) AssemblyInfo.cs
 
 clean-local:
 	rm -rf $(CLEAN_FILES) $(COMMON_CLEAN_FILES)
 
-#distclean-local:
-#	rm -rf $(COMMON_DISTCLEAN_FILES)
+distclean-local:
+	rm -rf $(COMMON_DISTCLEAN_FILES)
+	rm -rf AssemblyInfo.cs
+	rm -rf Makefile
 
 maintainer-clean-local:
 	rm -rf $(COMMON_MAINTAINER_CLEAN_FILES)
+	rm -rf AssemblyInfo.cs
 

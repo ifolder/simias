@@ -3,7 +3,6 @@ export MONO_PATH := $(MONO_PATH):$(DESTDIR)$(libdir)
 
 SimiasServer_CSFILES = \
 	$(srcdir)/Service.cs \
-	$(srcdir)/AssemblyInfo.cs \
 	$(srcdir)/Authentication.cs \
 	$(srcdir)/Catalog.cs \
 	$(srcdir)/Domain.cs \
@@ -49,8 +48,8 @@ SERVER_ASSEMBLIES := Simias.Server.dll
 
 all: $(SERVER_ASSEMBLIES)
 
-Simias.Server.dll: $(SimiasServer_CSFILES) $(SimiasServer_RESOURCES)
-	$(CSC) /out:$@ $(CSCFLAGS) $(SimiasServer_FLAGS) $(SimiasServer_LIBPATH:%=/lib:%) $(SimiasServer_LIBS:%=/r:%) $(SimiasServer_RESOURCES:%=/res:%) $(SimiasServer_CSFILES_CSC) $(DOC_FILE_CMD)
+Simias.Server.dll: $(srcdir)/AssemblyInfo.cs $(SimiasServer_CSFILES) $(SimiasServer_RESOURCES)
+	$(CSC) /out:$@ $(CSCFLAGS) $(SimiasServer_FLAGS) $(SimiasServer_LIBPATH:%=/lib:%) $(SimiasServer_LIBS:%=/r:%) $(SimiasServer_RESOURCES:%=/res:%) $(srcdir)/AssemblyInfo.cs $(SimiasServer_CSFILES_CSC) $(DOC_FILE_CMD)
 	
 Simias.Server.%.resources : %.resx
 	$(RESGEN) $< $@
@@ -77,13 +76,15 @@ installcheck-local: install
 .PHONY: test
 test: installcheck
 
-CLEAN_FILES = $(SERVER_ASSEMBLIES) $(DOC_FILE_CLEAN) $(SimiasServer_RESOURCES)
+CLEAN_FILES = $(SERVER_ASSEMBLIES) $(DOC_FILE_CLEAN) $(SimiasServer_RESOURCES) AssemblyInfo.cs
 
 clean-local:
 	rm -rf $(CLEAN_FILES) $(COMMON_CLEAN_FILES)
 
-#distclean-local:
-#	rm -rf $(COMMON_DISTCLEAN_FILES)
+distclean-local:
+	rm -rf $(COMMON_DISTCLEAN_FILES)
+	rm -rf AssemblyInfo.cs
+	rm -rf Makefile	
 
 maintainer-clean-local:
 	rm -rf $(COMMON_MAINTAINER_CLEAN_FILES)

@@ -9,8 +9,7 @@ endif
 
 MONO_WEBSERVER_PATH = ../../../external/Mono.WebServer
 
-Simias_CSFILES = $(srcdir)/AssemblyInfo.cs \
-		$(srcdir)/Simias.cs \
+Simias_CSFILES = $(srcdir)/Simias.cs \
 		$(srcdir)/SimiasAppInstallerClass.cs
 
 Simias_CSFILES_CSC := $(subst /,$(SEP),$(Simias_CSFILES))
@@ -36,8 +35,8 @@ endif
 
 all: Simias.exe
 
-Simias.exe: AssemblyInfo.cs $(Simias_CSFILES) $(Simias_RESOURCES)
-	$(CSC) /out:$@ $(CSCFLAGS) $(Simias_FLAGS) $(SIMIAS_LIBS) $(Simias_LIBS:%=/r:%) $(Simias_LIBPATH:%=/lib:%) $(Simias_RESOURCES:%=$(ICON_FLAG)%) $(Simias_CSFILES_CSC) $(DOC_FILE_CMD)
+Simias.exe: $(srcdir)/AssemblyInfo.cs $(Simias_CSFILES) $(Simias_RESOURCES)
+	$(CSC) /out:$@ $(CSCFLAGS) $(Simias_FLAGS) $(SIMIAS_LIBS) $(Simias_LIBS:%=/r:%) $(Simias_LIBPATH:%=/lib:%) $(Simias_RESOURCES:%=$(ICON_FLAG)%) $(srcdir)/AssemblyInfo.cs $(Simias_CSFILES_CSC) $(DOC_FILE_CMD)
 
 if DEBUG
 if WINDOWS
@@ -55,13 +54,15 @@ uninstall-local:
 
 installcheck-local: install
 	
-CLEAN_FILES = Simias.exe $(DOC_FILE_CLEAN)
+CLEAN_FILES = Simias.exe $(DOC_FILE_CLEAN) AssemblyInfo.cs
 
 clean-local:
 	rm -rf $(CLEAN_FILES) $(COMMON_CLEAN_FILES)
 
 distclean-local:
 	rm -rf $(COMMON_DISTCLEAN_FILES)
+	rm -rf AssemblyInfo.cs
+	rm -rf Makefile
 
 maintainer-clean-local:
 	rm -rf $(COMMON_MAINTAINER_CLEAN_FILES)

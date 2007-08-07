@@ -3,7 +3,7 @@ SUBDIRS = libsimias-event libsimias-manager
 # handle Mono secondary dependencies
 export MONO_PATH := $(MONO_PATH)
 
-SimiasClient_CSFILES = $(srcdir)/AssemblyInfo.cs $(srcdir)/CertPolicy.cs $(srcdir)/CollectionSyncEventArgs.cs $(srcdir)/FileSyncEventArgs.cs $(srcdir)/DomainService.cs $(srcdir)/IProcEventClient.cs $(srcdir)/IProcEventData.cs $(srcdir)/IProcEventListener.cs $(srcdir)/IProcEventRegistration.cs $(srcdir)/IProcEventTypes.cs $(srcdir)/LocalService.cs $(srcdir)/Manager.cs $(srcdir)/MyEnvironment.cs $(srcdir)/MyPath.cs $(srcdir)/MyPlatformID.cs $(srcdir)/MyRuntimeID.cs $(srcdir)/NeedCredentialsEventArgs.cs $(srcdir)/NodeEventArgs.cs $(srcdir)/NodeTypes.cs $(srcdir)/NotifyEventArgs.cs $(srcdir)/SimiasEventArgs.cs $(srcdir)/Authentication.cs $(srcdir)/SimiasService.cs $(srcdir)/SyncStatus.cs
+SimiasClient_CSFILES = $(srcdir)/CertPolicy.cs $(srcdir)/CollectionSyncEventArgs.cs $(srcdir)/FileSyncEventArgs.cs $(srcdir)/DomainService.cs $(srcdir)/IProcEventClient.cs $(srcdir)/IProcEventData.cs $(srcdir)/IProcEventListener.cs $(srcdir)/IProcEventRegistration.cs $(srcdir)/IProcEventTypes.cs $(srcdir)/LocalService.cs $(srcdir)/Manager.cs $(srcdir)/MyEnvironment.cs $(srcdir)/MyPath.cs $(srcdir)/MyPlatformID.cs $(srcdir)/MyRuntimeID.cs $(srcdir)/NeedCredentialsEventArgs.cs $(srcdir)/NodeEventArgs.cs $(srcdir)/NodeTypes.cs $(srcdir)/NotifyEventArgs.cs $(srcdir)/SimiasEventArgs.cs $(srcdir)/Authentication.cs $(srcdir)/SimiasService.cs $(srcdir)/SyncStatus.cs
 SimiasClient_CSFILES_CSC := $(subst /,$(SEP),$(SimiasClient_CSFILES))
 SimiasClient_INCLUDES =
 SimiasClient_RESOURCES =
@@ -40,8 +40,8 @@ if DARWIN
 	wsdl -nologo -out:SimiasService.cs $(srcdir)/../WebService/Simias.wsdl
 endif
 
-SimiasClient.dll: $(SimiasClient_CSFILES) $(SimiasClient_RESOURCES)
-	$(CSC) /out:$@ $(CSCFLAGS) $(STRONG_NAME) $(SimiasClient_FLAGS) $(SimiasClient_LIBS:%=/r:%) $(SimiasClient_LIBPATH:%=/lib:%) $(SimiasClient_RESOURCES:%=$(ICON_FLAG)%) $(SimiasClient_CSFILES_CSC) $(subst /,$(SEP),$(srcdir)/SimiasSetup.cs) $(DOC_FILE_CMD)
+SimiasClient.dll: $(srcdir)/AssemblyInfo.cs $(SimiasClient_CSFILES) $(SimiasClient_RESOURCES)
+	$(CSC) /out:$@ $(CSCFLAGS) $(STRONG_NAME) $(SimiasClient_FLAGS) $(SimiasClient_LIBS:%=/r:%) $(SimiasClient_LIBPATH:%=/lib:%) $(SimiasClient_RESOURCES:%=$(ICON_FLAG)%) $(srcdir)/AssemblyInfo.cs $(SimiasClient_CSFILES_CSC) $(subst /,$(SEP),$(srcdir)/SimiasSetup.cs) $(DOC_FILE_CMD)
 
 if DEBUG
 if WINDOWS
@@ -65,13 +65,15 @@ uninstall-local:
 	
 installcheck-local: install
 	
-CLEAN_FILES = SimiasClient.dll $(DOC_FILE_CLEAN) $(srcdir)/SimiasService.cs
+CLEAN_FILES = SimiasClient.dll $(DOC_FILE_CLEAN) $(srcdir)/SimiasService.cs AssemblyInfo.cs
 
 clean-local:
 	rm -rf $(CLEAN_FILES) $(COMMON_CLEAN_FILES)
 
 distclean-local:
 	rm -rf $(COMMON_DISTCLEAN_FILES)
+	rm -rf AssemblyInfo.cs
+	rm -rf Makefile
 
 maintainer-clean-local:
 	rm -rf $(COMMON_MAINTAINER_CLEAN_FILES)

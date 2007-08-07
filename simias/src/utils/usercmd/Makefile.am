@@ -2,7 +2,6 @@
 export MONO_PATH := $(MONO_PATH)
 
 UserCmd_CSFILES = \
-	$(srcdir)/AssemblyInfo.cs \
 	$(srcdir)/Main.cs \
 	$(srcdir)/AdminService.cs
 	
@@ -26,10 +25,6 @@ endif
 
 EXTRA_DIST = $(UserCmd_CSFILES) AssemblyInfo.cs.in simias-create-user.in simias-delete-user.in
 
-AssemblyInfo.cs: $(srcdir)/AssemblyInfo.cs.in Makefile
-	sed -e 's,@_VERSION_@,@VERSION@,g' $< > $@
-	chmod +x $@
-	
 if MAKE_DOC_FILE
 DOC_FILE = $(basename $@).doc.xml
 DOC_FILE_CMD = /doc:$(DOC_FILE)
@@ -41,7 +36,7 @@ all: UserCmd.exe
 AdminService.cs: ../../webservices/iFolderAdmin.wsdl
 	wsdl /nologo /out:$@ $<
 
-UserCmd.exe: $(UserCmd_CSFILES) $(UserCmd_RESOURCES)
+UserCmd.exe: $(srcdir)/AssemblyInfo.cs $(UserCmd_CSFILES) $(UserCmd_RESOURCES)
 	$(CSC) /out:$@ $(CSCFLAGS) $(UserCmd_FLAGS) $(SIMIAS_LIBS) $(UserCmd_LIBS:%=/r:%) $(UserCmd_LIBPATH:%=/lib:%) $(UserCmd_RESOURCES:%=$(ICON_FLAG)%) $(UserCmd_CSFILES_CSC) $(DOC_FILE_CMD)
 
 if DEBUG
@@ -72,14 +67,17 @@ endif
 
 installcheck-local: install
 	
-CLEAN_FILES = UserCmd.exe $(DOC_FILE_CLEAN)	$(srcdir)/AdminService.cs
+CLEAN_FILES = UserCmd.exe $(DOC_FILE_CLEAN)	$(srcdir)/AdminService.cs $(srcdir)/AssemblyInfo.cs
 
 clean-local:
 	rm -rf $(CLEAN_FILES) $(COMMON_CLEAN_FILES)
 
 distclean-local:
 	rm -rf $(COMMON_DISTCLEAN_FILES)
+	rm -rf AssemblyInfo.cs
+	rm -rf Makefile
 
 maintainer-clean-local:
 	rm -rf $(COMMON_MAINTAINER_CLEAN_FILES)
+	rm -rf AssemblyInfo.cs
 

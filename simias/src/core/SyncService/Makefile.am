@@ -1,7 +1,7 @@
 # handle Mono secondary dependencies
 export MONO_PATH := $(MONO_PATH)
 
-SyncService_CSFILES = $(srcdir)/AssemblyInfo.cs $(srcdir)/SyncHandler.ashx.cs
+SyncService_CSFILES = $(srcdir)/SyncHandler.ashx.cs
 SyncService_CSFILES_CSC := $(subst /,$(SEP),$(SyncService_CSFILES))
 SyncService_INCLUDES =
 SyncService_RESOURCES =
@@ -19,8 +19,8 @@ endif
 
 all: SyncService.Web.dll
 
-SyncService.Web.dll: $(SyncService_CSFILES) $(SyncService_RESOURCES)
-	$(CSC) /out:$@ $(CSCFLAGS) $(SyncService_FLAGS) $(SIMIAS_LIBS) $(SyncService_LIBS:%=/r:%) $(SyncService_LIBPATH:%=/lib:%) $(SyncService_RESOURCES:%=$(ICON_FLAG)%) $(SyncService_CSFILES_CSC) $(DOC_FILE_CMD)
+SyncService.Web.dll: $(srcdir)/AssemblyInfo.cs $(SyncService_CSFILES) $(SyncService_RESOURCES)
+	$(CSC) /out:$@ $(CSCFLAGS) $(SyncService_FLAGS) $(SIMIAS_LIBS) $(SyncService_LIBS:%=/r:%) $(SyncService_LIBPATH:%=/lib:%) $(SyncService_RESOURCES:%=$(ICON_FLAG)%) $(srcdir)/AssemblyInfo.cs $(SyncService_CSFILES_CSC) $(DOC_FILE_CMD)
 
 if DEBUG
 if WINDOWS
@@ -40,14 +40,17 @@ uninstall-local:
 
 installcheck-local: install
 	
-CLEAN_FILES = SyncService.Web.dll $(DOC_FILE_CLEAN) 
+CLEAN_FILES = SyncService.Web.dll $(DOC_FILE_CLEAN) AssemblyInfo.cs 
 
 clean-local:
 	rm -rf $(CLEAN_FILES) $(COMMON_CLEAN_FILES)
 
 distclean-local:
 	rm -rf $(COMMON_DISTCLEAN_FILES)
+	rm -rf AssemblyInfo.cs
+	rm -rf Makefile
 
 maintainer-clean-local:
-	rm -rf $(COMMON_MAINTAINER_CLEAN_FILES) AssemblyInfo.cs
+	rm -rf $(COMMON_MAINTAINER_CLEAN_FILES) 
+	rm -rf AssemblyInfo.cs
 

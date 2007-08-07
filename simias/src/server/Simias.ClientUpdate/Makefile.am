@@ -1,7 +1,7 @@
 # handle Mono secondary dependencies
 export MONO_PATH := $(MONO_PATH):$(DESTDIR)$(libdir)
 
-ClientUpdate_CSFILES = $(srcdir)/AssemblyInfo.cs $(srcdir)/ClientUpdate.asmx.cs $(srcdir)/ClientUpdateHandler.ashx.cs
+ClientUpdate_CSFILES = $(srcdir)/ClientUpdate.asmx.cs $(srcdir)/ClientUpdateHandler.ashx.cs
 ClientUpdate_CSFILES_CSC := $(subst /,$(SEP),$(ClientUpdate_CSFILES))
 ClientUpdate_INCLUDES =
 ClientUpdate_RESOURCES =
@@ -19,7 +19,7 @@ endif
 
 all: ClientUpdate.dll
 
-ClientUpdate.dll: $(ClientUpdate_CSFILES) $(ClientUpdate_RESOURCES)
+ClientUpdate.dll: $(srcdir)/AssemblyInfo.cs $(ClientUpdate_CSFILES) $(ClientUpdate_RESOURCES)
 	$(CSC) /out:$@ $(CSCFLAGS) $(ClientUpdate_FLAGS) $(SIMIAS_LIBS) $(SIMIAS_CLIENT_LIBS) $(ClientUpdate_LIBS:%=/r:%) $(ClientUpdate_LIBPATH:%=/lib:%) $(ClientUpdate_RESOURCES:%=$(ICON_FLAG)%) $(ClientUpdate_CSFILES_CSC) $(DOC_FILE_CMD)
 
 if DEBUG
@@ -54,7 +54,10 @@ clean-local:
 
 distclean-local:
 	rm -rf $(COMMON_DISTCLEAN_FILES)
+	rm -rf AssemblyInfo.cs
+	rm -rf Makefile
 
 maintainer-clean-local:
 	rm -rf $(COMMON_MAINTAINER_CLEAN_FILES)
+	rm -rf AssemblyInfo.cs
 

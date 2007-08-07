@@ -2,7 +2,6 @@
 export MONO_PATH := $(MONO_PATH)
 iFolderAdmin_CSFILES = \
 	$(srcdir)/AccountEnabled.ascx.cs \
-	$(srcdir)/AssemblyInfo.cs \
 	$(srcdir)/CreateiFolder.aspx.cs \
 	$(srcdir)/CreateUser.aspx.cs \
 	$(srcdir)/Default.aspx.cs \
@@ -38,7 +37,6 @@ iFolderAdmin_CSFILES = \
 	$(srcdir)/TopNavigation.ascx.cs \
 	$(srcdir)/UserDetails.aspx.cs \
 	$(srcdir)/Users.aspx.cs \
-	$(srcdir)/AddDataPath.aspx.cs \
 	$(srcdir)/Utils.cs
 	
 iFolderAdmin_CSFILES_CSC := $(subst /,$(SEP),$(iFolderAdmin_CSFILES))
@@ -105,7 +103,6 @@ iFolderAdmin_FORMS = \
 	TopNavigation.ascx \
 	UserDetails.aspx \
 	Users.aspx \
-	AddDataPath.aspx \
 	Web.config
 
 EXTRA_DIST = AssemblyInfo.cs.in Log4Net.config.in $(iFolderAdmin_CSFILES) $(iFolderAdmin_FORMS) css images help $(iFolderAdmin_RESX) tail.txt
@@ -123,15 +120,16 @@ endif
 
 CLEAN_FILES = Novell.iFolderAdmin.dll \
 	$(iFolderAdmin_RESOURCES) \
-	$(DEBUG_FILES)
+	$(DEBUG_FILES) \
+	AssemblyInfo.cs
 
 all: Novell.iFolderAdmin.dll
 
 iFolderAdminWebProxy.cs: ../webservices/iFolderAdmin.wsdl
 	wsdl /nologo /out:$@ $<
 
-Novell.iFolderAdmin.dll: iFolderAdminWebProxy.cs $(iFolderAdmin_CSFILES) $(iFolderAdmin_RESOURCES)
-	$(CSC) /out:$@ $(CSCFLAGS) $(iFolderAdmin_FLAGS) $(iFolderAdmin_LIBS:%=/r:%) $(iFolderAdmin_RESOURCES:%=/res:%) $(iFolderAdmin_LIBPATH:%=/lib:%) $(iFolderAdmin_CSFILES_CSC)
+Novell.iFolderAdmin.dll: $(srcdir)/AssemblyInfo.cs iFolderAdminWebProxy.cs $(iFolderAdmin_CSFILES) $(iFolderAdmin_RESOURCES)
+	$(CSC) /out:$@ $(CSCFLAGS) $(iFolderAdmin_FLAGS) $(iFolderAdmin_LIBS:%=/r:%) $(iFolderAdmin_RESOURCES:%=/res:%) $(iFolderAdmin_LIBPATH:%=/lib:%) $(srcdir)/AssemblyInfo.cs $(iFolderAdmin_CSFILES_CSC)
 
 Novell.iFolderWeb.Admin.%.resources : %.resx
 	$(RESGEN) $< $@
@@ -168,6 +166,8 @@ clean-local:
 
 distclean-local:
 	rm -rf $(COMMON_DISTCLEAN_FILES)
+	rm -rf AssemblyInfo.cs
+	rm -rf Makefile
 
 maintainer-clean-local:
 	rm -rf $(COMMON_MAINTAINER_CLEAN_FILES)

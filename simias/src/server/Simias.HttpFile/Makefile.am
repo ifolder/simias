@@ -1,7 +1,7 @@
 # handle Mono secondary dependencies
 export MONO_PATH := $(MONO_PATH):$(DESTDIR)$(libdir)
 
-SimiasHttpFile_CSFILES = $(srcdir)/AssemblyInfo.cs $(srcdir)/SimiasFile.cs 
+SimiasHttpFile_CSFILES = $(srcdir)/SimiasFile.cs 
 SimiasHttpFile_CSFILES_CSC := $(subst /,$(SEP),$(SimiasHttpFile_CSFILES))
 SimiasHttpFile_INCLUDES =
 SimiasHttpFile_RESOURCES =
@@ -9,7 +9,7 @@ SimiasHttpFile_FLAGS = $(CSC_LIBFLAG)
 SimiasHttpFile_LIBPATH = ../../core/SimiasLib.dll ../../core/SimiasClient $(DESTDIR)$(webbindir)
 SimiasHttpFile_LIBS = System.dll System.Data.dll $(SYSTEM_XML) System.Web.dll System.Web.Services.dll SimiasLib.dll SimiasClient.dll
 
-EXTRA_DIST = sfile.ashx pubsfile.ashx $(SimiasHttpFile_CSFILES) 
+EXTRA_DIST = sfile.ashx pubsfile.ashx $(SimiasHttpFile_CSFILES) AssemblyInfo.cs.in
 
 if MAKE_DOC_FILE
 DOC_FILE = $(basename $@).doc.xml
@@ -20,8 +20,8 @@ endif
 SERVER_ASSEMBLIES := Simias.HttpFile.dll
 
 
-Simias.HttpFile.dll: $(SimiasHttpFile_CSFILES) $(SimiasHttpFile_RESOURCES)
-	$(CSC) /out:$@ $(CSCFLAGS) $(SimiasHttpFile_FLAGS) $(SimiasHttpFile_LIBPATH:%=/lib:%) $(SimiasHttpFile_LIBS:%=/r:%) $(SimiasHttpFile_RESOURCES:%=$(ICON_FLAG)%) $(SimiasHttpFile_CSFILES_CSC) $(DOC_FILE_CMD)
+Simias.HttpFile.dll: $(srcdir)/AssemblyInfo.cs $(SimiasHttpFile_CSFILES) $(SimiasHttpFile_RESOURCES)
+	$(CSC) /out:$@ $(CSCFLAGS) $(SimiasHttpFile_FLAGS) $(SimiasHttpFile_LIBPATH:%=/lib:%) $(SimiasHttpFile_LIBS:%=/r:%) $(SimiasHttpFile_RESOURCES:%=$(ICON_FLAG)%) $(srcdir)/AssemblyInfo.cs $(SimiasHttpFile_CSFILES_CSC) $(DOC_FILE_CMD)
 	
 all: $(SERVER_ASSEMBLIES) 
 
@@ -46,14 +46,17 @@ installcheck-local: install
 .PHONY: test
 test: installcheck
 
-CLEAN_FILES = $(SERVER_ASSEMBLIES) $(DOC_FILE_CLEAN) 
+CLEAN_FILES = $(SERVER_ASSEMBLIES) $(DOC_FILE_CLEAN) AssemblyInfo.cs 
 
 clean-local:
 	rm -rf $(CLEAN_FILES) $(COMMON_CLEAN_FILES)
 
-#distclean-local:
-#	rm -rf $(COMMON_DISTCLEAN_FILES)
+distclean-local:
+	rm -rf $(COMMON_DISTCLEAN_FILES)
+	rm -rf AssemblyInfo.cs
+	rm -rf Makefile
 
 maintainer-clean-local:
 	rm -rf $(COMMON_MAINTAINER_CLEAN_FILES)
+	rm -rf AssemblyInfo.cs
 

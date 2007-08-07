@@ -2,7 +2,6 @@
 export MONO_PATH := $(MONO_PATH)
 
 iFolderWebServiceLocal_CSFILES = \
-	$(srcdir)/AssemblyInfo.cs \
 	$(srcdir)/iFolderCommonLocal.cs \
 	$(srcdir)/iFolderAdminLocal.asmx.cs \
 	$(srcdir)/iFolderWebLocal.asmx.cs \
@@ -43,7 +42,6 @@ iFolderWebServiceLocal_WEBFILES = \
 	$(srcdir)/Upload.ashx
 	
 iFolderWebService_CSFILES = \
-	$(srcdir)/AssemblyInfo.cs \
 	$(srcdir)/iFolderAdmin.asmx.cs \
 	$(srcdir)/iFolderWeb.asmx.cs \
 	$(srcdir)/iFolderAdminLocalProxy.cs \
@@ -87,11 +85,11 @@ endif
 
 all: iFolder.WebService.dll GenerateWsdl.exe iFolderAdmin.wsdl iFolderWeb.wsdl
 
-iFolder.WebService.Local.dll: copy $(iFolderWebServiceLocal_CSFILES) $(iFolderWebServiceLocal_RESOURCES)
-	$(CSC) /out:$@ $(CSCFLAGS) $(iFolderWebServiceLocal_FLAGS) $(iFolderWebServiceLocal_LIBS:%=/r:%) $(iFolderWebServiceLocal_LIBPATH:%=/lib:%) $(LOG4NET_LIBS) $(iFolderWebServiceLocal_RESOURCES:%=$(ICON_FLAG)%) $(iFolderWebServiceLocal_CSFILES_CSC)
+iFolder.WebService.Local.dll: $(srcdir)/AssemblyInfo.cs copy $(iFolderWebServiceLocal_CSFILES) $(iFolderWebServiceLocal_RESOURCES)
+	$(CSC) /out:$@ $(CSCFLAGS) $(iFolderWebServiceLocal_FLAGS) $(iFolderWebServiceLocal_LIBS:%=/r:%) $(iFolderWebServiceLocal_LIBPATH:%=/lib:%) $(LOG4NET_LIBS) $(iFolderWebServiceLocal_RESOURCES:%=$(ICON_FLAG)%) $(srcdir)/AssemblyInfo.cs $(iFolderWebServiceLocal_CSFILES_CSC)
 
-iFolder.WebService.dll: iFolder.WebService.Local.dll $(iFolderWebService_CSFILES) $(iFolderWebService_RESOURCES)
-	$(CSC) /out:$@ $(CSCFLAGS) $(iFolderWebService_FLAGS) $(iFolderWebService_LIBS:%=/r:%) $(iFolderWebService_LIBPATH:%=/lib:%) $(LOG4NET_LIBS) $(iFolderWebService_RESOURCES:%=$(ICON_FLAG)%) $(iFolderWebService_CSFILES_CSC)
+iFolder.WebService.dll: $(srcdir)/AssemblyInfo.cs iFolder.WebService.Local.dll $(iFolderWebService_CSFILES) $(iFolderWebService_RESOURCES)
+	$(CSC) /out:$@ $(CSCFLAGS) $(iFolderWebService_FLAGS) $(iFolderWebService_LIBS:%=/r:%) $(iFolderWebService_LIBPATH:%=/lib:%) $(LOG4NET_LIBS) $(iFolderWebService_RESOURCES:%=$(ICON_FLAG)%) $(srcdir)/AssemblyInfo.cs $(iFolderWebService_CSFILES_CSC)
 
 GenerateWsdl.exe: GenerateWsdl.cs
 	$(CSC) /out:$@ $(CSCFLAGS) $(CSC_EXEFLAG) $(GenerateWsdl_LIBS:%=/r:%) $<
@@ -141,13 +139,15 @@ uninstall-local:
 
 installcheck-local: install
 	
-CLEAN_FILES = iFolder.WebService.dll iFolder.WebService.Local.dll GenerateWsdl.exe *.wsdl $(DOC_FILE_CLEAN) 
+CLEAN_FILES = iFolder.WebService.dll iFolder.WebService.Local.dll GenerateWsdl.exe *.wsdl $(DOC_FILE_CLEAN) AssemblyInfo.cs
 
 clean-local:
 	rm -rf $(CLEAN_FILES) $(COMMON_CLEAN_FILES) SimiasClient.dll SimiasLib.dll SimiasServer.dll
 
 distclean-local:
 	rm -rf $(COMMON_DISTCLEAN_FILES)
+	rm -rf AssemblyInfo.cs
+	rm -rf Makefile
 
 maintainer-clean-local:
 	rm -rf $(COMMON_MAINTAINER_CLEAN_FILES)

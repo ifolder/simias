@@ -2,7 +2,6 @@
 export MONO_PATH := $(MONO_PATH)
 
 iFolderWeb_CSFILES = \
-	$(srcdir)/AssemblyInfo.cs \
 	$(srcdir)/Default.aspx.cs \
 	$(srcdir)/Download.ashx.cs \
 	$(srcdir)/Browse.aspx.cs \
@@ -116,14 +115,15 @@ CLEAN_FILES = Novell.iFolderWeb.dll \
 	Novell.iFolderWeb.doc.xml \
 	$(iFolderWeb_RESOURCES) \
 	$(srcdir)/iFolderWebProxy.cs \
-	$(DEBUG_FILES)
+	$(DEBUG_FILES)	\
+	AssemblyInfo.cs
 
 all: Novell.iFolderWeb.dll
 
 iFolderWebProxy.cs: ../webservices/iFolderWeb.wsdl
 	wsdl /nologo /out:$@ $<
 
-Novell.iFolderWeb.dll: $(iFolderWeb_CSFILES) $(iFolderWeb_RESOURCES)
+Novell.iFolderWeb.dll: $(srcdir)/AssemblyInfo.cs $(iFolderWeb_CSFILES) $(iFolderWeb_RESOURCES)
 	$(CSC) /out:$@ $(CSCFLAGS) $(iFolderWeb_FLAGS) $(iFolderWeb_LIBS:%=/r:%) $(iFolderWeb_RESOURCES:%=/res:%) $(iFolderWeb_LIBPATH:%=/lib:%) $(LOG4NET_LIBS) $(iFolderWeb_CSFILES_CSC) /doc:iFolderWeb.doc.xml
 
 Novell.iFolderApp.Web.%.resources : %.resx
@@ -160,6 +160,8 @@ clean-local:
     
 distclean-local:
 	rm -rf $(COMMON_DISTCLEAN_FILES)
+	rm -rf Makefile
+	rm -rf AssemblyInfo.cs
 
 maintainer-clean-local:
 	rm -rf $(COMMON_MAINTAINER_CLEAN_FILES)

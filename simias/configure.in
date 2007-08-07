@@ -526,7 +526,30 @@ AC_ARG_WITH(runasclient,
 			simiasdatadir="$HOME/.local/share/simias"
 			simiaslogdir="\${HOME}/.local/share/simias" ;;
 	esac],
-	[runasclient="FALSE"]
+	[runasclient="FALSE"
+		AC_OUTPUT([
+		src/server/Makefile
+		src/server/Simias.config
+		src/server/setup/Makefile
+		src/server/DiscoveryWS/Makefile
+		src/server/DiscoveryWS/AssemblyInfo.cs
+		src/server/Simias.HttpFile/Makefile
+		src/server/Simias.HttpFile/AssemblyInfo.cs
+		src/server/Simias.Rss/Makefile
+		src/server/Simias.Rss/AssemblyInfo.cs
+		src/server/Simias.Server/Makefile
+		src/server/Simias.Server/AssemblyInfo.cs
+		src/server/Simias.HostService/Makefile
+		src/server/Simias.LdapProvider/Makefile
+		src/server/Simias.LdapProvider/AssemblyInfo.cs
+		src/server/Simias.ADLdapProvider/Makefile
+		src/server/Simias.ADLdapProvider/AssemblyInfo.cs
+		src/server/Simias.OpenLdapProvider/Makefile
+		src/server/Simias.OpenLdapProvider/AssemblyInfo.cs
+		src/server/Simias.ClientUpdate/Makefile
+		src/server/Simias.ClientUpdate/AssemblyInfo.cs
+		])
+	]
 	)
 AC_SUBST(runasclient)
 AM_CONDITIONAL(SIMIAS_AS_CLIENT, test "$runasclient" = "TRUE")
@@ -638,6 +661,8 @@ AC_SUBST(MODMONO_CONFPATH)
 #
 # Configure files
 #
+
+
 AC_OUTPUT([
 Makefile
 src/Makefile
@@ -668,21 +693,6 @@ src/core/POBoxWS/Makefile
 src/core/SyncService/AssemblyInfo.cs
 src/core/SyncService/Makefile
 src/core/libsimias/Makefile
-src/server/Makefile
-src/server/Simias.config
-src/server/setup/Makefile
-src/server/DiscoveryWS/Makefile
-src/server/DiscoveryWS/AssemblyInfo.cs
-src/server/Simias.HttpFile/Makefile
-src/server/Simias.Rss/Makefile
-src/server/Simias.Server/Makefile
-src/server/Simias.Server/AssemblyInfo.cs
-src/server/Simias.HostService/Makefile
-src/server/Simias.LdapProvider/Makefile
-src/server/Simias.ADLdapProvider/Makefile
-src/server/Simias.OpenLdapProvider/Makefile
-src/server/Simias.ClientUpdate/Makefile
-src/server/Simias.ClientUpdate/AssemblyInfo.cs
 src/client/Makefile
 src/client/simias
 src/client/SimiasDirectoryMapping
@@ -707,6 +717,7 @@ src/setup/apache/example.com/ifolder_webaccess.conf
 src/setup/apache/example.com/simias_server.conf
 src/utils/Makefile
 src/utils/usercmd/Makefile
+src/utils/usercmd/AssemblyInfo.cs
 src/utils/usercmd/simias-create-user
 src/utils/usercmd/simias-delete-user
 src/utils/usercmd/simias-user
@@ -726,6 +737,5 @@ package/darwin/Makefile
 package/linux/simias.spec
 doc/Makefile
 ])
-
 
 

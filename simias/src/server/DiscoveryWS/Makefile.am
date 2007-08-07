@@ -1,7 +1,7 @@
 # handle Mono secondary dependencies
 export MONO_PATH := $(MONO_PATH)
 
-DiscoveryWS_CSFILES = $(srcdir)/AssemblyInfo.cs $(srcdir)/DiscoveryService.asmx.cs
+DiscoveryWS_CSFILES = $(srcdir)/DiscoveryService.asmx.cs
 DiscoveryWS_CSFILES_CSC := $(subst /,$(SEP),$(DiscoveryWS_CSFILES))
 DiscoveryWS_INCLUDES =
 DiscoveryWS_RESOURCES =
@@ -19,8 +19,8 @@ endif
 
 all: Simias.Discovery.Web.dll
 
-Simias.Discovery.Web.dll: $(DiscoveryWS_CSFILES) $(DiscoveryWS_RESOURCES)
-	$(CSC) /out:$@ $(CSCFLAGS) $(DiscoveryWS_FLAGS) $(SIMIAS_LIBS) $(DiscoveryWS_LIBS:%=/r:%) $(DiscoveryWS_LIBPATH:%=/lib:%) $(DiscoveryWS_RESOURCES:%=$(ICON_FLAG)%) $(DiscoveryWS_CSFILES_CSC) $(DOC_FILE_CMD)
+Simias.Discovery.Web.dll: $(srcdir)/AssemblyInfo.cs $(DiscoveryWS_CSFILES) $(DiscoveryWS_RESOURCES)
+	$(CSC) /out:$@ $(CSCFLAGS) $(DiscoveryWS_FLAGS) $(SIMIAS_LIBS) $(DiscoveryWS_LIBS:%=/r:%) $(DiscoveryWS_LIBPATH:%=/lib:%) $(DiscoveryWS_RESOURCES:%=$(ICON_FLAG)%) $(srcdir)/AssemblyInfo.cs $(DiscoveryWS_CSFILES_CSC) $(DOC_FILE_CMD)
 	
 if DEBUG
 if WINDOWS
@@ -40,14 +40,17 @@ uninstall-local:
 
 installcheck-local: install
 	
-CLEAN_FILES = Simias.Discovery.Web.dll $(DOC_FILE_CLEAN) 
+CLEAN_FILES = Simias.Discovery.Web.dll $(DOC_FILE_CLEAN) AssemblyInfo.cs 
 
 clean-local:
 	rm -rf $(CLEAN_FILES) $(COMMON_CLEAN_FILES)
 
 distclean-local:
 	rm -rf $(COMMON_DISTCLEAN_FILES)
+	rm -rf AssemblyInfo.cs
+	rm -rf Makefile
 
 maintainer-clean-local:
 	rm -rf $(COMMON_MAINTAINER_CLEAN_FILES) AssemblyInfo.cs
+	rm -rf AssemblyInfo.cs
 

@@ -1,7 +1,7 @@
 # handle Mono secondary dependencies
 export MONO_PATH := $(MONO_PATH):$(DESTDIR)$(libdir)
 
-LdapProvider_CSFILES = $(srcdir)/AssemblyInfo.cs $(srcdir)/LdapSettings.cs $(srcdir)/LdapSync.cs $(srcdir)/ProxyPassword.cs $(srcdir)/User.cs 
+LdapProvider_CSFILES = $(srcdir)/LdapSettings.cs $(srcdir)/LdapSync.cs $(srcdir)/ProxyPassword.cs $(srcdir)/User.cs 
 LdapProvider_CSFILES_CSC := $(subst /,$(SEP),$(LdapProvider_CSFILES))
 LdapProvider_INCLUDES =
 LdapProvider_RESOURCES =
@@ -16,7 +16,7 @@ endif
 
 LdapProvider_LIBS = System.dll System.Data.dll $(SYSTEM_XML) System.Web.dll System.Web.Services.dll SimiasLib.dll SimiasClient.dll Simias.Server.dll Novell.Directory.Ldap.dll
 
-EXTRA_DIST = $(LdapProvider_CSFILES) 
+EXTRA_DIST = $(LdapProvider_CSFILES) AssemblyInfo.cs.in
 
 if MAKE_DOC_FILE
 DOC_FILE = $(basename $@).doc.xml
@@ -26,8 +26,8 @@ endif
 
 SERVER_ASSEMBLIES := Simias.LdapProvider.dll
 
-Simias.LdapProvider.dll: $(LdapProvider_CSFILES) $(LdapProvider_RESOURCES)
-	$(CSC) /out:$@ $(CSCFLAGS) $(LdapProvider_FLAGS) $(SIMIAS_CLIENT_LIBS) $(SIMIAS_LIBS) $(LdapProvider_LIBPATH:%=/lib:%) $(LdapProvider_LIBS:%=/r:%) $(LdapProvider_RESOURCES:%=$(ICON_FLAG)%) $(LdapProvider_CSFILES_CSC) $(DOC_FILE_CMD)
+Simias.LdapProvider.dll: $(srcdir)/AssemblyInfo.cs $(LdapProvider_CSFILES) $(LdapProvider_RESOURCES)
+	$(CSC) /out:$@ $(CSCFLAGS) $(LdapProvider_FLAGS) $(SIMIAS_CLIENT_LIBS) $(SIMIAS_LIBS) $(LdapProvider_LIBPATH:%=/lib:%) $(LdapProvider_LIBS:%=/r:%) $(LdapProvider_RESOURCES:%=$(ICON_FLAG)%) $(srcdir)/AssemblyInfo.cs $(LdapProvider_CSFILES_CSC) $(DOC_FILE_CMD)
 	
 all: $(SERVER_ASSEMBLIES) 
 
@@ -55,14 +55,17 @@ installcheck-local: install
 .PHONY: test
 test: installcheck
 
-CLEAN_FILES = $(SERVER_ASSEMBLIES) $(DOC_FILE_CLEAN) 
+CLEAN_FILES = $(SERVER_ASSEMBLIES) $(DOC_FILE_CLEAN) AssemblyInfo.cs
 
 clean-local:
 	rm -rf $(CLEAN_FILES) $(COMMON_CLEAN_FILES)
 
-#distclean-local:
-#	rm -rf $(COMMON_DISTCLEAN_FILES)
+distclean-local:
+	rm -rf $(COMMON_DISTCLEAN_FILES)
+	rm -rf AssemblyInfo.cs
+	rm -rf Makefile
 
 maintainer-clean-local:
 	rm -rf $(COMMON_MAINTAINER_CLEAN_FILES)
+	rm -rf AssemblyInfo.cs
 

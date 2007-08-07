@@ -55,7 +55,7 @@ clean-local:
 	rm -rf $(CLEAN_FILES) $(COMMON_CLEAN_FILES)
 	rm -rf simias-server simias-server.cmd
 
-distclean: distclean-local
+distclean: distclean-recursive
 
 distclean-local:
 	rm -rf $(COMMON_DISTCLEAN_FILES)

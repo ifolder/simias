@@ -1,7 +1,7 @@
 # handle Mono secondary dependencies
 export MONO_PATH := $(MONO_PATH)
 
-SimiasWebService_CSFILES = $(srcdir)/AssemblyInfo.cs $(srcdir)/Global.asax.cs $(srcdir)/Simias.asmx.cs
+SimiasWebService_CSFILES = $(srcdir)/Global.asax.cs $(srcdir)/Simias.asmx.cs
 SimiasWebService_CSFILES_CSC := $(subst /,$(SEP),$(SimiasWebService_CSFILES))
 SimiasWebService_INCLUDES =
 SimiasWebService_RESOURCES =
@@ -19,8 +19,8 @@ endif
 
 all: Simias.Web.dll
 
-Simias.Web.dll: $(SimiasWebService_CSFILES) $(SimiasWebService_RESOURCES)
-	$(CSC) /out:$@ $(CSCFLAGS) $(SimiasWebService_FLAGS) $(SIMIAS_LIBS) $(SimiasWebService_LIBS:%=/r:%) $(SimiasWebService_LIBPATH:%=/lib:%) $(SimiasWebService_RESOURCES:%=$(ICON_FLAG)%) $(SimiasWebService_CSFILES_CSC) $(DOC_FILE_CMD)
+Simias.Web.dll: $(srcdir)/AssemblyInfo.cs $(SimiasWebService_CSFILES) $(SimiasWebService_RESOURCES)
+	$(CSC) /out:$@ $(CSCFLAGS) $(SimiasWebService_FLAGS) $(SIMIAS_LIBS) $(SimiasWebService_LIBS:%=/r:%) $(SimiasWebService_LIBPATH:%=/lib:%) $(SimiasWebService_RESOURCES:%=$(ICON_FLAG)%) $(srcdir)/AssemblyInfo.cs $(SimiasWebService_CSFILES_CSC) $(DOC_FILE_CMD)
 
 if DEBUG
 if WINDOWS
@@ -56,14 +56,17 @@ uninstall-local:
 
 installcheck-local: install
 	
-CLEAN_FILES = Simias.Web.dll $(DOC_FILE_CLEAN) 
+CLEAN_FILES = Simias.Web.dll $(DOC_FILE_CLEAN) AssemblyInfo.cs
 
 clean-local:
 	rm -rf $(CLEAN_FILES) $(COMMON_CLEAN_FILES)
 
 distclean-local:
 	rm -rf $(COMMON_DISTCLEAN_FILES)
+	rm -rf AssemblyInfo.cs
+	rm -rf Makefile
 
 maintainer-clean-local:
 	rm -rf $(COMMON_MAINTAINER_CLEAN_FILES) AssemblyInfo.cs
+	rm -rf AssemblyInfo.cs
 
