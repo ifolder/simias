@@ -214,9 +214,12 @@ namespace iFolder.WebService
 			this.IsOwner = (accessID != null) && (accessID == this.OwnerID);
 			Domain domain = Store.GetStore().GetDomain(this.DomainID);
 			Member domainMember = domain.GetMemberByID(this.OwnerID);
-			this.OwnerUserName = domainMember.Name;
-			string fullName = domainMember.FN;
-			this.OwnerFullName = (fullName != null) ? fullName : this.OwnerUserName;
+			if(domainMember != null )
+			{
+				this.OwnerUserName = (domainMember.Name != null ) ? domainMember.Name:"";
+				string fullName = domainMember.FN;
+				this.OwnerFullName = (fullName != null) ? fullName : this.OwnerUserName;
+			}
 
 			//Only algorithm is needed by the middle tier, ssl can be configured by the admin
 			this.EncryptionAlgorithm = c.EncryptionAlgorithm;

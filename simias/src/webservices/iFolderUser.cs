@@ -329,7 +329,9 @@ namespace iFolder.WebService
 				{
 					if ((i >= index) && (((max <= 0) || i < (max + index))))
 					{
-						list.Add(new iFolderUser(member, c, domain));
+						Member tmpmember = domain.GetMemberByID(member.UserID);
+						if(tmpmember!= null)
+							list.Add(new iFolderUser(member, c, domain));
 					}
 
 					++i;
