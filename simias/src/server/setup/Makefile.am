@@ -120,6 +120,11 @@ else
 	$(INSTALL_PROGRAM) ifolder-web-setup $(DESTDIR)$(bindir)
 	$(INSTALL_PROGRAM) ifolder-admin-setup $(DESTDIR)$(bindir)
 	$(INSTALL_PROGRAM) utility.exe $(DEBUG_FILES) $(DESTDIR)$(bindir)
+	$(mkinstalldirs) /etc/ld.so.conf.d
+	$(INSTALL_PROGRAM) novell-ifolder3.conf /etc/ld.so.conf.d
+	grep -q "include /etc/ld.so.conf.d/\*.conf" /etc/ld.so.conf || echo "include /etc/ld.so.conf.d/*.conf" >> /etc/ld.so.conf
+
+	
 endif
 
 uninstall-local:
@@ -133,6 +138,7 @@ uninstall-local:
 	cd $(DESTDIR)$(bindir); rm -f ifolder-admin-setup ifolder-admin-setup.cmd
 	cd $(DESTDIR)$(bindir); rm -f iFolderAdminSetup.exe.config
 	cd $(DESTDIR)$(bindir); rm -f utility.exe
+	cd /etc/ld.so.conf.d; rm -f novell-ifolder3.conf
 
 installcheck-local: install
 	
