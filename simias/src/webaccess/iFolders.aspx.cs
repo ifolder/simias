@@ -101,6 +101,9 @@ namespace Novell.iFolderApp.Web
 			if (!IsPostBack)
 			{
 				// strings
+				iFolderData.Columns[ 2 ].HeaderText = GetString( "NAME" );
+                                iFolderData.Columns[ 3 ].HeaderText = GetString( "DATE" );
+                                iFolderData.Columns[ 4 ].HeaderText = GetString( "OWNER" );
 				iFolderPagging.LabelSingular = GetString("IFOLDER");
 				iFolderPagging.LabelPlural = GetString("IFOLDERS");
 				NewiFolderLink.Text = GetString("NEWIFOLDER");

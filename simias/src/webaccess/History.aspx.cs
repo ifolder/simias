@@ -102,6 +102,9 @@ namespace Novell.iFolderApp.Web
 			{
 			
 				iFolder ifolder = web.GetiFolder(ifolderID);
+				HistoryData.Columns[ 2 ].HeaderText = GetString( "NAME" );
+                                HistoryData.Columns[ 3 ].HeaderText = GetString( "ACTION" );
+				HistoryData.Columns[ 4 ].HeaderText = GetString( "DATE/TIME" );
 				
 				//Load this page only if passphrase was provided for the encrypted iFolder
 				if(! IfHistoryEnabled())

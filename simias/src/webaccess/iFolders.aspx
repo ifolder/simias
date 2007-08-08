@@ -104,25 +104,18 @@
 				<div class="action">Delete</div>
 			</div>
 
-			<!-- added to show column heading style -->
-			<div class="ColumnHead">
-			<div class="disp">Name</div>
-			<div class="datesep"></div>
-			<div class="disp">Date</div>
-			<div class="sep"></div>
-			<div class="disp">Owner</div>
-			</div>
 
 				<asp:DataGrid
 					ID="iFolderData"
 					GridLines="none"
 					AutoGenerateColumns="false"
-					ShowHeader="false"
+					ShowHeader="true"
 					CssClass="list"
 					ItemStyle-CssClass="row"
 					AlternatingItemStyle-CssClass="altrow"
 					runat="server">
-					
+				 <HeaderStyle CssClass="ColumnHead">
+                                 </HeaderStyle>					
 					<columns>
 						<asp:BoundColumn DataField="ID" Visible="False" />
 						

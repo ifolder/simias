@@ -141,24 +141,19 @@
 				</div>
 				
 
-			<!-- added to show column heading style -->
-                                <div class="ColumnHead">
-                                <div class="disp">Member(s)</div>
-                                <div class="datesep"></div>
-                                <div class="disp">Access Control</div>
-                                </div>
 
 
 				<asp:DataGrid
 					ID="MemberData"
 					GridLines="none"
 					AutoGenerateColumns="false"
-					ShowHeader="false"
+					ShowHeader="true"
 					CssClass="list"
 					ItemStyle-CssClass="row"
 					AlternatingItemStyle-CssClass="altrow"
 					runat="server">
-					
+					<HeaderStyle CssClass="ColumnHead">
+        	                        </HeaderStyle>					
 					<columns>
 					
 						<asp:BoundColumn DataField="ID" Visible="false" />
@@ -175,9 +170,9 @@
 							</itemtemplate>
 						</asp:TemplateColumn>
 						
-						<asp:BoundColumn DataField="Name" ItemStyle-CssClass="name" />
+						<asp:BoundColumn ItemStyle-CssClass="name" DataField="Name"/>
 						
-						<asp:BoundColumn DataField="Rights" ItemStyle-CssClass="rights" />
+						<asp:BoundColumn DataField="Rights" ItemStyle-CssClass="rights"/>
 						
 						<asp:TemplateColumn ItemStyle-CssClass="history">
 							<itemtemplate>

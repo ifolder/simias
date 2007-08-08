@@ -64,25 +64,18 @@
 	
 			<div class="main">
 
-			<!-- added to show column heading style -->
-                                <div class="ColumnHead">
-                                <div class="disp">Name</div>
-                                <div class="hissep"></div>
-                                <div class="disp">Action</div>
-                                <div class="hissep"></div>
-                                <div class="disp">Date/Time</div>
-                                </div>
 				
 				<asp:DataGrid
 					ID="HistoryData"
 					GridLines="none"
 					AutoGenerateColumns="false"
-					ShowHeader="false"
+					ShowHeader="true"
 					CssClass="list"
 					ItemStyle-CssClass="row"
 					AlternatingItemStyle-CssClass="altrow"
 					runat="server">
-					
+				<HeaderStyle CssClass="ColumnHead">
+                                 </HeaderStyle>				
 					<columns>
 						<asp:TemplateColumn ItemStyle-CssClass="icon">
 							<itemtemplate>
@@ -105,7 +98,7 @@
 								<%# DataBinder.Eval(Container.DataItem, "Action") + "&nbsp;" + GetString("BY") + "&nbsp;" + DataBinder.Eval(Container.DataItem, "UserFullName") %>
 							</itemtemplate>
 						</asp:TemplateColumn>
-						<asp:BoundColumn DataField="Time" ItemStyle-CssClass="datetime" />
+						<asp:BoundColumn DataField="Time" ItemStyle-CssClass="datetime"/>
 					</columns>
 				</asp:DataGrid>
 					

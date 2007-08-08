@@ -121,28 +121,19 @@
 					</div>
 				</div>
 				
-                                <!-- added to show column heading style -->
-	                        <div class="ColumnHead">
-        	                <div class="disp">Name</div>
-                	        <div class="datesep"></div>
-                        	<div class="disp">Date</div>
-	                        <div class="sep"></div>
-        	                <div class="disp">Size</div>
-	                        <div class="historysep"></div>
-        	                <div class="disp">History</div> 
-                	        </div>
 
 
 				<asp:DataGrid
 					ID="EntryData"
 					GridLines="none"
 					AutoGenerateColumns="false"
-					ShowHeader="false"
+					ShowHeader="true"
 					CssClass="list"
 					ItemStyle-CssClass="row"
 					AlternatingItemStyle-CssClass="altrow"
 					runat="server">
-					
+				<HeaderStyle CssClass="ColumnHead">
+                                </HeaderStyle>	
 					<columns>
 						<asp:BoundColumn DataField="ID" Visible="False" />
 						

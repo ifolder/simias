@@ -180,7 +180,11 @@ namespace Novell.iFolderApp.Web
 			
 			if (!IsPostBack)
 			{
-			
+				EntryData.Columns[ 3 ].HeaderText = GetString( "NAME" );
+                                EntryData.Columns[ 4 ].HeaderText = GetString( "DATE" );
+                                EntryData.Columns[ 5 ].HeaderText = GetString( "SIZE" );
+                                EntryData.Columns[ 6 ].HeaderText = GetString( "HISTORY" );
+
 				// Pass this page information to create the help link
 				Head.AddHelpLink(GetString("BROWSE"));
 				

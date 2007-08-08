@@ -136,6 +136,10 @@ namespace Novell.iFolderApp.Web
 			if (!IsPostBack)
 			{
 				// data
+				MemberData.Columns[ 3 ].HeaderText = GetString( "MEMBERS" );
+                                MemberData.Columns[ 4 ].HeaderText = GetString( "NAME" );
+                                MemberData.Columns[ 5 ].HeaderText = GetString( "HISTORY" );
+
 				BindData();
 
 				// url
