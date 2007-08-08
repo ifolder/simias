@@ -793,11 +793,11 @@ namespace Novell.iFolder
 			systemName.Required = systemDescription.Required = systemAdminDN.Required = path.Required = false;
 			
 			// LDAP information will be read from the old config.
-			useLdap.Prompt = ldapServer.Prompt = secure.Prompt = ldapAdminDN.Prompt =
+			useLdap.Prompt = ldapServer.Prompt = secure.Prompt = 
 				ldapProxyDN.Prompt = ldapSearchContext.Prompt = 
 				namingAttribute.Prompt = false;
 
-			useLdap.Required = ldapServer.Required = secure.Required = ldapAdminDN.Required =
+			useLdap.Required = ldapServer.Required = secure.Required = 
 				ldapProxyDN.Required = ldapSearchContext.Required = 
 				namingAttribute.Required = false;
 
@@ -815,8 +815,8 @@ namespace Novell.iFolder
                         }
 
 			//Convert the log to Changelog
-			string changelogPath = Path.GetFullPath(storePath+"/log");
-			string changelogPathNew = Path.GetFullPath(storePath+"/changelog");
+			string changelogPath = Path.Combine(storePath,"log");
+			string changelogPathNew = Path.Combine(storePath,"changelog");
 			Console.WriteLine("old {0} New {1}", changelogPath, changelogPathNew);
 			System.IO.Directory.Move(changelogPath, changelogPathNew);
 
@@ -1204,6 +1204,8 @@ namespace Novell.iFolder
 		{
 			LdapUtility ldapUtility;
 			UriBuilder newUri = new UriBuilder();
+			bool upgrade_if = Boolean.Parse(upgrade.Value);
+			
 			if(ldapServer.Value.Equals("localhost"))
 			{
 				System.Net.IPHostEntry hostInfo = System.Net.Dns.GetHostByName( System.Net.Dns.GetHostName() );
@@ -1225,7 +1227,7 @@ namespace Novell.iFolder
 			// intall SSL root certificate
 			Console.Write("Installing certificate from {0}...\n", ldapUrl.ToString());
 				
-			if (ldapUtility.Secure && MyEnvironment.Mono)
+			if (ldapUtility.Secure && (upgrade_if == false) && MyEnvironment.Mono)
 			{
 				const string certfile = "RootCert.cer";
 				Console.WriteLine("{0} {1} {2} {3} get {4}",
@@ -1266,14 +1268,14 @@ namespace Novell.iFolder
 			}
 			else
 			{
-				Console.WriteLine("Skipped ({0})", ldapUtility.Secure ? "Mono Only" : "Not Required");
+				Console.WriteLine("Skipped ({0})", MyEnvironment.Mono ? (upgrade_if == true)? "Not Required" : "Not Supported" : "Mono Only");
 			}
 
 
 			// connect
 			Console.Write("Connecting to {0}...", ldapUrl.ToString());
 			ldapUtility.Connect();
-
+				
 			Console.WriteLine("Done");
 
 			// get the directory type.
@@ -1286,7 +1288,7 @@ namespace Novell.iFolder
 				throw new Exception( string.Format( "Unable to determine directory type for {0}", ldapUtility.Host ) );
 			}
 
-			if (!slaveServer.Value)
+			if (!slaveServer.Value && (upgrade_if == false))
 			{
 				// create admin
 				Console.Write("Creating {0}...", systemAdminDN.Value);
