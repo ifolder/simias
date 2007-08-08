@@ -153,6 +153,9 @@
     <data name="SIZE">
         <value>Size</value>
     </data>
+    <data name="ACCESSCONTROL">
+        <value>Access Control</value>
+    </data>	
     <data name="TYPE">
         <value>Type</value>
     </data>
@@ -363,6 +366,9 @@
     <data name="EVENT">
         <value>Event</value>
     </data>
+    <data name="DATE">
+        <value>Date</value>
+    </data>	
     <data name="TIME">
         <value>Time</value>
     </data>
@@ -584,6 +590,12 @@
     </data>
     <data name="ACTIONS">
         <value>Actions</value>
+    </data>
+    <data name="ACTION">
+        <value>Action</value>
+    </data>	
+    <data name="DATE/TIME">
+        <value>Date/Time</value>
     </data>
     <data name="IFOLDERQUOTA">
         <value>iFolder Quota</value>
