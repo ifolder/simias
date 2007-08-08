@@ -1,6 +1,6 @@
 /****************************************************************************
  |
- | Copyright (c) [2007] Novell, Inc.
+ | Copyright (c) 2007 Novell, Inc.
  | All Rights Reserved.
  |
  | This program is free software; you can redistribute it and/or
@@ -19,7 +19,6 @@
  | you may find current contact information at www.novell.com 
  |
  | Author: Mike Lasky <mlasky@novell.com> 
- |
  |***************************************************************************/
 
 using System;
