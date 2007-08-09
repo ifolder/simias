@@ -1204,7 +1204,7 @@ namespace Novell.iFolder
 		{
 			LdapUtility ldapUtility;
 			UriBuilder newUri = new UriBuilder();
-			bool upgrade_if = Boolean.Parse(upgrade.Value);
+			bool upgrade_if = upgrade.Value != null? Boolean.Parse(upgrade.Value) : false;
 			
 			if(ldapServer.Value.Equals("localhost"))
 			{
@@ -1227,7 +1227,7 @@ namespace Novell.iFolder
 			// intall SSL root certificate
 			Console.Write("Installing certificate from {0}...\n", ldapUrl.ToString());
 				
-			if (ldapUtility.Secure && (upgrade_if == false) && MyEnvironment.Mono)
+			if (ldapUtility.Secure && MyEnvironment.Mono)
 			{
 				const string certfile = "RootCert.cer";
 				Console.WriteLine("{0} {1} {2} {3} get {4}",
@@ -1303,40 +1303,68 @@ namespace Novell.iFolder
 				}
 
 				// create proxy
-				Console.Write("Creating {0}...", ldapProxyDN.Value);
-
-				if (ldapUtility.CreateUser(ldapProxyDN.Value, ldapProxyPassword.Value))
+				bool created = false;
+				int i = 0;
+				string proxyDN = ldapProxyDN.Value;
+				while(!created)
 				{
-					if ( ldapUtility.DirectoryType.Equals( LdapDirectoryType.eDirectory ) )
+					Console.Write("Creating {0}...", ldapProxyDN.Value);
+					i++;
+					if (ldapUtility.CreateUser(ldapProxyDN.Value, ldapProxyPassword.Value))
 					{
-						// rights
-						if (ldapSearchContext.Assigned)
+	//					Console.Write("Created...{0} ... {1}", ldapUtility.DirectoryType, ldapProxyPassword.Value);
+						created = true;
+						if ( ldapUtility.DirectoryType.Equals( LdapDirectoryType.eDirectory ) )
 						{
-							string[] contexts = ldapSearchContext.Value.Split(new char[] { '#' });
-							foreach(string context in contexts)
+							// rights
+							if (ldapSearchContext.Assigned)
 							{
-								if ((context != null) && (context.Length > 0))
+								string[] contexts = ldapSearchContext.Value.Split(new char[] { '#' });
+								foreach(string context in contexts)
 								{
-									if ( !ldapUtility.ValidateSearchContext( context ) )
+									if ((context != null) && (context.Length > 0))
 									{
-										throw new Exception( string.Format( "Invalid context entered: {0}", context ) );
+										if ( !ldapUtility.ValidateSearchContext( context ) )
+										{
+											throw new Exception( string.Format( "Invalid context entered: {0}", context ) );
+										}
+										Console.Write("Granting Read Rights to {0} on {1}...", proxyDN, context);
+										ldapUtility.GrantReadRights(proxyDN, context);
 									}
-									Console.Write("Granting Read Rights to {0} on {1}...", ldapProxyDN.Value, context);
-									ldapUtility.GrantReadRights(ldapProxyDN.Value, context);
 								}
 							}
+					
+					
+							Console.WriteLine("Done");
 						}
-
-
-						Console.WriteLine("Done");
+					}
+					else
+					{
+							try
+							{
+								// check proxy if proxy user is already present and password is incorrect - workaround for 298762
+								Console.Write("Checking {0}...", proxyDN);
+								LdapUtility ldapUtility2 = new LdapUtility(ldapUrl.ToString(), proxyDN, ldapProxyPassword.Value);
+								ldapUtility2.Connect();
+								Console.WriteLine("Done");
+								Console.WriteLine("Skipped (User Exists)");
+							}
+							catch(Exception ex)
+							{
+								//proxy user password is incorrect, create a new ID
+								string[] dnSegs = proxyDN.Split(new char[] {',', '=', '.'});
+								string old_proxy = dnSegs[1];
+								Console.WriteLine("Old Proxy user {0}...", dnSegs[1]);
+								dnSegs[1] = String.Concat(dnSegs[1], i.ToString());
+								Console.WriteLine("new Proxy user {0}...", dnSegs[1]);
+								proxyDN = proxyDN.Replace(old_proxy, dnSegs[1]);
+								ldapProxyDN.Value = proxyDN;
+								Console.Write("Checked2 {0}...", proxyDN);
+							}
 					}
 				}
-				else
-				{
-					Console.WriteLine("Skipped (User Exists)");
-				}
 			}
-
+			Console.Write("Checked {0}...", ldapProxyDN.Value);
 			// disconnect
 			ldapUtility.Disconnect();
 
