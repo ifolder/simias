@@ -885,4 +885,7 @@
 	<data name="NOTMOUNTED">
 		<value>Not Mounted</value>
 	</data>
+	<data name="LINKALREADYEXISTS">
+                <value>A Link by this name already Exists</value>
+        </data>
 </root>

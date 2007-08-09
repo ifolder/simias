@@ -2,6 +2,7 @@
 export MONO_PATH := $(MONO_PATH)
 iFolderAdmin_CSFILES = \
 	$(srcdir)/AccountEnabled.ascx.cs \
+	$(srcdir)/AddDataPath.aspx.cs \
 	$(srcdir)/CreateiFolder.aspx.cs \
 	$(srcdir)/CreateUser.aspx.cs \
 	$(srcdir)/Default.aspx.cs \
@@ -69,6 +70,7 @@ iFolderAdmin_LIBS = \
 
 iFolderAdmin_FORMS = \
 	AccountEnabled.ascx \
+	AddDataPath.aspx \
 	CreateiFolder.aspx \
 	CreateUser.aspx \
 	Default.aspx \
