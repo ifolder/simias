@@ -1346,6 +1346,7 @@ namespace Novell.iFolder
 								Console.Write("Checking {0}...", proxyDN);
 								LdapUtility ldapUtility2 = new LdapUtility(ldapUrl.ToString(), proxyDN, ldapProxyPassword.Value);
 								ldapUtility2.Connect();
+								created = true;
 								Console.WriteLine("Done");
 								Console.WriteLine("Skipped (User Exists)");
 							}
