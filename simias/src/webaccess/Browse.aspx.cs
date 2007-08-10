@@ -174,6 +174,8 @@ namespace Novell.iFolderApp.Web
 			// connection
 			web = (iFolderWeb)Session["Connection"];
 			iFolder ifolder = web.GetiFolder(ifolderID);
+			if(ifolder == null)
+				Response.Redirect("iFolders.aspx?ErrorMsg=iFolder does not exist " + ifolderID);	
 
 			// localization
 			rm = (ResourceManager) Application["RM"];

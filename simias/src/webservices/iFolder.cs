@@ -414,7 +414,9 @@ namespace iFolder.WebService
 
 			if (c == null)
 			{
-					CatalogEntry ce = Catalog.GetEntryByCollectionID (ifolderID);
+				CatalogEntry ce = Catalog.GetEntryByCollectionID (ifolderID);
+				if(ce == null)
+					return null;
 			        return new iFolder (ce, accessID);
 			}
 

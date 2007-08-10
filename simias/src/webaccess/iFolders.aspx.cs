@@ -92,6 +92,7 @@ namespace Novell.iFolderApp.Web
 		/// <param name="e"></param>
 		private void Page_Load(object sender, EventArgs e)
 		{
+			string ErrorMsg =  Request.QueryString.Get("ErrorMsg");
 			// connection
 			web = (iFolderWeb)Session["Connection"];
 
@@ -111,6 +112,12 @@ namespace Novell.iFolderApp.Web
 				// data
 				BindData();
 			}
+			if(ErrorMsg != null && ErrorMsg != String.Empty )
+			{
+                        	Message.Text = GetString("ENTRY.ENTRYINVALIDNAME");
+                        	return;
+			}
+
 		}
 
 		/// <summary>
