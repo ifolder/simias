@@ -214,13 +214,25 @@ namespace Novell.iFolderWeb.Admin
                         }
 			else
 			{
-				int result = web.AddDataStore(DataPathName.Text,FullPath.Text,ServerID); 
-				if( result == 1 )			
-					TopNav.ShowError( GetString( "LINKALREADYEXISTS" ) );		
-				else if( result == 2 )
-					TopNav.ShowError( GetString( "INVALIDFULLPATH" ) );	
-				else
+				int result = web.AddDataStore(DataPathName.Text,FullPath.Text,ServerID);
+				switch( result )
+				{
+					case 0:
 					Page.Response.Redirect( ReferringPage, true );
+					break;
+
+					case 1:
+					TopNav.ShowError( GetString( "LINKALREADYEXISTS" ) );
+					break;
+ 
+					case 2:
+					TopNav.ShowError( GetString( "INVALIDFULLPATH" ) );
+					break;
+
+					case 3:
+					TopNav.ShowError( GetString( "CANNOTSETPERMISSION" ) );
+					break;
+				}
         	        }
 		}
 

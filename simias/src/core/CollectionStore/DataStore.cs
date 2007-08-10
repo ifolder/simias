@@ -29,6 +29,7 @@ using System.Text;
 using System.Net;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
+using System.Diagnostics;
 using System.Threading;
 using System.Xml;
 using System.Text;
@@ -75,6 +76,14 @@ namespace Simias.Storage
                 /// Object used to store the status of datapaths.
                 /// </summary>
                 public bool Enabled;
+
+		/// </summary>
+                private const string apacheUser = "wwwrun";
+
+		/// </summary>
+                private const string apacheGroup = "www";
+
+
 
 		#endregion
 
@@ -164,18 +173,22 @@ namespace Simias.Storage
 			string storepath = Store.StorePath;
 			string tmppath = Path.Combine(storepath,"SimiasFiles");
 			tmppath = Path.Combine(tmppath,this.DataPath);
+			int result = 0;
 			if( Directory.Exists( tmppath ) == true )
 				return 1;
-			if( Directory.Exists( FullPath ) != true )
+			else if( Directory.Exists( this.FullPath ) != true )
 				return 2;
+			else if( Execute( "chown", "-R {0}:{1} {2}", apacheUser, apacheGroup, this.FullPath ) != 0 )
+				return 3;
+
 			Mono.Posix.Syscall.symlink(this.FullPath,tmppath);
 
-			string storageFormat = String.Format( "{0}|{1}", DataPath, FullPath);
+			string storageFormat = String.Format( "{0}|{1}", this.DataPath, this.FullPath);
 			storageFormat = String.Format( "{0}|{1}",storageFormat,this.Enabled.ToString());
 			HostNode host = HostNode.GetLocalHost();
 			host.Properties.AddProperty( PropertyTags.DataPath, storageFormat );
 			domain.Commit(host);
-			return 0;
+			return result;
 		}
 
 		/// <summary>
@@ -183,7 +196,7 @@ namespace Simias.Storage
                 /// </summary>
                 /// <param name="name">The name of the data store.</param>
                 /// <returns>Bool true on success.</returns>
-                public bool ModifyStore(string datapath, bool enabled)
+                public bool ModifyStore( string datapath, bool enabled )
                 {
 			HostNode host = HostNode.GetLocalHost();
                         MultiValuedList mv = host.Properties.GetProperties( PropertyTags.DataPath );
@@ -234,7 +247,6 @@ namespace Simias.Storage
 	                        DataStoreArray[0] = new DataStore("Default-Store");
         	                foreach(string a in stringArray)
                 	        {
-					log.Info(a,"j");
                         	        string[] comps = a.Split( '|' );
                                 	DataStoreArray[ count ] = new DataStore(comps[0],comps[1],comps[2]);
 	                                count++;
@@ -249,6 +261,21 @@ namespace Simias.Storage
 				return DataStoreArray;
 			}
 		}
+
+		/// <summary>
+                /// Execute the command in the shell.
+                /// </summary>
+                /// <param name="command">The command.</param>
+                /// <param name="format">The arguments of the command.</param>
+                /// <param name="args">The arguments for the format.</param>
+                /// <returns>The results of the command.</returns>
+                static int Execute(string command, string format, params object[] args)
+                {
+                        ProcessStartInfo info = new ProcessStartInfo( command, String.Format( format, args ) );                        Process p = Process.Start(info);
+                        p.WaitForExit();
+                        return p.ExitCode;
+                }
+
 		#endregion
        	}
 		

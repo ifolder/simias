@@ -759,7 +759,10 @@ namespace Simias.Storage
         	                        }
                 	                string tmpPath;
 					if( HigherIndex != 0 )
+					{
 						tmpPath = Path.Combine(storeUnmanagedPath,volumes[ HigherIndex  ].DataPath);
+						tmpPath = Path.Combine(tmpPath,"SimiasFiles");
+					}
 					else
 						tmpPath = storeUnmanagedPath;
                 	                tmpPath = Path.Combine(tmpPath, storeUnmanagedPrefix+collectionID.Substring(0,storeUnmanagedPrefixLength));

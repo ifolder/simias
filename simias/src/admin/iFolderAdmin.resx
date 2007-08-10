@@ -513,6 +513,10 @@
 	<data name="LOGINLOSTSESSION">
 		<value>Your session has been closed. Please log in.</value>
 	</data>
+	<data name="CANNOTSETPERMISSION">
+                <value>Could not change the permission of the Full Path specified.</value>
+        </data>
+
 	<data name="LOGINNOCOOKIES">
 		<value>You must enable cookies in your browser.</value>
 	</data>
