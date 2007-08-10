@@ -214,8 +214,11 @@ namespace Novell.iFolderWeb.Admin
                         }
 			else
 			{
-				if( web.AddDataStore(DataPathName.Text,FullPath.Text,ServerID) != true )
+				int result = web.AddDataStore(DataPathName.Text,FullPath.Text,ServerID); 
+				if( result == 1 )			
 					TopNav.ShowError( GetString( "LINKALREADYEXISTS" ) );		
+				else if( result == 2 )
+					TopNav.ShowError( GetString( "INVALIDFULLPATH" ) );	
 				else
 					Page.Response.Redirect( ReferringPage, true );
         	        }

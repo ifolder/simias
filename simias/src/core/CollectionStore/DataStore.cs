@@ -157,7 +157,7 @@ namespace Simias.Storage
                 /// Add a data store for an iFolder Server.
                 /// </summary>
                 /// <returns>Bool true on success.</returns>
-		public bool AddStore(string ServerID)
+		public int AddStore(string ServerID)
 		{
 			Store store = Store.GetStore();
 			Domain domain = store.GetDomain( store.DefaultDomain );
@@ -165,9 +165,9 @@ namespace Simias.Storage
 			string tmppath = Path.Combine(storepath,"SimiasFiles");
 			tmppath = Path.Combine(tmppath,this.DataPath);
 			if( Directory.Exists( tmppath ) == true )
-				return false;
+				return 1;
 			if( Directory.Exists( FullPath ) != true )
-				Directory.CreateDirectory(this.FullPath);
+				return 2;
 			Mono.Posix.Syscall.symlink(this.FullPath,tmppath);
 
 			string storageFormat = String.Format( "{0}|{1}", DataPath, FullPath);
@@ -175,7 +175,7 @@ namespace Simias.Storage
 			HostNode host = HostNode.GetLocalHost();
 			host.Properties.AddProperty( PropertyTags.DataPath, storageFormat );
 			domain.Commit(host);
-			return true;
+			return 0;
 		}
 
 		/// <summary>

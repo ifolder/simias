@@ -888,4 +888,7 @@
 	<data name="LINKALREADYEXISTS">
                 <value>A Link by this name already Exists</value>
         </data>
+	 <data name="INVALIDFULLPATH">
+                <value>Full Path specified is invalid, please check and re-enter.</value>
+        </data>
 </root>

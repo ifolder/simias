@@ -132,11 +132,11 @@ namespace iFolder.WebService
                 /// <param name="DataPathname">The name of the data store.</param>
 		/// <param name="FullPath">The Full Path of the data store.</param>
 		/// <param name="serverID">Server ID of the server</param>
-                /// <returns>Bool true on success.</returns>
+                /// <returns>Integer : 0 on success.</returns>
                 [WebMethod(
                          Description="Add a data store for an iFolder Server.",
                          EnableSession=true)]
-                public override bool AddDataStore(string datapathname,string fullpath,string ServerID)
+                public override int AddDataStore(string datapathname,string fullpath,string ServerID)
                 {
                         return base.AddDataStore(datapathname,fullpath,ServerID);
                 }

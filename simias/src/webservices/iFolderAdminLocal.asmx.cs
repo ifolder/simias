@@ -1033,11 +1033,11 @@ namespace iFolder.WebService
                 /// <param name="DataPathname">The name of the data store.</param>
                 /// <param name="FullPath">The Full Path of the data store.</param>
                 /// <param name="ServerID">Server ID of the server</param>
-                /// <returns>Bool true on success.</returns>
+                /// <returns>Integer : 0 on success.</returns>
                 [WebMethod(
                          Description="Add a data store for an iFolder Server.",
                          EnableSession=true)]
-                public virtual bool AddDataStore(string datapathname,string fullpath,string ServerID)
+                public virtual int AddDataStore(string datapathname,string fullpath,string ServerID)
                 {
 			bool enabled = true;
                         DataStore datastore = new DataStore(datapathname, fullpath, enabled);
