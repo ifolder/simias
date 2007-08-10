@@ -91,7 +91,7 @@
 	
 			<div class="main">
 				
-				<div class="path" style="display:none">
+				<div class="path" >
 					<asp:Image ImageUrl="images/folder.png" runat="server" />
 					<asp:Repeater ID="EntryPathList" runat="server">
 						<itemtemplate>
