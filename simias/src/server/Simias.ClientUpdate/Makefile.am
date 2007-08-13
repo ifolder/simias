@@ -39,6 +39,8 @@ install-exec-local: ClientUpdate.dll $(DATA_FILES)
 	$(INSTALL_PROGRAM) ClientUpdate.dll $(DEBUG_FILES) $(DESTDIR)$(webbindir)
 	$(INSTALL_PROGRAM) version.config $(DESTDIR)$(webdir)/update/windows
 	$(INSTALL_PROGRAM) unix-version.config $(DESTDIR)$(webdir)/update/unix
+	$(INSTALL_PROGRAM) install-ifolder.sh $(DESTDIR)$(webdir)/update/unix
+	$(INSTALL_PROGRAM) install-ifolder-script.sh $(DESTDIR)$(webdir)/update/unix
 	
 uninstall-local:
 	cd $(DESTDIR)$(webdir); rm -f ClientUpdate.asmx ClientUpdateHandler.ashx

@@ -37,6 +37,7 @@ using Simias.Client;
 using Simias.Security.Web.AuthenticationService;
 using Simias.Service;
 using Simias.Storage;
+using Simias.DomainServices;
 
 namespace Simias.Security.Web
 {
@@ -237,6 +238,52 @@ namespace Simias.Security.Web
 					if ( context.User.Identity.IsAuthenticated )
 					{
 						// The user is authenticated, set it as the current principal on this thread.
+						log.Debug("RAMESH: AUTHENTICATED USER");
+						if( DomainAgent.blockedIPs != null)
+						{
+							string soapPath = context.Request.Headers[ "SOAPAction" ];
+							string soapMethod = ( soapPath != null ) ? Path.GetFileName( soapPath.Trim( trimChars ) ) : null;
+							if ( soapMethod == null )
+							{
+								log.Debug("Getting the web method");
+								// See if it was specified as a query parameter.
+								soapMethod = context.Request.QueryString[ "op" ];
+			
+								// If there is no operation query parameter, then use the entire query
+								// string as an index. This will allow the exception file to use
+								// something like Simias.asmx:?WSDL to allow WSDL download without credentials.
+								if ( soapMethod == null )
+								{
+									soapMethod = context.Request.Url.Query;
+								}
+							}
+
+							log.Debug("The web method is: {0}", soapMethod);
+							if( soapMethod.IndexOf( "IsUpdateAvailable") == -1 && soapMethod.IndexOf("CheckForUpdate") == -1)
+							{
+								if( DomainAgent.blockedIPs.ContainsKey(context.Request.UserHostAddress))//foreach( string cookie in DomainAgent.blockedIPs )
+								{
+										log.Debug("The IP's match. {0}", context.Request.UserHostAddress);
+										if( soapMethod == null || (soapMethod.IndexOf("GetUpdateFiles") == -1 && soapMethod.IndexOf("Platform") == -1 && soapMethod.IndexOf("File") == -1))
+										{
+											// Block the request...  
+											log.Debug("Block the request");
+											context.Response.StatusCode = 401;
+											context.Response.StatusDescription = "Unauthorized";
+											context.ApplicationInstance.CompleteRequest();
+										} 
+								}
+							}
+							else
+							{
+								log.Debug("Removing blocked ip new. continue for now");
+								if( DomainAgent.blockedIPs.ContainsKey(context.Request.UserHostAddress) )
+									DomainAgent.blockedIPs.Remove(context.Request.UserHostAddress);
+								
+							}
+						}
+						//else
+							//log.Debug("Ramesh: blocked list is null");
 						Thread.CurrentPrincipal = context.User;
 					}
 					else
@@ -284,7 +331,7 @@ namespace Simias.Security.Web
 				redirectedUri.Scheme = "https";
 				redirectedUri.Port = sslPort;
 
-				log.Debug( redirectedUri.Uri.ToString() );
+				//log.Debug( redirectedUri.Uri.ToString() );
 
 				// You must have an SSL certificate configured on your web server for this to work
 				context.Response.Redirect( redirectedUri.Uri.ToString() );
@@ -305,7 +352,7 @@ namespace Simias.Security.Web
 			if ( ( app.Request.Path.IndexOf( '\\' ) >= 0 ) || 
 				( Path.GetFullPath( physicalPath ) != physicalPath ) )
 			{
-				log.Debug( "AuthenticationModule.OnBeginRequest - Security attack detected!!" );
+				//log.Debug( "AuthenticationModule.OnBeginRequest - Security attack detected!!" );
 				throw new HttpException( 404, "Not Found" );
 			}
 
@@ -329,8 +376,8 @@ namespace Simias.Security.Web
 			foreach ( string s in services )
 			{
 				// Add this web service or method to the table.
-				log.Debug("Unauth service: {0}", s.Trim().ToLower());
 				unauthenticatedServices.Add( s.Trim().ToLower(), null );
+			//	log.Debug("Ramesh: UnAuth services: {0}", s.Trim().ToLower());
 			}
 		}
 
@@ -360,6 +407,7 @@ namespace Simias.Security.Web
 						soapMethod = context.Request.Url.Query;
 					}
 				}
+				log.Debug("In verify[rincipalfromrequest: soapmethod is {0}", soapMethod);
 
 				if ( ( soapMethod == null ) || 
 					 !unauthenticatedServices.ContainsKey( String.Format( "{0}:{1}", webService, soapMethod ).ToLower() ) )
@@ -430,8 +478,6 @@ namespace Simias.Security.Web
 		/// application </param>
 		public void Init( HttpApplication app ) 
 		{
-			log.Debug( "AuthenticationModule Init()" );
-
 			// Register for the interesting events in the HTTP life-cycle.
 			app.BeginRequest += new EventHandler( OnBeginRequest );
 			app.AuthenticateRequest += new EventHandler( OnAuthenticateRequest );

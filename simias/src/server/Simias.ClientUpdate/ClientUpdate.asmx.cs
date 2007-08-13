@@ -34,6 +34,7 @@ using System.Xml;
 using Simias;
 using Simias.Client;
 using Simias.Authentication;
+using Simias.DomainServices;
 
 namespace Novell.iFolder.Enterprise.Web
 {
@@ -291,8 +292,8 @@ namespace Novell.iFolder.Enterprise.Web
 			{
 				// Make sure that there is a version to look for.
 				string versionString = Session[ VersionString ] as string;
-				if ( versionString != null )
-				{
+		//		if ( versionString != null )
+		//		{
 					// Get the file list for the specified version.
 					string platform = Session[ PlatformType ] as string;
 					if ( platform == MyPlatformID.Windows.ToString() )
@@ -309,14 +310,14 @@ namespace Novell.iFolder.Enterprise.Web
 					{
 						fileList = GetDistributionFileList( Session[ PlatformType ] as string );
 					}
-				}
+		//		}
 
 			}
 			catch ( Exception ex )
 			{
 				log.Error( "Error: {0}, getting update files.", ex.Message );
 			}
-			Console.WriteLine("out of getupdate files");
+			log.Debug("out of getupdate files");
 
 			return fileList;
 		}
@@ -399,6 +400,15 @@ namespace Novell.iFolder.Enterprise.Web
 		public string IsUpdateAvailable( string platform, string currentVersion )
 		{
 			log.Debug("IsUpdateAvailable(\"{0}\", \"{1}\")", platform, currentVersion);
+                        log.Debug("Ramesh: Adding to blocked list");
+			if( DomainAgent.blockedIPs.ContainsKey(HttpContext.Current.Request.UserHostAddress) == false)
+			{
+				DomainAgent.blockedIPs.Add(HttpContext.Current.Request.UserHostAddress, null);
+			}
+		//	DomainAgent.blockedIPs.Add(HttpContext.Current.Request.UserHostAddress);
+                        log.Debug("Blocked the IP: {0}", HttpContext.Current.Request.UserHostAddress);
+                        if( DomainAgent.blockedIPs != null)
+                                log.Debug("Added IP to the blocked list");
 			string updateVersion = null;
 			try
 			{

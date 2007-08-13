@@ -76,6 +76,7 @@ namespace Simias.DomainServices
 		private Store store = Store.GetStore();
 		private static Hashtable domainTable = new Hashtable();
 		private static string domainID;
+		public static Hashtable blockedIPs = new Hashtable();
 		#endregion
 
 		#region Constructors
@@ -166,11 +167,13 @@ namespace Simias.DomainServices
 		{
 			HttpWebResponse response = null;
 
+//			DomainAgent.blockedIPs.Remove(HttpContext.Current.Request.UserHostAddress);
 			Simias.Authentication.Status status =	
 				new Simias.Authentication.Status( SCodes.Unknown );
 
 			Uri loginUri = 
 				new Uri( host, Simias.Security.Web.AuthenticationService.Login.Path );
+			log.Debug("Uri path: {0}", loginUri);
 			HttpWebRequest request = WebRequest.Create( loginUri ) as HttpWebRequest;
 			WebState webState = new WebState(domainID);
 			webState.InitializeWebRequest( request, domainID );
