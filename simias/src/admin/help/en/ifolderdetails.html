@@ -64,7 +64,14 @@ manage the ownership, policies, and membership of a selected iFolder. </p><BLOCK
  
   <H4><A NAME="general"></A>Viewing iFolder Details</H4>
   <P>You 
-can view the following information:</P><TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
+can view the following information:</P><TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TD VALIGN="TOP">
+        <P>Type</P>
+      </TD><TD>
+        <P><img src="../../images/ifolder.png" width="16" height="16" alt="Folder icon">  Normal iFolder</P>
+		<P><img src="../../images/encrypt_ifolder.gif" width="16" height="16" alt="Folder icon"> Encrypted iFolder</P>
+		<p><img src="../../images/ifolder_user_16.gif" width="16" height="16" alt="Shared icon"> 
+      Shared iFolder.<br>
+      </TD><TR><TD VALIGN="TOP">
         <P>iFolder Name</P>
       </TD><TD>
         <P>The name assigned to the iFolder </P>
@@ -76,19 +83,17 @@ can view the following information:</P><TABLE WIDTH="93%" BORDER="1"><TR><TD CLA
 </P></TD><TD><P>The username of the owner of the selected iFolder. For orphaned 
 iFolders, the iFolder Admin user is made the  owner until the iFolder 
 can be reassigned or deleted.</P>
-<P>The iFolder owner has the Full Control right 
-to the iFolder. The owner manages membership and access rights for users, and 
-can remove the Full Control right for any member. With an enterprise server, the 
-disk space used by the owner&#146;s iFolders counts against the owner&#146;s user 
-account quotas on the enterprise server.</P></TD></TR><TR><TD VALIGN="TOP"><P>Path</P></TD><TD><P>The 
+        <p>Click the owner's username link to view his or her user account details.</p> 
+        <P>The iFolder owner has the Full Control right to the iFolder. The owner manages 
+          membership and access rights for users, and can remove the Full Control 
+          right for any member.</P>
+      </TD></TR><TR><TD VALIGN="TOP"><P>Path</P></TD><TD><P>The 
 actual location of the iFolder and its data on the server. For example:</P><P>/var/opt/novell/ifolder3/simias/SimiasFiles/<I>e84fdc6e-3d51-49df-ae3f-8c9213c76994</I>/&lt;iFolder_Name&gt;</P><P>In 
 this example, <I>e84fdc6e-3d51-49df-ae3f-8c9213c76994</I> is the unique ID of 
 the iFolder share.</P></TD><TR><TD VALIGN="TOP">
         <P>Modified</P>
       </TD><TD>
         <P>The last modified time and date of the iFolder</P>
-      </TD><TR><TD VALIGN="TOP"><P>Size</P></TD><TD>
-        <P>Size of the iFolder</P>
       </TD><TR><TD VALIGN="TOP">
         <P>Directories</P>
       </TD><TD>
@@ -97,6 +102,13 @@ the iFolder share.</P></TD><TR><TD VALIGN="TOP">
         <P>Files</P>
       </TD><TD>
         <P>Total number of files in the iFolder</P>
+      </TD></TR><TR><TD VALIGN="TOP">
+        <P>Orphan</P>
+      </TD>
+      <TD> 
+        <P>Yes indicates that iFolder is an orphan. </P>
+        <P>For orphaned iFolders, the iFolder Admin becomes the owner until the 
+          iFolder can be reassigned to a new owner or is deleted.</P>
       </TD></TR></TABLE>
 	  
   <H3><a name="members"></a>Members </H3>
@@ -278,7 +290,7 @@ a Member</H4><OL><LI>
         <p >Yes</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >No</p>
       </td>
     </tr>
     <tr > 
@@ -421,17 +433,18 @@ of the iFolder, a subscription notification is sent to the user's iFolder accoun
       </TD><TD>
         <P>Select the Limit check box, then specify the maximum size (in MB) for 
           the selected iFolder.</P>
-        <P>If you enable a system-wide iFolder quota, a user's account quota overrides 
+        <P>If you enable System-wide iFolder quota, a user's account quota overrides 
           it, whether the user quota is lower or higher than the system quota. 
         </P>
         <P>Default value: Disabled, No Limit</P>
       </TD></TR><TR><TD VALIGN="TOP">
         <P> Used</P>
-        <P>(View only)&nbsp;</P></TD><TD><P>Reports how much space the iFolder 
-data currently consumes.</P></TD></TR><TR><TD VALIGN="TOP">
+        <P>(View only)&nbsp;</P></TD><TD>
+        <P>Reports the space the iFolder data currently consumes.</P>
+      </TD></TR><TR><TD VALIGN="TOP">
         <P>Available</P>
         <P>(View only)&nbsp;</P></TD><TD>
-        <P>Reports how much space is available on the server for the iFolder data.</P>
+        <P>Reports the space available on the server for the iFolder data.</P>
       </TD></TR><TR><TD VALIGN="TOP">
         <P>Effective</P>
         <P>(View only)&nbsp;</P></TD><TD>
@@ -461,10 +474,10 @@ data currently consumes.</P></TD></TR><TR><TD VALIGN="TOP">
         <p>The file manager files called thumbs.db and .DS_Store are never synchronized. 
         </p>
     
-        <P>To add a file extension to an inclusion or exclusion filter, type the 
-          extension (such as .mpg), then click Add to apply the filter. </P>
+        <P>To add a file extension to the exclusion filter, type the extension 
+          (such as *.mpg), then click Add to apply the filter. </P>
         <P>To exclude a file type from the restricted file types, select the check 
-          box adjacent to the file type, then click Delete.</P>
+          box adjacent to the File Name, then select the file type and click Delete.</P>
          
         <P>Default value: Disabled, Allow all file types or the System-wide settings</P>
       </TD></TR>
@@ -472,18 +485,22 @@ data currently consumes.</P></TD></TR><TR><TD VALIGN="TOP">
       
 <TR><TD VALIGN="TOP">
         <P> Synchronization Interval &nbsp;</P>
-      </TD><TD><P>Select the Synchronization interval check box to enable a minimum interval setting for the selected iFolder, then specify the minimum value in seconds that users are allowed to set on their clients.</P>
-  <P>      To disable the setting, deselect the Synchronization Interval check box. If the option is disabled, the value reported is No Limit.</P>
+      </TD><TD>
+        <P>Select the Synchronization interval check box to enable a minimum interval 
+          setting for the selected iFolder, then specify the minimum value in 
+          minutes that the users are allowed to set on their iFolder client.</P>
+        <P> To disable the setting, deselect the Synchronization Interval check 
+          box. If the option is disabled, the value reported is Unlimited.</P>
         <P> If this option is enabled, the minimum synchronization interval specifies 
-          the minimum interval in seconds that a user's client can check iFolder 
-          data on the server and local iFolders to identify files that need to 
-          be downloaded or uploaded.</P>
+          the minimum interval in minutes that a user's client can check iFolder 
+          data on the server and local iFolders to identify the files that need 
+          to be downloaded or uploaded.</P>
   <P>      The effective minimum synchronization interval is always the largest value from the following settings:</P>
   <ul>
     <li>
-            <p> The system policy (the default of zero), unless there is a user 
-              policy set. If a user policy is set, the user policy overrides the 
-              system policy, whether it is larger or smaller in value.</p>
+            <p> The system policy (the default of 10 minutes), unless there is 
+              a user policy set. If a user policy is set, the user policy overrides 
+              the system policy, whether it is larger or smaller in value.</p>
     </li>
     <li>
       <p> The local machine policy, or the setting on the client machine synchronizing with the server</p>
@@ -492,7 +509,7 @@ data currently consumes.</P></TD></TR><TR><TD VALIGN="TOP">
       <p> The iFolder (collection) policy</p>
     </li>
   </ul>  
-        <P> Default value: Enabled, 0 seconds</P>
+        <P> Default value: Enabled, 10 Minutes</P>
       </TD>
 </TR></TABLE><BR><P> 
   <P>&nbsp; </P>

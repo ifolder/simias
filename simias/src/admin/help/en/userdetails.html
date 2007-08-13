@@ -84,7 +84,7 @@ url(../../images/helphead_bg.gif) repeat-x 0% 0% }
         
       </TD>
       <TD> 
-        <P>The last timef the user logging in to the iFolder system. 
+        <P>The time when the user last logged in to the iFolder system. 
       </TD></TR></TABLE>
 
   
@@ -93,7 +93,7 @@ url(../../images/helphead_bg.gif) repeat-x 0% 0% }
   <P>The User Details page displays the iFolders owned or shared by the user. 
     Click the All tab to list all the iFolders both owned and shared. To view 
     the iFolder owned by the user, click the Owned tab. The Shared tab lists all 
-    the shared iFolders for this particular user account.</P>
+    the shared iFolders for the current user account.</P>
 	
   <H4>Enabling or Disabling an iFolder</H4>
 		
@@ -124,8 +124,9 @@ url(../../images/helphead_bg.gif) repeat-x 0% 0% }
     </LI></OL>
 	<H4>Creating an iFolder</H4><OL><LI>
       <P>On the User Details page, click New.</P>
-    </LI><LI>Specify a name for the iFolder, 
-then click OK.</LI></OL>
+    </LI>
+    <LI>On the new page that opens, follow the instructions to create a new iFolder.</LI>
+  </OL>
 <IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top">
 <h3><a name="policies"></a> Policies</h3>
   <P>Use this interface to manage the user policies for a specified user account. 
@@ -139,26 +140,26 @@ User Policies</H4>
         <h4>Account </h4>
       </TD><TD><P>Specifies whether the user is currently allowed 
 to log in to synchronize iFolders. </P>
-        <P>Select the check box to enable the account for login.</P>
-        <P> Deselect the check box to disable the account for login. </P>
+        <P>Select the check box to disable the account for login.</P>
+        <P> Deselect the check box to enable the account for login. </P>
         <P>If the user is logged in when you make this change, the user's session 
           continues until the user logs out. The policy takes effect the next 
           time the user attempts to log in to the account. To have the lockout 
           take effect immediately, you must restart the Apache services for the 
           iFolder server, which disconnects all active sessions, including the 
-          user&rsquo;s session.</P>
+          user's session.</P>
   <P>      Default Value: Enabled, Yes</P></TD></TR><TR><TD VALIGN="TOP">
         <h4>Disk Quota</h4>
       </TD>
       <TD> 
         <p>Specifies the maximum total space that a user&#146;s iFolder data is 
           allowed to use, across all iFolders the user owns. The quota can be 
-          imposed by the system policy (System-Wide) or by the user policy. System-wide 
-          policies supersede user policies.<br>
+          imposed by the System-Wide policy. User policies supersede System-wide 
+          policies.<br>
         </p>
         <P> <B>Limit</B><BR>
           Specifies the maximum total space (in MB) that a user's iFolder data 
-          is allowed to use, across all iFolders the user owns for the selected 
+          is allowed to use, across all iFolders that the user owns for the selected 
           user account. <br>
           <br>
           Deselect this option if there is no individual user quota, or to accept 
@@ -191,10 +192,7 @@ to log in to synchronize iFolders. </P>
               location where they no longer affect the effective quota, or files 
               are deleted to clear space.</p>
           </li>
-          <li>
-            <p>Files are moved from the iFolder to another location where they 
-              no longer affect the effective quota, or files are deleted to clear 
-              space.</p></ul>
+          </ul>
         
         <P><B><FONT SIZE="-1">IMPORTANT:</FONT></B> <FONT SIZE="-1">If you enable 
           a user space limit that is less than a user's current total space for 
@@ -229,24 +227,27 @@ to log in to synchronize iFolders. </P>
 </p>
     
         <P>To add a file extension to an inclusion or exclusion filter, type the 
-          extension (such as .mpg), then click Add to apply the filter. </P>
+          extension (such as *.mpg), then click Add to apply the filter. </P>
         <P>To exclude a file type from the restricted file types, select the check 
           box adjacent to the file type, then click Allow.</P>
-        <p> To restrict a file type from the list, select the check box adjacent 
-          to the file type, then click Deny 
+        
         <P>Default value: Disabled, Allow all file types or the System-wide settings</P>
       </TD></TR>
 	
 	<TR><TD VALIGN="TOP">
         <h4> Synchronization </h4>
       </TD><TD>
-	  <p>Specifies the minimum synchronization interval in seconds. If no value is set, the value is 0.</P>
+	    <p>Specifies the minimum synchronization interval in seconds. You can 
+          set the synchronization interval to a value between 0 and 999 inclusive. 
+          If no value is set, the value is 0.</P>
 
-	  <P>Deselect the check box to set no synchronization interval or to accept the system-wide setting for the user account. If no value is set for system-wide or user policies, the value reported is No Limit.</P>
+	    <P>Deselect the check box to set no synchronization interval or to accept 
+          the system-wide setting for the user account. If no value is set for 
+          system-wide or user policies, the value reported is Unlimited.</P>
   <B>Interval</B><BR>
         Select the check box to enable a minimum synchronization interval, then 
-        specify the minimum interval (in seconds). For example, a practical value 
-        is 600 seconds (10 minutes).<br>
+        specify the minimum interval (in minutes). For example, a practical value 
+        is 10 minutes.<br>
         <br><B>Effective</B><BR>
   Specifies the current synchronization interval. For example, if the user sets a synchronization interval that is less than (more frequent) than the system minimum, the system setting applies.
 
@@ -269,8 +270,8 @@ to log in to synchronize iFolders. </P>
       </TD>
       <TD> 
         <P>Specifies the encryption policy for the selected user's account. The 
-          quota can be imposed by the system policy (System-Wide) or by the user 
-          policy. System-wide supersede user policies.</P>
+          quota can be imposed by the system policy (System-Wide). System-wide 
+          policy supersedes user policies.</P>
 		<B>On</B><BR>
         Select On to enable the encryption feature for the selected user. This 
         will permit the user to set encryption policy for his or her iFolders.<br>
@@ -283,32 +284,8 @@ to log in to synchronize iFolders. </P>
         When it is set to Enforced, the user cannot change the encryption settings 
         for his or her iFolders.<br>
 		<P><font size="-1"><b>IMPORTANT:</b> This options are enabled only If 
-          the system level encryption policy is set to On or Enforced.</font></P>
-      </TD></TR>
-<TR><TD VALIGN="TOP">
-        <h4>Secure Data Transfer</h4>
-      </TD>
-      <TD> 
-        <P>Specifies the data transfer policy for the selected user's account. 
-          The quota can be imposed by the system policy (System-Wide) or by the 
-          user policy. System-wide policies supersede user policies.</P>
-		<B>On</B><BR>
-        Select On to enable the secure data transfer feature for the selected 
-        user. This permits the user to set a data transfer policy for his or her 
-        file transfer.<br>
-        <br>
-        Deselect On to disable the secure data tansfer feature for the selected 
-        user. <br>
-        	
-		
-        <br><B>Enforced</B><BR>
-        Select Enforced to enable this feature for the selected user. When it 
-        is set to Enforced, the user cannot change the secure data transfer settings 
-        for his or her files.<br>
-		<P><font size="-1"><b>IMPORTANT:</b> This option is enabled only if the 
-          system level policy is set to On or Enforced.</font></P>
-      </TD></TR>
-  </TABLE>
+          the system level encryption policy is set to On.</font></P>
+      </TD></TR>  </TABLE>
   <P><A HREF="#top" TARGET="_self"> </A></P>
   
 <P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P><H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Related Topics" align="top"> 

@@ -57,10 +57,15 @@ url(../../images/helphead_bg.gif) repeat-x 0% 0% }
        --> 
   <h3 class="head3b">Server Details</h3>
   <p> Use this interface to view server details, server status, server logs, and 
-    server reports, and to set the log level. </p>
-  <BLOCKQUOTE CLASS="blockquote"><P><A HREF="#general" TARGET="_self">Viewing iFolder Details
-</A> <BR><A HREF="#members" TARGET="_self">Members 
- </A><BR><A HREF="#policies" TARGET="_self">Policies</A> </P></BLOCKQUOTE>
+    server reports, and to set the log level and LDAP details. </p>
+  <BLOCKQUOTE CLASS="blockquote"><P><A HREF="#general" TARGET="_self">Viewing Server Details
+</A> <BR><A HREF="#general" TARGET="_self">Viewing Server Status
+ </A><BR><A HREF="#reports" TARGET="_self">Viewing Server Reports
+ </A><BR> <A HREF="#logs" TARGET="_self">Viewing Server Logs
+ </A><BR>
+      <A HREF="#ldap" TARGET="_self">LDAP Details</A><br>
+      <A HREF="#volume" TARGET="_self">Data Store</A><br>
+  </P></BLOCKQUOTE>
   
  
   <H4><a name="general"></a>Viewing Server Details</H4>
@@ -68,39 +73,30 @@ url(../../images/helphead_bg.gif) repeat-x 0% 0% }
 can view the following information:</P><TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
         <P>Name</P>
       </TD><TD>
-        <P>The name assigned to the Server</P>
+        <P>The name assigned to the Server.</P>
       </TD><TR><TD VALIGN="TOP">
         <P>Type</P>
       </TD><TD>
-        <P>The server type (Master or Slave)</P>
+        <P>The server type (Master or Slave).</P>
       </TD><TR><TD VALIGN="TOP">
         <P>DNS Name</P>
       </TD><TD>
-        <P>The DNS name of the iFolder Enterprise server</P>
-		<P>For example: 192.168.1.1 or svr1.domain.com</p>
+        <P>The DNS name of the iFolder Enterprise server.</P>
+		<P>For example: 192.168.1.1 or svr1.domain.com.</p>
 </TD></TR><TR><TD VALIGN="TOP">
-        <P>Public IP Address</P>
+        <P>Public URL</P>
       </TD>
       <TD> 
         <P>The public IP address corresponding to the iFolder server.</P>
-      </TD><TR><TD VALIGN="TOP">
-        <P>Private IP Address</P>
+      </TD><TR>
+      <TD VALIGN="TOP" height="37"> 
+        <P>Private URL</P>
       </TD>
-      <TD> 
+      <TD height="37"> 
         <P>The private IP address corresponding to the iFolder server. This allows 
           communication between the servers within the iFolder domain. The private 
           URL and the public URL can be the same.</P>
-      </TD><TR><TD VALIGN="TOP"><P>Size</P></TD><TD>
-        <P>Size of the iFolder.</P>
-      </TD><TR><TD VALIGN="TOP">
-        <P>Directories</P>
-      </TD><TD>
-        <P>Total number of directories in the iFolder.</P>
-      </TD><TR><TD VALIGN="TOP">
-        <P>Files</P>
-      </TD><TD>
-        <P>Total number of files in the iFolder.</P>
-      </TD></TR></TABLE><br>
+      </TD></TABLE><br>
 	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A>
   <H4><a name="general"></a>Viewing Server Status</H4>
   <P>You 
@@ -120,21 +116,22 @@ can view the following information:</P><TABLE WIDTH="93%" BORDER="1"><TR><TD CLA
       </TD></TR><TR><TD VALIGN="TOP">
         <P>LDAP Status</P>
       </TD><TD>
-        <P>Reports the current LDAP status</P>
+        <P>Reports the current LDAP status.</P>
       </TD></TR></TABLE><br>
 	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A>
 	  
-  <H4><a name="general"></a>Viewing Server Reports</H4>
+  <H4><a name="reports"></a>Viewing Server Reports</H4>
   <P>Select the report from the drop down list to view the report.</P> 
   <p>This option is disabled if the Enable Reporting option on the Report page 
     is left unselected.</P>
-  <H4><a name="general"></a>Viewing Server Logs</H4>
+	<A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A>
+  <H4><a name="logs"></a>Viewing Server Logs</H4>
   <P>You can view the following server log information:</P>
   <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
         <P>System</P>
       </TD>
       <TD> 
-        <P>Select System to view the simias.log that tracks all the system activities 
+        <P>Select System to view the simias.log that tracks all the system activities. 
         </P>
 		
       </TD><TR><TD VALIGN="TOP">
@@ -142,7 +139,7 @@ can view the following information:</P><TABLE WIDTH="93%" BORDER="1"><TR><TD CLA
       </TD>
       <TD> 
         <P>Select User Access to view simias.access.log that tracks the user activities 
-          on the selected server</P>
+          on the selected server.</P>
 		
       </TD></TR></TABLE>
 	    
@@ -153,14 +150,14 @@ can view the following information:</P><TABLE WIDTH="93%" BORDER="1"><TR><TD CLA
       </TD>
       <TD> 
         <P>Shows all the server activities that help Novell support resolve the 
-          issues </P>
+          issues. </P>
 		
       </TD><TR><TD VALIGN="TOP">
         <P>Debug</P>
       </TD>
       <TD> 
         <P>Shows the server activities that help Novell support debug the issues 
-        </P>
+          . </P>
 		
       </TD><TR><TD VALIGN="TOP">
         <P>Info</P>
@@ -193,7 +190,126 @@ can view the following information:</P><TABLE WIDTH="93%" BORDER="1"><TR><TD CLA
       <TD> 
         <P>Logging is turned off.</P>
 		
-      </TD></TR></TABLE>
+      </TD></TR></TABLE><br>
+	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A>
+	  <H4><a name="ldap"></a>LDAP Details</H4>
+  <P>You can edit the following LDAP related information. Click Save to modify 
+    the entries. Click cancel t cancel your modifications.</P>
+  
+  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
+        <P>LDAP Server</P>
+      </TD>
+      <TD> 
+        <P>Shows the LDAP Server address.</P>
+		
+      </TD><TR><TD VALIGN="TOP">
+        <P>Up Since </p><p> (View Only)</P>
+      </TD>
+      <TD> 
+        <P>Shows the date and time of the very first synchronization.</P>
+		
+      </TD><TR><TD VALIGN="TOP">
+        <P>LDAP SSL</P>
+      </TD>
+      <TD> 
+        <P>Shows LDAP SSL is enabled or not. It also allows you to enable or disable 
+          the LDAP SSL connection.</P>
+		
+      </TD><TR><TD VALIGN="TOP">
+        <P>Proxy User</p> <p>(View Only)</P>
+      </TD>
+      <TD> 
+        <P>Shows the Distinguished Name (DN) of the Proxy user. For example, cn=SimiasProxy,o=novell</P>
+		<p>The iFolder Proxy user is the identity used to access the LDAP server 
+          in order to retrieve a list of users in the specified containers or 
+          groups, or users that are defined in the iFolder LDAP settings.The iFolder 
+          Proxy user is created during the iFolder install. This identity must 
+          have the Read right to the LDAP directory. You probably never need to 
+          modify this value.</p>
+      </TD><TR><TD VALIGN="TOP">
+        <P>Cycles</P><p>View Only</p>
+      </TD>
+      <TD> 
+        <P>Shows the total number of server synchronization cycles completed.</P>
+		
+      </TD><TR><TD VALIGN="TOP">
+        <P>Identity Sync</P>
+      </TD>
+      <TD> 
+        <P>Updates the iFolder users in the selected iFolder domain from the LDAP 
+          information at the interval you select.</P>
+        <p>Specify the time interval in minutes in the Identity Sync field and 
+          click Sync Now to start synchronizing the iFolder users with the LDAP 
+          users.</p>
+		
+      </TD><TR>
+      <TD VALIGN="TOP"> 
+        <P>Delete member grace interval</P>
+      </TD>
+      <TD> 
+        <P> Specifies the time interval for iFolder to delete the user information from the server once that particular user is deleted from the LDAP. 
+          This feature helps you to recover the data if the user is deleted accidentally. 
+        </P>
+		
+      </TD></TR><TR>
+      <TD VALIGN="TOP"> 
+        <P>LDAP Context</P>
+      </TD>
+      <TD> 
+        <P>LDAP Context Lists all the LDAP contexts. iFolder searches users only 
+          from the listed LDAP contexts.</P>
+        
+		
+      </TD></TR></TABLE><br>
+	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A>
+
+	  
+  <H4><a name="volume"></a>Data Store</H4>
+  <p> Data Store is nothing but the external volumes mounted across the servers 
+    in a Multi-Volume setup to store data. With web interface, you can add and 
+    configure multiple Data Store among which data is equally distributed. These 
+    external volumes are load balanced. When the user uploads an iFolder, it check 
+    for the Data Store with maximum free space, and stores the iFolder data in 
+    that particular Data Store. You can add as many Data Store as you want. Having 
+    multiple Data Store thus makes it possible to scale the data storage capacity 
+    in a large deployment to meet the enterprise-level requirements. 
+  <P>You can view the following Data Store information:</P>
+  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
+        <P>Name</P>
+      </TD>
+      <TD> 
+        <P>Shows the name you have specified for the Data Store.</P>
+		
+      </TD><TR><TD VALIGN="TOP">
+        <P>Full Path</P>
+      </TD>
+      <TD> 
+        <P>Shows the path to the Data Store, where the volume is mounted on. This 
+          is the data path that you have specified while configuring the simias 
+          server setup.</P>
+		
+      </TD><TR><TD VALIGN="TOP">
+        <P>Free Space</P>
+      </TD>
+      <TD> 
+        <P>Shows the space available in the volume.</P>
+		
+      </TD><TR><TD VALIGN="TOP">
+        <P>Enabled</P>
+      </TD>
+      <TD> 
+        <P>Shows the given Data Store is enabled or not.</P>
+		
+      </TD></TABLE>
+	  <H4><a name="volume"></a>Enable or Disable DataStore</H4>
+	  
+  <p> Select the Data Store you want to disable or enable and click Disable or 
+    Enable respectively. When the user uploads an iFolder, disabled Data Stores 
+    are always skipped while checking for the maximum free space availability 
+    for storing the iFolder data. </p>
+	  
+	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A>
+
 
   <H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Related Topics" align="top"> 
 Related Topics</H4><BLOCKQUOTE class="task1"><P ><BR><A HREF="servers.html">Managing iFolder Servers
