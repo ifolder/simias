@@ -201,7 +201,7 @@ to log in to synchronize iFolders. </P>
           that is larger than the user's total space consumed.</FONT></P>
        
         
-        <P> Default value: Disabled or the system-wide quota if it is set</P>
+        <P> Default value: Disabled and no quota set</P>
       </TD></TR>
   <TR><TD VALIGN="TOP">
         <h4>File Size</h4>
@@ -215,7 +215,7 @@ to log in to synchronize iFolders. </P>
         Effective file size allocated for the user.<br>
 		<ul><P><font size="-1"><b>IMPORTANT:</b> Users cannot successfully synchronize 
           files of a size that would cause a quota to be exceeded. If they try 
-          to do so, only part of the file is synchronized, resulting in data corruption.</font></P></ul>
+          to do so, only part of the file is synchronized, resulting in data corruption.</font></P></ul><P>Default value: Disabled and no limit</P>
       </TD></TR>
   <TR>
       <TD VALIGN="TOP"> 
@@ -231,7 +231,7 @@ to log in to synchronize iFolders. </P>
         <P>To exclude a file type from the restricted file types, select the check 
           box adjacent to the file type, then click Allow.</P>
         
-        <P>Default value: Disabled, Allow all file types or the System-wide settings</P>
+        <P>Default value: .DS_Store and Thumbs.db</P>
       </TD></TR>
 	
 	<TR><TD VALIGN="TOP">
@@ -283,8 +283,8 @@ to log in to synchronize iFolders. </P>
         Select Enforced to enable the encryption feature for the selected user. 
         When it is set to Enforced, the user cannot change the encryption settings 
         for his or her iFolders.<br>
-		<P><font size="-1"><b>IMPORTANT:</b> This options are enabled only If 
-          the system level encryption policy is set to On.</font></P>
+		<P><font size="-1"><b>IMPORTANT:</b> This options is enabled only If the 
+          system level encryption policy is set to On.</font></P>
       </TD></TR>  </TABLE>
   <P><A HREF="#top" TARGET="_self"> </A></P>
   

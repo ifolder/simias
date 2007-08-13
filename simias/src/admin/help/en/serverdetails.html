@@ -230,7 +230,7 @@ can view the following information:</P><TABLE WIDTH="93%" BORDER="1"><TR><TD CLA
         <P>Cycles</P><p>View Only</p>
       </TD>
       <TD> 
-        <P>Shows the total number of server synchronization cycles completed.</P>
+        <P>Shows the total number of identity synchronization cycles completed.</P>
 		
       </TD><TR><TD VALIGN="TOP">
         <P>Identity Sync</P>
@@ -239,8 +239,8 @@ can view the following information:</P><TABLE WIDTH="93%" BORDER="1"><TR><TD CLA
         <P>Updates the iFolder users in the selected iFolder domain from the LDAP 
           information at the interval you select.</P>
         <p>Specify the time interval in minutes in the Identity Sync field and 
-          click Sync Now to start synchronizing the iFolder users with the LDAP 
-          users.</p>
+          click Sync Now to start immediate synchronization of the iFolder users 
+          with the LDAP users.</p>
 		
       </TD><TR>
       <TD VALIGN="TOP"> 
@@ -256,7 +256,7 @@ can view the following information:</P><TABLE WIDTH="93%" BORDER="1"><TR><TD CLA
         <P>LDAP Context</P>
       </TD>
       <TD> 
-        <P>LDAP Context Lists all the LDAP contexts. iFolder searches users only 
+        <P>LDAP Context lists all the LDAP contexts. iFolder searches users only 
           from the listed LDAP contexts.</P>
         
 		
@@ -265,28 +265,29 @@ can view the following information:</P><TABLE WIDTH="93%" BORDER="1"><TR><TD CLA
 
 	  
   <H4><a name="volume"></a>Data Store</H4>
-  <p> Data Store is nothing but the external volumes mounted across the servers 
-    in a Multi-Volume setup to store data. With web interface, you can add and 
-    configure multiple Data Store among which data is equally distributed. These 
-    external volumes are load balanced. When the user uploads an iFolder, it check 
-    for the Data Store with maximum free space, and stores the iFolder data in 
-    that particular Data Store. You can add as many Data Store as you want. Having 
-    multiple Data Store thus makes it possible to scale the data storage capacity 
-    in a large deployment to meet the enterprise-level requirements. 
+  <p> Data Store represents the iFolder storage that can span across multiple 
+    volumes (mount points) in a given server. By default every iFolder server 
+    has a default store which cannot be disabled. With web interface, you can 
+    add and configure multiple Data Store across which iFolder data is load balanced. 
+    When the user uploads an iFolder, it check for the Data Store with maximum 
+    free space, and stores the iFolder data in that particular Data Store thereby 
+    balancing the load. You can add as many Data Store as you want. Having multiple 
+    Data Store thus makes it possible to scale the data storage capacity in a 
+    large deployment to meet the enterprise-level requirements. 
   <P>You can view the following Data Store information:</P>
   <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
         <P>Name</P>
       </TD>
       <TD> 
-        <P>Shows the name you have specified for the Data Store.</P>
+        <P>Shows the unique name you have specified for the Data Store.</P>
 		
       </TD><TR><TD VALIGN="TOP">
         <P>Full Path</P>
       </TD>
       <TD> 
         <P>Shows the path to the Data Store, where the volume is mounted on. This 
-          is the data path that you have specified while configuring the simias 
-          server setup.</P>
+          is the data path that you have specified while adding the data store 
+          using the web interface.</P>
 		
       </TD><TR><TD VALIGN="TOP">
         <P>Free Space</P>
@@ -298,7 +299,8 @@ can view the following information:</P><TABLE WIDTH="93%" BORDER="1"><TR><TD CLA
         <P>Enabled</P>
       </TD>
       <TD> 
-        <P>Shows the given Data Store is enabled or not.</P>
+        <P>Shows the given Data Store is enabled or not. Default Data Store cannot 
+          be disabled.</P>
 		
       </TD></TABLE>
 	  <H4><a name="volume"></a>Enable or Disable DataStore</H4>
