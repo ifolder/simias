@@ -27,6 +27,8 @@ envC.c: $(srcdir)/stdsoap2.c
 	$(GSOAP_PATH)/soapcpp2 -c -penv $(srcdir)/env.h
 
 $(srcdir)/stdsoap2.c:
+	make -C $(GSOAP_PATH)/src && cp $(GSOAP_PATH)/src/soapcpp2 $(GSOAP_PATH)
+	make -C $(GSOAP_PATH)/wsdl && cp $(GSOAP_PATH)/wsdl/wsdl2h $(GSOAP_PATH)
 	cp $(GSOAP_PATH)/stdsoap2.h $(srcdir)
 	cp $(GSOAP_PATH)/stdsoap2.c $(srcdir)
 

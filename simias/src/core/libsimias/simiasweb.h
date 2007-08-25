@@ -38,6 +38,7 @@ typedef enum
   SIMIAS_DOMAIN_TYPE_NONE   = 3
 } SIMIAS_DOMAIN_TYPE;
 #endif
+typedef enum {false_, true_} xsd__boolean;
 
 /**************************************************************************/
 /* Data Structures                                                        */
