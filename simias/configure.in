@@ -279,7 +279,7 @@ case $SIMIAS_OS in
         AC_CHECK_PROG(CXX, g++, g++)
 		StoreProviderAssembly="SimiasLib.dll"
 		StoreProviderType="Simias.Storage.Provider.Flaim.FlaimProvider"
-		GSOAP_PATH="$TOOLDIR/gsoap/linux-2.7"
+		GSOAP_PATH="$TOOLDIR/gsoap/gsoap-linux-2.7"
 		mappingpath="${exec_prefix}/lib/simias/web/bin/Simias.exe"
     ;;
     #
