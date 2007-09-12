@@ -241,7 +241,7 @@ simias_get_domains(bool only_slaves, SimiasDomainInfo **ret_domainsA[])
 	}
 
 	/* Setup the Request */
-	req.onlySlaves = only_slaves ? true_ : false_;
+	req.onlySlaves = only_slaves ? _true_ : _false_;
 	
 	init_gsoap(&soap);
 	if (simias_get_web_service_credential(username, password) == SIMIAS_SUCCESS) {
@@ -294,7 +294,7 @@ simias_get_domains(bool only_slaves, SimiasDomainInfo **ret_domainsA[])
 				}
 				
 				/* Active */
-				if (domainsA[i]->Active == true_) {
+				if (domainsA[i]->Active == _true_) {
 					domain->active = true;
 				} else {
 					domain->active = false;
@@ -349,14 +349,14 @@ simias_get_domains(bool only_slaves, SimiasDomainInfo **ret_domainsA[])
 					domain->host = strdup("");
 				
 				/* IsSlave */
-				if (domainsA[i]->IsSlave == true_) {
+				if (domainsA[i]->IsSlave == _true_) {
 					domain->is_slave = true;
 				} else {
 					domain->is_slave = false;
 				}
 				
 				/* IsDefault */
-				if (domainsA[i]->IsDefault == true_) {
+				if (domainsA[i]->IsDefault == _true_) {
 					domain->is_default = true;
 				} else {
 					domain->is_default = false;
