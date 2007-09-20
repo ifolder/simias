@@ -98,7 +98,7 @@ namespace Simias.Discovery
 					       HostNode hNode = HostNode.GetHostByID (domainID, hostID);
 					       SimiasConnection smConn = new SimiasConnection(domainID,
 											      member.UserID,
-											      SimiasConnection.AuthType.BASIC, 
+											      SimiasConnection.AuthType.PPK, 
 											      hNode);
 					       DiscoveryService discService = new DiscoveryService();
 					       smConn.InitializeWebClient(discService, "DiscoveryService.asmx");
@@ -209,7 +209,7 @@ namespace Simias.Discovery
 			try
 			{
 				DiscoveryService dService = new DiscoveryService();
-				SimiasConnection smConn = new SimiasConnection(domainID, member.UserID, SimiasConnection.AuthType.BASIC, hNode);
+				SimiasConnection smConn = new SimiasConnection(domainID, member.UserID, SimiasConnection.AuthType.PPK, hNode);
 				smConn.InitializeWebClient(dService, "DiscoveryService.asmx");
 				removed = dService.RemoveMemberFromCollection( collectionID, member.UserID);
 			}
@@ -233,7 +233,7 @@ namespace Simias.Discovery
 					log.Debug("DeleteCollectionInCatalog called from client");
 
                                 DiscoveryService dService = new DiscoveryService();
-                                SimiasConnection smConn = new SimiasConnection(domainID, member.UserID, SimiasConnection.AuthType.BASIC, hNode);
+                                SimiasConnection smConn = new SimiasConnection(domainID, member.UserID, SimiasConnection.AuthType.PPK, hNode);
                                 smConn.InitializeWebClient(dService, "DiscoveryService.asmx");
                                 dService.DeleteCollectionInCatalog( collectionID );
                         }

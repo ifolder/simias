@@ -978,6 +978,13 @@ namespace Simias.DomainServices
 			// Construct the web client.
 			DomainService domainService = new DomainService();
 			domainService.Url = uri.ToString() + "/DomainService.asmx";
+			log.Debug("URL {0}", uri.ToString());
+			UriBuilder newUri = new UriBuilder();
+			newUri.Host = uri.Host;
+			newUri.Scheme = Uri.UriSchemeHttps;
+			domainService.Url = newUri.ToString()+ "simias10" + "/DomainService.asmx";
+			log.Debug("URL2 {0}", domainService.Url);
+			
 			WebState webState = new WebState(collection.Domain, store.GetUserIDFromDomainID(collection.Domain));
 			webState.InitializeWebClient(domainService, collection.Domain);
 			

@@ -158,7 +158,7 @@ namespace Simias.Discovery
 							log.Debug("GetCollectionList - Try");
 								
 							SimiasConnection smConn = new SimiasConnection(sn.ID, cmember.UserID,
-												   SimiasConnection.AuthType.BASIC,
+												   SimiasConnection.AuthType.PPK,
 												   masterNode);
 								
 							DiscoveryService dService = new DiscoveryService();

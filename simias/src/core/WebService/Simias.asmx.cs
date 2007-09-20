@@ -1061,7 +1061,7 @@ log.Debug("SimiasWebService.ConnectToDomain() called to connect to {0} as {1}", 
 				HostNode host = m.HomeServer; //home server
 				SimiasConnection smConn = new SimiasConnection(DomainID,
 										UserID,
-										SimiasConnection.AuthType.BASIC,
+										SimiasConnection.AuthType.PPK,
 										host);
 				SimiasWebService svc = new SimiasWebService();
 				svc.Url = host.PublicUrl;
@@ -1104,7 +1104,7 @@ log.Debug("SimiasWebService.ConnectToDomain() called to connect to {0} as {1}", 
 			HostNode host = m.HomeServer; //home server
 			SimiasConnection smConn = new SimiasConnection(DomainID,
 									UserID,
-									SimiasConnection.AuthType.BASIC,
+									SimiasConnection.AuthType.PPK,
 									host);
 			SimiasWebService svc = new SimiasWebService();
 			svc.Url = host.PublicUrl;

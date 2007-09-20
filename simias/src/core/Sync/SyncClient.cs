@@ -301,7 +301,7 @@ namespace Simias.Sync
 							if (!cClient.Connected)
 							{
 								if (serverWasConnected)
-									log.Info("Server for {0} is unavailable", cClient);
+									log.Info("Server for {0} is unavailable {1} {2}", cClient, ex.Message, ex);
 							}
 							else
 							{

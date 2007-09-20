@@ -661,7 +661,7 @@ namespace Simias.Storage
 
 				SimiasConnection smConn = new SimiasConnection(DomainID,
 															UserID,
-															SimiasConnection.AuthType.BASIC,
+															SimiasConnection.AuthType.PPK,
 															host);
 				SimiasWebService svc = new SimiasWebService();
 				svc.Url = host.PublicUrl;
@@ -710,7 +710,7 @@ namespace Simias.Storage
 
 				SimiasConnection smConn = new SimiasConnection(DomainID,
 															UserID,
-															SimiasConnection.AuthType.BASIC,
+															SimiasConnection.AuthType.PPK,
 															host);
 				SimiasWebService svc = new SimiasWebService();
 				svc.Url = host.PublicUrl;
@@ -737,7 +737,7 @@ namespace Simias.Storage
 
 				SimiasConnection smConn = new SimiasConnection(DomainID,
 															UserID,
-															SimiasConnection.AuthType.BASIC,
+															SimiasConnection.AuthType.PPK,
 															host);
 				SimiasWebService svc = new SimiasWebService();
 				svc.Url = host.PublicUrl;
@@ -772,7 +772,7 @@ namespace Simias.Storage
 				
 				SimiasConnection smConn = new SimiasConnection(DomainID,
 															UserID,
-															SimiasConnection.AuthType.BASIC,
+															SimiasConnection.AuthType.PPK,
 															host);
 				SimiasWebService svc = new SimiasWebService();
 				svc.Url = host.PublicUrl;
@@ -895,7 +895,7 @@ namespace Simias.Storage
 
 				SimiasConnection smConn = new SimiasConnection(DomainID,
 															UserID,
-															SimiasConnection.AuthType.BASIC,
+															SimiasConnection.AuthType.PPK,
 															host);
 				SimiasWebService svc = new SimiasWebService();
 				svc.Url = host.PublicUrl;
@@ -982,7 +982,7 @@ namespace Simias.Storage
 				
 				SimiasConnection smConn = new SimiasConnection(DomainID,
 															UserID,
-															SimiasConnection.AuthType.BASIC,
+															SimiasConnection.AuthType.PPK,
 															host);
 				SimiasWebService svc = new SimiasWebService();
 				svc.Url = host.PublicUrl;
@@ -1028,7 +1028,7 @@ namespace Simias.Storage
 				HostNode host = this.HomeServer; //home server
 				SimiasConnection smConn = new SimiasConnection(DomainID,
 																UserID,
-																SimiasConnection.AuthType.BASIC,
+																SimiasConnection.AuthType.PPK,
 																host);
 				SimiasWebService svc = new SimiasWebService();
 				svc.Url = host.PublicUrl;
@@ -1092,7 +1092,7 @@ namespace Simias.Storage
 				HostNode host = this.HomeServer; //home server
 				SimiasConnection smConn = new SimiasConnection(DomainID,
 																UserID,
-																SimiasConnection.AuthType.BASIC,
+																SimiasConnection.AuthType.PPK,
 																host);
 				SimiasWebService svc = new SimiasWebService();
 				svc.Url = host.PublicUrl;
