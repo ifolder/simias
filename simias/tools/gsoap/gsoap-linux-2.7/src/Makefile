@@ -9,7 +9,11 @@ LEX=flex -l
 #       use YACC=bison or YACC=yacc
 YACC=bison
 #	For static linkage with Flex use:
-LIBS=/usr/lib/libfl.a
+ifndef (lib)
+lib=lib
+endif
+
+LIBS=/usr/$(lib)/libfl.a
 #	For static linkage with Lex use:
 #	LIBS=/usr/lib/libl.a
 COFLAGS=-O1
