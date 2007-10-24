@@ -1183,7 +1183,7 @@ namespace Novell.iFolder
 				
 					string alias = "simias10";
 
-					writer.WriteLine( "Include {0}mod_mono.conf",DefaultPath );
+					writer.WriteLine( "Include {0}/mod_mono.conf",DefaultPath );
 					writer.WriteLine();
 					writer.WriteLine("Alias /{0} \"{1}\"", alias, SimiasSetup.webdir);
 					writer.WriteLine("AddMonoApplications {0} \"/{0}:{1}\"", alias, SimiasSetup.webdir);
