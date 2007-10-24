@@ -244,6 +244,11 @@ namespace Novell.iFolder
 		public BoolOption apache = new BoolOption("apache", "Configure Apache", "Configure Simias to run behind Apache", false, false);
 
 		/// <summary>
+		/// The store path.
+		/// </summary>
+		public Option apachePath = new Option("apache-path,ap", "Apache Configuration Path", "Path where Apache maintains the configuration files", false, "/etc/apache2/conf.d");
+
+		/// <summary>
 		/// Apache User.
 		/// </summary>
 		public Option apacheUser = new Option("apache-user", "Apache User", "Apache User", false, "wwwrun");
@@ -434,7 +439,7 @@ namespace Novell.iFolder
 		{
 			if ( !apache.Value )
 			{
-				apacheUser.Prompt = apacheGroup.Prompt = false;
+				apacheUser.Prompt = apacheGroup.Prompt = apachePath.Prompt = false;
 			}
 			return true;
 		}
@@ -554,6 +559,7 @@ namespace Novell.iFolder
 		/// </summary>
 		void Initialize()
 		{
+			apachePath.Prompt = false;
 			// find user
 			try
 			{
@@ -1143,7 +1149,17 @@ namespace Novell.iFolder
 		/// </summary>
 		void SetupModMono()
 		{
-			string path = Path.GetFullPath( "/etc/apache2/conf.d/simias.conf" );
+			string DefaultPath = Path.GetFullPath("/etc/apache2/conf.d");
+			if(System.IO.Directory.Exists(DefaultPath) == false)
+			{
+			Console.Write("check failed");
+				apachePath.Prompt = true;
+				apachePath.Required = true;
+
+				PromptForArguments();
+				DefaultPath = apachePath.Value;
+			}
+			string path = Path.Combine( DefaultPath, "simias.conf" );
 			Console.Write("Configuring {0}...", path);
 
 			if ( apache.Value == true )
@@ -1167,7 +1183,7 @@ namespace Novell.iFolder
 				
 					string alias = "simias10";
 
-					writer.WriteLine( "Include /etc/apache2/mod_mono.conf" );
+					writer.WriteLine( "Include {0}mod_mono.conf",DefaultPath );
 					writer.WriteLine();
 					writer.WriteLine("Alias /{0} \"{1}\"", alias, SimiasSetup.webdir);
 					writer.WriteLine("AddMonoApplications {0} \"/{0}:{1}\"", alias, SimiasSetup.webdir);
@@ -1230,9 +1246,11 @@ namespace Novell.iFolder
 			if (ldapUtility.Secure && MyEnvironment.Mono)
 			{
 				const string certfile = "RootCert.cer";
+#if DEBUG
 				Console.WriteLine("{0} {1} {2} {3} get {4}",
                                             ldapUtility.Host, ldapUtility.Port, slaveServer.Value ? systemAdminDN.Value : ldapAdminDN.Value,
                                             slaveServer.Value ? systemAdminPassword.Value : ldapAdminPassword.Value, certfile);
+#endif
 								
 				if (Execute("./get-root-certificate", "{0} {1} {2} {3} get {4}",
 					    ldapUtility.Host, ldapUtility.Port, slaveServer.Value ? systemAdminDN.Value : ldapAdminDN.Value,
