@@ -94,8 +94,20 @@ parse_web_service_password(FILE *file)
 		else
 			break;
 	}
-
-	return strdup(line);
+	//Extract the password from .local.if entry
+	char* tempPass;
+	char pass[1024];
+	if( (tempPass = strstr(line,":")) != NULL)
+	{
+	 size_t pos = tempPass - &line[0];
+	 strncpy(pass,&tempPass[1],strlen(tempPass));	
+	}
+	else
+	{
+	 strcpy(pass,tempPass);	 
+	}
+	//return strdup(line);
+	return strdup(pass);
 }
 
 /**

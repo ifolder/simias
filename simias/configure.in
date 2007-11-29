@@ -240,7 +240,8 @@ case $SIMIAS_OS in
 		# LD='$(CXX) -dynamiclib '
 		StoreProviderAssembly="SimiasLib.dll"
 		StoreProviderType="Simias.Storage.Provider.Flaim.FlaimProvider"
-		GSOAP_PATH="$TOOLDIR/gsoap/macosx-2.7"
+		#GSOAP_PATH="$TOOLDIR/gsoap/macosx-2.7"
+		GSOAP_PATH="$TOOLDIR/gsoap/macosx-x86-2.7"
 		#StoreProviderAssembly="SqliteProvider.dll"
 		#StoreProviderType="Simias.Storage.Provider.Sqlite.SqliteProvider"
 		mappingpath="${exec_prefix}/lib/simias/web/bin/Simias.exe"
