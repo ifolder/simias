@@ -168,7 +168,7 @@ namespace SimiasApp
 		/// <summary>
 		/// Run Simias services in a client configuration.
 		/// </summary>
-		private bool runAsServer = true;
+		private bool runAsServer = false;
 
 		/// <summary>
 		/// Don't show Simias services console output.
@@ -1092,10 +1092,11 @@ namespace SimiasApp
 		private bool PingWebService( Uri uri, string dataPath )
 		{
 			bool pingStatus = false;
+			SimiasWebService svc = null;
 
 			try
 			{
-				SimiasWebService svc = new SimiasWebService();
+				svc = new SimiasWebService();
 				svc.Url = uri.ToString() + "/Simias.asmx";
 				svc.PingSimias();
 				pingStatus = true;
@@ -1106,6 +1107,15 @@ namespace SimiasApp
 				{
 					Console.Error.WriteLine( "Ping exception: {0}", ex.Message );
 				}
+				try
+				{
+					svc.PingSimias();
+					pingStatus = true;
+				}
+				catch
+				{
+				}
+				
 			}
 
 			return pingStatus;
@@ -1537,7 +1547,12 @@ namespace SimiasApp
 			{
 				// Either this is the Simias child process or --noexec was specified on the command line
 				// for the controller process.
-				status = StartSimiasServer();
+				try
+				{
+					status = StartSimiasServer();
+				}
+				catch
+				{}
 			}
 			else
 			{
@@ -1974,6 +1989,8 @@ namespace SimiasApp
 							{
 								server.StartSimias();
 							}
+							catch
+							{ }
 							finally
 							{
 								// If this is a controller process, release the mutex to let other controllers
