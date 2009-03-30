@@ -1,0 +1,886 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 1.3
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">1.3</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1">this is my long string</data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        [base64 mime encoded serialized .NET Framework object]
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        [base64 mime encoded string representing a byte array form of the .NET Framework object]
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used forserialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>1.3</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="SHARED">
+    <value>Partagé</value>
+  </data>
+  <data name="LOGOUT">
+    <value>Logout</value>
+  </data>
+  <data name="LOGTAG">
+    <value>Journal</value>
+  </data>
+  <data name="ERRORINVALIDQUOTA">
+    <value>Une valeur de quota d'espace disque non valide a été spécifiée. La valeur doit être comprise entre 1 et 2e+063 - 1.</value>
+  </data>
+  <data name="WHEN">
+    <value>Quand</value>
+  </data>
+  <data name="LOGINSECUREFAILED">
+    <value>Impossible de communiquer de manière sûre avec le serveur iFolder.</value>
+  </data>
+  <data name="LOGINSENDFAILED">
+    <value>Impossible de communiquer avec le serveur iFolder.</value>
+  </data>
+  <data name="SAVE">
+    <value>Enregistrer</value>
+  </data>
+  <data name="EQUALS">
+    <value>Égale</value>
+  </data>
+  <data name="SLOVAK">
+    <value>Slovaque</value>
+  </data>
+  <data name="DAYTAG">
+    <value>Jour :</value>
+  </data>
+  <data name="WEEKLY">
+    <value>Toutes les semaines</value>
+  </data>
+  <data name="MONTHLY">
+    <value>Tous les mois</value>
+  </data>
+  <data name="DELETE">
+    <value>Supprimer</value>
+  </data>
+  <data name="SIZETAG">
+    <value>Taille :</value>
+  </data>
+  <data name="ERRORDETAIL">
+    <value>Détails de l'erreur</value>
+  </data>
+  <data name="LOGINIFOLDERSERVER">
+    <value>Serveur iFolder :</value>
+  </data>
+  <data name="PREVIOUSPAGE">
+    <value>Page précédente</value>
+  </data>
+  <data name="NO">
+    <value>Non</value>
+  </data>
+  <data name="ERRORCANNOTADDMEMBER">
+    <value>Impossible d'ajouter le membre {0} au dossier iFolder {1}.</value>
+  </data>
+  <data name="IFOLDERDETAILS">
+    <value>Détails iFolder</value>
+  </data>
+  <data name="ACCESSLOGFILE">
+    <value>Accès utilisateur</value>
+  </data>
+  <data name="DISABLE">
+    <value>Désactiver</value>
+  </data>
+  <data name="LIMITTAG">
+    <value>Limite :</value>
+  </data>
+  <data name="OUTPUT">
+    <value>Sortie</value>
+  </data>
+  <data name="NOTAVAILABLE">
+    <value>Non disponible</value>
+  </data>
+  <data name="FILETYPEALREADYEXISTS">
+    <value>Le nom de fichier spécifié existe déjà dans la liste.</value>
+  </data>
+  <data name="GENERATEDAILYREPORT">
+    <value>Générer un rapport chaque jour à {0} dans {1}</value>
+  </data>
+  <data name="LOGINERROR">
+    <value>Erreur :</value>
+  </data>
+  <data name="ERRORINVALIDFILESIZE">
+    <value>Une valeur limite non valide de taille de fichier a été spécifiée. La valeur doit être comprise entre 1 et 2e+063 - 1.</value>
+  </data>
+  <data name="DNSNAME">
+    <value>Nom DNS</value>
+  </data>
+  <data name="SYNCHRONIZATION">
+    <value>Synchronisation</value>
+  </data>
+  <data name="ERRORCANNOTSETDESCRIPTION">
+    <value>Impossible de définir la description du dossier iFolder.</value>
+  </data>
+  <data name="ATTAG">
+    <value>À :</value>
+  </data>
+  <data name="ADDADMINS">
+    <value>Ajouter des administrateurs</value>
+  </data>
+  <data name="B">
+    <value>B</value>
+  </data>
+  <data name="FIRSTPAGE">
+    <value>Première page</value>
+  </data>
+  <data name="MASTER">
+    <value>Maître</value>
+  </data>
+  <data name="DOWNLOAD">
+    <value>Télécharger</value>
+  </data>
+  <data name="USER">
+    <value>User</value>
+  </data>
+  <data name="LOGINLANGUAGE">
+    <value>Langue :</value>
+  </data>
+  <data name="ERRORMEMBERDOESNOTEXIST">
+    <value>Le membre IFolder n'existe pas.</value>
+  </data>
+  <data name="REPORTDIRECTORY">
+    <value>Répertoire des rapports</value>
+  </data>
+  <data name="LOGINTRUSTFAILED">
+    <value>Échec de la relation approuvée entre le serveur iFolder et iFolder Web Access.</value>
+  </data>
+  <data name="ELLIPSES">
+    <value> . . .</value>
+  </data>
+  <data name="ERRORNOTADMINISTRATOR">
+    <value>L'utilisateur n'est pas un Administrateur iFolder.</value>
+  </data>
+  <data name="FILE">
+    <value>Fichier</value>
+  </data>
+  <data name="LOGINLOSTSESSION">
+    <value>Votre session a été fermée. Loguez-vous.</value>
+  </data>
+  <data name="IFOLDER">
+    <value>iFolder</value>
+  </data>
+  <data name="READONLY">
+    <value>Lecture seule</value>
+  </data>
+  <data name="ASSIGNADMINISTRATORS">
+    <value>Assigner des administrateurs</value>
+  </data>
+  <data name="WARN">
+    <value>Avertir</value>
+  </data>
+  <data name="LDAPSTATUSTAG">
+    <value>État LDAP :</value>
+  </data>
+  <data name="PASSWORDTAG">
+    <value>Mot de passe :</value>
+  </data>
+  <data name="FORMATTAG">
+    <value>Format :</value>
+  </data>
+  <data name="KB">
+    <value>Ko</value>
+  </data>
+  <data name="MB">
+    <value>Mo</value>
+  </data>
+  <data name="USERS">
+    <value>Utilisateurs</value>
+  </data>
+  <data name="FULLNAMETAG">
+    <value>Nom complet :</value>
+  </data>
+  <data name="GB">
+    <value>Go</value>
+  </data>
+  <data name="DIRECTORIESTAG">
+    <value>Répertoires :</value>
+  </data>
+  <data name="PORTUGUESE">
+    <value>Portugais</value>
+  </data>
+  <data name="CONFIGUREREPORTING">
+    <value>Configurer les rapports</value>
+  </data>
+  <data name="ERRORCANNOTSETIFOLDERPOLICY">
+    <value>Impossible de définir les informations de stratégie pour l'ID iFolder {0}.</value>
+  </data>
+  <data name="REPORTIFOLDERTAG">
+    <value>iFolder :</value>
+  </data>
+  <data name="NOITEMSFOUND">
+    <value>Aucun élément détecté.</value>
+  </data>
+  <data name="LASTMODIFIED">
+    <value>Dernière modification</value>
+  </data>
+  <data name="MEMBER">
+    <value>Membre</value>
+  </data>
+  <data name="DAILY">
+    <value>Tous les jours</value>
+  </data>
+  <data name="RIGHTS">
+    <value>Droits</value>
+  </data>
+  <data name="TOTALTAG">
+    <value>Total : </value>
+  </data>
+  <data name="ERRORCANNOTSETIFOLDERSTATUS">
+    <value>Impossible de définir l'état de synchronisation iFolder.</value>
+  </data>
+  <data name="TYPETAG">
+    <value>Type :</value>
+  </data>
+  <data name="FREQUENCY">
+    <value>Fréquence</value>
+  </data>
+  <data name="LOGINACCOUNTLOCKED">
+    <value>Votre compte est actuellement verrouillé et indisponible.</value>
+  </data>
+  <data name="MODIFIEDTAG">
+    <value>Modifié :</value>
+  </data>
+  <data name="HOME">
+    <value>Privé</value>
+  </data>
+  <data name="SESSIONCLOSED">
+    <value>Votre session a été fermée. Please log in.</value>
+  </data>
+  <data name="USERSTAG">
+    <value>Utilisateurs :</value>
+  </data>
+  <data name="ERRORIFOLDERDOESNOTEXIST">
+    <value>Le dossier iFolder n'existe pas.</value>
+  </data>
+  <data name="EXCLUDEDFILES">
+    <value>Fichiers exclus</value>
+  </data>
+  <data name="ENABLED">
+    <value>Activé</value>
+  </data>
+  <data name="ERRORCANNOTDELETEIFOLDER">
+    <value>Impossible de supprimer le dossier iFolder.</value>
+  </data>
+  <data name="STATUS">
+    <value>État</value>
+  </data>
+  <data name="HELP">
+    <value>Aide</value>
+  </data>
+  <data name="HUNGARIAN">
+    <value>Hongrois</value>
+  </data>
+  <data name="IFOLDERS">
+    <value>Dossiers iFolder</value>
+  </data>
+  <data name="UNLIMITED">
+    <value>Illimité</value>
+  </data>
+  <data name="SERVERLOGS">
+    <value>Journaux du serveur</value>
+  </data>
+  <data name="DNSNAMETAG">
+    <value>Nom DNS :</value>
+  </data>
+  <data name="USERLOGINDISABLED">
+    <value>Désactiver le login utilisateur</value>
+  </data>
+  <data name="DISKSPACEUSEDTAG">
+    <value>Espace disque utilisé :</value>
+  </data>
+  <data name="TOTALUSERSTAG">
+    <value>Nombre total d'utilisateurs :</value>
+  </data>
+  <data name="IFOLDERDISABLED">
+    <value>Désactiver la synchronisation</value>
+  </data>
+  <data name="FRENCH">
+    <value>Français</value>
+  </data>
+  <data name="NEWFILETYPE">
+    <value>Nouveau type de fichier</value>
+  </data>
+  <data name="ERRORCANNOTREMOVEADMIN">
+    <value>Impossible de supprimer l'utilisateur {0} comme administrateur.</value>
+  </data>
+  <data name="PUBLICIPTAG">
+    <value>Adresse IP publique :</value>
+  </data>
+  <data name="CREATENEWIFOLDER">
+    <value>Créer un nouveau dossier iFolder</value>
+  </data>
+  <data name="MESSAGEINFORMATION">
+    <value>Informations :</value>
+  </data>
+  <data name="DENY">
+    <value>Refuser</value>
+  </data>
+  <data name="SERVERSTATUS">
+    <value>État du serveur</value>
+  </data>
+  <data name="GENERATEWEEKLYREPORT">
+    <value>Générer un rapport le {0} à {1} dans {2}</value>
+  </data>
+  <data name="FIRST">
+    <value>Premier</value>
+  </data>
+  <data name="ERRORNOQUOTA">
+    <value>Aucune valeur de quota d'espace disque n'a été spécifiée.</value>
+  </data>
+  <data name="INTERVALTAG">
+    <value>Intervalle :</value>
+  </data>
+  <data name="OFF">
+    <value>Inactif</value>
+  </data>
+  <data name="LOGINREDIRECT">
+    <value>L'URL du serveur iFolder doit être mise à jour.</value>
+  </data>
+  <data name="TITLE">
+    <value>Administrateur iFolder</value>
+  </data>
+  <data name="READWRITE">
+    <value>Lecture/écriture</value>
+  </data>
+  <data name="ADMIN">
+    <value>Admin</value>
+  </data>
+  <data name="ACCOUNT">
+    <value>Compte</value>
+  </data>
+  <data name="USERNAME">
+    <value>Nom d'utilisateur</value>
+  </data>
+  <data name="ENABLE">
+    <value>Activer</value>
+  </data>
+  <data name="ERRORCANNOTCHANGERIGHTS">
+    <value>Impossible de modifier les droits de membre de l'utilisateur {0}.</value>
+  </data>
+  <data name="LOGINCONNECTFAILED">
+    <value>Connexion impossible au serveur iFolder</value>
+  </data>
+  <data name="ERRORLOCKEXCEPTION">
+    <value>L'opération a été annulée car le dossier iFolder a été verrouillé/désactivé par l'administrateur.</value>
+  </data>
+  <data name="ADMINISTRATOR">
+    <value>Administrateur</value>
+  </data>
+  <data name="RUSSIAN">
+    <value>Russe</value>
+  </data>
+  <data name="REMOVEMEMBERS">
+    <value>Supprimer des utilisateurs</value>
+  </data>
+  <data name="FILENAME">
+    <value>Nom de fichier</value>
+  </data>
+  <data name="LOGINACCOUNTDISABLED">
+    <value>Votre compte est actuellement désactivé et indisponible.</value>
+  </data>
+  <data name="SERVER">
+    <value>Serveur</value>
+  </data>
+  <data name="ENABLEDTAG">
+    <value>Activé :</value>
+  </data>
+  <data name="LOGINFAILED">
+    <value>Échec :</value>
+  </data>
+  <data name="PRIVATEIPTAG">
+    <value>Adresse IP privée :</value>
+  </data>
+  <data name="ERRORCANNOTADDADMIN">
+    <value>Impossible d'ajouter le membre {0} comme administrateur.</value>
+  </data>
+  <data name="ERRORCANNOTCHANGEOWNER">
+    <value>Impossible de changer le propriétaire du dossier iFolder.</value>
+  </data>
+  <data name="SELECTIFOLDEROWNER">
+    <value>Sélectionnez le propriétaire du dossier iFolder "{0}"</value>
+  </data>
+  <data name="NEXTPAGE">
+    <value>Page suivante</value>
+  </data>
+  <data name="ADD">
+    <value>Ajouter</value>
+  </data>
+  <data name="LAST">
+    <value>Dernier</value>
+  </data>
+  <data name="PORTUGUESE-BRAZIL">
+    <value>Portugais (Brésil)</value>
+  </data>
+  <data name="POLISH">
+    <value>Polonais</value>
+  </data>
+  <data name="DISKQUOTA">
+    <value>Quota de disque</value>
+  </data>
+  <data name="TRUE">
+    <value>Vrai</value>
+  </data>
+  <data name="INFO">
+    <value>Infos</value>
+  </data>
+  <data name="PUBLICURI">
+    <value>Adresse IP publique</value>
+  </data>
+  <data name="LOGINNOSCRIPT">
+    <value>Vous devez activer les scripts dans votre navigateur.</value>
+  </data>
+  <data name="GENERATEMONTHLYREPORT">
+    <value>Générer un rapport le {0} de chaque mois à {1} dans {2}</value>
+  </data>
+  <data name="LOGINLOGOUT">
+    <value>Vous n'êtes pas délogué d'iFolder.</value>
+  </data>
+  <data name="EFFECTIVETAG">
+    <value>Effectif :</value>
+  </data>
+  <data name="LOGINPASSWORD">
+    <value>Mot de passe :</value>
+  </data>
+  <data name="LASTLOGINTIMETAG">
+    <value>Heure du dernier login :</value>
+  </data>
+  <data name="REPORTDIRECTORYTAG">
+    <value>répertoire :</value>
+  </data>
+  <data name="GERMAN">
+    <value>Allemand</value>
+  </data>
+  <data name="SERVERREPORTS">
+    <value>Rapports du serveur</value>
+  </data>
+  <data name="NEXT">
+    <value>Suivant</value>
+  </data>
+  <data name="OWNED">
+    <value>Avec propriétaire</value>
+  </data>
+  <data name="MAXCONNECTIONSTAG">
+    <value>Nombre maximum de connexions :</value>
+  </data>
+  <data name="CANCEL">
+    <value>Annuler</value>
+  </data>
+  <data name="FATAL">
+    <value>Fatal</value>
+  </data>
+  <data name="USERNAMETAG">
+    <value>Nom d'utilisateur :</value>
+  </data>
+  <data name="LOGIN">
+    <value>Login</value>
+  </data>
+  <data name="PRIVATEURI">
+    <value>Adresse IP privée</value>
+  </data>
+  <data name="IFOLDERSTAG">
+    <value>Dossiers iFolder :</value>
+  </data>
+  <data name="SEARCH">
+    <value>Rechercher</value>
+  </data>
+  <data name="ERRORTYPE">
+    <value>Erreur inattendue</value>
+  </data>
+  <data name="FIRSTNAME">
+    <value>Prénom</value>
+  </data>
+  <data name="CREATE">
+    <value>Créer</value>
+  </data>
+  <data name="ERRORCANNOTCREATEUSER">
+    <value>Impossible de créer l'utilisateur.</value>
+  </data>
+  <data name="LDAPCONTEXTTAG">
+    <value>Contexte LDAP :</value>
+  </data>
+  <data name="SPANISH">
+    <value>Espagnol</value>
+  </data>
+  <data name="LOGINCOPYRIGHT">
+    <value>&amp;copy; Copyright 2006 Novell, Inc. Tous droits réservés.</value>
+  </data>
+  <data name="DEBUG">
+    <value>Déboguer</value>
+  </data>
+  <data name="CSVFORMAT">
+    <value>Texte CSV</value>
+  </data>
+  <data name="SELECTUSERS">
+    <value>Sélectionner des utilisateurs</value>
+  </data>
+  <data name="SELECTEDUSERS">
+    <value>Utilisateurs sélectionnés</value>
+  </data>
+  <data name="TOTALIFOLDERSTAG">
+    <value>Total de dossiers iFolder :</value>
+  </data>
+  <data name="UNKNOWNERROR">
+    <value>Une erreur inconnue s'est produite. Aucune exception n'a été spécifiée.</value>
+  </data>
+  <data name="SET">
+    <value>Définir</value>
+  </data>
+  <data name="REPORTS">
+    <value>Rapports</value>
+  </data>
+  <data name="ADMINLOGFILE">
+    <value>Administrateur Web</value>
+  </data>
+  <data name="CHINESE-SIMPLIFIED">
+    <value>Chinois simplifié</value>
+  </data>
+  <data name="LOGINUSERNAME">
+    <value>Nom d'utilisateur :</value>
+  </data>
+  <data name="ALLOW">
+    <value>Autoriser</value>
+  </data>
+  <data name="POLICIES">
+    <value>Stratégies</value>
+  </data>
+  <data name="FIRSTNAMETAG">
+    <value>Prénom :</value>
+  </data>
+  <data name="LOGINUNAUTHORIZED">
+    <value>Réintroduisez votre nom d'utilisateur et votre mot de passe.</value>
+  </data>
+  <data name="INHEIRITEDPOLICY">
+    <value>(Stratégie héritée)</value>
+  </data>
+  <data name="LASTPAGE">
+    <value>Dernière page</value>
+  </data>
+  <data name="CONTAINS">
+    <value>Contient</value>
+  </data>
+  <data name="ERRORNOFILESIZE">
+    <value>Aucune valeur limite de taille de fichier n'a été spécifiée.</value>
+  </data>
+  <data name="LOGLEVELTAG">
+    <value>Niveau de consignation</value>
+  </data>
+  <data name="ERRORCANNOTCREATEIFOLDER">
+    <value>Impossible de créer le dossier iFolder.</value>
+  </data>
+  <data name="LOGINNOCOOKIES">
+    <value>Vous devez activer les cookies dans votre navigateur.</value>
+  </data>
+  <data name="OK">
+    <value>OK</value>
+  </data>
+  <data name="PENDING">
+    <value>En attente</value>
+  </data>
+  <data name="OWNER">
+    <value>Propriétaire</value>
+  </data>
+  <data name="ERRORACCESSEXCEPTION">
+    <value>Vous ne disposez pas de droits suffisants pour exécuter la requête.</value>
+  </data>
+  <data name="SYNCNOW">
+    <value>Synchroniser maintenant</value>
+  </data>
+  <data name="NAMETAG">
+    <value>Nom :</value>
+  </data>
+  <data name="SERVERS">
+    <value>Serveurs</value>
+  </data>
+  <data name="CZECH">
+    <value>Tchèque</value>
+  </data>
+  <data name="LASTNAMETAG">
+    <value>Nom :</value>
+  </data>
+  <data name="AVAILABLETAG">
+    <value>Disponible :</value>
+  </data>
+  <data name="BEGINSWITH">
+    <value>Commence par</value>
+  </data>
+  <data name="LOGGEDINAS">
+    <value>Logué en tant que</value>
+  </data>
+  <data name="JAPANESE">
+    <value>Japonais</value>
+  </data>
+  <data name="NEWIFOLDERNAMETAG">
+    <value>Nom du dossier iFolder :</value>
+  </data>
+  <data name="DESCRIPTIONTAG">
+    <value>Description :</value>
+  </data>
+  <data name="FILESTAG">
+    <value>Fichiers :</value>
+  </data>
+  <data name="ERROR">
+    <value>Erreur</value>
+  </data>
+  <data name="ENDSWITH">
+    <value>Se termine par</value>
+  </data>
+  <data name="DISKSPACEAVAILABLETAG">
+    <value>Espace disque disponible :</value>
+  </data>
+  <data name="ERRORCANNOTSETSYSTEMPOLICY">
+    <value>Impossible de définir les informations de stratégie système.</value>
+  </data>
+  <data name="MINUTES">
+    <value>minute(s)</value>
+  </data>
+  <data name="ALL">
+    <value>Tout</value>
+  </data>
+  <data name="TYPE">
+    <value>Type</value>
+  </data>
+  <data name="STATUSTAG">
+    <value>État :</value>
+  </data>
+  <data name="SERVERDETAILS">
+    <value>Détails du serveur</value>
+  </data>
+  <data name="ERRORTEMPLATE">
+    <value>Erreur : {0}</value>
+  </data>
+  <data name="BACK">
+    <value>Précédent</value>
+  </data>
+  <data name="ERRORINSTRUCTIONS">
+    <value>&lt;p&gt;iFolder Web Access a rencontré une erreur inattendue.&lt;/p&gt; &lt;p&gt;Nous nous excusons des désagréments et vous invitons à vous déloguer et à réessayer.&lt;/p&gt;</value>
+  </data>
+  <data name="NEWIFOLDERDESCRIPTIONTAG">
+    <value>Description du dossier iFolder :</value>
+  </data>
+  <data name="CHINESE-TRADITIONAL">
+    <value>Chinois traditionnel</value>
+  </data>
+  <data name="ERRORUNKNOWNERROR">
+    <value>Une erreur inconnue s'est produite.</value>
+  </data>
+  <data name="SYSTEMLOGFILE">
+    <value>Système</value>
+  </data>
+  <data name="PAGENUMBERFORMAT">
+    <value>{0} - {1} sur {2} {3}</value>
+  </data>
+  <data name="ERRORNOSYNCINTERVAL">
+    <value>Aucune intervalle de synchronisation n'a été spécifié.</value>
+  </data>
+  <data name="FILESIZE">
+    <value>Taille du fichier</value>
+  </data>
+  <data name="ITALIAN">
+    <value>Italien</value>
+  </data>
+  <data name="ERRORAUTHENTICATIONFAILED">
+    <value>Échec de l'authentification.</value>
+  </data>
+  <data name="ENABLEREPORTING">
+    <value>Activer les rapports</value>
+  </data>
+  <data name="SESSIONSTAG">
+    <value>Sessions :</value>
+  </data>
+  <data name="IFOLDERUSERDETAILS">
+    <value>Détails de l'utilisateur iFolder</value>
+  </data>
+  <data name="FULLNAME">
+    <value>Nom complet</value>
+  </data>
+  <data name="PASSWORDSDONOTMATCH">
+    <value>Les mots de passe ne concordent pas.</value>
+  </data>
+  <data name="PATHTAG">
+    <value>Chemin :</value>
+  </data>
+  <data name="LASTNAME">
+    <value>Nom</value>
+  </data>
+  <data name="OWNERTAG">
+    <value>Propriétaire :</value>
+  </data>
+  <data name="ADDMEMBERSTOIFOLDER">
+    <value>Ajouter d'autres membres au dossier iFolder "{0}"</value>
+  </data>
+  <data name="ALLFIELDSREQUIRED">
+    <value>Tous les champs doivent être complétés.</value>
+  </data>
+  <data name="NAME">
+    <value>Nom</value>
+  </data>
+  <data name="ADDMEMBERS">
+    <value>Ajouter des membres iFolder</value>
+  </data>
+  <data name="FILES">
+    <value>Fichiers</value>
+  </data>
+  <data name="RETYPEPASSWORDTAG">
+    <value>Retapez le mot de passe :</value>
+  </data>
+  <data name="ERRORCANNOTDELETEUSER">
+    <value>Impossible de supprimer l'utilisateur ID {0}.</value>
+  </data>
+  <data name="USERDETAILS">
+    <value>Détails de l'utilisateur</value>
+  </data>
+  <data name="IDENTITYSYNCTAG">
+    <value>Synchronisation d'identités</value>
+  </data>
+  <data name="IFOLDERADMINS">
+    <value>Administrateurs iFolder</value>
+  </data>
+  <data name="ERRORUSERDOESNOTEXIST">
+    <value>Le dossier iFolder spécifié n'existe pas.</value>
+  </data>
+  <data name="VIEW">
+    <value>Afficher</value>
+  </data>
+  <data name="USEDTAG">
+    <value>Utilisé :</value>
+  </data>
+  <data name="REPORTIFOLDER">
+    <value>Rapport iFolder</value>
+  </data>
+  <data name="WEBACCESSLOGFILE">
+    <value>Web Access</value>
+  </data>
+  <data name="ERRORINVALIDSYNCINTERVAL">
+    <value>Un intervalle de synchronisation non valide a été spécifié. La valeur doit être comprise entre 5 et 2e+031 - 1.</value>
+  </data>
+  <data name="IFOLDERUSERS">
+    <value>Utilisateurs iFolder</value>
+  </data>
+  <data name="LOGGEDONUSERSTAG">
+    <value>Utilisateurs logués :</value>
+  </data>
+  <data name="SIZE">
+    <value>Taille</value>
+  </data>
+  <data name="MEMBERS">
+    <value>Membres</value>
+  </data>
+  <data name="EVERYTAG">
+    <value>Toutes les :</value>
+  </data>
+  <data name="ERRORCANNOTDELETEMEMBERS">
+    <value>Impossible de supprimer le membre iFolder {0}.</value>
+  </data>
+  <data name="SYSTEM">
+    <value>Système</value>
+  </data>
+  <data name="ADMINISTRATORS">
+    <value>Administrateurs</value>
+  </data>
+  <data name="ERRORCANNOTSETUSERPOLICY">
+    <value>Impossible de définir les informations de stratégie utilisateur pour l'utilisateur ID {0}.</value>
+  </data>
+  <data name="SYSTEMSETTINGS">
+    <value>Paramètres système</value>
+  </data>
+  <data name="ENGLISH">
+    <value>Anglais</value>
+  </data>
+  <data name="YES">
+    <value>Oui</value>
+  </data>
+  <data name="CREATEUSER">
+    <value>Créer l'utilisateur</value>
+  </data>
+  <data name="IFOLDERISOWNEDBY">
+    <value>Propriétaire : {0}</value>
+  </data>
+  <data name="SLAVE">
+    <value>Esclave</value>
+  </data>
+</root>
