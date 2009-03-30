@@ -1,0 +1,814 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:s0="http://novell.com/simias/discovery/" name="DiscoveryService" targetNamespace="http://novell.com/simias/discovery/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xs:schema elementFormDefault="qualified" targetNamespace="http://novell.com/simias/discovery/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="GetAllCollectionIDsByUser">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="UserID" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="ArrayOfString">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="GetAllCollectionIDsByUserResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetAllCollectionIDsByUserResult" type="s0:ArrayOfString" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetAllCatalogInfoForUser">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="UserID" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="ArrayOfCatalogInfo">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="CatalogInfo" nillable="true" type="s0:CatalogInfo" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="CatalogInfo">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="CollectionID" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="HostID" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="UserIDs" type="s0:ArrayOfString" />
+          <xs:element minOccurs="0" maxOccurs="1" name="CollectionName" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="CollectionOwnerID" type="xs:string" />
+          <xs:element minOccurs="1" maxOccurs="1" name="CollectionSize" type="xs:long" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="GetAllCatalogInfoForUserResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetAllCatalogInfoForUserResult" type="s0:ArrayOfCatalogInfo" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetAllCollectionsByUser">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="UserID" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="ArrayOfAnyType">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="anyType" nillable="true" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="CollectionInfo">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="ID" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="CollectionID" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="Name" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="Description" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="OwnerID" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="OwnerUserName" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="OwnerFullName" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="DomainID" type="xs:string" />
+          <xs:element minOccurs="1" maxOccurs="1" name="Size" type="xs:long" />
+          <xs:element minOccurs="1" maxOccurs="1" name="Created" type="xs:dateTime" />
+          <xs:element minOccurs="1" maxOccurs="1" name="LastModified" type="xs:dateTime" />
+          <xs:element minOccurs="1" maxOccurs="1" name="MemberCount" type="xs:int" />
+          <xs:element minOccurs="0" maxOccurs="1" name="HostID" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="DirNodeID" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="DirNodeName" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="MemberNodeID" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="MemberUserID" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="UserRights" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="encryptionAlgorithm" type="xs:string" />
+          <xs:element minOccurs="1" maxOccurs="1" name="Disabled" type="xs:boolean" />
+          <xs:element minOccurs="1" maxOccurs="1" name="MigratediFolder" type="xs:int" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="GetAllCollectionsByUserResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetAllCollectionsByUserResult" type="s0:ArrayOfAnyType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetAllMembersOfCollection">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CollectionID" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetAllMembersOfCollectionResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetAllMembersOfCollectionResult" type="s0:ArrayOfString" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetCatalogInfoForCollection">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CollectionID" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetCatalogInfoForCollectionResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetCatalogInfoForCollectionResult" type="s0:CatalogInfo" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="RemoveMemberFromCollection">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CollectionID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="UserID" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="RemoveMemberFromCollectionResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="RemoveMemberFromCollectionResult" type="xs:boolean" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="DeleteCollectionInCatalog">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CollectionID" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="DeleteCollectionInCatalogResponse">
+        <xs:complexType />
+      </xs:element>
+      <xs:element name="GetCollectionInfo">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CollectionID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="UserID" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetCollectionInfoResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetCollectionInfoResult" type="s0:CollectionInfo" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetAllCollectionInfo">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CollectionIDs" type="s0:ArrayOfString" />
+            <xs:element minOccurs="0" maxOccurs="1" name="UserID" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="ArrayOfCollectionInfo">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="CollectionInfo" nillable="true" type="s0:CollectionInfo" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="GetAllCollectionInfoResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetAllCollectionInfoResult" type="s0:ArrayOfCollectionInfo" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetCollectionDirNodeID">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CollectionID" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetCollectionDirNodeIDResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetCollectionDirNodeIDResult" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ArrayOfString" nillable="true" type="s0:ArrayOfString" />
+      <xs:element name="ArrayOfCatalogInfo" nillable="true" type="s0:ArrayOfCatalogInfo" />
+      <xs:element name="ArrayOfAnyType" nillable="true" type="s0:ArrayOfAnyType" />
+      <xs:element name="CatalogInfo" nillable="true" type="s0:CatalogInfo" />
+      <xs:element name="boolean" type="xs:boolean" />
+      <xs:element name="CollectionInfo" nillable="true" type="s0:CollectionInfo" />
+      <xs:element name="ArrayOfCollectionInfo" nillable="true" type="s0:ArrayOfCollectionInfo" />
+      <xs:element name="string" nillable="true" type="xs:string" />
+    </xs:schema>
+    <xs:schema xmlns:tns="http://novell.com/simias/discovery/AbstractTypes" targetNamespace="http://novell.com/simias/discovery/AbstractTypes" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:import namespace="http://schemas.xmlsoap.org/soap/encoding/" />
+      <xs:import namespace="http://schemas.xmlsoap.org/wsdl/" />
+      <xs:complexType name="ArrayOfString">
+        <xs:complexContent mixed="false">
+          <xs:restriction base="soapenc:Array">
+            <xs:attribute d7p1:arrayType="xs:string[]" ref="soapenc:arrayType" xmlns:d7p1="http://schemas.xmlsoap.org/wsdl/" />
+          </xs:restriction>
+        </xs:complexContent>
+      </xs:complexType>
+    </xs:schema>
+  </types>
+  <message name="GetAllCollectionIDsByUserSoapIn">
+    <part element="s0:GetAllCollectionIDsByUser" name="parameters" />
+  </message>
+  <message name="GetAllCollectionIDsByUserSoapOut">
+    <part element="s0:GetAllCollectionIDsByUserResponse" name="parameters" />
+  </message>
+  <message name="GetAllCatalogInfoForUserSoapIn">
+    <part element="s0:GetAllCatalogInfoForUser" name="parameters" />
+  </message>
+  <message name="GetAllCatalogInfoForUserSoapOut">
+    <part element="s0:GetAllCatalogInfoForUserResponse" name="parameters" />
+  </message>
+  <message name="GetAllCollectionsByUserSoapIn">
+    <part element="s0:GetAllCollectionsByUser" name="parameters" />
+  </message>
+  <message name="GetAllCollectionsByUserSoapOut">
+    <part element="s0:GetAllCollectionsByUserResponse" name="parameters" />
+  </message>
+  <message name="GetAllMembersOfCollectionSoapIn">
+    <part element="s0:GetAllMembersOfCollection" name="parameters" />
+  </message>
+  <message name="GetAllMembersOfCollectionSoapOut">
+    <part element="s0:GetAllMembersOfCollectionResponse" name="parameters" />
+  </message>
+  <message name="GetCatalogInfoForCollectionSoapIn">
+    <part element="s0:GetCatalogInfoForCollection" name="parameters" />
+  </message>
+  <message name="GetCatalogInfoForCollectionSoapOut">
+    <part element="s0:GetCatalogInfoForCollectionResponse" name="parameters" />
+  </message>
+  <message name="RemoveMemberFromCollectionSoapIn">
+    <part element="s0:RemoveMemberFromCollection" name="parameters" />
+  </message>
+  <message name="RemoveMemberFromCollectionSoapOut">
+    <part element="s0:RemoveMemberFromCollectionResponse" name="parameters" />
+  </message>
+  <message name="DeleteCollectionInCatalogSoapIn">
+    <part element="s0:DeleteCollectionInCatalog" name="parameters" />
+  </message>
+  <message name="DeleteCollectionInCatalogSoapOut">
+    <part element="s0:DeleteCollectionInCatalogResponse" name="parameters" />
+  </message>
+  <message name="GetCollectionInfoSoapIn">
+    <part element="s0:GetCollectionInfo" name="parameters" />
+  </message>
+  <message name="GetCollectionInfoSoapOut">
+    <part element="s0:GetCollectionInfoResponse" name="parameters" />
+  </message>
+  <message name="GetAllCollectionInfoSoapIn">
+    <part element="s0:GetAllCollectionInfo" name="parameters" />
+  </message>
+  <message name="GetAllCollectionInfoSoapOut">
+    <part element="s0:GetAllCollectionInfoResponse" name="parameters" />
+  </message>
+  <message name="GetCollectionDirNodeIDSoapIn">
+    <part element="s0:GetCollectionDirNodeID" name="parameters" />
+  </message>
+  <message name="GetCollectionDirNodeIDSoapOut">
+    <part element="s0:GetCollectionDirNodeIDResponse" name="parameters" />
+  </message>
+  <message name="GetAllCollectionIDsByUserHttpGetIn">
+    <part name="UserID" type="s:string" />
+  </message>
+  <message name="GetAllCollectionIDsByUserHttpGetOut">
+    <part element="s0:ArrayOfString" name="Body" />
+  </message>
+  <message name="GetAllCatalogInfoForUserHttpGetIn">
+    <part name="UserID" type="s:string" />
+  </message>
+  <message name="GetAllCatalogInfoForUserHttpGetOut">
+    <part element="s0:ArrayOfCatalogInfo" name="Body" />
+  </message>
+  <message name="GetAllCollectionsByUserHttpGetIn">
+    <part name="UserID" type="s:string" />
+  </message>
+  <message name="GetAllCollectionsByUserHttpGetOut">
+    <part element="s0:ArrayOfAnyType" name="Body" />
+  </message>
+  <message name="GetAllMembersOfCollectionHttpGetIn">
+    <part name="CollectionID" type="s:string" />
+  </message>
+  <message name="GetAllMembersOfCollectionHttpGetOut">
+    <part element="s0:ArrayOfString" name="Body" />
+  </message>
+  <message name="GetCatalogInfoForCollectionHttpGetIn">
+    <part name="CollectionID" type="s:string" />
+  </message>
+  <message name="GetCatalogInfoForCollectionHttpGetOut">
+    <part element="s0:CatalogInfo" name="Body" />
+  </message>
+  <message name="RemoveMemberFromCollectionHttpGetIn">
+    <part name="CollectionID" type="s:string" />
+    <part name="UserID" type="s:string" />
+  </message>
+  <message name="RemoveMemberFromCollectionHttpGetOut">
+    <part element="s0:boolean" name="Body" />
+  </message>
+  <message name="DeleteCollectionInCatalogHttpGetIn">
+    <part name="CollectionID" type="s:string" />
+  </message>
+  <message name="DeleteCollectionInCatalogHttpGetOut" />
+  <message name="GetCollectionInfoHttpGetIn">
+    <part name="CollectionID" type="s:string" />
+    <part name="UserID" type="s:string" />
+  </message>
+  <message name="GetCollectionInfoHttpGetOut">
+    <part element="s0:CollectionInfo" name="Body" />
+  </message>
+  <message name="GetAllCollectionInfoHttpGetIn">
+    <part name="CollectionIDs" xmlns:q1="http://novell.com/simias/discovery/AbstractTypes" type="q1:ArrayOfString" />
+    <part name="UserID" type="s:string" />
+  </message>
+  <message name="GetAllCollectionInfoHttpGetOut">
+    <part element="s0:ArrayOfCollectionInfo" name="Body" />
+  </message>
+  <message name="GetCollectionDirNodeIDHttpGetIn">
+    <part name="CollectionID" type="s:string" />
+  </message>
+  <message name="GetCollectionDirNodeIDHttpGetOut">
+    <part element="s0:string" name="Body" />
+  </message>
+  <message name="GetAllCollectionIDsByUserHttpPostIn">
+    <part name="UserID" type="s:string" />
+  </message>
+  <message name="GetAllCollectionIDsByUserHttpPostOut">
+    <part element="s0:ArrayOfString" name="Body" />
+  </message>
+  <message name="GetAllCatalogInfoForUserHttpPostIn">
+    <part name="UserID" type="s:string" />
+  </message>
+  <message name="GetAllCatalogInfoForUserHttpPostOut">
+    <part element="s0:ArrayOfCatalogInfo" name="Body" />
+  </message>
+  <message name="GetAllCollectionsByUserHttpPostIn">
+    <part name="UserID" type="s:string" />
+  </message>
+  <message name="GetAllCollectionsByUserHttpPostOut">
+    <part element="s0:ArrayOfAnyType" name="Body" />
+  </message>
+  <message name="GetAllMembersOfCollectionHttpPostIn">
+    <part name="CollectionID" type="s:string" />
+  </message>
+  <message name="GetAllMembersOfCollectionHttpPostOut">
+    <part element="s0:ArrayOfString" name="Body" />
+  </message>
+  <message name="GetCatalogInfoForCollectionHttpPostIn">
+    <part name="CollectionID" type="s:string" />
+  </message>
+  <message name="GetCatalogInfoForCollectionHttpPostOut">
+    <part element="s0:CatalogInfo" name="Body" />
+  </message>
+  <message name="RemoveMemberFromCollectionHttpPostIn">
+    <part name="CollectionID" type="s:string" />
+    <part name="UserID" type="s:string" />
+  </message>
+  <message name="RemoveMemberFromCollectionHttpPostOut">
+    <part element="s0:boolean" name="Body" />
+  </message>
+  <message name="DeleteCollectionInCatalogHttpPostIn">
+    <part name="CollectionID" type="s:string" />
+  </message>
+  <message name="DeleteCollectionInCatalogHttpPostOut" />
+  <message name="GetCollectionInfoHttpPostIn">
+    <part name="CollectionID" type="s:string" />
+    <part name="UserID" type="s:string" />
+  </message>
+  <message name="GetCollectionInfoHttpPostOut">
+    <part element="s0:CollectionInfo" name="Body" />
+  </message>
+  <message name="GetAllCollectionInfoHttpPostIn">
+    <part name="CollectionIDs" xmlns:q2="http://novell.com/simias/discovery/AbstractTypes" type="q2:ArrayOfString" />
+    <part name="UserID" type="s:string" />
+  </message>
+  <message name="GetAllCollectionInfoHttpPostOut">
+    <part element="s0:ArrayOfCollectionInfo" name="Body" />
+  </message>
+  <message name="GetCollectionDirNodeIDHttpPostIn">
+    <part name="CollectionID" type="s:string" />
+  </message>
+  <message name="GetCollectionDirNodeIDHttpPostOut">
+    <part element="s0:string" name="Body" />
+  </message>
+  <portType name="DiscoveryServiceSoap">
+    <operation name="GetAllCollectionIDsByUser">
+      <input message="s0:GetAllCollectionIDsByUserSoapIn" />
+      <output message="s0:GetAllCollectionIDsByUserSoapOut" />
+    </operation>
+    <operation name="GetAllCatalogInfoForUser">
+      <input message="s0:GetAllCatalogInfoForUserSoapIn" />
+      <output message="s0:GetAllCatalogInfoForUserSoapOut" />
+    </operation>
+    <operation name="GetAllCollectionsByUser">
+      <input message="s0:GetAllCollectionsByUserSoapIn" />
+      <output message="s0:GetAllCollectionsByUserSoapOut" />
+    </operation>
+    <operation name="GetAllMembersOfCollection">
+      <input message="s0:GetAllMembersOfCollectionSoapIn" />
+      <output message="s0:GetAllMembersOfCollectionSoapOut" />
+    </operation>
+    <operation name="GetCatalogInfoForCollection">
+      <input message="s0:GetCatalogInfoForCollectionSoapIn" />
+      <output message="s0:GetCatalogInfoForCollectionSoapOut" />
+    </operation>
+    <operation name="RemoveMemberFromCollection">
+      <input message="s0:RemoveMemberFromCollectionSoapIn" />
+      <output message="s0:RemoveMemberFromCollectionSoapOut" />
+    </operation>
+    <operation name="DeleteCollectionInCatalog">
+      <input message="s0:DeleteCollectionInCatalogSoapIn" />
+      <output message="s0:DeleteCollectionInCatalogSoapOut" />
+    </operation>
+    <operation name="GetCollectionInfo">
+      <input message="s0:GetCollectionInfoSoapIn" />
+      <output message="s0:GetCollectionInfoSoapOut" />
+    </operation>
+    <operation name="GetAllCollectionInfo">
+      <input message="s0:GetAllCollectionInfoSoapIn" />
+      <output message="s0:GetAllCollectionInfoSoapOut" />
+    </operation>
+    <operation name="GetCollectionDirNodeID">
+      <input message="s0:GetCollectionDirNodeIDSoapIn" />
+      <output message="s0:GetCollectionDirNodeIDSoapOut" />
+    </operation>
+  </portType>
+  <portType name="DiscoveryServiceHttpGet">
+    <operation name="GetAllCollectionIDsByUser">
+      <input message="s0:GetAllCollectionIDsByUserHttpGetIn" />
+      <output message="s0:GetAllCollectionIDsByUserHttpGetOut" />
+    </operation>
+    <operation name="GetAllCatalogInfoForUser">
+      <input message="s0:GetAllCatalogInfoForUserHttpGetIn" />
+      <output message="s0:GetAllCatalogInfoForUserHttpGetOut" />
+    </operation>
+    <operation name="GetAllCollectionsByUser">
+      <input message="s0:GetAllCollectionsByUserHttpGetIn" />
+      <output message="s0:GetAllCollectionsByUserHttpGetOut" />
+    </operation>
+    <operation name="GetAllMembersOfCollection">
+      <input message="s0:GetAllMembersOfCollectionHttpGetIn" />
+      <output message="s0:GetAllMembersOfCollectionHttpGetOut" />
+    </operation>
+    <operation name="GetCatalogInfoForCollection">
+      <input message="s0:GetCatalogInfoForCollectionHttpGetIn" />
+      <output message="s0:GetCatalogInfoForCollectionHttpGetOut" />
+    </operation>
+    <operation name="RemoveMemberFromCollection">
+      <input message="s0:RemoveMemberFromCollectionHttpGetIn" />
+      <output message="s0:RemoveMemberFromCollectionHttpGetOut" />
+    </operation>
+    <operation name="DeleteCollectionInCatalog">
+      <input message="s0:DeleteCollectionInCatalogHttpGetIn" />
+      <output message="s0:DeleteCollectionInCatalogHttpGetOut" />
+    </operation>
+    <operation name="GetCollectionInfo">
+      <input message="s0:GetCollectionInfoHttpGetIn" />
+      <output message="s0:GetCollectionInfoHttpGetOut" />
+    </operation>
+    <operation name="GetAllCollectionInfo">
+      <input message="s0:GetAllCollectionInfoHttpGetIn" />
+      <output message="s0:GetAllCollectionInfoHttpGetOut" />
+    </operation>
+    <operation name="GetCollectionDirNodeID">
+      <input message="s0:GetCollectionDirNodeIDHttpGetIn" />
+      <output message="s0:GetCollectionDirNodeIDHttpGetOut" />
+    </operation>
+  </portType>
+  <portType name="DiscoveryServiceHttpPost">
+    <operation name="GetAllCollectionIDsByUser">
+      <input message="s0:GetAllCollectionIDsByUserHttpPostIn" />
+      <output message="s0:GetAllCollectionIDsByUserHttpPostOut" />
+    </operation>
+    <operation name="GetAllCatalogInfoForUser">
+      <input message="s0:GetAllCatalogInfoForUserHttpPostIn" />
+      <output message="s0:GetAllCatalogInfoForUserHttpPostOut" />
+    </operation>
+    <operation name="GetAllCollectionsByUser">
+      <input message="s0:GetAllCollectionsByUserHttpPostIn" />
+      <output message="s0:GetAllCollectionsByUserHttpPostOut" />
+    </operation>
+    <operation name="GetAllMembersOfCollection">
+      <input message="s0:GetAllMembersOfCollectionHttpPostIn" />
+      <output message="s0:GetAllMembersOfCollectionHttpPostOut" />
+    </operation>
+    <operation name="GetCatalogInfoForCollection">
+      <input message="s0:GetCatalogInfoForCollectionHttpPostIn" />
+      <output message="s0:GetCatalogInfoForCollectionHttpPostOut" />
+    </operation>
+    <operation name="RemoveMemberFromCollection">
+      <input message="s0:RemoveMemberFromCollectionHttpPostIn" />
+      <output message="s0:RemoveMemberFromCollectionHttpPostOut" />
+    </operation>
+    <operation name="DeleteCollectionInCatalog">
+      <input message="s0:DeleteCollectionInCatalogHttpPostIn" />
+      <output message="s0:DeleteCollectionInCatalogHttpPostOut" />
+    </operation>
+    <operation name="GetCollectionInfo">
+      <input message="s0:GetCollectionInfoHttpPostIn" />
+      <output message="s0:GetCollectionInfoHttpPostOut" />
+    </operation>
+    <operation name="GetAllCollectionInfo">
+      <input message="s0:GetAllCollectionInfoHttpPostIn" />
+      <output message="s0:GetAllCollectionInfoHttpPostOut" />
+    </operation>
+    <operation name="GetCollectionDirNodeID">
+      <input message="s0:GetCollectionDirNodeIDHttpPostIn" />
+      <output message="s0:GetCollectionDirNodeIDHttpPostOut" />
+    </operation>
+  </portType>
+  <binding name="DiscoveryServiceSoap" type="s0:DiscoveryServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="GetAllCollectionIDsByUser">
+      <soap:operation soapAction="http://novell.com/simias/discovery/GetAllCollectionIDsByUser" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="GetAllCatalogInfoForUser">
+      <soap:operation soapAction="http://novell.com/simias/discovery/GetAllCatalogInfoForUser" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="GetAllCollectionsByUser">
+      <soap:operation soapAction="http://novell.com/simias/discovery/GetAllCollectionsByUser" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="GetAllMembersOfCollection">
+      <soap:operation soapAction="http://novell.com/simias/discovery/GetAllMembersOfCollection" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="GetCatalogInfoForCollection">
+      <soap:operation soapAction="http://novell.com/simias/discovery/GetCatalogInfoForCollection" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="RemoveMemberFromCollection">
+      <soap:operation soapAction="http://novell.com/simias/discovery/RemoveMemberFromCollection" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="DeleteCollectionInCatalog">
+      <soap:operation soapAction="http://novell.com/simias/discovery/DeleteCollectionInCatalog" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="GetCollectionInfo">
+      <soap:operation soapAction="http://novell.com/simias/discovery/GetCollectionInfo" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="GetAllCollectionInfo">
+      <soap:operation soapAction="http://novell.com/simias/discovery/GetAllCollectionInfo" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="GetCollectionDirNodeID">
+      <soap:operation soapAction="http://novell.com/simias/discovery/GetCollectionDirNodeID" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+  </binding>
+  <binding name="DiscoveryServiceHttpGet" type="s0:DiscoveryServiceHttpGet">
+    <http:binding verb="GET" />
+    <operation name="GetAllCollectionIDsByUser">
+      <http:operation location="/GetAllCollectionIDsByUser" />
+      <input>
+        <http:urlEncoded />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="GetAllCatalogInfoForUser">
+      <http:operation location="/GetAllCatalogInfoForUser" />
+      <input>
+        <http:urlEncoded />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="GetAllCollectionsByUser">
+      <http:operation location="/GetAllCollectionsByUser" />
+      <input>
+        <http:urlEncoded />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="GetAllMembersOfCollection">
+      <http:operation location="/GetAllMembersOfCollection" />
+      <input>
+        <http:urlEncoded />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="GetCatalogInfoForCollection">
+      <http:operation location="/GetCatalogInfoForCollection" />
+      <input>
+        <http:urlEncoded />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="RemoveMemberFromCollection">
+      <http:operation location="/RemoveMemberFromCollection" />
+      <input>
+        <http:urlEncoded />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="DeleteCollectionInCatalog">
+      <http:operation location="/DeleteCollectionInCatalog" />
+      <input>
+        <http:urlEncoded />
+      </input>
+      <output />
+    </operation>
+    <operation name="GetCollectionInfo">
+      <http:operation location="/GetCollectionInfo" />
+      <input>
+        <http:urlEncoded />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="GetAllCollectionInfo">
+      <http:operation location="/GetAllCollectionInfo" />
+      <input>
+        <http:urlEncoded />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="GetCollectionDirNodeID">
+      <http:operation location="/GetCollectionDirNodeID" />
+      <input>
+        <http:urlEncoded />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+  </binding>
+  <binding name="DiscoveryServiceHttpPost" type="s0:DiscoveryServiceHttpPost">
+    <http:binding verb="POST" />
+    <operation name="GetAllCollectionIDsByUser">
+      <http:operation location="/GetAllCollectionIDsByUser" />
+      <input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="GetAllCatalogInfoForUser">
+      <http:operation location="/GetAllCatalogInfoForUser" />
+      <input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="GetAllCollectionsByUser">
+      <http:operation location="/GetAllCollectionsByUser" />
+      <input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="GetAllMembersOfCollection">
+      <http:operation location="/GetAllMembersOfCollection" />
+      <input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="GetCatalogInfoForCollection">
+      <http:operation location="/GetCatalogInfoForCollection" />
+      <input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="RemoveMemberFromCollection">
+      <http:operation location="/RemoveMemberFromCollection" />
+      <input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="DeleteCollectionInCatalog">
+      <http:operation location="/DeleteCollectionInCatalog" />
+      <input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </input>
+      <output />
+    </operation>
+    <operation name="GetCollectionInfo">
+      <http:operation location="/GetCollectionInfo" />
+      <input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="GetAllCollectionInfo">
+      <http:operation location="/GetAllCollectionInfo" />
+      <input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="GetCollectionDirNodeID">
+      <http:operation location="/GetCollectionDirNodeID" />
+      <input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+  </binding>
+  <service name="DiscoveryService">
+    <port binding="s0:DiscoveryServiceSoap" name="DiscoveryServiceSoap">
+      <soap:address location="http://164.99.102.189/simias10/DiscoveryService.asmx" />
+    </port>
+    <port binding="s0:DiscoveryServiceHttpGet" name="DiscoveryServiceHttpGet">
+      <http:address location="http://164.99.102.189/simias10/DiscoveryService.asmx" />
+    </port>
+    <port binding="s0:DiscoveryServiceHttpPost" name="DiscoveryServiceHttpPost">
+      <http:address location="http://164.99.102.189/simias10/DiscoveryService.asmx" />
+    </port>
+  </service>
+</definitions>

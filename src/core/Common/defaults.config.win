@@ -1,0 +1,6 @@
+<configuration>
+  <section name="DefaultServerValues">
+    <setting name="simiasdatadir" value="${APPDATA}..\Local Settings\Application Data\simias" />
+    <setting name="runasclient" value="TRUE" />
+  </section>
+</configuration>

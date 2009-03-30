@@ -1,0 +1,10 @@
+<configuration>
+  <section name ="Authentication">
+    <setting name="SimiasAuthNotRequired" value="Login.ashx, Simias.asmx:PingSimias, POService.asmx:Invite, Simias.asmx:GetRAList, Simias.asmx:GetRACertificate, iFolderBackup.asmx:GetSimiasDataPath, iFolderBackup.asmx:Ping" />
+    <setting name="SimiasRequireSSL" value="no" />
+  </section>
+  <section name="StoreProvider">
+    <setting name="Assembly" value="SimiasLib.dll" />
+    <setting name="Type" value="Simias.Storage.Provider.Flaim.FlaimProvider" />
+  </section>
+</configuration>
