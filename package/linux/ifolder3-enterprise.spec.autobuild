@@ -1,0 +1,721 @@
+#
+# spec file for package ifolder3 (Version 3.7.2.@@BUILDNUM@@.1)
+#
+# Copyright (c) 2009 SUSE LINUX Products GmbH, Nuernberg, Germany.
+#
+# All modifications and additions to the file contributed by third parties
+# remain the property of their copyright owners, unless otherwise agreed
+# upon. The license for this file, and modifications and additions to the
+# file, is the same license as for the pristine package itself (unless the
+# license for the pristine package is not an Open Source License, in which
+# case the license is the MIT License). An "Open Source License" is a
+# license that conforms to the Open Source Definition (Version 1.9)
+# published by the Open Source Initiative.
+#
+# Please submit bugfixes or comments via http://support.novell.com
+#
+
+
+
+Name:           ifolder3-enterprise
+BuildRequires:  compat-libstdc++ e2fsprogs e2fsprogs-devel gcc-c++ glib2 glib2-devel libflaim libflaim-devel libstdc++ libstdc++-devel libxml2 libxml2-devel log4net mod_mono mono-core mono-data mono-devel mono-web pkgconfig xsp ncurses ncurses-devel
+
+
+%define buildnum @@BUILDNUM@@
+Url:            http://wwww.ifolder.com
+%define prefix /usr 
+%define novell_lib /opt/novell/%_lib
+%define sysconfdir /etc
+License:        GNU General Public License (GPL) v2 
+Group:          Productivity/Networking/Novell
+AutoReqProv:    on
+Requires:       mono-core = 1.2.6
+Requires:       mono-data = 1.2.6
+Requires:       mono-web = 1.2.6
+Requires:       log4net >= 1.2.9 
+Requires:       mod_mono
+#Obsoletes:      %{name} < %{version}
+Version:        3.7.2.@@BUILDNUM@@.1
+Release:        0.2
+Summary:        Novell iFolder 3 Enterprise
+Source:         ifolder3-enterprise.tar.gz
+BuildRoot:      %{_tmppath}/%{name}-%{version}-build
+#=============================================================================
+
+%description
+This package adds Novell's iFolder server. Using the iFolder client,
+users can share files across the enterprise with other users. The
+iFolder server provides back-up and synchronization across the network
+to multiple machines and also enables Web-based access to files on the
+server.
+
+
+
+%prep
+export BUILDNUM=%{buildnum}
+%setup -n %{name}
+#=============================================================================
+
+%build
+export BUILDNUM=%{buildnum}
+export EDIR_INCLUDE=/opt/novell/eDirectory/include
+export EDIR_LIBDIR=/opt/novell/eDirectory/%_lib
+export LIBDIR=%_lib
+./autogen.sh --prefix=%{prefix} --sysconfdir=/etc #--with-runasclient
+make
+#make dist
+#=============================================================================
+
+%install
+export BUILDNUM=%{buildnum}
+%{__rm} -rf $RPM_BUILD_ROOT
+make DESTDIR=$RPM_BUILD_ROOT install
+mkdir -p $RPM_BUILD_ROOT/etc/ld.so.conf.d/
+/usr/bin/install src/server/setup/novell-ifolder3.conf $RPM_BUILD_ROOT/etc/ld.so.conf.d
+#=============================================================================
+
+%clean
+#%{__rm} -rf $RPM_BUILD_ROOT
+#=============================================================================
+
+%post
+[ -f %{prefix}/%_lib/simias/admin/bin/SimiasLib.dll ] || \
+ln -sf %{prefix}/%_lib/simias/web/bin/SimiasLib.dll %{prefix}/%_lib/simias/admin/bin/SimiasLib.dll
+[ -f %{prefix}/%_lib/simias/webaccess/bin/SimiasLib.dll ] || \
+ln -sf %{prefix}/%_lib/simias/web/bin/SimiasLib.dll %{prefix}/%_lib/simias/webaccess/bin/SimiasLib.dll
+# Create links for automatic updates to work correctly
+ln -sf %{prefix}/%_lib/simias/clients/ifolder3/ifolder3-linux.tar.gz \
+	%{prefix}/%_lib/simias/web/update/unix/default/ifolder3-linux.tar.gz
+ln -sf %{prefix}/%_lib/simias/clients/ifolder3/ifolder3-linux.tar.gz \
+        %{prefix}/%_lib/simias/web/update/unix/suse-linux-10.0/ifolder3-linux.tar.gz
+ln -sf %{prefix}/%_lib/simias/clients/ifolder3/ifolder3-linux.tar.gz \
+        %{prefix}/%_lib/simias/web/update/unix/opensuse-linux-10.3/ifolder3-linux.tar.gz
+ln -sf %{prefix}/%_lib/simias/clients/ifolder3/ifolder3-windows.exe \
+	%{prefix}/%_lib/simias/web/update/windows/ifolder3-windows.exe
+ln -sf %{prefix}/%_lib/simias/clients/ifolder3/ifolder3-windows-x64.exe \
+        %{prefix}/%_lib/simias/web/update/windows/ifolder3-windows-x64.exe
+ln -sf %{prefix}/%_lib/simias/clients/ifolder3/ifolder3-mac.dmg \
+	%{prefix}/%_lib/simias/web/update/mac/ifolder3-mac.dmg
+
+# Set LD_LIBRARY_PATH
+grep -q "include /etc/ld.so.conf.d/\*.conf" /etc/ld.so.conf || \
+	echo "include /etc/ld.so.conf.d/*.conf" >> /etc/ld.so.conf
+
+/sbin/ldconfig
+echo "Run %{prefix}/bin/simias-server-setup to configure the server"
+#=============================================================================
+
+%preun
+#rm -f %{prefix}/%_lib/simias/admin/bin/SimiasLib.dll
+#rm -f %{prefix}/%_lib/simias/webaccess/bin/SimiasLib.dll
+#if [ "$1" != "1" ]
+#then
+#	rm -f %{novell_lib}/libFlaimWrapper.so
+#fi
+# Remove everything inside the update directory
+#rm -rf %{prefix}/%_lib/simias/web/update/
+#=============================================================================
+
+%files
+%defattr(755,root,root)
+%{prefix}/bin/*
+%dir /etc/simias/
+%dir /etc/simias/apache
+%dir /etc/simias/apache/default
+%dir /etc/simias/apache/example.com
+%dir /etc/simias/bill
+%dir /etc/simias/bill/modules
+/etc/simias/Simias.config
+/etc/simias/Simias.log4net
+%{prefix}/include/*
+%{prefix}/%_lib/pkgconfig/*
+%{prefix}/%_lib/libFlaimWrapper.so
+%{prefix}/%_lib/libFlaimWrapper.so.0
+%{prefix}/%_lib/libFlaimWrapper.so.0.0.0
+%{prefix}/%_lib/libsimias-event.so
+%{prefix}/%_lib/libsimias-event.so.0
+%{prefix}/%_lib/libsimias-event.so.0.0.0
+%{prefix}/%_lib/libsimias-manager.a
+%{prefix}/%_lib/libsimias.so
+%{prefix}/%_lib/libsimias.so.0
+%{prefix}/%_lib/libsimias.so.0.0.0
+%{prefix}/share/*
+%dir %{prefix}/%_lib/simias/web
+%dir %{prefix}/%_lib/simias
+%dir %{prefix}/%_lib/simias/web/bin
+%{prefix}/%_lib/simias/web/bin/SimiasClient.dll
+%{prefix}/%_lib/simias/web/bin/Simias.Web.dll
+%{prefix}/%_lib/simias/web/bin/Simias.POBox.Web.dll
+%{prefix}/%_lib/simias/web/bin/SimiasLib.dll.config
+%{prefix}/%_lib/simias/web/bin/ifdata
+%{prefix}/%_lib/simias/web/bin/SyncService.Web.dll
+%{prefix}/%_lib/simias/web/bin/Simias.exe
+%{prefix}/%_lib/simias/web/bin/SimiasLib.dll
+%{prefix}/%_lib/simias/webaccess/bin/SimiasLib.dll
+%{prefix}/%_lib/simias/admin/bin/SimiasLib.dll
+%{prefix}/%_lib/simias/*
+%{prefix}/%_lib/simias/web/bin/FlaimWrapper.so
+#%{prefix}/%_lib/simias/web/bin/SimiasAPIService.Web.dll
+%{prefix}/%_lib/simias/web/Global.asax
+%dir %{prefix}/%_lib/simias/web/modules
+%{prefix}/%_lib/simias/web/update/*
+%{prefix}/%_lib/simias/web/modules/SimiasLib.conf
+%{prefix}/%_lib/simias/web/Login.ashx
+%{prefix}/%_lib/simias/web/POService.asmx
+%{prefix}/%_lib/simias/web/Simias.asmx
+%{prefix}/%_lib/simias/web/SyncHandler.ashx
+%{prefix}/%_lib/simias/web/web.config
+#%{prefix}/%_lib/simias/web/SimiasAPI.asmx
+%config(noreplace) %{prefix}/%_lib/simias/web/web.config
+%config(noreplace) %{prefix}/%_lib/simias/webaccess/Web.config
+%config(noreplace) %{prefix}/%_lib/simias/admin/Web.config
+/etc/simias/apache/default/ifolder_admin.conf
+/etc/simias/apache/default/ifolder_webaccess.conf
+/etc/simias/apache/default/simias_server.conf
+/etc/simias/apache/example.com/ifolder_admin.conf
+/etc/simias/apache/example.com/ifolder_webaccess.conf
+/etc/simias/apache/example.com/simias_server.conf
+/etc/simias/apache/ifolder_apache.conf
+/etc/simias/bill/Simias.config
+/etc/simias/bill/modules/Simias.Server.conf
+/etc/simias/defaults.config
+/etc/novell-ifolder3.conf
+/etc/ld.so.conf.d/novell-ifolder3.conf
+
+%changelog
+* Fri May 02 2008 - srinidhi@novell.com
+- #385099,385035,351303(Partial): Default value for use-ssl option is
+  changed to support both SSL & NONSSL setups. Bug 351303 (Partial, so
+  only it is still not marked as fixed)
+* Mon Apr 28 2008 - manu@novell.com
+- #235354: Changes are done to allow user to login without password.
+  Effected DLL is Simias.LdapProvider.dll
+* Wed Apr 23 2008 - manu@novell.com
+- #379982: Cleaned up source code . Simias , Novell iFolder , plugins
+  , nautilus and tsa
+* Wed Apr 16 2008 - manu@novell.com
+-354792,350569: If SSL is enabled the client is slow. This has been
+  improved with a different authentication model. Now the initial auth
+  is always SSL even if server is not SSL enabled. Only Linux client is
+  enabled to display the Expired certificate validation. Only during
+  account creation Expiry is checked. This has to be made into Login as
+  well. This has to be ported to Win and Mac Client.
+-#379982:Fixed build issues in plugins > cleaned up Novell iFolder ,
+  depenndencies/external directory - removed Report , Sync and aclocal >
+  Simias , cleaned up dependencies folder , removed NU - not used
+  directories . >updated iFolderWebSErvicve. wsdl > cleaned up nautilus
+  folder Check in - 5390 - 5394
+-#379982:Removed redundant version of gsoap from svn
+-#378628:Sample code from eDir c# library used UT: tested in cypress
+  patch branch tested dirotories - AD, eDir(NW and Linux) and OpenLDAP
+* Wed Apr 09 2008 - manu@novell.com
+- #224494:Updated the Web Access help files, Added information about the
+  disabled iFolder to the following html files:
+  1.home.html
+  2.browse.htm
+- # 289244, #353139: Gsoap is reverted back to 2.7.0 2.7.9. All gsoap
+  dependent library sizes, and include file will be changed.
+- #279113:  After Enforcement of encryption from web-admin , regular
+  ifolders should not be created from web-admin, also implemented the
+  testing of policy during transfer of ownership either from web-admin
+  or web-access .
+- #346176: Duplicate iFolder listing in case of ifolder shared with
+  user and usres group is fixed. Module changed is Simias.Server.dll
+- #224494: one image Added : simias/src/webaccess/images/
+  ifolder_16-gray.gif
+  code change in web-access so that if an ifolder is disabled on web-admin
+  , then on web-access it will be shown as disabled.
+- #344433: to display a popup when admin wants to save passphrase
+  based encryption policy on system level.
+- # 255131: Allinging the sub-elements under element as well as Fields
+  name are added with colon.
+- #344937: If iFolder Ldap auxiliary class exist in eDirectory schema then
+  also it try to update the schema with existing values.
+  SimiasServerSetup.exe is changed executable.
+- #354696, 328103:  fix so that orphaned ifolders are created and can be
+  adopted in multiserver environment.
+- #233499 , 233501: if ifolder name length is too long then names are
+  shortened and displayed and full name will be shown as tooltip. affected
+  dll : Novell.iFolderAdmin.ddl , Novell.iFolderWeb.dll, ifolder.WebService.dll
+* Mon Mar 03 2008 - srinidhi@novell.com
+- #341552: Fix for auto-connecting to the 3.6 server in case of client
+  upgrade from 3.2 to 3.6.
+- #349495,349516: Added Encryption related dialogs. Added a method in
+  Simias for getting pulic key.
+- #347679: Added timer method to close the splash screen after a
+  specified time interval. Files Changed: iFolderApplication.cs - Linux
+  FormsTrayApp.cs - Windows Dlls/EXE affected: FormsTrayApp - Windows
+- #355475: Form is alinged to i18N . Dynamically the size of the label
+  is adjusted. Dlls changes , FormstrayAPp.exe
+- #338040,341552: Clears the simias connections during logout. Updates
+  the serverAlive status in every sync reschedule. Thus sync need not
+  wait till the next sync cycle. Changes made to: SimiasLib.dll
+- #354797: Popup actual error instead of refering user to the sync log.
+  FIles changed - Synclog.cs and formstrayapp.cs A pop similar to sync
+  log is thrown for sync errors
+- #354358: The DLL which will have the changes (for simias):
+  SimiasLib.dll For Windows client : Novell.iFolder.dll For Linux
+  Client: Novell.iFolder.UI.gtk.dll The change is done so that on linux
+  and windows clients, user can remove and add account for ssl enabled
+  servers
+- #354779: Novell.iFolder.dll : for windows client the color is changed
+  to dark gray for ifolder description text
+- #355024: Set the following language specific condition for Chinese
+  Traditional and Simplified languages: Chinese Simplified: 2052 Chinese
+  Traditional: 1028
+- #276191: This happened because a substring of 0 to 30 was taken
+  for the current file path.In cases where the file path was less than
+  30 an exception was thrown which was silently caught. The subsequent
+  blocks of code were not reached at all, thus filling them with default
+  value("label2"). Fixed with a if condition to check the length of the
+  path and then do substring
+- #159611: Added default File name and file extensions for the save file
+  dialog.
+- #355024: Corrupted resx files were replaced with new files. Changed
+  solution file to include these files , renamed pt resource files to
+  pt-BR .
+- When multiple accounts are configured , iFolders on iFolder is shown
+  redudantly. User gets confused which account is on which domain
+- Updated the resx files got from Localization team .
+  iFolderResources.dll will be updated
+- Changed the ip address to local host address and checking in necessary
+  wsdl
+* Sun Mar 02 2008 - manu@novell.com
+-  # 303239: As part of OES2 SP1 yast changes, a new option
+--connect -port is introduced in web admin and web access setup.
+  ModuleS Changed are iFolderWebSetup.exe and iFolderAdminSetup.exe.
+* Thu Feb 07 2008 - srinidhi@novell.com
+- #359791: YaST configuration hangs due to interactive prompt waiting
+  for input. Mark to add the optional options too in the command line.
+  Made a fix in iFolder as well for local option prompts.
+- #354279: Included missing icons
+- #354363: revoke facility implemented for multiserver and also any
+  policy change can be done from any server in multiserver domain
+- #349118: Server operations(Identity Sync and log level) of different
+  server are not working issue.
+- #256595: Remove membership:It does not work in windows.(MULTISERVER
+  enviornment) issue.
+- #352271: Fix for connecting to ssl enabled server from win client. Fix
+  for giving upgrade prompt when remember password option is set on win
+  client.
+- #352894: Certificate chain was broken in server due to a client change
+  in Sync code. Now we check for server sync and client sync and act
+  accordingly. Client needs the cookies to be cleared for slave, while
+  server does not as it only communicates with master
+- #351590: Yast plugin for iFolder does not reflect port change in
+  Simias.config file.
+- #352271: Client getting redirected to Slave did not get the correct
+  slave certificate. Now if there is a redirection, then the Slave
+  certificate is also displayed for acceptance.
+- #298692: An Alert message is been displayed while adding a volume .It
+  asks admin to change the owner and group to apacheuser:apachegrp
+- #349085: Sharing policy was not checked for user provisioned on slave
+  logged on to
+- #352191: Logout link not redirecting to configured "Redirect URL",
+  simultaneous logout of proxy not working. Issue is fixed.
+- #351622: Web Admin was not able to validate the slave certificate, if
+  WebAdmin is configured to Master. This is the case with WebAccess and
+  Simias as well. Now the CA validation is done during redirection in
+  the certificate chain.
+- #345568: all the code paths checked so that if single sign on is there
+  then language selected will not remain empty. If there was no language
+  cookie available, then by default english will be selected.
+- #351594: ifolder-web-setup and ifolder-admin-setup does not update
+  --simias-url option in Web.config files.
+- #351145: Non-admin users were not allowed to login if they were not
+  provisioned. This happens only in Web Access, since the global
+  certificate policy was not applicable to the DomainService web call
+  being made for provisioning users.
+- #349198: Slave setup with SSL was not configuring due to certificate
+  policy getting reset.
+* Wed Feb 06 2008 - srinidhi@novell.com
+- #357156: System page is not coming up in oes2sp1 latest build. With
+  this fix stage testing will go through.
+* Wed Jan 02 2008 - srinidhi@novell.com
+- FATE #303238: new features for LDAP User groups, Vista support,
+  Silent install, Server side migration, Conflict Resolution etc.
+- #350687,349198: Slave setup for SSL fixed by explicitly getting the
+  certificate from Master instead of auto-redirect. Now a new
+  certificate policy is setup for the Global Simias and the Sync handler
+  to handle certificate exchange.
+- #349081,347919: Member nodes were made not to collide and also made to
+  always sync from master, so any change in slave will not sync if there
+  is a collision. This is fixed by excluding the search context of master
+  in slave.
+- #349198: Slave setup did not have the cert to perform proper
+  communication if the Master is SSL. This is fixed using auto-redirect.
+  Web Admin and Web Access will now ask for certificate confirmation in
+  CLI.
+- #348752: Web Admin throws exceptions when any of the slave is down in
+  a multi-server setup.
+- #304331: Commented the line that was displaying the LDAP user password
+  in text from simias-server-setup
+- ssl check box added on systems page of web-admin a web release
+  requirement
+- #349173: small one line modification for usability
+- #347535, 344940, 236716: Simias server exception bugs are resolved.
+- #304894: History Page for oes1 upgraded iFolders : Message is
+  displayed that history not available
+- SSL option is enabled in the setup code. simias-server-setup now
+  prompts for SSL option. Entering Yes will configure the server for
+  SSL. CLI option is --use-ssl
+- #346410: This was due to the group nodes getting a collision while
+  syncing to Slave, possibly due to LDAP sync happening before the
+  domain sync. Or LDAP sync syncing the same object as of Domain if the
+  master and slave have the same search context. Now the collision is
+  avoid for member sync from Master to Slave.
+- #346482: Fix for bugs 346482.
+- #344309: ldap context editing info was not propagated well into config
+  file. That is fixed now
+- #345788,345789,345791: Fixes the Access grant issue for existing proxy
+  user and completes the schema extension even with anonymous bind off
+- #305854,344700: Fix for bugs 305854,344700.
+- #344743,343233: Disable sharing bugs.
+- #343556,343328,337838: Web Admin is multi-server enabled. Admin can
+  now create iFolders and perform all operations from a single console
+  on different servers. The information retrieved is based on the actual
+  server the user/ifolder is residing in, including Policy information.
+- #343294,343579: LDAP sync info details issue.
+- Simias server setup code changes for --configure-plugins options.
+- Sharing Policy added to policies. Changes made on Server side
+- LDAP group Plicy changes
+- Schema order change and member object null check is added in
+  Authenticate method.
+- #339030: passphrase will not be passed through browser link for
+  encrypted iFolders.
+- #337772: small modification to make disable sharing policy work
+  through web-access
+- #299772: Added DisableSync.cs in Policy . The Policy state is written
+  in DB now.
+- #342636: Server Details page on web-admin is not working issue is
+  fixed.
+- #342649: IdentitySyncNow function is not working. issue is fixed.
+- #339770, 339755: Fixed issue of iFolder clients not being able to
+  connect to iFolder Server.
+- #332130: Disable "create" button apart from showing error message
+  while creating iFolder whose name is too long to be created
+- #298693: Uploading a file on to an iFOlder in an unmounted volume
+  throws exception. Issue is Fixed.
+- #298690: ENABLE and DISABLE button are simultaneouslty Enabled for a
+  particular link.This Issue is solved , and Default Path check box is
+  disabled.
+- #283200: Changes made to Web Access UI. Actions Tab is removed from
+  Left Panel
+- #307629: fix to display multibyte iFolderName in addmembers page. this
+  will work for all ifolders which are already created. Not for ifolders
+  while getting created
+- #304509: Ldap settings change ported from Cypress
+- #290977: Zerobyte file can be uploaded.
+- #307791:  For iManager single sign on , language is not supplied so
+  take it from cookies
+- #305161: Debug statements are changed
+- #300341: iFolder Administration Login Page - missing background color
+  - issue is fixed.
+- #232526: "Remove a slave server from the domain" issue is fixed.
+- #297310: "Unhandeled exception: If login from the user which does not
+  exists gives exception" issue is fixed.
+- #277714: Changes to install script for installing the rpms properly.
+* Thu Sep 20 2007 - srinidhi@novell.com
+- Included latest localized help files for webaccess and webadmin
+* Tue Sep 18 2007 - srinidhi@novell.com
+- #277714: Changes to install script for installing the rpms properly.
+- #269207: Fix for bug "Bug 269207 - OES2_LOC: SLES10SP1: HU, RU, PL,
+  FR, ES SK: 3.2 20070419: iFolder - cannot open"
+* Fri Sep 14 2007 - srinidhi@novell.com
+- #307723: Key Recovery utility in Linux to use p12 file instead of pvk
+  file for key decryption. Also provided a script file to invoke the
+  KeyRecovery utility name KeyRecovery, this avoids usage of mono
+  command line.
+* Wed Sep 12 2007 - srinidhi@novell.com
+- #277326: History tab is given more space.
+- #307629: fix to display multibyte iFolderName in addmembers page. this
+  will work for all ifolders which are already created. Not for ifolders
+  while getting created
+- #283208, 305161: Zero byte files can be uploaded now .
+- #307791: if language was not selected , then select it fromn cookies
+  and if cookie was null then default language is used.
+- #304509: Simias-server-setup CLI to support LDAP settings change
+  including Proxy password change and other LDAP details.
+- Redundant link in admin/Error.aspx is removed
+* Tue Aug 28 2007 - srinidhi@novell.com
+- #302603: For single sign on to iFolder webaccess and webadmin, Access
+  Gateway and iChain can populate the Authorization header with a simple
+  name and password (user1:test) or with a full LDAP name and password
+  (cn=user1,ou=users,o=novell,c=us:test). FDN did not work, due to a fix
+  for LoginDisabled check. This is now fixed.
+- #304331: Clear text password visible in YaST log
+- #300341: "P1 : 300341 :Folder Administration Login Page - missing
+  background color" issue is fixed.
+- Removed unnecessary files and folders
+- #232526: "Remove a slave server from the domain" issue is fixed.
+- #297310: "Unhandeled exception: If login from the user which does
+  not exists gives exception" issue is fixed.
+- #290706: ReferringPage url is trimmed
+* Tue Aug 14 2007 - srinidhi@novell.com
+- #277714, 271771: Added install scripts that upgrades the client rpms.
+  Fix to deny the service for the 3.2 and 3.4 clients if choosen not to
+  upgrade.
+- #298692: Changed the owner to wwwrun
+- copyright information updated for web-access and admin files
+- #298687: Checks for validity of the path entered
+- #241476: Delete ifolder from Server does not work - from thick client"
+  bug fixed.
+- #296632: link is enabled to browse back to all upper foldres from
+  nested ones
+- #298762: If multiple masters are installed in the same context then
+  YaST generated password will not match for the same Proxy user. New
+  Proxy user is created.
+- #298098: Command line execution of upgrade fails if LDAP admin is
+  different. This is needed for Migration support.
+- #298158: The ld config was not updated during rpm upgrade causing
+  FlaimWrapper DLL load to fail. Now the ldconfig conf file is installed
+  for iFolder, which will be referred always.
+* Thu Aug 09 2007 - srinidhi@novell.com
+- #298762: If multiple masters are installed in the same context then
+  YaST generated password will not match for the same Proxy user. New
+  Proxy user is created.
+- #298098: Command line execution of upgrade fails if LDAP admin is
+  different. This is needed for Migration support.
+- #298158: The ld config was not updated during rpm upgrade causing
+  FlaimWrapper DLL load to fail. Now the ldconfig conf file is installed
+  for iFolder, which will be referred always.
+* Wed Aug 08 2007 - srinidhi@novell.com
+- #296307: "Delete a user of the slave server displays exception" issue
+  is fixed.
+- #296648: Now the Redirect URL option is made optional and without any
+  changes to yast ifolderadmin and iFolder webaccess installations will
+  go through.
+- #227888: Changes made to FileSizeFilter.ascx.cs Some defects of
+  multivolume are fixed and checked in along with it
+* Fri Aug 03 2007 - srinidhi@novell.com
+- #296648: Now the Redirect URL option is made optional and without any
+  changes to yast ifolderadmin and iFolder webaccess installations will
+  go through.
+* Wed Aug 01 2007 - srinidhi@novell.com
+- #283727: master to slave domain sync overridden.
+- #296014: If encryption is checked once by admin, then disable
+  encryption check box so that again he cannot uncheck that box . Also
+  if user has created encrypted iFolder once , then admin will not be
+  able to change the encryption check box on userdetails page. otherwise
+  he can change.
+- #284677: old iFolder icon replaced with newer icon on web-admin page .
+- #294386: "Overflow Exception and not accepting the values under
+  boundary in System Page automatic sync interval field" issus is fixed.
+- #226693: OverflowException exxception handled for "Disk Quota", "File
+  Size" and "Synchronization interval" for webadmin interface.
+- #247712: Default Identity sync value is set to 24 hours i.e. 1440
+  mins.
+- #250186: This patch implements the iChain / Access Gateway
+  Simultaneous logout feature.
+* Mon Jul 16 2007 - srinidhi@novell.com
+- #262445: Collection Locking is incorrect, causing Restore to fail.
+- #289602: bug fix for "simias-server-setup grant rights to ifolder
+  proxy user on base dn of LDAP ADMIN user as hardcoaded" issue.
+* Wed Jul 11 2007 - srinidhi@novell.com
+- #287422: fix so that if ifolder name is not given then the control
+  wont go to next page while creating iFolder from webadmin
+- #289930:  If Samba volume is configured for store, then YaST throws an
+  exception while setting permission. Samba volume will already be
+  mounted with UID as apacheUser and GID as apacheGroup. So the apache
+  user does not have permission to set the owner.
+- #264286, 289539: Included support for ifolder administrators with
+  Distinguished Name based on attributes like cn, UID, sn or givenName.
+  This is done for both Openldap and eDirectory.
+- #290470: Now the description text box is made to accept single line
+  description as it is done in case of webaccess ifolder creation.
+* Wed Jun 27 2007 - mfassbinder@novell.com
+- Added option to force creation of symlink that already existed.
+  also removed line in %%preun that was deleting the directory
+  structure where those symlinks were created which would
+  break upgrades and patches.
+* Wed Jun 27 2007 - srinidhi@novell.com
+- #283697: WebAccess has a larger gray band displayed on every page for
+  IE6/7. Also there are no column names in page display.
+- #279155: iFolder Web Admin shows a dark band in IE6/7 browser.
+- #265196: If shared ifolders are synced from multiple clients, then the
+  journal entries are not in sync, causing Simias to crash
+- #285024: Changed the delimiter for the header values for access log
+- #227079: usability issue solved for encryption checkboxes on
+  UserDetails page of web-admin . Also the SecureDataTransfer checkbox
+  is removed from userDetails page.
+- #277714: Created links to facilitate automatic client upgrades
+* Wed Jun 20 2007 - srinidhi@novell.com
+- #281262: Save ldap details
+- #256061: iChain sends the username in FDN form for both Web Access and
+  Web Admin. Web Access does not use the username for getting the home
+  server, instead uses the FDN, which is not handled.
+* Thu Jun 14 2007 - srinidhi@novell.com
+- #226046: XSP startup script for server is disabled if apache is
+  enabled - helps clean uninstall of the RPM.
+- #284175: Orphaned iFolder utility added for webadmin to control
+  orphaned iFolders.
+- #280000: Have included ifolder3-tsa in the Requires section of
+  ifolder3-enterprise.
+* Thu Jun 07 2007 - srinidhi@novell.com
+- #279107: Enable the creation of encrypted iFolders when RA was
+  selected from web-acces
+- #277917: Checking whether collection exists while returning the
+  default iFolder.
+* Thu May 31 2007 - srinidhi@novell.com
+- #274398: Included a missed event handler for save button in
+  serverdetails
+- #276860: Help button on login page of web-access is added
+- #274398: Adding LDAP details to webadmin
+* Thu May 24 2007 - srinidhi@novell.com
+- #254478: iFolder TSA fails to load since the initial API needs
+  authentication.
+- #277451: Upgrade support in the Simias Server script.
+- #268251, 273662:  Detect and update catalog when owner of a collection
+  is changed
+- #251874: modifications in login file to get the credentials passed
+  from imanager
+* Tue May 22 2007 - srinidhi@novell.com
+- #259792: Recovery page moved to next page even if onetime passphrase
+  is not provided.
+- #273372: Save description during ifolder creation
+- #275968: check for 64bit arch
+- #275480: Published literal was unused so removed
+- #235384: remove the size column from userdetails page
+- #275087: Search textbox is put on the search page for web-access. It
+  should not be there on any other page, so disabled from other pages.
+* Thu May 10 2007 - srinidhi@novell.com
+- #270625: Trent Badger changes incorporated for the Web Access UI for
+  new look and feel. Has most of the aspx files updated and couple of
+  images.
+- #256277: Domain agent should provision only from master.
+- #252282: Dont ask for password while downloading logs/reports as we
+  have the credentials already .
+- #251773: One more field Username is added to distinguish between users
+  with same name , while displaying ifolder details, on both web-admin
+  and web-access
+- #253466: web-admin help button is integrated with new UI . It includes
+  putting new license information and replacing old in the every cs page
+  that i have committed.
+- #270849: Adding string changes for this defect.
+* Thu May 03 2007 - srinidhi@novell.com
+- #270625: Trent changes for iFolder Web Admin - most of the aspx files
+  changes due to UI change and graphics change as part of phase one.
+* Thu Apr 26 2007 - srinidhi@novell.com
+- #268329: The Dlls are named strongly now.
+- #250186: ichain Logout fix
+- #267021: Get collection infos in one call
+- #240563: Resolve the location of iFolder before any webcalls
+- #265762: To check the returned value against null before using it
+* Mon Apr 16 2007 - srinidhi@novell.com
+- check for invalid characters in server name
+- #226058: actually while fixing this bug-id , i had committed in svn
+  version 6797 with some 5 lines removed from a file , mistakenly, now i
+  have readded those lines and committing again so that , that will not
+  produce another bug.
+- #262707: Normalization done in lower case for certificate names
+- #226058: Removal of a exclude file policy on user level will work now
+  and the user can download the allowed file-type.
+- Allow the table to consume 100%% of available space
+- #257462: Passphrase is used as a seed for a random, then the random is
+  used for encryption and decryption.
+- #252283: Read logfile from datadir and not from the default one.
+- dont ask for ldapadmin pwd during slave setup
+- #257951: Phasphrase is not accepted if more than 16 char is specified.
+  Modified in simias server.
+- #243524, 254876, 247824: Catalog Thread tries to access the Catalog
+  before it is created
+- #257482: Encrypted ifolders cannot be shared, so members tab is made
+  invisible for encrypted ifolders plus some small UI modifications.
+* Tue Mar 27 2007 - srinidhi@novell.com
+- #256025: encryption platform interopearbilty fix
+* Thu Mar 15 2007 - srinidhi@novell.com
+- #251037: display version changes from 3.5 to 3.6
+- #252884: If weak pass-phrase exception is thrown, then we should not
+  store the passphrase into session variable, so the code for storing
+  the sessionpassphrase moved after successful creation of encrypted
+  ifolder.
+* Thu Mar 08 2007 - srinidhi@novell.com
+- #251583: Utility to decrypt the encrypted keys for key recovery. Make
+  file changes for inclusion in RPM
+- UI for ID Sync Interval
+* Mon Mar 05 2007 - srinidhi@novell.com
+- #242623: Dont stdout the env variables during setup.
+- #251126: Utility to perform the decryption of ifolder keys that
+  was encrypted using the Recovery agents Public key
+- Review Comments on web-access encryption
+- #250515: Apache User/Group prompt Slave setup sysadmin as LDAP Creds
+- #237276: Earlier Authentication was failing for local domain. Now it
+  Authenticates the local domain so that back-up process can go ahead.
+- #236120: Invalid iFolder ID issue is fixed, there are UI changes for
+  the Linux UI to fetch the appropriate iFolder based in the Discovery
+  list of iFolders.
+- #248180: While creating/Uploading/Downloading encrypted iFolders
+  through web-access, the text-boxes related to these operations are
+  enabled or made visible accordingly (Based on the admin policy). Also,
+  it takes into consideration, if admin has configured recovery-agent or
+  not .
+- #251583: Utility to decrypt the encrypted keys for key recovery. Make
+  file changes for inclusion in RPM
+* Mon Feb 26 2007 - srinidhi@novell.com
+- #236120: Invalid iFolder ID issue is fixed, there are UI changes for
+  the Linux UI to fetch the appropriate iFolder based in the Discovery
+  list of iFolders.
+- #248180: Encryption part modified for web- access
+- #248180: Changes for handling passphrase during encryption
+- If Pass-phrase is already validated for an user, then while creating
+  an encrypted ifolder, no need to ask pass-phrase again.
+- Encryption enabled for creating an ifolder and uploading/downloading
+  of the files for web-access
+* Mon Feb 19 2007 - srinidhi@novell.com
+- #246630: LDAP sync thread was stopped for Slave, but a String failure
+  on null stops the thread in master as well. This check-in fixes it.
+- A new certificate page display added for web-access.
+- #241027, 245807, 232528: LDAP related install issues are fixed in this
+  commit, including the open source issue about the parent directory of
+  storepath getting the permission changed to apache user
+- #241496: Fixes Slave catalog deleting its nodes and converting it into
+  Tombstones. Now there is proper synchronization between the Catalog
+  thread and the Domain Sync thread.
+- #246630: LDAP Identity Sync thread will not run in Slave
+  configurations, should improve the server response time when there are
+  more than 100 users.
+* Tue Feb 06 2007 - srinidhi@novell.com
+- 242103 : string name changed back to share and also policies based
+  decision/activation enabled for encryption and sharable checkboxes.
+* Thu Feb 01 2007 - srinidhi@novell.com
+- Web-access Passphrase UI
+- Changes to string, and UI for Resetting passphrase and key recovery
+- Web methods for storing the passphrase locally and remembering the
+  passphrase
+* Tue Jan 30 2007 - srinidhi@novell.com
+- #236121: Updated the buffer size for large file upload. Updated setup
+  for iFolder TSA
+- #226693: Have changed the synchronization value to start from 5 in
+  place of one
+- #233087: Add servername to report ifolder.
+* Tue Jan 23 2007 - srinidhi@novell.com
+- 236121: Updated the buffer size for large file upload.
+- Updated setup for iFolder TSA.
+- 237276: TSA doesn't load with the 3.6 iFolder server
+- New web service is added to get the servers data path and hence the
+  config information instead of assuming Apache path.
+- log4net code added in the source tree
+* Tue Jan 16 2007 - srinidhi@novell.com
+- 234461 - mod_mono has changed its location to /etc/apache2, updated
+  the setup files
+* Fri Jan 12 2007 - mfassbinder@novell.com
+- 233075 - added mod_mono to Requires: and BuildRequires:
+* Fri Jan 12 2007 - srinidhi@novell.com
+- Included additional setup for webadmin and webaccess.
+* Mon Jan 08 2007 - mfassbinder@novell.com
+- Added back in to BuildRequires: novell-ldapext-devel
+* Mon Jan 08 2007 - srinidhi@novell.com
+- Included install time dependency.
+* Thu Jan 04 2007 - cgardner@novell.com
+- Added dependency on novell-ldapext-devel to get ldap headers for build.
+* Thu Jan 04 2007 - srinidhi@novell.com
+- Provides migration from iFolder2.x to iFolder3.x on the client side.
+- iFolder web access indirection for volume scalability was broken due
+  to Encryption changes. It is fixed now
+- Encryption gui review comments
+- Encryption UI Unit test case fixes
+- Encryption UI UT fixes for web-access
+* Wed Dec 20 2006 - srinidhi@novell.com
+- Fixed a build issue due to incorrect tarball.
+* Tue Dec 19 2006 - srinidhi@novell.com
+- Initial checkin of iifolder3-enterprise-1.5.6352 for OES2
