@@ -1,0 +1,36 @@
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CollectionStoreTests", "CollectionStore\CollectionStoreTests.csproj", "{C1E83DD0-5457-4D79-8335-E28D3C8758F9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChangeLogTest", "ChangeLog\ChangeLogTest.csproj", "{333DC349-12FB-4D75-A5DB-02676E096508}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimiasTestsWS", "SimiasTestsWS\SimiasTestsWS.csproj", "{76E8BD10-648C-4DA9-8140-81FA7627DCD0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Encryption", "Encryption\Encryption.csproj", "{91E243E7-141B-4EBA-AA3E-DAACD410EB3B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C1E83DD0-5457-4D79-8335-E28D3C8758F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1E83DD0-5457-4D79-8335-E28D3C8758F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1E83DD0-5457-4D79-8335-E28D3C8758F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1E83DD0-5457-4D79-8335-E28D3C8758F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{333DC349-12FB-4D75-A5DB-02676E096508}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{333DC349-12FB-4D75-A5DB-02676E096508}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{333DC349-12FB-4D75-A5DB-02676E096508}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{333DC349-12FB-4D75-A5DB-02676E096508}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76E8BD10-648C-4DA9-8140-81FA7627DCD0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76E8BD10-648C-4DA9-8140-81FA7627DCD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76E8BD10-648C-4DA9-8140-81FA7627DCD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76E8BD10-648C-4DA9-8140-81FA7627DCD0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91E243E7-141B-4EBA-AA3E-DAACD410EB3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91E243E7-141B-4EBA-AA3E-DAACD410EB3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91E243E7-141B-4EBA-AA3E-DAACD410EB3B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
