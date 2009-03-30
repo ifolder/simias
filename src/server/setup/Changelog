@@ -1,0 +1,40 @@
+2007-04-17  Johnny Jacob  <jjohnny@novell.com>
+
+	* SimiasServerSetup.cs : Check for Invalid Chars in server name and
+          reprompt. In non-interactive throw exception.
+
+2007-03-05  B S Srinidhi  <srinidhi@novell.com>
+
+	* Makefile.am: Remove generated scripts (patch by Jan-Simon Möller).
+	Fixes #248723.
+
+2007-03-03  Johnny Jacob  <jjohnny@novell.com>
+
+	* SimiasServerSetup.cs : Prompt for Apache User/Group if n/a. Use
+	avail LDAP credentials in Slave.
+	
+2007-02-09  Johnny Jacob  <jjohnny@novell.com>
+
+	* setup/SimiasServerSetup.cs : Don't Prompt for LDAP details if it is a
+	slave. Use configuration from master. Fixes #236245.
+	
+2007-Jan-22 Kalidas Balakrishnan <bkalidas@novell.com>
+	*SimiasServerSetup.cs - updated for ifolder-tsa to work
+	
+2007-Jan-12 Kalidas Balakrishnan <bkaldias@novell.com>
+        * SimiasServerSetup.cs - moved the permission setting after setting up the log directories
+        * Makefile.am - updated the makefile to build Web Access and Web Admin setup utilities
+        * iFolderWedSetup.cs - Added this file for Web Access setup
+        * iFolderAdminSetup.cs - Added this file for Web Admin setup
+        Added ifolder-web-setup.in and ifolder-admin-setup.in scripts
+
+2007-Jan-12  Johnny Jacob  <jjohnny@novell.com>
+	
+	* Options.cs : Added Debug code to print Env Variables parsed.
+	* SimiasServerSetup : s/ldap-Server/ldap-server (rev 6650) and
+	s/defaultConfigPath/default-config-path (rev 6651).
+
+2007-Jan-10 Kalidas Balakrishnan <bkalidas@novell.com>
+
+SimiasServerSetup.cs - enabled apache permissions for all directories in the store. Added the store path in the config file for iFolder TSA to get the store
+LdapUtility.cs - enabled SSL port for LDAP SSL communication

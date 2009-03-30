@@ -1,0 +1,67 @@
+#!/bin/sh
+#/*****************************************************************************
+#*
+#* Copyright (c) [2009] Novell, Inc.
+#* All Rights Reserved.
+#*
+#* This program is free software; you can redistribute it and/or
+#* modify it under the terms of version 2 of the GNU General Public License as
+#* published by the Free Software Foundation.
+#*
+#* This program is distributed in the hope that it will be useful,
+#* but WITHOUT ANY WARRANTY; without even the implied warranty of
+#* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.   See the
+#* GNU General Public License for more details.
+#*
+#* You should have received a copy of the GNU General Public License
+#* along with this program; if not, contact Novell, Inc.
+#*
+#* To contact Novell about this file by physical or electronic mail,
+#* you may find current contact information at www.novell.com
+#*
+#*-----------------------------------------------------------------------------
+#*
+#*                 Novell iFolder Enterprise
+#*
+#*-----------------------------------------------------------------------------
+#*
+#*                 $Author: Rob
+#*                 $Modified by: <Modifier>
+#*                 $Mod Date: <Date Modified>
+#*                 $Revision: 0.1
+#*-----------------------------------------------------------------------------
+#* This module is used to:
+#*        <Description of the functionality of the file >
+#*
+#*
+#*******************************************************************************/
+
+export MONO_PATH=@_webbindir_@:$MONO_PATH
+
+if [ "${OSTYPE:0:6}" == "darwin" ]
+then
+	echo "Increasing ulimit -n to 2048"
+	export DYLD_LIBRARY_PATH=@_webbindir_@:/Library/Frameworks/Mono.framework/Versions/Current/lib:$DYLD_LIBRARY_PATH
+	ulimit -n 2048
+else
+	export LD_LIBRARY_PATH=@_webbindir_@:$LD_LIBRARY_PATH
+fi
+
+DataDir=""
+if [ "$DataDir" == "" ]
+then
+    echo "Error: The Simias server has not been configured."
+    echo "Please run simias-server-setup in order to configure the"
+    echo "Simias server."
+else
+    cd @_bindir_@
+    Port=""
+if [ "$Port" == "" ]
+then
+    mono @_webbindir_@/Simias.exe --datadir "\"$DataDir\"" $@
+else
+	mono @_webbindir_@/Simias.exe --datadir "\"$DataDir\"" --port $Port $@
+fi
+fi
+
+

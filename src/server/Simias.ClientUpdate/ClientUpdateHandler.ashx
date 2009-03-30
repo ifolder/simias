@@ -1,0 +1,1 @@
+<%@ WebHandler Language="C#" CodeBehind="ClientUpdateHandler.ashx.cs" Class="Novell.iFolder.Enterprise.Web.ClientUpdateHandler,ClientUpdate" %>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<root>
+	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+		<xsd:element name="root" msdata:IsDataSet="true">
+			<xsd:complexType>
+				<xsd:choice maxOccurs="unbounded">
+					<xsd:element name="data">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+								<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" />
+							<xsd:attribute name="type" type="xsd:string" />
+							<xsd:attribute name="mimetype" type="xsd:string" />
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="resheader">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" use="required" />
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:choice>
+			</xsd:complexType>
+		</xsd:element>
+	</xsd:schema>
+	<resheader name="ResMimeType">
+		<value>text/microsoft-resx</value>
+	</resheader>
+	<resheader name="Version">
+		<value>1.0.0.0</value>
+	</resheader>
+	<resheader name="Reader">
+		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<resheader name="Writer">
+		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<data name="REPORTS">
+		<value>Reports</value>
+	</data>
+	<data name="REPORT_TIME">
+		<value>Report Time</value>
+	</data>
+	<data name="IFOLDER_SYSTEM">
+		<value>iFolder System</value>
+	</data>
+	<data name="IFOLDER_SERVER">
+		<value>iFolder Server</value>
+	</data>
+	<data name="IFOLDER_ID">
+		<value>iFolder ID</value>
+	</data>
+	<data name="IFOLDER_NAME">
+		<value>iFolder Name</value>
+	</data>
+	<data name="IFOLDER_SIZE">
+		<value>iFolder Size (MB)</value>
+	</data>
+	<data name="IFOLDER_PATH">
+		<value>iFolder Path</value>
+	</data>
+	<data name="IFOLDER_QUOTA">
+		<value>iFolder Quota (MB)</value>
+	</data>
+	<data name="MEMBER_COUNT">
+		<value>Member Count</value>
+	</data>
+	<data name="FILE_COUNT">
+		<value>File Count</value>
+	</data>
+	<data name="DIRECTORY_COUNT">
+		<value>Directory Count</value>
+	</data>
+	<data name="OWNER_ID">
+		<value>Owner ID</value>
+	</data>
+	<data name="OWNER_NAME">
+		<value>Owner Name</value>
+	</data>
+	<data name="OWNER_CN">
+		<value>Owner CN</value>
+	</data>
+	<data name="OWNER_DN">
+		<value>Owner DN</value>
+	</data>
+	<data name="OWNER_QUOTA">
+		<value>Owner Quota (MB)</value>
+	</data>
+	<data name="OWNER_LAST_LOGIN">
+		<value>Owner Last Login</value>
+	</data>
+	<data name="OWNER_DISABLED">
+		<value>Owner Disabled</value>
+	</data>
+	<data name="PREVIOUS_OWNER">
+		<value>Previous Owner</value>
+	</data>
+	<data name="ORPHANED_OWNER">
+		<value>Orphaned Owner</value>
+	</data>
+	<data name="LAST_SYNC_TIME">
+		<value>Last Sync Time</value>
+	</data>
+</root>

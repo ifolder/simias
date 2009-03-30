@@ -1,0 +1,44 @@
+25-01-2007  Johnny Jacob  <jjohnny@novell.com>
+
+	* SimiasServerSetup.cs : Changed default port example for
+	Private/Public URL to 80.
+	
+2007-1-4  Johnny Jacob  <jjohnny@novell.com>
+
+	* DiscoveryWS : Initial Commit for Discovery WebService from
+	discovery branch.
+	* Makefile.am : Include DiscoveryWS.
+	* Simias.Server/Catalog.cs : Add extra properties to CatalogEntry.
+	
+2006-12-12  Johnny Jacob  <jjohnny@novell.com>
+
+	*setup/SimiasServerSetup.cs : s/SimiasDataPath/SimiasDataDir .
+	
+2006-12-11  Johnny Jacob  <jjohnny@novell.com>
+
+	* setup/SimiasServerSetup.cs : set 'usingLDAP' varible based on
+	option input. Fixes a break for interative mode.
+	
+2006-12-8  Johnny Jacob  <jjohnny@novell.com>
+
+	* Simias.Server/Domain.cs : create the reportcollection on both
+	server and client.
+	* Simias.Server/Report.cs : Remove static
+	ReportCollectionID. Create reports on master and slaves. Improved
+	currentreportpath.
+	
+2006-11-29  B S Srinidhi  <srinidhi@novell.com>
+
+	* Makefile.am: Fixed file names in EXTRA_DIST variable.
+
+2006-11-27  Sushma Rai  <rsushma@novell.com>
+
+	* class SimiasServerSetup: Fixed a typo in apache configuration option
+	string.
+
+2006-11-24  Sushma Rai  <rsushma@novell.com>
+
+	* class SimiasServerSetup: Changed the default config path commandline 
+	option switch to c instead of p which is used for data path.
+	Made ldap optional, so that using the non-interactive mode LDAP can be
+	configured.

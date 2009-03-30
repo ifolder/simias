@@ -1,0 +1,1 @@
+<%@ WebHandler Language="C#" CodeBehind="ReportLogHandler.ashx.cs" Class="Simias.Server.ReportLogHandler,Simias.Server" %>
