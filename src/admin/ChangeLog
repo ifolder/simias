@@ -1,0 +1,67 @@
+2007-05-07  Johnny Jacob  <jjohnny@novell.com>
+	
+	* UserDetails.aspx.cs : Removing 'Size' column.
+	
+2007-05-07  Johnny Jacob  <jjohnny@novell.com>
+	
+	* ServerDetails.aspx.cs : Dont prompt for credentials while
+	downloading logs/reports. Fixes #252282.
+	
+2007-04-26  Johnny Jacob  <jjohnny@novell.com>
+	
+	* iFolderDetailsPage.aspx.cs : Resolve the location of iFolder
+	before any calls. Restore the Current server URL during page_unload.
+	
+2007-04-07  B S Srinidhi <srinidhi.bs@gmail.com>
+
+	* css/Users.css : Allow the table to consume 100% of available space
+
+2007-03-07  B S Srinidhi  <srinidhi@novell.com>
+
+	* Makefile.am : Copy the SimiasLib.dll instead of symlinking it -
+	creates problems when building the RPM.
+
+2006-12-8  Johnny Jacob  <jjohnny@novell.com
+
+	* ServerDetails.aspx.cs (GetLogList): Removed adminlogfile and
+	webaccess log file references
+	(GetReportList) : Removed hard coded logfile names. Query the
+	server for report files.
+	( GetServerDetails) : remoteweb object to get the details of
+	remoteserver. Hide unimplemented stats widgets
+	(ViewReportFile) : Redirect the response to the remote server
+	(ViewLogFile) : Redirect the response to the remote server for log
+	files.
+	
+2006-11-17 Johnny Jacob <jjohnny@novell.com>
+	
+	* iFolderAdmin.resx : Added data for IDENTITYSYNCTAG and IFOLDER
+	
+	* SystemInfo.aspx : Added IDSyncInterval,IDSyncMinutesTag,
+	SyncNowButton widgets
+	
+	* SystemInfo.aspx.cs : (ShowIdentitySync) : Added. Decides whether
+	to show/hide ID Sync UI.
+	(OnSyncNowButton_Click) : Added. Initiate the ID Sync immediately
+	when 'Sync Now' clicked.
+	(OnSaveButton_Click) : Validate SyncInterval and set it.
+
+2006-11-20  Johnny Jacob  <jjohnny@novell.com>
+
+	* Users.aspx.cs : Added new data column for HomeServer.
+
+	* Users.aspx : Added Title and Column for HomeServer.
+
+2006-11-30
+
+	* Policy.ascx.cs : Made entries for rendering Security Policy
+		
+	* Policy.ascx : Made entries for rendering Security Policy
+	
+	* SecurityPolicy.ascx : New "ascx" file for displaying security poliicy on web console
+
+	* SecurityPolicy.ascx.cs : New file. Code behind file for EncryptionPolicy.ascx
+
+	* Makefile.am : Made entries for building new files
+
+

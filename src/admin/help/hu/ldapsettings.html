@@ -1,0 +1,154 @@
+<html>
+
+   <head>
+     <meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+     
+     <!-- Novell iFolder 3.7  --> 
+   
+     <title>Managing the LDAP Settings</title>  	 
+     
+     <!-- Metadata -->
+   
+     <meta name="Author" content="iFolder 3.7 Documentation Manager">
+     <meta name="date" content="02-17-2005">
+     <meta name="modified" content="06-29-2005"> 
+	 <meta name="modified" content="11-15-2007"> 
+	 <!-- iManager Documentation Stylesheet -->
+	 
+	 <link rel="stylesheet" href="hf_style.css" type="text/css"> 
+	 
+	 <!--  Style definitions for this Help page: body plus help banner layer
+		  and help content layer. The style definition is commented to prevent
+		  older browsers from presenting the style information as part of the 
+		  page itself. 
+      -->
+	
+     
+<style type= "text/css" media="screen">
+       <!--
+       
+         body           {  font-family: Arial, Helvetica, Geneva;
+									background: white url('../../images/helphead_bg.gif') repeat-x;  }
+		      
+         #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px;
+									width: 380px; visibility: visible }
+			   
+         #helpcontent    { position: absolute; top: 37px; left: 10px; 
+	                        width: 93%; visibility: visible }
+ 
+       -->
+     </style>
+  
+   
+
+
+</head>
+   
+   <!-- This is the start of the body. It underlays the help banner layer 
+         and help content layers. -->
+	 
+   <body bgcolor="white" marginwidth="0" marginheight="0" 
+         leftmargin="0" topmargin="0">
+<!-- This is the start of the Help Banner Layer --> <div id="headgraphic"> <img src="../../images/h1_help.gif" width="380" height="32"   border="0"></div><!-- This is end of the Help Banner Layer --> 
+<!-- This is the start of the Help Content Layer --> <div id="helpcontent"> <!-- The Page Heading uses CSS style "head3b". This creates an H3 header
+            with a line beneath it.
+       --> <h3 class="head3b">Managing the LDAP Settings for the iFolder System</h3>
+  <p> Use this interface to modify the LDAP settings for the selected Novell<SUP><SMALL>&reg;</SMALL></SUP> iFolder<SUP><SMALL>&reg;</SMALL></SUP> 
+    3.7 server on this iFolder domain. </p>
+  
+  <H3><A NAME="modify"></A>Modifying 
+the LDAP Settings</H3><P>Modify any of the following fields, then click <i>OK</i> to 
+apply your changes:</P><TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR>
+<TR><TD VALIGN="TOP">
+        <P>LDAP Admin DN</P>
+      </TD><TD>
+        <P>Specify the fully distinguished name of the LDAP Admin. This can be 
+          the same or different as your iFolder Admin.</P>
+      </TD></TR>
+	  <TR><TD VALIGN="TOP">
+        <P>LDAP Admin&nbsp;Password&nbsp;</P>
+      </TD><TD>
+        <P>The password is used to authenticate the LDAP Admin user to the LDAP 
+          server. </P>
+        
+        <P>Click <i>OK</i> to update the password stored in the LDAP settings.</P>
+<blockquote>
+  
+</blockquote>
+</TD></TR><TR><TD VALIGN="TOP">
+        <P>LDAP Server</P>
+      </TD><TD>
+        <P>Specify the DNS name or IP address of the LDAP server. This can be 
+          any of the iFolder servers in the iFolder system.</P>
+      </TD></TR>
+	  <TR><TD VALIGN="TOP">
+        <P>LDAP SSL</P>
+      </TD><TD>
+        <P>Select <i>Yes</i> to enable LDAP SSL. If SSL is enabled on the server, 
+          the value is Yes; otherwise, the value is No.<BR>
+        </P></TD></TR><TR><TD VALIGN="TOP">
+        <P>Proxy&nbsp;User&nbsp;&nbsp;</P>
+      </TD><TD>
+        <P>The iFolder Proxy user is an existing proxy user identity used to access 
+          the LDAP server with Read access to retrieve a list of authorized users. 
+          The proxy user is automatically created during the iFolder enterprise 
+          server configuration in YaST. The username is auto-generated to be unique 
+          on the system. </P>
+    <P> Make sure that the user account assigned as the iFolder Proxy user is different than the one used for the iFolder Admin user and other system users. Separating the proxy user from the administrator provides privilege separation and is also important because the proxy user password is stored in the file system on the iFolder server.</P>
+    <P> Specify the fully distinguished name of an existing user that you want to make the iFolder Proxy user. This identity must have the Read right to the LDAP directory. For example: </P>
+        <P> cn=iFolderProxy,o=acme</P>
+    <P> Make sure to also enter the new user's password in the Proxy Password field.</P>
+        <P> After you modify the Proxy user, you might want to immediately synchronize 
+          the LDAP user lists, using the new iFolder proxy information; otherwise, 
+          the Proxy user information is not tested until the next scheduled synchronization 
+          of the user list. Use the <i>Sync Now</i> option under <i>LDAP Details</i> 
+          on the Server Details page to synchronize the iFolder user list on demand 
+          and verify your new Proxy user settings.</P>
+      </TD></TR>
+	<TR><TD VALIGN="TOP"><P>Proxy&nbsp;User&nbsp;Password&nbsp;</P></TD><TD>
+        <P>The password is used to authenticate the iFolder Proxy user to the 
+          LDAP server when iFolder synchronizes users with the LDAP server. </P>
+        <P>To modify the iFolder Proxy User password, you do not need to update the value stored in LDAP settings for the iFolder system. 
+          You can directly use this interface to modify the password.</p>
+        <P>This password must match the password stored in the iFolder Proxy user&#146;s 
+eDirectory<sup><small>TM</small></sup> object. </P>
+<P>Specify the password twice, then click <i>OK</i> to update the password stored in the LDAP settings.</P>
+
+        
+      </TD></TR><TR><TD VALIGN="TOP">
+        <P>LDAP Contexts</P>
+      </TD><TD>
+        <P> Specify or edit the LDAP containers, groups, or users where iFolder 
+          searches for a list of authorized users to provision for iFolder servers 
+          on this enterprise server. LDAP contexts are entered in LDAP format. 
+          For example: </P>
+        <P> cn=group,o=acme#cn=dbgroup,o=acme#</P>
+        <P>To edit a value, select it, make your changes, then click <i>OK</i> to apply 
+          the changes.</P>  
+  
+        <P>During LDAP synchronization, the iFolder server queries the LDAP server 
+          to retrieve a list of users in the DNs (as specified in the <i>LDAP 
+          Contexts</i> field) at the specified synchronization interval. The usernames 
+          in the iFolder domain are matched against this official LDAP list. Any 
+          new user in the specified LDAP contexts is added to the iFolder domain. 
+          If a user is no longer in the specified LDAP contexts, the username 
+          is removed from the domain, any iFolders the user owns are orphaned 
+          and reassigned to the iFolder Admin user, and the user is removed as 
+          a member of other iFolders.</P>
+        <P>The iFolder Admin User is provisioned for servers during the install. 
+          It is tracked by its GUID, so it is available even if you do not specify 
+          a container, group, or user, or if you specify search DNs that do not 
+          contain the Folder Admin user. This identity must be provisioned to 
+          enable the iFolder Admin to perform management tasks.</P>
+      </TD></TR>
+  </TABLE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P><H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Related Topics" align="top"> 
+Related Topics</H4><BLOCKQUOTE class="task1">
+<P ><A HREF="system.html">Managing 
+the iFolder System</A><BR><A HREF="member.html">Managing a User Account</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P><P>&nbsp;</P><P CLASS="copyright">A 
+trademark symbol (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP>, 
+etc.) denotes a Novell trademark. An asterisk (*) denotes a third-party trademark. 
+For more information, see <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Legal 
+Notices</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
+</body>
+
+</html>

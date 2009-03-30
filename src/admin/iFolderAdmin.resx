@@ -1,0 +1,1102 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<root>
+	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+		<xsd:element name="root" msdata:IsDataSet="true">
+			<xsd:complexType>
+				<xsd:choice maxOccurs="unbounded">
+					<xsd:element name="data">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+								<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" />
+							<xsd:attribute name="type" type="xsd:string" />
+							<xsd:attribute name="mimetype" type="xsd:string" />
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="resheader">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" use="required" />
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:choice>
+			</xsd:complexType>
+		</xsd:element>
+	</xsd:schema>
+	<resheader name="ResMimeType">
+		<value>text/microsoft-resx</value>
+	</resheader>
+	<resheader name="Version">
+		<value>1.0.0.0</value>
+	</resheader>
+	<resheader name="Reader">
+		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<resheader name="Writer">
+		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<data name="ACCESSLOGFILE">
+		<value>User Access</value>
+	</data>
+	<data name="ACCOUNT">
+		<value>Account</value>
+	</data>
+	<data name="ADD">
+		<value>Add</value>
+	</data>
+	<data name="ADDADMINS">
+		<value>Add Administrators</value>
+	</data>
+	<data name="ADDMEMBERS">
+		<value>Add iFolder Members</value>
+	</data>
+	<data name="ADDMEMBERSTOIFOLDER">
+		<value>Add additional members to iFolder &quot;{0}&quot;</value>
+	</data>
+	<data name="ADMIN">
+		<value>Admin</value>
+	</data>
+	<data name="ADMINISTRATOR">
+		<value>Administrator</value>
+	</data>
+	<data name="ADMINISTRATORS">
+		<value>Administrators</value>
+	</data>
+	<data name="ADMINLOGFILE">
+		<value>Web Administrator</value>
+	</data>
+	<data name="ADOPT">
+		<value>Adopt</value>
+	</data>
+	<data name="ALL">
+		<value>All</value>
+	</data>
+	<data name="ALLFIELDSREQUIRED">
+		<value>All fields must be filled in.</value>
+	</data>
+	<data name="ALLOW">
+		<value>Allow</value>
+	</data>
+	<data name="ASSIGNADMINISTRATORS">
+		<value>Assign Administrators</value>
+	</data>
+	<data name="ATTAG">
+		<value>At:</value>
+	</data>
+	<data name="AVAILABLETAG">
+		<value>Available:</value>
+	</data>
+	<data name="B">
+		<value>B</value>
+	</data>
+	<data name="BACK">
+		<value>Back</value>
+	</data>
+	<data name="BEGINSWITH">
+		<value>Begins With</value>
+	</data>
+	<data name="CANCEL">
+		<value>Cancel</value>
+	</data>
+	<data name="CHINESE-SIMPLIFIED">
+		<value>Chinese-Simplified</value>
+	</data>
+	<data name="CHINESE-TRADITIONAL">
+		<value>Chinese-Traditional</value>
+	</data>
+	<data name="CONFIGUREREPORTING">
+		<value>Configure Reporting</value>
+	</data>
+	<data name="CONTAINS">
+		<value>Contains</value>
+	</data>
+	<data name="CREATE">
+		<value>Create</value>
+	</data>
+	<data name="CREATENEWIFOLDER">
+		<value>Create New iFolder</value>
+	</data>
+	<data name="CREATEUSER">
+		<value>Create User</value>
+	</data>
+	<data name="CSVFORMAT">
+		<value>Text CSV</value>
+	</data>
+	<data name="CZECH">
+		<value>Czech</value>
+	</data>
+	<data name="DAILY">
+		<value>Daily</value>
+	</data>
+	<data name="DAYTAG">
+		<value>Day:</value>
+	</data>
+	<data name="DEBUG">
+		<value>Debug</value>
+	</data>
+	<data name="DELETE">
+		<value>Delete</value>
+	</data>
+	<data name="DENY">
+		<value>Deny</value>
+	</data>
+	<data name="DESCRIPTIONTAG">
+		<value>Description:</value>
+	</data>
+	<data name="DIRECTORIESTAG">
+		<value>Directories:</value>
+	</data>
+	<data name="DISABLE">
+		<value>Disable</value>
+	</data>
+	<data name="DISABLEPASTSHARING">
+		<value>Revoke</value>
+	</data>
+	<data name="SHARING">
+		<value>Sharing</value>
+	</data>
+	<data name="DISKQUOTA">
+		<value>Disk Quota</value>
+	</data>
+	<data name="DISKSPACEAVAILABLETAG">
+		<value>Disk Space Available:</value>
+	</data>
+	<data name="DISKSPACEUSEDTAG">
+		<value>Disk Space Used:</value>
+	</data>
+	<data name="DNSNAME">
+		<value>DNS Name</value>
+	</data>
+	<data name="DNSNAMETAG">
+		<value>DNS Name:</value>
+	</data>
+	<data name="DOWNLOAD">
+		<value>Download</value>
+	</data>
+	<data name="EDIT">
+		<value>Edit</value>
+	</data>
+	<data name="EDITLDAPDETAILS">
+		<value>Edit LDAP Details</value>
+	</data>
+	<data name="EFFECTIVETAG">
+		<value>Effective:</value>
+	</data>
+	<data name="ELLIPSES">
+		<value> . . .</value>
+	</data>
+	<data name="ENABLE">
+		<value>Enable</value>
+	</data>
+	<data name="REPROVISOINSTATE">
+		<value>Reprovision State</value>
+	</data>
+	<data name="REPROVISOINSTATETAG">
+		<value>Reprovision State:</value>
+	</data>
+	<data name="ENABLED">
+		<value>Enabled</value>
+	</data>
+	<data name="ENABLEDTAG">
+		<value>Enabled:</value>
+	</data>
+	<data name="ENABLEREPORTING">
+		<value>Enable Reporting</value>
+	</data>
+	<data name="ENDSWITH">
+		<value>Ends With</value>
+	</data>
+	<data name="ENFORCED">
+		<value>Enforced </value>
+	</data>
+	<data name="ENGLISH">
+		<value>English</value>
+	</data>
+	<data name="ENTERLDAPDETAILS">
+		<value>Enter LDAP Admin Credentials</value>
+	</data>
+	<data name="EQUALS">
+		<value>Equals</value>
+	</data>
+	<data name="ERROR">
+		<value>Error</value>
+	</data>
+	<data name="ERRORACCESSEXCEPTION">
+		<value>You do not have sufficient rights to perform the request.</value>
+	</data>
+	<data name="PATHTOOLONGEXCEPTION">
+		<value>The name of the iFolder is too long to be created.</value>
+	</data>
+	<data name="ERRORAUTHENTICATIONFAILED">
+		<value>Authentication failed.</value>
+	</data>
+	<data name="ERRORCANNOTADDADMIN">
+		<value>Cannot add member {0} as an administrator.</value>
+	</data>
+	<data name="ERRORCANNOTADDMEMBER">
+		<value>Cannot add member {0} to iFolder {1}.</value>
+	</data>
+	<data name="ERRORCANNOTCHANGERIGHTS">
+		<value>Cannot change membership rights for user {0}.</value>
+	</data>
+	<data name="ERRORCANNOTCHANGEOWNER">
+		<value>Cannot change iFolder ownership.</value>
+	</data>
+	<data name="ERRORCANNOTCREATEIFOLDER">
+		<value>Cannot create iFolder.</value>
+	</data>
+	<data name="ERRORCANNOTCREATEUSER">
+		<value>Cannot create user.</value>
+	</data>
+	<data name="ERRORCANNOTDELETEIFOLDER">
+		<value>Cannot delete iFolder.</value>
+	</data>
+	<data name="ERRORCANNOTDELETEMEMBERS">
+		<value>Cannot delete iFolder member {0}.</value>
+	</data>
+	<data name="ERRORCANNOTDELETEUSER">
+		<value>Cannot delete user ID {0}.</value>
+	</data>
+	<data name="ERRORCANNOTREMOVEADMIN">
+		<value>Cannot remove user {0} as an administrator.</value>
+	</data>
+	<data name="ERRORCANNOTSETDESCRIPTION">
+		<value>Cannot set iFolder description.</value>
+	</data>
+	<data name="ERRORCANNOTSETIFOLDERPOLICY">
+		<value>Cannot set policy information for iFolder ID {0}.</value>
+	</data>
+	<data name="ERRORCANNOTSETSYSTEMPOLICY">
+		<value>Cannot set system policy information.</value>
+	</data>
+	<data name="ERRORCANNOTSETIFOLDERSTATUS">
+		<value>Cannot set iFolder synchronization status.</value>
+	</data>
+	<data name="ERRORCANNOTSETUSERPOLICY">
+		<value>Cannot set user policy information for user ID {0}.</value>
+	</data>
+	<data name="ERRORDETAIL">
+		<value>Error Details</value>
+	</data>
+	<data name="ERRORIFOLDERDOESNOTEXIST">
+		<value>The iFolder does not exist.</value>
+	</data>
+	<data name="ERRORINVALIDFILESIZE">
+		<value>An invalid file size limit value was specified. Value must be between 1 and 2e+063 - 1.</value>
+	</data>
+	<data name="ERRORINVALIDDATA">
+		<value>All fields are mandatory. Please check and re-enter</value>
+	</data>
+	<data name="ERRORPROXYPASSWORDSDOESNOTMATCH">
+		<value>Proxy User Passwords does not match. Please re-enter correct passwords</value>
+	</data>
+	<data name="ERRORINVALIDLIMIT">
+                <value>An invalid file size limit value was specified. Value must be lesser than Disk Space Quota.</value>
+        </data>
+	<data name="ERRORINVALIDQUOTA">
+		<value>An invalid disk space quota value was specified. Value must be between 1 and 2e+063 - 1.</value>
+	</data>
+	<data name="ERRORINVALIDIFOLDERLIMIT">
+                <value>An invalid ifolder limit value was specified. Value must be between 0 and 2e+063 - 1.</value>
+	</data>
+	<data name="ERRORINVALIDSYNCINTERVAL">
+		<value>An invalid synchronization interval was specified. Value must be between 5 and 999.</value>
+	</data>
+	<data name="ERRORLOCKEXCEPTION">
+		<value>The operation was cancelled because the iFolder has been locked/disabled by the administrator.</value>
+	</data>
+	<data name="ERRORMEMBERDOESNOTEXIST">
+		<value>The iFolder member does not exist.</value>
+	</data>
+	<data name="ERRORNOFILESIZE">
+		<value>No file size limit value was specified.</value>
+	</data>
+	<data name="ERRORNOQUOTA">
+		<value>No disk space quota value was specified.</value>
+	</data>
+	<data name="ERRORNOIFOLDERLIMIT">
+                <value>No ifolder limit value was specified.</value>
+        </data>
+	<data name="ERRORNOSYNCINTERVAL">
+		<value>No synchronization interval was specified.</value>
+	</data>
+	<data name="ERRORNOTADMINISTRATOR">
+		<value>User is not an iFolder Administrator.</value>
+	</data>
+	<data name="ERRORTEMPLATE">
+		<value>Error: {0}</value>
+	</data>
+	<data name="ERRORTYPE">
+		<value>Unexpected Error</value>
+	</data>
+	<data name="ERRORINSTRUCTIONS">
+		<value>&lt;p&gt;iFolder Web Access has experience an unexpected error.&lt;/p&gt; &lt;p&gt;We apologize for any inconvenience and request that you log out and try again.&lt;/p&gt;</value>
+	</data>
+	<data name="ERRORUNKNOWNERROR">
+		<value>An unknown error has occurred.</value>
+	</data>
+	<data name="ERRORUSERDOESNOTEXIST">
+		<value>The specified iFolder user does not exist.</value>
+	</data>
+	<data name="EVERYTAG">
+		<value>Every:</value>
+	</data>
+	<data name="EXCLUDEDFILES">
+		<value>Excluded Files</value>
+	</data>
+	<data name="FATAL">
+		<value>Fatal</value>
+	</data>
+	<data name="FILE">
+		<value>File</value>
+	</data>
+	<data name="FILENAME">
+		<value>File Name</value>
+	</data>
+	<data name="FILES">
+		<value>Files</value>
+	</data>
+	<data name="FILESTAG">
+		<value>Files:</value>
+	</data>
+	<data name="FILESIZE">
+		<value>File Size</value>
+	</data>
+	<data name="FILETYPEALREADYEXISTS">
+		<value>The specified file name already exists in the list.</value>
+	</data>
+	<data name="FIRST">
+		<value>First</value>
+	</data>
+	<data name="FIRSTNAME">
+		<value>First Name</value>
+	</data>
+	<data name="FIRSTNAMETAG">
+		<value>First Name:</value>
+	</data>
+	<data name="FIRSTPAGE">
+		<value>First Page</value>
+	</data>
+	<data name="FORMATTAG">
+		<value>Format:</value>
+	</data>
+	<data name="FRENCH">
+		<value>French</value>
+	</data>
+	<data name="FREQUENCY">
+		<value>Frequency</value>
+	</data>
+	<data name="FULLNAME">
+		<value>Full Name</value>
+	</data>
+	<data name="FULLNAMETAG">
+		<value>Full Name:</value>
+	</data>
+	<data name="GB">
+		<value>GB</value>
+	</data>
+	<data name="GENERATEDAILYREPORT">
+		<value>Generate report everyday at {0} to the {1}</value>
+	</data>
+	<data name="GENERATEMONTHLYREPORT">
+		<value>Generate report on day {0} of every month at {1} to the {2}</value>
+	</data>
+	<data name="GENERATEWEEKLYREPORT">
+		<value>Generate report every {0} at {1} to the {2}</value>
+	</data>
+	<data name="GERMAN">
+		<value>German</value>
+	</data>
+	<data name="HELP">
+		<value>Help</value>
+	</data>
+	<data name="HOME">
+		<value>Home Server</value>
+	</data>
+	<data name="COMPLETED">
+		<value>Completed</value>
+	</data>
+	<data name="COMPLETEDTAG">
+		<value>Completed:</value>
+	</data>
+	<data name="HUNGARIAN">
+		<value>Hungarian</value>
+	</data>
+	<data name="IDENTITYSYNCTAG">
+		<value>Identity Sync:</value>
+	</data>
+	<data name="IFOLDER">
+		<value>iFolder</value>
+	</data>
+	<data name="IFOLDERADMINS">
+		<value>iFolder Administrators</value>
+	</data>
+	<data name="IFOLDERDETAILS">
+		<value>iFolder Details</value>
+	</data>
+	<data name="IFOLDERDISABLED">
+		<value>Disable Synchronization</value>
+	</data>
+	<data name="IFOLDERISOWNEDBY">
+		<value>Owned by {0}</value>
+	</data>
+	<data name="IFOLDERLIMIT">
+                <value>iFolders per User</value>
+        </data>
+	<data name="IFOLDERS">
+		<value>iFolders</value>
+	</data>
+	<data name="IFOLDERSTAG">
+		<value>iFolders:</value>
+	</data>
+	<data name="IFOLDERUSERDETAILS">
+		<value>iFolder User Details</value>
+	</data>
+	<data name="IFOLDERUSERS">
+		<value>iFolder Users</value>
+	</data>
+	<data name="REPROVISIONLIST">
+		<value>iFolder System Reprovision Status</value>
+	</data>
+	<data name="INFO">
+		<value>Info</value>
+	</data>
+	<data name="INHEIRITEDPOLICY">
+		<value>(Inheirited Policy)</value>
+	</data>
+	<data name="INTERVALTAG">
+		<value>Interval:</value>
+	</data>
+	<data name="ITALIAN">
+		<value>Italian</value>
+	</data>
+	<data name="JAPANESE">
+		<value>Japanese</value>
+	</data>
+	<data name="KB">
+		<value>KB</value>
+	</data>
+	<data name="LAST">
+		<value>Last</value>
+	</data>
+	<data name="LASTLOGINTIMETAG">
+		<value>Last Login Time:</value>
+	</data>
+	<data name="LASTMODIFIED">
+		<value>Last Modified</value>
+	</data>
+	<data name="LASTNAME">
+		<value>Last Name</value>
+	</data>
+	<data name="HOMESERVERNAME">
+		<value>Home Server</value>
+	</data>
+	<data name="LASTNAMETAG">
+		<value>Last Name:</value>
+	</data>
+	<data name="LASTPAGE">
+		<value>Last Page</value>
+	</data>
+	<data name="LDAPADMINNAME">
+		<value>LDAP Admin DN:</value>
+	</data>
+	<data name="LDAPADMINPWD">
+		<value>LDAP Admin Password:</value>
+	</data>
+	<data name="LDAPDETAILS">
+		<value>LDAP Details</value>
+	</data>
+	<data name="LDAPSERVER">
+		<value>LDAP Server:</value>
+	</data>
+	<data name="LDAPCYCLES">
+		<value>Cycles:</value>
+	</data>
+	<data name="LDAPMEMBERDELETE">
+		<value>Delete member</value>
+	</data>
+	<data name="LDAPMEMBERDELETEGRACEINT">
+		<value>grace interval:</value>
+	</data>
+	<data name="LDAPUPSINCE">
+		<value>Up Since:</value>
+	</data>
+	<data name="LDAPCONTEXTTAG">
+		<value>LDAP Contexts:</value>
+	</data>
+	<data name="LDAPSTATUSTAG">
+		<value>Status:</value>
+	</data>
+	<data name="LDAPSSL">
+		<value>LDAP SSL:</value>
+	</data>
+	<data name="LDAPPROXYUSER">
+		<value>Proxy User:</value>
+	</data>
+	<data name="LDAPPROXYUSERPWD">
+		<value>Proxy User Password:</value>
+	</data>
+	<data name="CONFIRMLDAPPROXYUSERPWD">
+		<value>Confirm Proxy User Password:</value>
+	</data>
+	<data name="LIMITTAG">
+		<value>Limit:</value>
+	</data>
+	<data name="LOGGEDINAS">
+		<value>Logged in as</value>
+	</data>
+	<data name="LOGGEDONUSERSTAG">
+		<value>Logged On Users:</value>
+	</data>
+	<data name="LOGIN">
+		<value>Log In</value>
+	</data>
+	<data name="LOGINACCOUNTDISABLED">
+		<value>Your account is currently disabled and unavailable.</value>
+	</data>
+	<data name="LOGINACCOUNTLOCKED">
+		<value>Your account is currently locked and unavailable.</value>
+	</data>
+	<data name="LOGINCONNECTFAILED">
+		<value>Unable to connect to the iFolder server.</value>
+	</data>
+	<data name="LOGINCOPYRIGHT">
+		<value>&amp;copy; Copyright 2008 Novell, Inc. All rights reserved.</value>
+	</data>
+	<data name="LOGINERROR">
+		<value>Error:</value>
+	</data>
+	<data name="LOGINFAILED">
+		<value>Failed:</value>
+	</data>
+	<data name="LOGINIFOLDERSERVER">
+		<value>iFolder Server:</value>
+	</data>
+	<data name="LOGINLANGUAGE">
+		<value>Language:</value>
+	</data>
+	<data name="LOGINLOGOUT">
+		<value>You are now logged out of iFolder.</value>
+	</data>
+	<data name="LOGINLOSTSESSION">
+		<value>Your session has been closed. Please log in.</value>
+	</data>
+	<data name="CANNOTSETPERMISSION">
+                <value>Could not change the permission of the Full Path specified.</value>
+        </data>
+
+	<data name="LOGINNOCOOKIES">
+		<value>You must enable cookies in your browser.</value>
+	</data>
+	<data name="LOGINNOSCRIPT">
+		<value>You must enable scripts in your browser.</value>
+	</data>
+	<data name="LOGINPASSWORD">
+		<value>Password:</value>
+	</data>
+	<data name="LOGINREDIRECT">
+		<value>The iFolder Server URL needs to be updated.</value>
+	</data>
+	<data name="LOGINSECUREFAILED">
+		<value>Unable to communicate with the iFolder server securely.</value>
+	</data>
+	<data name="LOGINSENDFAILED">
+		<value>Unable to communicate with the iFolder server.</value>
+	</data>
+	<data name="LOGINTRUSTFAILED">
+		<value>The trust between the iFolder Server and iFolder Web Access failed.</value>
+	</data>
+	<data name="LOGINUNAUTHORIZED">
+		<value>Please re-enter your username and password.</value>
+	</data>
+	<data name="LOGINUSERNAME">
+		<value>Username:</value>
+	</data>
+	<data name="LOGLEVELTAG">
+		<value>Log Level</value>
+	</data>
+	<data name="LOGTAG">
+		<value>Log</value>
+	</data>
+	<data name="LOGOUT">
+		<value>Log Out</value>
+	</data>
+	<data name="MASTER">
+		<value>Master</value>
+	</data>
+	<data name="MAXCONNECTIONSTAG">
+		<value>Maximum Connections:</value>
+	</data>
+	<data name="MB">
+		<value>MB</value>
+	</data>
+	<data name="MEMBER">
+		<value>Member</value>
+	</data>
+	<data name="MEMBERS">
+		<value>Members</value>
+	</data>
+	<data name="MESSAGEINFORMATION">
+		<value>Information:</value>
+	</data>
+	<data name="MINUTES">
+		<value>Minute(s)</value>
+	</data>
+	<data name="MINIMALINFO">
+		<value>Showing Minimal Information</value>
+	</data>
+	<data name="MODIFIEDTAG">
+		<value>Modified:</value>
+	</data>
+	<data name="MONTHLY">
+		<value>Monthly</value>
+	</data>
+	<data name="NAME">
+		<value>Name</value>
+	</data>
+	<data name="NAMETAG">
+		<value>Name:</value>
+	</data>
+	<data name="NEWIFOLDERDESCRIPTIONTAG">
+		<value>iFolder Description:</value>
+	</data>
+	<data name="NEWIFOLDERNAMETAG">
+		<value>iFolder Name:</value>
+	</data>
+	<data name="NEXT">
+		<value>Next</value>
+	</data>
+	<data name="NEXTPAGE">
+		<value>Next Page</value>
+	</data>
+	<data name="NEWFILETYPE">
+		<value>New File Type</value>
+	</data>
+	<data name="NO">
+		<value>No</value>
+	</data>
+	<data name="NOITEMSFOUND">
+		<value>There were no items found.</value>
+	</data>
+	<data name="NOSERVER">
+		<value>No server selected</value>
+	</data>
+	<data name="NOTAVAILABLE">
+		<value>Not Available</value>
+	</data>
+	<data name="OFF">
+		<value>Off</value>
+	</data>
+	<data name="ORPHANED">
+		<value>Orphan</value>
+	</data>
+	<data name="ORPHANTAG">
+		<value>Orphan :</value>
+	</data>
+	<data name="OK">
+		<value>OK</value>
+	</data>
+	<data name="ON">
+		<value>On</value>
+	</data>
+	<data name="OUTPUT">
+		<value>Output</value>
+	</data>
+	<data name="OWNED">
+		<value>Owned</value>
+	</data>
+	<data name="OWNER">
+		<value>Owner</value>
+	</data>
+	<data name="OWNERTAG">
+		<value>Owner:</value>
+	</data>
+	<data name="PAGENUMBERFORMAT">
+		<value>{0} - {1} of {2} {3}</value>
+	</data>
+	<data name="PASSWORDSDONOTMATCH">
+		<value>The passwords are not the same.</value>
+	</data>
+	<data name="PASSWORDTAG">
+		<value>Password:</value>
+	</data>
+	<data name="PATHTAG">
+		<value>Path:</value>
+	</data>
+	<data name="PENDING">
+		<value>Pending</value>
+	</data>
+	<data name="POLICIES">
+		<value>Policies</value>
+	</data>
+	<data name="POLISH">
+		<value>Polish</value>
+	</data>
+	<data name="PORTUGUESE">
+		<value>Portuguese</value>
+	</data>
+	<data name="PORTUGUESE-BRAZIL">
+		<value>Portuguese-Brazil</value>
+	</data>
+	<data name="PREVIOUSPAGE">
+		<value>Previous Page</value>
+	</data>
+	<data name="PRIVATEIPTAG">
+		<value>Private IP Address:</value>
+	</data>
+	<data name="PRIVATEURI">
+		<value>Private URL:</value>
+	</data>
+	<data name="PROVISION">
+		<value>Provision</value>
+	</data>
+	<data name="PROVISIONREPROVISION">
+		<value>Provision / Reprovision</value>
+	</data>
+	<data name="PUBLICIPTAG">
+		<value>Public IP Address:</value>
+	</data>
+	<data name="PUBLICURI">
+		<value>Public URL:</value>
+	</data>
+	<data name="READONLY">
+		<value>Read Only</value>
+	</data>
+	<data name="READWRITE">
+		<value>Read Write</value>
+	</data>
+	<data name="REMOVEMEMBERS">
+		<value>Remove Users</value>
+	</data>
+	<data name="REPORTDIRECTORY">
+		<value>Report Directory</value>
+	</data>
+	<data name="REPORTDIRECTORYTAG">
+		<value>directory:</value>
+	</data>
+	<data name="REPORTIFOLDER">
+		<value>Report iFolder</value>
+	</data>
+	<data name="REPORTIFOLDERTAG">
+		<value>iFolder:</value>
+	</data>
+	<data name="REPORTS">
+		<value>Reports</value>
+	</data>
+	<data name="RETYPEPASSWORDTAG">
+		<value>Retype Password:</value>
+	</data>
+	<data name="RIGHTS">
+		<value>Rights</value>
+	</data>
+	<data name="RUSSIAN">
+		<value>Russian</value>
+	</data>
+	<data name="SAVE">
+		<value>Save</value>
+	</data>
+	<data name="REPROVISIONBUTTON">
+		<value>Reprovision Status</value>
+	</data>
+	<data name="REFRESH">
+		<value>Refresh</value>
+	</data>
+	<data name="SEARCH">
+		<value>Search</value>
+	</data>
+	<data name="SELECTEDUSERS">
+		<value>Selected Users</value>
+	</data>
+	<data name="SELECTIFOLDEROWNER">
+		<value>Select owner for iFolder &quot;{0}&quot;</value>
+	</data>
+	<data name="SELECTUSERS">
+		<value>Select Users</value>
+	</data>
+	<data name="SELECTSERVER">
+		<value>Select a Server to Provision / Reprovision these Users</value>
+	</data>
+	<data name="SERVER">
+		<value>Server</value>
+	</data>
+	<data name="SERVERDETAILS">
+		<value>Server Details</value>
+	</data>
+	<data name="SERVERLOGS">
+		<value>Server Logs</value>
+	</data>
+	<data name="SERVERREPORTS">
+		<value>Server Reports</value>
+	</data>
+	<data name="SERVERS">
+		<value>Servers</value>
+	</data>
+	<data name="SERVERSTATUS">
+		<value>Server Status</value>
+	</data>
+	<data name="SERVERSTATUSDOWN">
+		<value>Server Not Reachable</value>
+	</data>
+	<data name="SESSIONCLOSED">
+		<value>Your session has been closed. Please log in.</value>
+	</data>
+	<data name="SESSIONSTAG">
+		<value>Sessions:</value>
+	</data>
+	<data name="SET">
+		<value>Set</value>
+	</data>
+	<data name="SHARED">
+		<value>Shared</value>
+	</data>
+	<data name="SHARINGPOLICYVIOLATION">
+		<value> Sharing is disabled so this iFolder can not be shared</value>
+	</data>
+	<data name="SIZE">
+		<value>Size</value>
+	</data>
+	<data name="SIZETAG">
+		<value>Size:</value>
+	</data>
+	<data name="SLAVE">
+		<value>Slave</value>
+	</data>
+	<data name="SLOVAK">
+		<value>Slovak</value>
+	</data>
+	<data name="SPANISH">
+		<value>Spanish</value>
+	</data>
+	<data name="STATUS">
+		<value>Status</value>
+	</data>
+	<data name="STATUSTAG">
+		<value>Status:</value>
+	</data>
+	<data name="SYNCNOW">
+		<value>Sync Now</value>
+	</data>
+	<data name="SYNCHRONIZATION">
+		<value>Synchronization</value>
+	</data>
+	<data name="SYSTEM">
+		<value>System</value>
+	</data>
+	<data name="SYSTEMLOGFILE">
+		<value>System</value>
+	</data>
+	<data name="SYSTEMSETTINGS">
+		<value>System Settings</value>
+	</data>
+	<data name="TITLE">
+		<value>iFolder Administrator</value>
+	</data>
+	<data name="TOTALIFOLDERSTAG">
+		<value>Total iFolders:</value>
+	</data>
+	<data name="TOTALTAG">
+		<value>Total: </value>
+	</data>
+	<data name="TOTALUSERSTAG">
+		<value>Total Users:</value>
+	</data>
+	<data name="TRUE">
+		<value>True</value>
+	</data>
+	<data name="TYPE">
+		<value>Type</value>
+	</data>
+	<data name="TYPETAG">
+		<value>Type:</value>
+	</data>
+	<data name="UNKNOWNERROR">
+		<value>An unknown error has occurred. No exception was specified.</value>
+	</data>
+	<data name="UNLIMITED">
+		<value>Unlimited</value>
+	</data>
+	<data name="USEDTAG">
+		<value>Used:</value>
+	</data>
+	<data name="USER">
+		<value>User</value>
+	</data>
+	<data name="USERDETAILS">
+		<value>User Details</value>
+	</data>
+	<data name="USERMOVEDETAILS">
+		<value>User Reprovision Details</value>
+	</data>
+	<data name="USERLOGINDISABLED">
+		<value>Disable User Login</value>
+	</data>
+	<data name="USERNAME">
+		<value>User Name</value>
+	</data>
+	<data name="CURRENTHOME">
+		<value>Current Home</value>
+	</data>
+	<data name="CURRENTHOMETAG">
+		<value>Current Home:</value>
+	</data>
+	<data name="NEWHOME">
+		<value>New Home</value>
+	</data>
+	<data name="NEWHOMETAG">
+		<value>New Home:</value>
+	</data>
+	<data name="USERNAMETAG">
+		<value>User Name:</value>
+	</data>
+	<data name="MEMBERTYPETAG">
+		<value>Member Type:</value>
+	</data>
+	<data name="MEMBERTYPEUSER">
+		<value>User</value>
+	</data>
+	<data name="MEMBERTYPELDAPGROUP">
+		<value>Ldap Group</value>
+	</data>
+	<data name="MEMBERTYPELOCALGROUP">
+		<value>Local Group</value>
+	</data>
+	<data name="MEMBERLISTTAG">
+		<value>Group Members:</value>
+	</data>
+	<data name="GROUPLISTTAG">
+		<value>User Groups:</value>
+	</data>
+	<data name="USERS">
+		<value>Users</value>
+	</data>
+	<data name="USERSTAG">
+		<value>Users:</value>
+	</data>
+	<data name="VIEW">
+		<value>View</value>
+	</data>
+	<data name="WARN">
+		<value>Warn</value>
+	</data>
+	<data name="WEBACCESSLOGFILE">
+		<value>Web Access</value>
+	</data>
+	<data name="WEEKLY">
+		<value>Weekly</value>
+	</data>
+	<data name="WHEN">
+		<value>When</value>
+	</data>
+	<data name="YES">
+		<value>Yes</value>
+	</data>
+	 <data name="DATASTORE">
+                <value>Data Store</value>
+        </data>
+        <data name="ADDDATASTORE">
+                <value>Add Data Store</value>
+        </data>
+        <data name="FULLPATH:">
+                <value>Full Path:</value>
+        </data>
+        <data name="NOOFIFOLDERS">
+                <value>No of iFolders</value>
+        </data>
+        <data name="FREESPACE">
+                <value>Free Space</value>
+        </data>
+        <data name="NAME:">
+                <value>Name:</value>
+        </data>
+        <data name="FULLPATH">
+                <value>Full Path</value>
+        </data>
+        <data name="VOLUMES">
+                <value>Volumes</value>
+        </data>
+        <data name="VOLUME">
+                <value>Volume</value>
+        </data>
+	<data name="NOTMOUNTED">
+		<value>Not Mounted</value>
+	</data>
+	<data name="LINKALREADYEXISTS">
+                <value>A Link by this name already Exists</value>
+        </data>
+	 <data name="INVALIDFULLPATH">
+                <value>Full Path specified is invalid, please check and re-enter.</value>
+        </data>
+	<data name="ERRORINVALIDIFOLDERLIMIT">
+                <value>An invalid ifolder limit value was specified. Value must be between 0 and 2e+063 - 1.</value>
+        </data>
+	<data name="INVALIDLIMITERROR">
+        	<value>iFolder could not be created as you are exceeding the limit of ifolders set by the Administrator.</value>
+    	</data>
+	<data name="INVALIDLDAPADMINORPASSWORD">
+        	<value>An invalid ldap admin userid or password</value>
+    	</data>
+	<data name="UNABLETOEDITLDAPDETAILS">
+        	<value>Unable to edit LDAP details with these values. Please check the values. </value>
+    	</data>
+	<data name="UNABLETOEDITIPDETAILS">
+        	<value>Unable to edit IP details . Please check the values. </value>
+    	</data>
+	<data name="RESTARTSERVER">
+        	<value>Information Updated. These changes will take effect when you restart iFolder server. </value>
+    	</data>
+	<data name="MASTERURI">
+        	<value>Master URL:</value>
+    	</data>
+	<data name="LDAPADMINAUTH">
+        	<value>ldapadminauth</value>
+    	</data>
+	<data name="PROVISIONUSERS">
+        	<value>provisionusers</value>
+    	</data>
+	<data name="PROVISION_REPROVISION_TITLE">
+        	<value>Provision / Reprovison Users</value>
+    	</data>
+	<data name="ENCRYPTION">
+        	<value>Passphrase Based Encryption</value>
+    	</data>
+	<data name="SSLTAG">
+        	<value>SSL Option:</value>
+    	</data>
+	<data name="SSLSTRING">
+        	<value>SSL</value>
+    	</data>
+	<data name="NONSSLSTRING">
+        	<value>NONSSL</value>
+    	</data>
+	<data name="BOTHSTRING">
+        	<value>BOTH</value>
+    	</data>
+	<data name="ERRORIFOLDERENCRYPTIONENFORCED">
+		<value>This member can not own a regular iFolder because encryption policy is enforced for the member.</value>
+	</data>
+	<data name="CONFIRMADDITION">
+                <value>IMPORTANT:The owner and group for the DataPath on the server must be set to apacheuser:apachegroup. This is mandatory to create or sync iFolders on this volume.</value>
+        </data>
+	<data name="CONFIRMDELETION">
+		<value>IMPORTANT:A DataPath will only be deleted if no iFolders are created on it.</value>
+	</data>
+	<data name="ERRORIFOLDERTRANSFEREXCEPTION">
+                <value>Ownership could not be transferred as you are violating the limit of iFolders set by your Administrator.</value>
+        </data>
+	<data name="CONFIRMENCRYPTION">
+                <value>'Passphrase Based Encryption' option provides a choice for individual iFolder to be encrypted based on the user provided pass-phrase. Enforced option can be turned off, but 'On' option once saved is ir-reversible, click OK to Save or Cancel to stay in the current page without Saving. </value>
+        </data>
+	<data name="INITIALIZING">
+        	<value>Initializing</value>
+    	</data>
+	<data name="TRANSFERING">
+        	<value>Transfering</value>
+    	</data>
+	<data name="SERVERNAMETAG">
+		<value>Server:</value>
+	</data>
+</root>

@@ -1,0 +1,143 @@
+.nav
+{
+	padding-left: 12px;
+	padding-bottom: 4px;
+	float: left;
+}
+
+.accountsnav
+{
+	width: 98%;
+}
+
+.accountslist
+{
+	clear: left;
+	width: 100%;
+}
+
+.accountslistheader
+{
+	clear: left;
+	border-top: solid 1px #999;
+	border-bottom: solid 1px #999;
+	border-collapse: collapse;
+	height: 1.5em;
+	width: 100%;
+}
+
+.accountslistheader td
+{
+	font-weight: bold;
+	font-size: 0.8em;
+	color: black;
+	background-color: #efeee9;
+}
+
+.accountslistheader .checkboxcolumn
+{
+	width: 2em;
+}
+
+.accountslistheader .typecolumn
+{
+	width: 4em;
+}
+
+.accountslistheader .usernamecolumn
+{
+	width: 14em;
+}
+
+.accountslistheader .regularcolumn
+{
+	width: 12.3em;
+}
+
+.accountslistheader .fullnamecolumn
+{
+	padding-right: 6px;
+	width: 18em;
+}
+
+.accountslistheader .statuscolumn
+{
+}
+
+.accountslistitem
+{
+	height: 1.5em;
+}
+
+.accountslistaltitem
+{
+	height: 1.5em;
+	background-color: #efeee9;
+}
+
+.accountsitem1
+{
+	width: 2em;
+}
+
+.accountsitem2
+{
+	width: 3.4em;
+}
+
+.accountsitem2 img
+{
+	padding-left: 4px;
+}
+
+.accountsitem3
+{
+	width: 12.3em;
+}
+
+.accountsitem3leftoff
+{
+	width: 12.3em;
+	padding-left: 7px;
+}
+
+.accountsitem4
+{
+	padding-right: 6px;
+	width: 16.2em;
+}
+
+.searchnav
+{
+	clear: both;
+	padding-bottom: 6px;
+}
+
+#DeleteButton
+{
+	float: left;
+	margin-top: 6px;
+	width: 6em;
+}
+
+#DisableButton
+{
+	float: left;
+	margin-top: 6px;
+	margin-left: 4px;
+	width: 6em;
+}
+
+#EnableButton
+{
+	float: left;
+	margin-top: 6px;
+	margin-left: 4px;
+	width: 6em;
+}
+
+#CreateButton
+{
+	float: right;
+	margin-top: 6px;
+}

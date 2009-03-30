@@ -1,0 +1,180 @@
+BODY {
+	BORDER-RIGHT: 0px; PADDING-RIGHT: 0px; BORDER-TOP: 0px; PADDING-LEFT: 0px; FONT-SIZE: 0.8em; BACKGROUND: white; PADDING-BOTTOM: 0px; MARGIN: 0px; BORDER-LEFT: 0px; PADDING-TOP: 0px; BORDER-BOTTOM: 0px; FONT-FAMILY: "Trebuchet MS", Arial, Helvetica, Geneva, Swiss, SunSans-Regular, sans-serif
+}
+BODY A {
+	COLOR: #039
+}
+TD {
+	FONT-FAMILY: "Trebuchet MS", Arial, Helvetica, Geneva, Swiss, SunSans-Regular, sans-serif
+}
+.button {
+	FONT-SIZE: 0.9em; FONT-FAMILY: "Trebuchet MS", Arial, Helvetica, Geneva, Swiss, SunSans-Regular, sans-serif; HEIGHT: 2em; min-width: 8em
+}
+.control {
+	FONT-SIZE: 0.9em; FONT-FAMILY: "Trebuchet MS", Arial, Helvetica, Geneva, Swiss, SunSans-Regular, sans-serif
+}
+.loginDialog {
+	
+}
+.loginDialog TD {
+	FONT-SIZE: 0.8em
+}
+.loginDialog .loginHelp {
+	FONT-WEIGHT: bold; FONT-SIZE: 0.8em; COLOR: white; TEXT-DECORATION: none
+}
+.loginDialog .loginContent {
+	BORDER-RIGHT: #babdb6 1px solid; BORDER-TOP: #babdb6 0px solid; BORDER-LEFT: #babdb6 1px solid; BORDER-BOTTOM: #babdb6 1px solid
+}
+.loginDialog .loginMessageType {
+	FONT-WEIGHT: bold; COLOR: black
+}
+.loginDialog .loginMessage {
+	COLOR: red
+}
+.loginDialog .copyrightText {
+	PADDING-LEFT: 10px; FONT-SIZE: 0.7em; PADDING-TOP: 4px
+}
+.pageRegion {
+	WIDTH: 100%
+}
+.pageRegion .bannerRegion {
+	Z-INDEX: 1; HEIGHT: 56px
+}
+.pageRegion .mainRegion {
+	MARGIN: 15px
+}
+.bannerContent {
+	
+}
+.bannerContent .tabTable {
+	HEIGHT: 22px
+}
+.bannerContent .tabCell {
+	FONT-SIZE: 0.9em
+}
+.bannerContent .tabOptionCell {
+	FONT-SIZE: 0.9em
+}
+.bannerContent .tabCell {
+	PADDING-RIGHT: 12px; PADDING-LEFT: 12px
+}
+.bannerContent .tabOptionCell {
+	PADDING-RIGHT: 20px; PADDING-LEFT: 20px; PADDING-TOP: 8px
+}
+.bannerContent .bannerLink {
+	FONT-WEIGHT: bold; FONT-SIZE: 0.75em; COLOR: white; TEXT-DECORATION: none
+}
+.bannerContent .bannerName {
+	PADDING-LEFT: 7px; FONT-WEIGHT: bold; FONT-SIZE: 0.8em; LINE-HEIGHT: 22px
+}
+.pageRegion .mainRegion .mainContent {
+	WIDTH: 100%
+}
+.breadCrumbs {
+	FONT-WEIGHT: bold; FONT-SIZE: 0.9em
+}
+.listTable {
+	BORDER-RIGHT: #babdb6 1px solid; BORDER-TOP: #babdb6 1px solid; BORDER-LEFT: #babdb6 1px solid; BORDER-BOTTOM: #babdb6 1px solid
+}
+.listTitle {
+	PADDING-LEFT: 10px; FONT-WEIGHT: bold; FONT-SIZE: 0.8em; PADDING-BOTTOM: 0px; HEIGHT: 20px
+}
+.controlTitle {
+	PADDING-LEFT: 10px; FONT-WEIGHT: bold; FONT-SIZE: 0.8em; PADDING-BOTTOM: 0px; HEIGHT: 20px
+}
+.listMenu {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 20px; PADDING-BOTTOM: 0px; PADDING-TOP: 0px; HEIGHT: 22px; BACKGROUND-COLOR: #dee0dd
+}
+.listFooter {
+	PADDING-RIGHT: 10px; BORDER-TOP: #babdb6 1px solid; FONT-SIZE: 0.7em; PADDING-TOP: 2px; HEIGHT: 20px
+}
+.controlList {
+	WIDTH: 14em
+}
+.controlTable {
+	BORDER-RIGHT: #babdb6 1px solid; BORDER-TOP: #babdb6 1px solid; BORDER-LEFT: #babdb6 1px solid; BORDER-BOTTOM: #babdb6 1px solid; BACKGROUND-COLOR: #f4f4f4
+}
+.controlTable .controlCell {
+	PADDING-RIGHT: 12px; PADDING-LEFT: 12px; FONT-WEIGHT: bold; FONT-SIZE: 0.8em; PADDING-BOTTOM: 8px; PADDING-TOP: 8px
+}
+.menuLink {
+	WIDTH: 100%; COLOR: black; TEXT-DECORATION: none
+}
+.menuLinkDisabled {
+	WIDTH: 100%; COLOR: black; TEXT-DECORATION: none
+}
+.menuLinkDisabled {
+	COLOR: #808080
+}
+.menuText {
+	PADDING-RIGHT: 8px; PADDING-LEFT: 4px; FONT-WEIGHT: bold; FONT-SIZE: 0.75em; PADDING-BOTTOM: 0px; PADDING-TOP: 2px
+}
+.menuImage {
+	PADDING-RIGHT: 12px; PADDING-LEFT: 4px; PADDING-BOTTOM: 0px; PADDING-TOP: 0px
+}
+.dataTable {
+	
+}
+.dataTable .header {
+	FONT-SIZE: 0.8em; COLOR: black; HEIGHT: 20px; TEXT-ALIGN: left
+}
+.dataTable .headerLink {
+	FONT-SIZE: 0.8em; COLOR: black; HEIGHT: 20px; TEXT-ALIGN: left
+}
+.dataTable .row1 {
+	FONT-SIZE: 0.8em; COLOR: black; HEIGHT: 20px; TEXT-ALIGN: left
+}
+.dataTable .row2 {
+	FONT-SIZE: 0.8em; COLOR: black; HEIGHT: 20px; TEXT-ALIGN: left
+}
+.dataTable .header {
+	FONT-WEIGHT: bold; FONT-SIZE: 0.7em; BACKGROUND-COLOR: #edeeec
+}
+.dataTable .headerLink {
+	FONT-WEIGHT: bold; FONT-SIZE: 0.7em; BACKGROUND-COLOR: #edeeec
+}
+.dataTable .headerLink {
+	TEXT-DECORATION: none
+}
+.dataTable .header .headerCell {
+	PADDING-RIGHT: 2px; PADDING-LEFT: 3px; PADDING-BOTTOM: 2px; PADDING-TOP: 2px
+}
+.dataTable .row1 .rowCell {
+	PADDING-RIGHT: 2px; PADDING-LEFT: 3px; PADDING-BOTTOM: 2px; PADDING-TOP: 2px
+}
+.dataTable .row2 .rowCell {
+	PADDING-RIGHT: 2px; PADDING-LEFT: 3px; PADDING-BOTTOM: 2px; PADDING-TOP: 2px
+}
+.dataTable .header .headerCell {
+	BORDER-TOP: #babdb6 1px solid; BORDER-BOTTOM: #babdb6 1px solid
+}
+.dataTable .row1 {
+	
+}
+.dataTable .row2 {
+	
+}
+.dataTable .row2 {
+	BACKGROUND-COLOR: #f4f4f4
+}
+.messageRegion {
+	PADDING-BOTTOM: 12px
+}
+.messageRegion .messageTable {
+	BORDER-RIGHT: #babdb6 1px solid; BORDER-TOP: #babdb6 1px solid; FONT-SIZE: 0.9em; BORDER-LEFT: #babdb6 1px solid; BORDER-BOTTOM: #babdb6 1px solid; BACKGROUND-COLOR: #ffff99
+}
+.messageRegion .messageTable .messageType {
+	FONT-WEIGHT: bold
+}
+.messageRegion .messageTable .message {
+	COLOR: red
+}
+.errorType {
+	FONT-SIZE: 1.2em; COLOR: red
+}
+.errorInstructions {
+	FONT-SIZE: 0.9em
+}
+.errorDetail {
+	BORDER-RIGHT: #babdb6 1px solid; BORDER-TOP: #babdb6 1px solid; BORDER-LEFT: #babdb6 1px solid; BORDER-BOTTOM: #babdb6 1px solid; BACKGROUND-COLOR: #ffff99
+}

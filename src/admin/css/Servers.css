@@ -1,0 +1,110 @@
+.nav
+{
+	padding-left: 12px;
+	padding-bottom: 4px;
+	padding-right: 12px;
+	float: left;
+}
+
+.searchnav
+{
+	clear: both;
+	padding-bottom: 8px;
+}
+
+.serversnav
+{
+	width: 100%;
+}
+
+.serverlist
+{
+	clear: left;
+	width: 100%;
+}
+
+.serverlistheader
+{
+	clear: left;
+	border-top: solid 1px #999;
+	border-bottom: solid 1px #999;
+	border-collapse: collapse;
+	height: 1.5em;
+	width: 100%;
+}
+
+.serverlistheader td
+{
+	padding-left: 3px;
+	font-weight: bold;
+	font-size: 0.8em;
+	color: black;
+	background-color: #efeee9;
+}
+
+.serverlistheader .typecolumn
+{
+	width: 2.6em;
+}
+
+.serverlistheader .namecolumn
+{
+	width: 7.4em;
+}
+
+.serverlistheader .dnscolumn
+{
+	width: 13.5em;
+}
+
+.serverlistheader .publicuricolumn
+{
+	width: 15.5em;
+}
+
+.serverlistheader .privateuricolumn
+{
+	width: 15.5em;
+}
+
+.serverlistitem
+{
+	height: 1.5em;
+}
+
+.serverlistaltitem
+{ 
+	height: 1.5em;
+	background-color: #efeee9;
+}
+
+.serveritem1
+{
+	width: 2.6em;
+}
+
+.serveritem1 img
+{
+	padding-left: 6px;
+}
+
+.serveritem2
+{
+	width: 7.3em;
+}
+
+.serveritem3
+{
+	width: 12em;
+}
+
+.serveritem4
+{
+	width: 14em;
+}
+
+.serveritem5
+{
+	width: 14.2em;
+}
+

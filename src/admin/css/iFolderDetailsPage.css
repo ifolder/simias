@@ -1,0 +1,169 @@
+.leftnav
+{
+	padding-right: 8px;
+	padding-left: 12px;
+	float: left;
+	width: 38em;
+}
+
+.rightnav
+{
+	float: left;
+	border-left: dotted 1px #999999;
+}
+
+.detailnav
+{
+	border-bottom: dotted 1px #999999;
+	float: left;
+	padding-bottom: 12px;
+	width: 100%;
+}
+
+.detailinfo th
+{
+	text-align:left;
+	padding-right: 8px;
+	font-size: .8em;	
+}
+
+.detailinfo td
+{
+	text-align: left;
+	font-size: .8em;
+}
+
+.detailinfo td #Description
+{
+	font-family: "Trebuchet MS", Arial, Helvetica, Geneva, Swiss, SunSans-Regular, sans-serif;
+	font-size: 1em;
+	text-align: left;
+	width: 80%;
+	padding-left: 4px;
+	overflow: visible;
+}
+
+.selectownerbuttons
+{
+	width: 7.5em;
+	color: black;
+}
+
+
+.ifoldermemberlistnav
+{
+	float: left;
+}
+
+.ifoldermemberlist
+{
+	border-top: solid 1px #999;
+	border-bottom: solid 1px #999;
+	width: 100%;
+}
+
+.ifoldermemberlistheader td
+{
+	border-bottom: solid 1px #999;
+	padding-left: 2px;
+	font-weight: bold;
+	font-size: 0.8em;
+	color: black;
+	background-color: #efeee9;
+}
+
+.ifoldermemberlistitem
+{
+	height: 1.5em;
+}
+
+.ifoldermemberlistaltitem
+{
+	height: 1.5em;
+	background-color: #efeee9;
+}
+
+.ifoldermembersitem1
+{
+	padding-left: .1em;
+	width: 2em;
+}
+
+.ifoldermembersitem2
+{
+	padding-top: 2px;
+	text-align:center;
+}
+
+.ifoldermembersitem2 img
+{
+	padding-right: 8px;
+}
+
+.ifoldermembersitem3
+{
+	padding-right: 6px;
+	width: 20em;
+}
+
+.ifoldermembersitem5
+{
+	padding-right: 6px;
+	width: 20em;
+}
+
+.ifoldermembersitem4
+{
+}
+
+.actionbuttons
+{
+	margin-top: 6px;
+	width: 6em;
+}
+
+.rightslist
+{
+	margin-top: 6px;
+	margin-right: 2px;
+}
+
+#DescriptionButton
+{
+	margin-left: 6px;
+	width: 10.5em;
+}
+
+#MemberDeleteButton
+{
+	float:left;
+	margin-left: 6px;
+}
+
+#MemberOwnerButton
+{
+	float: left;
+	margin-left: 6px;
+}
+
+#MemberAddButton
+{
+	float:right;
+	margin-right: 0;
+}
+
+#MemberRightsButton
+{
+	float: left;
+}
+
+#DescriptionButton
+{
+	margin-left: 6px;
+	width: 4.5em;
+}
+
+#MemberRightsList
+{
+	float: left;
+}

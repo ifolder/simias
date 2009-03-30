@@ -1,0 +1,1 @@
+<%@ WebHandler Language="C#" CodeBehind="ReportLogHandler.ashx.cs" Class="Novell.iFolderWeb.Admin.ReportLogHandler,Novell.iFolderAdmin" %>

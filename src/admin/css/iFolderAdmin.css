@@ -1,0 +1,480 @@
+body
+{
+	font-family: "Trebuchet MS", Arial, Helvetica, Geneva, Swiss, SunSans-Regular, sans-serif;
+	color: #000066;
+	background-color: #FDFDFD;
+	margin: 1em;
+	padding: 0;
+	font-size: .9em;
+}
+
+p, tr, td, ol, ul
+{
+	font-size: .9em;
+}
+
+a:visited
+{
+	color: #0000EE;
+}
+
+.container
+{
+	border: 1px solid #666666;
+	margin-left: auto;
+	margin-right: auto;
+	padding-bottom: 4px;
+	width: 59em;
+	float: left;
+}
+
+.pagetitle
+{
+	margin-top: 8px;
+	margin-bottom: 8px;
+	margin-right: 4px;
+	font-size: .9em;
+	font-weight: bold;
+	border-bottom: 2px solid #6095c7;
+}
+
+.ifolderbuttons
+{
+	width: 6.0em;
+	margin-left: 4px;
+        margin-top: 6px;
+}
+
+.ifoldersavebutton
+{
+        width: 6.0em;
+	margin-left: 4px;
+	margin-top: 6px;
+}
+
+.provisionbuttons
+{
+	width: 7.0em;
+	margin-left: 4px;
+	margin-top: 6px;
+}
+
+.reprovisionbuttons
+{
+	width: 10.0em;
+	margin-left: 4px;
+	margin-top: 6px;
+}
+
+.provision_reprovision_buttons
+{
+	width: 13.0em;
+	margin-left: 4px;
+	margin-top: 6px;
+}
+
+.refreshbuttons
+{
+	width: 6.0em;
+	margin-left: 0px;
+	margin-top: 6px;
+	margin-bottom: 9px;
+}
+
+#top
+{
+	float: left;
+	background-color: #efeee9;
+	background-image: url(../images/banner-fill.png);
+	background-repeat: repeat-x;
+	width: 100%;
+	height: 81px;
+	font-size: 0.8em;
+}
+
+#logo
+{
+	height: 56px;
+	background: transparent url(../images/if3sa-logo.png) left top no-repeat;
+}
+
+.footer
+{
+	background: transparent url(../images/Nlogo.png) right top no-repeat;
+	height: 56px;
+	padding-top: 33px;
+	padding-left: 80px;
+	padding-right: 65px;
+	color: #3A3B38;
+	
+}
+
+#top .controls
+{
+	float:right ; 
+	display: inline;
+	margin-right: 2px;
+	margin-top: 2px;
+	
+}
+
+.helplinkcss
+{
+	font-size: .95em;
+	font-weight: bolder;
+	color: #000066;
+}
+
+ 
+
+.detailtop
+{
+	float: left;
+	height: 1.5em;
+	color: #000099;
+	background-color: #99CCFF;
+	border-bottom: 1px solid #999999;
+	width: 100%;
+	margin-top: -4px; /* my addition to move up closer to tabs */
+}
+
+#policynav
+{
+	float: left;
+	padding-left: 12px;
+	width: 17em;
+
+}
+
+.policydetails
+{
+	margin-bottom: 6px;
+	padding-bottom: 6px;
+	border-bottom: 1px dotted #999;
+}
+
+.policytextbox
+{
+	font-size: .9em;
+	text-align: right;
+	border-right: #f1efe2 thin solid;
+	border-top: #f1efe2 thin inset;
+	border-left: #f1efe2 thin inset;
+	border-bottom: #f1efe2 thin solid;
+	width: 4.5em;
+}
+
+.sharepolicytextbox
+{
+	font-size: .9em;
+	text-align: right;
+	border-right: #f1efe2 thin solid;
+	border-top: #f1efe2 thin inset;
+	border-left: #f1efe2 thin inset;
+	border-bottom: #f1efe2 thin solid;
+	width: 4.5em;
+	margin-right: 42px;
+}
+
+.policytitle
+{
+	font-weight: bold;
+	margin-top: 1em;
+	font-size: .8em;
+}
+
+.policytable
+{
+	border-collapse: collapse;
+	width: 100%;
+	font-size: 1em;
+}
+
+.policytablevalue
+{
+	text-align: right;
+}
+
+.policycheckbox
+{
+	width: 20px;
+}
+
+.sharingpolicycheckbox
+{
+	width: 20px;
+	margin-left: 30px;
+}
+
+.edittext
+{
+	border-right: #f1efe2 thin solid;
+	border-top: #f1efe2 thin inset;
+	border-left: #f1efe2 thin inset;
+	border-bottom: #f1efe2 thin solid;
+}
+
+img
+{
+	border: 0;
+}
+
+.filetypelist
+{
+	width: 100%;
+}
+
+.filetypelistheader
+{
+	clear: left;
+	border-top: solid 1px #999;
+	border-bottom: solid 1px #999;
+	border-collapse: collapse;
+	margin-top: 2px;
+	width: 100%;
+}
+
+.filetypelistheader td
+{
+	font-weight: bold;
+	font-size: 0.8em;
+	color: black;
+	background-color: #efeee9;
+}
+
+.filetypelistheader .checkboxcolumn
+{
+	width: 2em;
+}
+
+.filetypelistheader .filenamecolumn
+{
+	width: 12em;
+}
+
+.filetypelistitem
+{
+	height: 1.5em;
+	font-size: 0.8em;
+}
+
+.filetypelistaltitem
+{
+	height: 1.5em;
+	background-color: #efeee9;
+	font-size: 0.8em;
+}
+
+.filetypeitem1
+{
+	padding-left: .1em;
+	width: 1.8em;
+}
+
+.filetypeitem2
+{
+	width: 11em;
+}
+
+.newfiletypename
+{
+	margin-top: 2px;
+	margin-bottom: 6px;
+	float: left;
+	border-right: #f1efe2 thin solid;
+	border-top: #f1efe2 thin inset;
+	border-left: #f1efe2 thin inset;
+	border-bottom: #f1efe2 thin solid;
+	width: 65%;
+}
+
+.filetypeitem3
+{
+}
+
+.filetypecontrolbutton
+{
+	margin-top: 6px;
+	width: 6em;
+}
+
+.filetypeaddbutton
+{
+	margin-top: 1px;
+	float: right;
+	width: 6.3em;
+}
+
+.searchlist
+{
+	width:auto;
+	display: inline;
+	color: black;
+}
+
+.searchlistnamelabel
+{
+	font-size: 0.8em;
+	font-weight: bold;
+	padding-right: 8px;
+}
+
+ul#navcontainer
+{
+	list-style-type: none;
+	margin: 0;
+	font-weight: bold;
+	font-size: .95em;
+	padding-left: 1em;
+}
+
+ul#navcontainer li
+{
+	-moz-border-radius: 5px 5px 0 0;
+	float: left;
+	color: Black;
+	margin: 2px 2px 8px 2px;  /* modifed btm from 0 to 4px, with no effect */
+	width: 9em;
+	text-align: center;
+}
+
+ul#navcontainer a
+{
+	-moz-border-radius: 5px 5px 0 0;
+	display: block;
+	color: #333333;
+	background-color: #ccc; /* ets nonactive tab background color - no affect on IE7*/
+	text-decoration: none;
+	padding: 2px 2px 8px 2px; /* mod btm from 0 - 8px */
+	border-bottom: 1px solid #999999;
+}
+
+ul#navcontainer a:hover
+{
+	background-color: #696969; /* hover tab color */
+	color: White;
+	padding: 2px 2px 8px 2px; /* mod btm from 0 - 8px */
+}
+
+body#users li.users a, body#ifolders li.ifolders a, body#server li.server a, body#system li.system a,
+body#reports li.reports a
+{
+	color: Black;
+	background-color: #99CCFF; /* sets active tab color - no affect on IE7 */
+	border-bottom: 1px solid #99CCFF;
+	padding: 2px 2px 8px 2px;
+}
+
+
+
+#searchbuttons
+{
+	float: right;
+}
+
+.footertable
+{
+	width: 100%;
+	border-collapse: collapse;
+	border-top: solid 1px #999;
+	border-bottom: solid 1px #999;
+	font-size: 1em;
+	background-color: #efeee9;
+}
+
+.footertable td
+{
+	padding-top: 4px;
+	text-align: center;
+}
+
+.footertable td.leftfooter
+{
+	width: 25%;
+}
+
+.footertable td.centerfooter
+{
+	width: 50%;
+}
+
+.footertable td.rightfooter
+{
+	width: 25%;
+}
+
+.logoutbutton, .logoutbutton:visited
+{
+	margin-right: 8px;
+	margin-top: 2px;
+	float: right;
+	font-weight: bolder;
+	color: #000066;
+}
+
+.loggedinas
+{
+	float: left;
+	margin-left: 4px;
+	margin-top: 2px;
+}
+
+.loggedinname
+{
+	float: left;
+	margin-left: 6px;
+	margin-top: 2px;
+	font-weight: bolder;
+}
+
+.breadcrumbs
+{
+	float: left;
+	padding-top: 2px;
+	margin-left: 10px;
+	margin-top: 4px;
+	font-size: 1em;
+}
+
+.breadcrumblink, .breadcrumblink:visited
+{
+	color: #000066;
+}
+
+.breadcrumbseparator
+{
+	font-weight: bolder;
+}
+
+.errorpanel
+{
+	clear: both;
+	height: 3em;
+	padding: 8px;
+	border-bottom: solid 1px #999999;
+	background-color: #ffff99;
+	text-align: center;
+}
+
+.errormsg
+{
+	color: Red;
+	font-weight: bold;
+}
+
+.messagepanel
+{
+	clear: both;
+	height: 3em;
+	padding: 8px;
+	border-bottom: solid 1px #999999;
+	background-color: #a3ffa3;
+	text-align: center;
+}
+
+.messagemsg
+{
+	color: Red;
+	font-weight: bold;
+}
+

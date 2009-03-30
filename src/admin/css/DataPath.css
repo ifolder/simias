@@ -1,0 +1,181 @@
+.datapathsnav
+{
+        width: 100%;
+}
+
+.nav
+{
+        padding-left: 12px;
+        padding-bottom: 4px;
+        padding-right: 12px;
+        float: left;
+}
+
+.pathnav
+{
+        padding-left: 12px;
+        float: left;
+        width: 50em;
+}
+
+#CreateButton
+{
+        float: right;
+        margin-top: 6px;
+}
+
+#AddButton
+{
+        float: right;
+        margin-top: 6px;
+	width: 6em;
+}
+
+
+#DeleteButton
+{
+        float: left;
+        margin-top: 6px;
+	width: 6em;
+}
+
+#DisableButton
+{
+        float: left;
+        margin-top: 6px;
+        margin-left: 4px;
+        width: 6em;
+}
+
+#EnableButton
+{
+        float: left;
+        margin-top: 6px;
+        margin-left: 4px;
+        width: 6em;
+}
+
+.datapathlistheader
+{
+        clear: left;
+        border-top: solid 1px black;
+        border-bottom: solid 1px black;
+        border-collapse: collapse;
+        height: 1.5em;
+        width: 100%;
+}
+
+.datapathlistheader td
+{
+        font-weight: bold;
+        font-size: 0.8em;
+        color: black;
+        background-color: #efeee9;
+}
+
+.datapathlistheader .checkboxcolumn
+{
+        width: 2.1em;
+}
+
+.datapathlistheader .namecolumn
+{
+        padding-right: 6px;
+        width: 11em;
+}
+
+.datapathlistheader .fullpathcolumn
+{
+        padding-right: 6px;
+        width: 30em;
+}
+
+.datapathlistheader .freespacecolumn
+{
+        width: 9em;
+}
+
+.datapathlistheader .statuscolumn
+{
+	width: 9em;
+}
+
+.datapathlist
+{
+        clear: left;
+        width: 100%;
+}
+
+.datapathlistitem
+{
+        height: 1.5em;
+}
+
+.datapathlistaltitem
+{
+        height: 1.5em;
+        background-color: #efeee9;
+}
+
+.datapathitem1
+{
+        width: 1.9em;
+}
+
+.datapathitem2
+{
+        width: 9.8em;
+}
+
+.datapathitem3
+{
+        padding-right: 6px;
+        width: 25.5em;
+}
+
+.datapathitem4
+{
+        padding-right: 6px;
+        width: 7em;
+}
+
+.datapathitem5
+{
+	padding-right: 6px;
+	width: 7em;
+}
+
+.datapathinfo th
+{
+        text-align:left;
+        padding-right: 8px;
+        font-size: .8em;
+}
+
+.datapathinfo td
+{
+        width: 90%;
+}
+
+.datapathinfo td #DataPathName, .datapathinfo td #FullPath
+{
+        text-align: left;
+        width: 100%;
+        padding-left: 4px;
+}
+
+}
+
+.detailnav
+{
+        float: left;
+        padding-bottom: 12px;
+        width: 100%;
+}
+
+.okcancelnav
+{
+        clear: both;
+        padding-top: 6px;
+}
+
