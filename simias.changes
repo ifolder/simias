@@ -1,0 +1,169 @@
+-------------------------------------------------------------------
+Tue Mar 17 01:48:43 MDT 2009 - sbipin@novell.com
+
+- Trunk code update from 3.6 to 3.7.2
+
+Major features:
+
+	- Folder client for Macintosh and Vista
+	- SSL Communication
+	- iFolder Merge
+	- Enhanced Web administration
+
+-------------------------------------------------------------------
+Tue Aug 28 07:37:43 MDT 2007 - srinidhi@novell.com
+
+- #287799: Changes to strings for localization. Changes to provide
+  notification message after importing the keys.
+- #288727, 284683: Fix for removing domain from the windows thick
+  client. Fix for addressing the exception while connecting to a
+  server,even though the domain is created.
+- #288727: Accept RAName during reset passphrase Changes to some
+  strings. Missing strings added to en.po file.
+- #288727, 284683: Fix for removing domain from the thick clients. Fix
+  for addressing the exception while connecting to a server,even though
+  the domain is created.
+- #290718: Problem 1: Sync doesnot work after the import key operation.
+  It says the ket doesnot match Description: Encryption key hash is re
+  assigned with the hash of original key, which was not required causes
+  this issue. This is fixed Problem 2: RA agent reselection is enabled in
+  the reset passphrase. No test case executed, recommend DT to do this.
+
+  Test case steps: 1. Select the RA agent 2. Create ifolders (after 5
+  min) 2. Reset the RA agent through passphrase reset 3. Recover the
+  keys using the new RA agent 4. Verify the data which was encrypted
+  before reset passphrase (or before RA reset)
+- #285793, 288939: Enabling Double click download in Windows and making
+  all threads run in background and in BelowNormal priority.
+- #282720: 1. For Only Revertion: In place of poping error message,
+  returning null value to calling function. 2. For Revertion and
+  Deletion: In case of Deletion exception message(Invalid CollectionID)
+  is generating. So whenever an error message of -"Invalid
+  CollectionID", returning null value to calling function.
+- #287473: Linux thick client related changes for displaying proper info
+  in export key dialog boxes .
+- #260442: now no need to do a refresh on linux thick client to show all
+  the iFolders.
+- #81615: Versioning mess for dll was sorted & updated. Related files
+  are updated. It is done for both iFolder and simias modules.
+- #235305: AccountWizardCompletionPage.cs and FormsTrayApp.resx - Add
+  user information for finish page
+- #283661: Picker.resx - Added "<<" for remove button CreateiFolder.resx
+  - Corrected spelling "Location" (not filed in bugzilla)
+- #284654: Removing the Console.WriteLine statements on Linux. Change in
+  top-level makefile.am to show the new help files.
+- #285501,285499: New help files has been added to svn
+- #283124: client version rolled back to previous version for data
+  change conflicts.
+- #285793, 286263, 284603: Windows UI freeze. This is because the
+  Recalculation is done even if the window size is not changed and the
+  changed size becomes undefined, so it gets into an infinite loop.
+- #277699: Added new apis for Upgrade and version handshake between
+  client and server. Changes to collectionInfo objest to hold User id
+- #277699, 278152: Changes to use version handshake apis for client
+  updates. Changes to default ifolder related issues. Fix for migration
+  UI issue.
+- #287175: Enabled File Monitoring in Linux, so that the file system
+  will not be dredged always during synchronization. This is for
+  performance enhancement.
+- #285797, 256595, 277699, 261216, 278152, 285828, 283747: Changes to
+  use new api for version handshake and client updates. Fix for removing
+  membership and deleting an iFolder from windows thick client. Fix for
+  default iFolder issues.
+- #274106: Changing the copyright year for windows thick client
+- #272132: Bug related to AssemblyInfo.cs. Now no need to do a make
+  clean before doing make for iFolder client.
+- #273097, 274479, 277698: Fix for accepting certificate and setting
+  passphrase when no recovery agent is selected.( linux & windows)
+  creation of Default iFolder. (Linux & windows) Error message when
+  iFolder is not completely synced.(linux & windows).
+- #256381: MoreOptions expanded by default
+- #273073: Fixed, code review also done for windows client migration.
+- #277253: .Net 2.0 and language packs have been included
+- Windows client passphrase pop up is disabled.
+- Recovery utility changes in simias will give later
+- #272132: Build problem in ifolder - AssemblyInfo.cs
+- #272273: Added startup screen and new encryption icon for Linux
+  client. Restored the export and import key bindings
+- #275042: Only the account wizard should be shown if there are no
+  accounts present on the client. Fix is on windows thick client.
+- #272717, 272732, 272273: Migration changes for windows thick client as
+  per brainshare inputs.
+- #275042: Only the account wizard should be shown if there are no
+  accounts present on the client. Fix is on windows thick client.
+- #272717, 272732, 272273: Migration changes for windows thick client as
+  per brainshare inputs.
+- #267289: Logout still shows iFolders on the domain.
+- #270300, 272615: Conflict fixes and slave provisiong exception fix
+- #259792,272615: Export import key bindings. Refresh on timeout, domain
+  logged in logout. Encryption icon change. Splash screen.
+- #261222: Changes for displaying a pop-up message to disconnect from
+  2.x server after migration
+- #235354, 261216, 266941: Changes for strings on thick clients, fixes
+  for reverting and deleting iFolders on windows thick clients, fix for
+  improving speed of iFolder properties dialog
+- #265132: First 16K is not synced to the server. Other sizes are synced
+  happily, this happens if the simias server runs behind apache. If the
+  simias server runs behind the problem doesnot appear. As a work around
+  16K is broken into two eight 8k and sent to the server. sine the work
+  around is available moving the priority to low
+- #259276: Windows thick-client UI fixes. Fixes for enhancing
+  performance.
+- #257462: Changes for displaying certificate from windows thick client.
+- #256364: Filter out host nodes out of user list in the client
+- #267021: Discovery code is optimized for fetching the catalog
+  information
+- #267013, 267017, 267019: Windows opmization code for refresh,
+  download, revert, default domain selection during upload. Made the
+  refresh work through a thread and dialog update through delegate.
+  Appropriate changes for Window repaint to happen synchronously.
+- #255241 & 259276: Fix for migrating data from 2.x to 3.6, and to
+  improve the speed of windows thick client.
+- #266103: Fixes for improving speed of windows thick client. Fixes
+  simias for optimized fetch of ifolder information. Added ability to
+  yield the thread that fetches data.
+- #266095:  * Added CertificateDialog.cs to show certificate while
+  setting passphrase * Changes for migration wizard and account wizard
+  for accepting certificate * Prompt for migration at the time of
+  initial login
+- #255240, #255246: Fix for handling exceptions during passphrase
+  management through windows thick-client
+- #257380: Changed the help link in migration wizard
+- #255243: Linux UI - During download Action, UI will update
+  immediately.
+- #255243: Fixes for iFolder Webservice.
+- #255240, 255246: Fix for handling exceptions during passphrase
+  management through windows thick-client
+- Updated help files for ifolder UI.
+- #253498: Fix for windows UI freeze issue Fixes for passphrase handling
+- Provides migration from iFolder2.x to iFolder3.x on the
+  client side.
+- iFolder web access indirection for volume scalability was broken
+  due to Encryption changes. It is fixed now
+- Encryption gui review comments
+- Encryption UI Unit test case fixes
+- Encryption UI UT fixes for web-access
+- Removed the post-install and post-uninstall scriptlet (this is
+  just a clean-up. We probably be including the new scriptlets soon)
+- Corrected simiasdatadir env path in simias.conf
+- Fixed the issue of webbindir path not getting correctly set in the
+  simias-server script
+- Included xsp in BuildRequires and Requires tags.
+- Changes to web-access and web-services to enable encryption
+  feature.
+- fix for non-interactive mode configuration for LDAP in
+  simiasserversetup.
+- DomainService used an incorrect UnmanagedPath variable causing the
+  build to break due to that variables protection level.
+- Added files for setting up security policy
+- Fixed the non interactive mode of command line utility simias-server-setup.
+- Enhancement- Simias server will scale across 16 volumes per server.
+  New indirection is provided for all collections that are Un-Managed.
+  Testing: Admin has to manually create symbolic links to various mount
+  points under /SimiasFiles/xx xx -> 00 to 0F Creating iFolders will get
+  distributed across these 16 mount points.
+- LoadBalance Provisioner enabled. WebAccess redirect : At first login
+  provision the user (allot a homeserver for the user) and login to the
+  homeserver. WebAdmin : display all the servers in a multiserver system
+  WebAdmin : homeserver column in users page.
+

@@ -1,0 +1,235 @@
+-------------------------------------------------------------------
+Tue Aug 28 07:37:43 MDT 2007 - srinidhi@novell.com
+
+- #232526: "Remove a slave server from the domain" issue is fixed.
+- #297310: "Unhandeled exception: If login from the user which does not
+  exists gives exception" issue is fixed.
+- #290706: ReferringPage url is trimmed . Made changes in
+  /src/admin/AdddataPath.aspx.cs
+- #277714, #271771: Added install scripts that upgrades the client rpms.
+  Fix to deny the service for the 3.2 and 3.4 clients if choosen not to
+  upgrade.
+- #298692: Changed the owner to wwwrun
+- copyright information updated for web-access and admin files
+- #298687: Checks for validity of the path entered
+- #241476: Delete ifolder from Server does not work - from thick client"
+  bug fixed.
+- #296632: link is enabled to browse back to all upper foldres from
+  nested ones
+- #298762: If multiple masters are installed in the same context then
+  YaST generated password will not match for the same Proxy user. New
+  Proxy user is created.
+- #298098: Command line execution of upgrade fails if LDAP admin is
+  different. This is needed for Migration support.
+- #298158: The ld config was not updated during rpm upgrade causing
+  FlaimWrapper DLL load to fail. Now the ldconfig conf file is installed
+  for iFolder, which will be referred always.
+- #296307: "Delete a user of the slave server displays exception" issue
+  is fixed.
+- #296648: Now the Redirect URL option is made optional and without any
+  changes to yast ifolderadmin and iFolder webaccess installations will
+  go through.
+- #227888: Changes made to FileSizeFilter.ascx.cs Some defects of
+  multivolume are fixed and checked in along with it
+- #298158: Modified spec file so that it doesn't remove the symlink
+  during upgrade.
+- #296648: Now the Redirect URL option is made optional and without any
+  changes to yast ifolderadmin and iFolder webaccess installations will
+  go through.
+- #283727: master to slave domain sync overridden. // When sync the
+  policy node (always sync is initiated from slave) is syned from master
+  to slave the master is overwritten to slave, the slave changes will be
+  lost when there is no change in master, the slave changes will be
+  synced to master This is to ensure that the master policy over rides
+  the slave policy. // Ideally we should have a master policy which is
+  read only in slave and slave specific policy which should not be
+  synced to master.
+- #296014: If encryption is checked once by admin, then disable
+  encryption check box so that again he cannot uncheck that box . Also
+  if user has created encrypted iFolder once , then admin will not be
+  able to change the encryption check box on userdetails page. otherwise
+  he can change.
+- #284677: old iFolder icon replaced with newer icon on web-admin page .
+- #294386: "Overflow Exception and not accepting the values under
+  boundary in System Page automatic sync interval field" issus is fixed.
+- #226693: OverflowException exxception handled for "Disk Quota", "File
+  Size" and "Synchronization interval" for webadmin interface.
+- #247712: Default Identity sync value is set to 24 hours i.e. 1440
+  mins.
+- #250186: This patch implements the iChain / Access Gateway
+  Simultaneous logout feature.
+- #262445: Collection Locking is incorrect, causing Restore to fail.
+- #289602: bug fix for "simias-server-setup grant rights to ifolder
+  proxy user on base dn of LDAP ADMIN user as hardcoaded" issue.
+- #287422: fix so that if ifolder name is not given then the control
+  wont go to next page while creating iFolder from webadmin
+- #289930:  If Samba volume is configured for store, then YaST throws an
+  exception while setting permission. Samba volume will already be
+  mounted with UID as apacheUser and GID as apacheGroup. So the apache
+  user does not have permission to set the owner.
+- #264286, #289539: Included support for ifolder administrators with
+  Distinguished Name based on attributes like cn, UID, sn or givenName.
+  This is done for both Openldap and eDirectory.
+- #290470: Now the description text box is made to accept single line
+  description as it is done in case of webaccess ifolder creation.
+- #285498: Derive the name of admin from FDN instead of using it raw
+- #279421: Removed ID Sync Interval UI in SystemInfo page. Added code to
+  revert to the current server URL after remote calls.
+- #247712: Changed the default sync interval to 24 hrs.
+- #287473: small change to put try-catch block in simias.asmx.cs to
+  catch exception
+- #287119: Header size calculation was correcte for certificates
+- #287479: 1. Upload a file and touch it and upload - no data should be
+  sent to server 2. Upload a file and add some date - the new data
+  should be transferred to server 3. Upload a file (16KB) and add
+  another 16KB (same data) - the file should be uploaded (even though no
+  data transfer, check with packet snifferl) 4. Upload a file and (16KB)
+  and remove 4KB (same data) - the file should be uploaded (even though
+  no data transfer, check with packet 5. If the file is not transferred
+  to server, the local version should not be incremented. Try adding
+  some data and do the sync again, this should not give any conflict. 6.
+  Upload 0KB file, touch and sync once again. DT suggestion: 1. Try for
+  big files 2. Create a file and sync it to server and then add more
+  duplicate data (so that the block size changes) and try to sync it.
+  (refer to 3. Try the rename test case in win client 4. Repeat the Ut
+  cases (1-5) for 0KB file
+- #287813: Fix for Duplicate user entry listing in admin page issue.
+- #283697: WebAccess has a larger gray band displayed on every page for
+  IE6/7. Also there are no column names in page display.
+- #279155: iFolder Web Admin shows a dark band in IE6/7 browser.
+- #265196: If shared ifolders are synced from multiple clients, then the
+  journal entries are not in sync, causing Simias to crash
+- #285024: Changed the delimiter for the header values for access log
+- #227079: usability issue solved for encryption checkboxes on
+  UserDetails page of web-admin . Also the SecureDataTransfer checkbox
+  is removed from userDetails page.
+- #277714: Created links to facilitate automatic client upgrades
+- #281262: Save ldap details
+- #256061: iChain sends the username in FDN form for both Web Access and
+  Web Admin. Web Access does not use the username for getting the home
+  server, instead uses the FDN, which is not handled. This fix ensures
+  that the GetHomeServerForUser uses the proper name.
+- #272132: Packaging related bug fixed for windows
+- #279107: Enable the creation of encrypted iFolders when RA was
+  selected from web-acces
+- #277917: Checking whether collection exists while returning the
+  default iFolder.
+- #274398: Included a missed event handler for save button in
+  serverdetails
+- #276860: Help button on login page of web-access is added
+- #274398: Adding LDAP details to webadmin
+- #254478: iFolder TSA fails to load since the initial API needs
+  authentication.
+- #277451: Upgrade support in the Simias Server script.
+- #268251, 273662:  Detect and update catalog when owner of a collection
+  is changed
+- #251874: modifications in login file to get the credentials passed
+  from imanager
+- #259792: Recovery page moved to next page even if onetime passphrase
+  is not provided.
+- #273372: Save description during ifolder creation
+- #275968: check for 64bit arch
+- #275480: Published literal was unused so removed
+- #235384: remove the size column from userdetails page
+- #275087: Search textbox is put on the search page for web-access. It
+  should not be there on any other page, so disabled from other pages.
+- #255338: The fix done to display iFolder icon on iManager page.
+- #270849: the port no is changed from 8088 to original 80.
+- #274487: Fix so that web-access does not throw exception if password
+  is not provided .
+- #270849: Fix certain web-admin issues related to multi-server
+  information displaying and functionality.
+- #273076: let slaves talk to LDAP
+- #253466: Help button put for web-access, alongwith some changes for
+  displaying encryption icons.
+- #270625: Trent Badger changes incorporated for the Web Access UI for
+  new look and feel. Has most of the aspx files updated and couple of
+  images.
+- #256277: Domain agent should provision only from master.
+- #252282: Dont ask for password while downloading logs/reports as we
+  have the credentials already .
+- #251773: One more field Usernam is added to distinguish between users
+  with same name , while displaying ifolder details, on both web-admin
+  and web-access
+- #253466: web-admin help button is integrated with new UI . It includes
+  putting new license information and replacing old in the every cs page
+  that i have committed.
+- #270849: Adding string changes for this defect.
+- #270625: Trent changes for iFolder Web Admin - most of the aspx files
+  changes due to UI change and graphics change as part of phase one.
+- #268329: The Dlls are named strongly now.
+- #250186: ichain Logout fix
+- #267021: Get collection infos in one call
+- #240563: Resolve the location of iFolder before any webcalls
+- #265762: To check the returned value against null before using it
+- #226058: actually while fixing this bug-id , i had committed in svn
+  version 6797 with some 5 lines removed from a file , mistakenly, now i
+  have readded those lines and committing again so that , that will not
+  produce another bug.
+- #262707: Normalization done in lower case for certificate names
+- #226058: Removal of a exclude file policy on user level will work now
+  and the user can download the allowed file-type.
+- #257462: Passphrase is used as a seed for a random, then the random is
+  used for encryption and decryption.
+- #252283: Read logfile from datadir and not from the default one.
+- dont ask for ldapadmin pwd during slave setup
+- #256025: encryption platform interopearbilty fix
+- #251037: display version changes from 3.5 to 3.6
+- #252884: If weak pass-phrase exception is thrown, then we should not
+  store the passphrase into session variable, so the code for storing
+  the sessionpassphrase moved after successful creation of encrypted
+  ifolder.
+- #252884: Recovery agent configuration restriction is removed for
+  encryption feature. People can still go ahead and use the encryption
+  feature with out selceting/configuring RA agent.
+- UI for ID Sync Interval
+- #242623: Dont stdout the env variables during setup.
+- #251126: Utility to perform the decryption of ifolder keys that
+  was encrypted using the Recovery agents Public key
+- Review Comments on web-access encryption
+- #250515: Apache User/Group prompt Slave setup sysadmin as LDAP Creds
+- #237276: Earlier Authentication was failing for local domain. Now it
+  Authenticates the local domain so that back-up process can go ahead.
+- #236120: Invalid iFolder ID issue is fixed, there are UI changes for
+  the Linux UI to fetch the appropriate iFolder based in the Discovery
+  list of iFolders.
+- #248180: While creating/Uploading/Downloading encrypted iFolders
+  through web-access, the text-boxes related to these operations are
+  enabled or made visible accordingly (Based on the admin policy). Also,
+  it takes into consideration, if admin has configured recovery-agent or
+  not .
+- #236120: Invalid iFolder ID issue is fixed, there are UI changes for
+  the Linux UI to fetch the appropriate iFolder based in the Discovery
+  list of iFolders.
+- #248180: Encryption part modified for web- access
+- #248180: Changes for handling passphrase during encryption
+- If Pass-phrase is already validated for an user, then while
+  creating an encrypted ifolder, no need to ask pass-phrase again.
+- Encryption enabled for creating an ifolder and
+  uploading/downloading of the files for web-access.
+- A new certificate page display added for web-access.
+- included one condition to check if the length of byte[] was 0 or
+  not .... because this object was non-null and still having a
+  length of 0.
+- #241027, 245807, 232528: LDAP related install issues are fixed in
+  this commit, including the open source issue about the parent
+  directory of storepath getting the permission changed to apache
+  user
+- #241496: Fixes Slave catalog deleting its nodes and converting it
+  into Tombstones. Now there is proper synchronization between the
+  Catalog thread and the Domain Sync thread.
+- #246630: LDAP Identity Sync thread will not run in Slave
+  configurations, should improve the server response time when there
+  are more than 100 users.
+- 1. Make file changes for install to create a sym link
+  2. Back end API implementation for passphrase
+- Web-access Passphrase UI
+- Changes to string, and UI for Resetting passphrase and key
+  recovery
+- Web methods for storing the passphrase locally and remembering the
+  passphrase
+- #236121: Updated the buffer size for large file upload. Updated
+  setup for iFolder TSA
+- #226693: Have changed the synchronization value to start from 5 in
+  place of one
+- #233087: Add servername to report ifolder.
