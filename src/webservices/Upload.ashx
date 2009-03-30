@@ -1,1 +1,0 @@
-<%@ WebHandler Language="c#" CodeBehind="Upload.ashx.cs" Class="iFolder.WebService.UploadHandler,iFolder.WebService" %>
