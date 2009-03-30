@@ -1,0 +1,11 @@
+Include @MODMONO_CONFPATH@
+
+Alias /simias10 "@webdir@"
+AddMonoApplications simias10 "/simias10:@webdir@"
+<Location /simias10 >
+	MonoSetServerAlias simias10
+	Order allow,deny
+	Allow from all
+	SetHandler mono
+</Location>
+

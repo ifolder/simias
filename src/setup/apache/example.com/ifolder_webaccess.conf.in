@@ -1,0 +1,19 @@
+Include @MODMONO_CONFPATH@
+
+Alias /ifolder "@webaccessdir@"
+AddMonoApplications exampleifolder "/ifolder:@webaccessdir@"
+MonoSetEnv exampleifolder SimiasUrl=http://example.com:80;SimiasLogDir=/var/lib/ifolder/example.com
+<Location /ifolder >
+	MonoSetServerAlias exampleifolder
+	Order allow,deny
+	Allow from all
+	AddHandler mono asax aspx ascx asmx ashx
+	DirectoryIndex Default.aspx index.html
+</Location>
+
+#Remove comments below this line to enable SSL
+#LoadModule rewrite_module /usr/lib/apache2/mod_rewrite.so
+#RewriteEngine On
+#RewriteCond %{HTTPS} !=on
+#RewriteRule ^/ifolder/(.*) https://%{SERVER_NAME}/ifolder/$1 [R,L]
+
