@@ -1,2 +1,0 @@
-Kalidas Balakrishnan <bkalidas@novell.com>
-StreamStream.cs: Updated the buffer size to 64k to enable large files to be uploaded

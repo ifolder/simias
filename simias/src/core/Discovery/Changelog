@@ -1,3 +1,0 @@
-2007-04-24 Kalidas Balakrishnan <bkalidas@novell.com>
-
-	* Discovery.cs, DiscoveryFramework.cs, Service.cs - made optimization in the way the data is fetched from server

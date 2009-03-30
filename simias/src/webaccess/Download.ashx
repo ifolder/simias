@@ -1,1 +1,0 @@
-<%@ WebHandler Language="c#" CodeBehind="Download.ashx.cs" Class="Novell.iFolderApp.Web.Download" %>

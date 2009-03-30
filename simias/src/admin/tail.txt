@@ -1,4 +1,0 @@
-** This is a empty file put in the admin/tail directory in case this 
-installation directory is zipped. That way the admin/tail directory 
-will be preserved in the zipfile. The admin/tail directory is needed
-so the tail handler gets called by mod_mono. **
