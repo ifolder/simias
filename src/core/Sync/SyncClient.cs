@@ -973,7 +973,7 @@ namespace Simias.Sync
 			bool	sAlive = false;
 			try
 			{
-				eventPublisher.RaiseEvent(new CollectionSyncEventArgs(collection.Name, collection.ID, Action.StartLocalSync, true, false));
+				eventPublisher.RaiseEvent(new CollectionSyncEventArgs(collection.Name, collection.ID, Simias.Client.Event.Action.StartLocalSync, true, false));
 				syncStartTime = DateTime.Now;
 				queuedChanges = false;
 				running = true;
@@ -1077,7 +1077,7 @@ namespace Simias.Sync
                 
 				sAlive = true;
 			
-				eventPublisher.RaiseEvent(new CollectionSyncEventArgs(collection.Name, collection.ID, Action.StartSync, true, false));
+				eventPublisher.RaiseEvent(new CollectionSyncEventArgs(collection.Name, collection.ID, Simias.Client.Event.Action.StartSync, true, false));
 
 				tempServerContext = si.Context;
 				workArray.SetAccess = rights = si.Access;
@@ -1245,7 +1245,7 @@ namespace Simias.Sync
 				serverAlive = sAlive;
 				running = false;
                 fileMonitor.ToDredge = false;
-                eventPublisher.RaiseEvent(new CollectionSyncEventArgs(collection.Name, collection.ID, Action.StopSync, sAlive, yielded));
+                eventPublisher.RaiseEvent(new CollectionSyncEventArgs(collection.Name, collection.ID, Simias.Client.Event.Action.StopSync, sAlive, yielded));
 			}
 		}
 

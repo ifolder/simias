@@ -1,3 +1,7 @@
+2009-04-08 Kalidas Balakrishnan <bkalidas@novell.com>
+	* Patch to make Sync work in Debian - <mog@rldn.net>
+	* autoconf fails - ChangeLog missing
+
 -------------------------------------------------------------------
 Tue Aug 28 07:37:43 MDT 2007 - srinidhi@novell.com
 

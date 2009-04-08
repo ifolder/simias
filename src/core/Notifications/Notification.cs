@@ -629,7 +629,7 @@ namespace Simias.Storage
 			{
 				CollectionSyncEventArgs cseArgs = args as CollectionSyncEventArgs;
 
-				if ( cseArgs.Action.Equals ( Action.StopSync ) )
+				if ( cseArgs.Action.Equals ( Simias.Client.Event.Action.StopSync ) )
 				{
 					// If the collection is in the initial sync list and the sync finished successfully,
 					// remove it from the list.
