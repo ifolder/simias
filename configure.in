@@ -13,27 +13,14 @@ AC_CONFIG_MACRO_DIR([m4])
 AC_PROG_CXX(am__fastdepCXX)
 m4_pattern_allow(PKG_CONFIG)
 
-AC_CHECKING([whether a location for the runasclient was specified])
-AC_ARG_WITH(runasclient,
-	[AS_HELP_STRING([--with-runasclient],
-	[configure simias to run as a client. This option will also change the default --with-simiasdatadir to the user's home directory. [Default=FALSE]])],        [runasclient="TRUE"
-	]
-	)
-AC_SUBST(runasclient)
-
-
 #
 # Check for a valid operating system and C# compiler
 #
 case $host_os in
     linux*)
         SIMIAS_OS='linux'
-	if test "$runasclient" = "TRUE"; then
-		AC_CHECK_PROG(CSC, mcs, mcs)
-	else
-		AC_CHECK_PROG(CSC, gmcs, gmcs)
-	fi
-        test -z "$CSC" && AC_MSG_ERROR([no C Sharp compiler: gmcs not found in \$PATH])
+        AC_CHECK_PROG(CSC, mcs, mcs)
+        test -z "$CSC" && AC_MSG_ERROR([no C Sharp compiler: mcs not found in \$PATH])
 	    PKG_CONFIG_DIR="$LIB64"
         AC_CHECK_PROG(CSC2, gmcs, gmcs)
         test -z "$CSC" && AC_MSG_ERROR([no C Sharp .Net 2.0 compiler: gmcs not found in \$PATH])
@@ -62,11 +49,7 @@ AM_CONDITIONAL(LINUX, test "$SIMIAS_OS" = "linux")
 AM_CONDITIONAL(WINDOWS, test "$SIMIAS_OS" = "windows")
 AM_CONDITIONAL(DARWIN, test "$SIMIAS_OS" = "darwin")
 AM_CONDITIONAL(DARWIN_X86, test "$host_cpu" = "i686")
-if test "$runasclient" = "TRUE"; then
-	AM_CONDITIONAL(MONO, test "$CSC" = "mcs")
-else
-	AM_CONDITIONAL(MONO, test "$CSC" = "gmcs")
-fi
+AM_CONDITIONAL(MONO, test "$CSC" = "mcs")
 AM_CONDITIONAL(DOTNET, test "$CSC" = "csc")
 
 
@@ -139,22 +122,6 @@ case $CSC in
     #
     # Mono-specific configuration
     #
-    gmcs)
-        CSC_EXEFLAG=/target:exe
-        CSC_LIBFLAG=/target:library
-        CSC_WINEXEFLAG=/target:winexe
-        CSCFLAGS='/d:MONO /warn:4 /d:TRACE'
-        CSCFLAGS_DEBUG="/debug+ /d:DEBUG"
-        CSCFLAGS_OPTIMIZE="/optimize+"
-        MONO=mono
-        MONO_DEBUG='mono --debug'
-        MONO_PATH=
-        SYSTEM_XML='System.Xml.dll'
-		if pkg-config --atleast-version=1.1.13 mono > /dev/null 2>&1
-		then
-			CSCFLAGS="$CSCFLAGS /d:MONONATIVE"
-		fi
-    ;;
     mcs)
         CSC_EXEFLAG=/target:exe
         CSC_LIBFLAG=/target:library
@@ -220,10 +187,6 @@ case $host_os in
 	PKG_CHECK_MODULES(UUID, uuid)
 	AC_SUBST(UUID_CFLAGS)
 	AC_SUBST(UUID_LIBS)
-
-        if ! test "$runasclient" = "TRUE"; then
-            PKG_CHECK_MODULES(MONO, mono >= 2.0)
-        fi
     ;;
     darwin*)
 	case $host_cpu in

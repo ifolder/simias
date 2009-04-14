@@ -42,7 +42,7 @@ if !SIMIAS_AS_CLIENT
 	$(INSTALL_PROGRAM) $(srcdir)/dependencies/external/MonoRuntime/MonoRpms32bit.tar  $(DESTDIR)$(bindir)/../lib/Mono/rpms/
 	$(INSTALL_PROGRAM) $(srcdir)/dependencies/external/MonoRuntime/gmcs  $(DESTDIR)$(bindir)/../lib/Mono/bin/
 	$(INSTALL_PROGRAM) $(srcdir)/dependencies/external/MonoRuntime/mod-mono-server2  $(DESTDIR)$(bindir)/../lib/Mono/bin/
-	$(INSTALL_PROGRAM) $(srcdir)/dependencies/external/MonoRuntime/mod_mono.conf  $(DESTDIR)$(bindir)/../lib/Mono/bin/
+	$(INSTALL_PROGRAM) $(srcdir)/dependencies/external/MonoRuntime/mod_mono.conf  $(DESTDIR)$(bindir)/../lib/Mono/bin/mod_mono.conf.in
 endif
 
 uninstall-local:
