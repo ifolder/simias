@@ -2438,11 +2438,13 @@ namespace Simias.Sync
 				}
 				catch(PathTooLongException pex)
 				{
+			                workArray.RemoveNodeFromServer(nodeID, merge);
 					log.Info("PathTooLongException occured: Detailed StackTrace is {0} ", pex.ToString());
 					eventPublisher.RaiseEvent(new FileSyncEventArgs(collection.ID, ObjectType.File, false, file.Name, 0,0,0, Direction.Downloading,SyncStatus.PathTooLong));
 				}
 				catch (Exception ex)
 				{
+			                workArray.RemoveNodeFromServer(nodeID, merge);
 					Log.log.Debug(ex, "Failed Downloading File during close");
 				}
 			}
@@ -2808,8 +2810,9 @@ namespace Simias.Sync
 						log.Debug("Mystery File node {0}", nodeID);
 					}
 				}
-				catch (FileNotFoundException)
+				catch (FileNotFoundException excep)
 				{
+			                Log.log.Debug(excep, "Failed Uploading File, FileNotFoundException");
 					// The file no longer exists. this line added for 344792
 					workArray.RemoveNodeToServer(nodeID);
 					
@@ -2818,6 +2821,7 @@ namespace Simias.Sync
 				}
 				catch (Exception ex)
 				{
+			                workArray.RemoveNodeToServer(nodeID);
 					Log.log.Debug(ex, "Failed Uploading File");
 				}
 			}
