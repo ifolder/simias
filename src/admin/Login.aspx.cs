@@ -48,6 +48,7 @@ using System.Net;
 using System.Threading;
 using System.Globalization;
 using System.Text;
+using System.IO;
 
 namespace Novell.iFolderWeb.Admin
 {
@@ -239,7 +240,20 @@ namespace Novell.iFolderWeb.Admin
                                         // making this change because for chinese, two letter is not sufficient
                                         code = Thread.CurrentThread.CurrentUICulture.Name;
                                 }
-				HelpButton.NavigateUrl = String.Format("help/{0}/login.html", code);
+				string HelpLink = String.Format("help/{0}/login.html",code);
+					
+				//check whether the required language help exists
+
+				if (File.Exists(HelpLink))
+				{		
+					 HelpButton.NavigateUrl = HelpLink;
+				}
+				else
+				{
+					HelpButton.NavigateUrl = "help/en/login.html";
+				}
+				
+
 
 				// server url
 	            string simiasUrl = Environment.GetEnvironmentVariable("SimiasUrl" );
