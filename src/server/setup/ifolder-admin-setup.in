@@ -85,12 +85,12 @@ then
         then
                 tar -C $MONO_RUNTIME_PATH/rpms -xvf $MONO_RUNTIME_PATH/rpms/MonoRpms64bit.tar > $MONO_RUNTIME_PATH/rpms/rpmextract
 		cp $MONO_RUNTIME_PATH/bin/mod_mono.conf $MONO_RUNTIME_PATH/bin/mod_mono2.bkp
-                sed -e 's,monolibdir,lib64,g' $MONO_RUNTIME_PATH/bin/mod_mono2.bkp > $MONO_RUNTIME_PATH/bin/mod_mono.conf
+                sed -e 's,ARCHLIBNAME,lib64,g' $MONO_RUNTIME_PATH/bin/mod_mono2.bkp > $MONO_RUNTIME_PATH/bin/mod_mono.conf
 
         else
                 tar -C $MONO_RUNTIME_PATH/rpms -xvf $MONO_RUNTIME_PATH/rpms/MonoRpms32bit.tar > $MONO_RUNTIME_PATH/rpms/rpmextract
                 cp $MONO_RUNTIME_PATH/bin/mod_mono.conf $MONO_RUNTIME_PATH/bin/mod_mono2.bkp
-                sed -e 's,monolibdir,lib,g' $MONO_RUNTIME_PATH/bin/mod_mono2.bkp > $MONO_RUNTIME_PATH/bin/mod_mono.conf
+                sed -e 's,ARCHLIBNAME,lib,g' $MONO_RUNTIME_PATH/bin/mod_mono2.bkp > $MONO_RUNTIME_PATH/bin/mod_mono.conf
 
         fi
         cd $MONO_RUNTIME_PATH
