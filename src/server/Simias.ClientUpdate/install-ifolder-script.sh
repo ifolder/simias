@@ -36,7 +36,7 @@
 #*
 #*******************************************************************************/
 
-tar -zxvf ./ifolder3-linux.tar.gz
+tar -zxvf ./ifolder3-*.tar.gz
 cd ifolder3-linux
 if [ "$(uname -i)" != 'x86_64' ] ;
 then
