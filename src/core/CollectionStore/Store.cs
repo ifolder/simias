@@ -540,7 +540,8 @@ namespace Simias.Storage
 
 					        if (raPath != null && raPath != String.Empty && raPath != "")
 						{
-					                string[] racertFiles = Directory.GetFiles( raPath, "*.?er" );
+			              	string[] racertFiles = Directory.GetFiles( raPath, "*.?er" );
+							Simias.Security.CertificateStore.CleanCertsFromStore();
 							foreach ( string file in racertFiles )
 							{
 								try

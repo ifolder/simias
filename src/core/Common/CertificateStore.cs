@@ -434,5 +434,48 @@ namespace Simias.Security
 			}
 
 		}
+
+
+		/// <summary>
+		/// This API will clean all certificate (.?er files)
+		/// before Server, store existing and new certificate and load them in Hash table.
+		/// </summary>
+		public static void CleanCertsFromStore()
+		{
+    		string rAgent;
+    		Store store = Store.GetStore();
+    		ICSList domainList = store.GetDomainList();
+    		Boolean isLocalDomain = false;
+    		foreach (ShallowNode snd in domainList)
+			{
+				Domain domain = store.GetDomain ( snd.ID );
+		    	ICSList certs = domain.GetNodesByType(CertType);
+		    	isLocalDomain = domain.Name.Equals(Store.LocalDomainName);
+				foreach(ShallowNode sn in certs)
+		    	{
+			 		Node node = new Node(domain, sn);
+			    	try
+			    	{
+			    		string nodeProperty = node.Properties.GetSingleProperty(isLocalDomain?hostProperty:raProperty).Value.ToString();
+				    	if(nodeProperty != null)
+				    	{
+							log.Debug("Node deleted is:{0}",node.Name);
+				    		domain.Commit( domain.Delete(node) );
+                   		}
+			    	}
+			    	catch(Exception ex)
+			    	{
+			    		log.Error("Exception while clearing existing Certificates from Domain"); 
+		        	}
+																	
+             	} //End of Inner foreach loop
+
+	    	} // End of Outer foreach loop
+
+		} //End of Function	
+		
+
+
+
 	}
 }
