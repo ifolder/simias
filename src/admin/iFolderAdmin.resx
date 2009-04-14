@@ -306,6 +306,9 @@
 	<data name="ERRORINVALIDSYNCINTERVAL">
 		<value>An invalid synchronization interval was specified. Value must be between 5 and 999.</value>
 	</data>
+	<data name="ERRORINVALIDIDSYNCINTERVAL">
+		<value>An invalid synchronisation interval was specified. Value must be between 5 and 10080.</value>
+	</data>
 	<data name="ERRORLOCKEXCEPTION">
 		<value>The operation was cancelled because the iFolder has been locked/disabled by the administrator.</value>
 	</data>

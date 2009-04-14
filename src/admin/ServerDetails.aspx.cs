@@ -1102,7 +1102,7 @@ namespace Novell.iFolderWeb.Admin
                         	}
 				else
 				{
-                                	TopNav.ShowError( GetString ("ERRORINVALIDSYNCINTERVAL"));
+                                	TopNav.ShowError( GetString ("ERRORINVALIDIDSYNCINTERVAL"));
                         	}	
 				
 				int deleteGracePeriod = Int32.Parse (LdapDeleteGraceInterval.Text);
@@ -1113,13 +1113,13 @@ namespace Novell.iFolderWeb.Admin
 		                } 
 				else 
 				{
-                	                TopNav.ShowError( GetString ("ERRORINVALIDSYNCINTERVAL"));
+                	                TopNav.ShowError( GetString ("ERRORINVALIDIDSYNCINTERVAL"));
                         	}
 				SaveLdapDetailsButton.Enabled = CancelLdapDetailsButton.Enabled = false;
 			}
 			catch(Exception ex)
 			{
-				TopNav.ShowError( GetString ("ERRORINVALIDSYNCINTERVAL"));
+				TopNav.ShowError( GetString ("ERRORINVALIDIDSYNCINTERVAL"));
 				return;
 			}
 		}
