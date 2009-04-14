@@ -938,7 +938,9 @@ namespace Novell.iFolder.Enterprise.Web
 				Version CurrentVersion = new Version(currentVersion);
 				serverVersion = PresServerVersion.ToString();
 				log.Debug("The present server version is: {0}", serverVersion.ToString());
+                log.Debug("The present client version is: {0}", CurrentVersion.ToString());
 				log.Debug("The present client version is: {0}", CurrentVersion.ToString());
+
 
 				if( applicationVersion != null)
 				{
@@ -947,7 +949,7 @@ namespace Novell.iFolder.Enterprise.Web
 						if( max.Major == CurrentVersion.Major && max.Minor == CurrentVersion.Minor)
 						{
 							//check for thrid version number - API version number .
-							if( PresServerVersion.Build > CurrentVersion.Build || (( PresServerVersion.Build == CurrentVersion.Build) && (PresServerVersion.Revision > CurrentVersion.Revision ) ))
+							if (PresServerVersion.Build > CurrentVersion.Build || ((PresServerVersion.Build == CurrentVersion.Build) && (PresServerVersion.Revision > CurrentVersion.Revision)))
 								stat=(StatusCodes)StatusCodes.OlderVersion;
 							else
 								stat = (StatusCodes)StatusCodes.Success;
@@ -1047,6 +1049,7 @@ namespace Novell.iFolder.Enterprise.Web
 				Version CurrentVersion = new Version(currentVersion);
 				serverVersion = PresServerVersion.ToString();
 				log.Debug("The present server version is: {0}", serverVersion.ToString());
+                log.Debug("The present client version is: {0}", CurrentVersion.ToString());
 				log.Debug("The present client version is: {0}", CurrentVersion.ToString());
 
 				if( applicationVersion != null)
@@ -1056,7 +1059,7 @@ namespace Novell.iFolder.Enterprise.Web
 						if( max.Major == CurrentVersion.Major && max.Minor == CurrentVersion.Minor)
 						{
 							//check for thrid version number - API version number .
-							if( PresServerVersion.Build > CurrentVersion.Build || (( PresServerVersion.Build == CurrentVersion.Build) && (PresServerVersion.Revision > CurrentVersion.Revision ) ))						
+							if (PresServerVersion.Build > CurrentVersion.Build || ((PresServerVersion.Build == CurrentVersion.Build) && (PresServerVersion.Revision > CurrentVersion.Revision)))						
 								stat=(StatusCodes)StatusCodes.OlderVersion;
 							else
 								stat = (StatusCodes)StatusCodes.Success;
