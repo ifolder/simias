@@ -35,21 +35,21 @@ install-exec-local: all
 	$(mkinstalldirs) $(DESTDIR)$(datadir)/$(PACKAGE)
 	$(INSTALL_PROGRAM) $(srcdir)/COPYING $(DESTDIR)$(datadir)/$(PACKAGE)
 if !SIMIAS_AS_CLIENT
-	$(mkinstalldirs)  $(DESTDIR)$(bindir)/../lib/Mono
-	$(mkinstalldirs)  $(DESTDIR)$(bindir)/../lib/Mono/bin
-	$(mkinstalldirs)  $(DESTDIR)$(bindir)/../lib/Mono/rpms
-	$(INSTALL_PROGRAM) $(srcdir)/dependencies/external/MonoRuntime/MonoRpms64bit.tar  $(DESTDIR)$(bindir)/../lib/Mono/rpms/
-	$(INSTALL_PROGRAM) $(srcdir)/dependencies/external/MonoRuntime/MonoRpms32bit.tar  $(DESTDIR)$(bindir)/../lib/Mono/rpms/
-	$(INSTALL_PROGRAM) $(srcdir)/dependencies/external/MonoRuntime/gmcs  $(DESTDIR)$(bindir)/../lib/Mono/bin/
-	$(INSTALL_PROGRAM) $(srcdir)/dependencies/external/MonoRuntime/mod-mono-server2  $(DESTDIR)$(bindir)/../lib/Mono/bin/
-	$(INSTALL_PROGRAM) $(srcdir)/dependencies/external/MonoRuntime/mod_mono.conf  $(DESTDIR)$(bindir)/../lib/Mono/bin/mod_mono.conf.in
+#	$(mkinstalldirs)  $(DESTDIR)$(bindir)/../lib/Mono
+#	$(mkinstalldirs)  $(DESTDIR)$(bindir)/../lib/Mono/bin
+#	$(mkinstalldirs)  $(DESTDIR)$(bindir)/../lib/Mono/rpms
+#	$(INSTALL_PROGRAM) $(srcdir)/dependencies/external/MonoRuntime/MonoRpms64bit.tar  $(DESTDIR)$(bindir)/../lib/Mono/rpms/
+#	$(INSTALL_PROGRAM) $(srcdir)/dependencies/external/MonoRuntime/MonoRpms32bit.tar  $(DESTDIR)$(bindir)/../lib/Mono/rpms/
+#	$(INSTALL_PROGRAM) $(srcdir)/dependencies/external/MonoRuntime/gmcs  $(DESTDIR)$(bindir)/../lib/Mono/bin/
+#	$(INSTALL_PROGRAM) $(srcdir)/dependencies/external/MonoRuntime/mod-mono-server2  $(DESTDIR)$(bindir)/../lib/Mono/bin/
+#	$(INSTALL_PROGRAM) $(srcdir)/dependencies/external/MonoRuntime/mod_mono.conf  $(DESTDIR)$(bindir)/../lib/Mono/bin/mod_mono.conf.in
 endif
 
 uninstall-local:
 	cd $(DESTDIR)$(datadir)/$(PACKAGE); rm -f COPYING
 if !SIMIAS_AS_CLIENT
-	cd $(DESTDIR)$(bindir)/../lib/Mono/rpms/; rm -rf MonoRpms64bit.tar MonoRpms32bit.tar
-	cd $(DESTDIR)$(bindir)/../lib/Mono/bin/; rm -rf gmcs  mod-mono-server2 mod_mono.conf
+#	cd $(DESTDIR)$(bindir)/../lib/Mono/rpms/; rm -rf MonoRpms64bit.tar MonoRpms32bit.tar
+#	cd $(DESTDIR)$(bindir)/../lib/Mono/bin/; rm -rf gmcs  mod-mono-server2 mod_mono.conf
 endif
 
 CLEAN_FILES =
