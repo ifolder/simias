@@ -5,7 +5,7 @@
 # to load mod_mono module.
 
 <IfModule !mod_mono.c>
-    LoadModule mono_module @_bindir_@/../lib/Mono/usr/lib/apache2/mod_mono.so
+    LoadModule mono_module @_bindir_@/../lib/Mono/usr/monolibdir/apache2/mod_mono.so
 
     AddType application/x-asp-net .aspx
     AddType application/x-asp-net .asmx
