@@ -421,6 +421,8 @@ namespace Novell.iFolderApp.Web
 			string MachineArch = Environment.GetEnvironmentVariable("MACHINE_ARCH");
 
 			Console.Write("Configuring {0}...", path);
+			
+			string Mono2TreePath = Environment.GetEnvironmentVariable("LOCAL_MONO_RUNTIME_PATH");
 
 			// create configuration
 			using(StreamWriter writer = File.CreateText(path))
@@ -447,12 +449,16 @@ namespace Novell.iFolderApp.Web
                 {
                     sslPrefix = "#";
                 }
-				string mod_mono_path = "/etc/apache2/mod_mono.conf";
-				string mod_mono2_path = "/etc/apache2/conf.d/mod_mono.conf";
-				if( File.Exists( mod_mono2_path ))
-					writer.WriteLine( "Include {0}", mod_mono2_path );
+				if( Mono2TreePath != null )
+					writer.WriteLine( "Include {0}", Path.GetFullPath( Path.Combine(Mono2TreePath, "bin/mod_mono.conf")) );
 				else
-					writer.WriteLine( "Include {0}", mod_mono_path );
+				{
+					string mod_mono2_path = "/etc/apache2/conf.d/mod_mono.conf";
+					if( File.Exists( mod_mono2_path ))
+						writer.WriteLine( "Include {0}", mod_mono2_path );
+					else
+						writer.WriteLine( "Include {0}", "/etc/apache2/mod_mono.conf" );
+				}
 				writer.WriteLine();
 				writer.WriteLine("Alias /{0} \"{1}\"", alias, webPath);
 				writer.WriteLine("AddMonoApplications {0} \"/{0}:{1}\"", alias, webPath);
@@ -460,6 +466,9 @@ namespace Novell.iFolderApp.Web
                                     writer.WriteLine("MonoSetEnv {1} LogoutUrl={0}",logoutUrl.Value, alias);
 				//if(datapath != null || datapath != String.Empty)
 					//writer.WriteLine("MonoSetEnv {1} \"SimiasLogDir={0}/log\"", datapath, alias);
+				// Set MonoServerPath to the path where mod-mono-server2 script file is there
+				if( Mono2TreePath != null )
+					writer.WriteLine("MonoServerPath {0} {1}/mod-mono-server2", alias, Path.GetFullPath( Path.Combine(Mono2TreePath, "bin") ));
 				writer.WriteLine("<Location /{0} >", alias);
 				writer.WriteLine("\tMonoSetServerAlias {0}", alias);
 				writer.WriteLine("\tOrder allow,deny");

@@ -7,26 +7,62 @@ dist-hook:
 	rm -rf `find $(distdir) -name CVS`
 	rm -rf `find $(distdir) -name ".svn"`
 
-EXTRA_DIST = ./iFolder.snk ./dependencies/external/tools/aclocal  ./dependencies/external/tools/gsoap ./dependencies/external/libflaim ./dependencies/external/Mono.WebServer
+EXTRA_DIST = ./iFolder.snk ./dependencies/external/tools/aclocal  ./dependencies/external/tools/gsoap ./dependencies/external/libflaim ./dependencies/external/Mono.WebServer ./dependencies/external/MonoRuntime/gmcs.in ./dependencies/external/MonoRuntime/mod-mono-server2.in ./dependencies/external/MonoRuntime/mod_mono.conf.in
 
-all:
+all: $(srcdir)/dependencies/external/MonoRuntime/mod_mono.conf $(srcdir)/dependencies/external/MonoRuntime/mod-mono-server2 $(srcdir)/dependencies/external/MonoRuntime/gmcs
+
+$(srcdir)/dependencies/external/MonoRuntime/mod_mono.conf: $(srcdir)/dependencies/external/MonoRuntime/mod_mono.conf.in
+if !SIMIAS_AS_CLIENT
+	sed -e 's,@_webbindir_@,@webbindir@,g' -e 's,@_bindir_@,@bindir@,g' $< > $@
+	chmod +x $@
+endif
+
+$(srcdir)/dependencies/external/MonoRuntime/gmcs: $(srcdir)/dependencies/external/MonoRuntime/gmcs.in
+if !SIMIAS_AS_CLIENT
+	sed -e 's,@_webbindir_@,@webbindir@,g' -e 's,@_bindir_@,@bindir@,g' $< > $@
+	chmod +x $@
+endif
+
+$(srcdir)/dependencies/external/MonoRuntime/mod-mono-server2: $(srcdir)/dependencies/external/MonoRuntime/mod-mono-server2.in
+if !SIMIAS_AS_CLIENT
+	sed -e 's,@_webbindir_@,@webbindir@,g' -e 's,@_bindir_@,@bindir@,g' $< > $@
+	chmod +x $@
+endif
 
 export PKG_CONFIG_PATH := $(PKG_CONFIG_PATH)
 
 install-exec-local: all
 	$(mkinstalldirs) $(DESTDIR)$(datadir)/$(PACKAGE)
 	$(INSTALL_PROGRAM) $(srcdir)/COPYING $(DESTDIR)$(datadir)/$(PACKAGE)
+if !SIMIAS_AS_CLIENT
+	$(mkinstalldirs)  $(DESTDIR)$(bindir)/../lib/Mono
+	$(mkinstalldirs)  $(DESTDIR)$(bindir)/../lib/Mono/bin
+	$(mkinstalldirs)  $(DESTDIR)$(bindir)/../lib/Mono/rpms
+	$(INSTALL_PROGRAM) $(srcdir)/dependencies/external/MonoRuntime/MonoRpms64bit.tar  $(DESTDIR)$(bindir)/../lib/Mono/rpms/
+	$(INSTALL_PROGRAM) $(srcdir)/dependencies/external/MonoRuntime/MonoRpms32bit.tar  $(DESTDIR)$(bindir)/../lib/Mono/rpms/
+	$(INSTALL_PROGRAM) $(srcdir)/dependencies/external/MonoRuntime/gmcs  $(DESTDIR)$(bindir)/../lib/Mono/bin/
+	$(INSTALL_PROGRAM) $(srcdir)/dependencies/external/MonoRuntime/mod-mono-server2  $(DESTDIR)$(bindir)/../lib/Mono/bin/
+	$(INSTALL_PROGRAM) $(srcdir)/dependencies/external/MonoRuntime/mod_mono.conf  $(DESTDIR)$(bindir)/../lib/Mono/bin/
+endif
 
 uninstall-local:
 	cd $(DESTDIR)$(datadir)/$(PACKAGE); rm -f COPYING
+if !SIMIAS_AS_CLIENT
+	cd $(DESTDIR)$(bindir)/../lib/Mono/rpms/; rm -rf MonoRpms64bit.tar MonoRpms32bit.tar
+	cd $(DESTDIR)$(bindir)/../lib/Mono/bin/; rm -rf gmcs  mod-mono-server2 mod_mono.conf
+endif
 
-CLEAN_FILES = 
+CLEAN_FILES =
+ 
 
 clean-local:
 	rm -rf $(COMMON_CLEAN_FILES) $(CLEAN_FILES)
+if !SIMIAS_AS_CLIENT
+	rm -rf  $(srcdir)/dependencies/external/MonoRuntime/mod_mono.conf $(srcdir)/dependencies/external/MonoRuntime/mod-mono-server2 $(srcdir)/dependencies/external/MonoRuntime/gmcs 
+endif
 
 distclean-local:
-	rm -rf $(COMMON_DISTCLEAN_FILES)
+	rm -rf $(COMMON_DISTCLEAN_FILES) 
 
 maintainer-clean-local:
 	rm -rf $(COMMON_MAINTAINER_CLEAN_FILES)
