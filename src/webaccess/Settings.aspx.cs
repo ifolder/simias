@@ -69,6 +69,46 @@ namespace Novell.iFolderApp.Web
 		protected MessageControl Message;
 
 		/// <summary>
+		/// Change Password Control 
+		/// </summary>
+		protected CheckBox ChangePassword;
+
+		/// <summary>
+		/// Change Password label control.
+		/// </summary>
+		protected Label ChangePasswordLabel;
+
+		/// <summary>
+		/// pass-wordlabel 
+		/// </summary>
+		protected Label CurrentPasswordLabel;
+
+		/// <summary>
+		/// pass-word text box
+		/// </summary>
+		protected TextBox CurrentPasswordText;
+
+		/// <summary>
+		/// pass-wordlabel 
+		/// </summary>
+		protected Label NewPasswordLabel;
+
+		/// <summary>
+		/// pass-word text box
+		/// </summary>
+		protected TextBox NewPasswordText;
+
+		/// <summary>
+		/// pass-wordlabel 
+		/// </summary>
+		protected Label VerifyNewPasswordLabel;
+
+		/// <summary>
+		/// pass-word text box
+		/// </summary>
+		protected TextBox VerifyNewPasswordText; 
+
+		/// <summary>
 		/// The Save Button
 		/// </summary>
 		protected Button SaveButton;
@@ -89,6 +129,59 @@ namespace Novell.iFolderApp.Web
 		private ResourceManager rm;
 
 		/// <summary>
+		///enum for password change status 
+		/// </summary>
+		public enum PasswordChangeStatus
+                {
+                        /// <summary>
+                        /// Password Change is successful
+                        /// </summary>
+                        Success=0,
+
+                        /// <summary>
+                        /// Invalid Old Passowrd provided
+                        /// </summary>
+                        IncorrectOldPassword,
+
+                        /// <summary>
+                        /// Failed to reset password
+                        /// </summary>
+                        FailedToResetPassword,
+
+                        /// <summary>
+                        /// Login Disabled
+                        /// </summary>
+                        LoginDisabled,
+
+                        /// <summary>
+                        /// User account expired
+                        /// </summary>
+                        UserAccountExpired,
+
+                        /// <summary>
+                        /// User can not change password
+                        /// </summary>
+                        CanNotChangePassword,
+
+                        /// <summary>
+                        /// User password expired
+                        /// </summary>
+                        LoginPasswordExpired,
+
+                        /// <summary>
+                        /// Minimum password length restriction not met
+                        /// </summary>
+                        PasswordMinimumLength,
+
+                        /// <summary>
+                        /// User not found in simias
+                        /// </summary>
+                        UserNotFoundInSimias
+                };
+
+
+
+		/// <summary>
 		/// Page Load
 		/// </summary>
 		/// <param name="sender"></param>
@@ -107,9 +200,16 @@ namespace Novell.iFolderApp.Web
 				BindData();
 
 				// strings
+				ChangePasswordLabel.Text = GetString("CHANGEPASSWORD");		
+				CurrentPasswordLabel.Text = GetString("CURRENTPASSWORD");
+				NewPasswordLabel.Text = GetString("NEWPASSWORD");
+				VerifyNewPasswordLabel.Text = GetString("CONFIRMNEWPASSWORD");
+
 				SaveButton.Text = GetString("SAVE");
 				CancelButton.Text = GetString("CANCEL");
 				PageSizeLabel.Text = GetString("PAGESIZE");
+			
+				ChangePassword.Checked = true;
 
 				// view
 				ViewState["Referrer"] = Request.UrlReferrer;
@@ -210,12 +310,26 @@ namespace Novell.iFolderApp.Web
 
 		#endregion
 
+
+		/// <summary>
+		/// Check-Box changed Event 
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		protected void OnChangePassword_Changed(object sender, EventArgs e)
+		{
+			bool isChecked = ( sender as CheckBox ).Checked;	
+			CurrentPasswordText.Enabled=
+			NewPasswordText.Enabled=
+			VerifyNewPasswordText.Enabled= isChecked;
+		}
+
 		/// <summary>
 		/// Save Button Click
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void SaveButton_Click(object sender, EventArgs e)
+		protected void SaveButton_Click(object sender, EventArgs e)
 		{
 			try
 			{
@@ -229,6 +343,68 @@ namespace Novell.iFolderApp.Web
 				settings.Save(web);
 
 				Session["Settings"] = settings;
+			
+				if(ChangePassword.Checked == true)
+				{	
+					if(CurrentPasswordText.Text.Trim() == "" || NewPasswordText.Text.Trim() == "" || VerifyNewPasswordText.Text.Trim() == "")
+					{
+						Message.Text = GetString("EMPTY_PASSWORD");
+						return;
+					}
+					if(NewPasswordText.Text.Trim() != VerifyNewPasswordText.Text.Trim())
+					{
+						Message.Text = GetString("PASSWORDS_NOT_MATCH");
+						return;
+					}
+					if(CurrentPasswordText.Text.Trim() == NewPasswordText.Text.Trim())
+					{
+						Message.Text = GetString("SAMEOLDPASSWORD");
+						return;
+					}
+	
+					int status = web.ChangePassword(CurrentPasswordText.Text.Trim(), NewPasswordText.Text.Trim());
+					if(status != 0)
+					{
+						string FailedStatus = GetString("PASSWORDCHANGEFAILED");
+						switch(status)
+						{
+							case 1:
+								FailedStatus += GetString("INCORRECTOLDPASSWORD");
+								break;
+							case 2:
+								FailedStatus += GetString("FAILEDTORESETPASSWORD");
+								break;
+							case 3:
+								FailedStatus += GetString("LOGINDISABLED");
+								break;
+							case 4:
+								FailedStatus += GetString("USERACCOUNTEXPIRED");
+								break;
+							case 5:
+								FailedStatus += GetString("CANNOTCHANGEPASSWORD");
+								break;
+							case 6:
+								FailedStatus += GetString("LOGINPASSWORDEXPIRED");
+								break;
+							case 7:
+								FailedStatus += GetString("PASSWORDMINLENGTH");
+								break;
+							case 8:
+								FailedStatus += GetString("USERNOTFOUNDINSIMIAS");
+								break;
+							default:
+								FailedStatus += GetString("CHANGE.UNKNOWN");
+								break;
+						}
+						Message.Text = FailedStatus;
+						return;
+					}		
+					else
+					{
+						OnPasswordChanged("true");
+					}
+				}
+
 			}
 			catch(SoapException ex)
 			{
@@ -259,6 +435,33 @@ namespace Novell.iFolderApp.Web
 			{
 				string TrimmedUrl = web.TrimUrl(referrer.ToString());
 				url = TrimmedUrl;
+			}
+			
+			// redirect
+			Response.Redirect(url);
+		}
+
+		/// <summary>
+		/// go to new page after password change is successful 
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void OnPasswordChanged(string PasswordChanged)
+		{
+			// return
+			Uri referrer = (Uri) ViewState["Referrer"];
+			string url;
+
+			if ((referrer == null) || (referrer.AbsolutePath.IndexOf("Login.aspx") != -1)
+				|| (referrer.AbsolutePath.IndexOf("Settings.aspx") != -1))
+			{
+				url = String.Format("iFolders.aspx?PasswordChanged={0}",PasswordChanged);
+			}
+			else
+			{
+				string TrimmedUrl = web.TrimUrl(referrer.ToString());
+				url = TrimmedUrl;
+				url += String.Format("?PasswordChanged={0}",PasswordChanged);
 			}
 			
 			// redirect

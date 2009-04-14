@@ -2,4 +2,5 @@
 
 <div id="Message" class="message" runat="server">
 		<asp:Literal ID="TextLiteral" runat="server" />
+		<asp:Literal ID="InfoLiteral" runat="server" />
 </div>

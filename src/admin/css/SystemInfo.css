@@ -25,7 +25,7 @@
 {
 	text-align:left;
 	font-size: .8em;
-	width: 7.5em;
+	width: 10.5em;
 }
 
 .detailinfo td
@@ -55,6 +55,11 @@
 .detailinfo td #SSLValue
 {
 	margin-left: -1px;
+}
+
+.detailinfo td #FullNameSetting
+{
+	padding-left: 4px;
 }
 
 .adminlistnav

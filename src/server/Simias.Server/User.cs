@@ -463,6 +463,69 @@ namespace Simias.Server
 
 			return status;
 		}
+
+		/// <summary>
+		/// Method to change a user's password
+		/// </summary>
+		/// <param name="Username" mandatory="true">Username to set the password on.</param>
+		/// <param name="OldPassword" mandatory="true">Old password.</param>
+		/// <param name="NewPassword" mandatory="true">New password.</param>
+		/// <returns>int status for different status results</returns>
+		static public int ChangePassword( string UserID, string OldPassword, string NewPassword )
+		{
+			int status = 2;  //2 is for Failed to reset password.
+			Store store = null;
+			Simias.Storage.Domain domain = null;
+			Member member = null;
+			Property DNprop = null;
+			string MemberDN = null;
+
+			if ( User.provider != null && OldPassword != null && NewPassword != null)
+			{
+				store = Store.GetStore();
+				domain = store.GetDomain(store.DefaultDomain);
+				member = domain.GetMemberByID( UserID );
+				if ( member != null )
+				{
+					DNprop =
+						member.Properties.GetSingleProperty( "DN" );
+					if ( DNprop != null && DNprop.Value != null )
+					{
+						MemberDN = (string) DNprop.Value as string ;
+						if(Simias.Service.Manager.LdapServiceEnabled == false)
+						{
+							status = User.provider.ResetPassword( MemberDN, OldPassword, NewPassword );
+						}
+						else
+						{
+							Simias.Server.IUserProvider userProvider = null;
+							Simias.Configuration config = Store.Config;
+							string assemblyName = String.Empty;
+							assemblyName = config.Get( "Identity", "Assembly" );
+							string userClass = config.Get( "Identity", "Class" );
+							if ( assemblyName != null && userClass != null )
+							{
+								Assembly idAssembly = Assembly.LoadWithPartialName( assemblyName );
+								if ( idAssembly != null )
+								{
+									Type type = idAssembly.GetType( userClass );
+									if ( type != null )
+									{
+										userProvider = Activator.CreateInstance( type ) as IUserProvider;
+										if ( userProvider != null )
+										{
+											status = userProvider.ResetPassword( MemberDN, OldPassword, NewPassword );	
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+
+			return status;
+		}
 		
 		/// <summary>
 		/// Method to verify a user's password
@@ -620,6 +683,8 @@ namespace Simias.Server
 			
 			return status;
 		}		
+
+
 		#endregion
 		
 		#region Public Methods
@@ -835,6 +900,19 @@ namespace Simias.Server
 			
 			return result;
 		}
+
+		/// <summary>
+                /// Method to reset a user's password NOTE : It should be modified to be used, currently its default implementation
+                /// </summary>
+                /// <param name="DistinguishedUserName" mandatory="true">DistinguishedUserName to set the password on.</param>
+                /// <param name="OldPassword" mandatory="true">Old password.</param>
+                /// <param name="NewPassword" mandatory="true">New password.</param>
+                /// <returns>Zero - iF Successful,  greater that zero for failures</returns>
+		public int ResetPassword(string UserDN, string OldPassword, string NewPassword)
+		{
+			return 2; // returning default value - unable to reset password
+		}
+
 		#endregion
 	}	
 }

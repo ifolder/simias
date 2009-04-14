@@ -254,6 +254,17 @@ namespace iFolder.WebService
 		{
 			base.SetPassPhrase(passPhrase, recoveryAgentName, publicKey);
 		}
+
+		///<summary>
+		/// Change the password for logged in user
+		///</summary>
+		///<returns>the enum explaining the status</returns>
+		[WebMethod(EnableSession=true, Description="Change the password for logged in user")]
+		[SoapDocumentMethod]
+		public override int ChangePassword(string OldPassword, string NewPassword)
+		{
+			return base.ChangePassword(OldPassword, NewPassword);
+		}
 		
 
 		/// <summary>

@@ -110,6 +110,11 @@ namespace Novell.iFolderWeb.Admin
 		protected Literal NumberOfiFolders;
 
 		/// <summary>
+		/// Full Name Display Setting  
+		/// </summary>
+		protected RadioButtonList FullNameSetting;
+
+		/// <summary>
 		/// System policy control.
 		/// </summary>
 		protected Policy Policy;
@@ -283,6 +288,14 @@ namespace Novell.iFolderWeb.Admin
 			iFolderSystem system = web.GetSystem();
 			Name.Text = system.Name;
 			Description.Value = system.Description;
+			if(system.UsersFullNameDisplay == "FirstNameLastName")
+			{
+				FullNameSetting.SelectedIndex = 0;
+			}
+			else
+			{
+				FullNameSetting.SelectedIndex = 1;
+			}
 
 			iFolderUserSet users = web.GetUsers( 0, 1 );
 			NumberOfUsers.Text = users.Total.ToString();
@@ -407,6 +420,9 @@ namespace Novell.iFolderWeb.Admin
 				SaveButton.Text = GetString( "SAVE" );
 				CancelButton.Text = GetString( "CANCEL" );
 
+				FullNameSetting.Items[ 0 ].Text = "(" + GetString("FIRSTNAME") + ", " + GetString("LASTNAME") + ")";
+				FullNameSetting.Items[ 1 ].Text = "(" + GetString("LASTNAME") + ", " + GetString("FIRSTNAME") + ")";
+
 				// Initialize state variables.
 				CurrentAdminOffset = 0;
 				TotalAdmins = 0;
@@ -492,6 +508,15 @@ namespace Novell.iFolderWeb.Admin
 		protected string GetString( string key )
 		{
 			return rm.GetString( key );
+		}
+		
+		/// <summary>
+		/// Event handler that gets called when the report location selection changes.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		protected void OnFullNameSetting_Changed( object sender, EventArgs e )
+		{
 		}
 
 		/// <summary>
@@ -643,6 +668,11 @@ namespace Novell.iFolderWeb.Admin
 			iFolderSystem system = new iFolderSystem();
 			system.Name = Name.Text;
 			system.Description = Description.Value;
+			if(FullNameSetting.SelectedIndex == 0)
+				system.UsersFullNameDisplay = "FirstNameLastName";
+			else
+				system.UsersFullNameDisplay = "LastNameFirstName";
+				
 			web.SetSystem( system );
 
 			// To Set SSL option connect to local server, not master

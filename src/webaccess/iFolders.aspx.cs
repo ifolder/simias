@@ -306,6 +306,14 @@ namespace Novell.iFolderApp.Web
 			
 			// Pass this page information to create the help link
 			Head.AddHelpLink(GetString("IFOLDERS"));
+
+			string PasswordChanged =  Request.QueryString.Get("PasswordChanged");
+			if(PasswordChanged != null && PasswordChanged == "true")
+			{
+				Message.Info = GetString("PASSWORDCHANGESUCCESS");
+				return;
+			}
+
 		}
 
 		/// <summary>

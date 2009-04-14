@@ -110,6 +110,20 @@ namespace Simias.Storage
 		}
 
 		/// <summary>
+		/// Gets or sets Users full name display setting.
+		/// </summary>
+		public string UsersFullNameDisplay
+		{
+			get 
+			{ 
+				Property p = properties.GetSingleProperty( PropertyTags.UsersFullNameDisplay );
+				return ( p != null ) ? p.Value as String : "FirstNameLastName";
+			}
+
+			set { properties.ModifyNodeProperty( PropertyTags.UsersFullNameDisplay, value ); }
+		}
+
+		/// <summary>
 		/// Catalog , Domain Sync status
 		/// </summary>
 		public ulong SystemSyncStatus

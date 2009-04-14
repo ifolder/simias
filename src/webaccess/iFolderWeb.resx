@@ -180,6 +180,12 @@
     <data name="PASSPHRASE_NOT_MATCH">
         <value>Passphrases do not match</value>
     </data>
+    <data name="PASSWORDS_NOT_MATCH">
+        <value>New Passwords entered do not match</value>
+    </data>
+    <data name="EMPTY_PASSWORD">
+        <value>Empty Password</value>
+    </data>
     <data name="PASSPHRASE_INCORRECT">
         <value>Invalid Passphrase </value>
     </data>
@@ -441,6 +447,18 @@
     <data name="CHANGE.DELETE">
         <value>Deleted</value>
     </data>
+    <data name="CHANGEPASSWORD">
+        <value>Change Password</value>
+    </data>
+    <data name="CURRENTPASSWORD">
+        <value>Current Password: </value>
+    </data>
+    <data name="NEWPASSWORD">
+        <value>New Password: </value>
+    </data>
+    <data name="CONFIRMNEWPASSWORD">
+        <value>Confirm New Password: </value>
+    </data>
     <data name="NEW">
         <value>New</value>
     </data>
@@ -665,5 +683,38 @@
     </data>
     <data name="FILTER">
         <value>Filter:</value>
+    </data>
+    <data name="PASSWORDCHANGESUCCESS">
+        <value>Password Changed Successfully.</value>
+    </data>
+    <data name="PASSWORDCHANGEFAILED">
+        <value>Could not change password, </value>
+    </data>
+    <data name="INCORRECTOLDPASSWORD">
+        <value>Incorrect Old Password.</value>
+    </data>
+    <data name="FAILEDTORESETPASSWORD">
+        <value>Failed to reset password.</value>
+    </data>
+    <data name="LOGINDISABLED">
+        <value>Login Disabled.</value>
+    </data>
+    <data name="USERACCOUNTEXPIRED">
+        <value>User account expired.</value>
+    </data>
+    <data name="CANNOTCHANGEPASSWORD">
+        <value>User can not change password.</value>
+    </data>
+    <data name="LOGINPASSWORDEXPIRED">
+        <value>User password expired.</value>
+    </data>
+    <data name="PASSWORDMINLENGTH">
+        <value>Minimum password length restriction not met.</value>
+    </data>
+    <data name="USERNOTFOUNDINSIMIAS">
+        <value>User not found in iFolder database.</value>
+    </data>
+    <data name="SAMEOLDPASSWORD">
+        <value>Old Password and New Password should not be same.</value>
     </data>
 </root>

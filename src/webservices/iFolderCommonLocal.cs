@@ -396,6 +396,27 @@ namespace iFolder.WebService
 		}
 
 		///<summary>
+		// Change the password for currently logged in user/
+		///</summary>
+		///<returns>enum state explaining the status of this operation</returns>
+		[WebMethod(EnableSession=true, Description="Change the password for currently logged in user")]
+		[SoapDocumentMethod]
+		public virtual int ChangePassword(string OldPassword, string NewPassword)
+		{
+			int status = 0;
+			try
+			{
+				Authorize();
+				status = Simias.Server.User.ChangePassword(GetAccessID(), OldPassword, NewPassword);
+			}
+			catch(Exception e)
+			{
+				SmartException.Throw(e);
+			}
+			return status;
+		}
+
+		///<summary>
 		///checks if for this user, encryption is enforced
 		///</summary>
 		///<returns>true/false</returns>

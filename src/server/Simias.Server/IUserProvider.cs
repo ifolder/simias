@@ -134,6 +134,15 @@ namespace Simias.Server
 		/// <param name="status">Structure used to pass additional information back to the user.</param>
 		/// <returns>true - Valid password, false Invalid password</returns>
 		bool VerifyPassword( string Username, string Password, Simias.Authentication.Status status );
+
+		/// <summary>
+		/// Method to change a user's password
+		/// </summary>
+		/// <param name="UserDN">Full DN of the user</param>
+		/// <param name="OldPassword">Old Password</param>
+		/// <param name="NewPassword">New Password</param>
+		/// <returns>int for status</returns>
+		int ResetPassword( string UserDN, string OldPassword, string NewPassword );
 		#endregion
 	}
 }	

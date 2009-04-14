@@ -399,6 +399,12 @@
 	<data name="FULLNAMETAG">
 		<value>Full Name:</value>
 	</data>
+	<data name="FULLNAMEDISLAYTAG">
+		<value>Name Display:</value>
+	</data>
+	<data name="FULLNAMEDISPLAYORDER">
+		<value>Full Name Display Order:</value>
+	</data>
 	<data name="GB">
 		<value>GB</value>
 	</data>

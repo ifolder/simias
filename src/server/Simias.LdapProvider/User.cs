@@ -95,6 +95,55 @@ namespace Simias.LdapProvider
 		public string Description { get { return providerDescription; } }
 		#endregion
 
+                public enum PasswordChangeStatus
+                {
+                        /// <summary>
+                        /// Password Change is successful
+                        /// </summary>
+                        Success=0,
+
+                        /// <summary>
+                        /// Invalid Old Passowrd provided
+                        /// </summary>
+                        IncorrectOldPassword,
+
+                        /// <summary>
+                        /// Failed to reset password
+                        /// </summary>
+			FailedToResetPassword, 
+
+                        /// <summary>
+                        /// Login Disabled
+                        /// </summary>
+			LoginDisabled, 
+
+                        /// <summary>
+                        /// User account expired
+                        /// </summary>
+			UserAccountExpired, 
+
+                        /// <summary>
+                        /// User can not change password
+                        /// </summary>
+			CanNotChangePassword, 
+
+                        /// <summary>
+                        /// User password expired
+                        /// </summary>
+			LoginPasswordExpired, 
+
+                        /// <summary>
+                        /// Minimum password length restriction not met
+                        /// </summary>
+			PasswordMinimumLength,
+
+                        /// <summary>
+                        /// User not found in simias
+                        /// </summary>
+			UserNotFoundInSimias
+                };
+
+
 		#region Constructor
 		/// <summary>
 		/// Initializes an instance of this object.
@@ -430,10 +479,15 @@ namespace Simias.LdapProvider
 			LdapAttribute attrAllowChange = entry.getAttribute( "passwordAllowChange" );
 			if ( attrAllowChange != null )
 			{
+				log.Info("Password allowchange is: {0}", attrAllowChange.StringValue.ToLower());
 				if ( attrAllowChange.StringValue.ToLower() == "true" )
 				{
 					canChange = true;
 				}
+			}
+			else
+			{
+				log.Info("Password allow change is null");
 			}
 
 			return canChange;
@@ -479,6 +533,23 @@ namespace Simias.LdapProvider
 			}
 
 			return loginDisabled;
+		}
+
+		/// <summary>
+		/// Gets whether minimum password length restriction is enforced.
+		/// </summary>
+		/// <param name="entry">LdapEntry</param>
+		/// <returns>True if login is disabled.</returns>
+		private int PasswordMinimumLengthEnforced( LdapEntry entry )
+		{
+			uint length = 0;
+			LdapAttribute PasswordMinimumLength = entry.getAttribute( "passwordMinimumLength" );
+			if ( PasswordMinimumLength != null )
+			{
+				length = (uint) Convert.ToInt32( PasswordMinimumLength.StringValue );
+			}
+			log.Debug( "In PasswordMinimumLengthEnforced:  {0} ",  length.ToString() );
+			return (int)length;
 		}
 
 		/// <summary>
@@ -642,6 +713,130 @@ namespace Simias.LdapProvider
 			// today we don't allow modification in the ldap provider
 			return false;
 		}
+
+		/// <summary>
+		/// Gets the login status for the specified user.
+		/// </summary>
+		/// <param name="connection">Ldap connection to use to get the status.</param>
+		/// <param name="DistinguishedUserName">User DistinguishedUserName.</param>
+		private int GetUserStatusInfo( LdapConnection connection, string DistinguishedUserName, int passLength )
+		{
+			if ( connection != null )
+			{
+				string[] searchAttributes = { 
+												"loginDisabled", 
+												"loginExpirationTime", 
+												"loginGraceLimit", 
+												"loginGraceRemaining",
+												"passwordAllowChange",
+												"passwordMinimumLength",
+												"passwordRequired",
+												"passwordExpirationTime"
+											};
+				LdapEntry ldapEntry = connection.Read( DistinguishedUserName, searchAttributes );
+				if ( ldapEntry != null )
+				{
+					if ( LoginDisabled( ldapEntry ) == true )
+						return (int)PasswordChangeStatus.LoginDisabled;
+					if ( PasswordMinimumLengthEnforced( ldapEntry ) > passLength )
+						return (int)PasswordChangeStatus.PasswordMinimumLength;
+					if ( LoginAccountExpired( ldapEntry ) == true )
+						return (int)PasswordChangeStatus.UserAccountExpired;
+					if ( LoginCanUserChangePassword( ldapEntry ) == false )
+						return (int)PasswordChangeStatus.CanNotChangePassword;
+				}
+			}
+			return (int)PasswordChangeStatus.FailedToResetPassword;
+		}
+		
+		/// <summary>
+		/// Method to reset a user's password
+		/// </summary>
+		/// <param name="DistinguishedUserName" mandatory="true">DistinguishedUserName to set the password on.</param>
+		/// <param name="OldPassword" mandatory="true">Old password.</param>
+		/// <param name="NewPassword" mandatory="true">New password.</param>
+		/// <returns>Zero - iF Successful,  greater that zero for failures</returns>
+		public int ResetPassword( string DistinguishedUserName, string OldPassword, string NewPassword )
+		{
+			
+			log.Debug( "Resetting password for: " + DistinguishedUserName );
+
+			LdapConnection LDAPconn = null;
+			LdapConnection proxyConnection = null;
+			string UserID;
+
+			try
+			{
+				LDAPconn = new LdapConnection();
+				LDAPconn.SecureSocketLayer = ldapSettings.SSL;
+				LDAPconn.Connect( ldapSettings.Host, ldapSettings.Port );
+				LDAPconn.Bind( DistinguishedUserName, OldPassword );
+				if ( LDAPconn.AuthenticationDN == null )
+				{
+					log.Info("LDAPconn.AuthenticationDN = null");
+					return (int)PasswordChangeStatus.IncorrectOldPassword;
+				}
+				int result  = GetUserStatusInfo(LDAPconn, DistinguishedUserName, NewPassword.Length );
+				if( result != (int)PasswordChangeStatus.FailedToResetPassword )
+				{
+					log.Info("result VALUE: {0}", result);
+					return (int)result;
+				}
+				else
+				{
+					try
+					{
+						LdapModification[] modification = new LdapModification[2];	
+						LdapAttribute deletePassword = new LdapAttribute("userPassword", OldPassword);
+						modification[0] = new LdapModification(LdapModification.DELETE, deletePassword);	
+						LdapAttribute addPassword = new LdapAttribute("userPassword", NewPassword);
+						modification[1] = new LdapModification(LdapModification.ADD, addPassword);	
+						LDAPconn.Modify(DistinguishedUserName, modification);
+					}
+					catch( Exception e )
+					{
+						log.Error( "Unable to reset Password for DN:" + DistinguishedUserName );
+						log.Error( "Error:" + e.Message );
+						return (int)PasswordChangeStatus.FailedToResetPassword;
+					}
+					return (int)PasswordChangeStatus.Success;
+				}
+			}
+			catch( LdapException e )
+			{
+				log.Error( "Password Reset failed for DN:" + DistinguishedUserName );
+				log.Error( "LdapError:" + e.LdapErrorMessage );
+				log.Error( "Error:" + e.Message );
+
+				if ( e.ResultCode  == LdapException.INVALID_CREDENTIALS)
+						return (int)PasswordChangeStatus.IncorrectOldPassword;
+
+				proxyConnection = BindProxyUser();
+				if ( proxyConnection != null )
+					return (int)GetUserStatusInfo(proxyConnection, DistinguishedUserName, NewPassword.Length);
+			}
+			catch( Exception e )
+			{
+				log.Error( "Password Reset failed for DN:" + DistinguishedUserName );
+				log.Error( "Error:" + e.Message );
+				proxyConnection = BindProxyUser();
+				if ( proxyConnection != null )
+					return GetUserStatusInfo(proxyConnection, DistinguishedUserName, NewPassword.Length);
+			}
+			finally
+			{
+				if ( LDAPconn != null )
+				{
+					LDAPconn.Disconnect();
+				}
+
+				if ( proxyConnection != null )
+				{
+					proxyConnection.Disconnect();
+				}
+			}
+			return (int)PasswordChangeStatus.FailedToResetPassword;
+		}
 		
 		/// <summary>
 		/// Method to verify a user's password
@@ -753,6 +948,7 @@ namespace Simias.LdapProvider
 
 			return ( false );
 		}
+
 		#endregion
 	}	
 }

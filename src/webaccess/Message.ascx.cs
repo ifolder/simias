@@ -60,7 +60,17 @@ namespace Novell.iFolderApp.Web
 		/// <summary>
 		/// Message Text
 		/// </summary>
+		protected Literal InfoLiteral;
+
+		/// <summary>
+		/// Message Text
+		/// </summary>
 		private string text;
+
+		/// <summary>
+		/// Message Text
+		/// </summary>
+		private string info;
 
 		/// <summary>
 		/// Page Init
@@ -70,6 +80,7 @@ namespace Novell.iFolderApp.Web
 		private void Page_Init(object sender, EventArgs e)
 		{
 			text = null;
+			info = null;
 		}
 
 		/// <summary>
@@ -87,6 +98,7 @@ namespace Novell.iFolderApp.Web
 				if ((temp != null) && (temp.Length > 0))
 				{
 					text = temp;
+					info = temp;
 				}
 			}
 		}
@@ -126,6 +138,16 @@ namespace Novell.iFolderApp.Web
 		}
 
 		/// <summary>
+		/// Message Text
+		/// </summary>
+		public String Info 
+		{
+			get { return info; }
+			
+			set { info = value; }
+		}
+
+		/// <summary>
 		/// Page Pre-Render
 		/// </summary>
 		/// <param name="sender"></param>
@@ -134,6 +156,13 @@ namespace Novell.iFolderApp.Web
 		{
 			TextLiteral.Text = text;
 			Message.Visible = (text != null) && (text.Length > 0);
+			Message.Attributes["style"] = "background-color: #ffff99";
+			if(text == null || text.Length <= 0)
+			{
+				InfoLiteral.Text = info;
+				Message.Attributes["style"] = "background-color: #a3ffa3";
+				Message.Visible = (info != null) && (info.Length > 0);
+			}
 		}
 	}
 }

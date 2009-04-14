@@ -1208,6 +1208,31 @@ namespace Simias.Storage
 			}
 		}
 
+                /// <summary>
+                /// Change the password for this member, It will be called by thick client and will be running on simias client
+                /// </summary>
+                public int ChangePassword(string OldPassword, string NewPassword)
+                {
+                        Store store = Store.GetStore();
+                        string DomainID = this.GetDomainID(store);
+
+                        HostNode host = this.HomeServer; //home server
+
+                        SimiasConnection smConn = new SimiasConnection(DomainID,
+                                                                                        this.UserID,
+                                                                                        SimiasConnection.AuthType.BASIC,
+                                                                                        host);
+                        DomainService svc = new DomainService();
+                        svc.Url = host.PublicUrl;
+
+                        smConn.Authenticate ();
+                        smConn.InitializeWebClient(svc, "DomainService.asmx");
+
+                        return( svc.ChangePasswordOnServer(DomainID, UserID, OldPassword, NewPassword)) ;
+
+                }
+
+
 		/// <summary>
 		/// Call back for timer
 		/// </summary>

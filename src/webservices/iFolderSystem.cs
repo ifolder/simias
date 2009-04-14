@@ -64,6 +64,11 @@ namespace iFolder.WebService
 		public string Description;
 
 		/// <summary>
+		/// System Full Name Display Setting 
+		/// </summary>
+		public string UsersFullNameDisplay;
+
+		/// <summary>
 		/// Identifier for the System Report iFolder where iFolder 
 		/// reports will be generated.
 		/// </summary>
@@ -103,6 +108,7 @@ namespace iFolder.WebService
 			system.Name = domain.Name;
 			system.Version = domain.DomainVersion.ToString();
 			system.Description = domain.Description;
+			system.UsersFullNameDisplay = domain.UsersFullNameDisplay;
 
 			system.ReportPath = Report.ReportPath;
 			system.ReportiFolderID = Report.ReportCollectionID;
@@ -123,6 +129,7 @@ namespace iFolder.WebService
 
 			domain.Name = system.Name;
 			domain.Description = system.Description;
+			domain.UsersFullNameDisplay = system.UsersFullNameDisplay;
 
 			domain.Commit();
 		}

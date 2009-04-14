@@ -700,6 +700,146 @@ namespace Simias.ADLdapProvider
 			// today we don't allow modification in the ldap provider
 			return false;
 		}
+
+		/// <summary>
+		/// Gets the login status for the specified user.
+		/// </summary>
+		/// <param name="connection">Ldap connection to use to get the status.</param>
+		/// <param name="DistinguishedUserName">User DistinguishedUserName.</param>
+		private int GetUserStatusInfo( LdapConnection connection, string DistinguishedUserName )
+		{
+			int status = (int)Simias.LdapProvider.User.PasswordChangeStatus.FailedToResetPassword;
+			int daysUntilExpired;
+			if ( connection != null )
+			{
+				string[] searchAttributes = { 
+												"loginDisabled", 
+												"loginExpirationTime", 
+												"loginGraceLimit", 
+												"loginGraceRemaining",
+												"passwordAllowChange",
+												"passwordRequired",
+												"passwordExpirationTime"
+											};
+				LdapEntry ldapEntry = connection.Read( DistinguishedUserName, searchAttributes );
+				if ( ldapEntry != null )
+				{
+
+					if ( AccountDisabled( ldapEntry ) == true )
+						status = (int)Simias.LdapProvider.User.PasswordChangeStatus.LoginDisabled;
+					if ( AccountExpired( ldapEntry ) == true )
+						status = (int)Simias.LdapProvider.User.PasswordChangeStatus.UserAccountExpired;
+					if ( CanUserChangePassword( ldapEntry ) == false )
+						status = (int)Simias.LdapProvider.User.PasswordChangeStatus.CanNotChangePassword;
+					if ( IsPasswordExpired( ldapEntry, out daysUntilExpired ) == true)
+						status = (int)Simias.LdapProvider.User.PasswordChangeStatus.LoginPasswordExpired;
+
+				}
+			}
+			return status;
+		}
+		
+		/// <summary>
+		/// Method to reset a user's password
+		/// </summary>
+		/// <param name="DistinguishedUserName" mandatory="true">DistinguishedUserName to set the password on.</param>
+		/// <param name="OldPassword" mandatory="true">Old password.</param>
+		/// <param name="NewPassword" mandatory="true">New password.</param>
+		/// <returns>Zero - iF Successful,  greater that zero for failures</returns>
+		public int ResetPassword( string DistinguishedUserName, string OldPassword, string NewPassword )
+		{
+			
+			log.Debug( "Resetting password for: " + DistinguishedUserName );
+
+			LdapConnection LDAPconn = null;
+			LdapConnection proxyConnection = null;
+			string UserID;
+
+			try
+			{
+				LDAPconn = new LdapConnection();
+				LDAPconn.SecureSocketLayer = ldapSettings.SSL;
+				LDAPconn.Connect( ldapSettings.Host, ldapSettings.Port );
+				LDAPconn.Bind( DistinguishedUserName, OldPassword );
+				if ( LDAPconn.AuthenticationDN == null )
+					return (int)Simias.LdapProvider.User.PasswordChangeStatus.IncorrectOldPassword;
+				int result  = GetUserStatusInfo(LDAPconn, DistinguishedUserName );
+				if( result != (int)Simias.LdapProvider.User.PasswordChangeStatus.FailedToResetPassword )
+					return (int)result;
+				else
+				{
+					try
+					{
+						string oldpassword = "\"" + OldPassword + "\"";
+						string newpassword = "\"" + NewPassword + "\"";
+						
+						char [] ucodeoldPassword = oldpassword.ToCharArray();
+						char [] ucodenewPassword = newpassword.ToCharArray();
+
+						sbyte[] oPassword = new sbyte[ucodeoldPassword.Length * 2];
+						sbyte[] CPassword = new sbyte[ucodenewPassword.Length * 2];
+
+						for (int i=0; i<ucodeoldPassword.Length; i++) {
+						oPassword[i*2 + 1] = (sbyte) (ucodeoldPassword[i] >> 8);
+						oPassword[i*2 + 0] = (sbyte) (ucodeoldPassword[i] & 0xff);
+						}
+
+						for (int i=0; i<ucodenewPassword.Length; i++) {
+						CPassword[i*2 + 1] = (sbyte) (ucodenewPassword[i] >> 8);
+						CPassword[i*2 + 0] = (sbyte) (ucodenewPassword[i] & 0xff);
+						}
+
+						LdapAttribute newattribute = new LdapAttribute("UnicodePwd", CPassword);
+						LdapAttribute oldattribute = new LdapAttribute("UnicodePwd", oPassword);
+						LdapModification[] modification = new LdapModification[2];
+						modification[0] = new LdapModification(LdapModification.DELETE, oldattribute);	
+						modification[1] = new LdapModification(LdapModification.ADD, newattribute);	
+						LDAPconn.Modify(DistinguishedUserName, modification);
+					}
+					catch( Exception e )
+					{
+						log.Error( "Unable to reset Password for DN:" + DistinguishedUserName );
+						log.Error( "Error:" + e.Message );
+						return (int)Simias.LdapProvider.User.PasswordChangeStatus.FailedToResetPassword;
+					}
+					return (int)Simias.LdapProvider.User.PasswordChangeStatus.Success;
+				}
+			}
+			catch( LdapException e )
+			{
+				log.Error( "Password Reset failed for DN:" + DistinguishedUserName );
+				log.Error( "LdapError:" + e.LdapErrorMessage );
+				log.Error( "Error:" + e.Message );
+
+				if ( e.ResultCode  == LdapException.INVALID_CREDENTIALS)
+						return (int)Simias.LdapProvider.User.PasswordChangeStatus.IncorrectOldPassword;
+
+				proxyConnection = BindProxyUser();
+				if ( proxyConnection != null )
+					return (int)GetUserStatusInfo(proxyConnection, DistinguishedUserName);
+			}
+			catch( Exception e )
+			{
+				log.Error( "Password Reset failed for DN:" + DistinguishedUserName );
+				log.Error( "Error:" + e.Message );
+				proxyConnection = BindProxyUser();
+				if ( proxyConnection != null )
+					return GetUserStatusInfo(proxyConnection, DistinguishedUserName);
+			}
+			finally
+			{
+				if ( LDAPconn != null )
+				{
+					LDAPconn.Disconnect();
+				}
+
+				if ( proxyConnection != null )
+				{
+					proxyConnection.Disconnect();
+				}
+			}
+			return (int)Simias.LdapProvider.User.PasswordChangeStatus.FailedToResetPassword;
+		}
 		
 		/// <summary>
 		/// Method to verify a user's password

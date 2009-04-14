@@ -116,6 +116,24 @@
 							<asp:Literal ID="NumberOfiFolders" Runat="server" />
 						</td>
 					</tr>
+
+					<tr>
+						<th>
+							<%= GetString( "FULLNAMEDISPLAYORDER" ) %>
+						</th>
+						
+						<td>
+							<asp:RadioButtonList
+								ID="FullNameSetting"	
+								Runat="server"
+								AutoPostBack="True"
+								RepeatDirection="Horizontal"
+								OnSelectedIndexChanged="EnableSaveButtons"> 
+								<asp:ListItem></asp:ListItem>
+								<asp:ListItem></asp:ListItem>
+							</asp:RadioButtonList>
+						</td>
+					</tr>
 					
 				</table>
 

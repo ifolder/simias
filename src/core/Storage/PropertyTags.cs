@@ -100,6 +100,11 @@ namespace Simias.Storage
 		static public string Description = "Description";
 
 		/// <summary>
+		/// Well known property name.
+		/// </summary>
+		static public string UsersFullNameDisplay = "Users Full Name Display";
+
+		/// <summary>
 		/// Catalog , Domain Sync Status
 		/// </summary>
 		static public string SystemSyncStatus = "System Sync Status";

@@ -233,7 +233,22 @@ namespace Simias.DomainService.Web
 
 			return ProvisionUser( user, password );
 		}
-		
+
+		/// <summary>
+		/// change the password for user
+		/// </summary>
+		/// <param name="DomainID">Domain id for this user</param>
+		/// <param name="UserID">User ID</param>
+		/// <param name="OldPassword">OldPassword</param>
+		/// <param name="NewPassword">NewPassword</param>
+		/// <returns>the status after password change </returns>
+		[WebMethod(EnableSession=true)]
+		[SoapDocumentMethod]
+		public int ChangePasswordOnServer( string DomainID, string UserID, string OldPassword, string NewPassword)
+		{
+			int retval = 0;
+			return Simias.Server.User.ChangePassword(UserID, OldPassword, NewPassword);
+		}
 
 		/// <summary>
 		/// Provision the user

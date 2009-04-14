@@ -42,10 +42,41 @@
 					<asp:Label ID="PageSizeLabel" runat="server" />:
 					<asp:DropDownList ID="PageSizeList" runat="server" />
 				</div>
-				
-				<br>
-				
-				<div class="buttons">
+
+				<table class="when" > 
+					<tr>
+					<asp:CheckBox
+						ID="ChangePassword"
+						Runat="server"
+						AutoPostBack="True"
+						OnCheckedChanged="OnChangePassword_Changed" />
+	
+						<asp:Label ID="ChangePasswordLabel" Runat="server" /> <br>
+						<th colspan="2">
+						</th>
+					</tr> 
+					<tr>
+						<td>
+							<br>
+							<div class="label"> 
+								<asp:Label ID="CurrentPasswordLabel" CssClass="pwdlabels" runat="server" />  
+								<asp:TextBox ID="CurrentPasswordText"  TextMode="Password" CssClass="curpwdtextbox" runat="server" /> 
+							</div>
+							<br><br>
+							<div class="label">
+								<asp:Label ID="NewPasswordLabel" CssClass="pwdlabels" runat="server" /> 
+								<asp:TextBox ID="NewPasswordText"  TextMode="Password" CssClass="newpwdtextbox" runat="server" />
+							</div>
+							<br>
+							<div class="label">
+								<asp:Label ID="VerifyNewPasswordLabel" CssClass="pwdlabels" runat="server" /> 
+								<asp:TextBox ID="VerifyNewPasswordText"  TextMode="Password" CssClass="verifynewpwdtextbox" runat="server" /><br>
+							</div>
+						</td>
+					</tr>
+				</table> 
+				<div class="settingsbuttons">
+					<br>
 					<asp:Button ID="SaveButton" runat="server" />
 					<asp:Button ID="CancelButton" runat="server" />
 				</div>
