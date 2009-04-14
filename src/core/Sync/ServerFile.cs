@@ -126,7 +126,33 @@ namespace Simias.Sync
 			if (NameConflict)
 			{
 				status = SyncStatus.FileNameConflict;
+				Close(false);
+				return status;
 			}
+
+			//First no file node at server so let it go with no update conflict
+			ulong diskNodeIncarnation = snode.MasterIncarnation;
+			Node diskNode = ( node.DiskNode != null ) ? node.DiskNode : collection.GetNodeByID( node.ID );
+			//if file already present in the server take the disk version and compare with the expected version which came from client
+			if(diskNode!=null)
+			{
+				diskNodeIncarnation = diskNode.LocalIncarnation;
+				Log.log.Debug("Disk node at server....");
+			}
+			else
+				Log.log.Debug("No disk node at server....");
+			
+			if(node.ExpectedIncarnation != diskNodeIncarnation)
+			{
+				if(node.IsType( NodeTypes.BaseFileNodeType))
+				{
+					status = SyncStatus.UpdateConflict;
+					Log.log.Debug("Update conflict for file node {0} client local :{1} client master:{2} disk local:{3} ", node.ID, snode.MasterIncarnation, snode.LocalIncarnation, diskNode.LocalIncarnation);
+				}
+				else
+					Log.log.Debug("Update conflict for non file node {0}..conflict not set", node.ID);
+			}
+			
 			if (status != SyncStatus.Success)
 			{
 				Close(false);
