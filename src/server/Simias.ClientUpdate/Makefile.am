@@ -37,6 +37,8 @@ install-exec-local: ClientUpdate.dll $(DATA_FILES)
 	$(mkinstalldirs) $(DESTDIR)$(webdir)/update/unix/default
 	$(mkinstalldirs) $(DESTDIR)$(webdir)/update/unix/suse-linux-10.0
 	$(mkinstalldirs) $(DESTDIR)$(webdir)/update/unix/opensuse-linux-10.3
+	$(mkinstalldirs) $(DESTDIR)$(webdir)/update/unix/suse-linux-11.0-i586
+	$(mkinstalldirs) $(DESTDIR)$(webdir)/update/unix/opensuse-linux-11.1-i586
 	$(mkinstalldirs) $(DESTDIR)$(webdir)/update/mac
 	$(INSTALL_PROGRAM) ClientUpdate.asmx $(DESTDIR)$(webdir)
 	$(INSTALL_PROGRAM) ClientUpdateHandler.ashx $(DESTDIR)$(webdir)
@@ -49,6 +51,10 @@ install-exec-local: ClientUpdate.dll $(DATA_FILES)
 	$(INSTALL_PROGRAM) install-ifolder-script.sh $(DESTDIR)$(webdir)/update/unix/suse-linux-10.0
 	$(INSTALL_PROGRAM) install-ifolder.sh $(DESTDIR)$(webdir)/update/unix/opensuse-linux-10.3
 	$(INSTALL_PROGRAM) install-ifolder-script.sh $(DESTDIR)$(webdir)/update/unix/opensuse-linux-10.3
+	$(INSTALL_PROGRAM) install-ifolder.sh $(DESTDIR)$(webdir)/update/unix/suse-linux-11.0-i586
+        $(INSTALL_PROGRAM) install-ifolder-script.sh $(DESTDIR)$(webdir)/update/unix/suse-linux-11.0-i586
+	$(INSTALL_PROGRAM) install-ifolder.sh $(DESTDIR)$(webdir)/update/unix/opensuse-linux-11.1-i586
+        $(INSTALL_PROGRAM) install-ifolder-script.sh $(DESTDIR)$(webdir)/update/unix/opensuse-linux-11.1-i586
 	$(INSTALL_PROGRAM) mac-version.config $(DESTDIR)$(webdir)/update/mac
 	
 uninstall-local:
