@@ -46,6 +46,7 @@
 #include <sys/stat.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include <arpa/inet.h>	
 
 #include <libxml/tree.h>
 #include <libxml/parser.h>
