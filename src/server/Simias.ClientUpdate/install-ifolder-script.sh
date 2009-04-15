@@ -37,7 +37,7 @@
 #*******************************************************************************/
 
 tar -zxvf ./ifolder3-*.tar.gz
-cd ifolder3-linux
+cd ifolder3-*
 if [ "$(uname -i)" != 'x86_64' ] ;
 then
 	cd i586
