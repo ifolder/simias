@@ -28,6 +28,7 @@ case $host_os in
         AC_CHECK_PROG(CSC2, gmcs, gmcs)
         test -z "$CSC" && AC_MSG_ERROR([no C Sharp .Net 2.0 compiler: gmcs not found in \$PATH])
 	    PKG_CONFIG_DIR="$LIB64"
+        AC_CHECK_PROG(WSDL, wsdl1, wsdl1,wsdl)
     ;;
     darwin*)
         SIMIAS_OS='darwin'
