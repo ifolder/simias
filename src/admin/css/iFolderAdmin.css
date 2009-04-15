@@ -45,6 +45,13 @@ a:visited
         margin-top: 6px;
 }
 
+.ldapeditifolderbuttons
+{
+        width: 6.5em;
+        margin-left: 4px;
+        margin-top: 6px;
+}
+
 .ifoldersavebutton
 {
         width: 6.0em;
@@ -61,7 +68,6 @@ a:visited
 
 .reprovisionbuttons
 {
-	width: 10.0em;
 	margin-left: 4px;
 	margin-top: 6px;
 }
@@ -285,7 +291,7 @@ img
 	border-top: #f1efe2 thin inset;
 	border-left: #f1efe2 thin inset;
 	border-bottom: #f1efe2 thin solid;
-	width: 65%;
+	width: 57%;
 }
 
 .filetypeitem3
@@ -302,7 +308,6 @@ img
 {
 	margin-top: 1px;
 	float: right;
-	width: 6.3em;
 }
 
 .searchlist

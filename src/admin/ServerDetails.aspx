@@ -544,7 +544,7 @@
 							<asp:Button 
 								    ID="LdapEditButton" 
 								    Runat="server" 
-								    CssClass="ifolderbuttons"
+								    CssClass="ldapeditifolderbuttons"
 								    Enabled="False"
 								    OnClick="OnLdapEditButton_Click"		    
 								    />
