@@ -36,9 +36,6 @@
 #*
 #*******************************************************************************/
 
-#MONO_VERSION=`mono --version | grep -c -E " 2\.4"`
-#if [ $MONO_VERSION -gt 0 ]
-#then
 
 export MONO_PATH=@_webbindir_@:@_bindir_@
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:@_webbindir_@
@@ -58,88 +55,4 @@ then
 	export OS_ARCH=$HOST_ARCH
 fi
 mono @_bindir_@/iFolderAdminSetup.exe "$@"
-#else
-#MONO_RUNTIME_PATH=@_bindir_@/../lib/Mono
-#HOST_ARCH=`uname -a | grep -c x86_64`
-#OLDCHECKSUM="ABC"
-#
-#if [ $HOST_ARCH -gt 0 ]
-#then
-#        NEWCHECKSUM=`md5sum -b $MONO_RUNTIME_PATH/rpms/MonoRpms64bit.tar | awk '{print $1}'`
-#else
-#        NEWCHECKSUM=`md5sum -b $MONO_RUNTIME_PATH/rpms/MonoRpms32bit.tar | awk '{print $1}'`
-#fi
-#
-#if [ -f  $MONO_RUNTIME_PATH/rpms/CHECKSUM ]
-#then
-#        OLDCHECKSUM=`cat $MONO_RUNTIME_PATH/rpms/CHECKSUM`
-#        if [ $NEWCHECKSUM != $OLDCHECKSUM ]
-#        then
-#                rm -rf $MONO_RUNTIME_PATH/usr $MONO_RUNTIME_PATH/etc $MONO_RUNTIME_PATH/srv $MONO_RUNTIME_PATH/var $MONO_RUNTIME_PATH/rpms/*.rpm
-#        fi
-#fi
-#
-#if [ $NEWCHECKSUM != $OLDCHECKSUM ]
-#then
-#        if [ $HOST_ARCH -gt 0 ]
-#        then
-#                tar -C $MONO_RUNTIME_PATH/rpms -xvf $MONO_RUNTIME_PATH/rpms/MonoRpms64bit.tar > $MONO_RUNTIME_PATH/rpms/rpmextract
-#                sed -e 's,ARCHLIBNAME,lib64,g' $MONO_RUNTIME_PATH/bin/mod_mono.conf.in > $MONO_RUNTIME_PATH/bin/mod_mono.conf
-#
-#        else
-#                tar -C $MONO_RUNTIME_PATH/rpms -xvf $MONO_RUNTIME_PATH/rpms/MonoRpms32bit.tar > $MONO_RUNTIME_PATH/rpms/rpmextract
-#                sed -e 's,ARCHLIBNAME,lib,g' $MONO_RUNTIME_PATH/bin/mod_mono.conf.in > $MONO_RUNTIME_PATH/bin/mod_mono.conf
-#
-#        fi
-#        cd $MONO_RUNTIME_PATH
-#        rpm2cpio $MONO_RUNTIME_PATH/rpms/mono-core*.rpm | cpio -ivdm 2>> $MONO_RUNTIME_PATH/rpms/rpmextract
-#	if [ $? -gt 0 ]
-#        then
-#                echo "Error: Could not install MonoRuntime tree, please check the tar path again"
-#                exit
-#        fi
-#        rpm2cpio $MONO_RUNTIME_PATH/rpms/mono-web*.rpm | cpio -ivdm 2>> $MONO_RUNTIME_PATH/rpms/rpmextract
-#	if [ $? -gt 0 ]
-#        then
-#                echo "Error: Could not install MonoRuntime tree, please check the tar path again"
-#                exit
-#        fi
-#        rpm2cpio $MONO_RUNTIME_PATH/rpms/mono-data*.rpm | cpio -ivdm 2>> $MONO_RUNTIME_PATH/rpms/rpmextract
-#	if [ $? -gt 0 ]
-#        then
-#                echo "Error: Could not install MonoRuntime tree, please check the tar path again"
-#                exit
-#        fi
-#        rpm2cpio $MONO_RUNTIME_PATH/rpms/mono-winforms*.rpm | cpio -ivdm 2>> $MONO_RUNTIME_PATH/rpms/rpmextract
-#	if [ $? -gt 0 ]
-#        then
-#                echo "Error: Could not install MonoRuntime tree, please check the tar path again"
-#                exit
-#        fi
-#        rpm2cpio $MONO_RUNTIME_PATH/rpms/xsp*.rpm | cpio -ivdm 2>> $MONO_RUNTIME_PATH/rpms/rpmextract
-#	if [ $? -gt 0 ]
-#        then
-#                echo "Error: Could not install MonoRuntime tree, please check the tar path again"
-#                exit
-#        fi
-#        rpm2cpio $MONO_RUNTIME_PATH/rpms/apache2-mod_mono*.rpm | cpio -ivdm 2>> $MONO_RUNTIME_PATH/rpms/rpmextract
-#	if [ $? -gt 0 ]
-#        then
-#                echo "Error: Could not install MonoRuntime tree, please check the tar path again"
-#                exit
-#        fi
-#        chmod -R 0755 $MONO_RUNTIME_PATH
-#        echo $NEWCHECKSUM > $MONO_RUNTIME_PATH/rpms/CHECKSUM
-#fi
-#
-#export MONO_PATH=$MONO_RUNTIME_PATH/usr/lib/mono/:$MONO_RUNTIME_PATH/usr/lib/mono/2.0:@_webbindir_@:@_bindir_@:/usr/lib/mono/log4net/
-#export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$MONO_RUNTIME_PATH/usr/lib/mono/:$MONO_RUNTIME_PATH/usr/lib/mono/2.0:@_webbindir_@
-#export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:$MONO_RUNTIME_PATH/usr/lib/mono/:$MONO_RUNTIME_PATH/usr/lib/mono/2.0:@_webbindir_@
-#export MONO_CFG_DIR=$MONO_RUNTIME_PATH/etc
-#export LOCAL_MONO_RUNTIME_PATH=$MONO_RUNTIME_PATH
-#cd @_bindir_@
-#
-#$MONO_RUNTIME_PATH/usr/bin/mono @_bindir_@/iFolderAdminSetup.exe "$@"
-#
-#fi
 
