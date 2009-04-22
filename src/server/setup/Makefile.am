@@ -50,10 +50,14 @@ else
 	SimiasServerSetup_LIBS := $(SimiasServerSetup_LIBS1)
 endif
 
-EXTRA_DIST = $(SimiasServerSetup_CSFILES) $(srcdir)/iFolderWebSetup.cs iFolderAdminSetup.cs utility.cs simias-server-setup.in simias-server-setup.cmd App.ico SimiasServerSetup.exe.config iFolderWebSetup.exe.config ifolder-web-setup.in iFolderAdminSetup.exe.config ifolder-admin-setup.in AssemblyInfo.cs.in
+EXTRA_DIST = $(SimiasServerSetup_CSFILES) $(srcdir)/iFolderWebSetup.cs iFolderAdminSetup.cs utility.cs simias-server-setup.in simias-server-setup.cmd App.ico SimiasServerSetup.exe.config iFolderWebSetup.exe.config ifolder-web-setup.in iFolderAdminSetup.exe.config ifolder-admin-setup.in AssemblyInfo.cs.in novell-ifolder3.conf.in
 
 AssemblyInfo.cs: $(srcdir)/AssemblyInfo.cs.in Makefile
 	sed -e 's,@_VERSION_@,@VERSION@,g' $< > $@
+	chmod +x $@
+
+novell-ifolder3.conf: $(srcdir)/novell-ifolder3.conf.in
+	sed -e 's,@_prefix_@,@prefix@,g' -e 's,@_webbindir_@,@webbindir@,g' -e 's,@_lib64_@,@LIB64@,g' $< > $@        
 	chmod +x $@
 	
 simias-server-setup: $(srcdir)/simias-server-setup.in
@@ -81,7 +85,7 @@ DOC_FILE_CMD = /doc:$(DOC_FILE)
 DOC_FILE_CLEAN = *.doc.xml
 endif
 
-all: SimiasServerSetup.exe iFolderWebSetup.exe iFolderAdminSetup.exe 
+all: SimiasServerSetup.exe iFolderWebSetup.exe iFolderAdminSetup.exe novell-ifolder3.conf 
 
 SimiasServerSetup.exe: $(SimiasServerSetup_CSFILES) $(SimiasServerSetup_RESOURCES) simias-server-setup
 	$(CSC) /out:$@ $(CSCFLAGS) $(SimiasServerSetup_FLAGS) $(SIMIAS_LIBS) $(SimiasServerSetup_LIBS:%=/r:%) $(SimiasServerSetup_LIBPATH:%=/lib:%) $(SimiasServerSetup_RESOURCES:%=$(ICON_FLAG)%) $(SimiasServerSetup_CSFILES_CSC) $(DOC_FILE_CMD)
