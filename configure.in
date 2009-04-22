@@ -555,8 +555,6 @@ AC_ARG_WITH(runasclient,
 		./src/server/Makefile
 		./src/server/Simias.config
 		./src/server/setup/Makefile
-		./src/server/setup/CertCheck/Makefile
-		./src/server/setup/CertCheck/get-root-certificate
 		./src/server/DiscoveryWS/Makefile
 		./src/server/DiscoveryWS/AssemblyInfo.cs
 		./src/server/Simias.HttpFile/Makefile
