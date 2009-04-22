@@ -1,5 +1,0 @@
-#!/bin/sh
-export MONO_PATH=@_bindir_@/../lib/Mono/usr/lib/mono/2.0/:/usr/lib/mono/log4net
-export PATH=@_bindir_@/../lib/Mono/bin:@_bindir_@/../lib/Mono/usr/bin:$PATH
-export MONO_CFG_DIR=@_bindir_@/../lib/Mono/etc
-exec @_bindir_@/../lib/Mono/usr/bin/mono $MONO_OPTIONS "@_bindir_@/../lib/Mono/usr/lib/mono/2.0/mod-mono-server2.exe" "$@"

@@ -1,2 +1,0 @@
-#!/bin/sh
-exec @_bindir_@/../lib/Mono/usr/bin/mono $MONO_OPTIONS @_bindir_@/../lib/Mono/usr/lib/mono/2.0/gmcs.exe "$@"
