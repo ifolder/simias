@@ -18,22 +18,22 @@
 
 
 Name:           ifolder3-enterprise
-BuildRequires:  compat-libstdc++ e2fsprogs e2fsprogs-devel gcc-c++ glib2 glib2-devel libflaim libflaim-devel libstdc++ libstdc++-devel libxml2 libxml2-devel log4net mod_mono mono-core mono-data mono-devel mono-web pkgconfig xsp ncurses ncurses-devel
-
+BuildRequires:  compat-libstdc++ e2fsprogs e2fsprogs-devel gcc-c++ glib2 glib2-devel libflaim libflaim-devel libstdc++ libstdc++-devel libxml2 libxml2-devel log4net mod_mono mono-core mono-data mono-devel mono-web novell-NLDAPbase novell-NLDAPsdk-devel pkgconfig xsp
 
 %define buildnum @@BUILDNUM@@
 Url:            http://wwww.ifolder.com
-%define prefix /usr 
+%define prefix /opt/novell/ifolder3
 %define novell_lib /opt/novell/%_lib
 %define sysconfdir /etc
-License:        GNU General Public License (GPL) v2 
+License:       	GNU General Public License (GPL) v2 
 Group:          Productivity/Networking/Novell
 AutoReqProv:    on
-Requires:       mono-core = 1.2.6
-Requires:       mono-data = 1.2.6
-Requires:       mono-web = 1.2.6
+Requires:       mono-core >= 1.2.2
+Requires:       mono-data >= 1.2.2
+Requires:       mono-web >= 1.2.2
 Requires:       log4net >= 1.2.9 
-Requires:       mod_mono
+Requires:       novell-NLDAPbase
+Requires:       mod_mono >= 1.2.5
 #Obsoletes:      %{name} < %{version}
 Version:        3.7.2.@@BUILDNUM@@.1
 Release:        0.2
@@ -61,7 +61,7 @@ export BUILDNUM=%{buildnum}
 export EDIR_INCLUDE=/opt/novell/eDirectory/include
 export EDIR_LIBDIR=/opt/novell/eDirectory/%_lib
 export LIBDIR=%_lib
-./autogen.sh --prefix=%{prefix} --sysconfdir=/etc #--with-runasclient
+./autogen.sh --prefix=%{prefix} #--with-runasclient
 make
 #make dist
 #=============================================================================
@@ -84,17 +84,19 @@ ln -sf %{prefix}/%_lib/simias/web/bin/SimiasLib.dll %{prefix}/%_lib/simias/admin
 [ -f %{prefix}/%_lib/simias/webaccess/bin/SimiasLib.dll ] || \
 ln -sf %{prefix}/%_lib/simias/web/bin/SimiasLib.dll %{prefix}/%_lib/simias/webaccess/bin/SimiasLib.dll
 # Create links for automatic updates to work correctly
-ln -sf %{prefix}/%_lib/simias/clients/ifolder3/ifolder3-linux.tar.gz \
+ln -sf /srv/www/novell/clients/ifolder3/ifolder3-linux.tar.gz \
 	%{prefix}/%_lib/simias/web/update/unix/default/ifolder3-linux.tar.gz
-ln -sf %{prefix}/%_lib/simias/clients/ifolder3/ifolder3-linux.tar.gz \
+ln -sf /srv/www/novell/clients/ifolder3/ifolder3-linux.tar.gz \
         %{prefix}/%_lib/simias/web/update/unix/suse-linux-10.0/ifolder3-linux.tar.gz
-ln -sf %{prefix}/%_lib/simias/clients/ifolder3/ifolder3-linux.tar.gz \
-        %{prefix}/%_lib/simias/web/update/unix/opensuse-linux-10.3/ifolder3-linux.tar.gz
-ln -sf %{prefix}/%_lib/simias/clients/ifolder3/ifolder3-windows.exe \
+ln -sf /srv/www/novell/clients/ifolder3/ifolder3-sled11.tar.gz \
+        %{prefix}/%_lib/simias/web/update/unix/suse-linux-11.0/ifolder3-sled11.tar.gz
+ln -sf /srv/www/novell/clients/ifolder3/ifolder3-openSUSE11.1.tar.gz \
+        %{prefix}/%_lib/simias/web/update/unix/opensuse-linux-11.1/ifolder3-openSUSE11.1.tar.gz
+ln -sf /srv/www/novell/clients/ifolder3/ifolder3-windows.exe \
 	%{prefix}/%_lib/simias/web/update/windows/ifolder3-windows.exe
-ln -sf %{prefix}/%_lib/simias/clients/ifolder3/ifolder3-windows-x64.exe \
+ln -sf /srv/www/novell/clients/ifolder3/ifolder3-windows-x64.exe \
         %{prefix}/%_lib/simias/web/update/windows/ifolder3-windows-x64.exe
-ln -sf %{prefix}/%_lib/simias/clients/ifolder3/ifolder3-mac.dmg \
+ln -sf /srv/www/novell/clients/ifolder3/ifolder3-mac.dmg \
 	%{prefix}/%_lib/simias/web/update/mac/ifolder3-mac.dmg
 
 # Set LD_LIBRARY_PATH
@@ -117,31 +119,30 @@ echo "Run %{prefix}/bin/simias-server-setup to configure the server"
 #=============================================================================
 
 %files
+%attr(755,root,root) %dir %{prefix}
+%attr(755,root,root) %dir /opt/novell
 %defattr(755,root,root)
+%dir %{prefix}/bin
 %{prefix}/bin/*
-%dir /etc/simias/
-%dir /etc/simias/apache
-%dir /etc/simias/apache/default
-%dir /etc/simias/apache/example.com
-%dir /etc/simias/bill
-%dir /etc/simias/bill/modules
-/etc/simias/Simias.config
-/etc/simias/Simias.log4net
+%dir %{prefix}/etc
+%dir %{prefix}/etc/simias/
+%dir %{prefix}/etc/simias/apache
+%dir %{prefix}/etc/simias/apache/default
+%dir %{prefix}/etc/simias/apache/example.com
+%dir %{prefix}/etc/simias/bill
+%dir %{prefix}/etc/simias/bill/modules
+#%dir %{prefix}/%_lib/Mono
+#%dir %{prefix}/%_lib/Mono/bin
+#%dir %{prefix}/%_lib/Mono/rpms
+%{prefix}/etc/simias/Simias.config
+%{prefix}/etc/simias/Simias.log4net
+%dir %{prefix}/include
 %{prefix}/include/*
-%{prefix}/%_lib/pkgconfig/*
-%{prefix}/%_lib/libFlaimWrapper.so
-%{prefix}/%_lib/libFlaimWrapper.so.0
-%{prefix}/%_lib/libFlaimWrapper.so.0.0.0
-%{prefix}/%_lib/libsimias-event.so
-%{prefix}/%_lib/libsimias-event.so.0
-%{prefix}/%_lib/libsimias-event.so.0.0.0
-%{prefix}/%_lib/libsimias-manager.a
-%{prefix}/%_lib/libsimias.so
-%{prefix}/%_lib/libsimias.so.0
-%{prefix}/%_lib/libsimias.so.0.0.0
+%dir %{prefix}/%_lib
+%{prefix}/%_lib/*
+%dir %{prefix}/share
 %{prefix}/share/*
 %dir %{prefix}/%_lib/simias/web
-%dir %{prefix}/%_lib/simias
 %dir %{prefix}/%_lib/simias/web/bin
 %{prefix}/%_lib/simias/web/bin/SimiasClient.dll
 %{prefix}/%_lib/simias/web/bin/Simias.Web.dll
@@ -153,7 +154,6 @@ echo "Run %{prefix}/bin/simias-server-setup to configure the server"
 %{prefix}/%_lib/simias/web/bin/SimiasLib.dll
 %{prefix}/%_lib/simias/webaccess/bin/SimiasLib.dll
 %{prefix}/%_lib/simias/admin/bin/SimiasLib.dll
-%{prefix}/%_lib/simias/*
 %{prefix}/%_lib/simias/web/bin/FlaimWrapper.so
 #%{prefix}/%_lib/simias/web/bin/SimiasAPIService.Web.dll
 %{prefix}/%_lib/simias/web/Global.asax
@@ -169,17 +169,22 @@ echo "Run %{prefix}/bin/simias-server-setup to configure the server"
 %config(noreplace) %{prefix}/%_lib/simias/web/web.config
 %config(noreplace) %{prefix}/%_lib/simias/webaccess/Web.config
 %config(noreplace) %{prefix}/%_lib/simias/admin/Web.config
-/etc/simias/apache/default/ifolder_admin.conf
-/etc/simias/apache/default/ifolder_webaccess.conf
-/etc/simias/apache/default/simias_server.conf
-/etc/simias/apache/example.com/ifolder_admin.conf
-/etc/simias/apache/example.com/ifolder_webaccess.conf
-/etc/simias/apache/example.com/simias_server.conf
-/etc/simias/apache/ifolder_apache.conf
-/etc/simias/bill/Simias.config
-/etc/simias/bill/modules/Simias.Server.conf
-/etc/simias/defaults.config
-/etc/novell-ifolder3.conf
+%{prefix}/etc/simias/apache/default/ifolder_admin.conf
+%{prefix}/etc/simias/apache/default/ifolder_webaccess.conf
+%{prefix}/etc/simias/apache/default/simias_server.conf
+%{prefix}/etc/simias/apache/example.com/ifolder_admin.conf
+%{prefix}/etc/simias/apache/example.com/ifolder_webaccess.conf
+%{prefix}/etc/simias/apache/example.com/simias_server.conf
+%{prefix}/etc/simias/apache/ifolder_apache.conf
+%{prefix}/etc/simias/bill/Simias.config
+%{prefix}/etc/simias/bill/modules/Simias.Server.conf
+%{prefix}/etc/simias/defaults.config
+%{prefix}/etc/novell-ifolder3.conf
+#%{prefix}/%_lib/Mono/bin/mod_mono.conf.in
+#%{prefix}/%_lib/Mono/bin/mod-mono-server2
+#%{prefix}/%_lib/Mono/bin/gmcs
+#%{prefix}/%_lib/Mono/rpms/MonoRpms64bit.tar
+#%{prefix}/%_lib/Mono/rpms/MonoRpms64bit.tar
 /etc/ld.so.conf.d/novell-ifolder3.conf
 
 %changelog

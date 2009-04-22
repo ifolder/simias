@@ -55,7 +55,6 @@ namespace Simias.Client
 		private static string _sbindir = "@sbindir@";
 		private static string _sharedstatedir = "@sharedstatedir@";
 		private static string _sysconfdir = "@sysconfdir@";
-		private static string _etcdir = "@etcdir@";
 
 		// custom setup paths
 		private static string _webdir = "@webdir@";
@@ -134,7 +133,6 @@ namespace Simias.Client
 				_sbindir = Path.GetFullPath(_sbindir.Replace(_prefix, value));
 				_sharedstatedir = Path.GetFullPath(_sharedstatedir.Replace(_prefix, value));
 				_sysconfdir = Path.GetFullPath(_sysconfdir.Replace(_prefix, value));
-				_etcdir = Path.GetFullPath(_etcdir.Replace(_prefix, value));
 				_webdir = Path.GetFullPath(_webdir.Replace(_prefix, value));
 				_webbindir = Path.GetFullPath(_webbindir.Replace(_prefix, value));
 				_modulesdir = Path.GetFullPath(_modulesdir.Replace(_prefix, value));
@@ -236,15 +234,6 @@ namespace Simias.Client
 			get { return _sysconfdir; }
 		}
 
-		/// <summary>
-                /// etcdir
-                /// </summary>
-                public static string etcdir
-                {
-                        get { return _etcdir; }
-                }
-
-		
 		/// <summary>
 		/// webdir
 		/// </summary>

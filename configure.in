@@ -100,8 +100,8 @@ test $bindir = '${exec_prefix}/bin'			&& bindir="${exec_prefix}/bin"
 test $sbindir = '${exec_prefix}/sbin'		&& sbindir="${exec_prefix}/sbin"
 test $libexecdir = '${exec_prefix}/libexec'	&& libexecdir="${exec_prefix}/${LIB64}/simias"
 test $datadir = '${prefix}/share'			&& datadir="${prefix}/share"
-test $sysconfdir = '${prefix}/etc'			&& sysconfdir="${prefix}/etc"
 test $sharedstatedir = '${prefix}/com'		&& sharedstatedir="${prefix}/com"
+test $sysconfdir = '${prefix}/etc'			&& sysconfdir="${prefix}/etc"
 test $localstatedir = '${prefix}/var'		&& localstatedir="${prefix}/var"
 test $libdir = '${exec_prefix}/lib'			&& libdir="${exec_prefix}/${LIB64}"
 test $libdir = '${exec_prefix}/lib64'		&& libdir="${exec_prefix}/${LIB64}"
@@ -438,15 +438,8 @@ AC_SUBST(admindir)
 # Setup the bootstrapdir
 #
 
-etcdir="/etc"
-AC_SUBST(etcdir)
 
-case $SIMIAS_OS in
-                linux)
-			simiasconfdir="${etcdir}/simias" ;;
-                darwin)
-			simiasconfdir="${sysconfdir}/simias" ;;
-esac
+simiasconfdir="${sysconfdir}/simias" 
 AC_SUBST(simiasconfdir)
 
 #

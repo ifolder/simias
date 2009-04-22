@@ -18,21 +18,32 @@
 # norootforbuild
 
 Name:           simias
-BuildRequires:  compat-libstdc++ e2fsprogs e2fsprogs-devel gcc-c++ gconf2 glib2 glib2-devel libflaim libflaim-devel libstdc++ libstdc++-devel libxml2 libxml2-devel mono-core mono-data mono-devel mono-web pkgconfig xsp log4net ncurses-devel dos2unix
+%if %suse_version < 1110
+BuildRequires:  compat-libstdc++ e2fsprogs e2fsprogs-devel gcc-c++ gconf2 glib2 glib2-devel novell-ifolder-libflaim novell-ifolder-libflaim-devel libstdc++ libstdc++-devel libxml2 libxml2-devel mono-core mono-data mono-devel mono-web pkgconfig xsp log4net
+%else
+%ifarch         x86_64
+BuildRequires:  e2fsprogs e2fsprogs-devel gcc-c++ gconf2 glib2 glib2-devel libflaim libflaim-devel libstdc++33-32bit libstdc++33-devel-32bit libxml2 libxml2-devel mono-core mono-data mono-devel mono-web pkgconfig xsp log4net ncurses-devel dos2unix
+%else
+BuildRequires:  e2fsprogs e2fsprogs-devel gcc-c++ gconf2 glib2 glib2-devel libflaim libflaim-devel libstdc++33 libstdc++33-devel libxml2 libxml2-devel mono-core mono-data mono-devel mono-web pkgconfig xsp log4net ncurses-devel dos2unix
+%endif
+%endif
+
+#suse_version determines the suse version 1110 is equivalent to 11.1 and sle11 , 1100 is 11.0.
+#From suse 11.1 compat-libstdc++ package is split in to libstdc++33 for 32 bit and libstdc++33-32bit for 64 bit architecture.
 
 %define buildnum @@BUILDNUM@@
 URL:            http://www.ifolder.com
-%define prefix /usr
+%define prefix /opt/novell/ifolder3
 %define sysconfdir %{prefix}/etc
 License:        GNU General Public License (GPL) v2
 Group:          System/Libraries
 Autoreqprov:    on
-Requires:       mono-core >= 1.1.13
-Requires:       mono-data >= 1.1.13
-Requires:       mono-web >= 1.1.13
+Requires:       mono-core >= 1.2.2
+Requires:       mono-data >= 1.2.2
+Requires:       mono-web >= 1.2.2
 Requires:  	log4net >= 1.2.9
-Requires:       xsp >= 1.1.18
-#Obsoletes:      %{name} < 1.8.2.@@BUILDNUM@@.1
+Requires:       xsp >= 1.2.5
+#Obsoletes:      %{name} < %{version}
 Version:        1.8.2.@@BUILDNUM@@.1
 Release:        0.3
 Summary:        Collection-Oriented Data Storage
@@ -57,7 +68,7 @@ export BUILDNUM=%{buildnum}
 export BUILDNUM=%{buildnum}
 export LIBDIR=%{_lib}
 
-./autogen.sh --prefix=%{prefix} --with-runasclient --sysconfdir=/etc
+./autogen.sh --prefix=%{prefix} --with-runasclient
 make
 #make dist
 #=============================================================================
@@ -76,11 +87,11 @@ find $RPM_BUILD_ROOT/%{prefix}/* -type d | xargs chmod 755
 
 %post
 INSTANCES_AFTER_INSTALL=$1
-#if [ "$INSTANCES_AFTER_INSTALL" = "1" ]; then
-#	if [ -d "/etc/simias" ]; then
-#        rm -rf /etc/simias
-#	fi
-#fi
+if [ "$INSTANCES_AFTER_INSTALL" = "1" ]; then
+	if [ -d "/etc/simias" ]; then
+        rm -rf /etc/simias
+	fi
+fi
 if [ "$INSTANCES_AFTER_INSTALL" = "2" ]; then
 	if [ -e {%prefix}/web/web.config ]; then
 		mv {%prefix}/web/web.config {%prefix}/%_lib/simias/web/
@@ -101,28 +112,22 @@ fi
 
 %postun
 #=============================================================================
-
 %files
+%attr(755,root,root) %dir %{prefix}
+%attr(755,root,root) %dir /opt/novell
 %defattr(755,root,root)
+%dir %{prefix}/bin
 %{prefix}/bin/*
-%dir /etc/simias
-/etc/simias/Simias.config
-/etc/simias/Simias.log4net
-/etc/simias/defaults.config
+%dir %{prefix}/etc
+%dir %{prefix}/etc/simias
+%{prefix}/etc/simias/Simias.config
+%{prefix}/etc/simias/Simias.log4net
+%{prefix}/etc/simias/defaults.config
+%dir %{prefix}/include
 %{prefix}/include/*
-%{prefix}/%_lib/pkgconfig/*
-%{prefix}/%_lib/libFlaimWrapper.so
-%{prefix}/%_lib/libFlaimWrapper.so.0
-%{prefix}/%_lib/libFlaimWrapper.so.0.0.0
-%{prefix}/%_lib/libsimias-event.so
-%{prefix}/%_lib/libsimias-event.so.0
-%{prefix}/%_lib/libsimias-event.so.0.0.0
-%{prefix}/%_lib/libsimias-manager.a
-%{prefix}/%_lib/libsimias.so
-%{prefix}/%_lib/libsimias.so.0
-%{prefix}/%_lib/libsimias.so.0.0.0
-%dir %{prefix}/%_lib/simias
-%{prefix}/%_lib/simias/*
+%dir %{prefix}/%_lib
+%{prefix}/%_lib/*
+%dir %{prefix}/share
 %{prefix}/share/*
 %attr(644,root,root) %{prefix}/include/simias/*
 #%config(noreplace) %{prefix}/web/web.config

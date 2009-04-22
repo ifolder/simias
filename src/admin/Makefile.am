@@ -141,7 +141,7 @@ CLEAN_FILES = Novell.iFolderAdmin.dll \
 all: Novell.iFolderAdmin.dll
 
 iFolderAdminWebProxy.cs: ../webservices/iFolderAdmin.wsdl
-	wsdl /nologo /out:$@ $<
+	$(WSDL) /nologo /out:$@ $<
 
 Novell.iFolderAdmin.dll: $(srcdir)/AssemblyInfo.cs iFolderAdminWebProxy.cs $(iFolderAdmin_CSFILES) $(iFolderAdmin_RESOURCES)
 	$(CSC) /out:$@ $(CSCFLAGS) $(iFolderAdmin_FLAGS) $(iFolderAdmin_LIBS:%=/r:%) $(iFolderAdmin_RESOURCES:%=/res:%) $(iFolderAdmin_LIBPATH:%=/lib:%) $(srcdir)/AssemblyInfo.cs $(iFolderAdmin_CSFILES_CSC) $(LOG4NET_LIBS)
@@ -160,7 +160,7 @@ install-exec-local: all
 	$(INSTALL_PROGRAM) $(iFolderAdmin_FORMS) $(DESTDIR)$(admindir)
 	$(INSTALL_PROGRAM) Novell.iFolderAdmin.dll $(DEBUG_FILES) $(DESTDIR)$(admindir)/bin
 	$(INSTALL_PROGRAM) tail.txt $(DESTDIR)$(admindir)/tail
-	cd $(srcdir)/help; cp -r * $(DESTDIR)$(admindir)/help
+	cd $(srcdir)/help; cp -r * $(DESTDIR)$(admindir)/help  
 	rm -rf `find $(DESTDIR)$(admindir)/help -name .svn`
 	cd $(srcdir)/images; cp -r * $(DESTDIR)$(admindir)/images
 	rm -rf `find $(DESTDIR)$(admindir)/images -name .svn`

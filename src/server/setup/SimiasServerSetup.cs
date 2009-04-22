@@ -1103,9 +1103,8 @@ Console.WriteLine("Url {0}", service.Url);
 					"../..",
                                         Path.DirectorySeparatorChar.ToString()
 					);
-				string ldapModuleConfigPath = String.Format( "{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}",
-					baseInstallPath,
-                                        "etc",
+				string ldapModuleConfigPath = String.Format( "{0}{1}{2}{3}{4}{5}{6}{7}{8}",
+					SimiasSetup.sysconfdir,
                                         Path.DirectorySeparatorChar.ToString(),
                                         "simias",
 					Path.DirectorySeparatorChar.ToString(),

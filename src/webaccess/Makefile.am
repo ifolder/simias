@@ -121,7 +121,7 @@ CLEAN_FILES = Novell.iFolderWeb.dll \
 all: Novell.iFolderWeb.dll
 
 iFolderWebProxy.cs: ../webservices/iFolderWeb.wsdl
-	wsdl /nologo /out:$@ $<
+	$(WSDL) /nologo /out:$@ $<
 
 Novell.iFolderWeb.dll: $(srcdir)/AssemblyInfo.cs $(iFolderWeb_CSFILES) $(iFolderWeb_RESOURCES)
 	$(CSC) /out:$@ $(CSCFLAGS) $(iFolderWeb_FLAGS) $(iFolderWeb_LIBS:%=/r:%) $(iFolderWeb_RESOURCES:%=/res:%) $(iFolderWeb_LIBPATH:%=/lib:%) $(LOG4NET_LIBS) $(iFolderWeb_CSFILES_CSC) /doc:iFolderWeb.doc.xml

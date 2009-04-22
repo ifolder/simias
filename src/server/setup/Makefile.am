@@ -112,7 +112,7 @@ else
 	$(INSTALL_PROGRAM) simias-server-setup $(DESTDIR)$(bindir)
 	$(INSTALL_PROGRAM) ifolder-web-setup $(DESTDIR)$(bindir)
 	$(INSTALL_PROGRAM) ifolder-admin-setup $(DESTDIR)$(bindir)
-	$(INSTALL_PROGRAM) novell-ifolder3.conf $(DESTDIR)$(etcdir)
+	$(INSTALL_PROGRAM) novell-ifolder3.conf $(DESTDIR)$(sysconfdir)
 
 	
 endif
@@ -127,7 +127,7 @@ uninstall-local:
 	cd $(DESTDIR)$(bindir); rm -f iFolderAdminSetup.exe $(DEBUG_FILES)
 	cd $(DESTDIR)$(bindir); rm -f ifolder-admin-setup ifolder-admin-setup.cmd
 	cd $(DESTDIR)$(bindir); rm -f iFolderAdminSetup.exe.config
-	cd $(DESTDIR)$(etcdir); rm -f novell-ifolder3.conf
+	cd $(DESTDIR)$(sysconfdir); rm -f novell-ifolder3.conf
 
 installcheck-local: install
 	

@@ -101,10 +101,10 @@ copy:
 	cp ../server/Simias.LdapProvider/Simias.LdapProvider.dll .
 
 iFolderWebLocalProxy.cs: iFolderWebLocal.wsdl
-	wsdl /nologo /namespace:iFolder.WebService.Web /out:$@ $<
+	$(WSDL) /nologo /namespace:iFolder.WebService.Web /out:$@ $<
 
 iFolderAdminLocalProxy.cs: iFolderAdminLocal.wsdl
-	wsdl /nologo /namespace:iFolder.WebService.Admin /out:$@ $<
+	$(WSDL) /nologo /namespace:iFolder.WebService.Admin /out:$@ $<
 
 iFolderWebLocal.wsdl: copy iFolder.WebService.Local.dll GenerateWsdl.exe
 	$(MONO) GenerateWsdl.exe iFolder.WebService.Local.dll iFolder.WebService.iFolderWebLocal http://127.0.0.1:8086/simias10/iFolderWebLocal.asmx $@
