@@ -33,6 +33,7 @@
 
 using System;
 using System.IO;
+using System.Text;
 using System.Text.RegularExpressions;
 
 using Novell.Directory.Ldap;
@@ -55,6 +56,35 @@ namespace Novell.iFolder.Utility
 		/// Secure LDAP Scheme
 		/// </summary>
 		public static readonly string LDAP_SCHEME_SECURE = "ldaps";
+
+		/// <summary>
+		/// AD userAccountControl flags
+		/// </summary>
+                [Flags]
+                private enum ADS_USER_FLAGS
+                {
+                        SCRIPT = 0X0001,
+                        ACCOUNTDISABLE = 0X0002,
+                        HOMEDIR_REQUIRED = 0X0008,
+                        LOCKOUT = 0X0010,
+                        PASSWD_NOTREQD = 0X0020,
+                        PASSWD_CANT_CHANGE = 0X0040,
+                        ENCRYPTED_TEXT_PASSWORD_ALLOWED = 0X0080,
+                        TEMP_DUPLICATE_ACCOUNT = 0X0100,
+                        NORMAL_ACCOUNT = 0X0200,
+                        INTERDOMAIN_TRUST_ACCOUNT = 0X0800,
+                        WORKSTATION_TRUST_ACCOUNT = 0X1000,
+                        SERVER_TRUST_ACCOUNT = 0X2000,
+                        DONT_EXPIRE_PASSWD = 0X10000,
+                        MNS_LOGON_ACCOUNT = 0X20000,
+                        SMARTCARD_REQUIRED = 0X40000,
+                        TRUSTED_FOR_DELEGATION = 0X80000,
+                        NOT_DELEGATED = 0X100000,
+                        USE_DES_KEY_ONLY = 0x200000,
+                        DONT_REQUIRE_PREAUTH = 0x400000,
+                        PASSWORD_EXPIRED = 0x800000,
+                        TRUSTED_TO_AUTHENTICATE_FOR_DELEGATION = 0x1000000
+                }
 
 		/// <summary>
 		/// LDAP connection
@@ -153,8 +183,6 @@ namespace Novell.iFolder.Utility
 		/// <returns>true, if the user was created. false, if the user already exists.</returns>
 		public bool CreateUser(string dn, string password)
 		{
-			// TODO: Modify this to support OpenLDAP and Active Directory.
-
 			// KLUDGE: The search method is currently failing with the LDAP libraries.
 
 			//LdapSearchResults results = connection.Search(proxyDN,
@@ -176,7 +204,31 @@ namespace Novell.iFolder.Utility
 				{
 					case LdapDirectoryType.ActiveDirectory:
 					{
-						// TODO:
+						Regex cnRegex=null;
+						int AccEnable = (int)ADS_USER_FLAGS.NORMAL_ACCOUNT | (int)ADS_USER_FLAGS.DONT_EXPIRE_PASSWD; // Flags set to 66048 
+						string quotedPassword = "\"" + password + "\"";
+						char [] unicodePassword = quotedPassword.ToCharArray();
+						sbyte [] userPassword = new sbyte[unicodePassword.Length * 2];
+
+						for (int i=0; i<unicodePassword.Length; i++) {
+							userPassword[i*2 + 1] = (sbyte) (unicodePassword[i] >> 8);
+							userPassword[i*2 + 0] = (sbyte) (unicodePassword[i] & 0xff);
+						}
+
+						if(dn.ToLower().StartsWith("cn="))
+							cnRegex = new Regex(@"^cn=(.*?),.*$",RegexOptions.IgnoreCase | RegexOptions.Compiled);
+						else if (dn.ToLower().StartsWith("uid="))
+							cnRegex = new Regex(@"^uid=(.*?),.*$",RegexOptions.IgnoreCase | RegexOptions.Compiled);
+						string cn = cnRegex.Replace(dn, "$1");
+
+						// create user attributes
+						attributeSet.Add(new LdapAttribute("objectClass", "user"));
+						attributeSet.Add(new LdapAttribute("objectClass", "InetOrgPerson"));
+						attributeSet.Add(new LdapAttribute("cn", cn));
+						attributeSet.Add(new LdapAttribute("SamAccountName", cn));
+						attributeSet.Add(new LdapAttribute("sn", cn));
+						attributeSet.Add(new LdapAttribute("userAccountControl", AccEnable.ToString()));
+						attributeSet.Add(new LdapAttribute("UnicodePwd", userPassword));
 						break;
 					}
 					case LdapDirectoryType.eDirectory:
@@ -233,18 +285,24 @@ namespace Novell.iFolder.Utility
 		/// <param name="containerDN">The LDAP Container DN</param>
 		public void GrantReadRights(string userDN, string containerDN)
 		{
-			// TODO: Modify this to support OpenLDAP and Active Directory.
-
-			LdapAttribute attribute = new LdapAttribute("acl", new String[]
+			if( DirectoryType.Equals( LdapDirectoryType.ActiveDirectory ))
 			{
-				String.Format("1#subtree#{0}#[Entry Rights]", userDN),
-				String.Format("3#subtree#{0}#[All Attributes Rights]", userDN)
-			});
-			
-			LdapModification modification = new LdapModification(LdapModification.ADD, attribute);
-
-			// at the root
-			connection.Modify(containerDN, modification);
+				// TODO: Modify this to support Active Directory
+			}
+			else if (DirectoryType.Equals( LdapDirectoryType.OpenLDAP ))
+			{
+				// TODO: Modify this to support OpenLDAP.
+			}
+			else if ( DirectoryType.Equals( LdapDirectoryType.eDirectory ) )
+			{
+				LdapAttribute attribute = new LdapAttribute("acl", new String[]
+				{
+					String.Format("1#subtree#{0}#[Entry Rights]", userDN),
+					String.Format("3#subtree#{0}#[All Attributes Rights]", userDN)
+				});
+				LdapModification modification = new LdapModification(LdapModification.ADD, attribute);
+				connection.Modify(containerDN, modification);
+			}
 		}
 
 		/// <summary>
@@ -323,6 +381,109 @@ namespace Novell.iFolder.Utility
 
 			return ldapType;		
 			
+		}
+
+		/// <summary>
+		/// Extends the Active directory AD iFolderschema
+		/// </summary>
+		/// <returns>True on successful schema Extension and false on Failure. </returns>
+		public bool ExtendADiFolderschema()
+		{
+			LdapAttribute attr	= null;
+			LdapEntry entry	= null;
+			string retschemaNamingContext = String.Empty;
+			string[] searchAttributes = { "schemaNamingContext" };
+			LdapSearchResults lsc=connection.Search(	"",
+									LdapConnection.SCOPE_BASE,
+									"objectClass=*",
+									searchAttributes,
+									false);
+			while (lsc.hasMore())
+			{
+				entry = null;				
+				try 
+				{
+					entry = lsc.next();
+				}
+				catch(LdapException e) 
+				{
+					Console.WriteLine("Error: " + e.LdapErrorMessage);
+					continue;
+				}
+				LdapAttributeSet attributeSet = entry.getAttributeSet();
+				System.Collections.IEnumerator ienum =  attributeSet.GetEnumerator();
+				
+				while(ienum.MoveNext())
+				{
+					attr = (LdapAttribute)ienum.Current;
+					string attributeName = attr.Name;
+					Console.WriteLine( attributeName + ": value :" + attr.StringValue);
+
+					if( String.Equals(attributeName, searchAttributes[0]) == true )
+					{
+						retschemaNamingContext = attr.StringValue;
+						break;
+					}
+				}
+			}	
+			try
+			{
+				LdapAttributeSet newattr_attributeSet = new LdapAttributeSet();
+				newattr_attributeSet.Add(new LdapAttribute("adminDisplayName", "iFolderHomeServer"));
+				newattr_attributeSet.Add(new LdapAttribute("attributeID", "2.16.840.1.113719.1.288.1.42"));
+				newattr_attributeSet.Add(new LdapAttribute("cn", "iFolderHomeServer"));
+				newattr_attributeSet.Add(new LdapAttribute("attributeSyntax", "2.5.5.12"));
+				newattr_attributeSet.Add(new LdapAttribute("adminDescription", "iFolder 3.x iFolderHomeServer Attribute, stores DNS Name or IP address of Users/Groups iFolder server."));
+				newattr_attributeSet.Add(new LdapAttribute("isMemberOfPartialAttributeSet", "FALSE"));
+				newattr_attributeSet.Add(new LdapAttribute("isSingleValued", "TRUE"));
+				newattr_attributeSet.Add(new LdapAttribute("showInAdvancedViewOnly", "FALSE"));
+				newattr_attributeSet.Add(new LdapAttribute("lDAPDisplayName", "iFolderHomeServer"));
+				newattr_attributeSet.Add(new LdapAttribute("distinguishedName", "CN=iFolderHomeServer," + retschemaNamingContext));
+				newattr_attributeSet.Add(new LdapAttribute("objectCategory", "CN=Attribute-Schema," + retschemaNamingContext));
+				newattr_attributeSet.Add(new LdapAttribute("objectClass", "attributeSchema"));
+				newattr_attributeSet.Add(new LdapAttribute("oMSyntax", "64"));
+				newattr_attributeSet.Add(new LdapAttribute("name", "iFolderHomeServer"));
+				newattr_attributeSet.Add(new LdapAttribute("searchFlags", "0"));
+			
+				Console.WriteLine("\nExtending Active Directory Schema for {0}", "CN=iFolderHomeServer," + retschemaNamingContext);
+				LdapEntry newattr_entry = new LdapEntry("CN=iFolderHomeServer," + retschemaNamingContext, newattr_attributeSet);
+				connection.Add(newattr_entry);
+
+
+				LdapAttribute newattr_modattribute = new LdapAttribute("schemaUpdateNow", "1");
+				LdapModification newattr_modification = new LdapModification(LdapModification.REPLACE, newattr_modattribute);
+				connection.Modify("", newattr_modification);
+
+				Console.WriteLine("\n Updating {0}", "CN=user," + retschemaNamingContext);
+				LdapAttribute newclass_modattribute = new LdapAttribute("mayContain", "iFolderHomeServer");
+				LdapModification newclass_modification = new LdapModification(LdapModification.ADD, newclass_modattribute);
+				connection.Modify("cn=user,"+retschemaNamingContext, newclass_modification);
+
+				newclass_modattribute = new LdapAttribute("schemaUpdateNow", "1");
+				newclass_modification = new LdapModification(LdapModification.REPLACE, newclass_modattribute);
+				connection.Modify("", newclass_modification);
+				Console.WriteLine("Completed.\n");
+			}
+			catch( LdapException e )
+			{
+				if(e.ResultCode == LdapException.ENTRY_ALREADY_EXISTS)
+				{
+					Console.WriteLine( "\n Active Directory iFolder Schema is already Extended.");
+					return true;
+				}
+				else
+				{
+					Console.WriteLine( "\n Unable to extend Active Directory iFolder Schema. {0}::{1}",e.ResultCode.ToString(), e.Message);
+					return false;
+				}
+			}
+			catch( Exception e )
+			{
+				Console.WriteLine( "\n Unable to extend Active Directory iFolder Schema. Ex.Message {0}",e.Message);
+				return false;
+			}
+			Console.WriteLine( "\nActive Directory iFolder Schema Extended.");
+			return true;
 		}
 
 		/// <summary>

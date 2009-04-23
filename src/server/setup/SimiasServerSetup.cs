@@ -1172,6 +1172,16 @@ Console.WriteLine("Url {0}", service.Url);
                                 else if(ldapSettings.DirectoryType.Equals( LdapDirectoryType.ActiveDirectory ))
 				{
 					string LDAPProviderString = "Simias.Identity.ADLdapProvider";
+					LdapUtility ldapUtility;
+
+					newUri.Host = ldapServer.Value;
+					newUri.Scheme = secure.Value ? LdapSettings.UriSchemeLdaps : LdapSettings.UriSchemeLdap;
+					ldapUrl = new Uri(newUri.ToString());
+
+			        	ldapUtility = new LdapUtility(ldapUrl.ToString() , ldapAdminDN.Value, ldapAdminPassword.Value);
+                        		ldapUtility.Connect();
+                        		ldapUtility.ExtendADiFolderschema();
+					
 					SetConfigValue( document, IdentitySection, LdapPluginAssembly,LDAPProviderString);
 				}
                                 else if(ldapSettings.DirectoryType.Equals( LdapDirectoryType.OpenLDAP ))
@@ -2528,6 +2538,29 @@ Console.WriteLine("Url {0}", service.Url);
 	//					Console.Write("Created...{0} ... {1}", ldapUtility.DirectoryType, ldapProxyPassword.Value);
 						created = true;
 						if ( ldapUtility.DirectoryType.Equals( LdapDirectoryType.eDirectory ) )
+						{
+							// rights
+							if (ldapSearchContext.Assigned)
+							{
+								string[] contexts = ldapSearchContext.Value.Split(new char[] { '#' });
+								foreach(string context in contexts)
+								{
+									if ((context != null) && (context.Length > 0))
+									{
+										if ( !ldapUtility.ValidateSearchContext( context ) )
+										{
+											throw new Exception( string.Format( "Invalid context entered: {0}", context ) );
+										}
+										Console.Write("Granting Read Rights to {0} on {1}...", proxyDN, context);
+										ldapUtility.GrantReadRights(proxyDN, context);
+									}
+								}
+							}
+					
+					
+							Console.WriteLine("Done");
+						}
+						else if ( ldapUtility.DirectoryType.Equals( LdapDirectoryType.ActiveDirectory ) )
 						{
 							// rights
 							if (ldapSearchContext.Assigned)

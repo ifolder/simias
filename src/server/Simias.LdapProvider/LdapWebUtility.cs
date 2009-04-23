@@ -59,6 +59,35 @@ namespace Simias.LdapProvider
 		public static readonly string LDAP_SCHEME_SECURE = "ldaps";
 
 		/// <summary>
+		/// AD userAccountControl flags
+		/// </summary>
+		[Flags]
+		private enum ADS_USER_FLAGS
+		{
+			SCRIPT = 0X0001,
+			ACCOUNTDISABLE = 0X0002,
+			HOMEDIR_REQUIRED = 0X0008,
+			LOCKOUT = 0X0010,
+			PASSWD_NOTREQD = 0X0020,
+			PASSWD_CANT_CHANGE = 0X0040,
+			ENCRYPTED_TEXT_PASSWORD_ALLOWED = 0X0080,
+			TEMP_DUPLICATE_ACCOUNT = 0X0100,
+			NORMAL_ACCOUNT = 0X0200,
+			INTERDOMAIN_TRUST_ACCOUNT = 0X0800,
+			WORKSTATION_TRUST_ACCOUNT = 0X1000,
+			SERVER_TRUST_ACCOUNT = 0X2000,
+			DONT_EXPIRE_PASSWD = 0X10000,
+			MNS_LOGON_ACCOUNT = 0X20000,
+			SMARTCARD_REQUIRED = 0X40000,
+			TRUSTED_FOR_DELEGATION = 0X80000,
+			NOT_DELEGATED = 0X100000,
+			USE_DES_KEY_ONLY = 0x200000,
+			DONT_REQUIRE_PREAUTH = 0x400000,
+			PASSWORD_EXPIRED = 0x800000,
+			TRUSTED_TO_AUTHENTICATE_FOR_DELEGATION = 0x1000000
+		}
+
+		/// <summary>
 		/// LDAP connection
 		/// </summary>
 		private LdapConnection connection;
@@ -122,14 +151,42 @@ namespace Simias.LdapProvider
 
 		public bool ChangePassword(string dn, string password)
 		{
-                        // TODO: Modify this to support Active Directory.
+			LdapDirectoryType LdapType = QueryDirectoryType();
+			switch ( LdapType )
+			{
+				case LdapDirectoryType.ActiveDirectory:
+				{
 
-                        LdapAttribute attribute = new LdapAttribute("userPassword", password);
+					string quotedPassword = "\"" + password + "\"";
+					char [] unicodePassword = quotedPassword.ToCharArray();
+					sbyte [] passwordArray = new sbyte[unicodePassword.Length * 2];
 
-                        LdapModification modification = new LdapModification(LdapModification.REPLACE, attribute);
+					for (int i=0; i<unicodePassword.Length; i++) {
+						passwordArray[i*2 + 1] = (sbyte) (unicodePassword[i] >> 8);
+						passwordArray[i*2 + 0] = (sbyte) (unicodePassword[i] & 0xff);
+					}
 
-                        connection.Modify(dn, modification);
-			return true;
+					LdapAttribute attribute = new LdapAttribute("UnicodePwd", passwordArray);
+					LdapModification modification = new LdapModification(LdapModification.REPLACE, attribute);
+					connection.Modify(dn, modification);
+
+					return true;
+	
+				}
+				case LdapDirectoryType.OpenLDAP:
+				case LdapDirectoryType.eDirectory:
+				deafult:
+				{
+                        		LdapAttribute attribute = new LdapAttribute("userPassword", password);
+
+                        		LdapModification modification = new LdapModification(LdapModification.REPLACE, attribute);
+
+                        		connection.Modify(dn, modification);
+					return true;
+				}
+				//return false;
+			}
+			return false;
 		}
 
 
@@ -141,12 +198,7 @@ namespace Simias.LdapProvider
 		/// <returns>true, if the user was created. false, if the user already exists.</returns>
 		public bool CreateUser(string dn, string password)
 		{
-			// TODO: Modify this to support OpenLDAP and Active Directory.
-
 			// KLUDGE: The search method is currently failing with the LDAP libraries.
-
-			//LdapSearchResults results = connection.Search(proxyDN,
-			//	LdapConnection.SCOPE_BASE, "(objectclass=*)", null, false);
 
 			bool created = true;
 			//if (!results.hasMore())
@@ -164,7 +216,29 @@ namespace Simias.LdapProvider
 				{
 					case LdapDirectoryType.ActiveDirectory:
 					{
-						// TODO:
+						Regex cnRegex=null;
+						string quotedPassword = "\"" + password + "\"";
+						int AccEnable = (int)ADS_USER_FLAGS.NORMAL_ACCOUNT | (int)ADS_USER_FLAGS.DONT_EXPIRE_PASSWD; // Flags set to 66048
+						char [] unicodePassword = quotedPassword.ToCharArray();
+						sbyte [] passwordArray = new sbyte[unicodePassword.Length * 2];
+						for (int i=0; i<unicodePassword.Length; i++) {
+							passwordArray[i*2 + 1] = (sbyte) (unicodePassword[i] >> 8);
+							passwordArray[i*2 + 0] = (sbyte) (unicodePassword[i] & 0xff);
+						}
+						if(dn.ToLower().StartsWith("cn="))
+							cnRegex = new Regex(@"^cn=(.*?),.*$",RegexOptions.IgnoreCase | RegexOptions.Compiled);
+						else if (dn.ToLower().StartsWith("uid="))
+							cnRegex = new Regex(@"^uid=(.*?),.*$",RegexOptions.IgnoreCase | RegexOptions.Compiled);
+						string cn = cnRegex.Replace(dn, "$1");
+
+						// create user attributes
+						attributeSet.Add(new LdapAttribute("objectClass", "user"));
+						attributeSet.Add(new LdapAttribute("objectClass", "InetOrgPerson"));
+						attributeSet.Add(new LdapAttribute("cn", cn));
+						attributeSet.Add(new LdapAttribute("SamAccountName", cn));
+						attributeSet.Add(new LdapAttribute("sn", cn));
+						attributeSet.Add(new LdapAttribute("userAccountControl", AccEnable.ToString()));
+						attributeSet.Add(new LdapAttribute("UnicodePwd", passwordArray));
 						break;
 					}
 					case LdapDirectoryType.eDirectory:
@@ -221,18 +295,24 @@ namespace Simias.LdapProvider
 		/// <param name="containerDN">The LDAP Container DN</param>
 		public void GrantReadRights(string userDN, string containerDN)
 		{
-			// TODO: Modify this to support OpenLDAP and Active Directory.
-
-			LdapAttribute attribute = new LdapAttribute("acl", new String[]
+			QueryDirectoryType();
+			if( DirectoryType.Equals( LdapDirectoryType.ActiveDirectory ))
 			{
-				String.Format("1#subtree#{0}#[Entry Rights]", userDN),
-				String.Format("3#subtree#{0}#[All Attributes Rights]", userDN)
-			});
-			
-			LdapModification modification = new LdapModification(LdapModification.ADD, attribute);
-
-			// at the root
-			connection.Modify(containerDN, modification);
+			}
+			else if (DirectoryType.Equals( LdapDirectoryType.OpenLDAP ))
+			{
+				// TODO: Modify this to support OpenLDAP.
+			}
+			else if ( DirectoryType.Equals( LdapDirectoryType.eDirectory ) )
+			{
+				LdapAttribute attribute = new LdapAttribute("acl", new String[]
+				{
+					String.Format("1#subtree#{0}#[Entry Rights]", userDN),
+					String.Format("3#subtree#{0}#[All Attributes Rights]", userDN)
+				});
+				LdapModification modification = new LdapModification(LdapModification.ADD, attribute);
+				connection.Modify(containerDN, modification);
+			}
 		}
 
 		/// <summary>
