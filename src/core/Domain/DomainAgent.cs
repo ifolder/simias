@@ -778,33 +778,47 @@ namespace Simias.DomainServices
 			SyncClient.ScheduleSync(domainInfo.ID);
 			//Wait for the logged in member to get synced (it is always synced first)
 //localstore will always have the member, as the member proxy is created - possibly we may want to check for the policy information, which is the right thing to check as it gets synced
-			store = Store.GetStore();
-			Simias.Storage.Domain domain = store.GetDomain(domainInfo.ID);
-			bool notsynced=true;
-			int retry = 5;
-			while(notsynced && retry > 0 && retry <= 5)
-			{
-				try
-				{
-					log.Debug("Waiting for Member node Sync ...");
-					--retry;
-					Simias.Storage.Member member = domain.GetCurrentMember();
-					if(member.Family == null)
-					{
-						log.Debug("Retry Countdown {0}", retry);
-						Thread.Sleep(2 * 1000);
-						continue;
-					}
-				}
-				catch (Storage.DoesNotExistException)
-				{
-					log.Info("Member not synced.. waiting for 2 seconds");
-					Thread.Sleep( 2 * 1000 );
-					continue;
-				}
-				log.Info("Member synced");
-				notsynced = false;
-			}
+                        store = Store.GetStore();
+                        Simias.Storage.Domain domain = store.GetDomain(domainInfo.ID);
+                        bool notsynced=true;
+                        int waitTime = 0;
+            int syncWaitTime = 0;
+            while (notsynced && waitTime < 15 && syncWaitTime < 45) //wait if our collection (domain) is getting synced else wait for 10 sec delay and break
+                        {
+                                try
+                                {
+                                        log.Debug("Waiting for Member node Sync ...");
+                                        log.Debug("Attach : Sync Col ID:{0} Domain Col ID:{1}", SyncClient.CurrentiFolderID, domainInfo.ID);
+                                        Simias.Storage.Member member = domain.GetCurrentMember();
+                                        if(member.Family == null)
+                                        {
+                                                log.Debug("Attach : Sync Col ID:{0} Domain Col ID:{1}", SyncClient.CurrentiFolderID, domainInfo.ID);
+                                                if(SyncClient.CurrentiFolderID !=null && SyncClient.CurrentiFolderID == domainInfo.ID)
+                                                {
+                                                        //wait more time
+                                                        syncWaitTime = syncWaitTime + 1;
+                            log.Debug("syncWaitTime Count : {0}", syncWaitTime);
+                                                }
+                                                else
+                                                {
+                                                        //wait less time
+                            waitTime = waitTime + 1;
+                            log.Debug("Wait Count : {0}", waitTime);
+                                                }
+                                                Thread.Sleep(2 * 1000);
+                                                continue;
+                                        }
+                                        else
+                                        {
+                                                log.Info("Member synced");
+                                                notsynced = false;
+                                        }
+                                }
+                                catch (Exception ex)
+                                {
+                                        log.Info("Attach member sync wait {0}", ex.Message);
+                                }
+                        }
 			return status;
 		}
 
