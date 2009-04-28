@@ -37,9 +37,9 @@ Url:            http://wwww.ifolder.com
 License:        GNU General Public License (GPL) v2 
 Group:          Productivity/Networking/Novell
 AutoReqProv:    on
-Requires:       mono-core >= 1.2.6
-Requires:       mono-data >= 1.2.6
-Requires:       mono-web >= 1.2.6
+Requires:       mono-core = 1.2.6
+Requires:       mono-data = 1.2.6
+Requires:       mono-web = 1.2.6
 Requires:       log4net >= 1.2.9 
 Requires:       mod_mono >= 1.2.5
 #Obsoletes:      %{name} < %{version}
