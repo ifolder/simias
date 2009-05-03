@@ -18,7 +18,7 @@ BUILDNUM=`expr \`date +%G%j\` - 2000000`
 PACKAGE=simias
 #PACKAGE_VER=${PACKAGE_VER:="1.8.2"}
 PACKAGE_DIR=../
-SRC_DIR=Simias
+SRC_DIR=`basename \`pwd\``
 TARBALL_NAME=$PACKAGE
 NPS_BUILDNUM=`printf "%x%s\n" \`date +%_m\` \`date +%d\` | tr [:lower:] [:upper:]`
 RPM_DIR="../rpms/$NPS_BUILDNUM"

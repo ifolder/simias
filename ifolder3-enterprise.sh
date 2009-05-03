@@ -19,8 +19,8 @@ BUILDNUM=`expr \`date +%G%j\` - 2000000`
 
 PACKAGE_DIR=../
 PACKAGE_VER=${PACKAGE_VER:="3.7.2"}
-PACKAGE=ifolder3-enterprise
-SRC_DIR=ifolder3-enterprise
+PACKAGE=${PACKAGE:="ifolder3-enterprise"}
+SRC_DIR=`basename \`pwd\``
 TARBALL_NAME=$PACKAGE
 NPS_BUILDNUM=`printf "%x%s\n" \`date +%_m\` \`date +%d\` | tr [:lower:] [:upper:]`
 
