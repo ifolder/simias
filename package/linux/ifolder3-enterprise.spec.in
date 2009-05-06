@@ -97,7 +97,7 @@ ln -sf %{prefix}/%_lib/simias/clients/ifolder3/ifolder3-linux.tar.gz \
 ln -sf %{prefix}/%_lib/simias/clients/ifolder3/ifolder3-linux.tar.gz \
         %{prefix}/%_lib/simias/web/update/unix/suse-linux-10.0/ifolder3-linux.tar.gz
 ln -sf %{prefix}/%_lib/simias/clients/ifolder3/ifolder3-linux.tar.gz \
-        %{prefix}/%_lib/simias/web/update/unix/opensuse-linux-10.3/ifolder3-linux.tar.gz
+        %{prefix}/%_lib/simias/web/update/unix/opensuse-linux/ifolder3-linux.tar.gz
 ln -sf %{prefix}/%_lib/simias/clients/ifolder3/ifolder3-windows.exe \
 	%{prefix}/%_lib/simias/web/update/windows/ifolder3-windows.exe
 ln -sf %{prefix}/%_lib/simias/clients/ifolder3/ifolder3-windows-x64.exe \
