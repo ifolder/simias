@@ -142,6 +142,8 @@ namespace Simias.Sync
 			else
 				Log.log.Debug("No disk node at server....");
 			
+			Log.log.Debug("Client Incarnation :{0} Server Incarnation :{1}", node.ExpectedIncarnation, diskNodeIncarnation);
+			
 			if(node.ExpectedIncarnation != diskNodeIncarnation)
 			{
 				if(node.IsType( NodeTypes.BaseFileNodeType))

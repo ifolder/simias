@@ -432,7 +432,9 @@ namespace Simias.Sync
 			///now download will say DateConflict since the conflict is resolved out of bound, so nothing to download
 			///so remove the conflict, remove conflict will not disturb the local incarnation value
 			/// commit may be true or false since we are removing the conflicts blindly
-			RemoveConflict(commit);
+			
+			if(DateConflict == true)
+				RemoveConflict(commit);
 
 			
 			if (commit)
@@ -929,39 +931,44 @@ namespace Simias.Sync
 		/// </summary>
 		private void  CreateFileConflict()
 		{
-			Log.log.Debug("CreateFileConflict  1=  LI: {0} ", node.LocalIncarnation); 
-			
-			Log.log.Debug(" node state before first commit :{0}", node.Properties.State);
+			Log.log.Debug("CreateFileConflict node state before first commit :{0}", node.Properties.State);
+			Log.log.Debug("1. CreateFileConflict LI: {0} ", node.LocalIncarnation);
 
+			//Step 1	(avoid the local incanation increment and decrement the server incarnation)
+			//Step 1.1 avoid he local incarnation
+			Property p= new Property(PropertyTags.Rollback, true);
+			p.LocalProperty=true;
+			node.Properties.ModifyProperty(p);
 			///Commit the node to disk, so that the disk node is now available, this is equivalent to having a file node before download
-			collection.Commit(node);
-			Log.log.Debug("CreateFileConflict  2=  LI: {0}", node.LocalIncarnation); 
-
+			collection.Commit(node);			
+			Log.log.Debug("2. CreateFileConflict LI: {0}", node.LocalIncarnation);
+			
+			
+			//Step 1.2 decrement the master incarnation
+			node.SetMasterIncarnation(node.LocalIncarnation-1);
 			/// After the commit the state is update, eventhough it is update, we need to change a property so the next commit
 			/// will increase the local incarnation, So just touch the property and update to the same value
 			//node.Properties.ModifyNodeProperty( PropertyTags.LocalIncarnation, node.LocalIncarnation);
 			DateTime LastWriteTime= node.LastWriteTime;
-			long serverLength = node.Length;
-			
+			long serverLength = node.Length;			
 			FileInfo fi = new FileInfo(file);
 			node.LastWriteTime = fi.LastWriteTime;
 			node.Length = fi.Length;
-
-			//node.Properties.ModifyNodeProperty( PropertyTags.LocalIncarnation, node.LocalIncarnation);
-			Log.log.Debug("CreateFileConflict  3=  LI: {0} ", node.LocalIncarnation); 
+			Log.log.Debug("3. CreateFileConflict LI: {0} ", node.LocalIncarnation); 
+			Log.log.Debug("node state before commit :{0}", node.Properties.State);
 			
-			Log.log.Debug(" node state before commit 2:{0}", node.Properties.State);
 
-			///Now the node is available in the disk, commit it once again to increase the incarnation value
+			///Step 2. Now the node is available in the disk, commit it once again to increase the incarnation value, this will help to raise the conflict in commit which is called in close
 			collection.Commit(node);
-			Log.log.Debug(" node state after commit :{0}", node.Properties.State);
+			Log.log.Debug(" node state after commit :{0}", node.Properties.State);		
 
 			//Reset the saved 
 			node.LastWriteTime = LastWriteTime;
 			node.Length = serverLength;
+			
+			Log.log.Debug("CreateFileConflict  4=  MI: {0} LI: {1}",node.MasterIncarnation, node.LocalIncarnation); 			
 
-			Log.log.Debug("CreateFileConflict  4=  MI: {0} LI: {1}",node.MasterIncarnation, node.LocalIncarnation); 
-
+			/// Step 3
 			///Change back to import, so that the process commit creates a conflict
 			///Consider this is a node from server and we do a fresh import on the client node
 			node.Properties.State = PropertyList.PropertyListState.Import;

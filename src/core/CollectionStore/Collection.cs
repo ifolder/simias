@@ -1250,9 +1250,10 @@ namespace Simias.Storage
 					//	2. Node object does not exist locally.
 					//	3. Master incarnation value is zero (first time sync).
 					//	4. Rollback is set in download close (only download the node is in import state)
- 
+					//   5. If merge Master incarnation may be zero
+					
 					//Log.log.Debug("Disk Node LI:{0}  MI:{1}", checkNode.LocalIncarnation, checkNode.MasterIncarnation);
-					if ( !node.SkipCollisionCheck && ( checkNode != null ) && ( checkNode.MasterIncarnation != 0 ) )
+					if ( !node.SkipCollisionCheck && ( checkNode != null ) && ( checkNode.MasterIncarnation != 0 || this.Merge == true))
 					{
 						// Need to check for a collision here. A collision is defined as an update to the client
 						// Node object that the server doesn't know about.
