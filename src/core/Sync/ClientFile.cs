@@ -448,7 +448,7 @@ namespace Simias.Sync
 					///If no data conflict and this is a merge and file exits locally and server file length is non zero then create a conflict for non encryted folders
 					///Encrypted folder full file is downloaded always
 					//if( fileExistLocally == true &&  collection.Merge == true && DateConflict == false &&  Length !=0 && IsEncryptionEnabled() == false)
-					if( fileExistLocally == true &&  isLocalNodeDeleted == true && DateConflict == false &&  Length !=0 && IsEncryptionEnabled() == false)					
+					if( fileExistLocally == true &&  isLocalNodeDeleted == true && DateConflict == false &&  Length !=0)					
 					{
 						//This call will ensure that the next commit will create a conflict
 						CreateFileConflict();
@@ -643,16 +643,18 @@ namespace Simias.Sync
 				}
 			}
 
-			Log.log.Debug("isServerFileRenamed :{0} ", isServerFileRenamed);
+			Log.log.Debug("downloadMap.Count :{0} isServerFileRenamed :{1} LocalFileLength :{2} Length :{3}", downloadMap.Count, isServerFileRenamed, LocalFileLength, Length );
 
 			///Determine whether both the files (server copy and local copy) are identical
 			///There may be instances that the server file blocks need to be duplicated or removed through copyfile, so check the local size and server size
 			
-			if(sizeToSync == 0 && downloadMap.Count == 0 &&  isServerFileRenamed == false && LocalFileLength == Length)
+			if(sizeToSync == 0 && downloadMap.Count == 0 && isServerFileRenamed == false  && LocalFileLength == Length)
 			{
+				Log.log.Debug("Downloadfile DateConflict = true"); 
 				DateConflict = true; //version conflict, data intact
 				return false;	
-			}
+			}			
+
 
 			/// Get the key and decrypt it to Decrypt the file data
 			if(GetCryptoKey(out EncryptionKey)== true)
@@ -749,7 +751,7 @@ namespace Simias.Sync
 			else
 				serverHashMap = new HashData[0];
 
-			if(serverHashMap == null || serverHashMap.Length == 0 || IsEncryptionEnabled() == true)
+			if(serverHashMap == null || serverHashMap.Length == 0 || (IsEncryptionEnabled() == true ))
 			{
 				if(Encrypted == true)
 				{
@@ -764,7 +766,11 @@ namespace Simias.Sync
 				fileMap = new long[HashMap.GetBlockCount(node.Length, out blockSize)];
 				for (int i = 0; i < fileMap.Length; ++i)
 					fileMap[i] = -1;
-				return fileMap;
+				
+				if(collection.Merge != true)
+					return fileMap;
+				
+				//For the merge on the encrypted file,  continue the match process to determine zero byte download or full download
 			}
                      sizeToSync = (long)blockSize * (long)serverHashMap.Length;
 			if( Encrypted == true)
@@ -854,10 +860,19 @@ namespace Simias.Sync
 				}
 				else 
 				{
+					//For the merge on the encrypted file, subtract the padding from the sizeToSync
+					if(Encrypted ==true)
+					{
+						if(node.Length%boundary !=0)
+						{
+							sizeToSync = sizeToSync - (boundary-(node.Length%boundary));
+							Log.log.Debug(" Encrypted file merge sizeToSync before the last block comparision {0} ",sizeToSync);
+						}
+					}
 					///Compare the lastblock(which is less than the block size) provided all the blocks are matched
 					///Process the incomplete last block (always less than the block size)
 					///Process only once, donot increment the startbyte and compare since we are doing this only to verify the files are identical or not
-
+					
 					Log.log.Debug(" blockSize :{0}  bytesRead :{1}  sizeToSync :{2} ", blockSize, bytesRead, sizeToSync);
 					if(sizeToSync == bytesRead)
 					{
@@ -890,6 +905,24 @@ namespace Simias.Sync
 					//Break from the loop since we are done with the file				
 					break;
 				}
+			}
+
+			//For the merge on the encrypted file, add the padding from the sizeToSync
+			if(Encrypted == true)
+			{
+				//check atleat one block need to be downloaded
+				if(sizeToSync > 0)
+				{	//if so download the entire file since the file is encrypted
+					for (int j = 0; j < fileMap.Length; ++j)
+						fileMap[j] = -1;
+
+					//set it to the original value
+					if(node.Length%boundary !=0)
+						sizeToSync = node.Length+ (boundary-(node.Length%boundary));
+					else
+						sizeToSync = node.Length;
+				}
+				Log.log.Debug("Encrypted file merge final sizeToSync {0}", sizeToSync);
 			}
 			return fileMap;
 		}
