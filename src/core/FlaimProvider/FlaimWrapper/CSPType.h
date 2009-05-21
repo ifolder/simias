@@ -35,6 +35,7 @@
 #define MAX_INT_STRING 21
 
 #include <string.h>
+#include <stdio.h>
 
 class CSUtil
 {
