@@ -1,3 +1,7 @@
+2009-05-25  G G Hegde<hegdegg@novell.com>
+
+	* http.cs: modified GetRequest, ignoring exception for headers.Add
+
 ------------------------------------------------------------------------
 r7071 | aruls | 2009-05-13 17:32:29 +0530 (Wed, 13 May 2009) | 1 line
 

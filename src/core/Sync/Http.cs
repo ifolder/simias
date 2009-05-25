@@ -296,7 +296,15 @@ namespace Simias.Sync.Http
 			headers.Add(SyncHeaders.Method, method.ToString());
 			headers.Add(SyncHeaders.UserName, userName);
 			headers.Add(SyncHeaders.UserID, userID);
-			headers.Add(SyncHeaders.CollectionName, collectionName);
+			try {
+				//TODO: could be removed?
+				headers.Add(SyncHeaders.CollectionName, collectionName);
+			}catch
+			{
+				//there is some issue with headers.Add with chinese characters,
+				//as collectionName is not used on the other side,
+				//ignoring the exception. This is fine on Linux.
+			}
 			headers.Add(SyncHeaders.CollectionID, collectionID);
 			headers.Add(Simias.Security.Web.AuthenticationService.Login.DomainIDHeader, domainId);
 			if(! Store.IsEnterpriseServer)
