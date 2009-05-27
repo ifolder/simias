@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8.00"
+	Version="9.00"
 	Name="FlaimWrapper"
 	ProjectGUID="{188191A2-3D4D-404E-8F66-A1FAB865F586}"
 	RootNamespace="FlaimWrapper"
+	TargetFrameworkVersion="131072"
 	>
 	<Platforms>
 		<Platform
@@ -90,6 +91,8 @@
 				ManifestFile="$(IntDir)\$(TargetFileName).manifest"
 				IgnoreDefaultLibraryNames="LIBCMT.lib"
 				ProgramDatabaseFile=".\Release/FlaimWrapper.pdb"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
 				ImportLibrary=".\Release/FlaimWrapper.lib"
 				TargetMachine="1"
 			/>
@@ -113,11 +116,8 @@
 				Name="VCAppVerifierTool"
 			/>
 			<Tool
-				Name="VCWebDeploymentTool"
-			/>
-			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="if not exist C:\iFolder_stage mkdir C:\iFolder_stage&#x0D;&#x0A;if not exist C:\iFolder_stage\lib mkdir C:\iFolder_stage\lib&#x0D;&#x0A;if not exist C:\iFolder_stage\lib\simias mkdir C:\iFolder_stage\lib\simias&#x0D;&#x0A;if not exist C:\iFolder_stage\lib\simias\web mkdir C:\iFolder_stage\lib\simias\web&#x0D;&#x0A;if not exist C:\iFolder_stage\lib\simias\web\bin mkdir C:\iFolder_stage\lib\simias\web\bin&#x0D;&#x0A;if not exist C:\iFolder_stage\etc mkdir C:\iFolder_stage\etc&#x0D;&#x0A;if not exist C:\iFolder_stage\etc\simias mkdir C:\iFolder_stage\etc\simias&#x0D;&#x0A;copy $(IntDir)\$(TargetFileName) C:\iFolder_stage\lib\simias\web\bin&#x0D;&#x0A;copy $(IntDir)\$(TargetFileName).manifest C:\iFolder_stage\lib\simias\web\bin&#x0D;&#x0A;if exist $(IntDir)\$(TargetName).pdb copy $(IntDir)\$(TargetName).pdb C:\iFolder_stage\lib\simias\web\bin&#x0D;&#x0A;xcopy /I/E/Y &quot;$(VCInstallDir)redist\x86\Microsoft.VC80.MFCLOC&quot; &quot;C:\iFolder_stage\lib\simias\web\bin\Microsoft.VC80.MFCLOC&quot;&#x0D;&#x0A;xcopy /I/E/Y &quot;$(VCInstallDir)redist\x86\Microsoft.VC80.MFC&quot; &quot;C:\iFolder_stage\lib\simias\web\bin\Microsoft.VC80.MFC&quot;&#x0D;&#x0A;xcopy /I/E/Y &quot;$(VCInstallDir)redist\x86\Microsoft.VC80.CRT&quot; &quot;C:\iFolder_stage\lib\simias\web\bin\Microsoft.VC80.CRT&quot;&#x0D;&#x0A;"
+				CommandLine="if not exist C:\iFolder_stage mkdir C:\iFolder_stage&#x0D;&#x0A;if not exist C:\iFolder_stage\lib mkdir C:\iFolder_stage\lib&#x0D;&#x0A;if not exist C:\iFolder_stage\lib\simias mkdir C:\iFolder_stage\lib\simias&#x0D;&#x0A;if not exist C:\iFolder_stage\lib\simias\web mkdir C:\iFolder_stage\lib\simias\web&#x0D;&#x0A;if not exist C:\iFolder_stage\lib\simias\web\bin mkdir C:\iFolder_stage\lib\simias\web\bin&#x0D;&#x0A;if not exist C:\iFolder_stage\etc mkdir C:\iFolder_stage\etc&#x0D;&#x0A;if not exist C:\iFolder_stage\etc\simias mkdir C:\iFolder_stage\etc\simias&#x0D;&#x0A;copy $(IntDir)\$(TargetFileName) C:\iFolder_stage\lib\simias\web\bin&#x0D;&#x0A;copy $(IntDir)\$(TargetFileName).manifest C:\iFolder_stage\lib\simias\web\bin&#x0D;&#x0A;if exist $(IntDir)\$(TargetName).pdb copy $(IntDir)\$(TargetName).pdb C:\iFolder_stage\lib\simias\web\bin&#x0D;&#x0A;xcopy /I/E/Y &quot;$(VCInstallDir)redist\x86\Microsoft.VC90.MFCLOC&quot; &quot;C:\iFolder_stage\lib\simias\web\bin\Microsoft.VC90.MFCLOC&quot;&#x0D;&#x0A;xcopy /I/E/Y &quot;$(VCInstallDir)redist\x86\Microsoft.VC90.MFC&quot; &quot;C:\iFolder_stage\lib\simias\web\bin\Microsoft.VC90.MFC&quot;&#x0D;&#x0A;xcopy /I/E/Y &quot;$(VCInstallDir)redist\x86\Microsoft.VC90.CRT&quot; &quot;C:\iFolder_stage\lib\simias\web\bin\Microsoft.VC90.CRT&quot;&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration
@@ -193,6 +193,8 @@
 				ManifestFile="$(IntDir)\$(TargetFileName).manifest"
 				IgnoreDefaultLibraryNames="LIBCMT.lib"
 				ProgramDatabaseFile=".\Release/FlaimWrapper.pdb"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
 				ImportLibrary=".\Release/FlaimWrapper.lib"
 				TargetMachine="17"
 			/>
@@ -214,9 +216,6 @@
 			/>
 			<Tool
 				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -294,6 +293,8 @@
 				IgnoreDefaultLibraryNames="LIBCMTD.lib"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile=".\Debug/FlaimWrapper.pdb"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
 				ImportLibrary=".\Debug/FlaimWrapper.lib"
 				TargetMachine="1"
 			/>
@@ -315,9 +316,6 @@
 			/>
 			<Tool
 				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -395,6 +393,8 @@
 				IgnoreDefaultLibraryNames="LIBCMTD.lib"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile=".\Debug/FlaimWrapper.pdb"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
 				ImportLibrary=".\Debug/FlaimWrapper.lib"
 				TargetMachine="17"
 			/>
@@ -416,9 +416,6 @@
 			/>
 			<Tool
 				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
