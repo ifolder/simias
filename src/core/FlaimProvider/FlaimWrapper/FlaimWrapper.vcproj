@@ -155,7 +155,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="$(SolutionDir)..\..\dependencies\external\libflaim\win64"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)..\..\dependencies\external\libflaim\win64&quot;"
 				PreprocessorDefinitions="WIN64;_WIN64;NDEBUG;_WINDOWS;_USRDLL;FLAIMWRAPPER_EXPORTS;WINDOWS"
 				StringPooling="true"
 				RuntimeLibrary="0"
@@ -184,7 +184,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="rpcrt4.lib ws2_32.lib odbc32.lib odbccp32.lib flaim.lib msvcrt.lib"
+				AdditionalDependencies="rpcrt4.lib ws2_32.lib odbc32.lib odbccp32.lib dbghelp.lib flaim.lib flaimtk.lib msvcrt.lib"
 				OutputFile=".\Release/FlaimWrapper.dll"
 				Version="3.7.1.20"
 				LinkIncremental="1"
