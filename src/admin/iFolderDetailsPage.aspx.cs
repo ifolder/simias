@@ -657,9 +657,9 @@ namespace Novell.iFolderWeb.Admin
 				MemberOwnerButton.Text = GetString( "OWNER" );
 				MemberRightsButton.Text = GetString( "SET" );
 
-				MemberRightsList.Items[ 0 ].Text = GetString( "READONLY" );
-				MemberRightsList.Items[ 1 ].Text = GetString( "READWRITE" );
-				MemberRightsList.Items[ 2 ].Text = GetString( "ADMIN" );
+				MemberRightsList.Items[ 0 ].Text = GetString( "FULLCONTROL" );
+				MemberRightsList.Items[ 1 ].Text = GetString( "READONLY" );
+				MemberRightsList.Items[ 2 ].Text = GetString( "READWRITE" );
 
 				// Initialize state variables.
 				CurrentMemberOffset = 0;

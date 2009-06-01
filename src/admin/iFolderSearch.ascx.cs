@@ -144,8 +144,8 @@ namespace Novell.iFolderWeb.Admin
 				NameLabel.Text = GetString( "NAME" );
 
 				SearchOpList.Items[ 0 ].Text = GetString( "BEGINSWITH" );
-				SearchOpList.Items[ 1 ].Text = GetString( "ENDSWITH" );
-				SearchOpList.Items[ 2 ].Text = GetString( "CONTAINS" );
+				SearchOpList.Items[ 1 ].Text = GetString( "CONTAINS" );
+				SearchOpList.Items[ 2 ].Text = GetString( "ENDSWITH" );
 				SearchOpList.Items[ 3 ].Text = GetString( "EQUALS" );
 				SearchOpList.SelectedValue = GetString( "BEGINSWITH" );
 

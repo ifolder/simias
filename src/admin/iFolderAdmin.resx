@@ -160,7 +160,7 @@
 		<value>Sharing</value>
 	</data>
 	<data name="DISKQUOTA">
-		<value>Disk Quota</value>
+		<value>Disk quota</value>
 	</data>
 	<data name="DISKSPACEAVAILABLETAG">
 		<value>Disk Space Available:</value>
@@ -205,7 +205,7 @@
 		<value>Enabled:</value>
 	</data>
 	<data name="ENABLEREPORTING">
-		<value>Enable Reporting</value>
+		<value>Enable reporting</value>
 	</data>
 	<data name="ENDSWITH">
 		<value>Ends With</value>
@@ -349,7 +349,7 @@
 		<value>Every:</value>
 	</data>
 	<data name="EXCLUDEDFILES">
-		<value>Excluded Files</value>
+		<value>Excluded files</value>
 	</data>
 	<data name="FATAL">
 		<value>Fatal</value>
@@ -367,7 +367,7 @@
 		<value>Files:</value>
 	</data>
 	<data name="FILESIZE">
-		<value>File Size</value>
+		<value>File size</value>
 	</data>
 	<data name="FILETYPEALREADYEXISTS">
 		<value>The specified file name already exists in the list.</value>
@@ -394,10 +394,10 @@
 		<value>Frequency</value>
 	</data>
 	<data name="FULLNAME">
-		<value>Full Name</value>
+		<value>Full name</value>
 	</data>
 	<data name="FULLNAMETAG">
-		<value>Full Name:</value>
+		<value>Full name:</value>
 	</data>
 	<data name="FULLNAMEDISLAYTAG">
 		<value>Name Display:</value>
@@ -409,13 +409,13 @@
 		<value>GB</value>
 	</data>
 	<data name="GENERATEDAILYREPORT">
-		<value>Generate report everyday at {0} to the {1}</value>
+		<value>Generate report everyday at {0} and store it in {1}</value>
 	</data>
 	<data name="GENERATEMONTHLYREPORT">
-		<value>Generate report on day {0} of every month at {1} to the {2}</value>
+		<value>Generate report on day {0} of every month at {1} and store it in {2}</value>
 	</data>
 	<data name="GENERATEWEEKLYREPORT">
-		<value>Generate report every {0} at {1} to the {2}</value>
+		<value>Generate report every {0} at {1} and store it in {2}</value>
 	</data>
 	<data name="GERMAN">
 		<value>German</value>
@@ -424,7 +424,7 @@
 		<value>Help</value>
 	</data>
 	<data name="HOME">
-		<value>Home Server</value>
+		<value>Home server</value>
 	</data>
 	<data name="COMPLETED">
 		<value>Completed</value>
@@ -454,7 +454,7 @@
 		<value>Owned by {0}</value>
 	</data>
 	<data name="IFOLDERLIMIT">
-                <value>iFolders per User</value>
+                <value>iFolders per user</value>
         </data>
 	<data name="IFOLDERS">
 		<value>iFolders</value>
@@ -493,7 +493,7 @@
 		<value>Last</value>
 	</data>
 	<data name="LASTLOGINTIMETAG">
-		<value>Last Login Time:</value>
+		<value>Last login:</value>
 	</data>
 	<data name="LASTMODIFIED">
 		<value>Last Modified</value>
@@ -529,13 +529,13 @@
 		<value>Delete member</value>
 	</data>
 	<data name="LDAPMEMBERDELETEGRACEINT">
-		<value>grace interval:</value>
+		<value>Grace interval:</value>
 	</data>
 	<data name="LDAPUPSINCE">
 		<value>Up Since:</value>
 	</data>
 	<data name="LDAPCONTEXTTAG">
-		<value>LDAP Contexts:</value>
+		<value>LDAP contexts:</value>
 	</data>
 	<data name="LDAPSTATUSTAG">
 		<value>Status:</value>
@@ -592,7 +592,7 @@
 		<value>You are now logged out of iFolder.</value>
 	</data>
 	<data name="LOGINLOSTSESSION">
-		<value>Your session has been closed. Please log in.</value>
+		<value>Your session has expired. Please log in.</value>
 	</data>
 	<data name="CANNOTSETPERMISSION">
                 <value>Could not change the permission of the Full Path specified.</value>
@@ -632,7 +632,7 @@
 		<value>Log</value>
 	</data>
 	<data name="LOGOUT">
-		<value>Log Out</value>
+		<value>Logout</value>
 	</data>
 	<data name="MASTER">
 		<value>Master</value>
@@ -760,6 +760,9 @@
 	<data name="PRIVATEURI">
 		<value>Private URL:</value>
 	</data>
+	<data name="PRIVATEURL">
+		<value>Private URL</value>
+	</data>
 	<data name="PROVISION">
 		<value>Provision</value>
 	</data>
@@ -771,6 +774,9 @@
 	</data>
 	<data name="PUBLICURI">
 		<value>Public URL:</value>
+	</data>
+	<data name="PUBLICURL">
+		<value>Public URL</value>
 	</data>
 	<data name="READONLY">
 		<value>Read Only</value>
@@ -851,7 +857,7 @@
 		<value>Server Not Reachable</value>
 	</data>
 	<data name="SESSIONCLOSED">
-		<value>Your session has been closed. Please log in.</value>
+		<value>The username or password you enterd is incorrect. Please log in.</value>
 	</data>
 	<data name="SESSIONSTAG">
 		<value>Sessions:</value>
@@ -944,7 +950,7 @@
 		<value>Disable User Login</value>
 	</data>
 	<data name="USERNAME">
-		<value>User Name</value>
+		<value>Username</value>
 	</data>
 	<data name="CURRENTHOME">
 		<value>Current Home</value>
@@ -959,10 +965,10 @@
 		<value>New Home:</value>
 	</data>
 	<data name="USERNAMETAG">
-		<value>User Name:</value>
+		<value>User name:</value>
 	</data>
 	<data name="MEMBERTYPETAG">
-		<value>Member Type:</value>
+		<value>Member type:</value>
 	</data>
 	<data name="MEMBERTYPEUSER">
 		<value>User</value>
@@ -977,7 +983,7 @@
 		<value>Group Members:</value>
 	</data>
 	<data name="GROUPLISTTAG">
-		<value>User Groups:</value>
+		<value>User groups:</value>
 	</data>
 	<data name="USERS">
 		<value>Users</value>
@@ -1000,6 +1006,9 @@
 	<data name="WHEN">
 		<value>When</value>
 	</data>
+	<data name="TIME">
+		<value>Time</value>
+	</data>
 	<data name="YES">
 		<value>Yes</value>
 	</data>
@@ -1010,7 +1019,7 @@
                 <value>Add Data Store</value>
         </data>
         <data name="FULLPATH:">
-                <value>Full Path:</value>
+                <value>Full path:</value>
         </data>
         <data name="NOOFIFOLDERS">
                 <value>No of iFolders</value>
@@ -1070,7 +1079,7 @@
         	<value>Provision / Reprovison Users</value>
     	</data>
 	<data name="ENCRYPTION">
-        	<value>Passphrase Based Encryption</value>
+        	<value>Passphrase based encryption</value>
     	</data>
 	<data name="SSLTAG">
         	<value>SSL Option:</value>
@@ -1107,5 +1116,14 @@
     	</data>
 	<data name="SERVERNAMETAG">
 		<value>Server:</value>
+	</data>
+	<data name="NOMEMBERAVAILABLE">
+		<value>No member available</value>
+	</data>
+	<data name="SAVETO">
+		<value>Save to</value>
+	</data>
+	<data name="FULLCONTROL">
+		<value>Full Control</value>
 	</data>
 </root>

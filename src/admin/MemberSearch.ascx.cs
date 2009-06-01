@@ -173,15 +173,15 @@ namespace Novell.iFolderWeb.Admin
 				// Initialize the localized fields.
 				SearchButton.Text = GetString( "SEARCH" );
 
-				SearchAttributeList.Items[ 0 ].Text = GetString( "USERNAME" );
-				SearchAttributeList.Items[ 1 ].Text = GetString( "FIRSTNAME" );
+				SearchAttributeList.Items[ 0 ].Text = GetString( "FIRSTNAME" );
+				SearchAttributeList.Items[ 1 ].Text = GetString( "HOMESERVERNAME" );
 				SearchAttributeList.Items[ 2 ].Text = GetString( "LASTNAME" );
-				SearchAttributeList.Items[ 3 ].Text = GetString( "HOMESERVERNAME" );
+				SearchAttributeList.Items[ 3 ].Text = GetString( "USERNAME" );
 				SearchAttributeList.SelectedValue = GetString( "USERNAME" );
 
 				SearchOpList.Items[ 0 ].Text = GetString( "BEGINSWITH" );
-				SearchOpList.Items[ 1 ].Text = GetString( "ENDSWITH" );
-				SearchOpList.Items[ 2 ].Text = GetString( "CONTAINS" );
+				SearchOpList.Items[ 1 ].Text = GetString( "CONTAINS" );
+				SearchOpList.Items[ 2 ].Text = GetString( "ENDSWITH" );
 				SearchOpList.Items[ 3 ].Text = GetString( "EQUALS" );
 				SearchOpList.SelectedValue = GetString( "BEGINSWITH" );
 

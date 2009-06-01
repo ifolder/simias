@@ -284,6 +284,20 @@ namespace Novell.iFolderWeb.Admin
 				PageNextDisabledButton.Visible = false;
 				PageLastDisabledButton.Visible = false;
 			}
+
+			if(0 == totalItems )
+			{
+				PageNextButton.Visible = false;
+				PageLastButton.Visible = false;
+				PageNextDisabledButton.Visible = false;
+				PageLastDisabledButton.Visible = false;
+				PageFirstButton.Visible = false;
+				PagePreviousButton.Visible = false;
+				PageFirstDisabledButton.Visible = false;
+				PagePreviousDisabledButton.Visible = false;
+				
+				PageText.Text = String.Format(GetString("NOMEMBERAVAILABLE"));
+			}
 		}
 
 		#endregion

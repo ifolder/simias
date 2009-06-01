@@ -52,11 +52,11 @@
 						</td>
 						
 						<td class="publicuricolumn">
-							<%= GetString( "PUBLICURI" ) %>
+							<%= GetString( "PUBLICURL" ) %>
 						</td>
 						
 						<td class="privateuricolumn">
-							<%= GetString( "PRIVATEURI" ) %>
+							<%= GetString( "PRIVATEURL" ) %>
 						</td>
 						
 					</tr>

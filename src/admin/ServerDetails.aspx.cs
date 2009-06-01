@@ -238,7 +238,7 @@ namespace Novell.iFolderWeb.Admin
 		/// <summary>
 		/// External Identity Sync Now Button
 		/// </summary>
-		protected Button SyncNowButton;
+		protected LinkButton SyncNowButton;
 
 		/// <summary>
 		/// Server Details cancel button control.
@@ -289,7 +289,7 @@ namespace Novell.iFolderWeb.Admin
 		/// <summary>
 		/// Log file view button control.
 		/// </summary>
-		protected Button ViewLogButton;
+		protected LinkButton ViewLogButton;
 
 		/// <summary>
 		/// Log level label control.
@@ -331,6 +331,7 @@ namespace Novell.iFolderWeb.Admin
                 /// Server online status
                 /// </summary>
 		protected bool serverStatus = false;
+
 	
 		#endregion
 
@@ -411,11 +412,11 @@ namespace Novell.iFolderWeb.Admin
 
 			levels.Add( GetString( "ALL" ) );
 			levels.Add( GetString( "DEBUG" ) );
-			levels.Add( GetString( "INFO" ) );
-			levels.Add( GetString( "WARN" ) );
 			levels.Add( GetString( "ERROR" ) );
 			levels.Add( GetString( "FATAL" ) );
+			levels.Add( GetString( "INFO" ) );
 			levels.Add( GetString( "OFF" ) );
+			levels.Add( GetString( "WARN" ) );
 
 			LogLevelList.DataSource = levels;
 			LogLevelList.DataBind();
@@ -1401,6 +1402,9 @@ namespace Novell.iFolderWeb.Admin
                         DataPathsFooter.PagePreviousClick += new ImageClickEventHandler( PagePreviousButton_Click );
                         DataPathsFooter.PageNextClick += new ImageClickEventHandler( PageNextButton_Click );
                         DataPathsFooter.PageLastClick += new ImageClickEventHandler( PageLastButton_Click );
+
+			this.SyncNowButton.Click += new System.EventHandler(this.OnSyncNowButton_Click);			
+			this.ViewLogButton.Click += new System.EventHandler(this.ViewLogFile);			
 
 			this.Load += new System.EventHandler(this.Page_Load);
 			this.Unload += new System.EventHandler (this.Page_Unload);

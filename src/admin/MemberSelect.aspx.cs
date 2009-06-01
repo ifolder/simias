@@ -557,6 +557,9 @@ namespace Novell.iFolderWeb.Admin
 		/// <param name="e"></param>
 		private void MemberSelect_MemberItemDataBound( object sender, DataGridItemEventArgs e )
 		{
+			//Making OK button to visible, as member is selected.	
+			//OkButton.Visible = true;
+
 			if ( ( e.Item.ItemType == ListItemType.AlternatingItem ) || ( e.Item.ItemType == ListItemType.Item ) )
 			{
 				// Check for any rows that are not supposed to be displayed and disable the image.
@@ -668,6 +671,8 @@ namespace Novell.iFolderWeb.Admin
 						HeaderTitle.Text = String.Format( GetString( "ADDMEMBERSTOIFOLDER" ), AddToiFolder );
 						SubHeaderTitle.Text = String.Format( GetString( "IFOLDERISOWNEDBY" ), FullName );
 						OkButton.Text = GetString( "OK" );
+						//disabling at page load, making it active when  member is selected
+						OkButton.Enabled = false;
 
 						// Hide the back button.
 						BackButton.Visible = false;
@@ -1011,6 +1016,16 @@ namespace Novell.iFolderWeb.Admin
 					MembersToAdd.Remove( userID );
 				}
 			}
+
+			if(0 == MembersToAdd.Count)
+			{
+				OkButton.Enabled = false;
+			}
+			else
+			{
+				OkButton.Enabled = true;
+			}
+
 		}
 
 		/// <summary>
