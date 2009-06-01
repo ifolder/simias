@@ -552,24 +552,24 @@ AC_ARG_WITH(runasclient,
 	esac],
  	 [runasclient="FALSE"
                 AC_OUTPUT([
-		./src/server/Makefile
-		./src/server/Simias.config
-		./src/server/setup/Makefile
-		./src/server/DiscoveryWS/Makefile
-		./src/server/DiscoveryWS/AssemblyInfo.cs
-		./src/server/Simias.HttpFile/Makefile
-		./src/server/Simias.HttpFile/AssemblyInfo.cs
-		./src/server/Simias.Server/Makefile
-		./src/server/Simias.Server/AssemblyInfo.cs
-		./src/server/Simias.HostService/Makefile
-		./src/server/Simias.LdapProvider/Makefile
-		./src/server/Simias.LdapProvider/AssemblyInfo.cs
-		./src/server/Simias.ADLdapProvider/Makefile
-		./src/server/Simias.ADLdapProvider/AssemblyInfo.cs
-		./src/server/Simias.OpenLdapProvider/Makefile
-		./src/server/Simias.OpenLdapProvider/AssemblyInfo.cs
-		./src/server/Simias.ClientUpdate/Makefile
-		./src/server/Simias.ClientUpdate/AssemblyInfo.cs
+		src/server/Makefile
+		src/server/Simias.config
+		src/server/setup/Makefile
+		src/server/DiscoveryWS/Makefile
+		src/server/DiscoveryWS/AssemblyInfo.cs
+		src/server/Simias.HttpFile/Makefile
+		src/server/Simias.HttpFile/AssemblyInfo.cs
+		src/server/Simias.Server/Makefile
+		src/server/Simias.Server/AssemblyInfo.cs
+		src/server/Simias.HostService/Makefile
+		src/server/Simias.LdapProvider/Makefile
+		src/server/Simias.LdapProvider/AssemblyInfo.cs
+		src/server/Simias.ADLdapProvider/Makefile
+		src/server/Simias.ADLdapProvider/AssemblyInfo.cs
+		src/server/Simias.OpenLdapProvider/Makefile
+		src/server/Simias.OpenLdapProvider/AssemblyInfo.cs
+		src/server/Simias.ClientUpdate/Makefile
+		src/server/Simias.ClientUpdate/AssemblyInfo.cs
                 ])
          ]
 	)
@@ -685,65 +685,65 @@ AC_SUBST(MODMONO_CONFPATH)
 #
 AC_OUTPUT([
 Makefile
-./src/Makefile
-./src/core/Makefile
-./src/core/Common/MyDns.cs
-./src/core/Common/Simias.config
-./src/core/Common/defaults.config
-./src/core/SimiasClient/Makefile
-./src/core/SimiasClient/AssemblyInfo.cs
-./src/core/SimiasClient/SimiasSetup.cs
-./src/core/SimiasClient/simias-client.pc
-./src/core/SimiasClient/simias-client-c.pc
-./src/core/SimiasClient/libsimias-event/Makefile
-./src/core/SimiasClient/libsimias-manager/Makefile
-./src/core/SimiasLib.dll/Makefile
-./src/core/SimiasLib.dll/SimiasLib.dll.config
-./src/core/SimiasLib.dll/AssemblyInfo.cs
-./src/core/SimiasLib.dll/simias.pc
-./src/core/FlaimProvider/Makefile
-./src/core/FlaimProvider/FlaimWrapper/Makefile
-./src/core/SimiasApp/Makefile
-./src/core/SimiasApp/AssemblyInfo.cs
-./src/core/WebService/AssemblyInfo.cs
-./src/core/WebService/Makefile
-./src/core/POBoxWS/AssemblyInfo.cs
-./src/core/POBoxWS/Makefile
-./src/core/SyncService/AssemblyInfo.cs
-./src/core/SyncService/Makefile
-./src/core/libsimias/Makefile
-./src/client/Makefile
-./src/client/simias
-./src/client/SimiasDirectoryMapping
-./src/webservices/Makefile
-./src/webservices/AssemblyInfo.cs
-./src/webaccess/Makefile
-./src/webaccess/AssemblyInfo.cs
-./src/webaccess/Log4Net.config
-./src/admin/Makefile
-./src/admin/AssemblyInfo.cs
-./src/admin/Log4Net.config
-./src/setup/Makefile
-./src/setup/apache/Makefile
-./src/setup/apache/ifolder_apache.conf
-./src/setup/apache/default/Makefile
-./src/setup/apache/default/ifolder_admin.conf
-./src/setup/apache/default/ifolder_webaccess.conf
-./src/setup/apache/default/simias_server.conf
-./src/setup/apache/example.com/Makefile
-./src/setup/apache/example.com/ifolder_admin.conf
-./src/setup/apache/example.com/ifolder_webaccess.conf
-./src/setup/apache/example.com/simias_server.conf
-./src/utils/Makefile
-./src/utils/usercmd/Makefile
-./src/utils/usercmd/AssemblyInfo.cs
-./src/utils/usercmd/simias-create-user
-./src/utils/usercmd/simias-delete-user
-./src/utils/usercmd/simias-user
-./src/utils/usercmd/simias-user.cmd
-./package/Makefile
-./package/windows/Makefile
-./package/darwin/Makefile
+src/Makefile
+src/core/Makefile
+src/core/Common/MyDns.cs
+src/core/Common/Simias.config
+src/core/Common/defaults.config
+src/core/SimiasClient/Makefile
+src/core/SimiasClient/AssemblyInfo.cs
+src/core/SimiasClient/SimiasSetup.cs
+src/core/SimiasClient/simias-client.pc
+src/core/SimiasClient/simias-client-c.pc
+src/core/SimiasClient/libsimias-event/Makefile
+src/core/SimiasClient/libsimias-manager/Makefile
+src/core/SimiasLib.dll/Makefile
+src/core/SimiasLib.dll/SimiasLib.dll.config
+src/core/SimiasLib.dll/AssemblyInfo.cs
+src/core/SimiasLib.dll/simias.pc
+src/core/FlaimProvider/Makefile
+src/core/FlaimProvider/FlaimWrapper/Makefile
+src/core/SimiasApp/Makefile
+src/core/SimiasApp/AssemblyInfo.cs
+src/core/WebService/AssemblyInfo.cs
+src/core/WebService/Makefile
+src/core/POBoxWS/AssemblyInfo.cs
+src/core/POBoxWS/Makefile
+src/core/SyncService/AssemblyInfo.cs
+src/core/SyncService/Makefile
+src/core/libsimias/Makefile
+src/client/Makefile
+src/client/simias
+src/client/SimiasDirectoryMapping
+src/webservices/Makefile
+src/webservices/AssemblyInfo.cs
+src/webaccess/Makefile
+src/webaccess/AssemblyInfo.cs
+src/webaccess/Log4Net.config
+src/admin/Makefile
+src/admin/AssemblyInfo.cs
+src/admin/Log4Net.config
+src/setup/Makefile
+src/setup/apache/Makefile
+src/setup/apache/ifolder_apache.conf
+src/setup/apache/default/Makefile
+src/setup/apache/default/ifolder_admin.conf
+src/setup/apache/default/ifolder_webaccess.conf
+src/setup/apache/default/simias_server.conf
+src/setup/apache/example.com/Makefile
+src/setup/apache/example.com/ifolder_admin.conf
+src/setup/apache/example.com/ifolder_webaccess.conf
+src/setup/apache/example.com/simias_server.conf
+src/utils/Makefile
+src/utils/usercmd/Makefile
+src/utils/usercmd/AssemblyInfo.cs
+src/utils/usercmd/simias-create-user
+src/utils/usercmd/simias-delete-user
+src/utils/usercmd/simias-user
+src/utils/usercmd/simias-user.cmd
+package/Makefile
+package/windows/Makefile
+package/darwin/Makefile
 ])
 
 
