@@ -239,18 +239,18 @@ namespace Novell.iFolderWeb.Admin
 		/// returns whether the user is present in the passed user list or not .
 		/// </summary>
 		/// <returns></returns>
-		private bool UserPresentInList(string [] ListOfSelectedUsers, string userID)
-		{
-			int index;
-			for (index = 0 ; index < ListOfSelectedUsers.Length ; index++)
-			{
-				if (userID.Equals(ListOfSelectedUsers[index]))
-				{
-					return true;
-				}
-			}
-			return false;
-		}
+		//private bool UserPresentInList(string [] ListOfSelectedUsers, string userID)
+		//{
+		//	int index;
+		//	for (index = 0 ; index < ListOfSelectedUsers.Length ; index++)
+		//	{
+		//		if (userID.Equals(ListOfSelectedUsers[index]))
+		//		{
+		//			return true;
+		//		}
+		//	}
+		//	return false;
+		//}
 
 		/// <summary>
 		/// Event handler that is called when a data grid item is bound.

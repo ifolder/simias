@@ -483,3 +483,16 @@ body#reports li.reports a
 	font-weight: bold;
 }
 
+.statusbutton
+{
+        width: 100%;
+        margin-top: 20px;
+	text-align: center;
+	font-weight: bold;
+}
+
+.repeatbutton
+{
+        margin-left: 28em;
+}
+

@@ -67,6 +67,15 @@ namespace Novell.iFolderWeb.Admin
                 /// </summary>
                 private ResourceManager rm;
 
+		/// <summary>
+		/// Logged in admin system rights instance
+		/// </summary>
+		UserSystemAdminRights uRights;
+		
+		/// <summary>
+		/// Logged in user system rights value
+		/// </summary>
+		int sysAccessPolicy = 0;
 
                 /// <summary>
                 /// Top navigation panel control.
@@ -171,6 +180,15 @@ namespace Novell.iFolderWeb.Admin
 
 			// localization
                         rm = Application[ "RM" ] as ResourceManager;
+
+			string userID = Session[ "UserID" ] as String;
+			if(userID != null && ServerID != null && ServerID != String.Empty)
+				sysAccessPolicy = web.GetUserSystemRights(userID, ServerID);
+			else
+				sysAccessPolicy = 0; 
+			uRights = new UserSystemAdminRights(sysAccessPolicy);
+			if(uRights.ServerPolicyManagementAllowed == false)
+				Page.Response.Redirect(String.Format("Error.aspx?ex={0}&Msg={1}",GetString( "ACCESSDENIED" ), GetString( "ACCESSDENIEDERROR" )));
 	
 			if ( !IsPostBack )
 			{
@@ -308,7 +326,6 @@ namespace Novell.iFolderWeb.Admin
 			ldapInfo.ProxyPassword = LdapProxyUserPwd.Text;
    	 	        ldapInfo.SSL = (LdapSslList.SelectedValue == GetString("YES")) ? true : false;
 
-			string PublicIPText = server.PublicUrl;
 			try
 			{
                         	remoteweb.SetLdapDetails (ldapInfo, LdapAdminName.Text.Trim(), LdapAdminPwd.Text, ServerID);

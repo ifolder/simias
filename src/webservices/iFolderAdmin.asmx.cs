@@ -36,6 +36,11 @@ using System.Web.Services;
 using System.Web.Services.Protocols;
 using System.Collections;
 
+using Simias.Storage;
+using Simias.Server;
+using Simias;
+using Simias.Web;
+
 namespace iFolder.WebService
 {
 	/// <summary>
@@ -501,6 +506,16 @@ namespace iFolder.WebService
 			 EnableSession=true)]
 		public override void AddMember(string ifolderID, string userID, Rights rights)
 		{   
+			string accessID = GetAccessIDForGroup();
+			if( accessID != null)
+			{
+				Store store = Store.GetStore();
+				Collection col = store.GetCollectionByID(ifolderID);
+				if( !IsAccessAllowed(col.Owner.UserID) )
+				{
+					return ;
+				}
+			}
 			base.AddMember(ifolderID, userID, rights);
 		}
 
@@ -515,6 +530,16 @@ namespace iFolder.WebService
 			 EnableSession=true)]
 		public override void RemoveMember(string ifolderID, string userID)
 		{
+			string accessID = GetAccessIDForGroup();
+			if( accessID != null)
+			{
+				Store store = Store.GetStore();
+				Collection col = store.GetCollectionByID(ifolderID);
+				if( !IsAccessAllowed(col.Owner.UserID) )
+				{
+					return ;
+				}
+			}
 			base.RemoveMember(ifolderID, userID);
 		}
 
@@ -528,6 +553,16 @@ namespace iFolder.WebService
 			 EnableSession=true)]
 		public override void SetiFolderOwner(string ifolderID, string userID, bool OrphanAdopt)
 		{
+			string accessID = GetAccessIDForGroup();
+			if( accessID != null)
+			{
+				Store store = Store.GetStore();
+				Collection col = store.GetCollectionByID(ifolderID);
+				if( !IsAccessAllowed(col.Owner.UserID) )
+				{
+					return ;
+				}
+			}
 			base.SetiFolderOwner(ifolderID, userID, OrphanAdopt);
 		}
 
@@ -543,6 +578,16 @@ namespace iFolder.WebService
 			 EnableSession=true)]
 		public override iFolderUserSet GetMembers(string ifolderID, int index, int max)
 		{
+			string accessID = GetAccessIDForGroup();
+			if( accessID != null)
+			{
+				Store store = Store.GetStore();
+				Collection col = store.GetCollectionByID(ifolderID);
+				if( !IsAccessAllowed(col.Owner.UserID) )
+				{
+					return null;
+				}
+			}
 			return base.GetMembers(ifolderID, index, max);
 		}
 
@@ -647,6 +692,15 @@ namespace iFolder.WebService
 			 EnableSession=true)]
 		public override iFolderUser GetUser(string userID)
 		{
+			string accessID = GetAccessIDForGroup();
+			if( accessID != null)
+			{
+				if( !IsAccessAllowed(userID) )
+				{
+					/// access violation ...
+					return null;
+				}
+			}
 			return base.GetUser(userID);
 		}
 
@@ -661,6 +715,15 @@ namespace iFolder.WebService
 			 EnableSession=true)]
 		public override iFolderUserDetails GetUserDetails(string userID)
 		{
+			string accessID = GetAccessIDForGroup();
+			if( accessID != null)
+			{
+				if( !IsAccessAllowed(userID) )
+				{
+					/// access violation...
+					return null;
+				}
+			}
 			return base.GetUserDetails(userID);
 		}
 
@@ -679,6 +742,25 @@ namespace iFolder.WebService
 		public override iFolderUserSet GetUsersBySearch(SearchProperty property, SearchOperation operation, string pattern, int index, int max)
 		{
 			return base.GetUsersBySearch(property, operation, pattern, index, max);
+		}
+
+		/// <summary>
+		/// Get information about all of the iFolder users identified by the search property, operation, and pattern.
+		/// </summary>
+		/// <param name="property">The property to search.</param>
+		/// <param name="operation">The operation to compare the property and pattern.</param>
+		/// <param name="pattern">The pattern to search</param>
+		/// <param name="index">The starting index for the search results.</param>
+		/// <param name="max">The max number of search results to be returned.</param>
+		/// <param name="SecondaryAdminID">SecondaryAdministrator ID</param>
+		/// <param name="GetMonitoredGroups">a bool telling whether monitored groups by this admin is required or not</param>
+		/// <returns>A set of iFolderUser objects.</returns>
+		[WebMethod(
+			 Description="Get information about all of the iFolder users identified by the search property, operation, and pattern.",
+			 EnableSession=true)]
+		public override iFolderUserSet GetMonitoredGroupsBySearch(SearchProperty property, SearchOperation operation, string pattern, int index, int max, string SecondaryAdminiD, bool GetMonitoredGroups, bool adminrequest)
+		{
+			return base.GetMonitoredGroupsBySearch(property, operation, pattern, index, max, SecondaryAdminiD, GetMonitoredGroups, adminrequest);
 		}
 
 		/// <summary>
@@ -994,6 +1076,130 @@ namespace iFolder.WebService
 		}
 
 		/// <summary>
+		/// Grant a user system administration rights.
+		/// </summary>
+		/// <param name="userID">The id of user.</param>
+		/// <remarks>A user is an administrator if the user has "Admin" rights in the domain.</remarks>
+		/// <remarks>This API will accept multiple user ids in a comma delimited list.</remarks>
+		[WebMethod(
+			 Description="Grant a user system administration rights.",
+			 EnableSession=true)]
+		public override void AddGroupAdministrator(string groupid, string userID, int preference)
+		{
+			base.AddGroupAdministrator(groupid, userID, preference);
+		}
+
+		/// <summary>
+		/// Grant a user system administration rights.
+		/// </summary>
+		/// <param name="userID">The id of user.</param>
+		/// <remarks>A user is an administrator if the user has "Admin" rights in the domain.</remarks>
+		/// <remarks>This API will accept multiple user ids in a comma delimited list.</remarks>
+		[WebMethod(
+			 Description="Grant a user system administration rights.",
+			 EnableSession=true)]
+		public override void RemoveGroupAdministrator(string groupid, string userID)
+		{
+			base.RemoveGroupAdministrator(groupid, userID);
+		}
+
+		/// <summary>
+		/// Grant a user system administration rights.
+		/// </summary>
+		/// <param name="userID">The id of user.</param>
+		/// <remarks>A user is an administrator if the user has "Admin" rights in the domain.</remarks>
+		/// <remarks>This API will accept multiple user ids in a comma delimited list.</remarks>
+		[WebMethod(
+			 Description="Grant a user system administration rights.",
+			 EnableSession=true)]
+		public override bool DiskQuotaPolicyChangeAllowed(string userID, long limit )
+		{
+			return base.DiskQuotaPolicyChangeAllowed(userID, limit);
+		}
+
+		/// <summary>
+		/// Revoke system administration System rights from a user.
+		/// </summary>
+		/// <param name="userID">The user id of the administrator.</param>
+		/// <remarks>Administration rights are removed by the user having "ReadOnly" rights in the domain.</remarks>
+		/// <remarks>This API will accept multiple user ids in a comma delimited list.</remarks>
+		[WebMethod(
+			 Description="Revoke system administration rights from a user.",
+			 EnableSession=true)]
+		public override int GetUserSystemRights(string userid, string groupid)
+		{
+			return base.GetUserSystemRights(userid, groupid);
+		}
+
+		/// <summary>
+		/// Revoke system administration Group rights from a user.
+		/// </summary>
+		/// <param name="userID">The user id of the administrator.</param>
+		/// <remarks>Administration rights are removed by the user having "ReadOnly" rights in the domain.</remarks>
+		/// <remarks>This API will accept multiple user ids in a comma delimited list.</remarks>
+		[WebMethod(
+			 Description="Revoke system administration rights from a user.",
+			 EnableSession=true)]
+		public override int GetUserGroupRights(string userid, string groupid)
+		{
+			return base.GetUserGroupRights(userid, groupid);
+		}
+
+		/// <summary>
+		/// Revoke system administration rights from a user.
+		/// </summary>
+		/// <param name="userID">The user id of the administrator.</param>
+		/// <remarks>Administration rights are removed by the user having "ReadOnly" rights in the domain.</remarks>
+		/// <remarks>This API will accept multiple user ids in a comma delimited list.</remarks>
+		[WebMethod(
+			 Description="Revoke system administration rights from a user.",
+			 EnableSession=true)]
+               public override string[] GetMonitoredGroups(string userid)
+                {
+                        return base.GetMonitoredGroups(userid);
+                }
+
+
+		/// <summary>
+		/// Grant a user system administration rights.
+		/// </summary>
+		/// <param name="userID">The id of user.</param>
+		/// <remarks>A user is an administrator if the user has "Admin" rights in the domain.</remarks>
+		/// <remarks>This API will accept multiple user ids in a comma delimited list.</remarks>
+		[WebMethod(
+			 Description="Grant a user system administration rights.",
+			 EnableSession=true)]
+		public override long GetAggregateDiskQuota(string groupid)
+		{
+			return base.GetAggregateDiskQuota(groupid);
+		}
+
+		/// <summary>
+		/// Get space used by all members of group.
+		/// </summary>
+		/// <param name="groupid">The id of group.</param>
+		[WebMethod(
+			 Description="Grant a user system administration rights.",
+			 EnableSession=true)]
+		public override long SpaceUsedByGroup(string groupid)
+		{
+			return base.SpaceUsedByGroup(groupid);
+		}
+
+		/// <summary>
+		/// Set aggregate disk quota for a group.
+		/// </summary>
+		/// <param name="groupid">group id</param>
+		/// <param name="value">value to be set</param>
+		[WebMethod(
+			 Description="Grant a user system administration rights.",
+			 EnableSession=true)]
+		public override bool SetAggregateDiskQuota(string groupid, long value)
+		{
+			return base.SetAggregateDiskQuota(groupid, value);
+		}
+
+		/// <summary>
 		/// Revoke system administration rights from a user.
 		/// </summary>
 		/// <param name="userID">The user id of the administrator.</param>
@@ -1017,9 +1223,9 @@ namespace iFolder.WebService
 		[WebMethod(
 			 Description="Get information about all the administrators.",
 			 EnableSession=true)]
-		public override iFolderUserSet GetAdministrators(int index, int max)
+		public override iFolderUserSet GetAdministrators(int index, int max, int admintype)
 		{
-			return base.GetAdministrators(index, max);
+			return base.GetAdministrators(index, max, admintype);
 		}
 	
 		#endregion
@@ -1082,9 +1288,9 @@ namespace iFolder.WebService
 		[WebMethod(
 			 Description="Get policy information for a user.",
 			 EnableSession=true)]
-		public override UserPolicy GetUserPolicy(string userID)
+		public override UserPolicy GetUserPolicy(string userID, string AdminId)
 		{
-			return base.GetUserPolicy(userID);
+			return base.GetUserPolicy(userID, AdminId);
 		}
 
 		/// <summary>
@@ -1107,9 +1313,9 @@ namespace iFolder.WebService
 		[WebMethod(
 			 Description="Get policy information for an iFolder.",
 			 EnableSession=true)]
-		public override iFolderPolicy GetiFolderPolicy(string ifolderID)
+		public override iFolderPolicy GetiFolderPolicy(string ifolderID, string adminID)
 		{
-			return base.GetiFolderPolicy(ifolderID);
+			return base.GetiFolderPolicy(ifolderID, adminID);
 		}
 
 		/// <summary>

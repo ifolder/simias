@@ -359,6 +359,18 @@ namespace Simias.Server
 							}
 						}
 						else if ( args.Type.Equals( NodeTypes.CollectionType ) &&
+									args.EventType.Equals( EventType.NodeChanged ) )
+						{
+							log.Debug( "Collection: {0} Updated", args.Collection );
+							try
+							{
+								CatalogEntry entry = Catalog.GetEntryByCollectionID( args.Collection );
+								log.Debug( "Updating Catalog Entry {0}", entry.ID );
+								entry.SetCollSizeByCollectionID( args.Collection );
+							}
+							catch{}
+						}
+						else if ( args.Type.Equals( NodeTypes.CollectionType ) &&
 									args.EventType.Equals( EventType.NodeDeleted ) )
 						{
 							log.Debug( "Collection: {0} deleted", args.Collection );
@@ -929,6 +941,110 @@ namespace Simias.Server
 		}	
 
 		/// <summary>
+		/// Method to retrieve all catalog entries the specified user
+		/// is a owner of.
+		/// </summary> 
+		static public CatalogEntry[] GetAllEntriesByOwnerID( string ownerID )
+		{
+			ArrayList entries = new ArrayList();
+			Property midsProp = new Property( CatalogEntry.OwnerProperty, ownerID );
+			ICSList nodes = store.GetNodesByProperty( midsProp, SearchOp.Begins );
+			foreach( ShallowNode sn in nodes )
+			{
+				entries.Add( new CatalogEntry( sn ) );
+			}
+
+			return entries.ToArray( typeof( CatalogEntry ) ) as CatalogEntry[];
+		}	
+
+		/// <summary>
+		/// Method to retrieve all catalog entries the specified user
+		/// is a owner of.
+		/// </summary> 
+		static public CatalogEntry[] GetAllOwnedEntriesByGroupMembers( string groupID )
+		{
+			ArrayList entries = new ArrayList();
+			Store store = Store.GetStore();
+			Domain domain = store.GetDomain(store.DefaultDomain);
+			string [] GroupMembers = domain.GetGroupsMemberList(groupID);
+			foreach(string memberID in GroupMembers)
+			{
+				Property midsProp = new Property( CatalogEntry.OwnerProperty, memberID );
+				ICSList nodes = store.GetNodesByProperty( midsProp, SearchOp.Begins );
+				foreach( ShallowNode sn in nodes )
+				{
+					entries.Add( new CatalogEntry( sn ) );
+				}
+			}
+
+			return entries.ToArray( typeof( CatalogEntry ) ) as CatalogEntry[];
+		}	
+
+		/// <summary>
+		/// Method to retrieve size of all catalog entries owned by all members of the group 
+		/// </summary> 
+		static public long GetSpaceUsedByGroupMembers( string groupID )
+		{
+			long SpaceUsed = 0;
+
+			ArrayList entries = new ArrayList();
+			Store store = Store.GetStore();
+			Domain domain = store.GetDomain(store.DefaultDomain);
+			string [] GroupMembers = domain.GetGroupsMemberList(groupID);
+			foreach(string memberID in GroupMembers)
+			{
+				Property midsProp = new Property( CatalogEntry.OwnerProperty, memberID );
+				ICSList nodes = store.GetNodesByProperty( midsProp, SearchOp.Begins );
+				foreach( ShallowNode sn in nodes )
+				{
+					CatalogEntry CatEntry = new CatalogEntry( sn );
+					SpaceUsed += CatEntry.CollectionSize;
+				}
+			}
+
+			return SpaceUsed;
+		}	
+
+		/// <summary>
+		/// Method to retrieve all catalog entries the specified user
+		/// is a member of.
+		/// </summary> 
+		static public CatalogEntry[] GetAllEntriesByGroupAdminID( string UserID, string name, SearchOp searchOp )
+		{
+			ArrayList entries = new ArrayList();
+			CatalogEntry[] parentEntries = GetAllEntriesByName(name, searchOp);
+			if( parentEntries.Length != 0)
+			{
+				Member groupadmin = domain.GetMemberByID(UserID);
+				Hashtable ht = groupadmin.GetMonitoredUsers(true);
+				if( ht== null || ht.Count == 0)
+				{
+					return entries.ToArray( typeof( CatalogEntry ) ) as CatalogEntry[];
+				}
+				foreach( CatalogEntry entry in parentEntries)
+				{
+					if( entry == null || entry.OwnerID == null)
+					{		
+						continue;
+					}
+					if( ht.ContainsKey(entry.OwnerID))
+					{
+						try
+						{
+							entries.Add( entry );
+						}
+						catch(Exception ex)
+						{
+							log.Info("GetAllEntriesByGroupAdminID  Exception: {0} stack: {1}", ex.Message, ex.StackTrace);
+						}
+					}
+				}
+			}
+				
+			return entries.ToArray( typeof( CatalogEntry ) ) as CatalogEntry[];
+		}
+
+		/// <summary>
 		/// Get all the entries in the catalogue
 		/// </summary> 
         /// <param name="name">entryname</param>
@@ -1087,6 +1203,11 @@ namespace Simias.Server
 				Property p = this.Properties.GetSingleProperty( SizeProperty );
 				return ( p != null ) ? ( long )p.Value : 0;
  			}
+			set
+			{
+			        Property CollectionSizeProp = new Property( SizeProperty, value );
+			        this.Properties.ModifyProperty( CollectionSizeProp );
+			}
 		}
 
 		/// <summary>
@@ -1096,7 +1217,15 @@ namespace Simias.Server
 		{
 			get
 			{
-				return this.Properties.GetSingleProperty( OwnerProperty ).Value as string;
+				try
+				{
+					return this.Properties.GetSingleProperty( OwnerProperty ).Value as string;
+				}
+				catch(Exception ex)
+				{
+					log.Debug("Exception in getowner: "+ex.ToString());
+					return null;
+				}
  			}
 		}
 
@@ -1304,7 +1433,23 @@ namespace Simias.Server
 		/// Add previous owner as orphaned owner in the catalog entry.
 		/// Note: called when ownership is transferred and collection is made orphaned .
 		/// </summary>
-        /// <param name="UserDN">user DN which will be added as Orphaned Owner</param>
+		public void SetCollSizeByCollectionID( string collectionID )
+		{
+			Collection col = store.GetCollectionByID( CollectionID );
+			if ( col != null )
+			{
+			        Property sprop = new Property( SizeProperty, col.StorageSize );
+				this.Properties.ModifyProperty( sprop );
+			}
+			catalog.Commit(this);
+			return;
+		}
+
+		/// <summary>
+		/// Add previous owner as orphaned owner in the catalog entry.
+		/// Note: called when ownership is transferred and collection is made orphaned .
+		/// </summary>
+		 /// <param name="UserDN">user DN which will be added as Orphaned Owner</param>
 		public void AddOrphanedOwner( string UserDN )
 		{
 			Property Prop = new Property(OrphanedOwnerProperty, UserDN);

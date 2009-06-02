@@ -396,7 +396,7 @@ namespace User.Management
 					if ( quota != null )
 					{
 						bool changed = false;
-						UserPolicy userPolicy = admin.GetUserPolicy( user.ID );
+						UserPolicy userPolicy = admin.GetUserPolicy( user.ID, null );
 						if ( quota != null )
 						{
 							if ( verbose == true )

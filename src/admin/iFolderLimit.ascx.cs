@@ -321,6 +321,16 @@ namespace Novell.iFolderWeb.Admin
                         iFolderLimitNav.Visible = false;
                 }
 
+		/// <summary>
+		/// Sets the checkbox enabled or disabled state
+		/// </summary>
+		public bool SetCheckBoxEnabledState
+		{
+			set
+			{
+				Enabled.Enabled = value;
+			}
+		}
 
 
 		#endregion

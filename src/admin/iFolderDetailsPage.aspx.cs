@@ -199,6 +199,8 @@ namespace Novell.iFolderWeb.Admin
 
 		protected string iFolderLocation;
 
+		protected int preference;
+
 		/// <summary>
 		/// Display the Server Name, the ifolder belongs
 		/// </summary>
@@ -274,6 +276,22 @@ namespace Novell.iFolderWeb.Admin
 			set { ViewState[ "TotaliFolderMembers" ] = value; }
 		}
 
+		private bool MemberRightsChangeAllowed
+		{
+			get
+			{
+				if( preference != -1 && preference != 0xffff)
+				{
+					UserGroupAdminRights rights = new UserGroupAdminRights(preference);
+					if( !rights.ModifyMemberRightAllowed )
+					{
+						return false;
+					}
+				}
+				return true;
+			}
+		}
+
 		#endregion
 
 		#region Private Methods
@@ -316,7 +334,7 @@ namespace Novell.iFolderWeb.Admin
                                                 break;
 					}
                                 }
-	                        catch(Exception ex)
+	                        catch
         	                {
                 	                Thread.Sleep(1000);
                         	        if(exp == 10)
@@ -333,13 +351,17 @@ namespace Novell.iFolderWeb.Admin
 			{
 				ifolder = web.GetiFolderDetails( iFolderID );
 			}
-			catch(Exception ex)
+			catch
 			{
 				web.Url = currentServerURL;
 				TopNav.ShowError(GetString("LOGINCONNECTFAILED"));
 				return null;
 			}
 
+			string loggedinuserid = Session[ "UserID" ] as String;
+			preference = web.GetUserGroupRights(loggedinuserid, ifolder.OwnerID);
+			if( preference == -1)
+				preference = 0xffff;
 
 
 			string ShortenedName = null;
@@ -412,7 +434,7 @@ namespace Novell.iFolderWeb.Admin
 //			web.Url = currentServerURL;
 
 			string EncryptionAlgorithm = ifolder.EncryptionAlgorithm;
-			if(!(EncryptionAlgorithm == null || (EncryptionAlgorithm == String.Empty)))
+			if(!(EncryptionAlgorithm == null || (EncryptionAlgorithm == String.Empty)) || !MemberRightsChangeAllowed)
 			{
 				// It is an encrypted ifolder
 				MemberAddButton.Enabled = false;
@@ -667,9 +689,12 @@ namespace Novell.iFolderWeb.Admin
 				MembersChecked = false;
 				CheckedMembers = new Hashtable();
 			}
+					/// Disable all the buttons...
+					EnableMemberActionButtons = MemberRightsChangeAllowed;
+					EnableOwnerActionButton = MemberRightsChangeAllowed;
 		}
 
-        /// <summary>
+		       /// <summary>
         /// Unloads the current page
         /// </summary>
         /// <param name="sender"></param>
@@ -724,7 +749,6 @@ namespace Novell.iFolderWeb.Admin
 		private bool GetOwnerButtonActionStatus(string userID)
                 {
 			// if on system level , encryption is enforced , then no user can be assigned owner of a shared ifolder. 
-                        UserPolicy UPolicy = null;
 
                         try
                         {
@@ -733,7 +757,7 @@ namespace Novell.iFolderWeb.Admin
 				
                                 return LinkStatus ;
                         }
-                        catch(Exception ex)
+                        catch
                         {
                                 return true;
                         }
@@ -752,7 +776,6 @@ namespace Novell.iFolderWeb.Admin
 		/// <param name="e"></param>
 		protected void AddiFolderMembers( Object sender, EventArgs e )
 		{
-			int SharingStatus = -1;
 			bool DisableSharing = false;
                         string ifolderLocation = web.GetiFolderLocation (iFolderID);
                         UriBuilder remoteurl = new UriBuilder(ifolderLocation);
@@ -762,7 +785,6 @@ namespace Novell.iFolderWeb.Admin
 			/// First check whether policy allows this iFolder to share itself or not 
 			try
 			{
-				SharingStatus = web.GetSharingStatus(iFolderID);
 				DisableSharing = web.GetSharingPolicy(iFolderID);
 			}
 			catch (Exception ex)
@@ -833,8 +855,8 @@ namespace Novell.iFolderWeb.Admin
 			}
 
 			// See if there are any checked members.
-			EnableMemberActionButtons = (( CheckedMembers.Count > 0 ) && (!AdoptButton.Visible || AdoptButton.Enabled));
-			EnableOwnerActionButton = (( CheckedMembers.Count == 1 ) && GetOwnerButtonActionStatus(PossibleOwner) && (!AdoptButton.Visible && AdoptButton.Enabled)); 
+			EnableMemberActionButtons = (( CheckedMembers.Count > 0 ) && (!AdoptButton.Visible || AdoptButton.Enabled) && MemberRightsChangeAllowed);
+			EnableOwnerActionButton = (( CheckedMembers.Count == 1 ) && GetOwnerButtonActionStatus(PossibleOwner) && (!AdoptButton.Visible && AdoptButton.Enabled) && MemberRightsChangeAllowed); 
 			MembersChecked = checkBox.Checked;
 
 			// Rebind the data source with the new data.
@@ -1049,8 +1071,8 @@ namespace Novell.iFolderWeb.Admin
 			}
 		
 			// See if there are any checked members.
-			EnableMemberActionButtons = (( CheckedMembers.Count > 0 ) && (!AdoptButton.Visible || AdoptButton.Enabled));
-			EnableOwnerActionButton = ( CheckedMembers.Count == 1 && GetOwnerButtonActionStatus(PossibleOwner) && !(AdoptButton.Visible && AdoptButton.Enabled) );
+			EnableMemberActionButtons = (( CheckedMembers.Count > 0 ) && (!AdoptButton.Visible || AdoptButton.Enabled) && MemberRightsChangeAllowed);
+			EnableOwnerActionButton = ( CheckedMembers.Count == 1 && GetOwnerButtonActionStatus(PossibleOwner) && !(AdoptButton.Visible && AdoptButton.Enabled) && MemberRightsChangeAllowed );
 		}
 
 		/// <summary>

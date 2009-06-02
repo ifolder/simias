@@ -189,7 +189,7 @@ namespace iFolder.WebService
 			{
 				Authorize();
 
-				OrphiFolderList = iFolder.GetOrphanediFolders ( operation, pattern, index, max, GetAccessID() );
+				OrphiFolderList = iFolder.GetOrphanediFolders ( operation, pattern, index, max, GetAccessIDForGroup() );
 			}
 			catch(Exception e)
 			{
@@ -424,8 +424,6 @@ namespace iFolder.WebService
 		[SoapDocumentMethod]	
 		public virtual bool IsUserOrSystemEncryptionEnforced(string userID)
 		{
-			Store store = Store.GetStore();
-			Simias.Storage.Domain domain = store.GetDomain(store.DefaultDomain);
 			bool result = false;
 		    	try
 			{
@@ -478,6 +476,17 @@ namespace iFolder.WebService
 			try
                         {
 				Authorize();
+				Store store = Store.GetStore();
+				Collection col = store.GetCollectionByID(iFolderID);
+				string accessID = GetAccessIDForGroup();
+				if( accessID != null)
+				{
+					// thow access denied exception in else part...
+					if( IsAccessAllowed(col.Owner.ID) )
+						accessID = null;
+					else
+						return -1;
+				}
 				iFolderPolicy ifolder = iFolderPolicy.GetPolicy(iFolderID, GetAccessID());
 				result = ifolder.SharingStatus;
 			}
@@ -535,7 +544,54 @@ namespace iFolder.WebService
 			
 		}
 
-		
+		/// <summary>
+		/// Disable Past sharing for whole system  
+		/// </summary>
+		[WebMethod(
+			Description="Disables the past sharing by removing members list from all the iFolders of the system ",
+			EnableSession=true)]
+		public virtual void DisableGroupPastSharing()
+		{
+			string iFolderCollectionType = "iFolder";
+			try
+                        {
+				Authorize();
+				Store store = Store.GetStore();
+				Simias.Storage.Domain domain = store.GetDomain(store.DefaultDomain);
+				Member groupadmin = domain.GetMemberByID(GetAccessIDForGroup());
+				Hashtable ht = groupadmin.GetMonitoredUsers(true);
+				ICSList ColList = store.GetCollectionsByDomain(domain.ID);
+				if ( ColList.Count > 0 )
+				{
+					foreach( ShallowNode sn in ColList )
+					{
+						Collection c = store.GetCollectionByID(sn.ID);
+						if( ht.ContainsKey(c.Owner.UserID) == false)
+							continue;
+						if (c != null && c.IsType(iFolderCollectionType))
+						{
+							/// got an iFolder, now remove the member list 
+							ICSList MemberList = c.GetMemberList();
+							foreach (ShallowNode MemberNode in MemberList)
+							{
+								Member member = new Member (domain, MemberNode);
+								if(c.Owner.UserID != member.UserID)
+								{
+									RemoveMember(c.ID, member.UserID);
+
+								}
+							}
+						}
+					}
+
+				}				
+			}
+			catch(Exception e)
+			{
+				SmartException.Throw(e);
+			}
+			
+		}	
 
 		/// <summary>
 		/// Disable Past sharing for a particular user  
@@ -545,6 +601,11 @@ namespace iFolder.WebService
 			EnableSession=true)]
 		public virtual void DisableUserPastSharing(string UserID)
 		{
+			if( IsAccessAllowed(UserID) == false)
+			{
+				/// thorw access violation exception
+				return;
+			}
 			string iFolderCollectionType = "iFolder";
 			Store store = Store.GetStore();
 			bool Group = false;
@@ -645,6 +706,11 @@ namespace iFolder.WebService
 				Collection c = store.GetCollectionByID(iFolderID);
 				if (c != null && c.IsType(iFolderCollectionType))
 				{
+					if( !IsAccessAllowed(c.Owner.ID) )
+					{
+						/// throw access violation exception...
+						return;
+					}
 					/// got an iFolder, now remove the member list
 					ICSList MemberList = c.GetMemberList();
 					foreach (ShallowNode MemberNode in MemberList)
@@ -677,6 +743,12 @@ namespace iFolder.WebService
 		{
 			iFolderServer result = null;
 
+			if(GetAccessIDForGroup() != null)
+			{
+				/// For a groupadmin dont show any servers..
+				return null;
+			}
+
 			try
 			{
 				Authorize();
@@ -702,6 +774,12 @@ namespace iFolder.WebService
 		{
 			iFolderServer[] result = null;
 
+			if(GetAccessID() != null)
+			{
+				/// For a groupadmin dont show any servers..
+				return null;
+			}
+
 			try
 			{
 				Authorize();
@@ -726,6 +804,7 @@ namespace iFolder.WebService
 			 EnableSession=true)]
 		public virtual string GetHomeServerForUser( string username , string password)
 		{
+			/// Not using this anywhere...
 		        string result;
 
 			result = iFolderServer.GetHomeServerForUser ( username, password );
@@ -742,9 +821,10 @@ namespace iFolder.WebService
                          EnableSession=true)]
                 public virtual string GetHomeServerURLForUserID( string userid )
                 {
-                        string result;
+                        string result=null;
 
-                        result = iFolderServer.GetHomeServerURLForUserID( userid );
+			if( IsAccessAllowed(userid) )
+	                        result = iFolderServer.GetHomeServerURLForUserID( userid );
 
                         return result;
                 }
@@ -764,7 +844,12 @@ namespace iFolder.WebService
 			{
 				Authorize();
 
-				result = iFolderServer.GetReports ();
+				if( GetAccessIDForGroup() != null)
+				{
+					/// throw access not allowed exception...
+				}
+				else
+					result = iFolderServer.GetReports ();
 			}
 			catch(Exception e)
 			{
@@ -793,6 +878,11 @@ namespace iFolder.WebService
 			try
 			{
 				Authorize();
+				if( GetAccessIDForGroup() != null)
+				{
+					/// throw access not allowed exception...
+					return result;
+				}
 
 				result = iFolderServer.GetServersByName(iFolderServerType.All, operation, pattern, index, count);
 			}
@@ -1423,6 +1513,39 @@ namespace iFolder.WebService
 		}
 
 		/// <summary>
+		/// Get information about all of the iFolder users identified by the search property, operation, and pattern.
+		/// </summary>
+		/// <param name="property">The property to search.</param>
+		/// <param name="operation">The operation to compare the property and pattern.</param>
+		/// <param name="pattern">The pattern to search</param>
+		/// <param name="index">The starting index for the search results.</param>
+		/// <param name="max">The max number of search results to be returned.</param>
+		/// <param name="SecondaryAdminID">The max number of search results to be returned.</param>
+		/// <param name="GetMonitoredGroups">The max number of search results to be returned.</param>
+		/// <param name="adminrequest">whether request is coming from web-admin/web-access</param>
+		/// <returns>A set of iFolderUser objects.</returns>
+		[WebMethod(
+			 Description="Get information about all of the iFolder users identified by the search property, operation, and pattern.",
+			 EnableSession=true)]
+		public virtual iFolderUserSet GetMonitoredGroupsBySearch(SearchProperty property, SearchOperation operation, string pattern, int index, int max, string SecondaryAdminID, bool GetMonitoredGroups, bool adminrequest)
+		{
+			iFolderUserSet result = null;
+
+			try
+			{
+				Authorize();
+
+				result = iFolderUser.GetMonitoredGroupsSet(property, operation, pattern, index, max, GetAccessID(), SecondaryAdminID, GetMonitoredGroups, adminrequest);
+			}
+			catch(Exception e)
+			{
+				SmartException.Throw(e);
+			}
+
+			return result;
+		}
+
+		/// <summary>
 		/// Get information about all of the iFolder users with DATA move property set.
 		/// </summary>
 		/// <param name="index">The starting index for the search results.</param>
@@ -1449,6 +1572,58 @@ namespace iFolder.WebService
 			return result;
 		}
 
+		/// <summary>
+		/// Get agg disk quota associated with user.
+		/// </summary>
+		/// <param name="GroupID">Group id </param>
+		/// <returns>value of the aggregate disk quota, -1 if no quota set on group</returns>
+		[WebMethod(
+			 Description="Get information about all of the iFolder users with DATA move property set.",
+			 EnableSession=true)]
+		public virtual long GetAggregateDiskQuota(string GroupID)
+		{
+			long result = -1;
+
+			try
+			{
+				Authorize();
+
+				result = iFolderUser.GetAggregateDiskQuota(GroupID);
+			}
+			catch(Exception e)
+			{
+				SmartException.Throw(e);
+			}
+
+			return result;
+		}
+
+		/// <summary>
+		/// Get the sum of space used by all members of group.
+		/// </summary>
+		/// <param name="GroupID">id of group</param>
+		/// <returns>sum of space used by all group members</returns>
+		[WebMethod(
+			 Description="Get information about all of the iFolder users with DATA move property set.",
+			 EnableSession=true)]
+		public virtual long SpaceUsedByGroup(string GroupID)
+		{
+			long result = 0;
+
+			try
+			{
+				Authorize();
+
+				result = iFolderUser.SpaceUsedByGroup(GroupID);
+			}
+			catch(Exception e)
+			{
+				SmartException.Throw(e);
+			}
+
+			return result;
+		}
+
 		#endregion
 
 		#region Utility
@@ -1457,6 +1632,8 @@ namespace iFolder.WebService
 		/// Get the access user's id.
 		/// </summary>
 		protected abstract string GetAccessID();
+
+		protected abstract string GetAccessIDForGroup();
 
 		/// <summary>
 		/// Get the authenticated user's id.
@@ -1467,6 +1644,10 @@ namespace iFolder.WebService
 		/// Authorize the authenticated user.
 		/// </summary>
 		protected abstract void Authorize();
+		/// <summary>
+		/// Authorize the authenticated user.
+		/// </summary>
+		protected abstract bool IsAccessAllowed(string id);
 
 		#endregion
 	}

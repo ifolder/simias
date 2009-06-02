@@ -280,7 +280,6 @@ namespace iFolder.WebService
 		/// <returns>Return string array containg report files </returns>
 		public static string[] GetReports ()
 		{
-			Store store = Store.GetStore();
 			string ReportPath = Report.CurrentReportPath;
 
 			DirectoryInfo di = new DirectoryInfo (ReportPath);
@@ -310,7 +309,6 @@ namespace iFolder.WebService
 			string SimiasSSLKey = "SimiasRequireSSL";
 
 			string requiressl = null;
-			Store store = Store.GetStore();
 			string SimiasConfigFilePath = Path.Combine ( Store.StorePath, "Simias.config");
 			XmlDocument configDoc = new XmlDocument ();
 			configDoc.Load (SimiasConfigFilePath);	
@@ -490,7 +488,6 @@ namespace iFolder.WebService
         	public static string[] GetLogLevels ()
 		{
 		        string[] loglevels = new string[2];
-			Store store = Store.GetStore();
 			string log4netConfigurationPath = Path.Combine ( Store.StorePath, "Simias.log4net");
 
 			XmlDocument configDoc = new XmlDocument ();
@@ -509,7 +506,6 @@ namespace iFolder.WebService
 		/// <returns>None </returns>
 	    public static void SetLogLevel (LoggerType loggerType, string logLevel)
 		{
-			Store store = Store.GetStore();
 			string log4netConfigurationPath = Path.Combine ( Store.StorePath, "Simias.log4net");
 
 			XmlDocument configDoc = new XmlDocument ();
@@ -587,7 +583,6 @@ namespace iFolder.WebService
 			string PublicAddressKey = "PublicAddress";
 	                string PrivateAddressKey = "PrivateAddress";
 	                string MasterAddressKey = "MasterAddress";
-			Store store = Store.GetStore();
 			if (!privateUrl.ToLower().StartsWith(Uri.UriSchemeHttp))
                         {
                                 privateUrl = (new UriBuilder(Uri.UriSchemeHttp, privateUrl)).ToString();
@@ -675,7 +670,7 @@ namespace iFolder.WebService
 			{
 				SmartException.Throw(ex);
 			}
-			return true;
+			return updated;
 		}
 
         /// <summary>
@@ -955,8 +950,8 @@ namespace iFolder.WebService
 		/// <returns>A Set of iFolder Server Objects</returns>
 		public static iFolderServerSet GetServersByName(iFolderServerType type, SearchOperation operation, string pattern, int index, int max)
 		{
-			bool isMaster = ((type == iFolderServerType.Master) || (type == iFolderServerType.All));
-			bool isLocal = ((type == iFolderServerType.Local) || (type == iFolderServerType.All));
+			//bool isMaster = ((type == iFolderServerType.Master) || (type == iFolderServerType.All));
+			//bool isLocal = ((type == iFolderServerType.Local) || (type == iFolderServerType.All));
 
 			Store store = Store.GetStore();
 

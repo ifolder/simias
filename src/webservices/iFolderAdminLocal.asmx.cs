@@ -151,8 +151,9 @@ namespace iFolder.WebService
 			try
 			{
 				Authorize();
+				string accessID =  GetUserID();
 
-				result = iFolder.GetiFoldersByName(type, SearchOperation.BeginsWith, "", index, max, null);
+				result = iFolder.GetiFoldersByName(type, SearchOperation.BeginsWith, "", index, max, accessID);
 			}
 			catch(Exception e)
 			{
@@ -180,8 +181,9 @@ namespace iFolder.WebService
 			try
 			{
 				Authorize();
-
-				result = iFolder.GetiFoldersByMember(userID, role, index, max, null);
+				if( !IsAccessAllowed( userID ))
+					return new iFolderSet((iFolder[])(new ArrayList()).ToArray(typeof(iFolder)), 0);
+				result = iFolder.GetiFoldersByMember(userID, role, index, max, GetAccessIDForGroup(), true);
 			}
 			catch(Exception e)
 			{
@@ -210,7 +212,7 @@ namespace iFolder.WebService
 			{
 				Authorize();
 
-				result = iFolder.GetiFoldersByName(iFolderType.All, operation, pattern, index, count, GetAccessID());
+				result = iFolder.GetiFoldersByName(iFolderType.All, operation, pattern, index, count, GetUserID() );
 			}
 			catch(Exception e)
 			{
@@ -842,6 +844,212 @@ namespace iFolder.WebService
 		}
 
 		/// <summary>
+		/// Get User System rights from a user.
+		/// </summary>
+		/// <param name="userID">The user id of the administrator.</param>
+		[WebMethod(
+			 Description="Get User's right for the system",
+			 EnableSession=true)]
+		public virtual int GetUserSystemRights(string userid, string sysID)
+		{
+			try
+			{
+				Authorize();
+
+						try
+						{
+							if(sysID != null)
+								return iFolderUser.GetAdminRights(userid, sysID);
+							else
+							{
+								HostNode hNode = HostNode.GetLocalHost();	
+								if(hNode != null && hNode.UserID != null)
+									return iFolderUser.GetAdminRights(userid, hNode.UserID);
+							}
+						}
+						catch {}
+			}
+			catch(Exception e)
+			{
+				SmartException.Throw(e);
+			}
+
+			return 0;
+		}
+
+		/// <summary>
+		/// Get group rights for a user.
+		/// </summary>
+		/// <param name="userID">The user id of the administrator.</param>
+		/// <param name="groupid">The groupid for which we want to get the rights..</param>
+		[WebMethod(
+			 Description="Get User Rights for the group",
+			 EnableSession=true)]
+		public virtual int GetUserGroupRights(string userid, string groupid)
+		{
+			try
+			{
+				Authorize();
+
+						try
+						{
+							return iFolderUser.GetAdminRights(userid, groupid);
+						}
+						catch {} 
+			}
+			catch(Exception e)
+			{
+				SmartException.Throw(e);
+			}
+
+			return 0;
+		}
+
+		/// <summary>
+		/// Returns a list of groups for which the user is an admin.
+		/// </summary>
+		/// <param name="userID">The user id of the administrator.</param>
+		[WebMethod(
+			 Description="Get Monitored groups by this user",
+			 EnableSession=true)]
+		public virtual string[] GetMonitoredGroups(string userID)
+		{
+			try
+			{
+				Authorize();
+
+						try
+						{
+							return iFolderUser.GetMonitoredGroups(userID);
+						}
+						catch {} 
+			}
+			catch(Exception e)
+			{
+				SmartException.Throw(e);
+			}
+
+			return null;
+		}
+
+		/// <summary>
+		/// Removes a group admin
+		/// </summary>
+		/// <param name="groupid">The id of group for which the admin is being removed.</param>
+		/// <param name="userID">The id of user.</param>
+		[WebMethod(
+			 Description="remove a user's group rights.",
+			 EnableSession=true)]
+		public virtual void RemoveGroupAdministrator(string groupid, string userID)
+		{
+			try
+			{
+				Authorize();
+
+				iFolderUser.RemoveGroupAdministrator(groupid, userID);
+			}
+			catch(Exception e)
+			{
+				SmartException.Throw(e);
+			}
+
+		}
+
+		/// <summary>
+		/// Removes a group admin
+		/// </summary>
+		/// <param name="groupid">The id of group for which the admin is being removed.</param>
+		/// <param name="userID">The id of user.</param>
+		[WebMethod(
+			 Description="Checks whether the disk quota policy for this user can be changed or not",
+			 EnableSession=true)]
+		public virtual bool DiskQuotaPolicyChangeAllowed(string userID, long limit)
+		{
+			bool result = true;
+
+			try
+			{
+				Authorize();
+
+				if( iFolderUser.DiskQuotaPolicyChangeAllowed(userID, limit) )
+					return true;
+				else
+					throw new Exception("DiskQuotaPolicyError");
+			}
+			catch(Exception e)
+			{
+				SmartException.Throw(e);
+			}
+
+			return result;
+		}
+		
+		/// <summary>
+		/// SetAggregateDiskQuota for a group.
+		/// </summary>
+		/// <param name="groupid">The id of group.</param>
+		/// <param name="value">The disk quota value</param>
+		[WebMethod(
+			 Description="Set agrgegate disk quota from this group",
+			 EnableSession=true)]
+		public virtual bool SetAggregateDiskQuota(string groupid, long value)
+		{
+
+			try
+			{
+				Authorize();
+
+				return iFolderUser.SetAggregateDiskQuota(groupid, value);
+			}
+			catch(Exception e)
+			{
+				SmartException.Throw(e);
+			}
+			return false;
+		}
+		/// <summary>
+		/// Add a group administrator.
+		/// </summary>
+		/// <param name="groupid">The id of group.</param>
+		/// <param name="userID">The id of user.</param>
+		/// <param name="preference">The rights for user upon the group.</param>
+		[WebMethod(
+			 Description="Add this group administrator",
+			 EnableSession=true)]
+		public virtual void AddGroupAdministrator(string groupid, string userID, int preference)
+		{
+			Hashtable exceptions = new Hashtable();
+
+			try
+			{
+				Authorize();
+
+				string[] ids = userID.Split(new char[] {',', ' '});
+
+				foreach(string id in ids)
+				{
+					if (id.Length > 0)
+					{
+						try
+						{
+							iFolderUser.AddGroupAdministrator(groupid, id, preference);
+						}
+						catch(Exception e)
+						{
+							exceptions.Add(id, e);
+						}
+					}
+				}
+			}
+			catch(Exception e)
+			{
+				SmartException.Throw(e);
+			}
+
+			SmartException.Throw(exceptions);
+		}
+
+		/// <summary>
 		/// Revoke system administration rights from a user.
 		/// </summary>
 		/// <param name="userID">The user id of the administrator.</param>
@@ -888,12 +1096,13 @@ namespace iFolder.WebService
 		/// </summary>
 		/// <param name="index">The starting index for the search results.</param>
 		/// <param name="max">The max number of search results to be returned.</param>
+		/// <param name="admintype">the int value representing the type of admin, 0 for all admins, 1 for secondary admins, 2 for root admins</param>
 		/// <remarks>A user is an administrator if the user has "Admin" rights in the domain.</remarks>
 		/// <returns>An array of iFolderUser objects describing the administrators.</returns>
 		[WebMethod(
 			 Description="Get information about all the administrators.",
 			 EnableSession=true)]
-		public virtual iFolderUserSet GetAdministrators(int index, int max)
+		public virtual iFolderUserSet GetAdministrators(int index, int max, int admintype )
 		{
 			iFolderUserSet result = null;
 
@@ -901,7 +1110,7 @@ namespace iFolder.WebService
 			{
 				Authorize();
 
-				result = iFolderUser.GetAdministrators(index, max);
+				result = iFolderUser.GetAdministrators(index, max, admintype);
 			}
 			catch(Exception e)
 			{
@@ -1046,15 +1255,17 @@ namespace iFolder.WebService
 		[WebMethod(
 			 Description="Get policy information for a user.",
 			 EnableSession=true)]
-		public virtual UserPolicy GetUserPolicy(string userID)
+		public virtual UserPolicy GetUserPolicy(string userID, string AdminId)
 		{
 			UserPolicy result = null;
 
 			try
 			{
 				Authorize();
-
-				result = UserPolicy.GetPolicy(userID);
+				if(AdminId == null)
+					result = UserPolicy.GetPolicy(userID);
+				else
+					result = UserPolicy.GetPolicy(userID, AdminId);
 			}
 			catch(Exception e)
 			{
@@ -1076,6 +1287,10 @@ namespace iFolder.WebService
 			try
 			{
 				Authorize();
+				if( !IsAccessAllowed(policy.UserID))
+				{
+					throw new Exception("Group admin rights not available");
+				}
 
 				UserPolicy.SetPolicy(policy);
 			}
@@ -1093,15 +1308,17 @@ namespace iFolder.WebService
 		[WebMethod(
 			 Description="Get policy information for an iFolder.",
 			 EnableSession=true)]
-		public virtual iFolderPolicy GetiFolderPolicy(string ifolderID)
+		public virtual iFolderPolicy GetiFolderPolicy(string ifolderID, string adminID)
 		{
 			iFolderPolicy result = null;
 
 			try
 			{
 				Authorize();
-
-				result = iFolderPolicy.GetPolicy(ifolderID, null);
+				if(adminID == null)
+					result = iFolderPolicy.GetPolicy(ifolderID, null);
+				else
+					result = iFolderPolicy.GetPolicy(ifolderID, null, adminID);
 			}
 			catch(Exception e)
 			{
@@ -1123,6 +1340,12 @@ namespace iFolder.WebService
 			try
 			{
 				Authorize();
+				Store store = Store.GetStore();
+				Collection col = store.GetCollectionByID(policy.iFolderID);
+				if( !IsAccessAllowed(col.Owner.UserID))
+				{
+					throw new Exception("The member is not a group admin for ifolder");
+				}
 
 				iFolderPolicy.SetPolicy(policy, null);
 			}
@@ -1592,6 +1815,228 @@ namespace iFolder.WebService
                    return result;
                }
 
+		/// <summary>
+		/// DisablePast Sharing for the system  
+		/// </summary>
+		/// <returns> No return value  </returns>
+		[WebMethod(
+		         Description="to remove past sharing of all iFolders of the system ",
+			 EnableSession=true)]
+		public override void DisableSystemPastSharing()
+		{
+			if( GetAccessID() == null)
+				base.DisableSystemPastSharing ();
+			else
+				base.DisableGroupPastSharing();
+		}
+
+		/// <summary>
+		/// Delete an iFolder
+		/// </summary>
+		/// <param name="ifolderID">The id of the iFolder to be deleted.</param>
+		/// <remarks>This API will accept multiple iFolder ids in a comma delimited list.</remarks>
+		[WebMethod(
+			 Description="Delete an iFolder",
+			 EnableSession=true)]
+		public override void DeleteiFolder(string ifolderID)
+		{
+			string accessID = GetAccessIDForGroup();
+			if( accessID != null)
+			{
+				Store store = Store.GetStore();
+				Collection col = store.GetCollectionByID(ifolderID);
+				if( !IsAccessAllowed(col.Owner.UserID) )
+				{
+					/// throw access violation exception...
+					return;
+				}
+			}
+			base.DeleteiFolder(ifolderID);
+		}
+
+		/// <summary>
+		/// Get information about an iFolder.
+		/// </summary>
+		/// <param name="ifolderID">The id of the iFolder.</param>
+		/// <returns>An iFolder object describing the iFolder.</returns>
+		[WebMethod(
+			 Description="Get information about an iFolder.",
+			 EnableSession=true)]
+		public override iFolder GetiFolder(string ifolderID)
+		{
+			string accessID = GetAccessIDForGroup();
+			if( accessID != null)
+			{
+				Store store = Store.GetStore();
+				Collection col = store.GetCollectionByID(ifolderID);
+				if(col.GetMemberByID(accessID) == null)
+				{
+					if( !IsAccessAllowed(col.Owner.UserID) )
+					{
+						/// throw access violation exception...
+						return null;
+					}
+				}
+			}		
+			return base.GetiFolder(ifolderID);
+		}
+
+		/// <summary>
+		/// Get detailed information about an iFolder.
+		/// </summary>
+		/// <param name="ifolderID">The id of the iFolder</param>
+		/// <returns>An iFolderDetails object describing the iFolder</returns>
+		/// <remarks>It is more expensive to call GetiFolderDetails than GetiFolder.</remarks>
+		[WebMethod(
+			 Description="Get detailed information about an iFolder.",
+			 EnableSession=true)]
+		public override iFolderDetails GetiFolderDetails(string ifolderID)
+		{
+			string accessID = GetAccessIDForGroup();
+			if( accessID != null)
+			{
+				Store store = Store.GetStore();
+				Collection col = store.GetCollectionByID(ifolderID);
+				if( !IsAccessAllowed(col.Owner.UserID) )
+				{
+					/// throw access violation exception...
+					return null;
+				}
+			}
+			return base.GetiFolderDetails(ifolderID);
+		}
+
+		/// <summary>
+		/// Set the description of an iFolder.
+		/// </summary>
+		/// <param name="ifolderID">The id of the iFolder.</param>
+		/// <param name="description">The new description for the iFolder.</param>
+		[WebMethod(
+			 Description="Set the description of an iFolder.",
+			 EnableSession=true)]
+		public override void SetiFolderDescription(string ifolderID, string description)
+		{
+			string accessID = GetAccessIDForGroup();
+			if( accessID != null)
+			{
+				Store store = Store.GetStore();
+				Collection col = store.GetCollectionByID(ifolderID);
+				if( !IsAccessAllowed(col.Owner.UserID) )
+				{
+					/// throw access violation exception...
+					return ;
+				}
+			}
+			base.SetiFolderDescription(ifolderID, description);
+		}
+
+		/// <summary>
+		/// Publish an iFolder.
+		/// </summary>
+		/// <param name="ifolderID">The id of the iFolder.</param>
+		/// <param name="publish">The published state of the iFolder</param>
+		[WebMethod(
+			 Description="Publish an iFolder.",
+			 EnableSession=true)]
+		public override void PublishiFolder(string ifolderID, bool publish)
+		{
+			string accessID = GetAccessIDForGroup();
+			if( accessID != null)
+			{
+				Store store = Store.GetStore();
+				Collection col = store.GetCollectionByID(ifolderID);
+				if( !IsAccessAllowed(col.Owner.UserID) )
+				{
+					/// throw access violation exception...
+					return ;
+				}
+			}
+			base.PublishiFolder(ifolderID, publish);
+		}
+
+		/// <summary>
+		/// Get a history of changes to an iFolder.
+		/// </summary>
+		/// <param name="ifolderID">The id of the iFolder.</param>
+		/// <param name="itemID">The id of item to filter the results (can be null for no filtering).</param>
+		/// <param name="index">The starting index for the search results.</param>
+		/// <param name="max">The max number of search results to be returned.</param>
+		/// <returns>A set of ChangeEntry objects.</returns>
+		[WebMethod(
+			 Description="Get a history of changes to an iFolder.",
+			 EnableSession=true)]
+		public override ChangeEntrySet GetChanges(string ifolderID, string itemID, int index, int max)
+		{
+			string accessID = GetAccessIDForGroup();
+			if( accessID != null)
+			{
+				Store store = Store.GetStore();
+				Collection col = store.GetCollectionByID(ifolderID);
+				if( !IsAccessAllowed(col.Owner.UserID) )
+				{
+					/// throw access violation exception...
+					return null;
+				}
+			}
+			return base.GetChanges(ifolderID, itemID, index, max);
+		}
+
+		/// <summary>
+		/// Set the rights of a member on an iFolder.
+		/// </summary>
+		/// <param name="ifolderID">The id of the iFolder.</param>
+		/// <param name="userID">The user id of the member.</param>
+		/// <param name="rights">The rights to be set.</param>
+		/// <remarks>This API will accept multiple user ids in a comma delimited list.</remarks>
+		[WebMethod(
+			 Description="Set the rights of a member on an iFolder.",
+			 EnableSession=true)]
+		public override void SetMemberRights(string ifolderID, string userID, Rights rights)
+		{
+			string accessID = GetAccessIDForGroup();
+			if( accessID != null)
+			{
+				Store store = Store.GetStore();
+				Collection col = store.GetCollectionByID(ifolderID);
+				if( !IsAccessAllowed(col.Owner.UserID) )
+				{
+					/// throw access violation exception...
+					return ;
+				}
+			}
+			base.SetMemberRights(ifolderID, userID, rights);
+		}
+
+		/// <summary>
+		/// Get information about all of the iFolder users identified by the search property, operation, and pattern.
+		/// </summary>
+		/// <param name="property">The property to search.</param>
+		/// <param name="operation">The operation to compare the property and pattern.</param>
+		/// <param name="pattern">The pattern to search</param>
+		/// <param name="index">The starting index for the search results.</param>
+		/// <param name="max">The max number of search results to be returned.</param>
+		/// <returns>A set of iFolderUser objects.</returns>
+		[WebMethod(
+			 Description="Get information about all of the iFolder users identified by the search property, operation, and pattern.",
+			 EnableSession=true)]
+		public override iFolderUserSet GetUsersBySearch(SearchProperty property, SearchOperation operation, string pattern, int index, int max)
+		{
+			iFolderUserSet result = null;
+
+			try
+			{
+				Authorize();
+
+				result = iFolderUser.GetUsers(property, operation, pattern, index, max, GetAccessIDForGroup(), true);
+			}
+			catch(Exception e)
+			{
+				SmartException.Throw(e);
+			}
+
+			return result;
+		}
+
 		#endregion
 
 		#region Utility
@@ -1603,6 +2048,15 @@ namespace iFolder.WebService
 		{
 			// no access control as Admin
 			return null;
+		}
+
+		protected override string GetAccessIDForGroup()
+		{
+			string userID = GetUserID();
+			if( iFolderUser.IsAdministrator(userID) )
+				return null;
+			else
+				return userID;
 		}
 
 		/// <summary>
@@ -1640,12 +2094,55 @@ namespace iFolder.WebService
 					// authorized
 					Session["AdminID"] = userID;
 				}
+				else if(iFolderUser.IsGroupAdministrator(userID))
+				{
+					Session["AdminID"] = userID;
+				}
 				else
 				{
 					// unauthroized
 					throw new AuthorizationException(userID);
 				}
 			}
+		}
+
+		protected override bool IsAccessAllowed(string nodeid)
+		{
+			try
+			{
+				bool status = false;
+				string userID = GetUserID();
+				/// If administrator return true...
+				if( iFolderUser.IsAdministrator(userID))
+				{
+					return true;
+				}
+				/// else check whether the nodeid is administered by ythe group admin.
+				if( !iFolderUser.IsGroupAdministrator(userID))
+				{
+					return false;
+				}
+				else
+				{
+					/// if nodeid is a group, check if this group is present in the group list of the GroupAdmin...
+					Store store = Store.GetStore();
+					Domain domain = store.GetDomain(store.DefaultDomain);
+					Member GroupAdminMember = domain.GetMemberByID(userID);
+					if( GroupAdminMember == null)
+					{
+						return false;
+					}
+					Hashtable ht = GroupAdminMember.GetMonitoredUsers(true);
+					status = ht.ContainsKey(nodeid);
+				}
+				return status;
+			}
+			catch
+			{
+				return false;
+			}
+
+			/// Check if this user has the rights mentioned for the corresponding member...
 		}
 
 		#endregion

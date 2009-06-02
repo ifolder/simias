@@ -416,6 +416,17 @@ namespace Novell.iFolderWeb.Admin
 			}
 		}
 
+		/// <summary>
+		/// Sets the checkbox enabled or disabled state
+		/// </summary>
+		public bool SetCheckBoxEnabledState
+		{
+			set
+			{
+				Enabled.Enabled = value;
+			}
+		}
+
 		#endregion
 
 		#region Web Form Designer generated code

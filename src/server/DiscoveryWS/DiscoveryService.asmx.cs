@@ -390,7 +390,15 @@ namespace Simias.DiscoveryService.Web
 			return collectionList;
 		}
 
+                //get all the collections that this user is associated with.
+	    [WebMethod(EnableSession=true)]
+		[SoapDocumentMethod]
+		public long GetSpaceUsedByGroup ( string GroupID )
+		{
+			return Catalog.GetSpaceUsedByGroupMembers( GroupID );
+		}
 
+                //get all the members in this collection
 		/// <summary>
         /// get all the members in this collection
 		/// </summary>

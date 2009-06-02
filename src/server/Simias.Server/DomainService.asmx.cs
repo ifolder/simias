@@ -99,7 +99,8 @@ namespace Simias.DomainService.Web
 		
 		#region WebService Methods
 		/// <summary>
-		/// Get domain information
+		/// Get domain information... This should be called only from clients and not slave server. Because for secondary admins, the rights returned
+                /// will be ReadWrite. Because older clients do no understand the new rights, so we have to return ReadWrite.
 		/// </summary>
 		/// <param name="userID">The user ID of the member requesting domain information.</param>
 		/// <returns>A DomainInfo object that contains information about the enterprise server.</returns>
@@ -133,7 +134,14 @@ namespace Simias.DomainService.Web
 			{
 				info.MemberNodeName = member.Name;
 				info.MemberNodeID = member.ID;
-				info.MemberRights = member.Rights.ToString();
+
+				// Clients before this build do not understand "Secondary" rights so change that to ReadWrite. Also, Secondary rights
+				// are relevant only for server and not for clients, so makes sense.
+				Access.Rights rights = ( Access.Rights ) member.Rights;// ( Access.Rights )Enum.Parse( typeof( Access.Rights ), member.Rights );
+				Access.Rights NewRight = rights;
+				if ( rights == Access.Rights.Secondary) 
+					NewRight = Access.Rights.ReadWrite;
+				info.MemberRights = NewRight.ToString();
 			}
 			else
 			{
@@ -186,6 +194,7 @@ namespace Simias.DomainService.Web
 		[WebMethod(EnableSession=true)]
 		[SoapDocumentMethod]
 		public Simias.Host.HostInfo GetHomeServer( string user )
+
 		{
 			Simias.Server.EnterpriseDomain enterpriseDomain = 
 				new Simias.Server.EnterpriseDomain( false );
@@ -251,7 +260,8 @@ namespace Simias.DomainService.Web
 		}
 
 		/// <summary>
-		/// Provision the user
+		/// Provision the user, This should be called only from clients and not slave server. Because for secondary admins, the rights returned
+		/// will be ReadWrite. Because older clients do no understand the new rights, so we have to return ReadWrite.
 		/// </summary>
 		/// <param name="user">Identifier of the user to provision on the server.</param>
 		/// <param name="password">Password to verify the user's identity.</param>
@@ -300,7 +310,14 @@ namespace Simias.DomainService.Web
 
 				info.MemberNodeName = member.Name;
 				info.MemberNodeID = member.ID;
-				info.MemberRights = member.Rights.ToString();
+
+				// Clients before this build do not understand "Secondary" rights so change that to ReadWrite. Also, Secondary rights
+				// are relevant only for server and not for clients, so makes sense.
+				Access.Rights rights = ( Access.Rights ) member.Rights;// ( Access.Rights )Enum.Parse( typeof( Access.Rights ), member.Rights );
+				Access.Rights NewRight = rights;
+				if ( rights == Access.Rights.Secondary) 
+					NewRight = Access.Rights.ReadWrite;
+				info.MemberRights = NewRight.ToString();
 			}
 			else
 			{
@@ -311,7 +328,9 @@ namespace Simias.DomainService.Web
 		}
 
 		/// <summary>
-		/// Initialize the user information like POBox etc. This assumes the user is already provisioned
+		/// Initialize the user information like POBox etc. This assumes the user is already provisioned... This should be called only from clients 
+		/// and not slave server. Because for secondary admins, the rights returned
+                /// will be ReadWrite. Because older clients do no understand the new rights, so we have to return ReadWrite.
 		/// </summary>
 		/// <param name="user">Identifier of the user to provision on the server.</param>
 		/// <param name="password">Password to verify the user's identity.</param>
@@ -357,7 +376,15 @@ namespace Simias.DomainService.Web
 				//info.MemberRights = poMember.Rights.ToString();
 				info.MemberNodeName = member.Name;
 				info.MemberNodeID = member.ID;
-				info.MemberRights = member.Rights.ToString();
+
+				// Clients before this build do not understand "Secondary" rights so change that to ReadWrite. Also, Secondary rights
+				// are relevant only for server and not for clients, so makes sense.
+				Access.Rights rights = ( Access.Rights ) member.Rights;// ( Access.Rights )Enum.Parse( typeof( Access.Rights ), member.Rights );
+				Access.Rights NewRight = rights;
+				if ( rights == Access.Rights.Secondary) 
+					NewRight = Access.Rights.ReadWrite;
+				info.MemberRights = NewRight.ToString();
+			
 			}
 			else
 			{

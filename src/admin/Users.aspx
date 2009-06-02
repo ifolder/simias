@@ -130,13 +130,14 @@
 									DataSource='<%# ShowProvisionServerList(DataBinder.Eval(Container.DataItem, "IDField"), DataBinder.Eval(Container.DataItem, "ProvisionedField") ) %>' 
 									Visible='<%# IsListVisible(DataBinder.Eval(Container.DataItem, "IDField") ) %>' 
 									AutoPostBack="True"
-									Enabled='<%# IsUserProvisioned(DataBinder.Eval( Container.DataItem, "ProvisionedField" )) %>' 
+									Enabled='<%# IsUserProvisioned(DataBinder.Eval( Container.DataItem, "ProvisionedField" ), DataBinder.Eval(Container.DataItem, "PreferenceField")) %>' 
 									OnSelectedIndexChanged="UpdateServerProvisioning"
 									Width="120"
 									/>
 							</ItemTemplate>
 						</asp:TemplateColumn>
 						<asp:BoundColumn ItemStyle-CssClass="accountsitem5" DataField="StatusField"/>
+						<asp:BoundColumn DataField="PreferenceField" Visible="False"/>
 						
 					</Columns>
 					

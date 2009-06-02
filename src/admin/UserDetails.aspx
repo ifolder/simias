@@ -17,6 +17,15 @@
 		@import url(css/iFolderAdmin.css);
 		@import url(css/UserDetails.css);
 	</style>
+        <script language="javascript">
+
+        function EnableSaveButton()
+        {
+               document.getElementById( "GroupDiskQuotaSave" ).disabled = false;
+        }
+
+        </script>
+
 	
 </head>
 
@@ -88,6 +97,31 @@
 							<asp:Literal ID="LastLogin" Runat="server" />
 						</td>
 					</tr>
+
+					<tr>
+						<th>
+							<asp:Literal ID="GroupDiskQuotaHeader" Visible="false"  Runat="server" />	
+						</th>
+					
+						<td>
+							<asp:TextBox ID="GroupDiskQuotaText" Visible="false" size="6" onkeypress="EnableSaveButton()" OnTextChanged="LimitChanged" Runat="server" />
+							<asp:Literal ID="GroupDiskQuotaLiteral" Visible="false" Runat="server" />
+						</td>
+						<td>
+							<asp:Button ID="GroupDiskQuotaSave" Enabled="False" Visible="false" OnClick="SaveGroupDiskQuota" Runat="server" />
+						</td>
+					</tr>
+
+					<tr>
+						<th>
+							<asp:Literal ID="DiskQuotaUsedHeader" Visible="false"  Runat="server" />	
+						</th>
+					
+						<td>
+							<asp:Literal ID="DiskQuotaUsedLiteral" Visible="false" Runat="server" />
+						</td>
+					</tr>
+
 					<tr>
 						<th>
 							<asp:Literal ID="MembersTag" Runat="server" />
@@ -192,6 +226,7 @@
 									OnCheckedChanged="OniFolderChecked" 
 									AutoPostBack="True" 
 									Visible='<%# DataBinder.Eval( Container.DataItem, "VisibleField" ) %>' 
+									Enabled='<%# IsiFolderEnabled( DataBinder.Eval( Container.DataItem, "PreferenceField" ) ) %>'
 									Checked='<%# GetMemberCheckedState( DataBinder.Eval( Container.DataItem, "IDField" ) ) %>' />
 							</ItemTemplate>
 						</asp:TemplateColumn>
@@ -230,6 +265,12 @@
 								</asp:HyperLink>
 							</ItemTemplate>
 						</asp:TemplateColumn>
+
+						<asp:BoundColumn DataField="OwnerIDField" Visible="False" />
+						<asp:BoundColumn DataField="SharedField" Visible="False" />
+						<asp:BoundColumn DataField="ReachableField" Visible="False" />
+						<asp:BoundColumn DataField="FullNameField" Visible="False" />
+						<asp:BoundColumn DataField="PreferenceField" Visible="False" />
 						
 					</Columns>
 					

@@ -140,6 +140,7 @@ namespace Simias.Sync
 		string			syncContext;
 		bool			getAllNodes;
 		const int		MaxBuffSize = 1024 * 64;
+		string Requester = null;
 		SimiasAccessLogger logger;
 			
         
@@ -220,6 +221,8 @@ namespace Simias.Sync
 			getAllNodes = false;
             HostNode hNode = HostNode.GetLocalHost();
             si.HostID = hNode.ID;
+			Requester = si.Requester;
+			IEnumerator		tmpnodeContainer;
 			Sync.Log.log.Debug("started syncservice");
             
 			collection = store.GetCollectionByID(si.CollectionID);
@@ -289,7 +292,12 @@ namespace Simias.Sync
                                 	{
 						collection.Impersonate(member);
 						rights = member.Rights;
-						si.Access = rights;
+						if (Requester != null && rights == Access.Rights.Secondary)
+						{
+							si.Access = Access.Rights.ReadWrite;
+						}
+						else
+							si.Access = rights;
                                 	}
 					else
 					{
@@ -320,6 +328,7 @@ namespace Simias.Sync
 
 			switch (rights)
 			{
+				case Access.Rights.Secondary:
 				case Access.Rights.Admin:
 				case Access.Rights.ReadOnly:
 				case Access.Rights.ReadWrite:
@@ -385,11 +394,117 @@ namespace Simias.Sync
 		}
 
 		/// <summary>
-		/// Get the next node info
+		/// Filter out those members which are not part of the logged in user's group , will be called in case all nodes are to be synced
 		/// </summary>
-		/// <param name="count">Number of nodes count needed</param>
-		/// <param name="context">Search context</param>
-		/// <returns>Sync Node info</returns>
+		/// <param name="TempChangeList">changelist which contains all nodes</param>
+		/// <return> an enumerator containing all the member nodes which are part of member's groups </returns>
+		public IEnumerator FilterOutsideObjects(IEnumerator TempChangeList)
+		{
+			Domain domain = store.GetDomain(store.DefaultDomain);
+			ArrayList changeList = new ArrayList();
+			string OwnerID = collection.Owner.UserID;
+			string[] GroupList = domain.GetMemberFamilyList(member.UserID);
+			
+			do	
+			{
+				ShallowNode sn = (ShallowNode) TempChangeList.Current;
+				object obj = TempChangeList.Current;
+				if (sn.IsBaseType(NodeTypes.MemberType))
+				{
+					Member mem = new Member(domain, sn);
+					string [] TempGroupList = domain.GetMemberFamilyList(mem.UserID);
+					if(mem.UserID == OwnerID || mem.IsType("Host"))
+					{
+						changeList.Add(obj);
+					}
+					else
+					{
+						foreach( string TempGroupDN in TempGroupList)
+						{
+							if(Array.IndexOf(GroupList, TempGroupDN) >= 0 )
+							{
+								changeList.Add(obj);
+								break;	
+							}
+						}
+					}
+				}
+				else
+				{
+					changeList.Add(obj);
+				}
+			}while(TempChangeList.MoveNext());
+			
+			if(changeList.Count <= 0)
+			{
+				log.Debug("FilterOutsideObjects: no matching group found, no member to sync");
+				return null;
+			}
+			log.Debug("Priority: BeginListAllNodes: this is the number of changed nodes  :"+changeList.Count);
+			return (changeList.GetEnumerator());
+				
+		}
+
+		/// <summary>
+		/// Filter out those members which are not part of the logged in user's group , will be called in case only changed  nodes are to be synced
+		/// </summary>
+		/// <param name="TempChangeList">changelist which contains all changed nodes</param>
+		/// <return> an enumerator containing all the changed nodes which are part of member's groups </returns>
+		public IEnumerator FilterOutsideObjects2(IEnumerator TempChangeList)
+		{
+			Domain domain = store.GetDomain(store.DefaultDomain);
+			ArrayList changeList = new ArrayList();
+			string OwnerID = collection.Owner.UserID;
+
+			string[] GroupList = domain.GetMemberFamilyList(member.UserID);
+
+			do	
+			{
+				SyncNodeInfo  syncnode = new SyncNodeInfo( ((ChangeLogRecord)TempChangeList.Current));
+				object obj = TempChangeList.Current;
+				Member mem = domain.GetMemberByID(syncnode.ID);
+				if ( mem != null &&  ((Node)mem).IsBaseType(NodeTypes.MemberType))
+				{
+					string [] TempGroupList = domain.GetMemberFamilyList(mem.UserID);
+					if(mem.UserID == OwnerID)
+					{
+						changeList.Add(obj);
+					}
+					else
+					{
+						foreach( string TempGroupDN in TempGroupList)
+						{
+							if(Array.IndexOf(GroupList, TempGroupDN) >= 0)
+							{
+								changeList.Add(obj);
+								break;	
+							}
+						}
+					}
+				}
+				else
+				{
+					changeList.Add(obj);
+				}
+			}while(TempChangeList.MoveNext());
+
+			if(changeList.Count <= 0)
+			{
+				log.Debug("FilterOutsideObjects2: no matching group found, no member to sync");
+				return null;
+			}
+
+			log.Debug("Priority: BeginListChangedNodes: this is the number of changed nodes  :"+changeList.Count);
+			return (changeList.GetEnumerator());
+				
+		}
+
+		/// <summary>
+		/// get next changed nodes 
+		/// </summary>
+		/// <param name="count"></param>
+		/// <param name="context"></param>
+		/// <returns></returns>
 		public SyncNodeInfo[] NextNodeInfoList(ref int count, out string context)
 		{
 			context = syncContext;
@@ -401,6 +516,7 @@ namespace Simias.Sync
 
 			SyncNodeInfo[] infoArray = new SyncNodeInfo[count];
             int i = 0;
+				
 			if (getAllNodes)
 			{
 				for (i = 0; i < count;)
@@ -462,11 +578,32 @@ namespace Simias.Sync
 
 			syncContext = new ChangeLogReader(collection).GetEventContext().ToString();
 							
-			IEnumerator enumerator = collection.GetEnumerator();
-			if (!enumerator.MoveNext())
+			IEnumerator tempenumerator = collection.GetEnumerator();
+			IEnumerator enumerator = null;
+			if (!tempenumerator.MoveNext())
 			{
 				enumerator = null;
 			}
+			else
+			{
+				Store store = Store.GetStore();
+				Domain domain = store.GetDomain(store.DefaultDomain);
+				string ColType = collection.GetType().ToString();
+				bool IsDomainType = ColType.Equals("Simias.Storage.Domain") || ColType.Equals("Domain") ;
+
+				if(Requester != null && IsDomainType && domain.GroupSegregated == "yes")
+				{
+					enumerator = FilterOutsideObjects(tempenumerator);
+					if(enumerator == null || !enumerator.MoveNext())
+						enumerator = null;
+				}
+				else
+				{
+					enumerator = collection.GetEnumerator();
+					enumerator.MoveNext();
+				}
+			}
+			
 			getAllNodes = true;
 			log.Debug("BeginListAllNodes End{0}", enumerator == null ? " Error No Nodes" : "");
 			logger.LogAccess("GetChanges", "-", collection.ID, enumerator == null ? "Error" : "Success");
@@ -483,7 +620,10 @@ namespace Simias.Sync
 //			log.Debug("BeginListChangedNodes Start");
 
 			IEnumerator enumerator = null;
+			IEnumerator tempenumerator = null;
 			EventContext eventContext;
+			Store store = Store.GetStore();
+			Domain domain = store.GetDomain(store.DefaultDomain);
 			// Create a change log reader.
 			ChangeLogReader logReader = new ChangeLogReader( collection );
 			try
@@ -494,11 +634,22 @@ namespace Simias.Sync
 					ArrayList changeList = null;
 					eventContext = new EventContext(syncContext);
 					logReader.GetEvents(eventContext, out changeList);
-					enumerator = changeList.GetEnumerator();
-					if (!enumerator.MoveNext())
+					tempenumerator = changeList.GetEnumerator();
+					if (!tempenumerator.MoveNext())
 					{
 						enumerator = null;
 					}
+					else
+					{
+						string ColType = collection.GetType().ToString();
+						bool IsDomainType = ColType.Equals("Simias.Storage.Domain") || ColType.Equals("Domain") ;
+						enumerator = ( Requester != null && IsDomainType && domain.GroupSegregated == "yes") ? FilterOutsideObjects2(tempenumerator) : changeList.GetEnumerator();
+						if(enumerator == null || !enumerator.MoveNext())
+						{
+							enumerator = null;
+						}	
+					}
+					
 					log.Debug("BeginListChangedNodes End. Found {0} changed nodes.", changeList.Count);
 					syncContext = eventContext.ToString();
 					contextValid = true;
@@ -572,7 +723,7 @@ namespace Simias.Sync
 			{
 				// Try to commit all the nodes at once.
 				int i = 0;
-                bool DontTransferOwner = false;
+				bool DontTransferOwner = false;
 				foreach (SyncNode sn in nodes)
 				{
 					statusList[i] = new SyncNodeStatus();

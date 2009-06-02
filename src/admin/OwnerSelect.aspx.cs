@@ -253,18 +253,16 @@ namespace Novell.iFolderWeb.Admin
 
 		private bool GetUserLinkStatus(string userID)
 		{
-			UserPolicy UPolicy = null; 
-
+			bool LinkStatus = false;
 			try
 			{	
 				bool UserEncryptionEnforced = web.IsUserOrSystemEncryptionEnforced(userID);
-				bool LinkStatus = ! UserEncryptionEnforced ;
-				return LinkStatus ;
+				LinkStatus = !UserEncryptionEnforced ;
 			}
-			catch (Exception ex)
+			catch
 			{
-				return true;
 			}
+			return LinkStatus;
 		}
 		
 
@@ -587,7 +585,8 @@ namespace Novell.iFolderWeb.Admin
 			// check for the encryption policy first to decide whether he can be owner or not
 			DataRow dr = dt.Rows[ dgi.ItemIndex ];
 			string OwnerID = dr[ "IDField" ] as string;
-			bool CanBeOwner = GetUserLinkStatus(OwnerID);
+			bool CanBeOwner = false;
+			CanBeOwner = GetUserLinkStatus(OwnerID);
 			if (CanBeOwner == false)
 			{
 				TopNav.ShowError( GetString("ERRORIFOLDERENCRYPTIONENFORCED"));

@@ -45,7 +45,7 @@ namespace iFolder.WebService
 	[Serializable]
 	public class UserPolicy 
 	{
-		private static readonly ISimiasLog log = SimiasLogManager.GetLogger(typeof(Member));
+		//private static readonly ISimiasLog log = SimiasLogManager.GetLogger(typeof(Member));
 		/// <summary>
 		/// The User ID
 		/// </summary>
@@ -64,6 +64,11 @@ namespace iFolder.WebService
 		/// Is the User's Login Enabled?
 		/// </summary>
 		public bool LoginEnabled;
+
+		/// <summary>
+		/// Logged in Admin Groupk Rights
+		/// </summary>
+		public int AdminGroupRights;
 
 	        /// <summary>
         	/// The User Disk Space Limit
@@ -211,6 +216,66 @@ namespace iFolder.WebService
 		}
 
 		/// <summary>
+		/// Get the User Policy
+		/// </summary>
+		/// <param name="userID">The User ID</param>
+		/// <returns>The UserPolicy Object</returns>
+		public static UserPolicy GetPolicy(string userID, string AdminId)
+		{
+			UserPolicy props = new UserPolicy();
+
+			props.UserID = userID;
+
+			Store store = Store.GetStore();
+
+			Domain domain = store.GetDomain(store.DefaultDomain);
+			
+			Member member = domain.GetMemberByID(userID);
+			
+			if (member == null) throw new UserDoesNotExistException(userID);
+
+                        Access.Rights rights = (member != null) ? member.Rights : Access.Rights.Deny;
+
+                        props.isAdmin = (rights == Access.Rights.Admin);
+
+            props.LoginEnabled = !(domain.GetLoginpolicy(userID));
+
+			// disk space
+			DiskSpaceQuota quota = DiskSpaceQuota.Get(member);
+			
+			props.SpaceLimitEffective = quota.Limit;
+			props.SpaceUsed = quota.UsedSpace;
+			props.SpaceAvailable = quota.AvailableSpace;
+
+			props.SpaceLimit = DiskSpaceQuota.GetLimit(member);
+			props.EncryptionStatus = Simias.Policy.SecurityState.GetStatus( member );
+	
+			// To return disable sharing value for an user
+			props.SharingStatus = Simias.Policy.Sharing.GetStatus( member );
+
+			// file size
+			props.FileSizeLimit = FileSizeFilter.GetLimit(member);
+			props.FileSizeLimitEffective = FileSizeFilter.Get(member).Limit;
+
+			//No of ifolders limit
+			props.NoiFoldersLimit = iFolderLimit.Get(member).Limit;
+
+			// sync interval
+			props.SyncInterval = Simias.Policy.SyncInterval.GetInterval(member);
+			props.SyncIntervalEffective = Simias.Policy.SyncInterval.Get(member).Interval;
+
+			// file types
+			SystemPolicy.SplitFileTypes(FileTypeFilter.GetPatterns(member),
+				out props.FileTypesIncludes, out props.FileTypesExcludes);
+
+			// file types effective
+			SystemPolicy.SplitFileTypes(FileTypeFilter.Get(member).FilterUserList,
+				out props.FileTypesIncludesEffective, out props.FileTypesExcludesEffective);
+			props.AdminGroupRights = iFolderUser.GetAdminRights(AdminId , userID);
+			return props;
+		}
+
+		/// <summary>
 		/// Get the User Groups Number of iFolder Policy value.
 		/// </summary>
 		/// <param name="userID">The User ID</param>
@@ -333,7 +398,7 @@ namespace iFolder.WebService
 			}
 
 			// disk space
-			if (props.SpaceLimit >= 0)
+			if (props.SpaceLimit >= -1)
 			{
 				DiskSpaceQuota.Set(member, props.SpaceLimit);
 			}

@@ -135,6 +135,17 @@ namespace Novell.iFolderWeb.Admin
 		#region Public Methods
 
 		/// <summary>
+		/// Sets the checkbox enabled or disabled state
+		/// </summary>
+		public bool SetCheckBoxEnabledState
+		{
+			set
+			{
+				Enabled.Enabled = value;
+			}
+		}
+
+		/// <summary>
 		/// Gets the account policy for the current ifolder user.
 		/// </summary>
 		/// <param name="policy">iFolder policy object</param>

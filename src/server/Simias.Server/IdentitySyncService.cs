@@ -100,6 +100,18 @@ namespace Simias.IdentitySync
 		private DateTime endTime;
 		private DateTime startTime;
 		private Domain domain;
+
+                /// <summary>
+                /// Group Quota Restriction Method.
+                /// </summary>
+                private enum QuotaRestriction
+                {
+                                // For current Implementation, enum value AllAdmins is not used, can be used in future
+                                UI_Based,
+                                Sync_Based
+                }
+
+
 		#endregion
 		
 		#region Properties
@@ -363,6 +375,12 @@ namespace Simias.IdentitySync
 			log.Debug( "  processing member: " + Username );
 			Simias.Storage.Member member = null;
 			MemberStatus status = MemberStatus.Unchanged;
+
+			if(Username == null || Username.Equals(String.Empty))
+			{
+				log.Debug("Empty Username, canot create blank user in iFolder, returning");
+				return;
+			}			
 			
 			try
 			{
@@ -373,6 +391,8 @@ namespace Simias.IdentitySync
 			{
 				bool timeStampPresent = false;
 
+				if(UserGuid != null && String.Compare(member.UserID, UserGuid) != 0)
+					return;
 				if ( Properties != null )
 				{
 					// check if the properties provided by the identity sync
@@ -502,6 +522,57 @@ namespace Simias.IdentitySync
 					{
 						member.Properties.ModifyProperty( prop );
 					}
+					                                       // while creating member, if sum of allocated disk quota per user is equal to aggregate disk quota set on group
+                                        // then set 0 MB as disk quota limit for this user
+                                        {
+                                                string [] GroupIDs = domain.GetMemberFamilyList(member.UserID);
+                                                foreach(string GroupID in GroupIDs)
+                                                {
+                                                        bool IsChildGroup = false;
+                                                        Member GroupAsMember = domain.GetMemberByID(GroupID);
+                                                        string ParentGroups = GroupAsMember.Properties.GetSingleProperty( "UserGroups" ).Value as string;
+                                                        if(ParentGroups != null && ParentGroups != String.Empty)
+                                                        {
+                                                                // no point in
+                                                                IsChildGroup = true;
+                                                        }
+                                                        long GroupDiskQuota = GroupAsMember.AggregateDiskQuota;
+                                                        if(GroupDiskQuota < 0)
+                                                        {
+
+                                                                if( IsChildGroup )
+                                                                        continue;
+                                                                else
+                                                                {
+                                                                        Simias.Policy.DiskSpaceQuota.Set(member, -1);
+                                                                        log.Debug("MEMBERADD: No aggregate Disk Quota set for group, so it will set unlimited space for newly added member");
+                                                                        break;
+                                                                }
+
+                                                        }
+                                                        if( domain.GroupQuotaRestrictionMethod == (int)QuotaRestriction.UI_Based )
+                                                        {
+                                                                // add the allocated disk quota per user for whole group
+                                                                long SizeAllocatedToMembers = 0;
+                                                                string [] MembersList = domain.GetGroupsMemberList( GroupID );
+                                                                foreach( string GroupMemberID in MembersList)
+                                                                {
+                                                                        long MemberAllocation = Simias.Policy.DiskSpaceQuota.Get( domain.GetMemberByID(GroupMemberID)).Limit;
+                                                                        if( MemberAllocation >= 0 )
+                                                                                SizeAllocatedToMembers += MemberAllocation;
+                                                                }
+                                                                if( SizeAllocatedToMembers >= GroupDiskQuota )
+                                                                {
+                                                                        log.Debug("MEMBERADD: Sum of Disk Quota per user for all users is equal to aggregate disk quota set for group, so committing 0 MB for newly added user");
+                                                                        Simias.Policy.DiskSpaceQuota.Set(member, 0);
+                                                                        break;
+                                                                }
+
+                                                        }
+                                                }
+                                        }
+
+
 					
 					status = MemberStatus.Created;
 				}
@@ -778,15 +849,18 @@ namespace Simias.IdentitySync
 		/// </summary>
 		private
 		static
-		void OrphanCollections( IdentitySync.State State, Member Zombie )
+		void OrphanCollections( IdentitySync.State State, Member Zombie, string [] GroupIDs )
 		{
 			string dn =	Zombie.Properties.GetSingleProperty( "DN" ).Value as string;
 			if ( dn == null || dn == "" )
 			{
 				dn = Zombie.Name;
 			}
-
+			bool GroupOwnerSetting = false;
+			string GroupOrphOwnerID = null;
+			bool CheckForSecondaryAdmin = true;
 			Store store = Store.GetStore();
+			Domain domain = store.GetDomain(store.DefaultDomain);
 			ICSList cList = store.GetCollectionsByOwner( Zombie.UserID );
 			foreach ( ShallowNode sn in cList )
 			{
@@ -802,9 +876,54 @@ namespace Simias.IdentitySync
 					Member member = c.GetMemberByID( Zombie.UserID );
 					if (member != null && member.IsOwner == true )
 					{
+
+						if( CheckForSecondaryAdmin = true && GroupIDs.Length > 0 ) //make sure this cond gets executed only once, even if collections change
+						{
+							// foreach group this zombie user belongs to, check if the group has a right secondary admin
+							foreach( string groupID in GroupIDs)
+							{
+								if(groupID == Zombie.UserID)
+								{
+									// zombie user should not be iterated
+									continue;
+								}
+								ICSList SecondaryAdmins = domain.GetMembersByRights(Access.Rights.Secondary);
+								foreach(ShallowNode sns in SecondaryAdmins)
+								{
+									Member SecondaryAdminMem = new Member(domain, sns);
+									log.Debug("tmp SecondaryAdmin ID is :"+SecondaryAdminMem.UserID);
+									long Preference = SecondaryAdminMem.GetPreferencesForGroup(groupID);
+									//check, if this secondary admin has rights to own Orphan iFolders of this group
+									if (Preference == 0)
+									{
+										// Secondary admin is not owner of this group, check for next sec admin
+										log.Debug("Either he is not admin for this group or hasno rights.");
+										continue;
+									}	
+									else
+									{
+										log.Debug("The returned Preference is :"+Preference);
+										GroupOrphOwnerID = ( Preference & (int)512) != (int)512 ? null : SecondaryAdminMem.UserID;
+										if(GroupOrphOwnerID != null)
+										{
+											log.Debug("GroupOwner has been found for this zombie user, it is "+GroupOrphOwnerID);
+											break;
+										}
+									}
+								}	
+								// We want this check to be performed only once for one zombie user, so disable the check
+								// so that for other collections of same owner, it does not search same data again.
+								CheckForSecondaryAdmin = false;
+								if(GroupOrphOwnerID != null)
+								{
+									break;
+								}
+							}
+						}
 						// Don't remove an orphaned collection.
 						if ( ( member.UserID != State.SDomain.Owner.UserID ) )
 						{
+
 							//
 							// The desired IT behavior is to orphan all collections
 							// where the zombie user is the owner of the collection.
@@ -814,30 +933,37 @@ namespace Simias.IdentitySync
 							// the new owner.
 							//
 
+							// Adding the code so that, if zombie user is member of a group and the group has a setting
+							// so that all orphaned iFolders should be owned by groupadmin, then primary admin will not
+							// get the ownership
+
+							string SimiasAdminUserID = ( GroupOrphOwnerID == null ? State.SDomain.Owner.UserID : GroupOrphOwnerID );
+							Member SimiasAdminAsMember = domain.GetMemberByID(SimiasAdminUserID);
+
 							// Simias Admin must be a member first before ownership
 							// can be transfered
 							Member adminMember =
-								c.GetMemberByID( State.SDomain.Owner.UserID );
+								c.GetMemberByID( SimiasAdminUserID );
 							if ( adminMember == null )
 							{
 								adminMember =
 									new Member(
-											State.SDomain.Owner.Name,
-											State.SDomain.Owner.UserID,
+											SimiasAdminAsMember.Name,
+											SimiasAdminAsMember.UserID,
 											Simias.Storage.Access.Rights.Admin );
-									c.Commit( adminMember );
+								c.Commit( adminMember );
 							}
-
+	
 							Property prevProp = new Property( "OrphanedOwner", dn );
 							prevProp.LocalProperty = true;
 							c.Properties.ModifyProperty( prevProp );
 							c.Commit();
-
+	
 							c.Commit( c.ChangeOwner( adminMember, Simias.Storage.Access.Rights.Admin ) );
-
+	
 							// Now remove the old member
 							c.Commit( c.Delete( c.Refresh( member ) ) );
-								
+									
 							string logMessage =
 								String.Format(
 									"Orphaned Collection: {0} - previous owner: {1}",
@@ -934,8 +1060,9 @@ namespace Simias.IdentitySync
 								// domain roster
 								if ( dt.AddSeconds( Service.deleteGracePeriod ) < DateTime.Now )
 								{
+									string [] groupIDs = State.SDomain.GetDeletedMembersGroupList(cMember.UserID);
 									DeletePOBox( State, cMember );
-									OrphanCollections( State, cMember );
+									OrphanCollections( State, cMember, groupIDs );
 									RemoveMemberships( State, cMember );
 
 									// gather log info before commit

@@ -2036,10 +2036,10 @@ namespace Simias.Sync
 							eventPublisher.RaiseEvent(new FileSyncEventArgs(collection.ID, ObjectType.Unknown, true, node.Name, 0, 0, 0, Direction.Downloading));
 						}
 						collection.DeletePOBox(node);
-                        if (Store.IsEnterpriseServer == true)
-                        {
-                            collection.OrphanCollections(node);
-                        }
+						if (Store.IsEnterpriseServer == true)
+						{
+							collection.OrphanCollections(node);
+						}
 						collection.RemoveMemberships(node);
 						collection.Delete(node);
 						collection.Commit(node);
@@ -2050,8 +2050,8 @@ namespace Simias.Sync
 				catch(Exception e)
 				{
 					// Try to delete the next node.
-                    //FIXME: we must not remove the node on exception - workaround for new sync engine
-                    workArray.RemoveNodeFromServer(id, merge);
+					//FIXME: we must not remove the node on exception - workaround for new sync engine
+					workArray.RemoveNodeFromServer(id, merge);
 				}
 			}
 		}

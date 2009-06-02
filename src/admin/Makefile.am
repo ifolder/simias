@@ -3,6 +3,7 @@ export MONO_PATH := $(MONO_PATH)
 iFolderAdmin_CSFILES = \
 	$(srcdir)/AccountEnabled.ascx.cs \
 	$(srcdir)/AddDataPath.aspx.cs \
+	$(srcdir)/AdminRights.aspx.cs \
 	$(srcdir)/CreateiFolder.aspx.cs \
 	$(srcdir)/CreateUser.aspx.cs \
 	$(srcdir)/Default.aspx.cs \
@@ -37,6 +38,7 @@ iFolderAdmin_CSFILES = \
 	$(srcdir)/Reports.aspx.cs \
 	$(srcdir)/ServerDetails.aspx.cs \
 	$(srcdir)/Servers.aspx.cs \
+	$(srcdir)/StatusPage.aspx.cs \
 	$(srcdir)/SyncInterval.ascx.cs \
 	$(srcdir)/SystemInfo.aspx.cs \
 	$(srcdir)/TopNavigation.ascx.cs \
@@ -44,7 +46,8 @@ iFolderAdmin_CSFILES = \
 	$(srcdir)/Users.aspx.cs \
 	$(srcdir)/userMove.aspx.cs \
 	$(srcdir)/userMoveDetails.aspx.cs \
-	$(srcdir)/Utils.cs
+	$(srcdir)/Utils.cs \
+	$(srcdir)/PreferencesEnum.cs
 	
 iFolderAdmin_CSFILES_CSC := $(subst /,$(SEP),$(iFolderAdmin_CSFILES))
 
@@ -78,6 +81,7 @@ iFolderAdmin_LIBS = \
 iFolderAdmin_FORMS = \
 	AccountEnabled.ascx \
 	AddDataPath.aspx \
+	AdminRights.aspx \
 	CreateiFolder.aspx \
 	CreateUser.aspx \
 	Default.aspx \
@@ -111,6 +115,7 @@ iFolderAdmin_FORMS = \
 	Reports.aspx \
 	ServerDetails.aspx \
 	Servers.aspx \
+	StatusPage.aspx \
 	SyncInterval.ascx \
 	SystemInfo.aspx \
 	TopNavigation.ascx \

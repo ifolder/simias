@@ -243,7 +243,7 @@ namespace Novell.iFolderWeb.Admin
 			}
 		
 			// Get the current policy settings.
-			iFolderPolicy policy = remoteweb.GetiFolderPolicy( PolicyID );
+			iFolderPolicy policy = remoteweb.GetiFolderPolicy( PolicyID, null );
 			try
 			{
 				iFolderEnabled.SetiFolderEnabledPolicy( policy );
@@ -369,7 +369,7 @@ namespace Novell.iFolderWeb.Admin
 			remoteweb.Url = MasterServerUrl + "/iFolderAdmin.asmx";
 
 			// Get the current policy settings.
-			UserPolicy policy = remoteweb.GetUserPolicy( PolicyID );
+			UserPolicy policy = remoteweb.GetUserPolicy( PolicyID, null );
 			try
 			{
 				AccountEnabled.SetAccountPolicy( policy );
@@ -391,6 +391,27 @@ namespace Novell.iFolderWeb.Admin
 				
 				return;
 			}
+                        try
+                        {
+                                if( !web.DiskQuotaPolicyChangeAllowed( PolicyID, policy.SpaceLimit))
+                                {}
+                        }
+                        catch ( Exception ex )
+                        {
+				web.Url = currentURL;
+                                if(policy.SpaceLimit == -1)
+                                {
+                                        string errMsg = GetString("CANNOTSETUNLIMITED");
+                                        PolicyError( this, new PolicyErrorArgs( errMsg, ex ) );
+                                        return;
+                                }
+                                else
+                                {
+                                        string errMsg = GetString("CANNOTSETQUOTAPERUSERERROR");
+                                        PolicyError( this, new PolicyErrorArgs( errMsg, ex ) );
+                                        return;
+                                }
+                        }
 
 			// Set the new policies and refresh the view.
 			try
@@ -474,12 +495,40 @@ namespace Novell.iFolderWeb.Admin
 		#region Public Methods
 
 		/// <summary>
+		/// Enable / Disable polivy set options based on admin rights
+		/// </summary>
+		public void DisablePolicyEditBasedOnRighs(int AdminGroupRights)
+		{
+			UserGroupAdminRights uRights = new UserGroupAdminRights(AdminGroupRights);	
+			if(uRights.EnableDisableiFolderAllowed == false)
+				iFolderEnabled.SetCheckBoxEnabledState = false;
+			if(uRights.EnableDisableUserAllowed == false)
+				AccountEnabled.SetCheckBoxEnabledState = false;
+			if(uRights.DiskQuotaAllowed == false)
+				DiskQuota.SetCheckBoxEnabledState = false;
+			if(uRights.iFolderLimitAllowed == false)
+				iFolderLimit.SetCheckBoxEnabledState = false;
+			if(uRights.ChangeEncryptionAllowed == false)
+				SecurityState.SetCheckBoxEnabledState = false;
+			if(uRights.FileSizeAllowed == false)
+				FileSize.SetCheckBoxEnabledState = false;
+			if(uRights.AddToExcludePolicyAllowed == false)
+				FileType.SetCheckBoxEnabledState = false;
+
+			if(uRights.SyncIntervalAllowed == false)
+				SyncInterval.SetCheckBoxEnabledState = false;
+			if(uRights.ChangeSharingAllowed == false)
+				Sharing.SetCheckBoxEnabledState = false;
+		}
+
+		/// <summary>
 		/// Gets the ifolder policies.
 		/// </summary>
 		public void GetiFolderPolicies()
 		{
 			iFolderPolicy policy = null;
 			string ifolderLocation = web.GetiFolderLocation (PolicyID);
+			string AdminID = Session[ "UserID" ] as String;
 			if(ifolderLocation != null)
 			{
 				UriBuilder remoteurl = new UriBuilder(ifolderLocation);
@@ -488,7 +537,7 @@ namespace Novell.iFolderWeb.Admin
 			}
 			try
 			{
-				policy = remoteweb.GetiFolderPolicy( PolicyID );
+				policy = remoteweb.GetiFolderPolicy( PolicyID, AdminID );
 			}
 			catch
 			{
@@ -504,6 +553,7 @@ namespace Novell.iFolderWeb.Admin
 			SyncInterval.GetSyncPolicy( policy );
 			Sharing.GetSharingPolicy( policy, PolicyID );
 //			web.Url = currentURL;
+			DisablePolicyEditBasedOnRighs(policy.AdminGroupRights);
 		}
 
 		/// <summary>
@@ -530,9 +580,10 @@ namespace Novell.iFolderWeb.Admin
 		public bool GetUserPolicies()
 		{
 			UserPolicy policy = null;
+			string AdminID = Session[ "UserID" ] as String;
 			try
 			{
-				policy = web.GetUserPolicy( PolicyID );
+				policy = web.GetUserPolicy( PolicyID , AdminID);
 			}
 			catch
 			{
@@ -549,6 +600,7 @@ namespace Novell.iFolderWeb.Admin
 			SyncInterval.GetSyncPolicy( policy );
 			Sharing.GetSharingPolicy( policy );
 //			web.Url = currentURL;
+			DisablePolicyEditBasedOnRighs(policy.AdminGroupRights);
 			return true;
 		}
 

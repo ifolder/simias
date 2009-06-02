@@ -134,6 +134,34 @@
 							</asp:RadioButtonList>
 						</td>
 					</tr>
+
+					<tr>
+						<th>
+							<%= GetString( "GROUPQUOTARESTRICTION" ) %>
+						</th>
+						
+						<td>
+							<asp:RadioButtonList
+								ID="GroupQuotaRestriction"	
+								Runat="server"
+								AutoPostBack="True"
+								RepeatDirection="Horizontal"
+								OnSelectedIndexChanged="EnableSaveButtons"> 
+								<asp:ListItem></asp:ListItem>
+								<asp:ListItem></asp:ListItem>
+							</asp:RadioButtonList>
+						</td>
+					</tr>
+
+					<tr>
+						<th>
+							<%= GetString( "SEGREGATEDGROUPS" ) %>	
+						</th>
+						
+						<td>
+							<asp:CheckBox ID="GroupSegregated" Runat="server" onclick="EnableSystemButtons()" />
+						</td>
+					</tr>
 					
 				</table>
 
@@ -167,7 +195,25 @@
 					<%= GetString( "IFOLDERADMINS" ) %>
 					
 				</div>
-				
+
+				<div id="CurrentTab" runat="server" class="admintabnav">
+					<ul id="adminlisttab">
+						<li class="primaryadmins">
+							<asp:LinkButton
+								ID="PrimaryAdminsLink"
+								Runat="server"
+								OnClick="PrimaryAdmins_Clicked" />	
+						</li>		
+						
+						<li class="groupadmins">
+							<asp:LinkButton
+								ID="GroupAdminsLink"
+								Runat="server"
+								OnClick="GroupAdmins_Clicked" />
+						</li>
+					</ul>
+				</div>
+					
 				<table class="adminlistheader" cellpadding="0" cellspacing="0" border="0">
 			
 					<tr>
@@ -256,6 +302,12 @@
 					Enabled="False"
 					OnClick="OnDeleteButton_Click" />
 				
+				<asp:Button 
+					ID="EditButton" 
+					Runat="server" 
+					CssClass="deleteadminbutton"
+					OnClick="OnEditButton_Click" />
+
 				<asp:Button 
 					ID="AddButton" 
 					Runat="server" 

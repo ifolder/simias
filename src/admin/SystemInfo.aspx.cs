@@ -51,6 +51,27 @@ namespace Novell.iFolderWeb.Admin
 	public class SystemInfo : System.Web.UI.Page
 	{
 		#region Class Members
+	
+		/// <summary>
+                /// iFolder list display types.
+                /// </summary>
+                private enum ListDisplayType
+                {
+				// For current Implementation, enum value AllAdmins is not used, can be used in future
+                                AllAdmins,
+                                GroupAdmins,
+                                PrimaryAdmins
+                }
+
+		/// <summary>
+                /// Group Quota Restriction Method.
+                /// </summary>
+                private enum QuotaRestriction
+                {
+				// For current Implementation, enum value AllAdmins is not used, can be used in future
+                                UI_Based,
+                                Sync_Based
+                }
 		
 		/// <summary>
 		/// iFolder Connection
@@ -65,14 +86,23 @@ namespace Novell.iFolderWeb.Admin
         /// <summary>
         /// log header
         /// </summary>
-		private static readonly iFolderWebLogger log = new iFolderWebLogger(
-			System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.Name);
+		//private static readonly iFolderWebLogger log = new iFolderWebLogger(
+		//	System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.Name);
 
 		/// <summary>
 		/// Top navigation panel control.
 		/// </summary>
 		protected TopNavigation TopNav;
 
+		/// <summary>
+		/// Logged in admin system rights instance
+		/// </summary>
+		UserSystemAdminRights uRights;
+		
+		/// <summary>
+		/// Logged in user system rights value
+		/// </summary>
+		int sysAccessPolicy = 0;
 
 		/// <summary>
 		/// iFolder system name control.
@@ -115,10 +145,24 @@ namespace Novell.iFolderWeb.Admin
 		protected RadioButtonList FullNameSetting;
 
 		/// <summary>
+		/// Group Quota Restriction Method  
+		/// </summary>
+		protected RadioButtonList GroupQuotaRestriction;
+
+		/// <summary>
 		/// System policy control.
 		/// </summary>
 		protected Policy Policy;
+	
+		/// <summary>
+		/// iFolder list view tab controls.
+		/// </summary>
+		protected LinkButton PrimaryAdminsLink;
 
+		/// <summary>
+		/// iFolder list view tab controls.
+		/// </summary>
+		protected LinkButton GroupAdminsLink;
 		
 		/// <summary>
 		/// All admins checkbox control.
@@ -141,9 +185,25 @@ namespace Novell.iFolderWeb.Admin
 		protected Button DeleteButton;
 
 		/// <summary>
+		/// Edit admin rights button control.
+		/// </summary>
+		protected Button EditButton;
+		
+		/// <summary>
+                /// iFolder list view tab controls.
+                /// </summary>
+                protected HtmlGenericControl CurrentTab;
+
+
+		/// <summary>
 		/// Add admin button control.
 		/// </summary>
 		protected Button AddButton;
+
+		/// <summary>
+		/// Add admin button control.
+		/// </summary>
+		//protected Button AddSecButton;
 
 		/// <summary>
 		/// Reprovision State admin button control.
@@ -159,6 +219,11 @@ namespace Novell.iFolderWeb.Admin
 		/// used by aspx page to see if SSLOption combo box changes
 		/// </summary>
 		public string SSLOptionChanged ;
+
+		/// <summary>
+		/// used by aspx page to see if SSLOption combo box changes
+		/// </summary>
+		protected CheckBox GroupSegregated ;
 
 		#endregion
 
@@ -209,6 +274,16 @@ namespace Novell.iFolderWeb.Admin
 			get { return ( string )ViewState[ "SSLOptionChanged" ]; }
 			set { ViewState[ "SSLOptionChanged" ] = value; }
 		}
+		
+		/// <summary>
+		/// Gets or sets the active ifolder tab.
+		/// </summary>
+		private ListDisplayType ActiveAdminTab
+		{
+			get { return ( ListDisplayType )ViewState[ "ActiveAdminTab" ]; }
+			set { ViewState[ "ActiveAdminTab" ] = value; }
+		}
+
 
 		#endregion
 
@@ -232,13 +307,27 @@ namespace Novell.iFolderWeb.Admin
 		{
 			DataTable dt = new DataTable();
 			DataRow dr;
+			iFolderUserSet adminList = null;
 
 			dt.Columns.Add( new DataColumn( "VisibleField", typeof( bool ) ) );
 			dt.Columns.Add( new DataColumn( "IDField", typeof( string ) ) );
 			dt.Columns.Add( new DataColumn( "NameField", typeof( string ) ) );
 			dt.Columns.Add( new DataColumn( "FullNameField", typeof( string ) ) );
 
-			iFolderUserSet adminList = web.GetAdministrators( CurrentAdminOffset, AdminList.PageSize );
+			
+			switch(ActiveAdminTab)
+			{
+				case ListDisplayType.GroupAdmins:
+								adminList = web.GetAdministrators( CurrentAdminOffset, AdminList.PageSize, (int)ListDisplayType.GroupAdmins );
+								AllAdminsCheckBox.Enabled = false;
+								AllAdminsCheckBox.Checked = false;
+								break;
+				case ListDisplayType.PrimaryAdmins:
+							default:
+								adminList = web.GetAdministrators( CurrentAdminOffset, AdminList.PageSize, (int)ListDisplayType.PrimaryAdmins );
+								AllAdminsCheckBox.Enabled = true;
+								break;
+			}
 
 			foreach( iFolderUser admin in adminList.Items )
 			{
@@ -295,6 +384,19 @@ namespace Novell.iFolderWeb.Admin
 			else
 			{
 				FullNameSetting.SelectedIndex = 1;
+			}
+			if(system.GroupSegregated == "yes")
+			{
+				GroupSegregated.Checked = true;
+			}
+
+			if( system.GroupQuotaRestrictionMethod == (int)QuotaRestriction.UI_Based )
+			{
+				GroupQuotaRestriction.SelectedIndex = 0;
+			}
+			else if( system.GroupQuotaRestrictionMethod == (int)QuotaRestriction.Sync_Based )
+			{
+				GroupQuotaRestriction.SelectedIndex = 1;
 			}
 
 			iFolderUserSet users = web.GetUsers( 0, 1 );
@@ -411,24 +513,45 @@ namespace Novell.iFolderWeb.Admin
 			// localization
 			rm = Application[ "RM" ] as ResourceManager;
 
+			string userID = Session[ "UserID" ] as String;
+			if(userID != null)
+				sysAccessPolicy = web.GetUserSystemRights(userID, null);
+			else
+				sysAccessPolicy = 0; 
+			uRights = new UserSystemAdminRights(sysAccessPolicy);
+			if(uRights.SystemPolicyManagementAllowed == false)
+				Page.Response.Redirect(String.Format("Error.aspx?ex={0}&Msg={1}",GetString( "ACCESSDENIED" ), GetString( "ACCESSDENIEDERROR" )));
+
 			if ( !IsPostBack )
 			{
 				// Initialize the localized fields.
 				DeleteButton.Text = GetString( "DELETE" );
+				EditButton.Text = GetString( "EDIT" );
 				AddButton.Text = GetString( "ADD" );
+				//AddSecButton.Text = GetString( "ADD" ) + " " + GetString( "SECONDARY" );
 				ReprovisionStatusButton.Text = GetString( "REPROVISIONBUTTON" );
 				SaveButton.Text = GetString( "SAVE" );
 				CancelButton.Text = GetString( "CANCEL" );
+				GroupSegregated.Text = GetString("CREATESEGREGATEDGROUPS");
+				PrimaryAdminsLink.Text = GetString( "PRIMARY" );
+				GroupAdminsLink.Text = GetString( "SECONDARY" );
 
 				FullNameSetting.Items[ 0 ].Text = "(" + GetString("FIRSTNAME") + ", " + GetString("LASTNAME") + ")";
 				FullNameSetting.Items[ 1 ].Text = "(" + GetString("LASTNAME") + ", " + GetString("FIRSTNAME") + ")";
+				GroupQuotaRestriction.Items[ 0 ].Text = GetString("UIBASED") ;
+				GroupQuotaRestriction.Items[ 1 ].Text = GetString("SYNCBASED");
 
 				// Initialize state variables.
 				CurrentAdminOffset = 0;
 				TotalAdmins = 0;
 				AllAdminsCheckBox.Checked = false;
 				CheckedMembers = new Hashtable();
+				//select the active admin tab
+				ActiveAdminTab = ListDisplayType.PrimaryAdmins;
+				EditButton.Visible = false;
+				//AddSecButton.Visible = false;
 			}
+			SetActiveAdminListTab( ActiveAdminTab );
 		}
 
         /// <summary>
@@ -475,6 +598,18 @@ namespace Novell.iFolderWeb.Admin
 				GetString( "ADMINISTRATOR" ) );
 		}
 
+		/// <summary>
+		/// Sets the active ifolder list display tab.
+		/// </summary>
+		/// <param name="activeTab"></param>
+		/// <returns>The active list tab.</returns>
+		private void SetActiveAdminListTab( ListDisplayType activeTab )
+		{
+			ActiveAdminTab = activeTab;
+			CurrentTab.ID = activeTab.ToString();
+		}
+
+
 
 		#endregion
 
@@ -509,6 +644,42 @@ namespace Novell.iFolderWeb.Admin
 		{
 			return rm.GetString( key );
 		}
+
+		/// <summary>
+		/// Event handler that gets called when the all ifolders tab is clicked.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		protected void PrimaryAdmins_Clicked( Object sender, EventArgs e )
+		{
+			SetActiveAdminListTab( ListDisplayType.PrimaryAdmins );
+			GetiFolderAdminList();
+			EditButton.Visible = false;
+			//AddButton.Enabled = true;
+			//AddSecButton.Enabled = false;
+			//CreateButton.Enabled = true;
+			//GetiFolders();
+		}
+
+		/// <summary>
+		/// Event handler that gets called when the all ifolders tab is clicked.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		protected void GroupAdmins_Clicked( Object sender, EventArgs e )
+		{
+			SetActiveAdminListTab( ListDisplayType.GroupAdmins );
+			GetiFolderAdminList();
+			EditButton.Visible = true;
+			//EditButton.Enabled = false;
+			//AddButton.Enabled = false;
+			//AddSecButton.Visible = AddSecButton.Enabled =true;
+			EditButton.Enabled = (CheckedMembers.Count == 1 );
+			DeleteButton.Enabled = (CheckedMembers.Count == 1 );
+
+			//CreateButton.Enabled = true;
+			//GetiFolders();
+		}
 		
 		/// <summary>
 		/// Event handler that gets called when the report location selection changes.
@@ -530,14 +701,64 @@ namespace Novell.iFolderWeb.Admin
 		}
 
 		/// <summary>
+		/// Event handler that gets called when the edit admin button is clicked.
+		/// </summary>
+		/// <param name="source"></param>
+		/// <param name="e"></param>
+		protected void OnEditButton_Click( object source, EventArgs e )
+		{
+		//	Response.Redirect( "MemberSelect.aspx?op=addadmin", true );
+			
+			string op = "editsecondaryadmin";
+			foreach( string memberID in CheckedMembers.Keys )
+			{
+				Response.Redirect(
+					String.Format(
+						"MemberSelect.aspx?op={0}&secondaryadminid={1}",
+						op, memberID));
+				// edit secondary admin can be done only for one at a time
+				break;	
+			}			
+
+		}
+
+		/// <summary>
 		/// Event handler that gets called when the add admin button is clicked.
 		/// </summary>
 		/// <param name="source"></param>
 		/// <param name="e"></param>
 		protected void OnAddButton_Click( object source, EventArgs e )
 		{
-			Response.Redirect( "MemberSelect.aspx?op=addadmin", true );
+			switch(ActiveAdminTab)
+			{
+				case ListDisplayType.GroupAdmins:
+					Response.Redirect( "MemberSelect.aspx?op=addsecondaryadmin", true );
+					break;
+				case ListDisplayType.PrimaryAdmins:
+				default:
+					Response.Redirect( "MemberSelect.aspx?op=addadmin", true );
+					break;
+			}
 		}
+
+		/// <summary>
+		/// Event handler that gets called when the add admin button is clicked.
+		/// </summary>
+		/// <param name="source"></param>
+		/// <param name="e"></param>
+		//protected void OnAddSecButton_Click( object source, EventArgs e )
+		//{
+			//switch(ActiveAdminTab)
+			//{
+			//	case ListDisplayType.GroupAdmins:
+		//			Response.Redirect( "MemberSelect.aspx?op=addsecondaryadmin", true );
+			//		break;
+			//	case ListDisplayType.AllAdmins:
+			//	default:
+			//		Response.Redirect( "MemberSelect.aspx?op=addadmin", true );
+			//		break;
+			//}
+		//}
 
 		/// <summary>
 		/// Event handler that gets called when the admin checkbox is checked.
@@ -555,17 +776,60 @@ namespace Novell.iFolderWeb.Admin
 				// Member is being added.
 				if ( checkBox.Checked )
 				{
-					CheckedMembers[ memberID ] = item.Cells[ 4 ].Text;
+					switch(ActiveAdminTab)
+					{
+						case ListDisplayType.GroupAdmins:
+								//foreach( DataGridItem itemcb in AdminList.Items )
+								//{
+									//itemcb.Cells[ 1 ].Enabled = false;
+								//}
+								//checkBox.Enabled = true;
+								//checkBox.Checked = true;
+								CheckedMembers[ memberID ] = item.Cells[ 4 ].Text;
+
+								EditButton.Visible = true;
+								EditButton.Enabled = (CheckedMembers.Count == 1 );
+								DeleteButton.Enabled = (CheckedMembers.Count == 1 );
+								break;
+						case ListDisplayType.PrimaryAdmins:
+						default:
+								CheckedMembers[ memberID ] = item.Cells[ 4 ].Text;
+								EditButton.Visible = false;
+								DeleteButton.Enabled = ( CheckedMembers.Count > 0 );
+								break;
+					}
+					//CheckedMembers[ memberID ] = item.Cells[ 4 ].Text;
 				}
 				else
 				{
 					// Remove this member from the list.
-					CheckedMembers.Remove( memberID );
+					switch(ActiveAdminTab)
+					{
+						case ListDisplayType.GroupAdmins:
+							//foreach( DataGridItem itemcb in AdminList.Items )
+							//{
+							//	itemcb.Cells[ 1 ].Enabled = true;
+							//}
+							CheckedMembers.Remove( memberID );
+							DeleteButton.Enabled = (CheckedMembers.Count == 1 );
+							EditButton.Visible = true;
+							EditButton.Enabled = (CheckedMembers.Count == 1 );
+							break;
+						case ListDisplayType.PrimaryAdmins:
+						default:
+							// See if there are any checked members.
+							CheckedMembers.Remove( memberID );
+							DeleteButton.Enabled = ( CheckedMembers.Count > 0 );
+							EditButton.Visible = false;
+							break;
+							
+					}
+					//CheckedMembers.Remove( memberID );
 				}
 			}
 
 			// See if there are any checked members.
-			DeleteButton.Enabled = ( CheckedMembers.Count > 0 );
+			//DeleteButton.Enabled = ( CheckedMembers.Count > 0 );
 		}
 
 		/// <summary>
@@ -586,12 +850,39 @@ namespace Novell.iFolderWeb.Admin
 					{
 						if ( checkBox.Checked )
 						{
-							CheckedMembers[ memberID ] = item.Cells[ 4 ].Text;
+							switch(ActiveAdminTab)
+							{
+								case ListDisplayType.GroupAdmins:
+									DeleteButton.Enabled = (CheckedMembers.Count == 1 );
+									EditButton.Visible = true;
+									EditButton.Enabled = (CheckedMembers.Count == 1 );
+									break;
+								case ListDisplayType.PrimaryAdmins:
+								default:
+									CheckedMembers[ memberID ] = item.Cells[ 4 ].Text;
+									DeleteButton.Enabled = ( CheckedMembers.Count > 0 );
+									EditButton.Visible = false;
+									break;
+							}
+
 						}
 						else
 						{
-							// Remove this member from the list.
-							CheckedMembers.Remove( memberID );
+							switch(ActiveAdminTab)
+							{
+								case ListDisplayType.GroupAdmins:
+									DeleteButton.Enabled = (CheckedMembers.Count == 1 );
+									EditButton.Visible = true;
+									EditButton.Enabled = (CheckedMembers.Count == 1 );
+									break;
+								case ListDisplayType.PrimaryAdmins:
+								default:
+									// Remove this member from the list.
+									CheckedMembers.Remove( memberID );
+									DeleteButton.Enabled = ( CheckedMembers.Count > 0 );
+									EditButton.Visible = false;
+									break;
+							}
 						}
 					}
 				}
@@ -633,29 +924,65 @@ namespace Novell.iFolderWeb.Admin
 		/// <param name="e"></param>
 		protected void OnDeleteButton_Click( object source, EventArgs e )
 		{
-			foreach( string memberID in CheckedMembers.Keys )
+			switch(ActiveAdminTab)
 			{
-				try
-				{
-					web.RemoveAdministrator( memberID );
-				}
-				catch ( Exception ex )
-				{
-					string name = CheckedMembers[ memberID ] as String;
-					TopNav.ShowError( String.Format( GetString( "ERRORCANNOTREMOVEADMIN" ), name ), ex );
-					return;
-				}
+				case ListDisplayType.GroupAdmins:
+
+		                       	string op = "deletesecondaryadmin";
+					foreach( string memberID in CheckedMembers.Keys )
+					{
+						Response.Redirect(
+							String.Format(
+							"MemberSelect.aspx?op={0}&secondaryadminid={1}",
+							op, memberID));
+		
+							// delete secondary admin can be done only for one at a time
+						//return;
+						return;
+					}
+					break;
+
+				case ListDisplayType.PrimaryAdmins:
+				default:
+					foreach( string memberID in CheckedMembers.Keys )
+					{
+						try
+						{
+							iFolderUser user = web.GetUser(memberID);
+							if(user.MemberRights == Rights.Admin)
+							{
+								web.RemoveAdministrator( memberID );
+							}
+							
+						}
+						catch ( Exception ex )
+						{
+							string name = CheckedMembers[ memberID ] as String;
+							TopNav.ShowError( String.Format( GetString( "ERRORCANNOTREMOVEADMIN" ), name ), ex );
+							return;
+						}
+					}
+					// Clear the checked members.
+					CheckedMembers.Clear();
+					AllAdminsCheckBox.Checked = false;
+	
+					// Disable the action buttons.
+					DeleteButton.Enabled = false;
+		
+					// Rebind the data source with the new data.
+					GetiFolderAdminList();
+					break;
 			}
 
 			// Clear the checked members.
-			CheckedMembers.Clear();
-			AllAdminsCheckBox.Checked = false;
+			//CheckedMembers.Clear();
+			//AllAdminsCheckBox.Checked = false;
 
 			// Disable the action buttons.
-			DeleteButton.Enabled = false;
+			//DeleteButton.Enabled = false;
 
 			// Rebind the data source with the new data.
-			GetiFolderAdminList();
+			//GetiFolderAdminList();
 		}
 
 		/// <summary>
@@ -672,7 +999,17 @@ namespace Novell.iFolderWeb.Admin
 				system.UsersFullNameDisplay = "FirstNameLastName";
 			else
 				system.UsersFullNameDisplay = "LastNameFirstName";
+			if(GroupQuotaRestriction.SelectedIndex == 0)
+				system.GroupQuotaRestrictionMethod = (int) QuotaRestriction.UI_Based;
+			else if( GroupQuotaRestriction.SelectedIndex == 1 )
+				system.GroupQuotaRestrictionMethod = (int) QuotaRestriction.Sync_Based;
+
+			if(GroupSegregated.Checked == true)
+				system.GroupSegregated = "yes";
+			else
+				system.GroupSegregated = "no";
 				
+			ConnectToMaster();
 			web.SetSystem( system );
 
 			// To Set SSL option connect to local server, not master

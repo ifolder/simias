@@ -80,6 +80,16 @@ namespace Novell.iFolderWeb.Admin
 		private ResourceManager rm;
 
 		/// <summary>
+		/// Logged in admin system rights instance
+		/// </summary>
+		UserSystemAdminRights uRights;
+		
+		/// <summary>
+		/// Logged in user system rights value
+		/// </summary>
+		int sysAccessPolicy = 0;
+
+		/// <summary>
 		/// Top navigation panel control.
 		/// </summary>
 		protected TopNavigation TopNav;
@@ -453,7 +463,7 @@ namespace Novell.iFolderWeb.Admin
 				        reports.Add( file );
 
 		        } 
-			catch (Exception e) 
+			catch  
 			{
 				reports.Add ("N/A");
 			}
@@ -504,7 +514,7 @@ namespace Novell.iFolderWeb.Admin
                                 HttpWebResponse htpw = (HttpWebResponse)(ex.Response);
                                 if(ex.Status == WebExceptionStatus.ProtocolError)
                                 {
-                                        HttpStatusCode code = (HttpStatusCode)htpw.StatusCode;
+                                        //HttpStatusCode code = (HttpStatusCode)htpw.StatusCode;
                                         TopNav.ShowInfo (String.Format("WebException {0}", htpw.StatusDescription));
 					serverStatus = false;
 					return server.Name;
@@ -534,7 +544,8 @@ namespace Novell.iFolderWeb.Admin
                                         {
                                              remoteweb.GetAuthenticatedUser();
                                         }
-                                        catch (WebException ex1)
+                                        //catch (WebException ex1)
+                                        catch
                                         {
 //                                              TopNav.ShowInfo (String.Format("WebException-noproto {0} {1}", ex1.Status, remoteweb.Url));
                                                 remoteweb = web;
@@ -552,7 +563,8 @@ namespace Novell.iFolderWeb.Admin
 					serverStatus = false;
                                 }
                         }
-                        catch ( Exception e)
+                        //catch ( Exception e)
+                        catch
                         {
                                 remoteweb = web;
                                 Status.Text = "<font color=red><b>Offline</b></font>";
@@ -572,12 +584,12 @@ namespace Novell.iFolderWeb.Admin
 
 //                                LdapStatus.Text = remoteweb.IdentitySyncGetServiceInfo ().Status;
                         }
-                        catch ( Exception e)
+                        catch
                         {
                                 //Some information failed: Does it mean the Server is not Stable ???
                                 Status.Text = "<font color=red><b>Online</b></font>";
                         }
-            Name.Text = Details.FormatInputString(server.Name, NewLineAt); 
+            		Name.Text = Details.FormatInputString(server.Name, NewLineAt); 
 			Type.Text = GetString( server.IsMaster ? "MASTER" : "SLAVE" );
 			PublicIP.Text = server.PublicUrl;
 			PrivateIP.Text = server.PrivateUrl;
@@ -684,39 +696,19 @@ namespace Novell.iFolderWeb.Admin
 			LdapSsl.Text = ldapInfo.SSL ? GetString ("YES") : GetString ("NO");
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns>The name of the host node.</returns>
-		private void SetLdapDetails()
-		{
-		    //Pick the information from SyncService
-		        SyncServiceInfo syncInfo = remoteweb.IdentitySyncGetServiceInfo();
-			LdapUpSince.Text = syncInfo.UpSince;
-			LdapCycles.Text = syncInfo.Cycles.ToString();
-
-		    //Pick information from IdentityProvider
-			LdapInfo ldapInfo = remoteweb.GetLdapDetails();
-			LdapServer.Text = ldapInfo.Host ;
-			LdapSearchContext.Value = ldapInfo.SearchContexts;
-			LdapProxyUser.Text = ldapInfo.ProxyDN;
-			LdapSsl.Text = ldapInfo.SSL ? GetString ("YES") : GetString ("NO");
-		}
-
-
-		private void GetTailData()
-		{
-			StringWriter sw = new StringWriter();
-			try
-			{
-				Server.Execute( "LogTailHandler.ashx?Simias.log&lines=30", sw );
-				LogText.Text = sw.ToString();
-			}
-			finally
-			{
-				sw.Close();
-			}
-		}
+		//private void GetTailData()
+		//{
+		//	StringWriter sw = new StringWriter();
+		//	try
+		//	{
+		//		Server.Execute( "LogTailHandler.ashx?Simias.log&lines=30", sw );
+		//		LogText.Text = sw.ToString();
+		//	}
+		//	finally
+		//	{
+		//		sw.Close();
+		//	}
+		//}
 
 		/// <summary>
 		/// Page_Load
@@ -733,6 +725,15 @@ namespace Novell.iFolderWeb.Admin
 
 			// localization
 			rm = Application[ "RM" ] as ResourceManager;
+
+			string userID = Session[ "UserID" ] as String;
+			if(userID != null && ServerID != null && ServerID != String.Empty)
+				sysAccessPolicy = web.GetUserSystemRights(userID, ServerID);
+			else
+				sysAccessPolicy = 0; 
+			uRights = new UserSystemAdminRights(sysAccessPolicy);
+			if(uRights.ServerPolicyManagementAllowed == false)
+				Page.Response.Redirect(String.Format("Error.aspx?ex={0}&Msg={1}",GetString( "ACCESSDENIED" ), GetString( "ACCESSDENIEDERROR" )));
 
 			if ( !IsPostBack )
 			{
@@ -1055,7 +1056,7 @@ namespace Novell.iFolderWeb.Admin
                                        return;
                                	}
                        }
-                       catch(Exception ex)
+                       catch
                        {
                                TopNav.ShowError(GetString("UNABLETOEDITIPDETAILS"));
                                return;
@@ -1070,7 +1071,7 @@ namespace Novell.iFolderWeb.Admin
 		/// <param name="e"></param>
 		protected void OnCancelServerDetailsButton_Click( object source, EventArgs e )
 		{
-			string serverName = GetServerDetails();
+			GetServerDetails();
 
                         //BuildBreadCrumbList( serverName );
 
@@ -1117,7 +1118,7 @@ namespace Novell.iFolderWeb.Admin
                         	}
 				SaveLdapDetailsButton.Enabled = CancelLdapDetailsButton.Enabled = false;
 			}
-			catch(Exception ex)
+			catch
 			{
 				TopNav.ShowError( GetString ("ERRORINVALIDIDSYNCINTERVAL"));
 				return;
@@ -1131,7 +1132,7 @@ namespace Novell.iFolderWeb.Admin
 		/// <param name="e"></param>
 		protected void OnCancelLdapDetailsButton_Click( object source, EventArgs e )
 		{
-			string serverName = GetServerDetails();	
+			GetServerDetails();	
 			GetLdapDetails();
 			SaveLdapDetailsButton.Enabled = CancelLdapDetailsButton.Enabled = false;
 

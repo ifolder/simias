@@ -126,6 +126,11 @@ namespace iFolder.WebService
 		public long FileSizeLimitEffective;
 
 		/// <summary>
+		/// Logged in Admin Groupk Rights
+		/// </summary>
+		public int AdminGroupRights;
+
+		/// <summary>
 		/// Constructor
 		/// </summary>
 		public iFolderPolicy()
@@ -196,6 +201,60 @@ namespace iFolder.WebService
 		}
 
 		/// <summary>
+		/// Get the iFolder Policy
+		/// </summary>
+		/// <param name="ifolderID">The iFolder ID</param>
+		/// <param name="accessID">The Access User ID</param>
+		/// <param name="adminID">The logged in Admin ID</param>
+		/// <returns>An iFolderPolicy Object</returns>
+		public static iFolderPolicy GetPolicy(string ifolderID, string accessID, string adminID)
+		{
+			iFolderPolicy props = new iFolderPolicy();
+
+			props.iFolderID = ifolderID;
+
+			Store store = Store.GetStore();
+
+			Collection c = store.GetCollectionByID(ifolderID);
+			
+			if (c == null) throw new iFolderDoesNotExistException(ifolderID);
+
+			// impersonate
+			iFolder.Impersonate(c, accessID);
+
+			// disk space
+			DiskSpaceQuota dsq = DiskSpaceQuota.Get(c);
+			props.SpaceLimitEffective = dsq.Limit;
+			props.SpaceAvailable = dsq.AvailableSpace;
+			props.SpaceUsed = c.StorageSize;
+			props.SpaceLimit = DiskSpaceQuota.GetLimit(c);
+
+			// no syncing (locked)
+			//props.Locked = IsLocked(c);
+			props.Locked = c.Disabled;
+
+			// sync interval
+			props.SyncInterval = Simias.Policy.SyncInterval.GetInterval(c);
+			props.SyncIntervalEffective = Simias.Policy.SyncInterval.Get(c).Interval;
+	
+			// to return the value of disable sharing policy for an iFolder
+			props.SharingStatus = Simias.Policy.Sharing.GetStatus(c);
+
+			// file types
+			SystemPolicy.SplitFileTypes(FileTypeFilter.GetPatterns(c),
+				out props.FileTypesIncludes, out props.FileTypesExcludes);
+
+			SystemPolicy.SplitFileTypes(FileTypeFilter.Get(c).FilterList,
+				out props.FileTypesIncludesEffective, out props.FileTypesExcludesEffective );
+
+			// file size
+			props.FileSizeLimit = Simias.Policy.FileSizeFilter.GetLimit(c);
+			props.FileSizeLimitEffective = Simias.Policy.FileSizeFilter.Get(c).Limit;
+			props.AdminGroupRights = iFolderUser.GetAdminRights(adminID , c.Owner.UserID);
+			return props;
+		}
+
+		/// <summary>
 		/// Set the iFolder Policy
 		/// </summary>
 		/// <param name="props">The iFolderPolicy Object</param>
@@ -219,7 +278,7 @@ namespace iFolder.WebService
 			}
 
 			// disk space
-			if (props.SpaceLimit >= 0)
+			if (props.SpaceLimit >= -1)
 			{
 				DiskSpaceQuota.Set(c, props.SpaceLimit);
 			}

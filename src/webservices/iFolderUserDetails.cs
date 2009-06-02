@@ -102,6 +102,8 @@ namespace iFolder.WebService
 	    /// Percentage Data Move details.
 	    /// </summary>
 	    public string DetailDataMoveStatus;	
+		public long GroupDiskQuota = -1;
+		public long SpaceUsedByGroup = 0;
 
 
 		/// <summary>
@@ -164,7 +166,6 @@ namespace iFolder.WebService
 			 else
 			   {
                     Store stored = Store.GetStore();
-					UserPolicy UPolicy = UserPolicy.GetPolicy( member.UserID );
 					long SpaceUsed = 0;
 					long DataTransferred  = 1;
 					int iFolderMoveState = 0;
@@ -225,8 +226,28 @@ namespace iFolder.WebService
 					this.MemberType= 1;
 				else
 					this.MemberType= 2;
-				Property GOMproperty = domainMember.Properties.GetSingleProperty( "MembersList" );
-				this.GroupOrMemberList = ( GOMproperty != null ) ? GOMproperty.ToString() : String.Empty;
+				{
+					// This braces is for adding members into group object and vice-versa
+					string FullMembersList = "";
+					MultiValuedList mvl = member.Properties.GetProperties( "MembersList" );
+					if( mvl != null && mvl.Count > 0)
+					{
+						foreach( Property prop in mvl )
+						{
+							if( prop != null)
+							{
+								FullMembersList += prop.Value as string ;
+								FullMembersList += "; ";
+							}
+						}
+					}
+					this.GroupOrMemberList = FullMembersList;
+					this.GroupDiskQuota = member.AggregateDiskQuota;
+					this.SpaceUsedByGroup = iFolderUser.SpaceUsedByGroup(member.UserID);
+	
+				}
+
+
 			}
 
 			// Get the number of iFolders owned and shared by the user.

@@ -124,6 +124,7 @@
 									OnCheckedChanged="OniFolderChecked" 
 									AutoPostBack="True" 
 									Visible='<%# DataBinder.Eval( Container.DataItem, "VisibleField" ) %>' 
+									Enabled='<%# IsiFolderEnabled( DataBinder.Eval( Container.DataItem, "PreferenceField" ) ) %>'
 									Checked='<%# GetMemberCheckedState( DataBinder.Eval( Container.DataItem, "IDField" ) ) %>' />
 							</ItemTemplate>
 						</asp:TemplateColumn>
@@ -160,6 +161,12 @@
 						<asp:BoundColumn ItemStyle-CssClass="ifolderitem5" DataField="MemberCountField" />
 						
 						<asp:BoundColumn ItemStyle-CssClass="ifolderitem6" DataField="LastModifiedField" />
+						<asp:BoundColumn DataField="OwnerIDField" Visible="False" />
+						<asp:BoundColumn DataField="NameField" Visible="False" />
+						<asp:BoundColumn DataField="OwnerNameField" Visible="False" />
+						<asp:BoundColumn DataField="SizeField" Visible="False" />
+						<asp:BoundColumn DataField="FullNameField" Visible="False" />
+						<asp:BoundColumn DataField="PreferenceField" Visible="False" />
 						
 					</Columns>
 					

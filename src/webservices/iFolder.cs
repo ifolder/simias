@@ -193,6 +193,10 @@ namespace iFolder.WebService
 		/// </summary>
 		public int FolderMoveStatus = 0;
 
+		/// <summary>
+		/// Group admin rights...
+		/// </summary>
+		public int Preference= -1;
 
 		/// <summary>
 		/// Constructor
@@ -211,6 +215,7 @@ namespace iFolder.WebService
 			log.Debug( "In iFolder Collection ID: ", accessID );
 			// impersonate
 			Rights rights = Impersonate(c, accessID);
+			this.Preference = -1;
 
 			this.ID = c.ID;
 			this.Name = c.Name;
@@ -261,6 +266,7 @@ namespace iFolder.WebService
 //		        Rights rights = Impersonate(ce, accessID);
                         //TODO :
 		        Rights rights = Rights.Admin;
+			this.Preference = -1;
 
 			this.ID = ce.CollectionID;
 			this.Name = ce.Name;
@@ -567,7 +573,12 @@ namespace iFolder.WebService
 		/// <returns>A Set of iFolder Objects</returns>
 		public static iFolderSet GetiFoldersByMember(string userID, MemberRole role, int index, int max, string accessID)
 		{
-			return GetiFoldersByMember(userID, role, DateTime.MinValue, SearchOperation.Contains, null, index, max, accessID);
+			return GetiFoldersByMember(userID, role, index, max, accessID, false);
+		}
+
+		public static iFolderSet GetiFoldersByMember(string userID, MemberRole role, int index, int max, string accessID, bool adminrequest)
+		{
+			return GetiFoldersByMember(userID, role, DateTime.MinValue, SearchOperation.Contains, null, index, max, accessID, adminrequest);
 		}
 		
 		/// <summary>
@@ -583,7 +594,12 @@ namespace iFolder.WebService
 		/// <returns>A Set of iFolder Objects</returns>
 		public static iFolderSet GetiFoldersByMember(string userID, MemberRole role, SearchOperation operation, string pattern, int index, int max, string accessID)
 		{
-			return GetiFoldersByMember(userID, role, DateTime.MinValue, SearchOperation.Contains, pattern, index, max, accessID);
+			return GetiFoldersByMember(userID, role, operation, pattern, index, max, accessID, false);
+		}
+
+		public static iFolderSet GetiFoldersByMember(string userID, MemberRole role, SearchOperation operation, string pattern, int index, int max, string accessID, bool adminrequest)
+		{
+			return GetiFoldersByMember(userID, role, DateTime.MinValue, SearchOperation.Contains, pattern, index, max, accessID, adminrequest);
 		}
 
 		/// <summary>
@@ -599,6 +615,10 @@ namespace iFolder.WebService
 		/// <param name="accessID">The Access User ID</param>
 		/// <returns>A Set of iFolder Objects</returns>
 		public static iFolderSet GetiFoldersByMember(string userID, MemberRole role, DateTime after, SearchOperation operation, string pattern, int index, int max, string accessID)
+		{
+			return GetiFoldersByMember(userID, role, after, operation, pattern, index, max, accessID, false);
+		}
+		public static iFolderSet GetiFoldersByMember(string userID, MemberRole role, DateTime after, SearchOperation operation, string pattern, int index, int max, string accessID, bool adminrequest)
 		{
 
 			CatalogEntry[] catalogEntries;
@@ -665,6 +685,17 @@ namespace iFolder.WebService
 			ArrayList list = new ArrayList();
 			int i = 0;
 
+			string userid = null;
+			Hashtable ht = new Hashtable();
+			if( adminrequest == true && accessID != null)
+			{
+				userid = accessID;
+				accessID = null;
+				Store store = Store.GetStore();
+				Simias.Storage.Domain domain = store.GetDomain(store.DefaultDomain);
+				Member groupadmin = domain.GetMemberByID(userid);
+				ht = groupadmin.GetMonitoredUsers(true);
+			}
 			foreach(CatalogEntry ce in sortList)
 			{
 				// is iFolder?
@@ -687,7 +718,25 @@ namespace iFolder.WebService
 				// pagging
 				if ((i >= index) && (((max <= 0) || i < (max + index))))
 				{
-					list.Add(new iFolder(ce, accessID));
+					try
+					{
+						if( !adminrequest || (userid == null)||( ht.ContainsKey(ce.OwnerID)))
+						{
+							iFolder ifolder = new iFolder(ce, accessID);
+							if( adminrequest )
+							{
+								if( userid == null)
+									ifolder.Preference = 0xffff;
+								else
+									ifolder.Preference = iFolderUser.GetAdminRights(userid, ifolder.OwnerID);
+							}
+							list.Add(ifolder);
+						}
+					}
+					catch(Exception ex)
+					{
+						log.Debug("Exception: {0}--{1}", ex.Message, ex.StackTrace);
+					}
 				}
 
 				++i;
@@ -742,8 +791,12 @@ namespace iFolder.WebService
 					searchOperation = SearchOp.Contains;
 					break;
 			}
-			
-			catalogEntries = Catalog.GetAllEntriesByName (pattern, searchOperation);
+	
+			if( accessID == adminID )	
+				catalogEntries = Catalog.GetAllEntriesByName (pattern, searchOperation);
+			else
+				catalogEntries = Catalog.GetAllEntriesByGroupAdminID(accessID, pattern, searchOperation);
+
 
 			// build the result list
 			ArrayList list = new ArrayList();
@@ -757,7 +810,9 @@ namespace iFolder.WebService
 			    	{
 					if ((i >= index) && (((max <= 0) || i < (max + index))))
 				   	{
-				   		list.Add(new iFolder(ce, accessID));			   
+						iFolder ifolder = new iFolder(ce, null);
+						ifolder.Preference = iFolderUser.GetAdminRights(accessID, ifolder.OwnerID);
+				   		list.Add(ifolder);			   
 				   	} 
 				   	++i;
 			    	} 
@@ -789,6 +844,7 @@ namespace iFolder.WebService
 
 			// Get the default domain.
 			Domain domain = store.GetDomain( store.DefaultDomain );
+
 			if ( domain != null )
 			{
 				// Get all of the collections that have been orphaned.
@@ -829,7 +885,11 @@ namespace iFolder.WebService
 					regex = new Regex(pattern, RegexOptions.IgnoreCase);
 				}
 
-				catalogEntries = Catalog.GetAllEntriesByName (pattern, searchOperation);
+				if( accessID == null )	
+					catalogEntries = Catalog.GetAllEntriesByName (pattern, searchOperation);
+				else
+					catalogEntries = Catalog.GetAllEntriesByGroupAdminID(accessID, pattern, searchOperation);
+				//catalogEntries = Catalog.GetAllEntriesByName (pattern, searchOperation);
 
 				// build the result list
 				ArrayList list = new ArrayList();

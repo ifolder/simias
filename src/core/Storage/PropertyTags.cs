@@ -105,6 +105,31 @@ namespace Simias.Storage
 		static public string UsersFullNameDisplay = "Users Full Name Display";
 
 		/// <summary>
+		/// Well known property name.
+		/// </summary>
+		static public string GroupSegregated = "Segregated Groups";
+
+		/// <summary>
+		/// Well known property name.
+		/// </summary>
+		static public string GroupQuotaRestrictionMethod = "Group Quota Restriction Method";
+
+		/// <summary>
+		/// Well known property name.
+		/// </summary>
+		static public string GroupType = "GroupType";
+
+		/// <summary>
+		/// Well known property name.
+		/// </summary>
+		static public string UserAdminRights = "UserAdminRights";
+
+		/// <summary>
+		/// Well known property name.
+		/// </summary>
+		static public string GroupQuotaIsSet = "GroupQuotaIsSet";
+
+		/// <summary>
 		/// Catalog , Domain Sync Status
 		/// </summary>
 		static public string SystemSyncStatus = "System Sync Status";
@@ -432,7 +457,8 @@ namespace Simias.Storage
 		/// <summary>
 		/// Well known property name.
 		/// </summary>
-		static public string DomainVersion = "DomainVersion";	
+		static public string DomainVersion = "DomainVersion";
+	
 
 		/// <summary>
                 /// Well known property name.
@@ -453,6 +479,11 @@ namespace Simias.Storage
 		/// Well known property name.
 		/// </summary>
 		static public string MasterHost = "MasterHost";
+
+		/// <summary>
+		/// Well known property name.
+		/// </summary>
+		static public string AggregateDiskQuota = "AggregateDiskQuota";
 		
 		
 		/// <summary>

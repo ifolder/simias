@@ -68,6 +68,17 @@ namespace Simias.Storage
 			ClientServer
 		}
 
+                /// <summary>
+                /// Group Quota Restriction Method.
+                /// </summary>
+                private enum QuotaRestriction
+                {
+                        // For current Implementation, enum value AllAdmins is not used, can be used in future
+                        UI_Based,
+                        Sync_Based
+                }
+
+
 		/// <summary>
 		/// Configuration section name where enterprise key value pairs are stored.
 		/// </summary>
@@ -122,6 +133,47 @@ namespace Simias.Storage
 
 			set { properties.ModifyNodeProperty( PropertyTags.UsersFullNameDisplay, value ); }
 		}
+
+		/// <summary>
+		/// Gets or sets the group splitting property of system.
+		/// </summary>
+		public string GroupSegregated
+		{
+			get 
+			{ 
+				Property p = properties.GetSingleProperty( PropertyTags.GroupSegregated );
+				return ( p != null ) ? p.Value as String : "no";
+			}
+
+			set 
+			{ 
+				Property p = new Property(PropertyTags.GroupSegregated, value);
+				p.ServerOnlyProperty = true;	
+				properties.ModifyNodeProperty( p ); 
+			}
+		}
+
+		/// <summary>
+		/// Gets or sets the group quota restriction method/time. To check whether the group is exceeding the limit set at which place
+		/// The check can be made when secodnary administrator is allocating disk quota to each member, or when members are doing a sync/upload
+		/// or at both times. For first option, It is mandatory that secondary administrator must allocate disk quota to each member of his group
+		/// </summary>
+		public int GroupQuotaRestrictionMethod
+		{
+			get 
+			{ 
+				Property p = properties.GetSingleProperty( PropertyTags.GroupQuotaRestrictionMethod );
+				return ( p != null ) ? (int) p.Value : (int)QuotaRestriction.UI_Based;
+			}
+
+			set 
+			{ 
+				Property p = new Property(PropertyTags.GroupQuotaRestrictionMethod, value);
+				p.ServerOnlyProperty = true;
+				properties.ModifyNodeProperty( p ); 
+			}
+		}
+
 
 		/// <summary>
 		/// Catalog , Domain Sync status

@@ -86,6 +86,21 @@ namespace Novell.iFolderWeb.Admin
 			Reports
 		}
 
+                /// <summary>
+                /// iFolder Connection
+                /// </summary>
+                private iFolderAdmin web;
+
+                /// <summary>
+                /// Logged in admin system rights instance
+                /// </summary>
+		UserSystemAdminRights uRights;
+
+                /// <summary>
+                /// Logged in user system rights value
+                /// </summary>
+		int sysAccessPolicy = 0;
+
 		/// <summary>
 		/// Resource Manager
 		/// </summary>
@@ -196,8 +211,16 @@ namespace Novell.iFolderWeb.Admin
 		/// <param name="e"></param>
 		private void Page_Load(object sender, System.EventArgs e)
 		{
+			web = Session[ "Connection" ] as iFolderAdmin;
 			// localization
 			rm = Application[ "RM" ] as ResourceManager;
+			
+			string userID = Session[ "UserID" ] as String;
+			if(userID != null)
+				sysAccessPolicy = web.GetUserSystemRights(userID, null);
+			else
+				sysAccessPolicy = 0xffff;
+			uRights = new UserSystemAdminRights(sysAccessPolicy);
 
 			// Hide the error panel if previously visible.
 			if ( ErrorPanel.Visible )
@@ -283,6 +306,17 @@ namespace Novell.iFolderWeb.Admin
 					}
 				}
 
+				if(uRights.UserManagementAllowed == false)
+					UserLink.HRef = null;
+				if(uRights.iFolderManagementAllowed == false)
+                                  	iFolderLink.HRef = null;
+				if(uRights.SystemPolicyManagementAllowed == false)
+                                       	SystemLink.HRef = null;
+				if(uRights.ServerPolicyManagementAllowed == false)
+                                       	ServerLink.HRef = null;
+				if(uRights.ReportsGenerationAllowed == false)
+					ReportsLink.HRef = null;
+				
 				// Initialize the state variables.
 				BreadCrumbs.RepeatColumns = 0;
 				CrumbList = new ArrayList();

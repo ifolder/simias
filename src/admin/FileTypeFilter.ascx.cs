@@ -282,6 +282,7 @@ namespace Novell.iFolderWeb.Admin
 		private Hashtable CreateFileTypeSource( UserPolicy policy )
 		{
 			// Keep the state in a hashtable.
+			UserGroupAdminRights uRights = new UserGroupAdminRights(policy.AdminGroupRights);
 			Hashtable ht = new Hashtable();
 			foreach( string s in policy.FileTypesExcludesEffective )
 			{
@@ -289,7 +290,7 @@ namespace Novell.iFolderWeb.Admin
 					s, 
 					Utils.ConvertFromRegEx( s ), 
 					IsAllowed( policy.FileTypesIncludes, s ), 
-					true );
+					uRights.AddToExcludePolicyAllowed);
 			}
 			foreach( string s in policy.FileTypesIncludes )
 			{
@@ -297,7 +298,7 @@ namespace Novell.iFolderWeb.Admin
 					s, 
 					Utils.ConvertFromRegEx( s ), 
 					true, 
-					true );
+					uRights.AddToExcludePolicyAllowed);
 			}
 
 			return ht;
@@ -312,6 +313,7 @@ namespace Novell.iFolderWeb.Admin
 		{
 			// Keep the state in a hashtable.
 			Hashtable ht = new Hashtable();
+			UserGroupAdminRights uRights = new UserGroupAdminRights(policy.AdminGroupRights);
 			foreach( string s in policy.FileTypesExcludesEffective )
 			{
 				ht[ s ] = new FileTypeInfo( 
@@ -327,7 +329,7 @@ namespace Novell.iFolderWeb.Admin
 					s, 
 					Utils.ConvertFromRegEx( s ), 
 					false, 
-					true );
+					uRights.AddToExcludePolicyAllowed);
 			}
 
 			return ht;
@@ -891,6 +893,21 @@ namespace Novell.iFolderWeb.Admin
 
 			// Set the user current system policy.
 			policy.FileTypesExcludes = filterList.ToArray( typeof( string ) ) as string[];
+		}
+
+		/// <summary>
+		/// Sets the checkbox enabled or disabled state
+		/// </summary>
+		public bool SetCheckBoxEnabledState
+		{
+			set
+			{
+				AllowButton.Enabled = value;
+				DeleteButton.Enabled = value;
+				DenyButton.Enabled = value;
+				AllFilesCheckBox.Enabled = value;
+				NewFileTypeName.Enabled = value;
+			}
 		}
 
 		#endregion

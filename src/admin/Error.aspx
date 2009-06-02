@@ -33,7 +33,7 @@
 				<%= GetString( "ERRORDETAIL" ) %>
 					
 			</div>
-		
+			<asp:Label ID="DisplayErrorMessage" Runat="server" />`		
 			<asp:TextBox 
 				ID="StackDump" 
 				Runat="server" 
@@ -42,7 +42,7 @@
 				Rows="15" 
 				TextMode="MultiLine" 
 				Wrap="True" />
-	
+			<br><br><br><br>	
 		</div>
 		
 	</div>

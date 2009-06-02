@@ -69,6 +69,15 @@ namespace Novell.iFolderWeb.Admin
 		/// </summary>
 		private ResourceManager rm;
 
+		/// <summary>
+		/// Logged in admin system rights instance
+		/// </summary>
+		UserSystemAdminRights uRights;
+		
+		/// <summary>
+		/// Logged in user system rights value
+		/// </summary>
+		int sysAccessPolicy = 0;
 
 		/// <summary>
 		/// Top navigation panel control.
@@ -216,6 +225,15 @@ namespace Novell.iFolderWeb.Admin
 
 			// localization
 			rm = Application[ "RM" ] as ResourceManager;
+
+			string userID = Session[ "UserID" ] as String;
+			if(userID != null)
+				sysAccessPolicy = web.GetUserSystemRights(userID, null);
+			else
+				sysAccessPolicy = 0; 
+			uRights = new UserSystemAdminRights(sysAccessPolicy);
+			if(uRights.ServerPolicyManagementAllowed == false)
+				Page.Response.Redirect(String.Format("Error.aspx?ex={0}&Msg={1}",GetString( "ACCESSDENIED" ), GetString( "ACCESSDENIEDERROR" )));
 
 			if ( !IsPostBack )
 			{

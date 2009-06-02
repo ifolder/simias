@@ -175,8 +175,6 @@ namespace iFolder.WebService
 			{
 				Authorize();
 
-				string accessID = GetAccessID();
-
 				result = iFolder.GetiFoldersByMember(GetUserID(), MemberRole.Any, operation, pattern, index, max, GetAccessID());
 			}
 			catch(Exception e)
@@ -977,6 +975,14 @@ namespace iFolder.WebService
 		}
 
 		/// <summary>
+		/// Get the access user's id.
+		/// </summary>
+		protected override string GetAccessIDForGroup()
+		{
+			return GetUserID();
+		}	
+
+		/// <summary>
 		/// Get the authenticated user's id.
 		/// </summary>
 		protected override string GetUserID()
@@ -998,6 +1004,11 @@ namespace iFolder.WebService
 		protected override void Authorize()
 		{
 			// no authorization needed
+		}
+
+		protected override bool IsAccessAllowed(string id)
+		{
+			return true;
 		}
 
 		/// <summary>

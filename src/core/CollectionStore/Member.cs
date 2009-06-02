@@ -166,6 +166,29 @@ namespace Simias.Storage
 			}
 		}
 
+		/// </summary>
+		/// <summary>
+		/// Get/Set the encryption key
+		/// </summary>
+		public long AggregateDiskQuota
+		{
+			get
+			{
+				Property p = properties.FindSingleValue(PropertyTags.AggregateDiskQuota);
+				long value= (p!=null) ? (long) p.Value:(long)-1;
+				return value;
+			}
+			set
+			{
+		                Property p = new Property(PropertyTags.AggregateDiskQuota, value);
+                                p.ServerOnlyProperty = true;
+                                properties.ModifyNodeProperty(p);
+				Store store = Store.GetStore();	
+				Domain domain = store.GetDomain(store.DefaultDomain);
+				domain.Commit(this);
+			}
+		}
+
 		/// <summary>
 		/// Deletes properties
 		/// </summary>
@@ -579,6 +602,26 @@ namespace Simias.Storage
 			}
 		}
 
+		/// <summary>
+		/// Gets or Sets whether it is a group or not.
+		/// </summary>
+               public string GroupType
+               {
+                       get
+                       {
+                               Property p = properties.FindSingleValue(PropertyTags.GroupType);
+                               string name = (p!=null) ? (string) p.Value as string : null;
+                               return name;
+                       }
+                       set
+                       {
+                               Property p = new Property(PropertyTags.GroupType, value);
+                                p.ServerOnlyProperty = true;
+                                properties.ModifyNodeProperty(p);
+                       }
+               }
+
+
 		#endregion
 
 		#region Constructors
@@ -770,6 +813,282 @@ namespace Simias.Storage
 				log.Debug("exception: {0}", ex.Message);
 				return false;
 			}
+		}
+
+		/// <summary>
+		/// This adds the current member as the group admin with the preference as the rights.
+		/// </summary>
+		public void AddToGroupList( string groupid, int preference)
+		{
+			try
+			{
+				string value = null;
+				value = groupid+":"+Convert.ToString(preference);
+				RemoveFromGroupList(groupid);
+				this.properties.AddNodeProperty(PropertyTags.UserAdminRights, value);
+				this.Rights = Access.Rights.Secondary;
+				Store store = Store.GetStore();
+				Domain domain = store.GetDomain(GetDomainID(store));
+				domain.Commit(this);
+			}
+			catch(Exception ex)
+			{
+				log.Debug("Exception in AddToGroupList. message: {0}--{1}", ex.Message, ex.StackTrace);
+				throw;
+			}
+		}
+
+		/// <summary>
+		/// Remove the current member as group admin for the groupid passed. Returns the number of groups for which the current user is a group admin.
+		/// </summary>
+		public int RemoveFromGroupList(string groupid)
+		{
+			try
+			{
+				string[] groupvaluearray = GetGroupListValues(false);
+				if( groupvaluearray == null)
+					return 0;
+				RemoveGroupList();
+				int NoOfGroups = 0;
+				foreach(string str in groupvaluearray)
+				{
+					if( str != null && str.StartsWith(groupid) )
+						continue;
+					else
+					{
+						this.properties.AddNodeProperty(PropertyTags.UserAdminRights, str);
+						NoOfGroups++;
+					}
+				}
+				// If no groups are remaining for this admin, then change his rights to ReadOnly so that he becomes normal user
+				if(NoOfGroups == 0)
+					this.Rights = Access.Rights.ReadOnly;
+				Store store = Store.GetStore();
+				Domain domain = store.GetDomain(GetDomainID(store));
+				domain.Commit(this);		
+				return NoOfGroups;
+			}
+			catch(Exception ex)
+			{
+				log.Debug("Exception in RemoveFromGroupList. message: {0}--{1}", ex.Message, ex.StackTrace);
+				throw;
+			}
+		}
+
+		/// <summary>
+		/// Returns the rights for this member on the group, given the group id.
+		/// </summary>
+		public int GetPreferencesForGroup(string groupid)
+		{
+			log.Debug("Entering GetPreferencesForGroup: {0}", groupid);
+			string[] grouplist = GetGroupListValues(false);
+			if( grouplist == null)
+				return 0;
+			string[] groupadmins;
+
+			Store store = Store.GetStore();
+			Domain domain = store.GetDomain(store.DefaultDomain);
+			Member member = domain.GetMemberByID(groupid);
+			if( member == null)
+			{
+				throw new Exception("Member does not exist");
+			}
+			Property Groupproperty = member.Properties.GetSingleProperty( "GroupType" );
+			if( Groupproperty == null)
+			{
+				/// Member node.
+				groupadmins = domain.GetMemberFamilyList(groupid);
+			}
+			else
+			{
+				groupadmins = new string[1];
+				groupadmins[0] = groupid;
+			}
+
+			foreach(string str in grouplist)
+			{
+				foreach(string groupid1 in groupadmins)
+				{
+					if( str.StartsWith(groupid1) )		
+					{
+						int ind = str.LastIndexOf(":");
+						if( ind > 0)
+						{
+							string retval = str.Substring( ind+1);
+							log.Debug("The preferences value: {0}--{1}", retval, Convert.ToInt32(retval));
+							int val = Convert.ToInt32(retval);
+							return val;
+						}
+					}
+				}
+			}
+			return 0;
+		}
+
+		/// <summary>
+		/// Returns all the groups for which the current member is an admin for.
+		/// If the onlygroups flag is set, it returns only the group list array.
+		/// Otherwise it gives the groups appended by the corresponding rights.
+		/// </summary>
+		public string[] GetGroupListValues(bool onlygroups)
+		{
+			log.Debug("Calling GetGroupListValues");
+			MultiValuedList mvl = this.Properties.GetProperties( PropertyTags.UserAdminRights );
+			if( mvl == null )
+				return null;
+
+			ArrayList grouplist  = new ArrayList();
+			if(mvl != null )
+			{
+				foreach( Property p in mvl )
+				{
+					if( p!= null && p.Value as string != null)
+					{
+						if(onlygroups)
+						{
+							string value = p.Value as string;
+							int ind = value.LastIndexOf(":");
+							if( ind > 0)
+							{
+								grouplist.Add(value.Substring(0, ind));
+							}
+							else
+							{
+								continue;
+							}
+						}
+						else
+							grouplist.Add(p.Value as string);
+					}
+				}
+			}		
+			return (string[])grouplist.ToArray(typeof(string));
+		}
+
+		/// <summary>
+		/// Removes the current member as a group admin from all the groups.
+		/// </summary>
+		public void RemoveGroupList()
+		{
+			try
+			{
+				this.Properties.DeleteNodeProperties(PropertyTags.UserAdminRights);
+				this.Rights = Access.Rights.Secondary;
+				Store store = Store.GetStore();
+				Domain domain = store.GetDomain(GetDomainID(store));
+				domain.Commit(this);		
+				return;
+			}
+			catch(Exception ex)
+			{
+				log.Debug("message: {0}--{1}", ex.Message, ex.StackTrace);
+				throw;
+			}
+		}
+
+		/// <summary>
+		/// Returned the list of all groups for which the current user is an admin for.
+		/// </summary>
+		public string[] GetMonitoredGroups()
+		{
+			return GetGroupListValues(true);
+		}
+
+		/// <summary>
+		/// Returns set of users which are a part of the groups he is admin for.
+		/// If the includeGroup flag is set, it returns the group members as well.
+		/// </summary>
+		public Hashtable GetMonitoredUsers(bool includeGroup)
+		{
+			Hashtable ht = new Hashtable();
+			string[] groups = GetMonitoredGroups();
+			if( groups == null || groups.Length ==0)
+				return ht;
+			Store store = Store.GetStore();
+			Domain domain = store.GetDomain(store.DefaultDomain);
+			foreach(string group in groups)
+			{
+				string[] members = domain.GetGroupsMemberList(group);
+				foreach(string member in members)
+				{
+					if( !ht.ContainsKey(member))
+						ht.Add(member, "");
+				}
+				if( includeGroup == false && ht.ContainsKey(group))
+				{
+					ht.Remove(group);
+				}
+			}
+			return ht;
+		}
+
+		/// <summary>
+		/// Given a member/group id, returns whether the current member is an admin for that.
+		/// </summary>
+		public bool IsGroupAdmin(string nodeid)
+		{
+			Store store = Store.GetStore();
+			Domain domain = store.GetDomain(store.DefaultDomain);
+			Member member = domain.GetMemberByID(nodeid);
+			if( member == null)
+				return false;
+			Property Groupproperty = member.Properties.GetSingleProperty( "GroupType" );
+			if( Groupproperty == null)
+			{
+				/// Member node.
+				return IsGroupAdmin(nodeid, 0);
+			}
+			else
+				return IsGroupAdmin(nodeid, 1);
+		}
+
+		/// <summary>
+		/// Given a member/group id, returns whether the current member is an admin for that.
+		/// Member type determines whether the id passed is a member id or groupid.
+		/// 0 for user type and 1 for group type.
+		/// </summary>
+		public bool IsGroupAdmin(string nodeid, int membertype)
+		{
+			if( membertype == 0)
+			{
+				/// Member node. Get all the groups.
+				Store store = Store.GetStore();
+				Domain domain = store.GetDomain(store.DefaultDomain);
+				string[] groupids = domain.GetMemberFamilyList(nodeid);
+				return IsGroupAdmin(groupids);
+			}
+			else
+			{
+				/// Group node.
+				string[] groupids = new string[1];
+				groupids[0] = nodeid;
+				return IsGroupAdmin(groupids);
+			}
+		}
+
+		
+		/// <summary>
+		/// Checks whether the member is a group admin for any of the group's passed as input.
+		/// </summary>
+		public bool IsGroupAdmin(string[] groupids)
+		{
+			string[] groupadmins = GetGroupListValues(true);
+			
+			/// Checks whether the given member is admin for any of the groups mentioned above...
+			if( groupids == null || groupadmins == null)
+				return false;
+
+			foreach( string groupid in groupids)
+			{
+				foreach( string groupadmin in groupadmins )
+				{
+					if( groupid == groupadmin )
+					{
+						return true;
+					}
+				}
+			}
+			return false;
 		}
 
 		/// <summary>

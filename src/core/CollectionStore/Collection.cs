@@ -2984,6 +2984,10 @@ namespace Simias.Storage
 				return;
 			}
 			
+			string [] GroupIDs = domain.GetDeletedMembersGroupList(member.UserID);
+			string GroupOrphOwnerID = null;
+			bool CheckForSecondaryAdmin = true;
+
 			ICSList cList = store.GetCollectionsByOwner( member.UserID );
 			foreach ( ShallowNode sn in cList )
 			{
@@ -2995,18 +2999,67 @@ namespace Simias.Storage
 					Member cmember = c.GetMemberByID( member.UserID );
 					if (cmember != null && cmember.IsOwner == true )
 					{
+
+						if( CheckForSecondaryAdmin = true && GroupIDs.Length > 0 ) //make sure this cond gets executed only once, even if collections change
+						{
+							// foreach group this zombie user belongs to, check if the group has a right secondary admin
+							foreach( string groupID in GroupIDs)
+							{
+								if(groupID == member.UserID)
+								{
+									// zombie user should not be iterated
+									continue;
+								}
+								ICSList SecondaryAdmins = domain.GetMembersByRights(Access.Rights.Secondary);
+								foreach(ShallowNode sns in SecondaryAdmins)
+								{
+									Member SecondaryAdminMem = new Member(domain, sns);
+									long Preference = SecondaryAdminMem.GetPreferencesForGroup(groupID);
+									//check, if this secondary admin has rights to own Orphan iFolders of this group
+									if (Preference == 0)
+									{
+										// Secondary admin is not owner of this group, check for next sec admin
+										continue;
+									}	
+									else
+									{
+										GroupOrphOwnerID = ( Preference & (int)512) != (int)512 ? null : SecondaryAdminMem.UserID;
+										if(GroupOrphOwnerID != null)
+										{
+											log.Debug("GroupOwner has been found for this zombie user, it is "+GroupOrphOwnerID);
+											break;
+										}
+									}
+								}	
+								// We want this check to be performed only once for one zombie user, so disable the check
+								// so that for other collections of same owner, it does not search same data again.
+								CheckForSecondaryAdmin = false;
+								if(GroupOrphOwnerID != null)
+								{
+									break;
+								}
+							}
+						}
 						// Don't remove an orphaned collection.
 						if ( ( member.UserID != domain.Owner.UserID ) )
 						{
+							// Adding the code so that, if zombie user is member of a group and the group has a setting
+							// so that all orphaned iFolders should be owned by groupadmin, then primary admin will not
+							// get the ownership
+
+							string SimiasAdminUserID = ( GroupOrphOwnerID == null ? domain.Owner.UserID : GroupOrphOwnerID );
+							Member SimiasAdminAsMember = domain.GetMemberByID(SimiasAdminUserID);
+
+
 							// Now the simias admin must be the member of the collection before he
 							// gets the ownership
 						
-							Member adminMember = c.GetMemberByID( domain.Owner.UserID );
+							Member adminMember = c.GetMemberByID( SimiasAdminUserID );
 							if ( adminMember == null )
 							{
 								adminMember = new Member(
-												domain.Owner.Name,
-												domain.Owner.UserID,
+												SimiasAdminAsMember.Name,
+												SimiasAdminAsMember.UserID,
 												Simias.Storage.Access.Rights.Admin );
 								c.Commit( adminMember );	
 							}
@@ -3303,6 +3356,52 @@ namespace Simias.Storage
 		}
 
 		/// <summary>
+		/// Gets the groupids of a deleted member i.e. groups which he belonged to before deletion
+		/// this method is useful after deleted user is disabled in ifolder domain and all his group belonging informations are removed
+		/// </summary>
+		/// <param name="dn">Member ID</param>
+		/// <returns>Returns all Members old group id's (old group ids means that the user might be a member of a group but user was deleted, so we store it in temp property as e-dir does not give this information)
+		/// </returns>
+		public string[] GetDeletedMembersGroupList( string userID )
+		{
+                        Member member = GetMemberByID(userID);
+                        ArrayList entries = new ArrayList();
+			if(member != null)
+			{
+                        	string tempGroupList = String.Empty;
+                        	try
+                        	{
+                                	tempGroupList = member.Properties.GetSingleProperty( "TempUserGroups" ).Value as string;
+                        	}
+                        	catch{}
+				log.Debug("tmp GetDeletedMembersGroupList , the groupList got here is : "+tempGroupList);
+                        	if(tempGroupList != String.Empty && tempGroupList != "")
+                       	 	{
+                                	string[] groupArray = tempGroupList.Split(new char[] { ';' });
+                                	foreach(string group in groupArray)
+                                	{
+                                        	if(group != null && group != String.Empty && group != "")
+                                        	{
+                                                	Member tmpMember = GetMemberByDN(group);
+							if(tmpMember != null)
+							{
+                                                		string[] subGroup = GetMemberFamilyList(tmpMember.ID);
+								if(subGroup != null)
+                                                			foreach(string groupID in subGroup)
+                                                			{
+                                                        			entries.Add( groupID );
+                                                			}
+							}
+                                        	}
+                                	}
+                        	}
+                        	entries.Add(userID);
+			}
+
+                        return (string[])entries.ToArray( typeof( string ) );
+		}
+
+		/// <summary>
 		/// Gets the Groups Member list
 		/// </summary>
 		/// <param name="dn">Member ID</param>
@@ -3317,29 +3416,31 @@ namespace Simias.Storage
 			{
                         	try
                         	{
-                                	memberList = member.Properties.GetSingleProperty( "MembersList" ).Value as string;
+					MultiValuedList mvl = member.Properties.GetProperties( "MembersList" );
+					if( mvl != null && mvl.Count > 0)
+					{
+						foreach( Property p in mvl )
+						{
+							if( p != null)
+							{
+								Member tmpMember = GetMemberByDN(p.Value as string);
+								if(tmpMember != null)
+								{
+									string[] subGroup = GetGroupsMemberList(tmpMember.ID);
+									if(subGroup != null)
+									{
+										foreach(string groupID in subGroup)
+										{
+											entries.Add( groupID );
+										}
+									}
+								}	
+							}
+						}
+					
+					}
                         	}
                         	catch{}
-                        	if(memberList != String.Empty && memberList != "")
-                        	{
-                                	string[] memberArray = memberList.Split(new char[] { ';' });
-                                	foreach(string memberStr in memberArray)
-                                	{
-                                        	if(memberStr != null && memberStr != String.Empty && memberStr != "")
-                                        	{
-                                                	Member tmpMember = GetMemberByDN(memberStr);
-							if(tmpMember != null)
-							{
-                                                		string[] subGroup = GetGroupsMemberList(tmpMember.ID);
-								if(subGroup != null)
-                                                			foreach(string groupID in subGroup)
-                                                			{
-                                                        			entries.Add( groupID );
-                                                			}
-							}
-                                        	}
-                                	}
-                        	}
                         	entries.Add(userID);
 			}
 

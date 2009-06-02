@@ -65,6 +65,18 @@ namespace Novell.iFolderWeb.Admin
 			EnforcedSharing = 4,
 			DisableSharing = 8
 		}
+
+		                /// <summary>
+                /// iFolder list display types.
+                /// </summary>
+                private enum ListAdmins
+                {
+                                // For current Implementation, enum value AllAdmins is not used, can be used in future
+                                AllAdmins = 0,
+                                GroupAdmins = 1,
+                                PrimaryAdmins = 2
+                }
+
 		
 		/// <summary>
 		/// Viewable MemberList data grid cell indices.
@@ -82,7 +94,10 @@ namespace Novell.iFolderWeb.Admin
 		{
 			AddMember,
 			AddAdmin,
-			CreateiFolder
+			CreateiFolder,
+			AddSecondaryAdmin,
+			EditSecondaryAdmin,
+			DeleteSecondaryAdmin
 		}
 
 
@@ -152,6 +167,11 @@ namespace Novell.iFolderWeb.Admin
 		/// Web controls.
 		/// </summary>
 		protected ListFooter MemberListFooter;
+		
+		/// <summary>
+                /// Current server URL
+                /// </summary>
+                protected string currentServerURL;
 		
 		#endregion
 
@@ -238,6 +258,23 @@ namespace Novell.iFolderWeb.Admin
 		}
 
 		/// <summary>
+		/// Gets the Secondary Admin ID.
+		/// </summary>
+		private string SecondaryAdminID
+		{
+			get 
+			{ 
+				string param = Request.Params[ "secondaryadminid" ];
+				if ( ( param == null ) || ( param == String.Empty ) )
+				{
+					throw new HttpException( ( int )HttpStatusCode.BadRequest, "No Secondary Admin ID was specified." );
+				}
+
+				return param;
+			} 
+		}
+
+		/// <summary>
 		/// Gets the user or iFolder name.
 		/// </summary>
 		private string iFolderName
@@ -316,6 +353,15 @@ namespace Novell.iFolderWeb.Admin
 						case "createifolder":
 							return PageOp.CreateiFolder;
 
+						case "addsecondaryadmin":
+							return PageOp.AddSecondaryAdmin;
+
+						case "editsecondaryadmin":
+							return PageOp.EditSecondaryAdmin;
+
+						case "deletesecondaryadmin":
+							return PageOp.DeleteSecondaryAdmin;
+
 						default:
 							throw new HttpException( ( int )HttpStatusCode.BadRequest, "An invalid operation was specified." );
 					}
@@ -392,6 +438,7 @@ namespace Novell.iFolderWeb.Admin
 						TopNav.AddBreadCrumb( GetString( "IFOLDERS" ), "iFolders.aspx" );
 						TopNav.AddBreadCrumb( GetString( "CREATENEWIFOLDER" ), null );
 					}
+					TopNav.AddHelpLink(GetString("CREATENEWIFOLDER"));
 					break;
 				}
 
@@ -419,9 +466,28 @@ namespace Novell.iFolderWeb.Admin
 					TopNav.SetActivePageTab( TopNavigation.PageTabs.System );
 					break;
 				}
+
+				case PageOp.AddSecondaryAdmin:
+				case PageOp.EditSecondaryAdmin:
+				case PageOp.DeleteSecondaryAdmin:
+				{
+					TopNav.AddBreadCrumb( GetString( "SYSTEM" ), "SystemInfo.aspx" );
+					TopNav.AddBreadCrumb( GetString( "SECONDARYADMIN" ), null );
+
+					if ( body != null )
+					{
+						body.ID = "system";
+					}
+
+					// Add the missing href to the ifolder tab and remove the user one.
+					TopNav.SetActivePageTab( TopNavigation.PageTabs.System );
+					//TopNav.AddHelpLink("SELECTSECADMIN");
+					break;
+				}
+
 			}
 			// Pass this page information to create the help link
-			TopNav.AddHelpLink(GetString("CREATENEWIFOLDER"));
+			//TopNav.AddHelpLink(GetString("CREATENEWIFOLDER"));
 		}
 
 		/// <summary>
@@ -430,7 +496,8 @@ namespace Novell.iFolderWeb.Admin
 		/// <returns></returns>
 		private Hashtable CreateExistingAdminList()
 		{
-			iFolderUserSet adminList = web.GetAdministrators( 0, 0 );
+			// last param 0  is to display all admins (group/secondary)
+			iFolderUserSet adminList = web.GetAdministrators( 0, 0, (int) ListAdmins.AllAdmins );
 			Hashtable ht = new Hashtable( adminList.Total );
 			foreach( iFolderUser admin in adminList.Items )
 			{
@@ -446,11 +513,30 @@ namespace Novell.iFolderWeb.Admin
 		/// <returns></returns>
 		private Hashtable CreateExistingMemberList()
 		{
-			iFolderUserSet memberList = web.GetMembers( iFolderID, 0, 0 );
-			Hashtable ht = new Hashtable( memberList.Total );
-			foreach( iFolderUser member in memberList.Items )
+			Hashtable ht = null;
+			switch(Operation)
 			{
-				ht[ member.ID ] = new MemberInfo( member.ID, member.UserName, member.FullName );
+				// For editing/deleting secondary admin, display the objects (e.g. groups) he is managing 
+				case PageOp.EditSecondaryAdmin: 
+				case PageOp.DeleteSecondaryAdmin: 
+							string [] MonitoredGroups = web.GetMonitoredGroups(SecondaryAdminID);
+							ht = new Hashtable( MonitoredGroups.Length);
+							foreach( string groupID in MonitoredGroups)
+							{		
+								iFolderUser GroupObject = web.GetUser(groupID);
+								ht[ GroupObject.ID ] = new MemberInfo( GroupObject.ID, GroupObject.UserName, GroupObject.FullName);						
+							}		
+							break;
+								
+				default: 
+
+							iFolderUserSet memberList = web.GetMembers( iFolderID, 0, 0 );
+							ht = new Hashtable( memberList.Total );
+							foreach( iFolderUser member in memberList.Items )
+							{
+								ht[ member.ID ] = new MemberInfo( member.ID, member.UserName, member.FullName );
+							}
+							break;
 			}
 
 			return ht;
@@ -462,6 +548,7 @@ namespace Novell.iFolderWeb.Admin
 		/// <returns>An DataView object containing the ifolder users.</returns>
 		private DataView CreateMemberList()
 		{
+			string CurrentPage = "";
 			DataTable dt = new DataTable();
 			DataRow dr;
 
@@ -473,12 +560,43 @@ namespace Novell.iFolderWeb.Admin
 			dt.Columns.Add( new DataColumn( "NameField", typeof( string ) ) );
 			dt.Columns.Add( new DataColumn( "FullNameField", typeof( string ) ) );
 
-			iFolderUserSet userList = web.GetUsersBySearch( 
-				MemberSearch.SearchAttribute, 
-				MemberSearch.SearchOperation, 
-				( MemberSearch.SearchName == String.Empty ) ? "*" : MemberSearch.SearchName, 
-				CurrentUserOffset, 
-				MemberList.PageSize );
+			iFolderUserSet userList = null;
+			
+			// If it is edit or delete Secondary admin operation, then only monitored groups should be displayed
+			switch( Operation)
+			{
+				case PageOp.EditSecondaryAdmin:
+				case PageOp.DeleteSecondaryAdmin:
+						bool MonitoredGroups = true;
+						
+						userList = web.GetMonitoredGroupsBySearch( 
+							MemberSearch.SearchAttribute, 
+							MemberSearch.SearchOperation, 
+							( MemberSearch.SearchName == String.Empty ) ? "*" : MemberSearch.SearchName, 
+							CurrentUserOffset, 
+							MemberList.PageSize, SecondaryAdminID, MonitoredGroups, false );
+						
+					break;
+				case PageOp.AddSecondaryAdmin:
+					CurrentPage = "AddSecondaryAdmin";
+					userList = web.GetUsersBySearch( 
+						MemberSearch.SearchAttribute, 
+						MemberSearch.SearchOperation, 
+						( MemberSearch.SearchName == String.Empty ) ? "*" : MemberSearch.SearchName, 
+						CurrentUserOffset, 
+						MemberList.PageSize );
+					break;
+				case PageOp.AddAdmin:
+				default:
+					CurrentPage = "AddPrimaryAdmin";
+					userList = web.GetUsersBySearch( 
+						MemberSearch.SearchAttribute, 
+						MemberSearch.SearchOperation, 
+						( MemberSearch.SearchName == String.Empty ) ? "*" : MemberSearch.SearchName, 
+						CurrentUserOffset, 
+						MemberList.PageSize );
+					break;
+			}
 
 			foreach( iFolderUser user in userList.Items )
 			{
@@ -487,10 +605,14 @@ namespace Novell.iFolderWeb.Admin
 				dr[ 1 ] = ( user.HomeServer == string.Empty ) ?  null : user.HomeServer ; 
 				dr[ 2 ] = true;
 				dr[ 3 ] = user.ID;
-				dr[ 4 ] = !IsExistingMember( user.ID );
+				// if already disabled then don't change, but if a group is enabled then disable (group cannot be admin)
+				if(CurrentPage == "AddPrimaryAdmin" ||  CurrentPage == "AddSecondaryAdmin" )
+					dr[ 4 ] = (!IsExistingMember( user.ID )) ? (!user.IsGroup) : !IsExistingMember(user.ID) ; 
+				else
+					dr[ 4 ] = !IsExistingMember( user.ID );
 				dr[ 5 ] = user.UserName;
 				dr[ 6 ] = user.FullName;
-
+	
 				dt.Rows.Add( dr );
 			}
 
@@ -537,7 +659,10 @@ namespace Novell.iFolderWeb.Admin
 		/// <returns>True if the user is an existing member.</returns>
 		private bool IsExistingMember( string userID )
 		{
-			return ExistingMemberList.ContainsKey( userID );
+			bool retval = false;
+			if(ExistingMemberList != null && ExistingMemberList.ContainsKey( userID ))
+				retval = true;
+			return retval;
 		}
 
 		/// <summary>
@@ -547,7 +672,7 @@ namespace Novell.iFolderWeb.Admin
 		/// <returns>True if user is in the selected list.</returns>
 		private bool IsUserSelected( string userID )
 		{
-			return MembersToAdd.ContainsKey( userID ) ? true : IsExistingMember( userID );
+			return (MembersToAdd != null && MembersToAdd.ContainsKey( userID )) ? true : IsExistingMember( userID );
 		}
 
 		/// <summary>
@@ -590,6 +715,7 @@ namespace Novell.iFolderWeb.Admin
 		{
 			// connection
 			web = Session[ "Connection" ] as iFolderAdmin;
+			currentServerURL = web.Url;
 
 			remoteweb = new iFolderAdmin();
 
@@ -624,7 +750,6 @@ namespace Novell.iFolderWeb.Admin
 
 						// Create an existing member list.
 						ExistingMemberList = CreateNewMemberList();
-						string currentUrl = web.Url;
 						string publicUrl = web.GetHomeServerURLForUserID(iFolderOwner);
 						if(String.Compare(web.Url, String.Concat(publicUrl + "/iFolderAdmin.asmx")) != 0)
 						{
@@ -700,6 +825,77 @@ namespace Novell.iFolderWeb.Admin
 						ExistingMemberList = CreateExistingAdminList();
 						break;
 					}
+
+					case PageOp.EditSecondaryAdmin:
+					{
+						// Initialize state variables.
+						MembersToAdd = new Hashtable();
+
+						// Initialize localized fields.
+						HeaderTitle.Text = GetString( "ADDNEWORSELECTGROUPTOEDIT" );
+						SubHeaderTitle.Visible = false;
+						OkButton.Text = GetString( "EDIT" );
+
+						// Hide the back button.
+						BackButton.Visible = false;
+						
+						// Remember the page that we came from.
+						ReferringPage = Page.Request.UrlReferrer.ToString();
+
+						// Create an existing member list.
+						//ExistingMemberList = CreateExistingMemberList();
+						AllMembersCheckBox.Enabled = false;
+
+						BackButton.Text = GetString("ADDNEW");
+						BackButton.Visible = true;
+
+						break;
+					}
+
+					case PageOp.DeleteSecondaryAdmin:
+					{
+						// Initialize state variables.
+						MembersToAdd = new Hashtable();
+
+						// Initialize localized fields.
+						HeaderTitle.Text = GetString( "SELECTGROUPTODELETE" );
+						SubHeaderTitle.Visible = false;
+						OkButton.Text = GetString( "DELETE" );
+
+						// Hide the back button.
+						BackButton.Visible = false;
+						
+						// Remember the page that we came from.
+						ReferringPage = Page.Request.UrlReferrer.ToString();
+
+						// Create an existing member list.
+						//ExistingMemberList = CreateExistingMemberList();
+
+						break;
+					}
+
+					case PageOp.AddSecondaryAdmin:
+					{
+						// Initialize state variables.
+						MembersToAdd = new Hashtable();
+
+						// Initialize localized fields.
+						HeaderTitle.Text = GetString( "SELECTMEMBERTOADD" );
+						SubHeaderTitle.Visible = false;
+						OkButton.Text = GetString( "NEXT" );
+
+						// Hide the back button.
+						BackButton.Visible = false;
+						
+						// Remember the page that we came from.
+						ReferringPage = Page.Request.UrlReferrer.ToString();
+
+						// Create an existing member list.
+						ExistingMemberList = CreateExistingAdminList();
+
+						AllMembersCheckBox.Enabled = false;
+						break;
+					}
 				}
 
 				// Initialize state variables.
@@ -707,6 +903,12 @@ namespace Novell.iFolderWeb.Admin
 				TotalUsers = 0;
 			}
 		}
+
+                //private void Page_Unload(object sender, System.EventArgs e)
+                //{
+                //        web.Url = currentServerURL;
+                //}
+
 
 		/// <summary>
 		/// Page_PreRender
@@ -747,8 +949,10 @@ namespace Novell.iFolderWeb.Admin
 			switch( Operation )
 			{
 				case PageOp.AddAdmin:
+				case PageOp.AddSecondaryAdmin:
+				case PageOp.EditSecondaryAdmin:
+				case PageOp.DeleteSecondaryAdmin:
 					return true;
-					break;
 				case PageOp.AddMember:
 					ifolder = web.GetiFolder(iFolderID);
 					ownerID = ifolder.OwnerID;
@@ -757,7 +961,7 @@ namespace Novell.iFolderWeb.Admin
 					ownerID = iFolderOwner;
 					break;
 			}
-                        UserPolicy userPolicy = web.GetUserPolicy(ownerID);
+                        UserPolicy userPolicy = web.GetUserPolicy(ownerID, null);
                         SystemPolicy systemPolicy = web.GetSystemPolicy();
                         int UserSharingStatus = userPolicy.SharingStatus;
                         int GroupSharingStatus = web.GetUserGroupSharingPolicy(ownerID);
@@ -852,6 +1056,16 @@ namespace Novell.iFolderWeb.Admin
 			CheckBox checkBox = sender as CheckBox;
 			if( GetSharingPolicy() == true ) 
 			{
+				switch(Operation)
+				{
+					case PageOp.AddSecondaryAdmin:
+					case PageOp.EditSecondaryAdmin:
+						checkBox.Checked = false;
+						return;
+					default:
+						break;
+				}
+			
 				/// if sharing was not disabled for this owner, then only, allow the member box to be checked
 				foreach( DataGridItem item in MemberList.Items )
 				{
@@ -895,6 +1109,19 @@ namespace Novell.iFolderWeb.Admin
 		/// <param name="e"></param>
 		protected void BackButton_Clicked( Object sender, EventArgs e )
 		{
+
+			switch( Operation )
+			{
+				case PageOp.EditSecondaryAdmin:
+				 		string op = "ADD";
+						Response.Redirect(
+							String.Format(
+									"AdminRights.aspx?op={0}&secondaryadmin={1}",
+									op, SecondaryAdminID));
+				break;
+	
+			}
+
 			string iFolderNameBase64 = Request.Params[ "name" ];
 			string iFolderDescBase64 = Request.Params[ "desc" ];
 
@@ -907,7 +1134,7 @@ namespace Novell.iFolderWeb.Admin
                         {
 				iFolderDescBase64 = String.Empty;
                         }
-	
+
 			Uri uri = new Uri( ReferringPage );
 			if ( uri.AbsolutePath.EndsWith( "UserDetails.aspx" ) )
 			{
@@ -988,12 +1215,28 @@ namespace Novell.iFolderWeb.Admin
 				{
 					if(GetSharingPolicy() == true)
 					{
+						 		 
+						switch(Operation)
+						{
+							// For Secondary admins, we don't want to allow more than one checked
+							case PageOp.AddSecondaryAdmin:
+							case PageOp.EditSecondaryAdmin:
+								if(MembersToAdd.Count >= 1 )
+								{
+									checkBox.Checked = false;
+									return;
+								}
+								break;
+							default:
+								break;
+						}
 						/// if sharing was not disabled for this owner, then only allow the member box to be checked
 						MembersToAdd[ userID ] = 
 							new MemberInfo( 
 								userID, 
 								item.Cells[ Member_UserNameCell ].Text, 
 								item.Cells[ Member_FullNameCell ].Text );
+						OkButton.Enabled = true;
 					}
 					else
 					{
@@ -1230,10 +1473,153 @@ namespace Novell.iFolderWeb.Admin
 					MembersToAdd = null;
 					break;
 				}
+
+				case PageOp.AddSecondaryAdmin:
+				{
+					// Add the selected users as admins.
+					foreach( MemberInfo mi in MembersToAdd.Values )
+					{
+						// Check to see if this user is already a member.
+						if ( !IsExistingMember( mi.UserID ) )
+						{
+							try
+							{
+								string op = "ADD";
+								Response.Redirect(
+				                                                String.Format(
+                                			                        	"AdminRights.aspx?op={0}&secondaryadmin={1}&groupname={2}",
+                                                        				op, mi.UserID, null));
+
+							}
+							catch( Exception ex )
+							{
+								// Clear out the member list because it is saved on the session.
+								MembersToAdd.Clear();
+								MembersToAdd = null;
+
+								string errMsg = String.Format( GetString( "ERRORCANNOTADDDECONDARYADMIN" ), mi.UserName );
+								TopNav.ShowError( errMsg, ex );
+								return;
+							}
+						}
+					}
+
+					// Clear out the member list because it is saved on the session.
+					MembersToAdd.Clear();
+					MembersToAdd = null;
+					break;
+				}
+
+				case PageOp.EditSecondaryAdmin:
+				{
+					// Add the selected users as admins.
+					foreach( MemberInfo mi in MembersToAdd.Values )
+					{
+						// Check to see if this user is already a member.
+						if ( !IsExistingMember( mi.UserID ) )
+						{
+							try
+							{
+								//web.AddAdministrator( mi.UserID );
+								string op = "EDIT";
+								Response.Redirect(
+				                                                String.Format(
+                                			                        	"AdminRights.aspx?op={0}&secondaryadmin={1}&groupid={2}",
+                                                        				op, SecondaryAdminID, mi.UserID));
+
+							}
+							catch( Exception ex )
+							{
+								// Clear out the member list because it is saved on the session.
+								MembersToAdd.Clear();
+								MembersToAdd = null;
+
+								string errMsg = String.Format( GetString( "ERRORCANNOTEDITSECONDARYADMIN" ), mi.UserName );
+								TopNav.ShowError( errMsg, ex );
+								return;
+							}
+						}
+					}
+
+					// Clear out the member list because it is saved on the session.
+					MembersToAdd.Clear();
+					MembersToAdd = null;
+					break;
+				}
+
+				case PageOp.DeleteSecondaryAdmin:
+				{
+					// Add the selected users as admins.
+					foreach( MemberInfo mi in MembersToAdd.Values )
+					{
+						// Check to see if this user is already a member.
+						if ( !IsExistingMember( mi.UserID ) )
+						{
+							try
+							{
+								// connect to master to modify member's property
+								ConnectMaster();
+								// pass secondaryadminID and groupID to be deleted
+								web.RemoveGroupAdministrator( mi.UserID, SecondaryAdminID );
+							}
+							catch( Exception ex )
+							{
+								DisconnectMaster();
+								web.Url = currentServerURL;
+								// Clear out the member list because it is saved on the session.
+								MembersToAdd.Clear();
+								MembersToAdd = null;
+
+								string errMsg = String.Format( GetString( "ERRORCANNOTDELETESECONDARYADMIN" ), mi.UserName );
+								TopNav.ShowError( errMsg, ex );
+								return;
+							}
+							DisconnectMaster();
+							web.Url = currentServerURL;
+						}
+					}
+
+					// Clear out the member list because it is saved on the session.
+					MembersToAdd.Clear();
+					MembersToAdd = null;
+					break;
+				}
 			}
 			
 			string url = web.TrimUrl(ReferringPage);
 			Page.Response.Redirect( url, true );
+		}
+
+                /// <summary>
+		/// 
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void ConnectMaster ()
+		{
+			iFolderServer[] list = web.GetServers();
+
+			foreach( iFolderServer server in list )
+			{
+				if (server.IsMaster)
+				{
+					UriBuilder remoteurl = new UriBuilder(server.PublicUrl);
+					remoteurl.Path = (new Uri(web.Url)).PathAndQuery;
+					web.Url = remoteurl.Uri.ToString();
+					break;
+				}
+			}
+
+		}
+
+                /// <summary>
+		/// 
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void DisconnectMaster ()
+		{
+			web.Url = currentServerURL;
 		}
 
 		/// <summary>

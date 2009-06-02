@@ -47,6 +47,11 @@ namespace iFolder.WebService
 		Admin,
 
 		/// <summary>
+		/// GroupAdmin
+		/// </summary>
+		Secondary,
+
+		/// <summary>
 		/// Read/Write
 		/// </summary>
 		ReadWrite,
@@ -94,6 +99,10 @@ namespace iFolder.WebService
 					result = Rights.Admin;
 					break;
 
+				case Access.Rights.Secondary:
+					result = Rights.Secondary;
+					break;
+
 				case Access.Rights.ReadWrite:
 					result = Rights.ReadWrite;
 					break;
@@ -127,6 +136,10 @@ namespace iFolder.WebService
 			{
 				case Rights.Admin:
 					result = Access.Rights.Admin;
+					break;
+
+				case Rights.Secondary:
+					result = Access.Rights.Secondary;
 					break;
 
 				case Rights.ReadWrite:

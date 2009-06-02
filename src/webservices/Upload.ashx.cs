@@ -79,7 +79,7 @@ namespace iFolder.WebService
 						DontCheckPolicies = true;
 					}
 				}
-				catch(Exception ex)
+				catch
 				{
 				}
 
@@ -117,6 +117,12 @@ namespace iFolder.WebService
 				
 					if( DontCheckPolicies == false )
 					{
+						// Check first, if this file is violating aggregate disk quota limit set to his group	
+						if(! iFolderUser.GroupQuotaUploadAllowed(collection.Owner.UserID, deltaSize))	
+						{
+							throw new DiskQuotaException(filename);
+						}
+
 						// check file size policy
 						FileSizeFilter fsFilter = FileSizeFilter.Get(collection);
 						if (!fsFilter.Allowed(deltaSize))

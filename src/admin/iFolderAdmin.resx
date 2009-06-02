@@ -207,6 +207,12 @@
 	<data name="ENABLEREPORTING">
 		<value>Enable Reporting</value>
 	</data>
+	<data name="ACCESSDENIED">
+		<value>Access denied for this resource</value>
+	</data>
+	<data name="ACCESSDENIEDERROR">
+		<value>Logged in user is not authorized to view or modifiy properties of this page</value>
+	</data>
 	<data name="ENDSWITH">
 		<value>Ends With</value>
 	</data>
@@ -1107,5 +1113,134 @@
     	</data>
 	<data name="SERVERNAMETAG">
 		<value>Server:</value>
+	</data>
+	<data name="EDITADMINRIGHTS">
+		<value>Edit Admin Rights</value>
+	</data>
+	<data name="ALLADMINS">
+		<value>All Admins</value>
+	</data>
+	<data name="GROUPADMINS">
+		<value>Group Admins</value>
+	</data>
+	<data name="SECONDARYADMIN">
+		<value>Secondary Administrator</value>
+	</data>
+	<data name="SECONDARY">
+		<value>Secondary</value>
+	</data>
+	<data name="REPEAT">
+		<value>Repeat</value>
+	</data>
+	<data name="GROUPNAME">
+		<value>Group Name</value>
+	</data>
+	<data name="NONE">
+		<value>None</value>
+	</data>
+	<data name="ADDROOT">
+		<value>Add Root</value>
+	</data>
+	<data name="ERRORSELECTGROUP">
+                <value>Error: Select a group to proceed</value>
+        </data>
+	<data name="GROUPDISKQUOTA">
+                <value>Group Disk Quota: </value>
+        </data>
+	<data name="DISKSPACEUSED">
+                <value>Disk Space Used: </value>
+        </data>
+	<data name="DELETESECONDARYADMIN">
+                <value>Delete Secondary Administrator: </value>
+        </data>
+	<data name="EDITSECONDARYADMIN">
+                <value>Edit Secondary Administrator: </value>
+        </data>
+	<data name="ERRORCANNOTADDSECONDARYADMIN">
+		<value>Cannot add member {0} as an secondary administrator.</value>
+	</data>
+	<data name="ERRORCANNOTEDITSECONDARYADMIN">
+		<value>Cannot edit secondary administrator {0}.</value>
+	</data>
+	<data name="ERRORCANNOTDELETESECONDARYADMIN">
+		<value>Cannot delete secondary administrator {0}.</value>
+	</data>
+	<data name="SELECTMEMBERTOADD">
+		<value>Select a new secondary administrator</value>
+	</data>
+	<data name="ADDNEWORSELECTGROUPTOEDIT">
+		<value>Add or Edit selected administrator's groups</value>
+	</data>
+	<data name="SELECTGROUPTODELETE">
+		<value>Select group(s) to delete</value>
+	</data>
+	<data name="PRIMARY">
+		<value>Primary</value>
+	</data>
+	<data name="ADDNEW">
+		<value>Add New</value>
+	</data>
+	<data name="GROUPQUOTARESTRICTION">
+		<value>Manage Group Quota Using: </value>
+	</data>
+	<data name="GROUPRIGHTSADDSUCCESSFUL">
+		<value>User {0}{1}{2} was added successfully as admininstrator for group {3}{4}{5}. You can edit Secondary Administrator rights to add more groups for same administrator. Click Repeat to add more groups. Click OK to return to Systems page. </value>
+	</data>
+	<data name="GROUPRIGHTSADDFAILURE">
+		<value>User {0}{1}{2} could not be added as administrator for group {3}{4}{5}, Click Try Again to add the group again. Click OK to return to Systems page </value>
+	</data>
+	<data name="GROUPRIGHTSEDITSUCCESSFUL">
+		<value>Administrator {0}{1}'s{2} rights were successfully edited for group {3}{4}{5}, Click Repeat to operate on more groups for same administrator. Click OK to return to Systems page</value>
+	</data>
+	<data name="UIBASED">
+		<value>Administrator console</value>
+	</data>
+	<data name="SYNCBASED">
+		<value>Sync engine </value>
+	</data>
+	<data name="SEGREGATEDGROUPS">
+		<value>Segregated Groups: </value>
+	</data>
+	<data name="BOTH">
+		<value>Both </value>
+	</data>
+	<data name="CREATESEGREGATEDGROUPS">
+		<value>Create segregated groups</value>
+	</data>
+	<data name="ALLOWMODIFYSHARINGPOLICY">
+		<value>Allow to modify sharing policy</value>
+	</data>
+	<data name="ALLOWMODIFYENCRYPTIONPOLICY">
+		<value>Allow to modify encryption policy</value>
+	</data>
+	<data name="ALLOWUSERPROVISIONING">
+		<value>Allow user provisioning</value>
+	</data>
+	<data name="ALLOWUSERENABLING">
+		<value>Allow enabling/disabling of users</value>
+	</data>
+	<data name="ALLOWORPHANIFOLDEROWNERSHIP">
+		<value>Allow ownership of orphaned iFolders</value>
+	</data>
+	<data name="ALLOWIFOLDERENABLING">
+		<value>Allow Enabling/Disabling iFolders</value>
+	</data>
+	<data name="ALLOWSHAREDMEMBERRIGHTS">
+		<value>Allow to modify rights of shared iFolder members</value>
+	</data>
+	<data name="ASSIGNADMINRIGHTS">
+		<value>Assign Admin Rights to: </value>
+	</data>
+	<data name="ADMINRIGHTSFOR">
+		<value>Admin Rights for: </value>
+	</data>
+	<data name="CANNOTSETUNLIMITED">
+		<value>Cannot set unlimited because its group has aggregate disk quota set</value>
+	</data>
+	<data name="CANNOTSETQUOTAPERUSERERROR">
+		<value>Cannot set this limit because the total allocated disk quota per member exceeds group quota</value>
+	</data>
+	<data name="INVALIDGROUPQUOTA">
+		<value>Aggregate Disk Quota for the group is smaller than allocated/Used disk quota per user of that group. Either Delete some data on server or change the allocated disk limit per user for the members of group. Then set aggregate group disk quota.</value>
 	</data>
 </root>

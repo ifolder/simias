@@ -58,6 +58,11 @@ namespace iFolder.WebService
 		/// iFolder User First Name
 		/// </summary>
 		FirstName,
+
+		/// <summary>
+		/// Groups and its members
+		/// </summary>
+		GroupOnly,
 	
 		/// <summary>
 		/// iFolder User First Name

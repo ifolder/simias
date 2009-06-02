@@ -69,6 +69,11 @@ namespace Novell.iFolderApp.Web
 		protected MessageControl Message;
 
 		/// <summary>
+		/// Header 
+		/// </summary>
+		protected HeaderControl Head;
+
+		/// <summary>
 		/// Change Password Control 
 		/// </summary>
 		protected CheckBox ChangePassword;
@@ -463,9 +468,11 @@ namespace Novell.iFolderApp.Web
 				url = TrimmedUrl;
 				url += String.Format("?PasswordChanged={0}",PasswordChanged);
 			}
-			
+		
+			Head.Logout("Password Change Successfully !!! Login with new password.");	
 			// redirect
-			Response.Redirect(url);
+			//Response.Redirect(url);
+			
 		}
 	}
 }

@@ -20,7 +20,7 @@
 public class DiscoveryService : System.Web.Services.Protocols.SoapHttpClientProtocol {
     
     public DiscoveryService() {
-        this.Url = "http://164.99.102.189/simias10/DiscoveryService.asmx";
+        this.Url = "http://164.99.101.25/simias10/DiscoveryService.asmx";
     }
     
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/discovery/GetAllCollectionIDsByUser", RequestNamespace="http://novell.com/simias/discovery/", ResponseNamespace="http://novell.com/simias/discovery/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
@@ -72,6 +72,40 @@ public class DiscoveryService : System.Web.Services.Protocols.SoapHttpClientProt
     public object[] EndGetAllCollectionsByUser(System.IAsyncResult asyncResult) {
         object[] results = this.EndInvoke(asyncResult);
         return ((object[])(results[0]));
+    }
+    
+    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/discovery/GetAllOwnedEntriesByGroup", RequestNamespace="http://novell.com/simias/discovery/", ResponseNamespace="http://novell.com/simias/discovery/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
+    public CatalogInfo[] GetAllOwnedEntriesByGroup(string GroupID) {
+        object[] results = this.Invoke("GetAllOwnedEntriesByGroup", new object[] {
+            GroupID});
+        return ((CatalogInfo[])(results[0]));
+    }
+    
+    public System.IAsyncResult BeginGetAllOwnedEntriesByGroup(string GroupID, System.AsyncCallback callback, object asyncState) {
+        return this.BeginInvoke("GetAllOwnedEntriesByGroup", new object[] {
+            GroupID}, callback, asyncState);
+    }
+    
+    public CatalogInfo[] EndGetAllOwnedEntriesByGroup(System.IAsyncResult asyncResult) {
+        object[] results = this.EndInvoke(asyncResult);
+        return ((CatalogInfo[])(results[0]));
+    }
+    
+    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/discovery/GetSpaceUsedByGroup", RequestNamespace="http://novell.com/simias/discovery/", ResponseNamespace="http://novell.com/simias/discovery/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
+    public long GetSpaceUsedByGroup(string GroupID) {
+        object[] results = this.Invoke("GetSpaceUsedByGroup", new object[] {
+            GroupID});
+        return ((long)(results[0]));
+    }
+    
+    public System.IAsyncResult BeginGetSpaceUsedByGroup(string GroupID, System.AsyncCallback callback, object asyncState) {
+        return this.BeginInvoke("GetSpaceUsedByGroup", new object[] {
+            GroupID}, callback, asyncState);
+    }
+    
+    public long EndGetSpaceUsedByGroup(System.IAsyncResult asyncResult) {
+        object[] results = this.EndInvoke(asyncResult);
+        return ((long)(results[0]));
     }
     
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/discovery/GetAllMembersOfCollection", RequestNamespace="http://novell.com/simias/discovery/", ResponseNamespace="http://novell.com/simias/discovery/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]

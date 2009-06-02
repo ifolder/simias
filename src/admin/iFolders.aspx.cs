@@ -236,6 +236,7 @@ namespace Novell.iFolderWeb.Admin
 			dt.Columns.Add( new DataColumn( "SizeField", typeof( string ) ) );
 			dt.Columns.Add( new DataColumn( "ReachableField", typeof( bool ) ) );
 			dt.Columns.Add( new DataColumn( "FullNameField", typeof( string ) ) );
+			dt.Columns.Add( new DataColumn( "PreferenceField", typeof( int ) ) );
 
 			// Get the iFolder list for this user.
 			
@@ -315,6 +316,7 @@ namespace Novell.iFolderWeb.Admin
 				dr[ 9 ] = Utils.ToDateTimeString( "d", folder.LastModified );
 				dr[ 11 ] = reachable;
 				dr[ 12 ] = folder.Name;
+				dr[ 13 ] = folder.Preference;
 
 				dt.Rows.Add( dr );
 				reachable = true;
@@ -337,6 +339,7 @@ namespace Novell.iFolderWeb.Admin
 				dr[ 10 ] = String.Empty;
 				dr[ 11 ] = false;
 				dr[ 12 ] = String.Empty;
+				dr[13] = 0;
 
 				dt.Rows.Add( dr );
 			}
@@ -464,6 +467,25 @@ namespace Novell.iFolderWeb.Admin
 		}
 
 		/// <summary>
+		/// Gets logged in admin rights for the iFolder.
+		/// </summary>
+		private int GetRightsForiFolder(string iFolderID)
+		{
+			// Preference can be -ve also
+			int preference = 0;
+			foreach( DataGridItem item in iFolderList.Items )
+			{
+				string ifolderid = item.Cells[ iFolderIDColumn].Text;
+				if( ifolderid ==iFolderID )
+				{
+					preference = Convert.ToInt32(item.Cells[ 13].Text);
+					break;
+				}
+			}
+			return preference;
+		}
+
+		/// <summary>
 		/// Sets the ifolder synchronization status on all selected ifolders.
 		/// </summary>
 		/// <param name="syncStatus">If true then all selected ifolders will be enabled.</param>
@@ -471,6 +493,13 @@ namespace Novell.iFolderWeb.Admin
 		{
 			foreach( string ifolderID in CheckediFolders.Keys )
 			{
+				/// Check for rights...
+				int preference = GetRightsForiFolder(ifolderID);
+				if( preference == -1)
+					preference = 0xffff;
+				UserGroupAdminRights rights = new UserGroupAdminRights((int)preference);
+				if( !rights.EnableDisableiFolderAllowed )
+					continue;
 				// Don't set the status if already set.
 				if ( CheckediFolders[ ifolderID ] as string != syncStatus.ToString() )
 				{
@@ -561,6 +590,19 @@ namespace Novell.iFolderWeb.Admin
 			return CheckediFolders.ContainsKey( id ) ? true : false;
 		}
 
+		/// <summary>
+		/// Returns the checked state for the specified member.
+		/// </summary>
+		/// <param name="id">ID of the ifolder</param>
+		/// <returns>True if ifolder is checked.</returns>
+		protected bool IsiFolderEnabled( Object pref )
+		{
+			int preference = (int)pref;
+			if( preference == -1)
+				preference = 0xffff;
+			UserGroupAdminRights rights = new UserGroupAdminRights((int)preference);
+			return rights.EnableDisableiFolderAllowed;
+		}
 		/// <summary>
 		/// Gets the navigation url for the owner of the ifolder if the owner
 		/// is not the current user.

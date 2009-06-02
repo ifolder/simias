@@ -69,6 +69,16 @@ namespace iFolder.WebService
 		public string UsersFullNameDisplay;
 
 		/// <summary>
+		/// Group Quota Restriction Method 
+		/// </summary>
+		public int GroupQuotaRestrictionMethod;
+
+		/// <summary>
+		/// System Group Splitting Property 
+		/// </summary>
+		public string GroupSegregated;
+
+		/// <summary>
 		/// Identifier for the System Report iFolder where iFolder 
 		/// reports will be generated.
 		/// </summary>
@@ -109,6 +119,8 @@ namespace iFolder.WebService
 			system.Version = domain.DomainVersion.ToString();
 			system.Description = domain.Description;
 			system.UsersFullNameDisplay = domain.UsersFullNameDisplay;
+			system.GroupQuotaRestrictionMethod = domain.GroupQuotaRestrictionMethod;
+			system.GroupSegregated = domain.GroupSegregated;
 
 			system.ReportPath = Report.ReportPath;
 			system.ReportiFolderID = Report.ReportCollectionID;
@@ -130,6 +142,8 @@ namespace iFolder.WebService
 			domain.Name = system.Name;
 			domain.Description = system.Description;
 			domain.UsersFullNameDisplay = system.UsersFullNameDisplay;
+			domain.GroupQuotaRestrictionMethod = system.GroupQuotaRestrictionMethod;
+			domain.GroupSegregated = system.GroupSegregated;
 
 			domain.Commit();
 		}

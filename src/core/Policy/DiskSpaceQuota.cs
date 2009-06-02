@@ -169,7 +169,7 @@ namespace Simias.Policy
 			
 			// See if the policy already exists.
 			Policy policy = pm.GetPolicy( DiskSpaceQuotaPolicyID, domainID );
-			if ( limit > 0 )
+			if ( limit >= 0 )
 			{
 				if ( policy == null )
 				{
@@ -205,7 +205,7 @@ namespace Simias.Policy
 			// Need a policy manager.
 			PolicyManager pm = new PolicyManager();
 
-			if ( limit > 0)
+			if ( limit >= 0)
 			{
 				ftList.Add( new Rule(  limit, Rule.Operation.Greater, Rule.Result.Deny )); 
 			
@@ -229,7 +229,7 @@ namespace Simias.Policy
 			
 			// See if the policy already exists.
 			Policy policy = pm.GetPolicy( DiskSpaceQuotaPolicyID, collection );
-			if ( limit > 0 )
+			if ( limit >= 0 )
 			{
 				if ( policy == null )
 				{
@@ -343,7 +343,7 @@ namespace Simias.Policy
 		{
 			PolicyManager pm = new PolicyManager();
 			Policy policy = pm.GetPolicy( DiskSpaceQuotaPolicyID, domainID );
-			return ( policy != null ) ? ( long )GetRule( policy ).Operand : 0;
+			return ( policy != null ) ? ( long )GetRule( policy ).Operand : -1;
 		}
 
 		/// <summary>
@@ -355,7 +355,7 @@ namespace Simias.Policy
 		{
 			PolicyManager pm = new PolicyManager();
 			Policy policy = pm.GetPolicy( DiskSpaceQuotaPolicyID, member );
-			return ( policy != null ) ? ( long )GetUserRule( policy ).Operand : 0;
+			return ( policy != null ) ? ( long )GetUserRule( policy ).Operand : -1;
 		}
 
 		/// <summary>
@@ -367,7 +367,7 @@ namespace Simias.Policy
 		{
 			PolicyManager pm = new PolicyManager();
 			Policy policy = pm.GetPolicy( DiskSpaceQuotaPolicyID, collection );
-			return ( policy != null ) ? ( long )GetRule( policy ).Operand : 0;
+			return ( policy != null ) ? ( long )GetRule( policy ).Operand : -1;
 		}
 
 		/// <summary>
@@ -410,7 +410,7 @@ namespace Simias.Policy
 		private long GetAggregateLimit( Policy policy )
 		{
 			// Set to no limit.
-			long limit = 0;
+			long limit = -1;
 
 			// If there is a policy find the most restrictive limit.
 			if ( policy != null )
@@ -418,7 +418,7 @@ namespace Simias.Policy
 				foreach ( Rule rule in policy.Rules )
 				{
 					long ruleLimit = ( long )rule.Operand;
-					if ( ( limit == 0 ) || ( ruleLimit < limit ) )
+					if ( ( limit == -1 ) || ( ruleLimit < limit ) )
 					{
 						limit = ruleLimit;
 					}
@@ -436,7 +436,7 @@ namespace Simias.Policy
 		private long GetUserAggregateLimit( Policy policy )
 		{
 			// Set to no limit.
-			long limit = 0;
+			long limit = -1;
 
 			// If there is a policy find the most restrictive limit.
 			if ( policy != null )
@@ -444,7 +444,7 @@ namespace Simias.Policy
 				foreach ( Rule rule in policy.Rules)
 				{
 					long ruleLimit = ( long )rule.Operand;
-					if ( ( limit == 0 ) || ( ruleLimit < limit ) )
+					if ( ( limit == -1 ) || ( ruleLimit < limit ) )
 					{
 						limit = ruleLimit;
 					}

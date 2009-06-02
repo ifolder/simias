@@ -253,7 +253,7 @@ namespace Novell.iFolderApp.Web
 			Logout(GetString("LOGIN.LOGOUT"));
 		}
 
-		private void Logout(string message)
+		public void Logout(string message)
 		{
 		        string logoutRedirectURL = String.Format("Login.aspx?Message={0}", Context.Server.UrlEncode(message));
 

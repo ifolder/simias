@@ -45,7 +45,7 @@ namespace iFolder.WebService
 	[Serializable]
 	public class SystemPolicy 
 	{
-		private static readonly ISimiasLog log = SimiasLogManager.GetLogger(typeof(Member));
+		//private static readonly ISimiasLog log = SimiasLogManager.GetLogger(typeof(Member));
 
 		/// <summary>
 		/// The Disk Space Limit for Users
@@ -141,7 +141,7 @@ namespace iFolder.WebService
 			string domain = store.DefaultDomain;
 
 			// space limit
-			if (props.SpaceLimitUser >= 0)
+			if (props.SpaceLimitUser >= -1)
 			{
 				DiskSpaceQuota.Set(domain, props.SpaceLimitUser);
 			}

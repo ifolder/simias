@@ -59,7 +59,7 @@
 
 .detailinfo td #FullNameSetting
 {
-	padding-left: 4px;
+	padding-left: 0px;
 }
 
 .adminlistnav
@@ -159,6 +159,14 @@
 	width: 6.5em;
 }
 
+.addsecondbutton
+{
+	float: right;
+	margin-top: 6px;
+	margin-bottom: 4px;
+	width: 9.5em;
+}
+
 #SaveButton
 {
 	float: right;
@@ -169,3 +177,57 @@
 	margin-left: 4px;
 	float: right;
 }
+
+.admintabnav
+{
+        height: 1.5em;
+        border-bottom: solid 1px Black;
+}
+
+ul#adminlisttab
+{
+        list-style-type: none;
+        margin: 0;
+        font-weight: bold;
+        font-size: .75em;
+        padding-left: 1em;
+}
+ 
+ul#adminlisttab li
+{
+        -moz-border-radius: 5px 5px 0 0;
+        float: left;
+        background-color: White;
+        border-left: solid 1px Black;
+        border-right: solid 1px Black;
+        border-top: solid 1px Black;
+        color: Black;
+        margin: 2px 2px 0 2px;
+        width: 8.5em;
+        text-align: center;
+}
+
+ul#adminlisttab a
+{
+        -moz-border-radius: 5px 5px 0 0;
+        display: block;
+        color: Black;
+        background-color: Transparent;
+        padding: 3px 3px 0 3px;
+        text-decoration: none;
+}
+
+ul#adminlisttab a:hover
+{
+        background: #716F64;
+        color: White;
+}
+div#alladmins li.alladmins a:link, div#alladmins li.alladmins a:visited,
+div#primaryadmins li.primaryadmins a:link, div#primaryadmins li.primaryadmins a:visited,
+div#groupadmins li.groupadmins a:link, div#groupadmins li.groupadmins a:visited
+{
+        color: Black;
+        background-color: #EFEEE9;
+        border-bottom: 1px solid #EFEEE9;
+}
+

@@ -1604,6 +1604,11 @@ namespace Simias.Web
 			SetMemberRights(CollectionID, UserID, Rights, null);
 		}
 
+		public static void SetMemberRights(     string CollectionID, string UserID, string Rights, string AccessID)
+		{
+			SetMemberRights(CollectionID, null, UserID, Rights, AccessID);
+		}
+
 		/// <summary>
 		/// WebMethod that to set the Rights of a user on a Collection
 		/// </summary>
@@ -1625,6 +1630,7 @@ namespace Simias.Web
 		/// True if the member was successfully added
 		/// </returns>
 		public static void SetMemberRights(	string CollectionID, 
+											string groupid,
 											string UserID,
 											string Rights,
 											string AccessID)
@@ -1644,6 +1650,15 @@ namespace Simias.Web
 
 			if(Rights == "Admin")
 				member.Rights = Access.Rights.Admin;
+			else if( Rights == "Secondary")
+			{
+				if( member.Rights == Access.Rights.Admin )
+					log.Debug("Member already has admin rights");
+				else if( groupid != null)
+				{
+					member.Rights = Access.Rights.Secondary;
+				}
+			}
 			else if(Rights == "ReadOnly")
 				member.Rights = Access.Rights.ReadOnly;
 			else if(Rights == "ReadWrite")
@@ -1730,6 +1745,11 @@ namespace Simias.Web
 				rights = Access.Rights.ReadWrite;
 			else
 				throw new Exception("Invalid Rights Specified");
+			
+			// If it is an encrypted iFolder, then old owner must be deleted, so send Deby rights
+			string EncryptionAlgorithm = col.EncryptionAlgorithm;
+			if( EncryptionAlgorithm != null && EncryptionAlgorithm != string.Empty) 
+				rights = Access.Rights.Deny;
 
 			Node[] nodes = col.ChangeOwner(member, rights);
 

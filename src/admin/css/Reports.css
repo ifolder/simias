@@ -54,6 +54,38 @@
 	font-size: 1em;
 }
 
+.policyclass
+{
+	float: left;
+	margin-top: 12px;
+	margin-bottom: 8px;
+	margin-left: 12px;
+	padding-right: 12px;
+	padding-left: 4px;
+	padding-bottom: 6px;
+	border: solid 1px #D4D0C8;
+	text-align: left;
+	height: 7em;
+	width: 18em;
+	font-size: 1em;
+}
+
+.policysmallclass
+{
+	float: left;
+	margin-top: 12px;
+	margin-bottom: 8px;
+	margin-left: 12px;
+	padding-right: 12px;
+	padding-left: 4px;
+	padding-bottom: 6px;
+	border: solid 1px #D4D0C8;
+	text-align: left;
+	height: 4em;
+	width: 18em;
+	font-size: 1em;
+}
+
 .whenlabel
 {
 	padding-left: 4px;

@@ -227,7 +227,7 @@ namespace Novell.iFolderWeb.Admin
 		{
 			EffectiveSpace = policy.SpaceLimitEffective;
 
-			Enabled.Checked = LimitValue.Enabled = ( policy.SpaceLimit > 0 );
+			Enabled.Checked = LimitValue.Enabled = ( policy.SpaceLimit >= 0 );
 
 			UsedValue.Text = Utils.ConvertToMBString( policy.SpaceUsed, false, rm );
 			UsedUnits.Text = GetString( "MB" );
@@ -235,7 +235,8 @@ namespace Novell.iFolderWeb.Admin
 			LimitValue.Text = Enabled.Checked ? 
 				Utils.ConvertToMBString( policy.SpaceLimit, false, rm ) : String.Empty;
 
-			if ( ( policy.SpaceLimitEffective > 0 ) || ( policy.SpaceLimit > 0 ) )
+			
+			if ( ( policy.SpaceLimitEffective >= 0 ) || ( policy.SpaceLimit >= 0 ) )
 			{
 				AvailableValue.Text = Utils.ConvertToMBString( policy.SpaceAvailable, false, rm );
 				AvailableUnits.Text = GetString( "MB" );
@@ -253,7 +254,7 @@ namespace Novell.iFolderWeb.Admin
 			else
 			{
 				EffectiveTag.Visible = EffectiveValue.Visible = EffectiveUnits.Visible = true;
-				if ( policy.SpaceLimitEffective > 0 )
+				if ( policy.SpaceLimitEffective >= 0 )
 				{
 					EffectiveValue.Text = Utils.ConvertToMBString( policy.SpaceLimitEffective, false, rm );
 					EffectiveUnits.Text = GetString( "MB" );
@@ -274,7 +275,7 @@ namespace Novell.iFolderWeb.Admin
 		{
 			EffectiveSpace = policy.SpaceLimitEffective;
 
-			Enabled.Checked = LimitValue.Enabled = ( policy.SpaceLimit > 0 );
+			Enabled.Checked = LimitValue.Enabled = ( policy.SpaceLimit >= 0 );
 
 			UsedValue.Text = Utils.ConvertToMBString( policy.SpaceUsed, false, rm );
 			UsedUnits.Text = GetString( "MB" );
@@ -282,7 +283,7 @@ namespace Novell.iFolderWeb.Admin
 			LimitValue.Text = Enabled.Checked ? 
 				Utils.ConvertToMBString( policy.SpaceLimit, false, rm ) : String.Empty;
 
-			if ( ( policy.SpaceLimitEffective > 0 ) || ( policy.SpaceLimit > 0 ) )
+			if ( ( policy.SpaceLimitEffective >= 0 ) || ( policy.SpaceLimit >= 0 ) )
 			{
 				AvailableValue.Text = Utils.ConvertToMBString( policy.SpaceAvailable, false, rm );
 				AvailableUnits.Text = GetString( "MB" );
@@ -308,7 +309,7 @@ namespace Novell.iFolderWeb.Admin
 		{
 			EffectiveSpace = 0;
 
-			Enabled.Checked = LimitValue.Enabled = ( policy.SpaceLimitUser > 0 );
+			Enabled.Checked = LimitValue.Enabled = ( policy.SpaceLimitUser >= 0 );
 			LimitValue.Text = Enabled.Checked ? 
 				Utils.ConvertToMBString( policy.SpaceLimitUser, false, rm ) : String.Empty;
 
@@ -332,7 +333,7 @@ namespace Novell.iFolderWeb.Admin
 					try
 					{
 						decimal limit = Convert.ToDecimal( limitString );
-						if ( limit >= 1 )
+						if ( limit >= 0 )
 						{
 							// Convert from megabytes back to bytes.
 							policy.SpaceLimit = Convert.ToInt64( Decimal.Round( limit, 2 ) * 1048576 );
@@ -358,7 +359,7 @@ namespace Novell.iFolderWeb.Admin
 			}
 			else
 			{
-				policy.SpaceLimit = 0;
+				policy.SpaceLimit = -1;
 			}
 		}
 
@@ -377,7 +378,7 @@ namespace Novell.iFolderWeb.Admin
 					try
 					{
 						decimal limit = Convert.ToDecimal( limitString );
-						if ( limit >= 1 )
+						if ( limit >= 0 )
 						{
 							// Convert from megabytes back to bytes.
 							policy.SpaceLimit = Convert.ToInt64( Decimal.Round( limit, 2 ) * 1048576 );
@@ -403,7 +404,7 @@ namespace Novell.iFolderWeb.Admin
 			}
 			else
 			{
-				policy.SpaceLimit = 0;
+				policy.SpaceLimit = -1;
 			}
 		}
 
@@ -422,7 +423,7 @@ namespace Novell.iFolderWeb.Admin
 					try
 					{
 						decimal limit = Convert.ToDecimal( limitString );
-						if ( limit >= 1 )
+						if ( limit >= 0 )
 						{
 							// Convert from megabytes back to bytes.
 							policy.SpaceLimitUser = Convert.ToInt64( Decimal.Round( limit, 2 ) * 1048576 );
@@ -448,7 +449,18 @@ namespace Novell.iFolderWeb.Admin
 			}
 			else
 			{
-				policy.SpaceLimitUser = 0;
+				policy.SpaceLimitUser = -1;
+			}
+		}
+
+		/// <summary>
+		/// Sets the checkbox enabled or disabled state
+		/// </summary>
+		public bool SetCheckBoxEnabledState
+		{
+			set
+			{
+				Enabled.Enabled = value;
 			}
 		}
 

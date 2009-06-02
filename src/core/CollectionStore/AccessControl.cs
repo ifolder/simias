@@ -70,7 +70,12 @@ namespace Simias.Storage
 			/// <summary>
 			/// User can view, modify and change rights in a collection.
 			/// </summary>
-			Admin
+			Admin,
+
+			/// <summary>
+			/// User can view, modify and change rights in a group.
+			/// </summary>
+			Secondary
 		};
 
 		/// <summary>

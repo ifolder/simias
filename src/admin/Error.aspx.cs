@@ -71,6 +71,11 @@ namespace Novell.iFolderWeb.Admin
 		protected HtmlGenericControl ExceptionNav;
 
 		/// <summary>
+		/// Enable Error reporting
+		/// </summary>
+		protected Label DisplayErrorMessage;
+
+		/// <summary>
 		/// Stack dump
 		/// </summary>
 		protected TextBox StackDump;
@@ -97,6 +102,15 @@ namespace Novell.iFolderWeb.Admin
 		/// <param name="e"></param>
 		private void Page_PreRender( object sender, EventArgs e )
 		{
+			string unAuthMessage = Request.QueryString.Get( "Msg" );
+	
+			if(unAuthMessage != null)
+			{
+				DisplayErrorMessage.Text = unAuthMessage;
+				DisplayErrorMessage.Visible = true;
+				StackDump.Visible = false;
+			}
+			
 			// message from query string
 			string message = Request.QueryString.Get( "ex" );
 			if ( ( message == null ) || ( message.Length < 0 ) )

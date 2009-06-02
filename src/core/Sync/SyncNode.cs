@@ -323,6 +323,24 @@ private static readonly ISimiasLog log = SimiasLogManager.GetLogger(typeof(SyncN
                     			// Do a aggregate of system, group and user level policies
                     			AggregateAllPolicies(member, ref node);
                 		}
+
+				// client does not need secondary admin rights details. Since old client does not understand "Secondary" rigths, so 
+				// replace it by ReadWrite.
+				Property AceProp = node.Properties.GetSingleProperty(PropertyTags.Ace);
+				if(AceProp != null)
+				{
+					string AceValue = AceProp.Value as string;
+					if(AceValue.IndexOf("Secondary") >= 0 )
+					{
+						//StringBuilder NewAceValue = new StringBuilder(AceValue);
+						string NewAceValue = AceValue.Replace("Secondary", "ReadWrite");
+						Property NewAceProp = new Property(PropertyTags.Ace, NewAceValue);
+						log.Debug("new ace prop going is :"+NewAceValue);
+						node.Properties.ModifyNodeProperty(NewAceProp);
+					}
+				}
+				else log.Debug("aceProp was null for this id :"+MemSyncObject.UserID);
+				
             		}
 			this.node = node.Properties.ToString(true, LoggedInMember);
 		}

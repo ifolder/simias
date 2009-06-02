@@ -144,7 +144,7 @@ namespace Novell.iFolderApp.Web
 			SpaceUsed.Text = WebUtility.FormatSize(used, rm);
 			
 			// limit
-			if (limit == 0)
+			if (limit == -1)
 			{
 				// no limit
 				SpaceAvailable.Text = GetString("NOLIMIT");

@@ -50,12 +50,25 @@ namespace Simias.Sync
 			Size,
 			Type
 		};
+
+                /// <summary>
+                /// Group Quota Restriction Method.
+                /// </summary>
+                private enum QuotaRestriction
+                {
+                                // For current Implementation, enum value AllAdmins is not used, can be used in future
+                                UI_Based,
+                                Sync_Based
+                }
+
 		
 		DiskSpaceQuota	dsQuota;
 		FileSizeFilter	fsFilter;
 		FileTypeFilter	ftFilter;
 		PolicyType		reason;
+		string OwnerID;
 
+		public static readonly ISimiasLog log = SimiasLogManager.GetLogger(typeof(SyncService));
 		
 		/// <summary>
 		/// Constructs a SyncPolicy object.
@@ -68,6 +81,7 @@ namespace Simias.Sync
 			dsQuota = DiskSpaceQuota.Get(collection);
 			fsFilter = FileSizeFilter.Get(collection);
 			ftFilter = FileTypeFilter.Get(collection);
+			OwnerID = collection.Owner.UserID;
 		}
 
 		/// <summary>
@@ -78,6 +92,12 @@ namespace Simias.Sync
 		public bool Allowed(BaseFileNode fNode)
 		{
 			long fSize = fNode.Length;
+			if(!GroupDiskQuotaUploadAllowed(fSize))
+			{
+				reason = PolicyType.Quota;
+				return false;
+			}
+
 			if (!dsQuota.Allowed(fSize))
 			{
 				reason = PolicyType.Quota;
@@ -94,6 +114,86 @@ namespace Simias.Sync
 				return false;
 			}
 			return true;
+		}
+		
+		public bool GroupDiskQuotaUploadAllowed(long fSize)
+		{
+			// Aggregate disk quota violation for group will be checked on the owner of collection (not on the member who is syncing)
+			Store store = Store.GetStore();
+			Domain domain = store.GetDomain(store.DefaultDomain);
+			string CollectionOwnerID = OwnerID;//collection.Owner.UserID;
+			Member member = domain.GetMemberByID(CollectionOwnerID);
+				
+			bool Allowed = true;
+			bool SpaceAllowed = false;
+			string [] GroupIDs = domain.GetMemberFamilyList(CollectionOwnerID);
+			foreach(string groupID in GroupIDs)
+			{
+				if( groupID != CollectionOwnerID )
+				{
+					Member GroupAsMember = domain.GetMemberByID(groupID);
+					long AggregateQuota = GroupAsMember.AggregateDiskQuota;
+					if(AggregateQuota < 0  )
+					{
+						// no group quota applied, so allow
+						return true;
+					}
+					if(domain.GroupQuotaRestrictionMethod == (int)QuotaRestriction.Sync_Based)
+					{
+						long SpaceUsed = SpaceUsedByGroup(groupID, domain.ID, CollectionOwnerID);
+						SpaceAllowed = ( AggregateQuota - SpaceUsed ) > fSize ? true: false;
+						if( SpaceAllowed == true)
+						{
+							return true;
+						}
+						else
+						Allowed = false;
+					}
+
+				}
+			}
+                        //log.Debug("Allowed boolean is  :"+Allowed);
+                        return Allowed;
+
+		}
+
+		// We call catalog services to read the entries.. Not using discovery because no need...Only read operation is performed
+		static public long GetSpaceUsedByAllGroupMembers( string groupID )
+                {
+                        long SpaceUsed = 0;
+			string catalogID = "a93266fd-55de-4590-b1c7-428f2fed815d";
+			string OwnerProperty = "oid";
+			string SizeProperty = "size";
+			Collection catalog;
+                        //ArrayList entries = new ArrayList();
+                        Store store = Store.GetStore();
+                        Domain domain = store.GetDomain(store.DefaultDomain);
+                        string [] GroupMembers = domain.GetGroupsMemberList(groupID);
+
+			catalog = store.GetCollectionByID( catalogID );
+
+                        foreach(string memberID in GroupMembers)
+                        {
+                                Property midsProp = new Property( OwnerProperty, memberID );
+				ICSList nodes = catalog.Search( midsProp, SearchOp.Equal );
+                                foreach( ShallowNode sn in nodes )
+                                {
+					Node node = new Node(catalog, sn);
+					Property p = node.Properties.GetSingleProperty( SizeProperty );
+                                        SpaceUsed += ( p != null ) ? ( long )p.Value : 0;;
+                                }
+                        }
+
+                        return SpaceUsed;
+                }
+
+
+
+		public long SpaceUsedByGroup( string groupID, string domainID, string userID)
+		{
+
+			// call discovery to get the disk space used by this group (through catalog)
+			return GetSpaceUsedByAllGroupMembers(groupID); 
 		}
 
 		/// <summary>

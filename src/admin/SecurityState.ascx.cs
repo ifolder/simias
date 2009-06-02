@@ -328,7 +328,6 @@ namespace Novell.iFolderWeb.Admin
 		public void GetEncryptionPolicy( UserPolicy policy )
 		{
 			int securityStatus = policy.EncryptionStatus;
-			int status;
 			encryption.Checked = enforceEncryption.Checked = ssl.Checked = enforceSSL.Checked = false;
 			SystemPolicy SystemPolicy = web.GetSystemPolicy();
 			int SysEncrPolicy = SystemPolicy.EncryptionStatus;
@@ -448,6 +447,18 @@ namespace Novell.iFolderWeb.Admin
 			Session["EncryptionWasChecked"] = "false";
 				
 			policy.EncryptionStatus = securityStatus;
+		}
+
+		/// <summary>
+		/// Sets the checkbox enabled or disabled state
+		/// </summary>
+		public bool SetCheckBoxEnabledState
+		{
+			set
+			{
+				encryption.Enabled = value;
+				enforceEncryption.Enabled = value;
+			}
 		}
 
 		#endregion

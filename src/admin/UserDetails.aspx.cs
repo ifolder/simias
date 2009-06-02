@@ -92,6 +92,15 @@ namespace Novell.iFolderWeb.Admin
 		/// </summary>
 		private ResourceManager rm;
 
+		/// <summary>
+		/// Logged in admin system rights instance
+		/// </summary>
+		UserGroupAdminRights uRights;
+		
+		/// <summary>
+		/// Logged in user system rights value
+		/// </summary>
+		int grpAccessPolicy = 0;
 
 		/// <summary>
 		/// Top navigation panel control.
@@ -134,6 +143,35 @@ namespace Novell.iFolderWeb.Admin
 		/// </summary>
 		protected Literal LastLogin;
 
+		/// <summary>
+		/// User detail controls.
+		/// </summary>
+		protected Literal GroupDiskQuotaHeader;
+
+		/// <summary>
+		/// User detail controls.
+		/// </summary>
+		protected Literal DiskQuotaUsedHeader;
+
+		/// <summary>
+		/// User detail controls.
+		/// </summary>
+		protected Literal DiskQuotaUsedLiteral;
+	
+		/// <summary>
+		/// User detail controls.
+		/// </summary>
+		protected TextBox GroupDiskQuotaText;
+
+		/// <summary>
+		/// User detail controls.
+		/// </summary>
+		protected Literal GroupDiskQuotaLiteral;
+
+		/// <summary>
+		/// User detail controls.
+		/// </summary>
+		protected Button GroupDiskQuotaSave;
 
 		/// <summary>
 		/// iFolder user policy control.
@@ -198,6 +236,11 @@ namespace Novell.iFolderWeb.Admin
 		/// All checked ifolders control.
 		/// </summary>
 		protected CheckBox AlliFoldersCheckBox;
+
+		/// <summary>
+		/// ifolders checked control.
+		/// </summary>
+		protected CheckBox iFolderListCheckBox;
 
 		/// <summary>
 		/// Server URL for logged in user.
@@ -293,6 +336,7 @@ namespace Novell.iFolderWeb.Admin
 			dt.Columns.Add( new DataColumn( "OwnerNameField", typeof( string ) ) );
 			dt.Columns.Add( new DataColumn( "ReachableField", typeof( bool ) ) );
 			dt.Columns.Add( new DataColumn( "FullNameField", typeof( string ) ) );
+			dt.Columns.Add( new DataColumn( "PreferenceField", typeof( int) ) );
 
 			// Get the iFolder list for this user.
 			iFolderSet list;
@@ -366,6 +410,7 @@ namespace Novell.iFolderWeb.Admin
 				dr[ 7 ] = folder.OwnerFullName;
 				dr[ 8 ] = reachable;
 				dr[ 9 ] = folder.Name;
+				dr[10 ] = folder.Preference;
 
 				dt.Rows.Add( dr );
 				reachable = true;
@@ -385,6 +430,7 @@ namespace Novell.iFolderWeb.Admin
 				dr[ 7 ] = String.Empty;
 				dr[ 8 ] = false;
 				dr[ 9 ] = String.Empty;
+				dr[10] = 0;
 
 				dt.Rows.Add( dr );
 			}
@@ -396,6 +442,21 @@ namespace Novell.iFolderWeb.Admin
 			// Build the data view from the table.
 			return new DataView( dt );
 		}
+
+                /// <summary>
+                /// Returns the checked state for the specified member.
+                /// </summary>
+                /// <param name="id">ID of the ifolder</param>
+                /// <returns>True if ifolder is checked.</returns>
+                protected bool IsiFolderEnabled( Object pref )
+                {
+			int preference = (int)pref;
+			if( preference == -1)
+				preference = 0xffff;
+                        UserGroupAdminRights rights = new UserGroupAdminRights((int)preference);
+                        return rights.EnableDisableiFolderAllowed;
+                //      return CheckediFolders.ContainsKey( id ) ? true : false;
+                }
 
 		/// <summary>
 		/// Gets an ifolder policy object that is set-able.
@@ -446,6 +507,31 @@ namespace Novell.iFolderWeb.Admin
 			{
 				case 1:
 				MemberType.Text = GetString( "MEMBERTYPELDAPGROUP" );
+				GroupDiskQuotaHeader.Text = GetString("GROUPDISKQUOTA");
+				GroupDiskQuotaHeader.Visible = true;
+				long GroupDiskQuotaValue = details.GroupDiskQuota;
+				if( GroupDiskQuotaValue == -1 )
+					GroupDiskQuotaText.Text = "";
+				else
+					GroupDiskQuotaText.Text = Utils.ConvertToMBString( GroupDiskQuotaValue, false, rm );
+				GroupDiskQuotaText.Visible = true;
+				GroupDiskQuotaLiteral.Text = GetString("MB");
+				GroupDiskQuotaLiteral.Visible = true;
+				GroupDiskQuotaSave.Text = GetString("SAVE");
+				GroupDiskQuotaSave.Visible = true;
+				/// Disable for groupadmin...
+				string loggedinuserID = Session[ "UserID" ] as String;
+				int pref = web.GetUserGroupRights(loggedinuserID, UserID);
+				if( pref != -1 && pref != 0xffff )
+				{
+					GroupDiskQuotaText.Enabled = false;
+					GroupDiskQuotaSave.Enabled = false;
+				}
+			
+				DiskQuotaUsedHeader.Text = GetString("DISKSPACEUSED");
+				DiskQuotaUsedHeader.Visible = true;
+				DiskQuotaUsedLiteral.Text = Utils.ConvertToMBString( web.SpaceUsedByGroup(UserID), false, rm ) + " " + GetString("MB");
+				DiskQuotaUsedLiteral.Visible = true;
 				break;
 				case 2:
 				MemberType.Text = GetString( "MEMBERTYPELOCALGROUP" );
@@ -493,6 +579,10 @@ namespace Novell.iFolderWeb.Admin
 			// localization
 			rm = Application[ "RM" ] as ResourceManager;
 
+			string userID = Session[ "UserID" ] as String;
+			grpAccessPolicy = web.GetUserGroupRights(userID, null);
+			uRights = new UserGroupAdminRights(grpAccessPolicy);
+
 			if ( !IsPostBack )
 			{
 				// Initialize the localized fields.
@@ -523,6 +613,12 @@ namespace Novell.iFolderWeb.Admin
 
 			// Set the active ifolder display tab.
 			SetActiveiFolderListTab( ActiveiFolderTab );
+
+			if(uRights.EnableDisableiFolderAllowed == false)
+			{
+				AlliFoldersCheckBox.Enabled = false;	
+				//iFolderListCheckBox.Enabled = false;
+			}
 		}
 
 		/// <summary>
@@ -585,18 +681,36 @@ namespace Novell.iFolderWeb.Admin
 		/// returns whether this user can be owner of shared ifolder or not . If encryption is enforced then return false.
 		/// </summary>
         /// <returns>true if the user can be owner</returns>
-		private bool GetCreateButtonStatus()
-		{
-			try{
-				bool UserEncryptionEnforced = web.IsUserOrSystemEncryptionEnforced(UserID);
-				bool CreateButtonStatus = ! UserEncryptionEnforced ;	
-				return CreateButtonStatus;
-			}catch(Exception ex)
-			{	
-				return true;
-			}	
-			return true;
-		}
+		//private bool GetCreateButtonStatus()
+		//{
+		//	try{
+		//		bool UserEncryptionEnforced = web.IsUserOrSystemEncryptionEnforced(UserID);
+		//		bool CreateButtonStatus = ! UserEncryptionEnforced ;	
+		//		return CreateButtonStatus;
+		//	}catch
+		//	{	
+		//		return true;
+		//	}	
+		//}
+
+		/// <summary>
+		/// Get Logged in admin rights for iFolder.
+		/// </summary>
+                private int GetRightsForiFolder(string iFolderID)
+                {
+                        int preference = 0;
+                        foreach( DataGridItem item in iFolderList.Items )
+                        {
+                                string ifolderid = item.Cells[ iFolderIDColumn].Text;
+                                if( ifolderid ==iFolderID )
+                                {
+                                        preference = Convert.ToInt32(item.Cells[ 10].Text);
+                                        break;
+                                }
+                        }
+                        return preference;
+                }
+
 
 		/// <summary>
 		/// Sets the ifolder synchronization status on all selected ifolders.
@@ -606,6 +720,13 @@ namespace Novell.iFolderWeb.Admin
 		{
 			foreach( string ifolderID in CheckediFolders.Keys )
 			{
+				// Check if this check (next 6 lines) can be removed after UT, Is it a redundant check??
+				int preference = GetRightsForiFolder(ifolderID);
+				if( preference == -1)
+					preference = 0xffff;
+				UserGroupAdminRights rights = new UserGroupAdminRights((int)preference);
+				if( !rights.EnableDisableiFolderAllowed )
+					continue;
 				// Don't set the status if already set.
 				if ( CheckediFolders[ ifolderID ] as string != syncStatus.ToString() )
 				{
@@ -643,6 +764,112 @@ namespace Novell.iFolderWeb.Admin
 		#endregion
 
 		#region Protected Methods
+
+		/// <summary>
+                /// Event handler that gets called when the save group limit button is clicked.
+                /// </summary>
+                /// <param name="sender"></param>
+                /// <param name="e"></param>
+                protected void SaveGroupDiskQuota( object sender, EventArgs e )
+                {
+                        long GroupDiskLimit = 0;
+                        string limitString = GroupDiskQuotaText.Text;
+			if (limitString == null || limitString == String.Empty)
+                        {
+                                limitString = "Unlimited";
+                        }
+			
+			try
+			{
+				decimal limit = Convert.ToDecimal( limitString == "Unlimited" ? "-1" : limitString );
+				if ( limit > 0 || limitString == "Unlimited") 
+				{
+					// Convert from megabytes back to bytes.
+					GroupDiskLimit = limitString == "Unlimited" ? -1 : Convert.ToInt64( Decimal.Round( limit, 2 ) * 1048576 );
+					
+					// connect to master to set member property
+					ConnectMaster();
+
+					// call webservice and pass parameters to commit.
+					bool retval = web.SetAggregateDiskQuota(UserID, GroupDiskLimit);
+					DisconnectMaster();
+					web.Url = currentServerURL;
+                                        if(retval == false)
+                                        {
+                                                TopNav.ShowError( GetString( "INVALIDGROUPQUOTA" ) );
+                                                return;
+                                        }
+
+				}
+				else
+				{
+					TopNav.ShowError(GetString("ERRORINVALIDQUOTA"));
+					return;
+				}
+			}
+			catch( FormatException )
+			{
+				TopNav.ShowError( GetString( "ERRORINVALIDQUOTA" ) );
+				return;
+			}
+			catch ( OverflowException )
+			{
+				TopNav.ShowError( GetString( "ERRORINVALIDQUOTA" ) );
+				return;
+			}
+			catch
+			{
+				DisconnectMaster();
+				web.Url = currentServerURL;
+				TopNav.ShowError( GetString( "ERRORUNKNOWNERROR" ) );
+				return;
+			}
+
+			GetUserDetails();
+                        GroupDiskQuotaSave.Enabled = false;
+		}
+
+                /// <summary>
+		/// 
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void ConnectMaster ()
+		{
+			iFolderServer[] list = web.GetServers();
+
+			foreach( iFolderServer server in list )
+			{
+				if (server.IsMaster)
+				{
+					UriBuilder remoteurl = new UriBuilder(server.PublicUrl);
+					remoteurl.Path = (new Uri(web.Url)).PathAndQuery;
+					web.Url = remoteurl.Uri.ToString();
+					break;
+				}
+			}
+
+		}
+
+                /// <summary>
+		/// 
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void DisconnectMaster ()
+		{
+			web.Url = currentServerURL;
+		}
+
+		/// <summary>
+                /// Event handler that gets called when the description text changes.
+                /// </summary>
+                /// <param name="sender"></param>
+                /// <param name="e"></param>
+                protected void LimitChanged( object sender, EventArgs e )
+                {
+                        GroupDiskQuotaSave.Enabled = true;
+                }
 
 		/// <summary>
 		/// Event handler that gets called when the all ifolders tab is clicked.

@@ -498,7 +498,7 @@ namespace Novell.iFolderWeb.Admin
 			iFolder ifolder = web.GetiFolder(PolicyID);
 			string OwnerID = ifolder.OwnerID;
 			SystemPolicy systemPolicy = web.GetSystemPolicy();
-			UserPolicy userPolicy = web.GetUserPolicy(OwnerID);  
+			UserPolicy userPolicy = web.GetUserPolicy(OwnerID, null);  
 			int iFolderStatus = policy.SharingStatus;
 			int UserStatus = userPolicy.SharingStatus;
 			int SystemStatus = systemPolicy.SharingStatus;
@@ -829,8 +829,6 @@ namespace Novell.iFolderWeb.Admin
 		{
 			int SharingStatus=0;
 			int UserStatus = policy.SharingStatus;
-			SystemPolicy systemPolicy = web.GetSystemPolicy();
-			int SystemStatus = systemPolicy.SharingStatus;
 			string valuechanged = Session["ValueChanged"] as string;
 	
 			if( valuechanged.Equals("true"))
@@ -906,13 +904,7 @@ namespace Novell.iFolderWeb.Admin
 		public void SetSharingPolicy( iFolderPolicy policy, string PolicyID )
 		{
 			int SharingStatus=0;
-			iFolder ifolder = web.GetiFolder(PolicyID);
-			string OwnerID = ifolder.OwnerID;
-			SystemPolicy systemPolicy = web.GetSystemPolicy();
-			UserPolicy userPolicy = web.GetUserPolicy(OwnerID);
 			int iFolderStatus = policy.SharingStatus;
-			int UserStatus = userPolicy.SharingStatus;
-			int SystemStatus = systemPolicy.SharingStatus;
 
 			string valuechanged = Session["ValueChanged"] as string;
 
@@ -954,7 +946,19 @@ namespace Novell.iFolderWeb.Admin
 
 		}
 
-		
+		/// <summary>
+		/// Sets the checkbox enabled or disabled state
+		/// </summary>
+		public bool SetCheckBoxEnabledState
+		{
+			set
+			{
+				SharingOn.Enabled = value;
+				enforcedSharing.Enabled = value;
+				disablePastSharing.Enabled = value;
+			}
+		}
+
 		#endregion
 
 		#region Web Form Designer generated code

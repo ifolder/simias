@@ -94,6 +94,7 @@ namespace iFolder.WebService
 		/// <summary>
 		/// encryption options.
 		/// </summary>
+		[Serializable]
 		public enum Encryption
 		{
 			None = 0,
@@ -102,6 +103,16 @@ namespace iFolder.WebService
 			SSL = 4,
 			EnforceSSL = 8
 		}
+
+                /// <summary>
+                /// Group Quota Restriction Method.
+                /// </summary>
+                private enum QuotaRestriction
+                {
+                                // For current Implementation, enum value AllAdmins is not used, can be used in future
+                                UI_Based,
+                                Sync_Based
+                }
 
 		/// <summary>
 		/// The User ID
@@ -168,10 +179,21 @@ namespace iFolder.WebService
 	        public string DataMoveStatus;
 
 		/// <summary>
+		/// Percentage Data Move details.
+		/// </summary>
+	        public bool IsGroup;
+
+		/// <summary>
+		/// preferences in case of group admin.
+		/// </summary>
+	        public int Preference;
+
+		/// <summary>
 		/// Constructor
 		/// </summary>
 		public iFolderUser()
 		{
+			Preference = -1;
 		}
 
 		/// <summary>
@@ -192,6 +214,7 @@ namespace iFolder.WebService
 			this.Enabled = !(domain.IsLoginDisabled(this.ID));
 			this.IsOwner = (member.UserID == collection.Owner.UserID);
 			this.Email = NodeUtility.GetStringProperty(member, EmailProperty);
+			this.IsGroup = (member.GroupType != null ) ? true : false;
 
 			if ( member.HomeServer != null )
 			    this.HomeServer = (member.HomeServer.Name == null ) ? string.Empty : member.HomeServer.Name;
@@ -211,6 +234,7 @@ namespace iFolder.WebService
 			DataMovePercentage = 0;
 			DataMoveStatus = String.Empty;
 			NewHomeServer = String.Empty;
+			this.Preference = -1;
 		}
 
 		/// <summary>
@@ -232,6 +256,7 @@ namespace iFolder.WebService
 			this.Enabled = !(domain.IsLoginDisabled(this.ID));
 			this.IsOwner = (member.UserID == collection.Owner.UserID);
 			this.Email = NodeUtility.GetStringProperty(member, EmailProperty);
+			this.Preference = -1;
 
 			if ( member.HomeServer != null )
 			    this.HomeServer = (member.HomeServer.Name == null ) ? string.Empty : member.HomeServer.Name;
@@ -436,11 +461,26 @@ namespace iFolder.WebService
 		/// <returns>An iFolder User Set</returns>
 		public static iFolderUserSet GetUsers(string ifolderID, int index, int max, string accessID)
 		{
+			return GetUsers( ifolderID, index, max, accessID, false);
+		}
+
+
+		/// <summary>
+		/// Get the Members of an iFolder
+		/// </summary>
+		/// <param name="ifolderID">The iFolder ID</param>
+		/// <param name="index">The Search Start Index</param>
+		/// <param name="max">The Search Max Count of Results</param>
+		/// <param name="accessID">The Access User ID</param>
+		/// <param name="adminrequest">Whether the request is coming from web-admin/web-access</param>
+		/// <returns>An iFolder User Set</returns>
+		public static iFolderUserSet GetUsers(string ifolderID, int index, int max, string accessID, bool adminrequest)
+		{
 			Store store = Store.GetStore();
 
-            Domain domain = store.GetDomain(store.DefaultDomain);
+			Domain domain = store.GetDomain(store.DefaultDomain);
 
-            Collection c = null;
+			Collection c = null;
 
 			if (ifolderID == null)
 			{
@@ -454,14 +494,35 @@ namespace iFolder.WebService
 
 				if (c == null) throw new iFolderDoesNotExistException(ifolderID);
 			}
-			log.Debug("Domain ID {0} {1}", c.ID, accessID);
+			/// If the ifolderID == null, adminrequest true, and accessid not null, then add the members only for groups...
+			int usertype = -1;
+			string userid = null;
+			Hashtable ht = new Hashtable();
+
+			if( accessID != null && adminrequest )
+			{
+				usertype = 2; // groupadmin
+				userid = accessID;
+				accessID = null;
+				Domain dom = store.GetDomain(store.DefaultDomain);
+				Member mem = dom.GetMemberByID(userid);
+				ht = mem.GetMonitoredUsers(true);
+			}
+
+			if( ifolderID != null && userid != null)
+			{
+				/// Check for rights on ifolder ID.
+				if( ht.ContainsKey( c.Owner.UserID) == false)
+				{
+					return null;
+				}
+			}
 
 			// impersonate
 			iFolder.Impersonate(c, accessID);
 
 			// members
 			ICSList members = c.GetMemberList();
-			log.Debug("member {0}", members!=null?"not null":"null");
 			
 			// sort the list
 			ArrayList sortList = new ArrayList();
@@ -486,9 +547,18 @@ namespace iFolder.WebService
 				{
 					if ((i >= index) && (((max <= 0) || i < (max + index))))
 					{
+						if( usertype == 2 && ht.ContainsKey(member.UserID) == false)
+							continue;
+
+						/// Check if we can add the member...
 						Member tmpmember = domain.GetMemberByID(member.UserID);
 						if(tmpmember!= null)
-							list.Add(new iFolderUser(member, c, domain));
+						{
+							iFolderUser user = new iFolderUser(member, c, domain);
+							if( usertype == 2)
+								user.Preference = GetAdminRights(userid, member.UserID);
+							list.Add(user);
+						}
 					}
 
 					++i;
@@ -509,6 +579,22 @@ namespace iFolder.WebService
 		/// <param name="accessID">The Access User ID</param>
 		/// <returns>An iFolder User Set</returns>
 		public static iFolderUserSet GetUsers(SearchProperty property, SearchOperation operation, string pattern, int index, int max, string accessID)
+		{
+			return GetUsers(property, operation, pattern, index, max, accessID, false);
+		}
+
+		/// <summary>
+		/// Get Monitored groups by Search
+		/// </summary>
+		/// <param name="property">The Search Property</param>
+		/// <param name="operation">The Search Operator</param>
+		/// <param name="pattern">The Search Pattern</param>
+		/// <param name="index">The Search Start Index</param>
+		/// <param name="max">The Search Max Count of Results</param>
+		/// <param name="accessID">The Access User ID</param>
+		/// <param name="adminrequest">whether the request is coming from web-admin/web-access</param>
+		/// <returns>An iFolder User Set</returns>
+		public static iFolderUserSet GetUsers(SearchProperty property, SearchOperation operation, string pattern, int index, int max, string accessID, bool adminrequest)
 		{
 			Store store = Store.GetStore();
 
@@ -539,6 +625,18 @@ namespace iFolder.WebService
 					searchOperation = SearchOp.Contains;
 					break;
 			}
+			int usertype = -1;
+			string userid = null;
+			Hashtable ht = new Hashtable();
+			if( accessID != null && adminrequest)
+			{
+				usertype = 2; // groupadmin
+				userid = accessID;
+				accessID = null;
+				Domain dom = store.GetDomain(store.DefaultDomain);
+				Member mem = dom.GetMemberByID(userid);
+				ht = mem.GetMonitoredUsers(true);
+			}
 			
 			// search property
 			string searchProperty;
@@ -561,13 +659,242 @@ namespace iFolder.WebService
 					searchProperty = PropertyTags.Given;
 					break;
 
+				case SearchProperty.GroupOnly:
+					searchProperty = PropertyTags.FullName;//PropertyTags.GroupType;
+					break;
+
 				default:
 					searchProperty = PropertyTags.FullName;
 					break;
 			}
 			
 			// impersonate
-			iFolder.Impersonate(domain, accessID);
+			Rights UserRight = iFolder.Impersonate(domain, accessID);
+
+			string[] GroupList = null;
+			if (accessID != null)
+				GroupList = domain.GetMemberFamilyList(accessID);
+			
+			//bool UserIsDomainOwner = (UserRight == Rights.Admin);
+
+			ArrayList list = new ArrayList();
+			int i = 0;
+
+			if(property == SearchProperty.HomeServerName)
+			{
+				int MaxiFolderServer = 100000;
+				iFolderServerSet iFSet = iFolderServer.GetServersByName(iFolderServerType.All, operation, pattern, 0, MaxiFolderServer);
+				foreach(iFolderServer ifServer in iFSet.Items)
+				{
+					// create the search list
+					searchProperty = PropertyTags.HostID;
+					searchOperation = SearchOp.Equal;
+					ICSList searchList = domain.Search(searchProperty, ifServer.ID, searchOperation);
+			
+					foreach(ShallowNode sn in searchList)
+					{
+						if (sn.IsBaseType(NodeTypes.MemberType))
+						{
+							Member member = new Member(domain, sn);
+							bool GroupMatched = false;
+							// If the loggedin user is not root admin, then only go for next if condition
+							if(accessID != null && domain.GroupSegregated == "yes")
+							{
+								string [] TempGroupList = domain.GetMemberFamilyList(member.UserID);
+								foreach( string TempGroupDN in TempGroupList)
+								{
+									if( GroupList != null && Array.IndexOf(GroupList, TempGroupDN) > 0)
+									{
+										GroupMatched = true;
+										break;
+									}
+								}
+							}
+
+							// Don't include Host objects as iFolder users.
+							if (!member.IsType("Host"))
+							{
+								if(accessID == null  || (domain.GroupSegregated == "no" || (domain.GroupSegregated == "yes" && GroupMatched == true)) )
+								{
+									if ((i >= index) && (((max <= 0) || i < (max + index))))
+									{
+										if( usertype == 2 && ht.ContainsKey(member.UserID) == false)
+											continue;
+										iFolderUser user = new iFolderUser(member, domain, domain);
+										if( usertype == 2)
+											user.Preference = GetAdminRights(userid, member.UserID);
+										list.Add(user);
+									}
+									++i;
+								}
+
+							}
+						}
+					}
+				}
+			}
+			else
+			{
+				// create the search list
+				ICSList searchList = domain.Search(searchProperty, pattern, searchOperation);
+				Member member = null;
+			
+				foreach(ShallowNode sn in searchList)
+				{
+				  try
+				  {
+					if (sn.IsBaseType(NodeTypes.MemberType))
+					{
+						member = new Member(domain, sn);
+						bool GroupMatched = false;
+						if(domain.GroupSegregated == "yes")
+						{
+							string [] TempGroupList = domain.GetMemberFamilyList(member.UserID);
+							foreach( string TempID in TempGroupList)
+							{
+								if(GroupList != null && Array.IndexOf(GroupList, TempID) >= 0)
+								{
+									GroupMatched = true;
+									break;
+								}
+							}
+						}
+
+						// Don't include Host objects as iFolder users.
+						if (!member.IsType("Host"))
+						{
+							bool add = true;
+							if((property == SearchProperty.GroupOnly) && member.GroupType == null)
+							{
+									add = false;
+							}
+							// if search was based on groupandmembers, then add only group first.
+							if( add && ( accessID == null || (domain.GroupSegregated == "no" || (domain.GroupSegregated == "yes" && GroupMatched == true))) )
+							{
+								if ((i >= index) && (((max <= 0) || i < (max + index))))
+								{
+										if( usertype == 2 && ht.ContainsKey(member.UserID) == false)
+											continue;
+
+										iFolderUser user = new iFolderUser(member, domain, domain);
+										if( usertype == 2)
+											user.Preference = GetAdminRights(userid, member.UserID);
+										list.Add(user);
+								}
+
+								++i;
+							}
+		
+						}
+					}
+				  }
+				  catch {
+					log.Debug("Member information failed {0}", member.FN);
+					}
+				}
+			}
+
+			return new iFolderUserSet((iFolderUser[])list.ToArray(typeof(iFolderUser)), i);
+		}
+
+
+		/// <summary>
+		/// Get Monitored groups by Search
+		/// </summary>
+		/// <param name="property">The Search Property</param>
+		/// <param name="operation">The Search Operator</param>
+		/// <param name="pattern">The Search Pattern</param>
+		/// <param name="index">The Search Start Index</param>
+		/// <param name="max">The Search Max Count of Results</param>
+		/// <param name="accessID">The Access User ID</param>
+		/// <param name="SecondaryAdminIDID">The User ID of Secondary Admin for which groups has to be retrieved</param>
+		/// <param name="MonitoredGroups">For Future use, currently always true for group retrieval, can be used for monitored servers</param>
+		/// <param name="adminrequest">whether the request is coming from web-admin/web-access</param>
+		/// <returns>An iFolder User Set</returns>
+		public static iFolderUserSet GetMonitoredGroupsSet(SearchProperty property, SearchOperation operation, string pattern, int index, int max, string accessID, string SecondaryAdminID, bool MonitoringGroups, bool adminrequest)
+		{
+			Store store = Store.GetStore();
+
+			Domain domain = store.GetDomain(store.DefaultDomain);
+
+			string [] MonitoredGroups = null;
+			if(MonitoringGroups)
+				MonitoredGroups = GetMonitoredGroups(SecondaryAdminID);
+
+
+			// search operator
+			SearchOp searchOperation;
+
+			switch(operation)
+			{
+				case SearchOperation.BeginsWith:
+					searchOperation = SearchOp.Begins;
+					break;
+
+				case SearchOperation.EndsWith:
+					searchOperation = SearchOp.Ends;
+					break;
+
+				case SearchOperation.Contains:
+					searchOperation = SearchOp.Contains;
+					break;
+
+				case SearchOperation.Equals:
+					searchOperation = SearchOp.Equal;
+					break;
+
+				default:
+					searchOperation = SearchOp.Contains;
+					break;
+			}
+			int usertype = -1;
+			string userid = null;
+			Hashtable ht = new Hashtable();
+			if( accessID != null && adminrequest)
+			{
+				usertype = 2; // groupadmin
+				userid = accessID;
+				accessID = null;
+				Domain dom = store.GetDomain(store.DefaultDomain);
+				Member mem = dom.GetMemberByID(userid);
+				ht = mem.GetMonitoredUsers(true);
+			}
+			
+			// search property
+			string searchProperty;
+
+			switch(property)
+			{
+				case SearchProperty.UserName:
+					searchProperty = BaseSchema.ObjectName;
+					break;
+
+				case SearchProperty.FullName:
+					searchProperty = PropertyTags.FullName;
+					break;
+
+				case SearchProperty.LastName:
+					searchProperty = PropertyTags.Family;
+					break;
+
+				case SearchProperty.FirstName:
+					searchProperty = PropertyTags.Given;
+					break;
+
+				case SearchProperty.GroupOnly:
+					searchProperty = PropertyTags.FullName;//PropertyTags.GroupType;
+					break;
+
+				default:
+					searchProperty = PropertyTags.FullName;
+					break;
+			}
+			
+			// impersonate
+			Rights UserRight = iFolder.Impersonate(domain, accessID);
+			
+			bool UserIsDomainOwner = (UserRight == Rights.Admin);
+
 			ArrayList list = new ArrayList();
 			int i = 0;
 
@@ -591,12 +918,15 @@ namespace iFolder.WebService
 							// Don't include Host objects as iFolder users.
 							if (!member.IsType("Host"))
 							{
-								if ((i >= index) && (((max <= 0) || i < (max + index))))
 								{
-									list.Add(new iFolderUser(member, domain, domain));
+									if ((i >= index) && (((max <= 0) || i < (max + index))))
+									{
+										iFolderUser user = new iFolderUser(member, domain, domain);
+										if( Array.IndexOf( MonitoredGroups, user.ID) >= 0)
+											list.Add(user);
+									}
+									++i;
 								}
-
-								++i;
 							}
 						}
 					}
@@ -615,16 +945,31 @@ namespace iFolder.WebService
 					if (sn.IsBaseType(NodeTypes.MemberType))
 					{
 						member = new Member(domain, sn);
+						bool GroupMatched = true;
 
 						// Don't include Host objects as iFolder users.
 						if (!member.IsType("Host"))
 						{
-							if ((i >= index) && (((max <= 0) || i < (max + index))))
-							{
-								list.Add(new iFolderUser(member, domain, domain));
+							// if search was based on groupandmembers, then add only group first.
+							if( Array.IndexOf(MonitoredGroups, member.UserID) >= 0 )
+							{			
+								if( (UserIsDomainOwner || (domain.GroupSegregated == "no" || (domain.GroupSegregated == "yes" && GroupMatched == true))) )
+								{
+									if ((i >= index) && (((max <= 0) || i < (max + index))))
+									{
+											if( usertype == 2 && ht.ContainsKey(member.UserID) == false)
+												continue;
+											iFolderUser user = new iFolderUser(member, domain, domain);
+											if( usertype == 2)
+												user.Preference = GetAdminRights(userid, member.UserID);
+		
+											list.Add(user);
+									}
+	
+									++i;
 							}
-
-							++i;
+						}
+		
 						}
 					}
 				  }
@@ -632,11 +977,11 @@ namespace iFolder.WebService
 					log.Debug("Member information failed {0}", member.FN);
 					}
 				}
+
 			}
 
 			return new iFolderUserSet((iFolderUser[])list.ToArray(typeof(iFolderUser)), i);
 		}
-
 
 		/// <summary>
 		/// Get Users by Search, gets only users that are getting moved.
@@ -671,7 +1016,6 @@ namespace iFolder.WebService
 				{
 					Member member = new Member(domain, sn);
 
-					log.Debug("GetReprovisionUsers: user {0} State {1}", member.FN, member.UserMoveState.ToString() );
 					// Don't include Host objects as iFolder users.
 					if (!member.IsType("Host") && member.UserMoveState >= 0)
 					{
@@ -688,6 +1032,12 @@ namespace iFolder.WebService
 			return new iFolderUserSet((iFolderUser[])list.ToArray(typeof(iFolderUser)), i);
 		}
 
+		public static void SetMemberRights(string ifolderID, string userID, Rights rights, string accessID)
+                {
+                       SetMemberRights( ifolderID, null, userID, rights, accessID);
+                } 
+
+
 		/// <summary>
 		/// Provision Users to different servers given in the Hashtable
 		/// </summary>
@@ -696,8 +1046,6 @@ namespace iFolder.WebService
 		/// <param name="UserIDs">A string array containing corresponding userids</param>
 		public static void ProvisionUsersToServers(string [] ServerNames, string [] UserIDs)
 		{
-			Store store = Store.GetStore();
-			Domain domain = store.GetDomain(store.DefaultDomain);
 			int index = 0;
 			try
 			{
@@ -705,7 +1053,8 @@ namespace iFolder.WebService
 					throw new InvalidOperationException("NOESERVER");
 				for (index = 0 ; index < ServerNames.Length ; index++)
 				{
-					Simias.Host.HostInfo ServerInfo = ManualProvisionUserProvider.ProvisionUser(UserIDs[index], ServerNames[index]);
+					//Simias.Host.HostInfo ServerInfo = ManualProvisionUserProvider.ProvisionUser(UserIDs[index], ServerNames[index]);
+					ManualProvisionUserProvider.ProvisionUser(UserIDs[index], ServerNames[index]);
 				}	
 			}
 			catch (Exception ex)
@@ -722,8 +1071,6 @@ namespace iFolder.WebService
 		/// <param name="ListOfUsers">An array of string containing userIDs </param>
 		public static void ProvisionUsersToServer(string ServerName, string [] UserIDs)
 		{
-			Store store = Store.GetStore();
-			Domain domain = store.GetDomain(store.DefaultDomain);
 			int index ; 
 			iFolderServer serverobject = iFolderServer.GetServerByName(ServerName);
 			try
@@ -732,7 +1079,7 @@ namespace iFolder.WebService
 					throw new InvalidOperationException("NOESERVER");
 				for (index = 0 ; index < UserIDs.Length ; index++)
 				{
-					Simias.Host.HostInfo ServerInfo = ManualProvisionUserProvider.ProvisionUser(UserIDs[index], ServerName);
+					ManualProvisionUserProvider.ProvisionUser(UserIDs[index], ServerName);
 				}
 			}
 			catch (Exception ex)
@@ -748,16 +1095,13 @@ namespace iFolder.WebService
 		/// <param name="UserID">string containing userID </param>
 		public static void ReProvisionUsersToServer(string ServerName, string UserID)
 		{
-			Store store = Store.GetStore();
-			Domain domain = store.GetDomain(store.DefaultDomain);
-			int index ; 
 			iFolderServer serverobject = iFolderServer.GetServerByName(ServerName);
 			log.Debug("ReProvisionUsersToServer: --{0}--{1}", UserID, ServerName );
 			if(UserID == null || UserID == String.Empty || UserID == "" || ServerName == null || ServerName == String.Empty || ServerName == "")
 				return;
 			try
 			{
-				Simias.Host.HostInfo ServerInfo = ManualProvisionUserProvider.ProvisionUser(UserID, ServerName);
+				ManualProvisionUserProvider.ProvisionUser(UserID, ServerName);
 			}
 			catch (Exception ex)
 			{
@@ -772,11 +1116,11 @@ namespace iFolder.WebService
 		/// <param name="userID">The Member User ID</param>
 		/// <param name="rights">The New Rights</param>
 		/// <param name="accessID">The Access User ID</param>
-		public static void SetMemberRights(string ifolderID, string userID, Rights rights, string accessID)
+		public static void SetMemberRights(string ifolderID, string groupid, string userID, Rights rights, string accessID)
 		{
 			try
 			{
-				SharedCollection.SetMemberRights(ifolderID, userID, RightsUtility.Convert(rights).ToString(), accessID);
+				SharedCollection.SetMemberRights(ifolderID, groupid, userID, RightsUtility.Convert(rights).ToString(), accessID);
 			}
 			catch(CollectionStoreException e)
 			{
@@ -810,6 +1154,21 @@ namespace iFolder.WebService
 		}
 
 		/// <summary>
+		/// checks whether the user is a secondary administrator or not 
+		/// </summary>
+		/// <param name="userID">The User ID</param>
+		/// <returns>true if user rights are of a secondary admin</returns>
+		public static bool IsGroupAdministrator(string userid)
+                {
+                       Store store = Store.GetStore();
+                       Domain domain = store.GetDomain(store.DefaultDomain);
+                       Member member = domain.GetMemberByID( userid );
+                       Access.Rights rights = (member != null) ? member.Rights : Access.Rights.Deny;
+                       return rights == Access.Rights.Secondary;
+                }
+
+
+		/// <summary>
 		/// Remove a Member from an iFolder
 		/// </summary>
 		/// <param name="ifolderID">The iFolder ID</param>
@@ -836,6 +1195,300 @@ namespace iFolder.WebService
 				throw ;
 			}
 		}
+	
+		/// <summary>
+		/// Give a User Administration Rights
+		/// </summary>
+		/// <remarks>
+		/// A User is a system administrator if the user has "Admin" rights in the domain.
+		/// </remarks>
+		/// <param name="userID">The User ID</param>
+		public static void AddGroupAdministrator(string groupid, string userID, int preference)
+		{
+			Store store = Store.GetStore();
+
+			Domain domain = store.GetDomain(store.DefaultDomain);
+			Member member = domain.GetMemberByID(userID);
+			SetMemberRights(domain.ID, groupid, userID, Rights.Secondary, null);
+			member.AddToGroupList(groupid, preference);
+		}
+
+
+		/// <summary>
+		/// Set Aggregate Disk Quota for whole group 
+		/// </summary>
+		/// <remarks>
+		/// 
+		/// </remarks>
+		/// <param name="groupid">ID of group for which the quota has to be set</param>
+		/// <param name="value">the value to be set</param>
+		/// <returns>true if set, false if because of some restrictions it cannot be set</returns>
+		public static bool SetAggregateDiskQuota(string groupid, long value)
+		{
+			Store store = Store.GetStore();
+
+			Domain domain = store.GetDomain(store.DefaultDomain);
+			Member member = domain.GetMemberByID(groupid);
+			// If UI based restriction was there then initialize the user's in the group quota with <minimum> MB, so that it is mandatory
+			// for secondary administrator to initialize them, and that time it can be checked that whether quota for all users, when added
+			// do not cross group quota limit.
+
+			// for setting 0 as aggregate disk quota, first the group level per user disk quota should be made less. check it out
+			if( value < 0 )
+			{		
+				member.AggregateDiskQuota = value;
+				domain.Commit();
+				return true;
+			}
+
+			if( domain.GroupQuotaRestrictionMethod == (int)QuotaRestriction.UI_Based )
+			{
+				log.Debug("UI/Both based restriction");
+				string [] MembersList = domain.GetGroupsMemberList( groupid );
+				long SizeAllocatedToMembers = 0;
+				long UsedSpaceByMembers = 0;
+				foreach(string MemberID in MembersList)
+				{
+					// now check, if space allocated to each member of group, when added does not exceed 'value'
+					long MemberAllocation = Simias.Policy.DiskSpaceQuota.Get( domain.GetMemberByID(MemberID)).Limit;
+					long UsedSpace = Simias.Policy.DiskSpaceQuota.Get( domain.GetMemberByID(MemberID)).UsedSpace;
+					if( MemberAllocation >= 0 )
+						SizeAllocatedToMembers += MemberAllocation;
+					if(UsedSpace >= 0)
+						UsedSpaceByMembers += UsedSpace;
+				}
+
+				if(value >= SizeAllocatedToMembers && value >= UsedSpaceByMembers)
+				{
+					if( Simias.Policy.DiskSpaceQuota.Get(member).Limit <= -1 )
+					{
+						// for this group, no disk quota was set, initialize with 0 so that it is mandatory for admin
+						// to set the quota explicitly, that time aggregate disk quota limit violation for group can 
+						// be checked
+						log.Debug("Going to set the disk quota limit for group as 0 Bytes");
+						// If no disk quota was set on group, then set 0 bytes
+						Simias.Policy.DiskSpaceQuota.Set(member, 0);
+					}
+				}
+				else
+					return false;
+			}
+			member.AggregateDiskQuota = value;
+			domain.Commit();
+			return true;
+		}
+
+		/// <summary>
+		/// Get Aggregate Disk Quota for whole group 
+		/// </summary>
+		/// <remarks>
+		/// 
+		/// </remarks>
+		/// <param name="groupid">ID of group for which the quota has to be set</param>
+		/// <returns>the value in bytes, -1 if no quota was set</returns>
+		public static long GetAggregateDiskQuota(string groupid)
+		{
+			Store store = Store.GetStore();
+
+			Domain domain = store.GetDomain(store.DefaultDomain);
+			Member member = domain.GetMemberByID(groupid);
+			return member.AggregateDiskQuota ;
+		}
+
+		/// <summary>
+		/// Set Aggregate Disk Quota for whole group 
+		/// </summary>
+		/// <remarks>
+		/// 
+		/// </remarks>
+		/// <param name="groupid">ID of group for which the quota has to be set</param>
+		/// <param name="value">the value to be set</param>
+		/// <returns>returns true if group quota restriction check has not to be done on UI</returns>
+		/// <returns>return true if this member's root groups does not have aggregate disk quota limit set and param limit is any long value</returns>
+		/// <returns>returns true if this member's root groups have aggregate quota set and limit+allocated space to members of groups is lower</returns> 
+		/// <returns>than group's aggregate disk quota set.</returns>
+		/// <returns>returns false if member's root groups have aggregate quota set and limit is -1</returns>
+		/// <returns>returns false if member's root groups have aggregate quota set and limit+allocated space to members of groups is higher</returns>
+		/// <returns>than group's aggregate disk quota set.</returns> 
+
+		public static bool DiskQuotaPolicyChangeAllowed(string memberID, long limit)
+		{
+			bool Allowed = false;
+			Store store = Store.GetStore();
+			Domain domain = store.GetDomain(store.DefaultDomain);
+			// if limit is -1, it means admin wants to set the limit to unlimited
+			string [] GroupIDs = domain.GetMemberFamilyList(memberID);
+			Member OperatedMember = domain.GetMemberByID(memberID);
+			bool IsGroupID = false;
+			Property Groupproperty = OperatedMember.Properties.GetSingleProperty( "GroupType" );
+			if(Groupproperty != null)
+				IsGroupID = true;
+			foreach(string GroupID in GroupIDs)
+			{
+				bool IsChildGroup = false;
+				Member GroupAsMember = domain.GetMemberByID(GroupID);
+				long GroupDiskQuota = GroupAsMember.AggregateDiskQuota;
+				string ParentGroups = GroupAsMember.Properties.GetSingleProperty( "UserGroups" ).Value as string;
+				if(ParentGroups != null && ParentGroups != String.Empty)
+				{
+					IsChildGroup = true;
+				}
+				if ( IsChildGroup && GroupDiskQuota <= -1 )
+				{
+					// If it is a child group, and no aggregate disk quota set on it, then we will still iterate for 
+					// parent group to know exact used space and if any group disk quota is set there
+					continue;
+				}
+				
+				if(( ! IsChildGroup && GroupDiskQuota <= -1 ) || limit == 0)
+				{
+					// It is a root group and disk quota was not set for whole group, so any value can be set.
+					return true;
+						
+				}
+				if( domain.GroupQuotaRestrictionMethod == (int)QuotaRestriction.UI_Based )
+				{
+
+					// If GroupDiskQuota was set and GroupQuotaRestriction has to be done on UI, then unlimited space cannot be set
+					if( limit == -1 )
+					{
+						// check if any other group does not have aggregate quota set, then under that group, it can be allowed
+						if( Simias.Policy.DiskSpaceQuota.GetLimit( domain.GetMemberByID(memberID)) == -1)
+						{
+							// This is the case when some other policies are getting changed and earlier also
+							// disk quota for this user was not set, so no problem in setting -1 again.
+							// Since it is 100% sure that on group level some quota per user is set, so 
+							// during upload/sync automatically that will be followed
+							Allowed = true ;
+							return Allowed;
+						}
+						else
+							Allowed = false;
+						continue;
+					}
+
+					long SizeAllocatedToMembers = 0;
+					// this check means, before setting policy, it has to be checked on UI
+					string [] MembersList = domain.GetGroupsMemberList( GroupID );
+					foreach( string GroupMemberID in MembersList)
+					{
+						// check if all member's allocated space + new space does not exceed disk quota for group
+						if(GroupMemberID != memberID)
+						{
+							// Do not add current member allocated disk quota, we will add in last
+							Member LoopingMember = domain.GetMemberByID(GroupMemberID);
+							long MemberAllocation = Simias.Policy.DiskSpaceQuota.GetLimit( LoopingMember );
+							long MemberAggAllocation = Simias.Policy.DiskSpaceQuota.Get( LoopingMember ).Limit;
+							//bool LoopingMemberIsGroup = (LoopingMember.Properties.GetSingleProperty( "UserGroups" ).Value as string) != null ? true : false;
+							if( MemberAllocation >= 0 )
+							{
+								SizeAllocatedToMembers += MemberAllocation;
+							}
+							else
+							if( MemberAggAllocation >= 0 )
+							{
+								SizeAllocatedToMembers += MemberAggAllocation;
+							}
+							
+							if(IsGroupID && MemberAllocation < 0)
+							{				
+								// no group level disk quota, add new group level per user quota will exceed
+								SizeAllocatedToMembers += limit;	
+							}
+						}
+					}
+					SizeAllocatedToMembers += limit;
+					if( GroupDiskQuota >= SizeAllocatedToMembers )
+					{
+						Allowed = true;
+						return Allowed;
+					}
+					else
+					{
+						Allowed = false;
+						if( ! IsChildGroup)
+						{
+							// this is the case where allowed is false on root level of group, but we still want
+							// to iterate on other groups where it may be allowed
+							continue;
+						}
+						else
+						{
+							// FIXME: if it is a child group, then we return immediately if Allowed is false,
+							// Ideally, we should iterate and see if any other group allows that (same as root
+							// level in above if case), but we return immediately fearing that if parent of
+							// this child group allows to change the quota, then it will be a problem because
+							// precedence of child group is higher than its own parent groups.
+							return Allowed;
+						}	
+					}	
+				}
+				else
+				{
+					Allowed = true;
+					return Allowed;
+				}
+			}
+			return Allowed;	
+		}
+
+		/// <summary>
+		/// Get rights for admin, the preferences set for this administrator 
+		/// </summary>
+		/// <remarks>
+		/// 
+		/// </remarks>
+		/// <param name="userid">userid for which rights are asked</param>
+		/// <param name="groupid">ID of group for which right is asked</param>
+		/// <returns>int value for rights</returns>
+		public static int GetAdminRights(string userid, string groupid)
+		{
+			if( userid == null)
+				return 0xffff;
+			Store store = Store.GetStore();
+			Domain domain = store.GetDomain(store.DefaultDomain);
+			Member member = domain.GetMemberByID(userid);
+			if(member.Rights.ToString() == Rights.Admin.ToString())
+				return 0xffff;
+			return member.GetPreferencesForGroup(groupid);		
+		}
+
+		/// <summary>
+		/// Get ids of monitored groups 
+		/// </summary>
+		/// <remarks>
+		/// 
+		/// </remarks>
+		/// <param name="userid">userid for which monitored groups are asked</param>
+		/// <returns>string array containing ids of managed groups</returns>
+		public static string[] GetMonitoredGroups(string userid)
+		{
+			Store store = Store.GetStore();
+			Domain domain = store.GetDomain(store.DefaultDomain);
+			Member member = domain.GetMemberByID(userid);
+			return member.GetMonitoredGroups();
+		}
+
+		/// <summary>
+		/// Give a User Administration Rights
+		/// </summary>
+		/// <remarks>
+		/// A User is a system administrator if the user has "Admin" rights in the domain.
+		/// </remarks>
+		/// <param name="userID">The User ID</param>
+		public static void RemoveGroupAdministrator(string groupid, string userID)
+		{
+			Store store = Store.GetStore();
+
+			Domain domain = store.GetDomain(store.DefaultDomain);
+			Member member = domain.GetMemberByID(userID);
+			int ct = member.RemoveFromGroupList(groupid);
+			if( ct == 0)
+			{
+				SetMemberRights(domain.ID, groupid, userID, Rights.ReadWrite, null);
+			}
+		}
+
 
 		/// <summary>
 		/// Get Group IDs of this member 
@@ -851,12 +1504,64 @@ namespace iFolder.WebService
 			{
 				GroupIDs = domain.GetMemberFamilyList(userID);
 			}
-			catch(Exception e)
+			catch
 			{
 				throw;
 			}
 			return GroupIDs;
 		}
+
+		/// <summary>
+		///  Check if upload is allowed or not based on group aggregate quota restriction 
+		/// </summary>
+		/// <remarks>
+		/// 
+		/// </remarks>
+		/// <param name="userid">userid who is uploading </param>
+		/// <param name="deltaSize">the size that is getting uploaded </param>
+		/// <returns>true even if one of the groups (out of all group this user is member of) allows the upload</returns>
+		public static bool GroupQuotaUploadAllowed(string UserID, long deltaSize)
+		{
+			bool Allowed = true;
+			bool SpaceAllowed = false;
+			string [] GroupIDs = GetGroupIDs(UserID);
+			foreach(string groupID in GroupIDs)
+			{
+				if( groupID != UserID )
+				{
+					long AggregateQuota = GetAggregateDiskQuota(groupID);
+					if(AggregateQuota < 0 )
+					{
+						// no group quota applied, so allow
+						return true;
+					}
+					long SpaceUsed = SpaceUsedByGroup(groupID);
+				 	SpaceAllowed = ( AggregateQuota - SpaceUsed ) > deltaSize ? true: false;
+					if( SpaceAllowed == true)
+					{
+						return true;
+					}
+					else
+						Allowed = false;
+				}
+			}
+			log.Debug("Allowed boolean is  :"+Allowed);
+			return Allowed;
+		}
+
+		/// <summary>
+		///  Get the sun of space used by all members of group 
+		/// </summary>
+		/// <remarks>
+		/// 
+		/// </remarks>
+		/// <param name="GroupID">GroupID for which space used is asked </param>
+		/// <returns>sum of spaces used by group members</returns>
+		public static long SpaceUsedByGroup(string GroupID)
+                {
+                        return Catalog.GetSpaceUsedByGroupMembers( GroupID );
+                }
+
 
 		/// <summary>
 		/// Se the Owner of an iFolder
@@ -954,25 +1659,41 @@ namespace iFolder.WebService
 		/// </summary>
 		/// <param name="index">The Search Start Index</param>
 		/// <param name="max">The Search Max Count of Results</param>
+		/// <param name="admintype">type of admint o be retrieved, 0 for all admins, 1 for secondary admins, 2 for root admins</param>
+		/// <param name="max">The Search Max Count of Results</param>
+		/// <param name="max">The Search Max Count of Results</param>
 		/// <remarks>
 		/// A User is a system administrator if the user has "Admin" rights in the domain.
 		/// </remarks>
 		/// <returns>An iFolder User Set</returns>
-		public static iFolderUserSet GetAdministrators(int index, int max)
+		public static iFolderUserSet GetAdministrators(int index, int max, int admintype)
 		{
 			Store store = Store.GetStore();
 
 			Domain domain = store.GetDomain(store.DefaultDomain);
 
-			ICSList members = domain.GetMembersByRights(Access.Rights.Admin);
-			
+			ICSList members = null;
+
 			// sort the list
 			ArrayList sortList = new ArrayList();
-			
-			foreach(ShallowNode sn in members)
+
+			if(admintype == 0 || admintype == 2)
 			{
-				sortList.Add(sn);
+				members = domain.GetMembersByRights(Access.Rights.Admin);
+				foreach(ShallowNode sn in members)
+				{
+					sortList.Add(sn);
+				}
 			}
+			if(admintype == 0 || admintype == 1)
+			{
+				members = domain.GetMembersByRights(Access.Rights.Secondary);
+				foreach(ShallowNode sn in members)
+				{
+					sortList.Add(sn);
+				}
+			}
+			
 			
 			sortList.Sort();
 
@@ -1122,9 +1843,24 @@ namespace iFolder.WebService
 				byte[] passphrase = hash.HashPassPhrase(Passphrase);	
 			
 				//Decrypt it
-				string DecryptedCryptoKey; 
+				string DecryptedCryptoKey = String.Empty;
 				Key DeKey = new Key(EncrypCryptoKey);
-				DeKey.DecrypytKey(passphrase, out DecryptedCryptoKey);
+                                try
+				{
+					// With Mono2.4, it throws cryptographic exception for wring passphrase, it was suggested by mono team to catch
+					// this exception and interpret it. bug#507169
+					DeKey.DecrypytKey(passphrase, out DecryptedCryptoKey);
+				}
+				catch (System.Security.Cryptography.CryptographicException ex)
+				{
+					//This particular exception is thrown only for wrong passphrase, so return failure messgae, no need to check further
+					if(ex.Message.IndexOf("Bad PKCS7") >= 0)
+					{
+						log.Debug("ValidatePassPhrase : false");
+						return new Simias.Authentication.Status(Simias.Authentication.StatusCodes.PassPhraseInvalid);
+
+					}
+				}
 
 				//Encrypt using passphrase
 				string EncryptedCryptoKey;

@@ -221,6 +221,7 @@ namespace Novell.iFolderWeb.Admin
 			dt.Columns.Add( new DataColumn( "NameField", typeof( string ) ) );
 			dt.Columns.Add( new DataColumn( "FullNameField", typeof( string ) ) );
 			dt.Columns.Add( new DataColumn( "StatusField", typeof( string ) ) );
+			dt.Columns.Add( new DataColumn( "PreferenceField", typeof( string) ) );
 
 			DataRow dr;
 
@@ -242,6 +243,7 @@ namespace Novell.iFolderWeb.Admin
 				dr[ 5 ] = user.UserName;
 				dr[ 6 ] = user.FullName;
 				dr[ 7 ] = GetString( user.Enabled ? "YES" : "NO" );
+				dr[8] = Convert.ToString(user.Preference);
 
 				dt.Rows.Add( dr );
 			}
@@ -258,6 +260,7 @@ namespace Novell.iFolderWeb.Admin
 				dr[ 5 ] = String.Empty;
 				dr[ 6 ] = String.Empty;
 				dr[ 7 ] = String.Empty;
+				dr[8] = "0";
 
 				dt.Rows.Add( dr );
 			}
@@ -303,6 +306,7 @@ namespace Novell.iFolderWeb.Admin
 
 			// localization
 			rm = Application[ "RM" ] as ResourceManager;
+			//string userID = Session[ "UserID" ] as String;
 
 			if ( !IsPostBack )
 			{
@@ -387,6 +391,24 @@ namespace Novell.iFolderWeb.Admin
 		}
 
 		/// <summary>
+		/// Get the logged in admin rights for the user. The rights value will be -1 or 0xffff for primary admin.
+		/// </summary>
+		private int GetRightsForUser(string userID)
+		{
+			int preference = 0;
+			foreach( DataGridItem item in Accounts.Items )
+			{
+				string userid = item.Cells[ AccountsIDColumn ].Text;
+				if( userid == userID )
+				{
+					preference = Convert.ToInt32(item.Cells[ 8].Text);
+					break;
+				}
+			}
+			return preference;
+		}
+
+		/// <summary>
 		/// Sets the enabled status on all selected users.
 		/// </summary>
 		/// <param name="status">If true then all selected users will be enabled.</param>
@@ -397,6 +419,15 @@ namespace Novell.iFolderWeb.Admin
 				// Don't set the status if already set.
 				if ( ( bool )CheckedUsers[ userID ] != status )
 				{
+					/// Check for the policy for the groupadmin...
+					int preference = GetRightsForUser(userID);
+					if( preference != -1 && preference != 0xffff)
+					{
+						UserGroupAdminRights rights = new UserGroupAdminRights((int)preference);
+						if( rights.EnableDisableUserAllowed == false)
+							continue;
+					}
+
 					UserPolicy policy = Utils.GetUserPolicyObject( userID );
 					policy.LoginEnabled = status;
 					try
@@ -480,6 +511,35 @@ namespace Novell.iFolderWeb.Admin
 		{
 			// If user is provisioned , then enabled field should be false
 			return (isProvisioned as string ) == null ? true : false ;
+		}
+		/// <summary>
+		/// Gets whether the user is provisioned or not.
+		/// </summary>
+		/// <param name="provisioned value"></param>
+		/// <returns>True if the user is allowed to be checked.</returns>
+		protected bool IsUserProvisioned( object isProvisioned, object  preference)
+		{
+			// If user is provisioned , then enabled field should be false
+			bool retval = false;
+			retval = (isProvisioned as string ) == null ? true : false ;
+			if( retval == true)
+			{
+				int val=0;
+
+				string pref = preference as string;
+				val = Convert.ToInt32(pref);
+				if( val == 0 || val == 0xffff )
+					return true;
+				
+				UserGroupAdminRights rights = new UserGroupAdminRights(val);
+				if( rights.ProvisioningAllowed )
+					retval = true;
+				else
+					retval = false;
+			}
+
+			return retval;
+			//return (isProvisioned as string ) == null ? true : false ;
 		}
 	
 		
@@ -670,9 +730,17 @@ namespace Novell.iFolderWeb.Admin
 		{
 			string uplist="";
 			string plist="";
-			int count = 0;
 			foreach (string userid in CheckedUsers.Keys)
 			{
+				int preference = GetRightsForUser(userid);
+				if( preference == -1 )
+					preference = 0xffff;
+				UserGroupAdminRights rights = new UserGroupAdminRights((int)preference);
+				if( !rights.ProvisioningAllowed )
+				{
+					continue;
+				}
+			
 				iFolderUser ProvisionedUser = web.GetUser (userid);
 				if( ProvisionedUser.HomeServer == null || ProvisionedUser.HomeServer == String.Empty ||  ProvisionedUser.HomeServer == "" )
 				{	
@@ -690,6 +758,12 @@ namespace Novell.iFolderWeb.Admin
 
 			/// clear the hastable
 			ServerProvisioningNames.Clear();
+			if(( uplist == null || uplist == string.Empty) && (plist == null || plist == string.Empty))
+			{
+				string errormessage = GetString("ERRORACCESSEXCEPTION");
+				TopNav.ShowError(errormessage);
+				return;
+			}
 
 			/// call the next page to provision the users
 			Response.Redirect(String.Format("ProvisionUsers.aspx?&userlist={0}&puserlist={1}",  uplist, plist) ) ;
@@ -702,6 +776,19 @@ namespace Novell.iFolderWeb.Admin
 		/// <param name="e"></param>
 		protected void OnSaveButton_Click( object source, EventArgs e )
 		{
+			Hashtable ServerProvisioningNamesNew = new Hashtable();
+			foreach(string userid in ServerProvisioningNames.Keys)
+			{
+				int preference = GetRightsForUser(userid);
+				if( preference == -1)
+					preference = 0xffff;
+				UserGroupAdminRights rights = new UserGroupAdminRights((int)preference);
+				if( rights.ProvisioningAllowed )
+				{
+					ServerProvisioningNamesNew.Add(userid, ServerProvisioningNames[userid]);
+				}
+			}
+			ServerProvisioningNames = ServerProvisioningNamesNew;
 			String [] ServerNames = new string [ServerProvisioningNames.Keys.Count];
 			String [] UserIDs = new string [ServerProvisioningNames.Keys.Count];
 			ServerProvisioningNames.Keys.CopyTo(UserIDs, 0);	
