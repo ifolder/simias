@@ -37,22 +37,29 @@
 #*******************************************************************************/
 
 
-export MONO_PATH=@_webbindir_@:@_bindir_@
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:@_webbindir_@
-export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:@_webbindir_@
-cd @_bindir_@
-HOST_ARCH=`uname -a | grep -c x86_64`
-if [ $HOST_ARCH -gt 0 ]
+OS_ARCH=`uname -m | grep -c x86_64`
+if [ $OS_ARCH -gt 0 ]
 then
-    ARCH=64bit
-else
-    ARCH=32bit
+	export OS_ARCH=`uname -m`
 fi
-export MACHINE_ARCH=$ARCH
-HOST_ARCH=`uname -m | grep -c x86_64`
-if [ $HOST_ARCH -gt 0 ]
-then
-	export OS_ARCH=$HOST_ARCH
-fi
-mono @_bindir_@/iFolderAdminSetup.exe "$@"
 
+rpm -q novell-ifolder-mono > /dev/null 2>&1
+if [ $? -gt 0 ]
+then
+	export MONO_PATH=@_webbindir_@:@_bindir_@
+	export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:@_webbindir_@
+	export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:@_webbindir_@
+	cd @_bindir_@
+
+	mono @_bindir_@/iFolderAdminSetup.exe "$@"
+else
+	MONO_RUNTIME_PATH=@_bindir_@/../mono
+	export MONO_PATH=$MONO_RUNTIME_PATH/lib/mono/:$MONO_RUNTIME_PATH/lib/mono/2.0:@_webbindir_@:@_bindir_@
+	source $MONO_RUNTIME_PATH/bin/novell-ifolder-mono-environment.sh
+	export MONO_CFG_DIR=$MONO_RUNTIME_PATH/etc
+	export IFOLDER_MOD_MONO_SERVER2_PATH=@_bindir_@
+	export IFOLDER_MONO_PATH=$MONO_RUNTIME_PATH
+	cd @_bindir_@
+
+	$MONO_RUNTIME_PATH/bin/mono @_bindir_@/iFolderAdminSetup.exe "$@"
+fi

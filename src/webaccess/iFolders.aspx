@@ -75,17 +75,6 @@
 		
 		<div id="nav">
 	
-			<!--<div id="actions" class="group">
-				<div class="box">
-				
-					<div class="title"><%= GetString("ACTIONS") %></div>
-			
-					<div class="link">
-						<asp:HyperLink ID="NewiFolderLink" NavigateUrl="iFolderNew.aspx" runat="server" />
-					</div>
-					
-				</div>
-			</div>-->
 			
 			<iFolder:QuotaControl runat="server" />
 

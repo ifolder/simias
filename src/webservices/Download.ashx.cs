@@ -74,8 +74,11 @@ namespace iFolder.WebService
 					throw new EntryDoesNotExistException(id);
 				}
 
-				// lock the file
-				FileStream stream = File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.Read);
+				//FileStream stream = File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.Read);
+			
+				FileInfo MyFileInfo = new FileInfo(filePath);
+				long FileSize = MyFileInfo.Length;
+
 				try
 				{
 					// response
@@ -83,20 +86,23 @@ namespace iFolder.WebService
 					context.Response.AddHeader("Content-Disposition",
 						String.Format("attachment; filename=\"{0}\"",
 						HttpUtility.UrlEncode(filename, System.Text.Encoding.UTF8).Replace("+", "%20")));
-					context.Response.AddHeader("Content-Length", stream.Length.ToString());
+					context.Response.AddHeader("Content-Length", FileSize.ToString());
 					context.Response.ContentType = "application/octet-stream";
 					context.Response.BufferOutput = false;
+
+					context.Response.WriteFile(filePath);
 					
-					Stream output = context.Response.OutputStream;
+					//Stream output = context.Response.OutputStream;
 
-					byte[] buffer = new byte[BUFFERSIZE];
-					int count = 0;
+					//byte[] buffer = new byte[BUFFERSIZE];
+					//int count = 0;
 
-					while((count = stream.Read(buffer, 0, BUFFERSIZE)) > 0)
-					{
-						output.Write(buffer, 0, count);
-						output.Flush();
-					}
+
+					//while((count = stream.Read(buffer, 0, BUFFERSIZE)) > 0)
+					//{
+					//	output.Write(buffer, 0, count);
+					//	output.Flush();
+					//}
 
 					// log
 					log.LogAccess("Download", node.GetRelativePath(), node.ID, "Success");
@@ -111,7 +117,7 @@ namespace iFolder.WebService
 				finally
 				{
 					// release the file
-					stream.Close();
+					//stream.Close();
 				}
 			}
 			catch(Exception e)

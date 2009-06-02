@@ -137,10 +137,6 @@
 			
 		<div class="loginfooter">
 	
-		<!--	<%= GetString("LOGINIFOLDERSERVER") %>
-			<asp:Literal ID="ServerUrl" runat="server" />
-
-			<br>				-->
 			
 			&nbsp;&nbsp;<%= GetString("LOGINCOPYRIGHT") %>
 		</div>

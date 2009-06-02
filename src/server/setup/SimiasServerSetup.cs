@@ -2299,7 +2299,8 @@ Console.WriteLine("Url {0}", service.Url);
 		{
 			string path = Path.GetFullPath( "/etc/apache2/conf.d/simias.conf" );
 			Console.Write("Configuring {0}...", path);
-			string Mono2TreePath = Environment.GetEnvironmentVariable("LOCAL_MONO_RUNTIME_PATH");
+			string ModMonoServer2 = Environment.GetEnvironmentVariable("IFOLDER_MOD_MONO_SERVER2_PATH");
+			string iFolderMonoPath = Environment.GetEnvironmentVariable("IFOLDER_MONO_PATH");
 
 			if ( apache.Value == true )
 			{
@@ -2321,8 +2322,8 @@ Console.WriteLine("Url {0}", service.Url);
 					*/
 				
 					string alias = "simias10";
-					if( Mono2TreePath != null )
-						writer.WriteLine( "Include {0}", Path.GetFullPath( Path.Combine(Mono2TreePath, "bin/mod_mono.conf")) );
+					if( iFolderMonoPath != null )
+						writer.WriteLine( "Include {0}{1}", iFolderMonoPath, "/etc/apache2/conf.d/mod_mono.conf");
 					else
 					{
 						string mod_mono2_path = "/etc/apache2/conf.d/mod_mono.conf";
@@ -2336,8 +2337,8 @@ Console.WriteLine("Url {0}", service.Url);
 					writer.WriteLine("AddMonoApplications {0} \"/{0}:{1}\"", alias, SimiasSetup.webdir);
 					writer.WriteLine("MonoSetEnv {0} \"SimiasRunAsServer=true;SimiasDataDir={1}\"", alias, this.storePath);
 					// Set MonoServerPath to the path where mod-mono-server2 script file is there
-					if(Mono2TreePath != null)
-						writer.WriteLine("MonoServerPath {0} {1}/mod-mono-server2", alias, Path.GetFullPath( Path.Combine(Mono2TreePath, "bin") ));
+					if(ModMonoServer2 != null)
+						writer.WriteLine("MonoServerPath {0} {1}/mod-mono-server2", alias, ModMonoServer2);
 					writer.WriteLine("<Location /{0} >", alias);
 					writer.WriteLine("\tMonoSetServerAlias {0}", alias);
 					writer.WriteLine("\tOrder allow,deny");

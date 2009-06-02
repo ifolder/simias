@@ -403,11 +403,11 @@ namespace Novell.iFolderApp.Web
 			string path = "/etc/apache2/conf.d/ifolder_admin.conf";
 			string datapath = ReadModMonoConfiguration();
 
-			string MachineArch = Environment.GetEnvironmentVariable("MACHINE_ARCH");
 
 			Console.Write("Configuring {0}...", path);
 			
-			string Mono2TreePath = Environment.GetEnvironmentVariable("LOCAL_MONO_RUNTIME_PATH");
+			string ModMonoServer2 = Environment.GetEnvironmentVariable("IFOLDER_MOD_MONO_SERVER2_PATH");
+			string iFolderMonoPath = Environment.GetEnvironmentVariable("IFOLDER_MONO_PATH");
 
 			// create configuration
 			using(StreamWriter writer = File.CreateText(path))
@@ -434,8 +434,8 @@ namespace Novell.iFolderApp.Web
                 {
                     sslPrefix = "#";
                 }
-				if( Mono2TreePath != null )
-					writer.WriteLine( "Include {0}", Path.GetFullPath( Path.Combine(Mono2TreePath, "bin/mod_mono.conf")) );
+				if( iFolderMonoPath != null )
+					writer.WriteLine( "Include {0}{1}", iFolderMonoPath, "/etc/apache2/conf.d//mod_mono.conf" );
 				else
 				{
 					string mod_mono2_path = "/etc/apache2/conf.d/mod_mono.conf";
@@ -453,8 +453,8 @@ namespace Novell.iFolderApp.Web
 				//if(datapath != null && datapath != String.Empty)
 				//	writer.WriteLine("MonoSetEnv {1} \"SimiasLogDir={0}/log\"", datapath, alias);
 				// Set MonoServerPath to the path where mod-mono-server2 script file is there
-				if(Mono2TreePath != null)
-					writer.WriteLine("MonoServerPath {0} {1}/mod-mono-server2", alias, Path.GetFullPath( Path.Combine(Mono2TreePath, "bin") ));
+				if(ModMonoServer2 != null)
+					writer.WriteLine("MonoServerPath {0} {1}/mod-mono-server2", alias, ModMonoServer2);
 				writer.WriteLine("<Location /{0} >", alias);
 				writer.WriteLine("\tMonoSetServerAlias {0}", alias);
 				writer.WriteLine("\tOrder allow,deny");
@@ -463,16 +463,16 @@ namespace Novell.iFolderApp.Web
 				writer.WriteLine("\tDirectoryIndex Default.aspx index.html");
 				writer.WriteLine("</Location>");
 				writer.WriteLine();
-                writer.WriteLine("# comment out the following lines to remove the SSL requirement");
-		if(MachineArch != null && MachineArch == "64bit")
-                	writer.WriteLine("{0}LoadModule rewrite_module /usr/lib64/apache2/mod_rewrite.so", sslPrefix);
-		else	
-                	writer.WriteLine("{0}LoadModule rewrite_module /usr/lib/apache2/mod_rewrite.so", sslPrefix);
-                writer.WriteLine("{0}RewriteEngine On", sslPrefix);
-                writer.WriteLine("{0}RewriteCond %{{HTTPS}} !=on", sslPrefix);
-                writer.WriteLine("{0}RewriteRule ^/{1}/(.*) https://%{{SERVER_NAME}}/{1}/$1 [R,L]", sslPrefix, alias);
-                writer.WriteLine();
-                writer.Close();
+                		writer.WriteLine("# comment out the following lines to remove the SSL requirement");
+				if(Environment.GetEnvironmentVariable("OS_ARCH") != null)
+                			writer.WriteLine("{0}LoadModule rewrite_module /usr/lib64/apache2/mod_rewrite.so", sslPrefix);
+				else
+                			writer.WriteLine("{0}LoadModule rewrite_module /usr/lib/apache2/mod_rewrite.so", sslPrefix);
+                		writer.WriteLine("{0}RewriteEngine On", sslPrefix);
+                		writer.WriteLine("{0}RewriteCond %{{HTTPS}} !=on", sslPrefix);
+                		writer.WriteLine("{0}RewriteRule ^/{1}/(.*) https://%{{SERVER_NAME}}/{1}/$1 [R,L]", sslPrefix, alias);
+                		writer.WriteLine();
+                		writer.Close();
 			}
 
 			// chmod

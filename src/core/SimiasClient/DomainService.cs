@@ -23,19 +23,19 @@
 public class DomainService : System.Web.Services.Protocols.SoapHttpClientProtocol {
     
     public DomainService() {
-        this.Url = "http://164.99.101.17/simias10/DomainService.asmx";
+        this.Url = "http://164.99.101.16/simias10/DomainService.asmx";
     }
     
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/domain/GetDomainInfo", RequestNamespace="http://novell.com/simias/domain", ResponseNamespace="http://novell.com/simias/domain", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public DomainInfo GetDomainInfo(string userID) {
         object[] results = this.Invoke("GetDomainInfo", new object[] {
-            userID});
+                    userID});
         return ((DomainInfo)(results[0]));
     }
     
     public System.IAsyncResult BeginGetDomainInfo(string userID, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("GetDomainInfo", new object[] {
-            userID}, callback, asyncState);
+                    userID}, callback, asyncState);
     }
     
     public DomainInfo EndGetDomainInfo(System.IAsyncResult asyncResult) {
@@ -61,13 +61,13 @@ public class DomainService : System.Web.Services.Protocols.SoapHttpClientProtoco
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/domain/GetHomeServer", RequestNamespace="http://novell.com/simias/domain", ResponseNamespace="http://novell.com/simias/domain", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public HostInfo GetHomeServer(string user) {
         object[] results = this.Invoke("GetHomeServer", new object[] {
-            user});
+                    user});
         return ((HostInfo)(results[0]));
     }
     
     public System.IAsyncResult BeginGetHomeServer(string user, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("GetHomeServer", new object[] {
-            user}, callback, asyncState);
+                    user}, callback, asyncState);
     }
     
     public HostInfo EndGetHomeServer(System.IAsyncResult asyncResult) {
@@ -78,17 +78,17 @@ public class DomainService : System.Web.Services.Protocols.SoapHttpClientProtoco
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/domain/ProvisionUserOnServer", RequestNamespace="http://novell.com/simias/domain", ResponseNamespace="http://novell.com/simias/domain", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public ProvisionInfo ProvisionUserOnServer(string user, string password, System.Byte[] ticket) {
         object[] results = this.Invoke("ProvisionUserOnServer", new object[] {
-            user,
-            password,
-            ticket});
+                    user,
+                    password,
+                    ticket});
         return ((ProvisionInfo)(results[0]));
     }
     
     public System.IAsyncResult BeginProvisionUserOnServer(string user, string password, System.Byte[] ticket, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("ProvisionUserOnServer", new object[] {
-            user,
-            password,
-            ticket}, callback, asyncState);
+                    user,
+                    password,
+                    ticket}, callback, asyncState);
     }
     
     public ProvisionInfo EndProvisionUserOnServer(System.IAsyncResult asyncResult) {
@@ -99,19 +99,19 @@ public class DomainService : System.Web.Services.Protocols.SoapHttpClientProtoco
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/domain/ChangePasswordOnServer", RequestNamespace="http://novell.com/simias/domain", ResponseNamespace="http://novell.com/simias/domain", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public int ChangePasswordOnServer(string DomainID, string UserID, string OldPassword, string NewPassword) {
         object[] results = this.Invoke("ChangePasswordOnServer", new object[] {
-            DomainID,
-            UserID,
-            OldPassword,
-            NewPassword});
+                    DomainID,
+                    UserID,
+                    OldPassword,
+                    NewPassword});
         return ((int)(results[0]));
     }
     
     public System.IAsyncResult BeginChangePasswordOnServer(string DomainID, string UserID, string OldPassword, string NewPassword, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("ChangePasswordOnServer", new object[] {
-            DomainID,
-            UserID,
-            OldPassword,
-            NewPassword}, callback, asyncState);
+                    DomainID,
+                    UserID,
+                    OldPassword,
+                    NewPassword}, callback, asyncState);
     }
     
     public int EndChangePasswordOnServer(System.IAsyncResult asyncResult) {
@@ -122,15 +122,15 @@ public class DomainService : System.Web.Services.Protocols.SoapHttpClientProtoco
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/domain/ProvisionUser", RequestNamespace="http://novell.com/simias/domain", ResponseNamespace="http://novell.com/simias/domain", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public ProvisionInfo ProvisionUser(string user, string password) {
         object[] results = this.Invoke("ProvisionUser", new object[] {
-            user,
-            password});
+                    user,
+                    password});
         return ((ProvisionInfo)(results[0]));
     }
     
     public System.IAsyncResult BeginProvisionUser(string user, string password, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("ProvisionUser", new object[] {
-            user,
-            password}, callback, asyncState);
+                    user,
+                    password}, callback, asyncState);
     }
     
     public ProvisionInfo EndProvisionUser(System.IAsyncResult asyncResult) {
@@ -141,13 +141,13 @@ public class DomainService : System.Web.Services.Protocols.SoapHttpClientProtoco
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/domain/InitializeUserInfo", RequestNamespace="http://novell.com/simias/domain", ResponseNamespace="http://novell.com/simias/domain", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public ProvisionInfo InitializeUserInfo(string user) {
         object[] results = this.Invoke("InitializeUserInfo", new object[] {
-            user});
+                    user});
         return ((ProvisionInfo)(results[0]));
     }
     
     public System.IAsyncResult BeginInitializeUserInfo(string user, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("InitializeUserInfo", new object[] {
-            user}, callback, asyncState);
+                    user}, callback, asyncState);
     }
     
     public ProvisionInfo EndInitializeUserInfo(System.IAsyncResult asyncResult) {
@@ -158,27 +158,27 @@ public class DomainService : System.Web.Services.Protocols.SoapHttpClientProtoco
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/domain/CreateMaster", RequestNamespace="http://novell.com/simias/domain", ResponseNamespace="http://novell.com/simias/domain", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public string CreateMaster(string collectionID, string collectionName, string rootDirID, string rootDirName, string userID, string memberName, string memberID, string memberRights) {
         object[] results = this.Invoke("CreateMaster", new object[] {
-            collectionID,
-            collectionName,
-            rootDirID,
-            rootDirName,
-            userID,
-            memberName,
-            memberID,
-            memberRights});
+                    collectionID,
+                    collectionName,
+                    rootDirID,
+                    rootDirName,
+                    userID,
+                    memberName,
+                    memberID,
+                    memberRights});
         return ((string)(results[0]));
     }
     
     public System.IAsyncResult BeginCreateMaster(string collectionID, string collectionName, string rootDirID, string rootDirName, string userID, string memberName, string memberID, string memberRights, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("CreateMaster", new object[] {
-            collectionID,
-            collectionName,
-            rootDirID,
-            rootDirName,
-            userID,
-            memberName,
-            memberID,
-            memberRights}, callback, asyncState);
+                    collectionID,
+                    collectionName,
+                    rootDirID,
+                    rootDirName,
+                    userID,
+                    memberName,
+                    memberID,
+                    memberRights}, callback, asyncState);
     }
     
     public string EndCreateMaster(System.IAsyncResult asyncResult) {
@@ -189,14 +189,14 @@ public class DomainService : System.Web.Services.Protocols.SoapHttpClientProtoco
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/domain/RemoveServerCollections", RequestNamespace="http://novell.com/simias/domain", ResponseNamespace="http://novell.com/simias/domain", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public void RemoveServerCollections(string DomainID, string UserID) {
         this.Invoke("RemoveServerCollections", new object[] {
-            DomainID,
-            UserID});
+                    DomainID,
+                    UserID});
     }
     
     public System.IAsyncResult BeginRemoveServerCollections(string DomainID, string UserID, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("RemoveServerCollections", new object[] {
-            DomainID,
-            UserID}, callback, asyncState);
+                    DomainID,
+                    UserID}, callback, asyncState);
     }
     
     public void EndRemoveServerCollections(System.IAsyncResult asyncResult) {
@@ -214,6 +214,21 @@ public class DomainService : System.Web.Services.Protocols.SoapHttpClientProtoco
     }
     
     public string EndGetDomainID(System.IAsyncResult asyncResult) {
+        object[] results = this.EndInvoke(asyncResult);
+        return ((string)(results[0]));
+    }
+    
+    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/domain/GetAdminNodeID", RequestNamespace="http://novell.com/simias/domain", ResponseNamespace="http://novell.com/simias/domain", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
+    public string GetAdminNodeID() {
+        object[] results = this.Invoke("GetAdminNodeID", new object[0]);
+        return ((string)(results[0]));
+    }
+    
+    public System.IAsyncResult BeginGetAdminNodeID(System.AsyncCallback callback, object asyncState) {
+        return this.BeginInvoke("GetAdminNodeID", new object[0], callback, asyncState);
+    }
+    
+    public string EndGetAdminNodeID(System.IAsyncResult asyncResult) {
         object[] results = this.EndInvoke(asyncResult);
         return ((string)(results[0]));
     }

@@ -1466,7 +1466,7 @@ namespace Simias.Sync
 			catch (Exception ex)
 			{
 				// If any exception comes we have to delete the haspmap on the server, log a defect and fix it for SP2
-				Log.log.Info("Ramesh: Exception in uploading hashmap. {0}--{1}", ex.Message, ex.StackTrace);
+				Log.log.Info("Exception in uploading hashmap. {0}--{1}", ex.Message, ex.StackTrace);
 			}
 			finally
 			{

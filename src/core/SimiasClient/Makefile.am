@@ -3,7 +3,11 @@ SUBDIRS = libsimias-event libsimias-manager
 # handle Mono secondary dependencies
 export MONO_PATH := $(MONO_PATH)
 
+if !SIMIAS_AS_CLIENT
+SimiasClient_CSFILES = $(srcdir)/CertPolicy.cs $(srcdir)/CollectionSyncEventArgs.cs $(srcdir)/FileSyncEventArgs.cs $(srcdir)/DomainService.cs $(srcdir)/IProcEventClient.cs $(srcdir)/IProcEventData.cs $(srcdir)/IProcEventListener.cs $(srcdir)/IProcEventRegistration.cs $(srcdir)/IProcEventTypes.cs $(srcdir)/LocalService.cs $(srcdir)/Manager.cs $(srcdir)/MyEnvironment.cs $(srcdir)/MyPath.cs $(srcdir)/MyPlatformID.cs $(srcdir)/MyRuntimeID.cs $(srcdir)/NeedCredentialsEventArgs.cs $(srcdir)/NodeEventArgs.cs $(srcdir)/NodeTypes.cs $(srcdir)/NotifyEventArgs.cs $(srcdir)/SimiasEventArgs.cs $(srcdir)/Authentication.cs $(srcdir)/SimiasService2.cs $(srcdir)/SyncStatus.cs
+else
 SimiasClient_CSFILES = $(srcdir)/CertPolicy.cs $(srcdir)/CollectionSyncEventArgs.cs $(srcdir)/FileSyncEventArgs.cs $(srcdir)/DomainService.cs $(srcdir)/IProcEventClient.cs $(srcdir)/IProcEventData.cs $(srcdir)/IProcEventListener.cs $(srcdir)/IProcEventRegistration.cs $(srcdir)/IProcEventTypes.cs $(srcdir)/LocalService.cs $(srcdir)/Manager.cs $(srcdir)/MyEnvironment.cs $(srcdir)/MyPath.cs $(srcdir)/MyPlatformID.cs $(srcdir)/MyRuntimeID.cs $(srcdir)/NeedCredentialsEventArgs.cs $(srcdir)/NodeEventArgs.cs $(srcdir)/NodeTypes.cs $(srcdir)/NotifyEventArgs.cs $(srcdir)/SimiasEventArgs.cs $(srcdir)/Authentication.cs $(srcdir)/SimiasService.cs $(srcdir)/SyncStatus.cs
+endif
 
 SimiasClient_CSFILES_CSC := $(subst /,$(SEP),$(SimiasClient_CSFILES))
 SimiasClient_INCLUDES =
@@ -72,7 +76,7 @@ uninstall-local:
 	
 installcheck-local: install
 	
-CLEAN_FILES = SimiasClient.dll $(DOC_FILE_CLEAN) $(srcdir)/SimiasService.cs AssemblyInfo.cs
+CLEAN_FILES = SimiasClient.dll $(DOC_FILE_CLEAN) $(srcdir)/SimiasService.cs $(srcdir)/SimiasService2.cs AssemblyInfo.cs
 
 clean-local:
 	rm -rf $(CLEAN_FILES) $(COMMON_CLEAN_FILES)

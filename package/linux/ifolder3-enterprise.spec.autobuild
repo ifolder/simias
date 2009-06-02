@@ -18,7 +18,7 @@
 
 
 Name:           ifolder3-enterprise
-BuildRequires:  compat-libstdc++ e2fsprogs e2fsprogs-devel gcc-c++ glib2 glib2-devel libflaim libflaim-devel libstdc++ libstdc++-devel libxml2 libxml2-devel log4net mod_mono mono-core mono-data mono-devel mono-web novell-NLDAPbase novell-NLDAPsdk-devel pkgconfig xsp
+BuildRequires:  compat-libstdc++ e2fsprogs e2fsprogs-devel gcc-c++ glib2 glib2-devel libflaim libflaim-devel libstdc++ libstdc++-devel libxml2 libxml2-devel log4net novell-ifolder-mono novell-ifolder-mono-devel novell-NLDAPbase novell-NLDAPsdk-devel pkgconfig
 
 %define buildnum @@BUILDNUM@@
 Url:            http://wwww.ifolder.com
@@ -28,12 +28,9 @@ Url:            http://wwww.ifolder.com
 License:       	GNU General Public License (GPL) v2 
 Group:          Productivity/Networking/Novell
 AutoReqProv:    on
-Requires:       mono-core >= 1.2.2
-Requires:       mono-data >= 1.2.2
-Requires:       mono-web >= 1.2.2
+Requires:       novell-ifolder-mono >= 2.4
 Requires:       log4net >= 1.2.9 
 Requires:       novell-NLDAPbase
-Requires:       mod_mono >= 1.2.5
 #Obsoletes:      %{name} < %{version}
 Version:        3.7.2.@@BUILDNUM@@.1
 Release:        0.2
@@ -61,6 +58,8 @@ export BUILDNUM=%{buildnum}
 export EDIR_INCLUDE=/opt/novell/eDirectory/include
 export EDIR_LIBDIR=/opt/novell/eDirectory/%_lib
 export LIBDIR=%_lib
+[ -f %{prefix}/mono/bin/novell-ifolder-mono-environment.sh ] && \
+source %{prefix}/mono/bin/novell-ifolder-mono-environment.sh
 ./autogen.sh --prefix=%{prefix} #--with-runasclient
 make
 #make dist
@@ -102,6 +101,9 @@ ln -sf /srv/www/novell/clients/ifolder3/ifolder3-mac.dmg \
 # Set LD_LIBRARY_PATH
 grep -q "include /etc/ld.so.conf.d/\*.conf" /etc/ld.so.conf || \
 	echo "include /etc/ld.so.conf.d/*.conf" >> /etc/ld.so.conf
+
+[ -f %{prefix}/bin/ifolder_mono_setup ] && \
+%{prefix}/bin/ifolder_mono_setup
 
 /sbin/ldconfig
 echo "Run %{prefix}/bin/simias-server-setup to configure the server"
@@ -180,11 +182,6 @@ echo "Run %{prefix}/bin/simias-server-setup to configure the server"
 %{prefix}/etc/simias/bill/modules/Simias.Server.conf
 %{prefix}/etc/simias/defaults.config
 %{prefix}/etc/novell-ifolder3.conf
-#%{prefix}/%_lib/Mono/bin/mod_mono.conf.in
-#%{prefix}/%_lib/Mono/bin/mod-mono-server2
-#%{prefix}/%_lib/Mono/bin/gmcs
-#%{prefix}/%_lib/Mono/rpms/MonoRpms64bit.tar
-#%{prefix}/%_lib/Mono/rpms/MonoRpms64bit.tar
 /etc/ld.so.conf.d/novell-ifolder3.conf
 
 %changelog

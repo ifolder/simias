@@ -539,6 +539,31 @@ namespace Simias.DomainService.Web
 				new Simias.Server.EnterpriseDomain( false );
 			return ( domain != null ) ? domain.ID : null;
 		}
+
+        	/// <summary>^M
+        	/// Get the domain owners node ID
+        	/// </summary>^M
+        	/// <returns>domain owners node ID string</returns>
+                [WebMethod(EnableSession=true)]
+                [SoapDocumentMethod]
+                public string GetAdminNodeID()
+                {
+                        try
+                        {
+                                string nodeid = null;
+                                Store store = Store.GetStore();
+                                Domain domain = store.GetDomain( store.DefaultDomain );
+                                Member owner = domain.Owner;
+                                if( owner != null)
+                                        return owner.ID;
+                                else
+                                        return null;
+                        }
+                        catch(Exception e)
+                        {
+                                return null;
+                        }
+                }
 		
 		#endregion
 	}

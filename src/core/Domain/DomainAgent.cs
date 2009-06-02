@@ -98,7 +98,7 @@ namespace Simias.DomainServices
 		#endregion
 
 		#region Private Methods
-        private void CreateDomainProxy(Store store, string userID, DomainInfo info, Uri hostAddress, HostInfo hInfo)
+        private void CreateDomainProxy(Store store, string userID, DomainInfo info, Uri hostAddress, HostInfo hInfo, string ownerNodeId)
         {
 
 			// Make sure the domain doesn't exist.
@@ -129,12 +129,17 @@ namespace Simias.DomainServices
 				member.Properties.ModifyNodeProperty( hostidProperty );
 				member.Proxy = true;
 				member.IsOwner = true;
+                		HostNode hostNode = new HostNode(hInfo, hostAddress.ToString());
+                		hostNode.Proxy = true;
+				if( ownerNodeId != null && ownerNodeId != info.MemberNodeID)
+				{
+					Member ownermember = new Member("adminname", ownerNodeId, "adminid", Access.Rights.Admin, null);
+					ownermember.Proxy = true;
+					domain.Commit( new Node[] { domain, hostNode, member, ownermember } );
+				}
+				else
+					domain.Commit( new Node[] { domain, hostNode, member} );
 
-                HostNode hostNode = new HostNode(hInfo, hostAddress.ToString());
-                hostNode.Proxy = true;
-                
-                // commit
-				domain.Commit( new Node[] { domain, hostNode, member } );
 			}
         }
 
@@ -744,8 +749,16 @@ namespace Simias.DomainServices
 			if( domainInfo != null)
 			{
 				// Create domain proxy
-			//	log.Debug("Skipping creation on domain proxy");
-				CreateDomainProxy(store, provisionInfo.UserID, domainInfo, hostUri, hInfo);
+				// log.Debug("Skipping creation on domain proxy");
+				//putting this in try catch as old server will not have this API implemented and 
+				//in that case no need to create any domain owner proxy
+				string ownernodeid = null;
+				try
+				{
+					ownernodeid = domainService.GetAdminNodeID();
+				}
+				catch {}
+				CreateDomainProxy(store, provisionInfo.UserID, domainInfo, hostUri, hInfo, ownernodeid);
 
 				// Create PO Box proxy
 				log.Debug("Skipping pobox creation");

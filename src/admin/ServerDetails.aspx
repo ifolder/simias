@@ -212,68 +212,6 @@
 							<asp:Literal ID="iFolderCount" Runat="server" />
 						</td>
 					</tr>
-<!--					
-					<tr>
-						<th>
-							<%= GetString( "LOGGEDONUSERSTAG" ) %>
-						</th>
-						
-						<td>
-							<asp:Literal ID="LoggedOnUsersCount" Runat="server" />
-						</td>
-					</tr>
-					
-					<tr>
-						<th>
-							<%= GetString( "SESSIONSTAG" ) %>
-						</th>
-						
-						<td>
-							<asp:Literal ID="SessionCount" Runat="server" />
-						</td>
-					</tr>
-					
-					<tr>
-						<th>
-							<%= GetString( "DISKSPACEUSEDTAG" ) %>
-						</th>
-						
-						<td>
-							<asp:Literal ID="DiskSpaceUsed" Runat="server" />
-						</td>
-					</tr>
-					
-					<tr>
-						<th>
-							<%= GetString( "DISKSPACEAVAILABLETAG" ) %>
-						</th>
-						
-						<td>
-							<asp:Literal ID="DiskSpaceAvailable" Runat="server" />
-						</td>
-					</tr>
-					
-					<tr>
-						<th>
-							<%= GetString( "LDAPSTATUSTAG" ) %>
-						</th>
-						
-						<td>
-							<asp:Literal ID="LdapStatus" Runat="server" />
-						</td>
-					</tr>
-					
-					<tr>
-
-						<th>
-							<%= GetString( "MAXCONNECTIONSTAG" ) %>
-						</th>
-						
-						<td>
-							<asp:Literal ID="MaxConnectionCount" Runat="server" />
-						</td>
-					</tr>
--->					
 				</table>
 
 			</div>

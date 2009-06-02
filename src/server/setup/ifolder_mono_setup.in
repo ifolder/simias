@@ -25,37 +25,41 @@
 #*
 #*-----------------------------------------------------------------------------
 #*
-#*                 $Author: Rob
+#*                 $Author: Anil Kumar (kuanil@novell.com)
 #*                 $Modified by: <Modifier>
 #*                 $Mod Date: <Date Modified>
 #*                 $Revision: 0.1
 #*-----------------------------------------------------------------------------
 #* This module is used to:
-#*        <iFolder simias-server-setup setup script >
+#*        <iFolder mono environment setup script>
 #*
 #*
 #*******************************************************************************/
 
+iFPrefix=@_bindir_@/../
+CONF_FILE_PATH=/etc/apache2/conf.d
+MOD_MONO_CONF_FILE_PATH="/etc/apache2/mod_mono.conf"
+
+processFile(){
+	if [ -f $1 ]; then
+		sed -e 's,'$MOD_MONO_CONF_FILE_PATH','$iFPrefix/mono/etc/apache2/conf.d/mod_mono.conf',g' -i $1
+		if [ `grep -c -E MonoServerPath $1` -eq 0 ]; then
+			if [ $1 == $CONF_FILE_PATH/simias.conf ]; then
+				sed '6i MonoServerPath simias10 '$iFPrefix/bin/mod-mono-server2'' -i $1
+			elif [ $1 == $CONF_FILE_PATH/ifolder_admin.conf ]; then
+				sed '5i MonoServerPath admin '$iFPrefix/bin/mod-mono-server2'' -i $1
+			elif [ $1 == $CONF_FILE_PATH/ifolder_web.conf ]; then
+				sed '5i MonoServerPath ifolder '$iFPrefix/bin/mod-mono-server2'' -i $1
+			fi
+		fi
+	fi
+}
+
 
 rpm -q novell-ifolder-mono > /dev/null 2>&1
-if [ $? -gt 0 ]
+if [ $? -eq 0 ]
 then
-
-	export MONO_PATH=@_webbindir_@:@_bindir_@
-	export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:@_webbindir_@
-	export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:@_webbindir_@
-	cd @_bindir_@
-
-	mono @_bindir_@/SimiasServerSetup.exe "$@"
-
-else
-	MONO_RUNTIME_PATH=@_bindir_@/../mono
-	export MONO_PATH=$MONO_RUNTIME_PATH/lib/mono/:$MONO_RUNTIME_PATH/lib/mono/2.0:@_webbindir_@:@_bindir_@
-	source $MONO_RUNTIME_PATH/bin/novell-ifolder-mono-environment.sh
-	export MONO_CFG_DIR=$MONO_RUNTIME_PATH/etc
-	export IFOLDER_MOD_MONO_SERVER2_PATH=@_bindir_@
-	export IFOLDER_MONO_PATH=$MONO_RUNTIME_PATH
-	cd @_bindir_@
-
-	$MONO_RUNTIME_PATH/bin/mono @_bindir_@/SimiasServerSetup.exe "$@"
+	processFile $CONF_FILE_PATH/simias.conf
+	processFile $CONF_FILE_PATH/ifolder_admin.conf
+	processFile $CONF_FILE_PATH/ifolder_web.conf
 fi
