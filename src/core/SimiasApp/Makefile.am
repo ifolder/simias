@@ -7,7 +7,7 @@ else
 SYSTEM_INSTALLER_LIB =
 endif
 
-MONO_WEBSERVER_PATH = /usr/lib/mono/gac/Mono.WebServer2/0.2.0.0__0738eb9f132ed756/ 
+MONO_WEBSERVER_PATH = ../../../dependencies/external/Mono.WebServer
 
 Simias_CSFILES = $(srcdir)/Simias.cs \
 		$(srcdir)/SimiasAppInstallerClass.cs
@@ -16,7 +16,7 @@ Simias_CSFILES_CSC := $(subst /,$(SEP),$(Simias_CSFILES))
 Simias_INCLUDES =
 Simias_RESOURCES = $(srcdir)/App$(ICON_EXT)
 Simias_FLAGS = $(CSC_EXEFLAG)
-Simias_LIBS = System.dll System.Data.dll $(SYSTEM_XML) System.Web.dll $(SYSTEM_INSTALLER_LIB) SimiasClient.dll Mono.WebServer2.dll
+Simias_LIBS = System.dll System.Data.dll $(SYSTEM_XML) System.Web.dll $(SYSTEM_INSTALLER_LIB) SimiasClient.dll Mono.WebServer.dll
 Simias_LIBPATH = ../SimiasClient $(MONO_WEBSERVER_PATH)
 
 EXTRA_DIST = App.ico $(Simias_CSFILES) AssemblyInfo.cs.in
