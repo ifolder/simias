@@ -8,7 +8,7 @@ SIMIAS_INCLUDES =
 SIMIAS_RESOURCES =
 SIMIAS_FLAGS = $(CSC_LIBFLAG) /unsafe
 if LINUX
-SIMIAS_LIBS1 = System.dll System.Data.dll $(SYSTEM_XML) System.Security.dll System.Runtime.Remoting.dll System.Web.dll System.Web.Services.dll SimiasClient.dll
+SIMIAS_LIBS1 = System.dll System.Data.dll $(SYSTEM_XML) System.Security.dll System.Runtime.Remoting.dll System.Web.dll System.Web.Services.dll SimiasClient.dll Mono.Security.dll
 else
 SIMIAS_LIBS1 = System.dll System.Data.dll $(SYSTEM_XML) System.Security.dll System.Runtime.Remoting.dll System.Web.dll System.Web.Services.dll SimiasClient.dll $(LOG4NET_DIR)/log4net.dll
 endif

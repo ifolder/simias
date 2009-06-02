@@ -265,7 +265,7 @@ namespace Simias.Client.Event
 			fsw.Dispose();
 			fsw = null;
 		}
-
+#if NOT_NEEDED
 		/// <summary>
 		/// Callback used to indicate that an event has been indicated to the delegate.
 		/// </summary>
@@ -275,7 +275,7 @@ namespace Simias.Client.Event
 			IProcEventHandler eventDelegate = ( result as AsyncResult ).AsyncDelegate as IProcEventHandler;
 			eventDelegate.EndInvoke( result );
 		}
-
+#endif
 		/// <summary>
 		/// Thread that indicates node and sync events via registered delegates.
 		/// </summary>

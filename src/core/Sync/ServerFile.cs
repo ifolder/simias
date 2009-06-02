@@ -271,7 +271,7 @@ namespace Simias.Sync
 		/// <param name="entryCount">The number of hash entries.</param>
 		/// <param name="blockSize">The size of the hashed data blocks.</param>
 		/// <returns></returns>
-		public FileStream GetHashMap(out int entryCount, out int blockSize)
+		public new FileStream GetHashMap(out int entryCount, out int blockSize)
 		{
 			return map.GetHashMapStream(out entryCount, out blockSize, true, node.LocalIncarnation);
 		}

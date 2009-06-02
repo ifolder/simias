@@ -272,7 +272,6 @@ listEvent.Reset();
 
                     Store localStore = Store.GetStore();
                     //ArrayList CollectionArray;
-                    CatalogInfo CatInfo;
 
                     Domain domain = localStore.GetDomain(DomainID);
                     // skip local domain

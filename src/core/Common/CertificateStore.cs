@@ -26,19 +26,96 @@
 *                 $Revision: 0.0
 *-----------------------------------------------------------------------------
 * This module is used to:
-*        <Description of the functionality of the file >
+*        Contains the Stores for various security objects - like Certificates, RSA objects, in future PGP objects etc.
+*	 The File name is not correct - might need a change in future to SecurityStore.cs
 *
 *
 *******************************************************************************/
 
 using System;
 using System.Collections;
+using System.Text;
+using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using Simias.Storage;
 using Simias.Client;
 
 namespace Simias.Security
 {
+
+	public class SecurityStore
+	{
+		const string certificateProperty = "Certificate";
+		const string hostProperty = "Host";
+		const string raProperty = "RecoveryAgent";
+		const string CertType = "X509Certificate";
+		const string RSAType = "RSA";
+		static private readonly ISimiasLog log = SimiasLogManager.GetLogger( typeof( Store ) );
+
+		/// <summary>
+		/// Store the PPKData with the specified property.
+		/// </summary>
+		/// <param name="PPK">The PPK to store.</param>
+		/// <param name="Property">The property PPK belongs to.</param>
+		/// <param name="persist">If true save in store.</param>
+		/// <param name="inTable">If true save in Policy HashTable.</param>
+		public static void StorePPKData(byte[] ppkData, string prop, bool persist, bool inTable, bool isRA, string PPKtype)
+		{
+			Domain domain;
+			if(inTable && PPKtype == CertType)
+			{
+				if(isRA)
+					CertPolicy.StoreRACertificate(ppkData, prop);
+				else
+					CertPolicy.StoreCertificate(ppkData, prop);
+			}
+			if (persist)
+			{
+				// Save the cert in the store.
+				Store store = Store.GetStore();
+				if(isRA)
+					domain = store.GetDomain(store.DefaultDomain);
+				else
+					domain = store.GetDomain(store.LocalDomain);
+
+				// Check for an existing cert in the store.
+				Node cn = null;
+				ICSList nodeList;
+				if(isRA)
+					nodeList = domain.Search(raProperty, prop, SearchOp.Equal);
+				else
+					nodeList = domain.Search(hostProperty, prop, SearchOp.Equal);
+				foreach (ShallowNode sn in nodeList)
+				{
+					cn = new Node(domain, sn);
+					if (!cn.IsType( PPKtype))
+					{
+						cn = null;
+						continue;
+					}
+					break;
+				}
+
+				if (cn == null)
+				{
+					// The cert/rsa doesn't exist ... create it.
+					cn = new Node(certificateProperty +" for " + prop);
+					domain.SetType(cn, PPKtype);
+					if(isRA)
+					{
+						cn.CollisionPolicy = CollisionPolicy.ServerWins;
+						cn.Properties.ModifyNodeProperty(new Property(raProperty, prop));
+					}
+					else
+						cn.Properties.ModifyNodeProperty(new Property(hostProperty, prop));
+				}
+				cn.Properties.ModifyNodeProperty(new Property(certificateProperty, Convert.ToBase64String(ppkData)));
+				domain.Commit(cn);
+				log.Debug("committed the storage of certificate into domain");
+			}
+		}
+	}
+	
 	/// <summary>
 	/// Summary description for Certificates.
 	/// </summary>
@@ -105,6 +182,7 @@ namespace Simias.Security
 			return null;
 		}
 
+
 		/// <summary>
 		/// Store the certificate for the specified host.
 		/// </summary>
@@ -114,38 +192,7 @@ namespace Simias.Security
 		public static void StoreCertificate(byte[] certificate, string host, bool persist)
 		{
 			string uriHost = GetHostFromUri(host);
-			CertPolicy.StoreCertificate(certificate, uriHost);
-			if (persist)
-			{
-				// Save the cert in the store.
-				Store store = Store.GetStore();
-				Domain domain = store.GetDomain(store.LocalDomain);
-
-				// Check for an existing cert in the store.
-				Node cn = null;
-				ICSList nodeList = domain.Search(hostProperty, uriHost, SearchOp.Equal);
-				foreach (ShallowNode sn in nodeList)
-				{
-					cn = new Node(domain, sn);
-					if (!cn.IsType( CertType))
-					{
-						cn = null;
-						continue;
-					}
-					break;
-				}
-
-				if (cn == null)
-				{
-					// The cert doesn't exist ... create it.
-					cn = new Node("Certificate for " + uriHost);
-					domain.SetType(cn, CertType);
-					cn.Properties.ModifyNodeProperty(new Property(hostProperty, uriHost));
-				}
-				cn.Properties.ModifyNodeProperty(new Property(certificateProperty, Convert.ToBase64String(certificate)));
-				domain.Commit(cn);
-				log.Debug("committed the storage of certificate into local domain");
-			}
+			SecurityStore.StorePPKData(certificate, uriHost, persist, true, false, CertType);
 		}
 
         /// <summary>
@@ -314,45 +361,14 @@ namespace Simias.Security
 		}
 
 		/// <summary>
-		/// Store the certificate for the specified host.
+		/// Store the certificate for the specified RA.
 		/// </summary>
 		/// <param name="certificate">The certificate to store.</param>
 		/// <param name="host">The host the certificate belongs to.</param>
 		/// <param name="persist">If true save in store.</param>
 		public static void StoreRACertificate(byte[] certificate, string recoveryAgnt, bool persist)
 		{
-			CertPolicy.StoreRACertificate(certificate, recoveryAgnt);
-			if (persist)
-			{
-				// Save the cert in the store.
-				Store store = Store.GetStore();
-				Domain domain = store.GetDomain(store.DefaultDomain);
-
-				// Check for an existing cert in the store.
-				Node cn = null;
-				ICSList nodeList = domain.Search(raProperty, recoveryAgnt, SearchOp.Equal);
-				foreach (ShallowNode sn in nodeList)
-				{
-					cn = new Node(domain, sn);
-					if (!cn.IsType( CertType))
-					{
-						cn = null;
-						continue;
-					}
-					break;
-				}
-
-				if (cn == null)
-				{
-					// The cert doesn't exist ... create it.
-					cn = new Node("Certificate for " + recoveryAgnt);
-					domain.SetType(cn, CertType);
-					cn.CollisionPolicy = CollisionPolicy.ServerWins;
-					cn.Properties.ModifyNodeProperty(new Property(raProperty, recoveryAgnt));
-				}
-				cn.Properties.ModifyNodeProperty(new Property(certificateProperty, Convert.ToBase64String(certificate)));
-				domain.Commit(cn);
-			}
+			SecurityStore.StorePPKData(certificate, recoveryAgnt, persist, true, true, CertType);
 		}
 
 		/// <summary>
@@ -360,10 +376,9 @@ namespace Simias.Security
 		/// </summary>
 		public static void LoadCertsFromStore()
 		{
-			string rAgent;
 			Store store = Store.GetStore();
 			ICSList domainList = store.GetDomainList();
-			Boolean isLocalDomain = false;
+			bool isLocalDomain = false;
 
 			// We need to get rid of any duplicate certificates that may exist.
 			Hashtable ht = new Hashtable();
@@ -411,11 +426,13 @@ namespace Simias.Security
 							}
 							string sCert = node.Properties.GetSingleProperty(certificateProperty).Value.ToString();
 							byte[] certificate = Convert.FromBase64String(sCert);
-							
-							if(isLocalDomain)
-								CertPolicy.StoreCertificate(certificate, nodeProperty);
-							else
-								CertPolicy.StoreRACertificate(certificate, nodeProperty);
+							if(node.Type == CertType)
+							{
+								if(isLocalDomain)
+									CertPolicy.StoreCertificate(certificate, nodeProperty);
+								else
+									CertPolicy.StoreRACertificate(certificate, nodeProperty);
+							}
 						}
 					}
 					catch {}
@@ -442,40 +459,170 @@ namespace Simias.Security
 		/// </summary>
 		public static void CleanCertsFromStore()
 		{
-    		string rAgent;
-    		Store store = Store.GetStore();
-    		ICSList domainList = store.GetDomainList();
-    		Boolean isLocalDomain = false;
-    		foreach (ShallowNode snd in domainList)
+	    		Store store = Store.GetStore();
+	    		ICSList domainList = store.GetDomainList();
+	    		Boolean isLocalDomain = false;
+	    		foreach (ShallowNode snd in domainList)
 			{
 				Domain domain = store.GetDomain ( snd.ID );
-		    	ICSList certs = domain.GetNodesByType(CertType);
-		    	isLocalDomain = domain.Name.Equals(Store.LocalDomainName);
+				ICSList certs = domain.GetNodesByType(CertType);
+				isLocalDomain = domain.Name.Equals(Store.LocalDomainName);
 				foreach(ShallowNode sn in certs)
-		    	{
-			 		Node node = new Node(domain, sn);
-			    	try
-			    	{
-			    		string nodeProperty = node.Properties.GetSingleProperty(isLocalDomain?hostProperty:raProperty).Value.ToString();
-				    	if(nodeProperty != null)
-				    	{
+				{
+					Node node = new Node(domain, sn);
+					try
+					{
+						string nodeProperty = node.Properties.GetSingleProperty(isLocalDomain?hostProperty:raProperty).Value.ToString();
+						if(nodeProperty != null)
+						{
 							log.Debug("Node deleted is:{0}",node.Name);
-				    		domain.Commit( domain.Delete(node) );
-                   		}
-			    	}
-			    	catch(Exception ex)
-			    	{
-			    		log.Error("Exception while clearing existing Certificates from Domain"); 
-		        	}
-																	
-             	} //End of Inner foreach loop
+							domain.Commit( domain.Delete(node) );
+						}
+					}
+					catch
+					{
+						log.Error("Exception while clearing existing Certificates from Domain"); 
+					}
 
-	    	} // End of Outer foreach loop
+				} //End of Inner foreach loop
+
+		    	} // End of Outer foreach loop
 
 		} //End of Function	
 		
 
 
 
+	}
+
+	/// Class to store RSA objects
+	public class RSAStore
+	{
+		const string certificateProperty = "Certificate";
+		const string raProperty = "RecoveryAgent";
+		const string RSAType = "RSA";
+		static public RSACryptoServiceProvider Default_RA = null;
+
+		static private readonly ISimiasLog log = SimiasLogManager.GetLogger( typeof( Store ) );
+		
+		/// <summary>
+		/// Store the RSA for the specified RA.
+		/// </summary>
+		/// <param name="certificate">The certificate to store.</param>
+		/// <param name="host">The host the certificate belongs to.</param>
+		/// <param name="persist">If true save in store.</param>
+		public static void StoreRARSA(string rsa, string recoveryAgnt, bool persist)
+		{
+			log.Debug("RSA string before store {0}", rsa);
+			UTF8Encoding utf8 = new UTF8Encoding();
+			byte[] rsabytes = utf8.GetBytes(rsa);
+			SecurityStore.StorePPKData(rsabytes, recoveryAgnt, persist, true, true, RSAType);
+		}
+
+		public static RSACryptoServiceProvider GetRARSA()
+		{
+			return Default_RA;
+		}
+
+		public static void CheckAndStoreRSA(string rsa, string recoveryAgnt, bool persist)
+		{
+			bool toStore = true;
+			int count = 0;
+                        Store store = Store.GetStore();
+
+                        Domain domain = store.GetDomain ( store.DefaultDomain);
+                        ICSList rsas = domain.GetNodesByType(RSAType);
+
+                        foreach(ShallowNode sn in rsas)
+                        {
+                                Node node = new Node(domain, sn);
+                                try
+                                {
+					if(count++ > 0)
+						throw new Exception("Too many Default RSA");
+                                        string nodeProperty = node.Properties.GetSingleProperty(raProperty).Value.ToString();
+                                        if(nodeProperty != null)
+						toStore = false; 	
+					else
+						toStore = true;
+				}
+				catch(Exception e)
+				{
+					log.Fatal("RSA Check Error: {0}", e.Message);
+					return;
+				}
+			}
+
+			if(toStore)
+				StoreRARSA(rsa, recoveryAgnt, persist);
+		}
+
+		public static void LoadRSAFromStore()
+		{
+			Store store = Store.GetStore();
+
+			// We need to get rid of any duplicate RSAs that may exist.
+			Hashtable ht = new Hashtable();
+			ArrayList nodesToDelete = new ArrayList();
+			
+			Domain domain = store.GetDomain ( store.DefaultDomain);
+			ICSList rsas = domain.GetNodesByType(RSAType);
+			ht.Clear();
+			nodesToDelete.Clear();
+			
+			foreach(ShallowNode sn in rsas)
+			{
+				Node node = new Node(domain, sn);
+				try
+				{
+					string nodeProperty = node.Properties.GetSingleProperty(raProperty).Value.ToString();
+					if(nodeProperty != null)
+					{
+						if (ht.Contains(nodeProperty))
+						{
+							// A duplicate exists, use the most recent one.
+							Node dupNode = (Node)ht[nodeProperty];
+						
+							DateTime nodeTime = (DateTime)node.Properties.GetSingleProperty(PropertyTags.NodeCreationTime).Value;
+							DateTime dupNodeTime = (DateTime)dupNode.Properties.GetSingleProperty(PropertyTags.NodeCreationTime).Value;
+						
+							if (dupNodeTime > nodeTime)
+							{
+								nodesToDelete.Add( node );							
+								node = dupNode;
+							}
+							else
+							{
+								nodesToDelete.Add(dupNode);
+								ht[nodeProperty] = node;
+							}
+						}
+						else
+						{
+							ht.Add(nodeProperty, node);
+						}
+						string sCert = node.Properties.GetSingleProperty(certificateProperty).Value.ToString();
+						byte[] certificate = Convert.FromBase64String(sCert);
+						UTF8Encoding utf8 = new UTF8Encoding();
+						
+						Default_RA = new RSACryptoServiceProvider();
+						log.Debug("RSA Load XML string {0}", utf8.GetString(certificate) );
+						Default_RA.FromXmlString(utf8.GetString(certificate));
+					}
+				}
+				catch (Exception e){
+					log.Debug("Got an Exception while loading RSA!!! {0}", e.Message);
+					}
+			}
+					
+			if (nodesToDelete.Count > 0)
+			{
+				try
+				{
+					domain.Commit(domain.Delete((Node[])(nodesToDelete.ToArray(typeof(Node)))));
+				}
+				catch {}
+			}
+		}
 	}
 }

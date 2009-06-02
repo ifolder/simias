@@ -147,6 +147,11 @@ namespace Simias.Client
 			ServicePointManager.CertificatePolicy = this;
 		}
 
+		~CertPolicy()
+		{
+			ServicePointManager.CertificatePolicy = defaultCertPolicy;
+		}
+
 		#endregion
 
 		/// <summary>

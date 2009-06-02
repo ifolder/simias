@@ -34,7 +34,6 @@
 using System;
 using System.Collections;
 using System.Reflection;
-using System.Security.Cryptography;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
@@ -226,7 +225,7 @@ namespace Simias.Storage
 					{
 						if( value )
 							status = (int)SecurityStatus.SSL;
-						Property pe = properties.FindSingleValue(PropertyTags.EncryptionType);
+						//Property pe = properties.FindSingleValue(PropertyTags.EncryptionType);
 						if( p!= null )
 							status |= (int)SecurityStatus.Encryption;
 						p.DeleteProperty();
@@ -902,7 +901,7 @@ namespace Simias.Storage
 				
 				Key key = new Key(128);
 				key.EncrypytKey(Passphrase, out this.encryptionKey);
-				log.Debug("iFolder key {0}", key.GetKey());
+//				log.Debug("iFolder key {0}", key.GetKey());
 				this.encryptionBlob = key.HashKey();
 			
 				properties.AddNodeProperty(PropertyTags.EncryptionKey, this.encryptionKey);
@@ -4450,7 +4449,6 @@ namespace Simias.Storage
                         }
                         else
                                 throw new Exception(String.Format("Unable to call Data move method for {0} ",iFolderID));
-                        return false;
 		}
 
         /// <summary>

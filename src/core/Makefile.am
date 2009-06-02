@@ -5,7 +5,7 @@ SUBDIRS = SimiasClient SimiasLib.dll FlaimProvider WebService SyncService POBoxW
 endif
 
 if LINUX
-SUBDIRS = SimiasClient SimiasLib.dll FlaimProvider WebService SyncService POBoxWS SimiasApp libsimias
+SUBDIRS = SimiasClient SimiasLib.dll FlaimProvider WebService SyncService POBoxWS SimiasApp libsimias 
 endif
 
 if WINDOWS

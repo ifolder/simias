@@ -598,7 +598,7 @@ namespace Simias.Web
 		/// WebMethod to get a list of local domains
 		/// </summary>
 		/// <returns>
-		/// Array of DomainInformation objects
+		/// DomainInformation objects
 		/// </returns>
 		[WebMethod(EnableSession=true, Description="Get a list of local domains")]
 		[SoapDocumentMethod]
@@ -847,7 +847,7 @@ namespace Simias.Web
 		[SoapDocumentMethod]
 		public void SetDomainCredentials(	string domainID, 
 											string credentials, 
-											CredentialType type)
+											Simias.Storage.CredentialType type)
 		{
 			Store store = Store.GetStore();
 			store.SetDomainCredentials(domainID, credentials, type);
@@ -933,7 +933,7 @@ namespace Simias.Web
                 [SoapDocumentMethod]
                 public void StorePassPhrase(    string domainID,
                                                                                         string passPhrase,
-                                                                                        CredentialType type, bool rememberPassPhrase)
+                                                                                        Simias.Storage.CredentialType type, bool rememberPassPhrase)
                 {
                         Store store = Store.GetStore();
                         store.StorePassPhrase(domainID, passPhrase, type, rememberPassPhrase);
@@ -949,7 +949,7 @@ namespace Simias.Web
 		/// <returns>The type of credentials.</returns>
 		[WebMethod(EnableSession=true, Description="Get the saved credentials from a domain")]
 		[SoapDocumentMethod]
-		public CredentialType GetDomainCredentials(string domainID, out string userID, out string credentials)
+		public Simias.Storage.CredentialType GetDomainCredentials(string domainID, out string userID, out string credentials)
 		{
 			Store store = Store.GetStore();
 			return store.GetDomainCredentials(domainID, out userID, out credentials);
@@ -1237,7 +1237,7 @@ namespace Simias.Web
 		}
 
 		/// <summary>
-	       /// Gets the credentials from the specified domain object.
+	       /// Gets the public key for the specified domain object.
 	       /// </summary>
 	       /// <param name="DomainID">The ID of the domain to set the credentials on.</param>
 	       /// <param name="rAgent">Recovery Agent whose public key is needed.</param>
@@ -1264,6 +1264,59 @@ namespace Simias.Web
 	            System.Security.Cryptography.X509Certificates.X509Certificate cert = new System.Security.Cryptography.X509Certificates.X509Certificate(certificate);
 	            return Convert.ToBase64String(cert.GetPublicKey());
 	        }
+
+		/// <summary>
+	       /// Gets the public key for the specified domain object.
+	       /// </summary>
+	       /// <param name="DomainID">The ID of the domain to set the credentials on.</param>
+	       /// <param name="rAgent">Recovery Agent whose public key is needed.</param>
+	       /// <returns>The public key of the certificate</returns>
+	        [WebMethod(EnableSession=true, Description="Get the public key of the certificate")]
+	        [SoapDocumentMethod]
+	        public string GetDefaultPublicKey(string DomainID)
+	        {
+		    log.Debug("Inside GetDefaultPublicKey function");
+	            Store store = Store.GetStore();
+	            Simias.Storage.Domain domain = store.GetDomain(DomainID);
+	            string UserID = store.GetUserIDFromDomainID(DomainID);
+	            Member m = domain.GetMemberByID(UserID);
+	            return m.GetDefaultPublicKey();
+	        }
+
+                /// <summary>
+               /// Gets the credentials from the specified domain object - to be used only by thick client.
+               /// </summary>
+               /// <param name="DomainID">The ID of the domain to set the credentials on.</param>
+               /// <returns>The key set of the RSA</returns>
+                [WebMethod(EnableSession=true, Description="Get the Default RSA key")]
+                [SoapDocumentMethod]
+                public string GetDefaultRSAFromServer(string DomainID)
+                {
+                    log.Debug("Inside GetDefaultRSAKeyFromServer function");
+                    Store store = Store.GetStore();
+                    Simias.Storage.Domain domain = store.GetDomain(DomainID);
+                    string UserID = store.GetUserIDFromDomainID(DomainID);
+                    Member m = domain.GetMemberByID(UserID);
+                    return m.GetDefaultRSAFromServer();
+                }
+
+                /// <summary>
+               /// Gets the credentials from the specified domain object.
+               /// </summary>
+               /// <param name="DomainID">The ID of the domain to set the credentials on.</param>
+               /// <returns>The key set of the RSA</returns>
+                [WebMethod(EnableSession=true, Description="Get the Default RSA key")]
+                [SoapDocumentMethod]
+                public string GetDefaultRSAKey(string DomainID)
+                {
+                    log.Debug("Inside GetDefaultRSAKey function");
+                    Store store = Store.GetStore();
+                    Simias.Storage.Domain domain = store.GetDomain(DomainID);
+                    string UserID = store.GetUserIDFromDomainID(DomainID);
+                    Member m = domain.GetMemberByID(UserID);
+                    return m.GetDefaultRSAKey();
+                }
+
 
 		/// <summary>
 		/// WebMethod to Store the RA certificate for the domain.
@@ -2103,6 +2156,7 @@ namespace Simias.Web
 		[SoapDocumentMethod]	
 		public CollectionKey GetiFolderCryptoKeys(string DomainID,  string UserID, int Index)
 		{
+		///This must return an array of cryptokeys for the user and not one. This implementation is incorrect.
 			log.Debug("GetiFoldersCryptoKeys called");
 			CollectionKey cKey=null;
 			try
@@ -2208,6 +2262,153 @@ namespace Simias.Web
 			}
 		}
 
+		///<summary>
+		///Get the ifolder crypto keys
+		///</summary>
+		/// <param name="domainID">The identifier for the domain.</param>
+		/// <param name="UserID">User ID for whom the Export is to be performed</param>
+		/// <param name="keyDocument">XmlDocument containing the set of iFolders corresponding to the keys.</param>
+		///<returns>Void.</returns>
+		[WebMethod(EnableSession=true, Description="Exports the iFolders Crypto Keys to a XML Document.")]
+		[SoapDocumentMethod]	
+		public void ExportiFoldersCryptoKeysToDoc(string DomainID, string UserID, out XmlDocument keyDocument)
+		{
+			log.Debug("ExportFolderCryptoKeys - called");
+			try
+			{
+				Store store = Store.GetStore();
+				Simias.Storage.Domain domain = store.GetDomain(DomainID);
+				if(domain == null )
+				{
+					log.Debug("ExportFolderCryptoKeys domain null");
+					throw new CollectionStoreException("The specified domain not found");
+				}
+				Simias.Storage.Member member = domain.GetMemberByID(UserID);
+				if(member == null )
+				{
+					log.Debug("ExportFolderCryptoKeys member null");
+					throw new CollectionStoreException("The specified domain member not found");
+				}
+
+				member.ExportiFoldersCryptoKeys(out keyDocument, null);
+			}
+			catch(Exception ex)
+			{
+				log.Debug("ExportFolderCryptoKeys Exception:{0} ", ex.Message);
+				throw ex;
+			}
+		}
+
+		
+		///<summary>
+		///Recover the ifolder crypto keys given a RA
+		///</summary>
+		/// <param name="domainID">The identifier for the domain.</param>
+		/// <param name="UserID">User ID for whom the Recovery is to be performed</param>
+		/// <param name="RAName">The RA Name to use for recovery.</param>
+		/// <param name="keyDocument">XmlDocument containing the set of iFolders corresponding to the keys.</param>
+		/// <param name="oneTimePP">One time password to re-ecnrypt the recovered Keys.</param>
+		/// <param name="decryptedKeyDoc">Out parameter containing XmlDocument containing the set of iFolders corresponding to the Recovered keys.</param>
+		///<returns>True: If recovery was successful or returns False. The out parameter is allocated only if return is True otherwise it is null</returns>
+		[WebMethod(EnableSession=true, Description="Recover the ifolder crypto keys for an user in a Domain given a RA.")]
+		[SoapDocumentMethod]	
+		public bool RecoverKeys(string DomainID, string UserID, string RAName, XmlDocument keyDocument, string oneTimePP, out XmlDocument decryptedKeyDoc)
+		{
+			log.Debug("ImportiFoldersCryptoKeys - called");
+			bool status = true;
+			try
+			{
+				Store store = Store.GetStore();
+				Simias.Storage.Domain domain = store.GetDomain(DomainID);
+				if(domain == null )
+				{
+					log.Debug("ImportiFoldersCryptoKeys domain null");
+					throw new CollectionStoreException("The specified domain not found");
+				}
+				Simias.Storage.Member member = domain.GetMemberByID(UserID);
+				if(member == null )
+				{
+					log.Debug("ImportiFoldersCryptoKeys member null");
+					throw new CollectionStoreException("The specified domain member not found");
+				}
+				{
+					member.RecoverKeys(RAName, true, keyDocument, oneTimePP, out decryptedKeyDoc);
+				}
+			}
+			catch(Exception ex)
+			{
+				log.Debug("ExportFolderCryptoKeys Exception:{0} ", ex.Message);
+				throw ex;
+			}
+			return status;
+        	}
+
+		///<summary>
+		///Set the ifolder crypto keys
+		///</summary>
+		/// <param name="domainID">The identifier for the domain.</param>
+		/// <param name="UserID">User ID for whom the Import is to be performed</param>
+		/// <param name="NewPassphrase">The new passphrase to set.</param>
+		/// <param name="OneTimePassword">One time password to use for decrypting the input keys.</param>
+		/// <param name="keyDocument">XmlDocument containing the set of iFolders corresponding to the keys.</param>
+		///<returns>Void.</returns>
+		[WebMethod(EnableSession=true, Description="Imports the iFolder Crypto Keys from an Array")]
+		[SoapDocumentMethod]	
+		public void ImportiFoldersCryptoKeysFromDoc(string DomainID, string UserID, string NewPassphrase, string OneTimePassword, XmlDocument keyDocument)
+		{
+			log.Debug("ImportiFoldersCryptoKeys - called");
+			try
+			{
+				Store store = Store.GetStore();
+				Simias.Storage.Domain domain = store.GetDomain(DomainID);
+				if(domain == null )
+				{
+					log.Debug("ImportiFoldersCryptoKeys domain null");
+					throw new CollectionStoreException("The specified domain not found");
+				}
+				Simias.Storage.Member member = domain.GetMemberByID(UserID);
+				if(member == null )
+				{
+					log.Debug("ImportiFoldersCryptoKeys member null");
+					throw new CollectionStoreException("The specified domain member not found");
+				}
+				log.Debug("KeyDocument - {0}", keyDocument == null?false:true);
+				if(keyDocument != null)
+				{
+					member.ImportiFoldersCryptoKeys(keyDocument, NewPassphrase, OneTimePassword, false, null);
+				}
+			}
+			catch(Exception ex)
+			{
+				log.Debug("ExportFolderCryptoKeys Exception:{0} ", ex.Message);
+				throw ex;
+			}
+		}
+		
+		///<summary>
+		///Set the new Passphrase - Enterprise solution with default RA
+		///</summary>
+		/// <param name="domainID">The identifier for the domain.</param>
+		/// <param name="UserID">User ID for whom the Passphrase Reset is to be performed</param>
+		/// <param name="NewPassphrase">The new passphrase to set.</param>
+		///<returns>Void</returns>
+		[WebMethod(EnableSession=true, Description="Resets the passphrase by Export-Recover-Import automation")]
+		[SoapDocumentMethod]	
+		public void ExportRecoverImport(string DomainID, string UserID, string NewPassphrase)
+		{
+			XmlDocument encKeyDocument, decryptedKeyDoc;
+			log.Debug("DomainID - {0} \n UserID - {1}", DomainID, UserID);
+			log.Debug("NewPassPhrase {0}", NewPassphrase == null?false:true);
+			if(DomainID != null && UserID != null && NewPassphrase != null && DomainID != String.Empty && UserID != String.Empty && NewPassphrase != String.Empty)
+			{
+			/// FIXME - all these 3 operations must be done at the server side instead of getting the data and processing at client
+			/// This is a security issue, as we are getting the RSA key pair from Server over wire - might be OK for
+			/// trusted environment -but still - BUGBUG (see member.RecoverKeys)
+				ExportiFoldersCryptoKeysToDoc(DomainID, UserID, out encKeyDocument);
+				RecoverKeys(DomainID, UserID, "DEFAULT", encKeyDocument, null, out decryptedKeyDoc);
+				ImportiFoldersCryptoKeysFromDoc(DomainID, UserID, NewPassphrase, null, decryptedKeyDoc);
+			}
+		}
 
 		
 		///<summary>
@@ -2453,6 +2654,8 @@ namespace Simias.Web
 		{
 			return Process.GetCurrentProcess().Id;
 		}
+
+
 	}
 
 

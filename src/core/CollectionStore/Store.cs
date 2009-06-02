@@ -40,7 +40,6 @@ using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using System.Xml;
-using System.Text;
 
 using Simias;
 using Simias.Client;
@@ -179,6 +178,14 @@ namespace Simias.Storage
 		/// Object used to cache node objects.
 		/// </summary>
 		private NodeCache cache;
+
+		/// <summary>
+		/// This is used to keep from generating a new key set everytime a new RSACryptoSecurityProvider
+		/// object is instantiated. This is passed as a parameter to the constructor and will 
+		/// use the DEFAULT RA key set.
+		/// </summary>
+		static private CspParameters RAParameters;
+
 		#endregion
 
 		#region Properties
@@ -364,6 +371,45 @@ namespace Simias.Storage
 		{
 			get { return shuttingDown; }
 		}
+
+		static internal RSACryptoServiceProvider DefaultRACert
+		{
+			get{
+				RSACryptoServiceProvider csp = null;
+
+					try
+					{///currently hard-coding it to 1024 - need to see if this can be configured during install time
+					///post-install will be a problem, since the already encrypted keys cannot be decrypted -- FIXME
+						csp = new RSACryptoServiceProvider(1024, RAParameters );
+						csp.PersistKeyInCsp = true;
+					}
+					catch ( CryptographicException e )
+					{
+						log.Debug( e, "Corrupt RA cryptographic key container." );
+#if WINDOWS
+						IntPtr phProv = IntPtr.Zero;
+						if ( CryptAcquireContext(
+							ref phProv,
+							RAParameters.KeyContainerName,
+							"Microsoft Strong Cryptographic Provider",
+							1, // PROV_RSA_FULL
+							0x10) ) // CRYPT_DELETEKEYSET
+						{
+							csp = new RSACryptoServiceProvider( 1024, RAParameters );
+						}
+#endif
+					}
+
+				return csp;
+			}
+		}
+		#endregion
+		
+		#region Win32APIs
+#if WINDOWS
+		[System.Runtime.InteropServices.DllImport( "advapi32.dll", SetLastError=true )]
+		static extern bool CryptAcquireContext( ref IntPtr phProv, string pszContainer, string pszProvider, uint dwProvType, uint dwFlags );
+#endif
 		#endregion
 
 		#region Constructor
@@ -390,6 +436,10 @@ namespace Simias.Storage
 			{
 				Directory.CreateDirectory( ReportPath );
 			}
+
+			CspParameters RAParameters = new CspParameters();
+			RAParameters.KeyContainerName = "RAKeyStore";
+			log.Debug("RA key store set");
 
 			// Either create the store or authenticate to it.
 			if ( created )		// store is newly created...
@@ -477,7 +527,7 @@ namespace Simias.Storage
 						ldb.Properties.AddNodeProperty( PropertyTags.StoreVersion, storeVersion );
 						ldb.Commit();
 					}
-					catch(Exception e)
+					catch
 					{
 					}
 				}
@@ -532,6 +582,14 @@ namespace Simias.Storage
 
 					// Create the certificate policy and load the certs.
 					new CertPolicy();
+					//Load the RSA for the domain - need to see how this can be migrated --FIXME
+					log.Info("IsEnterpriseServer {0}",IsEnterpriseServer);
+					if(IsEnterpriseServer)
+					{
+						//Store the DEFAULT certificate(RSA information) for users using the "Server Default" option in client
+						// need to find a better way of representing DEFAULT
+						Simias.Security.RSAStore.CheckAndStoreRSA(DefaultRACert.ToXmlString(true), "DEFAULT", true);
+					}
 					X509Certificate raCert = null;
 					try 
 					{
@@ -563,7 +621,9 @@ namespace Simias.Storage
 					        log.Error (e.ToString());
 					}
 
-					Simias.Security.CertificateStore.LoadCertsFromStore();
+					Simias.Security.CertificateStore.LoadCertsFromStore(); //this loads all Certs including RA - but client will not have RA
+					if(IsEnterpriseServer) //load the RSA data from store - only on server
+						Simias.Security.RSAStore.LoadRSAFromStore();
 				}
 
 				return instance;
@@ -758,16 +818,15 @@ namespace Simias.Storage
                         {
 				#if MONO 
 				{
-	                                int LowerIndex=0,HigherIndex=0;
+	                                int LowerIndex = 0,HigherIndex=0;
                 	                DataStore[] volumes = DataStore.GetVolumes();
-                        	        foreach(DataStore item in volumes)
+                        	        for(LowerIndex=0; LowerIndex < volumes.Length; LowerIndex++)
 	                                {
 						if( volumes[ LowerIndex ].Enabled )
 						{
 							if( ( volumes[ LowerIndex  ].CompareTo(volumes[ HigherIndex  ] ) ) >=0 )
         	                	                	HigherIndex = LowerIndex;
 						}
-						LowerIndex++;
         	                        }
                 	                string tmpPath;
 					if( HigherIndex != 0 )
@@ -781,7 +840,6 @@ namespace Simias.Storage
                         	        return Path.Combine( tmpPath, collectionID.ToLower() );
 				}
 				#endif
-				return null;
                         }
 		}
 
@@ -793,8 +851,6 @@ namespace Simias.Storage
 		/// <returns>A path string that represents the store unmanaged path.</returns>
 		internal string GetStoreUnmanagedPrefix(string StoreVersion)
 		{
-			// keep compiler happy - used in future to determine the prefix based on the store version.
-			StoreVersion = StoreVersion;
 			return storeUnmanagedPrefix;
 		}
 
@@ -1040,6 +1096,7 @@ namespace Simias.Storage
 			return ownerList;
 		}
 
+///This implementation has to be optimized. The index is used incorrectly. And it should not loop to the index on every call.
 		public CollectionKey GetCollectionCryptoKeysByOwner( string userID, string domainID, int index)
 		{
 			userID = userID.ToLower();
@@ -1061,6 +1118,7 @@ namespace Simias.Storage
 						cKey.NodeID = c.ID;
 						cKey.PEDEK = c.EncryptionKey;
 						cKey.REDEK= c.RecoveryKey;
+						log.Debug("CID {2}\nPEDEK {0}\nREDEK {1}", cKey.PEDEK, cKey.REDEK, cKey.NodeID);
 						break;
 					}
 					count++;
@@ -1075,6 +1133,7 @@ namespace Simias.Storage
                 public string GetCollectionCryptoKeyHash(string collectionID)
                 {
                         Collection c = GetCollectionByID(collectionID);
+log.Debug("CID {0}\n Blob {1}\n", collectionID,c.EncryptionBlob);
                         return c.EncryptionBlob;
                 }
 
@@ -1093,6 +1152,7 @@ namespace Simias.Storage
 				{
 					if(c.ID == cKey.NodeID)
 					{
+log.Debug("CID {2}\nPEDEK {0}\nREDEK {1}", cKey.PEDEK, cKey.REDEK, cKey.NodeID);
 						c.EncryptionKey = cKey.PEDEK;
 						if(cKey.REDEK !=null && cKey.REDEK !="")
 						c.RecoveryKey = cKey.REDEK; 
@@ -1815,7 +1875,7 @@ namespace Simias.Storage
 		{
 //			UTF8Encoding utf8 = new UTF8Encoding();
 			SHA1 sha = new SHA1CryptoServiceProvider();
-			byte[] hashedObject = new SHA1CryptoServiceProvider().ComputeHash(Convert.FromBase64String(this.CryptoKey));
+			byte[] hashedObject = sha.ComputeHash(Convert.FromBase64String(this.CryptoKey));
 			return Convert.ToBase64String(hashedObject);
 		}
 

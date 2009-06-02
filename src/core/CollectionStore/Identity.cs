@@ -43,7 +43,34 @@ using Simias.Client;
 using Persist = Simias.Storage.Provider;
 
 namespace Simias.Storage
-{
+{	
+	/// <summary>
+	/// Defines the credential types stored on a domain.
+	/// </summary>
+	[Serializable]
+	public enum CredentialType
+	{
+		/// <summary>
+		/// Credentials have not been set on this domain.
+		/// </summary>
+		None,
+
+		/// <summary>
+		/// Credentials are not required for this domain.
+		/// </summary>
+		NotRequired,
+
+		/// <summary>
+		/// HTTP basic credentials.
+		/// </summary>
+		Basic,
+
+		/// <summary>
+		/// Public/Private key credentials.
+		/// </summary>
+		PPK
+	}
+
 	/// <summary>
 	/// Class that represents a user identity in the Collection Store.
 	/// </summary>
@@ -204,7 +231,6 @@ namespace Simias.Storage
 			// Set up the dummy key store so that it will contain a dummy key set.
 			DummyParameters = new CspParameters();
 			DummyParameters.KeyContainerName = "DummyKeyStore";
-			RSACryptoServiceProvider csp = DummyCsp;
 		}
 
 		/// <summary>

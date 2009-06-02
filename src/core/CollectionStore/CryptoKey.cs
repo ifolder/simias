@@ -22,13 +22,13 @@
 *
 *                 $Author: Arul Selvan <rarul@novell.com>
 
-*                 $Modified by: <Modifier>
+*                 $Modified by: Kalidas Balakrishnan
 *                 $Mod Date: <Date Modified>
 *                 $Revision: 0.0
 *-----------------------------------------------------------------------------
 * This module is used to:
-*        <Description of the functionality of the file >
-*
+*       Added functionality to use RSA infra along with X509. 
+*	RecoveryAgent class is extensible for other types of enc
 *
 *******************************************************************************/
  
@@ -38,9 +38,12 @@ using System.IO;
 using System.Text;
 using System.Net;
 using System.Security.Cryptography;
-using System.Security.Cryptography.X509Certificates;
+#if MONO
+using Mono.Security.X509;
+#endif
 using System.Threading;
 using System.Xml;
+using Simias.Storage;
 
 namespace Simias.CryptoKey
 {
@@ -81,6 +84,12 @@ namespace Simias.CryptoKey
 		}
 	}
 
+	public enum EncType : int
+	{
+		X509 = 0x00000001,
+		RSA = 0x00000010,
+		PGP = 0x00000100
+	};
 	/// <summary>
 	/// Class to encrypt the DEK with RA publickey
 	/// </summary>
@@ -88,14 +97,43 @@ namespace Simias.CryptoKey
 	{
 		
 		private byte [] publicKey;
+		private RSACryptoServiceProvider RSAData;
+		private int encType;
+ private static readonly ISimiasLog log = SimiasLogManager.GetLogger(typeof(RecoveryAgent));
 
 		///<summary>
 		///constructor
 		///</summary>
 		public RecoveryAgent(string RAPublicKey)
 		{
-			publicKey	 = Convert.FromBase64String(RAPublicKey);
+			if(RAPublicKey.StartsWith("SimiasRSA"))
+			{
+				log.Debug("Before trim {0}", RAPublicKey);
+				/// Find a better way of doing this - BUGBUG - length if SimiasRSA is 9
+				publicKey = Convert.FromBase64String(RAPublicKey.Substring(9));
+				log.Debug("After trim {0}", publicKey);
+				encType = (int)EncType.RSA;
+			}
+			else
+			{
+				publicKey	 = Convert.FromBase64String(RAPublicKey);
+				encType = (int)EncType.X509;
+			}
 		}
+
+		public RecoveryAgent(RSACryptoServiceProvider RAData)
+		{
+			RSAData = RAData;
+			encType = (int)EncType.RSA;
+		}
+#if MONO
+		public RecoveryAgent(X509Certificate RAData)
+		{
+			RSAData = new RSACryptoServiceProvider();
+			RSAData.ImportParameters(RAData.RSA.ExportParameters(true));
+			encType = (int)EncType.X509;
+		}
+#endif
 
 		///<summary>
 		///encrypt the message
@@ -103,13 +141,18 @@ namespace Simias.CryptoKey
 		public string EncodeMessage(string message)
 		{
 			string encodedMessage ;
-			byte [] Exponent = {1,0,1};
+/// FIXME - very bad hack - get the entire Public key set -see Member.cs GetPublicKey/GetDefaultPublicKey- BUGBUG
+			byte [] X509Exponent = {1,0,1};
+			byte [] RSAExponent = {17};
 
 			try
 			{
 				RSAParameters rsaParameters = new RSAParameters();
 				rsaParameters.Modulus = publicKey;
-				rsaParameters.Exponent = Exponent;
+				if(encType == (int)EncType.X509)
+					rsaParameters.Exponent = X509Exponent;
+				else
+					rsaParameters.Exponent = RSAExponent;
 				// Construct a formatter with the specified RSA key.
 				RSACryptoServiceProvider RSA = new RSACryptoServiceProvider();
 				RSA.ImportParameters(rsaParameters);
@@ -124,5 +167,50 @@ namespace Simias.CryptoKey
 			}
 			return encodedMessage;
 		}
+
+		/// <summary>
+		/// Message Decoder
+		/// </summary>
+		/// <param name="encmess">Byte stream which needs to be decoded</param>
+		/// <returns>decoded string from te byte stream</returns>
+		public string DecodeMessage(byte[] encmess)
+		{
+			string mess = null;
+			try
+			{
+				mess = Convert.ToBase64String(RSAData.Decrypt(encmess, false));
+		log.Debug("Decrypted Mess {0}", mess);
+			}
+			catch (CryptographicException cExp)
+			{
+				Console.WriteLine("Crpto Error {0}", cExp.Message);
+			}
+			return mess;
+		}
+
+		/// <summary>
+		/// Decoder of Byte Stream to a string with One time  PP
+		/// </summary>
+		/// <param name="encmess">A byte stream which needs to be decoded</param>
+		/// <param name="otpass">One time PP</param>
+		/// <returns>Decoded string</returns>
+		public string DecodeMessage(byte[] encmess, string otpass)
+		{
+			string retStr = null;
+			string mess;
+			try
+			{
+				mess = DecodeMessage(encmess);
+				Key dKey = new Key(mess);
+				PassphraseHash phash = new PassphraseHash();
+				dKey.EncrypytKey(phash.HashPassPhrase(otpass), out retStr);
+			}
+			catch (CryptographicException cryExp)
+			{
+				Console.WriteLine("Crpto Error {0}", cryExp.Message);
+			}
+			return retStr;
+		}
+
 	}
 }

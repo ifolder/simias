@@ -21,13 +21,13 @@
 *-----------------------------------------------------------------------------
 *
 *                 $Author: Mike Lasky <mlasky@novell.com>
-*                 $Modified by: <Modifier>
+*                 $Modified by: Kalidas Balakrishnan <bkalidas@novell.com> 
 *                 $Mod Date: <Date Modified>
 *                 $Revision: 0.0
 *-----------------------------------------------------------------------------
 * This module is used to:
-*        <Description of the functionality of the file >
-*
+*        Added functionality to handle encryption keys - RSA and X509 - including
+*	Recovery of key data
 *
 *******************************************************************************/
 
@@ -38,6 +38,7 @@ using System.Threading;
 using System.Text;
 using System.Collections;
 using System.Security.Cryptography;
+using Mono.Security.X509;
 using System.Xml;
 
 using Simias.Client;
@@ -908,8 +909,8 @@ namespace Simias.Storage
 				}
 				catch
 				{
-					continue;
 					log.Debug("SetEncryptionBlobFlag : pass-phrase status could not be set");
+					continue;
 				}
 			}
 		}
@@ -976,7 +977,7 @@ namespace Simias.Storage
 			}
 			catch(Exception ex)
 			{
-				log.Debug("SetEncryptionBlobFlagServer: pass-phrase status could not be set");
+				log.Debug("SetEncryptionBlobFlagServer: pass-phrase status could not be set {0}", ex.Message);
 			}
 
 		}
@@ -1039,8 +1040,6 @@ namespace Simias.Storage
         /// <returns></returns>
 		public long MovediFolderSize(string DomainID, string iFolderID)
 		{	
-			Store store = Store.GetStore();
-			Domain domain = store.GetDomain(DomainID);
 			
 			Property p = properties.GetSingleProperty(iFolderID);
 			if(p != null)
@@ -1102,8 +1101,6 @@ namespace Simias.Storage
 		{	
 			Store store = Store.GetStore();
 			Domain domain = store.GetDomain(DomainID);
-			string UserID = store.GetUserIDFromDomainID(DomainID);
-			Member member = domain.GetMemberByID(UserID);	
 			Property p = properties.GetSingleProperty(PropertyTags.SecurityStatus);
 			int value ;
 			if(p != null)
@@ -1154,7 +1151,7 @@ namespace Simias.Storage
 		{			
 			try
 			{
-				if(RAPublicKey != null && RAPublicKey != "" )//RAName null allowed
+				if(RAPublicKey != null && RAPublicKey != "" && RAName != "DEFAULT")//RAName null allowed
 					KeyCorrection(ref RAName, ref RAPublicKey);			
 				
 				Store store = Store.GetStore();
@@ -1314,7 +1311,7 @@ namespace Simias.Storage
 				return false;
 			try
 			{	
-				if(RAPublicKey != null && RAPublicKey != "" )//RAName null allowed
+				if(RAPublicKey != null && RAPublicKey != "" && RAName != "DEFAULT")//RAName null allowed - find a better way to represent "DEFAULT"
 					KeyCorrection(ref RAName, ref RAPublicKey);				
 				
 				Store store = Store.GetStore();
@@ -1735,7 +1732,6 @@ namespace Simias.Storage
                                 Console.WriteLine(e);
                                 throw(e);
                         }
-                        return result;
 
                 }
 
@@ -1868,7 +1864,7 @@ namespace Simias.Storage
                         {
 				Interval = Simias.Policy.SyncInterval.GetInterval(collection);
                         }
-                        catch(Exception ex)
+                        catch
                         {
                                 Interval = 0;
                         }
@@ -2008,11 +2004,11 @@ namespace Simias.Storage
 		}
 
 		/// <summary>
-		/// Export the crypto keys from server
+		/// Export the crypto keys of user
 		/// </summary>
-		public  void ExportiFoldersCryptoKeys(string FilePath)
+		public  void ExportiFoldersCryptoKeys(out XmlDocument keyDocument, string FilePath)
 		{
-			XmlDocument document = new XmlDocument();
+			XmlDocument  document = new XmlDocument();
 			XmlDeclaration xmlDeclaration = document.CreateXmlDeclaration("1.0","utf-8",null); 
 			document.InsertBefore(xmlDeclaration, document.DocumentElement); 
 			XmlElement title  = document.CreateElement("CryptoKeyRecovery");
@@ -2025,9 +2021,9 @@ namespace Simias.Storage
 				string UserID = store.GetUserIDFromDomainID(DomainID);
 				HostNode host = this.HomeServer; //home server
 				SimiasConnection smConn = new SimiasConnection(DomainID,
-																UserID,
-																SimiasConnection.AuthType.BASIC,
-																host);
+										UserID,
+										SimiasConnection.AuthType.BASIC,
+										host);
 				SimiasWebService svc = new SimiasWebService();
 				svc.Url = host.PublicUrl;
 
@@ -2044,16 +2040,21 @@ namespace Simias.Storage
 
 					XmlNode newElem2 = document.CreateNode("element", "iFolderID", "");
        				newElem2.InnerText = Key.NodeID;
+log.Debug("iFolderID {0}", Key.NodeID);
 					newElem1.AppendChild(newElem2);
 					
 					XmlNode newElem3 = document.CreateNode("element", "Key", "");
        				newElem3.InnerText = Key.REDEK;
+log.Debug("REDEK {0}", Key.REDEK);
 				       newElem1.AppendChild(newElem3);
 					index++;
 				}
-				if(File.Exists(FilePath))
+				if(FilePath != null && File.Exists(FilePath))
+				{
 					File.Delete(FilePath);
-				document.Save(FilePath);
+					document.Save(FilePath);
+				}
+				keyDocument = document;
 			}
 			catch(Exception ex)
 			{
@@ -2062,19 +2063,37 @@ namespace Simias.Storage
 			}
 			finally{}
 		}
+
+		/// <summary>
+		/// Export the crypto keys from server
+		/// </summary>
+		public  void ExportiFoldersCryptoKeys(string FilePath)
+		{
+			XmlDocument keyDoc = null;
+			if(FilePath != null)
+				ExportiFoldersCryptoKeys(out keyDoc, FilePath);
+		}
+
 		/// <summary>
 		/// Import the crypto keys from server
 		/// </summary>
-		public void ImportiFoldersCryptoKeys(string FilePath, string NewPassphrase, string OneTimePassphrase)
+		public void ImportiFoldersCryptoKeys(XmlDocument keyDocument, string NewPassphrase, string OneTimePassphrase, bool usingFile, string FilePath)
 		{
-			if(!File.Exists(FilePath))
+		//if usingFile is false, then keyDocument must not be null and must be validated by the caller
+			if(usingFile && !File.Exists(FilePath))
 				throw new CollectionStoreException("File not found"); //will be caught by the caller					
 
 			string strKey = string.Format("//{0}/{1}", "iFolderCollection", "Key");
 			string strID = string.Format("//{0}/{1}", "iFolderCollection", "iFolderID");
+			XmlDocument encFile;
 			
-			XmlDocument encFile = new XmlDocument();
-			encFile.Load(FilePath);
+			if(usingFile)
+			{
+				encFile = new XmlDocument();
+				encFile.Load(FilePath);
+			}
+			else
+				encFile = keyDocument;
 			
 			XmlNodeList keyNodeList, idNodeList;
 			XmlElement root = encFile.DocumentElement;
@@ -2089,9 +2108,9 @@ namespace Simias.Storage
 				string UserID = store.GetUserIDFromDomainID(DomainID);
 				HostNode host = this.HomeServer; //home server
 				SimiasConnection smConn = new SimiasConnection(DomainID,
-																UserID,
-																SimiasConnection.AuthType.BASIC,
-																host);
+										UserID,
+										SimiasConnection.AuthType.BASIC,
+										host);
 				SimiasWebService svc = new SimiasWebService();
 				svc.Url = host.PublicUrl;
 
@@ -2107,6 +2126,7 @@ namespace Simias.Storage
 					
 					XmlNode keyNode = keyNodeList[count++];					
 					string RecoveredCryptoKey = keyNode.InnerText;
+log.Debug("RecoveredCryptoKey {0}",RecoveredCryptoKey);
 					string DecrypRecoveredCryptoKey = null;
 					if(OneTimePassphrase !=null && OneTimePassphrase !="")
 					{					
@@ -2152,6 +2172,163 @@ namespace Simias.Storage
 			}
 			finally{}
 		}
+		
+		/// <summary>
+		/// Import the crypto keys from server
+		/// </summary>
+		public void ImportiFoldersCryptoKeys(string FilePath, string NewPassphrase, string OneTimePassword)
+		{
+			if(FilePath != null)
+				ImportiFoldersCryptoKeys(null, NewPassphrase, OneTimePassword, true, FilePath);
+		}
+
+		public void RecoverKeys(string RAName, bool isRSA, XmlDocument keyDocument, string oneTimePP, out XmlDocument decryptedKeyDoc)
+		{
+			string titleTag = "CryptoKeyRecovery";
+			string CollectionIDTag = "iFolderCollection";
+			string iFolderIDTag = "iFolderID";
+			string KeyTag = "Key";
+			string strKey = string.Format("//{0}/{1}", CollectionIDTag, KeyTag);
+			string strID = string.Format("//{0}/{1}", CollectionIDTag, iFolderIDTag);
+			string decKey;
+			byte[] decKeyByteArray;
+			RecoveryAgent agent = null;
+			XmlDocument document = new XmlDocument();
+			try
+			{
+			    XmlDocument encFile = keyDocument;
+			    XmlNodeList keyNodeList, idNodeList;
+
+			    XmlElement root = encFile.DocumentElement;
+
+			    keyNodeList = root.SelectNodes(strKey);
+			    idNodeList = root.SelectNodes(strID);
+
+			    XmlDeclaration xmlDeclaration = document.CreateXmlDeclaration("1.0", "utf-8", null);
+			    document.InsertBefore(xmlDeclaration, document.DocumentElement);
+			    XmlElement title = document.CreateElement(titleTag);
+			    document.AppendChild(title);
+			    int i = 0;
+			    foreach (XmlNode idNode in idNodeList)
+			    {
+			        if (idNode.InnerText == null || idNode.InnerText == String.Empty)
+			            continue;
+			        log.Debug("ID {0}",idNode.InnerText);
+			        XmlNode newNode = document.CreateNode("element", CollectionIDTag, "");
+			        newNode.InnerText = "";
+			        document.DocumentElement.AppendChild(newNode);
+			        XmlNode innerNode = document.CreateNode("element", iFolderIDTag, "");
+			        innerNode.InnerText = idNode.InnerText;
+			        newNode.AppendChild(innerNode);
+			        {
+			            XmlNode keyNode = keyNodeList[i++];
+					decKey = keyNode.InnerText;
+					log.Debug("DecKey {0}", decKey);
+			            decKeyByteArray = Convert.FromBase64String(decKey);
+			            XmlNode newElem2 = document.CreateNode("element", KeyTag, "");
+			            if (decKey == null || decKey == String.Empty)
+			                continue;
+					if(isRSA)
+					{
+						UTF8Encoding utf8 = new UTF8Encoding();
+						RSACryptoServiceProvider raRSA = new RSACryptoServiceProvider();
+						string xmlStr = utf8.GetString(Convert.FromBase64String(this.GetDefaultRSAFromServer()));
+						raRSA.FromXmlString(xmlStr);
+						agent = new RecoveryAgent(raRSA);
+					}
+			            if (oneTimePP != null && oneTimePP != String.Empty)
+			                newElem2.InnerText = agent.DecodeMessage(decKeyByteArray, oneTimePP);
+			            else
+			                newElem2.InnerText = agent.DecodeMessage(decKeyByteArray);
+			            newNode.AppendChild(newElem2);
+			        }
+			    }
+			}
+			catch (Exception e)
+			{
+			    Console.WriteLine("Exception while processing" + e.Message + e.StackTrace);
+			}
+			decryptedKeyDoc = document;
+		}
+                /// <summary>
+               /// Gets the credentials from the specified domain object.
+               /// </summary>
+               /// <param name="DomainID">The ID of the domain to set the credentials on.</param>
+               /// <returns>The Default public key </returns>
+                public string  GetDefaultRSAFromServer()
+                {
+
+                        Store store = Store.GetStore();
+                        string DomainID = this.GetDomainID(store);
+
+                        HostNode host = this.HomeServer; //home server
+                log.Debug("DomainID {0}, User ID {1}", DomainID, UserID);
+                        SimiasConnection smConn = new SimiasConnection(DomainID,
+                                                              this.UserID,
+                                                              SimiasConnection.AuthType.BASIC,
+                                                              host);
+                        SimiasWebService svc = new SimiasWebService();
+                        svc.Url = host.PublicUrl;
+
+                        smConn.Authenticate ();
+                        smConn.InitializeWebClient(svc, "Simias.asmx");
+                        return svc.GetDefaultRSAKey(DomainID);
+                }
+
+		/// <summary>
+	       /// Gets the credentials from the specified domain object.
+	       /// </summary>
+	       /// <param name="DomainID">The ID of the domain to set the credentials on.</param>
+	       /// <returns>The Default public key </returns>
+	        public string GetDefaultPublicKeyFromServer()
+	        {
+
+			Store store = Store.GetStore();
+			string DomainID = this.GetDomainID(store);
+			
+			HostNode host = this.HomeServer; //home server
+		log.Debug("DomainID {0}, User ID {1}", DomainID, UserID);	
+			SimiasConnection smConn = new SimiasConnection(DomainID,
+									this.UserID,
+									SimiasConnection.AuthType.BASIC,
+									host);
+			SimiasWebService svc = new SimiasWebService();
+			svc.Url = host.PublicUrl;
+			
+			smConn.Authenticate ();
+			smConn.InitializeWebClient(svc, "Simias.asmx");
+			
+			return svc.GetDefaultPublicKey(DomainID);
+	        }
+
+	
+
+                /// <summary>
+               /// Gets the credentials from the specified domain object.
+               /// </summary>
+               /// <param name="DomainID">The ID of the domain to set the credentials on.</param>
+               /// <returns>The Default public key </returns>
+                public string GetDefaultRSAKey()
+                {
+//	log.Debug("GetDefaultRSAKey \n {0}", Simias.Security.RSAStore.Default_RA.ToXmlString(true));
+	/// FIXME - This is an insecure way of sending the key pair. This has to be obfuscated. - BUGBUG
+			UTF8Encoding utf8 = new UTF8Encoding();
+                        return Convert.ToBase64String(utf8.GetBytes(Simias.Security.RSAStore.Default_RA.ToXmlString(true)));
+                }
+	
+		/// <summary>
+	       /// Gets the credentials from the specified domain object.
+	       /// </summary>
+	       /// <param name="DomainID">The ID of the domain to set the credentials on.</param>
+	       /// <returns>The Default public key </returns>
+	        public string GetDefaultPublicKey()
+	        {
+	log.Debug("GetDefaultPublicKey");
+	/// FIXME - Entire Public Parameters have to be sent. Currently the Exponent is assumed and hardcoded- BUGBUG
+	/// use the ToXmlString(false) - see CryptoKey.cs
+			string pKey = "SimiasRSA"+Convert.ToBase64String((Simias.Security.RSAStore.Default_RA.ExportParameters(false)).Modulus);
+			return pKey;
+	        }
 		#endregion
 	}	
 	

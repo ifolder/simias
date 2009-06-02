@@ -41,7 +41,6 @@ using System.Security.Cryptography.X509Certificates;
 using System.Diagnostics;
 using System.Threading;
 using System.Xml;
-using System.Text;
 using Mono.Unix;
 
 using Simias;
@@ -153,7 +152,6 @@ namespace Simias.Storage
                 ///</summary>
                 public DataStore(string datapath)
                 {
-			Store store = Store.GetStore();
 			this.DataPath = datapath;
 			this.FullPath = Store.StorePath;
 			UnixDriveInfo mntpt = new UnixDriveInfo(this.FullPath);
@@ -188,7 +186,7 @@ namespace Simias.Storage
 			else if( Directory.Exists( this.FullPath ) != true )
 				return 2;
 
-			Mono.Posix.Syscall.symlink(this.FullPath,tmppath);
+			Mono.Unix.Native.Syscall.symlink(this.FullPath,tmppath);
 
 			string storageFormat = String.Format( "{0}|{1}", this.DataPath, this.FullPath);
 			storageFormat = String.Format( "{0}|{1}",storageFormat,this.Enabled.ToString());
@@ -260,7 +258,7 @@ namespace Simias.Storage
 						string storepath = Store.StorePath;
 			                        string tmppath = Path.Combine(storepath,"SimiasFiles");
                         			tmppath = Path.Combine(tmppath,datapathname);
-						Mono.Posix.Syscall.unlink(tmppath);
+						Mono.Unix.Native.Syscall.unlink(tmppath);
 					}
 				}
 			}

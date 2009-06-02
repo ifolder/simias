@@ -1882,14 +1882,12 @@ namespace Simias.Web
 			Member MemberInCol = null;
 			Access.Rights rights = Access.Rights.Admin;
 			Domain domain = null;
-			Domain GDomain = null;
 
 			Store store = Store.GetStore();
 			Collection col = store.GetCollectionByID(CollectionID);
 			if(col == null)
 				throw new Exception("Invalid CollectionID");
 
-		//	GDomain = store.GetDomain(col.Domain);
 			domain = store.GetDomain(col.Domain);
 			if(domain == null)
 			{
@@ -2054,6 +2052,32 @@ namespace Simias.Web
 		public static void SyncCollectionNow(string CollectionID)
 		{
 			SyncClient.ScheduleSync(CollectionID);
+		}
+
+		/// <summary>
+		/// WebMethod that gets the default public key for ifolder key encryption
+		/// </summary>
+		/// <param name="DomainID"> The domain for which the public key needs to be fetched </param>
+		/// <param name="UserID"> The member of the Domain </param>
+		/// <returns> The default public key of the domain </returns>
+		public static string GetDefaultPublicKey(string DomainID, string UserID)
+		{
+                        Store store = Store.GetStore();
+                        Domain domain = store.GetDomain(DomainID);
+			Simias.Storage.Member member = null;
+
+                        if(domain == null)
+                                throw new Exception("Unable to obtain default domain");
+
+			if(UserID == null)
+                        	member = domain.GetCurrentMember();
+			else
+	                        member = domain.GetMemberByID(UserID);
+
+                        if(member == null)
+                                throw new Exception("UserID is invalid");
+
+			return member.GetDefaultPublicKeyFromServer();
 		}
 
 
