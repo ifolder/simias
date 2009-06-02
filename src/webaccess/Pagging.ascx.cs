@@ -70,6 +70,16 @@ namespace Novell.iFolderApp.Web
 		protected Literal ItemLabelPlural;
 
 		/// <summary>
+        /// Hyphen - 
+        /// </summary>
+        protected Literal Hyphen;
+						       
+		/// <summary>
+		/// OF
+		/// </summary>
+		protected Literal OF;
+
+		/// <summary>
 		/// Item Label Singular
 		/// </summary>
 		protected Literal ItemLabelSingular;
@@ -370,6 +380,8 @@ namespace Novell.iFolderApp.Web
 		/// <param name="e"></param>
 		private void Pagging_PreRender(object sender, EventArgs e)
 		{
+			OF.Text = rm.GetString("OF");
+			Hyphen.Text = rm.GetString("HYPHEN");
 			StartIndex.Text = (total > 0) ? (index + 1).ToString() : "0";
 			EndIndex.Text = (index + count).ToString();
 			TotalLabel.Text = total.ToString();
@@ -379,6 +391,19 @@ namespace Novell.iFolderApp.Web
 			NextImageDisabled.Visible = LastImageDisabled.Visible = !NextImage.Visible;
 			ItemLabelSingular.Visible = (total == 1);
 			ItemLabelPlural.Visible = !ItemLabelSingular.Visible;
+			
+			if ( total == 0 )
+			{
+					OF.Visible = false;
+					Hyphen.Visible = false;
+					StartIndex.Visible = false;
+					EndIndex.Visible = false;
+					ItemLabelSingular.Visible = false;
+					ItemLabelPlural.Visible = false;
+					TotalLabel.Visible = true;
+
+					TotalLabel.Text = String.Format( rm.GetString("NOITEMSAVAILABLE"), ItemLabelPlural.Text ); 
+			}
 		}
 	}
 }

@@ -9,8 +9,8 @@
 	<asp:Image ID="PreviousImageDisabled" ImageUrl="images/go-previous-disabled.png" runat="server" />
 	
 	<div class="index">
-		<asp:Literal ID="StartIndex" runat="server" />&ndash;<asp:Literal ID="EndIndex" runat="server" />
-		<%= GetString("OF") %>
+		<asp:Literal ID="StartIndex" runat="server" /><asp:Literal ID="Hyphen" runat="server" /><asp:Literal ID="EndIndex" runat="server" />
+		<asp:Literal ID="OF" runat="server" />
 		<asp:Literal ID="TotalLabel" runat="server" />
 		<asp:Literal ID="ItemLabelPlural" runat="server" /><asp:Literal ID="ItemLabelSingular" runat="server" />
 	</div>

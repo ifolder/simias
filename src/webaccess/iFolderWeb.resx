@@ -136,7 +136,7 @@
         <value>Help</value>
     </data>
     <data name="LOGOUT">
-        <value>Log Out</value>
+        <value>Logout</value>
     </data>
     <data name="OWNER">
         <value>Owner</value>
@@ -148,7 +148,7 @@
         <value>iFolders</value>
     </data>
     <data name="NAME">
-        <value>Name:</value>
+        <value>Name</value>
     </data>
     <data name="SIZE">
         <value>Size</value>
@@ -298,13 +298,13 @@
         <value>Back</value>
     </data>
     <data name="RIGHTS.ADMIN">
-        <value>Full Control</value>
+        <value>Full control</value>
     </data>
     <data name="RIGHTS.READONLY">
-        <value>Read Only</value>
+        <value>Read only</value>
     </data>
     <data name="RIGHTS.READWRITE">
-        <value>Read/Write</value>
+        <value>Read write</value>
     </data>
     <data name="RIGHTS.DENY">
         <value>Unkown</value>
@@ -379,7 +379,7 @@
         <value>Info</value>
     </data>
     <data name="DESCRIPTION">
-        <value>Description:</value>
+        <value>Description</value>
     </data>
     <data name="APPLY">
         <value>Apply</value>
@@ -676,7 +676,7 @@
         <value>File with the same name will not be uploaded.</value>
     </data>
     <data name="TEXTOVERWRITE">
-        <value>Overwrite Existing Files</value>
+        <value>Overwrite existing Files</value>
     </data>
     <data name="SHOW">
         <value>Show:</value>
@@ -717,4 +717,13 @@
     <data name="SAMEOLDPASSWORD">
         <value>Old Password and New Password should not be same.</value>
     </data>
+	<data name="RETURN">
+		<value>Return</value>
+	</data>
+	<data name="HYPHEN">
+		<value> - </value>
+	</data>
+	<data name="NOITEMSAVAILABLE">
+		<value>No {0} available</value>
+	</data>
 </root>

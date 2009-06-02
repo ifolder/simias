@@ -269,7 +269,7 @@ a:hover
 
 #sub-content
 {
-	margin-left: 20px;
+	
 }
 
 .section
@@ -369,7 +369,7 @@ div.main
 
 table.list
 {
-	width: 99%;
+	width: 99.9%;
 	border-collapse: collapse;
 	color: #333333;
 	empty-cells: show;
@@ -435,7 +435,7 @@ table.list td.size
 
 table.list td.rights
 {
-	width: 6em;
+	width: 12em;
 }
 
 table.list td.owner
@@ -501,7 +501,7 @@ table.list td.history
 td.label
 {
 	color: #777777;
-	text-align: right;
+	text-align: left;
 	width: 10em;
 	padding-right: 8px;
 }

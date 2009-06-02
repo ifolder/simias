@@ -134,7 +134,7 @@ namespace Novell.iFolderApp.Web
 				ItemImage.ImageUrl = String.Format("images/change-{0}.png", type.ToLower());
 
 				// strings
-				CloseButton.Text = GetString("CLOSE");
+				CloseButton.Text = GetString("RETURN");
 				HistoryPagging.LabelSingular = GetString("CHANGE");
 				HistoryPagging.LabelPlural = GetString("CHANGES");
 

@@ -157,7 +157,7 @@ namespace Novell.iFolderApp.Web
 			{
 				// data
 				MemberData.Columns[ 3 ].HeaderText = GetString( "MEMBERS" );
-                                MemberData.Columns[ 4 ].HeaderText = GetString( "NAME" );
+                                MemberData.Columns[ 4 ].HeaderText = GetString( "RIGHTS" );
                                 MemberData.Columns[ 5 ].HeaderText = GetString( "HISTORY" );
 
 				BindData();

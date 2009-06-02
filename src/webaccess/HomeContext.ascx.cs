@@ -106,8 +106,8 @@ namespace Novell.iFolderApp.Web
 				
 				// categories
 				SearchCategory.Items.Add(new ListItem(GetString("ALL"), iFolderCategory.All.ToString()));
-				SearchCategory.Items.Add(new ListItem(GetString("RECENT"), iFolderCategory.Recent.ToString()));
 				SearchCategory.Items.Add(new ListItem(GetString("OWNED"), iFolderCategory.Owned.ToString()));
+				SearchCategory.Items.Add(new ListItem(GetString("RECENT"), iFolderCategory.Recent.ToString()));
 				SearchCategory.Items.Add(new ListItem(GetString("SHARED"), iFolderCategory.Shared.ToString()));
 			}
 		}

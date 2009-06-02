@@ -165,9 +165,9 @@ namespace Novell.iFolderApp.Web
 				CancelButton.Text = GetString("CANCEL");
 
 				// properties
-				SearchPropertyList.Items.Add(new ListItem(GetString("USERNAME"), SearchProperty.UserName.ToString()));
 				SearchPropertyList.Items.Add(new ListItem(GetString("FIRSTNAME"), SearchProperty.FirstName.ToString()));
 				SearchPropertyList.Items.Add(new ListItem(GetString("LASTNAME"), SearchProperty.LastName.ToString()));
+				SearchPropertyList.Items.Add(new ListItem(GetString("USERNAME"), SearchProperty.UserName.ToString()));
 
 				// members
 				members = new Hashtable();

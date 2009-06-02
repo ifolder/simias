@@ -71,8 +71,8 @@
 					<asp:TextBox ID="NewiFolderDescription" TextMode="MultiLine" Rows="4" onkeydown="return SubmitKeyDown(event, 'CreateButton');" runat="server" /><br><br>
 		
 				<div class="label"><b><%= GetString("TYPE") %></b></div> 
-				<asp:RadioButton ID="shared" runat="server" GroupName="SecurityGroup" AutoPostBack="true" /> <br> 
-				<asp:RadioButton ID="Encryption" runat="server" GroupName="SecurityGroup" AutoPostBack="true" /> <br> <br> 
+				<asp:RadioButton ID="Encryption" runat="server" GroupName="SecurityGroup" AutoPostBack="true" /> <br> 
+				<asp:RadioButton ID="shared" runat="server" GroupName="SecurityGroup" AutoPostBack="true" /> <br> <br> 
 
 				 <div id="sub-content">
 
