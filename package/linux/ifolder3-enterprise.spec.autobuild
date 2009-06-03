@@ -68,6 +68,8 @@ make
 %install
 export BUILDNUM=%{buildnum}
 %{__rm} -rf $RPM_BUILD_ROOT
+[ -f %{prefix}/mono/bin/novell-ifolder-mono-environment.sh ] && \
+source %{prefix}/mono/bin/novell-ifolder-mono-environment.sh
 make DESTDIR=$RPM_BUILD_ROOT install
 mkdir -p $RPM_BUILD_ROOT/etc/ld.so.conf.d/
 /usr/bin/install src/server/setup/novell-ifolder3.conf $RPM_BUILD_ROOT/etc/ld.so.conf.d

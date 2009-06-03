@@ -33,7 +33,9 @@ case $host_os in
         SIMIAS_OS='linux'
 	if test "$runasclient" = "TRUE"; then
 		AC_CHECK_PROG(CSC, mcs, mcs)
+        	AC_CHECK_PROG(WSDL, wsdl1, wsdl1,wsdl)
 	else
+        	AC_CHECK_PROG(WSDL, wsdl, wsdl,wsdl)
 		if pkg-config --atleast-version=2.4 mono > /dev/null 2>&1
 		then
 			AC_CHECK_PROG(CSC, gmcs, gmcs)
@@ -46,7 +48,6 @@ case $host_os in
         AC_CHECK_PROG(CSC2, gmcs, gmcs)
         test -z "$CSC" && AC_MSG_ERROR([no C Sharp .Net 2.0 compiler: gmcs not found in \$PATH])
 	    PKG_CONFIG_DIR="$LIB64"
-        AC_CHECK_PROG(WSDL, wsdl1, wsdl1,wsdl)
     ;;
     darwin*)
         SIMIAS_OS='darwin'
