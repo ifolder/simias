@@ -315,6 +315,8 @@ namespace Novell.iFolderApp.Web
 				HelpLink.NavigateUrl = String.Format("help/{0}/{1}", code, "newfolder.html");
 			else if(PageName.Equals(GetString("SHARE")))
 				HelpLink.NavigateUrl = String.Format("help/{0}/{1}", code, "share.html");
+			else if(PageName.Equals("SETTINGS"))
+				HelpLink.NavigateUrl = String.Format("help/{0}/{1}", code, "changepassword.html");
 			else 
 				HelpLink.NavigateUrl = String.Format("help/{0}/{1}", code, "home.html");
 		}

@@ -218,6 +218,7 @@ namespace Novell.iFolderApp.Web
 
 				// view
 				ViewState["Referrer"] = Request.UrlReferrer;
+				Head.AddHelpLink("SETTINGS");
 			}
 		}
 
