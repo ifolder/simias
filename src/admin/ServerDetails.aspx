@@ -258,11 +258,10 @@
 				Runat="server" 
 				AutoPostBack="True" />
 			
-			<asp:Button 
+			<asp:LinkButton
 				ID="ViewLogButton" 
 				Runat="server" 
-				CssClass="ifolderbuttons" 
-				OnClick="ViewLogFile" />
+				CssClass="ifolderbuttons" />
 
 
 				<asp:Label 
@@ -336,11 +335,10 @@
 
 							<%= GetString( "MINUTES" ) %>
 
-							<asp:Button 
+							<asp:LinkButton
 								ID="SyncNowButton" 
 								Runat="server" 
 								CssClass="syncnowbutton"
-								OnClick="OnSyncNowButton_Click"			
 								Enabled="True"
 								/>
 						</th>

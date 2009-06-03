@@ -80,7 +80,7 @@
 					<tr>
 						<th colspan="2">
 						
-							<%= GetString( "WHEN" ) %>
+							<%= GetString( "TIME" ) %>
 							
 						</th>
 					</tr>
@@ -143,7 +143,7 @@
 					<tr>
 						<th colspan="2">
 						
-							<%= GetString( "OUTPUT" ) %>
+							<%= GetString( "SAVETO" ) %>
 							
 						</th>
 					</tr>

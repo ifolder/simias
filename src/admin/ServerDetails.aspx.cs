@@ -248,7 +248,7 @@ namespace Novell.iFolderWeb.Admin
 		/// <summary>
 		/// External Identity Sync Now Button
 		/// </summary>
-		protected Button SyncNowButton;
+		protected LinkButton SyncNowButton;
 
 		/// <summary>
 		/// Server Details cancel button control.
@@ -299,7 +299,7 @@ namespace Novell.iFolderWeb.Admin
 		/// <summary>
 		/// Log file view button control.
 		/// </summary>
-		protected Button ViewLogButton;
+		protected LinkButton ViewLogButton;
 
 		/// <summary>
 		/// Log level label control.
@@ -1405,6 +1405,9 @@ namespace Novell.iFolderWeb.Admin
 
 			this.Load += new System.EventHandler(this.Page_Load);
 			this.Unload += new System.EventHandler (this.Page_Unload);
+
+			this.SyncNowButton.Click += new System.EventHandler(this.OnSyncNowButton_Click);
+			this.ViewLogButton.Click += new System.EventHandler(this.ViewLogFile);
 		}
 		#endregion
 	}
