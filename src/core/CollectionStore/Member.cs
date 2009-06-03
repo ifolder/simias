@@ -38,7 +38,6 @@ using System.Threading;
 using System.Text;
 using System.Collections;
 using System.Security.Cryptography;
-using Mono.Security.X509;
 using System.Xml;
 
 using Simias.Client;

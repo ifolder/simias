@@ -808,11 +808,10 @@ namespace Simias.Storage
 		/// <returns>A path string that represents the store unmanaged path.</returns>
 		internal string GetStoreUnmanagedPath( string collectionID )
 		{
+                        string tmpPath = null;
 			if(MyEnvironment.Windows)
                         {
-                                string tmpPath;
                                 tmpPath = Path.Combine(storeUnmanagedPath, storeUnmanagedPrefix+collectionID.Substring(0,storeUnmanagedPrefixLength));
-                                return Path.Combine( tmpPath, collectionID.ToLower() );
                         }
                         else
                         {
@@ -828,7 +827,6 @@ namespace Simias.Storage
         	                	                	HigherIndex = LowerIndex;
 						}
         	                        }
-                	                string tmpPath;
 					if( HigherIndex != 0 )
 					{
 						tmpPath = Path.Combine(storeUnmanagedPath,volumes[ HigherIndex  ].DataPath);
@@ -837,10 +835,10 @@ namespace Simias.Storage
 					else
 						tmpPath = storeUnmanagedPath;
                 	                tmpPath = Path.Combine(tmpPath, storeUnmanagedPrefix+collectionID.Substring(0,storeUnmanagedPrefixLength));
-                        	        return Path.Combine( tmpPath, collectionID.ToLower() );
 				}
 				#endif
                         }
+                        return Path.Combine( tmpPath, collectionID.ToLower() );
 		}
 
 		
