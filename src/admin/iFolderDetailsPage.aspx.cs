@@ -199,7 +199,7 @@ namespace Novell.iFolderWeb.Admin
 
 		protected string iFolderLocation;
 
-		protected int preference;
+		protected static int preference;
 
 		/// <summary>
 		/// Display the Server Name, the ifolder belongs
@@ -690,8 +690,8 @@ namespace Novell.iFolderWeb.Admin
 				CheckedMembers = new Hashtable();
 			}
 					/// Disable all the buttons...
-					EnableMemberActionButtons = MemberRightsChangeAllowed;
-					EnableOwnerActionButton = MemberRightsChangeAllowed;
+					EnableMemberActionButtons = false;//MemberRightsChangeAllowed;
+					EnableOwnerActionButton = false;//MemberRightsChangeAllowed;
 		}
 
 		       /// <summary>

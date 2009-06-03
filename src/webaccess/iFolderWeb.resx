@@ -685,7 +685,7 @@
         <value>Filter:</value>
     </data>
     <data name="PASSWORDCHANGESUCCESS">
-        <value>Password Changed Successfully.</value>
+        <value>Password Changed Successfully. Login with new password.</value>
     </data>
     <data name="PASSWORDCHANGEFAILED">
         <value>Could not change password, </value>

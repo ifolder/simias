@@ -468,8 +468,8 @@ namespace Novell.iFolderApp.Web
 				url = TrimmedUrl;
 				url += String.Format("?PasswordChanged={0}",PasswordChanged);
 			}
-		
-			Head.Logout("Password Change Successfully !!! Login with new password.");	
+			
+			Head.Logout(GetString("PASSWORDCHANGESUCCESS"));	
 			// redirect
 			//Response.Redirect(url);
 			
