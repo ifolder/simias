@@ -21,8 +21,7 @@
       <style type= "text/css" media="screen">
        <!--
        
-         body           {  font-family: Arial, Helvetica, Geneva; background: white
-url(../../images/helphead_bg.gif) repeat-x 0% 0% }
+         body           {  font-family: Arial, Helvetica, Geneva; background: white url('../../images/helphead_bg.gif') repeat-x;  }
 		      
          #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px; width: 100%; visibility: visible }
 			   
@@ -35,8 +34,9 @@ url(../../images/helphead_bg.gif) repeat-x 0% 0% }
          and help content layers. --> 
 <body bgcolor="white" marginwidth="0" marginheight="0"  leftmargin="0" topmargin="0">
 <!-- This is the start of the Help Banner Layer --> <div id="headgraphic"> 
-<table border="0" cellspacing="0" cellpadding="0" width="100%" height="26" style="margin:0px; padding:0px; background-image: url(../../images/header_pattern.gif); background-repeat: repeat-x;"> 
-<tr> <td width="221"><img src="../../images/help_title.gif" alt="Novell iFolder" border="0" width="221" height="26"></td><td align="right" width="100%" class="tabCell" style="background-image: url(../../images/header_background.gif); background-repeat: no-repeat;"> 
+<table border="0" cellspacing="0" cellpadding="0" width="100%" height="26" style="margin:0px; padding:0px; background-image: url('../../images/header_pattern.gif'); background-repeat: repeat-x"> 
+<tr> <td width="221"><img src="../../images/help_title.gif" alt="Novell iFolder" border="0" width="221" height="26"></td>
+  <td align="right" width="100%" class="tabCell" style="background-image: url('../../images/header_background.gif'); background-repeat: no-repeat"> 
 </td></tr> </table></div><!-- This is end of the Help Banner Layer --> 
 <!-- This is the start of the Help Content Layer --> <div id="helpcontent" style="left: 10px; top: 38px"> 
 <!-- The Page Heading uses CSS style "head3b". This creates an H3 header
@@ -68,11 +68,11 @@ the following tasks:</p>
   <P><font size="-1"><b>IMPORTANT:</b> All the members of an LDAPGroup inherits 
     the access rights set for that LDAPGroup.</font></P>
 <BLOCKQUOTE>
-<P><B>Read Only</B><BR>
+<P><B>Read only</B><BR>
     A member of the shared iFolder, with the Read Only access right to directories and files in the iFolder. This member can copy an iFolder file to another location and modify it outside the iFolder.</P>
-  <P><B>Read/Write</B><BR>
+  <P><B>Read write</B><BR>
     A member of the shared iFolder, with the Read/Write access right to directories and files in the iFolder.</P>
-	<P><B>Full Control</B><BR>
+	<P><B>Full control</B><BR>
       A member of the shared iFolder, with the Full Control access right. The 
       user with the Full Control right has read/write access to the iFolder and 
       manages membership and access rights for all users except the owner. But, 
