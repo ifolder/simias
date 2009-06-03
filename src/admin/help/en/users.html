@@ -28,8 +28,7 @@
        <!--
        
          body           {  font-family: Arial, Helvetica, Geneva;
-									background: white
-url(../../images/helphead_bg.gif) repeat-x 0% 0% }
+									background: white url('../../images/helphead_bg.gif') repeat-x;  }
 		      
          #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px;
 									width: 380px; visibility: visible }
@@ -72,8 +71,8 @@ Details Page </A> </P></BLOCKQUOTE>
   <H4><A NAME="browseusers"></A>Browsing the Users <br>
   </H4>
   <OL><LI>
-      <P>From the Users page, select a name criterion (User Name, First Name, 
-        Last Name, Home Server).</P>
+      <P>From the Users page, select a name criterion (First Name, Home Server, 
+      Last Name, User Name).</P>
     </LI><LI><P>Select a filter criterion (Contains, Begins 
 With, Ends With, Equals).</P></LI><LI><P>Use one or more of the following search 
 methods, then click Search:</P><UL><LI>
@@ -88,6 +87,10 @@ methods, then click Search:</P><UL><LI>
       <P>Do not click anywhere in the page until the page completely refreshes, 
         then you can browse, sort, or manage the users listed in the Search Results 
         report. </P>
+      <P><b>Note:</b> When you are logged-in as a secondary 
+      administrator, you can view only those users for which you are designated 
+      as a secondary administrator. Also, you can manage the users depending on 
+      the rights available to you.</P>
     </LI></OL>
   <H4><A NAME="browsesearch"></A>Locating the Users in the Search Results</H4>
   <P>Scroll up and down to browse the search results and locate the user you want 
@@ -95,9 +98,11 @@ methods, then click Search:</P><UL><LI>
     to identify the user you want.</P>
   
   <BLOCKQUOTE><P><B>Type</B>
-    <P><img src="../../images/provi_user.png"  alt="Folder icon">  indicates 
+    <P>
+    <img src="../../images/provi_user.png"  alt="Folder icon" width="14" height="16">  indicates 
       Provisioned users </P>
-		<P><img src="../../images/unprovi_user.png" alt="Shared icon">  indicates 
+		<P>
+        <img src="../../images/unprovi_user.png" alt="Shared icon" width="14" height="16">  indicates 
       Unprovisioned users </P>
 		
     <p><img src="../../images/ifolder_admin.gif" width="16" height="16" alt="Shared icon"> 
@@ -109,7 +114,7 @@ to the user account, such as jsmith or john.smith@example.com. Click the User Na
 and iFolders for the user. <BR>
 <BR><B>Full Name</B><BR>The first and last name 
 of the user account.<BR><br>
-      <B>Home</B> Server<BR>
+      <B>Home</B> <b>Server</b><BR>
       iFolder server the user provisioned to.<br>
       <BR><B>Enabled</B><BR>Specifies the status of the server.<br><br></BLOCKQUOTE>
   <H4><A NAME="enabledisableuser"></A>Enabling or Disabling an iFolder user</H4>

@@ -28,8 +28,7 @@
        <!--
        
          body           {  font-family: Arial, Helvetica, Geneva;
-									background: white
-url(../../images/helphead_bg.gif) repeat-x 0% 0% }
+									background: white url('../../images/helphead_bg.gif') repeat-x;  }
 		      
          #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px;
 									width: 380px; visibility: visible }
@@ -64,19 +63,19 @@ url(../../images/helphead_bg.gif) repeat-x 0% 0% }
   <P>The User Details page will display the following user details for the selected 
     user's iFolder account. </P>
 	<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
-        <P>User Name</P>
+        <P>Username</P>
       </TD>
       <TD> 
         <P>The username assigned to the user account, such as jsmith or john.smith@example.com.</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Full Name</P>
+        <P>Full name</P>
       </TD>
       <TD> 
         <P>The first and last name of the user account. </P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Member Type</P>       
+        <P>Member type</P>       
       </TD>
       <TD> 
         <P>Shows the member type of the user currently logged in. If the user 
@@ -84,16 +83,24 @@ url(../../images/helphead_bg.gif) repeat-x 0% 0% }
           Groups. If the user is a member of an LDAPGroup, the interface lists 
           all the members of the LDAPGroup under the option for Group Members.
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>LDAP Context</P>       
+        <P>LDAP contexts</P>       
       </TD>
       <TD> 
         <P>The LDAP tree context is used for provisioning users in to iFolder. 
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>Last Login Time</P>
+        <P>Last login</P>
         </TD>
       <TD> 
         <P>The time when the user last logged in to the iFolder system. 
       </TD></TR><TR><TD VALIGN="TOP">
+        Group Disk Quota</TD>
+      <TD> 
+        Represents the aggregate disk quota of a group.<p>
+        <b>NOTE</b>: The secondary administrator cannot 
+        modify the group disk quota.</TD></TR><TR><TD VALIGN="TOP">
+        Disk Space Used</TD>
+      <TD> 
+        Denotes the aggregate disk space used by a group.</TD></TR><TR><TD VALIGN="TOP">
         <P>User Groups (applicable only for individual users)</P>       
       </TD>
       <TD> 
@@ -189,7 +196,7 @@ to log in to synchronize iFolders. </P>
           level policy.</P>
         <P>Default Value: Disabled, no value set</P>
         </TD></TR><TR><TD VALIGN="TOP">
-        <h4>Disk Quota</h4>
+        <h4>Disk quota</h4>
       </TD>
       <TD> 
         <p>Specifies the maximum total space that a user&#146;s iFolder data is 
@@ -245,7 +252,7 @@ to log in to synchronize iFolders. </P>
         <P> Default value: Disabled and no quota set</P>
       </TD></TR>
   <TR><TD VALIGN="TOP">
-        <h4>File Size</h4>
+        <h4>File size</h4>
       </TD>
       <TD> <B>Limit</B><BR>
           Specifies the maximum total file size (in MB) that an iFolder user 
@@ -260,7 +267,7 @@ to log in to synchronize iFolders. </P>
       </TD></TR>
   <TR>
       <TD VALIGN="TOP"> 
-        <h4>Excluded Files</h4>
+        <h4>Excluded files</h4>
       </TD>
       <TD> 
         <P>Specifies a list of file types to include or to exclude from synchronization 

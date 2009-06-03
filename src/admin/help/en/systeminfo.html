@@ -28,7 +28,7 @@
 <style type= "text/css" media="screen">
        <!--
        
-         body           {  font-family: Arial, Helvetica, Geneva; background: white url(../../images/helphead_bg.gif) repeat-x 0% 0% }
+         body           {  font-family: Arial, Helvetica, Geneva; background: white url('../../images/helphead_bg.gif') repeat-x;  }
 		      
          #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px;
 									width: 380px; visibility: visible }
@@ -36,6 +36,8 @@
          #helpcontent    { position: absolute; top: 37px; left: 10px; 
 	                        width: 93%; visibility: visible }
       
+div.Section1
+	{page:Section1;}
        -->
      </style>
   
@@ -56,18 +58,20 @@
   <p> Use this interface to manage Novell iFolder<SUP><SMALL>&reg;</SMALL></SUP> 
     3.7 services for the selected server.</p>
   <P>This help discusses the following information:</P>
-  <blockquote> <P><A HREF="#sytemsettings" TARGET="_self">Viewing the System Settings
+  <blockquote> <P><A HREF="#sytemsettings" TARGET="_self">System Settings
 </A> <BR><A HREF="#status" TARGET="_self">Reprovision Status</a><BR><A HREF="#admin" TARGET="_self">Administrators Tab</a><BR> <A HREF="#policy" TARGET="_self">Policies
 </a><BR></P></BLOCKQUOTE>
   
-  <H3><A NAME="sytemsettings"></A>Viewing the System Settings</H3>
-  <P>You 
-can view the following information:</P><TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
-        <P>System Name</P>
+  <H3><A NAME="sytemsettings"></A>System Settings</H3>
+  <p>The system settings section 
+  displays the following information:</p>
+  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>
+    Description</P></TD></TR><TR><TD VALIGN="TOP">
+        <P>Name</P>
       </TD><TD>
         <P>The name assigned to the iFolder domain.</P>
-		<P>To edit the name of the iFolder domain, specify the new name and click 
-          Save.</P>
+		<P>To edit the name of the iFolder domain, specify the new name and 
+        click Save.</P>
 		  
         <P>To cancel the changes made, click Cancel.</P>
       </TD><TR><TD VALIGN="TOP">
@@ -75,10 +79,22 @@ can view the following information:</P><TABLE WIDTH="93%" BORDER="1"><TR><TD CLA
       </TD><TD>
         <P>A short description about the iFolder Domain.</P>
 		<P>To edit the system description, specify the new description and click 
-          Save.</P>
+        Save.</P>
 		  
         <P>To cancel the changes made, click Cancel.</P>
-      </TD><TR><TD VALIGN="TOP">
+      </TD>
+    <tr>
+      <TD VALIGN="TOP">
+        <P>SSL Option</P>
+        
+      </TD>
+      <TD> 
+        <P>Displays the mode of communication between the 
+        iFolder Servers, iFolder Client, iFolder Web Access Console, and iFolder 
+        Web Admin Console. 
+      </TD>
+    </tr>
+    <TR><TD VALIGN="TOP">
         <P>Total Users</P>(view only)
       </TD><TD>
         <P>Reports the total number of users in the iFolder domain. 
@@ -86,16 +102,66 @@ can view the following information:</P><TABLE WIDTH="93%" BORDER="1"><TR><TD CLA
         <P>Total iFolders</P>
         (view only)
       </TD><TD>
-        <P>Reports total number of iFolders that belongs to the iFolder domain. 
+        <P>Reports total number of iFolders that belong to the iFolder domain. 
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>Enable SSL</P>
-        
-      </TD>
-      <TD> 
-        <P>Select the check box to enable the SSL communication among the iFolder 
-          Servers, iFolder client, iFolder Web Access console and iFolder Web 
-          Admin console. 
-      </TD></TR></TABLE>
+        Full Name Display Order</TD><TD>
+        <p>
+        Enables 
+        you to set the order in which a user's full name is displayed. Select the
+        <i>(First Name, Last Name)</i> option to display the first name followed 
+        by the last name. Or, to display the last name followed 
+        by the first name, select the <i>(Last Name, First Name)</i> option. </p>
+        <p class="Normal2">
+        For the changes to take effect,
+        either a scheduled LDAP sync must take place or you must 
+        do a manual LDAP sync. To do a manual LDAP sync:</p>
+        <ol>
+          <li>
+          <p class="Normal2">
+          <span style="font-size:11.0pt;font-family:Arial;
+">In the Web admin console, click the <i>Servers</i> tab, select the 
+          server, then go to the Serverdetails page.</span></li>
+          <li>
+          <p class="Normal2">
+          <span style="font-size: 11.0pt; font-family: Arial; ">
+          In the <i>LDAP Details</i> section, click the <i>Sync Now</i> 
+          button.</span></li>
+        </ol>
+      </TD></TR><TR><TD VALIGN="TOP">
+        <span style="font-size: 11.0pt; font-family: Arial; ">
+        Manage Group Quota Using</span></TD><TD>
+        <p class="Normal2">
+        <span style="font-size:11.0pt;font-family:Arial;">Enables 
+        you to define how the aggregate disk quota set 
+        for groups is managed. </span></p>
+        <p class="Normal2">
+        <span style="font-size:11.0pt;font-family:Arial;">Select 
+        the <i>Administrator Console</i> option to enable  
+        administrators to explicitly manage the disk quota for groups and 
+        members of a group. When you select this option, the disk quota assigned to 
+        the users is restricted so that it does not exceed the aggregate disk 
+        usage of the group. By default, the <i>Administrator Console</i> 
+        option is selected.</span></p>
+        <p class="Normal2">
+        <span style="font-size:11.0pt;font-family:Arial;">Select 
+        the <i>Sync Engine</i> option to enable the sync engine to manage the 
+        aggregate disk quota on groups in the back end. The sync engine ensures that the 
+        disk quota for all users in a group does not exceed the aggregate disk 
+        quota of the group.</span></p>
+        <p class="Normal2">
+        <span style="font-size:11.0pt;font-family:Arial;">Select 
+        the <i>Both</i> option to use both the administrator console and the sync engine 
+        to manage the aggregate disk quota usage for groups.</span></TD></TR><TR><TD VALIGN="TOP">
+        <span style="font-size: 11.0pt; font-family: Arial; ">
+        Segregated Groups</span></TD><TD>
+        <span style="font-size: 11.0pt; font-family: Arial; ">
+        Enables you to segregate groups into independent entities and ensure 
+        that members of one group are not accessible by members of another 
+        group for sharing iFolders. Select the <i>Create Segregated Groups</i> check box to enable 
+        sharing of iFolders only among the members of the same group.</span><p>
+        <span style="font-family: Arial; ">Note: </span>
+        <span style="font-size: 11.0pt; font-family: Arial; ">An LDAPGroup 
+        cannot be a Secondary or Primary Administrator.</span></TD></TR></TABLE>
  <P> <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P> 
  <H3><A NAME="status"></A>Reprovision Status</H3> 
   <p> You can move users across different servers. With this interface, you can 
@@ -122,10 +188,14 @@ in YaST. </P>
 users, those users are governed by the roster and Search DN relationship. The 
 user is removed from the roster and stripped of the iFolder Admin right if you 
 delete the user, remove the user&#146;s DN from the list of Search DNs, or move 
-the user to a DN that is not in the Search DNs.</P><P><font size="-1"><b>IMPORTANT:</b> You cannot assign the Admin user 
+the user to a DN that is not in the Search DNs.</P>
+  <P><span style="FONT-FAMILY: Arial">The iFolder Admin user or 
+  the primary administrator creates the secondary administrator and assigns 
+  groups to the secondary administrator.</span></P><P><font size="-1"><b>IMPORTANT:</b> You cannot assign the Admin user 
           right to an LDAPGroup.</font></P>
-  <P>The System page displays the following iFolder Admin details for the iFolder 
-    domain:</P>
+  <P><span style="FONT-FAMILY: Arial">The System page displays 
+  the Primary and Secondary Administrator tabs. The following parameters 
+  are common to both these tabs:</span></P>
 	<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR>
       <TR><TD VALIGN="TOP">
         <P>Type</P>
@@ -148,7 +218,12 @@ the user to a DN that is not in the Search DNs.</P><P><font size="-1"><b>IMPORTA
 		
       </TD><TR></TR></TABLE>
 
-  <P>To view or edit admin user details, click the Admin user link to open the 
+  <h5><span style="FONT-FAMILY: Arial">Primary Administrator</span></h5>
+
+  <P>To view or edit <span style="FONT-FAMILY: Arial">primary 
+  administrator</span> details, <span style="FONT-FAMILY: Arial">
+  click the <i>Primary Administrator</i> tab, then click</span><span style="COLOR: black; FONT-FAMILY: Arial">
+  </span>the Admin user link to open the 
     User Details page. The User Details page displays the iFolders owned or shared 
     by the Admin user. Click the All tab to list all the iFolders, both owned 
     and shared. To view the iFolder owned by the user, click the Owned tab. Shared 
@@ -317,6 +392,254 @@ the maximum file size that can be synchronized.</P>
   </TABLE>
 
  <P> <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P>
+
+  
+   
+
+  <h3>Secondary Administrator</h3>
+  <p><span style="font-family:Arial;">The Secondary Administrator 
+  tab enables you to add, edit, or delete the secondary administrator details.
+  </span></p>
+  <p><span style="font-family:Arial;">To add a secondary 
+  administrator:</span></p>
+  <ol>
+    <li><font face="Arial">Click the <i>Secondary Administrator</i> 
+    tab, then click <i>Add </i>to display the list of iFolder users.</font></li>
+    <li><font face="Arial">Select the user that you want to 
+    designate as a secondary administrator and click <i>Next</i>.</font></li>
+    <li><font face="Arial">To assign a group to the secondary 
+    administrator, select an option from the <i>Select Group</i> list. If the 
+    selected group has the aggregate disk quota limit set, then <i>Set the 
+    Aggregate Disk Quota Limit For Entire Group</i> field is populated with 
+    that value. Otherwise, the field will remain empty.</font></li>
+    <li><font face="Arial">Set the policy rights for the 
+    secondary administrator. </font>
+    <p><font face="Arial">The following table lists the policy 
+    rights that you can set for the secondary administrator.</font></p>
+	
+ 
+<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR>
+<TR>
+      <TD VALIGN="TOP"> 
+        <h4><span style="FONT-SIZE: 9.5pt; FONT-FAMILY: Arial">
+        iFolder Per User Policy</span></h4>
+        <h4> &nbsp;</h4>
+      </TD>
+      <TD> 
+        <p class="Normal2">
+        <span style="FONT-SIZE: 11pt; COLOR: black; FONT-FAMILY: Arial">
+        Specifies the maximum number of iFolders allowed per user. After you 
+        apply this policy, each user is limited to owning a certain number of 
+        iFolders. The users who exceed the limit receive an error message about 
+        the policy violation. If the limit is zero, users cannot create any 
+        iFolders.</span></p>
+        <p class="Normal2">
+        <span style="FONT-SIZE: 11pt; FONT-FAMILY: Arial">This</span><span style="FONT-SIZE: 11pt; COLOR: black; FONT-FAMILY: Arial"> 
+        policy setting does not affect the number of iFolders a user already 
+        owns. If the number of iFolders owned by a user already exceeds the 
+        limit that you set, </span>
+        <span style="FONT-SIZE: 11pt; FONT-FAMILY: Arial">the 
+        user can still own those iFolders</span><span style="FONT-SIZE: 11pt; COLOR: black; FONT-FAMILY: Arial">.
+        </span></p>
+        <p class="Normal2">
+        <span style="FONT-SIZE: 11pt; FONT-FAMILY: Arial">By 
+        default, the <i>Allow</i> check box is selected for the iFolder Per User 
+        policy. This means that the secondary administrator has the right to 
+        set the iFolder per user policy for the users of the designated group. 
+        To deny this right to the secondary administrator, you must deselect the <i>
+        Allow</i> check box.</span></TD></TR><TR><TD VALIGN="TOP">
+        <h4><span style="font-size: 9.5pt; font-family: Arial; color: black">
+        Disk Quota </span>
+        <span style="font-size: 9.5pt; font-family: Arial; ">
+        Policy</span></h4>
+      </TD>
+      <TD> 
+        <p class="Normal2">
+        <span style="font-size:11.0pt;font-family:Arial;">Specifies 
+        the maximum space that a user is allowed to use.</span></p>
+        <p><span style="font-size: 11.0pt; font-family: Arial; ">
+        By default, the <i>Allow</i> check box is selected for the disk quota 
+        policy. This means that the secondary administrator has the right to 
+        set the disk quota policy for users of the designated group. To deny 
+        this right to the secondary administrator, you must deselect the <i>Allow</i> 
+        check box.</span></p>
+        </TD></TR>
+  <TR><TD VALIGN="TOP">
+        <h4><span style="font-size: 9.5pt; font-family: Arial; color: black">
+        File Size </span>
+        <span style="font-size: 9.5pt; font-family: Arial; ">
+        Policy</span></h4>
+      </TD>
+      <TD> 
+      <p class="Normal2">
+      <span style="font-size:11.0pt;font-family:Arial;color:black">Specifies the 
+      maximum file size that can be synchronized.</span></p>
+      <p><span style="font-size: 11.0pt; font-family: Arial; ">By 
+      default, the <i>Allow</i> check box is selected for the file size policy. 
+      This means that the secondary administrator has the right to set the 
+      file size policy for users of the designated group. To deny this right to 
+      the secondary administrator, you must clear the <i>Allow</i> check box.</span></p>
+      </TD></TR>
+  <TR>
+      <TD VALIGN="TOP"> 
+        <h4><span style="font-size: 9.5pt; font-family: Arial; ">
+        Sync Interval Policy </span></h4>
+      </TD>
+      <TD> 
+        
+		  
+        <p class="Normal2">
+        <span style="font-size:11.0pt;font-family:Arial;color:black">Specifies 
+        the minimum synchronization interval in minutes.</span></p>
+        <p><span style="font-size: 11.0pt; font-family: Arial; ">
+        By default, the <i>Allow</i> check box is selected for the sync interval 
+        policy. This means that the secondary administrator has the right to 
+        set the sync interval policy for users of the designated group. To deny 
+        this right to the secondary administrator, you must deselect the <i>Allow</i> 
+        check box.</span></TD></TR>
+	
+	<TR><TD VALIGN="TOP">
+        <h4> <span style="font-size: 9.5pt; font-family: Arial; color: black">
+        Excluded File </span>
+        <span style="font-size: 9.5pt; font-family: Arial; ">List 
+        Policy</span></h4>
+      </TD><TD>
+	    <p class="Normal2">
+        <span style="font-size:11.0pt;font-family:Arial;">Specifies 
+        the file types that are restricted from synchronization. </span></p>
+        <p><span style="font-size: 11.0pt; font-family: Arial; ">
+        By default, the <i>Allow</i> check box is selected for the excluded file 
+        list policy. This means that the secondary administrator has the right 
+        to set the excluded file list policy for users of the designated group. 
+        To deny this right to the secondary administrator, you must deselect the <i>
+        Allow</i> check box.</span></TD></TR>
+  <TR><TD VALIGN="TOP">
+        <h4><span style="font-size: 9.5pt; font-family: Arial; ">
+        Sharing</span></h4>
+      </TD>
+      <TD> 
+        <p class="Normal2">
+        <span style="font-size:11.0pt;font-family:Arial;">Specifies 
+        if iFolders can be shared among users.</span></p>
+        <p><span style="font-size: 11.0pt; font-family: Arial; ">
+        By default, <i>Allow</i> <i>to modify sharing policy </i>check box is 
+        selected for the sharing policy. This implies that the secondary 
+        administrator has the right to modify the sharing policy for users of 
+        the designated group. To deny this right to the secondary administrator, 
+        you must clear the <i>Allow</i> check box.</span><br>
+      </TD></TR><TR><TD VALIGN="TOP">
+        <h4> <span style="font-size: 9.5pt; font-family: Arial; ">
+        Encryption Policy</span></h4>
+      </TD><TD> 
+    <p class="Normal2">
+    <span style="font-size:11.0pt;font-family:Arial;">Specifies the 
+    encryption policy for the iFolder system. </span></p>
+    <p class="Normal2">
+    <span style="font-size: 11.0pt; font-family: Arial; ">By 
+    default, <i>Allow</i> <i>to modify encryption policy </i>check box is 
+    selected for the encryption policy. This means that the secondary 
+    administrator has the right to modify the encryption policy for users of the 
+    designated group. To deny this right to the secondary administrator, you 
+    must deselect the <i>Allow</i> check box.</span><br>
+		
+      </TD></TR> 
+
+  <TR><TD VALIGN="TOP">
+        <span style="font-size: 9.5pt; font-family: Arial; font-weight:700">
+        Provisioning Rights</span></TD><TD> 
+    <p class="Normal2">
+    <span style="font-size:11.0pt;font-family:Arial;">Specifies the 
+    provisioning rights available to a secondary administrator.</span></p>
+    <p class="Normal2">
+    <span style="font-size:11.0pt;font-family:Arial;">By default, 
+    the <i>Allow user provisioning</i> check box is selected. This means that 
+    a secondary administrator can provision the users of the designated group to 
+    any server present in the iFolder multi server setup. To deny this right to 
+    the secondary administrator, deselect the <i>Allow user provisioning </i>check 
+    box.</span></p>
+    <p class="Normal2">
+    <span style="font-size: 11.0pt; font-family: Arial; ">By using 
+    the <i>Allow enabling/disabling of users </i>check box, you can assign the 
+    secondary administrator the right to enable or disable users of the 
+    designated group. By default, this check box is selected. To deny the 
+    secondary administrator this right, deselect the <i>Allow enabling/disabling of 
+    users </i>check box.</span></TD></TR> 
+
+  <TR><TD VALIGN="TOP">
+        <span style="font-size: 9.5pt; font-family: Arial; font-weight:700">
+        Rights on iFolders</span></TD><TD> 
+    <p class="Normal2">
+    <span style="font-size:11.0pt;font-family:Arial;">Specifies the 
+    secondary administrator’s rights on ifolders owned by users of the 
+    designated group.</span></p>
+    <p class="Normal2">
+    <span style="font-size:11.0pt;font-family:Arial;">To allow the 
+    secondary administrator to own orphaned iFolders, ensure that the <i>Allow 
+    ownership of orphaned iFolders</i> check box is selected. By default this 
+    check box is selected. To deny this right to the secondary administrator, 
+    clear the check box.</span></p>
+    <p class="Normal2">
+    <span style="font-size:11.0pt;font-family:Arial;">Using the <i>
+    Allow Enabling/Disabling of iFolders</i> check box, you can assign the 
+    secondary administrator the right to enable or disable the iFolders owned by 
+    users of the designated group. By default, this check box is selected. To 
+    deny this right to the secondary administrator, clear the <i>Allow 
+    Enabling/Disabling of iFolders</i> check box.</span></p>
+    <p class="Normal2">
+    <span style="font-size: 11.0pt; font-family: Arial; ">Using 
+    the <i>Allow to modify rights of shared iFolder members </i>check box, you 
+    can assign the secondary administrator the right to modify the rights of 
+    shared iFolder members. By default this check box is selected. To deny this 
+    right to the secondary administrator, clear the <i>Allow to modify rights of 
+    shared iFolder members </i>check box.</span></p>
+    </TD></TR> 
+
+  </TABLE>
+
+    </li>
+  </ol>
+  <p>&nbsp;</p>
+  <ol start="5">
+    <li><span style="font-family:Arial;">Click the <i>Save</i> button to 
+    save your settings.</span></li>
+    <li><span style="font-family:Arial;">After successfully assigning a 
+    group to the secondary administrator, click <i>OK</i> to return to the 
+    Systems page or click <i>Repeat</i> to assign more groups to the secondary 
+    administrator.&nbsp;</span></li>
+  </ol>
+  <p><span style="font-family:Arial;">To edit the secondary 
+  administrator details:</span></p>
+  <ol>
+    <li>
+    <p style="text-indent: -.25in; margin-left: .5in">
+    <span style="font-family: Arial; ">Click the <i>Secondary</i> 
+    tab to display the secondary administrator details.</span></li>
+    <li>
+    <p style="text-indent: -.25in; margin-left: .5in">
+    <span style="font-family: Arial; ">Select a secondary 
+    administrator and click <i>Edit </i>to display the list of groups monitored 
+    by the secondary administrator.</span></li>
+    <li>
+    <p style="text-indent: -.25in; margin-left: .5in" align="left">
+    <span style="font-family: Arial; ">Select a group and click <i>
+    Edit</i> to display the list of secondary administrator's rights on the 
+    group. Edit the rights of the group and click <i>Save</i> to save 
+    your changes.<br>
+&nbsp;</span></li>
+  </ol>
+  <p><span style="font-family:Arial;">To delete a secondary 
+  administrator:</span></p>
+  <ol>
+    <li><font face="Arial">Click the <i>Secondary</i> tab to 
+    display the secondary administrator details.</font></li>
+    <li><font face="Arial">Select a secondary administrator and 
+    click <i>Delete</i> to display the list of groups monitored by the secondary 
+    administrator.</font></li>
+    <li><font face="Arial">Select all groups and click <i>Delete</i>. 
+    Deleting all groups owned by the secondary administrator also deletes the secondary administrator.<br>
+&nbsp;</font></li>
+  </ol>
+  <p>&nbsp;</p>
 
   
    
