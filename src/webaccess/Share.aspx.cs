@@ -169,6 +169,9 @@ namespace Novell.iFolderApp.Web
 				SearchPropertyList.Items.Add(new ListItem(GetString("LASTNAME"), SearchProperty.LastName.ToString()));
 				SearchPropertyList.Items.Add(new ListItem(GetString("USERNAME"), SearchProperty.UserName.ToString()));
 
+				//Default selecting UserName
+				SearchPropertyList.SelectedIndex = 2;
+
 				// members
 				members = new Hashtable();
 				ViewState["Members"] = members;
