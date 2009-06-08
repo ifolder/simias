@@ -23,9 +23,9 @@ Name:           ifolder3-enterprise
 BuildRequires:  compat-libstdc++ e2fsprogs e2fsprogs-devel gcc-c++ glib2 glib2-devel libflaim libflaim-devel libstdc++ libstdc++-devel libxml2 libxml2-devel log4net mod_mono mono-core mono-data mono-devel mono-web pkgconfig xsp ncurses ncurses-devel
 %else
 %ifarch         x86_64
-BuildRequires:  libstdc++33-32bit libstdc++33-devel-32bit e2fsprogs e2fsprogs-devel gcc-c++ glib2 glib2-devel libflaim libflaim-devel libstdc++ libstdc++-devel libxml2 libxml2-devel log4net mod_mono mono-core mono-data mono-devel mono-web pkgconfig xsp ncurses ncurses-devel
+BuildRequires:  libstdc++33-32bit libstdc++33-devel-32bit e2fsprogs e2fsprogs-devel gcc-c++ glib2 glib2-devel libflaim libflaim-devel libstdc++ libstdc++-devel libxml2 libxml2-devel log4net apache2-mod_mono mono-core mono-data mono-devel mono-web pkgconfig xsp ncurses ncurses-devel
 %else
-BuildRequires:  libstdc++33 libstdc++33-devel e2fsprogs e2fsprogs-devel gcc-c++ glib2 glib2-devel libflaim libflaim-devel libstdc++ libstdc++-devel libxml2 libxml2-devel log4net mod_mono mono-core mono-data mono-devel mono-web pkgconfig xsp ncurses ncurses-devel
+BuildRequires:  libstdc++33 libstdc++33-devel e2fsprogs e2fsprogs-devel gcc-c++ glib2 glib2-devel libflaim libflaim-devel libstdc++ libstdc++-devel libxml2 libxml2-devel log4net apache2-mod_mono mono-core mono-data mono-devel mono-web pkgconfig xsp ncurses ncurses-devel
 %endif
 %endif
 
@@ -37,12 +37,11 @@ Url:            http://wwww.ifolder.com
 License:        GNU General Public License (GPL) v2 
 Group:          Productivity/Networking/Novell
 AutoReqProv:    on
-Requires:       mono-core = 1.2.6
-Requires:       mono-data = 1.2.6
-Requires:       mono-web = 1.2.6
-Requires:       log4net >= 1.2.9 
-Requires:       mod_mono >= 1.2.5
-#Obsoletes:      %{name} < %{version}
+Requires:       mono-core >= 2.4
+Requires:       mono-data >= 2.4
+Requires:       mono-web >= 2.4
+Requires:       log4net >= 1.2.10 
+Requires:       apache2-mod_mono >= 2.4
 Version:        3.7.2.@@BUILDNUM@@.1
 Release:        0.2
 Summary:        Novell iFolder 3 Enterprise
