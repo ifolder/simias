@@ -452,9 +452,9 @@ namespace Novell.iFolderApp.Web
 				    writer.WriteLine("MonoSetEnv {1} LogoutUrl={0}",logoutUrl.Value, alias);
 				//if(datapath != null && datapath != String.Empty)
 				//	writer.WriteLine("MonoSetEnv {1} \"SimiasLogDir={0}/log\"", datapath, alias);
-				// Set MonoServerPath to the path where mod-mono-server2 script file is there
+				// Set MonoServerPath to the path where ifolder-mod-mono-server2 script file is there
 				if(ModMonoServer2 != null)
-					writer.WriteLine("MonoServerPath {0} {1}/mod-mono-server2", alias, ModMonoServer2);
+					writer.WriteLine("MonoServerPath {0} {1}/ifolder-mod-mono-server2", alias, ModMonoServer2);
 				writer.WriteLine("<Location /{0} >", alias);
 				writer.WriteLine("\tMonoSetServerAlias {0}", alias);
 				writer.WriteLine("\tOrder allow,deny");
@@ -476,7 +476,7 @@ namespace Novell.iFolderApp.Web
 			}
 
 			// chmod
-			if (Execute("chmod", "644 {0}", path) != 0)
+			if (Execute("chifolder-mod", "644 {0}", path) != 0)
 			{
 				throw new Exception(String.Format("Unable to change {0} file permissions.", path));
 			}

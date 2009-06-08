@@ -2336,9 +2336,9 @@ Console.WriteLine("Url {0}", service.Url);
 					writer.WriteLine("Alias /{0} \"{1}\"", alias, SimiasSetup.webdir);
 					writer.WriteLine("AddMonoApplications {0} \"/{0}:{1}\"", alias, SimiasSetup.webdir);
 					writer.WriteLine("MonoSetEnv {0} \"SimiasRunAsServer=true;SimiasDataDir={1}\"", alias, this.storePath);
-					// Set MonoServerPath to the path where mod-mono-server2 script file is there
+					// Set MonoServerPath to the path where ifolder-mod-mono-server2 script file is there
 					if(ModMonoServer2 != null)
-						writer.WriteLine("MonoServerPath {0} {1}/mod-mono-server2", alias, ModMonoServer2);
+						writer.WriteLine("MonoServerPath {0} {1}/ifolder-mod-mono-server2", alias, ModMonoServer2);
 					writer.WriteLine("<Location /{0} >", alias);
 					writer.WriteLine("\tMonoSetServerAlias {0}", alias);
 					writer.WriteLine("\tOrder allow,deny");
