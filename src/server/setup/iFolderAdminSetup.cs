@@ -476,7 +476,7 @@ namespace Novell.iFolderApp.Web
 			}
 
 			// chmod
-			if (Execute("chifolder-mod", "644 {0}", path) != 0)
+			if (Execute("chmod", "644 {0}", path) != 0)
 			{
 				throw new Exception(String.Format("Unable to change {0} file permissions.", path));
 			}
