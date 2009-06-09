@@ -341,6 +341,9 @@ namespace Novell.iFolderApp.Web
 		/// <param name="e"></param>
 		private void DenyButton_Click(object sender, EventArgs e)
 		{
+			Session["CertPublicKey"] = null;
+			Session["SessionPassPhrase"] = null;
+
 			string url = "iFolderNew.aspx";
 			// redirect
 			Response.Redirect(url);
