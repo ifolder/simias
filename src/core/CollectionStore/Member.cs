@@ -2367,11 +2367,13 @@ log.Debug("REDEK {0}", Key.REDEK);
 				       newElem1.AppendChild(newElem3);
 					index++;
 				}
-				if(FilePath != null && File.Exists(FilePath))
+				if(FilePath != null )
 				{
-					File.Delete(FilePath);
-					document.Save(FilePath);
-				}
+                    if(File.Exists(FilePath))
+					    File.Delete(FilePath);
+                   document.Save(FilePath);
+                }
+
 				keyDocument = document;
 			}
 			catch(Exception ex)
