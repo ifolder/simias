@@ -35,7 +35,7 @@ SimiasServer_RESOURCES := $(SimiasServer_RESX:$(srcdir)/%.resx=$(srcdir)/Simias.
 
 SimiasServer_FLAGS = $(CSC_LIBFLAG)
 SimiasServer_LIBPATH = ../../core/SimiasLib.dll ../../core/SimiasClient $(DESTDIR)$(webbindir)
-SimiasServer_LIBS = System.dll System.Data.dll $(SYSTEM_XML) System.Web.dll System.Web.Services.dll SimiasLib.dll SimiasClient.dll
+SimiasServer_LIBS = System.dll System.Data.dll $(SYSTEM_XML) System.Web.dll System.Web.Services.dll System.Security.dll SimiasLib.dll SimiasClient.dll
 
 EXTRA_DIST =  AssemblyInfo.cs.in DomainService.asmx Registration.asmx IdentitySyncManager.asmx $(SimiasServer_CSFILES) $(SimiasServer_RESX) ReportLogHandler.ashx
 

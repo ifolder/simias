@@ -372,6 +372,13 @@ namespace Simias.Storage
 			get { return shuttingDown; }
 		}
 
+		public RSACryptoServiceProvider DefaultRSARA
+		{
+			get{
+				return DefaultRACert;
+			}
+		}
+
 		static internal RSACryptoServiceProvider DefaultRACert
 		{
 			get{
@@ -582,48 +589,8 @@ namespace Simias.Storage
 
 					// Create the certificate policy and load the certs.
 					new CertPolicy();
-					//Load the RSA for the domain - need to see how this can be migrated --FIXME
-					log.Info("IsEnterpriseServer {0}",IsEnterpriseServer);
-					if(IsEnterpriseServer)
-					{
-						//Store the DEFAULT certificate(RSA information) for users using the "Server Default" option in client
-						// need to find a better way of representing DEFAULT
-						Simias.Security.RSAStore.CheckAndStoreRSA(DefaultRACert.ToXmlString(true), "DEFAULT", true);
-					}
-					X509Certificate raCert = null;
-					try 
-					{
-					        Simias.Configuration config = Store.Config;
-					        string raPath = config.Get( "Server", "RAPath" );
 
-					        if (raPath != null && raPath != String.Empty && raPath != "")
-						{
-			              	string[] racertFiles = Directory.GetFiles( raPath, "*.?er" );
-							Simias.Security.CertificateStore.CleanCertsFromStore();
-							foreach ( string file in racertFiles )
-							{
-								try
-								{
-							       	 raCert = X509Certificate.CreateFromCertFile(file);
-								}
-								catch(CryptographicException ce)
-								{
-									log.Debug("Exception {0}, File: {1}", ce.ToString(), file);
-									continue;
-								}
-								//Simias.Security.CertificateStore.StoreRACertificate (raCert.GetRawCertData(), raCert.GetName().ToLower(), true);
-								Simias.Security.CertificateStore.StoreRACertificate (raCert.GetRawCertData(), Path.GetFileNameWithoutExtension(file).ToLower(), true);
-							}
-						}
-					} 
-					catch (Exception e) 
-					{
-					        log.Error (e.ToString());
-					}
-
-					Simias.Security.CertificateStore.LoadCertsFromStore(); //this loads all Certs including RA - but client will not have RA
-					if(IsEnterpriseServer) //load the RSA data from store - only on server
-						Simias.Security.RSAStore.LoadRSAFromStore();
+					Simias.Security.CertificateStore.LoadCertsFromStore(); //this loads all Certs 
 				}
 
 				return instance;

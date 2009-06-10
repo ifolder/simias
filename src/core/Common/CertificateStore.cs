@@ -374,31 +374,93 @@ namespace Simias.Security
 		/// <summary>
 		/// 
 		/// </summary>
-		public static void LoadCertsFromStore()
+		public static void LoadRACertsFromStore()
 		{
 			Store store = Store.GetStore();
-			ICSList domainList = store.GetDomainList();
-			bool isLocalDomain = false;
+			string domainID = store.DefaultDomain;
 
 			// We need to get rid of any duplicate certificates that may exist.
 			Hashtable ht = new Hashtable();
 			ArrayList nodesToDelete = new ArrayList();
 			
-			foreach (ShallowNode snd in domainList)
+			Domain domain = store.GetDomain ( domainID );
+			ICSList certs = domain.GetNodesByType(CertType);
+			ht.Clear();
+			nodesToDelete.Clear();
+
+			foreach(ShallowNode sn in certs)
 			{
-				Domain domain = store.GetDomain ( snd.ID );
+				Node node = new Node(domain, sn);
+				try
+				{
+					string nodeProperty = node.Properties.GetSingleProperty(raProperty).Value.ToString();
+					if(nodeProperty != null)
+					{
+						if (ht.Contains(nodeProperty))
+						{
+							// A duplicate exists, use the most recent one.
+							Node dupNode = (Node)ht[nodeProperty];
+						
+							DateTime nodeTime = (DateTime)node.Properties.GetSingleProperty(PropertyTags.NodeCreationTime).Value;
+							DateTime dupNodeTime = (DateTime)dupNode.Properties.GetSingleProperty(PropertyTags.NodeCreationTime).Value;
+						
+							if (dupNodeTime > nodeTime)
+							{
+								nodesToDelete.Add( node );							
+								node = dupNode;
+							}
+							else
+							{
+								nodesToDelete.Add(dupNode);
+								ht[nodeProperty] = node;
+							}
+						}
+						else
+						{
+							ht.Add(nodeProperty, node);
+						}
+						string sCert = node.Properties.GetSingleProperty(certificateProperty).Value.ToString();
+						byte[] certificate = Convert.FromBase64String(sCert);
+						CertPolicy.StoreRACertificate(certificate, nodeProperty);
+					}
+				}
+				catch {}
+			}
+					
+			if (nodesToDelete.Count > 0)
+			{
+				try
+				{
+					domain.Commit(domain.Delete((Node[])(nodesToDelete.ToArray(typeof(Node)))));
+				}
+				catch {}
+			}
+		}
+
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public static void LoadCertsFromStore()
+		{
+			Store store = Store.GetStore();
+			Domain domain = store.GetDomain ( store.LocalDomain );
+
+			// We need to get rid of any duplicate certificates that may exist.
+			Hashtable ht = new Hashtable();
+			ArrayList nodesToDelete = new ArrayList();
+			
+			{
 				ICSList certs = domain.GetNodesByType(CertType);
 				ht.Clear();
 				nodesToDelete.Clear();
-
-				isLocalDomain = domain.Name.Equals(Store.LocalDomainName);
 
 				foreach(ShallowNode sn in certs)
 				{
 					Node node = new Node(domain, sn);
 					try
 					{
-						string nodeProperty = node.Properties.GetSingleProperty(isLocalDomain?hostProperty:raProperty).Value.ToString();
+						string nodeProperty = node.Properties.GetSingleProperty(hostProperty).Value.ToString();
 						if(nodeProperty != null)
 						{
 							if (ht.Contains(nodeProperty))
@@ -426,13 +488,7 @@ namespace Simias.Security
 							}
 							string sCert = node.Properties.GetSingleProperty(certificateProperty).Value.ToString();
 							byte[] certificate = Convert.FromBase64String(sCert);
-							if(node.Type == CertType)
-							{
-								if(isLocalDomain)
-									CertPolicy.StoreCertificate(certificate, nodeProperty);
-								else
-									CertPolicy.StoreRACertificate(certificate, nodeProperty);
-							}
+							CertPolicy.StoreCertificate(certificate, nodeProperty);
 						}
 					}
 					catch {}
@@ -446,10 +502,7 @@ namespace Simias.Security
 					}
 					catch {}
 				}
-
-
 			}
-
 		}
 
 
@@ -529,32 +582,36 @@ namespace Simias.Security
 			bool toStore = true;
 			int count = 0;
                         Store store = Store.GetStore();
+			string domainID = store.DefaultDomain;
 
-                        Domain domain = store.GetDomain ( store.DefaultDomain);
-                        ICSList rsas = domain.GetNodesByType(RSAType);
-
-                        foreach(ShallowNode sn in rsas)
-                        {
-                                Node node = new Node(domain, sn);
-                                try
-                                {
-					if(count++ > 0)
-						throw new Exception("Too many Default RSA");
-                                        string nodeProperty = node.Properties.GetSingleProperty(raProperty).Value.ToString();
-                                        if(nodeProperty != null)
-						toStore = false; 	
-					else
-						toStore = true;
-				}
-				catch(Exception e)
-				{
-					log.Fatal("RSA Check Error: {0}", e.Message);
-					return;
-				}
+			if(domainID != null)
+			{
+	                        Domain domain = store.GetDomain ( store.DefaultDomain);
+        	                ICSList rsas = domain.GetNodesByType(RSAType);
+	
+        	                foreach(ShallowNode sn in rsas)
+                	        {
+                        	        Node node = new Node(domain, sn);
+                                	try
+	                                {
+        	                                if(count++ > 0)
+                	                                throw new Exception("Too many Default RSA");
+                        	                string nodeProperty = node.Properties.GetSingleProperty(raProperty).Value.ToString();
+                                	        if(nodeProperty != null)
+                                        	        toStore = false;
+	                                        else
+        	                                        toStore = true;
+                	                }
+                        	        catch(Exception e)
+                                	{
+                                        	log.Fatal("RSA Check Error: {0}", e.Message);
+	                                        return;
+        	                        }
+                	        }
+	
+        	                if(toStore)
+                	                StoreRARSA(rsa, recoveryAgnt, persist);
 			}
-
-			if(toStore)
-				StoreRARSA(rsa, recoveryAgnt, persist);
 		}
 
 		public static void LoadRSAFromStore()
