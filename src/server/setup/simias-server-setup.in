@@ -36,6 +36,11 @@
 #*
 #*******************************************************************************/
 
+OS_ARCH=`uname -m | grep -c x86_64`
+if [ $OS_ARCH -gt 0 ]
+then
+        export OS_ARCH=`uname -m`
+fi
 
 rpm -q novell-ifolder-mono > /dev/null 2>&1
 if [ $? -gt 0 ]
