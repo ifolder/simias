@@ -1052,9 +1052,8 @@ Console.WriteLine("Url {0}", service.Url);
 					"../../",
                                         Path.DirectorySeparatorChar.ToString()
 					);
-				string usermoveModuleConfigPath = String.Format( "{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}",
-					baseInstallPath,
-                                        "etc",
+				string usermoveModuleConfigPath = String.Format( "{0}{1}{2}{3}{4}{5}{6}{7}{8}",
+					SimiasSetup.sysconfdir,
                                         Path.DirectorySeparatorChar.ToString(),
                                         "simias",
 					Path.DirectorySeparatorChar.ToString(),
@@ -1068,6 +1067,7 @@ Console.WriteLine("Url {0}", service.Url);
 				if ( File.Exists( usermoveModuleConfigPath ) == false )
 				{
 					Console.WriteLine("Unable to find the User Move plugin configuration files..");
+					Console.WriteLine("{0}", usermoveModuleConfigPath );
 					Console.WriteLine("Please make sure, ifolder-enterprise-plugins rpm is installed.\n\n");
 					return false;
 				}
