@@ -221,7 +221,9 @@ namespace Simias.Storage
 					domain.Commit(host);
                                         string storageFormat = String.Format( "{0}|{1}", comps[0], comps[1]);
                                         storageFormat = String.Format( "{0}|{1}", storageFormat, enabled.ToString());
-					host.Properties.AddProperty( PropertyTags.DataPath, storageFormat );
+                                        Property p = new Property( PropertyTags.DataPath, storageFormat );
+					p.LocalProperty = true;
+					host.Properties.AddProperty( p );
 	                        	domain.Commit(host);	
 				}
                         }
