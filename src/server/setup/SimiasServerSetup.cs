@@ -2338,7 +2338,11 @@ Console.WriteLine("Url {0}", service.Url);
 					writer.WriteLine("MonoSetEnv {0} \"SimiasRunAsServer=true;SimiasDataDir={1}\"", alias, this.storePath);
 					// Set MonoServerPath to the path where ifolder-mod-mono-server2 script file is there
 					if(ModMonoServer2 != null)
+					{
 						writer.WriteLine("MonoServerPath {0} {1}/ifolder-mod-mono-server2", alias, ModMonoServer2);
+						writer.WriteLine("MonoMaxActiveRequests {0} {1}", alias, 150);
+						writer.WriteLine("MonoMaxWaitingRequests {0} {1}", alias, 250);
+					}
 					writer.WriteLine("<Location /{0} >", alias);
 					writer.WriteLine("\tMonoSetServerAlias {0}", alias);
 					writer.WriteLine("\tOrder allow,deny");

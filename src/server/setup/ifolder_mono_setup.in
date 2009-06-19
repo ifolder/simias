@@ -43,13 +43,43 @@ MOD_MONO_CONF_FILE_PATH="/etc/apache2/mod_mono.conf"
 processFile(){
 	if [ -f $1 ]; then
 		sed -e 's,'$MOD_MONO_CONF_FILE_PATH','$iFPrefix/mono/etc/apache2/conf.d/mod_mono.conf',g' -i $1
-		if [ `grep -c -E MonoServerPath $1` -eq 0 ]; then
-			if [ $1 == $CONF_FILE_PATH/simias.conf ]; then
-				sed '6i MonoServerPath simias10 '$iFPrefix/bin/mod-mono-server2'' -i $1
-			elif [ $1 == $CONF_FILE_PATH/ifolder_admin.conf ]; then
-				sed '5i MonoServerPath admin '$iFPrefix/bin/mod-mono-server2'' -i $1
-			elif [ $1 == $CONF_FILE_PATH/ifolder_web.conf ]; then
-				sed '5i MonoServerPath ifolder '$iFPrefix/bin/mod-mono-server2'' -i $1
+		if [ $1 == $CONF_FILE_PATH/simias.conf ]; then
+			newline=`grep -n MonoSetEnv $1`
+			lineno=${newline:0:`expr index "$newline" \:`-1}
+
+			if [ `grep -c -E MONO_THREADS_PER_CPU $1` -eq 0 ]; then
+				sed -e ''$lineno' s/\"$/;MONO_THREADS_PER_CPU=2000\"/g' -i $1 
+			fi
+			
+			if [ `grep -c -E MonoServerPath $1` -eq 0 ]; then
+				sed '6i MonoServerPath simias10 '$iFPrefix/bin/ifolder-mod-mono-server2'' -i $1
+			fi
+
+			if [ `grep -c -E MonoMaxActiveRequests $1` -eq 0 ]; then
+				sed '7i MonoMaxActiveRequests simias10 150' -i $1
+			fi
+
+			if [ `grep -c -E MonoMaxWaitingRequests $1` -eq 0 ]; then
+				sed '8i MonoMaxWaitingRequests simias10 250' -i $1
+			fi
+
+		elif [ $1 == $CONF_FILE_PATH/ifolder_admin.conf ]; then
+			if [ `grep -c -E MonoServerPath $1` -eq 0 ]; then
+				sed '5i MonoServerPath admin '$iFPrefix/bin/ifolder-mod-mono-server2'' -i $1
+			fi
+		elif [ $1 == $CONF_FILE_PATH/ifolder_web.conf ]; then
+
+			if [ `grep -c -E MonoSetEnv $1` -eq 0 ]; then
+				sed '5i MonoSetEnv ifolder MONO_THREADS_PER_CPU=2000' -i $1
+			fi
+			if [ `grep -c -E MonoServerPath $1` -eq 0 ]; then
+				sed '6i MonoServerPath ifolder '$iFPrefix/bin/ifolder-mod-mono-server2'' -i $1
+			fi
+			if [ `grep -c -E MonoMaxActiveRequests $1` -eq 0 ]; then
+				sed '7i MonoMaxActiveRequests ifolder 150' -i $1
+			fi
+			if [ `grep -c -E MonoMaxWaitingRequests $1` -eq 0 ]; then
+				sed '8i MonoMaxWaitingRequests ifolder 250' -i $1
 			fi
 		fi
 	fi

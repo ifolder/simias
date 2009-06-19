@@ -462,13 +462,23 @@ namespace Novell.iFolderApp.Web
 				writer.WriteLine();
 				writer.WriteLine("Alias /{0} \"{1}\"", alias, webPath);
 				writer.WriteLine("AddMonoApplications {0} \"/{0}:{1}\"", alias, webPath);
-                                if (logoutUrl.Value != String.Empty || logoutUrl.Value.Trim () != "" )
-                                    writer.WriteLine("MonoSetEnv {1} LogoutUrl={0}",logoutUrl.Value, alias);
+                                //if (logoutUrl.Value != String.Empty || logoutUrl.Value.Trim () != "" )
+                                //    writer.WriteLine("MonoSetEnv {1} LogoutUrl={0}",logoutUrl.Value, alias);
 				//if(datapath != null || datapath != String.Empty)
 					//writer.WriteLine("MonoSetEnv {1} \"SimiasLogDir={0}/log\"", datapath, alias);
 				// Set MonoServerPath to the path where ifolder-mod-mono-server2 script file is there
-				if( ModMonoServer2 != null )
-					writer.WriteLine("MonoServerPath {0} {1}/ifolder-mod-mono-server2", alias,  ModMonoServer2);
+                                if( ModMonoServer2 != null )
+                                {
+                                        if(logoutUrl.Value != String.Empty || logoutUrl.Value.Trim () != "" )
+                                                writer.WriteLine("MonoSetEnv {0} LogoutUrl={1};MONO_THREADS_PER_CPU={2}",alias, logoutUrl.Value,2000);
+                                        else
+                                                writer.WriteLine("MonoSetEnv {0} MONO_THREADS_PER_CPU={1}", alias, 2000);
+                                        writer.WriteLine("MonoServerPath {0} {1}/ifolder-mod-mono-server2", alias,  ModMonoServer2);
+                                        writer.WriteLine("MonoMaxActiveRequests {0} {1}", alias, 150);
+                                        writer.WriteLine("MonoMaxWaitingRequests {0} {1}", alias, 250);
+                                }
+                                else if (logoutUrl.Value != String.Empty || logoutUrl.Value.Trim () != "" )
+                                        writer.WriteLine("MonoSetEnv {1} LogoutUrl={0}",logoutUrl.Value, alias);
 				writer.WriteLine("<Location /{0} >", alias);
 				writer.WriteLine("\tMonoSetServerAlias {0}", alias);
 				writer.WriteLine("\tOrder allow,deny");
