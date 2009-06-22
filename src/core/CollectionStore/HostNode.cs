@@ -325,20 +325,31 @@ namespace Simias.Storage
 		public static HostNode GetLocalHost()
 		{
 			Store store = Store.GetStore();
-			Domain domain = store.GetDomain(store.DefaultDomain);
-			ICSList searchList = domain.Search(LocalHostTag, Syntax.Boolean, SearchOp.Exists);
-			if (searchList.Count == 1)
+			Domain domain = null;
+			/// this might given an exception if the Default Domain is not set up.
+			/// this is true when the entire iFolder store is restored - so the try/catch
+			/// Need to find a better way to fix this without try/catch - FIXME
+			try
 			{
-				IEnumerator list = searchList.GetEnumerator();
-				list.MoveNext();
-				ShallowNode sn = (ShallowNode)list.Current;
-				return new HostNode(domain.GetNodeByID(sn.ID));
+				domain = store.GetDomain(store.DefaultDomain);
+				ICSList searchList = domain.Search(LocalHostTag, Syntax.Boolean, SearchOp.Exists);
+				if (searchList.Count == 1)
+				{
+					IEnumerator list = searchList.GetEnumerator();
+					list.MoveNext();
+					ShallowNode sn = (ShallowNode)list.Current;
+					return new HostNode(domain.GetNodeByID(sn.ID));
+				}
+				else if (!Store.IsEnterpriseServer)
+				{
+					return domain.Host;
+				}
+				return null;
 			}
-			else if (!Store.IsEnterpriseServer)
+			catch
 			{
-				return domain.Host;
+				return null;
 			}
-			return null;
 		}
 	}
 }
