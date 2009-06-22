@@ -227,7 +227,13 @@ namespace Simias.Sync
 			while(bytesLeft > 0)
 			{
 				byte[] buffer = GetBuffer();
-				int bytesRead = stream.Read(buffer, 0, Math.Min(bytesLeft, buffer.Length));
+				// Default buffer size of socket is 32 Kb,
+				// if continuously 64 KB each write data is pushed to out stream
+				// and if the reader is slower than the writer then connection loss and
+				// "Operation on non-blocking socket would block" error messages are thrown.
+				// For more info on why it is getting reset refer 506930.
+				int MaxWriteBufferSize = Math.Min((8 * 1024), buffer.Length);
+				int bytesRead = stream.Read(buffer, 0, Math.Min(bytesLeft, MaxWriteBufferSize));
 				if (bytesRead != 0)
 				{
 					writeComplete.WaitOne();
