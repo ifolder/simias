@@ -153,7 +153,11 @@ namespace Simias.Client
 		/// </summary>
 		private static void SetPlatformID()
 		{
-			if (Mono && ((int)Environment.OSVersion.Platform == 128))
+			int platform = (int) Environment.OSVersion.Platform;
+
+                        // on the Mono 1.0 profile, the value for unix is 128, (MS.NET 1.x does not have an enum field for unix)
+                        // on the Mono 2.0 profile, and MS.NET 2.0 the value for unix is 4
+                        if (Mono && (platform == 128 || platform == 4))
 			{
 				// Unix
 				platformID = MyPlatformID.Unix;
