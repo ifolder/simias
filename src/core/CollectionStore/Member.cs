@@ -1474,7 +1474,7 @@ namespace Simias.Storage
 					KeyCorrection(ref RAName, ref RAPublicKey);			
 				
 				Store store = Store.GetStore();
-				string DomainID = this.GetDomainID(store);
+				DomainID = this.GetDomainID(store);
                 Domain domain = store.GetDomain(DomainID);
 				string UserID = store.GetUserIDFromDomainID(DomainID);
 				HostNode host = this.HomeServer; //home server
