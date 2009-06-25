@@ -1466,7 +1466,8 @@ namespace Simias.Storage
 		/// Set the passphrase(key encrypted by passphrase and SHA1 of key) and recovery agent name and key
 		/// </summary>
 		public void SetPassPhrase(string Passphrase, string RAName, string RAPublicKey)
-		{			
+		{
+            string DomainID = null;
 			try
 			{
 				if(RAPublicKey != null && RAPublicKey != "" && RAName != "DEFAULT")//RAName null allowed
@@ -1474,8 +1475,11 @@ namespace Simias.Storage
 				
 				Store store = Store.GetStore();
 				string DomainID = this.GetDomainID(store);
+                Domain domain = store.GetDomain(DomainID);
 				string UserID = store.GetUserIDFromDomainID(DomainID);
 				HostNode host = this.HomeServer; //home server
+                // suspend the current domain sync for a while so that passphrase setting goes through fast
+                SyncClient.Suspend(DomainID);
 
 				SimiasConnection smConn = new SimiasConnection(DomainID,
 															UserID,
@@ -1503,17 +1507,37 @@ namespace Simias.Storage
 				//making it local variable for faster disposal
 				CollectionSyncClient syncClient = null;
 
-				try{
-				log.Debug("SetPassPhrase Domain sync begin");
-				syncClient = new CollectionSyncClient(DomainID, new TimerCallback( TimerFired ) );
-				syncClient.SyncNow();
-                log.Debug("SetPassPhrase Domain sync end");
+                // commit encryption related values locally on client for faster access. it will be overwritten in 
+                // next fomain sync
+                try
+                {
+                    this.EncryptionKey = EncrypCryptoKey;
+                    this.EncryptionBlob = HashKey.HashKey();
+                    this.RAName = RAName;
+                    this.RAPublicKey = RAPublicKey;
+                    this.EncryptionVersion = "version";
+
+                    Property p = properties.GetSingleProperty(PropertyTags.SecurityStatus);
+                    int value;
+                    if (p != null)
+                    {
+                        value = (int)p.Value;
+                        value |= (int)EncryptionBlobFlag.BlobFlag;
+                    }
+                    else
+                    {
+                        value = (int)EncryptionBlobFlag.BlobFlag;
+                    }
+                    Property pNew = new Property(PropertyTags.SecurityStatus, value);
+                    pNew.LocalProperty = true;
+                    properties.ModifyNodeProperty(pNew);
+                    domain.Commit(this);
 				}
 				catch
 				{
 					//ignoring exceptions, since domain is synced periodically
 					//whatif passphrase is not synced??? -- FIXFIX
-					log.Debug("Domain Sync failed - SetPassPhrase");
+                    log.Debug("Setting the encryption values locally failed - SetPassPhrase");
 				}
 			}
 			catch(Exception ex)

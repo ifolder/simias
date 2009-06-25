@@ -325,6 +325,29 @@ namespace Simias.Sync
 				sc.Stop();
 		}
 
+        /// <summary>
+        /// Stop the 
+        /// </summary>
+        /// <param name="collectionID"></param>
+        public static void Suspend(string collectionID)
+        {
+            CollectionSyncClient sc = GetCollectionSyncClient(collectionID);
+            if (sc == null || CurrentiFolderID != collectionID)
+                return;
+
+            sc.Suspend();
+            int count = 20;
+            do
+            {
+                log.Debug("Waiting for suspending the sync.");
+                if (CurrentiFolderID == null || CurrentiFolderID != collectionID)
+                    break;
+                Thread.Sleep(1000);
+                count--;
+            } while (count > 0);
+            log.Debug("Out of suspend...");
+        }
+
 		/// <summary>
 		/// Gets the state of the server for this collection.
 		/// </summary>
@@ -2076,9 +2099,7 @@ namespace Simias.Sync
 			while (offset < nodeIDs.Length)
 			{
 				if (Yield)
-				{
 					return;
-				}
 				int batchCount = nodeIDs.Length - offset < BATCH_SIZE ? nodeIDs.Length - offset : BATCH_SIZE;
 				try
 				{
@@ -2087,7 +2108,7 @@ namespace Simias.Sync
 					updates = service.GetNodes(batchIDs);
 					StoreNodes(updates, merge);
 				}
-				catch {}
+                catch {}
 				offset += batchCount;
 			}
 			// Update the collection in case it changed.
@@ -2103,7 +2124,6 @@ namespace Simias.Sync
 			ArrayList	commitArray = new ArrayList();
 			Node[]		commitList = null;
 			bool collectionChanged = false;
-
 			// Try to commit all the nodes at once.
 			foreach (SyncNode sn in nodes)
 			{
