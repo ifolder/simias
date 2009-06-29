@@ -1320,6 +1320,7 @@ namespace iFolder.WebService
 			string [] GroupIDs = domain.GetMemberFamilyList(memberID);
 			Member OperatedMember = domain.GetMemberByID(memberID);
 			bool IsGroupID = false;
+			string ParentGroups = null;
 			Property Groupproperty = OperatedMember.Properties.GetSingleProperty( "GroupType" );
 			if(Groupproperty != null)
 				IsGroupID = true;
@@ -1328,7 +1329,11 @@ namespace iFolder.WebService
 				bool IsChildGroup = false;
 				Member GroupAsMember = domain.GetMemberByID(GroupID);
 				long GroupDiskQuota = GroupAsMember.AggregateDiskQuota;
-				string ParentGroups = GroupAsMember.Properties.GetSingleProperty( "UserGroups" ).Value as string;
+				// If groups are not configured then this call returns null
+				Property p = GroupAsMember.Properties.GetSingleProperty( "UserGroups" );
+				if(p != null)
+					ParentGroups = p.Value as string;
+
 				if(ParentGroups != null && ParentGroups != String.Empty)
 				{
 					IsChildGroup = true;
