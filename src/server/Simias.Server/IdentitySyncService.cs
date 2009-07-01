@@ -522,7 +522,7 @@ namespace Simias.IdentitySync
 					{
 						member.Properties.ModifyProperty( prop );
 					}
-					                                       // while creating member, if sum of allocated disk quota per user is equal to aggregate disk quota set on group
+					// while creating member, if sum of allocated disk quota per user is equal to aggregate disk quota set on group
                                         // then set 0 MB as disk quota limit for this user
                                         {
                                                 string [] GroupIDs = domain.GetMemberFamilyList(member.UserID);
@@ -530,7 +530,11 @@ namespace Simias.IdentitySync
                                                 {
                                                         bool IsChildGroup = false;
                                                         Member GroupAsMember = domain.GetMemberByID(GroupID);
-                                                        string ParentGroups = GroupAsMember.Properties.GetSingleProperty( "UserGroups" ).Value as string;
+							string ParentGroups = null;
+							Property p = GroupAsMember.Properties.GetSingleProperty( "UserGroups" );
+							if(p != null)
+								ParentGroups = p.Value as string;
+
                                                         if(ParentGroups != null && ParentGroups != String.Empty)
                                                         {
                                                                 // no point in
@@ -1058,7 +1062,7 @@ namespace Simias.IdentitySync
 								// OK, this guy has been disabled past
 								// the policy time so delete him from the
 								// domain roster
-								if ( dt.AddSeconds( Service.deleteGracePeriod ) < DateTime.Now )
+								if ( dt.AddSeconds( DeleteGracePeriod ) < DateTime.Now )
 								{
 									string [] groupIDs = State.SDomain.GetDeletedMembersGroupList(cMember.UserID);
 									DeletePOBox( State, cMember );
