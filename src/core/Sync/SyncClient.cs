@@ -243,6 +243,29 @@ namespace Simias.Sync
             }
         }
 
+        public static void RescheduleAllEncryptedColSync(string DomainID)
+        {
+            // Reschedule all the iFolders of the Domain for sync.....
+            Store store = Store.GetStore();
+            if (store != null)
+            {
+                ICSList cList = store.GetCollectionsByDomain(DomainID);
+                foreach (ShallowNode sn in cList)
+                {
+                    try
+                    {
+                        Collection col = store.GetCollectionByID(sn.ID);
+                        if (col.EncryptionAlgorithm != null && col.EncryptionAlgorithm != string.Empty)
+                            SyncClient.ScheduleSync(col.ID);
+                    }
+                    catch (Exception e)
+                    {
+                        log.Debug("RescheduleAllEncryptedColSync: Error scheduling {0} for sync.", sn.ID);
+                    }
+                }
+            }
+        }
+
         /// <summary>
         /// Reset the connection for the domain
         /// </summary>
@@ -971,7 +994,9 @@ namespace Simias.Sync
 			log.Debug("In sync now...");
 			// Assume the server is alive.
 			bool	sAlive = false;
-			try
+            bool nopassphrase = false;
+
+            try
 			{
 				eventPublisher.RaiseEvent(new CollectionSyncEventArgs(collection.Name, collection.ID, Simias.Client.Event.Action.StartLocalSync, true, false));
 				syncStartTime = DateTime.Now;
@@ -983,7 +1008,22 @@ namespace Simias.Sync
 				collection.Refresh();
 				log.Debug("Refreshing the collection...");
 				Member currentMember = collection.GetCurrentMember();
-
+                if (this.collection.EncryptionAlgorithm != null && this.collection.EncryptionAlgorithm != string.Empty)
+                {
+                    log.Info("Syncing an encrypted iFolder");
+                    Store store = Store.GetStore();
+                    string Passphrase = store.GetPassPhrase(collection.Domain);
+                    if (Passphrase == null)
+                    {
+                        log.Info("Passphrase not provided, will not sync");
+                        eventPublisher.RaiseEvent(new CollectionSyncEventArgs(collection.Name, collection.ID, Simias.Client.Event.Action.NoPassphrase, true, false));
+                        nopassphrase = true;
+                        return;
+                    }
+                }
+                else
+                    log.Info("Syncing regular ifolder");
+ 
 				// Make sure the master exists.
 				if (collection.CreateMaster)
 				{
@@ -1245,7 +1285,8 @@ namespace Simias.Sync
 				serverAlive = sAlive;
 				running = false;
                 fileMonitor.ToDredge = false;
-                eventPublisher.RaiseEvent(new CollectionSyncEventArgs(collection.Name, collection.ID, Simias.Client.Event.Action.StopSync, sAlive, yielded));
+                if( !nopassphrase)
+                    eventPublisher.RaiseEvent(new CollectionSyncEventArgs(collection.Name, collection.ID, Simias.Client.Event.Action.StopSync, sAlive, yielded));
 			}
 		}
 

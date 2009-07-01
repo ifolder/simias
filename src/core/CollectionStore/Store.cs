@@ -1506,6 +1506,9 @@ log.Debug("CID {2}\nPEDEK {0}\nREDEK {1}", cKey.PEDEK, cKey.REDEK, cKey.NodeID);
 		public void StorePassPhrase( string domainID, string passPhrase, CredentialType credType, bool rememberPassPhrase )
 		{
 			LocalDb.Commit( CurrentUser.StorePassPhrase( domainID.ToLower(), passPhrase, credType, rememberPassPhrase ) );
+            /// Schedule all encrypted iFolders for sync...
+            if( credType == CredentialType.Basic )
+                SyncClient.RescheduleAllEncryptedColSync(domainID);
 		}
 
 		#endregion
