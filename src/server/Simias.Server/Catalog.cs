@@ -1439,6 +1439,25 @@ namespace Simias.Server
 			if ( col != null )
 			{
 			        Property sprop = new Property( SizeProperty, col.StorageSize );
+				try
+				{
+					Property catalogsizeproperty = this.Properties.GetSingleProperty(SizeProperty);
+					if( catalogsizeproperty != null )
+					{
+						long size = (long)catalogsizeproperty.Value;
+						if( size == col.StorageSize )
+						{
+							log.Debug("The size is same. Nothing to update here. Not changing the node entry.");
+							return;
+						}
+						else
+							log.Debug("The size on catalog: {0} and size on collection: {1}", size, col.StorageSize);
+					}
+				}
+				catch(Exception e)
+				{
+					log.Debug("Exception in SetCollSizeByCollectionID. {0}--{1}", e.Message, e.StackTrace);
+				}
 				this.Properties.ModifyProperty( sprop );
 			}
 			catalog.Commit(this);
