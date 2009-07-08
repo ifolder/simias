@@ -1549,13 +1549,18 @@ namespace Simias.Sync
 		private void Initialize()
 		{
 			try
-			{
+            {
+
 				fileMonitor = new FileWatcher(collection, false);
+
+
 				switch(collection.Role)
 				{
+                        
 					case SyncRoles.Master:
 					case SyncRoles.Local:
 					default:
+
 						timer = new Timer(callback, this, initialSyncDelay, Timeout.Infinite);				
 						break;
 
@@ -1566,8 +1571,9 @@ namespace Simias.Sync
 			}
 			catch ( Exception ex )
 			{
-				if (!Directory.Exists(collection.GetRootDirectory().GetFullPath(collection)))
-				{
+				if ( collection.GetRootDirectory() == null || 
+                    !Directory.Exists(collection.GetRootDirectory().GetFullPath(collection)))
+                {
 					collection.Commit(collection.Delete());
 				}
 				else
