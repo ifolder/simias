@@ -1548,7 +1548,8 @@ namespace Simias.Sync
 			}
 			catch ( Exception ex )
 			{
-				if (!Directory.Exists(collection.GetRootDirectory().GetFullPath(collection)))
+                if (collection.GetRootDirectory() == null ||
+                    !Directory.Exists(collection.GetRootDirectory().GetFullPath(collection)))
 				{
 					collection.Commit(collection.Delete());
 				}
