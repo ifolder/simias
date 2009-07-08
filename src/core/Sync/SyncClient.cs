@@ -1008,21 +1008,26 @@ namespace Simias.Sync
 				collection.Refresh();
 				log.Debug("Refreshing the collection...");
 				Member currentMember = collection.GetCurrentMember();
-                if (this.collection.EncryptionAlgorithm != null && this.collection.EncryptionAlgorithm != string.Empty)
-                {
-                    log.Info("Syncing an encrypted iFolder");
-                    Store store = Store.GetStore();
-                    string Passphrase = store.GetPassPhrase(collection.Domain);
-                    if (Passphrase == null)
-                    {
-                        log.Info("Passphrase not provided, will not sync");
-                        eventPublisher.RaiseEvent(new CollectionSyncEventArgs(collection.Name, collection.ID, Simias.Client.Event.Action.NoPassphrase, true, false));
-                        nopassphrase = true;
-                        return;
-                    }
-                }
-                else
-                    log.Info("Syncing regular ifolder");
+				if( collection.DataMovement == false)
+				{
+			                if (this.collection.EncryptionAlgorithm != null && this.collection.EncryptionAlgorithm != string.Empty)
+        			        {
+		                	    log.Info("Syncing an encrypted iFolder");
+	        		            Store store = Store.GetStore();
+		        	            string Passphrase = store.GetPassPhrase(collection.Domain);
+                			    if (Passphrase == null)
+			                    {
+        			                log.Info("Passphrase not provided, will not sync");
+                	        		eventPublisher.RaiseEvent(new CollectionSyncEventArgs(collection.Name, collection.ID, Simias.Client.Event.Action.NoPassphrase, true, false));
+		                        	nopassphrase = true;
+	        		                return;
+		        	            }
+                			}
+			                else
+        			            log.Info("Syncing regular ifolder");
+				}
+				else
+					log.Info("Syncing in collection.DataMovement scenario.");
  
 				// Make sure the master exists.
 				if (collection.CreateMaster)
