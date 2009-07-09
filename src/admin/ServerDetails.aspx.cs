@@ -813,14 +813,17 @@ namespace Novell.iFolderWeb.Admin
 			{
 	                        VolumesList volumelist = remoteweb.GetVolumes(CurrentPathOffset , DataPaths.PageSize);
 				TotalPaths = volumelist.NumberOfVolumes;
-			
 				foreach( Volumes mntpt in volumelist.ItemsArray )
                 	       	{
                         	        dr = dt.NewRow();
 					String result;
 	                                dr[ 0 ] = true;
 					dr[ 1 ] = !mntpt.Enabled;
-					dr[ 2 ] = mntpt.DataPath;
+					if( mntpt.DataPath.Length > 20 )
+						dr[ 2 ] = web.GetShortenedName(mntpt.DataPath, 20);
+
+					else
+						dr[ 2 ] = mntpt.DataPath;
                         	        dr[ 3 ] = mntpt.FullPath;
 					if( mntpt.AvailableFreeSpace  == 0 )
 					{
