@@ -93,7 +93,7 @@ namespace Novell.iFolderApp.Web
 		private void Page_Load(object sender, System.EventArgs e)
 		{
 			// query
-			ifolderID = Request.QueryString.Get("iFolder");
+			//ifolderID = Request.QueryString.Get("iFolder");
 
 			// localization
 			rm = (ResourceManager) Application["RM"];
@@ -113,6 +113,7 @@ namespace Novell.iFolderApp.Web
 		{
 			long used = 0;
 			long limit = 0;
+			ifolderID = Request.QueryString.Get("iFolder");
 
 			if ((ifolderID != null) && (ifolderID.Length != 0))
 			{
