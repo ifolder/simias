@@ -188,10 +188,11 @@ namespace iFolder.WebService
 
 				entry.Path = dirNode.GetRelativePath();
 				entry.LastModified = dirNode.CreationTime;
-
 				entry.IsDirectory = true;
 				entry.IsRoot = dirNode.IsRoot;
 				entry.HasChildren = dirNode.HasChildren(c);
+
+				entry.Size = (long)dirNode.GetSize(c);
 			}
 			
 			// bad node
@@ -687,7 +688,7 @@ namespace iFolder.WebService
 						// update
 						(entry as DirNode).CreationTime = dir.CreationTime;
 						c.Commit(entry);
-						CreateFileNodesForDirectory(dir, ifolderID, entry.ID, (entry as DirNode).GetRelativePath(c));			
+						CreateFileNodesForDirectory(dir, ifolderID, entry.ID, (entry as DirNode).GetRelativePath());			
 					}
 					catch(Exception ex)
 					{
@@ -702,7 +703,7 @@ namespace iFolder.WebService
 					}
 				}
 				else
-					CreateFileNodesForDirectory(dir, ifolderID, entry.ID, (entry as DirNode).GetRelativePath(c));
+					CreateFileNodesForDirectory(dir, ifolderID, entry.ID, (entry as DirNode).GetRelativePath());
 			}
 			return true;
 		}

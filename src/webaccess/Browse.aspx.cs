@@ -188,7 +188,7 @@ namespace Novell.iFolderApp.Web
 			{
 				ifolder = web.GetiFolder(ifolderID);
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
 				Response.Redirect("iFolders.aspx?ErrorMsg=Member does not exist " + ifolderID);
 			}
@@ -483,15 +483,14 @@ namespace Novell.iFolderApp.Web
 					if (child.IsDirectory)
 					{
 						row["Link"] = String.Format("Browse.aspx?iFolder={0}&Entry={1}",
-							ifolderID, child.ID);
+						ifolderID, child.ID);
 						row["Image"] = "folder.png";
-						row["Size"] = "";
+						row["Size"] = WebUtility.FormatSize(child.Size, rm);
 					}
 					else
 					{  
-						string PassPhrase = Session["SessionPassPhrase"] as string;
 						row["Link"] = String.Format("Download.ashx?iFolder={0}&Entry={1}",
-							ifolderID, child.ID);
+						ifolderID, child.ID);
 						row["Image"] = "text-x-generic.png";
 						row["Size"] = WebUtility.FormatSize(child.Size, rm);
 					}

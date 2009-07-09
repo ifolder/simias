@@ -219,6 +219,48 @@ namespace Simias.Storage
 		}
 		#endregion
 
+		/// <summary>
+                /// Gets the size of the directory entry.
+                /// </summary>
+                /// <param name="collection">Collection object that this object belongs to.</param>
+                /// <returns>The Size of the directory.</returns>
+                public ulong GetSize( Collection collection )
+		{
+
+			string path = this.GetFullPath(collection);
+		
+			return GetDirectorySize(path);
+		}
+
+		/// <summary>
+                /// Gets the size of the directory entry.
+                /// </summary>
+                /// <param name="path">Path of the directory</param>
+                /// <returns>The Size of the directory.</returns>
+                public ulong GetDirectorySize( String path )
+                {
+			ulong size = 0;
+
+			string[] dlist = Directory.GetDirectories(path, "*.*");
+			string[] flist = Directory.GetFiles(path, "*.*");
+
+        		// Calculate total bytes of all sub-dir in a loop.
+        		foreach (string dir in dlist)
+        		{
+				size = size + GetDirectorySize(Path.Combine(path,dir));
+			} 
+				
+        		// Calculate total bytes of all files in a loop.
+                        foreach (string file in flist)
+                        {		
+	        		// Use FileInfo to get length of each file.
+            			FileInfo info = new FileInfo(file);
+            			size += (ulong)info.Length;
+        		}
+
+			return size;
+		}		
+
 		#region Public Methods
 		/// <summary>
 		/// Gets the full path of the directory entry.
