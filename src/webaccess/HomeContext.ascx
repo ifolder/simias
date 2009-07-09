@@ -11,9 +11,9 @@
 			<asp:HyperLink ID="HomeLink" NavigateUrl="iFolders.aspx" runat="server" />
 		</td>
 		
-		<td class="filter"><%= GetString("SHOW") %>
+		<td class="filter"><asp:Label ID="ShowLabel" runat="server" />
 			<asp:DropDownList ID="SearchCategory" AutoPostBack="true" runat="server" />
-			<%= GetString("FILTER") %>
+			<asp:Label ID="FilterLabel" runat="server" />
 			<asp:TextBox ID="SearchPattern" AutoPostBack="true" CssClass="filterText" runat="server" />
 		</td>
 		

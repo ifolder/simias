@@ -53,6 +53,16 @@ namespace Novell.iFolderApp.Web
 		/// Home Link
 		/// </summary>
 		protected HyperLink HomeLink;
+
+		/// <summary>
+                /// Show Label
+                /// </summary>
+                protected Label ShowLabel;
+
+		/// <summary>
+                /// Filter Label
+                /// </summary>
+                protected Label FilterLabel;
 		
 		/// <summary>
 		/// Search Category
@@ -69,11 +79,6 @@ namespace Novell.iFolderApp.Web
 		/// </summary>
 		private ResourceManager rm;
 	
-		/// <summary>
-		/// iFolder Connection
-		/// </summary>
-		private iFolderWeb web;
-
 		#region Events
 		
 		/// <summary>
@@ -90,9 +95,6 @@ namespace Novell.iFolderApp.Web
 		/// <param name="e"></param>
 		private void Page_Load(object sender, System.EventArgs e)
 		{
-			// connection
-			web = (iFolderWeb) Session["Connection"];
-
 			// localization
 			rm = (ResourceManager) Application["RM"];
 
@@ -103,6 +105,8 @@ namespace Novell.iFolderApp.Web
 
 				// strings
 				HomeLink.Text = GetString("HOME");
+				ShowLabel.Text = GetString("SHOW");
+				FilterLabel.Text = GetString("FILTER");
 				
 				// categories
 				SearchCategory.Items.Add(new ListItem(GetString("ALL"), iFolderCategory.All.ToString()));
@@ -112,33 +116,37 @@ namespace Novell.iFolderApp.Web
 			}
 		}
 
+		/*
+		//Commented to get rid of warning as this method is not called		
+
+	        /// <summary>
+                /// Handle Exceptions
+                /// </summary>
+                /// <param name="e"></param>
+                /// <returns></returns>
+                private bool HandleException(Exception e)
+                {
+			bool result = true;
+
+                       	string type = WebUtility.GetExceptionType(e);
+
+                        // types
+                        switch(type)
+                        {
+                                default:
+                                        result = false;
+                                        break;
+                        }
+
+                        return result;
+                }
+		*/
+
 		/// <summary>
 		/// Bind the Data to the Page.
 		/// </summary>
 		private void BindData()
 		{
-		}
-
-		/// <summary>
-		/// Handle Exceptions
-		/// </summary>
-		/// <param name="e"></param>
-		/// <returns></returns>
-		private bool HandleException(Exception e)
-		{
-			bool result = true;
-
-			string type = WebUtility.GetExceptionType(e);
-
-			// types
-			switch(type)
-			{
-				default:
-					result = false;
-					break;
-			}
-
-			return result;
 		}
 
 		/// <summary>
@@ -177,6 +185,15 @@ namespace Novell.iFolderApp.Web
 
 				return result;
 			}
+		}
+
+		/// <summary>
+                /// Hides the search label search Pattern and labels for Settings Page 
+                /// </summary>
+		public void HideSearch()
+		{
+			this.SearchCategory.Visible = this.SearchPattern.Visible = false;
+			this.ShowLabel.Visible = this.FilterLabel.Visible = false;
 		}
 
 		#endregion

@@ -57,11 +57,16 @@ namespace Novell.iFolderApp.Web
 		/// Page Size Label
 		/// </summary>
 		protected Label PageSizeLabel;
-		
+
 		/// <summary>
 		/// Page Size List
 		/// </summary>
 		protected DropDownList PageSizeList;
+
+		/// <summary>
+                /// Context
+                /// </summary>
+                protected HomeContextControl HomeContext;
 
 		/// <summary>
 		/// Message Box
@@ -213,7 +218,7 @@ namespace Novell.iFolderApp.Web
 				SaveButton.Text = GetString("SAVE");
 				CancelButton.Text = GetString("CANCEL");
 				PageSizeLabel.Text = GetString("PAGESIZE");
-			
+
 				ChangePassword.Checked = true;
 
 				// view
@@ -234,6 +239,9 @@ namespace Novell.iFolderApp.Web
 			{
 				PageSizeList.Items.Add(size);
 			}
+
+			// Search is not required for Settings Page
+			HomeContext.HideSearch();
 
 			try
 			{
@@ -450,8 +458,7 @@ namespace Novell.iFolderApp.Web
 		/// <summary>
 		/// go to new page after password change is successful 
 		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
+		/// <param name="PasswordChanged">Value entered in the ChangePassword Text Box</param>
 		private void OnPasswordChanged(string PasswordChanged)
 		{
 			// return

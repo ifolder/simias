@@ -1,5 +1,6 @@
 <%@ Page language="c#" Codebehind="Settings.aspx.cs" AutoEventWireup="false" Inherits="Novell.iFolderApp.Web.SettingsPage" %>
 <%@ Register TagPrefix="iFolder" TagName="HeaderControl" Src="Header.ascx" %>
+<%@ Register TagPrefix="iFolder" TagName="HomeContextControl" Src="HomeContext.ascx" %>
 <%@ Register TagPrefix="iFolder" TagName="MessageControl" Src="Message.ascx" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
@@ -24,6 +25,8 @@
 	<form runat="server">
 
 		<iFolder:HeaderControl id="Head" runat="server" />
+
+		<iFolder:HomeContextControl id="HomeContext" runat="server" />
 		
 		<div id="nav">
 		</div>
