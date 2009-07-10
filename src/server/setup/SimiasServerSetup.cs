@@ -75,7 +75,6 @@ namespace Novell.iFolder
 		private static readonly string ModulesDir = "modules";
 		private static readonly string LdapModule = "IdentityManagement.conf";
 		private static readonly string UserMoveModule = "UserMovement.conf";
-		private static readonly string ServerInstallPath = Path.Combine( SimiasSetup.prefix, "server" );
 
 		private static string ServerSection = "Server";
 		private static string IdentitySection = "Identity";
@@ -908,7 +907,7 @@ Console.WriteLine("Url {0}", service.Url);
 					}
 				}
 			}
-			catch ( Exception e )
+			catch ( Exception )
 			{
 				// Failed. Prompt for apache user & group.
 			        apacheUser.Prompt = apacheGroup.Prompt = true;
@@ -961,13 +960,24 @@ Console.WriteLine("Url {0}", service.Url);
 			if(remove_slave)
 				return true;
 
-			SetupModMono();
-			if ( usingLDAP )
+			try
 			{
-				SetupLdap();
+				SetupModMono();
+				if ( usingLDAP )
+				{
+					SetupLdap();
+				}
+				if(apache.Value == false)
+				{
+					SetupScriptFiles(); //not needed for OES as iFolder runs behind apache. Also helps rpm Uninstall.
+				}
+			} catch(Exception ex)
+			{
+				if ( slaveServer.Value )
+					UnRegisterSlaveFromMaster(systemAdminDN.Value,serverName.Value);
+				throw ex;
 			}
-			if(apache.Value == false)
-				SetupScriptFiles(); //not needed for OES as iFolder runs behind apache. Also helps rpm Uninstall.
+
 			if(Boolean.Parse(usermovePlugin.Value) == true)
 			{
 				if(SetupUserMovePlugin() != true)
@@ -993,8 +1003,17 @@ Console.WriteLine("Url {0}", service.Url);
 				string destModulesDir = Path.Combine( storePath, ModulesDir );
                                	File.Delete( Path.Combine( destModulesDir, LdapModule ) );
 			}
-			SetupLog4Net();
-			SetupPermissions();
+			try
+			{
+				SetupLog4Net();
+				SetupPermissions();
+			} catch(Exception ex)
+			{
+				if ( slaveServer.Value )
+					UnRegisterSlaveFromMaster(systemAdminDN.Value,serverName.Value);
+				throw ex;
+			}
+
 			return true;
 		}
 
@@ -1046,12 +1065,6 @@ Console.WriteLine("Url {0}", service.Url);
 		bool SetupUserMovePlugin()
 		{
 				Console.WriteLine("Configuring User Movement plugin..\n");
-				string baseInstallPath = String.Format( "{0}{1}{2}{3}",
-                                        System.IO.Directory.GetCurrentDirectory(),
-                                        Path.DirectorySeparatorChar.ToString(),
-					"../../",
-                                        Path.DirectorySeparatorChar.ToString()
-					);
 				string usermoveModuleConfigPath = String.Format( "{0}{1}{2}{3}{4}{5}{6}{7}{8}",
 					SimiasSetup.sysconfdir,
                                         Path.DirectorySeparatorChar.ToString(),
@@ -1206,7 +1219,7 @@ Console.WriteLine("Url {0}", service.Url);
 				Prompt.CanPrompt = true;
 				prompt.Value = true.ToString();
 
-				Console.Write("This script configures a server installation of Simias to setup a new Simias system. ");
+				Console.WriteLine("This script configures a server installation of Simias to setup a new Simias system. ");
 
 				PromptForArguments();
 				possibly_yast = false;
@@ -1550,15 +1563,6 @@ Console.WriteLine("Url {0}", service.Url);
 
 			Configuration oldConfig = new Configuration( oldConfigPath, true );
 			publicUrl.Prompt = privateUrl.Prompt = serverName.Prompt = true;
-			
-			// Public address
-			Uri defaultUrl = 
-				new Uri( 
-						Uri.UriSchemeHttp + 
-						"://" + 
-						System.Net.Dns.GetHostByName(System.Net.Dns.GetHostName()).AddressList[0].ToString() + 
-						":80" +
-						"/simias10");
 			
 			string systemNameStr = oldConfig.Get( "Domain", "EnterpriseName" );
 			systemName.DefaultValue = ( systemNameStr != null ) ? systemNameStr : systemName.Value;
@@ -1924,8 +1928,8 @@ Console.WriteLine("Url {0}", service.Url);
 				Console.WriteLine("Simias configuration file \"{0}\" does not exist",configFile);
 				return false;
 			}
-			Console.Write( "Configuring {0}...", configFile );
-//			Console.Write( "oldProxy {0}...new Proxy {1} compare {2}", oldProxyDN, ldapProxyDN.Value,  String.Compare(oldProxyDN, ldapProxyDN.Value) != 0);
+			Console.WriteLine( "Configuring {0}...", configFile );
+//			Console.WriteLine( "oldProxy {0}...new Proxy {1} compare {2}", oldProxyDN, ldapProxyDN.Value,  String.Compare(oldProxyDN, ldapProxyDN.Value) != 0);
 			UpdateLDAP(String.Compare(oldProxyDN, ldapProxyDN.Value) != 0);
 			return true;
 		}
@@ -1950,7 +1954,7 @@ Console.WriteLine("Url {0}", service.Url);
                         ldapUtility = new LdapUtility(ldapUrl.ToString() , ldapAdminDN.Value, ldapAdminPassword.Value);
 
                         // intall SSL root certificate
-                        Console.Write("Installing certificate from {0}...\n", ldapUrl.ToString());
+                        Console.WriteLine("Installing certificate from {0}...\n", ldapUrl.ToString());
 
                         if (ldapUtility.Secure && MyEnvironment.Mono)
                         {
@@ -1969,13 +1973,13 @@ Console.WriteLine("Url {0}", service.Url);
 
 
                         // connect
-                        Console.Write("Connecting to {0}...", ldapUrl.ToString());
+                        Console.WriteLine("Connecting to {0}...", ldapUrl.ToString());
                         ldapUtility.Connect();
 
                         Console.WriteLine("Done");
 
                         // get the directory type.
-                        Console.Write("Querying for directory type...");
+                        Console.WriteLine("Querying for directory type...");
                         LdapDirectoryType directoryType = ldapUtility.QueryDirectoryType();
                         Console.WriteLine( " {0}", directoryType );
 
@@ -1987,7 +1991,7 @@ Console.WriteLine("Url {0}", service.Url);
                         // create proxy 
 			if(changedProxyDN)
 			{
-	                        Console.Write("Creating {0}...", ldapProxyDN.Value);
+	                        Console.WriteLine("Creating {0}...", ldapProxyDN.Value);
 	
         	                if (ldapUtility.CreateUser(ldapProxyDN.Value, ldapProxyPassword.Value))
                 	        {
@@ -2008,7 +2012,7 @@ Console.WriteLine("Url {0}", service.Url);
 			ldapUtility.Disconnect();
 
                         // check proxy
-                        Console.Write("Checking {0}...", ldapProxyDN.Value);
+                        Console.WriteLine("Checking {0}...", ldapProxyDN.Value);
                         ldapUtility = new LdapUtility(ldapUrl.ToString(), ldapProxyDN.Value, ldapProxyPassword.Value);
                         ldapUtility.Connect();
                         Console.WriteLine("Done");
@@ -2055,7 +2059,7 @@ Console.WriteLine("Url {0}", service.Url);
                                 // naming attribute to control login
                                 ldapSettings.NamingAttribute = namingAttribute.Value;
                         }
-                        Console.Write( "Adding LDAP settings to {0}...", Path.Combine( storePath, "Simias.config" ) );
+                        Console.WriteLine( "Adding LDAP settings to {0}...", Path.Combine( storePath, "Simias.config" ) );
 
                         ldapSettings.Commit();
 
@@ -2144,37 +2148,14 @@ Console.WriteLine("Url {0}", service.Url);
 					Console.WriteLine("Failed to read \"Master server URL\" from \"{0}\"",configFile);
 					return false;
 				}
-
-				try
+				if(!UnRegisterSlaveFromMaster(systemAdminDN.Value,serverName.Value))
 				{
-					// set the Certificate Policy so that SSL connection to master is successful
-					// we will not backup or reset this policy as this is an one time activity
-					ServicePointManager.CertificatePolicy = new TrustAllCertificatePolicy();
-					HostAdmin adminService = GetHostAdminService();
-					DomainService dService = new DomainService();
-                                        string[] dnSegs = systemAdminDN.Value.Split(new char[] {',', '=', '.'});
-                                        string admin = ( dnSegs.Length == 1 ) ? dnSegs[0] : dnSegs[1];
-                                        credentials = new System.Net.NetworkCredential( admin, systemAdminPassword.Value, domainId);
-
-					InitializeServiceUrl( dService );
-					domainId = dService.GetDomainID();
-
-					adminService.Credentials = credentials;
-					adminService.PreAuthenticate = true;
-					string domain = adminService.GetDomain();
-
-					adminService.DeleteHostByName(serverName.DefaultValue);
-				}
-				catch(Exception Ex)
-				{
-					Console.WriteLine(" Failed !! {0} ",Ex.ToString());
 					return false;
 				}
-
 				return status;
 			}
 
-			Console.Write( "Configuring {0}...", configFile );
+			Console.WriteLine( "Configuring {0}...", configFile );
 
 			// Load the configuration file into an xml document.
 			XmlDocument document = new XmlDocument();
@@ -2292,13 +2273,48 @@ Console.WriteLine("Url {0}", service.Url);
 			return status;
 		}
 
+
+		/// <summary>
+		/// Remove slave from master environment
+		/// </summary>
+		bool UnRegisterSlaveFromMaster(string systemAdminDN, string serverName)
+		{
+			Console.WriteLine("Removing slave from master");
+	               	try
+	                {
+	                       	// set the Certificate Policy so that SSL connection to master is successful
+	                        // we will not backup or reset this policy as this is an one time activity
+	                        ServicePointManager.CertificatePolicy = new TrustAllCertificatePolicy();
+	                        HostAdmin adminService = GetHostAdminService();
+	                        DomainService dService = new DomainService();
+	                        string[] dnSegs = systemAdminDN.Split(new char[] {',', '=', '.'});
+	                        string admin = ( dnSegs.Length == 1 ) ? dnSegs[0] : dnSegs[1];
+	                        credentials = new System.Net.NetworkCredential( admin, systemAdminPassword.Value, domainId);
+
+	                         InitializeServiceUrl( dService );
+	                         domainId = dService.GetDomainID();
+	
+                                adminService.Credentials = credentials;
+                                adminService.PreAuthenticate = true;
+                                adminService.GetDomain();
+	
+                                adminService.DeleteHostByName(serverName);
+                        }
+                        catch(Exception Ex)
+                        {
+		                Console.WriteLine(" Removing Slave Failed !! {0} ",Ex.ToString());
+				return false;
+	                }
+			return true;
+		}
+
 		/// <summary>
 		/// Setup the /etc/apache2/conf.d/simias.conf File
 		/// </summary>
 		void SetupModMono()
 		{
 			string path = Path.GetFullPath( "/etc/apache2/conf.d/simias.conf" );
-			Console.Write("Configuring {0}...", path);
+			Console.WriteLine("Configuring {0}...", path);
 			string ModMonoServer2 = Environment.GetEnvironmentVariable("IFOLDER_MOD_MONO_SERVER2_PATH");
 			string iFolderMonoPath = Environment.GetEnvironmentVariable("IFOLDER_MONO_PATH");
 
@@ -2408,6 +2424,7 @@ Console.WriteLine("Url {0}", service.Url);
 		/// </summary>
 		void SetupLdapCert()
 		{
+			Console.WriteLine("Inside SetupLdapCert");
 			LdapUtility ldapUtility;
 			UriBuilder newUri = new UriBuilder();
 			
@@ -2433,7 +2450,7 @@ Console.WriteLine("Url {0}", service.Url);
 			}
 
 			// intall SSL root certificate
-			Console.Write("Installing certificate from {0}...\n", ldapUrl.ToString());
+			Console.WriteLine("Installing certificate from {0}...\n", ldapUrl.ToString());
 				
 			if (ldapUtility.Secure && MyEnvironment.Mono)
 			{
@@ -2482,7 +2499,7 @@ Console.WriteLine("Url {0}", service.Url);
 			}
 
 			// intall SSL root certificate
-			Console.Write("Installing certificate from {0}...\n", ldapUrl.ToString());
+			Console.WriteLine("Installing certificate from {0}...\n", ldapUrl.ToString());
 				
 			if (ldapUtility.Secure && MyEnvironment.Mono)
 			{
@@ -2501,13 +2518,20 @@ Console.WriteLine("Url {0}", service.Url);
 
 
 			// connect
-			Console.Write("Connecting to {0}...", ldapUrl.ToString());
-			ldapUtility.Connect();
+			Console.WriteLine("Connecting to {0}...", ldapUrl.ToString());
+			try
+			{
+				ldapUtility.Connect();
+			}catch(Exception ex)
+			{	
+				Console.WriteLine(ex.StackTrace);
+				throw ex;
+			}
 				
 			Console.WriteLine("Done");
 
 			// get the directory type.
-			Console.Write("Querying for directory type...");
+			Console.WriteLine("Querying for directory type...");
 			LdapDirectoryType directoryType = ldapUtility.QueryDirectoryType();
 			Console.WriteLine( " {0}", directoryType );
 
@@ -2519,7 +2543,7 @@ Console.WriteLine("Url {0}", service.Url);
 			if ((!slaveServer.Value || (isLdapAdminSet && isLdapAdminPasswordSet )) && UpgradeFrom == 0 )
 			{
 				// create admin
-				Console.Write("Creating {0}...", systemAdminDN.Value);
+				Console.WriteLine("Creating {0}...", systemAdminDN.Value);
 
 				if (ldapUtility.CreateUser(systemAdminDN.Value, systemAdminPassword.Value))
 				{
@@ -2536,11 +2560,11 @@ Console.WriteLine("Url {0}", service.Url);
 				string proxyDN = ldapProxyDN.Value;
 				while(!created)
 				{
-					Console.Write("Creating {0}...", ldapProxyDN.Value);
+					Console.WriteLine("Creating {0}...", ldapProxyDN.Value);
 					i++;
 					if (ldapUtility.CreateUser(ldapProxyDN.Value, ldapProxyPassword.Value))
 					{
-	//					Console.Write("Created...{0} ... {1}", ldapUtility.DirectoryType, ldapProxyPassword.Value);
+	//					Console.WriteLine("Created...{0} ... {1}", ldapUtility.DirectoryType, ldapProxyPassword.Value);
 						created = true;
 						if ( ldapUtility.DirectoryType.Equals( LdapDirectoryType.eDirectory ) )
 						{
@@ -2556,7 +2580,7 @@ Console.WriteLine("Url {0}", service.Url);
 										{
 											throw new Exception( string.Format( "Invalid context entered: {0}", context ) );
 										}
-										Console.Write("Granting Read Rights to {0} on {1}...", proxyDN, context);
+										Console.WriteLine("Granting Read Rights to {0} on {1}...", proxyDN, context);
 										ldapUtility.GrantReadRights(proxyDN, context);
 									}
 								}
@@ -2579,7 +2603,7 @@ Console.WriteLine("Url {0}", service.Url);
 										{
 											throw new Exception( string.Format( "Invalid context entered: {0}", context ) );
 										}
-										Console.Write("Granting Read Rights to {0} on {1}...", proxyDN, context);
+										Console.WriteLine("Granting Read Rights to {0} on {1}...", proxyDN, context);
 										ldapUtility.GrantReadRights(proxyDN, context);
 									}
 								}
@@ -2594,7 +2618,7 @@ Console.WriteLine("Url {0}", service.Url);
 							try
 							{
 								// check proxy if proxy user is already present and password is incorrect - workaround for 298762
-								Console.Write("Checking {0}...", proxyDN);
+								Console.WriteLine("Checking {0}...", proxyDN);
 								LdapUtility ldapUtility2 = new LdapUtility(ldapUrl.ToString(), proxyDN, ldapProxyPassword.Value);
 								ldapUtility2.Connect();
 								if ( ldapUtility.DirectoryType.Equals( LdapDirectoryType.eDirectory ) )
@@ -2611,12 +2635,12 @@ Console.WriteLine("Url {0}", service.Url);
 												{
 													throw new Exception( string.Format( "Invalid context entered: {0}", context ) );
 												}
-												Console.Write("Granting Read Rights to {0} on {1}...", proxyDN, context);
+												Console.WriteLine("Granting Read Rights to {0} on {1}...", proxyDN, context);
 												try		
 												{	
 													ldapUtility.GrantReadRights(proxyDN, context);
 												}	
-												catch(Exception ex)
+												catch(Exception)
 												{	
 													Console.WriteLine("\nAccess rights are already set for user {0} on {1}", proxyDN, context);
 												}
@@ -2629,7 +2653,7 @@ Console.WriteLine("Url {0}", service.Url);
 								Console.WriteLine("Done");
 								Console.WriteLine("Skipped (User Exists)");
 							}
-							catch(Exception ex)
+							catch(Exception)
 							{
 								//proxy user password is incorrect, create a new ID
 								string[] dnSegs = proxyDN.Split(new char[] {',', '=', '.'});
@@ -2639,26 +2663,26 @@ Console.WriteLine("Url {0}", service.Url);
 								Console.WriteLine("new Proxy user {0}...", dnSegs[1]);
 								proxyDN = proxyDN.Replace(old_proxy, dnSegs[1]);
 								ldapProxyDN.Value = proxyDN;
-								Console.Write("Checked2 {0}...", proxyDN);
+								Console.WriteLine("Checked2 {0}...", proxyDN);
 							}
 					}
 				}
 			}
-			Console.Write("Checked {0}...", ldapProxyDN.Value);
+			Console.WriteLine("Checked {0}...", ldapProxyDN.Value);
 			// disconnect
 			ldapUtility.Disconnect();
 
 			if(UpgradeFrom == 0)
 			{
 				// check admin
-				Console.Write("Checking {0}...", systemAdminDN.Value);
+				Console.WriteLine("Checking {0}...", systemAdminDN.Value);
 				ldapUtility = new LdapUtility(ldapUrl.ToString(), systemAdminDN.Value, systemAdminPassword.Value);
 				ldapUtility.Connect();
 				Console.WriteLine("Done");
 				ldapUtility.Disconnect();
 			}
 
-			Console.Write( "Adding LDAP settings to {0}...", Path.Combine( storePath, "Simias.config" ) );
+			Console.WriteLine( "Adding LDAP settings to {0}...", Path.Combine( storePath, "Simias.config" ) );
 
 			// Update simias.config file
 			LdapSettings ldapSettings = LdapSettings.Get( storePath );
@@ -2680,7 +2704,7 @@ Console.WriteLine("Url {0}", service.Url);
 				if(UpgradeFrom == 0)
 				{
 					// check proxy
-					Console.Write("Checking {0}...", ldapProxyDN.Value);
+					Console.WriteLine("Checking {0}...", ldapProxyDN.Value);
 					ldapUtility = new LdapUtility(ldapUrl.ToString(), ldapProxyDN.Value, ldapProxyPassword.Value);
 					ldapUtility.Connect();
 					Console.WriteLine("Done");
@@ -2728,7 +2752,7 @@ Console.WriteLine("Url {0}", service.Url);
 		private void SetupConfigFiles()
 		{
 			// Setup the links to the store configuration.
-			Console.Write( "Setting up store Configuration files..." );
+			Console.WriteLine( "Setting up store Configuration files..." );
 
 			// Make sure the store path exists.
 			if ( System.IO.Directory.Exists( storePath ) == false )
@@ -2864,7 +2888,7 @@ Console.WriteLine("Url {0}", service.Url);
 		private void SetupPermissions()
 		{
 			// Setup the permissions to the store configuration.
-			Console.Write( "Setting up permissions..." );
+			Console.WriteLine( "Setting up permissions..." );
 				
 			if ( MyEnvironment.Mono && apache.Value )
 			{
@@ -2894,7 +2918,7 @@ Console.WriteLine("Url {0}", service.Url);
         /// </summary>
 		private void SetupScriptFiles()
 		{
-			Console.Write( "Setting up script files..." );
+			Console.WriteLine( "Setting up script files..." );
 
 			string fileData;
 //			string templatePath = Path.Combine( SimiasSetup.bindir, "simiasserver" + ( MyEnvironment.Windows ? ".cmd" : "" ) );
@@ -2937,7 +2961,7 @@ Console.WriteLine("Url {0}", service.Url);
         /// </summary>
 		private void SetupLog4Net()
 		{
-			Console.Write( "Setting up Log4Net file..." );
+			Console.WriteLine( "Setting up Log4Net file..." );
 			string filePath = Path.Combine( storePath, "Simias.log4net" );
 
 			char[] seps = {'/', '\\'};
@@ -3017,7 +3041,7 @@ Console.WriteLine("Url {0}", service.Url);
 				int nameCount = 0;
 				foreach( string name in o.Names )
 				{
-					Console.Write( "{0}--{1}", nameCount == 0 ? "\n\t" : ", ", name );
+					Console.WriteLine( "{0}--{1}", nameCount == 0 ? "\n\t" : ", ", name );
 					nameCount++;
 				}
 	
@@ -3059,8 +3083,8 @@ Console.WriteLine("Url {0}", service.Url);
 			info.RedirectStandardOutput = true;
 			info.RedirectStandardError = true;
 			Process p = Process.Start(info);
-			string output = p.StandardOutput.ReadToEnd();
-			string error = p.StandardError.ReadToEnd();
+			p.StandardOutput.ReadToEnd();
+			p.StandardError.ReadToEnd();
 			p.WaitForExit();
 			return p.ExitCode;
 		}
@@ -3101,7 +3125,7 @@ Console.WriteLine("Url {0}", service.Url);
 					inStreamWriter.WriteLine("{0}","Y");	
 					inStreamWriter.WriteLine("{0}","N");	
 				}
-				catch(Exception ex){}
+				catch(Exception){}
 			}
 			else
 			{
@@ -3119,14 +3143,15 @@ Console.WriteLine("Url {0}", service.Url);
 						inStreamWriter.WriteLine("{0}","N");	
 					inStreamWriter.WriteLine("{0}","N");	
 				}
-				catch(Exception ex){}
+				catch(Exception){}
 			}
 			output = exProcess.StandardOutput.ReadToEnd();
-			string error = exProcess.StandardError.ReadToEnd();
+			exProcess.StandardError.ReadToEnd();
 			exProcess.WaitForExit();
 			return exProcess.ExitCode;
 		}
 
+		/*
 		/// <summary>
 		/// Makes sure that the specified path conforms to the format for the simias data path.
 		/// </summary>
@@ -3154,6 +3179,7 @@ Console.WriteLine("Url {0}", service.Url);
 
 			return processedPath;
 		}
+		*/
 
 		#endregion
 
