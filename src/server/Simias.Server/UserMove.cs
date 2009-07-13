@@ -76,7 +76,6 @@ namespace Simias.Server
 			}
 			else
 				throw new Exception(String.Format("Unable to call User move method for {0} ",userID));
-			return (Simias.Host.HostInfo)null;
 		}
 		
         /// <summary>

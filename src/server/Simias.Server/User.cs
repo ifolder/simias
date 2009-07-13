@@ -835,7 +835,6 @@ namespace Simias.Server
 				Member member = domain.GetMemberByName( Username );
 				if ( member != null )
 				{
-					string hashedPwd = HashPassword( Password );
 					Property pwd = new Property( InternalUser.pwdProperty, HashPassword( Password ) );
 					pwd.LocalProperty = true;
 

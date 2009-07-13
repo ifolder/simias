@@ -940,6 +940,21 @@ namespace Simias.Server
 			return entries.ToArray( typeof( CatalogEntry ) ) as CatalogEntry[];
 		}	
 
+		
+		/// <summary>
+		/// Get the total disc space used by an User 
+		/// </summary> 
+		static public long GetUsedSpaceOfUserID( string UserID )
+		{
+			long tempSize = 0;
+			CatalogEntry[] catalogEntries = GetAllEntriesByUserID(UserID);
+			foreach( CatalogEntry catEntry in catalogEntries )
+			{
+				tempSize += catEntry.CollectionSize;
+			}
+			return tempSize;
+		}
+
 		/// <summary>
 		/// Method to retrieve all catalog entries the specified user
 		/// is a owner of.
@@ -987,7 +1002,6 @@ namespace Simias.Server
 		{
 			long SpaceUsed = 0;
 
-			ArrayList entries = new ArrayList();
 			Store store = Store.GetStore();
 			Domain domain = store.GetDomain(store.DefaultDomain);
 			string [] GroupMembers = domain.GetGroupsMemberList(groupID);
@@ -1106,7 +1120,7 @@ namespace Simias.Server
 			}
 			catch(Exception ex)
 			{
-				log.Debug("Exception while setting the host id for catalog: {0}", collectionID);
+				log.Debug("Exception while setting the host id for catalog: {0}, StackTrace is {1}", collectionID,ex.StackTrace);
 			}
 		}
                 /// <summary>

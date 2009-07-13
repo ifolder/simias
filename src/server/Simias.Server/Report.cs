@@ -198,7 +198,6 @@ namespace Simias.Server
 			        if (reportCollectionID == null)
 				{
 				        Store store = Store.GetStore();
-					Domain domain = store.GetDomain( store.DefaultDomain );
 					reportCollectionID = store.GetSingleCollectionByType( "Reports" ).ID;
 				}
 			        return reportCollectionID;

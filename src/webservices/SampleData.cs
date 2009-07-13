@@ -136,7 +136,7 @@ namespace iFolder.WebService
 			ArrayList users = CreateUsers();
 
 			// ifolders
-			ArrayList ifolders = CreateiFolders(users);
+			CreateiFolders(users);
 		}
 
 		/// <summary>

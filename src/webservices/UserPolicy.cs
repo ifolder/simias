@@ -244,10 +244,12 @@ namespace iFolder.WebService
 			DiskSpaceQuota quota = DiskSpaceQuota.Get(member);
 			
 			props.SpaceLimitEffective = quota.Limit;
-			props.SpaceUsed = quota.UsedSpace;
-			props.SpaceAvailable = quota.AvailableSpace;
+			//props.SpaceUsed = quota.UsedSpace;
+			props.SpaceUsed = Simias.Server.Catalog.GetUsedSpaceOfUserID(userID);
+			//props.SpaceAvailable = quota.AvailableSpace;
 
 			props.SpaceLimit = DiskSpaceQuota.GetLimit(member);
+			props.SpaceAvailable = props.SpaceLimitEffective - props.SpaceUsed;
 			props.EncryptionStatus = Simias.Policy.SecurityState.GetStatus( member );
 	
 			// To return disable sharing value for an user

@@ -315,7 +315,6 @@ namespace Simias.Server
 	/// </summary>
 	public class MasterHostProvisionProvider : IProvisionUserProvider
 	{
-		ArrayList hosts = new ArrayList();
 		Domain domain;
 		HostNode masterHost = null;
 

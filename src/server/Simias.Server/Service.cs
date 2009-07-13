@@ -346,21 +346,16 @@ namespace Simias.Server
 			Simias.Policy.Rule rule = null;
 			int Value = -1;
 			bool committed = false;
-			Property DiskSpaceProperty;
-			Property FileSizeProperty;
-			Property iFLimitProperty;
 			Property FileTypeProperty;
 			Property EncProperty;
-			Property SharingProperty; 
 			Property SyncIntervalProperty;
-			ICSList list, tmplist;
+			ICSList list;
 				
 			POBox.POBox poBox = POBox.POBox.FindPOBox( store, domainID, member.UserID );
 			if(poBox == null)
 			{
 				return;
 			}
-			//tmplist = poBox.Search(PropertyTags.PolicyAssociation, new Relationship( poBox ));
 
 			// First extract rule based policies
 

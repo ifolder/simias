@@ -59,10 +59,11 @@ namespace Simias.DomainService.Web
 		Description="Web Service providing access to Simias domain services.")]
 	public class DomainService : System.Web.Services.WebService
 	{
-		private static readonly string FilesDirectory = "SimiasFiles";
+		//private static readonly string FilesDirectory = "SimiasFiles";
 		
 
 		#region Private Methods		
+		/*
 		/// <summary>
 		/// Removes the collection subscription from the 
 		/// </summary>
@@ -84,6 +85,7 @@ namespace Simias.DomainService.Web
 				}
 			}
 		}
+		*/
 		#endregion
 		
 
@@ -255,7 +257,6 @@ namespace Simias.DomainService.Web
 		[SoapDocumentMethod]
 		public int ChangePasswordOnServer( string DomainID, string UserID, string OldPassword, string NewPassword)
 		{
-			int retval = 0;
 			return Simias.Server.User.ChangePassword(UserID, OldPassword, NewPassword);
 		}
 
@@ -577,7 +578,6 @@ namespace Simias.DomainService.Web
                 {
                         try
                         {
-                                string nodeid = null;
                                 Store store = Store.GetStore();
                                 Domain domain = store.GetDomain( store.DefaultDomain );
                                 Member owner = domain.Owner;
@@ -586,7 +586,7 @@ namespace Simias.DomainService.Web
                                 else
                                         return null;
                         }
-                        catch(Exception e)
+                        catch(Exception)
                         {
                                 return null;
                         }

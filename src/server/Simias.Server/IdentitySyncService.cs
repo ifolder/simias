@@ -90,8 +90,8 @@ namespace Simias.IdentitySync
 
 		internal Property syncGuid;
 		private Store store;
-		private int disabled;
-		private int deleted;
+		private int disabled = 0;
+		private int deleted = 0;
 		private int created;
 		private int updated;
 		private int reportedErrors;
@@ -868,7 +868,6 @@ namespace Simias.IdentitySync
 			{
 				dn = Zombie.Name;
 			}
-			bool GroupOwnerSetting = false;
 			string GroupOrphOwnerID = null;
 			bool CheckForSecondaryAdmin = true;
 			Store store = Store.GetStore();
@@ -889,7 +888,7 @@ namespace Simias.IdentitySync
 					if (member != null && member.IsOwner == true )
 					{
 
-						if( CheckForSecondaryAdmin = true && GroupIDs.Length > 0 ) //make sure this cond gets executed only once, even if collections change
+						if( CheckForSecondaryAdmin == true && GroupIDs.Length > 0 ) //make sure this cond gets executed only once, even if collections change
 						{
 							// foreach group this zombie user belongs to, check if the group has a right secondary admin
 							foreach( string groupID in GroupIDs)
@@ -1143,7 +1142,6 @@ namespace Simias.IdentitySync
                         Member memObject = null;
                         Store store = null;
                         Domain domain = null;
-                        Property dn = null;
                         bool XmlRule = false;
                         Simias.Policy.Rule rule = null;
                         try{
