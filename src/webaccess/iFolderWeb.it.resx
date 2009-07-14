@@ -103,17 +103,17 @@
   <data name="ACTION">
     <value>Azione</value>
   </data>
+  <data name="PASSWORDCHANGESUCCESS">
+    <value>Password modificata correttamente. Eseguire il login utilizzando la nuova password.</value>
+  </data>
   <data name="ENTRY.NOFOLDERNAME">
     <value>Specificare un nome per la cartella.</value>
   </data>
   <data name="PUBLISHED">
     <value>Pubblicata</value>
   </data>
-  <data name="LOGIN.SENDFAILED">
-    <value>Impossibile comunicare con il server iFolder.</value>
-  </data>
-  <data name="ITALIAN">
-    <value>Italiano</value>
+  <data name="IFOLDER.CONFIRMREMOVES">
+    <value>Rimuovere l'accesso alle cartelle iFolder selezionate?</value>
   </data>
   <data name="USERS">
     <value>Utenti</value>
@@ -202,17 +202,20 @@
   <data name="SLOVAK">
     <value>Slovacco</value>
   </data>
+  <data name="PASSWORDCHANGEFAILED">
+    <value>Impossibile modificare la password, </value>
+  </data>
   <data name="CHANGE.DELETE">
     <value>Eliminata</value>
+  </data>
+  <data name="RETURN">
+    <value>Ritorna</value>
   </data>
   <data name="SELECTRECOVERYAGENT">
     <value>Agente di recupero della stringa di cifratura:</value>
   </data>
   <data name="PASSPHRASE_NOT_MATCH">
     <value>Le stringhe di cifratura non corrispondono</value>
-  </data>
-  <data name="IFOLDER.CONFIRMREMOVES">
-    <value>Rimuovere l'accesso alle cartelle iFolder selezionate?</value>
   </data>
   <data name="ENTRY">
     <value>Voce</value>
@@ -226,8 +229,8 @@
   <data name="ACCESSCONTROL">
     <value>Controllo dell'accesso</value>
   </data>
-  <data name="HOMEQUOTA">
-    <value>Quota</value>
+  <data name="GROUPACCESSEXCEPTION">
+    <value>Impossibile rimuovere l'appartenenza perché il gruppo a cui appartiene l'utente dispone di diritti di sola lettura.</value>
   </data>
   <data name="HISTORYNOTAVAILABLE">
     <value>Cronologia non disponibile per questa cartella iFolder</value>
@@ -256,6 +259,9 @@
   <data name="APPLY">
     <value>Applica</value>
   </data>
+  <data name="REMOVEMEMBERSHIP">
+    <value>Rimuovi appartenenza</value>
+  </data>
   <data name="SHOW">
     <value>Visualizza:</value>
   </data>
@@ -264,6 +270,9 @@
   </data>
   <data name="OWNED">
     <value>Con proprietario</value>
+  </data>
+  <data name="AVAILABLE">
+    <value>Disponibile</value>
   </data>
   <data name="ENTRY.FILE">
     <value>File:</value>
@@ -295,8 +304,8 @@
   <data name="ACTIONS">
     <value>Azioni</value>
   </data>
-  <data name="POLICY">
-    <value>Norma</value>
+  <data name="NEWPASSWORD">
+    <value>Nuova password: </value>
   </data>
   <data name="UPLOAD">
     <value>Carica</value>
@@ -316,11 +325,11 @@
   <data name="DENY">
     <value>Indietro</value>
   </data>
-  <data name="LASTNAME">
-    <value>Cognome</value>
-  </data>
   <data name="YESTERDAY">
     <value>Ieri</value>
+  </data>
+  <data name="SAMEOLDPASSWORD">
+    <value>Password precedente e nuova password non devono corrispondere.</value>
   </data>
   <data name="ENTRY.DISKQUOTAEXCEPTION">
     <value>Caricamento annullato. Il file viola le norme sulla quota disco.</value>
@@ -355,11 +364,20 @@
   <data name="DELETE">
     <value>Elimina</value>
   </data>
-  <data name="SHARED">
-    <value>Condiviso</value>
+  <data name="LOGINPASSWORDEXPIRED">
+    <value>Password utente scaduta.</value>
   </data>
   <data name="FILES.REMOVE">
     <value>rimuovi</value>
+  </data>
+  <data name="HYPHEN">
+    <value> - </value>
+  </data>
+  <data name="USED">
+    <value>Utilizzato</value>
+  </data>
+  <data name="HOMEQUOTA">
+    <value>Quota</value>
   </data>
   <data name="FILES">
     <value>File</value>
@@ -369,6 +387,9 @@
   </data>
   <data name="FIRSTLASTNAMESEP">
     <value>&amp;nbsp;</value>
+  </data>
+  <data name="LOGINDISABLED">
+    <value>Login disabilitato.</value>
   </data>
   <data name="ENTERPASSPHRASE">
     <value>Stringa di cifratura:</value>
@@ -397,8 +418,8 @@
   <data name="IFOLDERS">
     <value>iFolder</value>
   </data>
-  <data name="SAVE">
-    <value>Salva</value>
+  <data name="PASSWORDS_NOT_MATCH">
+    <value>Le nuove password inserite non corrispondono</value>
   </data>
   <data name="ENCRYPTIONCONDITION">
     <value>Impossibile condividere una cartella iFolder cifrata</value>
@@ -430,26 +451,23 @@
   <data name="SHAREWITH">
     <value>Condividi con</value>
   </data>
-  <data name="LOGOUT">
-    <value>Logout</value>
+  <data name="USERACCOUNTEXPIRED">
+    <value>Conto utente scaduto.</value>
   </data>
   <data name="ENTRY.CONFIRMDELETE">
     <value>Eliminare gli elementi selezionati?</value>
   </data>
-  <data name="CREATE">
-    <value>Crea</value>
+  <data name="PASSWORDMINLENGTH">
+    <value>Lunghezza minima password rispettata.</value>
   </data>
-  <data name="USED">
-    <value>Utilizzato</value>
+  <data name="FILTER">
+    <value>Filtro:</value>
   </data>
   <data name="EDIT">
     <value>Modifica</value>
   </data>
-  <data name="AVAILABLE">
-    <value>Disponibile</value>
-  </data>
-  <data name="GROUPACCESSEXCEPTION">
-    <value>Impossibile rimuovere l'appartenenza perché il gruppo a cui appartiene l'utente dispone di diritti di sola lettura.</value>
+  <data name="SAVE">
+    <value>Salva</value>
   </data>
   <data name="LOGIN.IFOLDERSERVER">
     <value>Server iFolder:</value>
@@ -475,6 +493,9 @@
   <data name="IFOLDER">
     <value>iFolder</value>
   </data>
+  <data name="INCORRECTOLDPASSWORD">
+    <value>Password precedente errata.</value>
+  </data>
   <data name="DATE">
     <value>Data</value>
   </data>
@@ -496,6 +517,9 @@
   <data name="NEW">
     <value>Nuova</value>
   </data>
+  <data name="SHARED">
+    <value>Condiviso</value>
+  </data>
   <data name="GERMAN">
     <value>Tedesco</value>
   </data>
@@ -511,14 +535,17 @@
   <data name="LOGIN.USERNAME">
     <value>Nome utente:</value>
   </data>
+  <data name="CANNOTCHANGEPASSWORD">
+    <value>La password non può essere modificata dall'utente.</value>
+  </data>
   <data name="ENTRY.ACCESSEXCEPTION">
     <value>Diritti insufficienti per eseguire la richiesta.</value>
   </data>
   <data name="RIGHTS">
     <value>Accesso</value>
   </data>
-  <data name="REMOVEMEMBERSHIP">
-    <value>Rimuovi appartenenza</value>
+  <data name="CONFIRMNEWPASSWORD">
+    <value>Conferma nuova password: </value>
   </data>
   <data name="UPLOADFILES">
     <value>Carica file</value>
@@ -550,11 +577,20 @@
   <data name="IFOLDER.CONFIRMREMOVEDELETE">
     <value>Rimuovere l'accesso alle cartelle iFolder selezionate e/o eliminare le cartelle iFolder?</value>
   </data>
+  <data name="MESSAGE.WARNING">
+    <value>Avviso:</value>
+  </data>
   <data name="LASTFIRSTNAMESEP">
     <value>,&amp;nbsp;</value>
   </data>
-  <data name="FILTER">
-    <value>Filtro:</value>
+  <data name="ENGLISH">
+    <value>Inglese</value>
+  </data>
+  <data name="ENTRY.MAXUPLOADSIZEEXCEPTION">
+    <value>Caricamento annullato. Il file supera la dimensione file massima consentita.</value>
+  </data>
+  <data name="LASTNAME">
+    <value>Cognome</value>
   </data>
   <data name="TEXTOVERWRITE">
     <value>Sovrascrivi file esistenti</value>
@@ -562,20 +598,26 @@
   <data name="ENTRY.NOTMOUNTEDEXCEPTION">
     <value>Spazio di memorizzazione server non disponibile</value>
   </data>
+  <data name="CHANGEPASSWORD">
+    <value>Modifica password</value>
+  </data>
   <data name="OWNER">
     <value>Proprietario</value>
   </data>
   <data name="SHARABLE">
     <value>Normale</value>
   </data>
-  <data name="RIGHTS.READWRITE">
-    <value>Lettura/scrittura</value>
+  <data name="ITALIAN">
+    <value>Italiano</value>
+  </data>
+  <data name="LOGOUT">
+    <value>Logout</value>
   </data>
   <data name="SETTINGS">
     <value>Impostazioni</value>
   </data>
-  <data name="MESSAGE.INFORMATION">
-    <value>Informazioni:</value>
+  <data name="USERNAME">
+    <value>Nome utente</value>
   </data>
   <data name="PASSPHRASE_INCORRECT">
     <value>Stringa di cifratura non valida </value>
@@ -583,14 +625,20 @@
   <data name="RUSSIAN">
     <value>Russo</value>
   </data>
-  <data name="ACCEPT">
-    <value>Accetta</value>
-  </data>
   <data name="DELETEIFOLDER">
     <value>Cancella cartella iFolder</value>
   </data>
-  <data name="ENTRY.FAILEDDOWNLOAD">
-    <value>File non disponibile per lo scaricamento. Riprovare.</value>
+  <data name="EMPTY_PASSWORD">
+    <value>Campo Password vuoto</value>
+  </data>
+  <data name="RIGHTS.READWRITE">
+    <value>Lettura/scrittura</value>
+  </data>
+  <data name="MESSAGE.INFORMATION">
+    <value>Informazioni:</value>
+  </data>
+  <data name="CREATE">
+    <value>Crea</value>
   </data>
   <data name="ENTRIES">
     <value>Voci</value>
@@ -598,8 +646,8 @@
   <data name="ENTRY.MB">
     <value>MB</value>
   </data>
-  <data name="ENTRY.MAXUPLOADSIZEEXCEPTION">
-    <value>Caricamento annullato. Il file supera la dimensione file massima consentita.</value>
+  <data name="ACCEPT">
+    <value>Accetta</value>
   </data>
   <data name="SHARINGPOLICYVIOLATION">
     <value> La condivisione è disabilitata. Impossibile condividere la cartella iFolder</value>
@@ -622,8 +670,8 @@
   <data name="FRENCH">
     <value>Francese</value>
   </data>
-  <data name="ENGLISH">
-    <value>Inglese</value>
+  <data name="POLICY">
+    <value>Norma</value>
   </data>
   <data name="ENTER_PASSPHRASE">
     <value>Immettere la stringa di cifratura     </value>
@@ -670,6 +718,9 @@
   <data name="NEXT">
     <value>Avanti</value>
   </data>
+  <data name="USERNOTFOUNDINSIMIAS">
+    <value>Utente non trovato nel database iFolder.</value>
+  </data>
   <data name="LOGIN.UNAUTHORIZED">
     <value>Immettere nuovamente nome utente e password.</value>
   </data>
@@ -703,19 +754,28 @@
   <data name="IFOLDERNEW">
     <value>Nuova cartella iFolder</value>
   </data>
+  <data name="CURRENTPASSWORD">
+    <value>Password attuale: </value>
+  </data>
   <data name="FOLDERS">
     <value>Cartelle</value>
   </data>
-  <data name="USERNAME">
-    <value>Nome utente</value>
+  <data name="LOGIN.SENDFAILED">
+    <value>Impossibile comunicare con il server iFolder.</value>
   </data>
   <data name="REMOVEMEMBERDELETE">
     <value>Rimuovere appartenenza/eliminare</value>
   </data>
-  <data name="MESSAGE.WARNING">
-    <value>Avviso:</value>
+  <data name="ENTRY.FAILEDDOWNLOAD">
+    <value>File non disponibile per lo scaricamento. Riprovare.</value>
   </data>
   <data name="LOGIN.LANGUAGE">
     <value>Lingua:</value>
+  </data>
+  <data name="NOITEMSAVAILABLE">
+    <value>Nessun {0} disponibile</value>
+  </data>
+  <data name="FAILEDTORESETPASSWORD">
+    <value>Reimpostazione password non riuscita.</value>
   </data>
 </root>

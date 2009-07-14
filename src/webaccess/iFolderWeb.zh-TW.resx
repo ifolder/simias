@@ -103,17 +103,17 @@
   <data name="ACTION">
     <value>動作</value>
   </data>
+  <data name="PASSWORDCHANGESUCCESS">
+    <value>已成功變更密碼。請使用新密碼登入。</value>
+  </data>
   <data name="ENTRY.NOFOLDERNAME">
     <value>需要資料夾名稱。</value>
   </data>
   <data name="PUBLISHED">
     <value>已出版</value>
   </data>
-  <data name="LOGIN.SENDFAILED">
-    <value>無法與 iFolder 伺服器通訊。</value>
-  </data>
-  <data name="ITALIAN">
-    <value>義大利文</value>
+  <data name="IFOLDER.CONFIRMREMOVES">
+    <value>您確定要移除您對選定 iFolder 的存取權限嗎？</value>
   </data>
   <data name="USERS">
     <value>使用者</value>
@@ -197,22 +197,25 @@
     <value>最後</value>
   </data>
   <data name="LOGIN.COPYRIGHT">
-    <value>&amp;copy; Copyright 2008 Novell, Inc. All rights reserved.</value>
+    <value>版權所有 &amp;copy; 2008 Novell, Inc. 保留所有權利。</value>
   </data>
   <data name="SLOVAK">
     <value>斯洛伐克文</value>
   </data>
+  <data name="PASSWORDCHANGEFAILED">
+    <value>無法變更密碼， </value>
+  </data>
   <data name="CHANGE.DELETE">
     <value>已刪除</value>
+  </data>
+  <data name="RETURN">
+    <value>返回</value>
   </data>
   <data name="SELECTRECOVERYAGENT">
     <value>通關密語復原代辦：</value>
   </data>
   <data name="PASSPHRASE_NOT_MATCH">
     <value>通關密語不符</value>
-  </data>
-  <data name="IFOLDER.CONFIRMREMOVES">
-    <value>您確定要移除您對選定 iFolder 的存取權限嗎？</value>
   </data>
   <data name="ENTRY">
     <value>項目</value>
@@ -226,8 +229,8 @@
   <data name="ACCESSCONTROL">
     <value>存取控制</value>
   </data>
-  <data name="HOMEQUOTA">
-    <value>我的容量</value>
+  <data name="GROUPACCESSEXCEPTION">
+    <value>因為您所屬的群組具有唯讀權限，所以無法移除成員資格</value>
   </data>
   <data name="HISTORYNOTAVAILABLE">
     <value>沒有此 iFolder 的歷程</value>
@@ -256,6 +259,9 @@
   <data name="APPLY">
     <value>套用</value>
   </data>
+  <data name="REMOVEMEMBERSHIP">
+    <value>移除成員資格</value>
+  </data>
   <data name="SHOW">
     <value>顯示：</value>
   </data>
@@ -264,6 +270,9 @@
   </data>
   <data name="OWNED">
     <value>擁有</value>
+  </data>
+  <data name="AVAILABLE">
+    <value>可用</value>
   </data>
   <data name="ENTRY.FILE">
     <value>檔案：</value>
@@ -295,8 +304,8 @@
   <data name="ACTIONS">
     <value>動作</value>
   </data>
-  <data name="POLICY">
-    <value>規則</value>
+  <data name="NEWPASSWORD">
+    <value>新密碼： </value>
   </data>
   <data name="UPLOAD">
     <value>上載</value>
@@ -316,11 +325,11 @@
   <data name="DENY">
     <value>上一步</value>
   </data>
-  <data name="LASTNAME">
-    <value>姓氏</value>
-  </data>
   <data name="YESTERDAY">
     <value>昨天</value>
+  </data>
+  <data name="SAMEOLDPASSWORD">
+    <value>舊密碼與新密碼不能相同。</value>
   </data>
   <data name="ENTRY.DISKQUOTAEXCEPTION">
     <value>上載已取消，因為檔案會違反磁碟容量規則。</value>
@@ -355,11 +364,20 @@
   <data name="DELETE">
     <value>刪除</value>
   </data>
-  <data name="SHARED">
-    <value>共享</value>
+  <data name="LOGINPASSWORDEXPIRED">
+    <value>使用者密碼已過期。</value>
   </data>
   <data name="FILES.REMOVE">
     <value>移除</value>
+  </data>
+  <data name="HYPHEN">
+    <value> - </value>
+  </data>
+  <data name="USED">
+    <value>已使用</value>
+  </data>
+  <data name="HOMEQUOTA">
+    <value>我的容量</value>
   </data>
   <data name="FILES">
     <value>檔案</value>
@@ -369,6 +387,9 @@
   </data>
   <data name="FIRSTLASTNAMESEP">
     <value>&amp;nbsp;</value>
+  </data>
+  <data name="LOGINDISABLED">
+    <value>已停用登入。</value>
   </data>
   <data name="ENTERPASSPHRASE">
     <value>通關密語：</value>
@@ -397,8 +418,8 @@
   <data name="IFOLDERS">
     <value>iFolder</value>
   </data>
-  <data name="SAVE">
-    <value>儲存</value>
+  <data name="PASSWORDS_NOT_MATCH">
+    <value>輸入的新密碼不相符。</value>
   </data>
   <data name="ENCRYPTIONCONDITION">
     <value>無法共享加密的 iFolder</value>
@@ -430,26 +451,23 @@
   <data name="SHAREWITH">
     <value>共享</value>
   </data>
-  <data name="LOGOUT">
-    <value>登出</value>
+  <data name="USERACCOUNTEXPIRED">
+    <value>使用者帳戶已過期。</value>
   </data>
   <data name="ENTRY.CONFIRMDELETE">
     <value>您確定要刪除選取的項目嗎？</value>
   </data>
-  <data name="CREATE">
-    <value>建立</value>
+  <data name="PASSWORDMINLENGTH">
+    <value>不符合最短密碼長度限制。</value>
   </data>
-  <data name="USED">
-    <value>已使用</value>
+  <data name="FILTER">
+    <value>過濾器：</value>
   </data>
   <data name="EDIT">
     <value>編輯</value>
   </data>
-  <data name="AVAILABLE">
-    <value>可用</value>
-  </data>
-  <data name="GROUPACCESSEXCEPTION">
-    <value>因為您所屬的群組具有唯讀權限，所以無法移除成員資格</value>
+  <data name="SAVE">
+    <value>儲存</value>
   </data>
   <data name="LOGIN.IFOLDERSERVER">
     <value>iFolder 伺服器：</value>
@@ -475,6 +493,9 @@
   <data name="IFOLDER">
     <value>iFolder</value>
   </data>
+  <data name="INCORRECTOLDPASSWORD">
+    <value>舊密碼不正確。</value>
+  </data>
   <data name="DATE">
     <value>日期</value>
   </data>
@@ -496,6 +517,9 @@
   <data name="NEW">
     <value>新增</value>
   </data>
+  <data name="SHARED">
+    <value>共享</value>
+  </data>
   <data name="GERMAN">
     <value>德文</value>
   </data>
@@ -511,14 +535,17 @@
   <data name="LOGIN.USERNAME">
     <value>使用者名稱：</value>
   </data>
+  <data name="CANNOTCHANGEPASSWORD">
+    <value>使用者無法變更密碼。</value>
+  </data>
   <data name="ENTRY.ACCESSEXCEPTION">
     <value>您沒有足夠的權限可執行此要求。</value>
   </data>
   <data name="RIGHTS">
     <value>存取</value>
   </data>
-  <data name="REMOVEMEMBERSHIP">
-    <value>移除成員資格</value>
+  <data name="CONFIRMNEWPASSWORD">
+    <value>確認新密碼： </value>
   </data>
   <data name="UPLOADFILES">
     <value>上載檔案</value>
@@ -550,11 +577,20 @@
   <data name="IFOLDER.CONFIRMREMOVEDELETE">
     <value>您確定要移除您的存取權 / 刪除選定 iFolder 嗎？</value>
   </data>
+  <data name="MESSAGE.WARNING">
+    <value>警告：</value>
+  </data>
   <data name="LASTFIRSTNAMESEP">
     <value>,&amp;nbsp;</value>
   </data>
-  <data name="FILTER">
-    <value>過濾器：</value>
+  <data name="ENGLISH">
+    <value>英文</value>
+  </data>
+  <data name="ENTRY.MAXUPLOADSIZEEXCEPTION">
+    <value>上載已取消，因為檔案超過容許的最大檔案大小。</value>
+  </data>
+  <data name="LASTNAME">
+    <value>姓氏</value>
   </data>
   <data name="TEXTOVERWRITE">
     <value>覆寫現有的檔案</value>
@@ -562,20 +598,26 @@
   <data name="ENTRY.NOTMOUNTEDEXCEPTION">
     <value>伺服器儲存庫無法使用</value>
   </data>
+  <data name="CHANGEPASSWORD">
+    <value>變更密碼</value>
+  </data>
   <data name="OWNER">
     <value>擁有者</value>
   </data>
   <data name="SHARABLE">
     <value>一般</value>
   </data>
-  <data name="RIGHTS.READWRITE">
-    <value>讀/寫</value>
+  <data name="ITALIAN">
+    <value>義大利文</value>
+  </data>
+  <data name="LOGOUT">
+    <value>登出</value>
   </data>
   <data name="SETTINGS">
     <value>設定</value>
   </data>
-  <data name="MESSAGE.INFORMATION">
-    <value>資訊：</value>
+  <data name="USERNAME">
+    <value>使用者名稱</value>
   </data>
   <data name="PASSPHRASE_INCORRECT">
     <value>通關密語無效 </value>
@@ -583,14 +625,20 @@
   <data name="RUSSIAN">
     <value>俄文</value>
   </data>
-  <data name="ACCEPT">
-    <value>接受</value>
-  </data>
   <data name="DELETEIFOLDER">
     <value>刪除 iFolder</value>
   </data>
-  <data name="ENTRY.FAILEDDOWNLOAD">
-    <value>此檔案無法供下載。請再試一次。</value>
+  <data name="EMPTY_PASSWORD">
+    <value>空密碼</value>
+  </data>
+  <data name="RIGHTS.READWRITE">
+    <value>讀/寫</value>
+  </data>
+  <data name="MESSAGE.INFORMATION">
+    <value>資訊：</value>
+  </data>
+  <data name="CREATE">
+    <value>建立</value>
   </data>
   <data name="ENTRIES">
     <value>項目</value>
@@ -598,8 +646,8 @@
   <data name="ENTRY.MB">
     <value>MB</value>
   </data>
-  <data name="ENTRY.MAXUPLOADSIZEEXCEPTION">
-    <value>上載已取消，因為檔案超過容許的最大檔案大小。</value>
+  <data name="ACCEPT">
+    <value>接受</value>
   </data>
   <data name="SHARINGPOLICYVIOLATION">
     <value> 已停用共享，所以無法共享此 iFolder</value>
@@ -622,8 +670,8 @@
   <data name="FRENCH">
     <value>法文</value>
   </data>
-  <data name="ENGLISH">
-    <value>英文</value>
+  <data name="POLICY">
+    <value>規則</value>
   </data>
   <data name="ENTER_PASSPHRASE">
     <value>輸入通關密語     </value>
@@ -670,6 +718,9 @@
   <data name="NEXT">
     <value>下一步</value>
   </data>
+  <data name="USERNOTFOUNDINSIMIAS">
+    <value>在 iFolder 資料庫中找不到使用者。</value>
+  </data>
   <data name="LOGIN.UNAUTHORIZED">
     <value>請重新輸入您的使用者名稱和密碼。</value>
   </data>
@@ -703,19 +754,28 @@
   <data name="IFOLDERNEW">
     <value>新 iFolder</value>
   </data>
+  <data name="CURRENTPASSWORD">
+    <value>目前的密碼： </value>
+  </data>
   <data name="FOLDERS">
     <value>資料夾</value>
   </data>
-  <data name="USERNAME">
-    <value>使用者名稱</value>
+  <data name="LOGIN.SENDFAILED">
+    <value>無法與 iFolder 伺服器通訊。</value>
   </data>
   <data name="REMOVEMEMBERDELETE">
     <value>移除成員資格 / 刪除</value>
   </data>
-  <data name="MESSAGE.WARNING">
-    <value>警告：</value>
+  <data name="ENTRY.FAILEDDOWNLOAD">
+    <value>此檔案無法供下載。請再試一次。</value>
   </data>
   <data name="LOGIN.LANGUAGE">
     <value>語言：</value>
+  </data>
+  <data name="NOITEMSAVAILABLE">
+    <value>沒有可用的 {0}</value>
+  </data>
+  <data name="FAILEDTORESETPASSWORD">
+    <value>無法重設密碼。</value>
   </data>
 </root>

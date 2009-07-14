@@ -103,17 +103,17 @@
   <data name="ACTION">
     <value>操作</value>
   </data>
+  <data name="PASSWORDCHANGESUCCESS">
+    <value>口令更改成功。请使用新口令登录。</value>
+  </data>
   <data name="ENTRY.NOFOLDERNAME">
     <value>文件夹名称是必需的。</value>
   </data>
   <data name="PUBLISHED">
     <value>已发布</value>
   </data>
-  <data name="LOGIN.SENDFAILED">
-    <value>无法与 iFolder 服务器通讯。</value>
-  </data>
-  <data name="ITALIAN">
-    <value>意大利语</value>
+  <data name="IFOLDER.CONFIRMREMOVES">
+    <value>是否确实要去除您对所选 iFolder 的访问权限？</value>
   </data>
   <data name="USERS">
     <value>用户</value>
@@ -202,17 +202,20 @@
   <data name="SLOVAK">
     <value>斯洛伐克语</value>
   </data>
+  <data name="PASSWORDCHANGEFAILED">
+    <value>无法更改口令， </value>
+  </data>
   <data name="CHANGE.DELETE">
     <value>已删除</value>
+  </data>
+  <data name="RETURN">
+    <value>返回</value>
   </data>
   <data name="SELECTRECOVERYAGENT">
     <value>通行口令恢复代理：</value>
   </data>
   <data name="PASSPHRASE_NOT_MATCH">
     <value>通行口令不匹配</value>
-  </data>
-  <data name="IFOLDER.CONFIRMREMOVES">
-    <value>是否确实要去除您对所选 iFolder 的访问权限？</value>
   </data>
   <data name="ENTRY">
     <value>项</value>
@@ -226,8 +229,8 @@
   <data name="ACCESSCONTROL">
     <value>访问控制</value>
   </data>
-  <data name="HOMEQUOTA">
-    <value>我的定额</value>
+  <data name="GROUPACCESSEXCEPTION">
+    <value>由于您所属的组具有只读权限，因此无法去除成员资格。</value>
   </data>
   <data name="HISTORYNOTAVAILABLE">
     <value>此 iFolder 无可用的历史资料</value>
@@ -256,6 +259,9 @@
   <data name="APPLY">
     <value>应用</value>
   </data>
+  <data name="REMOVEMEMBERSHIP">
+    <value>去除成员资格</value>
+  </data>
   <data name="SHOW">
     <value>显示：</value>
   </data>
@@ -264,6 +270,9 @@
   </data>
   <data name="OWNED">
     <value>拥有</value>
+  </data>
+  <data name="AVAILABLE">
+    <value>可用</value>
   </data>
   <data name="ENTRY.FILE">
     <value>文件：</value>
@@ -295,8 +304,8 @@
   <data name="ACTIONS">
     <value>操作</value>
   </data>
-  <data name="POLICY">
-    <value>策略</value>
+  <data name="NEWPASSWORD">
+    <value>新口令： </value>
   </data>
   <data name="UPLOAD">
     <value>上载</value>
@@ -316,11 +325,11 @@
   <data name="DENY">
     <value>后退</value>
   </data>
-  <data name="LASTNAME">
-    <value>姓</value>
-  </data>
   <data name="YESTERDAY">
     <value>昨天</value>
+  </data>
+  <data name="SAMEOLDPASSWORD">
+    <value>新口令不应与旧口令相同。</value>
   </data>
   <data name="ENTRY.DISKQUOTAEXCEPTION">
     <value>因为文件违反磁盘额度策略，上载已被取消。</value>
@@ -355,11 +364,20 @@
   <data name="DELETE">
     <value>删除</value>
   </data>
-  <data name="SHARED">
-    <value>共享</value>
+  <data name="LOGINPASSWORDEXPIRED">
+    <value>用户口令已失效。</value>
   </data>
   <data name="FILES.REMOVE">
     <value>去除</value>
+  </data>
+  <data name="HYPHEN">
+    <value> - </value>
+  </data>
+  <data name="USED">
+    <value>已使用</value>
+  </data>
+  <data name="HOMEQUOTA">
+    <value>我的定额</value>
   </data>
   <data name="FILES">
     <value>文件</value>
@@ -369,6 +387,9 @@
   </data>
   <data name="FIRSTLASTNAMESEP">
     <value>&amp;nbsp;</value>
+  </data>
+  <data name="LOGINDISABLED">
+    <value>已禁用登录。</value>
   </data>
   <data name="ENTERPASSPHRASE">
     <value>通行口令：</value>
@@ -397,8 +418,8 @@
   <data name="IFOLDERS">
     <value>iFolder</value>
   </data>
-  <data name="SAVE">
-    <value>保存</value>
+  <data name="PASSWORDS_NOT_MATCH">
+    <value>输入的新口令不匹配</value>
   </data>
   <data name="ENCRYPTIONCONDITION">
     <value>无法共享加密的 iFolder</value>
@@ -430,26 +451,23 @@
   <data name="SHAREWITH">
     <value>共享对象</value>
   </data>
-  <data name="LOGOUT">
-    <value>注销</value>
+  <data name="USERACCOUNTEXPIRED">
+    <value>用户帐户已失效。</value>
   </data>
   <data name="ENTRY.CONFIRMDELETE">
     <value>是否确实要删除所选的项目？</value>
   </data>
-  <data name="CREATE">
-    <value>创建</value>
+  <data name="PASSWORDMINLENGTH">
+    <value>不符合最短口令长度限制。</value>
   </data>
-  <data name="USED">
-    <value>已使用</value>
+  <data name="FILTER">
+    <value>过滤器：</value>
   </data>
   <data name="EDIT">
     <value>编辑</value>
   </data>
-  <data name="AVAILABLE">
-    <value>可用</value>
-  </data>
-  <data name="GROUPACCESSEXCEPTION">
-    <value>由于您所属的组具有只读权限，因此无法去除成员资格。</value>
+  <data name="SAVE">
+    <value>保存</value>
   </data>
   <data name="LOGIN.IFOLDERSERVER">
     <value>iFolder 服务器：</value>
@@ -475,6 +493,9 @@
   <data name="IFOLDER">
     <value>iFolder</value>
   </data>
+  <data name="INCORRECTOLDPASSWORD">
+    <value>旧口令不正确。</value>
+  </data>
   <data name="DATE">
     <value>日期</value>
   </data>
@@ -496,6 +517,9 @@
   <data name="NEW">
     <value>新建</value>
   </data>
+  <data name="SHARED">
+    <value>共享</value>
+  </data>
   <data name="GERMAN">
     <value>德语</value>
   </data>
@@ -511,14 +535,17 @@
   <data name="LOGIN.USERNAME">
     <value>用户名：</value>
   </data>
+  <data name="CANNOTCHANGEPASSWORD">
+    <value>用户无法更改口令。</value>
+  </data>
   <data name="ENTRY.ACCESSEXCEPTION">
     <value>您没有足够的权限来执行此请求。</value>
   </data>
   <data name="RIGHTS">
     <value>访问权限</value>
   </data>
-  <data name="REMOVEMEMBERSHIP">
-    <value>去除成员资格</value>
+  <data name="CONFIRMNEWPASSWORD">
+    <value>确认新口令： </value>
   </data>
   <data name="UPLOADFILES">
     <value>上载文件</value>
@@ -550,11 +577,20 @@
   <data name="IFOLDER.CONFIRMREMOVEDELETE">
     <value>是否确实要去除/删除您对所选 iFolder 的访问权限?</value>
   </data>
+  <data name="MESSAGE.WARNING">
+    <value>警告：</value>
+  </data>
   <data name="LASTFIRSTNAMESEP">
     <value>，&amp;nbsp;</value>
   </data>
-  <data name="FILTER">
-    <value>过滤器：</value>
+  <data name="ENGLISH">
+    <value>英语</value>
+  </data>
+  <data name="ENTRY.MAXUPLOADSIZEEXCEPTION">
+    <value>因为文件超过允许的最大文件大小，上载已被取消。</value>
+  </data>
+  <data name="LASTNAME">
+    <value>姓</value>
   </data>
   <data name="TEXTOVERWRITE">
     <value>覆盖现有文件</value>
@@ -562,20 +598,26 @@
   <data name="ENTRY.NOTMOUNTEDEXCEPTION">
     <value>服务器存储不可用</value>
   </data>
+  <data name="CHANGEPASSWORD">
+    <value>更改口令</value>
+  </data>
   <data name="OWNER">
     <value>拥有者</value>
   </data>
   <data name="SHARABLE">
     <value>常规</value>
   </data>
-  <data name="RIGHTS.READWRITE">
-    <value>读/写</value>
+  <data name="ITALIAN">
+    <value>意大利语</value>
+  </data>
+  <data name="LOGOUT">
+    <value>注销</value>
   </data>
   <data name="SETTINGS">
     <value>设置</value>
   </data>
-  <data name="MESSAGE.INFORMATION">
-    <value>信息：</value>
+  <data name="USERNAME">
+    <value>用户名</value>
   </data>
   <data name="PASSPHRASE_INCORRECT">
     <value>无效的通行口令 </value>
@@ -583,14 +625,20 @@
   <data name="RUSSIAN">
     <value>俄语</value>
   </data>
-  <data name="ACCEPT">
-    <value>接受</value>
-  </data>
   <data name="DELETEIFOLDER">
     <value>删除 iFolder</value>
   </data>
-  <data name="ENTRY.FAILEDDOWNLOAD">
-    <value>文件无法下载。请重试。</value>
+  <data name="EMPTY_PASSWORD">
+    <value>空口令</value>
+  </data>
+  <data name="RIGHTS.READWRITE">
+    <value>读/写</value>
+  </data>
+  <data name="MESSAGE.INFORMATION">
+    <value>信息：</value>
+  </data>
+  <data name="CREATE">
+    <value>创建</value>
   </data>
   <data name="ENTRIES">
     <value>项</value>
@@ -598,8 +646,8 @@
   <data name="ENTRY.MB">
     <value>MB</value>
   </data>
-  <data name="ENTRY.MAXUPLOADSIZEEXCEPTION">
-    <value>因为文件超过允许的最大文件大小，上载已被取消。</value>
+  <data name="ACCEPT">
+    <value>接受</value>
   </data>
   <data name="SHARINGPOLICYVIOLATION">
     <value> 已禁用共享，因此无法共享此 iFolder</value>
@@ -622,8 +670,8 @@
   <data name="FRENCH">
     <value>法语</value>
   </data>
-  <data name="ENGLISH">
-    <value>英语</value>
+  <data name="POLICY">
+    <value>策略</value>
   </data>
   <data name="ENTER_PASSPHRASE">
     <value>输入通行口令     </value>
@@ -670,6 +718,9 @@
   <data name="NEXT">
     <value>下一步</value>
   </data>
+  <data name="USERNOTFOUNDINSIMIAS">
+    <value>未在 iFolder 数据库中找到任何用户。</value>
+  </data>
   <data name="LOGIN.UNAUTHORIZED">
     <value>请重新输入用户名和口令。</value>
   </data>
@@ -703,19 +754,28 @@
   <data name="IFOLDERNEW">
     <value>新建 iFolder</value>
   </data>
+  <data name="CURRENTPASSWORD">
+    <value>当前口令： </value>
+  </data>
   <data name="FOLDERS">
     <value>文件夹</value>
   </data>
-  <data name="USERNAME">
-    <value>用户名</value>
+  <data name="LOGIN.SENDFAILED">
+    <value>无法与 iFolder 服务器通讯。</value>
   </data>
   <data name="REMOVEMEMBERDELETE">
     <value>去除/删除成员资格</value>
   </data>
-  <data name="MESSAGE.WARNING">
-    <value>警告：</value>
+  <data name="ENTRY.FAILEDDOWNLOAD">
+    <value>文件无法下载。请重试。</value>
   </data>
   <data name="LOGIN.LANGUAGE">
     <value>语言：</value>
+  </data>
+  <data name="NOITEMSAVAILABLE">
+    <value>无可用的 {0}</value>
+  </data>
+  <data name="FAILEDTORESETPASSWORD">
+    <value>重设置口令失败。</value>
   </data>
 </root>

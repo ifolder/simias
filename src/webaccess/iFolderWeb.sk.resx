@@ -103,17 +103,17 @@
   <data name="ACTION">
     <value>Akcia</value>
   </data>
+  <data name="PASSWORDCHANGESUCCESS">
+    <value>Heslo bolo úspešne zmenené. Prihláste sa s novým heslom.</value>
+  </data>
   <data name="ENTRY.NOFOLDERNAME">
     <value>Požaduje sa názov priečinka.</value>
   </data>
   <data name="PUBLISHED">
     <value>Uverejnené</value>
   </data>
-  <data name="LOGIN.SENDFAILED">
-    <value>Komunikácia so serverom iFolder nie je možná.</value>
-  </data>
-  <data name="ITALIAN">
-    <value>taliančina</value>
+  <data name="IFOLDER.CONFIRMREMOVES">
+    <value>Naozaj chcete odstrániť možnosť prístupu k vybratým priečinkom iFolder?</value>
   </data>
   <data name="USERS">
     <value>Používatelia</value>
@@ -202,17 +202,20 @@
   <data name="SLOVAK">
     <value>slovenčina</value>
   </data>
+  <data name="PASSWORDCHANGEFAILED">
+    <value>Heslo nebolo možné zmeniť, </value>
+  </data>
   <data name="CHANGE.DELETE">
     <value>Odstránené</value>
+  </data>
+  <data name="RETURN">
+    <value>Vrátiť</value>
   </data>
   <data name="SELECTRECOVERYAGENT">
     <value>Agent pre obnovenie prístupového výrazu:</value>
   </data>
   <data name="PASSPHRASE_NOT_MATCH">
     <value>Prístupové výrazy sa nezhodujú</value>
-  </data>
-  <data name="IFOLDER.CONFIRMREMOVES">
-    <value>Naozaj chcete odstrániť možnosť prístupu k vybratým priečinkom iFolder?</value>
   </data>
   <data name="ENTRY">
     <value>Záznam</value>
@@ -226,8 +229,8 @@
   <data name="ACCESSCONTROL">
     <value>Kontrola prístupu</value>
   </data>
-  <data name="HOMEQUOTA">
-    <value>Moja kvóta</value>
+  <data name="GROUPACCESSEXCEPTION">
+    <value>Nemožno odstrániť členstvo, pretože skupina, ku ktorej patríte, má iba práva na čítanie.</value>
   </data>
   <data name="HISTORYNOTAVAILABLE">
     <value>Pre tento priečinok iFolder nie je história dostupná.</value>
@@ -256,6 +259,9 @@
   <data name="APPLY">
     <value>Použiť</value>
   </data>
+  <data name="REMOVEMEMBERSHIP">
+    <value>Odstrániť členstvo</value>
+  </data>
   <data name="SHOW">
     <value>Zobraziť:</value>
   </data>
@@ -264,6 +270,9 @@
   </data>
   <data name="OWNED">
     <value>Vlastnené</value>
+  </data>
+  <data name="AVAILABLE">
+    <value>Dostupné</value>
   </data>
   <data name="ENTRY.FILE">
     <value>Súbor:</value>
@@ -295,8 +304,8 @@
   <data name="ACTIONS">
     <value>Akcie</value>
   </data>
-  <data name="POLICY">
-    <value>Politika</value>
+  <data name="NEWPASSWORD">
+    <value>Nové heslo: </value>
   </data>
   <data name="UPLOAD">
     <value>Odovzdať</value>
@@ -316,11 +325,11 @@
   <data name="DENY">
     <value>Naspäť</value>
   </data>
-  <data name="LASTNAME">
-    <value>Priezvisko</value>
-  </data>
   <data name="YESTERDAY">
     <value>Včera</value>
+  </data>
+  <data name="SAMEOLDPASSWORD">
+    <value>Staré heslo a nové heslo nemôžu byť rovnaké.</value>
   </data>
   <data name="ENTRY.DISKQUOTAEXCEPTION">
     <value>Odovzdávanie bolo zrušené, pretože súbor je v rozpore s politikou kvóty priestoru na disku.</value>
@@ -355,11 +364,20 @@
   <data name="DELETE">
     <value>Odstrániť</value>
   </data>
-  <data name="SHARED">
-    <value>Zdieľané</value>
+  <data name="LOGINPASSWORDEXPIRED">
+    <value>Platnosť hesla používateľa uplynula.</value>
   </data>
   <data name="FILES.REMOVE">
     <value>odstrániť</value>
+  </data>
+  <data name="HYPHEN">
+    <value> - </value>
+  </data>
+  <data name="USED">
+    <value>Použité</value>
+  </data>
+  <data name="HOMEQUOTA">
+    <value>Moja kvóta</value>
   </data>
   <data name="FILES">
     <value>Súbory</value>
@@ -369,6 +387,9 @@
   </data>
   <data name="FIRSTLASTNAMESEP">
     <value>&amp;nbsp;</value>
+  </data>
+  <data name="LOGINDISABLED">
+    <value>Prihlásenie je zakázané.</value>
   </data>
   <data name="ENTERPASSPHRASE">
     <value>Prístupový výraz:</value>
@@ -397,8 +418,8 @@
   <data name="IFOLDERS">
     <value>Priečinky iFolder</value>
   </data>
-  <data name="SAVE">
-    <value>Uložiť</value>
+  <data name="PASSWORDS_NOT_MATCH">
+    <value>Zadané nové heslá sa nezhodujú</value>
   </data>
   <data name="ENCRYPTIONCONDITION">
     <value>Zašifrovaný priečinok iFolder nie je možné zdieľať</value>
@@ -430,26 +451,23 @@
   <data name="SHAREWITH">
     <value>Zdieľať s</value>
   </data>
-  <data name="LOGOUT">
-    <value>Odhlásiť sa</value>
+  <data name="USERACCOUNTEXPIRED">
+    <value>Platnosť používateľského konta uplynula.</value>
   </data>
   <data name="ENTRY.CONFIRMDELETE">
     <value>Naozaj chcete odstrániť vybraté položky?</value>
   </data>
-  <data name="CREATE">
-    <value>Vytvoriť</value>
+  <data name="PASSWORDMINLENGTH">
+    <value>Nie je splnená požiadavka na minimálnu dĺžku hesla.</value>
   </data>
-  <data name="USED">
-    <value>Použité</value>
+  <data name="FILTER">
+    <value>Filter:</value>
   </data>
   <data name="EDIT">
     <value>Upraviť</value>
   </data>
-  <data name="AVAILABLE">
-    <value>Dostupné</value>
-  </data>
-  <data name="GROUPACCESSEXCEPTION">
-    <value>Nemožno odstrániť členstvo, pretože skupina, ku ktorej patríte, má iba práva na čítanie.</value>
+  <data name="SAVE">
+    <value>Uložiť</value>
   </data>
   <data name="LOGIN.IFOLDERSERVER">
     <value>Server služby iFolder:</value>
@@ -475,6 +493,9 @@
   <data name="IFOLDER">
     <value>iFolder</value>
   </data>
+  <data name="INCORRECTOLDPASSWORD">
+    <value>Nesprávne staré heslo.</value>
+  </data>
   <data name="DATE">
     <value>Dátum</value>
   </data>
@@ -496,6 +517,9 @@
   <data name="NEW">
     <value>Nové</value>
   </data>
+  <data name="SHARED">
+    <value>Zdieľané</value>
+  </data>
   <data name="GERMAN">
     <value>nemčina</value>
   </data>
@@ -511,14 +535,17 @@
   <data name="LOGIN.USERNAME">
     <value>Meno používateľa:</value>
   </data>
+  <data name="CANNOTCHANGEPASSWORD">
+    <value>Používateľ nemôže zmeniť heslo.</value>
+  </data>
   <data name="ENTRY.ACCESSEXCEPTION">
     <value>Nemáte potrebné práva na vykonanie požiadavky.</value>
   </data>
   <data name="RIGHTS">
     <value>Prístup</value>
   </data>
-  <data name="REMOVEMEMBERSHIP">
-    <value>Odstrániť členstvo</value>
+  <data name="CONFIRMNEWPASSWORD">
+    <value>Potvrdiť nové heslo: </value>
   </data>
   <data name="UPLOADFILES">
     <value>Odovzdať súbory</value>
@@ -550,11 +577,20 @@
   <data name="IFOLDER.CONFIRMREMOVEDELETE">
     <value>Naozaj chcete odstrániť prístup a odstrániť vybraté priečinky iFolder?</value>
   </data>
+  <data name="MESSAGE.WARNING">
+    <value>Upozornenie:</value>
+  </data>
   <data name="LASTFIRSTNAMESEP">
     <value>,&amp;nbsp;</value>
   </data>
-  <data name="FILTER">
-    <value>Filter:</value>
+  <data name="ENGLISH">
+    <value>angličtina</value>
+  </data>
+  <data name="ENTRY.MAXUPLOADSIZEEXCEPTION">
+    <value>Odovzdávanie bolo zrušené, pretože súbor prekročil maximálnu povolenú veľkosť súboru.</value>
+  </data>
+  <data name="LASTNAME">
+    <value>Priezvisko</value>
   </data>
   <data name="TEXTOVERWRITE">
     <value>Prepísať existujúce súbory</value>
@@ -562,20 +598,26 @@
   <data name="ENTRY.NOTMOUNTEDEXCEPTION">
     <value>Ukladací prietor servera nie je dostupný</value>
   </data>
+  <data name="CHANGEPASSWORD">
+    <value>Zmeniť heslo</value>
+  </data>
   <data name="OWNER">
     <value>Vlastník</value>
   </data>
   <data name="SHARABLE">
     <value>Bežné</value>
   </data>
-  <data name="RIGHTS.READWRITE">
-    <value>Čítanie a zápis</value>
+  <data name="ITALIAN">
+    <value>taliančina</value>
+  </data>
+  <data name="LOGOUT">
+    <value>Odhlásiť sa</value>
   </data>
   <data name="SETTINGS">
     <value>Nastavenia</value>
   </data>
-  <data name="MESSAGE.INFORMATION">
-    <value>Informácie:</value>
+  <data name="USERNAME">
+    <value>Meno používateľa</value>
   </data>
   <data name="PASSPHRASE_INCORRECT">
     <value>Neplatný prístupový výraz </value>
@@ -583,14 +625,20 @@
   <data name="RUSSIAN">
     <value>ruština</value>
   </data>
-  <data name="ACCEPT">
-    <value>Prijať</value>
-  </data>
   <data name="DELETEIFOLDER">
     <value>Odstrániť priečinok iFolder</value>
   </data>
-  <data name="ENTRY.FAILEDDOWNLOAD">
-    <value>Tento súbor nebol k dispozícii na prebratie. Skúste to znova.</value>
+  <data name="EMPTY_PASSWORD">
+    <value>Nezadané heslo</value>
+  </data>
+  <data name="RIGHTS.READWRITE">
+    <value>Čítanie a zápis</value>
+  </data>
+  <data name="MESSAGE.INFORMATION">
+    <value>Informácie:</value>
+  </data>
+  <data name="CREATE">
+    <value>Vytvoriť</value>
   </data>
   <data name="ENTRIES">
     <value>Záznamy</value>
@@ -598,8 +646,8 @@
   <data name="ENTRY.MB">
     <value>MB</value>
   </data>
-  <data name="ENTRY.MAXUPLOADSIZEEXCEPTION">
-    <value>Odovzdávanie bolo zrušené, pretože súbor prekročil maximálnu povolenú veľkosť súboru.</value>
+  <data name="ACCEPT">
+    <value>Prijať</value>
   </data>
   <data name="SHARINGPOLICYVIOLATION">
     <value> Tento priečinok sa nedá zdieľať, pretože zdieľanie je vypnuté</value>
@@ -622,8 +670,8 @@
   <data name="FRENCH">
     <value>francúzština</value>
   </data>
-  <data name="ENGLISH">
-    <value>angličtina</value>
+  <data name="POLICY">
+    <value>Politika</value>
   </data>
   <data name="ENTER_PASSPHRASE">
     <value>Zadajte prístupový výraz     </value>
@@ -670,6 +718,9 @@
   <data name="NEXT">
     <value>Ďalej</value>
   </data>
+  <data name="USERNOTFOUNDINSIMIAS">
+    <value>Používateľ sa nenašiel v databáze aplikácie iFolder.</value>
+  </data>
   <data name="LOGIN.UNAUTHORIZED">
     <value>Znova zadajte meno používateľa a heslo.</value>
   </data>
@@ -703,19 +754,28 @@
   <data name="IFOLDERNEW">
     <value>Nový priečinok iFolder</value>
   </data>
+  <data name="CURRENTPASSWORD">
+    <value>Aktuálne heslo: </value>
+  </data>
   <data name="FOLDERS">
     <value>Priečinky</value>
   </data>
-  <data name="USERNAME">
-    <value>Meno používateľa</value>
+  <data name="LOGIN.SENDFAILED">
+    <value>Komunikácia so serverom iFolder nie je možná.</value>
   </data>
   <data name="REMOVEMEMBERDELETE">
     <value>Odstrániť členstvo a odstrániť</value>
   </data>
-  <data name="MESSAGE.WARNING">
-    <value>Upozornenie:</value>
+  <data name="ENTRY.FAILEDDOWNLOAD">
+    <value>Tento súbor nebol k dispozícii na prebratie. Skúste to znova.</value>
   </data>
   <data name="LOGIN.LANGUAGE">
     <value>Jazyk:</value>
+  </data>
+  <data name="NOITEMSAVAILABLE">
+    <value>Nie je k dispozícii žiadna položka typu {0}</value>
+  </data>
+  <data name="FAILEDTORESETPASSWORD">
+    <value>Nepodarilo sa nastaviť nové heslo.</value>
   </data>
 </root>

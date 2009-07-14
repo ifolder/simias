@@ -103,17 +103,17 @@
   <data name="ACTION">
     <value>Ação</value>
   </data>
+  <data name="PASSWORDCHANGESUCCESS">
+    <value>A senha foi mudada com êxito. Efetue login com a nova senha.</value>
+  </data>
   <data name="ENTRY.NOFOLDERNAME">
     <value>É necessário um nome de pasta.</value>
   </data>
   <data name="PUBLISHED">
     <value>Publicado</value>
   </data>
-  <data name="LOGIN.SENDFAILED">
-    <value>Impossível comunicar-se com o servidor iFolder.</value>
-  </data>
-  <data name="ITALIAN">
-    <value>Italiano</value>
+  <data name="IFOLDER.CONFIRMREMOVES">
+    <value>Tem certeza de que deseja remover o acesso às pastas selecionadas do iFolder?</value>
   </data>
   <data name="USERS">
     <value>Usuários</value>
@@ -202,17 +202,20 @@
   <data name="SLOVAK">
     <value>Eslovaco</value>
   </data>
+  <data name="PASSWORDCHANGEFAILED">
+    <value>Não foi possível mudar a senha, </value>
+  </data>
   <data name="CHANGE.DELETE">
     <value>Apagado</value>
+  </data>
+  <data name="RETURN">
+    <value>Retornar</value>
   </data>
   <data name="SELECTRECOVERYAGENT">
     <value>Agente de Recuperação de Frase Secreta:</value>
   </data>
   <data name="PASSPHRASE_NOT_MATCH">
     <value>As frases secretas não são iguais</value>
-  </data>
-  <data name="IFOLDER.CONFIRMREMOVES">
-    <value>Tem certeza de que deseja remover o acesso às pastas selecionadas do iFolder?</value>
   </data>
   <data name="ENTRY">
     <value>Entrada</value>
@@ -226,8 +229,8 @@
   <data name="ACCESSCONTROL">
     <value>Controle de Acesso</value>
   </data>
-  <data name="HOMEQUOTA">
-    <value>Minha Cota</value>
+  <data name="GROUPACCESSEXCEPTION">
+    <value>Participante não pode ser removido do grupo a que pertence porque apenas seus direitos foram lidos pelo grupo.</value>
   </data>
   <data name="HISTORYNOTAVAILABLE">
     <value>Histórico não disponível para este iFolder</value>
@@ -256,6 +259,9 @@
   <data name="APPLY">
     <value>Aplicar</value>
   </data>
+  <data name="REMOVEMEMBERSHIP">
+    <value>Remover Participação</value>
+  </data>
   <data name="SHOW">
     <value>Mostrar:</value>
   </data>
@@ -264,6 +270,9 @@
   </data>
   <data name="OWNED">
     <value>De propriedade</value>
+  </data>
+  <data name="AVAILABLE">
+    <value>Disponível</value>
   </data>
   <data name="ENTRY.FILE">
     <value>Arquivo:</value>
@@ -295,11 +304,11 @@
   <data name="ACTIONS">
     <value>Ações</value>
   </data>
-  <data name="POLICY">
-    <value>Política</value>
+  <data name="NEWPASSWORD">
+    <value>Nova Senha: </value>
   </data>
   <data name="UPLOAD">
-    <value>Upload</value>
+    <value>Fazer Upload</value>
   </data>
   <data name="RECENT">
     <value>Recente</value>
@@ -316,11 +325,11 @@
   <data name="DENY">
     <value>Voltar</value>
   </data>
-  <data name="LASTNAME">
-    <value>Sobrenome</value>
-  </data>
   <data name="YESTERDAY">
     <value>Ontem</value>
+  </data>
+  <data name="SAMEOLDPASSWORD">
+    <value>A Senha Antiga e a Nova Senha não podem ser iguais.</value>
   </data>
   <data name="ENTRY.DISKQUOTAEXCEPTION">
     <value>O upload foi cancelado porque o arquivo viola a política de cota de disco.</value>
@@ -355,11 +364,20 @@
   <data name="DELETE">
     <value>Apagar</value>
   </data>
-  <data name="SHARED">
-    <value>Compartilhada</value>
+  <data name="LOGINPASSWORDEXPIRED">
+    <value>A senha do usuário expirou.</value>
   </data>
   <data name="FILES.REMOVE">
     <value>remover</value>
+  </data>
+  <data name="HYPHEN">
+    <value> - </value>
+  </data>
+  <data name="USED">
+    <value>Usadas</value>
+  </data>
+  <data name="HOMEQUOTA">
+    <value>Minha Cota</value>
   </data>
   <data name="FILES">
     <value>Arquivos</value>
@@ -369,6 +387,9 @@
   </data>
   <data name="FIRSTLASTNAMESEP">
     <value>&amp;nbsp;</value>
+  </data>
+  <data name="LOGINDISABLED">
+    <value>Login Desabilitado.</value>
   </data>
   <data name="ENTERPASSPHRASE">
     <value>Frase Secreta:</value>
@@ -397,8 +418,8 @@
   <data name="IFOLDERS">
     <value>Pastas do iFolder</value>
   </data>
-  <data name="SAVE">
-    <value>Gravar</value>
+  <data name="PASSWORDS_NOT_MATCH">
+    <value>As novas senhas digitadas são diferentes</value>
   </data>
   <data name="ENCRYPTIONCONDITION">
     <value>iFolder Criptografado não pode ser compartilhado</value>
@@ -430,26 +451,23 @@
   <data name="SHAREWITH">
     <value>Compartilhar com</value>
   </data>
-  <data name="LOGOUT">
-    <value>Efetuar Logout</value>
+  <data name="USERACCOUNTEXPIRED">
+    <value>A conta do usuário expirou.</value>
   </data>
   <data name="ENTRY.CONFIRMDELETE">
     <value>Tem certeza de que deseja apagar os itens selecionados?</value>
   </data>
-  <data name="CREATE">
-    <value>Criar</value>
+  <data name="PASSWORDMINLENGTH">
+    <value>A restrição de tamanho mínimo da senha não foi cumprida.</value>
   </data>
-  <data name="USED">
-    <value>Usadas</value>
+  <data name="FILTER">
+    <value>Filtro:</value>
   </data>
   <data name="EDIT">
     <value>Editar</value>
   </data>
-  <data name="AVAILABLE">
-    <value>Disponível</value>
-  </data>
-  <data name="GROUPACCESSEXCEPTION">
-    <value>Participante não pode ser removido do grupo a que pertence porque apenas seus direitos foram lidos pelo grupo.</value>
+  <data name="SAVE">
+    <value>Gravar</value>
   </data>
   <data name="LOGIN.IFOLDERSERVER">
     <value>Servidor iFolder:</value>
@@ -475,6 +493,9 @@
   <data name="IFOLDER">
     <value>iFolder</value>
   </data>
+  <data name="INCORRECTOLDPASSWORD">
+    <value>Senha Antiga Incorreta.</value>
+  </data>
   <data name="DATE">
     <value>Data</value>
   </data>
@@ -496,6 +517,9 @@
   <data name="NEW">
     <value>Novo</value>
   </data>
+  <data name="SHARED">
+    <value>Compartilhada</value>
+  </data>
   <data name="GERMAN">
     <value>Alemão</value>
   </data>
@@ -511,14 +535,17 @@
   <data name="LOGIN.USERNAME">
     <value>Nome do usuário</value>
   </data>
+  <data name="CANNOTCHANGEPASSWORD">
+    <value>O usuário não pode mudar a senha.</value>
+  </data>
   <data name="ENTRY.ACCESSEXCEPTION">
     <value>Você não tem direitos suficientes para efetuar a solicitação.</value>
   </data>
   <data name="RIGHTS">
     <value>Acesso</value>
   </data>
-  <data name="REMOVEMEMBERSHIP">
-    <value>Remover Participação</value>
+  <data name="CONFIRMNEWPASSWORD">
+    <value>Confirmar Nova Senha: </value>
   </data>
   <data name="UPLOADFILES">
     <value>Fazer Upload de Arquivos</value>
@@ -550,11 +577,20 @@
   <data name="IFOLDER.CONFIRMREMOVEDELETE">
     <value>Deseja Remover seu acesso / Apagar os iFolders selecionados?</value>
   </data>
+  <data name="MESSAGE.WARNING">
+    <value>Aviso:</value>
+  </data>
   <data name="LASTFIRSTNAMESEP">
     <value>,&amp;nbsp;</value>
   </data>
-  <data name="FILTER">
-    <value>Filtro:</value>
+  <data name="ENGLISH">
+    <value>Inglês</value>
+  </data>
+  <data name="ENTRY.MAXUPLOADSIZEEXCEPTION">
+    <value>O upload foi cancelado porque o arquivo excedeu o tamanho máximo permitido.</value>
+  </data>
+  <data name="LASTNAME">
+    <value>Sobrenome</value>
   </data>
   <data name="TEXTOVERWRITE">
     <value>Sobregravar Arquivos Existentes</value>
@@ -562,20 +598,26 @@
   <data name="ENTRY.NOTMOUNTEDEXCEPTION">
     <value>Armazenamento em Servidor não disponível</value>
   </data>
+  <data name="CHANGEPASSWORD">
+    <value>Mudar Senha</value>
+  </data>
   <data name="OWNER">
     <value>Proprietário</value>
   </data>
   <data name="SHARABLE">
     <value>Regular</value>
   </data>
-  <data name="RIGHTS.READWRITE">
-    <value>Leitura/Gravação</value>
+  <data name="ITALIAN">
+    <value>Italiano</value>
+  </data>
+  <data name="LOGOUT">
+    <value>Efetuar Logout</value>
   </data>
   <data name="SETTINGS">
     <value>Configurações</value>
   </data>
-  <data name="MESSAGE.INFORMATION">
-    <value>Informações:</value>
+  <data name="USERNAME">
+    <value>Nome do usuário</value>
   </data>
   <data name="PASSPHRASE_INCORRECT">
     <value>Frase Secreta Inválida </value>
@@ -583,14 +625,20 @@
   <data name="RUSSIAN">
     <value>Russo</value>
   </data>
-  <data name="ACCEPT">
-    <value>Aceitar</value>
-  </data>
   <data name="DELETEIFOLDER">
     <value>Apagar iFolder</value>
   </data>
-  <data name="ENTRY.FAILEDDOWNLOAD">
-    <value>O arquivo não estava disponível para download. Tente novamente.</value>
+  <data name="EMPTY_PASSWORD">
+    <value>Senha Vazia</value>
+  </data>
+  <data name="RIGHTS.READWRITE">
+    <value>Leitura/Gravação</value>
+  </data>
+  <data name="MESSAGE.INFORMATION">
+    <value>Informações:</value>
+  </data>
+  <data name="CREATE">
+    <value>Criar</value>
   </data>
   <data name="ENTRIES">
     <value>Entradas</value>
@@ -598,8 +646,8 @@
   <data name="ENTRY.MB">
     <value>MB</value>
   </data>
-  <data name="ENTRY.MAXUPLOADSIZEEXCEPTION">
-    <value>O upload foi cancelado porque o arquivo excedeu o tamanho máximo permitido.</value>
+  <data name="ACCEPT">
+    <value>Aceitar</value>
   </data>
   <data name="SHARINGPOLICYVIOLATION">
     <value> O compartilhamento é desabilitado para que este iFolder não possa ser compartilhado</value>
@@ -622,8 +670,8 @@
   <data name="FRENCH">
     <value>Francês</value>
   </data>
-  <data name="ENGLISH">
-    <value>Inglês</value>
+  <data name="POLICY">
+    <value>Política</value>
   </data>
   <data name="ENTER_PASSPHRASE">
     <value>Digitar a Frase Secreta     </value>
@@ -670,6 +718,9 @@
   <data name="NEXT">
     <value>Próximo</value>
   </data>
+  <data name="USERNOTFOUNDINSIMIAS">
+    <value>Usuário não encontrado no banco de dados do iFolder.</value>
+  </data>
   <data name="LOGIN.UNAUTHORIZED">
     <value>Digite novamente seu nome de usuário e senha.</value>
   </data>
@@ -703,19 +754,28 @@
   <data name="IFOLDERNEW">
     <value>Novo iFolder</value>
   </data>
+  <data name="CURRENTPASSWORD">
+    <value>Senha Atual: </value>
+  </data>
   <data name="FOLDERS">
     <value>Pastas</value>
   </data>
-  <data name="USERNAME">
-    <value>Nome do usuário</value>
+  <data name="LOGIN.SENDFAILED">
+    <value>Impossível comunicar-se com o servidor iFolder.</value>
   </data>
   <data name="REMOVEMEMBERDELETE">
     <value>Remover Participação / Apagar</value>
   </data>
-  <data name="MESSAGE.WARNING">
-    <value>Aviso:</value>
+  <data name="ENTRY.FAILEDDOWNLOAD">
+    <value>O arquivo não estava disponível para download. Tente novamente.</value>
   </data>
   <data name="LOGIN.LANGUAGE">
     <value>Idioma:</value>
+  </data>
+  <data name="NOITEMSAVAILABLE">
+    <value>Nenhum(a) {0} disponível</value>
+  </data>
+  <data name="FAILEDTORESETPASSWORD">
+    <value>Falha ao redefinir senha.</value>
   </data>
 </root>

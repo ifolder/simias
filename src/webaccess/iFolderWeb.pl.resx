@@ -103,17 +103,17 @@
   <data name="ACTION">
     <value>Działanie</value>
   </data>
+  <data name="PASSWORDCHANGESUCCESS">
+    <value>Hasło zostało pomyślnie zmienione. Zaloguj się przy użyciu nowego hasła.</value>
+  </data>
   <data name="ENTRY.NOFOLDERNAME">
     <value>Wymagana jest nazwa folderu.</value>
   </data>
   <data name="PUBLISHED">
     <value>Opublikowany</value>
   </data>
-  <data name="LOGIN.SENDFAILED">
-    <value>Nie można nawiązać komunikacji z serwerem programu iFolder.</value>
-  </data>
-  <data name="ITALIAN">
-    <value>Włoski</value>
+  <data name="IFOLDER.CONFIRMREMOVES">
+    <value>Czy na pewno chcesz usunąć swój dostęp do wybranych iFolderów?</value>
   </data>
   <data name="USERS">
     <value>Użytkownicy</value>
@@ -202,8 +202,14 @@
   <data name="SLOVAK">
     <value>Słowacki</value>
   </data>
+  <data name="PASSWORDCHANGEFAILED">
+    <value>Nie można zmienić hasła. </value>
+  </data>
   <data name="CHANGE.DELETE">
     <value>Usunięte</value>
+  </data>
+  <data name="RETURN">
+    <value>Wróć</value>
   </data>
   <data name="SELECTRECOVERYAGENT">
     <value>Agent odzyskiwania zwrotu hasłowego:</value>
@@ -211,14 +217,11 @@
   <data name="PASSPHRASE_NOT_MATCH">
     <value>Niezgodność zwrotów hasłowych</value>
   </data>
-  <data name="IFOLDER.CONFIRMREMOVES">
-    <value>Czy na pewno chcesz usunąć swój dostęp do wybranych iFolderów?</value>
-  </data>
   <data name="ENTRY">
     <value>Wpis</value>
   </data>
   <data name="PAGESIZE">
-    <value>Wielkość strony</value>
+    <value>Rozmiar strony</value>
   </data>
   <data name="CHANGEOWNERRIGHTSEXCEPTION">
     <value>Nie można zmieniać praw właściciela iFolderu.</value>
@@ -226,8 +229,8 @@
   <data name="ACCESSCONTROL">
     <value>Kontrola dostępu</value>
   </data>
-  <data name="HOMEQUOTA">
-    <value>Mój przydział</value>
+  <data name="GROUPACCESSEXCEPTION">
+    <value>Nie można usunąć członkostwa, ponieważ grupa, do której należysz, ma prawa tylko do odczytu.</value>
   </data>
   <data name="HISTORYNOTAVAILABLE">
     <value>Historia jest niedostępna dla tego iFolderu</value>
@@ -256,6 +259,9 @@
   <data name="APPLY">
     <value>Zastosuj</value>
   </data>
+  <data name="REMOVEMEMBERSHIP">
+    <value>Usuń członkostwo</value>
+  </data>
   <data name="SHOW">
     <value>Pokaż:</value>
   </data>
@@ -264,6 +270,9 @@
   </data>
   <data name="OWNED">
     <value>Posiadane</value>
+  </data>
+  <data name="AVAILABLE">
+    <value>Dostępne</value>
   </data>
   <data name="ENTRY.FILE">
     <value>Plik:</value>
@@ -295,8 +304,8 @@
   <data name="ACTIONS">
     <value>Działania</value>
   </data>
-  <data name="POLICY">
-    <value>Założenia</value>
+  <data name="NEWPASSWORD">
+    <value>Nowe hasło: </value>
   </data>
   <data name="UPLOAD">
     <value>Prześlij</value>
@@ -316,11 +325,11 @@
   <data name="DENY">
     <value>Wstecz</value>
   </data>
-  <data name="LASTNAME">
-    <value>Nazwisko</value>
-  </data>
   <data name="YESTERDAY">
     <value>Wczoraj</value>
+  </data>
+  <data name="SAMEOLDPASSWORD">
+    <value>Stare hasło i nowe hasło nie powinny być takie same.</value>
   </data>
   <data name="ENTRY.DISKQUOTAEXCEPTION">
     <value>Anulowano przesyłanie ponieważ plik naruszyłby założenia przydziału dysku.</value>
@@ -355,11 +364,20 @@
   <data name="DELETE">
     <value>Usuń</value>
   </data>
-  <data name="SHARED">
-    <value>Współużytkowane</value>
+  <data name="LOGINPASSWORDEXPIRED">
+    <value>Hasło użytkownika wygasło.</value>
   </data>
   <data name="FILES.REMOVE">
     <value>usuń</value>
+  </data>
+  <data name="HYPHEN">
+    <value> - </value>
+  </data>
+  <data name="USED">
+    <value>Używane</value>
+  </data>
+  <data name="HOMEQUOTA">
+    <value>Mój przydział</value>
   </data>
   <data name="FILES">
     <value>Pliki</value>
@@ -369,6 +387,9 @@
   </data>
   <data name="FIRSTLASTNAMESEP">
     <value>&amp;nbsp;</value>
+  </data>
+  <data name="LOGINDISABLED">
+    <value>Logowanie wyłączone.</value>
   </data>
   <data name="ENTERPASSPHRASE">
     <value>Zwrot hasłowy:</value>
@@ -397,8 +418,8 @@
   <data name="IFOLDERS">
     <value>iFoldery</value>
   </data>
-  <data name="SAVE">
-    <value>Zapisz</value>
+  <data name="PASSWORDS_NOT_MATCH">
+    <value>Wprowadzone nowe hasła są niezgodne.</value>
   </data>
   <data name="ENCRYPTIONCONDITION">
     <value>Zaszyfrowany iFolder nie może być współużytkowany</value>
@@ -430,26 +451,23 @@
   <data name="SHAREWITH">
     <value>Współużytkuj z</value>
   </data>
-  <data name="LOGOUT">
-    <value>Wyloguj się</value>
+  <data name="USERACCOUNTEXPIRED">
+    <value>Konto użytkownika wygasło.</value>
   </data>
   <data name="ENTRY.CONFIRMDELETE">
     <value>Czy na pewno chcesz usunąć wybrane elementy?</value>
   </data>
-  <data name="CREATE">
-    <value>Utwórz</value>
+  <data name="PASSWORDMINLENGTH">
+    <value>Hasło nie spełnia ograniczenia dotyczącego minimalnej długości.</value>
   </data>
-  <data name="USED">
-    <value>Używane</value>
+  <data name="FILTER">
+    <value>Filtr:</value>
   </data>
   <data name="EDIT">
     <value>Edycja</value>
   </data>
-  <data name="AVAILABLE">
-    <value>Dostępne</value>
-  </data>
-  <data name="GROUPACCESSEXCEPTION">
-    <value>Nie można usunąć członkostwa, ponieważ grupa, do której należysz, ma prawa tylko do odczytu.</value>
+  <data name="SAVE">
+    <value>Zapisz</value>
   </data>
   <data name="LOGIN.IFOLDERSERVER">
     <value>Serwer programu iFolder:</value>
@@ -475,6 +493,9 @@
   <data name="IFOLDER">
     <value>iFolder</value>
   </data>
+  <data name="INCORRECTOLDPASSWORD">
+    <value>Niepoprawne stare hasło.</value>
+  </data>
   <data name="DATE">
     <value>Data</value>
   </data>
@@ -496,6 +517,9 @@
   <data name="NEW">
     <value>Nowy</value>
   </data>
+  <data name="SHARED">
+    <value>Współużytkowane</value>
+  </data>
   <data name="GERMAN">
     <value>Niemiecki</value>
   </data>
@@ -511,14 +535,17 @@
   <data name="LOGIN.USERNAME">
     <value>Nazwa użytkownika:</value>
   </data>
+  <data name="CANNOTCHANGEPASSWORD">
+    <value>Użytkownik nie może zmienić hasła.</value>
+  </data>
   <data name="ENTRY.ACCESSEXCEPTION">
     <value>Nie masz wystarczających praw, aby zrealizować żądanie.</value>
   </data>
   <data name="RIGHTS">
     <value>Dostęp</value>
   </data>
-  <data name="REMOVEMEMBERSHIP">
-    <value>Usuń członkostwo</value>
+  <data name="CONFIRMNEWPASSWORD">
+    <value>Potwierdź nowe hasło: </value>
   </data>
   <data name="UPLOADFILES">
     <value>Prześlij pliki</value>
@@ -550,11 +577,20 @@
   <data name="IFOLDER.CONFIRMREMOVEDELETE">
     <value>Czy na pewno chcesz usunąć swój dostęp / usunąć wybrane iFoldery?</value>
   </data>
+  <data name="MESSAGE.WARNING">
+    <value>Ostrzeżenie:</value>
+  </data>
   <data name="LASTFIRSTNAMESEP">
     <value>,&amp;nbsp;</value>
   </data>
-  <data name="FILTER">
-    <value>Filtr:</value>
+  <data name="ENGLISH">
+    <value>Angielski</value>
+  </data>
+  <data name="ENTRY.MAXUPLOADSIZEEXCEPTION">
+    <value>Anulowano przesyłanie, ponieważ rozmiar pliku przekroczył maksymalną dopuszczalną wartość.</value>
+  </data>
+  <data name="LASTNAME">
+    <value>Nazwisko</value>
   </data>
   <data name="TEXTOVERWRITE">
     <value>Zastąp istniejące pliki</value>
@@ -562,20 +598,26 @@
   <data name="ENTRY.NOTMOUNTEDEXCEPTION">
     <value>Pamięć masowa serwera niedostępna</value>
   </data>
+  <data name="CHANGEPASSWORD">
+    <value>Zmień hasło</value>
+  </data>
   <data name="OWNER">
     <value>Właściciel</value>
   </data>
   <data name="SHARABLE">
     <value>Regularny</value>
   </data>
-  <data name="RIGHTS.READWRITE">
-    <value>Odczyt/Zapis</value>
+  <data name="ITALIAN">
+    <value>Włoski</value>
+  </data>
+  <data name="LOGOUT">
+    <value>Wyloguj się</value>
   </data>
   <data name="SETTINGS">
     <value>Ustawienia</value>
   </data>
-  <data name="MESSAGE.INFORMATION">
-    <value>Informacje:</value>
+  <data name="USERNAME">
+    <value>Nazwa użytkownika</value>
   </data>
   <data name="PASSPHRASE_INCORRECT">
     <value>Nieprawidłowy zwrot hasłowy </value>
@@ -583,14 +625,20 @@
   <data name="RUSSIAN">
     <value>Rosyjski</value>
   </data>
-  <data name="ACCEPT">
-    <value>Zaakceptuj</value>
-  </data>
   <data name="DELETEIFOLDER">
     <value>Usuń iFolder</value>
   </data>
-  <data name="ENTRY.FAILEDDOWNLOAD">
-    <value>Plik był niedostępny do pobrania. Spróbuj ponownie.</value>
+  <data name="EMPTY_PASSWORD">
+    <value>Puste hasło</value>
+  </data>
+  <data name="RIGHTS.READWRITE">
+    <value>Odczyt/Zapis</value>
+  </data>
+  <data name="MESSAGE.INFORMATION">
+    <value>Informacje:</value>
+  </data>
+  <data name="CREATE">
+    <value>Utwórz</value>
   </data>
   <data name="ENTRIES">
     <value>Wpisy</value>
@@ -598,8 +646,8 @@
   <data name="ENTRY.MB">
     <value>MB</value>
   </data>
-  <data name="ENTRY.MAXUPLOADSIZEEXCEPTION">
-    <value>Anulowano przesyłanie, ponieważ rozmiar pliku przekroczył maksymalną dopuszczalną wartość.</value>
+  <data name="ACCEPT">
+    <value>Zaakceptuj</value>
   </data>
   <data name="SHARINGPOLICYVIOLATION">
     <value> Współużytkowanie jest wyłączone i tego iFolderu nie można współużytkować.</value>
@@ -622,8 +670,8 @@
   <data name="FRENCH">
     <value>Francuski</value>
   </data>
-  <data name="ENGLISH">
-    <value>Angielski</value>
+  <data name="POLICY">
+    <value>Założenia</value>
   </data>
   <data name="ENTER_PASSPHRASE">
     <value>Wprowadź zwrot hasłowy     </value>
@@ -670,6 +718,9 @@
   <data name="NEXT">
     <value>Dalej</value>
   </data>
+  <data name="USERNOTFOUNDINSIMIAS">
+    <value>Nie można odnaleźć użytkownika w bazie danych programu iFolder.</value>
+  </data>
   <data name="LOGIN.UNAUTHORIZED">
     <value>Wprowadź ponownie nazwę użytkownika i hasło.</value>
   </data>
@@ -703,19 +754,28 @@
   <data name="IFOLDERNEW">
     <value>Nowy iFolder</value>
   </data>
+  <data name="CURRENTPASSWORD">
+    <value>Bieżące hasło: </value>
+  </data>
   <data name="FOLDERS">
     <value>Foldery</value>
   </data>
-  <data name="USERNAME">
-    <value>Nazwa użytkownika</value>
+  <data name="LOGIN.SENDFAILED">
+    <value>Nie można nawiązać komunikacji z serwerem programu iFolder.</value>
   </data>
   <data name="REMOVEMEMBERDELETE">
     <value>Usuń członkostwo / Usuń</value>
   </data>
-  <data name="MESSAGE.WARNING">
-    <value>Ostrzeżenie:</value>
+  <data name="ENTRY.FAILEDDOWNLOAD">
+    <value>Plik był niedostępny do pobrania. Spróbuj ponownie.</value>
   </data>
   <data name="LOGIN.LANGUAGE">
     <value>Język:</value>
+  </data>
+  <data name="NOITEMSAVAILABLE">
+    <value>Brak dostępnych elementów: {0}</value>
+  </data>
+  <data name="FAILEDTORESETPASSWORD">
+    <value>Zresetowanie hasła nie powiodło się.</value>
   </data>
 </root>

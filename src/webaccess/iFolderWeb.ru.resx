@@ -103,17 +103,17 @@
   <data name="ACTION">
     <value>Действие</value>
   </data>
+  <data name="PASSWORDCHANGESUCCESS">
+    <value>Пароль изменен. Войдите в систему с помощью нового пароля.</value>
+  </data>
   <data name="ENTRY.NOFOLDERNAME">
     <value>Требуется имя папки.</value>
   </data>
   <data name="PUBLISHED">
     <value>Опубликовано</value>
   </data>
-  <data name="LOGIN.SENDFAILED">
-    <value>Не удается взаимодействовать с сервером iFolder.</value>
-  </data>
-  <data name="ITALIAN">
-    <value>Итальянский</value>
+  <data name="IFOLDER.CONFIRMREMOVES">
+    <value>Вы действительно хотите отменить доступ к выбранным папкам iFolder?</value>
   </data>
   <data name="USERS">
     <value>Пользователи</value>
@@ -173,7 +173,7 @@
     <value>Создано</value>
   </data>
   <data name="ELLIPSES">
-    <value> . . .</value>
+    <value> ...</value>
   </data>
   <data name="FIRSTNAME">
     <value>Имя</value>
@@ -202,17 +202,20 @@
   <data name="SLOVAK">
     <value>Словацкий</value>
   </data>
+  <data name="PASSWORDCHANGEFAILED">
+    <value>Не удалось изменить пароль. </value>
+  </data>
   <data name="CHANGE.DELETE">
     <value>Удалено</value>
+  </data>
+  <data name="RETURN">
+    <value>Возврат</value>
   </data>
   <data name="SELECTRECOVERYAGENT">
     <value>Агент восстановления контрольной фразы:</value>
   </data>
   <data name="PASSPHRASE_NOT_MATCH">
     <value>Контрольные фразы не совпадают</value>
-  </data>
-  <data name="IFOLDER.CONFIRMREMOVES">
-    <value>Вы действительно хотите отменить доступ к выбранным папкам iFolder?</value>
   </data>
   <data name="ENTRY">
     <value>Элемент</value>
@@ -226,8 +229,8 @@
   <data name="ACCESSCONTROL">
     <value>Управление доступом</value>
   </data>
-  <data name="HOMEQUOTA">
-    <value>Личная квота</value>
+  <data name="GROUPACCESSEXCEPTION">
+    <value>Невозможно удалить членство, так как группа, в которую Вы входите, имеет права только для чтения.</value>
   </data>
   <data name="HISTORYNOTAVAILABLE">
     <value>Протокол этой папки iFolder недоступен</value>
@@ -256,6 +259,9 @@
   <data name="APPLY">
     <value>Применить</value>
   </data>
+  <data name="REMOVEMEMBERSHIP">
+    <value>Отмена членства</value>
+  </data>
   <data name="SHOW">
     <value>Показать:</value>
   </data>
@@ -264,6 +270,9 @@
   </data>
   <data name="OWNED">
     <value>Владелец</value>
+  </data>
+  <data name="AVAILABLE">
+    <value>Доступно</value>
   </data>
   <data name="ENTRY.FILE">
     <value>Файл:</value>
@@ -295,8 +304,8 @@
   <data name="ACTIONS">
     <value>Действия</value>
   </data>
-  <data name="POLICY">
-    <value>Политика</value>
+  <data name="NEWPASSWORD">
+    <value>Новый пароль: </value>
   </data>
   <data name="UPLOAD">
     <value>Передать</value>
@@ -316,11 +325,11 @@
   <data name="DENY">
     <value>Назад</value>
   </data>
-  <data name="LASTNAME">
-    <value>Фамилия</value>
-  </data>
   <data name="YESTERDAY">
     <value>Вчера</value>
+  </data>
+  <data name="SAMEOLDPASSWORD">
+    <value>Старый и новый пароли не должны совпадать.</value>
   </data>
   <data name="ENTRY.DISKQUOTAEXCEPTION">
     <value>Передача отменена, поскольку файл нарушает политику дисковой квоты.</value>
@@ -355,11 +364,20 @@
   <data name="DELETE">
     <value>Удалить</value>
   </data>
-  <data name="SHARED">
-    <value>Совместное использование</value>
+  <data name="LOGINPASSWORDEXPIRED">
+    <value>Срок действия пароля пользователя истек.</value>
   </data>
   <data name="FILES.REMOVE">
     <value>удалить</value>
+  </data>
+  <data name="HYPHEN">
+    <value> - </value>
+  </data>
+  <data name="USED">
+    <value>Используется</value>
+  </data>
+  <data name="HOMEQUOTA">
+    <value>Личная квота</value>
   </data>
   <data name="FILES">
     <value>Файлы</value>
@@ -369,6 +387,9 @@
   </data>
   <data name="FIRSTLASTNAMESEP">
     <value>&amp;nbsp;</value>
+  </data>
+  <data name="LOGINDISABLED">
+    <value>Вход в систему отключен.</value>
   </data>
   <data name="ENTERPASSPHRASE">
     <value>Контрольная фраза:</value>
@@ -397,8 +418,8 @@
   <data name="IFOLDERS">
     <value>Папки iFolder</value>
   </data>
-  <data name="SAVE">
-    <value>Сохранить</value>
+  <data name="PASSWORDS_NOT_MATCH">
+    <value>Введенные новые пароли не совпадают</value>
   </data>
   <data name="ENCRYPTIONCONDITION">
     <value>Совместное использование зашифрованной папки iFolder невозможно</value>
@@ -425,31 +446,28 @@
     <value>Передача отменена, поскольку файл нарушает политику размера файлов.</value>
   </data>
   <data name="ENTRY.B">
-    <value>B</value>
+    <value>байт</value>
   </data>
   <data name="SHAREWITH">
     <value>Совместное использование</value>
   </data>
-  <data name="LOGOUT">
-    <value>Выход из системы</value>
+  <data name="USERACCOUNTEXPIRED">
+    <value>Срок действия учетной записи пользователя истек.</value>
   </data>
   <data name="ENTRY.CONFIRMDELETE">
     <value>Вы действительно хотите удалить выбранные элементы?</value>
   </data>
-  <data name="CREATE">
-    <value>Создать</value>
+  <data name="PASSWORDMINLENGTH">
+    <value>Нарушено ограничение минимальной длины пароля.</value>
   </data>
-  <data name="USED">
-    <value>Используется</value>
+  <data name="FILTER">
+    <value>Фильтр:</value>
   </data>
   <data name="EDIT">
     <value>Изменить</value>
   </data>
-  <data name="AVAILABLE">
-    <value>Доступно</value>
-  </data>
-  <data name="GROUPACCESSEXCEPTION">
-    <value>Невозможно удалить членство, так как группа, в которую Вы входите, имеет права только для чтения.</value>
+  <data name="SAVE">
+    <value>Сохранить</value>
   </data>
   <data name="LOGIN.IFOLDERSERVER">
     <value>Сервер iFolder:</value>
@@ -475,6 +493,9 @@
   <data name="IFOLDER">
     <value>iFolder</value>
   </data>
+  <data name="INCORRECTOLDPASSWORD">
+    <value>Неправильный старый пароль</value>
+  </data>
   <data name="DATE">
     <value>Дата</value>
   </data>
@@ -496,6 +517,9 @@
   <data name="NEW">
     <value>Создать</value>
   </data>
+  <data name="SHARED">
+    <value>Совместное использование</value>
+  </data>
   <data name="GERMAN">
     <value>Немецкий</value>
   </data>
@@ -511,14 +535,17 @@
   <data name="LOGIN.USERNAME">
     <value>Имя пользователя:</value>
   </data>
+  <data name="CANNOTCHANGEPASSWORD">
+    <value>Пользователь не может изменить пароль.</value>
+  </data>
   <data name="ENTRY.ACCESSEXCEPTION">
     <value>Недостаточно прав для выполнения этого запроса.</value>
   </data>
   <data name="RIGHTS">
     <value>Доступ</value>
   </data>
-  <data name="REMOVEMEMBERSHIP">
-    <value>Отмена членства</value>
+  <data name="CONFIRMNEWPASSWORD">
+    <value>Подтверждение нового пароля: </value>
   </data>
   <data name="UPLOADFILES">
     <value>Передача файлов</value>
@@ -550,11 +577,20 @@
   <data name="IFOLDER.CONFIRMREMOVEDELETE">
     <value>Удалить доступ / Удалить выбранные папки iFolder?</value>
   </data>
+  <data name="MESSAGE.WARNING">
+    <value>Предупреждение.</value>
+  </data>
   <data name="LASTFIRSTNAMESEP">
     <value>,&amp;nbsp;</value>
   </data>
-  <data name="FILTER">
-    <value>Фильтр:</value>
+  <data name="ENGLISH">
+    <value>Английский</value>
+  </data>
+  <data name="ENTRY.MAXUPLOADSIZEEXCEPTION">
+    <value>Передача отменена, поскольку файл превышает максимально допустимый размер.</value>
+  </data>
+  <data name="LASTNAME">
+    <value>Фамилия</value>
   </data>
   <data name="TEXTOVERWRITE">
     <value>Перезапись существующих файлов</value>
@@ -562,20 +598,26 @@
   <data name="ENTRY.NOTMOUNTEDEXCEPTION">
     <value>Дисковое пространство сервера недоступно</value>
   </data>
+  <data name="CHANGEPASSWORD">
+    <value>Смена пароля</value>
+  </data>
   <data name="OWNER">
     <value>Владелец</value>
   </data>
   <data name="SHARABLE">
     <value>Обычный</value>
   </data>
-  <data name="RIGHTS.READWRITE">
-    <value>Чтение/запись</value>
+  <data name="ITALIAN">
+    <value>Итальянский</value>
+  </data>
+  <data name="LOGOUT">
+    <value>Выход из системы</value>
   </data>
   <data name="SETTINGS">
     <value>Параметры</value>
   </data>
-  <data name="MESSAGE.INFORMATION">
-    <value>Информация:</value>
+  <data name="USERNAME">
+    <value>Имя пользователя</value>
   </data>
   <data name="PASSPHRASE_INCORRECT">
     <value>Недопустимая контрольная фраза </value>
@@ -583,14 +625,20 @@
   <data name="RUSSIAN">
     <value>Русский</value>
   </data>
-  <data name="ACCEPT">
-    <value>Принять</value>
-  </data>
   <data name="DELETEIFOLDER">
     <value>Удалить папку iFolder</value>
   </data>
-  <data name="ENTRY.FAILEDDOWNLOAD">
-    <value>Файл недоступен для загрузки. Повторите попытку.</value>
+  <data name="EMPTY_PASSWORD">
+    <value>Пустой пароль</value>
+  </data>
+  <data name="RIGHTS.READWRITE">
+    <value>Чтение/запись</value>
+  </data>
+  <data name="MESSAGE.INFORMATION">
+    <value>Информация:</value>
+  </data>
+  <data name="CREATE">
+    <value>Создать</value>
   </data>
   <data name="ENTRIES">
     <value>Элементы</value>
@@ -598,8 +646,8 @@
   <data name="ENTRY.MB">
     <value>Мб</value>
   </data>
-  <data name="ENTRY.MAXUPLOADSIZEEXCEPTION">
-    <value>Передача отменена, поскольку файл превышает максимально допустимый размер.</value>
+  <data name="ACCEPT">
+    <value>Принять</value>
   </data>
   <data name="SHARINGPOLICYVIOLATION">
     <value> Данная папка iFolder не может совместно использоваться, так как совместное использование запрещено</value>
@@ -622,8 +670,8 @@
   <data name="FRENCH">
     <value>Французский</value>
   </data>
-  <data name="ENGLISH">
-    <value>Английский</value>
+  <data name="POLICY">
+    <value>Политика</value>
   </data>
   <data name="ENTER_PASSPHRASE">
     <value>Ввод контрольной фразы     </value>
@@ -670,6 +718,9 @@
   <data name="NEXT">
     <value>Следующий</value>
   </data>
+  <data name="USERNOTFOUNDINSIMIAS">
+    <value>Пользователь не найден в базе данных iFolder.</value>
+  </data>
   <data name="LOGIN.UNAUTHORIZED">
     <value>Введите имя пользователя и пароль еще раз.</value>
   </data>
@@ -703,19 +754,28 @@
   <data name="IFOLDERNEW">
     <value>Новая папка iFolder</value>
   </data>
+  <data name="CURRENTPASSWORD">
+    <value>Текущий пароль: </value>
+  </data>
   <data name="FOLDERS">
     <value>Папки</value>
   </data>
-  <data name="USERNAME">
-    <value>Имя пользователя</value>
+  <data name="LOGIN.SENDFAILED">
+    <value>Не удается взаимодействовать с сервером iFolder.</value>
   </data>
   <data name="REMOVEMEMBERDELETE">
     <value>Удалить членство / Удалить</value>
   </data>
-  <data name="MESSAGE.WARNING">
-    <value>Предупреждение.</value>
+  <data name="ENTRY.FAILEDDOWNLOAD">
+    <value>Файл недоступен для загрузки. Повторите попытку.</value>
   </data>
   <data name="LOGIN.LANGUAGE">
     <value>Язык:</value>
+  </data>
+  <data name="NOITEMSAVAILABLE">
+    <value>{0} недоступны</value>
+  </data>
+  <data name="FAILEDTORESETPASSWORD">
+    <value>Ошибка сброса пароля.</value>
   </data>
 </root>

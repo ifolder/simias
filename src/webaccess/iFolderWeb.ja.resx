@@ -103,17 +103,17 @@
   <data name="ACTION">
     <value>アクション</value>
   </data>
+  <data name="PASSWORDCHANGESUCCESS">
+    <value>パスワードは正常に変更されました。新しいパスワードを使用してログインしてください。</value>
+  </data>
   <data name="ENTRY.NOFOLDERNAME">
     <value>フォルダ名が必要です。</value>
   </data>
   <data name="PUBLISHED">
     <value>発行日</value>
   </data>
-  <data name="LOGIN.SENDFAILED">
-    <value>iFolderサーバと通信できません。</value>
-  </data>
-  <data name="ITALIAN">
-    <value>イタリア語</value>
+  <data name="IFOLDER.CONFIRMREMOVES">
+    <value>選択したiFolderへのアクセス権を削除してよろしいですか?</value>
   </data>
   <data name="USERS">
     <value>ユーザ</value>
@@ -202,17 +202,20 @@
   <data name="SLOVAK">
     <value>スロバキア語</value>
   </data>
+  <data name="PASSWORDCHANGEFAILED">
+    <value>パスワードを変更できませんでした。 </value>
+  </data>
   <data name="CHANGE.DELETE">
     <value>削除</value>
+  </data>
+  <data name="RETURN">
+    <value>戻る</value>
   </data>
   <data name="SELECTRECOVERYAGENT">
     <value>パスフレーズ回復エージェント:</value>
   </data>
   <data name="PASSPHRASE_NOT_MATCH">
     <value>パスフレーズが一致しません</value>
-  </data>
-  <data name="IFOLDER.CONFIRMREMOVES">
-    <value>選択したiFolderへのアクセス権を削除してよろしいですか?</value>
   </data>
   <data name="ENTRY">
     <value>エントリ</value>
@@ -226,8 +229,8 @@
   <data name="ACCESSCONTROL">
     <value>アクセス制御</value>
   </data>
-  <data name="HOMEQUOTA">
-    <value>割り当て量</value>
+  <data name="GROUPACCESSEXCEPTION">
+    <value>ユーザが属すグループには読み込み専用権しかないため、メンバーシップを削除することはできません。</value>
   </data>
   <data name="HISTORYNOTAVAILABLE">
     <value>このiFolderの履歴は使用できません</value>
@@ -256,6 +259,9 @@
   <data name="APPLY">
     <value>適用</value>
   </data>
+  <data name="REMOVEMEMBERSHIP">
+    <value>メンバーシップの削除</value>
+  </data>
   <data name="SHOW">
     <value>表示:</value>
   </data>
@@ -264,6 +270,9 @@
   </data>
   <data name="OWNED">
     <value>所有者</value>
+  </data>
+  <data name="AVAILABLE">
+    <value>使用可能</value>
   </data>
   <data name="ENTRY.FILE">
     <value>ファイル:</value>
@@ -295,8 +304,8 @@
   <data name="ACTIONS">
     <value>アクション</value>
   </data>
-  <data name="POLICY">
-    <value>ポリシー</value>
+  <data name="NEWPASSWORD">
+    <value>新しいパスワード: </value>
   </data>
   <data name="UPLOAD">
     <value>アップロード</value>
@@ -316,11 +325,11 @@
   <data name="DENY">
     <value>戻る</value>
   </data>
-  <data name="LASTNAME">
-    <value>姓</value>
-  </data>
   <data name="YESTERDAY">
     <value>昨日</value>
+  </data>
+  <data name="SAMEOLDPASSWORD">
+    <value>古いパスワードと新しいパスワードを同じにすることはできません。</value>
   </data>
   <data name="ENTRY.DISKQUOTAEXCEPTION">
     <value>ファイルがディスク割り当て量のポリシーに違反するため、アップロードはキャンセルされました。</value>
@@ -355,11 +364,20 @@
   <data name="DELETE">
     <value>削除</value>
   </data>
-  <data name="SHARED">
-    <value>共有</value>
+  <data name="LOGINPASSWORDEXPIRED">
+    <value>ユーザのパスワードの有効期限が切れました。</value>
   </data>
   <data name="FILES.REMOVE">
     <value>削除</value>
+  </data>
+  <data name="HYPHEN">
+    <value> - </value>
+  </data>
+  <data name="USED">
+    <value>使用済み</value>
+  </data>
+  <data name="HOMEQUOTA">
+    <value>割り当て量</value>
   </data>
   <data name="FILES">
     <value>ファイル</value>
@@ -369,6 +387,9 @@
   </data>
   <data name="FIRSTLASTNAMESEP">
     <value>&amp;nbsp;</value>
+  </data>
+  <data name="LOGINDISABLED">
+    <value>ログインは無効です。</value>
   </data>
   <data name="ENTERPASSPHRASE">
     <value>パスフレーズ:</value>
@@ -397,8 +418,8 @@
   <data name="IFOLDERS">
     <value>iFolder</value>
   </data>
-  <data name="SAVE">
-    <value>保存</value>
+  <data name="PASSWORDS_NOT_MATCH">
+    <value>入力された新しいパスワードが一致しません</value>
   </data>
   <data name="ENCRYPTIONCONDITION">
     <value>暗号化されたiFolderを共有できません</value>
@@ -430,26 +451,23 @@
   <data name="SHAREWITH">
     <value>共有</value>
   </data>
-  <data name="LOGOUT">
-    <value>ログアウト</value>
+  <data name="USERACCOUNTEXPIRED">
+    <value>ユーザアカウントの有効期限が切れました。</value>
   </data>
   <data name="ENTRY.CONFIRMDELETE">
     <value>選択した項目を削除してもよろしいですか?</value>
   </data>
-  <data name="CREATE">
-    <value>作成</value>
+  <data name="PASSWORDMINLENGTH">
+    <value>最小パスワード長の制限が満たされていません。</value>
   </data>
-  <data name="USED">
-    <value>使用済み</value>
+  <data name="FILTER">
+    <value>フィルタ:</value>
   </data>
   <data name="EDIT">
     <value>編集</value>
   </data>
-  <data name="AVAILABLE">
-    <value>使用可能</value>
-  </data>
-  <data name="GROUPACCESSEXCEPTION">
-    <value>ユーザが属すグループには読み込み専用権しかないため、メンバーシップを削除することはできません。</value>
+  <data name="SAVE">
+    <value>保存</value>
   </data>
   <data name="LOGIN.IFOLDERSERVER">
     <value>iFolderサーバ:</value>
@@ -475,6 +493,9 @@
   <data name="IFOLDER">
     <value>iFolder</value>
   </data>
+  <data name="INCORRECTOLDPASSWORD">
+    <value>古いパスワードが正しくありません。</value>
+  </data>
   <data name="DATE">
     <value>日付</value>
   </data>
@@ -496,6 +517,9 @@
   <data name="NEW">
     <value>新規</value>
   </data>
+  <data name="SHARED">
+    <value>共有</value>
+  </data>
   <data name="GERMAN">
     <value>ドイツ語</value>
   </data>
@@ -511,14 +535,17 @@
   <data name="LOGIN.USERNAME">
     <value>ユーザ名:</value>
   </data>
+  <data name="CANNOTCHANGEPASSWORD">
+    <value>ユーザはパスワードを変更することはできません。</value>
+  </data>
   <data name="ENTRY.ACCESSEXCEPTION">
     <value>要求を実行するための十分な権利がありません。</value>
   </data>
   <data name="RIGHTS">
     <value>アクセス</value>
   </data>
-  <data name="REMOVEMEMBERSHIP">
-    <value>メンバーシップの削除</value>
+  <data name="CONFIRMNEWPASSWORD">
+    <value>新しいパスワードの再入力: </value>
   </data>
   <data name="UPLOADFILES">
     <value>ファイルのアップロード</value>
@@ -550,11 +577,20 @@
   <data name="IFOLDER.CONFIRMREMOVEDELETE">
     <value>アクセス権を削除して、選択したiFolderを削除してよろしいですか?</value>
   </data>
+  <data name="MESSAGE.WARNING">
+    <value>警告:</value>
+  </data>
   <data name="LASTFIRSTNAMESEP">
     <value>,&amp;nbsp;</value>
   </data>
-  <data name="FILTER">
-    <value>フィルタ:</value>
+  <data name="ENGLISH">
+    <value>英語</value>
+  </data>
+  <data name="ENTRY.MAXUPLOADSIZEEXCEPTION">
+    <value>ファイルサイズの最大制限を超えているため、アップロードはキャンセルされました。</value>
+  </data>
+  <data name="LASTNAME">
+    <value>姓</value>
   </data>
   <data name="TEXTOVERWRITE">
     <value>既存ファイルの上書き</value>
@@ -562,20 +598,26 @@
   <data name="ENTRY.NOTMOUNTEDEXCEPTION">
     <value>サーバストレージが利用できません</value>
   </data>
+  <data name="CHANGEPASSWORD">
+    <value>パスワードの変更</value>
+  </data>
   <data name="OWNER">
     <value>所有者</value>
   </data>
   <data name="SHARABLE">
     <value>通常</value>
   </data>
-  <data name="RIGHTS.READWRITE">
-    <value>読書き可能</value>
+  <data name="ITALIAN">
+    <value>イタリア語</value>
+  </data>
+  <data name="LOGOUT">
+    <value>ログアウト</value>
   </data>
   <data name="SETTINGS">
     <value>設定</value>
   </data>
-  <data name="MESSAGE.INFORMATION">
-    <value>情報:</value>
+  <data name="USERNAME">
+    <value>ユーザ名</value>
   </data>
   <data name="PASSPHRASE_INCORRECT">
     <value>無効なパスフレーズ </value>
@@ -583,14 +625,20 @@
   <data name="RUSSIAN">
     <value>ロシア語</value>
   </data>
-  <data name="ACCEPT">
-    <value>受諾</value>
-  </data>
   <data name="DELETEIFOLDER">
     <value>iFolderの削除</value>
   </data>
-  <data name="ENTRY.FAILEDDOWNLOAD">
-    <value>このファイルはダウンロードに使用できません。再度実行してください。</value>
+  <data name="EMPTY_PASSWORD">
+    <value>空のパスワード</value>
+  </data>
+  <data name="RIGHTS.READWRITE">
+    <value>読書き可能</value>
+  </data>
+  <data name="MESSAGE.INFORMATION">
+    <value>情報:</value>
+  </data>
+  <data name="CREATE">
+    <value>作成</value>
   </data>
   <data name="ENTRIES">
     <value>エントリ</value>
@@ -598,8 +646,8 @@
   <data name="ENTRY.MB">
     <value>MB</value>
   </data>
-  <data name="ENTRY.MAXUPLOADSIZEEXCEPTION">
-    <value>ファイルサイズの最大制限を超えているため、アップロードはキャンセルされました。</value>
+  <data name="ACCEPT">
+    <value>受諾</value>
   </data>
   <data name="SHARINGPOLICYVIOLATION">
     <value> このiFolderの共有が無効であるため、共有できません</value>
@@ -622,8 +670,8 @@
   <data name="FRENCH">
     <value>フランス語</value>
   </data>
-  <data name="ENGLISH">
-    <value>英語</value>
+  <data name="POLICY">
+    <value>ポリシー</value>
   </data>
   <data name="ENTER_PASSPHRASE">
     <value>パスフレーズを入力     </value>
@@ -670,6 +718,9 @@
   <data name="NEXT">
     <value>次</value>
   </data>
+  <data name="USERNOTFOUNDINSIMIAS">
+    <value>iFolderデータベースにユーザが見つかりません。</value>
+  </data>
   <data name="LOGIN.UNAUTHORIZED">
     <value>ユーザ名とパスワードを再入力してください。</value>
   </data>
@@ -703,19 +754,28 @@
   <data name="IFOLDERNEW">
     <value>新しいiFolder</value>
   </data>
+  <data name="CURRENTPASSWORD">
+    <value>現在のパスワード: </value>
+  </data>
   <data name="FOLDERS">
     <value>フォルダ</value>
   </data>
-  <data name="USERNAME">
-    <value>ユーザ名</value>
+  <data name="LOGIN.SENDFAILED">
+    <value>iFolderサーバと通信できません。</value>
   </data>
   <data name="REMOVEMEMBERDELETE">
     <value>メンバーシップの削除 / 削除</value>
   </data>
-  <data name="MESSAGE.WARNING">
-    <value>警告:</value>
+  <data name="ENTRY.FAILEDDOWNLOAD">
+    <value>このファイルはダウンロードに使用できません。再度実行してください。</value>
   </data>
   <data name="LOGIN.LANGUAGE">
     <value>言語:</value>
+  </data>
+  <data name="NOITEMSAVAILABLE">
+    <value>使用できる {0} はありません</value>
+  </data>
+  <data name="FAILEDTORESETPASSWORD">
+    <value>パスワードをリセットできませんでした。</value>
   </data>
 </root>

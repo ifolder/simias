@@ -103,17 +103,17 @@
   <data name="ACTION">
     <value>Aktion</value>
   </data>
+  <data name="PASSWORDCHANGESUCCESS">
+    <value>Passwort erfolgreich geändert. Mit neuem Passwort anmelden.</value>
+  </data>
   <data name="ENTRY.NOFOLDERNAME">
     <value>Es ist ein Ordnername erforderlich.</value>
   </data>
   <data name="PUBLISHED">
     <value>Veröffentlicht</value>
   </data>
-  <data name="LOGIN.SENDFAILED">
-    <value>Kommunikation mit dem iFolder-Server nicht möglich.</value>
-  </data>
-  <data name="ITALIAN">
-    <value>Italienisch</value>
+  <data name="IFOLDER.CONFIRMREMOVES">
+    <value>Sind Sie sicher, dass Ihr Zugriff auf die ausgewählten iFolder-Ordner entfernt werden soll?</value>
   </data>
   <data name="USERS">
     <value>Benutzer</value>
@@ -202,17 +202,20 @@
   <data name="SLOVAK">
     <value>Slowakisch</value>
   </data>
+  <data name="PASSWORDCHANGEFAILED">
+    <value>Passwort konnte nicht geändert werden, </value>
+  </data>
   <data name="CHANGE.DELETE">
     <value>Gelöscht</value>
+  </data>
+  <data name="RETURN">
+    <value>Zurück</value>
   </data>
   <data name="SELECTRECOVERYAGENT">
     <value>Wiederherstellungsagent für Passwortsätze:</value>
   </data>
   <data name="PASSPHRASE_NOT_MATCH">
     <value>Passwortsätze stimmen nicht überein</value>
-  </data>
-  <data name="IFOLDER.CONFIRMREMOVES">
-    <value>Sind Sie sicher, dass Ihr Zugriff auf die ausgewählten iFolder-Ordner entfernt werden soll?</value>
   </data>
   <data name="ENTRY">
     <value>Eintrag</value>
@@ -226,8 +229,8 @@
   <data name="ACCESSCONTROL">
     <value>Zugriffssteuerung</value>
   </data>
-  <data name="HOMEQUOTA">
-    <value>Mein Kontingent</value>
+  <data name="GROUPACCESSEXCEPTION">
+    <value>Die Mitgliedschaft kann nicht aufgehoben werden, da die Gruppe, der Sie angehören, nur Leseberechtigungen hat.</value>
   </data>
   <data name="HISTORYNOTAVAILABLE">
     <value>Verlauf für diesen iFolder-Ordner nicht verfügbar</value>
@@ -256,6 +259,9 @@
   <data name="APPLY">
     <value>Anwenden</value>
   </data>
+  <data name="REMOVEMEMBERSHIP">
+    <value>Mitgliedschaft entfernen</value>
+  </data>
   <data name="SHOW">
     <value>Anzeigen:</value>
   </data>
@@ -264,6 +270,9 @@
   </data>
   <data name="OWNED">
     <value>Gehört zu</value>
+  </data>
+  <data name="AVAILABLE">
+    <value>Verfügbar</value>
   </data>
   <data name="ENTRY.FILE">
     <value>Datei:</value>
@@ -295,8 +304,8 @@
   <data name="ACTIONS">
     <value>Aktionen</value>
   </data>
-  <data name="POLICY">
-    <value>Richtlinie</value>
+  <data name="NEWPASSWORD">
+    <value>Neues Passwort: </value>
   </data>
   <data name="UPLOAD">
     <value>Heraufladen</value>
@@ -316,11 +325,11 @@
   <data name="DENY">
     <value>Zurück</value>
   </data>
-  <data name="LASTNAME">
-    <value>Nachname</value>
-  </data>
   <data name="YESTERDAY">
     <value>Gestern</value>
+  </data>
+  <data name="SAMEOLDPASSWORD">
+    <value>Altes und neues Passwort sollten nicht identisch sein.</value>
   </data>
   <data name="ENTRY.DISKQUOTAEXCEPTION">
     <value>Das Heraufladen wurde abgebrochen, da die Datei gegen die Datenträgerkontingent-Richtlinie verstoßen würde.</value>
@@ -355,11 +364,20 @@
   <data name="DELETE">
     <value>Löschen</value>
   </data>
-  <data name="SHARED">
-    <value>Gemeinsam genutzt</value>
+  <data name="LOGINPASSWORDEXPIRED">
+    <value>Benutzerpasswort abgelaufen.</value>
   </data>
   <data name="FILES.REMOVE">
     <value>entfernen</value>
+  </data>
+  <data name="HYPHEN">
+    <value> - </value>
+  </data>
+  <data name="USED">
+    <value>Belegt</value>
+  </data>
+  <data name="HOMEQUOTA">
+    <value>Mein Kontingent</value>
   </data>
   <data name="FILES">
     <value>Dateien</value>
@@ -369,6 +387,9 @@
   </data>
   <data name="FIRSTLASTNAMESEP">
     <value>&amp;nbsp;</value>
+  </data>
+  <data name="LOGINDISABLED">
+    <value>Anmeldung deaktiviert.</value>
   </data>
   <data name="ENTERPASSPHRASE">
     <value>Passwortsatz:</value>
@@ -397,8 +418,8 @@
   <data name="IFOLDERS">
     <value>iFolder-Ordner</value>
   </data>
-  <data name="SAVE">
-    <value>Speichern</value>
+  <data name="PASSWORDS_NOT_MATCH">
+    <value>Die neuen eingegebenen Passwörter stimmen nicht überein</value>
   </data>
   <data name="ENCRYPTIONCONDITION">
     <value>Verschlüsselter iFolder-Ordner kann nicht gemeinsam genutzt werden</value>
@@ -430,26 +451,23 @@
   <data name="SHAREWITH">
     <value>Gemeinsam verwenden mit</value>
   </data>
-  <data name="LOGOUT">
-    <value>Abmelden</value>
+  <data name="USERACCOUNTEXPIRED">
+    <value>Benutzerkonto abgelaufen.</value>
   </data>
   <data name="ENTRY.CONFIRMDELETE">
     <value>Sind Sie sicher, dass Sie die ausgewählten Elemente löschen möchten?</value>
   </data>
-  <data name="CREATE">
-    <value>Erstellen</value>
+  <data name="PASSWORDMINLENGTH">
+    <value>Mindestpasswortlänge wurde nicht eingehalten.</value>
   </data>
-  <data name="USED">
-    <value>Belegt</value>
+  <data name="FILTER">
+    <value>Filter:</value>
   </data>
   <data name="EDIT">
     <value>Bearbeiten</value>
   </data>
-  <data name="AVAILABLE">
-    <value>Verfügbar</value>
-  </data>
-  <data name="GROUPACCESSEXCEPTION">
-    <value>Die Mitgliedschaft kann nicht aufgehoben werden, da die Gruppe, der Sie angehören, nur Leseberechtigungen hat.</value>
+  <data name="SAVE">
+    <value>Speichern</value>
   </data>
   <data name="LOGIN.IFOLDERSERVER">
     <value>iFolder-Server:</value>
@@ -475,6 +493,9 @@
   <data name="IFOLDER">
     <value>iFolder-Ordner</value>
   </data>
+  <data name="INCORRECTOLDPASSWORD">
+    <value>Altes Passwort nicht korrekt.</value>
+  </data>
   <data name="DATE">
     <value>Datum</value>
   </data>
@@ -496,6 +517,9 @@
   <data name="NEW">
     <value>Neu</value>
   </data>
+  <data name="SHARED">
+    <value>Gemeinsam genutzt</value>
+  </data>
   <data name="GERMAN">
     <value>Deutsch</value>
   </data>
@@ -511,14 +535,17 @@
   <data name="LOGIN.USERNAME">
     <value>Benutzername:</value>
   </data>
+  <data name="CANNOTCHANGEPASSWORD">
+    <value>Benutzer kann Passwort nicht ändern.</value>
+  </data>
   <data name="ENTRY.ACCESSEXCEPTION">
     <value>Sie haben nicht genug Rechte zum Durchführen der Anforderung.</value>
   </data>
   <data name="RIGHTS">
     <value>Zugriff</value>
   </data>
-  <data name="REMOVEMEMBERSHIP">
-    <value>Mitgliedschaft entfernen</value>
+  <data name="CONFIRMNEWPASSWORD">
+    <value>Neues Passwort bestätigen: </value>
   </data>
   <data name="UPLOADFILES">
     <value>Dateien heraufladen</value>
@@ -550,11 +577,20 @@
   <data name="IFOLDER.CONFIRMREMOVEDELETE">
     <value>Sind Sie sicher, dass Ihr Zugriff auf die ausgewählten iFolder-Ordner entfernt werden soll/die ausgewählten iFolder-Ordner gelöscht werden sollen?</value>
   </data>
+  <data name="MESSAGE.WARNING">
+    <value>Achtung:</value>
+  </data>
   <data name="LASTFIRSTNAMESEP">
     <value>,&amp;nbsp;</value>
   </data>
-  <data name="FILTER">
-    <value>Filter:</value>
+  <data name="ENGLISH">
+    <value>Englisch</value>
+  </data>
+  <data name="ENTRY.MAXUPLOADSIZEEXCEPTION">
+    <value>Das Heraufladen wurde abgebrochen, da die Datei die maximal zulässige Dateigröße überschritten hat.</value>
+  </data>
+  <data name="LASTNAME">
+    <value>Nachname</value>
   </data>
   <data name="TEXTOVERWRITE">
     <value>Vorhandene Dateien werden überschrieben.</value>
@@ -562,20 +598,26 @@
   <data name="ENTRY.NOTMOUNTEDEXCEPTION">
     <value>Serverspeicherplatz nicht verfügbar</value>
   </data>
+  <data name="CHANGEPASSWORD">
+    <value>Passwort ändern</value>
+  </data>
   <data name="OWNER">
     <value>Eigentümer</value>
   </data>
   <data name="SHARABLE">
     <value>Regulär</value>
   </data>
-  <data name="RIGHTS.READWRITE">
-    <value>Lesen/Schreiben</value>
+  <data name="ITALIAN">
+    <value>Italienisch</value>
+  </data>
+  <data name="LOGOUT">
+    <value>Abmelden</value>
   </data>
   <data name="SETTINGS">
     <value>Einstellungen</value>
   </data>
-  <data name="MESSAGE.INFORMATION">
-    <value>Informationen:</value>
+  <data name="USERNAME">
+    <value>Benutzername</value>
   </data>
   <data name="PASSPHRASE_INCORRECT">
     <value>Ungültiger Passwortsatz </value>
@@ -583,14 +625,20 @@
   <data name="RUSSIAN">
     <value>Russisch</value>
   </data>
-  <data name="ACCEPT">
-    <value>Akzeptieren</value>
-  </data>
   <data name="DELETEIFOLDER">
     <value>iFolder-Ordner löschen</value>
   </data>
-  <data name="ENTRY.FAILEDDOWNLOAD">
-    <value>Die Datei stand für das Herunterladen nicht zur Verfügung. Bitte versuchen Sie es erneut.</value>
+  <data name="EMPTY_PASSWORD">
+    <value>Leeres Passwort</value>
+  </data>
+  <data name="RIGHTS.READWRITE">
+    <value>Lesen/Schreiben</value>
+  </data>
+  <data name="MESSAGE.INFORMATION">
+    <value>Informationen:</value>
+  </data>
+  <data name="CREATE">
+    <value>Erstellen</value>
   </data>
   <data name="ENTRIES">
     <value>Einträge</value>
@@ -598,8 +646,8 @@
   <data name="ENTRY.MB">
     <value>MB</value>
   </data>
-  <data name="ENTRY.MAXUPLOADSIZEEXCEPTION">
-    <value>Das Heraufladen wurde abgebrochen, da die Datei die maximal zulässige Dateigröße überschritten hat.</value>
+  <data name="ACCEPT">
+    <value>Akzeptieren</value>
   </data>
   <data name="SHARINGPOLICYVIOLATION">
     <value> Die Freigabe ist deaktiviert; daher kann dieser iFolder-Ordner nicht freigegeben werden.</value>
@@ -622,8 +670,8 @@
   <data name="FRENCH">
     <value>Französisch</value>
   </data>
-  <data name="ENGLISH">
-    <value>Englisch</value>
+  <data name="POLICY">
+    <value>Richtlinie</value>
   </data>
   <data name="ENTER_PASSPHRASE">
     <value>Passwortsatz eingeben     </value>
@@ -670,6 +718,9 @@
   <data name="NEXT">
     <value>Weiter</value>
   </data>
+  <data name="USERNOTFOUNDINSIMIAS">
+    <value>Benutzer wurde in iFolder-Datenbank nicht gefunden.</value>
+  </data>
   <data name="LOGIN.UNAUTHORIZED">
     <value>Geben Sie Benutzernamen und Passwort erneut ein.</value>
   </data>
@@ -703,19 +754,28 @@
   <data name="IFOLDERNEW">
     <value>Neuer iFolder</value>
   </data>
+  <data name="CURRENTPASSWORD">
+    <value>Aktuelles Passwort: </value>
+  </data>
   <data name="FOLDERS">
     <value>Ordner</value>
   </data>
-  <data name="USERNAME">
-    <value>Benutzername</value>
+  <data name="LOGIN.SENDFAILED">
+    <value>Kommunikation mit dem iFolder-Server nicht möglich.</value>
   </data>
   <data name="REMOVEMEMBERDELETE">
     <value>Mitgliedschaft entfernen /Löschen</value>
   </data>
-  <data name="MESSAGE.WARNING">
-    <value>Achtung:</value>
+  <data name="ENTRY.FAILEDDOWNLOAD">
+    <value>Die Datei stand für das Herunterladen nicht zur Verfügung. Bitte versuchen Sie es erneut.</value>
   </data>
   <data name="LOGIN.LANGUAGE">
     <value>Sprache:</value>
+  </data>
+  <data name="NOITEMSAVAILABLE">
+    <value>Kein {0} verfügbar</value>
+  </data>
+  <data name="FAILEDTORESETPASSWORD">
+    <value>Passwort konnte nicht zurückgesetzt werden.</value>
   </data>
 </root>
