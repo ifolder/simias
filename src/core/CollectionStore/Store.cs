@@ -60,6 +60,8 @@ namespace Simias.Storage
 	public sealed class Store : IEnumerable
 	{
 		#region Class Members
+		private SimiasAccessLogger accessLog = new SimiasAccessLogger("Store",null);
+
 		/// <summary>
 		/// Used to log messages.
 		/// </summary>
@@ -1064,6 +1066,7 @@ namespace Simias.Storage
 ///This implementation has to be optimized. The index is used incorrectly. And it should not loop to the index on every call.
 		public CollectionKey GetCollectionCryptoKeysByOwner( string userID, string domainID, int index)
 		{
+			accessLog.LogAccess("ExportiFoldersCryptoKeys","Export CryptoKeys","Starting",userID);
 			userID = userID.ToLower();
 			domainID = ( domainID != null ) ? domainID.ToLower() : null;
 			CollectionKey  cKey = null;
@@ -1089,6 +1092,7 @@ namespace Simias.Storage
 					count++;
 				}
 			}
+			accessLog.LogAccess("ExportiFoldersCryptoKeys","Export CryptoKeys","Completed",userID);
 			return cKey;
 		}
 
@@ -1104,6 +1108,7 @@ log.Debug("CID {0}\n Blob {1}\n", collectionID,c.EncryptionBlob);
 
 		public bool SetCollectionCryptoKeysByOwner( string userID, string domainID, CollectionKey cKey)
 		{
+			accessLog.LogAccess("ImportiFoldersCryptoKeys","Importing CryptoKeys","Starting",userID);
 			userID = userID.ToLower();
 			domainID = ( domainID != null ) ? domainID.ToLower() : null;
 			bool status = false;
@@ -1128,6 +1133,7 @@ log.Debug("CID {2}\nPEDEK {0}\nREDEK {1}", cKey.PEDEK, cKey.REDEK, cKey.NodeID);
 					}
 				}
 			}
+			accessLog.LogAccess("ImportiFoldersCryptoKeys","Importing CryptoKeys","Completed",userID);
 			return status;
 		}
 

@@ -74,6 +74,7 @@ namespace Simias.Storage
 		/// <summary>
 
 		private static readonly ISimiasLog log = SimiasLogManager.GetLogger(typeof(Member));
+		private SimiasAccessLogger accessLog = new SimiasAccessLogger("Passphrase",null);
 
 		[ FlagsAttribute ]
 		private enum EncryptionBlobFlag
@@ -1145,6 +1146,7 @@ namespace Simias.Storage
 			Member member = domain.GetMemberByID(UserID);
 			
 			log.Debug("ServerSetPassPhrase user-name:{0}...userID={1}",member.Name, UserID);
+			accessLog.LogAccess("ServerSetPassPhrase","Setting Passphrase","Starting",member.Name);
 						
 			if(EncryptedCryptoKey !=null)
 			{
@@ -1176,6 +1178,7 @@ namespace Simias.Storage
 			this.properties.ModifyNodeProperty(prty);			
 			
 			domain.Commit(this);
+			accessLog.LogAccess("ServerSetPassPhrase","Setting Passphrase","Completed",member.Name);
 			
 		}
 		

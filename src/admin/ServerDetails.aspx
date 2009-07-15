@@ -338,7 +338,7 @@
 							<asp:LinkButton
 								ID="SyncNowButton" 
 								Runat="server" 
-								CssClass="syncnowbutton"
+								CssClass="ifolderbuttons"
 								Enabled="True"
 								/>
 						</th>

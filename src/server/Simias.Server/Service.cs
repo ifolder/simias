@@ -224,6 +224,7 @@ namespace Simias.Server
 
 		public void CheckStoreAndLoadRA()
 		{
+			SimiasAccessLogger accessLog = new SimiasAccessLogger("Service","Loading RA's");
 			Store store = Store.GetStore();
 			//Load the RSA for the domain - need to see how this can be migrated --FIXME
                         if(store.DefaultDomain != null)
@@ -255,12 +256,14 @@ namespace Simias.Server
                                                 }
                                                 //Simias.Security.CertificateStore.StoreRACertificate (raCert.GetRawCertData(), raCert.GetName().ToLower(), true);
                                                 Simias.Security.CertificateStore.StoreRACertificate (raCert.GetRawCertData(), Path.GetFileNameWithoutExtension(file).ToLower(), true);
+						accessLog.LogAccess("CheckStoreAndLoadRA","Loading RecoveryAgent","-",raCert.GetName());
                                         }
                                 }
                         }
                         catch (Exception e)
                         {
                                 log.Error (e.ToString());
+				accessLog.LogAccess("CheckStoreAndLoadRA","Failed Loading RecoveryAgent","-","-");
                         }
 
                         Simias.Security.CertificateStore.LoadRACertsFromStore(); //this loads all Certs including RA - but client will not have RA
