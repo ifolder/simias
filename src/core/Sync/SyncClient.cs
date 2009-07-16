@@ -2503,6 +2503,13 @@ namespace Simias.Sync
 					log.Info("PathTooLongException occured: Detailed StackTrace is {0} ", pex.ToString());
 					eventPublisher.RaiseEvent(new FileSyncEventArgs(collection.ID, ObjectType.File, false, file.Name, 0,0,0, Direction.Downloading,SyncStatus.PathTooLong));
 				}
+                catch (WebException we)
+                {
+                    //This is to handle any webException while performing upload/download
+                    //not to remove node from workarray in this case
+                    //To remove if required, check the error message explicitly
+                    Log.log.Debug(we, "Failed Downloading File, WebException");
+                }   
 				catch (Exception ex)
 				{
 			                workArray.RemoveNodeFromServer(nodeID, merge);
@@ -2880,7 +2887,14 @@ namespace Simias.Sync
 					//do not know why this the following (1 line) exists
 					workArray.RemoveNodeFromServer(nodeID);
 				}
-				catch (Exception ex)
+                catch (WebException we)
+                {
+                    //This is to handle any webException while performing upload/download and 
+                    //not to remove node from workarray in this case
+                    //if required,To remove, check the error message explicitly
+                    Log.log.Debug(we, "Failed Uploading File, WebException");
+                }
+                catch (Exception ex)
 				{
 			                workArray.RemoveNodeToServer(nodeID);
 					Log.log.Debug(ex, "Failed Uploading File");
