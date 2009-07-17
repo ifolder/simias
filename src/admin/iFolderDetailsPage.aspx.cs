@@ -917,6 +917,13 @@ namespace Novell.iFolderWeb.Admin
                                                 TopNav.ShowError( GetString( "ERRORIFOLDERTRANSFEREXCEPTION" ));
                                                 return;
                                         }
+				
+					//Check for the location of this ifolder, if location is not on this server then change the URL
+                        		iFolderLocation = web.GetiFolderLocation(iFolderID);
+                        		UriBuilder remoteurl = new UriBuilder(iFolderLocation);
+                        		remoteurl.Path = (new Uri(web.Url)).PathAndQuery;
+                        		web.Url = remoteurl.Uri.ToString();
+					
 					web.SetiFolderOwner( iFolderID, memberID, (AdoptButton.Visible && !AdoptButton.Enabled) );
 				}
 				catch ( Exception ex )
