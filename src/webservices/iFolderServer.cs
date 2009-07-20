@@ -87,6 +87,11 @@ namespace iFolder.WebService
 	public class iFolderServer
 	{
 		/// <summary>
+		/// iFolder Log Instance
+		/// </summary>
+		private static readonly ISimiasLog log = SimiasLogManager.GetLogger(typeof(iFolderServer));
+
+		/// <summary>
 		/// Server ID
 		/// </summary>
 		public string ID;
@@ -984,38 +989,27 @@ namespace iFolder.WebService
 					break;
 			}
 			
-			ICSList members = domain.Search(BaseSchema.ObjectName, pattern, searchOperation);
 
-			// build the result list
-			ArrayList list = new ArrayList();
+			Simias.Storage.SearchPropertyList SearchPrpList = new Simias.Storage.SearchPropertyList();
+			SearchPrpList.Add(BaseSchema.ObjectName, pattern, searchOperation);
+			SearchPrpList.Add(BaseSchema.ObjectType, NodeTypes.MemberType, SearchOp.Equal);
+			SearchPrpList.Add(PropertyTags.Types, HostNode.HostNodeType, SearchOp.Equal);
+			ICSList searchList = domain.Search(SearchPrpList);
+			DateTime t1= DateTime.Now;
+			SearchState searchState = new SearchState( domain.ID, searchList.GetEnumerator() as ICSEnumerator, searchList.Count );
+			int total = searchList.Count;	
 			int i = 0;
-
-			foreach(ShallowNode sn in members)
+			if(index > 0)
+				searchState.Enumerator.SetCursor(Simias.Storage.Provider.IndexOrigin.SET, index);
+			Member member = null;
+			ArrayList list = new ArrayList();
+			foreach(ShallowNode sn in searchList)
 			{
-			  try
-			  {
-				// throw away non-members
-				if (sn.IsBaseType(NodeTypes.MemberType))
-				{
-					Member member = new Member(domain, sn);
-
-					if (member.IsType(HostNode.HostNodeType))
-					{
-						HostNode node = new HostNode(member);
-
-					        if ((i >= index) && ((max <= 0) || i < (max + index)))
-						    //&& ((isMaster && node.IsMasterHost) || (isLocal && node.IsLocalHost)))
-						{
-							list.Add(new iFolderServer(node));
-						}
-
-						++i;
-					}
-				}
-			  }
-			  catch {
-				//ignore
-			  }
+				if(max != 0 && i++ >= max )
+					break;
+				member = new Member(domain, sn);
+				HostNode node = new HostNode(member);
+				list.Add(new iFolderServer(node));
 			}
 
 			return new iFolderServerSet(list.ToArray(typeof(iFolderServer)) as iFolderServer[], i);

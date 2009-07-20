@@ -70,7 +70,6 @@ FLMUNICODE *cs_flaim_type_name[] =
 	(FLMUNICODE*)L"tmst",
 	(FLMUNICODE*)L"blob" 
 };
-
 CS_FIELD_DEF propertyArray[] =
 {
 	{CS_Id_Node_Type,			CS_Name_Node_Type,		CS_Type_Node_Type},
@@ -80,6 +79,7 @@ CS_FIELD_DEF propertyArray[] =
 	{CS_Id_CollectionId,		CS_Name_CollectionId,	CS_Type_CollectionId},
 	{CS_Id_Size,				CS_Name_Size,			CS_Type_Size},
 	{CS_Id_PFlags,				CS_Name_PFlags,			CS_Type_PFlags},
+	{CS_Id_DN_Value,				CS_Name_DN_Value,			CS_Type_DN_Value},
 };
 
 FLMUNICODE *CSPTypeStringString = CSP_Type_String_String;
@@ -1096,4 +1096,152 @@ RCODE CSPStore::Search(FLMUNICODE *pCollectionId, FLMUNICODE *pProperty, FLMINT 
 	*ppIterator = pIterator;
 	return (rc);
 } // CSPStore::Search()
+
+RCODE CSPStore::MQSearch(FLMUNICODE *pCollectionId, FLMUNICODE *pProperty, FLMINT op, FLMUNICODE *pValue, FLMUNICODE *pType,FLMUNICODE *pProperty1, FLMINT op1, FLMUNICODE *pValue1, FLMUNICODE *pType1, FLMUNICODE *pProperty2, FLMINT op2, FLMUNICODE *pValue2, FLMUNICODE *pType2, FLMUNICODE *pProperty3, FLMINT op3, FLMUNICODE *pValue3, FLMUNICODE *pType3, FLMUINT qryCount, FLMBOOL caseSensitive, FLMUINT *pCount, CSPObjectIterator **ppIterator)
+{
+	RCODE				rc = FERR_OK;
+	HFCURSOR			cursor = 0;
+	FLMUINT				fieldId;
+	FLMUINT				sec_fieldId;
+	CSPObjectIterator	*pIterator = 0;
+	CSPValue			*pCspValue;
+	CSPValue			*sec_pCspValue;
+	FLMBOOL				includeColId = true;
+
+
+	pCspValue = CSPStoreObject::CreateProperty(pValue, pProperty, CSPStore::StringToType(pType));
+
+	if (pCspValue)
+	{
+		rc = NameToId(pProperty, &fieldId);
+		if (RC_OK(rc))
+		{
+			rc = FlmCursorInit(m_hFlaim, FLM_DATA_CONTAINER, &cursor);
+			if (RC_OK(rc))
+			{
+				FLMUINT indexId;
+				// Setup the index to use
+				if (RC_OK(m_pDB->GetIndexId(pProperty, fieldId, &indexId)))
+				{
+					FlmCursorConfig(cursor, FCURSOR_SET_FLM_IX, (void *)indexId, NULL);
+				}
+
+				if (caseSensitive)
+				{
+					rc = FlmCursorSetMode(cursor, FLM_WILD);
+				}
+				rc = FlmCursorAddField(cursor, fieldId, 0);
+				if (RC_OK(rc))
+				{
+					rc = FlmCursorAddOp(cursor, (QTYPES)op,	0);
+					if (RC_OK(rc))
+					{
+						rc = FlmCursorAddValue(cursor, pCspValue->GetSearchType(),	pCspValue->SearchVal(), pCspValue->SearchSize());
+						if (pCollectionId && RC_OK(rc))
+						{
+							includeColId = false;
+							rc = FlmCursorAddOp(cursor, FLM_AND_OP, 0);
+							if (RC_OK(rc))
+							{
+								rc = FlmCursorAddField(cursor, CS_Id_CollectionId, 0);
+								if (RC_OK(rc))
+								{
+									rc = FlmCursorAddOp(cursor, FLM_EQ_OP,	0);
+									if (RC_OK(rc))
+									{
+										rc = FlmCursorAddValue(cursor, FLM_UNICODE_VAL,	pCollectionId, 0);
+									}
+								}
+							}
+						}
+					}
+				}
+				if(qryCount >= 2)
+				{
+					sec_pCspValue = CSPStoreObject::CreateProperty(pValue1, pProperty1, CSPStore::StringToType(pType1));
+					rc=NameToId(pProperty1, &sec_fieldId);
+					if(RC_OK(rc))
+					{
+						rc = FlmCursorAddOp(cursor, FLM_AND_OP, 0);
+						if(RC_OK(rc))
+						{
+							rc = FlmCursorAddField(cursor, sec_fieldId, 0);
+							if(RC_OK(rc))
+							{
+								rc = FlmCursorAddOp(cursor, (QTYPES)op1, 0);
+								if(RC_OK(rc))
+								{
+									rc = FlmCursorAddValue(cursor, sec_pCspValue->GetSearchType(),      sec_pCspValue->SearchVal(), sec_pCspValue->SearchSize());
+								}
+							}
+						}
+						
+					}
+				}
+				if(qryCount >= 3)
+				{
+					sec_pCspValue = CSPStoreObject::CreateProperty(pValue2, pProperty2, CSPStore::StringToType(pType2));
+					rc=NameToId(pProperty2, &sec_fieldId);
+					if(RC_OK(rc))
+					{
+						rc = FlmCursorAddOp(cursor, FLM_AND_OP, 0);
+						if(RC_OK(rc))
+						{
+							rc = FlmCursorAddField(cursor, sec_fieldId, 0);
+							if(RC_OK(rc))
+							{
+								rc = FlmCursorAddOp(cursor, (QTYPES)op2, 0);
+								if(RC_OK(rc))
+								{
+									rc = FlmCursorAddValue(cursor, sec_pCspValue->GetSearchType(),      sec_pCspValue->SearchVal(), sec_pCspValue->SearchSize());
+								}
+							}
+						}
+						
+					}
+				}
+				if(qryCount >= 4)
+				{
+					sec_pCspValue = CSPStoreObject::CreateProperty(pValue3, pProperty3, CSPStore::StringToType(pType3));
+					rc=NameToId(pProperty3, &sec_fieldId);
+					if(RC_OK(rc))
+					{
+						rc = FlmCursorAddOp(cursor, FLM_AND_OP, 0);
+						if(RC_OK(rc))
+						{
+							rc = FlmCursorAddField(cursor, sec_fieldId, 0);
+							if(RC_OK(rc))
+							{
+								rc = FlmCursorAddOp(cursor, (QTYPES)op3, 0);
+								if(RC_OK(rc))
+								{
+									rc = FlmCursorAddValue(cursor, sec_pCspValue->GetSearchType(),      sec_pCspValue->SearchVal(), sec_pCspValue->SearchSize());
+								}
+							}
+						}
+						
+					}
+				}
+				if (RC_OK(rc))
+				{
+					rc = FlmCursorRecCount(cursor, pCount);
+					pIterator = new CSPObjectIterator(cursor, *pCount, includeColId);
+				}
+				FlmCursorFree(&cursor);
+			}
+		}
+		else
+		{
+			// No properties exist with the specified name.
+			rc = FERR_OK;
+			*pCount = 0;
+			pIterator = new CSPObjectIterator(NULL, *pCount, includeColId);
+		}
+		delete pCspValue;
+	}
+
+	*ppIterator = pIterator;
+	return (rc);
+
+} // CSPStore::MQSearch()
 

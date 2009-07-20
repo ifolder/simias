@@ -761,6 +761,8 @@ namespace iFolder.WebService
 			Store store = Store.GetStore();
 			
 			CatalogEntry[] catalogEntries;
+			ICSList searchList = null;
+			int total = 0;
 
 			// admin ID
 			Domain domain = store.GetDomain(store.DefaultDomain);
@@ -792,40 +794,37 @@ namespace iFolder.WebService
 					break;
 			}
 	
-			if( accessID == adminID )	
-				catalogEntries = Catalog.GetAllEntriesByName (pattern, searchOperation);
-			else
-				catalogEntries = Catalog.GetAllEntriesByGroupAdminID(accessID, pattern, searchOperation);
-
-
-			// build the result list
 			ArrayList list = new ArrayList();
-
 			int i=0;
-			foreach(CatalogEntry ce in catalogEntries)
- 			{
-			   if( ce.Type != "Collection" )
-			   {
-				try 
-			    	{
-					if ((i >= index) && (((max <= 0) || i < (max + index))))
-				   	{
-						iFolder ifolder = new iFolder(ce, null);
-						ifolder.Preference = iFolderUser.GetAdminRights(accessID, ifolder.OwnerID);
-				   		list.Add(ifolder);			   
-				   	} 
-				   	++i;
-			    	} 
-	        	        catch ( Exception e )
-			    	{
-				       //Use Better filtering: Any non collection entry should be discarded.
-				       continue;
-			        }
-			   }
-				
+			if( accessID == adminID )	
+			{
+				searchList = Catalog.GetAllEntriesByName (pattern, searchOperation);
+				total = searchList.Count;
+				SearchState searchState = new SearchState( domain.ID, searchList.GetEnumerator() as ICSEnumerator, searchList.Count );
+				if(index > 0)
+					searchState.Enumerator.SetCursor(Simias.Storage.Provider.IndexOrigin.SET, index);
+				foreach(ShallowNode sn in searchList)
+				{
+					if(max != 0 && i++ >= max )
+						break;
+					CatalogEntry cEntry = Catalog.ConvertToCataloEntry( sn );
+					iFolder ifolder = new iFolder(cEntry, null);
+					ifolder.Preference = iFolderUser.GetAdminRights(accessID, ifolder.OwnerID);
+				   	list.Add(ifolder);			   
+				}
+			}
+			else
+			{
+				catalogEntries = Catalog.GetAllEntriesByGroupAdminID(accessID, pattern, searchOperation, index, max, out total);
+				foreach(CatalogEntry cEntry in catalogEntries)
+				{
+					iFolder ifolder = new iFolder(cEntry, null);
+					ifolder.Preference = iFolderUser.GetAdminRights(accessID, ifolder.OwnerID);
+				   	list.Add(ifolder);			   
+				}
 			}
 
-			return new iFolderSet((iFolder[])list.ToArray(typeof(iFolder)), i);
+			return new iFolderSet((iFolder[])list.ToArray(typeof(iFolder)), total);
 		}
 
 		/// <summary>
@@ -841,6 +840,8 @@ namespace iFolder.WebService
 		{
 			Store store = Store.GetStore();
 			CatalogEntry[] catalogEntries;
+			string OrphanedOwnerProperty = "OrphOwnerDN";
+			string MemberProperty = "mid";
 
 			// Get the default domain.
 			Domain domain = store.GetDomain( store.DefaultDomain );
@@ -884,40 +885,28 @@ namespace iFolder.WebService
 					
 					regex = new Regex(pattern, RegexOptions.IgnoreCase);
 				}
-
-				if( accessID == null )	
-					catalogEntries = Catalog.GetAllEntriesByName (pattern, searchOperation);
-				else
-					catalogEntries = Catalog.GetAllEntriesByGroupAdminID(accessID, pattern, searchOperation);
-				//catalogEntries = Catalog.GetAllEntriesByName (pattern, searchOperation);
-
-				// build the result list
+				Simias.Storage.SearchPropertyList SearchPrpList = new Simias.Storage.SearchPropertyList();
 				ArrayList list = new ArrayList();
-
-				int i=0;
-				foreach(CatalogEntry ce in catalogEntries)
+				int i = 0;
+				int total = 0;
+				SearchPrpList.Add(OrphanedOwnerProperty, "*", SearchOp.Exists);
+				SearchPrpList.Add(BaseSchema.ObjectName, pattern, searchOperation);
+				if(accessID != null)
+					SearchPrpList.Add(MemberProperty, accessID, SearchOp.Equal);
+				ICSList searchList = Catalog.Search( SearchPrpList );
+		
+				total = searchList.Count;
+				SearchState searchState = new SearchState( domain.ID, searchList.GetEnumerator() as ICSEnumerator, searchList.Count );
+				if( index != 0 )
+					searchState.Enumerator.SetCursor(Simias.Storage.Provider.IndexOrigin.SET, index);
+				foreach(ShallowNode sn in searchList)
 				{
-					try
-					{
-						if (ce.OrphanedOwnerDN != null)
-						{
-						    if ((i >= index) && (((max <= 0) || i < (max + index))))
-						    {
-
-							list.Add(new iFolder(ce, accessID));
-							++i;
-						    }
-						} 
-					}
-					catch ( Exception e )
-					{
-						continue;
-					}
-	
+					if(max != 0 && i++ >= max )
+						break;
+					list.Add(new iFolder(Catalog.ConvertToCataloEntry(sn), accessID));
 				}
 			
-				return new iFolderSet((iFolder[])list.ToArray(typeof(iFolder)), i);
-
+				return new iFolderSet((iFolder[])list.ToArray(typeof(iFolder)), total);
 			}
 			else 
 				throw new Exception ("ifolder.cs : Can not get the default domain for the store. ");

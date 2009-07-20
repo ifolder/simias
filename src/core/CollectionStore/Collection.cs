@@ -54,23 +54,57 @@ using Persist = Simias.Storage.Provider;
 
 namespace Simias.Storage
 {
-    /// <summary>
-    /// The security status of the collection. This is a bitmap representing Encryption, 
-    /// SSL and other forms of security the collection is capable of
-    ///
-    /// </summary>
-    public enum SecurityStatus : int
-    {
-        Encryption = 0x0001,
-        SSL = 0x0002,
-        UNSET = 0x0000
-    };
+    	/// <summary>
+    	/// The security status of the collection. This is a bitmap representing Encryption, 
+    	/// SSL and other forms of security the collection is capable of
+    	///
+    	/// </summary>
+    	public enum SecurityStatus : int
+    	{
+        	Encryption = 0x0001,
+        	SSL = 0x0002,
+        	UNSET = 0x0000
+    	};
 
-    public enum SecurityStatusMask : int
-    {
-        Encryption = 0x0001, // yet to be set
-        SSL = 0xfffd
-    };
+    	public enum SecurityStatusMask : int
+    	{
+        	Encryption = 0x0001, // yet to be set
+        	SSL = 0xfffd
+    	};
+
+    	/// <summary>
+    	/// SearchPropertyList class will be used to support MultiQuery Search.
+    	/// </summary>
+	public class SearchPropertyList
+	{
+		public ArrayList PropList;
+		public ArrayList SearchOpList;	
+		public SearchPropertyList()
+		{
+			PropList = new ArrayList();
+			SearchOpList = new ArrayList();	
+		}
+
+		public void Add(string propertyName, string propertyValue, SearchOp searchOperator)
+		{
+                       	Property prop = new Property(propertyName, propertyValue );
+			PropList.Add(prop);
+			SearchOpList.Add(searchOperator);
+		}
+
+		public void Add(string propertyName, int propertyValue, SearchOp searchOperator)
+		{
+                       	Property prop = new Property(propertyName, propertyValue );
+			PropList.Add(prop);
+			SearchOpList.Add(searchOperator);
+		}
+
+		public void Clean()
+		{
+			PropList.Clear();
+			SearchOpList.Clear();
+		}
+	}
 
 	/// <summary>
 	/// A Collection object is contained by a Store object and describes a relationship between the objects
@@ -3356,6 +3390,48 @@ namespace Simias.Storage
 		}
 
 		/// <summary>
+		/// Gets the Member's all parent group DN List
+		/// </summary>
+		/// <param name="dn">Member ID</param>
+		/// <returns>Returns all Members parent group DN's
+		/// </returns>
+		public string[] GetMemberFamilyDNList( string DN )
+		{
+                        Member member = GetMemberByDN(DN);
+                        ArrayList entries = new ArrayList();
+			if(member != null)
+			{
+                        	string groupList = String.Empty;
+                        	try
+                        	{
+                                	groupList = member.Properties.GetSingleProperty( "UserGroups" ).Value as string;
+                        	}
+                        	catch{}
+                        	if(groupList != String.Empty && groupList != "")
+                       	 	{
+                                	string[] groupArray = groupList.Split(new char[] { ';' });
+                                	foreach(string group in groupArray)
+                                	{
+                                        	if(group != null && group != String.Empty && group != "")
+                                        	{
+                                                	string[] subGroup = GetMemberFamilyDNList(group);
+							if(subGroup != null)
+                                                		foreach(string groupID in subGroup)
+                                                       			entries.Add( groupID );
+							subGroup =  GetGroupsSubgroupList(group);
+							if(subGroup != null)
+                                                		foreach(string groupID in subGroup)
+                                                       			entries.Add( groupID );
+                                        	}
+                                	}
+                        	}
+                        	entries.Add(DN);
+			}
+
+                        return (string[])entries.ToArray( typeof( string ) );
+		}
+
+		/// <summary>
 		/// Gets the groupids of a deleted member i.e. groups which he belonged to before deletion
 		/// this method is useful after deleted user is disabled in ifolder domain and all his group belonging informations are removed
 		/// </summary>
@@ -3448,6 +3524,61 @@ namespace Simias.Storage
 		}
 
 		/// <summary>
+		/// Gets the Groups subgroup DN list
+		/// </summary>
+		/// <param name="dn">Parent group DN</param>
+		/// <returns>Returns all Groups subgroup DN list
+		/// </returns>
+		public string[] GetGroupsSubgroupList( string DN)
+		{
+                        Member member = GetMemberByDN(DN);
+                        ArrayList entries = new ArrayList();
+                        string memberList = String.Empty;
+			if(member != null && member.GroupType != null)
+			{
+                        	try
+                        	{
+					MultiValuedList mvl = member.Properties.GetProperties( "MembersList" );
+					if( mvl != null && mvl.Count > 0)
+					{
+						foreach( Property p in mvl )
+						{
+							if( p != null)
+							{
+								Member tmpMember = GetMemberByDN(p.Value as string);
+								if(tmpMember != null && tmpMember.GroupType != null)
+								{
+									string subgroupDN = null;
+									try
+									{
+										subgroupDN = tmpMember.Properties.GetSingleProperty( "DN" ).Value as string;
+									}
+									catch{}	
+									if(subgroupDN != null)
+									{
+										string[] subGroup = GetGroupsSubgroupList(subgroupDN);
+										if(subGroup != null)
+										{
+											foreach(string groupDN in subGroup)
+											{
+												entries.Add( groupDN );
+											}
+										}
+									}
+								}	
+							}
+						}
+					
+					}
+                        	}
+                        	catch{}
+                        	entries.Add(DN);
+			}
+
+                        return (string[])entries.ToArray( typeof( string ) );
+		}
+
+		/// <summary>
 		/// Gets the Member objects with the specified access rights.
 		/// </summary>
 		/// <param name="rights">The access rights to search Members with.</param>
@@ -3465,7 +3596,19 @@ namespace Simias.Storage
 		/// will contain ShallowNode objects that represent Member objects.</returns>
 		public ICSList GetMemberList()
 		{
-			return Search( BaseSchema.ObjectType, NodeTypes.MemberType, SearchOp.Equal );
+                        Store store = Store.GetStore();
+                        Domain domain = store.GetDomain(store.DefaultDomain);
+
+			if( this.ID == domain.ID )
+			{
+				Simias.Storage.SearchPropertyList SearchPrpList = new Simias.Storage.SearchPropertyList();
+				SearchPrpList.Add(BaseSchema.ObjectName, "*", SearchOp.Begins);
+				SearchPrpList.Add(BaseSchema.ObjectType, NodeTypes.MemberType, SearchOp.Equal);
+				SearchPrpList.Add("DN","*", SearchOp.Exists);
+				return domain.Search(SearchPrpList);
+			}
+			else
+				return Search(BaseSchema.ObjectType, NodeTypes.MemberType, SearchOp.Equal);
 		}
 
 		/// <summary>
@@ -4188,6 +4331,17 @@ namespace Simias.Storage
 		}
 
 		/// <summary>
+		/// Searches the collection for the specified properties.  An enumerator is returned that
+		/// returns all of the ShallowNode objects that match the query criteria.
+		/// </summary>
+		/// <param name="property">Property objects list containing the value to search for.</param>
+		/// <returns>An ICSList object that contains the results of the search.</returns>
+		public ICSList Search( SearchPropertyList PropList)
+		{
+			return new ICSList( new NodeEnumerator( this, PropList) );
+		}
+
+		/// <summary>
 		/// Sets the Types property to the specified class type.
 		/// </summary>
 		/// <param name="node">Node object to set type on.</param>
@@ -4302,6 +4456,17 @@ namespace Simias.Storage
 				this.queryOperator = queryOperator;
 				Reset();
 			}
+
+			/// <summary>
+			/// Constructor for the NodeEnumerator object.
+			/// </summary>
+			/// <param name="collection">Collection object that this enumerator belongs to.</param>
+			/// <param name="property">Property objects list containing the data to search for.</param>
+			public NodeEnumerator( Collection collection, SearchPropertyList PropList)
+			{
+				this.collection = collection;
+				Reset(PropList);
+			} 
 			#endregion
 
 			#region Properties
@@ -4335,6 +4500,53 @@ namespace Simias.Storage
 				// Create a query object that will return a result set containing the children of this node.
 				Persist.Query query = new Persist.Query( collection.id, property.Name, queryOperator, property.SearchString, property.Type );
 				chunkIterator = collection.store.StorageProvider.Search( query );
+				if ( chunkIterator != null )
+				{
+					// Get the first set of results from the query.
+					int length = chunkIterator.GetNext( ref results );
+					if ( length > 0 )
+					{
+						// Set up the XML document that we will use as the granular query to the client.
+						XmlDocument nodeList = new XmlDocument();
+						nodeList.LoadXml( new string( results, 0, length ) );
+						nodeListEnumerator = nodeList.DocumentElement.GetEnumerator();
+					}
+					else
+					{
+						nodeListEnumerator = null;
+					}
+				}
+				else
+				{
+					nodeListEnumerator = null;
+				}
+			}
+
+			/// <summary>
+			/// Sets the enumerator to its initial position, which is before
+			/// the first element in the collection.
+			/// </summary>
+			public void Reset(SearchPropertyList searchPropList)
+			{
+				if ( disposed )
+				{
+					throw new DisposedException( this );
+				}
+
+				// Release previously allocated chunkIterator.
+				if ( chunkIterator != null )
+				{
+					chunkIterator.Dispose();
+				}
+
+				// Create a query object that will return a result set containing the children of this node.
+				ArrayList queryList = new ArrayList();
+				int cnt = 0;
+				foreach(Property prop in searchPropList.PropList)
+				{
+					queryList.Add(new Persist.Query( collection.id, prop.Name, (SearchOp)searchPropList.SearchOpList[cnt++], prop.SearchString, prop.Type ));
+				}
+				chunkIterator = collection.store.StorageProvider.MQSearch( (Persist.Query[])queryList.ToArray(typeof(Persist.Query)) );
 				if ( chunkIterator != null )
 				{
 					// Get the first set of results from the query.

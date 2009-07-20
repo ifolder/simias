@@ -318,8 +318,6 @@ namespace Simias.Server
 							log.Debug("This is a moving collection: {0}", args.Collection);
 							continue;
 						}
-						else
-							log.Debug("catalog event for {0}. Not a moving collection.", args.Collection);
 					}
 					try
 					{
@@ -401,26 +399,6 @@ namespace Simias.Server
 									        }
 										log.Debug( "Member {0} added to collection {1}", member.UserID, col.ID );
 									}
-
-									// DEBUG CODE
-									CatalogEntry[] entries = Catalog.GetAllEntriesByUserID( member.UserID );
-									foreach( CatalogEntry ce in entries )
-									{
-										log.Debug( "" );
-										log.Debug( "Catalog Entry" );
-										log.Debug( "\t{0}", ce.Name );
-										log.Debug( "\tCID: {0}", ce.CollectionID );
-										log.Debug( "\tHID: {0}", ce.HostID );
-
-										string[] members = ce.UserIDs;
-										log.Debug( "\tMembers" );
-										foreach( string userid in members )
-										{
-											log.Debug( "\t\t{0}", userid );
-										}
-										log.Debug( "" );
-									}
-									// END DEBUG CODE
 								}
 								catch( Exception mc )
 								{
@@ -886,28 +864,26 @@ namespace Simias.Server
 		/// Method to retrieve all catalog entry IDs the specified user
 		/// is a member of.
 		/// </summary>
-        /// <param name="UserID">userid</param>
-        /// <returns>catalog entryIDs for this userid</returns>
-		static public string[] GetAllEntryIDsByUserID( string UserID )
+        	/// <param name="UserID">userid</param>
+        	/// <returns>catalog entryIDs for this userid</returns>
+		static public CatalogEntry[] GetAllEntryIDsByUserID( string UserID )
 		{
 			Property midsProp = new Property( CatalogEntry.MemberProperty, UserID );
 			ICSList nodes = store.GetNodesByProperty( midsProp, SearchOp.Begins );
-			string[] entryids = new string[ nodes.Count ];
-			int x = 0;
+			ArrayList entries = new ArrayList();
 			foreach( ShallowNode sn in nodes )
 			{
-				entryids[ x++ ] = sn.ID;
+				entries.Add( new CatalogEntry( sn ) );
 			}
-
-			return entryids;
+			return entries.ToArray( typeof( CatalogEntry ) ) as CatalogEntry[];	
 		}
 
 		/// <summary>
 		/// Method to retrieve all catalog entries the specified user
 		/// is a member of.
 		/// </summary> 
-        /// <param name="UserID">userid</param>
-        /// <returns>catalog entry arrray for this userid</returns>
+        	/// <param name="UserID">userid</param>
+        	/// <returns>catalog entry arrray for this userid</returns>
 		static public CatalogEntry[] GetAllEntriesByUserID( string UserID )
 		{
 			ArrayList entries = new ArrayList();
@@ -1023,39 +999,56 @@ namespace Simias.Server
 		/// Method to retrieve all catalog entries the specified user
 		/// is a member of.
 		/// </summary> 
-		static public CatalogEntry[] GetAllEntriesByGroupAdminID( string UserID, string name, SearchOp searchOp )
+		static public CatalogEntry ConvertToCataloEntry( ShallowNode sn )
+		{
+			CatalogEntry CatEntry = new CatalogEntry( sn );
+			return CatEntry;
+		}
+
+		/// <summary>
+		/// Method to retrieve all catalog entries the specified user
+		/// is a member of.
+		/// </summary> 
+		static public CatalogEntry[] GetAllEntriesByGroupAdminID( string UserID, string name, SearchOp searchOp , int index, int max, out int total)
 		{
 			ArrayList entries = new ArrayList();
-			CatalogEntry[] parentEntries = GetAllEntriesByName(name, searchOp);
-			if( parentEntries.Length != 0)
+			ArrayList sortList = new ArrayList();
+			int i = 0;
+			Hashtable UniqueObjectsHashTable = new Hashtable();
+			Member groupadmin = domain.GetMemberByID(UserID);
+			Hashtable htForMonitoredUsers = groupadmin.GetMonitoredUsers(true);
+			string[] MonitoredUsers = new string[htForMonitoredUsers.Count];
+			htForMonitoredUsers.Keys.CopyTo(MonitoredUsers, 0);
+			foreach(string groupMember in MonitoredUsers)
 			{
-				Member groupadmin = domain.GetMemberByID(UserID);
-				Hashtable ht = groupadmin.GetMonitoredUsers(true);
-				if( ht== null || ht.Count == 0)
+				CatalogEntry[] catUserEntries = GetAllEntryIDsByUserID(groupMember);
+				foreach(CatalogEntry catUserEntry in catUserEntries)
 				{
-					return entries.ToArray( typeof( CatalogEntry ) ) as CatalogEntry[];
-				}
-				foreach( CatalogEntry entry in parentEntries)
-				{
-					if( entry == null || entry.OwnerID == null)
-					{		
-						continue;
-					}
-					if( ht.ContainsKey(entry.OwnerID))
+					if(!UniqueObjectsHashTable.ContainsKey(catUserEntry.CollectionID))
 					{
-						try
-						{
-							entries.Add( entry );
-						}
-						catch(Exception ex)
-						{
-							log.Info("GetAllEntriesByGroupAdminID  Exception: {0} stack: {1}", ex.Message, ex.StackTrace);
-						}
+						UniqueObjectsHashTable.Add(catUserEntry.CollectionID,"");
+						sortList.Add(catUserEntry);
 					}
 				}
 			}
-				
+			sortList.Sort();
+			total = sortList.Count;
+			foreach(CatalogEntry cEntry in sortList)
+			{
+				if (max == 0 || ((i >= index) && (i < (max + index))))
+					entries.Add(cEntry);
+				i++;
+			}
 			return entries.ToArray( typeof( CatalogEntry ) ) as CatalogEntry[];
+		}
+
+		/// <summary>
+		/// Implements Search for catalog
+		/// </summary> 
+        	/// <returns>catalog Search Result linst</returns>
+		static public ICSList Search(Simias.Storage.SearchPropertyList SearchPrpList)
+		{
+			return catalog.Search( SearchPrpList );
 		}
 
 		/// <summary>
@@ -1064,21 +1057,16 @@ namespace Simias.Server
         /// <param name="name">entryname</param>
         /// <param name="searchOp">search operation e.g. equals,contains etc</param>
         /// <returns>catalog entry array</returns>
-		static public CatalogEntry[] GetAllEntriesByName (string name, SearchOp searchOp)
+		static public ICSList GetAllEntriesByName (string name, SearchOp searchOp)
 		{
-			ArrayList entries = new ArrayList();
+                        Simias.Storage.SearchPropertyList SearchPrpList = new Simias.Storage.SearchPropertyList();
 
-			Property p = new Property( BaseSchema.ObjectName, name );
-
-			ICSList nodes = catalog.Search( p, searchOp );
-
-			foreach( ShallowNode sn in nodes )
-			{
-			    if (sn.Type != "Member" && sn.Type != "StoreFileNode") 
-				entries.Add( new CatalogEntry( sn ) );
-			}
-
-			return entries.ToArray( typeof( CatalogEntry ) ) as CatalogEntry[];
+                        SearchPrpList.Add(BaseSchema.ObjectName, name, searchOp);
+                        SearchPrpList.Add(BaseSchema.ObjectType, NodeTypes.MemberType, SearchOp.Not_Equal);
+                        SearchPrpList.Add(BaseSchema.ObjectType, NodeTypes.StoreFileNodeType, SearchOp.Not_Equal);
+                        SearchPrpList.Add(BaseSchema.ObjectType, NodeTypes.CollectionType, SearchOp.Not_Equal);
+			ICSList nodes = catalog.Search( SearchPrpList );
+			return nodes;
 		}
 
 		/// <summary>

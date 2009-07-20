@@ -1023,6 +1023,39 @@ namespace Simias.Storage
 		}
 
 		/// <summary>
+		/// Returns set of groups / subgroups owned by secondary admin
+		/// </summary>
+		public string[] GetMonitoredSubGroups()
+		{
+			string[] groups = GetMonitoredGroups();
+			ArrayList list = new ArrayList();
+			if( groups != null && groups.Length != 0 )
+			{
+				Store store = Store.GetStore();
+				Domain domain = store.GetDomain(store.DefaultDomain);
+				foreach(string group in groups)
+				{
+					Member groupObject = domain.GetMemberByID(group);
+					string dn = String.Empty;
+					try
+					{
+						dn = groupObject.Properties.GetSingleProperty( "DN" ).Value as string;
+					}
+					catch{}
+					if(dn != null)
+					{
+						string[] subgroups = domain.GetGroupsSubgroupList(dn);
+						foreach(string subgroup in subgroups)
+						{
+							list.Add(subgroup);
+						}
+					}
+				}
+			}
+			return (string[])list.ToArray( typeof( string ) );
+		}
+
+		/// <summary>
 		/// Given a member/group id, returns whether the current member is an admin for that.
 		/// </summary>
 		public bool IsGroupAdmin(string nodeid)

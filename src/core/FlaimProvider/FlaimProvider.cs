@@ -223,6 +223,16 @@ namespace Simias.Storage.Provider.Flaim
 			return Flaim.Search(query);
 		}
 
+		/// <summary>
+		/// Method used to search for Records using the specified multiple queries.
+		/// </summary>
+		/// <param name="query">Queries used for this search</param>
+		/// <returns></returns>
+		public IResultSet MQSearch(Query[] query)
+		{
+			return Flaim.MQSearch(query);
+		}
+
 
 		#endregion
 		

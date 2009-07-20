@@ -43,6 +43,215 @@ using Simias.Server;
 
 namespace iFolder.WebService
 {
+
+	/// <summary>
+	/// Class used to keep track of outstanding searches.
+	/// </summary>
+	internal class SearchState : IDisposable
+	{
+		#region Class Members
+		/// <summary>
+		/// Table used to keep track of outstanding search entries.
+		/// </summary>
+		static private Hashtable searchTable = new Hashtable();
+
+		/// <summary>
+		/// Indicates whether the object has been disposed.
+		/// </summary>
+		private bool disposed = false;
+
+		/// <summary>
+		/// Handle used to store and recall this context object.
+		/// </summary>
+		private string contextHandle = Guid.NewGuid().ToString();
+
+		/// <summary>
+		/// Identifier for the domain that is being searched.
+		/// </summary>
+		private string domainID;
+
+		/// <summary>
+		/// Object used to iteratively return the members from the domain.
+		/// </summary>
+		private ICSEnumerator enumerator;
+
+		/// <summary>
+		/// Total number of records contained in the search.
+		/// </summary>
+		private int totalRecords;
+
+		/// <summary>
+		/// The cursor for the caller.
+		/// </summary>
+		private int currentRecord = 0;
+
+		/// <summary>
+		/// The last count of records returned.
+		/// </summary>
+		private int previousCount = 0;
+		#endregion
+
+		#region Properties
+		/// <summary>
+		/// Indicates if the object has been disposed.
+		/// </summary>
+		public bool IsDisposed
+		{
+			get { return disposed; }
+		}
+
+		/// <summary>
+		/// Gets the context handle for this object.
+		/// </summary>
+		public string ContextHandle
+		{
+			get { return contextHandle; }
+		}
+
+		/// <summary>
+		/// Gets or sets the current record.
+		/// </summary>
+		public int CurrentRecord
+		{
+			get { return currentRecord; }
+			set { currentRecord = value; }
+		}
+
+		/// <summary>
+		/// Gets the domain ID for the domain that is being searched.
+		/// </summary>
+		public string DomainID
+		{
+			get { return domainID; }
+		}
+
+		/// <summary>
+		/// Gets or sets the last record count.
+		/// </summary>
+		public int LastCount
+		{
+			get { return previousCount; }
+			set { previousCount = value; }
+		}
+
+		/// <summary>
+		/// Gets the search iterator.
+		/// </summary>
+		public ICSEnumerator Enumerator
+		{
+			get { return enumerator; }
+		}
+
+		/// <summary>
+		/// Gets the total number of records contained by this search.
+		/// </summary>
+		public int TotalRecords
+		{
+			get { return totalRecords; }
+		}
+		#endregion
+
+		#region Constructor
+		/// <summary>
+		/// Initializes an instance of an object.
+		/// </summary>
+		/// <param name="domainID">Identifier for the domain that is being searched.</param>
+		/// <param name="enumerator">Search iterator.</param>
+		/// <param name="totalRecords">The total number of records contained in the search.</param>
+		public SearchState( string domainID, ICSEnumerator enumerator, int totalRecords )
+		{
+			this.domainID = domainID;
+			this.enumerator = enumerator;
+			this.totalRecords = totalRecords;
+
+			lock ( searchTable )
+			{
+				searchTable.Add( contextHandle, this );
+			}
+		}
+		#endregion
+
+		#region Private Methods
+		/// <summary>
+		/// Removes this SearchState object from the search table.
+		/// </summary>
+		private void RemoveSearchState()
+		{
+			lock ( searchTable )
+			{
+				// Remove the search context from the table and dispose it.
+				searchTable.Remove( contextHandle );
+			}
+		}
+		#endregion
+
+		#region Public Methods
+		/// <summary>
+		/// Returns a search context object that contains the state information for an outstanding search.
+		/// </summary>
+		/// <param name="contextHandle">Context handle that refers to a specific search context object.</param>
+		/// <returns>A SearchState object if a valid one exists, otherwise a null is returned.</returns>
+		static public SearchState GetSearchState( string contextHandle )
+		{
+			lock ( searchTable )
+			{
+				return searchTable[ contextHandle ] as SearchState;
+			}
+		}
+		#endregion
+
+		#region IDisposable Members
+		/// <summary>
+		/// Allows for quick release of managed and unmanaged resources.
+		/// Called by applications.
+		/// </summary>
+		public void Dispose()
+		{
+			RemoveSearchState();
+			Dispose( true );
+			GC.SuppressFinalize( this );
+		}
+
+		/// <summary>
+		/// Dispose( bool disposing ) executes in two distinct scenarios.
+		/// If disposing equals true, the method has been called directly
+		/// or indirectly by a user's code. Managed and unmanaged resources
+		/// can be disposed.
+		/// If disposing equals false, the method has been called by the 
+		/// runtime from inside the finalizer and you should not reference 
+		/// other objects. Only unmanaged resources can be disposed.
+		/// </summary>
+		/// <param name="disposing">Specifies whether called from the finalizer or from the application.</param>
+		private void Dispose( bool disposing )
+		{
+			// Check to see if Dispose has already been called.
+			if ( !disposed )
+			{
+				// Protect callers from accessing the freed members.
+				disposed = true;
+
+				// If disposing equals true, dispose all managed and unmanaged resources.
+				if ( disposing )
+				{
+					// Dispose managed resources.
+					enumerator.Dispose();
+				}
+			}
+		}
+		
+		/// <summary>
+		/// Use C# destructor syntax for finalization code.
+		/// This destructor will run only if the Dispose method does not get called.
+		/// It gives your base class the opportunity to finalize.
+		/// Do not provide destructors in types derived from this class.
+		/// </summary>
+		~SearchState()      
+		{
+			Dispose( false );
+		}
+		#endregion
+	}
+
 	/// <summary>
 	/// An iFolder User Result Set
 	/// </summary>
@@ -461,21 +670,6 @@ namespace iFolder.WebService
 		/// <returns>An iFolder User Set</returns>
 		public static iFolderUserSet GetUsers(string ifolderID, int index, int max, string accessID)
 		{
-			return GetUsers( ifolderID, index, max, accessID, false);
-		}
-
-
-		/// <summary>
-		/// Get the Members of an iFolder
-		/// </summary>
-		/// <param name="ifolderID">The iFolder ID</param>
-		/// <param name="index">The Search Start Index</param>
-		/// <param name="max">The Search Max Count of Results</param>
-		/// <param name="accessID">The Access User ID</param>
-		/// <param name="adminrequest">Whether the request is coming from web-admin/web-access</param>
-		/// <returns>An iFolder User Set</returns>
-		public static iFolderUserSet GetUsers(string ifolderID, int index, int max, string accessID, bool adminrequest)
-		{
 			Store store = Store.GetStore();
 
 			Domain domain = store.GetDomain(store.DefaultDomain);
@@ -494,78 +688,27 @@ namespace iFolder.WebService
 
 				if (c == null) throw new iFolderDoesNotExistException(ifolderID);
 			}
-			/// If the ifolderID == null, adminrequest true, and accessid not null, then add the members only for groups...
-			int usertype = -1;
-			string userid = null;
-			Hashtable ht = new Hashtable();
-
-			if( accessID != null && adminrequest )
-			{
-				usertype = 2; // groupadmin
-				userid = accessID;
-				accessID = null;
-				Domain dom = store.GetDomain(store.DefaultDomain);
-				Member mem = dom.GetMemberByID(userid);
-				ht = mem.GetMonitoredUsers(true);
-			}
-
-			if( ifolderID != null && userid != null)
-			{
-				/// Check for rights on ifolder ID.
-				if( ht.ContainsKey( c.Owner.UserID) == false)
-				{
-					return null;
-				}
-			}
 
 			// impersonate
 			iFolder.Impersonate(c, accessID);
 
-			// members
-			ICSList members = c.GetMemberList();
-			
-			// sort the list
-			ArrayList sortList = new ArrayList();
-			
-			foreach(ShallowNode sn in members)
-			{
-				sortList.Add(sn);
-			}
-			
-			sortList.Sort();
-
-			// build the result list
-			ArrayList list = new ArrayList();
+			ICSList searchList = c.GetMemberList();
+			SearchState searchState = new SearchState( domain.ID, searchList.GetEnumerator() as ICSEnumerator, searchList.Count );
+			int total = searchList.Count;	
 			int i = 0;
-
-			foreach(ShallowNode sn in sortList)
+			if(index > 0)
+				searchState.Enumerator.SetCursor(Simias.Storage.Provider.IndexOrigin.SET, index);
+			Member member = null;
+			ArrayList list = new ArrayList();
+			foreach(ShallowNode sn in searchList)
 			{
-				Member member = new Member(c, sn);
-
-				// Don't include the Host objects as iFolder users.
-				if (!member.IsType("Host"))
-				{
-					if ((i >= index) && (((max <= 0) || i < (max + index))))
-					{
-						if( usertype == 2 && ht.ContainsKey(member.UserID) == false)
-							continue;
-
-						/// Check if we can add the member...
-						Member tmpmember = domain.GetMemberByID(member.UserID);
-						if(tmpmember!= null)
-						{
-							iFolderUser user = new iFolderUser(member, c, domain);
-							if( usertype == 2)
-								user.Preference = GetAdminRights(userid, member.UserID);
-							list.Add(user);
-						}
-					}
-
-					++i;
-				}
+				member = new Member(domain, sn);
+				iFolderUser user = new iFolderUser(member, domain, domain);
+				list.Add(user);
+				if(i++ >= max )
+					break;
 			}
-
-			return new iFolderUserSet((iFolderUser[])list.ToArray(typeof(iFolderUser)), i);
+			return new iFolderUserSet((iFolderUser[])list.ToArray(typeof(iFolderUser)), total);
 		}
 
 		/// <summary>
@@ -626,17 +769,8 @@ namespace iFolder.WebService
 					break;
 			}
 			int usertype = -1;
-			string userid = null;
-			Hashtable ht = new Hashtable();
 			if( accessID != null && adminrequest)
-			{
 				usertype = 2; // groupadmin
-				userid = accessID;
-				accessID = null;
-				Domain dom = store.GetDomain(store.DefaultDomain);
-				Member mem = dom.GetMemberByID(userid);
-				ht = mem.GetMonitoredUsers(true);
-			}
 			
 			// search property
 			string searchProperty;
@@ -660,141 +794,142 @@ namespace iFolder.WebService
 					break;
 
 				case SearchProperty.GroupOnly:
-					searchProperty = PropertyTags.FullName;//PropertyTags.GroupType;
+					searchProperty = BaseSchema.ObjectName;//PropertyTags.GroupType;
 					break;
 
 				default:
-					searchProperty = PropertyTags.FullName;
+					searchProperty = BaseSchema.ObjectName;
 					break;
 			}
 			
 			// impersonate
 			Rights UserRight = iFolder.Impersonate(domain, accessID);
 
-			string[] GroupList = null;
-			if (accessID != null)
-				GroupList = domain.GetMemberFamilyList(accessID);
-			
 			//bool UserIsDomainOwner = (UserRight == Rights.Admin);
 
+			Simias.Storage.SearchPropertyList SearchPrpList = new Simias.Storage.SearchPropertyList();
 			ArrayList list = new ArrayList();
+			string iFolderServerUsers = null;
 			int i = 0;
+			int total = 0;
 
 			if(property == SearchProperty.HomeServerName)
 			{
-				int MaxiFolderServer = 100000;
-				iFolderServerSet iFSet = iFolderServer.GetServersByName(iFolderServerType.All, operation, pattern, 0, MaxiFolderServer);
+				iFolderServerSet iFSet = iFolderServer.GetServersByName(iFolderServerType.All, operation, pattern, 0, 1);
 				foreach(iFolderServer ifServer in iFSet.Items)
-				{
-					// create the search list
-					searchProperty = PropertyTags.HostID;
-					searchOperation = SearchOp.Equal;
-					ICSList searchList = domain.Search(searchProperty, ifServer.ID, searchOperation);
-			
-					foreach(ShallowNode sn in searchList)
-					{
-						if (sn.IsBaseType(NodeTypes.MemberType))
-						{
-							Member member = new Member(domain, sn);
-							bool GroupMatched = false;
-							// If the loggedin user is not root admin, then only go for next if condition
-							if(accessID != null && domain.GroupSegregated == "yes")
-							{
-								string [] TempGroupList = domain.GetMemberFamilyList(member.UserID);
-								foreach( string TempGroupDN in TempGroupList)
-								{
-									if( GroupList != null && Array.IndexOf(GroupList, TempGroupDN) > 0)
-									{
-										GroupMatched = true;
-										break;
-									}
-								}
-							}
-
-							// Don't include Host objects as iFolder users.
-							if (!member.IsType("Host"))
-							{
-								if(accessID == null  || (domain.GroupSegregated == "no" || (domain.GroupSegregated == "yes" && GroupMatched == true)) )
-								{
-									if ((i >= index) && (((max <= 0) || i < (max + index))))
-									{
-										if( usertype == 2 && ht.ContainsKey(member.UserID) == false)
-											continue;
-										iFolderUser user = new iFolderUser(member, domain, domain);
-										if( usertype == 2)
-											user.Preference = GetAdminRights(userid, member.UserID);
-										list.Add(user);
-									}
-									++i;
-								}
-
-							}
-						}
-					}
-				}
+					iFolderServerUsers = ifServer.ID;	
+				if(iFolderServerUsers == null)
+					return new iFolderUserSet((iFolderUser[])list.ToArray(typeof(iFolderUser)), 0);
 			}
-			else
+
+			if(accessID == null || ( usertype != 2  && domain.GroupSegregated != "yes" ))
 			{
-				// create the search list
-				ICSList searchList = domain.Search(searchProperty, pattern, searchOperation);
+				// Root Admin searching all the users to list a set of users
+				if(iFolderServerUsers == null)
+				{
+					SearchPrpList.Add(searchProperty, pattern, searchOperation);
+					if(property != SearchProperty.GroupOnly)
+					{
+						SearchPrpList.Add(BaseSchema.ObjectType, NodeTypes.MemberType, SearchOp.Equal);
+						SearchPrpList.Add("DN","*", SearchOp.Exists);
+					}
+					else
+						SearchPrpList.Add(PropertyTags.GroupType,"*", SearchOp.Exists);
+				}
+				else
+					SearchPrpList.Add(PropertyTags.HostID, iFolderServerUsers, SearchOp.Equal);
+				ICSList searchList = domain.Search(SearchPrpList);
+
+				total = searchList.Count;	
+				SearchState searchState = new SearchState( domain.ID, searchList.GetEnumerator() as ICSEnumerator, searchList.Count );
+				if(index > 0)
+					searchState.Enumerator.SetCursor(Simias.Storage.Provider.IndexOrigin.SET, index);
 				Member member = null;
-			
 				foreach(ShallowNode sn in searchList)
 				{
-				  try
-				  {
-					if (sn.IsBaseType(NodeTypes.MemberType))
+					if(max != 0 && i++ >= max )
+						break;
+					member = new Member(domain, sn);
+					iFolderUser user = new iFolderUser(member, domain, domain);
+					list.Add(user);
+				}
+			}
+			else if(accessID != null)
+			{
+				Hashtable UniqueObjectsHashTable = new Hashtable();
+				ArrayList sortList = new ArrayList();
+				Member memberObj = domain.GetMemberByID(accessID);
+				Member member = null;
+				string[] AdminGroups = null;
+				if(usertype == 2)
+				{
+					//secondary Admin and loggeded in to Web admin
+					AdminGroups = memberObj.GetMonitoredSubGroups();
+				}
+				else
+				{
+					// web access with segregated groups enabled
+					string dn = String.Empty;
+                                       	try
+                                       	{
+                                               	dn = memberObj.Properties.GetSingleProperty( "DN" ).Value as string;
+                                       	}
+                                       	catch{}
+					AdminGroups = domain.GetMemberFamilyDNList(dn);
+				}
+				if( AdminGroups != null && AdminGroups.Length != 0)
+				{
+
+					foreach(string group in AdminGroups)
+					{
+						if(iFolderServerUsers == null)
+							SearchPrpList.Add(searchProperty, pattern, searchOperation);
+						else
+							SearchPrpList.Add(PropertyTags.HostID, iFolderServerUsers, SearchOp.Equal);
+						SearchPrpList.Add("UserGroups",group, SearchOp.Contains);
+						ICSList searchList = domain.Search(SearchPrpList);
+						if(searchList != null)
+							foreach(ShallowNode sn in searchList)
+							{
+								if(!UniqueObjectsHashTable.ContainsKey(sn.ID))
+								{
+									UniqueObjectsHashTable.Add(sn.ID,"");
+									sortList.Add(sn);
+								}
+							}
+						SearchPrpList.Clean();
+						SearchPrpList.Add("DN", group, SearchOp.Equal);
+						if(iFolderServerUsers == null)
+							SearchPrpList.Add(searchProperty, pattern, searchOperation);
+						else
+							SearchPrpList.Add(PropertyTags.HostID, iFolderServerUsers, SearchOp.Equal);
+						searchList = domain.Search(SearchPrpList);
+						if(searchList != null)
+							foreach(ShallowNode sn in searchList)
+							{
+								if(!UniqueObjectsHashTable.ContainsKey(sn.ID))
+								{
+									UniqueObjectsHashTable.Add(sn.ID,"");
+									sortList.Add(sn);
+								}
+							}
+						SearchPrpList.Clean();
+					}
+				}
+				sortList.Sort();	
+				total = sortList.Count;	
+				foreach(ShallowNode sn in sortList)
+				{
+					if ((i >= index) && (i < (max + index)))
 					{
 						member = new Member(domain, sn);
-						bool GroupMatched = false;
-						if(domain.GroupSegregated == "yes")
-						{
-							string [] TempGroupList = domain.GetMemberFamilyList(member.UserID);
-							foreach( string TempID in TempGroupList)
-							{
-								if(GroupList != null && Array.IndexOf(GroupList, TempID) >= 0)
-								{
-									GroupMatched = true;
-									break;
-								}
-							}
-						}
-
-						// Don't include Host objects as iFolder users.
-						if (!member.IsType("Host"))
-						{
-							bool add = true;
-							if((property == SearchProperty.GroupOnly) && member.GroupType == null)
-							{
-									add = false;
-							}
-							// if search was based on groupandmembers, then add only group first.
-							if( add && ( accessID == null || (domain.GroupSegregated == "no" || (domain.GroupSegregated == "yes" && GroupMatched == true))) )
-							{
-								if ((i >= index) && (((max <= 0) || i < (max + index))))
-								{
-										if( usertype == 2 && ht.ContainsKey(member.UserID) == false)
-											continue;
-
-										iFolderUser user = new iFolderUser(member, domain, domain);
-										if( usertype == 2)
-											user.Preference = GetAdminRights(userid, member.UserID);
-										list.Add(user);
-								}
-
-								++i;
-							}
-		
-						}
+						list.Add(new iFolderUser(member, domain, domain));
 					}
-				  }
-				  catch {
-					log.Debug("Member information failed {0}", member.FN);
-					}
+					++i;
 				}
 			}
 
-			return new iFolderUserSet((iFolderUser[])list.ToArray(typeof(iFolderUser)), i);
+			return new iFolderUserSet((iFolderUser[])list.ToArray(typeof(iFolderUser)), total);
 		}
 
 

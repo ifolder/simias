@@ -45,6 +45,7 @@ namespace Simias.Storage.Provider.Flaim
 {
 	internal class Flaim4
 	{
+		static private readonly ISimiasLog log = SimiasLogManager.GetLogger( typeof( Flaim4 ) );
 		IntPtr					pStore;
 		static IntPtr			pDB;
 		string					DbPath;
@@ -444,6 +445,128 @@ namespace Simias.Storage.Provider.Flaim
 			return (rc);
 		}
 
+		[DllImport("FlaimWrapper", CharSet=CharSet.Unicode)]
+		private static extern FlaimError.Error FWMQSearch(IntPtr pStore, string collectionId, string name, int op, string value, string type, string name1, int op1, string value1, string type1, string name2, int op2, string value2, string type2, string name3, int op3, string value3, string type3, int QueryCount, int caseSensitive, out int count, out IntPtr pResultSet); 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="query"></param>
+		/// <param name="results"></param>
+		/// <returns></returns>
+		internal FlaimError.Error MQSearch(Query[] queryArray, out FlaimResultSet results, FlaimServer flaimServer)
+		{
+			FlaimError.Error rc = FlaimError.Error.FERR_OK;
+
+			results = null;
+			int		count = 0;
+			IntPtr		pFlaimResults = new IntPtr();
+			int[]		op = new int[queryArray.Length];
+			string[] 	sValue = new String[queryArray.Length];
+			string[] 	sName = new String[queryArray.Length];
+			string[] 	sType = new String[queryArray.Length];
+			int		caseSensitive = 0;
+			int 		arrayIndex =0;
+			
+			foreach(Query qry in queryArray)
+			{
+                                sValue[arrayIndex] = String.Copy(qry.Value);
+                                sName[arrayIndex] = String.Copy(qry.Property);
+                                sType[arrayIndex] = String.Copy(qry.Type.ToString());
+				switch (qry.Operation)
+				{
+					case SearchOp.Equal:
+						op[arrayIndex] = 103;		// FLM_EQ_OP
+						break;
+					case SearchOp.Not_Equal:
+						op[arrayIndex] = 108;		// FLM_NE_OP
+						break;
+					case SearchOp.Begins:
+						op[arrayIndex] = 105;		// FLM_MATCH_BEGIN_OP
+						break;
+					case SearchOp.Ends:
+						op[arrayIndex] = 106;		// FLM_MATCH_END_OP
+						break;
+					case SearchOp.Contains:
+						op[arrayIndex] = 107;		// FLM_CONTAINS_OP
+						break;
+					case SearchOp.Greater:
+						op[arrayIndex] = 111;		// FLM_GT_OP
+						break;
+					case SearchOp.Less:
+						op[arrayIndex] = 109;		// FLM_LT_OP
+						break;
+					case SearchOp.Greater_Equal:
+						op[arrayIndex] = 112;		// FLM_GE_OP
+						break;
+					case SearchOp.Less_Equal:
+						op[arrayIndex] = 110;		// FLM_LE_OP
+						break;
+					case SearchOp.Exists:
+						switch (qry.Type)
+						{
+							case Syntax.Boolean:
+								op[arrayIndex] = 112;
+								sValue[arrayIndex] = "0";
+								break;
+							case Syntax.Byte:
+							case Syntax.Char:
+							case Syntax.DateTime:
+							case Syntax.Int16:
+							case Syntax.Int32:
+							case Syntax.Int64:
+							case Syntax.SByte:
+							case Syntax.TimeSpan:
+							case Syntax.UInt16:
+							case Syntax.UInt32:
+							case Syntax.UInt64:
+								op[arrayIndex] = 111;		// FLM_GT_OP
+								sValue[arrayIndex] = Int64.MinValue.ToString();
+								break;
+							
+							case Syntax.Relationship:
+							case Syntax.String:
+							case Syntax.Uri:
+							case Syntax.XmlDocument:
+								op[arrayIndex] = 105;
+								sValue[arrayIndex] = "*";
+								break;
+	
+							case Syntax.Single:
+								op[arrayIndex] = 111;		// FLM_GT_OP
+								sValue[arrayIndex] = Single.MinValue.ToString();
+								break;
+						}
+						break;
+					case SearchOp.CaseEqual:
+						caseSensitive = 1;
+						op[arrayIndex] = 103;		// FLM_EQ_OP
+						break;
+				}
+
+				if( arrayIndex++ >= 3 )
+					break;
+			}
+
+			
+			if (op[0] != 0)
+			{
+				if(queryArray.Length == 1)		
+					rc = FWMQSearch(pStore, queryArray[0].CollectionId, sName[0], op[0], sValue[0], sType[0], null, 0, null, null, null, 0, null, null, null, 0, null, null, (int)1, caseSensitive, out count, out pFlaimResults);
+				else if(queryArray.Length == 2)
+					rc = FWMQSearch(pStore, queryArray[0].CollectionId, sName[0], op[0], sValue[0], sType[0], sName[1], op[1], sValue[1], sType[1], null, 0, null, null, null, 0, null, null, (int)2, caseSensitive, out count, out pFlaimResults);
+				else if(queryArray.Length == 3)
+					rc = FWMQSearch(pStore, queryArray[0].CollectionId, sName[0], op[0], sValue[0], sType[0], sName[1], op[1], sValue[1], sType[1], sName[2], op[2], sValue[2], sType[2], null, 0, null, null, (int)3, caseSensitive, out count, out pFlaimResults);
+				else if(queryArray.Length == 4)
+					rc = FWMQSearch(pStore, queryArray[0].CollectionId, sName[0], op[0], sValue[0], sType[0], sName[1], op[1], sValue[1], sType[1], sName[2], op[2], sValue[2], sType[2], sName[3], op[3], sValue[3], sType[3], (int)4, caseSensitive, out count, out pFlaimResults);
+				if (FlaimError.IsSuccess(rc))
+				{
+					results = new FlaimResultSet(pFlaimResults, count, flaimServer);
+				}
+			}
+			
+			return (rc);
+		}
+
 		[DllImport("FlaimWrapper")]
 		private static extern int FWCloseSearch(IntPtr ipResults);
 		/// <summary>
@@ -820,6 +943,22 @@ namespace Simias.Storage.Provider.Flaim
 			if (FlaimError.IsError(rc))
 			{
 				throw new SearchException(query.ToString());
+			}
+			return resultSet;
+		}
+
+		/// <summary>
+		/// Method used to search for Records using the specified multi queries.
+		/// </summary>
+		/// <param name="query">Queries used for this search</param>
+		/// <returns></returns>
+		internal IResultSet MQSearch(Query[] queryArray)
+		{
+			FlaimResultSet resultSet;
+			FlaimError.Error rc = Flaim.MQSearch(queryArray, out resultSet, this);
+			if (FlaimError.IsError(rc))
+			{
+				throw new SearchException(queryArray[0].ToString());
 			}
 			return resultSet;
 		}

@@ -248,14 +248,12 @@ namespace Simias.Security.Web
 					if ( context.User.Identity.IsAuthenticated )
 					{
 						// The user is authenticated, set it as the current principal on this thread.
-						log.Debug("AUTHENTICATED USER");
 						if( DomainAgent.blockedIPs != null)
 						{
 							string soapPath = context.Request.Headers[ "SOAPAction" ];
 							string soapMethod = ( soapPath != null ) ? Path.GetFileName( soapPath.Trim( trimChars ) ) : null;
 							if ( soapMethod == null )
 							{
-								log.Debug("Getting the web method");
 								// See if it was specified as a query parameter.
 								soapMethod = context.Request.QueryString[ "op" ];
 			

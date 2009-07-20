@@ -105,6 +105,9 @@ typedef enum
 #define CS_Name_PFlags				(FLMUNICODE*)L"Property Flags"
 #define CS_Type_PFlags				CSP_Type_Int
 #define CS_Id_PFlags				7
+#define CS_Name_DN_Value		(FLMUNICODE*)L"DN"
+#define CS_Type_DN_Value		CSP_Type_String
+#define CS_Id_DN_Value				8
 
 
 #define TYPE_LEVEL 0
@@ -259,6 +262,7 @@ public:
 	RCODE EndTrans();
 	RCODE GetObject(FLMUNICODE *pProperty, FLMUNICODE *pValue, int* pnChars, FLMUNICODE *pBuffer);
 	RCODE Search(FLMUNICODE *pCollectionId, FLMUNICODE *pProperty, FLMINT op, FLMUNICODE *pValue, FLMUNICODE *pType, FLMBOOL caseSensitive, FLMUINT *pCount, CSPObjectIterator **ppIterator);
+	RCODE MQSearch(FLMUNICODE *pCollectionId, FLMUNICODE *pProperty, FLMINT op, FLMUNICODE *pValue, FLMUNICODE *pType,FLMUNICODE *pProperty1, FLMINT op1, FLMUNICODE *pValue1, FLMUNICODE *pType1, FLMUNICODE *pProperty2, FLMINT op2, FLMUNICODE *pValue2, FLMUNICODE *pType2, FLMUNICODE *pProperty3, FLMINT op3, FLMUNICODE *pValue3, FLMUNICODE *pType3,FLMUINT qryCount, FLMBOOL caseSensitive, FLMUINT *pCount, CSPObjectIterator **ppIterator);
 	RCODE DeleteObject(FLMUNICODE *pId, int *pFlmId);
 	RCODE RegisterField(FLMUNICODE *pFieldName, FLMUINT type, FLMUINT* pFieldId);
 	RCODE AddIndex(FLMUNICODE *pFieldName, FLMUINT fieldId);

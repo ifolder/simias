@@ -115,6 +115,13 @@ namespace Simias.Storage.Provider
 		/// <returns></returns>
 		IResultSet Search(Query query);
 
+		/// <summary>
+		/// Method used to search for Records using the specified multiple queries.
+		/// </summary>
+		/// <param name="query">Queries used for this search</param>
+		/// <returns></returns>
+		IResultSet MQSearch(Query[] query);
+
 		#endregion
 
 

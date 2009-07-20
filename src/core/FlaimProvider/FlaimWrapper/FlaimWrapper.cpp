@@ -174,6 +174,11 @@ FLAIMWRAPPER_API int FWSearch(CSPStore *pStore, FLMUNICODE *pCollectionId, FLMUN
 	return (pStore->Search(pCollectionId, pName, op, pValue, pType, caseSensitive, pCount, ppResults));
 }
 
+FLAIMWRAPPER_API int FWMQSearch(CSPStore *pStore, FLMUNICODE *pCollectionId, FLMUNICODE *pName, FLMINT op, FLMUNICODE *pValue, FLMUNICODE *pType, FLMUNICODE *pName1, FLMINT op1, FLMUNICODE *pValue1, FLMUNICODE *pType1, FLMUNICODE *pName2, FLMINT op2, FLMUNICODE *pValue2, FLMUNICODE *pType2, FLMUNICODE *pName3, FLMINT op3, FLMUNICODE *pValue3, FLMUNICODE *pType3, FLMINT QueryCount, FLMBOOL caseSensitive, FLMUINT* pCount, CSPObjectIterator **ppResults)
+{
+	return (pStore->MQSearch(pCollectionId, pName, op, pValue, pType, pName1, op1, pValue1, pType1, pName2, op2, pValue2, pType2, pName3, op3, pValue3, pType3 ,QueryCount, caseSensitive, pCount, ppResults));
+}
+
 FLAIMWRAPPER_API void FWCloseSearch(CSPObjectIterator *pResults)
 {
 	if (pResults != 0)
