@@ -630,7 +630,7 @@ namespace iFolder.WebService
 							// proceed only when the local hostnode is same as the hostnode where user is provisioned
 							Member MemberOfGroup = domain.GetMemberByID(id);
 							HostNode hNode = MemberOfGroup.HomeServer;
-									
+							if( hNode != null )
 							if(hNode.IsLocalHost)
 							{
 								ICSList ColList = store.GetCollectionsByOwner(id);			
