@@ -146,6 +146,7 @@ namespace Simias.Sync
 		Thread				syncThread;
 		bool				shuttingDown;
 		bool				paused;
+		static EventPublisher	eventPublisher = new EventPublisher();
         public static string currentiFolderID = null;
         static Object lockobj = new Object();
 
@@ -458,6 +459,8 @@ namespace Simias.Sync
                             }
                             else
                             {
+				cClient.isSyncDisabled = true;
+				eventPublisher.RaiseEvent(new CollectionSyncEventArgs(cClient.collection.Name, cClient.collection.ID, Simias.Client.Event.Action.DisabledSync, true, false));
                                 log.Info("{0} : Sync Disabled.", cClient);
                             }
                         }
@@ -684,7 +687,7 @@ namespace Simias.Sync
 		HttpSyncProxy	service;
 		SyncWorkArray	workArray;
 		Store			store;
-		Collection		collection;
+		public Collection		collection;
 		bool			queuedChanges;
 		bool			serverAlive = true;
 		StartSyncStatus	serverStatus;
@@ -711,6 +714,7 @@ namespace Simias.Sync
 		public static bool	running = false;
 
 		Thread			scanThread;
+		public bool	        isSyncDisabled = false;
         
 
                 public enum StateMap : uint
@@ -761,6 +765,7 @@ namespace Simias.Sync
         }
 
         /// <summary>
+        /// Whether Synchronization enabled or not
         /// Whether Synchronization enabled or not
         /// </summary>
         internal bool SyncEnabled
@@ -899,7 +904,7 @@ namespace Simias.Sync
 		{
 			if (!stopping)
 			{
-                int seconds;
+                		int seconds;
 				if( !serverAlive )
 				{
 					// Check whether the server is up and logged-in by now...
@@ -908,19 +913,20 @@ namespace Simias.Sync
 				// If we had to yield put ourselves back on the queue.
 				if (Yield)
 				{
-                    if (resetSync)
-                    {
-                        log.Debug("Unsetting the resetSync flag.");
-                        resetSync = false;
-                        seconds = 5;
-                    }
-                    else
-                        seconds = 0;
+                    			if (resetSync)
+                    			{
+                        			log.Debug("Unsetting the resetSync flag.");
+                        			resetSync = false;
+                        			seconds = 5;
+                    			}
+                    			else
+                        			seconds = 0;
 				}
-				else if (!serverAlive)
+				else if ( !serverAlive || isSyncDisabled ) 
 				{
-                    //wait for 5mins for local collections and also if server is down
+                    			//wait for 5mins for local collections, sync disabled  and also if server is down
 					seconds = 300;
+					isSyncDisabled = false;
 				}
 				else 
 				{
@@ -931,6 +937,7 @@ namespace Simias.Sync
 						seconds = new Random().Next(20) + 10;
 					}
 				}
+
 				timer.Change(seconds * 1000, Timeout.Infinite);
 				yielded = false;//dredge the collection
 			}

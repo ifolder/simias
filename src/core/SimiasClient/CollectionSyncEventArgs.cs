@@ -54,10 +54,14 @@ namespace Simias.Client.Event
 		/// We are starting the local sync.
 		/// </summary>
 		StartLocalSync,
-        /// <summary>
-        ///  Password not provided.
-        /// </summary>
-        NoPassphrase = 4,
+        	/// <summary>
+        	///  Passphrase not provided.
+        	/// </summary>
+        	NoPassphrase = 4,
+        	/// <summary>
+        	///  Sync Disabled not provided.
+        	/// </summary>
+        	DisabledSync= 5,
 	};
 
 	/// <summary>
