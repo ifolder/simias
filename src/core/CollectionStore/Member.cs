@@ -2240,7 +2240,8 @@ namespace Simias.Storage
 
                         try
                         {
-				Interval = Simias.Policy.SyncInterval.GetInterval(collection);
+                            Simias.Policy.SyncInterval interval = Simias.Policy.SyncInterval.Get(collection);
+                            Interval = interval.Interval;
                         }
                         catch
                         {
