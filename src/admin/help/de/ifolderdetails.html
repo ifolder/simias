@@ -1,11 +1,11 @@
 <html>
 
    <head>
-     <meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+     <meta http-equiv="content-type" content="text/html;charset=UTF-8">
      
      <!-- Novell iFolder 3.6 Web Admin Help  --> 
    
-     <title>iFolder Details</title>  	 
+     <title>iFolder-Ordnerdetails</title>  	 
      
  
      <!-- Metadata -->
@@ -54,513 +54,425 @@
 <!-- This is the start of the Help Content Layer --> <div id="helpcontent"> <!-- The Page Heading uses CSS style "head3b". This creates an H3 header
             with a line beneath it.
        --> 
-  <h3 class="head3b">Managing iFolder Details</h3>
-  <p> Use this interface to 
-manage the ownership, policies, and membership of a selected iFolder. </p><BLOCKQUOTE CLASS="blockquote"><P><A HREF="#general" TARGET="_self">Viewing iFolder Details
-</A> <BR><A HREF="#members" TARGET="_self">Members 
- </A><BR><A HREF="#policies" TARGET="_self">Policies</A> </P></BLOCKQUOTE>
+  <h3 class="head3b">Verwalten von iFolder-Ordnerdetails</h3>
+  <p> Verwenden Sie diese Schnittstelle, um die Eigent&uuml;merschaft, Mitgliedschaft und Richtlinien f&uuml;r einen ausgew&auml;hlten iFolder-Ordner zu verwalten. </p>
+  <p> <b>Hinweis</b>: Ein sekund&auml;rer Administrator kann die Richtlinien eines ausgew&auml;hlten iFolder-Ordners verwalten, basierend auf den Rechten, die ein sekund&auml;rer Administrator auf dem ausgew&auml;hlten iFolder-Ordner hat.</p><BLOCKQUOTE CLASS="blockquote"><P><A HREF="#general" TARGET="_self">Anzeigen von iFolder-Ordnereigenschaften</A>  <BR><A HREF="#members" TARGET="_self">Mitglieder</A><BR><A HREF="#policies" TARGET="_self">Richtlinien</A> </P></BLOCKQUOTE>
   
  
-  <H4><A NAME="general"></A>Viewing iFolder Details</H4>
-  <P>You 
-can view the following information:</P><TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TD VALIGN="TOP">
-        <P>Type</P>
+  <H4><A NAME="general">Anzeigen von iFolder-Ordnerdetails</A></H4>
+  <P>Es k&ouml;nnen folgende Informationen angezeigt werden:</P><TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Beschreibung</P></TD></TR><TD VALIGN="TOP">
+        <P>Typ</P>
       </TD><TD>
-        <P><img src="../../images/ifolder.png" width="16" height="16" alt="Folder icon">  Normal iFolder</P>
-		<P><img src="../../images/encrypt_ifolder.gif" width="16" height="16" alt="Folder icon"> Encrypted iFolder</P>
-		<p><img src="../../images/ifolder_user_16.gif" width="16" height="16" alt="Shared icon"> 
-          Shared iFolder<br>
+        <P><img src="../../images/ifolder.png" width="16" height="16" alt="Ordnersymbol"> Normaler iFolder-Ordner</P>
+		<P><img src="../../images/encrypt_ifolder.gif" width="16" height="16" alt="Ordnersymbol"> Verschl&uuml;sselter iFolder-Ordner</P>
+		<p><img src="../../images/ifolder_user_16.gif" width="16" height="16" alt="Symbol &quot;Freigegeben&quot;"> Freigegebener iFolder-Ordner<br>
       </TD><TR><TD VALIGN="TOP">
-        <P>iFolder Name</P>
+        <P>iFolder-Ordnername</P>
       </TD><TD>
-        <P>The name assigned to the iFolder </P>
+        <P>Der Name, der dem iFolder-Ordner zugewiesen wurde </P>
       </TD><TR><TD VALIGN="TOP">
-        <P>Description (editable)</P>
+        <P>Beschreibung  (bearbeitbar)</P>
       </TD><TD>
-        <P>A short description about the iFolder. You can edit the description 
-          and click Save to save the changes.</P>
-      </TD><TR><TD VALIGN="TOP"><P>Owner 
+        <P>Eine kurze Beschreibung des iFolder-Ordners. Sie k&ouml;nnen die Beschreibung bearbeiten und auf &quot;Speichern&quot; klicken, um die &Auml;nderungen zu speichern.</P>
+      </TD><TR><TD VALIGN="TOP"><P>Eigent&uuml;mer 
 </P></TD><TD>
-        <P>The username of the owner of the selected iFolder. Owner can be an 
-          individual user or an LDAPGroup. If an LDAPGroup is the owner of the 
-          iFolder, then all the members of the LDAPGroup will have the same access 
-          rights. For orphaned iFolders, the iFolder Admin user is made the owner 
-          until the iFolder can be reassigned or deleted.</P>
-        <p>Click the owner's username link to view his or her user account details.</p> 
-        <P>The iFolder owner has the Full Control right to the iFolder. The owner manages 
-          membership and access rights for users, and can remove the Full Control 
-          right for any member.</P>
-      </TD></TR><TR><TD VALIGN="TOP"><P>Path</P></TD><TD><P>The 
-actual location of the iFolder and its data on the server. For example:</P><P>/var/opt/novell/ifolder3/simias/SimiasFiles/<I>e84fdc6e-3d51-49df-ae3f-8c9213c76994</I>/&lt;iFolder_Name&gt;</P><P>In 
-this example, <I>e84fdc6e-3d51-49df-ae3f-8c9213c76994</I> is the unique ID of 
-the iFolder share.</P></TD><TR><TD VALIGN="TOP">
-        <P>Modified</P>
+        <P>Der Benutzername des Eigent&uuml;mers des ausgew&auml;hlten iFolder-Ordners. Der Eigent&uuml;mer kann ein einzelner Benutzer oder eine LDAP-Gruppe sein. Wenn eine LDAP-Gruppe Eigent&uuml;mer des iFolders ist, haben alle Mitglieder der LDAP-Gruppe dieselben Zugriffsrechte. Bei iFolder-Ordnern ohne Eigent&uuml;mer wird der Adminbenutzer zum Eigent&uuml;mer, bis der iFolder-Ordner neu zugewiesen oder gel&ouml;scht werden kann.</P>
+        <p>Klicken Sie auf den Link des Benutzernamens des Eigent&uuml;mers, um die Kontodetails des entsprechenden Benutzers anzuzeigen.</p> 
+        <P>Der Eigent&uuml;mer des iFolder-Ordners besitzt die Rechte &quot;Vollst&auml;ndige Kontrolle&quot; f&uuml;r den iFolder-Ordner. Der Eigent&uuml;mer verwaltet die Mitgliedschaft und die Zugriffsrechte der Benutzer und hat die M&ouml;glichkeit, die Rechte &quot;Vollst&auml;ndige Kontrolle&quot; eines beliebigen Mitglieds aufzuheben.</P>
+      </TD></TR><TR><TD VALIGN="TOP"><P>Pfad</P></TD><TD><P>Der tats&auml;chliche Speicherort des iFolder-Ordners und dessen Daten auf dem Server. Beispiel:</P><P>/var/opt/novell/ifolder3/simias/SimiasFiles/<I>e84fdc6e-3d51-49df-ae3f-8c9213c76994</I>/&lt;iFolder-Ordnername&gt;</P><P>In diesem Beispiel entspricht <I>e84fdc6e-3d51-49df-ae3f-8c9213c76994</I> der eindeutigen ID der iFolder-Ordnerfreigabe.</P></TD><TR><TD VALIGN="TOP">
+        <P>Ge&auml;ndert</P>
       </TD><TD>
-        <P>The last modified time and date of the iFolder.</P>
+        <P>Datum und Uhrzeit, zu dem/der der iFolder-Ordner zuletzt ge&auml;ndert wurde.</P>
       </TD><TR><TD VALIGN="TOP">
-        <P>Directories</P>
+        <P>Verzeichnisse</P>
       </TD><TD>
-        <P>Total number of directories in the iFolder.</P>
+        <P>Gesamtanzahl der Verzeichnisse in diesem iFolder-Ordner.</P>
       </TD><TR><TD VALIGN="TOP">
-        <P>Files</P>
+        <P>Dateien</P>
       </TD><TD>
-        <P>Total number of files in the iFolder.</P>
+        <P>Gesamtanzahl der Dateien in diesem iFolder-Ordner.</P>
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>Orphan</P>
+        <P>Bezugslos</P>
       </TD>
       <TD> 
-        <P>Yes indicates that iFolder is an orphan.</P>
-        <P>For orphaned iFolders, the iFolder Admin becomes the owner until the 
-          iFolder can be reassigned to a new owner or is deleted.</P>
+        <P>&quot;Ja&quot; bedeutet, dass der iFolder-Ordner keinen Eigent&uuml;mer hat.</P>
+        <P>Bei iFolder-Ordnern ohne Eigent&uuml;mer wird der Adminbenutzer zum Eigent&uuml;mer, bis der iFolder-Ordner neu zugewiesen oder gel&ouml;scht werden kann.</P>
       </TD></TR></TABLE>
 	  
-  <H3><a name="members"></a>Members </H3>
-  <p> You can view the members' name, type and access rights assigned to them. 
-    You are allowed to add or delete an owner, assign ownership, and set access 
-    rights to a selected member. 
-  <H4><A NAME="share"></A>Adding 
-a Member</H4><OL><LI>
-      <P>On the iFolder Details page, click Add.</P>
+  <H3><a name="members"></a>Mitglieder </H3>
+  <p> Es k&ouml;nnen Name und Typ der Mitglieder sowie die ihnen zugewiesenen Zugriffsrechte angezeigt werden. Sie d&uuml;rfen Eigent&uuml;mer hinzuf&uuml;gen oder l&ouml;schen, jemandem die Eigent&uuml;merschaft zuweisen und f&uuml;r ausgew&auml;hlte Mitgliedern Zugriffsrechte festlegen.  
+  <H4><A NAME="share"></A>Hinzuf&uuml;gen eines Mitglieds</H4><OL><LI>
+      <P>Klicken Sie auf der Seite &quot;iFolder-Details&quot; auf &quot;Hinzuf&uuml;gen&quot;.</P>
     </LI><LI>
-      <P>Search for the user or LDAPGroup you want to make a member, select the 
-        check box next to the user's name, then click Add.<BR>
+      <P>Suchen Sie den Benutzer bzw. die LDAP-Gruppe, der bzw. die Mitglied werden soll, aktivieren Sie das Kontrollk&auml;stchen neben dem Namen des Benutzers und klicken Sie anschlie&szlig;end auf &quot;Hinzuf&uuml;gen&quot;.<BR>
         <BR>
-        By default, the user or the LDAPGroup is given Read Only access to the 
-        iFolder.</P>
+        Standardm&auml;&szlig;ig erh&auml;lt der Benutzer bzw. die LDAP-Gruppe das Zugriffsrecht &quot;Nur Lesen&quot; f&uuml;r den iFolder-Ordner.</P>
     </LI><LI>
-      <P>(Optional) Select the User check box, then select Rights and specify 
-        the Access right as Admin, Read/Write, or Read Only , then click Set.<BR>
+      <P>(Optional) Aktivieren Sie das Kontrollk&auml;stchen &quot;Benutzer&quot;, w&auml;hlen Sie dann &quot;Rechte&quot; und legen Sie die gew&uuml;nschten Zugriffsrechte fest: &quot;Admin&quot;, &quot;Lesen/Schreiben&quot; oder &quot;Nur Lesen&quot;. Klicken Sie anschlie&szlig;end auf &quot;Festlegen&quot;.<BR>
         <BR>
-        Wait for the page to refresh. The user's icon should reflect the new access 
-        right. </P>
+        Warten Sie, w&auml;hrend die Seite aktualisiert wird. Das Symbol des Benutzers sollte den neuen Zugriffsrechten entsprechen.  </P>
     </LI></OL>
-<H4>Understanding iFolder Access Rights </H4>
-<p>The iFolder client supports the owner and three levels of access for members of an iFolder:</p>
-<P><B><FONT SIZE="-1">NOTE:</FONT></B> <FONT SIZE="-1">Members of an LDAPGroup inherit the access rights set for that LDAPGroup.</FONT></P>
+<H4>Grundlegendes zu iFolder-Zugriffsrechten </H4>
+<p>Der iFolder-Client unterst&uuml;tzt das Eigent&uuml;mer-Attribut sowie drei Zugriffsstufen f&uuml;r Mitglieder eines iFolder-Ordners:</p>
+<P><B><FONT SIZE="-1">Hinweis:</FONT></B> <FONT SIZE="-1"> Die Mitglieder einer LDAP-Gruppe erben die f&uuml;r diese LDAP-Gruppe festgelegten Zugriffsrechte.</FONT></P>
   <BLOCKQUOTE> 
-    <P><B>Owner<BR>
-      </B>Only one user or LDAPGroup serves as the owner of an iFolder. This is 
-      typically the user or any member of the LDAPGroup who created the iFolder. 
-      If the owner is an LDAPGroup and in that case, all the members of the LDAPGroup 
-      will have the ownership on that iFolder. The owner user or members of the 
-      owner LDAPGroup can use the iFolder client to transfer ownership to another 
-      member of the iFolder. The iFolder Admin user can transfer ownership to 
-      any user or LDAPGroup on the iFolder server.</P>
-    <P>The owner of an iFolder has the Full Control right. This user or LDAPGroup 
-      has read/write access to the iFolder, manages membership and access rights 
-      for member users and LDAPGroups, and can remove the Full Control right for 
-      any member. With an enterprise server, the disk space used by the owner&#146;s 
-      iFolders count against the owner&#146;s user disk quotas on the enterprise 
-      server.</P>
-    <P>If a user or LDAPGroup is deleted from the iFolder system, the iFolders 
-      owned by the user or LDAPGroup are orphaned. Orphaned iFolders are temporarily 
-      assigned to the iFolder Admin user as owner. Membership and synchronization 
-      continues for other users and LDAPGroup members while the iFolder Admin 
-      user determines whether an orphaned iFolder should be deleted or assigned 
-      to a new owner.</P>
-  <P><B>Full Control</B><BR>
-      A member of the shared iFolder, with the Full Control access right. The 
-      user or LDAPGroup with the Full Control right has read/write access to the 
-      iFolder and manages membership and access rights for all users except the 
-      owner.</P>
-  <P><B>Read/Write</B><BR>
-    A member of the shared iFolder, with the Read/Write access right to directories and files in the iFolder.</P>
-  <P><B>Read Only</B><BR>
-    A member of the shared iFolder, with the Read Only access right to directories and files in the iFolder. This member can copy an iFolder file to another location and modify it outside the iFolder.</P>
+    <P><B>Eigent&uuml;mer<BR>
+      </B>Nur ein einziger Benutzer bzw. eine einzige LDAP-Gruppe fungiert als Eigent&uuml;mer eines iFolder-Ordners. &Uuml;blicherweise handelt es sich dabei um den Benutzer oder das Mitglied der LDAP-Gruppe, der bzw. das den iFolder-Ordner erstellte. Falls es sich bei dem Eigent&uuml;mer um eine LDAP-Gruppe handelt, haben alle Mitglieder der LDAP-Gruppe Anteil an der Eigent&uuml;merschaft des betreffenden iFolders. Der Benutzer mit Eigent&uuml;mer-Attribut bzw. die Mitglieder der LDAP-Gruppe mit Eigent&uuml;mer-Attribut kann/k&ouml;nnen &uuml;ber den iFolder-Client das Eigentum auf ein anderes Mitglied des iFolder-Ordners &uuml;bertragen. Der iFolder-Adminbenutzer kann die Eigent&uuml;merschaft auf einen beliebigen Benutzer bzw. eine beliebige LDAP-Gruppe des iFolder-Servers &uuml;bertragen.</P>
+    <P>Der Eigent&uuml;mer eines iFolder-Ordners verf&uuml;gt &uuml;ber das Recht &quot;Vollst&auml;ndige Kontrolle&quot;. Dieser Benutzer bzw. diese LDAP-Gruppe verf&uuml;gt &uuml;ber Lese-/Schreibzugriff f&uuml;r den jeweiligen iFolder-Ordner, verwaltet die Mitgliedschaft sowie die Zugriffsrechte der Mitglieder und LDAP-Gruppen und kann das Recht &quot;Vollst&auml;ndige Kontrolle&quot; f&uuml;r jedes Mitglied aufheben. Bei einem Enterprise Server wird der vom Eigent&uuml;mer benutzte Speicherplatz f&uuml;r iFolder-Ordner von der Speicherplatzquote des Benutzers auf dem Enterprise Server abgezogen. </P>
+    <P>Wird ein Benutzer oder eine LDAP-Gruppe aus dem iFolder-System gel&ouml;scht, verbleiben die iFolder-Ordner des Benutzers bzw. der LDAP-Gruppe bezugslos (ohne Eigent&uuml;mer). iFolder-Ordner ohne Eigent&uuml;mer werden vor&uuml;bergehend dem iFolder-Adminbenutzer zugewiesen. Die Mitgliedschaft und die Synchronisierung werden f&uuml;r die anderen Benutzer und Mitglieder der LDAP-Gruppe fortgesetzt, bis der Adminbenutzer entscheidet, ob der iFolder-Ordner ohne Eigent&uuml;mer gel&ouml;scht oder einem anderen Eigent&uuml;mer zugewiesen werden soll.</P>
+  <P><B>Vollst&auml;ndige Kontrolle</B><BR>
+      Ein Mitglied des freigegebenen iFolder-Ordners mit dem Zugriffsrecht &quot;Vollst&auml;ndige Kontrolle&quot;. Der Benutzer bzw. die LDAP-Gruppe mit dem Zugriffsrecht &quot;Vollst&auml;ndige Kontrolle&quot; besitzt Lese-/Schreibzugriff f&uuml;r den iFolder-Ordner und kann die Mitgliedschaft und die Zugriffsrechte f&uuml;r alle Benutzer au&szlig;er dem Eigent&uuml;mer verwalten.</P>
+  <P><B>Lesen/Schreiben</B><BR>
+    Ein Mitglied des freigegebenen iFolder-Ordners mit dem Zugriffsrecht &quot;Lesen/Schreiben&quot; f&uuml;r Verzeichnisse und Dateien im iFolder-Ordner.</P>
+  <P><B>Nur Lesen</B><BR>
+    Ein Mitglied des freigegebenen iFolder-Ordners, mit dem Zugriffsrecht &quot;Nur Lesen&quot; f&uuml;r Verzeichnisse und Dateien im iFolder-Ordner. Dieses Mitglied kann Dateien aus einem iFolder-Ordner an einen anderen Speicherort kopieren und au&szlig;erhalb des iFolder-Ordners &auml;ndern.</P>
 </BLOCKQUOTE>
-<p>The following table describes the capabilities associated with each level of access for users.</p>
+<p>In der folgenden Tabelle werden die mit den einzelnen Zugriffsrechten f&uuml;r Benutzer verbundenen M&ouml;glichkeiten beschrieben.</p>
   <TABLE WIDTH="93%" BORDER="1">
     <tr class="HEADERROW"> 
-      <th  CLASS="tablehead2">Capabilities</th>
-      <th  CLASS="tablehead2">Owner</th>
-      <th  CLASS="tablehead2">Full&nbsp;Control</th>
-      <th  CLASS="tablehead2">Read/Write</th>
-      <th  CLASS="tablehead2">Read&nbsp;Only</th>
+      <th  CLASS="tablehead2">M&ouml;glichkeiten</th>
+      <th  CLASS="tablehead2">Eigent&uuml;mer</th>
+      <th  CLASS="tablehead2">Vollst&auml;ndige Kontrolle</th>
+      <th  CLASS="tablehead2">Lesen/Schreiben</th>
+      <th  CLASS="tablehead2">Nur Lesen</th>
     </tr>
     <tr > 
       <td  scope="row"> 
-        <p >Reassign ownership to another user or LDAPGroup</p>
+        <p >Zuweisen der Eigent&uuml;merschaft an einen anderen Benutzer oder eine andere LDAP-Gruppe</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Ja</p>
       </td>
       <td >
-        <p >No</p>
+        <p >Nein</p>
       </td>
       <td >
-        <p >No</p>
+        <p >Nein</p>
       </td>
       <td >
-        <p >No</p>
-      </td>
-    </tr>
-    <tr > 
-      <td  scope="row"> 
-        <p >Set a quota for the iFolder</p>
-      </td>
-      <td >
-        <p >Yes</p>
-      </td>
-      <td >
-        <p >No</p>
-      </td>
-      <td >
-        <p >No</p>
-      </td>
-      <td >
-        <p >No</p>
+        <p >Nein</p>
       </td>
     </tr>
     <tr > 
       <td  scope="row"> 
-        <p >Make the iFolder available to other users (sharing)</p>
+        <p >Festlegen der Quote f&uuml;r den iFolder-Ordner</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Ja</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Nein</p>
       </td>
       <td >
-        <p >No</p>
+        <p >Nein</p>
       </td>
       <td >
-        <p >No</p>
+        <p >Nein</p>
       </td>
     </tr>
     <tr > 
       <td  scope="row"> 
-        <p >Make the iFolder unavailable to other users (stop sharing)</p>
+        <p >iFolder-Ordner anderen Benutzern zur Verf&uuml;gung stellen (Freigabe)</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Ja</p>
       </td>
       <td >
-        <p >Yes, except the owner</p>
+        <p >Ja</p>
       </td>
       <td >
-        <p >No</p>
+        <p >Nein</p>
       </td>
       <td >
-        <p >No</p>
+        <p >Nein</p>
       </td>
     </tr>
     <tr > 
       <td  scope="row"> 
-        <p >Assign iFolder access rights for other users or LDAPGroup</p>
+        <p >iFolder-Ordner anderen Benutzern nicht mehr zur Verf&uuml;gung stellen (Freigabe beenden)</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Ja</p>
       </td>
       <td >
-        <p >Yes, except the owner</p>
+        <p >Ja, mit Ausnahme des Eigent&uuml;mers</p>
       </td>
       <td >
-        <p >No</p>
+        <p >Nein</p>
       </td>
       <td >
-        <p >No</p>
+        <p >Nein</p>
       </td>
     </tr>
     <tr > 
       <td  scope="row"> 
-        <p >Read directories and files in the iFolder </p>
+        <p >Zuweisen von iFolder-Zugriffsrechten f&uuml;r andere Benutzer oder eine LDAP-Gruppe</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Ja</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Ja, mit Ausnahme des Eigent&uuml;mers</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Nein</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Nein</p>
       </td>
     </tr>
     <tr > 
       <td  scope="row"> 
-        <p >Add, modify, or delete directories and files in the iFolder</p>
+        <p >Lesen von Verzeichnissen und Dateien im iFolder-Ordner </p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Ja</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Ja</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Ja</p>
       </td>
       <td >
-        <p >No</p>
+        <p >Ja</p>
       </td>
     </tr>
     <tr > 
       <td  scope="row"> 
-        <p >Rename directories and files in an iFolder</p>
+        <p >Hinzuf&uuml;gen, &Auml;ndern und L&ouml;schen von Verzeichnissen und Dateien im iFolder-Ordner</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Ja</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Ja</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Ja</p>
       </td>
       <td >
-        <p >No</p>
+        <p >Nein</p>
       </td>
     </tr>
     <tr > 
       <td  scope="row"> 
-        <p >Rename the iFolder</p>
+        <p >Umbenennen von Verzeichnissen und Dateien in einem iFolder-Ordner</p>
       </td>
       <td >
-        <p >No</p>
+        <p >Ja</p>
       </td>
       <td >
-        <p >No</p>
+        <p >Ja</p>
       </td>
       <td >
-        <p >No</p>
+        <p >Ja</p>
       </td>
       <td >
-        <p >No</p>
+        <p >Nein</p>
       </td>
     </tr>
     <tr > 
       <td  scope="row"> 
-        <p >Set up an iFolder on multiple computers</p>
+        <p >Umbenennen des iFolder-Ordners</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Nein</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Nein</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Nein</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Nein</p>
       </td>
     </tr>
     <tr > 
       <td  scope="row"> 
-        <p >Revert an iFolder (do not participate on a local computer)</p>
+        <p >Einrichten eines iFolder-Ordners auf mehreren Computern</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Ja</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Ja</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Ja</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Ja</p>
       </td>
     </tr>
     <tr > 
       <td  scope="row"> 
-        <p >Delete an available iFolder to decline participating</p>
+        <p >Zur&uuml;cksetzen eines iFolder-Ordners (keine Teilnahme auf lokalem Computer)</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Ja</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Ja</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Ja</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Ja</p>
       </td>
     </tr>
     <tr > 
       <td  scope="row"> 
-        <p >Delete the iFolder and delete the iFolder and its files from the server 
-          (make it a normal folder again and no longer share it with others)</p>
+        <p >L&ouml;schen eines verf&uuml;gbaren iFolder-Ordners zum Zur&uuml;ckweisen der Teilnahme</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Ja</p>
       </td>
       <td >
-        <p >No</p>
+        <p >Ja</p>
       </td>
       <td >
-        <p >No</p>
+        <p >Ja</p>
       </td>
       <td >
-        <p >No</p>
+        <p >Ja</p>
+      </td>
+    </tr>
+    <tr > 
+      <td  scope="row"> 
+        <p >L&ouml;schen des iFolder-Ordners sowie L&ouml;schen des iFolder-Ordners und der entsprechenden Dateien vom Server (Umwandlung in einen normalen Ordner und in Zukunft keine Freigabe f&uuml;r andere Benutzer)</p>
+      </td>
+      <td >
+        <p >Ja</p>
+      </td>
+      <td >
+        <p >Nein</p>
+      </td>
+      <td >
+        <p >Nein</p>
+      </td>
+      <td >
+        <p >Nein</p>
       </td>
     </tr>
   </table>
-<H4>Setting 
-  the iFolder Access Right for a Member</H4>
+<H4>Festlegen der Zugriffsrechte auf iFolder-Ordner f&uuml;r ein Mitglied</H4>
   
 <OL><LI>
-      <P>On the iFolder Details page, select the check box next to the member 
-        whose access right you want to manage.</P>
+      <P>Aktivieren Sie auf der Seite &quot;iFolder-Details&quot; das Kontrollk&auml;stchen neben dem Mitglied, dessen Zugriffsrechte Sie verwalten m&ouml;chten.</P>
     </LI><LI>
-      <P>Select the Rights drop-down menu, then select the Admin, Read/Write, 
-        or Read Only right.<BR>
-        <BR>Wait for the page to refresh. The user's icon should reflect the 
-new access right.</P></LI></OL>
-  <H4>Removing a Member</H4>
+      <P>W&auml;hlen Sie das Men&uuml; &quot;Rechte&quot; und anschlie&szlig;end die Rechte &quot;Admin&quot;, &quot;Lesen/Schreiben&quot; oder &quot;Nur Lesen&quot;.<BR>
+        <BR>Warten Sie, w&auml;hrend die Seite aktualisiert wird. Das Symbol des Benutzers sollte nun den neuen Zugriffsrechten entsprechen. </P></LI></OL>
+  <H4>Entfernen eines Mitglieds</H4>
 <ol>
-    <li>On the iFolder Details page, select the check box next to the member user's 
-      name.</li>
-    <li>Click Delete.</li>
+    <li>Aktivieren Sie auf der Seite &quot;iFolder-Details&quot; das Kontrollk&auml;stchen neben dem Benutzernamen des Mitglieds.</li>
+    <li>Klicken Sie auf &quot;L&ouml;schen&rdquo;.</li>
 </ol>
-<P>The user's local copy of the data remains on the 
-user's computer, but the user no longer has access to the server copy of the iFolder 
-data.</P><P> <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top" TITLE="Go to top"></A></P>
-	  <H4>Changing the Owner</H4>
-  <P>When you change the owner of an iFolder, the existing owner becomes a member 
-    of the iFolder and is assigned the Read/Write right. For orphaned iFolders, 
-    the iFolder Admin becomes the owner until the iFolder is reassigned to a new 
-    owner or deleted. If the new owner is not currently a member of the iFolder, 
-    a subscription notification is sent to the user's iFolder account.</P>
+<P>Die lokale Kopie der Daten verbleibt auf dem Computer des Benutzers; dieser hat jedoch keinen Zugriff mehr auf die iFolder-Daten auf dem Server.</P><P> <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Zur&uuml;ck zum Anfang" TITLE="Zur&uuml;ck zum Anfang"></A></P>
+	  <H4>&Auml;ndern des Eigent&uuml;mers</H4>
+  <P>Wenn Sie den Eigent&uuml;mer eines iFolder-Ordners &auml;ndern, wird der bestehende Eigent&uuml;mer zu einem Mitglied des iFolder-Ordners mit Lese-/Schreibrechten. Bei iFolder-Ordnern ohne Eigent&uuml;mer wird der Adminbenutzer zum Eigent&uuml;mer, bis der iFolder-Ordner einem neuen Eigent&uuml;mer zugewiesen oder gel&ouml;scht wird.  Wenn der neue Eigent&uuml;mer aktuell kein Mitglied des iFolder-Ordners ist, wird eine Benachrichtigung an sein iFolder-Konto gesendet.</P>
   <OL>
     <LI> 
-      <P>On the iFolder Details page, search for the user or LDAPGroup you want 
-        to assign as the new owner of the iFolder.</P>
+      <P>Suchen Sie auf der Seite &quot;iFolders-Details&quot; den Benutzer oder die LDAP-Gruppe, den bzw. die Sie zum neuen Eigent&uuml;mer des iFolder-Ordners machen m&ouml;chten. </P>
     </LI>
     <LI>
-      <P>Select the check box next to the user's name, then click <i>Owner</i>.</P>
+      <P>Aktivieren Sie das Kontrollk&auml;stchen neben dem Namen des Benutzers und klicken Sie dann auf <i>Eigent&uuml;mer</i>.</P>
     </LI>
     
   </OL>
-  <P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P>
-  <H3><A NAME="policy"></A>Policies</H3>
+  <P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Zur&uuml;ck zum Anfang"></A></P>
+  <H3><A NAME="policy"></A>Richtlinien</H3>
   
-  <P>The following table lists the policies you can manage for any given iFolder. 
-    Modify one or more of the following values, then click Save to apply the new settings: </P>
-<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
-        <P>Disable Synchronization &nbsp;</P>
+  <P>In der folgenden Tabelle werden die Richtlinien erkl&auml;rt, die Sie f&uuml;r die von Ihnen bestimmten iFolder-Ordner bestimmen k&ouml;nnen. &Auml;ndern Sie die folgenden Werte und klicken Sie auf &quot;Speichern&quot;, um die neuen Einstellungen zu speichern: </P>
+<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Beschreibung</P></TD></TR><TR><TD VALIGN="TOP">
+        <P>Synchronisierung deaktivieren</P>
       </TD><TD>
-        <P>Select this option to turn off synchronization, usually temporarily. 
+        <P>W&auml;hlen Sie diese Option aus, um die Synchronisierung (normalerweise vor&uuml;bergehend) zu deaktivieren. 
         </P>
-        <P>Deselect this option to allow the synchronization of data in the iFolder.</P>
-        <P>Default value: Enabled, Yes</P>
+        <P>Deaktivieren Sie diese Option, um die Synchronisierung der Daten im iFolder-Ordner zu aktivieren.</P>
+        <P>Standardwert: Aktiviert, Ja</P>
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>Disk Quota&nbsp;</P>
+        <P>Gesamte Festplattenquote</P>
       </TD><TD>
-        <P>Select the Limit check box, then specify the maximum size (in MB) for 
-          the selected iFolder.</P>
-        <P>If you enable System-wide iFolder quota or LDAPGroup level quota, a 
-          user's account quota overrides it, if the user quota is lower or higher 
-          than the LDAPGroup quota or system quota. </P>
-        <P>Default value: Disabled, No Limit</P>
+        <P>Aktivieren Sie das Kontrollk&auml;stchen &quot;Begrenzung&quot; und geben Sie die maximale Gr&ouml;&szlig;e (in MB) f&uuml;r den ausgew&auml;hlten iFolder-Ordner an.</P>
+        <P>Wenn Sie eine systemweite iFolder-Quote oder eine Quote auf der Ebene der LDAP-Gruppe aktivieren, wird diese von der Kontenquote eines Benutzers &uuml;berschrieben, wenn die Benutzerquote niedriger oder h&ouml;her ist als die f&uuml;r die LDAP-Gruppe bzw. das System g&uuml;ltige Quote. </P>
+        <P>Standardwert: Deaktiviert, Keine Begrenzung</P>
       </TD></TR><TR><TD VALIGN="TOP">
-        <P> Used</P>
-        <P>(View only)&nbsp;</P></TD><TD>
-        <P>Reports the space the iFolder data currently consumes.</P>
+        <P> Belegt</P>
+        <P>(Nur anzeigen)&nbsp;</P></TD><TD>
+        <P>Zeigt den aktuell von den iFolder-Daten benutzten Speicherplatz.</P>
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>Available</P>
-        <P>(View only)&nbsp;</P></TD><TD>
-        <P>Reports the space available on the server for the iFolder data.</P>
+        <P>Verf&uuml;gbar</P>
+        <P>(Nur anzeigen)&nbsp;</P></TD><TD>
+        <P>Zeigt den f&uuml;r iFolder-Daten verf&uuml;gbaren Speicherplatz auf dem Server.</P>
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>Effective</P>
-        <P>(View only)&nbsp;</P></TD><TD>
-        <P>Reports effective space available on the server for the iFolder data.</P>
+        <P>Effektiv</P>
+        <P>(Nur anzeigen)&nbsp;</P></TD><TD>
+        <P>Zeigt den effektiv f&uuml;r iFolder-Daten verf&uuml;gbaren Speicherplatz auf dem Server.</P>
       </TD></TR>
 	  <TR><TD VALIGN="TOP">
-        <p>File Size</p>
+        <p>Dateigr&ouml;&szlig;e</p>
       </TD>
-      <TD> <B>Limit</B><BR>
-          Specifies the maximum total file size (in MB) that an iFolder user 
-          is allowed to use, across all iFolders the user owns for the selected 
-          user account. <br>
+      <TD> <B>Begrenzung</B><BR>
+          Gibt die maximale Gesamtgr&ouml;&szlig;e (in MB) an, die ein iFolder-Benutzer f&uuml;r s&auml;mtliche iFolder-Ordner verwenden darf, deren Eigent&uuml;mer der Benutzer des ausgew&auml;hlten Kontos ist. <br>
           <BR>
-        <B>Effective</B><BR>
-        Effective file size allocated for the user.<br>
-		<ul><P><font size="-1"><b>IMPORTANT:</b> Users cannot successfully synchronize 
-          files of a size that would cause a quota to be exceeded. If they try 
-          to do so, only part of the file is synchronized, resulting in data corruption.</font></P></ul>
+        <B>Effektiv</B><BR>
+        Zeigt die diesem Benutzer effektiv zugeordnete Dateigr&ouml;&szlig;e an.<br>
+		<ul><P><font size="-1"><b>WICHTIG:</b> Die Synchronisierung von Dateien, die eine Quote &uuml;berschreiten, kann nicht ordnungsgem&auml;&szlig; durchgef&uuml;hrt werden. Falls ein Benutzer trotzdem versucht, eine solche Datei zu synchronisieren, wird nur ein Teil der Datei synchronisiert und die Daten werden besch&auml;digt.</font></P></ul>
       </TD></TR>
 	  <TR>
       <TD VALIGN="TOP"> 
-        <p>Excluded Files</p>
+        <p>Ausgeschlossene Dateien</p>
       </TD>
       <TD> 
-        <P>Specifies a list of file types to include or to exclude from synchronization 
-          for the selected iFolder.</P>
-        <p>The file manager files called thumbs.db and .DS_Store are never synchronized. 
+        <P>Listet Dateitypen auf, die in die Synchronisierung des ausgew&auml;hlten iFolder-Ordners eingeschlossen bzw. daraus ausgeschlossen werden sollen. </P>
+        <p>Die Dateien &quot;thumbs.db&quot; und &quot;.DS_Store&quot; des Dateimanagers werden nie synchronisiert. 
         </p>
     
-        <P>To add a file extension to the exclusion filter, type the extension 
-          (such as *.mpg), then click Add to apply the filter. </P>
-        <P>To exclude a file type from the restricted file types, select the check 
-          box adjacent to the File Name, then select the file type and click Delete.</P>
+        <P>Zum Hinzuf&uuml;gen einer Dateierweiterung zum Ausschlussfilter geben Sie die gew&uuml;nschte Dateierweiterung ein (Beispiel: &quot;.mpg) und klicken Sie anschlie&szlig;end auf &quot;Hinzuf&uuml;gen&quot;, um den Filter anzuwenden.  </P>
+        <P>Zum Entfernen eines Dateityps aus der Liste der auszuschlie&szlig;enden Dateitypen aktivieren Sie das Kontrollk&auml;stchen neben dem Dateinamen, w&auml;hlen Sie den Dateityp und klicken Sie schlie&szlig;lich auf &quot;L&ouml;schen&quot;.</P>
          
-        <P>Default value: Disabled, Allow all file types or the System-wide settings</P>
+        <P>Standardwert: Deaktiviert, Alle Dateitypen zulassen oder die system&uuml;bergreifenden Einstellungen anwenden.</P>
       </TD></TR>
 	
       
 <TR><TD VALIGN="TOP">
-        <P> Synchronization Interval &nbsp;</P>
+        <P> Synchronisierungsintervall</P>
       </TD><TD>
-        <P>Select the Synchronization interval check box to enable a minimum interval 
-          setting for the selected iFolder, then specify the minimum value in 
-          minutes that the users are allowed to set on their iFolder client.</P>
-        <P> To disable the setting, deselect the Synchronization Interval check 
-          box. If the option is disabled, the value reported is Unlimited.</P>
-        <P> If this option is enabled, the minimum synchronization interval specifies 
-          the minimum interval in minutes that a user's client can check iFolder 
-          data on the server and local iFolders to identify the files that need 
-          to be downloaded or uploaded.</P>
-  <P>      The effective minimum synchronization interval is always the largest value from the following settings:</P>
+        <P>Aktivieren Sie das Kontrollk&auml;stchen &quot;Synchronisierungsintervall&quot;, um eine minimale Einstellung f&uuml;r das Synchronisierungsintervall einzustellen, und geben Sie dann den Mindestwert in Minuten ein, den die Benutzer als Synchronisierungsintervall f&uuml;r ihre iFolder-Ordner festlegen d&uuml;rfen.</P>
+        <P> Zum Deaktivieren der Einstellung deaktivieren Sie das Kontrollk&auml;stchen &quot;Synchronisierungsintervall&quot;. Wenn die Option deaktiviert ist, wird der Wert &quot;Keine Begrenzung&quot; angezeigt.</P>
+        <P> Wenn die Option aktiviert ist, bestimmt der Wert &quot;Minimales Synchronisierungsintervall&quot; das Mindestintervall in Minuten, mit dem ein Benutzerclient iFolder-Daten auf dem Server und in lokalen iFolder-Ordnern &uuml;berpr&uuml;fen kann, um festzustellen, ob Dateien hochgeladen bzw. heruntergeladen werden m&uuml;ssen.</P>
+  <P>      Das effektive minimale Synchronisierungsintervall entspricht immer dem gr&ouml;&szlig;ten Wert unter den folgenden Einstellungen:</P>
   <ul>
     <li>
-            <p> The system policy (the default of 5 minutes), unless there is 
-              a user policy or LDAPGroup policy set. If a LDAPGroup policy set, 
-              the LDAPGroup policy overrides the system policy. If a user policy 
-              is set, the user policy overrides the LDAPGroup policy and system 
-              policy, whether it is larger or smaller in value.</p>
+            <p> Die Systemrichtlinie (Standardwert: 5 Minuten), es sei denn, eine Richtlinie f&uuml;r den Benutzer oder die LDAP-Gruppe ist festgelegt. Wenn eine Richtlinie f&uuml;r die LDAP-Gruppe festgelegt wurde, wird die Systemrichtlinie von dieser Richtlinie &uuml;berschrieben. Wenn eine Benutzerrichtlinie festgelegt wurde, werden die f&uuml;r die LDAP-Gruppe g&uuml;ltige Richtlinie und die  Systemrichtlinie von der Benutzerrichtlinie &uuml;berschrieben. Dabei spielt es keine Rolle, ob die Benutzerrichtlinie einen gr&ouml;&szlig;eren oder einen kleineren Wert aufweist.</p>
     </li>
     <li>
-      <p> The local machine policy, or the setting on the client machine synchronizing with the server</p>
+      <p> Der Richtlinie des lokalen Computers oder der Einstellung auf dem Client-Computer, &uuml;ber den die Synchronisierung mit dem Server erfolgt.</p>
     </li>
     <li>
-      <p> The iFolder (collection) policy</p>
+      <p> Der iFolder-(Sammlungs-)Richtlinie.</p>
     </li>
   </ul>  
-        <P> Default value: Disabled, iFolder client-set limit</P>
+        <P> Standardwert: Deaktiviert, vom iFolder-Client festgelegter Grenzwert</P>
       </TD>
 </TR><TR><TD VALIGN="TOP">
-        <P> Sharing</P>
-      </TD><TD> <B>On</B><BR>
-        By default, iFolder sharing is enabled. Deselect On to disable 
-        sharing for the selected iFolder. After applying this policy, selected 
-        iFolder cannot be shared either by the Admin or by the Owner of the iFolder.<br>
+        <P> Freigabe</P>
+      </TD><TD> <B>Aktiv</B><BR>
+        Standardm&auml;&szlig;ig ist die iFolder-Freigabe aktiviert. Heben Sie die Auswahl von Aktiv auf, um die Freigabe f&uuml;r den ausgew&auml;hlten iFolder zu deaktivieren. Nach Anwendung dieser Richtlinie kann der ausgew&auml;hlte iFolder weder vom Administrator noch vom Eigent&uuml;mer des iFolders freigegeben werden.<br>
           <BR>
-        <B>Revoke</B><BR>
-        Select <i>Revoke</i> to remove all the members from the 
-        list of shared members for the selected iFolder.<br>
+        <B>Widerrufen</B><BR>
+        W&auml;hlen Sie <i>Widerrufen</i> aus, um alle Mitglieder aus der Liste der freigegebenen Mitglieder f&uuml;r den ausgew&auml;hlten iFolder zu entfernen.<br>
 		<ul>
-          <P><font size="-1"><b>IMPORTANT:</b> Both these options are disabled 
-            if you enable and enforce the <i> Sharing</i> option at System or 
-            User level.</font></P>
+          <P><font size="-1"><b>WICHTIG:</b> Beide Optionen sind deaktiviert, wenn Sie die Option <i>Freigeben</i> auf der System- oder Benutzerebene erzwingen.</font></P>
         </ul>
       </TD></TR></TABLE><BR><P> 
   
-  <H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Related Topics" align="top"> 
-Related Topics</H4><BLOCKQUOTE class="task1"><P ><A HREF="ifolders.html">Managing iFolders 
-</A><BR><A HREF="users.html">Managing Users 
-</A><BR><A HREF="userdetails.html">User Details</A><BR><A HREF="servers.html#orphan" TARGET="_self">Managing 
-iFolder Servers</A>
+  <H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Verwandte Themen" align="top"> Verwandte Themen</H4><BLOCKQUOTE class="task1"><P ><A HREF="ifolders.html">Verwalten von iFolder-Ordnern </A><BR><A HREF="users.html">Verwalten von Benutzern</A><BR><A HREF="userdetails.html">Benutzerdetails</A><BR><A HREF="servers.html#orphan" TARGET="_self">Verwalten von iFolder-Servern</A>
     </P>
-  </BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P><P>&nbsp;</P><P CLASS="copyright">A 
-trademark symbol (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP>, 
-etc.) denotes a Novell trademark. An asterisk (*) denotes a third-party trademark. 
-For more information, see <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Legal 
-Notices</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
+  </BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Zur&uuml;ck zum Anfang"></A></P><P>&nbsp;</P><P CLASS="copyright">Ein Markensymbol(<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP> usw.) kennzeichnet eine Novell-Marke. Ein Sternchen (*) kennzeichnet eine Drittanbieter-Marke.     Weitere Informationen finden Sie unter <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Rechtliche Hinweise</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
 </body>
 
 </html>

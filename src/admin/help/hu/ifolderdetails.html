@@ -1,11 +1,11 @@
 <html>
 
    <head>
-     <meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+     <meta http-equiv="content-type" content="text/html;charset=UTF-8">
      
      <!-- Novell iFolder 3.6 Web Admin Help  --> 
    
-     <title>iFolder Details</title>  	 
+     <title>Az iFolder adatai</title>  	 
      
  
      <!-- Metadata -->
@@ -54,513 +54,425 @@
 <!-- This is the start of the Help Content Layer --> <div id="helpcontent"> <!-- The Page Heading uses CSS style "head3b". This creates an H3 header
             with a line beneath it.
        --> 
-  <h3 class="head3b">Managing iFolder Details</h3>
-  <p> Use this interface to 
-manage the ownership, policies, and membership of a selected iFolder. </p><BLOCKQUOTE CLASS="blockquote"><P><A HREF="#general" TARGET="_self">Viewing iFolder Details
-</A> <BR><A HREF="#members" TARGET="_self">Members 
- </A><BR><A HREF="#policies" TARGET="_self">Policies</A> </P></BLOCKQUOTE>
+  <h3 class="head3b">Az iFolder mappa adatainak kezel&eacute;se</h3>
+  <p> Ezzel a fel&uuml;lettel kezelhetők a kiv&aacute;lasztott iFolder mappa tulajdonoss&aacute;ga, h&aacute;zirendjei &eacute;s tags&aacute;ga. </p>
+  <p> <b>Megjegyz&eacute;s</b>: A m&aacute;sodlagos rendszergazd&aacute;k a kiv&aacute;lasztott iFolder mappa h&aacute;zirendjeit az adott iFolder mapp&aacute;ra vonatkoz&oacute; jogaik alapj&aacute;n kezelhetik.</p><BLOCKQUOTE CLASS="blockquote"><P><A HREF="#general" TARGET="_self">Az iFolder mappa adatainak megtekint&eacute;se </A> <BR><A HREF="#members" TARGET="_self">Tagok </A><BR><A HREF="#policies" TARGET="_self">H&aacute;zirendek</A> </P></BLOCKQUOTE>
   
  
-  <H4><A NAME="general"></A>Viewing iFolder Details</H4>
-  <P>You 
-can view the following information:</P><TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TD VALIGN="TOP">
-        <P>Type</P>
+  <H4><A NAME="general"></A>Az iFolder mappa adatainak megtekint&eacute;se </H4>
+  <P>Az al&aacute;bbi adatok tekinthetők meg:</P><TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Param&eacute;ter</P></TD><TD CLASS="tablehead2"><P>Le&iacute;r&aacute;s</P></TD></TR><TD VALIGN="TOP">
+        <P>T&iacute;pus</P>
       </TD><TD>
-        <P><img src="../../images/ifolder.png" width="16" height="16" alt="Folder icon">  Normal iFolder</P>
-		<P><img src="../../images/encrypt_ifolder.gif" width="16" height="16" alt="Folder icon"> Encrypted iFolder</P>
-		<p><img src="../../images/ifolder_user_16.gif" width="16" height="16" alt="Shared icon"> 
-          Shared iFolder<br>
+        <P><img src="../../images/ifolder.png" width="16" height="16" alt="Mappa ikon"> Norm&aacute;l iFolder mappa</P>
+		<P><img src="../../images/encrypt_ifolder.gif" width="16" height="16" alt="Mappa ikon"> Titkos&iacute;tott iFolder mappa</P>
+		<p><img src="../../images/ifolder_user_16.gif" width="16" height="16" alt="Megosztott ikon"> Megosztott iFolder mappa<br>
       </TD><TR><TD VALIGN="TOP">
-        <P>iFolder Name</P>
+        <P>iFolder neve</P>
       </TD><TD>
-        <P>The name assigned to the iFolder </P>
+        <P>Az iFolder mapp&aacute;hoz rendelt n&eacute;v </P>
       </TD><TR><TD VALIGN="TOP">
-        <P>Description (editable)</P>
+        <P>Le&iacute;r&aacute;s (szerkeszthető)</P>
       </TD><TD>
-        <P>A short description about the iFolder. You can edit the description 
-          and click Save to save the changes.</P>
-      </TD><TR><TD VALIGN="TOP"><P>Owner 
+        <P>Az iFolder mappa r&ouml;vid le&iacute;r&aacute;sa. A le&iacute;r&aacute;st szerkesztheti, &eacute;s a Ment&eacute;s hivatkoz&aacute;sra kattintva mentheti a v&aacute;ltoztat&aacute;sokat.</P>
+      </TD><TR><TD VALIGN="TOP"><P>Tulajdonos 
 </P></TD><TD>
-        <P>The username of the owner of the selected iFolder. Owner can be an 
-          individual user or an LDAPGroup. If an LDAPGroup is the owner of the 
-          iFolder, then all the members of the LDAPGroup will have the same access 
-          rights. For orphaned iFolders, the iFolder Admin user is made the owner 
-          until the iFolder can be reassigned or deleted.</P>
-        <p>Click the owner's username link to view his or her user account details.</p> 
-        <P>The iFolder owner has the Full Control right to the iFolder. The owner manages 
-          membership and access rights for users, and can remove the Full Control 
-          right for any member.</P>
-      </TD></TR><TR><TD VALIGN="TOP"><P>Path</P></TD><TD><P>The 
-actual location of the iFolder and its data on the server. For example:</P><P>/var/opt/novell/ifolder3/simias/SimiasFiles/<I>e84fdc6e-3d51-49df-ae3f-8c9213c76994</I>/&lt;iFolder_Name&gt;</P><P>In 
-this example, <I>e84fdc6e-3d51-49df-ae3f-8c9213c76994</I> is the unique ID of 
-the iFolder share.</P></TD><TR><TD VALIGN="TOP">
-        <P>Modified</P>
+        <P>A kiv&aacute;lasztott iFolder tulajdonos&aacute;nak felhaszn&aacute;l&oacute;neve. A tulajdonos lehet egy&eacute;ni felhaszn&aacute;l&oacute; vagy LDAP-csoport is.  Ha az iFolder mappa tulajdonosa LDAP-csoport, a csoport &ouml;sszes tagja ugyanolyan hozz&aacute;f&eacute;r&eacute;si jogokkal rendelkezik. El&aacute;rvult iFolder mapp&aacute;k eset&eacute;n az iFolder rendszergazdai felhaszn&aacute;l&oacute; lesz a tulajdonos addig, am&iacute;g az iFolder mapp&aacute;hoz nem lehet &uacute;jra tulajdonost rendelni, vagy kit&ouml;r&ouml;lni.</P>
+        <p>Kattintson a tulajdonos felhaszn&aacute;l&oacute;nev&eacute;re a fi&oacute;kadatok megtekint&eacute;s&eacute;hez.</p> 
+        <P>Az iFolder tulajdonos&aacute;nak teljes hozz&aacute;f&eacute;r&eacute;si jogosults&aacute;ga van az iFolder mapp&aacute;hoz. A tulajdonos kezeli a felhaszn&aacute;l&oacute;k tags&aacute;gi &eacute;s hozz&aacute;f&eacute;r&eacute;si jogait, &eacute;s b&aacute;rmely tag teljes hozz&aacute;f&eacute;r&eacute;si jogosults&aacute;g&aacute;t megsz&uuml;ntetheti.</P>
+      </TD></TR><TR><TD VALIGN="TOP"><P>El&eacute;r&eacute;si &uacute;t</P></TD><TD><P>Az iFolder &eacute;s adatainak t&eacute;nyleges helye a kiszolg&aacute;l&oacute;n. P&eacute;ld&aacute;ul:</P><P>/var/opt/novell/ifolder3/simias/SimiasFiles/<I>e84fdc6e-3d51-49df-ae3f-8c9213c76994</I>/&lt;iFolder_n&eacute;v&gt;</P><P>Ebben a p&eacute;ld&aacute;ban a <I>e84fdc6e-3d51-49df-ae3f-8c9213c76994</I> az iFolder megoszt&aacute;s egyedi azonos&iacute;t&oacute;ja.</P></TD><TR><TD VALIGN="TOP">
+        <P>M&oacute;dos&iacute;t&aacute;s d&aacute;tuma</P>
       </TD><TD>
-        <P>The last modified time and date of the iFolder.</P>
+        <P>Az iFolder mappa legut&oacute;bbi m&oacute;dos&iacute;t&aacute;s&aacute;nak időpontja &eacute;s d&aacute;tuma.</P>
       </TD><TR><TD VALIGN="TOP">
-        <P>Directories</P>
+        <P>K&ouml;nyvt&aacute;rak:</P>
       </TD><TD>
-        <P>Total number of directories in the iFolder.</P>
+        <P>Az iFolder mapp&aacute;ban tal&aacute;lhat&oacute; k&ouml;nyvt&aacute;rak sz&aacute;ma.</P>
       </TD><TR><TD VALIGN="TOP">
-        <P>Files</P>
+        <P>F&aacute;jlok</P>
       </TD><TD>
-        <P>Total number of files in the iFolder.</P>
+        <P>Az iFolder mapp&aacute;ban tal&aacute;lhat&oacute; f&aacute;jlok sz&aacute;ma.</P>
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>Orphan</P>
+        <P>Fatty&uacute;</P>
       </TD>
       <TD> 
-        <P>Yes indicates that iFolder is an orphan.</P>
-        <P>For orphaned iFolders, the iFolder Admin becomes the owner until the 
-          iFolder can be reassigned to a new owner or is deleted.</P>
+        <P>Az Igen &eacute;rt&eacute;k jelzi, hogy az iFolder mappa fatty&uacute;.</P>
+        <P>El&aacute;rvult iFolder mapp&aacute;k eset&eacute;n az iFolder rendszergazdai felhaszn&aacute;l&oacute; lesz a tulajdonos addig, am&iacute;g az iFolder mapp&aacute;hoz nem lehet &uacute;jra tulajdonost hozz&aacute;rendelni, vagy kit&ouml;r&ouml;lni.</P>
       </TD></TR></TABLE>
 	  
-  <H3><a name="members"></a>Members </H3>
-  <p> You can view the members' name, type and access rights assigned to them. 
-    You are allowed to add or delete an owner, assign ownership, and set access 
-    rights to a selected member. 
-  <H4><A NAME="share"></A>Adding 
-a Member</H4><OL><LI>
-      <P>On the iFolder Details page, click Add.</P>
+  <H3><a name="members"></a>Tagok </H3>
+  <p> Megtekintheti a tagok nev&eacute;t, t&iacute;pus&aacute;t &eacute;s a hozz&aacute;juk rendelt hozz&aacute;f&eacute;r&eacute;si jogokat. Lehetős&eacute;ge van tulajdonos hozz&aacute;ad&aacute;s&aacute;ra vagy elt&aacute;vol&iacute;t&aacute;s&aacute;ra, kijel&ouml;lt taghoz tulajdonosi szerepk&ouml;r hozz&aacute;rendel&eacute;s&eacute;re vagy hozz&aacute;f&eacute;r&eacute;si jogok be&aacute;ll&iacute;t&aacute;s&aacute;ra. 
+  <H4><A NAME="share"></A>Tag hozz&aacute;ad&aacute;sa</H4><OL><LI>
+      <P>Kattintson a Hozz&aacute;ad&aacute;s elemre az iFolder mappa adatai lapon.</P>
     </LI><LI>
-      <P>Search for the user or LDAPGroup you want to make a member, select the 
-        check box next to the user's name, then click Add.<BR>
+      <P>Keresse meg a tagg&aacute; tenni k&iacute;v&aacute;nt felhaszn&aacute;l&oacute;t vagy LDAP-csoportot, jel&ouml;lje be a felhaszn&aacute;l&oacute; neve melletti jel&ouml;lőn&eacute;gyzetet, &eacute;s kattintson a Hozz&aacute;ad&aacute;s elemre.<BR>
         <BR>
-        By default, the user or the LDAPGroup is given Read Only access to the 
-        iFolder.</P>
+        A felhaszn&aacute;l&oacute; vagy LDAP-csoport alap&eacute;rtelmez&eacute;s szerint csak olvas&aacute;si jogot kap az iFolder mapp&aacute;hoz.</P>
     </LI><LI>
-      <P>(Optional) Select the User check box, then select Rights and specify 
-        the Access right as Admin, Read/Write, or Read Only , then click Set.<BR>
+      <P>(Nem k&ouml;telező l&eacute;p&eacute;s) Jel&ouml;lje be a Felhaszn&aacute;l&oacute; jel&ouml;lőn&eacute;gyzete, v&aacute;lassza a Jogok lehetős&eacute;get, majd adja meg a Hozz&aacute;f&eacute;r&eacute;s be&aacute;ll&iacute;t&aacute;s&aacute;n&aacute;l a Rendszergazda, az Olvas&aacute;s/&iacute;r&aacute;s vagy a Csak olvas&aacute;s &eacute;rt&eacute;ket, &eacute;s kattintson a Be&aacute;ll&iacute;t&aacute;s elemre.<BR>
         <BR>
-        Wait for the page to refresh. The user's icon should reflect the new access 
-        right. </P>
+        V&aacute;rjon, am&iacute;g a lap friss&iacute;tődik. A felhaszn&aacute;l&oacute; ikonja megfelel az &uacute;j hozz&aacute;f&eacute;r&eacute;si jogosults&aacute;gnak. </P>
     </LI></OL>
-<H4>Understanding iFolder Access Rights </H4>
-<p>The iFolder client supports the owner and three levels of access for members of an iFolder:</p>
-<P><B><FONT SIZE="-1">NOTE:</FONT></B> <FONT SIZE="-1">Members of an LDAPGroup inherit the access rights set for that LDAPGroup.</FONT></P>
+<H4>Az iFolder hozz&aacute;f&eacute;r&eacute;si jogok ismertet&eacute;se </H4>
+<p>Az iFolder &uuml;gyf&eacute;l a tulajdonosi jogokon k&iacute;v&uuml;l h&aacute;romf&eacute;le szintű hozz&aacute;f&eacute;r&eacute;si jogot biztos&iacute;t az iFolder tagjai sz&aacute;m&aacute;ra:</p>
+<P><B><FONT SIZE="-1">FONTOS:</FONT></B> <FONT SIZE="-1">Az LDAP-csoport tagjai &ouml;r&ouml;k&ouml;lik az adott LDAP-csoporthoz be&aacute;ll&iacute;tott hozz&aacute;f&eacute;r&eacute;si jogokat.</FONT></P>
   <BLOCKQUOTE> 
-    <P><B>Owner<BR>
-      </B>Only one user or LDAPGroup serves as the owner of an iFolder. This is 
-      typically the user or any member of the LDAPGroup who created the iFolder. 
-      If the owner is an LDAPGroup and in that case, all the members of the LDAPGroup 
-      will have the ownership on that iFolder. The owner user or members of the 
-      owner LDAPGroup can use the iFolder client to transfer ownership to another 
-      member of the iFolder. The iFolder Admin user can transfer ownership to 
-      any user or LDAPGroup on the iFolder server.</P>
-    <P>The owner of an iFolder has the Full Control right. This user or LDAPGroup 
-      has read/write access to the iFolder, manages membership and access rights 
-      for member users and LDAPGroups, and can remove the Full Control right for 
-      any member. With an enterprise server, the disk space used by the owner&#146;s 
-      iFolders count against the owner&#146;s user disk quotas on the enterprise 
-      server.</P>
-    <P>If a user or LDAPGroup is deleted from the iFolder system, the iFolders 
-      owned by the user or LDAPGroup are orphaned. Orphaned iFolders are temporarily 
-      assigned to the iFolder Admin user as owner. Membership and synchronization 
-      continues for other users and LDAPGroup members while the iFolder Admin 
-      user determines whether an orphaned iFolder should be deleted or assigned 
-      to a new owner.</P>
-  <P><B>Full Control</B><BR>
-      A member of the shared iFolder, with the Full Control access right. The 
-      user or LDAPGroup with the Full Control right has read/write access to the 
-      iFolder and manages membership and access rights for all users except the 
-      owner.</P>
-  <P><B>Read/Write</B><BR>
-    A member of the shared iFolder, with the Read/Write access right to directories and files in the iFolder.</P>
-  <P><B>Read Only</B><BR>
-    A member of the shared iFolder, with the Read Only access right to directories and files in the iFolder. This member can copy an iFolder file to another location and modify it outside the iFolder.</P>
+    <P><B>Tulajdonos<BR>
+      </B>Egy iFolder mapp&aacute;nak csak egy felhaszn&aacute;l&oacute; vagy LDAP-csoport lehet a tulajdonosa.   Ez rendszerint az a felhaszn&aacute;l&oacute;, illetve LDAP-csoporttag, aki l&eacute;trehozta az iFolder mapp&aacute;t. Ha a tulajdonos LDAP-csoport, ebben az esetben az LDAP-csoport &ouml;sszes tagja tulajdonosa lesz az adott iFolder mapp&aacute;nak. A tulajdonos felhaszn&aacute;l&oacute; vagy a tulajdonos LDAP-csoport tagjai az iFolder &uuml;gyf&eacute;l haszn&aacute;lat&aacute;val adhatj&aacute;k &aacute;t a tulajdonosi szerepk&ouml;rt az iFolder mappa egy m&aacute;sik tagj&aacute;nak. Az iFolder rendszergazd&aacute;ja a tulajdonosi szerepk&ouml;rt az iFolder kiszolg&aacute;l&oacute; b&aacute;rmely m&aacute;sik felhaszn&aacute;l&oacute;j&aacute;nak vagy LDAP-csoportnak &aacute;t tudja adni.</P>
+    <P>Az iFolder tulajdonosa Teljes hozz&aacute;f&eacute;r&eacute;s jogosults&aacute;ggal rendelkezik. Ennek a felhaszn&aacute;l&oacute;nak vagy LDAP-csoportnak &iacute;r&aacute;si &eacute;s olvas&aacute;si jogai vannak az iFolder mapp&aacute;hoz, kezelheti a tagfelhaszn&aacute;l&oacute;k &eacute;s LDAP-csoportok tags&aacute;g&aacute;t &eacute;s hozz&aacute;f&eacute;r&eacute;si jogait, &eacute;s b&aacute;rmely tagt&oacute;l megvonhatja a Teljes hozz&aacute;f&eacute;r&eacute;s jogot.   V&aacute;llalati kiszolg&aacute;l&oacute; eset&eacute;n a tulajdonos iFolder mapp&aacute;i &aacute;ltal lefoglalt t&aacute;rter&uuml;let levon&oacute;dik a tulajdonosnak a v&aacute;llalati kiszolg&aacute;l&oacute;n levő lemezkv&oacute;t&aacute;j&aacute;b&oacute;l.</P>
+    <P>Ha az iFolder rendszerből egy felhaszn&aacute;l&oacute;t vagy LDAP-csoportot t&ouml;r&ouml;ltek, a felhaszn&aacute;l&oacute; vagy LDAP-csoport tulajdon&aacute;ban &aacute;ll&oacute; iFolder mapp&aacute;k el&aacute;rvulnak. Az el&aacute;rvult iFolder mapp&aacute;k tulajdonosa ideiglenesen az iFolder rendszergazdai felhaszn&aacute;l&oacute; lesz.  A t&ouml;bbi felhaszn&aacute;l&oacute; &eacute;s LDAP-csoporttag sz&aacute;m&aacute;ra a tags&aacute;g &eacute;s a szinkroniz&aacute;l&aacute;s folytat&oacute;dik, mik&ouml;zben az iFolder rendszergazdai felhaszn&aacute;l&oacute; eld&ouml;nti, hogy az el&aacute;rvult iFolder t&ouml;r&ouml;lve legyen-e, vagy &uacute;j tulajdonoshoz legyen-e rendelve.</P>
+  <P><B>Teljes hozz&aacute;f&eacute;r&eacute;s</B><BR>
+      A megosztott iFolder egy tagja, aki a Teljes hozz&aacute;f&eacute;r&eacute;s joggal rendelkezik. A teljes hozz&aacute;f&eacute;r&eacute;si joggal rendelkező felhaszn&aacute;l&oacute;nak vagy LDAP-csoportnak &iacute;r&aacute;si &eacute;s olvas&aacute;si joga van az iFolder mapp&aacute;hoz, &eacute;s a tulajdonos kiv&eacute;tel&eacute;vel minden felhaszn&aacute;l&oacute; tags&aacute;g&aacute;t &eacute;s hozz&aacute;f&eacute;r&eacute;si jogait kezelheti.</P>
+  <P><B>Olvas&aacute;s/&iacute;r&aacute;s</B><BR>
+    A megosztott iFolder egy tagja, akinek &iacute;r&aacute;si &eacute;s olvas&aacute;si joga van az iFolder mapp&aacute;ban tal&aacute;lhat&oacute; k&ouml;nyvt&aacute;rakhoz &eacute;s f&aacute;jlokhoz.</P>
+  <P><B>Csak olvas&aacute;s</B><BR>
+    A megosztott iFolder egy tagja, akinek olvas&aacute;si joga van az iFolder mapp&aacute;ban tal&aacute;lhat&oacute; k&ouml;nyvt&aacute;rakhoz &eacute;s f&aacute;jlokhoz. Ez a tag m&aacute;s helyre m&aacute;solhat egy iFolder f&aacute;jlt, &eacute;s m&oacute;dos&iacute;thatja az iFolder mapp&aacute;n k&iacute;v&uuml;l.</P>
 </BLOCKQUOTE>
-<p>The following table describes the capabilities associated with each level of access for users.</p>
+<p>Az al&aacute;bbi t&aacute;bl&aacute;zatban az egyes felhaszn&aacute;l&oacute;i hozz&aacute;f&eacute;r&eacute;si szintekhez tartoz&oacute; lehetős&eacute;gek le&iacute;r&aacute;sa tal&aacute;lhat&oacute;.</p>
   <TABLE WIDTH="93%" BORDER="1">
     <tr class="HEADERROW"> 
-      <th  CLASS="tablehead2">Capabilities</th>
-      <th  CLASS="tablehead2">Owner</th>
-      <th  CLASS="tablehead2">Full&nbsp;Control</th>
-      <th  CLASS="tablehead2">Read/Write</th>
-      <th  CLASS="tablehead2">Read&nbsp;Only</th>
+      <th  CLASS="tablehead2">Lehetős&eacute;gek</th>
+      <th  CLASS="tablehead2">Tulajdonos</th>
+      <th  CLASS="tablehead2">Teljes hozz&aacute;f&eacute;r&eacute;s</th>
+      <th  CLASS="tablehead2">Olvas&aacute;s/&iacute;r&aacute;s</th>
+      <th  CLASS="tablehead2">Csak olvas&aacute;s</th>
     </tr>
     <tr > 
       <td  scope="row"> 
-        <p >Reassign ownership to another user or LDAPGroup</p>
+        <p >Tulajdonjog hozz&aacute;rendel&eacute;se egy m&aacute;sik felhaszn&aacute;l&oacute;hoz vagy LDAP-csoporthoz</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Igen</p>
       </td>
       <td >
-        <p >No</p>
+        <p >Nem</p>
       </td>
       <td >
-        <p >No</p>
+        <p >Nem</p>
       </td>
       <td >
-        <p >No</p>
-      </td>
-    </tr>
-    <tr > 
-      <td  scope="row"> 
-        <p >Set a quota for the iFolder</p>
-      </td>
-      <td >
-        <p >Yes</p>
-      </td>
-      <td >
-        <p >No</p>
-      </td>
-      <td >
-        <p >No</p>
-      </td>
-      <td >
-        <p >No</p>
+        <p >Nem</p>
       </td>
     </tr>
     <tr > 
       <td  scope="row"> 
-        <p >Make the iFolder available to other users (sharing)</p>
+        <p >Kv&oacute;tabe&aacute;ll&iacute;t&aacute;s az iFolder mapp&aacute;hoz</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Igen</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Nem</p>
       </td>
       <td >
-        <p >No</p>
+        <p >Nem</p>
       </td>
       <td >
-        <p >No</p>
+        <p >Nem</p>
       </td>
     </tr>
     <tr > 
       <td  scope="row"> 
-        <p >Make the iFolder unavailable to other users (stop sharing)</p>
+        <p >Az iFolder el&eacute;rhetőv&eacute; van-e t&eacute;ve m&aacute;s felhaszn&aacute;l&oacute;knak (megoszt&aacute;s)</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Igen</p>
       </td>
       <td >
-        <p >Yes, except the owner</p>
+        <p >Igen</p>
       </td>
       <td >
-        <p >No</p>
+        <p >Nem</p>
       </td>
       <td >
-        <p >No</p>
+        <p >Nem</p>
       </td>
     </tr>
     <tr > 
       <td  scope="row"> 
-        <p >Assign iFolder access rights for other users or LDAPGroup</p>
+        <p >Az iFolder m&aacute;s felhaszn&aacute;l&oacute; &aacute;ltali el&eacute;rhetős&eacute;g&eacute;nek megsz&uuml;ntet&eacute;se (megoszt&aacute;s befejez&eacute;se)</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Igen</p>
       </td>
       <td >
-        <p >Yes, except the owner</p>
+        <p >Igen, kiv&eacute;ve a tulajdonost</p>
       </td>
       <td >
-        <p >No</p>
+        <p >Nem</p>
       </td>
       <td >
-        <p >No</p>
+        <p >Nem</p>
       </td>
     </tr>
     <tr > 
       <td  scope="row"> 
-        <p >Read directories and files in the iFolder </p>
+        <p >iFolder hozz&aacute;f&eacute;r&eacute;si jogok megad&aacute;sa m&aacute;s felhaszn&aacute;l&oacute;knak vagy LDAP-csoportoknak</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Igen</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Igen, kiv&eacute;ve a tulajdonost</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Nem</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Nem</p>
       </td>
     </tr>
     <tr > 
       <td  scope="row"> 
-        <p >Add, modify, or delete directories and files in the iFolder</p>
+        <p >Az iFolder mapp&aacute;ban tal&aacute;lhat&oacute; k&ouml;nyvt&aacute;rak &eacute;s f&aacute;jlok olvas&aacute;sa </p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Igen</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Igen</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Igen</p>
       </td>
       <td >
-        <p >No</p>
+        <p >Igen</p>
       </td>
     </tr>
     <tr > 
       <td  scope="row"> 
-        <p >Rename directories and files in an iFolder</p>
+        <p >Az iFolder mapp&aacute;ban tal&aacute;lhat&oacute; k&ouml;nyvt&aacute;rak &eacute;s f&aacute;jlok hozz&aacute;ad&aacute;sa, m&oacute;dos&iacute;t&aacute;sa &eacute;s t&ouml;rl&eacute;se</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Igen</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Igen</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Igen</p>
       </td>
       <td >
-        <p >No</p>
+        <p >Nem</p>
       </td>
     </tr>
     <tr > 
       <td  scope="row"> 
-        <p >Rename the iFolder</p>
+        <p >Az iFolder mapp&aacute;ban tal&aacute;lhat&oacute; k&ouml;nyvt&aacute;rak &eacute;s f&aacute;jlok &aacute;tnevez&eacute;se</p>
       </td>
       <td >
-        <p >No</p>
+        <p >Igen</p>
       </td>
       <td >
-        <p >No</p>
+        <p >Igen</p>
       </td>
       <td >
-        <p >No</p>
+        <p >Igen</p>
       </td>
       <td >
-        <p >No</p>
+        <p >Nem</p>
       </td>
     </tr>
     <tr > 
       <td  scope="row"> 
-        <p >Set up an iFolder on multiple computers</p>
+        <p >Az iFolder &aacute;tnevez&eacute;se</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Nem</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Nem</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Nem</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Nem</p>
       </td>
     </tr>
     <tr > 
       <td  scope="row"> 
-        <p >Revert an iFolder (do not participate on a local computer)</p>
+        <p >iFolder l&eacute;trehoz&aacute;sa t&ouml;bb sz&aacute;m&iacute;t&oacute;g&eacute;pen</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Igen</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Igen</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Igen</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Igen</p>
       </td>
     </tr>
     <tr > 
       <td  scope="row"> 
-        <p >Delete an available iFolder to decline participating</p>
+        <p >iFolder visszaalak&iacute;t&aacute;sa (r&eacute;szv&eacute;tel megsz&uuml;ntet&eacute;se a helyi sz&aacute;m&iacute;t&oacute;g&eacute;pen)</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Igen</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Igen</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Igen</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Igen</p>
       </td>
     </tr>
     <tr > 
       <td  scope="row"> 
-        <p >Delete the iFolder and delete the iFolder and its files from the server 
-          (make it a normal folder again and no longer share it with others)</p>
+        <p >El&eacute;rhető iFolder t&ouml;rl&eacute;se a haszn&aacute;latban val&oacute; r&eacute;szv&eacute;tel megtagad&aacute;sa v&eacute;gett</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Igen</p>
       </td>
       <td >
-        <p >No</p>
+        <p >Igen</p>
       </td>
       <td >
-        <p >No</p>
+        <p >Igen</p>
       </td>
       <td >
-        <p >No</p>
+        <p >Igen</p>
+      </td>
+    </tr>
+    <tr > 
+      <td  scope="row"> 
+        <p >Az iFolder &eacute;s f&aacute;jljainak t&ouml;rl&eacute;se a kiszolg&aacute;l&oacute;r&oacute;l (norm&aacute;lis mapp&aacute;v&aacute; t&eacute;tel &eacute;s a m&aacute;sokkal val&oacute; megoszt&aacute;s megsz&uuml;ntet&eacute;se)</p>
+      </td>
+      <td >
+        <p >Igen</p>
+      </td>
+      <td >
+        <p >Nem</p>
+      </td>
+      <td >
+        <p >Nem</p>
+      </td>
+      <td >
+        <p >Nem</p>
       </td>
     </tr>
   </table>
-<H4>Setting 
-  the iFolder Access Right for a Member</H4>
+<H4>Tag iFolder hozz&aacute;f&eacute;r&eacute;si jogosults&aacute;gainak be&aacute;ll&iacute;t&aacute;sa</H4>
   
 <OL><LI>
-      <P>On the iFolder Details page, select the check box next to the member 
-        whose access right you want to manage.</P>
+      <P>Az iFolder mappa adatai lapon jel&ouml;lje be annak a tagnak a jel&ouml;lőn&eacute;gyzet&eacute;t, akinek a hozz&aacute;f&eacute;r&eacute;si jogait kezelni szeretn&eacute;.</P>
     </LI><LI>
-      <P>Select the Rights drop-down menu, then select the Admin, Read/Write, 
-        or Read Only right.<BR>
-        <BR>Wait for the page to refresh. The user's icon should reflect the 
-new access right.</P></LI></OL>
-  <H4>Removing a Member</H4>
+      <P>Kattintson a Jogok leg&ouml;rd&uuml;lő men&uuml;re, &eacute;s v&aacute;lassza a Rendszergazda, az Olvas&aacute;s/&iacute;r&aacute;s vagy a Csak olvas&aacute;s jogot.<BR>
+        <BR>V&aacute;rjon, am&iacute;g a lap friss&iacute;tődik. A felhaszn&aacute;l&oacute; ikonja megfelel az &uacute;j hozz&aacute;f&eacute;r&eacute;si jogosults&aacute;gnak.</P></LI></OL>
+  <H4>Tag elt&aacute;vol&iacute;t&aacute;sa</H4>
 <ol>
-    <li>On the iFolder Details page, select the check box next to the member user's 
-      name.</li>
-    <li>Click Delete.</li>
+    <li>Az iFolder mappa adatai lapon jel&ouml;lje be a tag felhaszn&aacute;l&oacute;neve melletti jel&ouml;lőn&eacute;gyzetet.</li>
+    <li>Kattintson a T&ouml;rl&eacute;s gombra.</li>
 </ol>
-<P>The user's local copy of the data remains on the 
-user's computer, but the user no longer has access to the server copy of the iFolder 
-data.</P><P> <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top" TITLE="Go to top"></A></P>
-	  <H4>Changing the Owner</H4>
-  <P>When you change the owner of an iFolder, the existing owner becomes a member 
-    of the iFolder and is assigned the Read/Write right. For orphaned iFolders, 
-    the iFolder Admin becomes the owner until the iFolder is reassigned to a new 
-    owner or deleted. If the new owner is not currently a member of the iFolder, 
-    a subscription notification is sent to the user's iFolder account.</P>
+<P>A felhaszn&aacute;l&oacute;nak az adatokr&oacute;l k&eacute;sz&iacute;tett helyi m&aacute;solata a felhaszn&aacute;l&oacute; sz&aacute;m&iacute;t&oacute;g&eacute;p&eacute;n marad, de a felhaszn&aacute;l&oacute; m&aacute;r nem f&eacute;rhet hozz&aacute; az iFolder-adatok kiszolg&aacute;l&oacute;n levő m&aacute;solat&aacute;hoz.</P><P> <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Ugr&aacute;s az oldal tetej&eacute;re" TITLE="Ugr&aacute;s az oldal tetej&eacute;re"></A></P>
+	  <H4>A tulajdonos m&oacute;dos&iacute;t&aacute;sa</H4>
+  <P>Ha megv&aacute;ltoztatja egy iFolder tulajdonos&aacute;t, az eredeti tulajdonos tagja lesz az iFolder mapp&aacute;nak, &eacute;s olvas&aacute;s/&iacute;r&aacute;s jogosults&aacute;got kap. El&aacute;rvult iFolder mapp&aacute;k eset&eacute;n az iFolder rendszergazdai felhaszn&aacute;l&oacute; lesz a tulajdonos addig, am&iacute;g az iFolder mapp&aacute;hoz nem rendelnek hozz&aacute; &uacute;jra tulajdonost, vagy ki nem t&ouml;rlik. Ha az &uacute;j tulajdonos m&eacute;g nem tagja az iFolder mapp&aacute;nak, a rendszer előfizet&eacute;si &eacute;rtes&iacute;t&eacute;st k&uuml;ld a felhaszn&aacute;l&oacute; iFolder fi&oacute;kj&aacute;ba.</P>
   <OL>
     <LI> 
-      <P>On the iFolder Details page, search for the user or LDAPGroup you want 
-        to assign as the new owner of the iFolder.</P>
+      <P>Az iFolder mappa adatai lapon keresse meg azt a felhaszn&aacute;l&oacute;t vagy LDAP-csoportot, akit az iFolder mappa &uacute;j tulajdonosak&eacute;nt ki szeretne jel&ouml;lni.</P>
     </LI>
     <LI>
-      <P>Select the check box next to the user's name, then click <i>Owner</i>.</P>
+      <P>Jel&ouml;lje be a felhaszn&aacute;l&oacute; neve melletti jel&ouml;lőn&eacute;gyzetet, majd kattintson a <i>Tulajdonos</i> elemre.</P>
     </LI>
     
   </OL>
-  <P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P>
-  <H3><A NAME="policy"></A>Policies</H3>
+  <P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Ugr&aacute;s az oldal tetej&eacute;re"></A></P>
+  <H3><A NAME="policy"></A>H&aacute;zirendek</H3>
   
-  <P>The following table lists the policies you can manage for any given iFolder. 
-    Modify one or more of the following values, then click Save to apply the new settings: </P>
-<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
-        <P>Disable Synchronization &nbsp;</P>
+  <P>A k&ouml;vetkező t&aacute;bl&aacute;zat sorolja fel a b&aacute;rmely iFolder mapp&aacute;ra vonatkoz&oacute;an kezelhető h&aacute;zirendeket. M&oacute;dos&iacute;tson valamennyit az al&aacute;bbi &eacute;rt&eacute;kek k&ouml;z&uuml;l, majd kattintson a Ment&eacute;s gombra az &uacute;j be&aacute;ll&iacute;t&aacute;sok &eacute;rv&eacute;nybe l&eacute;ptet&eacute;s&eacute;hez: </P>
+<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Param&eacute;ter</P></TD><TD CLASS="tablehead2"><P>Le&iacute;r&aacute;s</P></TD></TR><TR><TD VALIGN="TOP">
+        <P>Szinkroniz&aacute;l&aacute;s letilt&aacute;sa</P>
       </TD><TD>
-        <P>Select this option to turn off synchronization, usually temporarily. 
+        <P>Ha ki szeretn&eacute; kapcsolni a szinkroniz&aacute;l&aacute;st (&aacute;ltal&aacute;ban csak ideiglenesen), adja meg ezt a be&aacute;ll&iacute;t&aacute;st. 
         </P>
-        <P>Deselect this option to allow the synchronization of data in the iFolder.</P>
-        <P>Default value: Enabled, Yes</P>
+        <P>T&ouml;r&ouml;lje a jelet ebből a jel&ouml;lőn&eacute;gyzetből, ha enged&eacute;lyezni szeretn&eacute; az iFolder mapp&aacute;ban tal&aacute;lhat&oacute; adatok szinkroniz&aacute;l&aacute;s&aacute;t.</P>
+        <P>Alap&eacute;rtelmezett &eacute;rt&eacute;ke: Enged&eacute;lyezve, Igen</P>
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>Disk Quota&nbsp;</P>
+        <P>Lemezkv&oacute;ta</P>
       </TD><TD>
-        <P>Select the Limit check box, then specify the maximum size (in MB) for 
-          the selected iFolder.</P>
-        <P>If you enable System-wide iFolder quota or LDAPGroup level quota, a 
-          user's account quota overrides it, if the user quota is lower or higher 
-          than the LDAPGroup quota or system quota. </P>
-        <P>Default value: Disabled, No Limit</P>
+        <P>Jel&ouml;lje be a Korl&aacute;toz&aacute;s jel&ouml;lőn&eacute;gyzetet, majd adja meg a kijel&ouml;lt iFolder mapp&aacute;hoz tartoz&oacute; maxim&aacute;lis m&eacute;retet (MB-ban).</P>
+        <P>Ha a rendszer vagy az LDAP-csoport szintj&eacute;n ad meg iFolder-kv&oacute;t&aacute;t, azt a felhaszn&aacute;l&oacute;i fi&oacute;k kv&oacute;t&aacute;ja fel&uuml;lb&iacute;r&aacute;lja, amennyiben a felhaszn&aacute;l&oacute;i kv&oacute;ta ak&aacute;r lefel&eacute;, ak&aacute;r felfel&eacute; elt&eacute;r az LDAP-csoport vagy a rendszer kv&oacute;t&aacute;j&aacute;t&oacute;l. </P>
+        <P>Alap&eacute;rtelmezett &eacute;rt&eacute;k: Letiltva, nincs korl&aacute;toz&aacute;s</P>
       </TD></TR><TR><TD VALIGN="TOP">
-        <P> Used</P>
-        <P>(View only)&nbsp;</P></TD><TD>
-        <P>Reports the space the iFolder data currently consumes.</P>
+        <P> Haszn&aacute;latban</P>
+        <P>(Csak megtekint&eacute;s)&nbsp;</P></TD><TD>
+        <P>Az iFolder mapp&aacute;ban tal&aacute;lhat&oacute; adatok &aacute;ltal elfoglalt t&aacute;rter&uuml;let m&eacute;ret&eacute;t jelen&iacute;ti meg.</P>
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>Available</P>
-        <P>(View only)&nbsp;</P></TD><TD>
-        <P>Reports the space available on the server for the iFolder data.</P>
+        <P>El&eacute;rhető</P>
+        <P>(Csak megtekint&eacute;s)&nbsp;</P></TD><TD>
+        <P>A kiszolg&aacute;l&oacute;n az iFolder adatai sz&aacute;m&aacute;ra rendelkez&eacute;sre &aacute;ll&oacute; lemezter&uuml;letet jelzi.</P>
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>Effective</P>
-        <P>(View only)&nbsp;</P></TD><TD>
-        <P>Reports effective space available on the server for the iFolder data.</P>
+        <P>Hat&aacute;sos</P>
+        <P>(Csak megtekint&eacute;s)&nbsp;</P></TD><TD>
+        <P>A kiszolg&aacute;l&oacute;n az iFolder adatai sz&aacute;m&aacute;ra rendelkez&eacute;sre &aacute;ll&oacute; &eacute;rv&eacute;nyes lemezter&uuml;letet jelzi.</P>
       </TD></TR>
 	  <TR><TD VALIGN="TOP">
-        <p>File Size</p>
+        <p>F&aacute;jlm&eacute;ret</p>
       </TD>
-      <TD> <B>Limit</B><BR>
-          Specifies the maximum total file size (in MB) that an iFolder user 
-          is allowed to use, across all iFolders the user owns for the selected 
-          user account. <br>
+      <TD> <B>Korl&aacute;toz&aacute;s</B><BR>
+          Megadja (MB-ban), hogy mekkora az a maxim&aacute;lis f&aacute;jlm&eacute;ret, amelyet az iFolder-felhaszn&aacute;l&oacute; haszn&aacute;lhat az &ouml;sszes iFolder mapp&aacute;ban, amelyeknek a felhaszn&aacute;l&oacute; a tulajdonosa a kiv&aacute;lasztott felhaszn&aacute;l&oacute;i fi&oacute;kban. <br>
           <BR>
-        <B>Effective</B><BR>
-        Effective file size allocated for the user.<br>
-		<ul><P><font size="-1"><b>IMPORTANT:</b> Users cannot successfully synchronize 
-          files of a size that would cause a quota to be exceeded. If they try 
-          to do so, only part of the file is synchronized, resulting in data corruption.</font></P></ul>
+        <B>Hat&aacute;sos</B><BR>
+        A felhaszn&aacute;l&oacute;hoz hozz&aacute;rendelt &eacute;rv&eacute;nyes f&aacute;jlm&eacute;ret.<br>
+		<ul><P><font size="-1"><b>FONTOS:</b> Felhaszn&aacute;l&oacute;k nem szinkroniz&aacute;lhatnak sikerrel olyan nagys&aacute;g&uacute; f&aacute;jlokat, amelyek a felhaszn&aacute;l&oacute;i kv&oacute;ta t&uacute;ll&eacute;p&eacute;s&eacute;t eredm&eacute;nyezn&eacute;k.  Ha megpr&oacute;b&aacute;lj&aacute;k, csak a f&aacute;jl egy r&eacute;sze lesz szinkroniz&aacute;lva, &eacute;s adats&eacute;r&uuml;l&eacute;s k&ouml;vetkezik be.</font></P></ul>
       </TD></TR>
 	  <TR>
       <TD VALIGN="TOP"> 
-        <p>Excluded Files</p>
+        <p>Kiz&aacute;rt f&aacute;jlok</p>
       </TD>
       <TD> 
-        <P>Specifies a list of file types to include or to exclude from synchronization 
-          for the selected iFolder.</P>
-        <p>The file manager files called thumbs.db and .DS_Store are never synchronized. 
+        <P>Megadja, hogy mely f&aacute;jlt&iacute;pusokat kell kiz&aacute;rni vagy belevenni a kiv&aacute;lasztott iFolder mappa szinkroniz&aacute;l&aacute;sakor.</P>
+        <p>A thumbs.db &eacute;s .DS_Store f&aacute;jlkezelő-f&aacute;jlokat a rendszer nem szinkroniz&aacute;lja. 
         </p>
     
-        <P>To add a file extension to the exclusion filter, type the extension 
-          (such as *.mpg), then click Add to apply the filter. </P>
-        <P>To exclude a file type from the restricted file types, select the check 
-          box adjacent to the File Name, then select the file type and click Delete.</P>
+        <P>Ha hozz&aacute; szeretne adni egy f&aacute;jlkiterjeszt&eacute;st a kiz&aacute;r&oacute; szűrőh&ouml;z, &iacute;rja be a kiterjeszt&eacute;st (pl. mpg), majd kattintson a Hozz&aacute;ad&aacute;s gombra a szűrő &eacute;rv&eacute;nybe l&eacute;ptet&eacute;s&eacute;hez. </P>
+        <P>Ha ki szeretne z&aacute;rni egy f&aacute;jlt a korl&aacute;tozott t&iacute;pusok k&ouml;z&uuml;l, kattintson a F&aacute;jln&eacute;v elem melletti jel&ouml;lőn&eacute;gyzetre, majd jel&ouml;lje ki a t&iacute;pust, &eacute;s kattintson a T&ouml;rl&eacute;s gombra.</P>
          
-        <P>Default value: Disabled, Allow all file types or the System-wide settings</P>
+        <P>Alap&eacute;rtelmezett &eacute;rt&eacute;k: Letiltva, az &ouml;sszes f&aacute;jlt&iacute;pus enged&eacute;lyez&eacute;se vagy rendszerszintű be&aacute;ll&iacute;t&aacute;sok</P>
       </TD></TR>
 	
       
 <TR><TD VALIGN="TOP">
-        <P> Synchronization Interval &nbsp;</P>
+        <P> Szinkroniz&aacute;l&aacute;si idők&ouml;z&nbsp;</P>
       </TD><TD>
-        <P>Select the Synchronization interval check box to enable a minimum interval 
-          setting for the selected iFolder, then specify the minimum value in 
-          minutes that the users are allowed to set on their iFolder client.</P>
-        <P> To disable the setting, deselect the Synchronization Interval check 
-          box. If the option is disabled, the value reported is Unlimited.</P>
-        <P> If this option is enabled, the minimum synchronization interval specifies 
-          the minimum interval in minutes that a user's client can check iFolder 
-          data on the server and local iFolders to identify the files that need 
-          to be downloaded or uploaded.</P>
-  <P>      The effective minimum synchronization interval is always the largest value from the following settings:</P>
+        <P>Jel&ouml;lje be a Szinkroniz&aacute;l&aacute;si idők&ouml;z jel&ouml;lőn&eacute;gyzetet, ha meg szeretne adni egy minim&aacute;lis idők&ouml;zt a kijel&ouml;lt iFolder mapp&aacute;hoz, majd adja meg percben azt a minim&aacute;lis idők&ouml;zt, amelyet a felhaszn&aacute;l&oacute;k be&aacute;ll&iacute;thatnak az iFolder &uuml;gyfeleken.</P>
+        <P> A be&aacute;ll&iacute;t&aacute;s kikapcsol&aacute;s&aacute;hoz t&ouml;r&ouml;lje a jelet a Szinkroniz&aacute;l&aacute;si idők&ouml;z jel&ouml;lőn&eacute;gyzetből. Ha a lehetős&eacute;g ki van kapcsolva, akkor a megjelen&iacute;tett &eacute;rt&eacute;k: Korl&aacute;tlan.</P>
+        <P> Ha a lehetős&eacute;g be van kapcsolva, akkor a minim&aacute;lis szinkroniz&aacute;l&aacute;si idők&ouml;z azt a minim&aacute;lis idők&ouml;zt adja meg percben, amennyi ideig a felhaszn&aacute;l&oacute; &uuml;gyfele ellenőrizheti az iFolder-adatokat a kiszolg&aacute;l&oacute;n &eacute;s a helyi iFolder mapp&aacute;kban annak &eacute;rdek&eacute;ben, hogy meg&aacute;llap&iacute;tsa, mely f&aacute;jlokat kell let&ouml;lteni vagy felt&ouml;lteni.</P>
+  <P>      A t&eacute;nyleges minim&aacute;lis szinkroniz&aacute;l&aacute;si idők&ouml;z az al&aacute;bbi h&aacute;rom be&aacute;ll&iacute;t&aacute;s k&ouml;z&uuml;l a legkisebb &eacute;rt&eacute;k:</P>
   <ul>
     <li>
-            <p> The system policy (the default of 5 minutes), unless there is 
-              a user policy or LDAPGroup policy set. If a LDAPGroup policy set, 
-              the LDAPGroup policy overrides the system policy. If a user policy 
-              is set, the user policy overrides the LDAPGroup policy and system 
-              policy, whether it is larger or smaller in value.</p>
+            <p> A rendszerh&aacute;zirend (alap&eacute;rtelmezett &eacute;rt&eacute;k: 5 perc), kiv&eacute;ve, ha meg van adva felhaszn&aacute;l&oacute;i vagy LDAP-csoport h&aacute;zirend. Ha meg van adva LDAP-csoport h&aacute;zirend, az LDAP-csoport h&aacute;zirend fel&uuml;lb&iacute;r&aacute;lja a rendszerh&aacute;zirendet. Ha meg van adva felhaszn&aacute;l&oacute;i h&aacute;zirend, a felhaszn&aacute;l&oacute;i h&aacute;zirend fel&uuml;lb&iacute;r&aacute;lja az LDAP-csoport h&aacute;zirendet &eacute;s a rendszerh&aacute;zirendet, att&oacute;l f&uuml;ggetlen&uuml;l, hogy a felhaszn&aacute;l&oacute;i h&aacute;zirend kisebb vagy nagyobb &eacute;rt&eacute;knek felel-e meg.</p>
     </li>
     <li>
-      <p> The local machine policy, or the setting on the client machine synchronizing with the server</p>
+      <p> A helyi sz&aacute;m&iacute;t&oacute;g&eacute;p h&aacute;zirendje vagy a kiszolg&aacute;l&oacute;val szinkroniz&aacute;l&oacute;d&oacute; &uuml;gyf&eacute;lg&eacute;p h&aacute;zirendje</p>
     </li>
     <li>
-      <p> The iFolder (collection) policy</p>
+      <p> Az iFolder- (gyűjtem&eacute;ny-) h&aacute;zirend.</p>
     </li>
   </ul>  
-        <P> Default value: Disabled, iFolder client-set limit</P>
+        <P> Alap&eacute;rtelmezett &eacute;rt&eacute;k: Letiltva, az iFolder &uuml;gyf&eacute;l &aacute;ltal be&aacute;ll&iacute;tott korl&aacute;t</P>
       </TD>
 </TR><TR><TD VALIGN="TOP">
-        <P> Sharing</P>
-      </TD><TD> <B>On</B><BR>
-        By default, iFolder sharing is enabled. Deselect On to disable 
-        sharing for the selected iFolder. After applying this policy, selected 
-        iFolder cannot be shared either by the Admin or by the Owner of the iFolder.<br>
+        <P> Megoszt&aacute;s</P>
+      </TD><TD> <B>Pontosan</B><BR>
+        Alap&eacute;rtelmez&eacute;s szerint az iFolder mapp&aacute;k megoszt&aacute;sa enged&eacute;lyezve van. T&ouml;r&ouml;lje a jelet a Be lehetős&eacute;g mellől, ha a kijel&ouml;lt iFolder mappa sz&aacute;m&aacute;ra nem k&iacute;v&aacute;nja enged&eacute;lyezni a megoszt&aacute;st. A h&aacute;zirend alkalmaz&aacute;sa ut&aacute;n a kijel&ouml;lt iFolder mapp&aacute;t nem tudja megosztani sem a rendszergazda, sem az iFolder mappa tulajdonosa.<br>
           <BR>
-        <B>Revoke</B><BR>
-        Select <i>Revoke</i> to remove all the members from the 
-        list of shared members for the selected iFolder.<br>
+        <B>Visszavon&aacute;s</B><BR>
+        V&aacute;lassza a <i>Visszavon&aacute;s</i> funkci&oacute;t, ha a kijel&ouml;lt iFolder mappa megosztott tagjainak list&aacute;j&aacute;r&oacute;l el szeretn&eacute; t&aacute;vol&iacute;tani az &ouml;sszes tagot.<br>
 		<ul>
-          <P><font size="-1"><b>IMPORTANT:</b> Both these options are disabled 
-            if you enable and enforce the <i> Sharing</i> option at System or 
-            User level.</font></P>
+          <P><font size="-1"><b>FONTOS:</b> E k&eacute;t lehetős&eacute;g egyike sem haszn&aacute;lhat&oacute;, ha a rendszer vagy a felhaszn&aacute;l&oacute; szintj&eacute;n enged&eacute;lyezi a <i>Megoszt&aacute;s</i> funkci&oacute;t, &eacute;s ezt a be&aacute;ll&iacute;t&aacute;st &eacute;rv&eacute;nyes&iacute;ti.</font></P>
         </ul>
       </TD></TR></TABLE><BR><P> 
   
-  <H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Related Topics" align="top"> 
-Related Topics</H4><BLOCKQUOTE class="task1"><P ><A HREF="ifolders.html">Managing iFolders 
-</A><BR><A HREF="users.html">Managing Users 
-</A><BR><A HREF="userdetails.html">User Details</A><BR><A HREF="servers.html#orphan" TARGET="_self">Managing 
-iFolder Servers</A>
+  <H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Kapcsol&oacute;d&oacute; t&eacute;mak&ouml;r&ouml;k" align="top">&nbsp;Kapcsol&oacute;d&oacute; t&eacute;mak&ouml;r&ouml;k</H4><BLOCKQUOTE class="task1"><P ><A HREF="ifolders.html">iFolder mapp&aacute;k kezel&eacute;se </A><BR><A HREF="users.html">Felhaszn&aacute;l&oacute;k kezel&eacute;se </A><BR><A HREF="userdetails.html">Felhaszn&aacute;l&oacute; adatai </A><BR><A HREF="servers.html#orphan" TARGET="_self">Az iFolder kiszolg&aacute;l&oacute;k kezel&eacute;se</A>
     </P>
-  </BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P><P>&nbsp;</P><P CLASS="copyright">A 
-trademark symbol (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP>, 
-etc.) denotes a Novell trademark. An asterisk (*) denotes a third-party trademark. 
-For more information, see <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Legal 
-Notices</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
+  </BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Ugr&aacute;s az oldal tetej&eacute;re"></A></P><P>&nbsp;</P><P CLASS="copyright">A v&eacute;djegyjelek (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP> stb.) a Novell v&eacute;djegyeit jelzik. A csillag (*) karakter harmadik f&eacute;l v&eacute;djegy&eacute;t jel&ouml;li. Tov&aacute;bbi inform&aacute;ci&oacute;k a <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Szerzői jogi megjegyz&eacute;sek c&iacute;mű t&eacute;mak&ouml;rben tal&aacute;lhat&oacute;k</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
 </body>
 
 </html>

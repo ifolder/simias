@@ -1,11 +1,11 @@
 <html>
 
    <head>
-     <meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+     <meta http-equiv="content-type" content="text/html;charset=UTF-8">
      
      <!-- Novell iFolder 3.x iManager Plugin  --> 
    
-     <title>iFolders</title>  	 
+     <title>Priečinky iFolder</title>  	 
         
      <!-- Metadata -->
    
@@ -28,8 +28,7 @@
        <!--
        
          body           {  font-family: Arial, Helvetica, Geneva;
-									background: white
-url(../../images/helphead_bg.gif) repeat-x 0% 0% }
+									background: white url('../../images/helphead_bg.gif') repeat-x;  }
 		      
          #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px;
 									width: 380px; visibility: visible }
@@ -54,114 +53,80 @@ url(../../images/helphead_bg.gif) repeat-x 0% 0% }
 <!-- This is the start of the Help Content Layer --> <div id="helpcontent"> <!-- The Page Heading uses CSS style "head3b". This creates an H3 header
             with a line beneath it.
        --> 
-  <h3 class="head3b">Managing iFolders</h3>
-  <p> Use this interface to manage the ownership, policies, and membership of 
-    a selected iFolder for an iFolder user account on the given iFolder domain. 
-    The search tool helps you locate the account you want to manage. </p>
-	<BLOCKQUOTE CLASS="blockquote"><P><A HREF="#search" TARGET="_self">Searching for 
-an iFolder</A> <BR><A HREF="#browse" TARGET="_self">Browsing 
-the iFolders in the Search Results 
- </A><BR><A HREF="#enable" TARGET="_self">Enabling, Disabling and Deleting an iFolder</A><BR><A HREF="#newuser" TARGET="_self">Creating a New iFolder</A>
+  <h3 class="head3b">Spr&aacute;va priečinkov iFolder.</h3>
+  <p> Pomocou tohto rozhrania m&ocirc;žete spravovať vlastn&iacute;ctvo, z&aacute;sady a členstvo vybrat&eacute;ho priečinka iFolder pre &uacute;čet použ&iacute;vateľa aplik&aacute;cie iFolder v pr&iacute;slušnej dom&eacute;ne aplik&aacute;cie iFolder. Pomocou n&aacute;stroja na hľadanie m&ocirc;žete vyhľadať konto, ktor&eacute; chcete spravovať. </p>
+  <p> <b>Pozn&aacute;mka:</b> Ak sa prihl&aacute;site ako sekund&aacute;rny spr&aacute;vca, m&ocirc;žete zobraziť iba priečinky iFolder vlastnen&eacute; použ&iacute;vateľmi, pre ktor&yacute;ch ste sekund&aacute;rnym spr&aacute;vcom. Okrem toho z&aacute;visia vaše možnosti pri spravovan&iacute; priečinkov iFolder od pr&aacute;v, ktor&eacute; m&aacute;te k dispoz&iacute;cii na ich spravovanie.</p>
+	<BLOCKQUOTE CLASS="blockquote"><P><A HREF="#search" TARGET="_self">Vyhľad&aacute;vanie priečinka iFolder</A> <BR><A HREF="#browse" TARGET="_self">Prehľad&aacute;vanie priečinkov iFolder vo v&yacute;sledkoch vyhľad&aacute;vania </A><BR><A HREF="#enable" TARGET="_self">Povolenie, zak&aacute;zanie a odstr&aacute;nenie priečinka iFolder</A><BR><A HREF="#newuser" TARGET="_self">Vytvorenie nov&eacute;ho priečinka iFolder</A>
  </P></BLOCKQUOTE>
   
-  <H3><A NAME="search"></A>Searching For an iFolder</H3>
+  <H3><A NAME="search"></A>Vyhľad&aacute;vanie priečinka iFolder</H3>
   
-<H4>iFolder Types</H4>
-  <p><img src="../../images/ifolder.png" width="16" height="16" alt="Shared icon"> 
-    indicates that the iFolder is Normal.<br>
-    <img src="../../images/ifolder_user_16.gif" width="16" height="16" alt="Shared icon"> 
-    indicates that the iFolder is Shared.<br>
-    <img src="../../images/encrypt_ifolder.gif" width="16" height="16" alt="Shared icon"> 
-    indicates that the iFolder is Encrypted.</p>
-  <p> Click All to view all the iFolders in the current iFolder domain. Click 
-    Orphan to view all the orphaned iFolders.</p>
-  <H4>Retrieving a List of iFolders on the Server</H4><P>Use one 
-or more of the following search methods, then click Search:</P><UL><LI><P>Select 
-Equals as the filter criterion, then type the name of the iFolder you want to 
-locate in the Search iFolders field.</P></LI><LI>
-      <P>Select a filter criterion ( Begins With, Ends With, Contains, Equals) for the name 
-        of the iFolder, then type one or more letters in the Search iFolders field.</P>
-    </LI><LI><P>Type an asterisk 
-(*) in the Search iFolders field to return a list of all iFolders on the system.</P></LI><LI><P>Leave 
-the Search iFolders field empty to return a list of all iFolders on the system.</P></LI></UL>
-  <P>Do not click anywhere in the page until the page completely refreshes; then 
-    you can browse, sort, or manage the iFolders listed in the Search Results 
-    report. </P>
-  <H4><A NAME="browse"></A>Browsing 
-the iFolders in the Search Results</H4>
-  <P>Scroll up and down to browse the search results and locate the iFolder you 
-    want to manage. The combination of the iFolder's name and owner help to identify 
-    the iFolder you want.</P>
+<H4>Typy priečinkov iFolder</H4>
+  <p>Ikona <img src="../../images/ifolder.png" width="16" height="16" alt="ikona zdieľania"> označuje, že je priečinok iFolder bežn&yacute;.<br>
+    Ikona <img src="../../images/ifolder_user_16.gif" width="16" height="16" alt="ikona zdieľania"> označuje, že je priečinok iFolder zdieľan&yacute;.<br>
+    Ikona <img src="../../images/encrypt_ifolder.gif" width="16" height="16" alt="ikona zdieľania"> označuje, že je priečinok iFolder zašifrovan&yacute;.</p>
+  <p> Ak chcete zobraziť všetky priečinky iFolder v aktu&aacute;lnej dom&eacute;ne aplik&aacute;cie iFolder, kliknite na možnosť Všetko. Ak chcete zobraziť všetky osamoten&eacute; priečinky iFolder, kliknite na možnosť Osamoten&yacute;.</p>
+  <H4>Z&iacute;skanie zoznamu priečinkov iFolder na serveri</H4><P>Použite jeden alebo viacero nasleduj&uacute;cich sp&ocirc;sobov vyhľad&aacute;vania a kliknite na tlačidlo Hľadať:</P><UL><LI><P>Vyberte ako krit&eacute;rium filtra možnosť Rovn&aacute; sa a do poľa Hľadať priečinky iFolder zadajte n&aacute;zov požadovan&eacute;ho priečinka iFolder.</P></LI><LI>
+      <P>Vyberte krit&eacute;rium filtra ( Zač&iacute;na na, Konč&iacute; na, Obsahuje, Rovn&aacute; sa) n&aacute;zvu priečinka iFolder a potom zadajte do poľa Hľadať priečinky iFolder jedno alebo viac p&iacute;smen.</P>
+    </LI><LI><P>Ak chcete z&iacute;skať zoznam všetk&yacute;ch priečinkov iFolder v syst&eacute;me, zadajte do poľa Hľadať priečinky iFolder hviezdičku (*).</P></LI><LI><P>Ak chcete z&iacute;skať zoznam všetk&yacute;ch priečinkov iFolder v syst&eacute;me, ponechajte pole Hľadať priečinky iFolder pr&aacute;zdne.</P></LI></UL>
+  <P>Neklikajte na str&aacute;nku, k&yacute;m sa zobrazenie str&aacute;nky &uacute;plne neobnov&iacute;. potom m&ocirc;žete prehľad&aacute;vať, usporiadavať alebo spravovať priečinky iFolder, ktor&eacute; s&uacute; zobrazen&eacute; v zostave v&yacute;sledkov vyhľad&aacute;vania.  </P>
+  <H4><A NAME="browse"></A>Prehľad&aacute;vanie priečinkov iFolder vo v&yacute;sledkoch vyhľad&aacute;vania</H4>
+  <P>Pos&uacute;van&iacute;m nahor a nadol a prehľad&aacute;van&iacute;m v&yacute;sledkov vyhľad&aacute;vania n&aacute;jdite priečinok iFolder, ktor&yacute; chcete spravovať.  Pomocou kombin&aacute;cie vlastn&iacute;ka a n&aacute;zvu priečinka iFolder m&ocirc;žete identifikovať požadovan&yacute; priečinok iFolder.</P>
   
-  <H4><a name="enable"></a>Enabling, Disabling and Deleting an iFolder</H4>
+  <H4><a name="enable"></a>Povolenie, zak&aacute;zanie a odstr&aacute;nenie priečinka iFolder</H4>
   <br>
 	<OL>
     <LI> 
-      <P>Locate the iFolder you want to manage, then select the check box next 
-        to the iFolder.</P>
+      <P>Vyhľadajte priečinok iFolder, ktor&yacute; chcete spravovať a vyberte začiark&aacute;vacie pol&iacute;čko vedľa pr&iacute;slušn&eacute;ho priečinka iFolder.</P>
     </LI>
 	<LI> 
-      <P>Select an action to perform on the iFolder:</P>
+      <P>Vyberte akciu, ktor&uacute; chcete v priečinku iFolder vykonať:</P>
     </LI>
-	<ul><li><P>Click Delete to delete the iFolder.</P><li><P>Click Enable to enable the iFolder.</P>
-        <P>This allows the user to log in and synchronize iFolders.</P>
-      </li><li><P>Click Disable to disable the iFolder.</P><P> If the user is logged in when you make this change, the user�s session 
-        continues until the user logs out. The policy takes effect the next time 
-        the user attempts to log in to the account. To have the lockout take effect 
-        immediately, you must restart the Apache services for the iFolder server, 
-        which disconnects all active sessions, including the user�s session.</P></li></ul>
+	<ul><li><P>Ak chcete priečinok iFolder odstr&aacute;niť, kliknite na tlačidlo Odstr&aacute;niť.</P><li><P>Ak chcete priečinok iFolder povoliť, kliknite na tlačidlo Povoliť.</P>
+        <P>To umožn&iacute; použ&iacute;vateľom prihl&aacute;siť sa a synchronizovať priečinky iFolder.</P>
+      </li><li><P>Ak chcete priečinok iFolder zak&aacute;zať, kliknite na tlačidlo Zak&aacute;zať.</P><P> Ak je v čase vykonania zmeny tohto nastavenia prihl&aacute;sen&yacute; použ&iacute;vateľ, jeho rel&aacute;cia bude pokračovať, k&yacute;m sa neodhl&aacute;si. Z&aacute;sada sa uplatn&iacute; pri najbližšom pokuse použ&iacute;vateľa o prihl&aacute;senie sa na konto. Ak chcete, aby sa uzamknutie prejavilo okamžite, mus&iacute;te reštartovať služby servera Apache pre server iFolder. T&yacute;m odpoj&iacute;te všetky akt&iacute;vne rel&aacute;cie, vr&aacute;tane rel&aacute;cie použ&iacute;vateľa.</P></li></ul>
        
    
   </OL><BLOCKQUOTE>
-    <P><B><FONT SIZE="-1">NOTE:</FONT></B> <FONT SIZE="-1">By default, all iFolders 
-      are enabled.</FONT></P>
+    <P><B><FONT SIZE="-1">POZN&Aacute;MKA:</FONT></B> <FONT SIZE="-1">V predvolenom nastaven&iacute; s&uacute; všetky priečinky iFolder povolen&eacute;.</FONT></P>
   </BLOCKQUOTE> 
-  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top" TITLE="Go to top"></A>
-  <H3><A NAME="newuser"></A>Creating a New iFolder </H3>
+  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Prejsť na začiatok" TITLE="Prejsť na začiatok"></A>
+  <H3><A NAME="newuser"></A>Vytvorenie nov&eacute;ho priečinka iFolder </H3>
   <br>
  
 <OL><LI>
-      <P>On the iFolder Users page, click New.</P>
-	  <P>The iFolder creation page opens to the iFolders page.</P>
+      <P>Na str&aacute;nke Použ&iacute;vatelia priečinku iFolder kliknite na tlačidlo Nov&yacute;.</P>
+	  <P>Na str&aacute;nke Priečinky iFolder sa otvor&iacute; str&aacute;nka pre vytvorenie nov&eacute;ho priečinku iFolder.</P>
     </LI>
-    <LI>Specify the following information and then click Create.
+    <LI>Zadajte nasleduj&uacute;ce inform&aacute;cie a kliknite na tlačidlo Vytvoriť.
   </ol>
   <P>
-  <BLOCKQUOTE> <B> Name</B><BR>
-    Assign a name to the iFolder such as ifolder 1. <BR>
+  <BLOCKQUOTE> <B> N&aacute;zov</B><BR>
+    Priraďte priečinku iFolder n&aacute;zov, napr&iacute;klad iFolder 1. <BR>
 	<BR>
-    <B> Description</B><BR>
-    A short description about the iFolder.<br>
+    <B> Popis</B><BR>
+    Kr&aacute;tky popis priečinka iFolder.<br>
        
   </BLOCKQUOTE>
  
-  <h4>Accessing the iFolders Details Page</h4><br>
+  <h4>Pr&iacute;stup na str&aacute;nku Podrobnosti o priečinku iFolder</h4><br>
   
   <ol>
     
     <li> 
-      <p>Use the search tool to locate the iFolder you want to manage.</p>
+      <p>Pomocou n&aacute;stroja na hľadanie vyhľadajte priečinok iFolder, ktor&yacute; chcete spravovať.</p>
     </li>
     <li> 
-      <p>Click the iFolder's link to open the iFolder Details page to the iFolder 
-        tab. <br>
+      <p>Ak chcete na karte Priečinok iFolder otvoriť str&aacute;nku Podrobnosti o priečinku iFolder, kliknite na prepojenie priečinka iFolder. <br>
         <br>
-        The iFolder Details page will display the iFolder details, a list of members 
-        who own or share with, and policy settings for the current iFolder. </p>
+        Str&aacute;nka Podrobnosti o priečinku iFolder zobrazuje podrobnosti o priečinku iFolder, zoznam členov, ktor&iacute; priečinok vlastnia alebo s n&iacute;m zdieľaj&uacute; a nastavenia z&aacute;sad pre aktu&aacute;lny priečinok iFolder. </p>
     </li>
   </ol>
-  <P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P>
+  <P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Prejsť na začiatok"></A></P>
   
-  <H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Related Topics" align="top"> 
-Related Topics</H4>
+  <H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="S&uacute;visiace t&eacute;my" align="top"> S&uacute;visiace t&eacute;my</H4>
   
-  <BLOCKQUOTE class="task1"><P><A HREF="ifolderdetails.html">Managing iFolder Details
-</A><BR><A HREF="userdetails.html">User Details 
-</A><BR><A HREF="users.html">Managing a User Account</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P><P>&nbsp;</P><P CLASS="copyright">A 
-trademark symbol (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP>, 
-etc.) denotes a Novell trademark. An asterisk (*) denotes a third-party trademark. 
-For more information, see <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Legal 
-Notices</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
+  <BLOCKQUOTE class="task1"><P><A HREF="ifolderdetails.html">Spr&aacute;va podrobnost&iacute; o priečinku iFolder </A><BR><A HREF="userdetails.html">Podrobnosti o použ&iacute;vateľoch </A><BR><A HREF="users.html">Spr&aacute;va konta použ&iacute;vateľa</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Prejsť na začiatok"></A></P><P>&nbsp;</P><P CLASS="copyright">Symbol ochrannej zn&aacute;mky (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP> atď.) označuje ochrann&uacute; zn&aacute;mku spoločnosti Novell. Hviezdička (*) označuje ochrann&uacute; zn&aacute;mku nez&aacute;visl&eacute;ho v&yacute;robcu.   Ďalšie inform&aacute;cie n&aacute;jdete v časti <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Pr&aacute;vne prehl&aacute;senia</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
 </body>
 
 </html>

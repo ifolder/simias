@@ -1,11 +1,11 @@
 <html>
 
    <head>
-     <meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+     <meta http-equiv="content-type" content="text/html;charset=UTF-8">
      
      <!-- Novell iFolder 3.7  --> 
    
-     <title>Managing the LDAP Settings</title>  	 
+     <title>Gestion des param&egrave;tres LDAP</title>  	 
      
      <!-- Metadata -->
    
@@ -52,103 +52,63 @@
 <!-- This is the start of the Help Banner Layer --> <div id="headgraphic"> <img src="../../images/h1_help.gif" width="380" height="32"   border="0"></div><!-- This is end of the Help Banner Layer --> 
 <!-- This is the start of the Help Content Layer --> <div id="helpcontent"> <!-- The Page Heading uses CSS style "head3b". This creates an H3 header
             with a line beneath it.
-       --> <h3 class="head3b">Managing the LDAP Settings for the iFolder System</h3>
-  <p> Use this interface to modify the LDAP settings for the selected Novell<SUP><SMALL>&reg;</SMALL></SUP> iFolder<SUP><SMALL>&reg;</SMALL></SUP> 
-    3.7 server on this iFolder domain. </p>
+       --> <h3 class="head3b">Gestion des param&egrave;tres LDAP du syst&egrave;me iFolder</h3>
+  <p> Cette interface permet de modifier les param&egrave;tres LDAP du serveur Novell<SUP><SMALL>&reg;</SMALL></SUP> iFolder<SUP><SMALL>&reg;</SMALL></SUP> 3.7 s&eacute;lectionn&eacute; dans ce domaine iFolder. </p>
   
-  <H3><A NAME="modify"></A>Modifying 
-the LDAP Settings</H3><P>Modify any of the following fields, then click <i>OK</i> to 
-apply your changes:</P><TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR>
+  <H3><A NAME="modify"></A>Modification des param&egrave;tres LDAP</H3><P>Modifiez les champs suivants, puis cliquez sur <i>OK</i> pour appliquer vos modifications :</P><TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Param&egrave;tre</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR>
 <TR><TD VALIGN="TOP">
-        <P>LDAP Admin DN</P>
+        <P>DN Admin LDAP</P>
       </TD><TD>
-        <P>Specify the fully distinguished name of the LDAP Admin. This can be 
-          the same or different as your iFolder Admin.</P>
+        <P>Sp&eacute;cifiez le nom distinctif complet de l'Admin LDAP. Ce dernier peut &ecirc;tre identique ou diff&eacute;rent de votre Admin iFolder.</P>
       </TD></TR>
 	  <TR><TD VALIGN="TOP">
-        <P>LDAP Admin&nbsp;Password&nbsp;</P>
+        <P>Mot de passe Admin LDAP</P>
       </TD><TD>
-        <P>The password is used to authenticate the LDAP Admin user to the LDAP 
-          server. </P>
+        <P>Le mot de passe sert &agrave; authentifier l'utilisateur Admin LDAP sur le serveur LDAP. </P>
         
-        <P>Click <i>OK</i> to update the password stored in the LDAP settings.</P>
+        <P>Cliquez sur <i>OK</i> pour mettre &agrave; jour le mot de passe stock&eacute; dans les param&egrave;tres LDAP.</P>
 <blockquote>
   
 </blockquote>
 </TD></TR><TR><TD VALIGN="TOP">
-        <P>LDAP Server</P>
+        <P>Serveur LDAP</P>
       </TD><TD>
-        <P>Specify the DNS name or IP address of the LDAP server. This can be 
-          any of the iFolder servers in the iFolder system.</P>
+        <P>Sp&eacute;cifiez le nom DNS ou l'adresse IP du serveur LDAP. Il peut s'agir de n'importe quel serveur du syst&egrave;me iFolder.</P>
       </TD></TR>
 	  <TR><TD VALIGN="TOP">
-        <P>LDAP SSL</P>
+        <P>SSL LDAP</P>
       </TD><TD>
-        <P>Select <i>Yes</i> to enable LDAP SSL. If SSL is enabled on the server, 
-          the value is Yes; otherwise, the value is No.<BR>
+        <P>S&eacute;lectionnez <i>Oui</i> pour activer SSL LDAP. Si SSL est activ&eacute; sur le serveur, la valeur est Oui ; dans le cas contraire, la valeur est Non.<BR>
         </P></TD></TR><TR><TD VALIGN="TOP">
-        <P>Proxy&nbsp;User&nbsp;&nbsp;</P>
+        <P>Utilisateur proxy&nbsp;&nbsp;</P>
       </TD><TD>
-        <P>The iFolder Proxy user is an existing proxy user identity used to access 
-          the LDAP server with Read access to retrieve a list of authorized users. 
-          The proxy user is automatically created during the iFolder enterprise 
-          server configuration in YaST. The username is auto-generated to be unique 
-          on the system. </P>
-    <P> Make sure that the user account assigned as the iFolder Proxy user is different than the one used for the iFolder Admin user and other system users. Separating the proxy user from the administrator provides privilege separation and is also important because the proxy user password is stored in the file system on the iFolder server.</P>
-    <P> Specify the fully distinguished name of an existing user that you want to make the iFolder Proxy user. This identity must have the Read right to the LDAP directory. For example: </P>
+        <P>L'utilisateur proxy iFolder est une identit&eacute; d'utilisateur proxy existante utilis&eacute;e pour acc&eacute;der au serveur LDAP en lecture afin de r&eacute;cup&eacute;rer une liste d'utilisateurs autoris&eacute;s. L'utilisateur proxy est cr&eacute;&eacute; automatiquement pendant la configuration du serveur d'entreprise iFolder dans YaST. Le nom d'utilisateur est g&eacute;n&eacute;r&eacute; automatiquement de mani&egrave;re &agrave; &ecirc;tre unique sur le syst&egrave;me. </P>
+    <P> Assurez-vous que le compte utilisateur assign&eacute; &agrave; l'utilisateur proxy iFolder est diff&eacute;rent de celui utilis&eacute; pour l'utilisateur Admin iFolder et les autres utilisateurs syst&egrave;me. La diff&eacute;renciation de l'utilisateur proxy de l'administrateur assure la s&eacute;paration des privil&egrave;ges et est &eacute;galement importante dans la mesure o&ugrave; le mot de passe de l'utilisateur proxy est stock&eacute; dans le syst&egrave;me de fichiers sur le serveur iFolder.</P>
+    <P> Sp&eacute;cifiez le nom distinctif complet d'un utilisateur existant que vous souhaitez d&eacute;signer comme utilisateur proxy iFolder. Cette identit&eacute; doit poss&eacute;der le droit de lecture sur l'annuaire LDAP. Par exemple&nbsp;: </P>
         <P> cn=iFolderProxy,o=acme</P>
-    <P> Make sure to also enter the new user's password in the Proxy Password field.</P>
-        <P> After you modify the Proxy user, you might want to immediately synchronize 
-          the LDAP user lists, using the new iFolder proxy information; otherwise, 
-          the Proxy user information is not tested until the next scheduled synchronization 
-          of the user list. Use the <i>Sync Now</i> option under <i>LDAP Details</i> 
-          on the Server Details page to synchronize the iFolder user list on demand 
-          and verify your new Proxy user settings.</P>
+    <P> Veillez &eacute;galement &agrave; saisir le mot de passe du nouvel utilisateur dans le champ Mot de passe proxy.</P>
+        <P> Apr&egrave;s modification de l'utilisateur proxy, vous souhaiterez peut-&ecirc;tre synchroniser imm&eacute;diatement les listes d'utilisateurs LDAP avec les nouvelles informations proxy iFolder ; si vous ne le faites pas, les informations de l'utilisateur proxy ne seront pas test&eacute;es avant la synchronisation planifi&eacute;e suivante de la liste d'utilisateurs. Utilisez l'option <i>Synchroniser maintenant</i> sous <i>D&eacute;tails LDAP</i> sur la page D&eacute;tails du serveur pour synchroniser la liste d'utilisateurs iFolder &agrave; la demande et v&eacute;rifier les param&egrave;tres de votre nouvel utilisateur proxy.</P>
       </TD></TR>
-	<TR><TD VALIGN="TOP"><P>Proxy&nbsp;User&nbsp;Password&nbsp;</P></TD><TD>
-        <P>The password is used to authenticate the iFolder Proxy user to the 
-          LDAP server when iFolder synchronizes users with the LDAP server. </P>
-        <P>To modify the iFolder Proxy User password, you do not need to update the value stored in LDAP settings for the iFolder system. 
-          You can directly use this interface to modify the password.</p>
-        <P>This password must match the password stored in the iFolder Proxy user&#146;s 
-eDirectory<sup><small>TM</small></sup> object. </P>
-<P>Specify the password twice, then click <i>OK</i> to update the password stored in the LDAP settings.</P>
+	<TR><TD VALIGN="TOP"><P>Mot de passe de l'utilisateur proxy&nbsp;</P></TD><TD>
+        <P>Le mot de passe sert &agrave; authentifier l'utilisateur proxy iFolder sur le serveur LDAP lorsque iFolder synchronise les utilisateurs avec le serveur LDAP. </P>
+        <P>Pour modifier le mot de passe de l'utilisateur proxy iFolder, vous ne devez pas mettre &agrave; jour la valeur stock&eacute;e dans les param&egrave;tres LDAP du syst&egrave;me iFolder. Vous pouvez utiliser directement cette pour modifier le mot de passe.</p>
+        <P>Ce mot de passe mot doit correspondre &agrave; celui stock&eacute; dans l'objet eDirectory<sup><small>TM</small></sup> de l'utilisateur proxy iFolder. </P>
+<P>Sp&eacute;cifiez le mot de passe deux fois, puis cliquez sur <i>OK</i>  pour mettre &agrave; jour le mot de passe stock&eacute; dans les param&egrave;tres LDAP.</P>
 
         
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>LDAP Contexts</P>
+        <P>Contextes LDAP </P>
       </TD><TD>
-        <P> Specify or edit the LDAP containers, groups, or users where iFolder 
-          searches for a list of authorized users to provision for iFolder servers 
-          on this enterprise server. LDAP contexts are entered in LDAP format. 
-          For example: </P>
+        <P> Sp&eacute;cifiez ou modifiez les conteneurs, groupes ou utilisateurs LDAP parmi lesquels iFolder recherche une liste d'utilisateurs autoris&eacute;s pour provisionner les serveurs iFolder sur ce serveur d'entreprise. Les contextes LDAP s'introduisent en format LDAP. Par exemple&nbsp;: </P>
         <P> cn=group,o=acme#cn=dbgroup,o=acme#</P>
-        <P>To edit a value, select it, make your changes, then click <i>OK</i> to apply 
-          the changes.</P>  
+        <P>Pour modifier une valeur, s&eacute;lectionnez-la, apportez vos modifications, puis cliquez sur <i>OK</i> pour appliquer les changements.</P>  
   
-        <P>During LDAP synchronization, the iFolder server queries the LDAP server 
-          to retrieve a list of users in the DNs (as specified in the <i>LDAP 
-          Contexts</i> field) at the specified synchronization interval. The usernames 
-          in the iFolder domain are matched against this official LDAP list. Any 
-          new user in the specified LDAP contexts is added to the iFolder domain. 
-          If a user is no longer in the specified LDAP contexts, the username 
-          is removed from the domain, any iFolders the user owns are orphaned 
-          and reassigned to the iFolder Admin user, and the user is removed as 
-          a member of other iFolders.</P>
-        <P>The iFolder Admin User is provisioned for servers during the install. 
-          It is tracked by its GUID, so it is available even if you do not specify 
-          a container, group, or user, or if you specify search DNs that do not 
-          contain the Folder Admin user. This identity must be provisioned to 
-          enable the iFolder Admin to perform management tasks.</P>
+        <P>L'utilisateur Admin iFolder est provisionn&eacute; pour les serveurs pendant l'installation. Cet utilisateur &eacute;tant suivi par son GUID, il est disponible m&ecirc;me si vous ne sp&eacute;cifiez pas de conteneur, de groupe ou d'utilisateur, ainsi que si vous sp&eacute;cifiez pour la recherche des noms de domaine qui ne contiennent pas l'utilisateur Admin iFolder. Cette identit&eacute; doit &ecirc;tre provisionn&eacute;e pour permettre &agrave; l'utilisateur Admin iFolder d'effectuer des t&acirc;ches de gestion.</P>
+        <P>La synchronisation LDAP peut &ecirc;tre planifi&eacute;e ou effectu&eacute;e manuellement en cliquant sur le bouton <i>Synchroniser maintenant</i>. Lors de la synchronisation LDAP, le serveur iFolder interroge le serveur LDAP et r&eacute;cup&egrave;re la liste des utilisateurs du DN sp&eacute;cifi&eacute; dans le champ <i>Contexte LDAP</i>. Les noms des utilisateurs du domaine iFolder sont compar&eacute;s &agrave; ceux de la liste LDAP. Si un utilisateur est ajout&eacute; ou supprim&eacute; du contexte LDAP sp&eacute;cifi&eacute;, le domaine iFolder est mis &agrave; jour par la suite.</P>
+        <P>M&ecirc;me si un utilisateur est supprim&eacute; du contexte LDAP, la premi&egrave;re synchronisation LDAP ne d&eacute;sactive que l'utilisateur du domaine iFolder ind&eacute;pendamment de la strat&eacute;gie d'intervalle de gr&acirc;ce. L'utilisateur d&eacute;sactiv&eacute; n'est jamais supprim&eacute; automatiquement &agrave; l'issue de la p&eacute;riode de gr&acirc;ce et reste dans le domaine iFolder avec l'&eacute;tat D&eacute;sactiv&eacute;. Si cet utilisateur est de nouveau configur&eacute; au cours de la p&eacute;riode de gr&acirc;ce, il redevient actif pour tous les dossiers iFolder. &Agrave; l'issue de la p&eacute;riode de gr&acirc;ce, l'utilisateur est supprim&eacute; du domaine iFolder lors de la synchronisation LDAP suivante et tous ses dossiers iFolder deviennent orphelins. Les dossiers iFolder orphelins sont r&eacute;assign&eacute;s &agrave; l'utilisateur Admin iFolder.</P>
       </TD></TR>
-  </TABLE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P><H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Related Topics" align="top"> 
-Related Topics</H4><BLOCKQUOTE class="task1">
-<P ><A HREF="system.html">Managing 
-the iFolder System</A><BR><A HREF="member.html">Managing a User Account</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P><P>&nbsp;</P><P CLASS="copyright">A 
-trademark symbol (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP>, 
-etc.) denotes a Novell trademark. An asterisk (*) denotes a third-party trademark. 
-For more information, see <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Legal 
-Notices</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
+  </TABLE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="D&eacute;but"></A></P><H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Rubriques connexes" align="top">Rubriques connexes</H4><BLOCKQUOTE class="task1">
+<P ><A HREF="system.html">Gestion du syst&egrave;me iFolder</A><BR><A HREF="member.html">Gestion d'un compte utilisateur</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="D&eacute;but"></A></P><P>&nbsp;</P><P CLASS="copyright">Le symbole de marque (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP>, etc.) indique une marque de Novell. L'ast&eacute;risque (*) indique une marque d'un fabricant tiers. Pour plus d'informations, reportez-vous aux <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">mentions l&eacute;gales</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
 </body>
 
 </html>

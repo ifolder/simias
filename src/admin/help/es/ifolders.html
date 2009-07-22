@@ -1,11 +1,11 @@
 <html>
 
    <head>
-     <meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+     <meta http-equiv="content-type" content="text/html;charset=UTF-8">
      
      <!-- Novell iFolder 3.x iManager Plugin  --> 
    
-     <title>iFolders</title>  	 
+     <title>Carpetas iFolder</title>  	 
         
      <!-- Metadata -->
    
@@ -28,8 +28,7 @@
        <!--
        
          body           {  font-family: Arial, Helvetica, Geneva;
-									background: white
-url(../../images/helphead_bg.gif) repeat-x 0% 0% }
+									background: white url('../../images/helphead_bg.gif') repeat-x;  }
 		      
          #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px;
 									width: 380px; visibility: visible }
@@ -54,114 +53,80 @@ url(../../images/helphead_bg.gif) repeat-x 0% 0% }
 <!-- This is the start of the Help Content Layer --> <div id="helpcontent"> <!-- The Page Heading uses CSS style "head3b". This creates an H3 header
             with a line beneath it.
        --> 
-  <h3 class="head3b">Managing iFolders</h3>
-  <p> Use this interface to manage the ownership, policies, and membership of 
-    a selected iFolder for an iFolder user account on the given iFolder domain. 
-    The search tool helps you locate the account you want to manage. </p>
-	<BLOCKQUOTE CLASS="blockquote"><P><A HREF="#search" TARGET="_self">Searching for 
-an iFolder</A> <BR><A HREF="#browse" TARGET="_self">Browsing 
-the iFolders in the Search Results 
- </A><BR><A HREF="#enable" TARGET="_self">Enabling, Disabling and Deleting an iFolder</A><BR><A HREF="#newuser" TARGET="_self">Creating a New iFolder</A>
+  <h3 class="head3b">Gesti&oacute;n de carpetas iFolder</h3>
+  <p> Utilice esta interfaz para gestionar la propiedad, las directivas y la pertenencia de una carpeta iFolder seleccionada para una cuenta de usuario iFolder de un dominio iFolder determinado. La herramienta de b&uacute;squeda le ayudar&aacute; a localizar la cuenta que desea gestionar. </p>
+  <p> <b>Nota:</b> cuando inicia sesi&oacute;n como administrador secundario, puede ver s&oacute;lo aquellas iFolder pertenecientes a los usuarios para los que est&aacute; designado como administrador secundario. Adem&aacute;s, puede gestionar las iFolder s&oacute;lo dependiendo de los derechos de los que disponga para gestionarlas.</p>
+	<BLOCKQUOTE CLASS="blockquote"><P><A HREF="#search" TARGET="_self">B&uacute;squeda de una carpeta iFolder</A> <BR><A HREF="#browse" TARGET="_self">Examinaci&oacute;n de las carpetas iFolder en los resultados de b&uacute;squeda</A><BR><A HREF="#enable" TARGET="_self">Habilitaci&oacute;n, inhabilitaci&oacute;n y supresi&oacute;n de una carpeta iFolder</A><BR><A HREF="#newuser" TARGET="_self">Creaci&oacute;n de una carpeta iFolder nueva</A>
  </P></BLOCKQUOTE>
   
-  <H3><A NAME="search"></A>Searching For an iFolder</H3>
+  <H3><A NAME="search"></A>B&uacute;squeda de una carpeta iFolder</H3>
   
-<H4>iFolder Types</H4>
-  <p><img src="../../images/ifolder.png" width="16" height="16" alt="Shared icon"> 
-    indicates that the iFolder is Normal.<br>
-    <img src="../../images/ifolder_user_16.gif" width="16" height="16" alt="Shared icon"> 
-    indicates that the iFolder is Shared.<br>
-    <img src="../../images/encrypt_ifolder.gif" width="16" height="16" alt="Shared icon"> 
-    indicates that the iFolder is Encrypted.</p>
-  <p> Click All to view all the iFolders in the current iFolder domain. Click 
-    Orphan to view all the orphaned iFolders.</p>
-  <H4>Retrieving a List of iFolders on the Server</H4><P>Use one 
-or more of the following search methods, then click Search:</P><UL><LI><P>Select 
-Equals as the filter criterion, then type the name of the iFolder you want to 
-locate in the Search iFolders field.</P></LI><LI>
-      <P>Select a filter criterion ( Begins With, Ends With, Contains, Equals) for the name 
-        of the iFolder, then type one or more letters in the Search iFolders field.</P>
-    </LI><LI><P>Type an asterisk 
-(*) in the Search iFolders field to return a list of all iFolders on the system.</P></LI><LI><P>Leave 
-the Search iFolders field empty to return a list of all iFolders on the system.</P></LI></UL>
-  <P>Do not click anywhere in the page until the page completely refreshes; then 
-    you can browse, sort, or manage the iFolders listed in the Search Results 
-    report. </P>
-  <H4><A NAME="browse"></A>Browsing 
-the iFolders in the Search Results</H4>
-  <P>Scroll up and down to browse the search results and locate the iFolder you 
-    want to manage. The combination of the iFolder's name and owner help to identify 
-    the iFolder you want.</P>
+<H4>Tipos de carpeta iFolder</H4>
+  <p>El icono <img src="../../images/ifolder.png" width="16" height="16" alt="Icono de compartido"> indica que la carpeta iFolder es normal.<br>
+    El icono <img src="../../images/ifolder_user_16.gif" width="16" height="16" alt="Icono de compartido"> indica que la carpeta iFolder est&aacute; compartida.<br>
+    El icono <img src="../../images/encrypt_ifolder.gif" width="16" height="16" alt="Icono de compartido"> indica que la carpeta iFolder est&aacute; cifrada.</p>
+  <p> Haga clic en Todos para ver todas las carpetas iFolder que existen en el dominio iFolder actual. Haga clic en Hu&eacute;rfano para ver todas las carpetas iFolder hu&eacute;rfanas.</p>
+  <H4>Recuperaci&oacute;n de una lista de carpetas iFolder del servidor</H4><P>Utilice uno o varios de los siguientes m&eacute;todos de b&uacute;squeda y, a continuaci&oacute;n, haga clic en Buscar:</P><UL><LI><P>Seleccione Igual como criterio de filtrado y, a continuaci&oacute;n, escriba el nombre de la carpeta iFolder que desea localizar en el campo Buscar carpetas iFolder.</P></LI><LI>
+      <P>Seleccione un criterio de filtrado (Empieza por, Acaba por, Contiene, Igual a) para el nombre de la carpeta iFolder y, a continuaci&oacute;n, escriba una o varias letras en el campo Buscar carpetas iFolder.</P>
+    </LI><LI><P>Escriba un asterisco (*) en el campo Buscar carpetas iFolder para obtener una lista con todas las carpetas iFolder del sistema.</P></LI><LI><P>Si lo prefiere, deje el campo en blanco para obtener una lista con todas las carpetas iFolder del sistema.</P></LI></UL>
+  <P>No haga clic en ning&uacute;n lugar de la p&aacute;gina hasta que &eacute;sta se haya actualizado del todo. A continuaci&oacute;n, podr&aacute; examinar, clasificar o gestionar las carpetas iFolder del informe de resultados de b&uacute;squeda. </P>
+  <H4><A NAME="browse"></A>Examinaci&oacute;n de las carpetas iFolder en los resultados de b&uacute;squeda</H4>
+  <P>Despl&aacute;cese hacia arriba o hacia abajo para examinar los resultados de b&uacute;squeda y localizar la carpeta iFolder que desea gestionar. La combinaci&oacute;n del nombre y propietario de la carpeta iFolder le permitir&aacute;n identificar la carpeta iFolder que desea.</P>
   
-  <H4><a name="enable"></a>Enabling, Disabling and Deleting an iFolder</H4>
+  <H4><a name="enable"></a>Habilitaci&oacute;n, inhabilitaci&oacute;n y supresi&oacute;n de una carpeta iFolder</H4>
   <br>
 	<OL>
     <LI> 
-      <P>Locate the iFolder you want to manage, then select the check box next 
-        to the iFolder.</P>
+      <P>Localice la carpeta iFolder que desea gestionar y, a continuaci&oacute;n, seleccione la casilla de verificaci&oacute;n situada junto a la misma.</P>
     </LI>
 	<LI> 
-      <P>Select an action to perform on the iFolder:</P>
+      <P>Seleccione la acci&oacute;n que desea realizar con la carpeta iFolder:</P>
     </LI>
-	<ul><li><P>Click Delete to delete the iFolder.</P><li><P>Click Enable to enable the iFolder.</P>
-        <P>This allows the user to log in and synchronize iFolders.</P>
-      </li><li><P>Click Disable to disable the iFolder.</P><P> If the user is logged in when you make this change, the user’s session 
-        continues until the user logs out. The policy takes effect the next time 
-        the user attempts to log in to the account. To have the lockout take effect 
-        immediately, you must restart the Apache services for the iFolder server, 
-        which disconnects all active sessions, including the user’s session.</P></li></ul>
+	<ul><li><P>Haga clic en Suprimir para suprimir la carpeta iFolder.</P><li><P>Haga clic en Habilitar para habilitar la carpeta iFolder.</P>
+        <P>Esta acci&oacute;n permitir&aacute; al usuario entrar a la carpeta iFolder y sincronizarla.</P>
+      </li><li><P>Haga clic en Inhabilitar para inhabilitar la carpeta iFolder.</P><P> Si el usuario est&aacute; conectado cuando se efect&uacute;a este cambio, la sesi&oacute;n del usuario continuar&aacute; hasta que &eacute;ste salga. La directiva surtir&aacute; efecto la pr&oacute;xima vez que el usuario intente entrar a la cuenta. Para que el bloqueo se aplique de forma inmediata, deber&aacute; reiniciar los servicios de Apache correspondientes al servidor iFolder, el cual desconectar&aacute; todas las sesiones activas, incluida la del usuario.</P></li></ul>
        
    
   </OL><BLOCKQUOTE>
-    <P><B><FONT SIZE="-1">NOTE:</FONT></B> <FONT SIZE="-1">By default, all iFolders 
-      are enabled.</FONT></P>
+    <P><B><FONT SIZE="-1">NOTA:</FONT></B> <FONT SIZE="-1"> todas las carpetas iFolder est&aacute;n habilitadas por defecto.</FONT></P>
   </BLOCKQUOTE> 
-  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top" TITLE="Go to top"></A>
-  <H3><A NAME="newuser"></A>Creating a New iFolder </H3>
+  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Ir al inicio" TITLE="Ir al inicio"></A>
+  <H3><A NAME="newuser"></A>Creaci&oacute;n de una carpeta iFolder nueva </H3>
   <br>
  
 <OL><LI>
-      <P>On the iFolder Users page, click New.</P>
-	  <P>The iFolder creation page opens to the iFolders page.</P>
+      <P>En la p&aacute;gina Usuarios de iFolder, haga clic en Nuevo.</P>
+	  <P>Se abrir&aacute; la p&aacute;gina de creaci&oacute;n de carpetas iFolder en la p&aacute;gina Carpetas iFolder.</P>
     </LI>
-    <LI>Specify the following information and then click Create.
+    <LI>Especifique la siguiente informaci&oacute;n y, a continuaci&oacute;n, haga clic en Crear.
   </ol>
   <P>
-  <BLOCKQUOTE> <B> Name</B><BR>
-    Assign a name to the iFolder such as ifolder 1. <BR>
+  <BLOCKQUOTE> <B> Nombre</B><BR>
+    Asigne un nombre a la carpeta iFolder como, por ejemplo, ifolder 1. <BR>
 	<BR>
-    <B> Description</B><BR>
-    A short description about the iFolder.<br>
+    <B>Descripci&oacute;n</B><BR>
+     Descripci&oacute;n breve acerca de la carpeta iFolder.<br>
        
   </BLOCKQUOTE>
  
-  <h4>Accessing the iFolders Details Page</h4><br>
+  <h4>Acceso a la p&aacute;gina Informaci&oacute;n de iFolder</h4><br>
   
   <ol>
     
     <li> 
-      <p>Use the search tool to locate the iFolder you want to manage.</p>
+      <p>Utilice la herramienta de b&uacute;squeda para localizar la carpeta iFolder que desea gestionar.</p>
     </li>
     <li> 
-      <p>Click the iFolder's link to open the iFolder Details page to the iFolder 
-        tab. <br>
+      <p>Haga clic en el enlace de la carpeta iFolder para abrir la p&aacute;gina Informaci&oacute;n de iFolder en la pesta&ntilde;a iFolder. <br>
         <br>
-        The iFolder Details page will display the iFolder details, a list of members 
-        who own or share with, and policy settings for the current iFolder. </p>
+        La p&aacute;gina Informaci&oacute;n de iFolder mostrar&aacute; la informaci&oacute;n de la carpeta iFolder, una lista de los miembros que la poseen o comparten y la configuraci&oacute;n de directivas de la carpeta iFolder seleccionada. </p>
     </li>
   </ol>
-  <P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P>
+  <P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Ir al inicio"></A></P>
   
-  <H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Related Topics" align="top"> 
-Related Topics</H4>
+  <H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Temas relacionados" align="top"> Temas relacionados</H4>
   
-  <BLOCKQUOTE class="task1"><P><A HREF="ifolderdetails.html">Managing iFolder Details
-</A><BR><A HREF="userdetails.html">User Details 
-</A><BR><A HREF="users.html">Managing a User Account</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P><P>&nbsp;</P><P CLASS="copyright">A 
-trademark symbol (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP>, 
-etc.) denotes a Novell trademark. An asterisk (*) denotes a third-party trademark. 
-For more information, see <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Legal 
-Notices</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
+  <BLOCKQUOTE class="task1"><P><A HREF="ifolderdetails.html">Gesti&oacute;n de la informaci&oacute;n de una carpeta iFolder</A><BR><A HREF="userdetails.html">Informaci&oacute;n de usuario</A><BR><A HREF="users.html">Gesti&oacute;n de una cuenta de usuario</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Ir al inicio"></A></P><P>&nbsp;</P><P CLASS="copyright">El s&iacute;mbolo de marca comercial (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP>, etc.) indica una marca comercial de Novell; el asterisco (*) indica una marca comercial de otro fabricante. Para obtener m&aacute;s informaci&oacute;n, consulte la <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Informaci&oacute;n legal</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
 </body>
 
 </html>

@@ -1,10 +1,10 @@
 <html>
 
    <head>
-<meta http-equiv="content-type" content="text/html;charset=iso-8859-1"> 
+<meta http-equiv="content-type" content="text/html;charset=UTF-8"> 
 
 <!-- Novell iFolder 3.x Web Access --> 
-<title>iFolder Details</title> 
+<title>Dettagli iFolder</title> 
 
 <!-- Metadata --> <meta name="Author" content="iFolder 3.x Documentation Manager"> 
 <meta name="date" content="02-17-2005"> 
@@ -20,8 +20,7 @@
        <!--
        
          body           {  font-family: Arial, Helvetica, Geneva;
-									background: white
-url(../../images/helphead_bg.gif) repeat-x 0% 0% }
+									background: white url('../../images/helphead_bg.gif') repeat-x;  }
 		      
          #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px;
 									width: 100%; visibility: visible }
@@ -39,94 +38,80 @@ url(../../images/helphead_bg.gif) repeat-x 0% 0% }
    <body bgcolor="white" marginwidth="0" marginheight="0" 
          leftmargin="0" topmargin="0">
 <!-- This is the start of the Help Banner Layer --> <div id="headgraphic"> 
-<table border="0" cellspacing="0" cellpadding="0" width="100%" height="26" style="margin:0px; padding:0px; background-image: url(../../images/header_pattern.gif); background-repeat: repeat-x;"> 
-<tr> <td width="221"><img src="../../images/help_title.gif" alt="Novell iFolder" border="0" width="221" height="26"></td><td align="right" width="100%" class="tabCell" style="background-image: url(../../images/header_background.gif); background-repeat: no-repeat;"></td></tr></table></div><!-- This is end of the Help Banner Layer --> 
+<table border="0" cellspacing="0" cellpadding="0" width="100%" height="26" style="margin:0px; padding:0px; background-image: url('../../images/header_pattern.gif'); background-repeat: repeat-x"> 
+<tr> <td width="221"><img src="../../images/help_title.gif" alt="Novell iFolder" border="0" width="221" height="26"></td>
+  <td align="right" width="100%" class="tabCell" style="background-image: url('../../images/header_background.gif'); background-repeat: no-repeat"></td></tr></table></div><!-- This is end of the Help Banner Layer --> 
 <!-- This is the start of the Help Content Layer --> <div id="helpcontent"> 
 <!-- The Page Heading uses CSS style "head3b". This creates an H3 header
             with a line beneath it.
        --> 
-  <h3 class="head3b">Viewing iFolder Properties</h3>
-  <p> Use this page to view the iFolder properties of the selected iFolder. You 
-    can also edit the description you have provided when the iFolder was created.</p>
-  <p>You can view the following iFolder properties. </p>
-  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR>
+  <h3 class="head3b">Visualizzazione delle propriet&agrave; della cartella iFolder</h3>
+  <p> Utilizzare questa pagina per visualizzare le propriet&agrave; iFolder della cartella iFolder selezionata. &Egrave; inoltre possibile modificare la descrizione fornita una volta creata la cartella iFolder.</p>
+  <p>&Egrave; possibile visualizzare le seguenti propriet&agrave; iFolder. </p>
+  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parametro</P></TD><TD CLASS="tablehead2"><P>Descrizione</P></TD></TR><TR>
       <TD VALIGN="TOP"> 
-        <P> Name</P>(view only)
+        <P> Nome</P>(sola lettura)
       </TD><TD>
-        <P>The name assigned to the iFolder.</P>
+        <P>Il nome assegnato alla cartella iFolder.</P>
 		
 		  
         
       </TD><TR><TD VALIGN="TOP">
-        <P>Description</P>
+        <P>Descrizione</P>
       </TD><TD>
-        <P>A short description of the iFolder.</P>
-		<P>To edit the iFolder description, click Edit. In the new page that opens, 
-          type the new description in the Description field and click Save.</P>
+        <P>Una breve descrizione della cartella iFolder.</P>
+		<P>Fare clic su Modifica per modicare la descrizione della cartella iFolder. Digitare nella nuova pagina la nuova descrizione nell'apposito campo, quindi fare clic su Salva.</P>
 		  
-        <P>To cancel the changes made, click Cancel.</P>
+        <P>Fare clic su Annulla per annullare le modifiche apportate.</P>
       </TD><TR><TD VALIGN="TOP">
-        <P>Last modified</P>(view only)
+        <P>Ultima modifica</P>(sola lettura)
       </TD><TD>
-        <P>Displays the last modified time of the iFolder when it was last modified 
-          by any user.</p>
+        <P>Consente di visualizzare l'ora in cui &egrave; stata apportata l'ultima modifica alla cartella iFolder da parte di un utente.</p>
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>Created</P>
-        (view only)
+        <P>Data di creazione</P>
+        (sola lettura)
       </TD><TD>
-        <P>Displays the date when the iFolder was created.</p>
+        <P>Consente di visualizzare la data di creazione della cartella iFolder.</p>
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>Access</P>
-        (view only)
+        <P>Diritti</P>
+        (sola lettura)
       </TD><TD>
-        <P>Displays the username of the iFolder member who is currently accessing 
-          the iFolder.</p>
+        <P>Consente di visualizzare i diritti di cui dispone il proprietario di iFolder sulla cartella iFolder.</p>
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>Owner</P>
-        (view only)
+        <P>Proprietario</P>
+        (sola lettura)
       </TD><TD>
-        <P>Displays the username for the iFolder owner. </p> 
+        <P>Consente di visualizzare il nome utente del proprietario iFolder. </p> 
 		  
-        <p>This is the full distinguished name of the iFolder owner. iFolder owner 
-          can be individual user or LDAPGroup.</p>
-        <p> If an LDAPGroup owns the selected iFolder, all the members belong 
-          to that group have the same rights to this iFolder. </p>
+        <p>Si tratta del nome distinto completo del proprietario iFolder. Il proprietario della cartella iFolder pu&ograve; essere un singolo utente o un gruppo LDAP.</p>
+        <p> Se la cartella iFolder &egrave; di propriet&agrave; di un gruppo LDAP, tutti i membri appartenenti al gruppo dispongono dei medesimi diritti sulla cartella. </p>
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>Size</P>
-        (view only)
+        <P>Dimensioni</P>
+        (sola lettura)
       </TD><TD>
-        <P>Displays the size of the iFolder. 
+        <P>Consente di visualizzare le dimensioni della cartella iFolder. 
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>Members</P>
-        (view only)
+        <P>Membri</P>
+        (sola lettura)
       </TD><TD>
-        <P>Reports the total number of users belong to the iFolder. It includes 
-          individual users as well as LDAPGroups.
+        <P>Indica il numero totale di utenti appartenenti alla cartella iFolder. Include singoli utenti e gruppi LDAP. 
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>Files</P>
-        (view only)
+        <P>File</P>
+        (sola lettura)
       </TD><TD>
-        <P>Displays the total number of files in this iFolder.</p>
+        <P>Consente di visualizzare il numero totale di file nella cartella iFolder.</p>
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>Folders</P>
-        (view only)
+        <P>Cartelle</P>
+        (sola lettura)
       </TD><TD>
-        <P>Displays the total number of folders in this iFolder.</p>
+        <P>Consente di visualizzare il numero totale di cartelle nella cartella iFolder.</p>
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>Locked</P>
-        (view only)
+        <P>Bloccato</P>
+        (sola lettura)
       </TD><TD>
-        <P>Shows whether iFolder synchronization is enabled or not. If the iFolder 
-          Admin set the iFolder synchronization to enabled, the value for Locked 
-          is No. If it is set to disabled, the value for Locked is Yes.</p>
-      </TD></TR></TABLE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A>
-  <H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Related Topics" align="top"> 
-Related Topics</H4><BLOCKQUOTE class="task1"><P ><A HREF="home.html">Accessing Your iFolders</A><BR><A HREF="browse.html">Accessing Folders and Files in Your iFolder
-</A><BR><A HREF="members.html">Managing iFolder Members</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A><P CLASS="copyright">A trademark symbol 
-(<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP>, etc.) 
-denotes a Novell trademark. An asterisk (*) denotes a third-party trademark. 
-For more information, see <A HREF="legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Legal 
-Notices</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
+        <P>Consente di visualizzare se la sincronizzazione delle cartelle iFolder &egrave; attivata. Se l'amministratore iFolder ha attivato la sincronizzazione delle cartelle iFolder, il valore Bloccato &egrave; impostato su No. Se invece la sincronizzazione &egrave; attivata, il valore &egrave; impostato su S&igrave;.</p>
+      </TD></TR></TABLE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Torna all'inizio"></A>
+  <H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Argomenti correlati" align="top">&nbsp;Argomenti correlati</H4><BLOCKQUOTE class="task1"><P ><A HREF="home.html">Accesso alle cartelle iFolder</A><BR><A HREF="browse.html">Accesso alle cartelle a ai file nella cartella iFolder</A><BR><A HREF="members.html">Gestione dei membri iFolder</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Torna all'inizio"></A><P CLASS="copyright">Un simbolo di marchio di fabbrica (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP>, e cos&igrave; via) indica un marchio di fabbrica Novell. Un asterisco (*) indica un marchio di fabbrica di terze parti.  Per ulteriori informazioni, vedere <A HREF="legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Note legali</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
 </body>
 
 </html>

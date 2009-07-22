@@ -1,10 +1,10 @@
 <html>
 <head>
-  <meta http-equiv="content-type" content="text/html;charset=iso-8859-1"> 
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8"> 
 
 <!-- Novell iFolder 3.x Web Access  --> 
 
-<title>Create new iFolders </title> 
+<title>Создание новых папок iFolder </title> 
 
 <!-- Metadata --> 
   <meta name="Author" content="iFolder 3.x Documentation Manager"> 
@@ -42,73 +42,54 @@ url(../../images/helphead_bg.gif) repeat-x 0% 0% }
 <div id="helpcontent" style="left: 10px; top: 38px"><!-- The Page Heading uses CSS style "head3b". This creates an H3 header
             with a line beneath it.
        --> 
-  <h3><a name="manage"></a>Create a New iFolder</h3>
-  <p>Perform the following steps to create a new iFolder:</p>
+  <h3><a name="manage"></a>Создание новой папки iFolder</h3>
+  <p>Для создания новой папки iFolder выполните следующие действия:</p>
   <ol>
     <li> 
-      <p>Click the New iFolder link given in the Home page.</p>
+      <p>Щелкните ссылку &quot;Новая папка iFolder&quot; на основной странице.</p>
     </li>
     <li> 
-      <p>In the new page that opens, specify the following information:</p>
+      <p>На открывшейся странице укажите следующую информацию:</p>
     </li>
     <P> 
-    <BLOCKQUOTE> <B> Name</B><BR>
-      Assign a name to the iFolder, such as myfolder. <BR>
-      <p><strong>Note: </strong> Do not use the following invalid characters in 
-        the names of iFolders or in the names of folders and files in them:</p>
-      \/:*?"<>|;<br>
-      <p>For more information on naming conventions, see Section 7.3 in the <A HREF="http://www.novell.com/documentation/ifolder3/ifolder36_user/data/bookinfo.html">iFolder 
-        Cross Platfrom User Guide </A>.</p>
-      <p><strong>IMPORTANT: </strong>When you attempt to create an iFolder whose 
-        name exceeds the file limit supported by the iFolder server file system, 
-        it throws an error message that the name of the iFolder is too long to 
-        be created.</p>
+    <BLOCKQUOTE> <B> Имя</B><BR>
+      Назначьте папке iFolder имя, например &quot;myfolder&quot;. <BR>
+      <p><strong>Примечание. </strong> Не используйте следующие недопустимые символы для именования папок iFolder или вложенных папок и файлов:</p>
+      \/:*?&quot;&lt;&gt;|;<br>
+      <p>Дополнительные сведения о соглашениях об именовании см. в разделе 7.3 документа <A HREF="http://www.novell.com/documentation/ifolder3/ifolder36_user/data/bookinfo.html">iFolder Cross Platfrom User Guide </A> (Руководство пользователя по использованию iFolder на различных платформах).</p>
+      <p><strong>ВАЖНО.</strong> При попытке создания папки iFolder с именем, длина которого превышает ограничение файловой системы iFolder, выдается сообщение об ошибке, предупреждающее о невозможности создания папки iFolder с таким длинным именем.</p>
       <BR>
-      <B> Description</B><BR>
-      A short description of the iFolder.<br>
+      <B> Описание</B><BR>
+      Краткое описание папки iFolder.<br>
       <BR>
-      <B> Type</B><BR>
-      select the type of the iFolder that you want to create.<br>
-      <BLOCKQUOTE> <B>Encrypted</B><BR>
-        Select this option to encrypt your iFolder and the files within it. <BR>
-        <p><strong>IMPORTANT: </strong>This option is not enabled until your Admin 
-          set your encryption policy to On. </p>
-        <B> Regular</B><BR>
-        Select Sharable to share your iFolder with other iFolder accounts. <BR>
-        <p><strong>IMPORTANT: </strong>Shared iFolders cannot be encrypted and 
-          encrypted ones cannot be shared.</p>
+      <B> Тип</B><BR>
+      Выберите тип создаваемой папки iFolder.<br>
+      <BLOCKQUOTE> <B>Шифрованная</B><BR>
+        Выберите данный параметр, чтобы зашифровать папку iFolder и содержащиеся в ней файлы. <BR>
+        <p><strong>ВАЖНО. </strong>Данный параметр недоступен до тех пор, пока администратор не включит политику шифрования. </p>
+        <B> Обычная</B><BR>
+        Выберите параметр &quot;Совместно используется&quot; для разрешения совместного использования Вашей папки iFolder с другими учетными записями iFolder. <BR>
+        <p><strong>ВАЖНО. </strong>Совместно используемые папки iFolder нельзя зашифровать, а зашифрованные - совместно использовать.</p>
       </BLOCKQUOTE>
     </BLOCKQUOTE>
     <li> 
-      <p>Select the Recovery agent from the drop-down list.</p>
-      <p><strong>Note: </strong> This option will not be available if your iFolder 
-        Administrator does not select Enable Recovery agent option while configuring 
-        the iFolder server.</p>
-      <p>The Recovery agent can be a system, organization, or a person independent 
-        of the iFolder system that where you can store the key to recover your 
-        secret passphrase.</p>
-      <p><strong>IMPORTANT: </strong> Unless you have set your Recovery agent, 
-        the encrypted data cannot be recovered in the unfortunate case that you 
-        lost the passphrase. </p>
+      <p>Выберите в раскрывающемся списке агент восстановления.</p>
+      <p><strong>Примечание.</strong> Данный параметр будет недоступен, если администратор при настройке сервера iFolder не выбрал параметр &quot;Включить агент восстановления&quot;.</p>
+      <p>В качестве агента восстановления может выступать система, организация или лицо, не зависимое от системы iFolder, у которого может храниться ключ для восстановления секретной контрольной фразы.</p>
+      <p><strong>ВАЖНО. </strong> Если агент восстановления не задан, то в случае утери контрольной фразы восстановление зашифрованных данных невозможно. </p>
     </li>
     <li> 
-      <p>Type the passphrase in the Enter Passphrase field.</p>
+      <p>Введите контрольную фразу в поле &quot;Контрольная фраза&quot;.</p>
     </li>
-    <li><p>Enter the passphrase again to confirm.</p></li>
-    <li>Click Create to complete the new iFolder creation. 
-      <p> Click Cancel to cancel the operation. </p>
+    <li><p>Введите ключевую фразу еще раз для подтверждения.</p></li>
+    <li>Щелкните &quot;Создать&quot; для завершения создания новой папки iFolder. 
+      <p> Щелкните кнопку &quot;Отмена&quot; для отмены операции. </p>
     </li>
   </ol>
   
   
-<a href="#top" target="_self"><img src="../../images/goto_top.gif" width="19" height="19" border="0" alt="Go to top"></a>
-<H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Related Topics" align="top"> 
-Related Topics</H4><BLOCKQUOTE class="task1"><P ><A HREF="browse.html">Accessing Folders and Files in Your iFolder</A><BR><A HREF="details.html">Viewing iFolder Properties
-</A><BR><A HREF="members.html">Managing iFolder Members</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P><P CLASS="copyright">A 
-trademark symbol (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP>, 
-etc.) denotes a Novell trademark. An asterisk (*) denotes a third-party 
-trademark. For more information, see <A HREF="legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Legal 
-Notices</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
+<a href="#top" target="_self"><img src="../../images/goto_top.gif" width="19" height="19" border="0" alt="В начало"></a>
+<H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="См. также" align="top"> См. также</H4><BLOCKQUOTE class="task1"><P ><A HREF="browse.html">Доступ к файлам и папкам в iFolder</A><BR><A HREF="details.html">Просмотр свойств iFolder </A><BR><A HREF="members.html">Управление членами iFolder</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="В начало"></A></P><P CLASS="copyright">Символ товарного знака (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP> и т.&nbsp;д.) обозначает товарный знак Novell.  Символ звездочки (*) обозначает товарный знак независимого производителя.  Для получения дополнительной информации см. раздел <A HREF="legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Юридическая информация</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
 
 </body> 
 

@@ -1,10 +1,10 @@
 <html>
 <head>
-  <meta http-equiv="content-type" content="text/html;charset=iso-8859-1"> 
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8"> 
 
 <!-- Novell iFolder 3.x Web Access  --> 
 
-<title>Create new iFolders </title> 
+<title>新しいiFolderの作成 </title> 
 
 <!-- Metadata --> 
   <meta name="Author" content="iFolder 3.x Documentation Manager"> 
@@ -42,73 +42,54 @@ url(../../images/helphead_bg.gif) repeat-x 0% 0% }
 <div id="helpcontent" style="left: 10px; top: 38px"><!-- The Page Heading uses CSS style "head3b". This creates an H3 header
             with a line beneath it.
        --> 
-  <h3><a name="manage"></a>Create a New iFolder</h3>
-  <p>Perform the following steps to create a new iFolder:</p>
+  <h3><a name="manage"></a>新しいiFolderの作成</h3>
+  <p>新しいiFolderを作成するには、次の手順に従います。</p>
   <ol>
     <li> 
-      <p>Click the New iFolder link given in the Home page.</p>
+      <p>ホームページで、［新しいiFolder］リンクをクリックします。</p>
     </li>
     <li> 
-      <p>In the new page that opens, specify the following information:</p>
+      <p>表示された新しいページで、次の情報を指定します。</p>
     </li>
     <P> 
-    <BLOCKQUOTE> <B> Name</B><BR>
-      Assign a name to the iFolder, such as myfolder. <BR>
-      <p><strong>Note: </strong> Do not use the following invalid characters in 
-        the names of iFolders or in the names of folders and files in them:</p>
-      \/:*?"<>|;<br>
-      <p>For more information on naming conventions, see Section 7.3 in the <A HREF="http://www.novell.com/documentation/ifolder3/ifolder36_user/data/bookinfo.html">iFolder 
-        Cross Platfrom User Guide </A>.</p>
-      <p><strong>IMPORTANT: </strong>When you attempt to create an iFolder whose 
-        name exceeds the file limit supported by the iFolder server file system, 
-        it throws an error message that the name of the iFolder is too long to 
-        be created.</p>
+    <BLOCKQUOTE> <B> 名前</B><BR>
+      myfolderなどの名前をiFolderに割り当てます。 <BR>
+      <p><strong>注意: </strong>iFolderの名前、またはフォルダやその中のファイルの名前に、次の無効な文字を使用しないでください。</p>
+      \/:*?&quot;&lt;&gt;|;<br>
+      <p>命名規則についての詳細は、『<A HREF="http://www.novell.com/documentation/ifolder3/ifolder36_user/data/bookinfo.html">iFolder Cross Platfrom User Guide</A>』のセクション7.3を参照してください。</p>
+      <p><strong>重要: </strong>iFolderサーバシステムでサポートされる文字数制限を超えてiFolderの名前を指定しようとすると、iFolderの名前が長すぎて作成できないことを示すエラーメッセージが表示されます。</p>
       <BR>
-      <B> Description</B><BR>
-      A short description of the iFolder.<br>
+      <B> 説明</B><BR>
+      iFolderの簡単な説明。<br>
       <BR>
-      <B> Type</B><BR>
-      select the type of the iFolder that you want to create.<br>
-      <BLOCKQUOTE> <B>Encrypted</B><BR>
-        Select this option to encrypt your iFolder and the files within it. <BR>
-        <p><strong>IMPORTANT: </strong>This option is not enabled until your Admin 
-          set your encryption policy to On. </p>
-        <B> Regular</B><BR>
-        Select Sharable to share your iFolder with other iFolder accounts. <BR>
-        <p><strong>IMPORTANT: </strong>Shared iFolders cannot be encrypted and 
-          encrypted ones cannot be shared.</p>
+      <B> タイプ</B><BR>
+      作成するiFolderのタイプを選択します。<br>
+      <BLOCKQUOTE> <B>暗号化される</B><BR>
+        iFolderとその中のファイルを暗号化するには、このオプションを選択します。 <BR>
+        <p><strong>重要: </strong>このオプションは、管理者が暗号化ポリシーを［オン］に設定すると有効になります。 </p>
+        <B> 通常</B><BR>
+        iFolderを他のiFolderアカウントと共有するには、このオプションを選択します。 <BR>
+        <p><strong>重要: </strong>共有iFolderは暗号化できません。また、暗号化されたiFolderは共有できません。</p>
       </BLOCKQUOTE>
     </BLOCKQUOTE>
     <li> 
-      <p>Select the Recovery agent from the drop-down list.</p>
-      <p><strong>Note: </strong> This option will not be available if your iFolder 
-        Administrator does not select Enable Recovery agent option while configuring 
-        the iFolder server.</p>
-      <p>The Recovery agent can be a system, organization, or a person independent 
-        of the iFolder system that where you can store the key to recover your 
-        secret passphrase.</p>
-      <p><strong>IMPORTANT: </strong> Unless you have set your Recovery agent, 
-        the encrypted data cannot be recovered in the unfortunate case that you 
-        lost the passphrase. </p>
+      <p>ドロップダウンリストから回復エージェントを選択します。</p>
+      <p><strong>注: </strong>このオプションは、iFolder管理者がiFolderサーバの設定中に［Enable Recovery agent (回復エージェントを有効にする)］オプションを選択しなかった場合は使用できません。</p>
+      <p>回復エージェントは、iFolderシステムとは別の独立したシステム、組織、または人物です。ここに、秘密のパスフレーズを回復するためのキーを格納できます。</p>
+      <p><strong>重要: </strong>回復エージェントを設定しておかなければ、パスフレーズを忘れた場合に、暗号化されたデータを回復できません。 </p>
     </li>
     <li> 
-      <p>Type the passphrase in the Enter Passphrase field.</p>
+      <p>［Enter Passphrase (パスフレーズの入力)］フィールドに、パスフレーズを入力します。</p>
     </li>
-    <li><p>Enter the passphrase again to confirm.</p></li>
-    <li>Click Create to complete the new iFolder creation. 
-      <p> Click Cancel to cancel the operation. </p>
+    <li><p>確認のため、パスフレーズを再度入力します。</p></li>
+    <li>［作成］をクリックして、新しいiFolderの作成を完了します。 
+      <p> 操作をキャンセルするには、［キャンセル］をクリックします。 </p>
     </li>
   </ol>
   
   
-<a href="#top" target="_self"><img src="../../images/goto_top.gif" width="19" height="19" border="0" alt="Go to top"></a>
-<H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Related Topics" align="top"> 
-Related Topics</H4><BLOCKQUOTE class="task1"><P ><A HREF="browse.html">Accessing Folders and Files in Your iFolder</A><BR><A HREF="details.html">Viewing iFolder Properties
-</A><BR><A HREF="members.html">Managing iFolder Members</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P><P CLASS="copyright">A 
-trademark symbol (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP>, 
-etc.) denotes a Novell trademark. An asterisk (*) denotes a third-party 
-trademark. For more information, see <A HREF="legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Legal 
-Notices</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
+<a href="#top" target="_self"><img src="../../images/goto_top.gif" width="19" height="19" border="0" alt="トップへジャンプ"></a>
+<H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="関連項目" align="top"> 関連項目</H4><BLOCKQUOTE class="task1"><P ><A HREF="browse.html">iFolder内のフォルダとファイルへのアクセス</A><BR><A HREF="details.html">iFolderのプロパティの表示</A><BR><A HREF="members.html">iFolderメンバーの管理</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="トップへジャンプ"></A></P><P CLASS="copyright">商標記号（<SUP><SMALL>&reg;</SMALL></SUP>、<SUP><SMALL>TM</SMALL></SUP>など）は、Novellの商標を示し、アスタリスク（*）は、サードパーティの商標を示します。  詳細については、「<A HREF="legalnotices.html" TARGET="_self" ><font color="#cfcdc6">保証と著作権</font></A>」を参照してください。</P></div><!-- This is the end of the Help Content layer. --> 
 
 </body> 
 

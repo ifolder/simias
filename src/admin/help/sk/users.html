@@ -1,11 +1,11 @@
 <html>
 
    <head>
-     <meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+     <meta http-equiv="content-type" content="text/html;charset=UTF-8">
      
      <!-- Novell iFolder 3.x iManager Plugin  --> 
    
-     <title>iFolder Users </title>  	 
+     <title>Použ&iacute;vatelia priečinka iFolder </title>  	 
         
      <!-- Metadata -->
    
@@ -28,8 +28,7 @@
        <!--
        
          body           {  font-family: Arial, Helvetica, Geneva;
-									background: white
-url(../../images/helphead_bg.gif) repeat-x 0% 0% }
+									background: white url('../../images/helphead_bg.gif') repeat-x;  }
 		      
          #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px;
 									width: 380px; visibility: visible }
@@ -54,175 +53,136 @@ url(../../images/helphead_bg.gif) repeat-x 0% 0% }
 <!-- This is the start of the Help Content Layer --> <div id="helpcontent"> <!-- The Page Heading uses CSS style "head3b". This creates an H3 header
             with a line beneath it.
        --> 
-  <h3 class="head3b">Managing a User Account</h3>
-  <p> Use this interface to manage iFolder users in the selected iFolder domain. 
-    The search tool helps you locate the Novell iFolder<SUP><SMALL>&reg;</SMALL></SUP> 
-    3.7 user account you want to manage. </p>
+  <h3 class="head3b">Spr&aacute;va &uacute;čtu použ&iacute;vateľa</h3>
+  <p> Toto rozhranie použ&iacute;vajte na spr&aacute;vu použ&iacute;vateľov priečinka iFolder vo zvolenej dom&eacute;ne priečinka iFolder.   N&aacute;stroj vyhľad&aacute;vania pom&aacute;ha n&aacute;jsť umiestnenie &uacute;čtu použ&iacute;vateľa priečinka Novell iFolder<SUP><SMALL>&reg;</SMALL></SUP> verzie 3.7, ktor&yacute; chcete spravovať. </p>
 	
-  <P><B><FONT SIZE="-1">NOTE:</FONT></B> <FONT SIZE="-1">The term <i>iFolder users 
-    </i> refers to both individual users and LDAPGroups.</FONT></P>
+  <P><B><FONT SIZE="-1">POZN&Aacute;MKA.</FONT></B> <FONT SIZE="-1">Term&iacute;n <i>použ&iacute;vatelia aplik&aacute;cie iFolder</i> sa vzťahuje na jednotliv&yacute;ch použ&iacute;vateľov i skupiny LDAP.</FONT></P>
 	<BLOCKQUOTE CLASS="blockquote"><P><BR>
-      <A HREF="#browseuser" TARGET="_self">Browsing the Users</A> <BR>
-      <A HREF="#browsesearch" TARGET="_self">Browsing 
-the Users in the Search Results </A><BR> 
-<A HREF="#enabledisableuser" TARGET="_self">Enabling or Disabling an iFolder user</A><br>
-<A HREF="#provision" TARGET="_self">Provisioning iFolder Users </A> <br>
-<A HREF="#accessusers" TARGET="_self">Accessing the Users 
-Details Page </A> </P></BLOCKQUOTE>
-  <H4><A NAME="browseusers"></A>Browsing the Users <br>
+      <A HREF="#browseuser" TARGET="_self">Prehľad&aacute;vanie použ&iacute;vateľov</A> <BR>
+      <A HREF="#browsesearch" TARGET="_self">Prehľad&aacute;vanie použ&iacute;vateľov vo v&yacute;sledkoch vyhľad&aacute;vania </A><BR> 
+<A HREF="#enabledisableuser" TARGET="_self">Povolenie alebo zak&aacute;zanie použ&iacute;vateľa priečinku iFolder</A><br>
+<A HREF="#provision" TARGET="_self">Poskytovanie použ&iacute;vateľov priečinka iFolder </A> <br>
+<A HREF="#accessusers" TARGET="_self">Pr&iacute;stup k str&aacute;nke podrobnost&iacute; o použ&iacute;vateľoch</A> </P></BLOCKQUOTE>
+  <H4><A NAME="browseusers"></A>Prehľad&aacute;vanie použ&iacute;vateľov <br>
   </H4>
   <OL><LI>
-      <P>From the Users page, select a name criterion (User Name, First Name, 
-        Last Name, Home Server).</P>
-    </LI><LI><P>Select a filter criterion (Contains, Begins 
-With, Ends With, Equals).</P></LI><LI><P>Use one or more of the following search 
-methods, then click Search:</P><UL><LI>
-          <P>Type the name of the user or LDAPGroup rin the Search Users field.</P>
-        </LI><LI><P>Type one or more letters in the Search Users field.</P></LI><LI>
-          <P>Type an asterisk (*) in the Search Users field to return a list of 
-            all Users and LDAPGroups on the system.</P>
+      <P>Na str&aacute;nke Použ&iacute;vatelia vyberte krit&eacute;rium mena alebo n&aacute;zvu (Krstn&eacute; meno, Domovsk&yacute; server, Priezvisko, Meno použ&iacute;vateľa).</P>
+    </LI><LI><P>Vyberte krit&eacute;ri&aacute; filtru (Obsahuje, Zač&iacute;na s, Konč&iacute; s, Rovn&aacute; sa).</P></LI><LI><P>Použite jeden alebo viacero nasleduj&uacute;cich sp&ocirc;sobov vyhľad&aacute;vania a kliknite na tlačidlo Hľadať:</P><UL><LI>
+          <P>Do poľa Hľadať použ&iacute;vateľov zadajte meno použ&iacute;vateľa alebo n&aacute;zov skupiny LDAP.</P>
+        </LI><LI><P>Do poľa Použ&iacute;vateľ vyhľad&aacute;vania zadajte jedno alebo viac p&iacute;smen.</P></LI><LI>
+          <P>Ak chcete z&iacute;skať zoznam všetk&yacute;ch použ&iacute;vateľov syst&eacute;mu a skup&iacute;n LDAP, zadajte do poľa Hľadať použ&iacute;vateľov hviezdičku (*).</P>
         </LI><LI>
-          <P>Leave the Search Users field empty to return a list of all Users 
-            and LDAPGroups on the system.</P>
+          <P>Ak chcete z&iacute;skať zoznam všetk&yacute;ch použ&iacute;vateľov a skup&iacute;n LDAP v syst&eacute;me, nechajte pole Hľadať použ&iacute;vateľov pr&aacute;zdne.</P>
         </LI></UL>
-      <P>Do not click anywhere in the page until the page completely refreshes, 
-        then you can browse, sort, or manage the users listed in the Search Results 
-        report. </P>
+      <P>Neklikajte na str&aacute;nku, k&yacute;m sa zobrazenie str&aacute;nky &uacute;plne neobnov&iacute;, potom m&ocirc;žete prehľad&aacute;vať, triediť alebo spravovať použ&iacute;vateľov zobrazen&yacute;ch v zostave V&yacute;sledky vyhľad&aacute;vania.  </P>
+      <P><b>Pozn&aacute;mka:</b> Ak sa prihl&aacute;site ako sekund&aacute;rny spr&aacute;vca, m&ocirc;žete zobraziť iba použ&iacute;vateľov, pre ktor&yacute;ch ste sekund&aacute;rnym spr&aacute;vcom. Okrem toho z&aacute;visia vaše možnosti pri spravovan&iacute; použ&iacute;vateľov od pr&aacute;v, ktor&eacute; m&aacute;te k dispoz&iacute;cii.</P>
     </LI></OL>
-  <H4><A NAME="browsesearch"></A>Locating the Users in the Search Results</H4>
-  <P>Scroll up and down to browse the search results and locate the user you want 
-    to manage. The combination of the username and the first and last names help 
-    to identify the user you want.</P>
+  <H4><A NAME="browsesearch"></A>Vyhľad&aacute;vanie použ&iacute;vateľov vo v&yacute;sledkoch vyhľad&aacute;vania </H4>
+  <P>Pos&uacute;van&iacute;m nahor a nadol a prehľad&aacute;van&iacute;m v&yacute;sledkov vyhľad&aacute;vania n&aacute;jdite použ&iacute;vateľa, ktor&eacute;ho chcete spravovať.   Kombin&aacute;cia použ&iacute;vateľsk&eacute;ho mena, mena a priezviska pom&aacute;ha určiť použ&iacute;vateľa, ktor&eacute;ho hľad&aacute;te.</P>
   
-  <BLOCKQUOTE><P><B>Type</B>
-    <P><img src="../../images/provi_user.png"  alt="Folder icon">  indicates 
-      Provisioned users </P>
-		<P><img src="../../images/unprovi_user.png" alt="Shared icon">  indicates 
-      Unprovisioned users </P>
+  <BLOCKQUOTE><P><B>Typ</B>
+    <P>
+    <img src="../../images/provi_user.png"  alt="Ikona priečinka" width="14" height="16"> označuje poskytnut&yacute;ch použ&iacute;vateľov </P>
+		<P>
+        <img src="../../images/unprovi_user.png" alt="Ikona zdieľania" width="14" height="16"> označuje použ&iacute;vateľov, ktor&iacute; neboli poskytnut&iacute; </P>
 		
-    <p><img src="../../images/ifolder_admin.gif" width="16" height="16" alt="Shared icon"> 
-      indicates whether the user has the iFolder Admin right <br>
+    <p><img src="../../images/ifolder_admin.gif" width="16" height="16" alt="Ikona zdieľania"> označuje, či m&aacute; použ&iacute;vateľ pr&aacute;va spr&aacute;vcu aplik&aacute;cie iFolder <br>
 
-<BR><B>Name</B><BR>
-The username assigned 
-to the user account, such as jsmith or john.smith@example.com. Click the User Name link to manage User policies 
-and iFolders for the user. <BR>
-<BR><B>Full Name</B><BR>The first and last name 
-of the user account.<BR><br>
-      <B>Home</B> Server<BR>
-      iFolder server the user provisioned to.<br>
-      <BR><B>Enabled</B><BR>Specifies the status of the server.<br><br></BLOCKQUOTE>
-  <H4><A NAME="enabledisableuser"></A>Enabling or Disabling an iFolder user</H4>
+<BR><B>N&aacute;zov</B><BR>
+Použ&iacute;vateľsk&eacute; meno priraden&eacute; &uacute;čtu použ&iacute;vateľa ako napr. jsmith alebo john.smith@example.com.   Kliknut&iacute;m na prepojenie Použ&iacute;vateľsk&eacute; meno m&ocirc;žete spravovať politiku použ&iacute;vateľa a priečinkov iFolder použ&iacute;vateľa. <BR>
+<BR><B>Cel&eacute; meno</B><BR>Meno a priezvisko použ&iacute;vateľa &uacute;čtu.<BR><br>
+      <B>Domovsk&yacute;</B> <b>server</b><BR>
+      Server aplik&aacute;cie iFolder, pre ktor&yacute; bol použ&iacute;vateľ poskytnut&yacute;.<br>
+      <BR><B>Povolen&eacute;</B><BR>Určuje stav servera.<br><br></BLOCKQUOTE>
+  <H4><A NAME="enabledisableuser"></A>Povolenie alebo Zak&aacute;zanie použ&iacute;vateľa priečinku iFolder</H4>
 	
-  <p> Follow the steps given below:</p> 
+  <p> Postupujte podľa nasleduj&uacute;cich krokov:</p> 
   <OL>
     <LI> 
-      <P>Locate the iFolder user you want to manage, then select the check box 
-        next to the user.</P>
+      <P>N&aacute;jdite umiestnenie použ&iacute;vateľa priečinka iFolder, ktor&eacute;ho chcete spravovať, potom začiarknite začiark&aacute;vacie pole vedľa použ&iacute;vateľa.</P>
     </LI>
     <ul> <li>
-      <P>Click Enable to enable the user.</P>
-      <P>This will allow the user to log in and synchronize iFolders.</P>
+      <P>Kliknut&iacute;m na možnosť Povoliť použ&iacute;vateľa povol&iacute;te.</P>
+      <P>Toto umožn&iacute; použ&iacute;vateľovi prihl&aacute;siť sa a synchronizovať priečinky iFolder.</P>
     
     <LI> 
-      <P>Click Disable to disable the user.</P>
-      <P> If the user is logged in when you make this change, the user�s session 
-        continues until the user logs out. The policy takes effect the next time 
-        the user attempts to log in to the account. To have the lockout take effect 
-        immediately, you must restart the Apache services for the iFolder server, 
-        which disconnects all active sessions, including the user�s session.</P>
+      <P>Kliknut&iacute;m na možnosť Zak&aacute;zať použ&iacute;vateľa zak&aacute;žete.</P>
+      <P> Ak je počas tejto akcie použ&iacute;vateľ prihl&aacute;sen&yacute;, rel&aacute;cia bude pokračovať do najbližšieho odhl&aacute;senia použ&iacute;vateľa.   Z&aacute;sada sa uplatn&iacute; pri najbližšom pokuse použ&iacute;vateľa o prihl&aacute;senie sa na konto. Ak chcete, aby sa uzamknutie prejavilo okamžite, mus&iacute;te reštartovať služby servera Apache pre server iFolder. T&yacute;m odpoj&iacute;te všetky akt&iacute;vne rel&aacute;cie, vr&aacute;tane rel&aacute;cie použ&iacute;vateľa.</P>
     </LI></ul>
   </OL>
-  <H3><A NAME="provision"></A>Provisioning / Reprovisioning iFolder Users </H3>
+  <H3><A NAME="provision"></A>Poskytovanie/op&auml;tovn&eacute; poskytovanie použ&iacute;vateľov priečinka iFolder </H3>
   
    
   
-  <P>Use this interface to manually provision or reprovision the iFolder users 
-    to different servers available in the current iFolder domain. </p> 
+  <P>Pomocou tohto rozhrania m&ocirc;žete ručne poskytn&uacute;ť alebo op&auml;tovne poskytn&uacute;ť použ&iacute;vateľov aplik&aacute;cie iFolder r&ocirc;znym serverom dostupn&yacute;m v aktu&aacute;lnej dom&eacute;ne aplik&aacute;cie iFolder. </p> 
   
-  <p> To provision / reprovision the iFolder users, perform any of the following:</P>
+  <p> Použ&iacute;vateľov aplik&aacute;cie iFolder m&ocirc;žete poskytn&uacute;ť alebo op&auml;tovne poskytn&uacute;ť jedn&yacute;m z nasleduj&uacute;cich sp&ocirc;sobov:</P>
 	
-  <H4><A NAME="drop_down"></A>Provisioning Using Drop-Down List</H4>
+  <H4><A NAME="drop_down"></A>Poskytnutie pomocou rozbaľovacieho zoznamu</H4>
    
   <ol>
     <LI> 
-      <P>Locate the iFolder users you want to provision.</P>
+      <P>Vyhľadajte použ&iacute;vateľov aplik&aacute;cie iFolder, ktor&yacute;ch chcete poskytn&uacute;ť. </P>
     </LI><LI> 
-      <P>Select the iFolder server from the Home drop-down list given against 
-        each user.</P>
+      <P>Vyberte v rozbaľovacom zozname pre pr&iacute;slušn&eacute;ho použ&iacute;vateľa na domovskej str&aacute;nke server aplik&aacute;cie iFolder.</P>
     </LI><LI> 
-      <P>Click Save.</P>
+      <P>Kliknite na&nbsp;tlačilo Uložiť.</P>
     </LI>
   </ol>
-	<H4><A NAME="provision_button"></A>Provisioning Using Provision Button</H4>
+	<H4><A NAME="provision_button"></A>Poskytnutie pomocou tlačidla Poskytn&uacute;ť</H4>
   
     <ol><LI>
-      <p>Locate the iFolder users you want to manage.</p>
+      <p>Vyhľadajte použ&iacute;vateľov aplik&aacute;cie iFolder, ktor&yacute;ch chcete spravovať.</p>
     </li><li>
-      <p>Select the check box next to each user. </P>
+      <p>Vyberte začiark&aacute;vacie pol&iacute;čko pri každom z použ&iacute;vateľov. </P>
     </li>
-    <li>Click Provision to open a new page where you can provision / reprovision 
-      the selected users to an iFolder server in the domain.</LI>
+    <li>Kliknut&iacute;m na tlačidlo Poskytn&uacute;ť zobraz&iacute;te nov&uacute; str&aacute;nku, na ktorej m&ocirc;žete vybrat&yacute;ch použ&iacute;vateľov poskytn&uacute;ť alebo op&auml;tovne poskytn&uacute;ť serveru aplik&aacute;cie iFolder v dom&eacute;ne.</LI>
   </ol>
-  <P><B><FONT SIZE="-1">NOTE:</FONT></B> <FONT SIZE="-1"> When a user logins for 
-    the first time and if a home server for the user is not set at the user level, 
-    then the server assigned to the LDAPGroup the user belongs to, is automatically 
-    allocated to the user.</FONT></P>
-  <H3><A NAME="newuser"></A>Creating a New iFolder User</H3>
+  <P><B><FONT SIZE="-1">POZN&Aacute;MKA:</FONT></B><FONT SIZE="-1"> Ak sa použ&iacute;vateľ prv&yacute;kr&aacute;t prihl&aacute;si a jeho domovsk&yacute; server nie je nastaven&yacute; na &uacute;rovni použ&iacute;vateľa, je mu automaticky priraden&yacute; server, ktor&yacute; je priraden&yacute; skupine LDAP, ku ktorej použ&iacute;vateľ patr&iacute;.</FONT></P>
+  <H3><A NAME="newuser"></A>Vytvorenie nov&eacute;ho použ&iacute;vateľa priečinka iFolder</H3>
   <BLOCKQUOTE> 
-    <P><B><FONT SIZE="-1">NOTE:</FONT></B> <FONT SIZE="-1">You can create only 
-      non-LDAP users. You can create them only when your iFolder server is not 
-      connected to the LDAP server.</FONT></P>
+    <P><B><FONT SIZE="-1">POZN&Aacute;MKA:</FONT></B> <FONT SIZE="-1">M&ocirc;žete vytv&aacute;rať iba  použ&iacute;vateľov mimo služby LDAP.   M&ocirc;žete ich vytv&aacute;rať, iba ak v&aacute;š server priečinka iFolder nie je pripojen&yacute; na server služby LDAP .</FONT></P>
   </BLOCKQUOTE>
 <OL><LI>
-      <P>On the iFolder Users page, click New.</P>
-	  <P>The iFolder User creation page opens to the Users tab </P>
+      <P>Na str&aacute;nke Použ&iacute;vatelia priečinku iFolder kliknite na tlačidlo Nov&yacute;.</P>
+	  <P>Str&aacute;nka vytv&aacute;rania použ&iacute;vateľa priečinka iFolder sa otvor&iacute; v karte Použ&iacute;vatelia </P>
     </LI>
-    <LI>Specify the following information and then click Create.
+    <LI>Zadajte nasleduj&uacute;ce inform&aacute;cie a kliknite na tlačidlo Vytvoriť.
   </ol>
   <P><BLOCKQUOTE>
-    <B>User Name</B><BR>
-    Assign a username to the user account, such as jsmith or john.smith@example.com. 
+    <B>Meno použ&iacute;vateľa</B><BR>
+    &Uacute;čtu použ&iacute;vateľa priraďte použ&iacute;vateľsk&eacute; meno ako napr. jsmith alebo  john.smith@example.com. 
     <BR>
 	<BR>
-    <B>First Name</B><BR>
-    First name of the user.<br>
+    <B>Meno</B><BR>
+    Meno použ&iacute;vateľa.<br>
     <BR>
-    <B>Last Name</B><BR>
-    Last name of the user. <BR>
-<BR><B>Full Name</B><BR>The first and last name 
-of the user account. <br>
+    <B>Priezvisko</B><BR>
+    Priezvisko použ&iacute;vateľa. <BR>
+<BR><B>Cel&eacute; meno</B><BR>Meno a priezvisko použ&iacute;vateľa &uacute;čtu. <br>
 <BR>
-    <B>Password</B><BR>
-    Assign a password for the user account.<br>
+    <B>Heslo</B><BR>
+    &Uacute;čtu použ&iacute;vateľa priraďte heslo.<br>
     <BR>
-    <B>Retype password</B><BR>
-    Retype the password to verify it. <BR>
+    <B>Znova zadajte heslo</B><BR>
+    Heslo zadajte znova kv&ocirc;li jeho overeniu. <BR>
   </BLOCKQUOTE>
-  <h4><a name="accessusers"></a>Accessing the Users Details Page</h4>
-  <p> Follow the procedure given below:</p>
+  <h4><a name="accessusers"></a>Pr&iacute;stup k str&aacute;nke podrobnost&iacute; použ&iacute;vateľov</h4>
+  <p> Postupujte podľa nasleduj&uacute;cich krokov:</p>
   
   <ol>
     <li> 
-      <p>On the iFolder User page, use the search tool to locate the user whose 
-        iFolder account you want to manage.</p>
+      <p>Použite n&aacute;stroj na vyhľad&aacute;vanie na str&aacute;nke použ&iacute;vateľa priečinku iFolder na vyhľadanie použ&iacute;vateľa priečinka iFolder, ktor&eacute;ho &uacute;čet chcete spravovať.</p>
     </li>
     <li> 
-      <p>Click the user's name link to open the User Details page to the Users 
-        tab.</p>
+      <p>Kliknut&iacute;m na prepojenie použ&iacute;vateľsk&eacute; meno otvor&iacute;te str&aacute;nku Podrobnosti použ&iacute;vateľa na kartu Použ&iacute;vatelia.</p>
     </li>
   </ol>
-<P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P>
+<P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Prejsť na začiatok"></A></P>
   
-  <H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Related Topics" align="top"> 
-Related Topics</H4>
+  <H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="S&uacute;visiace t&eacute;my" align="top"> S&uacute;visiace t&eacute;my</H4>
   
-  <BLOCKQUOTE class="task1"><P><A HREF="userdetails.html">User Details</A><BR><A HREF="ifolderdetails.html">Managing iFolder Details
-</A><BR><A HREF="ifolders.html">Managing an iFolder</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P><P>&nbsp;</P><P CLASS="copyright">A 
-trademark symbol (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP>, 
-etc.) denotes a Novell trademark. An asterisk (*) denotes a third-party trademark. 
-For more information, see <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Legal 
-Notices</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
+  <BLOCKQUOTE class="task1"><P><A HREF="userdetails.html">Podrobnosti použ&iacute;vateľov</A><BR><A HREF="ifolderdetails.html">Spr&aacute;va podrobnost&iacute; o priečinku iFolder </A><BR><A HREF="ifolders.html">Spr&aacute;va priečinku iFolder</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Prejsť na začiatok"></A></P><P>&nbsp;</P><P CLASS="copyright">Symbol ochrannej zn&aacute;mky (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP> atď.) označuje ochrann&uacute; zn&aacute;mku spoločnosti Novell. Hviezdička (*) označuje ochrann&uacute; zn&aacute;mku nez&aacute;visl&eacute;ho v&yacute;robcu.   Ďalšie inform&aacute;cie n&aacute;jdete v časti <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Pr&aacute;vne prehl&aacute;senia</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
 </body>
 
 </html>

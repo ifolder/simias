@@ -1,11 +1,11 @@
 <html>
 
    <head>
-     <meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+     <meta http-equiv="content-type" content="text/html;charset=UTF-8">
      
      <!-- Novell iFolder 3.6 Web Admin Help  --> 
    
-     <title>iFolder Details</title>  	 
+     <title>iFolder詳細</title>  	 
      
  
      <!-- Metadata -->
@@ -54,513 +54,425 @@
 <!-- This is the start of the Help Content Layer --> <div id="helpcontent"> <!-- The Page Heading uses CSS style "head3b". This creates an H3 header
             with a line beneath it.
        --> 
-  <h3 class="head3b">Managing iFolder Details</h3>
-  <p> Use this interface to 
-manage the ownership, policies, and membership of a selected iFolder. </p><BLOCKQUOTE CLASS="blockquote"><P><A HREF="#general" TARGET="_self">Viewing iFolder Details
-</A> <BR><A HREF="#members" TARGET="_self">Members 
- </A><BR><A HREF="#policies" TARGET="_self">Policies</A> </P></BLOCKQUOTE>
+  <h3 class="head3b">iFolder詳細の管理</h3>
+  <p> このインタフェースでは、選択したiFolderの所有権、ポリシー、およびメンバーシップを管理できます。 </p>
+  <p> <b>注意</b>: セカンダリ管理者は、選択されたiFolderに対してセカンダリ管理者が持つ権利に基づいて、選択されたiFolderのポリシーを管理できます。</p><BLOCKQUOTE CLASS="blockquote"><P><A HREF="#general" TARGET="_self">iFolder詳細の表示</A> <BR><A HREF="#members" TARGET="_self">メンバー </A><BR><A HREF="#policies" TARGET="_self">ポリシー</A> </P></BLOCKQUOTE>
   
  
-  <H4><A NAME="general"></A>Viewing iFolder Details</H4>
-  <P>You 
-can view the following information:</P><TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TD VALIGN="TOP">
-        <P>Type</P>
+  <H4><A NAME="general"></A>iFolder詳細の表示</H4>
+  <P>次の情報を表示できます。</P><TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>パラメータ</P></TD><TD CLASS="tablehead2"><P>説明</P></TD></TR><TD VALIGN="TOP">
+        <P>タイプ</P>
       </TD><TD>
-        <P><img src="../../images/ifolder.png" width="16" height="16" alt="Folder icon">  Normal iFolder</P>
-		<P><img src="../../images/encrypt_ifolder.gif" width="16" height="16" alt="Folder icon"> Encrypted iFolder</P>
-		<p><img src="../../images/ifolder_user_16.gif" width="16" height="16" alt="Shared icon"> 
-          Shared iFolder<br>
+        <P><img src="../../images/ifolder.png" width="16" height="16" alt="フォルダアイコン"> 標準のiFolder</P>
+		<P><img src="../../images/encrypt_ifolder.gif" width="16" height="16" alt="フォルダアイコン"> 暗号化されたiFolder</P>
+		<p><img src="../../images/ifolder_user_16.gif" width="16" height="16" alt="共有アイコン"> 共有されたiFolder<br>
       </TD><TR><TD VALIGN="TOP">
-        <P>iFolder Name</P>
+        <P>iFolder名</P>
       </TD><TD>
-        <P>The name assigned to the iFolder </P>
+        <P>iFolderに割り当てられている名前 </P>
       </TD><TR><TD VALIGN="TOP">
-        <P>Description (editable)</P>
+        <P>説明(編集可能)</P>
       </TD><TD>
-        <P>A short description about the iFolder. You can edit the description 
-          and click Save to save the changes.</P>
-      </TD><TR><TD VALIGN="TOP"><P>Owner 
+        <P>iFolderの簡単な説明. 説明を編集して[保存]をクリックすると、変更内容を保存できます。</P>
+      </TD><TR><TD VALIGN="TOP"><P>所有者 
 </P></TD><TD>
-        <P>The username of the owner of the selected iFolder. Owner can be an 
-          individual user or an LDAPGroup. If an LDAPGroup is the owner of the 
-          iFolder, then all the members of the LDAPGroup will have the same access 
-          rights. For orphaned iFolders, the iFolder Admin user is made the owner 
-          until the iFolder can be reassigned or deleted.</P>
-        <p>Click the owner's username link to view his or her user account details.</p> 
-        <P>The iFolder owner has the Full Control right to the iFolder. The owner manages 
-          membership and access rights for users, and can remove the Full Control 
-          right for any member.</P>
-      </TD></TR><TR><TD VALIGN="TOP"><P>Path</P></TD><TD><P>The 
-actual location of the iFolder and its data on the server. For example:</P><P>/var/opt/novell/ifolder3/simias/SimiasFiles/<I>e84fdc6e-3d51-49df-ae3f-8c9213c76994</I>/&lt;iFolder_Name&gt;</P><P>In 
-this example, <I>e84fdc6e-3d51-49df-ae3f-8c9213c76994</I> is the unique ID of 
-the iFolder share.</P></TD><TR><TD VALIGN="TOP">
-        <P>Modified</P>
+        <P>選択したiFolderの所有者のユーザ名。所有者は個々のユーザまたはLDAPGroupになります。iFolderの所有者がLDAPGroupである場合、そのLDAPGroupのすべてのメンバーに同じアクセス権が付与されます。孤立したiFolderの場合、iFolderが再割り当てされるか削除されるまでは、iFolder管理者ユーザが所有者になります。</P>
+        <p>所有者のユーザアカウント詳細を表示するには、その所有者のユーザ名のリンクをクリックします。</p> 
+        <P>iFolderの所有者には、iFolderに対するフル制御アクセス権があります。所有者は、ユーザのメンバーシップとアクセス権を管理したり、メンバーのフル制御アクセス権を削除したりできます。</P>
+      </TD></TR><TR><TD VALIGN="TOP"><P>パス</P></TD><TD><P>サーバにおけるiFolderとそのデータの実際の場所。例:</P><P>/var/opt/novell/ifolder3/simias/SimiasFiles/<I>e84fdc6e-3d51-49df-ae3f-8c9213c76994</I>/&lt;iFolder_Name&gt;</P><P>この例で、<I>e84fdc6e-3d51-49df-ae3f-8c9213c76994</I>は、iFolder共有の一意のIDです。</P></TD><TR><TD VALIGN="TOP">
+        <P>変更日時</P>
       </TD><TD>
-        <P>The last modified time and date of the iFolder.</P>
+        <P>iFolderが最後に変更された日時.</P>
       </TD><TR><TD VALIGN="TOP">
-        <P>Directories</P>
+        <P>ディレクトリ</P>
       </TD><TD>
-        <P>Total number of directories in the iFolder.</P>
+        <P>iFolder内のディレクトリの合計数.</P>
       </TD><TR><TD VALIGN="TOP">
-        <P>Files</P>
+        <P>ファイル</P>
       </TD><TD>
-        <P>Total number of files in the iFolder.</P>
+        <P>iFolder内のファイルの合計数</P>
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>Orphan</P>
+        <P>Orphan (孤立)</P>
       </TD>
       <TD> 
-        <P>Yes indicates that iFolder is an orphan.</P>
-        <P>For orphaned iFolders, the iFolder Admin becomes the owner until the 
-          iFolder can be reassigned to a new owner or is deleted.</P>
+        <P>［はい］の場合、iFolderが孤立していることを示します。</P>
+        <P>孤立したiFolderの場合、iFolderが新しい所有者に割り当てられるか、または削除されるまでは、iFolder管理者が所有者になります。</P>
       </TD></TR></TABLE>
 	  
-  <H3><a name="members"></a>Members </H3>
-  <p> You can view the members' name, type and access rights assigned to them. 
-    You are allowed to add or delete an owner, assign ownership, and set access 
-    rights to a selected member. 
-  <H4><A NAME="share"></A>Adding 
-a Member</H4><OL><LI>
-      <P>On the iFolder Details page, click Add.</P>
+  <H3><a name="members"></a>メンバー </H3>
+  <p> メンバーの名前、タイプ、およびメンバーに割り当てられているアクセス権を表示できます。所有者の追加または削除、所有権の割り当て、および選択したメンバーへのアクセス権の設定が可能です。 
+  <H4><A NAME="share"></A>メンバーの追加</H4><OL><LI>
+      <P>［iFolder Detail (iFolder詳細)］ページで、［追加］をクリックします。</P>
     </LI><LI>
-      <P>Search for the user or LDAPGroup you want to make a member, select the 
-        check box next to the user's name, then click Add.<BR>
+      <P>メンバーとして追加するユーザまたはLDAPGroupを検索し、そのユーザ名の横のチェックボックスをオンにして、［追加］をクリックします。<BR>
         <BR>
-        By default, the user or the LDAPGroup is given Read Only access to the 
-        iFolder.</P>
+        デフォルトでは、ユーザまたはLDAPGroupにはiFolderに対する読み込み専用アクセス権が与えられます。</P>
     </LI><LI>
-      <P>(Optional) Select the User check box, then select Rights and specify 
-        the Access right as Admin, Read/Write, or Read Only , then click Set.<BR>
+      <P>(オプション)ユーザのチェックボックスをオンにして、［権利］を選択します。次に、アクセス権として［Admin］、［読み書き］、または［読み込み専用］を指定し、［設定］をクリックします。<BR>
         <BR>
-        Wait for the page to refresh. The user's icon should reflect the new access 
-        right. </P>
+        ページが更新されるのを待ちます。ユーザのアイコンに新しいアクセス権が反映されます。 </P>
     </LI></OL>
-<H4>Understanding iFolder Access Rights </H4>
-<p>The iFolder client supports the owner and three levels of access for members of an iFolder:</p>
-<P><B><FONT SIZE="-1">NOTE:</FONT></B> <FONT SIZE="-1">Members of an LDAPGroup inherit the access rights set for that LDAPGroup.</FONT></P>
+<H4>iFolderのアクセス権について </H4>
+<p>iFolderクライアントでは、iFolderメンバーに対して所有者および3つのレベルのアクセス権をサポートしています。</p>
+<P><B><FONT SIZE="-1">注意:</FONT></B><FONT SIZE="-1"> LDAPGroupのメンバーは、そのLDAPGroupのアクセス権セットを継承します。</FONT></P>
   <BLOCKQUOTE> 
-    <P><B>Owner<BR>
-      </B>Only one user or LDAPGroup serves as the owner of an iFolder. This is 
-      typically the user or any member of the LDAPGroup who created the iFolder. 
-      If the owner is an LDAPGroup and in that case, all the members of the LDAPGroup 
-      will have the ownership on that iFolder. The owner user or members of the 
-      owner LDAPGroup can use the iFolder client to transfer ownership to another 
-      member of the iFolder. The iFolder Admin user can transfer ownership to 
-      any user or LDAPGroup on the iFolder server.</P>
-    <P>The owner of an iFolder has the Full Control right. This user or LDAPGroup 
-      has read/write access to the iFolder, manages membership and access rights 
-      for member users and LDAPGroups, and can remove the Full Control right for 
-      any member. With an enterprise server, the disk space used by the owner&#146;s 
-      iFolders count against the owner&#146;s user disk quotas on the enterprise 
-      server.</P>
-    <P>If a user or LDAPGroup is deleted from the iFolder system, the iFolders 
-      owned by the user or LDAPGroup are orphaned. Orphaned iFolders are temporarily 
-      assigned to the iFolder Admin user as owner. Membership and synchronization 
-      continues for other users and LDAPGroup members while the iFolder Admin 
-      user determines whether an orphaned iFolder should be deleted or assigned 
-      to a new owner.</P>
-  <P><B>Full Control</B><BR>
-      A member of the shared iFolder, with the Full Control access right. The 
-      user or LDAPGroup with the Full Control right has read/write access to the 
-      iFolder and manages membership and access rights for all users except the 
-      owner.</P>
-  <P><B>Read/Write</B><BR>
-    A member of the shared iFolder, with the Read/Write access right to directories and files in the iFolder.</P>
-  <P><B>Read Only</B><BR>
-    A member of the shared iFolder, with the Read Only access right to directories and files in the iFolder. This member can copy an iFolder file to another location and modify it outside the iFolder.</P>
+    <P><B>所有者<BR>
+      </B>iFolderの所有者としての役割を果たす唯一のユーザまたはLDAPGroupです。通常は、そのiFolderを作成したユーザまたはLDAPGroupのメンバーになります。所有者がLDAPGroupである場合は、そのLDAPGroupのすべてのメンバーがそのiFolderの所有権を持つことになります。所有者であるユーザまたは所有者であるLDAPGroupのメンバーは、iFolderクライアントを使用して、そのiFolderの他のメンバーに所有権を譲渡できます。iFolder管理者ユーザは、所有権をiFolderサーバ上の任意のユーザまたはLDAPGroupに譲渡できます。</P>
+    <P>iFolderの所有者にはフル制御のアクセス権があります。 このユーザまたはLDAPGroupはiFolderに対する読み書き可能アクセス権を持ち、メンバーユーザおよびLDAPGroupのメンバーシップとアクセス権を管理したり、メンバーのフル制御アクセス権を削除したりできます。エンタープライズサーバでは、所有者のiFolderで使用されているディスク容量に応じて、エンタープライズサーバにおける所有者のユーザディスク割り当て量が少なくなります。</P>
+    <P>ユーザまたはLDAPGroupがiFolderシステムから削除された場合、そのユーザまたはLDAPGroupによって所有されていたiFolderは孤立します。孤立したiFolderは、一時的に所有者としてのiFolder管理者ユーザに割り当てられます。メンバーシップと同期は他のユーザおよびLDAPGroupに引き継がれますが、iFolder管理者ユーザは、孤立したiFolderを削除するか、または新しい所有者に割り当てるかを決定します。</P>
+  <P><B>フル制御</B><BR>
+      フル制御のアクセス権を持つ共有iFolderのメンバーです。フル制御のアクセス権を持つユーザまたはLDAPGroupは、iFolderに対する読み書き可能アクセス権を持ち、所有者以外のすべてのユーザのメンバーシップとアクセス権を管理します。</P>
+  <P><B>読み書き</B><BR>
+    共有iFolderのメンバーで、iFolder内のディレクトリとファイルに対する読書き可能アクセス権を持ちます。</P>
+  <P><B>読み込み専用</B><BR>
+    共有iFolderのメンバーで、iFolder内のディレクトリとファイルに対する読み込み専用アクセス権を持ちます。このメンバーは、iFolderファイルを別の場所にコピーしたり、iFolder以外の場所で変更したりできます。</P>
 </BLOCKQUOTE>
-<p>The following table describes the capabilities associated with each level of access for users.</p>
+<p>次の表では、ユーザのアクセスのレベル別に関連付けられた機能を説明しています。</p>
   <TABLE WIDTH="93%" BORDER="1">
     <tr class="HEADERROW"> 
-      <th  CLASS="tablehead2">Capabilities</th>
-      <th  CLASS="tablehead2">Owner</th>
-      <th  CLASS="tablehead2">Full&nbsp;Control</th>
-      <th  CLASS="tablehead2">Read/Write</th>
-      <th  CLASS="tablehead2">Read&nbsp;Only</th>
+      <th  CLASS="tablehead2">ケーパビリティ</th>
+      <th  CLASS="tablehead2">所有者</th>
+      <th  CLASS="tablehead2">フル制御</th>
+      <th  CLASS="tablehead2">読み書き</th>
+      <th  CLASS="tablehead2">読み込み専用</th>
     </tr>
     <tr > 
       <td  scope="row"> 
-        <p >Reassign ownership to another user or LDAPGroup</p>
+        <p >別のユーザへの所有権の再割り当てまたはLDAPGroup</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >対応</p>
       </td>
       <td >
-        <p >No</p>
+        <p >非対応</p>
       </td>
       <td >
-        <p >No</p>
+        <p >非対応</p>
       </td>
       <td >
-        <p >No</p>
-      </td>
-    </tr>
-    <tr > 
-      <td  scope="row"> 
-        <p >Set a quota for the iFolder</p>
-      </td>
-      <td >
-        <p >Yes</p>
-      </td>
-      <td >
-        <p >No</p>
-      </td>
-      <td >
-        <p >No</p>
-      </td>
-      <td >
-        <p >No</p>
+        <p >非対応</p>
       </td>
     </tr>
     <tr > 
       <td  scope="row"> 
-        <p >Make the iFolder available to other users (sharing)</p>
+        <p >iFolderの割り当て量の設定</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >対応</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >非対応</p>
       </td>
       <td >
-        <p >No</p>
+        <p >非対応</p>
       </td>
       <td >
-        <p >No</p>
+        <p >非対応</p>
       </td>
     </tr>
     <tr > 
       <td  scope="row"> 
-        <p >Make the iFolder unavailable to other users (stop sharing)</p>
+        <p >iFolderを他のユーザに対して有効にする(共有)</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >対応</p>
       </td>
       <td >
-        <p >Yes, except the owner</p>
+        <p >対応</p>
       </td>
       <td >
-        <p >No</p>
+        <p >非対応</p>
       </td>
       <td >
-        <p >No</p>
+        <p >非対応</p>
       </td>
     </tr>
     <tr > 
       <td  scope="row"> 
-        <p >Assign iFolder access rights for other users or LDAPGroup</p>
+        <p >iFolderを他のユーザに対して無効にする(共有停止)</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >はい</p>
       </td>
       <td >
-        <p >Yes, except the owner</p>
+        <p >はい(所有者を除く)</p>
       </td>
       <td >
-        <p >No</p>
+        <p >非対応</p>
       </td>
       <td >
-        <p >No</p>
+        <p >非対応</p>
       </td>
     </tr>
     <tr > 
       <td  scope="row"> 
-        <p >Read directories and files in the iFolder </p>
+        <p >他のユーザまたはLDAPGroupへのiFolderアクセス権の割り当て</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >はい</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >はい(所有者を除く)</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >非対応</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >非対応</p>
       </td>
     </tr>
     <tr > 
       <td  scope="row"> 
-        <p >Add, modify, or delete directories and files in the iFolder</p>
+        <p >iFolderのディレクトリ、ファイルの読み込み </p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >対応</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >対応</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >対応</p>
       </td>
       <td >
-        <p >No</p>
+        <p >対応</p>
       </td>
     </tr>
     <tr > 
       <td  scope="row"> 
-        <p >Rename directories and files in an iFolder</p>
+        <p >iFolderのディレクトリ、ファイルの追加、変更、削除</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >対応</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >対応</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >対応</p>
       </td>
       <td >
-        <p >No</p>
+        <p >非対応</p>
       </td>
     </tr>
     <tr > 
       <td  scope="row"> 
-        <p >Rename the iFolder</p>
+        <p >iFolderのディレクトリ、ファイルのリネーム</p>
       </td>
       <td >
-        <p >No</p>
+        <p >対応</p>
       </td>
       <td >
-        <p >No</p>
+        <p >対応</p>
       </td>
       <td >
-        <p >No</p>
+        <p >対応</p>
       </td>
       <td >
-        <p >No</p>
+        <p >非対応</p>
       </td>
     </tr>
     <tr > 
       <td  scope="row"> 
-        <p >Set up an iFolder on multiple computers</p>
+        <p >iFolderのリネーム</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >非対応</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >非対応</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >非対応</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >非対応</p>
       </td>
     </tr>
     <tr > 
       <td  scope="row"> 
-        <p >Revert an iFolder (do not participate on a local computer)</p>
+        <p >複数のコンピュータでのiFolderの設定</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >対応</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >対応</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >対応</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >対応</p>
       </td>
     </tr>
     <tr > 
       <td  scope="row"> 
-        <p >Delete an available iFolder to decline participating</p>
+        <p >iFolderを標準に戻す(ローカルコンピュータでは参加しない)</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >対応</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >対応</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >対応</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >対応</p>
       </td>
     </tr>
     <tr > 
       <td  scope="row"> 
-        <p >Delete the iFolder and delete the iFolder and its files from the server 
-          (make it a normal folder again and no longer share it with others)</p>
+        <p >有効なiFolderを削除して参加を拒否する</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >対応</p>
       </td>
       <td >
-        <p >No</p>
+        <p >対応</p>
       </td>
       <td >
-        <p >No</p>
+        <p >対応</p>
       </td>
       <td >
-        <p >No</p>
+        <p >対応</p>
+      </td>
+    </tr>
+    <tr > 
+      <td  scope="row"> 
+        <p >iFolderを削除し、サーバからiFolderとそのファイルを削除する(フォルダを再度標準フォルダに戻し、他のユーザと共有しない)</p>
+      </td>
+      <td >
+        <p >対応</p>
+      </td>
+      <td >
+        <p >非対応</p>
+      </td>
+      <td >
+        <p >非対応</p>
+      </td>
+      <td >
+        <p >非対応</p>
       </td>
     </tr>
   </table>
-<H4>Setting 
-  the iFolder Access Right for a Member</H4>
+<H4>メンバーのiFolderアクセス権の設定</H4>
   
 <OL><LI>
-      <P>On the iFolder Details page, select the check box next to the member 
-        whose access right you want to manage.</P>
+      <P>［iFolder Details (iFolder詳細)］ページで、アクセス権を管理するメンバーの横のチェックボックスをオンにします。</P>
     </LI><LI>
-      <P>Select the Rights drop-down menu, then select the Admin, Read/Write, 
-        or Read Only right.<BR>
-        <BR>Wait for the page to refresh. The user's icon should reflect the 
-new access right.</P></LI></OL>
-  <H4>Removing a Member</H4>
+      <P>［権利］ドロップダウンメニューから、［Admin］、［読み書き］、または［読み込み専用］を選択します。<BR>
+        <BR>ページが更新されるのを待ちます。ユーザのアイコンに新しいアクセス権が反映されます。</P></LI></OL>
+  <H4>メンバーの削除</H4>
 <ol>
-    <li>On the iFolder Details page, select the check box next to the member user's 
-      name.</li>
-    <li>Click Delete.</li>
+    <li>［iFolder Details (iFolder詳細)］ページで、メンバーユーザの名前の横のチェックボックスをオンにします。</li>
+    <li>［削除］をクリックします。</li>
 </ol>
-<P>The user's local copy of the data remains on the 
-user's computer, but the user no longer has access to the server copy of the iFolder 
-data.</P><P> <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top" TITLE="Go to top"></A></P>
-	  <H4>Changing the Owner</H4>
-  <P>When you change the owner of an iFolder, the existing owner becomes a member 
-    of the iFolder and is assigned the Read/Write right. For orphaned iFolders, 
-    the iFolder Admin becomes the owner until the iFolder is reassigned to a new 
-    owner or deleted. If the new owner is not currently a member of the iFolder, 
-    a subscription notification is sent to the user's iFolder account.</P>
+<P>ユーザのデータのローカルコピーはユーザのコンピュータに残りますが、ユーザはiFolderデータのサーバコピーにアクセスできなくなります。</P><P> <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="トップへジャンプ" TITLE="トップへジャンプ"></A></P>
+	  <H4>所有者の変更</H4>
+  <P>iFolderの所有者を変更すると、既存の所有者はiFolderのメンバーになり、読み書き可能アクセス権が割り当てられます。孤立したiFolderの場合、iFolderが新しい所有者に割り当てられるか、または削除されるまでは、iFolder管理者が所有者になります。新しい所有者が現在iFolderのメンバーでない場合は、参加登録通知がユーザのiFolderアカウントに送信されます。</P>
   <OL>
     <LI> 
-      <P>On the iFolder Details page, search for the user or LDAPGroup you want 
-        to assign as the new owner of the iFolder.</P>
+      <P>［iFolder Details (iFolder詳細)］ページで、iFolderの新しい所有者として割り当てるユーザまたはLDAPGroupを検索します。</P>
     </LI>
     <LI>
-      <P>Select the check box next to the user's name, then click <i>Owner</i>.</P>
+      <P><i></i>ユーザ名の横のチェックボックスをオンにして、［所有者］をクリックします。</P>
     </LI>
     
   </OL>
-  <P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P>
-  <H3><A NAME="policy"></A>Policies</H3>
+  <P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="トップへジャンプ"></A></P>
+  <H3><A NAME="policy"></A>ポリシー</H3>
   
-  <P>The following table lists the policies you can manage for any given iFolder. 
-    Modify one or more of the following values, then click Save to apply the new settings: </P>
-<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
-        <P>Disable Synchronization &nbsp;</P>
+  <P>次の表に、特定のiFolderについて管理できるポリシーを示します。次の値を1つまたは複数変更し、［保存］をクリックして新しい設定を適用します。 </P>
+<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>パラメータ</P></TD><TD CLASS="tablehead2"><P>説明</P></TD></TR><TR><TD VALIGN="TOP">
+        <P>Disable Synchronization (同期を無効にする)</P>
       </TD><TD>
-        <P>Select this option to turn off synchronization, usually temporarily. 
+        <P>このオプションを選択すると、通常は一時的に同期が無効になります。 
         </P>
-        <P>Deselect this option to allow the synchronization of data in the iFolder.</P>
-        <P>Default value: Enabled, Yes</P>
+        <P>iFolder内のデータを同期できるようにするには、このオプションの選択を解除します。</P>
+        <P>デフォルト値: 有効、はい</P>
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>Disk Quota&nbsp;</P>
+        <P>Disk Quota (ディスク割り当て量)</P>
       </TD><TD>
-        <P>Select the Limit check box, then specify the maximum size (in MB) for 
-          the selected iFolder.</P>
-        <P>If you enable System-wide iFolder quota or LDAPGroup level quota, a 
-          user's account quota overrides it, if the user quota is lower or higher 
-          than the LDAPGroup quota or system quota. </P>
-        <P>Default value: Disabled, No Limit</P>
+        <P>［制限容量］チェックボックスをオンにして、選択したiFolderの最大サイズ(MB)を指定します。</P>
+        <P>システム全体のiFolder割り当て量またはLDAPGroupレベルの割り当て量を有効にした場合に、ユーザ割り当て量がLDAPGroupの割り当て量またはシステムの割り当て量より少ないか多いときは、ユーザのアカウント割り当て量が優先されます。 </P>
+        <P>デフォルト値: 無効、制限なし</P>
       </TD></TR><TR><TD VALIGN="TOP">
-        <P> Used</P>
-        <P>(View only)&nbsp;</P></TD><TD>
-        <P>Reports the space the iFolder data currently consumes.</P>
+        <P> 使用済み</P>
+        <P>(表示のみ)</P></TD><TD>
+        <P>現在iFolderデータによって使用されている容量が表示されます。</P>
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>Available</P>
-        <P>(View only)&nbsp;</P></TD><TD>
-        <P>Reports the space available on the server for the iFolder data.</P>
+        <P>使用可能</P>
+        <P>(表示のみ)</P></TD><TD>
+        <P>iFolderデータに使用できるサーバ上の容量が表示されます。</P>
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>Effective</P>
-        <P>(View only)&nbsp;</P></TD><TD>
-        <P>Reports effective space available on the server for the iFolder data.</P>
+        <P>Effective (有効)</P>
+        <P>(表示のみ)</P></TD><TD>
+        <P>iFolderデータに使用できるサーバ上の有効な容量が表示されます。</P>
       </TD></TR>
 	  <TR><TD VALIGN="TOP">
         <p>File Size</p>
       </TD>
-      <TD> <B>Limit</B><BR>
-          Specifies the maximum total file size (in MB) that an iFolder user 
-          is allowed to use, across all iFolders the user owns for the selected 
-          user account. <br>
+      <TD> <B>制限容量</B><BR>
+          選択したユーザアカウントについて、ユーザが所有するすべてのiFolderに対してiFolderユーザが使用できる最大合計ファイルサイズ(MB)を指定します。 <br>
           <BR>
-        <B>Effective</B><BR>
-        Effective file size allocated for the user.<br>
-		<ul><P><font size="-1"><b>IMPORTANT:</b> Users cannot successfully synchronize 
-          files of a size that would cause a quota to be exceeded. If they try 
-          to do so, only part of the file is synchronized, resulting in data corruption.</font></P></ul>
+        <B>Effective (有効)</B><BR>
+        ユーザに割り当てられている有効なファイルサイズ。<br>
+		<ul><P><font size="-1"><b>重要:</b> 割り当て超過の原因になるサイズのファイルは、正常に同期できません。そのようなファイルを同期しようとすると、ファイルの一部だけが同期されるため、データが破損します。</font></P></ul>
       </TD></TR>
 	  <TR>
       <TD VALIGN="TOP"> 
-        <p>Excluded Files</p>
+        <p>Excluded Files (除外ファイル)</p>
       </TD>
       <TD> 
-        <P>Specifies a list of file types to include or to exclude from synchronization 
-          for the selected iFolder.</P>
-        <p>The file manager files called thumbs.db and .DS_Store are never synchronized. 
+        <P>選択したiFolderの同期の対象にするファイルタイプと同期の対象外とするファイルタイプのリストを指定します。</P>
+        <p>thumbs.dbおよび.DS_Storeという名前のファイルマネージャファイルは、同期されません。 
         </p>
     
-        <P>To add a file extension to the exclusion filter, type the extension 
-          (such as *.mpg), then click Add to apply the filter. </P>
-        <P>To exclude a file type from the restricted file types, select the check 
-          box adjacent to the File Name, then select the file type and click Delete.</P>
+        <P>除外フィルタにファイル拡張子を追加するには、*.mpgなどの拡張子を入力し、［追加］をクリックしてフィルタを適用します。 </P>
+        <P>制限されているファイルタイプからファイルタイプを除外するには、ファイル名の横のチェックボックスをオンにし、ファイルタイプを選択して［削除］をクリックします。</P>
          
-        <P>Default value: Disabled, Allow all file types or the System-wide settings</P>
+        <P>デフォルト値: 無効、すべてのファイルタイプまたはシステム全体の設定を許可</P>
       </TD></TR>
 	
       
 <TR><TD VALIGN="TOP">
-        <P> Synchronization Interval &nbsp;</P>
+        <P> Synchronization Interval (同期間隔)</P>
       </TD><TD>
-        <P>Select the Synchronization interval check box to enable a minimum interval 
-          setting for the selected iFolder, then specify the minimum value in 
-          minutes that the users are allowed to set on their iFolder client.</P>
-        <P> To disable the setting, deselect the Synchronization Interval check 
-          box. If the option is disabled, the value reported is Unlimited.</P>
-        <P> If this option is enabled, the minimum synchronization interval specifies 
-          the minimum interval in minutes that a user's client can check iFolder 
-          data on the server and local iFolders to identify the files that need 
-          to be downloaded or uploaded.</P>
-  <P>      The effective minimum synchronization interval is always the largest value from the following settings:</P>
+        <P>［Synchronization Interval (同期間隔)］チェックボックスをオンにして、選択したiFolderの最小間隔設定を有効にします。次に、ユーザがiFolderクライアントに対して設定できる最小値を分単位で指定します。</P>
+        <P> この設定を無効にするには、［Synchronization Interval (同期間隔)］チェックボックスをオフにします。このオプションが無効になっている場合は、［制限なし］と表示されます。</P>
+        <P> このオプションが有効になっている場合は、最小同期間隔に従って、ユーザのクライアントがサーバ上のiFolderデータとローカルiFolderを確認できる最小間隔が分単位で指定されます。この確認により、ダウンロードまたはアップロードする必要があるファイルを特定できます。</P>
+  <P>      有効な最小同期間隔は、常に次の設定の中で最大の値です。</P>
   <ul>
     <li>
-            <p> The system policy (the default of 5 minutes), unless there is 
-              a user policy or LDAPGroup policy set. If a LDAPGroup policy set, 
-              the LDAPGroup policy overrides the system policy. If a user policy 
-              is set, the user policy overrides the LDAPGroup policy and system 
-              policy, whether it is larger or smaller in value.</p>
+            <p> ユーザポリシーまたはLDAPGroupポリシーが設定されていない限り、システムポリシー(デフォルトは5分)。LDAPGroupポリシーが設定されている場合、システムポリシーはLDAPGroupポリシーで上書きされます。ユーザポリシーが設定されており、そのユーザポリシーの値がシステムポリシーを上回るか下回る場合、LDAPGroupポリシーとシステムポリシーはユーザポリシーで上書きされます。</p>
     </li>
     <li>
-      <p> The local machine policy, or the setting on the client machine synchronizing with the server</p>
+      <p> ローカルマシンのポリシー、またはサーバと同期を行うクライアントマシン上の設定</p>
     </li>
     <li>
-      <p> The iFolder (collection) policy</p>
+      <p> iFolder (コレクション)ポリシー</p>
     </li>
   </ul>  
-        <P> Default value: Disabled, iFolder client-set limit</P>
+        <P> デフォルト値: 無効、iFolderクライアント設定の制限</P>
       </TD>
 </TR><TR><TD VALIGN="TOP">
-        <P> Sharing</P>
-      </TD><TD> <B>On</B><BR>
-        By default, iFolder sharing is enabled. Deselect On to disable 
-        sharing for the selected iFolder. After applying this policy, selected 
-        iFolder cannot be shared either by the Admin or by the Owner of the iFolder.<br>
+        <P> 共用</P>
+      </TD><TD> <B>オン</B><BR>
+        デフォルトでは、iFolderの共有は有効になっています。選択されたiFolderの共有を無効にする場合は［オン］を選択解除します。このポリシーを適用すると、選択されたiFolderを管理者またはiFolderの所有者が共有できなくなります。<br>
           <BR>
-        <B>Revoke</B><BR>
-        Select <i>Revoke</i> to remove all the members from the 
-        list of shared members for the selected iFolder.<br>
+        <B>取り消し</B><BR>
+        <i></i>［取り消し］を選択すると、選択されたiFolderの共有メンバーのリストから、すべてのメンバーが削除されます。<br>
 		<ul>
-          <P><font size="-1"><b>IMPORTANT:</b> Both these options are disabled 
-            if you enable and enforce the <i> Sharing</i> option at System or 
-            User level.</font></P>
+          <P><font size="-1"><b>重要:</b> システムレベルまたはユーザレベルで［共有］オプションを有効にしたり強制したりすると、これらのオプションは両方とも無効になります。<i></i></font></P>
         </ul>
       </TD></TR></TABLE><BR><P> 
   
-  <H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Related Topics" align="top"> 
-Related Topics</H4><BLOCKQUOTE class="task1"><P ><A HREF="ifolders.html">Managing iFolders 
-</A><BR><A HREF="users.html">Managing Users 
-</A><BR><A HREF="userdetails.html">User Details</A><BR><A HREF="servers.html#orphan" TARGET="_self">Managing 
-iFolder Servers</A>
+  <H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="関連項目" align="top"> 関連項目</H4><BLOCKQUOTE class="task1"><P ><A HREF="ifolders.html">iFolderの管理 </A><BR><A HREF="users.html">ユーザの管理 </A><BR><A HREF="userdetails.html">ユーザ詳細</A><BR><A HREF="servers.html#orphan" TARGET="_self">iFolderサーバの管理</A>
     </P>
-  </BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P><P>&nbsp;</P><P CLASS="copyright">A 
-trademark symbol (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP>, 
-etc.) denotes a Novell trademark. An asterisk (*) denotes a third-party trademark. 
-For more information, see <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Legal 
-Notices</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
+  </BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="トップへジャンプ"></A></P><P>&nbsp;</P><P CLASS="copyright">商標記号（<SUP><SMALL>&reg;</SMALL></SUP>、<SUP><SMALL>TM</SMALL></SUP>など）は、Novellの商標を示し、アスタリスク（*）は、サードパーティの商標を示します。  詳細については、「<A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">保証と著作権</font></A>」を参照してください。</P></div><!-- This is the end of the Help Content layer. --> 
 </body>
 
 </html>

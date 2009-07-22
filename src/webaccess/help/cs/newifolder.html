@@ -1,10 +1,10 @@
 <html>
 <head>
-  <meta http-equiv="content-type" content="text/html;charset=iso-8859-1"> 
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8"> 
 
 <!-- Novell iFolder 3.x Web Access  --> 
 
-<title>Create new iFolders </title> 
+<title>Vytvořen&iacute; nov&eacute; složky iFolder </title> 
 
 <!-- Metadata --> 
   <meta name="Author" content="iFolder 3.x Documentation Manager"> 
@@ -42,73 +42,54 @@ url(../../images/helphead_bg.gif) repeat-x 0% 0% }
 <div id="helpcontent" style="left: 10px; top: 38px"><!-- The Page Heading uses CSS style "head3b". This creates an H3 header
             with a line beneath it.
        --> 
-  <h3><a name="manage"></a>Create a New iFolder</h3>
-  <p>Perform the following steps to create a new iFolder:</p>
+  <h3><a name="manage"></a>Vytvořen&iacute; nov&eacute; složky iFolder</h3>
+  <p>Pro vytvořen&iacute; nov&eacute; složky iFolder proveďte n&aacute;sleduj&iacute;c&iacute; kroky:</p>
   <ol>
     <li> 
-      <p>Click the New iFolder link given in the Home page.</p>
+      <p>Klepněte na odkaz Nov&aacute; složka iFolder na domovsk&eacute; str&aacute;nce.</p>
     </li>
     <li> 
-      <p>In the new page that opens, specify the following information:</p>
+      <p>Na nov&eacute; str&aacute;nce, kter&aacute; se zobraz&iacute;, zadejte n&aacute;sleduj&iacute;c&iacute; informace:</p>
     </li>
     <P> 
-    <BLOCKQUOTE> <B> Name</B><BR>
-      Assign a name to the iFolder, such as myfolder. <BR>
-      <p><strong>Note: </strong> Do not use the following invalid characters in 
-        the names of iFolders or in the names of folders and files in them:</p>
-      \/:*?"<>|;<br>
-      <p>For more information on naming conventions, see Section 7.3 in the <A HREF="http://www.novell.com/documentation/ifolder3/ifolder36_user/data/bookinfo.html">iFolder 
-        Cross Platfrom User Guide </A>.</p>
-      <p><strong>IMPORTANT: </strong>When you attempt to create an iFolder whose 
-        name exceeds the file limit supported by the iFolder server file system, 
-        it throws an error message that the name of the iFolder is too long to 
-        be created.</p>
+    <BLOCKQUOTE> <B> N&aacute;zev</B><BR>
+      Přiřaďte n&aacute;zev složky iFolder, např&iacute;klad mojeslozka. <BR>
+      <p><strong>Pozn&aacute;mka: </strong> V n&aacute;zvech složek iFolder ani v n&aacute;zvech složek a souborech v nich uložen&yacute;ch nepouž&iacute;vejte n&aacute;sleduj&iacute;c&iacute; neplatn&eacute; znaky:</p>
+      \/:*?&quot;&lt;&gt;|;<br>
+      <p>Dalš&iacute; informace o pravidlech pro n&aacute;zvy najdete v č&aacute;sti 7.3 př&iacute;ručky <A HREF="http://www.novell.com/documentation/ifolder3/ifolder36_user/data/bookinfo.html">Uživatelsk&aacute; př&iacute;ručka k produktu iFolder Cross pro různ&eacute; platformy</A>.</p>
+      <p><strong>DŮLEŽIT&Eacute;: </strong>Při pokusu o vytvořen&iacute; složky iFolder, jej&iacute;ž n&aacute;zev přesahuje omezen&iacute; podporovan&eacute; syst&eacute;mem souborů serveru iFolder, dojde k zobrazen&iacute; chybov&eacute;ho hl&aacute;šen&iacute; s informac&iacute;, že n&aacute;zev složky iFolder je př&iacute;liš dlouh&yacute; a nelze vytvořit.</p>
       <BR>
-      <B> Description</B><BR>
-      A short description of the iFolder.<br>
+      <B> Popis</B><BR>
+      Kr&aacute;tk&yacute; popis složky iFolder.<br>
       <BR>
-      <B> Type</B><BR>
-      select the type of the iFolder that you want to create.<br>
-      <BLOCKQUOTE> <B>Encrypted</B><BR>
-        Select this option to encrypt your iFolder and the files within it. <BR>
-        <p><strong>IMPORTANT: </strong>This option is not enabled until your Admin 
-          set your encryption policy to On. </p>
-        <B> Regular</B><BR>
-        Select Sharable to share your iFolder with other iFolder accounts. <BR>
-        <p><strong>IMPORTANT: </strong>Shared iFolders cannot be encrypted and 
-          encrypted ones cannot be shared.</p>
+      <B> Typ</B><BR>
+      Vyberte typ složky iFolder, kterou chcete vytvořit.<br>
+      <BLOCKQUOTE> <B>Šifrov&aacute;no</B><BR>
+        Zaškrteněte tuto volbu pro aktivaci šifrov&aacute;n&iacute; složky iFolder a jej&iacute;ch souborů. <BR>
+        <p><strong>DŮLEŽIT&Eacute;: </strong>Tato volba nen&iacute; zapnut&aacute; dokud spr&aacute;vce nenastav&iacute; z&aacute;sady šifrov&aacute;n&iacute; na Zapnuto. </p>
+        <B>Norm&aacute;ln&iacute;</B><BR>
+        Zaškrtněte tuto volbu pro sd&iacute;len&iacute; t&eacute;to složky iFolder s ostatn&iacute;mi &uacute;čty iFolder. <BR>
+        <p><strong>DŮLEŽIT&Eacute;: </strong>Sd&iacute;len&eacute; složky iFolder nemohou b&yacute;t šifrov&aacute;ny a šifrovan&eacute; složky nemohou b&yacute;t sd&iacute;leny.</p>
       </BLOCKQUOTE>
     </BLOCKQUOTE>
     <li> 
-      <p>Select the Recovery agent from the drop-down list.</p>
-      <p><strong>Note: </strong> This option will not be available if your iFolder 
-        Administrator does not select Enable Recovery agent option while configuring 
-        the iFolder server.</p>
-      <p>The Recovery agent can be a system, organization, or a person independent 
-        of the iFolder system that where you can store the key to recover your 
-        secret passphrase.</p>
-      <p><strong>IMPORTANT: </strong> Unless you have set your Recovery agent, 
-        the encrypted data cannot be recovered in the unfortunate case that you 
-        lost the passphrase. </p>
+      <p>V&nbsp;rozev&iacute;rac&iacute;m seznamu vyberte agenta obnoven&iacute;.</p>
+      <p><strong>Pozn&aacute;mka: </strong> Tato volba nebude dostupn&aacute;, pokud spr&aacute;vce neaktivuje volbu agenta obnoven&iacute; při konfiguraci serveru iFolder.</p>
+      <p>Agentem obnoven&iacute; může b&yacute;t syst&eacute;m, organizace nebo osoba nez&aacute;visl&aacute; na syst&eacute;mu iFolder, kde můžete uložit kl&iacute;č k obnoven&iacute; vašeho tajn&eacute;ho hesla.</p>
+      <p><strong>DŮLEŽIT&Eacute;: </strong> Pokud nenastav&iacute;te agenta obnoven&iacute;, šifrovan&aacute; data nepůjde obnovit v př&iacute;padě ztr&aacute;ty hesla. </p>
     </li>
     <li> 
-      <p>Type the passphrase in the Enter Passphrase field.</p>
+      <p>Zadejte heslo do pole Zadejte heslo.</p>
     </li>
-    <li><p>Enter the passphrase again to confirm.</p></li>
-    <li>Click Create to complete the new iFolder creation. 
-      <p> Click Cancel to cancel the operation. </p>
+    <li><p>Zadejte heslo znovu pro potvrzen&iacute;.</p></li>
+    <li>Klepnut&iacute;m na tlač&iacute;tko Vytvořit dokonč&iacute;te vytvořen&iacute; nov&eacute; složky iFolder. 
+      <p> Klepnut&iacute;m na tlač&iacute;tko Zrušit operaci zruš&iacute;te. </p>
     </li>
   </ol>
   
   
-<a href="#top" target="_self"><img src="../../images/goto_top.gif" width="19" height="19" border="0" alt="Go to top"></a>
-<H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Related Topics" align="top"> 
-Related Topics</H4><BLOCKQUOTE class="task1"><P ><A HREF="browse.html">Accessing Folders and Files in Your iFolder</A><BR><A HREF="details.html">Viewing iFolder Properties
-</A><BR><A HREF="members.html">Managing iFolder Members</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P><P CLASS="copyright">A 
-trademark symbol (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP>, 
-etc.) denotes a Novell trademark. An asterisk (*) denotes a third-party 
-trademark. For more information, see <A HREF="legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Legal 
-Notices</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
+<a href="#top" target="_self"><img src="../../images/goto_top.gif" width="19" height="19" border="0" alt="Zpět na zač&aacute;tek"></a>
+<H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Souvisej&iacute;c&iacute; t&eacute;mata" align="top"> Souvisej&iacute;c&iacute; t&eacute;mata</H4><BLOCKQUOTE class="task1"><P ><A HREF="browse.html">Přistupov&aacute;n&iacute; k složk&aacute;m a souborům ve složce iFolder</A><BR><A HREF="details.html">Prohl&iacute;žen&iacute; vlastnost&iacute; složky iFolder</A><BR><A HREF="members.html">Spr&aacute;va členů složky iFolder</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Zpět na zač&aacute;tek"></A></P><P CLASS="copyright">Symbol ochrann&eacute; zn&aacute;mky (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP> atd.) označuje ochrannou zn&aacute;mku společnosti Novell. Hvězdička (*) označuje ochrannou zn&aacute;mku jin&eacute; společnosti.  Dalš&iacute; informace z&iacute;sk&aacute;te v&nbsp;t&eacute;matu <A HREF="legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Pr&aacute;vn&iacute; upozorněn&iacute;</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
 
 </body> 
 

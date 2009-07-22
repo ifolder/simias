@@ -1,11 +1,11 @@
 <html>
 
    <head>
-     <meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+     <meta http-equiv="content-type" content="text/html;charset=UTF-8">
      
      <!-- Novell iFolder 3.x iManager Plugin  --> 
    
-     <title>iFolder System</title>  	 
+     <title>iFolderシステム</title>  	 
    
         
      <!-- Metadata -->
@@ -28,7 +28,7 @@
 <style type= "text/css" media="screen">
        <!--
        
-         body           {  font-family: Arial, Helvetica, Geneva; background: white url(../../images/helphead_bg.gif) repeat-x 0% 0% }
+         body           {  font-family: Arial, Helvetica, Geneva; background: white url('../../images/helphead_bg.gif') repeat-x;  }
 		      
          #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px;
 									width: 380px; visibility: visible }
@@ -36,6 +36,8 @@
          #helpcontent    { position: absolute; top: 37px; left: 10px; 
 	                        width: 93%; visibility: visible }
       
+div.Section1
+	{page:Section1;}
        -->
      </style>
   
@@ -52,285 +54,364 @@
 <!-- This is the start of the Help Banner Layer --> <div id="headgraphic"> <img src="../../images/h1_help.gif" width="380" height="32"   border="0"></div><!-- This is end of the Help Banner Layer --> 
 <!-- This is the start of the Help Content Layer --> <div id="helpcontent"> <!-- The Page Heading uses CSS style "head3b". This creates an H3 header
             with a line beneath it.
-       --> <h3 class="head3b">Managing the iFolder System</h3>
-  <p> Use this interface to manage Novell iFolder<SUP><SMALL>&reg;</SMALL></SUP> 
-    3.7 services for the selected server.</p>
-  <P>This help discusses the following information:</P>
-  <blockquote> <P><A HREF="#sytemsettings" TARGET="_self">Viewing the System Settings
-</A> <BR><A HREF="#status" TARGET="_self">Reprovision Status</a><BR><A HREF="#admin" TARGET="_self">Administrators Tab</a><BR> <A HREF="#policy" TARGET="_self">Policies
-</a><BR></P></BLOCKQUOTE>
+       --> <h3 class="head3b">iFolderシステムの管理</h3>
+  <p> このインタフェースでは、選択したサーバのNovell iFolder<SUP><SMALL>&reg;</SMALL></SUP> 3.7サービスを管理できます。</p>
+  <P>このヘルプでは、次の情報について説明します。</P>
+  <blockquote> <P><A HREF="#sytemsettings" TARGET="_self">システム設定</A> <BR><A HREF="#status" TARGET="_self">再プロビジョニングステータス</a><BR><A HREF="#admin" TARGET="_self">［Administrators］タブ</a><BR> <A HREF="#policy" TARGET="_self">ポリシー </a><BR></P></BLOCKQUOTE>
   
-  <H3><A NAME="sytemsettings"></A>Viewing the System Settings</H3>
-  <P>You 
-can view the following information:</P><TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
-        <P>System Name</P>
+  <H3><A NAME="sytemsettings"></A>システム設定</H3>
+  <p>システム設定セクションには、次の情報が表示されます。</p>
+  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>パラメータ</P></TD><TD CLASS="tablehead2"><P>
+    説明</P></TD></TR><TR><TD VALIGN="TOP">
+        <P>名前</P>
       </TD><TD>
-        <P>The name assigned to the iFolder domain.</P>
-		<P>To edit the name of the iFolder domain, specify the new name and click 
-          Save.</P>
+        <P>iFolderドメインに割り当てられている名前。</P>
+		<P>iFolderドメインの名前を編集するには、新しい名前を入力して［保存］をクリックします。</P>
 		  
-        <P>To cancel the changes made, click Cancel.</P>
+        <P>変更をキャンセルするには、［キャンセル］をクリックします。</P>
       </TD><TR><TD VALIGN="TOP">
-        <P>Description</P>
+        <P>説明</P>
       </TD><TD>
-        <P>A short description about the iFolder Domain.</P>
-		<P>To edit the system description, specify the new description and click 
-          Save.</P>
+        <P>iFolderドメインの簡単な説明。.</P>
+		<P>システムの説明を編集するには、新しい説明を入力して［保存］をクリックします。</P>
 		  
-        <P>To cancel the changes made, click Cancel.</P>
-      </TD><TR><TD VALIGN="TOP">
-        <P>Total Users</P>(view only)
-      </TD><TD>
-        <P>Reports the total number of users in the iFolder domain. 
-      </TD></TR><TR><TD VALIGN="TOP">
-        <P>Total iFolders</P>
-        (view only)
-      </TD><TD>
-        <P>Reports total number of iFolders that belongs to the iFolder domain. 
-      </TD></TR><TR><TD VALIGN="TOP">
-        <P>Enable SSL</P>
+        <P>変更をキャンセルするには、［キャンセル］をクリックします。</P>
+      </TD>
+    <tr>
+      <TD VALIGN="TOP">
+        <P>SSLオプション</P>
         
       </TD>
       <TD> 
-        <P>Select the check box to enable the SSL communication among the iFolder 
-          Servers, iFolder client, iFolder Web Access console and iFolder Web 
-          Admin console. 
-      </TD></TR></TABLE>
- <P> <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P> 
- <H3><A NAME="status"></A>Reprovision Status</H3> 
-  <p> You can move users across different servers. With this interface, you can 
-    view the reprovisioning status. Click Reprovision Status to view the reprovision 
-    status for each user. </p>
-  <P> <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P>
-  <H3><a name="admin"></a>iFolder Administrators</H3>
-<P>The iFolder Admin user is the primary administrator of the iFolder 
-enterprise server. Whenever iFolders are orphaned, ownership is transferred to 
-the iFolder Admin user for reassignment to another user or for deletion. You initially 
-specify the iFolder Admin user during the iFolder enterprise server configuration 
-in YaST. </P>
-  <P>The iFolder Admin user must be provisioned in order to enable the iFolder 
-    Admin to perform management tasks. iFolder tracks this user by the LDAP object 
-    GUID, allowing it to belong to any LDAP container or group in the tree, even 
-    those that are not identified as Search DNs. The user&#146;s movement can 
-    be tracked anywhere in the tree because it is known by the GUID, not by the 
-    user DN.</P>
-  <P>The iFolder Admin right can be assigned to other users so that they can also 
-    manage iFolder services for the selected server. Only users who are in one 
-    of the DNs specified in the LDAP Search DN are eligible to be equivalent to 
-    the iFolder Admin user.</P>
-  <P>If you assign the iFolder Admin right to other 
-users, those users are governed by the roster and Search DN relationship. The 
-user is removed from the roster and stripped of the iFolder Admin right if you 
-delete the user, remove the user&#146;s DN from the list of Search DNs, or move 
-the user to a DN that is not in the Search DNs.</P><P><font size="-1"><b>IMPORTANT:</b> You cannot assign the Admin user 
-          right to an LDAPGroup.</font></P>
-  <P>The System page displays the following iFolder Admin details for the iFolder 
-    domain:</P>
-	<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR>
+        <P>iFolderサーバ、iFolderクライアント、iFolder Web Accessコンソール、およびiFolder Web Adminコンソールの間の通信モードが表示されます。 
+      </TD>
+    </tr>
+    <TR><TD VALIGN="TOP">
+        <P>Total Users (ユーザ合計数)</P>(表示のみ)
+      </TD><TD>
+        <P>iFolderドメイン内のユーザの合計数が表示されます。 
+      </TD></TR><TR><TD VALIGN="TOP">
+        <P>Total iFolders (iFolder合計数)</P>
+        (表示のみ)
+      </TD><TD>
+        <P>iFolderドメインに属しているiFolderの合計数が表示されます。 
+      </TD></TR><TR><TD VALIGN="TOP">
+        Full Name Display Order (フルネームの表示順)</TD><TD>
+        <p>
+        ユーザのフルネームが表示される順序を設定できます。［(First Name, Last Name) (名, 姓)<i></i>］オプションを選択すると、名の後に姓が表示されます。姓の後に名を表示する場合は、［(Last Name, First Name) (姓, 名)<i></i>］オプションを選択します。 </p>
+        <p class="Normal2">
+        変更を有効にするには、スケジュールされたLDAP同期を実行するか、手動でLDAP同期を実行する必要があります。手動でLDAP同期を実行するには、次の手順に従います。</p>
+        <ol>
+          <li>
+          <p class="Normal2">
+          <span style="font-size:11.0pt;font-family:Arial;
+">Web Adminコンソールで［サーバ<i></i>］タブをクリックしてサーバを選択し、サーバの詳細ページに移動します。</span></li>
+          <li>
+          <p class="Normal2">
+          <span style="font-size: 11.0pt; font-family: Arial; ">［LDAP Details (LDAPの詳細)<i></i>］セクションで、［いますぐ同期<i></i>］ボタンをクリックします。</span></li>
+        </ol>
+      </TD></TR><TR><TD VALIGN="TOP">
+        <span style="font-size: 11.0pt; font-family: Arial; "> 使用するグループ割り当て量の管理</span></TD><TD>
+        <p class="Normal2">
+        <span style="font-size:11.0pt;font-family:Arial;">グループに設定された合計ディスク割り当て量の管理方法を定義できます。</span></p>
+        <p class="Normal2">
+        <span style="font-size:11.0pt;font-family:Arial;">［Administrator Console (管理者コンソール)<i></i>］オプションを選択すると、グループとグループメンバーのディスク割り当て量を管理者が明示的に管理できます。このオプションを選択すると、グループの合計ディスク使用量を超えないように、ユーザに割り当てられるディスク割り当て量が制限されます。デフォルトでは、［Administrator Console (管理者コンソール)<i></i>］オプションが選択されています。</span></p>
+        <p class="Normal2">
+        <span style="font-size:11.0pt;font-family:Arial;">［Sync Engine (同期エンジン)<i></i>］オプションを選択すると、同期エンジンで、グループの合計ディスク割り当て量をバックエンドで管理できます。同期エンジンを使用すると、グループ内のすべてのユーザに対するディスク割り当て量がグループの合計ディスク割り当て量を超えないようにすることができます。</span></p>
+        <p class="Normal2">
+        <span style="font-size:11.0pt;font-family:Arial;">［両方<i></i>］オプションを選択すると、管理コンソールと同期エンジンの両方を使用して、グループの合計ディスク割り当て量の使用状況を管理できます。</span></TD></TR><TR><TD VALIGN="TOP">
+        <span style="font-size: 11.0pt; font-family: Arial; ">分離グループ</span></TD><TD>
+        <span style="font-size: 11.0pt; font-family: Arial; ">個々のグループを個別のエンティティとして分離して、あるグループのメンバーに別のグループのメンバーがアクセスして、iFolderを共有できないようにします。［Create Segregated Groups (分離グループの作成)<i></i>］チェックボックスをオンにすると、同じグループのメンバー間でのみiFolderを共有できます。</span><p>
+        <span style="font-family: Arial; ">注意: </span> <span style="font-size: 11.0pt; font-family: Arial; ">LDAPGroupをセカンダリまたはプライマリ管理者にすることはできません。</span></TD></TR></TABLE>
+ <P> <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="トップへジャンプ"></A></P> 
+ <H3><A NAME="status"></A>再プロビジョニングステータス</H3> 
+  <p> 別のサーバにユーザを移動することができます。この インタフェースでは、再プロビジョニングステータスを表示できます。各ユーザの再プロビジョニングステータスを表示するには、［Reprovision Status (再プロビジョニングステータス)］をクリックします。 </p>
+  <P> <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="トップへジャンプ"></A></P>
+  <H3><a name="admin"></a>iFolder管理者</H3>
+<P>iFolder管理者ユーザは、iFolderエンタープライズサーバの主要な管理者です。iFolderが孤立するたびに、所有権を別のユーザに再割り当てするか、または削除するために、所有権がiFolder管理者ユーザに譲渡されます。iFolder管理者ユーザは、YaSTでiFolderエンタープライズサーバを設定する間に最初に指定します。 </P>
+  <P>iFolder管理者が管理タスクを実行できるようにするには、iFolder管理者ユーザをプロビジョニングする必要があります。iFolderは、このユーザをLDAPオブジェクトのGUIDで追跡します。これにより、検索DNとして識別されないユーザでも、ツリー内のLDAPコンテナまたはグループに属すことができます。ユーザはユーザDNではなくGUIDで認識されるため、ユーザの移動をツリー内のどこでも追跡できます。</P>
+  <P>iFolder管理者権限は、他のユーザにも割り当てることができるため、選択したサーバのiFolderサービスを他のユーザが管理することもできます。LDAP検索DNで指定されたいずれかのDNに属しているユーザだけが、iFolder管理者ユーザと同等の権限を持つことができます。</P>
+  <P>iFolder管理者権限を他のユーザに割り当てた場合、それらのユーザはリストと検索DNの関係で管理されます。ユーザを削除するか、ユーザのDNを検索DNのリストから削除するか、またはユーザを検索DN以外のDNに移動すると、そのユーザはリストから削除され、iFolder管理者権限の割り当てが解除されます。</P>
+  <P><span style="FONT-FAMILY: Arial">iFolder管理者ユーザまたはプライマリ管理者は、セカンダリ管理者を作成し、そのセカンダリ管理者にグループを割り当てます。</span></P><P><font size="-1"><b>重要:</b> LDAPGroupに管理者ユーザの権限を割り当てることはできません。</font></P>
+  <P><span style="FONT-FAMILY: Arial">［システム］ページには、［Primary Administrator (プライマリ管理者)］および［Secondary Administrator (セカンダリ管理者)］タブが表示されます。次のパラメータは両方のタブで共通になっています。</span></P>
+	<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>パラメータ</P></TD><TD CLASS="tablehead2"><P>説明</P></TD></TR>
       <TR><TD VALIGN="TOP">
-        <P>Type</P>
+        <P>タイプ</P>
       </TD>
       <TD> 
-        <P>Displays the Admin user icon.</P>
+        <P>管理者ユーザアイコンが表示されます。</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>User Name</P>
+        <P>ユーザ名</P>
       </TD>
       <TD> 
-        <P>The username assigned to the Admin user account, such as jsmith or 
-          john.smith@example.com.</P>
+        <P>jsmithやjohn.smith@example.comなど、管理者ユーザアカウントに割り当てられているユーザ名。</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Full Name</P>
+        <P>フルネーム</P>
       </TD>
       <TD> 
-        <P>The first and last name of the Admin user account. </P>
+        <P>管理者ユーザアカウントの名と姓。 </P>
 		
       </TD><TR></TR></TABLE>
 
-  <P>To view or edit admin user details, click the Admin user link to open the 
-    User Details page. The User Details page displays the iFolders owned or shared 
-    by the Admin user. Click the All tab to list all the iFolders, both owned 
-    and shared. To view the iFolder owned by the user, click the Owned tab. Shared 
-    tab lists all the shared iFolders for this particular user account. You can 
-    also use the User Details page to change the policy settings for the selected 
-    Admin user.</P>
-  <H4>Adding and Deleting the iFolder Admin</H4>
+  <h5><span style="FONT-FAMILY: Arial">Primary Administrator (プライマリ管理者)</span></h5>
+
+  <P><span style="FONT-FAMILY: Arial">プライマリ管理者</span>の詳細を表示または編集するには、<span style="FONT-FAMILY: Arial">［Primary Administrator (プライマリ管理者)<i></i>］タブをクリックし、</span><span style="COLOR: black; FONT-FAMILY: Arial"></span>［管理者ユーザ］リンクをクリックして［User Details (ユーザ詳細)］ページを開きます。［User Details (ユーザ詳細)］ページには、管理者ユーザが所有または共有しているiFolderが表示されます。所有されているiFolderと共有されているiFolderのすべてを表示するには、［すべて］タブをクリックします。ユーザが所有しているiFolderを表示するには、［Owned (所有)］タブをクリックします。［共有］タブには、この特定のユーザアカウントの共有iFolderがすべて表示されます。［ユーザ詳細］ページは、選択されている管理者ユーザのポリシー設定を変更する場合にも使用できます。</P>
+  <H4>iFolder管理者の追加と削除</H4>
   <br>
 		
   <OL>
     <LI> 
-      <P>Locate the Admin user you want to manage, then select the check box next 
-        to it.</P>
+      <P>管理する管理者ユーザを探して、そのユーザの横のチェックボックスをオンにします。</P>
     </LI>
     <ul><LI> 
-        <P>Click Delete to delete the selected Admin user.</P>
-	  <P>If you 
-delete the iFolder Admin right from the username you used to log in to the server, 
-you are immediately disconnected. You must log in to the iFolder server under 
-a different username with the iFolder Admin right to continue managing the server. 
+        <P>選択した管理者ユーザを削除するには、［削除］をクリックします。</P>
+	  <P>サーバへのログインに使用したユーザ名からiFolder管理者権限の割り当てを解除すると、直ちに接続が切断されます。サーバの管理を続行するには、iFolder管理者権限を持つ別のユーザ名でiFolderサーバにログインする必要があります。 
 </P>
-        <P><font size="-1"><b>IMPORTANT:</b> You cannot delete the Admin user 
-          configured during Simias server setup.</font></P>
+        <P><font size="-1"><b>重要:</b> Simiasサーバのセットアップ中に設定した管理者ユーザは削除できません。</font></P>
     <LI> 
-        <P>Click Add to open a list of iFolder users.</P>
-        <P>Locate the user you want to add as Admin, then select the check box 
-          next to it and click Add.</P>
-      <P>You can assign the iFolder Admin right to multiple users.</P>
+        <P>iFolderユーザのリストを開くには、［追加］をクリックします。</P>
+        <P>管理者として追加するユーザを探して、そのユーザの横のチェックボックスをオンにし、［追加］をクリックします。</P>
+      <P>iFolder管理者権限は複数のユーザに割り当てることができます。</P>
     </LI></ul>
   </OL>
-<P> <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P>
-  <H3><A NAME="policy"></A>Policies</H3>
+<P> <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="トップへジャンプ"></A></P>
+  <H3><A NAME="policy"></A>ポリシー</H3>
       
-  <p> The following table lists the system policies you can manage for any given 
-    iFolder System. Click Save to apply the modifications:</p>
+  <p> 次の表に、特定のiFolderシステムについて管理できるシステムポリシーを示します。変更を適用するには、［保存］をクリックします。</p>
 	
  
-<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR>
+<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>パラメータ</P></TD><TD CLASS="tablehead2"><P>説明</P></TD></TR>
 <TR>
       <TD VALIGN="TOP"> 
-        <h4> iFolder per users</h4>
+        <h4> iFolder per users (ユーザごとのiFolder)</h4>
       </TD>
       <TD> 
-        <P>Specifies the maximum number of iFolders allowed per user. After you 
-          apply this policy, each user is limited to owning a certain number of 
-          iFolders. The users who exceed the limit receive an error message about 
-          the policy violation. If the limit is zero, users cannot create any 
-          iFolders.</P>
+        <P>1人のユーザが使用できるiFolderの最大数を指定します。このポリシーを適用すると、各ユーザが所有できるiFolderの数が制限されます。この制限を超えたユーザには、ポリシー違反のエラーメッセージが表示されます。制限値がゼロの場合、ユーザはiFolderを作成できません。</P>
              
-        <P>The policy setting does not affect the number of iFolders a user already 
-          owns. If the number of iFolders owned by a user already exceeds the 
-          limit that you set, he or she can still own those iFolders. </P>
+        <P>ポリシー設定は、ユーザがすでに所有しているiFolderの数には影響を及ぼしません。ユーザがすでに所有しているiFolderの数が、設定した制限を超えても、それらのiFolderを所有し続けることができます。 </P>
         </TD></TR><TR><TD VALIGN="TOP">
-        <h4>Disk Quota</h4>
+        <h4>Disk Quota (ディスク割り当て量)</h4>
       </TD>
       <TD> 
-        <p>Specifies the maximum space that a iFolder system is allowed to use. 
-          System-wide settings supersede user policies.</p>
-		  <P>Deselect the check box to disable a system-wide quota.</P>
-        <P>Select the check box to enable a system-wide quota, then specify the 
-          total space quota (in MB) for a user's account. </P>
-        <P>If you enable a system-wide quota that is less than a user's 
-          current total space for iFolder data, the users's quotas data stops 
-          synchronizing until the data is decreased below the limit or until the 
-          quota is increased to a value that is larger than the user's total 
-          space consumed.</P>
-        <P>Enabling or modifying the system-wide quota does not affect existing 
-          individual user quotas. Any existing user quota always overrides a system-wide 
-          quota, whether the user quota is lower or higher than the system-wide 
-          quota.</P>
-        <P>Default value: Disabled, No limit</P>
+        <p>iFolderシステムで使用できる最大総容量を指定します。システム全体の設定はユーザポリシーよりも優先されます。</p>
+		  <P>システム全体の割り当て量を無効にするには、チェックボックスをオフにします。</P>
+        <P>システム全体の割り当て量を有効にするには、チェックボックスをオンにして、ユーザアカウントの総割り当て量(MB)を指定します。 </P>
+        <P>システム全体の割り当て量を有効にして、その容量がiFolderデータの現在の総容量より少ない場合は、データ量が制限より少なくなるか、または割り当て量がユーザの使用済み総容量より多くなるまでユーザの割り当てデータの同期は中止されます。</P>
+        <P>システム全体の割り当て量を有効にしたり、変更したりしても、既存の個々のユーザ割り当て量は影響を受けません。ユーザ割り当て量がシステム全体の割り当て量より少ないか多いかにかかわらず、常に既存のユーザ割り当て量によってシステム全体の割り当て量が上書きされます。</P>
+        <P>デフォルト値: 無効、制限なし</P>
         </TD></TR>
   <TR><TD VALIGN="TOP">
         <h4>File Size</h4>
       </TD>
-      <TD> <P>Specifies 
-the maximum file size that can be synchronized.</P>
-    <P>If a quota is specified, the effective maximum file size limit is the same as the quota. </P>
-       <P>Deselect the check box to disable the Maximum File Size Limit policy. If the policy is disabled, the value is reported as No Limit.</P>
-          <P>              Select the check box to enable the Maximum File Size Limit policy, then specify the maximum allowed file size in MB.</P>
-          <P>              If a quota is specified, the default maximum file size limit is the same as the quota.</P>
-          <P>              Consider the following demands on your system to determine an appropriate file size limit for iFolders in your environment:</P>
-            <ul><li><p>Intended use               
+      <TD> <P>同期できる最大ファイルサイズを指定します。</P>
+    <P>割り当て量が指定されている場合、有効な最大ファイルサイズは、その割り当て量と同じです。 </P>
+       <P>最大ファイルサイズポリシーを無効にするには、チェックボックスをオフにします。ポリシーが無効になっている場合は、［制限なし］と表示されます。</P>
+          <P>              最大ファイルサイズポリシーを有効にするには、チェックボックスをオンにして、最大ファイルサイズをMB単位で指定します。</P>
+          <P>              割り当て量が指定されている場合、デフォルトの最大ファイルサイズは、その割り当て量と同じです。</P>
+          <P>              システム上の次の項目を考慮して、環境内のiFolderの適切なファイルサイズ制限を決定します。</P>
+            <ul><li><p>使用目的               
             </p></li>
 			<li>
-            <p>How often the largest files are modified</p></li>
-                 <li> <p>How the applications that use the largest files actually save changes to the file (whole file or deltas)</p>
-                 </li><li><p>How frequently the files are synchronized by each member</p>
-                  </li><li><p>How many users share an iFolder</p>
-                  </li><li><p>Whether users access iFolder on the local network or across WAN or Internet connection</p>
-                 </li><li> <p>The average and peak available bandwidth</p>
+            <p>最大のファイルを変更する頻度</p></li>
+                 <li> <p>最大のファイルを使用するアプリケーションが実際に変更をファイルに保存する方法(ファイル全体または差分)</p>
+                 </li><li><p>各メンバーがファイルを同期する頻度</p>
+                  </li><li><p>iFolderを共有するユーザの数</p>
+                  </li><li><p>ユーザがローカルネットワーク上のiFolderにアクセスするか、WANまたはインターネット接続を介してiFolderにアクセスするか</p>
+                 </li><li> <p>平均およびピーク時の使用可能な帯域幅</p>
 				 </li></ul>
               
-        <p> Even if you set a very large value as a file size limit and if there 
-          is no quota to limit file sizes, the practical limit is governed by 
-          the file system on the user's computer. For example, FAT32 volumes have 
-          a maximum file size of 4 GB minus 1 byte. </p>
+        <p> ファイルサイズ制限として非常に大きな値を設定しても、また、ファイルサイズを制限する割り当て量がない場合でも、実際の制限はユーザコンピュータのファイルシステムによって制御されます。たとえば、FAT32ボリュームの場合、最大ファイルサイズは4GBから1バイト引いた値です。 </p>
                 
-        <p>Default value: Disabled, No limit</p>   
+        <p>デフォルト値: 無効、制限なし</p>   
       </TD></TR>
   <TR>
       <TD VALIGN="TOP"> 
-        <h4>Excluded Files</h4>
+        <h4>Excluded Files (除外ファイル)</h4>
       </TD>
       <TD> 
         
 		  
-        <P>Specify whether to restrict file types that are synchronized by exclusion 
-          filters. </P>
-            <P>Type a file extension, then click Add to add it to the list. </P>
+        <P>同期するファイルタイプを除外フィルタで制限するかどうかを指定します。 </P>
+            <P>ファイル拡張子を入力して、［追加］をクリックすると、そのファイル拡張子がリストに追加されます。 </P>
         </TD></TR>
 	
 	<TR><TD VALIGN="TOP">
-        <h4> Synchronization </h4>
+        <h4> 同期 </h4>
       </TD><TD>
-	    <p>Specifies the minimum synchronization interval in minutes.</P>
-        <P>If this option is enabled, specifies the minimum interval for synchronizing 
-          iFolder data for each user account. Larger values are more restrictive. 
+	    <p>最小同期間隔を分単位で指定します。</P>
+        <P>このオプションを有効にする場合は、各ユーザアカウントのiFolderデータを同期する最小間隔を指定します。値が大きいほど、制限が厳しくなります。 
         </P>    
-        <P>If the option is disabled, the default value is 5 minutes.</P>
+        <P>このオプションを無効にした場合、デフォルト値は5分になります。</P>
         </TD></TR>
   <TR><TD VALIGN="TOP">
-        <h4>Encryption</h4>
+        <h4>暗号化</h4>
       </TD>
       <TD> 
-        <P>Specifies the encryption policy for the iFolder system. System-wide 
-          settings supersede user policies.</P>
-		<B>On</B><BR>
-        Select <i>On</i> to enable the encryption feature for the iFolder system. This 
-        permits a user to set an encryption policy for his or her iFolders.<br>
+        <P>iFolderシステムの暗号化ポリシーを指定します。システム全体の設定はユーザポリシーよりも優先されます。</P>
+		<B>オン</B><BR>
+        <i></i>iFolderシステムの暗号化機能を有効にするには、［オン］を選択します。これにより、ユーザは自分のiFolderの暗号化ポリシーを設定できるようになります。<br>
         <br>
-        Deselect <i>On</i> to disable the encryption feature for all the users. 
+        <i></i>すべてのユーザの暗号化機能を無効にするには、［オン］の選択を解除します。 
         <br>
         	
 		
-        <br><B>Enforced</B><BR>
-        Select Enforced to enable the encryption feature for all the users. When 
-        the encryption policy is set to Enforced, a user cannot change the encryption 
-        settings for his or her iFolders.<br>
+        <br><B>Enforced (強制)</B><BR>
+        すべてのユーザの暗号化機能を有効にするには、［Enforced (強制)］を選択します。暗号化ポリシーを［強制］に設定すると、ユーザは自分のiFolderの暗号化設定を変更できなくなります。<br>
       </TD></TR><TR><TD VALIGN="TOP">
-        <h4> Sharing</h4>
-      </TD><TD> <B>On</B><BR>
-        By default, iFolder sharing is enabled. Deselect On to disable 
-        sharing for the iFolder system. After applying this policy, users of this 
-        iFolder system cannot share their iFolders with others. However, you can 
-        change the policy settings at the user level or at the LDAPGroup level.<br>
+        <h4> 共用</h4>
+      </TD><TD> <B>オン</B><BR>
+        デフォルトでは、iFolderの共有は有効になっています。iFolderシステムの共有を無効にする場合は［オン］を選択解除します。このポリシーを適用すると、このiFolderシステムのユーザは、自分のiFolderを他のユーザと共有できなくなります。ただし、ポリシー設定はユーザレベルまたはLDAPGroupレベルで変更できます。<br>
           <BR>
-        <B>Enforce</B><BR>
-        Select Enforce to enforce the sharing policy you have set for the entire 
-        system. You can enforce both Enable Sharing and Disable Sharing. When 
-        you enforce Disable Sharing, policy settings for sharing at iFolder and 
-        User level are automatically disabled and you are not allowed to change 
-        the settings. However, you are allowed to set the policy for the Revoke 
-        option.<br>
+        <B>Enforce (強制)</B><BR>
+        システム全体に設定した共有ポリシーを強制するには、［Enforce (強制)］を選択します。共有の有効化と共有の無効化は両方とも強制できます。共有の無効化を強制すると、iFolderおよびユーザレベルでの共有に関するポリシー設定が自動的に無効になるため、設定を変更できなくなります。ただし、［取り消し］オプションのポリシーは設定できます。<br>
 		<ul>
-          <P><font size="-1"><b>IMPORTANT:</b> You cannot enable this option unless 
-            you set the Sharing option to On.</font></P>
+          <P><font size="-1"><b>重要:</b> ［共有］オプションを［オン］に設定しない限り、このオプションを有効にできません。</font></P>
         </ul>
         <BR>
-        <B>Revoke</B><BR>
-        Select Revoke to remove the shared members of all 
-        the iFolders under the iFolder system.<br>
+        <B>取り消し</B><BR>
+        [取り消し]を選択すると、iFolderシステム内のすべてのiFolderの共有メンバーが削除されます。<br>
 		
       </TD></TR> 
 
   </TABLE>
 
- <P> <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P>
+ <P> <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="トップへジャンプ"></A></P>
 
   
    
 
-<H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Related Topics" align="top"> 
-Related Topics</H4><BLOCKQUOTE class="task1">
-<P ><A HREF="userdetails.html">User Details
-</A><BR><A HREF="ifolderdetails.html">Managing iFolder Details</A><BR><A HREF="servers.html">Managing iFolder Servers
-</A><BR><A HREF="ifolders.html">Managing iFolders</A><BR><A HREF="reports.html#orphan" TARGET="_self">Reports
-</A></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P><P>&nbsp;</P><P CLASS="copyright">A 
-trademark symbol (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP>, 
-etc.) denotes a Novell trademark. An asterisk (*) denotes a third-party trademark. 
-For more information, see <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Legal 
-Notices</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
+  <h3>Secondary Administrator (セカンダリ管理者)</h3>
+  <p><span style="font-family:Arial;">［Secondary Administrator (セカンダリ管理者)］タブでは、セカンダリ管理者の詳細を追加、編集、または削除できます。</span></p>
+  <p><span style="font-family:Arial;">セカンダリ管理者を追加するには、次の手順に従います。</span></p>
+  <ol>
+    <li><font face="Arial">［Secondary Administrator (セカンダリ管理者)<i></i>］タブをクリックし、［追加<i></i>］をクリックして、iFolderユーザのリストを表示します。</font></li>
+    <li><font face="Arial">セカンダリ管理者として指定するユーザを選択し、［次へ<i></i>］をクリックします。</font></li>
+    <li><font face="Arial">セカンダリ管理者にグループを割り当てるには、［グループの選択<i></i>］リストからオプションを選択します。選択したグループの合計ディスク割り当て量に制限が設定されている場合、その値が［Set the Aggregate Disk Quota Limit For Entire Group (グループ全体に合計ディスク割り当て量の制限を設定する)<i></i>］フィールドに読み込まれます。設定されていない場合、このフィールドは空のままになります。</font></li>
+    <li><font face="Arial">セカンダリ管理者のポリシー権限を設定します。</font>
+    <p><font face="Arial">次の表は、セカンダリ管理者に設定できるポリシー権限を示しています。</font></p>
+	
+ 
+<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>パラメータ</P></TD><TD CLASS="tablehead2"><P>説明</P></TD></TR>
+<TR>
+      <TD VALIGN="TOP"> 
+        <h4><span style="FONT-SIZE: 9.5pt; FONT-FAMILY: Arial"> iFolder Per User (ユーザごとのiFolder)ポリシー</span></h4>
+        <h4> &nbsp;</h4>
+      </TD>
+      <TD> 
+        <p class="Normal2">
+        <span style="FONT-SIZE: 11pt; COLOR: black; FONT-FAMILY: Arial">1人のユーザが使用できるiFolderの最大数を指定します。このポリシーを適用すると、各ユーザが所有できるiFolderの数が制限されます。この制限を超えたユーザには、ポリシー違反のエラーメッセージが表示されます。制限値がゼロの場合、ユーザはiFolderを作成できません。</span></p>
+        <p class="Normal2">
+        <span style="FONT-SIZE: 11pt; FONT-FAMILY: Arial"></span><span style="FONT-SIZE: 11pt; COLOR: black; FONT-FAMILY: Arial">このポリシー設定は、ユーザがすでに所有しているiFolderの数には影響を及ぼしません。ユーザがすでに所有しているiFolderの数が、設定した制限を超えても、それらのiFolderを所有し続けることができます。</span><span style="FONT-SIZE: 11pt; FONT-FAMILY: Arial"></span><span style="FONT-SIZE: 11pt; COLOR: black; FONT-FAMILY: Arial"></span></p>
+        <p class="Normal2">
+        <span style="FONT-SIZE: 11pt; FONT-FAMILY: Arial">デフォルトでは、iFolder Per User (ユーザごとのiFolder)ポリシーでは［許可<i></i>］チェックボックスがオンになっています。つまり、セカンダリ管理者には、指定したグループのユーザにiFolder Per User (ユーザごとのiFolder)ポリシーを設定する権利があります。セカンダリ管理者にこの権利を許可しない場合は、［許可<i></i>］チェックボックスをオフにする必要があります。</span></TD></TR><TR><TD VALIGN="TOP">
+        <h4><span style="font-size: 9.5pt; font-family: Arial; color: black"> Disk Quota (ディスク割り当て量)</span><span style="font-size: 9.5pt; font-family: Arial; ">ポリシー</span></h4>
+      </TD>
+      <TD> 
+        <p class="Normal2">
+        <span style="font-size:11.0pt;font-family:Arial;">ユーザが使用できる最大容量を指定します。</span></p>
+        <p><span style="font-size: 11.0pt; font-family: Arial; ">デフォルトでは、Disk Quota (ディスク割り当て量)ポリシーでは［許可<i></i>］チェックボックスがオンになっています。つまり、セカンダリ管理者には、指定したグループのユーザにDisk Quota (ディスク割り当て量)ポリシーを設定する権利があります。セカンダリ管理者にこの権利を許可しない場合は、［許可<i></i>］チェックボックスをオフにする必要があります。</span></p>
+        </TD></TR>
+  <TR><TD VALIGN="TOP">
+        <h4><span style="font-size: 9.5pt; font-family: Arial; color: black"> File Size (ファイルサイズ)</span><span style="font-size: 9.5pt; font-family: Arial; ">ポリシー</span></h4>
+      </TD>
+      <TD> 
+      <p class="Normal2">
+      <span style="font-size:11.0pt;font-family:Arial;color:black">同期できる最大ファイルサイズを指定します。</span></p>
+      <p><span style="font-size: 11.0pt; font-family: Arial; ">デフォルトでは、File Size (ファイルサイズ)ポリシーでは［許可<i></i>］チェックボックスがオンになっています。つまり、セカンダリ管理者には、指定したグループのユーザにFile Size (ファイルサイズ)ポリシーを設定する権利があります。セカンダリ管理者にこの権利を許可しない場合は、［許可<i></i>］チェックボックスをオフにする必要があります。</span></p>
+      </TD></TR>
+  <TR>
+      <TD VALIGN="TOP"> 
+        <h4><span style="font-size: 9.5pt; font-family: Arial; "> Sync Interval (同期間隔)ポリシー </span></h4>
+      </TD>
+      <TD> 
+        
+		  
+        <p class="Normal2">
+        <span style="font-size:11.0pt;font-family:Arial;color:black">最小同期間隔を分単位で指定します。</span></p>
+        <p><span style="font-size: 11.0pt; font-family: Arial; ">デフォルトでは、Sync Interval (同期間隔)ポリシーでは［許可<i></i>］チェックボックスがオンになっています。つまり、セカンダリ管理者には、指定したグループのユーザにSync Interval (同期間隔)ポリシーを設定する権利があります。セカンダリ管理者にこの権利を許可しない場合は、［許可<i></i>］チェックボックスをオフにする必要があります。</span></TD></TR>
+	
+	<TR><TD VALIGN="TOP">
+        <h4> <span style="font-size: 9.5pt; font-family: Arial; color: black"> Excluded File </span> <span style="font-size: 9.5pt; font-family: Arial; ">List (除外ファイルリスト)ポリシー</span></h4>
+      </TD><TD>
+	    <p class="Normal2">
+        <span style="font-size:11.0pt;font-family:Arial;">同期が制限されているファイルタイプを指定します。</span></p>
+        <p><span style="font-size: 11.0pt; font-family: Arial; ">デフォルトでは、Excluded File List (除外ファイルリスト)ポリシーでは［許可<i></i>］チェックボックスがオンになっています。つまり、セカンダリ管理者には、指定したグループのユーザにExcluded File List (除外ファイルリスト)ポリシーを設定する権利があります。セカンダリ管理者にこの権利を許可しない場合は、［許可<i></i>］チェックボックスをオフにする必要があります。</span></TD></TR>
+  <TR><TD VALIGN="TOP">
+        <h4><span style="font-size: 9.5pt; font-family: Arial; "> 共有</span></h4>
+      </TD>
+      <TD> 
+        <p class="Normal2">
+        <span style="font-size:11.0pt;font-family:Arial;">iFoldersをユーザ間で共有できるようにするかどうかを指定します。</span></p>
+        <p><span style="font-size: 11.0pt; font-family: Arial; "> デフォルトでは、共有ポリシーについては［Allow to modify sharing policy (共有ポリシーの変更を許可)<i></i><i></i>］チェックボックスがオンになっています。つまり、セカンダリ管理者には、指定したグループのユーザの共有ポリシーを変更する権利があります。セカンダリ管理者にこの権利を許可しない場合は、［許可<i></i>］チェックボックスをオフにする必要があります。</span><br>
+      </TD></TR><TR><TD VALIGN="TOP">
+        <h4> <span style="font-size: 9.5pt; font-family: Arial; "> 暗号化ポリシー</span></h4>
+      </TD><TD> 
+    <p class="Normal2">
+    <span style="font-size:11.0pt;font-family:Arial;">iFolderシステムの暗号化ポリシーを指定します。</span></p>
+    <p class="Normal2">
+    <span style="font-size: 11.0pt; font-family: Arial; "> デフォルトでは、暗号化ポリシーについては［Allow to modify encryption policy (暗号化ポリシーの変更を許可)<i></i><i></i>］チェックボックスがオンになっています。つまり、セカンダリ管理者には、指定したグループのユーザの暗号化ポリシーを変更する権利があります。セカンダリ管理者にこの権利を許可しない場合は、［許可<i></i>］チェックボックスをオフにする必要があります。</span><br>
+		
+      </TD></TR> 
+
+  <TR><TD VALIGN="TOP">
+        <span style="font-size: 9.5pt; font-family: Arial; font-weight:700"> プロビジョニングの権利</span></TD><TD> 
+    <p class="Normal2">
+    <span style="font-size:11.0pt;font-family:Arial;">セカンダリ管理者が使用できるプロビジョニングの権利を指定します。</span></p>
+    <p class="Normal2">
+    <span style="font-size:11.0pt;font-family:Arial;">デフォルトでは、［Allow user provisioning (ユーザのプロビジョニングを許可)<i></i>］チェックボックスが選択されています。つまり、セカンダリ管理者は、iFolderマルチサーバセットアップ内の任意のサーバに対して、指定されたグループのユーザのプロビジョニングを行うことができます。セカンダリ管理者にこの権利を許可しない場合は、［Allow user provisioning (ユーザのプロビジョニングを許可)<i></i>］チェックボックスをオフにします。</span></p>
+    <p class="Normal2">
+    <span style="font-size: 11.0pt; font-family: Arial; ">［Allow enabling/disabling of users (ユーザの有効化/無効化を許可)<i></i>］チェックボックスを使用すると、指定したグループのユーザを有効または無効にする権利をセカンダリ管理者に割り当てることができます。デフォルトでは、このチェックボックスはオンになっています。セカンダリ管理者にこの権利を許可しない場合は、［Allow enabling/disabling of users(ユーザの有効化/無効化を許可)<i></i>］チェックボックスをオフにします。</span></TD></TR> 
+
+  <TR><TD VALIGN="TOP">
+        <span style="font-size: 9.5pt; font-family: Arial; font-weight:700"> iFolderに対する権利</span></TD><TD> 
+    <p class="Normal2">
+    <span style="font-size:11.0pt;font-family:Arial;">指定したグループのユーザが所有するiFolderに対するセカンダリ管理者の権利を指定します。</span></p>
+    <p class="Normal2">
+    <span style="font-size:11.0pt;font-family:Arial;">孤立したiFolderをセカンダリ管理者が所有できるようにするには、［Allow ownership of orphaned iFolders (孤立したiFolderの所有を許可)<i></i>］チェックボックスをオンにします。デフォルトでは、このチェックボックスはオンになっています。セカンダリ管理者にこの権利を許可しない場合は、チェックボックスをオフにします。</span></p>
+    <p class="Normal2">
+    <span style="font-size:11.0pt;font-family:Arial;">［Allow Enabling/Disabling of iFolders (iFolderの有効化/無効化を許可)<i></i>］チェックボックスを使用すると、指定したグループのユーザが所有するiFolderを有効または無効にする権利をセカンダリ管理者に割り当てることができます。デフォルトでは、このチェックボックスはオンになっています。セカンダリ管理者にこの権利を許可しない場合は、［Allow Enabling/Disabling of iFolders (iFolderの有効化/無効化を許可)<i></i>］チェックボックスをオフにします。</span></p>
+    <p class="Normal2">
+    <span style="font-size: 11.0pt; font-family: Arial; ">［Allow to modify rights of shared iFolder members (共有iFolderのメンバーの権利の変更を許可)<i></i>］チェックボックスを使用すると、共有iFolderのメンバーの権利を変更する権利をセカンダリ管理者に割り当てることができます。デフォルトでは、このチェックボックスはオンになっています。セカンダリ管理者にこの権利を許可しない場合は、［Allow to modify rights of shared iFolder members (共有iFolderのメンバーの権利の変更を許可)<i></i>］チェックボックスをオフにします。</span></p>
+    </TD></TR> 
+
+  </TABLE>
+
+    </li>
+  </ol>
+  <p>&nbsp;</p>
+  <ol start="5">
+    <li><span style="font-family:Arial;">［保存<i></i>］をクリックして、設定内容を保存します。</span></li>
+    <li><span style="font-family:Arial;">セカンダリ管理者にグループが正常に割り当てられたら、［OK<i></i>］をクリックして［システム］ページに戻るか、［Repeat (繰り返し)<i></i>］をクリックしてさらにグループをセカンダリ管理者に割り当てます。</span></li>
+  </ol>
+  <p><span style="font-family:Arial;">セカンダリ管理者の詳細を編集するには、次の手順に従います。</span></p>
+  <ol>
+    <li>
+    <p style="text-indent: -.25in; margin-left: .5in">
+    <span style="font-family: Arial; ">［セカンダリ<i></i>］タブをクリックして、セカンダリ管理者の詳細を表示します。</span></li>
+    <li>
+    <p style="text-indent: -.25in; margin-left: .5in">
+    <span style="font-family: Arial; ">セカンダリ管理者を選択して［編集<i></i>］をクリックし、セカンダリ管理者が監視するグループのリストを表示します。</span></li>
+    <li>
+    <p style="text-indent: -.25in; margin-left: .5in" align="left">
+    <span style="font-family: Arial; ">グループを選択して［編集<i></i>］をクリックし、そのグループに対するセカンダリ管理者の権利のリストを表示します。グループに対する権利を編集し、［保存<i></i>］をクリックして変更を保存します。<br>
+&nbsp;</span></li>
+  </ol>
+  <p><span style="font-family:Arial;">セカンダリ管理者を削除するには、次の手順に従います。</span></p>
+  <ol>
+    <li><font face="Arial">［セカンダリ<i></i>］タブをクリックして、セカンダリ管理者の詳細を表示します。</font></li>
+    <li><font face="Arial">セカンダリ管理者を選択して［削除<i></i>］をクリックし、セカンダリ管理者が監視するグループのリストを表示します。</font></li>
+    <li><font face="Arial">すべてのグループを選択し、［削除<i></i>］をクリックします。セカンダリ管理者が所有するグループをすべて削除すると、セカンダリ管理者も削除されます。<br>
+&nbsp;</font></li>
+  </ol>
+  <p>&nbsp;</p>
+
+  
+   
+
+<H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="関連項目" align="top"> 関連項目</H4><BLOCKQUOTE class="task1">
+<P ><A HREF="userdetails.html">ユーザ詳細</A><BR><A HREF="ifolderdetails.html">iFolder詳細の管理</A><BR><A HREF="servers.html">iFolderサーバの管理</A><BR><A HREF="ifolders.html">iFolderの管理</A><BR><A HREF="reports.html#orphan" TARGET="_self">レポート </A></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="トップへジャンプ"></A></P><P>&nbsp;</P><P CLASS="copyright">商標記号（<SUP><SMALL>&reg;</SMALL></SUP>、<SUP><SMALL>TM</SMALL></SUP>など）は、Novellの商標を示し、アスタリスク（*）は、サードパーティの商標を示します。  詳細については、「<A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">保証と著作権</font></A>」を参照してください。</P></div><!-- This is the end of the Help Content layer. --> 
 </body>
 
 </html>

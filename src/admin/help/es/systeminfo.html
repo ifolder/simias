@@ -1,11 +1,11 @@
 <html>
 
    <head>
-     <meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+     <meta http-equiv="content-type" content="text/html;charset=UTF-8">
      
      <!-- Novell iFolder 3.x iManager Plugin  --> 
    
-     <title>iFolder System</title>  	 
+     <title>Sistema de iFolder</title>  	 
    
         
      <!-- Metadata -->
@@ -28,7 +28,7 @@
 <style type= "text/css" media="screen">
        <!--
        
-         body           {  font-family: Arial, Helvetica, Geneva; background: white url(../../images/helphead_bg.gif) repeat-x 0% 0% }
+         body           {  font-family: Arial, Helvetica, Geneva; background: white url('../../images/helphead_bg.gif') repeat-x;  }
 		      
          #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px;
 									width: 380px; visibility: visible }
@@ -36,6 +36,8 @@
          #helpcontent    { position: absolute; top: 37px; left: 10px; 
 	                        width: 93%; visibility: visible }
       
+div.Section1
+	{page:Section1;}
        -->
      </style>
   
@@ -52,285 +54,364 @@
 <!-- This is the start of the Help Banner Layer --> <div id="headgraphic"> <img src="../../images/h1_help.gif" width="380" height="32"   border="0"></div><!-- This is end of the Help Banner Layer --> 
 <!-- This is the start of the Help Content Layer --> <div id="helpcontent"> <!-- The Page Heading uses CSS style "head3b". This creates an H3 header
             with a line beneath it.
-       --> <h3 class="head3b">Managing the iFolder System</h3>
-  <p> Use this interface to manage Novell iFolder<SUP><SMALL>&reg;</SMALL></SUP> 
-    3.7 services for the selected server.</p>
-  <P>This help discusses the following information:</P>
-  <blockquote> <P><A HREF="#sytemsettings" TARGET="_self">Viewing the System Settings
-</A> <BR><A HREF="#status" TARGET="_self">Reprovision Status</a><BR><A HREF="#admin" TARGET="_self">Administrators Tab</a><BR> <A HREF="#policy" TARGET="_self">Policies
-</a><BR></P></BLOCKQUOTE>
+       --> <h3 class="head3b">Gesti&oacute;n del sistema de iFolder</h3>
+  <p> Esta interfaz permite gestionar los servicios de Novell iFolder<SUP><SMALL>&reg;</SMALL></SUP> 3.7 para el servidor seleccionado.</p>
+  <P>En esta ayuda es trata la siguiente informaci&oacute;n:</P>
+  <blockquote> <P><A HREF="#sytemsettings" TARGET="_self">Ajustes del sistema </A> <BR><A HREF="#status" TARGET="_self">Estado de la nueva provisi&oacute;n</a><BR><A HREF="#admin" TARGET="_self">Pesta&ntilde;a Administradores</a><BR> <A HREF="#policy" TARGET="_self">Directivas </a><BR></P></BLOCKQUOTE>
   
-  <H3><A NAME="sytemsettings"></A>Viewing the System Settings</H3>
-  <P>You 
-can view the following information:</P><TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
-        <P>System Name</P>
+  <H3><A NAME="sytemsettings"></A>Ajustes del sistema</H3>
+  <p>La secci&oacute;n de ajustes del sistema ofrece la siguiente informaci&oacute;n:</p>
+  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Par&aacute;metro</P></TD><TD CLASS="tablehead2"><P>
+     Descripci&oacute;n</P></TD></TR><TR><TD VALIGN="TOP">
+        <P>Nombre</P>
       </TD><TD>
-        <P>The name assigned to the iFolder domain.</P>
-		<P>To edit the name of the iFolder domain, specify the new name and click 
-          Save.</P>
+        <P>Nombre asignado al dominio iFolder.</P>
+		<P>Para editar el nombre del dominio iFolder, especifique el nombre nuevo y haga clic en Guardar.</P>
 		  
-        <P>To cancel the changes made, click Cancel.</P>
+        <P>Para cancelar los cambios realizados, haga clic en Cancelar.</P>
       </TD><TR><TD VALIGN="TOP">
-        <P>Description</P>
+        <P> Descripci&oacute;n</P>
       </TD><TD>
-        <P>A short description about the iFolder Domain.</P>
-		<P>To edit the system description, specify the new description and click 
-          Save.</P>
+        <P>Descripci&oacute;n breve del dominio iFolder.</P>
+		<P>Para editar la descripci&oacute;n del sistema, especifique la descripci&oacute;n nueva y haga clic en Guardar.</P>
 		  
-        <P>To cancel the changes made, click Cancel.</P>
-      </TD><TR><TD VALIGN="TOP">
-        <P>Total Users</P>(view only)
-      </TD><TD>
-        <P>Reports the total number of users in the iFolder domain. 
-      </TD></TR><TR><TD VALIGN="TOP">
-        <P>Total iFolders</P>
-        (view only)
-      </TD><TD>
-        <P>Reports total number of iFolders that belongs to the iFolder domain. 
-      </TD></TR><TR><TD VALIGN="TOP">
-        <P>Enable SSL</P>
+        <P>Para cancelar los cambios realizados, haga clic en Cancelar.</P>
+      </TD>
+    <tr>
+      <TD VALIGN="TOP">
+        <P>Opci&oacute;n SSL</P>
         
       </TD>
       <TD> 
-        <P>Select the check box to enable the SSL communication among the iFolder 
-          Servers, iFolder client, iFolder Web Access console and iFolder Web 
-          Admin console. 
-      </TD></TR></TABLE>
- <P> <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P> 
- <H3><A NAME="status"></A>Reprovision Status</H3> 
-  <p> You can move users across different servers. With this interface, you can 
-    view the reprovisioning status. Click Reprovision Status to view the reprovision 
-    status for each user. </p>
-  <P> <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P>
-  <H3><a name="admin"></a>iFolder Administrators</H3>
-<P>The iFolder Admin user is the primary administrator of the iFolder 
-enterprise server. Whenever iFolders are orphaned, ownership is transferred to 
-the iFolder Admin user for reassignment to another user or for deletion. You initially 
-specify the iFolder Admin user during the iFolder enterprise server configuration 
-in YaST. </P>
-  <P>The iFolder Admin user must be provisioned in order to enable the iFolder 
-    Admin to perform management tasks. iFolder tracks this user by the LDAP object 
-    GUID, allowing it to belong to any LDAP container or group in the tree, even 
-    those that are not identified as Search DNs. The user&#146;s movement can 
-    be tracked anywhere in the tree because it is known by the GUID, not by the 
-    user DN.</P>
-  <P>The iFolder Admin right can be assigned to other users so that they can also 
-    manage iFolder services for the selected server. Only users who are in one 
-    of the DNs specified in the LDAP Search DN are eligible to be equivalent to 
-    the iFolder Admin user.</P>
-  <P>If you assign the iFolder Admin right to other 
-users, those users are governed by the roster and Search DN relationship. The 
-user is removed from the roster and stripped of the iFolder Admin right if you 
-delete the user, remove the user&#146;s DN from the list of Search DNs, or move 
-the user to a DN that is not in the Search DNs.</P><P><font size="-1"><b>IMPORTANT:</b> You cannot assign the Admin user 
-          right to an LDAPGroup.</font></P>
-  <P>The System page displays the following iFolder Admin details for the iFolder 
-    domain:</P>
-	<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR>
+        <P>Muestra el modo de comunicaci&oacute;n entre los servidores iFolder, cliente iFolder, consola de acceso Web iFolder y consola de Web Admin iFolder. 
+      </TD>
+    </tr>
+    <TR><TD VALIGN="TOP">
+        <P>Total de usuarios</P>(s&oacute;lo visualizaci&oacute;n)
+      </TD><TD>
+        <P>Indica el n&uacute;mero total de usuario del dominio iFolder. 
+      </TD></TR><TR><TD VALIGN="TOP">
+        <P>Total de carpetas iFolder</P>
+        (s&oacute;lo visualizaci&oacute;n)
+      </TD><TD>
+        <P>Indica el n&uacute;mero total de carpetas iFolder que pertenecen al dominio iFolder. 
+      </TD></TR><TR><TD VALIGN="TOP">
+        Orden de muestra de nombre completo</TD><TD>
+        <p>
+        Permite definir el orden en que aparecer&aacute; el nombre completo del usuario. Seleccione la opci&oacute;n <i>(Nombre, Apellido)</i> para ver el nombre seguido del apellido. Si desea ver el apellido seguido del nombre, seleccione la opci&oacute;n <i>(Apellido, Nombre)</i>. </p>
+        <p class="Normal2">
+        Para que los cambios surtan efecto, es necesario realizar una sincronizaci&oacute;n de LDAP programada o realizar usted mismo una manual. Para llevar a cabo una sincronizaci&oacute;n de LDAP manual:</p>
+        <ol>
+          <li>
+          <p class="Normal2">
+          <span style="font-size:11.0pt;font-family:Arial;
+">En la consola de Web admin, haga clic en la pesta&ntilde;a <i>Servidores</i>, seleccione el servidor y, a continuaci&oacute;n, vaya a la p&aacute;gina Informaci&oacute;n del servidor.</span></li>
+          <li>
+          <p class="Normal2">
+          <span style="font-size: 11.0pt; font-family: Arial; "> En la secci&oacute;n <i>Informaci&oacute;n de LDAP</i>, haga clic en el bot&oacute;n <i>Sincronizar ahora</i>.</span></li>
+        </ol>
+      </TD></TR><TR><TD VALIGN="TOP">
+        <span style="font-size: 11.0pt; font-family: Arial; "> Gestionar cuota de grupo mediante</span></TD><TD>
+        <p class="Normal2">
+        <span style="font-size:11.0pt;font-family:Arial;">Permite definir c&oacute;mo se gestionar&aacute; la cuota de disco en conjunto para los grupos. </span></p>
+        <p class="Normal2">
+        <span style="font-size:11.0pt;font-family:Arial;">Seleccione la opci&oacute;n <i>Consola de administrador</i> para que los administradores puedan gestionar expl&iacute;citamente la cuota de disco para grupos y miembros de un grupo. Cuando seleccione esta opci&oacute;n, se limitar&aacute; la cuota de disco asignada a los usuarios para que no supere el uso de disco en conjunto del grupo. La opci&oacute;n <i>Consola de administrador</i> est&aacute; seleccionada por defecto.</span></p>
+        <p class="Normal2">
+        <span style="font-size:11.0pt;font-family:Arial;">Seleccione la opci&oacute;n <i>Motor de sincronizaci&oacute;n</i> para permitir al motor de sincronizaci&oacute;n gestionar la cuota de disco en conjunto en grupos en el sistema secundario. El motor de sincronizaci&oacute;n garantiza que la cuota de disco para todos los usuarios de un grupo no superar&aacute; la cuota de disco en conjunto del grupo.</span></p>
+        <p class="Normal2">
+        <span style="font-size:11.0pt;font-family:Arial;">Seleccione la opci&oacute;n <i>Ambos</i> para utilizar tanto la consola de administrador como el motor de sincronizaci&oacute;n para gestionar el uso de la cuota de disco en conjunto para los grupos.</span></TD></TR><TR><TD VALIGN="TOP">
+        <span style="font-size: 11.0pt; font-family: Arial; ">Grupos segregados</span></TD><TD>
+        <span style="font-size: 11.0pt; font-family: Arial; "> Permite segregar grupos en entidades independientes y garantizar que los miembros de otro grupo no pueden acceder a los miembros de un grupo para compartir carpetas iFolder. Seleccione el recuadro de verificaci&oacute;n <i>Crear grupos segregados</i> para habilitar el uso compartido de carpetas iFolder s&oacute;lo entre los miembros del mismo grupo.</span><p>
+        <span style="font-family: Arial; ">Nota: </span> <span style="font-size: 11.0pt; font-family: Arial; ">un grupo LDAP no puede ser un administrador principal o secundario.</span></TD></TR></TABLE>
+ <P> <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Ir al inicio"></A></P> 
+ <H3><A NAME="status"></A>Estado de la nueva provisi&oacute;n</H3> 
+  <p> Es posible mover a los usuarios entre varios servidores. Utilice esta interfaz para ver el estado de la nueva provisi&oacute;n. Haga clic en Estado de la nueva provisi&oacute;n para ver el estado de la nueva provisi&oacute;n de cada uno de los usuarios. </p>
+  <P> <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Ir al inicio"></A></P>
+  <H3><a name="admin"></a>Administradores de iFolder</H3>
+<P>El usuario Admin de iFolder es el administrador principal del servidor empresarial iFolder. Cuando las carpetas iFolder se quedan hu&eacute;rfanas, la propiedad se transfiere al usuario Admin de iFolder para que &eacute;ste la reasigne a otro usuario o bien suprima la carpeta. El usuario Admin de iFolder se especifica inicialmente durante la configuraci&oacute;n del servidor empresarial iFolder en YaST. </P>
+  <P>Es necesario asignar el usuario Admin de iFolder para que el administrador de iFolder pueda realizar las tareas de gesti&oacute;n. iFolder realiza un seguimiento del usuario mediante el GUID del objeto LDAP, permiti&eacute;ndole que pertenezca a cualquier contenedor o grupo LDAP del &aacute;rbol, incluso a los que no se hayan identificado como DN de b&uacute;squeda. Es posible realizar un seguimiento de los movimientos del usuario en cualquier parte del &aacute;rbol, ya que &eacute;ste se conoce por el GUID y no por el DN de usuario.</P>
+  <P>El derecho de administrador de iFolder puede asignarse a otros usuarios para que &eacute;stos tambi&eacute;n puedan gestionar los servicios de iFolder para el servidor seleccionado. S&oacute;lo los usuarios que se encuentren en uno de los DN especificados en el DN de b&uacute;squeda de LDAP podr&aacute;n utilizarse de manera equivalente al usuario Admin de iFolder.</P>
+  <P>Si asigna el derecho de administrador de iFolder a otros usuarios, &eacute;stos se regir&aacute;n por la relaci&oacute;n de la lista y el DN de b&uacute;squeda. Si suprime el usuario, elimina el DN del usuario de la lista, elimina los DN de b&uacute;squeda o mueve el usuario a un DN que no se encuentra entre los DN de b&uacute;squeda, &eacute;ste se eliminar&aacute; de la lista y quedar&aacute; desprovisto del derecho de administrador de iFolder. </P>
+  <P><span style="FONT-FAMILY: Arial">El usuario Admin de iFolder o el administrador principal crea el administrador secundario y le asigna grupos.</span></P><P><font size="-1"><b>IMPORTANTE:</b> no es posible asignar el derecho de usuario Admin a un grupo LDAP.</font></P>
+  <P><span style="FONT-FAMILY: Arial">La p&aacute;gina Sistema muestra las pesta&ntilde;as Administrador principal y secundario. Los siguientes par&aacute;metros son comunes en ambas pesta&ntilde;as:</span></P>
+	<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Par&aacute;metro</P></TD><TD CLASS="tablehead2"><P> Descripci&oacute;n</P></TD></TR>
       <TR><TD VALIGN="TOP">
-        <P>Type</P>
+        <P>Tipo</P>
       </TD>
       <TD> 
-        <P>Displays the Admin user icon.</P>
+        <P>Muestra el icono de usuario Admin.</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>User Name</P>
+        <P>Usuario</P>
       </TD>
       <TD> 
-        <P>The username assigned to the Admin user account, such as jsmith or 
-          john.smith@example.com.</P>
+        <P>Nombre de usuario asignado a la cuenta del usuario Admin como, por ejemplo, jsmith o john.smith@ejemplo.com.</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Full Name</P>
+        <P>Nombre completo</P>
       </TD>
       <TD> 
-        <P>The first and last name of the Admin user account. </P>
+        <P>Nombre y apellido de la cuenta del usuario Admin. </P>
 		
       </TD><TR></TR></TABLE>
 
-  <P>To view or edit admin user details, click the Admin user link to open the 
-    User Details page. The User Details page displays the iFolders owned or shared 
-    by the Admin user. Click the All tab to list all the iFolders, both owned 
-    and shared. To view the iFolder owned by the user, click the Owned tab. Shared 
-    tab lists all the shared iFolders for this particular user account. You can 
-    also use the User Details page to change the policy settings for the selected 
-    Admin user.</P>
-  <H4>Adding and Deleting the iFolder Admin</H4>
+  <h5><span style="FONT-FAMILY: Arial">Administrador principal</span></h5>
+
+  <P>Para ver o editar la informaci&oacute;n del <span style="FONT-FAMILY: Arial">administrador principal</span>, <span style="FONT-FAMILY: Arial"> haga clic en la pesta&ntilde;a <i>Administrador principal</i> y, a continuaci&oacute;n, haga clic en</span><span style="COLOR: black; FONT-FAMILY: Arial"> </span>el enlace Usuario Admin para abrir la p&aacute;gina Informaci&oacute;n de usuario. La p&aacute;gina Informaci&oacute;n de usuario muestra las carpetas iFolder en propiedad o compartidas por el usuario Admin. Haga clic en la pesta&ntilde;a Todos para obtener una lista de todas las carpetas iFolder, tanto compartidas como en propiedad. Para ver la carpeta iFolder en propiedad del usuario, haga clic en la pesta&ntilde;a En propiedad. La pesta&ntilde;a Compartido enumera las carpetas iFolder compartidas correspondientes a la cuenta de usuario en cuesti&oacute;n. Tambi&eacute;n puede utilitzar la p&aacute;gina Informaci&oacute;n de usuario para cambiar los valores de directiva del usuario Admin seleccionado.</P>
+  <H4>Adici&oacute;n y supresi&oacute;n del administrador de iFolder</H4>
   <br>
 		
   <OL>
     <LI> 
-      <P>Locate the Admin user you want to manage, then select the check box next 
-        to it.</P>
+      <P>Localice el usuario Admin que desea gestionar y, a continuaci&oacute;n, seleccione la casilla de verificaci&oacute;n situada junto a &eacute;ste.</P>
     </LI>
     <ul><LI> 
-        <P>Click Delete to delete the selected Admin user.</P>
-	  <P>If you 
-delete the iFolder Admin right from the username you used to log in to the server, 
-you are immediately disconnected. You must log in to the iFolder server under 
-a different username with the iFolder Admin right to continue managing the server. 
+        <P>Haga clic en Suprimir para suprimir el usuario Admin seleccionado.</P>
+	  <P>Si suprime el derecho de administrador de iFolder del nombre de usuario que ha utilizado para entrar en el servidor, ser&aacute; desconectado inmediatamente. Deber&aacute; entrar en el servidor iFolder con un nombre de usuario distinto que posea el derecho de administrador de iFolder para poder seguir gestionando el servidor. 
 </P>
-        <P><font size="-1"><b>IMPORTANT:</b> You cannot delete the Admin user 
-          configured during Simias server setup.</font></P>
+        <P><font size="-1"><b>IMPORTANTE:</b> no es posible suprimir el usuario Admin configurado durante la instalaci&oacute;n del servidor Simias.</font></P>
     <LI> 
-        <P>Click Add to open a list of iFolder users.</P>
-        <P>Locate the user you want to add as Admin, then select the check box 
-          next to it and click Add.</P>
-      <P>You can assign the iFolder Admin right to multiple users.</P>
+        <P>Haga clic en A&ntilde;adir para abrir una lista de usuarios de iFolder.</P>
+        <P>Localice al usuario que desea a&ntilde;adir como administrador y, a continuaci&oacute;n, seleccione la casilla de verificaci&oacute;n situada junto a &eacute;ste y haga clic en A&ntilde;adir.</P>
+      <P>Es posible asignar el derecho de administrador de iFolder a varios usuarios.</P>
     </LI></ul>
   </OL>
-<P> <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P>
-  <H3><A NAME="policy"></A>Policies</H3>
+<P> <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Ir al inicio"></A></P>
+  <H3><A NAME="policy"></A>Directivas</H3>
       
-  <p> The following table lists the system policies you can manage for any given 
-    iFolder System. Click Save to apply the modifications:</p>
+  <p> En la tabla siguiente se enumeran las directivas del sistema que pueden gestionarse para un sistema de iFolder determinado. Haga clic en Guardar para aplicar las modificaciones:</p>
 	
  
-<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR>
+<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Par&aacute;metro</P></TD><TD CLASS="tablehead2"><P> Descripci&oacute;n</P></TD></TR>
 <TR>
       <TD VALIGN="TOP"> 
-        <h4> iFolder per users</h4>
+        <h4> Carpetas iFolder por usuario</h4>
       </TD>
       <TD> 
-        <P>Specifies the maximum number of iFolders allowed per user. After you 
-          apply this policy, each user is limited to owning a certain number of 
-          iFolders. The users who exceed the limit receive an error message about 
-          the policy violation. If the limit is zero, users cannot create any 
-          iFolders.</P>
+        <P>Especifica el n&uacute;mero m&aacute;ximo de carpetas iFolder permitidas por usuario. Tras aplicar esta directiva, cada usuario est&aacute; limitado a poseer un determinado n&uacute;mero de carpetas iFolder. Los usuarios que superen este l&iacute;mite recibir&aacute;n un mensaje de error sobre la infracci&oacute;n de la directiva. Si el l&iacute;mite es cero, los usuarios no pueden crear ninguna carpeta iFolder.</P>
              
-        <P>The policy setting does not affect the number of iFolders a user already 
-          owns. If the number of iFolders owned by a user already exceeds the 
-          limit that you set, he or she can still own those iFolders. </P>
+        <P>El valor de configuraci&oacute;n de la directiva no afecta al n&uacute;mero de carpetas iFolder que un usuario ya posee. Si el n&uacute;mero de carpetas iFolder que posee un usuario ya excede el l&iacute;mite que se ha establecido, podr&aacute; seguir siendo el propietario de dichas carpetas iFolder. </P>
         </TD></TR><TR><TD VALIGN="TOP">
-        <h4>Disk Quota</h4>
+        <h4>Cuota de disco</h4>
       </TD>
       <TD> 
-        <p>Specifies the maximum space that a iFolder system is allowed to use. 
-          System-wide settings supersede user policies.</p>
-		  <P>Deselect the check box to disable a system-wide quota.</P>
-        <P>Select the check box to enable a system-wide quota, then specify the 
-          total space quota (in MB) for a user's account. </P>
-        <P>If you enable a system-wide quota that is less than a user's 
-          current total space for iFolder data, the users's quotas data stops 
-          synchronizing until the data is decreased below the limit or until the 
-          quota is increased to a value that is larger than the user's total 
-          space consumed.</P>
-        <P>Enabling or modifying the system-wide quota does not affect existing 
-          individual user quotas. Any existing user quota always overrides a system-wide 
-          quota, whether the user quota is lower or higher than the system-wide 
-          quota.</P>
-        <P>Default value: Disabled, No limit</P>
+        <p>Especifica el espacio m&aacute;ximo que puede utilizar un sistema de iFolder. Los valores de configuraci&oacute;n v&aacute;lidos para todo el sistema sustituir&aacute;n a las directivas de usuario.</p>
+		  <P>Deseleccione la casilla de verificaci&oacute;n para inhabilitar la cuota v&aacute;lida para todo el sistema.</P>
+        <P>Seleccione la casilla de verificaci&oacute;n para habilitar la cuota v&aacute;lida para todo el sistema y, a continuaci&oacute;n, especifique la cuota de espacio total (en MB) para la cuenta de un usuario. </P>
+        <P>Si habilita una cuota para todo el sistema que es inferior al espacio total actual del usuario para los datos de iFolder, los datos de las cuotas de los usuarios dejan de sincronizarse hasta que se reducen por debajo del l&iacute;mite o hasta que la cuota se aumenta a un valor mayor que el espacio total consumido por el usuario.</P>
+        <P> La acci&oacute;n de habilitar o modificar una cuota para todo el sistema no afecta a las cuotas de usuarios individuales existentes. Toda cuota de usuario existente sustituir&aacute; a la cuota v&aacute;lida para todo el sistema, independientemente de si la cuota de usuario es inferior o superior a la de todo el sistema.</P>
+        <P>Valor por defecto: Inhabilitado, Sin l&iacute;mite</P>
         </TD></TR>
   <TR><TD VALIGN="TOP">
-        <h4>File Size</h4>
+        <h4>Tama&ntilde;o de archivo</h4>
       </TD>
-      <TD> <P>Specifies 
-the maximum file size that can be synchronized.</P>
-    <P>If a quota is specified, the effective maximum file size limit is the same as the quota. </P>
-       <P>Deselect the check box to disable the Maximum File Size Limit policy. If the policy is disabled, the value is reported as No Limit.</P>
-          <P>              Select the check box to enable the Maximum File Size Limit policy, then specify the maximum allowed file size in MB.</P>
-          <P>              If a quota is specified, the default maximum file size limit is the same as the quota.</P>
-          <P>              Consider the following demands on your system to determine an appropriate file size limit for iFolders in your environment:</P>
-            <ul><li><p>Intended use               
+      <TD> <P>Especifica el tama&ntilde;o m&aacute;ximo de archivo que puede sincronizarse.</P>
+    <P>Si se ha especificado una cuota, el l&iacute;mite de tama&ntilde;o m&aacute;ximo de archivo vigente coincidir&aacute; con el de la cuota. </P>
+       <P>Deseleccione la casilla de verificaci&oacute;n para inhabilitar la directiva de l&iacute;mite de tama&ntilde;o m&aacute;ximo de archivo. Si se inhabilita la directiva, el valor que se aplicar&aacute; ser&aacute; Sin l&iacute;mite.</P>
+          <P>              Seleccione la casilla de verificaci&oacute;n para habilitar la directiva de l&iacute;mite de tama&ntilde;o m&aacute;ximo de archivo y, a continuaci&oacute;n, especifique el tama&ntilde;o de archivo m&aacute;ximo permitido en MB.</P>
+          <P>              Si se ha especificado una cuota, el l&iacute;mite de tama&ntilde;o m&aacute;ximo de archivo por defecto coincidir&aacute; con el de la cuota.</P>
+          <P>              Para determinar el l&iacute;mite de tama&ntilde;o de archivo adecuado para las carpetas iFolder de su entorno, tenga en cuenta los siguientes datos:</P>
+            <ul><li><p>Uso previsto               
             </p></li>
 			<li>
-            <p>How often the largest files are modified</p></li>
-                 <li> <p>How the applications that use the largest files actually save changes to the file (whole file or deltas)</p>
-                 </li><li><p>How frequently the files are synchronized by each member</p>
-                  </li><li><p>How many users share an iFolder</p>
-                  </li><li><p>Whether users access iFolder on the local network or across WAN or Internet connection</p>
-                 </li><li> <p>The average and peak available bandwidth</p>
+            <p>Frecuencia de modificaci&oacute;n de los archivos de mayor tama&ntilde;o</p></li>
+                 <li> <p>El modo en que las aplicaciones que hacen uso de los archivos de mayor tama&ntilde;o guardan los cambios realizados en los archivos (archivo completo o delta)</p>
+                 </li><li><p>Frecuencia con la que se sincronizan los archivos de cada miembro</p>
+                  </li><li><p>N&uacute;mero de usuarios que comparten una carpeta iFolder</p>
+                  </li><li><p>Si los usuarios acceden a iFolder por la red local o a trav&eacute;s de una conexi&oacute;n WAN o de Internet</p>
+                 </li><li> <p>Ancho de banda disponible medio y m&aacute;ximo</p>
 				 </li></ul>
               
-        <p> Even if you set a very large value as a file size limit and if there 
-          is no quota to limit file sizes, the practical limit is governed by 
-          the file system on the user's computer. For example, FAT32 volumes have 
-          a maximum file size of 4 GB minus 1 byte. </p>
+        <p> Aunque defina un valor muy elevado como l&iacute;mite de tama&ntilde;o de archivo y no existan cuotas para limitar los tama&ntilde;os de archivo, el l&iacute;mite pr&aacute;ctico vendr&aacute; controlado por el sistema de archivos del equipo del usuario. Por ejemplo, los vol&uacute;menes FAT32 tienen un tama&ntilde;o m&aacute;ximo de archivo de 4 GB menos 1 byte. </p>
                 
-        <p>Default value: Disabled, No limit</p>   
+        <p>Valor por defecto: Inhabilitado, Sin l&iacute;mite</p>   
       </TD></TR>
   <TR>
       <TD VALIGN="TOP"> 
-        <h4>Excluded Files</h4>
+        <h4>Archivos excluidos</h4>
       </TD>
       <TD> 
         
 		  
-        <P>Specify whether to restrict file types that are synchronized by exclusion 
-          filters. </P>
-            <P>Type a file extension, then click Add to add it to the list. </P>
+        <P>Especifique si desea restringir los tipos de archivo que se sincronizar&aacute;n por medio de filtros de exclusi&oacute;n. </P>
+            <P>Escriba una extensi&oacute;n de archivo y, a continuaci&oacute;n, haga clic en A&ntilde;adir para a&ntilde;adirlo a la lista. </P>
         </TD></TR>
 	
 	<TR><TD VALIGN="TOP">
-        <h4> Synchronization </h4>
+        <h4> Sincronizaci&oacute;n </h4>
       </TD><TD>
-	    <p>Specifies the minimum synchronization interval in minutes.</P>
-        <P>If this option is enabled, specifies the minimum interval for synchronizing 
-          iFolder data for each user account. Larger values are more restrictive. 
+	    <p>Especifica el intervalo m&iacute;nimo de sincronizaci&oacute;n en minutos.</P>
+        <P>Si se habilita esta opci&oacute;n, especificar&aacute; el intervalo m&iacute;nimo para sincronizar los datos de iFolder de cada cuenta de usuario. Cuanto mayor sea el valor, m&aacute;s restrictivo ser&aacute;. 
         </P>    
-        <P>If the option is disabled, the default value is 5 minutes.</P>
+        <P>Si esta opci&oacute;n est&aacute; inhabilitada, el valor por defecto es de 5 minutos.</P>
         </TD></TR>
   <TR><TD VALIGN="TOP">
-        <h4>Encryption</h4>
+        <h4>Cifrado</h4>
       </TD>
       <TD> 
-        <P>Specifies the encryption policy for the iFolder system. System-wide 
-          settings supersede user policies.</P>
-		<B>On</B><BR>
-        Select <i>On</i> to enable the encryption feature for the iFolder system. This 
-        permits a user to set an encryption policy for his or her iFolders.<br>
+        <P>Especifica la directiva de cifrado para el sistema de iFolder. Los valores de configuraci&oacute;n v&aacute;lidos para todo el sistema sustituir&aacute;n a las directivas de usuario.</P>
+		<B>Activo</B><BR>
+        Seleccione <i>Activo</i> para habilitar la funci&oacute;n de cifrado para el sistema iFolder. Al hacerlo, los usuarios podr&aacute;n definir una directiva de cifrado para sus carpetas iFolder.<br>
         <br>
-        Deselect <i>On</i> to disable the encryption feature for all the users. 
+        Deseleccione <i>Activo</i> para inhabilitar la funci&oacute;n de cifrado para todos los usuarios. 
         <br>
         	
 		
-        <br><B>Enforced</B><BR>
-        Select Enforced to enable the encryption feature for all the users. When 
-        the encryption policy is set to Enforced, a user cannot change the encryption 
-        settings for his or her iFolders.<br>
+        <br><B>Enforced (Aplicada)</B><BR>
+        Seleccione Aplicado para habilitar la funci&oacute;n de cifrado para todos los usuarios. Cuando la directiva de cifrado se establece como Aplicada, el usuario no puede modificar los valores de cifrado de sus carpetas iFolder.<br>
       </TD></TR><TR><TD VALIGN="TOP">
-        <h4> Sharing</h4>
-      </TD><TD> <B>On</B><BR>
-        By default, iFolder sharing is enabled. Deselect On to disable 
-        sharing for the iFolder system. After applying this policy, users of this 
-        iFolder system cannot share their iFolders with others. However, you can 
-        change the policy settings at the user level or at the LDAPGroup level.<br>
+        <h4> Compartimiento</h4>
+      </TD><TD> <B>Activo</B><BR>
+        Por defecto, la funci&oacute;n de compartici&oacute;n de iFolder est&aacute; habilitada. Deseleccione Activo para inhabilitar la funci&oacute;n de compartici&oacute;n del sistema iFolder. Una vez aplicada esta directiva, los usuarios de este sistema iFolder no pueden compartir las carpetas iFolder con otros usuarios. Sin embargo, es posible modificar los valores de directiva en el nivel de usuario o de grupo LDAP.<br>
           <BR>
-        <B>Enforce</B><BR>
-        Select Enforce to enforce the sharing policy you have set for the entire 
-        system. You can enforce both Enable Sharing and Disable Sharing. When 
-        you enforce Disable Sharing, policy settings for sharing at iFolder and 
-        User level are automatically disabled and you are not allowed to change 
-        the settings. However, you are allowed to set the policy for the Revoke 
-        option.<br>
+        <B>Aplicar</B><BR>
+        Seleccione Aplicar para aplicar la directiva de compartici&oacute;n definida para todo el sistema. Es posible aplicar tanto la habilitaci&oacute;n como la inhabilitaci&oacute;n de la funci&oacute;n de compartici&oacute;n. Cuando se aplica la inhabilitaci&oacute;n de la funci&oacute;n de compartici&oacute;n, los valores de directiva para compartir en el nivel de usuario e iFolder se inhabilitan de forma autom&aacute;tica y no es posible modificar los valores. No obstante, no est&aacute; permitido definir la directiva para la opci&oacute;n Revocar.<br>
 		<ul>
-          <P><font size="-1"><b>IMPORTANT:</b> You cannot enable this option unless 
-            you set the Sharing option to On.</font></P>
+          <P><font size="-1"><b>IMPORTANTE:</b> no es posible habilitar esta opci&oacute;n a menos que se establezca la opci&oacute;n Compartimiento como Activo.</font></P>
         </ul>
         <BR>
-        <B>Revoke</B><BR>
-        Select Revoke to remove the shared members of all 
-        the iFolders under the iFolder system.<br>
+        <B>Revocar</B><BR>
+        Seleccione Revocar para eliminar los miembros compartidos de todas las carpetas iFolder del sistema iFolder.<br>
 		
       </TD></TR> 
 
   </TABLE>
 
- <P> <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P>
+ <P> <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Ir al inicio"></A></P>
 
   
    
 
-<H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Related Topics" align="top"> 
-Related Topics</H4><BLOCKQUOTE class="task1">
-<P ><A HREF="userdetails.html">User Details
-</A><BR><A HREF="ifolderdetails.html">Managing iFolder Details</A><BR><A HREF="servers.html">Managing iFolder Servers
-</A><BR><A HREF="ifolders.html">Managing iFolders</A><BR><A HREF="reports.html#orphan" TARGET="_self">Reports
-</A></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P><P>&nbsp;</P><P CLASS="copyright">A 
-trademark symbol (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP>, 
-etc.) denotes a Novell trademark. An asterisk (*) denotes a third-party trademark. 
-For more information, see <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Legal 
-Notices</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
+  <h3>Administrador secundario</h3>
+  <p><span style="font-family:Arial;">La pesta&ntilde;a Administrador secundario permite a&ntilde;adir, editar o suprimir la informaci&oacute;n del administrador secundario.</span></p>
+  <p><span style="font-family:Arial;">Para a&ntilde;adir un administrador secundario:</span></p>
+  <ol>
+    <li><font face="Arial">Haga clic en la pesta&ntilde;a <i>Administrador secundario</i> y, a continuaci&oacute;n, haga clic en <i>A&ntilde;adir </i>para ver la lista de usuarios iFolder.</font></li>
+    <li><font face="Arial">Seleccione el usuario que desea designar como administrador secundario y haga clic en <i>Siguiente</i>.</font></li>
+    <li><font face="Arial">Para asignar un grupo al administrador secundario, seleccione una opci&oacute;n de la lista <i>Seleccionar grupo</i>. Si el grupo seleccionado tiene establecido el l&iacute;mite de cuota de disco en conjunto, se rellenar&aacute; el campo <i>Fijar el l&iacute;mite de cuota de disco en conjunto para todo el grupo</i> con ese valor. De lo contrario, el campo quedar&aacute; vac&iacute;o.</font></li>
+    <li><font face="Arial">Fijar los derechos de directiva para el administrador secundario.</font>
+    <p><font face="Arial">La siguiente tabla enumera los derechos de directiva que puede fijar para el administrador secundario.</font></p>
+	
+ 
+<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Par&aacute;metro</P></TD><TD CLASS="tablehead2"><P>Descripci&oacute;n</P></TD></TR>
+<TR>
+      <TD VALIGN="TOP"> 
+        <h4><span style="FONT-SIZE: 9.5pt; FONT-FAMILY: Arial">Directiva Carpeta iFolder por usuario</span></h4>
+        <h4> &nbsp;</h4>
+      </TD>
+      <TD> 
+        <p class="Normal2">
+        <span style="FONT-SIZE: 11pt; COLOR: black; FONT-FAMILY: Arial"> Especifica el n&uacute;mero m&aacute;ximo de carpetas iFolder permitidas por usuario. Tras aplicar esta directiva, cada usuario est&aacute; limitado a poseer un determinado n&uacute;mero de carpetas iFolder. Los usuarios que superen este l&iacute;mite recibir&aacute;n un mensaje de error sobre la infracci&oacute;n de la directiva. Si el l&iacute;mite es cero, los usuarios no pueden crear ninguna carpeta iFolder.</span></p>
+        <p class="Normal2">
+        <span style="FONT-SIZE: 11pt; FONT-FAMILY: Arial">Este</span><span style="FONT-SIZE: 11pt; COLOR: black; FONT-FAMILY: Arial"> ajuste de la directiva no afecta al n&uacute;mero de carpetas iFolder que un usuario ya posee. Si el n&uacute;mero de carpetas iFolder de un usuario ya excede el l&iacute;mite que se ha establecido, </span><span style="FONT-SIZE: 11pt; FONT-FAMILY: Arial">podr&aacute; seguir siendo el propietario de dichas carpetas iFolder</span><span style="FONT-SIZE: 11pt; COLOR: black; FONT-FAMILY: Arial">. </span></p>
+        <p class="Normal2">
+        <span style="FONT-SIZE: 11pt; FONT-FAMILY: Arial">Por defecto, est&aacute; seleccionado el recuadro de verificaci&oacute;n <i>Permitir</i> para la directiva Carpeta iFolder por usuario. Esto significa que el administrador secundario tiene el derecho de establecer la directiva de carpeta iFolder por usuario para los usuarios del grupo designado. Para denegar este derecho al administrador secundario, debe deseleccionar el recuadro de verificaci&oacute;n <i>Permitir</i>.</span></TD></TR><TR><TD VALIGN="TOP">
+        <h4><span style="font-size: 9.5pt; font-family: Arial; color: black">Directiva de</span> <span style="font-size: 9.5pt; font-family: Arial; ">cuota de disco</span></h4>
+      </TD>
+      <TD> 
+        <p class="Normal2">
+        <span style="font-size:11.0pt;font-family:Arial;">Especifica el espacio m&aacute;ximo que puede utilizar un usuario.</span></p>
+        <p><span style="font-size: 11.0pt; font-family: Arial; ">Por defecto, est&aacute; seleccionado el recuadro de verificaci&oacute;n <i>Permitir</i> para la directiva de cuota de disco. Esto significa que el administrador secundario tiene el derecho de establecer la directiva de cuota de disco para los usuarios del grupo designado. Para denegar este derecho al administrador secundario, debe deseleccionar el recuadro de verificaci&oacute;n <i>Permitir</i>.</span></p>
+        </TD></TR>
+  <TR><TD VALIGN="TOP">
+        <h4><span style="font-size: 9.5pt; font-family: Arial; color: black">Directiva de</span> <span style="font-size: 9.5pt; font-family: Arial; ">tama&ntilde;o de archivo</span></h4>
+      </TD>
+      <TD> 
+      <p class="Normal2">
+      <span style="font-size:11.0pt;font-family:Arial;color:black">Especifica el tama&ntilde;o m&aacute;ximo de archivo que puede sincronizarse.</span></p>
+      <p><span style="font-size: 11.0pt; font-family: Arial; ">Por defecto, est&aacute; seleccionado el recuadro de verificaci&oacute;n <i>Permitir</i> para la directiva de tama&ntilde;o de archivo. Esto significa que el administrador secundario tiene el derecho de establecer la directiva de tama&ntilde;o de archivo para los usuarios del grupo designado. Para denegar este derecho al administrador secundario, debe deseleccionar el recuadro de verificaci&oacute;n <i>Permitir</i>.</span></p>
+      </TD></TR>
+  <TR>
+      <TD VALIGN="TOP"> 
+        <h4><span style="font-size: 9.5pt; font-family: Arial; ">Directiva de intervalo de sincronizaci&oacute;n</span></h4>
+      </TD>
+      <TD> 
+        
+		  
+        <p class="Normal2">
+        <span style="font-size:11.0pt;font-family:Arial;color:black">Especifica el intervalo m&iacute;nimo de sincronizaci&oacute;n en minutos.</span></p>
+        <p><span style="font-size: 11.0pt; font-family: Arial; ">Por defecto, est&aacute; seleccionado el recuadro de verificaci&oacute;n <i>Permitir</i> para la directiva de intervalo de sincronizaci&oacute;n. Esto significa que el administrador secundario tiene el derecho de establecer la directiva de intervalo de sincronizaci&oacute;n para los usuarios del grupo designado. Para denegar este derecho al administrador secundario, debe deseleccionar el recuadro de verificaci&oacute;n <i>Permitir</i>.</span></TD></TR>
+	
+	<TR><TD VALIGN="TOP">
+        <h4> <span style="font-size: 9.5pt; font-family: Arial; color: black">Directiva de lista de</span> <span style="font-size: 9.5pt; font-family: Arial; ">archivos excluidos</span></h4>
+      </TD><TD>
+	    <p class="Normal2">
+        <span style="font-size:11.0pt;font-family:Arial;">Especifica los tipos de archivos que se excluyen de la sincronizaci&oacute;n.</span></p>
+        <p><span style="font-size: 11.0pt; font-family: Arial; ">Por defecto, est&aacute; seleccionado el recuadro de verificaci&oacute;n <i>Permitir</i> para la directiva de lista de archivos excluidos. Esto significa que el administrador secundario tiene el derecho de establecer la directiva de lista de archivos excluidos para los usuarios del grupo designado. Para denegar este derecho al administrador secundario, debe deseleccionar el recuadro de verificaci&oacute;n <i>Permitir</i>.</span></TD></TR>
+  <TR><TD VALIGN="TOP">
+        <h4><span style="font-size: 9.5pt; font-family: Arial; "> Compartimiento</span></h4>
+      </TD>
+      <TD> 
+        <p class="Normal2">
+        <span style="font-size:11.0pt;font-family:Arial;">Especifica si se pueden compartir las carpetas iFolder entre los usuarios.</span></p>
+        <p><span style="font-size: 11.0pt; font-family: Arial; ">Por defecto, est&aacute; seleccionado el recuadro de verificaci&oacute;n <i>Permitir</i><i> con el fin de modificar la directiva de compartici&oacute;n </i>para la directiva de compartici&oacute;n. Esto significa que el administrador secundario tiene el derecho de modificar la directiva de compartici&oacute;n para los usuarios del grupo designado. Para denegar este derecho al administrador secundario, debe deseleccionar el recuadro de verificaci&oacute;n <i>Permitir</i>.</span><br>
+      </TD></TR><TR><TD VALIGN="TOP">
+        <h4> <span style="font-size: 9.5pt; font-family: Arial; ">Directiva de cifrado</span></h4>
+      </TD><TD> 
+    <p class="Normal2">
+    <span style="font-size:11.0pt;font-family:Arial;">Especifica la directiva de cifrado para el sistema de iFolder.</span></p>
+    <p class="Normal2">
+    <span style="font-size: 11.0pt; font-family: Arial; ">Por defecto, est&aacute; seleccionado el recuadro de verificaci&oacute;n <i>Permitir</i><i> con el fin de modificar la directiva de cifrado</i> para la directiva de cifrado. Esto significa que el administrador secundario tiene el derecho de modificar la directiva de cifrado para los usuarios del grupo designado. Para denegar este derecho al administrador secundario, debe deseleccionar el recuadro de verificaci&oacute;n <i>Permitir</i>.</span><br>
+		
+      </TD></TR> 
+
+  <TR><TD VALIGN="TOP">
+        <span style="font-size: 9.5pt; font-family: Arial; font-weight:700">Derechos de provisi&oacute;n</span></TD><TD> 
+    <p class="Normal2">
+    <span style="font-size:11.0pt;font-family:Arial;">Especifica los derechos de provisi&oacute;n a disposici&oacute;n de un administrador secundario.</span></p>
+    <p class="Normal2">
+    <span style="font-size:11.0pt;font-family:Arial;">Por defecto, est&aacute; seleccionado el recuadro de verificaci&oacute;n <i>Permitir provisi&oacute;n de usuarios</i>. Esto significa que un administrador secundario puede proveer a los usuarios del grupo designado en cualquier servidor presente en la configuraci&oacute;n de varios servidores de iFolder. Para denegar este derecho al administrador secundario, deseleccione el recuadro de verificaci&oacute;n <i>Permitir provisi&oacute;n de usuarios</i>.</span></p>
+    <p class="Normal2">
+    <span style="font-size: 11.0pt; font-family: Arial; ">Con el recuadro de verificaci&oacute;n <i>Permitir la habilitaci&oacute;n/inhabilitaci&oacute;n de usuarios</i>, puede asignar al administrador secundario el derecho de habilitar o inhabilitar usuarios del grupo designado. Este recuadro de verificaci&oacute;n est&aacute; seleccionado por defecto. Para denegar al administrador secundario este derecho, deseleccione el recuadro de verificaci&oacute;n <i>Permitir la habilitaci&oacute;n/inhabilitaci&oacute;n de usuarios</i>.</span></TD></TR> 
+
+  <TR><TD VALIGN="TOP">
+        <span style="font-size: 9.5pt; font-family: Arial; font-weight:700">Derechos en carpetas iFolder</span></TD><TD> 
+    <p class="Normal2">
+    <span style="font-size:11.0pt;font-family:Arial;">Especifica los derechos del administrador secundario en las carpetas iFolder propiedad de los usuarios del grupo designado.</span></p>
+    <p class="Normal2">
+    <span style="font-size:11.0pt;font-family:Arial;">Para que el administrador secundario pueda poseer carpetas iFolder hu&eacute;rfanas, aseg&uacute;rese de que est&aacute; seleccionado el recuadro de verificaci&oacute;n <i>Permitir la propiedad de carpetas iFolder hu&eacute;rfanas</i>. Este recuadro de verificaci&oacute;n est&aacute; seleccionado por defecto. Para denegar este derecho al administrador secundario, deseleccione el recuadro de verificaci&oacute;n .</span></p>
+    <p class="Normal2">
+    <span style="font-size:11.0pt;font-family:Arial;">Con el recuadro de verificaci&oacute;n <i>Permitir la habilitaci&oacute;n/inhabilitaci&oacute;n de carpetas iFolder</i>, puede asignar al administrador secundario el derecho de habilitar o inhabilitar carpetas iFolder propiedad de los usuarios del grupo designado. Este recuadro de verificaci&oacute;n est&aacute; seleccionado por defecto. Para denegar este derecho al administrador secundario, deseleccione el recuadro de verificaci&oacute;n <i>Permitir la habilitaci&oacute;n/inhabilitaci&oacute;n de carpetas iFolder</i>.</span></p>
+    <p class="Normal2">
+    <span style="font-size: 11.0pt; font-family: Arial; ">Con la casilla de verificaci&oacute;n <i>Permitir modificar derechos de miembros de carpetas iFolder compartidas</i>, puede asignar al administrador secundario el derecho de modificar los derechos de los miembros de carpetas iFolder compartidas. Este recuadro de verificaci&oacute;n est&aacute; seleccionado por defecto. Para denegar este derecho al administrador secundario, deseleccione el recuadro de verificaci&oacute;n <i>Permitir modificar derechos de miembros de carpetas iFolder compartidas</i>.</span></p>
+    </TD></TR> 
+
+  </TABLE>
+
+    </li>
+  </ol>
+  <p>&nbsp;</p>
+  <ol start="5">
+    <li><span style="font-family:Arial;">Haga clic en el bot&oacute;n <i>Guardar</i> para almacenar sus ajustes.</span></li>
+    <li><span style="font-family:Arial;">Tras asignar satisfactoriamente un grupo al administrador secundario, haga clic en <i>Aceptar</i> para volver a la p&aacute;gina Sistemas o haga clic en <i>Repetir</i> para asignar m&aacute;s grupos al administrador secundario.</span></li>
+  </ol>
+  <p><span style="font-family:Arial;">Para editar la informaci&oacute;n del administrador secundario:</span></p>
+  <ol>
+    <li>
+    <p style="text-indent: -.25in; margin-left: .5in">
+    <span style="font-family: Arial; ">Haga clic en la pesta&ntilde;a<i>Secundario</i> para mostrar la informaci&oacute;n del administrador secundario.</span></li>
+    <li>
+    <p style="text-indent: -.25in; margin-left: .5in">
+    <span style="font-family: Arial; ">Seleccione un administrador secundario y haga clic en <i>Editar </i>para mostrar la lista de grupos supervisados por el administrador secundario.</span></li>
+    <li>
+    <p style="text-indent: -.25in; margin-left: .5in" align="left">
+    <span style="font-family: Arial; ">Seleccione un grupo y haga clic en<i> Editar</i> para mostrar la lista de derechos del administrador secundario en el grupo. Edite los derechos del grupo y haga clic en <i>Guardar</i> para almacenar los cambios.<br>
+&nbsp;</span></li>
+  </ol>
+  <p><span style="font-family:Arial;">Para eliminar un administrador secundario:</span></p>
+  <ol>
+    <li><font face="Arial">Haga clic en la pesta&ntilde;a<i>Secundario</i> para mostrar la informaci&oacute;n del administrador secundario.</font></li>
+    <li><font face="Arial">Seleccione un administrador secundario y haga clic en <i>Eliminar </i>para mostrar la lista de grupos supervisados por el administrador secundario.</font></li>
+    <li><font face="Arial">Seleccione todos los grupos y haga clic en <i>Suprimir</i>. Al suprimir todos los grupos propiedad del administrador secundario tambi&eacute;n se elimina el administrador secundario.<br>
+&nbsp;</font></li>
+  </ol>
+  <p>&nbsp;</p>
+
+  
+   
+
+<H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Temas relacionados" align="top"> Temas relacionados</H4><BLOCKQUOTE class="task1">
+<P ><A HREF="userdetails.html">Informaci&oacute;n de usuario</A><BR><A HREF="ifolderdetails.html">Gesti&oacute;n de la informaci&oacute;n de una carpeta iFolder</A><BR><A HREF="servers.html">Gesti&oacute;n de servidores iFolder </A><BR><A HREF="ifolders.html">Gesti&oacute;n de carpetas iFolder</A><BR><A HREF="reports.html#orphan" TARGET="_self">Informes </A></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Ir al inicio"></A></P><P>&nbsp;</P><P CLASS="copyright">El s&iacute;mbolo de marca comercial (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP>, etc.) indica una marca comercial de Novell; el asterisco (*) indica una marca comercial de otro fabricante. Para obtener m&aacute;s informaci&oacute;n, consulte la <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Informaci&oacute;n legal</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
 </body>
 
 </html>

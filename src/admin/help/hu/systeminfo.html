@@ -1,11 +1,11 @@
 <html>
 
    <head>
-     <meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+     <meta http-equiv="content-type" content="text/html;charset=UTF-8">
      
      <!-- Novell iFolder 3.x iManager Plugin  --> 
    
-     <title>iFolder System</title>  	 
+     <title>iFolder rendszer</title>  	 
    
         
      <!-- Metadata -->
@@ -28,7 +28,7 @@
 <style type= "text/css" media="screen">
        <!--
        
-         body           {  font-family: Arial, Helvetica, Geneva; background: white url(../../images/helphead_bg.gif) repeat-x 0% 0% }
+         body           {  font-family: Arial, Helvetica, Geneva; background: white url('../../images/helphead_bg.gif') repeat-x;  }
 		      
          #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px;
 									width: 380px; visibility: visible }
@@ -36,6 +36,8 @@
          #helpcontent    { position: absolute; top: 37px; left: 10px; 
 	                        width: 93%; visibility: visible }
       
+div.Section1
+	{page:Section1;}
        -->
      </style>
   
@@ -52,285 +54,364 @@
 <!-- This is the start of the Help Banner Layer --> <div id="headgraphic"> <img src="../../images/h1_help.gif" width="380" height="32"   border="0"></div><!-- This is end of the Help Banner Layer --> 
 <!-- This is the start of the Help Content Layer --> <div id="helpcontent"> <!-- The Page Heading uses CSS style "head3b". This creates an H3 header
             with a line beneath it.
-       --> <h3 class="head3b">Managing the iFolder System</h3>
-  <p> Use this interface to manage Novell iFolder<SUP><SMALL>&reg;</SMALL></SUP> 
-    3.7 services for the selected server.</p>
-  <P>This help discusses the following information:</P>
-  <blockquote> <P><A HREF="#sytemsettings" TARGET="_self">Viewing the System Settings
-</A> <BR><A HREF="#status" TARGET="_self">Reprovision Status</a><BR><A HREF="#admin" TARGET="_self">Administrators Tab</a><BR> <A HREF="#policy" TARGET="_self">Policies
-</a><BR></P></BLOCKQUOTE>
+       --> <h3 class="head3b">Az iFolder rendszer kezel&eacute;se</h3>
+  <p> Ezzel a fel&uuml;lettel lehet kezelni a Novell iFolder<SUP><SMALL>&reg;</SMALL></SUP> 3.7. szolg&aacute;ltat&aacute;sokat a kiv&aacute;lasztott kiszolg&aacute;l&oacute;hoz.</p>
+  <P>Ebben a s&uacute;g&oacute;ban az al&aacute;bbi inform&aacute;ci&oacute;k ismertet&eacute;se tal&aacute;lhat&oacute;:</P>
+  <blockquote> <P><A HREF="#sytemsettings" TARGET="_self">Rendszerbe&aacute;ll&iacute;t&aacute;sok </A> <BR><A HREF="#status" TARGET="_self">Hozz&aacute;f&eacute;r&eacute;s &uacute;jraenged&eacute;lyez&eacute;si &aacute;llapota</a><BR><A HREF="#admin" TARGET="_self">Rendszergazd&aacute;k lap</a><BR> <A HREF="#policy" TARGET="_self">H&aacute;zirendek </a><BR></P></BLOCKQUOTE>
   
-  <H3><A NAME="sytemsettings"></A>Viewing the System Settings</H3>
-  <P>You 
-can view the following information:</P><TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
-        <P>System Name</P>
+  <H3><A NAME="sytemsettings"></A>Rendszerbe&aacute;ll&iacute;t&aacute;sok</H3>
+  <p>A rendszerbe&aacute;ll&iacute;t&aacute;sok r&eacute;szben az al&aacute;bbi inform&aacute;ci&oacute;k tal&aacute;lhat&oacute;k:</p>
+  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Param&eacute;ter</P></TD><TD CLASS="tablehead2"><P>
+    Le&iacute;r&aacute;s</P></TD></TR><TR><TD VALIGN="TOP">
+        <P>N&eacute;v</P>
       </TD><TD>
-        <P>The name assigned to the iFolder domain.</P>
-		<P>To edit the name of the iFolder domain, specify the new name and click 
-          Save.</P>
+        <P>Az iFolder tartom&aacute;nyhoz rendelt n&eacute;v.</P>
+		<P>Az iFolder tartom&aacute;ny nev&eacute;nek szerkeszt&eacute;s&eacute;hez adja meg az &uacute;j nevet, &eacute;s kattintson a Ment&eacute;s gombra.</P>
 		  
-        <P>To cancel the changes made, click Cancel.</P>
+        <P>A v&eacute;grehajtott v&aacute;ltoztat&aacute;sok visszavon&aacute;s&aacute;hoz kattintson a M&eacute;gse gombra.</P>
       </TD><TR><TD VALIGN="TOP">
-        <P>Description</P>
+        <P>Le&iacute;r&aacute;s</P>
       </TD><TD>
-        <P>A short description about the iFolder Domain.</P>
-		<P>To edit the system description, specify the new description and click 
-          Save.</P>
+        <P>Az iFolder tartom&aacute;ny r&ouml;vid le&iacute;r&aacute;sa.</P>
+		<P>A rendszer le&iacute;r&aacute;s&aacute;nak szerkeszt&eacute;s&eacute;hez adja meg az &uacute;j le&iacute;r&aacute;st, &eacute;s kattintson a Ment&eacute;s gombra.</P>
 		  
-        <P>To cancel the changes made, click Cancel.</P>
-      </TD><TR><TD VALIGN="TOP">
-        <P>Total Users</P>(view only)
-      </TD><TD>
-        <P>Reports the total number of users in the iFolder domain. 
-      </TD></TR><TR><TD VALIGN="TOP">
-        <P>Total iFolders</P>
-        (view only)
-      </TD><TD>
-        <P>Reports total number of iFolders that belongs to the iFolder domain. 
-      </TD></TR><TR><TD VALIGN="TOP">
-        <P>Enable SSL</P>
+        <P>A v&eacute;grehajtott v&aacute;ltoztat&aacute;sok visszavon&aacute;s&aacute;hoz kattintson a M&eacute;gse gombra.</P>
+      </TD>
+    <tr>
+      <TD VALIGN="TOP">
+        <P>SSL be&aacute;ll&iacute;t&aacute;s</P>
         
       </TD>
       <TD> 
-        <P>Select the check box to enable the SSL communication among the iFolder 
-          Servers, iFolder client, iFolder Web Access console and iFolder Web 
-          Admin console. 
-      </TD></TR></TABLE>
- <P> <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P> 
- <H3><A NAME="status"></A>Reprovision Status</H3> 
-  <p> You can move users across different servers. With this interface, you can 
-    view the reprovisioning status. Click Reprovision Status to view the reprovision 
-    status for each user. </p>
-  <P> <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P>
-  <H3><a name="admin"></a>iFolder Administrators</H3>
-<P>The iFolder Admin user is the primary administrator of the iFolder 
-enterprise server. Whenever iFolders are orphaned, ownership is transferred to 
-the iFolder Admin user for reassignment to another user or for deletion. You initially 
-specify the iFolder Admin user during the iFolder enterprise server configuration 
-in YaST. </P>
-  <P>The iFolder Admin user must be provisioned in order to enable the iFolder 
-    Admin to perform management tasks. iFolder tracks this user by the LDAP object 
-    GUID, allowing it to belong to any LDAP container or group in the tree, even 
-    those that are not identified as Search DNs. The user&#146;s movement can 
-    be tracked anywhere in the tree because it is known by the GUID, not by the 
-    user DN.</P>
-  <P>The iFolder Admin right can be assigned to other users so that they can also 
-    manage iFolder services for the selected server. Only users who are in one 
-    of the DNs specified in the LDAP Search DN are eligible to be equivalent to 
-    the iFolder Admin user.</P>
-  <P>If you assign the iFolder Admin right to other 
-users, those users are governed by the roster and Search DN relationship. The 
-user is removed from the roster and stripped of the iFolder Admin right if you 
-delete the user, remove the user&#146;s DN from the list of Search DNs, or move 
-the user to a DN that is not in the Search DNs.</P><P><font size="-1"><b>IMPORTANT:</b> You cannot assign the Admin user 
-          right to an LDAPGroup.</font></P>
-  <P>The System page displays the following iFolder Admin details for the iFolder 
-    domain:</P>
-	<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR>
+        <P>Megjelen&iacute;ti az iFolder-kiszolg&aacute;l&oacute;k, az iFolder-&uuml;gyf&eacute;l, az iFolder Web Access konzol &eacute;s az iFolder Web Admin konzol k&ouml;z&ouml;tti kommunik&aacute;ci&oacute; m&oacute;dj&aacute;t. 
+      </TD>
+    </tr>
+    <TR><TD VALIGN="TOP">
+        <P>Felhaszn&aacute;l&oacute;k sz&aacute;ma &ouml;sszesen</P>(csak megtekint&eacute;s)
+      </TD><TD>
+        <P>Megjelen&iacute;ti az iFolder tartom&aacute;nyban tal&aacute;lhat&oacute; felhaszn&aacute;l&oacute;k teljes sz&aacute;m&aacute;t. 
+      </TD></TR><TR><TD VALIGN="TOP">
+        <P>iFolder mapp&aacute;k &ouml;sszesen</P>
+        (csak megtekint&eacute;s)
+      </TD><TD>
+        <P>Megjelen&iacute;ti az iFolder-tartom&aacute;nyban tal&aacute;lhat&oacute; iFolder mapp&aacute;k teljes sz&aacute;m&aacute;t. 
+      </TD></TR><TR><TD VALIGN="TOP">
+        Teljes n&eacute;v megjelen&iacute;t&eacute;si sorrendje</TD><TD>
+        <p>
+        Itt &aacute;ll&iacute;thatja be a felhaszn&aacute;l&oacute;k teljes nev&eacute;nek megjelen&iacute;t&eacute;si sorrendj&eacute;t. Az <i>(Ut&oacute;n&eacute;v, Vezet&eacute;kn&eacute;v)</i> be&aacute;ll&iacute;t&aacute;s haszn&aacute;latakor az ut&oacute;n&eacute;v ker&uuml;l előre. Ha azt szeretn&eacute;, hogy a vezet&eacute;kn&eacute;v legyen el&ouml;l, a <i>(Vezet&eacute;kn&eacute;v, Ut&oacute;n&eacute;v)</i> be&aacute;ll&iacute;t&aacute;st v&aacute;lassza. </p>
+        <p class="Normal2">
+        A v&aacute;ltoztat&aacute;sok &eacute;letbe l&eacute;ptet&eacute;s&eacute;hez vagy &uuml;temezett, vagy k&eacute;zi LDAP-szinkroniz&aacute;l&aacute;sra van sz&uuml;ks&eacute;g. A k&eacute;zi LDAP-szinkroniz&aacute;l&aacute;s menete:</p>
+        <ol>
+          <li>
+          <p class="Normal2">
+          <span style="font-size:11.0pt;font-family:Arial;
+">A Web admin konzolon kattintson a <i>Kiszolg&aacute;l&oacute;k</i> f&uuml;lre. V&aacute;lassza ki a kiszolg&aacute;l&oacute;t, majd nyissa meg a Kiszolg&aacute;l&oacute; adatai lapot.</span></li>
+          <li>
+          <p class="Normal2">
+          <span style="font-size: 11.0pt; font-family: Arial; ">Az <i>LDAP-adatok</i> ter&uuml;leten kattintson az <i>Azonnali szinkroniz&aacute;l&aacute;s</i> gombra.</span></li>
+        </ol>
+      </TD></TR><TR><TD VALIGN="TOP">
+        <span style="font-size: 11.0pt; font-family: Arial; ">Csoportkv&oacute;ta kezel&eacute;se a k&ouml;vetkezővel</span></TD><TD>
+        <p class="Normal2">
+        <span style="font-size:11.0pt;font-family:Arial;">Itt hat&aacute;rozhatja meg a csoportok sz&aacute;m&aacute;ra be&aacute;ll&iacute;tott &ouml;sszes&iacute;tett lemezkv&oacute;ta kezel&eacute;s&eacute;nek m&oacute;dj&aacute;t. </span></p>
+        <p class="Normal2">
+        <span style="font-size:11.0pt;font-family:Arial;">A <i>Rendszergazdai konzol</i> be&aacute;ll&iacute;t&aacute;s kiv&aacute;laszt&aacute;s&aacute;val enged&eacute;lyezheti a rendszergazd&aacute;k sz&aacute;m&aacute;ra a csoportok &eacute;s csoporttagok lemezkv&oacute;t&aacute;j&aacute;nak explicit kezel&eacute;s&eacute;t. A be&aacute;ll&iacute;t&aacute;s kiv&aacute;laszt&aacute;sa ut&aacute;n a felhaszn&aacute;l&oacute;khoz hozz&aacute;rendelt lemezkv&oacute;ta korl&aacute;tozott lesz, &eacute;s nem haladhatja meg a csoport &ouml;sszes&iacute;tett lemezhaszn&aacute;lat&aacute;t. A <i>Rendszergazdai konzol</i> be&aacute;ll&iacute;t&aacute;s alap&eacute;rtelmez&eacute;s szerint ki van v&aacute;lasztva.</span></p>
+        <p class="Normal2">
+        <span style="font-size:11.0pt;font-family:Arial;">A <i>Szinkroniz&aacute;ci&oacute;s motor</i> be&aacute;ll&iacute;t&aacute;ssal enged&eacute;lyezheti, hogy a szinkroniz&aacute;ci&oacute;s motor a kiszolg&aacute;l&oacute;n kezelje a csoportok &ouml;sszes&iacute;tett lemezkv&oacute;t&aacute;j&aacute;t. A szinkroniz&aacute;ci&oacute;s motor gondoskodik arr&oacute;l, hogy a csoport felhaszn&aacute;l&oacute;i sz&aacute;m&aacute;ra be&aacute;ll&iacute;tott lemezkv&oacute;t&aacute;k &ouml;sszess&eacute;ge ne haladja meg a csoport &ouml;sszes&iacute;tett lemezkv&oacute;t&aacute;j&aacute;t.</span></p>
+        <p class="Normal2">
+        <span style="font-size:11.0pt;font-family:Arial;">Ha a csoportok &ouml;sszes&iacute;tett lemezkv&oacute;ta-haszn&aacute;lat&aacute;nak kezel&eacute;s&eacute;hez mind a rendszergazdai konzolt, mind a szinkroniz&aacute;ci&oacute;s motort haszn&aacute;lni k&iacute;v&aacute;nja, v&aacute;lassza a <i>Mindkettő</i> be&aacute;ll&iacute;t&aacute;st.</span></TD></TR><TR><TD VALIGN="TOP">
+        <span style="font-size: 11.0pt; font-family: Arial; ">Elk&uuml;l&ouml;n&iacute;tett csoportok</span></TD><TD>
+        <span style="font-size: 11.0pt; font-family: Arial; ">Lehetőv&eacute; teszi, hogy a csoportokat egym&aacute;st&oacute;l f&uuml;ggetlen egys&eacute;gekre ossza fel. Ez&aacute;ltal az egyes csoportok tagjai nem f&eacute;rnek hozz&aacute; a t&ouml;bbi csoport megosztott iFolder mapp&aacute;ihoz. Az <i>Elk&uuml;l&ouml;n&iacute;tett csoportok l&eacute;trehoz&aacute;sa</i> jel&ouml;lőn&eacute;gyzet bejel&ouml;l&eacute;s&eacute;vel &aacute;ll&iacute;thatja be, hogy iFolder mapp&aacute;kat csak az azonos csoportba tartoz&oacute; tagok k&ouml;z&ouml;tt lehessen megosztani.</span><p>
+        <span style="font-family: Arial; ">Megjegyz&eacute;s: </span><span style="font-size: 11.0pt; font-family: Arial; ">Az LDAP-csoportok nem lehetnek m&aacute;sodlagos vagy elsődleges rendszergazd&aacute;k.</span></TD></TR></TABLE>
+ <P> <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Ugr&aacute;s az oldal tetej&eacute;re"></A></P> 
+ <H3><A NAME="status"></A>Hozz&aacute;f&eacute;r&eacute;s &uacute;jraenged&eacute;lyez&eacute;si &aacute;llapota</H3> 
+  <p> A felhaszn&aacute;l&oacute;kat &aacute;thelyezheti m&aacute;s kiszolg&aacute;l&oacute;kra. Ezen a fel&uuml;leten megtekintheti a hozz&aacute;f&eacute;r&eacute;s &uacute;jraenged&eacute;lyez&eacute;s&eacute;nek &aacute;llapot&aacute;t. Kattintson a Hozz&aacute;f&eacute;r&eacute;s &uacute;jraenged&eacute;lyez&eacute;si &aacute;llapota elemre az egyes felhaszn&aacute;l&oacute;k &uacute;jraenged&eacute;lyez&eacute;si &aacute;llapot&aacute;nak megtekint&eacute;s&eacute;hez. </p>
+  <P> <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Ugr&aacute;s az oldal tetej&eacute;re"></A></P>
+  <H3><a name="admin"></a>iFolder rendszergazd&aacute;k</H3>
+<P>Az iFolder v&aacute;llalati kiszolg&aacute;l&oacute; elsődleges rendszergazd&aacute;ja az iFolder rendszergazdai felhaszn&aacute;l&oacute;. Amikor az iFolder mapp&aacute;k el&aacute;rvulnak, az iFolder rendszergazdai felhaszn&aacute;l&oacute; lesz a tulajdonos addig, am&iacute;g a mapp&aacute;t m&aacute;s felhaszn&aacute;l&oacute;hoz nem rendelik, vagy ki nem t&ouml;rlik. Az iFolder rendszergazdai felhaszn&aacute;l&oacute;t az iFolder v&aacute;llalati kiszolg&aacute;l&oacute; konfigur&aacute;l&aacute;sa sor&aacute;n lehet megadni a YaST eszk&ouml;zben. </P>
+  <P>Ahhoz, hogy az iFolder rendszergazdai felhaszn&aacute;l&oacute; fel&uuml;gyeleti feladatokat tudjon v&eacute;grehajtani, hozz&aacute;f&eacute;r&eacute;s&eacute;nek enged&eacute;lyezettnek kell lennie. Az iFolder rendszer ezt a felhaszn&aacute;l&oacute;t az LDAP-objektum GUID azonos&iacute;t&oacute;ja alapj&aacute;n k&ouml;veti nyomon, amely a fastrukt&uacute;r&aacute;ban szereplő b&aacute;rmelyik LDAP-kont&eacute;nerhez tartozhat, m&eacute;g a keres&eacute;si megk&uuml;l&ouml;nb&ouml;ztető n&eacute;vk&eacute;nt nem azonos&iacute;tottakhoz is. A felhaszn&aacute;l&oacute; f&aacute;ban val&oacute; mozg&aacute;s&aacute;t k&ouml;vetni lehet, mert ezt a GUID ismeri, nem a felhaszn&aacute;l&oacute; DN-je.</P>
+  <P>Az iFolder rendszergazdai jogosults&aacute;got m&aacute;s felhaszn&aacute;l&oacute;hoz is hozz&aacute; lehet rendelni, hogy a kiv&aacute;lasztott kiszolg&aacute;l&oacute;n ők is kezelhess&eacute;k az iFolder szolg&aacute;ltat&aacute;sokat. Csak azok a felhaszn&aacute;l&oacute;k lehetnek egyenlők az iFolder rendszergazdai felhaszn&aacute;l&oacute;val, akik az LDAP keres&eacute;si DN-ben megadott egyik DN-ben vannak.</P>
+  <P>Ha m&aacute;s felhaszn&aacute;l&oacute;khoz rendel iFolder rendszergazdai jogokat, akkor őket a felhaszn&aacute;l&oacute;jegyz&eacute;k &eacute;s a Keres&eacute;si DN k&ouml;zti kapcsolat szab&aacute;lyozza. Ha kit&ouml;rli a felhaszn&aacute;l&oacute;t, elt&aacute;vol&iacute;tja a felhaszn&aacute;l&oacute; DN-j&eacute;t a keres&eacute;si DN-ek list&aacute;j&aacute;b&oacute;l, vagy a felhaszn&aacute;l&oacute;t olyan DN-be mozgatja, amely nincs a keres&eacute;si DN-ek k&ouml;z&ouml;tt, akkor a felhaszn&aacute;l&oacute; el lesz t&aacute;vol&iacute;tva a felhaszn&aacute;l&oacute;jegyz&eacute;kből, &eacute;s elveszti iFolder rendszergazdai jogait.</P>
+  <P><span style="FONT-FAMILY: Arial">Az iFolder-rendszergazda vagy az elsődleges rendszergazda hozza l&eacute;tre a m&aacute;sodlagos rendszergazd&aacute;t, &eacute;s rendeli hozz&aacute; a csoportokat.</span></P><P><font size="-1"><b>FONTOS:</b> Rendszergazdai jogot nem rendelhet LDAP-csoporthoz.</font></P>
+  <P><span style="FONT-FAMILY: Arial">A Rendszer lapon az Elsődleges &eacute;s a M&aacute;sodlagos rendszergazda felirat&uacute; f&uuml;lek l&aacute;that&oacute;k. Az al&aacute;bbi param&eacute;tereket mindk&eacute;t lapon megtal&aacute;lja:</span></P>
+	<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Param&eacute;ter</P></TD><TD CLASS="tablehead2"><P>Le&iacute;r&aacute;s</P></TD></TR>
       <TR><TD VALIGN="TOP">
-        <P>Type</P>
+        <P>T&iacute;pus</P>
       </TD>
       <TD> 
-        <P>Displays the Admin user icon.</P>
+        <P>A Rendszergazdai felhaszn&aacute;l&oacute; ikont jelen&iacute;ti meg.</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>User Name</P>
+        <P>Felhaszn&aacute;l&oacute;n&eacute;v</P>
       </TD>
       <TD> 
-        <P>The username assigned to the Admin user account, such as jsmith or 
-          john.smith@example.com.</P>
+        <P>A rendszergazdai felhaszn&aacute;l&oacute; fi&oacute;kj&aacute;hoz rendelt felhaszn&aacute;l&oacute;n&eacute;v, p&eacute;ld&aacute;ul jkovacs vagy janos.kovacs@pelda.com.</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Full Name</P>
+        <P>Teljes n&eacute;v</P>
       </TD>
       <TD> 
-        <P>The first and last name of the Admin user account. </P>
+        <P>A rendszergazdai felhaszn&aacute;l&oacute;i fi&oacute;k ut&oacute;neve &eacute;s vezet&eacute;kneve. </P>
 		
       </TD><TR></TR></TABLE>
 
-  <P>To view or edit admin user details, click the Admin user link to open the 
-    User Details page. The User Details page displays the iFolders owned or shared 
-    by the Admin user. Click the All tab to list all the iFolders, both owned 
-    and shared. To view the iFolder owned by the user, click the Owned tab. Shared 
-    tab lists all the shared iFolders for this particular user account. You can 
-    also use the User Details page to change the policy settings for the selected 
-    Admin user.</P>
-  <H4>Adding and Deleting the iFolder Admin</H4>
+  <h5><span style="FONT-FAMILY: Arial">Az elsődleges rendszergazda</span></h5>
+
+  <P>Az <span style="FONT-FAMILY: Arial">elsődleges rendszergazda</span> adatainak megtekint&eacute;s&eacute;hez vagy szerkeszt&eacute;s&eacute;hez<span style="FONT-FAMILY: Arial"> kattintson az <i>Elsődleges rendszergazda</i> f&uuml;lre, majd</span><span style="COLOR: black; FONT-FAMILY: Arial"> </span> a Rendszergazda felhaszn&aacute;l&oacute; hivatkoz&aacute;sra kattintva nyissa meg a Felhaszn&aacute;l&oacute; adatai lapot. A Felhaszn&aacute;l&oacute; adatai lap megjelen&iacute;ti a rendszergazdai felhaszn&aacute;l&oacute; tulajdon&aacute;ban l&eacute;vő vagy vele megosztott iFolder mapp&aacute;kat. Az &ouml;sszes &ndash; tulajdonolt &eacute;s megosztott &ndash; iFolder mappa list&aacute;j&aacute;nak megjelen&iacute;t&eacute;s&eacute;hez kattintson a Mind f&uuml;lre. A felhaszn&aacute;l&oacute; tulajdon&aacute;ban l&eacute;vő iFolder mapp&aacute;k megtekint&eacute;s&eacute;hez kattintson a Tulajdonos f&uuml;lre. A Megosztva lap az adott felhaszn&aacute;l&oacute;i fi&oacute;khoz tartoz&oacute; &ouml;sszes megosztott iFolder mappa felsorol&aacute;s&aacute;t adja meg. A Felhaszn&aacute;l&oacute; adatai lapot haszn&aacute;lhatja a kijel&ouml;lt rendszergazdai felhaszn&aacute;l&oacute;ra vonatkoz&oacute; h&aacute;zirend-be&aacute;ll&iacute;t&aacute;sok m&oacute;dos&iacute;t&aacute;s&aacute;ra is.</P>
+  <H4>Az iFolder rendszergazda hozz&aacute;ad&aacute;sa &eacute;s elt&aacute;vol&iacute;t&aacute;sa</H4>
   <br>
 		
   <OL>
     <LI> 
-      <P>Locate the Admin user you want to manage, then select the check box next 
-        to it.</P>
+      <P>Keresse meg a kezelni k&iacute;v&aacute;nt rendszergazdai felhaszn&aacute;l&oacute;t, majd jel&ouml;lje be a mellette levő jel&ouml;lőn&eacute;gyzetet.</P>
     </LI>
     <ul><LI> 
-        <P>Click Delete to delete the selected Admin user.</P>
-	  <P>If you 
-delete the iFolder Admin right from the username you used to log in to the server, 
-you are immediately disconnected. You must log in to the iFolder server under 
-a different username with the iFolder Admin right to continue managing the server. 
+        <P>A kijel&ouml;lt rendszergazdai felhaszn&aacute;l&oacute; t&ouml;rl&eacute;s&eacute;hez kattintson a T&ouml;rl&eacute;s gombra.</P>
+	  <P>Ha annak a felhaszn&aacute;l&oacute;n&eacute;vnek az iFolder rendszergazdai jogosults&aacute;g&aacute;t t&ouml;rli, amellyel be van jelentkezve a kiszolg&aacute;l&oacute;ra, akkor a kapcsolat azonnal megszakad. Ahhoz, hogy folytathassa a kiszolg&aacute;l&oacute; kezel&eacute;s&eacute;t, be kell l&eacute;pnie egy m&aacute;sik olyan felhaszn&aacute;l&oacute;n&eacute;vvel, amelyhez tartozik iFolder rendszergazdai felhaszn&aacute;l&oacute; jogosults&aacute;g. 
 </P>
-        <P><font size="-1"><b>IMPORTANT:</b> You cannot delete the Admin user 
-          configured during Simias server setup.</font></P>
+        <P><font size="-1"><b>FONTOS:</b> A Simias kiszolg&aacute;l&oacute; telep&iacute;t&eacute;se sor&aacute;n konfigur&aacute;lt rendszergazdai felhaszn&aacute;l&oacute;t nem lehet t&ouml;r&ouml;lni.</font></P>
     <LI> 
-        <P>Click Add to open a list of iFolder users.</P>
-        <P>Locate the user you want to add as Admin, then select the check box 
-          next to it and click Add.</P>
-      <P>You can assign the iFolder Admin right to multiple users.</P>
+        <P>Az iFolder felhaszn&aacute;l&oacute;k list&aacute;j&aacute;nak megnyit&aacute;s&aacute;hoz kattintson a Hozz&aacute;ad&aacute;s gombra.</P>
+        <P>Keresse meg a rendszergazdak&eacute;nt hozz&aacute;adni k&iacute;v&aacute;nt felhaszn&aacute;l&oacute;t, jel&ouml;lje be a mellette levő jel&ouml;lőn&eacute;gyzetet, &eacute;s kattintson a Hozz&aacute;ad&aacute;s gombra.</P>
+      <P>Az iFolder mappa rendszergazdai jog&aacute;t t&ouml;bb felhaszn&aacute;l&oacute;hoz is hozz&aacute; lehet rendelni.</P>
     </LI></ul>
   </OL>
-<P> <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P>
-  <H3><A NAME="policy"></A>Policies</H3>
+<P> <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Ugr&aacute;s az oldal tetej&eacute;re"></A></P>
+  <H3><A NAME="policy"></A>H&aacute;zirendek</H3>
       
-  <p> The following table lists the system policies you can manage for any given 
-    iFolder System. Click Save to apply the modifications:</p>
+  <p> A k&ouml;vetkező t&aacute;bl&aacute;zat sorolja fel a b&aacute;rmely iFolder rendszerre vonatkoz&oacute;an kezelhető rendszerh&aacute;zirendeket. A m&oacute;dos&iacute;t&aacute;sok alkalmaz&aacute;s&aacute;hoz kattintson a Ment&eacute;s gombra:</p>
 	
  
-<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR>
+<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Param&eacute;ter</P></TD><TD CLASS="tablehead2"><P>Le&iacute;r&aacute;s</P></TD></TR>
 <TR>
       <TD VALIGN="TOP"> 
-        <h4> iFolder per users</h4>
+        <h4> iFolder mapp&aacute;k felhaszn&aacute;l&oacute;nk&eacute;nti sz&aacute;ma</h4>
       </TD>
       <TD> 
-        <P>Specifies the maximum number of iFolders allowed per user. After you 
-          apply this policy, each user is limited to owning a certain number of 
-          iFolders. The users who exceed the limit receive an error message about 
-          the policy violation. If the limit is zero, users cannot create any 
-          iFolders.</P>
+        <P>Az egy felhaszn&aacute;l&oacute; sz&aacute;m&aacute;ra enged&eacute;lyezett iFolder mapp&aacute;k maxim&aacute;lis sz&aacute;m&aacute;t hat&aacute;rozza meg. A h&aacute;zirend alkalmaz&aacute;s&aacute;t k&ouml;vetően minden felhaszn&aacute;l&oacute;nak csak korl&aacute;tozott sz&aacute;m&uacute; iFolder mapp&aacute;ja lehet. A hat&aacute;r&eacute;rt&eacute;ket meghalad&oacute; felhaszn&aacute;l&oacute;k hiba&uuml;zenetet kapnak, amely &eacute;rtes&iacute;ti őket a h&aacute;zirend megs&eacute;rt&eacute;s&eacute;ről. Ha a hat&aacute;r&eacute;rt&eacute;k nulla, a felhaszn&aacute;l&oacute;k egyetlen iFolder mapp&aacute;t sem hozhatnak l&eacute;tre.</P>
              
-        <P>The policy setting does not affect the number of iFolders a user already 
-          owns. If the number of iFolders owned by a user already exceeds the 
-          limit that you set, he or she can still own those iFolders. </P>
+        <P>A h&aacute;zirend be&aacute;ll&iacute;t&aacute;sa nem befoly&aacute;solja azoknak az iFolder mapp&aacute;knak a sz&aacute;m&aacute;t, amelyek m&aacute;r megvannak a felhaszn&aacute;l&oacute;nak. Ha a felhaszn&aacute;l&oacute; birtok&aacute;ban l&eacute;vő iFolder mapp&aacute;k sz&aacute;ma meghaladja a be&aacute;ll&iacute;tott hat&aacute;r&eacute;rt&eacute;ket, a felhaszn&aacute;l&oacute;nak tov&aacute;bbra is megmaradhatnak ezek az iFolder mapp&aacute;i. </P>
         </TD></TR><TR><TD VALIGN="TOP">
-        <h4>Disk Quota</h4>
+        <h4>Lemezkv&oacute;ta</h4>
       </TD>
       <TD> 
-        <p>Specifies the maximum space that a iFolder system is allowed to use. 
-          System-wide settings supersede user policies.</p>
-		  <P>Deselect the check box to disable a system-wide quota.</P>
-        <P>Select the check box to enable a system-wide quota, then specify the 
-          total space quota (in MB) for a user's account. </P>
-        <P>If you enable a system-wide quota that is less than a user's 
-          current total space for iFolder data, the users's quotas data stops 
-          synchronizing until the data is decreased below the limit or until the 
-          quota is increased to a value that is larger than the user's total 
-          space consumed.</P>
-        <P>Enabling or modifying the system-wide quota does not affect existing 
-          individual user quotas. Any existing user quota always overrides a system-wide 
-          quota, whether the user quota is lower or higher than the system-wide 
-          quota.</P>
-        <P>Default value: Disabled, No limit</P>
+        <p>Megadja a maxim&aacute;lis t&aacute;rter&uuml;letet, amelyet az egyes iFolder rendszerek lefoglalhatnak. A rendszerszintű be&aacute;ll&iacute;t&aacute;sok fel&uuml;lb&iacute;r&aacute;lj&aacute;k a felhaszn&aacute;l&oacute;i h&aacute;zirendeket.</p>
+		  <P>T&ouml;r&ouml;lje a jelet a jel&ouml;lőn&eacute;gyzetből, ha ki szeretn&eacute; kapcsolni a rendszerszintű kv&oacute;t&aacute;t.</P>
+        <P>Jel&ouml;lje be a jel&ouml;lőn&eacute;gyzetet, ha be szeretn&eacute; kapcsolni a rendszerszintű kv&oacute;t&aacute;t, majd adja meg a teljes ter&uuml;letkv&oacute;t&aacute;t a kiv&aacute;lasztott felhaszn&aacute;l&oacute;i fi&oacute;kra (MB-ban). </P>
+        <P>Ha olyan rendszerszintű kv&oacute;t&aacute;t ad meg, amely kisebb, mint a felhaszn&aacute;l&oacute; jelenlegi iFolder adatainak teljes ter&uuml;lete, akkor a felhaszn&aacute;l&oacute; adatainak szinkroniz&aacute;l&aacute;sa nem folytat&oacute;dik mindaddig, am&iacute;g az adatok mennyis&eacute;ge a korl&aacute;t al&aacute; nem ker&uuml;l, vagy a kv&oacute;t&aacute;t magasabbra nem &aacute;ll&iacute;tj&aacute;k, mint a felhaszn&aacute;l&oacute; &aacute;ltal elfoglalt teljes t&aacute;rter&uuml;let.</P>
+        <P>A rendszerszintű kv&oacute;ta bekapcsol&aacute;sa vagy m&oacute;dos&iacute;t&aacute;sa nem befoly&aacute;solja a m&aacute;r megl&eacute;vő egyedi felhaszn&aacute;l&oacute;i kv&oacute;t&aacute;kat. Az &ouml;sszes m&aacute;r megl&eacute;vő felhaszn&aacute;l&oacute;i kv&oacute;ta fel&uuml;lb&iacute;r&aacute;lja a rendszerkv&oacute;t&aacute;t, att&oacute;l f&uuml;ggetlen&uuml;l, hogy a felhaszn&aacute;l&oacute;i vagy a rendszerkv&oacute;ta-e a nagyobb.</P>
+        <P>Alap&eacute;rtelmezett &eacute;rt&eacute;k: Letiltva, nincs korl&aacute;toz&aacute;s</P>
         </TD></TR>
   <TR><TD VALIGN="TOP">
-        <h4>File Size</h4>
+        <h4>F&aacute;jlm&eacute;ret</h4>
       </TD>
-      <TD> <P>Specifies 
-the maximum file size that can be synchronized.</P>
-    <P>If a quota is specified, the effective maximum file size limit is the same as the quota. </P>
-       <P>Deselect the check box to disable the Maximum File Size Limit policy. If the policy is disabled, the value is reported as No Limit.</P>
-          <P>              Select the check box to enable the Maximum File Size Limit policy, then specify the maximum allowed file size in MB.</P>
-          <P>              If a quota is specified, the default maximum file size limit is the same as the quota.</P>
-          <P>              Consider the following demands on your system to determine an appropriate file size limit for iFolders in your environment:</P>
-            <ul><li><p>Intended use               
+      <TD> <P>Megadja a maxim&aacute;lisan szinkroniz&aacute;lhat&oacute; f&aacute;jlm&eacute;retet.</P>
+    <P>Ha meg van adva kv&oacute;ta, akkor a maxim&aacute;lis f&aacute;jlm&eacute;ret korl&aacute;tja megegyezik a kv&oacute;t&aacute;val. </P>
+       <P>T&ouml;r&ouml;lje a jelet a jel&ouml;lőn&eacute;gyzetből, ha ki szeretn&eacute; kapcsolni a Maxim&aacute;lis f&aacute;jlm&eacute;ret korl&aacute;toz&aacute;sa h&aacute;zirendet. Ha a h&aacute;zirend ki van kapcsolva, akkor a megjelen&iacute;tett &eacute;rt&eacute;k: Nincs korl&aacute;t.</P>
+          <P>              Jel&ouml;lje be a jel&ouml;lőn&eacute;gyzetet, ha be szeretn&eacute; kapcsolni a Maxim&aacute;lis f&aacute;jlm&eacute;ret korl&aacute;toz&aacute;sa h&aacute;zirendet, majd adja meg a maxim&aacute;lisan enged&eacute;lyezett f&aacute;jlm&eacute;retet MB-ban.</P>
+          <P>              Ha meg van adva kv&oacute;ta, akkor az alap&eacute;rtelmezett maxim&aacute;lis f&aacute;jlm&eacute;ret korl&aacute;tja megegyezik a kv&oacute;t&aacute;val.</P>
+          <P>              Vegye figyelembe a rendszerterhel&eacute;s al&aacute;bbi szempontjait annak meg&aacute;llap&iacute;t&aacute;s&aacute;hoz, hogy az adott k&ouml;rnyezetben mi a megfelelő f&aacute;jlm&eacute;retkorl&aacute;t.</P>
+            <ul><li><p>Tervezett haszn&aacute;lat               
             </p></li>
 			<li>
-            <p>How often the largest files are modified</p></li>
-                 <li> <p>How the applications that use the largest files actually save changes to the file (whole file or deltas)</p>
-                 </li><li><p>How frequently the files are synchronized by each member</p>
-                  </li><li><p>How many users share an iFolder</p>
-                  </li><li><p>Whether users access iFolder on the local network or across WAN or Internet connection</p>
-                 </li><li> <p>The average and peak available bandwidth</p>
+            <p>A legnagyobb f&aacute;jlokat milyen gyakran m&oacute;dos&iacute;tj&aacute;k</p></li>
+                 <li> <p>A legnagyobb f&aacute;jlokat haszn&aacute;l&oacute; alkalmaz&aacute;sok milyen m&oacute;don mentik el a v&aacute;ltoztat&aacute;sokat a f&aacute;jlba (teljes f&aacute;jl vagy k&uuml;l&ouml;nb&ouml;zetek)</p>
+                 </li><li><p>Az egyes tagok milyen gyakran szinkroniz&aacute;lj&aacute;k a f&aacute;jlokat</p>
+                  </li><li><p>H&aacute;ny felhaszn&aacute;l&oacute; oszt meg egy iFolder mapp&aacute;t</p>
+                  </li><li><p>A felhaszn&aacute;l&oacute;k a helyi h&aacute;l&oacute;zaton vagy WAN vagy internet-kapcsolaton kereszt&uuml;l f&eacute;rnek-e hozz&aacute; az iFolder mapp&aacute;hoz</p>
+                 </li><li> <p>Az el&eacute;rhető s&aacute;vsz&eacute;less&eacute;g &aacute;tlaga &eacute;s cs&uacute;cs&eacute;rt&eacute;ke</p>
 				 </li></ul>
               
-        <p> Even if you set a very large value as a file size limit and if there 
-          is no quota to limit file sizes, the practical limit is governed by 
-          the file system on the user's computer. For example, FAT32 volumes have 
-          a maximum file size of 4 GB minus 1 byte. </p>
+        <p> M&eacute;g ha a f&aacute;jlkorl&aacute;t m&eacute;ret&eacute;nek nagyon nagy &eacute;rt&eacute;ket ad is, &eacute;s nincs kv&oacute;ta a f&aacute;jlm&eacute;ret korl&aacute;toz&aacute;s&aacute;ra, a gyakorlati korl&aacute;tot a felhaszn&aacute;l&oacute; sz&aacute;m&iacute;t&oacute;g&eacute;p&eacute;n l&eacute;vő f&aacute;jlrendszer szab&aacute;lyozza.  FAT32 k&ouml;teteken p&eacute;ld&aacute;ul a maxim&aacute;lis f&aacute;jlm&eacute;ret 4 GB m&iacute;nusz 1 b&aacute;jt. </p>
                 
-        <p>Default value: Disabled, No limit</p>   
+        <p>Alap&eacute;rtelmezett &eacute;rt&eacute;k: Letiltva, nincs korl&aacute;toz&aacute;s</p>   
       </TD></TR>
   <TR>
       <TD VALIGN="TOP"> 
-        <h4>Excluded Files</h4>
+        <h4>Kiz&aacute;rt f&aacute;jlok</h4>
       </TD>
       <TD> 
         
 		  
-        <P>Specify whether to restrict file types that are synchronized by exclusion 
-          filters. </P>
-            <P>Type a file extension, then click Add to add it to the list. </P>
+        <P>Adja meg, hogy korl&aacute;tozza-e a szinkroniz&aacute;land&oacute; f&aacute;jlt&iacute;pusokat kiz&aacute;r&oacute; szűrők seg&iacute;ts&eacute;g&eacute;vel. </P>
+            <P>&Iacute;rjon be egy f&aacute;jlkiterjeszt&eacute;st, majd kattintson a Hozz&aacute;ad&aacute;s gombra, ekkor a list&aacute;ra ker&uuml;l. </P>
         </TD></TR>
 	
 	<TR><TD VALIGN="TOP">
-        <h4> Synchronization </h4>
+        <h4> Szinkroniz&aacute;l&aacute;s </h4>
       </TD><TD>
-	    <p>Specifies the minimum synchronization interval in minutes.</P>
-        <P>If this option is enabled, specifies the minimum interval for synchronizing 
-          iFolder data for each user account. Larger values are more restrictive. 
+	    <p>Megadja a minim&aacute;lis szinkroniz&aacute;l&aacute;si idők&ouml;zt percben.</P>
+        <P>Ha be van kapcsolva, akkor megadja a szinkroniz&aacute;l&aacute;s minim&aacute;lis idők&ouml;z&eacute;t az egyes felhaszn&aacute;l&oacute;i fi&oacute;kokhoz.  A nagyobb &eacute;rt&eacute;kek erősebb megszor&iacute;t&aacute;st jelentenek. 
         </P>    
-        <P>If the option is disabled, the default value is 5 minutes.</P>
+        <P>Ha a lehetős&eacute;g ki van kapcsolva, akkor az alap&eacute;rtelmezett &eacute;rt&eacute;k 5 perc.</P>
         </TD></TR>
   <TR><TD VALIGN="TOP">
-        <h4>Encryption</h4>
+        <h4>Titkos&iacute;t&aacute;s</h4>
       </TD>
       <TD> 
-        <P>Specifies the encryption policy for the iFolder system. System-wide 
-          settings supersede user policies.</P>
-		<B>On</B><BR>
-        Select <i>On</i> to enable the encryption feature for the iFolder system. This 
-        permits a user to set an encryption policy for his or her iFolders.<br>
+        <P>Az iFolder rendszer titkos&iacute;t&aacute;si h&aacute;zirendj&eacute;t hat&aacute;rozza meg. A rendszerszintű be&aacute;ll&iacute;t&aacute;sok fel&uuml;lb&iacute;r&aacute;lj&aacute;k a felhaszn&aacute;l&oacute;i h&aacute;zirendeket.</P>
+		<B>Pontosan</B><BR>
+        V&aacute;lassza a <i>Be</i> lehetős&eacute;get az iFolder rendszer titkos&iacute;t&aacute;s&aacute;nak enged&eacute;lyez&eacute;s&eacute;hez. Ez lehetőv&eacute; teszi a felhaszn&aacute;l&oacute; sz&aacute;m&aacute;ra, hogy iFolder mapp&aacute;hoz titkos&iacute;t&aacute;si h&aacute;zirendet &aacute;ll&iacute;tson be.<br>
         <br>
-        Deselect <i>On</i> to disable the encryption feature for all the users. 
+        T&ouml;r&ouml;lje a jelet a <i>Be</i> lehetős&eacute;g mellől, ha az &ouml;sszes felhaszn&aacute;l&oacute; sz&aacute;m&aacute;ra nem k&iacute;v&aacute;nja enged&eacute;lyezni a titkos&iacute;t&aacute;si funkci&oacute;t. 
         <br>
         	
 		
-        <br><B>Enforced</B><BR>
-        Select Enforced to enable the encryption feature for all the users. When 
-        the encryption policy is set to Enforced, a user cannot change the encryption 
-        settings for his or her iFolders.<br>
+        <br><B>&Eacute;rv&eacute;nyben</B><BR>
+        V&aacute;lassza az &Eacute;rv&eacute;nyben be&aacute;ll&iacute;t&aacute;st, ha a titkos&iacute;t&aacute;st enged&eacute;lyezni k&iacute;v&aacute;nja az &ouml;sszes felhaszn&aacute;l&oacute; sz&aacute;m&aacute;ra. Amikor a titkos&iacute;t&aacute;si h&aacute;zirend be&aacute;ll&iacute;t&aacute;s&aacute;nak &eacute;rt&eacute;ke &Eacute;rv&eacute;nyes&iacute;t&eacute;s, a felhaszn&aacute;l&oacute; nem m&oacute;dos&iacute;thatja a saj&aacute;t iFolder mapp&aacute;ira vonatkoz&oacute; titkos&iacute;t&aacute;si be&aacute;ll&iacute;t&aacute;sokat.<br>
       </TD></TR><TR><TD VALIGN="TOP">
-        <h4> Sharing</h4>
-      </TD><TD> <B>On</B><BR>
-        By default, iFolder sharing is enabled. Deselect On to disable 
-        sharing for the iFolder system. After applying this policy, users of this 
-        iFolder system cannot share their iFolders with others. However, you can 
-        change the policy settings at the user level or at the LDAPGroup level.<br>
+        <h4> Megoszt&aacute;s</h4>
+      </TD><TD> <B>Pontosan</B><BR>
+        Alap&eacute;rtelmez&eacute;s szerint az iFolder mapp&aacute;k megoszt&aacute;sa enged&eacute;lyezve van. T&ouml;r&ouml;lje a jelet a Be lehetős&eacute;g mellől, ha az iFolder rendszer sz&aacute;m&aacute;ra nem k&iacute;v&aacute;nja enged&eacute;lyezni a megoszt&aacute;st. A h&aacute;zirend alkalmaz&aacute;s&aacute;t k&ouml;vetően ennek az iFolder rendszernek a felhaszn&aacute;l&oacute;i nem tudj&aacute;k iFolder mapp&aacute;ikat m&aacute;sokkal megosztani. A h&aacute;zirend be&aacute;ll&iacute;t&aacute;sait azonban a felhaszn&aacute;l&oacute; vagy az LDAP-csoport szintj&eacute;n is lehet m&oacute;dos&iacute;tani.<br>
           <BR>
-        <B>Enforce</B><BR>
-        Select Enforce to enforce the sharing policy you have set for the entire 
-        system. You can enforce both Enable Sharing and Disable Sharing. When 
-        you enforce Disable Sharing, policy settings for sharing at iFolder and 
-        User level are automatically disabled and you are not allowed to change 
-        the settings. However, you are allowed to set the policy for the Revoke 
-        option.<br>
+        <B>&Eacute;rv&eacute;nyes&iacute;t&eacute;s</B><BR>
+        Az &Eacute;rv&eacute;nyes&iacute;t&eacute;s be&aacute;ll&iacute;t&aacute;s haszn&aacute;lat&aacute;val a be&aacute;ll&iacute;tott megoszt&aacute;si h&aacute;zirendet a teljes rendszerben &eacute;rv&eacute;nyes&iacute;theti. A megoszt&aacute;s enged&eacute;lyez&eacute;s&eacute;t &eacute;s letilt&aacute;s&aacute;t egyar&aacute;nt &eacute;rv&eacute;nyes&iacute;theti. Ha a megoszt&aacute;s letilt&aacute;s&aacute;t &eacute;rv&eacute;nyes&iacute;ti, a megoszt&aacute;sra vonatkoz&oacute; h&aacute;zirend-be&aacute;ll&iacute;t&aacute;sok automatikusan letilt&oacute;dnak az iFolder mappa &eacute;s a felhaszn&aacute;l&oacute; szintj&eacute;n, &eacute;s a be&aacute;ll&iacute;t&aacute;sokat nem tudja megv&aacute;ltoztatni. Ugyanakkor a h&aacute;zirendet be&aacute;ll&iacute;thatja a Visszavon&aacute;s lehetős&eacute;gre.<br>
 		<ul>
-          <P><font size="-1"><b>IMPORTANT:</b> You cannot enable this option unless 
-            you set the Sharing option to On.</font></P>
+          <P><font size="-1"><b>FONTOS:</b> Ezt a be&aacute;ll&iacute;t&aacute;st csak akkor tudja enged&eacute;lyezni, ha a Megoszt&aacute;s be&aacute;ll&iacute;t&aacute;s&aacute;t a Be</font> &eacute;rt&eacute;kre &aacute;ll&iacute;totta.</P>
         </ul>
         <BR>
-        <B>Revoke</B><BR>
-        Select Revoke to remove the shared members of all 
-        the iFolders under the iFolder system.<br>
+        <B>Visszavon&aacute;s</B><BR>
+        A Visszavon&aacute;s be&aacute;ll&iacute;t&aacute;ssal az iFolder rendszerben tal&aacute;lhat&oacute; &ouml;sszes iFolder mappa megosztott tagjait elt&aacute;vol&iacute;thatja.<br>
 		
       </TD></TR> 
 
   </TABLE>
 
- <P> <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P>
+ <P> <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Ugr&aacute;s az oldal tetej&eacute;re"></A></P>
 
   
    
 
-<H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Related Topics" align="top"> 
-Related Topics</H4><BLOCKQUOTE class="task1">
-<P ><A HREF="userdetails.html">User Details
-</A><BR><A HREF="ifolderdetails.html">Managing iFolder Details</A><BR><A HREF="servers.html">Managing iFolder Servers
-</A><BR><A HREF="ifolders.html">Managing iFolders</A><BR><A HREF="reports.html#orphan" TARGET="_self">Reports
-</A></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P><P>&nbsp;</P><P CLASS="copyright">A 
-trademark symbol (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP>, 
-etc.) denotes a Novell trademark. An asterisk (*) denotes a third-party trademark. 
-For more information, see <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Legal 
-Notices</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
+  <h3>A m&aacute;sodlagos rendszergazda</h3>
+  <p><span style="font-family:Arial;">A M&aacute;sodlagos rendszergazda f&uuml;l&ouml;n adhatja hozz&aacute;, bőv&iacute;theti vagy t&ouml;r&ouml;lheti a m&aacute;sodlagos rendszergazda adatait. </span></p>
+  <p><span style="font-family:Arial;">&Uacute;j m&aacute;sodlagos rendszergazda hozz&aacute;ad&aacute;s&aacute;nak menete:</span></p>
+  <ol>
+    <li><font face="Arial">Az iFolder-felhaszn&aacute;l&oacute;k list&aacute;j&aacute;nak megjelen&iacute;t&eacute;s&eacute;hez kattintson a <i>M&aacute;sodlagos rendszergazda</i> f&uuml;lre, majd a <i>Hozz&aacute;ad&aacute;s</i> gombra.</font></li>
+    <li><font face="Arial">V&aacute;lassza ki a m&aacute;sodlagos rendszergazdak&eacute;nt kijel&ouml;lni k&iacute;v&aacute;nt felhaszn&aacute;l&oacute;t, &eacute;s kattintson a <i>Tov&aacute;bb</i> gombra.</font></li>
+    <li><font face="Arial">Ha a m&aacute;sodlagos rendszergazd&aacute;hoz hozz&aacute; szeretne rendelni egy csoportot, a <i>Csoport kiv&aacute;laszt&aacute;sa</i> list&aacute;b&oacute;l v&aacute;lasszon egy be&aacute;ll&iacute;t&aacute;st. Ha a kiv&aacute;lasztott csoport sz&aacute;m&aacute;ra be&aacute;ll&iacute;tott &ouml;sszes&iacute;tett lemezkv&oacute;ta korl&aacute;tozott, akkor az <i>&Ouml;sszes&iacute;tett lemezkv&oacute;takorl&aacute;t be&aacute;ll&iacute;t&aacute;sa a teljes csoport sz&aacute;m&aacute;ra</i> mezőben ezt az &eacute;rt&eacute;ket l&aacute;tja. Egy&eacute;b esetekben a mező &uuml;res.</font></li>
+    <li><font face="Arial">&Aacute;ll&iacute;tsa be a m&aacute;sodlagos rendszergazda h&aacute;zirendjogait. </font>
+    <p><font face="Arial">Az al&aacute;bbi t&aacute;bl&aacute;zatban azokat a jogokat l&aacute;tja, amelyeket a m&aacute;sodlagos rendszergazda sz&aacute;m&aacute;ra be&aacute;ll&iacute;that.</font></p>
+	
+ 
+<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Param&eacute;ter</P></TD><TD CLASS="tablehead2"><P>Le&iacute;r&aacute;s</P></TD></TR>
+<TR>
+      <TD VALIGN="TOP"> 
+        <h4><span style="FONT-SIZE: 9.5pt; FONT-FAMILY: Arial">iFolder mappa / felhaszn&aacute;l&oacute; h&aacute;zirend</span></h4>
+        <h4> &nbsp;</h4>
+      </TD>
+      <TD> 
+        <p class="Normal2">
+        <span style="FONT-SIZE: 11pt; COLOR: black; FONT-FAMILY: Arial"> Az egy felhaszn&aacute;l&oacute; sz&aacute;m&aacute;ra enged&eacute;lyezett iFolder mapp&aacute;k maxim&aacute;lis sz&aacute;m&aacute;t hat&aacute;rozza meg. A h&aacute;zirend alkalmaz&aacute;s&aacute;t k&ouml;vetően minden felhaszn&aacute;l&oacute;nak csak korl&aacute;tozott sz&aacute;m&uacute; iFolder mapp&aacute;ja lehet. A hat&aacute;r&eacute;rt&eacute;ket meghalad&oacute; felhaszn&aacute;l&oacute;k hiba&uuml;zenetet kapnak, amely &eacute;rtes&iacute;ti őket a h&aacute;zirend megs&eacute;rt&eacute;s&eacute;ről. Ha a hat&aacute;r&eacute;rt&eacute;k nulla, a felhaszn&aacute;l&oacute;k egyetlen iFolder mapp&aacute;t sem hozhatnak l&eacute;tre.</span></p>
+        <p class="Normal2">
+        <span style="FONT-SIZE: 11pt; FONT-FAMILY: Arial">Ez</span><span style="FONT-SIZE: 11pt; COLOR: black; FONT-FAMILY: Arial"> a h&aacute;zirend-be&aacute;ll&iacute;t&aacute;s nem befoly&aacute;solja a felhaszn&aacute;l&oacute;k m&aacute;r meglevő iFolder mapp&aacute;inak a sz&aacute;m&aacute;t. Ha a felhaszn&aacute;l&oacute; tulajdon&aacute;ban l&eacute;vő iFolder mapp&aacute;k sz&aacute;ma m&aacute;r meghaladja a be&aacute;ll&iacute;tott hat&aacute;r&eacute;rt&eacute;ket, </span><span style="FONT-SIZE: 11pt; FONT-FAMILY: Arial">a felhaszn&aacute;l&oacute; megl&eacute;vő iFolder mapp&aacute;i akkor is megmaradnak</span><span style="FONT-SIZE: 11pt; COLOR: black; FONT-FAMILY: Arial">. </span></p>
+        <p class="Normal2">
+        <span style="FONT-SIZE: 11pt; FONT-FAMILY: Arial">Az iFolder mapp&aacute;k felhaszn&aacute;l&oacute;nk&eacute;nti sz&aacute;m&aacute;t szab&aacute;lyoz&oacute; h&aacute;zirend eset&eacute;ben az <i>Enged&eacute;lyez&eacute;s</i> jel&ouml;lőn&eacute;gyzet alap&eacute;rtelmez&eacute;s szerint be van jel&ouml;lve. Ez azt jelenti, hogy a m&aacute;sodlagos rendszergazd&aacute;nak joga van be&aacute;ll&iacute;tani az iFolder mapp&aacute;k felhaszn&aacute;l&oacute;nk&eacute;nti sz&aacute;m&aacute;t szab&aacute;lyoz&oacute; h&aacute;zirendet a kijel&ouml;lt csoport felhaszn&aacute;l&oacute;i sz&aacute;m&aacute;ra. A jog megvon&aacute;s&aacute;hoz t&ouml;r&ouml;lje a jelet az <i>Enged&eacute;lyez&eacute;s</i> jel&ouml;lőn&eacute;gyzetből.</span></TD></TR><TR><TD VALIGN="TOP">
+        <h4><span style="font-size: 9.5pt; font-family: Arial; color: black">Lemezkv&oacute;ta </span> <span style="font-size: 9.5pt; font-family: Arial; ">h&aacute;zirendje</span></h4>
+      </TD>
+      <TD> 
+        <p class="Normal2">
+        <span style="font-size:11.0pt;font-family:Arial;">Megadja az a maxim&aacute;lis t&aacute;rter&uuml;letet, amelyet az egyes felhaszn&aacute;l&oacute;k lefoglalhatnak.</span></p>
+        <p><span style="font-size: 11.0pt; font-family: Arial; "> A lemezkv&oacute;ta h&aacute;zirendje eset&eacute;ben az <i>Enged&eacute;lyez&eacute;s</i> jel&ouml;lőn&eacute;gyzet alap&eacute;rtelmez&eacute;s szerint be van jel&ouml;lve. Ez azt jelenti, hogy a m&aacute;sodlagos rendszergazd&aacute;nak joga van be&aacute;ll&iacute;tani a lemezkv&oacute;ta-h&aacute;zirendet a kijel&ouml;lt csoport felhaszn&aacute;l&oacute;i sz&aacute;m&aacute;ra. A jog megvon&aacute;s&aacute;hoz t&ouml;r&ouml;lje a jelet az <i>Enged&eacute;lyez&eacute;s</i> jel&ouml;lőn&eacute;gyzetből.</span></p>
+        </TD></TR>
+  <TR><TD VALIGN="TOP">
+        <h4><span style="font-size: 9.5pt; font-family: Arial; color: black">F&aacute;jlm&eacute;ret</span> <span style="font-size: 9.5pt; font-family: Arial; "> h&aacute;zirendje</span></h4>
+      </TD>
+      <TD> 
+      <p class="Normal2">
+      <span style="font-size:11.0pt;font-family:Arial;color:black">Megadja a maxim&aacute;lisan szinkroniz&aacute;lhat&oacute; f&aacute;jlm&eacute;retet.</span></p>
+      <p><span style="font-size: 11.0pt; font-family: Arial; ">A f&aacute;jlm&eacute;ret h&aacute;zirendje eset&eacute;ben az <i>Enged&eacute;lyez&eacute;s</i> jel&ouml;lőn&eacute;gyzet alap&eacute;rtelmez&eacute;s szerint be van jel&ouml;lve. Ez azt jelenti, hogy a m&aacute;sodlagos rendszergazd&aacute;nak joga van be&aacute;ll&iacute;tani a f&aacute;jlm&eacute;ret h&aacute;zirendj&eacute;t a kijel&ouml;lt csoport felhaszn&aacute;l&oacute;i sz&aacute;m&aacute;ra. A jog megvon&aacute;s&aacute;hoz t&ouml;r&ouml;lje a jelet az <i>Enged&eacute;lyez&eacute;s</i> jel&ouml;lőn&eacute;gyzetből.</span></p>
+      </TD></TR>
+  <TR>
+      <TD VALIGN="TOP"> 
+        <h4><span style="font-size: 9.5pt; font-family: Arial; "> Szinkroniz&aacute;l&aacute;si idők&ouml;z h&aacute;zirendje</span></h4>
+      </TD>
+      <TD> 
+        
+		  
+        <p class="Normal2">
+        <span style="font-size:11.0pt;font-family:Arial;color:black">Megadja a minim&aacute;lis szinkroniz&aacute;l&aacute;si idők&ouml;zt percben.</span></p>
+        <p><span style="font-size: 11.0pt; font-family: Arial; "> A szinkroniz&aacute;l&aacute;si idők&ouml;z h&aacute;zirendje eset&eacute;ben az <i>Enged&eacute;lyez&eacute;s</i> jel&ouml;lőn&eacute;gyzet alap&eacute;rtelmez&eacute;s szerint be van jel&ouml;lve. Ez azt jelenti, hogy a m&aacute;sodlagos rendszergazd&aacute;nak joga van be&aacute;ll&iacute;tani a szinkroniz&aacute;l&aacute;si idők&ouml;z h&aacute;zirendj&eacute;t a kijel&ouml;lt csoport felhaszn&aacute;l&oacute;i sz&aacute;m&aacute;ra. A jog megvon&aacute;s&aacute;hoz t&ouml;r&ouml;lje a jelet az <i>Enged&eacute;lyez&eacute;s</i> jel&ouml;lőn&eacute;gyzetből.</span></TD></TR>
+	
+	<TR><TD VALIGN="TOP">
+        <h4> <span style="font-size: 9.5pt; font-family: Arial; color: black"> Kiz&aacute;rt f&aacute;jlok </span> <span style="font-size: 9.5pt; font-family: Arial; ">list&aacute;ja h&aacute;zirend</span></h4>
+      </TD><TD>
+	    <p class="Normal2">
+        <span style="font-size:11.0pt;font-family:Arial;">Megadja a szinkroniz&aacute;l&aacute;sb&oacute;l kimarad&oacute; f&aacute;jlt&iacute;pusokat. </span></p>
+        <p><span style="font-size: 11.0pt; font-family: Arial; "> A Kiz&aacute;rt f&aacute;jlok list&aacute;ja h&aacute;zirend eset&eacute;ben az <i>Enged&eacute;lyez&eacute;s</i> jel&ouml;lőn&eacute;gyzet alap&eacute;rtelmez&eacute;s szerint be van jel&ouml;lve. Ez azt jelenti, hogy a m&aacute;sodlagos rendszergazd&aacute;nak joga van be&aacute;ll&iacute;tani a Kiz&aacute;rt f&aacute;jlok list&aacute;ja h&aacute;zirendet a kijel&ouml;lt csoport felhaszn&aacute;l&oacute;i sz&aacute;m&aacute;ra. A jog megvon&aacute;s&aacute;hoz t&ouml;r&ouml;lje a jelet az <i>Enged&eacute;lyez&eacute;s</i> jel&ouml;lőn&eacute;gyzetből.</span></TD></TR>
+  <TR><TD VALIGN="TOP">
+        <h4><span style="font-size: 9.5pt; font-family: Arial; "> Megoszt&aacute;s</span></h4>
+      </TD>
+      <TD> 
+        <p class="Normal2">
+        <span style="font-size:11.0pt;font-family:Arial;">Megadja, hogy az iFolder mapp&aacute;k megoszthat&oacute;k-e a felhaszn&aacute;l&oacute;k k&ouml;z&ouml;tt.</span></p>
+        <p><span style="font-size: 11.0pt; font-family: Arial; "> A megoszt&aacute;si h&aacute;zirend eset&eacute;ben a <i>Megoszt&aacute;si h&aacute;zirend m&oacute;dos&iacute;t&aacute;s&aacute;nak </i><i>enged&eacute;lyez&eacute;se</i> jel&ouml;lőn&eacute;gyzet alap&eacute;rtelmez&eacute;s szerint be van jel&ouml;lve. Ez azt jelenti, hogy a m&aacute;sodlagos rendszergazd&aacute;nak joga van m&oacute;dos&iacute;tani a megoszt&aacute;si h&aacute;zirendet a kijel&ouml;lt csoport felhaszn&aacute;l&oacute;i sz&aacute;m&aacute;ra. A jog megvon&aacute;s&aacute;hoz t&ouml;r&ouml;lje a jelet az <i>Enged&eacute;lyez&eacute;s</i> jel&ouml;lőn&eacute;gyzetből.</span><br>
+      </TD></TR><TR><TD VALIGN="TOP">
+        <h4> <span style="font-size: 9.5pt; font-family: Arial; "> Titkos&iacute;t&aacute;si h&aacute;zirend</span></h4>
+      </TD><TD> 
+    <p class="Normal2">
+    <span style="font-size:11.0pt;font-family:Arial;">Az iFolder rendszer titkos&iacute;t&aacute;si h&aacute;zirendj&eacute;t hat&aacute;rozza meg. </span></p>
+    <p class="Normal2">
+    <span style="font-size: 11.0pt; font-family: Arial; ">A titkos&iacute;t&aacute;si h&aacute;zirend eset&eacute;ben a <i>Titkos&iacute;t&aacute;si h&aacute;zirend m&oacute;dos&iacute;t&aacute;s&aacute;nak</i> <i>enged&eacute;lyez&eacute;se</i> jel&ouml;lőn&eacute;gyzet alap&eacute;rtelmez&eacute;s szerint be van jel&ouml;lve. Ez azt jelenti, hogy a m&aacute;sodlagos rendszergazd&aacute;nak joga van m&oacute;dos&iacute;tani a titkos&iacute;t&aacute;si h&aacute;zirendet a kijel&ouml;lt csoport felhaszn&aacute;l&oacute;i sz&aacute;m&aacute;ra. A jog megvon&aacute;s&aacute;hoz t&ouml;r&ouml;lje a jelet az <i>Enged&eacute;lyez&eacute;s</i> jel&ouml;lőn&eacute;gyzetből.</span><br>
+		
+      </TD></TR> 
+
+  <TR><TD VALIGN="TOP">
+        <span style="font-size: 9.5pt; font-family: Arial; font-weight:700"> Jogosults&aacute;g-kezel&eacute;si jogok</span></TD><TD> 
+    <p class="Normal2">
+    <span style="font-size:11.0pt;font-family:Arial;">Meghat&aacute;rozza, hogy a m&aacute;sodlagos rendszergazda milyen hozz&aacute;f&eacute;r&eacute;st enged&eacute;lyezhet m&aacute;soknak.</span></p>
+    <p class="Normal2">
+    <span style="font-size:11.0pt;font-family:Arial;">Alap&eacute;rtelmez&eacute;s szerint a <i>Felhaszn&aacute;l&oacute;i jogosults&aacute;gkezel&eacute;s enged&eacute;lyez&eacute;se</i> jel&ouml;lőn&eacute;gyzet be van jel&ouml;lve. Ez azt jelenti, hogy a m&aacute;sodlagos rendszergazda az iFolder t&ouml;bbkiszolg&aacute;l&oacute;s k&ouml;rnyezet&eacute;ben b&aacute;rmelyik kiszolg&aacute;l&oacute;hoz hozz&aacute;f&eacute;r&eacute;st enged&eacute;lyezhet a kijel&ouml;lt csoport felhaszn&aacute;l&oacute;i sz&aacute;m&aacute;ra. A jog megvon&aacute;s&aacute;hoz t&ouml;r&ouml;lje a jelet a <i>Felhaszn&aacute;l&oacute;i jogosults&aacute;gkezel&eacute;s enged&eacute;lyez&eacute;se</i> jel&ouml;lőn&eacute;gyzetből.</span></p>
+    <p class="Normal2">
+    <span style="font-size: 11.0pt; font-family: Arial; ">A <i>Felhaszn&aacute;l&oacute;k enged&eacute;lyez&eacute;s&eacute;nek/letilt&aacute;s&aacute;nak lehetőv&eacute; t&eacute;tele</i> jel&ouml;lőn&eacute;gyzet haszn&aacute;lat&aacute;val lehetőv&eacute; teheti a m&aacute;sodlagos rendszergazda sz&aacute;m&aacute;ra, hogy enged&eacute;lyezze vagy letiltsa a kijel&ouml;lt csoport felhaszn&aacute;l&oacute;it. Alap&eacute;rtelmez&eacute;s szerint a jel&ouml;lőn&eacute;gyzet be van jel&ouml;lve. A jog megvon&aacute;s&aacute;hoz t&ouml;r&ouml;lje a jelet a <i>Felhaszn&aacute;l&oacute;k enged&eacute;lyez&eacute;s&eacute;nek/letilt&aacute;s&aacute;nak lehetőv&eacute; t&eacute;tele</i> jel&ouml;lőn&eacute;gyzetből.</span></TD></TR> 
+
+  <TR><TD VALIGN="TOP">
+        <span style="font-size: 9.5pt; font-family: Arial; font-weight:700"> iFolder mapp&aacute;kkal kapcsolatos jogok</span></TD><TD> 
+    <p class="Normal2">
+    <span style="font-size:11.0pt;font-family:Arial;">Azt hat&aacute;rozza meg, hogy a m&aacute;sodlagos rendszergazda milyen jogokkal rendelkezik a kijel&ouml;lt csoport felhaszn&aacute;l&oacute;inak tulajdon&aacute;ban l&eacute;vő mapp&aacute;kkal kapcsolatban.</span></p>
+    <p class="Normal2">
+    <span style="font-size:11.0pt;font-family:Arial;">Ha enged&eacute;lyezni szeretn&eacute;, hogy az &aacute;rva iFolder mapp&aacute;k a m&aacute;sodlagos rendszergazda tulajdon&aacute;ba ker&uuml;ljenek, jel&ouml;lje be az <i>&Aacute;rva iFolder mapp&aacute;k tulajdonba v&eacute;tel&eacute;nek enged&eacute;lyez&eacute;se</i> jel&ouml;lőn&eacute;gyzetet. Alap&eacute;rtelmez&eacute;s szerint a jel&ouml;lőn&eacute;gyzet be van jel&ouml;lve. A jog megvon&aacute;s&aacute;hoz t&ouml;r&ouml;lje a jelet a jel&ouml;lőn&eacute;gyzetből.</span></p>
+    <p class="Normal2">
+    <span style="font-size:11.0pt;font-family:Arial;">Az <i>iFolder mapp&aacute;k enged&eacute;lyez&eacute;s&eacute;nek/letilt&aacute;s&aacute;nak lehetőv&eacute; t&eacute;tele</i> jel&ouml;lőn&eacute;gyzet haszn&aacute;lat&aacute;val a m&aacute;sodlagos rendszergazd&aacute;hoz rendelheti a jogot, hogy enged&eacute;lyezze vagy letiltsa a kijel&ouml;lt csoport felhaszn&aacute;l&oacute;inak iFolder mapp&aacute;it. Alap&eacute;rtelmez&eacute;s szerint a jel&ouml;lőn&eacute;gyzet be van jel&ouml;lve. A jog megvon&aacute;s&aacute;hoz t&ouml;r&ouml;lje a jelet az <i>iFolder mapp&aacute;k enged&eacute;lyez&eacute;s&eacute;nek/letilt&aacute;s&aacute;nak lehetőv&eacute; t&eacute;tele</i> jel&ouml;lőn&eacute;gyzetből.</span></p>
+    <p class="Normal2">
+    <span style="font-size: 11.0pt; font-family: Arial; "><i>A megosztott iFolder mappa tagjaira vonatkoz&oacute; jogok m&oacute;dos&iacute;t&aacute;s&aacute;nak enged&eacute;lyez&eacute;se</i> jel&ouml;lőn&eacute;gyzet haszn&aacute;lat&aacute;val a m&aacute;sodlagos rendszergazd&aacute;hoz rendelheti a jogot, hogy a megosztott iFolder mapp&aacute;k tagjainak jogait m&oacute;dos&iacute;tsa. Alap&eacute;rtelmez&eacute;s szerint a jel&ouml;lőn&eacute;gyzet be van jel&ouml;lve. A jog megvon&aacute;s&aacute;hoz t&ouml;r&ouml;lje a jelet <i>A megosztott iFolder mappa tagjaira vonatkoz&oacute; jogok m&oacute;dos&iacute;t&aacute;s&aacute;nak enged&eacute;lyez&eacute;se</i> jel&ouml;lőn&eacute;gyzetből.</span></p>
+    </TD></TR> 
+
+  </TABLE>
+
+    </li>
+  </ol>
+  <p>&nbsp;</p>
+  <ol start="5">
+    <li><span style="font-family:Arial;">A be&aacute;ll&iacute;t&aacute;sok ment&eacute;s&eacute;hez kattintson a <i>Ment&eacute;s</i> gombra.</span></li>
+    <li><span style="font-family:Arial;">A csoport m&aacute;sodlagos rendszergazd&aacute;hoz rendel&eacute;se ut&aacute;n az <i>OK</i> gombra kattintva visszat&eacute;rhet a Rendszerek lapra, az <i>Ism&eacute;tl&eacute;s</i> gombbal pedig tov&aacute;bbi csoportokat rendelhet hozz&aacute; a m&aacute;sodlagos rendszergazd&aacute;hoz.&nbsp;</span></li>
+  </ol>
+  <p><span style="font-family:Arial;">A m&aacute;sodlagos rendszergazda adatainak szerkeszt&eacute;se:</span></p>
+  <ol>
+    <li>
+    <p style="text-indent: -.25in; margin-left: .5in">
+    <span style="font-family: Arial; ">Kattintson a <i>M&aacute;sodlagos</i> f&uuml;lre, &eacute;s megjelennek a m&aacute;sodlagos rendszergazda adatai.</span></li>
+    <li>
+    <p style="text-indent: -.25in; margin-left: .5in">
+    <span style="font-family: Arial; ">V&aacute;lasszon ki egy m&aacute;sodlagos rendszergazd&aacute;t, &eacute;s kattintson a <i>Szerkeszt&eacute;s</i> gombra. Ekkor megjelennek a m&aacute;sodlagos rendszergazda &aacute;ltal figyelt csoportok.</span></li>
+    <li>
+    <p style="text-indent: -.25in; margin-left: .5in" align="left">
+    <span style="font-family: Arial; ">V&aacute;lasszon ki egy csoportot, &eacute;s kattintson a <i>Szerkeszt&eacute;s</i> gombra. Ekkor megjelennek a m&aacute;sodlagos rendszergazda csoporttal kapcsolatos jogai. &Aacute;ll&iacute;tsa be a csoport jogait, &eacute;s a <i>Ment&eacute;s</i> gombra kattintva mentse a v&aacute;ltoztat&aacute;sokat.<br>
+&nbsp;</span></li>
+  </ol>
+  <p><span style="font-family:Arial;">M&aacute;sodlagos rendszergazda t&ouml;rl&eacute;se:</span></p>
+  <ol>
+    <li><font face="Arial">Kattintson a <i>M&aacute;sodlagos</i> f&uuml;lre, &eacute;s megjelennek a m&aacute;sodlagos rendszergazda adatai.</font></li>
+    <li><font face="Arial">V&aacute;lasszon ki egy m&aacute;sodlagos rendszergazd&aacute;t, &eacute;s kattintson a <i>T&ouml;rl&eacute;s</i> gombra. Ekkor megjelennek a m&aacute;sodlagos rendszergazda &aacute;ltal figyelt csoportok.</font></li>
+    <li><font face="Arial">Jel&ouml;lje ki az &ouml;sszes csoportot, &eacute;s kattintson a <i>T&ouml;rl&eacute;s</i> gombra. Ha a m&aacute;sodlagos rendszergazda tulajdon&aacute;ban levő &ouml;sszes csoportot t&ouml;rli, a m&aacute;sodlagos rendszergazda is t&ouml;rlődik.<br>
+&nbsp;</font></li>
+  </ol>
+  <p>&nbsp;</p>
+
+  
+   
+
+<H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Kapcsol&oacute;d&oacute; t&eacute;mak&ouml;r&ouml;k" align="top">&nbsp;Kapcsol&oacute;d&oacute; t&eacute;mak&ouml;r&ouml;k</H4><BLOCKQUOTE class="task1">
+<P ><A HREF="userdetails.html">Felhaszn&aacute;l&oacute; adatai </A><BR><A HREF="ifolderdetails.html">Az iFolder mappa adatainak kezel&eacute;se</A><BR><A HREF="servers.html">Az iFolder kiszolg&aacute;l&oacute;k kezel&eacute;se</A><BR><A HREF="ifolders.html">iFolder mapp&aacute;k kezel&eacute;se</A><BR><A HREF="reports.html#orphan" TARGET="_self">Jelent&eacute;sek </A></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Ugr&aacute;s az oldal tetej&eacute;re"></A></P><P>&nbsp;</P><P CLASS="copyright">A v&eacute;djegyjelek (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP> stb.) a Novell v&eacute;djegyeit jelzik. A csillag (*) karakter harmadik f&eacute;l v&eacute;djegy&eacute;t jel&ouml;li. Tov&aacute;bbi inform&aacute;ci&oacute;k a <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Szerzői jogi megjegyz&eacute;sek c&iacute;mű t&eacute;mak&ouml;rben tal&aacute;lhat&oacute;k</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
 </body>
 
 </html>

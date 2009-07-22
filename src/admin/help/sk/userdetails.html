@@ -1,11 +1,11 @@
 <html>
 
    <head>
-     <meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+     <meta http-equiv="content-type" content="text/html;charset=UTF-8">
      
      <!-- Novell iFolder 3.x iManager Plugin  --> 
    
-     <title>User Details</title>  	 
+     <title>Podrobnosti o použ&iacute;vateľoch</title>  	 
         
      <!-- Metadata -->
    
@@ -28,8 +28,7 @@
        <!--
        
          body           {  font-family: Arial, Helvetica, Geneva;
-									background: white
-url(../../images/helphead_bg.gif) repeat-x 0% 0% }
+									background: white url('../../images/helphead_bg.gif') repeat-x;  }
 		      
          #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px;
 									width: 380px; visibility: visible }
@@ -53,313 +52,235 @@ url(../../images/helphead_bg.gif) repeat-x 0% 0% }
 <!-- This is the start of the Help Banner Layer --> <div id="headgraphic"> <img src="../../images/h1_help.gif" width="380" height="32"   border="0"></div><!-- This is end of the Help Banner Layer --> 
 <!-- This is the start of the Help Content Layer --> 
 <div id="helpcontent" style="left: 13px; top: 35px"> 
-  <H3><A NAME="userdetails"></A>User Details </H3>
-  <P>Use this interface to view user details and manage user policies. </P>
-  <P><B><FONT SIZE="-1">NOTE:</FONT></B> <FONT SIZE="-1">The term <i>iFolder users 
-    </i> refers to both individual users and LDAPGroups.</FONT></P>
-  <BLOCKQUOTE CLASS="blockquote"><P><A HREF="#userdetails" TARGET="_self">User Details</A><BR><A HREF="#ifolders" TARGET="_self">iFolders </A><BR> 
-<A HREF="#policies" TARGET="_self">Policies</A> </P></BLOCKQUOTE>
+  <H3><A NAME="userdetails"></A>Podrobnosti o použ&iacute;vateľoch </H3>
+  <P>Pomocou tohto rozhrania m&ocirc;žete zobraziť podrobnosti o použ&iacute;vateľoch a spravovať z&aacute;sady použ&iacute;vateľov. </P>
+  <P><B><FONT SIZE="-1">POZN&Aacute;MKA.</FONT></B> <FONT SIZE="-1">Term&iacute;n <i>použ&iacute;vatelia aplik&aacute;cie iFolder</i> sa vzťahuje na jednotliv&yacute;ch použ&iacute;vateľov i skupiny LDAP.</FONT></P>
+  <BLOCKQUOTE CLASS="blockquote"><P><A HREF="#userdetails" TARGET="_self">Podrobnosti o použ&iacute;vateľoch</A><BR><A HREF="#ifolders" TARGET="_self">Priečinky iFolder </A><BR> 
+<A HREF="#policies" TARGET="_self">Z&aacute;sady</A> </P></BLOCKQUOTE>
   
-  <h3><a name="userdetails"></a>User Details </h3>
-  <P>The User Details page will display the following user details for the selected 
-    user's iFolder account. </P>
-	<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
-        <P>User Name</P>
+  <h3><a name="userdetails"></a>Podrobnosti o použ&iacute;vateľoch </h3>
+  <P>Str&aacute;nka Podrobnosti o použ&iacute;vateľoch zobraz&iacute; nasleduj&uacute;ce podrobnosti o použ&iacute;vateľovi vybrat&eacute;ho konta aplik&aacute;cie iFolder. </P>
+	<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Popis</P></TD></TR><TR><TD VALIGN="TOP">
+        <P>Meno použ&iacute;vateľa</P>
       </TD>
       <TD> 
-        <P>The username assigned to the user account, such as jsmith or john.smith@example.com.</P>
+        <P>Meno použ&iacute;vateľa, priraden&eacute; ku kontu použ&iacute;vateľa, napr&iacute;klad jsmith alebo  john.smith@napr&iacute;klad.com.</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Full Name</P>
+        <P>Cel&eacute; meno</P>
       </TD>
       <TD> 
-        <P>The first and last name of the user account. </P>
+        <P>Meno a priezvisko použ&iacute;vateľa &uacute;čtu. </P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Member Type</P>       
+        <P>Typ člena</P>       
       </TD>
       <TD> 
-        <P>Shows the member type of the user currently logged in. If the user 
-          is an individual user the interface also display an option for User 
-          Groups. If the user is a member of an LDAPGroup, the interface lists 
-          all the members of the LDAPGroup under the option for Group Members.
+        <P>Zobraz&iacute; typ člena pr&aacute;ve prihl&aacute;sen&eacute;ho použ&iacute;vateľa. Ak ide o jednotliv&eacute;ho použ&iacute;vateľa, rozhranie zobraz&iacute; aj možnosť pre skupiny použ&iacute;vateľov. Ak ide o člena skupiny LDAP, zoznam všetk&yacute;ch členov pr&iacute;slušnej skupiny LDAP sa v rozhran&iacute; zobraz&iacute; pod možnosťou Členovia skupiny.
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>LDAP Context</P>       
+        <P>Kontexty protokolu LDAP</P>       
       </TD>
       <TD> 
-        <P>The LDAP tree context is used for provisioning users in to iFolder. 
+        <P>Kontext stromu LDAP je použit&yacute; na poskytovanie použ&iacute;vateľov aplik&aacute;cii iFolder. 
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>Last Login Time</P>
+        <P>Čas posledn&eacute;ho prihl&aacute;senia</P>
         </TD>
       <TD> 
-        <P>The time when the user last logged in to the iFolder system. 
+        <P>Čas, kedy sa použ&iacute;vateľ naposledy prihl&aacute;sil do syst&eacute;mu aplik&aacute;cie iFolder. 
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>User Groups (applicable only for individual users)</P>       
+        Kv&oacute;ta disku pre skupinu</TD>
+      <TD> 
+        Zobrazuje agregovan&uacute; kv&oacute;tu disku pre skupinu.<p>
+        <b>POZN&Aacute;MKA</b>: Sekund&aacute;rny spr&aacute;vca nem&ocirc;že upravovať kv&oacute;tu disku pre skupinu.</TD></TR><TR><TD VALIGN="TOP">
+        Využit&eacute; miesto na disku</TD>
+      <TD> 
+        Zobrazuje agregovan&yacute; priestor na disku využit&yacute; skupinou.</TD></TR><TR><TD VALIGN="TOP">
+        <P>Skupiny použ&iacute;vateľov (zobrazuje sa iba pre jednotliv&yacute;ch použ&iacute;vateľov)</P>       
       </TD>
       <TD> 
-        <P>Lists all the groups that the selected user belongs to. 
+        <P>Zobrazuje zoznam všetk&yacute;ch skup&iacute;n, do ktor&yacute;ch vybrat&yacute; použ&iacute;vateľ patr&iacute;. 
       </TD></TR><TR><TD VALIGN="TOP">
-        <P> Group Members (applicable only for LDAPGroups)</P>       
+        <P> Členovia skupiny (zobrazuje sa iba pre skupiny LDAP)</P>       
       </TD>
       <TD> 
-        <P>Lists all the members who belong to the selected LDAPGroup. 
+        <P>Zobrazuje sa zoznam všetk&yacute;ch členov, ktor&iacute; patria do vybratej skupiny LDAP. 
       </TD></TR></TABLE>
 
   
   
-  <h4><a name="ifolders"></a> iFolders</h4>
-  <P>The User Details page displays the iFolders owned or shared by the user. 
-    Click the All tab to list all the iFolders both owned and shared. To view 
-    the iFolder owned by the user, click the Owned tab. The Shared tab lists all 
-    the shared iFolders for the current user account.</P>
+  <h4><a name="ifolders"></a> Priečinky iFolder</h4>
+  <P>Str&aacute;nka Podrobnosti o použ&iacute;vateľovi zobrazuje priečinky iFolder, ktor&eacute; použ&iacute;vateľ vlastn&iacute; alebo zdieľa. Ak chcete zobraziť všetky priečinky iFolder (vlastnen&eacute; i zdieľan&eacute;), kliknite na kartu Všetky. Ak chcete zobraziť priečinky iFolder, ktor&eacute; použ&iacute;vateľ vlastn&iacute;, kliknite na kartu Vlastnen&eacute;. Na karte Zdieľan&eacute; s&uacute; zobrazen&eacute; všetky priečinky iFolder, ktor&eacute; s&uacute; na pr&iacute;slušnom konte použ&iacute;vateľa zdieľan&eacute;.</P>
 	
-  <H4>Enabling or Disabling an iFolder</H4>
+  <H4>Povolenie alebo zak&aacute;zanie priečinka iFolder</H4>
 		
   <OL>
     <LI> 
-      <P>Locate the iFolder you want to manage, then select the check box next 
-        to the iFolder.</P>
+      <P>Vyhľadajte priečinok iFolder, ktor&yacute; chcete spravovať a vyberte začiark&aacute;vacie pol&iacute;čko vedľa pr&iacute;slušn&eacute;ho priečinka iFolder.</P>
     </LI>
     <LI> 
-      <P>Click Enable to enable the iFolder.</P>
-      <P>This will allow the user to log in and synchronize iFolders.</P>
+      <P>Ak chcete priečinok iFolder povoliť, kliknite na tlačidlo Povoliť.</P>
+      <P>To umožn&iacute; použ&iacute;vateľom prihl&aacute;siť sa a synchronizovať priečinky iFolder.</P>
     
     <LI> 
-      <P>Click Disable to disable the iFolder.</P>
-      <P> If the user is logged in when you make this change, the user�s session 
-        continues until the user logs out. The policy takes effect the next time 
-        the user attempts to log in to the account. To have the lockout take effect 
-        immediately, you must restart the Apache services for the iFolder server, 
-        which disconnects all active sessions, including the user�s session.</P>
+      <P>Ak chcete priečinok iFolder zak&aacute;zať, kliknite na tlačidlo Zak&aacute;zať.</P>
+      <P> Ak je v čase vykonania zmeny tohto nastavenia prihl&aacute;sen&yacute; použ&iacute;vateľ, jeho rel&aacute;cia bude pokračovať, k&yacute;m sa neodhl&aacute;si. Z&aacute;sada sa uplatn&iacute; pri najbližšom pokuse použ&iacute;vateľa o prihl&aacute;senie sa na konto. Ak chcete, aby sa uzamknutie prejavilo okamžite, mus&iacute;te reštartovať služby servera Apache pre server iFolder. T&yacute;m odpoj&iacute;te všetky akt&iacute;vne rel&aacute;cie, vr&aacute;tane rel&aacute;cie použ&iacute;vateľa.</P>
     </LI>
   </OL>
-<H4>Deleting an iFolder</H4>
+<H4>Odstr&aacute;nenie priečinka iFolder</H4>
 <OL><LI>
-      <P>Locate the iFolder you want to delete, then select the check box next 
-        to the iFolder.</P>
+      <P>Vyhľadajte priečinok iFolder, ktor&yacute; chcete odstr&aacute;niť a vyberte začiark&aacute;vacie pol&iacute;čko vedľa pr&iacute;slušn&eacute;ho priečinka iFolder.</P>
     </LI><LI>
-      <P>Click Delete.</P>
+      <P>Kliknite na tlačidlo Odstr&aacute;niť.</P>
     </LI></OL>
-	<H4>Creating an iFolder</H4><OL><LI>
-      <P>On the User Details page, click New.</P>
+	<H4>Vytvorenie priečinka iFolder</H4><OL><LI>
+      <P>Na str&aacute;nke Podrobnosti o použ&iacute;vateľovi kliknite na tlačidlo Nov&eacute;.</P>
     </LI>
-    <LI>On the new page that opens, follow the instructions to create a new iFolder.</LI>
+    <LI>Podľa pokynov na novej str&aacute;nke vytvorte nov&yacute; priečinok iFolder.</LI>
   </OL>
-<IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top">
-<h3><a name="policies"></a> Policies</h3>
-  <P>Use this interface to manage the user policies for a specified user account. 
+<IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Prejsť na začiatok">
+<h3><a name="policies"></a>Politika</h3>
+  <P>Pomocou tohto rozhrania m&ocirc;žete spravovať z&aacute;sady použ&iacute;vateľa pre konto konkr&eacute;tneho použ&iacute;vateľa. 
   </P>
-  <P><B><FONT SIZE="-1">NOTE:</FONT></B> <font size="-1">Policies set to an LDAPGroup 
-    are applicable to its member users.</font></P>
-<H4>Modifying 
-User Policies</H4>
-<p>The following table lists the policies you can manage for any given iFolder 
-    user account. Modify one or more of the following values, then click Save to apply the new 
-    settings:</p> 
-<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
-        <h4>Account </h4>
-      </TD><TD><P>Specifies whether the user is currently allowed 
-to log in to synchronize iFolders. </P>
-        <P>Select the check box to disable the account for login.</P>
-        <P> Deselect the check box to enable the account for login. </P>
-        <P>If the user is logged in when you make this change, the user's session 
-          continues until the user logs out. The policy takes effect the next 
-          time the user attempts to log in to the account. To have the lockout 
-          take effect immediately, you must restart the Apache services for the 
-          iFolder server, which disconnects all active sessions, including the 
-          user's session.</P>
-        <P>Default Value: Enabled</P>
+  <P><B><FONT SIZE="-1">POZN&Aacute;MKA:</FONT></B> <font size="-1">Politiky nastaven&eacute; pre skupinu LDAP sa vzťahuj&uacute; na použ&iacute;vateľov, ktor&iacute; s&uacute; členmi skupiny.</font></P>
+<H4>&Uacute;prava z&aacute;sad použ&iacute;vateľa</H4>
+<p>V nasleduj&uacute;cej tabuľke je uveden&aacute; politika, ktor&uacute; m&ocirc;žete spravovať pre ľubovoľn&eacute; konto aplik&aacute;cie iFolder. Zmeňte jednu alebo viac z nasleduj&uacute;cich hodn&ocirc;t a potom kliknut&iacute;m na tlačidlo Uložiť zmeny uložte:</p> 
+<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Popis</P></TD></TR><TR><TD VALIGN="TOP">
+        <h4>Konto </h4>
+      </TD><TD><P>Určuje, či sa použ&iacute;vateľ m&ocirc;že pripojiť na synchroniz&aacute;ciu s priečinkami iFolder. </P>
+        <P>V&yacute;berom začiark&aacute;vacieho pol&iacute;čka zak&aacute;žete pre konto možnosť prihl&aacute;senia.</P>
+        <P> Zrušen&iacute;m v&yacute;beru začiark&aacute;vacieho pol&iacute;čka pre konto možnosť prihl&aacute;senia povol&iacute;te. </P>
+        <P>Ak je v čase vykonania zmeny tohto nastavenia prihl&aacute;sen&yacute; použ&iacute;vateľ, jeho rel&aacute;cia bude pokračovať, k&yacute;m sa neodhl&aacute;si. Politika sa uplatn&iacute; pri najbližšom pokuse použ&iacute;vateľa o prihl&aacute;senie sa na konto. Ak chcete, aby sa uzamknutie prejavilo okamžite, mus&iacute;te reštartovať služby servera Apache pre server iFolder. T&yacute;m odpoj&iacute;te všetky akt&iacute;vne rel&aacute;cie, vr&aacute;tane rel&aacute;cie použ&iacute;vateľa.</P>
+        <P>Predvolen&aacute; hodnota: Povolen&eacute;</P>
       </TD></TR><TR>
       <TD VALIGN="TOP"> 
-        <h4>No of iFolder per users</h4>
+        <h4>Počet priečinkov iFolder na použ&iacute;vateľa</h4>
       </TD>
       <TD> 
-        <P>Specifies the maximum number of iFolder that a user can own. After 
-          Applying this policy, the user is limited to own a certain number of 
-          iFolders.The user who exceeds his or her usage limit receives an error 
-          message about the policy violation. If the limit is zero, the user cannot 
-          create any iFolders.</P>
+        <P>Určuje maxim&aacute;lny počet priečinkov iFolder, ktor&eacute; m&ocirc;že použ&iacute;vateľ vlastniť. Po použit&iacute; tejto z&aacute;sady bude m&ocirc;cť použ&iacute;vateľ vlastniť iba obmedzen&eacute; množstvo priečinkov iFolder. Ak použ&iacute;vateľ prekroč&iacute; povolen&yacute; počet priečinkov, zobraz&iacute; sa chybov&aacute; spr&aacute;va s upozornen&iacute;m na porušenie z&aacute;sady. Ak je obmedzenie nastaven&eacute; na nulu, použ&iacute;vatelia nem&ocirc;žu vytv&aacute;rať žiadne priečinky iFolder.</P>
            
-        <p>Select the check box next to <i>Limit</i> to enable the iFolder per 
-          users limit, and specify the number in the field. 
-        <P>The policy setting does not affect the number of iFolders that the 
-          user already owns. If the number of iFolders owned by the user already 
-          exceeds the limit that you set, he or she can still own those iFolders. 
-          </p><p>User level policy overides LDAPGroup level and system 
-          level policy.</P>
-        <P>Default Value: Disabled, no value set</P>
+        <p>Ak chcete povoliť obmedzenie počtu priečinkov iFolder na použ&iacute;vateľa, vyberte začiark&aacute;vacie pole vedľa možnosti <i>Obmedzenie</i>. Do poľa zadajte požadovan&uacute; hodnotu. 
+        <P>Nastavenie tejto z&aacute;sady nem&aacute; vplyv na počet priečinkov iFolder, ktor&eacute; použ&iacute;vateľ už vlastn&iacute;. Ak počet už vlastnen&yacute;ch priečinkov použ&iacute;vateľa prekračuje nastaven&eacute; obmedzenie, tento použ&iacute;vateľ m&ocirc;že naďalej vlastniť tieto priečinky iFolder. 
+          </p><p>Politika na &uacute;rovni použ&iacute;vateľa m&aacute; prednosť pred politikou na &uacute;rovni skupiny LDAP a syst&eacute;mu.</P>
+        <P>Predvolen&aacute; hodnota: Zak&aacute;zan&eacute;, bez nastavenej hodnoty</P>
         </TD></TR><TR><TD VALIGN="TOP">
-        <h4>Disk Quota</h4>
+        <h4>Kv&oacute;ta disku</h4>
       </TD>
       <TD> 
-        <p>Specifies the maximum total space that a user&#146;s iFolder data is 
-          allowed to use, across all iFolders the user owns. The quota can be 
-          imposed by the System-Wide policy. User policies supersede System-wide 
-          policies.<br>
+        <p>Zobrazuje maxim&aacute;lny celkov&yacute; priestor, ktor&yacute; m&ocirc;žu použ&iacute;vať použ&iacute;vateľove &uacute;daje priečinka iFolder vo všetk&yacute;ch priečinkoch iFolder, ktor&eacute; použ&iacute;vateľ vlastn&iacute;. T&uacute;to kv&oacute;tu je možn&eacute; nastaviť pomocou z&aacute;sady s platnosťou pre cel&yacute; syst&eacute;m. Z&aacute;sady použ&iacute;vateľov maj&uacute; prednosť pred z&aacute;sadami s platnosťou pre cel&yacute; syst&eacute;m.<br>
         </p>
-        <P> <B>Limit</B><BR>
-          Specifies the maximum total space (in MB) that a user's iFolder data 
-          is allowed to use, across all iFolders that the user owns for the selected 
-          user account. <br>
+        <P> <B>Obmedzenie</B><BR>
+          Zobrazuje maxim&aacute;lnu celkov&yacute; priestor (v MB), ktor&yacute; m&ocirc;žu použ&iacute;vať použ&iacute;vateľove &uacute;daje priečinka iFolder vo všetk&yacute;ch vlastnen&yacute;ch priečinkoch iFolder na vybratom konte použ&iacute;vateľa. <br>
           <br>
-          Deselect this option if there is no individual user quota, or to accept 
-          the LDAPGroup level quota or system-wide quota for the selected user 
-          account.<br>
-          Select this option to enforce a user quota, then specify the total space 
-          quota (in MB) for the selected user account. <br>
+          Ak nie je nastaven&aacute; kv&oacute;ta pre jednotliv&yacute;ch použ&iacute;vateľov alebo ak chcete pre vybrat&yacute; &uacute;čet použ&iacute;vateľa prijať kv&oacute;tu s platnosťou pre cel&yacute; syst&eacute;m alebo kv&oacute;tu na &uacute;rovni skupiny LDAP, zrušte v&yacute;ber tejto možnosti.<br>
+          Ak chcete presadzovať kv&oacute;tu použ&iacute;vateľa, vyberte t&uacute;to možnosť a zadajte kv&oacute;tu celkov&eacute;ho priestoru (v MB) pre vybrat&eacute; konto použ&iacute;vateľa. <br>
           <br>
-          <B>Used</B><BR>
-          Specifies the total space currently in use on the server for all iFolders 
-          owned by this selected user. <br>
+          <B>Využit&eacute;</B><BR>
+          Zobrazuje celkov&yacute; priestor, ktor&yacute; je na serveri využ&iacute;van&yacute; všetk&yacute;mi priečinkami iFolder, ktor&eacute; vlastn&iacute; vybrat&yacute; použ&iacute;vateľ. <br>
           <BR>
-          <B>Available</B><BR>
-          Free space available on the server.<br>
+          <B>K dispoz&iacute;cii</B><BR>
+          Voľn&yacute; priestor, ktor&yacute; je k dispoz&iacute;cii na serveri.<br>
           <BR>
-          <B>Effecive</B><BR>
-          Effective space allocated on the server<BR>
+          <B>Platn&eacute;</B><BR>
+          Platn&yacute; priestor, vyčlenen&yacute; na serveri<BR>
           <br>
-        <P>If the total space consumed by iFolder data is nearing an effective 
-          quota (system, LDAPGroup, user, or iFolder), the user should stop synchronizing 
-          files until one or more of the following tasks results in enough space 
-          to safely synchronize the user&#146;s files in the iFolder where the 
-          file resides:</P>
+        <P>Ak sa celkov&yacute; priestor využ&iacute;van&yacute; &uacute;dajmi priečinka iFolder bl&iacute;ži k hranici platnej kv&oacute;ty (syst&eacute;movej, použ&iacute;vateľskej alebo kv&oacute;ty priečinka iFolder), použ&iacute;vateľ by mal prestať synchronizovať s&uacute;bory, k&yacute;m nez&iacute;ska pomocou jednej alebo viacer&yacute;ch z nasleduj&uacute;cich akci&iacute; dostatočn&eacute; množstvo priestoru na bezpečn&uacute; synchroniz&aacute;ciu svojich s&uacute;borov v priečinku iFolder, v ktorom sa pr&iacute;slušn&eacute; s&uacute;bory nach&aacute;dzaj&uacute;:</P>
         <ul>
           <li> 
-            <p>The system-wide quota, LDAPGroup quota and user quota for the iFolder 
-              owner and the iFolder quota are modified as needed.</p>
+            <p>Kv&oacute;ta s platnosťou pre cel&yacute; syst&eacute;m, kv&oacute;ta skupiny LDAP, kv&oacute;ta použ&iacute;vateľa vlastn&iacute;ka priečinka iFolder a kv&oacute;ta priečinka iFolder je podľa potreby upraven&aacute;.</p>
           </li>
           <li> 
-            <p>Files are moved from any of the iFolders owned by the user to another 
-              location where they no longer affect the effective quota, or files 
-              are deleted to clear space.</p>
+            <p>S&uacute;bory s&uacute; presunut&eacute; z priečinkov iFolder vlastnen&yacute;ch použ&iacute;vateľom do in&eacute;ho umiestnenia, v ktorom nemaj&uacute; vplyv na platn&uacute; kv&oacute;tu, pr&iacute;padne s&uacute; odstr&aacute;nen&eacute; za &uacute;čelom z&iacute;skania priestoru.</p>
           </li>
           </ul>
         
-        <P><B><FONT SIZE="-1">IMPORTANT:</FONT></B> <FONT SIZE="-1">If you enable 
-          a user space limit that is less than a user's current total space for 
-          iFolder data, the user's data stops synchronizing until the data is 
-          decreased below the limit or until the quota is increased to a value 
-          that is larger than the user's total space consumed.</FONT></P>
+        <P><B><FONT SIZE="-1">D&Ocirc;LEŽIT&Eacute;:</FONT></B> <FONT SIZE="-1">Ak povol&iacute;te obmedzenie priestoru použ&iacute;vateľa, ktor&eacute; je menšie ako celkov&yacute; priestor, ktor&yacute; použ&iacute;vaj&uacute; &uacute;daje priečinka iFolder použ&iacute;vateľa, &uacute;daje použ&iacute;vateľa sa prestan&uacute; synchronizovať do doby, k&yacute;m sa objem d&aacute;t nezn&iacute;ži pod hranicu obmedzenia alebo k&yacute;m nie je kv&oacute;ta zv&yacute;šen&aacute; tak, aby bola v&auml;čšia, ako použ&iacute;van&eacute; množstvo priestoru.</FONT></P>
        
         
-        <P> Default value: Disabled and no quota set</P>
+        <P> Predvolen&aacute; hodnota: Zak&aacute;zan&eacute;, bez nastavenej kv&oacute;ty</P>
       </TD></TR>
   <TR><TD VALIGN="TOP">
-        <h4>File Size</h4>
+        <h4>Veľkosť s&uacute;boru</h4>
       </TD>
-      <TD> <B>Limit</B><BR>
-          Specifies the maximum total file size (in MB) that an iFolder user 
-          is allowed to use, across all iFolders the user owns for the selected 
-          user account. <br>
+      <TD> <B>Obmedzenie</B><BR>
+          Zobrazuje maxim&aacute;lnu celkov&uacute; veľkosť s&uacute;borov (v MB), ktor&uacute; m&ocirc;že použ&iacute;vateľ priečinka iFolder použ&iacute;vať vo všetk&yacute;ch vlastnen&yacute;ch priečinkoch iFolder na vybratom konte použ&iacute;vateľa. <br>
           <BR>
-        <B>Effective</B><BR>
-        Effective file size allocated for the user.<br>
-		<ul><P><font size="-1"><b>IMPORTANT:</b> Users cannot successfully synchronize 
-          files of a size that would cause a quota to be exceeded. If they try 
-          to do so, only part of the file is synchronized, resulting in data corruption.</font></P></ul><P>Default value: Disabled and no limit</P>
+        <B>Platn&aacute;</B><BR>
+        Platn&aacute; veľkosť s&uacute;borov, ktor&aacute; je priraden&aacute; použ&iacute;vateľovi.<br>
+		<ul><P><font size="-1"><b>D&Ocirc;LEŽIT&Eacute;:</b> Použ&iacute;vatelia nem&ocirc;žu &uacute;spešne synchronizovať s&uacute;bory, ak by veľkosť s&uacute;borov zapr&iacute;činila prekročenie kv&oacute;ty. Ak sa o to pok&uacute;sia, synchronizovan&aacute; bude iba časť s&uacute;boru, čo povedie k poškodeniu &uacute;dajov.</font></P></ul><P>Predvolen&aacute; hodnota: Zak&aacute;zan&eacute;, bez obmedzenia</P>
       </TD></TR>
   <TR>
       <TD VALIGN="TOP"> 
-        <h4>Excluded Files</h4>
+        <h4>Vyl&uacute;čen&eacute; s&uacute;bory</h4>
       </TD>
       <TD> 
-        <P>Specifies a list of file types to include or to exclude from synchronization 
-          for the selected user's account.</P><p>The file manager files called thumbs.db and .DS_Store are never synchronized. You do not need to keep these files, and synchronizing them results in repeated file conflict errors. If you have not set any individual restrictions for this user, this field reports thumbs.db and .DS_Store as part of the system-wide file-type restrictions. After you set individual file-type restrictions for the user, the user's settings are displayed instead. Even if the thumbs.db and .DS_Store restrictions are not displayed, they always apply; you cannot override them.
+        <P>Zobrazuje zoznam typov s&uacute;borov, ktor&eacute; s&uacute; zahrnut&eacute; do synchroniz&aacute;cie alebo vyl&uacute;čen&eacute; zo synchroniz&aacute;cie pre vybrat&eacute; konto použ&iacute;vateľa.</P><p>S&uacute;bory spr&aacute;vcu s&uacute;borov s n&aacute;zvami thumbs.db a .DS_Store sa nikdy nesynchronizuj&uacute;. Uchov&aacute;vanie t&yacute;chto s&uacute;borov nie je potrebn&eacute;. Ich synchroniz&aacute;cia povedie k opakovan&eacute;mu v&yacute;skytu ch&yacute;b, zapr&iacute;činen&yacute;ch konfliktom s&uacute;borov. Ak ste pre tohto použ&iacute;vateľa nenastavili žiadne individu&aacute;lne obmedzenia, toto pole zobrazuje s&uacute;bory thumbs.db a .DS_Store ako s&uacute;časť obmedzen&iacute; typov s&uacute;borov s platnosťou pre cel&yacute; syst&eacute;m. Po nastaven&iacute; individu&aacute;lnych obmedzen&iacute; typu s&uacute;borov použ&iacute;vateľa sa miesto toho zobrazuj&uacute; nastavenia použ&iacute;vateľa. Obmedzenie s&uacute;borov thumbs.db a .DS_Store je vždy platn&eacute;, i v pr&iacute;pade, že sa nezobrazuje. Nie je možn&eacute; toto obmedzenie prep&iacute;sať.
 </p>
     
-        <P>To add a file extension to an inclusion or exclusion filter, type the 
-          extension (such as *.mpg), then click Add to apply the filter. </P>
-        <P>To exclude a file type from the restricted file types, select the check 
-          box adjacent to the file type, then click Allow.</P>
+        <P>Ak chcete pridať do filtra zahrnutia alebo vyl&uacute;čenia pr&iacute;ponu s&uacute;boru, zadajte požadovan&uacute; pr&iacute;ponu (napr&iacute;klad *.mpg) a kliknut&iacute;m na tlačidlo Pridať použite filter. </P>
+        <P>Ak chcete odstr&aacute;niť typ s&uacute;boru zo zoznamu zak&aacute;zan&yacute;ch typov s&uacute;borov, vyberte začiark&aacute;vacie pol&iacute;čko vedľa typu s&uacute;boru a kliknite na tlačidlo Povoliť.</P>
         
-        <P>Default value: .DS_Store and Thumbs.db</P>
+        <P>Predvolen&aacute; hodnota: .DS_Store a Thumbs.db</P>
       </TD></TR>
 	
 	<TR><TD VALIGN="TOP">
-        <h4> Synchronization </h4>
+        <h4> Synchroniz&aacute;cia </h4>
       </TD><TD>
-	    <p>Specifies the minimum synchronization interval in seconds. You can 
-          set the synchronization interval to a value between 5 and 999 inclusive. 
-          If no value is set, the value is 5.</P>
+	    <p>Zobrazuje minim&aacute;lny interval synchroniz&aacute;cie v sekund&aacute;ch. Interval synchroniz&aacute;cie m&ocirc;žete nastaviť na hodnotu medzi 5 a 999 (vr&aacute;tane). Ak nie je nastaven&aacute; žiadna hodnota, hodnota je 5.</P>
 
-	    <P>Deselect the check box to set no synchronization interval or to accept 
-          the system-wide setting for the user account. If no value is set for 
-          system-wide or user policies, the value reported is Unlimited.</P>
+	    <P>Ak nechcete nastaviť žiadny interval synchroniz&aacute;cie alebo ak chcete prijať pre konto použ&iacute;vateľa nastavenie s platnosťou pre cel&yacute; syst&eacute;m, zrušte v&yacute;ber začiark&aacute;vacieho poľa. Ak nie je nastaven&aacute; hodnota z&aacute;sad použ&iacute;vateľa ani z&aacute;sad s platnosťou pre cel&yacute; syst&eacute;m, zobrazuje sa hodnota Neobmedzen&eacute;.</P>
   <B>Interval</B><BR>
-        Select the check box to enable a minimum synchronization interval, then 
-        specify the minimum interval (in minutes). For example, a practical value 
-        is 10 minutes.<br>
-        <br><B>Effective</B><BR>
-  Specifies the current synchronization interval. For example, if the user sets a synchronization interval that is less than (more frequent) than the system minimum, the system setting applies.
+        V&yacute;berom začiark&aacute;vacieho pol&iacute;čka m&ocirc;žete povoliť minim&aacute;lny interval synchroniz&aacute;cie a zadať jeho hodnotu (v min&uacute;tach). Praktickou hodnotou je napr&iacute;klad 10 min&uacute;t.<br>
+        <br><B>Platn&eacute;</B><BR>
+  Zobrazuje aktu&aacute;lny interval synchroniz&aacute;cie. Ak napr&iacute;klad použ&iacute;vateľ nastav&iacute; interval synchroniz&aacute;cie, ktor&yacute; je menš&iacute; (častejš&iacute;) než minim&aacute;lny interval syst&eacute;mu, použije sa nastavenie syst&eacute;mu.
 
-  <P>The effective minimum synchronization interval is always the longest value from the following settings:</P>
+  <P>Platn&yacute; minim&aacute;lny interval synchroniz&aacute;cie je vždy rovn&yacute; najv&auml;čšej hodnote z nasleduj&uacute;cich nastaven&iacute;:</P>
   <ul>
     <li>
-            <p>The system policy (default of zero), unless there is a LDAPGroup 
-              policy or user policy set. If a user policy is set, the user policy 
-              overrides the system policy and LDAPGroup policy whether the user 
-              interval is shorter or longer in value. </p>
+            <p>Politika syst&eacute;mu (predvolen&aacute; hodnota je nula), ak nie je nastaven&aacute; politika použ&iacute;vateľa ani skupiny LDAP. Ak je z&aacute;sada použ&iacute;vateľa nastaven&aacute;, prepisuje t&aacute;to z&aacute;sada z&aacute;sadu syst&eacute;mu a z&aacute;sadu LDAP, nez&aacute;visle na tom, či je hodnota z&aacute;sady použ&iacute;vateľa nižšia alebo vyššia. </p>
     </li>
     <li>
-      <p>The local machine policy, or the setting on the client machine synchronizing with the server.</p>
+      <p>Politika lok&aacute;lneho poč&iacute;tača alebo nastavenie na poč&iacute;tači klienta, ktor&yacute; vykon&aacute;va synchroniz&aacute;ciu so serverom.</p>
     </li>
     <li>
-      <p>The iFolder (collection) policy.</p>
+      <p>Politika (zberu) aplik&aacute;cie iFolder.</p>
     </li>
   </ul>
-        <P> Default value: Disabled, or the system-wide policy</P>
+        <P> Predvolen&aacute; hodnota: Zak&aacute;zan&eacute; alebo z&aacute;sada s platnosťou pre cel&yacute; syst&eacute;m</P>
       </TD></TR>
   <TR><TD VALIGN="TOP">
-        <h4>Encryption</h4>
+        <h4>Šifrovanie</h4>
       </TD>
       <TD> 
-        <P>Specifies the encryption policy for the selected user's account. The 
-          quota can be imposed by the system policy (System-Wide). System-wide 
-          policy supersedes user policies.</P>
-		<B>On</B><BR>
-        Select On to enable the encryption feature for the selected user. This 
-        will permit the user to set encryption policy for his or her iFolders.<br>
+        <P>Zobrazuje z&aacute;sadu šifrovania pre vybrat&eacute; konto použ&iacute;vateľa. Kv&oacute;tu je možn&eacute; určiť pomocou z&aacute;sady syst&eacute;mu (platnej pre cel&yacute; syst&eacute;m). Politika s platnosťou pre cel&yacute; syst&eacute;m m&aacute; prednosť pred z&aacute;sadou použ&iacute;vateľa.</P>
+		<B>Zapnut&eacute;</B><BR>
+        Ak chcete povoliť funkciu šifrovania pre vybrat&eacute;ho použ&iacute;vateľa, vyberte možnosť Zapnut&eacute;. T&yacute;m umožn&iacute;te použ&iacute;vateľovi nastaviť z&aacute;sadu šifrovania pre svoje priečinky iFolder.<br>
         <br>
-        Deselect On to disable the encryption feature for the selected user. <br>
+        Ak chcete zak&aacute;zať funkciu šifrovania pre vybrat&eacute;ho použ&iacute;vateľa, zrušte v&yacute;ber možnosti Zapnut&eacute;. <br>
         	
 		
-        <br><B>Enforced</B><BR>
-        Select Enforced to enable the encryption feature for the selected user. 
-        When it is set to Enforced, the user cannot change the encryption settings 
-        for his or her iFolders.<br>
-		<P><font size="-1"><b>IMPORTANT:</b> This options is enabled only If the 
-          system level encryption policy is set to On.</font></P>
+        <br><B>Presadzovan&eacute;</B><BR>
+        Ak chcete povoliť funkciu šifrovania pre vybrat&eacute;ho použ&iacute;vateľa, vyberte možnosť Presadzovan&eacute;. Ak je t&aacute;to možnosť nastaven&aacute; na hodnotu Presadzovan&eacute;, použ&iacute;vateľ nem&aacute; možnosť meniť nastavenie šifrovania pre svoje priečinky iFolder.<br>
+		<P><font size="-1"><b>D&Ocirc;LEŽIT&Eacute;:</b> T&aacute;to možnosť je povolen&aacute; iba v pr&iacute;pade, že je z&aacute;sada šifrovania na &uacute;rovni syst&eacute;mu nastaven&aacute; na hodnotu Zapnut&eacute;.</font></P>
       </TD></TR><TR><TD VALIGN="TOP">
-        <h4> Sharing</h4>
-      </TD><TD> <B>On</B><BR>
-        By default, iFolder sharing is enabled. Deselect On and clcik Save 
-        to disable sharing for the selected user. After applying this policy, 
-        selected user cannot share his or her iFolders with others. However, you 
-        can still change the policy at iFolder level.<br>
+        <h4> Zdieľanie</h4>
+      </TD><TD> <B>Zapnut&eacute;</B><BR>
+        V predvolenom nastaven&iacute; je zdieľanie priečinka iFolder povolen&eacute;. Ak chcete pre vybrat&eacute;ho použ&iacute;vateľa zak&aacute;zať zdieľanie, zrušte v&yacute;ber možnosti Zapnut&eacute; a kliknite na možnosť Uložiť. Ak použijete t&uacute;to z&aacute;sadu, vybrat&yacute; použ&iacute;vateľ nebude m&ocirc;cť zdieľať svoje priečinky iFolder s in&yacute;mi použ&iacute;vateľmi. Z&aacute;sadu m&ocirc;žete st&aacute;le zmeniť na &uacute;rovni priečinka iFolder.<br>
           <BR>
-        <B>Enforce</B><BR>
-        Select <i>Enforce</i> to enforce the policy set for the 
-        selected user. After applying this policy, the user cannot share his or 
-        her iFolders.<br>
+        <B>Presadzovať</B><BR>
+        Ak chcete presadzovať pre vybrat&eacute;ho použ&iacute;vateľa nastaven&uacute; z&aacute;sadu, vyberte možnosť <i>Presadzovať</i>. Ak použijete t&uacute;to z&aacute;sadu, vybrat&yacute; použ&iacute;vateľ nebude m&ocirc;cť zdieľať svoje priečinky iFolder. <br>
 		
 		<BR>
-        <B>Revoke</B><BR>
-        Select <i>Revoke</i> to remove the shared members of all the iFolders 
-        that belong to the selected user.<br>
+        <B>Odvolať</B><BR>
+        Ak chcete odstr&aacute;niť zdieľan&yacute;ch členov všetk&yacute;ch priečinkov iFolder, ktor&eacute; patria vybrat&eacute;mu použ&iacute;vateľovi, vyberte možnosť <i>Odvolať</i>.<br>
 		
       </TD></TR>  </TABLE>
   <P><A HREF="#top" TARGET="_self"> </A></P>
   
-<P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P><H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Related Topics" align="top"> 
-Related Topics</H4>
+<P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Prejsť na začiatok"></A></P><H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="S&uacute;visiace t&eacute;my" align="top"> S&uacute;visiace t&eacute;my</H4>
   
-  <BLOCKQUOTE class="task1"><P><A HREF="users.html">Managing a User Account</A><BR>
-      <A HREF="ifolders.html">Managing iFolders</A><BR>
-      <A HREF="ifolderdetails.html">Managing iFolder Details</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P><P>&nbsp;</P><P CLASS="copyright">A 
-trademark symbol (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP>, 
-etc.) denotes a Novell trademark. An asterisk (*) denotes a third-party trademark. 
-For more information, see <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Legal 
-Notices</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
+  <BLOCKQUOTE class="task1"><P><A HREF="users.html">Spr&aacute;va &uacute;čtu použ&iacute;vateľa</A><BR>
+      <A HREF="ifolders.html">Spr&aacute;va priečinkov iFolder</A><BR>
+      <A HREF="ifolderdetails.html">Spr&aacute;va podrobnost&iacute; o priečinku iFolder</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Prejsť na začiatok"></A></P><P>&nbsp;</P><P CLASS="copyright">Symbol ochrannej zn&aacute;mky (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP> atď.) označuje ochrann&uacute; zn&aacute;mku spoločnosti Novell. Hviezdička (*) označuje ochrann&uacute; zn&aacute;mku nez&aacute;visl&eacute;ho v&yacute;robcu.   Ďalšie inform&aacute;cie n&aacute;jdete v časti <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Pr&aacute;vne prehl&aacute;senia</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
 </body>
 
 </html>

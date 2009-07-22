@@ -1,11 +1,11 @@
 <html>
 
    <head>
-     <meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+     <meta http-equiv="content-type" content="text/html;charset=UTF-8">
      
      <!-- Novell iFolder 3.7  --> 
    
-     <title>Managing the LDAP Settings</title>  	 
+     <title>Zarządzanie ustawieniami LDAP</title>  	 
      
      <!-- Metadata -->
    
@@ -52,103 +52,63 @@
 <!-- This is the start of the Help Banner Layer --> <div id="headgraphic"> <img src="../../images/h1_help.gif" width="380" height="32"   border="0"></div><!-- This is end of the Help Banner Layer --> 
 <!-- This is the start of the Help Content Layer --> <div id="helpcontent"> <!-- The Page Heading uses CSS style "head3b". This creates an H3 header
             with a line beneath it.
-       --> <h3 class="head3b">Managing the LDAP Settings for the iFolder System</h3>
-  <p> Use this interface to modify the LDAP settings for the selected Novell<SUP><SMALL>&reg;</SMALL></SUP> iFolder<SUP><SMALL>&reg;</SMALL></SUP> 
-    3.7 server on this iFolder domain. </p>
+       --> <h3 class="head3b">Zarządzanie ustawieniami LDAP systemu iFolder</h3>
+  <p> Użyj tego interfejsu do zmodyfikowania ustawień LDAP dla wybranego serwera Novell<SUP><SMALL>&reg;</SMALL></SUP> iFolder<SUP><SMALL>&reg;</SMALL></SUP> 3.7 w tej domenie iFolder. </p>
   
-  <H3><A NAME="modify"></A>Modifying 
-the LDAP Settings</H3><P>Modify any of the following fields, then click <i>OK</i> to 
-apply your changes:</P><TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR>
+  <H3><A NAME="modify"></A>Modyfikowanie ustawień LDAP</H3><P>Zmodyfikuj dowolne z następujących p&oacute;l, a następnie kliknij przycisk <i>OK</i>, aby zastosować wprowadzone zmiany:</P><TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parametr</P></TD><TD CLASS="tablehead2"><P>Opis</P></TD></TR>
 <TR><TD VALIGN="TOP">
-        <P>LDAP Admin DN</P>
+        <P>Nazwa kwalifikowana administratora LDAP</P>
       </TD><TD>
-        <P>Specify the fully distinguished name of the LDAP Admin. This can be 
-          the same or different as your iFolder Admin.</P>
+        <P>Podaj w pełni kwalifikowaną nazwę administratora usługi LDAP. Może być taka sama albo inna niż nazwa administratora systemu iFolder.</P>
       </TD></TR>
 	  <TR><TD VALIGN="TOP">
-        <P>LDAP Admin&nbsp;Password&nbsp;</P>
+        <P>Hasło administratora LDAP</P>
       </TD><TD>
-        <P>The password is used to authenticate the LDAP Admin user to the LDAP 
-          server. </P>
+        <P>Hasło używane przez administratora LDAP do uwierzytelniania w serwerze LDAP. </P>
         
-        <P>Click <i>OK</i> to update the password stored in the LDAP settings.</P>
+        <P>Kliknij przycisk <i>OK</i>, aby uaktualnić hasło przechowywane w ustawieniach LDAP.</P>
 <blockquote>
   
 </blockquote>
 </TD></TR><TR><TD VALIGN="TOP">
-        <P>LDAP Server</P>
+        <P>Serwer LDAP</P>
       </TD><TD>
-        <P>Specify the DNS name or IP address of the LDAP server. This can be 
-          any of the iFolder servers in the iFolder system.</P>
+        <P>Podaj nazwę DNS lub adres IP serwera LDAP. Może to być dowolny serwer iFolder należący do systemu iFolder.</P>
       </TD></TR>
 	  <TR><TD VALIGN="TOP">
-        <P>LDAP SSL</P>
+        <P>SSL LDAP</P>
       </TD><TD>
-        <P>Select <i>Yes</i> to enable LDAP SSL. If SSL is enabled on the server, 
-          the value is Yes; otherwise, the value is No.<BR>
+        <P>Wybierz opcję <i>Tak</i>, aby włączyć protok&oacute;ł SSL LDAP. Jeśli na serwerze włączony jest protok&oacute;ł SSL, wartość wynosi Tak; w przeciwnym przypadku wartość wynosi Nie.<BR>
         </P></TD></TR><TR><TD VALIGN="TOP">
-        <P>Proxy&nbsp;User&nbsp;&nbsp;</P>
+        <P>Użytkownik proxy</P>
       </TD><TD>
-        <P>The iFolder Proxy user is an existing proxy user identity used to access 
-          the LDAP server with Read access to retrieve a list of authorized users. 
-          The proxy user is automatically created during the iFolder enterprise 
-          server configuration in YaST. The username is auto-generated to be unique 
-          on the system. </P>
-    <P> Make sure that the user account assigned as the iFolder Proxy user is different than the one used for the iFolder Admin user and other system users. Separating the proxy user from the administrator provides privilege separation and is also important because the proxy user password is stored in the file system on the iFolder server.</P>
-    <P> Specify the fully distinguished name of an existing user that you want to make the iFolder Proxy user. This identity must have the Read right to the LDAP directory. For example: </P>
+        <P>Użytkownik proxy systemu iFolder jest identyfikatorem istniejącego użytkownika proxy używanym do uzyskiwania dostępu do serwera LDAP z uprawnieniami do odczytu w celu pobrania listy uprawnionych użytkownik&oacute;w. Użytkownik proxy jest tworzony automatycznie podczas konfigurowania firmowego serwera iFolder w programie YaST. Nazwa użytkownika jest unikatowa i tworzona w systemie automatycznie. </P>
+    <P> Upewnij się, że konto użytkownika przypisanego jako użytkownik proxy systemu iFolder jest inne niż nazwa używana przez administratora systemu iFolder oraz nazwy innych użytkownik&oacute;w systemowych. Oddzielenie użytkownika proxy od funkcji administratora umożliwia oddzielenie uprawnień i jest ważne r&oacute;wnież dlatego, że hasło użytkownika proxy jest przechowywane w systemie plik&oacute;w na serwerze iFolder.</P>
+    <P> Podaj w pełni kwalifikowaną nazwę istniejącego użytkownika, kt&oacute;ry ma stać się użytkownikiem proxy systemu iFolder. Ta tożsamość musi mieć prawo Odczyt do katalogu LDAP. Na przykład: </P>
         <P> cn=iFolderProxy,o=acme</P>
-    <P> Make sure to also enter the new user's password in the Proxy Password field.</P>
-        <P> After you modify the Proxy user, you might want to immediately synchronize 
-          the LDAP user lists, using the new iFolder proxy information; otherwise, 
-          the Proxy user information is not tested until the next scheduled synchronization 
-          of the user list. Use the <i>Sync Now</i> option under <i>LDAP Details</i> 
-          on the Server Details page to synchronize the iFolder user list on demand 
-          and verify your new Proxy user settings.</P>
+    <P> Upewnij się, że w polu Hasło proxy wprowadzono hasło nowego użytkownika.</P>
+        <P> Po zmodyfikowaniu użytkownika proxy można natychmiast zsynchronizować listę użytkownik&oacute;w LDAP przy użyciu informacji o nowym proxy systemu iFolder. W przeciwnym przypadku informacje o użytkowniku proxy zostaną przetestowane dopiero podczas zaplanowanej synchronizacji listy użytkownik&oacute;w. Użyj opcji <i>Synchronizuj teraz</i> znajdującej się w polu <i>Szczeg&oacute;ły LDAP</i> na stronie Szczeg&oacute;ły serwera w celu synchronizacji listy użytkownik&oacute;w iFolderu na żądanie oraz sprawdzenia nowych ustawień użytkownika proxy.</P>
       </TD></TR>
-	<TR><TD VALIGN="TOP"><P>Proxy&nbsp;User&nbsp;Password&nbsp;</P></TD><TD>
-        <P>The password is used to authenticate the iFolder Proxy user to the 
-          LDAP server when iFolder synchronizes users with the LDAP server. </P>
-        <P>To modify the iFolder Proxy User password, you do not need to update the value stored in LDAP settings for the iFolder system. 
-          You can directly use this interface to modify the password.</p>
-        <P>This password must match the password stored in the iFolder Proxy user&#146;s 
-eDirectory<sup><small>TM</small></sup> object. </P>
-<P>Specify the password twice, then click <i>OK</i> to update the password stored in the LDAP settings.</P>
+	<TR><TD VALIGN="TOP"><P>Hasło użytkownika proxy</P></TD><TD>
+        <P>Hasło używane do uwierzytelniania użytkownika proxy systemu iFolder w serwerze LDAP podczas synchronizowania użytkownik&oacute;w z serwerem LDAP. </P>
+        <P>Aby zmodyfikować hasło użytkownika proxy systemu iFolder, nie trzeba aktualizować wartości przechowywanych w ustawieniach LDAP dla systemu iFolder. Tego interfejsu można użyć do bezpośredniej modyfikacji hasła.</p>
+        <P>To hasło musi odpowiadać hasłu przechowywanemu w obiekcie eDirectory<sup><small>TM</small></sup> użytkownika proxy systemu iFolder. </P>
+<P>Podaj hasło dwukrotnie, a następnie kliknij przycisk <i>OK</i>, aby uaktualnić hasło przechowywane w ustawieniach LDAP.</P>
 
         
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>LDAP Contexts</P>
+        <P>Kontekst LDAP</P>
       </TD><TD>
-        <P> Specify or edit the LDAP containers, groups, or users where iFolder 
-          searches for a list of authorized users to provision for iFolder servers 
-          on this enterprise server. LDAP contexts are entered in LDAP format. 
-          For example: </P>
+        <P> Określ lub dokonaj edycji kontener&oacute;w LDAP, grup lub użytkownik&oacute;w, wśr&oacute;d kt&oacute;rych system iFolder wyszukuje listę uwierzytelnionych użytkownik&oacute;w dostarczaną serwerom iFolder na serwerze firmowym. Konteksty LDAP są wprowadzane w formacie LDAP. Na przykład: </P>
         <P> cn=group,o=acme#cn=dbgroup,o=acme#</P>
-        <P>To edit a value, select it, make your changes, then click <i>OK</i> to apply 
-          the changes.</P>  
+        <P>Aby dokonać edycji wartości, wybierz ją, dokonaj zmian, a następnie kliknij przycisk <i>OK</i> w celu zastosowania zmian.</P>  
   
-        <P>During LDAP synchronization, the iFolder server queries the LDAP server 
-          to retrieve a list of users in the DNs (as specified in the <i>LDAP 
-          Contexts</i> field) at the specified synchronization interval. The usernames 
-          in the iFolder domain are matched against this official LDAP list. Any 
-          new user in the specified LDAP contexts is added to the iFolder domain. 
-          If a user is no longer in the specified LDAP contexts, the username 
-          is removed from the domain, any iFolders the user owns are orphaned 
-          and reassigned to the iFolder Admin user, and the user is removed as 
-          a member of other iFolders.</P>
-        <P>The iFolder Admin User is provisioned for servers during the install. 
-          It is tracked by its GUID, so it is available even if you do not specify 
-          a container, group, or user, or if you specify search DNs that do not 
-          contain the Folder Admin user. This identity must be provisioned to 
-          enable the iFolder Admin to perform management tasks.</P>
+        <P>Podczas instalacji użytkownik będący administratorem systemu iFolder jest powiadamiany o serwerach. Do śledzenia wykorzystywane są identyfikatory GUID, dlatego funkcja ta jest dostępna nawet wtedy, gdy nie podano kontenera, grupy ani użytkownika. Można też podać nazwy domen przeznaczonych do wyszukiwania, kt&oacute;re nie zawierają użytkownika administratora programu iFolder. Ta tożsamość musi mieć uprawnienia do umożliwiania administratorowi programu iFolder wykonywania zadań zarządzania.</P>
+        <P>Synchronizacja LDAP może być zaplanowana lub można przeprowadzić ją ręcznie, klikając przycisk <i>Synchronizuj teraz</i>. Podczas przeprowadzania synchronizacji LDAP serwer programu iFolder odpytuje serwer LDAP i uzyskuje listę użytkownik&oacute;w dla nazwy domeny określonej w polu <i>Kontekst LDAP</i>. Nazwy użytkownik&oacute;w w domenie iFolder są por&oacute;wnywane z listą serwera LDAP. Dodanie użytkownika do określonego kontekstu LDAP lub usunięcie użytkownika z określonego kontekstu LDAP powoduje odpowiednie zaktualizowanie domeny iFolder.</P>
+        <P>Nawet jeśli użytkownik zostanie usunięty z kontekstu LDAP, przy pierwszej synchronizacji LDAP ten użytkownik zostaje tylko wyłączony w domenie iFolder, niezależnie od założeń interwału przyzwolenia. Wyłączony użytkownik nigdy nie zostaje automatycznie usunięty po okresie interwału przyzwolenia i dalej istnieje w domenie iFolder w stanie wyłączonym. Jeśli przeprowadzi się ponowną konfigurację tego użytkownika przed upływem okresu interwału przyzwolenia, użytkownik staje się aktywny wraz ze wszystkimi swoimi folderami iFolder. Gdy upłynie okres interwału przyzwolenia, przy kolejnej synchronizacji LDAP użytkownik zostaje usunięty z domeny iFolder, a wszystkie foldery iFolder tego użytkownika stają się osierocone. Osierocone foldery iFolder zostają ponownie przypisane administratorowi programu iFolder.</P>
       </TD></TR>
-  </TABLE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P><H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Related Topics" align="top"> 
-Related Topics</H4><BLOCKQUOTE class="task1">
-<P ><A HREF="system.html">Managing 
-the iFolder System</A><BR><A HREF="member.html">Managing a User Account</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P><P>&nbsp;</P><P CLASS="copyright">A 
-trademark symbol (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP>, 
-etc.) denotes a Novell trademark. An asterisk (*) denotes a third-party trademark. 
-For more information, see <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Legal 
-Notices</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
+  </TABLE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Przejdź do g&oacute;ry"></A></P><H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Tematy pokrewne" align="top"> Tematy pokrewne</H4><BLOCKQUOTE class="task1">
+<P ><A HREF="system.html">Zarządzanie systemem iFolder</A><BR><A HREF="member.html">Zarządzanie kontem użytkownika</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Przejdź do g&oacute;ry"></A></P><P>&nbsp;</P><P CLASS="copyright">Symbol znaku towarowego (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP> itd.) oznacza znak towarowy firmy Novell; symbol gwiazdki (*) oznacza znak towarowy innej firmy. Więcej informacji można znaleźć w sekcji <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Informacje prawne</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
 </body>
 
 </html>

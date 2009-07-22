@@ -1,10 +1,10 @@
 <html>
 <head>
-  <meta http-equiv="content-type" content="text/html;charset=iso-8859-1"> 
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8"> 
 
 <!-- Novell iFolder 3.x Web Access  --> 
 
-<title>Create new iFolders </title> 
+<title>Tworzenie nowego iFolderu </title> 
 
 <!-- Metadata --> 
   <meta name="Author" content="iFolder 3.x Documentation Manager"> 
@@ -42,73 +42,54 @@ url(../../images/helphead_bg.gif) repeat-x 0% 0% }
 <div id="helpcontent" style="left: 10px; top: 38px"><!-- The Page Heading uses CSS style "head3b". This creates an H3 header
             with a line beneath it.
        --> 
-  <h3><a name="manage"></a>Create a New iFolder</h3>
-  <p>Perform the following steps to create a new iFolder:</p>
+  <h3><a name="manage"></a>Tworzenie nowego iFolderu</h3>
+  <p>Wykonaj następujące czynności, aby utworzyć nowy iFolder:</p>
   <ol>
     <li> 
-      <p>Click the New iFolder link given in the Home page.</p>
+      <p>Kliknij łącze Nowy iFolder znajdujące się na stronie domowej.</p>
     </li>
     <li> 
-      <p>In the new page that opens, specify the following information:</p>
+      <p>Na nowej stronie, kt&oacute;ra zostanie otwarta, podaj następujące informacje:</p>
     </li>
     <P> 
-    <BLOCKQUOTE> <B> Name</B><BR>
-      Assign a name to the iFolder, such as myfolder. <BR>
-      <p><strong>Note: </strong> Do not use the following invalid characters in 
-        the names of iFolders or in the names of folders and files in them:</p>
-      \/:*?"<>|;<br>
-      <p>For more information on naming conventions, see Section 7.3 in the <A HREF="http://www.novell.com/documentation/ifolder3/ifolder36_user/data/bookinfo.html">iFolder 
-        Cross Platfrom User Guide </A>.</p>
-      <p><strong>IMPORTANT: </strong>When you attempt to create an iFolder whose 
-        name exceeds the file limit supported by the iFolder server file system, 
-        it throws an error message that the name of the iFolder is too long to 
-        be created.</p>
+    <BLOCKQUOTE> <B> Nazwa</B><BR>
+      Nazwa przypisana iFolderowi, np. mojfolder. <BR>
+      <p><strong>Uwaga: </strong>W nazwach iFolder&oacute;w oraz folder&oacute;w i plik&oacute;w w nich zawartych nie należy używać następujących nieprawidłowych znak&oacute;w:</p>
+      \/:*?&quot;&lt;&gt;|;<br>
+      <p>Więcej informacji o konwencjach nazw można znaleźć w części 7.3 podręcznika <A HREF="http://www.novell.com/documentation/ifolder3/ifolder36_user/data/bookinfo.html">iFolder Cross Platfrom User Guide</A>.</p>
+      <p><strong>WAŻNE:</strong> Podczas pr&oacute;by utworzenia iFolderu, kt&oacute;rego nazwa przekracza długość nazwy pliku dopuszczalną przez system plik&oacute;w serwera iFolder, zostanie wyświetlony komunikat o błędzie m&oacute;wiący, że nazwa iFolderu jest zbyt długa, aby ją utworzyć.</p>
       <BR>
-      <B> Description</B><BR>
-      A short description of the iFolder.<br>
+      <B> Opis</B><BR>
+      Kr&oacute;tki opis iFolderu.<br>
       <BR>
-      <B> Type</B><BR>
-      select the type of the iFolder that you want to create.<br>
-      <BLOCKQUOTE> <B>Encrypted</B><BR>
-        Select this option to encrypt your iFolder and the files within it. <BR>
-        <p><strong>IMPORTANT: </strong>This option is not enabled until your Admin 
-          set your encryption policy to On. </p>
-        <B> Regular</B><BR>
-        Select Sharable to share your iFolder with other iFolder accounts. <BR>
-        <p><strong>IMPORTANT: </strong>Shared iFolders cannot be encrypted and 
-          encrypted ones cannot be shared.</p>
+      <B> Typ</B><BR>
+      Wybierz typ iFolderu, kt&oacute;ry ma zostać utworzony.<br>
+      <BLOCKQUOTE> <B>Szyfrowany</B><BR>
+        Wybierz tę opcję, aby iFolder i znajdujące się w nim pliki były zaszyfrowane. <BR>
+        <p><strong>WAŻNE: </strong>Ta opcje nie jest dostępna, jeśli administrator nie włączył założeń użytkownika dotyczących szyfrowania. </p>
+        <B> Zwykły</B><BR>
+        Wybierz tę opcję, aby iFolder był wsp&oacute;łużytkowany z innymi kontami iFolder. <BR>
+        <p><strong>WAŻNE: </strong>Wsp&oacute;łużytkowanych iFolder&oacute;w nie można szyfrować, a zaszyfrowanych nie można wsp&oacute;łużytkować.</p>
       </BLOCKQUOTE>
     </BLOCKQUOTE>
     <li> 
-      <p>Select the Recovery agent from the drop-down list.</p>
-      <p><strong>Note: </strong> This option will not be available if your iFolder 
-        Administrator does not select Enable Recovery agent option while configuring 
-        the iFolder server.</p>
-      <p>The Recovery agent can be a system, organization, or a person independent 
-        of the iFolder system that where you can store the key to recover your 
-        secret passphrase.</p>
-      <p><strong>IMPORTANT: </strong> Unless you have set your Recovery agent, 
-        the encrypted data cannot be recovered in the unfortunate case that you 
-        lost the passphrase. </p>
+      <p>Z listy rozwijanej wybierz agenta odzyskiwania.</p>
+      <p><strong>Uwaga: </strong>Ta opcja nie jest dostępna, jeśli administrator systemu iFolder nie wybrał opcji Włącz odzyskiwanie podczas konfigurowania serwera iFolder.</p>
+      <p>Agentem odzyskiwania może być system, organizacja lub osoba niezależna od systemu iFolder, kt&oacute;ra może przechowywać klucz służący do odzyskiwania tajnego zwrotu szyfrowania.</p>
+      <p><strong>WAŻNE: </strong>Jeśli agent odzyskiwania nie został wybrany, w przypadku utraty zwrotu szyfrowania odzyskanie zaszyfrowanych danych jest niemożliwe. </p>
     </li>
     <li> 
-      <p>Type the passphrase in the Enter Passphrase field.</p>
+      <p>Wpisz zwrot szyfrowania w polu Wprowadź zwrot szyfrowania.</p>
     </li>
-    <li><p>Enter the passphrase again to confirm.</p></li>
-    <li>Click Create to complete the new iFolder creation. 
-      <p> Click Cancel to cancel the operation. </p>
+    <li><p>Wprowadź ponownie zwrot szyfrowania w celu jego potwierdzenia.</p></li>
+    <li>Kliknij przycisk Utw&oacute;rz, aby zakończyć tworzenie nowego iFolderu. 
+      <p> Kliknij przycisk Anuluj, aby anulować operację. </p>
     </li>
   </ol>
   
   
-<a href="#top" target="_self"><img src="../../images/goto_top.gif" width="19" height="19" border="0" alt="Go to top"></a>
-<H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Related Topics" align="top"> 
-Related Topics</H4><BLOCKQUOTE class="task1"><P ><A HREF="browse.html">Accessing Folders and Files in Your iFolder</A><BR><A HREF="details.html">Viewing iFolder Properties
-</A><BR><A HREF="members.html">Managing iFolder Members</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P><P CLASS="copyright">A 
-trademark symbol (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP>, 
-etc.) denotes a Novell trademark. An asterisk (*) denotes a third-party 
-trademark. For more information, see <A HREF="legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Legal 
-Notices</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
+<a href="#top" target="_self"><img src="../../images/goto_top.gif" width="19" height="19" border="0" alt="Przejdź do g&oacute;ry"></a>
+<H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Tematy pokrewne" align="top"> Tematy pokrewne</H4><BLOCKQUOTE class="task1"><P ><A HREF="browse.html">Uzyskiwanie dostępu do folder&oacute;w i plik&oacute;w w iFolderze użytkownika</A><BR><A HREF="details.html">Wyświetlanie właściwości iFolderu</A><BR><A HREF="members.html">Zarządzanie członkami iFolderu</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Przejdź do g&oacute;ry"></A></P><P CLASS="copyright">Symbol znaku towarowego (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP> itd.) oznacza znak towarowy firmy Novell; symbol gwiazdki (*) oznacza znak towarowy innej firmy. Więcej informacji można znaleźć w sekcji <A HREF="legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Informacje prawne</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
 
 </body> 
 

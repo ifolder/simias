@@ -1,11 +1,11 @@
 <html>
 
    <head>
-     <meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+     <meta http-equiv="content-type" content="text/html;charset=UTF-8">
      
      <!-- Novell iFolder 3.x iManager Plugin  --> 
    
-     <title>iFolder Users </title>  	 
+     <title>Usuarios de iFolder </title>  	 
         
      <!-- Metadata -->
    
@@ -28,8 +28,7 @@
        <!--
        
          body           {  font-family: Arial, Helvetica, Geneva;
-									background: white
-url(../../images/helphead_bg.gif) repeat-x 0% 0% }
+									background: white url('../../images/helphead_bg.gif') repeat-x;  }
 		      
          #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px;
 									width: 380px; visibility: visible }
@@ -54,175 +53,136 @@ url(../../images/helphead_bg.gif) repeat-x 0% 0% }
 <!-- This is the start of the Help Content Layer --> <div id="helpcontent"> <!-- The Page Heading uses CSS style "head3b". This creates an H3 header
             with a line beneath it.
        --> 
-  <h3 class="head3b">Managing a User Account</h3>
-  <p> Use this interface to manage iFolder users in the selected iFolder domain. 
-    The search tool helps you locate the Novell iFolder<SUP><SMALL>&reg;</SMALL></SUP> 
-    3.7 user account you want to manage. </p>
+  <h3 class="head3b">Gesti&oacute;n de una cuenta de usuario</h3>
+  <p> Esta interfaz le permite gestionar los usuarios de iFolder del dominio iFolder seleccionado. La herramienta de b&uacute;squeda le ayudar&aacute; a localizar la cuenta de usuario de Novell iFolder<SUP><SMALL>&reg;</SMALL></SUP> 3.7 que desea gestionar. </p>
 	
-  <P><B><FONT SIZE="-1">NOTE:</FONT></B> <FONT SIZE="-1">The term <i>iFolder users 
-    </i> refers to both individual users and LDAPGroups.</FONT></P>
+  <P><B><FONT SIZE="-1">NOTA:</FONT></B> <FONT SIZE="-1"> el t&eacute;rmino <i>usuarios de iFolder </i> hace referencia tanto a usuarios individuales como a grupos LDAP.</FONT></P>
 	<BLOCKQUOTE CLASS="blockquote"><P><BR>
-      <A HREF="#browseuser" TARGET="_self">Browsing the Users</A> <BR>
-      <A HREF="#browsesearch" TARGET="_self">Browsing 
-the Users in the Search Results </A><BR> 
-<A HREF="#enabledisableuser" TARGET="_self">Enabling or Disabling an iFolder user</A><br>
-<A HREF="#provision" TARGET="_self">Provisioning iFolder Users </A> <br>
-<A HREF="#accessusers" TARGET="_self">Accessing the Users 
-Details Page </A> </P></BLOCKQUOTE>
-  <H4><A NAME="browseusers"></A>Browsing the Users <br>
+      <A HREF="#browseuser" TARGET="_self">Examinaci&oacute;n de los usuarios</A> <BR>
+      <A HREF="#browsesearch" TARGET="_self">Examinaci&oacute;n de los usuarios en los resultados de b&uacute;squeda</A><BR> 
+<A HREF="#enabledisableuser" TARGET="_self">Habilitaci&oacute;n o inhabilitaci&oacute;n de un usuario de iFolder</A><br>
+<A HREF="#provision" TARGET="_self"></A>Asignaci&oacute;n de usuarios de iFolder <br>
+<A HREF="#accessusers" TARGET="_self">Acceso a la p&aacute;gina Informaci&oacute;n de usuario</A> </P></BLOCKQUOTE>
+  <H4><A NAME="browseusers"></A>Examinaci&oacute;n de los usuarios <br>
   </H4>
   <OL><LI>
-      <P>From the Users page, select a name criterion (User Name, First Name, 
-        Last Name, Home Server).</P>
-    </LI><LI><P>Select a filter criterion (Contains, Begins 
-With, Ends With, Equals).</P></LI><LI><P>Use one or more of the following search 
-methods, then click Search:</P><UL><LI>
-          <P>Type the name of the user or LDAPGroup rin the Search Users field.</P>
-        </LI><LI><P>Type one or more letters in the Search Users field.</P></LI><LI>
-          <P>Type an asterisk (*) in the Search Users field to return a list of 
-            all Users and LDAPGroups on the system.</P>
+      <P>En la p&aacute;gina Usuarios, seleccione un criterio de nombre (Nombre, Servidor principal, Apellido, Nombre de usuario).</P>
+    </LI><LI><P>Seleccione un criterio de filtrado (Contiene, Empieza por, Acaba por, Igual a).</P></LI><LI><P>Utilice uno o varios de los siguientes m&eacute;todos de b&uacute;squeda y, a continuaci&oacute;n, haga clic en Buscar:</P><UL><LI>
+          <P>Escriba el nombre del usuario o el grupo LDAP en el campo Buscar usuarios.</P>
+        </LI><LI><P>Escriba una o varias letras en el campo Buscar usuarios.</P></LI><LI>
+          <P>Escriba un asterisco (*) en el campo Buscar usuarios para obtener una lista de todos los usuarios y grupos LDAP del sistema.</P>
         </LI><LI>
-          <P>Leave the Search Users field empty to return a list of all Users 
-            and LDAPGroups on the system.</P>
+          <P>Si lo prefiere, deje el campo en blanco para obtener una lista de todos los usuarios y grupos LDAP del sistema.</P>
         </LI></UL>
-      <P>Do not click anywhere in the page until the page completely refreshes, 
-        then you can browse, sort, or manage the users listed in the Search Results 
-        report. </P>
+      <P>No haga clic en ning&uacute;n lugar de la p&aacute;gina hasta que &eacute;sta se haya actualizado del todo. A continuaci&oacute;n, podr&aacute; examinar, clasificar o gestionar los usuarios del informe de resultados de b&uacute;squeda. </P>
+      <P><b>Nota:</b> cuando inicia sesi&oacute;n como administrador secundario, puede ver s&oacute;lo aquellos usuarios para los que est&aacute; designado como administrador secundario. Adem&aacute;s, puede gestionar los usuarios dependiendo de los derechos de los que disponga.</P>
     </LI></OL>
-  <H4><A NAME="browsesearch"></A>Locating the Users in the Search Results</H4>
-  <P>Scroll up and down to browse the search results and locate the user you want 
-    to manage. The combination of the username and the first and last names help 
-    to identify the user you want.</P>
+  <H4><A NAME="browsesearch"></A>Localizaci&oacute;n de los usuarios en los resultados de b&uacute;squeda</H4>
+  <P>Despl&aacute;cese hacia arriba o hacia abajo para examinar los resultados de b&uacute;squeda y localizar al usuario que desea gestionar. La combinaci&oacute;n de nombre de usuario y nombre y apellido le permitir&aacute; identificar al usuario deseado.</P>
   
-  <BLOCKQUOTE><P><B>Type</B>
-    <P><img src="../../images/provi_user.png"  alt="Folder icon">  indicates 
-      Provisioned users </P>
-		<P><img src="../../images/unprovi_user.png" alt="Shared icon">  indicates 
-      Unprovisioned users </P>
+  <BLOCKQUOTE><P><B>Tipo</B>
+    <P>
+    El icono <img src="../../images/provi_user.png"  alt="Icono de carpeta" width="14" height="16"> indica los usuarios asignados </P>
+		<P>
+        El icono <img src="../../images/unprovi_user.png" alt="Icono de compartido" width="14" height="16"> indica los usuarios que no se han asignado  </P>
 		
-    <p><img src="../../images/ifolder_admin.gif" width="16" height="16" alt="Shared icon"> 
-      indicates whether the user has the iFolder Admin right <br>
+    <p>El icono <img src="../../images/ifolder_admin.gif" width="16" height="16" alt="Icono de compartido"> indica si el usuario dispone del derecho de administrador de iFolder  <br>
 
-<BR><B>Name</B><BR>
-The username assigned 
-to the user account, such as jsmith or john.smith@example.com. Click the User Name link to manage User policies 
-and iFolders for the user. <BR>
-<BR><B>Full Name</B><BR>The first and last name 
-of the user account.<BR><br>
-      <B>Home</B> Server<BR>
-      iFolder server the user provisioned to.<br>
-      <BR><B>Enabled</B><BR>Specifies the status of the server.<br><br></BLOCKQUOTE>
-  <H4><A NAME="enabledisableuser"></A>Enabling or Disabling an iFolder user</H4>
+<BR><B>Nombre</B><BR>
+Nombre de usuario asignado a la cuenta de usuario como, por ejemplo, jsmith o john.smith@ejemplo.com. Haga clic en el enlace del nombre de usuario para gestionar las directivas de usuario y carpetas iFolder del usuario. <BR>
+<BR><B>Nombre completo</B><BR>Nombre y apellido de la cuenta de usuario.<BR><br>
+      <B>Servidor</B> <b>principal</b><BR>
+      Servidor iFolder al que est&aacute; asignado el usuario.<br>
+      <BR><B>Habilitada</B><BR>Especifica el estado del servidor.<br><br></BLOCKQUOTE>
+  <H4><A NAME="enabledisableuser"></A>Habilitaci&oacute;n o inhabilitaci&oacute;n de un usuario de iFolder</H4>
 	
-  <p> Follow the steps given below:</p> 
+  <p> Siga los pasos que se indican a continuaci&oacute;n:</p> 
   <OL>
     <LI> 
-      <P>Locate the iFolder user you want to manage, then select the check box 
-        next to the user.</P>
+      <P>Localice al usuario de iFolder que desea gestionar y, a continuaci&oacute;n, seleccione la casilla de verificaci&oacute;n situada junto a &eacute;ste.</P>
     </LI>
     <ul> <li>
-      <P>Click Enable to enable the user.</P>
-      <P>This will allow the user to log in and synchronize iFolders.</P>
+      <P>Haga clic en Habilitar para habilitar al usuario.</P>
+      <P>Esta acci&oacute;n permitir&aacute; al usuario entrar en las carpetas iFolder y sincronizarlas.</P>
     
     <LI> 
-      <P>Click Disable to disable the user.</P>
-      <P> If the user is logged in when you make this change, the user’s session 
-        continues until the user logs out. The policy takes effect the next time 
-        the user attempts to log in to the account. To have the lockout take effect 
-        immediately, you must restart the Apache services for the iFolder server, 
-        which disconnects all active sessions, including the user’s session.</P>
+      <P>Haga clic en Inhabilitar para inhabilitar al usuario.</P>
+      <P> Si el usuario est&aacute; conectado cuando se efect&uacute;a este cambio, la sesi&oacute;n del usuario continuar&aacute; hasta que &eacute;ste salga. La directiva surtir&aacute; efecto la pr&oacute;xima vez que el usuario intente entrar a la cuenta. Para que el bloqueo se aplique de forma inmediata, deber&aacute; reiniciar los servicios de Apache correspondientes al servidor iFolder, el cual desconectar&aacute; todas las sesiones activas, incluida la del usuario.</P>
     </LI></ul>
   </OL>
-  <H3><A NAME="provision"></A>Provisioning / Reprovisioning iFolder Users </H3>
+  <H3><A NAME="provision"></A>Provisi&oacute;n/Nueva provisi&oacute;n de usuarios de iFolder </H3>
   
    
   
-  <P>Use this interface to manually provision or reprovision the iFolder users 
-    to different servers available in the current iFolder domain. </p> 
+  <P>Utilice esta interfaz para proveer o volver a proveer manualmente a los usuarios de iFolder a los diferentes servidores iFolder disponibles en el dominio de iFolder. </p> 
   
-  <p> To provision / reprovision the iFolder users, perform any of the following:</P>
+  <p> Para proveer o volver a proveer a los usuarios de iFolder, realice una de las tareas siguientes:</P>
 	
-  <H4><A NAME="drop_down"></A>Provisioning Using Drop-Down List</H4>
+  <H4><A NAME="drop_down"></A>Asignaci&oacute;n mediante la lista desplegable</H4>
    
   <ol>
     <LI> 
-      <P>Locate the iFolder users you want to provision.</P>
+      <P>Localice a los usuarios de iFolder que desea asignar.</P>
     </LI><LI> 
-      <P>Select the iFolder server from the Home drop-down list given against 
-        each user.</P>
+      <P>Seleccione el servidor iFolder en la lista desplegable que aparece junto a cada usuario.</P>
     </LI><LI> 
-      <P>Click Save.</P>
+      <P>Haga clic en Guardar.</P>
     </LI>
   </ol>
-	<H4><A NAME="provision_button"></A>Provisioning Using Provision Button</H4>
+	<H4><A NAME="provision_button"></A>Asignaci&oacute;n mediante el bot&oacute;n Provisi&oacute;n de servicios</H4>
   
     <ol><LI>
-      <p>Locate the iFolder users you want to manage.</p>
+      <p>Localice a los usuarios de iFolder que desea gestionar.</p>
     </li><li>
-      <p>Select the check box next to each user. </P>
+      <p>Seleccione la casilla de verificaci&oacute;n situada junto a cada usuario. </P>
     </li>
-    <li>Click Provision to open a new page where you can provision / reprovision 
-      the selected users to an iFolder server in the domain.</LI>
+    <li>Haga clic en Provisi&oacute;n de servicios para abrir una nueva p&aacute;gina en la que poder proveer o volver a proveer a los usuarios seleccionados a un servidor iFolder del dominio.</LI>
   </ol>
-  <P><B><FONT SIZE="-1">NOTE:</FONT></B> <FONT SIZE="-1"> When a user logins for 
-    the first time and if a home server for the user is not set at the user level, 
-    then the server assigned to the LDAPGroup the user belongs to, is automatically 
-    allocated to the user.</FONT></P>
-  <H3><A NAME="newuser"></A>Creating a New iFolder User</H3>
+  <P><B><FONT SIZE="-1">NOTA:</FONT></B><FONT SIZE="-1"> cuando un usuario entra por primera vez y si no se ha definido un servidor principal en el nivel de usuario, el servidor asignado al grupo LDAP al que pertenece el usuario se asigna autom&aacute;ticamente al usuario.</FONT></P>
+  <H3><A NAME="newuser"></A>Creaci&oacute;n de un usuario de iFolder nuevo</H3>
   <BLOCKQUOTE> 
-    <P><B><FONT SIZE="-1">NOTE:</FONT></B> <FONT SIZE="-1">You can create only 
-      non-LDAP users. You can create them only when your iFolder server is not 
-      connected to the LDAP server.</FONT></P>
+    <P><B><FONT SIZE="-1">NOTA:</FONT></B> <FONT SIZE="-1">s&oacute;lo es posible crear usuarios que no sean LDAP. S&oacute;lo podr&aacute; crearlos cuando el servidor iFolder no est&eacute; conectado al servidor LDAP.</FONT></P>
   </BLOCKQUOTE>
 <OL><LI>
-      <P>On the iFolder Users page, click New.</P>
-	  <P>The iFolder User creation page opens to the Users tab </P>
+      <P>En la p&aacute;gina Usuarios de iFolder, haga clic en Nuevo.</P>
+	  <P>Se abrir&aacute; la p&aacute;gina de creaci&oacute;n de usuarios de iFolder en la pesta&ntilde;a Usuarios. </P>
     </LI>
-    <LI>Specify the following information and then click Create.
+    <LI>Especifique la siguiente informaci&oacute;n y, a continuaci&oacute;n, haga clic en Crear.
   </ol>
   <P><BLOCKQUOTE>
-    <B>User Name</B><BR>
-    Assign a username to the user account, such as jsmith or john.smith@example.com. 
+    <B>Usuario</B><BR>
+    Asigne un nombre de usuario a la cuenta de usuario como, por ejemplo, jsmith o john.smith@ejemplo.com. 
     <BR>
 	<BR>
-    <B>First Name</B><BR>
-    First name of the user.<br>
+    <B>Nombre</B><BR>
+    Nombre del usuario.<br>
     <BR>
-    <B>Last Name</B><BR>
-    Last name of the user. <BR>
-<BR><B>Full Name</B><BR>The first and last name 
-of the user account. <br>
+    <B>Apellido</B><BR>
+    Apellido del usuario. <BR>
+<BR><B>Nombre completo</B><BR>Nombre y apellido de la cuenta de usuario. <br>
 <BR>
-    <B>Password</B><BR>
-    Assign a password for the user account.<br>
+    <B>Contrase&ntilde;a</B><BR>
+    Asigne una contrase&ntilde;a a la cuenta de usuario.<br>
     <BR>
-    <B>Retype password</B><BR>
-    Retype the password to verify it. <BR>
+    <B>Vuelva a escribir la contrase&ntilde;a</B><BR>
+    Vuelva a escribir la contrase&ntilde;a para confirmarla. <BR>
   </BLOCKQUOTE>
-  <h4><a name="accessusers"></a>Accessing the Users Details Page</h4>
-  <p> Follow the procedure given below:</p>
+  <h4><a name="accessusers"></a>Acceso a la p&aacute;gina Informaci&oacute;n de usuario</h4>
+  <p> Siga el procedimiento que se indica a continuaci&oacute;n:</p>
   
   <ol>
     <li> 
-      <p>On the iFolder User page, use the search tool to locate the user whose 
-        iFolder account you want to manage.</p>
+      <p>En la p&aacute;gina Usuario de iFolder, utilice la herramienta de b&uacute;squeda para localizar al usuario cuya cuenta de iFolder desea gestionar.</p>
     </li>
     <li> 
-      <p>Click the user's name link to open the User Details page to the Users 
-        tab.</p>
+      <p>Haga clic en el enlace del nombre del usuario para abrir la p&aacute;gina Informaci&oacute;n de usuario en la pesta&ntilde;a Usuarios.</p>
     </li>
   </ol>
-<P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P>
+<P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Ir al inicio"></A></P>
   
-  <H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Related Topics" align="top"> 
-Related Topics</H4>
+  <H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Temas relacionados" align="top"> Temas relacionados</H4>
   
-  <BLOCKQUOTE class="task1"><P><A HREF="userdetails.html">User Details</A><BR><A HREF="ifolderdetails.html">Managing iFolder Details
-</A><BR><A HREF="ifolders.html">Managing an iFolder</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P><P>&nbsp;</P><P CLASS="copyright">A 
-trademark symbol (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP>, 
-etc.) denotes a Novell trademark. An asterisk (*) denotes a third-party trademark. 
-For more information, see <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Legal 
-Notices</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
+  <BLOCKQUOTE class="task1"><P><A HREF="userdetails.html">Informaci&oacute;n de usuario</A><BR><A HREF="ifolderdetails.html">Gesti&oacute;n de la informaci&oacute;n de una carpeta iFolder</A><BR><A HREF="ifolders.html">Gesti&oacute;n de una carpeta iFolder</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Ir al inicio"></A></P><P>&nbsp;</P><P CLASS="copyright">El s&iacute;mbolo de marca comercial (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP>, etc.) indica una marca comercial de Novell; el asterisco (*) indica una marca comercial de otro fabricante. Para obtener m&aacute;s informaci&oacute;n, consulte la <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Informaci&oacute;n legal</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
 </body>
 
 </html>

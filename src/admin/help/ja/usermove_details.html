@@ -1,11 +1,11 @@
 <html>
 
    <head>
-     <meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+     <meta http-equiv="content-type" content="text/html;charset=UTF-8">
      
      <!-- Novell iFolder 3.7 Web Admin Help --> 
    
-     <title>User Move Details</title>  	 
+     <title>ユーザの移動の詳細</title>  	 
         
      <!-- Metadata -->
    
@@ -53,114 +53,98 @@ url(../../images/helphead_bg.gif) repeat-x 0% 0% }
 <!-- This is the start of the Help Banner Layer --> <div id="headgraphic"> <img src="../../images/h1_help.gif" width="380" height="32"   border="0"></div><!-- This is end of the Help Banner Layer --> 
 <!-- This is the start of the Help Content Layer --> 
 <div id="helpcontent" style="left: 13px; top: 35px"> 
-  <H3><A NAME="userdetails"></A>User Reprovisioning Details </H3>
-  <P>Use this interface to view the user provisioning or reprovisioning details 
-    and the iFolder details owned by the user. </P>
+  <H3><A NAME="userdetails"></A> ユーザの再プロビジョニングの詳細 </H3>
+  <P>このインタフェースは、ユーザのプロビジョニングまたは再プロビジョニングの詳細、およびユーザが所有しているiFolderの詳細を表示する場合に使用します。 </P>
   
-  <P>The User Provisioning Details page displays the following user details for 
-    the selected user's iFolder account. </P>
-	<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
-        <P>User Name</P>
+  <P>［User Provisioning Details (ユーザプロビジョニングの詳細)］ページには、選択したユーザのiFolderアカウントについて、次のユーザ詳細が表示されます。 </P>
+	<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>パラメータ</P></TD><TD CLASS="tablehead2"><P>説明</P></TD></TR><TR><TD VALIGN="TOP">
+        <P>ユーザ名</P>
       </TD>
       <TD> 
-        <P>The username assigned to the user account, such as jsmith or john.smith@example.com.</P>
+        <P>jsmithやjohn.smith@example.comなど、ユーザアカウントに割り当てられているユーザ名。</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Full Name</P>
+        <P>フルネーム</P>
       </TD>
       <TD> 
-        <P>The first and last name of the user account. </P>
+        <P>ユーザアカウントの名と姓。 </P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>LDAP Context</P>       
+        <P>LDAPコンテキスト</P>       
       </TD>
       <TD> 
-        <P>The LDAP tree context is used for provisioning users in to the iFolder 
-          domain. For example, cn= test, o=novell.
+        <P>LDAPツリーコンテキストは、ユーザをiFolderドメインにプロビジョニングするために使用されます。例: cn=test,o=novell
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>New Home</P>       
+        <P>New Home (新しいホーム)</P>       
       </TD>
       <TD> 
-        <P>Shows the new server to provision for the user.
+        <P>ユーザにプロビジョニングする新しいサーバを表示します。
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>Completed</P>
+        <P>完了</P>
         </TD>
       <TD> 
-        <P>Shows the reprovisioning status as a percentage. 
+        <P>プロビジョニングの状態をパーセントで表示します。 
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>Reprovision State</P>       
+        <P>Reprovision State (再プロビジョニングステータス)</P>       
       </TD>
       <TD> 
-        <P>Shows any of the following reprovisioning states. </p>
+        <P>再プロビジョニングステータスを次のいずれかで表示します。 </p>
 		 <P> 
     <BLOCKQUOTE> 
           <ul>
-            <li>Initializing</li>
-            <li>Initialized</li>
-            <li>Moving iFolder</li>
-            <li>Resetting Home</li>
-            <li>Finalizing</li>
+            <li>初期化中</li>
+            <li>Initialized (初期化済)</li>
+            <li>Moving iFolder (iFolderを移動中)</li>
+            <li>Resetting Home (ホームをリセット中)</li>
+            <li>Finalizing (最終処理を実行中)</li>
           </ul>
         </blockquote>
       </TD></TR></TABLE>
 
-  <P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P>
+  <P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="トップへジャンプ"></A></P>
   
-  <h4><a name="ifolders"></a> iFolder Details</h4>
-  <P>The User Provisioning Details page displays the following iFolder details 
-    for the selected user's iFolder account.</P>
+  <h4><a name="ifolders"></a> iFolder詳細</h4>
+  <P>［User Provisioning Details (ユーザプロビジョニングの詳細)］ページには、選択したユーザのiFolderアカウントについて、次のiFolder詳細が表示されます。</P>
 	
-  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TD VALIGN="TOP">
-        <P>Type</P>
+  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>パラメータ</P></TD><TD CLASS="tablehead2"><P>説明</P></TD></TR><TD VALIGN="TOP">
+        <P>タイプ</P>
       </TD><TD>
-        <P><img src="../../images/ifolder.png" width="16" height="16" alt="Folder icon">  Normal iFolder</P>
-		<P><img src="../../images/encrypt_ifolder.gif" width="16" height="16" alt="Folder icon"> Encrypted iFolder</P>
-		<p><img src="../../images/ifolder_user_16.gif" width="16" height="16" alt="Shared icon"> 
-          Shared iFolder<br>
+        <P><img src="../../images/ifolder.png" width="16" height="16" alt="フォルダアイコン"> 標準のiFolder</P>
+		<P><img src="../../images/encrypt_ifolder.gif" width="16" height="16" alt="フォルダアイコン"> 暗号化されたiFolder</P>
+		<p><img src="../../images/ifolder_user_16.gif" width="16" height="16" alt="共有アイコン"> 共有されたiFolder<br>
       </TD><TR><TD VALIGN="TOP">
-        <P>Name</P>
+        <P>名前</P>
       </TD><TD>
-        <P>The name assigned to the iFolder.</P>
-      </TD><TR><TR><TD VALIGN="TOP"><P>Owner 
+        <P>iFolderに割り当てられている名前。</P>
+      </TD><TR><TR><TD VALIGN="TOP"><P>所有者 
 </P></TD><TD>
-        <P>The username of the owner of the selected iFolder. The owner can be 
-          an individual user or an LDAPGroup. If an LDAPGroup is the owner of 
-          the iFolder, then all the members of the LDAPGroup will have the same 
-          access rights. For orphaned iFolders, the iFolder Admin user is made 
-          the owner until the iFolder can be reassigned or deleted.</P>
-        <p>Click the owner's username link to view his or her user account details.</p> 
-        <P>The iFolder owner has the Full Control right to the iFolder. The owner manages 
-          membership and access rights for users, and can remove the Full Control 
-          right for any member.</P>
+        <P>選択したiFolderの所有者のユーザ名。所有者は個々のユーザまたはLDAPGroupになります。iFolderの所有者がLDAPGroupである場合、そのLDAPGroupのすべてのメンバーに同じアクセス権が付与されます。孤立したiFolderの場合、iFolderが再割り当てされるか削除されるまでは、iFolder管理者ユーザが所有者になります。</P>
+        <p>所有者のユーザアカウント詳細を表示するには、その所有者のユーザ名のリンクをクリックします。</p> 
+        <P>iFolderの所有者には、iFolderに対するフル制御アクセス権があります。所有者は、ユーザのメンバーシップとアクセス権を管理したり、メンバーのフル制御アクセス権を削除したりできます。</P>
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>Size</P>
+        <P>サイズ</P>
       </TD><TD>
-        <P>Size of the iFolder in MB.</P>
+        <P>iFolderのサイズ(MB)。</P>
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>Status</P>
+        <P>ステータス</P>
       </TD>
       <TD> 
-        <P>Shows any of the following iFolder movement states. </p>
+        <P>iFolderの移動状態を次のいずれかで表示します。 </p>
 		 <P> 
     <BLOCKQUOTE> 
           <ul>
-            <li>Initializing</li>
-            <li>Transferring</li>
-            <li>Completed</li>
+            <li>初期化中</li>
+            <li>Transferring (転送中)</li>
+            <li>完了</li>
             
           </ul>
         </blockquote>
       </TD></TR></TABLE>
-<P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P><H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Related Topics" align="top"> 
-Related Topics</H4>
+<P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="トップへジャンプ"></A></P><H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="関連項目" align="top"> 関連項目</H4>
   
-  <BLOCKQUOTE class="task1"><P><A HREF="users.html">Managing a User Account</A><BR>
-      <A HREF="ifolders.html">Managing iFolders</A><BR>
-      <A HREF="ifolderdetails.html">Managing iFolder Details</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P><P>&nbsp;</P><P CLASS="copyright">A 
-trademark symbol (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP>, 
-etc.) denotes a Novell trademark. An asterisk (*) denotes a third-party trademark. 
-For more information, see <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Legal 
-Notices</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
+  <BLOCKQUOTE class="task1"><P><A HREF="users.html">ユーザアカウントの管理</A><BR>
+      <A HREF="ifolders.html">iFolderの管理</A><BR>
+      <A HREF="ifolderdetails.html">iFolder詳細の管理</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="トップへジャンプ"></A></P><P>&nbsp;</P><P CLASS="copyright">商標記号（<SUP><SMALL>&reg;</SMALL></SUP>、<SUP><SMALL>TM</SMALL></SUP>など）は、Novellの商標を示し、アスタリスク（*）は、サードパーティの商標を示します。  詳細については、「<A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">保証と著作権</font></A>」を参照してください。</P></div><!-- This is the end of the Help Content layer. --> 
 </body>
 
 </html>

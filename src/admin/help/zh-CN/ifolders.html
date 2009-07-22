@@ -1,11 +1,11 @@
 <html>
 
    <head>
-     <meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+     <meta http-equiv="content-type" content="text/html;charset=UTF-8">
      
      <!-- Novell iFolder 3.x iManager Plugin  --> 
    
-     <title>iFolders</title>  	 
+     <title>iFolder</title>  	 
         
      <!-- Metadata -->
    
@@ -28,8 +28,7 @@
        <!--
        
          body           {  font-family: Arial, Helvetica, Geneva;
-									background: white
-url(../../images/helphead_bg.gif) repeat-x 0% 0% }
+									background: white url('../../images/helphead_bg.gif') repeat-x;  }
 		      
          #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px;
 									width: 380px; visibility: visible }
@@ -54,114 +53,80 @@ url(../../images/helphead_bg.gif) repeat-x 0% 0% }
 <!-- This is the start of the Help Content Layer --> <div id="helpcontent"> <!-- The Page Heading uses CSS style "head3b". This creates an H3 header
             with a line beneath it.
        --> 
-  <h3 class="head3b">Managing iFolders</h3>
-  <p> Use this interface to manage the ownership, policies, and membership of 
-    a selected iFolder for an iFolder user account on the given iFolder domain. 
-    The search tool helps you locate the account you want to manage. </p>
-	<BLOCKQUOTE CLASS="blockquote"><P><A HREF="#search" TARGET="_self">Searching for 
-an iFolder</A> <BR><A HREF="#browse" TARGET="_self">Browsing 
-the iFolders in the Search Results 
- </A><BR><A HREF="#enable" TARGET="_self">Enabling, Disabling and Deleting an iFolder</A><BR><A HREF="#newuser" TARGET="_self">Creating a New iFolder</A>
+  <h3 class="head3b">管理 iFolder</h3>
+  <p> 使用此界面可管理给定 iFolder 域上某一 iFolder 用户帐户的选定 iFolder 的所有权、策略和成员资格。搜索工具可帮助您查找要管理的帐户。 </p>
+  <p> <b>注意：</b>当您以二级管理员身份登录时，只能查看您被指定为其二级管理员的用户所拥有的 iFolder。此外，您可以管理 iFolder，但仅取决于提供给您的用于管理 iFolder 的权限。</p>
+	<BLOCKQUOTE CLASS="blockquote"><P><A HREF="#search" TARGET="_self">搜索 iFolder</A> <BR><A HREF="#browse" TARGET="_self">浏览搜索结果中的 iFolder</A><BR><A HREF="#enable" TARGET="_self">启用、禁用和删除 iFolder</A><BR><A HREF="#newuser" TARGET="_self">创建新的 iFolder</A>
  </P></BLOCKQUOTE>
   
-  <H3><A NAME="search"></A>Searching For an iFolder</H3>
+  <H3><A NAME="search"></A>搜索 iFolder</H3>
   
-<H4>iFolder Types</H4>
-  <p><img src="../../images/ifolder.png" width="16" height="16" alt="Shared icon"> 
-    indicates that the iFolder is Normal.<br>
-    <img src="../../images/ifolder_user_16.gif" width="16" height="16" alt="Shared icon"> 
-    indicates that the iFolder is Shared.<br>
-    <img src="../../images/encrypt_ifolder.gif" width="16" height="16" alt="Shared icon"> 
-    indicates that the iFolder is Encrypted.</p>
-  <p> Click All to view all the iFolders in the current iFolder domain. Click 
-    Orphan to view all the orphaned iFolders.</p>
-  <H4>Retrieving a List of iFolders on the Server</H4><P>Use one 
-or more of the following search methods, then click Search:</P><UL><LI><P>Select 
-Equals as the filter criterion, then type the name of the iFolder you want to 
-locate in the Search iFolders field.</P></LI><LI>
-      <P>Select a filter criterion ( Begins With, Ends With, Contains, Equals) for the name 
-        of the iFolder, then type one or more letters in the Search iFolders field.</P>
-    </LI><LI><P>Type an asterisk 
-(*) in the Search iFolders field to return a list of all iFolders on the system.</P></LI><LI><P>Leave 
-the Search iFolders field empty to return a list of all iFolders on the system.</P></LI></UL>
-  <P>Do not click anywhere in the page until the page completely refreshes; then 
-    you can browse, sort, or manage the iFolders listed in the Search Results 
-    report. </P>
-  <H4><A NAME="browse"></A>Browsing 
-the iFolders in the Search Results</H4>
-  <P>Scroll up and down to browse the search results and locate the iFolder you 
-    want to manage. The combination of the iFolder's name and owner help to identify 
-    the iFolder you want.</P>
+<H4>iFolder 类型</H4>
+  <p><img src="../../images/ifolder.png" width="16" height="16" alt="共享图标"> 指示该 iFolder 是常规的。<br>
+    <img src="../../images/ifolder_user_16.gif" width="16" height="16" alt="共享图标"> 指示该 iFolder 是共享的。<br>
+    <img src="../../images/encrypt_ifolder.gif" width="16" height="16" alt="共享图标"> 指示该 iFolder 是加密的。</p>
+  <p> 单击&ldquo;全部&rdquo;可查看当前 iFolder 域中的所有 iFolder。单击&ldquo;孤立&rdquo;可查看所有孤立的 iFolder。</p>
+  <H4>检索服务器上的 iFolder 列表</H4><P>使用下面的一种或多种搜索方法，然后单击&ldquo;搜索&rdquo;：</P><UL><LI><P>选择&ldquo;等于&rdquo;作为过滤器标准，然后在&ldquo;搜索 iFolder&rdquo;字段中键入要查找的 iFolder 的名称。</P></LI><LI>
+      <P>为 iFolder 的名称选择一个过滤器标准（&ldquo;开始于&rdquo;、&ldquo;结束于&rdquo;、&ldquo;包含&rdquo;、&ldquo;等于&rdquo;），然后在&ldquo;搜索 iFolder&rdquo;字段中键入一个或多个字母。</P>
+    </LI><LI><P>在&ldquo;搜索 iFolder&rdquo;字段中键入一个星号 (*) 可返回系统中所有 iFolder 的列表。</P></LI><LI><P>&ldquo;搜索 iFolder&rdquo;字段保留为空时可返回系统中所有 iFolder 的列表。</P></LI></UL>
+  <P>请勿单击该页上的任何地方，直至该页完全刷新完毕，然后您可以浏览、排序或管理&ldquo;搜索结果&rdquo;报告中所列的 iFolder。 </P>
+  <H4><A NAME="browse"></A>浏览搜索结果中的 iFolder</H4>
+  <P>上下滚动可浏览搜索结果并查找要管理的 iFolder。iFolder 的名称和拥有者的组合可帮助您标识所需的 iFolder。</P>
   
-  <H4><a name="enable"></a>Enabling, Disabling and Deleting an iFolder</H4>
+  <H4><a name="enable"></a>启用、禁用和删除 iFolder</H4>
   <br>
 	<OL>
     <LI> 
-      <P>Locate the iFolder you want to manage, then select the check box next 
-        to the iFolder.</P>
+      <P>查找要管理的 iFolder，然后选中该 iFolder 旁边的复选框。</P>
     </LI>
 	<LI> 
-      <P>Select an action to perform on the iFolder:</P>
+      <P>选择一个要在该 iFolder 上执行的操作：</P>
     </LI>
-	<ul><li><P>Click Delete to delete the iFolder.</P><li><P>Click Enable to enable the iFolder.</P>
-        <P>This allows the user to log in and synchronize iFolders.</P>
-      </li><li><P>Click Disable to disable the iFolder.</P><P> If the user is logged in when you make this change, the user�s session 
-        continues until the user logs out. The policy takes effect the next time 
-        the user attempts to log in to the account. To have the lockout take effect 
-        immediately, you must restart the Apache services for the iFolder server, 
-        which disconnects all active sessions, including the user�s session.</P></li></ul>
+	<ul><li><P>单击&ldquo;删除&rdquo;可删除该 iFolder。</P><li><P>单击&ldquo;启用&rdquo;可启用该 iFolder。</P>
+        <P>此操作可使用户登录并同步 iFolder。</P>
+      </li><li><P>单击&ldquo;禁用&rdquo;可禁用该 iFolder。</P><P> 如果用户在您进行此更改时已经登录，则在该用户注销之前，该用户的会话将继续。此策略将在用户下次试图登录该帐户时生效。要使锁定立即生效，则必须重启动 iFolder 服务器的 Apache 服务，该服务器将中断所有的活动会话，包括用户的会话。</P></li></ul>
        
    
   </OL><BLOCKQUOTE>
-    <P><B><FONT SIZE="-1">NOTE:</FONT></B> <FONT SIZE="-1">By default, all iFolders 
-      are enabled.</FONT></P>
+    <P><B><FONT SIZE="-1">注意：</FONT></B> <FONT SIZE="-1">默认情况下，已启用所有 iFolder。</FONT></P>
   </BLOCKQUOTE> 
-  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top" TITLE="Go to top"></A>
-  <H3><A NAME="newuser"></A>Creating a New iFolder </H3>
+  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="返回页首" TITLE="返回页首"></A>
+  <H3><A NAME="newuser"></A>创建新的 iFolder </H3>
   <br>
  
 <OL><LI>
-      <P>On the iFolder Users page, click New.</P>
-	  <P>The iFolder creation page opens to the iFolders page.</P>
+      <P>在&ldquo;iFolder 用户&rdquo;页上，单击&ldquo;新建&rdquo;。</P>
+	  <P>iFolder 创建页打开，显示&ldquo;iFolder&rdquo;页。</P>
     </LI>
-    <LI>Specify the following information and then click Create.
+    <LI>指定以下信息，然后单击&ldquo;创建&rdquo;。
   </ol>
   <P>
-  <BLOCKQUOTE> <B> Name</B><BR>
-    Assign a name to the iFolder such as ifolder 1. <BR>
+  <BLOCKQUOTE> <B>名称</B><BR>
+    为 iFolder 指派一个名称，如 ifolder 1。 <BR>
 	<BR>
-    <B> Description</B><BR>
-    A short description about the iFolder.<br>
+    <B>说明</B><BR>
+    有关 iFolder 的简短说明。<br>
        
   </BLOCKQUOTE>
  
-  <h4>Accessing the iFolders Details Page</h4><br>
+  <h4>访问&ldquo;iFolder 细节&rdquo;页</h4><br>
   
   <ol>
     
     <li> 
-      <p>Use the search tool to locate the iFolder you want to manage.</p>
+      <p>使用搜索工具查找要管理的 iFolder。</p>
     </li>
     <li> 
-      <p>Click the iFolder's link to open the iFolder Details page to the iFolder 
-        tab. <br>
+      <p>点击 iFolder 的链接以打开&ldquo;iFolder 细节&rdquo;页，显示&ldquo;iFolder&rdquo;选项卡。 <br>
         <br>
-        The iFolder Details page will display the iFolder details, a list of members 
-        who own or share with, and policy settings for the current iFolder. </p>
+        &ldquo;iFolder 细节&rdquo;页将显示当前 iFolder 的 iFolder 细节、拥有或共享的成员列表以及策略设置。 </p>
     </li>
   </ol>
-  <P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P>
+  <P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="返回页首"></A></P>
   
-  <H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Related Topics" align="top"> 
-Related Topics</H4>
+  <H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="相关主题" align="top"> 相关主题</H4>
   
-  <BLOCKQUOTE class="task1"><P><A HREF="ifolderdetails.html">Managing iFolder Details
-</A><BR><A HREF="userdetails.html">User Details 
-</A><BR><A HREF="users.html">Managing a User Account</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P><P>&nbsp;</P><P CLASS="copyright">A 
-trademark symbol (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP>, 
-etc.) denotes a Novell trademark. An asterisk (*) denotes a third-party trademark. 
-For more information, see <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Legal 
-Notices</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
+  <BLOCKQUOTE class="task1"><P><A HREF="ifolderdetails.html">管理 iFolder 细节</A><BR><A HREF="userdetails.html">用户细节</A><BR><A HREF="users.html">管理用户帐户</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="返回页首"></A></P><P>&nbsp;</P><P CLASS="copyright">商标符号（<SUP><SMALL>&reg;</SMALL></SUP>、<SUP><SMALL>TM</SMALL></SUP> 等）表示 Novell 商标。星号 (*) 表示第三方商标。有关详细信息，请参见<A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">法律声明</font></A>。</P></div><!-- This is the end of the Help Content layer. --> 
 </body>
 
 </html>

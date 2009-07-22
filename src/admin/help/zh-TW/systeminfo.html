@@ -1,11 +1,11 @@
 <html>
 
    <head>
-     <meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+     <meta http-equiv="content-type" content="text/html;charset=UTF-8">
      
      <!-- Novell iFolder 3.x iManager Plugin  --> 
    
-     <title>iFolder System</title>  	 
+     <title>iFolder 系統</title>  	 
    
         
      <!-- Metadata -->
@@ -28,7 +28,7 @@
 <style type= "text/css" media="screen">
        <!--
        
-         body           {  font-family: Arial, Helvetica, Geneva; background: white url(../../images/helphead_bg.gif) repeat-x 0% 0% }
+         body           {  font-family: Arial, Helvetica, Geneva; background: white url('../../images/helphead_bg.gif') repeat-x;  }
 		      
          #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px;
 									width: 380px; visibility: visible }
@@ -36,6 +36,8 @@
          #helpcontent    { position: absolute; top: 37px; left: 10px; 
 	                        width: 93%; visibility: visible }
       
+div.Section1
+	{page:Section1;}
        -->
      </style>
   
@@ -52,285 +54,364 @@
 <!-- This is the start of the Help Banner Layer --> <div id="headgraphic"> <img src="../../images/h1_help.gif" width="380" height="32"   border="0"></div><!-- This is end of the Help Banner Layer --> 
 <!-- This is the start of the Help Content Layer --> <div id="helpcontent"> <!-- The Page Heading uses CSS style "head3b". This creates an H3 header
             with a line beneath it.
-       --> <h3 class="head3b">Managing the iFolder System</h3>
-  <p> Use this interface to manage Novell iFolder<SUP><SMALL>&reg;</SMALL></SUP> 
-    3.7 services for the selected server.</p>
-  <P>This help discusses the following information:</P>
-  <blockquote> <P><A HREF="#sytemsettings" TARGET="_self">Viewing the System Settings
-</A> <BR><A HREF="#status" TARGET="_self">Reprovision Status</a><BR><A HREF="#admin" TARGET="_self">Administrators Tab</a><BR> <A HREF="#policy" TARGET="_self">Policies
-</a><BR></P></BLOCKQUOTE>
+       --> <h3 class="head3b">管理 iFolder 系統</h3>
+  <p> 使用此介面管理選定伺服器的 Novell iFolder<SUP><SMALL>&reg;</SMALL></SUP> 3.7 服務。</p>
+  <P>本說明討論下列資訊：</P>
+  <blockquote> <P><A HREF="#sytemsettings" TARGET="_self">系統設定 </A> <BR><A HREF="#status" TARGET="_self">重新供應狀態</a><BR><A HREF="#admin" TARGET="_self">管理員索引標籤</a><BR> <A HREF="#policy" TARGET="_self">規則 </a><BR></P></BLOCKQUOTE>
   
-  <H3><A NAME="sytemsettings"></A>Viewing the System Settings</H3>
-  <P>You 
-can view the following information:</P><TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
-        <P>System Name</P>
+  <H3><A NAME="sytemsettings"></A>系統設定</H3>
+  <p>系統設定區段會顯示下列資訊：</p>
+  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>參數</P></TD><TD CLASS="tablehead2"><P>
+    描述</P></TD></TR><TR><TD VALIGN="TOP">
+        <P>名稱</P>
       </TD><TD>
-        <P>The name assigned to the iFolder domain.</P>
-		<P>To edit the name of the iFolder domain, specify the new name and click 
-          Save.</P>
+        <P>為 iFolder 領域指定的名稱。</P>
+		<P>若要編輯 iFolder 領域的名稱，請指定新名稱並按一下「儲存」。</P>
 		  
-        <P>To cancel the changes made, click Cancel.</P>
+        <P>若要取消所做的變更，請按一下「取消」。</P>
       </TD><TR><TD VALIGN="TOP">
-        <P>Description</P>
+        <P>描述</P>
       </TD><TD>
-        <P>A short description about the iFolder Domain.</P>
-		<P>To edit the system description, specify the new description and click 
-          Save.</P>
+        <P>「iFolder 領域」的簡短描述.</P>
+		<P>若要編輯系統描述，請指定新描述並按一下「儲存」。</P>
 		  
-        <P>To cancel the changes made, click Cancel.</P>
-      </TD><TR><TD VALIGN="TOP">
-        <P>Total Users</P>(view only)
-      </TD><TD>
-        <P>Reports the total number of users in the iFolder domain. 
-      </TD></TR><TR><TD VALIGN="TOP">
-        <P>Total iFolders</P>
-        (view only)
-      </TD><TD>
-        <P>Reports total number of iFolders that belongs to the iFolder domain. 
-      </TD></TR><TR><TD VALIGN="TOP">
-        <P>Enable SSL</P>
+        <P>若要取消所做的變更，請按一下「取消」。</P>
+      </TD>
+    <tr>
+      <TD VALIGN="TOP">
+        <P>SSL 選項</P>
         
       </TD>
       <TD> 
-        <P>Select the check box to enable the SSL communication among the iFolder 
-          Servers, iFolder client, iFolder Web Access console and iFolder Web 
-          Admin console. 
-      </TD></TR></TABLE>
- <P> <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P> 
- <H3><A NAME="status"></A>Reprovision Status</H3> 
-  <p> You can move users across different servers. With this interface, you can 
-    view the reprovisioning status. Click Reprovision Status to view the reprovision 
-    status for each user. </p>
-  <P> <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P>
-  <H3><a name="admin"></a>iFolder Administrators</H3>
-<P>The iFolder Admin user is the primary administrator of the iFolder 
-enterprise server. Whenever iFolders are orphaned, ownership is transferred to 
-the iFolder Admin user for reassignment to another user or for deletion. You initially 
-specify the iFolder Admin user during the iFolder enterprise server configuration 
-in YaST. </P>
-  <P>The iFolder Admin user must be provisioned in order to enable the iFolder 
-    Admin to perform management tasks. iFolder tracks this user by the LDAP object 
-    GUID, allowing it to belong to any LDAP container or group in the tree, even 
-    those that are not identified as Search DNs. The user&#146;s movement can 
-    be tracked anywhere in the tree because it is known by the GUID, not by the 
-    user DN.</P>
-  <P>The iFolder Admin right can be assigned to other users so that they can also 
-    manage iFolder services for the selected server. Only users who are in one 
-    of the DNs specified in the LDAP Search DN are eligible to be equivalent to 
-    the iFolder Admin user.</P>
-  <P>If you assign the iFolder Admin right to other 
-users, those users are governed by the roster and Search DN relationship. The 
-user is removed from the roster and stripped of the iFolder Admin right if you 
-delete the user, remove the user&#146;s DN from the list of Search DNs, or move 
-the user to a DN that is not in the Search DNs.</P><P><font size="-1"><b>IMPORTANT:</b> You cannot assign the Admin user 
-          right to an LDAPGroup.</font></P>
-  <P>The System page displays the following iFolder Admin details for the iFolder 
-    domain:</P>
-	<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR>
+        <P>顯示 iFolder 伺服器、iFolder 用戶端、iFolder Web 存取主控台與 iFolder Web 管理員主控台之間的通訊模式。 
+      </TD>
+    </tr>
+    <TR><TD VALIGN="TOP">
+        <P>使用者總數</P>(僅能檢視)
+      </TD><TD>
+        <P>報告 iFolder 領域內的使用者總數 
+      </TD></TR><TR><TD VALIGN="TOP">
+        <P>iFolder 總數</P>
+        (僅能檢視)
+      </TD><TD>
+        <P>報告屬於 iFolder 網域的 iFolder 總數。 
+      </TD></TR><TR><TD VALIGN="TOP">
+        完整名稱顯示順序</TD><TD>
+        <p>
+        讓您設定顯示使用者全名的順序。選取<i>「(名字，姓氏）」</i>選項，以便先顯示名字再顯示姓氏。或者，若要先顯示姓氏再顯示名字，請選取<i>「(姓氏，名字)」</i>選項。 </p>
+        <p class="Normal2">
+        若要讓變更生效，必須等到排程的 LDAP 同步作業執行，或手動執行 LDAP 同步作業。執行手動 LDAP 同步作業：</p>
+        <ol>
+          <li>
+          <p class="Normal2">
+          <span style="font-size:11.0pt;font-family:Arial;
+">在 Web 管理員主控台中，按一下<i>「伺服器」</i>索引標籤、選取伺服器，然後移至「伺服器詳細資料」頁面。</span></li>
+          <li>
+          <p class="Normal2">
+          <span style="font-size: 11.0pt; font-family: Arial; ">在<i>「LDAP 細節」</i>區段中，按一下<i>「立即同步化」</i>按鈕。</span></li>
+        </ol>
+      </TD></TR><TR><TD VALIGN="TOP">
+        <span style="font-size: 11.0pt; font-family: Arial; "> 使用下列項目管理群組配額</span></TD><TD>
+        <p class="Normal2">
+        <span style="font-size:11.0pt;font-family:Arial;">讓您定義如何管理為群組設定的彙總磁碟配額。</span></p>
+        <p class="Normal2">
+        <span style="font-size:11.0pt;font-family:Arial;">選取<i>「管理員主控台」</i>選項可讓管理員明確地管理群組的磁碟配額與群組的成員。當您選取此選項時，會限制指定給使用者的磁碟配額，這樣使用者可使用的磁碟空間就不會超過群組的彙總磁碟使用空間。根據預設，會選取<i>「管理員主控台」</i>選項。</span></p>
+        <p class="Normal2">
+        <span style="font-size:11.0pt;font-family:Arial;">選取<i>「同步引擎」</i>選項可讓同步引擎在後端管理群組上的彙總磁碟配額。同步引擎可確保群組中所有使用者的磁碟配額不會超過群組的彙總磁碟配額。</span></p>
+        <p class="Normal2">
+        <span style="font-size:11.0pt;font-family:Arial;">選取<i>「兩者」</i>選項可同時使用管理員主控台與同步引擎來管理群組的彙總磁碟配額使用空間。</span></TD></TR><TR><TD VALIGN="TOP">
+        <span style="font-size: 11.0pt; font-family: Arial; "> 隔離的群組</span></TD><TD>
+        <span style="font-size: 11.0pt; font-family: Arial; "> 讓您將群組隔離為獨立的實體，並確保屬於一個群組之成員的共享 iFolder 不會被另一個群組的成員存取。選取<i>「建立隔離的群組」</i>核取方塊可限制只有相同群組的成員才能共享 iFolder。</span><p>
+        <span style="font-family: Arial; ">注意：</span><span style="font-size: 11.0pt; font-family: Arial; ">LDAPGroup 不能是次要或主要管理員。</span></TD></TR></TABLE>
+ <P> <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="移至頂端"></A></P> 
+ <H3><A NAME="status"></A>重新供應狀態</H3> 
+  <p> 您可以在不同伺服器間移動使用者。有了這個介面，您可以檢視重新供應狀態。按一下「重新供應狀態」即可檢視每個使用者的重新供應狀態。 </p>
+  <P> <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="移至頂端"></A></P>
+  <H3><a name="admin"></a>iFolder 管理員</H3>
+<P>「iFolder 管理員」使用者是 iFolder 企業伺服器的主要管理員。每當有 iFolder 殘留下來時，擁有權便會轉讓給「iFolder 管理員」使用者，以便重新指定給其他使用者或刪除。您一開始會在於 YaST 內設定 iFolder 企業伺服器的組態時，指定「iFolder 管理員」使用者。 </P>
+  <P>「iFolder 管理員」使用者必須處於供應狀態，如此一來「iFolder 管理員」才能執行管理工作。iFolder 會藉由 LDAP 物件 GUID 追蹤這個使用者，使其屬於任何 LDAP 容器或網路樹內的群組，甚至是在其無法識別為「搜尋 DN」的情形下。使用者在網路樹內任何地方的移動都可以追蹤得到，因為可以從 GUID 得知，而不是藉由使用者 DN 得知。</P>
+  <P>「iFolder 管理員」權限可以指定給其他使用者，使這些使用者也可以管理選定伺服器的 iFolder 服務。只有屬於「LDAP 搜尋 DN」內指定之 DN 一員的使用者才具有擔任「iFolder 管理員」使用者的資格。</P>
+  <P>如果您將「iFolder 管理員」權限指定給其他使用者，則這些使用者會受到名冊和「搜尋 DN」關係的控制。如果您刪除使用者、從「搜尋 DN」清單移除使用者的 DN，或將使用者移動至不位於「搜尋 DN」的 DN，則使用者會從名冊中刪除，並會卸除其「iFolder 管理員」權限。</P>
+  <P><span style="FONT-FAMILY: Arial">iFolder 管理員使用者或主要管理員可建立次要管理員，並指定群組給次要管理員。</span></P><P><font size="-1"><b>重要：</b></font>您不能指定管理員使用者權限給 LDAPGroup。</P>
+  <P><span style="FONT-FAMILY: Arial">「系統」頁面會顯示「主要管理員」與「次要管理員」索引標籤。下列為兩個索引標籤的共通參數：</span></P>
+	<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>參數</P></TD><TD CLASS="tablehead2"><P>描述</P></TD></TR>
       <TR><TD VALIGN="TOP">
-        <P>Type</P>
+        <P>類型</P>
       </TD>
       <TD> 
-        <P>Displays the Admin user icon.</P>
+        <P>顯示 Admin 使用者圖示.</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>User Name</P>
+        <P>使用者名稱</P>
       </TD>
       <TD> 
-        <P>The username assigned to the Admin user account, such as jsmith or 
-          john.smith@example.com.</P>
+        <P>指定給 Admin 使用者帳戶的使用者名稱，例如：jsmith 或 john.smith@example.com。</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Full Name</P>
+        <P>全名</P>
       </TD>
       <TD> 
-        <P>The first and last name of the Admin user account. </P>
+        <P>Admin 使用者帳戶的名字和姓氏。 </P>
 		
       </TD><TR></TR></TABLE>
 
-  <P>To view or edit admin user details, click the Admin user link to open the 
-    User Details page. The User Details page displays the iFolders owned or shared 
-    by the Admin user. Click the All tab to list all the iFolders, both owned 
-    and shared. To view the iFolder owned by the user, click the Owned tab. Shared 
-    tab lists all the shared iFolders for this particular user account. You can 
-    also use the User Details page to change the policy settings for the selected 
-    Admin user.</P>
-  <H4>Adding and Deleting the iFolder Admin</H4>
+  <h5><span style="FONT-FAMILY: Arial">主要管理員</span></h5>
+
+  <P>若要檢視或編輯<span style="FONT-FAMILY: Arial">主要管理員</span>詳細資料，<span style="FONT-FAMILY: Arial">請按一下<i>「主要管理員」</i>索引標籤，然後按一下</span><span style="COLOR: black; FONT-FAMILY: Arial"></span>管理員使用者連結以開啟「使用者詳細資料」頁面。「使用者詳細資料」頁會顯示 Admin 使用者擁有或共用的 iFolder。按一下「全部」索引標籤以列出所有的 iFolder，包含擁有或共用的 iFolder。若要檢視使用者擁有的 iFolder，請按一下「擁有」索引標籤。「共用」索引標籤會列出這個特定使用者帳戶所有共用的iFolder。您也可以使用「使用者詳細資料」頁變更所選「管理員」使用者的規則設定。</P>
+  <H4>加入及刪除 iFolder 管理員</H4>
   <br>
 		
   <OL>
     <LI> 
-      <P>Locate the Admin user you want to manage, then select the check box next 
-        to it.</P>
+      <P>找出您要管理的 Admin 使用者，然後選取該使用者旁的核取方塊。</P>
     </LI>
     <ul><LI> 
-        <P>Click Delete to delete the selected Admin user.</P>
-	  <P>If you 
-delete the iFolder Admin right from the username you used to log in to the server, 
-you are immediately disconnected. You must log in to the iFolder server under 
-a different username with the iFolder Admin right to continue managing the server. 
+        <P>按一下「刪除」以刪除選定的 Admin 使用者。</P>
+	  <P>如果您從用於登入伺服器的使用者名稱刪除「iFolder 管理員」權限，便會立即中斷與伺服器的連接。您必須以另一個具有「iFolder 管理員」權限的使用者名稱登入 iFolder 伺服器，才能繼續管理伺服器。 
 </P>
-        <P><font size="-1"><b>IMPORTANT:</b> You cannot delete the Admin user 
-          configured during Simias server setup.</font></P>
+        <P><font size="-1"><b>重要：</b>您不能刪除在 Simias 伺服器安裝期間設定的「管理員」使用者。</font></P>
     <LI> 
-        <P>Click Add to open a list of iFolder users.</P>
-        <P>Locate the user you want to add as Admin, then select the check box 
-          next to it and click Add.</P>
-      <P>You can assign the iFolder Admin right to multiple users.</P>
+        <P>按一下「新增」以開啟 iFolder 使用者清單。</P>
+        <P>找出您要加入為「管理員」的使用者，然後選取該使用者旁的核取方塊，並按一下「新增」。</P>
+      <P>您可以指定「iFolder 管理員」權限給多個使用者。</P>
     </LI></ul>
   </OL>
-<P> <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P>
-  <H3><A NAME="policy"></A>Policies</H3>
+<P> <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="移至頂端"></A></P>
+  <H3><A NAME="policy"></A>規則</H3>
       
-  <p> The following table lists the system policies you can manage for any given 
-    iFolder System. Click Save to apply the modifications:</p>
+  <p> 下表列出您可以管理任何指定「iFolder 系統」的系統規則。按一下「儲存」以套用修改：</p>
 	
  
-<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR>
+<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>參數</P></TD><TD CLASS="tablehead2"><P>描述</P></TD></TR>
 <TR>
       <TD VALIGN="TOP"> 
-        <h4> iFolder per users</h4>
+        <h4> 每個使用者的 iFolder</h4>
       </TD>
       <TD> 
-        <P>Specifies the maximum number of iFolders allowed per user. After you 
-          apply this policy, each user is limited to owning a certain number of 
-          iFolders. The users who exceed the limit receive an error message about 
-          the policy violation. If the limit is zero, users cannot create any 
-          iFolders.</P>
+        <P>指定每個使用者能擁有的 iFolder 數量上限。套用此規則後，每個使用者將只能擁有固定數目的 iFolder。超出使用上限的使用者將會收到違反規則相關的錯誤訊息。如果限制為零，使用者無法建立任何 iFolder。</P>
              
-        <P>The policy setting does not affect the number of iFolders a user already 
-          owns. If the number of iFolders owned by a user already exceeds the 
-          limit that you set, he or she can still own those iFolders. </P>
+        <P>規則設定不影響使用者已擁有的 iFolder 數目。如果使用者擁有的 iFolder 數量超過設定的限制，使用者仍可擁有其 iFolder。 </P>
         </TD></TR><TR><TD VALIGN="TOP">
-        <h4>Disk Quota</h4>
+        <h4>磁碟配額</h4>
       </TD>
       <TD> 
-        <p>Specifies the maximum space that a iFolder system is allowed to use. 
-          System-wide settings supersede user policies.</p>
-		  <P>Deselect the check box to disable a system-wide quota.</P>
-        <P>Select the check box to enable a system-wide quota, then specify the 
-          total space quota (in MB) for a user's account. </P>
-        <P>If you enable a system-wide quota that is less than a user's 
-          current total space for iFolder data, the users's quotas data stops 
-          synchronizing until the data is decreased below the limit or until the 
-          quota is increased to a value that is larger than the user's total 
-          space consumed.</P>
-        <P>Enabling or modifying the system-wide quota does not affect existing 
-          individual user quotas. Any existing user quota always overrides a system-wide 
-          quota, whether the user quota is lower or higher than the system-wide 
-          quota.</P>
-        <P>Default value: Disabled, No limit</P>
+        <p>指定 iFolder 系統可以使用的最大總空間。系統範圍設定會取代使用者規則。</p>
+		  <P>取消選取核取方塊，以停用系統範圍的配額。</P>
+        <P>選取核取方塊，以啟用系統範圍的配額，然後再為使用者的帳戶指定總配額空間 (以 MB 為單位)。 </P>
+        <P>如果您啟用了系統範圍的配額，而該配額小於使用者目前 iFolder 資料的總空間，則使用者的配額資料會停止同步，直到增加的資料小於限制，或配額增加到大於使用者消耗之總空間的值為止。</P>
+        <P>啟用或修改系統範圍的配額不會影響到現有的個別使用者配額。現有的使用者配額永遠都會覆寫系統範圍的配額，不管使用者配額大於或小於系統範圍的配額。</P>
+        <P>預設值：停用，沒有限制</P>
         </TD></TR>
   <TR><TD VALIGN="TOP">
-        <h4>File Size</h4>
+        <h4>檔案大小</h4>
       </TD>
-      <TD> <P>Specifies 
-the maximum file size that can be synchronized.</P>
-    <P>If a quota is specified, the effective maximum file size limit is the same as the quota. </P>
-       <P>Deselect the check box to disable the Maximum File Size Limit policy. If the policy is disabled, the value is reported as No Limit.</P>
-          <P>              Select the check box to enable the Maximum File Size Limit policy, then specify the maximum allowed file size in MB.</P>
-          <P>              If a quota is specified, the default maximum file size limit is the same as the quota.</P>
-          <P>              Consider the following demands on your system to determine an appropriate file size limit for iFolders in your environment:</P>
-            <ul><li><p>Intended use               
+      <TD> <P>指定可同步的最大檔案大小。</P>
+    <P>如果已指定配額，則有效的最大檔案大小限制會與配額相同。 </P>
+       <P>取消選取核取方塊，以停用「最大檔案大小限制」規則。如果已停用規則，則該值會報告為「沒有限制」。</P>
+          <P>              選取核取方塊以啟用「最大檔案大小限制」規則，然後再指定允許的最大檔案大小 (以 MB 為單位)。</P>
+          <P>              如果已指定配額，則預設的最大檔案大小限制會與配額相同。</P>
+          <P>              考慮系統上的下列需求，以判斷您環境內 iFolder 適當的檔案大小限制：</P>
+            <ul><li><p>預期用法               
             </p></li>
 			<li>
-            <p>How often the largest files are modified</p></li>
-                 <li> <p>How the applications that use the largest files actually save changes to the file (whole file or deltas)</p>
-                 </li><li><p>How frequently the files are synchronized by each member</p>
-                  </li><li><p>How many users share an iFolder</p>
-                  </li><li><p>Whether users access iFolder on the local network or across WAN or Internet connection</p>
-                 </li><li> <p>The average and peak available bandwidth</p>
+            <p>最大的檔案修改的頻率</p></li>
+                 <li> <p>應用程式使用最大的檔案實際將變更儲存至檔案 (整個檔案或差異) 的方法</p>
+                 </li><li><p>檔案由每個成員同步的頻率</p>
+                  </li><li><p>共享 iFolder 的使用者數目</p>
+                  </li><li><p>使用者會存取本地網路上的 iFolder 或存取 WAN 或網際網路連接的 iFolder。</p>
+                 </li><li> <p>平均和尖峰時期的可用頻寬</p>
 				 </li></ul>
               
-        <p> Even if you set a very large value as a file size limit and if there 
-          is no quota to limit file sizes, the practical limit is governed by 
-          the file system on the user's computer. For example, FAT32 volumes have 
-          a maximum file size of 4 GB minus 1 byte. </p>
+        <p> 即使您為檔案大小限制設定了一個非常大的值，並且未限制檔案大小的配額，則實際的限制會受到使用者電腦上的檔案系統所控制。例如，FAT32 卷冊擁有 4 GB 減去 1 Byte 的最大檔案大小。 </p>
                 
-        <p>Default value: Disabled, No limit</p>   
+        <p>預設值：停用，沒有限制</p>   
       </TD></TR>
   <TR>
       <TD VALIGN="TOP"> 
-        <h4>Excluded Files</h4>
+        <h4>排除的檔案</h4>
       </TD>
       <TD> 
         
 		  
-        <P>Specify whether to restrict file types that are synchronized by exclusion 
-          filters. </P>
-            <P>Type a file extension, then click Add to add it to the list. </P>
+        <P>指定是否要限制由排除過濾器同步的檔案類型。 </P>
+            <P>輸入副檔名，然後按一下「新增」將其加入清單。 </P>
         </TD></TR>
 	
 	<TR><TD VALIGN="TOP">
-        <h4> Synchronization </h4>
+        <h4> 同步化 </h4>
       </TD><TD>
-	    <p>Specifies the minimum synchronization interval in minutes.</P>
-        <P>If this option is enabled, specifies the minimum interval for synchronizing 
-          iFolder data for each user account. Larger values are more restrictive. 
+	    <p>指定最小同步間隔 (以分鐘為單位)。</P>
+        <P>如果已啟用此選項，請為每個使用者帳戶指定同步 iFolder 資料的最小間隔。較大的值會有較大的限制。 
         </P>    
-        <P>If the option is disabled, the default value is 5 minutes.</P>
+        <P>如果停用此選項，則預設值是 5 分鐘。</P>
         </TD></TR>
   <TR><TD VALIGN="TOP">
-        <h4>Encryption</h4>
+        <h4>加密</h4>
       </TD>
       <TD> 
-        <P>Specifies the encryption policy for the iFolder system. System-wide 
-          settings supersede user policies.</P>
-		<B>On</B><BR>
-        Select <i>On</i> to enable the encryption feature for the iFolder system. This 
-        permits a user to set an encryption policy for his or her iFolders.<br>
+        <P>指定 iFolder 系統的加密規則。系統範圍設定會取代使用者規則。</P>
+		<B>之中</B><BR>
+        選取「<i>啟用</i>」以啟用 ifolder 系統的加密功能。如此可允許使用者為他 (或她) 的 iFolder 設定加密規則。<br>
         <br>
-        Deselect <i>On</i> to disable the encryption feature for all the users. 
+        取消選取「<i>啟用</i>」以停用所有使用者的加密功能。 
         <br>
         	
 		
-        <br><B>Enforced</B><BR>
-        Select Enforced to enable the encryption feature for all the users. When 
-        the encryption policy is set to Enforced, a user cannot change the encryption 
-        settings for his or her iFolders.<br>
+        <br><B>強制執行</B><BR>
+        選取「強制執行」以啟用所有使用者的加密功能。當加密規則設定為「強制執行」時，使用者便無法變更其 iFolder 的加密設定。<br>
       </TD></TR><TR><TD VALIGN="TOP">
-        <h4> Sharing</h4>
-      </TD><TD> <B>On</B><BR>
-        By default, iFolder sharing is enabled. Deselect On to disable 
-        sharing for the iFolder system. After applying this policy, users of this 
-        iFolder system cannot share their iFolders with others. However, you can 
-        change the policy settings at the user level or at the LDAPGroup level.<br>
+        <h4> 共享</h4>
+      </TD><TD> <B>之中</B><BR>
+        根據預設，已啟用 iFolder 共享。取消選取「啟用」以停用 iFolder 系統的共享。套用此規則後，此 iFolder 系統的使用者無法與其他人共享其 iFolder。然而，您可以在使用者層級或 LDAPGroup 層級變更規則設定。<br>
           <BR>
-        <B>Enforce</B><BR>
-        Select Enforce to enforce the sharing policy you have set for the entire 
-        system. You can enforce both Enable Sharing and Disable Sharing. When 
-        you enforce Disable Sharing, policy settings for sharing at iFolder and 
-        User level are automatically disabled and you are not allowed to change 
-        the settings. However, you are allowed to set the policy for the Revoke 
-        option.<br>
+        <B>強制</B><BR>
+        選取「強制執行」以強制執行您為整個系統設定的共享規則。您可以強制執行「啟用共享」及「停用共享」。當您強制執行「停用共享」時，iFolder 與使用者層級共享的規則設定會自動停用，且您將無法變更設定。然而，您可以將規則設為「撤銷」。<br>
 		<ul>
-          <P><font size="-1"><b>IMPORTANT:</b> You cannot enable this option unless 
-            you set the Sharing option to On.</font></P>
+          <P><font size="-1"><b>重要：</b>除非您將「共享」選項設為「開啟」，否則無法啟用此選項。</font></P>
         </ul>
         <BR>
-        <B>Revoke</B><BR>
-        Select Revoke to remove the shared members of all 
-        the iFolders under the iFolder system.<br>
+        <B>撤銷</B><BR>
+        選取「撤銷」以移除 iFolder 系統下所有 iFolder 的共享成員。<br>
 		
       </TD></TR> 
 
   </TABLE>
 
- <P> <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P>
+ <P> <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="移至頂端"></A></P>
 
   
    
 
-<H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Related Topics" align="top"> 
-Related Topics</H4><BLOCKQUOTE class="task1">
-<P ><A HREF="userdetails.html">User Details
-</A><BR><A HREF="ifolderdetails.html">Managing iFolder Details</A><BR><A HREF="servers.html">Managing iFolder Servers
-</A><BR><A HREF="ifolders.html">Managing iFolders</A><BR><A HREF="reports.html#orphan" TARGET="_self">Reports
-</A></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P><P>&nbsp;</P><P CLASS="copyright">A 
-trademark symbol (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP>, 
-etc.) denotes a Novell trademark. An asterisk (*) denotes a third-party trademark. 
-For more information, see <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Legal 
-Notices</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
+  <h3>次要管理員</h3>
+  <p><span style="font-family:Arial;">「次要管理員」標籤可讓您新增、編輯或刪除次要管理員詳細資料。</span></p>
+  <p><span style="font-family:Arial;">新增次要管理員：</span></p>
+  <ol>
+    <li><font face="Arial">按一下<i>「次要管理員」</i>索引標籤，然後按一下<i>「新增」</i>，即可顯示 iFolder 使用者清單。</font></li>
+    <li><font face="Arial">選取您要指定為次要管理員的使用者，然後按一下<i>「下一步」</i>。</font></li>
+    <li><font face="Arial">若要將群組指定給次要管理員，請從<i>「選取群組」</i>清單中選取想要的選項。若選取的群組已設定彙總磁碟配額限制，則<i>「設定整個群組的彙總磁碟配額限制限制」</i>欄位會填入該值。否則，該欄位會維持空白。</font></li>
+    <li><font face="Arial">為次要管理員設定規則權限。</font>
+    <p><font face="Arial">下表列出您可以為次要管理員設定的規則權限。</font></p>
+	
+ 
+<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>參數</P></TD><TD CLASS="tablehead2"><P>描述</P></TD></TR>
+<TR>
+      <TD VALIGN="TOP"> 
+        <h4><span style="FONT-SIZE: 9.5pt; FONT-FAMILY: Arial"> 每位使用者的 iFolder 規則</span></h4>
+        <h4> &nbsp;</h4>
+      </TD>
+      <TD> 
+        <p class="Normal2">
+        <span style="FONT-SIZE: 11pt; COLOR: black; FONT-FAMILY: Arial"> 指定每個使用者能擁有的 iFolder 數量上限。套用此規則後，每個使用者將只能擁有固定數目的 iFolder。超出使用上限的使用者將會收到違反規則相關的錯誤訊息。如果限制為零，使用者無法建立任何 iFolder。</span></p>
+        <p class="Normal2">
+        <span style="FONT-SIZE: 11pt; FONT-FAMILY: Arial">此</span><span style="FONT-SIZE: 11pt; COLOR: black; FONT-FAMILY: Arial">規則設定不會影響使用者已擁有的 iFolder 數目。如果使用者擁有的 iFolder 數量已超過您設定的限制，</span> <span style="FONT-SIZE: 11pt; FONT-FAMILY: Arial">使用者仍可擁有這些 iFolder</span><span style="FONT-SIZE: 11pt; COLOR: black; FONT-FAMILY: Arial">。</span></p>
+        <p class="Normal2">
+        <span style="FONT-SIZE: 11pt; FONT-FAMILY: Arial">根據預設，會選取「每位使用者的 iFolder」規則的<i>「允許」</i>核取方塊。這表示次要管理員有權為指定群組的使用者設定「每位使用者的 iFolder」規則。若不想讓次要管理員擁有此權限，您必須取消選取<i>「允許」</i>核取方塊。</span></TD></TR><TR><TD VALIGN="TOP">
+        <h4><span style="font-size: 9.5pt; font-family: Arial; color: black"> 磁碟配額</span> <span style="font-size: 9.5pt; font-family: Arial; ">規則</span></h4>
+      </TD>
+      <TD> 
+        <p class="Normal2">
+        <span style="font-size:11.0pt;font-family:Arial;">指定使用者可以使用的最大空間。</span></p>
+        <p><span style="font-size: 11.0pt; font-family: Arial; ">根據預設，會選取磁碟配額規則的<i>「允許」</i>核取方塊。這表示次要管理員有權為指定群組的使用者設定磁碟配額規則。若不想讓次要管理員擁有此權限，您必須取消選取<i>「允許」</i>核取方塊。</span></p>
+        </TD></TR>
+  <TR><TD VALIGN="TOP">
+        <h4><span style="font-size: 9.5pt; font-family: Arial; color: black"> 檔案大小</span> <span style="font-size: 9.5pt; font-family: Arial; ">規則</span></h4>
+      </TD>
+      <TD> 
+      <p class="Normal2">
+      <span style="font-size:11.0pt;font-family:Arial;color:black">指定可同步的最大檔案大小。</span></p>
+      <p><span style="font-size: 11.0pt; font-family: Arial; ">根據預設，會選取檔案大小規則的<i>「允許」</i>核取方塊。這表示次要管理員有權為指定群組的使用者設定檔案大小規則。若不想讓次要管理員擁有此權限，您必須清除<i>「允許」</i>核取方塊。</span></p>
+      </TD></TR>
+  <TR>
+      <TD VALIGN="TOP"> 
+        <h4><span style="font-size: 9.5pt; font-family: Arial; "> 同步間隔規則 </span></h4>
+      </TD>
+      <TD> 
+        
+		  
+        <p class="Normal2">
+        <span style="font-size:11.0pt;font-family:Arial;color:black">指定最小同步間隔 (以分鐘為單位)。</span></p>
+        <p><span style="font-size: 11.0pt; font-family: Arial; "> 根據預設，會選取同步間隔規則的<i>「允許」</i>核取方塊。這表示次要管理員有權為指定群組的使用者設定同步間隔規則。若不想讓次要管理員擁有此權限，您必須取消選取<i>「允許」</i>核取方塊。</span></TD></TR>
+	
+	<TR><TD VALIGN="TOP">
+        <h4> <span style="font-size: 9.5pt; font-family: Arial; color: black"> 排除的檔案</span> <span style="font-size: 9.5pt; font-family: Arial; ">清單規則</span></h4>
+      </TD><TD>
+	    <p class="Normal2">
+        <span style="font-size:11.0pt;font-family:Arial;">指定不同步的檔案類型。</span></p>
+        <p><span style="font-size: 11.0pt; font-family: Arial; "> 根據預設，會選取排除的檔案清單規則的<i>「允許」</i>核取方塊。這表示次要管理員有權為指定群組的使用者設定排除的檔案清單規則。若不想讓次要管理員擁有此權限，您必須取消選取<i>「允許」</i>核取方塊。</span></TD></TR>
+  <TR><TD VALIGN="TOP">
+        <h4><span style="font-size: 9.5pt; font-family: Arial; "> 共享</span></h4>
+      </TD>
+      <TD> 
+        <p class="Normal2">
+        <span style="font-size:11.0pt;font-family:Arial;">指定 iFolder 是否可在使用者之間共享。</span></p>
+        <p><span style="font-size: 11.0pt; font-family: Arial; "> 根據預設，會選取共享規則的<i>「允許修改共享規則」</i><i></i>核取方塊。這表示次要管理員有權為指定群組的使用者修改共享規則。若不想讓次要管理員擁有此權限，您必須清除<i>「允許」</i>核取方塊。</span><br>
+      </TD></TR><TR><TD VALIGN="TOP">
+        <h4> <span style="font-size: 9.5pt; font-family: Arial; "> 加密規則</span></h4>
+      </TD><TD> 
+    <p class="Normal2">
+    <span style="font-size:11.0pt;font-family:Arial;">指定 iFolder 系統的加密規則。</span></p>
+    <p class="Normal2">
+    <span style="font-size: 11.0pt; font-family: Arial; ">根據預設，會選取加密規則的<i>「允許修改加密規則」</i><i></i>核取方塊。這表示次要管理員有權為指定群組的使用者修改加密規則。若不想讓次要管理員擁有此權限，您必須取消選取<i>「允許」</i>核取方塊。</span><br>
+		
+      </TD></TR> 
+
+  <TR><TD VALIGN="TOP">
+        <span style="font-size: 9.5pt; font-family: Arial; font-weight:700"> 提供權限</span></TD><TD> 
+    <p class="Normal2">
+    <span style="font-size:11.0pt;font-family:Arial;">指定次要管理員可用的提供權限。</span></p>
+    <p class="Normal2">
+    <span style="font-size:11.0pt;font-family:Arial;">根據預設，會選取<i>「允許使用者提供」</i>核取方塊。這表示次要管理員可將指定群組的使用者提供給 iFolder 多伺服器設定中的任一部現有伺服器。若不想讓次要管理員擁有此權限，請取消選取<i>「允許使用者提供」</i>核取方塊。</span></p>
+    <p class="Normal2">
+    <span style="font-size: 11.0pt; font-family: Arial; ">透過使用<i>「允許啟用/停用使用者」</i>核取方塊，您可以將啟用或停用指定群組之使用者的權限指定給次要管理員。根據預設，會選取此核取方塊。若不想讓次要管理員擁有此權限，請取消選取<i>「允許啟用/停用使用者」</i>核取方塊。</span></TD></TR> 
+
+  <TR><TD VALIGN="TOP">
+        <span style="font-size: 9.5pt; font-family: Arial; font-weight:700"> iFolder 上的權限</span></TD><TD> 
+    <p class="Normal2">
+    <span style="font-size:11.0pt;font-family:Arial;">指定次要管理員對於指定群組之使用者所擁有的 ifolder 的權限。</span></p>
+    <p class="Normal2">
+    <span style="font-size:11.0pt;font-family:Arial;">若要允許次要管理員擁有殘留的 iFolder，請確定已選取<i>「允許殘留之 iFolder 的擁有權」</i>核取方塊。根據預設，會選取此核取方塊。若不想讓次要管理員擁有此權限，請清除該核取方塊。</span></p>
+    <p class="Normal2">
+    <span style="font-size:11.0pt;font-family:Arial;">透過使用<i>「允許啟用/停用 iFolder」</i>核取方塊，您可以將啟用或停用指定群組之使用者擁有的 iFolder 的權限指定給次要管理員。根據預設，會選取此核取方塊。若不想讓次要管理員擁有此權限，請清除<i>「允許啟用/停用 iFolder」</i>核取方塊。</span></p>
+    <p class="Normal2">
+    <span style="font-size: 11.0pt; font-family: Arial; ">透過使用<i>「允許修改共享之 iFolder 成員的權限」</i>核取方塊，您可以將修改共享之 iFolder 成員的權限指定給次要管理員。根據預設，會選取此核取方塊。若不想讓次要管理員擁有此權限，請清除<i>「允許修改共享之 iFolder 成員的權限」</i>核取方塊。</span></p>
+    </TD></TR> 
+
+  </TABLE>
+
+    </li>
+  </ol>
+  <p>&nbsp;</p>
+  <ol start="5">
+    <li><span style="font-family:Arial;">按一下<i>「儲存」</i>按鈕以儲存您的設定。</span></li>
+    <li><span style="font-family:Arial;">成功將群組指定給次要管理員之後，請按一下<i>「確定」</i>以返回「系統」頁面，或按一下<i>「重複」</i>以指定更多群組給次要管理員。&nbsp;</span></li>
+  </ol>
+  <p><span style="font-family:Arial;">編輯次要管理員詳細資料：</span></p>
+  <ol>
+    <li>
+    <p style="text-indent: -.25in; margin-left: .5in">
+    <span style="font-family: Arial; ">按一下<i>「次要」</i>索引標籤以顯示次要管理員詳細資料。</span></li>
+    <li>
+    <p style="text-indent: -.25in; margin-left: .5in">
+    <span style="font-family: Arial; ">選取次要管理員並按一下<i>「編輯」</i>以顯示由該次要管理員所監控的群組清單。</span></li>
+    <li>
+    <p style="text-indent: -.25in; margin-left: .5in" align="left">
+    <span style="font-family: Arial; ">選取群組並按一下<i>「編輯」</i>以顯示次要管理員對於該群組所擁有的權限清單。編輯群組權限，並按一下<i>「儲存」</i>以儲存您所做的變更。<br>
+&nbsp;</span></li>
+  </ol>
+  <p><span style="font-family:Arial;">刪除次要管理員：</span></p>
+  <ol>
+    <li><font face="Arial">按一下<i>「次要」</i>索引標籤以顯示次要管理員詳細資料。</font></li>
+    <li><font face="Arial">選取次要管理員並按一下<i>「刪除」</i>以顯示由該次要管理員所監控的群組清單。</font></li>
+    <li><font face="Arial">選取所有群組並按一下<i>「刪除」</i>。刪除次要管理員擁有的所有群組也會刪除次要管理員。<br>
+&nbsp;</font></li>
+  </ol>
+  <p>&nbsp;</p>
+
+  
+   
+
+<H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="相關主題" align="top"> 相關主題</H4><BLOCKQUOTE class="task1">
+<P ><A HREF="userdetails.html">使用者詳細資料 </A><BR><A HREF="ifolderdetails.html">管理 iFolder 詳細資料</A><BR><A HREF="servers.html">管理 iFolder 伺服器 </A><BR><A HREF="ifolders.html">管理 iFolder</A><BR><A HREF="reports.html#orphan" TARGET="_self">報告 </A></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="移至頂端"></A></P><P>&nbsp;</P><P CLASS="copyright">商標符號 (<SUP><SMALL>&reg;</SMALL></SUP>、<SUP><SMALL>TM</SMALL></SUP> 等) 代表 Novell 的商標；星號 (*) 則代表協力廠商的商標。如需詳細資訊，請參閱<A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">法律聲明</font></A>。</P></div><!-- This is the end of the Help Content layer. --> 
 </body>
 
 </html>

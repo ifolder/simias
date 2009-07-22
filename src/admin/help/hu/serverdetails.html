@@ -1,11 +1,11 @@
 <html>
 
    <head>
-     <meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+     <meta http-equiv="content-type" content="text/html;charset=UTF-8">
      
      <!-- Novell iFolder 3.6 Web Admin Help  --> 
    
-     <title>Servers Details</title>  	 
+     <title>Kiszolg&aacute;l&oacute;k adatai</title>  	 
      
  
      <!-- Metadata -->
@@ -29,8 +29,7 @@
        <!--
        
          body           {  font-family: Arial, Helvetica, Geneva;
-									background: white
-url(../../images/helphead_bg.gif) repeat-x 0% 0% }
+									background: white url('../../images/helphead_bg.gif') repeat-x;  }
 		      
          #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px;
 									width: 380px; visibility: visible }
@@ -55,298 +54,245 @@ url(../../images/helphead_bg.gif) repeat-x 0% 0% }
 <!-- This is the start of the Help Content Layer --> <div id="helpcontent"> <!-- The Page Heading uses CSS style "head3b". This creates an H3 header
             with a line beneath it.
        --> 
-  <h3 class="head3b">Server Details</h3>
-  <p> Use this interface to view server details, server status, server logs, and 
-    server reports, and to set the log level and LDAP details. </p>
-  <BLOCKQUOTE CLASS="blockquote"><P><A HREF="#general" TARGET="_self">Viewing Server Details
-</A> <BR><A HREF="#general" TARGET="_self">Viewing Server Status
- </A><BR><A HREF="#reports" TARGET="_self">Viewing Server Reports
- </A><BR> <A HREF="#logs" TARGET="_self">Viewing Server Logs
- </A><BR>
-      <A HREF="#ldap" TARGET="_self">LDAP Details</A><br>
-      <A HREF="#volume" TARGET="_self">Data Store</A><br>
+  <h3 class="head3b">Kiszolg&aacute;l&oacute; adatai</h3>
+  <p> Ezen a kezelőfel&uuml;leten a kiszolg&aacute;l&oacute; adatai, &aacute;llapota, napl&oacute;i &eacute;s jelent&eacute;sei tekinthetők meg, valamint be lehet &aacute;ll&iacute;tani a napl&oacute;z&aacute;si szintet &eacute;s az LDAP-adatokat. </p>
+  <BLOCKQUOTE CLASS="blockquote"><P><A HREF="#general" TARGET="_self">A kiszolg&aacute;l&oacute;i adatok megtekint&eacute;se</A> <BR><A HREF="#general" TARGET="_self">A kiszolg&aacute;l&oacute;&aacute;llapot megtekint&eacute;se</A><BR><A HREF="#reports" TARGET="_self">A kiszolg&aacute;l&oacute;i jelent&eacute;sek megtekint&eacute;se </A><BR> <A HREF="#logs" TARGET="_self">A kiszolg&aacute;l&oacute;i napl&oacute;k megtekint&eacute;se </A><BR>
+      <A HREF="#ldap" TARGET="_self">LDAP-adatok</A><br>
+      <A HREF="#volume" TARGET="_self">Adatt&aacute;r</A><br>
   </P></BLOCKQUOTE>
   
  
-  <H4><a name="general"></a>Viewing Server Details</H4>
-  <P>You can view and edit the following information:</P>
-  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
-        <P>Name (View Only)</P>
+  <H4><a name="general"></a>A kiszolg&aacute;l&oacute;i adatok megtekint&eacute;se</H4>
+  <P>A k&ouml;vetkező adatokat tekintheti meg, illetve m&oacute;dos&iacute;thatja:</P>
+  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Param&eacute;ter</P></TD><TD CLASS="tablehead2"><P>Le&iacute;r&aacute;s</P></TD></TR><TR><TD VALIGN="TOP">
+        <P>N&eacute;v (csak megtekint&eacute;s)</P>
       </TD><TD>
-        <P>The name assigned to the Server.</P>
+        <P>A kiszolg&aacute;l&oacute;hoz rendelt n&eacute;v.</P>
       </TD><TR><TD VALIGN="TOP">
-        <P>Type (View Only)</P>
+        <P>T&iacute;pus (csak megtekint&eacute;s)</P>
       </TD><TD>
-        <P>The server type (Master or Slave).</P>
+        <P>A kiszolg&aacute;l&oacute; t&iacute;pusa (mester vagy szolga).</P>
       </TD><TR><TD VALIGN="TOP">
-        <P>DNS Name</P>
+        <P>DNS-n&eacute;v</P>
       </TD><TD>
-        <P>The DNS name of the iFolder Enterprise server.</P>
-		<P>For example: 192.168.1.1 or svr1.domain.com.</p>
+        <P>Az iFolder Enterprise kiszolg&aacute;l&oacute; DNS-neve.</P>
+		<P>P&eacute;lda: 192.168.1.1 vagy svr1.tartomany.com.</p>
 </TD></TR><TR><TD VALIGN="TOP">
-        <P>Public URL</P>
+        <P>Nyilv&aacute;nos URL</P>
       </TD>
       <TD> 
-        <P>The public IP address corresponding to the iFolder server. To change 
-          the IP address, edit the address given and click Save to save the changes 
-          you have done.</P>
+        <P>Az iFolder kiszolg&aacute;l&oacute;nak megfelelő nyilv&aacute;nos IP-c&iacute;m. Az IP-c&iacute;m megv&aacute;ltoztat&aacute;s&aacute;hoz szerkessze a megadott c&iacute;met, &eacute;s a Ment&eacute;s gombra kattintva mentse a v&eacute;grehajtott v&aacute;ltoztat&aacute;sokat.</P>
       </TD><TR>
       <TD VALIGN="TOP" height="37"> 
-        <P>Private URL</P>
+        <P>Mag&aacute;njellegű URL</P>
       </TD>
       <TD height="37"> 
-        <P>The private IP address corresponding to the iFolder server. This allows 
-          communication between the servers within the iFolder domain. The private 
-          URL and the public URL can be the same. To change the IP address give, 
-          type the new address and click Save to save the changes you have done.</P>
+        <P>Az iFolder kiszolg&aacute;l&oacute;nak megfelelő mag&aacute;njellegű IP-c&iacute;m. Ez lehetőv&eacute; teszi az iFolder tartom&aacute;nyon bel&uuml;li kiszolg&aacute;l&oacute;k k&ouml;z&ouml;tt a kommunik&aacute;ci&oacute;t. A mag&aacute;njellegű URL &eacute;s a nyilv&aacute;nos URL lehet megegyező. A megadott IP-c&iacute;m megv&aacute;ltoztat&aacute;s&aacute;hoz &iacute;rja be az &uacute;j c&iacute;met, &eacute;s a Ment&eacute;s gombra kattintva mentse a v&eacute;grehajtott v&aacute;ltoztat&aacute;sokat.</P>
       </TD><TR><TD VALIGN="TOP">
-        <P>Master URL (Displayed only for Slave servers)</P>
+        <P>Fő URL (csak szolga kiszolg&aacute;l&oacute;k eset&eacute;ben jelenik meg)</P>
       </TD>
       <TD> 
-        <P>The IP address corresponding to the iFolder server. Using this address, 
-          slave server communicate with the master server in the iFolder domain. 
-          </p><p>To change the IP address, edit the address given and click Save to save 
-          the changes you have done.</P>
+        <P>Az iFolder kiszolg&aacute;l&oacute;nak megfelelő IP-c&iacute;m. E c&iacute;m haszn&aacute;lat&aacute;val tud kommunik&aacute;lni a szolga kiszolg&aacute;l&oacute; az iFolder tartom&aacute;nyban tal&aacute;lhat&oacute; fő kiszolg&aacute;l&oacute;val. 
+          </p><p>Az IP-c&iacute;m megv&aacute;ltoztat&aacute;s&aacute;hoz szerkessze a megadott c&iacute;met, &eacute;s a Ment&eacute;s gombra kattintva mentse a v&eacute;grehajtott v&aacute;ltoztat&aacute;sokat.</P>
       </TD></TABLE><br>
-	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A>
-  <H4><a name="general"></a>Viewing Server Status</H4>
-  <P>You 
-can view the following information:</P><TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
-        <P>Status</P>
+	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Ugr&aacute;s az oldal tetej&eacute;re"></A>
+  <H4><a name="general"></a>A kiszolg&aacute;l&oacute;&aacute;llapot megtekint&eacute;se</H4>
+  <P>Az al&aacute;bbi adatok tekinthetők meg:</P><TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>param&eacute;ter</P></TD><TD CLASS="tablehead2"><P>Le&iacute;r&aacute;s</P></TD></TR><TR><TD VALIGN="TOP">
+        <P>&Aacute;llapot</P>
       </TD><TD>
-        <P>Reports the current status of the server.</P>
+        <P>A kiszolg&aacute;l&oacute; aktu&aacute;lis &aacute;llapot&aacute;t jelen&iacute;ti meg.</P>
       </TD><TR><TD VALIGN="TOP">
-        <P>Users</P>
+        <P>Felhaszn&aacute;l&oacute;k</P>
       </TD><TD>
-        <P>Reports the total number of iFolder users provisioned to the selected 
-          server.</P>
+        <P>Megjelen&iacute;ti a kijel&ouml;lt kiszolg&aacute;l&oacute;hoz enged&eacute;lyezett iFolder felhaszn&aacute;l&oacute;k teljes sz&aacute;m&aacute;t.</P>
       </TD><TR><TD VALIGN="TOP">
-        <P>iFolders</P>
+        <P>iFolder mapp&aacute;k</P>
       </TD><TD>
-        <P>Reports the total number of iFolders belonging to the selected server.</P>        
+        <P>Megjelen&iacute;ti a kijel&ouml;lt kiszolg&aacute;l&oacute;hoz tartoz&oacute; iFolder mapp&aacute;k teljes sz&aacute;m&aacute;t.</P>        
       </TD></TR></TABLE><br>
-	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A>
+	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Ugr&aacute;s az oldal tetej&eacute;re"></A>
 	  
-  <H4><a name="reports"></a>Viewing Server Reports</H4>
-  <P>Select the report from the drop down list to view the report.</P> 
-  <p>This option is disabled if the Enable Reporting option on the Report page 
-    is left unselected.</P>
-	<A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A>
-  <H4><a name="logs"></a>Viewing Server Logs</H4>
-  <P>You can view the following server log information:</P>
-  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
-        <P>System</P>
+  <H4><a name="reports"></a>A kiszolg&aacute;l&oacute;i jelent&eacute;sek megtekint&eacute;se </H4>
+  <P>A leg&ouml;rd&uuml;lő list&aacute;r&oacute;l v&aacute;lassza ki a megtekintendő jelent&eacute;st.</P> 
+  <p>Ez a lehetős&eacute;g nem haszn&aacute;lhat&oacute;, ha a Jelent&eacute;s lapon nincs enged&eacute;lyezve a Jelent&eacute;sk&eacute;sz&iacute;t&eacute;s enged&eacute;lyez&eacute;se be&aacute;ll&iacute;t&aacute;s.</P>
+	<A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Ugr&aacute;s az oldal tetej&eacute;re"></A>
+  <H4><a name="logs"></a>A kiszolg&aacute;l&oacute;i napl&oacute;k megtekint&eacute;se </H4>
+  <P>A kiszolg&aacute;l&oacute;i napl&oacute;k adatai k&ouml;z&uuml;l a k&ouml;vetkezők tekinthetők meg:</P>
+  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Param&eacute;ter</P></TD><TD CLASS="tablehead2"><P>Le&iacute;r&aacute;s</P></TD></TR><TR><TD VALIGN="TOP">
+        <P>Rendszer</P>
       </TD>
       <TD> 
-        <P>Select System to view the simias.log that tracks all the system activities. 
+        <P>A Rendszer lehetős&eacute;g v&aacute;laszt&aacute;s&aacute;val az &ouml;sszes rendszertev&eacute;kenys&eacute;get nyomon k&ouml;vető simias.log napl&oacute;t lehet megtekinteni. 
         </P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>User Access</P>
+        <P>Felhaszn&aacute;l&oacute;i hozz&aacute;f&eacute;r&eacute;s</P>
       </TD>
       <TD> 
-        <P>Select User Access to view simias.access.log that tracks the user activities 
-          on the selected server.</P>
+        <P>A Felhaszn&aacute;l&oacute;i hozz&aacute;f&eacute;r&eacute;s lehetős&eacute;g v&aacute;laszt&aacute;s&aacute;val a kijel&ouml;lt kiszolg&aacute;l&oacute;n foly&oacute; felhaszn&aacute;l&oacute;i tev&eacute;kenys&eacute;geket nyomon k&ouml;vető simias.access.log napl&oacute;t lehet megtekinteni.</P>
 		
       </TD></TR></TABLE>
 	    
-  <H4><a name="general"></a>Set Log Levels</H4>
-  <P>You can set the following log level information:</P>
-  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
-        <P>All</P>
+  <H4><a name="general"></a>Napl&oacute;z&aacute;si szintek be&aacute;ll&iacute;t&aacute;sa</H4>
+  <P>A napl&oacute;z&aacute;si szintek adatai k&ouml;z&uuml;l a k&ouml;vetkezők adhat&oacute;k meg:</P>
+  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>param&eacute;ter</P></TD><TD CLASS="tablehead2"><P>Le&iacute;r&aacute;s</P></TD></TR><TR><TD VALIGN="TOP">
+        <P>Minden</P>
       </TD>
       <TD> 
-        <P>Shows all the server activities that help Novell support resolve the 
-          issues. </P>
+        <P>A kiszolg&aacute;l&oacute; &ouml;sszes tev&eacute;kenys&eacute;g&eacute;t mutatja, ezzel seg&iacute;t a Novell tan&aacute;csad&oacute; szolg&aacute;lat&aacute;nak a probl&eacute;m&aacute;k megold&aacute;s&aacute;ban. </P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Debug</P>
+        <P>Hibakeres&eacute;s</P>
       </TD>
       <TD> 
-        <P>Shows the server activities that help Novell support debug the issues 
-          . </P>
+        <P>A kiszolg&aacute;l&oacute;nak azokat a tev&eacute;kenys&eacute;geit mutatja, amelyek seg&iacute;tenek a Novell tan&aacute;csad&oacute; szolg&aacute;lat&aacute;nak a probl&eacute;m&aacute;khoz kapcsol&oacute;d&oacute; hibakeres&eacute;sben. </P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Info</P>
+        <P>Adatok</P>
       </TD>
       <TD> 
-        <P>Shows the basic server activities that help Novell support resolve 
-          the issues. This option is selected by default.</P>
+        <P>A kiszolg&aacute;l&oacute; alaptev&eacute;kenys&eacute;geit mutatja, ezzel seg&iacute;t a Novell tan&aacute;csad&oacute; szolg&aacute;lat&aacute;nak a probl&eacute;m&aacute;k megold&aacute;s&aacute;ban. Ez a be&aacute;ll&iacute;t&aacute;s alap&eacute;rtelmez&eacute;s szerint enged&eacute;lyezve van.</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Warn</P>
+        <P>Figyelmeztet&eacute;s</P>
       </TD>
       <TD> 
-        <P>Shows all the potential system errors.</P>
+        <P>Az &ouml;sszes potenci&aacute;lis rendszerhib&aacute;t mutatja.</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Error</P>
+        <P>Hiba</P>
       </TD>
       <TD> 
-        <P>Shows all the system errors that halt system functioning.</P>
+        <P>A rendszer műk&ouml;d&eacute;s&eacute;nek le&aacute;ll&aacute;s&aacute;t okoz&oacute; &ouml;sszes rendszerhib&aacute;t mutatja.</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Fatal</P>
+        <P>V&eacute;gzetes</P>
       </TD>
       <TD> 
-        <P>Shows the fatal system errors. </P>
+        <P>A v&eacute;gzetes rendszerhib&aacute;kat mutatja. </P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Off</P>
+        <P>Ki</P>
       </TD>
       <TD> 
-        <P>Logging is turned off.</P>
+        <P>A napl&oacute;z&aacute;s ki van kapcsolva.</P>
 		
       </TD></TR></TABLE><br>
-	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A>
-	  <H4><a name="ldap"></a>LDAP Details</H4>
-  <P>You can edit the following LDAP related information. Click Save to modify 
-    the entries. Click Cancel to cancel your modifications.</p>
-<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
-        <P>Up Since </p><p> (View Only)</P>
+	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Ugr&aacute;s az oldal tetej&eacute;re"></A>
+	  <H4><a name="ldap"></a>LDAP-adatok</H4>
+  <P>Az LDAP műk&ouml;d&eacute;s&eacute;vel kapcsolatban a k&ouml;vetkező adatok szerkeszthetők: A bejegyz&eacute;sek m&oacute;dos&iacute;t&aacute;s&aacute;hoz kattintson a Ment&eacute;s gombra. A m&oacute;dos&iacute;t&aacute;sok visszavon&aacute;s&aacute;hoz kattintson a M&eacute;gse gombra.</p>
+<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Param&eacute;ter</P></TD><TD CLASS="tablehead2"><P>Le&iacute;r&aacute;s</P></TD></TR><TR><TD VALIGN="TOP">
+        <P>Műk&ouml;d&eacute;s kezdete </p><p> (csak megtekint&eacute;s)</P>
       </TD>
       <TD> 
-        <P>Shows the date and time of the very first synchronization.</P>
+        <P>A legelső szinkroniz&aacute;ci&oacute; d&aacute;tuma &eacute;s időpontja.</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Status</P>
+        <P>&Aacute;llapot</P>
       </TD>
       <TD> 
-        <P>Reports the current LDAP sync engine status.</P>
+        <P>Az LDAP szinkroniz&aacute;ci&oacute;s motor aktu&aacute;lis &aacute;llapot&aacute;t jelen&iacute;ti meg.</P>
 		
-      </TD><<TR><TD VALIGN="TOP">
-        <P>Cycles</P>
-        <p>(View Only)</p>
+      </TD>&lt;<TR><TD VALIGN="TOP">
+        <P>Ciklusok</P>
+        <p>(csak megtekint&eacute;s)</p>
       </TD>
       <TD> 
-        <P>Shows the total number of identity synchronization cycles completed.</P>
+        <P>A v&eacute;grehajtott identit&aacute;sszinkroniz&aacute;l&aacute;si ciklusok sz&aacute;m&aacute;t mutatja.</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Identity Sync</P>
+        <P>Identit&aacute;s szinkroniz&aacute;l&aacute;sa</P>
       </TD>
       <TD> 
-        <P>Updates the iFolder users in the selected iFolder domain from the LDAP 
-          information at the interval you select.</P>
-        <p>Specify the time interval in minutes in the Identity Sync field and 
-          click Sync Now to start immediate synchronization of the iFolder users 
-          with the LDAP users.</p>
+        <P>A kijel&ouml;lt iFolder tartom&aacute;ny iFolder felhaszn&aacute;l&oacute;it friss&iacute;ti az LDAP adatokb&oacute;l a megadott gyakoris&aacute;ggal.</P>
+        <p>Adja meg a gyakoris&aacute;got az Identit&aacute;s szinkroniz&aacute;l&aacute;sa mezőben, majd az iFolder felhaszn&aacute;l&oacute;k &eacute;s az LDAP felhaszn&aacute;l&oacute;k azonnali szinkroniz&aacute;l&aacute;s&aacute;hoz kattintson az Azonnali szinkroniz&aacute;l&aacute;s gombra.</p>
 		
       </TD><TR>
       <TD VALIGN="TOP"> 
-        <P>Delete member grace interval</P>
+        <P>A tag lej&aacute;rat ut&aacute;ni bejelentkez&eacute;si lehetős&eacute;geinek t&ouml;rl&eacute;se</P>
       </TD>
       <TD> 
-        <P> Specifies the time interval for iFolder to delete the user information from the server once that particular user is deleted from the LDAP. 
-          This feature helps you to recover the data if the user is deleted accidentally. 
+        <P> Megadja, hogy az iFolder mennyi idővel azut&aacute;n t&ouml;r&ouml;lje a kiszolg&aacute;l&oacute;r&oacute;l a felhaszn&aacute;l&oacute;k adatait azut&aacute;n, hogy az adott felhaszn&aacute;l&oacute;t t&ouml;rlik az LDAP c&iacute;mt&aacute;rb&oacute;l. Ez a funkci&oacute; seg&iacute;t az adatok helyre&aacute;ll&iacute;t&aacute;s&aacute;ban a felhaszn&aacute;l&oacute; v&eacute;letlen t&ouml;rl&eacute;se eset&eacute;n. 
         </P>
 		
       </TD></TR></TABLE>
     <br>
-	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A>
-  <P>You can edit the following LDAP related information. Click Edit to open a 
-    new page where you can modify the entries. </P>
+	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Ugr&aacute;s az oldal tetej&eacute;re"></A>
+  <P>Az LDAP műk&ouml;d&eacute;s&eacute;vel kapcsolatban a k&ouml;vetkező adatok szerkeszthetők: A Szerkeszt&eacute;s elemre kattintva egy olyan &uacute;j lapot nyithat meg, amelyen elv&eacute;gezheti a bejegyz&eacute;sek m&oacute;dos&iacute;t&aacute;s&aacute;t. </P>
   
-  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
-        <P>LDAP Server</P>
+  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Param&eacute;ter</P></TD><TD CLASS="tablehead2"><P>Le&iacute;r&aacute;s</P></TD></TR><TR><TD VALIGN="TOP">
+        <P>LDAP-kiszolg&aacute;l&oacute;</P>
       </TD>
       <TD> 
-        <P>Shows the LDAP Server address.</P>
+        <P>Az LDAP kiszolg&aacute;l&oacute; c&iacute;m&eacute;t mutatja.</P>
 		
       </TD><TR><TD VALIGN="TOP">
         <P>LDAP SSL</P>
       </TD>
       <TD> 
-        <P>Shows LDAP SSL is enabled or not. It also allows you to enable or disable 
-          the LDAP SSL connection.</P>
+        <P>Mutatja, hogy az enged&eacute;lyezve van-e az LDAP SSL. Az LDAP SSL kapcsolat enged&eacute;lyez&eacute;s&eacute;t vagy letilt&aacute;s&aacute;t teszi lehetőv&eacute;.</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Proxy User</p>       
+        <P>Proxyfelhaszn&aacute;l&oacute;</p>       
       </TD>
       <TD> 
-        <P>Shows the Distinguished Name (DN) of the Proxy user. For example, cn=SimiasProxy,o=novell</P>
-		<p>The iFolder Proxy user is the identity used to access the LDAP server 
-          in order to retrieve a list of users in the specified containers or 
-          groups, or users that are defined in the iFolder LDAP settings.The iFolder 
-          Proxy user is created during the iFolder install. This identity must 
-          have the Read right to the LDAP directory. </p>
+        <P>A proxyfelhaszn&aacute;l&oacute; megk&uuml;l&ouml;nb&ouml;ztető nev&eacute;t (DN) mutatja. P&eacute;ld&aacute;ul cn=SimiasProxy,o=novell</P>
+		<p>Az iFolder proxyfelhaszn&aacute;l&oacute; azt az identit&aacute;st jelenti, amelynek haszn&aacute;lat&aacute;val a rendszer el&eacute;ri az LDAP kiszolg&aacute;l&oacute;t, hogy beolvassa a megadott kont&eacute;nerekben vagy csoportokban l&eacute;vő felhaszn&aacute;l&oacute;k, illetve az iFolder LDAP-be&aacute;ll&iacute;t&aacute;saiban megadott felhaszn&aacute;l&oacute;k list&aacute;j&aacute;t. Az azonos&iacute;t&oacute;nak olvas&aacute;si joggal kell rendelkeznie az LDAP-k&ouml;nyvt&aacute;rhoz. </p>
       </TD><TR><TD VALIGN="TOP">
-        <P>Proxy User Password</P>
+        <P>Helyettes&iacute;tő felhaszn&aacute;l&oacute; jelszava</P>
         <p>&nbsp;</p>
       </TD>
       <TD> 
-        <P>The password is used to authenticate the iFolder Proxy user to the 
-          LDAP server when iFolder synchronizes users with the LDAP server.</P>
+        <P>A jelsz&oacute; az iFolder proxyfelhaszn&aacute;l&oacute; LDAP-kiszolg&aacute;l&oacute;ra val&oacute; hiteles&iacute;t&eacute;s&eacute;re szolg&aacute;l, amikor az iFolder szinkroniz&aacute;lja a felhaszn&aacute;l&oacute;kat az LDAP-kiszolg&aacute;l&oacute;val.</P>
 		
       </TD><TR>
       <TD VALIGN="TOP"> 
-        <P>LDAP Context</P>
+        <P>LDAP-k&ouml;rnyezet</P>
       </TD>
       <TD> 
-        <P>LDAP Context lists all the LDAP contexts. iFolder searches users only 
-          from the listed LDAP contexts.</P>
+        <P>Az LDAP-k&ouml;rnyezet az &ouml;sszes LDAP-k&ouml;rnyezet felsorol&aacute;s&aacute;t adja meg. Az iFolder csak a list&aacute;ban szereplő LDAP-k&ouml;rnyezetekben keresi a felhaszn&aacute;l&oacute;kat.</P>
         
 		
       </TD></TR></TABLE><br>
-	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A>
+	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Ugr&aacute;s az oldal tetej&eacute;re"></A>
 
 	  
-  <H4><a name="volume"></a>Data Store</H4>
-  <p> Data Store represents the iFolder storage that can span across multiple 
-    volumes (mount points) in a given server. By default every iFolder server 
-    has a default store which cannot be disabled. With web interface, you can 
-    add and configure multiple Data Store across which iFolder data is load balanced. 
-    When the user uploads an iFolder, it check for the Data Store with maximum 
-    free space, and stores the iFolder data in that particular Data Store thereby 
-    balancing the load. You can add as many Data Store as you want. Having multiple 
-    Data Store thus makes it possible to scale the data storage capacity in a 
-    large deployment to meet the enterprise-level requirements. 
-  <P>You can view the following Data Store information:</P>
-  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
-        <P>Name</P>
+  <H4><a name="volume"></a>Adatt&aacute;r</H4>
+  <p> Az Adatt&aacute;r azt az iFolder t&aacute;rol&oacute;t k&eacute;pviseli, amely egy adott kiszolg&aacute;l&oacute;n t&ouml;bb k&ouml;tetre (csatlakoztat&aacute;si pontra) is kiterjedhet. Alap&eacute;rtelmez&eacute;s szerint mindegyik iFolder kiszolg&aacute;l&oacute; rendelkezik egy alap&eacute;rtelmezett t&aacute;rral, amelyet nem lehet letiltani. A webes kezelőfel&uuml;leten t&ouml;bb adatt&aacute;rat lehet hozz&aacute;adni &eacute;s konfigur&aacute;lni, amelyekkel az iFolder adataihoz kapcsol&oacute;d&oacute; terhel&eacute;s kiegyenl&iacute;thető. Amikor a felhaszn&aacute;l&oacute; felt&ouml;lt egy iFolder mapp&aacute;t, a rendszer az adatt&aacute;rban ellenőrzi a szabad lemezter&uuml;letet, &eacute;s az iFolder-adatokat az adott adatt&aacute;rban t&aacute;rolja, ezzel kiegyenl&iacute;ti a terhel&eacute;st. Tetsz&eacute;s szerinti sz&aacute;m&uacute; adatt&aacute;rat lehet hozz&aacute;adni. &Iacute;gy a t&ouml;bb adatt&aacute;r alkalmaz&aacute;s&aacute;val a nagy m&eacute;retű telep&iacute;t&eacute;s adatt&aacute;rol&aacute;si kapacit&aacute;sa a nagyv&aacute;llalati szintű k&ouml;vetelm&eacute;nyeknek megfelelően m&eacute;retezhető. 
+  <P>Az adatt&aacute;rak adatai k&ouml;z&uuml;l a k&ouml;vetkezők tekinthetők meg:</P>
+  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Param&eacute;ter</P></TD><TD CLASS="tablehead2"><P>Le&iacute;r&aacute;s</P></TD></TR><TR><TD VALIGN="TOP">
+        <P>N&eacute;v</P>
       </TD>
       <TD> 
-        <P>Shows the unique name you have specified for the Data Store.</P>
+        <P>Az adatt&aacute;rhoz megadott egyedi nevet jelen&iacute;ti meg.</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Full Path</P>
+        <P>Teljes el&eacute;r&eacute;si &uacute;t</P>
       </TD>
       <TD> 
-        <P>Shows the path to the Data Store, where the volume is mounted on. This 
-          is the data path that you have specified while adding the data store 
-          using the web interface.</P>
+        <P>Az adatt&aacute;r el&eacute;r&eacute;si &uacute;tj&aacute;t jelen&iacute;ti meg, ahov&aacute; a k&ouml;tet csatlakoztatva van. Ez az adatel&eacute;r&eacute;si &uacute;t, amelyet az adatt&aacute;r hozz&aacute;ad&aacute;sakor a webes kezelőfel&uuml;leten megadott.</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Free Space</P>
+        <P>Szabad lemezter&uuml;let</P>
       </TD>
       <TD> 
-        <P>Shows the space available in the volume.</P>
+        <P>A k&ouml;teten rendelkez&eacute;sre &aacute;ll&oacute; szabad helyet mutatja.</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Enabled</P>
+        <P>Enged&eacute;lyezve</P>
       </TD>
       <TD> 
-        <P>Shows the given Data Store is enabled or not. Default Data Store cannot 
-          be disabled.</P>
+        <P>Mutatja, hogy az enged&eacute;lyezve van-e az adott adatt&aacute;r. Az alap&eacute;rtelmezett adatt&aacute;rat nem lehet letiltani.</P>
 		
       </TD></TABLE>
-	  <H4><a name="volume"></a>Enable or Disable DataStore</H4>
+	  <H4><a name="volume"></a>Adatt&aacute;r enged&eacute;lyez&eacute;se vagy letilt&aacute;sa</H4>
 	  
-  <p> Select the Data Store you want to disable or enable and click Disable or 
-    Enable respectively. When the user uploads an iFolder, disabled Data Stores 
-    are always skipped while checking for the maximum free space availability 
-    for storing the iFolder data. </p>
+  <p> Jel&ouml;lje ki a letiltani vagy enged&eacute;lyezni k&iacute;v&aacute;nt adatt&aacute;rat, &eacute;s kattintson &eacute;rtelemszerűen az Enged&eacute;lyez&eacute;s vagy Letilt&aacute;s gombra. Amikor a felhaszn&aacute;l&oacute; felt&ouml;lt egy iFolder mapp&aacute;t, a rendszer mindig kihagyja a letiltott adatt&aacute;rakat, amikor megvizsg&aacute;lja, hogy az iFolder-adatok t&aacute;rol&aacute;s&aacute;hoz hol &aacute;ll rendelkez&eacute;sre a legt&ouml;bb szabad ter&uuml;let. </p>
 	  
-	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A>
+	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Ugr&aacute;s az oldal tetej&eacute;re"></A>
 
 
-  <H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Related Topics" align="top"> 
-Related Topics</H4><BLOCKQUOTE class="task1"><P ><BR><A HREF="servers.html">Managing iFolder Servers
-</A><BR><A HREF="reports.html">Reports 
-</A><BR><A HREF="ifolderdetails.html">Managing iFolder Details</A><BR><A HREF="member.html">Managing a User Account</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P><P>&nbsp;</P><P CLASS="copyright">A 
-trademark symbol (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP>, 
-etc.) denotes a Novell trademark. An asterisk (*) denotes a third-party trademark. 
-For more information, see <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Legal 
-Notices</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
+  <H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Kapcsol&oacute;d&oacute; t&eacute;mak&ouml;r&ouml;k" align="top">&nbsp;Kapcsol&oacute;d&oacute; t&eacute;mak&ouml;r&ouml;k</H4><BLOCKQUOTE class="task1"><P ><BR><A HREF="servers.html">Az iFolder kiszolg&aacute;l&oacute;k kezel&eacute;se</A><BR><A HREF="reports.html">Jelent&eacute;sek </A><BR><A HREF="ifolderdetails.html">Az iFolder mappa adatainak kezel&eacute;se</A><BR><A HREF="member.html">Felhaszn&aacute;l&oacute;i fi&oacute;k kezel&eacute;se</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Ugr&aacute;s az oldal tetej&eacute;re"></A></P><P>&nbsp;</P><P CLASS="copyright">A v&eacute;djegyjelek (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP> stb.) a Novell v&eacute;djegyeit jelzik. A csillag (*) karakter harmadik f&eacute;l v&eacute;djegy&eacute;t jel&ouml;li. Tov&aacute;bbi inform&aacute;ci&oacute;k a <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Szerzői jogi megjegyz&eacute;sek c&iacute;mű t&eacute;mak&ouml;rben tal&aacute;lhat&oacute;k</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
 </body>
 
 </html>

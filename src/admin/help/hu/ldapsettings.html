@@ -1,11 +1,11 @@
 <html>
 
    <head>
-     <meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+     <meta http-equiv="content-type" content="text/html;charset=UTF-8">
      
      <!-- Novell iFolder 3.7  --> 
    
-     <title>Managing the LDAP Settings</title>  	 
+     <title>Az LDAP-be&aacute;ll&iacute;t&aacute;sok kezel&eacute;se</title>  	 
      
      <!-- Metadata -->
    
@@ -52,103 +52,63 @@
 <!-- This is the start of the Help Banner Layer --> <div id="headgraphic"> <img src="../../images/h1_help.gif" width="380" height="32"   border="0"></div><!-- This is end of the Help Banner Layer --> 
 <!-- This is the start of the Help Content Layer --> <div id="helpcontent"> <!-- The Page Heading uses CSS style "head3b". This creates an H3 header
             with a line beneath it.
-       --> <h3 class="head3b">Managing the LDAP Settings for the iFolder System</h3>
-  <p> Use this interface to modify the LDAP settings for the selected Novell<SUP><SMALL>&reg;</SMALL></SUP> iFolder<SUP><SMALL>&reg;</SMALL></SUP> 
-    3.7 server on this iFolder domain. </p>
+       --> <h3 class="head3b">Az LDAP-be&aacute;ll&iacute;t&aacute;sok kezel&eacute;se az iFolder rendszerhez</h3>
+  <p> Ezen a kezelőfel&uuml;leten m&oacute;dos&iacute;that&oacute;k az ebben az iFolder tartom&aacute;nyban műk&ouml;dő, kijel&ouml;lt Novell<SUP><SMALL>&reg;</SMALL></SUP> iFolder<SUP><SMALL>&reg;</SMALL></SUP> 3.7 kiszolg&aacute;l&oacute; LDAP-be&aacute;ll&iacute;t&aacute;sai. </p>
   
-  <H3><A NAME="modify"></A>Modifying 
-the LDAP Settings</H3><P>Modify any of the following fields, then click <i>OK</i> to 
-apply your changes:</P><TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR>
+  <H3><A NAME="modify"></A>LDAP-be&aacute;ll&iacute;t&aacute;sok m&oacute;dos&iacute;t&aacute;sa</H3><P>M&oacute;dos&iacute;tsa az al&aacute;bbi mezők n&eacute;melyik&eacute;nek tartalm&aacute;t, majd kattintson az <i>OK</i> gombra a v&aacute;ltoztat&aacute;sok &eacute;rv&eacute;nybe l&eacute;ptet&eacute;s&eacute;hez:</P><TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Param&eacute;ter</P></TD><TD CLASS="tablehead2"><P>Le&iacute;r&aacute;s</P></TD></TR>
 <TR><TD VALIGN="TOP">
-        <P>LDAP Admin DN</P>
+        <P>LDAP rendszergazda megk&uuml;l&ouml;nb&ouml;ztetett neve (DN-je)</P>
       </TD><TD>
-        <P>Specify the fully distinguished name of the LDAP Admin. This can be 
-          the same or different as your iFolder Admin.</P>
+        <P>Adja meg az LDAP rendszergazda teljesen megk&uuml;l&ouml;nb&ouml;ztetett nev&eacute;t. Ez az iFolder rendszergazd&aacute;hoz k&eacute;pes lehet egyező vagy elt&eacute;rő is.</P>
       </TD></TR>
 	  <TR><TD VALIGN="TOP">
-        <P>LDAP Admin&nbsp;Password&nbsp;</P>
+        <P>LDAP rendszergazda jelszava</P>
       </TD><TD>
-        <P>The password is used to authenticate the LDAP Admin user to the LDAP 
-          server. </P>
+        <P>A jelsz&oacute; az LDAP rendszergazdai felhaszn&aacute;l&oacute; LDAP-kiszolg&aacute;l&oacute;ra val&oacute; hiteles&iacute;t&eacute;s&eacute;re szolg&aacute;l. </P>
         
-        <P>Click <i>OK</i> to update the password stored in the LDAP settings.</P>
+        <P>Kattintson az <i>OK</i> gombra az LDAP-be&aacute;ll&iacute;t&aacute;sok k&ouml;z&ouml;tt t&aacute;rolt jelsz&oacute; friss&iacute;t&eacute;s&eacute;hez.</P>
 <blockquote>
   
 </blockquote>
 </TD></TR><TR><TD VALIGN="TOP">
-        <P>LDAP Server</P>
+        <P>LDAP-kiszolg&aacute;l&oacute;</P>
       </TD><TD>
-        <P>Specify the DNS name or IP address of the LDAP server. This can be 
-          any of the iFolder servers in the iFolder system.</P>
+        <P>Megadja az LDAP-kiszolg&aacute;l&oacute; DNS-nev&eacute;t vagy IP-c&iacute;m&eacute;t. Ez az iFolder rendszerben tal&aacute;lhat&oacute; iFolder kiszolg&aacute;l&oacute;k b&aacute;rmelyike lehet.</P>
       </TD></TR>
 	  <TR><TD VALIGN="TOP">
         <P>LDAP SSL</P>
       </TD><TD>
-        <P>Select <i>Yes</i> to enable LDAP SSL. If SSL is enabled on the server, 
-          the value is Yes; otherwise, the value is No.<BR>
+        <P>V&aacute;lassza az <i>Igen</i> lehetős&eacute;get az LDAP SSL enged&eacute;lyez&eacute;s&eacute;hez. Ha az SSL enged&eacute;lyezve van a kiszolg&aacute;l&oacute;n, akkor az &eacute;rt&eacute;k Igen, k&uuml;l&ouml;nben az &eacute;rt&eacute;k Nem.<BR>
         </P></TD></TR><TR><TD VALIGN="TOP">
-        <P>Proxy&nbsp;User&nbsp;&nbsp;</P>
+        <P>Proxyfelhaszn&aacute;l&oacute;</P>
       </TD><TD>
-        <P>The iFolder Proxy user is an existing proxy user identity used to access 
-          the LDAP server with Read access to retrieve a list of authorized users. 
-          The proxy user is automatically created during the iFolder enterprise 
-          server configuration in YaST. The username is auto-generated to be unique 
-          on the system. </P>
-    <P> Make sure that the user account assigned as the iFolder Proxy user is different than the one used for the iFolder Admin user and other system users. Separating the proxy user from the administrator provides privilege separation and is also important because the proxy user password is stored in the file system on the iFolder server.</P>
-    <P> Specify the fully distinguished name of an existing user that you want to make the iFolder Proxy user. This identity must have the Read right to the LDAP directory. For example: </P>
+        <P>Az iFolder proxyfelhaszn&aacute;l&oacute; egy olyan m&aacute;r l&eacute;tező proxyfelhaszn&aacute;l&oacute;-azonos&iacute;t&oacute;, mely az LDAP-kiszolg&aacute;l&oacute;hoz val&oacute; olvas&aacute;si hozz&aacute;f&eacute;r&eacute;shez haszn&aacute;latos az enged&eacute;lyezett felhaszn&aacute;l&oacute;k list&aacute;j&aacute;nak lek&eacute;r&eacute;s&eacute;re. A proxyfelhaszn&aacute;l&oacute; automatikusan l&eacute;trej&ouml;n az iFolder v&aacute;llalati kiszolg&aacute;l&oacute; be&aacute;ll&iacute;t&aacute;sa k&ouml;zben a YaST eszk&ouml;zben. A felhaszn&aacute;l&oacute;n&eacute;v automatikusan van gener&aacute;lva &uacute;gy, hogy egyedi legyen a rendszeren. </P>
+    <P> Győződj&ouml;n meg arr&oacute;l, hogy az a felhaszn&aacute;l&oacute;i fi&oacute;k, amely iFolder proxyfelhaszn&aacute;l&oacute;nak van megadva, nem ugyanaz, mint az iFolder rendszergazdai felhaszn&aacute;l&oacute; &eacute;s m&aacute;s rendszerfelhaszn&aacute;l&oacute;k. A proxyfelhaszn&aacute;l&oacute; &eacute;s a rendszergazda elv&aacute;laszt&aacute;sa a jogosults&aacute;gok elv&aacute;laszt&aacute;s&aacute;val j&aacute;r, &eacute;s az&eacute;rt is fontos, mert a proxyfelhaszn&aacute;l&oacute; jelszava az iFolder kiszolg&aacute;l&oacute; f&aacute;jlrendszer&eacute;ben van t&aacute;rolva.</P>
+    <P> Adja meg annak a m&aacute;r megl&eacute;vő felhaszn&aacute;l&oacute; teljes megk&uuml;l&ouml;nb&ouml;ztető nev&eacute;t, akit iFolder proxyfelhaszn&aacute;l&oacute;v&aacute; szeretne tenni. Az azonos&iacute;t&oacute;nak olvas&aacute;si joggal kell rendelkeznie az LDAP-k&ouml;nyvt&aacute;rhoz. P&eacute;ld&aacute;ul: </P>
         <P> cn=iFolderProxy,o=acme</P>
-    <P> Make sure to also enter the new user's password in the Proxy Password field.</P>
-        <P> After you modify the Proxy user, you might want to immediately synchronize 
-          the LDAP user lists, using the new iFolder proxy information; otherwise, 
-          the Proxy user information is not tested until the next scheduled synchronization 
-          of the user list. Use the <i>Sync Now</i> option under <i>LDAP Details</i> 
-          on the Server Details page to synchronize the iFolder user list on demand 
-          and verify your new Proxy user settings.</P>
+    <P> &Uuml;gyeljen arra, hogy az &uacute;j felhaszn&aacute;l&oacute; jelszav&aacute;t is meg kell adnia a Proxyjelsz&oacute; mezőben.</P>
+        <P> Miut&aacute;n m&oacute;dos&iacute;totta a proxyfelhaszn&aacute;l&oacute;t, aj&aacute;nlatos az &uacute;j iFolder proxyinform&aacute;ci&oacute;k seg&iacute;ts&eacute;g&eacute;vel azonnal szinkroniz&aacute;lni az LDAP felhaszn&aacute;l&oacute;list&aacute;kat, m&aacute;sk&uuml;l&ouml;nben a proxyfelhaszn&aacute;l&oacute;i inform&aacute;ci&oacute;kat a rendszer a felhaszn&aacute;l&oacute;lista k&ouml;vetkező &uuml;temezett szinkroniz&aacute;l&aacute;s&aacute;ig nem teszteli. Haszn&aacute;lja a Kiszolg&aacute;l&oacute; adatai lapon, az <i>LDAP-adatok</i> ter&uuml;leten tal&aacute;lhat&oacute; <i>Azonnali szinkroniz&aacute;l&aacute;s</i> funkci&oacute;t az iFolder felhaszn&aacute;l&oacute;lista ig&eacute;ny szerinti szinkroniz&aacute;l&aacute;s&aacute;ra &eacute;s az &uacute;j proxyfelhaszn&aacute;l&oacute;i be&aacute;ll&iacute;t&aacute;sok ellenőrz&eacute;s&eacute;re.</P>
       </TD></TR>
-	<TR><TD VALIGN="TOP"><P>Proxy&nbsp;User&nbsp;Password&nbsp;</P></TD><TD>
-        <P>The password is used to authenticate the iFolder Proxy user to the 
-          LDAP server when iFolder synchronizes users with the LDAP server. </P>
-        <P>To modify the iFolder Proxy User password, you do not need to update the value stored in LDAP settings for the iFolder system. 
-          You can directly use this interface to modify the password.</p>
-        <P>This password must match the password stored in the iFolder Proxy user&#146;s 
-eDirectory<sup><small>TM</small></sup> object. </P>
-<P>Specify the password twice, then click <i>OK</i> to update the password stored in the LDAP settings.</P>
+	<TR><TD VALIGN="TOP"><P>Proxyfelhaszn&aacute;l&oacute; jelszava</P></TD><TD>
+        <P>A jelsz&oacute; az iFolder proxyfelhaszn&aacute;l&oacute; LDAP-kiszolg&aacute;l&oacute;ra val&oacute; hiteles&iacute;t&eacute;s&eacute;re szolg&aacute;l, amikor az iFolder szinkroniz&aacute;lja a felhaszn&aacute;l&oacute;kat az LDAP-kiszolg&aacute;l&oacute;val. </P>
+        <P>Az iFolder proxyfelhaszn&aacute;l&oacute;i jelszav&aacute;nak m&oacute;dos&iacute;t&aacute;s&aacute;hoz nem sz&uuml;ks&eacute;ges friss&iacute;teni az iFolder rendszerhez az LDAP-be&aacute;ll&iacute;t&aacute;sok k&ouml;z&ouml;tt t&aacute;rolt &eacute;rt&eacute;ket. A jelsz&oacute; m&oacute;dos&iacute;t&aacute;s&aacute;hoz k&ouml;zvetlen&uuml;l haszn&aacute;lhatja ezt a kezelőfel&uuml;letet.</p>
+        <P>Ennek a jelsz&oacute;nak meg kell egyezni az iFolder proxyfelhaszn&aacute;l&oacute; eDirectory<sup><small>TM</small></sup> objektum&aacute;ban t&aacute;rolt jelsz&oacute;val. </P>
+<P>Adja meg k&eacute;tszer a jelsz&oacute;t, majd kattintson az <i>OK</i> gombra az LDAP-be&aacute;ll&iacute;t&aacute;sok k&ouml;z&ouml;tt t&aacute;rolt jelsz&oacute; friss&iacute;t&eacute;s&eacute;hez.</P>
 
         
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>LDAP Contexts</P>
+        <P>LDAP k&ouml;rnyezetek</P>
       </TD><TD>
-        <P> Specify or edit the LDAP containers, groups, or users where iFolder 
-          searches for a list of authorized users to provision for iFolder servers 
-          on this enterprise server. LDAP contexts are entered in LDAP format. 
-          For example: </P>
-        <P> cn=group,o=acme#cn=dbgroup,o=acme#</P>
-        <P>To edit a value, select it, make your changes, then click <i>OK</i> to apply 
-          the changes.</P>  
+        <P> Megadhatja, szerkesztheti vagy megkeresheti az LDAP-kont&eacute;nereket, csoportokat vagy felhaszn&aacute;l&oacute;kat, ahol az iFolder megkeresi azoknak a jogosult felhaszn&aacute;l&oacute;knak list&aacute;j&aacute;t, amelyeket ezen a v&aacute;llalati kiszolg&aacute;l&oacute;n enged&eacute;lyez az iFolder kiszolg&aacute;l&oacute;khoz. Az LDAP k&ouml;rnyezetek LDAP form&aacute;tumban vannak megadva. P&eacute;ld&aacute;ul: </P>
+        <P> cn=csoport,o=acme#cn=dbcsop,o=acme#</P>
+        <P>&Eacute;rt&eacute;k szerkeszt&eacute;s&eacute;hez jel&ouml;lje ki az &eacute;rt&eacute;ket, v&eacute;gezze el a v&aacute;ltoztat&aacute;sokat, majd az &eacute;rv&eacute;nybe l&eacute;ptet&eacute;shez kattintson az <i>OK</i> gombra.</P>  
   
-        <P>During LDAP synchronization, the iFolder server queries the LDAP server 
-          to retrieve a list of users in the DNs (as specified in the <i>LDAP 
-          Contexts</i> field) at the specified synchronization interval. The usernames 
-          in the iFolder domain are matched against this official LDAP list. Any 
-          new user in the specified LDAP contexts is added to the iFolder domain. 
-          If a user is no longer in the specified LDAP contexts, the username 
-          is removed from the domain, any iFolders the user owns are orphaned 
-          and reassigned to the iFolder Admin user, and the user is removed as 
-          a member of other iFolders.</P>
-        <P>The iFolder Admin User is provisioned for servers during the install. 
-          It is tracked by its GUID, so it is available even if you do not specify 
-          a container, group, or user, or if you specify search DNs that do not 
-          contain the Folder Admin user. This identity must be provisioned to 
-          enable the iFolder Admin to perform management tasks.</P>
+        <P>Az iFolder rendszergazdai felhaszn&aacute;l&oacute; a telep&iacute;t&eacute;s sor&aacute;n enged&eacute;lyezve lesz a kiszolg&aacute;l&oacute;khoz. Ezt a GUID azonos&iacute;t&oacute;ja k&ouml;veti nyomon, teh&aacute;t akkor is el&eacute;rhető, ha nem ad meg kont&eacute;nert, csoportot vagy felhaszn&aacute;l&oacute;t, vagy olyan keres&eacute;si DN-t ad meg, amely nem tartalmazza az iFolder rendszergazdai felhaszn&aacute;l&oacute;t.  Ezt az azonos&iacute;t&oacute;t biztos&iacute;tani kell annak &eacute;rdek&eacute;ben, hogy az iFolder rendszergazda v&eacute;gre tudja hajtani a kezel&eacute;si feladatokat.</P>
+        <P>Az LDAP-szinkroniz&aacute;l&aacute;s &uuml;temezhető, de manu&aacute;lisan is elv&eacute;gezhető az <i>Azonnali szinkroniz&aacute;l&aacute;s</i> gombra kattintva. LDAP-szinkroniz&aacute;l&aacute;skor az iFolder kiszolg&aacute;l&oacute;ja lek&eacute;rdezi az LDAP-kiszolg&aacute;l&oacute;t, &eacute;s beolvassa a felhaszn&aacute;l&oacute;k list&aacute;j&aacute;t az <i>LDAP-k&ouml;rnyezetek</i> mezőben megadott DN-ből. Az alkalmaz&aacute;s egybeveti az iFolder tartom&aacute;ny&aacute;ban l&eacute;vő felhaszn&aacute;l&oacute;neveket az LDAP-list&aacute;val. Ha felhaszn&aacute;l&oacute;t ad hozz&aacute; a megadott LDAP-k&ouml;rnyezethez, vagy felhaszn&aacute;l&oacute;t t&ouml;r&ouml;l belőle, az iFolder-tartom&aacute;ny is friss&uuml;l.</P>
+        <P>Ha elt&aacute;vol&iacute;t egy felhaszn&aacute;l&oacute;t az LDAP-k&ouml;rnyezetből, az első LDAP-szinkroniz&aacute;l&aacute;s &ndash; f&uuml;ggetlen&uuml;l a lej&aacute;rat ut&aacute;ni bejelentkez&eacute;sek h&aacute;zirendj&eacute;től &ndash; mind&ouml;ssze letiltja a felhaszn&aacute;l&oacute;t az iFolder-tartom&aacute;nyban. Az alkalmaz&aacute;s nem t&ouml;rli automatikusan a letiltott felhaszn&aacute;l&oacute;t a lej&aacute;rat ut&aacute;ni bejelentkez&eacute;s időtartama v&eacute;g&eacute;n sem, &iacute;gy a felhaszn&aacute;l&oacute; inakt&iacute;v &aacute;llapotban az iFolder-tartom&aacute;ny r&eacute;sze marad. Ha a lej&aacute;rat ut&aacute;ni bejelentkez&eacute;s időtartama alatt a felhaszn&aacute;l&oacute;t &uacute;jra be&aacute;ll&iacute;tj&aacute;k, a felhaszn&aacute;l&oacute; akt&iacute;v &aacute;llapotba ker&uuml;l az &ouml;sszes iFolder mapp&aacute;val egy&uuml;tt. A lej&aacute;rat ut&aacute;ni bejelentkez&eacute;s időtartam&aacute;t k&ouml;vetően az LDAP-szinkroniz&aacute;l&aacute;s t&ouml;rli a felhaszn&aacute;l&oacute;t az iFolder-tartom&aacute;nyb&oacute;l, &eacute;s a felhaszn&aacute;l&oacute; &ouml;sszes iFolder mapp&aacute;ja el&aacute;rvul. Az alkalmaz&aacute;s az &aacute;rva iFolder mapp&aacute;kat &uacute;jra hozz&aacute;rendeli az iFolder rendszergazdai felhaszn&aacute;l&oacute;j&aacute;hoz.</P>
       </TD></TR>
-  </TABLE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P><H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Related Topics" align="top"> 
-Related Topics</H4><BLOCKQUOTE class="task1">
-<P ><A HREF="system.html">Managing 
-the iFolder System</A><BR><A HREF="member.html">Managing a User Account</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P><P>&nbsp;</P><P CLASS="copyright">A 
-trademark symbol (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP>, 
-etc.) denotes a Novell trademark. An asterisk (*) denotes a third-party trademark. 
-For more information, see <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Legal 
-Notices</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
+  </TABLE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Ugr&aacute;s az oldal tetej&eacute;re"></A></P><H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Kapcsol&oacute;d&oacute; t&eacute;mak&ouml;r&ouml;k" align="top">&nbsp;Kapcsol&oacute;d&oacute; t&eacute;mak&ouml;r&ouml;k</H4><BLOCKQUOTE class="task1">
+<P ><A HREF="system.html">Az iFolder rendszer kezel&eacute;se</A><BR><A HREF="member.html">Felhaszn&aacute;l&oacute;i fi&oacute;k kezel&eacute;se</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Ugr&aacute;s az oldal tetej&eacute;re"></A></P><P>&nbsp;</P><P CLASS="copyright">A v&eacute;djegyjelek (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP> stb.) a Novell v&eacute;djegyeit jelzik. A csillag (*) karakter harmadik f&eacute;l v&eacute;djegy&eacute;t jel&ouml;li. Tov&aacute;bbi inform&aacute;ci&oacute;k a <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Szerzői jogi megjegyz&eacute;sek c&iacute;mű t&eacute;mak&ouml;rben tal&aacute;lhat&oacute;k</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
 </body>
 
 </html>

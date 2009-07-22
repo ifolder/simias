@@ -1,11 +1,11 @@
 <html>
 
    <head>
-     <meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+     <meta http-equiv="content-type" content="text/html;charset=UTF-8">
      
      <!-- Novell iFolder 3.x iManager Plugin  --> 
    
-     <title>User Details</title>  	 
+     <title>ユーザ詳細</title>  	 
         
      <!-- Metadata -->
    
@@ -28,8 +28,7 @@
        <!--
        
          body           {  font-family: Arial, Helvetica, Geneva;
-									background: white
-url(../../images/helphead_bg.gif) repeat-x 0% 0% }
+									background: white url('../../images/helphead_bg.gif') repeat-x;  }
 		      
          #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px;
 									width: 380px; visibility: visible }
@@ -53,313 +52,235 @@ url(../../images/helphead_bg.gif) repeat-x 0% 0% }
 <!-- This is the start of the Help Banner Layer --> <div id="headgraphic"> <img src="../../images/h1_help.gif" width="380" height="32"   border="0"></div><!-- This is end of the Help Banner Layer --> 
 <!-- This is the start of the Help Content Layer --> 
 <div id="helpcontent" style="left: 13px; top: 35px"> 
-  <H3><A NAME="userdetails"></A>User Details </H3>
-  <P>Use this interface to view user details and manage user policies. </P>
-  <P><B><FONT SIZE="-1">NOTE:</FONT></B> <FONT SIZE="-1">The term <i>iFolder users 
-    </i> refers to both individual users and LDAPGroups.</FONT></P>
-  <BLOCKQUOTE CLASS="blockquote"><P><A HREF="#userdetails" TARGET="_self">User Details</A><BR><A HREF="#ifolders" TARGET="_self">iFolders </A><BR> 
-<A HREF="#policies" TARGET="_self">Policies</A> </P></BLOCKQUOTE>
+  <H3><A NAME="userdetails"></A>ユーザ詳細 </H3>
+  <P>このインタフェースでは、ユーザ詳細を表示したり、ユーザポリシーを管理したりできます。 </P>
+  <P><B><FONT SIZE="-1">注意:</FONT></B> <FONT SIZE="-1">「iFolderユーザ」とは、個々のユーザおよびLDAPGroupの両方を指します。<i></i></FONT></P>
+  <BLOCKQUOTE CLASS="blockquote"><P><A HREF="#userdetails" TARGET="_self">ユーザ詳細</A><BR><A HREF="#ifolders" TARGET="_self">iFolder</A><BR> 
+<A HREF="#policies" TARGET="_self">ポリシー</A> </P></BLOCKQUOTE>
   
-  <h3><a name="userdetails"></a>User Details </h3>
-  <P>The User Details page will display the following user details for the selected 
-    user's iFolder account. </P>
-	<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
-        <P>User Name</P>
+  <h3><a name="userdetails"></a>ユーザ詳細 </h3>
+  <P>［User Details (ユーザ詳細)］ページには、選択したユーザのiFolderアカウントについて、次のユーザ詳細が表示されます。 </P>
+	<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>パラメータ</P></TD><TD CLASS="tablehead2"><P>説明</P></TD></TR><TR><TD VALIGN="TOP">
+        <P>ユーザ名</P>
       </TD>
       <TD> 
-        <P>The username assigned to the user account, such as jsmith or john.smith@example.com.</P>
+        <P>jsmithやjohn.smith@example.comなど、ユーザアカウントに割り当てられているユーザ名。</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Full Name</P>
+        <P>フルネーム</P>
       </TD>
       <TD> 
-        <P>The first and last name of the user account. </P>
+        <P>ユーザアカウントの名と姓。 </P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Member Type</P>       
+        <P>Member Type (メンバータイプ)</P>       
       </TD>
       <TD> 
-        <P>Shows the member type of the user currently logged in. If the user 
-          is an individual user the interface also display an option for User 
-          Groups. If the user is a member of an LDAPGroup, the interface lists 
-          all the members of the LDAPGroup under the option for Group Members.
+        <P>現在ログインしているユーザのメンバータイプを表示します。ユーザが個々のユーザの場合、インタフェースには[ユーザグループ]のオプションも表示されます。ユーザがLDAPGroupのメンバーの場合、インタフェースの[グループメンバー]に、そのLDAPGroupのすべてのメンバーが表示されます。
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>LDAP Context</P>       
+        <P>LDAP contexts (LDAPコンテキスト)</P>       
       </TD>
       <TD> 
-        <P>The LDAP tree context is used for provisioning users in to iFolder. 
+        <P>LDAPツリーコンテキストは、ユーザをiFolderにプロビジョニングするために使用されます。 
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>Last Login Time</P>
+        <P>Last login (最終ログイン)</P>
         </TD>
       <TD> 
-        <P>The time when the user last logged in to the iFolder system. 
+        <P>ユーザが最後にiFolderシステムにログインした時刻。 
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>User Groups (applicable only for individual users)</P>       
+        Group Disk Quota (グループのディスク割り当て量)</TD>
+      <TD> 
+        グループの合計ディスク割り当て量を示します。<p>
+        <b>注意</b>: セカンダリ管理者は、グループのディスク割り当て量を変更できません。</TD></TR><TR><TD VALIGN="TOP">
+        使用済みディスク容量</TD>
+      <TD> 
+        グループが使用している合計ディスク容量を示します。</TD></TR><TR><TD VALIGN="TOP">
+        <P>ユーザグループ(個々のユーザにのみ適用)</P>       
       </TD>
       <TD> 
-        <P>Lists all the groups that the selected user belongs to. 
+        <P>選択されたユーザが属しているすべてのグループを表示します。 
       </TD></TR><TR><TD VALIGN="TOP">
-        <P> Group Members (applicable only for LDAPGroups)</P>       
+        <P> グループメンバー(LDAPGroupにのみ適用)</P>       
       </TD>
       <TD> 
-        <P>Lists all the members who belong to the selected LDAPGroup. 
+        <P>選択されたLDAPGroupに属しているすべてのメンバーを表示します。 
       </TD></TR></TABLE>
 
   
   
-  <h4><a name="ifolders"></a> iFolders</h4>
-  <P>The User Details page displays the iFolders owned or shared by the user. 
-    Click the All tab to list all the iFolders both owned and shared. To view 
-    the iFolder owned by the user, click the Owned tab. The Shared tab lists all 
-    the shared iFolders for the current user account.</P>
+  <h4><a name="ifolders"></a>iFolder</h4>
+  <P>［User Details (ユーザ詳細)］ページには、ユーザが所有または共有しているiFolderが表示されます。所有されているiFolderと共有されているiFolderのすべてを表示するには、［すべて］タブをクリックします。ユーザが所有しているiFolderを表示するには、［Owned (所有)］タブをクリックします。［共有］タブには、現在のユーザアカウントの共有iFolderがすべて表示されます。</P>
 	
-  <H4>Enabling or Disabling an iFolder</H4>
+  <H4>iFolderの有効化または無効化</H4>
 		
   <OL>
     <LI> 
-      <P>Locate the iFolder you want to manage, then select the check box next 
-        to the iFolder.</P>
+      <P>管理するiFolderを探して、そのiFolderの横のチェックボックスをオンにします。</P>
     </LI>
     <LI> 
-      <P>Click Enable to enable the iFolder.</P>
-      <P>This will allow the user to log in and synchronize iFolders.</P>
+      <P>iFolderを有効にするには、［有効］をクリックします。</P>
+      <P>これにより、ユーザはログインしてiFolderを同期できるようになります。</P>
     
     <LI> 
-      <P>Click Disable to disable the iFolder.</P>
-      <P> If the user is logged in when you make this change, the user�s session 
-        continues until the user logs out. The policy takes effect the next time 
-        the user attempts to log in to the account. To have the lockout take effect 
-        immediately, you must restart the Apache services for the iFolder server, 
-        which disconnects all active sessions, including the user�s session.</P>
+      <P>iFolderを無効にするには、［無効］をクリックします。</P>
+      <P> この変更を行うときにユーザがログインしている場合、そのユーザのセッションは、ユーザがログアウトするまで維持されます。ポリシーは、ユーザが次回アカウントにログインしようとしたときに有効になります。ロックアウトを直ちに有効にするには、iFolderサーバのApacheサービスを再起動して、ユーザのセッションを含むすべてのアクティブセッションを終了する必要があります。</P>
     </LI>
   </OL>
-<H4>Deleting an iFolder</H4>
+<H4>iFolderの削除</H4>
 <OL><LI>
-      <P>Locate the iFolder you want to delete, then select the check box next 
-        to the iFolder.</P>
+      <P>削除するiFolderを探して、そのiFolderの横のチェックボックスをオンにします。</P>
     </LI><LI>
-      <P>Click Delete.</P>
+      <P>［削除］をクリックします。</P>
     </LI></OL>
-	<H4>Creating an iFolder</H4><OL><LI>
-      <P>On the User Details page, click New.</P>
+	<H4>iFolderの作成</H4><OL><LI>
+      <P>［User Details (ユーザ詳細)］ページで、［新規］をクリックします。</P>
     </LI>
-    <LI>On the new page that opens, follow the instructions to create a new iFolder.</LI>
+    <LI>表示された新しいページで、指示に従って新しいiFolderを作成します。</LI>
   </OL>
-<IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top">
-<h3><a name="policies"></a> Policies</h3>
-  <P>Use this interface to manage the user policies for a specified user account. 
+<IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="トップへジャンプ">
+<h3><a name="policies"></a> ポリシー</h3>
+  <P>このインタフェースでは、指定したユーザアカウントのユーザポリシーを管理できます。 
   </P>
-  <P><B><FONT SIZE="-1">NOTE:</FONT></B> <font size="-1">Policies set to an LDAPGroup 
-    are applicable to its member users.</font></P>
-<H4>Modifying 
-User Policies</H4>
-<p>The following table lists the policies you can manage for any given iFolder 
-    user account. Modify one or more of the following values, then click Save to apply the new 
-    settings:</p> 
-<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
-        <h4>Account </h4>
-      </TD><TD><P>Specifies whether the user is currently allowed 
-to log in to synchronize iFolders. </P>
-        <P>Select the check box to disable the account for login.</P>
-        <P> Deselect the check box to enable the account for login. </P>
-        <P>If the user is logged in when you make this change, the user's session 
-          continues until the user logs out. The policy takes effect the next 
-          time the user attempts to log in to the account. To have the lockout 
-          take effect immediately, you must restart the Apache services for the 
-          iFolder server, which disconnects all active sessions, including the 
-          user's session.</P>
-        <P>Default Value: Enabled</P>
+  <P><B><FONT SIZE="-1">注意:</FONT></B> <font size="-1">LDAPGroupに設定されたポリシーは、すべてのメンバーユーザに適用されます。</font></P>
+<H4>ユーザポリシーの変更</H4>
+<p>次の表に、特定のiFolderユーザアカウントについて管理できるポリシーを示します。次の値を1つまたは複数変更し、［保存］をクリックして新しい設定を適用します。</p> 
+<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>パラメータ</P></TD><TD CLASS="tablehead2"><P>説明</P></TD></TR><TR><TD VALIGN="TOP">
+        <h4>アカウント </h4>
+      </TD><TD><P>ユーザが現在ログインしてiFolderを同期できるかどうかを示します。 </P>
+        <P>ログインのアカウントを無効にするには、チェックボックスをオンにします。</P>
+        <P> ログインのアカウントを有効にするには、チェックボックスをオフにします。 </P>
+        <P>この変更を行うときにユーザがログインしている場合、そのユーザのセッションは、ユーザがログアウトするまで維持されます。ポリシーは、ユーザが次回アカウントにログインしようとしたときに有効になります。ロックアウトを直ちに有効にするには、iFolderサーバのApacheサービスを再起動して、ユーザのセッションを含むすべてのアクティブセッションを終了する必要があります。</P>
+        <P>デフォルト値: 有効</P>
       </TD></TR><TR>
       <TD VALIGN="TOP"> 
-        <h4>No of iFolder per users</h4>
+        <h4>No of iFolder per users (ユーザごとのiFolder数)</h4>
       </TD>
       <TD> 
-        <P>Specifies the maximum number of iFolder that a user can own. After 
-          Applying this policy, the user is limited to own a certain number of 
-          iFolders.The user who exceeds his or her usage limit receives an error 
-          message about the policy violation. If the limit is zero, the user cannot 
-          create any iFolders.</P>
+        <P>ユーザが所有可能なiFolderの最大数を指定します。このポリシーを適用すると、ユーザが所有できるiFolderの数が制限されます。制限を超えて所有すると、そのユーザにはポリシー違反のエラーメッセージが表示されます。制限値がゼロの場合、ユーザはiFolderを作成できません。</P>
            
-        <p>Select the check box next to <i>Limit</i> to enable the iFolder per 
-          users limit, and specify the number in the field. 
-        <P>The policy setting does not affect the number of iFolders that the 
-          user already owns. If the number of iFolders owned by the user already 
-          exceeds the limit that you set, he or she can still own those iFolders. 
-          </p><p>User level policy overides LDAPGroup level and system 
-          level policy.</P>
-        <P>Default Value: Disabled, no value set</P>
+        <p>［制限］の横のチェックボックスをオンにすると、ユーザごとのiFolder数の制限が有効になります。その後でフィールドに値を入力します。<i></i> 
+        <P>このポリシー設定は、ユーザがすでに所有しているiFolderの数には影響を及ぼしません。ユーザがすでに所有しているiFolderの数が、設定した制限を超えても、それらのiFolderを所有し続けることができます。 
+          </p><p>ユーザレベルのポリシーは、LDAPGroupレベルのポリシーおよびシステムレベルのポリシーより優先されます。</P>
+        <P>デフォルト値: 無効、値の設定なし</P>
         </TD></TR><TR><TD VALIGN="TOP">
-        <h4>Disk Quota</h4>
+        <h4>Disk Quota (ディスク割り当て量)</h4>
       </TD>
       <TD> 
-        <p>Specifies the maximum total space that a user&#146;s iFolder data is 
-          allowed to use, across all iFolders the user owns. The quota can be 
-          imposed by the System-Wide policy. User policies supersede System-wide 
-          policies.<br>
+        <p>ユーザが所有するすべてのiFolderのデータに使用できる最大総容量を指定します。割り当て量は、システム全体のポリシーで設定できます。ユーザポリシーはシステム全体のポリシーよりも優先されます。<br>
         </p>
-        <P> <B>Limit</B><BR>
-          Specifies the maximum total space (in MB) that a user's iFolder data 
-          is allowed to use, across all iFolders that the user owns for the selected 
-          user account. <br>
+        <P> <B>制限容量</B><BR>
+          選択したユーザアカウントについて、ユーザが所有するすべてのiFolderのデータに使用できる最大総容量(MB)を指定します。 <br>
           <br>
-          Deselect this option if there is no individual user quota, or to accept 
-          the LDAPGroup level quota or system-wide quota for the selected user 
-          account.<br>
-          Select this option to enforce a user quota, then specify the total space 
-          quota (in MB) for the selected user account. <br>
+          個々のユーザの割り当て量がない場合、または選択したユーザアカウントにLDAPGroupレベルの割り当て量またはシステム全体の割り当て量を適用する場合は、このオプションの選択を解除します。<br>
+          ユーザ割り当て量を強制するには、このオプションを選択して、選択したユーザアカウントの総割り当て量(MB)を指定します。 <br>
           <br>
-          <B>Used</B><BR>
-          Specifies the total space currently in use on the server for all iFolders 
-          owned by this selected user. <br>
+          <B>使用済み</B><BR>
+          選択したユーザが所有するすべてのiFolderに現在使用されている、サーバ上の総容量を示します。 <br>
           <BR>
-          <B>Available</B><BR>
-          Free space available on the server.<br>
+          <B>使用可能</B><BR>
+          サーバ上で使用可能な空き領域を示します。<br>
           <BR>
-          <B>Effecive</B><BR>
-          Effective space allocated on the server<BR>
+          <B>Effective (有効)</B><BR>
+          サーバ上で割り当てられている有効な容量。<BR>
           <br>
-        <P>If the total space consumed by iFolder data is nearing an effective 
-          quota (system, LDAPGroup, user, or iFolder), the user should stop synchronizing 
-          files until one or more of the following tasks results in enough space 
-          to safely synchronize the user&#146;s files in the iFolder where the 
-          file resides:</P>
+        <P>iFolderデータによって使用されている総容量が有効な割り当て量(システム、LDAPGroup、ユーザ、またはiFolder)に近づくと、ユーザは、次のタスクによってiFolder内のユーザのファイルを安全に同期できる十分な容量が確保されるまで、ファイルの同期を中止する必要があります。</P>
         <ul>
           <li> 
-            <p>The system-wide quota, LDAPGroup quota and user quota for the iFolder 
-              owner and the iFolder quota are modified as needed.</p>
+            <p>システム全体の割り当て量、LDAPGroupの割り当て量、iFolder所有者のユーザ割り当て量、およびiFolder割り当て量を必要に応じて変更する。</p>
           </li>
           <li> 
-            <p>Files are moved from any of the iFolders owned by the user to another 
-              location where they no longer affect the effective quota, or files 
-              are deleted to clear space.</p>
+            <p>ファイルを、ユーザが所有しているiFolderから、有効な割り当て量に影響を与えない別の場所に移動する。または、ファイルを削除して容量を解放する。</p>
           </li>
           </ul>
         
-        <P><B><FONT SIZE="-1">IMPORTANT:</FONT></B> <FONT SIZE="-1">If you enable 
-          a user space limit that is less than a user's current total space for 
-          iFolder data, the user's data stops synchronizing until the data is 
-          decreased below the limit or until the quota is increased to a value 
-          that is larger than the user's total space consumed.</FONT></P>
+        <P><B><FONT SIZE="-1">重要: </FONT></B><FONT SIZE="-1"></FONT>ユーザ容量の制限を有効にして、その容量がiFolderデータのユーザの現在の総容量より少ない場合は、データ量が制限より少なくなるか、または割り当て量がユーザの使用済み総容量より多くなるまでデータの同期は中止されます。</P>
        
         
-        <P> Default value: Disabled and no quota set</P>
+        <P> デフォルト値: 無効、割り当て量の設定なし</P>
       </TD></TR>
   <TR><TD VALIGN="TOP">
-        <h4>File Size</h4>
+        <h4>File size (ファイルサイズ)</h4>
       </TD>
-      <TD> <B>Limit</B><BR>
-          Specifies the maximum total file size (in MB) that an iFolder user 
-          is allowed to use, across all iFolders the user owns for the selected 
-          user account. <br>
+      <TD> <B>制限容量</B><BR>
+          選択したユーザアカウントについて、ユーザが所有するすべてのiFolderに対してiFolderユーザが使用できる最大合計ファイルサイズ(MB)を指定します。 <br>
           <BR>
-        <B>Effective</B><BR>
-        Effective file size allocated for the user.<br>
-		<ul><P><font size="-1"><b>IMPORTANT:</b> Users cannot successfully synchronize 
-          files of a size that would cause a quota to be exceeded. If they try 
-          to do so, only part of the file is synchronized, resulting in data corruption.</font></P></ul><P>Default value: Disabled and no limit</P>
+        <B>Effective (有効)</B><BR>
+        ユーザに割り当てられている有効なファイルサイズ。<br>
+		<ul><P><font size="-1"><b>重要:</b> 割り当て超過の原因になるサイズのファイルは、正常に同期できません。そのようなファイルを同期しようとすると、ファイルの一部だけが同期されるため、データが破損します。</font></P></ul><P>デフォルト値: 無効、制限なし</P>
       </TD></TR>
   <TR>
       <TD VALIGN="TOP"> 
-        <h4>Excluded Files</h4>
+        <h4>Excluded Files (除外ファイル)</h4>
       </TD>
       <TD> 
-        <P>Specifies a list of file types to include or to exclude from synchronization 
-          for the selected user's account.</P><p>The file manager files called thumbs.db and .DS_Store are never synchronized. You do not need to keep these files, and synchronizing them results in repeated file conflict errors. If you have not set any individual restrictions for this user, this field reports thumbs.db and .DS_Store as part of the system-wide file-type restrictions. After you set individual file-type restrictions for the user, the user's settings are displayed instead. Even if the thumbs.db and .DS_Store restrictions are not displayed, they always apply; you cannot override them.
+        <P>選択したユーザアカウントについて、同期の対象にするファイルタイプと同期の対象外とするファイルタイプのリストを指定します。</P><p>thumbs.dbおよび.DS_Storeという名前のファイルマネージャファイルは、同期されません。これらのファイルを維持する必要はありません。これらのファイルを同期すると、ファイルの競合エラーが繰り返し発生します。このユーザに対して個別の制限を設定していない場合は、システム全体のファイルタイプ制限の一部として、thumbs.dbおよび.DS_Storeがこのフィールドに表示されます。ユーザに対して個別のファイルタイプ制限を設定すると、代わりにその設定が表示されます。thumbs.dbおよび.DS_Storeが表示されなくても、これらの制限は常に適用され、上書きすることはできません。
 </p>
     
-        <P>To add a file extension to an inclusion or exclusion filter, type the 
-          extension (such as *.mpg), then click Add to apply the filter. </P>
-        <P>To exclude a file type from the restricted file types, select the check 
-          box adjacent to the file type, then click Allow.</P>
+        <P>同期の対象フィルタまたは除外フィルタにファイル拡張子を追加するには、*.mpgなどの拡張子を入力し、［追加］をクリックしてフィルタを適用します。 </P>
+        <P>制限されているファイルタイプからファイルタイプを除外するには、そのファイルタイプの横のチェックボックスをオンにして、［許可］をクリックします。</P>
         
-        <P>Default value: .DS_Store and Thumbs.db</P>
+        <P>デフォルト値: .DS_StoreおよびThumbs.db</P>
       </TD></TR>
 	
 	<TR><TD VALIGN="TOP">
-        <h4> Synchronization </h4>
+        <h4> 同期 </h4>
       </TD><TD>
-	    <p>Specifies the minimum synchronization interval in seconds. You can 
-          set the synchronization interval to a value between 5 and 999 inclusive. 
-          If no value is set, the value is 5.</P>
+	    <p>最小同期間隔を秒単位で指定します。同期間隔として、5～999の範囲内の値を設定できます。設定しなければ、値は5になります。</P>
 
-	    <P>Deselect the check box to set no synchronization interval or to accept 
-          the system-wide setting for the user account. If no value is set for 
-          system-wide or user policies, the value reported is Unlimited.</P>
-  <B>Interval</B><BR>
-        Select the check box to enable a minimum synchronization interval, then 
-        specify the minimum interval (in minutes). For example, a practical value 
-        is 10 minutes.<br>
-        <br><B>Effective</B><BR>
-  Specifies the current synchronization interval. For example, if the user sets a synchronization interval that is less than (more frequent) than the system minimum, the system setting applies.
+	    <P>同期間隔を設定しない場合、またはユーザアカウントでシステム全体の設定を使用する場合は、チェックボックスをオフにします。システム全体のポリシーまたはユーザポリシーで値が設定されていない場合は、［制限なし］と表示されます。</P>
+  <B>Interval (間隔)</B><BR>
+        最小同期間隔を有効にするには、チェックボックスをオンにして、最小間隔(分)を指定します。たとえば、10分を指定できます。<br>
+        <br><B>Effective (有効)</B><BR>
+  現在の同期間隔を示します。たとえば、ユーザがシステムの最小値より小さい(つまり頻度が高い)同期間隔を設定した場合は、システムの設定が適用されます。
 
-  <P>The effective minimum synchronization interval is always the longest value from the following settings:</P>
+  <P>有効な最小同期間隔は、常に次の設定の中で最大の値です。</P>
   <ul>
     <li>
-            <p>The system policy (default of zero), unless there is a LDAPGroup 
-              policy or user policy set. If a user policy is set, the user policy 
-              overrides the system policy and LDAPGroup policy whether the user 
-              interval is shorter or longer in value. </p>
+            <p>LDAPGroupポリシーまたはユーザポリシーが設定されていない限り、システムポリシー(デフォルト0)。ユーザポリシーが設定されていれば、ユーザの間隔の方が短いかどうかにかかわらず、システムポリシーおよびLDAPGroupポリシーはユーザポリシーで上書きされます。 </p>
     </li>
     <li>
-      <p>The local machine policy, or the setting on the client machine synchronizing with the server.</p>
+      <p>ローカルマシンのポリシー、またはサーバと同期を行うクライアントマシン上の設定.</p>
     </li>
     <li>
-      <p>The iFolder (collection) policy.</p>
+      <p>iFolder (コレクション)ポリシー.</p>
     </li>
   </ul>
-        <P> Default value: Disabled, or the system-wide policy</P>
+        <P> デフォルト値: 無効、またはシステム全体のポリシー</P>
       </TD></TR>
   <TR><TD VALIGN="TOP">
-        <h4>Encryption</h4>
+        <h4>暗号化</h4>
       </TD>
       <TD> 
-        <P>Specifies the encryption policy for the selected user's account. The 
-          quota can be imposed by the system policy (System-Wide). System-wide 
-          policy supersedes user policies.</P>
-		<B>On</B><BR>
-        Select On to enable the encryption feature for the selected user. This 
-        will permit the user to set encryption policy for his or her iFolders.<br>
+        <P>選択したユーザのアカウントの暗号化ポリシーを指定します。割り当て量は、システムポリシー(システム全体)で設定できます。システム全体のポリシーはユーザポリシーよりも優先されます。</P>
+		<B>オン</B><BR>
+        選択したユーザの暗号化機能を有効にするには、［オン］を選択します。これにより、ユーザは自分のiFolderの暗号化ポリシーを設定できるようになります。<br>
         <br>
-        Deselect On to disable the encryption feature for the selected user. <br>
+        選択したユーザの暗号化機能を無効にするには、［オン］の選択を解除します。 <br>
         	
 		
-        <br><B>Enforced</B><BR>
-        Select Enforced to enable the encryption feature for the selected user. 
-        When it is set to Enforced, the user cannot change the encryption settings 
-        for his or her iFolders.<br>
-		<P><font size="-1"><b>IMPORTANT:</b> This options is enabled only If the 
-          system level encryption policy is set to On.</font></P>
+        <br><B>Enforced (強制)</B><BR>
+        選択したユーザの暗号化機能を有効にするには、［Enforced (強制)］を選択します。［Enforced (強制)］に設定すると、ユーザは自分のiFolderの暗号化設定を変更できなくなります。<br>
+		<P><font size="-1"><b>重要:</b> このオプションを有効にできるのは、システムレベルの暗号化ポリシーが［オン］に設定されている場合だけです。</font></P>
       </TD></TR><TR><TD VALIGN="TOP">
-        <h4> Sharing</h4>
-      </TD><TD> <B>On</B><BR>
-        By default, iFolder sharing is enabled. Deselect On and clcik Save 
-        to disable sharing for the selected user. After applying this policy, 
-        selected user cannot share his or her iFolders with others. However, you 
-        can still change the policy at iFolder level.<br>
+        <h4> 共用</h4>
+      </TD><TD> <B>オン</B><BR>
+        デフォルトでは、iFolderの共有は有効になっています。選択されたユーザの共有を無効にするには、［オン］を選択解除し、［保存］をクリックします。このポリシーを適用すると、選択されたユーザは自分のiFolderを他のユーザと共有できなくなります。ただし、iFolderレベルのポリシーはまだ変更できます。<br>
           <BR>
-        <B>Enforce</B><BR>
-        Select <i>Enforce</i> to enforce the policy set for the 
-        selected user. After applying this policy, the user cannot share his or 
-        her iFolders.<br>
+        <B>Enforce (強制)</B><BR>
+        選択されたユーザにポリシーを強制的に適用するには、［Enforce (強制)］を選択します。<i></i>このポリシーを適用すると、ユーザは自分のiFolderを共有できなくなります。<br>
 		
 		<BR>
-        <B>Revoke</B><BR>
-        Select <i>Revoke</i> to remove the shared members of all the iFolders 
-        that belong to the selected user.<br>
+        <B>取り消し</B><BR>
+        選択されたユーザに属するすべてのiFolderの共有メンバーを削除するには、［取り消し］を選択します。 <i></i><br>
 		
       </TD></TR>  </TABLE>
   <P><A HREF="#top" TARGET="_self"> </A></P>
   
-<P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P><H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Related Topics" align="top"> 
-Related Topics</H4>
+<P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="トップへジャンプ"></A></P><H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="関連項目" align="top"> 関連項目</H4>
   
-  <BLOCKQUOTE class="task1"><P><A HREF="users.html">Managing a User Account</A><BR>
-      <A HREF="ifolders.html">Managing iFolders</A><BR>
-      <A HREF="ifolderdetails.html">Managing iFolder Details</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P><P>&nbsp;</P><P CLASS="copyright">A 
-trademark symbol (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP>, 
-etc.) denotes a Novell trademark. An asterisk (*) denotes a third-party trademark. 
-For more information, see <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Legal 
-Notices</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
+  <BLOCKQUOTE class="task1"><P><A HREF="users.html">ユーザアカウントの管理</A><BR>
+      <A HREF="ifolders.html">iFolderの管理</A><BR>
+      <A HREF="ifolderdetails.html">iFolder詳細の管理</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="トップへジャンプ"></A></P><P>&nbsp;</P><P CLASS="copyright">商標記号（<SUP><SMALL>&reg;</SMALL></SUP>、<SUP><SMALL>TM</SMALL></SUP>など）は、Novellの商標を示し、アスタリスク（*）は、サードパーティの商標を示します。  詳細については、「<A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">保証と著作権</font></A>」を参照してください。</P></div><!-- This is the end of the Help Content layer. --> 
 </body>
 
 </html>

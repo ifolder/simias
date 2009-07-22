@@ -1,10 +1,10 @@
 <html>
 <head>
-  <meta http-equiv="content-type" content="text/html;charset=iso-8859-1"> 
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8"> 
 
 <!-- Novell iFolder 3.x Web Access  --> 
 
-<title>iFolder Members</title> 
+<title>Členovia priečinka iFolder</title> 
 
 <!-- Metadata --> 
   <meta name="Author" content="iFolder 3.x Documentation Manager"> 
@@ -21,8 +21,7 @@
       <style type= "text/css" media="screen">
        <!--
        
-         body           {  font-family: Arial, Helvetica, Geneva; background: white
-url(../../images/helphead_bg.gif) repeat-x 0% 0% }
+         body           {  font-family: Arial, Helvetica, Geneva; background: white url('../../images/helphead_bg.gif') repeat-x;  }
 		      
          #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px; width: 100%; visibility: visible }
 			   
@@ -35,70 +34,50 @@ url(../../images/helphead_bg.gif) repeat-x 0% 0% }
          and help content layers. --> 
 <body bgcolor="white" marginwidth="0" marginheight="0"  leftmargin="0" topmargin="0">
 <!-- This is the start of the Help Banner Layer --> <div id="headgraphic"> 
-<table border="0" cellspacing="0" cellpadding="0" width="100%" height="26" style="margin:0px; padding:0px; background-image: url(../../images/header_pattern.gif); background-repeat: repeat-x;"> 
-<tr> <td width="221"><img src="../../images/help_title.gif" alt="Novell iFolder" border="0" width="221" height="26"></td><td align="right" width="100%" class="tabCell" style="background-image: url(../../images/header_background.gif); background-repeat: no-repeat;"> 
+<table border="0" cellspacing="0" cellpadding="0" width="100%" height="26" style="margin:0px; padding:0px; background-image: url('../../images/header_pattern.gif'); background-repeat: repeat-x"> 
+<tr> <td width="221"><img src="../../images/help_title.gif" alt="Novell iFolder" border="0" width="221" height="26"></td>
+  <td align="right" width="100%" class="tabCell" style="background-image: url('../../images/header_background.gif'); background-repeat: no-repeat"> 
 </td></tr> </table></div><!-- This is end of the Help Banner Layer --> 
 <!-- This is the start of the Help Content Layer --> <div id="helpcontent" style="left: 10px; top: 38px"> 
 <!-- The Page Heading uses CSS style "head3b". This creates an H3 header
             with a line beneath it.
        --> 
-  <h3 class="head3b"><a name="top"></a>Managing iFolder Members</h3>
-  <p> Use this interface to add or remove shared members, assign rights to the 
-    members and change the ownership of the selected iFolder.</p>
-  <p>This help discusses the following:</p><blockquote > 
-    <p><a href="#manage" target="_self">Managing Users of An iFolder</a><br>
-      <a href="#accessright" target="_self">Understanding iFolder Access Rights</a> <br> 
+  <h3 class="head3b"><a name="top"></a>Spr&aacute;va členov priečinka iFolder</h3>
+  <p> Pomocou tohto rozhrania m&ocirc;žete prid&aacute;vať alebo odstraňovať zdieľan&yacute;ch členov, prideľovať pr&aacute;va členom alebo meniť vlastn&iacute;ctvo vybrat&eacute;ho priečinka iFolder.</p>
+  <p>Tento pomocn&iacute;k poskytuje inform&aacute;cie o nasleduj&uacute;cich t&eacute;mach:</p><blockquote > 
+    <p><a href="#manage" target="_self">Spr&aacute;va použ&iacute;vateľov priečinka iFolder</a><br>
+      <a href="#accessright" target="_self">Vysvetlenie pr&iacute;stupov&yacute;ch pr&aacute;v priečinka iFolder</a> <br> 
 </p> </blockquote>
   
-  <h3><a name="manage"></a>Managing Users of An iFolder</h3>
-  <p>Within an iFolder, you can perform 
-the following tasks:</p>
-  <h4>Adding New Shared User</h4>
-  <p>Click Add to add new shared members to the selected iFolder. You can add 
-    an individual iFolder user or a LDAPGroup as shared member. The new page opens 
-    that allows you to add users to the list of shared users.</p>
+  <h3><a name="manage"></a>Spr&aacute;va použ&iacute;vateľov priečinka iFolder</h3>
+  <p>Prostredn&iacute;ctvom aplik&aacute;cie iFolder m&ocirc;žete vykonať nasleduj&uacute;ce &uacute;lohy:</p>
+  <h4>Pridanie nov&eacute;ho zdieľan&eacute;ho člena</h4>
+  <p>Ak chcete do vybrat&eacute;ho priečinka iFolder pridať nov&yacute;ch zdieľan&yacute;ch použ&iacute;vateľov, kliknite na možnosť Pridať. Ako zdieľan&yacute;ch členov m&ocirc;žete prid&aacute;vať jednotliv&yacute;ch použ&iacute;vateľov aplik&aacute;cie iFolder alebo cel&eacute; skupiny LDAP. Zobraz&iacute; sa nov&aacute; str&aacute;nka, pomocou ktorej m&ocirc;žete pridať použ&iacute;vateľov do zoznamu zdieľan&yacute;ch použ&iacute;vateľov.</p>
 	
   
-  <h4>Assigning Rights to a Shared User</h4>
-  <p>On the Members page, select the shared members and click the rights you want 
-    to assign to them. </p>
-  <p><a href="#top" target="_self"><img src="../../images/goto_top.gif" width="19" height="19" border="0" alt="Go to top"></a>
-<H3><a name="accessright"></a>Understanding iFolder Access Rights </H3>
-<p>The iFolder client supports the owner and three levels of access for members of an iFolder:</p>
-  <P><font size="-1"><b>IMPORTANT:</b> All the members of an LDAPGroup inherits 
-    the access rights set for that LDAPGroup.</font></P>
+  <h4>Priradenie pr&aacute;v zdieľan&eacute;mu členovi</h4>
+  <p>Na str&aacute;nke Členovia vyberte zdieľan&yacute;ch členov a kliknite na pr&aacute;va, ktor&eacute; chcete pr&iacute;slušn&yacute;m členom priradiť. </p>
+  <p><a href="#top" target="_self"><img src="../../images/goto_top.gif" width="19" height="19" border="0" alt="Prejsť na začiatok"></a>
+<H3><a name="accessright"></a>Vysvetlenie pr&iacute;stupov&yacute;ch pr&aacute;v priečinka iFolder </H3>
+<p>Klient aplik&aacute;cie iFolder podporuje pr&aacute;va vlastn&iacute;ka a tri &uacute;rovne pr&iacute;stupov&yacute;ch pr&aacute;v pre členov priečinka iFolder:</p>
+  <P><font size="-1"><b>D&Ocirc;LEŽIT&Eacute;:</b> Všetci členovia skupiny LDAP z&iacute;skaj&uacute; pr&aacute;va na pr&iacute;stup, ktor&eacute; boli nastaven&eacute; pre pr&iacute;slušn&uacute; skupinu.</font></P>
 <BLOCKQUOTE>
-<P><B>Read Only</B><BR>
-    A member of the shared iFolder, with the Read Only access right to directories and files in the iFolder. This member can copy an iFolder file to another location and modify it outside the iFolder.</P>
-  <P><B>Read/Write</B><BR>
-    A member of the shared iFolder, with the Read/Write access right to directories and files in the iFolder.</P>
-	<P><B>Full Control</B><BR>
-      A member of the shared iFolder, with the Full Control access right. The 
-      user with the Full Control right has read/write access to the iFolder and 
-      manages membership and access rights for all users except the owner. But, 
-      only the owner have the right to delete an iFolder.</P>
-  <P><B>Owner<BR>
-      </B>Only one user serves as the owner of an iFolder. This is typically the 
-      user who created the iFolder and only he or she can delete this iFolder. 
-      The owner user can use the iFolder client to transfer ownership to another 
-      member of the iFolder. The iFolder Admin user can transfer ownership to 
-      any user on the iFolder server.</P>
-    <P>The owner of an iFolder has the Full Control right. This user has read/write 
-      access to the iFolder, manages membership and access rights for member users, 
-      and can remove the Full Control right for any member. </P>
-  <P>If a user is deleted as a user for the iFolder system, the iFolders owned by the user are orphaned. Orphaned iFolders are assigned temporarily to the iFolder Admin user as owner. Membership and synchronization continues for other users while the iFolder Admin user determines whether an orphaned iFolder should be deleted or assigned to a new owner.</P>
+<P><B>Iba na č&iacute;tanie</B><BR>
+    Člen zdieľan&eacute;ho priečinka iFolder, ktor&yacute; m&aacute; pr&aacute;vo iba na č&iacute;tanie v adres&aacute;roch a s&uacute;boroch v priečinku iFolder. Tento člen m&ocirc;že skop&iacute;rovať s&uacute;bor z priečinku iFolder do in&eacute;ho umiestnenia a upraviť ho mimo r&aacute;mca priečinka iFolder.</P>
+  <P><B>Č&iacute;tanie a z&aacute;pis</B><BR>
+    Člen zdieľan&eacute;ho priečinka iFolder, ktor&yacute; m&aacute; pr&aacute;va na č&iacute;tanie a z&aacute;pis v adres&aacute;roch a s&uacute;boroch v priečinku iFolder.</P>
+	<P><B>&Uacute;pln&yacute; pr&iacute;stup</B><BR>
+      Člen zdieľan&eacute;ho priečinka iFolder s pr&aacute;vom na &uacute;pln&eacute; ovl&aacute;danie. Použ&iacute;vateľ s pr&aacute;vom na &uacute;pln&eacute; ovl&aacute;danie m&aacute; pr&aacute;vo na č&iacute;tanie a z&aacute;pis v priečinku iFolder a spravuje členstvo a pr&iacute;stupov&eacute; pr&aacute;va pre všetk&yacute;ch členov okrem vlastn&iacute;ka. Pr&aacute;vo na odstr&aacute;nenie priečinka iFolder m&aacute; však iba vlastn&iacute;k.</P>
+  <P><B>Vlastn&iacute;k<BR>
+      </B>Vlastn&iacute;kom priečinka iFolder m&ocirc;že byť iba jeden použ&iacute;vateľ. Obyčajne ide o použ&iacute;vateľa, ktor&yacute; priečinok iFolder vytvoril. Iba vlastn&iacute;k m&ocirc;že odstr&aacute;niť priečinok iFolder. Vlastn&iacute;k m&ocirc;že pomocou klienta aplik&aacute;cie iFolder preniesť svoje vlastn&iacute;ctvo na in&eacute;ho člena priečinka iFolder. Spr&aacute;vca aplik&aacute;cie iFolder m&ocirc;že preniesť vlastn&iacute;ctvo na ľubovoľn&eacute;ho použ&iacute;vateľa na serveri iFolder.</P>
+    <P>Vlastn&iacute;k priečinka iFolder m&aacute; pr&aacute;va na &uacute;pln&yacute; pr&iacute;stup. Tento použ&iacute;vateľ m&aacute; pr&aacute;va na č&iacute;tanie a z&aacute;pis v&nbsp;priečinku iFolder, spravuje členstvo a pr&iacute;stupov&eacute; pr&aacute;va pre ostatn&yacute;ch členov a m&ocirc;že odobrať pr&aacute;vo na &uacute;pln&yacute; pr&iacute;stup ak&eacute;mukoľvek členovi. </P>
+  <P>Ak je použ&iacute;vateľ odstr&aacute;nen&yacute; zo syst&eacute;mu aplik&aacute;cie iFolder, priečinky iFolder, ktor&eacute; vlastnil, sa stan&uacute; osamoten&yacute;mi. Vlastn&iacute;kom osamoten&yacute;ch priečinkov iFolder sa dočasne st&aacute;va spr&aacute;vca aplik&aacute;cie iFolder. Členstvo a synchroniz&aacute;cia sa pre ostatn&yacute;ch použ&iacute;vateľov nemen&iacute;. Spr&aacute;vca aplik&aacute;cie iFolder sa mus&iacute; rozhodn&uacute;ť, či prirad&iacute; vlastn&iacute;ctvo osamoten&eacute;ho priečinka iFolder nov&eacute;mu vlastn&iacute;kovi alebo ho odstr&aacute;ni.</P>
    <p>  
 </BLOCKQUOTE>
 
-<p><a href="#top" target="_self"><img src="../../images/goto_top.gif" width="19" height="19" border="0" alt="Go to top"></a>
-<H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Related Topics" align="top"> 
-Related Topics</H4><BLOCKQUOTE class="task1"><p><A HREF="share.html">Adding shared members</A><br><A HREF="browse.html">Accessing Folders and Files in Your iFolder</A><BR><A HREF="details.html">Viewing iFolder Properties
-</A><BR><A HREF="home.html">Accessing Your iFolders</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P><P>&nbsp;</P>
+<p><a href="#top" target="_self"><img src="../../images/goto_top.gif" width="19" height="19" border="0" alt="Prejsť na začiatok"></a>
+<H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="S&uacute;visiace t&eacute;my" align="top"> S&uacute;visiace t&eacute;my</H4><BLOCKQUOTE class="task1"><p><A HREF="share.html">Prid&aacute;vanie zdieľan&yacute;ch členov</A><br><A HREF="browse.html">Pr&iacute;stup k priečinkom a s&uacute;borom vo vašom priečinku iFolder</A><BR><A HREF="details.html">Zobrazenie vlastnost&iacute; priečinka iFolder </A><BR><A HREF="home.html">Pr&iacute;stup k vašim priečinkom iFolder</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Prejsť na začiatok"></A></P><P>&nbsp;</P>
   <P CLASS="copyright">&nbsp;</p>
-  <p>&nbsp;</p><P CLASS="copyright">A trademark symbol (<SUP><SMALL>&reg;</SMALL></SUP>, 
-<SUP><SMALL>TM</SMALL></SUP>, etc.) denotes a Novell trademark. An 
-asterisk (*) denotes a third-party trademark. For more information, 
-see <A HREF="legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Legal 
-Notices</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
+  <p>&nbsp;</p><P CLASS="copyright">Symbol ochrannej zn&aacute;mky (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP> atď.) označuje ochrann&uacute; zn&aacute;mku spoločnosti Novell. Hviezdička (*) označuje ochrann&uacute; zn&aacute;mku nez&aacute;visl&eacute;ho v&yacute;robcu.   Ďalšie inform&aacute;cie n&aacute;jdete v časti <A HREF="legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Pr&aacute;vne prehl&aacute;senia</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
 </body>
 </html>

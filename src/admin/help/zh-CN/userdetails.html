@@ -1,11 +1,11 @@
 <html>
 
    <head>
-     <meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+     <meta http-equiv="content-type" content="text/html;charset=UTF-8">
      
      <!-- Novell iFolder 3.x iManager Plugin  --> 
    
-     <title>User Details</title>  	 
+     <title>用户细节</title>  	 
         
      <!-- Metadata -->
    
@@ -28,8 +28,7 @@
        <!--
        
          body           {  font-family: Arial, Helvetica, Geneva;
-									background: white
-url(../../images/helphead_bg.gif) repeat-x 0% 0% }
+									background: white url('../../images/helphead_bg.gif') repeat-x;  }
 		      
          #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px;
 									width: 380px; visibility: visible }
@@ -53,313 +52,236 @@ url(../../images/helphead_bg.gif) repeat-x 0% 0% }
 <!-- This is the start of the Help Banner Layer --> <div id="headgraphic"> <img src="../../images/h1_help.gif" width="380" height="32"   border="0"></div><!-- This is end of the Help Banner Layer --> 
 <!-- This is the start of the Help Content Layer --> 
 <div id="helpcontent" style="left: 13px; top: 35px"> 
-  <H3><A NAME="userdetails"></A>User Details </H3>
-  <P>Use this interface to view user details and manage user policies. </P>
-  <P><B><FONT SIZE="-1">NOTE:</FONT></B> <FONT SIZE="-1">The term <i>iFolder users 
-    </i> refers to both individual users and LDAPGroups.</FONT></P>
-  <BLOCKQUOTE CLASS="blockquote"><P><A HREF="#userdetails" TARGET="_self">User Details</A><BR><A HREF="#ifolders" TARGET="_self">iFolders </A><BR> 
-<A HREF="#policies" TARGET="_self">Policies</A> </P></BLOCKQUOTE>
+  <H3><A NAME="userdetails"></A>用户细节 </H3>
+  <P>使用此界面查看用户细节并管理用户策略。 </P>
+  <P><B><FONT SIZE="-1">注意：</FONT></B><FONT SIZE="-1">术语 <i>iFolder 用户</i> 既指单个用户，也指 LDAP 组。</FONT></P>
+  <BLOCKQUOTE CLASS="blockquote"><P><A HREF="#userdetails" TARGET="_self">用户细节</A><BR><A HREF="#ifolders" TARGET="_self">iFolder</A><BR> 
+<A HREF="#policies" TARGET="_self">策略</A> </P></BLOCKQUOTE>
   
-  <h3><a name="userdetails"></a>User Details </h3>
-  <P>The User Details page will display the following user details for the selected 
-    user's iFolder account. </P>
-	<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
-        <P>User Name</P>
+  <h3><a name="userdetails"></a>用户细节 </h3>
+  <P>&ldquo;用户细节&rdquo;页将显示所选用户的 iFolder 帐户的以下用户细节。 </P>
+	<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>参数</P></TD><TD CLASS="tablehead2"><P>说明</P></TD></TR><TR><TD VALIGN="TOP">
+        <P>用户名</P>
       </TD>
       <TD> 
-        <P>The username assigned to the user account, such as jsmith or john.smith@example.com.</P>
+        <P>指派给用户帐户的用户名，例如 jsmith 或 john.smith@example.com。</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Full Name</P>
+        <P>Full name</P>
       </TD>
       <TD> 
-        <P>The first and last name of the user account. </P>
+        <P>用户帐户的名和姓。 </P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Member Type</P>       
+        <P>成员类型</P>       
       </TD>
       <TD> 
-        <P>Shows the member type of the user currently logged in. If the user 
-          is an individual user the interface also display an option for User 
-          Groups. If the user is a member of an LDAPGroup, the interface lists 
-          all the members of the LDAPGroup under the option for Group Members.
+        <P>显示当前登录的用户的成员类型。如果该用户是单个用户，则界面上还会显示出一个&ldquo;用户组&rdquo;选项。如果该用户是 LDAP 组的成员，将在界面上的&ldquo;组成员&rdquo;选项下列出该组的所有成员。
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>LDAP Context</P>       
+        <P>LDAP 环境</P>       
       </TD>
       <TD> 
-        <P>The LDAP tree context is used for provisioning users in to iFolder. 
+        <P>LDAP 树环境用于向 iFolder 提供用户。 
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>Last Login Time</P>
+        <P>上次登录</P>
         </TD>
       <TD> 
-        <P>The time when the user last logged in to the iFolder system. 
+        <P>用户上次登录到 iFolder 系统的时间。 
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>User Groups (applicable only for individual users)</P>       
+        组磁盘定额</TD>
+      <TD> 
+        代表组的累积磁盘定额。<p>
+        <b>注意</b>：二级管理员无法修改组磁盘定额。</TD></TR><TR><TD VALIGN="TOP">
+        已用磁盘空间：</TD>
+      <TD> 
+        表示组已使用的累积磁盘空间。</TD></TR><TR><TD VALIGN="TOP">
+        <P>用户组（仅对单个用户可用）</P>       
       </TD>
       <TD> 
-        <P>Lists all the groups that the selected user belongs to. 
+        <P>列出选定用户所属的所有组。 
       </TD></TR><TR><TD VALIGN="TOP">
-        <P> Group Members (applicable only for LDAPGroups)</P>       
+        <P> 组成员（仅适用于 LDAP 组）</P>       
       </TD>
       <TD> 
-        <P>Lists all the members who belong to the selected LDAPGroup. 
+        <P>列出属于选定 LDAP 组的所有成员。 
       </TD></TR></TABLE>
 
   
   
-  <h4><a name="ifolders"></a> iFolders</h4>
-  <P>The User Details page displays the iFolders owned or shared by the user. 
-    Click the All tab to list all the iFolders both owned and shared. To view 
-    the iFolder owned by the user, click the Owned tab. The Shared tab lists all 
-    the shared iFolders for the current user account.</P>
+  <h4><a name="ifolders"></a>iFolder</h4>
+  <P>&ldquo;用户细节&rdquo;页显示用户拥有或共享的 iFolder。单击&ldquo;所有&rdquo;选项卡可列出用户拥有并共享的所有 iFolder。若要查看用户所拥有的 iFolder，请单击&ldquo;拥有&rdquo;选项卡。&ldquo;共享&rdquo;选项卡列出当前用户帐户的所有共享的 iFolder。</P>
 	
-  <H4>Enabling or Disabling an iFolder</H4>
+  <H4>启用或禁用 iFolder</H4>
 		
   <OL>
     <LI> 
-      <P>Locate the iFolder you want to manage, then select the check box next 
-        to the iFolder.</P>
+      <P>查找要管理的 iFolder，然后选中该 iFolder 旁边的复选框。</P>
     </LI>
     <LI> 
-      <P>Click Enable to enable the iFolder.</P>
-      <P>This will allow the user to log in and synchronize iFolders.</P>
+      <P>单击&ldquo;启用&rdquo;可启用该 iFolder。</P>
+      <P>这将允许用户登录并同步 iFolder。</P>
     
     <LI> 
-      <P>Click Disable to disable the iFolder.</P>
-      <P> If the user is logged in when you make this change, the user�s session 
-        continues until the user logs out. The policy takes effect the next time 
-        the user attempts to log in to the account. To have the lockout take effect 
-        immediately, you must restart the Apache services for the iFolder server, 
-        which disconnects all active sessions, including the user�s session.</P>
+      <P>单击&ldquo;禁用&rdquo;可禁用该 iFolder。</P>
+      <P> 如果用户在您进行此更改时已经登录，则在该用户注销之前，该用户的会话将继续。此策略将在用户下次试图登录该帐户时生效。要使锁定立即生效，则必须重启动 iFolder 服务器的 Apache 服务，该服务器将中断所有的活动会话，包括用户的会话。</P>
     </LI>
   </OL>
-<H4>Deleting an iFolder</H4>
+<H4>删除 iFolder</H4>
 <OL><LI>
-      <P>Locate the iFolder you want to delete, then select the check box next 
-        to the iFolder.</P>
+      <P>找到您要删除的 iFolder，然后选中该 iFolder 旁边的复选框。</P>
     </LI><LI>
-      <P>Click Delete.</P>
+      <P>单击&ldquo;删除&rdquo;。</P>
     </LI></OL>
-	<H4>Creating an iFolder</H4><OL><LI>
-      <P>On the User Details page, click New.</P>
+	<H4>创建 iFolder</H4><OL><LI>
+      <P>在&ldquo;用户细节&rdquo;页上，单击&ldquo;新建&rdquo;。</P>
     </LI>
-    <LI>On the new page that opens, follow the instructions to create a new iFolder.</LI>
+    <LI>在打开的新页上，遵循说明创建一个新的 iFolder。</LI>
   </OL>
-<IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top">
-<h3><a name="policies"></a> Policies</h3>
-  <P>Use this interface to manage the user policies for a specified user account. 
+<IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="返回页首">
+<h3><a name="policies"></a>策略</h3>
+  <P>使用此界面管理指定的用户帐户的用户策略。 
   </P>
-  <P><B><FONT SIZE="-1">NOTE:</FONT></B> <font size="-1">Policies set to an LDAPGroup 
-    are applicable to its member users.</font></P>
-<H4>Modifying 
-User Policies</H4>
-<p>The following table lists the policies you can manage for any given iFolder 
-    user account. Modify one or more of the following values, then click Save to apply the new 
-    settings:</p> 
-<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
-        <h4>Account </h4>
-      </TD><TD><P>Specifies whether the user is currently allowed 
-to log in to synchronize iFolders. </P>
-        <P>Select the check box to disable the account for login.</P>
-        <P> Deselect the check box to enable the account for login. </P>
-        <P>If the user is logged in when you make this change, the user's session 
-          continues until the user logs out. The policy takes effect the next 
-          time the user attempts to log in to the account. To have the lockout 
-          take effect immediately, you must restart the Apache services for the 
-          iFolder server, which disconnects all active sessions, including the 
-          user's session.</P>
-        <P>Default Value: Enabled</P>
+  <P><B><FONT SIZE="-1">注意：</FONT></B><font size="-1">对 LDAP 组设置的策略适用于其成员用户。</font></P>
+<H4>修改用户策略</H4>
+<p>下表列出了您可以为任意给定的 iFolder 用户帐户管理的策略。修改以下的一个或多个值，然后单击&ldquo;保存&rdquo;以应用新的设置：
+</p> 
+<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>参数</P></TD><TD CLASS="tablehead2"><P>说明</P></TD></TR><TR><TD VALIGN="TOP">
+        <h4>帐户 </h4>
+      </TD><TD><P>指定当前是否允许用户登录以同步 iFolder。 </P>
+        <P>选中该复选框以禁用登录帐户。</P>
+        <P> 取消选中该复选框以启用登录帐户。 </P>
+        <P>如果用户在您进行此更改时已经登录，则在该用户注销之前，该用户的会话将继续。此策略将在用户下次试图登录该帐户时生效。要使锁定立即生效，则必须重启动 iFolder 服务器的 Apache 服务，该服务器将中断所有的活动会话，包括用户的会话。</P>
+        <P>默认值：启用</P>
       </TD></TR><TR>
       <TD VALIGN="TOP"> 
-        <h4>No of iFolder per users</h4>
+        <h4>每个用户的 iFolder 数</h4>
       </TD>
       <TD> 
-        <P>Specifies the maximum number of iFolder that a user can own. After 
-          Applying this policy, the user is limited to own a certain number of 
-          iFolders.The user who exceeds his or her usage limit receives an error 
-          message about the policy violation. If the limit is zero, the user cannot 
-          create any iFolders.</P>
+        <P>指定每个用户可拥有的 iFolder 的最大数目。应用此策略后，将限制用户只能拥有特定数量的 iFolder。超出各自的用法限制的用户将接收到有关违反策略的错误讯息。如果该限制为零，则用户无法创建任何 iFolder。</P>
            
-        <p>Select the check box next to <i>Limit</i> to enable the iFolder per 
-          users limit, and specify the number in the field. 
-        <P>The policy setting does not affect the number of iFolders that the 
-          user already owns. If the number of iFolders owned by the user already 
-          exceeds the limit that you set, he or she can still own those iFolders. 
-          </p><p>User level policy overides LDAPGroup level and system 
-          level policy.</P>
-        <P>Default Value: Disabled, no value set</P>
+        <p>选中<i>限制</i>旁边的复选框以启用每个用户的 iFolder 限制，并在该字段中指定数目。 
+        <P>该策略设置不会影响用户已拥有的 iFolder 的数目。如果用户已拥有的 iFolder 数超过您设置的限制，则用户仍然拥有这些 iFolder。 
+          </p><p>用户级别的策略将覆盖 LDAP 组级别和系统级别的策略。</P>
+        <P>默认值：禁用且未设置值</P>
         </TD></TR><TR><TD VALIGN="TOP">
-        <h4>Disk Quota</h4>
+        <h4>磁盘定额</h4>
       </TD>
       <TD> 
-        <p>Specifies the maximum total space that a user&#146;s iFolder data is 
-          allowed to use, across all iFolders the user owns. The quota can be 
-          imposed by the System-Wide policy. User policies supersede System-wide 
-          policies.<br>
+        <p>在用户拥有的所有 iFolder 中，指定允许用户的 iFolder 数据使用的最大总空间。该定额可以由系统级策略强用。用户策略优先于系统级策略。<br>
         </p>
-        <P> <B>Limit</B><BR>
-          Specifies the maximum total space (in MB) that a user's iFolder data 
-          is allowed to use, across all iFolders that the user owns for the selected 
-          user account. <br>
+        <P> <B>限制</B><BR>
+          指定在 iFolder 用户的选定用户帐户所拥有的所有 iFolder 中，允许该用户的 iFolder 数据所使用的最大总大小（以 MB 计）。 <br>
           <br>
-          Deselect this option if there is no individual user quota, or to accept 
-          the LDAPGroup level quota or system-wide quota for the selected user 
-          account.<br>
-          Select this option to enforce a user quota, then specify the total space 
-          quota (in MB) for the selected user account. <br>
+          如果没有单个用户定额，或者要为选定用户帐户接受 LDAP 组级别定额或系统范围的定额，请取消选中此选项。<br>
+          选中此选项以实施用户定额，然后为所选的用户帐户指定总空间定额（以 MB 计）。 <br>
           <br>
-          <B>Used</B><BR>
-          Specifies the total space currently in use on the server for all iFolders 
-          owned by this selected user. <br>
+          <B>已使用</B><BR>
+          指定此选定用户拥有的所有 iFolder 当前在服务器上占用的总空间。 <br>
           <BR>
-          <B>Available</B><BR>
-          Free space available on the server.<br>
+          <B>可用空间</B><BR>
+          服务器上可用的空间<br>
           <BR>
-          <B>Effecive</B><BR>
-          Effective space allocated on the server<BR>
+          <B>有效</B><BR>
+          服务器上已分配的有效空间<BR>
           <br>
-        <P>If the total space consumed by iFolder data is nearing an effective 
-          quota (system, LDAPGroup, user, or iFolder), the user should stop synchronizing 
-          files until one or more of the following tasks results in enough space 
-          to safely synchronize the user&#146;s files in the iFolder where the 
-          file resides:</P>
+        <P>如果 iFolder 数据占用的总空间接近有效定额（系统、LDAP 组、用户或 iFolder），则用户应停止同步文件，直到下列一个或多个任务生成足够的空间，以便在用户的文件所在的 iFolder 内安全地同步这些文件：</P>
         <ul>
           <li> 
-            <p>The system-wide quota, LDAPGroup quota and user quota for the iFolder 
-              owner and the iFolder quota are modified as needed.</p>
+            <p>根据需要修改 iFolder 拥有者的系统范围定额、LDAP 组定额和用户定额，以及 iFolder 定额。</p>
           </li>
           <li> 
-            <p>Files are moved from any of the iFolders owned by the user to another 
-              location where they no longer affect the effective quota, or files 
-              are deleted to clear space.</p>
+            <p>从用户拥有的任何 iFolder 中将文件移动到另一个位置（这些文件在此位置将不再影响有效的定额），或删除这些文件以清理空间。</p>
           </li>
           </ul>
         
-        <P><B><FONT SIZE="-1">IMPORTANT:</FONT></B> <FONT SIZE="-1">If you enable 
-          a user space limit that is less than a user's current total space for 
-          iFolder data, the user's data stops synchronizing until the data is 
-          decreased below the limit or until the quota is increased to a value 
-          that is larger than the user's total space consumed.</FONT></P>
+        <P><B><FONT SIZE="-1">重要说明：</FONT></B><FONT SIZE="-1">如果您启用的用户空间限制小于用户的 iFolder 数据的当前总空间，则用户数据将停止同步，直到数据减少到低于此限制，或直到定额增加到一个大于用户已占用总空间的值。</FONT></P>
        
         
-        <P> Default value: Disabled and no quota set</P>
+        <P> 默认值：已禁用并且未设置任何定额</P>
       </TD></TR>
   <TR><TD VALIGN="TOP">
-        <h4>File Size</h4>
+        <h4>文件大小</h4>
       </TD>
-      <TD> <B>Limit</B><BR>
-          Specifies the maximum total file size (in MB) that an iFolder user 
-          is allowed to use, across all iFolders the user owns for the selected 
-          user account. <br>
+      <TD> <B>限制</B><BR>
+          指定在 iFolder 用户的选定用户帐户所拥有的所有 iFolder 中，允许该用户使用的最大文件总大小（以 MB 计）。 <br>
           <BR>
-        <B>Effective</B><BR>
-        Effective file size allocated for the user.<br>
-		<ul><P><font size="-1"><b>IMPORTANT:</b> Users cannot successfully synchronize 
-          files of a size that would cause a quota to be exceeded. If they try 
-          to do so, only part of the file is synchronized, resulting in data corruption.</font></P></ul><P>Default value: Disabled and no limit</P>
+        <B>有效</B><BR>
+        分配给用户的有效文件大小。<br>
+		<ul><P><font size="-1"><b>重要说明：</b>用户不能成功同步大小超出定额的文件。如果用户尝试这样做，则只有部分文件被同步，这将导致数据损坏。</font></P></ul><P>默认值：已禁用并且没有限制</P>
       </TD></TR>
   <TR>
       <TD VALIGN="TOP"> 
-        <h4>Excluded Files</h4>
+        <h4>排除文件</h4>
       </TD>
       <TD> 
-        <P>Specifies a list of file types to include or to exclude from synchronization 
-          for the selected user's account.</P><p>The file manager files called thumbs.db and .DS_Store are never synchronized. You do not need to keep these files, and synchronizing them results in repeated file conflict errors. If you have not set any individual restrictions for this user, this field reports thumbs.db and .DS_Store as part of the system-wide file-type restrictions. After you set individual file-type restrictions for the user, the user's settings are displayed instead. Even if the thumbs.db and .DS_Store restrictions are not displayed, they always apply; you cannot override them.
+        <P>为所选用户帐户指定一个要在同步中包含或排除的文件类型列表。</P><p>名为 thumbs.db 和 .DS_Store 的文件管理器文件将永远不会被同步。无需保存这些文件，而且同步这些文件将导致重复的文件冲突错误。如果您没有为此用户设置任何单独的限制，则此字段将 thumbs.db 和.DS_Store 作为系统级文件类型限制的一部分报告。而在您为该用户设置了单独的文件类型限制后，将显示该用户的设置。即使未显示 thumbs.db 和 DS_Store 限制，它们也将始终适用；您无法覆盖它们。
 </p>
     
-        <P>To add a file extension to an inclusion or exclusion filter, type the 
-          extension (such as *.mpg), then click Add to apply the filter. </P>
-        <P>To exclude a file type from the restricted file types, select the check 
-          box adjacent to the file type, then click Allow.</P>
+        <P>要将一个文件扩展名添加到一个包含或排除过滤器，请键入该扩展名（例如 *.mpg），然后单击&ldquo;添加&rdquo;以应用该过滤器。 </P>
+        <P>要从限制的文件类型中排除一个文件类型，请选中该文件类型旁边的复选框，然后单击&ldquo;允许&rdquo;。</P>
         
-        <P>Default value: .DS_Store and Thumbs.db</P>
+        <P>默认值：.DS_Store 和 Thumbs.db</P>
       </TD></TR>
 	
 	<TR><TD VALIGN="TOP">
-        <h4> Synchronization </h4>
+        <h4> 同步 </h4>
       </TD><TD>
-	    <p>Specifies the minimum synchronization interval in seconds. You can 
-          set the synchronization interval to a value between 5 and 999 inclusive. 
-          If no value is set, the value is 5.</P>
+	    <p>指定最小同步间隔（以秒计）。可以将同步间隔设置为 5 到 999（包括 999）之间的某一个值。如果未设置任何值，则该值为 5。</P>
 
-	    <P>Deselect the check box to set no synchronization interval or to accept 
-          the system-wide setting for the user account. If no value is set for 
-          system-wide or user policies, the value reported is Unlimited.</P>
-  <B>Interval</B><BR>
-        Select the check box to enable a minimum synchronization interval, then 
-        specify the minimum interval (in minutes). For example, a practical value 
-        is 10 minutes.<br>
-        <br><B>Effective</B><BR>
-  Specifies the current synchronization interval. For example, if the user sets a synchronization interval that is less than (more frequent) than the system minimum, the system setting applies.
+	    <P>取消选中该复选框可不设置任何同步间隔或接受用户帐户的系统级设置。如果没有为系统级策略或用户策略设置任何值，则报告的值为&ldquo;无限制&rdquo;。</P>
+  <B>间隔</B><BR>
+        选中该复选框以启用最小同步间隔，然后指定最小间隔（以分钟计）。例如，一个切实可行的值为 10 分钟。<br>
+        <br><B>有效</B><BR>
+  指定当前同步间隔。例如，如果用户设置了一个小于系统最小值的同步间隔（通常情况下），则该系统设置适用。
 
-  <P>The effective minimum synchronization interval is always the longest value from the following settings:</P>
+  <P>有效的最小同步间隔始终是以下设置中的最长的值：</P>
   <ul>
     <li>
-            <p>The system policy (default of zero), unless there is a LDAPGroup 
-              policy or user policy set. If a user policy is set, the user policy 
-              overrides the system policy and LDAPGroup policy whether the user 
-              interval is shorter or longer in value. </p>
+            <p>系统策略（默认值为零），除非设置了 LDAP 组策略或用户策略。如果设置了用户策略，则无论用户间隔的值是短于还是长于系统策略和 LDAP 组策略中的值，该用户策略都将覆盖这些策略。 </p>
     </li>
     <li>
-      <p>The local machine policy, or the setting on the client machine synchronizing with the server.</p>
+      <p>本地计算机策略或客户机上的设置与服务器同步。</p>
     </li>
     <li>
-      <p>The iFolder (collection) policy.</p>
+      <p>iFolder（集合）策略。</p>
     </li>
   </ul>
-        <P> Default value: Disabled, or the system-wide policy</P>
+        <P> 默认值：已禁用，或系统级策略</P>
       </TD></TR>
   <TR><TD VALIGN="TOP">
-        <h4>Encryption</h4>
+        <h4>加密</h4>
       </TD>
       <TD> 
-        <P>Specifies the encryption policy for the selected user's account. The 
-          quota can be imposed by the system policy (System-Wide). System-wide 
-          policy supersedes user policies.</P>
-		<B>On</B><BR>
-        Select On to enable the encryption feature for the selected user. This 
-        will permit the user to set encryption policy for his or her iFolders.<br>
+        <P>为所选的用户帐户指定加密策略。该定额可以由系统策略（系统级）强用。系统级策略优先于用户策略。</P>
+		<B>启用</B><BR>
+        选中&ldquo;启用&rdquo;以为所选的用户启用加密功能。这将允许用户为他/她的 iFolder 设置加密策略。<br>
         <br>
-        Deselect On to disable the encryption feature for the selected user. <br>
+        取消选择&ldquo;启用&rdquo;可为所选的用户禁用加密功能。 <br>
         	
 		
-        <br><B>Enforced</B><BR>
-        Select Enforced to enable the encryption feature for the selected user. 
-        When it is set to Enforced, the user cannot change the encryption settings 
-        for his or her iFolders.<br>
-		<P><font size="-1"><b>IMPORTANT:</b> This options is enabled only If the 
-          system level encryption policy is set to On.</font></P>
+        <br><B>强制</B><BR>
+        选中&ldquo;已实施&rdquo;以为选中的用户启用加密功能。当加密功能设置为&ldquo;已实施&rdquo;时，用户无法为他/她的 iFolder 更改加密设置。<br>
+		<P><font size="-1"><b>重要说明：</b>仅当系统级加密策略设置为&ldquo;启用&rdquo;时，才可启用此选项。</font></P>
       </TD></TR><TR><TD VALIGN="TOP">
-        <h4> Sharing</h4>
-      </TD><TD> <B>On</B><BR>
-        By default, iFolder sharing is enabled. Deselect On and clcik Save 
-        to disable sharing for the selected user. After applying this policy, 
-        selected user cannot share his or her iFolders with others. However, you 
-        can still change the policy at iFolder level.<br>
+        <h4> 共享</h4>
+      </TD><TD> <B>启用</B><BR>
+        默认情况下，将启用 iFolder 共享。取消选中&ldquo;启用&rdquo;并单击&ldquo;保存&rdquo;可禁用选定用户的共享。应用此策略后，选定用户将不能与他人共享自己的 iFolder。但是，您仍然可以在 iFolder 级别更改策略。<br>
           <BR>
-        <B>Enforce</B><BR>
-        Select <i>Enforce</i> to enforce the policy set for the 
-        selected user. After applying this policy, the user cannot share his or 
-        her iFolders.<br>
+        <B>强制</B><BR>
+        选择<i>强制</i>将强制应用为选定用户设置的策略。应用此策略后，用户将不能共享自己的 iFolder。<br>
 		
 		<BR>
-        <B>Revoke</B><BR>
-        Select <i>Revoke</i> to remove the shared members of all the iFolders 
-        that belong to the selected user.<br>
+        <B>撤消</B><BR>
+        选择<i>撤消</i>将去除属于选定用户的所有 iFolder 的共享成员。<br>
 		
       </TD></TR>  </TABLE>
   <P><A HREF="#top" TARGET="_self"> </A></P>
   
-<P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P><H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Related Topics" align="top"> 
-Related Topics</H4>
+<P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="返回页首"></A></P><H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="相关主题" align="top"> 相关主题</H4>
   
-  <BLOCKQUOTE class="task1"><P><A HREF="users.html">Managing a User Account</A><BR>
-      <A HREF="ifolders.html">Managing iFolders</A><BR>
-      <A HREF="ifolderdetails.html">Managing iFolder Details</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P><P>&nbsp;</P><P CLASS="copyright">A 
-trademark symbol (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP>, 
-etc.) denotes a Novell trademark. An asterisk (*) denotes a third-party trademark. 
-For more information, see <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Legal 
-Notices</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
+  <BLOCKQUOTE class="task1"><P><A HREF="users.html">管理用户帐户</A><BR>
+      <A HREF="ifolders.html">管理 iFolder</A><BR>
+      <A HREF="ifolderdetails.html">管理 iFolder 细节</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="返回页首"></A></P><P>&nbsp;</P><P CLASS="copyright">商标符号（<SUP><SMALL>&reg;</SMALL></SUP>、<SUP><SMALL>TM</SMALL></SUP> 等）表示 Novell 商标。星号 (*) 表示第三方商标。有关详细信息，请参见<A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">法律声明</font></A>。</P></div><!-- This is the end of the Help Content layer. --> 
 </body>
 
 </html>

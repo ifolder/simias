@@ -1,11 +1,11 @@
 <html>
 
    <head>
-     <meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+     <meta http-equiv="content-type" content="text/html;charset=UTF-8">
      
      <!-- Novell iFolder 3.7  --> 
    
-     <title>Managing the LDAP Settings</title>  	 
+     <title>LDAP設定の管理</title>  	 
      
      <!-- Metadata -->
    
@@ -52,103 +52,63 @@
 <!-- This is the start of the Help Banner Layer --> <div id="headgraphic"> <img src="../../images/h1_help.gif" width="380" height="32"   border="0"></div><!-- This is end of the Help Banner Layer --> 
 <!-- This is the start of the Help Content Layer --> <div id="helpcontent"> <!-- The Page Heading uses CSS style "head3b". This creates an H3 header
             with a line beneath it.
-       --> <h3 class="head3b">Managing the LDAP Settings for the iFolder System</h3>
-  <p> Use this interface to modify the LDAP settings for the selected Novell<SUP><SMALL>&reg;</SMALL></SUP> iFolder<SUP><SMALL>&reg;</SMALL></SUP> 
-    3.7 server on this iFolder domain. </p>
+       --> <h3 class="head3b">iFolderシステムでのLDAP設定の管理</h3>
+  <p> このインタフェースでは、このiFolderドメイン上で選択されたNovell<SUP><SMALL>&reg;</SMALL></SUP> iFolder<SUP><SMALL>&reg;</SMALL></SUP> 3.7サーバのLDAP設定を変更できます。 </p>
   
-  <H3><A NAME="modify"></A>Modifying 
-the LDAP Settings</H3><P>Modify any of the following fields, then click <i>OK</i> to 
-apply your changes:</P><TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR>
+  <H3><A NAME="modify"></A> LDAP 設定の変更</H3><P>次のフィールドを変更し、［OK］をクリックして変更を適用します。<i></i></P><TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>パラメータ</P></TD><TD CLASS="tablehead2"><P>説明</P></TD></TR>
 <TR><TD VALIGN="TOP">
-        <P>LDAP Admin DN</P>
+        <P>LDAP Admin DN (LDAP管理者のDN)</P>
       </TD><TD>
-        <P>Specify the fully distinguished name of the LDAP Admin. This can be 
-          the same or different as your iFolder Admin.</P>
+        <P>LDAP管理者の完全識別名を指定します。iFolder管理者と同じ名前または別の名前を指定できます。</P>
       </TD></TR>
 	  <TR><TD VALIGN="TOP">
-        <P>LDAP Admin&nbsp;Password&nbsp;</P>
+        <P>LDAP Admin?Password? (LDAP管理者のパスワード)</P>
       </TD><TD>
-        <P>The password is used to authenticate the LDAP Admin user to the LDAP 
-          server. </P>
+        <P>このパスワードは、LDAPサーバに対してLDAP管理者ユーザを認証する場合に使用されます。 </P>
         
-        <P>Click <i>OK</i> to update the password stored in the LDAP settings.</P>
+        <P><i></i>LDAP設定に保存されているパスワードを更新するには、［OK］をクリックします。</P>
 <blockquote>
   
 </blockquote>
 </TD></TR><TR><TD VALIGN="TOP">
-        <P>LDAP Server</P>
+        <P>LDAPサーバ</P>
       </TD><TD>
-        <P>Specify the DNS name or IP address of the LDAP server. This can be 
-          any of the iFolder servers in the iFolder system.</P>
+        <P>LDAPサーバのDNS名またはIPアドレスを指定します。この値には、iFolderシステム内の任意のiFolderサーバのアドレスを指定できます。</P>
       </TD></TR>
 	  <TR><TD VALIGN="TOP">
         <P>LDAP SSL</P>
       </TD><TD>
-        <P>Select <i>Yes</i> to enable LDAP SSL. If SSL is enabled on the server, 
-          the value is Yes; otherwise, the value is No.<BR>
+        <P>［はい］を選択すると、LDAP SSLが有効になります。 <i></i>サーバでSSLが有効になっている場合の値は［はい］、サーバでSSLが有効になっていない場合の値は［いいえ］です。<BR>
         </P></TD></TR><TR><TD VALIGN="TOP">
-        <P>Proxy&nbsp;User&nbsp;&nbsp;</P>
+        <P>プロキシユーザ</P>
       </TD><TD>
-        <P>The iFolder Proxy user is an existing proxy user identity used to access 
-          the LDAP server with Read access to retrieve a list of authorized users. 
-          The proxy user is automatically created during the iFolder enterprise 
-          server configuration in YaST. The username is auto-generated to be unique 
-          on the system. </P>
-    <P> Make sure that the user account assigned as the iFolder Proxy user is different than the one used for the iFolder Admin user and other system users. Separating the proxy user from the administrator provides privilege separation and is also important because the proxy user password is stored in the file system on the iFolder server.</P>
-    <P> Specify the fully distinguished name of an existing user that you want to make the iFolder Proxy user. This identity must have the Read right to the LDAP directory. For example: </P>
+        <P>iFolderプロキシユーザは、LDAPサーバにアクセスするために使用される既存のプロキシユーザIDで、認証ユーザのリストを取得するための読み込み権を持っています。プロキシユーザは、YaSTでのiFolderエンタープライズサーバの設定時に自動作成されます。このユーザ名は、システムにおける一意の名前で自動作成されます。 </P>
+    <P> iFolderプロキシユーザに割り当てるユーザアカウントは、iFolder管理者ユーザおよび他のシステムユーザとは別のアカウントにしてください。権限を分散させる目的以外にも、プロキシユーザのパスワードはiFolderサーバ上のファイルシステムに保存されるため、プロキシユーザを管理者と分けるのは重要です。</P>
+    <P> iFolderプロキシユーザにする既存のユーザの完全識別名を指定します。このIDには、LDAPディレクトリに対する読み込み権が必要です。例: </P>
         <P> cn=iFolderProxy,o=acme</P>
-    <P> Make sure to also enter the new user's password in the Proxy Password field.</P>
-        <P> After you modify the Proxy user, you might want to immediately synchronize 
-          the LDAP user lists, using the new iFolder proxy information; otherwise, 
-          the Proxy user information is not tested until the next scheduled synchronization 
-          of the user list. Use the <i>Sync Now</i> option under <i>LDAP Details</i> 
-          on the Server Details page to synchronize the iFolder user list on demand 
-          and verify your new Proxy user settings.</P>
+    <P> 新しいユーザのパスワードを［プロキシパスワード］フィールドに入力してください。</P>
+        <P> プロキシユーザを変更したら、すぐに新しいiFolderプロキシ情報でLDAPユーザリストを同期するとよいでしょう。この処理を行わないと、スケジュールされた同期によってユーザリストが同期されるまでは、ユーザ情報はテストされません。iFolderユーザリストをオンデマンドで同期し、新しいプロキシユーザ設定を確認するには、［Server Details (サーバ詳細)］ページの［LDAP Details (LDAPの詳細)］にある［いますぐ同期］オプションを使用します。<i></i><i></i></P>
       </TD></TR>
-	<TR><TD VALIGN="TOP"><P>Proxy&nbsp;User&nbsp;Password&nbsp;</P></TD><TD>
-        <P>The password is used to authenticate the iFolder Proxy user to the 
-          LDAP server when iFolder synchronizes users with the LDAP server. </P>
-        <P>To modify the iFolder Proxy User password, you do not need to update the value stored in LDAP settings for the iFolder system. 
-          You can directly use this interface to modify the password.</p>
-        <P>This password must match the password stored in the iFolder Proxy user&#146;s 
-eDirectory<sup><small>TM</small></sup> object. </P>
-<P>Specify the password twice, then click <i>OK</i> to update the password stored in the LDAP settings.</P>
+	<TR><TD VALIGN="TOP"><P>Proxy User Password (プロキシユーザのパスワード)</P></TD><TD>
+        <P>このパスワードは、iFolderがユーザをLDAPサーバと同期するときに、LDAPサーバでiFolderプロキシユーザを認証する場合に使用されます。 </P>
+        <P>iFolderプロキシユーザのパスワードを変更する場合、iFolderシステムのLDAP設定に保存された値を更新する必要はありません。このインタフェースから直接パスワードを変更できます。</p>
+        <P>このパスワードは、iFolderプロキシユーザのeDirectory<sup><small>TM</small></sup>オブジェクトに保存されているパスワードと一致している必要があります。 </P>
+<P>LDAP設定に保存されているパスワードを更新するには、パスワードを2回入力し、［OK］をクリックします｡<i></i></P>
 
         
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>LDAP Contexts</P>
+        <P>LDAPコンテキスト</P>
       </TD><TD>
-        <P> Specify or edit the LDAP containers, groups, or users where iFolder 
-          searches for a list of authorized users to provision for iFolder servers 
-          on this enterprise server. LDAP contexts are entered in LDAP format. 
-          For example: </P>
+        <P> このエンタープライズサーバ上のiFolderサーバにプロビジョニングするには、iFolderで認証ユーザのリストを検索するLDAPコンテナ、グループまたはユーザを指定するか編集します。LDAPコンテキストは、LDAP形式で入力します。例: </P>
         <P> cn=group,o=acme#cn=dbgroup,o=acme#</P>
-        <P>To edit a value, select it, make your changes, then click <i>OK</i> to apply 
-          the changes.</P>  
+        <P>値を編集するには、その値を選択して変更を加え、［OK］をクリックして変更内容を適用します。<i></i></P>  
   
-        <P>During LDAP synchronization, the iFolder server queries the LDAP server 
-          to retrieve a list of users in the DNs (as specified in the <i>LDAP 
-          Contexts</i> field) at the specified synchronization interval. The usernames 
-          in the iFolder domain are matched against this official LDAP list. Any 
-          new user in the specified LDAP contexts is added to the iFolder domain. 
-          If a user is no longer in the specified LDAP contexts, the username 
-          is removed from the domain, any iFolders the user owns are orphaned 
-          and reassigned to the iFolder Admin user, and the user is removed as 
-          a member of other iFolders.</P>
-        <P>The iFolder Admin User is provisioned for servers during the install. 
-          It is tracked by its GUID, so it is available even if you do not specify 
-          a container, group, or user, or if you specify search DNs that do not 
-          contain the Folder Admin user. This identity must be provisioned to 
-          enable the iFolder Admin to perform management tasks.</P>
+        <P>iFolder管理者ユーザは、インストール中にサーバにプロビジョニングされます。このユーザはGUIDで追跡されるため、コンテナ、グループまたはユーザを指定しない場合や、iFolder管理者ユーザが存在しない検索DNを指定した場合でも使用できます。iFolder管理者が管理タスクを実行できるようにするには、このIDをプロビジョニングする必要があります。</P>
+        <P>LDAP同期はスケジュールすることも、［いますぐ同期<i></i>］ボタンをクリックして手動で実行することもできます。LDAP同期の際に、iFolderサーバはLDAPサーバを照会し、［LDAPコンテキスト<i></i>］フィールドに指定されたDNからユーザのリストを取得します。iFolderドメインのユーザ名は、LDAPリストと比較されます。指定されたLDAPコンテキストに対してユーザが追加または削除されている場合は、iFolderドメインもその後で更新されます。</P>
+        <P>ユーザがLDAPコンテキストから削除された場合でも、最初のLDAP同期では、猶予間隔ポリシーに関係なくiFolderドメインのユーザが無効になるだけです。無効になったユーザが、猶予期間後に自動的に削除されることはありません。無効の状態のままiFolderドメインに引き続き存在します。猶予期間内にこのユーザを再度設定すると、ユーザはすべてのiFolderでアクティブになります。猶予期間を過ぎると、以降のLDAP同期ではiFolderドメインからユーザが削除され、そのユーザのiFolderはすべて孤立します。孤立したiFolderは、iFolder管理者ユーザに再割り当てされます。</P>
       </TD></TR>
-  </TABLE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P><H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Related Topics" align="top"> 
-Related Topics</H4><BLOCKQUOTE class="task1">
-<P ><A HREF="system.html">Managing 
-the iFolder System</A><BR><A HREF="member.html">Managing a User Account</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P><P>&nbsp;</P><P CLASS="copyright">A 
-trademark symbol (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP>, 
-etc.) denotes a Novell trademark. An asterisk (*) denotes a third-party trademark. 
-For more information, see <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Legal 
-Notices</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
+  </TABLE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="トップへジャンプ"></A></P><H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="関連項目" align="top"> 関連項目</H4><BLOCKQUOTE class="task1">
+<P ><A HREF="system.html">iFolderシステムの管理</A><BR><A HREF="member.html">ユーザアカウントの管理</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="トップへジャンプ"></A></P><P>&nbsp;</P><P CLASS="copyright">商標記号（<SUP><SMALL>&reg;</SMALL></SUP>、<SUP><SMALL>TM</SMALL></SUP>など）は、Novellの商標を示し、アスタリスク（*）は、サードパーティの商標を示します。  詳細については、「<A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">保証と著作権</font></A>」を参照してください。</P></div><!-- This is the end of the Help Content layer. --> 
 </body>
 
 </html>

@@ -1,11 +1,11 @@
 <html>
 
    <head>
-     <meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+     <meta http-equiv="content-type" content="text/html;charset=UTF-8">
      
      <!-- Novell iFolder 3.7  --> 
    
-     <title>Managing the LDAP Settings</title>  	 
+     <title>管理 LDAP 设置</title>  	 
      
      <!-- Metadata -->
    
@@ -52,103 +52,63 @@
 <!-- This is the start of the Help Banner Layer --> <div id="headgraphic"> <img src="../../images/h1_help.gif" width="380" height="32"   border="0"></div><!-- This is end of the Help Banner Layer --> 
 <!-- This is the start of the Help Content Layer --> <div id="helpcontent"> <!-- The Page Heading uses CSS style "head3b". This creates an H3 header
             with a line beneath it.
-       --> <h3 class="head3b">Managing the LDAP Settings for the iFolder System</h3>
-  <p> Use this interface to modify the LDAP settings for the selected Novell<SUP><SMALL>&reg;</SMALL></SUP> iFolder<SUP><SMALL>&reg;</SMALL></SUP> 
-    3.7 server on this iFolder domain. </p>
+       --> <h3 class="head3b">管理 iFolder 系统的 LDAP 设置</h3>
+  <p> 使用此界面可修改该 iFolder 域中选定 Novell<SUP><SMALL>&reg;</SMALL></SUP> iFolder<SUP><SMALL>&reg;</SMALL></SUP> 3.7 服务器的 LDAP 设置。 </p>
   
-  <H3><A NAME="modify"></A>Modifying 
-the LDAP Settings</H3><P>Modify any of the following fields, then click <i>OK</i> to 
-apply your changes:</P><TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR>
+  <H3><A NAME="modify"></A>修改 LDAP 设置</H3><P>修改下列任一字段，然后单击<i>确定</i>以应用所做更改：</P><TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>参数</P></TD><TD CLASS="tablehead2"><P>说明</P></TD></TR>
 <TR><TD VALIGN="TOP">
         <P>LDAP Admin DN</P>
       </TD><TD>
-        <P>Specify the fully distinguished name of the LDAP Admin. This can be 
-          the same or different as your iFolder Admin.</P>
+        <P>指定 LDAP Admin 的完整判别名。这可与 iFolder Admin 相同，也可以不同。</P>
       </TD></TR>
 	  <TR><TD VALIGN="TOP">
-        <P>LDAP Admin&nbsp;Password&nbsp;</P>
+        <P>LDAP Admin 口令</P>
       </TD><TD>
-        <P>The password is used to authenticate the LDAP Admin user to the LDAP 
-          server. </P>
+        <P>此口令用于向 LDAP 服务器鉴定 LDAP Admin 用户。 </P>
         
-        <P>Click <i>OK</i> to update the password stored in the LDAP settings.</P>
+        <P>单击<i>确定</i>可更新储存在 LDAP 设置中的口令。</P>
 <blockquote>
   
 </blockquote>
 </TD></TR><TR><TD VALIGN="TOP">
-        <P>LDAP Server</P>
+        <P>LDAP 服务器</P>
       </TD><TD>
-        <P>Specify the DNS name or IP address of the LDAP server. This can be 
-          any of the iFolder servers in the iFolder system.</P>
+        <P>指定 LDAP 服务器的 DNS 名称或 IP 地址。这可以是 iFolder 系统中的任一 iFolder 服务器。</P>
       </TD></TR>
 	  <TR><TD VALIGN="TOP">
         <P>LDAP SSL</P>
       </TD><TD>
-        <P>Select <i>Yes</i> to enable LDAP SSL. If SSL is enabled on the server, 
-          the value is Yes; otherwise, the value is No.<BR>
+        <P>选择<i>是</i>以启用 LDAP SSL。如果在服务器上启用了 SSL，则值为&ldquo;是&rdquo;；否则，值将为&ldquo;否&rdquo;。<BR>
         </P></TD></TR><TR><TD VALIGN="TOP">
-        <P>Proxy&nbsp;User&nbsp;&nbsp;</P>
+        <P>代理用户</P>
       </TD><TD>
-        <P>The iFolder Proxy user is an existing proxy user identity used to access 
-          the LDAP server with Read access to retrieve a list of authorized users. 
-          The proxy user is automatically created during the iFolder enterprise 
-          server configuration in YaST. The username is auto-generated to be unique 
-          on the system. </P>
-    <P> Make sure that the user account assigned as the iFolder Proxy user is different than the one used for the iFolder Admin user and other system users. Separating the proxy user from the administrator provides privilege separation and is also important because the proxy user password is stored in the file system on the iFolder server.</P>
-    <P> Specify the fully distinguished name of an existing user that you want to make the iFolder Proxy user. This identity must have the Read right to the LDAP directory. For example: </P>
+        <P>iFolder 代理用户是具有只读权限的用于访问 LDAP 服务器的现有代理用户身份，可检索已授权用户列表。该代理用户是在 YaST 中配置 iFolder 企业服务器过程中自动创建的。用户名是自动生成的系统唯一名称。 </P>
+    <P> 确保已指派为 iFolder 代理用户的用户帐户不同于对 iFolder Admin 用户和其他系统用户使用的帐户。将管理员与代理用户分开，将会分离特权，这一点很重要，因为代理用户口令储存在 iFolder 服务器上的文件系统中。</P>
+    <P> 指定您要指派为 iFolder 代理用户的现有用户的完整判别名。此身份必须具有对 LDAP 目录的读权限。例如： </P>
         <P> cn=iFolderProxy,o=acme</P>
-    <P> Make sure to also enter the new user's password in the Proxy Password field.</P>
-        <P> After you modify the Proxy user, you might want to immediately synchronize 
-          the LDAP user lists, using the new iFolder proxy information; otherwise, 
-          the Proxy user information is not tested until the next scheduled synchronization 
-          of the user list. Use the <i>Sync Now</i> option under <i>LDAP Details</i> 
-          on the Server Details page to synchronize the iFolder user list on demand 
-          and verify your new Proxy user settings.</P>
+    <P> 确保同时在&ldquo;代理口令&rdquo;字段中输入新用户的口令。</P>
+        <P> 修改代理用户后，您可能希望立即使用新的 iFolder 代理信息来同步 LDAP 用户列表，否则，将在对用户列表进行下一个已安排好的同步后才测试代理用户信息。使用&ldquo;服务器细节&rdquo;页上 <i>LDAP 细节</i>下的<i>立即同步</i>根据需要同步 iFolder 用户列表并校验新代理用户的设置。</P>
       </TD></TR>
-	<TR><TD VALIGN="TOP"><P>Proxy&nbsp;User&nbsp;Password&nbsp;</P></TD><TD>
-        <P>The password is used to authenticate the iFolder Proxy user to the 
-          LDAP server when iFolder synchronizes users with the LDAP server. </P>
-        <P>To modify the iFolder Proxy User password, you do not need to update the value stored in LDAP settings for the iFolder system. 
-          You can directly use this interface to modify the password.</p>
-        <P>This password must match the password stored in the iFolder Proxy user&#146;s 
-eDirectory<sup><small>TM</small></sup> object. </P>
-<P>Specify the password twice, then click <i>OK</i> to update the password stored in the LDAP settings.</P>
+	<TR><TD VALIGN="TOP"><P>代理用户口令</P></TD><TD>
+        <P>此口令用于在 iFolder 与 LDAP 服务器同步用户时向 LDAP 服务器鉴定 iFolder 代理用户。 </P>
+        <P>要修改 iFolder 代理用户口令，无需更新存储在 iFolder 系统的 LDAP 设置中的的值。您可直接使用此界面来修改口令。</p>
+        <P>此口令必须与 iFolder 代理用户的 eDirectory<sup><small>TM</small></sup> 对象中储存的口令匹配。 </P>
+<P>指定两次口令，然后单击<i>确定</i>以更新储存在 LDAP 设置中的口令。</P>
 
         
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>LDAP Contexts</P>
+        <P>LDAP 环境</P>
       </TD><TD>
-        <P> Specify or edit the LDAP containers, groups, or users where iFolder 
-          searches for a list of authorized users to provision for iFolder servers 
-          on this enterprise server. LDAP contexts are entered in LDAP format. 
-          For example: </P>
+        <P> 指定或编辑 LDAP 树枝、组或用户，iFolder 将在其中搜索授权用户的列表以为此企业服务器上的 iFolder 服务器配置用户。LDAP 环境以 LDAP 格式输入。例如： </P>
         <P> cn=group,o=acme#cn=dbgroup,o=acme#</P>
-        <P>To edit a value, select it, make your changes, then click <i>OK</i> to apply 
-          the changes.</P>  
+        <P>要编辑一个值，选择它并进行更改，然后单击<i>确定</i>应用所做更改。</P>  
   
-        <P>During LDAP synchronization, the iFolder server queries the LDAP server 
-          to retrieve a list of users in the DNs (as specified in the <i>LDAP 
-          Contexts</i> field) at the specified synchronization interval. The usernames 
-          in the iFolder domain are matched against this official LDAP list. Any 
-          new user in the specified LDAP contexts is added to the iFolder domain. 
-          If a user is no longer in the specified LDAP contexts, the username 
-          is removed from the domain, any iFolders the user owns are orphaned 
-          and reassigned to the iFolder Admin user, and the user is removed as 
-          a member of other iFolders.</P>
-        <P>The iFolder Admin User is provisioned for servers during the install. 
-          It is tracked by its GUID, so it is available even if you do not specify 
-          a container, group, or user, or if you specify search DNs that do not 
-          contain the Folder Admin user. This identity must be provisioned to 
-          enable the iFolder Admin to perform management tasks.</P>
+        <P>该 iFolder Admin 用户是在安装过程中为服务器配置的。对该用户是按其 GUID 进行跟踪的，因此，即使您未指定一个容器、组或用户，或者指定不包含 iFolder Admin 用户的搜索 DN，它都可用。必须配置此身份以启用 iFolder Admin 来执行管理任务。</P>
+        <P>通过单击<i>立即同步</i>按钮，LDAP 同步可以预定或手动进行。在执行 LDAP 同步时，iFolder 服务器查询 LDAP 服务器，并且检索在 <i>LDAP 环境</i>字段中指定的 DN 的用户的列表。iFolder 域中的用户名与 LDAP 列表相对。如果从指定的 LDAP 环境中添加或删除用户，iFolder 域也随后进行更新。</P>
+        <P>即使从 LDAP 环境中删除用户，无论宽限间隔策略如何规定，首次的 LDAP 同步只禁用 iFolder 域的用户。在宽限间隔期间后，禁用的用户绝不会自动删除，并且继续在 iFolder 域中以停用状态存在。在宽限间隔期间内如果该用户再次配置，该用户和所有 iFolder 一起处于活动状态。在宽限间隔期间后，随后的 LDAP 同步将从 iFolder 域中删除用户，并且用户的所有 iFolder 都孤立存在。孤立存在的 iFolder 会重新指派给 iFolder Admin 用户。</P>
       </TD></TR>
-  </TABLE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P><H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Related Topics" align="top"> 
-Related Topics</H4><BLOCKQUOTE class="task1">
-<P ><A HREF="system.html">Managing 
-the iFolder System</A><BR><A HREF="member.html">Managing a User Account</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P><P>&nbsp;</P><P CLASS="copyright">A 
-trademark symbol (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP>, 
-etc.) denotes a Novell trademark. An asterisk (*) denotes a third-party trademark. 
-For more information, see <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Legal 
-Notices</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
+  </TABLE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="返回页首"></A></P><H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="相关主题" align="top"> 相关主题</H4><BLOCKQUOTE class="task1">
+<P ><A HREF="system.html">管理 iFolder 系统</A><BR><A HREF="member.html">管理用户帐户</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="返回页首"></A></P><P>&nbsp;</P><P CLASS="copyright">商标符号（<SUP><SMALL>&reg;</SMALL></SUP>、<SUP><SMALL>TM</SMALL></SUP> 等）表示 Novell 商标。星号 (*) 表示第三方商标。有关详细信息，请参见<A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">法律声明</font></A>。</P></div><!-- This is the end of the Help Content layer. --> 
 </body>
 
 </html>

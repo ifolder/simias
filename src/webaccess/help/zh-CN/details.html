@@ -1,10 +1,10 @@
 <html>
 
    <head>
-<meta http-equiv="content-type" content="text/html;charset=iso-8859-1"> 
+<meta http-equiv="content-type" content="text/html;charset=UTF-8"> 
 
 <!-- Novell iFolder 3.x Web Access --> 
-<title>iFolder Details</title> 
+<title>iFolder 细节</title> 
 
 <!-- Metadata --> <meta name="Author" content="iFolder 3.x Documentation Manager"> 
 <meta name="date" content="02-17-2005"> 
@@ -20,8 +20,7 @@
        <!--
        
          body           {  font-family: Arial, Helvetica, Geneva;
-									background: white
-url(../../images/helphead_bg.gif) repeat-x 0% 0% }
+									background: white url('../../images/helphead_bg.gif') repeat-x;  }
 		      
          #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px;
 									width: 100%; visibility: visible }
@@ -39,94 +38,80 @@ url(../../images/helphead_bg.gif) repeat-x 0% 0% }
    <body bgcolor="white" marginwidth="0" marginheight="0" 
          leftmargin="0" topmargin="0">
 <!-- This is the start of the Help Banner Layer --> <div id="headgraphic"> 
-<table border="0" cellspacing="0" cellpadding="0" width="100%" height="26" style="margin:0px; padding:0px; background-image: url(../../images/header_pattern.gif); background-repeat: repeat-x;"> 
-<tr> <td width="221"><img src="../../images/help_title.gif" alt="Novell iFolder" border="0" width="221" height="26"></td><td align="right" width="100%" class="tabCell" style="background-image: url(../../images/header_background.gif); background-repeat: no-repeat;"></td></tr></table></div><!-- This is end of the Help Banner Layer --> 
+<table border="0" cellspacing="0" cellpadding="0" width="100%" height="26" style="margin:0px; padding:0px; background-image: url('../../images/header_pattern.gif'); background-repeat: repeat-x"> 
+<tr> <td width="221"><img src="../../images/help_title.gif" alt="Novell iFolder" border="0" width="221" height="26"></td>
+  <td align="right" width="100%" class="tabCell" style="background-image: url('../../images/header_background.gif'); background-repeat: no-repeat"></td></tr></table></div><!-- This is end of the Help Banner Layer --> 
 <!-- This is the start of the Help Content Layer --> <div id="helpcontent"> 
 <!-- The Page Heading uses CSS style "head3b". This creates an H3 header
             with a line beneath it.
        --> 
-  <h3 class="head3b">Viewing iFolder Properties</h3>
-  <p> Use this page to view the iFolder properties of the selected iFolder. You 
-    can also edit the description you have provided when the iFolder was created.</p>
-  <p>You can view the following iFolder properties. </p>
-  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR>
+  <h3 class="head3b">查看 iFolder 属性</h3>
+  <p> 使用此页面可查看选定 iFolder 的 iFolder 属性。也可编辑创建 iFolder 时提供的说明。</p>
+  <p>您可以查看以下 iFolder 属性。 </p>
+  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>参数</P></TD><TD CLASS="tablehead2"><P>说明</P></TD></TR><TR>
       <TD VALIGN="TOP"> 
-        <P> Name</P>(view only)
+        <P> 名称</P>（仅供查看）
       </TD><TD>
-        <P>The name assigned to the iFolder.</P>
+        <P>指派给 iFolder 的名称。</P>
 		
 		  
         
       </TD><TR><TD VALIGN="TOP">
-        <P>Description</P>
+        <P>说明</P>
       </TD><TD>
-        <P>A short description of the iFolder.</P>
-		<P>To edit the iFolder description, click Edit. In the new page that opens, 
-          type the new description in the Description field and click Save.</P>
+        <P>iFolder 的简短说明。</P>
+		<P>要编辑 iFolder 说明，请单击&ldquo;编辑&rdquo;。在打开的新页面的&ldquo;说明&rdquo;字段中键入新说明，并单击&ldquo;保存&rdquo;。</P>
 		  
-        <P>To cancel the changes made, click Cancel.</P>
+        <P>若要取消所作的更改，请单击&ldquo;取消&rdquo;。</P>
       </TD><TR><TD VALIGN="TOP">
-        <P>Last modified</P>(view only)
+        <P>上次修改时间</P>（仅供查看）
       </TD><TD>
-        <P>Displays the last modified time of the iFolder when it was last modified 
-          by any user.</p>
+        <P>显示上次由任意用户修改 iFolder 的时间。</p>
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>Created</P>
-        (view only)
+        <P>创建时间</P>
+        （仅供查看）
       </TD><TD>
-        <P>Displays the date when the iFolder was created.</p>
+        <P>显示创建 iFolder 的日期</p>
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>Access</P>
-        (view only)
+        <P>权限</P>
+        （仅供查看）
       </TD><TD>
-        <P>Displays the username of the iFolder member who is currently accessing 
-          the iFolder.</p>
+        <P>显示 iFolder 拥有者对 iFolder 具有的权限。</p>
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>Owner</P>
-        (view only)
+        <P>拥有者</P>
+        （仅供查看）
       </TD><TD>
-        <P>Displays the username for the iFolder owner. </p> 
+        <P>显示 iFolder 拥有者的用户名。 </p> 
 		  
-        <p>This is the full distinguished name of the iFolder owner. iFolder owner 
-          can be individual user or LDAPGroup.</p>
-        <p> If an LDAPGroup owns the selected iFolder, all the members belong 
-          to that group have the same rights to this iFolder. </p>
+        <p>这是 iFolder 所有者的完整判别名。iFolder 所有者可以是单个用户，也可以是 LDAP 组。</p>
+        <p> 如果某一 LDAP 组拥有选定的 iFolder，则属于该组的所有成员都对此 iFolder 具有相同权限。 </p>
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>Size</P>
-        (view only)
+        <P>大小</P>
+        （仅供查看）
       </TD><TD>
-        <P>Displays the size of the iFolder. 
+        <P>显示 iFolder 的大小。 
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>Members</P>
-        (view only)
+        <P>成员数</P>
+        （仅供查看）
       </TD><TD>
-        <P>Reports the total number of users belong to the iFolder. It includes 
-          individual users as well as LDAPGroups.
+        <P>报告属于该 iFolder 的用户总数。它包括单个用户和 LDAP 组。
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>Files</P>
-        (view only)
+        <P>文件数</P>
+        （仅供查看）
       </TD><TD>
-        <P>Displays the total number of files in this iFolder.</p>
+        <P>显示该 iFolder 中的文件总数。</p>
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>Folders</P>
-        (view only)
+        <P>文件夹数</P>
+        （仅供查看）
       </TD><TD>
-        <P>Displays the total number of folders in this iFolder.</p>
+        <P>显示该 iFolder 中的文件夹总数。</p>
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>Locked</P>
-        (view only)
+        <P>已锁定</P>
+        （仅供查看）
       </TD><TD>
-        <P>Shows whether iFolder synchronization is enabled or not. If the iFolder 
-          Admin set the iFolder synchronization to enabled, the value for Locked 
-          is No. If it is set to disabled, the value for Locked is Yes.</p>
-      </TD></TR></TABLE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A>
-  <H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Related Topics" align="top"> 
-Related Topics</H4><BLOCKQUOTE class="task1"><P ><A HREF="home.html">Accessing Your iFolders</A><BR><A HREF="browse.html">Accessing Folders and Files in Your iFolder
-</A><BR><A HREF="members.html">Managing iFolder Members</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A><P CLASS="copyright">A trademark symbol 
-(<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP>, etc.) 
-denotes a Novell trademark. An asterisk (*) denotes a third-party trademark. 
-For more information, see <A HREF="legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Legal 
-Notices</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
+        <P>显示是否启用 iFolder 同步。如果 iFolder Admin 将 iFolder 同步设为&ldquo;启用&rdquo;，则&ldquo;已锁定&rdquo;的值为&ldquo;否&rdquo;。如果设为&ldquo;禁用&rdquo;，则&ldquo;已锁定&rdquo;的值为&ldquo;是&rdquo;。</p>
+      </TD></TR></TABLE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="返回页首"></A>
+  <H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="相关主题" align="top"> 相关主题</H4><BLOCKQUOTE class="task1"><P ><A HREF="home.html">访问 iFolder</A><BR><A HREF="browse.html">访问 iFolder 中的文件夹和文件</A><BR><A HREF="members.html">管理 iFolder 成员</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="返回页首"></A><P CLASS="copyright">商标符号（<SUP><SMALL>&reg;</SMALL></SUP>、<SUP><SMALL>TM</SMALL></SUP> 等）表示 Novell 商标。星号 (*) 表示第三方商标。有关详细信息，请参见<A HREF="legalnotices.html" TARGET="_self" ><font color="#cfcdc6">法律声明</font></A>。</P></div><!-- This is the end of the Help Content layer. --> 
 </body>
 
 </html>

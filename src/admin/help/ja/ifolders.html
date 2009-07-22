@@ -1,11 +1,11 @@
 <html>
 
    <head>
-     <meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+     <meta http-equiv="content-type" content="text/html;charset=UTF-8">
      
      <!-- Novell iFolder 3.x iManager Plugin  --> 
    
-     <title>iFolders</title>  	 
+     <title>iFolder</title>  	 
         
      <!-- Metadata -->
    
@@ -28,8 +28,7 @@
        <!--
        
          body           {  font-family: Arial, Helvetica, Geneva;
-									background: white
-url(../../images/helphead_bg.gif) repeat-x 0% 0% }
+									background: white url('../../images/helphead_bg.gif') repeat-x;  }
 		      
          #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px;
 									width: 380px; visibility: visible }
@@ -54,114 +53,80 @@ url(../../images/helphead_bg.gif) repeat-x 0% 0% }
 <!-- This is the start of the Help Content Layer --> <div id="helpcontent"> <!-- The Page Heading uses CSS style "head3b". This creates an H3 header
             with a line beneath it.
        --> 
-  <h3 class="head3b">Managing iFolders</h3>
-  <p> Use this interface to manage the ownership, policies, and membership of 
-    a selected iFolder for an iFolder user account on the given iFolder domain. 
-    The search tool helps you locate the account you want to manage. </p>
-	<BLOCKQUOTE CLASS="blockquote"><P><A HREF="#search" TARGET="_self">Searching for 
-an iFolder</A> <BR><A HREF="#browse" TARGET="_self">Browsing 
-the iFolders in the Search Results 
- </A><BR><A HREF="#enable" TARGET="_self">Enabling, Disabling and Deleting an iFolder</A><BR><A HREF="#newuser" TARGET="_self">Creating a New iFolder</A>
+  <h3 class="head3b">iFolderの管理</h3>
+  <p> このインタフェースでは、特定のiFolderドメイン上のiFolderユーザアカウントについて、選択したiFolderの所有権、ポリシー、およびメンバーシップを管理できます。検索ツールを使用すると、管理するアカウントを簡単に探すことができます。 </p>
+  <p> <b>注意:</b> セカンダリ管理者としてログインしている場合、セカンダリ管理者として指定を受けたユーザが所有するiFolderのみを表示できます。また、管理できるiFolderは、iFolderの管理に使用できる権利によって異なります。</p>
+	<BLOCKQUOTE CLASS="blockquote"><P><A HREF="#search" TARGET="_self">iFolderの検索</A> <BR><A HREF="#browse" TARGET="_self">検索結果のiFolderの参照</A><BR><A HREF="#enable" TARGET="_self">iFolderの有効化、無効化、および削除</A><BR><A HREF="#newuser" TARGET="_self">新しいiFolderの作成</A>
  </P></BLOCKQUOTE>
   
-  <H3><A NAME="search"></A>Searching For an iFolder</H3>
+  <H3><A NAME="search"></A>iFolderの検索</H3>
   
-<H4>iFolder Types</H4>
-  <p><img src="../../images/ifolder.png" width="16" height="16" alt="Shared icon"> 
-    indicates that the iFolder is Normal.<br>
-    <img src="../../images/ifolder_user_16.gif" width="16" height="16" alt="Shared icon"> 
-    indicates that the iFolder is Shared.<br>
-    <img src="../../images/encrypt_ifolder.gif" width="16" height="16" alt="Shared icon"> 
-    indicates that the iFolder is Encrypted.</p>
-  <p> Click All to view all the iFolders in the current iFolder domain. Click 
-    Orphan to view all the orphaned iFolders.</p>
-  <H4>Retrieving a List of iFolders on the Server</H4><P>Use one 
-or more of the following search methods, then click Search:</P><UL><LI><P>Select 
-Equals as the filter criterion, then type the name of the iFolder you want to 
-locate in the Search iFolders field.</P></LI><LI>
-      <P>Select a filter criterion ( Begins With, Ends With, Contains, Equals) for the name 
-        of the iFolder, then type one or more letters in the Search iFolders field.</P>
-    </LI><LI><P>Type an asterisk 
-(*) in the Search iFolders field to return a list of all iFolders on the system.</P></LI><LI><P>Leave 
-the Search iFolders field empty to return a list of all iFolders on the system.</P></LI></UL>
-  <P>Do not click anywhere in the page until the page completely refreshes; then 
-    you can browse, sort, or manage the iFolders listed in the Search Results 
-    report. </P>
-  <H4><A NAME="browse"></A>Browsing 
-the iFolders in the Search Results</H4>
-  <P>Scroll up and down to browse the search results and locate the iFolder you 
-    want to manage. The combination of the iFolder's name and owner help to identify 
-    the iFolder you want.</P>
+<H4>iFolderタイプ</H4>
+  <p><img src="../../images/ifolder.png" width="16" height="16" alt="共有アイコン"> は、iFolderが標準のiFolderであることを示します。<br>
+    <img src="../../images/ifolder_user_16.gif" width="16" height="16" alt="共有アイコン"> は、iFolderが共有されていることを示します。<br>
+    <img src="../../images/encrypt_ifolder.gif" width="16" height="16" alt="共有アイコン"> は、iFolderが暗号化されていることを示します。</p>
+  <p> 現在のiFolderドメインにあるすべてのiFolderを表示するには、［すべて］をクリックします｡孤立しているすべてのiFolderを表示するには、［Orphan (孤立)］をクリックします｡</p>
+  <H4>サーバ上のiFolderのリストの取得</H4><P>次の検索方法を1つまたは複数使用して、［検索］をクリックします。</P><UL><LI><P>フィルタ条件として［等しい］を選択して、［Search iFolders (iFolderの検索)］フィールドに、検索するiFolderの名前を入力します。</P></LI><LI>
+      <P>iFolder名のフィルタ条件(［開始文字］、［終了文字］、［含む］、または［等しい］)を選択し、［Search iFolders (iFolderの検索)］フィールドに1つ以上の文字を入力します。</P>
+    </LI><LI><P>システム上のすべてのiFolderのリストを表示するには、［Search iFolders (iFolderの検索)］フィールドにアスタリスク(*)を入力します。</P></LI><LI><P>システム上のすべてのiFolderのリストを表示するには、［Search iFolders (iFolderの検索)］フィールドを空白のままにします。</P></LI></UL>
+  <P>ページが完全に更新されるまではページ内をクリックしないでください。更新されたら、検索結果レポートに表示されているiFolderを参照、ソート、または管理できます。 </P>
+  <H4><A NAME="browse"></A>検索結果のiFolderの参照</H4>
+  <P>リストを上下にスクロールして検索結果を参照し、管理するiFolderを探します。iFolderの名前と所有者の組み合わせによって、目的のiFolderを識別できます。</P>
   
-  <H4><a name="enable"></a>Enabling, Disabling and Deleting an iFolder</H4>
+  <H4><a name="enable"></a>iFolderの有効化、無効化、および削除</H4>
   <br>
 	<OL>
     <LI> 
-      <P>Locate the iFolder you want to manage, then select the check box next 
-        to the iFolder.</P>
+      <P>管理するiFolderを探して、そのiFolderの横のチェックボックスをオンにします。</P>
     </LI>
 	<LI> 
-      <P>Select an action to perform on the iFolder:</P>
+      <P>iFolderに対して実行するアクションを選択します。</P>
     </LI>
-	<ul><li><P>Click Delete to delete the iFolder.</P><li><P>Click Enable to enable the iFolder.</P>
-        <P>This allows the user to log in and synchronize iFolders.</P>
-      </li><li><P>Click Disable to disable the iFolder.</P><P> If the user is logged in when you make this change, the user�s session 
-        continues until the user logs out. The policy takes effect the next time 
-        the user attempts to log in to the account. To have the lockout take effect 
-        immediately, you must restart the Apache services for the iFolder server, 
-        which disconnects all active sessions, including the user�s session.</P></li></ul>
+	<ul><li><P>iFolderを削除するには、［削除］をクリックします。</P><li><P>iFolderを有効にするには、［有効］をクリックします。</P>
+        <P>これにより、ユーザはログインしてiFolderを同期できるようになります。</P>
+      </li><li><P>iFolderを無効にするには、［無効］をクリックします。</P><P> この変更を行うときにユーザがログインしている場合、そのユーザのセッションは、ユーザがログアウトするまで維持されます。ポリシーは、ユーザが次回アカウントにログインしようとしたときに有効になります。ロックアウトを直ちに有効にするには、iFolderサーバのApacheサービスを再起動して、ユーザのセッションを含むすべてのアクティブセッションを終了する必要があります。</P></li></ul>
        
    
   </OL><BLOCKQUOTE>
-    <P><B><FONT SIZE="-1">NOTE:</FONT></B> <FONT SIZE="-1">By default, all iFolders 
-      are enabled.</FONT></P>
+    <P><B><FONT SIZE="-1">注:</FONT></B> <FONT SIZE="-1">デフォルトでは、すべてのiFolderが有効になっています。</FONT></P>
   </BLOCKQUOTE> 
-  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top" TITLE="Go to top"></A>
-  <H3><A NAME="newuser"></A>Creating a New iFolder </H3>
+  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="トップへジャンプ" TITLE="トップへジャンプ"></A>
+  <H3><A NAME="newuser"></A>新しいiFolderの作成 </H3>
   <br>
  
 <OL><LI>
-      <P>On the iFolder Users page, click New.</P>
-	  <P>The iFolder creation page opens to the iFolders page.</P>
+      <P>［iFolderユーザ］ページで、［新規］をクリックします。</P>
+	  <P>［iFolder］ページに［iFolder creation (iFolderの作成)］ページが開きます。</P>
     </LI>
-    <LI>Specify the following information and then click Create.
+    <LI>次の情報を指定して［作成］をクリックします。
   </ol>
   <P>
-  <BLOCKQUOTE> <B> Name</B><BR>
-    Assign a name to the iFolder such as ifolder 1. <BR>
+  <BLOCKQUOTE> <B> 名前</B><BR>
+    ifolder 1などの名前をiFolderに割り当てます。 <BR>
 	<BR>
-    <B> Description</B><BR>
-    A short description about the iFolder.<br>
+    <B> 説明</B><BR>
+    iFolderの簡単な説明。<br>
        
   </BLOCKQUOTE>
  
-  <h4>Accessing the iFolders Details Page</h4><br>
+  <h4>［iFolders Details (iFolder詳細)］ページへのアクセス</h4><br>
   
   <ol>
     
     <li> 
-      <p>Use the search tool to locate the iFolder you want to manage.</p>
+      <p>検索ツールを使用して、管理するiFolderを探します。</p>
     </li>
     <li> 
-      <p>Click the iFolder's link to open the iFolder Details page to the iFolder 
-        tab. <br>
+      <p>iFolderのリンクをクリックして、［iFolder］タブに［iFolder Details (iFolder詳細)］ページを開きます。 <br>
         <br>
-        The iFolder Details page will display the iFolder details, a list of members 
-        who own or share with, and policy settings for the current iFolder. </p>
+        ［iFolder Details (iFolder詳細)］ページに、iFolder詳細、iFolderを所有または共有しているメンバーのリスト、および現在のiFolderのポリシー設定が表示されます。 </p>
     </li>
   </ol>
-  <P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P>
+  <P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="トップへジャンプ"></A></P>
   
-  <H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Related Topics" align="top"> 
-Related Topics</H4>
+  <H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="関連項目" align="top"> 関連項目</H4>
   
-  <BLOCKQUOTE class="task1"><P><A HREF="ifolderdetails.html">Managing iFolder Details
-</A><BR><A HREF="userdetails.html">User Details 
-</A><BR><A HREF="users.html">Managing a User Account</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P><P>&nbsp;</P><P CLASS="copyright">A 
-trademark symbol (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP>, 
-etc.) denotes a Novell trademark. An asterisk (*) denotes a third-party trademark. 
-For more information, see <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Legal 
-Notices</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
+  <BLOCKQUOTE class="task1"><P><A HREF="ifolderdetails.html">iFolder詳細の管理</A><BR><A HREF="userdetails.html">ユーザ詳細 </A><BR><A HREF="users.html">ユーザアカウントの管理</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="トップへジャンプ"></A></P><P>&nbsp;</P><P CLASS="copyright">商標記号（<SUP><SMALL>&reg;</SMALL></SUP>、<SUP><SMALL>TM</SMALL></SUP>など）は、Novellの商標を示し、アスタリスク（*）は、サードパーティの商標を示します。  詳細については、「<A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">保証と著作権</font></A>」を参照してください。</P></div><!-- This is the end of the Help Content layer. --> 
 </body>
 
 </html>

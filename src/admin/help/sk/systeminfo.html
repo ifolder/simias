@@ -1,11 +1,11 @@
 <html>
 
    <head>
-     <meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+     <meta http-equiv="content-type" content="text/html;charset=UTF-8">
      
      <!-- Novell iFolder 3.x iManager Plugin  --> 
    
-     <title>iFolder System</title>  	 
+     <title>Syst&eacute;m služieb iFolder</title>  	 
    
         
      <!-- Metadata -->
@@ -28,7 +28,7 @@
 <style type= "text/css" media="screen">
        <!--
        
-         body           {  font-family: Arial, Helvetica, Geneva; background: white url(../../images/helphead_bg.gif) repeat-x 0% 0% }
+         body           {  font-family: Arial, Helvetica, Geneva; background: white url('../../images/helphead_bg.gif') repeat-x;  }
 		      
          #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px;
 									width: 380px; visibility: visible }
@@ -36,6 +36,8 @@
          #helpcontent    { position: absolute; top: 37px; left: 10px; 
 	                        width: 93%; visibility: visible }
       
+div.Section1
+	{page:Section1;}
        -->
      </style>
   
@@ -52,285 +54,364 @@
 <!-- This is the start of the Help Banner Layer --> <div id="headgraphic"> <img src="../../images/h1_help.gif" width="380" height="32"   border="0"></div><!-- This is end of the Help Banner Layer --> 
 <!-- This is the start of the Help Content Layer --> <div id="helpcontent"> <!-- The Page Heading uses CSS style "head3b". This creates an H3 header
             with a line beneath it.
-       --> <h3 class="head3b">Managing the iFolder System</h3>
-  <p> Use this interface to manage Novell iFolder<SUP><SMALL>&reg;</SMALL></SUP> 
-    3.7 services for the selected server.</p>
-  <P>This help discusses the following information:</P>
-  <blockquote> <P><A HREF="#sytemsettings" TARGET="_self">Viewing the System Settings
-</A> <BR><A HREF="#status" TARGET="_self">Reprovision Status</a><BR><A HREF="#admin" TARGET="_self">Administrators Tab</a><BR> <A HREF="#policy" TARGET="_self">Policies
-</a><BR></P></BLOCKQUOTE>
+       --> <h3 class="head3b">Spr&aacute;va syst&eacute;mu služieb iFolder</h3>
+  <p> Pomocou tohto rozhrania m&ocirc;žete spravovať služby aplik&aacute;cie Novell iFolder<SUP><SMALL>&reg;</SMALL></SUP> 3.7 pre vybrat&yacute; server.</p>
+  <P>Tento pomocn&iacute;k poskytuje nasleduj&uacute;ce inform&aacute;cie:</P>
+  <blockquote> <P><A HREF="#sytemsettings" TARGET="_self">Nastavenia syst&eacute;mu </A> <BR><A HREF="#status" TARGET="_self">Stav op&auml;tovn&eacute;ho poskytnutia</a><BR><A HREF="#admin" TARGET="_self">Karta Spr&aacute;vcovia</a><BR> <A HREF="#policy" TARGET="_self">Z&aacute;sady</a><BR></P></BLOCKQUOTE>
   
-  <H3><A NAME="sytemsettings"></A>Viewing the System Settings</H3>
-  <P>You 
-can view the following information:</P><TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
-        <P>System Name</P>
+  <H3><A NAME="sytemsettings"></A>Nastavenia syst&eacute;mu</H3>
+  <p>V časti nastaven&iacute; syst&eacute;mu sa zobrazuj&uacute; nasleduj&uacute;ce inform&aacute;cie:</p>
+  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>
+    Popis</P></TD></TR><TR><TD VALIGN="TOP">
+        <P>N&aacute;zov</P>
       </TD><TD>
-        <P>The name assigned to the iFolder domain.</P>
-		<P>To edit the name of the iFolder domain, specify the new name and click 
-          Save.</P>
+        <P>N&aacute;zov, ktor&yacute; bol priraden&yacute; dom&eacute;ne aplik&aacute;cie iFolder.</P>
+		<P>Ak chcete upraviť n&aacute;zov dom&eacute;ny aplik&aacute;cie iFolder, zadajte nov&yacute; n&aacute;zov a kliknite na tlačidlo Uložiť.</P>
 		  
-        <P>To cancel the changes made, click Cancel.</P>
+        <P>Ak chcete zrušiť vykonan&eacute; zmeny, kliknite na tlačidlo Zrušiť.</P>
       </TD><TR><TD VALIGN="TOP">
-        <P>Description</P>
+        <P>Popis</P>
       </TD><TD>
-        <P>A short description about the iFolder Domain.</P>
-		<P>To edit the system description, specify the new description and click 
-          Save.</P>
+        <P>Kr&aacute;tky popis dom&eacute;ny aplik&aacute;cie iFolder.</P>
+		<P>Ak chcete upraviť popis syst&eacute;mu, zadajte nov&yacute; popis a kliknite na tlačidlo Uložiť.</P>
 		  
-        <P>To cancel the changes made, click Cancel.</P>
-      </TD><TR><TD VALIGN="TOP">
-        <P>Total Users</P>(view only)
-      </TD><TD>
-        <P>Reports the total number of users in the iFolder domain. 
-      </TD></TR><TR><TD VALIGN="TOP">
-        <P>Total iFolders</P>
-        (view only)
-      </TD><TD>
-        <P>Reports total number of iFolders that belongs to the iFolder domain. 
-      </TD></TR><TR><TD VALIGN="TOP">
-        <P>Enable SSL</P>
+        <P>Ak chcete zrušiť vykonan&eacute; zmeny, kliknite na tlačidlo Zrušiť.</P>
+      </TD>
+    <tr>
+      <TD VALIGN="TOP">
+        <P>Možnosť SSL</P>
         
       </TD>
       <TD> 
-        <P>Select the check box to enable the SSL communication among the iFolder 
-          Servers, iFolder client, iFolder Web Access console and iFolder Web 
-          Admin console. 
-      </TD></TR></TABLE>
- <P> <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P> 
- <H3><A NAME="status"></A>Reprovision Status</H3> 
-  <p> You can move users across different servers. With this interface, you can 
-    view the reprovisioning status. Click Reprovision Status to view the reprovision 
-    status for each user. </p>
-  <P> <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P>
-  <H3><a name="admin"></a>iFolder Administrators</H3>
-<P>The iFolder Admin user is the primary administrator of the iFolder 
-enterprise server. Whenever iFolders are orphaned, ownership is transferred to 
-the iFolder Admin user for reassignment to another user or for deletion. You initially 
-specify the iFolder Admin user during the iFolder enterprise server configuration 
-in YaST. </P>
-  <P>The iFolder Admin user must be provisioned in order to enable the iFolder 
-    Admin to perform management tasks. iFolder tracks this user by the LDAP object 
-    GUID, allowing it to belong to any LDAP container or group in the tree, even 
-    those that are not identified as Search DNs. The user&#146;s movement can 
-    be tracked anywhere in the tree because it is known by the GUID, not by the 
-    user DN.</P>
-  <P>The iFolder Admin right can be assigned to other users so that they can also 
-    manage iFolder services for the selected server. Only users who are in one 
-    of the DNs specified in the LDAP Search DN are eligible to be equivalent to 
-    the iFolder Admin user.</P>
-  <P>If you assign the iFolder Admin right to other 
-users, those users are governed by the roster and Search DN relationship. The 
-user is removed from the roster and stripped of the iFolder Admin right if you 
-delete the user, remove the user&#146;s DN from the list of Search DNs, or move 
-the user to a DN that is not in the Search DNs.</P><P><font size="-1"><b>IMPORTANT:</b> You cannot assign the Admin user 
-          right to an LDAPGroup.</font></P>
-  <P>The System page displays the following iFolder Admin details for the iFolder 
-    domain:</P>
-	<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR>
+        <P>Zobraz&iacute; režim komunik&aacute;cie medzi servermi iFolder, klientom iFolder, konzolou iFolder Web Access a konzolou iFolder Web Admin. 
+      </TD>
+    </tr>
+    <TR><TD VALIGN="TOP">
+        <P>Použ&iacute;vatelia celkom</P>(iba na zobrazenie)
+      </TD><TD>
+        <P>Zobrazuje celkov&yacute; počet použ&iacute;vateľov v dom&eacute;ne aplik&aacute;cie iFolder. 
+      </TD></TR><TR><TD VALIGN="TOP">
+        <P>Priečinky celkom</P>
+        (iba na zobrazenie)
+      </TD><TD>
+        <P>Zobrazuje celkov&yacute; počet priečinkov iFolder, ktor&eacute; patria do dom&eacute;ny aplik&aacute;cie iFolder. 
+      </TD></TR><TR><TD VALIGN="TOP">
+        Poradie zobrazenia cel&eacute;ho mena</TD><TD>
+        <p>
+        Umožňuje nastaviť poradie, v ktorom sa zobraz&iacute; cel&eacute; meno použ&iacute;vateľa. Ak chcete, aby sa zobrazovalo najprv krstn&eacute; meno a potom priezvisko, vyberte možnosť <i>(Krstn&eacute; meno, priezvisko)</i>. Ak chcete, aby sa zobrazovalo najprv priezvisko a potom krstn&eacute; meno, vyberte možnosť <i>(Priezvisko, krstn&eacute; meno)</i>. </p>
+        <p class="Normal2">
+        Zmeny sa prejavia až po vykonan&iacute; pl&aacute;novanej alebo manu&aacute;lnej synchroniz&aacute;cie LDAP. Ak chcete vykonať manu&aacute;lnu synchroniz&aacute;ciu LDAP, postupujte nasledovne:</p>
+        <ol>
+          <li>
+          <p class="Normal2">
+          <span style="font-size:11.0pt;font-family:Arial;
+">V konzole webovej spr&aacute;vy kliknite na kartu <i>Servery</i>, vyberte server a prejdite na str&aacute;nku podrobnost&iacute; o serveri.</span></li>
+          <li>
+          <p class="Normal2">
+          <span style="font-size: 11.0pt; font-family: Arial; "> V časti <i>Podrobnosti o protokole LDAP</i> kliknite na tlačidlo <i>Synchronizovať</i>.</span></li>
+        </ol>
+      </TD></TR><TR><TD VALIGN="TOP">
+        <span style="font-size: 11.0pt; font-family: Arial; "> Spravovať kv&oacute;tu skupiny prostredn&iacute;ctvom</span></TD><TD>
+        <p class="Normal2">
+        <span style="font-size:11.0pt;font-family:Arial;">Umožňuje určiť, ako sa m&aacute; spravovať agregovan&aacute; kv&oacute;ta disku nastaven&aacute; pre skupiny. </span></p>
+        <p class="Normal2">
+        <span style="font-size:11.0pt;font-family:Arial;">V&yacute;berom možnosti <i>Konzola spr&aacute;vcu</i> umožn&iacute;te spr&aacute;vcom explicitne spravovať kv&oacute;tu disku pre skupiny a členov skup&iacute;n. Pri v&yacute;bere tejto možnosti je kv&oacute;ta disku, ktor&aacute; je priraden&aacute; použ&iacute;vateľom, obmedzen&aacute; tak, aby neprekračovala agregovan&eacute; využitie priestoru na disku pre skupinu. <i>Konzola spr&aacute;vcu</i> je predvolenou možnosťou.</span></p>
+        <p class="Normal2">
+        <span style="font-size:11.0pt;font-family:Arial;">V&yacute;berom možnosti <i>N&aacute;stroj na synchroniz&aacute;ciu</i> umožn&iacute;te n&aacute;stroju na synchroniz&aacute;ciu spravovať agregovan&uacute; kv&oacute;tu disku pre skupiny v serverovej časti. N&aacute;stroj na synchroniz&aacute;ciu zabezpeč&iacute;, že kv&oacute;ta disku pre všetk&yacute;ch použ&iacute;vateľov v skupine neprekroč&iacute; agregovan&uacute; kv&oacute;tu disku pre skupinu.</span></p>
+        <p class="Normal2">
+        <span style="font-size:11.0pt;font-family:Arial;">Pri v&yacute;bere možnosti <i>Oboje</i> sa na spravovanie agregovanej kv&oacute;ty disku pre skupiny použije konzola spr&aacute;vcu aj n&aacute;stroj na synchroniz&aacute;ciu.</span></TD></TR><TR><TD VALIGN="TOP">
+        <span style="font-size: 11.0pt; font-family: Arial; "> Segregovan&eacute; skupiny</span></TD><TD>
+        <span style="font-size: 11.0pt; font-family: Arial; "> Umožňuje rozdeliť skupiny na nez&aacute;visl&eacute; entity, č&iacute;m sa zabezpeč&iacute;, že členovia jednej skupiny nebud&uacute; pr&iacute;stupn&iacute; pre členov inej skupiny na zdieľanie priečinkov iFolder. Začiarknut&iacute;m pol&iacute;čka <i>Vytvoriť segregovan&eacute; skupiny</i> povol&iacute;te zdieľanie priečinkov iFolder len medzi členmi tej istej skupiny.</span><p>
+        <span style="font-family: Arial; ">Pozn&aacute;mka:</span> <span style="font-size: 11.0pt; font-family: Arial; ">Skupina LDAP nem&ocirc;že byť sekund&aacute;rnym ani prim&aacute;rnym spr&aacute;vcom.</span></TD></TR></TABLE>
+ <P> <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Prejsť na začiatok"></A></P> 
+ <H3><A NAME="status"></A>Stav op&auml;tovn&eacute;ho poskytnutia</H3> 
+  <p> Použ&iacute;vateľov m&ocirc;žete premiestňovať medzi jednotliv&yacute;mi servermi. Pomocou tohto rozhrania m&ocirc;žete zobraziť stav op&auml;tovn&eacute;ho poskytnutia. Kliknut&iacute;m na tlačidlo Stav op&auml;tovn&eacute;ho poskytnutia zobraz&iacute;te stav jednotliv&yacute;ch použ&iacute;vateľov. </p>
+  <P> <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Prejsť na začiatok"></A></P>
+  <H3><a name="admin"></a>Spr&aacute;vcovia aplik&aacute;cie iFolder</H3>
+<P>Spr&aacute;vca aplik&aacute;cie iFolder je hlavn&yacute;m spr&aacute;vcom podnikov&eacute;ho servera iFolder. V pr&iacute;pade osamoten&yacute;ch priečinkov iFolder sa st&aacute;va vlastn&iacute;kom spr&aacute;vca aplik&aacute;cie iFolder, ktor&yacute; potom prirad&iacute; vlastn&iacute;ctvo in&eacute;mu použ&iacute;vateľovi alebo priečinok odstr&aacute;ni. Spr&aacute;vcu aplik&aacute;cie iFolder urč&iacute;te pri konfigur&aacute;cii podnikov&eacute;ho servera iFolder v n&aacute;stroji YaST. </P>
+  <P>Použ&iacute;vateľ, ktor&yacute; je spr&aacute;vcom aplik&aacute;cie iFolder, mus&iacute; byť k dispoz&iacute;cii, aby mohol vykon&aacute;vať &uacute;lohy spr&aacute;vy. Aplik&aacute;cia iFolder zaznamen&aacute;va tohto použ&iacute;vateľa prostredn&iacute;ctvom identifik&aacute;cie GUID objektu LDAP, preto m&ocirc;že tento objekt patriť do ľubovoľn&eacute;ho kontajnera LDAP alebo skupiny v strome, vr&aacute;tane t&yacute;ch kontajnerov a skup&iacute;n, ktor&eacute; nie s&uacute; identifikovan&eacute; ako n&aacute;zvy DN pre vyhľad&aacute;vanie. Pohyb použ&iacute;vateľa je možn&eacute; sledovať kdekoľvek v celom strome, pretože sledovanie prebieha pomocou identifik&aacute;cie GUID, nie pomocou n&aacute;zvu DN.</P>
+  <P>Pr&aacute;va spr&aacute;vcu aplik&aacute;cie iFolder je možn&eacute; priradiť ďalš&iacute;m použ&iacute;vateľom, ktor&iacute; potom m&ocirc;žu tiež spravovať služby aplik&aacute;cie iFolder pre vybrat&yacute; server. Ekvivalentom spr&aacute;vcov aplik&aacute;cie iFolder sa m&ocirc;žu stať iba použ&iacute;vatelia, ktor&iacute; sa nach&aacute;dzaj&uacute; v niektorom z n&aacute;zvov DN, ktor&eacute; s&uacute; uveden&eacute; v zozname n&aacute;zvov DN pre vyhľad&aacute;vanie LDAP.</P>
+  <P>Ak prirad&iacute;te pr&aacute;va spr&aacute;vcu aplik&aacute;cie iFolder in&yacute;m použ&iacute;vateľom, t&iacute;to použ&iacute;vatelia bud&uacute; riaden&iacute; podľa vzťahov s&uacute;pisky a n&aacute;zvov DN pre vyhľad&aacute;vanie. Ak použ&iacute;vateľa odstr&aacute;nite, odstr&aacute;nite n&aacute;zov DN použ&iacute;vateľa zo zoznamu n&aacute;zvov DN pre vyhľad&aacute;vanie alebo ho presuniete do n&aacute;zvu DN, ktor&yacute; sa nenach&aacute;dza v zozname n&aacute;zvov DN pre vyhľad&aacute;vanie, použ&iacute;vateľ bude odstr&aacute;nen&yacute; zo s&uacute;pisky a strat&iacute; pr&aacute;va spr&aacute;vcu aplik&aacute;cie iFolder.</P>
+  <P><span style="FONT-FAMILY: Arial">Spr&aacute;vca aplik&aacute;cie iFolder alebo prim&aacute;rny spr&aacute;vca m&ocirc;že vytvoriť sekund&aacute;rneho spr&aacute;vcu a priradiť mu skupiny.</span></P><P><font size="-1"><b>D&Ocirc;LEŽIT&Eacute;:</b> Pr&aacute;va spr&aacute;vcu nem&ocirc;žete priradiť skupine LDAP.</font></P>
+  <P><span style="FONT-FAMILY: Arial">Str&aacute;nka Syst&eacute;m obsahuje karty pre prim&aacute;rneho a sekund&aacute;rneho spr&aacute;vcu. Nasleduj&uacute;ce parametre s&uacute; spoločn&eacute; pre obidve karty:</span></P>
+	<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Popis</P></TD></TR>
       <TR><TD VALIGN="TOP">
-        <P>Type</P>
+        <P>Typ</P>
       </TD>
       <TD> 
-        <P>Displays the Admin user icon.</P>
+        <P>Zobrazuje ikonu použ&iacute;vateľa spr&aacute;vcu.</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>User Name</P>
+        <P>Meno použ&iacute;vateľa</P>
       </TD>
       <TD> 
-        <P>The username assigned to the Admin user account, such as jsmith or 
-          john.smith@example.com.</P>
+        <P>Meno použ&iacute;vateľa, priraden&eacute; ku kontu spr&aacute;vcu, napr&iacute;klad jsmith alebo  john.smith@napr&iacute;klad.com.</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Full Name</P>
+        <P>Cel&eacute; meno</P>
       </TD>
       <TD> 
-        <P>The first and last name of the Admin user account. </P>
+        <P>Krstn&eacute; meno a priezvisko, uveden&eacute; v inform&aacute;ci&aacute;ch o konte spr&aacute;vcu. </P>
 		
       </TD><TR></TR></TABLE>
 
-  <P>To view or edit admin user details, click the Admin user link to open the 
-    User Details page. The User Details page displays the iFolders owned or shared 
-    by the Admin user. Click the All tab to list all the iFolders, both owned 
-    and shared. To view the iFolder owned by the user, click the Owned tab. Shared 
-    tab lists all the shared iFolders for this particular user account. You can 
-    also use the User Details page to change the policy settings for the selected 
-    Admin user.</P>
-  <H4>Adding and Deleting the iFolder Admin</H4>
+  <h5><span style="FONT-FAMILY: Arial">Prim&aacute;rny spr&aacute;vca</span></h5>
+
+  <P>Ak chcete zobraziť alebo upraviť podrobnosti o <span style="FONT-FAMILY: Arial">prim&aacute;rnom spr&aacute;vcovi</span>, <span style="FONT-FAMILY: Arial"> kliknite na kartu <i>Prim&aacute;rny spr&aacute;vca</i> a potom kliknite</span><span style="COLOR: black; FONT-FAMILY: Arial"> </span>na prepojenie spr&aacute;vcu, č&iacute;m otvor&iacute;te str&aacute;nku Podrobnosti o použ&iacute;vateľovi. Str&aacute;nka Podrobnosti o použ&iacute;vateľovi zobrazuje priečinky iFolder, ktor&eacute; vlastn&iacute; alebo zdieľa spr&aacute;vca. Ak chcete zobraziť všetky priečinky iFolder (vlastnen&eacute; i zdieľan&eacute;), kliknite na kartu Všetky. Ak chcete zobraziť priečinky iFolder, ktor&eacute; použ&iacute;vateľ vlastn&iacute;, kliknite na kartu Vlastnen&eacute;. Na karte Zdieľan&eacute; s&uacute; zobrazen&eacute; všetky priečinky iFolder, ktor&eacute; s&uacute; na pr&iacute;slušnom konte použ&iacute;vateľa zdieľan&eacute;. Nastavenia polit&iacute;k pre vybrat&eacute;ho spr&aacute;vcovsk&eacute;ho použ&iacute;vateľa m&ocirc;žete zmeniť aj na str&aacute;nke Podrobnosti o použ&iacute;vateľovi.</P>
+  <H4>Pridanie alebo odstr&aacute;nenie spr&aacute;vcu aplik&aacute;cie iFolder</H4>
   <br>
 		
   <OL>
     <LI> 
-      <P>Locate the Admin user you want to manage, then select the check box next 
-        to it.</P>
+      <P>Vyhľadajte spr&aacute;vcu, ktor&eacute;ho chcete spravovať a vyberte začiark&aacute;vacie pol&iacute;čko vedľa mena spr&aacute;vcu.</P>
     </LI>
     <ul><LI> 
-        <P>Click Delete to delete the selected Admin user.</P>
-	  <P>If you 
-delete the iFolder Admin right from the username you used to log in to the server, 
-you are immediately disconnected. You must log in to the iFolder server under 
-a different username with the iFolder Admin right to continue managing the server. 
+        <P>Ak chcete odstr&aacute;niť vybrat&eacute;ho spr&aacute;vcu, kliknite na tlačidlo Odstr&aacute;niť.</P>
+	  <P>Ak odstr&aacute;nite pr&aacute;va spr&aacute;vcu pre meno použ&iacute;vateľa, pomocou ktor&eacute;ho ste prihl&aacute;sen&iacute; k serveru, budete okamžite odpojen&iacute;. Ak chcete pokračovať v spr&aacute;ve servera, mus&iacute;te sa prihl&aacute;siť na server iFolder pomocou in&eacute;ho mena použ&iacute;vateľa s pr&aacute;vami spr&aacute;vcu. 
 </P>
-        <P><font size="-1"><b>IMPORTANT:</b> You cannot delete the Admin user 
-          configured during Simias server setup.</font></P>
+        <P><font size="-1"><b>D&Ocirc;LEŽIT&Eacute;:</b> Spr&aacute;vcu nastaven&eacute;ho počas konfigur&aacute;cie servera Simias nemožno odstr&aacute;niť.</font></P>
     <LI> 
-        <P>Click Add to open a list of iFolder users.</P>
-        <P>Locate the user you want to add as Admin, then select the check box 
-          next to it and click Add.</P>
-      <P>You can assign the iFolder Admin right to multiple users.</P>
+        <P>Kliknut&iacute;m na tlačidlo Pridať otvor&iacute;te zoznam použ&iacute;vateľov aplik&aacute;cie iFolder.</P>
+        <P>Vyhľadajte použ&iacute;vateľa, ktor&eacute;ho chcete pridať ako spr&aacute;vcu, začiarknite pol&iacute;čko vedľa jeho mena a kliknite na tlačidlo Pridať.</P>
+      <P>Pr&aacute;va spr&aacute;vcu aplik&aacute;cie iFolder m&ocirc;žete pridať viacer&yacute;m použ&iacute;vateľom.</P>
     </LI></ul>
   </OL>
-<P> <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P>
-  <H3><A NAME="policy"></A>Policies</H3>
+<P> <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Prejsť na začiatok"></A></P>
+  <H3><A NAME="policy"></A>Z&aacute;sady</H3>
       
-  <p> The following table lists the system policies you can manage for any given 
-    iFolder System. Click Save to apply the modifications:</p>
+  <p> V nasleduj&uacute;cej tabuľke s&uacute; uveden&eacute; z&aacute;sady, ktor&eacute; m&ocirc;žete spravovať pre ľubovoľn&yacute; syst&eacute;m aplik&aacute;cie iFolder. &Uacute;pravy ulož&iacute;te kliknut&iacute;m na tlačidlo Uložiť:</p>
 	
  
-<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR>
+<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Popis</P></TD></TR>
 <TR>
       <TD VALIGN="TOP"> 
-        <h4> iFolder per users</h4>
+        <h4> Počet priečinkov iFolder na počet použ&iacute;vateľov</h4>
       </TD>
       <TD> 
-        <P>Specifies the maximum number of iFolders allowed per user. After you 
-          apply this policy, each user is limited to owning a certain number of 
-          iFolders. The users who exceed the limit receive an error message about 
-          the policy violation. If the limit is zero, users cannot create any 
-          iFolders.</P>
+        <P>Určuje maxim&aacute;lny počet povolen&yacute;ch priečinkov iFolder na jedn&eacute;ho použ&iacute;vateľa. Po použit&iacute; tejto politiky sa pre každ&eacute;ho použ&iacute;vateľa obmedz&iacute; počet vlastnen&yacute;ch priečinkov iFolder. Ak použ&iacute;vateľ tento počet prekroč&iacute;, zobraz&iacute; sa chybov&eacute; hl&aacute;senie s upozornen&iacute;m na porušenie politiky. Ak je obmedzenie nastaven&eacute; na nulu, použ&iacute;vatelia nem&ocirc;žu vytv&aacute;rať žiadne priečinky iFolder.</P>
              
-        <P>The policy setting does not affect the number of iFolders a user already 
-          owns. If the number of iFolders owned by a user already exceeds the 
-          limit that you set, he or she can still own those iFolders. </P>
+        <P>Nastavenie tejto politiky nem&aacute; vplyv na počet priečinkov iFolder, ktor&eacute; už použ&iacute;vateľ vlastn&iacute;. Ak počet už vlastnen&yacute;ch priečinkov použ&iacute;vateľa prekračuje nastaven&eacute; obmedzenie, tento použ&iacute;vateľ m&ocirc;že naďalej vlastniť tieto priečinky iFolder. </P>
         </TD></TR><TR><TD VALIGN="TOP">
-        <h4>Disk Quota</h4>
+        <h4>Kv&oacute;ta disku</h4>
       </TD>
       <TD> 
-        <p>Specifies the maximum space that a iFolder system is allowed to use. 
-          System-wide settings supersede user policies.</p>
-		  <P>Deselect the check box to disable a system-wide quota.</P>
-        <P>Select the check box to enable a system-wide quota, then specify the 
-          total space quota (in MB) for a user's account. </P>
-        <P>If you enable a system-wide quota that is less than a user's 
-          current total space for iFolder data, the users's quotas data stops 
-          synchronizing until the data is decreased below the limit or until the 
-          quota is increased to a value that is larger than the user's total 
-          space consumed.</P>
-        <P>Enabling or modifying the system-wide quota does not affect existing 
-          individual user quotas. Any existing user quota always overrides a system-wide 
-          quota, whether the user quota is lower or higher than the system-wide 
-          quota.</P>
-        <P>Default value: Disabled, No limit</P>
+        <p>Zobrazuje maxim&aacute;lny celkov&yacute; priestor, ktor&yacute; m&ocirc;že syst&eacute;m aplik&aacute;cie iFolder použ&iacute;vať. Nastavenia s platnosťou pre cel&yacute; syst&eacute;m maj&uacute; prednosť pred z&aacute;sadami použ&iacute;vateľov.</p>
+		  <P>Zrušen&iacute;m v&yacute;beru začiark&aacute;vacieho pol&iacute;čka zruš&iacute;te kv&oacute;tu s platnosťou pre cel&yacute; syst&eacute;m.</P>
+        <P>Ak chcete povoliť kv&oacute;tu s platnosťou pre cel&yacute; syst&eacute;m, vyberte začiark&aacute;vacie pol&iacute;čko a zadajte celkov&uacute; kv&oacute;tu na priestor (v MB) pre konto použ&iacute;vateľa. </P>
+        <P>Ak povol&iacute;te kv&oacute;tu s platnosťou pre cel&yacute; syst&eacute;m, ktor&aacute; je menšia ako celkov&yacute; priestor, ktor&yacute; použ&iacute;vaj&uacute; &uacute;daje priečinka iFolder použ&iacute;vateľa, &uacute;daje použ&iacute;vateľa sa prestan&uacute; synchronizovať do doby, k&yacute;m sa objem d&aacute;t nezn&iacute;ži pod hranicu obmedzenia alebo k&yacute;m nie je kv&oacute;ta zv&yacute;šen&aacute; tak, aby bola v&auml;čšia, ako použ&iacute;van&eacute; množstvo priestoru.</P>
+        <P>Povolenie alebo zmena kv&oacute;ty s platnosťou pre cel&yacute; syst&eacute;m nem&aacute; vplyv na už existuj&uacute;ce kv&oacute;ty jednotliv&yacute;ch použ&iacute;vateľov. Ak&aacute;koľvek kv&oacute;ta použ&iacute;vateľa vždy prepisuje kv&oacute;tu s platnosťou pre cel&yacute; syst&eacute;m bez ohľadu na to, či je nižšia alebo vyššia ako kv&oacute;ta s platnosťou pre cel&yacute; syst&eacute;m.</P>
+        <P>Predvolen&aacute; hodnota: Zak&aacute;zan&eacute;, Bez obmedzenia</P>
         </TD></TR>
   <TR><TD VALIGN="TOP">
-        <h4>File Size</h4>
+        <h4>Veľkosť s&uacute;boru</h4>
       </TD>
-      <TD> <P>Specifies 
-the maximum file size that can be synchronized.</P>
-    <P>If a quota is specified, the effective maximum file size limit is the same as the quota. </P>
-       <P>Deselect the check box to disable the Maximum File Size Limit policy. If the policy is disabled, the value is reported as No Limit.</P>
-          <P>              Select the check box to enable the Maximum File Size Limit policy, then specify the maximum allowed file size in MB.</P>
-          <P>              If a quota is specified, the default maximum file size limit is the same as the quota.</P>
-          <P>              Consider the following demands on your system to determine an appropriate file size limit for iFolders in your environment:</P>
-            <ul><li><p>Intended use               
+      <TD> <P>Zobrazuje maxim&aacute;lnu veľkosť s&uacute;boru, ktor&yacute; je možn&eacute; synchronizovať.</P>
+    <P>Ak je určen&aacute; kv&oacute;ta, platn&aacute; maxim&aacute;lna veľkosť s&uacute;boru sa rovn&aacute; veľkosti kv&oacute;ty. </P>
+       <P>Ak chcete zak&aacute;zať z&aacute;sadu obmedzenia maxim&aacute;lnej veľkosti s&uacute;boru, zrušte v&yacute;ber začiark&aacute;vacieho poľa. Ak je z&aacute;sada vypnut&aacute;, zobrazuje sa hodnota Bez obmedzenia.</P>
+          <P>              Ak chcete povoliť z&aacute;sadu obmedzenia maxim&aacute;lnej veľkosti s&uacute;boru, vyberte začiark&aacute;vacie pol&iacute;čko a zadajte maxim&aacute;lnu povolen&uacute; veľkosť v MB.</P>
+          <P>              Ak je určen&aacute; kv&oacute;ta, predvolen&aacute; maxim&aacute;lna veľkosť s&uacute;boru sa rovn&aacute; veľkosti kv&oacute;ty</P>
+          <P>              Pri určovan&iacute; vhodn&eacute;ho obmedzenia veľkosti s&uacute;boru pre priečinky iFolder vo vašom prostred&iacute; zv&aacute;žte nasleduj&uacute;ce požiadavky na syst&eacute;m:</P>
+            <ul><li><p>Zam&yacute;šľan&eacute; použ&iacute;vanie               
             </p></li>
 			<li>
-            <p>How often the largest files are modified</p></li>
-                 <li> <p>How the applications that use the largest files actually save changes to the file (whole file or deltas)</p>
-                 </li><li><p>How frequently the files are synchronized by each member</p>
-                  </li><li><p>How many users share an iFolder</p>
-                  </li><li><p>Whether users access iFolder on the local network or across WAN or Internet connection</p>
-                 </li><li> <p>The average and peak available bandwidth</p>
+            <p>Ako často s&uacute; najv&auml;čšie s&uacute;bory menen&eacute;</p></li>
+                 <li> <p>Ak&yacute;m sp&ocirc;sobom aplik&aacute;cie, ktor&eacute; použ&iacute;vaj&uacute; najv&auml;čšie s&uacute;bory ukladaj&uacute; zmeny v t&yacute;chto s&uacute;boroch (cel&eacute; s&uacute;bory alebo pomocou ukladania rozdielov)</p>
+                 </li><li><p>Ako často každ&yacute; z členov synchronizuje s&uacute;bory</p>
+                  </li><li><p>Koľko použ&iacute;vateľov zdieľa priečinok iFolder</p>
+                  </li><li><p>Či použ&iacute;vatelia pristupuj&uacute; k priečinku iFolder na miestnej sieti alebo prostredn&iacute;ctvom siete WAN alebo pripojenia k Internetu</p>
+                 </li><li> <p>Priemern&eacute; vyťaženie pripojenia a vyťaženie v špičke</p>
 				 </li></ul>
               
-        <p> Even if you set a very large value as a file size limit and if there 
-          is no quota to limit file sizes, the practical limit is governed by 
-          the file system on the user's computer. For example, FAT32 volumes have 
-          a maximum file size of 4 GB minus 1 byte. </p>
+        <p> Aj v pr&iacute;pade, že nastav&iacute;te veľmi veľk&uacute; hodnotu obmedzenia veľkosti s&uacute;boru a nenastav&iacute;te kv&oacute;ty na veľkosť s&uacute;borov, skutočn&eacute; obmedzenie je riaden&eacute; s&uacute;borov&yacute;m syst&eacute;mom na poč&iacute;tači použ&iacute;vateľa. Na zv&auml;zkoch so syst&eacute;mom FAT32 je napr&iacute;klad maxim&aacute;lna veľkosť s&uacute;boru 4 GB m&iacute;nus 1 bajt. </p>
                 
-        <p>Default value: Disabled, No limit</p>   
+        <p>Predvolen&aacute; hodnota: Zak&aacute;zan&eacute;, Bez obmedzenia</p>   
       </TD></TR>
   <TR>
       <TD VALIGN="TOP"> 
-        <h4>Excluded Files</h4>
+        <h4>Vyl&uacute;čen&eacute; s&uacute;bory</h4>
       </TD>
       <TD> 
         
 		  
-        <P>Specify whether to restrict file types that are synchronized by exclusion 
-          filters. </P>
-            <P>Type a file extension, then click Add to add it to the list. </P>
+        <P>Zadajte, či chcete obmedzovať synchronizovan&eacute; s&uacute;bory pomocou vylučovac&iacute;ch filtrov. </P>
+            <P>Zadajte pr&iacute;ponu s&uacute;boru a potom ju kliknut&iacute;m na tlačidlo Pridať pridajte do zoznamu. </P>
         </TD></TR>
 	
 	<TR><TD VALIGN="TOP">
-        <h4> Synchronization </h4>
+        <h4> Synchroniz&aacute;cia </h4>
       </TD><TD>
-	    <p>Specifies the minimum synchronization interval in minutes.</P>
-        <P>If this option is enabled, specifies the minimum interval for synchronizing 
-          iFolder data for each user account. Larger values are more restrictive. 
+	    <p>Zobrazuje minim&aacute;lny interval synchroniz&aacute;cie v min&uacute;tach.</P>
+        <P>Ak je t&aacute;to možnosť povolen&aacute;, určuje minim&aacute;lny interval synchroniz&aacute;cie &uacute;dajov priečinka iFolder pre jednotliv&eacute; kont&aacute; použ&iacute;vateľov. V&auml;čšie hodnoty predstavuj&uacute; v&auml;čšie obmedzenie. 
         </P>    
-        <P>If the option is disabled, the default value is 5 minutes.</P>
+        <P>Ak je t&aacute;to možnosť zak&aacute;zan&aacute;, predvolenou hodnotou je 5 min&uacute;t.</P>
         </TD></TR>
   <TR><TD VALIGN="TOP">
-        <h4>Encryption</h4>
+        <h4>Šifrovanie</h4>
       </TD>
       <TD> 
-        <P>Specifies the encryption policy for the iFolder system. System-wide 
-          settings supersede user policies.</P>
-		<B>On</B><BR>
-        Select <i>On</i> to enable the encryption feature for the iFolder system. This 
-        permits a user to set an encryption policy for his or her iFolders.<br>
+        <P>Zobrazuje z&aacute;sadu šifrovania pre syst&eacute;m aplik&aacute;cie iFolder. Nastavenia s platnosťou pre cel&yacute; syst&eacute;m maj&uacute; prednosť pred z&aacute;sadami použ&iacute;vateľov.</P>
+		<B>Zapnut&eacute;</B><BR>
+        Ak chcete povoliť funkciu šifrovania syst&eacute;mu iFolder, vyberte možnosť <i>Zapnut&eacute;</i>. T&yacute;m umožn&iacute;te použ&iacute;vateľom nastaviť z&aacute;sadu šifrovania pre svoje priečinky iFolder.<br>
         <br>
-        Deselect <i>On</i> to disable the encryption feature for all the users. 
+        Ak chcete zak&aacute;zať funkciu šifrovania pre všetk&yacute;ch použ&iacute;vateľov, zrušte v&yacute;ber možnosti <i>Zapnut&eacute;</i>. 
         <br>
         	
 		
-        <br><B>Enforced</B><BR>
-        Select Enforced to enable the encryption feature for all the users. When 
-        the encryption policy is set to Enforced, a user cannot change the encryption 
-        settings for his or her iFolders.<br>
+        <br><B>Presadzovan&eacute;</B><BR>
+        Ak chcete povoliť funkciu šifrovania pre všetk&yacute;ch použ&iacute;vateľov, vyberte možnosť Presadzovan&eacute;. Ak je politika šifrovania nastaven&aacute; na hodnotu Presadzovan&eacute;, použ&iacute;vateľ nem&aacute; možnosť meniť nastavenie šifrovania pre svoje priečinky iFolder.<br>
       </TD></TR><TR><TD VALIGN="TOP">
-        <h4> Sharing</h4>
-      </TD><TD> <B>On</B><BR>
-        By default, iFolder sharing is enabled. Deselect On to disable 
-        sharing for the iFolder system. After applying this policy, users of this 
-        iFolder system cannot share their iFolders with others. However, you can 
-        change the policy settings at the user level or at the LDAPGroup level.<br>
+        <h4> Zdieľanie</h4>
+      </TD><TD> <B>Zapnut&eacute;</B><BR>
+        V predvolenom nastaven&iacute; je zdieľanie priečinka iFolder povolen&eacute;. Ak chcete zrušiť zdieľanie v syst&eacute;me aplik&aacute;cie iFolder, zrušte v&yacute;ber možnosti Zapnut&eacute;.  Po použit&iacute; tejto politiky nebud&uacute; m&ocirc;cť použ&iacute;vatelia syst&eacute;mu iFolder zdieľať svoje priečinky iFolder s in&yacute;mi použ&iacute;vateľmi. Nastavenie tejto politiky však m&ocirc;žete meniť na &uacute;rovni použ&iacute;vateľa alebo skupiny LDAP.<br>
           <BR>
-        <B>Enforce</B><BR>
-        Select Enforce to enforce the sharing policy you have set for the entire 
-        system. You can enforce both Enable Sharing and Disable Sharing. When 
-        you enforce Disable Sharing, policy settings for sharing at iFolder and 
-        User level are automatically disabled and you are not allowed to change 
-        the settings. However, you are allowed to set the policy for the Revoke 
-        option.<br>
+        <B>Presadzovať</B><BR>
+        Ak chcete presadzovať nastaven&uacute; z&aacute;sadu zdieľania pre cel&yacute; syst&eacute;m, vyberte možnosť Presadzovať. Presadzovať m&ocirc;žete povolenie i z&aacute;kaz zdieľania. Ak presadzujete z&aacute;kaz zdieľania, nastavenia polit&iacute;k zdieľania na &uacute;rovni použ&iacute;vateľa a priečinka iFolder s&uacute; automaticky zak&aacute;zan&eacute; a nie je možn&eacute; ich meniť. M&ocirc;žete však nastaviť politiku pre možnosť Odvolať.<br>
 		<ul>
-          <P><font size="-1"><b>IMPORTANT:</b> You cannot enable this option unless 
-            you set the Sharing option to On.</font></P>
+          <P><font size="-1"><b>D&Ocirc;LEŽIT&Eacute;:</b> T&uacute;to možnosť nem&ocirc;žete povoliť, ak nenastav&iacute;te možnosť Zdieľanie na hodnotu Zapnut&eacute;.</font></P>
         </ul>
         <BR>
-        <B>Revoke</B><BR>
-        Select Revoke to remove the shared members of all 
-        the iFolders under the iFolder system.<br>
+        <B>Odvolať</B><BR>
+        Ak chcete odstr&aacute;niť všetk&yacute;ch zdieľan&yacute;ch členov všetk&yacute;ch priečinkov iFolder v syst&eacute;me aplik&aacute;cie iFolder, vyberte možnosť Odvolať.<br>
 		
       </TD></TR> 
 
   </TABLE>
 
- <P> <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P>
+ <P> <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Prejsť na začiatok"></A></P>
 
   
    
 
-<H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Related Topics" align="top"> 
-Related Topics</H4><BLOCKQUOTE class="task1">
-<P ><A HREF="userdetails.html">User Details
-</A><BR><A HREF="ifolderdetails.html">Managing iFolder Details</A><BR><A HREF="servers.html">Managing iFolder Servers
-</A><BR><A HREF="ifolders.html">Managing iFolders</A><BR><A HREF="reports.html#orphan" TARGET="_self">Reports
-</A></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P><P>&nbsp;</P><P CLASS="copyright">A 
-trademark symbol (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP>, 
-etc.) denotes a Novell trademark. An asterisk (*) denotes a third-party trademark. 
-For more information, see <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Legal 
-Notices</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
+  <h3>Sekund&aacute;rny spr&aacute;vca</h3>
+  <p><span style="font-family:Arial;">Na karte Sekund&aacute;rny spr&aacute;vca m&ocirc;žete prid&aacute;vať, upravovať alebo odstraňovať podrobnosti o sekund&aacute;rnom spr&aacute;vcovi. </span></p>
+  <p><span style="font-family:Arial;">Ak chcete pridať sekund&aacute;rneho spr&aacute;vcu, postupujte nasledovne:</span></p>
+  <ol>
+    <li><font face="Arial">Kliknite na kartu <i>Sekund&aacute;rny spr&aacute;vca</i> a potom na položku <i>Pridať</i>. Zobraz&iacute; sa zoznam použ&iacute;vateľov aplik&aacute;cie iFolder.</font></li>
+    <li><font face="Arial">Vyberte použ&iacute;vateľa, ktor&eacute;ho chcete nastaviť ako sekund&aacute;rneho spr&aacute;vcu, a kliknite na položku <i>Ďalej</i>.</font></li>
+    <li><font face="Arial">Ak chcete sekund&aacute;rnemu spr&aacute;vcovi priradiť skupinu, vyberte niektor&uacute; z možnost&iacute; v zozname <i>Vybrať skupinu</i>. Ak m&aacute; vybrat&aacute; skupina nastaven&yacute; limit agregovanej kv&oacute;ty disku, v poli <i>Nastaviť limit agregovanej kv&oacute;ty priestoru na disku pre cel&uacute; skupinu</i> bude uveden&aacute; t&aacute;to hodnota. V opačnom pr&iacute;pade bude toto pole pr&aacute;zdne.</font></li>
+    <li><font face="Arial">Nastavte pr&aacute;va politiky pre sekund&aacute;rneho spr&aacute;vcu. </font>
+    <p><font face="Arial">V nasleduj&uacute;cej tabuľke s&uacute; uveden&eacute; pr&aacute;va politiky, ktor&eacute; m&ocirc;žete nastaviť pre sekund&aacute;rneho spr&aacute;vcu.</font></p>
+	
+ 
+<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Popis</P></TD></TR>
+<TR>
+      <TD VALIGN="TOP"> 
+        <h4><span style="FONT-SIZE: 9.5pt; FONT-FAMILY: Arial">Politika priečinkov iFolder podľa použ&iacute;vateľov</span></h4>
+        <h4> &nbsp;</h4>
+      </TD>
+      <TD> 
+        <p class="Normal2">
+        <span style="FONT-SIZE: 11pt; COLOR: black; FONT-FAMILY: Arial"> Určuje maxim&aacute;lny počet povolen&yacute;ch priečinkov iFolder na jedn&eacute;ho použ&iacute;vateľa. Po použit&iacute; tejto politiky sa pre každ&eacute;ho použ&iacute;vateľa obmedz&iacute; počet vlastnen&yacute;ch priečinkov iFolder. Ak použ&iacute;vateľ tento počet prekroč&iacute;, zobraz&iacute; sa chybov&eacute; hl&aacute;senie s upozornen&iacute;m na porušenie politiky. Ak je obmedzenie nastaven&eacute; na nulu, použ&iacute;vatelia nem&ocirc;žu vytv&aacute;rať žiadne priečinky iFolder.</span></p>
+        <p class="Normal2">
+        <span style="FONT-SIZE: 11pt; FONT-FAMILY: Arial">Nastavenie tejto</span><span style="FONT-SIZE: 11pt; COLOR: black; FONT-FAMILY: Arial"> politiky nem&aacute; vplyv na počet priečinkov iFolder, ktor&eacute; už použ&iacute;vateľ vlastn&iacute;. Ak už použ&iacute;vateľ vlastn&iacute; v&auml;čš&iacute; počet priečinkov iFolder, než je nastaven&eacute; obmedzenie, </span> <span style="FONT-SIZE: 11pt; FONT-FAMILY: Arial">tento použ&iacute;vateľ m&ocirc;že naďalej vlastniť tieto priečinky iFolder</span><span style="FONT-SIZE: 11pt; COLOR: black; FONT-FAMILY: Arial">. </span></p>
+        <p class="Normal2">
+        <span style="FONT-SIZE: 11pt; FONT-FAMILY: Arial">Na z&aacute;klade predvolen&eacute;ho nastavenia je pre politiku priečinkov iFolder podľa použ&iacute;vateľov začiarknut&eacute; pol&iacute;čko <i>Povoliť</i>. To znamen&aacute;, že sekund&aacute;rny spr&aacute;vca m&aacute; pr&aacute;vo nastaviť politiku priečinkov iFolder pre použ&iacute;vateľov v pr&iacute;slušnej skupine. Ak chcete sekund&aacute;rnemu spr&aacute;vcovi toto pr&aacute;vo odobrať, zrušte začiarknutie pol&iacute;čka <i> Povoliť</i>.</span></TD></TR><TR><TD VALIGN="TOP">
+        <h4><span style="font-size: 9.5pt; font-family: Arial; color: black"> Politika kv&oacute;ty </span> <span style="font-size: 9.5pt; font-family: Arial; "> disku</span></h4>
+      </TD>
+      <TD> 
+        <p class="Normal2">
+        <span style="font-size:11.0pt;font-family:Arial;">Určuje maxim&aacute;lny priestor, ktor&yacute; m&ocirc;že použ&iacute;vateľ využ&iacute;vať.</span></p>
+        <p><span style="font-size: 11.0pt; font-family: Arial; "> Na z&aacute;klade predvolen&eacute;ho nastavenia je pre politiku kv&oacute;ty disku začiarknut&eacute; pol&iacute;čko <i>Povoliť</i>. To znamen&aacute;, že sekund&aacute;rny spr&aacute;vca m&aacute; pr&aacute;vo nastaviť politiku kv&oacute;ty disku pre použ&iacute;vateľov v pr&iacute;slušnej skupine. Ak chcete sekund&aacute;rnemu spr&aacute;vcovi toto pr&aacute;vo odobrať, zrušte začiarknutie pol&iacute;čka <i>Povoliť</i>.</span></p>
+        </TD></TR>
+  <TR><TD VALIGN="TOP">
+        <h4><span style="font-size: 9.5pt; font-family: Arial; color: black">Politika </span> <span style="font-size: 9.5pt; font-family: Arial; "> veľkosti s&uacute;boru</span></h4>
+      </TD>
+      <TD> 
+      <p class="Normal2">
+      <span style="font-size:11.0pt;font-family:Arial;color:black">Zobrazuje maxim&aacute;lnu veľkosť s&uacute;boru, ktor&yacute; je možn&eacute; synchronizovať.</span></p>
+      <p><span style="font-size: 11.0pt; font-family: Arial; ">Na z&aacute;klade predvolen&eacute;ho nastavenia je pre politiku veľkosti s&uacute;boru začiarknut&eacute; pol&iacute;čko <i>Povoliť</i>. To znamen&aacute;, že sekund&aacute;rny spr&aacute;vca m&aacute; pr&aacute;vo nastaviť politiku veľkosti s&uacute;boru pre použ&iacute;vateľov v pr&iacute;slušnej skupine. Ak chcete sekund&aacute;rnemu spr&aacute;vcovi toto pr&aacute;vo odobrať, zrušte začiarknutie pol&iacute;čka <i>Povoliť</i>.</span></p>
+      </TD></TR>
+  <TR>
+      <TD VALIGN="TOP"> 
+        <h4><span style="font-size: 9.5pt; font-family: Arial; "> Politika intervalu synchroniz&aacute;cie </span></h4>
+      </TD>
+      <TD> 
+        
+		  
+        <p class="Normal2">
+        <span style="font-size:11.0pt;font-family:Arial;color:black">Zobrazuje minim&aacute;lny interval synchroniz&aacute;cie v min&uacute;tach.</span></p>
+        <p><span style="font-size: 11.0pt; font-family: Arial; "> Na z&aacute;klade predvolen&eacute;ho nastavenia je pre politiku intervalu synchroniz&aacute;cie začiarknut&eacute; pol&iacute;čko <i>Povoliť</i>. To znamen&aacute;, že sekund&aacute;rny spr&aacute;vca m&aacute; pr&aacute;vo nastaviť politiku intervalu synchroniz&aacute;cie pre použ&iacute;vateľov v pr&iacute;slušnej skupine. Ak chcete sekund&aacute;rnemu spr&aacute;vcovi toto pr&aacute;vo odobrať, zrušte začiarknutie pol&iacute;čka <i>Povoliť</i>.</span></TD></TR>
+	
+	<TR><TD VALIGN="TOP">
+        <h4> <span style="font-size: 9.5pt; font-family: Arial; color: black"> Politika zoznamu </span> <span style="font-size: 9.5pt; font-family: Arial; ">vyl&uacute;čen&yacute;ch s&uacute;borov</span></h4>
+      </TD><TD>
+	    <p class="Normal2">
+        <span style="font-size:11.0pt;font-family:Arial;">Určuje typy s&uacute;borov, ktor&eacute; s&uacute; vyl&uacute;čen&eacute; zo synchroniz&aacute;cie. </span></p>
+        <p><span style="font-size: 11.0pt; font-family: Arial; "> Na z&aacute;klade predvolen&eacute;ho nastavenia je pre politiku zoznamu vyl&uacute;čen&yacute;ch s&uacute;borov začiarknut&eacute; pol&iacute;čko <i>Povoliť</i>. To znamen&aacute;, že sekund&aacute;rny spr&aacute;vca m&aacute; pr&aacute;vo nastaviť politiku zoznamu vyl&uacute;čen&yacute;ch s&uacute;borov pre použ&iacute;vateľov v pr&iacute;slušnej skupine. Ak chcete sekund&aacute;rnemu spr&aacute;vcovi toto pr&aacute;vo odobrať, zrušte začiarknutie pol&iacute;čka <i> Povoliť</i>.</span></TD></TR>
+  <TR><TD VALIGN="TOP">
+        <h4><span style="font-size: 9.5pt; font-family: Arial; "> Zdieľanie</span></h4>
+      </TD>
+      <TD> 
+        <p class="Normal2">
+        <span style="font-size:11.0pt;font-family:Arial;">Určuje, či sa m&ocirc;žu priečinky iFolder zdieľať medzi použ&iacute;vateľmi.</span></p>
+        <p><span style="font-size: 11.0pt; font-family: Arial; "> Na z&aacute;klade predvolen&eacute;ho nastavenia je pre politiku zdieľania začiarknut&eacute; pol&iacute;čko <i>Povoliť</i> <i>&uacute;pravu politiky zdieľania</i>. To znamen&aacute;, že sekund&aacute;rny spr&aacute;vca m&aacute; pr&aacute;vo upraviť politiku zdieľania pre použ&iacute;vateľov v pr&iacute;slušnej skupine. Ak chcete sekund&aacute;rnemu spr&aacute;vcovi toto pr&aacute;vo odobrať, zrušte začiarknutie pol&iacute;čka <i>Povoliť</i>.</span><br>
+      </TD></TR><TR><TD VALIGN="TOP">
+        <h4> <span style="font-size: 9.5pt; font-family: Arial; "> Politika šifrovania</span></h4>
+      </TD><TD> 
+    <p class="Normal2">
+    <span style="font-size:11.0pt;font-family:Arial;">Zobrazuje z&aacute;sadu šifrovania pre syst&eacute;m aplik&aacute;cie iFolder. </span></p>
+    <p class="Normal2">
+    <span style="font-size: 11.0pt; font-family: Arial; ">Na z&aacute;klade predvolen&eacute;ho nastavenia je pre politiku šifrovania začiarknut&eacute; pol&iacute;čko <i>Povoliť</i> <i>&uacute;pravu politiky šifrovania</i>. To znamen&aacute;, že sekund&aacute;rny spr&aacute;vca m&aacute; pr&aacute;vo upraviť politiku šifrovania pre použ&iacute;vateľov v pr&iacute;slušnej skupine. Ak chcete sekund&aacute;rnemu spr&aacute;vcovi toto pr&aacute;vo odobrať, zrušte začiarknutie pol&iacute;čka <i>Povoliť</i>.</span><br>
+		
+      </TD></TR> 
+
+  <TR><TD VALIGN="TOP">
+        <span style="font-size: 9.5pt; font-family: Arial; font-weight:700"> Pr&aacute;va poskytovania</span></TD><TD> 
+    <p class="Normal2">
+    <span style="font-size:11.0pt;font-family:Arial;">Určuje pr&aacute;va poskytovania, ktor&eacute; m&aacute; sekund&aacute;rny spr&aacute;vca k dispoz&iacute;cii.</span></p>
+    <p class="Normal2">
+    <span style="font-size:11.0pt;font-family:Arial;">Na z&aacute;klade predvolen&eacute;ho nastavenia je začiarknut&eacute; pol&iacute;čko <i>Povoliť poskytovanie použ&iacute;vateľov</i>. To znamen&aacute;, že sekund&aacute;rny spr&aacute;vca m&ocirc;že poskytn&uacute;ť použ&iacute;vateľov pr&iacute;slušnej skupiny ľubovoľn&eacute;mu serveru, ktor&yacute; je zadan&yacute; v nastaven&iacute; viacer&yacute;ch serverov aplik&aacute;cie iFolder. Ak chcete sekund&aacute;rnemu spr&aacute;vcovi toto pr&aacute;vo odobrať, zrušte začiarknutie pol&iacute;čka <i>Povoliť poskytovanie použ&iacute;vateľov</i>.</span></p>
+    <p class="Normal2">
+    <span style="font-size: 11.0pt; font-family: Arial; ">Pomocou začiarkavacieho pol&iacute;čka <i>Umožniť povolenie/zak&aacute;zanie použ&iacute;vateľov</i> m&ocirc;žete sekund&aacute;rnemu spr&aacute;vcovi prideliť pr&aacute;vo na povolenie alebo zak&aacute;zanie použ&iacute;vateľov pr&iacute;slušnej skupiny. Na z&aacute;klade predvolen&eacute;ho nastavenia je toto pol&iacute;čko začiarknut&eacute;. Ak chcete sekund&aacute;rnemu spr&aacute;vcovi toto pr&aacute;vo odobrať, zrušte začiarknutie pol&iacute;čka <i>Umožniť povolenie/zak&aacute;zanie použ&iacute;vateľov</i>.</span></TD></TR> 
+
+  <TR><TD VALIGN="TOP">
+        <span style="font-size: 9.5pt; font-family: Arial; font-weight:700"> Pr&aacute;va pre priečinky iFolder</span></TD><TD> 
+    <p class="Normal2">
+    <span style="font-size:11.0pt;font-family:Arial;">Určuje pr&aacute;va sekund&aacute;rneho spr&aacute;vcu pre priečinky iFolder vlastnen&eacute; použ&iacute;vateľmi pr&iacute;slušnej skupiny.</span></p>
+    <p class="Normal2">
+    <span style="font-size:11.0pt;font-family:Arial;">Ak chcete sekund&aacute;rnemu spr&aacute;vcovi umožniť, aby mohol vlastniť osamoten&eacute; priečinky iFolder, začiarknite pol&iacute;čko <i>Povoliť vlastn&iacute;ctvo osamoten&yacute;ch priečinkov iFolder</i>. Na z&aacute;klade predvolen&eacute;ho nastavenia je toto pol&iacute;čko začiarknut&eacute;. Ak chcete sekund&aacute;rnemu spr&aacute;vcovi toto pr&aacute;vo odobrať, zrušte začiarknutie tohto pol&iacute;čka.</span></p>
+    <p class="Normal2">
+    <span style="font-size:11.0pt;font-family:Arial;">Pomocou začiarkavacieho pol&iacute;čka <i> Umožniť povolenie/zak&aacute;zanie priečinkov iFolder</i> m&ocirc;žete sekund&aacute;rnemu spr&aacute;vcovi prideliť pr&aacute;vo na povolenie alebo zak&aacute;zanie priečinkov iFolder vlastnen&yacute;ch použ&iacute;vateľmi pr&iacute;slušnej skupiny. Na z&aacute;klade predvolen&eacute;ho nastavenia je toto pol&iacute;čko začiarknut&eacute;. Ak chcete sekund&aacute;rnemu spr&aacute;vcovi toto pr&aacute;vo odobrať, zrušte začiarknutie pol&iacute;čka <i>Umožniť povolenie/zak&aacute;zanie priečinkov iFolder</i>.</span></p>
+    <p class="Normal2">
+    <span style="font-size: 11.0pt; font-family: Arial; ">Pomocou začiarkavacieho pol&iacute;čka <i>Povoliť &uacute;pravu pr&aacute;v členov zdieľan&eacute;ho priečinka iFolder</i> m&ocirc;žete sekund&aacute;rnemu spr&aacute;vcovi prideliť pr&aacute;vo na &uacute;pravu pr&aacute;v členov zdieľan&eacute;ho priečinka iFolder. Na z&aacute;klade predvolen&eacute;ho nastavenia je toto pol&iacute;čko začiarknut&eacute;. Ak chcete sekund&aacute;rnemu spr&aacute;vcovi toto pr&aacute;vo odobrať, zrušte začiarknutie pol&iacute;čka <i>Povoliť &uacute;pravu pr&aacute;v členov zdieľan&eacute;ho priečinka iFolder</i>.</span></p>
+    </TD></TR> 
+
+  </TABLE>
+
+    </li>
+  </ol>
+  <p>&nbsp;</p>
+  <ol start="5">
+    <li><span style="font-family:Arial;">Kliknut&iacute;m na tlačidlo <i>Uložiť</i> uložte nastavenia.</span></li>
+    <li><span style="font-family:Arial;">Po &uacute;spešnom priraden&iacute; skupiny sekund&aacute;rnemu spr&aacute;vcovi sa m&ocirc;žete kliknut&iacute;m na tlačidlo <i>OK</i> vr&aacute;tiť na str&aacute;nku Syst&eacute;my. Ak chcete sekund&aacute;rnemu spr&aacute;vcovi priradiť ďalšie skupiny, kliknite na tlačidlo <i>Opakovať</i>.&nbsp;</span></li>
+  </ol>
+  <p><span style="font-family:Arial;">Ak chcete upraviť podrobnosti o sekund&aacute;rnom spr&aacute;vcovi, postupujte nasledovne:</span></p>
+  <ol>
+    <li>
+    <p style="text-indent: -.25in; margin-left: .5in">
+    <span style="font-family: Arial; ">Kliknite na kartu <i>Sekund&aacute;rny</i>, č&iacute;m zobraz&iacute;te podrobnosti o sekund&aacute;rnych spr&aacute;vcoch.</span></li>
+    <li>
+    <p style="text-indent: -.25in; margin-left: .5in">
+    <span style="font-family: Arial; ">Vyberte požadovan&eacute;ho sekund&aacute;rneho spr&aacute;vcu a kliknite na položku <i>Upraviť</i>. Zobraz&iacute; sa zoznam skup&iacute;n sledovan&yacute;ch sekund&aacute;rnym spr&aacute;vcom.</span></li>
+    <li>
+    <p style="text-indent: -.25in; margin-left: .5in" align="left">
+    <span style="font-family: Arial; ">Vyberte niektor&uacute; zo skup&iacute;n a kliknut&iacute;m na položku <i>Upraviť</i> zobrazte zoznam pr&aacute;v sekund&aacute;rneho spr&aacute;vcu pre dan&uacute; skupinu. Upravte pr&aacute;va pre t&uacute;to skupinu a kliknut&iacute;m na tlačidlo <i>Uložiť</i> uložte vykonan&eacute; zmeny.<br>
+&nbsp;</span></li>
+  </ol>
+  <p><span style="font-family:Arial;">Ak chcete odstr&aacute;niť sekund&aacute;rneho spr&aacute;vcu, postupujte nasledovne:</span></p>
+  <ol>
+    <li><font face="Arial">Kliknite na kartu <i>Sekund&aacute;rny</i>, č&iacute;m zobraz&iacute;te podrobnosti o sekund&aacute;rnych spr&aacute;vcoch.</font></li>
+    <li><font face="Arial">Vyberte požadovan&eacute;ho sekund&aacute;rneho spr&aacute;vcu a kliknite na položku <i>Odstr&aacute;niť</i>. Zobraz&iacute; sa zoznam skup&iacute;n sledovan&yacute;ch sekund&aacute;rnym spr&aacute;vcom.</font></li>
+    <li><font face="Arial">Vyberte všetky skupiny a kliknite na položku <i>Odstr&aacute;niť</i>. Odstr&aacute;nen&iacute;m všetk&yacute;ch skup&iacute;n vo vlastn&iacute;ctve sekund&aacute;rneho spr&aacute;vcu odstr&aacute;nite aj dan&eacute;ho sekund&aacute;rneho spr&aacute;vcu.<br>
+&nbsp;</font></li>
+  </ol>
+  <p>&nbsp;</p>
+
+  
+   
+
+<H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="S&uacute;visiace t&eacute;my" align="top"> S&uacute;visiace t&eacute;my</H4><BLOCKQUOTE class="task1">
+<P ><A HREF="userdetails.html">Podrobnosti o použ&iacute;vateľoch </A><BR><A HREF="ifolderdetails.html">Spr&aacute;va podrobnost&iacute; o priečinku iFolder </A><BR><A HREF="servers.html">Spr&aacute;va serverov iFolder </A><BR><A HREF="ifolders.html">Spr&aacute;va priečinkov iFolder</A><BR><A HREF="reports.html#orphan" TARGET="_self">Zostavy </A></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Prejsť na začiatok"></A></P><P>&nbsp;</P><P CLASS="copyright">Symbol ochrannej zn&aacute;mky (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP> atď.) označuje ochrann&uacute; zn&aacute;mku spoločnosti Novell. Hviezdička (*) označuje ochrann&uacute; zn&aacute;mku nez&aacute;visl&eacute;ho v&yacute;robcu.   Ďalšie inform&aacute;cie n&aacute;jdete v časti <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Pr&aacute;vne prehl&aacute;senia</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
 </body>
 
 </html>

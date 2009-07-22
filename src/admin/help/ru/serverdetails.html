@@ -1,11 +1,11 @@
 <html>
 
    <head>
-     <meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+     <meta http-equiv="content-type" content="text/html;charset=UTF-8">
      
      <!-- Novell iFolder 3.6 Web Admin Help  --> 
    
-     <title>Servers Details</title>  	 
+     <title>Подробная информация о серверах</title>  	 
      
  
      <!-- Metadata -->
@@ -29,8 +29,7 @@
        <!--
        
          body           {  font-family: Arial, Helvetica, Geneva;
-									background: white
-url(../../images/helphead_bg.gif) repeat-x 0% 0% }
+									background: white url('../../images/helphead_bg.gif') repeat-x;  }
 		      
          #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px;
 									width: 380px; visibility: visible }
@@ -55,298 +54,245 @@ url(../../images/helphead_bg.gif) repeat-x 0% 0% }
 <!-- This is the start of the Help Content Layer --> <div id="helpcontent"> <!-- The Page Heading uses CSS style "head3b". This creates an H3 header
             with a line beneath it.
        --> 
-  <h3 class="head3b">Server Details</h3>
-  <p> Use this interface to view server details, server status, server logs, and 
-    server reports, and to set the log level and LDAP details. </p>
-  <BLOCKQUOTE CLASS="blockquote"><P><A HREF="#general" TARGET="_self">Viewing Server Details
-</A> <BR><A HREF="#general" TARGET="_self">Viewing Server Status
- </A><BR><A HREF="#reports" TARGET="_self">Viewing Server Reports
- </A><BR> <A HREF="#logs" TARGET="_self">Viewing Server Logs
- </A><BR>
-      <A HREF="#ldap" TARGET="_self">LDAP Details</A><br>
-      <A HREF="#volume" TARGET="_self">Data Store</A><br>
+  <h3 class="head3b">Подробная информация о сервере</h3>
+  <p> Используйте этот интерфейс для просмотра подробной информации о сервере, состояния сервера, журналов сервера и отчетов сервера, а также для задания уровня протоколирования и информации о LDAP. </p>
+  <BLOCKQUOTE CLASS="blockquote"><P><A HREF="#general" TARGET="_self">Просмотр подробной информации о сервере </A> <BR><A HREF="#general" TARGET="_self">Просмотр состояния сервера</A><BR><A HREF="#reports" TARGET="_self">Просмотр отчетов сервера </A><BR> <A HREF="#logs" TARGET="_self">Просмотр журналов сервера </A><BR>
+      <A HREF="#ldap" TARGET="_self">Информация о LDAP</A><br>
+      <A HREF="#volume" TARGET="_self">Хранилище данных</A><br>
   </P></BLOCKQUOTE>
   
  
-  <H4><a name="general"></a>Viewing Server Details</H4>
-  <P>You can view and edit the following information:</P>
-  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
-        <P>Name (View Only)</P>
+  <H4><a name="general"></a>Просмотр подробной информации о сервере </H4>
+  <P>Можно просмотреть и изменить следующую информацию:</P>
+  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Параметр</P></TD><TD CLASS="tablehead2"><P>Описание</P></TD></TR><TR><TD VALIGN="TOP">
+        <P>Имя (только просмотр)</P>
       </TD><TD>
-        <P>The name assigned to the Server.</P>
+        <P>Имя, назначенное серверу.</P>
       </TD><TR><TD VALIGN="TOP">
-        <P>Type (View Only)</P>
+        <P>Тип (только просмотр)</P>
       </TD><TD>
-        <P>The server type (Master or Slave).</P>
+        <P>Тип сервера (&quot;Главный&quot; или &quot;Подчиненный&quot;).</P>
       </TD><TR><TD VALIGN="TOP">
-        <P>DNS Name</P>
+        <P>Имя DNS</P>
       </TD><TD>
-        <P>The DNS name of the iFolder Enterprise server.</P>
-		<P>For example: 192.168.1.1 or svr1.domain.com.</p>
+        <P>DNS-имя сервера iFolder Enterprise.</P>
+		<P>Например: 192.168.1.1 или svr1.domain.com.</p>
 </TD></TR><TR><TD VALIGN="TOP">
-        <P>Public URL</P>
+        <P>Внешний URL</P>
       </TD>
       <TD> 
-        <P>The public IP address corresponding to the iFolder server. To change 
-          the IP address, edit the address given and click Save to save the changes 
-          you have done.</P>
+        <P>Внешний IP-адрес, соответствующий серверу iFolder. Чтобы изменить IP-адрес, измените данный адрес и щелкните &quot;Сохранить&quot; для сохранения внесенных изменений.</P>
       </TD><TR>
       <TD VALIGN="TOP" height="37"> 
-        <P>Private URL</P>
+        <P>Внутренний URL</P>
       </TD>
       <TD height="37"> 
-        <P>The private IP address corresponding to the iFolder server. This allows 
-          communication between the servers within the iFolder domain. The private 
-          URL and the public URL can be the same. To change the IP address give, 
-          type the new address and click Save to save the changes you have done.</P>
+        <P>Внутренний IP-адрес, соответствующий серверу iFolder. Это обеспечивает взаимодействие между серверами в домене iFolder. Внутренний и внешний URL-адреса могут быть одинаковыми. Чтобы изменить данный IP-адрес, введите новый адрес и щелкните &quot;Сохранить&quot; для сохранения внесенных изменений.</P>
       </TD><TR><TD VALIGN="TOP">
-        <P>Master URL (Displayed only for Slave servers)</P>
+        <P>Главный URL (отображается только для подчиненного сервера)</P>
       </TD>
       <TD> 
-        <P>The IP address corresponding to the iFolder server. Using this address, 
-          slave server communicate with the master server in the iFolder domain. 
-          </p><p>To change the IP address, edit the address given and click Save to save 
-          the changes you have done.</P>
+        <P>IP-адрес, соответствующий серверу iFolder. С помощью этого адреса обеспечивается взаимодействие подчиненного сервера с главным сервером в домене iFolder. 
+          </p><p>Чтобы изменить IP-адрес, измените данный адрес и щелкните &quot;Сохранить&quot; для сохранения внесенных изменений.</P>
       </TD></TABLE><br>
-	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A>
-  <H4><a name="general"></a>Viewing Server Status</H4>
-  <P>You 
-can view the following information:</P><TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
-        <P>Status</P>
+	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="В начало"></A>
+  <H4><a name="general"></a>Просмотр состояния сервера</H4>
+  <P>Можно просмотреть следующую информацию:</P><TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Параметр</P></TD><TD CLASS="tablehead2"><P>Описание</P></TD></TR><TR><TD VALIGN="TOP">
+        <P>Состояние</P>
       </TD><TD>
-        <P>Reports the current status of the server.</P>
+        <P>Информация о текущем состоянии сервера.</P>
       </TD><TR><TD VALIGN="TOP">
-        <P>Users</P>
+        <P>Пользователи</P>
       </TD><TD>
-        <P>Reports the total number of iFolder users provisioned to the selected 
-          server.</P>
+        <P>Информация об общем количестве пользователей iFolder с персонифицированным доступом к выбранному серверу.</P>
       </TD><TR><TD VALIGN="TOP">
-        <P>iFolders</P>
+        <P>Папки iFolder</P>
       </TD><TD>
-        <P>Reports the total number of iFolders belonging to the selected server.</P>        
+        <P>Информация об общем количестве папок iFolder, относящихся к выбранному серверу.</P>        
       </TD></TR></TABLE><br>
-	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A>
+	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="В начало"></A>
 	  
-  <H4><a name="reports"></a>Viewing Server Reports</H4>
-  <P>Select the report from the drop down list to view the report.</P> 
-  <p>This option is disabled if the Enable Reporting option on the Report page 
-    is left unselected.</P>
-	<A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A>
-  <H4><a name="logs"></a>Viewing Server Logs</H4>
-  <P>You can view the following server log information:</P>
-  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
-        <P>System</P>
+  <H4><a name="reports"></a>Просмотр отчетов сервера </H4>
+  <P>Выберите отчет в раскрывающемся списке, чтобы просмотреть его.</P> 
+  <p>Данная функция недоступна, если на странице &quot;Отчет&quot; не выбран параметр &quot;Включить формирование отчетов&quot;.</P>
+	<A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="В начало"></A>
+  <H4><a name="logs"></a>Просмотр журналов сервера </H4>
+  <P>Можно просмотреть следующую информацию журналов сервера:</P>
+  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Параметр</P></TD><TD CLASS="tablehead2"><P>Описание</P></TD></TR><TR><TD VALIGN="TOP">
+        <P>Система</P>
       </TD>
       <TD> 
-        <P>Select System to view the simias.log that tracks all the system activities. 
+        <P>Выберите &quot;Система&quot; для просмотра файла &quot;simias.log&quot;, в котором протоколируются все системные операции. 
         </P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>User Access</P>
+        <P>Доступ пользователей</P>
       </TD>
       <TD> 
-        <P>Select User Access to view simias.access.log that tracks the user activities 
-          on the selected server.</P>
+        <P>Выберите &quot;Доступ пользователей&quot; для просмотра файла &quot;simias.access.log&quot;, в котором протоколируются операции пользователей на выбранном сервере.</P>
 		
       </TD></TR></TABLE>
 	    
-  <H4><a name="general"></a>Set Log Levels</H4>
-  <P>You can set the following log level information:</P>
-  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
-        <P>All</P>
+  <H4><a name="general"></a>Установка уровней протоколирования</H4>
+  <P>Можно указать следующую информацию об уровнях протоколирования:</P>
+  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Параметр</P></TD><TD CLASS="tablehead2"><P>Описание</P></TD></TR><TR><TD VALIGN="TOP">
+        <P>Все</P>
       </TD>
       <TD> 
-        <P>Shows all the server activities that help Novell support resolve the 
-          issues. </P>
+        <P>Отображение всех операций сервера, которые позволяют службе поддержки Novell устранить возникшие проблемы. </P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Debug</P>
+        <P>Отладка</P>
       </TD>
       <TD> 
-        <P>Shows the server activities that help Novell support debug the issues 
-          . </P>
+        <P>Отображение операций сервера, которые позволяют службе поддержки Novell выполнить отладку возникших проблем. </P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Info</P>
+        <P>Информация</P>
       </TD>
       <TD> 
-        <P>Shows the basic server activities that help Novell support resolve 
-          the issues. This option is selected by default.</P>
+        <P>Отображение основных операций сервера, которые позволяют службе поддержки Novell устранить возникшие проблемы. Данный параметр установлен по умолчанию.</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Warn</P>
+        <P>Предупреждение</P>
       </TD>
       <TD> 
-        <P>Shows all the potential system errors.</P>
+        <P>Отображение всех потенциальных системных ошибок.</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Error</P>
+        <P>Ошибка</P>
       </TD>
       <TD> 
-        <P>Shows all the system errors that halt system functioning.</P>
+        <P>Отображение всех системных ошибок, которые препятствуют нормальной работе системы.</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Fatal</P>
+        <P>Фатальная</P>
       </TD>
       <TD> 
-        <P>Shows the fatal system errors. </P>
+        <P>Отображение фатальных системных ошибок. </P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Off</P>
+        <P>Откл.</P>
       </TD>
       <TD> 
-        <P>Logging is turned off.</P>
+        <P>Протоколирование выключено.</P>
 		
       </TD></TR></TABLE><br>
-	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A>
-	  <H4><a name="ldap"></a>LDAP Details</H4>
-  <P>You can edit the following LDAP related information. Click Save to modify 
-    the entries. Click Cancel to cancel your modifications.</p>
-<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
-        <P>Up Since </p><p> (View Only)</P>
+	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="В начало"></A>
+	  <H4><a name="ldap"></a>Информация о LDAP</H4>
+  <P>Можно изменить следующую связанную с LDAP информацию. Щелкните &quot;Сохранить&quot; для изменения элементов. Щелкните &quot;Отмена&quot; для отмены изменений.</p>
+<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Параметр</P></TD><TD CLASS="tablehead2"><P>Описание</P></TD></TR><TR><TD VALIGN="TOP">
+        <P>Время работы </p><p> (только просмотр)</P>
       </TD>
       <TD> 
-        <P>Shows the date and time of the very first synchronization.</P>
+        <P>Отображение даты и времени самой первой синхронизации.</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Status</P>
+        <P>Состояние</P>
       </TD>
       <TD> 
-        <P>Reports the current LDAP sync engine status.</P>
+        <P>Текущее состояние подсистемы синхронизации LDAP.</P>
 		
-      </TD><<TR><TD VALIGN="TOP">
-        <P>Cycles</P>
-        <p>(View Only)</p>
+      </TD>&lt;<TR><TD VALIGN="TOP">
+        <P>Циклы</P>
+        <p>(только просмотр)</p>
       </TD>
       <TD> 
-        <P>Shows the total number of identity synchronization cycles completed.</P>
+        <P>Отображение общего количества завершенных циклов синхронизации электронных персон.</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Identity Sync</P>
+        <P>Синхронизация электронных персон</P>
       </TD>
       <TD> 
-        <P>Updates the iFolder users in the selected iFolder domain from the LDAP 
-          information at the interval you select.</P>
-        <p>Specify the time interval in minutes in the Identity Sync field and 
-          click Sync Now to start immediate synchronization of the iFolder users 
-          with the LDAP users.</p>
+        <P>Обновление пользователей iFolder в выбранном домене iFolder в соответствии с информацией LDAP через выбранные временные интервалы.</P>
+        <p>Укажите временной интервал в минутах в поле &quot;Синхронизация электронных персон&quot; и щелкните &quot;Синхронизировать сейчас&quot; для начала синхронизации пользователей iFolder с пользователями LDAP.</p>
 		
       </TD><TR>
       <TD VALIGN="TOP"> 
-        <P>Delete member grace interval</P>
+        <P>Дополнительный интервал для удаления члена</P>
       </TD>
       <TD> 
-        <P> Specifies the time interval for iFolder to delete the user information from the server once that particular user is deleted from the LDAP. 
-          This feature helps you to recover the data if the user is deleted accidentally. 
+        <P> Указание временного интервала, по прошествии которого после удаления пользователя из базы LDAP система iFolder удаляет информацию об этом пользователе с сервера. Данная функция позволяет восстановить данные после случайного удаления пользователя. 
         </P>
 		
       </TD></TR></TABLE>
     <br>
-	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A>
-  <P>You can edit the following LDAP related information. Click Edit to open a 
-    new page where you can modify the entries. </P>
+	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="В начало"></A>
+  <P>Можно изменить следующую связанную с LDAP информацию. Щелкните &quot;Изменить&quot; для изменения значений в новом окне. </P>
   
-  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
-        <P>LDAP Server</P>
+  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Параметр</P></TD><TD CLASS="tablehead2"><P>Описание</P></TD></TR><TR><TD VALIGN="TOP">
+        <P>Сервер LDAP</P>
       </TD>
       <TD> 
-        <P>Shows the LDAP Server address.</P>
+        <P>Отображение адреса сервера LDAP.</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>LDAP SSL</P>
+        <P>SSL LDAP</P>
       </TD>
       <TD> 
-        <P>Shows LDAP SSL is enabled or not. It also allows you to enable or disable 
-          the LDAP SSL connection.</P>
+        <P>Отображение состояния SSL LDAP. Данный параметр также позволяет включить или отключить соединение SSL LDAP.</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Proxy User</p>       
+        <P>Прокси-пользователь</p>       
       </TD>
       <TD> 
-        <P>Shows the Distinguished Name (DN) of the Proxy user. For example, cn=SimiasProxy,o=novell</P>
-		<p>The iFolder Proxy user is the identity used to access the LDAP server 
-          in order to retrieve a list of users in the specified containers or 
-          groups, or users that are defined in the iFolder LDAP settings.The iFolder 
-          Proxy user is created during the iFolder install. This identity must 
-          have the Read right to the LDAP directory. </p>
+        <P>Отображение характерного имени прокси-пользователя. Например cn=SimiasProxy,o=novell</P>
+		<p>Прокси-пользователь iFolder - это электронная персона, с помощью которой осуществляется доступ к серверу LDAP для получения списка пользователей в указанных контейнерах или группах, а также пользователей, заданных в параметрах LDAP iFolder. Прокси-пользователь iFolder создается во время установки iFolder. Эта электронная персона должна иметь право &quot;Чтение&quot; на LDAP каталог. </p>
       </TD><TR><TD VALIGN="TOP">
-        <P>Proxy User Password</P>
+        <P>Пароль прокси-пользователя</P>
         <p>&nbsp;</p>
       </TD>
       <TD> 
-        <P>The password is used to authenticate the iFolder Proxy user to the 
-          LDAP server when iFolder synchronizes users with the LDAP server.</P>
+        <P>Пароль используется для аутентификации прокси-пользователя iFolder на сервере LDAP, когда iFolder синхронизирует информацию о пользователях с сервером LDAP.</P>
 		
       </TD><TR>
       <TD VALIGN="TOP"> 
-        <P>LDAP Context</P>
+        <P>Контекст LDAP</P>
       </TD>
       <TD> 
-        <P>LDAP Context lists all the LDAP contexts. iFolder searches users only 
-          from the listed LDAP contexts.</P>
+        <P>Отображение списка всех контекстов LDAP. Система iFolder ищет пользователей только в перечисленных контекстах LDAP.</P>
         
 		
       </TD></TR></TABLE><br>
-	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A>
+	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="В начало"></A>
 
 	  
-  <H4><a name="volume"></a>Data Store</H4>
-  <p> Data Store represents the iFolder storage that can span across multiple 
-    volumes (mount points) in a given server. By default every iFolder server 
-    has a default store which cannot be disabled. With web interface, you can 
-    add and configure multiple Data Store across which iFolder data is load balanced. 
-    When the user uploads an iFolder, it check for the Data Store with maximum 
-    free space, and stores the iFolder data in that particular Data Store thereby 
-    balancing the load. You can add as many Data Store as you want. Having multiple 
-    Data Store thus makes it possible to scale the data storage capacity in a 
-    large deployment to meet the enterprise-level requirements. 
-  <P>You can view the following Data Store information:</P>
-  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
-        <P>Name</P>
+  <H4><a name="volume"></a>Хранилище данных</H4>
+  <p> Хранилище данных - это хранилище iFolder, которое может охватывать несколько томов (точек монтирования) на отдельном сервере. По умолчанию каждый сервер iFolder имеет хранилище по умолчанию, которое нельзя отключить. С помощью веб-интерфейса можно добавлять и настраивать несколько хранилищ данных, благодаря чему достигается баланс нагрузки для данных iFolder. Когда пользователь отправляет папку iFolder, выполняется поиск хранилища данных с максимальным объемом свободного пространства, после чего данные iFolder сохраняются в этом хранилище данных для балансировки нагрузки. Можно добавить любое количество хранилищ данных. Наличие нескольких хранилищ данных позволяет масштабировать заполненность хранилищ данных при крупном развертывании, что соответствует требованиям уровня корпорации. 
+  <P>Можно просмотреть следующую информацию хранилища данных:</P>
+  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Параметр</P></TD><TD CLASS="tablehead2"><P>Описание</P></TD></TR><TR><TD VALIGN="TOP">
+        <P>Имя</P>
       </TD>
       <TD> 
-        <P>Shows the unique name you have specified for the Data Store.</P>
+        <P>Отображение уникального имени, заданного для хранилища данных.</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Full Path</P>
+        <P>Полный путь</P>
       </TD>
       <TD> 
-        <P>Shows the path to the Data Store, where the volume is mounted on. This 
-          is the data path that you have specified while adding the data store 
-          using the web interface.</P>
+        <P>Отображение пути к хранилищу данных на смонтированном томе. Путь к данным, указанный при добавлении хранилища данных с помощью веб-интерфейса.</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Free Space</P>
+        <P>Свободное место</P>
       </TD>
       <TD> 
-        <P>Shows the space available in the volume.</P>
+        <P>Отображение доступного на томе пространства.</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Enabled</P>
+        <P>Разрешено</P>
       </TD>
       <TD> 
-        <P>Shows the given Data Store is enabled or not. Default Data Store cannot 
-          be disabled.</P>
+        <P>Отображение состояния хранилища данных (включено или нет). Отключить хранилище данных по умолчанию нельзя.</P>
 		
       </TD></TABLE>
-	  <H4><a name="volume"></a>Enable or Disable DataStore</H4>
+	  <H4><a name="volume"></a>Включение и отключение хранилища данных</H4>
 	  
-  <p> Select the Data Store you want to disable or enable and click Disable or 
-    Enable respectively. When the user uploads an iFolder, disabled Data Stores 
-    are always skipped while checking for the maximum free space availability 
-    for storing the iFolder data. </p>
+  <p> Выберите необходимое хранилище данных и щелкните &quot;Запретить&quot; или &quot;Включить&quot;. Когда пользователь отправляет iFolder, отключенные хранилища данных всегда пропускаются при проверке максимального объема свободного пространства для сохранения данных iFolder. </p>
 	  
-	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A>
+	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="В начало"></A>
 
 
-  <H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Related Topics" align="top"> 
-Related Topics</H4><BLOCKQUOTE class="task1"><P ><BR><A HREF="servers.html">Managing iFolder Servers
-</A><BR><A HREF="reports.html">Reports 
-</A><BR><A HREF="ifolderdetails.html">Managing iFolder Details</A><BR><A HREF="member.html">Managing a User Account</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P><P>&nbsp;</P><P CLASS="copyright">A 
-trademark symbol (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP>, 
-etc.) denotes a Novell trademark. An asterisk (*) denotes a third-party trademark. 
-For more information, see <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Legal 
-Notices</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
+  <H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="См. также" align="top"> См. также</H4><BLOCKQUOTE class="task1"><P ><BR><A HREF="servers.html">Управление серверами iFolder</A><BR><A HREF="reports.html">Отчеты </A><BR><A HREF="ifolderdetails.html">Управление подробной информацией о папке iFolder</A><BR><A HREF="member.html">Управление учетной записью пользователя</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="В начало"></A></P><P>&nbsp;</P><P CLASS="copyright">Символ товарного знака (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP> и т.&nbsp;д.) обозначает товарный знак Novell.  Символ звездочки (*) обозначает товарный знак независимого производителя.  Для получения дополнительной информации см. раздел <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Юридическая информация</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
 </body>
 
 </html>

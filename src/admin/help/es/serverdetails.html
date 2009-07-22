@@ -1,11 +1,11 @@
 <html>
 
    <head>
-     <meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+     <meta http-equiv="content-type" content="text/html;charset=UTF-8">
      
      <!-- Novell iFolder 3.6 Web Admin Help  --> 
    
-     <title>Servers Details</title>  	 
+     <title>Informaci&oacute;n del servidor</title>  	 
      
  
      <!-- Metadata -->
@@ -29,8 +29,7 @@
        <!--
        
          body           {  font-family: Arial, Helvetica, Geneva;
-									background: white
-url(../../images/helphead_bg.gif) repeat-x 0% 0% }
+									background: white url('../../images/helphead_bg.gif') repeat-x;  }
 		      
          #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px;
 									width: 380px; visibility: visible }
@@ -55,298 +54,245 @@ url(../../images/helphead_bg.gif) repeat-x 0% 0% }
 <!-- This is the start of the Help Content Layer --> <div id="helpcontent"> <!-- The Page Heading uses CSS style "head3b". This creates an H3 header
             with a line beneath it.
        --> 
-  <h3 class="head3b">Server Details</h3>
-  <p> Use this interface to view server details, server status, server logs, and 
-    server reports, and to set the log level and LDAP details. </p>
-  <BLOCKQUOTE CLASS="blockquote"><P><A HREF="#general" TARGET="_self">Viewing Server Details
-</A> <BR><A HREF="#general" TARGET="_self">Viewing Server Status
- </A><BR><A HREF="#reports" TARGET="_self">Viewing Server Reports
- </A><BR> <A HREF="#logs" TARGET="_self">Viewing Server Logs
- </A><BR>
-      <A HREF="#ldap" TARGET="_self">LDAP Details</A><br>
-      <A HREF="#volume" TARGET="_self">Data Store</A><br>
+  <h3 class="head3b">Informaci&oacute;n del servidor</h3>
+  <p> Esta interfaz le permite consultar la informaci&oacute;n del servidor, el estado del servidor, los registros del servidor y los informes del servidor, as&iacute; como definir el nivel de registro y la informaci&oacute;n de LDAP. </p>
+  <BLOCKQUOTE CLASS="blockquote"><P><A HREF="#general" TARGET="_self">Visualizaci&oacute;n de la informaci&oacute;n del servidor</A> <BR><A HREF="#general" TARGET="_self">Visualizaci&oacute;n del estado del servidor</A><BR><A HREF="#reports" TARGET="_self">Visualizaci&oacute;n de los informes del servidor</A><BR> <A HREF="#logs" TARGET="_self">Visualizaci&oacute;n de los registros del servidor</A><BR>
+      <A HREF="#ldap" TARGET="_self">Informaci&oacute;n de LDAP</A><br>
+      <A HREF="#volume" TARGET="_self">Almac&eacute;n de datos</A><br>
   </P></BLOCKQUOTE>
   
  
-  <H4><a name="general"></a>Viewing Server Details</H4>
-  <P>You can view and edit the following information:</P>
-  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
-        <P>Name (View Only)</P>
+  <H4><a name="general"></a>Visualizaci&oacute;n de la informaci&oacute;n del servidor</H4>
+  <P>Se puede ver y editar la informaci&oacute;n siguiente:</P>
+  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Par&aacute;metro</P></TD><TD CLASS="tablehead2"><P> Descripci&oacute;n</P></TD></TR><TR><TD VALIGN="TOP">
+        <P>Nombre (s&oacute;lo visualizaci&oacute;n)</P>
       </TD><TD>
-        <P>The name assigned to the Server.</P>
+        <P>Nombre asignado al servidor.</P>
       </TD><TR><TD VALIGN="TOP">
-        <P>Type (View Only)</P>
+        <P>Escriba (s&oacute;lo visualizaci&oacute;n)</P>
       </TD><TD>
-        <P>The server type (Master or Slave).</P>
+        <P>Tipo del servidor (Principal o Esclavo).</P>
       </TD><TR><TD VALIGN="TOP">
-        <P>DNS Name</P>
+        <P>Nombre DNS</P>
       </TD><TD>
-        <P>The DNS name of the iFolder Enterprise server.</P>
-		<P>For example: 192.168.1.1 or svr1.domain.com.</p>
+        <P>Nombre DNS del servidor empresarial de iFolder.</P>
+		<P>Por ejemplo, 192.168.1.1 o svr1.dominio.com.</p>
 </TD></TR><TR><TD VALIGN="TOP">
-        <P>Public URL</P>
+        <P>URL p&uacute;blica</P>
       </TD>
       <TD> 
-        <P>The public IP address corresponding to the iFolder server. To change 
-          the IP address, edit the address given and click Save to save the changes 
-          you have done.</P>
+        <P>Direcci&oacute;n IP p&uacute;blica correspondiente al servidor iFolder. Para cambiar la direcci&oacute;n IP, ed&iacute;tela y haga clic en Guardar para guardar los cambios que haya realizado.</P>
       </TD><TR>
       <TD VALIGN="TOP" height="37"> 
-        <P>Private URL</P>
+        <P>URL privada</P>
       </TD>
       <TD height="37"> 
-        <P>The private IP address corresponding to the iFolder server. This allows 
-          communication between the servers within the iFolder domain. The private 
-          URL and the public URL can be the same. To change the IP address give, 
-          type the new address and click Save to save the changes you have done.</P>
+        <P>Direcci&oacute;n IP privada correspondiente al servidor iFolder. Permite la comunicaci&oacute;n entre los servidores del dominio iFolder. La URL privada puede coincidir con la URL p&uacute;blica. Para cambiar la direcci&oacute;n IP, escriba la nueva direcci&oacute;n y haga clic en Guardar para guardar los cambios que haya realizado.</P>
       </TD><TR><TD VALIGN="TOP">
-        <P>Master URL (Displayed only for Slave servers)</P>
+        <P>URL principal (s&oacute;lo se muestra para los servidores esclavos)</P>
       </TD>
       <TD> 
-        <P>The IP address corresponding to the iFolder server. Using this address, 
-          slave server communicate with the master server in the iFolder domain. 
-          </p><p>To change the IP address, edit the address given and click Save to save 
-          the changes you have done.</P>
+        <P>La direcci&oacute;n IP que corresponde al servidor iFolder. Utilizando esta direcci&oacute;n, el servidor esclavo se comunica con el servidor principal en el dominio de iFolder. 
+          </p><p>Para cambiar la direcci&oacute;n IP, ed&iacute;tela y haga clic en Guardar para guardar los cambios que haya realizado.</P>
       </TD></TABLE><br>
-	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A>
-  <H4><a name="general"></a>Viewing Server Status</H4>
-  <P>You 
-can view the following information:</P><TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
-        <P>Status</P>
+	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Ir al inicio"></A>
+  <H4><a name="general"></a>Visualizaci&oacute;n del estado del servidor</H4>
+  <P>Es posible consultar la siguiente informaci&oacute;n:</P><TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Par&aacute;metro</P></TD><TD CLASS="tablehead2"><P> Descripci&oacute;n</P></TD></TR><TR><TD VALIGN="TOP">
+        <P>Estado</P>
       </TD><TD>
-        <P>Reports the current status of the server.</P>
+        <P>Indica el estado actual del servidor.</P>
       </TD><TR><TD VALIGN="TOP">
-        <P>Users</P>
+        <P>Usuarios</P>
       </TD><TD>
-        <P>Reports the total number of iFolder users provisioned to the selected 
-          server.</P>
+        <P>Indica el n&uacute;mero total de usuarios de iFolder asignados al servidor seleccionado.</P>
       </TD><TR><TD VALIGN="TOP">
-        <P>iFolders</P>
+        <P>Carpetas iFolder</P>
       </TD><TD>
-        <P>Reports the total number of iFolders belonging to the selected server.</P>        
+        <P>Indica el n&uacute;mero total de carpetas iFolder que pertenecen al servidor seleccionado.</P>        
       </TD></TR></TABLE><br>
-	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A>
+	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Ir al inicio"></A>
 	  
-  <H4><a name="reports"></a>Viewing Server Reports</H4>
-  <P>Select the report from the drop down list to view the report.</P> 
-  <p>This option is disabled if the Enable Reporting option on the Report page 
-    is left unselected.</P>
-	<A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A>
-  <H4><a name="logs"></a>Viewing Server Logs</H4>
-  <P>You can view the following server log information:</P>
-  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
-        <P>System</P>
+  <H4><a name="reports"></a>Visualizaci&oacute;n de los informes del servidor</H4>
+  <P>Seleccione el informe en la lista desplegable para visualizarlo.</P> 
+  <p>Esta opci&oacute;n estar&aacute; inhabilitada si se ha dejado sin seleccionar la opci&oacute;n Habilitar informes de la p&aacute;gina Informe.</P>
+	<A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Ir al inicio"></A>
+  <H4><a name="logs"></a>Visualizaci&oacute;n de los registros del servidor</H4>
+  <P>Es posible visualizar la informaci&oacute;n siguiente de registro del servidor:</P>
+  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Par&aacute;metro</P></TD><TD CLASS="tablehead2"><P> Descripci&oacute;n</P></TD></TR><TR><TD VALIGN="TOP">
+        <P>Sistema</P>
       </TD>
       <TD> 
-        <P>Select System to view the simias.log that tracks all the system activities. 
+        <P>Seleccione esta opci&oacute;n para ver el archivo simias.log, el cual realiza un seguimiento de todas las actividades del sistema. 
         </P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>User Access</P>
+        <P>Acceso de usuario</P>
       </TD>
       <TD> 
-        <P>Select User Access to view simias.access.log that tracks the user activities 
-          on the selected server.</P>
+        <P>Seleccione esta opci&oacute;n para ver el archivo simias.access.log, el cual realiza un seguimiento de las actividades del usuario en el servidor seleccionado.</P>
 		
       </TD></TR></TABLE>
 	    
-  <H4><a name="general"></a>Set Log Levels</H4>
-  <P>You can set the following log level information:</P>
-  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
-        <P>All</P>
+  <H4><a name="general"></a>Definici&oacute;n de los niveles de registro</H4>
+  <P>Es posible definir la siguiente informaci&oacute;n sobre el nivel del registro:</P>
+  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Par&aacute;metro</P></TD><TD CLASS="tablehead2"><P> Descripci&oacute;n</P></TD></TR><TR><TD VALIGN="TOP">
+        <P>Todos</P>
       </TD>
       <TD> 
-        <P>Shows all the server activities that help Novell support resolve the 
-          issues. </P>
+        <P>Muestra todas las actividades del servidor que permiten al servicio de asistencia t&eacute;cnica de Novell resolver posibles problemas. </P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Debug</P>
+        <P>Depurar</P>
       </TD>
       <TD> 
-        <P>Shows the server activities that help Novell support debug the issues 
-          . </P>
+        <P>Muestra las actividades del servidor que permiten al servicio de asistencia t&eacute;cnica de Novell depurar posibles problemas. </P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Info</P>
+        <P>Informaci&oacute;n</P>
       </TD>
       <TD> 
-        <P>Shows the basic server activities that help Novell support resolve 
-          the issues. This option is selected by default.</P>
+        <P>Muestra las actividades b&aacute;sicas del servidor que permiten al servicio de asistencia t&eacute;cnica de Novell resolver posibles problemas. Esta opci&oacute;n est&aacute; seleccionada por defecto.</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Warn</P>
+        <P>Advertir</P>
       </TD>
       <TD> 
-        <P>Shows all the potential system errors.</P>
+        <P>Muestra todos los posibles errores del sistema.</P>
 		
       </TD><TR><TD VALIGN="TOP">
         <P>Error</P>
       </TD>
       <TD> 
-        <P>Shows all the system errors that halt system functioning.</P>
+        <P>Muestra todos los errores del sistema que impiden el funcionamiento correcto del mismo.</P>
 		
       </TD><TR><TD VALIGN="TOP">
         <P>Fatal</P>
       </TD>
       <TD> 
-        <P>Shows the fatal system errors. </P>
+        <P>Muestra los errores graves del sistema. </P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Off</P>
+        <P>Inactivo</P>
       </TD>
       <TD> 
-        <P>Logging is turned off.</P>
+        <P>Se desactiva el registro.</P>
 		
       </TD></TR></TABLE><br>
-	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A>
-	  <H4><a name="ldap"></a>LDAP Details</H4>
-  <P>You can edit the following LDAP related information. Click Save to modify 
-    the entries. Click Cancel to cancel your modifications.</p>
-<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
-        <P>Up Since </p><p> (View Only)</P>
+	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Ir al inicio"></A>
+	  <H4><a name="ldap"></a>Informaci&oacute;n de LDAP</H4>
+  <P>Es posible editar la siguiente informaci&oacute;n relacionada con LDAP. Haga clic en Guardar para modificar las entradas. Haga clic en Cancelar para cancelar las modificaciones.</p>
+<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Par&aacute;metro</P></TD><TD CLASS="tablehead2"><P> Descripci&oacute;n</P></TD></TR><TR><TD VALIGN="TOP">
+        <P>Activo desde </p><p> (s&oacute;lo visualizaci&oacute;n)</P>
       </TD>
       <TD> 
-        <P>Shows the date and time of the very first synchronization.</P>
+        <P>Muestra la fecha y hora de la primera sincronizaci&oacute;n.</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Status</P>
+        <P>Estado</P>
       </TD>
       <TD> 
-        <P>Reports the current LDAP sync engine status.</P>
+        <P>Informa sobre el estado del motor de sinconizaci&oacute;n LDAP actual.</P>
 		
-      </TD><<TR><TD VALIGN="TOP">
-        <P>Cycles</P>
-        <p>(View Only)</p>
+      </TD>&lt;<TR><TD VALIGN="TOP">
+        <P>Ciclos</P>
+        <p>(s&oacute;lo visualizaci&oacute;n)</p>
       </TD>
       <TD> 
-        <P>Shows the total number of identity synchronization cycles completed.</P>
+        <P>Muestra el n&uacute;mero total de ciclos de sincronizaci&oacute;n de identidades realizados.</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Identity Sync</P>
+        <P>Sincronizaci&oacute;n de identidad</P>
       </TD>
       <TD> 
-        <P>Updates the iFolder users in the selected iFolder domain from the LDAP 
-          information at the interval you select.</P>
-        <p>Specify the time interval in minutes in the Identity Sync field and 
-          click Sync Now to start immediate synchronization of the iFolder users 
-          with the LDAP users.</p>
+        <P>Actualiza a los usuarios de iFolder del dominio iFolder seleccionado a partir de la informaci&oacute;n de LDAP correspondiente al intervalo seleccionado.</P>
+        <p>Especifique el intervalo en minutos en el campo Sincronizaci&oacute;n de identidad y haga clic en Sincronizar ahora para iniciar la sincronizaci&oacute;n inmediata de los usuarios de iFolder con los usuarios de LDAP.</p>
 		
       </TD><TR>
       <TD VALIGN="TOP"> 
-        <P>Delete member grace interval</P>
+        <P>Suprimir intervalo de gracia del miembro</P>
       </TD>
       <TD> 
-        <P> Specifies the time interval for iFolder to delete the user information from the server once that particular user is deleted from the LDAP. 
-          This feature helps you to recover the data if the user is deleted accidentally. 
+        <P> Especifica el intervalo tras el cual iFolder suprimir&aacute; la informaci&oacute;n del usuario del servidor una vez que dicho usuario se haya suprimido de LDAP. Esta funci&oacute;n permite recuperar los datos en caso de que el usuario se haya suprimido accidentalmente. 
         </P>
 		
       </TD></TR></TABLE>
     <br>
-	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A>
-  <P>You can edit the following LDAP related information. Click Edit to open a 
-    new page where you can modify the entries. </P>
+	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Ir al inicio"></A>
+  <P>Es posible editar la siguiente informaci&oacute;n relacionada con LDAP. Haga clic en Editar para abrir una nueva p&aacute;gina en la que se pueden modificar las entradas. </P>
   
-  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
-        <P>LDAP Server</P>
+  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Par&aacute;metro</P></TD><TD CLASS="tablehead2"><P> Descripci&oacute;n</P></TD></TR><TR><TD VALIGN="TOP">
+        <P>Servidor LDAP</P>
       </TD>
       <TD> 
-        <P>Shows the LDAP Server address.</P>
+        <P>Muestra la direcci&oacute;n del servidor LDAP.</P>
 		
       </TD><TR><TD VALIGN="TOP">
         <P>LDAP SSL</P>
       </TD>
       <TD> 
-        <P>Shows LDAP SSL is enabled or not. It also allows you to enable or disable 
-          the LDAP SSL connection.</P>
+        <P>Indica si SSL LDAP est&aacute; habilitado o no. Tambi&eacute;n permite habilitar o inhabilitar la conexi&oacute;n SSL LDAP.</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Proxy User</p>       
+        <P>Usuario apoderado</p>       
       </TD>
       <TD> 
-        <P>Shows the Distinguished Name (DN) of the Proxy user. For example, cn=SimiasProxy,o=novell</P>
-		<p>The iFolder Proxy user is the identity used to access the LDAP server 
-          in order to retrieve a list of users in the specified containers or 
-          groups, or users that are defined in the iFolder LDAP settings.The iFolder 
-          Proxy user is created during the iFolder install. This identity must 
-          have the Read right to the LDAP directory. </p>
+        <P>Muestra el nombre completo (DN) del usuario apoderado. Por ejemplo, cn=SimiasProxy,o=novell</P>
+		<p>El usuario apoderado de iFolder es la identidad que se utiliza para acceder al servidor LDAP con el fin de recuperar una lista de los usuarios de los contenedores y grupos especificados, o bien de los usuarios definidos en los valores de configuraci&oacute;n LDAP de iFolder. El usuario apoderado de iFolder se crea durante la instalaci&oacute;n de iFolder. Esta identidad dene dispone del derecho de Lectura sobre el directorio LDAP. </p>
       </TD><TR><TD VALIGN="TOP">
-        <P>Proxy User Password</P>
+        <P>Contrase&ntilde;a del apoderado</P>
         <p>&nbsp;</p>
       </TD>
       <TD> 
-        <P>The password is used to authenticate the iFolder Proxy user to the 
-          LDAP server when iFolder synchronizes users with the LDAP server.</P>
+        <P>La contrase&ntilde;a se utiliza para autenticar al usuario apoderado de iFolder en el servidor LDAP cuando iFolder lleva a cabo la sincronizaci&oacute;n de los usuarios con el servidor LDAP.</P>
 		
       </TD><TR>
       <TD VALIGN="TOP"> 
-        <P>LDAP Context</P>
+        <P>Contexto LDAP</P>
       </TD>
       <TD> 
-        <P>LDAP Context lists all the LDAP contexts. iFolder searches users only 
-          from the listed LDAP contexts.</P>
+        <P>Este campo enumera todos los contextos LDAP. iFolder s&oacute;lo busca los usuarios de la lista de contextos LDAP.</P>
         
 		
       </TD></TR></TABLE><br>
-	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A>
+	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Ir al inicio"></A>
 
 	  
-  <H4><a name="volume"></a>Data Store</H4>
-  <p> Data Store represents the iFolder storage that can span across multiple 
-    volumes (mount points) in a given server. By default every iFolder server 
-    has a default store which cannot be disabled. With web interface, you can 
-    add and configure multiple Data Store across which iFolder data is load balanced. 
-    When the user uploads an iFolder, it check for the Data Store with maximum 
-    free space, and stores the iFolder data in that particular Data Store thereby 
-    balancing the load. You can add as many Data Store as you want. Having multiple 
-    Data Store thus makes it possible to scale the data storage capacity in a 
-    large deployment to meet the enterprise-level requirements. 
-  <P>You can view the following Data Store information:</P>
-  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
-        <P>Name</P>
+  <H4><a name="volume"></a>Almac&eacute;n de datos</H4>
+  <p> El almac&eacute;n de datos representa el almacenamiento de iFolder capaz de extenderse por diferentes vol&uacute;menes (puntos de montaje) de un servidor determinado. Cada servidor iFolder dispone de un almac&eacute;n de datos por defecto que no puede inhabilitarse. Mediante la interfaz Web, podr&aacute; a&ntilde;adir y configurar varios almacenes de datos en los que equilibrar la carga de los datos de iFolder. Cuando el usuario carga una carpeta iFolder, se comprueba el almac&eacute;n de datos que dispone de mayor espacio libre y se almacenan los datos de la carpeta iFolder en dicho almac&eacute;n, equilibrando de este modo la carga. Es posible a&ntilde;adir tantos almacenes de datos como se desee. La existencia de varios almacenes de datos permite escalar la capacidad de almacenamiento de datos en una distribuci&oacute;n de gran tama&ntilde;o para satisfacer los requisitos de la empresa. 
+  <P>Es posible consultar la siguiente informaci&oacute;n de almacenes de datos:</P>
+  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Par&aacute;metro</P></TD><TD CLASS="tablehead2"><P> Descripci&oacute;n</P></TD></TR><TR><TD VALIGN="TOP">
+        <P>Nombre</P>
       </TD>
       <TD> 
-        <P>Shows the unique name you have specified for the Data Store.</P>
+        <P>Muestra el nombre exclusivo especificado para el almac&eacute;n de datos.</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Full Path</P>
+        <P>Ruta completa</P>
       </TD>
       <TD> 
-        <P>Shows the path to the Data Store, where the volume is mounted on. This 
-          is the data path that you have specified while adding the data store 
-          using the web interface.</P>
+        <P>Muestra la v&iacute;a del almac&eacute;n de datos en el que est&aacute; montado el volumen. Se trata de la v&iacute;a de datos que especific&oacute; al a&ntilde;adir el almac&eacute;n de datos mediante la interfaz Web.</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Free Space</P>
+        <P>Espacio libre</P>
       </TD>
       <TD> 
-        <P>Shows the space available in the volume.</P>
+        <P>Muestra el espacio disponible en el volumen.</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Enabled</P>
+        <P>Habilitada</P>
       </TD>
       <TD> 
-        <P>Shows the given Data Store is enabled or not. Default Data Store cannot 
-          be disabled.</P>
+        <P>Muestra si el almac&eacute;n de datos en cuesti&oacute;n est&aacute; habilitado o no. El almac&eacute;n de datos por defecto no puede inhabilitarse.</P>
 		
       </TD></TABLE>
-	  <H4><a name="volume"></a>Enable or Disable DataStore</H4>
+	  <H4><a name="volume"></a>Habilitaci&oacute;n o inhabilitaci&oacute;n de un almac&eacute;n de datos</H4>
 	  
-  <p> Select the Data Store you want to disable or enable and click Disable or 
-    Enable respectively. When the user uploads an iFolder, disabled Data Stores 
-    are always skipped while checking for the maximum free space availability 
-    for storing the iFolder data. </p>
+  <p> Seleccione el almac&eacute;n de datos que desea habilitar o inhabilitar y haga clic en Habilitar o Inhabilitar, respectivamente. Cuando el usuario carga una carpeta iFolder, los almacenes de datos inhabilitados siempre se omiten durante la comprobaci&oacute;n del almac&eacute;n con la m&aacute;xima cantidad de espacio libre para almacenar los datos de la carpeta iFolder. </p>
 	  
-	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A>
+	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Ir al inicio"></A>
 
 
-  <H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Related Topics" align="top"> 
-Related Topics</H4><BLOCKQUOTE class="task1"><P ><BR><A HREF="servers.html">Managing iFolder Servers
-</A><BR><A HREF="reports.html">Reports 
-</A><BR><A HREF="ifolderdetails.html">Managing iFolder Details</A><BR><A HREF="member.html">Managing a User Account</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P><P>&nbsp;</P><P CLASS="copyright">A 
-trademark symbol (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP>, 
-etc.) denotes a Novell trademark. An asterisk (*) denotes a third-party trademark. 
-For more information, see <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Legal 
-Notices</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
+  <H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Temas relacionados" align="top"> Temas relacionados</H4><BLOCKQUOTE class="task1"><P ><BR><A HREF="servers.html">Gesti&oacute;n de servidores iFolder </A><BR><A HREF="reports.html">Informes </A><BR><A HREF="ifolderdetails.html">Gesti&oacute;n de la informaci&oacute;n de una carpeta iFolder</A><BR><A HREF="member.html">Gesti&oacute;n de una cuenta de usuario</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Ir al inicio"></A></P><P>&nbsp;</P><P CLASS="copyright">El s&iacute;mbolo de marca comercial (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP>, etc.) indica una marca comercial de Novell; el asterisco (*) indica una marca comercial de otro fabricante. Para obtener m&aacute;s informaci&oacute;n, consulte la <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Informaci&oacute;n legal</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
 </body>
 
 </html>

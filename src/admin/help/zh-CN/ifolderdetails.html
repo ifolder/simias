@@ -1,11 +1,11 @@
 <html>
 
    <head>
-     <meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+     <meta http-equiv="content-type" content="text/html;charset=UTF-8">
      
      <!-- Novell iFolder 3.6 Web Admin Help  --> 
    
-     <title>iFolder Details</title>  	 
+     <title>iFolder 细节</title>  	 
      
  
      <!-- Metadata -->
@@ -54,513 +54,425 @@
 <!-- This is the start of the Help Content Layer --> <div id="helpcontent"> <!-- The Page Heading uses CSS style "head3b". This creates an H3 header
             with a line beneath it.
        --> 
-  <h3 class="head3b">Managing iFolder Details</h3>
-  <p> Use this interface to 
-manage the ownership, policies, and membership of a selected iFolder. </p><BLOCKQUOTE CLASS="blockquote"><P><A HREF="#general" TARGET="_self">Viewing iFolder Details
-</A> <BR><A HREF="#members" TARGET="_self">Members 
- </A><BR><A HREF="#policies" TARGET="_self">Policies</A> </P></BLOCKQUOTE>
+  <h3 class="head3b">管理 iFolder 细节</h3>
+  <p> 使用此界面可管理所选 iFolder 的所有权、策略和成员资格。 </p>
+  <p> <b>注意</b>：二级管理员可以根据二级管理员在选定 iFolder 上的权限管理选定 iFolder 的策略。</p><BLOCKQUOTE CLASS="blockquote"><P><A HREF="#general" TARGET="_self">查看 iFolder 细节</A> <BR><A HREF="#members" TARGET="_self">成员</A><BR><A HREF="#policies" TARGET="_self">策略</A> </P></BLOCKQUOTE>
   
  
-  <H4><A NAME="general"></A>Viewing iFolder Details</H4>
-  <P>You 
-can view the following information:</P><TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TD VALIGN="TOP">
-        <P>Type</P>
+  <H4><A NAME="general"></A>查看 iFolder 细节</H4>
+  <P>您可以查看以下信息：</P><TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>参数</P></TD><TD CLASS="tablehead2"><P>说明</P></TD></TR><TD VALIGN="TOP">
+        <P>类型</P>
       </TD><TD>
-        <P><img src="../../images/ifolder.png" width="16" height="16" alt="Folder icon">  Normal iFolder</P>
-		<P><img src="../../images/encrypt_ifolder.gif" width="16" height="16" alt="Folder icon"> Encrypted iFolder</P>
-		<p><img src="../../images/ifolder_user_16.gif" width="16" height="16" alt="Shared icon"> 
-          Shared iFolder<br>
+        <P><img src="../../images/ifolder.png" width="16" height="16" alt="文件夹图标"> 常规 iFolder</P>
+		<P><img src="../../images/encrypt_ifolder.gif" width="16" height="16" alt="文件夹图标"> 加密 iFolder</P>
+		<p><img src="../../images/ifolder_user_16.gif" width="16" height="16" alt="共享图标"> 共享 iFolder<br>
       </TD><TR><TD VALIGN="TOP">
-        <P>iFolder Name</P>
+        <P>iFolder 名称</P>
       </TD><TD>
-        <P>The name assigned to the iFolder </P>
+        <P>指派给 iFolder 的名称 </P>
       </TD><TR><TD VALIGN="TOP">
-        <P>Description (editable)</P>
+        <P>说明（可编辑）</P>
       </TD><TD>
-        <P>A short description about the iFolder. You can edit the description 
-          and click Save to save the changes.</P>
-      </TD><TR><TD VALIGN="TOP"><P>Owner 
+        <P>有关 iFolder 的简短说明。您可编辑该说明并单击&ldquo;保存&rdquo;以保存更改。</P>
+      </TD><TR><TD VALIGN="TOP"><P>拥有者 
 </P></TD><TD>
-        <P>The username of the owner of the selected iFolder. Owner can be an 
-          individual user or an LDAPGroup. If an LDAPGroup is the owner of the 
-          iFolder, then all the members of the LDAPGroup will have the same access 
-          rights. For orphaned iFolders, the iFolder Admin user is made the owner 
-          until the iFolder can be reassigned or deleted.</P>
-        <p>Click the owner's username link to view his or her user account details.</p> 
-        <P>The iFolder owner has the Full Control right to the iFolder. The owner manages 
-          membership and access rights for users, and can remove the Full Control 
-          right for any member.</P>
-      </TD></TR><TR><TD VALIGN="TOP"><P>Path</P></TD><TD><P>The 
-actual location of the iFolder and its data on the server. For example:</P><P>/var/opt/novell/ifolder3/simias/SimiasFiles/<I>e84fdc6e-3d51-49df-ae3f-8c9213c76994</I>/&lt;iFolder_Name&gt;</P><P>In 
-this example, <I>e84fdc6e-3d51-49df-ae3f-8c9213c76994</I> is the unique ID of 
-the iFolder share.</P></TD><TR><TD VALIGN="TOP">
-        <P>Modified</P>
+        <P>所选 iFolder 的拥有者的用户名。拥有者可以是单个用户，也可以是 LDAP 组。如果 iFolder 的拥有者是 LDAP 组，则 LDAP 组的所有成员都将具有相同的访问权限。对于孤立的 iFolder，在可以重指派或删除 iFolder 之前，iFolder Admin 用户是其拥有者。</P>
+        <p>单击该拥有者的用户名链接可查看其用户帐户的细节。</p> 
+        <P>iFolder 拥有者具有对该 iFolder 的&ldquo;完全控制&rdquo;权限。该拥有者可管理用户的成员资格和访问权限，并且可去除任何成员的&ldquo;完全控制&rdquo;权限。</P>
+      </TD></TR><TR><TD VALIGN="TOP"><P>路径</P></TD><TD><P>iFolder 在服务器上的实际位置及其数据。例如：</P><P>/var/opt/novell/ifolder3/simias/SimiasFiles/<I>e84fdc6e-3d51-49df-ae3f-8c9213c76994</I>/&lt;iFolder_Name&gt;</P><P>在此示例中，<I>e84fdc6e-3d51-49df-ae3f-8c9213c76994</I> 是 iFolder 共享的唯一 ID。</P></TD><TR><TD VALIGN="TOP">
+        <P>修改时间</P>
       </TD><TD>
-        <P>The last modified time and date of the iFolder.</P>
+        <P>上次修改 iFolder 的时间和日期。</P>
       </TD><TR><TD VALIGN="TOP">
-        <P>Directories</P>
+        <P>目录数</P>
       </TD><TD>
-        <P>Total number of directories in the iFolder.</P>
+        <P>iFolder 中的目录总数。</P>
       </TD><TR><TD VALIGN="TOP">
-        <P>Files</P>
+        <P>文件数</P>
       </TD><TD>
-        <P>Total number of files in the iFolder.</P>
+        <P>iFolder 中的文件总数.</P>
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>Orphan</P>
+        <P>孤立</P>
       </TD>
       <TD> 
-        <P>Yes indicates that iFolder is an orphan.</P>
-        <P>For orphaned iFolders, the iFolder Admin becomes the owner until the 
-          iFolder can be reassigned to a new owner or is deleted.</P>
+        <P>Yes 表示 iFolder 是孤立的。</P>
+        <P>对于孤立的 iFolder，在可以将 iFolder 重指派给新的拥有者或删除之前，iFolder Admin 是其拥有者。</P>
       </TD></TR></TABLE>
 	  
-  <H3><a name="members"></a>Members </H3>
-  <p> You can view the members' name, type and access rights assigned to them. 
-    You are allowed to add or delete an owner, assign ownership, and set access 
-    rights to a selected member. 
-  <H4><A NAME="share"></A>Adding 
-a Member</H4><OL><LI>
-      <P>On the iFolder Details page, click Add.</P>
+  <H3><a name="members"></a>成员 </H3>
+  <p> 您可以查看成员的名称、类型和指派给他们的访问权限。允许您添加或删除拥有者、指派所有权和设置对所选成员的访问权限。 
+  <H4><A NAME="share"></A>添加成员</H4><OL><LI>
+      <P>在&ldquo;iFolder 细节&rdquo;页上，单击&ldquo;添加&rdquo;。</P>
     </LI><LI>
-      <P>Search for the user or LDAPGroup you want to make a member, select the 
-        check box next to the user's name, then click Add.<BR>
+      <P>搜索要添加为成员的用户或 LDAP 组，选中用户名旁边的复选框，然后单击&ldquo;添加&rdquo;。<BR>
         <BR>
-        By default, the user or the LDAPGroup is given Read Only access to the 
-        iFolder.</P>
+        默认情况下，该用户或 LDAP 组对 iFolder 具有只读访问权限。</P>
     </LI><LI>
-      <P>(Optional) Select the User check box, then select Rights and specify 
-        the Access right as Admin, Read/Write, or Read Only , then click Set.<BR>
+      <P>（可选）选中&ldquo;用户&rdquo;复选框，然后选择&ldquo;权限&rdquo;并将访问权限指定为&ldquo;Admin&rdquo;、&ldquo;读/写&rdquo;或&ldquo;只读&rdquo;，然后单击&ldquo;设置&rdquo;。<BR>
         <BR>
-        Wait for the page to refresh. The user's icon should reflect the new access 
-        right. </P>
+        等待页面刷新。用户的图标应该反映新的访问权限。 </P>
     </LI></OL>
-<H4>Understanding iFolder Access Rights </H4>
-<p>The iFolder client supports the owner and three levels of access for members of an iFolder:</p>
-<P><B><FONT SIZE="-1">NOTE:</FONT></B> <FONT SIZE="-1">Members of an LDAPGroup inherit the access rights set for that LDAPGroup.</FONT></P>
+<H4>了解 iFolder 访问权限 </H4>
+<p>iFolder 客户程序支持拥有者和三个 iFolder 成员访问级别：</p>
+<P><B><FONT SIZE="-1">注意：</FONT></B><FONT SIZE="-1">LDAP 组的成员将继承为该 LDAP 组设置的访问权限。</FONT></P>
   <BLOCKQUOTE> 
-    <P><B>Owner<BR>
-      </B>Only one user or LDAPGroup serves as the owner of an iFolder. This is 
-      typically the user or any member of the LDAPGroup who created the iFolder. 
-      If the owner is an LDAPGroup and in that case, all the members of the LDAPGroup 
-      will have the ownership on that iFolder. The owner user or members of the 
-      owner LDAPGroup can use the iFolder client to transfer ownership to another 
-      member of the iFolder. The iFolder Admin user can transfer ownership to 
-      any user or LDAPGroup on the iFolder server.</P>
-    <P>The owner of an iFolder has the Full Control right. This user or LDAPGroup 
-      has read/write access to the iFolder, manages membership and access rights 
-      for member users and LDAPGroups, and can remove the Full Control right for 
-      any member. With an enterprise server, the disk space used by the owner&#146;s 
-      iFolders count against the owner&#146;s user disk quotas on the enterprise 
-      server.</P>
-    <P>If a user or LDAPGroup is deleted from the iFolder system, the iFolders 
-      owned by the user or LDAPGroup are orphaned. Orphaned iFolders are temporarily 
-      assigned to the iFolder Admin user as owner. Membership and synchronization 
-      continues for other users and LDAPGroup members while the iFolder Admin 
-      user determines whether an orphaned iFolder should be deleted or assigned 
-      to a new owner.</P>
-  <P><B>Full Control</B><BR>
-      A member of the shared iFolder, with the Full Control access right. The 
-      user or LDAPGroup with the Full Control right has read/write access to the 
-      iFolder and manages membership and access rights for all users except the 
-      owner.</P>
-  <P><B>Read/Write</B><BR>
-    A member of the shared iFolder, with the Read/Write access right to directories and files in the iFolder.</P>
-  <P><B>Read Only</B><BR>
-    A member of the shared iFolder, with the Read Only access right to directories and files in the iFolder. This member can copy an iFolder file to another location and modify it outside the iFolder.</P>
+    <P><B>拥有者<BR>
+      </B>一个 iFolder 的拥有者只能是一个用户或一个 LDAP 组。通常是创建该 iFolder 的用户或 LDAP 组的任意成员。如果拥有者是一个 LDAP 组，则此组的所有成员都将具有该 iFolder 的所有权。作为拥有者的用户或 LDAP 组的成员可使用 iFolder 客户程序将所有权转让给该 iFolder 的其他成员。iFolder Admin 用户可将所有权转让给该 iFolder 服务器上的任何用户或 LDAP 组。</P>
+    <P>iFolder 的拥有者具有&ldquo;完全控制&rdquo;权限。此用户或 LDAP 组对该 iFolder 具有读/写权限，可以管理成员用户和 LDAP 组的成员资格和访问权限，还可以去除任何成员的完全控制权限。如果使用的是企业服务器，将根据拥有者在企业服务器上的用户磁盘定额计算该拥有者的 iFolder 所使用的磁盘空间。</P>
+    <P>如果从 iFolder 系统中删除某一用户或 LDAP 组，则由该用户或 LDAP 组所有的 iFolder 将被孤立。孤立的 iFolder 的所有权被临时指派给 iFolder Admin 用户。当 iFolder Admin 用户决定是应删除孤立的 iFolder 还是应将其分配给新的拥有者时，其他用户和 LDAP 组成员将继续拥有成员资格并可进行同步。</P>
+  <P><B>完全控制</B><BR>
+      共享 iFolder 的成员，具有&ldquo;完全控制&rdquo;访问权限。具有完全控制权限的用户或 LDAP 组对 iFolder 具有读/写权限，并管理除拥有者以外的所有用户的成员资格和访问权限。</P>
+  <P><B>读/写</B><BR>
+    共享 iFolder 的成员，对 iFolder 中的目录和文件具有&ldquo;读/写&rdquo;访问权限。</P>
+  <P><B>只读</B><BR>
+    共享 iFolder 的成员，对 iFolder 中的目录和文件具有&ldquo;只读&rdquo;访问权限。该成员可将 iFolder 文件复制到另一个位置并在 iFolder 外修改它。</P>
 </BLOCKQUOTE>
-<p>The following table describes the capabilities associated with each level of access for users.</p>
+<p>下表说明与用户的每个访问级别相关联的功能。</p>
   <TABLE WIDTH="93%" BORDER="1">
     <tr class="HEADERROW"> 
-      <th  CLASS="tablehead2">Capabilities</th>
-      <th  CLASS="tablehead2">Owner</th>
-      <th  CLASS="tablehead2">Full&nbsp;Control</th>
-      <th  CLASS="tablehead2">Read/Write</th>
-      <th  CLASS="tablehead2">Read&nbsp;Only</th>
+      <th  CLASS="tablehead2">功能</th>
+      <th  CLASS="tablehead2">拥有者</th>
+      <th  CLASS="tablehead2">完全控制</th>
+      <th  CLASS="tablehead2">读/写</th>
+      <th  CLASS="tablehead2">只读</th>
     </tr>
     <tr > 
       <td  scope="row"> 
-        <p >Reassign ownership to another user or LDAPGroup</p>
+        <p >将所有权重指派给另一用户或 LDAP 组</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >有</p>
       </td>
       <td >
-        <p >No</p>
+        <p >否</p>
       </td>
       <td >
-        <p >No</p>
+        <p >否</p>
       </td>
       <td >
-        <p >No</p>
-      </td>
-    </tr>
-    <tr > 
-      <td  scope="row"> 
-        <p >Set a quota for the iFolder</p>
-      </td>
-      <td >
-        <p >Yes</p>
-      </td>
-      <td >
-        <p >No</p>
-      </td>
-      <td >
-        <p >No</p>
-      </td>
-      <td >
-        <p >No</p>
+        <p >否</p>
       </td>
     </tr>
     <tr > 
       <td  scope="row"> 
-        <p >Make the iFolder available to other users (sharing)</p>
+        <p >设置 iFolder 的定额</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >有</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >否</p>
       </td>
       <td >
-        <p >No</p>
+        <p >否</p>
       </td>
       <td >
-        <p >No</p>
+        <p >否</p>
       </td>
     </tr>
     <tr > 
       <td  scope="row"> 
-        <p >Make the iFolder unavailable to other users (stop sharing)</p>
+        <p >使 iFolder 可供其他用户使用（共享）</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >有</p>
       </td>
       <td >
-        <p >Yes, except the owner</p>
+        <p >有</p>
       </td>
       <td >
-        <p >No</p>
+        <p >否</p>
       </td>
       <td >
-        <p >No</p>
+        <p >否</p>
       </td>
     </tr>
     <tr > 
       <td  scope="row"> 
-        <p >Assign iFolder access rights for other users or LDAPGroup</p>
+        <p >使 iFolder 不可供其他用户使用（停止共享）</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >是</p>
       </td>
       <td >
-        <p >Yes, except the owner</p>
+        <p >是，拥有者除外</p>
       </td>
       <td >
-        <p >No</p>
+        <p >否</p>
       </td>
       <td >
-        <p >No</p>
+        <p >否</p>
       </td>
     </tr>
     <tr > 
       <td  scope="row"> 
-        <p >Read directories and files in the iFolder </p>
+        <p >为其他用户或 LDAP 组指派 iFolder 访问权限</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >是</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >是，拥有者除外</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >否</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >否</p>
       </td>
     </tr>
     <tr > 
       <td  scope="row"> 
-        <p >Add, modify, or delete directories and files in the iFolder</p>
+        <p >读取 iFolder 中的目录和文件 </p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >有</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >是</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >是</p>
       </td>
       <td >
-        <p >No</p>
+        <p >有</p>
       </td>
     </tr>
     <tr > 
       <td  scope="row"> 
-        <p >Rename directories and files in an iFolder</p>
+        <p >添加、修改或删除 iFolder 中的目录和文件</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >有</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >是</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >有</p>
       </td>
       <td >
-        <p >No</p>
+        <p >无</p>
       </td>
     </tr>
     <tr > 
       <td  scope="row"> 
-        <p >Rename the iFolder</p>
+        <p >重命名 iFolder 中的目录和文件</p>
       </td>
       <td >
-        <p >No</p>
+        <p >有</p>
       </td>
       <td >
-        <p >No</p>
+        <p >是</p>
       </td>
       <td >
-        <p >No</p>
+        <p >有</p>
       </td>
       <td >
-        <p >No</p>
+        <p >无</p>
       </td>
     </tr>
     <tr > 
       <td  scope="row"> 
-        <p >Set up an iFolder on multiple computers</p>
+        <p >重命名 iFolder</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >否</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >否</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >否</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >否</p>
       </td>
     </tr>
     <tr > 
       <td  scope="row"> 
-        <p >Revert an iFolder (do not participate on a local computer)</p>
+        <p >在多台计算机上设置 iFolder</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >有</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >是</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >是</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >有</p>
       </td>
     </tr>
     <tr > 
       <td  scope="row"> 
-        <p >Delete an available iFolder to decline participating</p>
+        <p >恢复 iFolder（不要在本地计算机上加入）</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >有</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >是</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >是</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >有</p>
       </td>
     </tr>
     <tr > 
       <td  scope="row"> 
-        <p >Delete the iFolder and delete the iFolder and its files from the server 
-          (make it a normal folder again and no longer share it with others)</p>
+        <p >删除可用的 iFolder 以谢绝加入</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >有</p>
       </td>
       <td >
-        <p >No</p>
+        <p >是</p>
       </td>
       <td >
-        <p >No</p>
+        <p >是</p>
       </td>
       <td >
-        <p >No</p>
+        <p >有</p>
+      </td>
+    </tr>
+    <tr > 
+      <td  scope="row"> 
+        <p >删除 iFolder 并将 iFolder 及其文件从服务器上删除（使其再次成为常规文件夹并且不再与他人共享它）</p>
+      </td>
+      <td >
+        <p >有</p>
+      </td>
+      <td >
+        <p >否</p>
+      </td>
+      <td >
+        <p >否</p>
+      </td>
+      <td >
+        <p >否</p>
       </td>
     </tr>
   </table>
-<H4>Setting 
-  the iFolder Access Right for a Member</H4>
+<H4>为成员设置 iFolder 访问权限</H4>
   
 <OL><LI>
-      <P>On the iFolder Details page, select the check box next to the member 
-        whose access right you want to manage.</P>
+      <P>在&ldquo;iFolder 细节&rdquo;页上，选中要管理其访问权限的成员旁边的复选框。</P>
     </LI><LI>
-      <P>Select the Rights drop-down menu, then select the Admin, Read/Write, 
-        or Read Only right.<BR>
-        <BR>Wait for the page to refresh. The user's icon should reflect the 
-new access right.</P></LI></OL>
-  <H4>Removing a Member</H4>
+      <P>选择&ldquo;权限&rdquo;下拉菜单，然后选择&ldquo;Admin&rdquo;、&ldquo;读/写&rdquo;或&ldquo;只读&rdquo;权限。<BR>
+        <BR>等待页面刷新。用户的图标应该反映新的访问权限。</P></LI></OL>
+  <H4>去除成员</H4>
 <ol>
-    <li>On the iFolder Details page, select the check box next to the member user's 
-      name.</li>
-    <li>Click Delete.</li>
+    <li>在&ldquo;iFolder 细节&rdquo;页上，选中成员用户名旁边的复选框。</li>
+    <li>单击&ldquo;删除&rdquo;。</li>
 </ol>
-<P>The user's local copy of the data remains on the 
-user's computer, but the user no longer has access to the server copy of the iFolder 
-data.</P><P> <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top" TITLE="Go to top"></A></P>
-	  <H4>Changing the Owner</H4>
-  <P>When you change the owner of an iFolder, the existing owner becomes a member 
-    of the iFolder and is assigned the Read/Write right. For orphaned iFolders, 
-    the iFolder Admin becomes the owner until the iFolder is reassigned to a new 
-    owner or deleted. If the new owner is not currently a member of the iFolder, 
-    a subscription notification is sent to the user's iFolder account.</P>
+<P>用户的数据本地拷贝仍保留在该用户的计算机上，但该用户将不能再访问 iFolder 数据的服务器拷贝。</P><P> <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="返回页首" TITLE="返回页首"></A></P>
+	  <H4>更改拥有者</H4>
+  <P>更改 iFolder 的拥有者时，现有拥有者将成为该 iFolder 的一个成员，并被指派&ldquo;读/写&rdquo;权限。对于孤立的 iFolder，iFolder Admin 将成为拥有者，直到该 iFolder 被重新指派给新的拥有者或被删除。如果新的拥有者当前不是 iFolder 的成员，系统将向该用户的 iFolder 帐户发送订购通知。</P>
   <OL>
     <LI> 
-      <P>On the iFolder Details page, search for the user or LDAPGroup you want 
-        to assign as the new owner of the iFolder.</P>
+      <P>在&ldquo;iFolder 细节&rdquo;页上，搜索要指派为该 iFolder 的新拥有者的用户或 LDAP 组。</P>
     </LI>
     <LI>
-      <P>Select the check box next to the user's name, then click <i>Owner</i>.</P>
+      <P>选中该用户名称旁边的复选框，然后单击<i>所有者</i>。</P>
     </LI>
     
   </OL>
-  <P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P>
-  <H3><A NAME="policy"></A>Policies</H3>
+  <P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="返回页首"></A></P>
+  <H3><A NAME="policy"></A>策略</H3>
   
-  <P>The following table lists the policies you can manage for any given iFolder. 
-    Modify one or more of the following values, then click Save to apply the new settings: </P>
-<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
-        <P>Disable Synchronization &nbsp;</P>
+  <P>下表列出了可为任意给定 iFolder 进行管理的策略。修改以下的一个或多个值，然后单击&ldquo;保存&rdquo;以应用新的设置： </P>
+<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>参数</P></TD><TD CLASS="tablehead2"><P>说明</P></TD></TR><TR><TD VALIGN="TOP">
+        <P>禁用同步</P>
       </TD><TD>
-        <P>Select this option to turn off synchronization, usually temporarily. 
+        <P>选择此选项可关闭同步（通常是临时性的）。 
         </P>
-        <P>Deselect this option to allow the synchronization of data in the iFolder.</P>
-        <P>Default value: Enabled, Yes</P>
+        <P>取消选择此选项可同步 iFolder 中的数据。</P>
+        <P>默认值：已启用，是</P>
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>Disk Quota&nbsp;</P>
+        <P>磁盘定额</P>
       </TD><TD>
-        <P>Select the Limit check box, then specify the maximum size (in MB) for 
-          the selected iFolder.</P>
-        <P>If you enable System-wide iFolder quota or LDAPGroup level quota, a 
-          user's account quota overrides it, if the user quota is lower or higher 
-          than the LDAPGroup quota or system quota. </P>
-        <P>Default value: Disabled, No Limit</P>
+        <P>选中&ldquo;限制&rdquo;复选框，然后指定所选 iFolder 的最大大小（以 MB 计）。</P>
+        <P>如果启用了系统范围的 iFolder 定额或 LDAP 组级定额，且用户定额低于或高于 LDAP 组定额或系统定额，则用户的帐户定额将覆盖这些定额。 </P>
+        <P>默认值：已禁用，无限制</P>
       </TD></TR><TR><TD VALIGN="TOP">
-        <P> Used</P>
-        <P>(View only)&nbsp;</P></TD><TD>
-        <P>Reports the space the iFolder data currently consumes.</P>
+        <P> 已用空间</P>
+        <P>（仅供查看）</P></TD><TD>
+        <P>报告 iFolder 数据当前占用的空间。</P>
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>Available</P>
-        <P>(View only)&nbsp;</P></TD><TD>
-        <P>Reports the space available on the server for the iFolder data.</P>
+        <P>可用空间</P>
+        <P>（仅供查看）</P></TD><TD>
+        <P>报告服务器上 iFolder 数据的可用空间。</P>
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>Effective</P>
-        <P>(View only)&nbsp;</P></TD><TD>
-        <P>Reports effective space available on the server for the iFolder data.</P>
+        <P>有效空间</P>
+        <P>（仅供查看）</P></TD><TD>
+        <P>报告服务器上 iFolder 数据可用的有效空间。</P>
       </TD></TR>
 	  <TR><TD VALIGN="TOP">
-        <p>File Size</p>
+        <p>文件大小</p>
       </TD>
-      <TD> <B>Limit</B><BR>
-          Specifies the maximum total file size (in MB) that an iFolder user 
-          is allowed to use, across all iFolders the user owns for the selected 
-          user account. <br>
+      <TD> <B>限制</B><BR>
+          指定在 iFolder 用户的选定用户帐户所拥有的所有 iFolder 中，允许该用户使用的最大文件总大小（以 MB 计）。 <br>
           <BR>
-        <B>Effective</B><BR>
-        Effective file size allocated for the user.<br>
-		<ul><P><font size="-1"><b>IMPORTANT:</b> Users cannot successfully synchronize 
-          files of a size that would cause a quota to be exceeded. If they try 
-          to do so, only part of the file is synchronized, resulting in data corruption.</font></P></ul>
+        <B>有效</B><BR>
+        分配给用户的有效文件大小。<br>
+		<ul><P><font size="-1"><b>重要说明：</b>用户不能成功同步大小超出定额的文件。如果用户尝试这样做，则只有部分文件被同步，这将导致数据损坏。</font></P></ul>
       </TD></TR>
 	  <TR>
       <TD VALIGN="TOP"> 
-        <p>Excluded Files</p>
+        <p>排除的文件</p>
       </TD>
       <TD> 
-        <P>Specifies a list of file types to include or to exclude from synchronization 
-          for the selected iFolder.</P>
-        <p>The file manager files called thumbs.db and .DS_Store are never synchronized. 
+        <P>为所选 iFolder 指定要包括到同步中的文件类型列表或要从同步中排除的文件类型列表。</P>
+        <p>名为 thumbs.db 和 .DS_Store 的文件管理器文件将永远不会被同步。 
         </p>
     
-        <P>To add a file extension to the exclusion filter, type the extension 
-          (such as *.mpg), then click Add to apply the filter. </P>
-        <P>To exclude a file type from the restricted file types, select the check 
-          box adjacent to the File Name, then select the file type and click Delete.</P>
+        <P>要将文件扩展名添加到排除过滤器，请先键入扩展名（如 *.mpg），然后单击&ldquo;添加&rdquo;以应用过滤器。 </P>
+        <P>要从受限的文件类型中排除文件类型，请先选中&ldquo;文件名&rdquo;旁边的复选框，然后选择文件类型并单击&ldquo;删除&rdquo;。</P>
          
-        <P>Default value: Disabled, Allow all file types or the System-wide settings</P>
+        <P>默认值：已禁用，允许所有文件类型或系统级设置</P>
       </TD></TR>
 	
       
 <TR><TD VALIGN="TOP">
-        <P> Synchronization Interval &nbsp;</P>
+        <P> 同步间隔</P>
       </TD><TD>
-        <P>Select the Synchronization interval check box to enable a minimum interval 
-          setting for the selected iFolder, then specify the minimum value in 
-          minutes that the users are allowed to set on their iFolder client.</P>
-        <P> To disable the setting, deselect the Synchronization Interval check 
-          box. If the option is disabled, the value reported is Unlimited.</P>
-        <P> If this option is enabled, the minimum synchronization interval specifies 
-          the minimum interval in minutes that a user's client can check iFolder 
-          data on the server and local iFolders to identify the files that need 
-          to be downloaded or uploaded.</P>
-  <P>      The effective minimum synchronization interval is always the largest value from the following settings:</P>
+        <P>选中&ldquo;同步间隔&rdquo;复选框为所选 iFolder 启用最小间隔设置，然后指定用户可以在其 iFolder 客户程序上进行设置的最小间隔值（分钟）。</P>
+        <P> 要禁用此设置，请取消选中&ldquo;同步间隔&rdquo;复选框。如果禁用了此选项，则报告的值不受限制。</P>
+        <P> 如果已启用此选项，则最小同步间隔指定用户的客户程序可以检查服务器上的 iFolder 数据和本地 iFolder 以标识需要下载或上载文件的最小间隔（分钟）。</P>
+  <P>      有效最小同步间隔始终是下列设置中的最大值：</P>
   <ul>
     <li>
-            <p> The system policy (the default of 5 minutes), unless there is 
-              a user policy or LDAPGroup policy set. If a LDAPGroup policy set, 
-              the LDAPGroup policy overrides the system policy. If a user policy 
-              is set, the user policy overrides the LDAPGroup policy and system 
-              policy, whether it is larger or smaller in value.</p>
+            <p> 系统策略（默认值为 5 分钟），除非设置了用户策略或 LDAP 组策略。如果设置了 LDAP 组策略，LDAP 组策略将覆盖系统策略。如果设置了用户策略，则无论该用户策略的值是大于还是小于 LDAP 组策略和系统策略中的值，该用户策略都将覆盖这些策略。</p>
     </li>
     <li>
-      <p> The local machine policy, or the setting on the client machine synchronizing with the server</p>
+      <p> 本地计算机策略，或与服务器同步的客户机上的设置</p>
     </li>
     <li>
-      <p> The iFolder (collection) policy</p>
+      <p> iFolder（集合）策略</p>
     </li>
   </ul>  
-        <P> Default value: Disabled, iFolder client-set limit</P>
+        <P> 默认值：禁用、iFolder 客户程序设置限制</P>
       </TD>
 </TR><TR><TD VALIGN="TOP">
-        <P> Sharing</P>
-      </TD><TD> <B>On</B><BR>
-        By default, iFolder sharing is enabled. Deselect On to disable 
-        sharing for the selected iFolder. After applying this policy, selected 
-        iFolder cannot be shared either by the Admin or by the Owner of the iFolder.<br>
+        <P> 共享</P>
+      </TD><TD> <B>启用</B><BR>
+        默认情况下，将启用 iFolder 共享。取消选中启用以禁止共享选定 iFolder。应用此策略后，Admin 或 iFolder 的所有者将无法共享选定 iFolder。<br>
           <BR>
-        <B>Revoke</B><BR>
-        Select <i>Revoke</i> to remove all the members from the 
-        list of shared members for the selected iFolder.<br>
+        <B>撤消</B><BR>
+        选择<i>撤消</i>可从选定 iFolder 的共享成员列表中去除所有成员。<br>
 		<ul>
-          <P><font size="-1"><b>IMPORTANT:</b> Both these options are disabled 
-            if you enable and enforce the <i> Sharing</i> option at System or 
-            User level.</font></P>
+          <P><font size="-1"><b>重要说明：</b>如果您在系统或用户级别启用并强制使用<i>共享</i>选项，则将同时禁用这两个选项。</font></P>
         </ul>
       </TD></TR></TABLE><BR><P> 
   
-  <H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Related Topics" align="top"> 
-Related Topics</H4><BLOCKQUOTE class="task1"><P ><A HREF="ifolders.html">Managing iFolders 
-</A><BR><A HREF="users.html">Managing Users 
-</A><BR><A HREF="userdetails.html">User Details</A><BR><A HREF="servers.html#orphan" TARGET="_self">Managing 
-iFolder Servers</A>
+  <H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="相关主题" align="top"> 相关主题</H4><BLOCKQUOTE class="task1"><P ><A HREF="ifolders.html">管理 iFolder</A><BR><A HREF="users.html">管理用户</A><BR><A HREF="userdetails.html">用户细节</A><BR><A HREF="servers.html#orphan" TARGET="_self">管理 iFolder 服务器</A>
     </P>
-  </BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P><P>&nbsp;</P><P CLASS="copyright">A 
-trademark symbol (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP>, 
-etc.) denotes a Novell trademark. An asterisk (*) denotes a third-party trademark. 
-For more information, see <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Legal 
-Notices</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
+  </BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="返回页首"></A></P><P>&nbsp;</P><P CLASS="copyright">商标符号（<SUP><SMALL>&reg;</SMALL></SUP>、<SUP><SMALL>TM</SMALL></SUP> 等）表示 Novell 商标。星号 (*) 表示第三方商标。有关详细信息，请参见<A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">法律声明</font></A>。</P></div><!-- This is the end of the Help Content layer. --> 
 </body>
 
 </html>

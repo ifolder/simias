@@ -1,11 +1,11 @@
 <html>
 
    <head>
-     <meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+     <meta http-equiv="content-type" content="text/html;charset=UTF-8">
      
      <!-- Novell iFolder 3.x iManager Plugin  --> 
    
-     <title>iFolder Users </title>  	 
+     <title>iFolder 使用者 </title>  	 
         
      <!-- Metadata -->
    
@@ -28,8 +28,7 @@
        <!--
        
          body           {  font-family: Arial, Helvetica, Geneva;
-									background: white
-url(../../images/helphead_bg.gif) repeat-x 0% 0% }
+									background: white url('../../images/helphead_bg.gif') repeat-x;  }
 		      
          #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px;
 									width: 380px; visibility: visible }
@@ -54,175 +53,136 @@ url(../../images/helphead_bg.gif) repeat-x 0% 0% }
 <!-- This is the start of the Help Content Layer --> <div id="helpcontent"> <!-- The Page Heading uses CSS style "head3b". This creates an H3 header
             with a line beneath it.
        --> 
-  <h3 class="head3b">Managing a User Account</h3>
-  <p> Use this interface to manage iFolder users in the selected iFolder domain. 
-    The search tool helps you locate the Novell iFolder<SUP><SMALL>&reg;</SMALL></SUP> 
-    3.7 user account you want to manage. </p>
+  <h3 class="head3b">管理使用者帳戶</h3>
+  <p> 使用此介面管理選定 iFolder 領域內的 iFolder 使用者。搜尋工具可協助您找出您要管理的 Novell iFolder<SUP><SMALL>&reg;</SMALL></SUP> 3.7 使用者帳號。 </p>
 	
-  <P><B><FONT SIZE="-1">NOTE:</FONT></B> <FONT SIZE="-1">The term <i>iFolder users 
-    </i> refers to both individual users and LDAPGroups.</FONT></P>
+  <P><B><FONT SIZE="-1">注意：</FONT></B><FONT SIZE="-1"><i>iFolder 使用者</i>一詞代表的包括個別使用者和 LdapGroup。</FONT></P>
 	<BLOCKQUOTE CLASS="blockquote"><P><BR>
-      <A HREF="#browseuser" TARGET="_self">Browsing the Users</A> <BR>
-      <A HREF="#browsesearch" TARGET="_self">Browsing 
-the Users in the Search Results </A><BR> 
-<A HREF="#enabledisableuser" TARGET="_self">Enabling or Disabling an iFolder user</A><br>
-<A HREF="#provision" TARGET="_self">Provisioning iFolder Users </A> <br>
-<A HREF="#accessusers" TARGET="_self">Accessing the Users 
-Details Page </A> </P></BLOCKQUOTE>
-  <H4><A NAME="browseusers"></A>Browsing the Users <br>
+      <A HREF="#browseuser" TARGET="_self">瀏覽使用者</A> <BR>
+      <A HREF="#browsesearch" TARGET="_self">在搜尋結果內瀏覽使用者</A><BR> 
+<A HREF="#enabledisableuser" TARGET="_self">啟用或停用 iFolder 使用者</A><br>
+<A HREF="#provision" TARGET="_self">提供 iFolder 使用者</A> <br>
+<A HREF="#accessusers" TARGET="_self">存取使用者詳細資料頁</A> </P></BLOCKQUOTE>
+  <H4><A NAME="browseusers"></A>瀏覽使用者 <br>
   </H4>
   <OL><LI>
-      <P>From the Users page, select a name criterion (User Name, First Name, 
-        Last Name, Home Server).</P>
-    </LI><LI><P>Select a filter criterion (Contains, Begins 
-With, Ends With, Equals).</P></LI><LI><P>Use one or more of the following search 
-methods, then click Search:</P><UL><LI>
-          <P>Type the name of the user or LDAPGroup rin the Search Users field.</P>
-        </LI><LI><P>Type one or more letters in the Search Users field.</P></LI><LI>
-          <P>Type an asterisk (*) in the Search Users field to return a list of 
-            all Users and LDAPGroups on the system.</P>
+      <P>從「使用者」頁面，選取名稱準則 (名字、主目錄伺服器、姓氏、使用者名稱)。</P>
+    </LI><LI><P>選取過濾器標準 (「包含」、「開始於」、「結束以」)。</P></LI><LI><P>使用下列一或多種搜尋方法，然後按一下「搜尋」：</P><UL><LI>
+          <P>在「搜尋使用者」欄位內輸入使用者或 LDAPGroup 名稱。</P>
+        </LI><LI><P>在「搜尋伺使用者」欄位內輸入一或多個字母。</P></LI><LI>
+          <P>在「搜尋使用者」欄位內輸入星號 (*) 以傳回系統上所有使用者和 LDAPGroup 的清單。</P>
         </LI><LI>
-          <P>Leave the Search Users field empty to return a list of all Users 
-            and LDAPGroups on the system.</P>
+          <P>讓「搜尋使用者」欄位保持為空白，以傳回系統上所有使用者及 LDAPGroup 的清單。</P>
         </LI></UL>
-      <P>Do not click anywhere in the page until the page completely refreshes, 
-        then you can browse, sort, or manage the users listed in the Search Results 
-        report. </P>
+      <P>在頁面完全重新整理之前，請勿按下頁面的任何地方，接著您便可以瀏覽、排序或管理「搜尋結果」報告內列出的使用者。 </P>
+      <P><b>注意：</b>當您以次要管理員身分登入時，只能檢視您被指定為其次要管理員的使用者。此外，您可以根據您所擁有的權限來管理那些使用者。</P>
     </LI></OL>
-  <H4><A NAME="browsesearch"></A>Locating the Users in the Search Results</H4>
-  <P>Scroll up and down to browse the search results and locate the user you want 
-    to manage. The combination of the username and the first and last names help 
-    to identify the user you want.</P>
+  <H4><A NAME="browsesearch"></A>在搜尋結果內找出使用者</H4>
+  <P>向上及向下捲動以瀏覽搜尋結果並找出您想要管理的使用者。使用者名稱和名字及姓氏的組合有助於識別所需的使用者。</P>
   
-  <BLOCKQUOTE><P><B>Type</B>
-    <P><img src="../../images/provi_user.png"  alt="Folder icon">  indicates 
-      Provisioned users </P>
-		<P><img src="../../images/unprovi_user.png" alt="Shared icon">  indicates 
-      Unprovisioned users </P>
+  <BLOCKQUOTE><P><B>類型</B>
+    <P>
+    <img src="../../images/provi_user.png"  alt="資料夾圖示" width="14" height="16"> 指出提供的使用者 </P>
+		<P>
+        <img src="../../images/unprovi_user.png" alt="共享圖示" width="14" height="16">指出未提供的使用者。 </P>
 		
-    <p><img src="../../images/ifolder_admin.gif" width="16" height="16" alt="Shared icon"> 
-      indicates whether the user has the iFolder Admin right <br>
+    <p><img src="../../images/ifolder_admin.gif" width="16" height="16" alt="共享圖示">指出使用者是否有 iFolder 管理員權限。 <br>
 
-<BR><B>Name</B><BR>
-The username assigned 
-to the user account, such as jsmith or john.smith@example.com. Click the User Name link to manage User policies 
-and iFolders for the user. <BR>
-<BR><B>Full Name</B><BR>The first and last name 
-of the user account.<BR><br>
-      <B>Home</B> Server<BR>
-      iFolder server the user provisioned to.<br>
-      <BR><B>Enabled</B><BR>Specifies the status of the server.<br><br></BLOCKQUOTE>
-  <H4><A NAME="enabledisableuser"></A>Enabling or Disabling an iFolder user</H4>
+<BR><B>名稱</B><BR>
+為使用者帳戶指定的使用者名稱，例如：jsmith 或 john.smith@example.com。按一下「使用者名稱」連結，管理使用者規則和使用者的 iFolder。 <BR>
+<BR><B>全名</B><BR>使用者帳戶的名字和姓氏。<BR><br>
+      <B>主目錄</B><b>伺服器</b><BR>
+      使用者所提供的 iFolder 伺服器<br>
+      <BR><B>已啟用</B><BR>指定伺服器的狀態。<br><br></BLOCKQUOTE>
+  <H4><A NAME="enabledisableuser"></A>啟用或停用 iFolder 使用者</H4>
 	
-  <p> Follow the steps given below:</p> 
+  <p> 請遵循下列步驟進行：</p> 
   <OL>
     <LI> 
-      <P>Locate the iFolder user you want to manage, then select the check box 
-        next to the user.</P>
+      <P>找出您要管理的 iFolder 使用者，然後選取該使用者旁的核取方塊。</P>
     </LI>
     <ul> <li>
-      <P>Click Enable to enable the user.</P>
-      <P>This will allow the user to log in and synchronize iFolders.</P>
+      <P>按一下「啟用」以啟用使用者。</P>
+      <P>如此一來，使用者便可以登入並同步化 iFolder。</P>
     
     <LI> 
-      <P>Click Disable to disable the user.</P>
-      <P> If the user is logged in when you make this change, the user�s session 
-        continues until the user logs out. The policy takes effect the next time 
-        the user attempts to log in to the account. To have the lockout take effect 
-        immediately, you must restart the Apache services for the iFolder server, 
-        which disconnects all active sessions, including the user�s session.</P>
+      <P>按一下「停用」以停用使用者。</P>
+      <P> 當您在進行這項變更時，如果使用者已登入，則使用者的會期將會持續到使用者登出為止。規則會在下一次使用者嘗試登入帳戶時生效。若要鎖定使變更立即生效，您必須重新啟動 iFolder 伺服器的 Apache 服務，如此將會中斷所有使用中會期，包括使用者的會期。</P>
     </LI></ul>
   </OL>
-  <H3><A NAME="provision"></A>Provisioning / Reprovisioning iFolder Users </H3>
+  <H3><A NAME="provision"></A>供應/重新供應 iFolder 使用者 </H3>
   
    
   
-  <P>Use this interface to manually provision or reprovision the iFolder users 
-    to different servers available in the current iFolder domain. </p> 
+  <P>使用這個介面可手動供應或重新供應 iFolder 使用者給 iFolder 領域中可用的不同伺服器。 </p> 
   
-  <p> To provision / reprovision the iFolder users, perform any of the following:</P>
+  <p> 若要供應/重新供應 iFolder 使用者，請執行下列任一步驟：</P>
 	
-  <H4><A NAME="drop_down"></A>Provisioning Using Drop-Down List</H4>
+  <H4><A NAME="drop_down">使用下拉式清單提供</A></H4>
    
   <ol>
     <LI> 
-      <P>Locate the iFolder users you want to provision.</P>
+      <P>找出您想要提供的 iFolder 使用者。</P>
     </LI><LI> 
-      <P>Select the iFolder server from the Home drop-down list given against 
-        each user.</P>
+      <P>從每個使用者所擁有的首頁下拉式清單中選取 iFolder 伺服器。</P>
     </LI><LI> 
-      <P>Click Save.</P>
+      <P>按一下「儲存」。</P>
     </LI>
   </ol>
-	<H4><A NAME="provision_button"></A>Provisioning Using Provision Button</H4>
+	<H4><A NAME="provision_button">使用「供應」按鈕提供</A></H4>
   
     <ol><LI>
-      <p>Locate the iFolder users you want to manage.</p>
+      <p>找出您想要管理的 iFolder 使用者。</p>
     </li><li>
-      <p>Select the check box next to each user. </P>
+      <p>選取使用者旁的核取方塊。 </P>
     </li>
-    <li>Click Provision to open a new page where you can provision / reprovision 
-      the selected users to an iFolder server in the domain.</LI>
+    <li>按一下「供應」以開啟新頁面，此處可供您將選定的使用者供應/重新供應給領域內的 iFolder 伺服器。</LI>
   </ol>
-  <P><B><FONT SIZE="-1">NOTE:</FONT></B> <FONT SIZE="-1"> When a user logins for 
-    the first time and if a home server for the user is not set at the user level, 
-    then the server assigned to the LDAPGroup the user belongs to, is automatically 
-    allocated to the user.</FONT></P>
-  <H3><A NAME="newuser"></A>Creating a New iFolder User</H3>
+  <P><B><FONT SIZE="-1">注意：</FONT></B><FONT SIZE="-1">使用者第一次登入時，如果未在使用者層級設定使用者的主伺服器，則設定給使用者所屬 LDAPGroup 的伺服器會自動配置給此使用者。</FONT></P>
+  <H3><A NAME="newuser"></A>建立新的 iFolder 使用者</H3>
   <BLOCKQUOTE> 
-    <P><B><FONT SIZE="-1">NOTE:</FONT></B> <FONT SIZE="-1">You can create only 
-      non-LDAP users. You can create them only when your iFolder server is not 
-      connected to the LDAP server.</FONT></P>
+    <P><B><FONT SIZE="-1">注意：</FONT></B><FONT SIZE="-1">您只可以建立非 LDAP 的使用者。只有在 iFolder 伺服器未與 LDAP 伺服器連接時，才能建立這些使用者。</FONT></P>
   </BLOCKQUOTE>
 <OL><LI>
-      <P>On the iFolder Users page, click New.</P>
-	  <P>The iFolder User creation page opens to the Users tab </P>
+      <P>在「iFolder 使用者」頁上按一下「新增」。</P>
+	  <P>「建立 iFolder 使用者」頁會開啟「使用者」索引標籤 </P>
     </LI>
-    <LI>Specify the following information and then click Create.
+    <LI>指定下列資訊，然後按一下「建立」。
   </ol>
   <P><BLOCKQUOTE>
-    <B>User Name</B><BR>
-    Assign a username to the user account, such as jsmith or john.smith@example.com. 
+    <B>使用者名稱</B><BR>
+    為使用者帳戶指定使用者名稱，例如：jsmith 或 john.smith@example.com。 
     <BR>
 	<BR>
-    <B>First Name</B><BR>
-    First name of the user.<br>
+    <B>名</B><BR>
+    使用者的名稱。<br>
     <BR>
-    <B>Last Name</B><BR>
-    Last name of the user. <BR>
-<BR><B>Full Name</B><BR>The first and last name 
-of the user account. <br>
+    <B>姓氏</B><BR>
+    使用者的姓氏。 <BR>
+<BR><B>全名</B><BR>使用者帳戶的名字和姓氏。 <br>
 <BR>
-    <B>Password</B><BR>
-    Assign a password for the user account.<br>
+    <B>密碼</B><BR>
+    指定使用者帳戶的密碼。<br>
     <BR>
-    <B>Retype password</B><BR>
-    Retype the password to verify it. <BR>
+    <B>重新輸入密碼</B><BR>
+    再次輸入密碼加以驗證。 <BR>
   </BLOCKQUOTE>
-  <h4><a name="accessusers"></a>Accessing the Users Details Page</h4>
-  <p> Follow the procedure given below:</p>
+  <h4><a name="accessusers"></a>存取使用者詳細資料頁</h4>
+  <p> 請遵循下列程序進行：</p>
   
   <ol>
     <li> 
-      <p>On the iFolder User page, use the search tool to locate the user whose 
-        iFolder account you want to manage.</p>
+      <p>在「ifolder 使用者」頁上，使用搜尋工具找出您要管理其 ifolder 帳戶的使用者。</p>
     </li>
     <li> 
-      <p>Click the user's name link to open the User Details page to the Users 
-        tab.</p>
+      <p>按一下使用者的名稱連結，開啟「詳細資料」頁的「使用者」索引標籤。</p>
     </li>
   </ol>
-<P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P>
+<P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="移至頂端"></A></P>
   
-  <H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Related Topics" align="top"> 
-Related Topics</H4>
+  <H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="相關主題" align="top"> 相關主題</H4>
   
-  <BLOCKQUOTE class="task1"><P><A HREF="userdetails.html">User Details</A><BR><A HREF="ifolderdetails.html">Managing iFolder Details
-</A><BR><A HREF="ifolders.html">Managing an iFolder</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P><P>&nbsp;</P><P CLASS="copyright">A 
-trademark symbol (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP>, 
-etc.) denotes a Novell trademark. An asterisk (*) denotes a third-party trademark. 
-For more information, see <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Legal 
-Notices</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
+  <BLOCKQUOTE class="task1"><P><A HREF="userdetails.html">使用者詳細資料</A><BR><A HREF="ifolderdetails.html">管理 iFolder 詳細資料 </A><BR><A HREF="ifolders.html">管理 iFolder</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="移至頂端"></A></P><P>&nbsp;</P><P CLASS="copyright">商標符號 (<SUP><SMALL>&reg;</SMALL></SUP>、<SUP><SMALL>TM</SMALL></SUP> 等) 代表 Novell 的商標；星號 (*) 則代表協力廠商的商標。如需詳細資訊，請參閱<A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">法律聲明</font></A>。</P></div><!-- This is the end of the Help Content layer. --> 
 </body>
 
 </html>

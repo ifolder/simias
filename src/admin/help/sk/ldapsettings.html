@@ -1,11 +1,11 @@
 <html>
 
    <head>
-     <meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+     <meta http-equiv="content-type" content="text/html;charset=UTF-8">
      
      <!-- Novell iFolder 3.7  --> 
    
-     <title>Managing the LDAP Settings</title>  	 
+     <title>Spr&aacute;va nastaven&iacute; LDAP</title>  	 
      
      <!-- Metadata -->
    
@@ -52,103 +52,63 @@
 <!-- This is the start of the Help Banner Layer --> <div id="headgraphic"> <img src="../../images/h1_help.gif" width="380" height="32"   border="0"></div><!-- This is end of the Help Banner Layer --> 
 <!-- This is the start of the Help Content Layer --> <div id="helpcontent"> <!-- The Page Heading uses CSS style "head3b". This creates an H3 header
             with a line beneath it.
-       --> <h3 class="head3b">Managing the LDAP Settings for the iFolder System</h3>
-  <p> Use this interface to modify the LDAP settings for the selected Novell<SUP><SMALL>&reg;</SMALL></SUP> iFolder<SUP><SMALL>&reg;</SMALL></SUP> 
-    3.7 server on this iFolder domain. </p>
+       --> <h3 class="head3b">Spr&aacute;va nastaven&iacute; LDAP pre syst&eacute;m služby iFolder</h3>
+  <p> Pomocou tohto rozhrania m&ocirc;žete zmeniť nastavenia LDAP pre vybrat&yacute; server aplik&aacute;cie Novell<SUP><SMALL>&reg;</SMALL></SUP> iFolder<SUP><SMALL>&reg;</SMALL></SUP> 3.7 &reg; 3.7 v tejto dom&eacute;ne aplik&aacute;cie iFolder. </p>
   
-  <H3><A NAME="modify"></A>Modifying 
-the LDAP Settings</H3><P>Modify any of the following fields, then click <i>OK</i> to 
-apply your changes:</P><TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR>
+  <H3><A NAME="modify"></A>Zmena nastaven&iacute; LDAP</H3><P>Zmeňte ľubovoľn&eacute; z nasleduj&uacute;cich pol&iacute; a kliknut&iacute;m na tlačidlo <i></i>OK zmeny použite:</P><TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Popis</P></TD></TR>
 <TR><TD VALIGN="TOP">
-        <P>LDAP Admin DN</P>
+        <P>DN spr&aacute;vcu LDAP</P>
       </TD><TD>
-        <P>Specify the fully distinguished name of the LDAP Admin. This can be 
-          the same or different as your iFolder Admin.</P>
+        <P>Zadajte &uacute;pln&yacute; jednoznačn&yacute; n&aacute;zov spr&aacute;vcu LDAP. M&ocirc;že byť rovnak&yacute; alebo rozdielny ako spr&aacute;vca aplik&aacute;cie iFolder.</P>
       </TD></TR>
 	  <TR><TD VALIGN="TOP">
-        <P>LDAP Admin&nbsp;Password&nbsp;</P>
+        <P>Heslo&nbsp;spr&aacute;vcu&nbsp;LDAP</P>
       </TD><TD>
-        <P>The password is used to authenticate the LDAP Admin user to the LDAP 
-          server. </P>
+        <P>Pomocou tohto hesla sa spr&aacute;vca LDAP overuje pre server LDAP. </P>
         
-        <P>Click <i>OK</i> to update the password stored in the LDAP settings.</P>
+        <P>Ak chcete aktualizovať heslo uložen&eacute; v nastaveniach LDAP, kliknite na tlačidlo <i>OK</i>.</P>
 <blockquote>
   
 </blockquote>
 </TD></TR><TR><TD VALIGN="TOP">
-        <P>LDAP Server</P>
+        <P>Server LDAP</P>
       </TD><TD>
-        <P>Specify the DNS name or IP address of the LDAP server. This can be 
-          any of the iFolder servers in the iFolder system.</P>
+        <P>Zadajte n&aacute;zov DNS alebo adresu IP servera LDAP. Toto m&ocirc;že byť ktor&yacute;koľvek server aplik&aacute;cie iFolder v syst&eacute;me aplik&aacute;cie iFolder.</P>
       </TD></TR>
 	  <TR><TD VALIGN="TOP">
-        <P>LDAP SSL</P>
+        <P>Protokol SSL serveru LDAP</P>
       </TD><TD>
-        <P>Select <i>Yes</i> to enable LDAP SSL. If SSL is enabled on the server, 
-          the value is Yes; otherwise, the value is No.<BR>
+        <P>Ak chcete povoliť protokol SSL servera LDAP, vyberte možnosť <i>&Aacute;no</i>. Ak je protokol SSL na serveri povolen&yacute;, hodnota je &Aacute;no. V opačnom pr&iacute;pade je Nie.<BR>
         </P></TD></TR><TR><TD VALIGN="TOP">
-        <P>Proxy&nbsp;User&nbsp;&nbsp;</P>
+        <P>Použ&iacute;vateľ servera&nbsp;proxy&nbsp;&nbsp;</P>
       </TD><TD>
-        <P>The iFolder Proxy user is an existing proxy user identity used to access 
-          the LDAP server with Read access to retrieve a list of authorized users. 
-          The proxy user is automatically created during the iFolder enterprise 
-          server configuration in YaST. The username is auto-generated to be unique 
-          on the system. </P>
-    <P> Make sure that the user account assigned as the iFolder Proxy user is different than the one used for the iFolder Admin user and other system users. Separating the proxy user from the administrator provides privilege separation and is also important because the proxy user password is stored in the file system on the iFolder server.</P>
-    <P> Specify the fully distinguished name of an existing user that you want to make the iFolder Proxy user. This identity must have the Read right to the LDAP directory. For example: </P>
+        <P>Použ&iacute;vateľ servera proxy aplik&aacute;cie iFolder je existuj&uacute;cou identitou použ&iacute;vateľa, ktor&aacute; sa použ&iacute;va na pr&iacute;stup s pr&aacute;vom na č&iacute;tanie k serveru LDAP a z&iacute;skanie zoznamu overen&yacute;ch použ&iacute;vateľov. Použ&iacute;vateľ servera proxy je automaticky vytvoren&yacute; počas konfigur&aacute;cie podnikov&eacute;ho servera aplik&aacute;cie iFolder v n&aacute;stroji YaST. Meno použ&iacute;vateľa je automaticky vytvoren&eacute; tak, aby bolo v syst&eacute;me jednoznačn&eacute;. </P>
+    <P> Uistite sa, že &uacute;čet použ&iacute;vateľa priraden&yacute; použ&iacute;vateľovi servera proxy aplik&aacute;cie iFolder je in&yacute;, než &uacute;čet, priraden&yacute; spr&aacute;vcovi aplik&aacute;cie iFolder a in&yacute;m použ&iacute;vateľom syst&eacute;mu. Oddelenie použ&iacute;vateľa servera proxy od spr&aacute;vcu umožňuje oddelenie privil&eacute;gi&iacute;. D&ocirc;ležit&eacute; je i preto, že heslo použ&iacute;vateľa servera proxy je uložen&eacute; v s&uacute;borovom syst&eacute;me na serveri aplik&aacute;cie iFolder.</P>
+    <P> Zadajte &uacute;pln&yacute; jednoznačn&yacute; n&aacute;zov existuj&uacute;ceho použ&iacute;vateľa, ktor&eacute;ho chcete urobiť použ&iacute;vateľom servera proxy aplik&aacute;cie iFolder. T&aacute;to identita mus&iacute; mať pr&aacute;vo na č&iacute;tanie priečinka LDAP. Pr&iacute;klad: </P>
         <P> cn=iFolderProxy,o=acme</P>
-    <P> Make sure to also enter the new user's password in the Proxy Password field.</P>
-        <P> After you modify the Proxy user, you might want to immediately synchronize 
-          the LDAP user lists, using the new iFolder proxy information; otherwise, 
-          the Proxy user information is not tested until the next scheduled synchronization 
-          of the user list. Use the <i>Sync Now</i> option under <i>LDAP Details</i> 
-          on the Server Details page to synchronize the iFolder user list on demand 
-          and verify your new Proxy user settings.</P>
+    <P> Nezabudnite zadať heslo nov&eacute;ho použ&iacute;vateľa do poľa Heslo servera proxy.</P>
+        <P> Po vykonan&iacute; zmien použ&iacute;vateľa servera proxy je vhodn&eacute; okamžite synchronizovať zoznamy použ&iacute;vateľov služby LDAP pomocou nov&yacute;ch inform&aacute;ci&iacute; servera proxy aplik&aacute;cie iFolder. V opačnom pr&iacute;pade nebud&uacute; nov&eacute; inform&aacute;cie o použ&iacute;vateľovi servera proxy vysk&uacute;šan&eacute;, k&yacute;m nenastane ďalšia napl&aacute;novan&aacute; synchroniz&aacute;cia zoznamu použ&iacute;vateľov. Použite možnosť <i>Synchronizovať</i> v časti <i>Podrobnosti služby LDAP</i> na str&aacute;nke Podrobnosti servera. T&yacute;m požiadate o synchroniz&aacute;ciu zoznamu použ&iacute;vateľov služby iFolder a over&iacute;te nov&eacute; nastavenia použ&iacute;vateľa servera proxy.</P>
       </TD></TR>
-	<TR><TD VALIGN="TOP"><P>Proxy&nbsp;User&nbsp;Password&nbsp;</P></TD><TD>
-        <P>The password is used to authenticate the iFolder Proxy user to the 
-          LDAP server when iFolder synchronizes users with the LDAP server. </P>
-        <P>To modify the iFolder Proxy User password, you do not need to update the value stored in LDAP settings for the iFolder system. 
-          You can directly use this interface to modify the password.</p>
-        <P>This password must match the password stored in the iFolder Proxy user&#146;s 
-eDirectory<sup><small>TM</small></sup> object. </P>
-<P>Specify the password twice, then click <i>OK</i> to update the password stored in the LDAP settings.</P>
+	<TR><TD VALIGN="TOP"><P>Heslo použ&iacute;vateľa servera proxy</P></TD><TD>
+        <P>Pomocou hesla sa overuje použ&iacute;vateľ servera proxy aplik&aacute;cie iFolder pre server LDAP, keď aplik&aacute;cia iFolder synchronizuje použ&iacute;vateľov so serverom LDAP. </P>
+        <P>Ak chcete zmeniť heslo použ&iacute;vateľa servera proxy aplik&aacute;cie iFolder, nemus&iacute;te aktualizovať hodnotu uložen&uacute; v nastaveniach servera LDAP pre syst&eacute;m aplik&aacute;cie iFolder. Heslo m&ocirc;žete priamo zmeniť pomocou tohto rozhrania.</p>
+        <P>Toto heslo sa mus&iacute; zhodovať s heslom, ktor&eacute; bolo nastaven&eacute; v objekte služby eDirectory<sup><small>TM</small></sup> použ&iacute;vateľa servera proxy aplik&aacute;cie iFolder. </P>
+<P>Dvakr&aacute;t zadajte heslo. Potom kliknut&iacute;m na tlačidlo <i>OK</i> aktualizujte heslo, uložen&eacute; v nastaveniach servera LDAP.</P>
 
         
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>LDAP Contexts</P>
+        <P>Kontexty LDAP</P>
       </TD><TD>
-        <P> Specify or edit the LDAP containers, groups, or users where iFolder 
-          searches for a list of authorized users to provision for iFolder servers 
-          on this enterprise server. LDAP contexts are entered in LDAP format. 
-          For example: </P>
+        <P> Zadajte alebo upravte kontajnery, skupiny a použ&iacute;vateľov LDAP, v ktor&yacute;ch m&aacute; aplik&aacute;cia iFolder vyhľadať zoznam overen&yacute;ch použ&iacute;vateľov, ktor&yacute; m&aacute; poskytn&uacute;ť serverom aplik&aacute;cie iFolder na tomto podnikovom serveri. Kontexty LDAP s&uacute; zad&aacute;van&eacute; vo form&aacute;te LDAP. Pr&iacute;klad: </P>
         <P> cn=group,o=acme#cn=dbgroup,o=acme#</P>
-        <P>To edit a value, select it, make your changes, then click <i>OK</i> to apply 
-          the changes.</P>  
+        <P>Ak chcete upraviť hodnotu, vyberte ju a vykonajte požadovan&eacute; zmeny. Kliknut&iacute;m na tlačidlo <i>OK</i> zmeny použite.</P>  
   
-        <P>During LDAP synchronization, the iFolder server queries the LDAP server 
-          to retrieve a list of users in the DNs (as specified in the <i>LDAP 
-          Contexts</i> field) at the specified synchronization interval. The usernames 
-          in the iFolder domain are matched against this official LDAP list. Any 
-          new user in the specified LDAP contexts is added to the iFolder domain. 
-          If a user is no longer in the specified LDAP contexts, the username 
-          is removed from the domain, any iFolders the user owns are orphaned 
-          and reassigned to the iFolder Admin user, and the user is removed as 
-          a member of other iFolders.</P>
-        <P>The iFolder Admin User is provisioned for servers during the install. 
-          It is tracked by its GUID, so it is available even if you do not specify 
-          a container, group, or user, or if you specify search DNs that do not 
-          contain the Folder Admin user. This identity must be provisioned to 
-          enable the iFolder Admin to perform management tasks.</P>
+        <P>Spr&aacute;vca aplik&aacute;cie iFolder je pre servery nastaven&yacute; počas inštal&aacute;cie. Spr&aacute;vca je sledovan&yacute; podľa identifik&aacute;cie GUID, takže je k dispoz&iacute;cii i v pr&iacute;pade, že nezad&aacute;te kontajner, skupinu alebo použ&iacute;vateľa alebo v pr&iacute;pade, že zad&aacute;te n&aacute;zvy DN vyhľad&aacute;vania, ktor&eacute; neobsahuj&uacute; spr&aacute;vcu aplik&aacute;cie iFolder. T&aacute;to identita mus&iacute; byť k dispoz&iacute;cii, inak nebude m&ocirc;cť spr&aacute;vca aplik&aacute;cie iFolder vykon&aacute;vať &uacute;lohy spr&aacute;vy. </P>
+        <P>Synchroniz&aacute;ciu LDAP je možn&eacute; napl&aacute;novať, alebo spustiť manu&aacute;lne kliknut&iacute;m na tlačidlo <i>Synchronizovať</i>. Počas synchroniz&aacute;cie LDAP vykon&aacute; server iFolder dotaz na server LDAP a nač&iacute;ta zoznam použ&iacute;vateľov z n&aacute;zvu DN zadan&eacute;ho v poli <i>Kontext protokolu LDAP</i>. Men&aacute; použ&iacute;vateľov v dom&eacute;ne aplik&aacute;cie iFolder sa porovnaj&uacute; so zoznamom LDAP. Ak sa v zadanom kontexte LDAP prid&aacute; alebo odstr&aacute;ni použ&iacute;vateľ, n&aacute;sledne sa aktualizuje aj dom&eacute;na aplik&aacute;cie iFolder.</P>
+        <P>Dokonca aj keď je použ&iacute;vateľ odstr&aacute;nen&yacute; z kontextu LDAP, pri prvej synchroniz&aacute;cii LDAP sa tento použ&iacute;vateľ iba deaktivuje v dom&eacute;ne aplik&aacute;cie iFolder bez ohľadu na politiku intervalu darovan&yacute;ch prihl&aacute;sen&iacute;. Deaktivovan&yacute; použ&iacute;vateľ sa nikdy neodstr&aacute;ni automaticky po uplynut&iacute; časov&eacute;ho intervalu darovan&yacute;ch prihl&aacute;sen&iacute; a bude aj naďalej existovať v dom&eacute;ne aplik&aacute;cie iFolder v deaktivovanom stave. Ak sa tento použ&iacute;vateľ nakonfiguruje znova pred uplynut&iacute;m časov&eacute;ho intervalu darovan&yacute;ch prihl&aacute;sen&iacute;, aktivuje sa spolu so všetk&yacute;mi priečinkami iFolder. Po uplynut&iacute; časov&eacute;ho intervalu darovan&yacute;ch prihl&aacute;sen&iacute; sa pri najbližšej synchroniz&aacute;cii LDAP použ&iacute;vateľ odstr&aacute;ni z dom&eacute;ny aplik&aacute;cie iFolder a všetky jeho priečinky iFolder sa stan&uacute; osamoten&yacute;mi. Osamoten&eacute; priečinky iFolder sa priradia spr&aacute;vcovi aplik&aacute;cie iFolder.</P>
       </TD></TR>
-  </TABLE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P><H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Related Topics" align="top"> 
-Related Topics</H4><BLOCKQUOTE class="task1">
-<P ><A HREF="system.html">Managing 
-the iFolder System</A><BR><A HREF="member.html">Managing a User Account</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P><P>&nbsp;</P><P CLASS="copyright">A 
-trademark symbol (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP>, 
-etc.) denotes a Novell trademark. An asterisk (*) denotes a third-party trademark. 
-For more information, see <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Legal 
-Notices</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
+  </TABLE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Prejsť na začiatok"></A></P><H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="S&uacute;visiace t&eacute;my" align="top"> S&uacute;visiace t&eacute;my</H4><BLOCKQUOTE class="task1">
+<P ><A HREF="system.html">Spr&aacute;va syst&eacute;mu služieb iFolder</A><BR><A HREF="member.html">Spr&aacute;va konta použ&iacute;vateľa</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Prejsť na začiatok"></A></P><P>&nbsp;</P><P CLASS="copyright">Symbol ochrannej zn&aacute;mky (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP> atď.) označuje ochrann&uacute; zn&aacute;mku spoločnosti Novell. Hviezdička (*) označuje ochrann&uacute; zn&aacute;mku nez&aacute;visl&eacute;ho v&yacute;robcu.   Ďalšie inform&aacute;cie n&aacute;jdete v časti <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Pr&aacute;vne prehl&aacute;senia</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
 </body>
 
 </html>

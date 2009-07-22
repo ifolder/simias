@@ -1,11 +1,11 @@
 <html>
 
    <head>
-     <meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+     <meta http-equiv="content-type" content="text/html;charset=UTF-8">
      
      <!-- Novell iFolder 3.x iManager Plugin  --> 
    
-     <title>iFolder System</title>  	 
+     <title>Sistema iFolder</title>  	 
    
         
      <!-- Metadata -->
@@ -28,7 +28,7 @@
 <style type= "text/css" media="screen">
        <!--
        
-         body           {  font-family: Arial, Helvetica, Geneva; background: white url(../../images/helphead_bg.gif) repeat-x 0% 0% }
+         body           {  font-family: Arial, Helvetica, Geneva; background: white url('../../images/helphead_bg.gif') repeat-x;  }
 		      
          #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px;
 									width: 380px; visibility: visible }
@@ -36,6 +36,8 @@
          #helpcontent    { position: absolute; top: 37px; left: 10px; 
 	                        width: 93%; visibility: visible }
       
+div.Section1
+	{page:Section1;}
        -->
      </style>
   
@@ -52,285 +54,364 @@
 <!-- This is the start of the Help Banner Layer --> <div id="headgraphic"> <img src="../../images/h1_help.gif" width="380" height="32"   border="0"></div><!-- This is end of the Help Banner Layer --> 
 <!-- This is the start of the Help Content Layer --> <div id="helpcontent"> <!-- The Page Heading uses CSS style "head3b". This creates an H3 header
             with a line beneath it.
-       --> <h3 class="head3b">Managing the iFolder System</h3>
-  <p> Use this interface to manage Novell iFolder<SUP><SMALL>&reg;</SMALL></SUP> 
-    3.7 services for the selected server.</p>
-  <P>This help discusses the following information:</P>
-  <blockquote> <P><A HREF="#sytemsettings" TARGET="_self">Viewing the System Settings
-</A> <BR><A HREF="#status" TARGET="_self">Reprovision Status</a><BR><A HREF="#admin" TARGET="_self">Administrators Tab</a><BR> <A HREF="#policy" TARGET="_self">Policies
-</a><BR></P></BLOCKQUOTE>
+       --> <h3 class="head3b">Gestione del sistema iFolder </h3>
+  <p> Utilizzare questa interfaccia per gestire i servizi Novell iFolder<SUP><SMALL>&reg;</SMALL></SUP> 3.7 per il server selezionato.</p>
+  <P>In questa guida vengono illustrate le informazioni seguenti:</P>
+  <blockquote> <P><A HREF="#sytemsettings" TARGET="_self">Impostazioni di sistema</A> <BR><A HREF="#status" TARGET="_self">Stato del nuovo provisioning</a><BR><A HREF="#admin" TARGET="_self">Scheda Amministratori</a><BR> <A HREF="#policy" TARGET="_self">Norme </a><BR></P></BLOCKQUOTE>
   
-  <H3><A NAME="sytemsettings"></A>Viewing the System Settings</H3>
-  <P>You 
-can view the following information:</P><TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
-        <P>System Name</P>
+  <H3><A NAME="sytemsettings"></A>Impostazioni di sistema</H3>
+  <p>Nella sezione relativa alle impostazioni di sistema vengono visualizzate le seguenti informazioni:</p>
+  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parametro</P></TD><TD CLASS="tablehead2"><P>
+    Descrizione</P></TD></TR><TR><TD VALIGN="TOP">
+        <P>Nome</P>
       </TD><TD>
-        <P>The name assigned to the iFolder domain.</P>
-		<P>To edit the name of the iFolder domain, specify the new name and click 
-          Save.</P>
+        <P>Il nome assegnato al dominio iFolder.</P>
+		<P>Per modificare il nome del dominio iFolder, specificare il nuovo nome e fare clic su Salva.</P>
 		  
-        <P>To cancel the changes made, click Cancel.</P>
+        <P>Fare clic su Annulla per annullare le modifiche apportate.</P>
       </TD><TR><TD VALIGN="TOP">
-        <P>Description</P>
+        <P>Descrizione</P>
       </TD><TD>
-        <P>A short description about the iFolder Domain.</P>
-		<P>To edit the system description, specify the new description and click 
-          Save.</P>
+        <P>Una breve descrizione del dominio iFolder..</P>
+		<P>Per modificare la descrizione del sistema, immetterne una nuova e fare clic su Salva.</P>
 		  
-        <P>To cancel the changes made, click Cancel.</P>
-      </TD><TR><TD VALIGN="TOP">
-        <P>Total Users</P>(view only)
-      </TD><TD>
-        <P>Reports the total number of users in the iFolder domain. 
-      </TD></TR><TR><TD VALIGN="TOP">
-        <P>Total iFolders</P>
-        (view only)
-      </TD><TD>
-        <P>Reports total number of iFolders that belongs to the iFolder domain. 
-      </TD></TR><TR><TD VALIGN="TOP">
-        <P>Enable SSL</P>
+        <P>Fare clic su Annulla per annullare le modifiche apportate.</P>
+      </TD>
+    <tr>
+      <TD VALIGN="TOP">
+        <P>Opzione SSL</P>
         
       </TD>
       <TD> 
-        <P>Select the check box to enable the SSL communication among the iFolder 
-          Servers, iFolder client, iFolder Web Access console and iFolder Web 
-          Admin console. 
-      </TD></TR></TABLE>
- <P> <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P> 
- <H3><A NAME="status"></A>Reprovision Status</H3> 
-  <p> You can move users across different servers. With this interface, you can 
-    view the reprovisioning status. Click Reprovision Status to view the reprovision 
-    status for each user. </p>
-  <P> <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P>
-  <H3><a name="admin"></a>iFolder Administrators</H3>
-<P>The iFolder Admin user is the primary administrator of the iFolder 
-enterprise server. Whenever iFolders are orphaned, ownership is transferred to 
-the iFolder Admin user for reassignment to another user or for deletion. You initially 
-specify the iFolder Admin user during the iFolder enterprise server configuration 
-in YaST. </P>
-  <P>The iFolder Admin user must be provisioned in order to enable the iFolder 
-    Admin to perform management tasks. iFolder tracks this user by the LDAP object 
-    GUID, allowing it to belong to any LDAP container or group in the tree, even 
-    those that are not identified as Search DNs. The user&#146;s movement can 
-    be tracked anywhere in the tree because it is known by the GUID, not by the 
-    user DN.</P>
-  <P>The iFolder Admin right can be assigned to other users so that they can also 
-    manage iFolder services for the selected server. Only users who are in one 
-    of the DNs specified in the LDAP Search DN are eligible to be equivalent to 
-    the iFolder Admin user.</P>
-  <P>If you assign the iFolder Admin right to other 
-users, those users are governed by the roster and Search DN relationship. The 
-user is removed from the roster and stripped of the iFolder Admin right if you 
-delete the user, remove the user&#146;s DN from the list of Search DNs, or move 
-the user to a DN that is not in the Search DNs.</P><P><font size="-1"><b>IMPORTANT:</b> You cannot assign the Admin user 
-          right to an LDAPGroup.</font></P>
-  <P>The System page displays the following iFolder Admin details for the iFolder 
-    domain:</P>
-	<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR>
+        <P>Visualizza la modalit&agrave; di comunicazione tra i server iFolder, il client iFolder, la console di accesso Web di iFolder e la console di amministrazione di iFolder. 
+      </TD>
+    </tr>
+    <TR><TD VALIGN="TOP">
+        <P>Totale utenti</P>(sola lettura)
+      </TD><TD>
+        <P>Indica il numero totale di utenti nel dominio iFolder. 
+      </TD></TR><TR><TD VALIGN="TOP">
+        <P>Totale cartelle iFolder</P>
+        (sola lettura)
+      </TD><TD>
+        <P>Indica il numero totale di cartelle iFolder appartenenti al dominio iFolder. 
+      </TD></TR><TR><TD VALIGN="TOP">
+        Ordine di visualizzazione Nome completo</TD><TD>
+        <p>
+        Consente di impostare l'ordine in cui viene visualizzato il nome completo dell'utente. Selezionare l'opzione <i>(Nome, Cognome)</i> per visualizzare il nome seguito dal cognome. In alternativa, per visualizzare il cognome seguito dal nome, selezionare l'opzione <i>(Cognome, Nome)</i>. </p>
+        <p class="Normal2">
+        Per applicare le modifiche, &egrave; necessario che venga eseguita una sincronizzazione LDAP pianificata o manuale. Per eseguire una sincronizzazione LDAP manuale:</p>
+        <ol>
+          <li>
+          <p class="Normal2">
+          <span style="font-size:11.0pt;font-family:Arial;
+">Nella console amministrativa Web, fare clic sulla scheda <i>Server</i>, selezionare il server, quindi passare alla pagina relativa ai dettagli del server.</span></li>
+          <li>
+          <p class="Normal2">
+          <span style="font-size: 11.0pt; font-family: Arial; ">Nella sezione <i>Dettagli LDAP</i> fare clic sul pulsante <i>Sincronizza ora</i>.</span></li>
+        </ol>
+      </TD></TR><TR><TD VALIGN="TOP">
+        <span style="font-size: 11.0pt; font-family: Arial; "> Gestisci quota gruppo utilizzando</span></TD><TD>
+        <p class="Normal2">
+        <span style="font-size:11.0pt;font-family:Arial;">Consente di definire la modalit&agrave; di gestione della quota del disco complessiva impostata per i gruppi. </span></p>
+        <p class="Normal2">
+        <span style="font-size:11.0pt;font-family:Arial;">Selezionare l'opzione relativa alla <i>console di amministrazione</i> per consentire agli amministratori di gestire in modo esplicito la quota del disco per i gruppi e i membri di un gruppo. Quando si seleziona questa opzione, la quota del disco assegnata agli utenti viene limitata in modo che non superi l'uso del disco complessivo del gruppo. Per default, l'opzione relativa alla <i>console dell'amministratore</i> &egrave; selezionata.</span></p>
+        <p class="Normal2">
+        <span style="font-size:11.0pt;font-family:Arial;">Selezionare l'opzione relativa al <i>motore di sincronizzazione</i> per abilitare il motore di sincronizzazione per la gestione della quota del disco complessiva per i gruppi in back end. Il motore di sincronizzazione garantisce che la quota del disco per tutti gli utenti di un gruppo non superi la quota del disco complessiva del gruppo.</span></p>
+        <p class="Normal2">
+        <span style="font-size:11.0pt;font-family:Arial;">Selezionare l'opzione <i>Entrambi</i> per utilizzare la console dell'amministratore e il motore di sincronizzazione per la gestione dell'uso della quota del disco complessiva per i gruppi.</span></TD></TR><TR><TD VALIGN="TOP">
+        <span style="font-size: 11.0pt; font-family: Arial; "> Gruppi segregati</span></TD><TD>
+        <span style="font-size: 11.0pt; font-family: Arial; "> Consente di segregare i gruppi in entit&agrave; indipendenti e garantire che i membri di un gruppo non siano in grado di accedere ai membri dell'altro gruppo per la condivisione delle cartelle iFolder. Selezionare la casella di controllo relativa alla <i>Creazione di gruppi segregati</i> per abilitare la condivisione delle cartelle iFolder solo tra i membri dello stesso gruppo.</span><p>
+        <span style="font-family: Arial; ">Nota: </span> <span style="font-size: 11.0pt; font-family: Arial; ">un gruppo LDAP non pu&ograve; essere un amministratore principale o secondario.</span></TD></TR></TABLE>
+ <P> <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Torna all'inizio"></A></P> 
+ <H3><A NAME="status">Stato del nuovo provisioning</A></H3> 
+  <p> &Egrave; possibile spostare gli utenti tra server diversi. Questa interfaccia consente di visualizzare lo stato del nuovo provisioning. Fare clic su Stato del nuovo provisioning per visualizzare lo stato relativo a ciascun utente. </p>
+  <P> <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Torna all'inizio"></A></P>
+  <H3><a name="admin"></a>Amministratori iFolder</H3>
+<P>L'utente amministratore di iFolder &egrave; l'amministratore primario del server aziendale iFolder. In caso di cartelle iFolder orfane, la propriet&agrave; viene trasferita all'utente amministratore di iFolder affinch&eacute; la riassegni a un altro utente o la cancelli. L'utente amministratore di iFolder viene inizialmente specificato in fase di configurazione del server aziendale iFolder in YaST. </P>
+  <P>Affinch&eacute; l'amministratore iFolder possa eseguire i task di gestione, &egrave; necessario eseguire il provisioning dell'utente amministratore di iFolder. iFolder tiene traccia di questo utente mediante il GUID oggetto di LDAP, consentendogli di appartenere a qualsiasi gruppo o container LDAP nell'albero, compresi quelli non identificati come DN di ricerca. &Egrave; possibile tenere traccia dei movimenti dell'utente in qualsiasi punto dell'albero, in quanto &egrave; riconoscibile dal GUID, non dal nome utente distinto.</P>
+  <P>&Egrave; possibile assegnare il diritto di amministratore iFolder ad altri utenti in modo da consentire la gestione dei servizi iFolder per il server selezionato. Solo gli utenti all'interno di uno dei DN specificati nel DN di ricerca LDAP possono essere identici all'utente amministratore di iFolder.</P>
+  <P>Se si assegna il diritto di amministratore iFolder ad altri utenti, questi ultimi saranno regolati dalla relazione tra gli elenchi degli utenti e i nomi distinti di ricerca. Se si cancella un utente, il suo DN viene rimosso dall'elenco o l'utente viene spostato in un DN non contenuto nell'elenco, l'utente viene rimosso dall'elenco e perde il diritto di amministratore iFolder.</P>
+  <P><span style="FONT-FAMILY: Arial">L'amministratore principale o l'utente amministratore iFolder crea l'amministratore secondario e gli assegna i gruppi.</span></P><P><font size="-1"><b>IMPORTANTE:</b> non &egrave; possibile assegnare il diritto utente amministratore a un gruppo LDAP.</font></P>
+  <P><span style="FONT-FAMILY: Arial">Nella pagina Sistema vengono visualizzate le schede relative all'amministratore principale e secondario. I seguenti parametri sono comuni a entrambe le schede:</span></P>
+	<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parametro</P></TD><TD CLASS="tablehead2"><P>Descrizione</P></TD></TR>
       <TR><TD VALIGN="TOP">
-        <P>Type</P>
+        <P>Tipo</P>
       </TD>
       <TD> 
-        <P>Displays the Admin user icon.</P>
+        <P>Consente di visualizzare l'icona dell'utente amministratore.</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>User Name</P>
+        <P>Nome utente</P>
       </TD>
       <TD> 
-        <P>The username assigned to the Admin user account, such as jsmith or 
-          john.smith@example.com.</P>
+        <P>Il nome utente assegnato al conto utente amministratore, ad esempio mrossi o mario.rossi@esempio.com.</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Full Name</P>
+        <P>Nome completo</P>
       </TD>
       <TD> 
-        <P>The first and last name of the Admin user account. </P>
+        <P>Nome e cognome del conto utente amministratore. </P>
 		
       </TD><TR></TR></TABLE>
 
-  <P>To view or edit admin user details, click the Admin user link to open the 
-    User Details page. The User Details page displays the iFolders owned or shared 
-    by the Admin user. Click the All tab to list all the iFolders, both owned 
-    and shared. To view the iFolder owned by the user, click the Owned tab. Shared 
-    tab lists all the shared iFolders for this particular user account. You can 
-    also use the User Details page to change the policy settings for the selected 
-    Admin user.</P>
-  <H4>Adding and Deleting the iFolder Admin</H4>
+  <h5><span style="FONT-FAMILY: Arial">Amministratore principale</span></h5>
+
+  <P>Per visualizzare o modificare i dettagli <span style="FONT-FAMILY: Arial">amministratore principale</span>, <span style="FONT-FAMILY: Arial"> fare clic sulla scheda relativa all'<i>amministratore principale</i>, quindi sul</span><span style="COLOR: black; FONT-FAMILY: Arial"> </span>collegamento utente amministratore per aprire la pagina Dettagli utente. In questa pagina sono visualizzate le cartelle iFolder condivise dall'utente amministratore o di sua propriet&agrave;. Per elencare tutte le cartelle iFolder condivise dall'utente amministratore o di sua propriet&agrave;, fare clic su Tutte. Per visualizzare la cartella iFolder di propriet&agrave; dell'utente, fare clic sulla scheda Con proprietario. Nella scheda Condiviso vengono elencate tutte le cartelle iFolder condivise per questo conto utente. &Egrave; inoltre possibile utilizzare la pagina Dettagli utente per modificare le impostazioni delle norme relative all'utente amministratore selezionato.</P>
+  <H4>Aggiunta e cancellazione dell'amministratore iFolder</H4>
   <br>
 		
   <OL>
     <LI> 
-      <P>Locate the Admin user you want to manage, then select the check box next 
-        to it.</P>
+      <P>Individuare l'utente amministratore che si desidera gestire, quindi selezionare la casella di controllo vicina.</P>
     </LI>
     <ul><LI> 
-        <P>Click Delete to delete the selected Admin user.</P>
-	  <P>If you 
-delete the iFolder Admin right from the username you used to log in to the server, 
-you are immediately disconnected. You must log in to the iFolder server under 
-a different username with the iFolder Admin right to continue managing the server. 
+        <P>Fare clic su Cancella per cancellare l'utente amministratore selezionato.</P>
+	  <P>Se si rimuove il diritto di amministratore iFolder dal nome utente utilizzato per eseguire il login al server, l'utente viene immediatamente disconnesso; per continuare a gestire il server sar&agrave; quindi necessario eseguire il login al server iFolder con un altro nome utente che disponga del diritto di amministratore iFolder. 
 </P>
-        <P><font size="-1"><b>IMPORTANT:</b> You cannot delete the Admin user 
-          configured during Simias server setup.</font></P>
+        <P><font size="-1"><b>IMPORTANTE:</b> non &egrave; possibile cancellare l'utente amministratore configurato durante l'installazione del server Simias.</font></P>
     <LI> 
-        <P>Click Add to open a list of iFolder users.</P>
-        <P>Locate the user you want to add as Admin, then select the check box 
-          next to it and click Add.</P>
-      <P>You can assign the iFolder Admin right to multiple users.</P>
+        <P>Per aprire un elenco degli utenti iFolder, fare clic su Aggiungi.</P>
+        <P>Individuare l'utente che si desidera aggiungere come amministratore, quindi selezionare la casella di controllo corrispondente e fare clic su Aggiungi.</P>
+      <P>&Egrave; possibile assegnare il diritto di amministratore iFolder a pi&ugrave; utenti.</P>
     </LI></ul>
   </OL>
-<P> <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P>
-  <H3><A NAME="policy"></A>Policies</H3>
+<P> <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Torna all'inizio"></A></P>
+  <H3><A NAME="policy"></A>Norme</H3>
       
-  <p> The following table lists the system policies you can manage for any given 
-    iFolder System. Click Save to apply the modifications:</p>
+  <p> Nella seguente tabella sono elencate le norme di sistema che &egrave; possibile gestire per ciascun sistema iFolder.  Fare clic su Salva per applicare le modifiche:</p>
 	
  
-<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR>
+<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parametro</P></TD><TD CLASS="tablehead2"><P>Descrizione</P></TD></TR>
 <TR>
       <TD VALIGN="TOP"> 
-        <h4> iFolder per users</h4>
+        <h4> iFolder per utenti</h4>
       </TD>
       <TD> 
-        <P>Specifies the maximum number of iFolders allowed per user. After you 
-          apply this policy, each user is limited to owning a certain number of 
-          iFolders. The users who exceed the limit receive an error message about 
-          the policy violation. If the limit is zero, users cannot create any 
-          iFolders.</P>
+        <P>Specifica il numero massimo di cartelle iFolder consentite per utente. Dopo aver applicato questa norma, ogni utente potr&agrave; essere proprietario solo di un determinato numero di cartelle iFolder. Gli utenti che superano tale limite ricevono un messaggio di errore indicante la violazione delle norme. Se il limite &egrave; zero, l'utente non pu&ograve; creare cartelle iFolder.</P>
              
-        <P>The policy setting does not affect the number of iFolders a user already 
-          owns. If the number of iFolders owned by a user already exceeds the 
-          limit that you set, he or she can still own those iFolders. </P>
+        <P>L'impostazione delle norme non influisce sul numero di cartelle iFolder che un utente possiede gi&agrave;. Se il numero di cartelle iFolder di propriet&agrave; dell'utente &egrave; gi&agrave; superiore al limite impostato, l'utente non perder&agrave; la propriet&agrave; di tali cartelle. </P>
         </TD></TR><TR><TD VALIGN="TOP">
-        <h4>Disk Quota</h4>
+        <h4>Quota disco</h4>
       </TD>
       <TD> 
-        <p>Specifies the maximum space that a iFolder system is allowed to use. 
-          System-wide settings supersede user policies.</p>
-		  <P>Deselect the check box to disable a system-wide quota.</P>
-        <P>Select the check box to enable a system-wide quota, then specify the 
-          total space quota (in MB) for a user's account. </P>
-        <P>If you enable a system-wide quota that is less than a user's 
-          current total space for iFolder data, the users's quotas data stops 
-          synchronizing until the data is decreased below the limit or until the 
-          quota is increased to a value that is larger than the user's total 
-          space consumed.</P>
-        <P>Enabling or modifying the system-wide quota does not affect existing 
-          individual user quotas. Any existing user quota always overrides a system-wide 
-          quota, whether the user quota is lower or higher than the system-wide 
-          quota.</P>
-        <P>Default value: Disabled, No limit</P>
+        <p>Specifica lo spazio massimo totale utilizzabile da un sistema iFolder.  Le impostazioni di sistema hanno la precedenza sulle norme utente.</p>
+		  <P>Per disabilitare una quota di sistema, deselezionare la casella di controllo.</P>
+        <P>Per abilitare una qouta di sistema, selezionare la casella, quindi specificare la quota di spazio totale (in MB) per un conto utente. </P>
+        <P>Se si abilita una quota di sistema con valore inferiore rispetto allo spazio totale dell'utente attuale per i dati della cartella iFolder, la sincronizzazione dei dati delle quote dell'utente verr&agrave; interrotta finch&eacute; i dati non rientreranno nel limite o la quota non raggiunger&agrave; un valore maggiore dello spazio totale utilizzato.</P>
+        <P>L'abilitazione o la modifica della quota di sistema non ha alcun effetto sulle singole quote utente esistenti. Qualsiasi quota utente esistente ha sempre la priorit&agrave; su una quota di sistema, indipendentemente dal fatto che sia di valore minore o maggiore rispetto ad essa.</P>
+        <P>Valore di default: disabilitato, nessun limite</P>
         </TD></TR>
   <TR><TD VALIGN="TOP">
-        <h4>File Size</h4>
+        <h4>Dimensioni file</h4>
       </TD>
-      <TD> <P>Specifies 
-the maximum file size that can be synchronized.</P>
-    <P>If a quota is specified, the effective maximum file size limit is the same as the quota. </P>
-       <P>Deselect the check box to disable the Maximum File Size Limit policy. If the policy is disabled, the value is reported as No Limit.</P>
-          <P>              Select the check box to enable the Maximum File Size Limit policy, then specify the maximum allowed file size in MB.</P>
-          <P>              If a quota is specified, the default maximum file size limit is the same as the quota.</P>
-          <P>              Consider the following demands on your system to determine an appropriate file size limit for iFolders in your environment:</P>
-            <ul><li><p>Intended use               
+      <TD> <P>Specifica la dimensione file massima che pu&ograve; essere sincronizzata.</P>
+    <P>Se si specifica una quota, il limite delle dimensioni file massime effettive corrisponde alla quota stessa. </P>
+       <P>Per disabilitare la norma Limite dimensioni massime file, deselezionare  la casella di controllo. Se la norma &egrave; disabilitata, il valore &egrave; impostato su Nessun limite.</P>
+          <P>              Selezionare la casella di controllo per abilitare la norma Limite dimensioni massime file, quindi specificare la dimensione file massima consentita in MB.</P>
+          <P>              Se si specifica una quota, il limite delle dimensioni file massime effettive di default corrisponde alla quota stessa.</P>
+          <P>              Per determinare un limite appropriato per le cartelle iFolder all'interno dell'ambiente, considerare le seguenti esigenze:</P>
+            <ul><li><p>Uso previsto               
             </p></li>
 			<li>
-            <p>How often the largest files are modified</p></li>
-                 <li> <p>How the applications that use the largest files actually save changes to the file (whole file or deltas)</p>
-                 </li><li><p>How frequently the files are synchronized by each member</p>
-                  </li><li><p>How many users share an iFolder</p>
-                  </li><li><p>Whether users access iFolder on the local network or across WAN or Internet connection</p>
-                 </li><li> <p>The average and peak available bandwidth</p>
+            <p>Frequenza di modifiche dei file pi&ugrave; grandi</p></li>
+                 <li> <p>Modalit&agrave; di salvataggio effettivo delle modifiche del file (file intero o delta) da parte delle applicazioni che utilizzano i file pi&ugrave; grandi</p>
+                 </li><li><p>Frequenza delle sincronizzazioni dei file da parte di ciascun membro</p>
+                  </li><li><p>Numero di utenti che condividono una cartella iFolder</p>
+                  </li><li><p>Accesso degli utenti a iFolder tramite rete locale o connessione WAN o Internet</p>
+                 </li><li> <p>Larghezza di banda media e massima disponibile</p>
 				 </li></ul>
               
-        <p> Even if you set a very large value as a file size limit and if there 
-          is no quota to limit file sizes, the practical limit is governed by 
-          the file system on the user's computer. For example, FAT32 volumes have 
-          a maximum file size of 4 GB minus 1 byte. </p>
+        <p> Anche nel caso in cui venga impostato un valore molto alto per il limite delle dimensioni file e non vi sia alcuna quota che limiti tali dimensioni, il limite pratico &egrave; regolato dal file system sul computer dell'utente. Ad esempio, la dimensione file massima dei volumi FAT32 &egrave; di 4 GB meno 1 byte. </p>
                 
-        <p>Default value: Disabled, No limit</p>   
+        <p>Valore di default: disabilitato, nessun limite</p>   
       </TD></TR>
   <TR>
       <TD VALIGN="TOP"> 
-        <h4>Excluded Files</h4>
+        <h4>File esclusi</h4>
       </TD>
       <TD> 
         
 		  
-        <P>Specify whether to restrict file types that are synchronized by exclusion 
-          filters. </P>
-            <P>Type a file extension, then click Add to add it to the list. </P>
+        <P>Specificare se limitare i tipi di file sincronizzati dai filtri di esclusione. </P>
+            <P>Digitare un'estensione file, quindi fare clic su Aggiungi per aggiungerlo all'elenco. </P>
         </TD></TR>
 	
 	<TR><TD VALIGN="TOP">
-        <h4> Synchronization </h4>
+        <h4> Sincronizzazione </h4>
       </TD><TD>
-	    <p>Specifies the minimum synchronization interval in minutes.</P>
-        <P>If this option is enabled, specifies the minimum interval for synchronizing 
-          iFolder data for each user account. Larger values are more restrictive. 
+	    <p>Specifica l'intervallo di sincronizzazione in minuti.</P>
+        <P>Se l'opzione &egrave; disabilitata, specifica l'intervallo minimo per la sincronizzazione dei dati delle cartelle iFolder per ciascun conto utente. Valori maggiori implicano pi&ugrave; restrizioni. 
         </P>    
-        <P>If the option is disabled, the default value is 5 minutes.</P>
+        <P>Se l'opzione &egrave; disabilitata, il valore di default &egrave; pari a 5 minuti.</P>
         </TD></TR>
   <TR><TD VALIGN="TOP">
-        <h4>Encryption</h4>
+        <h4>Cifratura</h4>
       </TD>
       <TD> 
-        <P>Specifies the encryption policy for the iFolder system. System-wide 
-          settings supersede user policies.</P>
+        <P>Specifica la norma di cifratura per il sistema iFolder. Le impostazioni di sistema hanno la precedenza sulle norme utente.</P>
 		<B>On</B><BR>
-        Select <i>On</i> to enable the encryption feature for the iFolder system. This 
-        permits a user to set an encryption policy for his or her iFolders.<br>
+        Selezionare <i>Attivato</i> per abilitare la funzione di cifratura per il sistema iFolder. Ci&ograve; consente a un utente di impostare una norma di cifratura per le sue cartelle iFolder.<br>
         <br>
-        Deselect <i>On</i> to disable the encryption feature for all the users. 
+        Deselezionare <i>Attivato</i> per disabilitare la funzione di cifratura per tutti gli utenti. 
         <br>
         	
 		
-        <br><B>Enforced</B><BR>
-        Select Enforced to enable the encryption feature for all the users. When 
-        the encryption policy is set to Enforced, a user cannot change the encryption 
-        settings for his or her iFolders.<br>
+        <br><B>Imporre</B><BR>
+        Selezionare Imporre per abilitare la funzione di cifratura per tutti gli utenti. Se si impostano le norme per la cifratura su Imposto, agli utenti non sar&agrave; consentito modificare le impostazioni di cifratura per le proprie cartelle iFolder.<br>
       </TD></TR><TR><TD VALIGN="TOP">
-        <h4> Sharing</h4>
+        <h4> Condivisione</h4>
       </TD><TD> <B>On</B><BR>
-        By default, iFolder sharing is enabled. Deselect On to disable 
-        sharing for the iFolder system. After applying this policy, users of this 
-        iFolder system cannot share their iFolders with others. However, you can 
-        change the policy settings at the user level or at the LDAPGroup level.<br>
+        Per default, la condivisione iFolder &egrave; abilitata.  Deselezionare Attivo per disabilitare la condivisione per il sistema iFolder. Dopo aver applicato queste norme, gli utenti del sistema iFolder non potranno pi&ugrave; condividere le cartelle iFolder con altri. Tuttavia, &egrave; possibile modificare queste norme a livello di utente o di gruppo LDAP.<br>
           <BR>
-        <B>Enforce</B><BR>
-        Select Enforce to enforce the sharing policy you have set for the entire 
-        system. You can enforce both Enable Sharing and Disable Sharing. When 
-        you enforce Disable Sharing, policy settings for sharing at iFolder and 
-        User level are automatically disabled and you are not allowed to change 
-        the settings. However, you are allowed to set the policy for the Revoke 
-        option.<br>
+        <B>Imponi</B><BR>
+        Selezionare Imponi per imporre la norma di condivisione impostata per l'intero sistema. &Egrave; possibile imporre sia l'abilitazione sia la disabilitazione della condivisione. Quando si impone la disabilitazione della condivisione, le relative norme a livello di utente e di cartella iFolder vengono automaticamente disabilitate e non &egrave; pi&ugrave; consentito modificarle. Tuttavia, &egrave; possibile impostare le norme relative all'opzione Revoca.<br>
 		<ul>
-          <P><font size="-1"><b>IMPORTANT:</b> You cannot enable this option unless 
-            you set the Sharing option to On.</font></P>
+          <P><font size="-1"><b>IMPORTANTE:</b> non &egrave; possibile abilitare questa opzione a meno che non si imposti l'opzione  Condivisione su Attivato.</font></P>
         </ul>
         <BR>
-        <B>Revoke</B><BR>
-        Select Revoke to remove the shared members of all 
-        the iFolders under the iFolder system.<br>
+        <B>Revoca</B><BR>
+        Selezionare Revoca per rimuovere i membri condivisi di tutte le cartelle iFolder nel sistema.<br>
 		
       </TD></TR> 
 
   </TABLE>
 
- <P> <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P>
+ <P> <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Torna all'inizio"></A></P>
 
   
    
 
-<H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Related Topics" align="top"> 
-Related Topics</H4><BLOCKQUOTE class="task1">
-<P ><A HREF="userdetails.html">User Details
-</A><BR><A HREF="ifolderdetails.html">Managing iFolder Details</A><BR><A HREF="servers.html">Managing iFolder Servers
-</A><BR><A HREF="ifolders.html">Managing iFolders</A><BR><A HREF="reports.html#orphan" TARGET="_self">Reports
-</A></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P><P>&nbsp;</P><P CLASS="copyright">A 
-trademark symbol (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP>, 
-etc.) denotes a Novell trademark. An asterisk (*) denotes a third-party trademark. 
-For more information, see <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Legal 
-Notices</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
+  <h3>Amministratore secondario</h3>
+  <p><span style="font-family:Arial;">La scheda relativa all'amministratore secondario consente di aggiungere, modificare o eliminare i dettagli corrispondenti. </span></p>
+  <p><span style="font-family:Arial;">Per aggiungere un amministratore secondario:</span></p>
+  <ol>
+    <li><font face="Arial">Fare clic sulla scheda relativa all'<i>amministratore secondario</i>, quindi su <i>Aggiungi</i> per visualizzare l'elenco di utenti iFolder.</font></li>
+    <li><font face="Arial">Selezionare l'utente che si desidera designare come amministratore secondario, quindi fare clic su <i>Avanti</i>.</font></li>
+    <li><font face="Arial">Per assegnare un gruppo all'amministratore secondario, selezionare un'opzione dall'elenco <i>Seleziona gruppo</i>. Se per il gruppo selezionato &egrave; stato impostato un limite per la quota del disco complessiva, il campo relativo all'<i>impostazione di tale limite per la quota del disco complessiva dell'intero gruppo</i> viene popolato con tale valore. In alternativa, il campo rimarr&agrave; vuoto.</font></li>
+    <li><font face="Arial">Impostare i criteri delle norme per l'amministratore secondario. </font>
+    <p><font face="Arial">Nella seguente tabella sono elencati i diritti delle norme che &egrave; possibile impostare per l'amministratore secondario.</font></p>
+	
+ 
+<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parametro</P></TD><TD CLASS="tablehead2"><P>Descrizione</P></TD></TR>
+<TR>
+      <TD VALIGN="TOP"> 
+        <h4><span style="FONT-SIZE: 9.5pt; FONT-FAMILY: Arial"> Norma delle cartelle iFolder per utente</span></h4>
+        <h4> &nbsp;</h4>
+      </TD>
+      <TD> 
+        <p class="Normal2">
+        <span style="FONT-SIZE: 11pt; COLOR: black; FONT-FAMILY: Arial"> Specifica il numero massimo di cartelle iFolder consentite per utente. Dopo aver applicato questa norma, ogni utente potr&agrave; essere proprietario solo di un determinato numero di cartelle iFolder. Gli utenti che superano tale limite ricevono un messaggio di errore indicante la violazione delle norme. Se il limite &egrave; zero, l'utente non pu&ograve; creare cartelle iFolder.</span></p>
+        <p class="Normal2">
+        <span style="FONT-SIZE: 11pt; FONT-FAMILY: Arial">Questa</span><span style="FONT-SIZE: 11pt; COLOR: black; FONT-FAMILY: Arial"> impostazione della norma non influisce sul numero di cartelle iFolder di cui un utente &egrave; proprietario. Se il numero di cartelle iFolder di propriet&agrave; dell'utente &egrave; gi&agrave; superiore al limite impostato, </span> <span style="FONT-SIZE: 11pt; FONT-FAMILY: Arial">l'utente non perder&agrave; la propriet&agrave; di tali cartelle</span><span style="FONT-SIZE: 11pt; COLOR: black; FONT-FAMILY: Arial">. </span></p>
+        <p class="Normal2">
+        <span style="FONT-SIZE: 11pt; FONT-FAMILY: Arial">Per default, la casella di controllo <i>Consenti</i> &egrave; selezionata per la norma delle cartelle iFolder per utente. Ci&ograve; significa che l'amministratore secondario ha il diritto di impostare la norma delle cartelle iFolder per utente per gli utenti del gruppo designato. Per negare questo diritto all'amministratore secondario, &egrave; necessario deselezionare la casella di controllo <i>Consenti</i>.</span></TD></TR><TR><TD VALIGN="TOP">
+        <h4><span style="font-size: 9.5pt; font-family: Arial; color: black"> Norma </span> <span style="font-size: 9.5pt; font-family: Arial; "> quota del disco</span></h4>
+      </TD>
+      <TD> 
+        <p class="Normal2">
+        <span style="font-size:11.0pt;font-family:Arial;">Specifica lo spazio massimo utilizzabile da utente.</span></p>
+        <p><span style="font-size: 11.0pt; font-family: Arial; "> Per default, la casella di controllo <i>Consenti</i> &egrave; selezionata per la norma della quota del disco. Ci&ograve; significa che l'amministratore secondario ha il diritto di impostare la norma della quota del disco per gli utenti del gruppo designato. Per negare questo diritto all'amministratore secondario, &egrave; necessario deselezionare la casella di controllo <i>Consenti</i>.</span></p>
+        </TD></TR>
+  <TR><TD VALIGN="TOP">
+        <h4><span style="font-size: 9.5pt; font-family: Arial; color: black"> Norma </span> <span style="font-size: 9.5pt; font-family: Arial; "> dimensione file</span></h4>
+      </TD>
+      <TD> 
+      <p class="Normal2">
+      <span style="font-size:11.0pt;font-family:Arial;color:black">Specifica la dimensione file massima che pu&ograve; essere sincronizzata.</span></p>
+      <p><span style="font-size: 11.0pt; font-family: Arial; ">Per default, la casella di controllo <i>Consenti</i> &egrave; selezionata per la norma della dimensione del file. Ci&ograve; significa che l'amministratore secondario ha il diritto di impostare la norma della dimensione dei file per gli utenti del gruppo designato. Per negare questo diritto all'amministratore secondario, &egrave; necessario deselezionare la casella <i>Consenti</i>.</span></p>
+      </TD></TR>
+  <TR>
+      <TD VALIGN="TOP"> 
+        <h4><span style="font-size: 9.5pt; font-family: Arial; "> Norma dell'intervallo di sincronizzazione </span></h4>
+      </TD>
+      <TD> 
+        
+		  
+        <p class="Normal2">
+        <span style="font-size:11.0pt;font-family:Arial;color:black">Specifica l'intervallo di sincronizzazione in minuti.</span></p>
+        <p><span style="font-size: 11.0pt; font-family: Arial; "> Per default, la casella di controllo <i>Consenti</i> &egrave; selezionata per la norma dell'intervallo di sincronizzazione. Ci&ograve; significa che l'amministratore secondario ha il diritto di impostare la norma dell'intervallo di sincronizzazione per gli utenti del gruppo designato. Per negare questo diritto all'amministratore secondario, &egrave; necessario deselezionare la casella di controllo <i>Consenti</i>.</span></TD></TR>
+	
+	<TR><TD VALIGN="TOP">
+        <h4> <span style="font-size: 9.5pt; font-family: Arial; color: black"> Norma dell'elenco </span> <span style="font-size: 9.5pt; font-family: Arial; ">file esclusi</span></h4>
+      </TD><TD>
+	    <p class="Normal2">
+        <span style="font-size:11.0pt;font-family:Arial;">Specifica i tipi di file per i quali sono impostati limiti per la sincronizzazione. </span></p>
+        <p><span style="font-size: 11.0pt; font-family: Arial; "> Per default, la casella di controllo <i>Consenti</i> &egrave; selezionata per la norma dell'elenco di file esclusi. Ci&ograve; significa che l'amministratore secondario ha il diritto di impostare la norma dell'elenco di file esclusi per gli utenti del gruppo designato. Per negare questo diritto all'amministratore secondario, &egrave; necessario deselezionare la casella di controllo <i>Consenti</i>.</span></TD></TR>
+  <TR><TD VALIGN="TOP">
+        <h4><span style="font-size: 9.5pt; font-family: Arial; "> Condivisione</span></h4>
+      </TD>
+      <TD> 
+        <p class="Normal2">
+        <span style="font-size:11.0pt;font-family:Arial;">Specifica le cartelle iFolder possono essere condivise tra gli utenti.</span></p>
+        <p><span style="font-size: 11.0pt; font-family: Arial; "> Per default, la casella di controllo <i>Consenti</i> <i>di modificare la norma di condivisione</i> &egrave; selezionata per la norma di condivisione. Ci&ograve; implica che l'amministratore secondario ha il diritto di modificare la norma di condivisione per gli utenti del gruppo designato. Per negare questo diritto all'amministratore secondario, &egrave; necessario deselezionare la casella <i>Consenti</i>.</span><br>
+      </TD></TR><TR><TD VALIGN="TOP">
+        <h4> <span style="font-size: 9.5pt; font-family: Arial; ">Norma di cifratura</span></h4>
+      </TD><TD> 
+    <p class="Normal2">
+    <span style="font-size:11.0pt;font-family:Arial;">Specifica la norma di cifratura per il sistema iFolder. </span></p>
+    <p class="Normal2">
+    <span style="font-size: 11.0pt; font-family: Arial; ">Per default, la casella di controllo <i>Consenti</i> <i>di modificare la norma di cifratura</i> &egrave; selezionata per la norma di cifratura. Ci&ograve; significa che l'amministratore secondario ha il diritto di modificare la norma di cifratura per gli utenti del gruppo designato. Per negare questo diritto all'amministratore secondario, &egrave; necessario deselezionare la casella di controllo <i>Consenti</i>.</span><br>
+		
+      </TD></TR> 
+
+  <TR><TD VALIGN="TOP">
+        <span style="font-size: 9.5pt; font-family: Arial; font-weight:700"> Diritti di provisioning</span></TD><TD> 
+    <p class="Normal2">
+    <span style="font-size:11.0pt;font-family:Arial;">Specifica i diritti di provisioning disponibili per un amministratore secondario.</span></p>
+    <p class="Normal2">
+    <span style="font-size:11.0pt;font-family:Arial;">Per default, la casella di controllo <i>Consenti provisioning utente</i> &egrave; selezionata. Ci&ograve; significa che un amministratore secondario ha il diritto di eseguire il provisioning degli utenti del gruppo designato su qualsiasi server presente nell'impostazione multiserver. Per negare questo diritto all'amministratore secondario, deselezionare la casella di controllo relativa all'<i>abilitazione consentita del provisioning </i>.</span></p>
+    <p class="Normal2">
+    <span style="font-size: 11.0pt; font-family: Arial; ">Utilizzando la casella di controllo relativa all'<i>abilitazione/disabilitazione consentita degli utenti</i>, &egrave; possibile assegnare all'amministratore secondario il diritto di abilitare o disabilitare gli utenti del gruppo designato. Per default, questa casella di controllo &egrave; selezionata. Per negare questo diritto all'amministratore secondario, deselezionare la casella di controllo relativa all'<i>abilitazione/disabilitazione consentita degli utenti </i>.</span></TD></TR> 
+
+  <TR><TD VALIGN="TOP">
+        <span style="font-size: 9.5pt; font-family: Arial; font-weight:700"> Diritti sulle cartelle iFolder</span></TD><TD> 
+    <p class="Normal2">
+    <span style="font-size:11.0pt;font-family:Arial;">Specifica i diritti dell'amministratore secondario sulle cartelle iFolder di cui gli utenti del gruppo designato sono proprietari.</span></p>
+    <p class="Normal2">
+    <span style="font-size:11.0pt;font-family:Arial;">Per consentire all'amministratore secondario di essere proprietario delle cartelle iFolder orfane, verificare che la casella di controllo relativa alla <i>propriet&agrave; consentita delle cartelle iFolder orfane</i> sia selezionata. Per default, questa casella di controllo &egrave; selezionata. Per negare questo diritto all'amministratore secondario, deselezionare la casella di controllo.</span></p>
+    <p class="Normal2">
+    <span style="font-size:11.0pt;font-family:Arial;">Utilizzando la casella di controllo relativa all'<i>abilitazione/disabilitazione consentita delle cartelle iFolder</i>, &egrave; possibile assegnare all'amministratore secondario il diritto di abilitare o disabilitare le cartelle iFolder di cui gli utenti del gruppo designato sono proprietari. Per default, questa casella di controllo &egrave; selezionata. Per negare questo diritto all'amministratore secondario, deselezionare la casella di controllo relativa all'<i>abilitazione/disabilitazione consentita delle cartelle iFolder</i>.</span></p>
+    <p class="Normal2">
+    <span style="font-size: 11.0pt; font-family: Arial; ">Utilizzando la casella di controllo relativa alla <i>modifica consentita dei diritti dei membri delle cartelle iFolder condivise</i>, &egrave; possibile assegnare all'amministratore secondario il diritto di modificare i diritti dei membri delle cartelle iFolder condivise. Per default, questa casella di controllo &egrave; selezionata. Per negare questo diritto all'amministratore secondario, deselezionare la casella di controllo relativa all'<i>modifica consentita dei diritti dei membri delle cartelle iFolder condivise</i>.</span></p>
+    </TD></TR> 
+
+  </TABLE>
+
+    </li>
+  </ol>
+  <p>&nbsp;</p>
+  <ol start="5">
+    <li><span style="font-family:Arial;">Fare clic sul pulsante <i>Salva</i> per salvare le impostazioni.</span></li>
+    <li><span style="font-family:Arial;">Una volta assegnati un gruppo all'amministratore secondario, fare clic su <i>OK</i> per tornare alla pagina Sistemi o su <i>Ripeti</i> per assegnare pi&ugrave; gruppi all'amministratore secondario.&nbsp;</span></li>
+  </ol>
+  <p><span style="font-family:Arial;">Per modificare i dettagli relativi all'amministratore secondario:</span></p>
+  <ol>
+    <li>
+    <p style="text-indent: -.25in; margin-left: .5in">
+    <span style="font-family: Arial; ">Fare clic sulla scheda <i>Secondario</i> per visualizzare i dettagli relativi all'amministratore secondario.</span></li>
+    <li>
+    <p style="text-indent: -.25in; margin-left: .5in">
+    <span style="font-family: Arial; ">Selezionare un amministratore secondario e fare clic su <i>Modifica</i> per visualizzare l'elenco dei gruppi monitorati dall'amministratore secondario.</span></li>
+    <li>
+    <p style="text-indent: -.25in; margin-left: .5in" align="left">
+    <span style="font-family: Arial; ">Selezionare un gruppo, quindi fare clic su <i>Modifica</i> per visualizzare l'elenco dei diritti dell'amministratore secondario per il gruppo. Modificare i diritti del gruppo, quindi fare clic su <i>Salva</i> per salvare le modifiche.<br>
+&nbsp;</span></li>
+  </ol>
+  <p><span style="font-family:Arial;">Per cancellare un amministratore secondario:</span></p>
+  <ol>
+    <li><font face="Arial">Fare clic sulla scheda <i>Secondario</i> per visualizzare i dettagli relativi all'amministratore secondario.</font></li>
+    <li><font face="Arial">Selezionare un amministratore secondario, quindi fare clic su <i>Cancella</i> per visualizzare l'elenco di gruppi monitorati dall'amministratore secondario.</font></li>
+    <li><font face="Arial">Selezionare tutti i gruppi e fare clic su <i>Cancella</i>. Se si cancellano tutti i gruppi di cui un amministratore secondario &egrave; proprietario viene cancellato anche l'amministratore secondario.<br>
+&nbsp;</font></li>
+  </ol>
+  <p>&nbsp;</p>
+
+  
+   
+
+<H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Argomenti correlati" align="top">&nbsp;Argomenti correlati</H4><BLOCKQUOTE class="task1">
+<P ><A HREF="userdetails.html">Dettagli utente </A><BR><A HREF="ifolderdetails.html">Gestione dei dettagli iFolder</A><BR><A HREF="servers.html">Gestione dei server iFolder </A><BR><A HREF="ifolders.html">Gestione delle cartelle iFolder</A><BR><A HREF="reports.html#orphan" TARGET="_self">Rapporti </A></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Torna all'inizio"></A></P><P>&nbsp;</P><P CLASS="copyright">Un simbolo di marchio di fabbrica (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP>, e cos&igrave; via) indica un marchio di fabbrica Novell. Un asterisco (*) indica un marchio di fabbrica di terze parti.  Per ulteriori informazioni, vedere <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Note legali</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
 </body>
 
 </html>

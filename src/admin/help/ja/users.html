@@ -1,11 +1,11 @@
 <html>
 
    <head>
-     <meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+     <meta http-equiv="content-type" content="text/html;charset=UTF-8">
      
      <!-- Novell iFolder 3.x iManager Plugin  --> 
    
-     <title>iFolder Users </title>  	 
+     <title>iFolderユーザ </title>  	 
         
      <!-- Metadata -->
    
@@ -28,8 +28,7 @@
        <!--
        
          body           {  font-family: Arial, Helvetica, Geneva;
-									background: white
-url(../../images/helphead_bg.gif) repeat-x 0% 0% }
+									background: white url('../../images/helphead_bg.gif') repeat-x;  }
 		      
          #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px;
 									width: 380px; visibility: visible }
@@ -54,175 +53,136 @@ url(../../images/helphead_bg.gif) repeat-x 0% 0% }
 <!-- This is the start of the Help Content Layer --> <div id="helpcontent"> <!-- The Page Heading uses CSS style "head3b". This creates an H3 header
             with a line beneath it.
        --> 
-  <h3 class="head3b">Managing a User Account</h3>
-  <p> Use this interface to manage iFolder users in the selected iFolder domain. 
-    The search tool helps you locate the Novell iFolder<SUP><SMALL>&reg;</SMALL></SUP> 
-    3.7 user account you want to manage. </p>
+  <h3 class="head3b">ユーザアカウントの管理</h3>
+  <p> このインタフェースでは、選択したiFolderドメイン内のiFolderユーザを管理できます。検索ツールを使用すると、管理するNovell iFolder<SUP><SMALL>&reg;</SMALL></SUP> 3.7ユーザアカウントを簡単に探すことができます。 </p>
 	
-  <P><B><FONT SIZE="-1">NOTE:</FONT></B> <FONT SIZE="-1">The term <i>iFolder users 
-    </i> refers to both individual users and LDAPGroups.</FONT></P>
+  <P><B><FONT SIZE="-1">注意:</FONT></B> <FONT SIZE="-1">「iFolderユーザ」とは、個々のユーザおよびLDAPGroupの両方を指します。<i></i></FONT></P>
 	<BLOCKQUOTE CLASS="blockquote"><P><BR>
-      <A HREF="#browseuser" TARGET="_self">Browsing the Users</A> <BR>
-      <A HREF="#browsesearch" TARGET="_self">Browsing 
-the Users in the Search Results </A><BR> 
-<A HREF="#enabledisableuser" TARGET="_self">Enabling or Disabling an iFolder user</A><br>
-<A HREF="#provision" TARGET="_self">Provisioning iFolder Users </A> <br>
-<A HREF="#accessusers" TARGET="_self">Accessing the Users 
-Details Page </A> </P></BLOCKQUOTE>
-  <H4><A NAME="browseusers"></A>Browsing the Users <br>
+      <A HREF="#browseuser" TARGET="_self">ユーザの参照</A> <BR>
+      <A HREF="#browsesearch" TARGET="_self">検索結果のユーザの参照</A><BR> 
+<A HREF="#enabledisableuser" TARGET="_self">iFolderユーザの有効化または無効化</A><br>
+<A HREF="#provision" TARGET="_self">iFolderユーザのプロビジョニング</A> <br>
+<A HREF="#accessusers" TARGET="_self">［User Details (ユーザ詳細)］ページへのアクセス</A> </P></BLOCKQUOTE>
+  <H4><A NAME="browseusers"></A>ユーザの参照 <br>
   </H4>
   <OL><LI>
-      <P>From the Users page, select a name criterion (User Name, First Name, 
-        Last Name, Home Server).</P>
-    </LI><LI><P>Select a filter criterion (Contains, Begins 
-With, Ends With, Equals).</P></LI><LI><P>Use one or more of the following search 
-methods, then click Search:</P><UL><LI>
-          <P>Type the name of the user or LDAPGroup rin the Search Users field.</P>
-        </LI><LI><P>Type one or more letters in the Search Users field.</P></LI><LI>
-          <P>Type an asterisk (*) in the Search Users field to return a list of 
-            all Users and LDAPGroups on the system.</P>
+      <P>［ユーザ］ページで、名前の条件(［名］、［Home Server (ホームサーバ)］、［姓］、［ユーザ名］)を選択します。</P>
+    </LI><LI><P>フィルタ条件(［含む］、［開始文字］、［終了文字］、または［等しい］)を選択します。</P></LI><LI><P>次の検索方法を1つまたは複数使用して、［検索］をクリックします。</P><UL><LI>
+          <P>［Search Users (ユーザの検索)］フィールドに、ユーザまたはLDAPGroupの名前を入力します。</P>
+        </LI><LI><P>［Search Users (ユーザの検索)］フィールドに、1つ以上の文字を入力します。</P></LI><LI>
+          <P>システム上のすべてのユーザおよびLDAPGroupのリストを表示するには、［Search Users (ユーザの検索)］フィールドにアスタリスク(*)を入力します。</P>
         </LI><LI>
-          <P>Leave the Search Users field empty to return a list of all Users 
-            and LDAPGroups on the system.</P>
+          <P>システム上のすべてのユーザおよびLDAPGroupのリストを表示するには、［Search Users (ユーザの検索)］フィールドを空白のままにします。</P>
         </LI></UL>
-      <P>Do not click anywhere in the page until the page completely refreshes, 
-        then you can browse, sort, or manage the users listed in the Search Results 
-        report. </P>
+      <P>ページが完全に更新されるまではページ内をクリックしないでください。更新されたら、検索結果レポートに表示されているユーザを参照、ソート、または管理できます。 </P>
+      <P><b>注意:</b> セカンダリ管理者としてログインしている場合、セカンダリ管理者として指定を受けたユーザのみを表示できます。また、管理できるユーザは、使用できる権利によって異なります。</P>
     </LI></OL>
-  <H4><A NAME="browsesearch"></A>Locating the Users in the Search Results</H4>
-  <P>Scroll up and down to browse the search results and locate the user you want 
-    to manage. The combination of the username and the first and last names help 
-    to identify the user you want.</P>
+  <H4><A NAME="browsesearch"></A>検索結果のユーザの参照</H4>
+  <P>リストを上下にスクロールして検索結果を参照し、管理するユーザを探します。ユーザ名、名、および姓の組み合わせによって、目的のユーザを識別できます。</P>
   
-  <BLOCKQUOTE><P><B>Type</B>
-    <P><img src="../../images/provi_user.png"  alt="Folder icon">  indicates 
-      Provisioned users </P>
-		<P><img src="../../images/unprovi_user.png" alt="Shared icon">  indicates 
-      Unprovisioned users </P>
+  <BLOCKQUOTE><P><B>タイプ</B>
+    <P>
+    <img src="../../images/provi_user.png"  alt="フォルダアイコン" width="14" height="16"> は、プロビジョニング済みのユーザを示します。 </P>
+		<P>
+        <img src="../../images/unprovi_user.png" alt="共有アイコン" width="14" height="16"> は、プロビジョニングされていないユーザを示します。 </P>
 		
-    <p><img src="../../images/ifolder_admin.gif" width="16" height="16" alt="Shared icon"> 
-      indicates whether the user has the iFolder Admin right <br>
+    <p><img src="../../images/ifolder_admin.gif" width="16" height="16" alt="共有アイコン"> は、ユーザがiFolder管理者の権利を持っているかどうかを示します。 <br>
 
-<BR><B>Name</B><BR>
-The username assigned 
-to the user account, such as jsmith or john.smith@example.com. Click the User Name link to manage User policies 
-and iFolders for the user. <BR>
-<BR><B>Full Name</B><BR>The first and last name 
-of the user account.<BR><br>
-      <B>Home</B> Server<BR>
-      iFolder server the user provisioned to.<br>
-      <BR><B>Enabled</B><BR>Specifies the status of the server.<br><br></BLOCKQUOTE>
-  <H4><A NAME="enabledisableuser"></A>Enabling or Disabling an iFolder user</H4>
+<BR><B>名前</B><BR>
+jsmithやjohn.smith@example.comなど、ユーザアカウントに割り当てられているユーザ名。ユーザのユーザポリシーとiFolderを管理するには、ユーザ名のリンクをクリックします。 <BR>
+<BR><B>フルネーム</B><BR>ユーザアカウントの名と姓。<BR><br>
+      <B>Home</B> <b>Server (ホームサーバ)</b><BR>
+      ユーザがプロビジョニングされているiFolderサーバ。<br>
+      <BR><B>使用可能</B><BR>サーバのステータスを示します。<br><br></BLOCKQUOTE>
+  <H4><A NAME="enabledisableuser"></A>iFolderユーザの有効化または無効化</H4>
 	
-  <p> Follow the steps given below:</p> 
+  <p> 次の手順に従います。</p> 
   <OL>
     <LI> 
-      <P>Locate the iFolder user you want to manage, then select the check box 
-        next to the user.</P>
+      <P>管理するiFolderユーザを探して、そのユーザの横のチェックボックスをオンにします。</P>
     </LI>
     <ul> <li>
-      <P>Click Enable to enable the user.</P>
-      <P>This will allow the user to log in and synchronize iFolders.</P>
+      <P>ユーザを有効にするには、［有効］をクリックします。</P>
+      <P>これにより、ユーザはログインしてiFolderを同期できるようになります。</P>
     
     <LI> 
-      <P>Click Disable to disable the user.</P>
-      <P> If the user is logged in when you make this change, the user�s session 
-        continues until the user logs out. The policy takes effect the next time 
-        the user attempts to log in to the account. To have the lockout take effect 
-        immediately, you must restart the Apache services for the iFolder server, 
-        which disconnects all active sessions, including the user�s session.</P>
+      <P>ユーザを無効にするには、［無効］をクリックします。</P>
+      <P> この変更を行うときにユーザがログインしている場合、そのユーザのセッションは、ユーザがログアウトするまで維持されます。ポリシーは、ユーザが次回アカウントにログインしようとしたときに有効になります。ロックアウトを直ちに有効にするには、iFolderサーバのApacheサービスを再起動して、ユーザのセッションを含むすべてのアクティブセッションを終了する必要があります。</P>
     </LI></ul>
   </OL>
-  <H3><A NAME="provision"></A>Provisioning / Reprovisioning iFolder Users </H3>
+  <H3><A NAME="provision"></A>iFolderユーザのプロビジョニング/再プロビジョニング </H3>
   
    
   
-  <P>Use this interface to manually provision or reprovision the iFolder users 
-    to different servers available in the current iFolder domain. </p> 
+  <P>このインタフェースでは、現在のiFolderドメイン内で使用可能な別のiFolderサーバに、iFolderユーザを手動でプロビジョニングまたは再プロビジョニングできます。 </p> 
   
-  <p> To provision / reprovision the iFolder users, perform any of the following:</P>
+  <p> iFolderユーザをプロビジョニングまたは再プロビジョニングするには、次の手順に従います。</P>
 	
-  <H4><A NAME="drop_down"></A>Provisioning Using Drop-Down List</H4>
+  <H4><A NAME="drop_down"></A>ドロップダウンリストによるプロビジョニング</H4>
    
   <ol>
     <LI> 
-      <P>Locate the iFolder users you want to provision.</P>
+      <P>プロビジョニングするiFolderユーザを探します。</P>
     </LI><LI> 
-      <P>Select the iFolder server from the Home drop-down list given against 
-        each user.</P>
+      <P>ユーザごとに［ホーム］ドロップダウンリストからiFolderサーバを選択します。</P>
     </LI><LI> 
-      <P>Click Save.</P>
+      <P>［保存］をクリックします。</P>
     </LI>
   </ol>
-	<H4><A NAME="provision_button"></A>Provisioning Using Provision Button</H4>
+	<H4><A NAME="provision_button"></A>［プロビジョン］ボタンによるプロビジョニング</H4>
   
     <ol><LI>
-      <p>Locate the iFolder users you want to manage.</p>
+      <p>管理対象のiFolderユーザを探します。</p>
     </li><li>
-      <p>Select the check box next to each user. </P>
+      <p>各ユーザの横にあるチェックボックスをオンにします。 </P>
     </li>
-    <li>Click Provision to open a new page where you can provision / reprovision 
-      the selected users to an iFolder server in the domain.</LI>
+    <li>［プロビジョニング］をクリックすると、新しいページが開き、選択したユーザをドメイン内のiFolderサーバにプロビジョニングまたは再プロビジョニングできます。</LI>
   </ol>
-  <P><B><FONT SIZE="-1">NOTE:</FONT></B> <FONT SIZE="-1"> When a user logins for 
-    the first time and if a home server for the user is not set at the user level, 
-    then the server assigned to the LDAPGroup the user belongs to, is automatically 
-    allocated to the user.</FONT></P>
-  <H3><A NAME="newuser"></A>Creating a New iFolder User</H3>
+  <P><B><FONT SIZE="-1">注意:</FONT></B> <FONT SIZE="-1"> ユーザがはじめてログインしたときに、そのユーザのホームサーバがユーザレベルで設定されていない場合、そのユーザが属するLDAPGroupに割り当てられたサーバが自動的にそのユーザに割り当てられます。</FONT></P>
+  <H3><A NAME="newuser"></A>新しいiFolderユーザの作成</H3>
   <BLOCKQUOTE> 
-    <P><B><FONT SIZE="-1">NOTE:</FONT></B> <FONT SIZE="-1">You can create only 
-      non-LDAP users. You can create them only when your iFolder server is not 
-      connected to the LDAP server.</FONT></P>
+    <P><B><FONT SIZE="-1">注:</FONT></B> <FONT SIZE="-1">LDAP以外のユーザのみ作成できます。ユーザを作成できるのは、iFolderサーバがLDAPサーバに接続されていない場合だけです。</FONT></P>
   </BLOCKQUOTE>
 <OL><LI>
-      <P>On the iFolder Users page, click New.</P>
-	  <P>The iFolder User creation page opens to the Users tab </P>
+      <P>［iFolderユーザ］ページで、［新規］をクリックします。</P>
+	  <P>［ユーザ］タブに［iFolder User creation (iFolderユーザの作成)］ページが開きます。 </P>
     </LI>
-    <LI>Specify the following information and then click Create.
+    <LI>次の情報を指定して［作成］をクリックします。
   </ol>
   <P><BLOCKQUOTE>
-    <B>User Name</B><BR>
-    Assign a username to the user account, such as jsmith or john.smith@example.com. 
+    <B>ユーザ名</B><BR>
+    jsmithやjohn.smith@example.comなどのユーザ名をユーザアカウントに割り当てます。 
     <BR>
 	<BR>
-    <B>First Name</B><BR>
-    First name of the user.<br>
+    <B>名前</B><BR>
+    ユーザの名前。<br>
     <BR>
-    <B>Last Name</B><BR>
-    Last name of the user. <BR>
-<BR><B>Full Name</B><BR>The first and last name 
-of the user account. <br>
+    <B>名字</B><BR>
+    ユーザの名字。 <BR>
+<BR><B>フルネーム</B><BR>ユーザアカウントの名と姓。 <br>
 <BR>
-    <B>Password</B><BR>
-    Assign a password for the user account.<br>
+    <B>パスワード</B><BR>
+    ユーザアカウントにパスワードを割り当てます。<br>
     <BR>
-    <B>Retype password</B><BR>
-    Retype the password to verify it. <BR>
+    <B>パスワードの再入力</B><BR>
+    確認のためにもう一度パスワードを入力します。 <BR>
   </BLOCKQUOTE>
-  <h4><a name="accessusers"></a>Accessing the Users Details Page</h4>
-  <p> Follow the procedure given below:</p>
+  <h4><a name="accessusers"></a>［Users Details (ユーザ詳細)］ページへのアクセス</h4>
+  <p> 次の手順に従います。</p>
   
   <ol>
     <li> 
-      <p>On the iFolder User page, use the search tool to locate the user whose 
-        iFolder account you want to manage.</p>
+      <p>［iFolderユーザ］ページで検索ツールを使用して、iFolderアカウントを管理するユーザを探します。</p>
     </li>
     <li> 
-      <p>Click the user's name link to open the User Details page to the Users 
-        tab.</p>
+      <p>ユーザ名のリンクをクリックして、［ユーザ］タブに［User Details (ユーザ詳細)］ページを開きます。</p>
     </li>
   </ol>
-<P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P>
+<P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="トップへジャンプ"></A></P>
   
-  <H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Related Topics" align="top"> 
-Related Topics</H4>
+  <H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="関連項目" align="top"> 関連項目</H4>
   
-  <BLOCKQUOTE class="task1"><P><A HREF="userdetails.html">User Details</A><BR><A HREF="ifolderdetails.html">Managing iFolder Details
-</A><BR><A HREF="ifolders.html">Managing an iFolder</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P><P>&nbsp;</P><P CLASS="copyright">A 
-trademark symbol (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP>, 
-etc.) denotes a Novell trademark. An asterisk (*) denotes a third-party trademark. 
-For more information, see <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Legal 
-Notices</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
+  <BLOCKQUOTE class="task1"><P><A HREF="userdetails.html">ユーザ詳細</A><BR><A HREF="ifolderdetails.html">iFolder詳細の管理</A><BR><A HREF="ifolders.html"></A>iFolderの管理</P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="トップへジャンプ"></A></P><P>&nbsp;</P><P CLASS="copyright">商標記号（<SUP><SMALL>&reg;</SMALL></SUP>、<SUP><SMALL>TM</SMALL></SUP>など）は、Novellの商標を示し、アスタリスク（*）は、サードパーティの商標を示します。  詳細については、「<A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">保証と著作権</font></A>」を参照してください。</P></div><!-- This is the end of the Help Content layer. --> 
 </body>
 
 </html>

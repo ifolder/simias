@@ -1,11 +1,11 @@
 <html>
 
    <head>
-     <meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+     <meta http-equiv="content-type" content="text/html;charset=UTF-8">
      
      <!-- Novell iFolder 3.x iManager Plugin  --> 
    
-     <title>iFolders</title>  	 
+     <title>Папки iFolder</title>  	 
         
      <!-- Metadata -->
    
@@ -28,8 +28,7 @@
        <!--
        
          body           {  font-family: Arial, Helvetica, Geneva;
-									background: white
-url(../../images/helphead_bg.gif) repeat-x 0% 0% }
+									background: white url('../../images/helphead_bg.gif') repeat-x;  }
 		      
          #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px;
 									width: 380px; visibility: visible }
@@ -54,114 +53,80 @@ url(../../images/helphead_bg.gif) repeat-x 0% 0% }
 <!-- This is the start of the Help Content Layer --> <div id="helpcontent"> <!-- The Page Heading uses CSS style "head3b". This creates an H3 header
             with a line beneath it.
        --> 
-  <h3 class="head3b">Managing iFolders</h3>
-  <p> Use this interface to manage the ownership, policies, and membership of 
-    a selected iFolder for an iFolder user account on the given iFolder domain. 
-    The search tool helps you locate the account you want to manage. </p>
-	<BLOCKQUOTE CLASS="blockquote"><P><A HREF="#search" TARGET="_self">Searching for 
-an iFolder</A> <BR><A HREF="#browse" TARGET="_self">Browsing 
-the iFolders in the Search Results 
- </A><BR><A HREF="#enable" TARGET="_self">Enabling, Disabling and Deleting an iFolder</A><BR><A HREF="#newuser" TARGET="_self">Creating a New iFolder</A>
+  <h3 class="head3b">Управление папками iFolder</h3>
+  <p> Используйте данный интерфейс для управления владением, политиками и членством выбранной папки iFolder для учетной записи пользователя iFolder в данном домене iFolder. Для поиска нужной учетной записи можно воспользоваться средством поиска. </p>
+  <p> <b>Примечание.</b> Войдя как дополнительный администратор, вы сможете просматривать только те папки iFolder, владельцами которых являются пользователи, для которых вы назначены в качестве дополнительного администратора. Кроме того, управление папками iFolder осуществляется лишь в пределах прав, которыми вы наделены для такого управления. </p>
+	<BLOCKQUOTE CLASS="blockquote"><P><A HREF="#search" TARGET="_self">Поиск папки iFolder</A> <BR><A HREF="#browse" TARGET="_self">Просмотр папок iFolder в результатах поиска </A><BR><A HREF="#enable" TARGET="_self">Включение, выключение и удаление папки iFolder</A><BR><A HREF="#newuser" TARGET="_self">Создание новой папки iFolder</A>
  </P></BLOCKQUOTE>
   
-  <H3><A NAME="search"></A>Searching For an iFolder</H3>
+  <H3><A NAME="search"></A>Поиск папки iFolder</H3>
   
-<H4>iFolder Types</H4>
-  <p><img src="../../images/ifolder.png" width="16" height="16" alt="Shared icon"> 
-    indicates that the iFolder is Normal.<br>
-    <img src="../../images/ifolder_user_16.gif" width="16" height="16" alt="Shared icon"> 
-    indicates that the iFolder is Shared.<br>
-    <img src="../../images/encrypt_ifolder.gif" width="16" height="16" alt="Shared icon"> 
-    indicates that the iFolder is Encrypted.</p>
-  <p> Click All to view all the iFolders in the current iFolder domain. Click 
-    Orphan to view all the orphaned iFolders.</p>
-  <H4>Retrieving a List of iFolders on the Server</H4><P>Use one 
-or more of the following search methods, then click Search:</P><UL><LI><P>Select 
-Equals as the filter criterion, then type the name of the iFolder you want to 
-locate in the Search iFolders field.</P></LI><LI>
-      <P>Select a filter criterion ( Begins With, Ends With, Contains, Equals) for the name 
-        of the iFolder, then type one or more letters in the Search iFolders field.</P>
-    </LI><LI><P>Type an asterisk 
-(*) in the Search iFolders field to return a list of all iFolders on the system.</P></LI><LI><P>Leave 
-the Search iFolders field empty to return a list of all iFolders on the system.</P></LI></UL>
-  <P>Do not click anywhere in the page until the page completely refreshes; then 
-    you can browse, sort, or manage the iFolders listed in the Search Results 
-    report. </P>
-  <H4><A NAME="browse"></A>Browsing 
-the iFolders in the Search Results</H4>
-  <P>Scroll up and down to browse the search results and locate the iFolder you 
-    want to manage. The combination of the iFolder's name and owner help to identify 
-    the iFolder you want.</P>
+<H4>Типы папок iFolder</H4>
+  <p><img src="../../images/ifolder.png" width="16" height="16" alt="Значок совместного использования"> указывает на то, что папка iFolder является обычной.<br>
+    <img src="../../images/ifolder_user_16.gif" width="16" height="16" alt="Значок совместного использования"> указывает на то, что разрешено совместное использование папки iFolder.<br>
+    <img src="../../images/encrypt_ifolder.gif" width="16" height="16" alt="Значок совместного использования"> указывает на то, что папка iFolder зашифрована.</p>
+  <p> Щелкните &quot;Все&quot; для просмотра всех папок iFolder в текущем домене iFolder. Щелкните &quot;С нарушенными ассоциациями&quot; для просмотра папок iFolder с нарушенными ассоциациями.</p>
+  <H4> Список Сервер</H4><P>Воспользуйтесь одним или несколькими из перечисленных методов поиска, а затем щелкните &quot;Поиск&quot;:</P><UL><LI><P>Выберите критерий фильтрации &quot;Равно&quot;, а затем введите имя искомой папки iFolder в поле &quot;Поиск папок iFolder&quot;.</P></LI><LI>
+      <P>Выберите критерии фильтрации имени папки iFolder (&quot;Начинается с&quot;, &quot;Заканчивается на&quot;, &quot;Содержит&quot;, &quot;Равно&quot;), а затем введите одну или несколько букв в поле &quot;Поиск папок iFolder&quot;.</P>
+    </LI><LI><P>Введите символ звездочки (*) в поле &quot;Поиск папок iFolder&quot; для возврата к списку всех папок iFolder в системе.</P></LI><LI><P>Оставьте поле &quot;Поиск папок iFolder&quot; пустым для возврата к списку всех папок iFolder в системе.</P></LI></UL>
+  <P>Не щелкайте какие-либо участки страницы до ее полного обновления; после этого Вы сможете просмотреть, отсортировать и использовать папки iFolder, попавшие в результаты поиска.  </P>
+  <H4><A NAME="browse"></A>Просмотр папок iFolder в результатах поиска</H4>
+  <P>Выполняйте прокрутку вверх и вниз для просмотра результатов поиска и выбора нужной папки iFolder. Определить нужную папку iFolder можно по имени и владельцу.</P>
   
-  <H4><a name="enable"></a>Enabling, Disabling and Deleting an iFolder</H4>
+  <H4><a name="enable"></a>Включение, выключение и удаление папки iFolder</H4>
   <br>
 	<OL>
     <LI> 
-      <P>Locate the iFolder you want to manage, then select the check box next 
-        to the iFolder.</P>
+      <P>Найдите нужную папку iFolder, а затем установите расположенный рядом с ней флажок.</P>
     </LI>
 	<LI> 
-      <P>Select an action to perform on the iFolder:</P>
+      <P>Выберите действие, которое необходимо совершить над папкой iFolder:</P>
     </LI>
-	<ul><li><P>Click Delete to delete the iFolder.</P><li><P>Click Enable to enable the iFolder.</P>
-        <P>This allows the user to log in and synchronize iFolders.</P>
-      </li><li><P>Click Disable to disable the iFolder.</P><P> If the user is logged in when you make this change, the user�s session 
-        continues until the user logs out. The policy takes effect the next time 
-        the user attempts to log in to the account. To have the lockout take effect 
-        immediately, you must restart the Apache services for the iFolder server, 
-        which disconnects all active sessions, including the user�s session.</P></li></ul>
+	<ul><li><P>Щелкните &quot;Удалить&quot; для удаления папки iFolder.</P><li><P>Щелкните &quot;Включить&quot; для разрешения доступа к iFolder.</P>
+        <P>Это позволяет пользователю регистрироваться в папках iFolder и выполнять их синхронизацию.</P>
+      </li><li><P>Щелкните &quot;Запретить&quot; для запрета доступа к папке iFolder.</P><P> Сеанс пользователя, зарегистрированного на момент установки данного значения, продолжается до тех пор, пока не будет выполнена разрегистрация. Данная политика вступает в силу при следующей попытке пользователя зарегистрироваться с использованием своей учетной записи. Чтобы блокировка вступила в силу немедленно, необходимо перезапустить сервисы Apache для сервера iFolder. При этом выполняется отключение всех активных сеансов, включая сеансы пользователей.</P></li></ul>
        
    
   </OL><BLOCKQUOTE>
-    <P><B><FONT SIZE="-1">NOTE:</FONT></B> <FONT SIZE="-1">By default, all iFolders 
-      are enabled.</FONT></P>
+    <P><B><FONT SIZE="-1">ПРИМЕЧАНИЕ.</FONT></B> <FONT SIZE="-1">По умолчанию доступ ко всем папкам iFolder разрешен.</FONT></P>
   </BLOCKQUOTE> 
-  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top" TITLE="Go to top"></A>
-  <H3><A NAME="newuser"></A>Creating a New iFolder </H3>
+  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Наверх" TITLE="Наверх"></A>
+  <H3><A NAME="newuser"></A>Создание новой папки iFolder </H3>
   <br>
  
 <OL><LI>
-      <P>On the iFolder Users page, click New.</P>
-	  <P>The iFolder creation page opens to the iFolders page.</P>
+      <P>На странице &quot;Пользователи iFolder&quot; щелкните &quot;Создать&quot;.</P>
+	  <P>На странице папок iFolder открывается страница создания iFolder.</P>
     </LI>
-    <LI>Specify the following information and then click Create.
+    <LI>Укажите следующую информацию и щелкните &quot;Создать&quot;.
   </ol>
   <P>
-  <BLOCKQUOTE> <B> Name</B><BR>
-    Assign a name to the iFolder such as ifolder 1. <BR>
+  <BLOCKQUOTE> <B> Имя</B><BR>
+    Назначьте папке iFolder имя, например &quot;ifolder 1&quot;. <BR>
 	<BR>
-    <B> Description</B><BR>
-    A short description about the iFolder.<br>
+    <B> Описание</B><BR>
+    Введите краткое описание папки iFolder.<br>
        
   </BLOCKQUOTE>
  
-  <h4>Accessing the iFolders Details Page</h4><br>
+  <h4>Доступ к странице &quot;Информация iFolder&quot;</h4><br>
   
   <ol>
     
     <li> 
-      <p>Use the search tool to locate the iFolder you want to manage.</p>
+      <p>Найдите необходимую папку iFolder с помощью средства поиска.</p>
     </li>
     <li> 
-      <p>Click the iFolder's link to open the iFolder Details page to the iFolder 
-        tab. <br>
+      <p>Щелкните ссылку папки iFolder, чтобы открыть страницу &quot;Информация iFolder&quot; на вкладке iFolder. <br>
         <br>
-        The iFolder Details page will display the iFolder details, a list of members 
-        who own or share with, and policy settings for the current iFolder. </p>
+        На странице &quot;Информация iFolder&quot; отображается подробная информация о папке iFolder, список членов, обладающих правами владения или совместного использования, и параметры политик текущей папки iFolder. </p>
     </li>
   </ol>
-  <P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P>
+  <P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="В начало"></A></P>
   
-  <H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Related Topics" align="top"> 
-Related Topics</H4>
+  <H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="См. также" align="top"> См. также</H4>
   
-  <BLOCKQUOTE class="task1"><P><A HREF="ifolderdetails.html">Managing iFolder Details
-</A><BR><A HREF="userdetails.html">User Details 
-</A><BR><A HREF="users.html">Managing a User Account</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P><P>&nbsp;</P><P CLASS="copyright">A 
-trademark symbol (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP>, 
-etc.) denotes a Novell trademark. An asterisk (*) denotes a third-party trademark. 
-For more information, see <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Legal 
-Notices</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
+  <BLOCKQUOTE class="task1"><P><A HREF="ifolderdetails.html">Управление подробной информацией о папке iFolder </A><BR><A HREF="userdetails.html">Информация о пользователях </A><BR><A HREF="users.html">Управление учетной записью пользователя</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="В начало"></A></P><P>&nbsp;</P><P CLASS="copyright">Символ товарного знака (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP> и т.&nbsp;д.) обозначает товарный знак Novell.  Символ звездочки (*) обозначает товарный знак независимого производителя.  Для получения дополнительной информации см. раздел <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Юридическая информация</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
 </body>
 
 </html>

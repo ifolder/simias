@@ -1,11 +1,11 @@
 <html>
 
    <head>
-     <meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+     <meta http-equiv="content-type" content="text/html;charset=UTF-8">
      
      <!-- Novell iFolder 3.6 Web Admin Help  --> 
    
-     <title>iFolder Details</title>  	 
+     <title>Podrobnosti o priečinku iFolder</title>  	 
      
  
      <!-- Metadata -->
@@ -54,513 +54,425 @@
 <!-- This is the start of the Help Content Layer --> <div id="helpcontent"> <!-- The Page Heading uses CSS style "head3b". This creates an H3 header
             with a line beneath it.
        --> 
-  <h3 class="head3b">Managing iFolder Details</h3>
-  <p> Use this interface to 
-manage the ownership, policies, and membership of a selected iFolder. </p><BLOCKQUOTE CLASS="blockquote"><P><A HREF="#general" TARGET="_self">Viewing iFolder Details
-</A> <BR><A HREF="#members" TARGET="_self">Members 
- </A><BR><A HREF="#policies" TARGET="_self">Policies</A> </P></BLOCKQUOTE>
+  <h3 class="head3b">Spr&aacute;va podrobnost&iacute; o priečinku iFolder</h3>
+  <p> Pomocou tohto rozhrania m&ocirc;žete spravovať vlastn&iacute;ctvo, z&aacute;sady a členstvo vybrat&eacute;ho priečinka iFolder. </p>
+  <p> <b>Pozn&aacute;mka</b>: Sekund&aacute;rny spr&aacute;vca m&ocirc;že spravovať z&aacute;sady vybrat&eacute;ho priečinka iFolder na z&aacute;klade pr&aacute;v, ktor&eacute; m&aacute; pre tento priečinok iFolder.</p><BLOCKQUOTE CLASS="blockquote"><P><A HREF="#general" TARGET="_self">Zobrazenie podrobnost&iacute; o priečinku iFolder </A> <BR><A HREF="#members" TARGET="_self">Členovia </A><BR><A HREF="#policies" TARGET="_self">Z&aacute;sady</A> </P></BLOCKQUOTE>
   
  
-  <H4><A NAME="general"></A>Viewing iFolder Details</H4>
-  <P>You 
-can view the following information:</P><TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TD VALIGN="TOP">
-        <P>Type</P>
+  <H4><A NAME="general"></A>Zobrazenie podrobnost&iacute; o priečinku iFolder</H4>
+  <P>M&ocirc;žete zobraziť nasleduj&uacute;ce inform&aacute;cie:</P><TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Popis</P></TD></TR><TD VALIGN="TOP">
+        <P>Typ</P>
       </TD><TD>
-        <P><img src="../../images/ifolder.png" width="16" height="16" alt="Folder icon">  Normal iFolder</P>
-		<P><img src="../../images/encrypt_ifolder.gif" width="16" height="16" alt="Folder icon"> Encrypted iFolder</P>
-		<p><img src="../../images/ifolder_user_16.gif" width="16" height="16" alt="Shared icon"> 
-          Shared iFolder<br>
+        <P><img src="../../images/ifolder.png" width="16" height="16" alt="Ikona priečinka"> Bežn&yacute; priečinok iFolder</P>
+		<P><img src="../../images/encrypt_ifolder.gif" width="16" height="16" alt="Ikona priečinka"> Zašifrovan&yacute; priečinok iFolder</P>
+		<p><img src="../../images/ifolder_user_16.gif" width="16" height="16" alt="Ikona zdieľania"> Zdieľan&yacute; priečinok iFolder<br>
       </TD><TR><TD VALIGN="TOP">
-        <P>iFolder Name</P>
+        <P>N&aacute;zov priečinka iFolder</P>
       </TD><TD>
-        <P>The name assigned to the iFolder </P>
+        <P>N&aacute;zov, priraden&yacute; priečinku iFolder </P>
       </TD><TR><TD VALIGN="TOP">
-        <P>Description (editable)</P>
+        <P>Popis (s možnosťou &uacute;pravy)</P>
       </TD><TD>
-        <P>A short description about the iFolder. You can edit the description 
-          and click Save to save the changes.</P>
-      </TD><TR><TD VALIGN="TOP"><P>Owner 
+        <P>Kr&aacute;tky popis priečinka iFolder. Popis m&ocirc;žete upraviť. Kliknut&iacute;m na tlačidlo Uložiť m&ocirc;žete zmeny uložiť.</P>
+      </TD><TR><TD VALIGN="TOP"><P>Vlastn&iacute;k 
 </P></TD><TD>
-        <P>The username of the owner of the selected iFolder. Owner can be an 
-          individual user or an LDAPGroup. If an LDAPGroup is the owner of the 
-          iFolder, then all the members of the LDAPGroup will have the same access 
-          rights. For orphaned iFolders, the iFolder Admin user is made the owner 
-          until the iFolder can be reassigned or deleted.</P>
-        <p>Click the owner's username link to view his or her user account details.</p> 
-        <P>The iFolder owner has the Full Control right to the iFolder. The owner manages 
-          membership and access rights for users, and can remove the Full Control 
-          right for any member.</P>
-      </TD></TR><TR><TD VALIGN="TOP"><P>Path</P></TD><TD><P>The 
-actual location of the iFolder and its data on the server. For example:</P><P>/var/opt/novell/ifolder3/simias/SimiasFiles/<I>e84fdc6e-3d51-49df-ae3f-8c9213c76994</I>/&lt;iFolder_Name&gt;</P><P>In 
-this example, <I>e84fdc6e-3d51-49df-ae3f-8c9213c76994</I> is the unique ID of 
-the iFolder share.</P></TD><TR><TD VALIGN="TOP">
-        <P>Modified</P>
+        <P>Meno použ&iacute;vateľa, ktor&yacute; je vlastn&iacute;kom vybrat&eacute;ho priečinka iFolder. Vlastn&iacute;kom m&ocirc;že byť samostatn&yacute; použ&iacute;vateľ alebo skupina LDAP. Ak je vlastn&iacute;kom priečinka iFolder skupina LDAP, všetci členovia skupiny LDAP bud&uacute; mať rovnak&eacute; pr&iacute;stupov&eacute; pr&aacute;va. V pr&iacute;pade osamoten&yacute;ch priečinkov iFolder sa st&aacute;va vlastn&iacute;kom spr&aacute;vca aplik&aacute;cie iFolder do tej doby, k&yacute;m nie je priečinok iFolder priraden&yacute; in&eacute;mu použ&iacute;vateľovi alebo odstr&aacute;nen&yacute;.</P>
+        <p>Kliknut&iacute;m na prepojenie s menom použ&iacute;vateľa vlastn&iacute;ka m&ocirc;žete zobraziť podrobnosti o jeho &uacute;čte.</p> 
+        <P>Vlastn&iacute;k priečinka iFolder m&aacute; pre pr&iacute;slušn&yacute; priečinok pr&aacute;va na &uacute;pln&eacute; ovl&aacute;danie. Vlastn&iacute;k spravuje členstvo a pr&iacute;stupov&eacute; pr&aacute;va použ&iacute;vateľov. Ktor&eacute;mukoľvek členovi m&ocirc;že odobrať pr&aacute;vo na &uacute;pln&eacute; ovl&aacute;danie.</P>
+      </TD></TR><TR><TD VALIGN="TOP"><P>Cesta</P></TD><TD><P>Umiestnenie priečinka iFolder a jeho &uacute;dajov na serveri. Pr&iacute;klad:</P><P>/var/opt/novell/ifolder3/simias/SimiasFiles/<I>e84fdc6e-3d51-49df-ae3f-8c9213c76994</I>/&lt;N&aacute;zov_priečinka_iFolder&gt;</P><P>V tomto pr&iacute;klade je reťazec <I>e84fdc6e-3d51-49df-ae3f-8c9213c76994</I> jednoznačn&yacute;m identifik&aacute;torom zdieľania priečinka iFolder.</P></TD><TR><TD VALIGN="TOP">
+        <P>Zmenen&eacute;</P>
       </TD><TD>
-        <P>The last modified time and date of the iFolder.</P>
+        <P>D&aacute;tum a čas poslednej zmeny priečinka iFolder.</P>
       </TD><TR><TD VALIGN="TOP">
-        <P>Directories</P>
+        <P>Adres&aacute;re</P>
       </TD><TD>
-        <P>Total number of directories in the iFolder.</P>
+        <P>Celkov&yacute; počet adres&aacute;rov v priečinku iFolder.</P>
       </TD><TR><TD VALIGN="TOP">
-        <P>Files</P>
+        <P>S&uacute;bory</P>
       </TD><TD>
-        <P>Total number of files in the iFolder.</P>
+        <P>Celkov&yacute; počet s&uacute;borov v priečinku iFolder.</P>
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>Orphan</P>
+        <P>Osamoten&yacute;</P>
       </TD>
       <TD> 
-        <P>Yes indicates that iFolder is an orphan.</P>
-        <P>For orphaned iFolders, the iFolder Admin becomes the owner until the 
-          iFolder can be reassigned to a new owner or is deleted.</P>
+        <P>Hodnota &Aacute;no označuje, že je priečinok iFolder osamoten&yacute;.</P>
+        <P>V pr&iacute;pade osamoten&yacute;ch priečinkov iFolder sa st&aacute;va vlastn&iacute;kom spr&aacute;vca aplik&aacute;cie iFolder do tej doby, k&yacute;m nie je priečinok iFolder priraden&yacute; in&eacute;mu použ&iacute;vateľovi alebo odstr&aacute;nen&yacute;.</P>
       </TD></TR></TABLE>
 	  
-  <H3><a name="members"></a>Members </H3>
-  <p> You can view the members' name, type and access rights assigned to them. 
-    You are allowed to add or delete an owner, assign ownership, and set access 
-    rights to a selected member. 
-  <H4><A NAME="share"></A>Adding 
-a Member</H4><OL><LI>
-      <P>On the iFolder Details page, click Add.</P>
+  <H3><a name="members"></a>Členovia </H3>
+  <p> M&ocirc;žete zobraziť men&aacute; a typy členov a pr&iacute;stupov&eacute; pr&aacute;va, ktor&eacute; im boli priraden&eacute;. M&aacute;te možnosť prid&aacute;vať alebo odstraňovať vlastn&iacute;ka, priraďovať vlastn&iacute;ctvo a nastavovať pr&iacute;stupov&eacute; pr&aacute;va pre vybrat&eacute;ho člena. 
+  <H4><A NAME="share"></A>Pridanie člena</H4><OL><LI>
+      <P>Na str&aacute;nke Podrobnosti o priečinku iFolder kliknite na možnosť Pridať.</P>
     </LI><LI>
-      <P>Search for the user or LDAPGroup you want to make a member, select the 
-        check box next to the user's name, then click Add.<BR>
+      <P>Vyhľadajte použ&iacute;vateľa alebo skupinu LDAP, z ktorej chcete urobiť člena, začiarknite pol&iacute;čko vedľa mena použ&iacute;vateľa a kliknite na tlačidlo Pridať.<BR>
         <BR>
-        By default, the user or the LDAPGroup is given Read Only access to the 
-        iFolder.</P>
+        V predvolenom nastaven&iacute; je použ&iacute;vateľovi alebo členovi skupiny LDAP priraden&eacute; iba pr&aacute;vo na č&iacute;tanie priečinka iFolder.</P>
     </LI><LI>
-      <P>(Optional) Select the User check box, then select Rights and specify 
-        the Access right as Admin, Read/Write, or Read Only , then click Set.<BR>
+      <P>(Nepovinn&eacute;) Vyberte začiark&aacute;vacie pol&iacute;čko Použ&iacute;vateľ, potom vyberte možnosť Pr&aacute;va a zadajte pr&iacute;stupov&eacute; pr&aacute;va (Spr&aacute;vca, Č&iacute;tanie/z&aacute;pis alebo Iba č&iacute;tanie). Potom kliknite na tlačidlo Nastaviť.<BR>
         <BR>
-        Wait for the page to refresh. The user's icon should reflect the new access 
-        right. </P>
+        Počkajte na obnovenie zobrazenia str&aacute;nky. Ikona použ&iacute;vateľa by mala odr&aacute;žať zmenu pr&iacute;stupov&yacute;ch pr&aacute;v. </P>
     </LI></OL>
-<H4>Understanding iFolder Access Rights </H4>
-<p>The iFolder client supports the owner and three levels of access for members of an iFolder:</p>
-<P><B><FONT SIZE="-1">NOTE:</FONT></B> <FONT SIZE="-1">Members of an LDAPGroup inherit the access rights set for that LDAPGroup.</FONT></P>
+<H4>Vysvetlenie pr&iacute;stupov&yacute;ch pr&aacute;v priečinka iFolder </H4>
+<p>Klient aplik&aacute;cie iFolder podporuje pr&aacute;va vlastn&iacute;ka a tri &uacute;rovne pr&iacute;stupov&yacute;ch pr&aacute;v pre členov priečinka iFolder:</p>
+<P><B><FONT SIZE="-1">POZN&Aacute;MKA.</FONT></B> <FONT SIZE="-1">Členovia skupiny LDAP maj&uacute; pr&iacute;stupov&eacute; pr&aacute;va nastaven&eacute; pre dan&uacute; skupinu LDAP.</FONT></P>
   <BLOCKQUOTE> 
-    <P><B>Owner<BR>
-      </B>Only one user or LDAPGroup serves as the owner of an iFolder. This is 
-      typically the user or any member of the LDAPGroup who created the iFolder. 
-      If the owner is an LDAPGroup and in that case, all the members of the LDAPGroup 
-      will have the ownership on that iFolder. The owner user or members of the 
-      owner LDAPGroup can use the iFolder client to transfer ownership to another 
-      member of the iFolder. The iFolder Admin user can transfer ownership to 
-      any user or LDAPGroup on the iFolder server.</P>
-    <P>The owner of an iFolder has the Full Control right. This user or LDAPGroup 
-      has read/write access to the iFolder, manages membership and access rights 
-      for member users and LDAPGroups, and can remove the Full Control right for 
-      any member. With an enterprise server, the disk space used by the owner&#146;s 
-      iFolders count against the owner&#146;s user disk quotas on the enterprise 
-      server.</P>
-    <P>If a user or LDAPGroup is deleted from the iFolder system, the iFolders 
-      owned by the user or LDAPGroup are orphaned. Orphaned iFolders are temporarily 
-      assigned to the iFolder Admin user as owner. Membership and synchronization 
-      continues for other users and LDAPGroup members while the iFolder Admin 
-      user determines whether an orphaned iFolder should be deleted or assigned 
-      to a new owner.</P>
-  <P><B>Full Control</B><BR>
-      A member of the shared iFolder, with the Full Control access right. The 
-      user or LDAPGroup with the Full Control right has read/write access to the 
-      iFolder and manages membership and access rights for all users except the 
-      owner.</P>
-  <P><B>Read/Write</B><BR>
-    A member of the shared iFolder, with the Read/Write access right to directories and files in the iFolder.</P>
-  <P><B>Read Only</B><BR>
-    A member of the shared iFolder, with the Read Only access right to directories and files in the iFolder. This member can copy an iFolder file to another location and modify it outside the iFolder.</P>
+    <P><B>Vlastn&iacute;k<BR>
+      </B>Vlastn&iacute;kom priečinka iFolder m&ocirc;že byť iba jeden použ&iacute;vateľ alebo člen skupiny LDAP. Zvyčajne ide o použ&iacute;vateľa alebo člena skupiny LDAP, ktor&yacute; priečinok iFolder vytvoril. Ak je vlastn&iacute;kom skupina LDAP, všetci členovia tejto skupiny LDAP bud&uacute; vlastn&iacute;kmi priečinka iFolder. Vlastn&iacute;k alebo členovia vlastn&iacute;kovej skupiny LDAP m&ocirc;žu pomocou klienta aplik&aacute;cie iFolder previesť vlastn&iacute;ctvo na in&eacute;ho člena priečinka iFolder. Spr&aacute;vca aplik&aacute;cie iFolder m&ocirc;že vlastn&iacute;ctvo previesť na ľubovoľn&eacute;ho použ&iacute;vateľa alebo skupinu LDAP na serveri aplik&aacute;cie iFolder.</P>
+    <P>Vlastn&iacute;k priečinka iFolder m&aacute; pr&aacute;va na &uacute;pln&eacute; ovl&aacute;danie. Tento použ&iacute;vateľ alebo skupina LDAP m&aacute; pr&aacute;va na č&iacute;tanie a z&aacute;pis v priečinku iFolder, spravuje členstvo a pr&iacute;stupov&eacute; pr&aacute;va členov alebo skup&iacute;n LDAP a hociktor&eacute;mu členovi m&ocirc;že odobrať pr&aacute;vo na &uacute;pln&eacute; ovl&aacute;danie. V pr&iacute;pade podnikov&eacute;ho servera sa priestor na pevnom disku, ktor&yacute; zaberaj&uacute; priečinky iFolder vlastnen&eacute; použ&iacute;vateľom odpoč&iacute;tava z kv&oacute;ty na priestor pr&iacute;slušn&eacute;ho použ&iacute;vateľa na podnikovom serveri.</P>
+    <P>Po odstr&aacute;nen&iacute; použ&iacute;vateľa alebo skupiny LDAP zo syst&eacute;mu aplik&aacute;cie iFolder sa priečinky iFolder vlastnen&eacute; použ&iacute;vateľom alebo skupinou LDAP stan&uacute; osamoten&yacute;mi. Vlastn&iacute;kom osamoten&yacute;ch priečinkov iFolder sa dočasne st&aacute;va spr&aacute;vca aplik&aacute;cie iFolder. Členstvo a synchroniz&aacute;cia sa pre ostatn&yacute;ch použ&iacute;vateľov a skupiny LDAP nemen&iacute;. Spr&aacute;vca aplik&aacute;cie iFolder urč&iacute;, či vlastn&iacute;ctvo osamoten&eacute;ho priečinka iFolder prirad&iacute; nov&eacute;mu vlastn&iacute;kovi alebo priečinok odstr&aacute;ni.</P>
+  <P><B>&Uacute;pln&eacute; ovl&aacute;danie</B><BR>
+      Člen zdieľan&eacute;ho priečinka iFolder s pr&aacute;vom na &uacute;pln&eacute; ovl&aacute;danie. Použ&iacute;vateľ alebo skupina LDAP s pr&aacute;vom na &uacute;pln&eacute; ovl&aacute;danie m&aacute; pr&aacute;vo na č&iacute;tanie a z&aacute;pis v priečinku iFolder a spravuje členstvo a pr&iacute;stupov&eacute; pr&aacute;va pre všetk&yacute;ch členov okrem vlastn&iacute;ka.</P>
+  <P><B>Č&iacute;tanie/Zapisovanie</B><BR>
+    Člen zdieľan&eacute;ho priečinka iFolder, ktor&yacute; m&aacute; pr&aacute;va na č&iacute;tanie a z&aacute;pis v adres&aacute;roch a s&uacute;boroch v priečinku iFolder.</P>
+  <P><B>Iba na č&iacute;tanie</B><BR>
+    Člen zdieľan&eacute;ho priečinka iFolder, ktor&yacute; m&aacute; pr&aacute;vo iba na č&iacute;tanie v adres&aacute;roch a s&uacute;boroch v priečinku iFolder. Tento člen m&ocirc;že skop&iacute;rovať s&uacute;bor z priečinku iFolder do in&eacute;ho umiestnenia a upraviť ho mimo r&aacute;mca priečinka iFolder.</P>
 </BLOCKQUOTE>
-<p>The following table describes the capabilities associated with each level of access for users.</p>
+<p>Nasleduj&uacute;ca tabuľka popisuje možnosti priraden&eacute; ku každej &uacute;rovni pr&iacute;stupu pre použ&iacute;vateľov.</p>
   <TABLE WIDTH="93%" BORDER="1">
     <tr class="HEADERROW"> 
-      <th  CLASS="tablehead2">Capabilities</th>
-      <th  CLASS="tablehead2">Owner</th>
-      <th  CLASS="tablehead2">Full&nbsp;Control</th>
-      <th  CLASS="tablehead2">Read/Write</th>
-      <th  CLASS="tablehead2">Read&nbsp;Only</th>
+      <th  CLASS="tablehead2">Možnosti</th>
+      <th  CLASS="tablehead2">Vlastn&iacute;k</th>
+      <th  CLASS="tablehead2">&Uacute;pln&eacute; ovl&aacute;danie</th>
+      <th  CLASS="tablehead2">Č&iacute;tanie/Zapisovanie</th>
+      <th  CLASS="tablehead2">Iba na č&iacute;tanie</th>
     </tr>
     <tr > 
       <td  scope="row"> 
-        <p >Reassign ownership to another user or LDAPGroup</p>
+        <p >Zmena priradenia vlastn&iacute;ctva na in&eacute;ho použ&iacute;vateľa alebo skupinu LDAP</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >&Aacute;no</p>
       </td>
       <td >
-        <p >No</p>
+        <p >Nie</p>
       </td>
       <td >
-        <p >No</p>
+        <p >Nie</p>
       </td>
       <td >
-        <p >No</p>
-      </td>
-    </tr>
-    <tr > 
-      <td  scope="row"> 
-        <p >Set a quota for the iFolder</p>
-      </td>
-      <td >
-        <p >Yes</p>
-      </td>
-      <td >
-        <p >No</p>
-      </td>
-      <td >
-        <p >No</p>
-      </td>
-      <td >
-        <p >No</p>
+        <p >Nie</p>
       </td>
     </tr>
     <tr > 
       <td  scope="row"> 
-        <p >Make the iFolder available to other users (sharing)</p>
+        <p >Nastavenie kv&oacute;ty pre priečinok iFolder</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >&Aacute;no</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Nie</p>
       </td>
       <td >
-        <p >No</p>
+        <p >Nie</p>
       </td>
       <td >
-        <p >No</p>
+        <p >Nie</p>
       </td>
     </tr>
     <tr > 
       <td  scope="row"> 
-        <p >Make the iFolder unavailable to other users (stop sharing)</p>
+        <p >Spr&iacute;stupnenie priečinka iFolder in&yacute;m použ&iacute;vateľom (zdieľanie)</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >&Aacute;no</p>
       </td>
       <td >
-        <p >Yes, except the owner</p>
+        <p >&Aacute;no</p>
       </td>
       <td >
-        <p >No</p>
+        <p >Nie</p>
       </td>
       <td >
-        <p >No</p>
+        <p >Nie</p>
       </td>
     </tr>
     <tr > 
       <td  scope="row"> 
-        <p >Assign iFolder access rights for other users or LDAPGroup</p>
+        <p >Zrušenie spr&iacute;stupnenia priečinka iFolder in&yacute;m použ&iacute;vateľom (zastavenie zdieľania)</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >&Aacute;no</p>
       </td>
       <td >
-        <p >Yes, except the owner</p>
+        <p >&Aacute;no, okrem vlastn&iacute;ka</p>
       </td>
       <td >
-        <p >No</p>
+        <p >Nie</p>
       </td>
       <td >
-        <p >No</p>
+        <p >Nie</p>
       </td>
     </tr>
     <tr > 
       <td  scope="row"> 
-        <p >Read directories and files in the iFolder </p>
+        <p >Priradenie pr&iacute;stupov&yacute;ch pr&aacute;v k priečinku iFolder ďalš&iacute;m použ&iacute;vateľom alebo skupine LDAP</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >&Aacute;no</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >&Aacute;no, okrem vlastn&iacute;ka</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Nie</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Nie</p>
       </td>
     </tr>
     <tr > 
       <td  scope="row"> 
-        <p >Add, modify, or delete directories and files in the iFolder</p>
+        <p >Č&iacute;tanie adres&aacute;rov a s&uacute;borov v priečinku iFolder </p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >&Aacute;no</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >&Aacute;no</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >&Aacute;no</p>
       </td>
       <td >
-        <p >No</p>
+        <p >&Aacute;no</p>
       </td>
     </tr>
     <tr > 
       <td  scope="row"> 
-        <p >Rename directories and files in an iFolder</p>
+        <p >Pridanie, zmena alebo odstr&aacute;nenie adres&aacute;rov a s&uacute;borov v priečinku iFolder</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >&Aacute;no</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >&Aacute;no</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >&Aacute;no</p>
       </td>
       <td >
-        <p >No</p>
+        <p >Nie</p>
       </td>
     </tr>
     <tr > 
       <td  scope="row"> 
-        <p >Rename the iFolder</p>
+        <p >Premenovanie adres&aacute;rov a s&uacute;borov v priečinku iFolder</p>
       </td>
       <td >
-        <p >No</p>
+        <p >&Aacute;no</p>
       </td>
       <td >
-        <p >No</p>
+        <p >&Aacute;no</p>
       </td>
       <td >
-        <p >No</p>
+        <p >&Aacute;no</p>
       </td>
       <td >
-        <p >No</p>
+        <p >Nie</p>
       </td>
     </tr>
     <tr > 
       <td  scope="row"> 
-        <p >Set up an iFolder on multiple computers</p>
+        <p >Premenovanie priečinka iFolder</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Nie</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Nie</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Nie</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Nie</p>
       </td>
     </tr>
     <tr > 
       <td  scope="row"> 
-        <p >Revert an iFolder (do not participate on a local computer)</p>
+        <p >Nastavenie priečinka iFolder na viacer&yacute;ch poč&iacute;tačoch</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >&Aacute;no</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >&Aacute;no</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >&Aacute;no</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >&Aacute;no</p>
       </td>
     </tr>
     <tr > 
       <td  scope="row"> 
-        <p >Delete an available iFolder to decline participating</p>
+        <p >Zmena priečinka iFolder na norm&aacute;lny priečinok (nie je možn&eacute; zdieľať na lok&aacute;lnom poč&iacute;tači)</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >&Aacute;no</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >&Aacute;no</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >&Aacute;no</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >&Aacute;no</p>
       </td>
     </tr>
     <tr > 
       <td  scope="row"> 
-        <p >Delete the iFolder and delete the iFolder and its files from the server 
-          (make it a normal folder again and no longer share it with others)</p>
+        <p >Odstr&aacute;nenie dostupn&eacute;ho priečinka iFolder a odmietnutie pr&iacute;stupu</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >&Aacute;no</p>
       </td>
       <td >
-        <p >No</p>
+        <p >&Aacute;no</p>
       </td>
       <td >
-        <p >No</p>
+        <p >&Aacute;no</p>
       </td>
       <td >
-        <p >No</p>
+        <p >&Aacute;no</p>
+      </td>
+    </tr>
+    <tr > 
+      <td  scope="row"> 
+        <p >Odstr&aacute;nenie aplik&aacute;cie iFolder a odstr&aacute;nenie priečinka iFolder a jeho s&uacute;borov zo servera (zmena na norm&aacute;lny priečinok a zrušenie zdieľania)</p>
+      </td>
+      <td >
+        <p >&Aacute;no</p>
+      </td>
+      <td >
+        <p >Nie</p>
+      </td>
+      <td >
+        <p >Nie</p>
+      </td>
+      <td >
+        <p >Nie</p>
       </td>
     </tr>
   </table>
-<H4>Setting 
-  the iFolder Access Right for a Member</H4>
+<H4>Nastavenie pr&iacute;stupov&eacute;ho pr&aacute;va k priečinku iFolder pre člena</H4>
   
 <OL><LI>
-      <P>On the iFolder Details page, select the check box next to the member 
-        whose access right you want to manage.</P>
+      <P>Na str&aacute;nke Podrobnosti o priečinku iFolder vyberte začiark&aacute;vacie pol&iacute;čko veľa mena člena, ktor&eacute;ho pr&iacute;stupov&eacute; pr&aacute;va chcete spravovať.</P>
     </LI><LI>
-      <P>Select the Rights drop-down menu, then select the Admin, Read/Write, 
-        or Read Only right.<BR>
-        <BR>Wait for the page to refresh. The user's icon should reflect the 
-new access right.</P></LI></OL>
-  <H4>Removing a Member</H4>
+      <P>Vyberte rozbaľovaciu ponuku Pr&aacute;va a vyberte možnosť Spr&aacute;vca, Č&iacute;tanie/Zapisovanie alebo Iba na č&iacute;tanie.<BR>
+        <BR>Počkajte na obnovenie zobrazenia str&aacute;nky. Ikona použ&iacute;vateľa by mala odr&aacute;žať zmenu pr&iacute;stupov&yacute;ch pr&aacute;v.</P></LI></OL>
+  <H4>Odstr&aacute;nenie člena</H4>
 <ol>
-    <li>On the iFolder Details page, select the check box next to the member user's 
-      name.</li>
-    <li>Click Delete.</li>
+    <li>Na str&aacute;nke Podrobnosti o priečinku iFolder vyberte začiark&aacute;vacie pol&iacute;čko veľa mena použ&iacute;vateľa pr&iacute;slušn&eacute;ho člena.</li>
+    <li>Kliknite na tlačidlo Odstr&aacute;niť.</li>
 </ol>
-<P>The user's local copy of the data remains on the 
-user's computer, but the user no longer has access to the server copy of the iFolder 
-data.</P><P> <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top" TITLE="Go to top"></A></P>
-	  <H4>Changing the Owner</H4>
-  <P>When you change the owner of an iFolder, the existing owner becomes a member 
-    of the iFolder and is assigned the Read/Write right. For orphaned iFolders, 
-    the iFolder Admin becomes the owner until the iFolder is reassigned to a new 
-    owner or deleted. If the new owner is not currently a member of the iFolder, 
-    a subscription notification is sent to the user's iFolder account.</P>
+<P>Miestna k&oacute;pia &uacute;dajov použ&iacute;vateľa je ponechan&aacute; na poč&iacute;tači použ&iacute;vateľa, ale použ&iacute;vateľ už nebude mať pr&iacute;stup ku k&oacute;pii &uacute;dajov priečinka iFolder na serveri.</P><P> <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Prejsť na začiatok" TITLE="Prejsť na začiatok"></A></P>
+	  <H4>Zmena vlastn&iacute;ka</H4>
+  <P>Ak zmen&iacute;te vlastn&iacute;ka priečinka iFolder, predch&aacute;dzaj&uacute;ci vlastn&iacute;k sa stane členom priečinka iFolder s pr&aacute;vom na č&iacute;tanie a z&aacute;pis. V pr&iacute;pade osamoten&yacute;ch priečinkov iFolder sa st&aacute;va vlastn&iacute;kom spr&aacute;vca aplik&aacute;cie iFolder do tej doby, k&yacute;m nie je priečinok iFolder priraden&yacute; in&eacute;mu použ&iacute;vateľovi alebo odstr&aacute;nen&yacute;. Ak nie je nov&yacute; vlastn&iacute;k aktu&aacute;lne členom priečinka iFolder, bude na &uacute;čet aplik&aacute;cie iFolder použ&iacute;vateľa odoslan&eacute; upozornenie na odber.</P>
   <OL>
     <LI> 
-      <P>On the iFolder Details page, search for the user or LDAPGroup you want 
-        to assign as the new owner of the iFolder.</P>
+      <P>Na str&aacute;nke podrobnosti o priečinku iFolder vyhľadajte použ&iacute;vateľa alebo skupinu LDAP, ktor&eacute;ho chcete priradiť ako nov&eacute;ho vlastn&iacute;ka priečinka iFolder.</P>
     </LI>
     <LI>
-      <P>Select the check box next to the user's name, then click <i>Owner</i>.</P>
+      <P>Vyberte začiark&aacute;vacie pol&iacute;čko vedľa mena použ&iacute;vateľa a kliknite na možnosť <i>Vlastn&iacute;k</i>.</P>
     </LI>
     
   </OL>
-  <P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P>
-  <H3><A NAME="policy"></A>Policies</H3>
+  <P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Prejsť na začiatok"></A></P>
+  <H3><A NAME="policy"></A>Z&aacute;sady</H3>
   
-  <P>The following table lists the policies you can manage for any given iFolder. 
-    Modify one or more of the following values, then click Save to apply the new settings: </P>
-<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
-        <P>Disable Synchronization &nbsp;</P>
+  <P>V nasleduj&uacute;cej tabuľke s&uacute; uveden&eacute; z&aacute;sady, ktor&eacute; m&ocirc;žete spravovať pre ľubovoľn&yacute; priečinok iFolder. Zmeňte jednu alebo viac z nasleduj&uacute;cich hodn&ocirc;t a potom kliknut&iacute;m na tlačidlo Uložiť zmeny uložte: </P>
+<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Popis</P></TD></TR><TR><TD VALIGN="TOP">
+        <P>Zak&aacute;zať synchroniz&aacute;ciu</P>
       </TD><TD>
-        <P>Select this option to turn off synchronization, usually temporarily. 
+        <P>V&yacute;berom tejto možnosti m&ocirc;žete zak&aacute;zať synchroniz&aacute;ciu, obyčajne dočasne. 
         </P>
-        <P>Deselect this option to allow the synchronization of data in the iFolder.</P>
-        <P>Default value: Enabled, Yes</P>
+        <P>Zrušen&iacute;m v&yacute;beru tejto možnosti povol&iacute;te synchroniz&aacute;ciu &uacute;dajov v priečinku iFolder.</P>
+        <P>Predvolen&aacute; hodnota: Povolen&eacute;, &Aacute;no</P>
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>Disk Quota&nbsp;</P>
+        <P>Kv&oacute;ta disku</P>
       </TD><TD>
-        <P>Select the Limit check box, then specify the maximum size (in MB) for 
-          the selected iFolder.</P>
-        <P>If you enable System-wide iFolder quota or LDAPGroup level quota, a 
-          user's account quota overrides it, if the user quota is lower or higher 
-          than the LDAPGroup quota or system quota. </P>
-        <P>Default value: Disabled, No Limit</P>
+        <P>Vyberte začiark&aacute;vacie pol&iacute;čko Obmedzenie a potom zadajte maxim&aacute;lnu povolen&uacute; veľkosť vybrat&eacute;ho priečinku iFolder (v MB).</P>
+        <P>Ak povol&iacute;te kv&oacute;tu priečinka iFolder v r&aacute;mci cel&eacute;ho syst&eacute;mu alebo kv&oacute;tu na &uacute;rovni skupiny LDAP, kv&oacute;ta &uacute;čtu použ&iacute;vateľa bude mať prednosť bez ohľadu na to, či je kv&oacute;ta použ&iacute;vateľa nižšia alebo vyššia ako kv&oacute;ta skupiny LDAP alebo kv&oacute;ta v r&aacute;mci cel&eacute;ho syst&eacute;mu. </P>
+        <P>Predvolen&aacute; hodnota: Zak&aacute;zan&eacute;, Bez obmedzenia</P>
       </TD></TR><TR><TD VALIGN="TOP">
-        <P> Used</P>
-        <P>(View only)&nbsp;</P></TD><TD>
-        <P>Reports the space the iFolder data currently consumes.</P>
+        <P> Využit&eacute;</P>
+        <P>(Iba na zobrazenie)</P></TD><TD>
+        <P>Zobrazuje priestor, ktor&yacute; moment&aacute;lne zaberaj&uacute; &uacute;daje priečinka iFolder.</P>
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>Available</P>
-        <P>(View only)&nbsp;</P></TD><TD>
-        <P>Reports the space available on the server for the iFolder data.</P>
+        <P>K dispoz&iacute;cii</P>
+        <P>(Iba na zobrazenie)</P></TD><TD>
+        <P>Zobrazuje priestor na serveri, ktor&yacute; je k dispoz&iacute;cii pre &uacute;daje priečinka iFolder.</P>
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>Effective</P>
-        <P>(View only)&nbsp;</P></TD><TD>
-        <P>Reports effective space available on the server for the iFolder data.</P>
+        <P>Platn&eacute;</P>
+        <P>(Iba na zobrazenie)</P></TD><TD>
+        <P>Zobrazuje platn&yacute; priestor na serveri, ktor&yacute; je k dispoz&iacute;cii pre &uacute;daje priečinka iFolder.</P>
       </TD></TR>
 	  <TR><TD VALIGN="TOP">
-        <p>File Size</p>
+        <p>Veľkosť s&uacute;boru</p>
       </TD>
-      <TD> <B>Limit</B><BR>
-          Specifies the maximum total file size (in MB) that an iFolder user 
-          is allowed to use, across all iFolders the user owns for the selected 
-          user account. <br>
+      <TD> <B>Obmedzenie</B><BR>
+          Zobrazuje maxim&aacute;lnu celkov&uacute; veľkosť s&uacute;borov (v MB), ktor&uacute; m&ocirc;že použ&iacute;vateľ priečinka iFolder použ&iacute;vať vo všetk&yacute;ch vlastnen&yacute;ch priečinkoch iFolder na vybratom konte použ&iacute;vateľa. <br>
           <BR>
-        <B>Effective</B><BR>
-        Effective file size allocated for the user.<br>
-		<ul><P><font size="-1"><b>IMPORTANT:</b> Users cannot successfully synchronize 
-          files of a size that would cause a quota to be exceeded. If they try 
-          to do so, only part of the file is synchronized, resulting in data corruption.</font></P></ul>
+        <B>Platn&aacute;</B><BR>
+        Platn&aacute; veľkosť s&uacute;borov, ktor&aacute; je priraden&aacute; použ&iacute;vateľovi.<br>
+		<ul><P><font size="-1"><b>D&Ocirc;LEŽIT&Eacute;:</b> Použ&iacute;vatelia nem&ocirc;žu &uacute;spešne synchronizovať s&uacute;bory, ak by veľkosť s&uacute;borov zapr&iacute;činila prekročenie kv&oacute;ty. Ak sa o to pok&uacute;sia, synchronizovan&aacute; bude iba časť s&uacute;boru, čo povedie k poškodeniu &uacute;dajov.</font></P></ul>
       </TD></TR>
 	  <TR>
       <TD VALIGN="TOP"> 
-        <p>Excluded Files</p>
+        <p>Vyl&uacute;čen&eacute; s&uacute;bory</p>
       </TD>
       <TD> 
-        <P>Specifies a list of file types to include or to exclude from synchronization 
-          for the selected iFolder.</P>
-        <p>The file manager files called thumbs.db and .DS_Store are never synchronized. 
+        <P>Zobrazuje zoznam typov s&uacute;borov, ktor&eacute; s&uacute; zahrnut&eacute; do synchroniz&aacute;cie alebo vyl&uacute;čen&eacute; zo synchroniz&aacute;cie pre vybrat&yacute; priečinok iFolder.</P>
+        <p>S&uacute;bory spr&aacute;vcu s&uacute;borov s n&aacute;zvami thumbs.db a .DS_Store sa nikdy nesynchronizuj&uacute;. 
         </p>
     
-        <P>To add a file extension to the exclusion filter, type the extension 
-          (such as *.mpg), then click Add to apply the filter. </P>
-        <P>To exclude a file type from the restricted file types, select the check 
-          box adjacent to the File Name, then select the file type and click Delete.</P>
+        <P>Ak chcete pridať do filtra vyl&uacute;čenia pr&iacute;ponu s&uacute;boru, zadajte požadovan&uacute; pr&iacute;ponu (napr&iacute;klad *.mpg) a kliknut&iacute;m na tlačidlo Pridať použite filter. </P>
+        <P>Ak chcete vyl&uacute;čiť typ s&uacute;boru zo zoznamu zak&aacute;zan&yacute;ch typov s&uacute;borov, vyberte začiark&aacute;vacie pol&iacute;čko vedľa poľa N&aacute;zov s&uacute;boru, vyberte typ s&uacute;boru a kliknite na tlačidlo Odstr&aacute;niť.</P>
          
-        <P>Default value: Disabled, Allow all file types or the System-wide settings</P>
+        <P>Predvolen&aacute; hodnota: Zak&aacute;zan&eacute;, Povoliť všetky typy s&uacute;borov alebo nastavenie, platn&eacute; pre cel&yacute; syst&eacute;m</P>
       </TD></TR>
 	
       
 <TR><TD VALIGN="TOP">
-        <P> Synchronization Interval &nbsp;</P>
+        <P> Interval synchroniz&aacute;cie</P>
       </TD><TD>
-        <P>Select the Synchronization interval check box to enable a minimum interval 
-          setting for the selected iFolder, then specify the minimum value in 
-          minutes that the users are allowed to set on their iFolder client.</P>
-        <P> To disable the setting, deselect the Synchronization Interval check 
-          box. If the option is disabled, the value reported is Unlimited.</P>
-        <P> If this option is enabled, the minimum synchronization interval specifies 
-          the minimum interval in minutes that a user's client can check iFolder 
-          data on the server and local iFolders to identify the files that need 
-          to be downloaded or uploaded.</P>
-  <P>      The effective minimum synchronization interval is always the largest value from the following settings:</P>
+        <P>Ak chcete povoliť nastavenie minim&aacute;lneho intervalu pre vybrat&yacute; priečinok iFolder, vyberte začiark&aacute;vacie pol&iacute;čko Interval synchroniz&aacute;cie a zadajte minim&aacute;lnu dobu v min&uacute;tach, ktor&uacute; m&ocirc;žu použ&iacute;vatelia nastaviť pre svojich klientov aplik&aacute;cie iFolder.</P>
+        <P> Ak chcete nastavenie zak&aacute;zať, zrušte v&yacute;ber začiark&aacute;vacieho pol&iacute;čka Interval synchroniz&aacute;cie. Ak je t&aacute;to možnosť zak&aacute;zan&aacute;, zobrazuje sa hodnota Bez obmedzenia.</P>
+        <P> Ak je t&aacute;to možnosť povolen&aacute;, minim&aacute;lny interval synchroniz&aacute;cie určuje minim&aacute;lnu dobu v min&uacute;tach, po ktorej m&ocirc;že klient použ&iacute;vateľa skontrolovať &uacute;daje v priečinku iFolder na serveri a v miestnom priečinku iFolder a identifikovať &uacute;daje, ktor&eacute; je potrebn&eacute; stiahnuť alebo odovzdať.</P>
+  <P>      Platn&yacute; minim&aacute;lny interval synchroniz&aacute;cie je vždy rovn&yacute; najv&auml;čšej hodnote z nasleduj&uacute;cich nastaven&iacute;:</P>
   <ul>
     <li>
-            <p> The system policy (the default of 5 minutes), unless there is 
-              a user policy or LDAPGroup policy set. If a LDAPGroup policy set, 
-              the LDAPGroup policy overrides the system policy. If a user policy 
-              is set, the user policy overrides the LDAPGroup policy and system 
-              policy, whether it is larger or smaller in value.</p>
+            <p> Politika syst&eacute;mu (predvolen&aacute; hodnota je 5 min&uacute;t), ak nie je nastaven&aacute; politika použ&iacute;vateľa alebo skupiny LDAP. Ak je nastaven&aacute; politika skupiny LDAP, t&aacute;to z&aacute;sada m&aacute; prednosť pred politikou syst&eacute;mu. Ak je nastaven&aacute; politika použ&iacute;vateľa, m&aacute; prednosť pred syst&eacute;movou politikou a politikou skupiny LDAP bez ohľadu na to, či je jej hodnota v&auml;čšia alebo menšia.</p>
     </li>
     <li>
-      <p> The local machine policy, or the setting on the client machine synchronizing with the server</p>
+      <p> Politika lok&aacute;lneho poč&iacute;tača, alebo nastavenie na poč&iacute;tači klienta, ktor&yacute; vykon&aacute;va synchroniz&aacute;ciu so serverom</p>
     </li>
     <li>
-      <p> The iFolder (collection) policy</p>
+      <p> Politika (zberu) aplik&aacute;cie iFolder</p>
     </li>
   </ul>  
-        <P> Default value: Disabled, iFolder client-set limit</P>
+        <P> Predvolen&aacute; hodnota: Zak&aacute;zan&eacute;, obmedzenie priečinka iFolder nastaven&eacute; použ&iacute;vateľom</P>
       </TD>
 </TR><TR><TD VALIGN="TOP">
-        <P> Sharing</P>
-      </TD><TD> <B>On</B><BR>
-        By default, iFolder sharing is enabled. Deselect On to disable 
-        sharing for the selected iFolder. After applying this policy, selected 
-        iFolder cannot be shared either by the Admin or by the Owner of the iFolder.<br>
+        <P> Zdieľanie</P>
+      </TD><TD> <B>Zapnut&eacute;</B><BR>
+        V predvolenom nastaven&iacute; je zdieľanie priečinka iFolder povolen&eacute;. Ak chcete zrušiť zdieľanie vybrat&eacute;ho priečinka iFolder, zrušte v&yacute;ber možnosti Zapnut&eacute;. Po použit&iacute; tejto z&aacute;sady nebude m&ocirc;cť byť vybrat&yacute; priečinok iFolder zdieľan&yacute; vlastn&iacute;kom ani spr&aacute;vcom priečinka iFolder.<br>
           <BR>
-        <B>Revoke</B><BR>
-        Select <i>Revoke</i> to remove all the members from the 
-        list of shared members for the selected iFolder.<br>
+        <B>Odvolať</B><BR>
+        Ak chcete odstr&aacute;niť zo zoznamu zdieľania pre pr&iacute;slušn&yacute; priečinok iFolder všetk&yacute;ch členov, vyberte možnosť <i>Odvolať</i>.<br>
 		<ul>
-          <P><font size="-1"><b>IMPORTANT:</b> Both these options are disabled 
-            if you enable and enforce the <i> Sharing</i> option at System or 
-            User level.</font></P>
+          <P><font size="-1"><b>D&Ocirc;LEŽIT&Eacute;:</b> Ak povol&iacute;te alebo presad&iacute;te možnosť <i>Zdieľanie</i> na &uacute;rovni syst&eacute;mu alebo použ&iacute;vateľa, obe tieto možnosti bud&uacute; zak&aacute;zan&eacute;.</font></P>
         </ul>
       </TD></TR></TABLE><BR><P> 
   
-  <H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Related Topics" align="top"> 
-Related Topics</H4><BLOCKQUOTE class="task1"><P ><A HREF="ifolders.html">Managing iFolders 
-</A><BR><A HREF="users.html">Managing Users 
-</A><BR><A HREF="userdetails.html">User Details</A><BR><A HREF="servers.html#orphan" TARGET="_self">Managing 
-iFolder Servers</A>
+  <H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="S&uacute;visiace t&eacute;my" align="top"> S&uacute;visiace t&eacute;my</H4><BLOCKQUOTE class="task1"><P ><A HREF="ifolders.html">Spr&aacute;va priečinkov iFolder.</A><BR><A HREF="users.html">Spr&aacute;va použ&iacute;vateľov </A><BR><A HREF="userdetails.html">Podrobnosti o použ&iacute;vateľoch </A><BR><A HREF="servers.html#orphan" TARGET="_self">Spr&aacute;va serverov iFolder</A>
     </P>
-  </BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P><P>&nbsp;</P><P CLASS="copyright">A 
-trademark symbol (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP>, 
-etc.) denotes a Novell trademark. An asterisk (*) denotes a third-party trademark. 
-For more information, see <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Legal 
-Notices</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
+  </BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Prejsť na začiatok"></A></P><P>&nbsp;</P><P CLASS="copyright">Symbol ochrannej zn&aacute;mky (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP> atď.) označuje ochrann&uacute; zn&aacute;mku spoločnosti Novell. Hviezdička (*) označuje ochrann&uacute; zn&aacute;mku nez&aacute;visl&eacute;ho v&yacute;robcu.   Ďalšie inform&aacute;cie n&aacute;jdete v časti <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Pr&aacute;vne prehl&aacute;senia</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
 </body>
 
 </html>

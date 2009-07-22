@@ -1,11 +1,11 @@
 <html>
 
    <head>
-     <meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+     <meta http-equiv="content-type" content="text/html;charset=UTF-8">
      
      <!-- Novell iFolder 3.6 Web Admin Help  --> 
    
-     <title>Servers Details</title>  	 
+     <title>Podrobnosti servera</title>  	 
      
  
      <!-- Metadata -->
@@ -29,8 +29,7 @@
        <!--
        
          body           {  font-family: Arial, Helvetica, Geneva;
-									background: white
-url(../../images/helphead_bg.gif) repeat-x 0% 0% }
+									background: white url('../../images/helphead_bg.gif') repeat-x;  }
 		      
          #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px;
 									width: 380px; visibility: visible }
@@ -55,298 +54,245 @@ url(../../images/helphead_bg.gif) repeat-x 0% 0% }
 <!-- This is the start of the Help Content Layer --> <div id="helpcontent"> <!-- The Page Heading uses CSS style "head3b". This creates an H3 header
             with a line beneath it.
        --> 
-  <h3 class="head3b">Server Details</h3>
-  <p> Use this interface to view server details, server status, server logs, and 
-    server reports, and to set the log level and LDAP details. </p>
-  <BLOCKQUOTE CLASS="blockquote"><P><A HREF="#general" TARGET="_self">Viewing Server Details
-</A> <BR><A HREF="#general" TARGET="_self">Viewing Server Status
- </A><BR><A HREF="#reports" TARGET="_self">Viewing Server Reports
- </A><BR> <A HREF="#logs" TARGET="_self">Viewing Server Logs
- </A><BR>
-      <A HREF="#ldap" TARGET="_self">LDAP Details</A><br>
-      <A HREF="#volume" TARGET="_self">Data Store</A><br>
+  <h3 class="head3b">Podrobnosti servera</h3>
+  <p> Použit&iacute;m toho rozhrania zobraz&iacute;te podrobnosti servera, stav servera, z&aacute;pisy servera, zostavy servera a nastav&iacute;te &uacute;roveň zapisovania a podrobnosti o LDAP. </p>
+  <BLOCKQUOTE CLASS="blockquote"><P><A HREF="#general" TARGET="_self">Zobrazenie podrobnost&iacute; o serveri</A> <BR><A HREF="#general" TARGET="_self">Zobrazenie stavu servera</A><BR><A HREF="#reports" TARGET="_self">Zobrazenie zostav servera</A><BR> <A HREF="#logs" TARGET="_self">Zobrazenie denn&iacute;kov servera</A><BR>
+      <A HREF="#ldap" TARGET="_self">Podrobnosti služby LDAP</A><br>
+      <A HREF="#volume" TARGET="_self">Ukladac&iacute; priestor &uacute;dajov</A><br>
   </P></BLOCKQUOTE>
   
  
-  <H4><a name="general"></a>Viewing Server Details</H4>
-  <P>You can view and edit the following information:</P>
-  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
-        <P>Name (View Only)</P>
+  <H4><a name="general"></a>Zobrazenie podrobnost&iacute; servera</H4>
+  <P>M&ocirc;žete zobraziť a upraviť nasleduj&uacute;ce inform&aacute;cie:</P>
+  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Popis</P></TD></TR><TR><TD VALIGN="TOP">
+        <P>N&aacute;zov (iba na č&iacute;tanie)</P>
       </TD><TD>
-        <P>The name assigned to the Server.</P>
+        <P>N&aacute;zov pridelen&yacute; serveru</P>
       </TD><TR><TD VALIGN="TOP">
-        <P>Type (View Only)</P>
+        <P>Typ (Iba na č&iacute;tanie)</P>
       </TD><TD>
-        <P>The server type (Master or Slave).</P>
+        <P>Typ serveru (hlavn&yacute; alebo vedľajš&iacute;)</P>
       </TD><TR><TD VALIGN="TOP">
-        <P>DNS Name</P>
+        <P>N&aacute;zov DNS</P>
       </TD><TD>
-        <P>The DNS name of the iFolder Enterprise server.</P>
-		<P>For example: 192.168.1.1 or svr1.domain.com.</p>
+        <P>N&aacute;zov DNS serveru iFolder Enterprise.</P>
+		<P>Napr&iacute;klad: 192.168.1.1 alebo svr1.domain.com.</p>
 </TD></TR><TR><TD VALIGN="TOP">
-        <P>Public URL</P>
+        <P>Verejn&aacute; adresa URL</P>
       </TD>
       <TD> 
-        <P>The public IP address corresponding to the iFolder server. To change 
-          the IP address, edit the address given and click Save to save the changes 
-          you have done.</P>
+        <P>Verejn&aacute; adresa IP zodpovedaj&uacute;ca serveru iFolder. Ak chcete zmeniť adresu IP, upravte zadan&uacute; adresu a kliknut&iacute;m na možnosť Uložiť uložte vytvoren&eacute; zmeny.</P>
       </TD><TR>
       <TD VALIGN="TOP" height="37"> 
-        <P>Private URL</P>
+        <P>S&uacute;kromn&aacute; adresa URL</P>
       </TD>
       <TD height="37"> 
-        <P>The private IP address corresponding to the iFolder server. This allows 
-          communication between the servers within the iFolder domain. The private 
-          URL and the public URL can be the same. To change the IP address give, 
-          type the new address and click Save to save the changes you have done.</P>
+        <P>S&uacute;kromn&aacute; adresa IP zodpovedaj&uacute;ca serveru iFolder. To umožňuje komunik&aacute;ciu medzi servermi v r&aacute;mci dom&eacute;ny iFolder. S&uacute;kromn&aacute; adresa URL a verejn&aacute; adresa URL m&ocirc;že byť t&aacute; ist&aacute;. Ak chcete zmeniť zadan&uacute; adresu IP, zadajte nov&uacute; adresu a kliknut&iacute;m na možnosť Uložiť uložte vykonan&eacute; zmeny.</P>
       </TD><TR><TD VALIGN="TOP">
-        <P>Master URL (Displayed only for Slave servers)</P>
+        <P>Hlavn&aacute; adresa URL (zobrazuje sa iba pre vedľajšie servery)</P>
       </TD>
       <TD> 
-        <P>The IP address corresponding to the iFolder server. Using this address, 
-          slave server communicate with the master server in the iFolder domain. 
-          </p><p>To change the IP address, edit the address given and click Save to save 
-          the changes you have done.</P>
+        <P>Adresa IP zodpovedaj&uacute;ca serveru aplik&aacute;cie iFolder. Pomocou tejto adresy vedľajš&iacute; server komunikuje s hlavn&yacute;m serverom v dom&eacute;ne aplik&aacute;cie iFolder. 
+          </p><p>Ak chcete zmeniť adresu IP, zadajte nov&uacute; adresu a kliknut&iacute;m na možnosť Uložiť uložte vykonan&eacute; zmeny.</P>
       </TD></TABLE><br>
-	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A>
-  <H4><a name="general"></a>Viewing Server Status</H4>
-  <P>You 
-can view the following information:</P><TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
-        <P>Status</P>
+	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Prejsť na začiatok"></A>
+  <H4><a name="general"></a>Zobrazenie stavu servera</H4>
+  <P>M&ocirc;žete zobraziť nasleduj&uacute;ce inform&aacute;cie:</P><TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Popis</P></TD></TR><TR><TD VALIGN="TOP">
+        <P>Stav</P>
       </TD><TD>
-        <P>Reports the current status of the server.</P>
+        <P>Zobrazuje aktu&aacute;lny stav servera.</P>
       </TD><TR><TD VALIGN="TOP">
-        <P>Users</P>
+        <P>Použ&iacute;vatelia</P>
       </TD><TD>
-        <P>Reports the total number of iFolder users provisioned to the selected 
-          server.</P>
+        <P>Zobrazuje konečn&eacute; č&iacute;slo použ&iacute;vateľov priečinku iFolder poskytnut&eacute; zvolen&yacute;m serverom.</P>
       </TD><TR><TD VALIGN="TOP">
-        <P>iFolders</P>
+        <P>Priečinky iFolder</P>
       </TD><TD>
-        <P>Reports the total number of iFolders belonging to the selected server.</P>        
+        <P>Zobrazuje konečn&eacute; č&iacute;slo použ&iacute;vateľov priečinku iFolder patriaceho k vybrat&eacute;mu serveru.</P>        
       </TD></TR></TABLE><br>
-	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A>
+	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Prejsť na začiatok"></A>
 	  
-  <H4><a name="reports"></a>Viewing Server Reports</H4>
-  <P>Select the report from the drop down list to view the report.</P> 
-  <p>This option is disabled if the Enable Reporting option on the Report page 
-    is left unselected.</P>
-	<A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A>
-  <H4><a name="logs"></a>Viewing Server Logs</H4>
-  <P>You can view the following server log information:</P>
-  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
-        <P>System</P>
+  <H4><a name="reports"></a>Zobrazenie zostav servera</H4>
+  <P>V&yacute;berom zostavy z rozbaľovacej ponuky zobraz&iacute;te zvolen&uacute; zostavu.</P> 
+  <p>Ak ostane nevybrat&aacute; možnosť Povoliť zostavu na str&aacute;nke zostav, ostane t&aacute;to funkcia nepr&iacute;stupn&aacute;.</P>
+	<A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Prejsť na začiatok"></A>
+  <H4><a name="logs"></a>Zobrazenie z&aacute;znamov denn&iacute;ka servera</H4>
+  <P>M&ocirc;žete zobraziť nasleduj&uacute;ce z&aacute;znamy z denn&iacute;ku servera:</P>
+  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Popis</P></TD></TR><TR><TD VALIGN="TOP">
+        <P>Syst&eacute;m</P>
       </TD>
       <TD> 
-        <P>Select System to view the simias.log that tracks all the system activities. 
+        <P>Zvolen&iacute;m syst&eacute;mu zobraz&iacute;te s&uacute;bor simias.log, ktor&yacute; sleduje všetky činnosti syst&eacute;mu. 
         </P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>User Access</P>
+        <P>Pr&iacute;stup použ&iacute;vateľov</P>
       </TD>
       <TD> 
-        <P>Select User Access to view simias.access.log that tracks the user activities 
-          on the selected server.</P>
+        <P>Vybrat&iacute;m položky Pr&iacute;stup použ&iacute;vateľov zobraz&iacute;te s&uacute;bor simias.access.log, ktor&yacute; sleduje činnosť použ&iacute;vateľov na vybranom serveri.</P>
 		
       </TD></TR></TABLE>
 	    
-  <H4><a name="general"></a>Set Log Levels</H4>
-  <P>You can set the following log level information:</P>
-  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
-        <P>All</P>
+  <H4><a name="general"></a>Nastavenie &uacute;rovne zapisovania do denn&iacute;ku</H4>
+  <P>M&ocirc;žete nastaviť nasleduj&uacute;ce inform&aacute;cie o zapisovan&iacute; do denn&iacute;ka:</P>
+  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Popis</P></TD></TR><TR><TD VALIGN="TOP">
+        <P>Všetko</P>
       </TD>
       <TD> 
-        <P>Shows all the server activities that help Novell support resolve the 
-          issues. </P>
+        <P>Zobraz&iacute; všetku činnosť, ktor&aacute; pom&ocirc;že spoločnosti Novell podporiť riešenie probl&eacute;mov. </P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Debug</P>
+        <P>Ladiť</P>
       </TD>
       <TD> 
-        <P>Shows the server activities that help Novell support debug the issues 
-          . </P>
+        <P>Zobrazuje činnosť serveru, ktor&aacute; pom&aacute;ha spoločnosti Novell odstr&aacute;niť probl&eacute;my. </P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Info</P>
+        <P>Inform&aacute;cie</P>
       </TD>
       <TD> 
-        <P>Shows the basic server activities that help Novell support resolve 
-          the issues. This option is selected by default.</P>
+        <P>Zobrazuje z&aacute;kladn&eacute; činnosti servera, ktor&eacute; pom&aacute;haj&uacute; spoločnosti Novell podporiť riešenie probl&eacute;mov. T&aacute;to možnosť je prednastaven&aacute;.</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Warn</P>
+        <P>Upozornenie</P>
       </TD>
       <TD> 
-        <P>Shows all the potential system errors.</P>
+        <P>Zobrazuje všetky potenci&aacute;lne chyby syst&eacute;mu.</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Error</P>
+        <P>Chyba</P>
       </TD>
       <TD> 
-        <P>Shows all the system errors that halt system functioning.</P>
+        <P>Zobrazuje všetky chyby syst&eacute;mu, ktor&eacute; prerušuj&uacute; funkčnosť syst&eacute;mu.</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Fatal</P>
+        <P>Z&aacute;važn&eacute;</P>
       </TD>
       <TD> 
-        <P>Shows the fatal system errors. </P>
+        <P>Zobrazuje z&aacute;važn&eacute; chyby syst&eacute;mu. </P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Off</P>
+        <P>Vypnut&eacute;</P>
       </TD>
       <TD> 
-        <P>Logging is turned off.</P>
+        <P>Zapisovanie do denn&iacute;ku je vypnut&eacute;.</P>
 		
       </TD></TR></TABLE><br>
-	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A>
-	  <H4><a name="ldap"></a>LDAP Details</H4>
-  <P>You can edit the following LDAP related information. Click Save to modify 
-    the entries. Click Cancel to cancel your modifications.</p>
-<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
-        <P>Up Since </p><p> (View Only)</P>
+	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Prejsť na začiatok"></A>
+	  <H4><a name="ldap"></a>Podrobnosti o LDAP</H4>
+  <P>M&ocirc;žte upravovať nasleduj&uacute;ce inform&aacute;cie s&uacute;visiace s LDAP. Kliknut&iacute;m na Uložiť uprav&iacute;te vstupy. Kliknut&iacute;m na možnosť Zrušiť zmeny zruš&iacute;te.</p>
+<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Popis</P></TD></TR><TR><TD VALIGN="TOP">
+        <P>D&aacute;tum spustenia </p><p> (Iba na č&iacute;tanie)</P>
       </TD>
       <TD> 
-        <P>Shows the date and time of the very first synchronization.</P>
+        <P>Zobraz&iacute; d&aacute;tum a čas &uacute;plne prvej synchroniz&aacute;cie.</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Status</P>
+        <P>Stav</P>
       </TD>
       <TD> 
-        <P>Reports the current LDAP sync engine status.</P>
+        <P>Zobraz&iacute; zostavu s inform&aacute;ciami o aktu&aacute;lnom stave n&aacute;stroja na synchroniz&aacute;ciu LDAP.</P>
 		
-      </TD><<TR><TD VALIGN="TOP">
-        <P>Cycles</P>
-        <p>(View Only)</p>
+      </TD>&lt;<TR><TD VALIGN="TOP">
+        <P>Cykle</P>
+        <p>(Iba na č&iacute;tanie)</p>
       </TD>
       <TD> 
-        <P>Shows the total number of identity synchronization cycles completed.</P>
+        <P>Zobrazuje konečn&eacute; č&iacute;slo dokončen&yacute;ch cyklov synchroniz&aacute;cie ident&iacute;t.</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Identity Sync</P>
+        <P>Synchroniz&aacute;cia ident&iacute;t</P>
       </TD>
       <TD> 
-        <P>Updates the iFolder users in the selected iFolder domain from the LDAP 
-          information at the interval you select.</P>
-        <p>Specify the time interval in minutes in the Identity Sync field and 
-          click Sync Now to start immediate synchronization of the iFolder users 
-          with the LDAP users.</p>
+        <P>Aktualizuje použ&iacute;vateľov priečinku iFolder vo vybranej dom&eacute;ne iFolder z inform&aacute;ci&iacute; servera LDAP vo vami zvolenom intervale.</P>
+        <p>Stanovte časov&yacute; interval v min&uacute;tach v pol&iacute;čku Synchroniz&aacute;cia ident&iacute;t a kliknut&iacute;m na Synchronizovať teraz spustite okamžit&uacute; synchroniz&aacute;ciu použ&iacute;vateľov priečinku iFolder s použ&iacute;vateľmi LDAP.</p>
 		
       </TD><TR>
       <TD VALIGN="TOP"> 
-        <P>Delete member grace interval</P>
+        <P>Odstr&aacute;niť časov&yacute; interval člena</P>
       </TD>
       <TD> 
-        <P> Specifies the time interval for iFolder to delete the user information from the server once that particular user is deleted from the LDAP. 
-          This feature helps you to recover the data if the user is deleted accidentally. 
+        <P> Stanoven&iacute;m časov&eacute;ho intervalu pre priečinok iFolder odstr&aacute;nite zo serveru inform&aacute;cie o použ&iacute;vateľovi vtedy, keď je konkr&eacute;tny použ&iacute;vateľ odstr&aacute;nen&yacute; zo serveru LDAP. T&aacute;to funkcia pom&ocirc;že obnoviť &uacute;daje, ak bol použ&iacute;vateľ vymazan&yacute; n&aacute;hodne.  
         </P>
 		
       </TD></TR></TABLE>
     <br>
-	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A>
-  <P>You can edit the following LDAP related information. Click Edit to open a 
-    new page where you can modify the entries. </P>
+	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Prejsť na začiatok"></A>
+  <P>M&ocirc;žte upravovať nasleduj&uacute;ce inform&aacute;cie s&uacute;visiace s LDAP. Kliknut&iacute;m na možnosť Upraviť zobraz&iacute;te nov&uacute; str&aacute;nku, na ktorej m&ocirc;žete položky upraviť. </P>
   
-  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
-        <P>LDAP Server</P>
+  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Popis</P></TD></TR><TR><TD VALIGN="TOP">
+        <P>Server LDAP</P>
       </TD>
       <TD> 
-        <P>Shows the LDAP Server address.</P>
+        <P>Zobrazuje adresu servera LDAP.</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>LDAP SSL</P>
+        <P>Protokol SSL serveru LDAP</P>
       </TD>
       <TD> 
-        <P>Shows LDAP SSL is enabled or not. It also allows you to enable or disable 
-          the LDAP SSL connection.</P>
+        <P>Zobrazuje, či je protokol SSL servera LDAP povolen&yacute; alebo nie. Taktiež V&aacute;m umožňuje povoliť alebo zak&aacute;zať pripojenie SSL servera LDAP</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Proxy User</p>       
+        <P>Použ&iacute;vateľ servera Proxy</p>       
       </TD>
       <TD> 
-        <P>Shows the Distinguished Name (DN) of the Proxy user. For example, cn=SimiasProxy,o=novell</P>
-		<p>The iFolder Proxy user is the identity used to access the LDAP server 
-          in order to retrieve a list of users in the specified containers or 
-          groups, or users that are defined in the iFolder LDAP settings.The iFolder 
-          Proxy user is created during the iFolder install. This identity must 
-          have the Read right to the LDAP directory. </p>
+        <P>Zobraz&iacute; jednoznačn&eacute; meno (JM) použ&iacute;vateľa servera Proxy. Napr&iacute;klad, cn=SimiasProxy,o=novell</P>
+		<p>Použ&iacute;vateľ servera iFolder Proxy je identita použit&aacute; na pr&iacute;stup do servera LDAP pre to, aby bolo možn&eacute; z&iacute;skať zoznam použ&iacute;vateľov v konkr&eacute;tnych kontejnerov, skupin&aacute;ch alebo použ&iacute;vateľov, ktor&yacute; s&uacute; definovan&iacute; v nastaveniach serveru iFolder LDAP. Použ&iacute;vateľ servera iFolder Proxy je vytvoren&yacute; v priebehu inštal&aacute;cie priečinka iFolder. T&aacute;to identita mus&iacute; mať pr&aacute;vo na č&iacute;tanie priečinka LDAP. </p>
       </TD><TR><TD VALIGN="TOP">
-        <P>Proxy User Password</P>
+        <P>Heslo použ&iacute;vateľa servera proxy</P>
         <p>&nbsp;</p>
       </TD>
       <TD> 
-        <P>The password is used to authenticate the iFolder Proxy user to the 
-          LDAP server when iFolder synchronizes users with the LDAP server.</P>
+        <P>Pomocou hesla sa overuje použ&iacute;vateľ servera proxy aplik&aacute;cie iFolder pre server LDAP, keď aplik&aacute;cia iFolder synchronizuje použ&iacute;vateľov so serverom LDAP.</P>
 		
       </TD><TR>
       <TD VALIGN="TOP"> 
-        <P>LDAP Context</P>
+        <P>Kontext LDAP</P>
       </TD>
       <TD> 
-        <P>LDAP Context lists all the LDAP contexts. iFolder searches users only 
-          from the listed LDAP contexts.</P>
+        <P>Kontext LDAP obsahuje všetky kontexty serveru LDAP. iFolder hľad&aacute; použ&iacute;vateľov iba v kontextoch serveru LDAP.</P>
         
 		
       </TD></TR></TABLE><br>
-	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A>
+	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Prejsť na začiatok"></A>
 
 	  
-  <H4><a name="volume"></a>Data Store</H4>
-  <p> Data Store represents the iFolder storage that can span across multiple 
-    volumes (mount points) in a given server. By default every iFolder server 
-    has a default store which cannot be disabled. With web interface, you can 
-    add and configure multiple Data Store across which iFolder data is load balanced. 
-    When the user uploads an iFolder, it check for the Data Store with maximum 
-    free space, and stores the iFolder data in that particular Data Store thereby 
-    balancing the load. You can add as many Data Store as you want. Having multiple 
-    Data Store thus makes it possible to scale the data storage capacity in a 
-    large deployment to meet the enterprise-level requirements. 
-  <P>You can view the following Data Store information:</P>
-  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
-        <P>Name</P>
+  <H4><a name="volume"></a>Ukladac&iacute; priestor &uacute;dajov</H4>
+  <p> Ukladac&iacute; priestor &uacute;dajov predstavuje fyzick&eacute; ukladacie zariadenia serveru iFolder, ktor&eacute; sa m&ocirc;žu rozkladať na viacer&yacute;ch zv&auml;zkoch (bodoch pripojenia) na danom serveri. Každ&yacute; server iFolder m&aacute; prednastaven&eacute; fyzick&eacute; ukl&aacute;dace zariadenie, ktor&eacute; nem&ocirc;že byť zak&aacute;zan&eacute;. Prostredn&iacute;ctvom webov&eacute;ho rozhrania m&ocirc;žete prid&aacute;vať a nastavovať viacer&eacute; ukladacie priestory, v ktor&yacute;ch s&uacute; vyv&aacute;žene vkladan&eacute; &uacute;daje servera iFolder. Keď použ&iacute;vateľ odošle priečinok iFolder, vyhľad&aacute; sa ukladac&iacute; priestor s maxim&aacute;lnym voľn&yacute;m priestorom a &uacute;daje sa uložia do toho konkr&eacute;tneho ukladacieho priestoru. Ide o vyv&aacute;žen&eacute; vkladanie &uacute;dajov. M&ocirc;žete prid&aacute;vať ľubovoľn&eacute; množstvo ukladacieho priestoru. Ak m&aacute;me k dispoz&iacute;cii viacero ukladac&iacute;ch priestorov, je možn&eacute; šk&aacute;lovať ukladac&iacute; priestor vo veľkom rozmiestnen&iacute; a splniť n&aacute;roky na podnikovej &uacute;rovni. 
+  <P>O ukladacom priestore m&ocirc;žete zobraziť nasleduj&uacute;ce inform&aacute;cie:</P>
+  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Popis</P></TD></TR><TR><TD VALIGN="TOP">
+        <P>N&aacute;zov</P>
       </TD>
       <TD> 
-        <P>Shows the unique name you have specified for the Data Store.</P>
+        <P>Zobrazuje jedinečn&yacute; n&aacute;zov, ktor&yacute; ste určili pre ukladac&iacute; priestor.</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Full Path</P>
+        <P>&Uacute;pln&aacute; cesta</P>
       </TD>
       <TD> 
-        <P>Shows the path to the Data Store, where the volume is mounted on. This 
-          is the data path that you have specified while adding the data store 
-          using the web interface.</P>
+        <P>Zobrazuje cestu k ukladaciemu priestoru, kde je pripojen&yacute; zv&auml;zok. Cesta k &uacute;dajom, ktor&eacute; ste stanovili, keď ste pridali ukladac&iacute; priestor s použit&iacute;m webov&eacute;ho rozhrania.</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Free Space</P>
+        <P>Voľn&yacute; priestor</P>
       </TD>
       <TD> 
-        <P>Shows the space available in the volume.</P>
+        <P>Zobraz&iacute; voľn&eacute; miesto v zv&auml;zku.</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Enabled</P>
+        <P>Povolen&eacute;</P>
       </TD>
       <TD> 
-        <P>Shows the given Data Store is enabled or not. Default Data Store cannot 
-          be disabled.</P>
+        <P>Zobraz&iacute; či je ukladac&iacute; priestor pr&iacute;stupn&yacute;. Predvolen&eacute; ukladacie miesto nem&ocirc;že byt nepr&iacute;stupn&eacute; (mus&iacute; byť pr&iacute;stupn&eacute;). </P>
 		
       </TD></TABLE>
-	  <H4><a name="volume"></a>Enable or Disable DataStore</H4>
+	  <H4><a name="volume"></a>Povoliť alebo zak&aacute;zať ukladac&iacute; priestor.</H4>
 	  
-  <p> Select the Data Store you want to disable or enable and click Disable or 
-    Enable respectively. When the user uploads an iFolder, disabled Data Stores 
-    are always skipped while checking for the maximum free space availability 
-    for storing the iFolder data. </p>
+  <p> Vyberte ukladac&iacute; priestor, ktor&yacute; chcete povoliť alebo zak&aacute;zať a kliknite jednotlivo na Povoliť alebo Zak&aacute;zať. Keď použ&iacute;vateľ odošle priečinok iFolder, zak&aacute;zan&yacute; ukladac&iacute; priestor bude vždy pri hľadan&iacute; najv&auml;čšieho voľn&eacute;ho ukladacieho priestoru pre &uacute;daje iFolder preskočen&yacute;. </p>
 	  
-	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A>
+	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Prejsť na začiatok"></A>
 
 
-  <H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Related Topics" align="top"> 
-Related Topics</H4><BLOCKQUOTE class="task1"><P ><BR><A HREF="servers.html">Managing iFolder Servers
-</A><BR><A HREF="reports.html">Reports 
-</A><BR><A HREF="ifolderdetails.html">Managing iFolder Details</A><BR><A HREF="member.html">Managing a User Account</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P><P>&nbsp;</P><P CLASS="copyright">A 
-trademark symbol (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP>, 
-etc.) denotes a Novell trademark. An asterisk (*) denotes a third-party trademark. 
-For more information, see <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Legal 
-Notices</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
+  <H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="S&uacute;visiace t&eacute;my" align="top"> S&uacute;visiace t&eacute;my</H4><BLOCKQUOTE class="task1"><P ><BR><A HREF="servers.html">Spr&aacute;va serverov</A><BR><A HREF="reports.html">Zostavy </A><BR><A HREF="ifolderdetails.html">Spr&aacute;va podrobnost&iacute; o priečinku iFolder </A><BR><A HREF="member.html">Spr&aacute;va &uacute;čtu použ&iacute;vateľa</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Prejsť na začiatok"></A></P><P>&nbsp;</P><P CLASS="copyright">Symbol ochrannej zn&aacute;mky (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP> atď.) označuje ochrann&uacute; zn&aacute;mku spoločnosti Novell. Hviezdička (*) označuje ochrann&uacute; zn&aacute;mku nez&aacute;visl&eacute;ho v&yacute;robcu.   Ďalšie inform&aacute;cie n&aacute;jdete v časti <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Pr&aacute;vne prehl&aacute;senia</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
 </body>
 
 </html>

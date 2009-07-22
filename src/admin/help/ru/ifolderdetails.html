@@ -1,11 +1,11 @@
 <html>
 
    <head>
-     <meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+     <meta http-equiv="content-type" content="text/html;charset=UTF-8">
      
      <!-- Novell iFolder 3.6 Web Admin Help  --> 
    
-     <title>iFolder Details</title>  	 
+     <title>Подробная информация о iFolder</title>  	 
      
  
      <!-- Metadata -->
@@ -54,513 +54,425 @@
 <!-- This is the start of the Help Content Layer --> <div id="helpcontent"> <!-- The Page Heading uses CSS style "head3b". This creates an H3 header
             with a line beneath it.
        --> 
-  <h3 class="head3b">Managing iFolder Details</h3>
-  <p> Use this interface to 
-manage the ownership, policies, and membership of a selected iFolder. </p><BLOCKQUOTE CLASS="blockquote"><P><A HREF="#general" TARGET="_self">Viewing iFolder Details
-</A> <BR><A HREF="#members" TARGET="_self">Members 
- </A><BR><A HREF="#policies" TARGET="_self">Policies</A> </P></BLOCKQUOTE>
+  <h3 class="head3b">Управление подробной информацией о папке iFolder </h3>
+  <p> Используйте этот интерфейс для управления владением, политиками и членством выбранной папки iFolder. </p>
+  <p> <b>Примечание.</b> Дополнительный администратор может управлять политиками выбранной папки iFolder на основании своих прав по отношению к этой папке. </p><BLOCKQUOTE CLASS="blockquote"><P><A HREF="#general" TARGET="_self">Просмотр подробной информации iFolder </A> <BR><A HREF="#members" TARGET="_self">Члены </A><BR><A HREF="#policies" TARGET="_self">Политики</A> </P></BLOCKQUOTE>
   
  
-  <H4><A NAME="general"></A>Viewing iFolder Details</H4>
-  <P>You 
-can view the following information:</P><TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TD VALIGN="TOP">
-        <P>Type</P>
+  <H4><A NAME="general"></A>Просмотр подробной информации iFolder </H4>
+  <P>Можно просмотреть следующую информацию:</P><TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Параметр</P></TD><TD CLASS="tablehead2"><P>Описание</P></TD></TR><TD VALIGN="TOP">
+        <P>Тип</P>
       </TD><TD>
-        <P><img src="../../images/ifolder.png" width="16" height="16" alt="Folder icon">  Normal iFolder</P>
-		<P><img src="../../images/encrypt_ifolder.gif" width="16" height="16" alt="Folder icon"> Encrypted iFolder</P>
-		<p><img src="../../images/ifolder_user_16.gif" width="16" height="16" alt="Shared icon"> 
-          Shared iFolder<br>
+        <P><img src="../../images/ifolder.png" width="16" height="16" alt="Значок папки"> Обычная папка iFolder.</P>
+		<P><img src="../../images/encrypt_ifolder.gif" width="16" height="16" alt="Значок папки"> Зашифрованная папка iFolder.</P>
+		<p><img src="../../images/ifolder_user_16.gif" width="16" height="16" alt="Значок совместного использования"> Совместно используемая папка iFolder<br>
       </TD><TR><TD VALIGN="TOP">
-        <P>iFolder Name</P>
+        <P>Имя iFolder</P>
       </TD><TD>
-        <P>The name assigned to the iFolder </P>
+        <P>Имя, назначенное папке iFolder. </P>
       </TD><TR><TD VALIGN="TOP">
-        <P>Description (editable)</P>
+        <P>Описание (изменяемый)</P>
       </TD><TD>
-        <P>A short description about the iFolder. You can edit the description 
-          and click Save to save the changes.</P>
-      </TD><TR><TD VALIGN="TOP"><P>Owner 
+        <P>Введите краткое описание папки iFolder. Можно изменить описание и щелкнуть &quot;Сохранить&quot; для сохранения изменений.</P>
+      </TD><TR><TD VALIGN="TOP"><P>Владелец 
 </P></TD><TD>
-        <P>The username of the owner of the selected iFolder. Owner can be an 
-          individual user or an LDAPGroup. If an LDAPGroup is the owner of the 
-          iFolder, then all the members of the LDAPGroup will have the same access 
-          rights. For orphaned iFolders, the iFolder Admin user is made the owner 
-          until the iFolder can be reassigned or deleted.</P>
-        <p>Click the owner's username link to view his or her user account details.</p> 
-        <P>The iFolder owner has the Full Control right to the iFolder. The owner manages 
-          membership and access rights for users, and can remove the Full Control 
-          right for any member.</P>
-      </TD></TR><TR><TD VALIGN="TOP"><P>Path</P></TD><TD><P>The 
-actual location of the iFolder and its data on the server. For example:</P><P>/var/opt/novell/ifolder3/simias/SimiasFiles/<I>e84fdc6e-3d51-49df-ae3f-8c9213c76994</I>/&lt;iFolder_Name&gt;</P><P>In 
-this example, <I>e84fdc6e-3d51-49df-ae3f-8c9213c76994</I> is the unique ID of 
-the iFolder share.</P></TD><TR><TD VALIGN="TOP">
-        <P>Modified</P>
+        <P>Имя пользователя владельца выбранной папки iFolder. Владельцем может быть индивидуальный пользователь или группа LDAPGroup. Если группа LDAPGroup является владельцем папки iFolder, у всех ее членов одинаковые права доступа. Владельцем папок iFolder с нарушенными ассоциациями назначается администратор iFolder до тех пор, пока они не будут переназначены или удалены.</P>
+        <p>Щелкните ссылку с именем пользователя владельца для просмотра подробной информации о его учетной записи.</p> 
+        <P>Владелец папки iFolder обладает правом доступа &quot;Полный контроль&quot; для этой папки. Владелец управляет членством и правами доступа пользователей, а также может лишить любого из членов права &quot;Полный контроль&quot;.</P>
+      </TD></TR><TR><TD VALIGN="TOP"><P>Путь</P></TD><TD><P>Действительное расположение папки iFolder и ее данных на сервере. Примеры:</P><P>/var/opt/novell/ifolder3/simias/SimiasFiles/<I>e84fdc6e-3d51-49df-ae3f-8c9213c76994</I>/&lt;имя_iFolder&gt;</P><P>В данном примере <I>e84fdc6e-3d51-49df-ae3f-8c9213c76994</I> - это уникальный идентификатор совместного использования iFolder.</P></TD><TR><TD VALIGN="TOP">
+        <P>Изменено</P>
       </TD><TD>
-        <P>The last modified time and date of the iFolder.</P>
+        <P>Время и дата последнего изменения папки iFolder..</P>
       </TD><TR><TD VALIGN="TOP">
-        <P>Directories</P>
+        <P>Каталоги</P>
       </TD><TD>
-        <P>Total number of directories in the iFolder.</P>
+        <P>Общее количество каталогов в папке iFolder..</P>
       </TD><TR><TD VALIGN="TOP">
-        <P>Files</P>
+        <P>Файлы</P>
       </TD><TD>
-        <P>Total number of files in the iFolder.</P>
+        <P>Общее количество файлов в папке iFolder..</P>
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>Orphan</P>
+        <P>С нарушенными ассоциациями</P>
       </TD>
       <TD> 
-        <P>Yes indicates that iFolder is an orphan.</P>
-        <P>For orphaned iFolders, the iFolder Admin becomes the owner until the 
-          iFolder can be reassigned to a new owner or is deleted.</P>
+        <P>Значение &quot;Да&quot; указывает на то, что для данной папки iFolder нарушены ассоциации.</P>
+        <P>Владельцем папок iFolder с нарушенными ассоциациями назначается администратор iFolder до тех пор, пока они не будут переназначены другому владельцу или удалены.</P>
       </TD></TR></TABLE>
 	  
-  <H3><a name="members"></a>Members </H3>
-  <p> You can view the members' name, type and access rights assigned to them. 
-    You are allowed to add or delete an owner, assign ownership, and set access 
-    rights to a selected member. 
-  <H4><A NAME="share"></A>Adding 
-a Member</H4><OL><LI>
-      <P>On the iFolder Details page, click Add.</P>
+  <H3><a name="members"></a>Члены </H3>
+  <p> Вы можете просматривать имена членов, их тип и права доступа. Можно добавлять или удалять владельца, назначать владение и права доступа выбранному члену. 
+  <H4><A NAME="share"></A>Добавление члена</H4><OL><LI>
+      <P>На странице &quot;Информация iFolder&quot; щелкните &quot;Добавить&quot;.</P>
     </LI><LI>
-      <P>Search for the user or LDAPGroup you want to make a member, select the 
-        check box next to the user's name, then click Add.<BR>
+      <P>Найдите пользователя или группу LDAPGroup, которых необходимо сделать членами, установите флажок рядом с соответствующим именем, а затем щелкните &quot;Добавить&quot;.<BR>
         <BR>
-        By default, the user or the LDAPGroup is given Read Only access to the 
-        iFolder.</P>
+        По умолчанию пользователю или группе LDAPGroup предоставляется доступ &quot;Только чтение&quot; к папке iFolder.</P>
     </LI><LI>
-      <P>(Optional) Select the User check box, then select Rights and specify 
-        the Access right as Admin, Read/Write, or Read Only , then click Set.<BR>
+      <P>(Не обязательно) Установите флажок &quot;Пользователь&quot;, выберите &quot;Права&quot; и установите для права &quot;Доступ&quot; значение &quot;Администратор&quot;, &quot;Чтение/запись&quot; или &quot;Только чтение&quot;, а затем щелкните &quot;Установить&quot;.<BR>
         <BR>
-        Wait for the page to refresh. The user's icon should reflect the new access 
-        right. </P>
+        Дождитесь завершения обновления страницы. Значок пользователя должен отражать новые права доступа. </P>
     </LI></OL>
-<H4>Understanding iFolder Access Rights </H4>
-<p>The iFolder client supports the owner and three levels of access for members of an iFolder:</p>
-<P><B><FONT SIZE="-1">NOTE:</FONT></B> <FONT SIZE="-1">Members of an LDAPGroup inherit the access rights set for that LDAPGroup.</FONT></P>
+<H4>Общие сведения о правах доступа пользователей iFolder </H4>
+<p>Клиент iFolder поддерживает владельца и три уровня доступа для членов папки iFolder:</p>
+<P><B><FONT SIZE="-1">ПРИМЕЧАНИЕ.</FONT></B> <FONT SIZE="-1">Члены группы LDAPGroup наследуют права доступа, установленные для данной группы LDAPGroup.</FONT></P>
   <BLOCKQUOTE> 
-    <P><B>Owner<BR>
-      </B>Only one user or LDAPGroup serves as the owner of an iFolder. This is 
-      typically the user or any member of the LDAPGroup who created the iFolder. 
-      If the owner is an LDAPGroup and in that case, all the members of the LDAPGroup 
-      will have the ownership on that iFolder. The owner user or members of the 
-      owner LDAPGroup can use the iFolder client to transfer ownership to another 
-      member of the iFolder. The iFolder Admin user can transfer ownership to 
-      any user or LDAPGroup on the iFolder server.</P>
-    <P>The owner of an iFolder has the Full Control right. This user or LDAPGroup 
-      has read/write access to the iFolder, manages membership and access rights 
-      for member users and LDAPGroups, and can remove the Full Control right for 
-      any member. With an enterprise server, the disk space used by the owner&#146;s 
-      iFolders count against the owner&#146;s user disk quotas on the enterprise 
-      server.</P>
-    <P>If a user or LDAPGroup is deleted from the iFolder system, the iFolders 
-      owned by the user or LDAPGroup are orphaned. Orphaned iFolders are temporarily 
-      assigned to the iFolder Admin user as owner. Membership and synchronization 
-      continues for other users and LDAPGroup members while the iFolder Admin 
-      user determines whether an orphaned iFolder should be deleted or assigned 
-      to a new owner.</P>
-  <P><B>Full Control</B><BR>
-      A member of the shared iFolder, with the Full Control access right. The 
-      user or LDAPGroup with the Full Control right has read/write access to the 
-      iFolder and manages membership and access rights for all users except the 
-      owner.</P>
-  <P><B>Read/Write</B><BR>
-    A member of the shared iFolder, with the Read/Write access right to directories and files in the iFolder.</P>
-  <P><B>Read Only</B><BR>
-    A member of the shared iFolder, with the Read Only access right to directories and files in the iFolder. This member can copy an iFolder file to another location and modify it outside the iFolder.</P>
+    <P><B>Владелец<BR>
+      </B>Только один пользователь или одна группа LDAPGroup может быть владельцем папки iFolder. Обычно это пользователь или любой член группы LDAPGroup, создавший папку iFolder. Если владельцем папки iFolder является группа LDAPGroup, права на ее владение принадлежат всем членам этой группы LDAPGroup. Пользователь или группа LDAPGroup, владеющие папкой iFolder, могут передать права владения другому члену iFolder. Администратор iFolder может передавать право на владение любому пользователю или группе LDAPGroup на сервере iFolder.</P>
+    <P>Владелец папки iFolder имеет право на полный контроль. Этот пользователь или группа LDAPGroup имеют доступ для чтения/записи к папке iFolder, управляют членством и правами доступа пользователей и групп LDAPGroup, а также могут удалять право &quot;Полный контроль&quot; для любого члена. На корпоративном сервере дисковое пространство, занимаемое папками iFolder конкретного владельца, рассчитывается на основе его пользовательских дисковых квот на данном корпоративном сервере.</P>
+    <P>В случае удаления пользователя или группы LDAPGroup из системы iFolder папки iFolder, которыми владеет данный пользователь или группа LDAPGroup, становятся папками с нарушенными ассоциациями. Владельцем папок iFolder с нарушенными ассоциациями временно назначается администратор iFolder. Поддержка членства и синхронизация для других пользователей или членов группы LDAPGroup продолжаются, пока администратор iFolder не определит, нужно ли удалить папку iFolder с нарушенными ассоциациями или назначить ей другого владельца.</P>
+  <P><B>Полный контроль</B><BR>
+      Уровень доступа члена совместно используемой папки iFolder с правом на полный контроль. Пользователь или группа LDAPGroup с правами &quot;Полный контроль&quot; имеет доступ на чтение/запись к папке iFolder, управляет членством и правами доступа всех пользователей, за исключением владельца.</P>
+  <P><B>Для чтения/записи</B><BR>
+    Уровень доступа члена совместно используемой папки iFolder с правом на чтение/запись в каталогах и файлах папки iFolder.</P>
+  <P><B>Только чтение</B><BR>
+    Уровень доступа члена совместно используемой папки iFolder с правом только для чтения в каталогах и файлах папки iFolder. Этот член может скопировать файл из папки iFolder в другое место и изменить его вне папки iFolder.</P>
 </BLOCKQUOTE>
-<p>The following table describes the capabilities associated with each level of access for users.</p>
+<p>В следующей таблице описаны возможности, связанные с каждым уровнем доступа пользователей.</p>
   <TABLE WIDTH="93%" BORDER="1">
     <tr class="HEADERROW"> 
-      <th  CLASS="tablehead2">Capabilities</th>
-      <th  CLASS="tablehead2">Owner</th>
-      <th  CLASS="tablehead2">Full&nbsp;Control</th>
-      <th  CLASS="tablehead2">Read/Write</th>
-      <th  CLASS="tablehead2">Read&nbsp;Only</th>
+      <th  CLASS="tablehead2">Возможности</th>
+      <th  CLASS="tablehead2">Владелец</th>
+      <th  CLASS="tablehead2">Полный&nbsp;контроль</th>
+      <th  CLASS="tablehead2">Для чтения/записи</th>
+      <th  CLASS="tablehead2">Только&nbsp;чтение</th>
     </tr>
     <tr > 
       <td  scope="row"> 
-        <p >Reassign ownership to another user or LDAPGroup</p>
+        <p >Переназначение владельцем другого пользователя или группа LDAPGroup</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Да</p>
       </td>
       <td >
-        <p >No</p>
+        <p >Нет</p>
       </td>
       <td >
-        <p >No</p>
+        <p >Нет</p>
       </td>
       <td >
-        <p >No</p>
-      </td>
-    </tr>
-    <tr > 
-      <td  scope="row"> 
-        <p >Set a quota for the iFolder</p>
-      </td>
-      <td >
-        <p >Yes</p>
-      </td>
-      <td >
-        <p >No</p>
-      </td>
-      <td >
-        <p >No</p>
-      </td>
-      <td >
-        <p >No</p>
+        <p >Нет</p>
       </td>
     </tr>
     <tr > 
       <td  scope="row"> 
-        <p >Make the iFolder available to other users (sharing)</p>
+        <p >Установление квоты для папки iFolder</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Да</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Нет</p>
       </td>
       <td >
-        <p >No</p>
+        <p >Нет</p>
       </td>
       <td >
-        <p >No</p>
+        <p >Нет</p>
       </td>
     </tr>
     <tr > 
       <td  scope="row"> 
-        <p >Make the iFolder unavailable to other users (stop sharing)</p>
+        <p >Установление доступности папки iFolder для других пользователей (совместное использование)</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Да</p>
       </td>
       <td >
-        <p >Yes, except the owner</p>
+        <p >Да</p>
       </td>
       <td >
-        <p >No</p>
+        <p >Нет</p>
       </td>
       <td >
-        <p >No</p>
+        <p >Нет</p>
       </td>
     </tr>
     <tr > 
       <td  scope="row"> 
-        <p >Assign iFolder access rights for other users or LDAPGroup</p>
+        <p >Отмена доступности папки iFolder для других пользователей (прекращение совместного использования)</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Да</p>
       </td>
       <td >
-        <p >Yes, except the owner</p>
+        <p >Да, кроме владельца</p>
       </td>
       <td >
-        <p >No</p>
+        <p >Нет</p>
       </td>
       <td >
-        <p >No</p>
+        <p >Нет</p>
       </td>
     </tr>
     <tr > 
       <td  scope="row"> 
-        <p >Read directories and files in the iFolder </p>
+        <p >Назначение прав доступа других пользователей или группы LDAPGroup к папке iFolder</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Да</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Да, кроме владельца</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Нет</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Нет</p>
       </td>
     </tr>
     <tr > 
       <td  scope="row"> 
-        <p >Add, modify, or delete directories and files in the iFolder</p>
+        <p >Чтение каталогов и файлов папки iFolder </p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Да</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Да</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Да</p>
       </td>
       <td >
-        <p >No</p>
+        <p >Да</p>
       </td>
     </tr>
     <tr > 
       <td  scope="row"> 
-        <p >Rename directories and files in an iFolder</p>
+        <p >Добавление, изменение или удаление каталогов и файлов папки iFolder</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Да</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Да</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Да</p>
       </td>
       <td >
-        <p >No</p>
+        <p >Нет</p>
       </td>
     </tr>
     <tr > 
       <td  scope="row"> 
-        <p >Rename the iFolder</p>
+        <p >Переименование каталогов и файлов папки iFolder</p>
       </td>
       <td >
-        <p >No</p>
+        <p >Да</p>
       </td>
       <td >
-        <p >No</p>
+        <p >Да</p>
       </td>
       <td >
-        <p >No</p>
+        <p >Да</p>
       </td>
       <td >
-        <p >No</p>
+        <p >Нет</p>
       </td>
     </tr>
     <tr > 
       <td  scope="row"> 
-        <p >Set up an iFolder on multiple computers</p>
+        <p >Переименование папки iFolder</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Нет</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Нет</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Нет</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Нет</p>
       </td>
     </tr>
     <tr > 
       <td  scope="row"> 
-        <p >Revert an iFolder (do not participate on a local computer)</p>
+        <p >Настройка iFolder на нескольких компьютерах</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Да</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Да</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Да</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Да</p>
       </td>
     </tr>
     <tr > 
       <td  scope="row"> 
-        <p >Delete an available iFolder to decline participating</p>
+        <p >Преобразование папки iFolder (отмена участия на локальном компьютере)</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Да</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Да</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Да</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Да</p>
       </td>
     </tr>
     <tr > 
       <td  scope="row"> 
-        <p >Delete the iFolder and delete the iFolder and its files from the server 
-          (make it a normal folder again and no longer share it with others)</p>
+        <p >Удаление доступной папки iFolder для отказа в участии</p>
       </td>
       <td >
-        <p >Yes</p>
+        <p >Да</p>
       </td>
       <td >
-        <p >No</p>
+        <p >Да</p>
       </td>
       <td >
-        <p >No</p>
+        <p >Да</p>
       </td>
       <td >
-        <p >No</p>
+        <p >Да</p>
+      </td>
+    </tr>
+    <tr > 
+      <td  scope="row"> 
+        <p >Удаление папки iFolder, а также удаление папки iFolder и ее файлов с сервера (преобразование ее в стандартную папку и прекращение ее совместного использования с другими пользователями)</p>
+      </td>
+      <td >
+        <p >Да</p>
+      </td>
+      <td >
+        <p >Нет</p>
+      </td>
+      <td >
+        <p >Нет</p>
+      </td>
+      <td >
+        <p >Нет</p>
       </td>
     </tr>
   </table>
-<H4>Setting 
-  the iFolder Access Right for a Member</H4>
+<H4>Установка прав доступа iFolder для члена</H4>
   
 <OL><LI>
-      <P>On the iFolder Details page, select the check box next to the member 
-        whose access right you want to manage.</P>
+      <P>На странице &quot;Информация iFolder&quot; установите флажок рядом с членом, права доступа которого необходимо изменить.</P>
     </LI><LI>
-      <P>Select the Rights drop-down menu, then select the Admin, Read/Write, 
-        or Read Only right.<BR>
-        <BR>Wait for the page to refresh. The user's icon should reflect the 
-new access right.</P></LI></OL>
-  <H4>Removing a Member</H4>
+      <P>Выберите раскрывающееся меню &quot;Права&quot;, затем выберите права &quot;Администратор&quot;, &quot;Чтение/запись&quot; или &quot;Только чтение&quot;.<BR>
+        <BR>Дождитесь завершения обновления страницы. Значок пользователя должен отражать новые права доступа.</P></LI></OL>
+  <H4>Удаление члена</H4>
 <ol>
-    <li>On the iFolder Details page, select the check box next to the member user's 
-      name.</li>
-    <li>Click Delete.</li>
+    <li>На странице &quot;Информация iFolder&quot; установите флажок рядом с именем пользователя члена.</li>
+    <li>Щелкните &quot;Удалить&quot;.</li>
 </ol>
-<P>The user's local copy of the data remains on the 
-user's computer, but the user no longer has access to the server copy of the iFolder 
-data.</P><P> <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top" TITLE="Go to top"></A></P>
-	  <H4>Changing the Owner</H4>
-  <P>When you change the owner of an iFolder, the existing owner becomes a member 
-    of the iFolder and is assigned the Read/Write right. For orphaned iFolders, 
-    the iFolder Admin becomes the owner until the iFolder is reassigned to a new 
-    owner or deleted. If the new owner is not currently a member of the iFolder, 
-    a subscription notification is sent to the user's iFolder account.</P>
+<P>Локальная копия данных пользователя сохраняется на его компьютере, однако пользователь не может получить доступ к копии данных iFolder, хранящейся на сервере.</P><P> <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Наверх" TITLE="Наверх"></A></P>
+	  <H4>Изменение владельца</H4>
+  <P>При изменении владельца папки iFolder предыдущий владелец становится членом этой папки iFolder с правами &quot;Чтение/запись&quot;. Владельцем папок iFolder с нарушенными ассоциациями назначается администратор iFolder до тех пор, пока они не будут переназначены другому владельцу или удалены. Если новый владелец не является членом данной папки iFolder, в его учетную запись iFolder отправляется уведомление о подписке.</P>
   <OL>
     <LI> 
-      <P>On the iFolder Details page, search for the user or LDAPGroup you want 
-        to assign as the new owner of the iFolder.</P>
+      <P>На странице &quot;Информация iFolder&quot; выполните поиск пользователя или группы LDAPGroup, которых необходимо назначить новыми владельцами папки iFolder.</P>
     </LI>
     <LI>
-      <P>Select the check box next to the user's name, then click <i>Owner</i>.</P>
+      <P>Установите флажок рядом с его именем пользователя, а затем щелкните <i>Владелец</i>.</P>
     </LI>
     
   </OL>
-  <P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P>
-  <H3><A NAME="policy"></A>Policies</H3>
+  <P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="В начало"></A></P>
+  <H3><A NAME="policy"></A>Политики</H3>
   
-  <P>The following table lists the policies you can manage for any given iFolder. 
-    Modify one or more of the following values, then click Save to apply the new settings: </P>
-<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
-        <P>Disable Synchronization &nbsp;</P>
+  <P>В следующей таблице перечислены политики, которыми можно управлять для любой отдельной папки iFolder. Измените одно или несколько из следующих значений, а затем щелкните &quot;Сохранить&quot;, чтобы новые параметры вступили в силу: </P>
+<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Параметр</P></TD><TD CLASS="tablehead2"><P>Описание</P></TD></TR><TR><TD VALIGN="TOP">
+        <P>Выключить синхронизацию &nbsp;</P>
       </TD><TD>
-        <P>Select this option to turn off synchronization, usually temporarily. 
+        <P>Выберите данный параметр для выключения синхронизации (обычно временно). 
         </P>
-        <P>Deselect this option to allow the synchronization of data in the iFolder.</P>
-        <P>Default value: Enabled, Yes</P>
+        <P>Отмените выбор параметра для разрешения синхронизации данных в папке iFolder.</P>
+        <P>Значение по умолчанию: &quot;Включено&quot;, &quot;Да&quot;.</P>
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>Disk Quota&nbsp;</P>
+        <P>Квота диска&nbsp;</P>
       </TD><TD>
-        <P>Select the Limit check box, then specify the maximum size (in MB) for 
-          the selected iFolder.</P>
-        <P>If you enable System-wide iFolder quota or LDAPGroup level quota, a 
-          user's account quota overrides it, if the user quota is lower or higher 
-          than the LDAPGroup quota or system quota. </P>
-        <P>Default value: Disabled, No Limit</P>
+        <P>Установите флажок &quot;Ограничение&quot;, а затем укажите максимальный размер (в Мб) для выбранной папки iFolder.</P>
+        <P>Если включена квота для iFolder на уровне системы или на уровне группы LDAPGroup, она переопределяется квотой учетной записи пользователя, если она ниже или выше, чем квота группы LDAPGroup или квота системы. </P>
+        <P>Значение по умолчанию: &quot;Запрещено&quot;, &quot;Нет ограничения&quot;.</P>
       </TD></TR><TR><TD VALIGN="TOP">
-        <P> Used</P>
-        <P>(View only)&nbsp;</P></TD><TD>
-        <P>Reports the space the iFolder data currently consumes.</P>
+        <P> Используется</P>
+        <P>(только просмотр)&nbsp;</P></TD><TD>
+        <P>Информация о пространстве, занимаемом папкой iFolder в данный момент.</P>
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>Available</P>
-        <P>(View only)&nbsp;</P></TD><TD>
-        <P>Reports the space available on the server for the iFolder data.</P>
+        <P>Доступен</P>
+        <P>(только просмотр)&nbsp;</P></TD><TD>
+        <P>Информация о пространстве, доступном на сервере для данных iFolder.</P>
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>Effective</P>
-        <P>(View only)&nbsp;</P></TD><TD>
-        <P>Reports effective space available on the server for the iFolder data.</P>
+        <P>Действующий</P>
+        <P>(только просмотр)&nbsp;</P></TD><TD>
+        <P>Информация о действительном пространстве, доступном на сервере для данных iFolder.</P>
       </TD></TR>
 	  <TR><TD VALIGN="TOP">
-        <p>File Size</p>
+        <p>Размер файла</p>
       </TD>
-      <TD> <B>Limit</B><BR>
-          Specifies the maximum total file size (in MB) that an iFolder user 
-          is allowed to use, across all iFolders the user owns for the selected 
-          user account. <br>
+      <TD> <B>Лимит</B><BR>
+          Максимальный общий размера файла (в Мб) для всех папок iFolder, которыми пользователь владеет в рамках данной учетной записи пользователя. <br>
           <BR>
-        <B>Effective</B><BR>
-        Effective file size allocated for the user.<br>
-		<ul><P><font size="-1"><b>IMPORTANT:</b> Users cannot successfully synchronize 
-          files of a size that would cause a quota to be exceeded. If they try 
-          to do so, only part of the file is synchronized, resulting in data corruption.</font></P></ul>
+        <B>Действующий</B><BR>
+        Действительный размер файла, выделенный для пользователя.<br>
+		<ul><P><font size="-1"><b>ВАЖНО.</b> Пользователи не могут выполнить синхронизацию файлов, размер которых нарушает квоту. Если они попытаются сделать это, файл синхронизируется лишь частично, что вызывает повреждение данных.</font></P></ul>
       </TD></TR>
 	  <TR>
       <TD VALIGN="TOP"> 
-        <p>Excluded Files</p>
+        <p>Исключенные файлы</p>
       </TD>
       <TD> 
-        <P>Specifies a list of file types to include or to exclude from synchronization 
-          for the selected iFolder.</P>
-        <p>The file manager files called thumbs.db and .DS_Store are never synchronized. 
+        <P>Список типов файлов, разрешенных или запрещенных для синхронизации в выбранной папке iFolder.</P>
+        <p>Синхронизация файлов менеджера файлов &quot;thumbs.db&quot; и &quot;.DS_Store&quot; не выполняется. 
         </p>
     
-        <P>To add a file extension to the exclusion filter, type the extension 
-          (such as *.mpg), then click Add to apply the filter. </P>
-        <P>To exclude a file type from the restricted file types, select the check 
-          box adjacent to the File Name, then select the file type and click Delete.</P>
+        <P>Чтобы добавить расширение файла в исключающий фильтр, введите его (например *.mpg) и щелкните &quot;Добавить&quot;. </P>
+        <P>Чтобы исключить тип файла из списка запрещенных типов файлов, установите флажок рядом с элементом &quot;Имя файла&quot;, а затем выберите тип файла и щелкните &quot;Удалить&quot;.</P>
          
-        <P>Default value: Disabled, Allow all file types or the System-wide settings</P>
+        <P>Значение по умолчанию: &quot;Запрещено&quot;, &quot;Разрешить все типы файлов&quot; или &quot;Системная&quot;.</P>
       </TD></TR>
 	
       
 <TR><TD VALIGN="TOP">
-        <P> Synchronization Interval &nbsp;</P>
+        <P> Интервал синхронизации &nbsp;</P>
       </TD><TD>
-        <P>Select the Synchronization interval check box to enable a minimum interval 
-          setting for the selected iFolder, then specify the minimum value in 
-          minutes that the users are allowed to set on their iFolder client.</P>
-        <P> To disable the setting, deselect the Synchronization Interval check 
-          box. If the option is disabled, the value reported is Unlimited.</P>
-        <P> If this option is enabled, the minimum synchronization interval specifies 
-          the minimum interval in minutes that a user's client can check iFolder 
-          data on the server and local iFolders to identify the files that need 
-          to be downloaded or uploaded.</P>
-  <P>      The effective minimum synchronization interval is always the largest value from the following settings:</P>
+        <P>Установите флажок &quot;Интервал синхронизации&quot;, чтобы включить параметр минимального интервала для выбранной папки iFolder, а затем укажите минимальное значение в минутах, которое пользователи могут задать в клиенте iFolder.</P>
+        <P> Чтобы выключить этот параметр, снимите флажок &quot;Интервал синхронизации&quot;. Если данный параметр выключен, отображается значение &quot;Без ограничения&quot;.</P>
+        <P> Если данный параметр включен, значение минимального интервала синхронизации в минутах позволяет задать минимальное время, затрачиваемое клиентом пользователя на проверку данных iFolder на сервере и в локальных папках iFolder для определения файлов, которые необходимо загрузить или отправить.</P>
+  <P>      Эффективным минимальным интервалом синхронизации всегда является самое высокое значение следующих параметров:</P>
   <ul>
     <li>
-            <p> The system policy (the default of 5 minutes), unless there is 
-              a user policy or LDAPGroup policy set. If a LDAPGroup policy set, 
-              the LDAPGroup policy overrides the system policy. If a user policy 
-              is set, the user policy overrides the LDAPGroup policy and system 
-              policy, whether it is larger or smaller in value.</p>
+            <p> Системная политика (по умолчанию имеет значение 5 минут), если не установлена политика пользователя или группы LDAPGroup. Если установлена политика группы LDAPGroup, она переопределяет политику системы. Если установлена пользовательская политика, она переопределяет политику группы LDAPGroup независимо от величины ее значения.</p>
     </li>
     <li>
-      <p> The local machine policy, or the setting on the client machine synchronizing with the server</p>
+      <p> Политика локального компьютера или настройка синхронизации с сервером на клиентской рабочей станции</p>
     </li>
     <li>
-      <p> The iFolder (collection) policy</p>
+      <p> Политика iFolder (совокупная).</p>
     </li>
   </ul>  
-        <P> Default value: Disabled, iFolder client-set limit</P>
+        <P> Значение по умолчанию: &quot;Запрещено&quot;, заданное в клиенте iFolder предельное значение.</P>
       </TD>
 </TR><TR><TD VALIGN="TOP">
-        <P> Sharing</P>
-      </TD><TD> <B>On</B><BR>
-        By default, iFolder sharing is enabled. Deselect On to disable 
-        sharing for the selected iFolder. After applying this policy, selected 
-        iFolder cannot be shared either by the Admin or by the Owner of the iFolder.<br>
+        <P> Совместное использование</P>
+      </TD><TD> <B>Вкл.</B><BR>
+        По умолчанию совместное использование iFolder разрешено.  Отмените выбор Вкл., чтобы запретить совместное использование выбранной папки iFolder. После применения данной политики совместное использование выбранной папки iFolder будет запрещено даже для ее владельца и администратора.<br>
           <BR>
-        <B>Revoke</B><BR>
-        Select <i>Revoke</i> to remove all the members from the 
-        list of shared members for the selected iFolder.<br>
+        <B>Аннулировать</B><BR>
+        Выберите <i>Аннулировать</i>, чтобы удалить всех членов с правами на совместное использование из списка для выбранной папки iFolder.<br>
 		<ul>
-          <P><font size="-1"><b>IMPORTANT:</b> Both these options are disabled 
-            if you enable and enforce the <i> Sharing</i> option at System or 
-            User level.</font></P>
+          <P><font size="-1"><b>ВАЖНО.</b> Оба эти параметра отключены, если на уровне системы или пользователя включен и применяется параметр <i>Совместное использование</i>.</font></P>
         </ul>
       </TD></TR></TABLE><BR><P> 
   
-  <H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Related Topics" align="top"> 
-Related Topics</H4><BLOCKQUOTE class="task1"><P ><A HREF="ifolders.html">Managing iFolders 
-</A><BR><A HREF="users.html">Managing Users 
-</A><BR><A HREF="userdetails.html">User Details</A><BR><A HREF="servers.html#orphan" TARGET="_self">Managing 
-iFolder Servers</A>
+  <H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="См. также" align="top"> См. также</H4><BLOCKQUOTE class="task1"><P ><A HREF="ifolders.html">Управление папками iFolder </A><BR><A HREF="users.html">Управление пользователями </A><BR><A HREF="userdetails.html">Информация о пользователях</A><BR><A HREF="servers.html#orphan" TARGET="_self">Управление серверами iFolder</A>
     </P>
-  </BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P><P>&nbsp;</P><P CLASS="copyright">A 
-trademark symbol (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP>, 
-etc.) denotes a Novell trademark. An asterisk (*) denotes a third-party trademark. 
-For more information, see <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Legal 
-Notices</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
+  </BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="В начало"></A></P><P>&nbsp;</P><P CLASS="copyright">Символ товарного знака (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP> и т.&nbsp;д.) обозначает товарный знак Novell.  Символ звездочки (*) обозначает товарный знак независимого производителя.  Для получения дополнительной информации см. раздел <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Юридическая информация</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
 </body>
 
 </html>

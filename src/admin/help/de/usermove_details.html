@@ -1,11 +1,11 @@
 <html>
 
    <head>
-     <meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+     <meta http-equiv="content-type" content="text/html;charset=UTF-8">
      
      <!-- Novell iFolder 3.7 Web Admin Help --> 
    
-     <title>User Move Details</title>  	 
+     <title>Benutzer verschieben - Details</title>  	 
         
      <!-- Metadata -->
    
@@ -53,114 +53,98 @@ url(../../images/helphead_bg.gif) repeat-x 0% 0% }
 <!-- This is the start of the Help Banner Layer --> <div id="headgraphic"> <img src="../../images/h1_help.gif" width="380" height="32"   border="0"></div><!-- This is end of the Help Banner Layer --> 
 <!-- This is the start of the Help Content Layer --> 
 <div id="helpcontent" style="left: 13px; top: 35px"> 
-  <H3><A NAME="userdetails"></A>User Reprovisioning Details </H3>
-  <P>Use this interface to view the user provisioning or reprovisioning details 
-    and the iFolder details owned by the user. </P>
+  <H3><A NAME="userdetails"></A>Benutzer +++neu bereitstellen+++ Details </H3>
+  <P>Mit dieser Schnittstelle zeigen Sie die Details zur Bereitstellung oder +++Neubereitstellung+++ des Benutzers und die Details der iFolder an, die der Benutzer besitzt. </P>
   
-  <P>The User Provisioning Details page displays the following user details for 
-    the selected user's iFolder account. </P>
-	<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
-        <P>User Name</P>
+  <P>Auf der Seite &quot;+++Benutzerbereitstellungsdetails+++&quot; werden die folgenden Benutzerdetails f&uuml;r das iFolder-Konto des ausgew&auml;hlten Benutzers angezeigt. </P>
+	<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Beschreibung</P></TD></TR><TR><TD VALIGN="TOP">
+        <P>Benutzername</P>
       </TD>
       <TD> 
-        <P>The username assigned to the user account, such as jsmith or john.smith@example.com.</P>
+        <P>Der dem Benutzerkonto zugewiesene Benutzername, beispielsweise hans.schmidt@beispiel.de.</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Full Name</P>
+        <P>Vollst&auml;ndiger Name</P>
       </TD>
       <TD> 
-        <P>The first and last name of the user account. </P>
+        <P>Der Vorname und der Nachname des Benutzerkontos. </P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>LDAP Context</P>       
+        <P>LDAP-Kontext</P>       
       </TD>
       <TD> 
-        <P>The LDAP tree context is used for provisioning users in to the iFolder 
-          domain. For example, cn= test, o=novell.
+        <P>Der LDAP-Baumkontext wird f&uuml;r die Bereitstellung von Benutzern in der iFolder-Dom&auml;ne verwendet. Beispiel: cn= test, o=novell.
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>New Home</P>       
+        <P>+++Neuer Stamm+++</P>       
       </TD>
       <TD> 
-        <P>Shows the new server to provision for the user.
+        <P>Zeigt den neuen Server an, der dem Benutzer bereitgestellt werden soll.
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>Completed</P>
+        <P>Abgeschlossen</P>
         </TD>
       <TD> 
-        <P>Shows the reprovisioning status as a percentage. 
+        <P>Zeigt den +++Neubereitstellungs+++status als einen Prozentwert an. 
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>Reprovision State</P>       
+        <P>+++Neubereitstellungs+++status</P>       
       </TD>
       <TD> 
-        <P>Shows any of the following reprovisioning states. </p>
+        <P>Zeigt einen der folgenden +++Neubereitstellungs+++zust&auml;nde an: </p>
 		 <P> 
     <BLOCKQUOTE> 
           <ul>
-            <li>Initializing</li>
-            <li>Initialized</li>
-            <li>Moving iFolder</li>
-            <li>Resetting Home</li>
-            <li>Finalizing</li>
+            <li>Initialisierung l&auml;uft</li>
+            <li>Initialisiert</li>
+            <li>iFolder wird verschoben</li>
+            <li>Home wird zur&uuml;ckgesetzt</li>
+            <li>Finalisierung</li>
           </ul>
         </blockquote>
       </TD></TR></TABLE>
 
-  <P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P>
+  <P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Zur&uuml;ck zum Anfang"></A></P>
   
-  <h4><a name="ifolders"></a> iFolder Details</h4>
-  <P>The User Provisioning Details page displays the following iFolder details 
-    for the selected user's iFolder account.</P>
+  <h4><a name="ifolders"></a> iFolder-Ordnerdetails</h4>
+  <P>Auf der Seite &quot;+++Benutzerbereitstellungsdetails+++&quot; werden die folgenden iFolder-Details f&uuml;r das iFolder-Konto des ausgew&auml;hlten Benutzers angezeigt.</P>
 	
-  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TD VALIGN="TOP">
-        <P>Type</P>
+  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Beschreibung</P></TD></TR><TD VALIGN="TOP">
+        <P>Typ</P>
       </TD><TD>
-        <P><img src="../../images/ifolder.png" width="16" height="16" alt="Folder icon">  Normal iFolder</P>
-		<P><img src="../../images/encrypt_ifolder.gif" width="16" height="16" alt="Folder icon"> Encrypted iFolder</P>
-		<p><img src="../../images/ifolder_user_16.gif" width="16" height="16" alt="Shared icon"> 
-          Shared iFolder<br>
+        <P><img src="../../images/ifolder.png" width="16" height="16" alt="Ordnersymbol"> Normaler iFolder-Ordner</P>
+		<P><img src="../../images/encrypt_ifolder.gif" width="16" height="16" alt="Ordnersymbol"> Verschl&uuml;sselter iFolder-Ordner</P>
+		<p><img src="../../images/ifolder_user_16.gif" width="16" height="16" alt="Symbol &quot;Freigegeben&quot;"> Freigegebener iFolder-Ordner<br>
       </TD><TR><TD VALIGN="TOP">
         <P>Name</P>
       </TD><TD>
-        <P>The name assigned to the iFolder.</P>
-      </TD><TR><TR><TD VALIGN="TOP"><P>Owner 
+        <P>Der dem iFolder-Ordner zugewiesene Name.</P>
+      </TD><TR><TR><TD VALIGN="TOP"><P>Eigent&uuml;mer 
 </P></TD><TD>
-        <P>The username of the owner of the selected iFolder. The owner can be 
-          an individual user or an LDAPGroup. If an LDAPGroup is the owner of 
-          the iFolder, then all the members of the LDAPGroup will have the same 
-          access rights. For orphaned iFolders, the iFolder Admin user is made 
-          the owner until the iFolder can be reassigned or deleted.</P>
-        <p>Click the owner's username link to view his or her user account details.</p> 
-        <P>The iFolder owner has the Full Control right to the iFolder. The owner manages 
-          membership and access rights for users, and can remove the Full Control 
-          right for any member.</P>
+        <P>Der Benutzername des Eigent&uuml;mers des ausgew&auml;hlten iFolder-Ordners. Der Eigent&uuml;mer kann ein einzelner Benutzer oder eine LDAP-Gruppe sein. Wenn eine LDAP-Gruppe Eigent&uuml;mer des iFolders ist, haben alle Mitglieder der LDAP-Gruppe dieselben Zugriffsrechte. Bei iFolder-Ordnern ohne Eigent&uuml;mer wird der Adminbenutzer zum Eigent&uuml;mer, bis der iFolder-Ordner neu zugewiesen oder gel&ouml;scht werden kann.</P>
+        <p>Klicken Sie auf den Link des Benutzernamens des Eigent&uuml;mers, um die Kontodetails des entsprechenden Benutzers anzuzeigen.</p> 
+        <P>Der Eigent&uuml;mer des iFolder-Ordners besitzt die Rechte &quot;Vollst&auml;ndige Kontrolle&quot; f&uuml;r den iFolder-Ordner. Der Eigent&uuml;mer verwaltet die Mitgliedschaft und die Zugriffsrechte der Benutzer und hat die M&ouml;glichkeit, die Rechte &quot;Vollst&auml;ndige Kontrolle&quot; eines beliebigen Mitglieds aufzuheben.</P>
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>Size</P>
+        <P>Gr&ouml;&szlig;e</P>
       </TD><TD>
-        <P>Size of the iFolder in MB.</P>
+        <P>Gr&ouml;&szlig;e des iFolder-Ordners in MB.</P>
       </TD></TR><TR><TD VALIGN="TOP">
         <P>Status</P>
       </TD>
       <TD> 
-        <P>Shows any of the following iFolder movement states. </p>
+        <P>Zeigt einen der folgenden iFolder-Verschiebungszust&auml;nde an: </p>
 		 <P> 
     <BLOCKQUOTE> 
           <ul>
-            <li>Initializing</li>
-            <li>Transferring</li>
-            <li>Completed</li>
+            <li>Initialisierung l&auml;uft</li>
+            <li>&Uuml;bertragung</li>
+            <li>Abgeschlossen</li>
             
           </ul>
         </blockquote>
       </TD></TR></TABLE>
-<P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P><H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Related Topics" align="top"> 
-Related Topics</H4>
+<P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Zur&uuml;ck zum Anfang"></A></P><H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Verwandte Themen" align="top"> Verwandte Themen</H4>
   
-  <BLOCKQUOTE class="task1"><P><A HREF="users.html">Managing a User Account</A><BR>
-      <A HREF="ifolders.html">Managing iFolders</A><BR>
-      <A HREF="ifolderdetails.html">Managing iFolder Details</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P><P>&nbsp;</P><P CLASS="copyright">A 
-trademark symbol (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP>, 
-etc.) denotes a Novell trademark. An asterisk (*) denotes a third-party trademark. 
-For more information, see <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Legal 
-Notices</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
+  <BLOCKQUOTE class="task1"><P><A HREF="users.html">Verwalten eines Benutzerkontos</A><BR>
+      <A HREF="ifolders.html">Verwalten von iFolder-Ordnern </A><BR>
+      <A HREF="ifolderdetails.html">Verwalten von iFolder-Ordnerdetails</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Zur&uuml;ck zum Anfang"></A></P><P>&nbsp;</P><P CLASS="copyright">Ein Markensymbol(<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP> usw.) kennzeichnet eine Novell-Marke. Ein Sternchen (*) kennzeichnet eine Drittanbieter-Marke.     Weitere Informationen finden Sie unter <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Rechtliche Hinweise</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
 </body>
 
 </html>

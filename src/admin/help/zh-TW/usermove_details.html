@@ -1,11 +1,11 @@
 <html>
 
    <head>
-     <meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+     <meta http-equiv="content-type" content="text/html;charset=UTF-8">
      
      <!-- Novell iFolder 3.7 Web Admin Help --> 
    
-     <title>User Move Details</title>  	 
+     <title>使用者移動詳細資料</title>  	 
         
      <!-- Metadata -->
    
@@ -53,114 +53,98 @@ url(../../images/helphead_bg.gif) repeat-x 0% 0% }
 <!-- This is the start of the Help Banner Layer --> <div id="headgraphic"> <img src="../../images/h1_help.gif" width="380" height="32"   border="0"></div><!-- This is end of the Help Banner Layer --> 
 <!-- This is the start of the Help Content Layer --> 
 <div id="helpcontent" style="left: 13px; top: 35px"> 
-  <H3><A NAME="userdetails"></A>User Reprovisioning Details </H3>
-  <P>Use this interface to view the user provisioning or reprovisioning details 
-    and the iFolder details owned by the user. </P>
+  <H3><A NAME="userdetails"></A>使用者重新供應詳細資料 </H3>
+  <P>使用這個介面可檢視使用者供應或重新供應詳細資料，和使用者擁有的 iFolder 詳細資料。 </P>
   
-  <P>The User Provisioning Details page displays the following user details for 
-    the selected user's iFolder account. </P>
-	<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
-        <P>User Name</P>
+  <P>「使用者供應詳細資料」頁會為選定使用者的 iFolder 帳戶顯示下列使用者詳細資料。 </P>
+	<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>參數</P></TD><TD CLASS="tablehead2"><P>描述</P></TD></TR><TR><TD VALIGN="TOP">
+        <P>使用者名稱</P>
       </TD>
       <TD> 
-        <P>The username assigned to the user account, such as jsmith or john.smith@example.com.</P>
+        <P>為使用者帳戶指定的使用者名稱，例如：jsmith 或 john.smith@example.com。</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Full Name</P>
+        <P>全名</P>
       </TD>
       <TD> 
-        <P>The first and last name of the user account. </P>
+        <P>使用者帳戶的名字和姓氏。 </P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>LDAP Context</P>       
+        <P>LDAP 網路位置</P>       
       </TD>
       <TD> 
-        <P>The LDAP tree context is used for provisioning users in to the iFolder 
-          domain. For example, cn= test, o=novell.
+        <P>在 iFolder 領域內用於供應使用者之 LDAP 網路樹的網路位置。例如 cn= test, o=novell。
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>New Home</P>       
+        <P>新主伺服器</P>       
       </TD>
       <TD> 
-        <P>Shows the new server to provision for the user.
+        <P>顯示要為使用者供應的新伺服器。
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>Completed</P>
+        <P>已完成</P>
         </TD>
       <TD> 
-        <P>Shows the reprovisioning status as a percentage. 
+        <P>以百分比顯示重新供應狀態。 
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>Reprovision State</P>       
+        <P>重新供應狀態</P>       
       </TD>
       <TD> 
-        <P>Shows any of the following reprovisioning states. </p>
+        <P>顯示下列任何重新供應狀態。 </p>
 		 <P> 
     <BLOCKQUOTE> 
           <ul>
-            <li>Initializing</li>
-            <li>Initialized</li>
-            <li>Moving iFolder</li>
-            <li>Resetting Home</li>
-            <li>Finalizing</li>
+            <li>啟始化中</li>
+            <li>已啟始化</li>
+            <li>移動 iFolder 中</li>
+            <li>重設主伺服器中</li>
+            <li>完成中</li>
           </ul>
         </blockquote>
       </TD></TR></TABLE>
 
-  <P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P>
+  <P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="移至頂端"></A></P>
   
-  <h4><a name="ifolders"></a> iFolder Details</h4>
-  <P>The User Provisioning Details page displays the following iFolder details 
-    for the selected user's iFolder account.</P>
+  <h4><a name="ifolders"></a> iFolder 詳細資料</h4>
+  <P>「使用者供應詳細資料」頁會為選定使用者的 iFolder 帳戶顯示下列 iFolder 詳細資料。</P>
 	
-  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TD VALIGN="TOP">
-        <P>Type</P>
+  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>參數</P></TD><TD CLASS="tablehead2"><P>描述</P></TD></TR><TD VALIGN="TOP">
+        <P>類型</P>
       </TD><TD>
-        <P><img src="../../images/ifolder.png" width="16" height="16" alt="Folder icon">  Normal iFolder</P>
-		<P><img src="../../images/encrypt_ifolder.gif" width="16" height="16" alt="Folder icon"> Encrypted iFolder</P>
-		<p><img src="../../images/ifolder_user_16.gif" width="16" height="16" alt="Shared icon"> 
-          Shared iFolder<br>
+        <P><img src="../../images/ifolder.png" width="16" height="16" alt="資料夾圖示"> 一般的 iFolder</P>
+		<P><img src="../../images/encrypt_ifolder.gif" width="16" height="16" alt="資料夾圖示"> 加密的 iFolder</P>
+		<p><img src="../../images/ifolder_user_16.gif" width="16" height="16" alt="共享圖示">共享 iFolder<br>
       </TD><TR><TD VALIGN="TOP">
-        <P>Name</P>
+        <P>名稱</P>
       </TD><TD>
-        <P>The name assigned to the iFolder.</P>
-      </TD><TR><TR><TD VALIGN="TOP"><P>Owner 
+        <P>指定給 iFolder 的名稱。</P>
+      </TD><TR><TR><TD VALIGN="TOP"><P>擁有者 
 </P></TD><TD>
-        <P>The username of the owner of the selected iFolder. The owner can be 
-          an individual user or an LDAPGroup. If an LDAPGroup is the owner of 
-          the iFolder, then all the members of the LDAPGroup will have the same 
-          access rights. For orphaned iFolders, the iFolder Admin user is made 
-          the owner until the iFolder can be reassigned or deleted.</P>
-        <p>Click the owner's username link to view his or her user account details.</p> 
-        <P>The iFolder owner has the Full Control right to the iFolder. The owner manages 
-          membership and access rights for users, and can remove the Full Control 
-          right for any member.</P>
+        <P>選定 iFolder 之擁有者的使用者名稱。擁有者可以是個別使用者或 LDAPGroup。如果 LDAPGroup 為 iFolder 的擁有者，則所有此 LDAPGroup 的成員都擁有相同的存取權限。對於殘留下來的 iFolder，「iFolder 管理員」使用者會成為擁有者，直到 iFolder 可以重新指派或刪除為止。</P>
+        <p>按一下擁有者的使用者名稱連結，以檢視他 (或她) 的帳戶詳細資料。</p> 
+        <P>iFolder 擁有者具有 iFolder 的「完全控制」權限。擁有者可管理成員資格和使用者的存取權限，並且可以移除任何成員的「完全控制」權限。</P>
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>Size</P>
+        <P>大小</P>
       </TD><TD>
-        <P>Size of the iFolder in MB.</P>
+        <P>iFolder 的大小，以 MB 為單位。</P>
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>Status</P>
+        <P>狀態</P>
       </TD>
       <TD> 
-        <P>Shows any of the following iFolder movement states. </p>
+        <P>顯示下列任何 iFolder 移動狀態。 </p>
 		 <P> 
     <BLOCKQUOTE> 
           <ul>
-            <li>Initializing</li>
-            <li>Transferring</li>
-            <li>Completed</li>
+            <li>啟始化中</li>
+            <li>傳送中</li>
+            <li>已完成</li>
             
           </ul>
         </blockquote>
       </TD></TR></TABLE>
-<P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P><H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Related Topics" align="top"> 
-Related Topics</H4>
+<P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="移至頂端"></A></P><H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="相關主題" align="top"> 相關主題</H4>
   
-  <BLOCKQUOTE class="task1"><P><A HREF="users.html">Managing a User Account</A><BR>
-      <A HREF="ifolders.html">Managing iFolders</A><BR>
-      <A HREF="ifolderdetails.html">Managing iFolder Details</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P><P>&nbsp;</P><P CLASS="copyright">A 
-trademark symbol (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP>, 
-etc.) denotes a Novell trademark. An asterisk (*) denotes a third-party trademark. 
-For more information, see <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Legal 
-Notices</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
+  <BLOCKQUOTE class="task1"><P><A HREF="users.html">管理使用者帳戶</A><BR>
+      <A HREF="ifolders.html">管理 iFolder</A><BR>
+      <A HREF="ifolderdetails.html">管理 iFolder 詳細資料</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="移至頂端"></A></P><P>&nbsp;</P><P CLASS="copyright">商標符號 (<SUP><SMALL>&reg;</SMALL></SUP>、<SUP><SMALL>TM</SMALL></SUP> 等) 代表 Novell 的商標；星號 (*) 則代表協力廠商的商標。如需詳細資訊，請參閱<A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">法律聲明</font></A>。</P></div><!-- This is the end of the Help Content layer. --> 
 </body>
 
 </html>

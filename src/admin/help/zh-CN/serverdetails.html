@@ -1,11 +1,11 @@
 <html>
 
    <head>
-     <meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+     <meta http-equiv="content-type" content="text/html;charset=UTF-8">
      
      <!-- Novell iFolder 3.6 Web Admin Help  --> 
    
-     <title>Servers Details</title>  	 
+     <title>服务器细节</title>  	 
      
  
      <!-- Metadata -->
@@ -29,8 +29,7 @@
        <!--
        
          body           {  font-family: Arial, Helvetica, Geneva;
-									background: white
-url(../../images/helphead_bg.gif) repeat-x 0% 0% }
+									background: white url('../../images/helphead_bg.gif') repeat-x;  }
 		      
          #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px;
 									width: 380px; visibility: visible }
@@ -55,298 +54,245 @@ url(../../images/helphead_bg.gif) repeat-x 0% 0% }
 <!-- This is the start of the Help Content Layer --> <div id="helpcontent"> <!-- The Page Heading uses CSS style "head3b". This creates an H3 header
             with a line beneath it.
        --> 
-  <h3 class="head3b">Server Details</h3>
-  <p> Use this interface to view server details, server status, server logs, and 
-    server reports, and to set the log level and LDAP details. </p>
-  <BLOCKQUOTE CLASS="blockquote"><P><A HREF="#general" TARGET="_self">Viewing Server Details
-</A> <BR><A HREF="#general" TARGET="_self">Viewing Server Status
- </A><BR><A HREF="#reports" TARGET="_self">Viewing Server Reports
- </A><BR> <A HREF="#logs" TARGET="_self">Viewing Server Logs
- </A><BR>
-      <A HREF="#ldap" TARGET="_self">LDAP Details</A><br>
-      <A HREF="#volume" TARGET="_self">Data Store</A><br>
+  <h3 class="head3b">服务器细节</h3>
+  <p> 使用此界面可查看服务器细节、服务器状态、服务器日志和服务器报告，并且可设置日志级别和 LDAP 细节。 </p>
+  <BLOCKQUOTE CLASS="blockquote"><P><A HREF="#general" TARGET="_self">查看服务器细节</A> <BR><A HREF="#general" TARGET="_self">查看服务器状态</A><BR><A HREF="#reports" TARGET="_self">查看服务器报告</A><BR> <A HREF="#logs" TARGET="_self">查看服务器日志</A><BR>
+      <A HREF="#ldap" TARGET="_self">LDAP 细节</A><br>
+      <A HREF="#volume" TARGET="_self">数据储存区</A><br>
   </P></BLOCKQUOTE>
   
  
-  <H4><a name="general"></a>Viewing Server Details</H4>
-  <P>You can view and edit the following information:</P>
-  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
-        <P>Name (View Only)</P>
+  <H4><a name="general"></a>查看服务器细节</H4>
+  <P>您可查看并编辑下列信息：</P>
+  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>参数</P></TD><TD CLASS="tablehead2"><P>说明</P></TD></TR><TR><TD VALIGN="TOP">
+        <P>名称（仅供查看）</P>
       </TD><TD>
-        <P>The name assigned to the Server.</P>
+        <P>指派给服务器的名称。</P>
       </TD><TR><TD VALIGN="TOP">
-        <P>Type (View Only)</P>
+        <P>类型（仅供查看）</P>
       </TD><TD>
-        <P>The server type (Master or Slave).</P>
+        <P>服务器类型（主服务器或从属服务器）。</P>
       </TD><TR><TD VALIGN="TOP">
-        <P>DNS Name</P>
+        <P>DNS 名称</P>
       </TD><TD>
-        <P>The DNS name of the iFolder Enterprise server.</P>
-		<P>For example: 192.168.1.1 or svr1.domain.com.</p>
+        <P>iFolder Enterprise Server 的 DNS 名称。</P>
+		<P>例如：192.168.1.1 或 svr1.domain.com。</p>
 </TD></TR><TR><TD VALIGN="TOP">
-        <P>Public URL</P>
+        <P>公用 URL</P>
       </TD>
       <TD> 
-        <P>The public IP address corresponding to the iFolder server. To change 
-          the IP address, edit the address given and click Save to save the changes 
-          you have done.</P>
+        <P>与该 iFolder 服务器对应的公共 IP 地址。要更改 IP 地址，请编辑给定的地址并单击&ldquo;保存&rdquo;以保存所做更改。</P>
       </TD><TR>
       <TD VALIGN="TOP" height="37"> 
-        <P>Private URL</P>
+        <P>私用 URL</P>
       </TD>
       <TD height="37"> 
-        <P>The private IP address corresponding to the iFolder server. This allows 
-          communication between the servers within the iFolder domain. The private 
-          URL and the public URL can be the same. To change the IP address give, 
-          type the new address and click Save to save the changes you have done.</P>
+        <P>对应于 iFolder 服务器的私用 IP 地址。它允许 iFolder 域范围内的服务器之间进行通讯。私用 URL 和公共 URL 可以相同。要更改给定的 IP 地址，键入新地址并单击&ldquo;保存&rdquo;以保存所做更改。</P>
       </TD><TR><TD VALIGN="TOP">
-        <P>Master URL (Displayed only for Slave servers)</P>
+        <P>主 URL（仅对从属服务器显示）</P>
       </TD>
       <TD> 
-        <P>The IP address corresponding to the iFolder server. Using this address, 
-          slave server communicate with the master server in the iFolder domain. 
-          </p><p>To change the IP address, edit the address given and click Save to save 
-          the changes you have done.</P>
+        <P>与 iFolder 服务器对应的 IP 地址。使用此地址，从属服务器可与 iFolder 域中的主服务器通讯。 
+          </p><p>要更改 IP 地址，请编辑给定的地址并单击&ldquo;保存&rdquo;以保存所做更改。</P>
       </TD></TABLE><br>
-	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A>
-  <H4><a name="general"></a>Viewing Server Status</H4>
-  <P>You 
-can view the following information:</P><TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
-        <P>Status</P>
+	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="返回页首"></A>
+  <H4><a name="general"></a>查看服务器状态</H4>
+  <P>您可以查看以下信息：</P><TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>参数</P></TD><TD CLASS="tablehead2"><P>说明</P></TD></TR><TR><TD VALIGN="TOP">
+        <P>状态</P>
       </TD><TD>
-        <P>Reports the current status of the server.</P>
+        <P>报告服务器的当前状态。</P>
       </TD><TR><TD VALIGN="TOP">
-        <P>Users</P>
+        <P>用户数</P>
       </TD><TD>
-        <P>Reports the total number of iFolder users provisioned to the selected 
-          server.</P>
+        <P>报告对所选服务器配置的 iFolder 用户总数。</P>
       </TD><TR><TD VALIGN="TOP">
-        <P>iFolders</P>
+        <P>iFolder</P>
       </TD><TD>
-        <P>Reports the total number of iFolders belonging to the selected server.</P>        
+        <P>报告属于所选服务器的 iFolder 的总数。</P>        
       </TD></TR></TABLE><br>
-	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A>
+	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="返回页首"></A>
 	  
-  <H4><a name="reports"></a>Viewing Server Reports</H4>
-  <P>Select the report from the drop down list to view the report.</P> 
-  <p>This option is disabled if the Enable Reporting option on the Report page 
-    is left unselected.</P>
-	<A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A>
-  <H4><a name="logs"></a>Viewing Server Logs</H4>
-  <P>You can view the following server log information:</P>
-  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
-        <P>System</P>
+  <H4><a name="reports"></a>查看服务器报告</H4>
+  <P>从下拉列表中选择此报告可对其进行查看。</P> 
+  <p>如果未选择&ldquo;报告&rdquo;页上的&ldquo;启用报告&rdquo;选项，则此选项是禁用的。</P>
+	<A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="返回页首"></A>
+  <H4><a name="logs"></a>查看服务器日志</H4>
+  <P>您可以查看以下服务器日志信息：</P>
+  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>参数</P></TD><TD CLASS="tablehead2"><P>说明</P></TD></TR><TR><TD VALIGN="TOP">
+        <P>系统</P>
       </TD>
       <TD> 
-        <P>Select System to view the simias.log that tracks all the system activities. 
+        <P>选择&ldquo;系统&rdquo;可查看跟踪所有系统活动的 simias.log。 
         </P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>User Access</P>
+        <P>用户访问</P>
       </TD>
       <TD> 
-        <P>Select User Access to view simias.access.log that tracks the user activities 
-          on the selected server.</P>
+        <P>选择&ldquo;用户访问&rdquo;可查看跟踪所选服务器上的用户活动的 simias.access.log。</P>
 		
       </TD></TR></TABLE>
 	    
-  <H4><a name="general"></a>Set Log Levels</H4>
-  <P>You can set the following log level information:</P>
-  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
-        <P>All</P>
+  <H4><a name="general"></a>设置日志级别</H4>
+  <P>您可以设置以下日志级别信息：</P>
+  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>参数</P></TD><TD CLASS="tablehead2"><P>说明</P></TD></TR><TR><TD VALIGN="TOP">
+        <P>所有</P>
       </TD>
       <TD> 
-        <P>Shows all the server activities that help Novell support resolve the 
-          issues. </P>
+        <P>显示可帮助 Novell 支持解决问题的所有服务器活动。 </P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Debug</P>
+        <P>调试</P>
       </TD>
       <TD> 
-        <P>Shows the server activities that help Novell support debug the issues 
-          . </P>
+        <P>显示可帮助 Novell 支持调试问题的服务器活动。 </P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Info</P>
+        <P>信息</P>
       </TD>
       <TD> 
-        <P>Shows the basic server activities that help Novell support resolve 
-          the issues. This option is selected by default.</P>
+        <P>显示可帮助 Novell 支持解决问题的基本服务器活动。默认情况下已选择此选项。</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Warn</P>
+        <P>警告</P>
       </TD>
       <TD> 
-        <P>Shows all the potential system errors.</P>
+        <P>显示所有潜在的系统错误。</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Error</P>
+        <P>错误</P>
       </TD>
       <TD> 
-        <P>Shows all the system errors that halt system functioning.</P>
+        <P>显示所有使系统暂停运行的系统错误。</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Fatal</P>
+        <P>致命错误</P>
       </TD>
       <TD> 
-        <P>Shows the fatal system errors. </P>
+        <P>显示致命的系统错误。 </P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Off</P>
+        <P>关闭</P>
       </TD>
       <TD> 
-        <P>Logging is turned off.</P>
+        <P>日志记录已关闭。</P>
 		
       </TD></TR></TABLE><br>
-	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A>
-	  <H4><a name="ldap"></a>LDAP Details</H4>
-  <P>You can edit the following LDAP related information. Click Save to modify 
-    the entries. Click Cancel to cancel your modifications.</p>
-<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
-        <P>Up Since </p><p> (View Only)</P>
+	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="返回页首"></A>
+	  <H4><a name="ldap"></a>LDAP 细节</H4>
+  <P>您可以编辑以下有关 LDAP 的信息。单击&ldquo;保存&rdquo;可修改项。单击&ldquo;取消&rdquo;以取消修改。</p>
+<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>参数</P></TD><TD CLASS="tablehead2"><P>说明</P></TD></TR><TR><TD VALIGN="TOP">
+        <P>连接时间 </p><p> （仅供查看）</P>
       </TD>
       <TD> 
-        <P>Shows the date and time of the very first synchronization.</P>
+        <P>显示第一次同步的日期和时间。</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Status</P>
+        <P>状态</P>
       </TD>
       <TD> 
-        <P>Reports the current LDAP sync engine status.</P>
+        <P>报告当前的 LDAP 同步引擎状态。</P>
 		
-      </TD><<TR><TD VALIGN="TOP">
-        <P>Cycles</P>
-        <p>(View Only)</p>
+      </TD>&lt;<TR><TD VALIGN="TOP">
+        <P>循环数</P>
+        <p>（仅供查看）</p>
       </TD>
       <TD> 
-        <P>Shows the total number of identity synchronization cycles completed.</P>
+        <P>显示已完成的身份同步循环的总数。</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Identity Sync</P>
+        <P>身份同步</P>
       </TD>
       <TD> 
-        <P>Updates the iFolder users in the selected iFolder domain from the LDAP 
-          information at the interval you select.</P>
-        <p>Specify the time interval in minutes in the Identity Sync field and 
-          click Sync Now to start immediate synchronization of the iFolder users 
-          with the LDAP users.</p>
+        <P>以所选间隔从 LDAP 信息更新所选 iFolder 域中的 iFolder 用户。</P>
+        <p>在&ldquo;身份同步&rdquo;字段中指定时间间隔（以分钟计），单击&ldquo;立即同步&rdquo;可立即启动 iFolder 用户与 LDAP 用户的同步。</p>
 		
       </TD><TR>
       <TD VALIGN="TOP"> 
-        <P>Delete member grace interval</P>
+        <P>删除成员宽限间隔</P>
       </TD>
       <TD> 
-        <P> Specifies the time interval for iFolder to delete the user information from the server once that particular user is deleted from the LDAP. 
-          This feature helps you to recover the data if the user is deleted accidentally. 
+        <P> 指定从 LDAP 中删除特定用户后 iFolder 从服务器中删除该用户信息的时间间隔。如果用户被意外删除，此功能可帮助您恢复数据。 
         </P>
 		
       </TD></TR></TABLE>
     <br>
-	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A>
-  <P>You can edit the following LDAP related information. Click Edit to open a 
-    new page where you can modify the entries. </P>
+	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="返回页首"></A>
+  <P>您可以编辑以下有关 LDAP 的信息。单击&ldquo;编辑&rdquo;可打开新页，您可在其中修改输入内容。 </P>
   
-  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
-        <P>LDAP Server</P>
+  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>参数</P></TD><TD CLASS="tablehead2"><P>说明</P></TD></TR><TR><TD VALIGN="TOP">
+        <P>LDAP 服务器</P>
       </TD>
       <TD> 
-        <P>Shows the LDAP Server address.</P>
+        <P>显示 LDAP 服务器的地址。</P>
 		
       </TD><TR><TD VALIGN="TOP">
         <P>LDAP SSL</P>
       </TD>
       <TD> 
-        <P>Shows LDAP SSL is enabled or not. It also allows you to enable or disable 
-          the LDAP SSL connection.</P>
+        <P>显示是否启用了 LDAP SSL。还允许您启用或禁用 LDAP SSL 连接。</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Proxy User</p>       
+        <P>代理用户</p>       
       </TD>
       <TD> 
-        <P>Shows the Distinguished Name (DN) of the Proxy user. For example, cn=SimiasProxy,o=novell</P>
-		<p>The iFolder Proxy user is the identity used to access the LDAP server 
-          in order to retrieve a list of users in the specified containers or 
-          groups, or users that are defined in the iFolder LDAP settings.The iFolder 
-          Proxy user is created during the iFolder install. This identity must 
-          have the Read right to the LDAP directory. </p>
+        <P>显示代理用户的判别名 (DN)。例如，cn=SimiasProxy,o=novell</P>
+		<p>iFolder 代理用户是用于访问 LDAP 服务器的身份，以便检索指定树枝或组中的用户列表或 iFolder LDAP 设置中定义的用户列表。iFolder 代理用户是在 iFolder 安装过程中创建的。此身份必须具有对 LDAP 目录的读权限。 </p>
       </TD><TR><TD VALIGN="TOP">
-        <P>Proxy User Password</P>
+        <P>代理用户口令</P>
         <p>&nbsp;</p>
       </TD>
       <TD> 
-        <P>The password is used to authenticate the iFolder Proxy user to the 
-          LDAP server when iFolder synchronizes users with the LDAP server.</P>
+        <P>此口令用于在 iFolder 与 LDAP 服务器同步用户时向 LDAP 服务器鉴定 iFolder 代理用户。</P>
 		
       </TD><TR>
       <TD VALIGN="TOP"> 
-        <P>LDAP Context</P>
+        <P>LDAP 环境</P>
       </TD>
       <TD> 
-        <P>LDAP Context lists all the LDAP contexts. iFolder searches users only 
-          from the listed LDAP contexts.</P>
+        <P>LDAP 环境列出所有的 LDAP 环境。iFolder 仅从列出的 LDAP 环境中搜索用户。</P>
         
 		
       </TD></TR></TABLE><br>
-	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A>
+	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="返回页首"></A>
 
 	  
-  <H4><a name="volume"></a>Data Store</H4>
-  <p> Data Store represents the iFolder storage that can span across multiple 
-    volumes (mount points) in a given server. By default every iFolder server 
-    has a default store which cannot be disabled. With web interface, you can 
-    add and configure multiple Data Store across which iFolder data is load balanced. 
-    When the user uploads an iFolder, it check for the Data Store with maximum 
-    free space, and stores the iFolder data in that particular Data Store thereby 
-    balancing the load. You can add as many Data Store as you want. Having multiple 
-    Data Store thus makes it possible to scale the data storage capacity in a 
-    large deployment to meet the enterprise-level requirements. 
-  <P>You can view the following Data Store information:</P>
-  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
-        <P>Name</P>
+  <H4><a name="volume"></a>数据储存区</H4>
+  <p> 数据储存区表示可以跨越给定服务器中的多个卷（装入点）的 iFolder 储存区域。默认情况下，每个 iFolder 服务器都有一个无法被禁用的默认储存区。使用万维网界面可以添加和配置多个数据储存区，以在其中平衡 iFolder 数据的负载。用户上载 iFolder 时，它检查数据储存区的最大可用空间，并将 iFolder 数据储存到特定数据储存区，从而平衡负载。您可以根据需要添加任意多个数据储存区。拥有多个数据储存区可在大型部署中调整数据储存区容量以满足企业级需求。 
+  <P>您可以查看以下数据储存区信息：</P>
+  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>参数</P></TD><TD CLASS="tablehead2"><P>说明</P></TD></TR><TR><TD VALIGN="TOP">
+        <P>名称</P>
       </TD>
       <TD> 
-        <P>Shows the unique name you have specified for the Data Store.</P>
+        <P>显示为数据储存区指定的唯一名称。</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Full Path</P>
+        <P>完整路径</P>
       </TD>
       <TD> 
-        <P>Shows the path to the Data Store, where the volume is mounted on. This 
-          is the data path that you have specified while adding the data store 
-          using the web interface.</P>
+        <P>显示装入卷的数据储存区的路径。此路径是您在使用万维网界面添加数据储存区时指定的数据路径。</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Free Space</P>
+        <P>可用空间</P>
       </TD>
       <TD> 
-        <P>Shows the space available in the volume.</P>
+        <P>显示卷中的可用空间。</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Enabled</P>
+        <P>已启用</P>
       </TD>
       <TD> 
-        <P>Shows the given Data Store is enabled or not. Default Data Store cannot 
-          be disabled.</P>
+        <P>显示给定的数据储存区是否已启用。无法禁用默认的数据储存区。</P>
 		
       </TD></TABLE>
-	  <H4><a name="volume"></a>Enable or Disable DataStore</H4>
+	  <H4><a name="volume"></a>启用或禁用数据储存区</H4>
 	  
-  <p> Select the Data Store you want to disable or enable and click Disable or 
-    Enable respectively. When the user uploads an iFolder, disabled Data Stores 
-    are always skipped while checking for the maximum free space availability 
-    for storing the iFolder data. </p>
+  <p> 选择要禁用或启用的数据储存区，然后分别单击&ldquo;禁用&rdquo;或&ldquo;启用&rdquo;。用户上载 iFolder 时，检查用于储存 iFolder 数据的最大可用空间时始终跳过被禁用的数据储存区。 </p>
 	  
-	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A>
+	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="返回页首"></A>
 
 
-  <H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Related Topics" align="top"> 
-Related Topics</H4><BLOCKQUOTE class="task1"><P ><BR><A HREF="servers.html">Managing iFolder Servers
-</A><BR><A HREF="reports.html">Reports 
-</A><BR><A HREF="ifolderdetails.html">Managing iFolder Details</A><BR><A HREF="member.html">Managing a User Account</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P><P>&nbsp;</P><P CLASS="copyright">A 
-trademark symbol (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP>, 
-etc.) denotes a Novell trademark. An asterisk (*) denotes a third-party trademark. 
-For more information, see <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Legal 
-Notices</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
+  <H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="相关主题" align="top"> 相关主题</H4><BLOCKQUOTE class="task1"><P ><BR><A HREF="servers.html">管理 iFolder 服务器</A><BR><A HREF="reports.html">报告</A><BR><A HREF="ifolderdetails.html">管理 iFolder 细节</A><BR><A HREF="member.html">管理用户帐户</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="返回页首"></A></P><P>&nbsp;</P><P CLASS="copyright">商标符号（<SUP><SMALL>&reg;</SMALL></SUP>、<SUP><SMALL>TM</SMALL></SUP> 等）表示 Novell 商标。星号 (*) 表示第三方商标。有关详细信息，请参见<A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">法律声明</font></A>。</P></div><!-- This is the end of the Help Content layer. --> 
 </body>
 
 </html>

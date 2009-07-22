@@ -1,11 +1,11 @@
 <html>
 
    <head>
-     <meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+     <meta http-equiv="content-type" content="text/html;charset=UTF-8">
      
      <!-- Novell iFolder 3.x iManager Plugin  --> 
    
-     <title>User Details</title>  	 
+     <title>Dettagli utente</title>  	 
         
      <!-- Metadata -->
    
@@ -28,8 +28,7 @@
        <!--
        
          body           {  font-family: Arial, Helvetica, Geneva;
-									background: white
-url(../../images/helphead_bg.gif) repeat-x 0% 0% }
+									background: white url('../../images/helphead_bg.gif') repeat-x;  }
 		      
          #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px;
 									width: 380px; visibility: visible }
@@ -53,313 +52,235 @@ url(../../images/helphead_bg.gif) repeat-x 0% 0% }
 <!-- This is the start of the Help Banner Layer --> <div id="headgraphic"> <img src="../../images/h1_help.gif" width="380" height="32"   border="0"></div><!-- This is end of the Help Banner Layer --> 
 <!-- This is the start of the Help Content Layer --> 
 <div id="helpcontent" style="left: 13px; top: 35px"> 
-  <H3><A NAME="userdetails"></A>User Details </H3>
-  <P>Use this interface to view user details and manage user policies. </P>
-  <P><B><FONT SIZE="-1">NOTE:</FONT></B> <FONT SIZE="-1">The term <i>iFolder users 
-    </i> refers to both individual users and LDAPGroups.</FONT></P>
-  <BLOCKQUOTE CLASS="blockquote"><P><A HREF="#userdetails" TARGET="_self">User Details</A><BR><A HREF="#ifolders" TARGET="_self">iFolders </A><BR> 
-<A HREF="#policies" TARGET="_self">Policies</A> </P></BLOCKQUOTE>
+  <H3><A NAME="userdetails"></A>Dettagli utente </H3>
+  <P>Utilizzare questa interfaccia per visualizzare i dettagli dell'utente e gestirne le norme. </P>
+  <P><B><FONT SIZE="-1">NOTA:</FONT></B> <FONT SIZE="-1">con il termine <i>utenti iFolder</i> si fa riferimento sia ai singoli utenti sia ai gruppi LDAP.</FONT></P>
+  <BLOCKQUOTE CLASS="blockquote"><P><A HREF="#userdetails" TARGET="_self">Dettagli utente</A><BR><A HREF="#ifolders" TARGET="_self">Cartelle iFolder</A><BR> 
+<A HREF="#policies" TARGET="_self">Norme</A> </P></BLOCKQUOTE>
   
-  <h3><a name="userdetails"></a>User Details </h3>
-  <P>The User Details page will display the following user details for the selected 
-    user's iFolder account. </P>
-	<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
-        <P>User Name</P>
+  <h3><a name="userdetails"></a>Dettagli utente </h3>
+  <P>Nella pagina Dettagli utente vengono visualizzati i seguenti dettagli per il conto iFolder dell'utente selezionato. </P>
+	<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parametro</P></TD><TD CLASS="tablehead2"><P>Descrizione</P></TD></TR><TR><TD VALIGN="TOP">
+        <P>Nome utente</P>
       </TD>
       <TD> 
-        <P>The username assigned to the user account, such as jsmith or john.smith@example.com.</P>
+        <P>Il nome utente assegnato al conto utente, ad esempio mrossi o mario.rossi@esempio.com.</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Full Name</P>
+        <P>Nome completo</P>
       </TD>
       <TD> 
-        <P>The first and last name of the user account. </P>
+        <P>Nome e cognome del conto utente. </P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Member Type</P>       
+        <P>Tipo di membro</P>       
       </TD>
       <TD> 
-        <P>Shows the member type of the user currently logged in. If the user 
-          is an individual user the interface also display an option for User 
-          Groups. If the user is a member of an LDAPGroup, the interface lists 
-          all the members of the LDAPGroup under the option for Group Members.
+        <P>Indica il tipo di membro dell'utente che ha eseguito il login. Se l'utente &egrave; un singolo utente, l'interfaccia visualizza anche l'opzione Gruppi utente. Se l'utente &egrave; membro di un gruppo LDAP, vengono elencati tutti i membri del gruppo nell'opzione Membri del gruppo.
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>LDAP Context</P>       
+        <P>Contesti LDAP</P>       
       </TD>
       <TD> 
-        <P>The LDAP tree context is used for provisioning users in to iFolder. 
+        <P>Il contesto di albero LDAP viene utilizzato per eseguire il provisioning degli utenti in iFolder. 
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>Last Login Time</P>
+        <P>Ultimo login</P>
         </TD>
       <TD> 
-        <P>The time when the user last logged in to the iFolder system. 
+        <P>L'ora dell'ultimo login effettuato dall'utente nel sistema iFolder. 
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>User Groups (applicable only for individual users)</P>       
+        Quota disco del gruppo</TD>
+      <TD> 
+        Rappresenta la quota del disco complessiva di un gruppo.<p>
+        <b>NOTA</b>: l'amministratore secondario non pu&ograve; modificare la quota del disco riservata al gruppo.</TD></TR><TR><TD VALIGN="TOP">
+        Spazio usato</TD>
+      <TD> 
+        Indica lo spazio su disco complessivo utilizzato da un gruppo.</TD></TR><TR><TD VALIGN="TOP">
+        <P>Gruppi utente (solo per singoli utenti)</P>       
       </TD>
       <TD> 
-        <P>Lists all the groups that the selected user belongs to. 
+        <P>Elenca tutti i gruppi a cui appartiene l'utente selezionato. 
       </TD></TR><TR><TD VALIGN="TOP">
-        <P> Group Members (applicable only for LDAPGroups)</P>       
+        <P> Membri del gruppo (solo per gruppi LDAP)</P>       
       </TD>
       <TD> 
-        <P>Lists all the members who belong to the selected LDAPGroup. 
+        <P>Elenca tutti i membri appartenenti al gruppo LDAP selezionato. 
       </TD></TR></TABLE>
 
   
   
-  <h4><a name="ifolders"></a> iFolders</h4>
-  <P>The User Details page displays the iFolders owned or shared by the user. 
-    Click the All tab to list all the iFolders both owned and shared. To view 
-    the iFolder owned by the user, click the Owned tab. The Shared tab lists all 
-    the shared iFolders for the current user account.</P>
+  <h4><a name="ifolders"></a>Cartelle iFolder</h4>
+  <P>In questa pagina sono visualizzate le cartelle iFolder condivise dall'utente o di sua propriet&agrave;.  Per elencare tutte le cartelle iFolder condivise dall'utente o di sua propriet&agrave;, fare clic su Tutte.  Per visualizzare la cartella iFolder di propriet&agrave; dell'utente, fare clic sulla scheda Con proprietario. Nella scheda Condiviso vengono elencate tutte le cartelle iFolder condivise per il conto utente attuale. </P>
 	
-  <H4>Enabling or Disabling an iFolder</H4>
+  <H4>Abilitazione o disabilitazione di una cartella iFolder</H4>
 		
   <OL>
     <LI> 
-      <P>Locate the iFolder you want to manage, then select the check box next 
-        to the iFolder.</P>
+      <P>Individuare la cartella iFolder che si desidera gestire, quindi selezionare la casella di controllo vicino alla cartella iFolder.</P>
     </LI>
     <LI> 
-      <P>Click Enable to enable the iFolder.</P>
-      <P>This will allow the user to log in and synchronize iFolders.</P>
+      <P>Fare clic su Abilita per abilitare la cartella iFolder.</P>
+      <P>Questa operazione consente all'utente di eseguire il login e sincronizzare le cartelle iFolder.</P>
     
     <LI> 
-      <P>Click Disable to disable the iFolder.</P>
-      <P> If the user is logged in when you make this change, the user’s session 
-        continues until the user logs out. The policy takes effect the next time 
-        the user attempts to log in to the account. To have the lockout take effect 
-        immediately, you must restart the Apache services for the iFolder server, 
-        which disconnects all active sessions, including the user’s session.</P>
+      <P>Fare clic su Disabilita per disabilitare la cartella iFolder.</P>
+      <P> Se l'utente esegue il login in fase di modifica, la sessione dell'utente continua finch&eacute; l'utente non esegue il logout. La norma diverr&agrave; effettiva al successivo tentativo di login dell'utente al conto. Affinch&eacute; il blocco divenga effettivo da subito, &egrave; necessario riavviare i servizi Apache per il server iFolder, che disconnette tutte le sessioni attive, inclusa quella dell'utente.</P>
     </LI>
   </OL>
-<H4>Deleting an iFolder</H4>
+<H4>Cancellazione di una cartella iFolder</H4>
 <OL><LI>
-      <P>Locate the iFolder you want to delete, then select the check box next 
-        to the iFolder.</P>
+      <P>Individuare la cartella iFolder che si desidera cancellare, quindi selezionare la casella di controllo vicino alla cartella iFolder.</P>
     </LI><LI>
-      <P>Click Delete.</P>
+      <P>Fare clic su Cancella.</P>
     </LI></OL>
-	<H4>Creating an iFolder</H4><OL><LI>
-      <P>On the User Details page, click New.</P>
+	<H4>Creazione di una cartella iFolder</H4><OL><LI>
+      <P>Fare clic su Nuova nella pagina Dettagli utente.</P>
     </LI>
-    <LI>On the new page that opens, follow the instructions to create a new iFolder.</LI>
+    <LI>Seguire le istruzioni all'interno della nuova pagina per creare una nuova cartella iFolder.</LI>
   </OL>
-<IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top">
-<h3><a name="policies"></a> Policies</h3>
-  <P>Use this interface to manage the user policies for a specified user account. 
+<IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Torna all'inizio">
+<h3><a name="policies"></a> Norme</h3>
+  <P>Utilizzare questa interfaccia per gestire le norme utente per un conto utente specifico. 
   </P>
-  <P><B><FONT SIZE="-1">NOTE:</FONT></B> <font size="-1">Policies set to an LDAPGroup 
-    are applicable to its member users.</font></P>
-<H4>Modifying 
-User Policies</H4>
-<p>The following table lists the policies you can manage for any given iFolder 
-    user account. Modify one or more of the following values, then click Save to apply the new 
-    settings:</p> 
-<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
-        <h4>Account </h4>
-      </TD><TD><P>Specifies whether the user is currently allowed 
-to log in to synchronize iFolders. </P>
-        <P>Select the check box to disable the account for login.</P>
-        <P> Deselect the check box to enable the account for login. </P>
-        <P>If the user is logged in when you make this change, the user's session 
-          continues until the user logs out. The policy takes effect the next 
-          time the user attempts to log in to the account. To have the lockout 
-          take effect immediately, you must restart the Apache services for the 
-          iFolder server, which disconnects all active sessions, including the 
-          user's session.</P>
-        <P>Default Value: Enabled</P>
+  <P><B><FONT SIZE="-1">NOTA:</FONT></B> <font size="-1">le norme impostate per un gruppo LDAP sono applicabili ai suoi membri.</font></P>
+<H4>Modifica delle norme utente</H4>
+<p>Nella seguente tabella sono elencate le norme che &egrave; possibile gestire per ciascun conto utente iFolder.  Modificare uno o pi&ugrave; dei seguenti valori, quindi fare clic su Salva per applicare le nuove impostazioni:</p> 
+<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parametro</P></TD><TD CLASS="tablehead2"><P>Descrizione</P></TD></TR><TR><TD VALIGN="TOP">
+        <h4>Conto </h4>
+      </TD><TD><P>Specifica se l'utente pu&ograve; attualmente eseguire il login per sincronizzare le cartelle iFolder. </P>
+        <P>Selezionare la casella di controllo per disabilitare il conto per il login.</P>
+        <P> Deselezionare la casella di controllo per abilitare il conto per il login. </P>
+        <P>Se l'utente esegue il login in fase di modifica, la sessione dell'utente continua finch&eacute; l'utente non esegue il logout. La norma diverr&agrave; effettiva al successivo tentativo di login dell'utente al conto. Affinch&eacute; il blocco divenga effettivo da subito, &egrave; necessario riavviare i servizi Apache per il server iFolder, che disconnette tutte le sessioni attive, inclusa quella dell'utente.</P>
+        <P>Valore di default: Abilitato</P>
       </TD></TR><TR>
       <TD VALIGN="TOP"> 
-        <h4>No of iFolder per users</h4>
+        <h4>N. di cartelle iFolder per utenti</h4>
       </TD>
       <TD> 
-        <P>Specifies the maximum number of iFolder that a user can own. After 
-          Applying this policy, the user is limited to own a certain number of 
-          iFolders.The user who exceeds his or her usage limit receives an error 
-          message about the policy violation. If the limit is zero, the user cannot 
-          create any iFolders.</P>
+        <P>Specifica il numero massimo di cartelle iFolder di cui un utente pu&ograve; essere proprietario. Dopo aver applicato questa norma, l'utente potr&agrave; essere proprietario di un determinato numero di cartelle. Se il limite viene superato, l'utente riceve un messaggio indicante la violazione della norma. Se il limite &egrave; zero, l'utente non pu&ograve; creare cartelle iFolder.</P>
            
-        <p>Select the check box next to <i>Limit</i> to enable the iFolder per 
-          users limit, and specify the number in the field. 
-        <P>The policy setting does not affect the number of iFolders that the 
-          user already owns. If the number of iFolders owned by the user already 
-          exceeds the limit that you set, he or she can still own those iFolders. 
-          </p><p>User level policy overides LDAPGroup level and system 
-          level policy.</P>
-        <P>Default Value: Disabled, no value set</P>
+        <p>Selezionare la casella di controllo accanto a  <i>Limite</i> per attivare il limite di cartelle iFolder per gli utenti e specificare un numero nel campo. 
+        <P>Le impostazioni delle norme non influenzano il numero di cartelle che un utente possiede gi&agrave;. Se il numero di cartelle iFolder di propriet&agrave; dell'utente &egrave; gi&agrave; superiore al limite impostato, l'utente non perder&agrave; la propriet&agrave; di tali cartelle. 
+          </p><p>Le norme a livello utente hanno priorit&agrave; su quelle a livello di sistema o di gruppo LDAP.</P>
+        <P>Valore di default: Disabilitato, nessun valore impostato.</P>
         </TD></TR><TR><TD VALIGN="TOP">
-        <h4>Disk Quota</h4>
+        <h4>Quota disco</h4>
       </TD>
       <TD> 
-        <p>Specifies the maximum total space that a user&#146;s iFolder data is 
-          allowed to use, across all iFolders the user owns. The quota can be 
-          imposed by the System-Wide policy. User policies supersede System-wide 
-          policies.<br>
+        <p>Specifica lo spazio massimo totale utilizzabile dai dati della cartella iFolder di un utente in tutte le cartelle iFolder di sua propriet&agrave;. La quota pu&ograve; essere imposta dalla norma del sistema. Le norme utente hanno la precedenza sulle norme di sistema.<br>
         </p>
-        <P> <B>Limit</B><BR>
-          Specifies the maximum total space (in MB) that a user's iFolder data 
-          is allowed to use, across all iFolders that the user owns for the selected 
-          user account. <br>
+        <P> <B>Limite</B><BR>
+          Specifica lo spazio massimo totale (in MB) utilizzabile dai dati della cartella iFolder di un utente in tutte le cartelle iFolder di sua propriet&agrave; per il conto selezionato. <br>
           <br>
-          Deselect this option if there is no individual user quota, or to accept 
-          the LDAPGroup level quota or system-wide quota for the selected user 
-          account.<br>
-          Select this option to enforce a user quota, then specify the total space 
-          quota (in MB) for the selected user account. <br>
+          Deselezionare questa opzione in assenza di singole quote utente oppure per accettare la quota a livello di gruppo LDAP o di sistema per il conto utente selezionato.<br>
+          Selezionare questa opzione per imporre una quota utente, quindi specificare la quota di spazio totale (in MB) per il conto utente selezionato. <br>
           <br>
-          <B>Used</B><BR>
-          Specifies the total space currently in use on the server for all iFolders 
-          owned by this selected user. <br>
+          <B>Usato</B><BR>
+          Specifica lo spazio totale attualmente in uso sul server per tutte le cartelle iFolder di propriet&agrave; dell'utente selezionato. <br>
           <BR>
-          <B>Available</B><BR>
-          Free space available on the server.<br>
+          <B>Disponibile</B><BR>
+          Spazio libero disponibile sul server.<br>
           <BR>
-          <B>Effecive</B><BR>
-          Effective space allocated on the server<BR>
+          <B>Effettivo</B><BR>
+          Spazio effettivo allocato sul server<BR>
           <br>
-        <P>If the total space consumed by iFolder data is nearing an effective 
-          quota (system, LDAPGroup, user, or iFolder), the user should stop synchronizing 
-          files until one or more of the following tasks results in enough space 
-          to safely synchronize the user&#146;s files in the iFolder where the 
-          file resides:</P>
+        <P>Se lo spazio totale utilizzato dai dati della cartella iFolder si avvicina a una quota applicata (a livello di sistema, utente, gruppo LDAP o cartella iFolder), &egrave; necessario che l'utente interrompa la sincronizzazione dei file finch&eacute; uno o pi&ugrave; dei seguenti task non consenta di disporre dello spazio sufficiente a sincronizzare in maniera sicura i file dell'utente nella cartella iFolder in cui si trova il file:</P>
         <ul>
           <li> 
-            <p>The system-wide quota, LDAPGroup quota and user quota for the iFolder 
-              owner and the iFolder quota are modified as needed.</p>
+            <p>&Egrave; possibile modificare la quota di sistema, la quota a livello di gruppo LDAP, la quota utente per il proprietario della cartella iFolder e la quota della cartella iFolder in base alle esigenze.</p>
           </li>
           <li> 
-            <p>Files are moved from any of the iFolders owned by the user to another 
-              location where they no longer affect the effective quota, or files 
-              are deleted to clear space.</p>
+            <p>I file vengono spostati da una qualsiasi delle cartelle iFolder di propriet&agrave; dell'utente a un'altra ubicazione dove non avranno pi&ugrave; alcun effetto sulla quota effettiva; in alternativa, vengono cancellati per liberare spazio.</p>
           </li>
           </ul>
         
-        <P><B><FONT SIZE="-1">IMPORTANT:</FONT></B> <FONT SIZE="-1">If you enable 
-          a user space limit that is less than a user's current total space for 
-          iFolder data, the user's data stops synchronizing until the data is 
-          decreased below the limit or until the quota is increased to a value 
-          that is larger than the user's total space consumed.</FONT></P>
+        <P><B><FONT SIZE="-1">IMPORTANTE: </FONT></B><FONT SIZE="-1">se si abilita un limite di spazio utente con valore inferiore rispetto allo spazio totale dell'utente attuale per i dati della cartella iFolder, la sincronizzazione dei dati dell'utente verr&agrave; interrotta finch&eacute; i dati non rientreranno nel limite o la quota non raggiunger&agrave; un valore maggiore dello spazio totale utilizzato.</FONT></P>
        
         
-        <P> Default value: Disabled and no quota set</P>
+        <P> Valore di default: disabilitato e nessuna quota impostata</P>
       </TD></TR>
   <TR><TD VALIGN="TOP">
-        <h4>File Size</h4>
+        <h4>Dimensione file</h4>
       </TD>
-      <TD> <B>Limit</B><BR>
-          Specifies the maximum total file size (in MB) that an iFolder user 
-          is allowed to use, across all iFolders the user owns for the selected 
-          user account. <br>
+      <TD> <B>Limite</B><BR>
+          Specifica la dimensione massima totale dei file (in MB) utilizzabile da un utente iFolder in tutte le cartelle iFolder di sua propriet&agrave; per il conto selezionato. <br>
           <BR>
-        <B>Effective</B><BR>
-        Effective file size allocated for the user.<br>
-		<ul><P><font size="-1"><b>IMPORTANT:</b> Users cannot successfully synchronize 
-          files of a size that would cause a quota to be exceeded. If they try 
-          to do so, only part of the file is synchronized, resulting in data corruption.</font></P></ul><P>Default value: Disabled and no limit</P>
+        <B>Effettiva</B><BR>
+        Dimensione effettiva dei file allocata per l'utente.<br>
+		<ul><P><font size="-1"><b>IMPORTANTE:</b> gli utenti non possono sincronizzare i file con una dimensione che supererebbe il limite di una quota; in caso contrario la sincronizzazione avverr&agrave; solo per una parte del file e i dati verranno danneggiati.</font></P></ul><P>Valore di default: disabilitato e nessun limite</P>
       </TD></TR>
   <TR>
       <TD VALIGN="TOP"> 
-        <h4>Excluded Files</h4>
+        <h4>File esclusi</h4>
       </TD>
       <TD> 
-        <P>Specifies a list of file types to include or to exclude from synchronization 
-          for the selected user's account.</P><p>The file manager files called thumbs.db and .DS_Store are never synchronized. You do not need to keep these files, and synchronizing them results in repeated file conflict errors. If you have not set any individual restrictions for this user, this field reports thumbs.db and .DS_Store as part of the system-wide file-type restrictions. After you set individual file-type restrictions for the user, the user's settings are displayed instead. Even if the thumbs.db and .DS_Store restrictions are not displayed, they always apply; you cannot override them.
+        <P>Specifica un elenco di tipi di file da includere o escludere dalla sincronizzazione per il conto utente selezionato.</P><p>I file di gestione di file denominati thumbs.db e .DS_Store non vengono mai sincronizzati. Non &egrave; necessario mantenere questi file e la loro sincronizzazione genera ripetuti errori di conflitto di file. Se non sono state impostate restrizioni per questo utente, il campo indica thumbs.db e .DS__Store come parti delle restrizioni di tipo file del sistema. Una volta impostate le restrizioni di tipo file per l'utente, vengono invece visualizzate le impostazioni dell'utente. Anche nel caso in cui le restrizioni thumbs.db e .DS_Store non vengano visualizzate, sono sempre applicabili e non &egrave; possibile ignorarle.
 </p>
     
-        <P>To add a file extension to an inclusion or exclusion filter, type the 
-          extension (such as *.mpg), then click Add to apply the filter. </P>
-        <P>To exclude a file type from the restricted file types, select the check 
-          box adjacent to the file type, then click Allow.</P>
+        <P>Per aggiungere un'estensione file al filtro di inclusione o esclusione, digitare l'estensione (ad esempio *.mpg), quindi fare clic su Aggiungi per applicare il filtro. </P>
+        <P>Per escludere un tipo di file dai tipi di file con restrizioni, selezionare la casella di controllo adiacente al tipo di file, quindi fare clic su Consenti.</P>
         
-        <P>Default value: .DS_Store and Thumbs.db</P>
+        <P>Valore di default: .DS_Store e Thumbs.db</P>
       </TD></TR>
 	
 	<TR><TD VALIGN="TOP">
-        <h4> Synchronization </h4>
+        <h4> Sincronizzazione </h4>
       </TD><TD>
-	    <p>Specifies the minimum synchronization interval in seconds. You can 
-          set the synchronization interval to a value between 5 and 999 inclusive. 
-          If no value is set, the value is 5.</P>
+	    <p>Specifica l'intervallo minimo di sincronizzazione in secondi. &Egrave; possibile impostare l'intervallo di sincronizzazione su un valore compreso tra 5 e 999. Se non viene impostato alcun valore, il valore &egrave; 5.</P>
 
-	    <P>Deselect the check box to set no synchronization interval or to accept 
-          the system-wide setting for the user account. If no value is set for 
-          system-wide or user policies, the value reported is Unlimited.</P>
-  <B>Interval</B><BR>
-        Select the check box to enable a minimum synchronization interval, then 
-        specify the minimum interval (in minutes). For example, a practical value 
-        is 10 minutes.<br>
-        <br><B>Effective</B><BR>
-  Specifies the current synchronization interval. For example, if the user sets a synchronization interval that is less than (more frequent) than the system minimum, the system setting applies.
+	    <P>Deselezionare la casella di controllo per non impostare alcun intervallo di sincronizzazione o per accettare l'impostazione di sistema per il conto utente. Se non viene impostato alcun valore per le norme di sistema o utente, il valore riportato &egrave; Nessun limite.</P>
+  <B>Intervallo</B><BR>
+        Selezionare la casella di controllo per abilitare un intervallo minimo di sincronizzazione, quindi specificare l'intervallo (in minuti). Ad esempio, un valore pratico &egrave; 10 minuti.<br>
+        <br><B>Effettiva</B><BR>
+  Specifica l'intervallo di sincronizzazione attuale. Ad esempio, se l'utente imposta un intervallo di sincronizzazione inferiore (pi&ugrave; frequente) al requisito minimo del sistema, viene applicata l'impostazione di sistema.
 
-  <P>The effective minimum synchronization interval is always the longest value from the following settings:</P>
+  <P>L'intervallo minimo di sincronizzazione effettivo &egrave; sempre il valore maggiore tra le impostazioni seguenti:</P>
   <ul>
     <li>
-            <p>The system policy (default of zero), unless there is a LDAPGroup 
-              policy or user policy set. If a user policy is set, the user policy 
-              overrides the system policy and LDAPGroup policy whether the user 
-              interval is shorter or longer in value. </p>
+            <p>Le norme del sistema (valore di default uguale a zero), a meno che non siano impostate norme utente o per gruppo LDAP.  Se sono impostate norme utente, queste ultime hanno priorit&agrave; su quelle di sistema e del gruppo LDAP indipendentemente dal fatto che il valore dell'intervallo dell'utente sia maggiore o minore. </p>
     </li>
     <li>
-      <p>The local machine policy, or the setting on the client machine synchronizing with the server.</p>
+      <p>Le norme del computer locale oppure l'impostazione nel computer client che esegue la sincronizzazione con il server.</p>
     </li>
     <li>
-      <p>The iFolder (collection) policy.</p>
+      <p>Le norme di iFolder (raccolta).</p>
     </li>
   </ul>
-        <P> Default value: Disabled, or the system-wide policy</P>
+        <P> Valore di default: disabilitato o la norma di sistema</P>
       </TD></TR>
   <TR><TD VALIGN="TOP">
-        <h4>Encryption</h4>
+        <h4>Cifratura</h4>
       </TD>
       <TD> 
-        <P>Specifies the encryption policy for the selected user's account. The 
-          quota can be imposed by the system policy (System-Wide). System-wide 
-          policy supersedes user policies.</P>
+        <P>Specifica la norma di cifratura per il conto utente selezionato. La quota pu&ograve; essere imposta dalla norma di sistema. La norma di sistema ha la precedenza sulle norme utente.</P>
 		<B>On</B><BR>
-        Select On to enable the encryption feature for the selected user. This 
-        will permit the user to set encryption policy for his or her iFolders.<br>
+        Selezionare On per abilitare la funzione di cifratura per l'utente selezionato.  Questa operazione consente all'utente di impostare la norma di cifratura per le sue cartelle iFolder.<br>
         <br>
-        Deselect On to disable the encryption feature for the selected user. <br>
+        Deselezionare l'opzione per disabilitare la funzione di cifratura per l'utente selezionato. <br>
         	
 		
-        <br><B>Enforced</B><BR>
-        Select Enforced to enable the encryption feature for the selected user. 
-        When it is set to Enforced, the user cannot change the encryption settings 
-        for his or her iFolders.<br>
-		<P><font size="-1"><b>IMPORTANT:</b> This options is enabled only If the 
-          system level encryption policy is set to On.</font></P>
+        <br><B>Imporre</B><BR>
+        Selezionare Imporre per abilitare la funzione di cifratura per l'utente selezionato.  Una volta impostata questa opzione, l'utente non pu&ograve; pi&ugrave; modificare le impostazioni di cifratura per le sue cartelle iFolder.<br>
+		<P><font size="-1"><b>IMPORTANTE:</b> questa opzione &egrave; abilitata solo se la norma di cifratura a livello di sistema &egrave; impostata su On.</font></P>
       </TD></TR><TR><TD VALIGN="TOP">
-        <h4> Sharing</h4>
+        <h4> Condivisione</h4>
       </TD><TD> <B>On</B><BR>
-        By default, iFolder sharing is enabled. Deselect On and clcik Save 
-        to disable sharing for the selected user. After applying this policy, 
-        selected user cannot share his or her iFolders with others. However, you 
-        can still change the policy at iFolder level.<br>
+        Per default, la condivisione iFolder &egrave; abilitata.  Deselezionare Attivato e fare clic su Salva per disabilitare la condivisione per l'utente selezionato. Dopo aver applicato la norma, l'utente selezionato non potr&agrave; pi&ugrave; condividere cartelle iFolder. Potr&agrave; tuttavia comunque modificare le norme a livello di cartella iFolder.<br>
           <BR>
-        <B>Enforce</B><BR>
-        Select <i>Enforce</i> to enforce the policy set for the 
-        selected user. After applying this policy, the user cannot share his or 
-        her iFolders.<br>
+        <B>Imponi</B><BR>
+        Selezionare <i>Imponi</i> per imporre le norme impostate per l'utente selezionato. Dopo aver applicato la norma, l'utente selezionato non potr&agrave; pi&ugrave; condividere cartelle iFolder.<br>
 		
 		<BR>
-        <B>Revoke</B><BR>
-        Select <i>Revoke</i> to remove the shared members of all the iFolders 
-        that belong to the selected user.<br>
+        <B>Revoca</B><BR>
+        Selezionare <i>Revoca</i> per rimuovere i membri condivisi di tutte le cartelle iFolder appartenenti all'utente selezionato.<br>
 		
       </TD></TR>  </TABLE>
   <P><A HREF="#top" TARGET="_self"> </A></P>
   
-<P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P><H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Related Topics" align="top"> 
-Related Topics</H4>
+<P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Torna all'inizio"></A></P><H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Argomenti correlati" align="top">&nbsp;Argomenti correlati</H4>
   
-  <BLOCKQUOTE class="task1"><P><A HREF="users.html">Managing a User Account</A><BR>
-      <A HREF="ifolders.html">Managing iFolders</A><BR>
-      <A HREF="ifolderdetails.html">Managing iFolder Details</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P><P>&nbsp;</P><P CLASS="copyright">A 
-trademark symbol (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP>, 
-etc.) denotes a Novell trademark. An asterisk (*) denotes a third-party trademark. 
-For more information, see <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Legal 
-Notices</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
+  <BLOCKQUOTE class="task1"><P><A HREF="users.html">Gestione di un conto utente</A><BR>
+      <A HREF="ifolders.html">Gestione delle cartelle iFolder</A><BR>
+      <A HREF="ifolderdetails.html">Gestione dei dettagli iFolder</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Torna all'inizio"></A></P><P>&nbsp;</P><P CLASS="copyright">Un simbolo di marchio di fabbrica (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP>, e cos&igrave; via) indica un marchio di fabbrica Novell. Un asterisco (*) indica un marchio di fabbrica di terze parti.  Per ulteriori informazioni, vedere <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Note legali</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
 </body>
 
 </html>

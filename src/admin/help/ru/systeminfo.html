@@ -1,11 +1,11 @@
 <html>
 
    <head>
-     <meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+     <meta http-equiv="content-type" content="text/html;charset=UTF-8">
      
      <!-- Novell iFolder 3.x iManager Plugin  --> 
    
-     <title>iFolder System</title>  	 
+     <title>Система iFolder</title>  	 
    
         
      <!-- Metadata -->
@@ -28,7 +28,7 @@
 <style type= "text/css" media="screen">
        <!--
        
-         body           {  font-family: Arial, Helvetica, Geneva; background: white url(../../images/helphead_bg.gif) repeat-x 0% 0% }
+         body           {  font-family: Arial, Helvetica, Geneva; background: white url('../../images/helphead_bg.gif') repeat-x;  }
 		      
          #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px;
 									width: 380px; visibility: visible }
@@ -36,6 +36,8 @@
          #helpcontent    { position: absolute; top: 37px; left: 10px; 
 	                        width: 93%; visibility: visible }
       
+div.Section1
+	{page:Section1;}
        -->
      </style>
   
@@ -52,285 +54,364 @@
 <!-- This is the start of the Help Banner Layer --> <div id="headgraphic"> <img src="../../images/h1_help.gif" width="380" height="32"   border="0"></div><!-- This is end of the Help Banner Layer --> 
 <!-- This is the start of the Help Content Layer --> <div id="helpcontent"> <!-- The Page Heading uses CSS style "head3b". This creates an H3 header
             with a line beneath it.
-       --> <h3 class="head3b">Managing the iFolder System</h3>
-  <p> Use this interface to manage Novell iFolder<SUP><SMALL>&reg;</SMALL></SUP> 
-    3.7 services for the selected server.</p>
-  <P>This help discusses the following information:</P>
-  <blockquote> <P><A HREF="#sytemsettings" TARGET="_self">Viewing the System Settings
-</A> <BR><A HREF="#status" TARGET="_self">Reprovision Status</a><BR><A HREF="#admin" TARGET="_self">Administrators Tab</a><BR> <A HREF="#policy" TARGET="_self">Policies
-</a><BR></P></BLOCKQUOTE>
+       --> <h3 class="head3b">Управление системой iFolder</h3>
+  <p> Используйте данный интерфейс для управления сервисами Novell iFolder<SUP><SMALL>&reg;</SMALL></SUP> 3.7 для выбранного сервера.</p>
+  <P>В данной справке рассматривается следующая информация:</P>
+  <blockquote> <P><A HREF="#sytemsettings" TARGET="_self">Системные параметры</A> <BR><A HREF="#status" TARGET="_self">Состояние изменения доступа</a><BR><A HREF="#admin" TARGET="_self">Вкладка &quot;Администраторы&quot;</a><BR> <A HREF="#policy" TARGET="_self">Политики </a><BR></P></BLOCKQUOTE>
   
-  <H3><A NAME="sytemsettings"></A>Viewing the System Settings</H3>
-  <P>You 
-can view the following information:</P><TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
-        <P>System Name</P>
+  <H3><A NAME="sytemsettings"></A>Системные параметры</H3>
+  <p>В разделе системных параметров представлены указанные ниже сведения.</p>
+  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Параметр</P></TD><TD CLASS="tablehead2"><P>
+    Описание</P></TD></TR><TR><TD VALIGN="TOP">
+        <P>Имя</P>
       </TD><TD>
-        <P>The name assigned to the iFolder domain.</P>
-		<P>To edit the name of the iFolder domain, specify the new name and click 
-          Save.</P>
+        <P>Имя, назначенное домену iFolder.</P>
+		<P>Чтобы изменить имя домена iFolder, укажите новое имя и щелкните &quot;Сохранить&quot;.</P>
 		  
-        <P>To cancel the changes made, click Cancel.</P>
+        <P>Чтобы отменить внесенные изменения, щелкните &quot;Отмена&quot;.</P>
       </TD><TR><TD VALIGN="TOP">
-        <P>Description</P>
+        <P>Описание</P>
       </TD><TD>
-        <P>A short description about the iFolder Domain.</P>
-		<P>To edit the system description, specify the new description and click 
-          Save.</P>
+        <P>Краткое описание домена iFolder..</P>
+		<P>Чтобы изменить описание системы, укажите новое описание и щелкните &quot;Сохранить&quot;.</P>
 		  
-        <P>To cancel the changes made, click Cancel.</P>
-      </TD><TR><TD VALIGN="TOP">
-        <P>Total Users</P>(view only)
-      </TD><TD>
-        <P>Reports the total number of users in the iFolder domain. 
-      </TD></TR><TR><TD VALIGN="TOP">
-        <P>Total iFolders</P>
-        (view only)
-      </TD><TD>
-        <P>Reports total number of iFolders that belongs to the iFolder domain. 
-      </TD></TR><TR><TD VALIGN="TOP">
-        <P>Enable SSL</P>
+        <P>Чтобы отменить внесенные изменения, щелкните элемент &quot;Отмена&quot;.</P>
+      </TD>
+    <tr>
+      <TD VALIGN="TOP">
+        <P>Параметр SSL</P>
         
       </TD>
       <TD> 
-        <P>Select the check box to enable the SSL communication among the iFolder 
-          Servers, iFolder client, iFolder Web Access console and iFolder Web 
-          Admin console. 
-      </TD></TR></TABLE>
- <P> <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P> 
- <H3><A NAME="status"></A>Reprovision Status</H3> 
-  <p> You can move users across different servers. With this interface, you can 
-    view the reprovisioning status. Click Reprovision Status to view the reprovision 
-    status for each user. </p>
-  <P> <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P>
-  <H3><a name="admin"></a>iFolder Administrators</H3>
-<P>The iFolder Admin user is the primary administrator of the iFolder 
-enterprise server. Whenever iFolders are orphaned, ownership is transferred to 
-the iFolder Admin user for reassignment to another user or for deletion. You initially 
-specify the iFolder Admin user during the iFolder enterprise server configuration 
-in YaST. </P>
-  <P>The iFolder Admin user must be provisioned in order to enable the iFolder 
-    Admin to perform management tasks. iFolder tracks this user by the LDAP object 
-    GUID, allowing it to belong to any LDAP container or group in the tree, even 
-    those that are not identified as Search DNs. The user&#146;s movement can 
-    be tracked anywhere in the tree because it is known by the GUID, not by the 
-    user DN.</P>
-  <P>The iFolder Admin right can be assigned to other users so that they can also 
-    manage iFolder services for the selected server. Only users who are in one 
-    of the DNs specified in the LDAP Search DN are eligible to be equivalent to 
-    the iFolder Admin user.</P>
-  <P>If you assign the iFolder Admin right to other 
-users, those users are governed by the roster and Search DN relationship. The 
-user is removed from the roster and stripped of the iFolder Admin right if you 
-delete the user, remove the user&#146;s DN from the list of Search DNs, or move 
-the user to a DN that is not in the Search DNs.</P><P><font size="-1"><b>IMPORTANT:</b> You cannot assign the Admin user 
-          right to an LDAPGroup.</font></P>
-  <P>The System page displays the following iFolder Admin details for the iFolder 
-    domain:</P>
-	<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR>
+        <P>Режим обмена данными между серверами iFolder, клиентом iFolder, консолью веб-доступа iFolder и консолью веб-администрирования iFolder. 
+      </TD>
+    </tr>
+    <TR><TD VALIGN="TOP">
+        <P>Всего пользователей</P>(только просмотр)
+      </TD><TD>
+        <P>Общее количество пользователей в домене iFolder. 
+      </TD></TR><TR><TD VALIGN="TOP">
+        <P>Всего папок iFolder</P>
+        (только просмотр)
+      </TD><TD>
+        <P>Общее количество папок iFolder, относящихся к домену iFolder. 
+      </TD></TR><TR><TD VALIGN="TOP">
+        Порядок отображения полных имен</TD><TD>
+        <p>
+        Позволяет задать порядок, в котором отображается полное имя пользователя. Вариант <i>(Имя, фамилия)</i> предписывает выводить сначала имя, затем &mdash; фамилию. Чтобы отображать сначала фамилию, а затем имя, выберите вариант <i>(Фамилия, имя)</i>. </p>
+        <p class="Normal2">
+        Изменения вступят в силу только после запланированной или ручной синхронизации LDAP. Для того чтобы провести синхронизацию LDAP вручную, выполните указанные ниже действия.</p>
+        <ol>
+          <li>
+          <p class="Normal2">
+          <span style="font-size:11.0pt;font-family:Arial;
+">В консоли веб-администрирования откройте вкладку <i>Серверы</i>, выберите сервер и откройте страницу с подробной информацией о сервере.</span></li>
+          <li>
+          <p class="Normal2">
+          <span style="font-size: 11.0pt; font-family: Arial; "> В разделе <i>Подробная информация LDAP</i> щелкните кнопку <i>Синхронизировать сейчас</i>.</span></li>
+        </ol>
+      </TD></TR><TR><TD VALIGN="TOP">
+        <span style="font-size: 11.0pt; font-family: Arial; ">Способ управления групповой квотой</span></TD><TD>
+        <p class="Normal2">
+        <span style="font-size:11.0pt;font-family:Arial;">Позволяет выбрать способ управления совокупной квотой диска, определенной для групп. </span></p>
+        <p class="Normal2">
+        <span style="font-size:11.0pt;font-family:Arial;">Опция <i>Консоль администратора</i> позволяет администраторам явным образом управлять квотой диска для групп и их членов. Выбор этого варианта ограничивает квоту диска, назначенную пользователям, совокупным объемом используемого группой места на диске. Вариант <i>Консоль администратора</i> выбран по умолчанию.</span></p>
+        <p class="Normal2">
+        <span style="font-size:11.0pt;font-family:Arial;">Вариант <i>Подсистема синхронизации</i> позволяет управлять совокупной квотой диска для групп в серверном компоненте с помощью подсистемы синхронизации. Подсистема синхронизации проверяет, чтобы квота диска для всех пользователей группы не превышала совокупную квоту диска группы.</span></p>
+        <p class="Normal2">
+        <span style="font-size:11.0pt;font-family:Arial;">Вариант <i>Оба</i> позволяет использовать для управления совокупной квотой диска групп как консоль администратора, так и подсистему синхронизации.</span></TD></TR><TR><TD VALIGN="TOP">
+        <span style="font-size: 11.0pt; font-family: Arial; ">Выделенные группы</span></TD><TD>
+        <span style="font-size: 11.0pt; font-family: Arial; "> Позволяет выделять группы в независимые объекты и изолировать при совместном использовании папок iFolder членов одной группы от доступа к ним членов другой группы. Установите флажок <i>Создать выделенные группы</i>, чтобы разрешить совместное использование папок iFolder только в пределах групп.</span><p>
+        <span style="font-family: Arial; ">Примечание.</span> <span style="font-size: 11.0pt; font-family: Arial; ">Группа LDAPGroup не может быть ни дополнительным, ни основным администратором.</span></TD></TR></TABLE>
+ <P> <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="В начало"></A></P> 
+ <H3><A NAME="status"></A>Состояние изменения доступа</H3> 
+  <p> Можно перемещать пользователей на другие серверы. Данный интерфейс позволяет просматривать состояние изменения доступа. Щелкните &quot;Состояние изменения доступа&quot;, чтобы просмотреть для каждого пользователя информацию о состоянии изменения доступа. </p>
+  <P> <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="В начало"></A></P>
+  <H3><a name="admin"></a>Администраторы iFolder</H3>
+<P>Администратор iFolder - это основной администратор сервера iFolder. Администратор iFolder назначается владельцем папок iFolder с нарушенными ассоциациями до тех пор, пока они не будут переназначены другому владельцу или удалены. Первоначально администратор iFolder задается при настройке конфигурации сервера iFolder в YaST. </P>
+  <P>Для выполнения задач управления администратор iFolder должен обладать персонифицированным доступом. Система iFolder отслеживает данного пользователя по идентификатору GUID объекта LDAP, поэтому он может относиться к любому контейнеру или группе LDAP в дереве (включая не входящие в список &quot;Поиск характерных имен&quot;). Поскольку для идентификации используется идентификатор GUID, а не характерное имя, перемещение пользователя может отслеживаться в любой части дерева.</P>
+  <P>Права администратора iFolder можно назначить другим пользователям, чтобы они также смогли управлять сервисами iFolder для выбранного сервера. Правами, эквивалентными правам администратора iFolder, могут обладать только пользователи, которые относятся к одному из характерных имен, указанных в списке &quot;Поиск характерных имен&quot; LDAP.</P>
+  <P>Если права администратора iFolder назначаются другим пользователям, то действия этих пользователей регулируются реестром и списком &quot;Поиск характерных имен&quot;. Если пользователь удален, перемещен на характерное имя, не входящее в список &quot;Поиск характерных имен&quot;, или характерное имя пользователя удалено из списка &quot;Поиск характерных имен&quot;, то этот пользователь удаляется из реестра и лишается прав администратора iFolder.</P>
+  <P><span style="FONT-FAMILY: Arial">Администратор iFolder или основной администратор создает дополнительного администратора и назначает ему группы.</span></P><P><font size="-1"><b>ВАЖНО.</b> Назначение прав администратора на использование группы LDAPGroup невозможно.</font></P>
+  <P><span style="FONT-FAMILY: Arial">На странице &quot;Система&quot; есть вкладки с параметрами основного и дополнительного администраторов. Ниже перечислены параметры, общие для обеих этих вкладок.</span></P>
+	<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Параметр</P></TD><TD CLASS="tablehead2"><P>Описание</P></TD></TR>
       <TR><TD VALIGN="TOP">
-        <P>Type</P>
+        <P>Тип</P>
       </TD>
       <TD> 
-        <P>Displays the Admin user icon.</P>
+        <P>Отображение значка администратора..</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>User Name</P>
+        <P>Имя пользователя</P>
       </TD>
       <TD> 
-        <P>The username assigned to the Admin user account, such as jsmith or 
-          john.smith@example.com.</P>
+        <P>Имя пользователя, назначенное учетной записи администратора, например &quot;jsmith&quot; или &quot;john.smith@example.com&quot;.</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Full Name</P>
+        <P>Полное Имя</P>
       </TD>
       <TD> 
-        <P>The first and last name of the Admin user account. </P>
+        <P>Имя и фамилия в соответствии с учетной записью администратора. </P>
 		
       </TD><TR></TR></TABLE>
 
-  <P>To view or edit admin user details, click the Admin user link to open the 
-    User Details page. The User Details page displays the iFolders owned or shared 
-    by the Admin user. Click the All tab to list all the iFolders, both owned 
-    and shared. To view the iFolder owned by the user, click the Owned tab. Shared 
-    tab lists all the shared iFolders for this particular user account. You can 
-    also use the User Details page to change the policy settings for the selected 
-    Admin user.</P>
-  <H4>Adding and Deleting the iFolder Admin</H4>
+  <h5><span style="FONT-FAMILY: Arial">Основной администратор</span></h5>
+
+  <P>Чтобы просмотреть или изменить параметры <span style="FONT-FAMILY: Arial">основного администратора</span>, <span style="FONT-FAMILY: Arial"> откройте вкладку <i>Основной администратор</i> и щелкните </span><span style="COLOR: black; FONT-FAMILY: Arial"> </span>ссылку администратора. В результате откроется страница с подробной информацией этого пользователя. На странице &quot;Информация о пользователе&quot; отображаются папки iFolder, находящиеся у администратора во владении или в совместном использовании. Щелкните вкладку &quot;Все&quot; для отображения списка всех папок iFolder, находящихся во владении или в совместном использовании. Для просмотра папки iFolder, владельцем которой является пользователь, щелкните вкладку &quot;Владелец&quot;. На вкладке &quot;Совместное использование&quot; отображается список совместно используемых папок iFolder для данной учетной записи пользователя. На странице информации о пользователе можно изменить параметры политики для выбранного администратора.</P>
+  <H4>Добавление и удаление администратора iFolder</H4>
   <br>
 		
   <OL>
     <LI> 
-      <P>Locate the Admin user you want to manage, then select the check box next 
-        to it.</P>
+      <P>Найдите нужного администратора, а затем установите расположенный рядом с ним флажок.</P>
     </LI>
     <ul><LI> 
-        <P>Click Delete to delete the selected Admin user.</P>
-	  <P>If you 
-delete the iFolder Admin right from the username you used to log in to the server, 
-you are immediately disconnected. You must log in to the iFolder server under 
-a different username with the iFolder Admin right to continue managing the server. 
+        <P>Щелкните &quot;Удалить&quot; для удаления выбранного администратора.</P>
+	  <P>Если удалить права администратора iFolder для имени пользователя, с помощью которого вы зарегистрировались на сервере, Вы будете немедленно отключены. Чтобы продолжить управление сервером iFolder, Вам придется зарегистрироваться на нем, используя другое имя пользователя с правами администратора iFolder. 
 </P>
-        <P><font size="-1"><b>IMPORTANT:</b> You cannot delete the Admin user 
-          configured during Simias server setup.</font></P>
+        <P><font size="-1"><b>ВАЖНО.</b> Удалить администратора, который был задан при настройке сервера Simias, нельзя.</font></P>
     <LI> 
-        <P>Click Add to open a list of iFolder users.</P>
-        <P>Locate the user you want to add as Admin, then select the check box 
-          next to it and click Add.</P>
-      <P>You can assign the iFolder Admin right to multiple users.</P>
+        <P>Щелкните &quot;Добавить&quot;, чтобы открыть список пользователей iFolder.</P>
+        <P>Найдите пользователя, которого необходимо добавить в качестве администратора, затем установите рядом с ним флажок и щелкните &quot;Добавить&quot;.</P>
+      <P>Права администратора iFolder можно назначать нескольким пользователям.</P>
     </LI></ul>
   </OL>
-<P> <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P>
-  <H3><A NAME="policy"></A>Policies</H3>
+<P> <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="В начало"></A></P>
+  <H3><A NAME="policy"></A>Политики</H3>
       
-  <p> The following table lists the system policies you can manage for any given 
-    iFolder System. Click Save to apply the modifications:</p>
+  <p> В следующей таблице перечислены политики,  которыми можно управлять для любой отдельной системы iFolder. Щелкните &quot;Сохранить&quot;, чтобы изменения вступили в силу:</p>
 	
  
-<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR>
+<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Параметр</P></TD><TD CLASS="tablehead2"><P>Описание</P></TD></TR>
 <TR>
       <TD VALIGN="TOP"> 
-        <h4> iFolder per users</h4>
+        <h4> Число папок iFolder на пользователя</h4>
       </TD>
       <TD> 
-        <P>Specifies the maximum number of iFolders allowed per user. After you 
-          apply this policy, each user is limited to owning a certain number of 
-          iFolders. The users who exceed the limit receive an error message about 
-          the policy violation. If the limit is zero, users cannot create any 
-          iFolders.</P>
+        <P>Максимальное разрешенное число папок iFolder для одного пользователя. После применения данной политики каждому пользователю будет разрешено владеть только ограниченным числом папок iFolder. Пользователи, превышающие это ограничение, будут получать сообщения о нарушении политики. Если значение ограничения равно нулю, пользователи не могут создавать папки iFolder.</P>
              
-        <P>The policy setting does not affect the number of iFolders a user already 
-          owns. If the number of iFolders owned by a user already exceeds the 
-          limit that you set, he or she can still own those iFolders. </P>
+        <P>Установка политики не влияет на число папок iFolder, которыми пользователь уже владеет. Если число папок iFolder, которыми владеет пользователь, уже превышает данное ограничение, этот пользователь может по-прежнему владеть существующими папками iFolder. </P>
         </TD></TR><TR><TD VALIGN="TOP">
-        <h4>Disk Quota</h4>
+        <h4>Квота диска</h4>
       </TD>
       <TD> 
-        <p>Specifies the maximum space that a iFolder system is allowed to use. 
-          System-wide settings supersede user policies.</p>
-		  <P>Deselect the check box to disable a system-wide quota.</P>
-        <P>Select the check box to enable a system-wide quota, then specify the 
-          total space quota (in MB) for a user's account. </P>
-        <P>If you enable a system-wide quota that is less than a user's 
-          current total space for iFolder data, the users's quotas data stops 
-          synchronizing until the data is decreased below the limit or until the 
-          quota is increased to a value that is larger than the user's total 
-          space consumed.</P>
-        <P>Enabling or modifying the system-wide quota does not affect existing 
-          individual user quotas. Any existing user quota always overrides a system-wide 
-          quota, whether the user quota is lower or higher than the system-wide 
-          quota.</P>
-        <P>Default value: Disabled, No limit</P>
+        <p>Максимальный объем пространства, который может использовать система iFolder. Системные параметры заменяют собой пользовательские политики.</p>
+		  <P>Снимите этот флажок, чтобы отключить системную квоту.</P>
+        <P>Установите этот флажок, чтобы включить системную квоту, а затем укажите общую квоту пространства (в Мб) для учетной записи пользователя. </P>
+        <P>Если включена системная квота, которая меньше общего пространства, занимаемого данными iFolder в текущий момент, синхронизация останавливается до тех пор, пока объем данных не уменьшится и не перестанет превышать ограничение, или значение квоты не будет увеличено и не начнет превышать общий объем пространства, используемый пользователем.</P>
+        <P>Включение или изменение системной квоты не влияет на существующие индивидуальные квоты пользователей. Любая существующая квота пользователя всегда переопределяет системную квоту независимо от величины квоты пользователя.</P>
+        <P>Значение по умолчанию: &quot;Запрещено&quot;, &quot;Нет ограничения&quot;.</P>
         </TD></TR>
   <TR><TD VALIGN="TOP">
-        <h4>File Size</h4>
+        <h4>Размер файла</h4>
       </TD>
-      <TD> <P>Specifies 
-the maximum file size that can be synchronized.</P>
-    <P>If a quota is specified, the effective maximum file size limit is the same as the quota. </P>
-       <P>Deselect the check box to disable the Maximum File Size Limit policy. If the policy is disabled, the value is reported as No Limit.</P>
-          <P>              Select the check box to enable the Maximum File Size Limit policy, then specify the maximum allowed file size in MB.</P>
-          <P>              If a quota is specified, the default maximum file size limit is the same as the quota.</P>
-          <P>              Consider the following demands on your system to determine an appropriate file size limit for iFolders in your environment:</P>
-            <ul><li><p>Intended use               
+      <TD> <P>Максимальный размер файла, при котором возможна синхронизация.</P>
+    <P>Если указана квота, то действующее ограничение максимального размера файла приравнивается к ее значению. </P>
+       <P>Снимите флажок, чтобы отключить политику &quot;Ограничение максимального размера файла&quot;. Если данная политика отключена, отображается значение &quot;(Нет ограничения)&quot;.</P>
+          <P>              Установите данный флажок, чтобы включить политику &quot;Ограничение максимального размера файла&quot;, а затем укажите максимальный размер файла в Мб.</P>
+          <P>              Если указана квота, то ограничение максимального размера файла по умолчанию приравнивается к ее значению.</P>
+          <P>              Выясните следующие аспекты, чтобы определить подходящее ограничение размера файла для папок iFolder в Вашей среде:</P>
+            <ul><li><p>Предполагаемое использование               
             </p></li>
 			<li>
-            <p>How often the largest files are modified</p></li>
-                 <li> <p>How the applications that use the largest files actually save changes to the file (whole file or deltas)</p>
-                 </li><li><p>How frequently the files are synchronized by each member</p>
-                  </li><li><p>How many users share an iFolder</p>
-                  </li><li><p>Whether users access iFolder on the local network or across WAN or Internet connection</p>
-                 </li><li> <p>The average and peak available bandwidth</p>
+            <p>Частота изменения наиболее крупных файлов</p></li>
+                 <li> <p>Используемый в приложениях способ сохранения изменений в крупных файлах (сохранение всего файла или отдельных блоков)</p>
+                 </li><li><p>Частота синхронизации файлов каждым из членов</p>
+                  </li><li><p>Количество пользователей, осуществляющих совместное использование iFolder</p>
+                  </li><li><p>Способ доступа пользователей к iFolder: посредством локальной сети, ГС или Интернет-соединения</p>
+                 </li><li> <p>Средняя и пиковая пропускная способность</p>
 				 </li></ul>
               
-        <p> Even if you set a very large value as a file size limit and if there 
-          is no quota to limit file sizes, the practical limit is governed by 
-          the file system on the user's computer. For example, FAT32 volumes have 
-          a maximum file size of 4 GB minus 1 byte. </p>
+        <p> Даже если в качестве ограничения размера файла установлено очень большое значение, и отсутствует квота, ограничивающая размеры файлов, действительное значение определяется файловой системой на компьютере пользователя. Например, размер томов FAT32 не может превышать значения 4 Гб минус 1 байт. </p>
                 
-        <p>Default value: Disabled, No limit</p>   
+        <p>Значение по умолчанию: &quot;Запрещено&quot;, &quot;Нет ограничения&quot;.</p>   
       </TD></TR>
   <TR>
       <TD VALIGN="TOP"> 
-        <h4>Excluded Files</h4>
+        <h4>Исключенные файлы</h4>
       </TD>
       <TD> 
         
 		  
-        <P>Specify whether to restrict file types that are synchronized by exclusion 
-          filters. </P>
-            <P>Type a file extension, then click Add to add it to the list. </P>
+        <P>Определение ограничения типов файлов, которые синхронизируются с помощью исключающих фильтров. </P>
+            <P>Введите расширение файла, а затем щелкните &quot;Добавить&quot;, чтобы добавить его в список. </P>
         </TD></TR>
 	
 	<TR><TD VALIGN="TOP">
-        <h4> Synchronization </h4>
+        <h4> Синхронизация </h4>
       </TD><TD>
-	    <p>Specifies the minimum synchronization interval in minutes.</P>
-        <P>If this option is enabled, specifies the minimum interval for synchronizing 
-          iFolder data for each user account. Larger values are more restrictive. 
+	    <p>Минимальный интервал синхронизации в минутах.</P>
+        <P>Если данный параметр включен, он задает минимальный интервал синхронизации данных iFolder для каждой учетной записи пользователя. Чем больше используемое значение, тем больше ограничение. 
         </P>    
-        <P>If the option is disabled, the default value is 5 minutes.</P>
+        <P>Если данный параметр не включен, используется значение по умолчанию 5 минут.</P>
         </TD></TR>
   <TR><TD VALIGN="TOP">
-        <h4>Encryption</h4>
+        <h4>Шифрование</h4>
       </TD>
       <TD> 
-        <P>Specifies the encryption policy for the iFolder system. System-wide 
-          settings supersede user policies.</P>
-		<B>On</B><BR>
-        Select <i>On</i> to enable the encryption feature for the iFolder system. This 
-        permits a user to set an encryption policy for his or her iFolders.<br>
+        <P>Определение политики шифрования для системы iFolder. Системные параметры заменяют собой пользовательские политики.</P>
+		<B>Вкл.</B><BR>
+        Выберите <i>Вкл.</i>, чтобы включить функцию шифрования для системы iFolder. Это позволит пользователю установить политику шифрования для своих папок iFolder.<br>
         <br>
-        Deselect <i>On</i> to disable the encryption feature for all the users. 
+        Отмените выбор значения <i>Вкл.</i>, чтобы выключить функцию шифрования для всех пользователей. 
         <br>
         	
 		
-        <br><B>Enforced</B><BR>
-        Select Enforced to enable the encryption feature for all the users. When 
-        the encryption policy is set to Enforced, a user cannot change the encryption 
-        settings for his or her iFolders.<br>
+        <br><B>Принудительно</B><BR>
+        Выберите &quot;Принудительно&quot;, чтобы включить функцию шифрования для всех пользователей. Если для политики шифрования установлено значение &quot;Принудительно&quot;, пользователь не может изменить параметры шифрования для своих папок iFolder.<br>
       </TD></TR><TR><TD VALIGN="TOP">
-        <h4> Sharing</h4>
-      </TD><TD> <B>On</B><BR>
-        By default, iFolder sharing is enabled. Deselect On to disable 
-        sharing for the iFolder system. After applying this policy, users of this 
-        iFolder system cannot share their iFolders with others. However, you can 
-        change the policy settings at the user level or at the LDAPGroup level.<br>
+        <h4> Совместное использование</h4>
+      </TD><TD> <B>Вкл.</B><BR>
+        По умолчанию совместное использование iFolder разрешено.  Отмените выбор значения Вкл., чтобы выключить функцию совместного использования в системе iFolder. После применения данной политики пользователи этой системы iFolder не смогут совместно использовать свои папки iFolder с другими пользователями. Однако можно изменить параметры политики на уровне пользователя или группы LDAPGroup.<br>
           <BR>
-        <B>Enforce</B><BR>
-        Select Enforce to enforce the sharing policy you have set for the entire 
-        system. You can enforce both Enable Sharing and Disable Sharing. When 
-        you enforce Disable Sharing, policy settings for sharing at iFolder and 
-        User level are automatically disabled and you are not allowed to change 
-        the settings. However, you are allowed to set the policy for the Revoke 
-        option.<br>
+        <B>Enforce</B> (Принудительно использовать)<BR>
+        Выберите Enforce (Принудительно использовать) для принудительного применения политики совместного использования, установленной на уровне системы. С помощью функции принудительного использования можно как разрешить, так и запретить совместное использование. В случае принудительного запрещения совместного использования параметры совместного использования на уровне папки iFolder и пользователя автоматически отключаются, а их изменение становится невозможным. Однако можно установить для данной политики параметр &quot;Аннулировать&quot;.<br>
 		<ul>
-          <P><font size="-1"><b>IMPORTANT:</b> You cannot enable this option unless 
-            you set the Sharing option to On.</font></P>
+          <P><font size="-1"><b>ВАЖНО.</b> Для включения данного параметра необходимо установить для параметра Совместное использование значение Вкл.</font></P>
         </ul>
         <BR>
-        <B>Revoke</B><BR>
-        Select Revoke to remove the shared members of all 
-        the iFolders under the iFolder system.<br>
+        <B>Аннулировать</B><BR>
+        Выберите Аннулировать, чтобы удалить членов с правами на совместное использование для всех папок iFolder в данной системе iFolder.<br>
 		
       </TD></TR> 
 
   </TABLE>
 
- <P> <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P>
+ <P> <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="В начало"></A></P>
 
   
    
 
-<H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Related Topics" align="top"> 
-Related Topics</H4><BLOCKQUOTE class="task1">
-<P ><A HREF="userdetails.html">User Details
-</A><BR><A HREF="ifolderdetails.html">Managing iFolder Details</A><BR><A HREF="servers.html">Managing iFolder Servers
-</A><BR><A HREF="ifolders.html">Managing iFolders</A><BR><A HREF="reports.html#orphan" TARGET="_self">Reports
-</A></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P><P>&nbsp;</P><P CLASS="copyright">A 
-trademark symbol (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP>, 
-etc.) denotes a Novell trademark. An asterisk (*) denotes a third-party trademark. 
-For more information, see <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Legal 
-Notices</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
+  <h3>Дополнительный администратор</h3>
+  <p><span style="font-family:Arial;">На вкладке &quot;Дополнительный администратор&quot; можно добавлять, изменять и удалять параметры дополнительного администратора. </span></p>
+  <p><span style="font-family:Arial;">Чтобы добавить дополнительного администратора, выполните указанные ниже действия.</span></p>
+  <ol>
+    <li><font face="Arial">Откройте вкладку <i>Дополнительный администратор</i> и щелкните кнопку <i>Добавить</i>, чтобы открыть список пользователей iFolder.</font></li>
+    <li><font face="Arial">Выберите пользователя, которого хотите назначить дополнительным администратором, и щелкните <i>Далее</i>.</font></li>
+    <li><font face="Arial">Чтобы назначить дополнительному администратору группу, выберите соответствующий вариант из списка <i>Выбор группы</i>. Если для выбранной группы установлена предельная совокупная квота диска, в поле <i>Установите предельную совокупную квоту диска для всей группы</i> подставлено соответствующее значение. В противном случае в этом поле ничего нет.</font></li>
+    <li><font face="Arial">Установите правила политики для дополнительного администратора. </font>
+    <p><font face="Arial">В таблице ниже перечислены правила политики, которые можно установить для дополнительного администратора. </font></p>
+	
+ 
+<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Параметр</P></TD><TD CLASS="tablehead2"><P>Описание</P></TD></TR>
+<TR>
+      <TD VALIGN="TOP"> 
+        <h4><span style="FONT-SIZE: 9.5pt; FONT-FAMILY: Arial">Политика количества папок iFolder на одного пользователя</span></h4>
+        <h4> &nbsp;</h4>
+      </TD>
+      <TD> 
+        <p class="Normal2">
+        <span style="FONT-SIZE: 11pt; COLOR: black; FONT-FAMILY: Arial"> Максимальное разрешенное количество папок iFolder для одного пользователя. После применения данной политики каждому пользователю будет разрешено владеть только ограниченным числом папок iFolder. Пользователи, превышающие это ограничение, будут получать сообщения о нарушении политики. Если значение ограничения равно нулю, пользователи не могут создавать папки iFolder.</span></p>
+        <p class="Normal2">
+        <span style="FONT-SIZE: 11pt; FONT-FAMILY: Arial">Этот</span><span style="FONT-SIZE: 11pt; COLOR: black; FONT-FAMILY: Arial"> параметр политики никак не влияет на число папок iFolder, уже принадлежащих пользователю. Если количество принадлежащих пользователю папок iFolder превышает установленное ограничение,</span> <span style="FONT-SIZE: 11pt; FONT-FAMILY: Arial">эти папки все равно останутся в распоряжении пользователя</span><span style="FONT-SIZE: 11pt; COLOR: black; FONT-FAMILY: Arial">. </span></p>
+        <p class="Normal2">
+        <span style="FONT-SIZE: 11pt; FONT-FAMILY: Arial">По умолчанию для политики количества папок iFolder на одного пользователя установлен флажок <i>Разрешить</i>. Это означает, что дополнительный администратор может устанавливать политику количества папок iFolder для пользователей назначенной ему группы. Чтобы лишить дополнительного администратора этого права, снимите флажок <i>Разрешить</i>.</span></TD></TR><TR><TD VALIGN="TOP">
+        <h4><span style="font-size: 9.5pt; font-family: Arial; ">Политика</span> <span style="font-size: 9.5pt; font-family: Arial; color: black">квоты диска</span></h4>
+      </TD>
+      <TD> 
+        <p class="Normal2">
+        <span style="font-size:11.0pt;font-family:Arial;">Максимальный объем пространства, доступный пользователю.</span></p>
+        <p><span style="font-size: 11.0pt; font-family: Arial; ">По умолчанию для политики квоты диска установлен флажок <i>Разрешить</i>. Это означает, что дополнительный администратор может устанавливать политику квоты диска для пользователей назначенной ему группы. Чтобы лишить дополнительного администратора этого права, снимите флажок <i>Разрешить</i>.</span></p>
+        </TD></TR>
+  <TR><TD VALIGN="TOP">
+        <h4><span style="font-size: 9.5pt; font-family: Arial; ">Политика</span> <span style="font-size: 9.5pt; font-family: Arial; color: black">размера файла</span></h4>
+      </TD>
+      <TD> 
+      <p class="Normal2">
+      <span style="font-size:11.0pt;font-family:Arial;color:black">Максимальный размер файла, при котором возможна синхронизация.</span></p>
+      <p><span style="font-size: 11.0pt; font-family: Arial; ">По умолчанию для политики размера файла установлен флажок <i>Разрешить</i>. Это означает, что дополнительный администратор может устанавливать политику размера файла для пользователей назначенной ему группы. Чтобы лишить дополнительного администратора этого права, снимите флажок <i>Разрешить</i>.</span></p>
+      </TD></TR>
+  <TR>
+      <TD VALIGN="TOP"> 
+        <h4><span style="font-size: 9.5pt; font-family: Arial; ">Политика интервала синхронизации</span></h4>
+      </TD>
+      <TD> 
+        
+		  
+        <p class="Normal2">
+        <span style="font-size:11.0pt;font-family:Arial;color:black">Минимальный интервал синхронизации в минутах.</span></p>
+        <p><span style="font-size: 11.0pt; font-family: Arial; ">По умолчанию для политики интервала синхронизации установлен флажок <i>Разрешить</i>. Это означает, что дополнительный администратор может устанавливать политику интервала синхронизации для пользователей назначенной ему группы. Чтобы лишить дополнительного администратора этого права, снимите флажок <i>Разрешить</i>.</span></TD></TR>
+	
+	<TR><TD VALIGN="TOP">
+        <h4> <span style="font-size: 9.5pt; font-family: Arial; ">Политика списка</span> <span style="font-size: 9.5pt; font-family: Arial; color: black">исключенных файлов</span></h4>
+      </TD><TD>
+	    <p class="Normal2">
+        <span style="font-size:11.0pt;font-family:Arial;">Типы файлов, для которых не выполняется синхронизация. </span></p>
+        <p><span style="font-size: 11.0pt; font-family: Arial; ">По умолчанию для политики списка исключенных файлов установлен флажок <i>Разрешить</i>. Это означает, что дополнительный администратор может устанавливать политику списка исключенных файлов для пользователей назначенной ему группы. Чтобы лишить дополнительного администратора этого права, снимите флажок <i>Разрешить</i>.</span></TD></TR>
+  <TR><TD VALIGN="TOP">
+        <h4><span style="font-size: 9.5pt; font-family: Arial; "> Совместное использование</span></h4>
+      </TD>
+      <TD> 
+        <p class="Normal2">
+        <span style="font-size:11.0pt;font-family:Arial;">Определяет возможность совместного доступа пользователей к папкам iFolder.</span></p>
+        <p><span style="font-size: 11.0pt; font-family: Arial; ">По умолчанию для политики совместного использования установлен флажок <i>Разрешить</i>, <i>разрешающий ее изменение</i>. Это означает, что дополнительный администратор может менять политику совместного использования для пользователей назначенной ему группы. Чтобы лишить дополнительного администратора этого права, снимите флажок <i>Разрешить</i>.</span><br>
+      </TD></TR><TR><TD VALIGN="TOP">
+        <h4> <span style="font-size: 9.5pt; font-family: Arial; ">Политика шифрования</span></h4>
+      </TD><TD> 
+    <p class="Normal2">
+    <span style="font-size:11.0pt;font-family:Arial;">Определяет политику шифрования для системы iFolder. </span></p>
+    <p class="Normal2">
+    <span style="font-size: 11.0pt; font-family: Arial; ">По умолчанию для политики шифрования установлен флажок <i>Разрешить</i>, <i>разрешающий ее изменение</i>. Это означает, что дополнительный администратор может менять политику шифрования для пользователей назначенной ему группы. Чтобы лишить дополнительного администратора этого права, снимите флажок <i>Разрешить</i>.</span><br>
+		
+      </TD></TR> 
+
+  <TR><TD VALIGN="TOP">
+        <span style="font-size: 9.5pt; font-family: Arial; font-weight:700">Права персонифицированного доступа к информации</span></TD><TD> 
+    <p class="Normal2">
+    <span style="font-size:11.0pt;font-family:Arial;">Определяет права персонифицированного доступа к информации, которые может задавать дополнительный администратор.</span></p>
+    <p class="Normal2">
+    <span style="font-size:11.0pt;font-family:Arial;">По умолчанию флажок <i>Разрешить определение персонифицированного доступа к информации для пользователей</i> установлен. Это означает, что дополнительный администратор может определять для пользователей назначенной ему группы права персонифицированного доступа к любому серверу в многосерверной системе iFolder. Чтобы лишить дополнительного администратора этого права, снимите флажок <i>Разрешить определение персонифицированного доступа к информации для пользователей</i>.</span></p>
+    <p class="Normal2">
+    <span style="font-size: 11.0pt; font-family: Arial; ">С помощью флажка <i>Разрешить включение и отключение пользователей</i> можно наделить дополнительного администратора правом включать и отключать пользователей назначенной ему группы. По умолчанию этот флажок установлен. Чтобы лишить дополнительного администратора этого права, снимите флажок <i>Разрешить включение и отключение пользователей</i>.</span></TD></TR> 
+
+  <TR><TD VALIGN="TOP">
+        <span style="font-size: 9.5pt; font-family: Arial; font-weight:700">Права на папки iFolder</span></TD><TD> 
+    <p class="Normal2">
+    <span style="font-size:11.0pt;font-family:Arial;">Определяет права дополнительного администратора на папки iFolder, принадлежащие пользователям назначенной ему группы.</span></p>
+    <p class="Normal2">
+    <span style="font-size:11.0pt;font-family:Arial;">Чтобы разрешить дополнительному администратору владеть папками iFolder с разорванными связями, установите флажок <i>Разрешить владение папками iFolder с разорванными связями</i>. По умолчанию этот флажок установлен. Чтобы лишить дополнительного администратора такого права, снимите этот флажок.</span>.</p>
+    <p class="Normal2">
+    <span style="font-size:11.0pt;font-family:Arial;">С помощью флажка <i>Разрешить включение и отключение папок iFolder</i> можно наделить дополнительного администратора правом включать и отключать папки iFolder, принадлежащие пользователям назначенной ему группы. По умолчанию этот флажок установлен. Чтобы лишить дополнительного администратора этого права, снимите флажок <i>Разрешить включение и отключение папок iFolder</i>.</span></p>
+    <p class="Normal2">
+    <span style="font-size: 11.0pt; font-family: Arial; ">С помощью флажка <i>Разрешить изменять права членов совместной папки iFolder</i> можно наделить дополнительного администратора возможностью изменять права членов совместной папки iFolder. По умолчанию этот флажок установлен. Чтобы лишить дополнительного администратора этого права, снимите флажок <i>Разрешить изменять права членов совместной папки iFolder</i>.</span></p>
+    </TD></TR> 
+
+  </TABLE>
+
+    </li>
+  </ol>
+  <p>&nbsp;</p>
+  <ol start="5">
+    <li><span style="font-family:Arial;">Щелкните кнопку <i>Сохранить</i>, чтобы сохранить выбранные параметры.</span></li>
+    <li><span style="font-family:Arial;">Назначив дополнительному администратору группу, щелкните <i>ОК</i>, чтобы вернуться на страницу &quot;Система&quot;, или <i>Повторить</i>, чтобы назначить ему и другие группы.&nbsp;</span></li>
+  </ol>
+  <p><span style="font-family:Arial;">Чтобы изменить параметры дополнительного администратора, выполните указанные ниже действия. </span></p>
+  <ol>
+    <li>
+    <p style="text-indent: -.25in; margin-left: .5in">
+    <span style="font-family: Arial; ">Откройте вкладку <i>Дополнительный</i> с подробной информацией о дополнительном администраторе.</span></li>
+    <li>
+    <p style="text-indent: -.25in; margin-left: .5in">
+    <span style="font-family: Arial; ">Выберите дополнительного администратора и щелкните <i>Изменить</i>. В результате откроется список групп, за которыми он наблюдает.</span></li>
+    <li>
+    <p style="text-indent: -.25in; margin-left: .5in" align="left">
+    <span style="font-family: Arial; ">Выберите группу и щелкните <i>Изменить</i>. В результате откроется список прав дополнительного администратора на эту группу. Внесите в права нужные изменения и щелкните <i>Сохранить</i>, чтобы сохранить изменения.<br>
+&nbsp;</span></li>
+  </ol>
+  <p><span style="font-family:Arial;">Чтобы удалить дополнительного администратора, выполните указанные ниже действия.</span></p>
+  <ol>
+    <li><font face="Arial">Откройте вкладку <i>Дополнительный</i> с подробной информацией дополнительного администратора.</font></li>
+    <li><font face="Arial">Выберите дополнительного администратора и щелкните <i>Удалить</i>. В результате откроется список групп, за которыми он наблюдает.</font></li>
+    <li><font face="Arial">Выберите все группы и щелкните <i>Удалить</i>. Удаление всех групп из списка групп, принадлежащих дополнительному администратору, приведет к удалению и самого администратора.<br>
+&nbsp;</font></li>
+  </ol>
+  <p>&nbsp;</p>
+
+  
+   
+
+<H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="См. также" align="top"> См. также</H4><BLOCKQUOTE class="task1">
+<P ><A HREF="userdetails.html">Информация о пользователях </A><BR><A HREF="ifolderdetails.html">Управление подробной информацией о папке iFolder</A><BR><A HREF="servers.html">Управление серверами iFolder</A><BR><A HREF="ifolders.html">Управление папками iFolder</A><BR><A HREF="reports.html#orphan" TARGET="_self">Отчеты </A></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="В начало"></A></P><P>&nbsp;</P><P CLASS="copyright">Символ товарного знака (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP> и т.&nbsp;д.) обозначает товарный знак Novell.  Символ звездочки (*) обозначает товарный знак независимого производителя.  Для получения дополнительной информации см. раздел <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Юридическая информация</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
 </body>
 
 </html>

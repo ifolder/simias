@@ -1,10 +1,10 @@
 <html>
 <head>
-  <meta http-equiv="content-type" content="text/html;charset=iso-8859-1"> 
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8"> 
 
 <!-- Novell iFolder 3.x Web Access  --> 
 
-<title>iFolder Members</title> 
+<title>Члены iFolder</title> 
 
 <!-- Metadata --> 
   <meta name="Author" content="iFolder 3.x Documentation Manager"> 
@@ -21,8 +21,7 @@
       <style type= "text/css" media="screen">
        <!--
        
-         body           {  font-family: Arial, Helvetica, Geneva; background: white
-url(../../images/helphead_bg.gif) repeat-x 0% 0% }
+         body           {  font-family: Arial, Helvetica, Geneva; background: white url('../../images/helphead_bg.gif') repeat-x;  }
 		      
          #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px; width: 100%; visibility: visible }
 			   
@@ -35,70 +34,50 @@ url(../../images/helphead_bg.gif) repeat-x 0% 0% }
          and help content layers. --> 
 <body bgcolor="white" marginwidth="0" marginheight="0"  leftmargin="0" topmargin="0">
 <!-- This is the start of the Help Banner Layer --> <div id="headgraphic"> 
-<table border="0" cellspacing="0" cellpadding="0" width="100%" height="26" style="margin:0px; padding:0px; background-image: url(../../images/header_pattern.gif); background-repeat: repeat-x;"> 
-<tr> <td width="221"><img src="../../images/help_title.gif" alt="Novell iFolder" border="0" width="221" height="26"></td><td align="right" width="100%" class="tabCell" style="background-image: url(../../images/header_background.gif); background-repeat: no-repeat;"> 
+<table border="0" cellspacing="0" cellpadding="0" width="100%" height="26" style="margin:0px; padding:0px; background-image: url('../../images/header_pattern.gif'); background-repeat: repeat-x"> 
+<tr> <td width="221"><img src="../../images/help_title.gif" alt="Novell iFolder" border="0" width="221" height="26"></td>
+  <td align="right" width="100%" class="tabCell" style="background-image: url('../../images/header_background.gif'); background-repeat: no-repeat"> 
 </td></tr> </table></div><!-- This is end of the Help Banner Layer --> 
 <!-- This is the start of the Help Content Layer --> <div id="helpcontent" style="left: 10px; top: 38px"> 
 <!-- The Page Heading uses CSS style "head3b". This creates an H3 header
             with a line beneath it.
        --> 
-  <h3 class="head3b"><a name="top"></a>Managing iFolder Members</h3>
-  <p> Use this interface to add or remove shared members, assign rights to the 
-    members and change the ownership of the selected iFolder.</p>
-  <p>This help discusses the following:</p><blockquote > 
-    <p><a href="#manage" target="_self">Managing Users of An iFolder</a><br>
-      <a href="#accessright" target="_self">Understanding iFolder Access Rights</a> <br> 
+  <h3 class="head3b"><a name="top"></a>Управление членами iFolder</h3>
+  <p> Используйте данный интерфейс для добавления или удаления членов, имеющих права на совместное использование, назначения прав членам и изменения владения выбранной папки iFolder.</p>
+  <p>В данной справке рассматривается следующая информация:</p><blockquote > 
+    <p><a href="#manage" target="_self">Управление пользователями папки iFolder</a><br>
+      <a href="#accessright" target="_self">Общие сведения о правах доступа пользователей iFolder</a> <br> 
 </p> </blockquote>
   
-  <h3><a name="manage"></a>Managing Users of An iFolder</h3>
-  <p>Within an iFolder, you can perform 
-the following tasks:</p>
-  <h4>Adding New Shared User</h4>
-  <p>Click Add to add new shared members to the selected iFolder. You can add 
-    an individual iFolder user or a LDAPGroup as shared member. The new page opens 
-    that allows you to add users to the list of shared users.</p>
+  <h3><a name="manage"></a>Управление пользователями папки iFolder</h3>
+  <p>В папке iFolder можно выполнять следующие задачи:</p>
+  <h4>Добавление нового пользователя с правами на совместное использование</h4>
+  <p>Щелкните &quot;Добавить&quot; для добавления новых членов с правами на совместное использование в выбранную папку iFolder. В качестве члена можно добавить индивидуального пользователя iFolder или группу LDAPGroup. Открывается новая страница, на которой можно добавить пользователей в список пользователей с правами на совместное использование.</p>
 	
   
-  <h4>Assigning Rights to a Shared User</h4>
-  <p>On the Members page, select the shared members and click the rights you want 
-    to assign to them. </p>
-  <p><a href="#top" target="_self"><img src="../../images/goto_top.gif" width="19" height="19" border="0" alt="Go to top"></a>
-<H3><a name="accessright"></a>Understanding iFolder Access Rights </H3>
-<p>The iFolder client supports the owner and three levels of access for members of an iFolder:</p>
-  <P><font size="-1"><b>IMPORTANT:</b> All the members of an LDAPGroup inherits 
-    the access rights set for that LDAPGroup.</font></P>
+  <h4>Назначение прав пользователю с правами на совместное использование</h4>
+  <p>На странице &quot;Члены&quot; выберите членов с правами на совместное использование и щелкните назначаемые им права. </p>
+  <p><a href="#top" target="_self"><img src="../../images/goto_top.gif" width="19" height="19" border="0" alt="В начало"></a>
+<H3><a name="accessright"></a>Общие сведения о правах доступа пользователей iFolder </H3>
+<p>Клиент iFolder поддерживает владельца и три уровня доступа для членов папки iFolder:</p>
+  <P><font size="-1"><b>ВАЖНО.</b> Все члены группы LDAPGroup наследуют права доступа, установленные для данной группы LDAPGroup.</font></P>
 <BLOCKQUOTE>
-<P><B>Read Only</B><BR>
-    A member of the shared iFolder, with the Read Only access right to directories and files in the iFolder. This member can copy an iFolder file to another location and modify it outside the iFolder.</P>
-  <P><B>Read/Write</B><BR>
-    A member of the shared iFolder, with the Read/Write access right to directories and files in the iFolder.</P>
-	<P><B>Full Control</B><BR>
-      A member of the shared iFolder, with the Full Control access right. The 
-      user with the Full Control right has read/write access to the iFolder and 
-      manages membership and access rights for all users except the owner. But, 
-      only the owner have the right to delete an iFolder.</P>
-  <P><B>Owner<BR>
-      </B>Only one user serves as the owner of an iFolder. This is typically the 
-      user who created the iFolder and only he or she can delete this iFolder. 
-      The owner user can use the iFolder client to transfer ownership to another 
-      member of the iFolder. The iFolder Admin user can transfer ownership to 
-      any user on the iFolder server.</P>
-    <P>The owner of an iFolder has the Full Control right. This user has read/write 
-      access to the iFolder, manages membership and access rights for member users, 
-      and can remove the Full Control right for any member. </P>
-  <P>If a user is deleted as a user for the iFolder system, the iFolders owned by the user are orphaned. Orphaned iFolders are assigned temporarily to the iFolder Admin user as owner. Membership and synchronization continues for other users while the iFolder Admin user determines whether an orphaned iFolder should be deleted or assigned to a new owner.</P>
+<P><B>Только для чтения</B><BR>
+    Уровень доступа члена совместно используемой папки iFolder с правом только для чтения в каталогах и файлах папки iFolder. Этот член может скопировать файл из папки iFolder в другое место и изменить его вне папки iFolder.</P>
+  <P><B>Для чтения/записи</B><BR>
+    Уровень доступа члена совместно используемой папки iFolder с правом на чтение/запись в каталогах и файлах папки iFolder.</P>
+	<P><B>Полный контроль</B><BR>
+      Уровень доступа члена совместно используемой папки iFolder с правом на полный контроль. Пользователь с правами &quot;Полный контроль&quot; имеет доступ на чтение/запись в папке iFolder, управляет членством и правами доступа всех пользователей, за исключением владельца. Однако правом на удаление папки iFolder обладает только владелец.</P>
+  <P><B>Владелец<BR>
+      </B>Только один пользователь может быть владельцем папки iFolder. Как правило, это пользователь, который создал данную папку iFolder, и только он может ее удалить. Владелец может использовать клиент iFolder для передачи права на владение другому члену папки iFolder. Администратор iFolder может передавать право на владение любому пользователю сервера iFolder.</P>
+    <P>Владелец папки iFolder имеет право на полный контроль. Этот пользователь имеет доступ для чтения/записи к папке iFolder, управляет членством и правами доступа пользователей, а также может удалять право &quot;Полный контроль&quot; для любого члена. </P>
+  <P>Если пользователь удаляется из системы iFolder, принадлежащие ему папки iFolder становятся папками с нарушенными ассоциациями. Владельцем папок iFolder с нарушенными ассоциациями временно назначается администратор iFolder Поддержка членства и синхронизация продолжаются, пока администратор iFolder не определит, нужно ли удалить папку iFolder с нарушенными ассоциациями или назначить другого владельца.</P>
    <p>  
 </BLOCKQUOTE>
 
-<p><a href="#top" target="_self"><img src="../../images/goto_top.gif" width="19" height="19" border="0" alt="Go to top"></a>
-<H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Related Topics" align="top"> 
-Related Topics</H4><BLOCKQUOTE class="task1"><p><A HREF="share.html">Adding shared members</A><br><A HREF="browse.html">Accessing Folders and Files in Your iFolder</A><BR><A HREF="details.html">Viewing iFolder Properties
-</A><BR><A HREF="home.html">Accessing Your iFolders</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P><P>&nbsp;</P>
+<p><a href="#top" target="_self"><img src="../../images/goto_top.gif" width="19" height="19" border="0" alt="В начало"></a>
+<H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="См. также" align="top"> См. также</H4><BLOCKQUOTE class="task1"><p><A HREF="share.html">Добавление членов с правами на совместное использование</A><br><A HREF="browse.html">Доступ к файлам и папкам в iFolder</A><BR><A HREF="details.html">Просмотр свойств iFolder </A><BR><A HREF="home.html">Доступ к папкам iFolder</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="В начало"></A></P><P>&nbsp;</P>
   <P CLASS="copyright">&nbsp;</p>
-  <p>&nbsp;</p><P CLASS="copyright">A trademark symbol (<SUP><SMALL>&reg;</SMALL></SUP>, 
-<SUP><SMALL>TM</SMALL></SUP>, etc.) denotes a Novell trademark. An 
-asterisk (*) denotes a third-party trademark. For more information, 
-see <A HREF="legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Legal 
-Notices</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
+  <p>&nbsp;</p><P CLASS="copyright">Символ товарного знака (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP> и т.&nbsp;д.) обозначает товарный знак Novell.  Символ звездочки (*) обозначает товарный знак независимого производителя.  Для получения дополнительной информации см. раздел <A HREF="legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Юридическая информация</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
 </body>
 </html>

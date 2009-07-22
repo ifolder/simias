@@ -1,11 +1,11 @@
 <html>
 
    <head>
-     <meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+     <meta http-equiv="content-type" content="text/html;charset=UTF-8">
      
      <!-- Novell iFolder 3.6 Web Admin Help  --> 
    
-     <title>Servers Details</title>  	 
+     <title>サーバ詳細</title>  	 
      
  
      <!-- Metadata -->
@@ -29,8 +29,7 @@
        <!--
        
          body           {  font-family: Arial, Helvetica, Geneva;
-									background: white
-url(../../images/helphead_bg.gif) repeat-x 0% 0% }
+									background: white url('../../images/helphead_bg.gif') repeat-x;  }
 		      
          #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px;
 									width: 380px; visibility: visible }
@@ -55,298 +54,245 @@ url(../../images/helphead_bg.gif) repeat-x 0% 0% }
 <!-- This is the start of the Help Content Layer --> <div id="helpcontent"> <!-- The Page Heading uses CSS style "head3b". This creates an H3 header
             with a line beneath it.
        --> 
-  <h3 class="head3b">Server Details</h3>
-  <p> Use this interface to view server details, server status, server logs, and 
-    server reports, and to set the log level and LDAP details. </p>
-  <BLOCKQUOTE CLASS="blockquote"><P><A HREF="#general" TARGET="_self">Viewing Server Details
-</A> <BR><A HREF="#general" TARGET="_self">Viewing Server Status
- </A><BR><A HREF="#reports" TARGET="_self">Viewing Server Reports
- </A><BR> <A HREF="#logs" TARGET="_self">Viewing Server Logs
- </A><BR>
-      <A HREF="#ldap" TARGET="_self">LDAP Details</A><br>
-      <A HREF="#volume" TARGET="_self">Data Store</A><br>
+  <h3 class="head3b">サーバ詳細</h3>
+  <p> このインタフェースでは、サーバ詳細、サーバステータス、サーバログ、およびサーバレポートを表示したり、ログレベルとLDAP詳細を設定したりできます。 </p>
+  <BLOCKQUOTE CLASS="blockquote"><P><A HREF="#general" TARGET="_self">サーバ詳細の表示</A> <BR><A HREF="#general" TARGET="_self">サーバステータスの表示</A><BR><A HREF="#reports" TARGET="_self">サーバレポートの表示</A><BR> <A HREF="#logs" TARGET="_self">サーバログの表示</A><BR>
+      <A HREF="#ldap" TARGET="_self">LDAP詳細</A><br>
+      <A HREF="#volume" TARGET="_self">データストア</A><br>
   </P></BLOCKQUOTE>
   
  
-  <H4><a name="general"></a>Viewing Server Details</H4>
-  <P>You can view and edit the following information:</P>
-  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
-        <P>Name (View Only)</P>
+  <H4><a name="general"></a>サーバ詳細の表示</H4>
+  <P>次の情報を表示および編集できます。</P>
+  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>パラメータ</P></TD><TD CLASS="tablehead2"><P>説明</P></TD></TR><TR><TD VALIGN="TOP">
+        <P>名前(表示のみ)</P>
       </TD><TD>
-        <P>The name assigned to the Server.</P>
+        <P>サーバに割り当てられている名前。</P>
       </TD><TR><TD VALIGN="TOP">
-        <P>Type (View Only)</P>
+        <P>タイプ (表示のみ)</P>
       </TD><TD>
-        <P>The server type (Master or Slave).</P>
+        <P>サーバタイプ(マスタまたはスレーブ)。</P>
       </TD><TR><TD VALIGN="TOP">
-        <P>DNS Name</P>
+        <P>DNS名</P>
       </TD><TD>
-        <P>The DNS name of the iFolder Enterprise server.</P>
-		<P>For example: 192.168.1.1 or svr1.domain.com.</p>
+        <P>iFolderエンタープライズサーバのDNS名。</P>
+		<P>例: 192.168.1.1 or svr1.domain.com</p>
 </TD></TR><TR><TD VALIGN="TOP">
-        <P>Public URL</P>
+        <P>Public URL (パブリックURL)</P>
       </TD>
       <TD> 
-        <P>The public IP address corresponding to the iFolder server. To change 
-          the IP address, edit the address given and click Save to save the changes 
-          you have done.</P>
+        <P>iFolderサーバに対応するパブリックIPアドレス。IPアドレスを変更するには、アドレスを編集し、［保存］をクリックして変更内容を保存します。</P>
       </TD><TR>
       <TD VALIGN="TOP" height="37"> 
-        <P>Private URL</P>
+        <P>Private URL (プライベートURL)</P>
       </TD>
       <TD height="37"> 
-        <P>The private IP address corresponding to the iFolder server. This allows 
-          communication between the servers within the iFolder domain. The private 
-          URL and the public URL can be the same. To change the IP address give, 
-          type the new address and click Save to save the changes you have done.</P>
+        <P>iFolderサーバに対応するプライベートIPアドレス。このURLを使用して、iFolderドメイン内のサーバ間で通信できます。プライベートURLとパブリックURLは同じにすることができます。IPアドレスを変更するには、新しいアドレスを編集し、［保存］をクリックして変更内容を保存します。</P>
       </TD><TR><TD VALIGN="TOP">
-        <P>Master URL (Displayed only for Slave servers)</P>
+        <P>マスタURL (スレーブサーバでのみ表示されます)</P>
       </TD>
       <TD> 
-        <P>The IP address corresponding to the iFolder server. Using this address, 
-          slave server communicate with the master server in the iFolder domain. 
-          </p><p>To change the IP address, edit the address given and click Save to save 
-          the changes you have done.</P>
+        <P>iFolderサーバに対応するIPアドレス。スレーブサーバは、このアドレスを使用してiFolderドメイン内のマスタサーバと通信します。 
+          </p><p>IPアドレスを変更するには、アドレスを編集し、［保存］をクリックして変更内容を保存します。</P>
       </TD></TABLE><br>
-	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A>
-  <H4><a name="general"></a>Viewing Server Status</H4>
-  <P>You 
-can view the following information:</P><TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
-        <P>Status</P>
+	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="トップへジャンプ"></A>
+  <H4><a name="general"></a>サーバステータスの表示</H4>
+  <P>次の情報を表示できます。</P><TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>パラメータ</P></TD><TD CLASS="tablehead2"><P>説明</P></TD></TR><TR><TD VALIGN="TOP">
+        <P>ステータス</P>
       </TD><TD>
-        <P>Reports the current status of the server.</P>
+        <P>サーバの現在のステータスが表示されます。</P>
       </TD><TR><TD VALIGN="TOP">
-        <P>Users</P>
+        <P>ユーザ</P>
       </TD><TD>
-        <P>Reports the total number of iFolder users provisioned to the selected 
-          server.</P>
+        <P>選択したサーバにプロビジョニングされているiFolderユーザの合計数が表示されます。</P>
       </TD><TR><TD VALIGN="TOP">
-        <P>iFolders</P>
+        <P>iFolder</P>
       </TD><TD>
-        <P>Reports the total number of iFolders belonging to the selected server.</P>        
+        <P>選択したサーバに属しているiFolderの合計数が表示されます。</P>        
       </TD></TR></TABLE><br>
-	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A>
+	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="トップへジャンプ"></A>
 	  
-  <H4><a name="reports"></a>Viewing Server Reports</H4>
-  <P>Select the report from the drop down list to view the report.</P> 
-  <p>This option is disabled if the Enable Reporting option on the Report page 
-    is left unselected.</P>
-	<A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A>
-  <H4><a name="logs"></a>Viewing Server Logs</H4>
-  <P>You can view the following server log information:</P>
-  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
-        <P>System</P>
+  <H4><a name="reports"></a>サーバレポートの表示</H4>
+  <P>レポートを表示するには、ドロップダウンリストからレポートを選択します。</P> 
+  <p>このオプションは、［レポート］ページの［Enable Reporting (レポーティングを有効にする)］オプションがオフになっている場合は無効です。</P>
+	<A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="トップへジャンプ"></A>
+  <H4><a name="logs"></a>サーバログの表示</H4>
+  <P>次のサーバログ情報を表示できます。</P>
+  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>パラメータ</P></TD><TD CLASS="tablehead2"><P>説明</P></TD></TR><TR><TD VALIGN="TOP">
+        <P>システム</P>
       </TD>
       <TD> 
-        <P>Select System to view the simias.log that tracks all the system activities. 
+        <P>すべてのシステムアクティビティを追跡するsimias.logを表示するには、［システム］を選択します。 
         </P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>User Access</P>
+        <P>User Access (ユーザアクセス)</P>
       </TD>
       <TD> 
-        <P>Select User Access to view simias.access.log that tracks the user activities 
-          on the selected server.</P>
+        <P>選択したサーバ上のユーザアクティビティを追跡するsimias.access.logを表示するには、［User Access (ユーザアクセス)］を選択します。</P>
 		
       </TD></TR></TABLE>
 	    
-  <H4><a name="general"></a>Set Log Levels</H4>
-  <P>You can set the following log level information:</P>
-  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
-        <P>All</P>
+  <H4><a name="general"></a>ログレベルの設定</H4>
+  <P>次のログレベル情報を設定できます。</P>
+  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>パラメータ</P></TD><TD CLASS="tablehead2"><P>説明</P></TD></TR><TR><TD VALIGN="TOP">
+        <P>すべて</P>
       </TD>
       <TD> 
-        <P>Shows all the server activities that help Novell support resolve the 
-          issues. </P>
+        <P>Novellサポートが問題を解決する際に役立つすべてのサーバアクティビティを示します。 </P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Debug</P>
+        <P>デバッグ</P>
       </TD>
       <TD> 
-        <P>Shows the server activities that help Novell support debug the issues 
-          . </P>
+        <P>Novellサポートが問題をデバッグする際に役立つサーバアクティビティを示します。 </P>
 		
       </TD><TR><TD VALIGN="TOP">
         <P>Info</P>
       </TD>
       <TD> 
-        <P>Shows the basic server activities that help Novell support resolve 
-          the issues. This option is selected by default.</P>
+        <P>Novellサポートが問題を解決する際に役立つ基本的なサーバアクティビティを示します。デフォルトではこのオプションが選択されています。</P>
 		
       </TD><TR><TD VALIGN="TOP">
         <P>Warn</P>
       </TD>
       <TD> 
-        <P>Shows all the potential system errors.</P>
+        <P>発生する可能性があるすべてのシステムエラーを示します。</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Error</P>
+        <P>エラー</P>
       </TD>
       <TD> 
-        <P>Shows all the system errors that halt system functioning.</P>
+        <P>システム動作を停止するすべてのシステムエラーを示します。</P>
 		
       </TD><TR><TD VALIGN="TOP">
         <P>Fatal</P>
       </TD>
       <TD> 
-        <P>Shows the fatal system errors. </P>
+        <P>致命的なシステムエラーを示します。 </P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Off</P>
+        <P>オフ</P>
       </TD>
       <TD> 
-        <P>Logging is turned off.</P>
+        <P>ログを無効にします。</P>
 		
       </TD></TR></TABLE><br>
-	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A>
-	  <H4><a name="ldap"></a>LDAP Details</H4>
-  <P>You can edit the following LDAP related information. Click Save to modify 
-    the entries. Click Cancel to cancel your modifications.</p>
-<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
-        <P>Up Since </p><p> (View Only)</P>
+	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="トップへジャンプ"></A>
+	  <H4><a name="ldap"></a>LDAP詳細</H4>
+  <P>次のLDAP関連情報を編集できます。［保存］をクリックして、エントリを変更します。変更をキャンセルするには、［キャンセル］をクリックします。</p>
+<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>パラメータ</P></TD><TD CLASS="tablehead2"><P>説明</P></TD></TR><TR><TD VALIGN="TOP">
+        <P>稼動期間 </p><p> (表示のみ)</P>
       </TD>
       <TD> 
-        <P>Shows the date and time of the very first synchronization.</P>
+        <P>最初に同期が行われた日時が表示されます。</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Status</P>
+        <P>ステータス</P>
       </TD>
       <TD> 
-        <P>Reports the current LDAP sync engine status.</P>
+        <P>LDAP同期エンジンの現在のステータスが表示されます。</P>
 		
-      </TD><<TR><TD VALIGN="TOP">
-        <P>Cycles</P>
-        <p>(View Only)</p>
+      </TD>&lt;<TR><TD VALIGN="TOP">
+        <P>Cycles (サイクル)</P>
+        <p>(表示のみ)</p>
       </TD>
       <TD> 
-        <P>Shows the total number of identity synchronization cycles completed.</P>
+        <P>完了したID同期サイクルの合計数が表示されます。</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Identity Sync</P>
+        <P>Identity Sync (ID同期)</P>
       </TD>
       <TD> 
-        <P>Updates the iFolder users in the selected iFolder domain from the LDAP 
-          information at the interval you select.</P>
-        <p>Specify the time interval in minutes in the Identity Sync field and 
-          click Sync Now to start immediate synchronization of the iFolder users 
-          with the LDAP users.</p>
+        <P>選択したiFolderドメイン内のiFolderユーザを、選択した間隔でLDAP情報に基づいて更新します。</P>
+        <p>［Identity Sync (ID同期)］フィールドに、時間間隔を分単位で指定します。iFolderユーザとLDAPユーザの同期を直ちに開始するには、［今すぐ同期］をクリックします。</p>
 		
       </TD><TR>
       <TD VALIGN="TOP"> 
-        <P>Delete member grace interval</P>
+        <P>Delete member grace interval (メンバー削除猶予間隔)</P>
       </TD>
       <TD> 
-        <P> Specifies the time interval for iFolder to delete the user information from the server once that particular user is deleted from the LDAP. 
-          This feature helps you to recover the data if the user is deleted accidentally. 
+        <P> 特定のユーザがLDAPから削除されてから、iFolderがそのユーザ情報をサーバから削除するまでの時間間隔を指定します。この機能を使用すると、ユーザが誤って削除された場合にデータを簡単に回復できます。 
         </P>
 		
       </TD></TR></TABLE>
     <br>
-	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A>
-  <P>You can edit the following LDAP related information. Click Edit to open a 
-    new page where you can modify the entries. </P>
+	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="トップへジャンプ"></A>
+  <P>次のLDAP関連情報を編集できます。［編集］をクリックすると、新しいぺージが開き、エントリを編集できます。 </P>
   
-  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
-        <P>LDAP Server</P>
+  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>パラメータ</P></TD><TD CLASS="tablehead2"><P>説明</P></TD></TR><TR><TD VALIGN="TOP">
+        <P>LDAPサーバ</P>
       </TD>
       <TD> 
-        <P>Shows the LDAP Server address.</P>
+        <P>LDAPサーバのアドレスを示します。</P>
 		
       </TD><TR><TD VALIGN="TOP">
         <P>LDAP SSL</P>
       </TD>
       <TD> 
-        <P>Shows LDAP SSL is enabled or not. It also allows you to enable or disable 
-          the LDAP SSL connection.</P>
+        <P>LDAP SSLが有効になっているかどうかを示します。LDAP SSL接続を有効にしたり無効にしたりすることもできます。</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Proxy User</p>       
+        <P>プロキシユーザ</p>       
       </TD>
       <TD> 
-        <P>Shows the Distinguished Name (DN) of the Proxy user. For example, cn=SimiasProxy,o=novell</P>
-		<p>The iFolder Proxy user is the identity used to access the LDAP server 
-          in order to retrieve a list of users in the specified containers or 
-          groups, or users that are defined in the iFolder LDAP settings.The iFolder 
-          Proxy user is created during the iFolder install. This identity must 
-          have the Read right to the LDAP directory. </p>
+        <P>プロキシユーザの識別名(DN)が表示されます。例: cn=SimiasProxy,o=novell</P>
+		<p>iFolderプロキシユーザは、指定したコンテナやグループ内のユーザのリスト、またはiFolder LDAP設定で定義されているユーザのリストを取得するために、LDAPサーバにアクセスする際に使用されるIDです。iFolderプロキシユーザは、iFolderのインストール中に作成されます。このIDには、LDAPディレクトリに対する読み込み権が必要です。 </p>
       </TD><TR><TD VALIGN="TOP">
-        <P>Proxy User Password</P>
+        <P>プロキシユーザパスワード</P>
         <p>&nbsp;</p>
       </TD>
       <TD> 
-        <P>The password is used to authenticate the iFolder Proxy user to the 
-          LDAP server when iFolder synchronizes users with the LDAP server.</P>
+        <P>このパスワードは、iFolderがユーザをLDAPサーバと同期するときに、LDAPサーバでiFolderプロキシユーザを認証する場合に使用されます。</P>
 		
       </TD><TR>
       <TD VALIGN="TOP"> 
-        <P>LDAP Context</P>
+        <P>LDAPコンテキスト</P>
       </TD>
       <TD> 
-        <P>LDAP Context lists all the LDAP contexts. iFolder searches users only 
-          from the listed LDAP contexts.</P>
+        <P>［LDAPコンテキスト］には、すべてのLDAPコンテキストのリストが表示されます。iFolderは、リストのLDAPコンテキストからのみユーザを検索します。</P>
         
 		
       </TD></TR></TABLE><br>
-	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A>
+	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="トップへジャンプ"></A>
 
 	  
-  <H4><a name="volume"></a>Data Store</H4>
-  <p> Data Store represents the iFolder storage that can span across multiple 
-    volumes (mount points) in a given server. By default every iFolder server 
-    has a default store which cannot be disabled. With web interface, you can 
-    add and configure multiple Data Store across which iFolder data is load balanced. 
-    When the user uploads an iFolder, it check for the Data Store with maximum 
-    free space, and stores the iFolder data in that particular Data Store thereby 
-    balancing the load. You can add as many Data Store as you want. Having multiple 
-    Data Store thus makes it possible to scale the data storage capacity in a 
-    large deployment to meet the enterprise-level requirements. 
-  <P>You can view the following Data Store information:</P>
-  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parameter</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
-        <P>Name</P>
+  <H4><a name="volume"></a>データストア</H4>
+  <p> データストアは、特定のサーバの複数のボリューム(マウントポイント)にまたがるiFolderストレージを表します。デフォルトでは、すべてのiFolderサーバに、無効にできないデフォルトのストアがあります。Webインタフェースを使用して、複数のデータストアを追加および設定し、iFolderデータをそれらのデータストアに分散できます。ユーザがiFolderをアップロードするときに、データストアの最大空き領域が確認され、iFolderデータは特定のデータストアに格納されます。その結果、負荷が分散されます。必要な数だけデータストアを追加できます。複数のデータストアがあれば、大規模展開のデータストレージ容量を、エンタープライズレベルの要件に合わせて拡張できます。 
+  <P>次のデータストア情報を表示できます。</P>
+  <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>パラメータ</P></TD><TD CLASS="tablehead2"><P>説明</P></TD></TR><TR><TD VALIGN="TOP">
+        <P>名前</P>
       </TD>
       <TD> 
-        <P>Shows the unique name you have specified for the Data Store.</P>
+        <P>データストアに指定した一意の名前が表示されます。</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Full Path</P>
+        <P>Full path (フルパス)</P>
       </TD>
       <TD> 
-        <P>Shows the path to the Data Store, where the volume is mounted on. This 
-          is the data path that you have specified while adding the data store 
-          using the web interface.</P>
+        <P>ボリュームがマウントされているデータストアのパスが表示されます。これは、Webインタフェースを使用してデータストアを追加するときに指定したデータパスです。</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Free Space</P>
+        <P>空き領域</P>
       </TD>
       <TD> 
-        <P>Shows the space available in the volume.</P>
+        <P>ボリューム内の使用可能な領域を示します。</P>
 		
       </TD><TR><TD VALIGN="TOP">
-        <P>Enabled</P>
+        <P>使用可能</P>
       </TD>
       <TD> 
-        <P>Shows the given Data Store is enabled or not. Default Data Store cannot 
-          be disabled.</P>
+        <P>データストアが有効になっているかどうかが表示されます。デフォルトのデータストアは無効にできません。</P>
 		
       </TD></TABLE>
-	  <H4><a name="volume"></a>Enable or Disable DataStore</H4>
+	  <H4><a name="volume"></a>データストアの有効化または無効化</H4>
 	  
-  <p> Select the Data Store you want to disable or enable and click Disable or 
-    Enable respectively. When the user uploads an iFolder, disabled Data Stores 
-    are always skipped while checking for the maximum free space availability 
-    for storing the iFolder data. </p>
+  <p> 無効または有効にするデータストアを選択して、それぞれ［無効］または［有効］をクリックします。ユーザがiFolderをアップロードするときに、iFolderデータの格納に使用できる最大空き領域が確認されます。その間、無効になっているデータストアは常にスキップされます。 </p>
 	  
-	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A>
+	  <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="トップへジャンプ"></A>
 
 
-  <H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Related Topics" align="top"> 
-Related Topics</H4><BLOCKQUOTE class="task1"><P ><BR><A HREF="servers.html">Managing iFolder Servers
-</A><BR><A HREF="reports.html">Reports 
-</A><BR><A HREF="ifolderdetails.html">Managing iFolder Details</A><BR><A HREF="member.html">Managing a User Account</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P><P>&nbsp;</P><P CLASS="copyright">A 
-trademark symbol (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP>, 
-etc.) denotes a Novell trademark. An asterisk (*) denotes a third-party trademark. 
-For more information, see <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Legal 
-Notices</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
+  <H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="関連項目" align="top"> 関連項目</H4><BLOCKQUOTE class="task1"><P ><BR><A HREF="servers.html">iFolderサーバの管理</A><BR><A HREF="reports.html">レポート </A><BR><A HREF="ifolderdetails.html">iFolder詳細の管理</A><BR><A HREF="member.html">ユーザアカウントの管理</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="トップへジャンプ"></A></P><P>&nbsp;</P><P CLASS="copyright">商標記号（<SUP><SMALL>&reg;</SMALL></SUP>、<SUP><SMALL>TM</SMALL></SUP>など）は、Novellの商標を示し、アスタリスク（*）は、サードパーティの商標を示します。  詳細については、「<A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">保証と著作権</font></A>」を参照してください。</P></div><!-- This is the end of the Help Content layer. --> 
 </body>
 
 </html>
