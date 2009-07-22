@@ -739,6 +739,10 @@ namespace Simias.Sync
 		{
 			get 
 			{
+                if (!SyncEnabled)
+                {
+                    return false;
+                }
                 if (stopping || resetSync)
                 {
                     return true;
