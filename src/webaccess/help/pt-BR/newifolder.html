@@ -1,10 +1,10 @@
 <html>
 <head>
-  <meta http-equiv="content-type" content="text/html;charset=iso-8859-1"> 
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8"> 
 
 <!-- Novell iFolder 3.x Web Access  --> 
 
-<title>Create new iFolders </title> 
+<title>Criar novos iFolders </title> 
 
 <!-- Metadata --> 
   <meta name="Author" content="iFolder 3.x Documentation Manager"> 
@@ -42,73 +42,54 @@ url(../../images/helphead_bg.gif) repeat-x 0% 0% }
 <div id="helpcontent" style="left: 10px; top: 38px"><!-- The Page Heading uses CSS style "head3b". This creates an H3 header
             with a line beneath it.
        --> 
-  <h3><a name="manage"></a>Create a New iFolder</h3>
-  <p>Perform the following steps to create a new iFolder:</p>
+  <h3><a name="manage"></a>Criar um novo iFolder</h3>
+  <p>Realize as seguintes etapas para criar um novo iFolder:</p>
   <ol>
     <li> 
-      <p>Click the New iFolder link given in the Home page.</p>
+      <p>Clique no link Novo iFolder fornecido na Home page.</p>
     </li>
     <li> 
-      <p>In the new page that opens, specify the following information:</p>
+      <p>Na nova p&aacute;gina aberta, especifique as seguintes informa&ccedil;&otilde;es:</p>
     </li>
     <P> 
-    <BLOCKQUOTE> <B> Name</B><BR>
-      Assign a name to the iFolder, such as myfolder. <BR>
-      <p><strong>Note: </strong> Do not use the following invalid characters in 
-        the names of iFolders or in the names of folders and files in them:</p>
-      \/:*?"<>|;<br>
-      <p>For more information on naming conventions, see Section 7.3 in the <A HREF="http://www.novell.com/documentation/ifolder3/ifolder36_user/data/bookinfo.html">iFolder 
-        Cross Platfrom User Guide </A>.</p>
-      <p><strong>IMPORTANT: </strong>When you attempt to create an iFolder whose 
-        name exceeds the file limit supported by the iFolder server file system, 
-        it throws an error message that the name of the iFolder is too long to 
-        be created.</p>
+    <BLOCKQUOTE> <B> Nome</B><BR>
+      Designe um nome para o iFolder, como minhapasta. <BR>
+      <p><strong>Nota:</strong> N&atilde;o use os seguintes caracteres inv&aacute;lidos nos nomes dos iFolders ou nos nomes das pastas e arquivos contidos nela:</p>
+      \/:*?&quot;&lt;&gt;|;<br>
+      <p>Para obter mais informa&ccedil;&otilde;es sobre conven&ccedil;&otilde;es de nomea&ccedil;&atilde;o, consulte a Se&ccedil;&atilde;o 7.3 do <A HREF="http://www.novell.com/documentation/ifolder3/ifolder36_user/data/bookinfo.html">iFolder Cross Platform User Guide</A> (Guia do Usu&aacute;rio para V&aacute;rias Plataformas do iFolder).</p>
+      <p><strong>IMPORTANTE: </strong>Se voc&ecirc; tentar criar uma pasta do iFolder cujo nome exceda o limite suportado pelo sistema de arquivos do servidor iFolder, uma mensagem de erro ser&aacute; exibida dizendo que o nome da pasta iFolder n&atilde;o pode ser criado por ser extenso demais.</p>
       <BR>
-      <B> Description</B><BR>
-      A short description of the iFolder.<br>
+      <B> Descri&ccedil;&atilde;o</B><BR>
+      Uma breve descri&ccedil;&atilde;o do iFolder.<br>
       <BR>
-      <B> Type</B><BR>
-      select the type of the iFolder that you want to create.<br>
-      <BLOCKQUOTE> <B>Encrypted</B><BR>
-        Select this option to encrypt your iFolder and the files within it. <BR>
-        <p><strong>IMPORTANT: </strong>This option is not enabled until your Admin 
-          set your encryption policy to On. </p>
+      <B> Tipo</B><BR>
+      selecione o tipo de iFolder que voc&ecirc; deseja criar.<br>
+      <BLOCKQUOTE> <B>Criptografado</B><BR>
+        Selecione essa op&ccedil;&atilde;o para criptografar seu iFolder e os arquivos dentro dele. <BR>
+        <p><strong>IMPORTANTE:</strong>Essa op&ccedil;&atilde;o s&oacute; &eacute; habilitada quando o administrador define a pol&iacute;tica de criptografia como Ativar. </p>
         <B> Regular</B><BR>
-        Select Sharable to share your iFolder with other iFolder accounts. <BR>
-        <p><strong>IMPORTANT: </strong>Shared iFolders cannot be encrypted and 
-          encrypted ones cannot be shared.</p>
+        Selecione Compartilh&aacute;vel para compartilhar seu iFolder com outras contas do iFolder. <BR>
+        <p><strong>IMPORTANTE:</strong>Os iFolders compartilhados n&atilde;o podem ser criptografados e os que est&atilde;o criptografados n&atilde;o podem ser compartilhados.</p>
       </BLOCKQUOTE>
     </BLOCKQUOTE>
     <li> 
-      <p>Select the Recovery agent from the drop-down list.</p>
-      <p><strong>Note: </strong> This option will not be available if your iFolder 
-        Administrator does not select Enable Recovery agent option while configuring 
-        the iFolder server.</p>
-      <p>The Recovery agent can be a system, organization, or a person independent 
-        of the iFolder system that where you can store the key to recover your 
-        secret passphrase.</p>
-      <p><strong>IMPORTANT: </strong> Unless you have set your Recovery agent, 
-        the encrypted data cannot be recovered in the unfortunate case that you 
-        lost the passphrase. </p>
+      <p>Selecione o agente de Recupera&ccedil;&atilde;o na lista suspensa.</p>
+      <p><strong>Nota:</strong> Esta op&ccedil;&atilde;o s&oacute; estar&aacute; dispon&iacute;vel se o Administrador do iFolder selecionar a op&ccedil;&atilde;o Habilitar Agente de Recupera&ccedil;&atilde;o durante a configura&ccedil;&atilde;o do servidor iFolder.</p>
+      <p>O agente de Recupera&ccedil;&atilde;o pode ser um sistema, uma organiza&ccedil;&atilde;o ou uma pessoa independente do sistema do iFolder no qual voc&ecirc; pode armazenar a chave para recuperar a sua frase secreta. </p>
+      <p><strong>IMPORTANTE:</strong> A menos que voc&ecirc; tenha definido o seu agente de Recupera&ccedil;&atilde;o, os dados criptografados n&atilde;o poder&atilde;o ser recuperados caso voc&ecirc; tenha perdido sua frase secreta. </p>
     </li>
     <li> 
-      <p>Type the passphrase in the Enter Passphrase field.</p>
+      <p>Digite a frase secreta no campo Digite a Frase Secreta.</p>
     </li>
-    <li><p>Enter the passphrase again to confirm.</p></li>
-    <li>Click Create to complete the new iFolder creation. 
-      <p> Click Cancel to cancel the operation. </p>
+    <li><p>Digite a frase secreta novamente para sua confirma&ccedil;&atilde;o.</p></li>
+    <li>Clique em Criar para concluir a nova cria&ccedil;&atilde;o do iFolder. 
+      <p> Clique em Cancelar para cancelar a opera&ccedil;&atilde;o. </p>
     </li>
   </ol>
   
   
-<a href="#top" target="_self"><img src="../../images/goto_top.gif" width="19" height="19" border="0" alt="Go to top"></a>
-<H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Related Topics" align="top"> 
-Related Topics</H4><BLOCKQUOTE class="task1"><P ><A HREF="browse.html">Accessing Folders and Files in Your iFolder</A><BR><A HREF="details.html">Viewing iFolder Properties
-</A><BR><A HREF="members.html">Managing iFolder Members</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Go to top"></A></P><P CLASS="copyright">A 
-trademark symbol (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP>, 
-etc.) denotes a Novell trademark. An asterisk (*) denotes a third-party 
-trademark. For more information, see <A HREF="legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Legal 
-Notices</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
+<a href="#top" target="_self"><img src="../../images/goto_top.gif" width="19" height="19" border="0" alt="Ir para o in&iacute;cio"></a>
+<H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="T&oacute;picos relacionados" align="top"> T&oacute;picos relacionados</H4><BLOCKQUOTE class="task1"><P ><A HREF="browse.html">Acessando pastas e arquivos no seu iFolder</A><BR><A HREF="details.html">Vendo as propriedades do iFolder</A><BR><A HREF="members.html">Gerenciando membros do iFolder</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Ir para o in&iacute;cio"></A></P><P CLASS="copyright">Um s&iacute;mbolo de marca registrada (<SUP><SMALL>&reg;, </SMALL></SUP>,<SUP><SMALL>TM</SMALL></SUP> etc.) indica uma marca registrada da Novell. Um asterisco (*) indica uma marca registrada de terceiros. Para obter mais informa&ccedil;&otilde;es, consulte <A HREF="legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Informa&ccedil;&otilde;es Legais</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
 
 </body> 
 
