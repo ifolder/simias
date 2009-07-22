@@ -1,0 +1,478 @@
+<html>
+
+   <head>
+     <meta http-equiv="content-type" content="text/html;charset=UTF-8">
+     
+     <!-- Novell iFolder 3.6 Web Admin Help  --> 
+   
+     <title>Detalhes do iFolder</title>  	 
+     
+ 
+     <!-- Metadata -->
+   
+     <meta name="Author" content="iFolder 3.6 Documentation Manager">
+     <meta name="date" content="02-17-2005">
+     <meta name="modified" content="02-29-2007"> 
+	 
+	 <!-- iManager Documentation Stylesheet -->
+	 
+	 <link rel="stylesheet" href="hf_style.css" type="text/css"> 
+	 
+	 <!--  Style definitions for this Help page: body plus help banner layer
+		  and help content layer. The style definition is commented to prevent
+		  older browsers from presenting the style information as part of the 
+		  page itself. 
+      -->
+	
+     
+<style type= "text/css" media="screen">
+       <!--
+       
+         body           {  font-family: Arial, Helvetica, Geneva;
+									background: white url('../../images/helphead_bg.gif') repeat-x;  }
+		      
+         #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px;
+									width: 380px; visibility: visible }
+			   
+         #helpcontent    { position: absolute; top: 37px; left: 10px; 
+	                        width: 93%; visibility: visible }
+ 
+       -->
+     </style>
+  
+   
+
+
+</head>
+   
+   <!-- This is the start of the body. It underlays the help banner layer 
+         and help content layers. -->
+	 
+   <body bgcolor="white" marginwidth="0" marginheight="0" 
+         leftmargin="0" topmargin="0">
+<!-- This is the start of the Help Banner Layer --> <div id="headgraphic"> <img src="../../images/h1_help.gif" width="380" height="32"   border="0"></div><!-- This is end of the Help Banner Layer --> 
+<!-- This is the start of the Help Content Layer --> <div id="helpcontent"> <!-- The Page Heading uses CSS style "head3b". This creates an H3 header
+            with a line beneath it.
+       --> 
+  <h3 class="head3b">Gerenciando detalhes do iFolder</h3>
+  <p> Use essa interface para gerenciar a propriedade, as pol&iacute;ticas e as associa&ccedil;&otilde;es de um iFolder selecionado. </p>
+  <p> <b>Nota</b>: Um administrador secund&aacute;rio pode gerenciar as pol&iacute;ticas de um iFolder selecionado com base nos direitos que possui sobre esse iFolder.</p><BLOCKQUOTE CLASS="blockquote"><P><A HREF="#general" TARGET="_self">Vendo detalhes do iFolder</A> <BR><A HREF="#members" TARGET="_self">Membros </A><BR><A HREF="#policies" TARGET="_self">Pol&iacute;ticas</A> </P></BLOCKQUOTE>
+  
+ 
+  <H4><A NAME="general"></A>Vendo detalhes do iFolder</H4>
+  <P>&Eacute; poss&iacute;vel exibir as seguintes informa&ccedil;&otilde;es de </P><TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Par&acirc;metro</P></TD><TD CLASS="tablehead2"><P>Descri&ccedil;&atilde;o</P></TD></TR><TD VALIGN="TOP">
+        <P>Tipo</P>
+      </TD><TD>
+        <P><img src="../../images/ifolder.png" width="16" height="16" alt="&iacute;cone Pasta"> iFolder Normal</P>
+		<P><img src="../../images/encrypt_ifolder.gif" width="16" height="16" alt="&iacute;cone Pasta"> iFolder Criptografado</P>
+		<p><img src="../../images/ifolder_user_16.gif" width="16" height="16" alt="&iacute;cone Compartilhado"> iFolder Compartilhado<br>
+      </TD><TR><TD VALIGN="TOP">
+        <P>Nome do iFolder</P>
+      </TD><TD>
+        <P>O nome designado para o iFolder </P>
+      </TD><TR><TD VALIGN="TOP">
+        <P>Descri&ccedil;&atilde;o (edit&aacute;vel)</P>
+      </TD><TD>
+        <P>Uma breve descri&ccedil;&atilde;o sobre o iFolder. Voc&ecirc; pode editar a descri&ccedil;&atilde;o e clicar em Gravar para gravar as mudan&ccedil;as.</P>
+      </TD><TR><TD VALIGN="TOP"><P>Propriet&aacute;rio 
+</P></TD><TD>
+        <P>O nome de usu&aacute;rio do propriet&aacute;rio do iFolder selecionado. O propriet&aacute;rio pode ser um usu&aacute;rio individual ou um grupo LDAP. Se um grupo LDAP for propriet&aacute;rio do iFolder, todos os membros do grupo ter&atilde;o os mesmos direitos de acesso. Para iFolders &oacute;rf&atilde;os, o usu&aacute;rio do Admin do iFolder &eacute; considerado o propriet&aacute;rio at&eacute; que o iFolder seja reatribu&iacute;do ou apagado.</P>
+        <p>Clique no link do nome de usu&aacute;rio do propriet&aacute;rio para ver os detalhes da conta de usu&aacute;rio dele.</p> 
+        <P>O propriet&aacute;rio do iFolder possui direito Controle Total para o iFolder. O propriet&aacute;rio gerencia os direitos de associa&ccedil;&atilde;o e acesso dos usu&aacute;rios e pode remover o direito Controle Total de qualquer membro.</P>
+      </TD></TR><TR><TD VALIGN="TOP"><P>Caminho</P></TD><TD><P>A localiza&ccedil;&atilde;o real do iFolder e seus dados no servidor. Por exemplo:</P><P>/var/opt/novell/ifolder3/simias/SimiasFiles/<I>e84fdc6e-3d51-49df-ae3f-8c9213c76994</I>/&lt;Nome_iFolder&gt;</P><P>Neste exemplo, <I>e84fdc6e-3d51-49df-ae3f-8c9213c76994</I> &eacute; o &uacute;nico ID do compartilhamento de iFolder.</P></TD><TR><TD VALIGN="TOP">
+        <P>Modificado</P>
+      </TD><TD>
+        <P>A data e a hora da &uacute;ltima modifica&ccedil;&atilde;o do iFolder.</P>
+      </TD><TR><TD VALIGN="TOP">
+        <P>Diret&oacute;rios</P>
+      </TD><TD>
+        <P>O n&uacute;mero total de diret&oacute;rios no iFolder.</P>
+      </TD><TR><TD VALIGN="TOP">
+        <P>Arquivos</P>
+      </TD><TD>
+        <P>O n&uacute;mero total de arquivos no iFolder.</P>
+      </TD></TR><TR><TD VALIGN="TOP">
+        <P>&Oacute;rf&atilde;o</P>
+      </TD>
+      <TD> 
+        <P>Sim indica que o iFolder &eacute; &oacute;rf&atilde;o.</P>
+        <P>No caso de iFolders &oacute;rf&atilde;os, o Admin do iFolder se torna o propriet&aacute;rio at&eacute; que o iFolder possa ser reatribu&iacute;do a um novo propriet&aacute;rio ou seja apagado.</P>
+      </TD></TR></TABLE>
+	  
+  <H3><a name="members"></a>Membros </H3>
+  <p> Voc&ecirc; pode ver o nome, o tipo dos membros e os direitos de acesso designados a eles. Voc&ecirc; tem permiss&atilde;o para adicionar ou apagar um propriet&aacute;rio, designar propriedade e definir direitos de acesso a um membro selecionado. 
+  <H4><A NAME="share"></A>Adicionando um membro</H4><OL><LI>
+      <P>Na p&aacute;gina Detalhes do iFolder, clique em Adicionar.</P>
+    </LI><LI>
+      <P>Pesquise o usu&aacute;rio ou grupo LDAP a ser adicionado como membro, marque a caixa de sele&ccedil;&atilde;o ao lado do nome do usu&aacute;rio e clique em Adicionar.<BR>
+        <BR>
+        Por padr&atilde;o, o usu&aacute;rio ou o grupo LDAP recebe acesso Apenas Leitura ao iFolder.</P>
+    </LI><LI>
+      <P>(Opcional) Marque a caixa de sele&ccedil;&atilde;o Usu&aacute;rio, selecione Direitos e especifique o direito Acesso como Admin, Leitura/Grava&ccedil;&atilde;o ou Apenas Leitura e clique em Definir.<BR>
+        <BR>
+        Aguarde a atualiza&ccedil;&atilde;o da p&aacute;gina. O &iacute;cone do usu&aacute;rio deve refletir o novo direito de acesso. </P>
+    </LI></OL>
+<H4>Compreendendo os direitos de acesso do iFolder </H4>
+<p>O cliente iFolder suporta o propriet&aacute;rio e tr&ecirc;s n&iacute;veis de acesso para membros de um iFolder:</p>
+<P><B><FONT SIZE="-1">NOTA:</FONT></B> <FONT SIZE="-1">Os membros de um grupo LDAP herdam os direitos de acesso definidos para esse grupo.</FONT></P>
+  <BLOCKQUOTE> 
+    <P><B>Propriet&aacute;rio<BR>
+      </B>Apenas um usu&aacute;rio ou grupo LDAP pode ser o propriet&aacute;rio de um iFolder. Em geral, &eacute; o usu&aacute;rio ou qualquer membro do grupo LDAP que criou o iFolder. Se o propriet&aacute;rio for um grupo LDAP, todos os membros desse grupo ter&atilde;o a propriedade desse iFolder. O usu&aacute;rio propriet&aacute;rio ou os membros do grupo LDAP propriet&aacute;rio podem usar o cliente iFolder para transferir a propriedade a outro membro do iFolder. O usu&aacute;rio Admin do iFolder pode transferir a propriedade para qualquer usu&aacute;rio ou grupo LDAP no servidor iFolder.</P>
+    <P>O propriet&aacute;rio de uma pasta do iFolder tem direito Controle Total. Esse usu&aacute;rio ou grupo LDAP tem acesso de leitura/grava&ccedil;&atilde;o ao iFolder, gerencia a participa&ccedil;&atilde;o e os direitos de acesso dos usu&aacute;rios e grupos LDAP membros e pode remover o direito Controle Total de qualquer membro. Com um servidor empresarial, o espa&ccedil;o em disco usado pelas pastas do iFolder do propriet&aacute;rio conta como quotas de disco de usu&aacute;rio do propriet&aacute;rio nesse servidor.</P>
+    <P>Se um usu&aacute;rio ou grupo LDAP for apagado do sistema iFolder, as pastas do iFolder de propriedade do usu&aacute;rio ou grupo LDAP ficar&atilde;o &oacute;rf&atilde;s. As pastas do iFolder &oacute;rf&atilde;s s&atilde;o temporariamente designadas ao usu&aacute;rio Admin como propriet&aacute;rio. A participa&ccedil;&atilde;o e a sincroniza&ccedil;&atilde;o continua para outros usu&aacute;rios e membros do grupo LDAP, enquanto o usu&aacute;rio Admin do iFolder determina se um iFolder &oacute;rf&atilde;o deve ser apagado ou atribu&iacute;do a um novo propriet&aacute;rio. </P>
+  <P><B>Controle Total</B><BR>
+      Um membro da pasta do iFolder compartilhada, com direito de acesso Controle Total. O usu&aacute;rio ou o grupo LDAP com o direito Controle Total tem acesso de leitura/grava&ccedil;&atilde;o ao iFolder e gerencia a participa&ccedil;&atilde;o e os direitos de acesso de todos os usu&aacute;rios, exceto o propriet&aacute;rio.</P>
+  <P><B>Leitura/Grava&ccedil;&atilde;o</B><BR>
+    Um membro da pasta do iFolder compartilhada, com direito de acesso Leitura/Grava&ccedil;&atilde;o aos diret&oacute;rios e arquivos do iFolder.</P>
+  <P><B>Apenas Leitura</B><BR>
+    Um membro da pasta iFolder compartilhada, com direito de acesso Apenas leitura aos diret&oacute;rios e arquivos do iFolder. Esse membro pode copiar um arquivo do iFolder para outro local e modific&aacute;-lo fora do iFolder.</P>
+</BLOCKQUOTE>
+<p>A tabela a seguir descreve os recursos associados a cada n&iacute;vel de acesso dos usu&aacute;rios.</p>
+  <TABLE WIDTH="93%" BORDER="1">
+    <tr class="HEADERROW"> 
+      <th  CLASS="tablehead2">Recursos</th>
+      <th  CLASS="tablehead2">Propriet&aacute;rio</th>
+      <th  CLASS="tablehead2">Controle Total</th>
+      <th  CLASS="tablehead2">Leitura/Grava&ccedil;&atilde;o</th>
+      <th  CLASS="tablehead2">Apenas Leitura</th>
+    </tr>
+    <tr > 
+      <td  scope="row"> 
+        <p >Redesignar propriedade a outro usu&aacute;rio ou grupo LDAP</p>
+      </td>
+      <td >
+        <p >Sim</p>
+      </td>
+      <td >
+        <p >N&atilde;o</p>
+      </td>
+      <td >
+        <p >N&atilde;o</p>
+      </td>
+      <td >
+        <p >N&atilde;o</p>
+      </td>
+    </tr>
+    <tr > 
+      <td  scope="row"> 
+        <p >Definir uma quota para a pasta do iFolder</p>
+      </td>
+      <td >
+        <p >Sim</p>
+      </td>
+      <td >
+        <p >N&atilde;o</p>
+      </td>
+      <td >
+        <p >N&atilde;o</p>
+      </td>
+      <td >
+        <p >N&atilde;o</p>
+      </td>
+    </tr>
+    <tr > 
+      <td  scope="row"> 
+        <p >Tornar a pasta do iFolder dispon&iacute;vel para outros usu&aacute;rios (compartilhamento)</p>
+      </td>
+      <td >
+        <p >Sim</p>
+      </td>
+      <td >
+        <p >Sim</p>
+      </td>
+      <td >
+        <p >N&atilde;o</p>
+      </td>
+      <td >
+        <p >N&atilde;o</p>
+      </td>
+    </tr>
+    <tr > 
+      <td  scope="row"> 
+        <p >Tornar a pasta do iFolder indispon&iacute;vel para outros usu&aacute;rios (interromper compartilhamento)</p>
+      </td>
+      <td >
+        <p >Sim</p>
+      </td>
+      <td >
+        <p >Sim, exceto o propriet&aacute;rio</p>
+      </td>
+      <td >
+        <p >N&atilde;o</p>
+      </td>
+      <td >
+        <p >N&atilde;o</p>
+      </td>
+    </tr>
+    <tr > 
+      <td  scope="row"> 
+        <p >Atribuir direitos de acesso do iFolder a outros usu&aacute;rios ou ao grupo LDAP</p>
+      </td>
+      <td >
+        <p >Sim</p>
+      </td>
+      <td >
+        <p >Sim, exceto o propriet&aacute;rio</p>
+      </td>
+      <td >
+        <p >N&atilde;o</p>
+      </td>
+      <td >
+        <p >N&atilde;o</p>
+      </td>
+    </tr>
+    <tr > 
+      <td  scope="row"> 
+        <p >Ler diret&oacute;rios e arquivos na pasta do iFolder </p>
+      </td>
+      <td >
+        <p >Sim</p>
+      </td>
+      <td >
+        <p >Sim</p>
+      </td>
+      <td >
+        <p >Sim</p>
+      </td>
+      <td >
+        <p >Sim</p>
+      </td>
+    </tr>
+    <tr > 
+      <td  scope="row"> 
+        <p >Adicionar, modificar ou apagar diret&oacute;rios e arquivos na pasta do iFolder</p>
+      </td>
+      <td >
+        <p >Sim</p>
+      </td>
+      <td >
+        <p >Sim</p>
+      </td>
+      <td >
+        <p >Sim</p>
+      </td>
+      <td >
+        <p >N&atilde;o</p>
+      </td>
+    </tr>
+    <tr > 
+      <td  scope="row"> 
+        <p >Renomear diret&oacute;rios e arquivos em uma pasta do iFolder</p>
+      </td>
+      <td >
+        <p >Sim</p>
+      </td>
+      <td >
+        <p >Sim</p>
+      </td>
+      <td >
+        <p >Sim</p>
+      </td>
+      <td >
+        <p >N&atilde;o</p>
+      </td>
+    </tr>
+    <tr > 
+      <td  scope="row"> 
+        <p >Renomear a pasta do iFolder</p>
+      </td>
+      <td >
+        <p >N&atilde;o</p>
+      </td>
+      <td >
+        <p >N&atilde;o</p>
+      </td>
+      <td >
+        <p >N&atilde;o</p>
+      </td>
+      <td >
+        <p >N&atilde;o</p>
+      </td>
+    </tr>
+    <tr > 
+      <td  scope="row"> 
+        <p >Configurar uma pasta do iFolder em v&aacute;rios computadores</p>
+      </td>
+      <td >
+        <p >Sim</p>
+      </td>
+      <td >
+        <p >Sim</p>
+      </td>
+      <td >
+        <p >Sim</p>
+      </td>
+      <td >
+        <p >Sim</p>
+      </td>
+    </tr>
+    <tr > 
+      <td  scope="row"> 
+        <p >Reverter uma pasta do iFolder (n&atilde;o participar em um computador local)</p>
+      </td>
+      <td >
+        <p >Sim</p>
+      </td>
+      <td >
+        <p >Sim</p>
+      </td>
+      <td >
+        <p >Sim</p>
+      </td>
+      <td >
+        <p >Sim</p>
+      </td>
+    </tr>
+    <tr > 
+      <td  scope="row"> 
+        <p >Apagar uma pasta do iFolder dispon&iacute;vel para recusar participa&ccedil;&atilde;o</p>
+      </td>
+      <td >
+        <p >Sim</p>
+      </td>
+      <td >
+        <p >Sim</p>
+      </td>
+      <td >
+        <p >Sim</p>
+      </td>
+      <td >
+        <p >Sim</p>
+      </td>
+    </tr>
+    <tr > 
+      <td  scope="row"> 
+        <p >Apagar a pasta do iFolder e apagar essa pasta e seus arquivos do servidor (torn&aacute;-la uma pasta normal novamente e n&atilde;o mais compartilh&aacute;-la com outras pessoas)</p>
+      </td>
+      <td >
+        <p >Sim</p>
+      </td>
+      <td >
+        <p >N&atilde;o</p>
+      </td>
+      <td >
+        <p >N&atilde;o</p>
+      </td>
+      <td >
+        <p >N&atilde;o</p>
+      </td>
+    </tr>
+  </table>
+<H4>Definindo o direito de acesso do iFolder de um membro</H4>
+  
+<OL><LI>
+      <P>Na p&aacute;gina Detalhes do iFolder, marque a caixa de sele&ccedil;&atilde;o ao lado do membro cujo direito de acesso voc&ecirc; deseja gerenciar.</P>
+    </LI><LI>
+      <P>Selecione o menu suspenso Direitos e selecione o direito Admin, Leitura/Grava&ccedil;&atilde;o ou Apenas Leitura.<BR>
+        <BR>Aguarde a atualiza&ccedil;&atilde;o da p&aacute;gina. O &iacute;cone do usu&aacute;rio deve refletir o novo direito de acesso.</P></LI></OL>
+  <H4>Removendo um membro</H4>
+<ol>
+    <li>Na p&aacute;gina Detalhes do iFolder, marque a caixa de sele&ccedil;&atilde;o ao lado do nome do usu&aacute;rio membro.</li>
+    <li>Clique em Apagar.</li>
+</ol>
+<P>A c&oacute;pia local dos dados permanece no computador do usu&aacute;rio, mas ele n&atilde;o tem mais acesso &agrave; c&oacute;pia do servidor dos dados da pasta do iFolder.</P><P> <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Ir para o in&iacute;cio" TITLE="Ir para o in&iacute;cio"></A></P>
+	  <H4>Mudando o propriet&aacute;rio</H4>
+  <P>Quando voc&ecirc; muda o propriet&aacute;rio de um iFolder, o propriet&aacute;rio existente se torna um membro do iFolder e a ele &eacute; concedido o direito Leitura/Grava&ccedil;&atilde;o. No caso das pastas do iFolder &oacute;rf&atilde;s, o Admin se torna o propriet&aacute;rio at&eacute; que a pasta do iFolder possa ser redesignada a um novo propriet&aacute;rio ou apagada. Se o novo propriet&aacute;rio n&atilde;o for atualmente um membro do iFolder, uma notifica&ccedil;&atilde;o de assinatura ser&aacute; enviada &agrave; conta do iFolder do usu&aacute;rio.</P>
+  <OL>
+    <LI> 
+      <P>Na p&aacute;gina Detalhes do iFolder, pesquise o usu&aacute;rio ou o Grupo LDAP que voc&ecirc; deseja designar como novo propriet&aacute;rio da pasta do iFolder.</P>
+    </LI>
+    <LI>
+      <P>Marque a caixa de sele&ccedil;&atilde;o ao lado do nome do usu&aacute;rio e clique em <i>Propriet&aacute;rio</i>.</P>
+    </LI>
+    
+  </OL>
+  <P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Ir para o in&iacute;cio"></A></P>
+  <H3><A NAME="policy"></A>Pol&iacute;ticas</H3>
+  
+  <P>A tabela a seguir lista as pol&iacute;ticas que voc&ecirc; pode gerenciar para qualquer iFolder. Modifique um ou mais dos seguintes valores e clique em Gravar para aplicar as novas configura&ccedil;&otilde;es. </P>
+<TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Par&acirc;metro</P></TD><TD CLASS="tablehead2"><P>Descri&ccedil;&atilde;o</P></TD></TR><TR><TD VALIGN="TOP">
+        <P>Desabilitar Sincroniza&ccedil;&atilde;o</P>
+      </TD><TD>
+        <P>Selecione essa op&ccedil;&atilde;o para desligar a sincroniza&ccedil;&atilde;o, normalmente por tempo limitado. 
+        </P>
+        <P>Desmarque essa op&ccedil;&atilde;o para permitir a sincroniza&ccedil;&atilde;o de dados no iFolder.</P>
+        <P>Valor padr&atilde;o: Habilitado, Sim</P>
+      </TD></TR><TR><TD VALIGN="TOP">
+        <P>Quota de disco</P>
+      </TD><TD>
+        <P>Marque a caixa de sele&ccedil;&atilde;o Limite e especifique o tamanho m&aacute;ximo (em MB) para a pasta do iFolder selecionada.</P>
+        <P>Se voc&ecirc; habilitar a quota do iFolder em todo o sistema ou no n&iacute;vel do grupo LDAP, a quota da conta do usu&aacute;rio a substituir&aacute; se a quota do usu&aacute;rio for mais baixa ou mais alta do que a do grupo LDAP ou do sistema. </P>
+        <P>Valor padr&atilde;o: Desabilitado, Sem Limite</P>
+      </TD></TR><TR><TD VALIGN="TOP">
+        <P> Usado</P>
+        <P>(Apenas visualiza&ccedil;&atilde;o)&nbsp;</P></TD><TD>
+        <P>Relata o espa&ccedil;o que os dados do iFolder consomem atualmente.</P>
+      </TD></TR><TR><TD VALIGN="TOP">
+        <P>Dispon&iacute;vel</P>
+        <P>(Apenas visualiza&ccedil;&atilde;o)&nbsp;</P></TD><TD>
+        <P>Relata o espa&ccedil;o dispon&iacute;vel no servidor para os dados do iFolder.</P>
+      </TD></TR><TR><TD VALIGN="TOP">
+        <P>Efetiva</P>
+        <P>(Apenas visualiza&ccedil;&atilde;o)&nbsp;</P></TD><TD>
+        <P>Relata o espa&ccedil;o efetivo dispon&iacute;vel no servidor para os dados do iFolder.</P>
+      </TD></TR>
+	  <TR><TD VALIGN="TOP">
+        <p>Tamanho do arquivo</p>
+      </TD>
+      <TD> <B>Limite</B><BR>
+          Especifica o tamanho m&aacute;ximo total do arquivo (em MB) ao qual um usu&aacute;rio do iFolder tem permiss&atilde;o de uso, em todos os iFolders que o usu&aacute;rio possui, para a conta de usu&aacute;rio selecionada. <br>
+          <BR>
+        <B>Efetivo</B><BR>
+        Tamanho efetivo do arquivo alocado para o usu&aacute;rio.<br>
+		<ul><P><font size="-1"><b>IMPORTANTE:</b>Os usu&aacute;rios n&atilde;o podem sincronizar arquivos de um tamanho que fa&ccedil;a com que a quota seja excedida. Caso eles tentem fazer isso, apenas parte do arquivo ser&aacute; sincronizada, o que resultar&aacute; na corrup&ccedil;&atilde;o dos dados.</font></P></ul>
+      </TD></TR>
+	  <TR>
+      <TD VALIGN="TOP"> 
+        <p>Arquivos Exclu&iacute;dos</p>
+      </TD>
+      <TD> 
+        <P>Especifica uma lista de tipos de arquivos para incluir ou excluir da sincroniza&ccedil;&atilde;o do iFolder selecionado.</P>
+        <p>Os arquivos do gerenciador de arquivos chamados thumbs.db e .DS_Store nunca s&atilde;o sincronizados. 
+        </p>
+    
+        <P>Para adicionar uma extens&atilde;o de arquivo ao filtro de exclus&atilde;o, digite a extens&atilde;o (por exemplo, *.mpg) e clique em Adicionar para aplicar o filtro. </P>
+        <P>Para excluir um tipo de arquivo dos tipos de arquivos restritos, selecione a caixa de sele&ccedil;&atilde;o adjacente ao Nome do Arquivo, selecione o tipo de arquivo e clique em Apagar.</P>
+         
+        <P>Valor padr&atilde;o: Desabilitado, Permitir todos os tipos de arquivo ou as configura&ccedil;&otilde;es no &acirc;mbito do sistema.</P>
+      </TD></TR>
+	
+      
+<TR><TD VALIGN="TOP">
+        <P> Intervalo da Sincroniza&ccedil;&atilde;o</P>
+      </TD><TD>
+        <P>Marque a caixa de sele&ccedil;&atilde;o Intervalo de Sincroniza&ccedil;&atilde;o para habilitar a configura&ccedil;&atilde;o de um intervalo m&iacute;nimo do iFolder selecionado, em seguida, especifique o valor m&iacute;nimo em minutos permitido para defini&ccedil;&atilde;o do cliente do iFolder.</P>
+        <P> Para desabilitar a configura&ccedil;&atilde;o, desmarque a caixa de sele&ccedil;&atilde;o do Intervalo de Sincroniza&ccedil;&atilde;o. Se a op&ccedil;&atilde;o estiver desabilitada, o valor relatado ser&aacute; Ilimitado.</P>
+        <P> Se essa op&ccedil;&atilde;o estiver habilitada, o intervalo m&iacute;nimo de sincroniza&ccedil;&atilde;o especifica o intervalo m&iacute;nimo em minutos que um cliente do usu&aacute;rio pode marcar nos dados dos iFolders local e do servidor a fim de identificar os arquivos que precisam ser descarregados ou carregados.</P>
+  <P>      O intervalo m&iacute;nimo de sincroniza&ccedil;&atilde;o efetivo &eacute; sempre o maior valor das seguintes configura&ccedil;&otilde;es:</P>
+  <ul>
+    <li>
+            <p> A pol&iacute;tica do sistema (padr&atilde;o de 5 minutos), a n&atilde;o ser que haja uma pol&iacute;tica de usu&aacute;rio ou um conjunto de pol&iacute;ticas do grupo LDAP definido. Se houver um conjunto de pol&iacute;ticas para o grupo LDAP, ele substituir&aacute; a pol&iacute;tica do sistema. Se houver uma pol&iacute;tica de usu&aacute;rio definida, ela substituir&aacute; a pol&iacute;tica do grupo LDAP e do sistema, seja seu valor maior ou menor.</p>
+    </li>
+    <li>
+      <p> A pol&iacute;tica da m&aacute;quina local ou a configura&ccedil;&atilde;o na m&aacute;quina do cliente sincronizando com o servidor</p>
+    </li>
+    <li>
+      <p> A pol&iacute;tica do iFolder (cole&ccedil;&atilde;o)</p>
+    </li>
+  </ul>  
+        <P> Valor padr&atilde;o: Desabilitado, limite do iFolder definido pelo cliente</P>
+      </TD>
+</TR><TR><TD VALIGN="TOP">
+        <P> Compartilhar</P>
+      </TD><TD> <B>Ativar</B><BR>
+        Por padr&atilde;o, o compartilhamento do iFolder fica habilitado. Desmarque Ativar para desabilitar o compartilhamento da pasta do iFolder selecionada. Ap&oacute;s a aplica&ccedil;&atilde;o dessa pol&iacute;tica, a pasta do iFolder selecionada n&atilde;o poder&aacute; ser compartilhada nem pelo Admin, nem pelo propriet&aacute;rio.<br>
+          <BR>
+        <B>Revogar</B><BR>
+        Selecione <i>Revogar</i> para remover todos os membros compartilhados da lista da pasta do iFolder selecionada.<br>
+		<ul>
+          <P><font size="-1"><b>IMPORTANTE:</b> Essas duas op&ccedil;&otilde;es ser&atilde;o desabilitadas se voc&ecirc; habilitar e aplicar a op&ccedil;&atilde;o <i>Compartilhamento</i> no n&iacute;vel do sistema ou do usu&aacute;rio.</font></P>
+        </ul>
+      </TD></TR></TABLE><BR><P> 
+  
+  <H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="T&oacute;picos relacionados" align="top"> T&oacute;picos relacionados</H4><BLOCKQUOTE class="task1"><P ><A HREF="ifolders.html">Gerenciando pastas do iFolder </A><BR><A HREF="users.html">Gerenciando usu&aacute;rios</A><BR><A HREF="userdetails.html">Detalhes do usu&aacute;rio</A><BR><A HREF="servers.html#orphan" TARGET="_self">Gerenciando servidores do iFolder</A>
+    </P>
+  </BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Ir para o in&iacute;cio"></A></P><P>&nbsp;</P><P CLASS="copyright">Um s&iacute;mbolo de marca registrada (<SUP><SMALL>&reg;, </SMALL></SUP>,<SUP><SMALL>TM</SMALL></SUP> etc.) indica uma marca registrada da Novell. Um asterisco (*) indica uma marca registrada de terceiros. Para obter mais informa&ccedil;&otilde;es, consulte <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Informa&ccedil;&otilde;es Legais</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
+</body>
+
+</html>
