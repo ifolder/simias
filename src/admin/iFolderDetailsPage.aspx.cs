@@ -487,7 +487,21 @@ namespace Novell.iFolderWeb.Admin
 				dr[ 2 ] = member.ID;
 				dr[ 3 ] = member.FullName;
 				dr[ 4 ] = member.UserName;
-				dr[ 5 ] = member.MemberRights.ToString();
+				if(member.MemberRights == Rights.Admin)
+				{
+					if(member.IsOwner)
+					{
+						dr[ 5 ] = member.MemberRights.ToString();
+					}
+					else
+					{
+						dr[ 5 ] = GetString("FULLCONTROL");
+					}
+				}
+				else
+				{
+					dr[ 5 ] = member.MemberRights.ToString();
+				}
 
 				dt.Rows.Add( dr );
 			}
@@ -587,7 +601,7 @@ namespace Novell.iFolderWeb.Admin
 			Rights rights;
 
 			string attribute = MemberRightsList.SelectedValue;
-			if ( attribute == GetString( "ADMIN" ) )
+			if ( attribute == GetString( "FULLCONTROL" ) )
 			{
 				rights = Rights.Admin;
 			}
@@ -681,7 +695,7 @@ namespace Novell.iFolderWeb.Admin
 
 				MemberRightsList.Items[ 0 ].Text = GetString( "READONLY" );
 				MemberRightsList.Items[ 1 ].Text = GetString( "READWRITE" );
-				MemberRightsList.Items[ 2 ].Text = GetString( "ADMIN" );
+				MemberRightsList.Items[ 2 ].Text = GetString( "FULLCONTROL" );
 
 				// Initialize state variables.
 				CurrentMemberOffset = 0;

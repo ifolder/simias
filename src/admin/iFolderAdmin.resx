@@ -60,6 +60,9 @@
 	<data name="ADMIN">
 		<value>Admin</value>
 	</data>
+	<data name="FULLCONTROL">
+		<value>Full Control</value>
+	</data>
 	<data name="ADMINISTRATOR">
 		<value>Administrator</value>
 	</data>
