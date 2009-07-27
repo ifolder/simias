@@ -270,6 +270,11 @@ namespace Simias.Sync
 				si.Status = StartSyncStatus.Locked;
 				return;
 			}
+
+			else if( collection.Disabled)
+			{
+				si.Status = StartSyncStatus.SyncDisabled;
+			}
 		
 			// Check our rights.
 			member = null;

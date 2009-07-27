@@ -91,6 +91,10 @@ namespace Simias.Sync
         /// The collection has been moved from this store tp other one
         /// </summary>
         Moved,
+		/// <summary>
+		/// The collection has been disabled for sync
+		/// </summary>
+		SyncDisabled,
 	};
 
 	#endregion
@@ -457,12 +461,14 @@ namespace Simias.Sync
                                 CurrentiFolderID = null;
                                 log.Info("{0} : Finished Sync.", cClient);
                             }
+			
                             else
                             {
 				cClient.isSyncDisabled = true;
 				eventPublisher.RaiseEvent(new CollectionSyncEventArgs(cClient.collection.Name, cClient.collection.ID, Simias.Client.Event.Action.DisabledSync, true, false));
                                 log.Info("{0} : Sync Disabled.", cClient);
                             }
+			
                         }
                         catch (NeedCredentialsException ex)
                         {
@@ -1144,7 +1150,7 @@ namespace Simias.Sync
 				catch (Exception ex)
 				{
 					service = null;
-                    log.Debug("Error in startsync.");
+			                log.Debug("Error in startsync. Message: {0}", ex.Message);
 					throw ex;
 				}
                 
@@ -1175,6 +1181,10 @@ namespace Simias.Sync
 					case StartSyncStatus.Busy:
 						sAlive = false;
 						log.Info("The server is busy");
+						break;
+					case StartSyncStatus.SyncDisabled:
+						log.Info("Collection is disabled.");
+						eventPublisher.RaiseEvent(new CollectionSyncEventArgs(collection.Name, collection.ID, Simias.Client.Event.Action.DisabledSync, true, false));
 						break;
 					case StartSyncStatus.NotFound:
                         if (CheckForUserMovement(collection.ID, collection.HostID, userID, currentMember.GetDomainID(store)) == 0)
