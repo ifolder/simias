@@ -127,7 +127,7 @@
 				
 				</div>
 			
-			<!-- 	<div id="CurrentTab" runat="server" class="ifoldertabnav">
+			<%-- 	<div id="CurrentTab" runat="server" class="ifoldertabnav">
 				
 					<ul id="ifolderlisttab">
 					
@@ -154,7 +154,7 @@
 						
 					</ul> 
 				
-				</div> -->
+				</div> --%>
 
 				<table class="ifolderlistheader" cellpadding="0" cellspacing="0" border="0">
 			
@@ -245,7 +245,7 @@
 				
 				<ifolder:ListFooter ID="iFolderListFooter" Runat="server" />
 				
-<!--				<asp:Button 
+<%--				<asp:Button 
 					ID="DeleteiFolderButton" 
 					Runat="server" 
 					Enabled="False" 
@@ -270,14 +270,14 @@
 					ID="CreateiFolderButton" 
 					Runat="server" 
 					CssClass="actionbuttons" 
-					OnClick="OnCreateiFolder" /> -->
+					OnClick="OnCreateiFolder" /> --%>
 					
 			</div>
 			
 	</div>
 	</div>
 	
-<!--	<ifolder:Footer id="footer" runat="server" /> -->
+<%--	<ifolder:Footer id="footer" runat="server" /> --%>
 		
 </form>
 

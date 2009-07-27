@@ -35,10 +35,10 @@
                 <iFolder:TopNavigation ID="TopNav" Runat="server" />
 
 
-<!--     		    	<div class="pagetitle">
+<%--     		    	<div class="pagetitle">
                			<%= GetString( "EDITLDAPDETAILS" ) %>
 			</div>
--->			
+--%>			
 			<div class="lognav">
 				<table class="detailinfo">
 					

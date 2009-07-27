@@ -36,11 +36,11 @@
 		
 		<div class="leftnav">
 
-<!-- 			<div class="detailnav"> -->
+<%-- 			<div class="detailnav"> --%>
 
 				<div class="pagetitle">
 				
-<!--					<%= GetString( "EDITADMINRIGHTS" ) %>-->
+<%--					<%= GetString( "EDITADMINRIGHTS" ) %>--%>
 					<asp:Label ID="AdminFullNameLabel" runat="server" />
 					
 				</div>
@@ -355,13 +355,13 @@
 					
 				</div>
 				
-<!--			</div> -->
+<%--			</div> --%>
 			
 		</div>
 
 	</div>
 	
-<!-- 	<ifolder:Footer id="footer" runat="server" /> -->
+<%-- 	<ifolder:Footer id="footer" runat="server" /> --%>
 				
 </form>
 	

@@ -49,15 +49,15 @@
 	
 			<iFolder:TabControl id="Tabs" runat="server" />
 	
-			<!--<iFolder:iFolderActionsControl runat="server" />-->
+			<%--<iFolder:iFolderActionsControl runat="server" />--%>
 
 			<iFolder:QuotaControl runat="server" />
 
 		</div>
 	
 		<div id="content">
-<!--
-		<iFolder:iFolderContextControl id="iFolderContext" runat="server" /> --> 
+<%--
+		<iFolder:iFolderContextControl id="iFolderContext" runat="server" /> --%> 
 		
 			<iFolder:MessageControl id="Message" runat="server" />
 	
@@ -65,7 +65,7 @@
 				
 				<div>
 					
-				<!-- hide - don't need	<div class="section"><%= GetString("PROPERTIES") %></div> -->
+				<%-- hide - don't need	<div class="section"><%= GetString("PROPERTIES") %></div> --%>
 						
 					<div id="PropertyActions" class="actions" runat="server">
 						<div class="action">

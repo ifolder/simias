@@ -50,7 +50,7 @@
 	
 			<iFolder:TabControl id="Tabs" runat="server" />
 	
-			<!--<iFolder:iFolderActionsControl runat="server" />-->
+			<%--<iFolder:iFolderActionsControl runat="server" />--%>
 
 			<iFolder:QuotaControl runat="server" />
 
@@ -58,7 +58,7 @@
 	
 		<div id="content">
 
-<!--	<iFolder:iFolderContextControl id="iFolderContext" runat="server" /> -->
+<%--	<iFolder:iFolderContextControl id="iFolderContext" runat="server" /> --%>
 		
 			<iFolder:MessageControl id="Message" runat="server" />
 	

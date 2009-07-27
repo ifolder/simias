@@ -19,7 +19,7 @@
 	</style>
 		
 	<script language="javascript">
-	<!--
+	<%--
 	// set the focus on the password text box, unless no username exists
 	function SetFocus()
 	{
@@ -37,7 +37,7 @@
 	
 	// on load
 	window.onload = SetFocus;
-	-->
+	--%>
 	</script>
 	
 </head>
@@ -60,7 +60,7 @@
 
 		<div class="loginbanner">
 				
-			<!-- <img src="images/login_title.png" alt='<%= GetString("TITLE") %>'> -->
+			<%-- <img src="images/login_title.png" alt='<%= GetString("TITLE") %>'> --%>
 
 			<div>
 			<asp:HyperLink 

@@ -14,7 +14,7 @@
 	</style>
 
 	<script type="text/javascript">
-	<!--
+	<%--
 		// set the focus on the password text box, unless no username exists
 		function SetFocus()
 		{
@@ -32,7 +32,7 @@
 		
 		// on load
 		window.onload = SetFocus;
-	-->
+	--%>
 	</script>
 </head>
 

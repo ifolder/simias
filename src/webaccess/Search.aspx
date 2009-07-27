@@ -91,7 +91,7 @@
 	
 			<iFolder:TabControl id="Tabs" runat="server" />
 	
-			<!--<iFolder:iFolderActionsControl runat="server" />-->
+			<%--<iFolder:iFolderActionsControl runat="server" />--%>
 
 			<iFolder:QuotaControl runat="server" />
 

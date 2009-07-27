@@ -79,13 +79,13 @@
 		<div id="nav">	
 			<iFolder:TabControl id="Tabs" runat="server" />
 	
-			<!--<iFolder:iFolderActionsControl runat="server" />-->
+			<%--<iFolder:iFolderActionsControl runat="server" />--%>
 
 			<iFolder:QuotaControl runat="server" />
 
 	</div>
 		<div id="content">
-<!--		<iFolder:iFolderContextControl id="iFolderContext" runat="server" /> -->
+<%--		<iFolder:iFolderContextControl id="iFolderContext" runat="server" /> --%>
 		
 			<iFolder:MessageControl id="Message" runat="server" /> 
 	
@@ -115,7 +115,7 @@
 					<div class="sep"></div>
 						<asp:Label ID="SecondSingleStick" runat="server" /> 
 					<div class="action">
-						<!--<span id="DeleteDisabled"> <%= GetString("DELETE") %></span> -->
+						<%--<span id="DeleteDisabled"> <%= GetString("DELETE") %></span> --%>
 						<asp:Label ID="DeleteDisabled" runat="server" /> 
 						<asp:LinkButton ID="DeleteButton" style="display:none;" runat="server" /> 	
 					</div>

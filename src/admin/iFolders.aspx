@@ -196,11 +196,11 @@
 					Enabled="False"
 					OnClick="OnEnableButton_Click" />
 					
-<!--				<asp:Button 
+<%--				<asp:Button 
 					ID="CreateButton" 
 					Runat="server" 
 					CssClass="ifolderbuttons"
-					OnClick="OnCreateButton_Click" /> -->
+					OnClick="OnCreateButton_Click" /> --%>
 						
 			</div>
 					
@@ -208,7 +208,7 @@
 		
 	</div>
 
-<!-- 	<ifolder:Footer id="footer" runat="server" /> -->
+<%-- 	<ifolder:Footer id="footer" runat="server" /> --%>
 				
 </form>
 

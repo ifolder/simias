@@ -64,7 +64,7 @@
 			</div>
 			
 			<div class="main">
-			<!-- move to show as part of heading above -->	
+			<%-- move to show as part of heading above --%>	
 				<div class="path">
 					<asp:Literal ID="iFolderName" runat="server" />
 				</div>

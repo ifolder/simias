@@ -81,16 +81,16 @@
 		</div>
 	
 		<div id="content">
- <!-- <iFolder:HomeContextControl id="HomeContext" runat="server" /> -->
+ <%-- <iFolder:HomeContextControl id="HomeContext" runat="server" /> --%>
 		
 			<iFolder:MessageControl id="Message" runat="server" />
 	
 			<div class="main">
 
-			<!-- added header for list -->
+			<%-- added header for list --%>
 			<div class="ListHead">iFolders</div>
 
-			<!-- added for action menus - change to include server side hyperlink -->
+			<%-- added for action menus - change to include server side hyperlink --%>
 			<div id="Actions" class="actions" runat="server">
                                 <div class="action">
                                         <asp:HyperLink ID="NewiFolderLink" NavigateUrl="iFolderNew.aspx" runat="server" />

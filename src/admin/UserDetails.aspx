@@ -278,12 +278,12 @@
 				
 				<ifolder:ListFooter ID="iFolderListFooter" Runat="server" />
 				
-<!--				<asp:Button 
+<%--				<asp:Button 
 					ID="DeleteiFolderButton" 
 					Runat="server" 
 					Enabled="False" 
 					CssClass="actionbuttons"
-					OnClick="OnDeleteiFolder" /> -->
+					OnClick="OnDeleteiFolder" /> --%>
 					
 				<asp:Button 
 					ID="DisableiFolderButton" 
@@ -299,11 +299,11 @@
 					Enabled="False"
 					OnClick="OnEnableiFolder" />
 					
-<!--				<asp:Button 
+<%--				<asp:Button 
 					ID="CreateiFolderButton" 
 					Runat="server" 
 					CssClass="actionbuttons" 
-					OnClick="OnCreateiFolder" /> -->
+					OnClick="OnCreateiFolder" /> --%>
 					
 			</div>
 			
@@ -317,7 +317,7 @@
 		
 	</div>
 	
-<!--	<ifolder:Footer id="footer" runat="server" /> -->
+<%--	<ifolder:Footer id="footer" runat="server" /> --%>
 		
 </form>
 

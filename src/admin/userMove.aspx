@@ -114,7 +114,7 @@
 						
 				<ifolder:ListFooter ID="AccountsFooter" Runat="server"/>
 				
-		<!--		<asp:Button 
+		<%--		<asp:Button 
 					ID="DeleteButton" 
 					Runat="server" 
 					CssClass="ifolderbuttons" 
@@ -155,15 +155,15 @@
 					Runat="server" 
 					CssClass="ifolderbuttons" 
 					OnClick="OnCreateButton_Click"
-					Visible="False" />  -->
+					Visible="False" />  --%>
 
 			</div>
 					
 		</div>
 
 	</div>
- <!-- moved to new location in header 
-	<ifolder:Footer Runat="server" />  -->
+ <%-- moved to new location in header 
+	<ifolder:Footer Runat="server" />  --%>
 				
 </form>
 
