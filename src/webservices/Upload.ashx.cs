@@ -117,6 +117,10 @@ namespace iFolder.WebService
 				
 					if( DontCheckPolicies == false )
 					{
+						if(collection.Disabled )
+						{
+							throw new LockException();
+						}
 						// Check first, if this file is violating aggregate disk quota limit set to his group	
 						if(! iFolderUser.GroupQuotaUploadAllowed(collection.Owner.UserID, deltaSize))	
 						{
