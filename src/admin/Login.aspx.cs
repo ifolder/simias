@@ -468,6 +468,16 @@ namespace Novell.iFolderWeb.Admin
 						code = Request.UserLanguages[0];
 						if(!( code.StartsWith("zh") || code.StartsWith("pt") ))
 							code = code.Substring(0,2);
+						else
+						{
+							// On Single sign-on Browser sends language as zh-cn,zh-tw and pt-br . Help files are placed in a folder with names zh-CN,zh-TW and pt-BR .   
+							if( code == "zh-cn" )
+								code = "zh-CN";
+							else if( code == "zh-tw" )
+								code = "zh-TW";
+							else if( code == "pt-br" )
+								code = "pt-BR";
+						}
 						Session["Language"] = code;
 					}
 				}
