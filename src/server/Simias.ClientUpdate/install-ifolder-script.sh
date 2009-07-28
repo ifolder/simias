@@ -71,7 +71,7 @@ if [[ $abc = 0 ]]
 then
 echo "Finishing installation."
 else
-echo "Installation failed because of some errors. Go through /root/.local/share/simias/upgrade.log for error details."
+echo "Installation failed because of some errors. Go through $HOME/.local/share/simias/upgrade.log for error details."
 sleep 5;
 exit 0;
 fi
