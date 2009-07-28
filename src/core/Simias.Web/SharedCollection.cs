@@ -1106,7 +1106,7 @@ namespace Simias.Web
 						while(mntLine != null)
 						{
 							// verify it's a device on this box
-							if(mntLine.StartsWith("/dev") && (mntLine.IndexOf("iso9660") != -1))
+							if(mntLine.StartsWith("/dev") && (mntLine.IndexOf("iso9660") == -1))
 							{
 								Stat stat;
 								string[] entries;
