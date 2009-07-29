@@ -82,6 +82,8 @@ namespace Simias.Service
 
 		private static bool usermoveserviceenabled = false;
 
+		private static bool runasserver = false;
+
 		/// <summary>
 		/// Ldap service name 
 		/// </summary>
@@ -229,7 +231,22 @@ namespace Simias.Service
 						case MessageCode.Start:
 							if ( (svcCtl.State == Simias.Service.State.Stopped) && svcCtl.Enabled)
 							{
-								svcCtl.Start();
+								try
+								{
+									svcCtl.Start();
+								}
+								catch(Exception ex)
+								{
+									if( RunAsServer == false || String.Compare(ex.Message, "Failed to create Flaim DB.") != 0 )
+										throw ex;
+									else
+									{
+										logger.Debug("Exception Message {0} recieved", ex.Message);
+										logger.Debug("Exiting from the current process, as process failed to Open FLAIM Database ");
+										StopServices();
+										Environment.Exit(-1);
+									}
+								}
 							}
 							break;
 						case MessageCode.Stop:
@@ -408,6 +425,15 @@ namespace Simias.Service
 		{
 			get { return usermoveserviceenabled; }
 			set { usermoveserviceenabled = value; }
+		}
+
+		/// <summary>
+		/// This instance is running as server or client
+		/// </summary>
+		public bool RunAsServer
+		{
+			get { return runasserver; }
+			set { runasserver = value; }
 		}
 
 		/// <summary>

@@ -333,6 +333,7 @@ namespace Simias.Web
 			}
 
 			serviceManager = Simias.Service.Manager.GetManager();
+			serviceManager.RunAsServer = runAsServer;
 			serviceManager.StartServices();
 			serviceManager.WaitForServicesStarted();
 
@@ -546,9 +547,14 @@ namespace Simias.Web
 				Console.Error.WriteLine("Simias Process Shutdown");
 			}
 
-			// end keep alive
-			// NOTE: an interrupt or abort here is currently causing a hang on Mono
 			quit = true;
+			// Exiting here immediately as delay in this exit usually means that the next process started will
+			// will not get FLAIM Resources.
+			if ( runAsServer )
+			{
+				Console.Error.WriteLine("ALL Simias Threads are stopped,  Exiting from Simias process");
+				Environment.Exit(0);
+			}
 		}
 
 		#endregion
