@@ -148,7 +148,7 @@ namespace iFolder.WebService
 								"{0}, {1} {2} {3} {4}:{5}:{6} GMT",
 								UpSince.DayOfWeek.ToString(),
 								UpSince.Day,
-								LastSyncInfo.MonthsOfYear[ Service.UpSince.Month - 1 ],
+								LastSyncInfo.MonthsOfYear[ UpSince.Month - 1 ],
 								UpSince.Year.ToString(),
 								UpSince.Hour,
 								UpSince.Minute,
