@@ -491,7 +491,7 @@ namespace Novell.iFolderWeb.Admin
 				{
 					if(member.IsOwner)
 					{
-						dr[ 5 ] = member.MemberRights.ToString();
+						dr[ 5 ] = GetString("OWNER");
 					}
 					else
 					{
@@ -500,7 +500,16 @@ namespace Novell.iFolderWeb.Admin
 				}
 				else
 				{
-					dr[ 5 ] = member.MemberRights.ToString();
+					string attribute = member.MemberRights.ToString();
+                        		if ( attribute == Rights.ReadWrite.ToString())
+                        		{
+                                		dr[ 5 ] = GetString("READWRITE");
+
+                        		}
+                        		else if ( attribute == Rights.ReadOnly.ToString() )
+                        		{
+		                                dr[ 5 ] = GetString("READONLY"); 
+                		        }
 				}
 
 				dt.Rows.Add( dr );
