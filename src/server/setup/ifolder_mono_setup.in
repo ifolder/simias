@@ -39,10 +39,16 @@
 iFPrefix=@_bindir_@/../
 CONF_FILE_PATH=/etc/apache2/conf.d
 MOD_MONO_CONF_FILE_PATH="/etc/apache2/mod_mono.conf"
+IFOLDER32BIT="/opt/novell/ifolder3/lib/simias"
+IFOLDER64BIT="/opt/novell/ifolder3/lib64/simias"
+OS_ARCH=`uname -m | grep -c x86_64`
 
 processFile(){
 	if [ -f $1 ]; then
 		sed -e 's,'$MOD_MONO_CONF_FILE_PATH','$iFPrefix/mono/etc/apache2/conf.d/mod_mono.conf',g' -i $1
+		if [ $OS_ARCH -gt 0 ]; then
+			sed -e 's,'$IFOLDER32BIT','$IFOLDER64BIT',g' -i $1	
+		fi
 		if [ $1 == $CONF_FILE_PATH/simias.conf ]; then
 			newline=`grep -n MonoSetEnv $1`
 			lineno=${newline:0:`expr index "$newline" \:`-1}
@@ -68,7 +74,6 @@ processFile(){
 				sed '5i MonoServerPath admin '$iFPrefix/bin/ifolder-mod-mono-server2'' -i $1
 			fi
 		elif [ $1 == $CONF_FILE_PATH/ifolder_web.conf ]; then
-
 			if [ `grep -c -E MonoSetEnv $1` -eq 0 ]; then
 				sed '5i MonoSetEnv ifolder MONO_THREADS_PER_CPU=2000' -i $1
 			fi
@@ -81,6 +86,13 @@ processFile(){
 			if [ `grep -c -E MonoMaxWaitingRequests $1` -eq 0 ]; then
 				sed '8i MonoMaxWaitingRequests ifolder 250' -i $1
 			fi
+		elif [ $1 == $iFPrefix/lib/simias/web/web.config ] || [ $1 == $iFPrefix/lib64/simias/web/web.config ]; then
+			if [ `grep -c -E AnyHttpSoap $1` -eq 0 ]; then
+				newline=`grep -n authentication\ mode $1`
+				lineno=${newline:0:`expr index "$newline" \:`-1}
+				sed ''$lineno'i \\t<webServices>\n\t\t<protocols>\n\t\t\t<add name="HttpSoap"/>\n\t\t\t<add name="HttpGet"/>\n\t\t\t<add name="HttpPost"/>\n\t\t\t<add name="AnyHttpSoap"/>\n\t\t</protocols>\n\t</webServices>\n' -i $1
+			fi
+			sed -e 's,maxconnection=\"10\", maxconnection=\"24\",g' -i $1
 		fi
 	fi
 }
@@ -92,4 +104,21 @@ then
 	processFile $CONF_FILE_PATH/simias.conf
 	processFile $CONF_FILE_PATH/ifolder_admin.conf
 	processFile $CONF_FILE_PATH/ifolder_web.conf
+	if [ $OS_ARCH -gt 0 ]; then
+		if [ -f $iFPrefix/lib/simias/web/web.config.rpmsave ]; then
+			cp $iFPrefix/lib/simias/web/web.config.rpmsave $iFPrefix/lib64/simias/web/web.config
+			mv $iFPrefix/lib/simias/web/web.config.rpmsave $iFPrefix/lib64/simias/web/
+		fi
+		processFile $iFPrefix/lib64/simias/web/web.config
+		if [ -f $iFPrefix/lib/simias/admin/Web.config.rpmsave ]; then
+			cp $iFPrefix/lib/simias/admin/Web.config.rpmsave $iFPrefix/lib64/simias/admin/Web.config
+			mv $iFPrefix/lib/simias/admin/Web.config.rpmsave $iFPrefix/lib64/simias/admin/
+		fi
+		if [ -f $iFPrefix/lib/simias/webaccess/Web.config.rpmsave ]; then
+			cp $iFPrefix/lib/simias/webaccess/Web.config.rpmsave $iFPrefix/lib64/simias/webaccess/Web.config
+			mv $iFPrefix/lib/simias/webaccess/Web.config.rpmsave $iFPrefix/lib64/simias/webaccess/
+		fi
+	else
+		processFile $iFPrefix/lib/simias/web/web.config
+	fi
 fi
