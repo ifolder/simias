@@ -142,17 +142,21 @@ namespace iFolder.WebService
 		public static string GetUserSetting(string userID, string name)
 		{
 			Store store = Store.GetStore();
+			Domain domain = store.GetDomain(store.DefaultDomain);
+	
+			// get member object
+			Member mem = domain.GetMemberByID(userID);
 
-			// get the POBox
-			POBox box = POBox.GetPOBox(store, store.DefaultDomain, userID);
 
-			if (box == null)
+			if (mem == null)
 			{
-				// user or POBox does not exist
+				// user does not exist
 				throw new UserDoesNotExistException(userID);
 			}
+		
+                        Property prop = mem.Properties.GetSingleProperty( name );
+                        return ( prop == null ? null : prop.Value as string);
 
-			return Settings.GetSetting(box, name);
 		}
 
 		/// <summary>
@@ -164,17 +168,23 @@ namespace iFolder.WebService
 		public static void SetUserSetting(string userID, string name, string value)
 		{
 			Store store = Store.GetStore();
+			Domain domain = store.GetDomain(store.DefaultDomain);
 
-			// get the POBox
-			POBox box = POBox.GetPOBox(store, store.DefaultDomain, userID);
+			// get member object
+			Member mem = domain.GetMemberByID(userID);
 
-			if (box == null)
+			if (mem == null)
 			{
-				// user or POBox does not exist
+				// user does not exist
 				throw new UserDoesNotExistException(userID);
 			}
 			
-			Settings.SetSetting(box, name, value);
+			Property prop = new Property( name, value );
+                        prop.LocalProperty = true;
+                        mem.DeleteProperty = name;
+                        mem.Properties.ModifyProperty(prop);
+                        domain.Commit(mem);
+
 		}
 		
 		/// <summary>

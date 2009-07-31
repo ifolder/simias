@@ -64,8 +64,7 @@ namespace Novell.iFolderApp.Web
 		/// <param name="web"></param>
 		public WebSettings(iFolderWeb web)
 		{
-			//string xml = web.GetSetting(Name);
-			string xml = null;
+			string xml = web.GetSetting(Name);
 			doc = new XmlDocument();
 						
 			try
