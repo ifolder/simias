@@ -236,6 +236,10 @@
 						<td class="fullnamecolumn">
 							<%= GetString( "FULLNAME" ) %>
 						</td>
+
+						<td class="grouplistcolumn">
+							<%= GetString( "GROUPNAME" ) %>
+						</td>
 					</tr>
 			
 				</table>
@@ -288,7 +292,21 @@
 							Target="_top" />
 							
 						<asp:BoundColumn ItemStyle-CssClass="adminitem4" DataField="FullNameField" />
+
+						<asp:BoundColumn ItemStyle-CssClass="adminitem5" DataField="NAField" />
+
+						<asp:TemplateColumn ItemStyle-CssClass="adminitem6">
+							<ItemTemplate>
+								<asp:DropDownList
+									ID="GroupList"
+									Runat="server"
+									DataSource='<%# ShowGroupList(DataBinder.Eval(Container.DataItem, "IDField") ) %>'		
+									Visible='<%# DataBinder.Eval( Container.DataItem, "GroupListVisibleField" ) %>'
+									/>
+							</ItemTemplate>
+						</asp:TemplateColumn>
 						
+
 					</Columns>
 					
 				</asp:datagrid>

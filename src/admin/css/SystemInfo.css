@@ -111,6 +111,12 @@
 {
 }
 
+.adminlistheader .grouplistcolumn
+{
+	padding-right: 6px;
+	width: 12em;
+}
+
 .adminlistitem
 {
 	height: 1.5em;
@@ -129,18 +135,31 @@
 
 .adminitem2
 {
-	width: 3em;
+	width: 2.5em;
 	padding-left: .5em;
 }
 
 .adminitem3
 {
 	padding-right: 6px;
-	width: 10.5em;
+	width: 10em;
 }
 
 .adminitem4
 {
+	padding-right: 6px;
+	width: 12.5em;
+}
+
+.adminitem5
+{
+	padding-right: 6px;
+        width: 6em;
+}
+
+.adminitem6
+{
+        margin-right: 12px;
 }
 
 .deleteadminbutton

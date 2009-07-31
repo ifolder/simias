@@ -313,6 +313,8 @@ namespace Novell.iFolderWeb.Admin
 			dt.Columns.Add( new DataColumn( "IDField", typeof( string ) ) );
 			dt.Columns.Add( new DataColumn( "NameField", typeof( string ) ) );
 			dt.Columns.Add( new DataColumn( "FullNameField", typeof( string ) ) );
+			dt.Columns.Add( new DataColumn( "GroupListVisibleField", typeof( bool ) ) );
+			dt.Columns.Add( new DataColumn( "NAField", typeof( string ) ) );
 
 			
 			switch(ActiveAdminTab)
@@ -336,6 +338,11 @@ namespace Novell.iFolderWeb.Admin
 				dr[ 1 ] = admin.ID;
 				dr[ 2 ] = admin.UserName;
 				dr[ 3 ] = admin.FullName;
+				dr[ 4 ] = ! (AllAdminsCheckBox.Enabled); 	//if it system admin tab, then do not show the group list	
+				if( AllAdminsCheckBox.Enabled )
+					dr[ 5 ] = "N/A";
+				else
+					dr[ 5 ] = "";
 
 				dt.Rows.Add( dr );
 			}
@@ -348,6 +355,9 @@ namespace Novell.iFolderWeb.Admin
 				dr[ 1 ] = String.Empty;
 				dr[ 2 ] = String.Empty;
 				dr[ 3 ] = String.Empty;
+				dr[ 4 ] = false;
+				dr[ 5 ] = String.Empty;
+				//dr[ 6 ] = false;
 
 				dt.Rows.Add( dr );
 			}
@@ -1069,6 +1079,27 @@ namespace Novell.iFolderWeb.Admin
 			}
 
 			GetSystemInformation();
+		}
+
+		/// <summary>
+		/// Show the drop-down list to select provisioning method for a particular user.
+		/// </summary>
+		/// <returns></returns>
+		protected string[] ShowGroupList( Object UserID )
+		{
+			string userID = UserID as string ;	
+			string [] MonitoredGroupNames = web.GetMonitoredGroupNames(userID);
+			if( ! userID.Equals (String.Empty) && MonitoredGroupNames != null && MonitoredGroupNames.Length > 0 )
+			{
+				Array.Sort(MonitoredGroupNames);
+				return MonitoredGroupNames;
+			}
+			else
+			{
+				string [] GroupListArray = new string [1];
+				GroupListArray[0] = GetString("NONE");
+				return GroupListArray;
+			}
 		}
 
 		/// <summary>

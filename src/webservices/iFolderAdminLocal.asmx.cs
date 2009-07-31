@@ -933,6 +933,33 @@ namespace iFolder.WebService
 		}
 
 		/// <summary>
+		/// Returns a list of groups' names for which the user is an admin.
+		/// </summary>
+		/// <param name="userID">The user id of the administrator.</param>
+		[WebMethod(
+			 Description="Get Monitored groups by this user",
+			 EnableSession=true)]
+		public virtual string[] GetMonitoredGroupNames(string userID)
+		{
+			try
+			{
+				Authorize();
+
+						try
+						{
+							return iFolderUser.GetMonitoredGroupNames(userID);
+						}
+						catch {} 
+			}
+			catch(Exception e)
+			{
+				SmartException.Throw(e);
+			}
+
+			return null;
+		}
+
+		/// <summary>
 		/// Removes a group admin
 		/// </summary>
 		/// <param name="groupid">The id of group for which the admin is being removed.</param>

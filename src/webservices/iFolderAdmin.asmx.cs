@@ -1159,6 +1159,17 @@ namespace iFolder.WebService
                         return base.GetMonitoredGroups(userid);
                 }
 
+		/// <summary>
+		/// GetMonitoredgroup names in an array.
+		/// </summary>
+		/// <param name="userID">The user id of the secondary administrator.</param>
+		[WebMethod(
+			 Description="GetMonitoredgroup names in an array",
+			 EnableSession=true)]
+               public override string[] GetMonitoredGroupNames(string userid)
+                {
+                        return base.GetMonitoredGroupNames(userid);
+                }
 
 		/// <summary>
 		/// Grant a user system administration rights.

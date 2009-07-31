@@ -1609,6 +1609,32 @@ namespace iFolder.WebService
 		}
 
 		/// <summary>
+		/// Get namess of monitored groups 
+		/// </summary>
+		/// <remarks>
+		/// 
+		/// </remarks>
+		/// <param name="userid">userid for which monitored groups are asked</param>
+		/// <returns>string array containing namess of managed groups</returns>
+		public static string[] GetMonitoredGroupNames(string userid)
+		{
+			Store store = Store.GetStore();
+			Domain domain = store.GetDomain(store.DefaultDomain);
+			Member member = domain.GetMemberByID(userid);
+			string [] IDs = member.GetMonitoredGroups();
+			if ( IDs == null || IDs.Length <= 0)
+				return null;
+			string [] MemberNames = new string [IDs.Length];
+			int count = 0;
+			foreach(string id in IDs)
+			{
+				Member mem = domain.GetMemberByID(id);	
+				MemberNames [ count++ ] = mem.FN;
+			}
+			return MemberNames;
+		}
+
+		/// <summary>
 		/// Give a User Administration Rights
 		/// </summary>
 		/// <remarks>
