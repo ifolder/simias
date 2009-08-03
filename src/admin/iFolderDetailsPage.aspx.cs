@@ -201,6 +201,8 @@ namespace Novell.iFolderWeb.Admin
 
 		protected static int preference;
 
+		protected static bool AdoptButtonClicked;
+
 		/// <summary>
 		/// Display the Server Name, the ifolder belongs
 		/// </summary>
@@ -394,7 +396,15 @@ namespace Novell.iFolderWeb.Admin
 				Orphan.Visible = true;
 				Orphan.Text = GetString( "YES" );
 				AdoptButton.Visible = true;
-				AdoptButton.Enabled = true;
+				
+                                string EncryptAlgorithm = ifolder.EncryptionAlgorithm;
+				if(!(EncryptAlgorithm == null || (EncryptAlgorithm == String.Empty)) )
+				{
+					// It is an encrypted ifolder
+					AdoptButton.Enabled = false;
+				}
+				else
+					AdoptButton.Enabled = true;
 			}	
 
 			LastModified.Text = ( ifolder.LastModified == DateTime.MinValue ) ? 
@@ -645,7 +655,7 @@ namespace Novell.iFolderWeb.Admin
 				}
 
 				// Disable the owner of the iFolder from being checked and removed from the ifolder.
-				if ( ( bool )dt.Rows[ e.Item.DataSetIndex ][ "OwnerField" ] == true && (!AdoptButton.Visible || AdoptButton.Enabled))
+				if ( ( bool )dt.Rows[ e.Item.DataSetIndex ][ "OwnerField" ] == true )
 				{
 					( e.Item.Cells[ 0 ].FindControl( "iFolderMemberListCheckBox" ) as CheckBox ).Enabled = false;
 				}
@@ -705,6 +715,8 @@ namespace Novell.iFolderWeb.Admin
 				MemberRightsList.Items[ 0 ].Text = GetString( "READONLY" );
 				MemberRightsList.Items[ 1 ].Text = GetString( "READWRITE" );
 				MemberRightsList.Items[ 2 ].Text = GetString( "FULLCONTROL" );
+
+				AdoptButtonClicked = false;
 
 				// Initialize state variables.
 				CurrentMemberOffset = 0;
@@ -883,7 +895,7 @@ namespace Novell.iFolderWeb.Admin
 			MembersChecked = checkBox.Checked;
 
 			// Rebind the data source with the new data.
-			GetiFolderMembers(AdoptButton.Visible && !AdoptButton.Enabled);
+			GetiFolderMembers(AdoptButton.Visible && !AdoptButton.Enabled && AdoptButtonClicked);
 		}
 
 		/// <summary>
@@ -1182,7 +1194,7 @@ namespace Novell.iFolderWeb.Admin
 		/// <param name="e"></param>
 		protected void AdoptOrphanediFolder( object sender, EventArgs e )
 		{
-			bool AdoptButtonClicked = true;
+			AdoptButtonClicked = true;
 			GetiFolderMembers(AdoptButtonClicked);
 
 		}

@@ -703,7 +703,7 @@ namespace iFolder.WebService
 			foreach(ShallowNode sn in searchList)
 			{
 				member = new Member(domain, sn);
-				iFolderUser user = new iFolderUser(member, domain, domain);
+				iFolderUser user = new iFolderUser(member, c, domain);
 				list.Add(user);
 				if(i++ >= max )
 					break;
