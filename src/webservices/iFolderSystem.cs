@@ -32,6 +32,7 @@
 *******************************************************************************/
 using System;
 
+using Simias;
 using Simias.Storage;
 using Simias.Server;
 
@@ -43,6 +44,18 @@ namespace iFolder.WebService
 	[Serializable]
 	public class iFolderSystem
 	{
+
+                /// <summary>
+		/// Group Quota Restriction Method.
+		/// </summary>
+		private enum QuotaRestriction
+		{
+			UI_Based,
+			Sync_Based
+		}
+
+		private static readonly ISimiasLog log = SimiasLogManager.GetLogger(typeof(iFolderUser));
+
 		/// <summary>
 		/// System ID
 		/// </summary>
@@ -138,14 +151,63 @@ namespace iFolder.WebService
 			Store store = Store.GetStore();
 			
 			Domain domain = store.GetDomain(store.DefaultDomain);
-
 			domain.Name = system.Name;
 			domain.Description = system.Description;
 			domain.UsersFullNameDisplay = system.UsersFullNameDisplay;
-			domain.GroupQuotaRestrictionMethod = system.GroupQuotaRestrictionMethod;
+
+			// before setting GroupQuotaRestrictionMethod, check if it is going to save the same method again, 
+			// If true, then there is no need to set the same value again, just skip.
+			if( (int)domain.GroupQuotaRestrictionMethod != (int)system.GroupQuotaRestrictionMethod )
+			{
+				ChangeDefaultGroupQuota(system.GroupQuotaRestrictionMethod);
+				domain.GroupQuotaRestrictionMethod = system.GroupQuotaRestrictionMethod;
+			}
 			domain.GroupSegregated = system.GroupSegregated;
 
 			domain.Commit();
+		}
+
+		/// <summary>
+		/// Change the default disk quota for the managed groups (falling under secondary admin) based on sync control method 
+		/// It will only change the default disk quota set on each group, If quota was changed by admin, thent his method will not change that.
+		/// </summary>
+		/// <param name="GroupQuotaRestrictionMethod">the enum which will decide what will be the default disk quota for each group</param>
+		public static void ChangeDefaultGroupQuota(int GroupQuotaRestrictionMethod)
+		{
+			Store store = Store.GetStore();
+			Domain domain = store.GetDomain(store.DefaultDomain);
+			ICSList SecAdmins = domain.GetMembersByRights(Access.Rights.Secondary);
+			try
+			{
+				foreach(ShallowNode sn in SecAdmins)
+				{
+					Member AdminAsMember = new Member(domain, sn);
+					if (!AdminAsMember.IsType("Host"))
+					{
+						string [] ManagedGroups = AdminAsMember.GetMonitoredGroups();
+						foreach(string GroupID in ManagedGroups)
+						{
+							Member GroupAsMember = domain.GetMemberByID(GroupID);
+							long GroupDiskQuota = Simias.Policy.DiskSpaceQuota.Get( GroupAsMember ).Limit;	
+							if(GroupQuotaRestrictionMethod == (int)QuotaRestriction.UI_Based && GroupDiskQuota == -1)
+							{
+								// change the default disk quota for groups, (from Unlimited to 0MB) 
+								Simias.Policy.DiskSpaceQuota.Set(GroupAsMember, 0);
+							}
+							else if (GroupQuotaRestrictionMethod == (int)QuotaRestriction.Sync_Based && GroupDiskQuota == 0)
+							{
+								// change the default disk quota for groups, (from 0MB to Unlimited)
+								Simias.Policy.DiskSpaceQuota.Delete(GroupAsMember);	
+							}
+						}
+					}
+				}
+				domain.Commit();
+			}
+			catch (Exception ex)
+			{
+				log.Debug("Exception during changing the default disk quota. "+ex.ToString());
+			}
 		}
     }
 }
