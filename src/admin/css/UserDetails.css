@@ -65,7 +65,7 @@ ul#ifolderlisttab
 	margin: 0;
 	font-weight: bold;
 	font-size: .75em;
-	padding-left: 6em;
+	padding-left: 2em;
 }
 
 ul#ifolderlisttab li
@@ -78,7 +78,7 @@ ul#ifolderlisttab li
 	border-top: solid 1px #999;
 	color: Black;
 	margin: 2px 2px 0 2px;
-	width: 8.5em;
+	width: 12em;
 	text-align: center;
 }
 
