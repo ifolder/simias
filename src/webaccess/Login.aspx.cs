@@ -467,6 +467,8 @@ namespace Novell.iFolderApp.Web
                                 {
                                         //for now give a general message
                                         log.Info(Context, e, "Login Failed");
+					string ccode = LanguageList.SelectedValue == null ? "en" : LanguageList.SelectedValue;
+					Thread.CurrentThread.CurrentUICulture = CultureInfo.CreateSpecificCulture(ccode);
                                         Message.Text = GetString("LOGIN.UNAUTHORIZED");
 					return;
                                 }
