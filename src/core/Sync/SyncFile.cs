@@ -463,8 +463,27 @@ namespace Simias.Sync
 					if (File.Exists(partialFile))
 						File.Delete(partialFile);
 					partialFile = workFile + ".part";
-					File.Move(workFile, partialFile);
-					stream = File.Open(partialFile, FileMode.Open, FileAccess.Read, FileShare.None);
+                                        try
+                                        {
+                                                File.Move(workFile, partialFile);
+                                        }
+                                        catch(Exception e)
+                                        {
+                                                try
+                                                {
+                                                        Log.log.Debug("could not move the file, so copy/deleting the source file: {0}. Message: {1} stack: {2}", workFile, e.Message, e.StackTrace);
+                                                        File.Copy(workFile, partialFile);
+                                                        File.Delete(workFile);
+                                                }
+                                                catch
+                                                {
+                                                        File.Delete(workFile);
+                                                        Log.log.Debug("exception while copying workfile so deleted.");
+                                                        //throw e;
+                                                }
+                                        }
+                                        if (File.Exists(partialFile))
+                                                stream = File.Open(partialFile, FileMode.Open, FileAccess.Read, FileShare.None);
 					Log.log.Debug("file {0} opened", partialFile);
 				}
 				else if (oldNode != null)

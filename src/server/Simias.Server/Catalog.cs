@@ -534,10 +534,12 @@ namespace Simias.Server
 								foreach( ShallowNode msn in members )
 								{
 									Member member = new Member( col, msn );
+									log.Debug("Adding user {0} for the collection", member.Name);
 									if (member.IsOwner)
 									{
 									    catentry.AddOwner ( member.UserID );
 									    // Note : Required during upgrade (3.2 - 3.6) .
+									    log.Debug( "OwnerID {0} added  at pos 1 to collection {1}", member.UserID, col.ID );
 									    if ( member.HomeServer == null )
 									    {
 										member.HomeServer = HostNode.GetLocalHost();
@@ -545,7 +547,8 @@ namespace Simias.Server
 									    }
 									}
 									    
-									catentry.AddMember( member.UserID, member.ID );
+									bool retval = catentry.AddMember( member.UserID, member.ID );
+									log.Debug( "Member {0} added at pos1 to collection {1}. return value: {2}", member.UserID, col.ID, retval );
 								}
 								catalog.Commit( catentry );
 							}
@@ -688,6 +691,52 @@ namespace Simias.Server
 				return;
 			if( MovingCollections.ContainsKey(collectionID))
 				MovingCollections.Remove(collectionID);
+		}
+
+		public static void RecreateEntryForCollection(string collectionID)
+		{
+			log.Debug("Entered RecreateEntryForCollection {0}", collectionID);
+			try
+			{
+				Collection col = store.GetCollectionByID(collectionID);
+				if( col == null)
+				{
+					log.Debug("Cannot create the catalogentry as collection is null.");
+					return;
+				}
+				CatalogEntry catentry = new CatalogEntry( col.ID, col.Name );
+                                ICSList members = col.GetMemberList();
+                                foreach( ShallowNode msn in members )
+                                {
+	                                Member member = new Member( col, msn );
+        	                        log.Debug("Adding user {0} for the collection", member.Name);
+                	                if (member.IsOwner)
+                        	        {
+                                		catentry.AddOwner ( member.UserID );
+		                                // Note : Required during upgrade (3.2 - 3.6) .
+                		                log.Debug( "OwnerID {0} added  at pos 2 to collection {1}:{2}", member.UserID, col.ID, col.Name );
+                                		if ( member.HomeServer == null )
+		                                {
+                			                member.HomeServer = HostNode.GetLocalHost();
+			                                domain.Commit(member);
+                        		        }
+	                                }
+        	                        bool retval = catentry.AddMember( member.UserID, member.ID );
+                	                log.Debug( "Member {0} added at pos1 to collection {1}. return value: {2}", member.UserID, col.ID, retval );
+                                }
+				CatalogEntry entry = GetEntryByCollectionID( collectionID );
+				if( entry != null)
+				{
+					log.Debug("Removing catalaog entry: {0}", entry.ID);
+					catalog.Commit(catalog.Delete(entry));
+				}
+                                catalog.Commit( catentry );
+				log.Debug("Out of RecreateEntryForCollection. Added catalog entry: {0}", catentry.ID);
+			}
+			catch(Exception ex)
+			{
+				log.Debug("RecreateEntryForCollection: Exception: {0}--{1}", ex.Message, ex.StackTrace);
+			}
 		}
 
 		/// <summary>
@@ -1096,15 +1145,30 @@ namespace Simias.Server
 		static public void SetHostForCollection( string collectionID, string hostID)
 		{
 			CatalogEntry entry = null;
+			log.Debug("SetHostForCollection: hostid: {0}", hostID);
 			try
 			{
-				entry = GetEntryByCollectionID( collectionID );
-				if( entry == null)
+				Property colProp = new Property( CatalogEntry.CollectionProperty, collectionID );
+				ICSList nodes = store.GetNodesByProperty( colProp, SearchOp.Equal );
+				if( nodes == null )
 				{
-					log.Debug("The catalog entry for {0} is null", collectionID);
+					log.Debug("SetHostForCollection: Returned null");
 					return;
 				}
-				entry.HostID = hostID;
+				foreach( ShallowNode sn in nodes )
+				{
+					entry = new CatalogEntry( sn );
+					if( entry.HostID  != hostID)
+					{
+						log.Debug("Adding hostid for old node. {0}", entry.ID);
+						if( catalog.GetNodeByID(entry.ID) != null)
+						{
+							entry.SetHostID(hostID, true);
+						}
+					}
+					else
+						log.Debug("the new entry {0} is synced", entry.ID);
+				}
 			}
 			catch(Exception ex)
 			{
@@ -1283,6 +1347,15 @@ namespace Simias.Server
 			}
 		}
 		#endregion
+                public void SetHostID(string hostid, bool localproperty)
+                {
+                        log.Debug("SetHostID: Changing the host ID to: {0}", hostid);
+                        Property hprop = new Property( HostProperty, hostid);
+			if( localproperty )
+				hprop.LocalProperty = true;
+                        this.Properties.ModifyProperty( hprop );
+                        catalog.Commit(this);
+                }
 
 		#region Constructor
         /// <summary>

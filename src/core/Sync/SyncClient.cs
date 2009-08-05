@@ -2533,7 +2533,8 @@ namespace Simias.Sync
                 }   
 				catch (Exception ex)
 				{
-			                workArray.RemoveNodeFromServer(nodeID, merge);
+					if( this.collection.DataMovement != true)
+				                workArray.RemoveNodeFromServer(nodeID, merge);
 					Log.log.Debug(ex, "Failed Downloading File during close");
 				}
 			}

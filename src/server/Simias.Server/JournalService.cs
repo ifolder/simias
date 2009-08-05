@@ -80,37 +80,44 @@ namespace Novell.Journaling
 				// Now loop until the queue is emptied.
 				while (true)
 				{
-					NodeEventArgs args;
-					lock (eventQueue)
+					try
 					{
-						if (eventQueue.Count == 0)
+						NodeEventArgs args;
+						lock (eventQueue)
 						{
-							queueEvent.Reset();
-							break;
+							if (eventQueue.Count == 0)
+							{
+								queueEvent.Reset();
+								break;
+							}
+
+							args = eventQueue.Dequeue() as NodeEventArgs;
 						}
 
-						args = eventQueue.Dequeue() as NodeEventArgs;
-					}
-
-					// Process the event.
-					if (!shuttingDown)
-					{
-						if ( args.Type.Equals( NodeTypes.FileNodeType ) || 
-							args.Type.Equals( NodeTypes.DirNodeType ) ||
-							( args.Type.Equals( NodeTypes.MemberType ) && 
-							( args.EventType.Equals( EventType.NodeCreated ) ||
-							args.EventType.Equals( EventType.NodeDeleted ) ||
-							( args.EventType.Equals( EventType.NodeChanged ) &&
-							args.EventId != 0 ) ) ) )
+						// Process the event.
+						if (!shuttingDown)
 						{
-							Journal journal = new Journal( args.Collection );
-							journal.UpdateJournal( args );
-							journal.Commit();
+							if ( args.Type.Equals( NodeTypes.FileNodeType ) || 
+								args.Type.Equals( NodeTypes.DirNodeType ) ||
+								( args.Type.Equals( NodeTypes.MemberType ) && 
+								( args.EventType.Equals( EventType.NodeCreated ) ||
+								args.EventType.Equals( EventType.NodeDeleted ) ||
+								( args.EventType.Equals( EventType.NodeChanged ) &&
+								args.EventId != 0 ) ) ) )
+							{
+								Journal journal = new Journal( args.Collection );
+								journal.UpdateJournal( args );
+								journal.Commit();
+							}
+						}
+						else
+						{
+							log.Info( "Lost journal entry for node ID = '{0}'. Event type = '{1}'. Node type = '{2}'", args.Node, args.EventType, args.Type );
 						}
 					}
-					else
+					catch(Exception ex)
 					{
-						log.Info( "Lost journal entry for node ID = '{0}'. Event type = '{1}'. Node type = '{2}'", args.Node, args.EventType, args.Type );
+						log.Error("Error in processing journal event: {0}--{1}", ex.Message, ex.StackTrace);
 					}
 				}
 			}

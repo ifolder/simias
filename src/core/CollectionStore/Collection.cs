@@ -4846,14 +4846,24 @@ namespace Simias.Storage
 				log.Debug("DownloadCollection: About to start sync...");
 				CollectionSyncClient syncClient = new CollectionSyncClient(iFolderID, new TimerCallback( TimerFired ) );
 				syncClient.SyncNow();
-				log.Debug("DownloadCollection: Sync completed successfull, Removing local properties...");
-				Member tmpMember = iFolderCol.GetMemberByID(newDomainMember.UserID);
-				if(tmpMember != null && !tmpMember.IsOwner)
-				iFolderCol.Commit( iFolderCol.Delete( tmpMember ) );
-				iFolderCol.DataMovement = false;
-                iFolderCol.Commit();
-				status = true;
-                                log.Debug("DownloadCollection: Returning DownloadiFolder...");
+				uint count = 0;
+				syncClient.GetSyncCount(out count);
+				if( count == 0)
+				{
+					log.Debug("DownloadCollection: Sync completed successfull, Removing local properties...");
+					iFolderCol.DataMovement = false;
+					iFolderCol.Commit();
+					Member tmpMember = iFolderCol.GetMemberByID(newDomainMember.UserID);
+					if(tmpMember != null && !tmpMember.IsOwner)
+						iFolderCol.Commit( iFolderCol.Delete( tmpMember ) );
+					log.Debug("Removed the datamove flag.");
+					return true;
+				}
+				else
+				{
+					log.Debug("DownloadCollection: Sync not successfull. Count: {0}", count);
+					return false;
+				}
                         }
                         catch(Exception ex)
                         {
