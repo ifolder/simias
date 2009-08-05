@@ -533,7 +533,7 @@
     <value>Usuários Disponíveis</value>
   </data>
   <data name="LOGIN.USERNAME">
-    <value>Nome do usuário</value>
+    <value>Nome do usuário:</value>
   </data>
   <data name="CANNOTCHANGEPASSWORD">
     <value>O usuário não pode mudar a senha.</value>

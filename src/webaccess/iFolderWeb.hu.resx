@@ -98,7 +98,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="NO.RA.SELECTED">
-    <value>Nincs beállítva helyreállítási ügynök, így nem lehetséges a hozzáférési kód helyreállítása.</value>
+    <value>Nincs beállítva helyreállítási ügynök, így nem lehetséges az azonosítási kifejezés helyreállítása.</value>
   </data>
   <data name="ACTION">
     <value>Művelet</value>
@@ -212,10 +212,10 @@
     <value>Visszatérés</value>
   </data>
   <data name="SELECTRECOVERYAGENT">
-    <value>Hozzáférési kód helyreállítási ügynöke:</value>
+    <value>Azonosítási kifejezés helyreállítási ügynöke:</value>
   </data>
   <data name="PASSPHRASE_NOT_MATCH">
-    <value>Nem egyeznek a hozzáférési kódok</value>
+    <value>Nem egyeznek az azonosítási kifejezések</value>
   </data>
   <data name="ENTRY">
     <value>Bejegyzés</value>
@@ -317,7 +317,7 @@
     <value>Nincs korlátozás</value>
   </data>
   <data name="REENTER_PASSPHRASE">
-    <value>Adja meg ismét a hozzáférési kódot:</value>
+    <value>Adja meg újra az azonosítási kifejezést:</value>
   </data>
   <data name="CHANGE.UNKNOWN">
     <value>Ismeretlen</value>
@@ -353,7 +353,7 @@
     <value>Biztosan törölni kívánja az aktuális iFolder mappát?</value>
   </data>
   <data name="RIGHTS.ADMIN">
-    <value>Teljes hozzáférés</value>
+    <value>Teljes vezérlés</value>
   </data>
   <data name="LOGIN">
     <value>Bejelentkezés</value>
@@ -392,7 +392,7 @@
     <value>A bejelentkezés le van tiltva.</value>
   </data>
   <data name="ENTERPASSPHRASE">
-    <value>Hozzáférési kód:</value>
+    <value>Azonosítási kifejezés:</value>
   </data>
   <data name="LOGIN.ACCOUNTLOCKED">
     <value>A fiók jelenleg zárolva van, nem használható.</value>
@@ -431,7 +431,7 @@
     <value>/</value>
   </data>
   <data name="IFOLDER.NOPASSPHRASE">
-    <value> A titkosításhoz hozzáférési kódot kell megadni</value>
+    <value> A titkosításhoz azonosítási kifejezést kell megadni</value>
   </data>
   <data name="SEARCHUSERSTAG">
     <value>Felhasználók keresése a következő tartalommal:</value>
@@ -620,7 +620,7 @@
     <value>Felhasználónév</value>
   </data>
   <data name="PASSPHRASE_INCORRECT">
-    <value>Érvénytelen hozzáférési kód </value>
+    <value>Érvénytelen azonosítási kifejezés </value>
   </data>
   <data name="RUSSIAN">
     <value>orosz</value>
@@ -674,7 +674,7 @@
     <value>Házirend</value>
   </data>
   <data name="ENTER_PASSPHRASE">
-    <value>Adja meg a hozzáférési kódot     </value>
+    <value>Adja meg az azonosítási kifejezést     </value>
   </data>
   <data name="SHARECONDITION">
     <value>A megosztható iFolder mappákat nem lehet titkosítani</value>
