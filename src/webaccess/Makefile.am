@@ -44,10 +44,15 @@ iFolderWeb_CSFILES_CSC := $(subst /,$(SEP),$(iFolderWeb_CSFILES))
 iFolderWeb_INCLUDES =
 
 iFolderWeb_RESX = \
-	$(srcdir)/iFolderWeb.resx \
+	$(srcdir)/iFolderWeb.resx
+
+iFolderWeb_RESXES = \
 	$(shell ls $(srcdir)/iFolderWeb.*.resx)
 
-iFolderWeb_RESOURCES := $(iFolderWeb_RESX:$(srcdir)/%.resx=$(srcdir)/Novell.iFolderApp.Web.%.resources)
+iFolderWeb_RESOURCE := $(iFolderWeb_RESX:$(srcdir)/%.resx=$(srcdir)/Novell.iFolderApp.Web.%.resources)
+iFolderWeb_RESOURCES := $(iFolderWeb_RESXES:$(srcdir)/%.resx=$(srcdir)/Novell.iFolderApp.Web.%.resources)
+iFolderWeb__RESOURCES_DLLS := $(iFolderWeb_RESOURCES:$(srcdir)/Novell.iFolderApp.Web.iFolderWeb.%.resources=$(srcdir)/%/Novell.iFolderWeb.resources.dll)
+ASSEMBLYLINKER = al
 	
 iFolderWeb_FLAGS = $(CSC_LIBFLAG)
 
@@ -113,21 +118,39 @@ endif
 
 CLEAN_FILES = Novell.iFolderWeb.dll \
 	Novell.iFolderWeb.doc.xml \
+	$(iFolderWeb_RESOURCE) \
 	$(iFolderWeb_RESOURCES) \
 	$(srcdir)/iFolderWebProxy.cs \
 	$(DEBUG_FILES)	\
 	AssemblyInfo.cs
 
+if MONO24BUILD
+all: Novell.iFolderWeb.dll $(iFolderWeb__RESOURCES_DLLS)
+else
 all: Novell.iFolderWeb.dll
+endif
 
 iFolderWebProxy.cs: ../webservices/iFolderWeb.wsdl
 	$(WSDL) /nologo /out:$@ $<
 
-Novell.iFolderWeb.dll: $(srcdir)/AssemblyInfo.cs $(iFolderWeb_CSFILES) $(iFolderWeb_RESOURCES)
-	$(CSC) /out:$@ $(CSCFLAGS) $(iFolderWeb_FLAGS) $(iFolderWeb_LIBS:%=/r:%) $(iFolderWeb_RESOURCES:%=/res:%) $(iFolderWeb_LIBPATH:%=/lib:%) $(LOG4NET_LIBS) $(iFolderWeb_CSFILES_CSC) /doc:iFolderWeb.doc.xml
+if MONO24BUILD
+Novell.iFolderWeb.dll: $(srcdir)/AssemblyInfo.cs $(iFolderWeb_CSFILES) $(iFolderWeb_RESOURCE)
+	$(CSC) /out:$@ $(CSCFLAGS) $(iFolderWeb_FLAGS) $(iFolderWeb_LIBS:%=/r:%) $(iFolderWeb_RESOURCE:%=/res:%) $(iFolderWeb_LIBPATH:%=/lib:%) $(LOG4NET_LIBS) $(iFolderWeb_CSFILES_CSC) /doc:iFolderWeb.doc.xml
+else
+Novell.iFolderWeb.dll: $(srcdir)/AssemblyInfo.cs $(iFolderWeb_CSFILES) $(iFolderWeb_RESOURCE) $(iFolderWeb_RESOURCES)
+	$(CSC) /out:$@ $(CSCFLAGS) $(iFolderWeb_FLAGS) $(iFolderWeb_LIBS:%=/r:%) $(iFolderWeb_RESOURCE:%=/res:%) $(iFolderWeb_RESOURCES:%=/res:%) $(iFolderWeb_LIBPATH:%=/lib:%) $(LOG4NET_LIBS) $(iFolderWeb_CSFILES_CSC) /doc:iFolderWeb.doc.xml
+endif
+
+Novell.iFolderApp.Web.iFolderWeb.resources : iFolderWeb.resx
+	$(RESGEN) $< $@
 
 Novell.iFolderApp.Web.%.resources : %.resx
 	$(RESGEN) $< $@
+
+%/Novell.iFolderWeb.resources.dll: Novell.iFolderApp.Web.iFolderWeb.%.resources
+	ResLang="`dirname $@`"; \
+	$(mkinstalldirs) $$ResLang; \
+	$(ASSEMBLYLINKER) -c:$$ResLang  -embed:$< -t:lib -out:$@ -keyf:../../iFolder.snk -template:Novell.iFolderWeb.dll
 
 install-exec-local: all
 	rm -rf $(DESTDIR)$(webaccessdir)
@@ -137,6 +160,14 @@ install-exec-local: all
 	$(mkinstalldirs) $(DESTDIR)$(webaccessdir)/help
 	$(mkinstalldirs) $(DESTDIR)$(webaccessdir)/css
 	$(mkinstalldirs) $(DESTDIR)$(webaccessdir)/js
+if MONO24BUILD
+	ResLangDirs="$(shell ls $(srcdir)/*/Novell.iFolderWeb.resources.dll)";\
+	for subdir in $$ResLangDirs; do \
+	LDName="`dirname $$subdir`";\
+	$(mkinstalldirs) $(DESTDIR)$(webaccessdir)/bin/$$LDName/;\
+	$(INSTALL_PROGRAM) $$LDName/Novell.iFolderWeb.resources.dll $(DESTDIR)$(webaccessdir)/bin/$$LDName/;\
+	done;
+endif
 	$(INSTALL_PROGRAM) $(iFolderWeb_FORMS) $(DESTDIR)$(webaccessdir)
 	$(INSTALL_PROGRAM) Novell.iFolderWeb.dll $(DEBUG_FILES) $(DESTDIR)$(webaccessdir)/bin
 	$(INSTALL_PROGRAM) $(srcdir)/css/*.css $(DESTDIR)$(webaccessdir)/css
@@ -157,6 +188,13 @@ installcheck-local: install
 	
 clean-local:
 	rm -rf $(CLEAN_FILES) $(COMMON_CLEAN_FILES)
+if MONO24BUILD
+	ResLangDirs="$(shell ls $(srcdir)/*/Novell.iFolderWeb.resources.dll)";\
+	for subdir in $$ResLangDirs; do \
+	LDName="`dirname $$subdir`";\
+	rm -rf $$LDName;\
+	done;
+endif
     
 distclean-local:
 	rm -rf $(COMMON_DISTCLEAN_FILES)

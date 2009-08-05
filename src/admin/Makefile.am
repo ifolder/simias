@@ -54,10 +54,15 @@ iFolderAdmin_CSFILES_CSC := $(subst /,$(SEP),$(iFolderAdmin_CSFILES))
 iFolderAdmin_INCLUDES =
 
 iFolderAdmin_RESX = \
-	$(srcdir)/iFolderAdmin.resx \
+	$(srcdir)/iFolderAdmin.resx
+
+iFolderAdmin_RESXES = \
 	$(shell ls $(srcdir)/iFolderAdmin.*.resx)
 
-iFolderAdmin_RESOURCES := $(iFolderAdmin_RESX:$(srcdir)/%.resx=$(srcdir)/Novell.iFolderWeb.Admin.%.resources)
+iFolderAdmin_RESOURCE := $(iFolderAdmin_RESX:$(srcdir)/%.resx=$(srcdir)/Novell.iFolderWeb.Admin.%.resources)
+iFolderAdmin_RESOURCES := $(iFolderAdmin_RESXES:$(srcdir)/%.resx=$(srcdir)/Novell.iFolderWeb.Admin.%.resources)
+iFolderAdmin_RESOURCES_DLLS := $(iFolderAdmin_RESOURCES:$(srcdir)/Novell.iFolderWeb.Admin.iFolderAdmin.%.resources=$(srcdir)/%/Novell.iFolderAdmin.resources.dll)
+ASSEMBLYLINKER = al
 	
 iFolderAdmin_FLAGS = $(CSC_LIBFLAG)
 
@@ -143,16 +148,33 @@ CLEAN_FILES = Novell.iFolderAdmin.dll \
 	$(DEBUG_FILES) \
 	AssemblyInfo.cs
 
+if MONO24BUILD
+all: Novell.iFolderAdmin.dll $(iFolderAdmin_RESOURCES_DLLS)
+else
 all: Novell.iFolderAdmin.dll
+endif
 
 iFolderAdminWebProxy.cs: ../webservices/iFolderAdmin.wsdl
 	$(WSDL) /nologo /out:$@ $<
 
-Novell.iFolderAdmin.dll: $(srcdir)/AssemblyInfo.cs iFolderAdminWebProxy.cs $(iFolderAdmin_CSFILES) $(iFolderAdmin_RESOURCES)
-	$(CSC) /out:$@ $(CSCFLAGS) $(iFolderAdmin_FLAGS) $(iFolderAdmin_LIBS:%=/r:%) $(iFolderAdmin_RESOURCES:%=/res:%) $(iFolderAdmin_LIBPATH:%=/lib:%) $(srcdir)/AssemblyInfo.cs $(iFolderAdmin_CSFILES_CSC) $(LOG4NET_LIBS)
+if MONO24BUILD
+Novell.iFolderAdmin.dll: $(srcdir)/AssemblyInfo.cs iFolderAdminWebProxy.cs $(iFolderAdmin_CSFILES) $(iFolderAdmin_RESOURCE)
+	$(CSC) /out:$@ $(CSCFLAGS) $(iFolderAdmin_FLAGS) $(iFolderAdmin_LIBS:%=/r:%) $(iFolderAdmin_RESOURCE:%=/res:%) $(iFolderAdmin_LIBPATH:%=/lib:%) $(srcdir)/AssemblyInfo.cs $(iFolderAdmin_CSFILES_CSC) $(LOG4NET_LIBS)
+else
+Novell.iFolderAdmin.dll: $(srcdir)/AssemblyInfo.cs iFolderAdminWebProxy.cs $(iFolderAdmin_CSFILES) $(iFolderAdmin_RESOURCE) $(iFolderAdmin_RESOURCES)
+	$(CSC) /out:$@ $(CSCFLAGS) $(iFolderAdmin_FLAGS) $(iFolderAdmin_LIBS:%=/r:%) $(iFolderAdmin_RESOURCE:%=/res:%) $(iFolderAdmin_RESOURCES:%=/res:%) $(iFolderAdmin_LIBPATH:%=/lib:%) $(srcdir)/AssemblyInfo.cs $(iFolderAdmin_CSFILES_CSC) $(LOG4NET_LIBS)
+endif
+
+Novell.iFolderWeb.Admin.iFolderAdmin.resources : iFolderAdmin.resx
+	$(RESGEN) $< $@
 
 Novell.iFolderWeb.Admin.%.resources : %.resx
 	$(RESGEN) $< $@
+
+%/Novell.iFolderAdmin.resources.dll: Novell.iFolderWeb.Admin.iFolderAdmin.%.resources Novell.iFolderAdmin.dll
+	ResLang="`dirname $@`"; \
+	$(mkinstalldirs) $$ResLang; \
+	$(ASSEMBLYLINKER) -c:$$ResLang  -embed:$< -t:lib -out:$@ -keyf:../../iFolder.snk -template:Novell.iFolderAdmin.dll
 
 install-exec-local: all
 	rm -rf $(DESTDIR)$(admindir)
@@ -162,6 +184,14 @@ install-exec-local: all
 	$(mkinstalldirs) $(DESTDIR)$(admindir)/css
 	$(mkinstalldirs) $(DESTDIR)$(admindir)/help
 	$(mkinstalldirs) $(DESTDIR)$(admindir)/tail
+if MONO24BUILD
+	ResLangDirs="$(shell ls $(srcdir)/*/Novell.iFolderAdmin.resources.dll)";\
+	for subdir in $$ResLangDirs; do \
+	LDName="`dirname $$subdir`";\
+	$(mkinstalldirs) $(DESTDIR)$(admindir)/bin/$$LDName/;\
+	$(INSTALL_PROGRAM) $$LDName/Novell.iFolderAdmin.resources.dll $(DESTDIR)$(admindir)/bin/$$LDName/;\
+	done;
+endif
 	$(INSTALL_PROGRAM) $(iFolderAdmin_FORMS) $(DESTDIR)$(admindir)
 	$(INSTALL_PROGRAM) Novell.iFolderAdmin.dll $(DEBUG_FILES) $(DESTDIR)$(admindir)/bin
 	$(INSTALL_PROGRAM) tail.txt $(DESTDIR)$(admindir)/tail
@@ -184,6 +214,13 @@ installcheck-local: install
 	
 clean-local:
 	rm -rf $(CLEAN_FILES) $(COMMON_CLEAN_FILES)
+if MONO24BUILD
+	ResLangDirs="$(shell ls $(srcdir)/*/Novell.iFolderAdmin.resources.dll)";\
+	for subdir in $$ResLangDirs; do \
+	LDName="`dirname $$subdir`";\
+	rm -rf $$LDName;\
+	done;
+endif
 
 distclean-local:
 	rm -rf $(COMMON_DISTCLEAN_FILES)
