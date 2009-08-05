@@ -106,6 +106,9 @@
   <data name="ERRORINVALIDDATA">
     <value>所有欄位都是強制性欄位。請檢查並重新輸入</value>
   </data>
+  <data name="IFOLDERADMINS">
+    <value>iFolder 管理員</value>
+  </data>
   <data name="LOGIN">
     <value>登入</value>
   </data>
@@ -391,6 +394,9 @@
   <data name="GROUPLISTTAG">
     <value>使用者群組：</value>
   </data>
+  <data name="ADDADMINS">
+    <value>新增管理員</value>
+  </data>
   <data name="MINUTES">
     <value>分鐘數</value>
   </data>
@@ -499,9 +505,6 @@
   <data name="ADDNEWORSELECTGROUPTOEDIT">
     <value>新增或編輯所選管理員的群組</value>
   </data>
-  <data name="HELP">
-    <value>說明</value>
-  </data>
   <data name="SIZE">
     <value>大小</value>
   </data>
@@ -558,9 +561,6 @@
   </data>
   <data name="SERVERDETAILS">
     <value>伺服器詳細資料</value>
-  </data>
-  <data name="LDAPUPSINCE">
-    <value>開機時間：</value>
   </data>
   <data name="USERLOGINDISABLED">
     <value>停用使用者登入</value>
@@ -880,6 +880,9 @@
   <data name="GENERATEDAILYREPORT">
     <value>在 {0} 每天產生報告至 {1}</value>
   </data>
+  <data name="ERRORINSTRUCTIONS">
+    <value>&lt;p&gt;iFolder Web 存取發生非預期的錯誤。&lt;/p&gt; &lt;p&gt;我們為帶來的任何不便表示歉意，請您登出然後再試一次。&lt;/p&gt;</value>
+  </data>
   <data name="MEMBER">
     <value>成員</value>
   </data>
@@ -906,6 +909,9 @@
   </data>
   <data name="TOTALIFOLDERSTAG">
     <value>iFolder 總計：</value>
+  </data>
+  <data name="LOGINIFOLDERSERVER">
+    <value>iFolder 伺服器：</value>
   </data>
   <data name="SELECTMEMBERTOADD">
     <value>選取新的次要管理員</value>
@@ -952,17 +958,14 @@
   <data name="LOGINLANGUAGE">
     <value>語言：</value>
   </data>
-  <data name="ADMINLOGFILE">
-    <value>Web 管理員</value>
-  </data>
   <data name="INTERVALTAG">
     <value>間隔：</value>
   </data>
   <data name="SELECTIFOLDEROWNER">
     <value>選取 iFolder "{0}" 的擁有者</value>
   </data>
-  <data name="IFOLDERADMINS">
-    <value>iFolder 管理員</value>
+  <data name="HELP">
+    <value>說明</value>
   </data>
   <data name="NAME:">
     <value>名稱：</value>
@@ -979,8 +982,8 @@
   <data name="ERRORCANNOTADDADMIN">
     <value>無法以管理者的身分新增成員 {0}。</value>
   </data>
-  <data name="ADDADMINS">
-    <value>新增管理員</value>
+  <data name="LDAPUPSINCE">
+    <value>開機時間：</value>
   </data>
   <data name="DAYTAG">
     <value>日期：</value>
@@ -1024,14 +1027,14 @@
   <data name="DATASTORE">
     <value>資料儲存</value>
   </data>
+  <data name="FULLCONTROL">
+    <value>完整控制</value>
+  </data>
   <data name="CANNOTSETQUOTAPERUSERERROR">
     <value>無法設定此限制，因為為每個成員配置的總磁碟配額超過群組配額</value>
   </data>
   <data name="REPORTDIRECTORY">
     <value>報告目錄</value>
-  </data>
-  <data name="EDIT">
-    <value>編輯</value>
   </data>
   <data name="ATTAG">
     <value>於：</value>
@@ -1213,11 +1216,11 @@
   <data name="EXCLUDEDFILES">
     <value>排除的檔案</value>
   </data>
-  <data name="LOGINIFOLDERSERVER">
-    <value>iFolder 伺服器：</value>
+  <data name="ADMINLOGFILE">
+    <value>Web 管理員</value>
   </data>
-  <data name="ERRORINSTRUCTIONS">
-    <value>&lt;p&gt;iFolder Web 存取發生非預期的錯誤。&lt;/p&gt; &lt;p&gt;我們為帶來的任何不便表示歉意，請您登出然後再試一次。&lt;/p&gt;</value>
+  <data name="EDIT">
+    <value>編輯</value>
   </data>
   <data name="SYSTEM">
     <value>系統</value>

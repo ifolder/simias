@@ -106,6 +106,9 @@
   <data name="ERRORINVALIDDATA">
     <value>Todos os campos são obrigatórios. Verifique e digite novamente</value>
   </data>
+  <data name="IFOLDERADMINS">
+    <value>Administradores do iFolder</value>
+  </data>
   <data name="LOGIN">
     <value>Efetuar Login</value>
   </data>
@@ -391,6 +394,9 @@
   <data name="GROUPLISTTAG">
     <value>Grupos de Usuários:</value>
   </data>
+  <data name="ADDADMINS">
+    <value>Adicionar Administradores</value>
+  </data>
   <data name="MINUTES">
     <value>Minuto(s)</value>
   </data>
@@ -499,9 +505,6 @@
   <data name="ADDNEWORSELECTGROUPTOEDIT">
     <value>Adicionar ou editar grupos do administrador selecionado</value>
   </data>
-  <data name="HELP">
-    <value>Ajuda</value>
-  </data>
   <data name="SIZE">
     <value>Tamanho</value>
   </data>
@@ -558,9 +561,6 @@
   </data>
   <data name="SERVERDETAILS">
     <value>Detalhes do Servidor</value>
-  </data>
-  <data name="LDAPUPSINCE">
-    <value>Ativo desde:</value>
   </data>
   <data name="USERLOGINDISABLED">
     <value>Desabilitar Login de Usuário</value>
@@ -880,6 +880,9 @@
   <data name="GENERATEDAILYREPORT">
     <value>Gerar relatório todo dia às {0} para {1}</value>
   </data>
+  <data name="ERRORINSTRUCTIONS">
+    <value>&lt;p&gt;O iFolder Web Access apresentou um erro inesperado.&lt;/p&gt; &lt;p&gt;Pedimos desculpas por qualquer inconveniente e solicitamos que você efetue o logout e tente novamente.&lt;/p&gt;</value>
+  </data>
   <data name="MEMBER">
     <value>Membro</value>
   </data>
@@ -906,6 +909,9 @@
   </data>
   <data name="TOTALIFOLDERSTAG">
     <value>Total de Pastas do iFolder:</value>
+  </data>
+  <data name="LOGINIFOLDERSERVER">
+    <value>Servidor iFolder:</value>
   </data>
   <data name="SELECTMEMBERTOADD">
     <value>Selecionar um novo administrador secundário</value>
@@ -952,17 +958,14 @@
   <data name="LOGINLANGUAGE">
     <value>Idioma:</value>
   </data>
-  <data name="ADMINLOGFILE">
-    <value>Administrador da Web</value>
-  </data>
   <data name="INTERVALTAG">
     <value>Intervalo:</value>
   </data>
   <data name="SELECTIFOLDEROWNER">
     <value>Selecionar proprietário do iFolder "{0}"</value>
   </data>
-  <data name="IFOLDERADMINS">
-    <value>Administradores do iFolder</value>
+  <data name="HELP">
+    <value>Ajuda</value>
   </data>
   <data name="NAME:">
     <value>Nome:</value>
@@ -979,8 +982,8 @@
   <data name="ERRORCANNOTADDADMIN">
     <value>Impossível adicionar o membro {0} como um administrador.</value>
   </data>
-  <data name="ADDADMINS">
-    <value>Adicionar Administradores</value>
+  <data name="LDAPUPSINCE">
+    <value>Ativo desde:</value>
   </data>
   <data name="DAYTAG">
     <value>Dia:</value>
@@ -1024,14 +1027,14 @@
   <data name="DATASTORE">
     <value>Armazenamento de Dados</value>
   </data>
+  <data name="FULLCONTROL">
+    <value>Controle Total</value>
+  </data>
   <data name="CANNOTSETQUOTAPERUSERERROR">
     <value>Não é possível definir esse limite porque a quota de disco alocada total por membro excede a quota do grupo</value>
   </data>
   <data name="REPORTDIRECTORY">
     <value>Diretório de Relatórios</value>
-  </data>
-  <data name="EDIT">
-    <value>Editar</value>
   </data>
   <data name="ATTAG">
     <value>Às:</value>
@@ -1213,11 +1216,11 @@
   <data name="EXCLUDEDFILES">
     <value>Arquivos Excluídos</value>
   </data>
-  <data name="LOGINIFOLDERSERVER">
-    <value>Servidor iFolder:</value>
+  <data name="ADMINLOGFILE">
+    <value>Administrador da Web</value>
   </data>
-  <data name="ERRORINSTRUCTIONS">
-    <value>&lt;p&gt;O iFolder Web Access apresentou um erro inesperado.&lt;/p&gt; &lt;p&gt;Pedimos desculpas por qualquer inconveniente e solicitamos que você efetue o logout e tente novamente.&lt;/p&gt;</value>
+  <data name="EDIT">
+    <value>Editar</value>
   </data>
   <data name="SYSTEM">
     <value>Sistema</value>
@@ -1304,7 +1307,7 @@
     <value>Quota de Disco do Grupo: </value>
   </data>
   <data name="LOGINUSERNAME">
-    <value>Nome do usuário</value>
+    <value>Nome do usuário:</value>
   </data>
   <data name="VOLUME">
     <value>Volume</value>

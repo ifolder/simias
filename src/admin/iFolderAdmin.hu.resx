@@ -106,6 +106,9 @@
   <data name="ERRORINVALIDDATA">
     <value>Minden mezőt kötelező kitölteni. Ellenőrizze, és írja be újra</value>
   </data>
+  <data name="IFOLDERADMINS">
+    <value>iFolder rendszergazdák</value>
+  </data>
   <data name="LOGIN">
     <value>Bejelentkezés</value>
   </data>
@@ -116,7 +119,7 @@
     <value> A megosztás le van tiltva, ezért ezt az iFolder mappát nem lehet megosztani</value>
   </data>
   <data name="ENABLE">
-    <value>Engedélyezés</value>
+    <value>Engedély.</value>
   </data>
   <data name="MEMBERS">
     <value>Tagok</value>
@@ -362,7 +365,7 @@
     <value>OK</value>
   </data>
   <data name="READWRITE">
-    <value>Olvasás/írás</value>
+    <value>Olvasás és írás</value>
   </data>
   <data name="ADDMEMBERSTOIFOLDER">
     <value>További tagok hozzáadása a(z) "{0}" iFolder mappához</value>
@@ -390,6 +393,9 @@
   </data>
   <data name="GROUPLISTTAG">
     <value>Felhasználói csoportok:</value>
+  </data>
+  <data name="ADDADMINS">
+    <value>Rendszergazdák hozzáadása</value>
   </data>
   <data name="MINUTES">
     <value>perc</value>
@@ -499,9 +505,6 @@
   <data name="ADDNEWORSELECTGROUPTOEDIT">
     <value>A kijelölt rendszergazda csoportjainak hozzáadása vagy szerkesztése</value>
   </data>
-  <data name="HELP">
-    <value>Súgó</value>
-  </data>
   <data name="SIZE">
     <value>Méret</value>
   </data>
@@ -533,7 +536,7 @@
     <value>Teljes elérési út:</value>
   </data>
   <data name="ERRORCANNOTSETIFOLDERPOLICY">
-    <value>Nem sikerült beállítani a(z) {0} azonosítójú iFolder mappa házirendinformációit.</value>
+    <value>Nem sikerült beállítani a(z) {0} azonosítójú iFolder mappa házirend-információit.</value>
   </data>
   <data name="INHEIRITEDPOLICY">
     <value>(örökölt házirend)</value>
@@ -558,9 +561,6 @@
   </data>
   <data name="SERVERDETAILS">
     <value>Kiszolgáló adatai</value>
-  </data>
-  <data name="LDAPUPSINCE">
-    <value>Működés kezdete:</value>
   </data>
   <data name="USERLOGINDISABLED">
     <value>Felhasználói bejelentkezés letiltása</value>
@@ -644,7 +644,7 @@
     <value>Rendszergazdai jogok a következőhöz: </value>
   </data>
   <data name="PROVISIONREPROVISION">
-    <value>Engedélyezés / újraengedélyezés</value>
+    <value>Üzembe áll. / újraengedélyezés</value>
   </data>
   <data name="ALL">
     <value>Mind</value>
@@ -818,7 +818,7 @@
     <value>Szinkronizálás letiltása</value>
   </data>
   <data name="CONFIRMENCRYPTION">
-    <value>A 'Hozzáférési kód alapú titkosítás' beállítás lehetőséget ad az egyes iFolder mappáknak a felhasználó által megadott hozzáférési kód használatával való titkosítására. A Kikényszerített beállítás kikapcsolható, de a 'Be' beállítás a mentést követően nem vonható vissza. Az OK gombra kattintva mentheti a beállítást, a Mégse gombra kattintva mentés nélkül az aktuális oldalon marad. </value>
+    <value>Az 'Azonosítási kifejezés alapú titkosítás' beállítás lehetőséget ad az egyes iFolder mappáknak a felhasználó által megadott azonosítási kifejezés használatával való titkosítására. A Kikényszerített beállítás kikapcsolható, de a 'Be' beállítás a mentést követően nem vonható vissza. Az OK gombra kattintva mentheti a beállítást, a Mégse gombra kattintva mentés nélkül az aktuális oldalon marad. </value>
   </data>
   <data name="IFOLDERS">
     <value>iFolder mappák</value>
@@ -880,6 +880,9 @@
   <data name="GENERATEDAILYREPORT">
     <value>Jelentés készítése mindennap, időpont: {0}, hely: {1}</value>
   </data>
+  <data name="ERRORINSTRUCTIONS">
+    <value>&lt;p&gt;Az iFolder Web Access váratlan hibát tapasztalt.&lt;/p&gt; &lt;p&gt;Elnézést az esetleges kényelmetlenségért, legyen szíves, jelentkezzen ki, és próbálja meg újra.&lt;/p&gt;</value>
+  </data>
   <data name="MEMBER">
     <value>Tag</value>
   </data>
@@ -906,6 +909,9 @@
   </data>
   <data name="TOTALIFOLDERSTAG">
     <value>iFolder mappák összesen:</value>
+  </data>
+  <data name="LOGINIFOLDERSERVER">
+    <value>iFolder kiszolgáló:</value>
   </data>
   <data name="SELECTMEMBERTOADD">
     <value>Új másodlagos rendszergazda kijelölése</value>
@@ -952,17 +958,14 @@
   <data name="LOGINLANGUAGE">
     <value>Nyelv:</value>
   </data>
-  <data name="ADMINLOGFILE">
-    <value>Webes rendszergazda</value>
-  </data>
   <data name="INTERVALTAG">
     <value>Időköz:</value>
   </data>
   <data name="SELECTIFOLDEROWNER">
     <value>Válasszon tulajdonost a(z)"{0}" iFolder számára</value>
   </data>
-  <data name="IFOLDERADMINS">
-    <value>iFolder rendszergazdák</value>
+  <data name="HELP">
+    <value>Súgó</value>
   </data>
   <data name="NAME:">
     <value>Név:</value>
@@ -979,8 +982,8 @@
   <data name="ERRORCANNOTADDADMIN">
     <value>{0} tagot nem sikerült felvenni rendszergazdaként.</value>
   </data>
-  <data name="ADDADMINS">
-    <value>Rendszergazdák hozzáadása</value>
+  <data name="LDAPUPSINCE">
+    <value>Működés kezdete:</value>
   </data>
   <data name="DAYTAG">
     <value>Nap:</value>
@@ -1024,14 +1027,14 @@
   <data name="DATASTORE">
     <value>Adattár</value>
   </data>
+  <data name="FULLCONTROL">
+    <value>Teljes vezérlés</value>
+  </data>
   <data name="CANNOTSETQUOTAPERUSERERROR">
     <value>Ez a korlát nem állítható be, mert a tagonkénti teljes lefoglalt lemezkvóta nagyobb, mint a csoport kvótája</value>
   </data>
   <data name="REPORTDIRECTORY">
     <value>Jelentési könyvtár</value>
-  </data>
-  <data name="EDIT">
-    <value>Szerkesztés</value>
   </data>
   <data name="ATTAG">
     <value>Időpont:</value>
@@ -1184,7 +1187,7 @@
     <value>Állapot:</value>
   </data>
   <data name="ENCRYPTION">
-    <value>Hozzáférési kód alapú titkosítás</value>
+    <value>Azonosítási kifejezés alapú titkosítás</value>
   </data>
   <data name="LOGLEVELTAG">
     <value>Naplózás szintje</value>
@@ -1213,11 +1216,11 @@
   <data name="EXCLUDEDFILES">
     <value>Kizárt fájlok</value>
   </data>
-  <data name="LOGINIFOLDERSERVER">
-    <value>iFolder kiszolgáló:</value>
+  <data name="ADMINLOGFILE">
+    <value>Webes rendszergazda</value>
   </data>
-  <data name="ERRORINSTRUCTIONS">
-    <value>&lt;p&gt;Az iFolder Web Access váratlan hibát tapasztalt.&lt;/p&gt; &lt;p&gt;Elnézést az esetleges kényelmetlenségért, legyen szíves, jelentkezzen ki, és próbálja meg újra.&lt;/p&gt;</value>
+  <data name="EDIT">
+    <value>Szerkesztés</value>
   </data>
   <data name="SYSTEM">
     <value>Rendszer</value>

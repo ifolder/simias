@@ -106,6 +106,9 @@
   <data name="ERRORINVALIDDATA">
     <value>Alle Felder sind obligatorisch. Überprüfen und wiederholen Sie die Eingabe</value>
   </data>
+  <data name="IFOLDERADMINS">
+    <value>iFolder-Administratoren</value>
+  </data>
   <data name="LOGIN">
     <value>Anmelden</value>
   </data>
@@ -391,6 +394,9 @@
   <data name="GROUPLISTTAG">
     <value>Benutzergruppen:</value>
   </data>
+  <data name="ADDADMINS">
+    <value>Administratoren hinzufügen</value>
+  </data>
   <data name="MINUTES">
     <value>Minute(n)</value>
   </data>
@@ -467,7 +473,7 @@
     <value>Benutzer kann nicht erstellt werden.</value>
   </data>
   <data name="OWNER">
-    <value>Eigentümer</value>
+    <value>Eigent.</value>
   </data>
   <data name="WARN">
     <value>Warnen</value>
@@ -498,9 +504,6 @@
   </data>
   <data name="ADDNEWORSELECTGROUPTOEDIT">
     <value>Ausgewählte Gruppen des Administrators hinzufügen oder bearbeiten</value>
-  </data>
-  <data name="HELP">
-    <value>Hilfe</value>
   </data>
   <data name="SIZE">
     <value>Größe</value>
@@ -559,9 +562,6 @@
   <data name="SERVERDETAILS">
     <value>Server-Details</value>
   </data>
-  <data name="LDAPUPSINCE">
-    <value>Hochgefahren seit:</value>
-  </data>
   <data name="USERLOGINDISABLED">
     <value>Benutzeranmeldung deaktivieren</value>
   </data>
@@ -581,10 +581,10 @@
     <value>Zustand:</value>
   </data>
   <data name="REFRESH">
-    <value>Aktualisieren</value>
+    <value>Aktual.</value>
   </data>
   <data name="SAVE">
-    <value>Speichern</value>
+    <value>Speich.</value>
   </data>
   <data name="ERRORNOFILESIZE">
     <value>Es wurde keine Dateigrößenbegrenzung festgelegt.</value>
@@ -880,6 +880,9 @@
   <data name="GENERATEDAILYREPORT">
     <value>Täglich Bericht erstellen um {0} im {1}</value>
   </data>
+  <data name="ERRORINSTRUCTIONS">
+    <value>&lt;p&gt;Unerwarteter iFolder Web Access-Fehler.&lt;/p&gt; &lt;p&gt;Bitte entschuldigen Sie eventuelle Unannehmlichkeiten. Melden Sie sich bitte ab und wieder an.&lt;/p&gt;</value>
+  </data>
   <data name="MEMBER">
     <value>Mitglied</value>
   </data>
@@ -906,6 +909,9 @@
   </data>
   <data name="TOTALIFOLDERSTAG">
     <value>iFolder-Ordner insgesamt:</value>
+  </data>
+  <data name="LOGINIFOLDERSERVER">
+    <value>iFolder-Server:</value>
   </data>
   <data name="SELECTMEMBERTOADD">
     <value>Neuen sekundären Administrator auswählen</value>
@@ -952,17 +958,14 @@
   <data name="LOGINLANGUAGE">
     <value>Sprache:</value>
   </data>
-  <data name="ADMINLOGFILE">
-    <value>Web-Administrator</value>
-  </data>
   <data name="INTERVALTAG">
     <value>Intervall:</value>
   </data>
   <data name="SELECTIFOLDEROWNER">
     <value>Eigentümer für iFolder "{0}" auswählen</value>
   </data>
-  <data name="IFOLDERADMINS">
-    <value>iFolder-Administratoren</value>
+  <data name="HELP">
+    <value>Hilfe</value>
   </data>
   <data name="NAME:">
     <value>Name:</value>
@@ -979,8 +982,8 @@
   <data name="ERRORCANNOTADDADMIN">
     <value>Mitglied {0} kann nicht als Administrator hinzugefügt werden.</value>
   </data>
-  <data name="ADDADMINS">
-    <value>Administratoren hinzufügen</value>
+  <data name="LDAPUPSINCE">
+    <value>Hochgefahren seit:</value>
   </data>
   <data name="DAYTAG">
     <value>Tag:</value>
@@ -1024,14 +1027,14 @@
   <data name="DATASTORE">
     <value>Datenspeicher</value>
   </data>
+  <data name="FULLCONTROL">
+    <value>Vollständige Kontrolle</value>
+  </data>
   <data name="CANNOTSETQUOTAPERUSERERROR">
     <value>Diese Beschränkung kann nicht festgelegt werden, da die gesamte zugewiesene Speicherplatzquote pro Benutzer größer ist als die Gruppenquote.</value>
   </data>
   <data name="REPORTDIRECTORY">
     <value>Berichtsverzeichnis</value>
-  </data>
-  <data name="EDIT">
-    <value>Bearbeiten</value>
   </data>
   <data name="ATTAG">
     <value>Um:</value>
@@ -1115,7 +1118,7 @@
     <value>iFolder-Details</value>
   </data>
   <data name="CHINESE-SIMPLIFIED">
-    <value>tChinesisch vereinfacht</value>
+    <value>Chinesisch vereinfacht</value>
   </data>
   <data name="UNKNOWNERROR">
     <value>Unbekannter Fehler. Es wurde keine Ausnahme angegeben.</value>
@@ -1213,11 +1216,11 @@
   <data name="EXCLUDEDFILES">
     <value>Ausgeschlossene Dateien</value>
   </data>
-  <data name="LOGINIFOLDERSERVER">
-    <value>iFolder-Server:</value>
+  <data name="ADMINLOGFILE">
+    <value>Web-Administrator</value>
   </data>
-  <data name="ERRORINSTRUCTIONS">
-    <value>&lt;p&gt;Unerwarteter iFolder Web Access-Fehler.&lt;/p&gt; &lt;p&gt;Bitte entschuldigen Sie eventuelle Unannehmlichkeiten. Melden Sie sich bitte ab und wieder an.&lt;/p&gt;</value>
+  <data name="EDIT">
+    <value>Bearbeiten</value>
   </data>
   <data name="SYSTEM">
     <value>System</value>

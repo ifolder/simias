@@ -106,6 +106,9 @@
   <data name="ERRORINVALIDDATA">
     <value>Tutti i campi sono obbligatori. Verificarli e immettere nuovamente i dati</value>
   </data>
+  <data name="IFOLDERADMINS">
+    <value>Amministratori iFolder</value>
+  </data>
   <data name="LOGIN">
     <value>Login</value>
   </data>
@@ -391,6 +394,9 @@
   <data name="GROUPLISTTAG">
     <value>Gruppi di utenti:</value>
   </data>
+  <data name="ADDADMINS">
+    <value>Aggiungi amministratori</value>
+  </data>
   <data name="MINUTES">
     <value>Minuti</value>
   </data>
@@ -467,7 +473,7 @@
     <value>Impossibile creare l'utente.</value>
   </data>
   <data name="OWNER">
-    <value>Proprietario</value>
+    <value>Propriet.</value>
   </data>
   <data name="WARN">
     <value>Avvisa</value>
@@ -498,9 +504,6 @@
   </data>
   <data name="ADDNEWORSELECTGROUPTOEDIT">
     <value>Aggiungi o Modifica gruppi di amministratore selezionati</value>
-  </data>
-  <data name="HELP">
-    <value>?</value>
   </data>
   <data name="SIZE">
     <value>Dimensione</value>
@@ -558,9 +561,6 @@
   </data>
   <data name="SERVERDETAILS">
     <value>Dettagli server</value>
-  </data>
-  <data name="LDAPUPSINCE">
-    <value>Attivo da:</value>
   </data>
   <data name="USERLOGINDISABLED">
     <value>Disabilita login utente</value>
@@ -880,6 +880,9 @@
   <data name="GENERATEDAILYREPORT">
     <value>Genera rapporto ogni giorno alle {0} nella {1}</value>
   </data>
+  <data name="ERRORINSTRUCTIONS">
+    <value>&lt;p&gt;Errore imprevisto di Accesso Web iFolder.&lt;/p&gt; &lt;p&gt;Ci scusiamo per l'inconveniente. Eseguire il logout e riprovare.&lt;/p&gt;</value>
+  </data>
   <data name="MEMBER">
     <value>Membro</value>
   </data>
@@ -906,6 +909,9 @@
   </data>
   <data name="TOTALIFOLDERSTAG">
     <value>Totale cartelle iFolder:</value>
+  </data>
+  <data name="LOGINIFOLDERSERVER">
+    <value>Server iFolder:</value>
   </data>
   <data name="SELECTMEMBERTOADD">
     <value>Seleziona un nuovo amministratore secondario</value>
@@ -952,17 +958,14 @@
   <data name="LOGINLANGUAGE">
     <value>Lingua:</value>
   </data>
-  <data name="ADMINLOGFILE">
-    <value>Amministratore Web</value>
-  </data>
   <data name="INTERVALTAG">
     <value>Intervallo:</value>
   </data>
   <data name="SELECTIFOLDEROWNER">
     <value>Selezionare il proprietario per la cartella iFolder "{0}"</value>
   </data>
-  <data name="IFOLDERADMINS">
-    <value>Amministratori iFolder</value>
+  <data name="HELP">
+    <value>?</value>
   </data>
   <data name="NAME:">
     <value>Nome:</value>
@@ -979,8 +982,8 @@
   <data name="ERRORCANNOTADDADMIN">
     <value>Impossibile aggiungere il membro {0} come amministratore.</value>
   </data>
-  <data name="ADDADMINS">
-    <value>Aggiungi amministratori</value>
+  <data name="LDAPUPSINCE">
+    <value>Attivo da:</value>
   </data>
   <data name="DAYTAG">
     <value>Giorno</value>
@@ -1024,14 +1027,14 @@
   <data name="DATASTORE">
     <value>Archivio dati</value>
   </data>
+  <data name="FULLCONTROL">
+    <value>Controllo completo</value>
+  </data>
   <data name="CANNOTSETQUOTAPERUSERERROR">
     <value>Impossibile impostare tale limite in quanto la quota disco totale assegnata per membro supera la quota gruppo</value>
   </data>
   <data name="REPORTDIRECTORY">
     <value>Directory rapporto</value>
-  </data>
-  <data name="EDIT">
-    <value>Modifica</value>
   </data>
   <data name="ATTAG">
     <value>A:</value>
@@ -1213,11 +1216,11 @@
   <data name="EXCLUDEDFILES">
     <value>File esclusi</value>
   </data>
-  <data name="LOGINIFOLDERSERVER">
-    <value>Server iFolder:</value>
+  <data name="ADMINLOGFILE">
+    <value>Amministratore Web</value>
   </data>
-  <data name="ERRORINSTRUCTIONS">
-    <value>&lt;p&gt;Errore imprevisto di Accesso Web iFolder.&lt;/p&gt; &lt;p&gt;Ci scusiamo per l'inconveniente. Eseguire il logout e riprovare.&lt;/p&gt;</value>
+  <data name="EDIT">
+    <value>Modifica</value>
   </data>
   <data name="SYSTEM">
     <value>Sistema</value>

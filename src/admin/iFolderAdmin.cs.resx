@@ -106,6 +106,9 @@
   <data name="ERRORINVALIDDATA">
     <value>Všechna pole jsou povinná. Zkontrolujte je a zadejte je znovu</value>
   </data>
+  <data name="IFOLDERADMINS">
+    <value>Správci složky iFolder</value>
+  </data>
   <data name="LOGIN">
     <value>Přihlásit</value>
   </data>
@@ -391,6 +394,9 @@
   <data name="GROUPLISTTAG">
     <value>Skupiny uživatelů:</value>
   </data>
+  <data name="ADDADMINS">
+    <value>Přidat správce</value>
+  </data>
   <data name="MINUTES">
     <value>Minut</value>
   </data>
@@ -499,9 +505,6 @@
   <data name="ADDNEWORSELECTGROUPTOEDIT">
     <value>Přidat nebo upravit skupiny vybraného správce</value>
   </data>
-  <data name="HELP">
-    <value>Nápověda</value>
-  </data>
   <data name="SIZE">
     <value>Velikost:</value>
   </data>
@@ -558,9 +561,6 @@
   </data>
   <data name="SERVERDETAILS">
     <value>Podrobnosti o serveru</value>
-  </data>
-  <data name="LDAPUPSINCE">
-    <value>Do:</value>
   </data>
   <data name="USERLOGINDISABLED">
     <value>Vypnout přihlášení uživatele</value>
@@ -880,6 +880,9 @@
   <data name="GENERATEDAILYREPORT">
     <value>Generovat zprávu každý den v {0} do {1}</value>
   </data>
+  <data name="ERRORINSTRUCTIONS">
+    <value>&lt;p&gt;Aplikace iFolder Web Access zaznamenala neočekávanou chybu.&lt;/p&gt; &lt;p&gt;Omlouváme se za veškeré nepříjemnosti a žádáme vás, abyste se odhlásili a zkusili to znovu.&lt;/p&gt;</value>
+  </data>
   <data name="MEMBER">
     <value>Člen</value>
   </data>
@@ -906,6 +909,9 @@
   </data>
   <data name="TOTALIFOLDERSTAG">
     <value>Celkem složek iFolder:</value>
+  </data>
+  <data name="LOGINIFOLDERSERVER">
+    <value>Server aplikace iFolder:</value>
   </data>
   <data name="SELECTMEMBERTOADD">
     <value>Vyberte nového sekundárního správce.</value>
@@ -952,17 +958,14 @@
   <data name="LOGINLANGUAGE">
     <value>Jazyk:</value>
   </data>
-  <data name="ADMINLOGFILE">
-    <value>Správce webu</value>
-  </data>
   <data name="INTERVALTAG">
     <value>Interval:</value>
   </data>
   <data name="SELECTIFOLDEROWNER">
     <value>Vyberte vlastníka složky iFolder "{0}"</value>
   </data>
-  <data name="IFOLDERADMINS">
-    <value>Správci složky iFolder</value>
+  <data name="HELP">
+    <value>Nápověda</value>
   </data>
   <data name="NAME:">
     <value>Název:</value>
@@ -979,8 +982,8 @@
   <data name="ERRORCANNOTADDADMIN">
     <value>Není možné přidat člena {0} jako správce.</value>
   </data>
-  <data name="ADDADMINS">
-    <value>Přidat správce</value>
+  <data name="LDAPUPSINCE">
+    <value>Do:</value>
   </data>
   <data name="DAYTAG">
     <value>Den:</value>
@@ -1024,14 +1027,14 @@
   <data name="DATASTORE">
     <value>Uložení dat</value>
   </data>
+  <data name="FULLCONTROL">
+    <value>Úplné řízení</value>
+  </data>
   <data name="CANNOTSETQUOTAPERUSERERROR">
     <value>Tento limit nelze nastavit, protože celková přidělená disková kvóta na uživatele překračuje kvótu skupiny.</value>
   </data>
   <data name="REPORTDIRECTORY">
     <value>Adresář hlášení</value>
-  </data>
-  <data name="EDIT">
-    <value>Upravit</value>
   </data>
   <data name="ATTAG">
     <value>V:</value>
@@ -1213,11 +1216,11 @@
   <data name="EXCLUDEDFILES">
     <value>Vyloučené soubory</value>
   </data>
-  <data name="LOGINIFOLDERSERVER">
-    <value>Server aplikace iFolder:</value>
+  <data name="ADMINLOGFILE">
+    <value>Správce webu</value>
   </data>
-  <data name="ERRORINSTRUCTIONS">
-    <value>&lt;p&gt;Aplikace iFolder Web Access zaznamenala neočekávanou chybu.&lt;/p&gt; &lt;p&gt;Omlouváme se za veškeré nepříjemnosti a žádáme vás, abyste se odhlásili a zkusili to znovu.&lt;/p&gt;</value>
+  <data name="EDIT">
+    <value>Upravit</value>
   </data>
   <data name="SYSTEM">
     <value>Systém</value>

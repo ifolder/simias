@@ -106,6 +106,9 @@
   <data name="ERRORINVALIDDATA">
     <value>所有字段都是必填的。请检查并重新输入</value>
   </data>
+  <data name="IFOLDERADMINS">
+    <value>iFolder 管理员</value>
+  </data>
   <data name="LOGIN">
     <value>登录</value>
   </data>
@@ -391,6 +394,9 @@
   <data name="GROUPLISTTAG">
     <value>用户组：</value>
   </data>
+  <data name="ADDADMINS">
+    <value>添加管理员</value>
+  </data>
   <data name="MINUTES">
     <value>分钟</value>
   </data>
@@ -499,9 +505,6 @@
   <data name="ADDNEWORSELECTGROUPTOEDIT">
     <value>添加或编辑所选管理员的组</value>
   </data>
-  <data name="HELP">
-    <value>帮助</value>
-  </data>
   <data name="SIZE">
     <value>大小</value>
   </data>
@@ -558,9 +561,6 @@
   </data>
   <data name="SERVERDETAILS">
     <value>服务器细节</value>
-  </data>
-  <data name="LDAPUPSINCE">
-    <value>连接时间：</value>
   </data>
   <data name="USERLOGINDISABLED">
     <value>禁止用户登录</value>
@@ -880,6 +880,9 @@
   <data name="GENERATEDAILYREPORT">
     <value>每天在 {0} 向 {1} 生成报告</value>
   </data>
+  <data name="ERRORINSTRUCTIONS">
+    <value>&lt;p&gt;iFolder 万维网访问遇到意外错误。&lt;/p&gt; &lt;p&gt;我们对给您带来的不便深感抱歉，请您注销并重试。&lt;/p&gt;</value>
+  </data>
   <data name="MEMBER">
     <value>成员</value>
   </data>
@@ -906,6 +909,9 @@
   </data>
   <data name="TOTALIFOLDERSTAG">
     <value>iFolder 总数：</value>
+  </data>
+  <data name="LOGINIFOLDERSERVER">
+    <value>iFolder 服务器：</value>
   </data>
   <data name="SELECTMEMBERTOADD">
     <value>选择新的二级管理员</value>
@@ -952,17 +958,14 @@
   <data name="LOGINLANGUAGE">
     <value>语言：</value>
   </data>
-  <data name="ADMINLOGFILE">
-    <value>万维网管理员</value>
-  </data>
   <data name="INTERVALTAG">
     <value>间隔：</value>
   </data>
   <data name="SELECTIFOLDEROWNER">
     <value>选择 iFolder“{0}”的拥有者</value>
   </data>
-  <data name="IFOLDERADMINS">
-    <value>iFolder 管理员</value>
+  <data name="HELP">
+    <value>帮助</value>
   </data>
   <data name="NAME:">
     <value>名称：</value>
@@ -979,8 +982,8 @@
   <data name="ERRORCANNOTADDADMIN">
     <value>无法将成员 {0} 添加为管理员。</value>
   </data>
-  <data name="ADDADMINS">
-    <value>添加管理员</value>
+  <data name="LDAPUPSINCE">
+    <value>连接时间：</value>
   </data>
   <data name="DAYTAG">
     <value>天：</value>
@@ -1024,17 +1027,17 @@
   <data name="DATASTORE">
     <value>数据存储</value>
   </data>
+  <data name="FULLCONTROL">
+    <value>完全控制</value>
+  </data>
   <data name="CANNOTSETQUOTAPERUSERERROR">
     <value>无法设置此限制，因为为每位成员分配的磁盘定额的总额超出了组定额。</value>
   </data>
   <data name="REPORTDIRECTORY">
     <value>报告目录</value>
   </data>
-  <data name="EDIT">
-    <value>编辑</value>
-  </data>
   <data name="ATTAG">
-    <value>位置：</value>
+    <value>在：</value>
   </data>
   <data name="ELLIPSES">
     <value> . . .</value>
@@ -1190,7 +1193,7 @@
     <value>日志级别</value>
   </data>
   <data name="EVERYTAG">
-    <value>间隔：</value>
+    <value>每：</value>
   </data>
   <data name="CONTAINS">
     <value>包含</value>
@@ -1213,11 +1216,11 @@
   <data name="EXCLUDEDFILES">
     <value>排除的文件</value>
   </data>
-  <data name="LOGINIFOLDERSERVER">
-    <value>iFolder 服务器：</value>
+  <data name="ADMINLOGFILE">
+    <value>万维网管理员</value>
   </data>
-  <data name="ERRORINSTRUCTIONS">
-    <value>&lt;p&gt;iFolder 万维网访问遇到意外错误。&lt;/p&gt; &lt;p&gt;我们对给您带来的不便深感抱歉，请您注销并重试。&lt;/p&gt;</value>
+  <data name="EDIT">
+    <value>编辑</value>
   </data>
   <data name="SYSTEM">
     <value>系统</value>

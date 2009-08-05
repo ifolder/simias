@@ -106,6 +106,9 @@
   <data name="ERRORINVALIDDATA">
     <value>Все поля обязательны. Проверьте и повторите ввод</value>
   </data>
+  <data name="IFOLDERADMINS">
+    <value>Администраторы iFolder</value>
+  </data>
   <data name="LOGIN">
     <value>Вход в систему</value>
   </data>
@@ -305,7 +308,7 @@
     <value>Пользователи</value>
   </data>
   <data name="SET">
-    <value>Установить</value>
+    <value>Установ.</value>
   </data>
   <data name="LASTPAGE">
     <value>Последняя страница</value>
@@ -391,6 +394,9 @@
   <data name="GROUPLISTTAG">
     <value>Группы пользователей:</value>
   </data>
+  <data name="ADDADMINS">
+    <value>Добавить администраторов</value>
+  </data>
   <data name="MINUTES">
     <value>Мин.</value>
   </data>
@@ -413,7 +419,7 @@
     <value>Права администратора {0}{1}{2} изменены для группы {3}{4}{5}. Щелкните "Повторить", чтобы продолжить добавление групп для этого администратора. Чтобы вернуться на страницу "Системы", щелкните "ОК".</value>
   </data>
   <data name="SECONDARY">
-    <value>Дополнительный</value>
+    <value>Дополнит.</value>
   </data>
   <data name="LASTNAMETAG">
     <value>Фамилия:</value>
@@ -499,9 +505,6 @@
   <data name="ADDNEWORSELECTGROUPTOEDIT">
     <value>Добавить или изменить выбранные группы администратора</value>
   </data>
-  <data name="HELP">
-    <value>Справка</value>
-  </data>
   <data name="SIZE">
     <value>Размер</value>
   </data>
@@ -559,9 +562,6 @@
   <data name="SERVERDETAILS">
     <value>Информация о сервере</value>
   </data>
-  <data name="LDAPUPSINCE">
-    <value>Время работы:</value>
-  </data>
   <data name="USERLOGINDISABLED">
     <value>Отключить пользовательский вход в систему</value>
   </data>
@@ -584,7 +584,7 @@
     <value>Обновить</value>
   </data>
   <data name="SAVE">
-    <value>Сохранить</value>
+    <value>Сохран.</value>
   </data>
   <data name="ERRORNOFILESIZE">
     <value>Ограничение на размер файла не указано.</value>
@@ -644,7 +644,7 @@
     <value>Права администратора для: </value>
   </data>
   <data name="PROVISIONREPROVISION">
-    <value>Персонификация доступа/Изменение доступа</value>
+    <value>Пред.доступа/Изменение доступа</value>
   </data>
   <data name="ALL">
     <value>Все</value>
@@ -880,6 +880,9 @@
   <data name="GENERATEDAILYREPORT">
     <value>Формировать отчет каждый день в {0} для {1}</value>
   </data>
+  <data name="ERRORINSTRUCTIONS">
+    <value>&lt;p&gt;Произошла неожиданная ошибка веб-клиента iFolder.&lt;/p&gt; &lt;p&gt;Приносим извинения за причиненные неудобства. Выйдите из системы и повторите попытку.&lt;/p&gt;</value>
+  </data>
   <data name="MEMBER">
     <value>Член</value>
   </data>
@@ -906,6 +909,9 @@
   </data>
   <data name="TOTALIFOLDERSTAG">
     <value>Всего папок iFolder:</value>
+  </data>
+  <data name="LOGINIFOLDERSERVER">
+    <value>Сервер iFolder:</value>
   </data>
   <data name="SELECTMEMBERTOADD">
     <value>Выберите нового дополнительного администратора</value>
@@ -952,17 +958,14 @@
   <data name="LOGINLANGUAGE">
     <value>Язык:</value>
   </data>
-  <data name="ADMINLOGFILE">
-    <value>Веб-администратор</value>
-  </data>
   <data name="INTERVALTAG">
     <value>Интервал:</value>
   </data>
   <data name="SELECTIFOLDEROWNER">
     <value>Выберите владельца для папки "{0}"</value>
   </data>
-  <data name="IFOLDERADMINS">
-    <value>Администраторы iFolder</value>
+  <data name="HELP">
+    <value>Справка</value>
   </data>
   <data name="NAME:">
     <value>Имя:</value>
@@ -979,8 +982,8 @@
   <data name="ERRORCANNOTADDADMIN">
     <value>Невозможно добавить пользователя {0} как администратора.</value>
   </data>
-  <data name="ADDADMINS">
-    <value>Добавить администраторов</value>
+  <data name="LDAPUPSINCE">
+    <value>Время работы:</value>
   </data>
   <data name="DAYTAG">
     <value>День:</value>
@@ -1024,14 +1027,14 @@
   <data name="DATASTORE">
     <value>Хранилище данных</value>
   </data>
+  <data name="FULLCONTROL">
+    <value>Полный контроль</value>
+  </data>
   <data name="CANNOTSETQUOTAPERUSERERROR">
     <value>Не удается задать это ограничение, так как общая выделенная дисковая квота на члена превышает квоту группы</value>
   </data>
   <data name="REPORTDIRECTORY">
     <value>Каталог отчета</value>
-  </data>
-  <data name="EDIT">
-    <value>Изменить</value>
   </data>
   <data name="ATTAG">
     <value>В:</value>
@@ -1213,11 +1216,11 @@
   <data name="EXCLUDEDFILES">
     <value>Исключенные файлы</value>
   </data>
-  <data name="LOGINIFOLDERSERVER">
-    <value>Сервер iFolder:</value>
+  <data name="ADMINLOGFILE">
+    <value>Веб-администратор</value>
   </data>
-  <data name="ERRORINSTRUCTIONS">
-    <value>&lt;p&gt;Произошла неожиданная ошибка веб-клиента iFolder.&lt;/p&gt; &lt;p&gt;Приносим извинения за причиненные неудобства. Выйдите из системы и повторите попытку.&lt;/p&gt;</value>
+  <data name="EDIT">
+    <value>Изменить</value>
   </data>
   <data name="SYSTEM">
     <value>Система</value>

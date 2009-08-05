@@ -106,6 +106,9 @@
   <data name="ERRORINVALIDDATA">
     <value>Tous les champs sont obligatoires. Vérifiez et réintroduisez.</value>
   </data>
+  <data name="IFOLDERADMINS">
+    <value>Administrateurs iFolder</value>
+  </data>
   <data name="LOGIN">
     <value>Login</value>
   </data>
@@ -391,6 +394,9 @@
   <data name="GROUPLISTTAG">
     <value>Groupes d'utilisateurs :</value>
   </data>
+  <data name="ADDADMINS">
+    <value>Ajouter des administrateurs</value>
+  </data>
   <data name="MINUTES">
     <value>minute(s)</value>
   </data>
@@ -499,9 +505,6 @@
   <data name="ADDNEWORSELECTGROUPTOEDIT">
     <value>Ajouter ou modifier les groupes d'administrateur sélectionnés</value>
   </data>
-  <data name="HELP">
-    <value>Aide</value>
-  </data>
   <data name="SIZE">
     <value>Taille</value>
   </data>
@@ -558,9 +561,6 @@
   </data>
   <data name="SERVERDETAILS">
     <value>Détails du serveur</value>
-  </data>
-  <data name="LDAPUPSINCE">
-    <value>En service depuis :</value>
   </data>
   <data name="USERLOGINDISABLED">
     <value>Désactiver le login utilisateur</value>
@@ -880,6 +880,9 @@
   <data name="GENERATEDAILYREPORT">
     <value>Générer un rapport chaque jour à {0} dans {1}</value>
   </data>
+  <data name="ERRORINSTRUCTIONS">
+    <value>&lt;p&gt;iFolder Web Access a rencontré une erreur inattendue.&lt;/p&gt; &lt;p&gt;Nous nous excusons des désagréments et vous invitons à vous déloguer et à réessayer.&lt;/p&gt;</value>
+  </data>
   <data name="MEMBER">
     <value>Membre</value>
   </data>
@@ -906,6 +909,9 @@
   </data>
   <data name="TOTALIFOLDERSTAG">
     <value>Total de dossiers iFolder :</value>
+  </data>
+  <data name="LOGINIFOLDERSERVER">
+    <value>Serveur iFolder :</value>
   </data>
   <data name="SELECTMEMBERTOADD">
     <value>Sélectionner un nouvel administrateur secondaire</value>
@@ -952,17 +958,14 @@
   <data name="LOGINLANGUAGE">
     <value>Langue :</value>
   </data>
-  <data name="ADMINLOGFILE">
-    <value>Administrateur Web</value>
-  </data>
   <data name="INTERVALTAG">
     <value>Intervalle :</value>
   </data>
   <data name="SELECTIFOLDEROWNER">
     <value>Sélectionnez le propriétaire du dossier iFolder "{0}"</value>
   </data>
-  <data name="IFOLDERADMINS">
-    <value>Administrateurs iFolder</value>
+  <data name="HELP">
+    <value>Aide</value>
   </data>
   <data name="NAME:">
     <value>Nom :</value>
@@ -979,8 +982,8 @@
   <data name="ERRORCANNOTADDADMIN">
     <value>Impossible d'ajouter le membre {0} comme administrateur.</value>
   </data>
-  <data name="ADDADMINS">
-    <value>Ajouter des administrateurs</value>
+  <data name="LDAPUPSINCE">
+    <value>En service depuis :</value>
   </data>
   <data name="DAYTAG">
     <value>Jour :</value>
@@ -1024,14 +1027,14 @@
   <data name="DATASTORE">
     <value>Zone de stockage des données</value>
   </data>
+  <data name="FULLCONTROL">
+    <value>Contrôle total</value>
+  </data>
   <data name="CANNOTSETQUOTAPERUSERERROR">
     <value>Cette limite ne peut pas être définie car le quota de disque total alloué par membre dépasse le quota du groupe.</value>
   </data>
   <data name="REPORTDIRECTORY">
     <value>Répertoire des rapports</value>
-  </data>
-  <data name="EDIT">
-    <value>Éditer</value>
   </data>
   <data name="ATTAG">
     <value>À :</value>
@@ -1213,11 +1216,11 @@
   <data name="EXCLUDEDFILES">
     <value>Fichiers exclus</value>
   </data>
-  <data name="LOGINIFOLDERSERVER">
-    <value>Serveur iFolder :</value>
+  <data name="ADMINLOGFILE">
+    <value>Administrateur Web</value>
   </data>
-  <data name="ERRORINSTRUCTIONS">
-    <value>&lt;p&gt;iFolder Web Access a rencontré une erreur inattendue.&lt;/p&gt; &lt;p&gt;Nous nous excusons des désagréments et vous invitons à vous déloguer et à réessayer.&lt;/p&gt;</value>
+  <data name="EDIT">
+    <value>Éditer</value>
   </data>
   <data name="SYSTEM">
     <value>Système</value>

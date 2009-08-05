@@ -106,6 +106,9 @@
   <data name="ERRORINVALIDDATA">
     <value>Wszystkie pola są wymagane. Sprawdź i wprowadź ponownie</value>
   </data>
+  <data name="IFOLDERADMINS">
+    <value>Administratorzy programu iFolder</value>
+  </data>
   <data name="LOGIN">
     <value>Zaloguj się</value>
   </data>
@@ -391,6 +394,9 @@
   <data name="GROUPLISTTAG">
     <value>Grupy użytkownika:</value>
   </data>
+  <data name="ADDADMINS">
+    <value>Dodaj administratorów</value>
+  </data>
   <data name="MINUTES">
     <value>Minut</value>
   </data>
@@ -499,9 +505,6 @@
   <data name="ADDNEWORSELECTGROUPTOEDIT">
     <value>Dodaj lub edytuj grupy wybranego administratora</value>
   </data>
-  <data name="HELP">
-    <value>Pomoc</value>
-  </data>
   <data name="SIZE">
     <value>Rozmiar</value>
   </data>
@@ -558,9 +561,6 @@
   </data>
   <data name="SERVERDETAILS">
     <value>Szczegółowe informacje o serwerze</value>
-  </data>
-  <data name="LDAPUPSINCE">
-    <value>Działa od:</value>
   </data>
   <data name="USERLOGINDISABLED">
     <value>Wyłącz logowanie użytkownika</value>
@@ -880,6 +880,9 @@
   <data name="GENERATEDAILYREPORT">
     <value>Generuj codzienny raport o {0} do {1}</value>
   </data>
+  <data name="ERRORINSTRUCTIONS">
+    <value>&lt;p&gt;W aplikacji iFolder Web Access wystąpił nieoczekiwany błąd.&lt;/p&gt; &lt;p&gt;Przepraszamy za wszelkie niedogodności oraz prosimy o wylogowanie się i ponowienie próby.&lt;/p&gt;</value>
+  </data>
   <data name="MEMBER">
     <value>Członek</value>
   </data>
@@ -906,6 +909,9 @@
   </data>
   <data name="TOTALIFOLDERSTAG">
     <value>Łączna liczba iFolderów:</value>
+  </data>
+  <data name="LOGINIFOLDERSERVER">
+    <value>Serwer programu iFolder:</value>
   </data>
   <data name="SELECTMEMBERTOADD">
     <value>Wybierz nowego administratora dodatkowego</value>
@@ -952,17 +958,14 @@
   <data name="LOGINLANGUAGE">
     <value>Język:</value>
   </data>
-  <data name="ADMINLOGFILE">
-    <value>Administrator sieci Web</value>
-  </data>
   <data name="INTERVALTAG">
     <value>Interwał:</value>
   </data>
   <data name="SELECTIFOLDEROWNER">
     <value>Wybierz właściciela iFolderu "{0}"</value>
   </data>
-  <data name="IFOLDERADMINS">
-    <value>Administratorzy programu iFolder</value>
+  <data name="HELP">
+    <value>Pomoc</value>
   </data>
   <data name="NAME:">
     <value>Nazwa:</value>
@@ -979,8 +982,8 @@
   <data name="ERRORCANNOTADDADMIN">
     <value>Nie można dodać członka {0} jako administratora.</value>
   </data>
-  <data name="ADDADMINS">
-    <value>Dodaj administratorów</value>
+  <data name="LDAPUPSINCE">
+    <value>Działa od:</value>
   </data>
   <data name="DAYTAG">
     <value>Dzień:</value>
@@ -1024,14 +1027,14 @@
   <data name="DATASTORE">
     <value>Magazyn danych</value>
   </data>
+  <data name="FULLCONTROL">
+    <value>Pełna kontrola</value>
+  </data>
   <data name="CANNOTSETQUOTAPERUSERERROR">
     <value>Nie można ustawić tego limitu, ponieważ całkowity przydzielony przydział dysku przekracza przydział grupy.</value>
   </data>
   <data name="REPORTDIRECTORY">
     <value>Katalog raportów</value>
-  </data>
-  <data name="EDIT">
-    <value>Edycja</value>
   </data>
   <data name="ATTAG">
     <value>O godzinie:</value>
@@ -1213,11 +1216,11 @@
   <data name="EXCLUDEDFILES">
     <value>Wykluczone pliki</value>
   </data>
-  <data name="LOGINIFOLDERSERVER">
-    <value>Serwer programu iFolder:</value>
+  <data name="ADMINLOGFILE">
+    <value>Administrator sieci Web</value>
   </data>
-  <data name="ERRORINSTRUCTIONS">
-    <value>&lt;p&gt;W aplikacji iFolder Web Access wystąpił nieoczekiwany błąd.&lt;/p&gt; &lt;p&gt;Przepraszamy za wszelkie niedogodności oraz prosimy o wylogowanie się i ponowienie próby.&lt;/p&gt;</value>
+  <data name="EDIT">
+    <value>Edycja</value>
   </data>
   <data name="SYSTEM">
     <value>System</value>

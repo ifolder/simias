@@ -106,6 +106,9 @@
   <data name="ERRORINVALIDDATA">
     <value>Todos los campos son obligatorios. Compruébelos y vuelva a especificarlos.</value>
   </data>
+  <data name="IFOLDERADMINS">
+    <value>Administradores de iFolder</value>
+  </data>
   <data name="LOGIN">
     <value>Entrar</value>
   </data>
@@ -391,6 +394,9 @@
   <data name="GROUPLISTTAG">
     <value>Grupos de usuarios:</value>
   </data>
+  <data name="ADDADMINS">
+    <value>Añadir administradores</value>
+  </data>
   <data name="MINUTES">
     <value>Minuto(s)</value>
   </data>
@@ -467,7 +473,7 @@
     <value>No es posible crear el usuario.</value>
   </data>
   <data name="OWNER">
-    <value>Propietario</value>
+    <value>Propiet.</value>
   </data>
   <data name="WARN">
     <value>Advertir</value>
@@ -498,9 +504,6 @@
   </data>
   <data name="ADDNEWORSELECTGROUPTOEDIT">
     <value>Añadir o editar grupos de adiministrador seleccionados</value>
-  </data>
-  <data name="HELP">
-    <value>Ayuda</value>
   </data>
   <data name="SIZE">
     <value>Tamaño</value>
@@ -558,9 +561,6 @@
   </data>
   <data name="SERVERDETAILS">
     <value>Información del servidor</value>
-  </data>
-  <data name="LDAPUPSINCE">
-    <value>Activo desde:</value>
   </data>
   <data name="USERLOGINDISABLED">
     <value>Inhabilitar entrada de usuario</value>
@@ -880,6 +880,9 @@
   <data name="GENERATEDAILYREPORT">
     <value>Generar informe cada día a las {0} para el {1}</value>
   </data>
+  <data name="ERRORINSTRUCTIONS">
+    <value>&lt;p&gt;Web Access de iFolder ha detectado un error inesperado.&lt;/p&gt; &lt;p&gt;Le rogamos que nos disculpe por las molestias causadas y le agradeceríamos que saliera de la sesión y lo intentara de nuevo.&lt;/p&gt;</value>
+  </data>
   <data name="MEMBER">
     <value>Miembro</value>
   </data>
@@ -906,6 +909,9 @@
   </data>
   <data name="TOTALIFOLDERSTAG">
     <value>Total de carpetas iFolder:</value>
+  </data>
+  <data name="LOGINIFOLDERSERVER">
+    <value>Servidor iFolder:</value>
   </data>
   <data name="SELECTMEMBERTOADD">
     <value>Seleccionar un nuevo administrador secundario</value>
@@ -952,17 +958,14 @@
   <data name="LOGINLANGUAGE">
     <value>Idioma:</value>
   </data>
-  <data name="ADMINLOGFILE">
-    <value>Administrador Web</value>
-  </data>
   <data name="INTERVALTAG">
     <value>Intervalo:</value>
   </data>
   <data name="SELECTIFOLDEROWNER">
     <value>Seleccione un propietario para la carpeta iFolder "{0}"</value>
   </data>
-  <data name="IFOLDERADMINS">
-    <value>Administradores de iFolder</value>
+  <data name="HELP">
+    <value>Ayuda</value>
   </data>
   <data name="NAME:">
     <value>Nombre:</value>
@@ -979,8 +982,8 @@
   <data name="ERRORCANNOTADDADMIN">
     <value>No es posible añadir el miembro {0} como administrador.</value>
   </data>
-  <data name="ADDADMINS">
-    <value>Añadir administradores</value>
+  <data name="LDAPUPSINCE">
+    <value>Activo desde:</value>
   </data>
   <data name="DAYTAG">
     <value>Día:</value>
@@ -1024,14 +1027,14 @@
   <data name="DATASTORE">
     <value>Almacenamiento de datos</value>
   </data>
+  <data name="FULLCONTROL">
+    <value>Control completo</value>
+  </data>
   <data name="CANNOTSETQUOTAPERUSERERROR">
     <value>No es posible establecer este límite porque la cuota de disco asignada por miembro supera la cuota de grupo.</value>
   </data>
   <data name="REPORTDIRECTORY">
     <value>Directorio de informe</value>
-  </data>
-  <data name="EDIT">
-    <value>Editar</value>
   </data>
   <data name="ATTAG">
     <value>En:</value>
@@ -1213,11 +1216,11 @@
   <data name="EXCLUDEDFILES">
     <value>Archivos excluidos</value>
   </data>
-  <data name="LOGINIFOLDERSERVER">
-    <value>Servidor iFolder:</value>
+  <data name="ADMINLOGFILE">
+    <value>Administrador Web</value>
   </data>
-  <data name="ERRORINSTRUCTIONS">
-    <value>&lt;p&gt;Web Access de iFolder ha detectado un error inesperado.&lt;/p&gt; &lt;p&gt;Le rogamos que nos disculpe por las molestias causadas y le agradeceríamos que saliera de la sesión y lo intentara de nuevo.&lt;/p&gt;</value>
+  <data name="EDIT">
+    <value>Editar</value>
   </data>
   <data name="SYSTEM">
     <value>Sistema</value>
