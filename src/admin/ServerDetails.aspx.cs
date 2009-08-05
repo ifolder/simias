@@ -1100,7 +1100,7 @@ namespace Novell.iFolderWeb.Admin
 			 	int syncInterval = Int32.Parse (IDSyncInterval.Text);
 	                        syncInterval = syncInterval * 60;
 			
-                        	if (syncInterval > 0 ) 
+                        	if (syncInterval > 0 && syncInterval <= 604800 ) 
 				{
                                 	remoteweb.IdentitySyncSetInterval (syncInterval);
                         	}
@@ -1111,7 +1111,7 @@ namespace Novell.iFolderWeb.Admin
 				
 				int deleteGracePeriod = Int32.Parse (LdapDeleteGraceInterval.Text);
         	                deleteGracePeriod = deleteGracePeriod * 60;
-                	        if (deleteGracePeriod > 0 ) 
+                	        if (deleteGracePeriod > 0 && deleteGracePeriod <= 604800) 
 				{
                         	        remoteweb.IdentitySyncSetDeleteMemberGracePeriod (deleteGracePeriod);
 		                } 
