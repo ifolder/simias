@@ -1332,7 +1332,7 @@ namespace Simias.Server
 			{
 				string[] userids = null;
 				MultiValuedList mv = this.Properties.GetProperties( MemberProperty );
-				if ( mv.Count > 0 )
+				if ( mv != null && mv.Count > 0 )
 				{
 					userids = new string[ mv.Count ];
 					int x = 0;

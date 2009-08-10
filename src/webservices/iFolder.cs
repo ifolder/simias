@@ -284,14 +284,36 @@ namespace iFolder.WebService
 //			this.Enabled = !iFolderPolicy.IsLocked(c);
                         Store store = Store.GetStore();
                         this.Enabled = ce.Disabled;
-
-			this.MemberCount = ce.UserIDs.Length;
+			Collection col = null;
+			if ( ce.UserIDs == null )
+			{
+				col = store.GetCollectionByID(this.ID);
+				
+				this.MemberCount = (col != null) ? col.GetMemberList().Count : 1;
+			}
+			else
+				this.MemberCount = ce.UserIDs.Length;
 
 			Domain domain = store.GetDomain(store.DefaultDomain);
 			this.DomainID = domain.ID;
 
 			// owner
-			this.OwnerID = ce.OwnerID;
+			if ( ce.OwnerID == null )
+			{
+				// col might be null in one path where UserIDs is non-null
+				if(col == null)
+				{
+					// till this time, owner has not been added to catalog, so fetch it from collection
+					col = store.GetCollectionByID(this.ID);
+					this.OwnerID = (col != null) ? col.Owner.UserID : String.Empty;
+				}
+				else
+					this.OwnerID = col.Owner.UserID;
+
+			}
+			else
+				this.OwnerID = ce.OwnerID;
+
 			this.IsOwner = (accessID != null) && (accessID == this.OwnerID || GroupIsOwner(accessID, this.OwnerID, this.DomainID) );
 
 			Member domainMember = domain.GetMemberByID(this.OwnerID);
