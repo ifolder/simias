@@ -74,13 +74,13 @@ namespace Novell.Journaling
 		{
 			while (!shuttingDown)
 			{
-				// Wait for something to be added to the queue.
-				queueEvent.WaitOne();
-
-				// Now loop until the queue is emptied.
-				while (true)
+				try
 				{
-					try
+					// Wait for something to be added to the queue.
+					queueEvent.WaitOne();
+
+					// Now loop until the queue is emptied.
+					while (true)
 					{
 						NodeEventArgs args;
 						lock (eventQueue)
@@ -115,10 +115,10 @@ namespace Novell.Journaling
 							log.Info( "Lost journal entry for node ID = '{0}'. Event type = '{1}'. Node type = '{2}'", args.Node, args.EventType, args.Type );
 						}
 					}
-					catch(Exception ex)
-					{
-						log.Error("Error in processing journal event: {0}--{1}", ex.Message, ex.StackTrace);
-					}
+				}
+				catch(Exception ex)
+				{
+					log.Error("Exception in Journal processEvent {0}  {1}", ex.Message, ex.StackTrace);
 				}
 			}
 		}
