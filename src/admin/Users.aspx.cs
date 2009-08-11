@@ -38,6 +38,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Resources;
+using System.Threading;
 using System.Web;
 using System.Web.SessionState;
 using System.Web.UI;
@@ -342,6 +343,10 @@ namespace Novell.iFolderWeb.Admin
 				
 	
 			}
+			
+			// In russian as the PROVISION string is too long , increase the width for this language.
+			if ( Thread.CurrentThread.CurrentUICulture.Name.StartsWith("ru") )
+				ProvisionButton.Width = 240;
 		}
 
 		/// <summary>
