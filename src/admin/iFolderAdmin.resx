@@ -1261,4 +1261,16 @@
     <data name="SAVETO">
         <value>Save to</value>
     </data>
+    <data name="NOTAPPLICABLE">
+        <value>N/A</value>
+    </data>
+    <data name="ONLINE">
+        <value>Online</value>
+    </data>
+    <data name="OFFLINE">
+        <value>Offline</value>
+    <data name="WAITING">
+        <value>Waiting</value>
+    </data>
+    </data>
 </root>
