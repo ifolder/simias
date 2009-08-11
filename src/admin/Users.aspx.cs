@@ -344,9 +344,12 @@ namespace Novell.iFolderWeb.Admin
 	
 			}
 			
-			// In russian as the PROVISION string is too long , increase the width for this language.
-			if ( Thread.CurrentThread.CurrentUICulture.Name.StartsWith("ru") )
-				ProvisionButton.Width = 240;
+			// In ru/pl/hu as the PROVISION string is too long , increase the width for this language.
+			string code = Thread.CurrentThread.CurrentUICulture.Name;
+			if ( code.StartsWith("ru") || code.StartsWith("hu") )
+				ProvisionButton.Width = 250;
+			else if ( code.StartsWith("pl") )
+				ProvisionButton.Width = 180;
 		}
 
 		/// <summary>
