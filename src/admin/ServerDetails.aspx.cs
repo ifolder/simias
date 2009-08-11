@@ -819,12 +819,8 @@ namespace Novell.iFolderWeb.Admin
 					String result;
 	                                dr[ 0 ] = true;
 					dr[ 1 ] = !mntpt.Enabled;
-					if( mntpt.DataPath.Length > 20 )
-						dr[ 2 ] = web.GetShortenedName(mntpt.DataPath, 20);
-
-					else
-						dr[ 2 ] = mntpt.DataPath;
-                        	        dr[ 3 ] = mntpt.FullPath;
+					dr[ 2 ] = mntpt.DataPath;
+                                        dr[ 3 ] = mntpt.FullPath;
 					if( mntpt.AvailableFreeSpace  == 0 )
 					{
 						dr [ 4 ] = rm.GetString("NOTMOUNTED");
@@ -940,6 +936,23 @@ namespace Novell.iFolderWeb.Admin
                 protected bool GetMemberCheckedState( Object name )
                 {
                         return CheckedPaths.ContainsKey( name ) ? true : false;
+                }
+
+		/// <summary>
+                /// Returns the friendly string for DataPath 
+                /// </summary>
+                /// <param name="name">name/path of the datapath</param>
+		/// <param name="len">name of the datapath</param>
+                /// <returns>Friendly String</returns>
+                protected string GetFriendlyString( Object name , int len)
+                {
+			string str = (string)name;
+			if( str != null )
+			{
+				if( str.Length > len )
+                                        str = web.GetShortenedName(str, len);
+			}
+                        return str;
                 }
 
 		/// <summary>

@@ -558,8 +558,18 @@
 									Enabled='<%# IsPathEnabled( DataBinder.Eval( Container.DataItem, "NameField" ) ) %>' /> 
                                 	        	</ItemTemplate>
 						</asp:TemplateColumn>
-		                                <asp:BoundColumn ItemStyle-CssClass="datapathitem2" DataField="NameField"/>
-        		                        <asp:BoundColumn ItemStyle-CssClass="datapathitem3" DataField="FullPathField"/>
+						<asp:TemplateColumn ItemStyle-CssClass="datapathitem2">
+                                                        <ItemTemplate>
+                                                                <asp:Label Text='<%# GetFriendlyString(DataBinder.Eval(Container.DataItem, "NameField"),20) %>' ToolTip='<%# DataBinder.Eval(Container.DataItem, "NameField") %>' runat="server"/>
+                                                        </ItemTemplate>
+
+                                                </asp:TemplateColumn>
+						<asp:TemplateColumn ItemStyle-CssClass="datapathitem3">
+                                                        <ItemTemplate>
+                                                                <asp:Label Text='<%# GetFriendlyString(DataBinder.Eval(Container.DataItem, "FullPathField"),48) %>' ToolTip='<%# DataBinder.Eval(Container.DataItem, "FullPathField") %>' runat="server"/>
+                                                        </ItemTemplate>
+
+                                                </asp:TemplateColumn>
                 	                        <asp:BoundColumn ItemStyle-CssClass="datapathitem4" DataField="FreeSpaceField"/>
 						<asp:BoundColumn ItemStyle-CssClass="datapathitem5" DataField="StatusField"/>
 	
