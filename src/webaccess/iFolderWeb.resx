@@ -717,13 +717,19 @@
     <data name="SAMEOLDPASSWORD">
         <value>Old Password and New Password should not be same.</value>
     </data>
-	<data name="RETURN">
-		<value>Return</value>
-	</data>
-	<data name="HYPHEN">
-		<value> - </value>
-	</data>
-	<data name="NOITEMSAVAILABLE">
-		<value>No {0} available</value>
-	</data>
+    <data name="RETURN">
+	<value>Return</value>
+    </data>
+    <data name="HYPHEN">
+	<value> - </value>
+    </data>
+    <data name="NOITEMSAVAILABLE">
+	<value>No {0} available</value>
+    </data>
+    <data name="FILE">
+	<value>File</value>
+    </data>
+    <data name="DIRECTORY">
+        <value>Directory</value>
+    </data>
 </root>

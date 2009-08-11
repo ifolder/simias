@@ -84,7 +84,7 @@
 						</asp:TemplateColumn>
 						<asp:TemplateColumn ItemStyle-CssClass="icon">
 							<itemtemplate>
-								<asp:Image ImageUrl='<%# "images/change-" + DataBinder.Eval(Container.DataItem, "ActionImage") + ".png" %>' ToolTip='<%# DataBinder.Eval(Container.DataItem, "Type") %>' runat="server" />
+								<asp:Image ImageUrl='<%# "images/change-" + DataBinder.Eval(Container.DataItem, "ActionImage") + ".png" %>' ToolTip='<%# GetToolTip(DataBinder.Eval(Container.DataItem, "Type")) %>' runat="server" />
 							</itemtemplate>
 						</asp:TemplateColumn>
 						<asp:TemplateColumn ItemStyle-CssClass="name">

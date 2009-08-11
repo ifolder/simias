@@ -277,6 +277,19 @@ namespace Novell.iFolderApp.Web
 			return WebUtility.GetString(key, rm);
 		}
 
+		/// <summary>
+                /// Returns a localized string for tool tip
+                /// </summary>
+                /// <param name="object type"></param>
+                /// <returns></returns>
+                protected string GetToolTip( object type)
+                {
+                       string tooltip = (string)type;
+                       tooltip = tooltip.ToUpper();
+ 
+                       return GetString(tooltip);
+                }
+
 		#region Web Form Designer
 
 		/// <summary>
