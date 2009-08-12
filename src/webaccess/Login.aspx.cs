@@ -239,6 +239,11 @@ namespace Novell.iFolderApp.Web
                                 }
 				HelpButton.NavigateUrl = String.Format("help/{0}/login.html", code);
 
+                        	// new language cookie for 30 days
+                        	Response.Cookies["language"].Value = code;
+                        	Response.Cookies["language"].Expires = DateTime.Now + TimeSpan.FromDays(30);
+                        	Response.Cookies["language"].Path = "/ifolder/";
+
 				// check browser version
 				CheckBrowserVersion();
 			}
@@ -460,6 +465,8 @@ namespace Novell.iFolderApp.Web
 				catch ( WebException ex)
 				{
 					log.Info(Context, ex, "Login Failed");
+					string ccode = LanguageList.SelectedValue == null ? "en" : LanguageList.SelectedValue;
+					Thread.CurrentThread.CurrentUICulture = CultureInfo.CreateSpecificCulture(ccode);
                                         if(!HandleException(ex)) throw;
 					return;
 				}

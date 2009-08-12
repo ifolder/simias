@@ -50,7 +50,7 @@ else
 	SimiasServerSetup_LIBS := $(SimiasServerSetup_LIBS1)
 endif
 
-EXTRA_DIST = $(SimiasServerSetup_CSFILES) $(srcdir)/iFolderWebSetup.cs iFolderAdminSetup.cs utility.cs simias-server-setup.in ifolder_mono_setup.in simias-server-setup.cmd ifolder-mod-mono-server2.in App.ico SimiasServerSetup.exe.config iFolderWebSetup.exe.config ifolder-web-setup.in iFolderAdminSetup.exe.config ifolder-admin-setup.in AssemblyInfo.cs.in novell-ifolder3.conf.in
+EXTRA_DIST = $(SimiasServerSetup_CSFILES) $(srcdir)/iFolderWebSetup.cs iFolderAdminSetup.cs utility.cs simias-server-setup.in ifolder_mono_setup.in ifolder_cluster_setup simias-server-setup.cmd ifolder-mod-mono-server2.in App.ico SimiasServerSetup.exe.config iFolderWebSetup.exe.config ifolder-web-setup.in iFolderAdminSetup.exe.config ifolder-admin-setup.in AssemblyInfo.cs.in novell-ifolder3.conf.in
 
 AssemblyInfo.cs: $(srcdir)/AssemblyInfo.cs.in Makefile
 	sed -e 's,@_VERSION_@,@VERSION@,g' $< > $@
@@ -99,7 +99,7 @@ endif
 
 all: SimiasServerSetup.exe iFolderWebSetup.exe iFolderAdminSetup.exe novell-ifolder3.conf 
 
-SimiasServerSetup.exe: $(SimiasServerSetup_CSFILES) $(SimiasServerSetup_RESOURCES) simias-server-setup ifolder-mod-mono-server2 ifolder_mono_setup
+SimiasServerSetup.exe: $(SimiasServerSetup_CSFILES) $(SimiasServerSetup_RESOURCES) simias-server-setup ifolder-mod-mono-server2 ifolder_mono_setup ifolder_cluster_setup
 	$(CSC) /out:$@ $(CSCFLAGS) $(SimiasServerSetup_FLAGS) $(SIMIAS_LIBS) $(SimiasServerSetup_LIBS:%=/r:%) $(SimiasServerSetup_LIBPATH:%=/lib:%) $(SimiasServerSetup_RESOURCES:%=$(ICON_FLAG)%) $(SimiasServerSetup_CSFILES_CSC) $(DOC_FILE_CMD)
 iFolderWebSetup.exe: $(iFolderWebSetup_CSFILES) $(SimiasServerSetup_RESOURCES) ifolder-web-setup
 	$(CSC) /out:$@ $(CSCFLAGS) $(SimiasServerSetup_FLAGS) $(SIMIAS_LIBS) $(SimiasServerSetup_LIBS:%=/r:%) $(SimiasServerSetup_LIBPATH:%=/lib:%) $(SimiasServerSetup_RESOURCES:%=$(ICON_FLAG)%) $(iFolderWebSetup_CSFILES_CSC) $(DOC_FILE_CMD)
@@ -127,6 +127,7 @@ if WINDOWS
 else
 	$(INSTALL_PROGRAM) simias-server-setup $(DESTDIR)$(bindir)
 	$(INSTALL_PROGRAM) ifolder_mono_setup $(DESTDIR)$(bindir)
+	$(INSTALL_PROGRAM) ifolder_cluster_setup $(DESTDIR)$(bindir)
 	$(INSTALL_PROGRAM) ifolder-mod-mono-server2 $(DESTDIR)$(bindir)
 	$(INSTALL_PROGRAM) ifolder-web-setup $(DESTDIR)$(bindir)
 	$(INSTALL_PROGRAM) ifolder-admin-setup $(DESTDIR)$(bindir)
@@ -140,6 +141,7 @@ uninstall-local:
 	cd $(DESTDIR)$(bindir); rm -f simias-server-setup simias-server-setup.cmd
 	cd $(DESTDIR)$(bindir); rm -f ifolder-mod-mono-server2
 	cd $(DESTDIR)$(bindir); rm -f ifolder_mono_setup
+	cd $(DESTDIR)$(bindir); rm -f ifolder_cluster_setup
 	cd $(DESTDIR)$(bindir); rm -f SimiasServerSetup.exe.config
 	cd $(DESTDIR)$(bindir); rm -f iFolderWebSetup.exe $(DEBUG_FILES)
 	cd $(DESTDIR)$(bindir); rm -f ifolder-web-setup ifolder-web-setup.cmd

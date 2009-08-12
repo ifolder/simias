@@ -1,0 +1,129 @@
+#!/bin/sh
+#/*****************************************************************************
+#*
+#* Copyright (c) [2009] Novell, Inc.
+#* All Rights Reserved.
+#*
+#* This program is free software; you can redistribute it and/or
+#* modify it under the terms of version 2 of the GNU General Public License as
+#* published by the Free Software Foundation.
+#*
+#* This program is distributed in the hope that it will be useful,
+#* but WITHOUT ANY WARRANTY; without even the implied warranty of
+#* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.   See the
+#* GNU General Public License for more details.
+#*
+#* You should have received a copy of the GNU General Public License
+#* along with this program; if not, contact Novell, Inc.
+#*
+#* To contact Novell about this file by physical or electronic mail,
+#* you may find current contact information at www.novell.com
+#*
+#*-----------------------------------------------------------------------------
+#*
+#*                 Novell iFolder Enterprise
+#*
+#*-----------------------------------------------------------------------------
+#*
+#*                 $Author: Anil Kumar (kuanil@novell.com)
+#*                 $Modified by: <Modifier>
+#*                 $Mod Date: <Date Modified>
+#*                 $Revision: 0.1
+#*-----------------------------------------------------------------------------
+#* This module is used to:
+#*        <iFolder mono environment setup script>
+#*
+#*
+#*******************************************************************************/
+
+CONF_FILE_PATH=/etc/apache2/conf.d
+IFOLDER32BIT="/opt/novell/ifolder3/lib/simias"
+IFOLDER64BIT="/opt/novell/ifolder3/lib64/simias"
+OS_ARCH=`uname -m | grep -c x86_64`
+CLUSTER_CONF_DIR=/simias/ClusterConf/
+INVOKE_YAST=0
+
+processFile(){
+		if [ -f $1/32bit/simias.conf -o -f $1/64bit/simias.conf ]; then
+			INVOKE_YAST=1
+			if [ $OS_ARCH -gt 0 ]; then
+				rm $CONF_FILE_PATH/simias.conf
+				ln -s $1/64bit/simias.conf $CONF_FILE_PATH/simias.conf
+			else
+				rm $CONF_FILE_PATH/simias.conf
+				ln -s $1/32bit/simias.conf $CONF_FILE_PATH/simias.conf
+			fi
+		else
+			mkdir -p $1/32bit
+			mkdir -p $1/64bit
+			
+			if [ $OS_ARCH -gt 0 ]; then
+				cp $CONF_FILE_PATH/simias.conf $1/64bit/simias.conf
+				sed -e 's,'$IFOLDER64BIT','$IFOLDER32BIT',g'  $CONF_FILE_PATH/simias.conf > $1/32bit/simias.conf	
+				rm $CONF_FILE_PATH/simias.conf
+				ln -s $1/64bit/simias.conf $CONF_FILE_PATH/simias.conf  
+			else
+				cp $CONF_FILE_PATH/simias.conf $1/32bit/simias.conf
+				sed -e 's,'$IFOLDER32BIT','$IFOLDER64BIT',g'  $CONF_FILE_PATH/simias.conf > $1/64bit/simias.conf	
+				rm $CONF_FILE_PATH/simias.conf
+				ln -s $1/32bit/simias.conf $CONF_FILE_PATH/simias.conf  
+				
+			fi
+			
+		fi
+		if [ -f $INPUT_STRING/simias/Simias.config ]; then
+			newline=`grep LdapUri $INPUT_STRING/simias/Simias.config`  
+			ipval=`echo $newline | awk '{print $3}'`
+			ldapaddress=${ipval:7:${#ipval}-8}
+			if [ ${ldapaddress:0:5}=="ldaps" ]; then
+				newldapaddr=$ldapaddress
+				if [ ${ldapaddress:${#ldapaddress}-1:1}=="/" ]; then
+					newldapaddr=${ldapaddress:0:${#ldapaddress}-1}
+					PORT=${newldapaddr#*:*:}
+					ldapaddport=$newldapaddr
+					if [ -z $PORT ]; then
+						echo "Previous commands succeeded, but problem occured while running certmgr command"
+						echo "please run: certmgr -ssl -m ldaps://<LDAP_IP>:636"
+					else
+						if [ `expr index $PORT ldap` -gt 0 ]; then
+							ldapaddport=$newldapaddr":636"	
+						fi
+					fi
+				fi
+				certmgr -ssl -m $ldapaddport
+			fi
+		else
+			echo "Could not find the config file Simias.config. Please check that shared resource path is mounted to this node."
+			exit
+		fi
+		if [ $INVOKE_YAST -ne 0 ]; then 
+			echo "SuccessFull!!! Symbolic link for simias.conf is created for this node. Please configure admin and web setup using yast"
+			yast2 novell-ifolder3
+		else
+			echo "SuccessFull!!! Symbolic link for simias.conf is created for this node."
+		fi
+}
+
+
+usage()
+{
+    echo "Usage: $0 <Shared Resource Path>"
+    echo "(The shared resource path must be mounted and accessible on this node)"
+    echo ""
+    echo "Example Usage: $0 /media/nss/IFVOL "
+    exit $USAGE_ERROR
+}
+
+if [ $# -ne 1 ]; then
+    usage
+fi
+
+
+INPUT_STRING="$1"
+if [ -d $INPUT_STRING/simias ]; then 
+	processFile $INPUT_STRING$CLUSTER_CONF_DIR
+else
+    	echo "Usage: $0 <Shared Resource Path>"
+	echo "Error: Could not find Shared Resource Path. Either path is wrong or shared resource is not migrated/mounted to this node."
+	echo "Shared Resource Path should be the path where iFolder server stores data. e.g. /media/nss/IFVOL"
+fi

@@ -253,6 +253,9 @@ namespace Novell.iFolderWeb.Admin
 					HelpButton.NavigateUrl = "help/en/login.html";
 				}
 				
+                        	Response.Cookies["language"].Value = code;
+                        	Response.Cookies["language"].Expires = DateTime.Now + TimeSpan.FromDays(30);
+                        	Response.Cookies["language"].Path = "/admin/";
 
 
 				// server url
