@@ -184,6 +184,9 @@
   <data name="ENTRY.FOLDERNAME">
     <value>Nom du dossier :</value>
   </data>
+  <data name="DIRECTORY">
+    <value>Répertoire</value>
+  </data>
   <data name="CHINESE-SIMPLIFIED">
     <value>Chinois simplifié</value>
   </data>
@@ -244,8 +247,8 @@
   <data name="DETAILS">
     <value>Détails</value>
   </data>
-  <data name="LOCKED">
-    <value>Verrouillé</value>
+  <data name="FILE">
+    <value>Fichier</value>
   </data>
   <data name="HUNGARIAN">
     <value>Hongrois</value>
@@ -763,8 +766,8 @@
   <data name="LOGIN.SENDFAILED">
     <value>Impossible de communiquer avec le serveur iFolder.</value>
   </data>
-  <data name="REMOVEMEMBERDELETE">
-    <value>Supprimer l'adhésion / Supprimer</value>
+  <data name="LOCKED">
+    <value>Verrouillé</value>
   </data>
   <data name="ENTRY.FAILEDDOWNLOAD">
     <value>Le fichier n'était pas disponible pour téléchargement. Réessayez.</value>
@@ -774,6 +777,9 @@
   </data>
   <data name="NOITEMSAVAILABLE">
     <value>Aucun(e) {0} disponible</value>
+  </data>
+  <data name="REMOVEMEMBERDELETE">
+    <value>Supprimer l'adhésion / Supprimer</value>
   </data>
   <data name="FAILEDTORESETPASSWORD">
     <value>Le mot de passe n'a pas pu être réinitialisé.</value>

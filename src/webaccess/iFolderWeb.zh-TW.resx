@@ -184,6 +184,9 @@
   <data name="ENTRY.FOLDERNAME">
     <value>資料夾名稱：</value>
   </data>
+  <data name="DIRECTORY">
+    <value>目錄</value>
+  </data>
   <data name="CHINESE-SIMPLIFIED">
     <value>簡體中文</value>
   </data>
@@ -244,8 +247,8 @@
   <data name="DETAILS">
     <value>詳細資料</value>
   </data>
-  <data name="LOCKED">
-    <value>已鎖定</value>
+  <data name="FILE">
+    <value>檔案</value>
   </data>
   <data name="HUNGARIAN">
     <value>匈牙利文</value>
@@ -763,8 +766,8 @@
   <data name="LOGIN.SENDFAILED">
     <value>無法與 iFolder 伺服器通訊。</value>
   </data>
-  <data name="REMOVEMEMBERDELETE">
-    <value>移除成員資格 / 刪除</value>
+  <data name="LOCKED">
+    <value>已鎖定</value>
   </data>
   <data name="ENTRY.FAILEDDOWNLOAD">
     <value>此檔案無法供下載。請再試一次。</value>
@@ -774,6 +777,9 @@
   </data>
   <data name="NOITEMSAVAILABLE">
     <value>沒有可用的 {0}</value>
+  </data>
+  <data name="REMOVEMEMBERDELETE">
+    <value>移除成員資格 / 刪除</value>
   </data>
   <data name="FAILEDTORESETPASSWORD">
     <value>無法重設密碼。</value>

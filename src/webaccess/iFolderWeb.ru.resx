@@ -184,6 +184,9 @@
   <data name="ENTRY.FOLDERNAME">
     <value>Имя папки:</value>
   </data>
+  <data name="DIRECTORY">
+    <value>Каталог</value>
+  </data>
   <data name="CHINESE-SIMPLIFIED">
     <value>Китайский упрощенный</value>
   </data>
@@ -244,8 +247,8 @@
   <data name="DETAILS">
     <value>Подробная информация</value>
   </data>
-  <data name="LOCKED">
-    <value>Заблокировано</value>
+  <data name="FILE">
+    <value>Файл</value>
   </data>
   <data name="HUNGARIAN">
     <value>Венгерский</value>
@@ -763,8 +766,8 @@
   <data name="LOGIN.SENDFAILED">
     <value>Не удается взаимодействовать с сервером iFolder.</value>
   </data>
-  <data name="REMOVEMEMBERDELETE">
-    <value>Удалить членство / Удалить</value>
+  <data name="LOCKED">
+    <value>Заблокировано</value>
   </data>
   <data name="ENTRY.FAILEDDOWNLOAD">
     <value>Файл недоступен для загрузки. Повторите попытку.</value>
@@ -774,6 +777,9 @@
   </data>
   <data name="NOITEMSAVAILABLE">
     <value>{0} недоступны</value>
+  </data>
+  <data name="REMOVEMEMBERDELETE">
+    <value>Удалить членство / Удалить</value>
   </data>
   <data name="FAILEDTORESETPASSWORD">
     <value>Ошибка сброса пароля.</value>

@@ -184,6 +184,9 @@
   <data name="ENTRY.FOLDERNAME">
     <value>フォルダ名:</value>
   </data>
+  <data name="DIRECTORY">
+    <value>ディレクトリ</value>
+  </data>
   <data name="CHINESE-SIMPLIFIED">
     <value>中国語(簡体字)</value>
   </data>
@@ -244,8 +247,8 @@
   <data name="DETAILS">
     <value>詳細</value>
   </data>
-  <data name="LOCKED">
-    <value>ロック状態</value>
+  <data name="FILE">
+    <value>ファイル</value>
   </data>
   <data name="HUNGARIAN">
     <value>ハンガリー語</value>
@@ -763,8 +766,8 @@
   <data name="LOGIN.SENDFAILED">
     <value>iFolderサーバと通信できません。</value>
   </data>
-  <data name="REMOVEMEMBERDELETE">
-    <value>メンバーシップの削除 / 削除</value>
+  <data name="LOCKED">
+    <value>ロック状態</value>
   </data>
   <data name="ENTRY.FAILEDDOWNLOAD">
     <value>このファイルはダウンロードに使用できません。再度実行してください。</value>
@@ -774,6 +777,9 @@
   </data>
   <data name="NOITEMSAVAILABLE">
     <value>使用できる {0} はありません</value>
+  </data>
+  <data name="REMOVEMEMBERDELETE">
+    <value>メンバーシップの削除 / 削除</value>
   </data>
   <data name="FAILEDTORESETPASSWORD">
     <value>パスワードをリセットできませんでした。</value>

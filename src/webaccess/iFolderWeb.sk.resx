@@ -184,6 +184,9 @@
   <data name="ENTRY.FOLDERNAME">
     <value>Názov priečinka:</value>
   </data>
+  <data name="DIRECTORY">
+    <value>Adresár</value>
+  </data>
   <data name="CHINESE-SIMPLIFIED">
     <value>čínština - zjednodušená</value>
   </data>
@@ -244,8 +247,8 @@
   <data name="DETAILS">
     <value>Podrobnosti</value>
   </data>
-  <data name="LOCKED">
-    <value>Zamknuté</value>
+  <data name="FILE">
+    <value>Súbor</value>
   </data>
   <data name="HUNGARIAN">
     <value>maďarčina</value>
@@ -763,8 +766,8 @@
   <data name="LOGIN.SENDFAILED">
     <value>Komunikácia so serverom iFolder nie je možná.</value>
   </data>
-  <data name="REMOVEMEMBERDELETE">
-    <value>Odstrániť členstvo a odstrániť</value>
+  <data name="LOCKED">
+    <value>Zamknuté</value>
   </data>
   <data name="ENTRY.FAILEDDOWNLOAD">
     <value>Tento súbor nebol k dispozícii na prebratie. Skúste to znova.</value>
@@ -774,6 +777,9 @@
   </data>
   <data name="NOITEMSAVAILABLE">
     <value>Nie je k dispozícii žiadna položka typu {0}</value>
+  </data>
+  <data name="REMOVEMEMBERDELETE">
+    <value>Odstrániť členstvo a odstrániť</value>
   </data>
   <data name="FAILEDTORESETPASSWORD">
     <value>Nepodarilo sa nastaviť nové heslo.</value>

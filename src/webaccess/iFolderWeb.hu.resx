@@ -184,6 +184,9 @@
   <data name="ENTRY.FOLDERNAME">
     <value>Mappa neve:</value>
   </data>
+  <data name="DIRECTORY">
+    <value>Könyvtár</value>
+  </data>
   <data name="CHINESE-SIMPLIFIED">
     <value>kínai (egyszerűsített)</value>
   </data>
@@ -244,8 +247,8 @@
   <data name="DETAILS">
     <value>Részletek</value>
   </data>
-  <data name="LOCKED">
-    <value>Zárolva</value>
+  <data name="FILE">
+    <value>Fájl</value>
   </data>
   <data name="HUNGARIAN">
     <value>magyar</value>
@@ -763,8 +766,8 @@
   <data name="LOGIN.SENDFAILED">
     <value>Nem lehet kommunikálni az iFolder kiszolgálóval.</value>
   </data>
-  <data name="REMOVEMEMBERDELETE">
-    <value>Tagság eltávolítása / törlés</value>
+  <data name="LOCKED">
+    <value>Zárolva</value>
   </data>
   <data name="ENTRY.FAILEDDOWNLOAD">
     <value>A fájl nem volt elérhető letöltésre. Próbálja meg újra.</value>
@@ -774,6 +777,9 @@
   </data>
   <data name="NOITEMSAVAILABLE">
     <value>Nincs elérhető {0}</value>
+  </data>
+  <data name="REMOVEMEMBERDELETE">
+    <value>Tagság eltávolítása / törlés</value>
   </data>
   <data name="FAILEDTORESETPASSWORD">
     <value>Nem sikerült a jelszó átállítása.</value>

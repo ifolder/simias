@@ -184,6 +184,9 @@
   <data name="ENTRY.FOLDERNAME">
     <value>Nome da Pasta:</value>
   </data>
+  <data name="DIRECTORY">
+    <value>Diretório</value>
+  </data>
   <data name="CHINESE-SIMPLIFIED">
     <value>Chinês Simplificado</value>
   </data>
@@ -244,8 +247,8 @@
   <data name="DETAILS">
     <value>Detalhes</value>
   </data>
-  <data name="LOCKED">
-    <value>Bloqueado</value>
+  <data name="FILE">
+    <value>Arquivo</value>
   </data>
   <data name="HUNGARIAN">
     <value>Húngaro</value>
@@ -763,8 +766,8 @@
   <data name="LOGIN.SENDFAILED">
     <value>Impossível comunicar-se com o servidor iFolder.</value>
   </data>
-  <data name="REMOVEMEMBERDELETE">
-    <value>Remover Participação / Apagar</value>
+  <data name="LOCKED">
+    <value>Bloqueado</value>
   </data>
   <data name="ENTRY.FAILEDDOWNLOAD">
     <value>O arquivo não estava disponível para download. Tente novamente.</value>
@@ -774,6 +777,9 @@
   </data>
   <data name="NOITEMSAVAILABLE">
     <value>Nenhum(a) {0} disponível</value>
+  </data>
+  <data name="REMOVEMEMBERDELETE">
+    <value>Remover Participação / Apagar</value>
   </data>
   <data name="FAILEDTORESETPASSWORD">
     <value>Falha ao redefinir senha.</value>

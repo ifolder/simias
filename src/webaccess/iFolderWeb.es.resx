@@ -184,6 +184,9 @@
   <data name="ENTRY.FOLDERNAME">
     <value>Nombre de la carpeta:</value>
   </data>
+  <data name="DIRECTORY">
+    <value>Directorio</value>
+  </data>
   <data name="CHINESE-SIMPLIFIED">
     <value>Chino simplificado</value>
   </data>
@@ -244,8 +247,8 @@
   <data name="DETAILS">
     <value>Detalles</value>
   </data>
-  <data name="LOCKED">
-    <value>Bloqueado</value>
+  <data name="FILE">
+    <value>Archivo</value>
   </data>
   <data name="HUNGARIAN">
     <value>Húngaro</value>
@@ -763,8 +766,8 @@
   <data name="LOGIN.SENDFAILED">
     <value>No es posible establecer la comunicación con el servidor iFolder.</value>
   </data>
-  <data name="REMOVEMEMBERDELETE">
-    <value>Eliminar pertenencia/Suprimir</value>
+  <data name="LOCKED">
+    <value>Bloqueado</value>
   </data>
   <data name="ENTRY.FAILEDDOWNLOAD">
     <value>El archivo no estaba disponible para la descarga. Vuelva a intentarlo.</value>
@@ -774,6 +777,9 @@
   </data>
   <data name="NOITEMSAVAILABLE">
     <value>No hay ningún {0} disponible</value>
+  </data>
+  <data name="REMOVEMEMBERDELETE">
+    <value>Eliminar pertenencia/Suprimir</value>
   </data>
   <data name="FAILEDTORESETPASSWORD">
     <value>Error al restablecer contraseña</value>
