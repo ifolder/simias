@@ -205,6 +205,8 @@ namespace Novell.iFolderApp.Web
 			{
 				// ifolder
 				iFolder ifolder = web.GetiFolder(ifolderID);
+				string ownerID = ifolder.OwnerID;
+				bool flag = false;
 
 				// rights
 				Actions.Visible = (ifolder.MemberRights == Rights.Admin);
@@ -216,6 +218,14 @@ namespace Novell.iFolderApp.Web
 				MemberPagging.Count = members.Items.Length;
 				MemberPagging.Total = members.Total;
 				string accessID = (Session["User"] as iFolderUser).ID;
+				foreach(iFolderUser member in members.Items)
+                                {
+					if( member.ID == accessID )
+					{
+						flag = true;
+						break;
+					}
+				}
 
 				foreach(iFolderUser member in members.Items)
 				{
@@ -225,7 +235,7 @@ namespace Novell.iFolderApp.Web
 					row["Name"] = ( member.FullName == "" ) ? member.UserName : member.FullName;
 					row["UserName"] = member.UserName;
 					row["Rights"] = member.IsOwner ? GetString("OWNER") : WebUtility.FormatRights(member.MemberRights, rm);
-					row["Enabled"] = !member.IsOwner && (member.ID != accessID && !IsGroupMember(member.ID, accessID) ) ;
+					row["Enabled"] = IsCheckBoxEnabled(member,accessID,ownerID,flag);
 					row["iFolderID"] = ifolderID;
 
 					memberTable.Rows.Add(row);
@@ -239,6 +249,27 @@ namespace Novell.iFolderApp.Web
 			// bind
 			MemberData.DataSource = memberTable;
 			MemberData.DataBind();
+		}
+		
+		private bool IsCheckBoxEnabled(iFolderUser member, string accessID, string ownerID, bool flag )
+		{
+
+			if( member.IsOwner ) 
+				return false;
+			if( accessID == member.ID )
+				return false;
+			if( accessID == ownerID )
+				return true;
+			if(IsGroupMember(member.ID, accessID) && ( member.MemberRights == Rights.Admin ) )
+			{
+				if ( flag )
+					return true;
+				else
+					return false;
+			}
+			else 
+				return true;			
+
 		}
 
 		/// <summary>
