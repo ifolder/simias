@@ -1750,7 +1750,7 @@ namespace SimiasApp
 			{
 				// Build the URI for web services and write it to stdout.
 				UriBuilder ub = new UriBuilder( Uri.UriSchemeHttp, IPAddress.Loopback.ToString(), range[ 0 ], VirtualPath );
-
+                
 				// If the debug flag is set, write the port to the configuration file.
 				if ( debug )
 				{
@@ -1779,7 +1779,7 @@ namespace SimiasApp
 				{
 					// Start up the web server
 	                //string path = Directory.GetCurrentDirectory();
-	                XSPWebSource websource = new XSPWebSource( IPAddress.Any, ub.Port );
+                    XSPWebSource websource = new XSPWebSource(IPAddress.Loopback, ub.Port);
 	                AppServer = new ApplicationServer( websource );
 
 					// Applications from the command line must be
