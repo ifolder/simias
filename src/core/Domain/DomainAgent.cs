@@ -522,6 +522,12 @@ namespace Simias.DomainServices
 					status.statusCode = Simias.Authentication.StatusCodes.UnknownDomain;				   
 					return status;
 				}
+				else if (we.Status == WebExceptionStatus.ConnectionFailure)
+				{
+					status = new Simias.Authentication.Status();
+					status.statusCode = Simias.Authentication.StatusCodes.Timeout;				   
+					return status;
+				}
 			}
 #endif   //WS_INSPECTION
 
