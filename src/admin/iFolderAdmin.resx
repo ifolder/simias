@@ -582,6 +582,9 @@
 	<data name="LOGINCONNECTFAILED">
 		<value>Unable to connect to the iFolder server.</value>
 	</data>
+	<data name="REVERTSHARINGCONNECTFAILED">
+                <value>Unable to connect to the iFolder server. Revoke sharing once the server is reachable.</value>
+        </data>
 	<data name="LOGINCOPYRIGHT">
 		<value>&amp;copy; Copyright 2008 Novell, Inc. All rights reserved.</value>
 	</data>

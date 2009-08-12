@@ -814,7 +814,7 @@ namespace Novell.iFolderWeb.Admin
 					}
 					catch (Exception ex)
 					{
-						throw ex;
+						throw new ArgumentException( GetString("REVERTSHARINGCONNECTFAILED" ) );
 					}
 				}
 				disablePastSharing.Checked = false;
@@ -870,7 +870,7 @@ namespace Novell.iFolderWeb.Admin
        		                                }
                 	                        catch (Exception ex)
                         	                {
-                                	                throw ex;
+                                	                throw new ArgumentException( GetString("REVERTSHARINGCONNECTFAILED" ) );
                                         	}
                                 	}
 
@@ -890,7 +890,7 @@ namespace Novell.iFolderWeb.Admin
 					}
 					catch ( Exception ex)
 					{
-						throw ex;
+						throw new ArgumentException( GetString("REVERTSHARINGCONNECTFAILED" ) );
 					}
 				}
 				disablePastSharing.Checked = false;
