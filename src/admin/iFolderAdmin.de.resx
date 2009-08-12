@@ -106,9 +106,6 @@
   <data name="ERRORINVALIDDATA">
     <value>Alle Felder sind obligatorisch. Überprüfen und wiederholen Sie die Eingabe</value>
   </data>
-  <data name="IFOLDERADMINS">
-    <value>iFolder-Administratoren</value>
-  </data>
   <data name="LOGIN">
     <value>Anmelden</value>
   </data>
@@ -211,8 +208,8 @@
   <data name="COMPLETEDTAG">
     <value>Abgeschlossen:</value>
   </data>
-  <data name="ENTERLDAPDETAILS">
-    <value>LDAP-Administrator-Berechtigungsnachweis eingeben</value>
+  <data name="ERRORIFOLDERTRANSFEREXCEPTION">
+    <value>Die Eigentümerschaft konnte nicht übertragen werden, da hierdurch die vom Administrator festgelegte Höchstzahl an iFolder-Ordnern überschritten wird.</value>
   </data>
   <data name="MEMBERTYPELDAPGROUP">
     <value>LDAP-Gruppe</value>
@@ -231,9 +228,6 @@
   </data>
   <data name="NONE">
     <value>Keine</value>
-  </data>
-  <data name="ERRORIFOLDERTRANSFEREXCEPTION">
-    <value>Die Eigentümerschaft konnte nicht übertragen werden, da hierdurch die vom Administrator festgelegte Höchstzahl an iFolder-Ordnern überschritten wird.</value>
   </data>
   <data name="GROUPRIGHTSADDFAILURE">
     <value>Benutzer {0}{1}{2} konnte nicht als Administrator für Gruppe {3}{4}{5} hinzugefügt werden. Klicken Sie auf "Erneut versuchen", um die Gruppen erneut hinzufügen. Klicken Sie auf "OK", um zur Systemseite zurückzukehren. </value>
@@ -259,8 +253,8 @@
   <data name="NEXTPAGE">
     <value>Nächste Seite</value>
   </data>
-  <data name="CREATENEWIFOLDER">
-    <value>Neuen iFolder-Ordner erstellen</value>
+  <data name="CHINESE-TRADITIONAL">
+    <value>Chinesisch traditionell</value>
   </data>
   <data name="MODIFIEDTAG">
     <value>Geändert:</value>
@@ -394,9 +388,6 @@
   <data name="GROUPLISTTAG">
     <value>Benutzergruppen:</value>
   </data>
-  <data name="ADDADMINS">
-    <value>Administratoren hinzufügen</value>
-  </data>
   <data name="MINUTES">
     <value>Minute(n)</value>
   </data>
@@ -481,6 +472,9 @@
   <data name="OUTPUT">
     <value>Ausgabe</value>
   </data>
+  <data name="OFFLINE">
+    <value>In Wartestellung</value>
+  </data>
   <data name="DAILY">
     <value>Täglich</value>
   </data>
@@ -504,6 +498,9 @@
   </data>
   <data name="ADDNEWORSELECTGROUPTOEDIT">
     <value>Ausgewählte Gruppen des Administrators hinzufügen oder bearbeiten</value>
+  </data>
+  <data name="HELP">
+    <value>Hilfe</value>
   </data>
   <data name="SIZE">
     <value>Größe</value>
@@ -562,11 +559,14 @@
   <data name="SERVERDETAILS">
     <value>Server-Details</value>
   </data>
+  <data name="LDAPUPSINCE">
+    <value>Hochgefahren seit:</value>
+  </data>
   <data name="USERLOGINDISABLED">
     <value>Benutzeranmeldung deaktivieren</value>
   </data>
-  <data name="MB">
-    <value>MB</value>
+  <data name="NOTAPPLICABLE">
+    <value>N/Z</value>
   </data>
   <data name="TYPETAG">
     <value>Typ:</value>
@@ -655,9 +655,6 @@
   <data name="SEARCH">
     <value>Suchen</value>
   </data>
-  <data name="CHINESE-TRADITIONAL">
-    <value>Chinesisch traditionell</value>
-  </data>
   <data name="ALLOWMODIFYENCRYPTIONPOLICY">
     <value>Bearbeitung der Verschlüsselungsrichtlinien zulassen</value>
   </data>
@@ -690,6 +687,9 @@
   </data>
   <data name="ERRORLOCKEXCEPTION">
     <value>Der Vorgang wurde abgebrochen, weil der iFolder-Ordner vom Administrator gesperrt/deaktiviert wurde.</value>
+  </data>
+  <data name="ENTERLDAPDETAILS">
+    <value>LDAP-Administrator-Berechtigungsnachweis eingeben</value>
   </data>
   <data name="PASSWORDTAG">
     <value>Passwort:</value>
@@ -946,6 +946,9 @@
   <data name="SLOVAK">
     <value>Slowakisch</value>
   </data>
+  <data name="ONLINE">
+    <value>Online</value>
+  </data>
   <data name="ALLFIELDSREQUIRED">
     <value>Alle Felder müssen ausgefüllt werden.</value>
   </data>
@@ -964,8 +967,8 @@
   <data name="SELECTIFOLDEROWNER">
     <value>Eigentümer für iFolder "{0}" auswählen</value>
   </data>
-  <data name="HELP">
-    <value>Hilfe</value>
+  <data name="IFOLDERADMINS">
+    <value>iFolder-Administratoren</value>
   </data>
   <data name="NAME:">
     <value>Name:</value>
@@ -982,8 +985,8 @@
   <data name="ERRORCANNOTADDADMIN">
     <value>Mitglied {0} kann nicht als Administrator hinzugefügt werden.</value>
   </data>
-  <data name="LDAPUPSINCE">
-    <value>Hochgefahren seit:</value>
+  <data name="ADDADMINS">
+    <value>Administratoren hinzufügen</value>
   </data>
   <data name="DAYTAG">
     <value>Tag:</value>
@@ -1126,6 +1129,9 @@
   <data name="ERRORCANNOTSETUSERPOLICY">
     <value>Benutzer-Richtlinieninformationen für Benutzer-ID {0} können nicht festgelegt werden.</value>
   </data>
+  <data name="CREATENEWIFOLDER">
+    <value>Neuen iFolder-Ordner erstellen</value>
+  </data>
   <data name="ERRORAUTHENTICATIONFAILED">
     <value>Fehler bei Authentifizierung.</value>
   </data>
@@ -1156,8 +1162,8 @@
   <data name="BEGINSWITH">
     <value>Beginnt mit</value>
   </data>
-  <data name="DOWNLOAD">
-    <value>Herunterladen</value>
+  <data name="MB">
+    <value>MB</value>
   </data>
   <data name="ERRORCANNOTDELETEIFOLDER">
     <value>iFolder-Ordner kann nicht gelöscht werden.</value>
@@ -1281,6 +1287,9 @@
   </data>
   <data name="REPROVISOINSTATETAG">
     <value>Wiederbereitstellungsstatus:</value>
+  </data>
+  <data name="DOWNLOAD">
+    <value>Herunterladen</value>
   </data>
   <data name="DELETESECONDARYADMIN">
     <value>Sekundären Administrator löschen: </value>

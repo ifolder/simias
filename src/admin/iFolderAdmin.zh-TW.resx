@@ -106,9 +106,6 @@
   <data name="ERRORINVALIDDATA">
     <value>所有欄位都是強制性欄位。請檢查並重新輸入</value>
   </data>
-  <data name="IFOLDERADMINS">
-    <value>iFolder 管理員</value>
-  </data>
   <data name="LOGIN">
     <value>登入</value>
   </data>
@@ -211,8 +208,8 @@
   <data name="COMPLETEDTAG">
     <value>已完成：</value>
   </data>
-  <data name="ENTERLDAPDETAILS">
-    <value>輸入 LDAP 管理員身分證明</value>
+  <data name="ERRORIFOLDERTRANSFEREXCEPTION">
+    <value>無法轉送所有權，因為您將破壞您的管理員所設定的 iFolder 限制。</value>
   </data>
   <data name="MEMBERTYPELDAPGROUP">
     <value>Ldap 群組</value>
@@ -231,9 +228,6 @@
   </data>
   <data name="NONE">
     <value>無</value>
-  </data>
-  <data name="ERRORIFOLDERTRANSFEREXCEPTION">
-    <value>無法轉送所有權，因為您將破壞您的管理員所設定的 iFolder 限制。</value>
   </data>
   <data name="GROUPRIGHTSADDFAILURE">
     <value>無法將使用者 {0}{1}{2} 新增為群組 {3}{4}{5} 的管理員。按一下「再試一次」再次新增群組。按一下「確定」返回「系統」頁面。 </value>
@@ -259,8 +253,8 @@
   <data name="NEXTPAGE">
     <value>下一頁</value>
   </data>
-  <data name="CREATENEWIFOLDER">
-    <value>建立新的 iFolder</value>
+  <data name="CHINESE-TRADITIONAL">
+    <value>繁體中文</value>
   </data>
   <data name="MODIFIEDTAG">
     <value>已修改：</value>
@@ -394,9 +388,6 @@
   <data name="GROUPLISTTAG">
     <value>使用者群組：</value>
   </data>
-  <data name="ADDADMINS">
-    <value>新增管理員</value>
-  </data>
   <data name="MINUTES">
     <value>分鐘數</value>
   </data>
@@ -481,6 +472,9 @@
   <data name="OUTPUT">
     <value>輸出</value>
   </data>
+  <data name="OFFLINE">
+    <value>等待中</value>
+  </data>
   <data name="DAILY">
     <value>每日</value>
   </data>
@@ -504,6 +498,9 @@
   </data>
   <data name="ADDNEWORSELECTGROUPTOEDIT">
     <value>新增或編輯所選管理員的群組</value>
+  </data>
+  <data name="HELP">
+    <value>說明</value>
   </data>
   <data name="SIZE">
     <value>大小</value>
@@ -562,11 +559,14 @@
   <data name="SERVERDETAILS">
     <value>伺服器詳細資料</value>
   </data>
+  <data name="LDAPUPSINCE">
+    <value>開機時間：</value>
+  </data>
   <data name="USERLOGINDISABLED">
     <value>停用使用者登入</value>
   </data>
-  <data name="MB">
-    <value>MB</value>
+  <data name="NOTAPPLICABLE">
+    <value>無</value>
   </data>
   <data name="TYPETAG">
     <value>類型：</value>
@@ -655,9 +655,6 @@
   <data name="SEARCH">
     <value>搜尋</value>
   </data>
-  <data name="CHINESE-TRADITIONAL">
-    <value>繁體中文</value>
-  </data>
   <data name="ALLOWMODIFYENCRYPTIONPOLICY">
     <value>允許修改加密規則</value>
   </data>
@@ -690,6 +687,9 @@
   </data>
   <data name="ERRORLOCKEXCEPTION">
     <value>此操作已取消，因為管理員已鎖定/停用 iFolder。</value>
+  </data>
+  <data name="ENTERLDAPDETAILS">
+    <value>輸入 LDAP 管理員身分證明</value>
   </data>
   <data name="PASSWORDTAG">
     <value>密碼：</value>
@@ -946,6 +946,9 @@
   <data name="SLOVAK">
     <value>斯洛伐克文</value>
   </data>
+  <data name="ONLINE">
+    <value>線上</value>
+  </data>
   <data name="ALLFIELDSREQUIRED">
     <value>所有的檔案都必須填入。</value>
   </data>
@@ -964,8 +967,8 @@
   <data name="SELECTIFOLDEROWNER">
     <value>選取 iFolder "{0}" 的擁有者</value>
   </data>
-  <data name="HELP">
-    <value>說明</value>
+  <data name="IFOLDERADMINS">
+    <value>iFolder 管理員</value>
   </data>
   <data name="NAME:">
     <value>名稱：</value>
@@ -982,8 +985,8 @@
   <data name="ERRORCANNOTADDADMIN">
     <value>無法以管理者的身分新增成員 {0}。</value>
   </data>
-  <data name="LDAPUPSINCE">
-    <value>開機時間：</value>
+  <data name="ADDADMINS">
+    <value>新增管理員</value>
   </data>
   <data name="DAYTAG">
     <value>日期：</value>
@@ -1126,6 +1129,9 @@
   <data name="ERRORCANNOTSETUSERPOLICY">
     <value>無法設定使用者 ID {0} 的使用者規則資訊。</value>
   </data>
+  <data name="CREATENEWIFOLDER">
+    <value>建立新的 iFolder</value>
+  </data>
   <data name="ERRORAUTHENTICATIONFAILED">
     <value>驗證失敗。</value>
   </data>
@@ -1156,8 +1162,8 @@
   <data name="BEGINSWITH">
     <value>開始於</value>
   </data>
-  <data name="DOWNLOAD">
-    <value>下載</value>
+  <data name="MB">
+    <value>MB</value>
   </data>
   <data name="ERRORCANNOTDELETEIFOLDER">
     <value>無法刪除 iFolder。</value>
@@ -1281,6 +1287,9 @@
   </data>
   <data name="REPROVISOINSTATETAG">
     <value>重新供應狀態：</value>
+  </data>
+  <data name="DOWNLOAD">
+    <value>下載</value>
   </data>
   <data name="DELETESECONDARYADMIN">
     <value>刪除次要管理員： </value>

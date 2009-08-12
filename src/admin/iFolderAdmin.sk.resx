@@ -106,9 +106,6 @@
   <data name="ERRORINVALIDDATA">
     <value>Všetky polia sú povinné. Skontrolujte ich a znova zadajte hodnoty</value>
   </data>
-  <data name="IFOLDERADMINS">
-    <value>Správcovia služby iFolder</value>
-  </data>
   <data name="LOGIN">
     <value>Prihlásiť sa</value>
   </data>
@@ -211,8 +208,8 @@
   <data name="COMPLETEDTAG">
     <value>Dokončené:</value>
   </data>
-  <data name="ENTERLDAPDETAILS">
-    <value>Zadajte poverenia správcu protokolu LDAP</value>
+  <data name="ERRORIFOLDERTRANSFEREXCEPTION">
+    <value>Vlastníctvo priečinka sa nemohlo previesť, pretože ste prekročili maximálny počet priečinkov iFolder nastavený správcom.</value>
   </data>
   <data name="MEMBERTYPELDAPGROUP">
     <value>Skupina LDAP</value>
@@ -231,9 +228,6 @@
   </data>
   <data name="NONE">
     <value>Žiadne</value>
-  </data>
-  <data name="ERRORIFOLDERTRANSFEREXCEPTION">
-    <value>Vlastníctvo priečinka sa nemohlo previesť, pretože ste prekročili maximálny počet priečinkov iFolder nastavený správcom.</value>
   </data>
   <data name="GROUPRIGHTSADDFAILURE">
     <value>Používateľa {0}{1}{2} nebolo možné pridať ako správcu pre skupinu {3}{4}{5}. Ak sa chcete znova pokúsiť o pridanie skupiny, kliknite na položku Skúsiť znova. Ak sa chcete vrátiť na stránku systémov, kliknite na tlačidlo OK. </value>
@@ -259,8 +253,8 @@
   <data name="NEXTPAGE">
     <value>Nasledujúca strana</value>
   </data>
-  <data name="CREATENEWIFOLDER">
-    <value>Vytvoriť nový priečinok iFolder</value>
+  <data name="CHINESE-TRADITIONAL">
+    <value>čínština - tradičná</value>
   </data>
   <data name="MODIFIEDTAG">
     <value>Zmenené:</value>
@@ -394,9 +388,6 @@
   <data name="GROUPLISTTAG">
     <value>Skupiny používateľov:</value>
   </data>
-  <data name="ADDADMINS">
-    <value>Pridať správcov</value>
-  </data>
   <data name="MINUTES">
     <value>Min.</value>
   </data>
@@ -481,6 +472,9 @@
   <data name="OUTPUT">
     <value>Výstup</value>
   </data>
+  <data name="OFFLINE">
+    <value>Čaká sa</value>
+  </data>
   <data name="DAILY">
     <value>Denne</value>
   </data>
@@ -504,6 +498,9 @@
   </data>
   <data name="ADDNEWORSELECTGROUPTOEDIT">
     <value>Pridať alebo upraviť vybraté skupiny správcu</value>
+  </data>
+  <data name="HELP">
+    <value>Pomocník</value>
   </data>
   <data name="SIZE">
     <value>Veľkosť</value>
@@ -562,11 +559,14 @@
   <data name="SERVERDETAILS">
     <value>Podrobnosti o serveri</value>
   </data>
+  <data name="LDAPUPSINCE">
+    <value>Aktívne od:</value>
+  </data>
   <data name="USERLOGINDISABLED">
     <value>Zakázať prihlásenie používateľa</value>
   </data>
-  <data name="MB">
-    <value>MB</value>
+  <data name="NOTAPPLICABLE">
+    <value>Nie je k dispozícii</value>
   </data>
   <data name="TYPETAG">
     <value>Typ:</value>
@@ -655,9 +655,6 @@
   <data name="SEARCH">
     <value>Hľadať</value>
   </data>
-  <data name="CHINESE-TRADITIONAL">
-    <value>čínština - tradičná</value>
-  </data>
   <data name="ALLOWMODIFYENCRYPTIONPOLICY">
     <value>Povoliť úpravu politiky šifrovania</value>
   </data>
@@ -690,6 +687,9 @@
   </data>
   <data name="ERRORLOCKEXCEPTION">
     <value>Operácia bola zrušená, pretože priečinok iFolder bol uzamknutý alebo zakázaný správcom.</value>
+  </data>
+  <data name="ENTERLDAPDETAILS">
+    <value>Zadajte poverenia správcu protokolu LDAP</value>
   </data>
   <data name="PASSWORDTAG">
     <value>Heslo:</value>
@@ -946,6 +946,9 @@
   <data name="SLOVAK">
     <value>slovenčina</value>
   </data>
+  <data name="ONLINE">
+    <value>Online</value>
+  </data>
   <data name="ALLFIELDSREQUIRED">
     <value>Musia byť vyplnené všetky polia.</value>
   </data>
@@ -964,8 +967,8 @@
   <data name="SELECTIFOLDEROWNER">
     <value>Vyberte vlastníka priečinka iFolder „{0}“</value>
   </data>
-  <data name="HELP">
-    <value>Pomocník</value>
+  <data name="IFOLDERADMINS">
+    <value>Správcovia služby iFolder</value>
   </data>
   <data name="NAME:">
     <value>Názov:</value>
@@ -982,8 +985,8 @@
   <data name="ERRORCANNOTADDADMIN">
     <value>Používateľa {0} nie je možné pridať ako správcu.</value>
   </data>
-  <data name="LDAPUPSINCE">
-    <value>Aktívne od:</value>
+  <data name="ADDADMINS">
+    <value>Pridať správcov</value>
   </data>
   <data name="DAYTAG">
     <value>Deň:</value>
@@ -1126,6 +1129,9 @@
   <data name="ERRORCANNOTSETUSERPOLICY">
     <value>Nedajú sa nastaviť informácie o používateľskej politike pre identifikáciu používateľa {0}.</value>
   </data>
+  <data name="CREATENEWIFOLDER">
+    <value>Vytvoriť nový priečinok iFolder</value>
+  </data>
   <data name="ERRORAUTHENTICATIONFAILED">
     <value>Overenie zlyhalo.</value>
   </data>
@@ -1156,8 +1162,8 @@
   <data name="BEGINSWITH">
     <value>Začína na</value>
   </data>
-  <data name="DOWNLOAD">
-    <value>Prevziať</value>
+  <data name="MB">
+    <value>MB</value>
   </data>
   <data name="ERRORCANNOTDELETEIFOLDER">
     <value>Priečinok iFolder sa nedá odstrániť.</value>
@@ -1281,6 +1287,9 @@
   </data>
   <data name="REPROVISOINSTATETAG">
     <value>Stav opätovného poskytovania:</value>
+  </data>
+  <data name="DOWNLOAD">
+    <value>Prevziať</value>
   </data>
   <data name="DELETESECONDARYADMIN">
     <value>Odstrániť sekundárneho správcu: </value>

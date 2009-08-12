@@ -106,9 +106,6 @@
   <data name="ERRORINVALIDDATA">
     <value>Všechna pole jsou povinná. Zkontrolujte je a zadejte je znovu</value>
   </data>
-  <data name="IFOLDERADMINS">
-    <value>Správci složky iFolder</value>
-  </data>
   <data name="LOGIN">
     <value>Přihlásit</value>
   </data>
@@ -211,8 +208,8 @@
   <data name="COMPLETEDTAG">
     <value>Dokončeno:</value>
   </data>
-  <data name="ENTERLDAPDETAILS">
-    <value>Zadejte pověření správce LDAP</value>
+  <data name="ERRORIFOLDERTRANSFEREXCEPTION">
+    <value>Vlastnictví nelze převést, protože překračujete počet složek iFolder nastavený správcem.</value>
   </data>
   <data name="MEMBERTYPELDAPGROUP">
     <value>Skupina LDAP</value>
@@ -231,9 +228,6 @@
   </data>
   <data name="NONE">
     <value>Žádné</value>
-  </data>
-  <data name="ERRORIFOLDERTRANSFEREXCEPTION">
-    <value>Vlastnictví nelze převést, protože překračujete počet složek iFolder nastavený správcem.</value>
   </data>
   <data name="GROUPRIGHTSADDFAILURE">
     <value>Uživatele {0}{1}{2} nebylo možné přidat jako správce pro skupinu {3}{4}{5}. Klepnutím na možnost Opakovat lze znovu přidat skupinu. Klepnutím na tlačítko OK se vrátíte na stránku Systémy. </value>
@@ -259,8 +253,8 @@
   <data name="NEXTPAGE">
     <value>Další stránka</value>
   </data>
-  <data name="CREATENEWIFOLDER">
-    <value>Vytvořit novou složku iFolder</value>
+  <data name="CHINESE-TRADITIONAL">
+    <value>Tradiční čínština</value>
   </data>
   <data name="MODIFIEDTAG">
     <value>Změněno:</value>
@@ -394,9 +388,6 @@
   <data name="GROUPLISTTAG">
     <value>Skupiny uživatelů:</value>
   </data>
-  <data name="ADDADMINS">
-    <value>Přidat správce</value>
-  </data>
   <data name="MINUTES">
     <value>Minut</value>
   </data>
@@ -481,6 +472,9 @@
   <data name="OUTPUT">
     <value>Výstup</value>
   </data>
+  <data name="OFFLINE">
+    <value>Probíhá čekání</value>
+  </data>
   <data name="DAILY">
     <value>Denně</value>
   </data>
@@ -504,6 +498,9 @@
   </data>
   <data name="ADDNEWORSELECTGROUPTOEDIT">
     <value>Přidat nebo upravit skupiny vybraného správce</value>
+  </data>
+  <data name="HELP">
+    <value>Nápověda</value>
   </data>
   <data name="SIZE">
     <value>Velikost:</value>
@@ -562,11 +559,14 @@
   <data name="SERVERDETAILS">
     <value>Podrobnosti o serveru</value>
   </data>
+  <data name="LDAPUPSINCE">
+    <value>Do:</value>
+  </data>
   <data name="USERLOGINDISABLED">
     <value>Vypnout přihlášení uživatele</value>
   </data>
-  <data name="MB">
-    <value>MB</value>
+  <data name="NOTAPPLICABLE">
+    <value>Není k dispozici</value>
   </data>
   <data name="TYPETAG">
     <value>Typ:</value>
@@ -655,9 +655,6 @@
   <data name="SEARCH">
     <value>Hledat</value>
   </data>
-  <data name="CHINESE-TRADITIONAL">
-    <value>Tradiční čínština</value>
-  </data>
   <data name="ALLOWMODIFYENCRYPTIONPOLICY">
     <value>Povolit změny zásad šifrování</value>
   </data>
@@ -690,6 +687,9 @@
   </data>
   <data name="ERRORLOCKEXCEPTION">
     <value>Operace byla zrušena protože složka iFolder byla uzamčena/zablokována správcem.</value>
+  </data>
+  <data name="ENTERLDAPDETAILS">
+    <value>Zadejte pověření správce LDAP</value>
   </data>
   <data name="PASSWORDTAG">
     <value>Heslo:</value>
@@ -946,6 +946,9 @@
   <data name="SLOVAK">
     <value>Slovenština</value>
   </data>
+  <data name="ONLINE">
+    <value>Online</value>
+  </data>
   <data name="ALLFIELDSREQUIRED">
     <value>Všechna pole musí být vyplněna.</value>
   </data>
@@ -964,8 +967,8 @@
   <data name="SELECTIFOLDEROWNER">
     <value>Vyberte vlastníka složky iFolder "{0}"</value>
   </data>
-  <data name="HELP">
-    <value>Nápověda</value>
+  <data name="IFOLDERADMINS">
+    <value>Správci složky iFolder</value>
   </data>
   <data name="NAME:">
     <value>Název:</value>
@@ -982,8 +985,8 @@
   <data name="ERRORCANNOTADDADMIN">
     <value>Není možné přidat člena {0} jako správce.</value>
   </data>
-  <data name="LDAPUPSINCE">
-    <value>Do:</value>
+  <data name="ADDADMINS">
+    <value>Přidat správce</value>
   </data>
   <data name="DAYTAG">
     <value>Den:</value>
@@ -1126,6 +1129,9 @@
   <data name="ERRORCANNOTSETUSERPOLICY">
     <value>Není možné nastavit informace o uživatelských zásadách pro ID uživatele {0}.</value>
   </data>
+  <data name="CREATENEWIFOLDER">
+    <value>Vytvořit novou složku iFolder</value>
+  </data>
   <data name="ERRORAUTHENTICATIONFAILED">
     <value>Ověření selhalo.</value>
   </data>
@@ -1156,8 +1162,8 @@
   <data name="BEGINSWITH">
     <value>Začíná</value>
   </data>
-  <data name="DOWNLOAD">
-    <value>Stáhnout</value>
+  <data name="MB">
+    <value>MB</value>
   </data>
   <data name="ERRORCANNOTDELETEIFOLDER">
     <value>Složku iFolder nelze odstranit.</value>
@@ -1281,6 +1287,9 @@
   </data>
   <data name="REPROVISOINSTATETAG">
     <value>Stav opakovaného poskytování:</value>
+  </data>
+  <data name="DOWNLOAD">
+    <value>Stáhnout</value>
   </data>
   <data name="DELETESECONDARYADMIN">
     <value>Odstranit sekundárního správce: </value>

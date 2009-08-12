@@ -106,9 +106,6 @@
   <data name="ERRORINVALIDDATA">
     <value>Все поля обязательны. Проверьте и повторите ввод</value>
   </data>
-  <data name="IFOLDERADMINS">
-    <value>Администраторы iFolder</value>
-  </data>
   <data name="LOGIN">
     <value>Вход в систему</value>
   </data>
@@ -211,8 +208,8 @@
   <data name="COMPLETEDTAG">
     <value>Завершено:</value>
   </data>
-  <data name="ENTERLDAPDETAILS">
-    <value>Введите учетные данные пользователя Admin в LDAP</value>
+  <data name="ERRORIFOLDERTRANSFEREXCEPTION">
+    <value>Владение не может быть передано из-за превышения предельного количества папок iFolder, установленного администратором.</value>
   </data>
   <data name="MEMBERTYPELDAPGROUP">
     <value>Группа LDAP</value>
@@ -231,9 +228,6 @@
   </data>
   <data name="NONE">
     <value>Нет</value>
-  </data>
-  <data name="ERRORIFOLDERTRANSFEREXCEPTION">
-    <value>Владение не может быть передано из-за превышения предельного количества папок iFolder, установленного администратором.</value>
   </data>
   <data name="GROUPRIGHTSADDFAILURE">
     <value>Не удалось добавить пользователя {0}{1}{2} в качестве администратора группы {3}{4}{5}. Щелкните "Повторить попытку", чтобы добавить группу еще раз. Чтобы вернуться на страницу "Системы", щелкните "ОК". </value>
@@ -259,8 +253,8 @@
   <data name="NEXTPAGE">
     <value>Следующая страница</value>
   </data>
-  <data name="CREATENEWIFOLDER">
-    <value>Создать новую папку iFolder</value>
+  <data name="CHINESE-TRADITIONAL">
+    <value>Китайский традиционный</value>
   </data>
   <data name="MODIFIEDTAG">
     <value>Изменено:</value>
@@ -394,9 +388,6 @@
   <data name="GROUPLISTTAG">
     <value>Группы пользователей:</value>
   </data>
-  <data name="ADDADMINS">
-    <value>Добавить администраторов</value>
-  </data>
   <data name="MINUTES">
     <value>Мин.</value>
   </data>
@@ -481,6 +472,9 @@
   <data name="OUTPUT">
     <value>Вывод</value>
   </data>
+  <data name="OFFLINE">
+    <value>Ожидание</value>
+  </data>
   <data name="DAILY">
     <value>Ежедневно</value>
   </data>
@@ -504,6 +498,9 @@
   </data>
   <data name="ADDNEWORSELECTGROUPTOEDIT">
     <value>Добавить или изменить выбранные группы администратора</value>
+  </data>
+  <data name="HELP">
+    <value>Справка</value>
   </data>
   <data name="SIZE">
     <value>Размер</value>
@@ -562,11 +559,14 @@
   <data name="SERVERDETAILS">
     <value>Информация о сервере</value>
   </data>
+  <data name="LDAPUPSINCE">
+    <value>Время работы:</value>
+  </data>
   <data name="USERLOGINDISABLED">
     <value>Отключить пользовательский вход в систему</value>
   </data>
-  <data name="MB">
-    <value>Мб</value>
+  <data name="NOTAPPLICABLE">
+    <value>Н/Д</value>
   </data>
   <data name="TYPETAG">
     <value>Тип:</value>
@@ -655,9 +655,6 @@
   <data name="SEARCH">
     <value>Поиск</value>
   </data>
-  <data name="CHINESE-TRADITIONAL">
-    <value>Китайский традиционный</value>
-  </data>
   <data name="ALLOWMODIFYENCRYPTIONPOLICY">
     <value>Разрешить изменение политики шифрования</value>
   </data>
@@ -690,6 +687,9 @@
   </data>
   <data name="ERRORLOCKEXCEPTION">
     <value>Операция была отменена, так как папка iFolder была заблокирована или запрещена администратором.</value>
+  </data>
+  <data name="ENTERLDAPDETAILS">
+    <value>Введите учетные данные пользователя Admin в LDAP</value>
   </data>
   <data name="PASSWORDTAG">
     <value>Пароль:</value>
@@ -946,6 +946,9 @@
   <data name="SLOVAK">
     <value>Словацкий</value>
   </data>
+  <data name="ONLINE">
+    <value>Включен</value>
+  </data>
   <data name="ALLFIELDSREQUIRED">
     <value>Необходимо заполнить все поля.</value>
   </data>
@@ -964,8 +967,8 @@
   <data name="SELECTIFOLDEROWNER">
     <value>Выберите владельца для папки "{0}"</value>
   </data>
-  <data name="HELP">
-    <value>Справка</value>
+  <data name="IFOLDERADMINS">
+    <value>Администраторы iFolder</value>
   </data>
   <data name="NAME:">
     <value>Имя:</value>
@@ -982,8 +985,8 @@
   <data name="ERRORCANNOTADDADMIN">
     <value>Невозможно добавить пользователя {0} как администратора.</value>
   </data>
-  <data name="LDAPUPSINCE">
-    <value>Время работы:</value>
+  <data name="ADDADMINS">
+    <value>Добавить администраторов</value>
   </data>
   <data name="DAYTAG">
     <value>День:</value>
@@ -1126,6 +1129,9 @@
   <data name="ERRORCANNOTSETUSERPOLICY">
     <value>Невозможно установить информацию политики пользователей для ИД пользователя {0}.</value>
   </data>
+  <data name="CREATENEWIFOLDER">
+    <value>Создать новую папку iFolder</value>
+  </data>
   <data name="ERRORAUTHENTICATIONFAILED">
     <value>Сбой при аутентификации.</value>
   </data>
@@ -1156,8 +1162,8 @@
   <data name="BEGINSWITH">
     <value>Начинается с</value>
   </data>
-  <data name="DOWNLOAD">
-    <value>Загрузка</value>
+  <data name="MB">
+    <value>Мб</value>
   </data>
   <data name="ERRORCANNOTDELETEIFOLDER">
     <value>Невозможно удалить папку iFolder.</value>
@@ -1281,6 +1287,9 @@
   </data>
   <data name="REPROVISOINSTATETAG">
     <value>Состояние изменения доступа:</value>
+  </data>
+  <data name="DOWNLOAD">
+    <value>Загрузка</value>
   </data>
   <data name="DELETESECONDARYADMIN">
     <value>Удалить дополнительного администратора: </value>

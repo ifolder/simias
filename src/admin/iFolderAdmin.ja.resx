@@ -106,9 +106,6 @@
   <data name="ERRORINVALIDDATA">
     <value>すべてのフィールドが入力必須フィールドです。確認してから再度入力してください</value>
   </data>
-  <data name="IFOLDERADMINS">
-    <value>iFolder管理者</value>
-  </data>
   <data name="LOGIN">
     <value>ログイン</value>
   </data>
@@ -211,8 +208,8 @@
   <data name="COMPLETEDTAG">
     <value>完了:</value>
   </data>
-  <data name="ENTERLDAPDETAILS">
-    <value>LDAP管理者の資格情報の入力</value>
+  <data name="ERRORIFOLDERTRANSFEREXCEPTION">
+    <value>管理者が設定したiFolderの制限に違反しているため、所有権を転送できませんでした。</value>
   </data>
   <data name="MEMBERTYPELDAPGROUP">
     <value>LDAPグループ</value>
@@ -231,9 +228,6 @@
   </data>
   <data name="NONE">
     <value>なし</value>
-  </data>
-  <data name="ERRORIFOLDERTRANSFEREXCEPTION">
-    <value>管理者が設定したiFolderの制限に違反しているため、所有権を転送できませんでした。</value>
   </data>
   <data name="GROUPRIGHTSADDFAILURE">
     <value>ユーザ {0}{1}{2} をグループ {3}{4}{5} の管理者として追加することができませんでした。グループを再度追加するには、［再度実行する］をクリックしてください。［システム］ページに戻るには、［OK］をクリックしてください。 </value>
@@ -259,8 +253,8 @@
   <data name="NEXTPAGE">
     <value>次ページ</value>
   </data>
-  <data name="CREATENEWIFOLDER">
-    <value>新しいiFolderの作成</value>
+  <data name="CHINESE-TRADITIONAL">
+    <value>中国語(繁体字)</value>
   </data>
   <data name="MODIFIEDTAG">
     <value>更新日:</value>
@@ -394,9 +388,6 @@
   <data name="GROUPLISTTAG">
     <value>ユーザグループ:</value>
   </data>
-  <data name="ADDADMINS">
-    <value>管理者の追加</value>
-  </data>
   <data name="MINUTES">
     <value>分</value>
   </data>
@@ -481,6 +472,9 @@
   <data name="OUTPUT">
     <value>出力</value>
   </data>
+  <data name="OFFLINE">
+    <value>待機中</value>
+  </data>
   <data name="DAILY">
     <value>毎日</value>
   </data>
@@ -504,6 +498,9 @@
   </data>
   <data name="ADDNEWORSELECTGROUPTOEDIT">
     <value>選択した管理者のグループの追加または編集</value>
+  </data>
+  <data name="HELP">
+    <value>ヘルプ</value>
   </data>
   <data name="SIZE">
     <value>サイズ</value>
@@ -562,11 +559,14 @@
   <data name="SERVERDETAILS">
     <value>サーバの詳細</value>
   </data>
+  <data name="LDAPUPSINCE">
+    <value>稼働期間:</value>
+  </data>
   <data name="USERLOGINDISABLED">
     <value>ユーザログインの無効化</value>
   </data>
-  <data name="MB">
-    <value>MB</value>
+  <data name="NOTAPPLICABLE">
+    <value>N/A</value>
   </data>
   <data name="TYPETAG">
     <value>タイプ:</value>
@@ -655,9 +655,6 @@
   <data name="SEARCH">
     <value>検索</value>
   </data>
-  <data name="CHINESE-TRADITIONAL">
-    <value>中国語(繁体字)</value>
-  </data>
   <data name="ALLOWMODIFYENCRYPTIONPOLICY">
     <value>暗号化ポリシーの変更を許可</value>
   </data>
@@ -690,6 +687,9 @@
   </data>
   <data name="ERRORLOCKEXCEPTION">
     <value>iFolderが管理者によってロック/無効化されたため、操作はキャンセルされました。</value>
+  </data>
+  <data name="ENTERLDAPDETAILS">
+    <value>LDAP管理者の資格情報の入力</value>
   </data>
   <data name="PASSWORDTAG">
     <value>パスワード:</value>
@@ -946,6 +946,9 @@
   <data name="SLOVAK">
     <value>スロバキア語</value>
   </data>
+  <data name="ONLINE">
+    <value>オンライン</value>
+  </data>
   <data name="ALLFIELDSREQUIRED">
     <value>すべてのフィールドに入力してください。</value>
   </data>
@@ -964,8 +967,8 @@
   <data name="SELECTIFOLDEROWNER">
     <value>iFolder「{0}」の所有者を選択</value>
   </data>
-  <data name="HELP">
-    <value>ヘルプ</value>
+  <data name="IFOLDERADMINS">
+    <value>iFolder管理者</value>
   </data>
   <data name="NAME:">
     <value>名前:</value>
@@ -982,8 +985,8 @@
   <data name="ERRORCANNOTADDADMIN">
     <value>メンバー {0} を管理者として追加できません。</value>
   </data>
-  <data name="LDAPUPSINCE">
-    <value>稼働期間:</value>
+  <data name="ADDADMINS">
+    <value>管理者の追加</value>
   </data>
   <data name="DAYTAG">
     <value>日:</value>
@@ -1126,6 +1129,9 @@
   <data name="ERRORCANNOTSETUSERPOLICY">
     <value>ユーザID {0} にユーザポリシー情報を設定できません。</value>
   </data>
+  <data name="CREATENEWIFOLDER">
+    <value>新しいiFolderの作成</value>
+  </data>
   <data name="ERRORAUTHENTICATIONFAILED">
     <value>認証に失敗しました。</value>
   </data>
@@ -1156,8 +1162,8 @@
   <data name="BEGINSWITH">
     <value>開始文字</value>
   </data>
-  <data name="DOWNLOAD">
-    <value>ダウンロード</value>
+  <data name="MB">
+    <value>MB</value>
   </data>
   <data name="ERRORCANNOTDELETEIFOLDER">
     <value>iFolderを削除できません。</value>
@@ -1281,6 +1287,9 @@
   </data>
   <data name="REPROVISOINSTATETAG">
     <value>再プロビジョニング状態:</value>
+  </data>
+  <data name="DOWNLOAD">
+    <value>ダウンロード</value>
   </data>
   <data name="DELETESECONDARYADMIN">
     <value>2番目の管理者の削除: </value>

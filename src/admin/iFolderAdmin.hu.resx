@@ -106,9 +106,6 @@
   <data name="ERRORINVALIDDATA">
     <value>Minden mezőt kötelező kitölteni. Ellenőrizze, és írja be újra</value>
   </data>
-  <data name="IFOLDERADMINS">
-    <value>iFolder rendszergazdák</value>
-  </data>
   <data name="LOGIN">
     <value>Bejelentkezés</value>
   </data>
@@ -211,8 +208,8 @@
   <data name="COMPLETEDTAG">
     <value>Kész:</value>
   </data>
-  <data name="ENTERLDAPDETAILS">
-    <value>LDAP-rendszergazda hitelesítő adatainak megadása</value>
+  <data name="ERRORIFOLDERTRANSFEREXCEPTION">
+    <value>A tulajdonosi szerepkört nem lehet átadni, mert sérti a rendszergazda által az iFolder mappákra vonatkozóan beállított korlátozást.</value>
   </data>
   <data name="MEMBERTYPELDAPGROUP">
     <value>LDAP-csoport</value>
@@ -231,9 +228,6 @@
   </data>
   <data name="NONE">
     <value>Nincs</value>
-  </data>
-  <data name="ERRORIFOLDERTRANSFEREXCEPTION">
-    <value>A tulajdonosi szerepkört nem lehet átadni, mert sérti a rendszergazda által az iFolder mappákra vonatkozóan beállított korlátozást.</value>
   </data>
   <data name="GROUPRIGHTSADDFAILURE">
     <value>A(z) {0}{1}{2} felhasználó nem adható hozzá rendszergazdaként a(z) {3}{4}{5} csoporthoz. A csoport ismételt hozzáadásához válassza az Újbóli próbálkozás elemet. Ha az OK gombra kattint, visszatérhet a Rendszerek lapra. </value>
@@ -259,8 +253,8 @@
   <data name="NEXTPAGE">
     <value>Következő lap</value>
   </data>
-  <data name="CREATENEWIFOLDER">
-    <value>Új iFolder létrehozása</value>
+  <data name="CHINESE-TRADITIONAL">
+    <value>kínai (hagyományos)</value>
   </data>
   <data name="MODIFIEDTAG">
     <value>Módosítva:</value>
@@ -394,9 +388,6 @@
   <data name="GROUPLISTTAG">
     <value>Felhasználói csoportok:</value>
   </data>
-  <data name="ADDADMINS">
-    <value>Rendszergazdák hozzáadása</value>
-  </data>
   <data name="MINUTES">
     <value>perc</value>
   </data>
@@ -481,6 +472,9 @@
   <data name="OUTPUT">
     <value>Kimenet</value>
   </data>
+  <data name="OFFLINE">
+    <value>Várakozás</value>
+  </data>
   <data name="DAILY">
     <value>Napi</value>
   </data>
@@ -504,6 +498,9 @@
   </data>
   <data name="ADDNEWORSELECTGROUPTOEDIT">
     <value>A kijelölt rendszergazda csoportjainak hozzáadása vagy szerkesztése</value>
+  </data>
+  <data name="HELP">
+    <value>Súgó</value>
   </data>
   <data name="SIZE">
     <value>Méret</value>
@@ -562,11 +559,14 @@
   <data name="SERVERDETAILS">
     <value>Kiszolgáló adatai</value>
   </data>
+  <data name="LDAPUPSINCE">
+    <value>Működés kezdete:</value>
+  </data>
   <data name="USERLOGINDISABLED">
     <value>Felhasználói bejelentkezés letiltása</value>
   </data>
-  <data name="MB">
-    <value>MB</value>
+  <data name="NOTAPPLICABLE">
+    <value>n.a.</value>
   </data>
   <data name="TYPETAG">
     <value>Típus:</value>
@@ -655,9 +655,6 @@
   <data name="SEARCH">
     <value>Keresés</value>
   </data>
-  <data name="CHINESE-TRADITIONAL">
-    <value>kínai (hagyományos)</value>
-  </data>
   <data name="ALLOWMODIFYENCRYPTIONPOLICY">
     <value>Titkosítási házirend módosításának engedélyezése</value>
   </data>
@@ -690,6 +687,9 @@
   </data>
   <data name="ERRORLOCKEXCEPTION">
     <value>A művelet megszakadt, mivel a rendszergazda zárolta/letiltotta az iFolder mappát.</value>
+  </data>
+  <data name="ENTERLDAPDETAILS">
+    <value>LDAP-rendszergazda hitelesítő adatainak megadása</value>
   </data>
   <data name="PASSWORDTAG">
     <value>Jelszó:</value>
@@ -946,6 +946,9 @@
   <data name="SLOVAK">
     <value>szlovák</value>
   </data>
+  <data name="ONLINE">
+    <value>Online</value>
+  </data>
   <data name="ALLFIELDSREQUIRED">
     <value>Minden mezőt ki kell tölteni.</value>
   </data>
@@ -964,8 +967,8 @@
   <data name="SELECTIFOLDEROWNER">
     <value>Válasszon tulajdonost a(z)"{0}" iFolder számára</value>
   </data>
-  <data name="HELP">
-    <value>Súgó</value>
+  <data name="IFOLDERADMINS">
+    <value>iFolder rendszergazdák</value>
   </data>
   <data name="NAME:">
     <value>Név:</value>
@@ -982,8 +985,8 @@
   <data name="ERRORCANNOTADDADMIN">
     <value>{0} tagot nem sikerült felvenni rendszergazdaként.</value>
   </data>
-  <data name="LDAPUPSINCE">
-    <value>Működés kezdete:</value>
+  <data name="ADDADMINS">
+    <value>Rendszergazdák hozzáadása</value>
   </data>
   <data name="DAYTAG">
     <value>Nap:</value>
@@ -1126,6 +1129,9 @@
   <data name="ERRORCANNOTSETUSERPOLICY">
     <value>A(z) {0} felhasználói azonosítóhoz nem sikerült beállítani a házirend adatait.</value>
   </data>
+  <data name="CREATENEWIFOLDER">
+    <value>Új iFolder létrehozása</value>
+  </data>
   <data name="ERRORAUTHENTICATIONFAILED">
     <value>A hitelesítés sikertelen volt.</value>
   </data>
@@ -1156,8 +1162,8 @@
   <data name="BEGINSWITH">
     <value>kezdete</value>
   </data>
-  <data name="DOWNLOAD">
-    <value>Letöltés</value>
+  <data name="MB">
+    <value>MB</value>
   </data>
   <data name="ERRORCANNOTDELETEIFOLDER">
     <value>Nem sikerült törölni az iFolder mappát.</value>
@@ -1281,6 +1287,9 @@
   </data>
   <data name="REPROVISOINSTATETAG">
     <value>Újraengedélyezési állapot:</value>
+  </data>
+  <data name="DOWNLOAD">
+    <value>Letöltés</value>
   </data>
   <data name="DELETESECONDARYADMIN">
     <value>Másodlagos rendszergazda törlése: </value>

@@ -106,9 +106,6 @@
   <data name="ERRORINVALIDDATA">
     <value>Tous les champs sont obligatoires. Vérifiez et réintroduisez.</value>
   </data>
-  <data name="IFOLDERADMINS">
-    <value>Administrateurs iFolder</value>
-  </data>
   <data name="LOGIN">
     <value>Login</value>
   </data>
@@ -211,8 +208,8 @@
   <data name="COMPLETEDTAG">
     <value>Terminé :</value>
   </data>
-  <data name="ENTERLDAPDETAILS">
-    <value>Entrer les références Admin LDAP</value>
+  <data name="ERRORIFOLDERTRANSFEREXCEPTION">
+    <value>Impossible de transférer la propriété car vous violez la limite des dossiers iFolder définie par votre Administrateur.</value>
   </data>
   <data name="MEMBERTYPELDAPGROUP">
     <value>Groupe LDAP</value>
@@ -231,9 +228,6 @@
   </data>
   <data name="NONE">
     <value>Aucun</value>
-  </data>
-  <data name="ERRORIFOLDERTRANSFEREXCEPTION">
-    <value>Impossible de transférer la propriété car vous violez la limite des dossiers iFolder définie par votre Administrateur.</value>
   </data>
   <data name="GROUPRIGHTSADDFAILURE">
     <value>L'utilisateur {0}{1}{2} n'a pas pu être ajouté en tant qu'administrateur du groupe {3}{4}{5}. Cliquez sur Réessayer pour recommencer l'opération d'ajout. Cliquez sur OK pour revenir à la page Systèmes. </value>
@@ -259,8 +253,8 @@
   <data name="NEXTPAGE">
     <value>Page suivante</value>
   </data>
-  <data name="CREATENEWIFOLDER">
-    <value>Créer un nouveau dossier iFolder</value>
+  <data name="CHINESE-TRADITIONAL">
+    <value>Chinois traditionnel</value>
   </data>
   <data name="MODIFIEDTAG">
     <value>Modifié :</value>
@@ -394,9 +388,6 @@
   <data name="GROUPLISTTAG">
     <value>Groupes d'utilisateurs :</value>
   </data>
-  <data name="ADDADMINS">
-    <value>Ajouter des administrateurs</value>
-  </data>
   <data name="MINUTES">
     <value>minute(s)</value>
   </data>
@@ -481,6 +472,9 @@
   <data name="OUTPUT">
     <value>Sortie</value>
   </data>
+  <data name="OFFLINE">
+    <value>En attente</value>
+  </data>
   <data name="DAILY">
     <value>Tous les jours</value>
   </data>
@@ -504,6 +498,9 @@
   </data>
   <data name="ADDNEWORSELECTGROUPTOEDIT">
     <value>Ajouter ou modifier les groupes d'administrateur sélectionnés</value>
+  </data>
+  <data name="HELP">
+    <value>Aide</value>
   </data>
   <data name="SIZE">
     <value>Taille</value>
@@ -562,11 +559,14 @@
   <data name="SERVERDETAILS">
     <value>Détails du serveur</value>
   </data>
+  <data name="LDAPUPSINCE">
+    <value>En service depuis :</value>
+  </data>
   <data name="USERLOGINDISABLED">
     <value>Désactiver le login utilisateur</value>
   </data>
-  <data name="MB">
-    <value>Mo</value>
+  <data name="NOTAPPLICABLE">
+    <value>N/A</value>
   </data>
   <data name="TYPETAG">
     <value>Type :</value>
@@ -655,9 +655,6 @@
   <data name="SEARCH">
     <value>Rechercher</value>
   </data>
-  <data name="CHINESE-TRADITIONAL">
-    <value>Chinois traditionnel</value>
-  </data>
   <data name="ALLOWMODIFYENCRYPTIONPOLICY">
     <value>Autoriser la modification de la stratégie de codage</value>
   </data>
@@ -690,6 +687,9 @@
   </data>
   <data name="ERRORLOCKEXCEPTION">
     <value>L'opération a été annulée car le dossier iFolder a été verrouillé/désactivé par l'administrateur.</value>
+  </data>
+  <data name="ENTERLDAPDETAILS">
+    <value>Entrer les références Admin LDAP</value>
   </data>
   <data name="PASSWORDTAG">
     <value>Mot de passe :</value>
@@ -946,6 +946,9 @@
   <data name="SLOVAK">
     <value>Slovaque</value>
   </data>
+  <data name="ONLINE">
+    <value>En ligne</value>
+  </data>
   <data name="ALLFIELDSREQUIRED">
     <value>Tous les champs doivent être complétés.</value>
   </data>
@@ -964,8 +967,8 @@
   <data name="SELECTIFOLDEROWNER">
     <value>Sélectionnez le propriétaire du dossier iFolder "{0}"</value>
   </data>
-  <data name="HELP">
-    <value>Aide</value>
+  <data name="IFOLDERADMINS">
+    <value>Administrateurs iFolder</value>
   </data>
   <data name="NAME:">
     <value>Nom :</value>
@@ -982,8 +985,8 @@
   <data name="ERRORCANNOTADDADMIN">
     <value>Impossible d'ajouter le membre {0} comme administrateur.</value>
   </data>
-  <data name="LDAPUPSINCE">
-    <value>En service depuis :</value>
+  <data name="ADDADMINS">
+    <value>Ajouter des administrateurs</value>
   </data>
   <data name="DAYTAG">
     <value>Jour :</value>
@@ -1126,6 +1129,9 @@
   <data name="ERRORCANNOTSETUSERPOLICY">
     <value>Impossible de définir les informations de stratégie utilisateur pour l'utilisateur ID {0}.</value>
   </data>
+  <data name="CREATENEWIFOLDER">
+    <value>Créer un nouveau dossier iFolder</value>
+  </data>
   <data name="ERRORAUTHENTICATIONFAILED">
     <value>Échec de l'authentification.</value>
   </data>
@@ -1156,8 +1162,8 @@
   <data name="BEGINSWITH">
     <value>Commence par</value>
   </data>
-  <data name="DOWNLOAD">
-    <value>Télécharger</value>
+  <data name="MB">
+    <value>Mo</value>
   </data>
   <data name="ERRORCANNOTDELETEIFOLDER">
     <value>Impossible de supprimer le dossier iFolder.</value>
@@ -1281,6 +1287,9 @@
   </data>
   <data name="REPROVISOINSTATETAG">
     <value>État redéploiement :</value>
+  </data>
+  <data name="DOWNLOAD">
+    <value>Télécharger</value>
   </data>
   <data name="DELETESECONDARYADMIN">
     <value>Supprimer l'administrateur secondaire : </value>
