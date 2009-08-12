@@ -39,6 +39,7 @@ using System.Drawing;
 using System.Net;
 using System.Resources;
 using System.Text;
+using System.Threading;
 using System.Web;
 using System.Web.SessionState;
 using System.Web.UI;
@@ -291,6 +292,11 @@ namespace Novell.iFolderWeb.Admin
 				CurrentUserOffset = 0;
 				TotalUsers = 0;
 			}
+			string code = Thread.CurrentThread.CurrentUICulture.Name;
+			if ( code.StartsWith("ru") || code.StartsWith("hu") )
+				OkButton.Width = 330;
+			else if ( code.StartsWith("de") )
+				OkButton.Width = 400;
 		}
 		
 		/// <summary>
