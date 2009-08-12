@@ -16,6 +16,7 @@
 	<setting name="Assembly" value="Simias.Server" />
 	<setting name="ServiceAssembly" value="Simias.Server" />
 	<setting name="Class" value="Simias.Server.InternalUser" />
+	<setting name="LdapSyncOnRestart" value="No" />
 	<!--
 	<setting name="Assembly" value="Simias.SimpleServer" />
 	<setting name="Class" value="Simias.SimpleServer.User" />
