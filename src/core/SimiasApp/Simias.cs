@@ -91,6 +91,7 @@ namespace SimiasApp
 		private static string PortConfigurationFileName = "xspport.cfg";
 		private static string PortConfigurationTag = "XspPortConfiguration";
 		private static string PortTag = "Port";
+		private static string DbName = "FlaimSimias"; //as in FlaimServer.cs
 
 		/// <summary>
 		/// Default server port.
@@ -1731,6 +1732,16 @@ namespace SimiasApp
 			if ( !Directory.Exists( simiasDataPath ) )
 			{
 				Directory.CreateDirectory( simiasDataPath );
+			}
+			else //files in simiasDataPath is deleted, but .local.if is not delete as its hidden 
+			{
+				DirectoryInfo di = new DirectoryInfo(simiasDataPath);
+				FileInfo[] fi = di.GetFiles(DbName+"*");
+				if (fi.Length <= 0 && 
+				    File.Exists(Path.Combine(simiasDataPath,".local.if")))
+				{
+					File.Delete(Path.Combine(simiasDataPath, ".local.if"));
+				}
 			}
 
 			// Get the port to listen on.
