@@ -145,7 +145,9 @@ namespace Simias.LdapProvider
 		/// </summary>
 		public void Disconnect()
 		{
-			connection.Disconnect();
+			try{
+				connection.Disconnect();
+			}catch{}
 			connection = null;
 		}
 
