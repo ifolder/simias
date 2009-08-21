@@ -866,7 +866,7 @@
     <value>指定されたiFolderユーザは存在しません。</value>
   </data>
   <data name="LOGINCOPYRIGHT">
-    <value>&amp;copy; Copyright 2008 Novell, Inc. All rights reserved.</value>
+    <value>&amp;copy; Copyright 2009 Novell, Inc. All rights reserved.</value>
   </data>
   <data name="GENERATEWEEKLYREPORT">
     <value>毎 {0}、{1} ～ {2} の間にレポートを生成</value>

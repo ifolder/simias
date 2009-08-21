@@ -866,7 +866,7 @@
     <value>Le dossier iFolder spécifié n'existe pas.</value>
   </data>
   <data name="LOGINCOPYRIGHT">
-    <value>&amp;copy; Copyright 2008 Novell, Inc. Tous droits réservés.</value>
+    <value>&amp;copy; Copyright 2009 Novell, Inc. Tous droits réservés.</value>
   </data>
   <data name="GENERATEWEEKLYREPORT">
     <value>Générer un rapport le {0} à {1} dans {2}</value>

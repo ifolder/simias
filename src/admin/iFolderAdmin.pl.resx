@@ -866,7 +866,7 @@
     <value>Określony użytkownik programu iFolder nie istnieje.</value>
   </data>
   <data name="LOGINCOPYRIGHT">
-    <value>&amp;copy; Copyright 2008 Novell, Inc. Wszelkie prawa zastrzeżone.</value>
+    <value>&amp;copy; Copyright 2009 Novell, Inc. Wszelkie prawa zastrzeżone.</value>
   </data>
   <data name="GENERATEWEEKLYREPORT">
     <value>Generuj raport co {0} o {1} do {2}</value>

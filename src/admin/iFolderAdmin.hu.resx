@@ -866,7 +866,7 @@
     <value>A megadott iFolder felhasználó nem létezik.</value>
   </data>
   <data name="LOGINCOPYRIGHT">
-    <value>&amp;copy; Copyright 2008 Novell, Inc. Minden jog fenntartva.</value>
+    <value>&amp;copy; Copyright 2009 Novell, Inc. Minden jog fenntartva.</value>
   </data>
   <data name="GENERATEWEEKLYREPORT">
     <value>Jelentés készítése – nap: {0}, időpont: {1}, hely: {2}</value>
