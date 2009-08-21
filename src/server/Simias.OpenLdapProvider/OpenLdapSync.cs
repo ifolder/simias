@@ -1028,7 +1028,9 @@ namespace Simias.OpenLdapProvider
 					if ( conn != null )
 					{
 						log.Debug( "Disconnecting Ldap connection" );
-						conn.Disconnect();
+						try{
+							conn.Disconnect();
+						}catch{}
 						conn = null;
 					}
 				}	

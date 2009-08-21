@@ -678,15 +678,17 @@ namespace Simias.OpenLdapProvider
 			}
 			finally
 			{
-				if ( LDAPconn != null )
-				{
-					LDAPconn.Disconnect();
-				}
+				try{
+					if ( LDAPconn != null )
+					{
+						LDAPconn.Disconnect();
+					}
 
-				if ( proxyConnection != null )
-				{
-					proxyConnection.Disconnect();
-				}
+					if ( proxyConnection != null )
+					{
+						proxyConnection.Disconnect();
+					}
+				}catch{}
 			}
 			return (int)Simias.LdapProvider.User.PasswordChangeStatus.FailedToResetPassword;
 		}
@@ -793,7 +795,9 @@ namespace Simias.OpenLdapProvider
 				
 				if ( proxyConnection != null )
 				{
-					proxyConnection.Disconnect();
+					try{
+						proxyConnection.Disconnect();
+					}catch{}
 				}
 			}
 
