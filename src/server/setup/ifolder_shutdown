@@ -1,0 +1,82 @@
+#!/bin/sh
+#/*****************************************************************************
+#*
+#* Copyright (c) [2009] Novell, Inc.
+#* All Rights Reserved.
+#*
+#* This program is free software; you can redistribute it and/or
+#* modify it under the terms of version 2 of the GNU General Public License as
+#* published by the Free Software Foundation.
+#*
+#* This program is distributed in the hope that it will be useful,
+#* but WITHOUT ANY WARRANTY; without even the implied warranty of
+#* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.   See the
+#* GNU General Public License for more details.
+#*
+#* You should have received a copy of the GNU General Public License
+#* along with this program; if not, contact Novell, Inc.
+#*
+#* To contact Novell about this file by physical or electronic mail,
+#* you may find current contact information at www.novell.com
+#*
+#*-----------------------------------------------------------------------------
+#*
+#*                 Novell iFolder Enterprise
+#*
+#*-----------------------------------------------------------------------------
+#*
+#*                 $Author: Mahabaleshwar Asundi (amahabaleshwar@novell.com)
+#*                 $Modified by: <Modifier>
+#*                 $Mod Date: <Date Modified>
+#*                 $Revision: 0.1
+#*-----------------------------------------------------------------------------
+#* This module is used to:
+#*        < iFolder shutdown script>
+#*
+#*
+#*******************************************************************************/
+
+if [ -f /opt/novell/ifolder3/mono/bin/mod-mono-server2 ]; then
+
+	source /opt/novell/ifolder3/mono/bin/novell-ifolder-mono-environment.sh
+
+	/opt/novell/ifolder3/mono/bin/mod-mono-server2 --filename /tmp/mod_mono_server_simias10 --terminate
+
+	/opt/novell/ifolder3/mono/bin/mod-mono-server2 --filename /tmp/mod_mono_server_admin --terminate
+
+	/opt/novell/ifolder3/mono/bin/mod-mono-server2 --filename /tmp/mod_mono_server_ifolder --terminate
+	for ((  i = 0 ;  i < 4;  i++  ))
+	do
+		SimiasProcess=`ps -ef | grep -c mod_mono_server_simias10`
+		if [ $SimiasProcess -gt 0 ]; then
+			sleep 5	
+			/opt/novell/ifolder3/mono/bin/mod-mono-server2 --filename /tmp/mod_mono_server_simias10 --terminate	
+		else
+			exit 0
+		fi
+	done
+else
+
+	mod-mono-server2 --filename /tmp/mod_mono_server_simias10 --terminate
+
+	mod-mono-server2 --filename /tmp/mod_mono_server_admin --terminate
+
+	mod-mono-server2 --filename /tmp/mod_mono_server_ifolder --terminate 
+	for ((  i = 0 ;  i < 4;  i++  ))
+	do
+		SimiasProcess=`ps -ef | grep -c mod_mono_server_simias10`
+		if [ $SimiasProcess -gt 0 ]; then
+			sleep 5	
+			mod-mono-server2 --filename /tmp/mod_mono_server_simias10 --terminate	
+		else
+			exit 0
+		fi
+	done
+fi
+
+SimiasProcess=`ps -ef | grep -c mod_mono_server_simias10`
+if [ $SimiasProcess -gt 0 ]; then
+	PID = ps -ef | grep mod_mono_server_simias10 | awk '{ print $2 }'
+	kill -9 $PID
+fi
+exit 0
