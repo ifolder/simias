@@ -866,7 +866,7 @@
     <value>指定的 iFolder 用户不存在。</value>
   </data>
   <data name="LOGINCOPYRIGHT">
-    <value>&amp;copy; 版权所有 2008 Novell, Inc. 保留所有权利。</value>
+    <value>&amp;copy; 版权所有 2009 Novell, Inc. 保留所有权利。</value>
   </data>
   <data name="GENERATEWEEKLYREPORT">
     <value>每 {0} 天在 {1} 向 {2} 生成报告</value>
