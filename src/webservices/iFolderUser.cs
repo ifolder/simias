@@ -886,7 +886,7 @@ namespace iFolder.WebService
 						{
 							log.Debug("Error: Could not add the member because it is null. Try doing a Ldap sync.");
 						}
-						log.Debug("Error: "+ex.Message());
+						log.Debug("Error: "+ex.Message);
 						log.Debug("Error Trace: "+ex.StackTrace);
 					}
 				}
@@ -976,7 +976,7 @@ namespace iFolder.WebService
 							{
 								log.Debug("Error: Could not add the member because it is null. Try doing a Ldap Sync.");
 							}
-							log.Debug("Error: "+ex.Message());
+							log.Debug("Error: "+ex.Message);
 							log.Debug("Error Trace: "+ex.StackTrace);
 						}
 					}
