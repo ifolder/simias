@@ -869,7 +869,7 @@
 		<value>Server Not Reachable</value>
 	</data>
 	<data name="SESSIONCLOSED">
-		<value>The username or password you enterd is incorrect. Please log in.</value>
+		<value>The username or password you entered is incorrect. Please log in.</value>
 	</data>
 	<data name="SESSIONSTAG">
 		<value>Sessions:</value>
