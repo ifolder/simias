@@ -569,7 +569,12 @@ namespace Novell.iFolderWeb.Admin
 					ProvisioningListStr[i] = String.Copy(ProvisioningListStrTemp[i-1]);
 				return ProvisioningListStr;	
 			}
-			return null;
+			else
+			{
+				string [] ProvisioningListStrNA = new string [ 1 ];
+				ProvisioningListStrNA[0] = "N/A";
+				return ProvisioningListStrNA;
+			}
 		}
 		
 		/// <summary>
