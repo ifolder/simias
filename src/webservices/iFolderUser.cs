@@ -416,11 +416,29 @@ namespace iFolder.WebService
 		{
 			this.ID = member.UserID;
 			this.UserName = member.Name;
-            this.MemberRights = RightsUtility.Convert(member.Rights);
+			try
+			{
+            			this.MemberRights = RightsUtility.Convert(member.Rights);
+			}
+			catch
+			{
+				// some problem in accessing member tights, so log it and return false
+				log.Debug("Error: Exception while checking rights for user :"+member.Name);
+				this.MemberRights = Rights.ReadOnly;
+			}
 			this.FullName = (member.FN != null) ? member.FN : member.Name;
 			this.FirstName = member.Given;
 			this.LastName = member.Family;
-			this.Enabled = !(domain.IsLoginDisabled(this.ID));
+			try
+			{
+				this.Enabled = !(domain.IsLoginDisabled(this.ID));
+			}
+			catch
+			{
+				// some problem in accessing member and property, so log it and return true
+				log.Debug("Error: Exception while checking whether user is disabled or not for user :"+member.Name);
+				this.Enabled = true;
+			}
 			this.IsOwner = (member.UserID == collection.Owner.UserID);
 			this.Email = NodeUtility.GetStringProperty(member, EmailProperty);
 			this.IsGroup = (member.GroupType != null ) ? true : false;
@@ -742,7 +760,7 @@ namespace iFolder.WebService
 			Store store = Store.GetStore();
 
 			Domain domain = store.GetDomain(store.DefaultDomain);
-
+			
 			// search operator
 			SearchOp searchOperation;
 
@@ -801,6 +819,7 @@ namespace iFolder.WebService
 					searchProperty = BaseSchema.ObjectName;
 					break;
 			}
+			log.Debug("GetUsers entered...");
 			
 			// impersonate
 			Rights UserRight = iFolder.Impersonate(domain, accessID);
@@ -849,9 +868,27 @@ namespace iFolder.WebService
 				{
 					if(max != 0 && i++ >= max )
 						break;
-					member = new Member(domain, sn);
-					iFolderUser user = new iFolderUser(member, domain, domain);
-					list.Add(user);
+					try
+					{
+						member = new Member(domain, sn);
+						iFolderUser user = new iFolderUser(member, domain, domain);
+						list.Add(user);
+					}
+					catch (Exception ex)
+					{
+						// Because of some exception, this user has missed the list, log it and proceed
+						if(member != null)
+						{
+							log.Debug("Error: This member could not be added in the user's list."+member.Name);
+							log.Debug("Error: User Object might be corrupted in iFolder database. Try doing a Ldap Sync.");
+						}
+						else
+						{
+							log.Debug("Error: Could not add the member because it is null. Try doing a Ldap sync.");
+						}
+						log.Debug("Error: "+ex.Message);
+						log.Debug("Error Trace: "+ex.StackTrace);
+					}
 				}
 			}
 			else if(accessID != null)
@@ -922,8 +959,26 @@ namespace iFolder.WebService
 				{
 					if ((i >= index) && (i < (max + index)))
 					{
-						member = new Member(domain, sn);
-						list.Add(new iFolderUser(member, domain, domain));
+						try
+						{
+							member = new Member(domain, sn);
+							list.Add(new iFolderUser(member, domain, domain));
+						}
+						catch (Exception ex)
+						{
+							// Because of some exception, this user has missed the list, log it and proceed
+							if(member != null)
+							{
+								log.Debug("Error: This member could not be added in the user's list."+member.Name);
+								log.Debug("Error: User Object might be corrupted in iFolder database. Try doing a Ldap Sync.");
+							}
+							else
+							{
+								log.Debug("Error: Could not add the member because it is null. Try doing a Ldap Sync.");
+							}
+							log.Debug("Error: "+ex.Message);
+							log.Debug("Error Trace: "+ex.StackTrace);
+						}
 					}
 					++i;
 				}
