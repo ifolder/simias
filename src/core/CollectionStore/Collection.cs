@@ -4848,7 +4848,9 @@ namespace Simias.Storage
 				syncClient.SyncNow();
 				uint count = 0;
 				syncClient.GetSyncCount(out count);
-				if( count == 0)
+				bool CollSyncStatus = syncClient.GetCollectionSyncStatus();
+				log.Debug("After Sync now WonkArray Count is {0} CollSyncStatus is {1}", count.ToString(), CollSyncStatus.ToString());
+				if( count == 0 && CollSyncStatus == true)
 				{
 					log.Debug("DownloadCollection: Sync completed successfull, Removing local properties...");
 					iFolderCol.DataMovement = false;

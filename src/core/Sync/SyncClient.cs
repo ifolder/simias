@@ -696,6 +696,7 @@ namespace Simias.Sync
 		public Collection		collection;
 		bool			queuedChanges;
 		bool			serverAlive = true;
+		bool			CollSyncStatus = true;
 		StartSyncStatus	serverStatus;
 		Timer			timer;
 		TimerCallback	callback;
@@ -1019,6 +1020,14 @@ namespace Simias.Sync
 		}
 
 		/// <summary>
+		/// Get Collection sync status
+		/// </summary>
+		internal bool GetCollectionSyncStatus()
+		{
+			return CollSyncStatus;
+		}
+
+		/// <summary>
 		/// Called to notify that a policy has changed.
 		/// </summary>
 		internal void PolicyChanged()
@@ -1048,6 +1057,8 @@ namespace Simias.Sync
 				log.Debug("Refreshing the collection...");
 				Member currentMember = collection.GetCurrentMember();
 
+				if(this.collection.DataMovement != true)
+				{
 			                if (this.collection.EncryptionAlgorithm != null && this.collection.EncryptionAlgorithm != string.Empty)
         			        {
 		                	    log.Info("Syncing an encrypted iFolder");
@@ -1063,6 +1074,7 @@ namespace Simias.Sync
                 			}
 			                else
         			            log.Info("Syncing regular ifolder");
+				}
 				// Make sure the master exists.
 				if (collection.CreateMaster)
 				{
@@ -1115,6 +1127,7 @@ namespace Simias.Sync
 				yielded = false;
 				if (collection.Role != SyncRoles.Slave)
 				{
+					CollSyncStatus = false;
 					return;
 				}
 
@@ -1176,14 +1189,17 @@ namespace Simias.Sync
 						break;
 					case StartSyncStatus.Locked:
 						sAlive = false;
+						CollSyncStatus = false;
 						log.Info("The collection is locked");
 						break;
 					case StartSyncStatus.Busy:
 						sAlive = false;
+						CollSyncStatus = false;
 						log.Info("The server is busy");
 						break;
 					case StartSyncStatus.SyncDisabled:
 						log.Info("Collection is disabled.");
+						CollSyncStatus = false;
 						eventPublisher.RaiseEvent(new CollectionSyncEventArgs(collection.Name, collection.ID, Simias.Client.Event.Action.DisabledSync, true, false));
 						break;
 					case StartSyncStatus.NotFound:
@@ -1211,9 +1227,11 @@ namespace Simias.Sync
 						break;
 					case StartSyncStatus.UserNotAuthenticated:
 						log.Debug("The user could not be authenticated");
+						CollSyncStatus = false;
 						break;						
 					case StartSyncStatus.NoWork:
 						//This case will not encounter since scanning is being done parallel now
+						CollSyncStatus = false;
 						log.Debug("Nothing to get from server");
 						break;
 					case StartSyncStatus.Success:
