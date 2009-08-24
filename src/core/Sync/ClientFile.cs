@@ -1284,7 +1284,7 @@ namespace Simias.Sync
 			}
 
 			//If not available in server and encrypted file
-			if (serverHashMap == null || serverHashMap.Length == 0 || IsEncryptionEnabled() == true)
+			if (serverHashMap == null || serverHashMap.Length == 0 /*|| IsEncryptionEnabled() == true*/)
 			{
 				if(serverHashMap == null)
 					Log.log.Debug("serverHashMap is null");
@@ -1431,6 +1431,25 @@ namespace Simias.Sync
 				OffsetSegment seg = new OffsetSegment(segLen, segOffset);
 				OffsetSegment.AddToArray(writeArray, seg);
 				sizeToSync += segLen;
+			}
+			//Defect 488056, touch the file should not upload the file
+			if(IsEncryptionEnabled() == true)
+			{
+				if((writeArray.Count > 0))
+				{
+                    copyArray.Clear();
+                    writeArray.Clear();
+					//File data modified, upload the entire file
+					sizeToSync = Length;
+					writeArray.Add(new OffsetSegment(sizeToSync, 0));
+				}
+				else
+				{
+                    copyArray.Clear();
+                    writeArray.Clear();
+					//Nothing to upload since the file data is modified (might have been 'touch'ed
+					sizeToSync = 0;
+				}
 			}
 		}
 
