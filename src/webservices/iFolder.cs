@@ -914,7 +914,7 @@ namespace iFolder.WebService
 				SearchPrpList.Add(OrphanedOwnerProperty, "*", SearchOp.Exists);
 				SearchPrpList.Add(BaseSchema.ObjectName, pattern, searchOperation);
 				if(accessID != null)
-					SearchPrpList.Add(MemberProperty, accessID, SearchOp.Equal);
+					SearchPrpList.Add(MemberProperty, accessID, SearchOp.Begins);
 				ICSList searchList = Catalog.Search( SearchPrpList );
 		
 				total = searchList.Count;
