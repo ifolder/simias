@@ -698,6 +698,7 @@ namespace Simias.Server
 			log.Debug("Entered RecreateEntryForCollection {0}", collectionID);
 			try
 			{
+				DeleteCatalogEntryByCollectionID(collectionID);
 				Collection col = store.GetCollectionByID(collectionID);
 				if( col == null)
 				{
@@ -724,12 +725,6 @@ namespace Simias.Server
         	                        bool retval = catentry.AddMember( member.UserID, member.ID );
                 	                log.Debug( "Member {0} added at pos1 to collection {1}. return value: {2}", member.UserID, col.ID, retval );
                                 }
-				CatalogEntry entry = GetEntryByCollectionID( collectionID );
-				if( entry != null)
-				{
-					log.Debug("Removing catalaog entry: {0}", entry.ID);
-					catalog.Commit(catalog.Delete(entry));
-				}
                                 catalog.Commit( catentry );
 				log.Debug("Out of RecreateEntryForCollection. Added catalog entry: {0}", catentry.ID);
 			}
@@ -1176,6 +1171,21 @@ namespace Simias.Server
 				log.Debug("Exception while setting the host id for catalog: {0}, StackTrace is {1}", collectionID,ex.StackTrace);
 			}
 		}
+
+                /// <summary>
+                /// Delete a catalog entry for the specified collection
+                /// </summary>
+                static public void DeleteCatalogEntryByCollectionID( string CollectionID )
+                {
+                        CatalogEntry entry = GetEntryByCollectionID(CollectionID);
+			if(entry != null)
+			{
+				log.Debug("DeleteCatalogEntryByCollectionID Deleting --{0}--{1}---" ,entry.ID, CollectionID);
+				catalog.Commit(catalog.Delete(entry));
+			}
+                        return ;
+                }
+
                 /// <summary>
                 /// Delete a catalog entry for the specified collection
                 /// </summary>
