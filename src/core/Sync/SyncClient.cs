@@ -2817,116 +2817,116 @@ namespace Simias.Sync
 			
 			foreach (string nodeID in nodeIDs)
 			{
-				try
-				{
-					if (Yield)
-					{
-						return;
-					}
+                try
+                {
+                    if (Yield)
+                    {
+                        return;
+                    }
 
-					BaseFileNode node = collection.GetNodeByID(nodeID) as BaseFileNode;
-					if (node != null)
-					{
-						if (collection.HasCollisions(node))
-						{
-							// We have a collision do not sync.
-							workArray.RemoveNodeFromServer(nodeID);
-						}
-						HttpClientOutFile file = new HttpClientOutFile(collection, node, service);
-						SyncStatus status = file.Open();
-						if (status == SyncStatus.Success)
-						{
-							bool success = false;
-							try
-							{
-								lock (this) {syncFile = file;}
-								log.Info("Uploading File {0} to server", file.Name);
-								success = file.UploadFile();
+                    BaseFileNode node = collection.GetNodeByID(nodeID) as BaseFileNode;
+                    if (node != null)
+                    {
+                        if (collection.HasCollisions(node))
+                        {
+                            // We have a collision do not sync.
+                            workArray.RemoveNodeFromServer(nodeID);
+                        }
+                        HttpClientOutFile file = new HttpClientOutFile(collection, node, service);
+                        SyncStatus status = file.Open();
+                        if (status == SyncStatus.Success)
+                        {
+                            bool success = false;
+                            try
+                            {
+                                lock (this) { syncFile = file; }
+                                log.Info("Uploading File {0} to server", file.Name);
+                                success = file.UploadFile();
                                 //Avoid creating hash map - see if this can be done at the server side
                                 //we create hash map on server side for 3.7
-								if(success)
-								{
-									log.Info("Uploading hash map for File {0} to server", file.Name);
-									file.UploadHashMap();
-								}
-							}
-							finally
-							{
-								SyncNodeStatus syncStatus = file.Close(success);
-								lock (this) {syncFile = null;}
-								switch (syncStatus.status)
-								{
-									case SyncStatus.OnlyDateModified:										
-									case SyncStatus.Success:	
-										if(syncStatus.status == SyncStatus.OnlyDateModified)
-											log.Info("Cancelled Uploading File {0} : reason {1}", file.Name, syncStatus.status.ToString());
-										workArray.RemoveNodeToServer(nodeID);
-										break;
-									case SyncStatus.InProgess:
-									case SyncStatus.InUse:
-									case SyncStatus.ServerFailure:
-										log.Info("Failed Uploading File {0} : reason {1}", file.Name, syncStatus.status.ToString());
-										break;
-									case SyncStatus.UpdateConflict:
-										// Since we had a conflict we need to get the conflict node down.
-										workArray.RemoveNodeToServer(nodeID);
-										SyncNodeInfo ns = new SyncNodeInfo(node);
-										ns.MasterIncarnation++;
-										workArray.AddNodeFromServer(ns);
-										log.Info("Failed Uploading File {0} : reason {1}", file.Name, syncStatus.status.ToString());
-										break;
-								}
-							}
-						}
-						else
-						{
-							eventPublisher.RaiseEvent(new FileSyncEventArgs(collection.ID, ObjectType.Directory, false, node.GetFullPath(collection), 0, 0, 0, Direction.Uploading, status));
-							switch (status)
-							{
-								case SyncStatus.FileNameConflict:
-									// Since we had a conflict we need to set the conflict.
-									BaseFileNode conflictNode = Conflict.CreateNameConflict(collection, node, node.GetFullPath(collection)) as BaseFileNode;
-									collection.Commit(conflictNode);
-									workArray.RemoveNodeToServer(nodeID);
-									log.Info("Failed Uploading File {0} : reason {1}", file.Name, status.ToString());
-									break;
-								case SyncStatus.PolicyQuota:
-								case SyncStatus.PolicySize:
-									log.Info("Failed Uploading File {0} : reason {1}", file.Name, status.ToString());
-									//workArray.RemoveNodeToServer(nodeID);
-									break;
-								case SyncStatus.PolicyType:
-									log.Info("Failed Uploading File {0} : reason {1}", file.Name, status.ToString());
-									workArray.RemoveNodeToServer(nodeID);
-									break;
-								case SyncStatus.Locked:
-									log.Info("Failed Uploading File {0} : reason {1}", file.Name, status.ToString());
-									return;
-								case SyncStatus.InUse:
-									log.Info("Failed Uploading File {0} : reason {1}", file.Name, status.ToString());
-									return;
-								default:
-									log.Info("Failed Uploading File {0} : reason {1}", file.Name, status.ToString());
-									break;
-							}
-						}
-					}
-					else
-					{
-						// The file no longer exists.
-						workArray.RemoveNodeToServer(nodeID);
-						log.Debug("Mystery File node {0}", nodeID);
-					}
-				}
-				catch (FileNotFoundException excep)
-				{
-			                Log.log.Debug(excep, "Failed Uploading File, FileNotFoundException");
-					// The file no longer exists. this line added for 344792
-					workArray.RemoveNodeToServer(nodeID);
-					
-					//do not know why this the following (1 line) exists
-					workArray.RemoveNodeFromServer(nodeID);
-				}
+                                if (success)
+                                {
+                                    log.Info("Uploading hash map for File {0} to server", file.Name);
+                                    file.UploadHashMap();
+                                }
+                            }
+                            finally
+                            {
+                                SyncNodeStatus syncStatus = file.Close(success);
+                                lock (this) { syncFile = null; }
+                                switch (syncStatus.status)
+                                {
+                                    case SyncStatus.OnlyDateModified:
+                                    case SyncStatus.Success:
+                                        if (syncStatus.status == SyncStatus.OnlyDateModified)
+                                            log.Info("Cancelled Uploading File {0} : reason {1}", file.Name, syncStatus.status.ToString());
+                                        workArray.RemoveNodeToServer(nodeID);
+                                        break;
+                                    case SyncStatus.InProgess:
+                                    case SyncStatus.InUse:
+                                    case SyncStatus.ServerFailure:
+                                        log.Info("Failed Uploading File {0} : reason {1}", file.Name, syncStatus.status.ToString());
+                                        break;
+                                    case SyncStatus.UpdateConflict:
+                                        // Since we had a conflict we need to get the conflict node down.
+                                        workArray.RemoveNodeToServer(nodeID);
+                                        SyncNodeInfo ns = new SyncNodeInfo(node);
+                                        ns.MasterIncarnation++;
+                                        workArray.AddNodeFromServer(ns);
+                                        log.Info("Failed Uploading File {0} : reason {1}", file.Name, syncStatus.status.ToString());
+                                        break;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            eventPublisher.RaiseEvent(new FileSyncEventArgs(collection.ID, ObjectType.Directory, false, node.GetFullPath(collection), 0, 0, 0, Direction.Uploading, status));
+                            switch (status)
+                            {
+                                case SyncStatus.FileNameConflict:
+                                    // Since we had a conflict we need to set the conflict.
+                                    BaseFileNode conflictNode = Conflict.CreateNameConflict(collection, node, node.GetFullPath(collection)) as BaseFileNode;
+                                    collection.Commit(conflictNode);
+                                    workArray.RemoveNodeToServer(nodeID);
+                                    log.Info("Failed Uploading File {0} : reason {1}", file.Name, status.ToString());
+                                    break;
+                                case SyncStatus.PolicyQuota:
+                                case SyncStatus.PolicySize:
+                                    log.Info("Failed Uploading File {0} : reason {1}", file.Name, status.ToString());
+                                    //workArray.RemoveNodeToServer(nodeID);
+                                    break;
+                                case SyncStatus.PolicyType:
+                                    log.Info("Failed Uploading File {0} : reason {1}", file.Name, status.ToString());
+                                    workArray.RemoveNodeToServer(nodeID);
+                                    break;
+                                case SyncStatus.Locked:
+                                    log.Info("Failed Uploading File {0} : reason {1}", file.Name, status.ToString());
+                                    return;
+                                case SyncStatus.InUse:
+                                    log.Info("Failed Uploading File {0} : reason {1}", file.Name, status.ToString());
+                                    return;
+                                default:
+                                    log.Info("Failed Uploading File {0} : reason {1}", file.Name, status.ToString());
+                                    break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        // The file no longer exists.
+                        workArray.RemoveNodeToServer(nodeID);
+                        log.Debug("Mystery File node {0}", nodeID);
+                    }
+                }
+                catch (FileNotFoundException excep)
+                {
+                    Log.log.Debug(excep, "Failed Uploading File, FileNotFoundException");
+                    // The file no longer exists. this line added for 344792
+                    workArray.RemoveNodeToServer(nodeID);
+
+                    //do not know why this the following (1 line) exists
+                    workArray.RemoveNodeFromServer(nodeID);
+                }
                 catch (WebException we)
                 {
                     //This is to handle any webException while performing upload/download and 
@@ -2934,11 +2934,15 @@ namespace Simias.Sync
                     //if required,To remove, check the error message explicitly
                     Log.log.Debug(we, "Failed Uploading File, WebException");
                 }
+                catch (ArgumentOutOfRangeException Aex)
+                {
+                    Log.log.Debug(string.Format("ArgumentOutOfRangeException with message :{0} and stacktrace: {1}",Aex.Message, Aex.StackTrace));
+                }
                 catch (Exception ex)
-				{
-			                workArray.RemoveNodeToServer(nodeID);
-					Log.log.Debug(ex, "Failed Uploading File");
-				}
+                {
+                    workArray.RemoveNodeToServer(nodeID);
+                    Log.log.Debug(ex, "Failed Uploading File");
+                }
 			}
 		}
 
