@@ -2934,6 +2934,10 @@ namespace Simias.Sync
                     //if required,To remove, check the error message explicitly
                     Log.log.Debug(we, "Failed Uploading File, WebException");
                 }
+		catch (ArgumentOutOfRangeException Aex)
+                {
+                    Log.log.Debug(string.Format("ArgumentOutOfRangeException with message :{0} and stacktrace: {1}",Aex.Message, Aex.StackTrace));
+                }
                 catch (Exception ex)
 				{
 			                workArray.RemoveNodeToServer(nodeID);
