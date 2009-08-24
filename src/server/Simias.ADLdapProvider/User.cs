@@ -419,8 +419,7 @@ namespace Simias.ADLdapProvider
 		/// <returns>true - user can change their password/false - can't change</returns>
 		private bool CanUserChangePassword( LdapEntry entry )
 		{
-			bool canChange = false;
-
+			bool canChange = true;
 			LdapAttribute attrAccountControl = entry.getAttribute( "userAccountControl" );
 			if ( attrAccountControl != null )
 			{
@@ -722,9 +721,9 @@ namespace Simias.ADLdapProvider
 												"passwordExpirationTime"
 											};
 				LdapEntry ldapEntry = connection.Read( DistinguishedUserName, searchAttributes );
+
 				if ( ldapEntry != null )
 				{
-
 					if ( AccountDisabled( ldapEntry ) == true )
 						status = (int)Simias.LdapProvider.User.PasswordChangeStatus.LoginDisabled;
 					if ( AccountExpired( ldapEntry ) == true )
@@ -799,9 +798,18 @@ namespace Simias.ADLdapProvider
 					catch( Exception e )
 					{
 						log.Error( "Unable to reset Password for DN:" + DistinguishedUserName );
-						log.Error( "Error:" + e.Message );
+
+						if((e.Message).IndexOf("Constraint Violation") >= 0)
+						{
+							log.Debug( "Possible reasons: 1. User {0} might have changed password in last 24 hours, so AD has denied changing again. Due to Security Policy of Active Directory, Users can change their passwords only once per day.",DistinguishedUserName );
+							log.Debug( "                   2. User is violating other passsword restrictions such as using previous 2-3 passwords as new password, or minimum length or password not meeting complexity requirements etc." );
+							return (int)Simias.LdapProvider.User.PasswordChangeStatus.CanNotChangePassword;
+						}
+						else
+							log.Error( "Error:" + e.Message );
 						return (int)Simias.LdapProvider.User.PasswordChangeStatus.FailedToResetPassword;
 					}
+					log.Debug( "Password Changed Successfully for DN:" + DistinguishedUserName );
 					return (int)Simias.LdapProvider.User.PasswordChangeStatus.Success;
 				}
 			}
