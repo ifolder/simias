@@ -47,29 +47,61 @@ processFile(){
 		if [ -f $1/32bit/simias.conf -o -f $1/64bit/simias.conf ]; then
 			INVOKE_YAST=1
 			if [ $OS_ARCH -gt 0 ]; then
-				rm $CONF_FILE_PATH/simias.conf
-				ln -s $1/64bit/simias.conf $CONF_FILE_PATH/simias.conf
+				if [ -f $1/64bit/simias.conf ]; then
+					rm $CONF_FILE_PATH/simias.conf
+					ln -s $1/64bit/simias.conf $CONF_FILE_PATH/simias.conf
+				else
+					echo ""	
+					echo "\n\nUnable find configuration file $1/64bit/simias.conf, configuration failed\n\n"	
+					echo ""	
+					exit
+				fi
 			else
-				rm $CONF_FILE_PATH/simias.conf
-				ln -s $1/32bit/simias.conf $CONF_FILE_PATH/simias.conf
+				if [ -f $1/32bit/simias.conf ]; then
+					rm $CONF_FILE_PATH/simias.conf
+					ln -s $1/32bit/simias.conf $CONF_FILE_PATH/simias.conf
+				else
+					echo ""	
+					echo "\n\nUnable find configuration file $1/64bit/simias.conf, configuration failed\n\n"	
+					echo ""	
+					exit
+				fi
 			fi
 		else
-			mkdir -p $1/32bit
-			mkdir -p $1/64bit
+			if [ -f $CONF_FILE_PATH/simias.conf ]; then
+				mkdir -p $1/32bit
+				mkdir -p $1/64bit
 			
-			if [ $OS_ARCH -gt 0 ]; then
-				cp $CONF_FILE_PATH/simias.conf $1/64bit/simias.conf
-				sed -e 's,'$IFOLDER64BIT','$IFOLDER32BIT',g'  $CONF_FILE_PATH/simias.conf > $1/32bit/simias.conf	
-				rm $CONF_FILE_PATH/simias.conf
-				ln -s $1/64bit/simias.conf $CONF_FILE_PATH/simias.conf  
-			else
-				cp $CONF_FILE_PATH/simias.conf $1/32bit/simias.conf
-				sed -e 's,'$IFOLDER32BIT','$IFOLDER64BIT',g'  $CONF_FILE_PATH/simias.conf > $1/64bit/simias.conf	
-				rm $CONF_FILE_PATH/simias.conf
-				ln -s $1/32bit/simias.conf $CONF_FILE_PATH/simias.conf  
+				if [ $OS_ARCH -gt 0 ]; then
+					cp $CONF_FILE_PATH/simias.conf $1/64bit/simias.conf
+					if [ $? -eq 0 ]; then
+						sed -e 's,'$IFOLDER64BIT','$IFOLDER32BIT',g'  $CONF_FILE_PATH/simias.conf > $1/32bit/simias.conf	
+						rm $CONF_FILE_PATH/simias.conf
+						ln -s $1/64bit/simias.conf $CONF_FILE_PATH/simias.conf  
+					else
+						echo ""	
+						echo "\n\nFailed to copy $CONF_FILE_PATH/simias.conf to $1/64bit/simias.conf, configuration failed \n\n"	
+						echo ""	
+					fi
+				else
+					cp $CONF_FILE_PATH/simias.conf $1/32bit/simias.conf
+					if [ $? -eq 0 ]; then
+						sed -e 's,'$IFOLDER32BIT','$IFOLDER64BIT',g'  $CONF_FILE_PATH/simias.conf > $1/64bit/simias.conf	
+						rm $CONF_FILE_PATH/simias.conf
+						ln -s $1/32bit/simias.conf $CONF_FILE_PATH/simias.conf  
+					else
+						echo ""	
+						echo "\n\nFailed to copy $CONF_FILE_PATH/simias.conf $1/32bit/simias.conf, configuration failed \n\n"	
+						echo ""	
+					fi
 				
+				fi
+			else
+				echo ""	
+				echo "Unable find configuration file $CONF_FILE_PATH/simias.conf, configuration failed"	
+				echo ""	
+				exit
 			fi
-			
 		fi
 		if [ -f $INPUT_STRING/simias/Simias.config ]; then
 			newline=`grep LdapUri $INPUT_STRING/simias/Simias.config`  
@@ -120,6 +152,19 @@ fi
 
 
 INPUT_STRING="$1"
+#if [ -f $CONF_FILE_PATH/simias.conf ]; then
+#	ISDPATHCORRECT=`grep -c SimiasDataDir=$INPUT_STRING/simias $CONF_FILE_PATH/simias.conf` 
+#	if [ $ISDPATHCORRECT -eq 0 ]; then
+#		DPATHINCONFIFILE=`grep -in MonoSetEnv $CONF_FILE_PATH/simias.conf`
+#		echo ""	
+#		echo "DATPATH configured in the existing $CONF_FILE_PATH/simias.conf file"	
+#		echo "is pointing to \"$DPATHINCONFIFILE\"."	
+#		echo "Please verify this and make sure DATA path provided is correct"
+#		echo "If Datapath $INPUT_STRING mentioned in the command line correct, then remove $CONF_FILE_PATH/simias.conf and rerun this script."
+#		echo ""	
+#		exit
+#	fi
+#fi
 if [ -d $INPUT_STRING/simias ]; then 
 	processFile $INPUT_STRING$CLUSTER_CONF_DIR
 else
