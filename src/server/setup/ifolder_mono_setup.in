@@ -59,6 +59,8 @@ processFile(){
 			
 			if [ `grep -c -E MonoServerPath $1` -eq 0 ]; then
 				sed '6i MonoServerPath simias10 '$iFPrefix/bin/ifolder-mod-mono-server2'' -i $1
+			else
+				sed -e 's,'/mod-mono-server2','/ifolder-mod-mono-server2',g' -i $1
 			fi
 
 			if [ `grep -c -E MonoMaxActiveRequests $1` -eq 0 ]; then
@@ -72,6 +74,8 @@ processFile(){
 		elif [ $1 == $CONF_FILE_PATH/ifolder_admin.conf ]; then
 			if [ `grep -c -E MonoServerPath $1` -eq 0 ]; then
 				sed '5i MonoServerPath admin '$iFPrefix/bin/ifolder-mod-mono-server2'' -i $1
+			else
+				sed -e 's,'/mod-mono-server2','/ifolder-mod-mono-server2',g' -i $1
 			fi
 		elif [ $1 == $CONF_FILE_PATH/ifolder_web.conf ]; then
 			if [ `grep -c -E MonoSetEnv $1` -eq 0 ]; then
@@ -79,6 +83,8 @@ processFile(){
 			fi
 			if [ `grep -c -E MonoServerPath $1` -eq 0 ]; then
 				sed '6i MonoServerPath ifolder '$iFPrefix/bin/ifolder-mod-mono-server2'' -i $1
+			else
+				sed -e 's,'/mod-mono-server2','/ifolder-mod-mono-server2',g' -i $1
 			fi
 			if [ `grep -c -E MonoMaxActiveRequests $1` -eq 0 ]; then
 				sed '7i MonoMaxActiveRequests ifolder 150' -i $1
@@ -120,5 +126,10 @@ then
 		fi
 	else
 		processFile $iFPrefix/lib/simias/web/web.config
+	fi
+	if [ ! -d /opt/novell/ifolder3/mono/lib/mono/gac/log4net ]; then
+		if [ -f /usr/lib/mono/log4net/log4net.dll ]; then
+			/usr/bin/gacutil -i /usr/lib/mono/log4net/log4net.dll -root /opt/novell/ifolder3/mono/lib
+		fi
 	fi
 fi
