@@ -1082,6 +1082,12 @@ namespace Novell.iFolder.Enterprise.Web
 						stat = (StatusCodes)StatusCodes.UpgradeNeeded;
 					}
 				}	
+				if((stat == (StatusCodes)StatusCodes.OlderVersion) && (platform.StartsWith("windows") || platform == MyPlatformID.Windows.ToString()) && currentVersion.Equals("3.7.2.0"))
+                                {
+                                        log.Debug("Received request from 3.7.2.0");
+                                        Version tempVersion = new Version(3,8,3,0);
+                                        serverVersion = tempVersion.ToString();
+                                }
 			/*
 				if ( applicationVersion != null )
 				{
