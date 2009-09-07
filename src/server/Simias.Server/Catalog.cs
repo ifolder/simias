@@ -1061,7 +1061,10 @@ namespace Simias.Server
 			Hashtable UniqueObjectsHashTable = new Hashtable();
 			Member groupadmin = domain.GetMemberByID(UserID);
 			Hashtable htForMonitoredUsers = groupadmin.GetMonitoredUsers(true);
-			htForMonitoredUsers.Add(UserID,"" );
+			if(! htForMonitoredUsers.ContainsKey(UserID))
+			{
+				htForMonitoredUsers.Add(UserID,"" );
+			}
 			string[] MonitoredUsers = new string[htForMonitoredUsers.Count];
 			htForMonitoredUsers.Keys.CopyTo(MonitoredUsers, 0);
 			foreach(string groupMember in MonitoredUsers)
