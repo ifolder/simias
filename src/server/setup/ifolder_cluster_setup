@@ -48,8 +48,9 @@ processFile(){
 			INVOKE_YAST=1
 			if [ $OS_ARCH -gt 0 ]; then
 				if [ -f $1/64bit/simias.conf ]; then
-					rm $CONF_FILE_PATH/simias.conf
-					ln -s $1/64bit/simias.conf $CONF_FILE_PATH/simias.conf
+#					rm $CONF_FILE_PATH/simias.conf
+#					ln -s $1/64bit/simias.conf $CONF_FILE_PATH/simias.conf
+					cp -f $1/64bit/simias.conf $CONF_FILE_PATH/simias.conf
 				else
 					echo ""	
 					echo "\n\nUnable find configuration file $1/64bit/simias.conf, configuration failed\n\n"	
@@ -58,8 +59,9 @@ processFile(){
 				fi
 			else
 				if [ -f $1/32bit/simias.conf ]; then
-					rm $CONF_FILE_PATH/simias.conf
-					ln -s $1/32bit/simias.conf $CONF_FILE_PATH/simias.conf
+#					rm $CONF_FILE_PATH/simias.conf
+#					ln -s $1/32bit/simias.conf $CONF_FILE_PATH/simias.conf
+					cp -f $1/32bit/simias.conf $CONF_FILE_PATH/simias.conf
 				else
 					echo ""	
 					echo "\n\nUnable find configuration file $1/64bit/simias.conf, configuration failed\n\n"	
@@ -76,8 +78,8 @@ processFile(){
 					cp $CONF_FILE_PATH/simias.conf $1/64bit/simias.conf
 					if [ $? -eq 0 ]; then
 						sed -e 's,'$IFOLDER64BIT','$IFOLDER32BIT',g'  $CONF_FILE_PATH/simias.conf > $1/32bit/simias.conf	
-						rm $CONF_FILE_PATH/simias.conf
-						ln -s $1/64bit/simias.conf $CONF_FILE_PATH/simias.conf  
+#						rm $CONF_FILE_PATH/simias.conf
+#						ln -s $1/64bit/simias.conf $CONF_FILE_PATH/simias.conf  
 					else
 						echo ""	
 						echo "\n\nFailed to copy $CONF_FILE_PATH/simias.conf to $1/64bit/simias.conf, configuration failed \n\n"	
@@ -87,8 +89,8 @@ processFile(){
 					cp $CONF_FILE_PATH/simias.conf $1/32bit/simias.conf
 					if [ $? -eq 0 ]; then
 						sed -e 's,'$IFOLDER32BIT','$IFOLDER64BIT',g'  $CONF_FILE_PATH/simias.conf > $1/64bit/simias.conf	
-						rm $CONF_FILE_PATH/simias.conf
-						ln -s $1/32bit/simias.conf $CONF_FILE_PATH/simias.conf  
+#						rm $CONF_FILE_PATH/simias.conf
+#						ln -s $1/32bit/simias.conf $CONF_FILE_PATH/simias.conf  
 					else
 						echo ""	
 						echo "\n\nFailed to copy $CONF_FILE_PATH/simias.conf $1/32bit/simias.conf, configuration failed \n\n"	
