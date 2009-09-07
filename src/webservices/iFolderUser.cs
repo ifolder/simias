@@ -846,14 +846,17 @@ namespace iFolder.WebService
 				// Root Admin searching all the users to list a set of users
 				if(iFolderServerUsers == null)
 				{
-					SearchPrpList.Add(searchProperty, pattern, searchOperation);
 					if(property != SearchProperty.GroupOnly)
 					{
+						SearchPrpList.Add(searchProperty, pattern, searchOperation);
 						SearchPrpList.Add(BaseSchema.ObjectType, NodeTypes.MemberType, SearchOp.Equal);
 						SearchPrpList.Add("DN","*", SearchOp.Exists);
 					}
 					else
+					{
 						SearchPrpList.Add(PropertyTags.GroupType,"*", SearchOp.Exists);
+						SearchPrpList.Add(searchProperty, pattern, searchOperation);
+					}
 				}
 				else
 					SearchPrpList.Add(PropertyTags.HostID, iFolderServerUsers, SearchOp.Equal);
