@@ -818,7 +818,8 @@ namespace iFolder.WebService
 	
 			ArrayList list = new ArrayList();
 			int i=0;
-			if( accessID == adminID )	
+			Rights rights = Impersonate(domain, accessID);
+			if( accessID == adminID || rights.Equals(Rights.Admin) )
 			{
 				searchList = Catalog.GetAllEntriesByName (pattern, searchOperation);
 				total = searchList.Count;
