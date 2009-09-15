@@ -558,6 +558,7 @@
 									Enabled='<%# IsPathEnabled( DataBinder.Eval( Container.DataItem, "NameField" ) ) %>' /> 
                                 	        	</ItemTemplate>
 						</asp:TemplateColumn>
+						<asp:BoundColumn DataField="NameField" Visible="False" />
 						<asp:TemplateColumn ItemStyle-CssClass="datapathitem2">
                                                         <ItemTemplate>
                                                                 <asp:Label Text='<%# GetFriendlyString(DataBinder.Eval(Container.DataItem, "NameField"),20) %>' ToolTip='<%# DataBinder.Eval(Container.DataItem, "NameField") %>' runat="server"/>
