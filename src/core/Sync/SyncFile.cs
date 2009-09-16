@@ -502,8 +502,86 @@ namespace Simias.Sync
 			}
 			catch(IOException e1)
 			{
+
+				try
+				{
+
+					string Fullpath = file;
+					string rootNode = collection.GetRootDirectory().GetFullPath(collection);					
+					rootNode = Path.GetDirectoryName(rootNode);
+					int rootPathLength = rootNode.Length;	
+					int fullPathLength = Fullpath.Length;	
+					 	
+					string Relativepath = Fullpath.Substring(rootPathLength); 
+
+					//Relative Path excluding FileName
+					Relativepath = Path.GetDirectoryName(Relativepath);
+
+					bool pathExists = false;
+					bool pathCreated = false;	
+				
+					//Array of relative parth directory
+					char[] delimiterList = {'/'};
+					string[] dirArray = Relativepath.Split(delimiterList);
+
+					string tempPath = rootNode;
+					
+					//Maintaining progressive relative path, starting from root
+					string FsPath = null;
+
+					//List of node matching the Search criteria
+					ICSList nodeList = null;
+
+					foreach(string dir in dirArray)
+					{	
+						if(FsPath != null)
+						{
+							//Creating incremental path, starting form Parent, excluding system path	
+							FsPath = Path.Combine(FsPath, dir);
+						}
+						else
+						{
+							FsPath = dir;
+							//Initilizing if atleast on directory exist
+							pathCreated = true;
+						}
+						
+						//Creating incremental path, including system path
+						tempPath = Path.Combine(tempPath, dir);
+						
+						//Verify if Directory exists, starting for root parent
+						if(!System.IO.Directory.Exists(tempPath))
+						{
+							//Verify if directory  node exisit, then only create actual directory
+							nodeList = collection.Search(PropertyTags.FileSystemPath, FsPath, SearchOp.Equal);
+							if(nodeList != null)
+							{
+								//Create directory as Node exist
+								System.IO.Directory.CreateDirectory(tempPath);
+							}
+							else
+							{
+								pathCreated = false;
+								Log.log.Debug("Node doesn't exist for path:{0}", FsPath);
+								//As parent node doesn't exist, no need to iterate for child
+								break;
+							}	
+						}	
+					}
+				
+					if(pathCreated == true)
+						Log.log.Debug("Final path created is :{0}", tempPath);
+
+
+				}
+				catch(Exception excep)
+				{
+					Log.log.Info("Exception while re-creating missing directory: message {0}-- stacktrace:{1}", excep.Message, excep.StackTrace);
+				}
+				//throw below exception to log the failure
 				Log.log.Info("IOException.{0}--{1}. The file is already open by some other thread.", e1.Message, e1.StackTrace);
 				throw;
+
 			}
 			// Create the file in the parent directory and then move to the work area.
 			// This will insure that the proper attributes are set.
