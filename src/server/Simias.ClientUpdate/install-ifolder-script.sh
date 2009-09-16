@@ -72,6 +72,15 @@ then
 echo "Finishing installation."
 else
 echo "Installation failed because of some errors. Go through $HOME/.local/share/simias/upgrade.log for error details."
+if test -f $HOME/.local/share/simias/upgrade.log
+then
+cat $HOME/.local/share/simias/upgrade.log
+grep "dependencies" $HOME/.local/share/simias/upgrade.log 
+if [[ $? = 0 ]]
+then 
+echo "Verify that mono-core, mono-data, mono-web, log4net, xsp, gconf-sharp2, gnome-sharp2, and gtk-sharp2 are installed on the system before installing iFolder."
+fi
+fi
 sleep 5;
 exit 0;
 fi
