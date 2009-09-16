@@ -270,8 +270,16 @@ namespace Novell.iFolder.Utility
                                     
 				// add user entry
 				Console.Write("Creating proxy {0}", dn);
-				LdapEntry entry = new LdapEntry(dn, attributeSet);
-				connection.Add(entry);
+				try
+				{
+					LdapEntry entry = new LdapEntry(dn, attributeSet);
+					connection.Add(entry);
+				}
+				catch(Exception)
+				{
+					// This is applicable for both admin and proxy user. 
+					created = false;
+				}
 			}
 
 			// result
