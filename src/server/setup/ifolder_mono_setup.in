@@ -133,13 +133,3 @@ then
 		fi
 	fi
 fi
-
-# change the ownership of web.config file to apache user.
-APACHEUSER=`grep User /etc/apache2/uid.conf | cut -d" " -f2`
-APACHEGRP=`grep Group /etc/apache2/uid.conf | cut -d" " -f2`
-if [ -f $iFPrefix/lib64/simias/web/web.config ]; then
-	chown $APACHEUSER:$APACHEGRP $iFPrefix/lib64/simias/web/web.config
-fi
-if [ -f $iFPrefix/lib/simias/web/web.config ]; then
-	chown $APACHEUSER:$APACHEGRP $iFPrefix/lib/simias/web/web.config
-fi

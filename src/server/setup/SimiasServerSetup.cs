@@ -914,21 +914,6 @@ Console.WriteLine("Url {0}", service.Url);
 			}
 
 		}
-    		/// <summary>
-		/// Change the ownership of web.config to apache user so that iFolder
-		/// server can chnage the values while running.
-		/// </summary>
-		void UpdateOwnership()
-		{
-			string MachineArch = Environment.GetEnvironmentVariable("OS_ARCH");
-			string webpath = (MachineArch == null) ? Path.GetFullPath("../lib/simias/web"): Path.GetFullPath("../lib64/simias/web");			
-			string webconfigfile = Path.Combine(webpath, "web.config"); 
-
-			if (Execute("chown", "{0}:{1} {2}", apacheUser.Value, apacheGroup.Value, webconfigfile) != 0)
-			{
-				Console.WriteLine("Unable to set an owner for the log path.");
-			}
-		}
 
         /// <summary>
         /// configure the plugins
@@ -978,7 +963,6 @@ Console.WriteLine("Url {0}", service.Url);
 			try
 			{
 				SetupModMono();
-				UpdateOwnership();
 				if ( usingLDAP )
 				{
 					SetupLdap();
