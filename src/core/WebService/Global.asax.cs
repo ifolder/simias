@@ -40,6 +40,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using System.Diagnostics;
 using System.Web;
 using System.Web.SessionState;
 using System.Security.Cryptography.X509Certificates;
@@ -567,7 +568,6 @@ namespace Simias.Web
 		{
 			if( count >= 3 )
 				return;
-			logger.Debug("KillStrayProcesses() entered ");
 
 			int ProcessID = -1;
 			Process clsProcess = Process.GetCurrentProcess();
@@ -579,7 +579,6 @@ namespace Simias.Web
 				try
 				{
 					ProcessID = clsProcess.Id;
-					logger.Debug("The stray mod-mono-server2 process with ID {0} found, calling kill.",clsProcess.Id);
 					clsProcess.Kill();
 					//If the process kills itself, then it should not execute any statement after Kill() .
 				}
@@ -594,7 +593,6 @@ namespace Simias.Web
 				// If the process does not exist, then it throws exception
 
 				Process RemainingProcess = Process.GetProcessById(ProcessID);
-				logger.Info("Still processes are remaining, continue through loop");
 				int newcount = ++count;
 				KillStrayProcesses(newcount);
 			}catch(Exception ex){
