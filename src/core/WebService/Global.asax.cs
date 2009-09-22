@@ -552,9 +552,56 @@ namespace Simias.Web
 			// will not get FLAIM Resources.
 			if ( runAsServer )
 			{
+				int param = 0;
+				KillStrayProcesses( param );
 				Console.Error.WriteLine("ALL Simias Threads are stopped,  Exiting from Simias process");
 				Environment.Exit(0);
 			}
+		}
+
+		/// <summary>
+		/// It should kill, if stray mono process for simias10 are still running after simias thread is stopped 
+		/// Maximum number of retry to kill itself is 3
+		/// </summary>
+		private void KillStrayProcesses(int count)
+		{
+			if( count >= 3 )
+				return;
+			logger.Debug("KillStrayProcesses() entered ");
+
+			int ProcessID = -1;
+			Process clsProcess = Process.GetCurrentProcess();
+			
+			ProcessModule MyProcessModule = clsProcess.MainModule;
+			if( ( MyProcessModule.FileName ).IndexOf( SimiasSetup.prefix ) >= 0 )
+			{
+				// current process full path contains ifolder binary prefix
+				try
+				{
+					ProcessID = clsProcess.Id;
+					logger.Debug("The stray mod-mono-server2 process with ID {0} found, calling kill.",clsProcess.Id);
+					clsProcess.Kill();
+					//If the process kills itself, then it should not execute any statement after Kill() .
+				}
+				catch
+				{
+					// Some exception during kill, proceed without throwing error
+				}
+			}
+			try
+			{
+				// rare case, if the kill command did not kill itself, cross-check
+				// If the process does not exist, then it throws exception
+
+				Process RemainingProcess = Process.GetProcessById(ProcessID);
+				logger.Info("Still processes are remaining, continue through loop");
+				int newcount = ++count;
+				KillStrayProcesses(newcount);
+			}catch(Exception ex){
+				if(ex.Message.IndexOf("Can't find process") >= 0)
+					return;
+				}
+	
 		}
 
 		#endregion
