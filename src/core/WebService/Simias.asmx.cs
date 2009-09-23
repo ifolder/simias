@@ -1018,12 +1018,18 @@ namespace Simias.Web
 				domainInfo.MemberName = UserName;
 				domainInfo.RemainingGraceLogins = status.RemainingGraceLogins;
 			}
-			else
-			{
-				log.Debug("SimiasWebService.ConnectToDomain() status {0} Host {1}", status.statusCode,status.UserName);
-				domainInfo = new DomainInformation();
-				domainInfo.HostUrl = status.UserName;
-			}
+            else if (status.statusCode == Simias.Authentication.StatusCodes.Timeout)
+            {
+                log.Debug("Didn't start sync, removing domain");
+                domainInfo = new DomainInformation(status.DomainID);
+                LeaveDomain(domainInfo.ID, true);
+            }
+            else
+            {
+                log.Debug("SimiasWebService.ConnectToDomain() status {0} Host {1}", status.statusCode, status.UserName);
+                domainInfo = new DomainInformation();
+                domainInfo.HostUrl = status.UserName;
+            }
 			domainInfo.StatusCode = status.statusCode;
 
 			return domainInfo;

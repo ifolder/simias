@@ -838,6 +838,11 @@ namespace Simias.DomainServices
                                         log.Info("Attach member sync wait {0}", ex.Message);
                                 }
                         }
+            if (notsynced == true)
+            {
+                log.Debug("Notsynced, remove the domain");
+                status.statusCode = Simias.Authentication.StatusCodes.Timeout;
+            }
 			return status;
 		}
 
