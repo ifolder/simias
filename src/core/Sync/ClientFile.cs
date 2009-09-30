@@ -751,6 +751,11 @@ namespace Simias.Sync
 			else
 				serverHashMap = new HashData[0];
 
+			/*
+			In case the hash map is not present, we cant do a delta-sync. so the full file download is needed.
+			For an encrypted iFolder, in case of not a merge operation, we do a full file sync.
+			For an encrypted iFolder, during merge, we compare the hashmap if the hash map is present.  
+			*/
 			if(serverHashMap == null || serverHashMap.Length == 0 || (IsEncryptionEnabled() == true ))
 			{
 				if(Encrypted == true)
@@ -767,7 +772,7 @@ namespace Simias.Sync
 				for (int i = 0; i < fileMap.Length; ++i)
 					fileMap[i] = -1;
 				
-				if(collection.Merge != true)
+				if(serverHashMap == null || serverHashMap.Length == 0 || (IsEncryptionEnabled() && collection.Merge == false))
 					return fileMap;
 				
 				//For the merge on the encrypted file,  continue the match process to determine zero byte download or full download
