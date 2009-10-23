@@ -4377,6 +4377,9 @@ public enum StatusCodes {
     UserAlreadyMoved,
     
     /// <remarks/>
+    ServerUnAvailable,
+    
+    /// <remarks/>
     Unknown,
 }
 
