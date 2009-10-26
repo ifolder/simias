@@ -1069,7 +1069,7 @@ namespace Simias.Server
 			htForMonitoredUsers.Keys.CopyTo(MonitoredUsers, 0);
 			foreach(string groupMember in MonitoredUsers)
 			{
-				CatalogEntry[] catUserEntries = GetAllEntryIDsByUserID(groupMember);
+				CatalogEntry[] catUserEntries = GetAllEntriesByOwnerID(groupMember);
 				foreach(CatalogEntry catUserEntry in catUserEntries)
 				{
 					if(!UniqueObjectsHashTable.ContainsKey(catUserEntry.CollectionID))
