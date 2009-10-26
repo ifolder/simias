@@ -19,14 +19,10 @@
 
 Name:           simias
 
-%if %suse_version <= 1100
-BuildRequires:  compat-libstdc++ e2fsprogs e2fsprogs-devel gcc-c++ gconf2 glib2 glib2-devel libflaim libflaim-devel libstdc++ libstdc++-devel libxml2 libxml2-devel mono-core mono-data mono-devel mono-web pkgconfig xsp log4net ncurses-devel dos2unix
+%if %suse_version <= 1110
+BuildRequires:  bison dos2unix e2fsprogs e2fsprogs-devel flex gcc-c++ gconf2 glib2 glib2-devel libflaim libflaim-devel libxml2 libxml2-devel log4net mono-core mono-data mono-devel mono-web ncurses-devel pkgconfig xsp
 %else
-%ifarch         x86_64
-BuildRequires:  e2fsprogs e2fsprogs-devel gcc-c++ gconf2 glib2 glib2-devel libflaim libflaim-devel libstdc++33-32bit libstdc++33-devel-32bit libxml2 libxml2-devel mono-core mono-data mono-devel mono-web pkgconfig xsp log4net ncurses-devel dos2unix
-%else
-BuildRequires:  e2fsprogs e2fsprogs-devel gcc-c++ gconf2 glib2 glib2-devel libflaim libflaim-devel libstdc++33 libstdc++33-devel libxml2 libxml2-devel mono-core mono-data mono-devel mono-web pkgconfig xsp log4net ncurses-devel dos2unix
-%endif
+BuildRequires:  bison dos2unix e2fsprogs e2fsprogs-devel flex gcc43-c++ gcc43 gcc-c++ gconf2 glib2 glib2-devel libflaim libflaim-devel libxml2 libxml2-devel log4net mono-core mono-data mono-devel mono-web ncurses-devel pkgconfig xsp
 %endif
 
 %define buildnum @@BUILDNUM@@
@@ -67,6 +63,17 @@ export BUILDNUM=%{buildnum}
 export LIBDIR=%{_lib}
 
 ./autogen.sh --prefix=%{prefix} --with-runasclient --sysconfdir=%{sysconfdir}
+rm dependencies/external/tools/gsoap/linux-2.7/soapcpp2  
+rm dependencies/external/tools/gsoap/linux-2.7/wsdl2h  
+pushd dependencies/external/tools/gsoap/linux-2.7  
+	cd src  
+                make -f MakefileMacOSX COFLAGS="$RPM_OPT_FLAGS -fno-strict-aliasing" LIBS=""  
+                cp soapcpp2 ..  
+        cd ..  
+        cd wsdl  
+                make -f MakefileSolaris COFLAGS="$RPM_OPT_FLAGS -fno-strict-aliasing" LIBS="-lnsl"  
+        cd ..  
+popd
 make
 #make dist
 #=============================================================================
@@ -77,6 +84,7 @@ export BUILDNUM=%{buildnum}
 make DESTDIR=$RPM_BUILD_ROOT install
 find $RPM_BUILD_ROOT/%{prefix}/* -type f | xargs chmod 644
 find $RPM_BUILD_ROOT/%{prefix}/* -type d | xargs chmod 755
+chmod a+x $RPM_BUILD_ROOT/%{prefix}/%_lib/simias/web/bin/ifdata
 #=============================================================================
 
 %clean
