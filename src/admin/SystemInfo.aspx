@@ -238,8 +238,10 @@
 						</td>
 
 						<td class="grouplistcolumn">
-							<%= GetString( "GROUPNAME" ) %>
-						</td>
+                                                        <asp:Literal
+                                                                ID="GroupName"
+                                                                Runat="server" />
+                                                </td>
 					</tr>
 			
 				</table>

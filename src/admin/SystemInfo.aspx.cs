@@ -170,6 +170,11 @@ namespace Novell.iFolderWeb.Admin
 		protected CheckBox AllAdminsCheckBox;
 
 		/// <summary>
+		/// GroupName Literal
+		/// </summary>
+		protected Literal GroupName;
+
+		/// <summary>
 		/// Admin list control.
 		/// </summary>
 		protected DataGrid AdminList;
@@ -339,10 +344,7 @@ namespace Novell.iFolderWeb.Admin
 				dr[ 2 ] = admin.UserName;
 				dr[ 3 ] = admin.FullName;
 				dr[ 4 ] = ! (AllAdminsCheckBox.Enabled); 	//if it system admin tab, then do not show the group list	
-				if( AllAdminsCheckBox.Enabled )
-					dr[ 5 ] = "N/A";
-				else
-					dr[ 5 ] = "";
+				dr[ 5 ] = "";
 
 				dt.Rows.Add( dr );
 			}
@@ -617,6 +619,19 @@ namespace Novell.iFolderWeb.Admin
 		{
 			ActiveAdminTab = activeTab;
 			CurrentTab.ID = activeTab.ToString();
+			
+			 switch(ActiveAdminTab)
+                        {
+                                case ListDisplayType.GroupAdmins:
+					GroupName.Text = GetString("GROUPNAME");
+					GroupName.Visible = true;
+                                        break;
+                                case ListDisplayType.PrimaryAdmins:
+                                default:
+					GroupName.Visible = false;
+                                        break;
+                        }
+
 		}
 
 
