@@ -201,13 +201,15 @@ namespace Novell.iFolderWeb.Admin
 			// Pass this page information to create the help link
 			TopNav.AddHelpLink(GetString("USERS"));
 		}
-		
+
 		/// <summary>
 		/// Creates a DataSource containing user names from a search.
 		/// </summary>
 		/// <returns>An DataView object containing the ifolder users.</returns>
 		private DataView CreateDataSource()
 		{
+			int NameWidth = 24; //this is a magic number that is used to display the username and 
+						//fullname in shortened format.
 			// store the server list , so that it can be used to fill up the drop down box for each user and need not make 
 			// calls for each user
 			ServerList = GetServerList();
@@ -241,8 +243,8 @@ namespace Novell.iFolderWeb.Admin
 				dr[ 2 ] = !user.Enabled;
 				dr[ 3 ] = ( user.MemberRights == Rights.Admin ) ? true : false;
 				dr[ 4 ] = ( user.HomeServer == string.Empty ) ?  null : user.HomeServer ;
-				dr[ 5 ] = user.UserName;
-				dr[ 6 ] = user.FullName;
+				dr[ 5 ] = (user.UserName.Length > NameWidth) ? web.GetShortenedName(user.UserName, NameWidth) : user.UserName ;
+				dr[ 6 ] = (user.UserName.Length > NameWidth) ? web.GetShortenedName(user.FullName, NameWidth) : user.FullName ;
 				dr[ 7 ] = GetString( user.Enabled ? "YES" : "NO" );
 				dr[8] = Convert.ToString(user.Preference);
 
