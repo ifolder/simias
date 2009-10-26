@@ -2447,7 +2447,12 @@ namespace Simias.Web
 			catch(Exception ex)
 			{
 				log.Debug("SetPassPhrase Exception:{0} ", ex.Message);
-				throw ex;
+                if (ex.Message.IndexOf("Unable to connect") != -1)
+                    return new Simias.Authentication.Status(Simias.Authentication.StatusCodes.ServerUnAvailable);
+                else
+                    throw ex;
+				
+                
 			}
 			return new Simias.Authentication.Status(Simias.Authentication.StatusCodes.Success);
 		}
@@ -2593,6 +2598,8 @@ namespace Simias.Web
 			catch(Exception ex)
 			{
 				log.Debug("ValidatePassPhrase :{0} ", ex.Message);
+                if (ex.Message.IndexOf("Unable to connect") != -1)
+                    status.statusCode = Simias.Authentication.StatusCodes.ServerUnAvailable;
 				//Don't rethrow
 			}
 			return status;
