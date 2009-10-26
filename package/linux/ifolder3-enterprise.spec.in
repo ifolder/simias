@@ -37,9 +37,9 @@ Url:            http://wwww.ifolder.com
 License:        GNU General Public License (GPL) v2 
 Group:          Productivity/Networking/Novell
 AutoReqProv:    on
-Requires:       mono-core >= 2.4
-Requires:       mono-data >= 2.4
-Requires:       mono-web >= 2.4
+Requires:       mono-core >= 2.4.2.3
+Requires:       mono-data >= 2.4.2.3
+Requires:       mono-web >= 2.4.2.3
 Requires:       log4net >= 1.2.10 
 Requires:       apache2-mod_mono >= 2.4
 Version:        3.8.0.@@BUILDNUM@@.1
@@ -90,19 +90,6 @@ mkdir -p $RPM_BUILD_ROOT/%{sysconfdir}/ld.so.conf.d/
 ln -sf %{prefix}/%_lib/simias/web/bin/SimiasLib.dll %{prefix}/%_lib/simias/admin/bin/SimiasLib.dll
 [ -f %{prefix}/%_lib/simias/webaccess/bin/SimiasLib.dll ] || \
 ln -sf %{prefix}/%_lib/simias/web/bin/SimiasLib.dll %{prefix}/%_lib/simias/webaccess/bin/SimiasLib.dll
-# Create links for automatic updates to work correctly
-ln -sf %{prefix}/%_lib/simias/clients/ifolder3/ifolder3-linux.tar.gz \
-	%{prefix}/%_lib/simias/web/update/unix/default/ifolder3-linux.tar.gz
-ln -sf %{prefix}/%_lib/simias/clients/ifolder3/ifolder3-linux.tar.gz \
-        %{prefix}/%_lib/simias/web/update/unix/suse-linux-10.0/ifolder3-linux.tar.gz
-ln -sf %{prefix}/%_lib/simias/clients/ifolder3/ifolder3-linux.tar.gz \
-        %{prefix}/%_lib/simias/web/update/unix/opensuse-linux/ifolder3-linux.tar.gz
-ln -sf %{prefix}/%_lib/simias/clients/ifolder3/ifolder3-windows.exe \
-	%{prefix}/%_lib/simias/web/update/windows/ifolder3-windows.exe
-ln -sf %{prefix}/%_lib/simias/clients/ifolder3/ifolder3-windows-x64.exe \
-        %{prefix}/%_lib/simias/web/update/windows/ifolder3-windows-x64.exe
-ln -sf %{prefix}/%_lib/simias/clients/ifolder3/ifolder3-mac.dmg \
-	%{prefix}/%_lib/simias/web/update/mac/ifolder3-mac.dmg
 
 # Set LD_LIBRARY_PATH
 grep -q "include /etc/ld.so.conf.d/\*.conf"  /etc/ld.so.conf || \
