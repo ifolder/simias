@@ -1453,10 +1453,13 @@ namespace Novell.iFolderWeb.Admin
 						{
 							try
 							{
+								ConnectMaster();
+								web.PreAuthenticate = true;
 								web.AddAdministrator( mi.UserID );
 							}
 							catch( Exception ex )
 							{
+								DisconnectMaster();
 								// Clear out the member list because it is saved on the session.
 								MembersToAdd.Clear();
 								MembersToAdd = null;
@@ -1465,6 +1468,7 @@ namespace Novell.iFolderWeb.Admin
 								TopNav.ShowError( errMsg, ex );
 								return;
 							}
+							DisconnectMaster();
 						}
 					}
 
