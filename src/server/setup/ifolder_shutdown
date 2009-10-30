@@ -76,7 +76,7 @@ fi
 
 SimiasProcess=`ps -ef | grep -c mod_mono_server_simias10`
 if [ $SimiasProcess -gt 0 ]; then
-	PID = ps -ef | grep mod_mono_server_simias10 | awk '{ print $2 }'
+	PID=`ps -ef | grep mod_mono_server_simias10 | grep wwwrun | awk '{ print $2 }'`
 	kill -9 $PID
 fi
 exit 0
