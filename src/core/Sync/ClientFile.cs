@@ -813,11 +813,11 @@ namespace Simias.Sync
 			while (bytesRead != 0)
 			{
 				bytesRead = Read(buffer, readOffset, bytesRead - readOffset);
-				Log.log.Fatal("bytesRead  1:{0}", bytesRead);
+				Log.log.Info("bytesRead  1:{0}", bytesRead);
 				
 				bytesRead = bytesRead + readOffset;
 
-				Log.log.Fatal("bytesRead  2:{0}", bytesRead);
+				Log.log.Info("bytesRead  2:{0}", bytesRead);
 							
 				HashEntry entry = new HashEntry();
 
@@ -839,14 +839,14 @@ namespace Simias.Sync
 							HashEntry match = table.GetEntry(entry);
 							if (match != null)
 							{
-								Log.log.Fatal("found a match between :{0} ... {1}", startByte, endByte);
+								Log.log.Info("found a match between :{0} ... {1}", startByte, endByte);
 								// We found a match save the match;
 								if (fileMap[match.BlockNumber] == -1)
 								{
 									fileMap[match.BlockNumber] = ReadPosition - bytesRead + startByte;
 									sizeToSync -= blockSize;
 								}
-								Log.log.Fatal("sizeToSync :{0}", sizeToSync);
+								Log.log.Info("sizeToSync :{0}", sizeToSync);
 								startByte += blockSize;
 								endByte += blockSize;
 								recomputeWeakHash = true;
@@ -861,7 +861,7 @@ namespace Simias.Sync
 					readOffset = bytesRead - startByte;
 					Array.Copy(buffer, startByte, buffer, 0, readOffset);
 					startByte = 0;
-					Log.log.Fatal("readOffset for the next file read :{0}", readOffset);
+					Log.log.Info("readOffset for the next file read :{0}", readOffset);
 				}
 				else 
 				{
@@ -1348,11 +1348,11 @@ namespace Simias.Sync
 							HashEntry match = table.GetEntry(entry);
 							if (match != null)
 							{
-								Log.log.Fatal("Strong hash found from {0} to {1}", startByte, endByte);
+								Log.log.Info("Strong hash found from {0} to {1}", startByte, endByte);
 								// We found a match save the data that does not match;
 								if (endOfLastMatch != startByte)
 								{
-									Log.log.Fatal("data doesn't match between {0} to {1}", endOfLastMatch, startByte);
+									Log.log.Info("data doesn't match between {0} to {1}", endOfLastMatch, startByte);
 									long segLen = startByte - endOfLastMatch;
 									long segOffset = ReadPosition - bytesRead + endOfLastMatch;
 									OffsetSegment seg = new OffsetSegment(segLen, segOffset);
