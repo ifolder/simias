@@ -105,7 +105,6 @@ namespace iFolder.WebService
 			return result;
 		}
 
-
 		/// <summary>
 		/// Create a new iFolder with a given ID.
 		/// </summary>
@@ -125,6 +124,36 @@ namespace iFolder.WebService
 				Authorize();
 
 			        result = iFolder.CreateiFolder(name, userID, description, iFolderID);
+			}
+			catch(Exception e)
+			{
+				SmartException.Throw(e);
+			}
+
+			return result;
+		}
+
+
+
+		/// <summary>
+		/// Create a new iFolder with a given ID.
+		/// </summary>
+		/// <param name="name">The name of the new iFolder.</param>
+		/// <param name="userID">The user id of the owner of the new iFolder.</param>
+		/// <param name="description">The description of the new iFolder (can be null).</param>
+		/// <returns>An iFolder object describing the new iFolder.</returns>
+		[WebMethod(
+			 Description="Create a new iFolder.",
+			 EnableSession=true)]
+		public virtual iFolder CreateEncryptediFolderWithID(string name, string userID, string description, string iFolderID, string eKey, string eBlob, string eAlgorithm, string rKey)
+		{
+			iFolder result = null;
+
+			try
+			{
+				Authorize();
+
+			        result = iFolder.CreateEncryptediFolderWithID(name, userID, description, iFolderID, eKey, eBlob, eAlgorithm, rKey);
 			}
 			catch(Exception e)
 			{
@@ -1879,6 +1908,32 @@ namespace iFolder.WebService
 				}
 			}
 			base.DeleteiFolder(ifolderID);
+		}
+
+		/// <summary>
+		/// Delete an iFolder
+		/// </summary>
+		/// <param name="ifolderID">The id of the iFolder to be deleted.</param>
+		/// <remarks>This API will accept multiple iFolder ids in a comma delimited list.</remarks>
+		[WebMethod(
+			 Description="Delete an iFolder",
+			 EnableSession=true)]
+		public virtual int RestoreiFolderData(string url, string adminname, string adminpassword, string ifolderid, string relativepath, string basepath, int startindex, string LogLocation)
+		{
+			return iFolder.RestoreiFolderData(url, adminname, adminpassword, ifolderid, relativepath, basepath, startindex, LogLocation);
+		}
+
+		/// <summary>
+		/// Delete an iFolder
+		/// </summary>
+		/// <param name="ifolderID">The id of the iFolder to be deleted.</param>
+		/// <remarks>This API will accept multiple iFolder ids in a comma delimited list.</remarks>
+		[WebMethod(
+			 Description="Delete an iFolder",
+			 EnableSession=true)]
+		public virtual int GetRestoreStatusForCollection(string ifolderid, out int totalcount, out int finishedcount)
+		{
+			return iFolder.GetRestoreStatusForCollection(ifolderid, out totalcount, out finishedcount);
 		}
 
 		/// <summary>

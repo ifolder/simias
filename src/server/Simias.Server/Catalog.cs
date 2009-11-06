@@ -1385,7 +1385,8 @@ namespace Simias.Server
 			}
 
 			HostNode local = HostNode.GetLocalHost();
-			localhostID = local.UserID;
+			if( local != null)
+				localhostID = local.UserID;
 		}
 
 		internal CatalogEntry( ShallowNode sn ) : base( CatalogEntry.catalog, sn )

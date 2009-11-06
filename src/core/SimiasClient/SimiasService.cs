@@ -23,7 +23,7 @@
 public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProtocol {
     
     public SimiasWebService() {
-        this.Url = "http://127.0.0.1/simias10/Simias.asmx";
+        this.Url = "http://164.99.101.23/simias10/Simias.asmx";
     }
     
     /// <remarks>
@@ -1898,6 +1898,134 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
         object[] results = this.EndInvoke(asyncResult);
         return ((int)(results[0]));
     }
+    
+    /// <remarks>
+///Gets the process ID for the current running process.
+///</remarks>
+    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/GetEntries", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
+    public NodeEntrySet GetEntries(string ifolderID, int type, string relPath, int index, int max, string accessID) {
+        object[] results = this.Invoke("GetEntries", new object[] {
+                    ifolderID,
+                    type,
+                    relPath,
+                    index,
+                    max,
+                    accessID});
+        return ((NodeEntrySet)(results[0]));
+    }
+    
+    public System.IAsyncResult BeginGetEntries(string ifolderID, int type, string relPath, int index, int max, string accessID, System.AsyncCallback callback, object asyncState) {
+        return this.BeginInvoke("GetEntries", new object[] {
+                    ifolderID,
+                    type,
+                    relPath,
+                    index,
+                    max,
+                    accessID}, callback, asyncState);
+    }
+    
+    public NodeEntrySet EndGetEntries(System.IAsyncResult asyncResult) {
+        object[] results = this.EndInvoke(asyncResult);
+        return ((NodeEntrySet)(results[0]));
+    }
+    
+    /// <remarks>
+///Get the Restore Status information for given ifolderid.
+///</remarks>
+    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/GetRestoreStatusForCollection", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
+    public int GetRestoreStatusForCollection(string ifolderid, out int totalcount, out int finishedcount) {
+        object[] results = this.Invoke("GetRestoreStatusForCollection", new object[] {
+                    ifolderid});
+        finishedcount = ((int)(results[2]));
+        totalcount = ((int)(results[1]));
+        return ((int)(results[0]));
+    }
+    
+    public System.IAsyncResult BeginGetRestoreStatusForCollection(string ifolderid, System.AsyncCallback callback, object asyncState) {
+        return this.BeginInvoke("GetRestoreStatusForCollection", new object[] {
+                    ifolderid}, callback, asyncState);
+    }
+    
+    public int EndGetRestoreStatusForCollection(System.IAsyncResult asyncResult, out int totalcount, out int finishedcount) {
+        object[] results = this.EndInvoke(asyncResult);
+        finishedcount = ((int)(results[2]));
+        totalcount = ((int)(results[1]));
+        return ((int)(results[0]));
+    }
+    
+    /// <remarks>
+///Set the Restore Status information for given ifolderid.
+///</remarks>
+    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/SetRestoreStatusForCollection", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
+    public int SetRestoreStatusForCollection(string ifolderid, int status, int totalcount, int finishedcount) {
+        object[] results = this.Invoke("SetRestoreStatusForCollection", new object[] {
+                    ifolderid,
+                    status,
+                    totalcount,
+                    finishedcount});
+        return ((int)(results[0]));
+    }
+    
+    public System.IAsyncResult BeginSetRestoreStatusForCollection(string ifolderid, int status, int totalcount, int finishedcount, System.AsyncCallback callback, object asyncState) {
+        return this.BeginInvoke("SetRestoreStatusForCollection", new object[] {
+                    ifolderid,
+                    status,
+                    totalcount,
+                    finishedcount}, callback, asyncState);
+    }
+    
+    public int EndSetRestoreStatusForCollection(System.IAsyncResult asyncResult) {
+        object[] results = this.EndInvoke(asyncResult);
+        return ((int)(results[0]));
+    }
+    
+    /// <remarks>
+///Gets the process ID for the current running process.
+///</remarks>
+    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/ResetRootNode", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
+    public int ResetRootNode(string ifolderid) {
+        object[] results = this.Invoke("ResetRootNode", new object[] {
+                    ifolderid});
+        return ((int)(results[0]));
+    }
+    
+    public System.IAsyncResult BeginResetRootNode(string ifolderid, System.AsyncCallback callback, object asyncState) {
+        return this.BeginInvoke("ResetRootNode", new object[] {
+                    ifolderid}, callback, asyncState);
+    }
+    
+    public int EndResetRootNode(System.IAsyncResult asyncResult) {
+        object[] results = this.EndInvoke(asyncResult);
+        return ((int)(results[0]));
+    }
+    
+    /// <remarks>
+///Gets the process ID for the current running process.
+///</remarks>
+    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/GetEncryptionDetails", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
+    public bool GetEncryptionDetails(string ifolderid, out string eKey, out string eBlob, out string eAlgorithm, out string rKey) {
+        object[] results = this.Invoke("GetEncryptionDetails", new object[] {
+                    ifolderid});
+        rKey = ((string)(results[4]));
+        eAlgorithm = ((string)(results[3]));
+        eBlob = ((string)(results[2]));
+        eKey = ((string)(results[1]));
+        return ((bool)(results[0]));
+    }
+    
+    public System.IAsyncResult BeginGetEncryptionDetails(string ifolderid, System.AsyncCallback callback, object asyncState) {
+        return this.BeginInvoke("GetEncryptionDetails", new object[] {
+                    ifolderid}, callback, asyncState);
+    }
+    
+    public bool EndGetEncryptionDetails(System.IAsyncResult asyncResult, out string eKey, out string eBlob, out string eAlgorithm, out string rKey) {
+        object[] results = this.EndInvoke(asyncResult);
+        rKey = ((string)(results[4]));
+        eAlgorithm = ((string)(results[3]));
+        eBlob = ((string)(results[2]));
+        eKey = ((string)(results[1]));
+        return ((bool)(results[0]));
+    }
 }
 
 /// <remarks/>
@@ -2105,6 +2233,9 @@ public enum StatusCodes {
     UserAlreadyMoved,
     
     /// <remarks/>
+    ServerUnAvailable,
+    
+    /// <remarks/>
     Unknown,
 }
 
@@ -2225,4 +2356,35 @@ public class CollectionKey {
     
     /// <remarks/>
     public string REDEK;
+}
+
+/// <remarks/>
+[System.Xml.Serialization.XmlTypeAttribute(Namespace="http://novell.com/simias/web/")]
+public class NodeEntrySet {
+    
+    /// <remarks/>
+    public NodeEntry[] Items;
+    
+    /// <remarks/>
+    public long Count;
+}
+
+/// <remarks/>
+[System.Xml.Serialization.XmlTypeAttribute(Namespace="http://novell.com/simias/web/")]
+public class NodeEntry {
+    
+    /// <remarks/>
+    public string ID;
+    
+    /// <remarks/>
+    public string Name;
+    
+    /// <remarks/>
+    public long Length;
+    
+    /// <remarks/>
+    public string Type;
+    
+    /// <remarks/>
+    public string RelativePath;
 }

@@ -71,6 +71,7 @@ namespace iFolder.WebService
 				Initialize(context);
 				Length = int.Parse(context.Request.QueryString["Length"]);
 				string dontCheckPolicies = null;
+				long NodeLength = Length;
 				try
 				{
 					dontCheckPolicies = context.Request.QueryString["DontCheckPolicies"];
@@ -83,6 +84,21 @@ namespace iFolder.WebService
 				{
 				}
 
+				try
+				{
+					string nodelength = context.Request.QueryString["NodeLength"];
+					if( nodelength != null && nodelength != string.Empty)
+					{
+						//NodeLength = int.Parse( nodelength);
+						Length = int.Parse( nodelength);
+					}
+					//else
+					//	NodeLength = Length;
+				}
+				catch
+				{
+					//NodeLength = Length;
+				}
 				// does member have write rights
 				if ((member.Rights != Access.Rights.Admin) && (member.Rights != Access.Rights.ReadWrite))
 				{

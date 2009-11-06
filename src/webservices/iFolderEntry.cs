@@ -368,7 +368,74 @@ namespace iFolder.WebService
 
 			return new iFolderEntrySet((iFolderEntry[])list.ToArray(typeof(iFolderEntry)), total);
 		}
-        
+       
+	/* 
+		/// <summary>
+		/// Get iFolder Entries
+		/// </summary>
+		/// <param name="ifolderID">The ID of the iFolder.</param>
+		/// <param name="type">Type of serarch</param>
+		/// <param name="relPath">relative Path of the intial object.</param>
+		/// <param name="index">The Search Start Index</param>
+		/// <param name="max">The Search Max Count of Results</param>
+		/// <param name="accessID">The Access User ID.</param>
+		/// <returns>A Set of iFolderEntry Objects</returns>
+		public static iFolderEntrySet GetEntries(string ifolderID, int type, string relPath, int index, int max, string accessID)
+		{
+			int total = 0;
+			Simias.Storage.SearchPropertyList SearchPrpList = new Simias.Storage.SearchPropertyList();
+
+			Store store = Store.GetStore();
+
+			Collection c = store.GetCollectionByID(ifolderID);
+
+			if (c == null)
+			{
+				throw new iFolderDoesNotExistException(ifolderID);
+			}
+			
+			// impersonate
+			iFolder.Impersonate(c, accessID);
+
+			// build the result list
+			ArrayList list = new ArrayList();
+
+			if(type  <= 0 || type > 2)
+				SearchPrpList.Add(PropertyTags.FileSystemPath,"*",  SearchOp.Begins);
+			else if(type == 1)
+				SearchPrpList.Add(PropertyTags.FileSystemPath,	relPath,  SearchOp.Begins);
+			else if(type == 2)
+				SearchPrpList.Add(PropertyTags.FileSystemPath,	relPath,  SearchOp.Equal);
+
+			SearchPrpList.Add(BaseSchema.ObjectType, NodeTypes.MemberType, SearchOp.Not_Equal);
+			ICSList searchList = c.Search(SearchPrpList);
+
+			total = searchList.Count;
+			SearchState searchState = new SearchState( domain.ID, searchList.GetEnumerator() as ICSEnumerator, searchList.Count );
+
+			if(index > 0)
+				searchState.Enumerator.SetCursor(Simias.Storage.Provider.IndexOrigin.SET, index);
+
+
+			foreach(ShallowNode sn in searchList)
+			{
+				if(max != 0 && i++ >= max )
+					break;
+				try
+				{
+					Node n = c.GetNodeByID(sn.ID);
+					list.Add(iFolderEntry.GetEntry(c, n));
+				}
+				catch (Exception ex)
+				{
+					log.Debug("Error: "+ex.Message);
+					log.Debug("Error Trace: "+ex.StackTrace);
+				}
+			}
+			return new iFolderEntrySet((iFolderEntry[])list.ToArray(typeof(iFolderEntry)), total);
+		}
+
+	*/
 
         /// <summary>
         /// Get all matched iFolder

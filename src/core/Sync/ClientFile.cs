@@ -653,16 +653,16 @@ namespace Simias.Sync
 				Log.log.Debug("Downloadfile DateConflict = true"); 
 				DateConflict = true; //version conflict, data intact
 				return false;	
-			}			
+			}
 
-
+            Log.log.Debug("GetCryptoKey Called");
 			/// Get the key and decrypt it to Decrypt the file data
 			if(GetCryptoKey(out EncryptionKey)== true)
 			{
 				needDecryption=true;
 				boundary = 8;
 			}
-			
+            Log.log.Debug("GetCryptoKey returned");
 			
 			// Get the file blocks from the server.
 			foreach (DownloadSegment seg in downloadMap)

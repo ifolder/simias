@@ -329,6 +329,11 @@ namespace Novell.iFolder
                 public NoPromptOption migrate = new NoPromptOption("migrate", "Migrate from 3.2 or older version of iFolder", "Migrate the store", false, null);
 
 		/// <summary>
+                /// Recover data
+                /// </summary>
+                public NoPromptOption recover = new NoPromptOption("recover", "Recover the data from iFolder", "Recover data from the store", false, null);
+
+		/// <summary>
 		/// Update Ldap setting
 		/// </summary>
 		public NoPromptOption updateLdap = new NoPromptOption("updateLdap,ul", "Change LDAP Settings ", "Change LDAP releared settings to reflect in store and LDAP", false, null);
@@ -384,6 +389,7 @@ namespace Novell.iFolder
 			ldapAdminPassword.OnOptionEntered = new Option.OptionEnteredHandler ( OnldapAdminPassword );
 			upgrade.OnOptionEntered = new Option.OptionEnteredHandler ( OnUpgrade );
 			migrate.OnOptionEntered = new Option.OptionEnteredHandler ( OnMigrate );
+			recover.OnOptionEntered = new Option.OptionEnteredHandler ( OnRecover);
 			remove.OnOptionEntered = new Option.OptionEnteredHandler ( OnRemove );
 			port.OnOptionEntered = new Option.OptionEnteredHandler ( OnPort );
 			configurePlugins.OnOptionEntered = new Option.OptionEnteredHandler ( OnConfigurePlugins );
@@ -1456,6 +1462,36 @@ Console.WriteLine("Url {0}", service.Url);
         /// called when migrate option is slelected
         /// </summary>
         /// <returns>true</returns>
+		private bool OnRecover()
+		{
+			Console.WriteLine("Recover option called.");
+			Console.WriteLine("store path: {0}", storePath);
+			PerformOES2Upgrade();
+			publicUrl.Prompt = privateUrl.Prompt = serverName.Prompt = false;
+                        privateUrl.Value = publicUrl.Value = "http://127.0.0.1:8086/simias10";
+                        serverName.Value = "FSBiFolderRestore-server";
+                        useSsl.Value = "NONSSL";
+			/*
+			LdapSettings ldapSettings = LdapSettings.Get( oldConfigPath, true);
+			ldapServer.Value = ldapSettings.Uri.Host;
+			namingAttribute.Value = ldapSettings.NamingAttribute.ToString();
+			if ((ldapSettings.ProxyDN != null) && (ldapSettings.ProxyDN.Length > 0))
+			{
+				ldapProxyDN.Value = ldapSettings.ProxyDN;
+			}
+			if ((ldapSettings.ProxyPassword != null) && (ldapSettings.ProxyPassword.Length > 0))
+			{
+				ldapProxyPassword.Value = ldapSettings.ProxyPassword;
+			}
+			*/
+			//throw new Exception("throw exception");
+			return true;
+		}
+
+        /// <summary>
+        /// called when migrate option is slelected
+        /// </summary>
+        /// <returns>true</returns>
 		private bool OnMigrate()
 		{
 			PerformOES1Upgrade();
@@ -1513,15 +1549,19 @@ Console.WriteLine("Url {0}", service.Url);
 
 			publicUrl.Prompt = privateUrl.Prompt = serverName.Prompt = true;
 			
-			string storeDataPath = ReadModMonoConfiguration();
-			if(storeDataPath == null || storeDataPath == String.Empty || !System.IO.Directory.Exists(storeDataPath))
-			{
-                               Console.WriteLine("Data Path: {0} not accessible.",storeDataPath == null ? "Null" : storeDataPath);
-                               return false;
-                        }
-
-			path.DefaultValue = storeDataPath ;
-			storePath = Path.GetFullPath(path.Value);
+			if( storePath == null || storePath == string.Empty)
+			{	
+				string storeDataPath = ReadModMonoConfiguration();
+				if(storeDataPath == null || storeDataPath == String.Empty || !System.IO.Directory.Exists(storeDataPath))
+				{
+                        	       Console.WriteLine("Data Path: {0} not accessible.",storeDataPath == null ? "Null" : storeDataPath);
+	                               return false;
+        	                }
+	
+				path.DefaultValue = storeDataPath ;
+				storePath = Path.GetFullPath(path.Value);
+			}
+			Console.WriteLine("The store path at PerformOES2Upgrade is: {0}", storePath);
                         if ( Path.GetFileName( storePath ) != "simias" )
                         {
                                 storePath = Path.Combine( storePath, "simias" );
@@ -2196,7 +2236,7 @@ Console.WriteLine("Url {0}", service.Url);
 			// Commit the config file changes.
 			CommitConfiguration( document );
 
-			if( slaveServer.Value )
+			if( slaveServer.Value && !recover.Assigned)
 			{
 //				ldapSettings.SyncInterval = int.MaxValue;
 //				ldapSettings.SyncOnStart = false;

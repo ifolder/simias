@@ -1062,18 +1062,22 @@ namespace Simias.Sync
 		/// </summary>
 		public bool GetCryptoKey(out string EncryptionKey)
 		{
+            Log.log.Debug("GetCryptoKey: Enter");
 			try
 			{
 				string EncryptionAlgorithm="";
 				Property p = collection.Properties.FindSingleValue(PropertyTags.EncryptionType);
 				EncryptionAlgorithm = (p!=null) ? (string) p.Value as string : "";
+                Log.log.Debug("GetCryptoKey: EncryptionAlgorithm:{0} and collection.DataMovement:{1}", EncryptionAlgorithm.ToString(), collection.DataMovement.ToString());
 				if(EncryptionAlgorithm != "" && collection.DataMovement == false)
 				{
+                    Log.log.Debug("GetCryptoKey: entered IF part");
 					p = collection.Properties.FindSingleValue(PropertyTags.EncryptionKey);
 					string EncryptedKey = (p!=null) ? (string) p.Value as string : null;
 					
 					Store store = Store.GetStore();
 					string Passphrase =  store.GetPassPhrase(collection.Domain);
+                    Log.log.Debug("GetCryptoKey: passphrase:{0} -- domain:{1}", Passphrase, collection.Domain.ToString());
 					if(Passphrase ==null)
 						throw new CollectionStoreException("Passphrase not provided");
 
@@ -1082,8 +1086,10 @@ namespace Simias.Sync
 					byte[] passphrase = hash.HashPassPhrase(Passphrase);					
 			
 					Key key = new Key(EncryptedKey);//send the key size and algorithm
+                    Log.log.Debug("DecryptKey called");
 					key.DecrypytKey(passphrase, out EncryptionKey);//send the passphrase to decrypt the key
-				
+
+                    Log.log.Debug("Encryption key is :{0}", EncryptionKey.ToString());
 					p = collection.Properties.FindSingleValue(PropertyTags.EncryptionBlob);
 					string EncryptionBlob = (p!=null) ? (string) p.Value as string : null;
 					if(EncryptionBlob == null)
@@ -1098,6 +1104,7 @@ namespace Simias.Sync
 
 				else
 				{
+                    Log.log.Debug("GetCryptoKey: entered else part");
 					if( collection.DataMovement == true)
 					{
 						Log.log.Debug("GetCryptoKey: datamovement is under progress.");
@@ -1110,6 +1117,7 @@ namespace Simias.Sync
 			{
 				throw ex;	
 			}
+            Log.log.Debug("GetCryptoKey: Exit");
 		}
 
 		/// <summary>

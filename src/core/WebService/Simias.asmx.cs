@@ -63,6 +63,215 @@ using Simias.Security.Web.AuthenticationService;
 namespace Simias.Web
 {
 	/// <summary>
+	/// Class used to keep track of outstanding searches.
+	/// </summary>
+	internal class SearchState : IDisposable
+	{
+		#region Class Members
+		/// <summary>
+		/// Table used to keep track of outstanding search entries.
+		/// </summary>
+		static private Hashtable searchTable = new Hashtable();
+
+		/// <summary>
+		/// Indicates whether the object has been disposed.
+		/// </summary>
+		private bool disposed = false;
+
+		/// <summary>
+		/// Handle used to store and recall this context object.
+		/// </summary>
+		private string contextHandle = Guid.NewGuid().ToString();
+
+		/// <summary>
+		/// Identifier for the domain that is being searched.
+		/// </summary>
+		private string domainID;
+
+		/// <summary>
+		/// Object used to iteratively return the members from the domain.
+		/// </summary>
+		private ICSEnumerator enumerator;
+
+		/// <summary>
+		/// Total number of records contained in the search.
+		/// </summary>
+		private int totalRecords;
+
+		/// <summary>
+		/// The cursor for the caller.
+		/// </summary>
+		private int currentRecord = 0;
+
+		/// <summary>
+		/// The last count of records returned.
+		/// </summary>
+		private int previousCount = 0;
+		#endregion
+
+		#region Properties
+		/// <summary>
+		/// Indicates if the object has been disposed.
+		/// </summary>
+		public bool IsDisposed
+		{
+			get { return disposed; }
+		}
+
+		/// <summary>
+		/// Gets the context handle for this object.
+		/// </summary>
+		public string ContextHandle
+		{
+			get { return contextHandle; }
+		}
+
+		/// <summary>
+		/// Gets or sets the current record.
+		/// </summary>
+		public int CurrentRecord
+		{
+			get { return currentRecord; }
+			set { currentRecord = value; }
+		}
+
+		/// <summary>
+		/// Gets the domain ID for the domain that is being searched.
+		/// </summary>
+		public string DomainID
+		{
+			get { return domainID; }
+		}
+
+		/// <summary>
+		/// Gets or sets the last record count.
+		/// </summary>
+		public int LastCount
+		{
+			get { return previousCount; }
+			set { previousCount = value; }
+		}
+
+		/// <summary>
+		/// Gets the search iterator.
+		/// </summary>
+		public ICSEnumerator Enumerator
+		{
+			get { return enumerator; }
+		}
+
+		/// <summary>
+		/// Gets the total number of records contained by this search.
+		/// </summary>
+		public int TotalRecords
+		{
+			get { return totalRecords; }
+		}
+		#endregion
+
+		#region Constructor
+		/// <summary>
+		/// Initializes an instance of an object.
+		/// </summary>
+		/// <param name="domainID">Identifier for the domain that is being searched.</param>
+		/// <param name="enumerator">Search iterator.</param>
+		/// <param name="totalRecords">The total number of records contained in the search.</param>
+		public SearchState( string domainID, ICSEnumerator enumerator, int totalRecords )
+		{
+			this.domainID = domainID;
+			this.enumerator = enumerator;
+			this.totalRecords = totalRecords;
+
+			lock ( searchTable )
+			{
+				searchTable.Add( contextHandle, this );
+			}
+		}
+		#endregion
+
+		#region Private Methods
+		/// <summary>
+		/// Removes this SearchState object from the search table.
+		/// </summary>
+		private void RemoveSearchState()
+		{
+			lock ( searchTable )
+			{
+				// Remove the search context from the table and dispose it.
+				searchTable.Remove( contextHandle );
+			}
+		}
+		#endregion
+
+		#region Public Methods
+		/// <summary>
+		/// Returns a search context object that contains the state information for an outstanding search.
+		/// </summary>
+		/// <param name="contextHandle">Context handle that refers to a specific search context object.</param>
+		/// <returns>A SearchState object if a valid one exists, otherwise a null is returned.</returns>
+		static public SearchState GetSearchState( string contextHandle )
+		{
+			lock ( searchTable )
+			{
+				return searchTable[ contextHandle ] as SearchState;
+			}
+		}
+		#endregion
+
+		#region IDisposable Members
+		/// <summary>
+		/// Allows for quick release of managed and unmanaged resources.
+		/// Called by applications.
+		/// </summary>
+		public void Dispose()
+		{
+			RemoveSearchState();
+			Dispose( true );
+			GC.SuppressFinalize( this );
+		}
+
+		/// <summary>
+		/// Dispose( bool disposing ) executes in two distinct scenarios.
+		/// If disposing equals true, the method has been called directly
+		/// or indirectly by a user's code. Managed and unmanaged resources
+		/// can be disposed.
+		/// If disposing equals false, the method has been called by the 
+		/// runtime from inside the finalizer and you should not reference 
+		/// other objects. Only unmanaged resources can be disposed.
+		/// </summary>
+		/// <param name="disposing">Specifies whether called from the finalizer or from the application.</param>
+		private void Dispose( bool disposing )
+		{
+			// Check to see if Dispose has already been called.
+			if ( !disposed )
+			{
+				// Protect callers from accessing the freed members.
+				disposed = true;
+
+				// If disposing equals true, dispose all managed and unmanaged resources.
+				if ( disposing )
+				{
+					// Dispose managed resources.
+					enumerator.Dispose();
+				}
+			}
+		}
+		
+		/// <summary>
+		/// Use C# destructor syntax for finalization code.
+		/// This destructor will run only if the Dispose method does not get called.
+		/// It gives your base class the opportunity to finalize.
+		/// Do not provide destructors in types derived from this class.
+		/// </summary>
+		~SearchState()      
+		{
+			Dispose( false );
+		}
+		#endregion
+	}
+
+
+	/// <summary>
 	/// Supported store search operators.
 	/// </summary>
 	public enum SearchType
@@ -202,6 +411,63 @@ namespace Simias.Web
 		}
 	}
 
+	[ Serializable ]
+	public class NodeEntrySet
+	{
+		public NodeEntry[] Items;
+		public long Count;
+
+		public NodeEntrySet()
+		{
+		}
+		
+		public NodeEntrySet(NodeEntry[] list, long count)
+		{
+			this.Items = list;
+			this.Count = count;
+		}
+	}
+
+	/// <summary>
+	/// Class that represents a member that has rights to a collection.
+	/// </summary>
+	[ Serializable ]
+	public class NodeEntry
+	{
+		public string ID;
+		public string Name;
+		public long Length;
+		public string Type;
+		public string RelativePath;
+
+		public NodeEntry()
+		{
+		}
+		
+		public NodeEntry( Node n)
+		{
+			try
+			{
+				this.ID = n.ID;
+				this.Type = n.Type;
+				this.Name = n.Name;
+				if( this.Type == "FileNode")
+				{
+					this.Length = ((FileNode)n).Length;
+					this.RelativePath = ((FileNode)n).GetRelativePath();
+				}
+				else if( this.Type == "DirNode")
+				{
+					this.Length = 0;
+					this.RelativePath = ((DirNode)n).GetRelativePath();
+				}
+			}
+			catch(Exception e1)
+			{
+			}
+		}
+	}
+
 	/// <summary>
 	/// This is the core of the SimiasServce.  All of the methods in the
 	/// web service are implemented here.
@@ -217,6 +483,9 @@ namespace Simias.Web
 
 		private static string DomainServiceType = "Domain Service";
 		private static string DomainServicePath = "/simias10/DomainService.asmx";
+		private static string XmlFileRestore = "";
+		private static string BasePathRestore = "";
+		private static Thread RestoreThread = null;
 
 		/// <summary>
 		/// Creates the SimiasService and sets up logging
@@ -966,7 +1235,11 @@ namespace Simias.Web
                 [SoapDocumentMethod]
                 public string GetPassPhrase(string domainID)
                 {
-                        Store store = Store.GetStore();
+			Store store = Store.GetStore();
+                        /*
+			int res = store.RestoreData();
+			return res.ToString();;
+			*/	
                         return store.GetPassPhrase(domainID);
                 }
 
@@ -2660,7 +2933,300 @@ namespace Simias.Web
 		{
 			return Process.GetCurrentProcess().Id;
 		}
+		/*	
+		/// <summary>
+		/// Gets the process ID for the current running process.
+		/// </summary>
+		/// <returns></returns>
+		[WebMethod(EnableSession=true, Description="Gets the process ID for the current running process.")]
+		[SoapDocumentMethod]
+		public int RestoreiFolderDataFromFile(string xmlfile, string basepath)
+		{
+			log.Info("Entered: RestoreiFolderDataFromFile. filepath: {0}, base p-ath: {1}", xmlfile, basepath);
+			XmlFileRestore = xmlfile;
+			BasePathRestore = basepath; 
 
+			Store store = Store.GetStore();
+			if( File.Exists(xmlfile) )
+			{ 
+				xmlTag xmlObj = new xmlTag(xmlfile);	
+
+				XmlDocument entryDoc = new XmlDocument();
+				entryDoc.Load(xmlfile);
+				XmlElement element = (XmlElement)entryDoc.DocumentElement.SelectSingleNode("Files");
+				XmlNodeList nodeList = element.GetElementsByTagName("file");
+				string type = null;
+				string ifolderid = null;
+				string nodeid = null;
+				string relativepath = null;
+			    
+				foreach (XmlNode node in nodeList)
+				{
+					type = ((XmlElement)node).GetAttribute("type");
+					ifolderid = ((XmlElement)node).GetAttribute("ifolderID");
+					if( ifolderid == null || ifolderid == string.Empty )
+						continue;
+					Collection col = store.GetCollectionByID( ifolderid );
+					if( col == null)
+						return -1;
+					col.RestoreStatus = 1;   /// Started
+					col.Commit();
+					break;
+				}
+
+
+			RestoreThread = new Thread(new ThreadStart(RestoreThreadHandler));
+			RestoreThread.Name = "Restore Thread";
+			RestoreThread.Start();
+			}
+			else
+			{
+				log.Info("XML file doesn't exist");
+				return -1;
+			}
+			return 0;
+		}
+
+		private void RestoreThreadHandler()
+		{
+			log.Info("Entered: RestoreThreadHandler: xmlfile: {0} base path: {1}", XmlFileRestore, BasePathRestore);
+			string xmlfile = XmlFileRestore;
+			string basepath = BasePathRestore;
+			Store store = Store.GetStore();
+			string ifolderid = null;
+			int status = 1;
+			try
+			{		
+				if( File.Exists(xmlfile) )
+				{
+					log.Info("The xml file is: {0}", xmlfile);
+					xmlTag xmlObj = new xmlTag(xmlfile);	
+			 	
+					XmlDocument entryDoc = new XmlDocument();
+					entryDoc.Load(xmlfile);
+					XmlElement element = (XmlElement)entryDoc.DocumentElement.SelectSingleNode("Files");
+					XmlNodeList nodeList = element.GetElementsByTagName("file");
+					string type = null;
+					string nodeid = null;
+					string relativepath = null;
+					string filestatus = null;
+					int retval;
+								    
+					foreach (XmlNode node in nodeList)
+					{
+						try
+						{
+							type = ((XmlElement)node).GetAttribute("type");
+							ifolderid = ((XmlElement)node).GetAttribute("ifolderID");
+							nodeid = ((XmlElement)node).GetAttribute("nodeID");
+							relativepath = ((XmlElement)node).GetAttribute("relativepath");
+							filestatus = ((XmlElement)node).GetAttribute("status");
+							if( filestatus != null && filestatus.Equals("Completed"))
+							{
+								log.Info("File {0} is complated", relativepath);
+								continue;
+							}
+							retval = store.RestoreData(ifolderid, nodeid, relativepath, basepath, type);
+							//xmlObj.updateEntryFromXml( ((XmlElement)node).GetAttribute("nodeID"),"status","Completed" );
+							//if( nodeList.Count < 30 )
+							//	Thread.Sleep(1000);
+						}
+						catch(Exception e1)
+						{
+							log.Debug("Exception at Restore Thread: {0}--{1}", e1.Message, e1.StackTrace);
+							xmlObj.updateEntryFromXml( ((XmlElement)node).GetAttribute("nodeID"),"status","Failed" );
+						}
+					}
+					status = 0;
+				} //End of IF
+				else
+				{
+					status = -1;
+				}
+			}
+			catch(Exception e)
+			{
+				status = -1;
+			}
+			Collection col = store.GetCollectionByID(ifolderid);
+			col.RestoreStatus = status;
+			col.Commit();
+			log.Info("Exiting RestoreThreadHandler: Restore status: {0}", status);
+			return ;	
+		}
+		*/
+		/// <summary>
+		/// Get iFolder Entries
+		/// </summary>
+		/// <param name="ifolderID">The ID of the iFolder.</param>
+		/// <param name="type">Type of serarch</param>
+		/// <param name="relPath">relative Path of the intial object.</param>
+		/// <param name="index">The Search Start Index</param>
+		/// <param name="max">The Search Max Count of Results</param>
+		/// <param name="accessID">The Access User ID.</param>
+		/// <returns>A Set of iFolderEntry Objects</returns>
+		[WebMethod(EnableSession=true, Description="Gets the process ID for the current running process.")]
+		[SoapDocumentMethod]
+		public NodeEntrySet GetEntries(string ifolderID, int type, string relPath, int index, int max, string accessID)
+		{
+			int total = 0;
+			int i = 0;
+			long TotalCount = 0;
+			Simias.Storage.SearchPropertyList SearchPrpList = new Simias.Storage.SearchPropertyList();
+
+			Store store = Store.GetStore();
+
+			Collection c = store.GetCollectionByID(ifolderID);
+
+			if (c == null)
+			{
+				throw new SimiasException(ifolderID);
+			}
+			
+			//iFolder.Impersonate(c, accessID);
+
+			// build the result list
+			ArrayList list = new ArrayList();
+			try
+			{
+
+				if(type  <= 0 || type > 2)
+					SearchPrpList.Add(PropertyTags.FileSystemPath,"*",  SearchOp.Begins);
+				else if(type == 1)
+					SearchPrpList.Add(PropertyTags.FileSystemPath,	relPath,  SearchOp.Begins);
+				else if(type == 2)
+					SearchPrpList.Add(PropertyTags.FileSystemPath,	relPath,  SearchOp.Equal);
+	
+				SearchPrpList.Add(BaseSchema.ObjectType, NodeTypes.MemberType, SearchOp.Not_Equal);
+				ICSList searchList = c.Search(SearchPrpList);
+
+				TotalCount = searchList.Count;
+					SearchState searchState = new SearchState( c.ID, searchList.GetEnumerator() as ICSEnumerator, searchList.Count );
+
+				if(index > 0)
+					searchState.Enumerator.SetCursor(Simias.Storage.Provider.IndexOrigin.SET, index);
+
+
+				foreach(ShallowNode sn in searchList)
+				{
+					if(max != 0 && i++ >= max )
+						break;
+					try
+					{
+						Node n = c.GetNodeByID(sn.ID);
+						NodeEntry entry = new NodeEntry( n);
+						list.Add(entry);
+					}
+					catch (Exception ex)
+					{
+						log.Debug("Error: "+ex.Message);
+						log.Debug("Error Trace: "+ex.StackTrace);
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				log.Debug("Error: "+ex.Message);
+				log.Debug("Error Trace: "+ex.StackTrace);
+			}
+
+			return new NodeEntrySet((NodeEntry[])list.ToArray(typeof(NodeEntry)), TotalCount);
+		}
+
+		/// <summary>
+		/// Get the Restore Status information for given ifolderid 
+		/// </summary>
+		/// <returns></returns>
+		[WebMethod(EnableSession=true, Description="Get the Restore Status information for given ifolderid.")]
+		[SoapDocumentMethod]
+		public int GetRestoreStatusForCollection(string ifolderid, out int totalcount, out int finishedcount)
+		{
+			int retval=-1;
+			Store store = Store.GetStore();
+			Collection col = store.GetCollectionByID(ifolderid);
+			retval = col.RestoreStatus;
+			totalcount = col.TotalRestoreFileCount;
+			finishedcount = col.RestoredFileCount;
+			if( retval == 1)
+			{
+				if(RestoreThread == null || RestoreThread.IsAlive == false)
+				{
+					col.RestoreStatus = 2;
+					col.Commit();
+					retval = 2;
+				}
+			}
+			if( RestoreThread == null || RestoreThread.IsAlive == false)
+			{
+				RestoreThread = null;
+			}
+			return retval;
+		}	
+
+		/// <summary>
+		/// Get the Restore Status information for given ifolderid 
+		/// </summary>
+		/// <returns></returns>
+		[WebMethod(EnableSession=true, Description="Set the Restore Status information for given ifolderid.")]
+		[SoapDocumentMethod]
+		public int SetRestoreStatusForCollection(string ifolderid,  int status, int totalcount, int finishedcount)
+		{
+			int retval=-1;
+			try
+			{
+				Store store = Store.GetStore();
+				Collection col = store.GetCollectionByID(ifolderid);
+				col.RestoreStatus = status;
+				col.TotalRestoreFileCount = totalcount;
+				col.RestoredFileCount = finishedcount;
+				col.Commit();
+				retval = 0;
+			}
+			catch { }
+			return retval;
+		}	
+
+
+
+		/// <summary>
+		/// Gets the process ID for the current running process.
+		/// </summary>
+		/// <returns></returns>
+		[WebMethod(EnableSession=true, Description="Gets the process ID for the current running process.")]
+		[SoapDocumentMethod]
+		public int ResetRootNode(string ifolderid)
+		{
+			return Store.ResetRootNode(ifolderid);
+		}
+
+		/// <summary>
+		/// Gets the process ID for the current running process.
+		/// </summary>
+		/// <returns></returns>
+		[WebMethod(EnableSession=true, Description="Gets the process ID for the current running process.")]
+		[SoapDocumentMethod]
+		public bool GetEncryptionDetails(string ifolderid, out string eKey, out string eBlob, out string eAlgorithm, out string rKey)
+		{
+			bool status = false;
+			try
+			{
+				Store store = Store.GetStore();
+				Collection col = store.GetCollectionByID(ifolderid);
+				eAlgorithm = col.EncryptionAlgorithm; 
+				eKey = col.EncryptionKey;
+				eBlob = col.EncryptionBlob; 
+				rKey = col.RecoveryKey;
+				status = true;
+			}
+			catch 
+			{
+				eKey = null;
+				eBlob = null;
+				eAlgorithm = null;
+				rKey = null;
+			}
+			return status;
+		}
 
 	}
 

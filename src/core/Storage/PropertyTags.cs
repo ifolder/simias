@@ -243,6 +243,27 @@ namespace Simias.Storage
 
 		/// <summary>
 		/// <summary>
+		/// Restore status property
+		/// </summary>
+		static public string Restore = "Restore";
+
+		/// <summary>
+		/// <summary>
+		/// Restore status property
+		/// </summary>
+		static public string RestoredFileCount = "RestoredFileCount";
+
+		/// <summary>
+		/// <summary>
+		/// Restore status property
+		/// </summary>
+		static public string TotalRestoreFileCount = "TotalRestoreFileCount";
+
+
+
+
+		/// <summary>
+		/// <summary>
 		/// Well known property name.
 		/// </summary>
 		static public string UserMoveState = "UserMoveState";
