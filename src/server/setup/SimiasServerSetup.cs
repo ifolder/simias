@@ -942,8 +942,16 @@ Console.WriteLine("Url {0}", service.Url);
 			{
 				return false;
 			}
+			
+			if( recover.Assigned)
+			{
+				isLdapAdminSet = true;
+				isLdapAdminPasswordSet = true;
+				SetupScriptFiles();
+				return true;
+			}
 
-			if( migrate.Assigned)
+			else if( migrate.Assigned)
 			{
 				Console.WriteLine("Our changes start from here...");
 				isLdapAdminSet = true;
