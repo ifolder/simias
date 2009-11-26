@@ -1083,7 +1083,7 @@ namespace iFolder.WebService
 
 		public static int RestoreiFolderData(string url, string adminname, string adminpassword, string ifolderid, string relativepath, string basepath, int startindex, string LogLocation)
 		{
-			log.Info("Ramesh: In the RestoreiFolderData webservice method.");
+			log.Info(" In the RestoreiFolderData webservice method.");
 			Store store = Store.GetStore();
 			Collection col = store.GetCollectionByID(ifolderid);
 			col.RestoreStatus = 1;
@@ -1098,124 +1098,141 @@ namespace iFolder.WebService
 
 		public static void RestoreiFolderDataThread(Object args)
 		{
-			log.Debug("Ramesh: Entered RestoreiFolderDataThread...");
-			try
-			{
-			RestoreParms arguments = (RestoreParms)args;
-			string url = arguments.url;
-			string relativepath = arguments.relativepath;
-			int startindex = arguments.startindex;
-			string adminname = arguments.adminname;
-			string adminpassword = arguments.adminpassword;
-			string ifolderid = arguments.ifolderid;
-			string basepath = arguments.basepath;
-			string LogLocation = arguments.LogLocation;
+			log.Debug(" Entered RestoreiFolderDataThread...");
+                        try
+                        {
+				RestoreParms arguments = (RestoreParms)args;
+				string url = arguments.url;
+				string relativepath = arguments.relativepath;
+				int startindex = arguments.startindex;
+				string adminname = arguments.adminname;
+				string adminpassword = arguments.adminpassword;
+				string ifolderid = arguments.ifolderid;
+				string basepath = arguments.basepath;
+				string LogLocation = arguments.LogLocation;
+				string fileNALocation = Path.Combine(Path.GetDirectoryName(LogLocation),ifolderid+".notfound" );
+				bool isFileExist = true;
 
-			log.Debug("relativepath: {0} startindex: {1} basepath: {2} LogLocation: {3}", relativepath, startindex, basepath, LogLocation);
-			Logger FailedLog= new Logger(LogLocation);
+				log.Debug("relativepath: {0} startindex: {1} basepath: {2} LogLocation: {3} fileNALogLocation:{4}", relativepath, startindex, basepath, LogLocation,fileNALocation);
+				Logger FailedLog= new Logger(LogLocation);
+				Logger FileNotFound= new Logger(fileNALocation);
 
-			int count = 500;
-			Store store = Store.GetStore();
-			Collection col = store.GetCollectionByID(ifolderid);
-			SimiasWebService oldadmin = new SimiasWebService();
-			oldadmin.Credentials = new NetworkCredential(adminname, adminpassword);
-			oldadmin.PreAuthenticate = true;
-			oldadmin.Url = url;
-			
-			int type= 0;
-			try
-			{
-				if( relativepath != null && relativepath != string.Empty)
-				{	
-					string path = Path.Combine(basepath, relativepath);
-					if( File.Exists(path))
-						type = 2;
-					else if( Directory.Exists(path))
-					type = 1;
-					else
+				int count = 500;
+				Store store = Store.GetStore();
+				Collection col = store.GetCollectionByID(ifolderid);
+				SimiasWebService oldadmin = new SimiasWebService();
+				oldadmin.Credentials = new NetworkCredential(adminname, adminpassword);
+				oldadmin.PreAuthenticate = true;
+				oldadmin.Url = url;
+
+				int type= 0;
+				try
+				{
+					if( relativepath != null && relativepath != string.Empty)
 					{
-						log.Debug("The path specified for the restore {0} does not exist. {0}", path);
+						string path = Path.Combine(basepath, relativepath);
+						if( File.Exists(path))
+							type = 2;
+						else if( Directory.Exists(path))
+							type = 1;
+						else
+						{
+							log.Debug("The path specified for the restore {0} does not exist. {0}", path);
+							//TODO: check this flag and don't process below code if given path doesn't exist
+							isFileExist = false;
+						}
 					}
 				}
-			}
-			catch { }
-		
-			try
-			{	
-				int totalCount = 0;
-				int CurrentCount = startindex;
-				NodeEntrySet entryset = oldadmin.GetEntries(ifolderid, type, relativepath, startindex, count, null);
-				totalCount = Convert.ToInt32(entryset.Count);
-				log.Debug("The total count of entryset: {0} relativepath: {1} file type: {2}", entryset.Count, relativepath, type);
-				//NodeEntry[] entries = (NodeEntry[])entryset.Items;
-				col.TotalRestoreFileCount = totalCount;
-				col.RestoreStatus = 2;
-				col.Commit();
-				if( entryset.Items ==null )
+				catch { }
+				try
 				{
-					log.Info("The entry set has no entries object");
-				}
-				if( entryset.Items.Length == 0)
-				{
-					log.Info("The entry set has no entries object 1111");
-				}
-				while(entryset.Items !=null && entryset.Items.Length != 0 && CurrentCount < totalCount)
-				{
-					log.Info("Entered the while loop. The length of array: {0}", entryset.Items.Length);
-					foreach(NodeEntry entry in entryset.Items)
+					int totalCount = 0;
+					int CurrentCount = startindex;
+					NodeEntrySet entryset = oldadmin.GetEntries(ifolderid, type, relativepath, startindex, count, null);
+					totalCount = Convert.ToInt32(entryset.Count);
+					log.Debug("The total count of entryset: {0} relativepath: {1} file type: {2}", entryset.Count, relativepath, type);
+					//NodeEntry[] entries = (NodeEntry[])entryset.Items;
+					col.TotalRestoreFileCount = totalCount;
+					col.RestoreStatus = 2;
+					col.Commit();
+					if( entryset.Items ==null )
 					{
-						log.Debug("Restoring --{0}--{1}--{2}---{3}--{4}--", ifolderid, entry.ID, entry.RelativePath, basepath, entry.Type.ToString());
-						try
+						log.Info("The entry set has no entries object");
+					}
+					if( entryset.Items.Length == 0)
+					{
+						log.Info("The entry set has no entries object 1111");
+					}
+					string entryToUpload = null;
+					while(entryset.Items !=null && entryset.Items.Length != 0 && CurrentCount < totalCount)
+					{
+						log.Info("Entered the while loop. The length of array: {0}", entryset.Items.Length);
+						foreach(NodeEntry entry in entryset.Items)
 						{
-							int retval = store.RestoreData(ifolderid, entry.ID, entry.RelativePath, basepath, entry.Type, entry.Length);
-							if( retval != 0)
+							log.Debug("Restoring --{0}--{1}--{2}---{3}--{4}--", ifolderid, entry.ID, entry.RelativePath, basepath, entry.Type.ToString());
+							try
 							{
-								log.Debug(string.Format("Failed: {0} {1} {2} {3} {4}", CurrentCount, entry.ID, entry.Length, entry.RelativePath, "failed"));
-								FailedLog.Write(string.Format("{0} {1} {2} {3} {4}", CurrentCount, entry.ID, entry.Length, entry.RelativePath, "failed"), false);
+								entryToUpload = Path.Combine(basepath, entry.RelativePath);
+								if(!(File.Exists(entryToUpload)) && !(Directory.Exists(entryToUpload)))
+								{
+									FileNotFound.Write(string.Format("{0} {1} {2} {3} {4}", CurrentCount, entry.ID, entry.Length, entry.RelativePath, "NA"), false);
+									log.Debug("{0} {1} {2} {3} {4}", CurrentCount, entry.ID, entry.Length, entry.RelativePath, "NA");
+
+								}
+								else
+								{
+
+									int retval = store.RestoreData(ifolderid, entry.ID, entry.RelativePath, basepath, entry.Type, entry.Length);
+									if( retval != 0)
+									{
+										log.Debug(string.Format("Failed: {0} {1} {2} {3} {4}", CurrentCount, entry.ID, entry.Length, entry.RelativePath, "failed"));
+										FailedLog.Write(string.Format("{0} {1} {2} {3} {4}", CurrentCount, entry.ID, entry.Length, entry.RelativePath, "failed"), false);
+									}
+								}
+							}
+							catch(Exception e1)
+							{
+								log.Debug("Exception in RestoreiFolderData: {0}--{1}", e1.Message, e1.StackTrace);
+							}
+							CurrentCount++;
+							if(CurrentCount%20 == 0)
+							{
+								// status update to collection object....
+								col = store.GetCollectionByID(ifolderid);
+								col.RestoredFileCount = CurrentCount;
+								col.Commit();
 							}
 						}
-						catch(Exception e1)
+						startindex+= entryset.Items.Length;
+						try{
+
+							entryset = oldadmin.GetEntries(ifolderid, type, relativepath, startindex, count, null);
+							//entries = (NodeEntry[])entryset.Items;
+						}catch(Exception ex)
 						{
-							log.Debug("Exception in RestoreiFolderData: {0}--{1}", e1.Message, e1.StackTrace);
-						}
-						CurrentCount++;
-						if(CurrentCount%20 == 0)
-						{
-							// status update to collection object....
-							col = store.GetCollectionByID(ifolderid);
-							col.RestoredFileCount = CurrentCount;
-							col.Commit();
+							log.Debug("Exception in GetEntrie: {0}--{1}", ex.Message, ex.StackTrace);
+							break;
 						}
 					}
-					startindex+= entryset.Items.Length;
-					try{
-						
-						entryset = oldadmin.GetEntries(ifolderid, type, relativepath, startindex, count, null);
-						//entries = (NodeEntry[])entryset.Items;
-					}catch(Exception ex)
-					{
-						log.Debug("Exception in GetEntrie: {0}--{1}", ex.Message, ex.StackTrace);
-						break;
-					}
+					col = store.GetCollectionByID(ifolderid);
+					col.RestoredFileCount = CurrentCount;
+					col.Commit();
+				}/// end try
+				catch(Exception ex)
+				{
+					log.Debug("Outer Exception in RestoreiFolderData: {0}--{1}", ex.Message, ex.StackTrace);
 				}
-				col = store.GetCollectionByID(ifolderid);
-				col.RestoredFileCount = CurrentCount;
-				col.Commit();
-			}/// end try
-			catch(Exception ex)
-			{
-				log.Debug("Outer Exception in RestoreiFolderData: {0}--{1}", ex.Message, ex.StackTrace);
-			}
-			finally
-			{
-				col.RestoreStatus = 0;
-				col.Commit();
-			}
-			}
-			catch(Exception e1)
-			{
-				log.Debug("Ramesh: Exception in RestoreThread. {0}--{1}", e1.Message, e1.StackTrace);
-			}
+				finally
+				{
+					col.RestoreStatus = 0;
+					col.Commit();
+				}
+			 }
+                        catch(Exception e1)
+                        {
+                                log.Debug(" Exception in RestoreThread. {0}--{1}", e1.Message, e1.StackTrace);
+                        }
+
 		}
 
 		public static int GetRestoreStatusForCollection(string ifolderid, out int totalcount, out int finishedcount)
