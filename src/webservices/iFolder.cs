@@ -1181,8 +1181,18 @@ namespace iFolder.WebService
 								}
 								else
 								{
-
-									int retval = store.RestoreData(ifolderid, entry.ID, entry.RelativePath, basepath, entry.Type, entry.Length);
+									string file = relativepath +"/";
+									int retval = -1;	
+									if(entry.RelativePath.Equals(relativepath) || entry.RelativePath.Contains(file))
+									{
+										log.Debug(string.Format("relative path inside if is:{0}",entry.RelativePath));
+										retval = store.RestoreData(ifolderid, entry.ID, entry.RelativePath, basepath, entry.Type, entry.Length);
+									}	
+									else
+									{
+										log.Debug(string.Format("relative path inside else is:{0}",entry.RelativePath));
+										retval = 0;
+									}	
 									if( retval != 0)
 									{
 										log.Debug(string.Format("Failed: {0} {1} {2} {3} {4}", CurrentCount, entry.ID, entry.Length, entry.RelativePath, "failed"));
