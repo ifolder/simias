@@ -618,7 +618,12 @@ namespace Simias
 					connectionTable.Remove(key);
 				}
 			}
-			WebState.ResetWebState(domainID);
+			// bug 538046: lot of 401 exceptions during UserMove and hence data loss. After every domain sync/Catalog sync or during web-service
+			// ex., server used to remove the cookiehash entry for the domainID, so the connections which were already established earlier were
+			// getting 401 status. The removal of cookiehash entry is applicable only for clients as they logout/login from one domain. For 
+			// servers, it is only one domain, so no login/logout concept for servers.
+			if( ! Store.IsEnterpriseServer)
+				WebState.ResetWebState(domainID);
 		}
 
         /// <summary>

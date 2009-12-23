@@ -1866,6 +1866,8 @@ namespace Simias.Storage
                                 }
                                 string configFilePath =
                                         Path.Combine( Store.StorePath, Simias.Configuration.DefaultConfigFileName );
+				
+				Hashtable Dup = new Hashtable();
 
                                 // Load the configuration file into an xml document.
                                 XmlDocument configDoc = new XmlDocument();
@@ -1874,17 +1876,22 @@ namespace Simias.Storage
                                 if ( searchElement != null )
                                 {
                                         XmlNodeList contextNodes = searchElement.SelectNodes( XmlContextTag );
-                                        foreach( XmlElement contextNode in contextNodes )
+					
+                                        for( int count = contextNodes.Count - 1; count >= 0; count-- )
                                         {
-                                                searchElement.RemoveChild( contextNode );
+                                                searchElement.RemoveChild( contextNodes[count] );
                                         }
 
                                         foreach( string dn in searchContexts )
                                         {
-						log.Debug("UpdateSearchContexts: Adding {0}", dn);
-                                                XmlElement element = configDoc.CreateElement( XmlContextTag );
-                                                element.SetAttribute( XmlDNAttr, dn );
-                                                searchElement.AppendChild( element );
+						if( ! Dup.ContainsKey(dn) )
+						{
+							log.Debug("UpdateSearchContexts: Adding {0}", dn);
+       		                                        XmlElement element = configDoc.CreateElement( XmlContextTag );
+       		                                        element.SetAttribute( XmlDNAttr, dn );
+                	                                searchElement.AppendChild( element );
+							Dup.Add( dn, "" );
+						}
                                         }
                                 }
 				else
@@ -1899,6 +1906,7 @@ namespace Simias.Storage
                                 finally
                                 {
                                         xtw.Close();
+					Dup.Clear();
                                 }
 
                         }
