@@ -10,6 +10,7 @@
 			<appendToFile value="true" />
 			<maximumFileSize value="10MB" />
 			<maxSizeRollBackups value="10" />
+			<lockingModel type="log4net.Appender.FileAppender+MinimalLock"/>
 			
 			<layout type="log4net.Layout.PatternLayout">
 				<conversionPattern value="%d [%t] %-5p %c - %m%n" />
@@ -27,6 +28,7 @@
 			<appendToFile value="true" />
 			<maximumFileSize value="10MB" />
 			<maxSizeRollBackups value="10" />
+			<lockingModel type="log4net.Appender.FileAppender+MinimalLock"/>
 			
 			<layout type="log4net.Layout.PatternLayout">
 				<header value="#version: 1.0%n#Fields:**date**time**method**status**user**uri**id**%n" />
