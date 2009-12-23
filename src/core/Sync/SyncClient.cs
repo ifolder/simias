@@ -1102,7 +1102,7 @@ namespace Simias.Sync
 				
 				// Only syncronize local changes when we have finished with the 
 				// Server side changes.
-				if ((workArray == null || workArray.DownCount == 0) && !yielded && collection.Merge == false && fileMonitor.scanThreadRunning == false)
+				if ((workArray == null || workArray.DownCount == 0) && !yielded && collection.Merge == false && fileMonitor.scanThreadRunning == false && collection.DataMovement != true)
 				{
 					if(isNewifolder == true)
 					{
@@ -2154,6 +2154,7 @@ namespace Simias.Sync
 				{
 					// Try to delete the next node.
 					//FIXME: we must not remove the node on exception - workaround for new sync engine
+					log.Debug("SyncClient.cs: On exception {0}, the nodeid {1} is removed from workarray",e.Message, id);
 					workArray.RemoveNodeFromServer(id, merge);
 				}
 			}
@@ -2188,7 +2189,7 @@ namespace Simias.Sync
 					updates = service.GetNodes(batchIDs);
 					StoreNodes(updates, merge);
 				}
-                catch {}
+                		catch (Exception ex){log.Debug("SyncClient.cs: ProcessNodesFromServer, got exception, "+ex.ToString());}
 				offset += batchCount;
 			}
 			// Update the collection in case it changed.
@@ -2261,9 +2262,10 @@ namespace Simias.Sync
 						{
 						}
 					}
-					catch
+					catch 
 					{
 						// Handle any other errors.
+						log.Debug("SyncClient.cs, caught exception inside StoreNodes for collection: "+collection.Name);
 					}
 				}
 			}
@@ -2453,6 +2455,7 @@ namespace Simias.Sync
 			}
 			catch 
 			{
+				log.Debug("SyncClient.cs: caught exception inside StoreDir for collectionid : "+snode.ID);
 				return false;
 			}
 		}
@@ -2552,7 +2555,7 @@ namespace Simias.Sync
 				catch (Exception ex)
 				{
 					if( this.collection.DataMovement != true)
-				                workArray.RemoveNodeFromServer(nodeID, merge);
+				               workArray.RemoveNodeFromServer(nodeID, merge);
 					Log.log.Debug(ex, "Failed Downloading File during close");
 				}
 			}
