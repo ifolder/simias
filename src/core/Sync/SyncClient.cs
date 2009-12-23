@@ -2465,16 +2465,34 @@ namespace Simias.Sync
 		/// </summary>
 		private void ProcessFilesFromServer(bool merge)
 		{
-			HttpClientInFile file = null;
-			
-			//we need not download Journal nodes from the server to client
-			//it is only needed on the server
-			string[] nodeIDs = workArray.FilesFromServer(merge, Store.IsEnterpriseServer);
-			
-			if (nodeIDs.Length == 0)
-				return;
-			log.Info("Downloading {0} Files from server", nodeIDs.Length);
-			foreach (string nodeID in nodeIDs)
+			 HttpClientInFile file = null;
+
+                        //we need not download Journal nodes from the server to client
+                        //it is only needed on the server
+                        string[] nodeIDs = workArray.FilesFromServer(merge, Store.IsEnterpriseServer);
+                        if (nodeIDs.Length == 0)
+                        return;
+
+                        string[] deleteNodeIDs = workArray.DeletesToServer();
+
+                        if(deleteNodeIDs.Length > 0)
+                        {
+                                foreach(string nodeid in nodeIDs)
+                                {
+                                        foreach(string deleteid in deleteNodeIDs)
+                                        {
+                                                if(nodeid == deleteid)
+                                                {
+                                                        workArray.RemoveNodeFromServer(nodeid);
+                                                }
+                                        }
+                                }
+                        }
+                        nodeIDs = workArray.FilesFromServer(merge, Store.IsEnterpriseServer);
+                        if (nodeIDs.Length == 0)
+                                return;
+                        log.Info("Downloading {0} Files from server", nodeIDs.Length);
+                        foreach (string nodeID in nodeIDs)
 			{
 				try
 				{
