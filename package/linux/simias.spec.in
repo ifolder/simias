@@ -1,5 +1,5 @@
 #
-# spec file for package simias (Version 1.8.3.@@BUILDNUM@@.1)
+# spec file for package simias (Version 1.8.4.@@BUILDNUM@@.1)
 #
 # Copyright (c) 2009 SUSE LINUX Products GmbH, Nuernberg, Germany.
 #
@@ -38,7 +38,7 @@ Requires:       mono-web >= 1.2.2
 Requires:  	log4net >= 1.2.9
 Requires:       xsp >= 1.2.5
 #Obsoletes:      %{name} < 1.8.2.@@BUILDNUM@@.1
-Version:        1.8.3.@@BUILDNUM@@.1
+Version:        1.8.4.@@BUILDNUM@@.1
 Release:        0.3
 Summary:        Collection-Oriented Data Storage
 Source:         simias.tar.gz

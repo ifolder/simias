@@ -1,5 +1,5 @@
 #
-# spec file for package ifolder3 (Version 3.7.2.@@BUILDNUM@@.1)
+# spec file for package ifolder3 (Version 3.8.1.@@BUILDNUM@@.1)
 #
 # Copyright (c) 2009 SUSE LINUX Products GmbH, Nuernberg, Germany.
 #
@@ -32,7 +32,7 @@ Requires:       novell-ifolder-mono >= 2.4
 Requires:       log4net >= 1.2.9 
 Requires:       novell-NLDAPbase
 #Obsoletes:      %{name} < %{version}
-Version:        3.8.0.@@BUILDNUM@@.1
+Version:        3.8.1.@@BUILDNUM@@.1
 Release:        0.2
 Summary:        Novell iFolder 3 Enterprise
 Source:         ifolder3-enterprise.tar.gz
