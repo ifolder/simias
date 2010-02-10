@@ -1186,7 +1186,7 @@ cgBlAGwAZQBhAHMAZQABAHcAZQBiAA==
 		<col key="yes" def="s72">ModuleID</col>
 		<col key="yes" def="i2">Language</col>
 		<col def="s32">Version</col>
-		<row><td>simias.B290460E_BC60_4D53_8B2E_9B6E7FE9D8EF</td><td>0</td><td>1.8.3</td></row>
+		<row><td>simias.B290460E_BC60_4D53_8B2E_9B6E7FE9D8EF</td><td>0</td><td>1.8.4</td></row>
 	</table>
 
 	<table name="ModuleSubstitution">
