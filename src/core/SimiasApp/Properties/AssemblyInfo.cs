@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Novel iFolder Core")]
+[assembly: AssemblyTitle("Novell iFolder Core")]
 [assembly: AssemblyDescription("Simias Executable for Web Service Communication")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Novell Inc")]
