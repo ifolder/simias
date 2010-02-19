@@ -56,7 +56,7 @@ sed -e "s/@@BUILDNUM@@/$BUILDNUM/" package/linux/$PACKAGE.spec.autobuild > $PACK
 echo "Generating tarball for $PACKAGE..."
 pushd $PACKAGE_DIR
 #tar -c --wildcards --exclude "*.svn*" --exclude "$PACKAGE" --exclude "*.tar.gz" -zhf $TARBALL_NAME.tar.gz $TARBALL_NAME
-tar -c --wildcards --exclude "*.svn*" --exclude "*.tar.gz" -zf $TARBALL_NAME.tar.gz $TARBALL_NAME
+tar -c --wildcards --exclude "*.svn*" --exclude "*.tar.gz" --exclude "package/darwin" --exclude "package/windows" --exclude "package/linux/ifolder3-enterprise.*" --exclude "package/linux/simias.spec.in" --exclude "src/admin" --exclude "src/reports" --exclude "src/server" --exclude "src/webaccess" -zf $TARBALL_NAME.tar.gz $TARBALL_NAME
 popd
 
 # Copying tarballs
