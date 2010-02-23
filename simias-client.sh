@@ -50,13 +50,13 @@ fi
 # Prepare spec file
 mkdir -p $PACKAGE
 echo "Preparing spec file and copying to $PACKAGE/ ..."
-sed -e "s/@@BUILDNUM@@/$BUILDNUM/" package/linux/$PACKAGE.spec.autobuild > $PACKAGE/$PACKAGE.spec
+sed -e "s/@@BUILDNUM@@/$BUILDNUM/" package/linux/$PACKAGE.spec.in > $PACKAGE/$PACKAGE.spec
 
 # Create the tarballs
 echo "Generating tarball for $PACKAGE..."
 pushd $PACKAGE_DIR
 #tar -c --wildcards --exclude "*.svn*" --exclude "$PACKAGE" --exclude "*.tar.gz" -zhf $TARBALL_NAME.tar.gz $TARBALL_NAME
-tar -c --wildcards --exclude "*.svn*" --exclude "*.tar.gz" -zf $TARBALL_NAME.tar.gz $TARBALL_NAME
+tar -c --wildcards --exclude "*.svn*" --exclude "*.tar.gz" --exclude "package/darwin" --exclude "package/windows" --exclude "package/linux/ifolder3-enterprise.*" --exclude "package/linux/simias.spec.autobuild" --exclude "src/admin" --exclude "src/reports" --exclude "src/server" --exclude "src/webaccess" --exclude "build-simias-linux.sh" --exclude "build-server-linux.sh" --exclude "ifolder3-enterprise.sh" --exclude "simias-client.sh" -zf $TARBALL_NAME.tar.gz $TARBALL_NAME
 popd
 
 # Copying tarballs
