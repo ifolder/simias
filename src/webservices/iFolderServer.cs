@@ -586,7 +586,7 @@ namespace iFolder.WebService
 			bool UpdateStatus = false;
 			string ServerSection="Server";
 			string PublicAddressKey = "PublicAddress";
-	                string PrivateAddressKey = "PrivateAddress";
+		        string PrivateAddressKey = "PrivateAddress";
 	                string MasterAddressKey = "MasterAddress";
 			if (!privateUrl.ToLower().StartsWith(Uri.UriSchemeHttp))
                         {
@@ -596,12 +596,15 @@ namespace iFolder.WebService
                         {
                                 publicUrl = (new UriBuilder(Uri.UriSchemeHttp, publicUrl)).ToString();
                         }
+			if (MasterUrl != null && !privateUrl.ToLower().StartsWith(Uri.UriSchemeHttp))
+			{
+				MasterUrl = (new UriBuilder(Uri.UriSchemeHttp, MasterUrl)).ToString();
+			}
 			
 			// adding /simias10
 			privateUrl = AddVirtualPath( privateUrl );
 			publicUrl = AddVirtualPath( publicUrl );
-		
-
+				
                         string SimiasConfigFilePath = Path.Combine ( Store.StorePath, "Simias.config");	
 			if ( File.Exists( Path.Combine( Store.StorePath, Simias.Configuration.DefaultConfigFileName ) ) == true )
                         {
@@ -618,6 +621,7 @@ namespace iFolder.WebService
                 	        XmlDocument document = new XmlDocument();
                         	document.Load(SimiasConfigFilePath );
 
+
 				SetConfigValue( document, ServerSection, PublicAddressKey, publicUrl );
         	                SetConfigValue( document, ServerSection, PrivateAddressKey, privateUrl );
 				if(MasterUrl != "")
@@ -626,6 +630,12 @@ namespace iFolder.WebService
                                         UpdateStatus = SetConfigValueWithSSL( document, ServerSection, MasterAddressKey, MasterUrl );
 					if(UpdateStatus == false)
 						return false;
+					if (MasterUrl != null)
+					{
+						UpdateStatus = UpdateMasterURL(MasterUrl);
+						if(UpdateStatus == false) 
+							return false;
+					}
                                 }			
 
 				// Commit the config file changes.
@@ -636,7 +646,51 @@ namespace iFolder.WebService
 			{
 				SmartException.Throw(ex);
 			}
+			// Also update in the simias.
+			SetOnMasterUpdateUri(RemoveVirtualPath(privateUrl), RemoveVirtualPath(publicUrl));
+
 			return UpdateStatus;	
+		}
+		/// <summary>
+		/// Update the Master Url in the local store
+		/// </summary>
+		/// <param name="masterUrl">
+		/// A <see cref="System.String"/>
+		/// </param>
+		/// /// <returns>
+		/// A <see cref="System.Boolean"/>
+		/// </returns>
+		private static bool UpdateMasterURL( string masterUrl)
+		{
+			bool retVal = true;;
+			try
+			{
+				Store store = Store.GetStore();
+				Domain domain = store.GetDomain(store.DefaultDomain);
+				HostNode masterNode = HostNode.GetMaster(domain.ID);
+				masterNode.PrivateUrl = masterUrl;
+				domain.Commit(masterNode);
+			}
+			catch (Exception ex)
+			{
+				log.Debug("Exception in UpdateMasterURL" + ex.Message);
+				retVal = false;
+			}
+			return retVal;
+		}
+        	/// <summary>
+	        /// Adds simias10 into the path
+        	/// </summary>
+	        /// <param name="path"></param>
+        	/// <returns>new path</returns>
+		private static string RemoveVirtualPath(string path)
+		{
+			path = path.TrimEnd('/');
+			if(path.EndsWith("/simias10") == true)
+			{
+				path = path.Substring(0, path.IndexOf("simias10"));
+			}
+			return path;
 		}
 
         /// <summary>
@@ -746,7 +800,8 @@ namespace iFolder.WebService
                 {
                         if (masterAddress.ToLower().StartsWith(Uri.UriSchemeHttps))
                         {
-				string webPath = Path.GetFullPath("../../../../lib/simias/web");
+				string machineArch = Environment.GetEnvironmentVariable("OS_TYPE");
+				string webPath = ( machineArch.IndexOf("_64" ) > 0 ? Path.GetFullPath("../../../../lib64/simias/web"): Path.GetFullPath("../../../../lib/simias/web"));
                                 // swap policy
                                 ServicePointManager.CertificatePolicy = new TrustAllCertificatePolicy();
 

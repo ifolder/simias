@@ -135,9 +135,29 @@ namespace Novell.iFolderApp.Web
 			SetupModMono();
 #endif
 			SetupSsl();
-			
+
+			UpdateOwnership();
 			// CheckConnection();
 		}
+    		/// <summary>
+		/// Change the ownership of web.config to apache user so that iFolder
+		/// server can chnage the values while running.
+		/// </summary>
+		void UpdateOwnership()
+		{
+			string MachineArch = Environment.GetEnvironmentVariable("OS_TYPE");
+	string webpath = (MachineArch.IndexOf("_64") > 0) ? Path.GetFullPath("../lib64/simias/web"): Path.GetFullPath("../lib/simiasweb");			
+			string webconfigfile = Path.Combine(webpath, "web.config"); 
+
+			if (Execute("chown", "{0}:{1} {2}", apacheUser.Value, apacheGroup.Value, webconfigfile) != 0)
+			{
+				throw new Exception("Unable to set an owner for the log path.");
+			}
+		}
+
+        /// <summary>
+        /// Initialize web-access setup
+        /// </summary>
 
         /// <summary>
         /// Initialize web-access setup
