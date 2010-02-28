@@ -92,6 +92,19 @@ namespace Simias.Sync
 		public bool Allowed(BaseFileNode fNode)
 		{
 			long fSize = fNode.Length;
+			/* If the file is already present on the server, upload size would be 
+			 * size of file on the server subtracted by size of file to upload */
+			Store stl =Store.GetStore();
+			Domain dom =stl.GetDomain(stl.DefaultDomain);
+			Node n1 = dom.GetNodeByID(fNode.ID);
+			if(n1 != null)
+			{
+				FileNode f1 = n1 as FileNode;
+				if(f1.Length <= fSize)
+					fSize = fSize - f1.Length;
+				else
+					fSize = 0;
+			}
 			if(!GroupDiskQuotaUploadAllowed(fSize))
 			{
 				reason = PolicyType.Quota;
