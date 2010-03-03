@@ -22,7 +22,7 @@ Name:           simias
 BuildRequires:  compat-libstdc++ e2fsprogs e2fsprogs-devel gcc-c++ gconf2 glib2 glib2-devel novell-ifolder-libflaim novell-ifolder-libflaim-devel libstdc++ libstdc++-devel libxml2 libxml2-devel mono-core mono-data mono-devel mono-web pkgconfig xsp log4net
 %else
 %ifarch         x86_64
-BuildRequires:  e2fsprogs e2fsprogs-devel gcc-c++ gconf2 glib2 glib2-devel libflaim libflaim-devel libstdc++33-32bit libstdc++33-devel-32bit libxml2 libxml2-devel mono-core mono-data mono-devel mono-web pkgconfig xsp log4net ncurses-devel dos2unix
+BuildRequires:  e2fsprogs e2fsprogs-devel  gcc43-c++ gcc43 gcc-c++ gconf2 glib2 glib2-devel libflaim libflaim-devel libstdc++33-32bit libstdc++33-devel-32bit libxml2 libxml2-devel mono-core mono-data mono-devel mono-web pkgconfig xsp log4net ncurses-devel dos2unix
 %else
 BuildRequires:  e2fsprogs e2fsprogs-devel gcc-c++ gconf2 glib2 glib2-devel libflaim libflaim-devel libstdc++33 libstdc++33-devel libxml2 libxml2-devel mono-core mono-data mono-devel mono-web pkgconfig xsp log4net ncurses-devel dos2unix
 %endif

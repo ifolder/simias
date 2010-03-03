@@ -301,7 +301,13 @@ case $SIMIAS_OS in
         STORELIB_PATH="$EXTERNAL_DIR/sqlite/darwin"
 		LDOUT='-o '
 	AC_PROG_CXX(am__fastdepCXX)
-        AC_CHECK_PROG(CXX, g++, g++)
+        #AC_CHECK_PROG(CXX, g++, g++)
+	if test "$runasclient" = "TRUE"; then
+               AC_PROG_CXX([ g++-4.3 g++ ])
+        else
+               AC_PROG_CXX([ g++ ])
+        fi
+
         # AC_CHECK_PROG(CXX, g++-3.3, g++-3.3)
 		# LD='$(CXX) -dynamiclib '
 		StoreProviderAssembly="SimiasLib.dll"
