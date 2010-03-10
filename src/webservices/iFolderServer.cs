@@ -800,7 +800,7 @@ namespace iFolder.WebService
                 {
                         if (masterAddress.ToLower().StartsWith(Uri.UriSchemeHttps))
                         {
-				string machineArch = Environment.GetEnvironmentVariable("OS_TYPE");
+				string machineArch = Environment.GetEnvironmentVariable("HOSTTYPE");
 				string webPath = ( machineArch.IndexOf("_64" ) > 0 ? Path.GetFullPath("../../../../lib64/simias/web"): Path.GetFullPath("../../../../lib/simias/web"));
                                 // swap policy
                                 ServicePointManager.CertificatePolicy = new TrustAllCertificatePolicy();

@@ -145,13 +145,21 @@ namespace Novell.iFolderApp.Web
 		/// </summary>
 		void UpdateOwnership()
 		{
-			string MachineArch = Environment.GetEnvironmentVariable("OS_TYPE");
-	string webpath = (MachineArch.IndexOf("_64") > 0) ? Path.GetFullPath("../lib64/simias/web"): Path.GetFullPath("../lib/simiasweb");			
-			string webconfigfile = Path.Combine(webpath, "web.config"); 
-
-			if (Execute("chown", "{0}:{1} {2}", apacheUser.Value, apacheGroup.Value, webconfigfile) != 0)
+			try
 			{
-				throw new Exception("Unable to set an owner for the log path.");
+				string MachineArch = Environment.GetEnvironmentVariable("HOSTTYPE");
+				string webpath = (MachineArch.IndexOf("_64") > 0) ? Path.GetFullPath("../lib64/simias/web"): Path.GetFullPath("../lib/simiasweb");			
+				string webconfigfile = Path.Combine(webpath, "web.config"); 
+
+				if (Execute("chown", "{0}:{1} {2}", apacheUser.Value, apacheGroup.Value, webconfigfile) != 0)
+				{
+					throw new Exception("Unable to set an owner for the web.config file.");
+				}
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine("Unable to set an owner for web.config file");
+
 			}
 		}
 
