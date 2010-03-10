@@ -148,7 +148,7 @@ namespace Novell.iFolderApp.Web
 			try
 			{
 				string MachineArch = Environment.GetEnvironmentVariable("HOSTTYPE");
-				string webpath = (MachineArch.IndexOf("_64") > 0) ? Path.GetFullPath("../lib64/simias/web"): Path.GetFullPath("../lib/simiasweb");			
+				string webpath = (MachineArch.IndexOf("_64") > 0) ? Path.GetFullPath("../lib64/simias/web"): Path.GetFullPath("../lib/simias/web");			
 				string webconfigfile = Path.Combine(webpath, "web.config"); 
 
 				if (Execute("chown", "{0}:{1} {2}", apacheUser.Value, apacheGroup.Value, webconfigfile) != 0)
