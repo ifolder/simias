@@ -206,7 +206,7 @@ namespace Novell.iFolderApp.Web
 				propertyTable.Rows.Add(new object[] { GetString("DESCRIPTION"), ifolder.Description });
 				propertyTable.Rows.Add(new object[] { GetString("LASTMODIFIED"), WebUtility.FormatDate(ifolder.LastModified, rm) });
 				propertyTable.Rows.Add(new object[] { GetString("CREATED"), WebUtility.FormatDate(ifolder.Created, rm) });
-				propertyTable.Rows.Add(new object[] { GetString("RIGHTS"), ifolder.MemberRights });
+				propertyTable.Rows.Add(new object[] { GetString("RIGHTS"), WebUtility.FormatRights(ifolder.MemberRights, rm) });
 				propertyTable.Rows.Add(new object[] { GetString("OWNER"), ifolder.OwnerFullName });
 				propertyTable.Rows.Add(new object[] { GetString("SIZE"), WebUtility.FormatSize(ifolder.Size, rm) });
 				propertyTable.Rows.Add(new object[] { GetString("MEMBERS"), ifolder.MemberCount.ToString() });
