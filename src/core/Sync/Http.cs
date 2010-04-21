@@ -294,7 +294,16 @@ namespace Simias.Sync.Http
 			WebHeaderCollection headers = request.Headers;
 			headers.Add(SyncHeaders.SyncVersion, HttpService.version);
 			headers.Add(SyncHeaders.Method, method.ToString());
-			headers.Add(SyncHeaders.UserName, userName);
+			try {
+				headers.Add(SyncHeaders.UserName, userName);
+			}catch
+			{
+				// On Windows client, for some username with multi-byte chars, 
+				// Exception occurs. However, we can ignore this as we would already
+				// have the user ID with us
+				log.Debug("Syncing multi byte char user name");
+			}
+			
 			headers.Add(SyncHeaders.UserID, userID);
 			try {
 				//TODO: could be removed?

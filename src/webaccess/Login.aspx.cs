@@ -450,9 +450,18 @@ namespace Novell.iFolderApp.Web
 				loginUrl.Path = (new Uri(weblogin.Url)).PathAndQuery;
 				weblogin.Url = loginUrl.Uri.ToString();
 
+				UTF8Encoding utf8Name = new UTF8Encoding();
+                                byte[] encodedCredsByteArray = utf8Name.GetBytes(username);
+                                string iFolderUserBase64 = Convert.ToBase64String(encodedCredsByteArray);
+
+				encodedCredsByteArray = utf8Name.GetBytes(password);
+                                string iFolderPassBase64 = Convert.ToBase64String(encodedCredsByteArray);
+
+
+
 				// credentials
 				weblogin.PreAuthenticate = true;
-				weblogin.Credentials = new NetworkCredential(username, password);
+				weblogin.Credentials = new NetworkCredential(iFolderUserBase64, iFolderPassBase64);
 			
 				// cookies
 				weblogin.CookieContainer = new CookieContainer();
@@ -492,7 +501,7 @@ namespace Novell.iFolderApp.Web
 
 				// credentials
 				web.PreAuthenticate = true;
-				web.Credentials = new NetworkCredential(username, password);
+				web.Credentials = new NetworkCredential(iFolderUserBase64, iFolderPassBase64);
 			
 				// cookies
 				web.CookieContainer = new CookieContainer();
@@ -524,9 +533,8 @@ namespace Novell.iFolderApp.Web
 				iFolderServer server = web.GetHomeServer();
 				Session["Server"] = server;
 
-				UTF8Encoding utf8Name = new UTF8Encoding();
-                                byte[] EncodedUserNameInByte = utf8Name.GetBytes(user.UserName);
-                                string iFolderUserBase64 = Convert.ToBase64String(EncodedUserNameInByte);
+                                encodedCredsByteArray = utf8Name.GetBytes(user.UserName);
+                                iFolderUserBase64 = Convert.ToBase64String(encodedCredsByteArray);
 
 				// new username cookie for 30 days
 				Response.Cookies.Remove("username");
