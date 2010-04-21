@@ -250,5 +250,16 @@ namespace Novell.iFolderWeb.Admin
 				log.Fatal(Format(context, format, args), e);
 			}
 		}
+		private string Format(string format, params object[] args)
+		{
+			return String.Format(String.Format("[{0}] ", format), args);
+		}
+		public void Info(string format, params object[] args)
+		{
+			if (log.IsInfoEnabled)
+			{
+				log.Info(Format(format, args));
+			}
+		}
 	}
 }

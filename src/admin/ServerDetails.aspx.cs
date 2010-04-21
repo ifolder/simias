@@ -39,6 +39,7 @@ using System.IO;
 using System.Net;
 using System.Resources;
 using System.Text;
+using System.Threading;
 using System.Web;
 using System.Web.SessionState;
 using System.Web.UI;
@@ -53,6 +54,8 @@ namespace Novell.iFolderWeb.Admin
 	public class ServerDetails : System.Web.UI.Page
 	{
 		#region Class Members
+		private static readonly iFolderWebLogger log = new iFolderWebLogger(
+				System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.Name);
 			
 		/// <summary>
 		/// iFolder Connection
@@ -249,6 +252,11 @@ namespace Novell.iFolderWeb.Admin
 		/// External Identity Sync Now Button
 		/// </summary>
 		protected LinkButton SyncNowButton;
+
+		/// <summary>
+		/// External Identity ChangeMasterButton 
+		/// </summary>
+		protected LinkButton ChangeMasterButton;
 
 		/// <summary>
 		/// Server Details cancel button control.
@@ -601,12 +609,14 @@ namespace Novell.iFolderWeb.Admin
 				MasterIP.Visible = MasterIP.Enabled = true;
 				MasterIP.Text = ldapInfo.MasterURL;
 				MasterUri.Text = GetString( "MASTERURI" );
+				ChangeMasterButton.Enabled = true;
 			}
 			else
 			{
 				MasterIP.Enabled = false;
 				MasterIP.Text = "";
 				MasterUri.Text = "";
+				ChangeMasterButton.Enabled = false;
 			}
 
 			//LoggedOnUsersCount.Text = "(Not Implemented)";
@@ -750,6 +760,7 @@ namespace Novell.iFolderWeb.Admin
  				LdapEditButton.Text = GetString( "EDIT" );
  				LdapEditButton.Enabled = true; 
 				SyncNowButton.Text = GetString ("SYNCNOW");
+				ChangeMasterButton.Text = GetString ("CHANGEMASTER");
 
                                 DisableButton.Text = GetString( "DISABLE" );
 				DeleteButton.Text = GetString( "DELETE" );
@@ -889,7 +900,6 @@ namespace Novell.iFolderWeb.Admin
 			}
 
 			DeleteButton.Attributes["onclick"] = "return ConfirmDeletion();";
-
 			//TODO : future!
 			//GetTailData();
 		}
@@ -1041,43 +1051,42 @@ namespace Novell.iFolderWeb.Admin
 		/// <param name="e"></param>
 		protected void OnSaveServerDetailsButton_Click( object source, EventArgs e )
 		{
-
 			try
-                       {
-			       	string MastersIP = "";
-			       	iFolderServer server = web.GetServer ( ServerID); 
+			{
+				string MastersIP = "";
+				iFolderServer server = web.GetServer ( ServerID); 
 
 				remoteweb.PreAuthenticate = true;
 				remoteweb.Credentials = web.Credentials;
 
-		        	remoteweb.Url = server.PublicUrl + "/iFolderAdmin.asmx";
-			    
+				remoteweb.Url = server.PublicUrl + "/iFolderAdmin.asmx";
+
 				redirectUrl = server.PublicUrl;
-			        remoteweb.GetAuthenticatedUser();
+				remoteweb.GetAuthenticatedUser();
 				server = remoteweb.GetServer ( ServerID);
 
-			       	if(! server.IsMaster)
-			       	{
+				if(! server.IsMaster)
+				{
 					MastersIP = MasterIP.Text.Trim();
-			       	}
-                               	bool ReturnStatus = remoteweb.SetIPDetails(PrivateIP.Text.Trim() , PublicIP.Text.Trim(), MastersIP);
-                               	if (ReturnStatus == true)
-                               	{
-                                       TopNav.ShowInfo(GetString("RESTARTSERVER"));
-                                       return;
-                               	}
-                               	else
-                               	{
-                                       TopNav.ShowInfo(GetString("UNABLETOEDITIPDETAILS"));
-                                       return;
-                               	}
-                       }
-                       catch
-                       {
-                               TopNav.ShowError(GetString("UNABLETOEDITIPDETAILS"));
-                               return;
-                       }
-
+				}
+				log.Info("remote web = {0}", remoteweb.Url);
+				bool ReturnStatus = remoteweb.SetIPDetails(PrivateIP.Text.Trim() , PublicIP.Text.Trim(), MastersIP);
+				if (ReturnStatus == true)
+				{
+					TopNav.ShowInfo(GetString("RESTARTSERVER"));
+					return;
+				}
+				else
+				{
+					TopNav.ShowInfo(GetString("UNABLETOEDITIPDETAILS"));
+					return;
+				}
+			}
+			catch
+			{
+				TopNav.ShowError(GetString("UNABLETOEDITIPDETAILS"));
+				return;
+			}
 		}
 
 		/// <summary>
@@ -1088,9 +1097,6 @@ namespace Novell.iFolderWeb.Admin
 		protected void OnCancelServerDetailsButton_Click( object source, EventArgs e )
 		{
 			GetServerDetails();
-
-                        //BuildBreadCrumbList( serverName );
-
 		}
 	
 		/// <summary>
@@ -1168,6 +1174,244 @@ namespace Novell.iFolderWeb.Admin
 
 		}
 
+		protected void ChangeMaster_PreRender(object source, EventArgs e)
+		{
+			// TODO : get this stuff from a resource 
+			// GetString("CONFIRMCHANGEMASTER")
+			ChangeMasterButton.Attributes["onclick"] = "javascript:return confirm('The selected server will be designated as a Master Server. Do you want to continue? Click OK to continue or Cancel to quit.');";
+		}
+
+		/// <summary>
+		/// Event that gets called when the ChangeMasterButton is clicked 
+		/// Here all the calls are made to respective master and slave servers
+		/// to update the required details to turn it into new Master or new
+		/// Slave. After this all other servers are updated with new master
+		/// server information.
+		/// TODO: ldapcontext info update could be clubbed here, but at this
+		/// moment its opted out. Admin has to update the context once this
+		/// operation is successful
+		/// </summary>
+		/// <param name="source"></param>
+		/// <param name="e"></param>
+		protected void OnChangeMasterButton_Click( object source, EventArgs e )
+		{
+			log.Info("Change Master Server process Initiated");
+			bool currentMasterUpdateComplete = false, newMasterUpdateComplete = false;
+
+			string HostID = null, newServerPublicUrl = null;
+			iFolderServer mServer = null, newmServer=null;
+			try
+			{
+				try
+				{
+					//check server ID here 
+					newmServer = web.GetServer(ServerID);
+					mServer = web.GetMasterServer();
+				}
+				catch(Exception ex)
+				{
+					// for some unknow reason first call fails randomly...so tring
+					// it again. 
+					log.Info("Caught exception while trying to get Master server and slected server, retrying");
+					newmServer = web.GetServer(ServerID);
+					mServer = web.GetMasterServer();
+				}
+
+				if ( newmServer != null && mServer != null && 
+						ServerID != null && (newServerPublicUrl = newmServer.PublicUrl) != null)
+				{
+					log.Info("New Master Server ID = {0}", ServerID);
+					log.Info("Current Master Server Url : {0}", mServer.PublicUrl);
+					log.Info("New Master Server Url : {0}", newmServer.PublicUrl);
+
+					// First Set current Master server to Slave
+					iFolderAdmin currentMasterServer = new iFolderAdmin();
+					currentMasterServer.PreAuthenticate = true;
+					currentMasterServer.Credentials = web.Credentials;
+					currentMasterServer.Url = mServer.PublicUrl + "/iFolderAdmin.asmx";
+					log.Info("Current Master Server admin service Url = {0}", currentMasterServer.Url);
+
+					log.Info("Setting as Slave server...");
+					try 
+					{
+						if( !currentMasterServer.SetAsSlaveServer(ServerID, newServerPublicUrl))
+						{
+							log.Info("Unable to set the server as slave, retry");
+							TopNav.ShowError(GetString("UNABLETOSETASSLAVE"));
+							return;
+						}
+					} 
+					catch(WebException ex)
+					{
+						log.Info("Exception while SetAsSlaveServer");
+						HttpWebResponse htpw = (HttpWebResponse)(ex.Response);
+						if(ex.Status == WebExceptionStatus.ProtocolError)
+						{
+							TopNav.ShowError(String.Format("WebException {0}", htpw.StatusDescription));
+						}
+						if(ex.Status == WebExceptionStatus.SendFailure)
+						{
+							UriBuilder turl = new UriBuilder(mServer.PublicUrl);
+							if(turl.Scheme == Uri.UriSchemeHttps)  //check it should be http
+							{
+								turl.Scheme = Uri.UriSchemeHttp;
+								// non standard port does not work
+								turl.Port = 80;
+							}
+							else
+							{
+								turl.Scheme = Uri.UriSchemeHttps;
+								turl.Port = 443;
+							}
+							currentMasterServer.Url = turl.ToString();
+							redirectUrl = currentMasterServer.Url;
+							currentMasterServer.Url = currentMasterServer.Url + "/iFolderAdmin.asmx";
+
+							try 
+							{
+								if( !currentMasterServer.SetAsSlaveServer(ServerID, newServerPublicUrl))
+								{
+									log.Info("Unable to set the server as slave, retry");
+									TopNav.ShowError(GetString("UNABLETOSETASSLAVE"));
+									return;
+								}
+							}
+							catch{
+								log.Info("Exception while SetAsSlave");
+								return;
+							}
+						}
+					}
+
+					currentMasterUpdateComplete = true;
+					log.Info("Set as Slave Server Complete.");
+
+					log.Info("Setting selected server as Master Server...");
+					// Then, Set the New Master Server
+					iFolderAdmin newMasterServer = new iFolderAdmin ();
+					newMasterServer.PreAuthenticate = true;
+					newMasterServer.Credentials = web.Credentials;
+					newMasterServer.Url = newServerPublicUrl + "/iFolderAdmin.asmx";
+					log.Info("New Master Server admin service Url = {0}", newMasterServer.Url);
+					try 
+					{
+						if(!newMasterServer.SetAsMasterServer(ServerID))
+						{
+							log.Info("Unable to set the server as Master, retry");
+						}
+					}
+					catch (WebException ex)
+					{
+						log.Info("Exception while SetAsMasterServer");
+						HttpWebResponse htpw = (HttpWebResponse)(ex.Response);
+						if(ex.Status == WebExceptionStatus.ProtocolError)
+						{
+							TopNav.ShowInfo (String.Format("WebException {0}", htpw.StatusDescription));
+						}
+						if(ex.Status == WebExceptionStatus.SendFailure)
+						{
+							UriBuilder turl = new UriBuilder(newmServer.PublicUrl);
+							// non standard port does not work ....
+							if(turl.Scheme == Uri.UriSchemeHttps)
+							{
+								turl.Scheme = Uri.UriSchemeHttp;
+								turl.Port = 80;
+							}
+							else
+							{
+								turl.Scheme = Uri.UriSchemeHttps;
+								turl.Port = 443;
+							}
+							newMasterServer.Url = turl.ToString();
+							redirectUrl = newMasterServer.Url;
+							newMasterServer.Url = newMasterServer.Url + "/iFolderAdmin.asmx";
+							try
+							{
+								newMasterServer.SetAsMasterServer(ServerID);
+							}
+							catch
+							{
+								TopNav.ShowError(String.Format (GetString("CONNECTFAILED"), newMasterServer.Url));
+							}
+						}
+					}
+
+					newMasterUpdateComplete = true;
+
+					// Master and Slave updated, now set the Master node attribute for new Master host on both
+					// current master and new master
+					if ( currentMasterServer.SetMasterNodeAttribute(newmServer.ID, true ))
+					{
+						int count = 0;
+						while (newMasterServer.GetMasterNodeAttribute(newmServer.ID) != true )
+						{
+							TopNav.ShowInfo(GetString("MASTERNODEUPDATEWAIT"));
+							log.Info("Waiting for master node attrituge to sync acress old and new master server");
+							Thread.Sleep(1000);
+							count ++;
+							if (count > 15)
+							{
+								log.Info("Unable to get Master node attribute from the new master server, you may have to retry the operation");
+								//break;  ///come out from here .....
+								TopNav.ShowError(String.Format("CHANGEMASTERRETRY"));
+								return;
+							}
+						}
+						log.Info("Set as Master Server Complete");
+					}
+
+					//Master and Slave updated and set, now we will let all other slaves
+					//know about the changes.
+					iFolderServer[] iFolderServers = web.GetServers();
+					foreach(iFolderServer ifs in iFolderServers)
+					{
+						if ( ifs.HostName != newmServer.HostName)
+						{
+							log.Info("Updating new master url on : {0}", ifs.PublicUrl);
+							iFolderAdmin otherSlaveServers = new iFolderAdmin();
+							otherSlaveServers.PreAuthenticate = true;
+							otherSlaveServers.Credentials = web.Credentials;
+							otherSlaveServers.Url = ifs.PublicUrl + "/iFolderAdmin.asmx";
+							log.Info("Connecting to : {0}", otherSlaveServers.Url);
+							try
+							{
+								otherSlaveServers.SetMasterServerUrl(ServerID, newServerPublicUrl);
+							}catch(Exception ex)
+							{
+								log.Info("Update master serverurl on {0} failed ", ifs.PublicUrl);
+								TopNav.ShowError(String.Format(GetString("UPDATEMASTERURLONSLAVESFAILED"), ifs.PublicUrl));
+							}
+							// collect all failed url and print once.
+						}
+					}
+					//refresh server deatils
+					//GetServerDetails();
+					//disable the button so the user does not click it again.
+					ChangeMasterButton.Enabled = false;
+					TopNav.ShowInfo (String.Format (GetString ("CHANGEMASTERSUCCESSFUL"), newServerPublicUrl));
+				}
+				else
+				{
+					log.Info(String.Format ("Unable to get new Master ServerID and newServerPublicUrl, retry"));
+					TopNav.ShowError(GetString("CHANGEMASTERINFOFAILED"));
+					ChangeMasterButton.Enabled = false;
+				}
+			}
+			finally
+			{
+				try
+				{
+					//this is just to get all the changes done on both the
+					//servers. does nothing other than logging. Will be useful
+					//for debuggind in case of any error
+					web.VerifyChangeMaster(mServer.ID, newmServer.ID);
+				}
+				catch{}
+				log.Info("Change Master Server process Complete");
+			}
+			return;
+		}
+
 		/// <summary>
 		/// Event that gets called when the SyncNow button is clicked.
 		/// </summary>
@@ -1175,12 +1419,12 @@ namespace Novell.iFolderWeb.Admin
 		/// <param name="e"></param>
 		protected void OnSyncNowButton_Click( object source, EventArgs e )
 		{
-                        iFolderServer server = web.GetServer ( ServerID);
-                        remoteweb.PreAuthenticate = true;
-                        remoteweb.Credentials = web.Credentials;
-                        remoteweb.Url = server.PublicUrl + "/iFolderAdmin.asmx";
-                        remoteweb.GetAuthenticatedUser();
-		        remoteweb.IdentitySyncNow ();
+			iFolderServer server = web.GetServer ( ServerID);
+			remoteweb.PreAuthenticate = true;
+			remoteweb.Credentials = web.Credentials;
+			remoteweb.Url = server.PublicUrl + "/iFolderAdmin.asmx";
+			remoteweb.GetAuthenticatedUser();
+			remoteweb.IdentitySyncNow ();
 		}
 
 		/// <summary>
@@ -1413,16 +1657,17 @@ namespace Novell.iFolderWeb.Admin
 				// Set the render event to happen only on page load.
 				Page.PreRender += new EventHandler( Page_PreRender );
 			}
-
 			DataPathsFooter.PageFirstClick += new ImageClickEventHandler( PageFirstButton_Click );
-                        DataPathsFooter.PagePreviousClick += new ImageClickEventHandler( PagePreviousButton_Click );
-                        DataPathsFooter.PageNextClick += new ImageClickEventHandler( PageNextButton_Click );
-                        DataPathsFooter.PageLastClick += new ImageClickEventHandler( PageLastButton_Click );
+			DataPathsFooter.PagePreviousClick += new ImageClickEventHandler( PagePreviousButton_Click );
+			DataPathsFooter.PageNextClick += new ImageClickEventHandler( PageNextButton_Click );
+			DataPathsFooter.PageLastClick += new ImageClickEventHandler( PageLastButton_Click );
 
 			this.Load += new System.EventHandler(this.Page_Load);
 			this.Unload += new System.EventHandler (this.Page_Unload);
 
 			this.SyncNowButton.Click += new System.EventHandler(this.OnSyncNowButton_Click);
+			this.ChangeMasterButton.PreRender += new EventHandler(this.ChangeMaster_PreRender);
+			this.ChangeMasterButton.Click += new System.EventHandler(this.OnChangeMasterButton_Click);
 			this.ViewLogButton.Click += new System.EventHandler(this.ViewLogFile);
 		}
 		#endregion

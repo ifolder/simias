@@ -38,13 +38,12 @@
 			document.getElementById( "CancelLdapDetailsButton" ).disabled = false;
 		}
 
-                function ConfirmDeletion()
-                {
-                        return alert("<%= GetString("CONFIRMDELETION") %>");
-                }
+        function ConfirmChangeMaster()
+        {
+        	return alert("<%= GetString("CONFIRMCHANGEMASTER") %>");
+        }
 
 	</script>
-
 
 </head>
 	
@@ -85,6 +84,13 @@
 						
 						<td>
 							<asp:Literal ID="Type" Runat="server" />
+
+							<asp:LinkButton
+								ID="ChangeMasterButton" 
+								Runat="server" 
+								CssClass="changemasterbuttons"
+								Enabled="True"
+							/>
 						</td>
 					</tr>
 

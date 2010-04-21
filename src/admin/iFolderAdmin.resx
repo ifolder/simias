@@ -1275,5 +1275,38 @@
     <data name="WAITING">
         <value>Waiting</value>
     </data>
+	<data name="CHANGEMASTER">
+		<value>Set as Master</value>
+	</data>
+	<data name="UNABLETOSETASSLAVE">
+		<value>Unable to set as slave server. Retry the operation.</value>
+	</data>
+	<data name="CONFIGFILEUPDATEFAILED">
+		<value>Unable to update configuration file. Update the simias.config file manually.</value>
+	</data>
+	<data name="CONNECTIONFAILED">
+		<value>Unable to connect to server {0}.</value>
+	</data>
+	<data name="CHANGEMASTERNOINFOFAILED">
+		<value>Unable to get Server ID and New Server Public URL.</value>
+	</data>
+	<data name="CHANGEMASTERSUCCESSFUL">
+		<value>Successfully changed the Master and Slave. New Master is {0}. Restart all servers for the changes to take effect.</value>
+	</data>
+	<data name="CHANGEMASTERFAILED">
+		<value>Unable to change the Master and Slave. Check log files for more information.</value>
+	</data>
+	<data name="CONFIRMCHANGEMASTER">
+        <value>The selected server will be designated as a Master Server. Do you want to continue? Click OK to continue or Cancel to quit.</value>
+	</data>
+	<data name="UPDATEMASTERURLONSLAVESFAILED">
+		<value>Unable to update new master URL on server {0}. Update master IP in this server manually.</value>
+	</data>
+	<data name="MASTERNODEUPDATEWAIT">
+		<value>Waiting for master node attribute to synchronize to new master and slaves.</value>
+	</data>
+	<data name="CHANGEMASTERRETRY">
+		<value>Unable to update master node attribute on Master and slave. Retry the operation.</value>
+	</data>
     </data>
 </root>
