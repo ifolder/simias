@@ -676,6 +676,7 @@ namespace Simias.Storage
 			}
 		}
 
+
 		/// <summary>
 		/// Get or Set the HostID for this collection.
 		/// </summary>
@@ -698,6 +699,48 @@ namespace Simias.Storage
 					Property p = new Property( PropertyTags.HostID, value );
 					p.LocalProperty = true;
 					properties.ModifyNodeProperty( p );
+				}
+				else
+				{
+					Property p = properties.FindSingleValue( PropertyTags.HostID);
+					if ( p != null )
+					{
+						p.DeleteProperty();
+					}
+				}
+			}
+		}
+
+		/// <summary>
+		/// Get or Set the HostUri for this collection.
+		/// </summary>
+		public string HostUri
+		{
+			get
+			{
+				string hostUri = null;
+				Property p = properties.FindSingleValue( PropertyTags.HostUri );
+				if (p != null)
+				{
+					hostUri = p.ToString();
+				}
+				return hostUri;
+			}
+			set
+			{
+				if (value != null && value.Length != 0)
+				{
+					Property p = new Property( PropertyTags.HostUri, value );
+					p.LocalProperty = true;
+					properties.ModifyNodeProperty( p );
+				}
+				else
+				{
+					Property p = properties.FindSingleValue( PropertyTags.HostUri);
+					if ( p != null )
+					{
+						p.DeleteProperty();
+					}
 				}
 			}
 		}

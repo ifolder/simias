@@ -41,6 +41,7 @@ using Simias;
 using Simias.Client;
 using Simias.Storage;
 using Simias.Server;
+using Simias.Sync;
 using Simias.LdapProvider;
 
 namespace iFolder.WebService
@@ -86,6 +87,7 @@ namespace iFolder.WebService
 	[Serializable]
 	public class iFolderServer
 	{
+		internal static string catalogID = "a93266fd-55de-4590-b1c7-428f2fed815d";  //TODO: refer.
 		/// <summary>
 		/// iFolder Log Instance
 		/// </summary>
@@ -605,6 +607,9 @@ namespace iFolder.WebService
 			privateUrl = AddVirtualPath( privateUrl );
 			publicUrl = AddVirtualPath( publicUrl );
 				
+			log.Debug("private Url = {0}", privateUrl);
+			log.Debug("public url = {0}", publicUrl);
+
                         string SimiasConfigFilePath = Path.Combine ( Store.StorePath, "Simias.config");	
 			if ( File.Exists( Path.Combine( Store.StorePath, Simias.Configuration.DefaultConfigFileName ) ) == true )
                         {
@@ -651,15 +656,254 @@ namespace iFolder.WebService
 
 			return UpdateStatus;	
 		}
+		
+		/// <summary>
+		/// This method is used to set the Master server url into simias.config file.
+		/// </summary>
+		/// <returns>true/false based upon the success/failure </returns>
+		public static bool SetMasterServerUrl (string HostID, string MasterUrl)
+		{
+			bool UpdateStatus = false;
+			string ServerSection="Server";
+			string MasterAddressKey = "MasterAddress";
+
+			if (MasterUrl != null && !MasterUrl.ToLower().StartsWith(Uri.UriSchemeHttps))
+			{
+				MasterUrl = (new UriBuilder(Uri.UriSchemeHttps, MasterUrl)).ToString();
+			}
+			try 
+			{
+				Store store = Store.GetStore();
+				Domain domain = store.GetDomain(store.DefaultDomain);
+				HostNode localhostNode = HostNode.GetLocalHost();
+				domain.HostID = HostID;
+				domain.HostUri = MasterUrl;
+				domain.Commit();
+
+				string SimiasConfigFilePath = Path.Combine ( Store.StorePath, "Simias.config");	
+				if ( File.Exists( Path.Combine( Store.StorePath, Simias.Configuration.DefaultConfigFileName ) ) == true )
+				{
+					SimiasConfigFilePath = Path.Combine( Store.StorePath, Simias.Configuration.DefaultConfigFileName );
+				}
+				XmlDocument document = new XmlDocument();
+				document.Load(SimiasConfigFilePath );
+				UpdateStatus = SetConfigValueWithSSL( document, ServerSection, MasterAddressKey, MasterUrl );
+				if(UpdateStatus == false) return false;
+				CommitConfiguration( document , SimiasConfigFilePath);
+				UpdateStatus = true;
+			}
+			catch(Exception ex)
+			{
+				SmartException.Throw(ex);
+			}
+			return UpdateStatus;	
+		}
+
+		/// <summary>
+		/// This method is used to set the Current Server as Slave Server 
+		/// To be called while setting the Master as Slave and creating a new master server
+		/// Ensure to make this call on the server which is Master Server
+		/// <param name ="newMasterHostID">HostID (Ace value) of the new Master Server </param>
+		/// <param name ="newMasterMasterPublicUrl">New Masters Public Url, this is to be set as HostUri on the current server domain
+		/// for this server to connect to new Master Server </param>
+		/// </summary>
+		/// <returns>true/false based upon the success/failure </returns>
+		public static bool SetAsSlaveServer(string newMasterHostID, string newMasterPublicUrl)
+		{
+			log.Info("Starting SetAsSlave.....");
+
+			try 
+			{
+				Store store = Store.GetStore();
+				Domain domain = store.GetDomain(store.DefaultDomain);
+				Collection cat = store.GetCollectionByID(catalogID); //Simias.Server.Catalog.catalogID); 
+
+				HostNode localhostNode = HostNode.GetLocalHost();
+
+				localhostNode.ChangeMasterState = (int)HostNode.changeMasterStates.Started;
+				domain.Commit(localhostNode);
+
+				//Setting the Maset node attribute to slave
+				localhostNode.IsMasterHost = false;
+
+				// HostID of the newMaster is updated in doman HostID
+				domain.HostID = newMasterHostID;
+				log.Info("Settting HostID with new Master Server HostID : {0}", domain.HostID);
+
+				// public url of the newmaster is updated in domain HostUri
+				domain.HostUri = newMasterPublicUrl;
+				log.Info("Setting HostUri with new Master Servers Public Url : {0}", domain.HostUri);
+
+				// Sync Roles updated for each of the collections.
+
+				//Updating the domain.
+				domain.Role =  Simias.Sync.SyncRoles.Slave;
+				log.Info("Setting SyncRole on the Domain to Slave ({0})", domain.Role);
+
+				// Updating Catalog
+				cat.Role =  Simias.Sync.SyncRoles.Slave;
+				log.Info("Setting SyncRole on the catalog");
+
+				domain.Commit();
+				cat.Commit(cat);
+				log.Info("Commiting all value to set this server ({0} as Slave Server", localhostNode.Name);
+
+
+				localhostNode.ChangeMasterState = (int)HostNode.changeMasterStates.Complete; 
+				domain.Commit(localhostNode);
+			}
+			catch(Exception ex)
+			{
+				log.Error("Exception while running SetAsSlave : {0} : {1} ", ex.Message, ex.StackTrace);
+				return false;
+			}
+			return true;
+		}
+
+		/// <summary>
+		/// This method is used to set the Current Slave Server as Master
+		/// To be called while setting the Master as Slave and creating a new master server
+		/// Ensure to make this call on the server which is Slave Server
+		/// <param name ="HostID">HostID (Ace value) of the new Master Server </param>
+		/// for this server to connect to new Master Server </param>
+		/// </summary>
+		/// <returns>true/false based upon the success/failure </returns>
+		public static bool SetAsMasterServer(string HostID)
+		{
+			log.Info("Starting SetAsMasterServer");
+			log.Info(" HostName = {0}", HostID);
+
+			try 
+			{
+				Store store = Store.GetStore();
+				Domain domain = store.GetDomain(store.DefaultDomain);
+				Collection cat = store.GetCollectionByID(catalogID); //Simias.Server.Catalog.catalogID);
+
+				HostNode localhostNode = HostNode.GetHostByID(domain.ID, HostID);
+
+				localhostNode.ChangeMasterState = (int)HostNode.changeMasterStates.Started;
+				domain.Commit(localhostNode);
+				log.Info("ChangeMasterState tag set to Started on this server");
+
+				// MasterNodeAttribute updated on this server.
+				localhostNode.IsMasterHost = true;
+				log.Info("Master Node Attribute set on New Master");
+
+				// Sync Roles updated for each of the collections.
+				
+				//Updating the domain.
+				domain.Role =  Simias.Sync.SyncRoles.Master;
+				log.Info("Setting SyncRole on the Domain");
+
+				// Updating Catalog
+				cat.Role = Simias.Sync.SyncRoles.Master;
+				log.Info("Setting SyncRole on the catalog");
+
+				// Remove the HostId
+				domain.HostID = "";
+				log.Info("Removing the HostID entry from Slave server");
+
+				// Remove the HostUrl
+				domain.HostUri = "";
+				log.Info("Removing the HostUri entry from Slave server");
+
+				domain.Commit(); 
+				domain.Commit(localhostNode); 
+				cat.Commit(cat); 
+				log.Info("This server is set as Master server successfully.");
+
+				localhostNode.ChangeMasterState = (int)HostNode.changeMasterStates.Complete; 
+				domain.Commit(localhostNode);
+				log.Info("ChangeMasterState tag updated on this server");
+			}
+			catch(Exception ex)
+			{
+				log.Error("Exception while setting new Master Server :{0} : {1}", ex.Message, ex.StackTrace);
+				return false;
+			}
+			return true;
+		}
+
+		public static bool SetMasterNodeAttribute (string HostID, bool Value)
+		{
+			try
+			{
+				Store store = Store.GetStore();
+				log.Error("Set Master store : {0}", HostID);
+				Domain domain = store.GetDomain(store.DefaultDomain);
+				//HostNode lHostNode = HostNode.GetHostByID(domain.ID, HostID);
+				HostNode lHostNode = HostNode.GetHostLocalHost();
+				lHostNode.IsMasterHost = Value;
+				domain.Commit(lHostNode);
+			}
+			catch (Exception ex)
+			{
+				log.Error("Unable to set Master Node Attribute :{0} :{1}", ex.Message, ex.StackTrace);
+				return false;
+			}
+			return true;	
+		}
+
+		public static bool GetMasterNodeAttribute(string HostID)
+		{
+			try
+			{
+				Store store = Store.GetStore();
+				Domain domain = store.GetDomain(store.DefaultDomain);
+				HostNode lHostNode = HostNode.GetHostByID(domain.ID, HostID);
+				return lHostNode.IsMasterHost ;
+			}
+			catch(Exception ex)
+			{
+				throw ex;
+			}
+		}
+
+		public static bool VerifyChangeMaster(string currentMasterID, string newMasterID)
+		{
+			bool retval = true; 
+			log.Info("Verifying all values after Changing Master and Slave Server");
+			try
+			{
+				Store store = Store.GetStore();
+				Domain domain = store.GetDomain(store.DefaultDomain);
+				Collection cat = store.GetCollectionByID(catalogID); //Simias.Server.Catalog.catalogID);
+
+				HostNode currentMasterNode = HostNode.GetHostByID(domain.ID, currentMasterID);
+				HostNode newMasterNode = HostNode.GetHostByID(domain.ID, newMasterID);
+
+				log.Info("Domain attributes");
+				log.Info("HostID : {0}", domain.HostID);
+				log.Info("HostUrl : {0}", domain.HostUri);
+				log.Info("Domain Sync Role : {0}", domain.Role);
+
+				log.Info("Catalog attributes");
+				log.Info("Catalog Sync Role : {0}", cat.Role);
+
+				log.Info("Current Master node attributes");
+				log.Info("Name : {0}", currentMasterNode.Name);
+				log.Info("IsMasterHost : {0}", currentMasterNode.IsMasterHost);
+				log.Info("ChangeMasterState : {0}", currentMasterNode.ChangeMasterState);
+
+				log.Info("New Master node attributes");
+				log.Info("Name : {0}", newMasterNode.Name);
+				log.Info("IsMasterHost : {0}", newMasterNode.IsMasterHost);
+				log.Info("ChangeMasterState : {0}", newMasterNode.ChangeMasterState);
+			}
+			catch (Exception ex)
+			{
+				log.Error("Uable to verify change master");
+				retval = false;
+				throw ex;
+			}
+			return retval;
+		}
+
 		/// <summary>
 		/// Update the Master Url in the local store
 		/// </summary>
-		/// <param name="masterUrl">
-		/// A <see cref="System.String"/>
-		/// </param>
-		/// /// <returns>
-		/// A <see cref="System.Boolean"/>
-		/// </returns>
+		/// <param name="masterUrl"> url of the master server for the domain </param>
+		/// /// <returns> true/false on success/failure </returns>
 		private static bool UpdateMasterURL( string masterUrl)
 		{
 			bool retVal = true;;
@@ -673,11 +917,11 @@ namespace iFolder.WebService
 			}
 			catch (Exception ex)
 			{
-				log.Debug("Exception in UpdateMasterURL" + ex.Message);
 				retVal = false;
 			}
 			return retVal;
 		}
+
         	/// <summary>
 	        /// Adds simias10 into the path
         	/// </summary>
@@ -727,6 +971,7 @@ namespace iFolder.WebService
 			}
 			catch(Exception ex)
 			{
+				log.Error("Ex at SetConfigValuewithSSL");
 				SmartException.Throw(ex);
 			}
 			return updated;
@@ -741,55 +986,86 @@ namespace iFolder.WebService
         /// <param name="configValue">value</param>
         /// <returns>true if successful</returns>
 		private static bool SetConfigValue(XmlDocument document, string section, string key, string configValue)
-                {
+		{
 			bool status = false;			
 			// xml tags
-                        string SectionTag = "section";
-                        string SettingTag = "setting";
-                        string NameAttr = "name";
-                        string ValueAttr = "value";
+			string SectionTag = "section";
+			string SettingTag = "setting";
+			string NameAttr = "name";
+			string ValueAttr = "value";
 
 			// Build an xpath for the setting.
-                        string str = string.Format("//{0}[@{1}='{2}']/{3}[@{1}='{4}']", SectionTag, NameAttr, section, SettingTag, key);
-                        XmlElement element = ( XmlElement )document.DocumentElement.SelectSingleNode(str);
-                        if ( configValue == null )
-                        {
-                                // If a null value is passed in, remove the element.
-                                try
-                                {
-                                        element.ParentNode.RemoveChild( element );
-                                }
-                                catch {}
-                        }
-                        else
-                        {
-                                if (element != null)
-                                {
-                                        element.SetAttribute(ValueAttr, configValue);
-                                        status = true;
-                                }
-                                else
-                                {
-                                        // The setting doesn't exist, so create it.
-                                        element = document.CreateElement(SettingTag);
-                                        element.SetAttribute(NameAttr, key);
-                                        element.SetAttribute(ValueAttr, configValue);
-                                        str = string.Format("//{0}[@{1}='{2}']", SectionTag, NameAttr, section);
-                                        XmlElement eSection = (XmlElement)document.DocumentElement.SelectSingleNode(str);
-                                        if ( eSection == null )
-                                        {
-                                                // If the section doesn't exist, create it.
-                                                eSection = document.CreateElement( SectionTag );
-                                                eSection.SetAttribute( NameAttr, section );
-                                                document.DocumentElement.AppendChild( eSection );
-                                        }
+			string str = string.Format("//{0}[@{1}='{2}']/{3}[@{1}='{4}']", SectionTag, NameAttr, section, SettingTag, key);
+			XmlElement element = ( XmlElement )document.DocumentElement.SelectSingleNode(str);
+			if ( configValue == null )
+			{
+				// If a null value is passed in, remove the element.
+				try
+				{
+					element.ParentNode.RemoveChild( element );
+				}
+				catch {}
+			}
+			else
+			{
+				if (element != null)
+				{
+					element.SetAttribute(ValueAttr, configValue);
+					status = true;
+				}
+				else
+				{
+					// The setting doesn't exist, so create it.
+					element = document.CreateElement(SettingTag);
+					element.SetAttribute(NameAttr, key);
+					element.SetAttribute(ValueAttr, configValue);
+					str = string.Format("//{0}[@{1}='{2}']", SectionTag, NameAttr, section);
+					XmlElement eSection = (XmlElement)document.DocumentElement.SelectSingleNode(str);
+					if ( eSection == null )
+					{
+						// If the section doesn't exist, create it.
+						eSection = document.CreateElement( SectionTag );
+						eSection.SetAttribute( NameAttr, section );
+						document.DocumentElement.AppendChild( eSection );
+					}
 
-                                        eSection.AppendChild(element);
-                                        status = true;
-                                }
-                        }
-			
+					eSection.AppendChild(element);
+					status = true;
+				}
+			}
+
 			return status;
+		}
+
+		private static string GetServerArch()
+		{
+			string machArch = null;
+			try 
+			{
+
+				string path = Path.GetFullPath("/etc/apache2/conf.d/simias.conf");
+
+				TextReader reader = (TextReader)File.OpenText(path);
+	
+				if(reader == null)
+					return null;
+				
+				string line;
+
+				while((line = reader.ReadLine()) != null)
+				{
+					if (line.StartsWith("Alias"))
+					{
+						machArch = (line.IndexOf("lib64") >= 0) ? "x86_64" : "x86_32";
+						break;
+					}
+				}
+				
+				reader.Close();
+			}catch
+			{
+			}
+			return machArch;
 		}
 
         /// <summary>
@@ -797,66 +1073,60 @@ namespace iFolder.WebService
         /// </summary>
         /// <param name="masterAddress">address of the master server</param>
 		private static void SetupSSLForMaster(string masterAddress)
-                {
-                        if (masterAddress.ToLower().StartsWith(Uri.UriSchemeHttps))
-                        {
-				string machineArch = Environment.GetEnvironmentVariable("HOSTTYPE");
-				string webPath = ( machineArch.IndexOf("_64" ) > 0 ? Path.GetFullPath("../../../../lib64/simias/web"): Path.GetFullPath("../../../../lib/simias/web"));
-                                // swap policy
-                                ServicePointManager.CertificatePolicy = new TrustAllCertificatePolicy();
+		{
+			if (masterAddress.ToLower().StartsWith(Uri.UriSchemeHttps))
+			{
+				string machineArch = GetServerArch();
+				string webPath = webPath = Path.GetFullPath("../../../../lib/simias/web");
 
-                                // connect
-                                HttpWebRequest request = (HttpWebRequest) HttpWebRequest.Create(masterAddress);
+				if (machineArch != null)
+				{
+					webPath = ( machineArch.IndexOf("_64" ) > 0 ? Path.GetFullPath("../../../../lib64/simias/web"): Path.GetFullPath("../../../../lib/simias/web"));
+				}
 
-                                try
-                                {
-                                        request.GetResponse();
-                                }
-                                catch
-                                {
-                                        // ignore
-                                }
+				// swap policy
+				ServicePointManager.CertificatePolicy = new TrustAllCertificatePolicy();
+				HttpWebRequest request = (HttpWebRequest) HttpWebRequest.Create(masterAddress);
 
-                                // restore policy
+				try
+				{
+					HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+				}
+				catch (Exception ex)
+				{
+					// ignore
+				}
 
-                                // service point
-                                ServicePoint sp = request.ServicePoint;
-				if(sp == null) throw new Exception("sp is null for master "+masterAddress);
+				// restore policy
+
+				// service point
+				ServicePoint sp = request.ServicePoint;
+				if(sp == null) throw new Exception("sp is null for master "+ masterAddress);
 				if(sp.Certificate == null) throw new Exception("sp.Certificate is null for master "+masterAddress);
-                                if ((sp != null) && (sp.Certificate != null))
-                                {
-                                        string path = Path.GetFullPath(Path.Combine(webPath, "web.config"));
-                                        string certRawDetail = Convert.ToBase64String(sp.Certificate.GetRawCertData());
-                                        string certDetail = sp.Certificate.ToString(true);
-
-                                        XmlDocument doc = new XmlDocument();
-
-                                        doc.Load(path);
-
-                                        XmlElement cert = (XmlElement)doc.DocumentElement.SelectSingleNode("//configuration/appSettings/add[@key='SimiasCert']");
-
-                                        if (cert != null)
-                                        {
-                                                cert.Attributes["value"].Value = certRawDetail;
-
-                                                doc.Save(path);
-
-                                                //Console.WriteLine("Done");
-                                        }
-                                        else
-                                        {
-                                                throw new Exception(String.Format("Unable to find \"SimiasCert\" tag in the {0} file.", path));
-                                        }
-
-                                }
-                                else
-                                {
-                                        throw new Exception("Unable to retrieve the certificate from the iFolder server.webpath is :"+webPath);
-                                }
-
-                        }
-
-                }
+				if ((sp != null) && (sp.Certificate != null))
+				{
+					string path = Path.GetFullPath(Path.Combine(webPath, "web.config"));
+					string certRawDetail = Convert.ToBase64String(sp.Certificate.GetRawCertData());
+					string certDetail = sp.Certificate.ToString(true);
+					XmlDocument doc = new XmlDocument();
+					doc.Load(path);
+					XmlElement cert = (XmlElement)doc.DocumentElement.SelectSingleNode("//configuration/appSettings/add[@key='SimiasCert']");
+					if (cert != null)
+					{
+						cert.Attributes["value"].Value = certRawDetail;
+						doc.Save(path);
+					}
+					else
+					{
+						throw new Exception(String.Format("Unable to find \"SimiasCert\" tag in the {0} file.", path));
+					}
+				}
+				else
+				{
+					throw new Exception("Unable to retrieve the certificate from the iFolder server.webpath is :"+webPath);
+				}
+			}
+		}
 
 
 		/// <summary>
@@ -899,6 +1169,7 @@ namespace iFolder.WebService
 	                                string iFolderPassBase64 = Convert.ToBase64String(encodedCredsByteArray);
 
 					domainService.Credentials = new NetworkCredential(iFolderUserBase64, iFolderPassBase64);
+					domainService.Credentials = new NetworkCredential(username, password);
 					domainService.PreAuthenticate = true;
 
 					publicUrl = domainService.GetHomeServer( username ).PublicAddress;

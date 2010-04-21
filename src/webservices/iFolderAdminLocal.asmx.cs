@@ -1842,6 +1842,118 @@ namespace iFolder.WebService
                    return result;
                }
 
+			   /// <summary>
+			   /// Get the Master Server
+			   /// </summary>
+			   /// <returns>true/false</returns>
+			   [WebMethod(Description="gets the Master server", EnableSession=true)]
+	        	public virtual iFolderServer GetMasterServer ()
+				   {
+					   return iFolderServer.GetMasterServer();
+				   }
+
+
+			   /// <summary>
+			   /// set the Master Url on this node.
+			   /// </summary>
+			   /// <returns>true/false</returns>
+			   [WebMethod(Description= "set the Master Url", EnableSession = true)]
+				   public virtual bool SetMasterServerUrl (string HostID, string MasterUrl)
+				   {
+					   bool result = false;
+					   try
+					   {
+						   result = iFolderServer.SetMasterServerUrl (HostID, MasterUrl);
+					   }
+					   catch (Exception e)
+					   {
+						   SmartException.Throw (e);
+					   }
+					   return result;
+				   }
+
+			   /// <summary>
+			   /// Sets this server as Master Server
+			   /// </summary>
+			   /// <param name="HostID"> ID(Ace value) of the server</param>
+			   /// <returns>true on success/false on failure</returns>
+			   [WebMethod(Description= "set the new master server", EnableSession = true)]
+				   public virtual bool SetAsMasterServer(string hostID)
+				   {
+					   return iFolderServer.SetAsMasterServer( hostID );
+				   }
+
+			   /// <summary>
+			   /// Sets this server as Slave Server
+			   /// </summary>
+			   /// <param name="HostID"> ID(Ace value) of the new server</param>
+			   /// <param name="newMasterPublicUrl"> public url of the new master server</param>
+			   /// <returns>true on success/false on failure</returns>
+			   [WebMethod(Description= "set the HostID on Domain", EnableSession = true)]
+				   public virtual bool SetAsSlaveServer(string newMasterHostID, string newMasterPublicUrl)
+				   {
+					   return iFolderServer.SetAsSlaveServer(newMasterHostID, newMasterPublicUrl);
+				   }
+
+			   /// <summary>
+			   /// set the MasterNodeAttribute
+			   /// </summary>
+			   /// <returns>true/false</returns>
+			   [WebMethod(Description= "set the Master node attribute", EnableSession = true)]
+				   public virtual bool SetMasterNodeAttribute (string HostID, bool Value)
+				   {
+					   bool result = false;
+
+					   try
+					   {
+						   result = iFolderServer.SetMasterNodeAttribute (HostID, Value);
+					   }
+					   catch (Exception e)
+					   {
+						   SmartException.Throw (e);
+					   }
+					   return result;
+				   }
+
+			   /// <summary>
+			   /// get the MasterNodeAttribute
+			   /// </summary>
+			   /// <returns>true/false</returns>
+			   [WebMethod(Description= "get the Master node attribute", EnableSession = true)]
+				   public virtual bool GetMasterNodeAttribute (string HostID)
+				   {
+					   bool result = false;
+
+					   try
+					   {
+						   result = iFolderServer.GetMasterNodeAttribute (HostID);
+					   }
+					   catch (Exception e)
+					   {
+						   SmartException.Throw (e);
+					   }
+					   return result;
+				   }
+
+			   /// <summary>
+			   /// get the server attributes 
+			   /// </summary>
+			   /// <returns>true/false</returns>
+			   [WebMethod(Description= "get the  node attributes", EnableSession = true)]
+				   public virtual bool VerifyChangeMaster(string cmHostID, string nmHostID)
+				   {
+					   bool result = false;
+
+					   try
+					   {
+						   result = iFolderServer.VerifyChangeMaster(cmHostID, nmHostID);
+					   }
+					   catch (Exception e)
+					   {
+						   SmartException.Throw (e);
+					   }
+					   return result;
+				   }
 		/// <summary>
 		/// DisablePast Sharing for the system  
 		/// </summary>

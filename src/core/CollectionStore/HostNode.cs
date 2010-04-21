@@ -52,6 +52,19 @@ namespace Simias.Storage
 		const string LocalHostTag = "LocalHost";
 		#endregion
 
+		public enum changeMasterStates
+		{
+			/// <summary>
+			/// Changemaster process started
+			/// </summary>
+			Started,
+
+			/// <summary>
+			/// Changemaster all updates complete 
+			/// </summary>
+			Complete
+		};
+
 		#region Properties
 		/// <summary>
 		/// Gets/Sets the public address for this host.
@@ -92,6 +105,26 @@ namespace Simias.Storage
 				Properties.ModifyNodeProperty(new Property(PropertyTags.PrivateUrl, value));
 			}
 		}
+	/// <summary>
+		/// Gets/Sets the Master server address for this host.
+		/// </summary>
+		public string MasterUrl
+		{
+			get
+			{
+				Property pa = Properties.GetSingleProperty(PropertyTags.MasterUrl);
+				if (pa != null)
+				{
+					return pa.Value.ToString();
+				}
+				throw new NotExistException(PropertyTags.MasterUrl);
+			}
+			set
+			{
+				Properties.ModifyNodeProperty(new Property(PropertyTags.MasterUrl, value));
+			}
+		}
+		/// <summary>
 
 		/// <summary>
 		/// Gets/Sets if HostNode is the Master Host.
@@ -109,7 +142,14 @@ namespace Simias.Storage
 			}
 			set
 			{
-				Properties.ModifyNodeProperty(new Property(PropertyTags.MasterHost, value));
+				if ( value )
+				{
+					Properties.ModifyNodeProperty(new Property(PropertyTags.MasterHost, value));
+				}
+				else
+				{
+					properties.DeleteSingleNodeProperty( PropertyTags.MasterHost);
+				}
 			}
 		}
 
@@ -134,6 +174,33 @@ namespace Simias.Storage
 				Properties.AddNodeProperty(localHost);
 			}
 		}
+
+
+		/// <summary>
+		/// Gets/Sets ChangeMasterState  
+		/// </summary>
+		public int ChangeMasterState 
+		{
+			get
+			{
+				Property pa = Properties.GetSingleProperty(PropertyTags.ChangeMasterState);
+				int value= (pa!=null) ? (int) pa.Value:(int)-1;
+				return value;
+			}
+			set
+			{
+				if ( value != -1)
+				{
+					Properties.ModifyNodeProperty(new Property(PropertyTags.ChangeMasterState, value));
+				}
+				else
+				{
+					properties.DeleteSingleNodeProperty( PropertyTags.ChangeMasterState);
+				}
+			}
+		}
+
+
 
 		#endregion
 

@@ -69,7 +69,7 @@ namespace Simias.Server
 		private static Store store;
 		private static Domain domain;
 		private static Collection catalog;
-		internal static string catalogID = "a93266fd-55de-4590-b1c7-428f2fed815d";
+		public static string catalogID = "a93266fd-55de-4590-b1c7-428f2fed815d";
 		internal static string catalogName = "Collection Catalogue";
 
 		private static CollectionSyncClient syncClient;
@@ -100,6 +100,25 @@ namespace Simias.Server
 		}
 		#endregion
 
+				static internal string SyncRoleProperty = "Sync Role"; 
+				/// <summary>
+				/// Set/Get the SyncRol
+				/// </summary>
+				public SyncRoles SyncRole
+				{
+					get
+					{
+						Collection col = store.GetCollectionByID( catalogID );
+						return (col != null)?(SyncRoles)col.Properties.GetSingleProperty( SyncRoleProperty ).Value :(Simias.Sync.SyncRoles.None);
+					}
+					set
+					{
+						Collection col = store.GetCollectionByID( catalogID );
+						Property hprop = new Property( SyncRoleProperty, value );
+						col.Properties.ModifyProperty( hprop );
+						col.Commit();
+					}
+				}
 		#region Private Methods
         /// <summary>
         /// Event handler to handle an event
@@ -1193,18 +1212,18 @@ namespace Simias.Server
                 /// Delete a catalog entry for the specified collection
                 /// </summary>
                 static public void DeleteEntryByCollectionID( string CollectionID )
-                {
-			log.Debug("In DeleteEntryByCollectionID ...");
-			Collection c = store.GetCollectionByID(CollectionID);
-                        CatalogEntry entry = GetEntryByCollectionID(CollectionID);
-			if(entry != null)
-			{
-				catalog.Commit(catalog.Delete(entry));
-				c.Commit(c.Delete());
-			}
-			log.Debug("Out of DeleteEntryByCollectionID ...");
-                        return ;
-                }
+				{
+					log.Debug("In DeleteEntryByCollectionID ...");
+					Collection c = store.GetCollectionByID(CollectionID);
+					CatalogEntry entry = GetEntryByCollectionID(CollectionID);
+					if(entry != null)
+					{
+						catalog.Commit(catalog.Delete(entry));
+						c.Commit(c.Delete());
+					}
+					log.Debug("Out of DeleteEntryByCollectionID ...");
+					return ;
+				}
 
 		#endregion
 	}
@@ -1268,7 +1287,7 @@ namespace Simias.Server
 			{
 				log.Debug("Changing the host ID to: {0}", value);
 				Property hprop = new Property( HostProperty, value );
-	                        this.Properties.ModifyProperty( hprop );
+	            this.Properties.ModifyProperty( hprop );
 				catalog.Commit(this);
 			}
 		}

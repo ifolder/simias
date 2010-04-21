@@ -682,6 +682,79 @@ namespace iFolder.WebService
                        return base.SetIPDetails(privateIP, publicIP, MastersIP);
                }
 
+			   /// <summary>
+			   /// Get the Master Server
+			   /// </summary>
+			   /// <returns>true/false</returns>
+			   [WebMethod(Description="gets the Master server", EnableSession=true)]
+	        	public override iFolderServer GetMasterServer ()
+				   {
+					   return base.GetMasterServer();
+				   }
+
+			   /// <summary>
+			   /// Set the Master Url for node
+			   /// </summary>
+			   /// <returns>true/false</returns>
+			   [WebMethod(Description="sets the MasterUrl for the server", EnableSession=true)]
+				   public override bool SetMasterServerUrl (string HostID, string MasterUrl)
+				   {
+					   return base.SetMasterServerUrl (HostID, MasterUrl);
+				   }
+
+			   /// <summary>
+			   /// Sets this server as Master Server
+			   /// </summary>
+			   /// <param name="HostID"> ID(Ace value) of the server</param>
+			   /// <returns>true on success/false on failure</returns>
+			   [WebMethod(Description= "set the new master server", EnableSession = true)]
+				   public override bool SetAsMasterServer(string hostID)
+				   {
+					   return base.SetAsMasterServer(hostID);
+				   }
+
+			   /// <summary>
+			   /// Sets this server as Slave Server
+			   /// </summary>
+			   /// <param name="HostID"> ID(Ace value) of the new server</param>
+			   /// <param name="newMasterPublicUrl"> public url of the new master server</param>
+			   /// <returns>true on success/false on failure</returns>
+			   [WebMethod(Description= "set the server as Slave", EnableSession = true)]
+				   public override bool SetAsSlaveServer(string newMasterHostID, string newMasterPublicUrl)
+				   {
+					   return base.SetAsSlaveServer(newMasterHostID, newMasterPublicUrl);
+				   }
+
+			   /// <summary>
+			   /// Set the Master Url for node
+			   /// </summary>
+			   /// <returns>true/false</returns>
+			   [WebMethod(Description="sets the Master node attriute for the host", EnableSession=true)]
+				   public override bool SetMasterNodeAttribute(string HostID, bool Value)
+				   {
+					   return base.SetMasterNodeAttribute (HostID, Value);
+				   }
+
+			   /// <summary>
+			   /// Get the value of IsMaster for this server
+			   /// </summary>
+			   /// <returns>true/false</returns>
+			   [WebMethod(Description="Get the MasterNodeAttributes for the host", EnableSession=true)]
+				   public override bool GetMasterNodeAttribute (string HostID)
+				   {
+					   return base.GetMasterNodeAttribute (HostID);
+				   }
+
+			   /// <summary>
+			   /// Verify attributes of servers
+			   /// </summary>
+			   /// <returns>true/false</returns>
+			   [WebMethod(Description="Get the Attributes for the host", EnableSession=true)]
+				   public override bool VerifyChangeMaster(string currentMasterHostID, string newMasterHostID)
+				   {
+					   return base.VerifyChangeMaster( currentMasterHostID, newMasterHostID);
+				   }
+
 		/// <summary>
 		/// Get information about a user using an id or username.
 		/// </summary>

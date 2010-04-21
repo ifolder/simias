@@ -274,6 +274,11 @@ namespace Simias.Storage
 		/// <summary>
 		/// Well known property name.
 		/// </summary>
+		static public string HostUri = "HostUri";
+		
+		/// <summary>
+		/// Well known property name.
+		/// </summary>
 		static public string Journal = "JournalNode";
 
 		/// <summary>
@@ -483,6 +488,11 @@ namespace Simias.Storage
 		/// <summary>
 		/// Well known property name.
 		/// </summary>
+		static public string ChangeMasterState = "ChangeMasterState";
+
+		/// <summary>
+		/// Well known property name.
+		/// </summary>
 		static public string AggregateDiskQuota = "AggregateDiskQuota";
 		
 		
@@ -568,6 +578,7 @@ namespace Simias.Storage
 			systemPropertyTable.Add( DomainVersion, null );
 			systemPropertyTable.Add( UseSSL, null);
 			systemPropertyTable.Add( MasterHost, null);
+			systemPropertyTable.Add( ChangeMasterState, null);
 		}
 		#endregion
 
