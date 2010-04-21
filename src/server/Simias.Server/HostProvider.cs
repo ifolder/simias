@@ -347,8 +347,20 @@ namespace Simias.Host
 				string masterAddress = Store.Config.Get( ServerSection, MasterAddressKey );
 				Member mNode = hostDomain.GetMemberByName( hName );
 				host = ( mNode == null ) ? null : new HostNode( mNode );
+                                if( host == null)
+                                {
+                                        Console.Error.WriteLine("Checking if the host node exists.");
+                                        HostNode hn = HostNode.GetLocalHost();
+                                        if( hn == null)
+                                                Console.Error.WriteLine("Host node is null.");
+                                        else
+                                                Console.Error.WriteLine("Host node ID is: {0} and public url is: {1}", hn.ID, hn.PublicUrl);
+                                        host = hn;
+                                }
+
 				if ( host == null )
 				{
+					Console.Error.WriteLine("Host node is null. Creating the host node.");
 					RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
 					if( master == true )
 					{
@@ -377,6 +389,7 @@ namespace Simias.Host
 				}
 				else
 				{
+					Console.Error.WriteLine("Host is not null. Updating the host node.");
 					if(host.IsMasterHost == true)
 					{
 						// Make sure the address has not changed.

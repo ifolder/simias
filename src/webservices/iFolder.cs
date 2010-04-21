@@ -35,6 +35,9 @@ using System.Collections;
 using System.Xml;
 using System.Xml.Serialization;
 using System.Text.RegularExpressions;
+using System.IO;
+using System.Net;
+using System.Threading;
 
 using Simias.Client;
 using Simias.Storage;
@@ -78,6 +81,33 @@ namespace iFolder.WebService
 			this.Total = total;
 		}
 	}
+
+        public class RestoreParms
+        {
+                public string url;
+                public string adminname;
+                public string adminpassword;
+                public string relativepath;
+                public string basepath;
+                public int startindex;
+                public string ifolderid;
+                public string LogLocation;
+ 
+                public RestoreParms(string url, string adminname, string adminpassword, string ifolderid, string relativepath, string basepath, int startindex, string LogLocation)
+                {
+                        this.url = url;
+                        this.adminname = adminname;
+                        this.adminpassword = adminpassword;
+                        this.relativepath = relativepath;
+                        this.basepath = basepath;
+                        this.startindex = startindex;
+                        this.ifolderid = ifolderid;
+                        this.LogLocation = LogLocation;
+                }
+        }
+ 
+	
+
 
 	/// <summary>
 	/// An iFolder
@@ -197,6 +227,11 @@ namespace iFolder.WebService
 		/// Group admin rights...
 		/// </summary>
 		public int Preference= -1;
+	
+		/// <summary>
+		/// Thread perform Restore Operation 
+		/// </summary>
+		public static Thread RestoreThread = null;
 
 		/// <summary>
 		/// Constructor
@@ -333,6 +368,23 @@ namespace iFolder.WebService
 			}
 
 		}
+
+
+		/// <summary>
+		/// API use to create Encrypted iFolder with the given ifolder ID and return newly create ifolder..
+		/// </summary>
+                public static iFolder CreateEncryptediFolderWithID(string name, string userID, string description, string iFolderID, string eKey, string eBlob, string eAlgorithm, string rKey)
+                {
+                        iFolder ifolder = CreateiFolder(name, userID, description, iFolderID );
+                        if( ifolder == null)
+                                return null;
+                        Store store = Store.GetStore();
+                        Collection col = store.GetCollectionByID(ifolder.ID);
+                        col = col.SetEncryptionProperties(eKey, eBlob, eAlgorithm, rKey);
+                        return new iFolder(col, null);
+                }
+		
+
 		
 		/// <summary>
 		/// Given an userID and Members list and ownerid , check whether this userid is part of the group (who is owner) or not  
@@ -1040,5 +1092,325 @@ namespace iFolder.WebService
 			c.MigratediFolder = MigrationSource;
 			c.Commit();
 		}
+
+ 
+                public static int RestoreiFolderData(string url, string adminname, string adminpassword, string ifolderid, string relativepath, string basepath, int startindex, string LogLocation)
+                {
+                        log.Info("In the RestoreiFolderData webservice method.");
+                        Store store = Store.GetStore();
+                        Collection col = store.GetCollectionByID(ifolderid);
+                        col.RestoreStatus = 1;
+                        col.Commit();
+                        RestoreThread = new Thread( RestoreiFolderDataThread );
+                        RestoreParms parms = new RestoreParms(url, adminname, adminpassword, ifolderid, relativepath, basepath, startindex, LogLocation);
+                        RestoreThread.Priority = ThreadPriority.BelowNormal;
+                        //RestoreThread.Start(parms);
+                        RestoreThread.Start((Object)parms);
+                        return 0;
+                }
+
+
+
+                public static void RestoreiFolderDataThread(Object args)
+                {
+	      	        log.Debug(" Entered RestoreiFolderDataThread...");
+                        try
+                        {
+                                RestoreParms arguments = (RestoreParms)args;
+                                string url = arguments.url;
+                                string relativepath = arguments.relativepath;
+                                int startindex = arguments.startindex;
+                                string adminname = arguments.adminname;
+                                string adminpassword = arguments.adminpassword;
+                                string ifolderid = arguments.ifolderid;
+                                string basepath = arguments.basepath;
+                                string LogLocation = arguments.LogLocation;
+                                string fileNALocation = Path.Combine(Path.GetDirectoryName(LogLocation),ifolderid+".notfound" );
+                                bool isFileExist = true;
+
+                                log.Debug("relativepath: {0} startindex: {1} basepath: {2} LogLocation: {3} fileNALogLocation:{4}", relativepath, startindex, basepath, LogLocation,fileNALocation);
+                                Logger FailedLog= new Logger(LogLocation);
+                                Logger FileNotFound= new Logger(fileNALocation);
+
+                                int count = 500;
+                                Store store = Store.GetStore();
+                                Collection col = store.GetCollectionByID(ifolderid);
+                                SimiasWebService oldadmin = new SimiasWebService();
+                                oldadmin.Credentials = new NetworkCredential(adminname, adminpassword);
+                                oldadmin.PreAuthenticate = true;
+                                oldadmin.Url = url;
+
+                                int type= 0;
+                                try
+                                {
+                                        if( relativepath != null && relativepath != string.Empty)
+                                        {
+                                                string path = Path.Combine(basepath, relativepath);
+                                                if( File.Exists(path))
+                                                        type = 2;
+                                                else if( Directory.Exists(path))
+                                                        type = 1;
+                                                else
+                                                {
+                                                        log.Debug("The path specified for the restore {0} does not exist. {0}", path);
+                                                        //TODO: check this flag and don't process below code if given path doesn't exist
+                                                        isFileExist = false;
+                                                }
+                                        }
+                                }
+                                catch { }
+                                try
+                                {
+                                        int totalCount = 0;
+                                        int CurrentCount = startindex;
+                                        NodeEntrySet entryset = oldadmin.GetEntries(ifolderid, type, relativepath, startindex, count, null);
+                                        totalCount = Convert.ToInt32(entryset.Count);
+                                        log.Debug("The total count of entryset: {0} relativepath: {1} file type: {2}", entryset.Count, relativepath, type);
+                                        //NodeEntry[] entries = (NodeEntry[])entryset.Items;
+                                        col.TotalRestoreFileCount = totalCount;
+                                        col.RestoreStatus = 2;
+                                        col.Commit();
+                                        if( entryset.Items ==null )
+                                        {
+                                                log.Info("The entry set has no entries object");
+                                        }
+                                        if( entryset.Items.Length == 0)
+                                        {
+                                                log.Info("The entry set has no entries object 1111");
+                                        }
+                                        string entryToUpload = null;
+                                        while(entryset.Items !=null && entryset.Items.Length != 0 && CurrentCount < totalCount)
+                                        {
+                                                log.Info("Entered the while loop. The length of array: {0}", entryset.Items.Length);
+                                                foreach(NodeEntry entry in entryset.Items)
+                                                {
+                                                        log.Debug("Restoring --{0}--{1}--{2}---{3}--{4}--", ifolderid, entry.ID, entry.RelativePath, basepath, entry.Type.ToString());
+                                                        try
+                                                        {
+                                                                entryToUpload = Path.Combine(basepath, entry.RelativePath);
+                                                                if(!(File.Exists(entryToUpload)) && !(Directory.Exists(entryToUpload)))
+                                                                {
+                                                                        FileNotFound.Write(string.Format("{0} {1} {2} {3} {4}", CurrentCount, entry.ID, entry.Length, entry.RelativePath, "NA"), false);
+                                                                        log.Debug("{0} {1} {2} {3} {4}", CurrentCount, entry.ID, entry.Length, entry.RelativePath, "NA");
+
+                                                                }
+                                                                else
+                                                                {
+                                                                        string file = relativepath +"/";
+                                                                        int retval = -1;
+                                                                        if(entry.RelativePath.Equals(relativepath) || entry.RelativePath.Contains(file))
+                                                                        {
+                                                                                log.Debug(string.Format("relative path inside if is:{0}",entry.RelativePath));
+                                                                                retval = store.RestoreData(ifolderid, entry.ID, entry.RelativePath, basepath, entry.Type, entry.Length);
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                                log.Debug(string.Format("relative path inside else is:{0}",entry.RelativePath));
+                                                                                retval = 0;
+                                                                        }
+                                                                        if( retval != 0)
+                                                                        {
+                                                                                log.Debug(string.Format("Failed: {0} {1} {2} {3} {4}", CurrentCount, entry.ID, entry.Length, entry.RelativePath, "failed"));
+                                                                                FailedLog.Write(string.Format("{0} {1} {2} {3} {4}", CurrentCount, entry.ID, entry.Length, entry.RelativePath, "failed"), false);
+                                                                        }
+                                                                }
+                                                        }
+                                                        catch(Exception e1)
+                                                        {
+                                                                log.Debug("Exception in RestoreiFolderData: {0}--{1}", e1.Message, e1.StackTrace);
+                                                        }
+                                                        CurrentCount++;
+                                                        if(CurrentCount%20 == 0)
+                                                        {
+                                                                // status update to collection object....
+                                                                col = store.GetCollectionByID(ifolderid);
+                                                                col.RestoredFileCount = CurrentCount;
+                                                                col.Commit();
+                                                        }
+                                                }
+                                                startindex+= entryset.Items.Length;
+                                                try{
+
+                                                        entryset = oldadmin.GetEntries(ifolderid, type, relativepath, startindex, count, null);
+                                                        //entries = (NodeEntry[])entryset.Items;
+                                                }catch(Exception ex)
+                                                {
+                                                        log.Debug("Exception in GetEntrie: {0}--{1}", ex.Message, ex.StackTrace);
+                                                        break;
+                                                }
+                                        }
+                                        col = store.GetCollectionByID(ifolderid);
+                                        col.RestoredFileCount = CurrentCount;
+                                        col.Commit();
+                                }/// end try
+                                catch(Exception ex)
+                                {
+                                        log.Debug("Outer Exception in RestoreiFolderData: {0}--{1}", ex.Message, ex.StackTrace);
+                                }
+                                finally
+                                {
+                                        col.RestoreStatus = 0;
+                                        col.Commit();
+                                }
+                         }
+                        catch(Exception e1)
+                        {
+                                log.Debug(" Exception in RestoreThread. {0}--{1}", e1.Message, e1.StackTrace);
+                        }
+ 
+                }
+
+
+                public static int GetRestoreStatusForCollection(string ifolderid, out int totalcount, out int finishedcount)
+                {
+                        log.Info("In GetRestoreStatusForCollection {0}", ifolderid);
+                        int retval=-1;
+                        Store store = Store.GetStore();
+                        Collection col = store.GetCollectionByID(ifolderid);
+                        retval = col.RestoreStatus;
+                        totalcount = col.TotalRestoreFileCount;
+                        finishedcount = col.RestoredFileCount;
+                        if( retval == 1 || retval == 2)
+                        {
+                                if(RestoreThread == null || RestoreThread.IsAlive == false)
+                                {
+                                        col.RestoreStatus = 3;
+                                        col.Commit();
+                                        retval = 3;
+                                }
+                        }
+                        if( RestoreThread == null || RestoreThread.IsAlive == false)
+                        {
+                                RestoreThread = null;
+                        }
+                        log.Debug("Exiting GetRestoreStatusForCollection: retval: {0} total count: {1} finished count: {2}", retval, totalcount, finishedcount);
+                        return retval;
+                }
+
+
+                public static int RestoreFromFailedLog( string logpath, string iFolderID, iFolderServer oldserver, string oldpath, iFolderServer newserver, string newpath)
+                {
+                	int retval = -1;
+                        Logger FailedLog = new Logger(logpath);
+                        Store store = Store.GetStore();
+                        try
+                         {
+                                if( File.Exists( logpath) == false)
+                                         return retval;
+                                 File.Move(logpath, logpath+".working");
+                                 logpath += ".working";
+                                 TextReader reader = (TextReader)File.OpenText( logpath);
+                                 if( reader == null)
+                                         return retval;  // unable to open file...
+                                 string entry = null;
+                                 char[] delimiter = {' '};
+                                 while((entry = reader.ReadLine())!= null)
+                                 {
+                                         string[] entryset = entry.Split(delimiter);
+                                         string index = entryset[0];
+                                         string id = entryset[1];
+                                         string length = entryset[2];
+                                         string relativepath = null;
+                                         string type = null;
+                                         for( int i=3; i< entryset.Length-1; i++)
+                                         {
+                                                         /// The file path mioght have spaces. so concat entries
+                                                 relativepath += entryset[i];
+                                         }
+                                        string fullpath = Path.Combine(oldpath, relativepath);
+                                        if( Directory.Exists(fullpath))
+                                                type = "DirNode";
+                                        else if( File.Exists(fullpath))
+                                                type = "FileNode";
+ 
+                                        retval = store.RestoreData(iFolderID, id, relativepath, oldpath, type, Convert.ToInt32(length));
+                                        if( retval != 0)
+                                        {
+                                                FailedLog.Write(string.Format("{0} {1} {2} {3} {4}", index, id, length, relativepath, "failed"), false);
+                                        }
+                                 }
+                                 retval = 0;
+                         }
+                         catch(Exception ex)
+                         {
+                                 log.Debug(string.Format("Exception in restoring from failed log: {0}--{1}", ex.Message, ex.StackTrace));
+                         }
+              return retval;
+         }
+
+
+
+         public class Logger
+         {
+                 private string logFile;
+                 private StreamWriter stream;
+                 public Logger( string fileName)
+                 {
+                         this.logFile = fileName;
+                         stream = File.AppendText(logFile);
+                 }
+ 
+                 public Logger()
+                 {
+                         this.logFile = null;
+                 }
+ 
+                 public string LogFile
+                 {
+                         get
+                         {
+                                 return this.logFile;
+                         }
+                 }
+ 
+                public void Write(string Message)
+                {
+                        this.Write( Message, true);
+                }
+        
+
+	        public void Write(string Message, bool timestring)
+                {
+                        try
+                        {
+                                if( this.logFile != null && this.logFile != string.Empty)
+                                {
+                                        if( stream == null)
+                                        {
+                                                stream = File.AppendText(logFile);
+                                        }
+                                       if( timestring)
+                                               stream.WriteLine(string.Format("{0}: {1}", DateTime.Now.ToString("f"), Message));
+                                       else
+                                               stream.WriteLine(Message);
+                                        stream.Close();
+                                        stream = null;
+                                }
+                        }
+                        catch
+                        {
+                        }
+                }
+
+        
+	        public void Stop()
+                {
+                        try
+                        {
+                                if( this.logFile == null || this.logFile == string.Empty)
+                                        return;
+                                if( stream == null)
+                                        return;
+                                stream.Close();
+                                stream = null;
+                        }
+                        catch
+                        {
+                        }
+                }
+	}
+
+
+
 	}
 }

@@ -191,8 +191,18 @@ public partial class SimiasWebService : System.Web.Services.Protocols.SoapHttpCl
     
     private System.Threading.SendOrPostCallback GetSimiasProcessIDOperationCompleted;
     
+    private System.Threading.SendOrPostCallback GetEntriesOperationCompleted;
+    
+    private System.Threading.SendOrPostCallback GetRestoreStatusForCollectionOperationCompleted;
+    
+    private System.Threading.SendOrPostCallback SetRestoreStatusForCollectionOperationCompleted;
+    
+    private System.Threading.SendOrPostCallback ResetRootNodeOperationCompleted;
+    
+    private System.Threading.SendOrPostCallback GetEncryptionDetailsOperationCompleted;
+    
     public SimiasWebService() {
-        this.Url = "http://127.0.0.1/simias10/Simias.asmx";
+        this.Url = "https://164.99.101.20/simias10/Simias.asmx";
     }
     
     public event PingSimiasCompletedEventHandler PingSimiasCompleted;
@@ -362,6 +372,16 @@ public partial class SimiasWebService : System.Web.Services.Protocols.SoapHttpCl
     public event GetSimiasDataPathCompletedEventHandler GetSimiasDataPathCompleted;
     
     public event GetSimiasProcessIDCompletedEventHandler GetSimiasProcessIDCompleted;
+    
+    public event GetEntriesCompletedEventHandler GetEntriesCompleted;
+    
+    public event GetRestoreStatusForCollectionCompletedEventHandler GetRestoreStatusForCollectionCompleted;
+    
+    public event SetRestoreStatusForCollectionCompletedEventHandler SetRestoreStatusForCollectionCompleted;
+    
+    public event ResetRootNodeCompletedEventHandler ResetRootNodeCompleted;
+    
+    public event GetEncryptionDetailsCompletedEventHandler GetEncryptionDetailsCompleted;
     
     /// <remarks>
 ///Allows a client to ping to make sure the Web Service is up and running
@@ -3931,6 +3951,237 @@ public partial class SimiasWebService : System.Web.Services.Protocols.SoapHttpCl
             this.GetSimiasProcessIDCompleted(this, new GetSimiasProcessIDCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
         }
     }
+    
+    /// <remarks>
+///Gets the process ID for the current running process.
+///</remarks>
+    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/GetEntries", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
+    public NodeEntrySet GetEntries(string ifolderID, int type, string relPath, int index, int max, string accessID) {
+        object[] results = this.Invoke("GetEntries", new object[] {
+                    ifolderID,
+                    type,
+                    relPath,
+                    index,
+                    max,
+                    accessID});
+        return ((NodeEntrySet)(results[0]));
+    }
+    
+    public System.IAsyncResult BeginGetEntries(string ifolderID, int type, string relPath, int index, int max, string accessID, System.AsyncCallback callback, object asyncState) {
+        return this.BeginInvoke("GetEntries", new object[] {
+                    ifolderID,
+                    type,
+                    relPath,
+                    index,
+                    max,
+                    accessID}, callback, asyncState);
+    }
+    
+    public NodeEntrySet EndGetEntries(System.IAsyncResult asyncResult) {
+        object[] results = this.EndInvoke(asyncResult);
+        return ((NodeEntrySet)(results[0]));
+    }
+    
+    public void GetEntriesAsync(string ifolderID, int type, string relPath, int index, int max, string accessID) {
+        this.GetEntriesAsync(ifolderID, type, relPath, index, max, accessID, null);
+    }
+    
+    public void GetEntriesAsync(string ifolderID, int type, string relPath, int index, int max, string accessID, object userState) {
+        if ((this.GetEntriesOperationCompleted == null)) {
+            this.GetEntriesOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetEntriesCompleted);
+        }
+        this.InvokeAsync("GetEntries", new object[] {
+                    ifolderID,
+                    type,
+                    relPath,
+                    index,
+                    max,
+                    accessID}, this.GetEntriesOperationCompleted, userState);
+    }
+    
+    private void OnGetEntriesCompleted(object arg) {
+        if ((this.GetEntriesCompleted != null)) {
+            System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+            this.GetEntriesCompleted(this, new GetEntriesCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+        }
+    }
+    
+    /// <remarks>
+///Get the Restore Status information for given ifolderid.
+///</remarks>
+    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/GetRestoreStatusForCollection", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
+    public int GetRestoreStatusForCollection(string ifolderid, out int totalcount, out int finishedcount) {
+        object[] results = this.Invoke("GetRestoreStatusForCollection", new object[] {
+                    ifolderid});
+        finishedcount = ((int)(results[2]));
+        totalcount = ((int)(results[1]));
+        return ((int)(results[0]));
+    }
+    
+    public System.IAsyncResult BeginGetRestoreStatusForCollection(string ifolderid, System.AsyncCallback callback, object asyncState) {
+        return this.BeginInvoke("GetRestoreStatusForCollection", new object[] {
+                    ifolderid}, callback, asyncState);
+    }
+    
+    public int EndGetRestoreStatusForCollection(System.IAsyncResult asyncResult, out int totalcount, out int finishedcount) {
+        object[] results = this.EndInvoke(asyncResult);
+        finishedcount = ((int)(results[2]));
+        totalcount = ((int)(results[1]));
+        return ((int)(results[0]));
+    }
+    
+    public void GetRestoreStatusForCollectionAsync(string ifolderid) {
+        this.GetRestoreStatusForCollectionAsync(ifolderid, null);
+    }
+    
+    public void GetRestoreStatusForCollectionAsync(string ifolderid, object userState) {
+        if ((this.GetRestoreStatusForCollectionOperationCompleted == null)) {
+            this.GetRestoreStatusForCollectionOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetRestoreStatusForCollectionCompleted);
+        }
+        this.InvokeAsync("GetRestoreStatusForCollection", new object[] {
+                    ifolderid}, this.GetRestoreStatusForCollectionOperationCompleted, userState);
+    }
+    
+    private void OnGetRestoreStatusForCollectionCompleted(object arg) {
+        if ((this.GetRestoreStatusForCollectionCompleted != null)) {
+            System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+            this.GetRestoreStatusForCollectionCompleted(this, new GetRestoreStatusForCollectionCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+        }
+    }
+    
+    /// <remarks>
+///Set the Restore Status information for given ifolderid.
+///</remarks>
+    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/SetRestoreStatusForCollection", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
+    public int SetRestoreStatusForCollection(string ifolderid, int status, int totalcount, int finishedcount) {
+        object[] results = this.Invoke("SetRestoreStatusForCollection", new object[] {
+                    ifolderid,
+                    status,
+                    totalcount,
+                    finishedcount});
+        return ((int)(results[0]));
+    }
+    
+    public System.IAsyncResult BeginSetRestoreStatusForCollection(string ifolderid, int status, int totalcount, int finishedcount, System.AsyncCallback callback, object asyncState) {
+        return this.BeginInvoke("SetRestoreStatusForCollection", new object[] {
+                    ifolderid,
+                    status,
+                    totalcount,
+                    finishedcount}, callback, asyncState);
+    }
+    
+    public int EndSetRestoreStatusForCollection(System.IAsyncResult asyncResult) {
+        object[] results = this.EndInvoke(asyncResult);
+        return ((int)(results[0]));
+    }
+    
+    public void SetRestoreStatusForCollectionAsync(string ifolderid, int status, int totalcount, int finishedcount) {
+        this.SetRestoreStatusForCollectionAsync(ifolderid, status, totalcount, finishedcount, null);
+    }
+    
+    public void SetRestoreStatusForCollectionAsync(string ifolderid, int status, int totalcount, int finishedcount, object userState) {
+        if ((this.SetRestoreStatusForCollectionOperationCompleted == null)) {
+            this.SetRestoreStatusForCollectionOperationCompleted = new System.Threading.SendOrPostCallback(this.OnSetRestoreStatusForCollectionCompleted);
+        }
+        this.InvokeAsync("SetRestoreStatusForCollection", new object[] {
+                    ifolderid,
+                    status,
+                    totalcount,
+                    finishedcount}, this.SetRestoreStatusForCollectionOperationCompleted, userState);
+    }
+    
+    private void OnSetRestoreStatusForCollectionCompleted(object arg) {
+        if ((this.SetRestoreStatusForCollectionCompleted != null)) {
+            System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+            this.SetRestoreStatusForCollectionCompleted(this, new SetRestoreStatusForCollectionCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+        }
+    }
+    
+    /// <remarks>
+///Gets the process ID for the current running process.
+///</remarks>
+    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/ResetRootNode", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
+    public int ResetRootNode(string ifolderid) {
+        object[] results = this.Invoke("ResetRootNode", new object[] {
+                    ifolderid});
+        return ((int)(results[0]));
+    }
+    
+    public System.IAsyncResult BeginResetRootNode(string ifolderid, System.AsyncCallback callback, object asyncState) {
+        return this.BeginInvoke("ResetRootNode", new object[] {
+                    ifolderid}, callback, asyncState);
+    }
+    
+    public int EndResetRootNode(System.IAsyncResult asyncResult) {
+        object[] results = this.EndInvoke(asyncResult);
+        return ((int)(results[0]));
+    }
+    
+    public void ResetRootNodeAsync(string ifolderid) {
+        this.ResetRootNodeAsync(ifolderid, null);
+    }
+    
+    public void ResetRootNodeAsync(string ifolderid, object userState) {
+        if ((this.ResetRootNodeOperationCompleted == null)) {
+            this.ResetRootNodeOperationCompleted = new System.Threading.SendOrPostCallback(this.OnResetRootNodeCompleted);
+        }
+        this.InvokeAsync("ResetRootNode", new object[] {
+                    ifolderid}, this.ResetRootNodeOperationCompleted, userState);
+    }
+    
+    private void OnResetRootNodeCompleted(object arg) {
+        if ((this.ResetRootNodeCompleted != null)) {
+            System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+            this.ResetRootNodeCompleted(this, new ResetRootNodeCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+        }
+    }
+    
+    /// <remarks>
+///Gets the process ID for the current running process.
+///</remarks>
+    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/GetEncryptionDetails", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
+    public bool GetEncryptionDetails(string ifolderid, out string eKey, out string eBlob, out string eAlgorithm, out string rKey) {
+        object[] results = this.Invoke("GetEncryptionDetails", new object[] {
+                    ifolderid});
+        rKey = ((string)(results[4]));
+        eAlgorithm = ((string)(results[3]));
+        eBlob = ((string)(results[2]));
+        eKey = ((string)(results[1]));
+        return ((bool)(results[0]));
+    }
+    
+    public System.IAsyncResult BeginGetEncryptionDetails(string ifolderid, System.AsyncCallback callback, object asyncState) {
+        return this.BeginInvoke("GetEncryptionDetails", new object[] {
+                    ifolderid}, callback, asyncState);
+    }
+    
+    public bool EndGetEncryptionDetails(System.IAsyncResult asyncResult, out string eKey, out string eBlob, out string eAlgorithm, out string rKey) {
+        object[] results = this.EndInvoke(asyncResult);
+        rKey = ((string)(results[4]));
+        eAlgorithm = ((string)(results[3]));
+        eBlob = ((string)(results[2]));
+        eKey = ((string)(results[1]));
+        return ((bool)(results[0]));
+    }
+    
+    public void GetEncryptionDetailsAsync(string ifolderid) {
+        this.GetEncryptionDetailsAsync(ifolderid, null);
+    }
+    
+    public void GetEncryptionDetailsAsync(string ifolderid, object userState) {
+        if ((this.GetEncryptionDetailsOperationCompleted == null)) {
+            this.GetEncryptionDetailsOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetEncryptionDetailsCompleted);
+        }
+        this.InvokeAsync("GetEncryptionDetails", new object[] {
+                    ifolderid}, this.GetEncryptionDetailsOperationCompleted, userState);
+    }
+    
+    private void OnGetEncryptionDetailsCompleted(object arg) {
+        if ((this.GetEncryptionDetailsCompleted != null)) {
+            System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+            this.GetEncryptionDetailsCompleted(this, new GetEncryptionDetailsCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+        }
+    }
 }
 
 /// <remarks/>
@@ -4618,6 +4869,108 @@ public partial class CollectionKey {
         }
         set {
             this.rEDEKField = value;
+        }
+    }
+}
+
+/// <remarks/>
+[System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.1433")]
+[System.SerializableAttribute()]
+[System.Diagnostics.DebuggerStepThroughAttribute()]
+[System.ComponentModel.DesignerCategoryAttribute("code")]
+[System.Xml.Serialization.XmlTypeAttribute(Namespace="http://novell.com/simias/web/")]
+public partial class NodeEntrySet {
+    
+    private NodeEntry[] itemsField;
+    
+    private long countField5;
+    
+    /// <remarks/>
+    public NodeEntry[] Items {
+        get {
+            return this.itemsField;
+        }
+        set {
+            this.itemsField = value;
+        }
+    }
+    
+    /// <remarks/>
+    public long Count {
+        get {
+            return this.countField5;
+        }
+        set {
+            this.countField5 = value;
+        }
+    }
+}
+
+/// <remarks/>
+[System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.1433")]
+[System.SerializableAttribute()]
+[System.Diagnostics.DebuggerStepThroughAttribute()]
+[System.ComponentModel.DesignerCategoryAttribute("code")]
+[System.Xml.Serialization.XmlTypeAttribute(Namespace="http://novell.com/simias/web/")]
+public partial class NodeEntry {
+    
+    private string iDField1;
+    
+    private string nameField3;
+    
+    private long lengthField;
+    
+    private string typeField3;
+    
+    private string relativePathField;
+    
+    /// <remarks/>
+    public string ID {
+        get {
+            return this.iDField1;
+        }
+        set {
+            this.iDField1 = value;
+        }
+    }
+    
+    /// <remarks/>
+    public string Name {
+        get {
+            return this.nameField3;
+        }
+        set {
+            this.nameField3 = value;
+        }
+    }
+    
+    /// <remarks/>
+    public long Length {
+        get {
+            return this.lengthField;
+        }
+        set {
+            this.lengthField = value;
+        }
+    }
+    
+    /// <remarks/>
+    public string Type {
+        get {
+            return this.typeField3;
+        }
+        set {
+            this.typeField3 = value;
+        }
+    }
+    
+    /// <remarks/>
+    public string RelativePath {
+        get {
+            return this.relativePathField;
+        }
+        set {
+            this.relativePathField = value;
         }
     }
 }
@@ -5989,3 +6342,140 @@ public partial class GetSimiasProcessIDCompletedEventArgs : System.ComponentMode
 }
 
 public delegate void GetSimiasProcessIDCompletedEventHandler(object sender, GetSimiasProcessIDCompletedEventArgs args);
+
+public partial class GetEntriesCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+    
+    private object[] results;
+    
+    internal GetEntriesCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+            base(exception, cancelled, userState) {
+        this.results = results;
+    }
+    
+    public NodeEntrySet Result {
+        get {
+            this.RaiseExceptionIfNecessary();
+            return ((NodeEntrySet)(this.results[0]));
+        }
+    }
+}
+
+public delegate void GetEntriesCompletedEventHandler(object sender, GetEntriesCompletedEventArgs args);
+
+public partial class GetRestoreStatusForCollectionCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+    
+    private object[] results;
+    
+    internal GetRestoreStatusForCollectionCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+            base(exception, cancelled, userState) {
+        this.results = results;
+    }
+    
+    public int Result {
+        get {
+            this.RaiseExceptionIfNecessary();
+            return ((int)(this.results[0]));
+        }
+    }
+    
+    public int totalcount {
+        get {
+            this.RaiseExceptionIfNecessary();
+            return ((int)(this.results[1]));
+        }
+    }
+    
+    public int finishedcount {
+        get {
+            this.RaiseExceptionIfNecessary();
+            return ((int)(this.results[2]));
+        }
+    }
+}
+
+public delegate void GetRestoreStatusForCollectionCompletedEventHandler(object sender, GetRestoreStatusForCollectionCompletedEventArgs args);
+
+public partial class SetRestoreStatusForCollectionCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+    
+    private object[] results;
+    
+    internal SetRestoreStatusForCollectionCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+            base(exception, cancelled, userState) {
+        this.results = results;
+    }
+    
+    public int Result {
+        get {
+            this.RaiseExceptionIfNecessary();
+            return ((int)(this.results[0]));
+        }
+    }
+}
+
+public delegate void SetRestoreStatusForCollectionCompletedEventHandler(object sender, SetRestoreStatusForCollectionCompletedEventArgs args);
+
+public partial class ResetRootNodeCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+    
+    private object[] results;
+    
+    internal ResetRootNodeCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+            base(exception, cancelled, userState) {
+        this.results = results;
+    }
+    
+    public int Result {
+        get {
+            this.RaiseExceptionIfNecessary();
+            return ((int)(this.results[0]));
+        }
+    }
+}
+
+public delegate void ResetRootNodeCompletedEventHandler(object sender, ResetRootNodeCompletedEventArgs args);
+
+public partial class GetEncryptionDetailsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+    
+    private object[] results;
+    
+    internal GetEncryptionDetailsCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+            base(exception, cancelled, userState) {
+        this.results = results;
+    }
+    
+    public bool Result {
+        get {
+            this.RaiseExceptionIfNecessary();
+            return ((bool)(this.results[0]));
+        }
+    }
+    
+    public string eKey {
+        get {
+            this.RaiseExceptionIfNecessary();
+            return ((string)(this.results[1]));
+        }
+    }
+    
+    public string eBlob {
+        get {
+            this.RaiseExceptionIfNecessary();
+            return ((string)(this.results[2]));
+        }
+    }
+    
+    public string eAlgorithm {
+        get {
+            this.RaiseExceptionIfNecessary();
+            return ((string)(this.results[3]));
+        }
+    }
+    
+    public string rKey {
+        get {
+            this.RaiseExceptionIfNecessary();
+            return ((string)(this.results[4]));
+        }
+    }
+}
+
+public delegate void GetEncryptionDetailsCompletedEventHandler(object sender, GetEncryptionDetailsCompletedEventArgs args);

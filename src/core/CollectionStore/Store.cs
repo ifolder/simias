@@ -47,6 +47,7 @@ using Simias.Event;
 using Simias.Policy;
 using Simias.Storage.Provider;
 using Simias.Sync;
+using Simias.Sync.Delta;
 using Persist = Simias.Storage.Provider;
 
 
@@ -1790,6 +1791,244 @@ log.Debug("CID {2}\nPEDEK {0}\nREDEK {1}", cKey.PEDEK, cKey.REDEK, cKey.NodeID);
 			}
 			#endregion
 		}
+
+ 
+                public static int ResetRootNode(string ifolderid)
+                {
+                        try{
+                        Store store = Store.GetStore();
+                        //store.GetCollectionsByType( NodeTypes.Collection);
+                        Collection col = store.GetCollectionByID( ifolderid);
+                        if( col == null)
+                                return 1;
+                        ICSList results = col.Search( PropertyTags.Root, Syntax.String );
+                         foreach ( ShallowNode shallowNode in results )
+                         {
+                                 DirNode rootDir = new DirNode( col, shallowNode );
+                                string currentpath = ((Property)rootDir.Properties.GetSingleProperty( PropertyTags.Root )).Value as string;
+                                string storepath = StorePath;
+                                //string suffix = Path.GetFileName( currentpath );
+                                string suffix = Path.GetDirectoryName( currentpath );
+                                suffix = Path.GetDirectoryName( suffix);
+                                suffix = Path.GetDirectoryName(suffix );
+                                suffix = currentpath.Substring(suffix.Length+1);        
+                                log.Info("currentpath is:{0}--store path is:{1} and suffix is:{2}", currentpath,storepath,suffix);                      
+        
+                                string newpath = Path.Combine(storepath,suffix); 
+                                Property p = new Property( PropertyTags.Root, newpath);
+                                p.LocalProperty = true;
+                                rootDir.Properties.ModifyNodeProperty( p );
+                                col.Commit(rootDir);
+ 
+                                log.Info("new path is:{0}", newpath);                   
+                                 break;
+                         }
+                        }
+                        catch(Exception ex)
+                        {
+                                log.Info("Exception is:{0}--{1}", ex.Message, ex.StackTrace);                   
+                        }
+                        return 0;
+                }
+
+                public int RestoreData(string ifolderid, string nodeid, string relativepath, string basepath, string filetype, long length)
+                {
+                        log.Info("Entered RestoreData.");
+                //      string ifolderid = "b8123e0c-69ff-4dc0-b303-0d760092b0a5";
+                        //string relativepath = "encryptedifolder/copydir.txt";
+                //      string relativepath = "encryptedifolder/dir2/file3.txt";
+                //      string nodeid = "d081e003-23b9-404a-8bb7-9832bb2cdc7113";
+                //      string basepath = "/home/banderso/ifolder/recovery/recoverytool/testrecovery";  /// TODO: Add base path of the iFolder of the backed up data in xml file...
+                        string backedpath = Path.Combine( basepath, relativepath);
+ 
+                         log.Info("backedpath: {0}", backedpath);
+                        if( filetype.Equals("FileNode"))
+                        {
+                                return RestoreFile(ifolderid, relativepath, nodeid, basepath, length);
+                        }
+                        else
+                        {
+                                return RestoreDirectory( ifolderid, relativepath, nodeid, basepath);
+                        }
+                        return 0;
+                }
+
+
+
+                public int RestoreDirectory(string ifolderid, string relativepath, string nodeid, string basepath)
+                {
+                        string backedpath = Path.Combine( basepath, relativepath);
+                         log.Debug("backedpath: {0}", backedpath);
+                        /// Check whether the directory present on the target. If not create. else return;
+                        Store store = Store.GetStore();
+                        if(store == null)
+                                return 1000;
+                        Collection col = store.GetCollectionByID( ifolderid);
+                        if( col == null)
+                                return 21;
+                        
+                        try
+                        {
+                                //verify whether Directory exist in new path, if return, else create.   
+                                string newbasepath = col.UnmanagedPath;
+                                 log.Debug("newbasepath: {0}", newbasepath);
+                                 string newpath = "";
+                                newpath = Path.Combine(newbasepath, relativepath);      
+                                 log.Debug("relativepath: {0} and newpath:{1}", relativepath, newpath);
+                                if(!Directory.Exists(newpath))
+                                {
+                                        log.Debug("directory doesn't Exist");
+                                        //create direcotry.
+                                        Directory.CreateDirectory(newpath);     
+                                        log.Info("directory creation completed");
+                                }
+                                if(!Directory.Exists(newpath))
+                                {
+                                        log.Debug("Error while creating Directory");
+                                        return 22;
+                                }       
+                                
+                                Node dirNode =  col.GetNodeByPath(relativepath);
+                                if(null == dirNode)
+                                {
+                                        log.Info("directory doesn't exist on new path :{0}",relativepath);
+                                        //Create directory node 
+                                        DirNode parentnode = new DirNode( col.GetNodeByPath(Path.GetDirectoryName(relativepath)));
+                                        if(null != parentnode)
+                                        {
+                                                log.Debug("Parent directory  exist on new path :{0}",relativepath);
+                                                DirNode dnode = new DirNode(col, parentnode, Path.GetFileName(newpath));
+                                                if(dnode != null)
+                                                        col.Commit(dnode);
+                                        }
+                                        else
+                                        {
+                                                log.Debug("Parent directory  doesn't exist on new path :{0}",relativepath);
+                                                return 24;
+                                        }
+ 
+                                }
+                                else
+                                {
+                                        log.Debug("directory  exist on new path :{0} ",relativepath);
+                                        return 0;       
+                                }
+                        }
+                        catch(Exception e1)
+                        {
+                                log.Debug("Exceptioni while creating directory: {0}--{1}", e1.Message, e1.StackTrace);
+                                return 23;
+                        }
+                        return 0;
+                }
+
+                public int RestoreFile(string ifolderid, string relativepath, string nodeid, string basepath, long length)
+                {
+                        log.Debug("Entered RestoreFile.");
+                        // Read from the xml file 
+                //      string ifolderid = "b8123e0c-69ff-4dc0-b303-0d760092b0a5";
+                //      string relativepath = "encryptedifolder/copydir.txt";
+                //      string nodeid = "d081e003-23b9-404a-8bb7-9832bb2cdc7113";
+                //      string basepath = "/home/banderso/ifolder/recovery/recoverytool/testrecovery";  /// TODO: Add base path of the iFolder of the backed up data in xml file...
+                        string backedpath = Path.Combine( basepath, relativepath);
+                        bool encrypted = false;
+                        FileInfo fi = new FileInfo( backedpath);
+                        long nodelength = fi.Length;
+                        log.Info("Starting with datamove from {0}--{1}.", backedpath, nodelength);
+                        if( !File.Exists(backedpath) && !Directory.Exists(backedpath))
+                                return 2;       /// Path does not exist...
+                        Store store = Store.GetStore();
+                        if( store == null)
+                                return 1000;
+                        Collection col = store.GetCollectionByID( ifolderid);
+                        if( col == null)
+                                return 1;       // iFolder not present...
+                        if( col.EncryptionAlgorithm != null && col.EncryptionAlgorithm != string.Empty)
+                        {
+                                nodelength = length;
+                        }
+                        try
+                        {
+                                string newbasepath = col.UnmanagedPath;
+                                log.Debug("newbasepath: {0}", newbasepath);
+                                string newpath = "";
+                                Node n1 = col.GetNodeByID(nodeid);
+                                FileNode node = null;
+                                if( n1 != null)
+                                        node = new FileNode(n1);
+                                if( node == null)
+                                {
+                                        /// This is a new file. Direct copy and create node.
+                                        newpath = Path.Combine(newbasepath, relativepath);
+                                        log.Info("newpath: {0}", newpath);
+                                        if( File.Exists(newpath))
+                                        {
+                                                /// File with same name but different nodeID already exists.
+                                                /// may be a delet and upload of a file with same name has happened after backup is taken. skipping for now.
+                                                return 3;
+                                        }
+                                }
+                                else
+                                {
+                                        /// The file is renamed after taking backup. so the file name is different but node id is same. 
+                                        /// Get current file name with the node ID and overwrite this content with the backedup data.
+                                        newpath = node.GetFullPath(col);
+                                        log.Debug("newpath in else: {0}", newpath);
+                                }
+ 
+                                /// Check for the existence of the directory... 
+                                if( !Directory.Exists( Path.GetDirectoryName(newpath)))
+                                {
+                                        log.Info("new path directory does not exist. {0}", Path.GetDirectoryName(newpath));
+                                        return 4;
+                                }
+                                log.Info("fetching parent dir node. {0}", Path.GetDirectoryName(relativepath));
+                                /// Get the dirnode for the parent directory...
+                                DirNode parentnode = new DirNode( col.GetNodeByPath(Path.GetDirectoryName(relativepath)));
+                                if( parentnode == null)
+                                        return 6;
+                                try
+                                {
+                                        File.Copy( backedpath, newpath, true);
+                                }
+                                catch(Exception e)
+                                {
+                                        log.Debug("Exception while copy: {0}--{1}", e.Message, e.StackTrace);
+                                        return 5;
+                                }
+ 
+                                /// Create the file node...
+                                if( node == null)
+                                {
+                                        log.Debug("Creating file node. parent ID: {0}", parentnode.ID);
+                                        node = new FileNode(col, parentnode, Path.GetFileName(newpath));
+                                }
+                                if( node == null)
+                                        return 7;
+                                node.UpdateWebFileInfo(col, nodelength);
+                                col.Commit(node);
+                                if( col.EncryptionAlgorithm == string.Empty || col.EncryptionAlgorithm == null)
+                                {
+                                        log.Debug("Creating hash map file for restored file: {0}", node.ID);
+                                        HashMap map = new HashMap(col, node);
+                                        map.CreateHashMapFile();
+                                }
+                                log.Debug("End restoredata.");
+                        }
+                        catch(Exception e1)
+                        {
+                                log.Info("Exception in restoredata: {0}--{1}", e1.Message, e1.StackTrace);      
+                                return 8;
+                        }
+                        return 0;
+ 
+                }
+			
+
+
+
+
+
 		#endregion
 	}
 

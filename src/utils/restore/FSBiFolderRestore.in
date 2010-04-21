@@ -1,0 +1,131 @@
+#!/bin/sh
+
+#/*****************************************************************************
+#*
+#* Copyright (c) [2009] Novell, Inc.
+#* All Rights Reserved.
+#*
+#* This program is free software; you can redistribute it and/or
+#* modify it under the terms of version 2 of the GNU General Public License as
+#* published by the Free Software Foundation.
+#*
+#* This program is distributed in the hope that it will be useful,
+#* but WITHOUT ANY WARRANTY; without even the implied warranty of
+#* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.   See the
+#* GNU General Public License for more details.
+#*
+#* You should have received a copy of the GNU General Public License
+#* along with this program; if not, contact Novell, Inc.
+#*
+#* To contact Novell about this file by physical or electronic mail,
+#* you may find current contact information at www.novell.com
+#*
+#*-----------------------------------------------------------------------------
+#*
+#*                 $Author: Sunder Ramesh (sramesh@novell.com)
+#*                 $Modified by: <Modifier>
+#*                 $Mod Date: <Date Modified>
+#*                 $Revision: 0.0
+#*-----------------------------------------------------------------------------
+#* This module is used to:
+#*        <Description of the functionality of the file >
+#*
+#*
+#*******************************************************************************/
+
+OS_ARCH=`uname -m | grep -c x86_64`
+if [ $OS_ARCH -gt 0 ]
+then
+        export OS_ARCH=`uname -m`
+fi
+rpm -q novell-ifolder-mono > /dev/null 2>&1
+if [ $? -gt 0 ]
+then
+
+        export MONO_PATH=@_webbindir_@:@_bindir_@
+        export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:@_webbindir_@:
+        export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:@_webbindir_@
+        cd @_bindir_@
+else
+        MONO_RUNTIME_PATH=@_bindir_@/../mono
+        export MONO_PATH=$MONO_RUNTIME_PATH/lib/mono/:$MONO_RUNTIME_PATH/lib/mono/2.0:@_webbindir_@:@_bindir_@
+        source $MONO_RUNTIME_PATH/bin/novell-ifolder-mono-environment.sh
+        export MONO_CFG_DIR=$MONO_RUNTIME_PATH/etc
+        export IFOLDER_MOD_MONO_SERVER2_PATH=@_bindir_@
+        export IFOLDER_MONO_PATH=$MONO_RUNTIME_PATH
+        cd @_bindir_@
+fi
+
+clear
+#echo ""
+#echo "iFolder Restore Application from file system backup"
+#echo "version 1.0.0"
+#echo ""
+#echo " ______________________________________________________________________________________" 
+#echo "|											 |"
+#echo "|											 |"
+#echo "|		Validating the input......................				 |"
+mono  @_bindir_@/FSBiFolderRestore.exe "$@" --precheck
+path_index_number=$?
+if [[ $path_index_number = 99 ]]
+then
+	exit 0
+elif [[ $path_index_number -gt 99 ]]
+then
+echo "|		Status:" + $path_index_number + " Input validation failed with error 	 |"
+	exit 0
+fi
+echo "|		Status: Done.					 			 |"
+echo "|											 |"
+args=("$@") 
+path=${args[$path_index_number-1]#*=}
+log4net="$path/simias/Simias.log4net"
+simiaslog="$path/simias/log/Simias.log"
+
+if [ -f $log4net ]; then
+        newline=`grep -n Simias.log $log4net`
+        lineno=${newline:0:`expr index "$newline" \:`-1}
+        sed ''$lineno'd' -i $log4net
+        sed ''$lineno'i  \\t<file value="'$path'/simias/log/Simias.log" />'  -i $log4net
+        newline=`grep -n Simias.access.log $log4net`
+        lineno=${newline:0:`expr index "$newline" \:`-1}
+        sed ''$lineno'd' -i $log4net
+        sed ''$lineno'i  \\t<file value="'$path'/simias/log/Simias.access.log" />'  -i $log4net
+else
+        echo "log4net file:$log4net not found"
+
+fi
+echo -n "|		Preparing for the operation.."
+@_bindir_@/simias-server-setup "${args[$path_index_number-1]}" --recover 1>$path/console.log 2>$path/console.log
+echo -n "....."
+@_bindir_@/FSBiFolderRestore-server --stop 1>$path/console.log 2>$path/console.log
+echo -n "....."
+@_bindir_@/FSBiFolderRestore-server --runasserver 1>$path/console.log 2>$path/console.log
+echo  ".....				 |"
+echo "|		Status: Done.					 			 |"
+#echo "|											 |"
+#echo -n "|		Enter new admin password:"
+#stty -echo
+#read newpass
+#echo " 						 |"
+#stty echo
+#echo -n "|		Enter old admin password:"
+#stty -echo
+#read oldpass
+cd - 1>/dev/null
+stty echo
+#echo " 						 |"
+echo "|                                                                                        |"
+mono @_bindir_@/FSBiFolderRestore.exe "$@"
+#ret=$?
+#if [[ $ret = 100 ]]
+#then
+#	echo "|         The recovery process completed.                                                |"
+#else
+#	echo "|         The recovery process failed. Please check the logs for more details.           |"
+#fi
+@_bindir_@/FSBiFolderRestore-server --stop 1>$path/console.log 2>$path/console.log
+echo "|											 |"
+echo " ______________________________________________________________________________________" 
+exit 0
+

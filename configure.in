@@ -796,6 +796,7 @@ src/utils/usercmd/simias-create-user
 src/utils/usercmd/simias-delete-user
 src/utils/usercmd/simias-user
 src/utils/usercmd/simias-user.cmd
+src/utils/restore/Makefile
 package/Makefile
 package/windows/Makefile
 package/darwin/Makefile

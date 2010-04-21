@@ -1,9 +1,4 @@
-if !DARWIN
 SIMIAS_WSDL = ../WebService/Simias.wsdl 
-endif
-if DARWIN
-SIMIAS_WSDL = ../WebService/Simias_darwin.wsdl 
-endif
 
 EXTRA_DIST =
 

@@ -34,13 +34,7 @@ endif
 
 all: SimiasClient.dll
 
-if !DARWIN
 $(srcdir)/SimiasService.cs: $(srcdir)/../WebService/Simias.wsdl
-endif
-
-if DARWIN
-$(srcdir)/SimiasService.cs: $(srcdir)/../WebService/Simias_darwin.wsdl
-endif
 
 if WINDOWS
 	wsdl /out:SimiasService.cs $(srcdir)/../WebService/Simias.wsdl
@@ -49,7 +43,7 @@ if LINUX
 	-$(WSDL) -nologo -out:SimiasService.cs $(srcdir)/../WebService/Simias.wsdl
 endif
 if DARWIN
-	wsdl -nologo -out:SimiasService.cs $(srcdir)/../WebService/Simias_darwin.wsdl
+	wsdl -nologo -out:SimiasService.cs $(srcdir)/../WebService/Simias.wsdl
 endif
 
 $(srcdir)/SimiasService2.cs: $(srcdir)/../WebService/Simias.wsdl

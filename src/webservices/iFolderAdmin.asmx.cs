@@ -377,6 +377,32 @@ namespace iFolder.WebService
 			base.DeleteiFolder(ifolderID);
 		}
 
+                /// <summary>
+                /// Delete an iFolder
+                /// </summary>
+                /// <param name="ifolderID">The id of the iFolder .</param>
+                /// <remarks>This API will accept multiple iFolder ids in a comma delimited list.</remarks>
+                [WebMethod(
+                         Description="Restore Data file/folder/ifolder",
+                         EnableSession=true)]
+                public override int RestoreiFolderData(string url, string adminname, string adminpassword, string ifolderid, string relativepath, string basepath, int startindex, string LogLocation)
+                {
+                        return base.RestoreiFolderData(url, adminname, adminpassword, ifolderid, relativepath, basepath, startindex, LogLocation);
+                }
+ 
+                /// <summary>
+                /// Delete an iFolder
+                /// </summary>
+                /// <param name="ifolderID">The id of the iFolder .</param>
+                /// <remarks>This API will accept multiple iFolder ids in a comma delimited list.</remarks>
+                [WebMethod(
+                         Description="Retrive status of restore operation",
+                         EnableSession=true)]
+                public override int GetRestoreStatusForCollection(string ifolderid, out int totalcount, out int finishedcount)
+                {
+                        return base.GetRestoreStatusForCollection(ifolderid, out totalcount, out finishedcount);
+                }
+
 		/// <summary>
 		/// Get information about an iFolder.
 		/// </summary>
@@ -853,6 +879,23 @@ namespace iFolder.WebService
 		#endregion
 
 		#region iFolder
+
+                 /// <summary>
+                 /// Create a new iFolder with given ID.
+                 /// </summary>
+                 /// <param name="name">The name of the new iFolder.</param>
+                 /// <param name="userID">The user id of the owner of the new iFolder.</param>
+                 /// <param name="description">The description of the new iFolder (can be null).</param>
+                 /// <returns>An iFolder object describing the new iFolder.</returns>
+                 [WebMethod(
+                          Description="Create a new encrypted iFolder.",
+                          EnableSession=true)]
+                 public override iFolder CreateEncryptediFolderWithID(string name, string userID, string description, string iFolderID, string eKey, string eBlob, string eAlgorithm, string rKey)
+                 {
+                         return base.CreateEncryptediFolderWithID(name, userID, description, iFolderID, eKey, eBlob, eAlgorithm, rKey);
+                 }               /// <summary>
+
+	
 
 		/// <summary>
 		/// Create a new iFolder.

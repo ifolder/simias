@@ -1,4 +1,4 @@
-SUBDIRS = usercmd
+SUBDIRS = usercmd restore
 
 DIST_SUBDIRS = $(SUBDIRS)
 

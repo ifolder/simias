@@ -342,6 +342,96 @@ namespace Simias.Storage
 			}
 		}
 
+         /// <summary>
+         /// Get/Set DataMovement value
+         /// </summary>
+                public int TotalRestoreFileCount
+                {
+                        get
+                        {
+                                Property p = properties.FindSingleValue(PropertyTags.TotalRestoreFileCount);
+                                if ( p != null )
+                                        return (int)p.Value;
+                                else
+                                        return -1;
+                        }
+                        set
+                        {
+                                if( value != -1)
+                                {
+                                        Property p = new Property( PropertyTags.TotalRestoreFileCount, value );
+                                        p.LocalProperty = true;
+                                        this.Properties.ModifyProperty( p );
+                                }
+                                else
+                                {
+                                        Property p = properties.FindSingleValue(PropertyTags.TotalRestoreFileCount);
+                                        if (p != null )
+                                                p.DeleteProperty();
+                                }
+                        }
+                }
+ 
+
+                public int RestoredFileCount
+                {
+                        get
+                        {
+                                Property p = properties.FindSingleValue(PropertyTags.RestoredFileCount);
+                                if ( p != null )
+                                        return (int)p.Value;
+                                else
+                                        return -1;
+                        }
+                        set
+                        {
+                                if( value != -1)
+                                {
+                                        Property p = new Property( PropertyTags.RestoredFileCount, value );
+                                        p.LocalProperty = true;
+                                        this.Properties.ModifyProperty( p );
+                                }
+                                else
+                                {
+                                        Property p = properties.FindSingleValue(PropertyTags.RestoredFileCount);
+                                        if (p != null )
+                                                p.DeleteProperty();
+                                }
+                        }
+                }
+
+
+         /// <summary>
+         /// Get/Set DataMovement value
+         /// </summary>
+                public int RestoreStatus
+                {
+                        get
+                        {
+                                Property p = properties.FindSingleValue(PropertyTags.Restore);
+                                if ( p != null )
+                                        return (int)p.Value;
+                                else
+                                        return -1;
+                        }
+                        set
+                        {
+                                if( value != -1)
+                                {
+                                        Property p = new Property( PropertyTags.Restore, value );
+                                        p.LocalProperty = true;
+                                        this.Properties.ModifyProperty( p );
+                                }
+                                else
+                                {
+                                        Property p = properties.FindSingleValue(PropertyTags.Restore);
+                                        if (p != null )
+                                                p.DeleteProperty();
+                                }
+                        }
+                }
+
+
         /// <summary>
         /// Get/Set details about MigratedFolder
         /// </summary>
@@ -1400,6 +1490,29 @@ namespace Simias.Storage
 			// Update the local incarnation value to the specified value.
 			node.Properties.ModifyNodeProperty( PropertyTags.LocalIncarnation, incarnationValue);
 		}
+
+                public Collection SetEncryptionProperties(string eKey, string eBlob, string eAlgorithm, string rKey)
+                {
+                        //Set the Encryption status of the collection. This needs to be used for all reporting
+                        Property p = properties.FindSingleValue(PropertyTags.SecurityStatus);
+                        int securityStatus = 0;
+                        if( p!= null)
+                                securityStatus = (int)p.Value;
+                        securityStatus |= (int)SecurityStatus.Encryption;
+                        properties.AddNodeProperty(PropertyTags.EncryptionType, eAlgorithm);
+ 
+                        properties.AddNodeProperty(PropertyTags.EncryptionKey, eKey);
+                        properties.AddNodeProperty(PropertyTags.EncryptionBlob, eBlob);
+ 
+                        properties.AddNodeProperty(PropertyTags.EncryptionVersion, EncVersion.version.ToString());
+
+                        properties.AddNodeProperty(PropertyTags.RecoveryKey, rKey);
+                        // Add the security status property. This needs to be used for all reporting in Web and client
+                        properties.AddNodeProperty(PropertyTags.SecurityStatus, securityStatus);
+                        this.Commit();
+                        return this;
+                }
+		
 
 
 		/// <summary>
@@ -3682,6 +3795,26 @@ namespace Simias.Storage
 
 			return node;
 		}	
+
+                public Node GetNodeByPath( string entryPath)
+                {
+                         ICSList children = this.Search(PropertyTags.FileSystemPath, entryPath, SearchOp.Equal);
+                        Node n = null;
+                         foreach(ShallowNode sn in children)
+                         {
+                                 Node child = this.GetNodeByID(sn.ID);
+ 
+                                 if (child.IsBaseType(NodeTypes.FileNodeType) || child.IsBaseType(NodeTypes.DirNodeType))
+                                 {
+                                         n = child;
+                                         break;
+                                 }
+                         }
+ 
+                         return n;
+ 
+                }
+
 
         /// <summary>
         /// Clears the node cache

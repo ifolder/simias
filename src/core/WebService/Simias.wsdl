@@ -1360,6 +1360,110 @@
           </xs:sequence>
         </xs:complexType>
       </xs:element>
+      <xs:element name="GetEntries">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="ifolderID" type="xs:string"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="type" type="xs:int"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="relPath" type="xs:string"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="index" type="xs:int"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="max" type="xs:int"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="accessID" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="NodeEntrySet">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="Items" type="s0:ArrayOfNodeEntry"/>
+          <xs:element minOccurs="1" maxOccurs="1" name="Count" type="xs:long"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="ArrayOfNodeEntry">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="NodeEntry" nillable="true" type="s0:NodeEntry"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="NodeEntry">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="ID" type="xs:string"/>
+          <xs:element minOccurs="0" maxOccurs="1" name="Name" type="xs:string"/>
+          <xs:element minOccurs="1" maxOccurs="1" name="Length" type="xs:long"/>
+          <xs:element minOccurs="0" maxOccurs="1" name="Type" type="xs:string"/>
+          <xs:element minOccurs="0" maxOccurs="1" name="RelativePath" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="GetEntriesResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetEntriesResult" type="s0:NodeEntrySet"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetRestoreStatusForCollection">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="ifolderid" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetRestoreStatusForCollectionResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="GetRestoreStatusForCollectionResult" type="xs:int"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="totalcount" type="xs:int"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="finishedcount" type="xs:int"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SetRestoreStatusForCollection">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="ifolderid" type="xs:string"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="status" type="xs:int"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="totalcount" type="xs:int"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="finishedcount" type="xs:int"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SetRestoreStatusForCollectionResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="SetRestoreStatusForCollectionResult" type="xs:int"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ResetRootNode">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="ifolderid" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ResetRootNodeResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="ResetRootNodeResult" type="xs:int"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetEncryptionDetails">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="ifolderid" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetEncryptionDetailsResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="GetEncryptionDetailsResult" type="xs:boolean"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="eKey" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="eBlob" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="eAlgorithm" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="rKey" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
       <xs:element name="string" nillable="true" type="xs:string"/>
       <xs:element name="DomainInformation" nillable="true" type="s0:DomainInformation"/>
       <xs:element name="ArrayOfDomainInformation" nillable="true" type="s0:ArrayOfDomainInformation"/>
@@ -1369,6 +1473,7 @@
       <xs:element name="base64Binary" nillable="true" type="xs:base64Binary"/>
       <xs:element name="ArrayOfString" nillable="true" type="s0:ArrayOfString"/>
       <xs:element name="CollectionKey" nillable="true" type="s0:CollectionKey"/>
+      <xs:element name="NodeEntrySet" nillable="true" type="s0:NodeEntrySet"/>
     </xs:schema>
     <xs:schema xmlns:tns="http://novell.com/simias/web/AbstractTypes" targetNamespace="http://novell.com/simias/web/AbstractTypes" xmlns:xs="http://www.w3.org/2001/XMLSchema">
       <xs:import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
@@ -1886,6 +1991,36 @@
   <message name="GetSimiasProcessIDSoapOut">
     <part name="parameters" element="s0:GetSimiasProcessIDResponse"/>
   </message>
+  <message name="GetEntriesSoapIn">
+    <part name="parameters" element="s0:GetEntries"/>
+  </message>
+  <message name="GetEntriesSoapOut">
+    <part name="parameters" element="s0:GetEntriesResponse"/>
+  </message>
+  <message name="GetRestoreStatusForCollectionSoapIn">
+    <part name="parameters" element="s0:GetRestoreStatusForCollection"/>
+  </message>
+  <message name="GetRestoreStatusForCollectionSoapOut">
+    <part name="parameters" element="s0:GetRestoreStatusForCollectionResponse"/>
+  </message>
+  <message name="SetRestoreStatusForCollectionSoapIn">
+    <part name="parameters" element="s0:SetRestoreStatusForCollection"/>
+  </message>
+  <message name="SetRestoreStatusForCollectionSoapOut">
+    <part name="parameters" element="s0:SetRestoreStatusForCollectionResponse"/>
+  </message>
+  <message name="ResetRootNodeSoapIn">
+    <part name="parameters" element="s0:ResetRootNode"/>
+  </message>
+  <message name="ResetRootNodeSoapOut">
+    <part name="parameters" element="s0:ResetRootNodeResponse"/>
+  </message>
+  <message name="GetEncryptionDetailsSoapIn">
+    <part name="parameters" element="s0:GetEncryptionDetails"/>
+  </message>
+  <message name="GetEncryptionDetailsSoapOut">
+    <part name="parameters" element="s0:GetEncryptionDetailsResponse"/>
+  </message>
   <message name="PingSimiasHttpGetIn"/>
   <message name="PingSimiasHttpGetOut"/>
   <message name="AddMemberToDomainHttpGetIn">
@@ -2344,6 +2479,32 @@
   </message>
   <message name="GetSimiasProcessIDHttpGetIn"/>
   <message name="GetSimiasProcessIDHttpGetOut">
+    <part name="Body" element="s0:int"/>
+  </message>
+  <message name="GetEntriesHttpGetIn">
+    <part name="ifolderID" type="s:string"/>
+    <part name="type" type="s:int"/>
+    <part name="relPath" type="s:string"/>
+    <part name="index" type="s:int"/>
+    <part name="max" type="s:int"/>
+    <part name="accessID" type="s:string"/>
+  </message>
+  <message name="GetEntriesHttpGetOut">
+    <part name="Body" element="s0:NodeEntrySet"/>
+  </message>
+  <message name="SetRestoreStatusForCollectionHttpGetIn">
+    <part name="ifolderid" type="s:string"/>
+    <part name="status" type="s:int"/>
+    <part name="totalcount" type="s:int"/>
+    <part name="finishedcount" type="s:int"/>
+  </message>
+  <message name="SetRestoreStatusForCollectionHttpGetOut">
+    <part name="Body" element="s0:int"/>
+  </message>
+  <message name="ResetRootNodeHttpGetIn">
+    <part name="ifolderid" type="s:string"/>
+  </message>
+  <message name="ResetRootNodeHttpGetOut">
     <part name="Body" element="s0:int"/>
   </message>
   <message name="PingSimiasHttpPostIn"/>
@@ -2806,6 +2967,32 @@
   <message name="GetSimiasProcessIDHttpPostOut">
     <part name="Body" element="s0:int"/>
   </message>
+  <message name="GetEntriesHttpPostIn">
+    <part name="ifolderID" type="s:string"/>
+    <part name="type" type="s:int"/>
+    <part name="relPath" type="s:string"/>
+    <part name="index" type="s:int"/>
+    <part name="max" type="s:int"/>
+    <part name="accessID" type="s:string"/>
+  </message>
+  <message name="GetEntriesHttpPostOut">
+    <part name="Body" element="s0:NodeEntrySet"/>
+  </message>
+  <message name="SetRestoreStatusForCollectionHttpPostIn">
+    <part name="ifolderid" type="s:string"/>
+    <part name="status" type="s:int"/>
+    <part name="totalcount" type="s:int"/>
+    <part name="finishedcount" type="s:int"/>
+  </message>
+  <message name="SetRestoreStatusForCollectionHttpPostOut">
+    <part name="Body" element="s0:int"/>
+  </message>
+  <message name="ResetRootNodeHttpPostIn">
+    <part name="ifolderid" type="s:string"/>
+  </message>
+  <message name="ResetRootNodeHttpPostOut">
+    <part name="Body" element="s0:int"/>
+  </message>
   <portType name="Simias Web ServiceSoap">
     <operation name="PingSimias">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Allows a client to ping to make sure the Web Service is up and running</wsdl:documentation>
@@ -3226,6 +3413,31 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets the process ID for the current running process.</wsdl:documentation>
       <input message="s0:GetSimiasProcessIDSoapIn"/>
       <output message="s0:GetSimiasProcessIDSoapOut"/>
+    </operation>
+    <operation name="GetEntries">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets the process ID for the current running process.</wsdl:documentation>
+      <input message="s0:GetEntriesSoapIn"/>
+      <output message="s0:GetEntriesSoapOut"/>
+    </operation>
+    <operation name="GetRestoreStatusForCollection">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the Restore Status information for given ifolderid.</wsdl:documentation>
+      <input message="s0:GetRestoreStatusForCollectionSoapIn"/>
+      <output message="s0:GetRestoreStatusForCollectionSoapOut"/>
+    </operation>
+    <operation name="SetRestoreStatusForCollection">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set the Restore Status information for given ifolderid.</wsdl:documentation>
+      <input message="s0:SetRestoreStatusForCollectionSoapIn"/>
+      <output message="s0:SetRestoreStatusForCollectionSoapOut"/>
+    </operation>
+    <operation name="ResetRootNode">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets the process ID for the current running process.</wsdl:documentation>
+      <input message="s0:ResetRootNodeSoapIn"/>
+      <output message="s0:ResetRootNodeSoapOut"/>
+    </operation>
+    <operation name="GetEncryptionDetails">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets the process ID for the current running process.</wsdl:documentation>
+      <input message="s0:GetEncryptionDetailsSoapIn"/>
+      <output message="s0:GetEncryptionDetailsSoapOut"/>
     </operation>
   </portType>
   <portType name="Simias Web ServiceSoap12">
@@ -3649,6 +3861,31 @@
       <input message="s0:GetSimiasProcessIDSoapIn"/>
       <output message="s0:GetSimiasProcessIDSoapOut"/>
     </operation>
+    <operation name="GetEntries">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets the process ID for the current running process.</wsdl:documentation>
+      <input message="s0:GetEntriesSoapIn"/>
+      <output message="s0:GetEntriesSoapOut"/>
+    </operation>
+    <operation name="GetRestoreStatusForCollection">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the Restore Status information for given ifolderid.</wsdl:documentation>
+      <input message="s0:GetRestoreStatusForCollectionSoapIn"/>
+      <output message="s0:GetRestoreStatusForCollectionSoapOut"/>
+    </operation>
+    <operation name="SetRestoreStatusForCollection">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set the Restore Status information for given ifolderid.</wsdl:documentation>
+      <input message="s0:SetRestoreStatusForCollectionSoapIn"/>
+      <output message="s0:SetRestoreStatusForCollectionSoapOut"/>
+    </operation>
+    <operation name="ResetRootNode">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets the process ID for the current running process.</wsdl:documentation>
+      <input message="s0:ResetRootNodeSoapIn"/>
+      <output message="s0:ResetRootNodeSoapOut"/>
+    </operation>
+    <operation name="GetEncryptionDetails">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets the process ID for the current running process.</wsdl:documentation>
+      <input message="s0:GetEncryptionDetailsSoapIn"/>
+      <output message="s0:GetEncryptionDetailsSoapOut"/>
+    </operation>
   </portType>
   <portType name="Simias Web ServiceHttpGet">
     <operation name="PingSimias">
@@ -4011,6 +4248,21 @@
       <input message="s0:GetSimiasProcessIDHttpGetIn"/>
       <output message="s0:GetSimiasProcessIDHttpGetOut"/>
     </operation>
+    <operation name="GetEntries">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets the process ID for the current running process.</wsdl:documentation>
+      <input message="s0:GetEntriesHttpGetIn"/>
+      <output message="s0:GetEntriesHttpGetOut"/>
+    </operation>
+    <operation name="SetRestoreStatusForCollection">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set the Restore Status information for given ifolderid.</wsdl:documentation>
+      <input message="s0:SetRestoreStatusForCollectionHttpGetIn"/>
+      <output message="s0:SetRestoreStatusForCollectionHttpGetOut"/>
+    </operation>
+    <operation name="ResetRootNode">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets the process ID for the current running process.</wsdl:documentation>
+      <input message="s0:ResetRootNodeHttpGetIn"/>
+      <output message="s0:ResetRootNodeHttpGetOut"/>
+    </operation>
   </portType>
   <portType name="Simias Web ServiceHttpPost">
     <operation name="PingSimias">
@@ -4372,6 +4624,21 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets the process ID for the current running process.</wsdl:documentation>
       <input message="s0:GetSimiasProcessIDHttpPostIn"/>
       <output message="s0:GetSimiasProcessIDHttpPostOut"/>
+    </operation>
+    <operation name="GetEntries">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets the process ID for the current running process.</wsdl:documentation>
+      <input message="s0:GetEntriesHttpPostIn"/>
+      <output message="s0:GetEntriesHttpPostOut"/>
+    </operation>
+    <operation name="SetRestoreStatusForCollection">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set the Restore Status information for given ifolderid.</wsdl:documentation>
+      <input message="s0:SetRestoreStatusForCollectionHttpPostIn"/>
+      <output message="s0:SetRestoreStatusForCollectionHttpPostOut"/>
+    </operation>
+    <operation name="ResetRootNode">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets the process ID for the current running process.</wsdl:documentation>
+      <input message="s0:ResetRootNodeHttpPostIn"/>
+      <output message="s0:ResetRootNodeHttpPostOut"/>
     </operation>
   </portType>
   <binding name="Simias Web ServiceSoap" type="s0:Simias Web ServiceSoap">
@@ -5125,6 +5392,51 @@
     </operation>
     <operation name="GetSimiasProcessID">
       <soap:operation soapAction="http://novell.com/simias/web/GetSimiasProcessID" style="document"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="GetEntries">
+      <soap:operation soapAction="http://novell.com/simias/web/GetEntries" style="document"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="GetRestoreStatusForCollection">
+      <soap:operation soapAction="http://novell.com/simias/web/GetRestoreStatusForCollection" style="document"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="SetRestoreStatusForCollection">
+      <soap:operation soapAction="http://novell.com/simias/web/SetRestoreStatusForCollection" style="document"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="ResetRootNode">
+      <soap:operation soapAction="http://novell.com/simias/web/ResetRootNode" style="document"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="GetEncryptionDetails">
+      <soap:operation soapAction="http://novell.com/simias/web/GetEncryptionDetails" style="document"/>
       <input>
         <soap:body use="literal"/>
       </input>
@@ -5891,6 +6203,51 @@
         <soap12:body use="literal"/>
       </output>
     </operation>
+    <operation name="GetEntries">
+      <soap12:operation soapAction="http://novell.com/simias/web/GetEntries" style="document"/>
+      <input>
+        <soap12:body use="literal"/>
+      </input>
+      <output>
+        <soap12:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="GetRestoreStatusForCollection">
+      <soap12:operation soapAction="http://novell.com/simias/web/GetRestoreStatusForCollection" style="document"/>
+      <input>
+        <soap12:body use="literal"/>
+      </input>
+      <output>
+        <soap12:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="SetRestoreStatusForCollection">
+      <soap12:operation soapAction="http://novell.com/simias/web/SetRestoreStatusForCollection" style="document"/>
+      <input>
+        <soap12:body use="literal"/>
+      </input>
+      <output>
+        <soap12:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="ResetRootNode">
+      <soap12:operation soapAction="http://novell.com/simias/web/ResetRootNode" style="document"/>
+      <input>
+        <soap12:body use="literal"/>
+      </input>
+      <output>
+        <soap12:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="GetEncryptionDetails">
+      <soap12:operation soapAction="http://novell.com/simias/web/GetEncryptionDetails" style="document"/>
+      <input>
+        <soap12:body use="literal"/>
+      </input>
+      <output>
+        <soap12:body use="literal"/>
+      </output>
+    </operation>
   </binding>
   <binding name="Simias Web ServiceHttpGet" type="s0:Simias Web ServiceHttpGet">
     <http:binding verb="GET"/>
@@ -6497,6 +6854,33 @@
     </operation>
     <operation name="GetSimiasProcessID">
       <http:operation location="/GetSimiasProcessID"/>
+      <input>
+        <http:urlEncoded/>
+      </input>
+      <output>
+        <mime:mimeXml part="Body"/>
+      </output>
+    </operation>
+    <operation name="GetEntries">
+      <http:operation location="/GetEntries"/>
+      <input>
+        <http:urlEncoded/>
+      </input>
+      <output>
+        <mime:mimeXml part="Body"/>
+      </output>
+    </operation>
+    <operation name="SetRestoreStatusForCollection">
+      <http:operation location="/SetRestoreStatusForCollection"/>
+      <input>
+        <http:urlEncoded/>
+      </input>
+      <output>
+        <mime:mimeXml part="Body"/>
+      </output>
+    </operation>
+    <operation name="ResetRootNode">
+      <http:operation location="/ResetRootNode"/>
       <input>
         <http:urlEncoded/>
       </input>
@@ -7117,20 +7501,47 @@
         <mime:mimeXml part="Body"/>
       </output>
     </operation>
+    <operation name="GetEntries">
+      <http:operation location="/GetEntries"/>
+      <input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </input>
+      <output>
+        <mime:mimeXml part="Body"/>
+      </output>
+    </operation>
+    <operation name="SetRestoreStatusForCollection">
+      <http:operation location="/SetRestoreStatusForCollection"/>
+      <input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </input>
+      <output>
+        <mime:mimeXml part="Body"/>
+      </output>
+    </operation>
+    <operation name="ResetRootNode">
+      <http:operation location="/ResetRootNode"/>
+      <input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </input>
+      <output>
+        <mime:mimeXml part="Body"/>
+      </output>
+    </operation>
   </binding>
   <service name="Simias Web Service">
     <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Web Service providing access to Simias</wsdl:documentation>
     <port name="Simias Web ServiceSoap" binding="s0:Simias Web ServiceSoap">
-      <soap:address location="http://127.0.0.1/simias10/Simias.asmx"/>
+      <soap:address location="https://164.99.101.20/simias10/Simias.asmx"/>
     </port>
     <port name="Simias Web ServiceSoap12" binding="s0:Simias Web ServiceSoap12">
-      <soap12:address location="http://127.0.0.1/simias10/Simias.asmx"/>
+      <soap12:address location="https://164.99.101.20/simias10/Simias.asmx"/>
     </port>
     <port name="Simias Web ServiceHttpGet" binding="s0:Simias Web ServiceHttpGet">
-      <http:address location="http://127.0.0.1/simias10/Simias.asmx"/>
+      <http:address location="https://164.99.101.20/simias10/Simias.asmx"/>
     </port>
     <port name="Simias Web ServiceHttpPost" binding="s0:Simias Web ServiceHttpPost">
-      <http:address location="http://127.0.0.1/simias10/Simias.asmx"/>
+      <http:address location="https://164.99.101.20/simias10/Simias.asmx"/>
     </port>
   </service>
 </definitions>

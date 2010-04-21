@@ -349,6 +349,10 @@ namespace Novell.iFolder
                 /// LDAP certificate acceptance options - for now we prompt only when required (YaST configure issue)
                 /// </summary>
 		public BoolOption ldapCertAcc = new BoolOption("ldap-cert-acceptance", "Accept LDAP Certificate", null, false, true);
+                /// <summary>
+                /// Recover data
+                /// </summary>
+                public NoPromptOption recover = new NoPromptOption("recover", "Recover the data from iFolder", "Recover data from the store", false, null);
 
 
 		#endregion
@@ -384,6 +388,7 @@ namespace Novell.iFolder
 			ldapAdminPassword.OnOptionEntered = new Option.OptionEnteredHandler ( OnldapAdminPassword );
 			upgrade.OnOptionEntered = new Option.OptionEnteredHandler ( OnUpgrade );
 			migrate.OnOptionEntered = new Option.OptionEnteredHandler ( OnMigrate );
+			recover.OnOptionEntered = new Option.OptionEnteredHandler ( OnRecover);
 			remove.OnOptionEntered = new Option.OptionEnteredHandler ( OnRemove );
 			port.OnOptionEntered = new Option.OptionEnteredHandler ( OnPort );
 			configurePlugins.OnOptionEntered = new Option.OptionEnteredHandler ( OnConfigurePlugins );
@@ -936,8 +941,16 @@ Console.WriteLine("Url {0}", service.Url);
 			{
 				return false;
 			}
-
-			if( migrate.Assigned)
+			
+                        if( recover.Assigned)
+                        {
+				Console.WriteLine("recover start from here...");
+                                isLdapAdminSet = true;
+                                isLdapAdminPasswordSet = true;
+                                SetupScriptFiles();
+                                return true;
+                        }
+			else if( migrate.Assigned)
 			{
 				Console.WriteLine("Our changes start from here...");
 				isLdapAdminSet = true;
@@ -1452,6 +1465,24 @@ Console.WriteLine("Url {0}", service.Url);
 			return true;
 		}
 
+        /// <summary>^M
+        ///Recover used for restoring ifolder data 
+        /// </summary>^M
+        /// <returns>true</returns>
+               private bool OnRecover()
+               {
+                       Console.WriteLine("Recover option called.");
+                       Console.WriteLine("store path: {0}", storePath);
+                       PerformOES2Upgrade();
+                       publicUrl.Prompt = privateUrl.Prompt = serverName.Prompt = false;
+                       privateUrl.Value = publicUrl.Value = "http://127.0.0.1:8086/simias10";
+                       serverName.Value = "FSBiFolderRestore-server";
+                       useSsl.Value = "NONSSL";
+                       return true;
+               }
+
+
+
         /// <summary>
         /// called when migrate option is slelected
         /// </summary>
@@ -1512,16 +1543,20 @@ Console.WriteLine("Url {0}", service.Url);
 		{
 
 			publicUrl.Prompt = privateUrl.Prompt = serverName.Prompt = true;
-			
-			string storeDataPath = ReadModMonoConfiguration();
-			if(storeDataPath == null || storeDataPath == String.Empty || !System.IO.Directory.Exists(storeDataPath))
-			{
-                               Console.WriteLine("Data Path: {0} not accessible.",storeDataPath == null ? "Null" : storeDataPath);
-                               return false;
-                        }
+		
+			if( storePath == null || storePath == string.Empty)
+			{	
+				string storeDataPath = ReadModMonoConfiguration();
+				if(storeDataPath == null || storeDataPath == String.Empty || !System.IO.Directory.Exists(storeDataPath))
+				{
+					Console.WriteLine("Data Path: {0} not accessible.",storeDataPath == null ? "Null" : storeDataPath);
+					return false;
+				}
 
-			path.DefaultValue = storeDataPath ;
-			storePath = Path.GetFullPath(path.Value);
+				path.DefaultValue = storeDataPath ;
+				storePath = Path.GetFullPath(path.Value);
+			}
+			Console.WriteLine("The store path at PerformOES2Upgrade is: {0}", storePath);
                         if ( Path.GetFileName( storePath ) != "simias" )
                         {
                                 storePath = Path.Combine( storePath, "simias" );
@@ -2196,7 +2231,7 @@ Console.WriteLine("Url {0}", service.Url);
 			// Commit the config file changes.
 			CommitConfiguration( document );
 
-			if( slaveServer.Value )
+			if( slaveServer.Value && !recover.Assigned)
 			{
 //				ldapSettings.SyncInterval = int.MaxValue;
 //				ldapSettings.SyncOnStart = false;

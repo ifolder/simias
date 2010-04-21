@@ -1685,8 +1685,20 @@ namespace Simias.Storage
 		/// </summary>
 		public bool ReSetPassPhrase(string OldPassphrase, string Passphrase, string RAName, string RAPublicKey)
 		{
-			if(ValidatePassPhrase(OldPassphrase) != Simias.Authentication.StatusCodes.Success)
-				return false;
+             		log.Debug("Enter ReSetPassPhrase Function, old :{0} , new:{1}, RAName:{2}, RAPublicKey:{3}",
+                 	OldPassphrase, Passphrase, RAName, RAPublicKey);
+             		bool decryptpassed = true;
+             		if (ValidatePassPhrase(OldPassphrase) != Simias.Authentication.StatusCodes.Success)
+             		{
+                 		log.Debug("Failed for Old:{0}", OldPassphrase);
+                 		if (ValidatePassPhrase(Passphrase) != Simias.Authentication.StatusCodes.Success)
+                 		{
+                     			log.Debug("Reset Pass phrase passed for both old and new:{0}", Passphrase);
+                     			return false;
+                 		}
+                 		log.Debug("Reset Pass phrase passed for old and and passed for new");
+             		}
+
 			try
 			{	
 				if(RAPublicKey != null && RAPublicKey != "" && RAName != "DEFAULT")//RAName null allowed - find a better way to represent "DEFAULT"
@@ -1729,29 +1741,44 @@ namespace Simias.Storage
 				
 				while((OldKey = svc.GetiFolderCryptoKeys(DomainID, UserID, index)) != null)
 				{
-					//Decrypt and encrypt the key
-					Simias.Storage.Key DeKey = new Key(OldKey.PEDEK);	
-					DeKey.DecrypytKey(oldPassphrase, out DecryptedKey);
-					Simias.Storage.Key EnKey = new Key(DecryptedKey);
-					EnKey.EncrypytKey(passphrase, out EncryptedKey);
 
-					//Send back to server					
-					NewKey.NodeID = OldKey.NodeID;
-					NewKey.PEDEK = EncryptedKey;
-					if(RAPublicKey !=null && RAPublicKey !="")
-					{
-						RecoveryAgent agent = new RecoveryAgent(RAPublicKey);
-						NewKey.REDEK = agent.EncodeMessage(DecryptedKey); // recoveryKey
-					}
-					else
-						NewKey.REDEK = null; // since we are not changing the recovery agent
-						
-					if(svc.SetiFolderCryptoKeys(DomainID, UserID, NewKey)==false)
-					{
-						log.Debug("ReSetPassPhrase : failed for ifolder ID:", NewKey.NodeID);
-						throw new CollectionStoreException("The specified cryptographic key not found");
-					}
-					index++;
+                     try
+                     {
+                         log.Debug("In side while loop");
+                         //Decrypt and encrypt the key
+                         Simias.Storage.Key DeKey = new Key(OldKey.PEDEK);
+                         DeKey.DecrypytKey(oldPassphrase, out DecryptedKey);
+                         Simias.Storage.Key EnKey = new Key(DecryptedKey);
+                         EnKey.EncrypytKey(passphrase, out EncryptedKey);
+                         //Send back to server
+                         NewKey.NodeID = OldKey.NodeID;
+                         NewKey.PEDEK = EncryptedKey;
+                         if (RAPublicKey != null && RAPublicKey != "")
+                         {
+                             RecoveryAgent agent = new RecoveryAgent(RAPublicKey);
+                             NewKey.REDEK = agent.EncodeMessage(DecryptedKey); // recoveryKey
+                         }
+                         else
+                             NewKey.REDEK = null; // since we are not changing the recovery agent
+ 
+                         if (svc.SetiFolderCryptoKeys(DomainID, UserID, NewKey) == false)
+                         {
+                             log.Debug("ReSetPassPhrase : failed for ifolder ID:", NewKey.NodeID);
+                             //throw new CollectionStoreException("The specified cryptographic key not found");
+                             decryptpassed = false;
+                         }
+                     }
+                     catch (Exception ex)
+                     {
+                         log.Debug("Exception in reset pass: {0}--{1}", ex.Message, ex.StackTrace);
+                     }
+                     finally
+                     {
+                         index++;
+                     }
+ 
+		
+
 				}
 
 				//making it local variable for faster disposal
@@ -1774,7 +1801,7 @@ namespace Simias.Storage
 				log.Debug("ReSetPassPhrase : {0}", ex.Message);
 				throw ex;
 			}
-			return true;
+			return decryptpassed;
 		}
 
 		/// <summary>
@@ -2264,6 +2291,7 @@ namespace Simias.Storage
 		/// </summary>
 		public Simias.Authentication.StatusCodes ValidatePassPhrase(string Passphrase)
 		{
+			 log.Debug("Enter ValidatePassPhrase for validating passphrase :{0}", Passphrase);
 			string OldHash = null;
 			string NewHash = null;
 
@@ -2308,8 +2336,10 @@ namespace Simias.Storage
 			}
 			catch(Exception ex)
 			{
-				log.Debug("ValidatePassPhrase : {0}", ex.Message);
-				throw ex;
+				log.Debug("ValidatePassPhrase : {0} and return value is :{1}", ex.Message, Simias.Authentication.StatusCodes.PassPhraseInvalid.ToString());
+                 		return Simias.Authentication.StatusCodes.PassPhraseInvalid;
+                                //throw ex;
+
 			}
 			
 			//Compare
@@ -2513,9 +2543,19 @@ log.Debug("REDEK {0}", Key.REDEK);
 					log.Debug("RECOVERY: Parsing Element :{0}", count);
 					PassphraseHash hash = new PassphraseHash();
 					
+					log.Debug("length of KeyNodeList is :{0}", keyNodeList.Count.ToString());
+
 					XmlNode keyNode = keyNodeList[count++];					
-					string RecoveredCryptoKey = keyNode.InnerText;
-log.Debug("RecoveredCryptoKey {0}",RecoveredCryptoKey);
+		                    	string RecoveredCryptoKey = null;
+                		    	if (keyNode != null)
+                        			RecoveredCryptoKey = keyNode.InnerText;
+                    			else
+                    			{
+                        			log.Debug("keyNode is null");
+                        			continue;
+                    			}
+                    			log.Debug("RecoveredCryptoKey {0}",RecoveredCryptoKey);
+
 					string DecrypRecoveredCryptoKey = null;
 					if(OneTimePassphrase !=null && OneTimePassphrase !="")
 					{					
@@ -2529,10 +2569,21 @@ log.Debug("RecoveredCryptoKey {0}",RecoveredCryptoKey);
 					//Verify the recovered key matches with the original key
 					Key HashKey = new Key(DecrypRecoveredCryptoKey);	
 					string serverHash = svc.ServerGetCollectionHashKey(idNode.InnerText);
-					if(serverHash == null)
-						throw new CollectionStoreException("The specified cryptographic key does not found in server");
-					if(HashKey.HashKey() != serverHash)
-						throw new CollectionStoreException("The recovered cryptographic key does not match");
+                    			if (serverHash == null)
+                    			{
+                        			log.Debug("The specified cryptographic key does not found in server");
+                        			//throw new CollectionStoreException("The specified cryptographic key does not found in server");
+
+                    			}
+
+
+                    			if (HashKey.HashKey() != serverHash)
+                    			{
+                        			//throw new CollectionStoreException("The recovered cryptographic key does not match");
+                        			log.Debug("The recovered cryptographic key does not match");
+
+			                }
+										
 
 					log.Debug("RECOVERY: The recovery key macth with the server key");				
 					
@@ -2549,7 +2600,9 @@ log.Debug("RecoveredCryptoKey {0}",RecoveredCryptoKey);
 					if(svc.SetiFolderCryptoKeys(DomainID, UserID, cKey)==false)
 					{
 						log.Debug("ImportiFoldersCryptoKeys failed in SetiFolderCryptoKeys:{0}", cKey.NodeID);
-						throw new CollectionStoreException("The specified cryptographic key does not found");
+						log.Debug("The specified cryptographic key does not found");
+                                               //throw new CollectionStoreException("The specified cryptographic key does not found");
+
 					}
 				}		
 				SetPassPhrase(NewPassphrase, null, null);				

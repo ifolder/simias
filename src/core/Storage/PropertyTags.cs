@@ -470,6 +470,25 @@ namespace Simias.Storage
                 /// </summary>
 		static public string MigratediFolder = "MigratediFolder";
 
+                /// <summary>
+                /// <summary>
+                /// Restore status property
+                /// </summary>
+                static public string Restore = "Restore";
+ 
+                /// <summary>
+                /// <summary>
+                /// Restore status property
+                /// </summary>
+                static public string RestoredFileCount = "RestoredFileCount";
+ 
+                /// <summary>
+                /// <summary>
+                /// Restore status property
+                /// </summary>
+                static public string TotalRestoreFileCount = "TotalRestoreFileCount";
+	
+
         /// <summary>
         /// Well known property name.
         /// </summary>
