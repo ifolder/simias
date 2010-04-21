@@ -1169,7 +1169,6 @@ namespace iFolder.WebService
 	                                string iFolderPassBase64 = Convert.ToBase64String(encodedCredsByteArray);
 
 					domainService.Credentials = new NetworkCredential(iFolderUserBase64, iFolderPassBase64);
-					domainService.Credentials = new NetworkCredential(username, password);
 					domainService.PreAuthenticate = true;
 
 					publicUrl = domainService.GetHomeServer( username ).PublicAddress;
