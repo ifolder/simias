@@ -50,8 +50,8 @@ case $host_os in
     ;;
     darwin*)
         SIMIAS_OS='darwin'
-        AC_CHECK_PROG(CSC, mcs, mcs)
-        test -z "$CSC" && AC_MSG_ERROR([no C Sharp compiler: mcs not found in \$PATH])
+        AC_CHECK_PROG(CSC, gmcs, gmcs)
+        test -z "$CSC" && AC_MSG_ERROR([no C Sharp compiler: gmcs not found in \$PATH])
 		export PKG_CONFIG_PATH="/Library/Frameworks/Mono.framework/Versions/Current/lib/pkgconfig:$PKG_CONFIG_PATH"
 	    PKG_CONFIG_DIR='lib'
     ;;
@@ -72,7 +72,11 @@ AM_CONDITIONAL(WINDOWS, test "$SIMIAS_OS" = "windows")
 AM_CONDITIONAL(DARWIN, test "$SIMIAS_OS" = "darwin")
 AM_CONDITIONAL(DARWIN_X86, test "$host_cpu" = "i686")
 if test "$runasclient" = "TRUE"; then
-	AM_CONDITIONAL(MONO, test "$CSC" = "mcs")
+	if test "$host_os" = "darwin"; then
+		AM_CONDITIONAL(MONO, test "$CSC" = "gmcs")
+	else
+		AM_CONDITIONAL(MONO, test "$CSC" = "mcs")
+	fi
 else
 	if pkg-config --atleast-version=2.4 mono > /dev/null 2>&1
 	then
@@ -157,17 +161,13 @@ case $CSC in
         CSC_EXEFLAG=/target:exe
         CSC_LIBFLAG=/target:library
         CSC_WINEXEFLAG=/target:winexe
-        CSCFLAGS='/d:MONO /warn:4 /d:TRACE'
+        CSCFLAGS='/d:MONO /warn:4 /d:TRACE /d:MONONATIVE'
         CSCFLAGS_DEBUG="/debug+ /d:DEBUG"
         CSCFLAGS_OPTIMIZE="/optimize+"
         MONO=mono
         MONO_DEBUG='mono --debug'
         MONO_PATH=
         SYSTEM_XML='System.Xml.dll'
-		if pkg-config --atleast-version=1.1.13 mono > /dev/null 2>&1
-		then
-			CSCFLAGS="$CSCFLAGS /d:MONONATIVE"
-		fi
     ;;
     mcs)
         CSC_EXEFLAG=/target:exe
