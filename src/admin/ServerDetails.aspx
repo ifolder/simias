@@ -38,6 +38,11 @@
 			document.getElementById( "CancelLdapDetailsButton" ).disabled = false;
 		}
 
+		function ConfirmDeletion()
+		{		
+			return alert("<%= GetString("CONFIRMDELETION") %>");
+		}
+
         function ConfirmChangeMaster()
         {
         	return alert("<%= GetString("CONFIRMCHANGEMASTER") %>");
