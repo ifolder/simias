@@ -36,6 +36,7 @@ using System;
 using System.Collections;
 using System.Web;
 using System.Net;
+using System.Text;
 using System.Web.Services.Protocols;
 
 using Simias.Storage;
@@ -281,7 +282,12 @@ namespace Simias
 				{
 					member = Store.GetStore().GetDomain( DomainID ).GetMemberByID( UserID );
 				}
-				creds = new BasicCredentials( DomainID,	CollectionID, member.Name );
+
+				UTF8Encoding utf8Name = new UTF8Encoding();
+                                byte[] encodedCredsByteArray = utf8Name.GetBytes(member.Name);
+                                string iFolderUserBase64 = Convert.ToBase64String(encodedCredsByteArray);
+
+				creds = new BasicCredentials( DomainID,	CollectionID,iFolderUserBase64);
 				if ( creds.Cached == true )
 				{
 					credentials = creds.GetNetworkCredential(); 
@@ -289,7 +295,7 @@ namespace Simias
 				else
 				{
 					// Get the credentials for this collection.
-					creds =	new BasicCredentials( DomainID,	DomainID, member.Name );
+					creds =	new BasicCredentials( DomainID,	DomainID, iFolderUserBase64 );
 					if ( creds.Cached == true )
 					{
 						credentials = creds.GetNetworkCredential(); 

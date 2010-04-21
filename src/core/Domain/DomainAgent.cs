@@ -35,6 +35,7 @@ using System;
 using System.Collections;
 using System.Net;
 using System.IO;
+using System.Text;
 using System.Threading;
 using System.Web;
 using System.Xml;
@@ -247,21 +248,7 @@ namespace Simias.DomainServices
 
 			request.Headers.Add(
 				Simias.Security.Web.AuthenticationService.Login.BasicEncodingHeader,
-#if MONO
-				// bht: Fix for Bug 73324 - Client fails to authenticate if LDAP
-				// username has an international character in it.
-				//
-				// Mono converts the username and password to a byte array
-				// without paying attention to the encoding.  In NLD, the
-				// default encoding is UTF-8.  Without this fix, we ended up
-				// sending the username and password in 1252 but the server
-				// was attempting to decode it as UTF-8.  This fix forces the
-				// username and password to be sent with Windows-1252 encoding
-				// which properly gets decoded on the server.
-				System.Text.Encoding.GetEncoding(1252).WebName );
-#else
-				System.Text.Encoding.Default.WebName );
-#endif
+				System.Text.Encoding.UTF8.WebName );
 			
 			request.Method = "POST";
 			request.ContentLength = 0;
@@ -553,8 +540,16 @@ namespace Simias.DomainServices
 				domainServiceUrl = new Uri( tempUri.Uri , DomainServicePath ); 
 			}
 
+			UTF8Encoding utf8Name = new UTF8Encoding();
+                        byte[] encodedCredsByteArray = utf8Name.GetBytes(user);
+                        string iFolderUserBase64 = Convert.ToBase64String(encodedCredsByteArray);
+
+                        encodedCredsByteArray = utf8Name.GetBytes(password);
+                        string iFolderPassBase64 = Convert.ToBase64String(encodedCredsByteArray);
+
 			// Build a credential from the user name and password.
-			NetworkCredential myCred = new NetworkCredential( user, password ); 
+			NetworkCredential myCred = new NetworkCredential( iFolderUserBase64, iFolderPassBase64 ); 
+			NetworkCredential myOldCred = new NetworkCredential( user, password );
 
 			// Create the domain service web client object.
 			DomainService domainService = new DomainService();
@@ -598,6 +593,11 @@ namespace Simias.DomainServices
 			string baseUrl = domainServiceUrl.ToString();
 			baseUrl = baseUrl.Substring(0, baseUrl.LastIndexOf('/'));
 
+			// This flag is used to identify if server is old and not supporting multi byte login
+			// Then creds are sent with out encoding again.
+
+			bool oldServer = false;
+
 //Login to the server mentioned by the user, possible the user is already provisioned and this is a different client that is creating an account
 			status = 
 				this.Login( 
@@ -608,12 +608,24 @@ namespace Simias.DomainServices
             if ((status.statusCode != SCodes.Success) && (status.statusCode != SCodes.SuccessInGrace) && (status.statusCode != SCodes.UserAlreadyMoved))
 			{
 				log.Debug("Got Status {0}", status.statusCode);
-				return status;
+				if( status.statusCode == SCodes.InvalidCredentials )
+				{
+					// Post 3.8.0.2, multibyte char support for usernames and password is added
+					// If a new client is connecting to an old server, then auth will fail as creds 
+ 					// are encoded. Hence we try once more without encoding the creds.
+					log.Debug("This might be old server 3.8.0.2 with no multi byte support, trying once more with out encoding the creds");
+					status = this.Login( new Uri( baseUrl ), domainID, myOldCred, false );
+					if ( status.statusCode == SCodes.Success ||                                                                                             status.statusCode == SCodes.SuccessInGrace )
+						oldServer = true;
+					else
+						return status;
+				}
 			}
 			else
 				log.Debug("Got else Status {0}", status.statusCode);
 
 			// Get the Home Server.
+			domainService.Credentials = oldServer ? myOldCred : myCred ;
 			string hostID = null;
 			HostInfo hInfo = new HostInfo();
 
@@ -635,7 +647,7 @@ namespace Simias.DomainServices
                     DomainService ds = new DomainService();
                     ds.CookieContainer = cookies;
                     ds.Url = (new Uri(masterServerURL.TrimEnd(new char[] { '/' }) + DomainService)).ToString();
-                    ds.Credentials = myCred;
+                    ds.Credentials = oldServer ? myOldCred : myCred;
                     ds.PreAuthenticate = true;
                     //						ds.Proxy = ProxyState.GetProxyState( domainServiceUrl );
                     ds.AllowAutoRedirect = true;
@@ -690,7 +702,7 @@ namespace Simias.DomainServices
 					this.Login( 
 					new Uri( hInfo.PublicAddress ),
 					domainID,
-					myCred,
+					oldServer ? myOldCred : myCred,
 					false);
 				if ( ( status.statusCode != SCodes.Success ) && ( status.statusCode != SCodes.SuccessInGrace ) )
 				{
@@ -721,7 +733,7 @@ namespace Simias.DomainServices
 
 			// Save the credentials
 			CredentialCache myCache = new CredentialCache();
-			myCache.Add(new Uri(domainService.Url), "Basic", myCred);
+			myCache.Add(new Uri(domainService.Url), "Basic", oldServer ? myOldCred : myCred);
 			domainService.Credentials = myCache;
 			domainService.Timeout = 30000;
 
@@ -892,7 +904,22 @@ namespace Simias.DomainServices
 			log.Debug( "Login - called" );
 			log.Debug( "  DomainID: " + DomainID );
 			log.Debug( "  Username: " + Username );
+
+			// This flag is used to identify if server is old and not supporting multi byte login
+                        // Then creds are sent with out encoding again.
+
+			bool oldServer = false;
 			
+			UTF8Encoding utf8Name = new UTF8Encoding();
+                        byte[] encodedCredsByteArray = utf8Name.GetBytes(Username);
+                        string iFolderUserBase64 = Convert.ToBase64String(encodedCredsByteArray);
+
+                        encodedCredsByteArray = utf8Name.GetBytes(Password);
+                        string iFolderPassBase64 = Convert.ToBase64String(encodedCredsByteArray);
+				
+			NetworkCredential myCred = new NetworkCredential( iFolderUserBase64, iFolderPassBase64 );
+			NetworkCredential myOldCred = new NetworkCredential( Username, Password );
+
 			Simias.Authentication.Status status = null;
 			Domain cDomain = store.GetDomain( DomainID );
 			if ( cDomain != null )
@@ -911,7 +938,7 @@ namespace Simias.DomainServices
 						this.Login( 
 							tempUri.Uri, 
 							DomainID,
-							new NetworkCredential( Username, Password ),
+							myCred,
 							false );
 							
 					if ( status.statusCode == SCodes.Success ||
@@ -921,16 +948,36 @@ namespace Simias.DomainServices
 							new BasicCredentials( 
 									DomainID, 
 									DomainID,
-									Username,
-									Password );
+									iFolderUserBase64,
+									iFolderPassBase64 );
 						basic.Save( false );
 						SetDomainState( DomainID, true, true );
+					}
+					else
+					{
+						// Post 3.8.0.2, multibyte char support for usernames and password is added
+        	                                // If a new client is connecting to an old server, then auth will fail as creds
+	                                        // are encoded. Hence we try once more without encoding the creds.
+						log.Debug("possibly server is 3.8.0.2 not supporting multi byte,trying again without encoding creds ");
+						status = this.Login( tempUri.Uri, DomainID, myOldCred, false);
+						if ( status.statusCode == SCodes.Success ||						                                                status.statusCode == SCodes.SuccessInGrace )
+						{
+							oldServer = true;
+							BasicCredentials basic = 
+								new BasicCredentials(
+										DomainID,
+										DomainID,
+										Username,
+										Password);
+							basic.Save( false );
+							SetDomainState( DomainID, true, true);
+						}
 					}
 
                     if (status.statusCode == SCodes.UserAlreadyMoved && Password != null)
                     {
                         // Connect to master , and login to new server where user has been moved
-                        status = ProvisionToNewHomeServer(DomainID, new NetworkCredential(Username, Password));
+                        status = ProvisionToNewHomeServer(DomainID, oldServer ? myOldCred : myCred);
                         return status;
                     }
 				}

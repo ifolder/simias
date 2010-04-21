@@ -890,7 +890,15 @@ namespace iFolder.WebService
 					DomainService domainService = new DomainService();
 
 					domainService.Url = MasterServer.PublicUrl + "/DomainService.asmx";
-					domainService.Credentials = new NetworkCredential(username, password);
+
+					UTF8Encoding utf8Name = new UTF8Encoding();
+	                                byte[] encodedCredsByteArray = utf8Name.GetBytes(username);
+        	                        string iFolderUserBase64 = Convert.ToBase64String(encodedCredsByteArray);
+
+					encodedCredsByteArray = utf8Name.GetBytes(password);
+	                                string iFolderPassBase64 = Convert.ToBase64String(encodedCredsByteArray);
+
+					domainService.Credentials = new NetworkCredential(iFolderUserBase64, iFolderPassBase64);
 					domainService.PreAuthenticate = true;
 
 					publicUrl = domainService.GetHomeServer( username ).PublicAddress;
