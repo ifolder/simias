@@ -832,7 +832,7 @@ namespace iFolder.WebService
 				log.Error("Set Master store : {0}", HostID);
 				Domain domain = store.GetDomain(store.DefaultDomain);
 				//HostNode lHostNode = HostNode.GetHostByID(domain.ID, HostID);
-				HostNode lHostNode = HostNode.GetHostLocalHost();
+				HostNode lHostNode = HostNode.GetLocalHost();
 				lHostNode.IsMasterHost = Value;
 				domain.Commit(lHostNode);
 			}
