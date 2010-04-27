@@ -541,11 +541,15 @@ namespace Simias.DomainServices
 			}
 
 			UTF8Encoding utf8Name = new UTF8Encoding();
-                        byte[] encodedCredsByteArray = utf8Name.GetBytes(user);
-                        string iFolderUserBase64 = Convert.ToBase64String(encodedCredsByteArray);
+            byte[] encodedCredsByteArray = utf8Name.GetBytes(user);
+            string iFolderUserBase64 = Convert.ToBase64String(encodedCredsByteArray);
 
-                        encodedCredsByteArray = utf8Name.GetBytes(password);
-                        string iFolderPassBase64 = Convert.ToBase64String(encodedCredsByteArray);
+            string iFolderPassBase64 = null;
+            if (password != null)
+            {
+                encodedCredsByteArray = utf8Name.GetBytes(password);
+                iFolderPassBase64 = Convert.ToBase64String(encodedCredsByteArray);
+            }
 
 			// Build a credential from the user name and password.
 			NetworkCredential myCred = new NetworkCredential( iFolderUserBase64, iFolderPassBase64 ); 
@@ -626,6 +630,7 @@ namespace Simias.DomainServices
 
 			// Get the Home Server.
 			domainService.Credentials = oldServer ? myOldCred : myCred ;
+            domainService.PreAuthenticate = true;
 			string hostID = null;
 			HostInfo hInfo = new HostInfo();
 
@@ -911,11 +916,15 @@ namespace Simias.DomainServices
 			bool oldServer = false;
 			
 			UTF8Encoding utf8Name = new UTF8Encoding();
-                        byte[] encodedCredsByteArray = utf8Name.GetBytes(Username);
-                        string iFolderUserBase64 = Convert.ToBase64String(encodedCredsByteArray);
+            byte[] encodedCredsByteArray = utf8Name.GetBytes(Username);
+            string iFolderUserBase64 = Convert.ToBase64String(encodedCredsByteArray);
 
-                        encodedCredsByteArray = utf8Name.GetBytes(Password);
-                        string iFolderPassBase64 = Convert.ToBase64String(encodedCredsByteArray);
+            string iFolderPassBase64 = null;
+            if (Password != null)
+            {
+                encodedCredsByteArray = utf8Name.GetBytes(Password);
+                iFolderPassBase64 = Convert.ToBase64String(encodedCredsByteArray);
+            }
 				
 			NetworkCredential myCred = new NetworkCredential( iFolderUserBase64, iFolderPassBase64 );
 			NetworkCredential myOldCred = new NetworkCredential( Username, Password );
