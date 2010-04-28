@@ -173,6 +173,7 @@ echo "Run %{prefix}/bin/simias-server-setup to configure the server"
 %{sysconfdir}/simias/defaults.config
 %{sysconfdir}/novell-ifolder3.conf
 /etc/ld.so.conf.d/novell-ifolder3.conf
+/usr/share/man/man8/ifolder-data-recovery.8.gz
 
 %changelog
 * Fri May 02 2008 - srinidhi@novell.com

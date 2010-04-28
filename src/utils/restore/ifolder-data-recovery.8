@@ -1,0 +1,137 @@
+.\"     Title: ifolder-data-recovery
+.\"    Author: 
+.\" Generator: DocBook XSL Stylesheets v1.72.0 <http://docbook.sf.net/>
+.\"      Date: 04/28/2010
+.\"    Manual: ifolder-data-recovery(8)
+.\"    Source: 
+.\"
+.TH "IFOLDER\-DATA\-RECOVERY" "8" "04/28/2010" "" "ifolder\-data\-recovery(8)"
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.SH "NAME"
+ifolder\-data\-recovery \- iFolder restore tool
+.SH "SYNTAX"
+.sp
+.RS 4
+.nf
+ifolder\-data\-recovery <\fIOperation\fR> <\fIOptions\fR>
+.fi
+.RE
+.SH "DESCRIPTION"
+.PP
+Use this tool to restore a backed\-up file, folder, or iFolder for any user. If an administrator has performed regular or incremental file system backups of all iFolder system data on the server, the data can be restored with this tool. Data can be restored in its entirety or even at a granular level like a particular file or a folder. The restore tool also enables you to restore encrypted iFolders.
+.PP
+To restore using the tool, you must first restore the required content to a temporary location and then you must run the tool from the same place. You must ensure that the restored content retains the same rights or permissions that was assigned during the time of backup.
+.SH "OPERATIONS"
+.PP
+\-l, \-\-list
+.RS 4
+Lists iFolders owned by the specified user and details such as Name, iFolderID, and Path (at the time of backup)
+.RE
+.PP
+\-r, \-\-restore
+.RS 4
+Restores the requested data (File/Folder/iFolder) from the specified backup store or location
+.RE
+.PP
+\-\-retry
+.RS 4
+Resumes the restore operation that failed in the last run
+.RE
+.PP
+\-h, \-\-help
+.RS 4
+Displays help for the operation, options, and usage
+
+.RE
+.SH "OPTIONS"
+.PP
+\-f, \-\-path=
+.RS 4
+Path of the
+\fIsimias\fR
+files in the backup store. The
+\fIsimias\fR
+files must be present in a directory named
+\fIsimias\fR. The path must be the absolute path to the
+\fIsimias\fR
+directory.
+.RE
+.PP
+\-U, \-\-backup\-admin=
+.RS 4
+Login name of the Administrator who performed the backup
+.RE
+.PP
+\-P, \-\-backup\-password=
+.RS 4
+Password of the Administrator who performed the backup
+.RE
+.PP
+\-u, \-\-current\-admin=
+.RS 4
+Administrator login name for the current server
+.RE
+.PP
+\-p, \-\-current\-password=
+.RS 4
+Password of the current server\(cqs Administrator
+.RE
+.PP
+\-\-server\-url=
+.RS 4
+URL of the server where data is to be restored
+.RE
+.PP
+\-\-user=
+.RS 4
+Username or ID of the user for whom the specified operation is to be performed
+.RE
+.PP
+\-\-ifolder\-id=
+.RS 4
+ID of the iFolder for which the specified operation is to be performed
+.RE
+.PP
+\-\-ifolder\-path=
+.RS 4
+Absolute path (excluding the iFolder name) of the actual data to be restored
+.RE
+.PP
+\-\-relative\-path=
+.RS 4
+Relative path of the file or folder to be restored, starting from the iFolder name
+.RE
+.PP
+\-\-usewebaccess
+.RS 4
+Specifies the mode to restore. Does not take any value.
+.RE
+.SH "EXAMPLES"
+.PP
+ifolder\-data\-recovery \-\-help
+.RS 4
+Displays help
+.RE
+.PP
+ifolder\-data\-recovery \-l \-f <path of simias file in backup store> \-U <admin login name for backup> \-P <password of the backup admin> \-user=<username or ID of the user>
+.RS 4
+Lists iFolders for a specified user
+.RE
+.PP
+ifolder\-data\-recovery \-r \-f <path of simias file in backup store> \-U <admin login name for backup> \-P <password of the backup admin> \-u <admin login name for current server> \-p <password of the current server\(cqs admin> \-\-server\-url=<current ifolder server url> \-\-ifolder\-id=<ID of the iFolder for which restore operation is performed> \-\-ifolder\-path=<Parent level path for actual data to be restored>
+.RS 4
+Restores an iFolder
+.RE
+.PP
+ifolder\-data\-recovery \-r \-f <path of simias file in backup store> \-U <admin login name for backup> \-P <password of the backup admin> \-u <admin login name for current server> \-p <password of the current server\(cqs admin> \-\-server\-url=<current ifolder server url> \-\-ifolder\-id=<ID of the iFolder for which restore operation is performed> \-\-ifolder\-path=<Parent level path for actual data to be restored> \-\-relative\-path=<Relative path of file or folder to be restored>
+.RS 4
+Restores a file or folder
+.RE
+.PP
+ifolder\-data\-recovery \-\-retry \-f <path of simias file in backup store> \-U <admin login name for backup> \-P <password of the backup admin> \-u <admin login name for current server> \-p <password of the current server\(cqs admin> \-\-server\-url=<current ifolder server url> \-\-ifolder\-id=<ID of the iFolder for which restore operation is performed> \-\-ifolder\-path=<Parent level path for actual data to be restored> \-\-relative\-path=<Relative path of file or folder to be restored>
+.RS 4
+Retries the restore operation
+.RE

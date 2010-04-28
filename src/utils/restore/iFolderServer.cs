@@ -177,10 +177,13 @@ namespace Restore
 		}
 	
 		/// <summary>
-                /// 
-                /// </summary>
-                /// <param name="collectionID">.</param>
-                /// <returns>.</returns>
+		/// Initializes the iFolderServer object. 
+		/// </summary>
+		/// <param name="url">ifolder server url</param>
+		/// <param name="adminUserName">The user name for authentication.</param>
+		/// <param name="password">The password for authentication.</param>
+		/// <param name="redirect"></param>
+        /// <returns>.</returns>
 		public iFolderServer(string url, string adminUserName, string password, bool redirect)
 		{
 			PublicUrl = url;
@@ -188,11 +191,7 @@ namespace Restore
 			adminPassword = password;
 			adminNameForAuth = adminUserName;
 			adminPasswordForAuth = password;
-          /*  admin = new iFolderAdmin();
-            admin.Url = this.PublicUrl + "/iFolderAdmin.asmx";
-            admin.PreAuthenticate = true;
-            admin.Credentials = new NetworkCredential(this.adminNameForAuth, this.adminPasswordForAuth);
-		*/
+
 			web = new iFolderWeb();
 			web.Credentials = new NetworkCredential(this.adminNameForAuth, this.adminPasswordForAuth);
 			web.Url = this.PublicUrl + "/iFolderWeb.asmx";
@@ -207,8 +206,7 @@ namespace Restore
                     adminNameForAuth = Convert.ToBase64String(EncodedCredInByte);
                     EncodedCredInByte = utf8Name.GetBytes(adminPassword);
                     adminPasswordForAuth =  Convert.ToBase64String(EncodedCredInByte);
-                 //   admin.Credentials = new NetworkCredential(this.adminNameForAuth, this.adminPasswordForAuth);
-					web.Credentials = new NetworkCredential(this.adminNameForAuth, this.adminPasswordForAuth);
+                 	web.Credentials = new NetworkCredential(this.adminNameForAuth, this.adminPasswordForAuth);
 
                     if( !this.CheckCredentials() )
                     {
@@ -231,6 +229,8 @@ namespace Restore
 				catch(Exception ex1)
 				{
 					MainClass.DebugLog.Write(string.Format("Exception: while getting homeServer for admin. May be Invalid credentials. {0}", ex1.Message));
+					/*TBD: Can we continue to restore in case if this exception occurs? 
+					 * Or should the tool throw error and come out */
 				}
 			}
 			MainClass.DebugLog.Write(string.Format("The public url is: {0}", this.PublicUrl));
@@ -239,7 +239,7 @@ namespace Restore
 			admin.Credentials = new NetworkCredential(this.adminNameForAuth, this.adminPasswordForAuth);
 			admin.Url = this.PublicUrl + "/iFolderAdmin.asmx";
 			admin.PreAuthenticate = true;
-
+/*TBD: web is already initialized above. The following lines look invalid*/
 			web = new iFolderWeb();
 			web.Credentials = new NetworkCredential(this.adminNameForAuth, this.adminPasswordForAuth);
 			web.Url = this.PublicUrl + "/iFolderWeb.asmx";
@@ -271,10 +271,10 @@ namespace Restore
 		}
 
 		/// <summary>
-                /// 
-                /// </summary>
-                /// <param name="collectionID">.</param>
-                /// <returns>.</returns>
+		/// Validates the credentials for the user. 
+		/// </summary>
+		/// <param ></param>
+        /// <returns>true if valid credentials and false if the .</returns>
 		public bool CheckCredentials()
 		{
 			bool status = false;
@@ -305,12 +305,12 @@ namespace Restore
 			return status;
 		}
 
-	
+
 		/// <summary>
-                /// 
-                /// </summary>
-                /// <param name="collectionID">.</param>
-                /// <returns>.</returns>
+        /// Check if the server is up
+        /// </summary>
+        /// <param >.</param>
+        /// <returns>true if the server is up, false otherwise.</returns>
 		public bool PingServer()
 		{
 			bool retVal = false;
@@ -334,12 +334,11 @@ namespace Restore
 			}
 			return retVal;
 		}
-	
 		/// <summary>
-                /// 
-                /// </summary>
-                /// <param name="collectionID">.</param>
-                /// <returns>.</returns>
+		/// Creates a new iFolder with the given name. 
+		/// </summary>
+		/// <param ></param>
+        /// <returns>true if sucess and false otherwise .</returns>
 		public bool CreateiFolderWithID(string iFolderName, string OwnerUserID, string description, string iFolderID)
 		{
 			bool status = false;
@@ -377,12 +376,11 @@ namespace Restore
 			}
 			return status;
 		}
-
 		/// <summary>
-                /// 
-                /// </summary>
-                /// <param name="collectionID">.</param>
-                /// <returns>.</returns>
+		/// Creates a new encrypted iFolder with the given name. 
+		/// </summary>
+		/// <param ></param>
+        /// <returns>true if sucess and false otherwise .</returns>
 		public bool CreateEncryptediFolderWithID(string iFolderName, string OwnerUserID, string description, string iFolderID, string eKey, string eBlob, string eAlgorithm, string rKey)
 		{
 		 	MainClass.DebugLog.Write("Enter: Function CreateEncryptediFolderWithID");
@@ -424,12 +422,11 @@ namespace Restore
 		 	MainClass.DebugLog.Write("Exit: Function CreateEncryptediFolderWithID");
 			return status;
 		}	
-
 		/// <summary>
-                /// 
-                /// </summary>
-                /// <param name="collectionID">.</param>
-                /// <returns>.</returns>
+		/// Returns the Home Server for the given user. 
+		/// </summary>
+		/// <param ></param>
+        /// <returns>true if sucess and false otherwise .</returns>
 		public string GetHomeServer(string userName)
 		{
 		 	MainClass.DebugLog.Write("Enter: Function GetHomeServer");
@@ -470,10 +467,10 @@ namespace Restore
 		}
 
 		/// <summary>
-                /// 
-                /// </summary>
-                /// <param name="collectionID">.</param>
-                /// <returns>.</returns>
+		/// Returns the userId from the user name. 
+		/// </summary>
+		/// <param ></param>
+        /// <returns>user id if success , null otherwise.</returns>
 		public string GetUserIDFromName(string UserName)
 		{
 		    MainClass.DebugLog.Write("Enter: Function GetUserIDFromName");
@@ -518,10 +515,10 @@ namespace Restore
 		}
 
 		/// <summary>
-                /// 
-                /// </summary>
-                /// <param name="collectionID">.</param>
-                /// <returns>.</returns>
+		/// Searches and returns the users. 
+		/// </summary>
+		/// <param ></param>
+        /// <returns></returns>
 		public iFolderUserSet GetUsersBySearch( int currentOffset, int count)
 		{
 		    	MainClass.DebugLog.Write("Enter: Function GetUsersBySearch");
@@ -574,7 +571,6 @@ namespace Restore
 				{
 					if(ex.Message.IndexOf("InvalidOperation") >= 0)
 					{
-						//Console.Error.WriteLine("Exception here man. trying again......");
 						count++;
 						continue;
 					}
@@ -585,7 +581,7 @@ namespace Restore
 		    	MainClass.DebugLog.Write("Exit: Function GetAllCollectionIDsByUser");
 			return collections;
 		}
-
+//TBD: Need to provide the correct comments
 		/// <summary>
                 /// 
                 /// </summary>
@@ -617,7 +613,7 @@ namespace Restore
 		    	MainClass.DebugLog.Write("Exit: Function GetiFolder");
 			return folder;
 		}
-
+//TBD: Need to provide the correct comments
 		/// <summary>
                 /// 
                 /// </summary>
@@ -656,7 +652,7 @@ namespace Restore
 		    	MainClass.DebugLog.Write("Exit: Function GetMembers");
 			return users;
 		}
-
+//TBD: Need to provide the correct comments
 		/// <summary>
                 /// 
                 /// </summary>
@@ -696,7 +692,7 @@ namespace Restore
 		    	MainClass.DebugLog.Write("Exit: Function RemoveMember");
 			return status;
 		}
-
+//TBD: Need to provide the correct comments
 		/// <summary>
                 /// 
                 /// </summary>
@@ -740,7 +736,7 @@ namespace Restore
 		    	MainClass.DebugLog.Write("Exit: Function AddMember");
 			return status;
 		}		
-
+//TBD: Need to provide the correct comments
 		public iFolderEntry GetEntry(string ifolderid, string nodeid)
 		{
 			iFolderEntry entry = null;
@@ -771,7 +767,7 @@ namespace Restore
 			}
 			return entry;
 		}
-
+//TBD: Need to provide the correct comments
 		public iFolderEntrySet GetEntries(string ifolderid, string nodeid, int start, int end)
 		{
 			iFolderEntrySet entries = null;
@@ -802,7 +798,7 @@ namespace Restore
 			}
 			return entries;
 		}
-
+//TBD: Need to provide the correct comments
 		public iFolderDetails GetiFolderDetails(string ifolderid)
 		{
 			iFolderDetails ifolder = null;
@@ -833,7 +829,7 @@ namespace Restore
 			}
 			return ifolder;
 		}
-
+//TBD: Need to provide the correct comments
 		public iFolderUser GetAuthenticatedUser()
 		{
 			iFolderUser user = null;
@@ -865,42 +861,8 @@ namespace Restore
 			}
 			return user;
 		}
-		/*
-		public int RestoreiFolderDataFromFile(string filepath, string basepath)
-		{
-			int retval = -1;
-			try
-			{
-				int count = 0;
-				while (count < MaxCount)	
-				{
-					try
-					{		
-						retval= simws.RestoreiFolderDataFromFile(filepath, basepath);
-						break;
-					}
-					catch (Exception ex)
-					{
-						MainClass.DebugLog.Write(string.Format("Exception: {0}--{1}", ex.Message, ex.StackTrace));
-						if(ex.Message.IndexOf("InvalidOperation") >= 0 || ex.StackTrace.IndexOf("InvalidOperation") >= 0)
-						{
-							count++;
-							continue;	
-						}
-						throw ex;
-				   	}
-				}
-
-			}
-			catch(Exception ex)
-			{
-				MainClass.DebugLog.Write(string.Format("Exception in RestoreiFolderDataFromFile: {0}--{1}", ex.Message, ex.StackTrace));
-				retval = (int)status.FailedRestoreWebCall;
-			}
-			return retval;
-		}
-		*/
-
+	
+//TBD: Need to provide the correct comments
 		public int SetRestoreStatusForCollection(string ifolderid, int restorestatus, int totalcount, int finishedcount)
 		{
 			int retval = -1;
@@ -936,7 +898,7 @@ namespace Restore
 		}
 
 
-
+//TBD: Need to provide the correct comments
 		public int GetRestoreStatusForCollection(string ifolderid, out int totalcount, out int finishedcount)
 		{
 			int retval = -1;
@@ -973,7 +935,7 @@ namespace Restore
 			}
 			return retval;
 		}
-
+//TBD: Need to provide the correct comments
 		public iFolderEntry GetEntryByPath(string ifolderid, string parentdir)
 		{
 			iFolderEntry entry = null;
@@ -1004,7 +966,7 @@ namespace Restore
 			}
 			return entry;
 		}
-
+//TBD: Need to provide the correct comments
 		public iFolderEntry CreateEntry(string ifolderid, string ParentEntryID, iFolderEntryType type, string name)
 		{
 			iFolderEntry entry = null;
@@ -1035,7 +997,7 @@ namespace Restore
 			}
 			return entry;
 		}
-
+//TBD: Need to provide the correct comments
 		/// <summary>
                 /// 
                 /// </summary>
@@ -1084,7 +1046,7 @@ namespace Restore
 		}
 
 
-
+//TBD: Need to provide the correct comments
 		/// <summary>
                 /// 
                 /// </summary>
@@ -1193,7 +1155,7 @@ namespace Restore
 		    	MainClass.DebugLog.Write("Exit: Function UploadFile");
 			return retValue;
 		}
-
+//TBD: Need to provide the correct comments
 		/// <summary>
                 /// 
                 /// </summary>
@@ -1246,7 +1208,7 @@ namespace Restore
 				if(!IsEntryNodeFile )
 				{
 					iFolderEntrySet entries = null;
-					//-1 inidcate to fetch record from index 0 till end
+					//-1 indicate to fetch record from index 0 till end
 					entries = GetEntries(iFolderid, entryID, 0,-1);
 					foreach(iFolderEntry child in entries.Items)
 					{
@@ -1269,136 +1231,8 @@ namespace Restore
 		} //End of function WriteXMLDocument 
 
 
-		/// <summary>
-                /// 
-                /// </summary>
-                /// <param name="collectionID">.</param>
-                /// <returns>.</returns>
-		/*
-		public int ReadXMLDocumentandRestore(string ifolderID, string filepath, string basepath, bool usewebaccess)
-		{
-			MainClass.DebugLog.Write(string.Format("Enter: Function ReadXMLDocumentandRestore: usewebaccess: {0} basepath: {1} filepath: {2}", usewebaccess, basepath, filepath));	
-			int retValue = (int)status.Success;
-
-			if( File.Exists( filepath ) == false)
-			{
-				MainClass.DebugLog.Write(string.Format("The output xml file {0} not present.", filepath));
-				retValue = (int)status.InvalidXMLFileLocation;
-			}
-
-			if( !usewebaccess)
-			{
-				int retval = this.RestoreiFolderDataFromFile(filepath, basepath);
-				if( retval == 0 && retValue == (int)status.Success)
-				{
-					int result = -1;
-					do
-					{
-						result = 0;//this.GetRestoreStatusForCollection(ifolderID);
-						MainClass.DebugLog.Write(string.Format("Fetching Restore Status: End and result is:{0}",result.ToString()));	
-						//TODO: Verify the thread sleep time
-						Thread.Sleep(1000);
-						int totalitems = 0, remainingitems= 0;
-						string stat = "";//MainClass.xmlObj.VerifyStatus( out totalitems, out remainingitems);
-						Console.Write("\r");
-						Console.Write("|               Restoring {0} of {1} files...                                            |", totalitems-remainingitems, totalitems);
-					}while(result == 1);
-
-					if(result == 0)
-						retValue = (int)status.Success; 	
-				}	
-				MainClass.DebugLog.Write(string.Format("Exit: RestoreiFolderDataFromFile in case of usewebaccess is False and with status:{0}", retValue));
-			}	
-			else
-			{	
-				//Load XML document and read record
-				XmlDocument entryDoc = new XmlDocument();
-				entryDoc.Load(MainClass.xmlFileLoc);	
-				XmlElement element = (XmlElement)entryDoc.DocumentElement.SelectSingleNode("Files");
-				XmlNodeList nodeList = element.GetElementsByTagName("file");
-				string ifolderid = null;
-				string nodeid = null;
-				string relativepath = null;
-				string type = null;
-				//string filename= null;
-				string length= null;
-				string fullpath = null;
-				string filestatus = null;
-
-				retValue = (int)status.Success; 	
-				int count = 0;
-				foreach (XmlNode node in nodeList)
-				{
-					count++;
-					Console.Write("\r");
-					Console.Write("|               Restoring {0} of {1} files...                                            |", count, MainClass.TotalItems);
-					bool FileMovedStatus = false;
-					try
-					{
-						ifolderid = ((XmlElement)node).GetAttribute("ifolderID");
-						nodeid = ((XmlElement)node).GetAttribute("nodeID");
-						relativepath = ((XmlElement)node).GetAttribute("relativepath");
-						type = ((XmlElement)node).GetAttribute("type");
-						//filename = ((XmlElement)node).GetAttribute("filename");
-						length= ((XmlElement)node).GetAttribute("nodelength");
-						filestatus = ((XmlElement)node).GetAttribute("status");
-						MainClass.DebugLog.Write(string.Format("In ReadXMLDocuemntandRestore function ifolderID:{0}--nodeID:{1}--relativepath:{2}--type:{3}--fullpath:{4} length:{5}",ifolderid,nodeid,relativepath,type,fullpath,length));	
-						if( filestatus != null && filestatus.Equals("Completed"))
-						{
-							MainClass.DebugLog.Write(string.Format("File {0} already restored. {0}", relativepath));
-							continue;
-						}
-
-						fullpath = Path.Combine(basepath, relativepath);	
-						
-						if (type.Equals("DirNode"))
-						{
-							//Call Web API to Create Dir
-							//    UploadFolder(ifolderid, nodeid, Folder, basePath);
-							MainClass.DebugLog.Write("Directory Creation");
-							if(!CreateDirectory(ifolderid, relativepath))
-							{
-								MainClass.DebugLog.Write(string.Format("Directory Creation failed for folder {0}-{1}-{2}", ifolderid, relativepath, (int)status.DirCreationFailed));
-								//retValue = (int)status.DirCreationFailed;
-							}
-							else
-								FileMovedStatus = true;
-						}
-						else
-						{
-							//Call Web API to Create File
-							if( File.Exists( fullpath ) == false)
-							{
-								MainClass.DebugLog.Write(string.Format("The source file: {0} does not exist.", fullpath));
-							}
-							else if(!UploadFile( ifolderid, fullpath, relativepath, int.Parse(length)))
-							{
-								MainClass.DebugLog.Write(string.Format("File Creation failed for folder {0}-{1}-{2}", ifolderid, relativepath, fullpath));
-								//retValue = (int)status.FileUploadFailed;
-							}
-							else
-								FileMovedStatus = true;
-						}
-
-						//TODO: Verfiy that Web API make sure to create iFolder, if given iFolder ID doesn't exist	
-						//TODO: Verification of node creation, has been done by Creation API
-					}
-					catch(Exception e1)
-					{
-						MainClass.DebugLog.Write(string.Format("Error while creating entry for filename: {0}: {1} -- {2}", relativepath, e1.Message, e1.StackTrace));
-					}
-					//Hence after successfull retrun, update the XML doc status to "Completed"
-					if( FileMovedStatus )
-						MainClass.xmlObj.updateEntryFromXml( ((XmlElement)node).GetAttribute("nodeID"),"status","Completed" );
-					else
-						MainClass.xmlObj.updateEntryFromXml( ((XmlElement)node).GetAttribute("nodeID"),"status", "Failed");
-				}
-			}	
-		    	MainClass.DebugLog.Write("Exit: Function ReadXMLDocumentandRestore");
-			return retValue;
-		} //End of function ReadXMLDocumentandRestore
-		*/
-
+		
+//TBD: Need to provide the correct comments
 		public NodeEntrySet GetEntries(string ifolderID, int type, string relPath, int index, int max, string accessID)
 		{
 			int count = 0;
@@ -1424,10 +1258,8 @@ namespace Restore
 				break;
 			}while(count < MaxCount);
 			return entryset;
-			//return (NodeEntry[])(entryset.Items);
-			//return entries;
 		}
-
+//TBD: Need to provide the correct comments
 		public int RestoreiFolderData(string url, string adminname, string adminpassword, string ifolderid, string relativepath, string basepath, int startindex)
 		{
 			int retval =-1;
@@ -1453,7 +1285,7 @@ namespace Restore
 			}
 			return retval;
 		}
-
+//TBD: Need to provide the correct comments
 		public int GetRestoreStatus(string ifolderid, out int totalcount, out int finishedcount)
 		{
 			int retval =-1;
@@ -1489,20 +1321,18 @@ namespace Restore
 		private string[] args;
 
 		public Option OldAdminNameOption = new Option("backup-admin,U", "Admin Name of backup", "Admin name of backup", true, "admin");
-		public Option NewAdminNameOption = new Option("current-admin,u", "Admin Name of current server", "Admin name of current server", true, "admin");
+		public Option NewAdminNameOption = new Option("current-admin,u", "Admin Name of current server", "Admin name of current server", false, "admin");
 		public Option OldAdminPasswordOption = new Option("backup-password,P", "Admin Password of backup", "Admin password of backup", true, "novell");
 		public Option NewAdminPasswordOption = new Option("current-password,p", "Admin Password of current server", "Admin Password of current server", true, "novell");
 		public Option RelativePathOption = new Option("relative-path", "relativepath of file folder", "relativepath of file folder", true, "/Default_iFolder/");
 		public Option CurrentServerUrlOption = new Option("server-url", "current server IP", "current server IP", true, "http://127.0.0.1");
-		public Option iFolderIDOption = new Option("ifolderid", "ID of ifolder to be restored", "ID of ifolder to be restored", true, "null");
-	//	public Option nodeIDOption = new Option("nodeid", "ID of file/folder to be restored", "ID of file/folder to be restored", true, "null");
-		public Option UserNameOption = new Option("of-user", "username for ifolder to be listed", "username for ifolder to be listed", true, "admin");
-//		public Option UserIDOption = new Option("userid", "userID for ifolder to be listed", "userID for ifolder to be listed", true, "null");
+		public Option iFolderIDOption = new Option("ifolder-id", "ID of ifolder to be restored", "ID of ifolder to be restored", true, "null");
+		public Option UserNameOption = new Option("user", "username for ifolder to be listed", "username for ifolder to be listed", true, "admin");
 		public Option RecoverOption = new Option( "restore,r", "flag that tells that this is a restore scenario", "flag that tells that this is a restore scenario", false, null);
 		public Option RetryOption = new Option( "retry", "flag that tells that this is a retry scenario", "flag that tells that this is a retry scenario", false, null);
 		public Option PathOption = new Option( "path,f", "The path where the data is present", "Location of old database", true, null);
 		public Option HelpOption = new Option( "help,h", "cli help", null, false, null);
-		//public Option OverrideOption = new Option( "override", "override present with previous iter", null, false, null);
+		public Option UsageOption = new Option( "usage", "prints the usage of the tool", null, false, null);
 		public Option DataLocationOption = new Option( "ifolder-path", "The path where the folder data is present", "Location of actual ifolder data in backup databse", true, null);
 		public Option PrecheckOption = new Option( "precheck", "precheck phase", null, false, null);
 		public Option ListingOption = new Option( "list,l", "listing ifolder for user", null, false, null);
@@ -1521,12 +1351,9 @@ namespace Restore
 			RelativePathOption.OnOptionEntered = new Option.OptionEnteredHandler( OnRelativePath );
 			CurrentServerUrlOption.OnOptionEntered = new Option.OptionEnteredHandler( OnCurrentServerUrl );
 			iFolderIDOption.OnOptionEntered = new Option.OptionEnteredHandler( OniFolderID);
-			//nodeIDOption.OnOptionEntered = new Option.OptionEnteredHandler( OnNodeID);
 			UserNameOption.OnOptionEntered = new Option.OptionEnteredHandler( OnUserName);
-		//	UserIDOption.OnOptionEntered = new Option.OptionEnteredHandler( OnUserID);
 			PathOption.OnOptionEntered = new Option.OptionEnteredHandler( OnPath );
 			HelpOption.OnOptionEntered = new Option.OptionEnteredHandler( OnHelp);
-			//OverrideOption.OnOptionEntered = new Option.OptionEnteredHandler( OnOverride);
 			DataLocationOption.OnOptionEntered = new Option.OptionEnteredHandler( OnDataLocation);
 			PrecheckOption.OnOptionEntered = new Option.OptionEnteredHandler( OnPrecheck);	
 			ListingOption.OnOptionEntered = new Option.OptionEnteredHandler( OnListing);	
@@ -1539,12 +1366,12 @@ namespace Restore
 
 
 		/// <summary>
-                /// 
-                /// </summary>
-                /// <param name="collectionID">.</param>
-                /// <returns>.</returns>
-        	public bool ParseArguments()
-        	{
+       	/// 
+       	/// </summary>
+        /// <param name="collectionID">.</param>
+        /// <returns>.</returns>
+        public bool ParseArguments()
+        {
 			bool status = false;
 			try
 			{
@@ -1557,18 +1384,21 @@ namespace Restore
 			}
 
 			return status;
-        	} //End of ParseArguments Function
+        } //End of ParseArguments Function
 
 
-        	private bool OnOldAdminName()
-        	{
+        private bool OnOldAdminName()
+        {
 			MainClass.oldAdminName = OldAdminNameOption.Value;
+			if (MainClass.useSameAdminName == true)
+				MainClass.newAdminName = OldAdminNameOption.Value;
 			return true;
-        	}
+        }
 
         private bool OnNewAdminName()
         {
 			MainClass.newAdminName = NewAdminNameOption.Value;
+			MainClass.useSameAdminName = false;
 			return true;
         }
 
@@ -1623,11 +1453,7 @@ namespace Restore
             return true;
         }
 
-       /* private bool OnNodeID()
-        {
-            MainClass.nodeID = nodeIDOption.Value;
-            return true;
-        }*/
+
 
         private bool OnUserName()
         {
@@ -1635,11 +1461,7 @@ namespace Restore
             return true;
         }
 
-       /* private bool OnUserID()
-        {
-            MainClass.userID =   UserIDOption.Value;
-            return true;
-        }*/
+
 	
 	private bool OnPath()
         {
@@ -1659,16 +1481,7 @@ namespace Restore
             return true;
         }
 
-	/*
-        private bool OnOverride()
-        {
-            MainClass.DebugLog.Write("Enter: Function OnOverride");
-            MainClass.Override =  OverrideOption.Value;
 
-            MainClass.DebugLog.Write("Exit: Function OnOverride");
-            return true;
-        }
-	*/
         private bool OnPrecheck()
         {
             MainClass.PrecheckFlag = true;
@@ -1721,6 +1534,7 @@ namespace Restore
 
 		public static string oldAdminName = null;
 		public static string newAdminName = null;
+		public static bool useSameAdminName = true;
 		public static string oldAdminPassword = null;
 		public static string newAdminPassword = null;
 		public static string relativePath = null;
@@ -1801,9 +1615,8 @@ namespace Restore
 		}
                 if( !parseResult )
                 {
-                    //MainClass.DebugLog.Write(string.Format("Input parameters format incorrect and exit status is:{0}.","InvalidFormat"));
                     Console.WriteLine("|               Incorrect Input parameters. \n\n");
-		    PrintHelp();
+		    		PrintHelp();
                	    return (int)status.InvalidFormat;
     	        }
 		/// In case of help operation, print help and exit.
@@ -1813,20 +1626,22 @@ namespace Restore
 			RestoreStatus = (int)status.Help;
 			return RestoreStatus;
 		}
-	/*
-		string loglocation = Utility.ReadModMonoConfiguration();
-		if( Directory.Exists( loglocation))
-			LogLocation = loglocation;
-		else if( Directory.Exists( LogLocation ) == false)
-			LogLocation = Directory.GetCurrentDirectory();
 	
-		DebugLog = new Logger(Path.Combine(LogLocation, "debug.log"));
-	*/
 		if( PrecheckFlag == false)
 		{
 			//Echo for backup admin and current admin credentials
-			oldAdminPassword = ForPasswordString("|		Enter backup admin password:", null);
-			newAdminPassword = ForPasswordString("\n|               Enter current admin password:",null);
+			
+			if (MainClass.useSameAdminName == true)
+			{
+
+				newAdminPassword = ForPasswordString(string.Format("|		Password for user( {0} ):",MainClass.newAdminName),null);
+				oldAdminPassword = newAdminPassword;
+			}
+			else
+			{
+					oldAdminPassword = ForPasswordString(string.Format("|		Password for user( {0} ):",MainClass.oldAdminName),null);
+					newAdminPassword = ForPasswordString(string.Format("\n|               Password for user( {0} ):",MainClass.newAdminName),null);
+			}
 		}	
 
 		if( (RestoreStatus = ValidateInput(PrecheckFlag)) != 0)
@@ -2092,9 +1907,7 @@ namespace Restore
 	{
 		try
 		{
-                                //Utility.GetApacheUserGroup( out apacheUser, out apacheGroup);
-                                //if( Utility.Execute( "chown", " -R {0}:{1} \"{2}\"", apacheUser, apacheGroup, newifolderDetails.UnManagedPath ) != 0 )
-				Utility.Execute( "chmod", "0777 {0}", path);
+   				Utility.Execute( "chmod", "0777 {0}", path);
 		}
 		catch(Exception ex)
 		{
@@ -2396,39 +2209,7 @@ namespace Restore
 		{
 			    iFolderServer OldServer = new iFolderServer( OldServerUrl,oldAdminName, oldAdminPassword, false);
 			    iFolderDetails ifd = null;
-	//Praveen
-/*
-			iFolderUserSet userList = null;
-			userList = OldServer.GetUsersBySearch(0,100);
-			if( userList == null || userList.Items.Length == 0)
-			{
-				Console.WriteLine("| Failed to get User List");
-			} else {
-				foreach( iFolderUser member in userList.Items)
-				{
-				Console.WriteLine("|  User Name: {0} and User ID: {1}                             |", member.UserName, member.ID );
-					
-				}
-			}
-		// Get the iFolder list for this user.
-			
-			iFolderSet iflist = null;
-			iflist = OldServer.web.GetiFoldersByName(SearchOperation.Contains, "*",0,100);
-			if( iflist == null || iflist.Items.Length == 0)
-			{
-				Console.WriteLine("| Failed to get iFolder List");
 
-			} else {
-				foreach( iFolder ifldr in iflist.Items)
-				{
-				Console.WriteLine("|  iFolder Name: {0} and iFolder ID: {1}                             |", ifldr.Name, ifldr.ID );
-					
-				}
-			}		
-
-
-	//Praveen
-*/
 			    userID = OldServer.GetUserIDFromName(userName);
 			    if(userID == null)	
 			    {	
@@ -2879,8 +2660,7 @@ namespace Restore
 								}
 
 								fullpath = Path.Combine(oldpath, filerelativepath);	
-							//	Console.WriteLine("Full path is :{0}", fullpath);	
-								if (Type.Equals("DirNode"))
+							if (Type.Equals("DirNode"))
 								{
 									//MainClass.DebugLog.Write("Directory Creation");
 									if(!newserver.CreateDirectory(iFolderID, filerelativepath))
@@ -2931,7 +2711,7 @@ namespace Restore
 							try
 							{
 								entryset = oldserver.GetEntries(iFolderID, type, relativepath, startindex, max, null);
-								//entries = (NodeEntry[])entryset.Items;
+
 							}
 							catch(	Exception ex)
 							{
@@ -3041,39 +2821,38 @@ namespace Restore
 			public static void PrintHelp()
 			{
 
-                                Console.WriteLine("Command For Execution: $FSBiFolderRestore <Operation> <Arguments>\n");
+                                Console.WriteLine("Command For Execution: $ifolder-data-recovery <Operation> <Arguments>\n");
                                 Console.WriteLine("Operation:\n\t-l, --list\t\tList iFolders with details like Name, iFolderID and Path \n\t\t\t(at the time of backup) belong to the specified user.");
                                 Console.WriteLine("\t-r, --restore\tRestore requested data (File/Folder/iFolder) from specified backup store.");
                                 Console.WriteLine("\t--retry\t\tRetry restore opreation for failed data in last run.");
                                 Console.WriteLine("\t-h, --help\t\tPrint help regarding Opreation, argument and usage.");
                                 Console.WriteLine("\t\nArguments:\n\t--path=<path for simias file in backup store>");
-                                Console.WriteLine("\t-U, --backup-admin=<admin login name for backup>");
-                                Console.WriteLine("\t-u,--current-admin=<admin login name for current server>");
-                                Console.WriteLine("\t--serverurl=<current iFolder server url>");
-                                Console.WriteLine("\t--of-user=<user for whome associated ifolders to be listed>");
-                                Console.WriteLine("\t--userid=<user ID of user for whome associated ifolder to be listed>");
+                                Console.WriteLine("\t-U, --backup-admin=<admin login name for backup. >");
+                                Console.WriteLine("\t-u,--current-admin=<admin login name for current server. Use this Option if backup admin is different from current admin.>");
+                                Console.WriteLine("\t--server-url=<current iFolder server url>");
+                                Console.WriteLine("\t--user=<user for whome associated ifolders to be listed>");
                                 Console.WriteLine("\t--ifolder-id=<ifolder ID of for/inside which restore operation is performed>");
                                 Console.WriteLine("\t--ifolder-path=<parent level path(excluding ifolder name) for actual data to be restored>");
-                                Console.WriteLine("\t--relativepath=<relative path of file/folder to be restored, starting from iFolder name>");
+                                Console.WriteLine("\t--relative-path=<relative path of file/folder to be restored, starting from iFolder name>");
                                 Console.WriteLine("\t--usewebaccess  does not take any value, adding this will specifies the mode to restore");
-                                Console.WriteLine("\t\nSample Commands:");
+                                Console.WriteLine("\t\nExamples:");
                                 Console.WriteLine("\n\tFor Help:");
-                                Console.WriteLine("\t\t$./novell-ifolder-restore --help");
+                                Console.WriteLine("\t\t$./ifolder-data-recovery --help");
 
                                 Console.WriteLine("\n\tFor Listing iFolder for given user:");
-                                Console.WriteLine("\t\t$./novell-ifolder-restore --list  --path=/home/ifolder/SimiasFile/ --backupadmin=admin --username=user1");
+                                Console.WriteLine("\t\t$./ifolder-data-recovery --list  --path=/home/ifolder/SimiasFile/ --backup-admin=admin --user=user1");
 
                                 Console.WriteLine("\n\tFor Restoring iFolder:");
-                                Console.WriteLine("\t\t$./FSBiFolderRestore --restore  --path=/home/ifolder/SimiasFile/ --backupadmin=admin --currentadmin=admin --serverurl=http://192.162.1.10 --ifolderid=7fe6cd5d-40d4-4982-bfa3-94292d4e36ab --ifolderpath=/home/ifolder/recovery/data");
+                                Console.WriteLine("\t\t$./ifolder-data-recovery --restore  --path=/home/ifolder/SimiasFile/ --backup-admin=oldadmin --current-admin=admin --server-url=http://192.162.1.10 --ifolder-id=7fe6cd5d-40d4-4982-bfa3-94292d4e36ab --ifolder-path=/home/ifolder/recovery/data");
 
                                 Console.WriteLine("\n\tFor Restoring Folder:");
-                                Console.WriteLine("\t\t$./FSBiFolderRestore --restore  --path=/home/ifolder/SimiasFile/ --backupadmin=admin --currentadmin=admin --serverurl=http:///192.162.1.10 --ifolderid=7fe6cd5d-40d4-4982-bfa3-94292d4e36ab --ifolderpath=/home/ifolder/recovery/data --relativepath=abc1if1/new folder");
+                                Console.WriteLine("\t\t$./ifolder-data-recovery --restore  --path=/home/ifolder/SimiasFile/ --backup-admin=oldadmin --current-admin=admin --server-url=http://192.162.1.10 --ifolder-id=7fe6cd5d-40d4-4982-bfa3-94292d4e36ab --ifolder-path=/home/ifolder/recovery/data --relative-path=abc1if1/new folder");
 
                                 Console.WriteLine("\n\tFor Restoring File:");
-                                Console.WriteLine("\t\t$./FSBiFolderRestore --restore  --path=/home/ifolder/SimiasFile/ --backupadmin=admin --currentadmin=admin --serverurl=http:///192.162.1.10 --ifolderid=7fe6cd5d-40d4-4982-bfa3-94292d4e36ab --ifolderpath=/home/ifolder/recovery/data --relativepath=abc1if1/new folder/qfrep.exe");
+                                Console.WriteLine("\t\t$./ifolder-data-recovery --restore  --path=/home/ifolder/SimiasFile/ --backup-admin=oldadmin --current-admin=admin --server-url=http://192.162.1.10 --ifolder-id=7fe6cd5d-40d4-4982-bfa3-94292d4e36ab --ifolder-path=/home/ifolder/recovery/data --relative-path=abc1if1/new folder/qfrep.exe");
 
                                 Console.WriteLine("\n\tFor Retrying:");
-                                Console.WriteLine("\t\t$./FSBiFolderRestore --retry  --path=/home/ifolder/SimiasFile/ --backupadmin=admin --currentadmin=admin --serverurl=http:///192.162.1.10 --ifolderid=7fe6cd5d-40d4-4982-bfa3-94292d4e36ab --ifolderpath=/home/ifolder/recovery/data --relativepath=abc1if1/qfrep.exe\n");
+                                Console.WriteLine("\t\t$./ifolder-data-recovery --retry  --path=/home/ifolder/SimiasFile/ --backup-admin=oldadmin --current-admin=admin --server-url=http://192.162.1.10 --ifolder-id=7fe6cd5d-40d4-4982-bfa3-94292d4e36ab --ifolder-path=/home/ifolder/recovery/data --relative-path=abc1if1/qfrep.exe\n");
 
 			}
 
@@ -3342,7 +3121,7 @@ namespace Restore
 					if( dataPath != null)
 					{
 						dataPath = Path.Combine( dataPath, "log");
-						dataPath = Path.Combine( dataPath, "FSBRestoreLog");
+						dataPath = Path.Combine( dataPath, "ifrecovery");
 						if( Directory.Exists(dataPath) == false)
 							Directory.CreateDirectory( dataPath);
 					}

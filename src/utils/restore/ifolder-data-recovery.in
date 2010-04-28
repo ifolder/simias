@@ -65,7 +65,7 @@ clear
 #echo "|											 |"
 #echo "|											 |"
 #echo "|		Validating the input......................				 |"
-mono  @_bindir_@/FSBiFolderRestore.exe "$@" --precheck
+mono  @_bindir_@/ifrecovery.exe "$@" --precheck
 path_index_number=$?
 if [[ $path_index_number = 99 ]]
 then
@@ -98,9 +98,9 @@ fi
 echo -n "|		Preparing for the operation.."
 @_bindir_@/simias-server-setup "${args[$path_index_number-1]}" --recover 1>$path/console.log 2>$path/console.log
 echo -n "....."
-@_bindir_@/FSBiFolderRestore-server --stop 1>$path/console.log 2>$path/console.log
+@_bindir_@/ifrecovery-server --stop 1>$path/console.log 2>$path/console.log
 echo -n "....."
-@_bindir_@/FSBiFolderRestore-server --runasserver 1>$path/console.log 2>$path/console.log
+@_bindir_@/ifrecovery-server --runasserver 1>$path/console.log 2>$path/console.log
 echo  ".....				 |"
 echo "|		Status: Done.					 			 |"
 #echo "|											 |"
@@ -116,7 +116,7 @@ cd - 1>/dev/null
 stty echo
 #echo " 						 |"
 echo "|                                                                                        |"
-mono @_bindir_@/FSBiFolderRestore.exe "$@"
+mono @_bindir_@/ifrecovery.exe "$@"
 #ret=$?
 #if [[ $ret = 100 ]]
 #then
@@ -124,7 +124,7 @@ mono @_bindir_@/FSBiFolderRestore.exe "$@"
 #else
 #	echo "|         The recovery process failed. Please check the logs for more details.           |"
 #fi
-@_bindir_@/FSBiFolderRestore-server --stop 1>$path/console.log 2>$path/console.log
+@_bindir_@/ifrecovery-server --stop 1>$path/console.log 2>$path/console.log
 echo "|											 |"
 echo " ______________________________________________________________________________________" 
 exit 0

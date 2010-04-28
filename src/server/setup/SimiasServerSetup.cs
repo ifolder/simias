@@ -1476,7 +1476,7 @@ Console.WriteLine("Url {0}", service.Url);
                        PerformOES2Upgrade();
                        publicUrl.Prompt = privateUrl.Prompt = serverName.Prompt = false;
                        privateUrl.Value = publicUrl.Value = "http://127.0.0.1:8086/simias10";
-                       serverName.Value = "FSBiFolderRestore-server";
+                       serverName.Value = "ifrecovery-server";
                        useSsl.Value = "NONSSL";
                        return true;
                }
