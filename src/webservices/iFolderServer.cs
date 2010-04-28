@@ -221,20 +221,19 @@ namespace iFolder.WebService
 		/// Get the Master iFolder Server in the system
 		/// </summary>
 		/// <returns>An iFolder Server Object</returns>
-	        public static iFolderServer GetMasterServer ()
+		public static iFolderServer GetMasterServer ()
 		{
-		        iFolderServerSet ServerList = GetServersByName (iFolderServerType.Master, SearchOperation.BeginsWith, "*", 0, 0);
+			iFolderServerSet ServerList = GetServersByName (iFolderServerType.Master, SearchOperation.BeginsWith, "*", 0, 0);
 			iFolderServer MasterServer = null;
 			foreach (iFolderServer server in ServerList.Items)
 			{
-			    if (server.IsMaster)
-			    {
-				MasterServer = server;
-				break;
-			    }
+				if (server.IsMaster)
+				{
+					MasterServer = server;
+					break;
+				}
 			}
-
-		        return MasterServer;
+			return MasterServer;
 		}
 
 		/// <summary>
@@ -656,7 +655,72 @@ namespace iFolder.WebService
 
 			return UpdateStatus;	
 		}
+		/// <summary>
+		/// This method is used to get the status of server, will verify the
+		/// attributes that were changed while upgrading slave to server.
+		/// </summary>
+		/// <returns>true/false based upon the success/failure </returns>
+		public static bool ServerNeedsRepair()
+		{
+			bool needsRepair= false;
+			Store store = Store.GetStore();
+			Domain domain = store.GetDomain(store.DefaultDomain);
+			Collection cat = store.GetCollectionByID(catalogID); //Simias.Server.Catalog.catalogID); 
+
+			HostNode localhostNode = HostNode.GetLocalHost();
+
+			if( (domain.Role ==  Simias.Sync.SyncRoles.Slave) &&
+					(localhostNode.IsMasterHost == true ) )
+			{
+				needsRepair = true;	
+			}
+			else if ( (domain.Role == Simias.Sync.SyncRoles.Master) &&
+					(localhostNode.IsMasterHost != true) )
+			{
+				needsRepair = true;
+			}
+			else if ( (domain.Role == Simias.Sync.SyncRoles.Slave ) &&
+					( (domain.HostID == null) || (domain.HostUri == null)))
+			{
+				needsRepair = true;
+			}
+			else if (domain.Role != cat.Role)
+			{
+				needsRepair = true;
+			}
+			return needsRepair;
+		}
 		
+		/// <summary>
+		/// Run repair on the node, verify the inconsistancy on the node 
+		/// </summary>
+		/// <returns> true/false for success/failure</returns>
+		public static bool RepairChangeMasterUpdates()
+		{
+			log.Info("RepairChangeMasterUpdates started");
+			bool status = true;
+			try
+			{
+				Store store = Store.GetStore();
+				Domain domain = store.GetDomain(store.DefaultDomain);
+				HostNode localhostNode = HostNode.GetLocalHost();
+				if( (domain.Role ==  Simias.Sync.SyncRoles.Slave) &&
+						(localhostNode.IsMasterHost == true ) )
+				{
+					log.Info("Removing the Master Node Attribute from this node");
+					localhostNode.IsMasterHost = false;
+				}
+				domain.Commit(localhostNode);
+				log.Info("changes commited after repair");
+			}
+			catch (Exception ex)
+			{
+				log.Info("Exception throw while RepairChangeMasterUpdate()");
+				status = false;
+			}
+			return status;
+		}
+
 		/// <summary>
 		/// This method is used to set the Master server url into simias.config file.
 		/// </summary>
@@ -824,6 +888,12 @@ namespace iFolder.WebService
 			return true;
 		}
 
+		/// <summary>
+		/// Get the MasterNode Attribute for the host node 
+		/// </summary>
+		/// <param name="HostID"> ID of the hostnode</param>
+		/// <param name="Value"> true/false for master/slave</param>
+		/// <returns> true/false for success/failure</returns>
 		public static bool SetMasterNodeAttribute (string HostID, bool Value)
 		{
 			try
@@ -844,6 +914,11 @@ namespace iFolder.WebService
 			return true;	
 		}
 
+		/// <summary>
+		/// Get the MasterNode Attribute for the host node 
+		/// </summary>
+		/// <param name="HostID"> ID of the hostnode</param>
+		/// <returns> true/false for master/slave</returns>
 		public static bool GetMasterNodeAttribute(string HostID)
 		{
 			try
@@ -859,6 +934,12 @@ namespace iFolder.WebService
 			}
 		}
 
+		/// <summary>
+		/// Log of all changes done after Changing the Master server 
+		/// </summary>
+		/// <param name="currentMasterID"> ID of the hostnode</param>
+		/// <param name="newMasterID"> ID of the hostnode</param>
+		/// /// <returns> true/false on success/failure </returns>
 		public static bool VerifyChangeMaster(string currentMasterID, string newMasterID)
 		{
 			bool retval = true; 
@@ -894,7 +975,6 @@ namespace iFolder.WebService
 			{
 				log.Error("Uable to verify change master");
 				retval = false;
-				throw ex;
 			}
 			return retval;
 		}

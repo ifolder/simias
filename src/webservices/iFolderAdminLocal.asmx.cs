@@ -2011,6 +2011,45 @@ namespace iFolder.WebService
 					   }
 					   return result;
 				   }
+			   /// <summary>
+			   /// get the server attributes 
+			   /// </summary>
+			   /// <returns>true/false</returns>
+			   [WebMethod(Description= "Check if server requires repair", EnableSession = true)]
+				   public virtual bool ServerNeedsRepair()
+				   {
+					   bool result = false;
+					   try
+					   {
+						   result = iFolderServer.ServerNeedsRepair();
+					   }
+					   catch (Exception e)
+					   {
+						   SmartException.Throw (e);
+					   }
+					   return result;
+				   }
+
+
+			   /// <summary>
+			   /// Rectifies the error/failure that may have caused by ChangeMaster 
+			   /// </summary>
+			   /// <returns>true/false</returns>
+			   [WebMethod(Description= "Rectify the errors/failures caused by ChangeMaster", EnableSession = true)]
+				   public virtual bool RepairChangeMasterUpdates()
+				   {
+					   bool result = false;
+					   try
+					   {
+						   result = iFolderServer.RepairChangeMasterUpdates();
+					   }
+					   catch (Exception e)
+					   {
+						   SmartException.Throw (e);
+					   }
+					   return result;
+				   }
+
 		/// <summary>
 		/// DisablePast Sharing for the system  
 		/// </summary>

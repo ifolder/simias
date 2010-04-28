@@ -781,6 +781,26 @@ namespace iFolder.WebService
 					   return base.VerifyChangeMaster( currentMasterHostID, newMasterHostID);
 				   }
 
+			   /// <summary>
+			   /// Verify attributes of servers
+			   /// </summary>
+			   /// <returns>true/false</returns>
+			   [WebMethod(Description="Check if the server needs a repair", EnableSession=true)]
+				   public override bool ServerNeedsRepair()
+				   {
+					   return base.ServerNeedsRepair();
+				   }
+
+			   /// <summary>
+			   /// Verify attributes of servers
+			   /// </summary>
+			   /// <returns>true/false</returns>
+			   [WebMethod(Description="Check if the server needs a repair", EnableSession=true)]
+				   public override bool RepairChangeMasterUpdates()
+				   {
+					   return base.RepairChangeMasterUpdates();
+				   }
+
 		/// <summary>
 		/// Get information about a user using an id or username.
 		/// </summary>
