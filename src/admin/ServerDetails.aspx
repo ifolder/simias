@@ -96,6 +96,12 @@
 								CssClass="changemasterbuttons"
 								Enabled="True"
 							/>
+							<asp:LinkButton
+								ID="RepairServerButton" 
+								Runat="server" 
+								CssClass="changemasterbuttons"
+								Enabled="False"
+							/>
 						</td>
 					</tr>
 

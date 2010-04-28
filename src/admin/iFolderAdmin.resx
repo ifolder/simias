@@ -1276,7 +1276,10 @@
         <value>Waiting</value>
     </data>
 	<data name="CHANGEMASTER">
-		<value>Set as Master</value>
+		<value>Set As Master</value>
+	</data>
+	<data name="NEEDSREPAIR">
+		<value>Repair Server</value>
 	</data>
 	<data name="UNABLETOSETASSLAVE">
 		<value>Unable to set as slave server. Retry the operation.</value>
