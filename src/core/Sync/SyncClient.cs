@@ -130,7 +130,17 @@ namespace Simias.Sync
 	};
 
 	#endregion
+	/// <summary>
+	/// Exception when sync is fataly aborted.
+	/// </summary>
 	
+	    public class SyncAbortedException : Exception
+	    {
+		public SyncAbortedException() {}
+		public SyncAbortedException(string message) : base(message) {}
+		public SyncAbortedException(string message, System.Exception inner) : base(message, inner) {}
+	    }
+
 	#region SyncClient
 
 	/// <summary>
@@ -1043,7 +1053,7 @@ namespace Simias.Sync
 			log.Debug("In sync now...");
 			// Assume the server is alive.
 			bool	sAlive = false;
-            bool nopassphrase = false;
+			bool nopassphrase = false;
 			try
 			{
 				eventPublisher.RaiseEvent(new CollectionSyncEventArgs(collection.Name, collection.ID, Simias.Client.Event.Action.StartLocalSync, true, false));
@@ -1312,8 +1322,16 @@ namespace Simias.Sync
 
 								}
 							}
+							catch (SyncAbortedException ex)
+							{
+							    if (ex.InnerException != null && ex.InnerException is UnauthorizedAccessException) {
+								log.Info("UnauthorizedAccessException occured: Collection not committed. Detailed StackTrace is {0} ", 
+									 ex.InnerException.StackTrace.ToString());
+							    }
+							}
 							finally
 							{
+
 								bool status = workArray.Complete;
 								if (status)
 									lastSyncTime = DateTime.Now;
@@ -2562,6 +2580,11 @@ namespace Simias.Sync
 			                workArray.RemoveNodeFromServer(nodeID, merge);
 					log.Info("PathTooLongException occured: Detailed StackTrace is {0} ", pex.ToString());
 					eventPublisher.RaiseEvent(new FileSyncEventArgs(collection.ID, ObjectType.File, false, file.Name, 0,0,0, Direction.Downloading,SyncStatus.PathTooLong));
+				}
+				catch (UnauthorizedAccessException ex)
+				{
+					eventPublisher.RaiseEvent(new FileSyncEventArgs(collection.ID, ObjectType.File, false, file.Name, 0,0,0, Direction.Downloading,SyncStatus.IOError));
+					throw new SyncAbortedException (file.Name, ex);
 				}
                 catch (WebException we)
                 {

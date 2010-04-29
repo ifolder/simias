@@ -128,7 +128,11 @@ namespace Simias.Client
         /// <summary>
         /// The limit policy doesn't allow this member.
         /// </summary>
-        PolicyLimit
+	PolicyLimit,
+	/// <summary>
+        /// Filesystem permissions doesn't allow file IO.
+        /// </summary>
+	IOError
 	}
 
 	#endregion
