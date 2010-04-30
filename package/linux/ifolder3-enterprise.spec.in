@@ -131,7 +131,8 @@ echo "Run %{prefix}/bin/simias-server-setup to configure the server"
 %{prefix}/%_lib/libsimias.so
 %{prefix}/%_lib/libsimias.so.0
 %{prefix}/%_lib/libsimias.so.0.0.0
-%{prefix}/share/*
+%{prefix}/share/simias
+%{prefix}/share/simias/*
 %dir %{prefix}/%_lib/simias/web
 %dir %{prefix}/%_lib/simias
 %dir %{prefix}/%_lib/simias/web/bin
