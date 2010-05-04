@@ -47,6 +47,8 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>	
+#include <pthread.h>
+#include <unistd.h>
 
 #include <libxml/tree.h>
 #include <libxml/parser.h>
@@ -57,11 +59,11 @@
 
 /* Turn this on to see debug messages */
 #ifdef DEBUG
-#define DEBUG_SEC(args) (printf("simias-event-client: "), printf args)
-#define DEBUG_SEC_MUTEX(args) (printf("simias-event-client: "), printf args)
+#define DEBUG_SEC(args) do { printf("simias-event-client: "); printf args;} while (0)
+#define DEBUG_SEC_MUTEX(args) do {printf("simias-event-client: "); printf args;} while (0)
 #else
-#define DEBUG_SEC
-#define DEBUG_SEC_MUTEX
+#define DEBUG_SEC(args) do {} while (0)
+#define DEBUG_SEC_MUTEX(args) do {} while (0)
 #endif
 
 #define WEB_SERVICE_TRUE_STRING		"True"
@@ -307,6 +309,9 @@ static int sec_remove_all_event_handlers (RealSimiasEventClient *ec,
 										  IPROC_EVENT_ACTION action);
 const char * sec_get_node_type_str (SIMIAS_NODE_TYPE type);
 
+extern int sec_reconnect (RealSimiasEventClient *ec);
+
+
 /* Anytime an event struct is returned, it must be freed using this function. */
 static void sec_free_event_struct (void *event_struct);
 
@@ -325,7 +330,6 @@ int sec_init (SimiasEventClient *sec,
 {
 	int i;
 	RealSimiasEventClient *ec;
-	char user_profile_dir [1024];
 
 	xmlInitParser ();
 
@@ -449,7 +453,7 @@ sec_deregister (SimiasEventClient sec)
 	RealSimiasEventClient *ec = (RealSimiasEventClient *)sec;
 	char reg_msg [4096];
 	struct sockaddr_in my_sin;
-	int my_sin_addr_len;
+	socklen_t my_sin_addr_len;
 	char addr_str [32];
 	char port_str [32];
 
@@ -804,9 +808,8 @@ sec_reg_thread (void *user_data)
 	RealSimiasEventClient *ec = (RealSimiasEventClient *)user_data;
 	struct sockaddr_in sin;
 	struct sockaddr_in my_sin;
-	int my_sin_addr_len;
+	socklen_t my_sin_addr_len;
 	char reg_msg [4096];
-	char ip_addr [128];
 	bool b_connected = false;
 	char addr_str [32];
 	char port_str [32];
@@ -1550,7 +1553,7 @@ static void
 sec_free_event_struct (void *event_struct)
 {
 	char **struct_ptr;
-	int i, struct_pos;
+	int i;
 	int itemsInStruct;
 
 	struct_ptr = (char **)event_struct;
@@ -1823,9 +1826,11 @@ int
 sec_state_event_callback (SEC_STATE_EVENT state_event, const char *message, void *data)
 {
 	SimiasEventClient *ec = (SimiasEventClient *)data;
+	/*
 	SIMIAS_NODE_TYPE node_type;
 	SimiasEventFilter event_filter;
-	
+	*/
+
 	switch (state_event) {
 		case SEC_STATE_EVENT_CONNECTED:
 			printf ("sec-test: Connected Event\n");

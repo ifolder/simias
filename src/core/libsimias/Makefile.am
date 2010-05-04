@@ -11,8 +11,6 @@ dist-hook:
 
 lib_LTLIBRARIES = libsimias.la
 
-override CFLAGS =
-
 libsimias_la_SOURCES = \
  	envC.c simiasClientLib.c stdsoap2.c simias.c simias.h simiasweb.c simiasweb.h
  	

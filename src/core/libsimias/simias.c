@@ -38,9 +38,9 @@
 #include <string.h>
 
 #ifdef DEBUG
-#define SIMIAS_DEBUG(args) (printf("libsimias: "), printf args)
+#define SIMIAS_DEBUG(args) do {printf("libsimias: "); fprintf args;} while (0)
 #else
-#define SIMIAS_DEBUG
+#define SIMIAS_DEBUG(args) do {} while (0)
 #endif
 
 #if defined(WIN32)

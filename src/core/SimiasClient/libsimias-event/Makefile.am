@@ -1,8 +1,5 @@
 lib_LTLIBRARIES = libsimias-event.la
 
-# Override CFLAGS so that -nologo and -W3 are NOT included
-override CFLAGS =
-
 libsimias_event_la_SOURCES = \
 	simias-event-client.c simias-event-client.h
 
@@ -14,7 +11,7 @@ libsimias_event_la_CFLAGS = \
 	$(XML2_CFLAGS) -DDARWIN
 else
 libsimias_event_la_CFLAGS = \
-	$(XML2_CFLAGS)
+	$(XML2_CFLAGS) $(CFLAGS_OPTIMIZE)
 endif
 
 if !WINDOWS

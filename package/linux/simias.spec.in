@@ -1,7 +1,7 @@
 #
 # spec file for package simias (Version 1.8.4.@@BUILDNUM@@.1)
 #
-# Copyright (c) 2009 SUSE LINUX Products GmbH, Nuernberg, Germany.
+# Copyright (c) 2010 SUSE LINUX Products GmbH, Nuernberg, Germany.
 #
 # All modifications and additions to the file contributed by third parties
 # remain the property of their copyright owners, unless otherwise agreed
@@ -31,7 +31,7 @@ URL:            http://www.ifolder.com
 %define sysconfdir /etc
 License:        GNU General Public License (GPL) v2
 Group:          System/Libraries
-Autoreqprov:    on
+AutoReqProv:    on
 Requires:       mono-core >= 1.2.2
 Requires:       mono-data >= 1.2.2
 Requires:       mono-web >= 1.2.2
@@ -51,16 +51,36 @@ stored and related in what is known as a collection.  Initially Simias
 is the underlying data store for the iFolder project, although it has
 potential to do much more.
 
+%if 0%{suse_version} > 1120
+
+%package devel
+License:        GPLv2
+Summary:        Development files for simias
+Group:          Development/Libraries/C and C++
+Requires:       %{name} = %{version}
+
+%description devel
+Development files for simias. Simias is a technology that will allow
+various types of data to be stored and related in what is known as a
+collection.  Initially Simias is the underlying data store for the
+iFolder project, although it has potential to do much more.
+
+%endif
 
 
 %prep
 export BUILDNUM=%{buildnum}
-%setup -n %{name}
+%setup -q -n %{name}
 #=============================================================================
 
 %build
+export SUSE_ASNEEDED=0
+export CC=gcc-4.3
+export CXX=g++-4.3
 export BUILDNUM=%{buildnum}
 export LIBDIR=%{_lib}
+export CFLAGS="$RPM_OPT_FLAGS -fno-strict-aliasing"
+export CXXFLAGS="$RPM_OPT_FLAGS -fno-strict-aliasing"
 
 ./autogen.sh --prefix=%{prefix} --with-runasclient --sysconfdir=%{sysconfdir}
 rm dependencies/external/tools/gsoap/linux-2.7/soapcpp2  
@@ -80,18 +100,20 @@ make
 
 %install
 export BUILDNUM=%{buildnum}
-%{__rm} -rf $RPM_BUILD_ROOT
 make DESTDIR=$RPM_BUILD_ROOT install
 find $RPM_BUILD_ROOT/%{prefix}/* -type f | xargs chmod 644
 find $RPM_BUILD_ROOT/%{prefix}/* -type d | xargs chmod 755
 chmod a+x $RPM_BUILD_ROOT/%{prefix}/%_lib/simias/web/bin/ifdata
+mv $RPM_BUILD_ROOT/%{_bindir}/SimiasDirectoryMapping $RPM_BUILD_ROOT/%{sysconfdir}/simias
+# COPYING goes to usr/src/packages/simias
+rm -rf $RPM_BUILD_ROOT/%{prefix}/share/simias/
 #=============================================================================
 
 %clean
 %{__rm} -rf $RPM_BUILD_ROOT
 #=============================================================================
 
-%post
+%post -p /sbin/ldconfig
 #=============================================================================
 
 %preun
@@ -105,32 +127,47 @@ then
 fi
 #=============================================================================
 
-%postun
+%postun -p /sbin/ldconfig
 #=============================================================================
 
 %files
-%defattr(755,root,root)
-%{prefix}/bin/*
+%defattr(-,root,root)
+%doc COPYING
+%attr(755,root,root) %{prefix}/bin/*
 %dir %{sysconfdir}/simias
-%{sysconfdir}/simias/Simias.config
-%{sysconfdir}/simias/Simias.log4net
-%{sysconfdir}/simias/defaults.config
-%{prefix}/include/*
-%{prefix}/%_lib/pkgconfig/*
+%attr(644,root,root) %config %{sysconfdir}/simias/Simias.config
+%attr(644,root,root) %config %{sysconfdir}/simias/Simias.log4net
+%attr(644,root,root) %config %{sysconfdir}/simias/defaults.config
+%attr(644,root,root) %config %{sysconfdir}/simias/SimiasDirectoryMapping
 %{prefix}/%_lib/libFlaimWrapper.so
 %{prefix}/%_lib/libFlaimWrapper.so.0
 %{prefix}/%_lib/libFlaimWrapper.so.0.0.0
 %{prefix}/%_lib/libsimias-event.so
+%{prefix}/%_lib/libsimias-manager.a
 %{prefix}/%_lib/libsimias-event.so.0
 %{prefix}/%_lib/libsimias-event.so.0.0.0
-%{prefix}/%_lib/libsimias-manager.a
+%{prefix}/%_lib/libsimias-manager.so.0
+%{prefix}/%_lib/libsimias-manager.so.0.0.0
 %{prefix}/%_lib/libsimias.so
 %{prefix}/%_lib/libsimias.so.0
 %{prefix}/%_lib/libsimias.so.0.0.0
 %dir %{prefix}/%_lib/simias
 %{prefix}/%_lib/simias/*
-%{prefix}/share/*
-%attr(644,root,root) %{prefix}/include/simias/*
+
+
+%if 0%{suse_version} > 01120
+
+%files devel
+%defattr(-,root,root)
+%endif
+%{prefix}/%_lib/libFlaimWrapper.so
+%{prefix}/%_lib/libsimias-event.so
+%{prefix}/%_lib/libsimias-manager.so
+%{prefix}/%_lib/libsimias.so
+%{prefix}/%_lib/pkgconfig/*
+%dir %{prefix}/include/simias/
+%{prefix}/include/simias/*
+
 
 %changelog -n simias
 * Tue Feb 06 2007 - ro@suse.de
