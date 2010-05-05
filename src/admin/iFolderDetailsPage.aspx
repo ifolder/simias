@@ -69,13 +69,14 @@
 								ID="Description" 
 								Runat="server" 
 								CssClass="edittext" 
+								width="28em"
 								onkeypress="EnableSaveButton()" 
 								OnTextChanged="DescriptionChanged" />
 								
 							<asp:Button 
 								ID="DescriptionButton" 
 								Runat="server" 
-								CssClass="ifoldersavebuttons"
+								width="7em"
 								Enabled="False"
 								OnClick="SaveDescription" />
 						</td>
