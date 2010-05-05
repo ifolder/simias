@@ -38,6 +38,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Resources;
+using System.Threading;
 using System.Web;
 using System.Web.SessionState;
 using System.Web.Services.Protocols;
@@ -404,6 +405,12 @@ namespace Novell.iFolderWeb.Admin
 			// Set the active ifolder display tab
 			SetActiveiFolderListTab( ActiveiFolderTab );
 //			TopNav.ShowInfo(String.Format("URL: {0}", web.Url));
+			string code = Thread.CurrentThread.CurrentUICulture.Name;
+			if (code.StartsWith("pt") || code.StartsWith("de") || code.StartsWith("ru"))
+			{
+				DisableButton.Width = 120;
+				EnableButton.Width = 120;
+			}
 		}
 
 		/// <summary>
