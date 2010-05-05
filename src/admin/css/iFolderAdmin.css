@@ -213,6 +213,11 @@ a:visited
 	margin-left: 30px;
 }
 
+.policycheckboxChinese
+{
+	width: 70px;
+}
+
 .edittext
 {
 	border-right: #f1efe2 thin solid;

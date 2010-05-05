@@ -7,13 +7,13 @@
 		<table class="policytable">
 			<tr>
 				<td class="policycheckbox" >
-					<asp:CheckBox ID="SharingOn" Runat="server" AutoPostBack="True"  />
+					<asp:CheckBox ID="SharingOn" Runat="server" AutoPostBack="True" CssClass="policycheckboxChinese" />
 				</td>
 				<td class="sharingpolicycheckbox" >
-					<asp:CheckBox ID="enforcedSharing" Runat="server" AutoPostBack="True" CssClass="sharingpolicycheckbox" />
+					<asp:CheckBox ID="enforcedSharing" Runat="server" AutoPostBack="True" CssClass="policycheckboxChinese" />
 				</td>
 				<td class="policycheckbox" >
-					<asp:CheckBox ID="disablePastSharing" Runat="server" AutoPostBack="True" />
+					<asp:CheckBox ID="disablePastSharing" Runat="server" AutoPostBack="True" CssClass="policycheckboxChinese"/>
 				</td>
 			</tr>
 		</table>

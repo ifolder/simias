@@ -8,10 +8,10 @@
 		<table class="policytable">
 			<tr>
 				<td class="policycheckbox" >
-					<asp:CheckBox ID="encryption" Runat="server" AutoPostBack="True" />
+					<asp:CheckBox ID="encryption" Runat="server" AutoPostBack="True" CssClass="policycheckboxChinese"/>
 				</td>
 				<td class="policycheckbox" >
-					<asp:CheckBox ID="enforceEncryption" Runat="server" AutoPostBack="True" />
+					<asp:CheckBox ID="enforceEncryption" Runat="server" AutoPostBack="True" CssClass="policycheckboxChinese"/>
 				</td>
 			</tr>
 		</table>
