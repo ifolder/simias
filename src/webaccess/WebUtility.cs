@@ -36,7 +36,9 @@ using System.IO;
 using System.Xml;
 using System.Net;
 using System.Web.Services.Protocols;
+using System.Globalization;
 using System.Resources;
+using System.Threading;
 
 namespace Novell.iFolderApp.Web
 {
@@ -276,10 +278,12 @@ namespace Novell.iFolderApp.Web
 		/// <returns></returns>
 		public static string FormatDate(DateTime date, ResourceManager rm)
 		{
+			string code = Thread.CurrentThread.CurrentUICulture.Name;
+			CultureInfo ci = new CultureInfo(code);
+
 			string result = date.ToString("d MMM yyyy");
 
 			DateTime today = DateTime.Today;
-
 			if (date.Year == today.Year)
 			{
 				result = date.ToString("d MMM");
@@ -295,8 +299,15 @@ namespace Novell.iFolderApp.Web
 						result = WebUtility.GetString("YESTERDAY", rm);
 					}
 				}
+				else
+				{
+					result = date.ToString("d MMM ", ci);
+				}
 			}
-
+			else
+			{
+				result = date.ToString("d MMM yyyy", ci);
+			}
 			return result.Replace(" ", "&nbsp;");
 		}
 
