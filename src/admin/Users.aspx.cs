@@ -352,6 +352,8 @@ namespace Novell.iFolderWeb.Admin
 				ProvisionButton.Width = 250;
 			else if ( code.StartsWith("pl") )
 				ProvisionButton.Width = 180;
+			else if (code.StartsWith("pt") || code.StartsWith("de"))
+				DisableButton.Width = 120;
 		}
 
 		/// <summary>
