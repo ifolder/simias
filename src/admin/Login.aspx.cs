@@ -426,6 +426,41 @@ namespace Novell.iFolderWeb.Admin
 				// cookies
 				web.CookieContainer = new CookieContainer();
 
+				// in only one path this value will persist, that is when language cookie is null
+				Session["Language"] = "en";
+				string code = Session["Language"] as string;
+				// ui language
+				if (LanguageList.SelectedValue == null || LanguageList.SelectedValue == String.Empty)
+				{
+					/// Case when single sign on happens without the login page so no language selected
+
+					if((Request.UserLanguages != null ) && (Request.UserLanguages.Length > 0))
+					{
+						code = Request.UserLanguages[0];
+						if(!( code.StartsWith("zh") || code.StartsWith("pt") ))
+							code = code.Substring(0,2);
+						else
+						{
+							// On Single sign-on Browser sends language as zh-cn,zh-tw and pt-br . 
+							// Help files are placed in a folder with names zh-CN,zh-TW and pt-BR .   
+							if( code == "zh-cn" )
+								code = "zh-CN";
+							else if( code == "zh-tw" )
+								code = "zh-TW";
+							else if( code == "pt-br" )
+								code = "pt-BR";
+						}
+						Session["Language"] = code;
+					}
+				}
+				else
+				{
+					/// Normal login so select from the list 
+					Session["Language"] = LanguageList.SelectedValue;
+					code = Session["Language"] as string;
+				}
+                Thread.CurrentThread.CurrentUICulture = CultureInfo.CreateSpecificCulture(code);
+				log.Info(Context, "Current culture :{0}",  Thread.CurrentThread.CurrentUICulture.Name);
 				// user and system
 				iFolderUser user = null;
 				try
@@ -445,7 +480,6 @@ namespace Novell.iFolderWeb.Admin
 						throw ex;
 					}
 				}
-
 				iFolderSystem system = web.GetSystem();
 				Session["System"] = system.Name;
 				iFolderServer server = web.GetHomeServer();
@@ -464,38 +498,6 @@ namespace Novell.iFolderWeb.Admin
 				Session["Name"] = user.FullName;
 				Session["UserID"] = user.ID;
 
-				// in only one path this value will persist, that is when language cookie is null
-				Session["Language"] = "en";
-				string code = Session["Language"] as string;
-				// ui language
-				if (LanguageList.SelectedValue == null || LanguageList.SelectedValue == String.Empty)
-				{
-					/// Case when single sign on happens without the login page so no language selected
-
-					if((Request.UserLanguages != null ) && (Request.UserLanguages.Length > 0))
-					{
-						code = Request.UserLanguages[0];
-						if(!( code.StartsWith("zh") || code.StartsWith("pt") ))
-							code = code.Substring(0,2);
-						else
-						{
-							// On Single sign-on Browser sends language as zh-cn,zh-tw and pt-br . Help files are placed in a folder with names zh-CN,zh-TW and pt-BR .   
-							if( code == "zh-cn" )
-								code = "zh-CN";
-							else if( code == "zh-tw" )
-								code = "zh-TW";
-							else if( code == "pt-br" )
-								code = "pt-BR";
-						}
-						Session["Language"] = code;
-					}
-				}
-				else
-				{
-					/// Normal login so select from the list 
-					Session["Language"] = LanguageList.SelectedValue;
-					code = Session["Language"] as string;
-				}
 
 				// add server information to the session.
 				Session["HostName"] = server.HostName;
