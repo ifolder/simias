@@ -3102,48 +3102,40 @@ namespace Simias.Sync
 		/// <param name="stamp">The SyncNodeStamp describing this node.</param>
 		internal void AddNodeToServer(SyncNodeInfo stamp)
 		{
+		        //Nodes have changed.
 			if (stamp.MasterIncarnation != stamp.LocalIncarnation)
 			{
 				if (rights == Access.Rights.ReadOnly)
 				{
-					// If this node exists on the server.
-					if (stamp.MasterIncarnation != 0)
+				        // If there is a change, by policy we don't sync
+				        // if it is a newly created node or a existing file
+				        // So just emit a event for client
+					Node tNode = collection.GetNodeByID(stamp.ID);
+					if (tNode != null)
 					{
-						// We need to get this node from the server.
-						stamp.Operation = SyncOperation.Change;
-						stamp.LocalIncarnation = stamp.MasterIncarnation + 1;
-						AddNodeFromServer(stamp);
-					}
-					else 
-					{
-						Node tNode = collection.GetNodeByID(stamp.ID);
-						if (tNode != null)
+						if (stamp.Operation == SyncOperation.Delete)
 						{
-							
-							if (stamp.Operation == SyncOperation.Delete)
+							// Since this is a delete just delete the tombstone.
+							collection.Delete(tNode);
+							collection.Commit(tNode);
+						}
+						else
+						{
+							ObjectType type;
+							switch (stamp.NodeType)
 							{
-								// Since this is a delete just delete the tombstone.
-								collection.Delete(tNode);
-								collection.Commit(tNode);
+								case SyncNodeType.Directory:
+									type = ObjectType.Directory;
+									break;
+								case SyncNodeType.File:
+									type = ObjectType.File;
+									break;
+								default:
+									type = ObjectType.Unknown;
+									break;
 							}
-							else
-							{
-								ObjectType type;
-								switch (stamp.NodeType)
-								{
-									case SyncNodeType.Directory:
-										type = ObjectType.Directory;
-										break;
-									case SyncNodeType.File:
-										type = ObjectType.File;
-										break;
-									default:
-										type = ObjectType.Unknown;
-										break;
-								}
-								eventPublisher.RaiseEvent(new FileSyncEventArgs(collection.ID, type, false, tNode.Name, 0, 0, 0, Direction.Uploading, SyncStatus.ReadOnly));
-								Log.log.Debug("Failed Uploading Node (ReadOnly rights)");
-							}
+							eventPublisher.RaiseEvent(new FileSyncEventArgs(collection.ID, type, false, tNode.Name, 0, 0, 0, Direction.Uploading, SyncStatus.ReadOnly));
+							Log.log.Debug("Failed Uploading Node (ReadOnly rights)");
 						}
 					}
 				}
