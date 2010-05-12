@@ -377,10 +377,6 @@ namespace Novell.iFolder.Enterprise.Web
 			string[] fileList = null;
 			try
 			{
-				// Make sure that there is a version to look for.
-				string versionString = Session[ VersionString ] as string;
-		//		if ( versionString != null )
-		//		{
 					// Get the file list for the specified version.
 					string platform = Session[ PlatformType ] as string;
 					if ( platform.Equals("Darwin") )
@@ -407,7 +403,6 @@ namespace Novell.iFolder.Enterprise.Web
 					{
 						fileList = GetDistributionFileList( Session[ PlatformType ] as string );
 					}
-		//		}
 
 			}
 			catch ( Exception ex )
@@ -432,10 +427,6 @@ namespace Novell.iFolder.Enterprise.Web
 			string[] fileList = null;
 			try
 			{
-				// Make sure that there is a version to look for.
-				string versionString = Session[ VersionString ] as string;
-		//		if ( versionString != null )
-		//		{
 					// Get the file list for the specified version.
 					string platform = Session[ PlatformType ] as string;
 					if ( platform.Equals("Darwin") )
@@ -462,7 +453,6 @@ namespace Novell.iFolder.Enterprise.Web
 					{
 						fileList = GetDistributionFileList( Session[ PlatformType ] as string );
 					}
-		//		}
 
 			}
 			catch ( Exception ex )
@@ -897,7 +887,6 @@ namespace Novell.iFolder.Enterprise.Web
 		public StatusCodes CheckForUpdate( string platform, string currentVersion, out string serverVersion )
 		{
 			StatusCodes stat = (StatusCodes)StatusCodes.Unknown;
-			string updateVersion = null;
 			serverVersion = null;
 			try
 			{
@@ -1008,7 +997,6 @@ namespace Novell.iFolder.Enterprise.Web
 		public StatusCodes CheckForUpdateSoapDocMethod( string platform, string currentVersion, out string serverVersion )
 		{
 			StatusCodes stat = (StatusCodes)StatusCodes.Unknown;
-			string updateVersion = null;
 			serverVersion = null;
 			try
 			{

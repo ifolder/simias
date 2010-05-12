@@ -87,4 +87,5 @@ fi
 sleep 5
 echo "Successfully installed iFolder."
 echo "Restart the system before you start using iFolder"
+echo "Restart the system before you start using iFolder" >> $HOME/.local/share/simias/upgrade.log
 exit
