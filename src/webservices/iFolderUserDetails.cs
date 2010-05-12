@@ -37,6 +37,7 @@ using Simias;
 using Simias.Client;
 using Simias.Storage;
 using Simias.Web;
+using Simias.Server;
 
 namespace iFolder.WebService
 {
@@ -127,12 +128,12 @@ namespace iFolder.WebService
 
 
 			if ( member.HomeServer != null )
-                this.DetailHomeServer = (member.HomeServer.Name == null ) ? string.Empty : member.HomeServer.Name;
-            else
-                this.DetailHomeServer = string.Empty;	
-             int state = member.UserMoveState;
-	    	 switch(state)
-		     {
+                		this.DetailHomeServer = (member.HomeServer.Name == null ) ? string.Empty : member.HomeServer.Name;
+            		else
+                		this.DetailHomeServer = string.Empty;	
+             		int state = member.UserMoveState;
+	    	 	switch(state)
+		     	{
 		             case (int)Member.userMoveStates.Nousermove:
 		             case (int)Member.userMoveStates.Initialized:
 		                       DetailDataMoveStatus = "Initializing";
@@ -158,40 +159,40 @@ namespace iFolder.WebService
 		                        DetailDataMovePercentage = 0;
 			                    DetailDataMoveStatus = "Initializing";
 			                   break;
-		     }
+		     	}
 			 if( state < (int)Member.userMoveStates.DataMoveStarted)
 					    DetailDataMovePercentage += 0;
 			 else if( state > (int)Member.userMoveStates.DataMoveStarted)
 					    DetailDataMovePercentage += 80;
 			 else
-			   {
-                    Store stored = Store.GetStore();
-					long SpaceUsed = 0;
-					long DataTransferred  = 1;
-					int iFolderMoveState = 0;
-					ICSList collectionList = stored.GetCollectionsByOwner( member.UserID, domain.ID );
-					foreach ( ShallowNode sn in collectionList )
-					{
-					    Collection iFolderCol = new Collection( stored, sn );
-						SpaceUsed += iFolderCol.StorageSize;
-						iFolderMoveState = member.iFolderMoveState(domain.ID, false, iFolderCol.ID, 0, 0);
-						if(iFolderMoveState  > 1 )
-						{
-								DataTransferred += iFolderCol.StorageSize;
-						}
-					}
-					if(SpaceUsed != 0)
-							DetailDataMovePercentage += (int)(( 80 * DataTransferred ) / SpaceUsed );
-					else
-							DetailDataMovePercentage += 80;
+			 {
+				 Store stored = Store.GetStore();
+				 long SpaceUsed = 0;
+				 long DataTransferred  = 1;
+				 int iFolderMoveState = 0;
+				 ICSList collectionList = stored.GetCollectionsByOwner( member.UserID, domain.ID );
+				 foreach ( ShallowNode sn in collectionList )
+				 {
+					 Collection iFolderCol = new Collection( stored, sn );
+					 SpaceUsed += iFolderCol.StorageSize;
+					 iFolderMoveState = member.iFolderMoveState(domain.ID, false, iFolderCol.ID, 0, 0);
+					 if(iFolderMoveState  > 1 )
+					 {
+						 DataTransferred += iFolderCol.StorageSize;
+					 }
+				 }
+				 if(SpaceUsed != 0)
+					 DetailDataMovePercentage += (int)(( 80 * DataTransferred ) / SpaceUsed );
+				 else
+					 DetailDataMovePercentage += 80;
 			   }
 			 if ( member.NewHomeServer != null )
 			 {
-					 HostNode newHomeNode = HostNode.GetHostByID(domain.ID, member.NewHomeServer);
-					 if(newHomeNode != null)
-							 this.DetailNewHomeServer = (newHomeNode.Name == null ) ? string.Empty : newHomeNode.Name;
-					 else
-							 this.DetailNewHomeServer = string.Empty;
+				 HostNode newHomeNode = HostNode.GetHostByID(domain.ID, member.NewHomeServer);
+				 if(newHomeNode != null)
+					 this.DetailNewHomeServer = (newHomeNode.Name == null ) ? string.Empty : newHomeNode.Name;
+				 else
+					 this.DetailNewHomeServer = string.Empty;
 			 }
 			 else
 					 this.DetailNewHomeServer = string.Empty;
@@ -251,23 +252,16 @@ namespace iFolder.WebService
 			}
 
 			// Get the number of iFolders owned and shared by the user.
-			Store store = Store.GetStore();
-			ICSList ifList = store.GetCollectionsByUser(this.ID);
-			foreach ( ShallowNode sn in ifList )
+			CatalogEntry[] catalogEntries;
+			catalogEntries = Catalog.GetAllEntriesByUserID(this.ID);
+			foreach(CatalogEntry ce in catalogEntries)
 			{
-				Collection c = new Collection( store, sn );
-				if ( c.IsType( "iFolder" ) )
-				{
-					if ( c.Owner.UserID == this.ID )
-					{
-						++OwnediFolderCount;
-					}
-					else
-					{
-						++SharediFolderCount;
-					}
-				}
-			}
+				if(ce.OwnerID == this.ID)
+					++OwnediFolderCount;	
+				else
+					++SharediFolderCount;				
+			}		
+
 		}
 
 
