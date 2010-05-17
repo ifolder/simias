@@ -136,7 +136,7 @@ test $libdir = '${exec_prefix}/lib64'		&& libdir="${exec_prefix}/${LIB64}"
 test $includedir = '${prefix}/include'		&& includedir="${prefix}/include"
 test $oldincludedir = '/usr/include'		&& oldincludedir="/usr/include"
 test $infodir = '${prefix}/info'			&& infodir="${prefix}/info"
-test $mandir = '${prefix}/man'				&& mandir="${prefix}/man"
+test $mandir = '${prefix}/man'				&& mandir="${datadir}/man"
 
 
 if test -z "$PKG_CONFIG_PATH"; then
