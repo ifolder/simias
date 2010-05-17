@@ -1311,5 +1311,20 @@
 	<data name="CHANGEMASTERRETRY">
 		<value>Unable to update master node attribute on Master and slave. Retry the operation.</value>
 	</data>
+	<data name="running">
+		<value>running</value>
+	</data>
+	<data name="sleeping">
+                <value>sleeping</value>
+        </data>
+	<data name="disabled">
+                <value>disabled</value>
+        </data>
+	<data name="shutdown">
+                <value>shutdown</value>
+        </data>
+	<data name="waiting">
+                <value>waiting</value>
+        </data>
     </data>
 </root>

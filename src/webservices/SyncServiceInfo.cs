@@ -70,7 +70,7 @@ namespace iFolder.WebService
 		/// started.
 		/// RFC 822 format
 		/// </summary>
-		public string UpSince;
+		public DateTime UpSince;
 		
 		/// <summary>
 		/// Number of cycles the engine performed
@@ -106,6 +106,7 @@ namespace iFolder.WebService
 		/// "sleeping"
 		/// "disabled"
 		/// "shutdown"
+		/// "waiting"
 		/// </summary>
 		public string Status;
 
@@ -143,16 +144,7 @@ namespace iFolder.WebService
                                 			MethodInfo SynchronizationDetailsNow=type.GetMethod(SynchronizationDetailsMethod,                                                                                           BindingFlags.Public | BindingFlags.Static );
                                 			SyncDetails=(SynchronizationDetailsMethod) Delegate.CreateDelegate( 														typeof(SynchronizationDetailsMethod), SynchronizationDetailsNow);
                                 			UpSince = DateTime.Parse(SyncDetails( (int) sync.UpDateTime));
-							info.UpSince =
-							String.Format(
-								"{0}, {1} {2} {3} {4}:{5}:{6} GMT",
-								UpSince.DayOfWeek.ToString(),
-								UpSince.Day,
-								LastSyncInfo.MonthsOfYear[ UpSince.Month - 1 ],
-								UpSince.Year.ToString(),
-								UpSince.Hour,
-								UpSince.Minute,
-								UpSince.Second );
+							info.UpSince = UpSince;
 
 							info.Cycles = Convert.ToInt32(SyncDetails((int) sync.SyncCycles));
 			
@@ -173,16 +165,7 @@ namespace iFolder.WebService
 			else
 			{
 			
-				info.UpSince =
-					String.Format(
-					"{0}, {1} {2} {3} {4}:{5}:{6} GMT",
-					Service.UpSince.DayOfWeek.ToString(),
-					Service.UpSince.Day,
-					LastSyncInfo.MonthsOfYear[ Service.UpSince.Month - 1 ],
-					Service.UpSince.Year.ToString(),
-					Service.UpSince.Hour,
-					Service.UpSince.Minute,
-					Service.UpSince.Second );
+				info.UpSince = Service.UpSince;
 			
 				info.Cycles = Service.Cycles;
 			

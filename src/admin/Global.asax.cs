@@ -275,7 +275,7 @@ namespace Novell.iFolderWeb.Admin
 			bool result = false;
 
 			if ( ( certificateProblem == 0 ) || CertificateProblem.CertEXPIRED.Equals( certificateProblem ) ||
-				( ( certificate != null ) && ( certificate.GetIssuerName().Equals( (new X509Certificate(Convert.FromBase64String(certificateString)).GetIssuerName() ) ) ) ))
+				( ( certificate != null ) && ( certificate.Issuer.Equals( (new X509Certificate(Convert.FromBase64String(certificateString)).Issuer ) ) ) ))
 			{
 				result = true;
 			}

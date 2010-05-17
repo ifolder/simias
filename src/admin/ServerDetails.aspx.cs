@@ -487,7 +487,7 @@ namespace Novell.iFolderWeb.Admin
 			}
 
 			if (files == null || files.Length == 0) {
-				reports.Add ("N/A");
+				reports.Add (GetString("NOTAPPLICABLE"));
 				ReportList.Enabled = false;
 				ViewReportButton.Enabled = false;
 			}
@@ -551,11 +551,11 @@ namespace Novell.iFolderWeb.Admin
 			redirectUrl = server.PublicUrl;
 
 			serverStatus = true;
-			Status.Text = "Online";
-			LdapStatus.Text = "N/A";
-			iFolderCount.Text = "N/A";
-			DnsName.Text = "N/A";
-			UserCount.Text = "N/A";
+			Status.Text = GetString("ONLINE");
+			LdapStatus.Text = GetString("NOTAPPLICABLE");
+			iFolderCount.Text = GetString("NOTAPPLICABLE");
+			DnsName.Text = GetString("NOTAPPLICABLE");
+			UserCount.Text = GetString("NOTAPPLICABLE");
 			Name.Text = server.Name;
 
                         //KLUDGE: for SSL enabling the server. Case: When the server is SSL enabled and the Web Admin is not configured for Server SSL
@@ -603,7 +603,7 @@ namespace Novell.iFolderWeb.Admin
                                         {
 //                                              TopNav.ShowInfo (String.Format("WebException-noproto {0} {1}", ex1.Status, remoteweb.Url));
                                                 remoteweb = web;
-                                                Status.Text = "<font color=red><b>Offline</b></font>";
+                                                Status.Text = String.Format("<font color=red><b>" + GetString("OFFLINE") + "</b></font>");
 						serverStatus = false;
                                                 TopNav.ShowInfo (String.Format ("Unable to reach {0}. Displaying minimal information", Name.Text));
                                         }
@@ -613,7 +613,7 @@ namespace Novell.iFolderWeb.Admin
                                 {
 					remoteweb = web;
 //                                        TopNav.ShowInfo (String.Format("WebException- {0} {1}", ex.Status, remoteweb.Url));
-                                	Status.Text = "<font color=red><b>Offline</b></font>";
+                                	Status.Text = String.Format("<font color=red><b>" + GetString("OFFLINE") + "</b></font>");
 					serverStatus = false;
                                 }
                         }
@@ -621,7 +621,7 @@ namespace Novell.iFolderWeb.Admin
                         catch
                         {
                                 remoteweb = web;
-                                Status.Text = "<font color=red><b>Offline</b></font>";
+                                Status.Text = String.Format("<font color=red><b>" + GetString("OFFLINE") + "</b></font>");
 				serverStatus = false;
 //                                TopNav.ShowInfo (String.Format("Exception- {0} {1}", e.Message, remoteweb.Url));
 				return server.Name;
@@ -636,12 +636,12 @@ namespace Novell.iFolderWeb.Admin
                                 iFolderSet ifolders = remoteweb.GetiFolders( iFolderType.All, 0, 1 );
                                 iFolderCount.Text = ifolders.Total.ToString();
 
-//                                LdapStatus.Text = remoteweb.IdentitySyncGetServiceInfo ().Status;
+//                                LdapStatus.Text = GetString(remoteweb.IdentitySyncGetServiceInfo ().Status);
                         }
                         catch
                         {
                                 //Some information failed: Does it mean the Server is not Stable ???
-                                Status.Text = "<font color=red><b>Online</b></font>";
+                                Status.Text = String.Format("<font color=red><b>" + GetString("ONLINE") + "</b></font>");
                         }
             		Name.Text = Details.FormatInputString(server.Name, NewLineAt); 
 			Type.Text = GetString( server.IsMaster ? "MASTER" : "SLAVE" );
@@ -737,9 +737,9 @@ namespace Novell.iFolderWeb.Admin
 		{
 		    //Pick the information from SyncService
 		        SyncServiceInfo syncInfo = remoteweb.IdentitySyncGetServiceInfo();
-			LdapUpSince.Text = syncInfo.UpSince;
+			LdapUpSince.Text = syncInfo.UpSince.ToString("F",Thread.CurrentThread.CurrentUICulture);
 			LdapCycles.Text = syncInfo.Cycles.ToString();
-			LdapStatus.Text = syncInfo.Status;
+			LdapStatus.Text = GetString(syncInfo.Status);
 			LdapDeleteGraceInterval.Text = ( syncInfo.DeleteMemberGracePeriod / 60).ToString();
 			IDSyncInterval.Text = (syncInfo.SynchronizationInterval / 60).ToString();
 
@@ -1487,8 +1487,7 @@ namespace Novell.iFolderWeb.Admin
 			bool currentMasterUpdateComplete = false, 
 				 newMasterUpdateComplete = false,
 				 slaveUpdateComplete = false;
-			string HostID = null, 
-				   newServerPublicUrl = null;
+			string newServerPublicUrl = null;
 			iFolderServer mServer = null, 
 						  newmServer=null;
 
