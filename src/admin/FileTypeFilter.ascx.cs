@@ -493,15 +493,9 @@ namespace Novell.iFolderWeb.Admin
 
 			// See if there are any checked members.
 			bool hasEntries = allCheckBox.Checked ? true : HasCheckedEntries;
-			if ( DeleteButton.Visible )
-			{
-				DeleteButton.Enabled = hasEntries;
-			}
-			else
-			{
-				AllowButton.Enabled = HasDisallowedEntries && hasEntries;
-				DenyButton.Enabled = HasAllowedEntries && hasEntries;
-			}
+			DeleteButton.Enabled = hasEntries;
+			AllowButton.Enabled = HasDisallowedEntries && hasEntries;
+			DenyButton.Enabled = HasAllowedEntries && hasEntries;
 		}
 
 		/// <summary>
@@ -675,15 +669,9 @@ namespace Novell.iFolderWeb.Admin
 					fti.IsChecked = checkBox.Checked;
 
 					bool hasEntries = checkBox.Checked ? true : HasCheckedEntries;
-					if ( DeleteButton.Visible )
-					{
-						DeleteButton.Enabled = hasEntries;
-					}
-					else
-					{
-						AllowButton.Enabled = HasDisallowedEntries && hasEntries;
-						DenyButton.Enabled = HasAllowedEntries && hasEntries;
-					}
+					DeleteButton.Enabled = hasEntries;
+					AllowButton.Enabled = HasDisallowedEntries && hasEntries;
+					DenyButton.Enabled = HasAllowedEntries && hasEntries;
 				}
 			}
 		}
@@ -783,10 +771,9 @@ namespace Novell.iFolderWeb.Admin
 		/// <param name="policy">User policy.</param>
 		public void GetFileTypePolicy( UserPolicy policy )
 		{
-			// Show the proper control buttons.
-			AllowButton.Visible = DenyButton.Visible = true;
-
+		        // Show new file type controls
 			NewFileTypeName.Visible = AddButton.Visible = true;
+
 			// Create a list from the file type policy.
 			FileTypeSource = CreateFileTypeSource( policy );
 
@@ -802,8 +789,8 @@ namespace Novell.iFolderWeb.Admin
 		/// <param name="policy">iFolder policy.</param>
 		public void GetFileTypePolicy( iFolderPolicy policy )
 		{
-			// Enable the add/delete controls.
-			NewFileTypeName.Visible = AddButton.Visible = DeleteButton.Visible = true;
+		        // Show new file type controls
+			NewFileTypeName.Visible = AddButton.Visible = true;
 
 			// Create a list from the file type policy.
 			FileTypeSource = CreateFileTypeSource( policy );
@@ -820,8 +807,8 @@ namespace Novell.iFolderWeb.Admin
 		/// <param name="policy">System policy.</param>
 		public void GetFileTypePolicy( SystemPolicy policy )
 		{
-			// Enable the add/delete controls.
-			NewFileTypeName.Visible = AddButton.Visible = DeleteButton.Visible = true;
+		        // Show new file type controls
+			NewFileTypeName.Visible = AddButton.Visible = true;
 
 			// Create a list from the file type policy.
 			FileTypeSource = CreateFileTypeSource( policy );

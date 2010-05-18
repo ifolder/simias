@@ -105,21 +105,13 @@
 	
 	<ifolder:ListFooter ID="FileTypeListFooter" Runat="server" />
 	
-	<asp:Button 
-		ID="DeleteButton" 
-		Runat="server" 
-		CssClass="filetypecontrolbutton" 
-		Enabled="False"
-		OnClick="OnDeleteFileType"
-		Visible="False" />
-		
 	<asp:Button
 		ID="AllowButton"
 		Runat="server"
 		CssClass="filetypecontrolbutton"
 		Enabled="False"
 		OnClick="OnAllowFileType"
-		Visible="False" />
+		Visible="True" />
 		
 	<asp:Button
 		ID="DenyButton"
@@ -127,7 +119,15 @@
 		CssClass="filetypecontrolbutton"
 		Enabled="False"
 		OnClick="OnDenyFileType"
-		Visible="False" />
+		Visible="True" />
+
+	<asp:Button 
+		ID="DeleteButton" 
+		Runat="server" 
+		CssClass="filetypecontrolbutton" 
+		Enabled="False"
+		OnClick="OnDeleteFileType"
+		Visible="True" />
 			
 </div>
 
