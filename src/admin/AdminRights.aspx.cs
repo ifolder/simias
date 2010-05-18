@@ -72,8 +72,8 @@ namespace Novell.iFolderWeb.Admin
                         EnableDisableUserAllowed = 4096,
 			OwnOrphaniFolderAllowed = 8192,
 			EnableDisableiFolderAllowed = 16384,
-			ModifyMemberRightAllowed = 32768
-
+			ModifyMemberRightAllowed = 32768,
+			DeleteiFolderAllowed = 65536,
                 };
 
 
@@ -396,9 +396,11 @@ namespace Novell.iFolderWeb.Admin
 				iFolderRightsList.Items[ 0 ].Text = GetString( "ALLOWORPHANIFOLDEROWNERSHIP" );
 				iFolderRightsList.Items[ 1 ].Text = GetString( "ALLOWIFOLDERENABLING" );
 				iFolderRightsList.Items[ 2 ].Text = GetString( "ALLOWSHAREDMEMBERRIGHTS" );
+				iFolderRightsList.Items[ 3 ].Text = GetString( "ALLOWDELETEIFOLDERRIGHTS" );
 				iFolderRightsList.Items[ 0 ].Selected = true;
 				iFolderRightsList.Items[ 1 ].Selected = true;
 				iFolderRightsList.Items[ 2 ].Selected = true;
+				iFolderRightsList.Items[ 3 ].Selected = true;
 
 				iFolderUser user = web.GetUser( SecondaryAdmin );
 				string LebelDisplay;
@@ -661,8 +663,7 @@ namespace Novell.iFolderWeb.Admin
 			iFolderRightsList.Items[0].Selected = UsersGroupRights.OwnOrphaniFolderAllowed;
 			iFolderRightsList.Items[1].Selected = UsersGroupRights.EnableDisableiFolderAllowed;
 			iFolderRightsList.Items[2].Selected = UsersGroupRights.ModifyMemberRightAllowed;
-			
-			
+			iFolderRightsList.Items[3].Selected = UsersGroupRights.DeleteiFolderAllowed;			
 		}
 
 		protected int GetSelectedRights()
@@ -685,6 +686,7 @@ namespace Novell.iFolderWeb.Admin
 			value += (iFolderRightsList.Items[0].Selected ? (int)Novell.iFolderWeb.Admin.UserGroupAdminRights.GroupAdminPreferencesEnum.OwnOrphaniFolderAllowed : 0);
 			value += (iFolderRightsList.Items[1].Selected ? (int)Novell.iFolderWeb.Admin.UserGroupAdminRights.GroupAdminPreferencesEnum.EnableDisableiFolderAllowed : 0);
 			value += (iFolderRightsList.Items[2].Selected ? (int)Novell.iFolderWeb.Admin.UserGroupAdminRights.GroupAdminPreferencesEnum.ModifyMemberRightAllowed : 0);
+			value += (iFolderRightsList.Items[3].Selected ? (int)Novell.iFolderWeb.Admin.UserGroupAdminRights.GroupAdminPreferencesEnum.DeleteiFolderAllowed : 0);
 			return value;
 		}
 

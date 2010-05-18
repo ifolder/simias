@@ -264,6 +264,9 @@
 	<data name="ERRORCANNOTDELETEIFOLDER">
 		<value>Cannot delete iFolder.</value>
 	</data>
+	<data name="ERRORCANNOTDELETEIFOLDER">
+		<value>You do not have permissions to delete {0}.</value>
+	</data>
 	<data name="ERRORCANNOTDELETEMEMBERS">
 		<value>Cannot delete iFolder member {0}.</value>
 	</data>
@@ -1242,6 +1245,9 @@
 	</data>
 	<data name="ALLOWSHAREDMEMBERRIGHTS">
 		<value>Allow to modify rights of shared iFolder members</value>
+	</data>
+	<data name="ALLOWDELETEIFOLDERRIGHTS">
+		<value>Allow permission to delete iFolders</value>
 	</data>
 	<data name="ASSIGNADMINRIGHTS">
 		<value>Assign Admin Rights to: </value>

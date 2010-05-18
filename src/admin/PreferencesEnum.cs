@@ -55,6 +55,7 @@ namespace Novell.iFolderWeb.Admin
 		public bool	OwnOrphaniFolderAllowed;
 		public bool	EnableDisableiFolderAllowed;
 		public bool	ModifyMemberRightAllowed;
+	        public bool     DeleteiFolderAllowed;
 
 		public long 	preference;
 		public static 	int defaultpreference;
@@ -73,6 +74,7 @@ namespace Novell.iFolderWeb.Admin
 			OwnOrphaniFolderAllowed = 0x00000200,		//512
 			EnableDisableiFolderAllowed = 0x00000400,	//1024
 			ModifyMemberRightAllowed = 0x00000800,		//2048
+			DeleteiFolderAllowed = 0x00001000,		//4096
 		};
 
 		public UserGroupAdminRights(long value)
@@ -92,6 +94,7 @@ namespace Novell.iFolderWeb.Admin
                         this.OwnOrphaniFolderAllowed = (this.preference & (int)GroupAdminPreferencesEnum.OwnOrphaniFolderAllowed) == 0 ? false:true;
                         this.EnableDisableiFolderAllowed = (this.preference & (int)GroupAdminPreferencesEnum.EnableDisableiFolderAllowed) == 0 ? false:true;
                         this.ModifyMemberRightAllowed = (this.preference & (int)GroupAdminPreferencesEnum.ModifyMemberRightAllowed) == 0 ? false:true;
+                        this.DeleteiFolderAllowed = (this.preference & (int)GroupAdminPreferencesEnum.DeleteiFolderAllowed) == 0 ? false:true;
 
 		}
 	}

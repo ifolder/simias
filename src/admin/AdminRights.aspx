@@ -308,7 +308,7 @@
 				</table>
 
 				<table class="policyclass" >
-				
+
 					<tr>
 						<th colspan="2">
 								
@@ -327,6 +327,7 @@
 								RepeatDirection="Vertical"
 								OnSelectedIndexChanged="OniFolderRightsList_Changed">
 								
+								<asp:ListItem></asp:ListItem>
 								<asp:ListItem></asp:ListItem>
 								<asp:ListItem></asp:ListItem>
 								<asp:ListItem></asp:ListItem>

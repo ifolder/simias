@@ -179,7 +179,7 @@
 					Runat="server" 
 					CssClass="ifolderbuttons" 
 					Enabled="False"
-					Visible="False"
+					Visible="True"
 					OnClick="OnDeleteButton_Click" /> 
 					
 				<asp:Button 

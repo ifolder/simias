@@ -38,6 +38,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Resources;
+using System.Text;
 using System.Threading;
 using System.Web;
 using System.Web.SessionState;
@@ -157,6 +158,21 @@ namespace Novell.iFolderWeb.Admin
 		/// </summary>
 		protected string currentServerURL;
 
+		/// <summary>
+		/// Logged in admin system rights instance
+		/// </summary>
+		UserGroupAdminRights uRights;
+		
+		/// <summary>
+		/// Logged in user system rights value
+		/// </summary>
+		int grpAccessPolicy = 0;
+
+		/// <summary>
+		/// Currently logged in User ID
+		/// </summary>
+		protected string userID;
+
 		protected bool reachable = true;
 
 		#endregion
@@ -258,7 +274,7 @@ namespace Novell.iFolderWeb.Admin
 					list = web.GetiFoldersByName(iFolderSearch.SearchOperation, 
 						( iFolderSearch.SearchName == String.Empty) ? "*" : iFolderSearch.SearchName,
 						CurrentiFolderOffset,iFolderList.PageSize);
-					DeleteButton.Visible = false;
+					DeleteButton.Visible = true;
 					break;
 			}			
 			
@@ -381,6 +397,10 @@ namespace Novell.iFolderWeb.Admin
 			rm = Application[ "RM" ] as ResourceManager;
 //			TopNav.ShowInfo(String.Format("URL: {0}", web.Url));
 
+			userID = Session[ "UserID" ] as String;
+			grpAccessPolicy = web.GetUserGroupRights(userID, null);
+			uRights = new UserGroupAdminRights(grpAccessPolicy);
+
 			if ( !IsPostBack )
 			{
 				// Initialize the localized fields.
@@ -404,6 +424,8 @@ namespace Novell.iFolderWeb.Admin
 			}
 			// Set the active ifolder display tab
 			SetActiveiFolderListTab( ActiveiFolderTab );
+			DeleteButton.Enabled = uRights.DeleteiFolderAllowed;
+
 //			TopNav.ShowInfo(String.Format("URL: {0}", web.Url));
 			string code = Thread.CurrentThread.CurrentUICulture.Name;
 			if (code.StartsWith("pt") || code.StartsWith("de") || code.StartsWith("ru"))
@@ -431,6 +453,7 @@ namespace Novell.iFolderWeb.Admin
 		private void SetActionButtons()
 		{
 			Hashtable ht = CheckediFolders;
+
 			switch(ActiveiFolderTab)
                         {
                                 case ListDisplayType.Orphaned:
@@ -440,11 +463,11 @@ namespace Novell.iFolderWeb.Admin
 
                                 case ListDisplayType.All:
 				default:
-					DeleteButton.Visible = false;
+					DeleteButton.Visible = true;
 					break;
 			}
 
-			//DeleteButton.Enabled = ( ht.Count > 0 ) ? true : false;
+			DeleteButton.Enabled = (ht.Count > 0) ? true : false;
 			DisableButton.Enabled = ht.ContainsValue( Boolean.FalseString );
 			EnableButton.Enabled = ht.ContainsValue( Boolean.TrueString );
 		}
@@ -490,6 +513,36 @@ namespace Novell.iFolderWeb.Admin
 				}
 			}
 			return preference;
+		}
+
+		/// <summary>
+		/// Gets iFolder name
+		/// </summary>
+		private string GetiFolderName(string iFolderID)
+		{
+			foreach( DataGridItem item in iFolderList.Items )
+			{
+				string ifolderid = item.Cells[ iFolderIDColumn].Text;
+				if( ifolderid == iFolderID )
+				    //FIXME : Magic numbers
+				    return item.Cells [12].Text; //iFolder name column.
+			}
+			return null;
+		}
+
+		/// <summary>
+		/// Gets iFolder's owner ID
+		/// </summary>
+		private string GetiFolderOwnerID(string iFolderID)
+		{
+			foreach( DataGridItem item in iFolderList.Items )
+			{
+				string ifolderid = item.Cells[iFolderIDColumn].Text;
+				if( ifolderid == iFolderID ) 
+				    //FIXME : Magic numbers
+				    return item.Cells [8].Text; //iFolder ID column.
+			}
+			return null;
 		}
 
 		/// <summary>
@@ -693,10 +746,30 @@ namespace Novell.iFolderWeb.Admin
 		/// <param name="e"></param>
 		protected void OnDeleteButton_Click( object source, EventArgs e )
 		{
+			string skippediFolderNames = "";
 			foreach( string ifolderID in CheckediFolders.Keys )
 			{
 				try
 				{
+				        int rights = GetRightsForiFolder(ifolderID);
+					if (rights == -1 ) rights = 0xffff;
+
+					UserGroupAdminRights adminRights = new UserGroupAdminRights(rights);
+					string ownerID = GetiFolderOwnerID (ifolderID);
+					/*Condition for skipping iFolders for deletion. We allow the owner to 
+					  delete his own iFolder. */
+					if (userID != ownerID) {
+					    if(!adminRights.DeleteiFolderAllowed) {
+						string ifolderName = GetiFolderName (ifolderID);
+						if (skippediFolderNames.Length > 0 ) //Just for adding a comma.
+						    skippediFolderNames += ", " + ifolderName;
+						else
+						    skippediFolderNames += ifolderName;
+
+						continue;
+					    }
+					}
+
 		                        string ifolderLocation = web.GetiFolderLocation (ifolderID);
                 		        UriBuilder remoteurl = new UriBuilder(ifolderLocation);
 		                        remoteurl.Path = (new Uri(web.Url)).PathAndQuery;
@@ -710,6 +783,7 @@ namespace Novell.iFolderWeb.Admin
 					web.Url = currentServerURL;
 					return;
 				}
+
 			}
 			web.Url = currentServerURL;
 
@@ -722,6 +796,10 @@ namespace Novell.iFolderWeb.Admin
 
 			// Rebind the data source with the new data.
 			GetiFolders();
+
+			//If we have skipped some iFolders, tell the admin.
+			if (skippediFolderNames.Length > 0)
+			    TopNav.ShowError(string.Format (GetString ("ERRORCANNOTDELETEIFOLDER"), skippediFolderNames));
 		}
 
 		/// <summary>
