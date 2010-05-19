@@ -812,9 +812,28 @@ namespace iFolder.WebService
 				cat.Commit(cat);
 				log.Info("Commiting all value to set this server ({0} as Slave Server", localhostNode.Name);
 
-
 				localhostNode.ChangeMasterState = (int)HostNode.changeMasterStates.Complete; 
 				domain.Commit(localhostNode);
+
+				string ServerSection="Server";
+				string MasterAddressKey = "MasterAddress";
+				string SimiasConfigFilePath = Path.Combine ( Store.StorePath, "Simias.config");	
+				if ( File.Exists( Path.Combine( Store.StorePath, Simias.Configuration.DefaultConfigFileName ) ) == true )
+				{
+					SimiasConfigFilePath = Path.Combine( Store.StorePath, Simias.Configuration.DefaultConfigFileName );
+				}
+				// going to update the config file 
+				// Load the configuration file into an xml document.
+				XmlDocument document = new XmlDocument();
+				document.Load(SimiasConfigFilePath );
+
+				log.Info("Setting the MasterAddress in simias.config file");
+				if (! SetConfigValue( document, ServerSection, MasterAddressKey, newMasterPublicUrl))
+				{
+					log.Error("Unable to add MasterAddress from Simias.config file");
+				}
+				CommitConfiguration( document , SimiasConfigFilePath);
+				log.Debug("Simias.config file updated");
 			}
 			catch(Exception ex)
 			{
@@ -879,6 +898,26 @@ namespace iFolder.WebService
 				localhostNode.ChangeMasterState = (int)HostNode.changeMasterStates.Complete; 
 				domain.Commit(localhostNode);
 				log.Info("ChangeMasterState tag updated on this server");
+
+				string ServerSection="Server";
+				string MasterAddressKey = "MasterAddress";
+				string SimiasConfigFilePath = Path.Combine ( Store.StorePath, "Simias.config");	
+				if ( File.Exists( Path.Combine( Store.StorePath, Simias.Configuration.DefaultConfigFileName ) ) == true )
+				{
+					SimiasConfigFilePath = Path.Combine( Store.StorePath, Simias.Configuration.DefaultConfigFileName );
+				}
+				// going to update the config file 
+				// Load the configuration file into an xml document.
+				XmlDocument document = new XmlDocument();
+				document.Load(SimiasConfigFilePath );
+
+				log.Info("Removing the MasterAddress from simias.config file");
+				if (! SetConfigValue( document, ServerSection, MasterAddressKey, null ))
+				{
+					log.Error("Unable to remove MasterAddress from simias.config file");
+				}
+				CommitConfiguration( document , SimiasConfigFilePath);
+				log.Debug("Simias.config file updated");
 			}
 			catch(Exception ex)
 			{
@@ -899,7 +938,7 @@ namespace iFolder.WebService
 			try
 			{
 				Store store = Store.GetStore();
-				log.Error("Set Master store : {0}", HostID);
+				log.Info("HostID: {0}, value: {1}", HostID, Value);
 				Domain domain = store.GetDomain(store.DefaultDomain);
 				//HostNode lHostNode = HostNode.GetHostByID(domain.ID, HostID);
 				HostNode lHostNode = HostNode.GetLocalHost();
