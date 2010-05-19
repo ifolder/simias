@@ -487,7 +487,8 @@ namespace Simias.LdapProvider
 			}
 			else
 			{
-				log.Info("Password allow change is null");
+				log.Debug("Password allow change is null, so by default, user is allowed for PasswordChange");
+				canChange = true;
 			}
 
 			return canChange;
