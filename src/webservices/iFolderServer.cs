@@ -36,7 +36,7 @@ using System.Net;
 using System.IO;
 using System.Xml;
 using System.Text;
-
+using Novell.Directory.Ldap;
 using Simias;
 using Simias.Client;
 using Simias.Storage;
@@ -245,6 +245,179 @@ namespace iFolder.WebService
 		    LdapSettings ldapSettings = LdapSettings.Get ( Store.StorePath );
 		    return new LdapInfo (ldapSettings) ;
 		}
+
+                public static void WriteLdapDetails ()
+                {
+                    LdapSettings ldapSettings = LdapSettings.Get ( Store.StorePath );
+                        string host = ldapSettings.Host;
+                        bool SSL = ldapSettings.SSL;
+                        string proxydn = ldapSettings.ProxyDN;
+                        string proxypwd = ldapSettings.ProxyPassword;
+                        ProxyUser pu = new Simias.LdapProvider.ProxyUser();
+                        string pwd2 = pu.Password;
+
+                        string allContexts = "";
+                        foreach( string context in ldapSettings.SearchContexts)
+                        {
+                                allContexts = allContexts + context + "#";
+                        }
+
+                        //FileStream fileStream = new FileStream( Store.StorePath, FileMode.Create);
+                        string filename = Store.StorePath+ "/proxyfile";
+                        FileStream file = new FileStream( filename, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+                        TextWriter tw = new StreamWriter(file);
+                        tw.WriteLine("host:"+host);
+                        tw.WriteLine("SSL:"+SSL);
+                        tw.WriteLine("proxydn:"+proxydn);
+                        tw.WriteLine("proxypwd:"+pwd2);
+                        tw.WriteLine("Context:"+allContexts);
+                        tw.Close();
+
+                }
+
+		public static void ServiceProxyRequests()
+		{
+							log.Debug(" ServiceProxyRequests: Entered");
+			bool Proxy_Rights_Assign = false;
+			bool Proxy_Creds_Store = false;
+			string proxydn = null;	
+			string proxypwd = null;
+			string ldapadmindn = null;
+			string ldapadminpwd = null;
+			string filename = Store.StorePath+"/"+"proxyfile2";
+			using(StreamReader sr = new StreamReader(filename))
+			{
+				string line;
+				while ((line = sr.ReadLine()) != null)
+				{
+					if(line != null && line != String.Empty )
+					{
+						if( line.Trim() == "proxy_rights_assign")
+						{
+							Proxy_Rights_Assign = true;
+							continue;
+						}
+						else if( line.Trim() == "update_proxy_cred_store")
+						{
+							Proxy_Creds_Store = true;
+							continue;
+						}
+						if( Proxy_Rights_Assign)
+						{
+							if(line != null && line != String.Empty )
+							{
+								proxydn = line.Trim();
+							}
+							line = sr.ReadLine();
+							if(line != null && line != String.Empty )
+							{
+								ldapadmindn = line.Trim();
+							}
+							line = sr.ReadLine();
+							if(line != null && line != String.Empty )
+							{
+								ldapadminpwd = line.Trim();
+							}
+							break;
+						}
+						else if ( Proxy_Creds_Store )
+						{
+							//line = sr.ReadLine();
+							if(line != null && line != String.Empty )
+							{
+								proxydn = line.Trim();
+							}
+							line = sr.ReadLine();
+							if(line != null && line != String.Empty )
+							{
+								proxypwd = line.Trim();
+							}
+							break;
+						}
+					}	
+				}	
+			}
+			LdapSettings ldapSettings = LdapSettings.Get ( Store.StorePath );
+                        string host = ldapSettings.Host;
+                        bool SSL = ldapSettings.SSL;
+
+			// now based on service request, either assign the rights or update the proxy credentials into store
+			if (Proxy_Rights_Assign)
+			{
+				LdapConnection connection = new LdapConnection();
+				connection.SecureSocketLayer = SSL ;
+				int port = SSL ? 636 : 389;
+				connection.Connect( host, port);
+				connection.Bind( ldapadmindn, ldapadminpwd);
+				LdapAttribute attribute = new LdapAttribute("acl", new String[]
+				{
+					String.Format("1#subtree#{0}#[Entry Rights]", proxydn),
+					String.Format("3#subtree#{0}#[All Attributes Rights]", proxydn)
+				});
+				LdapModification modification = new LdapModification(LdapModification.ADD, attribute);
+				foreach( string context in ldapSettings.SearchContexts)
+				{
+					try
+					{
+						connection.Modify( context, modification);
+					}
+					catch(Exception ex)
+					{
+						if( ex.Message.IndexOf("Attribute Or Value Exists") >= 0)
+							log.Debug(" The rights were already provided earlier, so ignore");
+						else
+							throw ex;
+					}
+				}
+				try
+				{
+					connection.Disconnect();
+				}
+				catch{}
+			}
+			else if( Proxy_Creds_Store )
+			{
+				string dataPath = Store.StorePath;
+				string path = Path.GetFullPath(Path.Combine(dataPath, "Simias.config"));
+				XmlDocument doc = new XmlDocument();
+				doc.Load(path);
+
+				string str = string.Format( "//{0}[@{1}='{2}']/{3}[@{1}='{4}']", "section", "name", "LdapAuthentication", "setting", "ProxyDN" );
+
+				XmlElement element = ( XmlElement )doc.DocumentElement.SelectSingleNode( str );
+				if ( element != null )
+				{
+					//string val = element.GetAttribute( "value" );
+
+					element.SetAttribute( "value", proxydn );
+
+				}
+
+				// Write the configuration file settings.
+				XmlTextWriter xtw = new XmlTextWriter( path, Encoding.UTF8 );
+				try
+				{
+					xtw.Formatting = Formatting.Indented;
+					doc.WriteTo( xtw );
+				}
+				finally
+				{
+					xtw.Close();
+				}
+
+
+			                //Write Password to ppf file
+				string ppwdfile = @".simias.ppf";
+				string path1 = Path.Combine(dataPath, ppwdfile);
+				FileStream file = new FileStream( path1, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+				TextWriter tw = new StreamWriter(file);
+				tw.WriteLine( proxypwd );
+				log.Debug("method: proxycredstore: wrote the creds into  file");
+				tw.Close();
+	
+			}
+		}
+
 
 		/// <summary>
 		/// Set LDAP details

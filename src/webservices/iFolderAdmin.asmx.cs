@@ -89,6 +89,22 @@ namespace iFolder.WebService
 			return base.GetHomeServer();
 		}
 
+		[WebMethod(
+			 Description="write ldap details to a file",
+			 EnableSession=true)]
+		public override void WriteToFile()
+		{
+			base.WriteToFile();
+		}
+
+		[WebMethod(
+			 Description=" do service for proxy users",
+			 EnableSession=true)]
+		public override void ServiceProxyRequests()
+		{
+			base.ServiceProxyRequests();
+		}
+
 	        /// <summary>
 		/// Get the HomeServer for the specified user
 		/// </summary>

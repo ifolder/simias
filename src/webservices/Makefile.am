@@ -86,10 +86,10 @@ endif
 all: iFolder.WebService.dll GenerateWsdl.exe iFolderAdmin.wsdl iFolderWeb.wsdl
 
 iFolder.WebService.Local.dll: $(srcdir)/AssemblyInfo.cs copy $(iFolderWebServiceLocal_CSFILES) $(iFolderWebServiceLocal_RESOURCES)
-	$(CSC) /out:$@ $(CSCFLAGS) $(iFolderWebServiceLocal_FLAGS) $(iFolderWebServiceLocal_LIBS:%=/r:%) $(iFolderWebServiceLocal_LIBPATH:%=/lib:%) $(LOG4NET_LIBS) $(iFolderWebServiceLocal_RESOURCES:%=$(ICON_FLAG)%) $(srcdir)/AssemblyInfo.cs $(iFolderWebServiceLocal_CSFILES_CSC)
+	$(CSC) /out:$@ $(CSCFLAGS) $(iFolderWebServiceLocal_FLAGS) $(iFolderWebServiceLocal_LIBS:%=/r:%) $(iFolderWebServiceLocal_LIBPATH:%=/lib:%) $(LOG4NET_LIBS) $(iFolderWebServiceLocal_RESOURCES:%=$(ICON_FLAG)%) $(srcdir)/AssemblyInfo.cs $(iFolderWebServiceLocal_CSFILES_CSC) /r:Novell.Directory.Ldap
 
 iFolder.WebService.dll: $(srcdir)/AssemblyInfo.cs iFolder.WebService.Local.dll $(iFolderWebService_CSFILES) $(iFolderWebService_RESOURCES)
-	$(CSC) /out:$@ $(CSCFLAGS) $(iFolderWebService_FLAGS) $(iFolderWebService_LIBS:%=/r:%) $(iFolderWebService_LIBPATH:%=/lib:%) $(LOG4NET_LIBS) $(iFolderWebService_RESOURCES:%=$(ICON_FLAG)%) $(srcdir)/AssemblyInfo.cs $(iFolderWebService_CSFILES_CSC)
+	$(CSC) /out:$@ $(CSCFLAGS) $(iFolderWebService_FLAGS) $(iFolderWebService_LIBS:%=/r:%) $(iFolderWebService_LIBPATH:%=/lib:%) $(LOG4NET_LIBS) $(iFolderWebService_RESOURCES:%=$(ICON_FLAG)%) $(srcdir)/AssemblyInfo.cs $(iFolderWebService_CSFILES_CSC) /r:Novell.Directory.Ldap
 
 GenerateWsdl.exe: GenerateWsdl.cs
 	$(CSC) /out:$@ $(CSCFLAGS) $(CSC_EXEFLAG) $(GenerateWsdl_LIBS:%=/r:%) $<

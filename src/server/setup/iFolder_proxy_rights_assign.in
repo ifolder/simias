@@ -1,0 +1,99 @@
+#!/bin/sh
+#/*****************************************************************************
+#*
+#* Copyright (c) [2009] Novell, Inc.
+#* All Rights Reserved.
+#*
+#* This program is free software; you can redistribute it and/or
+#* modify it under the terms of version 2 of the GNU General Public License as
+#* published by the Free Software Foundation.
+#*
+#* This program is distributed in the hope that it will be useful,
+#* but WITHOUT ANY WARRANTY; without even the implied warranty of
+#* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.   See the
+#* GNU General Public License for more details.
+#*
+#* You should have received a copy of the GNU General Public License
+#* along with this program; if not, contact Novell, Inc.
+#*
+#* To contact Novell about this file by physical or electronic mail,
+#* you may find current contact information at www.novell.com
+#*
+#*-----------------------------------------------------------------------------
+#*
+#*                 Novell iFolder Enterprise
+#*
+#*-----------------------------------------------------------------------------
+#*
+#*                 $Author: Anil Kumar (kuanil@novell.com)
+#*                 $Modified by: <Modifier>
+#*                 $Mod Date: <Date Modified>
+#*                 $Revision: 0.1
+#*-----------------------------------------------------------------------------
+#* This module is used to:
+#*        < proxy user rights assignment>
+#*
+#*
+#*******************************************************************************/
+
+# Usage:  ./iFolder_retrieve_proxy_creds.sh proxydn ldapadmindn ldapadminpwd
+
+
+if [ "$1" == "" -o "$2" == "" ]; then
+	echo "Invalid Input"
+	exit 0
+fi
+
+
+OS_ARCH=`uname -m | grep -c x86_64`
+if [ $OS_ARCH -gt 0 ]
+then
+        export OS_ARCH=`uname -m`
+fi
+
+rpm -q novell-ifolder-mono > /dev/null 2>&1
+if [ $? -gt 0 ]
+then
+
+        #export MONO_PATH=/opt/novell/ifolder3/lib64/simias/web/bin:/opt/novell/ifolder3/bin
+        #export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/novell/ifolder3/lib64/simias/web/bin
+        cd @_bindir_@
+
+else
+	MONO_RUNTIME_PATH=@_bindir_@/../mono
+        #export MONO_PATH=$MONO_RUNTIME_PATH/lib/mono/:$MONO_RUNTIME_PATH/lib/mono/2.0:/opt/novell/ifolder3/lib64/simias/web/bin:/opt/novell/ifolder3/bin
+        source $MONO_RUNTIME_PATH/bin/novell-ifolder-mono-environment.sh
+        cd @_bindir_@
+
+fi
+	# get the value of datapath
+	newline=`grep -n SimiasDataDir /etc/apache2/conf.d/simias.conf`
+
+	for i in $(echo $newline | tr ";" "\n")
+	do
+	  str=${i:0:13}
+	  if [ $str == "SimiasDataDir" ]; then
+	    length=$(echo ${#i})
+	    len=`expr $length - 14` 
+	    index=`expr $length - 1`
+	    lastchar=${i:index:1}
+	    if [ $lastchar == '"' ]; then
+		len=` expr $len - 1`	
+	    fi
+	    datapath=${i:14:$len}
+	  fi
+	done
+
+	touch $datapath/proxyfile2
+	echo ServiceName > $datapath/proxyfile2
+	sed 'i proxy_rights_assign \n'$1' \n'$2' \n'$3' ' -i $datapath/proxyfile2
+	`chown wwwrun:www $datapath/proxyfile2`
+	mono iFolderProxySetup.exe proxy_rights_assign
+	if [ $? == 0 ]
+	then
+		`rm $datapath/proxyfile2`
+		exit 0
+	else
+		`rm $datapath/proxyfile2`
+		exit -1
+	fi

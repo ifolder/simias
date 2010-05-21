@@ -105,6 +105,40 @@ namespace iFolder.WebService
 			return result;
 		}
 
+		[WebMethod(
+			 Description=" write ldap details to a file",
+			 EnableSession=true)]
+		public virtual void WriteToFile()
+		{
+			try
+			{
+
+			    	iFolderServer.WriteLdapDetails();
+			}
+			catch(Exception e)
+			{
+				SmartException.Throw(e);
+			}
+
+		}
+
+		[WebMethod(
+			 Description=" servide for proxy requests",
+			 EnableSession=true)]
+		public virtual void ServiceProxyRequests()
+		{
+			try
+			{
+
+			    	iFolderServer.ServiceProxyRequests();
+			}
+			catch(Exception e)
+			{
+				SmartException.Throw(e);
+			}
+
+		}
+
 
 		/// <summary>
 		/// Create a new iFolder with a given ID.
