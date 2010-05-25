@@ -554,7 +554,7 @@ namespace Novell.iFolderWeb.Admin
 						dr[1] = false;
 						dr[2] = user.ID;
 						dr[3] = user.FullName;
-						dr[4] = "<font color=red>N/A</font>";
+						dr[4] = String.Format("<font color=red>" + GetString("NOTAPPLICABLE") + "</font>");
 						
 						dt.Rows.Add(dr);
 						

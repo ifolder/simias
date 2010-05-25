@@ -310,7 +310,7 @@ namespace Novell.iFolderWeb.Admin
 			{
 				string [] ProvisioningListStr = new string [ProvisioningListStrTemp.Length + 1];
 				/// making 1st entry of dropdownlist as None
-				ProvisioningListStr[0] = "N/A";   
+				ProvisioningListStr[0] = GetString("NOTAPPLICABLE");   
 				for (int i = 1; i <= ProvisioningListStrTemp.Length ; i++)
 					ProvisioningListStr[i] = String.Copy(ProvisioningListStrTemp[i-1]);
 				return ProvisioningListStr;
@@ -527,7 +527,7 @@ namespace Novell.iFolderWeb.Admin
 		protected void OnSelectServerList_Changed(Object sender, EventArgs e)
 		{
 			string SelectedServerName = SelectServerList.SelectedItem.Text;
-			if( SelectedServerName.Equals("N/A"))
+			if( SelectedServerName.Equals(GetString("NOTAPPLICABLE")))
 			{
 				OkButton.Enabled = false;
 			}

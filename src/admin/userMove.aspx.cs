@@ -448,7 +448,7 @@ namespace Novell.iFolderWeb.Admin
                         DataGridItem item = ServerProvisioningList.Parent.Parent as DataGridItem;
 			string SelectedName = ServerProvisioningList.SelectedItem.Text;
 			string UserID = item.Cells[ AccountsIDColumn ].Text;
-			if(SelectedName.Equals("N/A"))
+			if(SelectedName.Equals(GetString("NOTAPPLICABLE")))
 			{
 				/// remove entry fron hashtable, if any for this userid
 				if(ServerProvisioningNames.ContainsKey(UserID))

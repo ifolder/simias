@@ -483,7 +483,7 @@ namespace Novell.iFolderWeb.Admin
 		        } 
 			catch  
 			{
-				reports.Add ("N/A");
+				reports.Add (GetString("NOTAPPLICABLE"));
 			}
 
 			if (files == null || files.Length == 0) {

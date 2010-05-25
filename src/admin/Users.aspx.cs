@@ -568,7 +568,7 @@ namespace Novell.iFolderWeb.Admin
 			{
 				string [] ProvisioningListStr = new string [ProvisioningListStrTemp.Length + 1];
 				/// making 1st entry of dropdownlist as None
-				ProvisioningListStr[0] = "N/A";   
+				ProvisioningListStr[0] = GetString("NOTAPPLICABLE");   
 				for (int i = 1; i <= ProvisioningListStrTemp.Length ; i++)
 					ProvisioningListStr[i] = String.Copy(ProvisioningListStrTemp[i-1]);
 				return ProvisioningListStr;	
@@ -576,7 +576,7 @@ namespace Novell.iFolderWeb.Admin
 			else
 			{
 				string [] ProvisioningListStrNA = new string [ 1 ];
-				ProvisioningListStrNA[0] = "N/A";
+				ProvisioningListStrNA[0] = GetString("NOTAPPLICABLE");
 				return ProvisioningListStrNA;
 			}
 		}
@@ -852,7 +852,7 @@ namespace Novell.iFolderWeb.Admin
                         DataGridItem item = ServerProvisioningList.Parent.Parent as DataGridItem;
 			string SelectedName = ServerProvisioningList.SelectedItem.Text;
 			string UserID = item.Cells[ AccountsIDColumn ].Text;
-			if(SelectedName.Equals("N/A"))
+			if(SelectedName.Equals(GetString("NOTAPPLICABLE")))
 			{
 				/// remove entry fron hashtable, if any for this userid
 				if(ServerProvisioningNames.ContainsKey(UserID))
