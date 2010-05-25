@@ -201,8 +201,8 @@ endif
 	rm -rf `find $(DESTDIR)$(admindir)/images -name .svn`
 	cd $(srcdir)/css; cp -r * $(DESTDIR)$(admindir)/css
 	rm -rf `find $(DESTDIR)$(admindir)/css -name .svn`
-	$(INSTALL_PROGRAM) $(DESTDIR)$(admindir)/../web/bin/SimiasLib.dll $(DESTDIR)$(admindir)/bin/
-	$(INSTALL_PROGRAM) $(DESTDIR)$(admindir)/../web/bin/SimiasClient.dll $(DESTDIR)$(admindir)/bin/
+	$(INSTALL_PROGRAM) $(DESTDIR)$(webbindir)/SimiasLib.dll $(DESTDIR)$(admindir)/bin/
+	$(INSTALL_PROGRAM) $(DESTDIR)$(webbindir)/SimiasClient.dll $(DESTDIR)$(admindir)/bin/
 #if !LINUX
 #	$(INSTALL_PROGRAM) $(LOG4NET_DIR)/log4net.dll $(DESTDIR)$(admindir)/bin
 #endif

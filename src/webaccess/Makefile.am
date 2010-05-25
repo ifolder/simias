@@ -176,7 +176,7 @@ endif
 	rm -rf `find $(DESTDIR)$(webaccessdir)/help -name .svn`
 	cd $(srcdir)/images; cp -r * $(DESTDIR)$(webaccessdir)/images
 	rm -rf `find $(DESTDIR)$(webaccessdir)/images -name .svn`
-	$(INSTALL_PROGRAM) $(DESTDIR)$(webaccessdir)/../web/bin/SimiasLib.dll $(DESTDIR)$(webaccessdir)/bin
+	$(INSTALL_PROGRAM) $(DESTDIR)$(webbindir)/SimiasLib.dll $(DESTDIR)$(webaccessdir)/bin
 #if !LINUX
 #	$(INSTALL_PROGRAM) $(LOG4NET_DIR)/log4net.dll $(DESTDIR)$(webaccessdir)/bin
 #endif
