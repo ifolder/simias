@@ -49,7 +49,7 @@ public class GrantRights
 {
 	private static LdapConnection connection;
 
-	private static string logfilename = "/var/opt/novell/log/proxymgmt/prxymgmt.log" ;
+	private static string logfilename = "/var/opt/novell/log/proxymgmt/pxymgmt.log" ;
 
 	static int Main( string[] args)
 	{
