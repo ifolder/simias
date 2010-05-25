@@ -67,6 +67,9 @@ public class GrantRights
 		
 		bool FnGetProxyCreds = false;
 
+		FileStream file; 
+		TextWriter tw;
+
 		for( int count = 0; count < args.Length; count++)
 		{
 			if( count == 0)
@@ -83,11 +86,19 @@ public class GrantRights
 					try
 					{
 						rval = AssignProxyRights( );
-					}catch
+					}catch(Exception ex2)
 					{
+						file = new FileStream( logfilename, FileMode.Append);
+						tw = new StreamWriter(file);
+						tw.WriteLine("iFolder {0}- caught exception while assigning proxy rights : {1}",DateTime.Now.ToString(), ex2.Message);
+						tw.Close();
 						DeleteProxyFile();
 						return rval;
 					}
+					file = new FileStream( logfilename, FileMode.Append);
+					tw = new StreamWriter(file);
+					tw.WriteLine("iFolder {0}- Assigning Proxy Rights: Success ",DateTime.Now.ToString());
+					tw.Close();
 					return rval;
 				}
 				else if( args[count] == "update_proxy_cred_store" )
@@ -97,11 +108,19 @@ public class GrantRights
 					try
 					{
 						rval = UpdateProxyDetails( );
-					}catch
+					}catch(Exception ex3)
 					{
+						file = new FileStream( logfilename, FileMode.Append);
+						tw = new StreamWriter(file);
+						tw.WriteLine("iFolder {0}- caught exception while assigning proxy rights : {1}",DateTime.Now.ToString(), ex3.Message);
+						tw.Close();
 						DeleteProxyFile();
 						return rval;
 					}
+					file = new FileStream( logfilename, FileMode.Append);
+					tw = new StreamWriter(file);
+					tw.WriteLine("iFolder {0}- Updating proxy credentials to iFolder: Success ",DateTime.Now.ToString());
+					tw.Close();
 					return rval;
 				}
 				continue;
@@ -116,8 +135,8 @@ public class GrantRights
 					bool GetUserName = false;
 					bool GetPassword = false;
 		
-					FileStream file; 
-					TextWriter tw;
+					//FileStream file; 
+					//TextWriter tw;
 
 					// If they want proxy credentials then 2nd parameter will be either username/password. 
 					if( args[count] == "username")
