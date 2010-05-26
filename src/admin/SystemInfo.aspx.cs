@@ -677,6 +677,7 @@ namespace Novell.iFolderWeb.Admin
 		/// <param name="e"></param>
 		protected void PrimaryAdmins_Clicked( Object sender, EventArgs e )
 		{
+			CurrentAdminOffset = 0;
 			SetActiveAdminListTab( ListDisplayType.PrimaryAdmins );
 			GetiFolderAdminList();
 			EditButton.Visible = false;
@@ -693,6 +694,7 @@ namespace Novell.iFolderWeb.Admin
 		/// <param name="e"></param>
 		protected void GroupAdmins_Clicked( Object sender, EventArgs e )
 		{
+			CurrentAdminOffset = 0;
 			SetActiveAdminListTab( ListDisplayType.GroupAdmins );
 			GetiFolderAdminList();
 			EditButton.Visible = true;
