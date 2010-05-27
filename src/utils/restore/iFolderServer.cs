@@ -2460,7 +2460,7 @@ namespace Restore
 						retval = RestoreiFolderData(iFolderID, OldServer, oldUnManagedPath, NewServer,
 								newifolderDetails.UnManagedPath, relativepath, MainClass.UseWebAccess);
 					}
-					if( (retval == 0) && (MainClass.OverwritePolicies == true) && (MainClass.Operation != (int)Command.Retry))
+					if( (retval == 0) && (MainClass.OverwritePolicies == true))
 					{
 						retval = RestoreiFolderPolicy(iFolderID, OldServer, NewServer);
 					}
