@@ -149,6 +149,10 @@ namespace Restore
 		/// Input current server IP is empty
 		/// </summary>
 		EmptyNewServerUrl,
+		/// <summary>
+		/// Failed to restore iFolder policy
+		/// </summary>
+		PolicyRestoreFailed,
 	}
 
 	public enum Command
@@ -1236,7 +1240,6 @@ namespace Restore
 		public NodeEntrySet GetEntries(string ifolderID, int type, string relPath, int index, int max, string accessID)
 		{
 			int count = 0;
-			long TotalCount = 0;
 			NodeEntrySet entryset = null;
 			do
 			{
@@ -1313,6 +1316,82 @@ namespace Restore
 			}while(count < MaxCount);
 			return retval;	
 		}
+		/// <summary>
+        /// Retrieves the iFolder policy from the given iFolder ID.
+        /// </summary>
+        /// <param name="iFolderID"> ID of the iFolder for which policy needs to be retreived.</param>
+        /// 
+        /// <returns>returns iFolderPolicy object on Success and null on Failures.</returns>
+
+		public iFolderPolicy GetiFolderPolicy( string ifolderid )
+		{
+			iFolderPolicy ifdPolicy = null;
+			try
+			{
+				int count = 0;
+				while (count < MaxCount)
+				{
+					try
+					{
+						ifdPolicy = this.web.GetiFolderPolicy(ifolderid);
+						break;
+					}
+					catch(Exception ex)
+					{
+				        if(ex.Message.IndexOf("InvalidOperation") >= 0 || ex.StackTrace.IndexOf("InvalidOperation") >= 0 )
+			   			{
+							count++;	
+							continue;	
+			   			}
+						throw ex;
+					}
+				}
+			}
+			catch(Exception ex)
+			{
+				  MainClass.DebugLog.Write(string.Format("Exception while fetching iFolder policies {0}--{1}", ex.Message, ex.StackTrace));
+			}
+			return ifdPolicy;
+		}
+		
+		/// <summary>
+        /// Set the iFolder policy from the given iFolder.
+        /// </summary>
+        /// <param name="ifdPolicy"> iFolder policy that needs to be updated on the server.</param>
+        /// 
+        /// <returns>returns 0 on Success and PolicyRestoreFailed on Failures.</returns>
+
+		public int SetiFolderPolicy(iFolderPolicy ifdPolicy )
+		{
+			int retval = 0;
+			try
+			{
+				int count = 0;
+				while (count < MaxCount)
+				{
+					try
+					{
+						this.web.SetiFolderPolicy(ifdPolicy);
+						break;
+					}
+					catch(Exception ex)
+					{
+				        if(ex.Message.IndexOf("InvalidOperation") >= 0 || ex.StackTrace.IndexOf("InvalidOperation") >= 0 )
+			   			{
+							count++;	
+							continue;	
+			   			}
+						throw ex;
+					}
+				}
+			}
+			catch(Exception ex)
+			{	
+				retval = (int)status.PolicyRestoreFailed;
+				MainClass.DebugLog.Write(string.Format("Exception while setting iFolder policy: {0}--{1}", ex.Message, ex.StackTrace));
+			}
+			return retval;
+		}
 	
 	} //End of Class iFolderServer
 
@@ -1328,6 +1407,8 @@ namespace Restore
 		public Option CurrentServerUrlOption = new Option("server-url", "current server IP", "current server IP", true, "http://127.0.0.1");
 		public Option iFolderIDOption = new Option("ifolder-id", "ID of ifolder to be restored", "ID of ifolder to be restored", true, "null");
 		public Option UserNameOption = new Option("user", "username for ifolder to be listed", "username for ifolder to be listed", true, "admin");
+
+		public Option PolicyOption = new Option("restore-policies", "Overwrite the iFolder Policies with the Policy of the backup iFolder", " Use this option to overwrite the iFolder policies", false, null);
 		public Option RecoverOption = new Option( "restore,r", "flag that tells that this is a restore scenario", "flag that tells that this is a restore scenario", false, null);
 		public Option RetryOption = new Option( "retry", "flag that tells that this is a retry scenario", "flag that tells that this is a retry scenario", false, null);
 		public Option PathOption = new Option( "path,f", "The path where the data is present", "Location of old database", true, null);
@@ -1360,6 +1441,7 @@ namespace Restore
 			UseWebAccessOption.OnOptionEntered = new Option.OptionEnteredHandler( OnUseWebAccess);
 			RecoverOption.OnOptionEntered = new Option.OptionEnteredHandler( OnRecover);
 			RetryOption.OnOptionEntered = new Option.OptionEnteredHandler( OnRetry);
+			PolicyOption.OnOptionEntered = new Option.OptionEnteredHandler( OnPolicy);
 			LogLocationOption.OnOptionEntered = new Option.OptionEnteredHandler( OnLogLocation);
 
         	} //End of function CommandParsing Constructor
@@ -1516,6 +1598,12 @@ namespace Restore
             return true;
         }
 
+	private bool OnPolicy()
+    {
+	 	MainClass.OverwritePolicies = true;
+              return true;
+    }
+
 	private bool OnLogLocation()
 	{
 		MainClass.LogLocation = LogLocationOption.Value;
@@ -1550,6 +1638,7 @@ namespace Restore
 		public static Logger FailedLog;
 		public static Logger FileNotFound;
 		public static bool UseWebAccess = false;
+		public static bool OverwritePolicies = false;
 		public static string RedirectedNewServerUrl = "";
 		public static string OldServerUrl = "http://127.0.0.1:8086/simias10"; 
 		public static bool PrecheckFlag = false;
@@ -1727,8 +1816,7 @@ namespace Restore
 			NewServer = new iFolderServer(RedirectedNewServerUrl, newAdminName, newAdminPassword, false);
 
 				/// Added	
-			Hashtable ht = new Hashtable();
-			int remainingItems = 0, totalitems = 0;
+			int remainingItems = 0;
 			previousstatus = xmlObj.VerifyStatus();
 			MainClass.DebugLog.Write(string.Format("Previous status = {0}, remainingitems = {1}", previousstatus, remainingItems));
 
@@ -1811,7 +1899,7 @@ namespace Restore
 	
 			if( relativePath == null || relativePath == string.Empty)
 				fullrecovery = true;
-
+			
 			bool retStatus = false;
 			if( fullrecovery)
 			{
@@ -1819,6 +1907,7 @@ namespace Restore
 			}
 			else
 			{
+							
 				ifolder = NewServer.GetiFolder( collectionid );
 				if( ifolder != null)
 					retStatus = true;
@@ -2140,12 +2229,18 @@ namespace Restore
 		}
 	        if( Operation == (int)Command.Restore )
                 {
-                        if(relativePath != string.Empty  && relativePath != null)
+                        if(relativePath != string.Empty  && relativePath != null) {
                                 if( !File.Exists(Path.Combine(FolderLocation,relativePath) )
                                    && !Directory.Exists(Path.Combine(FolderLocation,relativePath) ))
                                 {
                                         return (int)status.InvalidRelativePath;
                                 }
+								if (MainClass.OverwritePolicies )
+								{
+									Console.WriteLine("|               Option \"restore-policies\" must not be used for directory or file restore operation                                       |");
+									return (int)status.InvalidInput;
+								}
+						}
                 }
 	
 		/// In case of listing, we should have the temporary server up and running, and old server credentials should be proper. User name is expected.
@@ -2209,6 +2304,7 @@ namespace Restore
 		{
 			    iFolderServer OldServer = new iFolderServer( OldServerUrl,oldAdminName, oldAdminPassword, false);
 			    iFolderDetails ifd = null;
+			    
 
 			    userID = OldServer.GetUserIDFromName(userName);
 			    if(userID == null)	
@@ -2242,6 +2338,9 @@ namespace Restore
 					    Console.WriteLine("\niFolder Name: {0} \r\n\tiFolderID: {1} \r\n\tPath :{2}", ifd.Name, ifd.ID, ifd.UnManagedPath);
 
 				    MainClass.DebugLog.Write(string.Format("iFolder {0}", str));
+
+		
+ 					
 			    }
 		}
 		catch(Exception ex)
@@ -2361,6 +2460,15 @@ namespace Restore
 						retval = RestoreiFolderData(iFolderID, OldServer, oldUnManagedPath, NewServer,
 								newifolderDetails.UnManagedPath, relativepath, MainClass.UseWebAccess);
 					}
+					if( (retval == 0) && (MainClass.OverwritePolicies == true) && (MainClass.Operation != (int)Command.Retry))
+					{
+						retval = RestoreiFolderPolicy(iFolderID, OldServer, NewServer);
+					}
+				
+					//This check needs to be done unconditionally. Policy violation can happen
+				    // during a partial or a full restore.
+					checkiFolderPolicyStatus(iFolderID, NewServer);
+
 
 				}
 				return retval;
@@ -2464,8 +2572,6 @@ namespace Restore
 			              if(File.Exists( logpath) && File.Exists( logpath+".working") )
                                         {
                                                 MainClass.DebugLog.Write(string.Format("both file exist"));
-                                                byte[] buff = new byte[4096];
-                                                int  readCount =0;
                                                 try
                                                 {
                                                         logwriter = new FileInfo(logpath+".working").AppendText();
@@ -2615,7 +2721,7 @@ namespace Restore
 				int type = -1;
 				int max = 100;
 				NodeEntrySet entryset = null;
-				NodeEntry[] entries = null;
+				//NodeEntry[] entries = null;
 					/// fetch 100 nodes at a time from old server and iteratively parse them...
 					string fullpath = Path.Combine(oldpath, relativepath);	
 					if( File.Exists(fullpath))
@@ -2729,7 +2835,115 @@ namespace Restore
 					return retval;
 
 			}
+		
+			/// <summary>
+            /// Prints iFolder policy to the logger. 
+            /// </summary>
+            /// <param name="ifdPolicy">iFolder policy object.</param>
+                /// 
+            /// <returns>void.</returns>
+			public static void PrintPolicyToLogger(iFolderPolicy ifdPolicy)
+			{
+				StringBuilder includeFilter = new StringBuilder();
+				StringBuilder excludeFilter = new StringBuilder();
+				
+				foreach(string inc in ifdPolicy.FileTypesIncludes){
+					if(includeFilter.Length == 0){
+						includeFilter.Append(inc);
+					} else {
+						includeFilter.AppendFormat(", {0}",inc);
+					}
+				}
+				
+	
+				foreach(string exstr in ifdPolicy.FileTypesExcludes){
+					if(excludeFilter.Length == 0){
+						excludeFilter.Append(exstr);
+					} else {
+						excludeFilter.AppendFormat(", {0}",exstr);
+					}
+				}
+					
+				MainClass.DebugLog.Write(string.Format(" iFolderID-{0},\n\tLocked-{1} \n\tSpaceLimit - {2}, \n\tSyncInterval - {3},\n\tSharingStatus - {4},\n\tFileSizeLimit-{5},\n\tFileTypesIncludes - {6},\n\tFileTypesExcludes - {7} ",
+				                                       ifdPolicy.iFolderID, ifdPolicy.Locked, ifdPolicy.SpaceLimit,
+				                                       ifdPolicy.SyncInterval, ifdPolicy.SharingStatus, ifdPolicy.FileSizeLimit, includeFilter.ToString(), excludeFilter.ToString()));
+				
+			}
+			/// <summary>
+            /// Checks the iFolder policy voilations after the data is restored.
+            /// </summary>
+            /// <param name="iFolderID">iFolder ID.</param>
+            /// <param name="oldserver">iFolderServer object where the iFolder exists..</param>
+            /// 
+            /// <returns>void.</returns>
+	
+			public static void checkiFolderPolicyStatus(string iFolderID, iFolderServer ifServer) 
+			{
+				iFolderPolicy currentPolicy = null;
+			
+				currentPolicy = ifServer.GetiFolderPolicy(iFolderID );	
+				if ( currentPolicy == null) {
+						Console.WriteLine("|                                                                                        |");
+						Console.WriteLine("|               Warning: Failed to check iFolder policies after restoring data.          |");
+					return;
+				}
+				
+				if(( currentPolicy.SpaceUsed > currentPolicy.SpaceLimitEffective )
+					|| (currentPolicy.SpaceAvailable == 0))
+				{
+						Console.WriteLine("|                                                                                        |");
+						Console.WriteLine("|               Warning: Restoring the data resulted in violation of the space limit     |");
+						Console.WriteLine("|               policy for the iFolder. User should delete unused data to reduce used    |");
+		  				Console.WriteLine("|               space to permissible limits. Space Used = {0}, Effective Space Limit={1} |",currentPolicy.SpaceUsed, currentPolicy.SpaceLimitEffective);
+		
+				}
+			
+				if(currentPolicy.Locked  )
+				{
+						Console.WriteLine("|                                                                                        |");
+						Console.WriteLine("|               Warning: Data is restored into a disabled iFolder.                       |");
+						Console.WriteLine("|               iFolder needs to be enabled for the user to access the data.             |");
+						Console.WriteLine("|                                                                                        |");
+		
+				}
+				
+			}
+			/// <summary>
+            /// Restores the iFolder policy from the backup iFolder.
+            /// </summary>
+            /// <param name="iFolderID">.</param>
+            /// <param name="oldserver">.</param>
+            /// <param name="newserver">.</param>
+            /// 
+            /// <returns>returns 0 on Success and PolicyRestoreFailed on Failures.</returns>
+			public static int RestoreiFolderPolicy( string iFolderID, iFolderServer oldserver, iFolderServer newserver) {
+			    iFolderPolicy oldPolicy = null;
+				iFolderPolicy newPolicy = null;
+				int retval = 0;
+				MainClass.DebugLog.Write(string.Format(" iFolderID-{0}, oldserver-{1}, newserver-{2}",iFolderID.ToString(), oldserver.ToString(),  newserver.ToString()));
+				Console.WriteLine("|               Processing iFolder policies                                              |");
+				MainClass.DebugLog.Write(string.Format("Fetching iFolder policy details from backup"));
+		        oldPolicy = oldserver.GetiFolderPolicy(iFolderID);
 
+		        if(oldPolicy == null) {
+						retval = (int)status.PolicyRestoreFailed;
+	 	        }
+				else 
+				{
+		        	MainClass.DebugLog.Write("\nBackup iFolder policy details: ");
+					PrintPolicyToLogger(oldPolicy);
+					newPolicy = newserver.GetiFolderPolicy(iFolderID );	
+					MainClass.DebugLog.Write("\nCurrent iFolder policy details: ");
+				 	if(newPolicy != null) {
+						PrintPolicyToLogger(newPolicy);
+					}
+					MainClass.DebugLog.Write(string.Format("Restoring iFolder policy details "));
+					retval = newserver.SetiFolderPolicy(oldPolicy);
+				}
+				if( retval == 0)
+					Console.WriteLine("|               Restoring iFolder policies sucessful                                     |");
+				return retval;
+			}
 		/// <summary>
                 /// 
                 /// </summary>
@@ -2779,6 +2993,7 @@ namespace Restore
 						else
 							Console.WriteLine("\n|               Restore process failed.                                                  |");
 					}
+
 				}
 			
 				if( runpreviousiter )
@@ -2812,6 +3027,7 @@ namespace Restore
 			
 				return retval;
 			}
+		
 
 		/// <summary>
                 /// 
@@ -2822,37 +3038,38 @@ namespace Restore
 			{
 
                                 Console.WriteLine("Command For Execution: $ifolder-data-recovery <Operation> <Arguments>\n");
-                                Console.WriteLine("Operation:\n\t-l, --list\t\tList iFolders with details like Name, iFolderID and Path \n\t\t\t(at the time of backup) belong to the specified user.");
+                                Console.WriteLine("Operation:\n\t-l, --list\tLists iFolders owned by the specified user and details such as Name,\n\t\t\t\tiFolderID, and Path (at the time of backup)");
                                 Console.WriteLine("\t-r, --restore\tRestore requested data (File/Folder/iFolder) from specified backup store.");
                                 Console.WriteLine("\t--retry\t\tRetry restore opreation for failed data in last run.");
-                                Console.WriteLine("\t-h, --help\t\tPrint help regarding Opreation, argument and usage.");
-                                Console.WriteLine("\t\nArguments:\n\t--path=<path for simias file in backup store>");
-                                Console.WriteLine("\t-U, --backup-admin=<admin login name for backup. >");
-                                Console.WriteLine("\t-u,--current-admin=<admin login name for current server. Use this Option if backup admin is different from current admin.>");
-                                Console.WriteLine("\t--server-url=<current iFolder server url>");
-                                Console.WriteLine("\t--user=<user for whome associated ifolders to be listed>");
-                                Console.WriteLine("\t--ifolder-id=<ifolder ID of for/inside which restore operation is performed>");
-                                Console.WriteLine("\t--ifolder-path=<parent level path(excluding ifolder name) for actual data to be restored>");
-                                Console.WriteLine("\t--relative-path=<relative path of file/folder to be restored, starting from iFolder name>");
-                                Console.WriteLine("\t--usewebaccess  does not take any value, adding this will specifies the mode to restore");
+                                Console.WriteLine("\t-h, --help\tPrint help regarding Operation, argument and usage.");
+                                Console.WriteLine("\t\nArguments:\n\t--path\t\t\tpath for simias file in backup store");
+                                Console.WriteLine("\t-U, --backup-admin\tLogin name of the Administrator who performed the backup");
+                                Console.WriteLine("\t-u,--current-admin\tAdministrator login name for the current server. Use this Option if backup \n\t\t\t\t admin is different from current admin.");
+                                Console.WriteLine("\t--server-url\t\tURL of the server where data is to be restored");
+                                Console.WriteLine("\t--user\t\t\tUsername of the user for whom the specified operation is to be performed");
+                                Console.WriteLine("\t--ifolder-id\t\tID of the iFolder for which the specified operation is to be performed");
+                                Console.WriteLine("\t--ifolder-path\t\tAbsolute path (excluding the iFolder name) of the actual data to be restored");
+                                Console.WriteLine("\t--relative-path\t\tRelative path of file/folder to be restored, starting from iFolder name");
+                                Console.WriteLine("\t--usewebaccess\t\tSpecifies the mode to restore. Does not take any value.");
+								Console.WriteLine("\t--restore-policies\tOverwrites current iFolder policies with the policies of the iFolder from backup");
                                 Console.WriteLine("\t\nExamples:");
                                 Console.WriteLine("\n\tFor Help:");
                                 Console.WriteLine("\t\t$./ifolder-data-recovery --help");
 
                                 Console.WriteLine("\n\tFor Listing iFolder for given user:");
-                                Console.WriteLine("\t\t$./ifolder-data-recovery --list  --path=/home/ifolder/SimiasFile/ --backup-admin=admin --user=user1");
+                                Console.WriteLine("\t\t$./ifolder-data-recovery --list  --path=/home/recovery/data/ --backup-admin=admin --user=user1");
 
                                 Console.WriteLine("\n\tFor Restoring iFolder:");
-                                Console.WriteLine("\t\t$./ifolder-data-recovery --restore  --path=/home/ifolder/SimiasFile/ --backup-admin=oldadmin --current-admin=admin --server-url=http://192.162.1.10 --ifolder-id=7fe6cd5d-40d4-4982-bfa3-94292d4e36ab --ifolder-path=/home/ifolder/recovery/data");
+                                Console.WriteLine("\t\t$./ifolder-data-recovery --restore  --path=/home/recovery/data/ --backup-admin=oldadmin --current-admin=admin --server-url=http://192.162.1.10 --ifolder-id=7fe6cd5d-40d4-4982-bfa3-94292d4e36ab --ifolder-path=/home/ifolder/7fe6cd5d-40d4-4982-bfa3-94292d4e36ab");
 
                                 Console.WriteLine("\n\tFor Restoring Folder:");
-                                Console.WriteLine("\t\t$./ifolder-data-recovery --restore  --path=/home/ifolder/SimiasFile/ --backup-admin=oldadmin --current-admin=admin --server-url=http://192.162.1.10 --ifolder-id=7fe6cd5d-40d4-4982-bfa3-94292d4e36ab --ifolder-path=/home/ifolder/recovery/data --relative-path=abc1if1/new folder");
+                                Console.WriteLine("\t\t$./ifolder-data-recovery --restore  --path=/home/recovery/data/ --backup-admin=admin  --server-url=http://192.162.1.10 --ifolder-id=7fe6cd5d-40d4-4982-bfa3-94292d4e36ab --ifolder-path=/home/ifolder/7fe6cd5d-40d4-4982-bfa3-94292d4e36ab --relative-path=MyiFolder/Subdir");
 
                                 Console.WriteLine("\n\tFor Restoring File:");
-                                Console.WriteLine("\t\t$./ifolder-data-recovery --restore  --path=/home/ifolder/SimiasFile/ --backup-admin=oldadmin --current-admin=admin --server-url=http://192.162.1.10 --ifolder-id=7fe6cd5d-40d4-4982-bfa3-94292d4e36ab --ifolder-path=/home/ifolder/recovery/data --relative-path=abc1if1/new folder/qfrep.exe");
+                                Console.WriteLine("\t\t$./ifolder-data-recovery --restore  --path=/home/recovery/data/ --backup-admin=oldadmin --current-admin=admin --server-url=http://192.162.1.10 --ifolder-id=7fe6cd5d-40d4-4982-bfa3-94292d4e36ab --ifolder-path=/home/ifolder/7fe6cd5d-40d4-4982-bfa3-94292d4e36ab --relative-path=MyiFolder/Subdir/MyFile.txt");
 
                                 Console.WriteLine("\n\tFor Retrying:");
-                                Console.WriteLine("\t\t$./ifolder-data-recovery --retry  --path=/home/ifolder/SimiasFile/ --backup-admin=oldadmin --current-admin=admin --server-url=http://192.162.1.10 --ifolder-id=7fe6cd5d-40d4-4982-bfa3-94292d4e36ab --ifolder-path=/home/ifolder/recovery/data --relative-path=abc1if1/qfrep.exe\n");
+                                Console.WriteLine("\t\t$./ifolder-data-recovery --retry  --path=/home/recovery/data/ --backup-admin=oldadmin --current-admin=admin --server-url=http://192.162.1.10 --ifolder-id=7fe6cd5d-40d4-4982-bfa3-94292d4e36ab --ifolder-path=/home/ifolder/7fe6cd5d-40d4-4982-bfa3-94292d4e36ab --relative-path=MyiFolder/Subdir\n");
 
 			}
 
@@ -2934,6 +3151,9 @@ namespace Restore
                                         case (int)status.EmptyNewServerUrl:
                                                 Console.WriteLine("\n|               Input Current Server IP is Empty.                                        |");
                                                 break;
+				                        case (int)status.PolicyRestoreFailed:
+                                                Console.WriteLine("\n|               iFolder Policy Restore Failed.                                        |");
+                                                break;
                                         default:
                                                 Console.WriteLine("\n|               iFolder data restore Failed with error code: {0}                         |", result);
                                                 break;
@@ -2984,7 +3204,7 @@ namespace Restore
                 public static long NumberOfLines(string fileName)
 		{
 			MainClass.DebugLog.Write(string.Format("Enter Function NumberOfLines for file:{0}",fileName));	
-			string line = null;
+			string line  = null;
 			long numOfLines = 0;
 			TextReader reader = null;
 			if(fileName != null || fileName != string.Empty)
