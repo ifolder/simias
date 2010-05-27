@@ -92,9 +92,9 @@ namespace iFolder.WebService
 		[WebMethod(
 			 Description="write ldap details to a file",
 			 EnableSession=true)]
-		public override void WriteToFile()
+		public override void GetProxyInfo()
 		{
-			base.WriteToFile();
+			base.GetProxyInfo();
 		}
 
 		[WebMethod(

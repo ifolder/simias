@@ -41,6 +41,7 @@ CONF_FILE_PATH=/etc/apache2/conf.d
 MOD_MONO_CONF_FILE_PATH="/etc/apache2/mod_mono.conf"
 IFOLDER32BIT="/opt/novell/ifolder3/lib/simias"
 IFOLDER64BIT="/opt/novell/ifolder3/lib64/simias"
+CPLOGPATH="/var/opt/novell/log/proxymgmt/pxymgmt.log"
 OS_ARCH=`uname -m | grep -c x86_64`
 
 processFile(){
@@ -127,6 +128,22 @@ then
 	else
 		processFile $iFPrefix/lib/simias/web/web.config
 	fi
+
+	datapath=`grep SimiasDataDir /etc/apache2/conf.d/simias.conf | gawk 'BEGIN { RS=";|\"" } { if (/^SimiasDataDir/) print gensub(/SimiasDataDir=/, "", 1) }'`
+	if [ -f $datapath/Simias.config ]; then
+		newline2=`grep -n SimiasAuthNotRequired $datapath/Simias.config`
+		lineno=${newline2:0:`expr index "$newline2" \:`-1}
+		if [ `grep -c -E GetProxyInfo $datapath/Simias.config` -eq 0 ]; then
+			sed -e ''$lineno' s/\"\ \/>$/, iFolderAdmin.asmx:GetProxyInfo, iFolderAdmin.asmx:ServiceProxyRequests\" \/\>/g' -i $datapath/Simias.config					
+		fi
+		newline2=`grep -n StoreProvider $datapath/Simias.config`
+		lineno=${newline2:0:`expr index "$newline2" \:`-1}
+		if [ `grep -c -E CommonProxyLogPath $datapath/Simias.config` -eq 0 ]; then
+			lineno=`expr $lineno + 1`
+                        sed ''$lineno'i \   <setting name="CommonProxyLogPath" value="'$CPLOGPATH'" /> ' -i $datapath/Simias.config
+		fi
+	fi
+
 	if [ ! -d /opt/novell/ifolder3/mono/lib/mono/gac/log4net ]; then
 		if [ -f /usr/lib/mono/log4net/log4net.dll ]; then
 			/usr/bin/gacutil -i /usr/lib/mono/log4net/log4net.dll -root /opt/novell/ifolder3/mono/lib

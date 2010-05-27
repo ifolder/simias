@@ -96,19 +96,19 @@ endif
 
 iFolder_update_proxy_cred_store: $(srcdir)/iFolder_update_proxy_cred_store.in
 if !WINDOWS
-	sed -e 's,@_bindir_@,@bindir@,g' $< > $@
+	sed -e 's,@_webbindir_@,@webbindir@,g' -e 's,@_bindir_@,@bindir@,g' $< > $@
 	chmod +x $@
 endif
 
 iFolder_retrieve_proxy_creds: $(srcdir)/iFolder_retrieve_proxy_creds.in
 if !WINDOWS
-	sed -e 's,@_bindir_@,@bindir@,g' $< > $@
+	sed -e 's,@_webbindir_@,@webbindir@,g' -e 's,@_bindir_@,@bindir@,g' $< > $@
 	chmod +x $@
 endif
 
 iFolder_proxy_rights_assign: $(srcdir)/iFolder_proxy_rights_assign.in
 if !WINDOWS
-	sed -e 's,@_bindir_@,@bindir@,g' $< > $@
+	sed -e 's,@_webbindir_@,@webbindir@,g' -e 's,@_bindir_@,@bindir@,g' $< > $@
 	chmod +x $@
 endif
 

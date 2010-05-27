@@ -108,7 +108,7 @@ namespace iFolder.WebService
 		[WebMethod(
 			 Description=" write ldap details to a file",
 			 EnableSession=true)]
-		public virtual void WriteToFile()
+		public virtual void GetProxyInfo()
 		{
 			try
 			{

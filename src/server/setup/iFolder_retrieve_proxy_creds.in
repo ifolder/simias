@@ -38,31 +38,22 @@
 
 # Usage:  ./iFolder_retrieve_proxy_creds.sh password /opt/novell/Proxy/myproxycreds
 
+MONO_CMD=""
 function getProxy(){
-	if [ $1 == "username" ]; then
-		mono iFolderProxySetup.exe retrieve_proxy_creds username $2
-		if [ $? == 0 ]
-		then
-			exit 0
-		else
-			exit -1
-		fi
-	elif [ $1 == "password" ]; then
-		mono iFolderProxySetup.exe retrieve_proxy_creds password $2
-		if [ $? == 0 ]
-		then
-			exit 0
-		else
-			exit -1
-		fi
+	datapath=`grep SimiasDataDir /etc/apache2/conf.d/simias.conf | gawk 'BEGIN { RS=";|\"" } { if (/^SimiasDataDir/) print gensub(/SimiasDataDir=/, "", 1) }'`
+	if [ $1 = "username" ]; then
+		$MONO_CMD iFolderProxySetup.exe $datapath retrieve_proxy_creds username $2 $3
+		exit $?
+	elif [ $1 = "password" ]; then
+		$MONO_CMD iFolderProxySetup.exe $datapath retrieve_proxy_creds password $2 $3
+		exit $?
 	fi
 }
 
-if [ "$1" == "" -o "$2" == "" ]; then
-	echo "Invalid Input"
-	exit 0
+if [ $# -lt 3 ]; then
+        echo "Usage: ./iFolder_retrieve_proxy_creds password <proxucredentialspath> <ldapport>"
+        exit -1
 fi
-
 
 OS_ARCH=`uname -m | grep -c x86_64`
 if [ $OS_ARCH -gt 0 ]
@@ -70,26 +61,31 @@ then
         export OS_ARCH=`uname -m`
 fi
 
+
 rpm -q novell-ifolder-mono > /dev/null 2>&1
 if [ $? -gt 0 ]
 then
 
-        #export MONO_PATH=/opt/novell/ifolder3/lib64/simias/web/bin:/opt/novell/ifolder3/bin
-        #export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/novell/ifolder3/lib64/simias/web/bin
+        export MONO_PATH=@_webbindir_@:@_bindir_@
+        export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:@_webbindir_@
+        export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:@_webbindir_@
         cd @_bindir_@
+
+	MONO_CMD=mono
 
 else
-	MONO_RUNTIME_PATH=@_bindir_@/../mono
-        #export MONO_PATH=$MONO_RUNTIME_PATH/lib/mono/:$MONO_RUNTIME_PATH/lib/mono/2.0:/opt/novell/ifolder3/lib64/simias/web/bin:/opt/novell/ifolder3/bin
+        MONO_RUNTIME_PATH=@_bindir_@/../mono
+        export MONO_PATH=$MONO_RUNTIME_PATH/lib/mono/:$MONO_RUNTIME_PATH/lib/mono/2.0:@_webbindir_@:@_bindir_@
         source $MONO_RUNTIME_PATH/bin/novell-ifolder-mono-environment.sh
+        export MONO_CFG_DIR=$MONO_RUNTIME_PATH/etc
+        export IFOLDER_MOD_MONO_SERVER2_PATH=@_bindir_@
+        export IFOLDER_MONO_PATH=$MONO_RUNTIME_PATH
         cd @_bindir_@
-
+	MONO_CMD=$MONO_RUNTIME_PATH/bin/mono
 fi
 
-if [ $1 == "username" ]; then
-	getProxy "username" $2 
-elif [ $1 == "password" ]; then
-	getProxy "password" $2
+if [ $1 = "username" ]; then
+	getProxy "username" $2 $3 
+elif [ $1 = "password" ]; then
+	getProxy "password" $2 $3
 fi
-
-

@@ -9,7 +9,7 @@
     <setting name="Name" value="Host1" />
   </section>
   <section name="Authentication">
-	<setting name="SimiasAuthNotRequired" value="Registration.asmx, Login.ashx, Simias.asmx:PingSimias, DomainService.asmx:GetDomainID, pubrss.ashx, pubsfile.ashx, Simias.asmx:GetRAList, Simias.asmx:GetRACertificate, iFolderBackup.asmx:GetSimiasDataPath, iFolderBackup.asmx:Ping" />
+	<setting name="SimiasAuthNotRequired" value="Registration.asmx, Login.ashx, Simias.asmx:PingSimias, DomainService.asmx:GetDomainID, pubrss.ashx, pubsfile.ashx, Simias.asmx:GetRAList, Simias.asmx:GetRACertificate, iFolderBackup.asmx:GetSimiasDataPath, iFolderBackup.asmx:Ping, iFolderAdmin.asmx:GetProxyInfo, iFolderAdmin.asmx:ServiceProxyRequests" />
 	<setting name="SimiasRequireSSL" value="no" />
   </section>
   <section name="Identity">
@@ -27,6 +27,7 @@
 	-->
   </section>
   <section name="StoreProvider">
+    <setting name="CommonProxyLogPath" value="/var/opt/novell/log/proxymgmt/pxymgmt.log" />
     <setting name="Assembly" value="SimiasLib.dll" />
     <setting name="Type" value="@StoreProviderType@" />
   </section>

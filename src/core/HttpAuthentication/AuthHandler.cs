@@ -384,10 +384,7 @@ namespace Simias.Security.Web
 			foreach ( string s in services )
 			{
 				// Add this web service or method to the table.
-				if( !unauthenticatedServices.ContainsKey( s.Trim().ToLower() ))
-				{
-					unauthenticatedServices.Add( s.Trim().ToLower(), null );
-				}
+				unauthenticatedServices.Add( s.Trim().ToLower(), null );
 			}
 		}
 
@@ -418,17 +415,6 @@ namespace Simias.Security.Web
 					}
 				}
 				log.Debug("In verify[rincipalfromrequest: soapmethod is {0}", soapMethod);
-				// check again, if new entry is added into authnotrequired section..
-				if( soapPath == "WriteToFile" || soapPath == "ServiceProxyRequests")
-				{
-					string setting = GetAuthNotRequiredServices();
-					// Get the services that do not need authentication.
-					if ( setting != null )
-					{
-						ParseAuthNotRequiredServices( setting );
-					}
-				}
-
 
 				if ( ( soapMethod == null ) || 
 					 !unauthenticatedServices.ContainsKey( String.Format( "{0}:{1}", webService, soapMethod ).ToLower() ) )
@@ -539,29 +525,6 @@ namespace Simias.Security.Web
 				localAddresses[ s.ToLower() ] = null;
 			}
 		}
-
-		public string GetAuthNotRequiredServices()
-                {
-                        string SectionTag = "section";
-                        string SettingTag = "setting";
-                        string NameAttr = "name";
-                        string ValueAttr = "value";
-                        string AuthenticationSection = "Authentication";
-                        string SimiasSSLKey = "SimiasAuthNotRequired";
-
-                        string AuthNotRequiredServices = null;
-                        string SimiasConfigFilePath = Path.Combine ( Store.StorePath, "Simias.config");
-                        XmlDocument configDoc = new XmlDocument ();
-                        configDoc.Load (SimiasConfigFilePath);
-                        string str = String.Format( "//{0}[@{1}='{2}']/{3}[@{1}='{4}']", SectionTag, NameAttr, AuthenticationSection, SettingTag, SimiasSSLKey );
-                        XmlElement element = ( XmlElement )configDoc.DocumentElement.SelectSingleNode( str );
-                        if ( element != null )
-                        {
-                                AuthNotRequiredServices = element.GetAttribute(ValueAttr);
-                        }
-                        return AuthNotRequiredServices;
-                }
-
 
 		/// <summary>
 		/// Disposes of the resources (other than memory) used by the module that 

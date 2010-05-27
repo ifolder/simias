@@ -35,9 +35,15 @@ using System;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using System.Xml;
+using System.Reflection;
+
 
 using Simias;
 using Simias.Storage;
+using Simias.Sync;
+using Simias.Server;
+
 
 namespace Simias.LdapProvider
 {
@@ -48,6 +54,7 @@ namespace Simias.LdapProvider
 		private readonly string ProxyDNKey = "ProxyDN";
 		private Store store = Store.GetStore();
 
+
 		#region Properties
 		/// <summary>
 		/// Retrieve the proxy user's distinguished name
@@ -57,8 +64,8 @@ namespace Simias.LdapProvider
 		{
 			get
 			{ 
-				string userDN = Store.Config.Get( LdapSection, ProxyDNKey );
-				return ( userDN != null ) ? userDN : String.Empty;
+				Configuration SimiasConfig = new Configuration( Store.StorePath, true) ;
+				return (SimiasConfig.Get( LdapSection, ProxyDNKey)) ;
 			}
 		}
 

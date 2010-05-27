@@ -3269,8 +3269,8 @@ Console.WriteLine("Url {0}", service.Url);
                         System.Security.Cryptography.X509Certificates.X509Certificate certificate,
                         WebRequest request, int certificateProblem)
                 {
-			Console.WriteLine("In cert validation");
 			// Accept all, since there is no way to validate other than the user                
+			Console.WriteLine("In cert validation");
                         return true;
                 }
 

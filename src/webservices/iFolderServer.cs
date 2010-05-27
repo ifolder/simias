@@ -255,6 +255,7 @@ namespace iFolder.WebService
                         string proxypwd = ldapSettings.ProxyPassword;
                         ProxyUser pu = new Simias.LdapProvider.ProxyUser();
                         string pwd2 = pu.Password;
+			string proxyfilename = "ldapdetails";
 
                         string allContexts = "";
                         foreach( string context in ldapSettings.SearchContexts)
@@ -263,7 +264,7 @@ namespace iFolder.WebService
                         }
 
                         //FileStream fileStream = new FileStream( Store.StorePath, FileMode.Create);
-                        string filename = Store.StorePath+ "/proxyfile";
+                        string filename = Path.Combine( Store.StorePath, proxyfilename);
                         FileStream file = new FileStream( filename, FileMode.OpenOrCreate, FileAccess.ReadWrite);
                         TextWriter tw = new StreamWriter(file);
                         tw.WriteLine("host:"+host);
@@ -278,13 +279,16 @@ namespace iFolder.WebService
 		public static void ServiceProxyRequests()
 		{
 							log.Debug(" ServiceProxyRequests: Entered");
+			const string FnStoreProxyCreds = "update_proxy_cred_store";
+			const string FnRightsAssignment = "proxy_rights_assign";
 			bool Proxy_Rights_Assign = false;
 			bool Proxy_Creds_Store = false;
 			string proxydn = null;	
 			string proxypwd = null;
 			string ldapadmindn = null;
 			string ldapadminpwd = null;
-			string filename = Store.StorePath+"/"+"proxyfile2";
+			string proxyfilename2 = "proxydetails";
+			string filename = Path.Combine(Store.StorePath, proxyfilename2);
 			using(StreamReader sr = new StreamReader(filename))
 			{
 				string line;
@@ -292,22 +296,20 @@ namespace iFolder.WebService
 				{
 					if(line != null && line != String.Empty )
 					{
-						if( line.Trim() == "proxy_rights_assign")
+						string TrimmedLine = line.Trim();
+						if( String.Equals( TrimmedLine, FnRightsAssignment))
 						{
 							Proxy_Rights_Assign = true;
 							continue;
 						}
-						else if( line.Trim() == "update_proxy_cred_store")
+						else if( String.Equals( TrimmedLine, FnStoreProxyCreds ) )
 						{
 							Proxy_Creds_Store = true;
 							continue;
 						}
 						if( Proxy_Rights_Assign)
 						{
-							if(line != null && line != String.Empty )
-							{
-								proxydn = line.Trim();
-							}
+							proxydn = TrimmedLine;
 							line = sr.ReadLine();
 							if(line != null && line != String.Empty )
 							{

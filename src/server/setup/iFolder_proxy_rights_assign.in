@@ -36,13 +36,15 @@
 #*
 #*******************************************************************************/
 
-# Usage:  ./iFolder_retrieve_proxy_creds.sh proxydn ldapadmindn ldapadminpwd
+# Usage:  ./iFolder_proxy_rights_assign proxydn ldapadmindn ldapadminpwd
 
+MONO_CMD=""
 
-if [ "$1" == "" -o "$2" == "" ]; then
-	echo "Invalid Input"
-	exit 0
+if [ $# -lt 4 ]; then
+	echo "Usage: ./iFolder_proxy_rights_assign <proxydn> <ldapadmindn> <ldapadminpwd> <ldapport>"
+	exit -1
 fi
+
 
 
 OS_ARCH=`uname -m | grep -c x86_64`
@@ -55,45 +57,33 @@ rpm -q novell-ifolder-mono > /dev/null 2>&1
 if [ $? -gt 0 ]
 then
 
-        #export MONO_PATH=/opt/novell/ifolder3/lib64/simias/web/bin:/opt/novell/ifolder3/bin
-        #export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/novell/ifolder3/lib64/simias/web/bin
+        export MONO_PATH=@_webbindir_@:@_bindir_@
+        export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:@_webbindir_@
+        export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:@_webbindir_@
         cd @_bindir_@
+
+	MONO_CMD=mono
 
 else
-	MONO_RUNTIME_PATH=@_bindir_@/../mono
-        #export MONO_PATH=$MONO_RUNTIME_PATH/lib/mono/:$MONO_RUNTIME_PATH/lib/mono/2.0:/opt/novell/ifolder3/lib64/simias/web/bin:/opt/novell/ifolder3/bin
+        MONO_RUNTIME_PATH=@_bindir_@/../mono
+        export MONO_PATH=$MONO_RUNTIME_PATH/lib/mono/:$MONO_RUNTIME_PATH/lib/mono/2.0:@_webbindir_@:@_bindir_@
         source $MONO_RUNTIME_PATH/bin/novell-ifolder-mono-environment.sh
+        export MONO_CFG_DIR=$MONO_RUNTIME_PATH/etc
+        export IFOLDER_MOD_MONO_SERVER2_PATH=@_bindir_@
+        export IFOLDER_MONO_PATH=$MONO_RUNTIME_PATH
         cd @_bindir_@
-
+	MONO_CMD=$MONO_RUNTIME_PATH/bin/mono
 fi
-	# get the value of datapath
-	newline=`grep -n SimiasDataDir /etc/apache2/conf.d/simias.conf`
 
-	for i in $(echo $newline | tr ";" "\n")
-	do
-	  str=${i:0:13}
-	  if [ $str == "SimiasDataDir" ]; then
-	    length=$(echo ${#i})
-	    len=`expr $length - 14` 
-	    index=`expr $length - 1`
-	    lastchar=${i:index:1}
-	    if [ $lastchar == '"' ]; then
-		len=` expr $len - 1`	
-	    fi
-	    datapath=${i:14:$len}
-	  fi
-	done
-
-	touch $datapath/proxyfile2
-	echo ServiceName > $datapath/proxyfile2
-	sed 'i proxy_rights_assign \n'$1' \n'$2' \n'$3' ' -i $datapath/proxyfile2
-	`chown wwwrun:www $datapath/proxyfile2`
-	mono iFolderProxySetup.exe proxy_rights_assign
-	if [ $? == 0 ]
-	then
-		`rm $datapath/proxyfile2`
-		exit 0
-	else
-		`rm $datapath/proxyfile2`
-		exit -1
-	fi
+# get the value of datapath
+datapath=`grep SimiasDataDir /etc/apache2/conf.d/simias.conf | gawk 'BEGIN { RS=";|\"" } { if (/^SimiasDataDir/) print gensub(/SimiasDataDir=/, "", 1) }'`
+touch $datapath/proxydetails
+echo "proxy_rights_assign">>$datapath/proxydetails
+echo "$1">>$datapath/proxydetails
+echo "$2">>$datapath/proxydetails
+echo "$3">>$datapath/proxydetails
+`chown wwwrun:www $datapath/proxydetails`
+$MONO_CMD iFolderProxySetup.exe $datapath proxy_rights_assign $4
+EXIT_CODE=$?
+rm $datapath/proxydetails
+exit $EXIT_CODE
