@@ -362,6 +362,7 @@ namespace Simias.Host
 		{
 			Domain domain = this.domain;
 			HostNode host = domain.GetNodeByID( id ) as HostNode;
+			Catalog.DeleteSlaveEntryFromCatalog(host.Name);
 			domain.Commit( domain.Delete( host ) );
 		}
 
@@ -373,6 +374,7 @@ namespace Simias.Host
 		public void DeleteHostByName( string Name )
 		{
                         Domain domain = this.domain;
+			Catalog.DeleteSlaveEntryFromCatalog(Name);
                         HostNode host = HostNode.GetHostByName(domain.ID, Name);
                         domain.Commit( domain.Delete( host ) );
 		}

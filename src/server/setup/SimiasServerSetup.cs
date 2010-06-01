@@ -406,7 +406,7 @@ namespace Novell.iFolder
 		{
 			bool enableSSL = String.Compare(useSsl.Value, NonSsl, true) == 0 ? false : true ;
 			string scheme = enableSSL?Uri.UriSchemeHttps:Uri.UriSchemeHttp;
-                       	System.Net.IPHostEntry hostInfo = System.Net.Dns.GetHostByName( System.Net.Dns.GetHostName() );
+                       	System.Net.IPHostEntry hostInfo = System.Net.Dns.GetHostEntry( System.Net.Dns.GetHostName() );
 			if(publicUrl.Assigned)
 			{
 				UriBuilder urlBild = new UriBuilder(publicUrl.Value);
@@ -1094,7 +1094,7 @@ Console.WriteLine("Url {0}", service.Url);
 				{
 					Console.WriteLine("Unable to find the User Move plugin configuration files..");
 					Console.WriteLine("{0}", usermoveModuleConfigPath );
-					Console.WriteLine("Please make sure, ifolder-enterprise-plugins rpm is installed.\n\n");
+					Console.WriteLine("Please make sure, novell-ifolder-enterprise-plugins rpm is installed.\n\n");
 					return false;
 				}
 				string destModulesDir = Path.Combine( storePath, ModulesDir );
@@ -1143,7 +1143,7 @@ Console.WriteLine("Url {0}", service.Url);
 				if ( File.Exists( ldapModuleConfigPath ) == false )
 				{
 					Console.WriteLine("Failed to find the Ldap plugin configuration files..");
-					Console.WriteLine("Please make sure, ifolder-enterprise-plugins rpm is installed.\n\n");
+					Console.WriteLine("Please make sure, novell-ifolder-enterprise-plugins rpm is installed.\n\n");
 					return false;
 				}
 				string destModulesDir = Path.Combine( storePath, ModulesDir );
@@ -1729,7 +1729,7 @@ Console.WriteLine("Url {0}", service.Url);
 					new Uri( 
 							Uri.UriSchemeHttp + 
 							"://" + 
-							System.Net.Dns.GetHostByName(System.Net.Dns.GetHostName()).AddressList[0].ToString() + 
+							System.Net.Dns.GetHostEntry(System.Net.Dns.GetHostName()).AddressList[0].ToString() + 
 							":80" +
 							"/simias10");
 				string pubAddress = config.Get( ServerSection, PublicAddressKey );
@@ -1980,7 +1980,7 @@ Console.WriteLine("Url {0}", service.Url);
 			
 			if(ldapServer.Value.Equals("localhost"))
 			{
-				System.Net.IPHostEntry hostInfo = System.Net.Dns.GetHostByName( System.Net.Dns.GetHostName() );
+				System.Net.IPHostEntry hostInfo = System.Net.Dns.GetHostEntry( System.Net.Dns.GetHostName() );
 				ldapServer.Value = hostInfo.AddressList[0].ToString();
 			}
 			newUri.Host = ldapServer.Value;
@@ -2465,7 +2465,7 @@ Console.WriteLine("Url {0}", service.Url);
 			
 			if(ldapServer.Value.Equals("localhost"))
 			{
-				System.Net.IPHostEntry hostInfo = System.Net.Dns.GetHostByName( System.Net.Dns.GetHostName() );
+				System.Net.IPHostEntry hostInfo = System.Net.Dns.GetHostEntry( System.Net.Dns.GetHostName() );
 				ldapServer.Value = hostInfo.AddressList[0].ToString();
 			}
 			newUri.Host = ldapServer.Value;
@@ -2514,7 +2514,7 @@ Console.WriteLine("Url {0}", service.Url);
 			
 			if(ldapServer.Value.Equals("localhost"))
 			{
-				System.Net.IPHostEntry hostInfo = System.Net.Dns.GetHostByName( System.Net.Dns.GetHostName() );
+				System.Net.IPHostEntry hostInfo = System.Net.Dns.GetHostEntry( System.Net.Dns.GetHostName() );
 				ldapServer.Value = hostInfo.AddressList[0].ToString();
 			}
 			newUri.Host = ldapServer.Value;

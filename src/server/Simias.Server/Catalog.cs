@@ -1208,6 +1208,44 @@ namespace Simias.Server
                         return ;
                 }
 
+		/// <summary>
+                /// Delete a catalog entry for the slave host that is to be removed
+                /// </summary>
+                static public void DeleteSlaveEntryFromCatalog(string name )
+                {
+			log.Debug(" Deleting catalog entry of slave server - {0}", name);
+
+			ICSList list = catalog.FindType(NodeTypes.MemberType);
+			Node node = null;
+			foreach( ShallowNode sn in list )
+			{
+				if( sn != null)
+				{
+					if(sn.Name.Equals(name))
+					{
+						node = catalog.GetNodeByID(sn.ID); 
+						if( node != null && node.IsType("Host"))
+						{
+							log.Debug("Delting the node from catalog {0} --- {1}",node.Name, node.ID);
+						
+							CatalogEntry entry = new CatalogEntry(sn);
+							if( entry != null )
+							{
+								catalog.Commit(catalog.Delete(entry));
+								log.Debug(" Deleted catalog entry of slave server - {0}", name);
+							}
+							else
+							{
+								log.Debug("Unable to delete the catalog Entry for slave server {0}",name);
+							}
+							break;
+						}
+					}
+				}
+			}
+                        return;
+                }
+
                 /// <summary>
                 /// Delete a catalog entry for the specified collection
                 /// </summary>
@@ -1220,7 +1258,7 @@ namespace Simias.Server
 					{
 						catalog.Commit(catalog.Delete(entry));
 						c.Commit(c.Delete());
-					}
+					} 
 					log.Debug("Out of DeleteEntryByCollectionID ...");
 					return ;
 				}
