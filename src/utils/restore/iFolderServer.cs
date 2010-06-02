@@ -1317,6 +1317,35 @@ namespace Restore
 			return retval;	
 		}
 		/// <summary>
+        /// Retrieves the User policy from the given User ID.
+        /// </summary>
+        /// <param name="userId"> ID of the User for whom policy needs to be retreived.</param>
+        /// 
+        /// <returns>returns UserPolicy object on Success and null on Failures.</returns>
+
+		public UserPolicy GetUserPolicy( string userId )
+		{
+			UserPolicy usrPolicy = null;
+			try	{
+				int count = 0;
+				while (count < MaxCount){
+					try	{
+						 return this.admin.GetUserPolicy(userId, null);
+						
+					} catch(Exception ex) {
+				        if(ex.Message.IndexOf("InvalidOperation") >= 0 || ex.StackTrace.IndexOf("InvalidOperation") >= 0 ) {
+							count++;	
+							continue;	
+			   			}
+						throw ex;
+					}
+				}
+			} catch(Exception ex){
+				  MainClass.DebugLog.Write(string.Format("Exception while fetching User policy {0}--{1}", ex.Message, ex.StackTrace));
+			}
+			return usrPolicy;
+		}
+		/// <summary>
         /// Retrieves the iFolder policy from the given iFolder ID.
         /// </summary>
         /// <param name="iFolderID"> ID of the iFolder for which policy needs to be retreived.</param>
@@ -1333,8 +1362,8 @@ namespace Restore
 				{
 					try
 					{
-						ifdPolicy = this.web.GetiFolderPolicy(ifolderid);
-						break;
+						 return this.admin.GetiFolderPolicy(ifolderid, null);
+						
 					}
 					catch(Exception ex)
 					{
@@ -1371,7 +1400,7 @@ namespace Restore
 				{
 					try
 					{
-						this.web.SetiFolderPolicy(ifdPolicy);
+						this.admin.SetiFolderPolicy(ifdPolicy);
 						break;
 					}
 					catch(Exception ex)
@@ -1723,13 +1752,13 @@ namespace Restore
 			if (MainClass.useSameAdminName == true)
 			{
 
-				newAdminPassword = ForPasswordString(string.Format("|		Password for user( {0} ):",MainClass.newAdminName),null);
+				newAdminPassword = ForPasswordString(string.Format("|		Password for iFolder server admin (user={0}):",MainClass.newAdminName),null);
 				oldAdminPassword = newAdminPassword;
 			}
 			else
 			{
-					oldAdminPassword = ForPasswordString(string.Format("|		Password for user( {0} ):",MainClass.oldAdminName),null);
-					newAdminPassword = ForPasswordString(string.Format("\n|               Password for user( {0} ):",MainClass.newAdminName),null);
+					oldAdminPassword = ForPasswordString(string.Format("|		Password for backup iFolder server admin (user={0}):",MainClass.oldAdminName),null);
+					newAdminPassword = ForPasswordString(string.Format("\n|               Password for current iFolder server admin (user={0}):",MainClass.newAdminName),null);
 			}
 		}	
 
@@ -2466,9 +2495,9 @@ namespace Restore
 					}
 				
 					//This check needs to be done unconditionally. Policy violation can happen
-				    // during a partial or a full restore.
-					checkiFolderPolicyStatus(iFolderID, NewServer);
-
+				    	// during a partial or a full restore.
+					CheckiFolderPolicyStatus(iFolderID, NewServer);
+					CheckUserPolicyStatus(userName,NewServer);
 
 				}
 				return retval;
@@ -2869,6 +2898,30 @@ namespace Restore
 				                                       ifdPolicy.SyncInterval, ifdPolicy.SharingStatus, ifdPolicy.FileSizeLimit, includeFilter.ToString(), excludeFilter.ToString()));
 				
 			}
+	     /// <summary>
+            /// Checks the Userr policy voilations after the data is restored.
+            /// </summary>
+            /// <param name="UserID"> User ID.</param>
+            /// <param name="oldserver">iFolderServer object where the iFolder exists..</param>
+            ///
+            /// <returns>void.</returns>
+
+            public static void CheckUserPolicyStatus(string userName, iFolderServer ifServer){
+		UserPolicy usrPolicy = null;
+		String userID = ifServer.GetUserIDFromName(userName);
+		if( userID != null) {
+			Console.WriteLine("|               Checking user policies post data restore.                                    |");
+			usrPolicy = ifServer.GetUserPolicy(userID);
+			if( (usrPolicy != null) && !usrPolicy.LoginEnabled) {
+	                     Console.WriteLine("|               Warning: Data is restored into a iFolder owned by disabled User.         |");
+        	             Console.WriteLine("|               User - {0} needs to be enabled to access the data.                       |",userName);
+			}
+		} else {
+			Console.WriteLine("|               Warning: User - {0} does not exist on current iFolder server.         |",userName);
+		}
+			
+			
+	    }
 			/// <summary>
             /// Checks the iFolder policy voilations after the data is restored.
             /// </summary>
@@ -2877,7 +2930,7 @@ namespace Restore
             /// 
             /// <returns>void.</returns>
 	
-			public static void checkiFolderPolicyStatus(string iFolderID, iFolderServer ifServer) 
+			public static void CheckiFolderPolicyStatus(string iFolderID, iFolderServer ifServer) 
 			{
 				iFolderPolicy currentPolicy = null;
 			
@@ -2888,7 +2941,8 @@ namespace Restore
 					return;
 				}
 				
-				if(( currentPolicy.SpaceUsed > currentPolicy.SpaceLimitEffective )
+				if( currentPolicy.SpaceLimitEffective != -1)//-1 means Policies are not set	
+				if( ( currentPolicy.SpaceUsed > currentPolicy.SpaceLimitEffective )
 					|| (currentPolicy.SpaceAvailable == 0))
 				{
 						Console.WriteLine("|                                                                                        |");
