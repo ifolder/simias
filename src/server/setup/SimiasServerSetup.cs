@@ -2923,10 +2923,10 @@ Console.WriteLine("Url {0}", service.Url);
 		private void SetupPermissions()
 		{
 			// Setup the permissions to the store configuration.
-			Console.WriteLine( "Setting up permissions..." );
-				
 			if ( MyEnvironment.Mono && apache.Value )
 			{
+			        Console.WriteLine( "Setting up permissions..." );
+
 				if ( storePath.TrimEnd( new char[] { '/' } ).EndsWith( "simias" ) )
 				{
 				//	if ( Execute( "chown", " -R {0}:{1} {2}", apacheUser, apacheGroup, System.IO.Directory.GetParent( storePath ).FullName ) != 0 )
@@ -2943,9 +2943,9 @@ Console.WriteLine("Url {0}", service.Url);
 						Console.WriteLine( "Unable to set an owner {0} for the store path.{1}", apacheUser.Value, storePath );
 					}
 				}
-			}
 
-			Console.WriteLine( "Done" );
+				Console.Write( " Done." );
+			}
 		}
 
         /// <summary>
