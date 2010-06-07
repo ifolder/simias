@@ -156,7 +156,7 @@ namespace Simias.Sync
 		protected void Open(BaseFileNode node, string sessionID)
 		{
 			SetupFileNames(node, sessionID);
-			Log.log.Debug("Opening File {0}", file);
+			Log.log.Debug("Opening File {0} (OutFile Open)", file);
 			FileInfo fi = new FileInfo(file);
 			if (Store.IsEnterpriseServer || fi.Length > (1024 * 100000))
 			{
@@ -229,7 +229,7 @@ namespace Simias.Sync
 		/// </summary>
 		protected void Close()
 		{
-			Log.log.Debug("Closing File {0}", file);
+			Log.log.Debug("Closing File {0} (OutFile Close())", file);
 			Close (false);
 		}
 		
@@ -442,7 +442,7 @@ namespace Simias.Sync
 		{
 			SetupFileNames(node, "");
 			CheckForNameConflict();
-			Log.log.Debug("Opening File {0}", file);
+			Log.log.Debug("Opening File {0} (InFile Open)", file);
 
 			// Open the file so that it cannot be modified.
 			oldNode = collection.GetNodeByID(node.ID) as BaseFileNode;
@@ -629,10 +629,10 @@ namespace Simias.Sync
 		/// <summary>
 		/// Called to close the file and cleanup resources.
 		/// </summary>
-		protected void Close(bool commit)
+		protected SyncNodeStatus Close(bool commit)
 		{
-			Log.log.Debug("Closing File {0}", file);
-			Close (false, commit);
+			Log.log.Debug("Closing File {0} (protected InFile Close)", file);
+			return Close (false, commit);
 		}
 
 		/// <summary>
@@ -719,12 +719,17 @@ namespace Simias.Sync
 		/// </summary>
 		/// <param name="InFinalizer"></param>
 		/// <param name="commit"></param>
-		private void Close(bool InFinalizer, bool commit)
+		private SyncNodeStatus Close(bool InFinalizer, bool commit)
 		{
 			if (!InFinalizer)
 			{
 				GC.SuppressFinalize(this);
 			}
+
+			SyncNodeStatus status = new SyncNodeStatus();
+			status.nodeID = node.ID;
+			status.status = SyncStatus.ClientError;
+
 			if (stream != null)
 			{
 				stream.Close();
@@ -737,50 +742,114 @@ namespace Simias.Sync
 			}
 			if (commit)
 			{
-				if (File.Exists(file))
-				{
-					string tmpFile = file + ".~stmp";
+				// backup file for rolling back on failure
+				string tmpFile = "";
+				if (File.Exists(file)){
+					tmpFile = file + ".~stmp";
 					File.Move(file, tmpFile);
-					try
-					{
-						File.Move(workFile, file);
-						File.Delete(tmpFile);
-						workFile = null;	
-					}
-					catch
-					{
-						File.Move(tmpFile, file);
-						throw;
-					}
+					Log.log.Info("backing up {0}->{1}",file,tmpFile);
 				}
-				else
+
+				// first try to write the file
+				try
 				{
+					Log.log.Info("trying to move {0}->{1}",workFile,file);
 					File.Move(workFile, file);
 					workFile = null;
 				}
-				FileInfo fi = new FileInfo(file);
-				fi.LastWriteTime = node.LastWriteTime;
-				fi.CreationTime = node.CreationTime;
-				if (oldNode != null)
+				catch
 				{
-					// Check if this was a rename.
-					// If the old path does not equal the new path
-					// Delete the old file.
-					string oldPath = oldNode.GetFullPath(collection);
+					Log.log.Info("Couldn't move {0}->{1}", workFile, file);
+					Log.log.Info("Restoring file {0}", file);
+					try {
+						if (File.Exists(file))
+							File.Delete(file); // delete newly transferred file
+						if (File.Exists(tmpFile))
+							File.Move(tmpFile, file); // restore backup file into place
+					}
+					catch (Exception ex)
+					{
+						Log.log.Info("couldn't return to prior state{0}--{1}",  ex.Message, ex.StackTrace);
+					};
+					// DELETE HASHMAP ?
+
+					throw;  // and don't try to commit
+				}
+				//  try to collection.commit()
+				status.status = SyncStatus.Success;
+				try
+				{
+					Log.log.Info("trying to commit collection");
+					collection.Commit(node);
+				}
+				catch (CollisionException ce)
+				{
+					commit = false;
+					status.status = SyncStatus.UpdateConflict;
+					Log.log.Info("Couldn't commit collection: UpdateConflict {0}--{1}",  ce.Message, ce.StackTrace);
+				}
+				catch (Exception ex)
+				{
+					commit = false;
+					status.status = SyncStatus.ServerFailure;
+					Log.log.Info("Couldn't commit collection {0}--{1}",  ex.Message, ex.StackTrace);
+				}
+				if (!commit)  // restore orig file if collection.Commit failed.
+				{
+					try {
+						// delete newly transferred file
+						if (File.Exists(file))
+							File.Delete(file);
+						// restore backup file into place
+						if (File.Exists(tmpFile))
+							File.Move(tmpFile, file);
+						// delete hashmap ?
+					}
+					catch (Exception ex)
+					{
+						Log.log.Info("couldn't return to prior state {0}--{1}",  ex.Message, ex.StackTrace);
+					};
+				}
+				else  // commit successful, delete the temporary (.~stmp) file.
+				{
 					try
 					{
-						if (MyEnvironment.Windows)
-						{
-							if (string.Compare(oldPath, file, true) != 0)
-								File.Delete(oldPath);
-						}
-						else
-						{
-							if (oldPath != file)
-								File.Delete(oldPath);
-						}
+						// restore backup file into place
+						if (File.Exists(tmpFile))
+							File.Delete(tmpFile);
 					}
-					catch {};
+					catch (Exception ex)
+					{
+						Log.log.Info("problem deleting .~stmp file {0}--{1}",  ex.Message, ex.StackTrace);
+					};
+				}
+				if (commit)
+				{
+					FileInfo fi = new FileInfo(file);
+					fi.LastWriteTime = node.LastWriteTime;
+					fi.CreationTime = node.CreationTime;
+					if (oldNode != null)
+					{
+						// Check if this was a rename.
+						// If the old path does not equal the new path
+						// Delete the old file.
+						string oldPath = oldNode.GetFullPath(collection);
+						try
+						{
+							Log.log.Info("{0} may have been moved to {1}", file, oldPath);
+							if (MyEnvironment.Windows)
+							{
+								if (string.Compare(oldPath, file, true) != 0)
+									File.Delete(oldPath);
+							}
+							else
+							{
+								if (oldPath != file)
+									File.Delete(oldPath);
+							}
+						}
+						catch {};
+					}
 				}
 			}
 
@@ -796,6 +865,8 @@ namespace Simias.Sync
 
 			if (partialFile != null)
 				File.Delete(partialFile);
+
+			return status;
 		}
 
 		#endregion

@@ -173,30 +173,21 @@ namespace Simias.Sync
 			SyncNodeStatus status = new SyncNodeStatus();
 			status.nodeID = node.ID;
 			status.status = SyncStatus.ClientError;
-			if (commit)
+
+			try
 			{
-				status.status = SyncStatus.Success;
-				try
-				{
-					collection.Commit(node);
-				}
-				catch (CollisionException)
-				{
-					commit = false;
-					status.status = SyncStatus.UpdateConflict;
-				}
-				catch
-				{
-					commit = false;
-					status.status = SyncStatus.ServerFailure;
-				}
+				status = base.Close(commit);  // modified for new code
 			}
-			base.Close(commit);
-			// Not required since it is done in client side
-			//if (commit == true)
-			//{
-			//	map.CreateHashMap();
-			//}
+			catch (CollisionException)
+			{
+				status.status = SyncStatus.UpdateConflict;
+			}
+			catch (Exception ex)
+			{
+				status.status = SyncStatus.ServerFailure;
+				Log.log.Info("Exception on Close {0}--{1}", ex.Message, ex.StackTrace);
+			}
+
 			return status;
 		}
 
@@ -260,7 +251,7 @@ namespace Simias.Sync
 			SyncNodeStatus status = new SyncNodeStatus();
 			status.nodeID = node.ID;
 			status.status = SyncStatus.Success;
-			base.Close();
+			base.Close();  // OutFile, base class code not modified
 			return status;
 		}
 
