@@ -1300,7 +1300,10 @@
 		<value>Unable to get Server ID and New Server Public URL.</value>
 	</data>
 	<data name="CHANGEMASTERSUCCESSFUL">
-		<value>Successfully changed the Master and Slave. New Master is {0}. Restart all servers for the changes to take effect.</value>
+		<value>Upgraded {0} as master server. Restart all servers for the changes to take effect.</value>
+	</data>
+	<data name="CHANGEMASTERWITHWARNING">
+		<value>Upgraded {0} as master server with exceptions. Refer Simias.log for more info. Restart all servers for the changes to take effect.</value>
 	</data>
 	<data name="CHANGEMASTERFAILED">
 		<value>Unable to change the Master and Slave. Check log files for more information.</value>

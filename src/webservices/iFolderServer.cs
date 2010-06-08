@@ -629,11 +629,9 @@ namespace iFolder.WebService
 				SetConfigValue( document, ServerSection, PublicAddressKey, publicUrl );
         	                SetConfigValue( document, ServerSection, PrivateAddressKey, privateUrl );
 				if(MasterUrl != "")
-                                {
-                                        /// it means its a slave server, so set the masters IP into config file
-                                        UpdateStatus = SetConfigValueWithSSL( document, ServerSection, MasterAddressKey, MasterUrl );
-					if(UpdateStatus == false)
-						return false;
+				{
+					//verify and update simias too.
+					UpdateSimiasAndConfig(MasterUrl);
 					if (MasterUrl != null)
 					{
 						UpdateStatus = UpdateMasterURL(MasterUrl);
@@ -721,6 +719,23 @@ namespace iFolder.WebService
 			return status;
 		}
 
+		public static bool UpdateSimiasAndConfig(string MasterUrl)
+		{
+			bool status = false;
+			Store store = Store.GetStore();
+			Domain domain = store.GetDomain(store.DefaultDomain);
+			HostNode localhostNode = HostNode.GetLocalHost();
+			if ( domain.HostUri == MasterUrl)
+			{
+				status = SetMasterServerUrl(domain.HostID, domain.HostUri);
+			}
+			else
+			{
+				log.Error("New master url does not match with iFolder domain master url");
+			}
+			return status;
+		}
+
 		/// <summary>
 		/// This method is used to set the Master server url into simias.config file.
 		/// </summary>
@@ -731,23 +746,25 @@ namespace iFolder.WebService
 			string ServerSection="Server";
 			string MasterAddressKey = "MasterAddress";
 
-			if (MasterUrl != null && !MasterUrl.ToLower().StartsWith(Uri.UriSchemeHttps))
-			{
-				MasterUrl = (new UriBuilder(Uri.UriSchemeHttps, MasterUrl)).ToString();
-			}
 			try 
 			{
 				Store store = Store.GetStore();
 				Domain domain = store.GetDomain(store.DefaultDomain);
-				HostNode localhostNode = HostNode.GetLocalHost();
 				domain.HostID = HostID;
-				domain.HostUri = MasterUrl;
+				domain.HostUri = MasterUrl; 
 				domain.Commit();
+				Collection cat = store.GetCollectionByID(catalogID); //Simias.Server.Catalog.catalogID); 
+				cat.HostID = HostID;
+				cat.Commit(cat);
 
 				string SimiasConfigFilePath = Path.Combine ( Store.StorePath, "Simias.config");	
 				if ( File.Exists( Path.Combine( Store.StorePath, Simias.Configuration.DefaultConfigFileName ) ) == true )
 				{
 					SimiasConfigFilePath = Path.Combine( Store.StorePath, Simias.Configuration.DefaultConfigFileName );
+				}
+				else 
+				{
+					log.Info("Simias.config file does not exist");
 				}
 				XmlDocument document = new XmlDocument();
 				document.Load(SimiasConfigFilePath );
@@ -804,6 +821,7 @@ namespace iFolder.WebService
 				domain.Role =  Simias.Sync.SyncRoles.Slave;
 				log.Info("Setting SyncRole on the Domain to Slave ({0})", domain.Role);
 
+				domain.SystemSyncStatus = (domain.SystemSyncStatus | (ulong)Simias.Sync.CollectionSyncClient.StateMap.CatalogSyncOnce) ;
 				// Updating Catalog
 				cat.Role =  Simias.Sync.SyncRoles.Slave;
 				log.Info("Setting SyncRole on the catalog");
@@ -1204,12 +1222,13 @@ namespace iFolder.WebService
 				}
 
 				// swap policy
+				ICertificatePolicy policy = ServicePointManager.CertificatePolicy;
 				ServicePointManager.CertificatePolicy = new TrustAllCertificatePolicy();
-				HttpWebRequest request = (HttpWebRequest) HttpWebRequest.Create(masterAddress);
+				HttpWebRequest request = (HttpWebRequest) HttpWebRequest.Create(RemoveVirtualPath(masterAddress));
 
 				try
 				{
-					HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+					request.GetResponse();
 				}
 				catch (Exception ex)
 				{
@@ -1217,6 +1236,7 @@ namespace iFolder.WebService
 				}
 
 				// restore policy
+				ServicePointManager.CertificatePolicy = policy;
 
 				// service point
 				ServicePoint sp = request.ServicePoint;

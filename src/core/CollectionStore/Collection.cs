@@ -820,7 +820,7 @@ namespace Simias.Storage
 			{
 				if (value != null && value.Length != 0)
 				{
-					Property p = new Property( PropertyTags.HostUri, value );
+					Property p = new Property( PropertyTags.HostUri, new Uri(value) );
 					p.LocalProperty = true;
 					properties.ModifyNodeProperty( p );
 				}
