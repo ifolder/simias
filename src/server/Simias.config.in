@@ -9,7 +9,7 @@
     <setting name="Name" value="Host1" />
   </section>
   <section name="Authentication">
-	<setting name="SimiasAuthNotRequired" value="Registration.asmx, Login.ashx, Simias.asmx:PingSimias, DomainService.asmx:GetDomainID, pubrss.ashx, pubsfile.ashx, Simias.asmx:GetRAList, Simias.asmx:GetRACertificate, iFolderBackup.asmx:GetSimiasDataPath, iFolderBackup.asmx:Ping, iFolderAdmin.asmx:GetProxyInfo, iFolderAdmin.asmx:ServiceProxyRequests" />
+	<setting name="SimiasAuthNotRequired" value="Registration.asmx, Login.ashx, Simias.asmx:PingSimias, DomainService.asmx:GetDomainID, pubrss.ashx, pubsfile.ashx, Simias.asmx:GetRAList, Simias.asmx:GetRACertificate, iFolderBackup.asmx:GetSimiasDataPath, iFolderBackup.asmx:Ping, iFolderAdmin.asmx:GetProxyInfo" />
 	<setting name="SimiasRequireSSL" value="no" />
   </section>
   <section name="Identity">

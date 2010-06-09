@@ -37,13 +37,20 @@
 using System;
 using System.Net;
 using System.IO;
+using System.Collections;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml;
+using System.Security.Cryptography;
+using System.Diagnostics;
+
 using Novell.Directory.Ldap;
 
 using Simias;
 using Simias.Client;
+using Simias.Storage;
+using Simias.LdapProvider;
+using Simias.Storage.Provider;
 
 public class GrantRights
 {
@@ -57,8 +64,9 @@ public class GrantRights
 	private static readonly string StoreProviderSection = "StoreProvider";
 	private static readonly string CPLogFileKey = "CommonProxyLogPath";
 	private static readonly string ServerSection = "Server";
+	private static readonly string EnterpriseDomainSection = "EnterpriseDomain";
+	private static readonly string SystemNameKey = "SystemName";
 	private static readonly string PublicIPKey = "PublicAddress";
-	
 
 	private static string FnRightsAssignment = "proxy_rights_assign";
 	private static string FnStoreProxyCreds = "update_proxy_cred_store";
@@ -66,7 +74,6 @@ public class GrantRights
 	private static string UserName = "username";
 	private static string PassWord = "password";
 
-	private static string WSServiceProxyRequests = "ServiceProxyRequests";
 	private static string WSGetProxyInfo = "GetProxyInfo";
 	private static string SimiasConf = "Simias.config";
 
@@ -76,7 +83,12 @@ public class GrantRights
 	private static string proxyfilename = "ldapdetails";
 
 	static string cpHost = IPAddress.Loopback.ToString();
-	static int cpPort = 389;
+	static int cpPort = -1;
+
+	static string IFLdapHost = null;
+	static bool IFLdapSSL = false;
+	static string IFProxyUserDN = null;
+	static string IFContext = null;
 
 	static int Main( string[] args)
 	{
@@ -119,21 +131,23 @@ public class GrantRights
 			file = new FileStream( LogFileName, FileMode.Append, FileAccess.Write, FileShare.Write);
 			tw = new StreamWriter(file);
 			int ArgIndex = 1;
+
+			GetLdapDetails();
 	
 			if( String.Equals( args[ArgIndex], FnRightsAssignment))
 			{
 				try
 				{
-					if( args.Length == 3)
+					if( args.Length > 2)
 					{
 						ArgIndex++;
-						if( args[ArgIndex] != null )
-						{
-							cpPort = Convert.ToInt32( args[ ArgIndex ] );
-							rval = AssignProxyRights();
-							tw.WriteLine("iFolder {0}- Assigning Proxy Rights: return value {1} ",DateTime.Now.ToString(), rval);
-						}
+						cpPort = Convert.ToInt32( args[ ArgIndex ] );
 					}
+					else
+					{
+						cpPort = SSLPort;
+					}
+					rval = AssignProxyRights();
 				}catch(Exception ex2)
 				{
 					tw.WriteLine("iFolder {0}- caught exception while assigning proxy rights : {1}",DateTime.Now.ToString(), ex2.Message);
@@ -146,16 +160,17 @@ public class GrantRights
 			{
 				try
 				{
-					if( args.Length == 3)
+					//if( args.Length == 3)
+					if( args.Length > 2)
 					{
 						ArgIndex++;
-						if( args[ArgIndex] != null )
-						{
-							cpPort = Convert.ToInt32( args[ ArgIndex ] );
-							rval = UpdateProxyDetails( );
-							tw.WriteLine("iFolder {0}- storing proxy credentials : return value {1} ",DateTime.Now.ToString(), rval);
-						}
+						cpPort = Convert.ToInt32( args[ ArgIndex ] );
 					}
+					else
+					{
+						cpPort = SSLPort;
+					}		
+					rval = UpdateProxyDetails( );
 				}catch(Exception ex3)
 				{
 					tw.WriteLine("iFolder {0}- caught exception while assigning proxy rights : {1}",DateTime.Now.ToString(), ex3.Message);
@@ -172,7 +187,7 @@ public class GrantRights
 	
 				// If they want proxy credentials then 2nd parameter will be either username/password. 
 				ArgIndex++;
-				if( args.Length < 5)
+				if( args.Length < 4)
 				{
 					tw.WriteLine("iFolder {0}- less number of arguments passed. Please check the number of arguments. ",DateTime.Now.ToString());
 					tw.Close();
@@ -203,8 +218,15 @@ public class GrantRights
 				{
 					return failval;
 				}
-
-				cpPort = Convert.ToInt32( args[ ++ArgIndex ] );
+				
+				if( args.Length >= 5 )
+				{
+					cpPort = Convert.ToInt32( args[ ++ArgIndex ] );
+				}
+				else
+				{
+					cpPort = SSLPort;
+				}
 
 				string retval = null;
 				FileStream pfile;
@@ -262,7 +284,6 @@ public class GrantRights
 	// make webservice call so that ifolder server assigns rights to proxy user
 	static int AssignProxyRights( )
 	{
-		
 		bool TreeMatched =  CheckLdapTreeMatch();
 		if(TreeMatched == false)
 		{
@@ -299,7 +320,7 @@ public class GrantRights
 
                 // If the ldap IP of iFolder is some AD or non-edir then return immediately.
 
-		WebCallMethod( WSServiceProxyRequests);
+		ServiceProxyRequests();
 
 		DeleteProxyFile();
 
@@ -310,7 +331,6 @@ public class GrantRights
 	// based on the boolean parameter, it will return either username or password
 	static string GetProxyCreds( bool ProxyDN, bool ProxyPwd )
 	{
-
 		bool TreeMatched =  CheckLdapTreeMatch();
 		if(TreeMatched == false)
 		{
@@ -319,17 +339,32 @@ public class GrantRights
 			return null;
 		}
 
-		// Get the current ldap setting from Simias.config file.
-		string iFLdapHost, iFProxyUserDN, iFProxyPwd, iFAllContexts = null;
-		bool iFLdapSSL = false;
-		
-		ReadConfigDetails( out iFLdapHost, out iFLdapSSL, out iFProxyUserDN, out iFProxyPwd, out iFAllContexts);
-		DeleteProxyFile();
+		string iFProxyPwd = null;
 
 		if( ProxyDN == true)
-			return iFProxyUserDN; 
+		{
+			return IFProxyUserDN; 
+		}
 		else if( ProxyPwd == true)
+		{
+			// call the webservice method which will write the proxypwd into a file.
+			try
+			{
+				WebCallMethod( WSGetProxyInfo );
+				ReadConfigDetails( out iFProxyPwd);
+			}
+			catch( Exception ex)	
+			{
+				DeleteProxyFile();
+				if( ex.Message.IndexOf( "ConnectFailure" ) >= 0)
+				{
+					tw.WriteLine("iFolder : iFolder Server not running, now it will try to get credentials directly from simias store");
+					iFProxyPwd = getProxyPwd();
+				}
+				
+			}
 			return iFProxyPwd;
+		}
 		return null;
 	}
 
@@ -337,14 +372,6 @@ public class GrantRights
 	// check whether ldap tree used by ifolder is same as the local cp host IP
 	static bool CheckLdapTreeMatch()
 	{
-		// call the webservice so that ldap details from Simias.config file will be written into one file called proxyfile.
-		WebCallMethod( WSGetProxyInfo );
-
-		// Get the current ldap setting from Simias.config file.
-		string iFLdapHost, iFProxyUserDN, iFProxyPwd, iFAllContexts = null;
-		bool iFLdapSSL = false;
-
-		ReadConfigDetails( out iFLdapHost, out iFLdapSSL, out iFProxyUserDN, out iFProxyPwd, out iFAllContexts);
 
 		string treeName = null;
 
@@ -353,7 +380,7 @@ public class GrantRights
 		connection = new LdapConnection();
 
 		int iFLdapPort;
-		if( iFLdapSSL == true)
+		if( IFLdapSSL == true)
 		{
 			iFLdapPort = SSLPort;
 			connection.SecureSocketLayer = true;
@@ -366,7 +393,7 @@ public class GrantRights
 
 		try
 		{
-			connection.Connect( iFLdapHost, iFLdapPort);
+			connection.Connect( IFLdapHost, iFLdapPort);
 		}
 		catch (Exception ex)
 		{
@@ -375,7 +402,6 @@ public class GrantRights
 
 		if( !IseDirectory( connection, null, out treeName ) || treeName == null )
 		{
-			//Console.WriteLine(" iFolder configured ldap IP is not e-dir, it willr eturn ");
 			DeleteProxyFile();
 			return false;
 		}
@@ -383,9 +409,11 @@ public class GrantRights
 		// Now see if the tree which corresponds the cpHost is same as the tree that corresponds to iFolder ldap configured one.
 
 		LdapConnection cpConnection = new LdapConnection();
+		bool sslUsed = false;
 		if( cpPort == SSLPort)
 		{
 			connection.SecureSocketLayer = true;
+			sslUsed = true;
 		}
 		else 	
 		{
@@ -396,17 +424,28 @@ public class GrantRights
 		{
 			cpConnection.Connect(cpHost, cpPort);
 		}
-		catch (Exception ex)
+		catch
 		{
-			tw.WriteLine("iFolder {0}- Could not connect to iFolder configured ldap host ",DateTime.Now.ToString());
+			// Fall back to other port which was used
+			if( sslUsed )
+			{
+				connection.SecureSocketLayer = false;
+				cpPort = NonSSLPort; 
+				cpConnection.Connect(cpHost, cpPort);
+			}
+			else
+			{
+				connection.SecureSocketLayer = true;
+				cpPort = SSLPort;
+				cpConnection.Connect(cpHost, cpPort);
+			}	
 		}
 
-		
 		string cptreeName = null;
 
 		if( !IseDirectory( connection, cptreeName, out cptreeName ) || cptreeName == null)
 		{
-			//Console.WriteLine(" local host is not e-dir, it will return.. ");
+			// local host is not e-dir, it will return.. 
 			DeleteProxyFile();
 			return false;
 		}
@@ -436,6 +475,20 @@ public class GrantRights
 			File.Delete(proxyfile);
 	}
 
+	static void GetLdapDetails()
+	{
+		LdapSettings ldapSettings = LdapSettings.Get ( SimiasDataPath );
+		IFLdapHost = ldapSettings.Host;
+		IFLdapSSL = ldapSettings.SSL;
+		IFProxyUserDN = ldapSettings.ProxyDN;
+		string allContexts = "";
+		foreach( string context in ldapSettings.SearchContexts)
+		{
+			allContexts = allContexts + context + "#";
+		}
+		IFContext = allContexts;
+	}
+
 	// this function will make a webservice call to iFolder Admin
 	static void WebCallMethod(string MethodName)
 	{
@@ -460,35 +513,26 @@ public class GrantRights
 			StringBuilder Request = new StringBuilder(req);
 			ServicePointManager.CertificatePolicy = new TrustAllCertificatePolicy();
 			
-			
 			HttpWReq = (HttpWebRequest)WebRequest.Create(Request.ToString());
 			HttpWReq.Headers.Add("SOAPAction", MethodName);
 			HttpWReq.Method = "GET";
-			try
-			{
-				HttpWResp = (HttpWebResponse)HttpWReq.GetResponse();
-			}
-			catch
-			{
-				// ignore...
-			}
+			HttpWResp = (HttpWebResponse)HttpWReq.GetResponse();
 			if (HttpWResp.StatusCode != HttpStatusCode.OK)
-				tw.WriteLine("iFolder {0}- WebRequest Failed: Error ",DateTime.Now.ToString());
+				tw.WriteLine("iFolder {0}- WebRequest Failed with status not OK. ",DateTime.Now.ToString());
 		}
 		catch
 		{
-			tw.WriteLine("iFolder {0}- WebRequest Failed with Exception: Error ",DateTime.Now.ToString());
-
+			//tw.WriteLine("iFolder {0}- WebRequest Failed with Exception: {1} ",DateTime.Now.ToString(), ex.Message);
+			throw;
 		}
 
 	}
 
 	// Function to read ldap scheme, host and port from Simias.config
-	static void ReadConfigDetails( out string iFLdapHost, out bool iFLdapSSL, out string iFProxyUserDN, out string iFProxyPwd, out string iFAllContexts)
+	static void ReadConfigDetails( out string iFProxyPwd)
 	{
 
-		iFLdapHost = iFProxyUserDN = iFProxyPwd = iFAllContexts = null;
-		iFLdapSSL = false;
+		iFProxyPwd = null;
 
 		string fileName = Path.Combine( SimiasDataPath, proxyfilename );
 
@@ -502,32 +546,13 @@ public class GrantRights
 			string [] KeyAndValue = readcontents.Split(':');
 			if( KeyAndValue != null && KeyAndValue.Length > 1 )
 			{
-				if(KeyAndValue[0] == "host")
-				{
-					iFLdapHost = KeyAndValue[1];	
-				}
-				else if(KeyAndValue[0] == "SSL")
-				{
-					iFLdapSSL =  KeyAndValue[1] == "True" ? true : false;
-				}
-				else if(KeyAndValue[0] == "proxydn")
-				{
-					iFProxyUserDN = KeyAndValue[1];
-
-				}
 				if(KeyAndValue[0] == "proxypwd")
 				{
 					iFProxyPwd = KeyAndValue[1];
 	
 				}
-				if(KeyAndValue[0] == "Context")
-				{
-					iFAllContexts = KeyAndValue[1];
-					
-				}
 			}
 
-			//Console.WriteLine(" data read from file is :"+readcontents);
 			readcontents = FileStream.ReadLine();
     		}
 		FileStream.Close();
@@ -541,7 +566,7 @@ public class GrantRights
 	{
 
 		// If the ldap IP of iFolder is some AD or non-edir then return immediately.
-		WebCallMethod( WSServiceProxyRequests);
+		ServiceProxyRequests();
 
 	}
 
@@ -549,7 +574,6 @@ public class GrantRights
 		// tree name corresponding to connections's treeName
                 public static bool IseDirectory(LdapConnection connection, string dirTreeName, out string treeName)
                 {
-                        //Console.WriteLine("get directory type");
 
                         LdapAttribute attr      = null;
                         LdapEntry entry = null;
@@ -592,6 +616,196 @@ public class GrantRights
                         }
 			return eDirectory ; 
                 }
+
+		public static void ServiceProxyRequests()
+		{
+			const string FnStoreProxyCreds = "update_proxy_cred_store";
+			const string FnRightsAssignment = "proxy_rights_assign";
+			bool Proxy_Rights_Assign = false;
+			bool Proxy_Creds_Store = false;
+			string proxydn = null;	
+			string proxypwd = null;
+			string ldapadmindn = null;
+			string ldapadminpwd = null;
+			string proxyfilename2 = "proxydetails";
+			string filename = Path.Combine( SimiasDataPath, proxyfilename2);
+			using(StreamReader sr = new StreamReader(filename))
+			{
+				string line;
+				while ((line = sr.ReadLine()) != null)
+				{
+					if(line != null && line != String.Empty )
+					{
+						string TrimmedLine = line.Trim();
+						if( String.Equals( TrimmedLine, FnRightsAssignment))
+						{
+							Proxy_Rights_Assign = true;
+							continue;
+						}
+						else if( String.Equals( TrimmedLine, FnStoreProxyCreds ) )
+						{
+							Proxy_Creds_Store = true;
+							continue;
+						}
+						if( Proxy_Rights_Assign)
+						{
+							proxydn = TrimmedLine;
+							line = sr.ReadLine();
+							if(line != null && line != String.Empty )
+							{
+								ldapadmindn = line.Trim();
+							}
+							line = sr.ReadLine();
+							if(line != null && line != String.Empty )
+							{
+								ldapadminpwd = line.Trim();
+							}
+							break;
+						}
+						else if ( Proxy_Creds_Store )
+						{
+							//line = sr.ReadLine();
+							if(line != null && line != String.Empty )
+							{
+								proxydn = line.Trim();
+							}
+							line = sr.ReadLine();
+							if(line != null && line != String.Empty )
+							{
+								proxypwd = line.Trim();
+							}
+							break;
+						}
+					}	
+				}	
+			}
+
+			// now based on service request, either assign the rights or update the proxy credentials into store
+			if (Proxy_Rights_Assign)
+			{
+				LdapConnection connection = new LdapConnection();
+				connection.SecureSocketLayer = IFLdapSSL ? true : false ;
+				int port = IFLdapSSL ? 636 : 389;
+				//connection.Connect( host, port);
+				connection.Connect( IFLdapHost, port);
+				connection.Bind( ldapadmindn, ldapadminpwd);
+				LdapAttribute attribute = new LdapAttribute("acl", new String[]
+				{
+					String.Format("1#subtree#{0}#[Entry Rights]", proxydn),
+					String.Format("3#subtree#{0}#[All Attributes Rights]", proxydn)
+				});
+				LdapModification modification = new LdapModification(LdapModification.ADD, attribute);
+
+			string [] KeyAndValue = IFContext.Split('#');
+			if( KeyAndValue != null && KeyAndValue.Length > 1 )
+			{
+				// get the search contexts in an array or some enumerator
+				for( int count = 0; count < KeyAndValue.Length; count++)
+				{
+					if( String.IsNullOrEmpty( KeyAndValue[count] ))
+						continue;
+					try
+					{
+						connection.Modify( KeyAndValue[count], modification);
+					}
+					catch(Exception ex)
+					{
+						if( ex.Message.IndexOf("Attribute Or Value Exists") >= 0)
+							tw.WriteLine("iFolder: RightsAssignment, The rights were already provided earlier, so ignore");
+						else
+							throw ex;
+					}
+				}
+			}
+				try
+				{
+					connection.Disconnect();
+				}
+				catch{}
+			}
+			else if( Proxy_Creds_Store )
+			{
+				string path = Path.GetFullPath(Path.Combine( SimiasDataPath, "Simias.config"));
+				XmlDocument doc = new XmlDocument();
+				doc.Load(path);
+
+				string str = string.Format( "//{0}[@{1}='{2}']/{3}[@{1}='{4}']", "section", "name", "LdapAuthentication", "setting", "ProxyDN" );
+
+				XmlElement element = ( XmlElement )doc.DocumentElement.SelectSingleNode( str );
+				if ( element != null )
+				{
+
+					element.SetAttribute( "value", proxydn );
+
+				}
+
+				// Write the configuration file settings.
+				XmlTextWriter xtw = new XmlTextWriter( path, Encoding.UTF8 );
+				try
+				{
+					xtw.Formatting = Formatting.Indented;
+					doc.WriteTo( xtw );
+				}
+				finally
+				{
+					xtw.Close();
+				}
+
+
+			                //Write Password to ppf file
+				string ppwdfile = @".simias.ppf";
+				string path1 = Path.Combine(SimiasDataPath, ppwdfile);
+				FileStream file = new FileStream( path1, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+				TextWriter ptw = new StreamWriter(file);
+				ptw.WriteLine( proxypwd );
+				tw.WriteLine("method: proxycredstore: wrote the creds into  file");
+				ptw.Close();
+
+				if (Execute("chown", "wwwrun:www {0}", path1) != 0)
+					tw.WriteLine("method: proxycredstore: Unable to set wwwrun as owner of {0} file. Please do it manually",path1);
+
+				if (Execute("chmod", "600 {0}", path1) != 0)
+					tw.WriteLine("method: proxycredstore: Unable to set rights 600 to {0} file. Please do it manually",path1);
+
+	
+			}
+		}
+
+	 	static int Execute(string command, string format, params object[] args)
+		{
+			ProcessStartInfo info = new ProcessStartInfo( command, String.Format( format, args ) );
+			info.UseShellExecute = false;
+			info.RedirectStandardOutput = true;
+			info.RedirectStandardError = true;
+			Process p = Process.Start(info);
+			p.StandardOutput.ReadToEnd();
+			p.StandardError.ReadToEnd();
+			p.WaitForExit();
+			return p.ExitCode;
+		}
+
+	// open store and read the details
+	public static string getProxyPwd()
+	{
+		Configuration SimiasConf = new Configuration( SimiasDataPath, true) ;
+
+		string iFolderSystemName = SimiasConf.Get( EnterpriseDomainSection, SystemNameKey );
+
+		Store.Initialize(SimiasDataPath, true , -1);
+		Store store = Store.GetStore();
+		Domain domain = store.GetDomain(store.DefaultDomain);
+
+		string encodedCypher = domain.Properties.GetSingleProperty( "ProxyPassword" ).ToString();
+
+		byte[] cypher = Convert.FromBase64String( encodedCypher );
+		RSACryptoServiceProvider credential = store.CurrentUser.Credential;
+		string password = new UTF8Encoding().GetString( credential.Decrypt( cypher, false ) );
+
+		Store.DeleteInstance();
+
+		return password;
+	}
+
         internal class TrustAllCertificatePolicy : ICertificatePolicy
         {
                 #region ICertificatePolicy Members
@@ -606,5 +820,7 @@ public class GrantRights
 
                 #endregion
         }
+
+	
 
 }

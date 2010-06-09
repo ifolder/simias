@@ -40,10 +40,18 @@
 # Usage:  ./iFolder_update_proxy_cred_store proxydn proxypwd
 
 MONO_CMD=""
-if [ $# -lt 3 ]; then
-        echo "Usage: ./iFolder_update_proxy_cred_store <proxydn> <proxypwd> <ldapport>"
+if [ $# -lt 1 ]; then
+        echo "Usage: ./iFolder_update_proxy_cred_store <proxydn> <ldapport>"
         exit -1
 fi
+
+pwd=$OES_IFOLDER_DATA
+if [ -z $pwd ]; then
+	echo "Set proxy password in environment variable OES_IFOLDER_DATA"
+        echo "Usage: ./iFolder_update_proxy_cred_store <proxydn> <ldapport>"
+        exit -1
+fi
+
 
 OS_ARCH=`uname -m | grep -c x86_64`
 if [ $OS_ARCH -gt 0 ]
@@ -78,9 +86,10 @@ datapath=`grep SimiasDataDir /etc/apache2/conf.d/simias.conf | gawk 'BEGIN { RS=
 touch $datapath/proxydetails
 echo update_proxy_cred_store>>$datapath/proxydetails
 echo "$1">>$datapath/proxydetails
-echo "$2">>$datapath/proxydetails
+echo $pwd>>$datapath/proxydetails
 
 `chown wwwrun:www $datapath/proxydetails`
+`chmod 600 $datapath/proxydetails`
 $MONO_CMD iFolderProxySetup.exe $datapath update_proxy_cred_store $3
 EXIT_CODE=$?
 rm $datapath/proxydetails

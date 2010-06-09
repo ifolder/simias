@@ -50,7 +50,7 @@ function getProxy(){
 	fi
 }
 
-if [ $# -lt 3 ]; then
+if [ $# -lt 2 ]; then
         echo "Usage: ./iFolder_retrieve_proxy_creds password <proxucredentialspath> <ldapport>"
         exit -1
 fi

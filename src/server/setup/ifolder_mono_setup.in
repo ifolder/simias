@@ -134,7 +134,7 @@ then
 		newline2=`grep -n SimiasAuthNotRequired $datapath/Simias.config`
 		lineno=${newline2:0:`expr index "$newline2" \:`-1}
 		if [ `grep -c -E GetProxyInfo $datapath/Simias.config` -eq 0 ]; then
-			sed -e ''$lineno' s/\"\ \/>$/, iFolderAdmin.asmx:GetProxyInfo, iFolderAdmin.asmx:ServiceProxyRequests\" \/\>/g' -i $datapath/Simias.config					
+			sed -e ''$lineno' s/\"\ \/>$/, iFolderAdmin.asmx:GetProxyInfo\" \/\>/g' -i $datapath/Simias.config					
 		fi
 		newline2=`grep -n StoreProvider $datapath/Simias.config`
 		lineno=${newline2:0:`expr index "$newline2" \:`-1}
