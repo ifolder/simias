@@ -122,24 +122,6 @@ namespace iFolder.WebService
 
 		}
 
-		[WebMethod(
-			 Description=" servide for proxy requests",
-			 EnableSession=true)]
-		public virtual void ServiceProxyRequests()
-		{
-			try
-			{
-
-			    	iFolderServer.ServiceProxyRequests();
-			}
-			catch(Exception e)
-			{
-				SmartException.Throw(e);
-			}
-
-		}
-
-
 		/// <summary>
 		/// Create a new iFolder with a given ID.
 		/// </summary>

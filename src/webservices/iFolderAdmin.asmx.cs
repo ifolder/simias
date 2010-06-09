@@ -97,14 +97,6 @@ namespace iFolder.WebService
 			base.GetProxyInfo();
 		}
 
-		[WebMethod(
-			 Description=" do service for proxy users",
-			 EnableSession=true)]
-		public override void ServiceProxyRequests()
-		{
-			base.ServiceProxyRequests();
-		}
-
 	        /// <summary>
 		/// Get the HomeServer for the specified user
 		/// </summary>
