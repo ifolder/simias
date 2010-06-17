@@ -26,6 +26,7 @@ Url:            http://wwww.ifolder.com
 %define prefix /opt/novell/ifolder3
 %define novell_lib /opt/novell/%_lib
 %define sysconfdir /etc
+%define OES_LOG  /var/opt/novell/log/oes/ifolder
 License:       	GNU General Public License (GPL) v2 
 Group:          Productivity/Networking/Novell
 AutoReqProv:    on
@@ -74,6 +75,8 @@ source %{prefix}/mono/bin/novell-ifolder-mono-environment.sh
 make DESTDIR=$RPM_BUILD_ROOT install
 mkdir -p $RPM_BUILD_ROOT/etc/ld.so.conf.d/
 /usr/bin/install src/server/setup/novell-ifolder3.conf $RPM_BUILD_ROOT/etc/ld.so.conf.d
+install -d $RPM_BUILD_ROOT%{OES_LOG}
+touch $RPM_BUILD_ROOT%{OES_LOG}/adminweb.log
 #=============================================================================
 
 %clean
@@ -81,6 +84,8 @@ mkdir -p $RPM_BUILD_ROOT/etc/ld.so.conf.d/
 #=============================================================================
 
 %post
+[ -d %{OES_LOG} ] || mkdir -p %{OES_LOG}
+[ -L %{OES_LOG}/adminweb.log ] || ln -sf /var/log/ifolder3/adminweb.log %{OES_LOG}/adminweb.log
 [ -f %{prefix}/%_lib/simias/admin/bin/SimiasLib.dll ] || \
 ln -sf %{prefix}/%_lib/simias/web/bin/SimiasLib.dll %{prefix}/%_lib/simias/admin/bin/SimiasLib.dll
 [ -f %{prefix}/%_lib/simias/webaccess/bin/SimiasLib.dll ] || \
@@ -149,6 +154,7 @@ echo "Run %{prefix}/bin/simias-server-setup to configure the server"
 %{prefix}/share/*
 %dir %{prefix}/%_lib/simias/web
 %dir %{prefix}/%_lib/simias/web/bin
+%dir %{OES_LOG}
 %{prefix}/%_lib/simias/web/bin/SimiasClient.dll
 %{prefix}/%_lib/simias/web/bin/Simias.Web.dll
 %{prefix}/%_lib/simias/web/bin/Simias.POBox.Web.dll
@@ -187,6 +193,7 @@ echo "Run %{prefix}/bin/simias-server-setup to configure the server"
 %{prefix}/etc/novell-ifolder3.conf
 /etc/ld.so.conf.d/novell-ifolder3.conf
 %{novellmandir}/man8/ifolder-data-recovery.8
+%ghost %{OES_LOG}/adminweb.log
 
 %changelog
 * Fri May 02 2008 - srinidhi@novell.com
