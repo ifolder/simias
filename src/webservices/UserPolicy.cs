@@ -271,7 +271,7 @@ namespace iFolder.WebService
 				out props.FileTypesIncludes, out props.FileTypesExcludes);
 
 			// file types effective
-			SystemPolicy.SplitFileTypes(FileTypeFilter.Get(member).FilterUserList,
+			SystemPolicy.SplitFileTypes(FileTypeFilter.Get(member, false).FilterUserList,
 				out props.FileTypesIncludesEffective, out props.FileTypesExcludesEffective);
 			props.AdminGroupRights = iFolderUser.GetAdminRights(AdminId , userID);
 			return props;

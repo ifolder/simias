@@ -192,8 +192,28 @@ namespace Simias.Policy
 		/// <summary>
 		/// Initializes a new instance of an object.
 		/// </summary>
+		/// <param name="member">Member that this file type filter is associated with.</param>
+		/// <param name="includeLocalMachinePolicy">Includes local machine policy.</param>
+	        private FileTypeFilter( Member member, bool includeLocalMachinePolicy )
+		{
+			PolicyManager pm = new PolicyManager();
+			this.memberPolicy = pm.GetAggregatePolicy( FileTypeFilterPolicyID, member, true, includeLocalMachinePolicy );
+		}
+
+		/// <summary>
+		/// Initializes a new instance of an object.
+		/// </summary>
 		/// <param name="collection">Collection that this disk space quota is associated with.</param>
-		private FileTypeFilter( Collection collection )
+	        private FileTypeFilter( Collection collection ) :this( collection, true )
+	        {
+		}
+
+		/// <summary>
+		/// Initializes a new instance of an object.
+		/// </summary>
+		/// <param name="collection">Collection that this disk space quota is associated with.</param>
+		/// <param name="includeLocalMachinePolicy">Includes local machine policy.</param>
+	        private FileTypeFilter( Collection collection, bool includeLocalMachinePolicy )
 		{
 			PolicyManager pm = new PolicyManager();
 
@@ -209,9 +229,9 @@ namespace Simias.Policy
 				// member should not be null , but if it is , then use old code.
 				member = collection.Owner;
 			}
-			this.memberPolicy = pm.GetAggregatePolicy( FileTypeFilterPolicyID, member, true );
+			this.memberPolicy = pm.GetAggregatePolicy( FileTypeFilterPolicyID, member, true, includeLocalMachinePolicy );
 			
-			this.collectionPolicy = pm.GetAggregatePolicy( FileTypeFilterPolicyID, member, collection, true );
+			this.collectionPolicy = pm.GetAggregatePolicy( FileTypeFilterPolicyID, member, collection, true, includeLocalMachinePolicy );
 		}
 		#endregion
 
@@ -440,6 +460,17 @@ namespace Simias.Policy
 		/// Gets the aggregate file type filter policy for the specified member.
 		/// </summary>
 		/// <param name="member">Member that filter is associated with.</param>
+		/// <param name="includeLocalMachinePolicy">Includes local machine policy.</param>
+		/// <returns>A FileTypeFilter object that contains the policy for the specified member.</returns>
+	        static public FileTypeFilter Get( Member member, bool includeLocalMachinePolicy )
+		{
+		         return new FileTypeFilter( member,  includeLocalMachinePolicy);
+		}
+
+		/// <summary>
+		/// Gets the aggregate file type filter policy for the specified member.
+		/// </summary>
+		/// <param name="member">Member that filter is associated with.</param>
 		/// <returns>A FileTypeFilter object that contains the policy for the specified member.</returns>
 		static public FileTypeFilter Get( Member member )
 		{
@@ -466,6 +497,17 @@ namespace Simias.Policy
 		static public FileTypeFilter Get( Collection collection )
 		{
 			return new FileTypeFilter( collection );
+		}
+
+		/// <summary>
+		/// Gets the aggregate file type filter policy for the specified member and collection.
+		/// </summary>
+		/// <param name="collection">Collection to add to the aggregate quota policy.</param>
+		/// <param name="includeLocalMachinePolicy">Includes local machine policy.</param>
+		/// <returns>A FileTypeFilter object that contains the policy for the specified member.</returns>
+	        static public FileTypeFilter Get( Collection collection, bool includeLocalMachinePolicy )
+		{
+		    return new FileTypeFilter( collection, includeLocalMachinePolicy );
 		}
 
 		/// <summary>

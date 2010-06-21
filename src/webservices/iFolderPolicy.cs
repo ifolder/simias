@@ -190,7 +190,7 @@ namespace iFolder.WebService
 			SystemPolicy.SplitFileTypes(FileTypeFilter.GetPatterns(c),
 				out props.FileTypesIncludes, out props.FileTypesExcludes);
 
-			SystemPolicy.SplitFileTypes(FileTypeFilter.Get(c).FilterList,
+			SystemPolicy.SplitFileTypes(FileTypeFilter.Get(c, false).FilterList,
 				out props.FileTypesIncludesEffective, out props.FileTypesExcludesEffective );
 
 			// file size
@@ -244,7 +244,7 @@ namespace iFolder.WebService
 			SystemPolicy.SplitFileTypes(FileTypeFilter.GetPatterns(c),
 				out props.FileTypesIncludes, out props.FileTypesExcludes);
 
-			SystemPolicy.SplitFileTypes(FileTypeFilter.Get(c).FilterList,
+			SystemPolicy.SplitFileTypes(FileTypeFilter.Get(c, false).FilterList,
 				out props.FileTypesIncludesEffective, out props.FileTypesExcludesEffective );
 
 			// file size

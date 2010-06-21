@@ -119,6 +119,25 @@ namespace Simias.Policy
 		}
 
 		/// <summary>
+		/// Gets whether this is a local machine policy.
+		/// </summary>
+		public bool IsLocalMachinePolicy
+		{
+			get
+			{
+				Property p = properties.GetSingleProperty( PropertyTags.PolicyAssociation );
+
+				if (p != null) {
+					Store store = Store.GetStore();
+				        Collection c = store.GetCollectionByID( ( p.Value as Relationship ).CollectionID );
+					return c.IsType (NodeTypes.LocalDatabaseType);
+				} 
+				return false;
+			}
+		}
+
+
+		/// <summary>
 		/// Returns the PolicyTime object for this policy. If there is no time condition,
 		/// null is returned. 
 		/// </summary>
@@ -782,6 +801,8 @@ namespace Simias.Policy
 		/// returned if the Policy does not exist.</returns>
 		public Policy GetAggregatePolicy( string policyID, Member member )
 		{
+			// TODO : Mark GetAggregatePolicy methods as static.
+
 			return GetAggregatePolicy( policyID, member, false );
 		}
 
@@ -815,6 +836,23 @@ namespace Simias.Policy
 		/// <returns>A reference to the associated aggregate Policy if successful. A null is
 		/// returned if the Policy does not exist.</returns>
 		public Policy GetAggregatePolicy( string policyID, Member member, bool includeExceptions )
+	        {
+		        return GetAggregatePolicy( policyID, member, includeExceptions, true );
+		}
+
+		/// <summary>
+		/// Gets an aggregate Policy that is associated with the user. This routine will check for
+		/// an associated Policy on the Member first. If no Policy is found, the domain will
+		/// be searched for an associated Policy. If there is a local Policy for the user it will
+		/// be aggregated with the other Policy if one was found. Otherwise it will be returned.
+		/// </summary>
+		/// <param name="policyID">Strong name for the Policy.</param>
+		/// <param name="member">Member used to lookup the associated aggregate Policy.</param>
+		/// <param name="includeExceptions">Include exception policies.</param>
+		/// <param name="includeLocalMachinePolicy">Include local machine policies.</param>
+		/// <returns>A reference to the associated aggregate Policy if successful. A null is
+		/// returned if the Policy does not exist.</returns>
+		public Policy GetAggregatePolicy( string policyID, Member member, bool includeExceptions, bool includeLocalMachinePolicy )
 		{
 			// First look for an exception policy for the member object. If a policy is found,
 			// then we don't need to look for a domain policy since the exception policy will
@@ -874,18 +912,56 @@ namespace Simias.Policy
 				policy.AddAggregatePolicy( policy );
 			}
 
-			// Check for a local policy.
-			Policy localPolicy = GetPolicy( policyID );
-			if ( localPolicy != null )
+			if (includeLocalMachinePolicy)
+			{
+				// Check for a local policy.
+				Policy localPolicy = GetPolicy( policyID );
+				if ( localPolicy != null )
+				{
+					// If there is no exception or domain policy return the local policy.
+					if ( policy == null )
+						policy = localPolicy;
+
+					// Set the aggregation.
+				       policy.AddAggregatePolicy( localPolicy );
+				}
+			}
+
+			return policy;
+		}
+
+		/// <summary>
+		/// Gets an aggregate Policy that is associated with the user and the specified Collection.
+		/// This routine will check for an associated Policy on the Member first. If no Policy is 
+		/// found, the domain will be searched for an associated Policy. If there is a local Policy 
+		/// for the user it will be aggregated with the other Policy if one was found.  Otherwise 
+		/// it will be returned. The procedure for the local Policy is also followed for an 
+		/// associated Collection Policy.
+		/// </summary>
+		/// <param name="policyID">Strong name of the Policy.</param>
+		/// <param name="member">Member used to lookup the associated aggregate Policy.</param>
+		/// <param name="collection">Collection used to lookup the associated aggregate Policy.</param>
+		/// <param name="includeExceptions">Include exception policies.</param>
+		/// <param name="includeLocalMachinePolicy">Include local machine policies.</param>
+		/// <returns>A reference to the associated aggregate Policy if successful. A null is
+		/// returned if the Policy does not exist.</returns>
+		public Policy GetAggregatePolicy( string policyID, Member member, Collection collection, bool includeExceptions, bool includeLocalMachinePolicy )
+		{
+			// Get the aggregate for the member.
+		        Policy policy = GetAggregatePolicy( policyID, member, includeExceptions, includeLocalMachinePolicy );
+
+			// Check for a collection policy.
+			Policy collectionPolicy = GetPolicy( policyID, collection , includeLocalMachinePolicy);
+			if ( collectionPolicy != null )
 			{
 				// If there is no exception or domain policy return the local policy.
 				if ( policy == null )
 				{
-					policy = localPolicy;
+					policy = collectionPolicy;
 				}
 
 				// Set the aggregation.
-				policy.AddAggregatePolicy( localPolicy );
+				policy.AddAggregatePolicy( collectionPolicy );
 			}
 
 			return policy;
@@ -935,6 +1011,8 @@ namespace Simias.Policy
 		/// returned if the Policy does not exist.</returns>
 		public Policy GetPolicy( string policyID )
 		{
+			//TODO : Mark GetPolicy methods static.
+
 			Policy policy = null;
 
 			// Search the local database for the specified policy.
@@ -1059,6 +1137,19 @@ namespace Simias.Policy
 		/// returned if the Policy does not exist.</returns>
 		public Policy GetPolicy( string policyID, Collection collection )
 		{
+		       return GetPolicy( policyID, collection, true );
+		}
+
+		/// <summary>
+		/// Gets the Policy that is associated with the collection.
+		/// </summary>
+		/// <param name="policyID">Strong name of the Policy.</param>
+		/// <param name="collection">Collection used to lookup the associated Policy.</param>
+		/// <param name="includeLocalMachinePolicy">Includes local machine policy.</param>
+		/// <returns>A reference to the associated Policy if successful. A null is
+		/// returned if the Policy does not exist.</returns>
+	        public Policy GetPolicy( string policyID, Collection collection, bool includeLocalMachinePolicy )
+		{
 			Policy policy = null;
 
 			// Search the collection for the specified policy.
@@ -1066,10 +1157,18 @@ namespace Simias.Policy
 			foreach ( ShallowNode sn in list )
 			{
 				Policy tempPolicy = new Policy( collection, sn );
-				if ( !tempPolicy.IsSystemPolicy )
-				{
-					policy = tempPolicy;
-					break;
+				if (includeLocalMachinePolicy) {
+				          if ( !tempPolicy.IsSystemPolicy )
+					  {
+					          policy = tempPolicy;
+						  break;
+					  }
+				} else {
+				          if ( !tempPolicy.IsSystemPolicy && !tempPolicy.IsLocalMachinePolicy)
+					  {
+					          policy = tempPolicy;
+						  break;
+					  }
 				}
 			}
 
