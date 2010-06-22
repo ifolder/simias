@@ -2281,7 +2281,7 @@ Console.WriteLine("Url {0}", service.Url);
 //				ldapSettings.SyncOnStart = Ldap.LdapSettings.DefaultSyncOnStart;
 			}
 
-			if (slaveServer.Value && useLdap.Value)
+			if (status && slaveServer.Value && useLdap.Value)
 			{
 			        //prompt for ldap settings. 
 			        ldapServer.Prompt = true;
