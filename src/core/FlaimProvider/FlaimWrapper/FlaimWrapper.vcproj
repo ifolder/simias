@@ -84,7 +84,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="rpcrt4.lib ws2_32.lib odbc32.lib odbccp32.lib flaim.lib msvcrt.lib"
 				OutputFile=".\Release/FlaimWrapper.dll"
-				Version="3.8.1.0"
+				Version="3.8.2.0"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
 				AdditionalLibraryDirectories="&quot;$(SolutionDir)..\..\dependencies\external\libflaim\win32&quot;"
