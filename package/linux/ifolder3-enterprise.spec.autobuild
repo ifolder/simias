@@ -18,7 +18,7 @@
 
 
 Name:           ifolder3-enterprise
-BuildRequires:  compat-libstdc++ e2fsprogs e2fsprogs-devel gcc-c++ glib2 glib2-devel libflaim libflaim-devel libstdc++ libstdc++-devel libxml2 libxml2-devel log4net novell-ifolder-mono novell-ifolder-mono-devel novell-NLDAPbase novell-NLDAPsdk-devel pkgconfig
+BuildRequires:  compat-libstdc++ e2fsprogs e2fsprogs-devel gcc-c++ glib2 glib2-devel libflaim libflaim-devel libstdc++ libstdc++-devel libxml2 libxml2-devel log4net novell-ifolder-mono novell-ifolder-mono-devel novell-NLDAPbase novell-NLDAPsdk-devel pkgconfig novell-oes-install
 
 %define buildnum @@BUILDNUM@@
 %define novellmandir /opt/novell/man/
@@ -192,7 +192,7 @@ echo "Run %{prefix}/bin/simias-server-setup to configure the server"
 %{prefix}/etc/simias/defaults.config
 %{prefix}/etc/novell-ifolder3.conf
 /etc/ld.so.conf.d/novell-ifolder3.conf
-%{novellmandir}/man8/ifolder-data-recovery.8
+%{novellmandir}/man8/ifolder-data-recovery.8.gz
 %ghost %{OES_LOG}/adminweb.log
 
 %changelog
