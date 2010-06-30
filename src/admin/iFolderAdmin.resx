@@ -1267,6 +1267,9 @@
     <data name="NOMEMBERAVAILABLE">
         <value>No member available</value>
     </data>
+    <data name="NOPOLICIESAVAILABLE">
+        <value>No policies available</value>
+    </data>
     <data name="SAVETO">
         <value>Save to</value>
     </data>

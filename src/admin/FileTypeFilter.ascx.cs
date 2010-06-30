@@ -425,6 +425,9 @@ namespace Novell.iFolderWeb.Admin
 				TotalFiles, 
 				GetString( "FILES" ),
 				GetString( "FILE" ) );
+
+			if (TotalFiles == 0)
+			        FileTypeListFooter.SetPageText (GetString ("NOPOLICIESAVAILABLE"));
 		}
 
 		/// <summary>

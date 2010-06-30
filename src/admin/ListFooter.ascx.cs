@@ -237,6 +237,15 @@ namespace Novell.iFolderWeb.Admin
 		#region Public Methods
 
 		/// <summary>
+		/// Sets the text to be displayed at the botton of the list
+		/// </summary>
+		/// <param name="footerText"> Text to be displayed at the botton of the list</param>
+		public void SetPageText( string footerText )
+		{
+		         PageText.Text = footerText;
+		}
+
+		/// <summary>
 		/// Enables or disables the search navigation buttons depending on the display data index.
 		/// </summary>
 		/// <param name="dataGrid"></param>
