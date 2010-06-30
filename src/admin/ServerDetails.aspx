@@ -421,11 +421,10 @@
                                                 </th>
 
                                                 <td>
-                                                        <asp:TextBox
+                                                        <asp:Literal
                                                                 ID="LdapServer"
                                                                 Runat="server"
-                                                                CssClass="syncnowtextbox"
-                                                                Enabled="false" />
+								/>
                                                 </td>
                                         </tr>
 					
@@ -449,44 +448,23 @@
                                                 </th>
 
                                                 <td>
-                                                        <asp:TextBox
+                                                        <asp:Literal
                                                                 ID="LdapProxyUser"
                                                                 Runat="server"
-                                                                Enabled="false"
                                                                 />
                                                 </td>
                                         </tr>
 
-                                        <tr>
-                                                <th>
-                                                        <%= GetString( "LDAPPROXYUSERPWD" ) %>
-                                                </th>
-
-                                                <td>
-                                                        <asp:TextBox
-                                                                ID="LdapProxyUserPwd"
-                                                                TextMode="Password"
-                                                                Enabled="false"
-                                                                Runat="server"
-                                                                />
-                                                </td>
-                                        </tr>
-					
 					<tr>
 						<th>
 							<%= GetString( "LDAPCONTEXTTAG" ) %>
 						</th>
 						
 						<td>
-							<textarea
+							<asp:Literal
 								ID="LdapSearchContext"
-                                                                runat="server"
-                                                                class="edittext"
-								readonly="true"
-								wrap="soft"
-								rows="2"
-								cols="25"
-                                                                ></textarea>
+                                                                Runat="server"
+                                                                />
 						</td>
 					</tr>
 

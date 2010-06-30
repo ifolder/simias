@@ -201,7 +201,7 @@ namespace Novell.iFolderWeb.Admin
 		/// <summary>
 		/// LDAP Server name.
 		/// </summary>
-		protected TextBox LdapServer;
+		protected Literal LdapServer;
 
 		/// <summary>
 		/// LDAP Cycles
@@ -216,12 +216,7 @@ namespace Novell.iFolderWeb.Admin
 		/// <summary>
 		/// LDAP Proxy User
 		/// </summary>
-		protected TextBox LdapProxyUser;
-
-		/// <summary>
-		/// LDAP Proxy User
-		/// </summary>
-		protected TextBox LdapProxyUserPwd;
+		protected Literal LdapProxyUser;
 
 		/// <summary>
 		/// LDAP SSL
@@ -231,7 +226,7 @@ namespace Novell.iFolderWeb.Admin
 		/// <summary>
 		/// External Identity Sync Interval
 		/// </summary>
-		protected HtmlTextArea LdapSearchContext;
+		protected Literal LdapSearchContext;
 
 		/// <summary>
 		/// Member Delete Grace Interval
@@ -745,9 +740,8 @@ namespace Novell.iFolderWeb.Admin
 		    //Pick information from IdentityProvider
 			LdapInfo ldapInfo = remoteweb.GetLdapDetails();
 			LdapServer.Text = ldapInfo.Host ;
-			LdapSearchContext.Value = ldapInfo.SearchContexts;
+			LdapSearchContext.Text = ldapInfo.SearchContexts;
 			LdapProxyUser.Text = ldapInfo.ProxyDN;
-			LdapProxyUserPwd.Text = ldapInfo.ProxyPassword; 
 			LdapSsl.Text = ldapInfo.SSL ? GetString ("YES") : GetString ("NO");
 		}
 
