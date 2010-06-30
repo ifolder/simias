@@ -1074,22 +1074,55 @@ Console.WriteLine("Url {0}", service.Url);
 		}
 
 		/// <summary>
+		/// Combines strings into a path.
+		/// </summary>
+	        private static string PathCombine (params string [] paths)
+		{
+			//TODO : Move this API to a common utils class?
+		        //Note : This API was Stolen from Mono - System.IO/Path.cs.
+		        //Path.Combine (params string []) is not available untill 4.0 (Mono 2.8)
+
+			if (paths == null)
+				throw new ArgumentNullException ("paths");
+
+			bool need_sep;
+			var ret = new StringBuilder ();
+			int pathsLen = paths.Length;
+			int slen;
+			foreach (var s in paths) {
+				need_sep = false;
+				if (s == null)
+					throw new ArgumentNullException ("One of the paths contains a null value", "paths");
+				if (s.IndexOfAny (Path.GetInvalidPathChars()) != -1)
+					throw new ArgumentException ("Illegal characters in path.");
+				
+				pathsLen--;
+				if (Path.IsPathRooted (s))
+					ret.Length = 0;
+				
+				ret.Append (s);
+				slen = s.Length;
+				if (slen > 0 && pathsLen > 0) {
+					char p1end = s [slen - 1];
+					if (p1end != Path.DirectorySeparatorChar && p1end != Path.AltDirectorySeparatorChar && p1end != Path.VolumeSeparatorChar)
+						need_sep = true;
+				}
+				
+				if (need_sep)
+					ret.Append (Path.DirectorySeparatorChar.ToString());
+			}
+
+			return ret.ToString ();
+		}
+
+		/// <summary>
 		/// Setup User Move Plugin
 		/// </summary>
 		bool SetupUserMovePlugin()
 		{
 				Console.WriteLine("Configuring User Movement plugin..\n");
-				string usermoveModuleConfigPath = String.Format( "{0}{1}{2}{3}{4}{5}{6}{7}{8}",
-					SimiasSetup.sysconfdir,
-                                        Path.DirectorySeparatorChar.ToString(),
-                                        "simias",
-					Path.DirectorySeparatorChar.ToString(),
-					"bill",
-					Path.DirectorySeparatorChar.ToString(),
-					ModulesDir,
-					Path.DirectorySeparatorChar.ToString(),
-					UserMoveModule );
 
+				string usermoveModuleConfigPath = PathCombine (SimiasSetup.simiasconfdir, "bill", ModulesDir, UserMoveModule);
 
 				if ( File.Exists( usermoveModuleConfigPath ) == false )
 				{
@@ -1130,16 +1163,8 @@ Console.WriteLine("Url {0}", service.Url);
 					"../..",
                                         Path.DirectorySeparatorChar.ToString()
 					);
-				string ldapModuleConfigPath = String.Format( "{0}{1}{2}{3}{4}{5}{6}{7}{8}",
-					SimiasSetup.sysconfdir,
-                                        Path.DirectorySeparatorChar.ToString(),
-                                        "simias",
-					Path.DirectorySeparatorChar.ToString(),
-					"bill",
-					Path.DirectorySeparatorChar.ToString(),
-					ModulesDir,
-					Path.DirectorySeparatorChar.ToString(),
-					LdapModule );
+
+				string ldapModuleConfigPath = PathCombine (SimiasSetup.simiasconfdir, "bill", ModulesDir, LdapModule);
 
 				if ( File.Exists( ldapModuleConfigPath ) == false )
 				{
