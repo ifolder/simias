@@ -267,7 +267,7 @@ namespace Novell.iFolder
 		/// <summary>
 		/// LDAP Proxy DN
 		/// </summary>
-		public Option ldapProxyDN = new Option("ldap-proxy-dn", "LDAP Proxy DN", "An LDAP user that will be used to provision the users between Simias and the LDAP server.  If this user does not already exist in the LDAP tree it will be created and granted read rights at the root of the tree. The user's dn and password are stored by Simias.", false, "cn=SimiasProxy,o=novell");
+		public Option ldapProxyDN = new Option("ldap-proxy-dn", "LDAP Proxy DN", "An LDAP user that will be used to provision the users between Simias and the LDAP server.  If this user does not already exist in the LDAP tree it will be created and granted read rights at the root of the tree. The user's dn and password are stored by Simias.", false, "cn=iFolderProxy,o=novell");
 
 		/// <summary>
 		/// LDAP Proxy Password
