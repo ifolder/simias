@@ -86,6 +86,7 @@ namespace Novell.iFolder
 		private static string oldConfigPath = "/var/lib/wwwrun/.local/share/simias/";
 
 		private static string TemplateScriptFile = "simias-server";
+		private static readonly int MAX_PROXY_RETRY_COUNT = 5;
 
 	        //Invalid Character List.
 		public static char[] InvalidChars = {'\\', ':', '*', '?', '\"', '<', '>', '|', ' '};
@@ -2510,6 +2511,7 @@ Console.WriteLine("Url {0}", service.Url);
 		void SetupLdap()
 		{
 			LdapUtility ldapUtility;
+			LdapUtility ldapUtility2 = null;
 			UriBuilder newUri = new UriBuilder();
 			
 			if(ldapServer.Value.Equals("localhost"))
@@ -2572,6 +2574,7 @@ Console.WriteLine("Url {0}", service.Url);
 
 			if ( directoryType.Equals( LdapDirectoryType.Unknown ) )
 			{
+				ldapUtility.Disconnect();
 				throw new Exception( string.Format( "Unable to determine directory type for {0}", ldapUtility.Host ) );
 			}
 
@@ -2613,6 +2616,7 @@ Console.WriteLine("Url {0}", service.Url);
 									{
 										if ( !ldapUtility.ValidateSearchContext( context ) )
 										{
+											ldapUtility.Disconnect();
 											throw new Exception( string.Format( "Invalid context entered: {0}", context ) );
 										}
 										Console.WriteLine("Granting Read Rights to {0} on {1}...", proxyDN, context);
@@ -2636,6 +2640,7 @@ Console.WriteLine("Url {0}", service.Url);
 									{
 										if ( !ldapUtility.ValidateSearchContext( context ) )
 										{
+											ldapUtility.Disconnect();
 											throw new Exception( string.Format( "Invalid context entered: {0}", context ) );
 										}
 										Console.WriteLine("Granting Read Rights to {0} on {1}...", proxyDN, context);
@@ -2654,7 +2659,7 @@ Console.WriteLine("Url {0}", service.Url);
 							{
 								// check proxy if proxy user is already present and password is incorrect - workaround for 298762
 								Console.WriteLine("Checking {0}...", proxyDN);
-								LdapUtility ldapUtility2 = new LdapUtility(ldapUrl.ToString(), proxyDN, ldapProxyPassword.Value);
+								ldapUtility2 = new LdapUtility(ldapUrl.ToString(), proxyDN, ldapProxyPassword.Value);
 								ldapUtility2.Connect();
 								if ( ldapUtility.DirectoryType.Equals( LdapDirectoryType.eDirectory ) )
 								{
@@ -2668,6 +2673,8 @@ Console.WriteLine("Url {0}", service.Url);
 											{
 												if ( !ldapUtility.ValidateSearchContext( context ) )
 												{
+													ldapUtility.Disconnect();
+													ldapUtility2.Disconnect();
 													throw new Exception( string.Format( "Invalid context entered: {0}", context ) );
 												}
 												Console.WriteLine("Granting Read Rights to {0} on {1}...", proxyDN, context);
@@ -2684,22 +2691,29 @@ Console.WriteLine("Url {0}", service.Url);
 										}
 									}
 								}
+								ldapUtility2.Disconnect();
 								created = true;
 								Console.WriteLine("Done");
 								Console.WriteLine("Skipped (User Exists)");
 							}
 							catch(Exception)
 							{
+								if(i > MAX_PROXY_RETRY_COUNT) {
+									ldapUtility.Disconnect();
+									if( ldapUtility2 != null)
+										ldapUtility2.Disconnect();
+									throw new Exception( string.Format( "Failed to create Proxy user {0}",proxyDN ) );
+								}
 								//proxy user password is incorrect, create a new ID
 								string[] dnSegs = proxyDN.Split(new char[] {',', '=', '.'});
 								string old_proxy = dnSegs[1];
-								Console.WriteLine("Old Proxy user {0}...", dnSegs[1]);
+								Console.WriteLine("Failed to connect using the Proxy user {0}, creating a new proxy user...", proxyDN);
+								Console.WriteLine("Old Proxy user {0}...", proxyDN);
 								dnSegs[1] = String.Concat(dnSegs[1], i.ToString());
-								Console.WriteLine("new Proxy user {0}...", dnSegs[1]);
 								proxyDN = proxyDN.Replace(old_proxy, dnSegs[1]);
+								Console.WriteLine("New Proxy user {0}...", proxyDN);
 								ldapProxyDN.Value = proxyDN;
-								Console.WriteLine("Checked2 {0}...", proxyDN);
-							}
+							 }
 					}
 				}
 			}
