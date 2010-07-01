@@ -1472,12 +1472,7 @@ namespace Simias.Sync
 					writeArray.Add(new OffsetSegment(sizeToSync, 0));
 				}
 				else
-				{
-                    copyArray.Clear();
-                    writeArray.Clear();
-					//Nothing to upload since the file data is modified (might have been 'touch'ed
 					sizeToSync = 0;
-				}
 			}
 		}
 

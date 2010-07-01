@@ -1147,7 +1147,7 @@ namespace Simias.Sync
 					
 					Store store = Store.GetStore();
 					string Passphrase =  store.GetPassPhrase(collection.Domain);
-					Log.log.Debug("GetCryptoKey: passphrase:{0} -- domain:{1}", Passphrase, collection.Domain.ToString());
+					//Log.log.Debug("GetCryptoKey: passphrase:{0} -- domain:{1}", Passphrase, collection.Domain.ToString());
 					if(Passphrase ==null)
 						throw new CollectionStoreException("Passphrase not provided");
 
@@ -1156,9 +1156,9 @@ namespace Simias.Sync
 					byte[] passphrase = hash.HashPassPhrase(Passphrase);					
 			
 					Key key = new Key(EncryptedKey);//send the key size and algorithm
-					Log.log.Debug("DecryptKey called");
+					//Log.log.Debug("DecryptKey called");
 					key.DecrypytKey(passphrase, out EncryptionKey);//send the passphrase to decrypt the key
-					Log.log.Debug("Encryption key is :{0}", EncryptionKey.ToString());
+					//Log.log.Debug("Encryption key is :{0}", EncryptionKey.ToString());
 				
 					p = collection.Properties.FindSingleValue(PropertyTags.EncryptionBlob);
 					string EncryptionBlob = (p!=null) ? (string) p.Value as string : null;
