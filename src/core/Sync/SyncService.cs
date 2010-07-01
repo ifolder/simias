@@ -1033,6 +1033,16 @@ namespace Simias.Sync
 			if (cLock == null || !IsAccessAllowed(Access.Rights.ReadWrite))
 				return null;
 
+            /// If This is a Domain collection then don't let the deletion to proceed...
+
+            string ColType = collection.GetType().ToString();
+            bool IsDomainType = ColType.Equals(PropertyTags.DomainTypeNameSpaceProperty) || ColType.Equals(PropertyTags.Domain);
+            if (IsDomainType)
+            {
+                log.Fatal("Attempt to delete users as part of domain sync. Rejecting the delete request.");
+                return null;
+            }
+
 			SyncNodeStatus[] statusArray = new SyncNodeStatus[nodeIDs.Length];
 		
 			lock (cLock)
