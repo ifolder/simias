@@ -513,7 +513,11 @@ namespace Simias.Storage
 		/// Well known property name.
 		/// </summary>
 		static public string AggregateDiskQuota = "AggregateDiskQuota";
-		
+
+        /// <summary>
+        /// Well known property name.
+        /// </summary>
+        static public string DomainTypeNameSpaceProperty = "Simias.Storage.Domain";
 		
 		/// <summary>
 		/// Hashtable providing quick lookup to well-known system properties.
