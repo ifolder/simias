@@ -3152,10 +3152,8 @@ namespace Simias.Storage
 		/// <param name="node">Node for which orphan collections has to be made.</param>
 		public void OrphanCollections(Node node)
 		{
-			if(node == null || ! (node.IsBaseType(NodeTypes.MemberType) ))
-			{
+		        if(node == null || !(node.IsBaseType(NodeTypes.MemberType)) || node.IsType (HostNode.HostNodeType) )
 				return ;
-			}
 
 			// Convert this node to a member node.
 			Member member = new Member( node );
