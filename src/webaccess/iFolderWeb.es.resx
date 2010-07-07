@@ -200,7 +200,7 @@
     <value>Último</value>
   </data>
   <data name="LOGIN.COPYRIGHT">
-    <value>&amp;copy; Copyright 2009 Novell, Inc. Reservados todos los derechos.</value>
+    <value>&amp;copy; Copyright 2010 Novell, Inc. Reservados todos los derechos.</value>
   </data>
   <data name="SLOVAK">
     <value>Eslovaco</value>
@@ -548,7 +548,7 @@
     <value>Acceso</value>
   </data>
   <data name="CONFIRMNEWPASSWORD">
-    <value>Confirmar nueva contraseña </value>
+    <value>Confirmar nueva contraseña: </value>
   </data>
   <data name="UPLOADFILES">
     <value>Cargar archivos</value>

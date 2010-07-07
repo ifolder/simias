@@ -158,7 +158,7 @@
     <value>Generale</value>
   </data>
   <data name="ENTRY.EMPTYFILE">
-    <value>È stato caricato un file di zero byte.</value>
+    <value>È stato effettuato l'upload di un file di zero byte.</value>
   </data>
   <data name="IFOLDER.CONFIRMCHANGEOWNER">
     <value>Rinunciare alla proprietà della cartella iFolder?</value>
@@ -200,7 +200,7 @@
     <value>Ultima</value>
   </data>
   <data name="LOGIN.COPYRIGHT">
-    <value>&amp;copy; Copyright 2009 Novell, Inc. Tutti i diritti riservati.</value>
+    <value>&amp;copy; Copyright 2010 Novell, Inc. Tutti i diritti riservati.</value>
   </data>
   <data name="SLOVAK">
     <value>Slovacco</value>
@@ -335,7 +335,7 @@
     <value>Password precedente e nuova password non devono corrispondere.</value>
   </data>
   <data name="ENTRY.DISKQUOTAEXCEPTION">
-    <value>Caricamento annullato. Il file viola le norme sulla quota disco.</value>
+    <value>Esecuzione dell'upload annullata. Il file viola le norme sulla quota disco.</value>
   </data>
   <data name="IFOLDER.NONAME">
     <value>È richiesto un nome iFolder.</value>
@@ -455,7 +455,7 @@
     <value>Condividi con</value>
   </data>
   <data name="USERACCOUNTEXPIRED">
-    <value>Conto utente scaduto.</value>
+    <value>Account utente scaduto.</value>
   </data>
   <data name="ENTRY.CONFIRMDELETE">
     <value>Eliminare gli elementi selezionati?</value>
@@ -485,7 +485,7 @@
     <value>Evento</value>
   </data>
   <data name="ENTRY.FILETYPEEXCEPTION">
-    <value>Caricamento annullato. Il file viola le norme sullo schema dei file.</value>
+    <value>Esecuzione dell'upload annullata. Il file viola le norme sullo schema dei file.</value>
   </data>
   <data name="CONFIG_RECOVERY_AGENT">
     <value>Configura l'agente di recupero per la cifratura </value>
@@ -515,7 +515,7 @@
     <value>Primo</value>
   </data>
   <data name="OVERWRITE">
-    <value>I file con lo stesso nome non verranno caricati.</value>
+    <value>Non verrà effettuato l'upload dei file con lo stesso nome.</value>
   </data>
   <data name="NEW">
     <value>Nuova</value>
@@ -578,7 +578,7 @@
     <value>?</value>
   </data>
   <data name="IFOLDER.CONFIRMREMOVEDELETE">
-    <value>Rimuovere l'accesso alle cartelle iFolder selezionate e/o eliminare le cartelle iFolder?</value>
+    <value>Rimuovere l'accesso o eliminare le cartelle iFolder selezionate?</value>
   </data>
   <data name="MESSAGE.WARNING">
     <value>Avviso:</value>
@@ -590,7 +590,7 @@
     <value>Inglese</value>
   </data>
   <data name="ENTRY.MAXUPLOADSIZEEXCEPTION">
-    <value>Caricamento annullato. Il file supera la dimensione file massima consentita.</value>
+    <value>Esecuzione dell'upload annullata. Il file supera la dimensione file massima consentita.</value>
   </data>
   <data name="LASTNAME">
     <value>Cognome</value>
@@ -632,7 +632,7 @@
     <value>Cancella cartella iFolder</value>
   </data>
   <data name="EMPTY_PASSWORD">
-    <value>Campo Password vuoto</value>
+    <value>Campo password vuoto</value>
   </data>
   <data name="RIGHTS.READWRITE">
     <value>Lettura/scrittura</value>
@@ -743,7 +743,7 @@
     <value>Data/ora</value>
   </data>
   <data name="ENTRY.UPLOADFILE">
-    <value>Carica file</value>
+    <value>Effettua upload del file</value>
   </data>
   <data name="LOGIN.NOCOOKIES">
     <value>È necessario abilitare i cookie nel browser.</value>
@@ -770,7 +770,7 @@
     <value>Bloccato</value>
   </data>
   <data name="ENTRY.FAILEDDOWNLOAD">
-    <value>File non disponibile per lo scaricamento. Riprovare.</value>
+    <value>File non disponibile per l'esecuzione del download. Riprovare.</value>
   </data>
   <data name="LOGIN.LANGUAGE">
     <value>Lingua:</value>

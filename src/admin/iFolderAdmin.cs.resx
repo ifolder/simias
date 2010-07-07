@@ -160,9 +160,6 @@
   <data name="SERVERLOGS">
     <value>Protokoly serveru</value>
   </data>
-  <data name="ALLADMINS">
-    <value>Všichni správci</value>
-  </data>
   <data name="PRIVATEURI">
     <value>Privátní URL:</value>
   </data>
@@ -202,14 +199,14 @@
   <data name="REPROVISOINSTATE">
     <value>Stav opakovaného poskytování</value>
   </data>
-  <data name="SPANISH">
-    <value>Španělština</value>
+  <data name="CHANGEMASTERFAILED">
+    <value>Nelze změnit hlavní a podřízený server. Další informace zjistíte v souborech protokolu.</value>
   </data>
   <data name="COMPLETEDTAG">
     <value>Dokončeno:</value>
   </data>
-  <data name="ERRORIFOLDERTRANSFEREXCEPTION">
-    <value>Vlastnictví nelze převést, protože překračujete počet složek iFolder nastavený správcem.</value>
+  <data name="ENTERLDAPDETAILS">
+    <value>Zadejte pověření správce LDAP</value>
   </data>
   <data name="MEMBERTYPELDAPGROUP">
     <value>Skupina LDAP</value>
@@ -223,14 +220,20 @@
   <data name="USEDTAG">
     <value>Využité:</value>
   </data>
+  <data name="NEEDSREPAIR">
+    <value>Opravit server</value>
+  </data>
   <data name="MEMBERTYPETAG">
     <value>Typ člena:</value>
   </data>
   <data name="NONE">
     <value>Žádné</value>
   </data>
-  <data name="GROUPRIGHTSADDFAILURE">
-    <value>Uživatele {0}{1}{2} nebylo možné přidat jako správce pro skupinu {3}{4}{5}. Klepnutím na možnost Opakovat lze znovu přidat skupinu. Klepnutím na tlačítko OK se vrátíte na stránku Systémy. </value>
+  <data name="ERRORIFOLDERTRANSFEREXCEPTION">
+    <value>Vlastnictví nelze převést, protože překračujete počet složek iFolder nastavený správcem.</value>
+  </data>
+  <data name="running">
+    <value>běží</value>
   </data>
   <data name="ERRORCANNOTDELETESECONDARYADMIN">
     <value>Nelze odstranit sekundárního správce {0}.</value>
@@ -262,8 +265,14 @@
   <data name="ERRORCANNOTCHANGERIGHTS">
     <value>Není možné změnit členská práva uživatele {0}.</value>
   </data>
+  <data name="CHANGEMASTER">
+    <value>Nastavit jako hlavní</value>
+  </data>
   <data name="FULLNAME">
     <value>Celé jméno</value>
+  </data>
+  <data name="sleeping">
+    <value>spánek</value>
   </data>
   <data name="LOGINNOCOOKIES">
     <value>Musíte ve svém prohlížeči zapnout cookies.</value>
@@ -273,6 +282,9 @@
   </data>
   <data name="WEEKLY">
     <value>Týdně</value>
+  </data>
+  <data name="shutdown">
+    <value>ukončování</value>
   </data>
   <data name="REPORTIFOLDERTAG">
     <value>Složka iFolder:</value>
@@ -301,11 +313,14 @@
   <data name="USERS">
     <value>Uživatelé</value>
   </data>
-  <data name="SET">
-    <value>Nastavit</value>
+  <data name="ALLADMINS">
+    <value>Všichni správci</value>
   </data>
   <data name="LASTPAGE">
     <value>Poslední stránka</value>
+  </data>
+  <data name="CANNOTSETQUOTAPERUSERERROR">
+    <value>Tento limit nelze nastavit, protože celková přidělená disková kvóta na uživatele překračuje kvótu skupiny.</value>
   </data>
   <data name="ERRORDETAIL">
     <value>Podrobnosti o chybě</value>
@@ -319,8 +334,8 @@
   <data name="SIZETAG">
     <value>Velikost:</value>
   </data>
-  <data name="FILENAME">
-    <value>Název souboru</value>
+  <data name="GENERATEWEEKLYREPORT">
+    <value>Generovat zprávu každý {0} v {1} do {2}</value>
   </data>
   <data name="LOGINNOSCRIPT">
     <value>Musíte ve svém prohlížeči zapnout skripty.</value>
@@ -388,6 +403,9 @@
   <data name="GROUPLISTTAG">
     <value>Skupiny uživatelů:</value>
   </data>
+  <data name="ADDADMINS">
+    <value>Přidat správce</value>
+  </data>
   <data name="MINUTES">
     <value>Minut</value>
   </data>
@@ -406,8 +424,8 @@
   <data name="SERVERNAMETAG">
     <value>Server:</value>
   </data>
-  <data name="GROUPRIGHTSEDITSUCCESSFUL">
-    <value>Práva správce {0}{1}{2} byla úspěšně upravena pro skupinu {3}{4}{5}. Klepnutím na tlačítko Opakovat provedete operace u dalších skupin stejného správce. Klepnutím na tlačítko OK se vrátíte na stránku Systémy.</value>
+  <data name="ERRORTYPE">
+    <value>Neočekávaná chyba</value>
   </data>
   <data name="SECONDARY">
     <value>Sekundární</value>
@@ -439,14 +457,14 @@
   <data name="LOGINERROR">
     <value>Chyba:</value>
   </data>
-  <data name="SELECTGROUPTODELETE">
-    <value>Vybrat skupiny k odstranění</value>
+  <data name="CHANGEMASTERNOINFOFAILED">
+    <value>Nelze získat ID serveru a novou veřejnou adresu URL serveru.</value>
   </data>
   <data name="OWNED">
     <value>Vlastněno</value>
   </data>
-  <data name="ACCOUNT">
-    <value>Účet</value>
+  <data name="CHANGEMASTERRETRY">
+    <value>Nelze aktualizovat atribut hlavního uzlu v hlavním nebo podřízeném objektu. Opakujte operaci.</value>
   </data>
   <data name="USERSTAG">
     <value>Uživatelé:</value>
@@ -490,6 +508,9 @@
   <data name="ALLOWMODIFYSHARINGPOLICY">
     <value>Povolit změny zásad sdílení</value>
   </data>
+  <data name="REPORTS">
+    <value>Oznámení</value>
+  </data>
   <data name="NOTMOUNTED">
     <value>Nepřipojeno</value>
   </data>
@@ -508,11 +529,17 @@
   <data name="READONLY">
     <value>Pouze pro čtení</value>
   </data>
+  <data name="ERRORINVALIDIDSYNCINTERVAL">
+    <value>Byl zadán neplatný synchronizační interval. Hodnota musí být v rozmezí 5 až 10080.</value>
+  </data>
   <data name="LDAPSERVER">
     <value>Server LDAP:</value>
   </data>
   <data name="IFOLDERUSERS">
     <value>Uživatelé aplikace iFolder</value>
+  </data>
+  <data name="waiting">
+    <value>čeká</value>
   </data>
   <data name="INVALIDFULLPATH">
     <value>Zadaná úplná cesta je neplatná, zkontrolujte ji a znovu ji zapište.</value>
@@ -544,8 +571,8 @@
   <data name="SELECTEDUSERS">
     <value>Vybraní uživatelé</value>
   </data>
-  <data name="RESTARTSERVER">
-    <value>Informace byly aktualizovány. Tyto změny se projeví až po opětovném spuštění serveru iFolder. </value>
+  <data name="CHINESE-SIMPLIFIED">
+    <value>Zjednodušená čínština</value>
   </data>
   <data name="PUBLICURI">
     <value>Veřejná URL:</value>
@@ -558,9 +585,6 @@
   </data>
   <data name="SERVERDETAILS">
     <value>Podrobnosti o serveru</value>
-  </data>
-  <data name="LDAPUPSINCE">
-    <value>Do:</value>
   </data>
   <data name="USERLOGINDISABLED">
     <value>Vypnout přihlášení uživatele</value>
@@ -658,14 +682,17 @@
   <data name="ALLOWMODIFYENCRYPTIONPOLICY">
     <value>Povolit změny zásad šifrování</value>
   </data>
-  <data name="REPROVISIONBUTTON">
-    <value>Stav opakovaného poskytování</value>
+  <data name="MEMBER">
+    <value>Člen</value>
   </data>
   <data name="FILES">
     <value>Soubory:</value>
   </data>
   <data name="ERRORCANNOTREMOVEADMIN">
     <value>Není možné odebrat uživatele {0} jako správce.</value>
+  </data>
+  <data name="CHANGEMASTERWITHWARNING">
+    <value>Byl inovován server {0} jako hlavní server s výjimkami. Další informace najdete v protokolu Simias.log. Restartujte všechny servery, aby se změny projevily.</value>
   </data>
   <data name="PASSWORDSDONOTMATCH">
     <value>Zadaná hesla nejsou stejná.</value>
@@ -688,14 +715,11 @@
   <data name="ERRORLOCKEXCEPTION">
     <value>Operace byla zrušena protože složka iFolder byla uzamčena/zablokována správcem.</value>
   </data>
-  <data name="ENTERLDAPDETAILS">
-    <value>Zadejte pověření správce LDAP</value>
-  </data>
   <data name="PASSWORDTAG">
     <value>Heslo:</value>
   </data>
   <data name="SESSIONCLOSED">
-    <value>Vaše relace byla ukončena. Znovu se přihlaste.</value>
+    <value>Zadané uživatelské jméno a heslo není správné. Přihlaste se prosím.</value>
   </data>
   <data name="DNSNAMETAG">
     <value>Název DNS:</value>
@@ -784,8 +808,14 @@
   <data name="TIME">
     <value>Čas</value>
   </data>
+  <data name="CONFIGFILEUPDATEFAILED">
+    <value>Nelze aktualizovat konfigurační soubor. Aktualizujte soubor simias.config ručně.</value>
+  </data>
   <data name="LOGINSECUREFAILED">
     <value>Se serverem iFolder není možné bezpečně komunikovat.</value>
+  </data>
+  <data name="CONFIRMCHANGEMASTER">
+    <value>Vybraný server bude vyhrazen jako hlavní server. Chcete pokračovat? Klepnutím na tlačítko OK budete pokračovat a klepnutím na tlačítko Storno akci ukončíte.</value>
   </data>
   <data name="LOGINPASSWORD">
     <value>Heslo:</value>
@@ -826,6 +856,9 @@
   <data name="ADMINISTRATORS">
     <value>Správci</value>
   </data>
+  <data name="SELECTGROUPTODELETE">
+    <value>Vybrat skupiny k odstranění</value>
+  </data>
   <data name="FORMATTAG">
     <value>Formát:</value>
   </data>
@@ -862,14 +895,14 @@
   <data name="TOTALUSERSTAG">
     <value>Celkem uživatelů:</value>
   </data>
+  <data name="WEBACCESSLOGFILE">
+    <value>Aplikace Web Access</value>
+  </data>
   <data name="ERRORUSERDOESNOTEXIST">
     <value>Uvedený uživatel složky iFolder neexistuje.</value>
   </data>
   <data name="LOGINCOPYRIGHT">
-    <value>&amp;copy; Copyright 2009 Novell, Inc. Všechna práva vyhrazena.</value>
-  </data>
-  <data name="GENERATEWEEKLYREPORT">
-    <value>Generovat zprávu každý {0} v {1} do {2}</value>
+    <value>&amp;copy; Copyright 2010 Novell, Inc. Všechna práva vyhrazena.</value>
   </data>
   <data name="VIEW">
     <value>Zobrazit</value>
@@ -880,11 +913,8 @@
   <data name="GENERATEDAILYREPORT">
     <value>Generovat zprávu každý den v {0} do {1}</value>
   </data>
-  <data name="ERRORINSTRUCTIONS">
-    <value>&lt;p&gt;Aplikace iFolder Web Access zaznamenala neočekávanou chybu.&lt;/p&gt; &lt;p&gt;Omlouváme se za veškeré nepříjemnosti a žádáme vás, abyste se odhlásili a zkusili to znovu.&lt;/p&gt;</value>
-  </data>
-  <data name="MEMBER">
-    <value>Člen</value>
+  <data name="MASTERNODEUPDATEWAIT">
+    <value>Čekání na synchronizaci atributu hlavního uzlu s hlavním a podřízenými objekty.</value>
   </data>
   <data name="ERRORCANNOTDELETEUSER">
     <value>Není možné odstranit ID uživatele {0}.</value>
@@ -916,8 +946,8 @@
   <data name="SELECTMEMBERTOADD">
     <value>Vyberte nového sekundárního správce.</value>
   </data>
-  <data name="ERRORINVALIDIDSYNCINTERVAL">
-    <value>Byl zadán neplatný synchronizační interval. Hodnota musí být v rozmezí 5 až 10080.</value>
+  <data name="VOLUME">
+    <value>Svazek</value>
   </data>
   <data name="IDENTITYSYNCTAG">
     <value>Synchronizace identifikačních dat:</value>
@@ -934,8 +964,14 @@
   <data name="ADD">
     <value>Přidat</value>
   </data>
+  <data name="MB">
+    <value>MB</value>
+  </data>
   <data name="DISABLE">
     <value>Vypnout</value>
+  </data>
+  <data name="disabled">
+    <value>vypnuto</value>
   </data>
   <data name="ENABLEREPORTING">
     <value>Zapnout hlášení</value>
@@ -945,6 +981,9 @@
   </data>
   <data name="SLOVAK">
     <value>Slovenština</value>
+  </data>
+  <data name="UPDATEMASTERURLONSLAVESFAILED">
+    <value>Nelze aktualizovat hlavní adresu URL na serveru {0}. Aktualizujte hlavní adresu IP na tomto serveru ručně.</value>
   </data>
   <data name="ONLINE">
     <value>Online</value>
@@ -976,8 +1015,14 @@
   <data name="COMPLETED">
     <value>Dokončeno</value>
   </data>
+  <data name="RESTARTSERVER">
+    <value>Informace byly aktualizovány. Tyto změny se projeví až po opětovném spuštění serveru iFolder. </value>
+  </data>
   <data name="CZECH">
     <value>Čeština</value>
+  </data>
+  <data name="GROUPQUOTARESTRICTION">
+    <value>Správa používání kvóty skupiny: </value>
   </data>
   <data name="MEMBERLISTTAG">
     <value>Členové skupiny:</value>
@@ -985,8 +1030,8 @@
   <data name="ERRORCANNOTADDADMIN">
     <value>Není možné přidat člena {0} jako správce.</value>
   </data>
-  <data name="ADDADMINS">
-    <value>Přidat správce</value>
+  <data name="LDAPUPSINCE">
+    <value>Do:</value>
   </data>
   <data name="DAYTAG">
     <value>Den:</value>
@@ -1018,6 +1063,9 @@
   <data name="ERRORINVALIDSYNCINTERVAL">
     <value>Byl zadán neplatný synchronizační interval. Hodnota musí být v rozmezí 5 až 999.</value>
   </data>
+  <data name="REPROVISIONBUTTON">
+    <value>Stav opakovaného poskytování</value>
+  </data>
   <data name="MEMBERTYPELOCALGROUP">
     <value>Místní skupina</value>
   </data>
@@ -1033,8 +1081,8 @@
   <data name="FULLCONTROL">
     <value>Úplné řízení</value>
   </data>
-  <data name="CANNOTSETQUOTAPERUSERERROR">
-    <value>Tento limit nelze nastavit, protože celková přidělená disková kvóta na uživatele překračuje kvótu skupiny.</value>
+  <data name="GENERATEMONTHLYREPORT">
+    <value>Generovat zprávu {0}. den každého měsíce v {1} do {2}</value>
   </data>
   <data name="REPORTDIRECTORY">
     <value>Adresář hlášení</value>
@@ -1042,11 +1090,14 @@
   <data name="ATTAG">
     <value>V:</value>
   </data>
+  <data name="SPANISH">
+    <value>Španělština</value>
+  </data>
   <data name="ELLIPSES">
     <value> . . .</value>
   </data>
-  <data name="NEWIFOLDERDESCRIPTIONTAG">
-    <value>Popis složky iFolder:</value>
+  <data name="ERRORINSTRUCTIONS">
+    <value>&lt;p&gt;Aplikace iFolder Web Access zaznamenala neočekávanou chybu.&lt;/p&gt; &lt;p&gt;Omlouváme se za veškeré nepříjemnosti a žádáme vás, abyste se odhlásili a zkusili to znovu.&lt;/p&gt;</value>
   </data>
   <data name="POLISH">
     <value>Polština</value>
@@ -1054,11 +1105,11 @@
   <data name="FULLNAMETAG">
     <value>Celé jméno:</value>
   </data>
-  <data name="ERRORTYPE">
-    <value>Neočekávaná chyba</value>
-  </data>
   <data name="ERRORCANNOTSETDESCRIPTION">
     <value>Není možné nastavit popis složky iFolder.</value>
+  </data>
+  <data name="REVERTSHARINGCONNECTFAILED">
+    <value>Nelze se připojit  k serveru iFolder. Jakmile bude server dosažitelný, odvolejte sdílení.</value>
   </data>
   <data name="LOGINUNAUTHORIZED">
     <value>Zadejte znovu vaše uživatelské jméno a heslo.</value>
@@ -1069,8 +1120,8 @@
   <data name="PENDING">
     <value>Probíhající</value>
   </data>
-  <data name="REPORTS">
-    <value>Oznámení</value>
+  <data name="FILENAME">
+    <value>Název souboru</value>
   </data>
   <data name="ENFORCED">
     <value>Vynuceno </value>
@@ -1090,8 +1141,8 @@
   <data name="LDAPSSL">
     <value>LDAP SSL:</value>
   </data>
-  <data name="MINIMALINFO">
-    <value>Zobrazení minimálních informací</value>
+  <data name="NEWIFOLDERDESCRIPTIONTAG">
+    <value>Popis složky iFolder:</value>
   </data>
   <data name="CREATEUSER">
     <value>Vytvořit uživatele</value>
@@ -1104,6 +1155,9 @@
   </data>
   <data name="FREESPACE">
     <value>Volné místo</value>
+  </data>
+  <data name="CHANGEMASTERSUCCESSFUL">
+    <value>Byl inovován server {0} na hlavní server. Restartujte všechny servery, aby se změna projevila.</value>
   </data>
   <data name="LOGTAG">
     <value>Protokol</value>
@@ -1119,9 +1173,6 @@
   </data>
   <data name="IFOLDERDETAILS">
     <value>Podrobnosti o složce iFolder</value>
-  </data>
-  <data name="CHINESE-SIMPLIFIED">
-    <value>Zjednodušená čínština</value>
   </data>
   <data name="UNKNOWNERROR">
     <value>Došlo k neznáme chybě. Nebyla určena žádná výjimka.</value>
@@ -1141,8 +1192,8 @@
   <data name="POLICIES">
     <value>Zásady</value>
   </data>
-  <data name="GROUPQUOTARESTRICTION">
-    <value>Správa používání kvóty skupiny: </value>
+  <data name="CONNECTIONFAILED">
+    <value>Nelze se připojit k serveru {0}.</value>
   </data>
   <data name="NONSSLSTRING">
     <value>NONSSL</value>
@@ -1159,14 +1210,17 @@
   <data name="PORTUGUESE-BRAZIL">
     <value>Brazilská portugalština</value>
   </data>
+  <data name="ENCRYPTION">
+    <value>Šifrování heslem</value>
+  </data>
   <data name="BEGINSWITH">
     <value>Začíná</value>
   </data>
-  <data name="MB">
-    <value>MB</value>
+  <data name="DOWNLOAD">
+    <value>Stáhnout</value>
   </data>
   <data name="ERRORCANNOTDELETEIFOLDER">
-    <value>Složku iFolder nelze odstranit.</value>
+    <value>Nemáte oprávnění odstranit {0}.</value>
   </data>
   <data name="DISKSPACEAVAILABLETAG">
     <value>Volný diskový prostor:</value>
@@ -1180,6 +1234,12 @@
   <data name="TRANSFERING">
     <value>Přenášení</value>
   </data>
+  <data name="ALLOWDELETEIFOLDERRIGHTS">
+    <value>Povolit oprávnění k odstranění složek iFolder</value>
+  </data>
+  <data name="SET">
+    <value>Nastavit</value>
+  </data>
   <data name="LDAPADMINPWD">
     <value>Heslo správce LDAP:</value>
   </data>
@@ -1192,8 +1252,8 @@
   <data name="STATUSTAG">
     <value>Stav:</value>
   </data>
-  <data name="ENCRYPTION">
-    <value>Šifrování heslem</value>
+  <data name="MINIMALINFO">
+    <value>Zobrazení minimálních informací</value>
   </data>
   <data name="LOGLEVELTAG">
     <value>Úroveň protokolu</value>
@@ -1204,6 +1264,9 @@
   <data name="CONTAINS">
     <value>Obsahuje</value>
   </data>
+  <data name="GROUPRIGHTSEDITSUCCESSFUL">
+    <value>Práva správce {0}{1}{2} byla úspěšně upravena pro skupinu {3}{4}{5}. Klepnutím na tlačítko Opakovat provedete operace u dalších skupin stejného správce. Klepnutím na tlačítko OK se vrátíte na stránku Systémy.</value>
+  </data>
   <data name="LDAPMEMBERDELETE">
     <value>Odstranit člena</value>
   </data>
@@ -1212,6 +1275,9 @@
   </data>
   <data name="ERRORUNKNOWNERROR">
     <value>Došlo k neznámé chybě.</value>
+  </data>
+  <data name="GROUPRIGHTSADDFAILURE">
+    <value>Uživatele {0}{1}{2} nebylo možné přidat jako správce pro skupinu {3}{4}{5}. Klepnutím na možnost Opakovat lze znovu přidat skupinu. Klepnutím na tlačítko OK se vrátíte na stránku Systémy. </value>
   </data>
   <data name="NAMETAG">
     <value>Název:</value>
@@ -1252,11 +1318,8 @@
   <data name="RIGHTS">
     <value>Práva</value>
   </data>
-  <data name="WEBACCESSLOGFILE">
-    <value>Aplikace Web Access</value>
-  </data>
-  <data name="GENERATEMONTHLYREPORT">
-    <value>Generovat zprávu {0}. den každého měsíce v {1} do {2}</value>
+  <data name="ACCOUNT">
+    <value>Účet</value>
   </data>
   <data name="ADDROOT">
     <value>Přidat kořen</value>
@@ -1288,9 +1351,6 @@
   <data name="REPROVISOINSTATETAG">
     <value>Stav opakovaného poskytování:</value>
   </data>
-  <data name="DOWNLOAD">
-    <value>Stáhnout</value>
-  </data>
   <data name="DELETESECONDARYADMIN">
     <value>Odstranit sekundárního správce: </value>
   </data>
@@ -1315,11 +1375,11 @@
   <data name="GROUPDISKQUOTA">
     <value>Disková kvóta skupiny: </value>
   </data>
+  <data name="UNABLETOSETASSLAVE">
+    <value>Nelze nastavit jako podřízený server. Opakujte operaci.</value>
+  </data>
   <data name="LOGINUSERNAME">
     <value>Uživatelské jméno:</value>
-  </data>
-  <data name="VOLUME">
-    <value>Svazek</value>
   </data>
   <data name="UNLIMITED">
     <value>Neomezeno</value>

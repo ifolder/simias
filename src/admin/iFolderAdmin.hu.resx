@@ -160,9 +160,6 @@
   <data name="SERVERLOGS">
     <value>Kiszolgálói naplók</value>
   </data>
-  <data name="ALLADMINS">
-    <value>Minden rendszergazda</value>
-  </data>
   <data name="PRIVATEURI">
     <value>Magán URL-cím:</value>
   </data>
@@ -202,14 +199,14 @@
   <data name="REPROVISOINSTATE">
     <value>Újraengedélyezési állapot</value>
   </data>
-  <data name="SPANISH">
-    <value>spanyol</value>
+  <data name="CHANGEMASTERFAILED">
+    <value>Nem módosítható a Fő és a Szolga értéke. További részleteket a naplófájlokban talál.</value>
   </data>
   <data name="COMPLETEDTAG">
     <value>Kész:</value>
   </data>
-  <data name="ERRORIFOLDERTRANSFEREXCEPTION">
-    <value>A tulajdonosi szerepkört nem lehet átadni, mert sérti a rendszergazda által az iFolder mappákra vonatkozóan beállított korlátozást.</value>
+  <data name="ENTERLDAPDETAILS">
+    <value>LDAP-rendszergazda hitelesítő adatainak megadása</value>
   </data>
   <data name="MEMBERTYPELDAPGROUP">
     <value>LDAP-csoport</value>
@@ -223,14 +220,20 @@
   <data name="USEDTAG">
     <value>Használatban:</value>
   </data>
+  <data name="NEEDSREPAIR">
+    <value>Kiszolgáló javítása</value>
+  </data>
   <data name="MEMBERTYPETAG">
     <value>Tagtípus:</value>
   </data>
   <data name="NONE">
     <value>Nincs</value>
   </data>
-  <data name="GROUPRIGHTSADDFAILURE">
-    <value>A(z) {0}{1}{2} felhasználó nem adható hozzá rendszergazdaként a(z) {3}{4}{5} csoporthoz. A csoport ismételt hozzáadásához válassza az Újbóli próbálkozás elemet. Ha az OK gombra kattint, visszatérhet a Rendszerek lapra. </value>
+  <data name="ERRORIFOLDERTRANSFEREXCEPTION">
+    <value>A tulajdonosi szerepkört nem lehet átadni, mert sérti a rendszergazda által az iFolder mappákra vonatkozóan beállított korlátozást.</value>
+  </data>
+  <data name="running">
+    <value>fut</value>
   </data>
   <data name="ERRORCANNOTDELETESECONDARYADMIN">
     <value>A(z) {0} másodlagos rendszergazda nem törölhető.</value>
@@ -262,8 +265,14 @@
   <data name="ERRORCANNOTCHANGERIGHTS">
     <value>{0} felhasználó tagsági jogait nem sikerült módosítani.</value>
   </data>
+  <data name="CHANGEMASTER">
+    <value>Beállítás mint fő</value>
+  </data>
   <data name="FULLNAME">
     <value>Teljes név</value>
+  </data>
+  <data name="sleeping">
+    <value>alvás</value>
   </data>
   <data name="LOGINNOCOOKIES">
     <value>Engedélyeznie kell a böngészőben a cookie-k használatát.</value>
@@ -273,6 +282,9 @@
   </data>
   <data name="WEEKLY">
     <value>Hetenként</value>
+  </data>
+  <data name="shutdown">
+    <value>leállítás</value>
   </data>
   <data name="REPORTIFOLDERTAG">
     <value>iFolder:</value>
@@ -301,11 +313,14 @@
   <data name="USERS">
     <value>Felhasználók</value>
   </data>
-  <data name="SET">
-    <value>Beállítás</value>
+  <data name="ALLADMINS">
+    <value>Minden rendszergazda</value>
   </data>
   <data name="LASTPAGE">
     <value>Utolsó lap</value>
+  </data>
+  <data name="CANNOTSETQUOTAPERUSERERROR">
+    <value>Ez a korlát nem állítható be, mert a tagonkénti teljes lefoglalt lemezkvóta nagyobb, mint a csoport kvótája</value>
   </data>
   <data name="ERRORDETAIL">
     <value>Hiba adatai</value>
@@ -319,8 +334,8 @@
   <data name="SIZETAG">
     <value>Méret:</value>
   </data>
-  <data name="FILENAME">
-    <value>Fájlnév</value>
+  <data name="GENERATEWEEKLYREPORT">
+    <value>Jelentés készítése – nap: {0}, időpont: {1}, hely: {2}</value>
   </data>
   <data name="LOGINNOSCRIPT">
     <value>Engedélyeznie kell a böngészőben a parancsfájlok használatát.</value>
@@ -388,6 +403,9 @@
   <data name="GROUPLISTTAG">
     <value>Felhasználói csoportok:</value>
   </data>
+  <data name="ADDADMINS">
+    <value>Rendszergazdák hozzáadása</value>
+  </data>
   <data name="MINUTES">
     <value>perc</value>
   </data>
@@ -406,8 +424,8 @@
   <data name="SERVERNAMETAG">
     <value>Kiszolgáló:</value>
   </data>
-  <data name="GROUPRIGHTSEDITSUCCESSFUL">
-    <value>A(z) {0}{1}{2} rendszergazda jogait sikerült szerkeszteni a következő csoporthoz: {3}{4}{5}. Az Ismétlés gombra kattintva további csoportokra is beállíthatja ezeket ugyanazon rendszergazda esetében. Ha az OK gombra kattint, visszatérhet a Rendszerek lapra.</value>
+  <data name="ERRORTYPE">
+    <value>Nem kezelt hiba</value>
   </data>
   <data name="SECONDARY">
     <value>Másodlagos</value>
@@ -439,14 +457,14 @@
   <data name="LOGINERROR">
     <value>Hiba:</value>
   </data>
-  <data name="SELECTGROUPTODELETE">
-    <value>A kijelölendő csoport(ok) törlése</value>
+  <data name="CHANGEMASTERNOINFOFAILED">
+    <value>Nem lehet beolvasni a kiszolgáló azonosítóját és az új kiszolgáló nyilvános URL-címét.</value>
   </data>
   <data name="OWNED">
     <value>Tulajdonos</value>
   </data>
-  <data name="ACCOUNT">
-    <value>Fiók</value>
+  <data name="CHANGEMASTERRETRY">
+    <value>A fő csomópont attribútuma nem frissíthető a fő és a szolgaelemeken. Ismételje meg a műveletet.</value>
   </data>
   <data name="USERSTAG">
     <value>Felhasználók:</value>
@@ -490,6 +508,9 @@
   <data name="ALLOWMODIFYSHARINGPOLICY">
     <value>Megosztási házirend módosításának engedélyezése</value>
   </data>
+  <data name="REPORTS">
+    <value>Jelentések</value>
+  </data>
   <data name="NOTMOUNTED">
     <value>Nincs csatlakoztatva</value>
   </data>
@@ -508,11 +529,17 @@
   <data name="READONLY">
     <value>Csak olvasás</value>
   </data>
+  <data name="ERRORINVALIDIDSYNCINTERVAL">
+    <value>Érvénytelen a megadott szinkronizálási időköz. Az érték csak 5 és 10 080 között lehet.</value>
+  </data>
   <data name="LDAPSERVER">
     <value>LDAP-kiszolgáló:</value>
   </data>
   <data name="IFOLDERUSERS">
     <value>iFolder-felhasználók</value>
+  </data>
+  <data name="waiting">
+    <value>várakozás</value>
   </data>
   <data name="INVALIDFULLPATH">
     <value>A megadott teljes elérési út érvénytelen, ellenőrizze, majd adja meg újra.</value>
@@ -544,8 +571,8 @@
   <data name="SELECTEDUSERS">
     <value>Kijelölt felhasználók</value>
   </data>
-  <data name="RESTARTSERVER">
-    <value>Az információ frissítve lett. A változtatások az iFolder kiszolgáló újraindításakor lépnek életbe. </value>
+  <data name="CHINESE-SIMPLIFIED">
+    <value>kínai (egyszerűsített)</value>
   </data>
   <data name="PUBLICURI">
     <value>Nyilvános URL-cím:</value>
@@ -558,9 +585,6 @@
   </data>
   <data name="SERVERDETAILS">
     <value>Kiszolgáló adatai</value>
-  </data>
-  <data name="LDAPUPSINCE">
-    <value>Működés kezdete:</value>
   </data>
   <data name="USERLOGINDISABLED">
     <value>Felhasználói bejelentkezés letiltása</value>
@@ -658,14 +682,17 @@
   <data name="ALLOWMODIFYENCRYPTIONPOLICY">
     <value>Titkosítási házirend módosításának engedélyezése</value>
   </data>
-  <data name="REPROVISIONBUTTON">
-    <value>Újraengedélyezési állapot</value>
+  <data name="MEMBER">
+    <value>Tag</value>
   </data>
   <data name="FILES">
     <value>Fájlok</value>
   </data>
   <data name="ERRORCANNOTREMOVEADMIN">
     <value>{0} felhasználó nem távolítható el rendszergazdaként.</value>
+  </data>
+  <data name="CHANGEMASTERWITHWARNING">
+    <value>A(z) {0} fő kiszolgálóként való frissítése kivételekkel sikerült. További részleteket a Simias.log fájlban talál. A módosítások érvénybe lépéséhez indítsa újra az összes kiszolgálót.</value>
   </data>
   <data name="PASSWORDSDONOTMATCH">
     <value>A jelszavak nem egyeznek.</value>
@@ -688,14 +715,11 @@
   <data name="ERRORLOCKEXCEPTION">
     <value>A művelet megszakadt, mivel a rendszergazda zárolta/letiltotta az iFolder mappát.</value>
   </data>
-  <data name="ENTERLDAPDETAILS">
-    <value>LDAP-rendszergazda hitelesítő adatainak megadása</value>
-  </data>
   <data name="PASSWORDTAG">
     <value>Jelszó:</value>
   </data>
   <data name="SESSIONCLOSED">
-    <value>A munkamenet bezárult. Jelentkezzen be.</value>
+    <value>A megadott felhasználónév vagy jelszó helytelen. Jelentkezzen be.</value>
   </data>
   <data name="DNSNAMETAG">
     <value>DNS-név:</value>
@@ -784,8 +808,14 @@
   <data name="TIME">
     <value>Idő</value>
   </data>
+  <data name="CONFIGFILEUPDATEFAILED">
+    <value>A konfigurációs fájl nem frissíthető. Frissítse manuálisan a simias.config fájlt.</value>
+  </data>
   <data name="LOGINSECUREFAILED">
     <value>Nem lehet biztonságosan kommunikálni az iFolder kiszolgálóval.</value>
+  </data>
+  <data name="CONFIRMCHANGEMASTER">
+    <value>A megadott kiszolgáló lesz kijelölve fő kiszolgálóként. Folytatja? Az OK gombbal folytathatja, a Mégse gombbal kiléphet.</value>
   </data>
   <data name="LOGINPASSWORD">
     <value>Jelszó:</value>
@@ -818,13 +848,16 @@
     <value>Szinkronizálás letiltása</value>
   </data>
   <data name="CONFIRMENCRYPTION">
-    <value>Az 'Azonosítási kifejezés alapú titkosítás' beállítás lehetőséget ad az egyes iFolder mappáknak a felhasználó által megadott azonosítási kifejezés használatával való titkosítására. A Kikényszerített beállítás kikapcsolható, de a 'Be' beállítás a mentést követően nem vonható vissza. Az OK gombra kattintva mentheti a beállítást, a Mégse gombra kattintva mentés nélkül az aktuális oldalon marad. </value>
+    <value>A "Hozzáférési kód alapú titkosítás" beállítás lehetőséget ad az egyes iFolder mappáknak a felhasználó által megadott hozzáférési kód használatával való titkosítására. A Kikényszerített beállítás kikapcsolható, de a Be beállítás a mentést követően nem vonható vissza. Az OK gombra kattintva mentheti a beállítást, a Mégse gombra kattintva mentés nélkül az aktuális oldalon marad. </value>
   </data>
   <data name="IFOLDERS">
     <value>iFolder mappák</value>
   </data>
   <data name="ADMINISTRATORS">
     <value>Rendszergazdák</value>
+  </data>
+  <data name="SELECTGROUPTODELETE">
+    <value>A kijelölendő csoport(ok) törlése</value>
   </data>
   <data name="FORMATTAG">
     <value>Formátum:</value>
@@ -862,14 +895,14 @@
   <data name="TOTALUSERSTAG">
     <value>Felhasználók száma összesen:</value>
   </data>
+  <data name="WEBACCESSLOGFILE">
+    <value>Webes hozzáférés</value>
+  </data>
   <data name="ERRORUSERDOESNOTEXIST">
     <value>A megadott iFolder felhasználó nem létezik.</value>
   </data>
   <data name="LOGINCOPYRIGHT">
-    <value>&amp;copy; Copyright 2009 Novell, Inc. Minden jog fenntartva.</value>
-  </data>
-  <data name="GENERATEWEEKLYREPORT">
-    <value>Jelentés készítése – nap: {0}, időpont: {1}, hely: {2}</value>
+    <value>&amp;copy; Copyright 2010 Novell, Inc. Minden jog fenntartva.</value>
   </data>
   <data name="VIEW">
     <value>Nézet</value>
@@ -880,11 +913,8 @@
   <data name="GENERATEDAILYREPORT">
     <value>Jelentés készítése mindennap, időpont: {0}, hely: {1}</value>
   </data>
-  <data name="ERRORINSTRUCTIONS">
-    <value>&lt;p&gt;Az iFolder Web Access váratlan hibát tapasztalt.&lt;/p&gt; &lt;p&gt;Elnézést az esetleges kényelmetlenségért, legyen szíves, jelentkezzen ki, és próbálja meg újra.&lt;/p&gt;</value>
-  </data>
-  <data name="MEMBER">
-    <value>Tag</value>
+  <data name="MASTERNODEUPDATEWAIT">
+    <value>Várakozás a fő csomópont attribútumának az új fő és szolgaelemeken való szinkronizálására.</value>
   </data>
   <data name="ERRORCANNOTDELETEUSER">
     <value>A(z) {0} felhasználói azonosítót nem sikerült törölni.</value>
@@ -916,8 +946,8 @@
   <data name="SELECTMEMBERTOADD">
     <value>Új másodlagos rendszergazda kijelölése</value>
   </data>
-  <data name="ERRORINVALIDIDSYNCINTERVAL">
-    <value>Érvénytelen a megadott szinkronizálási időköz. Az érték csak 5 és 10 080 között lehet.</value>
+  <data name="VOLUME">
+    <value>Kötet</value>
   </data>
   <data name="IDENTITYSYNCTAG">
     <value>Identitás szinkronizálása:</value>
@@ -934,8 +964,14 @@
   <data name="ADD">
     <value>Hozzáadás</value>
   </data>
+  <data name="MB">
+    <value>MB</value>
+  </data>
   <data name="DISABLE">
     <value>Letiltás</value>
+  </data>
+  <data name="disabled">
+    <value>letiltva</value>
   </data>
   <data name="ENABLEREPORTING">
     <value>Jelentéskészítés engedélyezése</value>
@@ -945,6 +981,9 @@
   </data>
   <data name="SLOVAK">
     <value>szlovák</value>
+  </data>
+  <data name="UPDATEMASTERURLONSLAVESFAILED">
+    <value>Az új fő URL nem frissíthető a(z) {0} kiszolgálón. Frissítse manuálisan az IP-címet ezen a kiszolgálón.</value>
   </data>
   <data name="ONLINE">
     <value>Online</value>
@@ -976,8 +1015,14 @@
   <data name="COMPLETED">
     <value>Kész</value>
   </data>
+  <data name="RESTARTSERVER">
+    <value>Az információ frissítve lett. A változtatások az iFolder kiszolgáló újraindításakor lépnek életbe. </value>
+  </data>
   <data name="CZECH">
     <value>cseh</value>
+  </data>
+  <data name="GROUPQUOTARESTRICTION">
+    <value>Csoportkvóta kezelése a következővel: </value>
   </data>
   <data name="MEMBERLISTTAG">
     <value>Csoporttagok:</value>
@@ -985,8 +1030,8 @@
   <data name="ERRORCANNOTADDADMIN">
     <value>{0} tagot nem sikerült felvenni rendszergazdaként.</value>
   </data>
-  <data name="ADDADMINS">
-    <value>Rendszergazdák hozzáadása</value>
+  <data name="LDAPUPSINCE">
+    <value>Működés kezdete:</value>
   </data>
   <data name="DAYTAG">
     <value>Nap:</value>
@@ -1018,6 +1063,9 @@
   <data name="ERRORINVALIDSYNCINTERVAL">
     <value>Érvénytelen szinkronizálási időköz van megadva. Az értéknek 5 és 999 között kell lennie.</value>
   </data>
+  <data name="REPROVISIONBUTTON">
+    <value>Újraengedélyezési állapot</value>
+  </data>
   <data name="MEMBERTYPELOCALGROUP">
     <value>Helyi csoport</value>
   </data>
@@ -1033,8 +1081,8 @@
   <data name="FULLCONTROL">
     <value>Teljes vezérlés</value>
   </data>
-  <data name="CANNOTSETQUOTAPERUSERERROR">
-    <value>Ez a korlát nem állítható be, mert a tagonkénti teljes lefoglalt lemezkvóta nagyobb, mint a csoport kvótája</value>
+  <data name="GENERATEMONTHLYREPORT">
+    <value>Jelentés készítése minden hónap {0}. napján, időpont: {1}, hely: {2}</value>
   </data>
   <data name="REPORTDIRECTORY">
     <value>Jelentési könyvtár</value>
@@ -1042,11 +1090,14 @@
   <data name="ATTAG">
     <value>Időpont:</value>
   </data>
+  <data name="SPANISH">
+    <value>spanyol</value>
+  </data>
   <data name="ELLIPSES">
     <value> ...</value>
   </data>
-  <data name="NEWIFOLDERDESCRIPTIONTAG">
-    <value>iFolder leírása:</value>
+  <data name="ERRORINSTRUCTIONS">
+    <value>&lt;p&gt;Az iFolder Web Access váratlan hibát tapasztalt.&lt;/p&gt; &lt;p&gt;Elnézést az esetleges kényelmetlenségért, legyen szíves, jelentkezzen ki, és próbálja meg újra.&lt;/p&gt;</value>
   </data>
   <data name="POLISH">
     <value>lengyel</value>
@@ -1054,11 +1105,11 @@
   <data name="FULLNAMETAG">
     <value>Teljes név:</value>
   </data>
-  <data name="ERRORTYPE">
-    <value>Nem kezelt hiba</value>
-  </data>
   <data name="ERRORCANNOTSETDESCRIPTION">
     <value>Nem sikerült az iFolder mappa leírásának beállítása.</value>
+  </data>
+  <data name="REVERTSHARINGCONNECTFAILED">
+    <value>Nem lehet csatlakozni az iFolder-kiszolgálóhoz. Ha elérhető lesz a kiszolgáló, vonja vissza a megosztást.</value>
   </data>
   <data name="LOGINUNAUTHORIZED">
     <value>Adja meg újra a felhasználónevét és jelszavát.</value>
@@ -1069,8 +1120,8 @@
   <data name="PENDING">
     <value>Függőben</value>
   </data>
-  <data name="REPORTS">
-    <value>Jelentések</value>
+  <data name="FILENAME">
+    <value>Fájlnév</value>
   </data>
   <data name="ENFORCED">
     <value>Kikényszerített </value>
@@ -1090,8 +1141,8 @@
   <data name="LDAPSSL">
     <value>LDAP SSL:</value>
   </data>
-  <data name="MINIMALINFO">
-    <value>Minimális információ megjelenítése</value>
+  <data name="NEWIFOLDERDESCRIPTIONTAG">
+    <value>iFolder leírása:</value>
   </data>
   <data name="CREATEUSER">
     <value>Felhasználó létrehozása</value>
@@ -1104,6 +1155,9 @@
   </data>
   <data name="FREESPACE">
     <value>Szabad lemezterület</value>
+  </data>
+  <data name="CHANGEMASTERSUCCESSFUL">
+    <value>A(z) {0} frissítve fő kiszolgálóként. A módosítások érvénybe lépéséhez indítsa újra az összes kiszolgálót.</value>
   </data>
   <data name="LOGTAG">
     <value>Napló</value>
@@ -1119,9 +1173,6 @@
   </data>
   <data name="IFOLDERDETAILS">
     <value>Az iFolder adatai</value>
-  </data>
-  <data name="CHINESE-SIMPLIFIED">
-    <value>kínai (egyszerűsített)</value>
   </data>
   <data name="UNKNOWNERROR">
     <value>Ismeretlen hiba történt. Nincs megadott kivétel.</value>
@@ -1141,8 +1192,8 @@
   <data name="POLICIES">
     <value>Házirendek</value>
   </data>
-  <data name="GROUPQUOTARESTRICTION">
-    <value>Csoportkvóta kezelése a következővel: </value>
+  <data name="CONNECTIONFAILED">
+    <value>Nem lehet csatlakozni a(z) {0} kiszolgálóhoz.</value>
   </data>
   <data name="NONSSLSTRING">
     <value>Nem SSL</value>
@@ -1159,14 +1210,17 @@
   <data name="PORTUGUESE-BRAZIL">
     <value>portugál (brazíliai)</value>
   </data>
+  <data name="ENCRYPTION">
+    <value>Hozzáférési kód alapú titkosítás</value>
+  </data>
   <data name="BEGINSWITH">
     <value>kezdete</value>
   </data>
-  <data name="MB">
-    <value>MB</value>
+  <data name="DOWNLOAD">
+    <value>Letöltés</value>
   </data>
   <data name="ERRORCANNOTDELETEIFOLDER">
-    <value>Nem sikerült törölni az iFolder mappát.</value>
+    <value>A(z) {0} törléséhez nincs engedélye.</value>
   </data>
   <data name="DISKSPACEAVAILABLETAG">
     <value>Rendelkezésre álló terület:</value>
@@ -1180,6 +1234,12 @@
   <data name="TRANSFERING">
     <value>Átvitel</value>
   </data>
+  <data name="ALLOWDELETEIFOLDERRIGHTS">
+    <value>Engedély megadása az iFolder mappák törlésére</value>
+  </data>
+  <data name="SET">
+    <value>Beállítás</value>
+  </data>
   <data name="LDAPADMINPWD">
     <value>LDAP-rendszergazda jelszava:</value>
   </data>
@@ -1192,8 +1252,8 @@
   <data name="STATUSTAG">
     <value>Állapot:</value>
   </data>
-  <data name="ENCRYPTION">
-    <value>Azonosítási kifejezés alapú titkosítás</value>
+  <data name="MINIMALINFO">
+    <value>Minimális információ megjelenítése</value>
   </data>
   <data name="LOGLEVELTAG">
     <value>Naplózás szintje</value>
@@ -1204,6 +1264,9 @@
   <data name="CONTAINS">
     <value>tartalmazza</value>
   </data>
+  <data name="GROUPRIGHTSEDITSUCCESSFUL">
+    <value>A(z) {0}{1}{2} rendszergazda jogait sikerült szerkeszteni a következő csoporthoz: {3}{4}{5}. Az Ismétlés gombra kattintva további csoportokra is beállíthatja ezeket ugyanazon rendszergazda esetében. Ha az OK gombra kattint, visszatérhet a Rendszerek lapra.</value>
+  </data>
   <data name="LDAPMEMBERDELETE">
     <value>Tag törlése</value>
   </data>
@@ -1212,6 +1275,9 @@
   </data>
   <data name="ERRORUNKNOWNERROR">
     <value>Ismeretlen hiba történt.</value>
+  </data>
+  <data name="GROUPRIGHTSADDFAILURE">
+    <value>A(z) {0}{1}{2} felhasználó nem adható hozzá rendszergazdaként a(z) {3}{4}{5} csoporthoz. A csoport ismételt hozzáadásához válassza az Újbóli próbálkozás elemet. Ha az OK gombra kattint, visszatérhet a Rendszerek lapra. </value>
   </data>
   <data name="NAMETAG">
     <value>Név:</value>
@@ -1252,11 +1318,8 @@
   <data name="RIGHTS">
     <value>Jogok</value>
   </data>
-  <data name="WEBACCESSLOGFILE">
-    <value>Webes hozzáférés</value>
-  </data>
-  <data name="GENERATEMONTHLYREPORT">
-    <value>Jelentés készítése minden hónap {0}. napján, időpont: {1}, hely: {2}</value>
+  <data name="ACCOUNT">
+    <value>Fiók</value>
   </data>
   <data name="ADDROOT">
     <value>Gyökér hozzáadása</value>
@@ -1288,9 +1351,6 @@
   <data name="REPROVISOINSTATETAG">
     <value>Újraengedélyezési állapot:</value>
   </data>
-  <data name="DOWNLOAD">
-    <value>Letöltés</value>
-  </data>
   <data name="DELETESECONDARYADMIN">
     <value>Másodlagos rendszergazda törlése: </value>
   </data>
@@ -1315,11 +1375,11 @@
   <data name="GROUPDISKQUOTA">
     <value>Csoport lemezkvótája: </value>
   </data>
+  <data name="UNABLETOSETASSLAVE">
+    <value>Nem állítható be szolgakiszolgálóként. Ismételje meg a műveletet.</value>
+  </data>
   <data name="LOGINUSERNAME">
     <value>Felhasználónév:</value>
-  </data>
-  <data name="VOLUME">
-    <value>Kötet</value>
   </data>
   <data name="UNLIMITED">
     <value>Korlátlan</value>

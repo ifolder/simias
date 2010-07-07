@@ -160,9 +160,6 @@
   <data name="SERVERLOGS">
     <value>服务器日志</value>
   </data>
-  <data name="ALLADMINS">
-    <value>所有管理员</value>
-  </data>
   <data name="PRIVATEURI">
     <value>私用 URL：</value>
   </data>
@@ -202,14 +199,14 @@
   <data name="REPROVISOINSTATE">
     <value>重新配置状态</value>
   </data>
-  <data name="SPANISH">
-    <value>西班牙语</value>
+  <data name="CHANGEMASTERFAILED">
+    <value>无法更改主服务器和从属服务器。请查看日志文件获取更多信息。</value>
   </data>
   <data name="COMPLETEDTAG">
     <value>已完成：</value>
   </data>
-  <data name="ERRORIFOLDERTRANSFEREXCEPTION">
-    <value>无法转让所有权，因为您将违反管理员设置的 iFolder 限制。</value>
+  <data name="ENTERLDAPDETAILS">
+    <value>输入 LDAP 管理员身份凭证</value>
   </data>
   <data name="MEMBERTYPELDAPGROUP">
     <value>LDAP 组</value>
@@ -223,14 +220,20 @@
   <data name="USEDTAG">
     <value>已使用：</value>
   </data>
+  <data name="NEEDSREPAIR">
+    <value>修复服务器</value>
+  </data>
   <data name="MEMBERTYPETAG">
     <value>成员类型：</value>
   </data>
   <data name="NONE">
     <value>无</value>
   </data>
-  <data name="GROUPRIGHTSADDFAILURE">
-    <value>无法将用户 {0}{1}{2} 添加为 {3}{4}{5} 组的管理员。单击“重试”重新添加该组。单击“确定”返回“系统”页 </value>
+  <data name="ERRORIFOLDERTRANSFEREXCEPTION">
+    <value>无法转让所有权，因为您将违反管理员设置的 iFolder 限制。</value>
+  </data>
+  <data name="running">
+    <value>正在运行</value>
   </data>
   <data name="ERRORCANNOTDELETESECONDARYADMIN">
     <value>无法删除二级管理员 {0}。</value>
@@ -262,8 +265,14 @@
   <data name="ERRORCANNOTCHANGERIGHTS">
     <value>无法更改用户 {0} 的成员资格权限。</value>
   </data>
+  <data name="CHANGEMASTER">
+    <value>设置为主服务器</value>
+  </data>
   <data name="FULLNAME">
     <value>全名</value>
+  </data>
+  <data name="sleeping">
+    <value>正在休眠</value>
   </data>
   <data name="LOGINNOCOOKIES">
     <value>您必须在浏览器中启用 Cookie。</value>
@@ -273,6 +282,9 @@
   </data>
   <data name="WEEKLY">
     <value>每周</value>
+  </data>
+  <data name="shutdown">
+    <value>关闭</value>
   </data>
   <data name="REPORTIFOLDERTAG">
     <value>iFolder：</value>
@@ -301,11 +313,14 @@
   <data name="USERS">
     <value>用户</value>
   </data>
-  <data name="SET">
-    <value>设置</value>
+  <data name="ALLADMINS">
+    <value>所有管理员</value>
   </data>
   <data name="LASTPAGE">
     <value>最后一页</value>
+  </data>
+  <data name="CANNOTSETQUOTAPERUSERERROR">
+    <value>无法设置此限制，因为为每位成员分配的磁盘定额的总额超出了组定额。</value>
   </data>
   <data name="ERRORDETAIL">
     <value>错误细节</value>
@@ -319,8 +334,8 @@
   <data name="SIZETAG">
     <value>大小：</value>
   </data>
-  <data name="FILENAME">
-    <value>文件名</value>
+  <data name="GENERATEWEEKLYREPORT">
+    <value>每 {0} 天在 {1} 向 {2} 生成报告</value>
   </data>
   <data name="LOGINNOSCRIPT">
     <value>您必须在浏览器中启用底稿。</value>
@@ -388,6 +403,9 @@
   <data name="GROUPLISTTAG">
     <value>用户组：</value>
   </data>
+  <data name="ADDADMINS">
+    <value>添加管理员</value>
+  </data>
   <data name="MINUTES">
     <value>分钟</value>
   </data>
@@ -406,8 +424,8 @@
   <data name="SERVERNAMETAG">
     <value>服务器：</value>
   </data>
-  <data name="GROUPRIGHTSEDITSUCCESSFUL">
-    <value>已成功编辑了管理员 {0}{1} 在 {3}{4}{5} 组中的 {2} 权限。单击“重复”编辑相同管理员在更多组中的权限。单击“确定”返回“系统”页</value>
+  <data name="ERRORTYPE">
+    <value>意外错误</value>
   </data>
   <data name="SECONDARY">
     <value>二级</value>
@@ -439,14 +457,14 @@
   <data name="LOGINERROR">
     <value>错误：</value>
   </data>
-  <data name="SELECTGROUPTODELETE">
-    <value>选择要删除的组</value>
+  <data name="CHANGEMASTERNOINFOFAILED">
+    <value>无法获得服务器 ID 和新服务器公共 URL。</value>
   </data>
   <data name="OWNED">
     <value>拥有</value>
   </data>
-  <data name="ACCOUNT">
-    <value>帐户</value>
+  <data name="CHANGEMASTERRETRY">
+    <value>无法更新主服务器和从属服务器上的主节点属性。请重试此操作。</value>
   </data>
   <data name="USERSTAG">
     <value>用户：</value>
@@ -490,6 +508,9 @@
   <data name="ALLOWMODIFYSHARINGPOLICY">
     <value>允许修改共享策略</value>
   </data>
+  <data name="REPORTS">
+    <value>报告</value>
+  </data>
   <data name="NOTMOUNTED">
     <value>未装入</value>
   </data>
@@ -508,11 +529,17 @@
   <data name="READONLY">
     <value>只读</value>
   </data>
+  <data name="ERRORINVALIDIDSYNCINTERVAL">
+    <value>指定的同步间隔无效。该值必须介于 5 到 10080 之间。</value>
+  </data>
   <data name="LDAPSERVER">
     <value>LDAP 服务器：</value>
   </data>
   <data name="IFOLDERUSERS">
     <value>iFolder 用户</value>
+  </data>
+  <data name="waiting">
+    <value>正在等待</value>
   </data>
   <data name="INVALIDFULLPATH">
     <value>指定的完整路径无效，请检查并重新输入。</value>
@@ -544,8 +571,8 @@
   <data name="SELECTEDUSERS">
     <value>所选用户</value>
   </data>
-  <data name="RESTARTSERVER">
-    <value>信息已更新。这些更改将在您重新启动 iFolder 服务器时生效。 </value>
+  <data name="CHINESE-SIMPLIFIED">
+    <value>简体中文</value>
   </data>
   <data name="PUBLICURI">
     <value>公共 URL：</value>
@@ -558,9 +585,6 @@
   </data>
   <data name="SERVERDETAILS">
     <value>服务器细节</value>
-  </data>
-  <data name="LDAPUPSINCE">
-    <value>连接时间：</value>
   </data>
   <data name="USERLOGINDISABLED">
     <value>禁止用户登录</value>
@@ -658,14 +682,17 @@
   <data name="ALLOWMODIFYENCRYPTIONPOLICY">
     <value>允许修改加密策略</value>
   </data>
-  <data name="REPROVISIONBUTTON">
-    <value>重新配置状态</value>
+  <data name="MEMBER">
+    <value>成员</value>
   </data>
   <data name="FILES">
     <value>文件</value>
   </data>
   <data name="ERRORCANNOTREMOVEADMIN">
     <value>无法去除作为管理员的用户 {0}。</value>
+  </data>
+  <data name="CHANGEMASTERWITHWARNING">
+    <value>将 {0} 升级为主服务器时存在异常。请参阅 Simias.log 获取更多信息。请重启动所有服务器使更改生效。</value>
   </data>
   <data name="PASSWORDSDONOTMATCH">
     <value>口令不一致。</value>
@@ -688,14 +715,11 @@
   <data name="ERRORLOCKEXCEPTION">
     <value>因为管理员已锁定/禁用 iFolder，操作已被取消。</value>
   </data>
-  <data name="ENTERLDAPDETAILS">
-    <value>输入 LDAP 管理员身份凭证</value>
-  </data>
   <data name="PASSWORDTAG">
     <value>口令：</value>
   </data>
   <data name="SESSIONCLOSED">
-    <value>会话已关闭。请登录。</value>
+    <value>您输入的用户名或口令不正确。请登录。</value>
   </data>
   <data name="DNSNAMETAG">
     <value>DNS 名称：</value>
@@ -784,8 +808,14 @@
   <data name="TIME">
     <value>时间</value>
   </data>
+  <data name="CONFIGFILEUPDATEFAILED">
+    <value>无法更新配置文件。请手动更新 simias.config 文件。</value>
+  </data>
   <data name="LOGINSECUREFAILED">
     <value>无法与 iFolder 服务器进行安全通讯。</value>
+  </data>
+  <data name="CONFIRMCHANGEMASTER">
+    <value>所选服务器将指定为主服务器。是否继续？单击“确定”以继续或单击“取消”以退出。</value>
   </data>
   <data name="LOGINPASSWORD">
     <value>口令：</value>
@@ -826,6 +856,9 @@
   <data name="ADMINISTRATORS">
     <value>管理员</value>
   </data>
+  <data name="SELECTGROUPTODELETE">
+    <value>选择要删除的组</value>
+  </data>
   <data name="FORMATTAG">
     <value>格式：</value>
   </data>
@@ -862,14 +895,14 @@
   <data name="TOTALUSERSTAG">
     <value>用户总数：</value>
   </data>
+  <data name="WEBACCESSLOGFILE">
+    <value>万维网访问</value>
+  </data>
   <data name="ERRORUSERDOESNOTEXIST">
     <value>指定的 iFolder 用户不存在。</value>
   </data>
   <data name="LOGINCOPYRIGHT">
-    <value>&amp;copy; 版权所有 2009 Novell, Inc. 保留所有权利。</value>
-  </data>
-  <data name="GENERATEWEEKLYREPORT">
-    <value>每 {0} 天在 {1} 向 {2} 生成报告</value>
+    <value>&amp;copy; Copyright 2010 Novell, Inc. 保留所有权利。</value>
   </data>
   <data name="VIEW">
     <value>视图</value>
@@ -880,11 +913,8 @@
   <data name="GENERATEDAILYREPORT">
     <value>每天在 {0} 向 {1} 生成报告</value>
   </data>
-  <data name="ERRORINSTRUCTIONS">
-    <value>&lt;p&gt;iFolder 万维网访问遇到意外错误。&lt;/p&gt; &lt;p&gt;我们对给您带来的不便深感抱歉，请您注销并重试。&lt;/p&gt;</value>
-  </data>
-  <data name="MEMBER">
-    <value>成员</value>
+  <data name="MASTERNODEUPDATEWAIT">
+    <value>等待主节点属性同步至新的主节点和从属节点。</value>
   </data>
   <data name="ERRORCANNOTDELETEUSER">
     <value>无法删除用户 ID {0}。</value>
@@ -916,8 +946,8 @@
   <data name="SELECTMEMBERTOADD">
     <value>选择新的二级管理员</value>
   </data>
-  <data name="ERRORINVALIDIDSYNCINTERVAL">
-    <value>指定的同步间隔无效。该值必须介于 5 到 10080 之间。</value>
+  <data name="VOLUME">
+    <value>卷</value>
   </data>
   <data name="IDENTITYSYNCTAG">
     <value>身份同步：</value>
@@ -934,8 +964,14 @@
   <data name="ADD">
     <value>添加</value>
   </data>
+  <data name="MB">
+    <value>MB</value>
+  </data>
   <data name="DISABLE">
     <value>禁用</value>
+  </data>
+  <data name="disabled">
+    <value>已禁用</value>
   </data>
   <data name="ENABLEREPORTING">
     <value>启用报告</value>
@@ -945,6 +981,9 @@
   </data>
   <data name="SLOVAK">
     <value>斯洛伐克语</value>
+  </data>
+  <data name="UPDATEMASTERURLONSLAVESFAILED">
+    <value>无法更新服务器 {0} 上的新主 URL。请手动更新此服务器上的主 IP。</value>
   </data>
   <data name="ONLINE">
     <value>联机</value>
@@ -976,8 +1015,14 @@
   <data name="COMPLETED">
     <value>已完成</value>
   </data>
+  <data name="RESTARTSERVER">
+    <value>信息已更新。这些更改将在您重新启动 iFolder 服务器时生效。 </value>
+  </data>
   <data name="CZECH">
     <value>捷克语</value>
+  </data>
+  <data name="GROUPQUOTARESTRICTION">
+    <value>管理组配额的方法： </value>
   </data>
   <data name="MEMBERLISTTAG">
     <value>组成员：</value>
@@ -985,8 +1030,8 @@
   <data name="ERRORCANNOTADDADMIN">
     <value>无法将成员 {0} 添加为管理员。</value>
   </data>
-  <data name="ADDADMINS">
-    <value>添加管理员</value>
+  <data name="LDAPUPSINCE">
+    <value>连接时间：</value>
   </data>
   <data name="DAYTAG">
     <value>天：</value>
@@ -1018,6 +1063,9 @@
   <data name="ERRORINVALIDSYNCINTERVAL">
     <value>指定了无效的同步间隔。值必须介于 5 和 999 之间。</value>
   </data>
+  <data name="REPROVISIONBUTTON">
+    <value>重新配置状态</value>
+  </data>
   <data name="MEMBERTYPELOCALGROUP">
     <value>本地组</value>
   </data>
@@ -1033,8 +1081,8 @@
   <data name="FULLCONTROL">
     <value>完全控制</value>
   </data>
-  <data name="CANNOTSETQUOTAPERUSERERROR">
-    <value>无法设置此限制，因为为每位成员分配的磁盘定额的总额超出了组定额。</value>
+  <data name="GENERATEMONTHLYREPORT">
+    <value>每月的第 {0} 天在 {1} 向 {2} 生成报告</value>
   </data>
   <data name="REPORTDIRECTORY">
     <value>报告目录</value>
@@ -1042,11 +1090,14 @@
   <data name="ATTAG">
     <value>在：</value>
   </data>
+  <data name="SPANISH">
+    <value>西班牙语</value>
+  </data>
   <data name="ELLIPSES">
     <value> . . .</value>
   </data>
-  <data name="NEWIFOLDERDESCRIPTIONTAG">
-    <value>iFolder 说明：</value>
+  <data name="ERRORINSTRUCTIONS">
+    <value>&lt;p&gt;iFolder 万维网访问遇到意外错误。&lt;/p&gt; &lt;p&gt;我们对给您带来的不便深感抱歉，请您注销并重试。&lt;/p&gt;</value>
   </data>
   <data name="POLISH">
     <value>波兰语</value>
@@ -1054,11 +1105,11 @@
   <data name="FULLNAMETAG">
     <value>全名：</value>
   </data>
-  <data name="ERRORTYPE">
-    <value>意外错误</value>
-  </data>
   <data name="ERRORCANNOTSETDESCRIPTION">
     <value>无法设置 iFolder 说明。</value>
+  </data>
+  <data name="REVERTSHARINGCONNECTFAILED">
+    <value>无法连接到 iFolder 服务器。当服务器可以访问时撤消共享。</value>
   </data>
   <data name="LOGINUNAUTHORIZED">
     <value>请重新输入用户名和口令。</value>
@@ -1069,8 +1120,8 @@
   <data name="PENDING">
     <value>待发</value>
   </data>
-  <data name="REPORTS">
-    <value>报告</value>
+  <data name="FILENAME">
+    <value>文件名</value>
   </data>
   <data name="ENFORCED">
     <value>强制 </value>
@@ -1090,8 +1141,8 @@
   <data name="LDAPSSL">
     <value>LDAP SSL：</value>
   </data>
-  <data name="MINIMALINFO">
-    <value>显示最少信息</value>
+  <data name="NEWIFOLDERDESCRIPTIONTAG">
+    <value>iFolder 说明：</value>
   </data>
   <data name="CREATEUSER">
     <value>创建用户</value>
@@ -1104,6 +1155,9 @@
   </data>
   <data name="FREESPACE">
     <value>可用空间</value>
+  </data>
+  <data name="CHANGEMASTERSUCCESSFUL">
+    <value>已将 {0} 升级为主服务器。请重启动所有服务器使更改生效。</value>
   </data>
   <data name="LOGTAG">
     <value>日志</value>
@@ -1119,9 +1173,6 @@
   </data>
   <data name="IFOLDERDETAILS">
     <value>iFolder 细节</value>
-  </data>
-  <data name="CHINESE-SIMPLIFIED">
-    <value>简体中文</value>
   </data>
   <data name="UNKNOWNERROR">
     <value>发生了未知错误。未指定任何异常。</value>
@@ -1141,8 +1192,8 @@
   <data name="POLICIES">
     <value>策略</value>
   </data>
-  <data name="GROUPQUOTARESTRICTION">
-    <value>管理组配额的方法： </value>
+  <data name="CONNECTIONFAILED">
+    <value>无法连接到服务器 {0}。</value>
   </data>
   <data name="NONSSLSTRING">
     <value>非 SSL</value>
@@ -1159,14 +1210,17 @@
   <data name="PORTUGUESE-BRAZIL">
     <value>巴西葡萄牙语</value>
   </data>
+  <data name="ENCRYPTION">
+    <value>基于通行口令的加密</value>
+  </data>
   <data name="BEGINSWITH">
     <value>开始于</value>
   </data>
-  <data name="MB">
-    <value>MB</value>
+  <data name="DOWNLOAD">
+    <value>下载</value>
   </data>
   <data name="ERRORCANNOTDELETEIFOLDER">
-    <value>无法删除 iFolder。</value>
+    <value>您无权删除 {0}。</value>
   </data>
   <data name="DISKSPACEAVAILABLETAG">
     <value>可用磁盘空间：</value>
@@ -1180,6 +1234,12 @@
   <data name="TRANSFERING">
     <value>正在传送</value>
   </data>
+  <data name="ALLOWDELETEIFOLDERRIGHTS">
+    <value>允许删除 iFolder 的权限</value>
+  </data>
+  <data name="SET">
+    <value>设置</value>
+  </data>
   <data name="LDAPADMINPWD">
     <value>LDAP 管理员口令：</value>
   </data>
@@ -1192,8 +1252,8 @@
   <data name="STATUSTAG">
     <value>状态：</value>
   </data>
-  <data name="ENCRYPTION">
-    <value>基于通行口令的加密</value>
+  <data name="MINIMALINFO">
+    <value>显示最少信息</value>
   </data>
   <data name="LOGLEVELTAG">
     <value>日志级别</value>
@@ -1204,6 +1264,9 @@
   <data name="CONTAINS">
     <value>包含</value>
   </data>
+  <data name="GROUPRIGHTSEDITSUCCESSFUL">
+    <value>已成功编辑了管理员 {0}{1} 在 {3}{4}{5} 组中的 {2} 权限。单击“重复”编辑相同管理员在更多组中的权限。单击“确定”返回“系统”页</value>
+  </data>
   <data name="LDAPMEMBERDELETE">
     <value>删除成员</value>
   </data>
@@ -1212,6 +1275,9 @@
   </data>
   <data name="ERRORUNKNOWNERROR">
     <value>发生了未知错误。</value>
+  </data>
+  <data name="GROUPRIGHTSADDFAILURE">
+    <value>无法将用户 {0}{1}{2} 添加为 {3}{4}{5} 组的管理员。单击“重试”重新添加该组。单击“确定”返回“系统”页 </value>
   </data>
   <data name="NAMETAG">
     <value>名称：</value>
@@ -1252,11 +1318,8 @@
   <data name="RIGHTS">
     <value>权限</value>
   </data>
-  <data name="WEBACCESSLOGFILE">
-    <value>万维网访问</value>
-  </data>
-  <data name="GENERATEMONTHLYREPORT">
-    <value>每月的第 {0} 天在 {1} 向 {2} 生成报告</value>
+  <data name="ACCOUNT">
+    <value>帐户</value>
   </data>
   <data name="ADDROOT">
     <value>添加根</value>
@@ -1288,9 +1351,6 @@
   <data name="REPROVISOINSTATETAG">
     <value>重新配置状态：</value>
   </data>
-  <data name="DOWNLOAD">
-    <value>下载</value>
-  </data>
   <data name="DELETESECONDARYADMIN">
     <value>删除二级管理员： </value>
   </data>
@@ -1315,11 +1375,11 @@
   <data name="GROUPDISKQUOTA">
     <value>组磁盘定额： </value>
   </data>
+  <data name="UNABLETOSETASSLAVE">
+    <value>无法设置为从属服务器。请重试此操作。</value>
+  </data>
   <data name="LOGINUSERNAME">
     <value>用户名：</value>
-  </data>
-  <data name="VOLUME">
-    <value>卷</value>
   </data>
   <data name="UNLIMITED">
     <value>无限制</value>

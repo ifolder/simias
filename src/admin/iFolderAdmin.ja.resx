@@ -160,9 +160,6 @@
   <data name="SERVERLOGS">
     <value>サーバログ</value>
   </data>
-  <data name="ALLADMINS">
-    <value>すべての管理者</value>
-  </data>
   <data name="PRIVATEURI">
     <value>プライベートURL:</value>
   </data>
@@ -202,14 +199,14 @@
   <data name="REPROVISOINSTATE">
     <value>再プロビジョニング状態</value>
   </data>
-  <data name="SPANISH">
-    <value>スペイン語</value>
+  <data name="CHANGEMASTERFAILED">
+    <value>マスタとスレーブを変更できません。ログファイルで詳細を確認してください。</value>
   </data>
   <data name="COMPLETEDTAG">
     <value>完了:</value>
   </data>
-  <data name="ERRORIFOLDERTRANSFEREXCEPTION">
-    <value>管理者が設定したiFolderの制限に違反しているため、所有権を転送できませんでした。</value>
+  <data name="ENTERLDAPDETAILS">
+    <value>LDAP管理者の資格情報の入力</value>
   </data>
   <data name="MEMBERTYPELDAPGROUP">
     <value>LDAPグループ</value>
@@ -223,14 +220,20 @@
   <data name="USEDTAG">
     <value>使用済み:</value>
   </data>
+  <data name="NEEDSREPAIR">
+    <value>サーバの修復</value>
+  </data>
   <data name="MEMBERTYPETAG">
     <value>メンバータイプ:</value>
   </data>
   <data name="NONE">
     <value>なし</value>
   </data>
-  <data name="GROUPRIGHTSADDFAILURE">
-    <value>ユーザ {0}{1}{2} をグループ {3}{4}{5} の管理者として追加することができませんでした。グループを再度追加するには、［再度実行する］をクリックしてください。［システム］ページに戻るには、［OK］をクリックしてください。 </value>
+  <data name="ERRORIFOLDERTRANSFEREXCEPTION">
+    <value>管理者が設定したiFolderの制限に違反しているため、所有権を転送できませんでした。</value>
+  </data>
+  <data name="running">
+    <value>実行中</value>
   </data>
   <data name="ERRORCANNOTDELETESECONDARYADMIN">
     <value>2番目の管理者 {0} を削除できません。</value>
@@ -262,8 +265,14 @@
   <data name="ERRORCANNOTCHANGERIGHTS">
     <value>ユーザ {0} のメンバーシップ権を変更します。</value>
   </data>
+  <data name="CHANGEMASTER">
+    <value>マスタとして設定</value>
+  </data>
   <data name="FULLNAME">
     <value>フルネーム</value>
+  </data>
+  <data name="sleeping">
+    <value>スリープ中</value>
   </data>
   <data name="LOGINNOCOOKIES">
     <value>ブラウザでクッキーを有効にする必要があります。</value>
@@ -273,6 +282,9 @@
   </data>
   <data name="WEEKLY">
     <value>毎週</value>
+  </data>
+  <data name="shutdown">
+    <value>シャットダウン</value>
   </data>
   <data name="REPORTIFOLDERTAG">
     <value>iFolder:</value>
@@ -301,11 +313,14 @@
   <data name="USERS">
     <value>ユーザ</value>
   </data>
-  <data name="SET">
-    <value>設定</value>
+  <data name="ALLADMINS">
+    <value>すべての管理者</value>
   </data>
   <data name="LASTPAGE">
     <value>最後のページ</value>
+  </data>
+  <data name="CANNOTSETQUOTAPERUSERERROR">
+    <value>メンバーごとに割り当てられているディスク割り当て量の合計がグループ割り当て量を超えているため、この制限を設定できません</value>
   </data>
   <data name="ERRORDETAIL">
     <value>エラーの詳細</value>
@@ -319,8 +334,8 @@
   <data name="SIZETAG">
     <value>サイズ:</value>
   </data>
-  <data name="FILENAME">
-    <value>ファイル名</value>
+  <data name="GENERATEWEEKLYREPORT">
+    <value>毎 {0}、{1} ～ {2} の間にレポートを生成</value>
   </data>
   <data name="LOGINNOSCRIPT">
     <value>ブラウザでスクリプトを有効にする必要があります。</value>
@@ -388,6 +403,9 @@
   <data name="GROUPLISTTAG">
     <value>ユーザグループ:</value>
   </data>
+  <data name="ADDADMINS">
+    <value>管理者の追加</value>
+  </data>
   <data name="MINUTES">
     <value>分</value>
   </data>
@@ -406,8 +424,8 @@
   <data name="SERVERNAMETAG">
     <value>サーバ:</value>
   </data>
-  <data name="GROUPRIGHTSEDITSUCCESSFUL">
-    <value>管理者 {0}{1} のグループ {3}{4}{5} に対する {2} の権利は正常に編集されました。同じ管理者に対してさらにグループの操作を行うには、［繰り返す］をクリックしてください。［システム］ページに戻るには、［OK］をクリックしてください。</value>
+  <data name="ERRORTYPE">
+    <value>予期しないエラー</value>
   </data>
   <data name="SECONDARY">
     <value>2番目</value>
@@ -439,14 +457,14 @@
   <data name="LOGINERROR">
     <value>エラー:</value>
   </data>
-  <data name="SELECTGROUPTODELETE">
-    <value>削除するグループを選択</value>
+  <data name="CHANGEMASTERNOINFOFAILED">
+    <value>サーバIDおよび新しいサーバパブリックURLを取得できません。</value>
   </data>
   <data name="OWNED">
     <value>所有者</value>
   </data>
-  <data name="ACCOUNT">
-    <value>アカウント</value>
+  <data name="CHANGEMASTERRETRY">
+    <value>マスタおよびスレーブ上のマスタノード属性を更新できません。操作を再試行してください。</value>
   </data>
   <data name="USERSTAG">
     <value>ユーザ:</value>
@@ -490,6 +508,9 @@
   <data name="ALLOWMODIFYSHARINGPOLICY">
     <value>共有ポリシーの変更を許可</value>
   </data>
+  <data name="REPORTS">
+    <value>レポート</value>
+  </data>
   <data name="NOTMOUNTED">
     <value>未マウント</value>
   </data>
@@ -508,11 +529,17 @@
   <data name="READONLY">
     <value>読み込み専用</value>
   </data>
+  <data name="ERRORINVALIDIDSYNCINTERVAL">
+    <value>無効な同期間隔が指定されました。値は5～10080でなければなりません。</value>
+  </data>
   <data name="LDAPSERVER">
     <value>LDAPサーバ:</value>
   </data>
   <data name="IFOLDERUSERS">
     <value>iFolderユーザ</value>
+  </data>
+  <data name="waiting">
+    <value>待機中</value>
   </data>
   <data name="INVALIDFULLPATH">
     <value>指定したフルパスが無効です。確認してから、再度入力してください。</value>
@@ -544,8 +571,8 @@
   <data name="SELECTEDUSERS">
     <value>選択されたユーザ</value>
   </data>
-  <data name="RESTARTSERVER">
-    <value>情報が更新されました。これらの変更は、iFolderサーバーを再起動したときに有効になります。 </value>
+  <data name="CHINESE-SIMPLIFIED">
+    <value>中国語(簡体字)</value>
   </data>
   <data name="PUBLICURI">
     <value>パブリックURL:</value>
@@ -558,9 +585,6 @@
   </data>
   <data name="SERVERDETAILS">
     <value>サーバの詳細</value>
-  </data>
-  <data name="LDAPUPSINCE">
-    <value>稼働期間:</value>
   </data>
   <data name="USERLOGINDISABLED">
     <value>ユーザログインの無効化</value>
@@ -658,14 +682,17 @@
   <data name="ALLOWMODIFYENCRYPTIONPOLICY">
     <value>暗号化ポリシーの変更を許可</value>
   </data>
-  <data name="REPROVISIONBUTTON">
-    <value>再プロビジョニングステータス</value>
+  <data name="MEMBER">
+    <value>メンバー</value>
   </data>
   <data name="FILES">
     <value>ファイル</value>
   </data>
   <data name="ERRORCANNOTREMOVEADMIN">
     <value>ユーザ {0} を管理者から削除できません。</value>
+  </data>
+  <data name="CHANGEMASTERWITHWARNING">
+    <value>{0} をマスタサーバとしてアップグレードするときに例外が発生しました。Simias.logで詳細を参照してください。変更を有効にするには、すべてのサーバを再起動してください。</value>
   </data>
   <data name="PASSWORDSDONOTMATCH">
     <value>パスワードが一致していません。</value>
@@ -688,20 +715,17 @@
   <data name="ERRORLOCKEXCEPTION">
     <value>iFolderが管理者によってロック/無効化されたため、操作はキャンセルされました。</value>
   </data>
-  <data name="ENTERLDAPDETAILS">
-    <value>LDAP管理者の資格情報の入力</value>
-  </data>
   <data name="PASSWORDTAG">
     <value>パスワード:</value>
   </data>
   <data name="SESSIONCLOSED">
-    <value>セッションは終了しています。ログインしてください。</value>
+    <value>入力したユーザ名またはパスワードは正しくありません。ログインしてください。</value>
   </data>
   <data name="DNSNAMETAG">
     <value>DNS名:</value>
   </data>
   <data name="CANNOTSETPERMISSION">
-    <value>指定したフルパスの許可を変更できませんでした。</value>
+    <value>指定したフルパスのパーミッションを変更できませんでした。</value>
   </data>
   <data name="NEWFILETYPE">
     <value>新しいファイルタイプ</value>
@@ -784,8 +808,14 @@
   <data name="TIME">
     <value>時間</value>
   </data>
+  <data name="CONFIGFILEUPDATEFAILED">
+    <value>環境設定ファイルを更新できません。simias.configファイルを手動で更新してください。</value>
+  </data>
   <data name="LOGINSECUREFAILED">
     <value>iFolderサーバとの保護された通信ができません。</value>
+  </data>
+  <data name="CONFIRMCHANGEMASTER">
+    <value>選択されたサーバはマスタサーバとして指定されます。続行しますか?続行する場合は[OK]を、終了する場合は[キャンセル]をクリックしてください。</value>
   </data>
   <data name="LOGINPASSWORD">
     <value>パスワード:</value>
@@ -826,6 +856,9 @@
   <data name="ADMINISTRATORS">
     <value>管理者</value>
   </data>
+  <data name="SELECTGROUPTODELETE">
+    <value>削除するグループを選択</value>
+  </data>
   <data name="FORMATTAG">
     <value>フォーマット:</value>
   </data>
@@ -862,14 +895,14 @@
   <data name="TOTALUSERSTAG">
     <value>全ユーザ:</value>
   </data>
+  <data name="WEBACCESSLOGFILE">
+    <value>Webアクセス</value>
+  </data>
   <data name="ERRORUSERDOESNOTEXIST">
     <value>指定されたiFolderユーザは存在しません。</value>
   </data>
   <data name="LOGINCOPYRIGHT">
-    <value>&amp;copy; Copyright 2009 Novell, Inc. All rights reserved.</value>
-  </data>
-  <data name="GENERATEWEEKLYREPORT">
-    <value>毎 {0}、{1} ～ {2} の間にレポートを生成</value>
+    <value>&amp;copy; Copyright 2010 Novell, Inc. All rights reserved.</value>
   </data>
   <data name="VIEW">
     <value>表示</value>
@@ -880,11 +913,8 @@
   <data name="GENERATEDAILYREPORT">
     <value>毎日、{0} ～ {1} の間にレポートを生成</value>
   </data>
-  <data name="ERRORINSTRUCTIONS">
-    <value>&lt;p&gt;iFolder Web Accessに予期せぬエラーが発生しました。&lt;/p&gt; &lt;p&gt;申し訳ありませんが、ログアウトして再度実行してください。&lt;/p&gt;</value>
-  </data>
-  <data name="MEMBER">
-    <value>メンバー</value>
+  <data name="MASTERNODEUPDATEWAIT">
+    <value>マスタノード属性が新しいマスタおよびスレーブと同期されるのを待機しています。</value>
   </data>
   <data name="ERRORCANNOTDELETEUSER">
     <value>ユーザID {0} を削除できません。</value>
@@ -916,8 +946,8 @@
   <data name="SELECTMEMBERTOADD">
     <value>新しい2番目の管理者の選択</value>
   </data>
-  <data name="ERRORINVALIDIDSYNCINTERVAL">
-    <value>無効な同期間隔が指定されました。値は5～10080でなければなりません。</value>
+  <data name="VOLUME">
+    <value>ボリューム</value>
   </data>
   <data name="IDENTITYSYNCTAG">
     <value>ID同期:</value>
@@ -934,7 +964,13 @@
   <data name="ADD">
     <value>追加</value>
   </data>
+  <data name="MB">
+    <value>MB</value>
+  </data>
   <data name="DISABLE">
+    <value>無効</value>
+  </data>
+  <data name="disabled">
     <value>無効</value>
   </data>
   <data name="ENABLEREPORTING">
@@ -945,6 +981,9 @@
   </data>
   <data name="SLOVAK">
     <value>スロバキア語</value>
+  </data>
+  <data name="UPDATEMASTERURLONSLAVESFAILED">
+    <value>サーバ {0} の新しいマスタURLを更新できません。このサーバのマスタIPを手動で更新してください。</value>
   </data>
   <data name="ONLINE">
     <value>オンライン</value>
@@ -976,8 +1015,14 @@
   <data name="COMPLETED">
     <value>完了</value>
   </data>
+  <data name="RESTARTSERVER">
+    <value>情報が更新されました。これらの変更は、iFolderサーバーを再起動したときに有効になります。 </value>
+  </data>
   <data name="CZECH">
     <value>チェコ語</value>
+  </data>
+  <data name="GROUPQUOTARESTRICTION">
+    <value>使用するグループ割り当て量の管理: </value>
   </data>
   <data name="MEMBERLISTTAG">
     <value>グループメンバー:</value>
@@ -985,8 +1030,8 @@
   <data name="ERRORCANNOTADDADMIN">
     <value>メンバー {0} を管理者として追加できません。</value>
   </data>
-  <data name="ADDADMINS">
-    <value>管理者の追加</value>
+  <data name="LDAPUPSINCE">
+    <value>稼働期間:</value>
   </data>
   <data name="DAYTAG">
     <value>日:</value>
@@ -1018,6 +1063,9 @@
   <data name="ERRORINVALIDSYNCINTERVAL">
     <value>無効な同期間隔が指定されました。値は5～999でなければなりません。</value>
   </data>
+  <data name="REPROVISIONBUTTON">
+    <value>再プロビジョニングステータス</value>
+  </data>
   <data name="MEMBERTYPELOCALGROUP">
     <value>ローカルグループ</value>
   </data>
@@ -1033,8 +1081,8 @@
   <data name="FULLCONTROL">
     <value>フル制御</value>
   </data>
-  <data name="CANNOTSETQUOTAPERUSERERROR">
-    <value>メンバーごとに割り当てられているディスク割り当て量の合計がグループ割り当て量を超えているため、この制限を設定できません</value>
+  <data name="GENERATEMONTHLYREPORT">
+    <value>毎月 {0} 日の {1} ～ {2} にレポートを生成する</value>
   </data>
   <data name="REPORTDIRECTORY">
     <value>ディレクトリのレポート</value>
@@ -1042,11 +1090,14 @@
   <data name="ATTAG">
     <value>時刻:</value>
   </data>
+  <data name="SPANISH">
+    <value>スペイン語</value>
+  </data>
   <data name="ELLIPSES">
     <value> . . .</value>
   </data>
-  <data name="NEWIFOLDERDESCRIPTIONTAG">
-    <value>iFolderの説明:</value>
+  <data name="ERRORINSTRUCTIONS">
+    <value>&lt;p&gt;iFolder Web Accessに予期せぬエラーが発生しました。&lt;/p&gt; &lt;p&gt;申し訳ありませんが、ログアウトして再度実行してください。&lt;/p&gt;</value>
   </data>
   <data name="POLISH">
     <value>ポーランド語</value>
@@ -1054,11 +1105,11 @@
   <data name="FULLNAMETAG">
     <value>フルネーム:</value>
   </data>
-  <data name="ERRORTYPE">
-    <value>予期しないエラー</value>
-  </data>
   <data name="ERRORCANNOTSETDESCRIPTION">
     <value>iFolderの説明を設定できません。</value>
+  </data>
+  <data name="REVERTSHARINGCONNECTFAILED">
+    <value>iFolderサーバに接続できません。サーバに到達できたら、共有を取り消してください。</value>
   </data>
   <data name="LOGINUNAUTHORIZED">
     <value>ユーザ名とパスワードを再入力してください。</value>
@@ -1069,8 +1120,8 @@
   <data name="PENDING">
     <value>保留中</value>
   </data>
-  <data name="REPORTS">
-    <value>レポート</value>
+  <data name="FILENAME">
+    <value>ファイル名</value>
   </data>
   <data name="ENFORCED">
     <value>強制 </value>
@@ -1090,8 +1141,8 @@
   <data name="LDAPSSL">
     <value>LDAP SSL:</value>
   </data>
-  <data name="MINIMALINFO">
-    <value>最小情報の表示</value>
+  <data name="NEWIFOLDERDESCRIPTIONTAG">
+    <value>iFolderの説明:</value>
   </data>
   <data name="CREATEUSER">
     <value>ユーザの作成</value>
@@ -1104,6 +1155,9 @@
   </data>
   <data name="FREESPACE">
     <value>空きスペース</value>
+  </data>
+  <data name="CHANGEMASTERSUCCESSFUL">
+    <value>{0} をマスタサーバとしてアップグレードしました。変更を有効にするには、すべてのサーバを再起動してください。</value>
   </data>
   <data name="LOGTAG">
     <value>ログ</value>
@@ -1119,9 +1173,6 @@
   </data>
   <data name="IFOLDERDETAILS">
     <value>iFolder詳細</value>
-  </data>
-  <data name="CHINESE-SIMPLIFIED">
-    <value>中国語(簡体字)</value>
   </data>
   <data name="UNKNOWNERROR">
     <value>不明なエラーが発生しました。例外は指定されていません。</value>
@@ -1141,8 +1192,8 @@
   <data name="POLICIES">
     <value>ポリシー</value>
   </data>
-  <data name="GROUPQUOTARESTRICTION">
-    <value>使用するグループ割り当て量の管理: </value>
+  <data name="CONNECTIONFAILED">
+    <value>サーバ {0} に接続できません。</value>
   </data>
   <data name="NONSSLSTRING">
     <value>非SSL</value>
@@ -1159,14 +1210,17 @@
   <data name="PORTUGUESE-BRAZIL">
     <value>ポルトガル語 - ブラジル</value>
   </data>
+  <data name="ENCRYPTION">
+    <value>パスフレーズベースの暗号化</value>
+  </data>
   <data name="BEGINSWITH">
     <value>開始文字</value>
   </data>
-  <data name="MB">
-    <value>MB</value>
+  <data name="DOWNLOAD">
+    <value>ダウンロード</value>
   </data>
   <data name="ERRORCANNOTDELETEIFOLDER">
-    <value>iFolderを削除できません。</value>
+    <value>{0} を削除するパーミッションが付与されていません。</value>
   </data>
   <data name="DISKSPACEAVAILABLETAG">
     <value>使用可能ディスク容量:</value>
@@ -1180,6 +1234,12 @@
   <data name="TRANSFERING">
     <value>転送中</value>
   </data>
+  <data name="ALLOWDELETEIFOLDERRIGHTS">
+    <value>iFolderを削除するパーミッションを付与</value>
+  </data>
+  <data name="SET">
+    <value>設定</value>
+  </data>
   <data name="LDAPADMINPWD">
     <value>LDAP管理者パスワード:</value>
   </data>
@@ -1192,8 +1252,8 @@
   <data name="STATUSTAG">
     <value>ステータス:</value>
   </data>
-  <data name="ENCRYPTION">
-    <value>パスフレーズベースの暗号化</value>
+  <data name="MINIMALINFO">
+    <value>最小情報の表示</value>
   </data>
   <data name="LOGLEVELTAG">
     <value>ログレベル</value>
@@ -1204,6 +1264,9 @@
   <data name="CONTAINS">
     <value>含む</value>
   </data>
+  <data name="GROUPRIGHTSEDITSUCCESSFUL">
+    <value>管理者 {0}{1} のグループ {3}{4}{5} に対する {2} の権利は正常に編集されました。同じ管理者に対してさらにグループの操作を行うには、［繰り返す］をクリックしてください。［システム］ページに戻るには、［OK］をクリックしてください。</value>
+  </data>
   <data name="LDAPMEMBERDELETE">
     <value>メンバーの削除</value>
   </data>
@@ -1212,6 +1275,9 @@
   </data>
   <data name="ERRORUNKNOWNERROR">
     <value>不明なエラーが発生しました</value>
+  </data>
+  <data name="GROUPRIGHTSADDFAILURE">
+    <value>ユーザ {0}{1}{2} をグループ {3}{4}{5} の管理者として追加することができませんでした。グループを再度追加するには、［再度実行する］をクリックしてください。［システム］ページに戻るには、［OK］をクリックしてください。 </value>
   </data>
   <data name="NAMETAG">
     <value>名前:</value>
@@ -1252,11 +1318,8 @@
   <data name="RIGHTS">
     <value>権利</value>
   </data>
-  <data name="WEBACCESSLOGFILE">
-    <value>Webアクセス</value>
-  </data>
-  <data name="GENERATEMONTHLYREPORT">
-    <value>毎月 {0} 日の {1} ～ {2} にレポートを生成する</value>
+  <data name="ACCOUNT">
+    <value>アカウント</value>
   </data>
   <data name="ADDROOT">
     <value>ルートの追加</value>
@@ -1288,9 +1351,6 @@
   <data name="REPROVISOINSTATETAG">
     <value>再プロビジョニング状態:</value>
   </data>
-  <data name="DOWNLOAD">
-    <value>ダウンロード</value>
-  </data>
   <data name="DELETESECONDARYADMIN">
     <value>2番目の管理者の削除: </value>
   </data>
@@ -1315,11 +1375,11 @@
   <data name="GROUPDISKQUOTA">
     <value>グループのディスク割り当て量: </value>
   </data>
+  <data name="UNABLETOSETASSLAVE">
+    <value>スレーブサーバとして設定できません。操作を再試行してください。</value>
+  </data>
   <data name="LOGINUSERNAME">
     <value>ユーザ名:</value>
-  </data>
-  <data name="VOLUME">
-    <value>ボリューム</value>
   </data>
   <data name="UNLIMITED">
     <value>無制限</value>

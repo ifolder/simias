@@ -160,9 +160,6 @@
   <data name="SERVERLOGS">
     <value>Journaux du serveur</value>
   </data>
-  <data name="ALLADMINS">
-    <value>Tous les administrateurs</value>
-  </data>
   <data name="PRIVATEURI">
     <value>URL privée :</value>
   </data>
@@ -202,14 +199,14 @@
   <data name="REPROVISOINSTATE">
     <value>État redéploiement</value>
   </data>
-  <data name="SPANISH">
-    <value>Espagnol</value>
+  <data name="CHANGEMASTERFAILED">
+    <value>Le maître et l'esclave n'ont pas pu être modifiés. Consultez les fichiers journaux pour plus d'informations.</value>
   </data>
   <data name="COMPLETEDTAG">
     <value>Terminé :</value>
   </data>
-  <data name="ERRORIFOLDERTRANSFEREXCEPTION">
-    <value>Impossible de transférer la propriété car vous violez la limite des dossiers iFolder définie par votre Administrateur.</value>
+  <data name="ENTERLDAPDETAILS">
+    <value>Entrer les références Admin LDAP</value>
   </data>
   <data name="MEMBERTYPELDAPGROUP">
     <value>Groupe LDAP</value>
@@ -223,14 +220,20 @@
   <data name="USEDTAG">
     <value>Utilisé :</value>
   </data>
+  <data name="NEEDSREPAIR">
+    <value>Réparer le serveur</value>
+  </data>
   <data name="MEMBERTYPETAG">
     <value>Type de membre :</value>
   </data>
   <data name="NONE">
     <value>Aucun</value>
   </data>
-  <data name="GROUPRIGHTSADDFAILURE">
-    <value>L'utilisateur {0}{1}{2} n'a pas pu être ajouté en tant qu'administrateur du groupe {3}{4}{5}. Cliquez sur Réessayer pour recommencer l'opération d'ajout. Cliquez sur OK pour revenir à la page Systèmes. </value>
+  <data name="ERRORIFOLDERTRANSFEREXCEPTION">
+    <value>Impossible de transférer la propriété car vous violez la limite des dossiers iFolder définie par votre Administrateur.</value>
+  </data>
+  <data name="running">
+    <value>en cours d'exécution</value>
   </data>
   <data name="ERRORCANNOTDELETESECONDARYADMIN">
     <value>Impossible de supprimer l'administrateur secondaire {0}.</value>
@@ -262,8 +265,14 @@
   <data name="ERRORCANNOTCHANGERIGHTS">
     <value>Impossible de modifier les droits de membre de l'utilisateur {0}.</value>
   </data>
+  <data name="CHANGEMASTER">
+    <value>Définir en tant que maître</value>
+  </data>
   <data name="FULLNAME">
     <value>Nom complet</value>
+  </data>
+  <data name="sleeping">
+    <value>en veille</value>
   </data>
   <data name="LOGINNOCOOKIES">
     <value>Vous devez activer les cookies dans votre navigateur.</value>
@@ -273,6 +282,9 @@
   </data>
   <data name="WEEKLY">
     <value>Toutes les semaines</value>
+  </data>
+  <data name="shutdown">
+    <value>arrêt</value>
   </data>
   <data name="REPORTIFOLDERTAG">
     <value>iFolder :</value>
@@ -301,11 +313,14 @@
   <data name="USERS">
     <value>Utilisateurs</value>
   </data>
-  <data name="SET">
-    <value>Définir</value>
+  <data name="ALLADMINS">
+    <value>Tous les administrateurs</value>
   </data>
   <data name="LASTPAGE">
     <value>Dernière page</value>
+  </data>
+  <data name="CANNOTSETQUOTAPERUSERERROR">
+    <value>Cette limite ne peut pas être définie car le quota de disque total alloué par membre dépasse le quota du groupe.</value>
   </data>
   <data name="ERRORDETAIL">
     <value>Détails de l'erreur</value>
@@ -319,8 +334,8 @@
   <data name="SIZETAG">
     <value>Taille :</value>
   </data>
-  <data name="FILENAME">
-    <value>Nom de fichier</value>
+  <data name="GENERATEWEEKLYREPORT">
+    <value>Générer un rapport le {0} à {1} dans {2}</value>
   </data>
   <data name="LOGINNOSCRIPT">
     <value>Vous devez activer les scripts dans votre navigateur.</value>
@@ -388,6 +403,9 @@
   <data name="GROUPLISTTAG">
     <value>Groupes d'utilisateurs :</value>
   </data>
+  <data name="ADDADMINS">
+    <value>Ajouter des administrateurs</value>
+  </data>
   <data name="MINUTES">
     <value>minute(s)</value>
   </data>
@@ -406,8 +424,8 @@
   <data name="SERVERNAMETAG">
     <value>Serveur :</value>
   </data>
-  <data name="GROUPRIGHTSEDITSUCCESSFUL">
-    <value>Les droits {0}{1}{2} de l'administrateur ont été modifiés pour le groupe {3}{4}{5}. Cliquez sur Répéter pour étendre l'opération aux autres groupes gérés par cet administrateur. Cliquez sur OK pour revenir à la page Systèmes.</value>
+  <data name="ERRORTYPE">
+    <value>Erreur inattendue</value>
   </data>
   <data name="SECONDARY">
     <value>Secondaire</value>
@@ -439,14 +457,14 @@
   <data name="LOGINERROR">
     <value>Erreur :</value>
   </data>
-  <data name="SELECTGROUPTODELETE">
-    <value>Sélectionner un ou plusieurs groupes à supprimer</value>
+  <data name="CHANGEMASTERNOINFOFAILED">
+    <value>Impossible d'obtenir l'ID du serveur ainsi que l'URL publique du nouveau serveur.</value>
   </data>
   <data name="OWNED">
     <value>Avec propriétaire</value>
   </data>
-  <data name="ACCOUNT">
-    <value>Compte</value>
+  <data name="CHANGEMASTERRETRY">
+    <value>Impossible de mettre à jour l'attribut du noeud maître sur le maître et l'esclave. Veuillez réessayer.</value>
   </data>
   <data name="USERSTAG">
     <value>Utilisateurs :</value>
@@ -490,6 +508,9 @@
   <data name="ALLOWMODIFYSHARINGPOLICY">
     <value>Autoriser la modification de la stratégie de partage</value>
   </data>
+  <data name="REPORTS">
+    <value>Rapports</value>
+  </data>
   <data name="NOTMOUNTED">
     <value>Non monté</value>
   </data>
@@ -508,11 +529,17 @@
   <data name="READONLY">
     <value>Lecture seule</value>
   </data>
+  <data name="ERRORINVALIDIDSYNCINTERVAL">
+    <value>Un intervalle de synchronisation non valide a été spécifié. La valeur doit être comprise entre 5 et 10080.</value>
+  </data>
   <data name="LDAPSERVER">
     <value>Serveur LDAP :</value>
   </data>
   <data name="IFOLDERUSERS">
     <value>Utilisateurs iFolder</value>
+  </data>
+  <data name="waiting">
+    <value>en attente</value>
   </data>
   <data name="INVALIDFULLPATH">
     <value>Le chemin d'accès complet spécifié est non valide. Vérifiez et réintroduisez-le.</value>
@@ -544,8 +571,8 @@
   <data name="SELECTEDUSERS">
     <value>Utilisateurs sélectionnés</value>
   </data>
-  <data name="RESTARTSERVER">
-    <value>Informations mises à jour. Ces modifications prendront effet au redémarrage du serveur iFolder. </value>
+  <data name="CHINESE-SIMPLIFIED">
+    <value>Chinois simplifié</value>
   </data>
   <data name="PUBLICURI">
     <value>URL publique :</value>
@@ -558,9 +585,6 @@
   </data>
   <data name="SERVERDETAILS">
     <value>Détails du serveur</value>
-  </data>
-  <data name="LDAPUPSINCE">
-    <value>En service depuis :</value>
   </data>
   <data name="USERLOGINDISABLED">
     <value>Désactiver le login utilisateur</value>
@@ -658,14 +682,17 @@
   <data name="ALLOWMODIFYENCRYPTIONPOLICY">
     <value>Autoriser la modification de la stratégie de codage</value>
   </data>
-  <data name="REPROVISIONBUTTON">
-    <value>Statut redéploiement</value>
+  <data name="MEMBER">
+    <value>Membre</value>
   </data>
   <data name="FILES">
     <value>Fichiers</value>
   </data>
   <data name="ERRORCANNOTREMOVEADMIN">
     <value>Impossible de supprimer l'utilisateur {0} comme administrateur.</value>
+  </data>
+  <data name="CHANGEMASTERWITHWARNING">
+    <value>{0} a été mis à niveau en tant que serveur maître mais avec des exceptions. Reportez-vous au fichier journal Simias.log pour plus d'informations. Redémarrez tous les serveurs pour que les modifications soient prises en compte.</value>
   </data>
   <data name="PASSWORDSDONOTMATCH">
     <value>Les mots de passe ne concordent pas.</value>
@@ -688,14 +715,11 @@
   <data name="ERRORLOCKEXCEPTION">
     <value>L'opération a été annulée car le dossier iFolder a été verrouillé/désactivé par l'administrateur.</value>
   </data>
-  <data name="ENTERLDAPDETAILS">
-    <value>Entrer les références Admin LDAP</value>
-  </data>
   <data name="PASSWORDTAG">
     <value>Mot de passe :</value>
   </data>
   <data name="SESSIONCLOSED">
-    <value>Votre session a été fermée. Loguez-vous.</value>
+    <value>Le nom d'utilisateur ou le mot de passe entré est incorrect. Veuillez-vous loguer.</value>
   </data>
   <data name="DNSNAMETAG">
     <value>Nom DNS :</value>
@@ -784,8 +808,14 @@
   <data name="TIME">
     <value>Heure</value>
   </data>
+  <data name="CONFIGFILEUPDATEFAILED">
+    <value>Le fichier de configuration n'a pas pu être mis à jour. Effectuez une mise à jour manuelle du fichier simias.config.</value>
+  </data>
   <data name="LOGINSECUREFAILED">
     <value>Impossible de communiquer de manière sûre avec le serveur iFolder.</value>
+  </data>
+  <data name="CONFIRMCHANGEMASTER">
+    <value>Le serveur sélectionné sera défini comme serveur maître. Voulez-vous continuer ? Cliquez sur OK pour continuer ou sur Annuler pour quitter.</value>
   </data>
   <data name="LOGINPASSWORD">
     <value>Mot de passe :</value>
@@ -826,6 +856,9 @@
   <data name="ADMINISTRATORS">
     <value>Administrateurs</value>
   </data>
+  <data name="SELECTGROUPTODELETE">
+    <value>Sélectionner un ou plusieurs groupes à supprimer</value>
+  </data>
   <data name="FORMATTAG">
     <value>Format :</value>
   </data>
@@ -862,14 +895,14 @@
   <data name="TOTALUSERSTAG">
     <value>Nombre total d'utilisateurs :</value>
   </data>
+  <data name="WEBACCESSLOGFILE">
+    <value>Accès Web</value>
+  </data>
   <data name="ERRORUSERDOESNOTEXIST">
     <value>Le dossier iFolder spécifié n'existe pas.</value>
   </data>
   <data name="LOGINCOPYRIGHT">
-    <value>&amp;copy; Copyright 2009 Novell, Inc. Tous droits réservés.</value>
-  </data>
-  <data name="GENERATEWEEKLYREPORT">
-    <value>Générer un rapport le {0} à {1} dans {2}</value>
+    <value>&amp;copy; Copyright 2010 Novell, Inc. Tous droits réservés.</value>
   </data>
   <data name="VIEW">
     <value>Afficher</value>
@@ -880,11 +913,8 @@
   <data name="GENERATEDAILYREPORT">
     <value>Générer un rapport chaque jour à {0} dans {1}</value>
   </data>
-  <data name="ERRORINSTRUCTIONS">
-    <value>&lt;p&gt;iFolder Web Access a rencontré une erreur inattendue.&lt;/p&gt; &lt;p&gt;Nous nous excusons des désagréments et vous invitons à vous déloguer et à réessayer.&lt;/p&gt;</value>
-  </data>
-  <data name="MEMBER">
-    <value>Membre</value>
+  <data name="MASTERNODEUPDATEWAIT">
+    <value>Attente de synchronisation de l'attribut du noeud maître avec le nouveau maître et les nouveaux esclaves.</value>
   </data>
   <data name="ERRORCANNOTDELETEUSER">
     <value>Impossible de supprimer l'utilisateur ID {0}.</value>
@@ -916,8 +946,8 @@
   <data name="SELECTMEMBERTOADD">
     <value>Sélectionner un nouvel administrateur secondaire</value>
   </data>
-  <data name="ERRORINVALIDIDSYNCINTERVAL">
-    <value>Un intervalle de synchronisation non valide a été spécifié. La valeur doit être comprise entre 5 et 10080.</value>
+  <data name="VOLUME">
+    <value>Volume</value>
   </data>
   <data name="IDENTITYSYNCTAG">
     <value>Synchronisation d'identités :</value>
@@ -934,8 +964,14 @@
   <data name="ADD">
     <value>Ajouter</value>
   </data>
+  <data name="MB">
+    <value>Mo</value>
+  </data>
   <data name="DISABLE">
     <value>Désactiver</value>
+  </data>
+  <data name="disabled">
+    <value>désactivé</value>
   </data>
   <data name="ENABLEREPORTING">
     <value>Activer les rapports</value>
@@ -945,6 +981,9 @@
   </data>
   <data name="SLOVAK">
     <value>Slovaque</value>
+  </data>
+  <data name="UPDATEMASTERURLONSLAVESFAILED">
+    <value>L'URL du nouveau serveur maître n'a pas pu être mise à jour sur le serveur {0}. Effectuez une mise à jour manuelle de l'adresse IP du serveur maître sur ce serveur.</value>
   </data>
   <data name="ONLINE">
     <value>En ligne</value>
@@ -976,8 +1015,14 @@
   <data name="COMPLETED">
     <value>Terminé</value>
   </data>
+  <data name="RESTARTSERVER">
+    <value>Informations mises à jour. Ces modifications prendront effet au redémarrage du serveur iFolder. </value>
+  </data>
   <data name="CZECH">
     <value>Tchèque</value>
+  </data>
+  <data name="GROUPQUOTARESTRICTION">
+    <value>Gérer le quota du groupe à l'aide de : </value>
   </data>
   <data name="MEMBERLISTTAG">
     <value>Membres du groupe :</value>
@@ -985,8 +1030,8 @@
   <data name="ERRORCANNOTADDADMIN">
     <value>Impossible d'ajouter le membre {0} comme administrateur.</value>
   </data>
-  <data name="ADDADMINS">
-    <value>Ajouter des administrateurs</value>
+  <data name="LDAPUPSINCE">
+    <value>En service depuis :</value>
   </data>
   <data name="DAYTAG">
     <value>Jour :</value>
@@ -1018,6 +1063,9 @@
   <data name="ERRORINVALIDSYNCINTERVAL">
     <value>Un intervalle de synchronisation non valide a été spécifié. La valeur doit être comprise entre 5 et 999.</value>
   </data>
+  <data name="REPROVISIONBUTTON">
+    <value>Statut redéploiement</value>
+  </data>
   <data name="MEMBERTYPELOCALGROUP">
     <value>Groupe local</value>
   </data>
@@ -1033,8 +1081,8 @@
   <data name="FULLCONTROL">
     <value>Contrôle total</value>
   </data>
-  <data name="CANNOTSETQUOTAPERUSERERROR">
-    <value>Cette limite ne peut pas être définie car le quota de disque total alloué par membre dépasse le quota du groupe.</value>
+  <data name="GENERATEMONTHLYREPORT">
+    <value>Générer un rapport le {0} de chaque mois à {1} dans {2}</value>
   </data>
   <data name="REPORTDIRECTORY">
     <value>Répertoire des rapports</value>
@@ -1042,11 +1090,14 @@
   <data name="ATTAG">
     <value>À :</value>
   </data>
+  <data name="SPANISH">
+    <value>Espagnol</value>
+  </data>
   <data name="ELLIPSES">
     <value> . . .</value>
   </data>
-  <data name="NEWIFOLDERDESCRIPTIONTAG">
-    <value>Description du dossier iFolder :</value>
+  <data name="ERRORINSTRUCTIONS">
+    <value>&lt;p&gt;iFolder Web Access a rencontré une erreur inattendue.&lt;/p&gt; &lt;p&gt;Nous nous excusons des désagréments et vous invitons à vous déloguer et à réessayer.&lt;/p&gt;</value>
   </data>
   <data name="POLISH">
     <value>Polonais</value>
@@ -1054,11 +1105,11 @@
   <data name="FULLNAMETAG">
     <value>Nom complet :</value>
   </data>
-  <data name="ERRORTYPE">
-    <value>Erreur inattendue</value>
-  </data>
   <data name="ERRORCANNOTSETDESCRIPTION">
     <value>Impossible de définir la description du dossier iFolder.</value>
+  </data>
+  <data name="REVERTSHARINGCONNECTFAILED">
+    <value>Impossible de se connecter au serveur iFolder. Révoquez le partage une fois que le serveur est joignable.</value>
   </data>
   <data name="LOGINUNAUTHORIZED">
     <value>Réintroduisez votre nom d'utilisateur et votre mot de passe.</value>
@@ -1069,8 +1120,8 @@
   <data name="PENDING">
     <value>En attente</value>
   </data>
-  <data name="REPORTS">
-    <value>Rapports</value>
+  <data name="FILENAME">
+    <value>Nom de fichier</value>
   </data>
   <data name="ENFORCED">
     <value>Activé </value>
@@ -1090,8 +1141,8 @@
   <data name="LDAPSSL">
     <value>LDAP SSL :</value>
   </data>
-  <data name="MINIMALINFO">
-    <value>Affichage des informations minimales</value>
+  <data name="NEWIFOLDERDESCRIPTIONTAG">
+    <value>Description du dossier iFolder :</value>
   </data>
   <data name="CREATEUSER">
     <value>Créer l'utilisateur</value>
@@ -1104,6 +1155,9 @@
   </data>
   <data name="FREESPACE">
     <value>Espace disponible</value>
+  </data>
+  <data name="CHANGEMASTERSUCCESSFUL">
+    <value>{0} a été mis à niveau en tant que serveur maître. Redémarrez tous les serveurs pour que les modifications soient prises en compte.</value>
   </data>
   <data name="LOGTAG">
     <value>Journal</value>
@@ -1119,9 +1173,6 @@
   </data>
   <data name="IFOLDERDETAILS">
     <value>Détails iFolder</value>
-  </data>
-  <data name="CHINESE-SIMPLIFIED">
-    <value>Chinois simplifié</value>
   </data>
   <data name="UNKNOWNERROR">
     <value>Une erreur inconnue s'est produite. Aucune exception n'a été spécifiée.</value>
@@ -1141,8 +1192,8 @@
   <data name="POLICIES">
     <value>Stratégies</value>
   </data>
-  <data name="GROUPQUOTARESTRICTION">
-    <value>Gérer le quota du groupe à l'aide de : </value>
+  <data name="CONNECTIONFAILED">
+    <value>Impossible de se connecter au serveur {0}.</value>
   </data>
   <data name="NONSSLSTRING">
     <value>NON-SSL</value>
@@ -1159,14 +1210,17 @@
   <data name="PORTUGUESE-BRAZIL">
     <value>Portugais (Brésil)</value>
   </data>
+  <data name="ENCRYPTION">
+    <value>Codage basé sur phrase secrète</value>
+  </data>
   <data name="BEGINSWITH">
     <value>Commence par</value>
   </data>
-  <data name="MB">
-    <value>Mo</value>
+  <data name="DOWNLOAD">
+    <value>Télécharger</value>
   </data>
   <data name="ERRORCANNOTDELETEIFOLDER">
-    <value>Impossible de supprimer le dossier iFolder.</value>
+    <value>Vous n'êtes pas autorisé à supprimer {0}.</value>
   </data>
   <data name="DISKSPACEAVAILABLETAG">
     <value>Espace disque disponible :</value>
@@ -1180,6 +1234,12 @@
   <data name="TRANSFERING">
     <value>Transfert en cours</value>
   </data>
+  <data name="ALLOWDELETEIFOLDERRIGHTS">
+    <value>Autoriser la suppression des dossiers iFolder</value>
+  </data>
+  <data name="SET">
+    <value>Définir</value>
+  </data>
   <data name="LDAPADMINPWD">
     <value>Mot de passe Admin LDAP :</value>
   </data>
@@ -1192,8 +1252,8 @@
   <data name="STATUSTAG">
     <value>État :</value>
   </data>
-  <data name="ENCRYPTION">
-    <value>Codage basé sur phrase secrète</value>
+  <data name="MINIMALINFO">
+    <value>Affichage des informations minimales</value>
   </data>
   <data name="LOGLEVELTAG">
     <value>Niveau de consignation</value>
@@ -1204,6 +1264,9 @@
   <data name="CONTAINS">
     <value>Contient</value>
   </data>
+  <data name="GROUPRIGHTSEDITSUCCESSFUL">
+    <value>Les droits {0}{1}{2} de l'administrateur ont été modifiés pour le groupe {3}{4}{5}. Cliquez sur Répéter pour étendre l'opération aux autres groupes gérés par cet administrateur. Cliquez sur OK pour revenir à la page Systèmes.</value>
+  </data>
   <data name="LDAPMEMBERDELETE">
     <value>Supprimer le membre</value>
   </data>
@@ -1212,6 +1275,9 @@
   </data>
   <data name="ERRORUNKNOWNERROR">
     <value>Une erreur inconnue s'est produite.</value>
+  </data>
+  <data name="GROUPRIGHTSADDFAILURE">
+    <value>L'utilisateur {0}{1}{2} n'a pas pu être ajouté en tant qu'administrateur du groupe {3}{4}{5}. Cliquez sur Réessayer pour recommencer l'opération d'ajout. Cliquez sur OK pour revenir à la page Systèmes. </value>
   </data>
   <data name="NAMETAG">
     <value>Nom :</value>
@@ -1252,11 +1318,8 @@
   <data name="RIGHTS">
     <value>Droits</value>
   </data>
-  <data name="WEBACCESSLOGFILE">
-    <value>Accès Web</value>
-  </data>
-  <data name="GENERATEMONTHLYREPORT">
-    <value>Générer un rapport le {0} de chaque mois à {1} dans {2}</value>
+  <data name="ACCOUNT">
+    <value>Compte</value>
   </data>
   <data name="ADDROOT">
     <value>Ajouter un utilisateur root</value>
@@ -1288,9 +1351,6 @@
   <data name="REPROVISOINSTATETAG">
     <value>État redéploiement :</value>
   </data>
-  <data name="DOWNLOAD">
-    <value>Télécharger</value>
-  </data>
   <data name="DELETESECONDARYADMIN">
     <value>Supprimer l'administrateur secondaire : </value>
   </data>
@@ -1315,11 +1375,11 @@
   <data name="GROUPDISKQUOTA">
     <value>Quota de disque du groupe : </value>
   </data>
+  <data name="UNABLETOSETASSLAVE">
+    <value>Impossible de définir en tant que serveur esclave. Veuillez réessayer.</value>
+  </data>
   <data name="LOGINUSERNAME">
     <value>Nom d'utilisateur :</value>
-  </data>
-  <data name="VOLUME">
-    <value>Volume</value>
   </data>
   <data name="UNLIMITED">
     <value>Illimité</value>
