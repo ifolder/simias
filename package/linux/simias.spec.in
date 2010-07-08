@@ -113,7 +113,8 @@ rm -rf $RPM_BUILD_ROOT/%{prefix}/share/simias/
 %{__rm} -rf $RPM_BUILD_ROOT
 #=============================================================================
 
-%post -p /sbin/ldconfig
+%post 
+/sbin/ldconfig
 #=============================================================================
 
 %preun
@@ -127,7 +128,8 @@ then
 fi
 #=============================================================================
 
-%postun -p /sbin/ldconfig
+%postun 
+/sbin/ldconfig
 #=============================================================================
 
 %files
@@ -146,8 +148,6 @@ fi
 %{prefix}/%_lib/libsimias-manager.a
 %{prefix}/%_lib/libsimias-event.so.0
 %{prefix}/%_lib/libsimias-event.so.0.0.0
-%{prefix}/%_lib/libsimias-manager.so.0
-%{prefix}/%_lib/libsimias-manager.so.0.0.0
 %{prefix}/%_lib/libsimias.so
 %{prefix}/%_lib/libsimias.so.0
 %{prefix}/%_lib/libsimias.so.0.0.0
@@ -162,7 +162,6 @@ fi
 %endif
 %{prefix}/%_lib/libFlaimWrapper.so
 %{prefix}/%_lib/libsimias-event.so
-%{prefix}/%_lib/libsimias-manager.so
 %{prefix}/%_lib/libsimias.so
 %{prefix}/%_lib/pkgconfig/*
 %dir %{prefix}/include/simias/
