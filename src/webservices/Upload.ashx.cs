@@ -106,27 +106,34 @@ namespace iFolder.WebService
 				string backupPath = null;
 				long backupLength = 0;
 
-				// new file?
-				if (node == null)
-				{
-					filename = System.IO.Path.GetFileName(entryPath);
-
-					Node parent = iFolderEntry.GetEntryByPath(collection,
-						System.IO.Path.GetDirectoryName(entryPath).Replace('\\', '/'));
-
-					node = (FileNode) iFolderEntry.CreateEntry(collection, parent,
-						iFolderEntryType.File, filename, out filePath, DontCheckPolicies);
-				}
-				else
-				{
-					// backup file
-					backupPath = String.Format("{0}.simias.temp", filePath);
-					File.Copy(filePath, backupPath, true);
-					backupLength = (new FileInfo(backupPath)).Length;
-				}
-
 				try
 				{
+
+					// new file?
+					if (node == null)
+					{
+						filename = System.IO.Path.GetFileName(entryPath);
+	
+						Node parent = iFolderEntry.GetEntryByPath(collection,
+							System.IO.Path.GetDirectoryName(entryPath).Replace('\\', '/'));
+	
+						node = (FileNode) iFolderEntry.CreateEntry(collection, parent,
+							iFolderEntryType.File, filename, out filePath, DontCheckPolicies);
+					}
+					else
+					{
+						// check file type policy
+						FileTypeFilter fsFilter = FileTypeFilter.Get(collection);
+						if (!fsFilter.Allowed(filename))
+						{
+							throw new FileTypeException(filename);
+						}
+						// backup file
+						backupPath = String.Format("{0}.simias.temp", filePath);
+							File.Copy(filePath, backupPath, true);
+						backupLength = (new FileInfo(backupPath)).Length;
+					}
+
 					long deltaSize = context.Request.ContentLength - backupLength;
 				
 					if( DontCheckPolicies == false )
