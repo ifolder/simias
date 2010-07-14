@@ -122,7 +122,7 @@
     <value>Japanisch</value>
   </data>
   <data name="NAME">
-    <value>Name:</value>
+    <value>Name</value>
   </data>
   <data name="TODAY">
     <value>Heute</value>
@@ -527,7 +527,7 @@
     <value>Deutsch</value>
   </data>
   <data name="DESCRIPTION">
-    <value>Beschreibung:</value>
+    <value>Beschreibung</value>
   </data>
   <data name="IFOLDER.IFOLDERS">
     <value>iFolder-Ordner:</value>

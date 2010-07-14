@@ -122,7 +122,7 @@
     <value>japán</value>
   </data>
   <data name="NAME">
-    <value>Név:</value>
+    <value>Név</value>
   </data>
   <data name="TODAY">
     <value>ma</value>
@@ -527,7 +527,7 @@
     <value>német</value>
   </data>
   <data name="DESCRIPTION">
-    <value>Leírás:</value>
+    <value>Leírás</value>
   </data>
   <data name="IFOLDER.IFOLDERS">
     <value>iFolder mappák:</value>

@@ -122,7 +122,7 @@
     <value>japončina</value>
   </data>
   <data name="NAME">
-    <value>Názov:</value>
+    <value>Názov</value>
   </data>
   <data name="TODAY">
     <value>Dnes</value>
@@ -527,7 +527,7 @@
     <value>nemčina</value>
   </data>
   <data name="DESCRIPTION">
-    <value>Popis:</value>
+    <value>Popis</value>
   </data>
   <data name="IFOLDER.IFOLDERS">
     <value>Priečinky iFolder:</value>

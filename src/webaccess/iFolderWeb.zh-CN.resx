@@ -122,7 +122,7 @@
     <value>日语</value>
   </data>
   <data name="NAME">
-    <value>名称：</value>
+    <value>名称</value>
   </data>
   <data name="TODAY">
     <value>今天</value>
@@ -527,7 +527,7 @@
     <value>德语</value>
   </data>
   <data name="DESCRIPTION">
-    <value>说明：</value>
+    <value>说明</value>
   </data>
   <data name="IFOLDER.IFOLDERS">
     <value>iFolder：</value>

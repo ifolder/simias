@@ -122,7 +122,7 @@
     <value>Японский</value>
   </data>
   <data name="NAME">
-    <value>Имя:</value>
+    <value>Имя</value>
   </data>
   <data name="TODAY">
     <value>Сегодня</value>
@@ -527,7 +527,7 @@
     <value>Немецкий</value>
   </data>
   <data name="DESCRIPTION">
-    <value>Описание:</value>
+    <value>Описание</value>
   </data>
   <data name="IFOLDER.IFOLDERS">
     <value>Папки iFolder:</value>

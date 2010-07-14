@@ -122,7 +122,7 @@
     <value>Japonés</value>
   </data>
   <data name="NAME">
-    <value>Nombre:</value>
+    <value>Nombre</value>
   </data>
   <data name="TODAY">
     <value>Hoy</value>
@@ -527,7 +527,7 @@
     <value>Alemán</value>
   </data>
   <data name="DESCRIPTION">
-    <value>Descripción:</value>
+    <value>Descripción</value>
   </data>
   <data name="IFOLDER.IFOLDERS">
     <value>Carpetas iFolder:</value>
