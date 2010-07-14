@@ -40,9 +40,16 @@
 
 MONO_CMD=""
 
-if [ $# -lt 3 ]; then
-	echo "Usage: ./iFolder_proxy_rights_assign <proxydn> <ldapadmindn> <ldapadminpwd> <ldapport>"
+if [ $# -lt 2 ]; then
+	echo "Usage: ./iFolder_proxy_rights_assign <proxydn> <ldapadmindn> <ldapport>"
 	exit -1
+fi
+
+adminpwd=$OES_ADMIN_DATA
+if [ -z $adminpwd ]; then
+        echo "Set ldap admin password in environment variable OES_ADMIN_DATA"
+        echo "Usage: ./iFolder_update_proxy_cred_store <proxydn> <ldapadmindn> <ldapport>"
+        exit -1
 fi
 
 
@@ -81,7 +88,7 @@ touch $datapath/proxydetails
 echo "proxy_rights_assign">>$datapath/proxydetails
 echo "$1">>$datapath/proxydetails
 echo "$2">>$datapath/proxydetails
-echo "$3">>$datapath/proxydetails
+echo "$adminpwd">>$datapath/proxydetails
 `chown wwwrun:www $datapath/proxydetails`
 `chmod 600 $datapath/proxydetails`
 $MONO_CMD iFolderProxySetup.exe $datapath proxy_rights_assign $4
