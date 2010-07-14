@@ -47,7 +47,7 @@ if [ -f /opt/novell/ifolder3/mono/bin/mod-mono-server2 ]; then
 	/opt/novell/ifolder3/mono/bin/mod-mono-server2 --filename /tmp/mod_mono_server_ifolder --terminate
 	for ((  i = 0 ;  i < 4;  i++  ))
 	do
-		SimiasProcess=`ps -ef | grep -c mod_mono_server_simias10`
+		SimiasProcess=`ps -ef | grep -c mod_mono_server_simias1[0]`
 		if [ $SimiasProcess -gt 0 ]; then
 			sleep 5	
 			/opt/novell/ifolder3/mono/bin/mod-mono-server2 --filename /tmp/mod_mono_server_simias10 --terminate	
@@ -64,7 +64,7 @@ else
 	mod-mono-server2 --filename /tmp/mod_mono_server_ifolder --terminate 
 	for ((  i = 0 ;  i < 4;  i++  ))
 	do
-		SimiasProcess=`ps -ef | grep -c mod_mono_server_simias10`
+		SimiasProcess=`ps -ef | grep -c mod_mono_server_simias1[0]`
 		if [ $SimiasProcess -gt 0 ]; then
 			sleep 5	
 			mod-mono-server2 --filename /tmp/mod_mono_server_simias10 --terminate	
@@ -74,7 +74,7 @@ else
 	done
 fi
 
-SimiasProcess=`ps -ef | grep -c mod_mono_server_simias10`
+SimiasProcess=`ps -ef | grep -c mod_mono_server_simias1[0]`
 if [ $SimiasProcess -gt 0 ]; then
 	PID=`ps -ef | grep mod_mono_server_simias10 | grep wwwrun | awk '{ print $2 }'`
 	kill -9 $PID
