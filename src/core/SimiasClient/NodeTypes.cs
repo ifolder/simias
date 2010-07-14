@@ -103,6 +103,11 @@ namespace Simias.Client
 			Node,
 
 			/// <summary>
+			/// NotificationLog
+			/// </summary>
+			NotificationLog,
+
+			/// <summary>
 			/// POBox
 			/// </summary>
 			POBox,
@@ -219,6 +224,14 @@ namespace Simias.Client
 		static public string NodeType
 		{
 			get { return NodeTypeEnum.Node.ToString(); }
+		}
+
+		/// <summary>
+		/// Gets the NotificationLog class name.
+		/// </summary>
+		static public string NotificationLogType
+		{
+			get { return NodeTypeEnum.NotificationLog.ToString(); }
 		}
 
 		/// <summary>

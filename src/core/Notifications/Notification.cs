@@ -116,7 +116,7 @@ namespace Simias.Storage
 							}
 							else
 							{
-								notificationLog = new NotificationLog( store, "NotificationLog", Guid.NewGuid().ToString(), "NotificationLog", store.LocalDomain );
+								notificationLog = new NotificationLog( store, "NotificationLog", Guid.NewGuid().ToString(), NodeTypes.NotificationLogType, store.LocalDomain );
 							}
 
 							if ( neArgs != null )
@@ -1257,7 +1257,7 @@ namespace Simias.Storage
 			NotificationLog notificationLog = null;
 
 			// Get the notifications collection.
-			ICSList list = store.GetCollectionsByType( "NotificationLog" );
+			ICSList list = store.GetCollectionsByType( NodeTypes.NotificationLogType );
 			if ( list.Count > 1 )
 			{
 				// Shouldn't have more than one notification collection.

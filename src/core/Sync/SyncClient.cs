@@ -1045,6 +1045,20 @@ namespace Simias.Sync
 			firstSync = true;
 		}
 
+
+		/// <summary>
+		/// Checks if the collection is a LocalDomain, LocalDatabase or a NotificationLog type.
+		/// </summary>
+		private static bool IsLocalDomainOrDb (string ID)
+		{
+			Store store = Store.GetStore();
+			Collection col = store.GetCollectionByID(ID);
+
+			return (col.IsType (NodeTypes.LocalDatabaseType) ||  //LocalDatabase
+			       (col.IsBaseType (NodeTypes.DomainType) && col.Role == SyncRoles.Local) || //Local Domain
+				col.IsBaseType (NodeTypes.NotificationLogType)); //Notification Logs.
+		}
+
 		/// <summary>
 		/// Called to synchronize this collection.
 		/// </summary>
@@ -1052,11 +1066,16 @@ namespace Simias.Sync
 		{
 			log.Debug("In sync now...");
 			// Assume the server is alive.
-			bool	sAlive = false;
+			bool sAlive = false;
 			bool nopassphrase = false;
+
+			//Note : Suppress events emitted for LocalDatabase and Local domain when simias is running as client.
+			bool publishEvent = (!Store.IsEnterpriseServer && !IsLocalDomainOrDb (collection.ID));
 			try
 			{
-				eventPublisher.RaiseEvent(new CollectionSyncEventArgs(collection.Name, collection.ID, Simias.Client.Event.Action.StartLocalSync, true, false));
+				if (publishEvent)
+					eventPublisher.RaiseEvent(new CollectionSyncEventArgs(collection.Name, collection.ID, Simias.Client.Event.Action.StartLocalSync, true, false));
+
 				syncStartTime = DateTime.Now;
 				queuedChanges = false;
 				running = true;
@@ -1364,7 +1383,7 @@ namespace Simias.Sync
 				serverAlive = sAlive;
 				running = false;
                 fileMonitor.ToDredge = false;
-                if( !nopassphrase)
+                if( !nopassphrase && publishEvent)
                 eventPublisher.RaiseEvent(new CollectionSyncEventArgs(collection.Name, collection.ID, Simias.Client.Event.Action.StopSync, sAlive, yielded));
 			}
 		}
