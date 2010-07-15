@@ -44,6 +44,7 @@ using System.Web;
 using System.Web.Services.Protocols;
 using xmlhandling;
 using Novell.iFolder.Utility;
+using Certificate;
 
 namespace Restore
 {
@@ -1703,6 +1704,7 @@ namespace Restore
 	public static int Main(string[] args)
 	{
        	    int RestoreStatus = (int)status.Failed;
+	    CertPolicy certPolicy = new CertPolicy();
             try
             {
 		string loglocation = Utility.ReadModMonoConfiguration();

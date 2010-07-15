@@ -1,7 +1,7 @@
 # handle Mono secondary dependencies
 export MONO_PATH := $(MONO_PATH)
 
-ifrecovery_CSFILES = $(srcdir)/AssemblyInfo.cs $(srcdir)/iFolderServer.cs $(srcdir)/xmlDocProcessing.cs $(srcdir)/iFolderAdminProxy.cs $(srcdir)/iFolderWebProxy.cs ../../server/setup/Options.cs 
+ifrecovery_CSFILES = $(srcdir)/AssemblyInfo.cs $(srcdir)/iFolderServer.cs $(srcdir)/xmlDocProcessing.cs $(srcdir)/iFolderAdminProxy.cs $(srcdir)/iFolderWebProxy.cs ../../server/setup/Options.cs $(srcdir)/CertPolicy.cs
 
 ifrecovery_CSFILES_CSC := $(subst /,$(SEP),$(ifrecovery_CSFILES))
 ifrecovery_INCLUDES = 
