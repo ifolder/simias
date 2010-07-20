@@ -221,6 +221,7 @@ namespace Restore
                             MainClass.DebugLog.Write(string.Format("Authorized with multibyte encoding..."));
             }
 
+			MainClass.DebugLog.Write(string.Format("The public url is: {0}", this.PublicUrl));
 			if( redirect )
 			{
 				try
@@ -244,22 +245,28 @@ namespace Restore
 			admin.Credentials = new NetworkCredential(this.adminNameForAuth, this.adminPasswordForAuth);
 			admin.Url = this.PublicUrl + "/iFolderAdmin.asmx";
 			admin.PreAuthenticate = true;
+			MainClass.DebugLog.Write(string.Format("iFolderAdmin object is created " ));
 /*TBD: web is already initialized above. The following lines look invalid*/
 			web = new iFolderWeb();
 			web.Credentials = new NetworkCredential(this.adminNameForAuth, this.adminPasswordForAuth);
 			web.Url = this.PublicUrl + "/iFolderWeb.asmx";
 			web.PreAuthenticate = true;
 
+			MainClass.DebugLog.Write(string.Format("iFolderWeb object is created " ));
 			simws = new SimiasWebService();
 			simws.Credentials = new NetworkCredential(this.adminNameForAuth, this.adminPasswordForAuth);
 			simws.Url = this.PublicUrl + "/Simias.asmx";
 			simws.PreAuthenticate = true;
+			MainClass.DebugLog.Write(string.Format("SimiasWebService object is created " ));
 			try
 			{
 				iFolderUser AdminUser = null;
+				MainClass.DebugLog.Write(string.Format("Calling GetAutheticated User " ));
 				AdminUser = GetAuthenticatedUser();
 				if( AdminUser != null)
 					adminName = AdminUser.UserName;
+				else
+				 MainClass.DebugLog.Write(string.Format("Failed to get Admin user using GetAuthenticatedUser"));
 			}
 			catch(Exception ex)
 			{
@@ -291,20 +298,19 @@ namespace Restore
 					iFolderUser adminUser = this.GetAuthenticatedUser();
 					if( adminUser != null)	
 						status = true;
+				 MainClass.DebugLog.Write(string.Format("GetAuthenticatedUser Success"));
 					break;
 				}
-				catch(Exception ex)
+				catch(InvalidOperationException /*inOpEx*/) {
+				 MainClass.DebugLog.Write(string.Format("GetAuthenticatedUser Failed with Invalid Op"));
+					count++;
+					continue;
+				}
+				catch(Exception /*ex*/)
 				{
-					if (ex.Message.IndexOf("InvalidOperation") >= 0)	
-					{
-						count++;
-						continue;	
-					}
-					else
-					{
-						status = false;
-						break;
-					}
+				 MainClass.DebugLog.Write(string.Format("GetAuthenticatedUser Failed with Exception"));
+					status = false;
+					break;
 				}	
 			}
 			return status;
@@ -334,6 +340,8 @@ namespace Restore
                         	}
 				catch(Exception ex)
 				{
+				
+				 MainClass.DebugLog.Write(string.Format("Exception in Pingsimias: {0}--{1}",  ex.Message, ex.StackTrace));
                                       	count++;
 				}	
 			}
@@ -358,17 +366,10 @@ namespace Restore
 						ifolder	= this.admin.CreateiFolderWithID(iFolderName, OwnerUserID, description, iFolderID);
 						break;
 					}
-					catch(Exception ex)
+					catch(InvalidOperationException /*inOpEx*/)
 					{
-						if(ex.Message.IndexOf("InvalidOperation") >= 0)
-						{
 							count++;
 							continue;	
-						}
-						else
-						{
-							throw ex;
-						}
 					}
 				}
 				if( ifolder != null)
@@ -401,17 +402,10 @@ namespace Restore
 						ifolder	= this.admin.CreateEncryptediFolderWithID(iFolderName, OwnerUserID, description, iFolderID, eKey, eBlob, eAlgorithm, rKey);
 						break;
 					}
-					catch(Exception ex)
+					catch(InvalidOperationException /*inOpEx*/)
 					{
-						if(ex.Message.IndexOf("InvalidOperation") >= 0)
-						{
 							count++;
 							continue;	
-						}
-						else
-						{
-							throw ex;
-						}
 					}
 				}
 				if( ifolder != null)
@@ -450,15 +444,10 @@ namespace Restore
 						homeServer = dom.GetHomeServer(userName).PublicAddress;
 						break;
 					}
-					catch(Exception ex)
+					catch(InvalidOperationException /*inOpEx*/)
 					{
-						if(ex.Message.IndexOf("InvalidOperation") >= 0)
-						{
-							count++;
-							continue;
-						}
-						else
-							throw ex;
+						count++;
+						continue;	
 					}
 				}
 			}
@@ -495,15 +484,10 @@ namespace Restore
 					   	users = this.admin.GetUsersBySearch(SearchProperty.UserName, SearchOperation.Equals, UserName, 0,1);
 						break;
 					}
-					catch(Exception ex)
+					catch(InvalidOperationException /*inOpEx*/)
 					{
-						if(ex.Message.IndexOf("InvalidOperation") >= 0 || ex.StackTrace.IndexOf("InvalidOperation") >= 0)
-						{
 							count++;
 							continue;	
-						}
-						else
-							throw ex;
 					}
 				}
 	            if( users == null || users.Items == null)
@@ -536,15 +520,14 @@ namespace Restore
 					userList = this.admin.GetUsersBySearch( 0, 0, "*", currentOffset, count );
 					break;
 				}
-				catch(Exception ex)
+				catch(InvalidOperationException /*inOpEx*/)
 				{
-               		if(ex.Message.IndexOf("InvalidOperation") >= 0)
-			   		{
-						count++;
-					        continue;	
-			   		}
-					else
-						break;
+					count++;
+					continue;	
+				}
+				catch( Exception /*ex*/)
+				{
+					break;
 				}
 			}
 		    MainClass.DebugLog.Write("Exit: Function GetUsersBySearch");
@@ -572,15 +555,14 @@ namespace Restore
 					collections = discService.GetAllCollectionIDsByUser( userID );
 					break;
 				}
-				catch( Exception ex)
+				catch(InvalidOperationException /*inOpEx*/)
 				{
-					if(ex.Message.IndexOf("InvalidOperation") >= 0)
-					{
-						count++;
-						continue;
-					}
-					else
-						break;
+					count++;
+					continue;	
+				}
+				catch( Exception /*ex*/)
+				{
+					break;
 				}
 			}
 		    	MainClass.DebugLog.Write("Exit: Function GetAllCollectionIDsByUser");
@@ -604,18 +586,17 @@ namespace Restore
 					folder= this.admin.GetiFolder(iFolderID);
 					break;
 				}
-				catch(Exception ex)
+				catch(InvalidOperationException /*inOpEx*/)
 				{
-					if(ex.Message.IndexOf("InvalidOperation") >= 0)
-			   		{
-						count++;
-						continue;	
-			   		}
-					else
-                    	break;
+					count++;
+					continue;	
+				}
+				catch( Exception /*ex*/)
+				{
+					break;
 				}
 			}
-		    	MainClass.DebugLog.Write("Exit: Function GetiFolder");
+		    MainClass.DebugLog.Write("Exit: Function GetiFolder");
 			return folder;
 		}
 //TBD: Need to provide the correct comments
@@ -638,14 +619,10 @@ namespace Restore
 						users = this.admin.GetMembers( iFolderID, offset, count );	
 						break;
 					}
-					catch(Exception ex)
+					catch(InvalidOperationException /*inOpEx*/)
 					{
-						if(ex.Message.IndexOf("InvalidOperation") >= 0)
-			   			{
-							count++;
-							continue;	
-			   			}
-						throw ex;
+						count++;
+						continue;	
 					}
 				}
 			}
@@ -665,7 +642,7 @@ namespace Restore
                 /// <returns>.</returns>
 		public bool RemoveMember( string iFolderID, string UserName)
 		{
-		    	MainClass.DebugLog.Write("Enter: Function RemoveMember");
+		    MainClass.DebugLog.Write("Enter: Function RemoveMember");
 			bool status = false;
 			try
 			{
@@ -678,14 +655,10 @@ namespace Restore
 						this.admin.RemoveMember(iFolderID, UserID);
 						break;
 					}
-					catch(Exception ex)
+					catch(InvalidOperationException /*inOpEx*/)
 					{
-		               	if(ex.Message.IndexOf("InvalidOperation") >= 0)
-			   			{
-							count++;	
+							count++;
 							continue;	
-			   			}
-						throw ex;
 					}
 				}
 				status = true;
@@ -694,7 +667,7 @@ namespace Restore
 			{
 				  MainClass.DebugLog.Write(string.Format("Exception while removing membership: {0}--{1}", ex.Message, ex.StackTrace));
 			}
-		    	MainClass.DebugLog.Write("Exit: Function RemoveMember");
+		    MainClass.DebugLog.Write("Exit: Function RemoveMember");
 			return status;
 		}
 //TBD: Need to provide the correct comments
@@ -720,14 +693,10 @@ namespace Restore
 							this.admin.AddMember(iFolderID, UserID, rights);
 							break;
 						}
-						catch(Exception ex)
+						catch(InvalidOperationException /*inOpEx*/)
 						{
-		               		if(	ex.Message.IndexOf("InvalidOperation") >= 0)
-			   				{
-								count++;
-							 	continue;	
-			   				}
-							throw ex;
+							count++;
+							continue;	
 						}
 					}
 					MainClass.DebugLog.Write(string.Format("Successfully added member {0} to {1}", UserName, iFolderID));
@@ -755,14 +724,10 @@ namespace Restore
 						entry = this.web.GetEntry(ifolderid, nodeid);
 						break;
 					}
-					catch(Exception ex)
+					catch(InvalidOperationException /*inOpEx*/)
 					{
-				               	if(ex.Message.IndexOf("InvalidOperation") >= 0 || ex.StackTrace.IndexOf("InvalidOperation") >= 0 )
-			   			{
-							count++;	
-							continue;	
-			   			}
-						throw ex;
+						count++;
+						continue;	
 					}
 				}
 			}
@@ -786,14 +751,10 @@ namespace Restore
 						entries = this.web.GetEntries(ifolderid, nodeid, start, end);
 						break;
 					}
-					catch(Exception ex)
+					catch(InvalidOperationException /*inOpEx*/)
 					{
-				               	if(ex.Message.IndexOf("InvalidOperation") >= 0 || ex.StackTrace.IndexOf("InvalidOperation") >= 0 )
-			   			{
-							count++;	
-							continue;	
-			   			}
-						throw ex;
+						count++;
+						continue;	
 					}
 				}
 			}
@@ -817,14 +778,10 @@ namespace Restore
 						ifolder = this.admin.GetiFolderDetails(ifolderid);
 						break;
 					}
-					catch(Exception ex)
+					catch(InvalidOperationException /*inOpEx*/)
 					{
-				               	if(ex.Message.IndexOf("InvalidOperation") >= 0 || ex.StackTrace.IndexOf("InvalidOperation") >= 0 )
-			   			{
-							count++;	
-							continue;	
-			   			}
-						throw ex;
+						count++;
+						continue;	
 					}
 				}
 			}
@@ -848,16 +805,14 @@ namespace Restore
 						user= web.GetAuthenticatedUser();
 						break;
 					}
-					catch (Exception ex)
+					catch(InvalidOperationException Ex)
 					{
-						MainClass.DebugLog.Write(string.Format("Exception: {0}--{1}", ex.Message, ex.StackTrace));
-						if(ex.StackTrace.IndexOf("InvalidOperation") >= 0)
-						{
-							count++;
-							continue;	
-						}
-						throw ex;
-				   	}
+						
+						MainClass.DebugLog.Write(string.Format("InvalidOperation Exception in GetAuthenticatedUser: {0}--{1}", Ex.Message, Ex.StackTrace));
+						count++;
+						continue;	
+					}
+
 				}
 			}
 			catch(Exception ex)
@@ -881,16 +836,11 @@ namespace Restore
 						retval= simws.SetRestoreStatusForCollection(ifolderid, restorestatus, totalcount, finishedcount);
 						break;
 					}
-					catch (Exception ex)
+					catch(InvalidOperationException /*inOpEx*/)
 					{
-						MainClass.DebugLog.Write(string.Format("Exception: {0}--{1}", ex.Message, ex.StackTrace));
-						if(ex.Message.IndexOf("InvalidOperation") >= 0 || ex.StackTrace.IndexOf("InvalidOperation") >= 0)
-						{
-							count++;
-							continue;	
-						}
-						throw ex;
-				   	}
+						count++;
+						continue;	
+					}
 				}
 
 			}
@@ -920,16 +870,11 @@ namespace Restore
 						retval= admin.GetRestoreStatusForCollection(ifolderid, out totalcount, out finishedcount);
 						break;
 					}
-					catch (Exception ex)
+					catch(InvalidOperationException /*inOpEx*/)
 					{
-						MainClass.DebugLog.Write(string.Format("Exception: {0}--{1}", ex.Message, ex.StackTrace));
-						if(ex.Message.IndexOf("InvalidOperation") >= 0 || ex.StackTrace.IndexOf("InvalidOperation") >= 0)
-						{
-							count++;
-							continue;	
-						}
-						throw ex;
-				   	}
+						count++;
+						continue;	
+					}
 				}
 
 			}
@@ -954,14 +899,10 @@ namespace Restore
 						entry = this.web.GetEntryByPath(ifolderid, parentdir);
 						break;
 					}
-					catch(Exception ex)
+					catch(InvalidOperationException /*inOpEx*/)
 					{
-				               	if(ex.Message.IndexOf("InvalidOperation") >= 0 || ex.StackTrace.IndexOf("InvalidOperation") >= 0 )
-			   			{
-							count++;	
-							continue;	
-			   			}
-						throw ex;
+						count++;
+						continue;	
 					}
 				}
 			}
@@ -985,14 +926,10 @@ namespace Restore
 						entry = this.web.CreateEntry(ifolderid, ParentEntryID, type, name);
 						break;
 					}
-					catch(Exception ex)
+					catch(InvalidOperationException /*inOpEx*/)
 					{
-				               	if(ex.Message.IndexOf("InvalidOperation") >= 0 || ex.StackTrace.IndexOf("InvalidOperation") >= 0 )
-			   			{
-							count++;	
-							continue;	
-			   			}
-						throw ex;
+						count++;
+						continue;	
 					}
 				}
 			}
@@ -1248,16 +1185,10 @@ namespace Restore
 				{
 					entryset = this.simws.GetEntries(ifolderID, type, relPath, index, max, accessID);
 				}
-				catch(Exception ex)
+				catch(InvalidOperationException /*inOpEx*/)
 				{
-                                                if(ex.Message.IndexOf("InvalidOperation") >= 0 || ex.StackTrace.IndexOf("InvalidOperation") >= 0 )
-                                                {
-							MainClass.DebugLog.Write(string.Format("Invalid operation exception. {0}--{1}", ex.Message, ex.StackTrace));
-                                                        count++;
-                                                        continue;
-                                                }
-						break;
-
+					count++;
+					continue;	
 				}
 				break;
 			}while(count < MaxCount);
@@ -1275,15 +1206,10 @@ namespace Restore
 					MainClass.DebugLog.Write(string.Format("Calling RestoreiFolderData"));
 					retval = this.admin.RestoreiFolderData(url, adminname, adminpassword, ifolderid, relativepath, basepath, startindex, MainClass.FailedLog.LogFile);
 				}
-				catch(Exception ex)
+				catch(InvalidOperationException /*inOpEx*/)
 				{
-                                                if(ex.Message.IndexOf("InvalidOperation") >= 0 || ex.StackTrace.IndexOf("InvalidOperation") >= 0 )
-                                                {
-                                                        count++;
-                                                        continue;
-                                                }
-						break;
-
+					count++;
+					continue;	
 				}
 				break;
 			}
@@ -1303,15 +1229,10 @@ namespace Restore
 					MainClass.DebugLog.Write(string.Format("Calling GetRestoreStatusForCollection for {0}", ifolderid));
 					retval = this.admin.GetRestoreStatusForCollection( ifolderid, out totalcount, out finishedcount);
 				}
-				catch(Exception ex)
+				catch(InvalidOperationException /*inOpEx*/)
 				{
-                                                if(ex.Message.IndexOf("InvalidOperation") >= 0 || ex.StackTrace.IndexOf("InvalidOperation") >= 0 )
-                                                {
-                                                        count++;
-                                                        continue;
-                                                }
-						break;
-
+					count++;
+					continue;	
 				}
 				break;
 			}while(count < MaxCount);
@@ -1333,12 +1254,11 @@ namespace Restore
 					try	{
 						 return this.admin.GetUserPolicy(userId, null);
 						
-					} catch(Exception ex) {
-				        if(ex.Message.IndexOf("InvalidOperation") >= 0 || ex.StackTrace.IndexOf("InvalidOperation") >= 0 ) {
-							count++;	
-							continue;	
-			   			}
-						throw ex;
+					} 					
+					catch(InvalidOperationException /*inOpEx*/)
+					{
+						count++;
+						continue;	
 					}
 				}
 			} catch(Exception ex){
@@ -1346,7 +1266,6 @@ namespace Restore
 			}
 			return usrPolicy;
 		}
-		/// <summary>
         /// Retrieves the iFolder policy from the given iFolder ID.
         /// </summary>
         /// <param name="iFolderID"> ID of the iFolder for which policy needs to be retreived.</param>
@@ -1366,14 +1285,10 @@ namespace Restore
 						 return this.admin.GetiFolderPolicy(ifolderid, null);
 						
 					}
-					catch(Exception ex)
+					catch(InvalidOperationException /*inOpEx*/)
 					{
-				        if(ex.Message.IndexOf("InvalidOperation") >= 0 || ex.StackTrace.IndexOf("InvalidOperation") >= 0 )
-			   			{
-							count++;	
-							continue;	
-			   			}
-						throw ex;
+						count++;
+						continue;	
 					}
 				}
 			}
@@ -1404,14 +1319,10 @@ namespace Restore
 						this.admin.SetiFolderPolicy(ifdPolicy);
 						break;
 					}
-					catch(Exception ex)
+					catch(InvalidOperationException /*inOpEx*/)
 					{
-				        if(ex.Message.IndexOf("InvalidOperation") >= 0 || ex.StackTrace.IndexOf("InvalidOperation") >= 0 )
-			   			{
-							count++;	
-							continue;	
-			   			}
-						throw ex;
+						count++;
+						continue;	
 					}
 				}
 			}
@@ -1471,7 +1382,7 @@ namespace Restore
 			UseWebAccessOption.OnOptionEntered = new Option.OptionEnteredHandler( OnUseWebAccess);
 			RecoverOption.OnOptionEntered = new Option.OptionEnteredHandler( OnRecover);
 			RetryOption.OnOptionEntered = new Option.OptionEnteredHandler( OnRetry);
-			PolicyOption.OnOptionEntered = new Option.OptionEnteredHandler( OnPolicy);
+			PolicyOption.OnOptionEntered = new Option.OptionEnteredHandler( OnRestorePolicy);
 			LogLocationOption.OnOptionEntered = new Option.OptionEnteredHandler( OnLogLocation);
 
         	} //End of function CommandParsing Constructor
@@ -1628,11 +1539,11 @@ namespace Restore
             return true;
         }
 
-	private bool OnPolicy()
-    {
-	 	MainClass.OverwritePolicies = true;
-              return true;
-    }
+	private bool OnRestorePolicy()
+    	{
+		MainClass.OverwritePolicies = true;
+              	return true;
+    	}
 
 	private bool OnLogLocation()
 	{
@@ -1704,7 +1615,7 @@ namespace Restore
 	public static int Main(string[] args)
 	{
        	    int RestoreStatus = (int)status.Failed;
-	    CertPolicy certPolicy = new CertPolicy();
+	    CertPolicy certPolicy = new CertPolicy();	
             try
             {
 		string loglocation = Utility.ReadModMonoConfiguration();
@@ -2029,7 +1940,7 @@ namespace Restore
 		{
    				Utility.Execute( "chmod", "0777 {0}", path);
 		}
-		catch(Exception ex)
+		catch(Exception /*ex*/)
 		{
 			MainClass.DebugLog.Write(string.Format("Grant rights failed for path {0}", path));
 		}
@@ -2293,7 +2204,7 @@ namespace Restore
 				{
 					OldServer = new iFolderServer( OldServerUrl,oldAdminName, oldAdminPassword, false);
 				}
-				catch(Exception e1)
+				catch(Exception /*e1*/)
 				{
 					OldServer = null;
 					Console.WriteLine("|               Unable to contact the backup server.                                     |");
@@ -2315,13 +2226,13 @@ namespace Restore
 					{
 						NewServer = new iFolderServer( currentServerUrl, newAdminName, newAdminPassword);
 					}
-					catch(Exception e2)
+					catch(Exception /*e2*/)
 					{
 						NewServer = null;
 						MainClass.DebugLog.Write(string.Format("Unable to contact the new server."));
 					}
 					if( NewServer == null || NewServer.PingServer() == false)
-						return (int)status.BackupServerNotRunning;
+						return (int)status.CurrentServerNotRunning;
 					if( NewServer.GetAuthenticatedUser() == null)
 						return (int)status.InvalidCredentials;		
 				}
@@ -2447,18 +2358,15 @@ namespace Restore
 							newifolderDetails = NewServer.GetiFolderDetails( iFolderID );
 							break;
 						}
-						catch(Exception ex)
+						catch(InvalidOperationException /*inOpEx*/)
 						{
-							if(ex.Message.IndexOf("InvalidOperation") >= 0)
-							{
-								MainClass.DebugLog.Write(string.Format("Exception: at call webacess GetiFolderDetails: count:{0}",count.ToString()));
-								count++;
-								continue;
-							}
-							else
-							{
-								break;
-							}
+							count++;
+							continue;	
+						}
+						catch(Exception /*ex*/)
+						{
+							break;
+
 						}
 					}
 
@@ -2491,7 +2399,7 @@ namespace Restore
 						retval = RestoreiFolderData(iFolderID, OldServer, oldUnManagedPath, NewServer,
 								newifolderDetails.UnManagedPath, relativepath, MainClass.UseWebAccess);
 					}
-					if( (retval == 0) && (MainClass.OverwritePolicies == true))
+					if( (retval == 0) && MainClass.OverwritePolicies )
 					{
 						retval = RestoreiFolderPolicy(iFolderID, OldServer, NewServer);
 					}
@@ -2577,7 +2485,7 @@ namespace Restore
 					retval = true;
 				}
 				}
-				catch(Exception ex)
+				catch(Exception /*ex*/)
 				{
 					retval = false;
 				}	
@@ -2895,9 +2803,9 @@ namespace Restore
 					}
 				}
 					
-				MainClass.DebugLog.Write(string.Format(" iFolderID-{0},\n\tLocked-{1} \n\tSpaceLimit - {2}, \n\tSyncInterval - {3},\n\tSharingStatus - {4},\n\tFileSizeLimit-{5},\n\tFileTypesIncludes - {6},\n\tFileTypesExcludes - {7} ",
+				MainClass.DebugLog.Write(string.Format(" iFolderID-{0},\n\tLocked-{1} \n\tSpaceLimit - {2}, \n\tSyncInterval - {3},\n\tSharingStatus - {4},\n\tFileSizeLimit-{5},\n\tFileTypesIncludes - {6},\n\tFileTypesExcludes - {7} ,\n\tEffectiveSpaceLimit={8},\n\tSpaceAvailable={9}",
 				                                       ifdPolicy.iFolderID, ifdPolicy.Locked, ifdPolicy.SpaceLimit,
-				                                       ifdPolicy.SyncInterval, ifdPolicy.SharingStatus, ifdPolicy.FileSizeLimit, includeFilter.ToString(), excludeFilter.ToString()));
+				                                       ifdPolicy.SyncInterval, ifdPolicy.SharingStatus, ifdPolicy.FileSizeLimit, includeFilter.ToString(), excludeFilter.ToString(),ifdPolicy.SpaceLimitEffective,ifdPolicy.SpaceAvailable));
 				
 			}
 	     /// <summary>
@@ -3094,20 +3002,20 @@ namespace Restore
 			{
 
                                 Console.WriteLine("Command For Execution: $ifolder-data-recovery <Operation> <Arguments>\n");
-                                Console.WriteLine("Operation:\n\t-l, --list\tLists iFolders owned by the specified user and details such as Name,\n\t\t\t\tiFolderID, and Path (at the time of backup)");
+                                Console.WriteLine("Operation:\n\t-l, --list\tLists iFolders owned by the specified user and details such as Name,\n\t\t\tiFolderID, and Path (at the time of backup)");
                                 Console.WriteLine("\t-r, --restore\tRestore requested data (File/Folder/iFolder) from specified backup store.");
-                                Console.WriteLine("\t--retry\t\tRetry restore opreation for failed data in last run.");
+                                Console.WriteLine("\t--retry\t\tRetry restore operation for failed data in last run.");
                                 Console.WriteLine("\t-h, --help\tPrint help regarding Operation, argument and usage.");
-                                Console.WriteLine("\t\nArguments:\n\t--path\t\t\tpath for simias file in backup store");
-                                Console.WriteLine("\t-U, --backup-admin\tLogin name of the Administrator who performed the backup");
-                                Console.WriteLine("\t-u,--current-admin\tAdministrator login name for the current server. Use this Option if backup \n\t\t\t\t admin is different from current admin.");
-                                Console.WriteLine("\t--server-url\t\tURL of the server where data is to be restored");
+                                Console.WriteLine("\t\nArguments:\n\t--path\t\t\tPath of simias directory that has the iFolder backup store, FlaimSimias.db");
+                                Console.WriteLine("\t-U, --backup-admin\tLogin name of iFolder administrator who performed the backup");
+                                Console.WriteLine("\t-u,--current-admin\tiFolder administrator login name for the current server. Use this Option if backup \n\t\t\t\tadministrator is different from current administrator.");
+                                Console.WriteLine("\t--server-url\t\tPublic URL of the iFolder server where data is to be restored");
                                 Console.WriteLine("\t--user\t\t\tUsername of the user for whom the specified operation is to be performed");
                                 Console.WriteLine("\t--ifolder-id\t\tID of the iFolder for which the specified operation is to be performed");
-                                Console.WriteLine("\t--ifolder-path\t\tAbsolute path (excluding the iFolder name) of the actual data to be restored");
+                                Console.WriteLine("\t--ifolder-path\t\tAbsolute path (excluding the iFolder name) to the location where iFolder backup data is available. ");
                                 Console.WriteLine("\t--relative-path\t\tRelative path of file/folder to be restored, starting from iFolder name");
                                 Console.WriteLine("\t--usewebaccess\t\tSpecifies the mode to restore. Does not take any value.");
-								Console.WriteLine("\t--restore-policies\tOverwrites current iFolder policies with the policies of the iFolder from backup");
+				Console.WriteLine("\t--restore-policies\tOverwrites current iFolder policies with the policies of the iFolder from backup");
                                 Console.WriteLine("\t\nExamples:");
                                 Console.WriteLine("\n\tFor Help:");
                                 Console.WriteLine("\t\t$./ifolder-data-recovery --help");
@@ -3116,9 +3024,9 @@ namespace Restore
                                 Console.WriteLine("\t\t$./ifolder-data-recovery --list  --path=/home/recovery/data/ --backup-admin=admin --user=user1");
 
                                 Console.WriteLine("\n\tFor Restoring iFolder:");
-                                Console.WriteLine("\t\t$./ifolder-data-recovery --restore  --path=/home/recovery/data/ --backup-admin=oldadmin --current-admin=admin --server-url=http://192.162.1.10 --ifolder-id=7fe6cd5d-40d4-4982-bfa3-94292d4e36ab --ifolder-path=/home/ifolder/7fe6cd5d-40d4-4982-bfa3-94292d4e36ab");
+                                Console.WriteLine("\t\t$./ifolder-data-recovery --restore  --path=/home/recovery/data/ --backup-admin=oldadmin --current-admin=admin --server-url=https://192.162.1.10 --ifolder-id=7fe6cd5d-40d4-4982-bfa3-94292d4e36ab --ifolder-path=/home/ifolder/7fe6cd5d-40d4-4982-bfa3-94292d4e36ab");
 
-                                Console.WriteLine("\n\tFor Restoring Folder:");
+                                Console.WriteLine("\n\tFor Restoring directory inside a iFolder:");
                                 Console.WriteLine("\t\t$./ifolder-data-recovery --restore  --path=/home/recovery/data/ --backup-admin=admin  --server-url=http://192.162.1.10 --ifolder-id=7fe6cd5d-40d4-4982-bfa3-94292d4e36ab --ifolder-path=/home/ifolder/7fe6cd5d-40d4-4982-bfa3-94292d4e36ab --relative-path=MyiFolder/Subdir");
 
                                 Console.WriteLine("\n\tFor Restoring File:");
@@ -3260,7 +3168,7 @@ namespace Restore
                 public static long NumberOfLines(string fileName)
 		{
 			MainClass.DebugLog.Write(string.Format("Enter Function NumberOfLines for file:{0}",fileName));	
-			string line  = null;
+			//string line  = null;
 			long numOfLines = 0;
 			TextReader reader = null;
 			if(fileName != null || fileName != string.Empty)
@@ -3268,7 +3176,7 @@ namespace Restore
 				try{
 					using( reader = (TextReader)File.OpenText(fileName) )
 					{
-						while( ( line = reader.ReadLine() ) != null )
+						while(  reader.ReadLine() != null )
 						{
 							numOfLines++;	
 						}
@@ -3365,7 +3273,7 @@ namespace Restore
 					char[] trimchar= {'"'};
 					string[] entryset = null;
 					string logpath= null;
-					string simiasDir = null;
+					//string simiasDir = null;
 				
                 			while ((line = sr.ReadLine()) != null) 
                 			{
@@ -3439,7 +3347,7 @@ namespace Restore
 			}
 		}
 
-                public string ToString()
+                public override string ToString()
                 {
                         if( this.logFile == null)
                         {
