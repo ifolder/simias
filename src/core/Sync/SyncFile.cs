@@ -357,12 +357,12 @@ namespace Simias.Sync
 		/// <param name="originalOffset">The offset in the original file to copy from.</param>
 		/// <param name="offset">The offset in the file where the data is to be written.</param>
 		/// <param name="count">The number of bytes to write.</param>
-		public void Copy(long originalOffset, long offset, int count)
+		public void Copy(long originalOffset, long offset, long count)
 		{
 			lock (this)
 			{
-				ReadPosition = originalOffset;
-				WritePosition = offset;
+				ReadPosition = Math.Abs(originalOffset);
+				WritePosition = Math.Abs(offset);
 				workStream.Write(stream, count);
 			}
 		}

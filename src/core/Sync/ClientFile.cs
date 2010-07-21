@@ -1205,8 +1205,7 @@ namespace Simias.Sync
 					clientBlockCount = (int)Length/blockSize+1;
 				else
 					clientBlockCount = (int)Length/blockSize;
-				Log.log.Debug("client 	block count	={0}", clientBlockCount);
-				Log.log.Debug("server   block count	={0}", serverBlockCount);
+				Log.log.Debug("file length = {0}, blockSize = {1}, client block count = {2}, server block count = {3}", Length, blockSize, clientBlockCount, serverBlockCount);
 			}
 
 			/// No data to sync,  file is available in server, not renamed and block count matches
