@@ -47,6 +47,7 @@ Requires:       xsp >= 1.2.5
 Version:        1.8.5.@@BUILDNUM@@.1
 Release:        0.3
 Summary:        Collection-Oriented Data Storage
+Vendor:         Novell, Inc.
 Source:         simias.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 #=============================================================================
