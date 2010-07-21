@@ -794,20 +794,29 @@ namespace Simias.Sync
 					status.status = SyncStatus.ServerFailure;
 					Log.log.Info("Couldn't commit collection {0}--{1}",  ex.Message, ex.StackTrace);
 				}
-				if (!commit)  // restore orig file if collection.Commit failed.
+
+				/* Note : Restore original file if collection.Commit fails.
+				   Conflict is a valid case for failure. And do not remove
+				   files in workarea as they are needed for conflict resolution. */
+				if (!commit && status.status != SyncStatus.UpdateConflict)
 				{
 					try {
-						// delete newly transferred file
-						if (File.Exists(file))
+						Log.log.Debug ("Collection commit failed : Restoring backup file : {0}", file.ToString());
+						// Delete newly transferred file
+						if (File.Exists(file)) {
 							File.Delete(file);
-						// restore backup file into place
-						if (File.Exists(tmpFile))
+							Log.log.Debug ("-- Deleting file : {0}", file.ToString());
+						}
+						// Restore backup file into place
+						if (File.Exists(tmpFile)) {
 							File.Move(tmpFile, file);
-						// delete hashmap ?
+							Log.log.Debug ("-- Restoring {0} to {1}", tmpFile.ToString(), file.ToString());
+						}
+						// Fixme : Delete hashmap ?
 					}
 					catch (Exception ex)
 					{
-						Log.log.Info("couldn't return to prior state {0}--{1}",  ex.Message, ex.StackTrace);
+						Log.log.Info("File restore failed : Couldn't return to prior state {0}--{1}",  ex.Message, ex.StackTrace);
 					};
 				}
 				else  // commit successful, delete the temporary (.~stmp) file.
