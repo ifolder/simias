@@ -2337,7 +2337,10 @@ namespace Simias.Storage
 			catch(Exception ex)
 			{
 				log.Debug("ValidatePassPhrase : {0} and return value is :{1}", ex.Message, Simias.Authentication.StatusCodes.PassPhraseInvalid.ToString());
-                 		return Simias.Authentication.StatusCodes.PassPhraseInvalid;
+                if(ex.Message.IndexOf("Unable to connect") != -1)
+                    return Simias.Authentication.StatusCodes.ServerUnAvailable;
+                else
+                    return Simias.Authentication.StatusCodes.PassPhraseInvalid;
                                 //throw ex;
 
 			}
