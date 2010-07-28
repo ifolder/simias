@@ -54,7 +54,7 @@ namespace Novell.iFolderWeb.Admin
 	public class ProvisionUsers : System.Web.UI.Page
 	{
 		#region Class Members
-	
+		//private static readonly iFolderWebLogger log = new iFolderWebLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.Name);
 		/// <summary>
 		/// Viewable MemberList data grid cell indices.
 		/// </summary>
@@ -230,7 +230,7 @@ namespace Novell.iFolderWeb.Admin
 			}
 
 			// Remember the total number of users.
-			TotalUsers = (ListOfSelectedUsers.Length - 1 )+ (pListOfSelectedUsers.Length -1); 
+			TotalUsers = (ListOfSelectedUsers.Length - 1 )+ (pListOfSelectedUsers.Length -1);
 
 			// Build the data view from the table.
 			return new DataView( dt );
@@ -476,7 +476,7 @@ namespace Novell.iFolderWeb.Admin
 		{
 			/// Extract the user list and server name 
 			string SelectedUserList = Request.QueryString.Get("UserList");
-                        string [] ListOfSelectedUsers = SelectedUserList.Split(new char[] {':'});
+            string [] ListOfSelectedUsers = SelectedUserList.Split(new char[] {':'}, StringSplitOptions.RemoveEmptyEntries);
 			string ServerName = SelectServerList.SelectedValue ; 
 
                        	iFolderServer[] list = web.GetServers();
@@ -495,8 +495,9 @@ namespace Novell.iFolderWeb.Admin
                                        		break;
                                		}
                        		}
+
                         string pSelectedUserList = Request.QueryString.Get("PUserList");
-                        string [] pListOfSelectedUsers = pSelectedUserList.Split(new char[] {':'});
+                        string [] pListOfSelectedUsers = pSelectedUserList.Split(new char[] {':'},StringSplitOptions.RemoveEmptyEntries);
                         for(int index = 0 ; (index < (pListOfSelectedUsers.Length -1) ); index++)
                         {
 	                        foreach( iFolderServer server in list )
