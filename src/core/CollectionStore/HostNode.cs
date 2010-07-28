@@ -62,7 +62,12 @@ namespace Simias.Storage
 			/// <summary>
 			/// Changemaster all updates complete 
 			/// </summary>
-			Complete
+			Complete,
+
+			/// <summary>
+			/// Changemaster verified after restart 
+			/// </summary>
+			Verified
 		};
 
 		#region Properties
