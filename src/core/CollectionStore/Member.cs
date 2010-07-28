@@ -1588,6 +1588,7 @@ namespace Simias.Storage
                 /// </summary>
                 public int ChangePassword(string OldPassword, string NewPassword)
                 {
+                        int retValue = 0;     
                         Store store = Store.GetStore();
                         string DomainID = this.GetDomainID(store);
 
@@ -1602,9 +1603,18 @@ namespace Simias.Storage
 
                         smConn.Authenticate ();
                         smConn.InitializeWebClient(svc, "DomainService.asmx");
-
-                        return( svc.ChangePasswordOnServer(DomainID, UserID, OldPassword, NewPassword)) ;
-
+                        try
+                        {
+                            retValue = svc.ChangePasswordOnServer(DomainID, UserID, OldPassword, NewPassword);
+                        }
+                        catch (Exception ex)
+                        {
+                            if (ex.Message.IndexOf("Unable to connect") != -1)
+                            {
+                                retValue = 9; //Server unavailable
+                            }
+                        }
+                        return retValue;
                 }
 
 
