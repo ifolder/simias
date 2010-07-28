@@ -212,6 +212,64 @@ namespace Simias.Server
 				Simias.Server.Catalog.StartCatalogService();
 				ExtractMemberPoliciesOnMaster();
 				CheckStoreAndLoadRA();
+				CheckServerForChageMasterError();
+			}
+		}
+
+		/// <summary>
+		/// Run repair on the node, verify the inconsistancy on the node 
+		/// </summary>
+		/// <returns> true/false for success/failure</returns>
+		public static bool VerifyChangeMaster()
+		{
+			bool status = true;
+			try
+			{
+				Store store = Store.GetStore();
+				Domain domain = store.GetDomain(store.DefaultDomain);
+				HostNode[] hosts = Simias.Storage.HostNode.GetHosts(domain.ID);
+				foreach(HostNode host in hosts)
+				{
+					if( domain.Role ==  Simias.Sync.SyncRoles.Master ) 
+					{
+						if ( host.IsLocalHost == true )
+							host.IsMasterHost = true;
+						else
+							host.IsMasterHost = false;
+					}
+					domain.Commit(host);
+				}
+			}
+			catch (Exception ex)
+			{
+				log.Error("Exception throw at VerifiyChangeMaster() : {0} : {1}", ex.Message, ex.StackTrace);
+				status = false;
+			}
+			return status;
+		}
+
+		public void CheckServerForChageMasterError()
+		{
+			try
+			{
+				Store store = Store.GetStore();
+				Domain domain = store.GetDomain(store.DefaultDomain);
+				HostNode localhostNode = HostNode.GetLocalHost();
+				if ( localhostNode.ChangeMasterState != -1 )
+				{
+					if( (int)HostNode.changeMasterStates.Verified != localhostNode.ChangeMasterState ) 
+					{
+						if (VerifyChangeMaster())
+						{
+							localhostNode.ChangeMasterState = (int)HostNode.changeMasterStates.Verified;
+							domain.Commit(localhostNode);
+						}
+					}
+				}
+			}
+			catch (Exception ex)
+			{	//will check at next restat
+				log.Error("Exception at CheckServerForChageMasterError:{0} : {1}", ex.Message, ex.StackTrace);
 			}
 		}
 

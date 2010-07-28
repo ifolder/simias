@@ -932,7 +932,7 @@ namespace Novell.iFolderWeb.Admin
 			BuildBreadCrumbList( serverName );
 			if(serverStatus)
 			{
-				GetServerStatus();
+				//GetServerStatus();
 				GetReportList();
 				GetLogList();
 				GetLdapDetails ();
