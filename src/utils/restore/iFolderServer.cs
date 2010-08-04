@@ -2407,7 +2407,7 @@ namespace Restore
 					//This check needs to be done unconditionally. Policy violation can happen
 				    	// during a partial or a full restore.
 					CheckiFolderPolicyStatus(iFolderID, NewServer);
-					CheckUserPolicyStatus(userName,NewServer);
+					CheckUserPolicyStatus(iFolderID, OldServer, NewServer);
 
 				}
 				return retval;
@@ -2816,9 +2816,12 @@ namespace Restore
             ///
             /// <returns>void.</returns>
 
-            public static void CheckUserPolicyStatus(string userName, iFolderServer ifServer){
+            public static void CheckUserPolicyStatus(string ifolderID, iFolderServer oldServer, iFolderServer ifServer){
 		UserPolicy usrPolicy = null;
-		String userID = ifServer.GetUserIDFromName(userName);
+		//Get the Owner from the iFolder and check if there is any violation in the user policies.
+		iFolder ifld = oldServer.GetiFolder(ifolderID);
+		String userID = ifld.OwnerID;
+		String userName = ifld.OwnerUserName;
 		if( userID != null) {
 			Console.WriteLine("|               Checking user policies post data restore.                                    |");
 			usrPolicy = ifServer.GetUserPolicy(userID);
