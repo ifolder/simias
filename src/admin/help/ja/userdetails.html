@@ -27,29 +27,31 @@
 <style type= "text/css" media="screen">
        <!--
        
-         body           {  font-family: Arial, Helvetica, Geneva;
-									background: white url('../../images/helphead_bg.gif') repeat-x;  }
+         body           {  font-family: Arial, Helvetica, Geneva; background: white
+url(../../images/helphead_bg.gif) repeat-x 0% 0% }
 		      
-         #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px;
-									width: 380px; visibility: visible }
+         #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px; width: 100%; visibility: visible }
 			   
-         #helpcontent    { position: absolute; top: 37px; left: 10px; 
-	                        width: 93%; visibility: visible }
-
+         #helpcontent    { position: absolute; top: 37px; left: 10px; width: 93%; visibility: visible }
+        
        -->
-     </style>
+     </style> 
   
    
 
 
-</head>
-   
-   <!-- This is the start of the body. It underlays the help banner layer 
-         and help content layers. -->
-	 
-   <body bgcolor="white" marginwidth="0" marginheight="0" 
-         leftmargin="0" topmargin="0">
-<!-- This is the start of the Help Banner Layer --> <div id="headgraphic"> <img src="../../images/h1_help.gif" width="380" height="32"   border="0"></div><!-- This is end of the Help Banner Layer --> 
+</head>   
+<!-- This is the start of the body. It underlays the help banner layer 
+         and help content layers. --> 
+<body bgcolor="white" marginwidth="0" marginheight="0"  leftmargin="0" topmargin="0">
+<!-- This is the start of the Help Banner Layer --> <div id="headgraphic"> 
+<table border="0" cellspacing="0" cellpadding="0" width="100%" height="26" style="margin:0px; padding:0px; background-image: url(../../images/header_pattern.gif); background-repeat: repeat-x;"> 
+<tr> <td width="221"><img src="help_title.gif" alt="Novell iFolder" border="0" width="221" height="26"></td><td align="right" width="100%" class="tabCell" style="background-image: url(../../images/header_background.gif); background-repeat: no-repeat;"> 
+</td></tr> </table></div><!-- This is end of the Help Banner Layer --> 
+<!-- This is the start of the Help Content Layer --> <div id="helpcontent" style="left: 10px; top: 38px"> 
+<!-- The Page Heading uses CSS style "head3b". This creates an H3 header
+            with a line beneath it.
+       -->  
 <!-- This is the start of the Help Content Layer --> 
 <div id="helpcontent" style="left: 13px; top: 35px"> 
   <H3><A NAME="userdetails"></A>ユーザ詳細 </H3>
@@ -193,7 +195,7 @@
           </li>
           </ul>
         
-        <P><B><FONT SIZE="-1">重要: </FONT></B><FONT SIZE="-1"></FONT>ユーザ容量の制限を有効にして、その容量がiFolderデータのユーザの現在の総容量より少ない場合は、データ量が制限より少なくなるか、または割り当て量がユーザの使用済み総容量より多くなるまでデータの同期は中止されます。</P>
+        <P><B><FONT SIZE="-1">重要: </FONT></B><FONT SIZE="-1">ユーザ容量の制限を有効にして、その容量がiFolderデータのユーザの現在の総容量より少ない場合は、データ量が制限より少なくなるか、または割り当て量がユーザの使用済み総容量より多くなるまでデータの同期は中止されます。</FONT></P>
        
         
         <P> デフォルト値: 無効、割り当て量の設定なし</P>
@@ -217,8 +219,11 @@
 </p>
     
         <P>同期の対象フィルタまたは除外フィルタにファイル拡張子を追加するには、*.mpgなどの拡張子を入力し、［追加］をクリックしてフィルタを適用します。 </P>
-        <P>制限されているファイルタイプからファイルタイプを除外するには、そのファイルタイプの横のチェックボックスをオンにして、［許可］をクリックします。</P>
+        <P>特定のファイルタイプを同期から除外するには、制限されているファイルタイプのリストでそのファイルタイプの横のチェックボックスをオンにして、［拒否］をクリックします。</P>
         
+        <p>特定のファイルタイプの同期を許可するには、制限されているファイルタイプのリストでそのファイルタイプの横のチェックボックスをオンにして、［許可］をクリックします。</p>
+        <p>制限されているファイルタイプのリストからファイルタイプを削除するには、そのファイルタイプの横のチェックボックスをオンにして、［削除］をクリックします。<br>
+        </p>
         <P>デフォルト値: .DS_StoreおよびThumbs.db</P>
       </TD></TR>
 	

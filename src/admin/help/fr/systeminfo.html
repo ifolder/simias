@@ -28,32 +28,31 @@
 <style type= "text/css" media="screen">
        <!--
        
-         body           {  font-family: Arial, Helvetica, Geneva; background: white url('../../images/helphead_bg.gif') repeat-x;  }
+         body           {  font-family: Arial, Helvetica, Geneva; background: white
+url(../../images/helphead_bg.gif) repeat-x 0% 0% }
 		      
-         #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px;
-									width: 380px; visibility: visible }
+         #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px; width: 100%; visibility: visible }
 			   
-         #helpcontent    { position: absolute; top: 37px; left: 10px; 
-	                        width: 93%; visibility: visible }
-      
-div.Section1
-	{page:Section1;}
+         #helpcontent    { position: absolute; top: 37px; left: 10px; width: 93%; visibility: visible }
+        
        -->
-     </style>
+     </style> 
   
    
 
 
-</head>
-   
-   <!-- This is the start of the body. It underlays the help banner layer 
-         and help content layers. -->
-	 
-   <body bgcolor="white" marginwidth="0" marginheight="0" 
-         leftmargin="0" topmargin="0">
-<!-- This is the start of the Help Banner Layer --> <div id="headgraphic"> <img src="../../images/h1_help.gif" width="380" height="32"   border="0"></div><!-- This is end of the Help Banner Layer --> 
-<!-- This is the start of the Help Content Layer --> <div id="helpcontent"> <!-- The Page Heading uses CSS style "head3b". This creates an H3 header
+</head>   
+<!-- This is the start of the body. It underlays the help banner layer 
+         and help content layers. --> 
+<body bgcolor="white" marginwidth="0" marginheight="0"  leftmargin="0" topmargin="0">
+<!-- This is the start of the Help Banner Layer --> <div id="headgraphic"> 
+<table border="0" cellspacing="0" cellpadding="0" width="100%" height="26" style="margin:0px; padding:0px; background-image: url(../../images/header_pattern.gif); background-repeat: repeat-x;"> 
+<tr> <td width="221"><img src="help_title.gif" alt="Novell iFolder" border="0" width="221" height="26"></td><td align="right" width="100%" class="tabCell" style="background-image: url(../../images/header_background.gif); background-repeat: no-repeat;"> 
+</td></tr> </table></div><!-- This is end of the Help Banner Layer --> 
+<!-- This is the start of the Help Content Layer --> <div id="helpcontent" style="left: 10px; top: 38px"> 
+<!-- The Page Heading uses CSS style "head3b". This creates an H3 header
             with a line beneath it.
+       
        --> <h3 class="head3b">Gestion du syst&egrave;me iFolder</h3>
   <p> Cette interface permet de g&eacute;rer les services Novell iFolder<SUP><SMALL>&reg;</SMALL></SUP> 3.7 ou version ult&eacute;rieure pour le serveur s&eacute;lectionn&eacute;.</p>
   <P>Cette aide aborde les sujets suivants&nbsp;:</P>
@@ -236,7 +235,10 @@ div.Section1
 		  
         <P>Sp&eacute;cifiez si vous souhaitez limiter les types de fichiers &agrave; synchroniser en utilisant des filtres d'exclusion. </P>
             <P>Entrez une extension de fichier, puis cliquez sur Ajouter pour l'ajouter &agrave; la liste. </P>
-        </TD></TR>
+      <P>Pour exclure un type de fichier de la synchronisation, cochez la case en regard du type de fichier dans la liste des types de fichiers restreinte, puis cliquez sur Refuser.</P>
+      <p>Pour autoriser la synchronisation d'un type de fichier, cochez la case en regard du type de fichier dans la liste des types de fichiers restreinte, puis cliquez sur Autoriser.</p>
+      <p>Pour supprimer un type de fichier de la liste des types de fichier restreinte, cochez la case en regard du type de fichier, puis cliquez sur Supprimer.<br>
+      </p></TD></TR>
 	
 	<TR><TD VALIGN="TOP">
         <h4> Synchronisation </h4>
@@ -375,7 +377,7 @@ div.Section1
     <span style="font-size:11.0pt;font-family:Arial;">La case <i>Autoriser l'activation/d&eacute;sactivation des dossiers iFolder</i> permet d'assigner &agrave; l'administrateur secondaire le droit d'activer ou de d&eacute;sactiver les dossiers iFolder d&eacute;tenus par des utilisateurs du groupe d&eacute;sign&eacute;. Par d&eacute;faut, cette case est coch&eacute;e. Pour refuser ce droit &agrave; l'administrateur secondaire, d&eacute;s&eacute;lectionnez la case <i>Autoriser l'activation/d&eacute;sactivation des dossiers iFolder</i>.</span></p>
     <p class="Normal2">
     <span style="font-size: 11.0pt; font-family: Arial; ">La case <i>Autoriser la modification des droits des membres iFolder partag&eacute;s</i> permet d'autoriser l'administrateur secondaire &agrave; modifier ces droits. Par d&eacute;faut, cette case est coch&eacute;e. Pour refuser ce droit &agrave; l'administrateur secondaire, d&eacute;s&eacute;lectionnez la case <i>Autoriser la modification des droits des membres iFolder partag&eacute;s</i>.</span></p>
-    </TD></TR> 
+    <p class="Normal2"><span style="font-size: 11.0pt; font-family: Arial; ">En cochant la case<i>Autoriser la suppression des dossiers iFolder</i>, vous pouvez autoriser l'administrateur secondaire &agrave; supprimer les dossiers iFolder. Par d&eacute;faut, cette case est coch&eacute;e. Pour refuser ce droit &agrave; l'administrateur secondaire, d&eacute;s&eacute;lectionnez la case <em>Autoriser la suppression des dossiers iFolder</em>.</span></p></TD></TR> 
 
   </TABLE>
 
@@ -412,7 +414,7 @@ div.Section1
    
 
 <H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Rubriques connexes" align="top">Rubriques connexes</H4><BLOCKQUOTE class="task1">
-<P ><A HREF="userdetails.html">D&eacute;tails de l'utilisateur </A><BR><A HREF="ifolderdetails.html">Gestion des d&eacute;tails iFolder</A><BR><A HREF="servers.html">Gestion des serveurs iFolder </A><BR><A HREF="ifolders.html">Gestion des dossiers iFolder</A><BR><A HREF="reports.html#orphan" TARGET="_self">Rapports </A></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="D&eacute;but"></A></P><P>&nbsp;</P><P CLASS="copyright">Le symbole de marque (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP>, etc.) indique une marque de Novell. L'ast&eacute;risque (*) indique une marque d'un fabricant tiers. Pour plus d'informations, reportez-vous aux <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">mentions l&eacute;gales</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
+<P ><A HREF="userdetails.html">D&eacute;tails de l'utilisateur </A><BR><A HREF="ifolderdetails.html">Gestion des d&eacute;tails iFolder</A><BR><A HREF="servers.html">Gestion des serveurs iFolder </A><BR><A HREF="ifolders.html">Gestion des dossiers iFolder</A><BR><A HREF="users.html">Gestion d'un compte utilisateur</A><BR><A HREF="reports.html#orphan" TARGET="_self">Rapports </A></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="D&eacute;but"></A></P><P>&nbsp;</P><P CLASS="copyright">Le symbole de marque (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP>, etc.) indique une marque de Novell. L'ast&eacute;risque (*) indique une marque d'un fabricant tiers. Pour plus d'informations, reportez-vous aux <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">mentions l&eacute;gales</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
 </body>
 
 </html>

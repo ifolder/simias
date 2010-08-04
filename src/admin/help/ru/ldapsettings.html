@@ -27,31 +27,31 @@
 <style type= "text/css" media="screen">
        <!--
        
-         body           {  font-family: Arial, Helvetica, Geneva;
-									background: white url('../../images/helphead_bg.gif') repeat-x;  }
+         body           {  font-family: Arial, Helvetica, Geneva; background: white
+url(../../images/helphead_bg.gif) repeat-x 0% 0% }
 		      
-         #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px;
-									width: 380px; visibility: visible }
+         #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px; width: 100%; visibility: visible }
 			   
-         #helpcontent    { position: absolute; top: 37px; left: 10px; 
-	                        width: 93%; visibility: visible }
- 
+         #helpcontent    { position: absolute; top: 37px; left: 10px; width: 93%; visibility: visible }
+        
        -->
-     </style>
+     </style> 
   
    
 
 
-</head>
-   
-   <!-- This is the start of the body. It underlays the help banner layer 
-         and help content layers. -->
-	 
-   <body bgcolor="white" marginwidth="0" marginheight="0" 
-         leftmargin="0" topmargin="0">
-<!-- This is the start of the Help Banner Layer --> <div id="headgraphic"> <img src="../../images/h1_help.gif" width="380" height="32"   border="0"></div><!-- This is end of the Help Banner Layer --> 
-<!-- This is the start of the Help Content Layer --> <div id="helpcontent"> <!-- The Page Heading uses CSS style "head3b". This creates an H3 header
+</head>   
+<!-- This is the start of the body. It underlays the help banner layer 
+         and help content layers. --> 
+<body bgcolor="white" marginwidth="0" marginheight="0"  leftmargin="0" topmargin="0">
+<!-- This is the start of the Help Banner Layer --> <div id="headgraphic"> 
+<table border="0" cellspacing="0" cellpadding="0" width="100%" height="26" style="margin:0px; padding:0px; background-image: url(../../images/header_pattern.gif); background-repeat: repeat-x;"> 
+<tr> <td width="221"><img src="help_title.gif" alt="Novell iFolder" border="0" width="221" height="26"></td><td align="right" width="100%" class="tabCell" style="background-image: url(../../images/header_background.gif); background-repeat: no-repeat;"> 
+</td></tr> </table></div><!-- This is end of the Help Banner Layer --> 
+<!-- This is the start of the Help Content Layer --> <div id="helpcontent" style="left: 10px; top: 38px"> 
+<!-- The Page Heading uses CSS style "head3b". This creates an H3 header
             with a line beneath it.
+      
        --> <h3 class="head3b">Управление параметрами LDAP системы iFolder</h3>
   <p> Используйте данный интерфейс для изменения параметров LDAP выбранного сервера Novell<SUP><SMALL>&reg;</SMALL></SUP> iFolder<SUP><SMALL>&reg;</SMALL></SUP> 3.7 или более поздней версии в этом домене iFolder. </p>
   
@@ -88,15 +88,13 @@
         <P> cn=iFolderProxy,o=acme</P>
     <P> Введите пароль нового пользователя в поле &quot;Пароль прокси-пользователя&quot;.</P>
         <P> После изменения прокси-пользователя, возможно, потребуется немедленно синхронизировать список пользователей LDAP с использованием информации о прокси-пользователе iFolder. В противном случае информация о прокси-пользователе не будет протестирована до следующей запланированной синхронизации списка пользователей. Выберите опцию <i>Синхронизировать сейчас</i> в разделе <i>Информация о LDAP</i> на странице &quot;Информация о сервере&quot;, чтобы принудительно синхронизировать список пользователей iFolder и проверить параметры нового прокси-пользователя.</P>
-      </TD></TR>
+        </TD></TR>
 	<TR><TD VALIGN="TOP"><P>Пароль прокси-пользователя&nbsp;</P></TD><TD>
         <P>Пароль используется для аутентификации прокси-пользователя iFolder на сервере LDAP, когда iFolder синхронизирует информацию о пользователях с сервером LDAP. </P>
         <P>Для того чтобы изменить пароль прокси-пользователя iFolder, не нужно менять соответствующее значение в параметрах LDAP системы iFolder. Можно изменить пароль непосредственно в данном интерфейсе.</p>
         <P>Этот пароль должен совпадать с паролем, сохраненным в объекте прокси-пользователя iFolder в eDirectory<sup><small>TM</small></sup>. </P>
 <P>Дважды введите пароль и щелкните <i>ОК</i>, чтобы обновить пароль, сохраненный в параметрах LDAP.</P>
-
-        
-      </TD></TR><TR><TD VALIGN="TOP">
+<P>Примечание. Если iFolder настроен на использование общего доверенного лица OES, то пароль доверенного лица нельзя изменять на консоли веб-администрирования iFolder.</P></TD></TR><TR><TD VALIGN="TOP">
         <P>Контексты LDAP</P>
       </TD><TD>
         <P> Укажите или измените контейнеры, группы и пользователей LDAP, среди которых iFolder выполняет поиск списка авторизованных пользователей во время подготовки серверов iFolder к работе на данном корпоративном сервере. Контексты LDAP указываются в формате LDAP. Например: </P>

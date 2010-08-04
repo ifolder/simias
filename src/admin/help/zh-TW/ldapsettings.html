@@ -27,31 +27,31 @@
 <style type= "text/css" media="screen">
        <!--
        
-         body           {  font-family: Arial, Helvetica, Geneva;
-									background: white url('../../images/helphead_bg.gif') repeat-x;  }
+         body           {  font-family: Arial, Helvetica, Geneva; background: white
+url(../../images/helphead_bg.gif) repeat-x 0% 0% }
 		      
-         #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px;
-									width: 380px; visibility: visible }
+         #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px; width: 100%; visibility: visible }
 			   
-         #helpcontent    { position: absolute; top: 37px; left: 10px; 
-	                        width: 93%; visibility: visible }
- 
+         #helpcontent    { position: absolute; top: 37px; left: 10px; width: 93%; visibility: visible }
+        
        -->
-     </style>
+     </style> 
   
    
 
 
-</head>
-   
-   <!-- This is the start of the body. It underlays the help banner layer 
-         and help content layers. -->
-	 
-   <body bgcolor="white" marginwidth="0" marginheight="0" 
-         leftmargin="0" topmargin="0">
-<!-- This is the start of the Help Banner Layer --> <div id="headgraphic"> <img src="../../images/h1_help.gif" width="380" height="32"   border="0"></div><!-- This is end of the Help Banner Layer --> 
-<!-- This is the start of the Help Content Layer --> <div id="helpcontent"> <!-- The Page Heading uses CSS style "head3b". This creates an H3 header
+</head>   
+<!-- This is the start of the body. It underlays the help banner layer 
+         and help content layers. --> 
+<body bgcolor="white" marginwidth="0" marginheight="0"  leftmargin="0" topmargin="0">
+<!-- This is the start of the Help Banner Layer --> <div id="headgraphic"> 
+<table border="0" cellspacing="0" cellpadding="0" width="100%" height="26" style="margin:0px; padding:0px; background-image: url(../../images/header_pattern.gif); background-repeat: repeat-x;"> 
+<tr> <td width="221"><img src="help_title.gif" alt="Novell iFolder" border="0" width="221" height="26"></td><td align="right" width="100%" class="tabCell" style="background-image: url(../../images/header_background.gif); background-repeat: no-repeat;"> 
+</td></tr> </table></div><!-- This is end of the Help Banner Layer --> 
+<!-- This is the start of the Help Content Layer --> <div id="helpcontent" style="left: 10px; top: 38px"> 
+<!-- The Page Heading uses CSS style "head3b". This creates an H3 header
             with a line beneath it.
+      
        --> <h3 class="head3b">管理 iFolder 系統的 LDAP 設定</h3>
   <p> 請使用此介面來修改選定 iFolder 網域內的 Novell<SUP><SMALL>&reg;</SMALL></SUP> iFolder<SUP><SMALL>&reg;</SMALL></SUP> 3.7 或更新版本之伺服器的 LDAP 設定。 </p>
   
@@ -88,15 +88,13 @@
         <P> cn=iFolderProxy,o=acme</P>
     <P> 請確定在「代理密碼」欄位中輸入新使用者的密碼。</P>
         <P> 修改代理使用者後，您可能要使用新 iFolder 代理資訊立即同步化 LDAP 使用者清單；否則，在下次排程的使用者清單同步化之前，代理使用者資訊都無法測試。請使用伺服器上「<i>LDAP 細節</i>」頁面中「<i>立即同步化</i>」選項來同步選擇的 iFolder 使用者清單並確認您的新代理使用者設定。</P>
-      </TD></TR>
+        </TD></TR>
 	<TR><TD VALIGN="TOP"><P>代理使用者密碼</P></TD><TD>
         <P>iFolder 與 LDAP 伺服器同步化使用者時，此密碼是用來與 LDAP 伺服器驗證 iFolder 代理使用者之用。 </P>
         <P>若要修改 iFolder 代理使用者密碼，您不需更新 LDAP 設定中所儲存的 iFolder 系統值。您可以直接使用此介面來修改密碼。</p>
         <P>密碼必須與儲存在 iFolder 代理使用者 eDirectory <sup><small>TM</small></sup> 物件中的密碼相符。 </P>
 <P>指定密碼兩次，然後按一下「<i>確定</i>」以更新 LDAP 設定中所儲存的密碼。</P>
-
-        
-      </TD></TR><TR><TD VALIGN="TOP">
+<P>注意：如果 iFolder 是設定為使用 OES 通用代理，您就不能從 iFolder Web 管理主控台來變更代理使用者密碼。</P></TD></TR><TR><TD VALIGN="TOP">
         <P>LDAP 位置</P>
       </TD><TD>
         <P> 指定或編輯 LDAP 容器、群組或使用者，讓使用者搜尋已授權的使用者清單，以提供企業伺服器上的 iFolder 伺服器使用。LDAP 位置須以 LDAP 格式輸入。例如： </P>

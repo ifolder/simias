@@ -27,30 +27,29 @@
 <style type= "text/css" media="screen">
        <!--
        
-         body           {  font-family: Arial, Helvetica, Geneva;
-									background: white url('../../images/helphead_bg.gif') repeat-x;  }
+         body           {  font-family: Arial, Helvetica, Geneva; background: white
+url(../../images/helphead_bg.gif) repeat-x 0% 0% }
 		      
-         #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px;
-									width: 380px; visibility: visible }
+         #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px; width: 100%; visibility: visible }
 			   
-         #helpcontent    { position: absolute; top: 37px; left: 10px; 
-	                        width: 93%; visibility: visible }
-
+         #helpcontent    { position: absolute; top: 37px; left: 10px; width: 93%; visibility: visible }
+        
        -->
-     </style>
+     </style> 
   
    
 
 
-</head>
-   
-   <!-- This is the start of the body. It underlays the help banner layer 
-         and help content layers. -->
-	 
-   <body bgcolor="white" marginwidth="0" marginheight="0" 
-         leftmargin="0" topmargin="0">
-<!-- This is the start of the Help Banner Layer --> <div id="headgraphic"> <img src="../../images/h1_help.gif" width="380" height="32"   border="0"></div><!-- This is end of the Help Banner Layer --> 
-<!-- This is the start of the Help Content Layer --> <div id="helpcontent"> <!-- The Page Heading uses CSS style "head3b". This creates an H3 header
+</head>   
+<!-- This is the start of the body. It underlays the help banner layer 
+         and help content layers. --> 
+<body bgcolor="white" marginwidth="0" marginheight="0"  leftmargin="0" topmargin="0">
+<!-- This is the start of the Help Banner Layer --> <div id="headgraphic"> 
+<table border="0" cellspacing="0" cellpadding="0" width="100%" height="26" style="margin:0px; padding:0px; background-image: url(../../images/header_pattern.gif); background-repeat: repeat-x;"> 
+<tr> <td width="221"><img src="help_title.gif" alt="Novell iFolder" border="0" width="221" height="26"></td><td align="right" width="100%" class="tabCell" style="background-image: url(../../images/header_background.gif); background-repeat: no-repeat;"> 
+</td></tr> </table></div><!-- This is end of the Help Banner Layer --> 
+<!-- This is the start of the Help Content Layer --> <div id="helpcontent" style="left: 10px; top: 38px"> 
+<!-- The Page Heading uses CSS style "head3b". This creates an H3 header
             with a line beneath it.
        --> 
   <h3 class="head3b">Verwalten eines Benutzerkontos</h3>
@@ -110,13 +109,13 @@ Der dem Benutzerkonto zugewiesene Benutzername, beispielsweise hans.schmidt@beis
       <P> Wenn ein Benutzer angemeldet ist, w&auml;hrend Sie diese &Auml;nderung vornehmen, wird die Sitzung des Benutzers fortgesetzt, bis dieser sich abmeldet. Die Richtlinie wird angewendet, sobald der Benutzer das n&auml;chste Mal versucht, sich bei dem Konto anzumelden. Um die Zugriffssperre sofort anzuwenden, m&uuml;ssen Sie die Apache-Services des iFolder-Servers neu starten. Auf diese Weise werden alle aktiven Sitzungen inklusive der Sitzung des betroffenen Benutzers beendet.</P>
     </LI></ul>
   </OL>
-  <H3><A NAME="provision"></A>Bereitstellung/+++Neubereitstellung+++ von iFolder-Benutzern </H3>
+  <H3><A NAME="provision"></A>Bereitstellung/Wiederbereitstellung von iFolder-Benutzern </H3>
   
    
   
   <P>Mit dieser Schnittstelle k&ouml;nnen Sie die iFolder-Benutzer f&uuml;r mehrere Server manuell bereitstellen, die in der aktuellen iFolder-Dom&auml;ne verf&uuml;gbar sind. </p> 
   
-  <p> Gehen Sie zur Bereitstellung/+++Neubereitstellung+++ der iFolder-Benutzer wie folgt vor:</P>
+  <p> Gehen Sie zur Bereitstellung/Wiederbereitstellung der iFolder-Benutzer wie folgt vor:</P>
 	
   <H4><A NAME="drop_down"></A>Bereitstellung mithilfe einer Dropdown-Liste</H4>
    
@@ -136,7 +135,7 @@ Der dem Benutzerkonto zugewiesene Benutzername, beispielsweise hans.schmidt@beis
     </li><li>
       <p>Aktivieren Sie das Kontrollk&auml;stchen neben den einzelnen Benutzern. </P>
     </li>
-    <li>Klicken Sie auf die Schaltfl&auml;che &quot;Bereitstellung&quot;, um eine neue Seite zu &ouml;ffnen, in der Sie die ausgew&auml;hlten Benutzer f&uuml;r einen iFolder-Server in der Dom&auml;ne bereitstellen oder +++neu bereitstellen+++ k&ouml;nnen.</LI>
+    <li>Klicken Sie auf die Schaltfl&auml;che &quot;Bereitstellung&quot;, um eine neue Seite zu &ouml;ffnen, in der Sie die ausgew&auml;hlten Benutzer f&uuml;r einen iFolder-Server in der Dom&auml;ne bereitstellen oder wieder bereitstellen k&ouml;nnen.</LI>
   </ol>
   <P><B><FONT SIZE="-1">HINWEIS:</FONT></B> <FONT SIZE="-1"> Wenn ein Benutzer sich zum ersten Mal anmeldet und wenn auf der Benutzerebene kein Stammserver f&uuml;r den Benutzer festgelegt ist, wird dem Benutzer automatisch der Server zugeordnet, der der LDAP-Gruppe, der der Benutzer angeh&ouml;rt, zugewiesen wurde.</FONT></P>
   <H3><A NAME="newuser"></A>Erstellen eines neuen iFolder-Benutzers</H3>
@@ -182,7 +181,7 @@ Der dem Benutzerkonto zugewiesene Benutzername, beispielsweise hans.schmidt@beis
   
   <H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Verwandte Themen" align="top"> Verwandte Themen</H4>
   
-  <BLOCKQUOTE class="task1"><P><A HREF="userdetails.html">Benutzerdetails</A><BR><A HREF="ifolderdetails.html">Verwalten von iFolder-Ordnerdetails</A><BR><A HREF="ifolders.html">Verwalten eines iFolder-Ordner</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Zur&uuml;ck zum Anfang"></A></P><P>&nbsp;</P><P CLASS="copyright">Ein Markensymbol(<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP> usw.) kennzeichnet eine Novell-Marke. Ein Sternchen (*) kennzeichnet eine Drittanbieter-Marke.     Weitere Informationen finden Sie unter <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Rechtliche Hinweise</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
+  <BLOCKQUOTE class="task1"><P><A HREF="userdetails.html">Benutzerdetails</A><BR><A HREF="ifolderdetails.html">Verwalten von iFolder-Ordnerdetails</A><BR><A HREF="ifolders.html">Verwalten eines iFolder-Ordner</A><BR><A HREF="systeminfo.html">Verwalten des iFolder-Systems</A><BR><A HREF="servers.html">Verwalten von iFolder-Servern</A><BR><A HREF="reports.html">Berichte</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Zur&uuml;ck zum Anfang"></A></P><P>&nbsp;</P><P CLASS="copyright">Ein Markensymbol(<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP> usw.) kennzeichnet eine Novell-Marke. Ein Sternchen (*) kennzeichnet eine Drittanbieter-Marke.     Weitere Informationen finden Sie unter <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Rechtliche Hinweise</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
 </body>
 
 </html>

@@ -27,31 +27,31 @@
 <style type= "text/css" media="screen">
        <!--
        
-         body           {  font-family: Arial, Helvetica, Geneva;
-									background: white url('../../images/helphead_bg.gif') repeat-x;  }
+         body           {  font-family: Arial, Helvetica, Geneva; background: white
+url(../../images/helphead_bg.gif) repeat-x 0% 0% }
 		      
-         #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px;
-									width: 380px; visibility: visible }
+         #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px; width: 100%; visibility: visible }
 			   
-         #helpcontent    { position: absolute; top: 37px; left: 10px; 
-	                        width: 93%; visibility: visible }
- 
+         #helpcontent    { position: absolute; top: 37px; left: 10px; width: 93%; visibility: visible }
+        
        -->
-     </style>
+     </style> 
   
    
 
 
-</head>
-   
-   <!-- This is the start of the body. It underlays the help banner layer 
-         and help content layers. -->
-	 
-   <body bgcolor="white" marginwidth="0" marginheight="0" 
-         leftmargin="0" topmargin="0">
-<!-- This is the start of the Help Banner Layer --> <div id="headgraphic"> <img src="../../images/h1_help.gif" width="380" height="32"   border="0"></div><!-- This is end of the Help Banner Layer --> 
-<!-- This is the start of the Help Content Layer --> <div id="helpcontent"> <!-- The Page Heading uses CSS style "head3b". This creates an H3 header
+</head>   
+<!-- This is the start of the body. It underlays the help banner layer 
+         and help content layers. --> 
+<body bgcolor="white" marginwidth="0" marginheight="0"  leftmargin="0" topmargin="0">
+<!-- This is the start of the Help Banner Layer --> <div id="headgraphic"> 
+<table border="0" cellspacing="0" cellpadding="0" width="100%" height="26" style="margin:0px; padding:0px; background-image: url(../../images/header_pattern.gif); background-repeat: repeat-x;"> 
+<tr> <td width="221"><img src="help_title.gif" alt="Novell iFolder" border="0" width="221" height="26"></td><td align="right" width="100%" class="tabCell" style="background-image: url(../../images/header_background.gif); background-repeat: no-repeat;"> 
+</td></tr> </table></div><!-- This is end of the Help Banner Layer --> 
+<!-- This is the start of the Help Content Layer --> <div id="helpcontent" style="left: 10px; top: 38px"> 
+<!-- The Page Heading uses CSS style "head3b". This creates an H3 header
             with a line beneath it.
+      
        --> <h3 class="head3b">管理 iFolder 系统的 LDAP 设置</h3>
   <p> 使用此界面可修改该 iFolder 域中选定 Novell<SUP><SMALL>&reg;</SMALL></SUP> iFolder<SUP><SMALL>&reg;</SMALL></SUP> 3.7 或更高版本服务器的 LDAP 设置。 </p>
   
@@ -88,15 +88,13 @@
         <P> cn=iFolderProxy,o=acme</P>
     <P> 确保同时在&ldquo;代理口令&rdquo;字段中输入新用户的口令。</P>
         <P> 修改代理用户后，您可能希望立即使用新的 iFolder 代理信息来同步 LDAP 用户列表，否则，将在对用户列表进行下一个已安排好的同步后才测试代理用户信息。使用&ldquo;服务器细节&rdquo;页上 <i>LDAP 细节</i>下的<i>立即同步</i>根据需要同步 iFolder 用户列表并校验新代理用户的设置。</P>
-      </TD></TR>
+        </TD></TR>
 	<TR><TD VALIGN="TOP"><P>代理用户口令</P></TD><TD>
         <P>此口令用于在 iFolder 与 LDAP 服务器同步用户时向 LDAP 服务器鉴定 iFolder 代理用户。 </P>
         <P>要修改 iFolder 代理用户口令，无需更新存储在 iFolder 系统的 LDAP 设置中的的值。您可直接使用此界面来修改口令。</p>
         <P>此口令必须与 iFolder 代理用户的 eDirectory<sup><small>TM</small></sup> 对象中储存的口令匹配。 </P>
 <P>指定两次口令，然后单击<i>确定</i>以更新储存在 LDAP 设置中的口令。</P>
-
-        
-      </TD></TR><TR><TD VALIGN="TOP">
+<P>注意：如果 iFolder 配置为使用 OES 通用代理，则不得从 iFolder 万维网 Admin 控制台更改代理用户口令。</P></TD></TR><TR><TD VALIGN="TOP">
         <P>LDAP 环境</P>
       </TD><TD>
         <P> 指定或编辑 LDAP 树枝、组或用户，iFolder 将在其中搜索授权用户的列表以为此企业服务器上的 iFolder 服务器配置用户。LDAP 环境以 LDAP 格式输入。例如： </P>

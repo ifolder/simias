@@ -27,32 +27,32 @@
 <style type= "text/css" media="screen">
        <!--
        
-         body           {  font-family: Arial, Helvetica, Geneva;
-									background: white url('../../images/helphead_bg.gif') repeat-x;  }
+         body           {  font-family: Arial, Helvetica, Geneva; background: white
+url(../../images/helphead_bg.gif) repeat-x 0% 0% }
 		      
-         #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px;
-									width: 380px; visibility: visible }
+         #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px; width: 100%; visibility: visible }
 			   
-         #helpcontent    { position: absolute; top: 37px; left: 10px; 
-	                        width: 93%; visibility: visible }
- 
+         #helpcontent    { position: absolute; top: 37px; left: 10px; width: 93%; visibility: visible }
+        
        -->
-     </style>
+     </style> 
   
    
 
 
-</head>
-   
-   <!-- This is the start of the body. It underlays the help banner layer 
-         and help content layers. -->
-	 
-   <body bgcolor="white" marginwidth="0" marginheight="0" 
-         leftmargin="0" topmargin="0">
-<!-- This is the start of the Help Banner Layer --> <div id="headgraphic"> <img src="../../images/h1_help.gif" width="380" height="32"   border="0"></div><!-- This is end of the Help Banner Layer --> 
-<!-- This is the start of the Help Content Layer --> <div id="helpcontent"> <!-- The Page Heading uses CSS style "head3b". This creates an H3 header
+</head>   
+<!-- This is the start of the body. It underlays the help banner layer 
+         and help content layers. --> 
+<body bgcolor="white" marginwidth="0" marginheight="0"  leftmargin="0" topmargin="0">
+<!-- This is the start of the Help Banner Layer --> <div id="headgraphic"> 
+<table border="0" cellspacing="0" cellpadding="0" width="100%" height="26" style="margin:0px; padding:0px; background-image: url(../../images/header_pattern.gif); background-repeat: repeat-x;"> 
+<tr> <td width="221"><img src="help_title.gif" alt="Novell iFolder" border="0" width="221" height="26"></td><td align="right" width="100%" class="tabCell" style="background-image: url(../../images/header_background.gif); background-repeat: no-repeat;"> 
+</td></tr> </table></div><!-- This is end of the Help Banner Layer --> 
+<!-- This is the start of the Help Content Layer --> <div id="helpcontent" style="left: 10px; top: 38px"> 
+<!-- The Page Heading uses CSS style "head3b". This creates an H3 header
             with a line beneath it.
-       --> <h3 class="head3b">Az LDAP-be&aacute;ll&iacute;t&aacute;sok kezel&eacute;se az iFolder rendszerhez</h3>
+      
+       --> <h3 class="head3b">Az iFolder rendszer LDAP-be&aacute;ll&iacute;t&aacute;sainak kezel&eacute;se</h3>
   <p> Ezen a kezelőfel&uuml;leten m&oacute;dos&iacute;that&oacute;k az ebben az iFolder-tartom&aacute;nyban műk&ouml;dő, kijel&ouml;lt Novell<SUP><SMALL>&reg;</SMALL></SUP> iFolder<SUP><SMALL>&reg;</SMALL></SUP> 3.7-es vagy &uacute;jabb verzi&oacute;j&uacute; kiszolg&aacute;l&oacute; LDAP-be&aacute;ll&iacute;t&aacute;sai. </p>
   
   <H3><A NAME="modify"></A>LDAP-be&aacute;ll&iacute;t&aacute;sok m&oacute;dos&iacute;t&aacute;sa</H3><P>M&oacute;dos&iacute;tsa az al&aacute;bbi mezők n&eacute;melyik&eacute;nek tartalm&aacute;t, majd kattintson az <i>OK</i> gombra a v&aacute;ltoztat&aacute;sok &eacute;rv&eacute;nybe l&eacute;ptet&eacute;s&eacute;hez:</P><TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Param&eacute;ter</P></TD><TD CLASS="tablehead2"><P>Le&iacute;r&aacute;s</P></TD></TR>
@@ -88,15 +88,13 @@
         <P> cn=iFolderProxy,o=acme</P>
     <P> &Uuml;gyeljen arra, hogy az &uacute;j felhaszn&aacute;l&oacute; jelszav&aacute;t is meg kell adnia a Proxyjelsz&oacute; mezőben.</P>
         <P> Miut&aacute;n m&oacute;dos&iacute;totta a proxyfelhaszn&aacute;l&oacute;t, aj&aacute;nlatos az &uacute;j iFolder proxyinform&aacute;ci&oacute;k seg&iacute;ts&eacute;g&eacute;vel azonnal szinkroniz&aacute;lni az LDAP felhaszn&aacute;l&oacute;list&aacute;kat, m&aacute;sk&uuml;l&ouml;nben a proxyfelhaszn&aacute;l&oacute;i inform&aacute;ci&oacute;kat a rendszer a felhaszn&aacute;l&oacute;lista k&ouml;vetkező &uuml;temezett szinkroniz&aacute;l&aacute;s&aacute;ig nem teszteli. Haszn&aacute;lja a Kiszolg&aacute;l&oacute; adatai lapon, az <i>LDAP-adatok</i> ter&uuml;leten tal&aacute;lhat&oacute; <i>Azonnali szinkroniz&aacute;l&aacute;s</i> funkci&oacute;t az iFolder felhaszn&aacute;l&oacute;lista ig&eacute;ny szerinti szinkroniz&aacute;l&aacute;s&aacute;ra &eacute;s az &uacute;j proxyfelhaszn&aacute;l&oacute;i be&aacute;ll&iacute;t&aacute;sok ellenőrz&eacute;s&eacute;re.</P>
-      </TD></TR>
+        </TD></TR>
 	<TR><TD VALIGN="TOP"><P>Proxyfelhaszn&aacute;l&oacute; jelszava</P></TD><TD>
         <P>A jelsz&oacute; az iFolder proxyfelhaszn&aacute;l&oacute; LDAP-kiszolg&aacute;l&oacute;ra val&oacute; hiteles&iacute;t&eacute;s&eacute;re szolg&aacute;l, amikor az iFolder szinkroniz&aacute;lja a felhaszn&aacute;l&oacute;kat az LDAP-kiszolg&aacute;l&oacute;val. </P>
         <P>Az iFolder proxyfelhaszn&aacute;l&oacute;i jelszav&aacute;nak m&oacute;dos&iacute;t&aacute;s&aacute;hoz nem sz&uuml;ks&eacute;ges friss&iacute;teni az iFolder rendszerhez az LDAP-be&aacute;ll&iacute;t&aacute;sok k&ouml;z&ouml;tt t&aacute;rolt &eacute;rt&eacute;ket. A jelsz&oacute; m&oacute;dos&iacute;t&aacute;s&aacute;hoz k&ouml;zvetlen&uuml;l haszn&aacute;lhatja ezt a kezelőfel&uuml;letet.</p>
         <P>Ennek a jelsz&oacute;nak meg kell egyezni az iFolder proxyfelhaszn&aacute;l&oacute; eDirectory<sup><small>TM</small></sup> objektum&aacute;ban t&aacute;rolt jelsz&oacute;val. </P>
 <P>Adja meg k&eacute;tszer a jelsz&oacute;t, majd kattintson az <i>OK</i> gombra az LDAP-be&aacute;ll&iacute;t&aacute;sok k&ouml;z&ouml;tt t&aacute;rolt jelsz&oacute; friss&iacute;t&eacute;s&eacute;hez.</P>
-
-        
-      </TD></TR><TR><TD VALIGN="TOP">
+<P>Megjegyz&eacute;s: Ha az iFolder k&ouml;z&ouml;s OES-proxy haszn&aacute;lat&aacute;ra van konfigur&aacute;lva, a proxyfelhaszn&aacute;l&oacute; jelszava nem m&oacute;dos&iacute;that&oacute; az iFolder Web Admin konzolj&aacute;r&oacute;l.</P></TD></TR><TR><TD VALIGN="TOP">
         <P>LDAP k&ouml;rnyezetek</P>
       </TD><TD>
         <P> Megadhatja, szerkesztheti vagy megkeresheti az LDAP-kont&eacute;nereket, csoportokat vagy felhaszn&aacute;l&oacute;kat, ahol az iFolder megkeresi azoknak a jogosult felhaszn&aacute;l&oacute;knak list&aacute;j&aacute;t, amelyeket ezen a v&aacute;llalati kiszolg&aacute;l&oacute;n enged&eacute;lyez az iFolder kiszolg&aacute;l&oacute;khoz. Az LDAP k&ouml;rnyezetek LDAP form&aacute;tumban vannak megadva. P&eacute;ld&aacute;ul: </P>

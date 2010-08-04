@@ -28,34 +28,33 @@
 <style type= "text/css" media="screen">
        <!--
        
-         body           {  font-family: Arial, Helvetica, Geneva; background: white url('../../images/helphead_bg.gif') repeat-x;  }
+         body           {  font-family: Arial, Helvetica, Geneva; background: white
+url(../../images/helphead_bg.gif) repeat-x 0% 0% }
 		      
-         #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px;
-									width: 380px; visibility: visible }
+         #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px; width: 100%; visibility: visible }
 			   
-         #helpcontent    { position: absolute; top: 37px; left: 10px; 
-	                        width: 93%; visibility: visible }
-      
-div.Section1
-	{page:Section1;}
+         #helpcontent    { position: absolute; top: 37px; left: 10px; width: 93%; visibility: visible }
+        
        -->
-     </style>
+     </style> 
   
    
 
 
-</head>
-   
-   <!-- This is the start of the body. It underlays the help banner layer 
-         and help content layers. -->
-	 
-   <body bgcolor="white" marginwidth="0" marginheight="0" 
-         leftmargin="0" topmargin="0">
-<!-- This is the start of the Help Banner Layer --> <div id="headgraphic"> <img src="../../images/h1_help.gif" width="380" height="32"   border="0"></div><!-- This is end of the Help Banner Layer --> 
-<!-- This is the start of the Help Content Layer --> <div id="helpcontent"> <!-- The Page Heading uses CSS style "head3b". This creates an H3 header
+</head>   
+<!-- This is the start of the body. It underlays the help banner layer 
+         and help content layers. --> 
+<body bgcolor="white" marginwidth="0" marginheight="0"  leftmargin="0" topmargin="0">
+<!-- This is the start of the Help Banner Layer --> <div id="headgraphic"> 
+<table border="0" cellspacing="0" cellpadding="0" width="100%" height="26" style="margin:0px; padding:0px; background-image: url(../../images/header_pattern.gif); background-repeat: repeat-x;"> 
+<tr> <td width="221"><img src="help_title.gif" alt="Novell iFolder" border="0" width="221" height="26"></td><td align="right" width="100%" class="tabCell" style="background-image: url(../../images/header_background.gif); background-repeat: no-repeat;"> 
+</td></tr> </table></div><!-- This is end of the Help Banner Layer --> 
+<!-- This is the start of the Help Content Layer --> <div id="helpcontent" style="left: 10px; top: 38px"> 
+<!-- The Page Heading uses CSS style "head3b". This creates an H3 header
             with a line beneath it.
+       
        --> <h3 class="head3b">Gerenciando o sistema do iFolder</h3>
-  <p> Use esta interface para gerenciar os servi&ccedil;os do Novell iFolder<SUP><SMALL>&reg;</SMALL></SUP> 3.7 para o servidor selecionado.</p>
+  <p> Use esta interface para gerenciar os servi&ccedil;os do Novell iFolder<SUP><SMALL>&reg;</SMALL></SUP> 3.7 ou posterior para o servidor selecionado.</p>
   <P>Esta Ajuda mostra as seguintes informa&ccedil;&otilde;es:</P>
   <blockquote> <P><A HREF="#sytemsettings" TARGET="_self">Configura&ccedil;&otilde;es do sistema </A> <BR><A HREF="#status" TARGET="_self"> Status do Reprovisionamento</a><BR><A HREF="#admin" TARGET="_self">Guia Administradores</a><BR> <A HREF="#policy" TARGET="_self">Pol&iacute;ticas </a><BR></P></BLOCKQUOTE>
   
@@ -118,8 +117,8 @@ div.Section1
         <span style="font-size:11.0pt;font-family:Arial;">Selecione a op&ccedil;&atilde;o <i>Console do Administrador</i> para permitir que os administradores gerenciem a quota de discos de grupos ou membros de um grupo. Quando voc&ecirc; selecionar essa op&ccedil;&atilde;o, a quota de discos atribu&iacute;da aos usu&aacute;rios ser&aacute; restringida para que n&atilde;o exceda o uso do disco agregado do grupo. A op&ccedil;&atilde;o <i>Console do Administrador</i> &eacute; selecionada por padr&atilde;o.</span></p>
         <p class="Normal2">
         <span style="font-size:11.0pt;font-family:Arial;">Selecione a op&ccedil;&atilde;o <i>Mecanismo de Sincroniza&ccedil;&atilde;o</i> para habilitar o mecanismo de sincroniza&ccedil;&atilde;o para gerenciar a quota de discos agregados em grupos no back end. O mecanismo de sincroniza&ccedil;&atilde;o garante que a quota de discos de todos os usu&aacute;rios em um grupo n&atilde;o exceda a quota de discos agregados do grupo.</span></p>
-        <p class="Normal2">
-        &nbsp;</p>
+        <p class="Normal2">&nbsp;
+        </p>
         </TD></TR><TR><TD VALIGN="TOP">
         <span style="font-size: 11.0pt; font-family: Arial; "> Grupos Segregados</span></TD><TD>
         <span style="font-size: 11.0pt; font-family: Arial; "> Permite segregar grupos em entidades independentes e garantir que os membros de um grupo n&atilde;o poder&atilde;o ser acessados por membros de outro grupo para compartilhar iFolders. Marque a caixa de sele&ccedil;&atilde;o <i>Criar Grupos Segregados</i> para permitir o compartilhamento de iFolders apenas entre membros do mesmo grupo.</span><p>
@@ -236,7 +235,10 @@ div.Section1
 		  
         <P>Especifique se &eacute; necess&aacute;rio restringir tipos de arquivos que s&atilde;o sincronizados por filtros de exclus&atilde;o. </P>
             <P>Digite a extens&atilde;o de arquivo e clique em Adicionar para adicion&aacute;-lo &agrave; lista. </P>
-        </TD></TR>
+      <P>Para excluir um tipo de arquivo da sincroniza&ccedil;&atilde;o, marque a caixa de sele&ccedil;&atilde;o adjacente ao tipo de arquivo na lista de tipos de arquivos restritos, ent&atilde;o clique em Negar.</P>
+      <p>Para permitir que um tipo de arquivo seja sincronizado, marque a caixa de sele&ccedil;&atilde;o adjacente ao tipo de arquivo na lista de tipos de arquivos restritos, ent&atilde;o clique em Permitir.</p>
+      <p>Para apagar um tipo de arquivo da lista de tipos de arquivos restritos, marque a caixa de sele&ccedil;&atilde;o adjacente ao tipo de arquivo e clique em Apagar.<br>
+      </p></TD></TR>
 	
 	<TR><TD VALIGN="TOP">
         <h4> Sincroniza&ccedil;&atilde;o </h4>
@@ -298,7 +300,7 @@ div.Section1
 <TR>
       <TD VALIGN="TOP"> 
         <h4><span style="FONT-SIZE: 9.5pt; FONT-FAMILY: Arial">Pol&iacute;tica por usu&aacute;rio do iFolder</span></h4>
-        <h4> &nbsp;</h4>
+        <h4>&nbsp; </h4>
       </TD>
       <TD> 
         <p class="Normal2">
@@ -375,7 +377,7 @@ div.Section1
     <span style="font-size:11.0pt;font-family:Arial;">A caixa de sele&ccedil;&atilde;o <i>Permitir Habilita&ccedil;&atilde;o/Desabilita&ccedil;&atilde;o de iFolders</i> pode ser usada para atribuir a um administrador secund&aacute;rio o direito de habilitar ou desabilitar iFolders que pertencem a usu&aacute;rios do grupo designado. Esta caixa de sele&ccedil;&atilde;o &eacute; marcada por padr&atilde;o. Para n&atilde;o conceder esse direito ao administrador secund&aacute;rio, desmarque a caixa de sele&ccedil;&atilde;o <i>Permitir Habilita&ccedil;&atilde;o/Desabilita&ccedil;&atilde;o de iFolders</i>.</span></p>
     <p class="Normal2">
     <span style="font-size: 11.0pt; font-family: Arial; ">A caixa de sele&ccedil;&atilde;o <i>Permitir modifica&ccedil;&otilde;es nos direitos de membros do iFolder compartilhado</i> pode ser usada para atribuir ao administrador secund&aacute;rio o direito de modificar os direitos dos membros do iFolder compartilhado. Esta caixa de sele&ccedil;&atilde;o &eacute; marcada por padr&atilde;o. Para n&atilde;o conceder esse direito ao administrador secund&aacute;rio, desmarque a caixa de sele&ccedil;&atilde;o <i>Permitir modifica&ccedil;&otilde;es nos direitos de membros do iFolder compartilhado </i>.</span></p>
-    </TD></TR> 
+    <p class="Normal2"><span style="font-size: 11.0pt; font-family: Arial; ">Usando a caixa de sele&ccedil;&atilde;o <i>Permitir exclus&atilde;o de iFolders</i> voc&ecirc; pode atribuir ao administrador secund&aacute;rio a permiss&atilde;o para apagar iFolders. Esta caixa de sele&ccedil;&atilde;o &eacute; marcada por padr&atilde;o. Para negar essa permiss&atilde;o ao administrador secund&aacute;rio, desmarque a caixa de sele&ccedil;&atilde;o <em>Permitir exclus&atilde;o de iFolders</em>.</span></p></TD></TR> 
 
   </TABLE>
 
@@ -412,7 +414,7 @@ div.Section1
    
 
 <H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="T&oacute;picos relacionados" align="top"> T&oacute;picos relacionados</H4><BLOCKQUOTE class="task1">
-<P ><A HREF="userdetails.html">Detalhes do usu&aacute;rio </A><BR><A HREF="ifolderdetails.html">Gerenciando detalhes do iFolder</A><BR><A HREF="servers.html">Gerenciando servidores iFolder</A><BR><A HREF="ifolders.html">Gerenciando pastas do iFolder</A><BR><A HREF="reports.html#orphan" TARGET="_self">Relat&oacute;rios </A></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Ir para o in&iacute;cio"></A></P><P>&nbsp;</P><P CLASS="copyright">Um s&iacute;mbolo de marca registrada (<SUP><SMALL>&reg;, </SMALL></SUP>,<SUP><SMALL>TM</SMALL></SUP> etc.) indica uma marca registrada da Novell. Um asterisco (*) indica uma marca registrada de terceiros. Para obter mais informa&ccedil;&otilde;es, consulte <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Informa&ccedil;&otilde;es Legais</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
+<P ><A HREF="userdetails.html">Detalhes do usu&aacute;rio </A><BR><A HREF="ifolderdetails.html">Gerenciando detalhes do iFolder</A><BR><A HREF="servers.html">Gerenciando servidores iFolder</A><BR><A HREF="ifolders.html">Gerenciando pastas do iFolder</A><BR><A HREF="users.html">Gerenciando uma conta do usu&aacute;rio</A><BR><A HREF="reports.html#orphan" TARGET="_self">Relat&oacute;rios </A></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Ir para o in&iacute;cio"></A></P><P>&nbsp;</P><P CLASS="copyright">Um s&iacute;mbolo de marca registrada (<SUP><SMALL>&reg; </SMALL></SUP>,<SUP><SMALL>TM</SMALL></SUP> etc.) indica uma marca registrada da Novell. Um asterisco (*) indica uma marca registrada de terceiros. Para obter mais informa&ccedil;&otilde;es, consulte <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Informa&ccedil;&otilde;es Legais</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
 </body>
 
 </html>

@@ -27,31 +27,31 @@
 <style type= "text/css" media="screen">
        <!--
        
-         body           {  font-family: Arial, Helvetica, Geneva;
-									background: white url('../../images/helphead_bg.gif') repeat-x;  }
+         body           {  font-family: Arial, Helvetica, Geneva; background: white
+url(../../images/helphead_bg.gif) repeat-x 0% 0% }
 		      
-         #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px;
-									width: 380px; visibility: visible }
+         #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px; width: 100%; visibility: visible }
 			   
-         #helpcontent    { position: absolute; top: 37px; left: 10px; 
-	                        width: 93%; visibility: visible }
- 
+         #helpcontent    { position: absolute; top: 37px; left: 10px; width: 93%; visibility: visible }
+        
        -->
-     </style>
+     </style> 
   
    
 
 
-</head>
-   
-   <!-- This is the start of the body. It underlays the help banner layer 
-         and help content layers. -->
-	 
-   <body bgcolor="white" marginwidth="0" marginheight="0" 
-         leftmargin="0" topmargin="0">
-<!-- This is the start of the Help Banner Layer --> <div id="headgraphic"> <img src="../../images/h1_help.gif" width="380" height="32"   border="0"></div><!-- This is end of the Help Banner Layer --> 
-<!-- This is the start of the Help Content Layer --> <div id="helpcontent"> <!-- The Page Heading uses CSS style "head3b". This creates an H3 header
+</head>   
+<!-- This is the start of the body. It underlays the help banner layer 
+         and help content layers. --> 
+<body bgcolor="white" marginwidth="0" marginheight="0"  leftmargin="0" topmargin="0">
+<!-- This is the start of the Help Banner Layer --> <div id="headgraphic"> 
+<table border="0" cellspacing="0" cellpadding="0" width="100%" height="26" style="margin:0px; padding:0px; background-image: url(../../images/header_pattern.gif); background-repeat: repeat-x;"> 
+<tr> <td width="221"><img src="help_title.gif" alt="Novell iFolder" border="0" width="221" height="26"></td><td align="right" width="100%" class="tabCell" style="background-image: url(../../images/header_background.gif); background-repeat: no-repeat;"> 
+</td></tr> </table></div><!-- This is end of the Help Banner Layer --> 
+<!-- This is the start of the Help Content Layer --> <div id="helpcontent" style="left: 10px; top: 38px"> 
+<!-- The Page Heading uses CSS style "head3b". This creates an H3 header
             with a line beneath it.
+      
        --> <h3 class="head3b">Gestione delle impostazioni LDAP per il sistema iFolder</h3>
   <p> Utilizzare questa interfaccia per modificare le impostazioni LDAP per il server Novell<SUP><SMALL>&reg;</SMALL></SUP> iFolder<SUP><SMALL>&reg;</SMALL></SUP> 3.7 in questo dominio iFolder. </p>
   
@@ -88,15 +88,13 @@
         <P> cn=iFolderProxy,o=acme</P>
     <P> Accertarsi inoltre di immettere la password del nuovo utente nell'apposito campo.</P>
         <P> Dopo aver modificato l'utente incaricato, potrebbe essere opportuno sincronizzare immediatamente l'elenco degli utenti LDAP, utilizzano le nuove informazioni sull'utente incarico di iFolder. In caso contrario, tali informazioni non verranno verificate fino alla successiva sincronizzazione pianificata dell'elenco utenti. Utilizzare <i>Sincronizza ora</i> in <i>Dettagli LDAP</i> nella pagina dei dettagli del server per sincronizzare l'elenco degli utenti iFolder su richiesta e verificare le impostazioni dell'utente incaricato.</P>
-      </TD></TR>
+        </TD></TR>
 	<TR><TD VALIGN="TOP"><P>Password&nbsp;utente incaricato</P></TD><TD>
         <P>La password viene utilizzata per autenticare l'utente incaricato iFolder nel server LDAP per la sincronizzazione degli utenti con quest'ultimo. </P>
         <P>Per modificare la password dell'utente incaricato iFolder, non &egrave; necessario aggiornare il valore memorizzato nelle impostazioni LDAP per il sistema iFolder. &Egrave; possibile utilizzare direttamente questa interfaccia per modificare la password.</p>
         <P>Questa password deve corrispondere a quella archiviata nell'oggetto EDirectory<sup><small>TM</small></sup> dell'utente incaricato iFolder. </P>
 <P>Specificare  la password due volte, quindi fare clic su <i>OK</i> per aggiornare quella archiviata nelle impostazioni LDAP. </P>
-
-        
-      </TD></TR><TR><TD VALIGN="TOP">
+<P>Nota: se iFolder &egrave; configurato per utilizzare l'utente incaricato comune OES, la password utente dell'utente incaricato non deve essere modificata dalla console Amministratore Web iFolder.</P></TD></TR><TR><TD VALIGN="TOP">
         <P>Contesti LDAP</P>
       </TD><TD>
         <P> Specificare o modificare i contenitori, i gruppi o gli utenti LDAP in cui iFolder cerca un elenco di utenti autorizzati per il provisioning dei server iFolder nel server aziendale. I contesti LDAP sono immessi in formato LDAP. Ad esempio: </P>

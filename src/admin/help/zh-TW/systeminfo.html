@@ -28,32 +28,31 @@
 <style type= "text/css" media="screen">
        <!--
        
-         body           {  font-family: Arial, Helvetica, Geneva; background: white url('../../images/helphead_bg.gif') repeat-x;  }
+         body           {  font-family: Arial, Helvetica, Geneva; background: white
+url(../../images/helphead_bg.gif) repeat-x 0% 0% }
 		      
-         #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px;
-									width: 380px; visibility: visible }
+         #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px; width: 100%; visibility: visible }
 			   
-         #helpcontent    { position: absolute; top: 37px; left: 10px; 
-	                        width: 93%; visibility: visible }
-      
-div.Section1
-	{page:Section1;}
+         #helpcontent    { position: absolute; top: 37px; left: 10px; width: 93%; visibility: visible }
+        
        -->
-     </style>
+     </style> 
   
    
 
 
-</head>
-   
-   <!-- This is the start of the body. It underlays the help banner layer 
-         and help content layers. -->
-	 
-   <body bgcolor="white" marginwidth="0" marginheight="0" 
-         leftmargin="0" topmargin="0">
-<!-- This is the start of the Help Banner Layer --> <div id="headgraphic"> <img src="../../images/h1_help.gif" width="380" height="32"   border="0"></div><!-- This is end of the Help Banner Layer --> 
-<!-- This is the start of the Help Content Layer --> <div id="helpcontent"> <!-- The Page Heading uses CSS style "head3b". This creates an H3 header
+</head>   
+<!-- This is the start of the body. It underlays the help banner layer 
+         and help content layers. --> 
+<body bgcolor="white" marginwidth="0" marginheight="0"  leftmargin="0" topmargin="0">
+<!-- This is the start of the Help Banner Layer --> <div id="headgraphic"> 
+<table border="0" cellspacing="0" cellpadding="0" width="100%" height="26" style="margin:0px; padding:0px; background-image: url(../../images/header_pattern.gif); background-repeat: repeat-x;"> 
+<tr> <td width="221"><img src="help_title.gif" alt="Novell iFolder" border="0" width="221" height="26"></td><td align="right" width="100%" class="tabCell" style="background-image: url(../../images/header_background.gif); background-repeat: no-repeat;"> 
+</td></tr> </table></div><!-- This is end of the Help Banner Layer --> 
+<!-- This is the start of the Help Content Layer --> <div id="helpcontent" style="left: 10px; top: 38px"> 
+<!-- The Page Heading uses CSS style "head3b". This creates an H3 header
             with a line beneath it.
+       
        --> <h3 class="head3b">管理 iFolder 系統</h3>
   <p> 使用此介面管理選定伺服器的 Novell iFolder<SUP><SMALL>&reg;</SMALL></SUP> 3.7 或更新版本的服務。</p>
   <P>本說明討論下列資訊：</P>
@@ -98,7 +97,7 @@ div.Section1
       </TD></TR><TR><TD VALIGN="TOP">
         完整名稱顯示順序</TD><TD>
         <p>
-        讓您設定顯示使用者全名的順序。選取<i>「(名字，姓氏）」</i>選項，以便先顯示名字再顯示姓氏。或者，若要先顯示姓氏再顯示名字，請選取<i>「(姓氏，名字)」</i>選項。 </p>
+        讓您設定顯示使用者全名的順序。選取<i>「(名字，姓氏)」</i>選項，以便先顯示名字再顯示姓氏。或者，若要先顯示姓氏再顯示名字，請選取<i>「(姓氏，名字)」</i>選項。 </p>
         <p class="Normal2">
         若要讓變更生效，必須等到排程的 LDAP 同步作業執行，或手動執行 LDAP 同步作業。執行手動 LDAP 同步作業：</p>
         <ol>
@@ -236,7 +235,10 @@ div.Section1
 		  
         <P>指定是否要限制由排除過濾器同步的檔案類型。 </P>
             <P>輸入副檔名，然後按一下「新增」將其加入清單。 </P>
-        </TD></TR>
+      <P>若要排除檔案類型不進行同步化，請選取限制檔案類型清單中檔案類型旁的核取方塊，然後按一下「拒絕」。</P>
+      <p>若要允許檔案類型以進行同步化，請選取限制檔案類型清單中檔案類型旁的核取方塊，然後按一下「允許」。</p>
+      <p>若要將某個檔案類型從限制檔案類型清單中刪除，請選取該檔案類型旁的核取方塊，然後按一下「刪除」。<br>
+      </p></TD></TR>
 	
 	<TR><TD VALIGN="TOP">
         <h4> 同步化 </h4>
@@ -375,7 +377,7 @@ div.Section1
     <span style="font-size:11.0pt;font-family:Arial;">透過使用<i>「允許啟用/停用 iFolder」</i>核取方塊，您可以將啟用或停用指定群組之使用者擁有的 iFolder 的權限指定給次要管理員。根據預設，會選取此核取方塊。若不想讓次要管理員擁有此權限，請清除<i>「允許啟用/停用 iFolder」</i>核取方塊。</span></p>
     <p class="Normal2">
     <span style="font-size: 11.0pt; font-family: Arial; ">透過使用<i>「允許修改共享之 iFolder 成員的權限」</i>核取方塊，您可以將修改共享之 iFolder 成員的權限指定給次要管理員。根據預設，會選取此核取方塊。若不想讓次要管理員擁有此權限，請清除<i>「允許修改共享之 iFolder 成員的權限」</i>核取方塊。</span></p>
-    </TD></TR> 
+    <p class="Normal2"><span style="font-size: 11.0pt; font-family: Arial; ">使用<i>「允許刪除 iFolder 的權限」</i>核取方塊，您可以指定次要管理員刪除 iFolders 的權限。根據預設，會選取此核取方塊。若不想讓次要管理員擁有此權限，請清除<em>「允許刪除 iFolder 的權限」</em>核取方塊。</span></p></TD></TR> 
 
   </TABLE>
 
@@ -412,7 +414,7 @@ div.Section1
    
 
 <H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="相關主題" align="top"> 相關主題</H4><BLOCKQUOTE class="task1">
-<P ><A HREF="userdetails.html">使用者詳細資料 </A><BR><A HREF="ifolderdetails.html">管理 iFolder 詳細資料</A><BR><A HREF="servers.html">管理 iFolder 伺服器 </A><BR><A HREF="ifolders.html">管理 iFolder</A><BR><A HREF="reports.html#orphan" TARGET="_self">報告 </A></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="移至頂端"></A></P><P>&nbsp;</P><P CLASS="copyright">商標符號 (<SUP><SMALL>&reg;</SMALL></SUP>、<SUP><SMALL>TM</SMALL></SUP> 等) 代表 Novell 的商標；星號 (*) 則代表協力廠商的商標。如需詳細資訊，請參閱<A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">法律聲明</font></A>。</P></div><!-- This is the end of the Help Content layer. --> 
+<P ><A HREF="userdetails.html">使用者詳細資料 </A><BR><A HREF="ifolderdetails.html">管理 iFolder 詳細資料</A><BR><A HREF="servers.html">管理 iFolder 伺服器 </A><BR><A HREF="ifolders.html">管理 iFolder</A><BR><A HREF="users.html">管理使用者帳戶</A><BR><A HREF="reports.html#orphan" TARGET="_self">報告 </A></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="移至頂端"></A></P><P>&nbsp;</P><P CLASS="copyright">商標符號 (<SUP><SMALL>&reg;</SMALL></SUP>、<SUP><SMALL>TM</SMALL></SUP> 等) 代表 Novell 的商標；星號 (*) 則代表協力廠商的商標。如需詳細資訊，請參閱<A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">法律聲明</font></A>。</P></div><!-- This is the end of the Help Content layer. --> 
 </body>
 
 </html>
