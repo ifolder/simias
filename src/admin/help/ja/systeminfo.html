@@ -28,32 +28,31 @@
 <style type= "text/css" media="screen">
        <!--
        
-         body           {  font-family: Arial, Helvetica, Geneva; background: white url('../../images/helphead_bg.gif') repeat-x;  }
+         body           {  font-family: Arial, Helvetica, Geneva; background: white
+url(../../images/helphead_bg.gif) repeat-x 0% 0% }
 		      
-         #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px;
-									width: 380px; visibility: visible }
+         #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px; width: 100%; visibility: visible }
 			   
-         #helpcontent    { position: absolute; top: 37px; left: 10px; 
-	                        width: 93%; visibility: visible }
-      
-div.Section1
-	{page:Section1;}
+         #helpcontent    { position: absolute; top: 37px; left: 10px; width: 93%; visibility: visible }
+        
        -->
-     </style>
+     </style> 
   
    
 
 
-</head>
-   
-   <!-- This is the start of the body. It underlays the help banner layer 
-         and help content layers. -->
-	 
-   <body bgcolor="white" marginwidth="0" marginheight="0" 
-         leftmargin="0" topmargin="0">
-<!-- This is the start of the Help Banner Layer --> <div id="headgraphic"> <img src="../../images/h1_help.gif" width="380" height="32"   border="0"></div><!-- This is end of the Help Banner Layer --> 
-<!-- This is the start of the Help Content Layer --> <div id="helpcontent"> <!-- The Page Heading uses CSS style "head3b". This creates an H3 header
+</head>   
+<!-- This is the start of the body. It underlays the help banner layer 
+         and help content layers. --> 
+<body bgcolor="white" marginwidth="0" marginheight="0"  leftmargin="0" topmargin="0">
+<!-- This is the start of the Help Banner Layer --> <div id="headgraphic"> 
+<table border="0" cellspacing="0" cellpadding="0" width="100%" height="26" style="margin:0px; padding:0px; background-image: url(../../images/header_pattern.gif); background-repeat: repeat-x;"> 
+<tr> <td width="221"><img src="help_title.gif" alt="Novell iFolder" border="0" width="221" height="26"></td><td align="right" width="100%" class="tabCell" style="background-image: url(../../images/header_background.gif); background-repeat: no-repeat;"> 
+</td></tr> </table></div><!-- This is end of the Help Banner Layer --> 
+<!-- This is the start of the Help Content Layer --> <div id="helpcontent" style="left: 10px; top: 38px"> 
+<!-- The Page Heading uses CSS style "head3b". This creates an H3 header
             with a line beneath it.
+       
        --> <h3 class="head3b">iFolderシステムの管理</h3>
   <p> このインタフェースでは、選択したサーバのNovell iFolder<SUP><SMALL>&reg;</SMALL></SUP> 3.7以降のサービスを管理できます。</p>
   <P>このヘルプでは、次の情報について説明します。</P>
@@ -236,7 +235,10 @@ div.Section1
 		  
         <P>同期するファイルタイプを除外フィルタで制限するかどうかを指定します。 </P>
             <P>ファイル拡張子を入力して、［追加］をクリックすると、そのファイル拡張子がリストに追加されます。 </P>
-        </TD></TR>
+      <P>特定のファイルタイプを同期から除外するには、制限されているファイルタイプのリストでそのファイルタイプの横のチェックボックスをオンにして、［拒否］をクリックします。</P>
+      <p>特定のファイルタイプの同期を許可するには、制限されているファイルタイプのリストでそのファイルタイプの横のチェックボックスをオンにして、［許可］をクリックします。</p>
+      <p>制限されているファイルタイプのリストからファイルタイプを削除するには、そのファイルタイプの横のチェックボックスをオンにして、［削除］をクリックします。<br>
+      </p></TD></TR>
 	
 	<TR><TD VALIGN="TOP">
         <h4> 同期 </h4>
@@ -375,7 +377,7 @@ div.Section1
     <span style="font-size:11.0pt;font-family:Arial;">［Allow Enabling/Disabling of iFolders (iFolderの有効化/無効化を許可)<i></i>］チェックボックスを使用すると、指定したグループのユーザが所有するiFolderを有効または無効にする権利をセカンダリ管理者に割り当てることができます。デフォルトでは、このチェックボックスはオンになっています。セカンダリ管理者にこの権利を許可しない場合は、［Allow Enabling/Disabling of iFolders (iFolderの有効化/無効化を許可)<i></i>］チェックボックスをオフにします。</span></p>
     <p class="Normal2">
     <span style="font-size: 11.0pt; font-family: Arial; ">［Allow to modify rights of shared iFolder members (共有iFolderのメンバーの権利の変更を許可)<i></i>］チェックボックスを使用すると、共有iFolderのメンバーの権利を変更する権利をセカンダリ管理者に割り当てることができます。デフォルトでは、このチェックボックスはオンになっています。セカンダリ管理者にこの権利を許可しない場合は、［Allow to modify rights of shared iFolder members (共有iFolderのメンバーの権利の変更を許可)<i></i>］チェックボックスをオフにします。</span></p>
-    </TD></TR> 
+    <p class="Normal2"><span style="font-size: 11.0pt; font-family: Arial; ">［iFolderを削除するパーミッションを付与<i></i>］チェックボックスを使用して、iFolderを削除するパーミッションをセカンダリ管理者に割り当てることができます。デフォルトでは、このチェックボックスはオンになっています。セカンダリ管理者にこのパーミッションを許可しない場合は、［iFolderを削除するパーミッションを付与<em></em>］チェックボックスをオフにします。</span></p></TD></TR> 
 
   </TABLE>
 
@@ -412,7 +414,7 @@ div.Section1
    
 
 <H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="関連項目" align="top"> 関連項目</H4><BLOCKQUOTE class="task1">
-<P ><A HREF="userdetails.html">ユーザ詳細</A><BR><A HREF="ifolderdetails.html">iFolder詳細の管理</A><BR><A HREF="servers.html">iFolderサーバの管理</A><BR><A HREF="ifolders.html">iFolderの管理</A><BR><A HREF="reports.html#orphan" TARGET="_self">レポート </A></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="トップへジャンプ"></A></P><P>&nbsp;</P><P CLASS="copyright">商標記号（<SUP><SMALL>&reg;</SMALL></SUP>、<SUP><SMALL>TM</SMALL></SUP>など）は、Novellの商標を示し、アスタリスク（*）は、サードパーティの商標を示します。  詳細については、「<A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">保証と著作権</font></A>」を参照してください。</P></div><!-- This is the end of the Help Content layer. --> 
+<P ><A HREF="userdetails.html">ユーザ詳細</A><BR><A HREF="ifolderdetails.html">iFolder詳細の管理</A><BR><A HREF="servers.html">iFolderサーバの管理</A><BR><A HREF="ifolders.html">iFolderの管理</A><BR><A HREF="users.html">ユーザアカウントの管理</A><BR><A HREF="reports.html#orphan" TARGET="_self">レポート </A></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="トップへジャンプ"></A></P><P>&nbsp;</P><P CLASS="copyright">商標記号（<SUP><SMALL>&reg;</SMALL></SUP>、<SUP><SMALL>TM</SMALL></SUP>など）は、Novellの商標を示し、アスタリスク（*）は、サードパーティの商標を示します。  詳細については、「<A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">保証と著作権</font></A>」を参照してください。</P></div><!-- This is the end of the Help Content layer. --> 
 </body>
 
 </html>

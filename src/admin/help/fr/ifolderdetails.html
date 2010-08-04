@@ -28,30 +28,29 @@
 <style type= "text/css" media="screen">
        <!--
        
-         body           {  font-family: Arial, Helvetica, Geneva;
-									background: white url('../../images/helphead_bg.gif') repeat-x;  }
+         body           {  font-family: Arial, Helvetica, Geneva; background: white
+url(../../images/helphead_bg.gif) repeat-x 0% 0% }
 		      
-         #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px;
-									width: 380px; visibility: visible }
+         #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px; width: 100%; visibility: visible }
 			   
-         #helpcontent    { position: absolute; top: 37px; left: 10px; 
-	                        width: 93%; visibility: visible }
- 
+         #helpcontent    { position: absolute; top: 37px; left: 10px; width: 93%; visibility: visible }
+        
        -->
      </style>
   
    
 
 
-</head>
-   
-   <!-- This is the start of the body. It underlays the help banner layer 
-         and help content layers. -->
-	 
-   <body bgcolor="white" marginwidth="0" marginheight="0" 
-         leftmargin="0" topmargin="0">
-<!-- This is the start of the Help Banner Layer --> <div id="headgraphic"> <img src="../../images/h1_help.gif" width="380" height="32"   border="0"></div><!-- This is end of the Help Banner Layer --> 
-<!-- This is the start of the Help Content Layer --> <div id="helpcontent"> <!-- The Page Heading uses CSS style "head3b". This creates an H3 header
+</head>   
+<!-- This is the start of the body. It underlays the help banner layer 
+         and help content layers. --> 
+<body bgcolor="white" marginwidth="0" marginheight="0"  leftmargin="0" topmargin="0">
+<!-- This is the start of the Help Banner Layer --> <div id="headgraphic"> 
+<table border="0" cellspacing="0" cellpadding="0" width="100%" height="26" style="margin:0px; padding:0px; background-image: url(../../images/header_pattern.gif); background-repeat: repeat-x;"> 
+<tr> <td width="221"><img src="help_title.gif" alt="Novell iFolder" border="0" width="221" height="26"></td><td align="right" width="100%" class="tabCell" style="background-image: url(../../images/header_background.gif); background-repeat: no-repeat;"> 
+</td></tr> </table></div><!-- This is end of the Help Banner Layer --> 
+<!-- This is the start of the Help Content Layer --> <div id="helpcontent" style="left: 10px; top: 38px"> 
+<!-- The Page Heading uses CSS style "head3b". This creates an H3 header
             with a line beneath it.
        --> 
   <h3 class="head3b">Gestion des d&eacute;tails iFolder</h3>
@@ -432,8 +431,10 @@
         </p>
     
         <P>Pour ajouter une extension de fichier au filtre d'exclusion, tapez l'extension (par ex. *.mpg), puis cliquez sur Ajouter pour appliquer le filtre. </P>
-        <P>Pour exclure un type de fichier des types de fichiers restreints, cochez la case en regard du nom du fichier, puis s&eacute;lectionnez le type de fichier et cliquez sur Supprimer.</P>
-         
+        <P>Pour exclure un type de fichier de la synchronisation, cochez la case en regard du type de fichier dans la liste des types de fichiers restreinte, puis cliquez sur Refuser.</P>
+        <P>Pour autoriser la synchronisation d'un type de fichier, cochez la case en regard du type de fichier dans la liste des types de fichiers restreinte, puis cliquez sur Autoriser.</P>
+        <P>Pour supprimer un type de fichier de la liste des types de fichier restreinte, cochez la case en regard du type de fichier, puis cliquez sur Supprimer.<br>
+        </P>
         <P>Valeur par d&eacute;faut : D&eacute;sactiv&eacute;, Autoriser tous les types de fichiers ou les param&egrave;tres syst&egrave;me.</P>
       </TD></TR>
 	

@@ -27,31 +27,31 @@
 <style type= "text/css" media="screen">
        <!--
        
-         body           {  font-family: Arial, Helvetica, Geneva;
-									background: white url('../../images/helphead_bg.gif') repeat-x;  }
+         body           {  font-family: Arial, Helvetica, Geneva; background: white
+url(../../images/helphead_bg.gif) repeat-x 0% 0% }
 		      
-         #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px;
-									width: 380px; visibility: visible }
+         #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px; width: 100%; visibility: visible }
 			   
-         #helpcontent    { position: absolute; top: 37px; left: 10px; 
-	                        width: 93%; visibility: visible }
- 
+         #helpcontent    { position: absolute; top: 37px; left: 10px; width: 93%; visibility: visible }
+        
        -->
-     </style>
+     </style> 
   
    
 
 
-</head>
-   
-   <!-- This is the start of the body. It underlays the help banner layer 
-         and help content layers. -->
-	 
-   <body bgcolor="white" marginwidth="0" marginheight="0" 
-         leftmargin="0" topmargin="0">
-<!-- This is the start of the Help Banner Layer --> <div id="headgraphic"> <img src="../../images/h1_help.gif" width="380" height="32"   border="0"></div><!-- This is end of the Help Banner Layer --> 
-<!-- This is the start of the Help Content Layer --> <div id="helpcontent"> <!-- The Page Heading uses CSS style "head3b". This creates an H3 header
+</head>   
+<!-- This is the start of the body. It underlays the help banner layer 
+         and help content layers. --> 
+<body bgcolor="white" marginwidth="0" marginheight="0"  leftmargin="0" topmargin="0">
+<!-- This is the start of the Help Banner Layer --> <div id="headgraphic"> 
+<table border="0" cellspacing="0" cellpadding="0" width="100%" height="26" style="margin:0px; padding:0px; background-image: url(../../images/header_pattern.gif); background-repeat: repeat-x;"> 
+<tr> <td width="221"><img src="help_title.gif" alt="Novell iFolder" border="0" width="221" height="26"></td><td align="right" width="100%" class="tabCell" style="background-image: url(../../images/header_background.gif); background-repeat: no-repeat;"> 
+</td></tr> </table></div><!-- This is end of the Help Banner Layer --> 
+<!-- This is the start of the Help Content Layer --> <div id="helpcontent" style="left: 10px; top: 38px"> 
+<!-- The Page Heading uses CSS style "head3b". This creates an H3 header
             with a line beneath it.
+      
        --> <h3 class="head3b">Gesti&oacute;n de los valores de LDAP para el sistema iFolder</h3>
   <p> Utilice esta interfaz para modificar los valores de LDAP del servidor Novell<SUP><SMALL>&reg;</SMALL></SUP> iFolder<SUP><SMALL>&reg;</SMALL></SUP> 3.7 o posterior de este dominio iFolder. </p>
   
@@ -88,15 +88,13 @@
         <P> cn=iFolderProxy,o=acme</P>
     <P> Aseg&uacute;rese de introducir tambi&eacute;n la nueva contrase&ntilde;a del usuario en el campo Contrase&ntilde;a del apoderado.</P>
         <P> Tras modificar el usuario apoderado, es posible que desee sincronizar inmediatamente las listas de usuarios LDAP utilizando la informaci&oacute;n del nuevo usuario apoderado de iFolder; de lo contrario, la informaci&oacute;n del usuario apoderado de iFolder no se probar&aacute; hasta que se lleve a cabo la siguiente sincronizaci&oacute;n programada de la lista de usuarios. Utilice la opci&oacute;n <i>Sincronizar ahora</i> que se encuentra en <i>Informaci&oacute;n de LDAP</i> de la p&aacute;gina Informaci&oacute;n del servidor para sincronizar la lista de usuarios de iFolder seg&uacute;n sea necesario y verificar los nuevos valores del usuario apoderado.</P>
-      </TD></TR>
+        </TD></TR>
 	<TR><TD VALIGN="TOP"><P>Contrase&ntilde;a del apoderado</P></TD><TD>
         <P>La contrase&ntilde;a se utiliza para autenticar al usuario apoderado de iFolder en el servidor LDAP cuando iFolder lleva a cabo la sincronizaci&oacute;n de los usuarios con el servidor LDAP. </P>
         <P>Para modificar la contrase&ntilde;a del usuario apoderado de iFolder, no es necesario que actualice el valor almacenado en los ajustes de LDAP para el sistema iFolder. Puede utilizar directamente esta interfaz para modificar la contrase&ntilde;a.</p>
         <P>Esta contrase&ntilde;a debe coincidir con la contrase&ntilde;a almacenada en el objeto eDirectory<sup><small>TM</small></sup> del usuario apoderado de iFolder. </P>
 <P>Especifique la contrase&ntilde;a dos veces y, a continuaci&oacute;n, haga clic en <i>Aceptar</i> para actualizar la contrase&ntilde;a almacenada en los valores de LDAP.</P>
-
-        
-      </TD></TR><TR><TD VALIGN="TOP">
+<P>Nota: Si iFolder est&aacute; configurado para usar apoderado com&uacute;n de OES, entonces la contrase&ntilde;a de usuario apoderado no se debe cambiar desde la consola Web Admin de iFolder.</P></TD></TR><TR><TD VALIGN="TOP">
         <P>Contextos LDAP</P>
       </TD><TD>
         <P> Especifique o edite los contenedores, grupos o usuarios LDAP en los que iFolder busca una lista de usuarios autorizados para asignar a los servidores iFolder de este servidor empresarial. Los contextos LDAP se especifican en formato LDAP. Por ejemplo: </P>

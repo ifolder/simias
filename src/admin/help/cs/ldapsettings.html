@@ -27,31 +27,31 @@
 <style type= "text/css" media="screen">
        <!--
        
-         body           {  font-family: Arial, Helvetica, Geneva;
-									background: white url('../../images/helphead_bg.gif') repeat-x;  }
+         body           {  font-family: Arial, Helvetica, Geneva; background: white
+url(../../images/helphead_bg.gif) repeat-x 0% 0% }
 		      
-         #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px;
-									width: 380px; visibility: visible }
+         #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px; width: 100%; visibility: visible }
 			   
-         #helpcontent    { position: absolute; top: 37px; left: 10px; 
-	                        width: 93%; visibility: visible }
- 
+         #helpcontent    { position: absolute; top: 37px; left: 10px; width: 93%; visibility: visible }
+        
        -->
-     </style>
+     </style> 
   
    
 
 
-</head>
-   
-   <!-- This is the start of the body. It underlays the help banner layer 
-         and help content layers. -->
-	 
-   <body bgcolor="white" marginwidth="0" marginheight="0" 
-         leftmargin="0" topmargin="0">
-<!-- This is the start of the Help Banner Layer --> <div id="headgraphic"> <img src="../../images/h1_help.gif" width="380" height="32"   border="0"></div><!-- This is end of the Help Banner Layer --> 
-<!-- This is the start of the Help Content Layer --> <div id="helpcontent"> <!-- The Page Heading uses CSS style "head3b". This creates an H3 header
+</head>   
+<!-- This is the start of the body. It underlays the help banner layer 
+         and help content layers. --> 
+<body bgcolor="white" marginwidth="0" marginheight="0"  leftmargin="0" topmargin="0">
+<!-- This is the start of the Help Banner Layer --> <div id="headgraphic"> 
+<table border="0" cellspacing="0" cellpadding="0" width="100%" height="26" style="margin:0px; padding:0px; background-image: url(../../images/header_pattern.gif); background-repeat: repeat-x;"> 
+<tr> <td width="221"><img src="help_title.gif" alt="Novell iFolder" border="0" width="221" height="26"></td><td align="right" width="100%" class="tabCell" style="background-image: url(../../images/header_background.gif); background-repeat: no-repeat;"> 
+</td></tr> </table></div><!-- This is end of the Help Banner Layer --> 
+<!-- This is the start of the Help Content Layer --> <div id="helpcontent" style="left: 10px; top: 38px"> 
+<!-- The Page Heading uses CSS style "head3b". This creates an H3 header
             with a line beneath it.
+      
        --> <h3 class="head3b">Spr&aacute;va nastaven&iacute; služby LDAP pro syst&eacute;m iFolder.</h3>
   <p> Toto rozhran&iacute; slouž&iacute; k &uacute;prav&aacute;m nastaven&iacute; služby LDAP pro vybran&yacute; server Novell<SUP><SMALL>&reg;</SMALL></SUP> iFolder<SUP><SMALL>&reg;</SMALL></SUP> 3.7 nebo novějš&iacute; v t&eacute;to dom&eacute;ně iFolder. </p>
   
@@ -88,15 +88,13 @@
         <P> cn=iFolderProxy,o=acme</P>
     <P> Nezapomeňte tak&eacute; do pole Heslo proxy zadat heslo uživatele.</P>
         <P> Po &uacute;prav&aacute;ch uživatele proxy můžete okamžitě na z&aacute;kladě nov&yacute;ch informac&iacute; služby iFolder prov&eacute;st synchronizaci seznamů uživatelů LDAP. V opačn&eacute;m př&iacute;padě nejsou informace uživatele proxy testov&aacute;ny dř&iacute;ve, než dojde k dalš&iacute; napl&aacute;novan&eacute; synchronizaci seznamu uživatelů. Prostřednictv&iacute;m možnosti<i>Synchronizovat</i> v č&aacute;sti <i>Podrobnosti služby LDAP</i> na str&aacute;nce Podrobnosti serveru můžete dle potřeby seznam uživatelů služby iFolder synchronizovat a ověřovat sv&aacute; nov&aacute; nastaven&iacute; uživatele proxy.</P>
-      </TD></TR>
+        </TD></TR>
 	<TR><TD VALIGN="TOP"><P>Heslo uživatele proxy</P></TD><TD>
         <P>Heslo se použ&iacute;v&aacute; k ověřen&iacute; uživatele proxy služby iFolder na serveru LDAP při synchronizaci uživatelů se serverem LDAP.  </P>
         <P>Ke změně hesla uživatele proxy aplikace iFolder nemus&iacute;te aktualizovat hodnotu uloženou v nastaven&iacute; LDAP pro syst&eacute;m iFolder. Ke změně hesla můžete použ&iacute;t př&iacute;mo toto rozhran&iacute;.</p>
         <P>Heslo se mus&iacute; shodovat  s heslem uložen&yacute;m v objektu služby eDirectory<sup><small>TM</small></sup> uživatele proxy služby iFolder. </P>
 <P>Dvakr&aacute;t zadejte heslo a proveďte jeho aktualizaci v nastaven&iacute; služby LDAP klepnut&iacute;m na tlač&iacute;tko <i>OK</i>.</P>
-
-        
-      </TD></TR><TR><TD VALIGN="TOP">
+<P>Pozn&aacute;mka: Je-li složka iFolder nakonfigurov&aacute;na pro použit&iacute; obecn&eacute;ho serveru proxy OES, nesm&iacute; b&yacute;t heslo uživatele serveru proxy změněno z konzoly aplikace iFolder Web Admin.</P></TD></TR><TR><TD VALIGN="TOP">
         <P>Kontexty služby LDAP</P>
       </TD><TD>
         <P> Zad&aacute;v&aacute;n&iacute; nebo &uacute;pravy kontejnerů, skupin nebo uživatelů služby LDAP, kdy služby iFolder vyhled&aacute;v&aacute; seznam ověřen&yacute;ch uživatelů, aby je mohla poskytnout serverům iFolder v tomto podnikov&eacute;m serveru. Kontexty služby LDAP jsou zad&aacute;v&aacute;ny ve form&aacute;tu LDAP. Např&iacute;klad: </P>

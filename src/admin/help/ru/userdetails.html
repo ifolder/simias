@@ -27,29 +27,31 @@
 <style type= "text/css" media="screen">
        <!--
        
-         body           {  font-family: Arial, Helvetica, Geneva;
-									background: white url('../../images/helphead_bg.gif') repeat-x;  }
+         body           {  font-family: Arial, Helvetica, Geneva; background: white
+url(../../images/helphead_bg.gif) repeat-x 0% 0% }
 		      
-         #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px;
-									width: 380px; visibility: visible }
+         #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px; width: 100%; visibility: visible }
 			   
-         #helpcontent    { position: absolute; top: 37px; left: 10px; 
-	                        width: 93%; visibility: visible }
-
+         #helpcontent    { position: absolute; top: 37px; left: 10px; width: 93%; visibility: visible }
+        
        -->
-     </style>
+     </style> 
   
    
 
 
-</head>
-   
-   <!-- This is the start of the body. It underlays the help banner layer 
-         and help content layers. -->
-	 
-   <body bgcolor="white" marginwidth="0" marginheight="0" 
-         leftmargin="0" topmargin="0">
-<!-- This is the start of the Help Banner Layer --> <div id="headgraphic"> <img src="../../images/h1_help.gif" width="380" height="32"   border="0"></div><!-- This is end of the Help Banner Layer --> 
+</head>   
+<!-- This is the start of the body. It underlays the help banner layer 
+         and help content layers. --> 
+<body bgcolor="white" marginwidth="0" marginheight="0"  leftmargin="0" topmargin="0">
+<!-- This is the start of the Help Banner Layer --> <div id="headgraphic"> 
+<table border="0" cellspacing="0" cellpadding="0" width="100%" height="26" style="margin:0px; padding:0px; background-image: url(../../images/header_pattern.gif); background-repeat: repeat-x;"> 
+<tr> <td width="221"><img src="help_title.gif" alt="Novell iFolder" border="0" width="221" height="26"></td><td align="right" width="100%" class="tabCell" style="background-image: url(../../images/header_background.gif); background-repeat: no-repeat;"> 
+</td></tr> </table></div><!-- This is end of the Help Banner Layer --> 
+<!-- This is the start of the Help Content Layer --> <div id="helpcontent" style="left: 10px; top: 38px"> 
+<!-- The Page Heading uses CSS style "head3b". This creates an H3 header
+            with a line beneath it.
+       -->  
 <!-- This is the start of the Help Content Layer --> 
 <div id="helpcontent" style="left: 13px; top: 35px"> 
   <H3><A NAME="userdetails"></A>Информация о пользователях </H3>
@@ -123,7 +125,7 @@
     
     <LI> 
       <P>Щелкните &quot;Запретить&quot; для запрета доступа к папке iFolder.</P>
-      <P> Сеанс пользователя, вошедшего в систему на момент установки данного значения, продолжается до тех пор, пока не будет выполнен выход. Данная политика вступает в силу при следующей попытке пользователя выполнить вход с использованием своей учетной записи. Чтобы блокировка вступила в силу немедленно, необходимо перезапустить сервисы Apache для сервера iFolder. При этом выполняется отключение всех активных сеансов, включая сеансы пользователей.</P>
+      <P> Сеанс пользователя, вошедшего в систему на момент установки данного значения, продолжается до тех пор, пока не будет выполнен выход. Данная политика вступает в силу при следующей попытке пользователя войти в систему с использованием своей учетной записи. Чтобы блокировка вступила в силу немедленно, необходимо перезапустить сервисы Apache для сервера iFolder. При этом выполняется отключение всех активных сеансов, включая сеансы пользователей.</P>
     </LI>
   </OL>
 <H4>Удаление папки iFolder</H4>
@@ -217,8 +219,11 @@
 </p>
     
         <P>Чтобы добавить расширение файла во включающий или исключающий фильтр, введите его (например *.mpg) и щелкните &quot;Добавить&quot;. </P>
-        <P>Чтобы отменить ограничение для определенного типа файла, установите рядом с ним флажок, а затем щелкните &quot;Разрешить&quot;.</P>
+        <P>Чтобы исключить файл из синхронизации, установите рядом с ним флажок в списке ограничений по типам файлов и щелкните кнопку &quot;Запретить&quot;.</P>
         
+        <p>Чтобы разрешить синхронизацию определенного типа файлов, установите рядом с ним флажок в списке ограничений по типам файлов и щелкните кнопку &quot;Разрешить&quot;.</p>
+        <p>Чтобы отменить ограничение для определенного типа файла, установите рядом с ним флажок, а затем щелкните кнопку &quot;Удалить&quot;.<br>
+        </p>
         <P>Значение по умолчанию: &quot;.DS_Store&quot; и &quot;Thumbs.db&quot;.</P>
       </TD></TR>
 	

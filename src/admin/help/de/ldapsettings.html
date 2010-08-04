@@ -27,31 +27,31 @@
 <style type= "text/css" media="screen">
        <!--
        
-         body           {  font-family: Arial, Helvetica, Geneva;
-									background: white url('../../images/helphead_bg.gif') repeat-x;  }
+         body           {  font-family: Arial, Helvetica, Geneva; background: white
+url(../../images/helphead_bg.gif) repeat-x 0% 0% }
 		      
-         #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px;
-									width: 380px; visibility: visible }
+         #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px; width: 100%; visibility: visible }
 			   
-         #helpcontent    { position: absolute; top: 37px; left: 10px; 
-	                        width: 93%; visibility: visible }
- 
+         #helpcontent    { position: absolute; top: 37px; left: 10px; width: 93%; visibility: visible }
+        
        -->
-     </style>
+     </style> 
   
    
 
 
-</head>
-   
-   <!-- This is the start of the body. It underlays the help banner layer 
-         and help content layers. -->
-	 
-   <body bgcolor="white" marginwidth="0" marginheight="0" 
-         leftmargin="0" topmargin="0">
-<!-- This is the start of the Help Banner Layer --> <div id="headgraphic"> <img src="../../images/h1_help.gif" width="380" height="32"   border="0"></div><!-- This is end of the Help Banner Layer --> 
-<!-- This is the start of the Help Content Layer --> <div id="helpcontent"> <!-- The Page Heading uses CSS style "head3b". This creates an H3 header
+</head>   
+<!-- This is the start of the body. It underlays the help banner layer 
+         and help content layers. --> 
+<body bgcolor="white" marginwidth="0" marginheight="0"  leftmargin="0" topmargin="0">
+<!-- This is the start of the Help Banner Layer --> <div id="headgraphic"> 
+<table border="0" cellspacing="0" cellpadding="0" width="100%" height="26" style="margin:0px; padding:0px; background-image: url(../../images/header_pattern.gif); background-repeat: repeat-x;"> 
+<tr> <td width="221"><img src="help_title.gif" alt="Novell iFolder" border="0" width="221" height="26"></td><td align="right" width="100%" class="tabCell" style="background-image: url(../../images/header_background.gif); background-repeat: no-repeat;"> 
+</td></tr> </table></div><!-- This is end of the Help Banner Layer --> 
+<!-- This is the start of the Help Content Layer --> <div id="helpcontent" style="left: 10px; top: 38px"> 
+<!-- The Page Heading uses CSS style "head3b". This creates an H3 header
             with a line beneath it.
+      
        --> <h3 class="head3b">Verwalten der LDAP-Einstellungen f&uuml;r das iFolder-System</h3>
   <p> Mit dieser Schnittstelle k&ouml;nnen Sie die LDAP-Einstellungen f&uuml;r den ausgew&auml;hlten Novell<SUP><SMALL>&reg;</SMALL></SUP> iFolder<SUP><SMALL>&reg;</SMALL></SUP>-Server der Version 3.7 oder h&ouml;her in dieser iFolder-Dom&auml;ne bearbeiten. </p>
   
@@ -88,15 +88,13 @@
         <P> cn=iFolderProxy,o=acme</P>
     <P> Vergessen Sie nicht, auch das Passwort des neuen Benutzers in das Feld &quot;Proxy-Passwort&quot;einzugeben.</P>
         <P> Nach der Bearbeitung des Proxy-Benutzers sollten Sie sofort anhand der neuen iFolder-Proxy-Daten die Listen der LDAP-Benutzer synchronisieren; anderenfalls werden die Proxy-Benutzer-Informationen erst bei der n&auml;chsten geplanten Synchronisierung der Benutzerliste getestet. Synchronisieren Sie bei Bedarf auf der Seite f&uuml;r die Serverdetails unter <i>LDAP-Details</i> mithilfe der Option <i>Jetzt synchronisieren</i> die Liste der iFolder-Benutzer und &uuml;berpr&uuml;fen Sie die neuen Einstellungen f&uuml;r den Proxy-Benutzer.</P>
-      </TD></TR>
+        </TD></TR>
 	<TR><TD VALIGN="TOP"><P>Proxy-Benutzer-Passwort&nbsp;</P></TD><TD>
         <P>Das Passwort dient zur Authentifizierung des iFolder-Proxy-Benutzers beim LDAP-Server, wenn iFolder die Benutzer mit dem LDAP-Server synchronisiert. </P>
         <P>Um das Passwort f&uuml;r den iFolder-Proxy-Benutzer zu bearbeiten, brauchen Sie den in den LDAP-Einstellungen f&uuml;r das iFolder-System gespeicherten Wert nicht zu aktualisieren. Sie k&ouml;nnen das Passwort direkt mit dieser Schnittstelle verwenden.</p>
         <P>Dieses Passwort muss mit dem im eDirectory<sup><small>TM</small></sup>-Objekt des iFolder-Proxy-Benutzers gespeicherten Passwort &uuml;bereinstimmen. </P>
 <P>Geben Sie das Passwort zweimal ein und klicken Sie dann auf <i>OK</i>, um das in den LDAP-Einstellungen gespeicherte Passwort zu aktualisieren.</P>
-
-        
-      </TD></TR><TR><TD VALIGN="TOP">
+<P>Hinweis: Wenn iFolder zur Verwendung des allgemeinen OES-Proxybenutzers konfiguriert ist, darf das Proxybenutzer-Passwort nicht in der iFolder-Web-Admin-Konsole ge&auml;ndert werden.</P></TD></TR><TR><TD VALIGN="TOP">
         <P>LDAP-Kontexte</P>
       </TD><TD>
         <P> Geben Sie die LDAP-Container, -Gruppen bzw. -Benutzer an (bzw. bearbeiten Sie sie), in denen iFolder nach einer Liste der autorisierten Benutzer zur Bereitstellung f&uuml;r iFolder-Server auf diesem Enterprise-Server suchen soll. LDAP-Kontexte werden im LDAP-Format eingegeben. Beispiel: </P>

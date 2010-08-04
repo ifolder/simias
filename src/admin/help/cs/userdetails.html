@@ -27,29 +27,31 @@
 <style type= "text/css" media="screen">
        <!--
        
-         body           {  font-family: Arial, Helvetica, Geneva;
-									background: white url('../../images/helphead_bg.gif') repeat-x;  }
+         body           {  font-family: Arial, Helvetica, Geneva; background: white
+url(../../images/helphead_bg.gif) repeat-x 0% 0% }
 		      
-         #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px;
-									width: 380px; visibility: visible }
+         #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px; width: 100%; visibility: visible }
 			   
-         #helpcontent    { position: absolute; top: 37px; left: 10px; 
-	                        width: 93%; visibility: visible }
-
+         #helpcontent    { position: absolute; top: 37px; left: 10px; width: 93%; visibility: visible }
+        
        -->
-     </style>
+     </style> 
   
    
 
 
-</head>
-   
-   <!-- This is the start of the body. It underlays the help banner layer 
-         and help content layers. -->
-	 
-   <body bgcolor="white" marginwidth="0" marginheight="0" 
-         leftmargin="0" topmargin="0">
-<!-- This is the start of the Help Banner Layer --> <div id="headgraphic"> <img src="../../images/h1_help.gif" width="380" height="32"   border="0"></div><!-- This is end of the Help Banner Layer --> 
+</head>   
+<!-- This is the start of the body. It underlays the help banner layer 
+         and help content layers. --> 
+<body bgcolor="white" marginwidth="0" marginheight="0"  leftmargin="0" topmargin="0">
+<!-- This is the start of the Help Banner Layer --> <div id="headgraphic"> 
+<table border="0" cellspacing="0" cellpadding="0" width="100%" height="26" style="margin:0px; padding:0px; background-image: url(../../images/header_pattern.gif); background-repeat: repeat-x;"> 
+<tr> <td width="221"><img src="help_title.gif" alt="Novell iFolder" border="0" width="221" height="26"></td><td align="right" width="100%" class="tabCell" style="background-image: url(../../images/header_background.gif); background-repeat: no-repeat;"> 
+</td></tr> </table></div><!-- This is end of the Help Banner Layer --> 
+<!-- This is the start of the Help Content Layer --> <div id="helpcontent" style="left: 10px; top: 38px"> 
+<!-- The Page Heading uses CSS style "head3b". This creates an H3 header
+            with a line beneath it.
+       -->  
 <!-- This is the start of the Help Content Layer --> 
 <div id="helpcontent" style="left: 13px; top: 35px"> 
   <H3><A NAME="userdetails"></A>Podrobnosti o uživateli </H3>
@@ -217,8 +219,11 @@
 </p>
     
         <P>Chcete-li přidat př&iacute;ponu souboru k filtru pro vyloučen&iacute;, napište př&iacute;ponu (např. *.mpg), potom klepnut&iacute;m na tlač&iacute;tko Přidat filtr aktivujte. </P>
-        <P>Chcete-li vyjmout typ souboru z omezen&yacute;ch typů souborů, zaškrtněte zaškrt&aacute;vac&iacute; pol&iacute;čko vedle tohoto typu souboru a klepněte na tlač&iacute;tko Povolit.</P>
+        <P>Chcete-li ze synchronizace vyloučit typ souborů, zaškrtněte v seznamu zak&aacute;zan&yacute;ch typů souborů pol&iacute;čko vedle tohoto typu souborů a klepněte na tlač&iacute;tko Odm&iacute;tnout.</P>
         
+        <p>Chcete-li povolit synchronizaci typu souborů, zaškrtněte v seznamu zak&aacute;zan&yacute;ch typů souborů pol&iacute;čko vedle tohoto typu souborů a klepněte na tlač&iacute;tko Povolit.</p>
+        <p>Chcete-li odstranit typ souboru ze seznamu zak&aacute;zan&yacute;ch typů souborů, zaškrtněte pol&iacute;čko vedle tohoto typu souboru a klepněte na tlač&iacute;tko Odstranit.<br>
+        </p>
         <P>V&yacute;choz&iacute; hodnota: .DS_Store a Thumbs.db</P>
       </TD></TR>
 	

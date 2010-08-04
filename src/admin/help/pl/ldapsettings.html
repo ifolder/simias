@@ -27,31 +27,31 @@
 <style type= "text/css" media="screen">
        <!--
        
-         body           {  font-family: Arial, Helvetica, Geneva;
-									background: white url('../../images/helphead_bg.gif') repeat-x;  }
+         body           {  font-family: Arial, Helvetica, Geneva; background: white
+url(../../images/helphead_bg.gif) repeat-x 0% 0% }
 		      
-         #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px;
-									width: 380px; visibility: visible }
+         #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px; width: 100%; visibility: visible }
 			   
-         #helpcontent    { position: absolute; top: 37px; left: 10px; 
-	                        width: 93%; visibility: visible }
- 
+         #helpcontent    { position: absolute; top: 37px; left: 10px; width: 93%; visibility: visible }
+        
        -->
-     </style>
+     </style> 
   
    
 
 
-</head>
-   
-   <!-- This is the start of the body. It underlays the help banner layer 
-         and help content layers. -->
-	 
-   <body bgcolor="white" marginwidth="0" marginheight="0" 
-         leftmargin="0" topmargin="0">
-<!-- This is the start of the Help Banner Layer --> <div id="headgraphic"> <img src="../../images/h1_help.gif" width="380" height="32"   border="0"></div><!-- This is end of the Help Banner Layer --> 
-<!-- This is the start of the Help Content Layer --> <div id="helpcontent"> <!-- The Page Heading uses CSS style "head3b". This creates an H3 header
+</head>   
+<!-- This is the start of the body. It underlays the help banner layer 
+         and help content layers. --> 
+<body bgcolor="white" marginwidth="0" marginheight="0"  leftmargin="0" topmargin="0">
+<!-- This is the start of the Help Banner Layer --> <div id="headgraphic"> 
+<table border="0" cellspacing="0" cellpadding="0" width="100%" height="26" style="margin:0px; padding:0px; background-image: url(../../images/header_pattern.gif); background-repeat: repeat-x;"> 
+<tr> <td width="221"><img src="help_title.gif" alt="Novell iFolder" border="0" width="221" height="26"></td><td align="right" width="100%" class="tabCell" style="background-image: url(../../images/header_background.gif); background-repeat: no-repeat;"> 
+</td></tr> </table></div><!-- This is end of the Help Banner Layer --> 
+<!-- This is the start of the Help Content Layer --> <div id="helpcontent" style="left: 10px; top: 38px"> 
+<!-- The Page Heading uses CSS style "head3b". This creates an H3 header
             with a line beneath it.
+      
        --> <h3 class="head3b">Zarządzanie ustawieniami LDAP systemu iFolder</h3>
   <p> Ten interfejs służy do modyfikowania ustawień LDAP dla wybranego serwera z programem Novell<SUP><SMALL>&reg;</SMALL></SUP> iFolder<SUP><SMALL>&reg;</SMALL></SUP> 3.7 lub nowszym w tej domenie iFolder. </p>
   
@@ -88,15 +88,13 @@
         <P> cn=iFolderProxy,o=acme</P>
     <P> Upewnij się, że w polu Hasło proxy wprowadzono hasło nowego użytkownika.</P>
         <P> Po zmodyfikowaniu użytkownika proxy można natychmiast zsynchronizować listę użytkownik&oacute;w LDAP przy użyciu informacji o nowym proxy systemu iFolder. W przeciwnym przypadku informacje o użytkowniku proxy zostaną przetestowane dopiero podczas zaplanowanej synchronizacji listy użytkownik&oacute;w. Użyj opcji <i>Synchronizuj teraz</i> znajdującej się w polu <i>Szczeg&oacute;ły LDAP</i> na stronie Szczeg&oacute;ły serwera w celu synchronizacji listy użytkownik&oacute;w iFolderu na żądanie oraz sprawdzenia nowych ustawień użytkownika proxy.</P>
-      </TD></TR>
+        </TD></TR>
 	<TR><TD VALIGN="TOP"><P>Hasło użytkownika proxy</P></TD><TD>
         <P>Hasło używane do uwierzytelniania użytkownika proxy systemu iFolder w serwerze LDAP podczas synchronizowania użytkownik&oacute;w z serwerem LDAP. </P>
         <P>Aby zmodyfikować hasło użytkownika proxy systemu iFolder, nie trzeba aktualizować wartości przechowywanych w ustawieniach LDAP dla systemu iFolder. Tego interfejsu można użyć do bezpośredniej modyfikacji hasła.</p>
         <P>To hasło musi odpowiadać hasłu przechowywanemu w obiekcie eDirectory<sup><small>TM</small></sup> użytkownika proxy systemu iFolder. </P>
 <P>Podaj hasło dwukrotnie, a następnie kliknij przycisk <i>OK</i>, aby uaktualnić hasło przechowywane w ustawieniach LDAP.</P>
-
-        
-      </TD></TR><TR><TD VALIGN="TOP">
+<P>Uwaga: jeśli program iFolder jest skonfigurowany do używania wsp&oacute;lnego pełnomocnika systemu OES, hasła pełnomocnika nie można zmieniać z poziomu konsoli iFolder Web Admin.</P></TD></TR><TR><TD VALIGN="TOP">
         <P>Kontekst LDAP</P>
       </TD><TD>
         <P> Określ lub dokonaj edycji kontener&oacute;w LDAP, grup lub użytkownik&oacute;w, wśr&oacute;d kt&oacute;rych system iFolder wyszukuje listę uwierzytelnionych użytkownik&oacute;w dostarczaną serwerom iFolder na serwerze firmowym. Konteksty LDAP są wprowadzane w formacie LDAP. Na przykład: </P>
