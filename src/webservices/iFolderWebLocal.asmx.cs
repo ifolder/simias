@@ -1021,7 +1021,11 @@ namespace iFolder.WebService
 			if( preference == 0)
 			{
 				if(system != 0)
-				    return system;
+				   	if(group != 0){
+						return group|system;
+					} else {
+    					return system;
+					}
 				else if(group != 0)
 				    return group;
 				return user;
