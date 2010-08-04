@@ -342,25 +342,25 @@ namespace Novell.iFolderWeb.Admin
 				{
 					encryption.Enabled = false;
 					Session["EncryptionWasChecked"] = "true";
-                			if( (DerivedStatus & (int)Encryption.EnforceEncrypt) == (int) Encryption.EnforceEncrypt)
-                			{
-                    				encryption.Checked = enforceEncryption.Checked = true;
-                    				enforceEncryption.Enabled = true;
-               				}
+        			if( (DerivedStatus & (int)Encryption.EnforceEncrypt) == (int) Encryption.EnforceEncrypt)
+        			{
+            				encryption.Checked = enforceEncryption.Checked = true;
+            				enforceEncryption.Enabled = true;
+       				}
 					else
-                			{
-                  				encryption.Checked = true; 
-                    				enforceEncryption.Checked = false;
-                     				enforceEncryption.Enabled = true;
-                    			}
-                    			// next check for bug id 296014 , where if this user has created an encrypted iFolder then disable 
+        			{
+          				encryption.Checked = true; 
+            			enforceEncryption.Checked = false;
+             			enforceEncryption.Enabled = true;
+            		}
+        			// next check for bug id 296014 , where if this user has created an encrypted iFolder then disable 
 					// the encryption check box for him. 
-                    			if(IsUser)
-                    			{
-                    	
-                    				if(web.IsPassPhraseSetForUser(Request.Params["ID"]))
-                    					encryption.Enabled = false;
-                    			}	
+        			if(IsUser)
+        			{
+        	
+        				if(web.IsPassPhraseSetForUser(Request.Params["ID"]))
+        					encryption.Enabled = false;
+        			}	
 				}
 				else if((DerivedStatus & (int) Encryption.EnforceSSL) == (int) Encryption.EnforceSSL)
 				{
@@ -379,22 +379,27 @@ namespace Novell.iFolderWeb.Admin
 		{
 			//Preference is not done
 			if( preference == 0)
-            		{
-            			if(system != 0)
-            				return system;
+    		{
+    			if(system != 0) {
+					if(group != 0){
+						return group|system;
+					} else {
+    					return system;
+					}
+				}
 				else if(group != 0)
 					return group;
-            			return user;
-            		}
-            		else
-            		{
-            			if(user != 0)
-            				return user;
+    			return user;
+    		}
+    		else
+    		{
+    			if(user != 0)
+    				return user;
 				else if (group != 0)
 					return group;
 				else
-            			return system;
-            		}
+    				return system;
+    		}
 		}
 
 		
