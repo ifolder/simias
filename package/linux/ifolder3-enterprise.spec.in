@@ -110,6 +110,9 @@ echo "Run %{prefix}/bin/simias-server-setup to configure the server"
 %files
 %defattr(755,root,root)
 %{prefix}/bin/*
+%attr(750,root,root) %{prefix}/bin/iFolder_update_proxy_cred_store
+%attr(750,root,root) %{prefix}/bin/iFolder_retrieve_proxy_creds
+%attr(750,root,root) %{prefix}/bin/iFolder_proxy_rights_assign
 %dir  %{sysconfdir}/simias/
 %dir  %{sysconfdir}/simias/apache
 %dir  %{sysconfdir}/simias/apache/default
