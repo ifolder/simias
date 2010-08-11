@@ -154,6 +154,10 @@ namespace Restore
 		/// Failed to restore iFolder policy
 		/// </summary>
 		PolicyRestoreFailed,
+		/// <summary>
+        /// Invalid Path Specified 
+        /// </summary>
+          InvalidBackupPath,
 	}
 
 	public enum Command
@@ -2169,6 +2173,21 @@ namespace Restore
 			Console.WriteLine("|               The backup datapath does not exist                                       |");
 			return (int)status.DataPathDoesNotExist;
 		}
+		else {
+		//Check for mandatory files in the given simias path
+				string simiasPath = DataPath+"/simias";
+				if( !Directory.Exists(simiasPath)) {
+				Console.WriteLine("|		Error: simias directory does not exist at the specified path: {0} .|",DataPath);
+					return (int)status.InvalidBackupPath;
+				}
+				string flaimdb= DataPath+"/simias/FlaimSimias.db";
+				if(!File.Exists (flaimdb) ){
+
+				Console.WriteLine("|		Error: iFolder simias database ({0}) does not exist at the specified path.|",flaimdb);
+					return (int)status.InvalidBackupPath;
+				}
+
+		}
 	        if( Operation == (int)Command.Restore )
                 {
                         if(relativePath != string.Empty  && relativePath != null) {
@@ -3055,8 +3074,11 @@ namespace Restore
                                         case (int)status.Failed:
                                                 Console.WriteLine("\n|               Restore Operation failed.                                                |");
                                                 break;
-                                        case (int)status.InvalidInput:
-                                                Console.WriteLine("\n|               Restore Operation failed,Input data is Invalid.                          |");
+										 case (int)status.InvalidInput:
+                                              Console.WriteLine("\n|               Restore Operation failed,Input data is Invalid.                          |");
+                                        break;
+                                        case (int)status.InvalidBackupPath:
+							                  Console.WriteLine("|                 Invalid path specified for option --path              |        ");   
                                                 break;
                                         case (int)status.InvalidFormat:
                                                 Console.WriteLine("\n|               Restore Operation failed , Input data Format is invalid.                 |");
