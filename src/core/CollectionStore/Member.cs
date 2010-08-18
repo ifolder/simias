@@ -1607,7 +1607,7 @@ namespace Simias.Storage
                         {
                             retValue = svc.ChangePasswordOnServer(DomainID, UserID, OldPassword, NewPassword);
                         }
-                        catch (Exception ex)
+                        catch (System.Net.WebException ex)
                         {
                             if (ex.Message.IndexOf("Unable to connect") != -1)
                             {
