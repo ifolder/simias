@@ -34,7 +34,7 @@ Requires:       novell-ifolder-mono >= 2.4
 Requires:       log4net >= 1.2.9 
 Requires:       novell-NLDAPbase
 #Obsoletes:      %{name} < %{version}
-Version:        3.8.2.@@BUILDNUM@@.1
+Version:        3.8.1.@@BUILDNUM@@.1
 Release:        0.2
 Summary:        Novell iFolder 3 Enterprise
 Source:         ifolder3-enterprise.tar.gz
