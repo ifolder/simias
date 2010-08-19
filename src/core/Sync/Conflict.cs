@@ -364,13 +364,43 @@ public class Conflict
 		// we may be resolving an update conflict on a node that has a naming conflict
 		string path = NonconflictedPath, fncpath = null;
 		FileInfo fInfo = null;
+		Log.log.Debug("Resolve conflict file ServerChangesWin");
 		if (path != null)
 		{
 			try
 			{
-				File.Delete(path);
-				File.Move(UpdateConflictPath, path);
-				fInfo = new FileInfo(path);
+				FileNode fileNode = (FileNode)this.node;
+				string fileName = fileNode.GetFullPath(collection);
+
+				Log.log.Debug("Resolve conflict file name :{0}", fileName);
+				
+				FileNode CNode = (FileNode)this.conflictNode;
+				string Conflictname = CNode.GetFullPath(collection);
+				
+				Log.log.Debug("Resolve conflict Conflict file name :{0}", Conflictname);
+				Log.log.Debug("Resolve conflict Delete File	:{0}", fileName);
+
+				//Delete this client's(local) file
+				File.Delete(fileName);
+				Log.log.Debug("Resolve conflict UpdateConflictPath 	:{0}", UpdateConflictPath);
+				if(String.Compare(fileName, Conflictname, false) != 0)
+				{
+					Log.log.Debug("Resolve conflict file nameand conflict file name match not found between '{0}'....to.....'{1}'", fileName, Conflictname);
+					Log.log.Debug("Resolve conflict move from '{0}' ....to....'{1}'", UpdateConflictPath, Conflictname);
+					//Move the server file //use the server name
+					File.Move(UpdateConflictPath, Conflictname);
+					fInfo = new FileInfo(Conflictname);
+				}
+				else
+				{
+					Log.log.Debug("Resolve conflict file nameand conflict file name match found between '{0}'....to.....'{1}'", fileName, fileName);
+					Log.log.Debug("Resolve conflict move from '{0}' ....to....'{1}'", UpdateConflictPath, fileName);
+					//Move the server file	use the lcoal name
+					File.Move(UpdateConflictPath, fileName);
+					fInfo = new FileInfo(fileName);
+				}
+				
+				Log.log.Debug("Resolve conflict  server changed has won");
 			}
 			catch (Exception ne)
 			{
@@ -383,6 +413,7 @@ public class Conflict
 		node = collection.ResolveCollision(node, conflictNode.LocalIncarnation, false);
 		if (fncpath != null)
 		{
+			Log.log.Debug("Resolve conflict(we may be resolving an update conflict on a node that has a naming conflict) fncpath: {0}", fncpath);
 			node = CreateNameConflict(collection, node, path);
 		}
 		if (fInfo != null)
