@@ -222,6 +222,15 @@ namespace Simias.Authentication
 					break;
 				}
 
+				case StatusCodes.InvalidCertificate:
+				{
+					ctx.Response.StatusCode = 401;
+					ctx.Response.AddHeader(
+						SimiasErrorHeader,
+						StatusCodes.InvalidCertificate.ToString() );
+					break;
+				}
+
 				case StatusCodes.InvalidPassword:
 				{
 					ctx.Response.StatusCode = 401;

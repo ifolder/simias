@@ -9,6 +9,12 @@ SimiasServerSetup_CSFILES = \
 	$(srcdir)/Prompt.cs \
 	$(srcdir)/LdapUtility.cs
 	
+CertUpdate_CSFILES = \
+	$(srcdir)/CertUpdate.cs \
+	$(srcdir)/Options.cs \
+	$(srcdir)/Prompt.cs \
+	$(srcdir)/LdapUtility.cs
+
 iFolderWebSetup_CSFILES = \
 	$(srcdir)/iFolderWebSetup.cs \
 	$(srcdir)/HostAdmin.cs \
@@ -28,6 +34,7 @@ iFolderProxySetup_CSFILES = \
 
 	
 SimiasServerSetup_CSFILES_CSC := $(subst /,$(SEP),$(SimiasServerSetup_CSFILES))
+CertUpdate_CSFILES_CSC := $(subst /,$(SEP),$(CertUpdate_CSFILES))
 iFolderWebSetup_CSFILES_CSC := $(subst /,$(SEP),$(iFolderWebSetup_CSFILES))
 iFolderAdminSetup_CSFILES_CSC := $(subst /,$(SEP),$(iFolderAdminSetup_CSFILES))
 iFolderProxySetup_CSFILES_CSC := $(subst /,$(SEP),$(iFolderProxySetup_CSFILES))
@@ -54,11 +61,17 @@ else
 	SimiasServerSetup_LIBS := $(SimiasServerSetup_LIBS1)
 endif
 
-EXTRA_DIST = $(SimiasServerSetup_CSFILES) $(srcdir)/iFolderWebSetup.cs iFolderAdminSetup.cs iFolderProxySetup.cs utility.cs simias-server-setup.in ifolder_mono_setup.in ifolder_cluster_setup ifolder_shutdown ifolder_start simias-server-setup.cmd ifolder-mod-mono-server2.in App.ico SimiasServerSetup.exe.config iFolderWebSetup.exe.config ifolder-web-setup.in iFolderAdminSetup.exe.config ifolder-admin-setup.in AssemblyInfo.cs.in novell-ifolder3.conf.in iFolder_proxy_rights_assign.in iFolder_retrieve_proxy_creds.in iFolder_update_proxy_cred_store.in
+EXTRA_DIST = $(SimiasServerSetup_CSFILES) $(srcdir)/iFolderWebSetup.cs iFolderAdminSetup.cs iFolderProxySetup.cs utility.cs simias-server-setup.in ifolder_mono_setup.in ifolder_cluster_setup ifolder_shutdown ifolder_start simias-server-setup.cmd ifolder-mod-mono-server2.in App.ico SimiasServerSetup.exe.config iFolderWebSetup.exe.config ifolder-web-setup.in iFolderAdminSetup.exe.config ifolder-admin-setup.in AssemblyInfo.cs.in novell-ifolder3.conf.in iFolder_proxy_rights_assign.in iFolder_retrieve_proxy_creds.in iFolder_update_proxy_cred_store.in ldap-cert-update.in 
 
 AssemblyInfo.cs: $(srcdir)/AssemblyInfo.cs.in Makefile
 	sed -e 's,@_VERSION_@,@VERSION@,g' $< > $@
 	chmod +x $@
+
+ldap-cert-update: $(srcdir)/ldap-cert-update.in
+if !WINDOWS
+	sed -e 's,@_webbindir_@,@webbindir@,g' -e 's,@_bindir_@,@bindir@,g' $< > $@
+	chmod +x $@
+endif		
 
 ifolder-mod-mono-server2: $(srcdir)/ifolder-mod-mono-server2.in
 if !WINDOWS
@@ -119,14 +132,20 @@ DOC_FILE_CMD = /doc:$(DOC_FILE)
 DOC_FILE_CLEAN = *.doc.xml
 endif
 
-all: SimiasServerSetup.exe iFolderWebSetup.exe iFolderAdminSetup.exe iFolderProxySetup.exe novell-ifolder3.conf 
+all: SimiasServerSetup.exe iFolderWebSetup.exe iFolderAdminSetup.exe iFolderProxySetup.exe CertUpdate.exe novell-ifolder3.conf 
 
 SimiasServerSetup.exe: $(SimiasServerSetup_CSFILES) $(SimiasServerSetup_RESOURCES) simias-server-setup ifolder-mod-mono-server2 ifolder_mono_setup ifolder_cluster_setup ifolder_shutdown ifolder_start
 	$(CSC) /out:$@ $(CSCFLAGS) $(SimiasServerSetup_FLAGS) $(SIMIAS_LIBS) $(SimiasServerSetup_LIBS:%=/r:%) $(SimiasServerSetup_LIBPATH:%=/lib:%) $(SimiasServerSetup_RESOURCES:%=$(ICON_FLAG)%) $(SimiasServerSetup_CSFILES_CSC) $(DOC_FILE_CMD)
+
+CertUpdate.exe: $(CertUpdate_CSFILES) ldap-cert-update
+	$(CSC) /out:$@ $(CSCFLAGS) $(SimiasServerSetup_FLAGS) $(SIMIAS_LIBS) $(SimiasServerSetup_LIBS:%=/r:%) $(SimiasServerSetup_LIBPATH:%=/lib:%) $(CertUpdate_CSFILES_CSC) $(DOC_FILE_CMD)
+
 iFolderWebSetup.exe: $(iFolderWebSetup_CSFILES) $(SimiasServerSetup_RESOURCES) ifolder-web-setup
 	$(CSC) /out:$@ $(CSCFLAGS) $(SimiasServerSetup_FLAGS) $(SIMIAS_LIBS) $(SimiasServerSetup_LIBS:%=/r:%) $(SimiasServerSetup_LIBPATH:%=/lib:%) $(SimiasServerSetup_RESOURCES:%=$(ICON_FLAG)%) $(iFolderWebSetup_CSFILES_CSC) $(DOC_FILE_CMD)
+
 iFolderAdminSetup.exe: $(iFolderAdminSetup_CSFILES) $(SimiasServerSetup_RESOURCES) ifolder-admin-setup
 	$(CSC) /out:$@ $(CSCFLAGS) $(SimiasServerSetup_FLAGS) $(SIMIAS_LIBS) $(SimiasServerSetup_LIBS:%=/r:%) $(SimiasServerSetup_LIBPATH:%=/lib:%) $(SimiasServerSetup_RESOURCES:%=$(ICON_FLAG)%) $(iFolderAdminSetup_CSFILES_CSC) $(DOC_FILE_CMD)
+
 iFolderProxySetup.exe: $(iFolderProxySetup_CSFILES) $(SimiasServerSetup_RESOURCES) iFolder_proxy_rights_assign iFolder_retrieve_proxy_creds iFolder_update_proxy_cred_store  
 	$(CSC) /out:$@ $(CSCFLAGS) $(SimiasServerSetup_FLAGS) $(SIMIAS_LIBS) $(SimiasServerSetup_LIBS:%=/r:%) $(SimiasServerSetup_LIBPATH:%=/lib:%) $(SimiasServerSetup_RESOURCES:%=$(ICON_FLAG)%) $(iFolderProxySetup_CSFILES_CSC) $(DOC_FILE_CMD)
 
@@ -146,11 +165,13 @@ install-exec-local: all $(DATA_FILES)
 	$(INSTALL_PROGRAM) iFolderAdminSetup.exe $(DEBUG_FILES) $(DESTDIR)$(bindir)
 	$(INSTALL_PROGRAM) iFolderAdminSetup.exe.config $(DEBUG_FILES) $(DESTDIR)$(bindir)
 	$(INSTALL_PROGRAM) iFolderProxySetup.exe $(DEBUG_FILES) $(DESTDIR)$(bindir)
+	$(INSTALL_PROGRAM) CertUpdate.exe $(DEBUG_FILES) $(DESTDIR)$(bindir)
 if WINDOWS
 	$(INSTALL_PROGRAM) simias-server-setup.cmd $(DESTDIR)$(bindir)
 	$(INSTALL_PROGRAM) ifolder-web-setup.cmd $(DESTDIR)$(bindir)
 	$(INSTALL_PROGRAM) ifolder-admin-setup.cmd $(DESTDIR)$(bindir)
 else
+	$(INSTALL_PROGRAM) ldap-cert-update $(DESTDIR)$(bindir)
 	$(INSTALL_PROGRAM) simias-server-setup $(DESTDIR)$(bindir)
 	$(INSTALL_PROGRAM) ifolder_mono_setup $(DESTDIR)$(bindir)
 	$(INSTALL_PROGRAM) ifolder_cluster_setup $(DESTDIR)$(bindir)
@@ -175,8 +196,10 @@ uninstall-local:
 	cd $(DESTDIR)$(bindir); rm -f ifolder_cluster_setup
 	cd $(DESTDIR)$(bindir); rm -f ifolder_shutdown
 	cd $(DESTDIR)$(bindir); rm -f ifolder_start
+	cd $(DESTDIR)$(bindir); rm -f CertUpdate.exe $(DEBUG_FILES)
 	cd $(DESTDIR)$(bindir); rm -f SimiasServerSetup.exe.config
 	cd $(DESTDIR)$(bindir); rm -f iFolderWebSetup.exe $(DEBUG_FILES)
+	cd $(DESTDIR)$(bindir); rm -f ldap-cert-update
 	cd $(DESTDIR)$(bindir); rm -f ifolder-web-setup ifolder-web-setup.cmd
 	cd $(DESTDIR)$(bindir); rm -f iFolderWebSetup.exe.config
 	cd $(DESTDIR)$(bindir); rm -f iFolderAdminSetup.exe $(DEBUG_FILES)
@@ -188,7 +211,7 @@ uninstall-local:
 
 installcheck-local: install
 	
-CLEAN_FILES = simias-server-setup ifolder_mono_setup ifolder-mod-mono-server2 ifolder-admin-setup ifolder-web-setup SimiasServerSetup.exe iFolderWebSetup.exe iFolderAdminSetup.exe iFolderProxySetup.exe iFolder_proxy_rights_assign iFolder_retrieve_proxy_creds iFolder_update_proxy_cred_store $(DOC_FILE_CLEAN) AssemblyInfo.cs
+CLEAN_FILES = simias-server-setup ifolder_mono_setup ifolder-mod-mono-server2 ifolder-admin-setup ifolder-web-setup SimiasServerSetup.exe iFolderWebSetup.exe iFolderAdminSetup.exe iFolderProxySetup.exe iFolder_proxy_rights_assign iFolder_retrieve_proxy_creds iFolder_update_proxy_cred_store $(DOC_FILE_CLEAN) AssemblyInfo.cs CertUpdate.exe ldap-cert-update
 
 clean-local:
 	rm -rf $(CLEAN_FILES) $(COMMON_CLEAN_FILES)

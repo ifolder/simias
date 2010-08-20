@@ -231,6 +231,9 @@
     <data name="LOGIN.TRUSTFAILED">
         <value>The trust between the iFolder Server and iFolder Web Access failed.</value>
     </data>
+    <data name="LOGIN.INVALIDCERTIFICATE">
+        <value>Failed to authenticate,  problem with Ldap or iFolder server certificate</value>
+    </data>
     <data name="MESSAGE.WARNING">
         <value>Warning:</value>
     </data>

@@ -648,7 +648,7 @@ namespace Novell.iFolderApp.Web
 					switch(error)
 					{
 						case "InvalidCertificate":
-							Message.Text = GetString("LOGIN.TRUSTFAILED");
+							Message.Text = GetString("LOGIN.INVALIDCERTIFICATE");
 							break;
 
 						case "InvalidCredentials":

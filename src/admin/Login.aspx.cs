@@ -469,16 +469,7 @@ namespace Novell.iFolderWeb.Admin
 				}
 				catch ( Exception ex )
 				{
-					if ( TopNavigation.GetExceptionType( ex ) == "AuthorizationException" )
-					{
-						MessageType.Text = rm.GetString("LOGINERROR");
-						MessageText.Text = rm.GetString( "ERRORNOTADMINISTRATOR" );
-						return;
-					}
-					else
-					{
-						throw ex;
-					}
+					throw ex;
 				}
 				iFolderSystem system = web.GetSystem();
 				Session["System"] = system.Name;
@@ -527,7 +518,6 @@ namespace Novell.iFolderWeb.Admin
 			{
 				// log access
 				log.Info(Context, ex, "Login Failed");
-
 				throw ex;
 			}
 		}
@@ -611,7 +601,7 @@ namespace Novell.iFolderWeb.Admin
 				switch(error)
 				{
 					case "InvalidCertificate":
-						MessageText.Text = rm.GetString("LOGINTRUSTFAILED");
+						MessageText.Text = rm.GetString("INVALIDCERTIFICATE");
 						break;
 
 					case "InvalidCredentials":
@@ -703,6 +693,9 @@ namespace Novell.iFolderWeb.Admin
 						break;
 				}
 			}
+			Response.Redirect( String.Format( "Login.aspx?MessageType={0}&MessageText={1}",
+			Context.Server.UrlEncode( MessageType.Text ),
+			Context.Server.UrlEncode( MessageText.Text ) ) );
 
 			return result;
 		}
