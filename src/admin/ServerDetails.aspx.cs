@@ -216,7 +216,7 @@ namespace Novell.iFolderWeb.Admin
 		/// <summary>
 		/// LDAP Proxy User
 		/// </summary>
-		protected Literal LdapProxyUser;
+		protected Label LdapProxyUser;
 
 		/// <summary>
 		/// LDAP SSL
@@ -226,7 +226,7 @@ namespace Novell.iFolderWeb.Admin
 		/// <summary>
 		/// External Identity Sync Interval
 		/// </summary>
-		protected Literal LdapSearchContext;
+		protected Label LdapSearchContext;
 
 		/// <summary>
 		/// Member Delete Grace Interval
