@@ -510,7 +510,11 @@ namespace Novell.iFolderWeb.Admin
                                         	remoteweb.GetAuthenticatedUser();
                                 		string SelectedUser = pListOfSelectedUsers[index++];
 						if(SelectedUser != null && SelectedUser != String.Empty && SelectedUser != "")
+						{
                                         		remoteweb.ReProvisionUsersToServer(ServerName, SelectedUser);
+							// break from inner forloop because one user is reprovisioned to one server, so go to next user.
+							break;
+						}
                                 	}
                         	}
                         }
