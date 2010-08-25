@@ -210,12 +210,6 @@ namespace Novell.iFolderWeb.Admin
 		/// </summary>
 		protected HtmlGenericControl CurrentTab;
 
-
-		/// <summary>
-		/// iFolder delete button control.
-		/// </summary>
-		//protected Button DeleteiFolderButton;
-
 		/// <summary>
 		/// iFolder disable button control.
 		/// </summary>
@@ -225,6 +219,11 @@ namespace Novell.iFolderWeb.Admin
 		/// iFolder enable button control.
 		/// </summary>
 		protected Button EnableiFolderButton;
+
+		/// <summary>
+		/// Delete ifolder button control.
+		/// </summary>
+		protected Button DeleteiFolderButton;
 
 		/// <summary>
 		/// iFolder create button control.
@@ -593,6 +592,7 @@ namespace Novell.iFolderWeb.Admin
 				//DeleteiFolderButton.Text = GetString( "DELETE" );
 				DisableiFolderButton.Text = GetString( "DISABLE" );
 				EnableiFolderButton.Text = GetString( "ENABLE" );
+				DeleteiFolderButton.Text = GetString ("DELETE");
 				//CreateiFolderButton.Text = GetString( "CREATE" );
 
 				AlliFoldersLink.Text = GetString( "ALL" );
@@ -613,6 +613,7 @@ namespace Novell.iFolderWeb.Admin
 
 			// Set the active ifolder display tab.
 			SetActiveiFolderListTab( ActiveiFolderTab );
+			DeleteiFolderButton.Enabled = uRights.DeleteiFolderAllowed;
 
 			if(uRights.EnableDisableiFolderAllowed == false)
 			{
@@ -648,7 +649,7 @@ namespace Novell.iFolderWeb.Admin
 		private void SetActionButtons()
 		{
 			Hashtable ht = CheckediFolders;
-			//DeleteiFolderButton.Enabled = ( ht.Count > 0 ) ? true : false;
+			DeleteiFolderButton.Enabled = ( ht.Count > 0 ) ? true : false;
 			DisableiFolderButton.Enabled = ht.ContainsValue( Boolean.FalseString );
 			EnableiFolderButton.Enabled = ht.ContainsValue( Boolean.TrueString );
 		}
@@ -711,6 +712,20 @@ namespace Novell.iFolderWeb.Admin
                         return preference;
                 }
 
+		/// <summary>
+		/// Gets iFolder's owner ID
+		/// </summary>
+		private string GetiFolderOwnerID(string iFolderID)
+		{
+			foreach( DataGridItem item in iFolderList.Items )
+			{
+				string ifolderid = item.Cells[iFolderIDColumn].Text;
+				if( ifolderid == iFolderID ) 
+				    //FIXME : Magic numbers
+				    return item.Cells [2].Text; //iFolder ID column.
+			}
+			return null;
+		}
 
 		/// <summary>
 		/// Sets the ifolder synchronization status on all selected ifolders.
@@ -753,9 +768,8 @@ namespace Novell.iFolderWeb.Admin
 			// Clear the checked members.
 			CheckediFolders.Clear();
 
-			// Set the action buttons.
-			SetActionButtons();
 			web.Url = currentServerURL;
+			SetActionButtons();
 
 			// Rebind the data source with the new data.
 			GetiFolders( false );
@@ -930,6 +944,17 @@ namespace Novell.iFolderWeb.Admin
 			return (bool) reach? String.Format( "iFolderDetailsPage.aspx?id={0}", iFolderID ) : String.Empty;
 		}
 
+		private string GetiFolderName(string iFolderID)
+		{
+			foreach( DataGridItem item in iFolderList.Items )
+			{
+				string ifolderid = item.Cells[ iFolderIDColumn].Text;
+				if( ifolderid == iFolderID )
+				    //FIXME : Magic numbers
+				    return item.Cells [9].Text; //iFolder name column.
+			}
+			return null;
+		}
 
 		/// <summary>
 		/// Get a Localized String
@@ -939,6 +964,67 @@ namespace Novell.iFolderWeb.Admin
 		protected string GetString( string key )
 		{
 			return rm.GetString( key );
+		}
+
+		/// <summary>
+		/// Event handler that gets called when the delete ifolder button is clicked.
+		/// </summary>
+		/// <param name="source"></param>
+		/// <param name="e"></param>
+		protected void OnDeleteiFolderButton_Click( object source, EventArgs e )
+		{
+			string skippediFolderNames = "";
+			string loggedinuserID = Session[ "UserID" ] as String;
+
+			foreach( string ifolderID in CheckediFolders.Keys )
+			{
+				try
+				{
+				        int rights = GetRightsForiFolder(ifolderID);
+					if (rights == -1 ) rights = 0xffff;
+
+					UserGroupAdminRights adminRights = new UserGroupAdminRights(rights);
+					string ownerID = GetiFolderOwnerID (ifolderID);
+					/*Condition for skipping iFolders for deletion. We allow the owner to 
+					  delete his own iFolder. */
+					if (loggedinuserID != ownerID) {
+					    if(!adminRights.DeleteiFolderAllowed) {
+						string ifolderName = GetiFolderName (ifolderID);
+						if (skippediFolderNames.Length > 0 ) //Just for adding a comma.
+						    skippediFolderNames += ", " + ifolderName;
+						else
+						    skippediFolderNames += ifolderName;
+
+						continue;
+					    }
+					}
+
+		                        string ifolderLocation = web.GetiFolderLocation (ifolderID);
+                		        UriBuilder remoteurl = new UriBuilder(ifolderLocation);
+		                        remoteurl.Path = (new Uri(web.Url)).PathAndQuery;
+                		        web.Url = remoteurl.Uri.ToString();
+					web.DeleteiFolder( ifolderID );
+				}
+				catch ( Exception ex )
+				{
+					TopNav.ShowError( GetString( "ERRORCANNOTDELETEIFOLDER" ), ex );
+					web.Url = currentServerURL;
+					return;
+				}
+
+			}
+			web.Url = currentServerURL;
+
+			// Clear the checked members.
+			CheckediFolders.Clear();
+			AlliFoldersCheckBox.Checked = false;
+
+			// Rebind the data source with the new data.
+			GetiFolders( false );
+
+			//If we have skipped some iFolders, tell the admin.
+			if (skippediFolderNames.Length > 0)
+			    TopNav.ShowError(string.Format (GetString ("ERRORCANNOTDELETEIFOLDER"), skippediFolderNames));
 		}
 
 		/// <summary>
@@ -981,39 +1067,6 @@ namespace Novell.iFolderWeb.Admin
 		protected void OnCreateiFolder( object source, EventArgs e )
 		{
 			Page.Response.Redirect( String.Format( "CreateiFolder.aspx?owner={0}&fn={1}", UserID, FullName.Text ), true );
-		}
-
-		/// <summary>
-		/// Event handler that gets called when the delete ifolder button is clicked.
-		/// </summary>
-		/// <param name="source"></param>
-		/// <param name="e"></param>
-		protected void OnDeleteiFolder( object source, EventArgs e )
-		{
-			foreach( string iFolderID in CheckediFolders.Keys )
-			{
-				try
-				{
-	                	        string ifolderLocation = web.GetiFolderLocation (iFolderID);
-        		                UriBuilder remoteurl = new UriBuilder(ifolderLocation);
-        	        	        remoteurl.Path = (new Uri(web.Url)).PathAndQuery;
-	                        	web.Url = remoteurl.Uri.ToString();
-
-					web.DeleteiFolder( iFolderID );
-				}
-				catch ( Exception ex )
-				{
-					TopNav.ShowError( GetString( "ERRORCANNOTDELETEIFOLDER" ), ex );
-					return;
-				}
-			}
-			web.Url = currentServerURL;
-
-			// Clear the checked members.
-			CheckediFolders.Clear();
-
-			// Rebind the data source with the new data.
-			GetiFolders( false );
 		}
 
 		/// <summary>

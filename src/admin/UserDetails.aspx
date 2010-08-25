@@ -278,12 +278,12 @@
 				
 				<ifolder:ListFooter ID="iFolderListFooter" Runat="server" />
 				
-<%--				<asp:Button 
+				<asp:Button 
 					ID="DeleteiFolderButton" 
 					Runat="server" 
 					Enabled="False" 
 					CssClass="actionbuttons"
-					OnClick="OnDeleteiFolder" /> --%>
+					OnClick="OnDeleteiFolderButton_Click" />
 					
 				<asp:Button 
 					ID="DisableiFolderButton" 
