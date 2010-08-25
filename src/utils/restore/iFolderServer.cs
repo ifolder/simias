@@ -2185,12 +2185,12 @@ namespace Restore
 		}
 		else {
 		//Check for mandatory files in the given simias path
-				string simiasPath = DataPath+"/simias";
+				string simiasPath = Path.Combine(DataPath, "/simias");;
 				if( !Directory.Exists(simiasPath)) {
 				Console.WriteLine("|		Error: simias directory does not exist at the specified path: {0} .|",DataPath);
 					return (int)status.InvalidBackupPath;
 				}
-				string flaimdb= DataPath+"/simias/FlaimSimias.db";
+				string flaimdb= Path.Combine(DataPath, "/simias/FlaimSimias.db");
 				if(!File.Exists (flaimdb) ){
 
 				Console.WriteLine("|		Error: iFolder simias database ({0}) does not exist at the specified path.|",flaimdb);
@@ -2433,6 +2433,7 @@ namespace Restore
 						retval = RestoreiFolderPolicy(iFolderID, OldServer, NewServer);
 					}
 				
+					Console.WriteLine("|               Checking policies post data restore                                                |");
 					//This check needs to be done unconditionally. Policy violation can happen
 				    	// during a partial or a full restore.
 					CheckiFolderPolicyStatus(iFolderID, NewServer);
@@ -2852,7 +2853,6 @@ namespace Restore
 		String userID = ifld.OwnerID;
 		String userName = ifld.OwnerUserName;
 		if( userID != null) {
-			Console.WriteLine("|               Checking user policies post data restore.                                    |");
 			usrPolicy = ifServer.GetUserPolicy(userID);
 			if( (usrPolicy != null) && !usrPolicy.LoginEnabled) {
 	                     Console.WriteLine("|               Warning: Data is restored into a iFolder owned by disabled User.         |");
@@ -2864,6 +2864,26 @@ namespace Restore
 			
 			
 	    }
+		public static string ConvertSizeToString(long size) {
+			long OneKB = 1024;
+			long OneMB = 1024*OneKB;
+			long OneGB = 1024*OneMB;
+			
+			if (size > OneGB) {
+				float Gbs = (float)size/OneGB;
+				return String.Format("{0:F}G",Gbs);
+			} else if (size > OneMB){
+				float Mbs = (float)size/OneMB;
+				return String.Format("{0:F}M",Mbs);
+			} else if (size > OneKB) {
+				float Kbs = (float)size/OneKB;
+				return String.Format("{0:F}K",Kbs);
+			} else {
+				return String.Format("{0}",size);
+			}
+
+		
+		}
 			/// <summary>
             /// Checks the iFolder policy voilations after the data is restored.
             /// </summary>
@@ -2890,7 +2910,7 @@ namespace Restore
 						Console.WriteLine("|                                                                                        |");
 						Console.WriteLine("|               Warning: Restoring the data resulted in violation of the space limit     |");
 						Console.WriteLine("|               policy for the iFolder. User should delete unused data to reduce used    |");
-		  				Console.WriteLine("|               space to permissible limits. Space Used = {0}, Effective Space Limit={1} |",currentPolicy.SpaceUsed, currentPolicy.SpaceLimitEffective);
+		  				Console.WriteLine("|               space to permissible limits. Space Used = {0}, Effective Space Limit={1} |",ConvertSizeToString(currentPolicy.SpaceUsed), ConvertSizeToString(currentPolicy.SpaceLimitEffective));
 		
 				}
 			
@@ -2917,7 +2937,7 @@ namespace Restore
 				iFolderPolicy newPolicy = null;
 				int retval = 0;
 				MainClass.DebugLog.Write(string.Format(" iFolderID-{0}, oldserver-{1}, newserver-{2}",iFolderID.ToString(), oldserver.ToString(),  newserver.ToString()));
-				Console.WriteLine("|               Processing iFolder policies                                              |");
+				Console.WriteLine("|               Restoring iFolder policies                                              |");
 				MainClass.DebugLog.Write(string.Format("Fetching iFolder policy details from backup"));
 		        oldPolicy = oldserver.GetiFolderPolicy(iFolderID);
 
@@ -2985,7 +3005,7 @@ namespace Restore
 						 MainClass.DebugLog.Write(string.Format("Calling RestoreDataLocally"));
 						retval = RestoreDataLocally(iFolderID, oldserver, oldpath, newserver, newpath, relativepath, startindex, FailedLog.LogFile);
 						if( retval == 0)
-							Console.WriteLine("\n|               Restored process Successful.                                             |");
+							Console.WriteLine("\n|               Restore process Successful.                                             |");
 						else
 							Console.WriteLine("\n|               Restore process failed.                                                  |");
 					}
