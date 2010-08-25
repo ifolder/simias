@@ -448,8 +448,9 @@
                                                 </th>
 
                                                 <td>
-                                                        <asp:Literal
+							<asp:Label
                                                                 ID="LdapProxyUser"
+								Style="word-wrap:break-word;display:block;overflow:auto;width:250;"
                                                                 Runat="server"
                                                                 />
                                                 </td>
@@ -461,8 +462,9 @@
 						</th>
 						
 						<td>
-							<asp:Literal
+							<asp:Label
 								ID="LdapSearchContext"
+								Style="word-wrap:break-word;display:block;overflow:auto;width:250;"
                                                                 Runat="server"
                                                                 />
 						</td>
