@@ -231,7 +231,7 @@ namespace Restore
 				try
 				{
 					String RedirectedUrl = this.GetHomeServer(adminUserName);
-					if( RedirectedUrl != null && RedirectedUrl != string.Empty)
+					if( ! String.IsNullOrEmpty(RedirectedUrl))
 					{
 						this.PublicUrl = RedirectedUrl;
 					}
@@ -953,9 +953,9 @@ namespace Restore
 		{
 		    	MainClass.DebugLog.Write("Enter: Function CreateDirectory");
 			string parentdir = Path.GetDirectoryName(relativepath);
-			if( parentdir == null || parentdir == string.Empty)
+			if( String.IsNullOrEmpty(parentdir))
 			{
-				MainClass.DebugLog.Write("Creatinmg the directory node for root level node which will be created as part of iFolder creation. ");
+				MainClass.DebugLog.Write("Creating the directory node for root level node which will be created as part of iFolder creation. ");
 				return true;
 			}
 			iFolderEntry NewEntry = null;
@@ -1668,14 +1668,24 @@ namespace Restore
 			
 			if (MainClass.useSameAdminName == true)
 			{
+				if ( String.IsNullOrEmpty(oldAdminPassword) ) {
+					oldAdminPassword = ForPasswordString(string.Format("|		Password for iFolder server admin (user={0}):",MainClass.newAdminName),null);
+				}	
+				newAdminPassword = oldAdminPassword;
 
-				newAdminPassword = ForPasswordString(string.Format("|		Password for iFolder server admin (user={0}):",MainClass.newAdminName),null);
-				oldAdminPassword = newAdminPassword;
 			}
 			else
 			{
+				if ( String.IsNullOrEmpty(oldAdminPassword ))
 					oldAdminPassword = ForPasswordString(string.Format("|		Password for backup iFolder server admin (user={0}):",MainClass.oldAdminName),null);
-					newAdminPassword = ForPasswordString(string.Format("\n|               Password for current iFolder server admin (user={0}):",MainClass.newAdminName),null);
+				if ( String.IsNullOrEmpty(newAdminPassword)) 	
+				newAdminPassword = ForPasswordString(string.Format("\n|               Password for current iFolder server admin (user={0}):",MainClass.newAdminName),null);
+			}
+			// Ensure the password has a valid string	
+			if ( String.IsNullOrEmpty(newAdminPassword) || String.IsNullOrEmpty(oldAdminPassword)) {
+				Console.WriteLine("|               Error: Invalid value for  Password                                       |");
+				return (int)status.MissingFields;
+
 			}
 		}	
 
@@ -1713,7 +1723,7 @@ namespace Restore
 		string newAdminID = NewServer.GetUserIDFromName(newAdminName);
 		MainClass.DebugLog.Write(string.Format("The new admin ID is: {0}", newAdminID));
 	
-		if( oldAdminID == string.Empty || oldAdminID == null || newAdminID == string.Empty ||  newAdminID == null)
+		if( String.IsNullOrEmpty(oldAdminID) || String.IsNullOrEmpty(newAdminID))
 		{
 		    MainClass.DebugLog.Write(string.Format("Incorrect Admin Credential Or iFolder Server is not accessible and exit status is:{0}.","EmptyAdminID"));
 		    RestoreStatus = (int)status.EmptyAdminID;	
@@ -1751,7 +1761,7 @@ namespace Restore
 			string OwnerUserID = ifolder.OwnerID;
 			RedirectedNewServerUrl = NewServer.GetHomeServer(ifolder.OwnerUserName);
 
-			if( RedirectedNewServerUrl == null || RedirectedNewServerUrl == String.Empty )
+			if( String.IsNullOrEmpty(RedirectedNewServerUrl) )
                         {
 				MainClass.DebugLog.Write(string.Format("Failed, fetching Home information for ifolder owner user:{0} on current server with exit status as: {1}",ifolder.OwnerUserName, "EmptyNewServerUrl"));
 				RestoreStatus = (int)status.EmptyNewServerUrl;
@@ -1843,7 +1853,7 @@ namespace Restore
 			if( runpreviousiter == false)
 				WriteDetailsToXML( relativePath );
 	
-			if( relativePath == null || relativePath == string.Empty)
+			if( String.IsNullOrEmpty(relativePath))
 				fullrecovery = true;
 			
 			bool retStatus = false;
@@ -2103,7 +2113,7 @@ namespace Restore
 
 					try
 					{
-							if( EncryptionAlgorithm != null && EncryptionAlgorithm != string.Empty)
+							if( !String.IsNullOrEmpty(EncryptionAlgorithm))
 							{
 								string eKey = null, eBlob = null, eAlgorithm = null, rKey = null;
 								bool encrSettings = OldServer.simws.GetEncryptionDetails(iFolderID, out eKey, out eBlob, out eAlgorithm, out rKey);
@@ -2190,7 +2200,7 @@ namespace Restore
 		}
 	        if( Operation == (int)Command.Restore )
                 {
-                        if(relativePath != string.Empty  && relativePath != null) {
+                        if(!String.IsNullOrEmpty(relativePath)) {
                                 if( !File.Exists(Path.Combine(FolderLocation,relativePath) )
                                    && !Directory.Exists(Path.Combine(FolderLocation,relativePath) ))
                                 {
@@ -2205,14 +2215,14 @@ namespace Restore
                 }
 	
 		/// In case of listing, we should have the temporary server up and running, and old server credentials should be proper. User name is expected.
-		if( ListingFlag && (userName == null || userName == string.Empty))
+		if( ListingFlag && String.IsNullOrEmpty(userName))
 		{
 			Console.WriteLine("|               The input has some fields missing.                                       |");
 			return (int)status.MissingFields;
 		}	
-		if( oldAdminName == null || oldAdminName == string.Empty)
+		if( String.IsNullOrEmpty(oldAdminName))
 			return (int)status.MissingFields;
-		if( !ListingFlag && ( newAdminName == null || newAdminName == string.Empty || currentServerUrl == null || currentServerUrl == string.Empty 
+		if( !ListingFlag && ( String.IsNullOrEmpty(newAdminName) || String.IsNullOrEmpty(currentServerUrl) 
 							|| collectionid == null || FolderLocation == null))
 			return (int)status.MissingFields;
 		
@@ -3036,7 +3046,8 @@ namespace Restore
                                 Console.WriteLine("\t--ifolder-id\t\tID of the iFolder for which the specified operation is to be performed");
                                 Console.WriteLine("\t--ifolder-path\t\tAbsolute path (excluding the iFolder name) to the location where iFolder backup data is available. ");
                                 Console.WriteLine("\t--relative-path\t\tRelative path of file/folder to be restored, starting from iFolder name");
-                                Console.WriteLine("\t--usewebaccess\t\tSpecifies the mode to restore. Does not take any value.");
+//                                Console.WriteLine("\t--usewebaccess\t\tSpecifies the mode to restore. Does not take any value.");
+                                Console.WriteLine("\t--usewebaccess\t\tSpecifies the mode of restore. Use this option while restoring the data to a remote iFolder Server.");
 				Console.WriteLine("\t--restore-policies\tOverwrites current iFolder policies with the policies of the iFolder from backup");
                                 Console.WriteLine("\t\nExamples:");
                                 Console.WriteLine("\n\tFor Help:");
@@ -3196,7 +3207,7 @@ namespace Restore
 			//string line  = null;
 			long numOfLines = 0;
 			TextReader reader = null;
-			if(fileName != null || fileName != string.Empty)
+			if( !String.IsNullOrEmpty(fileName) )
 			{
 				try{
 					using( reader = (TextReader)File.OpenText(fileName) )
@@ -3302,7 +3313,7 @@ namespace Restore
 				
                 			while ((line = sr.ReadLine()) != null) 
                 			{
-						if(line != null && line != String.Empty && line.StartsWith(SearchStr) == true )
+						if( !String.IsNullOrEmpty(line) && line.StartsWith(SearchStr) == true )
 						{
 							int startIndex  = line.LastIndexOf('=');
 							dataPath = line.Substring(startIndex+1,(line.Length - startIndex - 2 ));
@@ -3395,7 +3406,7 @@ namespace Restore
                 {
                         try
                         {
-                                if( this.logFile == null || this.logFile == String.Empty )
+                                if( String.IsNullOrEmpty(this.logFile))
                                 {
                                         //MainClass.DebugLog.Write(string.Format("{0}: {1}", DateTime.Now.ToString("f"), Message));
                                 }
@@ -3422,7 +3433,7 @@ namespace Restore
                 {
                         try
                         {
-                                if( this.logFile == null || this.logFile == string.Empty)
+                                if( String.IsNullOrEmpty (this.logFile))
                                         return;
                                 if( stream == null)
                                         return;
