@@ -1243,6 +1243,36 @@ namespace Restore
 			return retval;	
 		}
 		/// <summary>
+        /// Invokes the GetiFolderLimitPolicyStatus method to check the status of iFolder limits
+        /// </summary>
+        /// <param name="userId"> ID of the User for whom policy needs to be checked.</param>
+        /// 
+        /// <returns> 0 if there are no violations 
+        /// 		  1 in case of violations
+        /// 		 -1 if there is any exception while execting the api .</returns>
+
+		public int GetiFolderLimitPolicyStatus( string userId )
+		{
+			try	{
+				int count = 0;
+				while (count < MaxCount){
+					try	{
+						 return this.admin.GetiFolderLimitPolicyStatus(userId);
+						
+					} 					
+					catch(InvalidOperationException /*inOpEx*/)
+					{
+						count++;
+						continue;	
+					}
+				}
+			} catch(Exception ex){
+				  MainClass.DebugLog.Write(string.Format("Exception while checking the iFolder limit policy {0}--{1}", ex.Message, ex.StackTrace));
+			}
+			return -1;
+		}
+		
+		/// <summary>
         /// Retrieves the User policy from the given User ID.
         /// </summary>
         /// <param name="userId"> ID of the User for whom policy needs to be retreived.</param>
@@ -2854,9 +2884,18 @@ namespace Restore
 		String userName = ifld.OwnerUserName;
 		if( userID != null) {
 			usrPolicy = ifServer.GetUserPolicy(userID);
-			if( (usrPolicy != null) && !usrPolicy.LoginEnabled) {
-	                     Console.WriteLine("|               Warning: Data is restored into a iFolder owned by disabled User.         |");
-        	             Console.WriteLine("|               User - {0} needs to be enabled to access the data.                       |",userName);
+			if( usrPolicy != null) {
+				if( !usrPolicy.LoginEnabled) {
+                     Console.WriteLine("|               Warning: Data is restored into a iFolder owned by disabled User.         |");
+    	         	     Console.WriteLine("|               User - {0} needs to be enabled to access the data.                       |",userName);
+				}
+				int ifCountPolicyStatus = ifServer.GetiFolderLimitPolicyStatus(userID);
+				if ( ifCountPolicyStatus == 0){
+					   Console.WriteLine("|               Warning: Restoring the data resulted in violation of iFolders per user policy.         |");
+		               Console.WriteLine("|               Check the number of iFolders owned by user {0}                        |", userName);
+				} else if ( ifCountPolicyStatus == -1){
+						Console.WriteLine("|               Warning: Error while checking the iFolder limit policy.                              |");
+				}
 			}
 		} else {
 			Console.WriteLine("|               Warning: User - {0} does not exist on current iFolder server.         |",userName);
