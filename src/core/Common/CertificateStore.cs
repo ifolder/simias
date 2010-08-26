@@ -192,6 +192,8 @@ namespace Simias.Security
 		public static void StoreCertificate(byte[] certificate, string host, bool persist)
 		{
 			string uriHost = GetHostFromUri(host);
+			if(certificate ==null || certificate =="")
+				 log.Debug("StoreCertificate either null or empty");
 			SecurityStore.StorePPKData(certificate, uriHost, persist, true, false, CertType);
 		}
 
