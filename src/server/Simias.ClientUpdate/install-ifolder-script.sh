@@ -59,7 +59,7 @@ sleep 5
 mkdir -p $HOME/.local/share/simias
 if test -d $HOME/.local/share/simias
 then
-echo "Starting the installation. The error logs are redirected to $HOME/.local/share/simias/upgrade.log"
+echo "Starting the installation."
 sudo rpm -Uvh simias-1.*.rpm ifolder3-3.*.rpm nautilus-ifolder3-3.*.rpm novell-ifolder-client-plugins-3.*.rpm 2> $HOME/.local/share/simias/upgrade.log
 abc=$?
 else
