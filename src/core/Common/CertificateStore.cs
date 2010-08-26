@@ -176,6 +176,8 @@ namespace Simias.Security
 			if (cs != null)
 			{
 				Problem = cs.Problem;
+				if(cs.Certificate.GetRawCertData() == null || cs.Certificate.GetRawCertData()=="")
+					log.Info("GetCertificate either null or empty");
 				return cs.Certificate.GetRawCertData();
 			}
 			Problem = CertPolicy.CertificateProblem.CertOK;
@@ -193,7 +195,7 @@ namespace Simias.Security
 		{
 			string uriHost = GetHostFromUri(host);
 			if(certificate ==null || certificate =="")
-				 log.Debug("StoreCertificate either null or empty");
+				 log.Info("StoreCertificate either null or empty");
 			SecurityStore.StorePPKData(certificate, uriHost, persist, true, false, CertType);
 		}
 
