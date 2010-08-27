@@ -208,6 +208,8 @@ namespace Novell.iFolderWeb.Admin
 		/// </summary>
 		protected Literal ServerName;
 
+		public string UserId;
+
 		#endregion
 
 		#region Properties
@@ -257,6 +259,14 @@ namespace Novell.iFolderWeb.Admin
 		private string iFolderID
 		{
 			get { return Request.Params[ "ID" ]; } 
+		}
+
+		/// <summary>
+		/// Gets the User ID.
+		/// </summary>
+		private string UserID
+		{
+			get { return Request.Params[ "userid" ]; } 
 		}
 
 		/// <summary>
@@ -353,10 +363,17 @@ namespace Novell.iFolderWeb.Admin
 			{
 				ifolder = web.GetiFolderDetails( iFolderID );
 			}
-			catch
+			catch(Exception ex) 
 			{
-				web.Url = currentServerURL;
-				TopNav.ShowError(GetString("LOGINCONNECTFAILED"));
+				if(ex.Message.IndexOf("iFolderDoesNotExistException") != -1)
+				{
+                                        Page.Response.Redirect(String.Format("UserDetails.aspx?id={0}&errormsg={1}",UserID,GetString("ERRORIFOLDERDOESNOTEXIST")));
+				}
+				else
+				{
+					web.Url = currentServerURL;
+					TopNav.ShowError(GetString("LOGINCONNECTFAILED"));
+				}
 				return null;
 			}
 

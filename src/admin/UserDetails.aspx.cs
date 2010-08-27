@@ -251,6 +251,7 @@ namespace Novell.iFolderWeb.Admin
         /// </summary>
 		protected bool reachable = true;
 
+
 		#endregion
 
 		#region Properties
@@ -300,6 +301,13 @@ namespace Novell.iFolderWeb.Admin
 			get { return Request.Params[ "ID" ]; } 
 		}
 
+		public string ErrorMsg
+                {
+                        get { return Request.Params[ "errormsg" ]; }
+                }
+
+
+
 		#endregion
 
 		#region Private Methods
@@ -322,6 +330,12 @@ namespace Novell.iFolderWeb.Admin
 		/// <returns>A DataView object containing the iFolder list.</returns>
 		private DataView CreateiFolderList()
 		{
+
+			if(ErrorMsg !=null )
+			{	
+                        	TopNav.ShowError(ErrorMsg);
+			}
+
 			DataTable dt = new DataTable();
 			DataRow dr;
 
@@ -941,7 +955,7 @@ namespace Novell.iFolderWeb.Admin
 		/// <returns>The URL to navigate to the ifolder.</returns>
 		protected string GetiFolderUrl( Object reach, Object iFolderID )
 		{
-			return (bool) reach? String.Format( "iFolderDetailsPage.aspx?id={0}", iFolderID ) : String.Empty;
+			return (bool) reach? String.Format( "iFolderDetailsPage.aspx?id={0}&userid={1}", iFolderID,UserID ) : String.Empty;
 		}
 
 		private string GetiFolderName(string iFolderID)
