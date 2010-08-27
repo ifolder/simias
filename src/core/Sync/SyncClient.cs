@@ -273,9 +273,10 @@ namespace Simias.Sync
                         if (col.EncryptionAlgorithm != null && col.EncryptionAlgorithm != string.Empty)
                             SyncClient.ScheduleSync(col.ID);
                     }
-                    catch (Exception e)
+                    catch (Exception ex)
                     {
                         log.Debug("RescheduleAllEncryptedColSync: Error scheduling {0} for sync.", sn.ID);
+						log.Debug("Exception.Message: {0}, StackTrace: {1}", ex.Message, ex.StackTrace);
                     }
                 }
             }
@@ -704,7 +705,6 @@ namespace Simias.Sync
 		SyncWorkArray	workArray;
 		Store			store;
 		public Collection		collection;
-		bool			queuedChanges;
 		bool			serverAlive = true;
 		bool			CollSyncStatus = true;
 		StartSyncStatus	serverStatus;
@@ -719,7 +719,7 @@ namespace Simias.Sync
 		private const string	ServerCLContextProp = "ServerCLContext";
 		private const string	ClientCLContextProp = "ClientCLContext";
 		private Object syncObject = new Object();
-		int				nodesToSync = 0;
+
 		static int		initialSyncDelay = 10 * 1000; // 10 seconds.
 		DateTime		syncStartTime; // Time stamp when sync was called.
 		const int		timeSlice = 3; //Timeslice in minutes.
@@ -1077,7 +1077,6 @@ namespace Simias.Sync
 					eventPublisher.RaiseEvent(new CollectionSyncEventArgs(collection.Name, collection.ID, Simias.Client.Event.Action.StartLocalSync, true, false));
 
 				syncStartTime = DateTime.Now;
-				queuedChanges = false;
 				running = true;
 				bool isNewifolder = false;
 				serverStatus = StartSyncStatus.Success;
@@ -1279,7 +1278,6 @@ namespace Simias.Sync
 									bool moreEntries = false;
 									while (true)
 									{
-										int filesFromServer;
 										if (!si.ChangesOnly)
 										{
 											// We don't have any state. So do a full sync.
@@ -1302,10 +1300,8 @@ namespace Simias.Sync
 											cstamps = null;
 										}
 
-										filesFromServer = workArray.DownCount + workArray.MergeCount;
-
+										
 										// we are not queuing anymore as we expect all to be done once started
-										//queuedChanges = true;
 										if (!ServerIs36())										
 											AddMemberNodeFromServer();
 										
@@ -1539,7 +1535,6 @@ namespace Simias.Sync
  
         public bool CheckForUserMovement(string NewHostID, string UserID, string DomainID)
         {
-            string collectionID = collection.ID;
             string OldHostID = collection.HostID;
             bool CollectionMoved = false;
             bool UserMovementUpdationDone = false;
@@ -2015,7 +2010,6 @@ namespace Simias.Sync
 		{
 			Domain domain = null;
 			Member currentMember = null; 
-			bool isDomainSync = false;
 
 			
 			string ColType = collection.GetType().ToString();
@@ -2036,7 +2030,7 @@ namespace Simias.Sync
 	        
 			if (IsDomainType && !Store.IsEnterpriseServer)
 			{
-				isDomainSync = true;
+
 				currentMember =  domain.GetCurrentMember();
 				Node memberNode = collection.GetNodeByID(currentMember.UserID);
 
@@ -2062,7 +2056,6 @@ namespace Simias.Sync
 		/// </summary>
 		private void ExecuteSync()
 		{
-			nodesToSync = workArray.Count;
 			if (workArray.MergeCount != 0)
 			{
 				// Get the updates from the server.
@@ -2875,6 +2868,7 @@ namespace Simias.Sync
 			string[] nodeIDs = workArray.FilesToServer();
 			if (nodeIDs.Length == 0)
 				return;
+			BaseFileNode node = null;
 
 			log.Info("Uploading {0} Files To server", nodeIDs.Length);
 			
@@ -2886,8 +2880,7 @@ namespace Simias.Sync
 					{
 						return;
 					}
-
-					BaseFileNode node = collection.GetNodeByID(nodeID) as BaseFileNode;
+					node = collection.GetNodeByID(nodeID) as BaseFileNode;
 					if (node != null)
 					{
 						if (collection.HasCollisions(node))
@@ -2983,7 +2976,7 @@ namespace Simias.Sync
 				}
 				catch (FileNotFoundException excep)
 				{
-			                Log.log.Debug(excep, "Failed Uploading File, FileNotFoundException");
+			        Log.log.Debug(excep, "Failed Uploading File, FileNotFoundException");
 					// The file no longer exists. this line added for 344792
 					workArray.RemoveNodeToServer(nodeID);
 					
@@ -2992,18 +2985,40 @@ namespace Simias.Sync
 				}
                 catch (WebException we)
                 {
-                    //This is to handle any webException while performing upload/download and 
+                    //This is to handle any webException while performing upload and 
                     //not to remove node from workarray in this case
                     //if required,To remove, check the error message explicitly
                     Log.log.Debug(we, "Failed Uploading File, WebException");
+					if( node != null) {
+						eventPublisher.RaiseEvent(new FileSyncEventArgs(collection.ID, ObjectType.File, false, node.GetFullPath(collection), 0, 0, 0, Direction.Uploading, SyncStatus.Error));
+					} else {
+						eventPublisher.RaiseEvent(new FileSyncEventArgs(collection.ID, ObjectType.File, false, nodeID, 0, 0, 0, Direction.Uploading, SyncStatus.Error));	
+					}
                 }
-		catch (ArgumentOutOfRangeException Aex)
+				catch (IOException ioe)
                 {
-                    Log.log.Debug(string.Format("ArgumentOutOfRangeException with message :{0} and stacktrace: {1}",Aex.Message, Aex.StackTrace));
+                    //This is to handle any IOException while performing upload and 
+                    //not to remove node from workarray in this case
+                    //if required, To remove, check the error message explicitly
+                    Log.log.Debug(ioe, "Failed Uploading File, IOException");
+					if( node != null) {
+						eventPublisher.RaiseEvent(new FileSyncEventArgs(collection.ID, ObjectType.File, false, node.GetFullPath(collection), 0, 0, 0, Direction.Uploading, SyncStatus.Error));
+					} else {
+						eventPublisher.RaiseEvent(new FileSyncEventArgs(collection.ID, ObjectType.File, false, nodeID, 0, 0, 0, Direction.Uploading, SyncStatus.Error));	
+					}
+                }
+				catch (ArgumentOutOfRangeException Aex)
+                {
+					Log.log.Debug(string.Format("ArgumentOutOfRangeException with message :{0} and stacktrace: {1}",Aex.Message, Aex.StackTrace));
+					if( node != null) {
+						eventPublisher.RaiseEvent(new FileSyncEventArgs(collection.ID, ObjectType.File, false, node.GetFullPath(collection), 0, 0, 0, Direction.Uploading, SyncStatus.Error));
+					} else {
+						eventPublisher.RaiseEvent(new FileSyncEventArgs(collection.ID, ObjectType.File, false, nodeID, 0, 0, 0, Direction.Uploading, SyncStatus.Error));	
+					}
                 }
                 catch (Exception ex)
 				{
-			                workArray.RemoveNodeToServer(nodeID);
+			        workArray.RemoveNodeToServer(nodeID);
 					Log.log.Debug(ex, "Failed Uploading File");
 				}
 			}
