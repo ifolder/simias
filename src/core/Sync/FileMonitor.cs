@@ -179,6 +179,7 @@ namespace Simias.Sync
 				if (rootDir != null)
 				{
 					string rootPath = collection.GetRootDirectory().GetFullPath(collection);
+				
 					watcher = new FileSystemWatcher(rootPath);
 					log.Debug("New File Watcher at {0}", rootPath);
 					watcher.Changed += new FileSystemEventHandler(OnChanged);
@@ -216,6 +217,7 @@ namespace Simias.Sync
 				{
 					// This is a name collision make sure that we delete the right node.
 					// Only delete if the file no longer exists.
+				//	Log.log.Debug("File Monitor deleting :path {0}", Path);
 					if (Path.GetFileName(cNode.FileNameConflictPath) != node.Name)
 					{
 						node = Conflict.GetConflictingNode(collection, node as FileNode);
@@ -281,7 +283,6 @@ namespace Simias.Sync
         /// <param name="oldRelativePath">Old relative path of the directory</param>
 		public static void SetRenamePropertyForDirChildren(Collection collection, DirNode dn, string oldRelativePath)
 		{
-			string relativePath = dn.GetRelativePath();
 			// We need to rename all of the children nodes.
 			ArrayList nodeList = new ArrayList();
 
@@ -347,7 +348,6 @@ namespace Simias.Sync
 				// The execute bit is set for the user save the value.
 				fnode.Properties.ModifyProperty(SyncFile.ModeProperty, SyncFile.FAMode.Execute);
 			}
-					
 			log.Debug("Adding file node for {0} {1}", path, fnode.ID);
 			// Make sure that we support the Simias Name Space.
 			if (!SyncFile.IsNameValid(fnode.Name))
@@ -525,6 +525,7 @@ namespace Simias.Sync
 		/// <returns>Relative path after normalized</returns>
 		public static string GetNormalizedRelativePath(string rootPath, string path)
 		{
+		
 			string relPath = path.Replace(rootPath, "");
 			relPath = relPath.TrimStart(Path.DirectorySeparatorChar);
 			if (Path.DirectorySeparatorChar != '/')
@@ -543,7 +544,6 @@ namespace Simias.Sync
 			ShallowNode sNode = null;
 			haveConflict = false;
 			string relPath = GetNormalizedRelativePath(rootPath, path);
-			
 			ICSList nodeList;
 			nodeList = collection.Search(PropertyTags.FileSystemPath, relPath, SearchOp.Equal);
 			foreach (ShallowNode sn in nodeList)
@@ -818,9 +818,11 @@ namespace Simias.Sync
 						existingNodes[sn.Name] = sn;
 					}
 
+					
 					// Look for new and modified files.
-					foreach (string file in Directory.GetFiles(path))
+					foreach (String filepath in Directory.GetFiles(path))
 					{
+						String file=filepath;
 						if (Simias.Service.Manager.ShuttingDown)
 							return;
 						if(CheckSuspend)
@@ -834,6 +836,20 @@ namespace Simias.Sync
 
 						string fName = Path.GetFileName(file);
 						ShallowNode sn = (ShallowNode)existingNodes[fName];
+#if DARWIN                //fix for bug 574310
+						if(sn == null){ 
+							try {
+								file=file.Normalize();
+								fName=Path.GetFileName(file);
+								log.Debug("normalized file name:{0}",  file);	
+								sn = (ShallowNode)existingNodes[fName];
+							}catch(ArgumentException e){ 
+								//log and ignore ; this would happen only if there is some invalid Unicode characters in filename 
+								log.Debug("Exception :{0} while file name :{1} normalization  ", e.Message , fName);
+							}
+							
+						}
+#endif			
 						if (sn != null)
 						{
 							DoShallowNode(dnode, sn, file, false);
@@ -847,8 +863,10 @@ namespace Simias.Sync
 					}
 
 					// look for new directories
-					foreach (string dir in Directory.GetDirectories(path))
+					
+					foreach (string dirpath in Directory.GetDirectories(path))
 					{
+						String dir =dirpath;
 						if (Simias.Service.Manager.ShuttingDown)
 							return;
 						if(CheckSuspend)
@@ -861,6 +879,19 @@ namespace Simias.Sync
 						}
 						string dName = Path.GetFileName(dir);
 						ShallowNode sn = (ShallowNode)existingNodes[dName];
+#if DARWIN                //fix for bug 574310
+						if(sn==null){
+						try{
+							dir = dir.Normalize();
+							dName = Path.GetFileName(dir);
+							log.Debug("normalized dir name:{0}",  dName);
+						    sn = (ShallowNode)existingNodes[dName];
+							}catch(ArgumentException e){ 
+								//log and ignore ; this would happen only if there is some invalid Unicode characters in filename 
+								log.Debug("Exception :{0} while file name :{1} normalization  ", e.Message , dir);
+							}
+						}
+#endif
 						if (sn != null)
 						{
 							DoShallowNode(dnode, sn, dir, true);
@@ -869,7 +900,7 @@ namespace Simias.Sync
 						else
 						{
 							// The directory is new create a new directory node.
-							DirNode newDir = CreateDirNode(dir, dnode, false);
+							CreateDirNode(dir, dnode, false);
 						}
 					}
 					// look for deleted files.
@@ -958,12 +989,13 @@ namespace Simias.Sync
 		/// <param name="path"></param>
 		void DoManagedPath(string path)
 		{
+		
 //			DirectoryInfo tmpDi = new DirectoryInfo(path);
             try
             {
                 foreach (string file in Directory.GetFiles(path))
                 {
-                    if (File.GetLastWriteTime(file) > lastDredgeTime && !isSyncFile(file))
+					if (File.GetLastWriteTime(file) > lastDredgeTime && !isSyncFile(file))
                     {
                         // here we are just checking for modified files
                         // Because we create temporary journal files in the store managed area,
@@ -1038,10 +1070,11 @@ namespace Simias.Sync
 			//make this atomic
 			scanThreadRunning = true;
 			collection.Refresh();
-
 			/**************************************************
 			Satyam: The following code has to be modified 
 			depending on Mono bug. The bug id for Mono is 425468.
+			Also once the filewatcher is enabled fixes for handling umlaut characters has to be taken care for filewatcher events , 
+			which requires normalizing the filepath strings (Bug 574310)
 			**************************************************/
 			bool mac = true;
 		#if DARWIN
@@ -1052,7 +1085,7 @@ namespace Simias.Sync
 
 			{
 				Dredge();
-                //during startup Sync might exit due to server failure (or login delay), but the scan thread will
+                //during startup Sync might exit due to server failure (or login delay), but the scan thread will 	
                 //start its job
                 if (CollectionSyncClient.running == false)
                     SyncClient.ScheduleSync(collection.ID);
@@ -1292,14 +1325,14 @@ namespace Simias.Sync
 									{
 										// The node does not exist create it.
 										haveConflict = sn == null ? false : true;
-										Node tempNode;
+										//Node tempNode; fixed : a warnig valriable never used
 										if (isDir)
 										{
-											tempNode = CreateDirNode(fullName, GetParentNode(fullName), haveConflict);
+											 CreateDirNode(fullName, GetParentNode(fullName), haveConflict);
 										}
 										else
 										{
-											tempNode = CreateFileNode(fullName, GetParentNode(fullName), haveConflict);
+											 CreateFileNode(fullName, GetParentNode(fullName), haveConflict);
 										}
 									}
 									break;
@@ -1389,9 +1422,9 @@ namespace Simias.Sync
 					foundChange = false;
 				}
 			}
-	
+			
 			DoManagedPath(collection.ManagedPath);
-		
+			
 			if (foundChange)
 			{
 				Property tsp = new Property(lastDredgeProp, dredgeTimeStamp);
@@ -1467,7 +1500,6 @@ namespace Simias.Sync
 		private void OnChanged(object source, FileSystemEventArgs e)
 		{
 			string fullPath = e.FullPath;
-			
 			log.Debug("Changed ---- {0}", e.FullPath);
 			if (isSyncFile(e.Name))
 				return;
