@@ -238,11 +238,28 @@ namespace Novell.iFolderApp.Web
 					try{
 						folder = web.GetiFolder(ifolder.ID);
 					}
-					catch
+					catch(Exception e)
 					{
+						string type = e.GetType().Name;
+						if( type != null && type == "MemberDoesNotExistException")
+						{
+							/// If we get member does not exist exception in the first call itself, no need to make a GetiFolder call to current server.
+							continue;
+						}
 						web.Url = currentServerURL;
-        	                                folder = web.GetiFolder(ifolder.ID);
+						try
+						{
+        	                                	folder = web.GetiFolder(ifolder.ID);
+						}
+						catch
+						{	
+							/// If we are unable to get the iFolder information for the current entry, skip this and go to next entry...
+							folder = null;
+						}
 					}
+					/// By any chance if we are not able to get the iFolder information, proceed fetch the details of next entry. 
+					if( folder == null)
+						continue;
 					string EncryptionAlgorithm = folder.EncryptionAlgorithm;
 					if(!(EncryptionAlgorithm == null || (EncryptionAlgorithm == String.Empty)))
 					{
