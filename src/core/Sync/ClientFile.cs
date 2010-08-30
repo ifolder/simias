@@ -810,6 +810,7 @@ namespace Simias.Sync
 			}
 
 			ReadPosition = 0;					
+			int PrevMatchedBlock = -1;
 			while (bytesRead != 0)
 			{
 				bytesRead = Read(buffer, readOffset, bytesRead - readOffset);
@@ -836,17 +837,29 @@ namespace Simias.Sync
 						if (table.Contains(entry.WeakHash))
 						{
 							entry.StrongHash = sh.ComputeHash(buffer, startByte, blockSize);
-							HashEntry match = table.GetEntry(entry);
+							HashEntry match = null;
+		                            		if (this.collection.Merge)
+                		            		{
+								Log.log.Info("Calling get entry after block because merge...");
+                                				match = table.GetEntryAfterBlock(entry, PrevMatchedBlock + 1);
+                            				}
+                            				else
+                            				{
+								Log.log.Info("Calling get entry because not merge...");
+				                                match = table.GetEntry(entry);
+                            				}
+
 							if (match != null)
 							{
-								Log.log.Fatal("found a match between :{0} ... {1}", startByte, endByte);
+								PrevMatchedBlock = match.BlockNumber;
+								Log.log.Info("found a match between :{0} ... {1}. PrevMatchedBlock: {2}", startByte, endByte, PrevMatchedBlock);
 								// We found a match save the match;
 								if (fileMap[match.BlockNumber] == -1)
 								{
 									fileMap[match.BlockNumber] = ReadPosition - bytesRead + startByte;
 									sizeToSync -= blockSize;
 								}
-								Log.log.Fatal("sizeToSync :{0}", sizeToSync);
+								Log.log.Info("sizeToSync :{0}", sizeToSync);
 								startByte += blockSize;
 								endByte += blockSize;
 								recomputeWeakHash = true;
@@ -861,7 +874,7 @@ namespace Simias.Sync
 					readOffset = bytesRead - startByte;
 					Array.Copy(buffer, startByte, buffer, 0, readOffset);
 					startByte = 0;
-					Log.log.Fatal("readOffset for the next file read :{0}", readOffset);
+					Log.log.Info("readOffset for the next file read :{0}", readOffset);
 				}
 				else 
 				{
@@ -877,8 +890,7 @@ namespace Simias.Sync
 					///Compare the lastblock(which is less than the block size) provided all the blocks are matched
 					///Process the incomplete last block (always less than the block size)
 					///Process only once, donot increment the startbyte and compare since we are doing this only to verify the files are identical or not
-					
-					Log.log.Debug(" blockSize :{0}  bytesRead :{1}  sizeToSync :{2} ", blockSize, bytesRead, sizeToSync);
+					Log.log.Debug(" blockSize :{0}  bytesRead :{1}  sizeToSync :{2} ", blockSize, bytesRead, sizeToSync);		
 					if(sizeToSync == bytesRead)
 					{
 						startByte = 0;
@@ -892,7 +904,18 @@ namespace Simias.Sync
 						{
 							Log.log.Debug("Weak hash found for the last block");							
 							entry.StrongHash = sh.ComputeHash(buffer, startByte, (ushort)endByte);
-							HashEntry match = table.GetEntry(entry);
+							HashEntry match = null;
+							if (this.collection.Merge)
+                            				{
+				                                Log.log.Debug("Calling get entry after block because merge...");
+                                				match = table.GetEntryAfterBlock(entry, PrevMatchedBlock + 1);
+                            				}
+                            				else
+                            				{
+				                                Log.log.Info("Calling get entry because not a merge...");
+                                				match = table.GetEntry(entry);
+                            				}
+
 							if (match != null && fileMap[match.BlockNumber] == -1)
 							{
 								Log.log.Debug("Strong hash found for the last block");

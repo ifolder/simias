@@ -45,7 +45,8 @@ namespace Simias.Sync.Delta
 	public class StrongWeakHashtable
 	{
 		Hashtable table = new Hashtable();
-
+		static readonly ISimiasLog log = SimiasLogManager.GetLogger(typeof(SyncClient));
+	
 		/// <summary>
 		/// Add a new HashEntry to the table.
 		/// </summary>
@@ -61,10 +62,58 @@ namespace Simias.Sync.Delta
 					entryArray = new ArrayList();
 					table.Add(entry.WeakHash, entryArray);
 				}
-				if (!entryArray.Contains(entry))
+				bool contains = false;
+				for (int i = 0; i < entryArray.Count; i++)
+				{
+					HashEntry entry1 = (HashEntry) entryArray[i];
+					if (entry1.BlockNumber == entry.BlockNumber && entry1.StrongHash == entry.StrongHash && entry1.WeakHash == entry.WeakHash)
+					{
+						contains = true;
+						break;
+					}
+				}
+				if (!contains)
+				{
+					//log.Info("StrongWeakHashtable: weakhash: {0}, block number: {1}. entry array does not contain.", entry.WeakHash, entry.BlockNumber);
 					entryArray.Add(entry);
+				}
+				else
+				{
+					//log.Info("StrongWeakHashtable: weakhash: {0}, block number: {1}. entry array already contains this.", entry.WeakHash, entry.BlockNumber);
+				}
+
 			}
 		}
+
+		/// <summary>
+		/// Returns the Entry that matches the weak and strong hash codes
+		/// of the passed in HashEntry.
+		/// </summary>
+		/// <param name="entry">The entry to match.</param>
+		/// <returns>The HashEntry that matched, or null.</returns>
+		public HashEntry GetEntryAfterBlock(HashEntry entry, int blocknum)
+		{
+			ArrayList entryList = (ArrayList)table[entry.WeakHash];
+			if (entryList != null)
+			{
+				for (int i = 0; i < entryList.Count; i++)
+				{
+					HashEntry entry1 = (HashEntry)entryList[i];
+					if (entry1.BlockNumber >= blocknum)
+					return entry1;
+				}
+				/*
+				  int eIndex = entryList.IndexOf(entry, blocknum);
+				  if (eIndex != -1)
+				  {
+					  HashEntry match = (HashEntry)entryList[eIndex];
+					  return match;
+				  }
+				 * */
+			}
+			return null;
+		}
+
 
 		/// <summary>
 		/// Add the List of entries to the table.
