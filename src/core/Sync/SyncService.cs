@@ -1227,7 +1227,7 @@ namespace Simias.Sync
 		/// <param name="oldOffset">The offset in the old (original file).</param>
 		/// <param name="offset">The offset in the new file.</param>
 		/// <param name="count">The number of bytes to copy.</param>
-		public void Copy(long oldOffset, long offset, int count)
+		public void Copy(long oldOffset, long offset, long count)
 		{
 			inFile.Copy(oldOffset, offset, count);
 			logger.LogAccessDebug("CopyFile", inFile.Name, collection.ID, "Success");

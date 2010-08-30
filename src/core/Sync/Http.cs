@@ -1309,13 +1309,15 @@ namespace Simias.Sync.Http
 				return;
 			}
 			
-			int count = int.Parse(sCount);
+			int loop = int.Parse(sCount);
 			int blockSize = int.Parse(sBlockSize);
+			long count = 0;
 			BinaryReader reader = new BinaryReader(request.InputStream);
-			for (int i = 0; i < count; ++i)
+			for (int i = 0; i < loop; ++i)
 			{	
 				BlockSegment bSeg = new BlockSegment(reader);
-				service.Copy(bSeg.StartBlock * blockSize, bSeg.Offset, blockSize * (bSeg.EndBlock - bSeg.StartBlock + 1));
+				count = (long)(blockSize *( bSeg.EndBlock - bSeg.StartBlock + 1));
+				service.Copy(bSeg.StartBlock * blockSize, bSeg.Offset, count );
 			}
 		}
 

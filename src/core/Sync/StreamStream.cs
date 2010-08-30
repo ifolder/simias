@@ -336,13 +336,13 @@ namespace Simias.Sync
 		/// </summary>
 		/// <param name="inStream">The data to write.</param>
 		/// <param name="count">The number of bytes to write.</param>
-		public void Write(Stream inStream, int count)
+		public void Write(Stream inStream, long count)
 		{
-			int bytesLeft = count;
+			long bytesLeft = count;
 			while(bytesLeft > 0)
 			{
 				byte[] buffer = GetBuffer();
-                		int bytesRead = inStream.Read(buffer, 0, Math.Min(buffer.Length, bytesLeft));
+                		int bytesRead = inStream.Read(buffer, 0, (int)Math.Min(buffer.Length, bytesLeft));
 				if (bytesRead != 0)
 				{
 					writeComplete.WaitOne();
