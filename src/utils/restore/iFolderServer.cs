@@ -2215,12 +2215,12 @@ namespace Restore
 		}
 		else {
 		//Check for mandatory files in the given simias path
-				string simiasPath = Path.Combine(DataPath, "/simias");;
+				string simiasPath = Path.Combine(DataPath, "simias");;
 				if( !Directory.Exists(simiasPath)) {
 				Console.WriteLine("|		Error: simias directory does not exist at the specified path: {0} .|",DataPath);
 					return (int)status.InvalidBackupPath;
 				}
-				string flaimdb= Path.Combine(DataPath, "/simias/FlaimSimias.db");
+				string flaimdb= Path.Combine(DataPath, "simias/FlaimSimias.db");
 				if(!File.Exists (flaimdb) ){
 
 				Console.WriteLine("|		Error: iFolder simias database ({0}) does not exist at the specified path.|",flaimdb);
