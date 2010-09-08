@@ -94,6 +94,8 @@ namespace Simias.Service
 		/// </summary>
 		private static string UserMovementModuleName = "UserMovement";
 
+		private static string SimiasServerModuleName = "Simias.Server";
+
 
 		#endregion
 
@@ -452,6 +454,15 @@ namespace Simias.Service
 		{
 			get {return UserMovementModuleName; }
 			set {UserMovementModuleName = value; }
+		}
+
+		/// <summary>
+		/// Catalog/Simias.Server Assebly name
+		/// </summary>
+		public static string CatalogAssemblyName
+		{
+			get {return SimiasServerModuleName; }
+			set {SimiasServerModuleName = value; }
 		}
 
 		/// <summary>

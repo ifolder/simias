@@ -2241,9 +2241,9 @@ namespace Simias.Web
                 /// <returns>Does not return anything...</returns>
                 [WebMethod(EnableSession=true, Description="Returns the characters which cannot be used for filenames in the Simias namespace (files and folders that contain any of these characters cannot be synchronized with iFolder and conflicts will be generated).")]
                 [SoapDocumentMethod]
-                public bool DownloadiFolder(string iFolderID, string name, string DomainID, string HostID, string DirNodeID, string MemberNodeID, string colMemberNodeID, string localPath )
+                public bool DownloadiFolder(string iFolderID, string name, string DomainID, string HostID, string DirNodeID, string MemberNodeID, string colMemberNodeID, string localPath, int sourcefilecount, int sourcedircount )
                 {
-                        return Collection.DownloadCollection( iFolderID, name, DomainID, HostID, DirNodeID, MemberNodeID, colMemberNodeID, localPath );
+                        return Collection.DownloadCollection( iFolderID, name, DomainID, HostID, DirNodeID, MemberNodeID, colMemberNodeID, localPath, sourcefilecount, sourcedircount );
 		}
 
 		///<summary>
@@ -2927,6 +2927,40 @@ namespace Simias.Web
 		public string GetSimiasDataPath()
 		{
 			return Store.StorePath;
+		}
+
+		/// <summary>
+		/// Gets the search context from master.
+		/// </summary>
+		/// <returns>a string containing all search contexts from master</returns>
+		[WebMethod(EnableSession=true, Description="Gets the ldap search context from master simias config file")]
+		[SoapDocumentMethod]
+		public string GetMasterSearchContext()
+		{
+			string contexts = "";
+			string LdapSystemBookSection = "LdapProvider";
+			string SearchKey = "Search";
+			string XmlContextTag = "Context";
+			string XmlDNAttr = "dn";
+
+			string configFile = Path.Combine( Store.StorePath, Configuration.DefaultConfigFileName );
+			if ( File.Exists( configFile ) == false )
+				return contexts;
+			Configuration config = new Configuration( Store.StorePath, true );
+			//LdapSettings ldapSettings = LdapSettings.Get( configFile, true );
+			//foreach(string context in ldapSettings.SearchContexts)
+
+			XmlElement searchElement = config.GetElement( LdapSystemBookSection, SearchKey );
+			if ( searchElement != null )
+			{
+				XmlNodeList contextNodes = searchElement.SelectNodes( XmlContextTag );
+				foreach( XmlElement contextNode in contextNodes )
+				{
+					string context = contextNode.GetAttribute( XmlDNAttr);
+					contexts += (context + "#");
+				}
+			}	
+			return contexts;
 		}
 
 		/// <summary>

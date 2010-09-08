@@ -1008,6 +1008,8 @@
             <xs:element minOccurs="0" maxOccurs="1" name="MemberNodeID" type="xs:string"/>
             <xs:element minOccurs="0" maxOccurs="1" name="colMemberNodeID" type="xs:string"/>
             <xs:element minOccurs="0" maxOccurs="1" name="localPath" type="xs:string"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="sourcefilecount" type="xs:int"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="sourcedircount" type="xs:int"/>
           </xs:sequence>
         </xs:complexType>
       </xs:element>
@@ -1347,6 +1349,16 @@
         <xs:complexType>
           <xs:sequence>
             <xs:element minOccurs="0" maxOccurs="1" name="GetSimiasDataPathResult" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetMasterSearchContext">
+        <xs:complexType/>
+      </xs:element>
+      <xs:element name="GetMasterSearchContextResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetMasterSearchContextResult" type="xs:string"/>
           </xs:sequence>
         </xs:complexType>
       </xs:element>
@@ -1985,6 +1997,12 @@
   <message name="GetSimiasDataPathSoapOut">
     <part name="parameters" element="s0:GetSimiasDataPathResponse"/>
   </message>
+  <message name="GetMasterSearchContextSoapIn">
+    <part name="parameters" element="s0:GetMasterSearchContext"/>
+  </message>
+  <message name="GetMasterSearchContextSoapOut">
+    <part name="parameters" element="s0:GetMasterSearchContextResponse"/>
+  </message>
   <message name="GetSimiasProcessIDSoapIn">
     <part name="parameters" element="s0:GetSimiasProcessID"/>
   </message>
@@ -2367,6 +2385,8 @@
     <part name="MemberNodeID" type="s:string"/>
     <part name="colMemberNodeID" type="s:string"/>
     <part name="localPath" type="s:string"/>
+    <part name="sourcefilecount" type="s:int"/>
+    <part name="sourcedircount" type="s:int"/>
   </message>
   <message name="DownloadiFolderHttpGetOut">
     <part name="Body" element="s0:boolean"/>
@@ -2475,6 +2495,10 @@
   </message>
   <message name="GetSimiasDataPathHttpGetIn"/>
   <message name="GetSimiasDataPathHttpGetOut">
+    <part name="Body" element="s0:string"/>
+  </message>
+  <message name="GetMasterSearchContextHttpGetIn"/>
+  <message name="GetMasterSearchContextHttpGetOut">
     <part name="Body" element="s0:string"/>
   </message>
   <message name="GetSimiasProcessIDHttpGetIn"/>
@@ -2853,6 +2877,8 @@
     <part name="MemberNodeID" type="s:string"/>
     <part name="colMemberNodeID" type="s:string"/>
     <part name="localPath" type="s:string"/>
+    <part name="sourcefilecount" type="s:int"/>
+    <part name="sourcedircount" type="s:int"/>
   </message>
   <message name="DownloadiFolderHttpPostOut">
     <part name="Body" element="s0:boolean"/>
@@ -2961,6 +2987,10 @@
   </message>
   <message name="GetSimiasDataPathHttpPostIn"/>
   <message name="GetSimiasDataPathHttpPostOut">
+    <part name="Body" element="s0:string"/>
+  </message>
+  <message name="GetMasterSearchContextHttpPostIn"/>
+  <message name="GetMasterSearchContextHttpPostOut">
     <part name="Body" element="s0:string"/>
   </message>
   <message name="GetSimiasProcessIDHttpPostIn"/>
@@ -3409,6 +3439,11 @@
       <input message="s0:GetSimiasDataPathSoapIn"/>
       <output message="s0:GetSimiasDataPathSoapOut"/>
     </operation>
+    <operation name="GetMasterSearchContext">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets the ldap search context from master simias config file</wsdl:documentation>
+      <input message="s0:GetMasterSearchContextSoapIn"/>
+      <output message="s0:GetMasterSearchContextSoapOut"/>
+    </operation>
     <operation name="GetSimiasProcessID">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets the process ID for the current running process.</wsdl:documentation>
       <input message="s0:GetSimiasProcessIDSoapIn"/>
@@ -3856,6 +3891,11 @@
       <input message="s0:GetSimiasDataPathSoapIn"/>
       <output message="s0:GetSimiasDataPathSoapOut"/>
     </operation>
+    <operation name="GetMasterSearchContext">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets the ldap search context from master simias config file</wsdl:documentation>
+      <input message="s0:GetMasterSearchContextSoapIn"/>
+      <output message="s0:GetMasterSearchContextSoapOut"/>
+    </operation>
     <operation name="GetSimiasProcessID">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets the process ID for the current running process.</wsdl:documentation>
       <input message="s0:GetSimiasProcessIDSoapIn"/>
@@ -4243,6 +4283,11 @@
       <input message="s0:GetSimiasDataPathHttpGetIn"/>
       <output message="s0:GetSimiasDataPathHttpGetOut"/>
     </operation>
+    <operation name="GetMasterSearchContext">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets the ldap search context from master simias config file</wsdl:documentation>
+      <input message="s0:GetMasterSearchContextHttpGetIn"/>
+      <output message="s0:GetMasterSearchContextHttpGetOut"/>
+    </operation>
     <operation name="GetSimiasProcessID">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets the process ID for the current running process.</wsdl:documentation>
       <input message="s0:GetSimiasProcessIDHttpGetIn"/>
@@ -4619,6 +4664,11 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets the directory path to the Simias data area.</wsdl:documentation>
       <input message="s0:GetSimiasDataPathHttpPostIn"/>
       <output message="s0:GetSimiasDataPathHttpPostOut"/>
+    </operation>
+    <operation name="GetMasterSearchContext">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets the ldap search context from master simias config file</wsdl:documentation>
+      <input message="s0:GetMasterSearchContextHttpPostIn"/>
+      <output message="s0:GetMasterSearchContextHttpPostOut"/>
     </operation>
     <operation name="GetSimiasProcessID">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets the process ID for the current running process.</wsdl:documentation>
@@ -5383,6 +5433,15 @@
     </operation>
     <operation name="GetSimiasDataPath">
       <soap:operation soapAction="http://novell.com/simias/web/GetSimiasDataPath" style="document"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="GetMasterSearchContext">
+      <soap:operation soapAction="http://novell.com/simias/web/GetMasterSearchContext" style="document"/>
       <input>
         <soap:body use="literal"/>
       </input>
@@ -6194,6 +6253,15 @@
         <soap12:body use="literal"/>
       </output>
     </operation>
+    <operation name="GetMasterSearchContext">
+      <soap12:operation soapAction="http://novell.com/simias/web/GetMasterSearchContext" style="document"/>
+      <input>
+        <soap12:body use="literal"/>
+      </input>
+      <output>
+        <soap12:body use="literal"/>
+      </output>
+    </operation>
     <operation name="GetSimiasProcessID">
       <soap12:operation soapAction="http://novell.com/simias/web/GetSimiasProcessID" style="document"/>
       <input>
@@ -6852,6 +6920,15 @@
         <mime:mimeXml part="Body"/>
       </output>
     </operation>
+    <operation name="GetMasterSearchContext">
+      <http:operation location="/GetMasterSearchContext"/>
+      <input>
+        <http:urlEncoded/>
+      </input>
+      <output>
+        <mime:mimeXml part="Body"/>
+      </output>
+    </operation>
     <operation name="GetSimiasProcessID">
       <http:operation location="/GetSimiasProcessID"/>
       <input>
@@ -7492,6 +7569,15 @@
         <mime:mimeXml part="Body"/>
       </output>
     </operation>
+    <operation name="GetMasterSearchContext">
+      <http:operation location="/GetMasterSearchContext"/>
+      <input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </input>
+      <output>
+        <mime:mimeXml part="Body"/>
+      </output>
+    </operation>
     <operation name="GetSimiasProcessID">
       <http:operation location="/GetSimiasProcessID"/>
       <input>
@@ -7532,16 +7618,16 @@
   <service name="Simias Web Service">
     <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Web Service providing access to Simias</wsdl:documentation>
     <port name="Simias Web ServiceSoap" binding="s0:Simias Web ServiceSoap">
-      <soap:address location="https://164.99.101.20/simias10/Simias.asmx"/>
+      <soap:address location="https://164.99.102.176/simias10/Simias.asmx"/>
     </port>
     <port name="Simias Web ServiceSoap12" binding="s0:Simias Web ServiceSoap12">
-      <soap12:address location="https://164.99.101.20/simias10/Simias.asmx"/>
+      <soap12:address location="https://164.99.102.176/simias10/Simias.asmx"/>
     </port>
     <port name="Simias Web ServiceHttpGet" binding="s0:Simias Web ServiceHttpGet">
-      <http:address location="https://164.99.101.20/simias10/Simias.asmx"/>
+      <http:address location="https://164.99.102.176/simias10/Simias.asmx"/>
     </port>
     <port name="Simias Web ServiceHttpPost" binding="s0:Simias Web ServiceHttpPost">
-      <http:address location="https://164.99.101.20/simias10/Simias.asmx"/>
+      <http:address location="https://164.99.102.176/simias10/Simias.asmx"/>
     </port>
   </service>
 </definitions>
