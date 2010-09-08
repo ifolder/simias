@@ -742,10 +742,26 @@ namespace Simias.Sync
             		DomainSyncFinished = 0x00000004,
             		CatalogSyncOnce = 0x00000010,
             		CatalogSyncStarted = 0x00000020,
-                        CatalogSyncFinished = 0x00000040
+                        CatalogSyncFinished = 0x00000040,
+                        UserMoveSyncStarted = 0x00000100,
+                        UserMoveSyncFinished = 0x00000200
                 }
 
         	public static StateMap SyncStateMap = StateMap.unchanged;
+		public static Object MapObject = "StateMapLock";
+
+		public static StateMap ServerSyncStatus
+		{
+			get
+			{
+				return SyncStateMap;
+			}
+			set
+			{
+				SyncStateMap = value;
+			}
+		}
+
 
 		/// <summary>
 		/// Returns true if we should yield our timeslice.
