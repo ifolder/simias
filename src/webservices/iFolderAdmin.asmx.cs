@@ -123,6 +123,19 @@ namespace iFolder.WebService
                         return base.GetHomeServerURLForUserID( userid );
                 }
 
+		/// <summary>
+		/// Get the new HomeServer url where user is getting moved
+		/// </summary>
+		/// <returns>homeserver url</returns>
+		[WebMethod(
+			Description="Get the new homeserver URL for the user where user is getting moved. Null if user does not have home server.",
+			EnableSession=true)]
+		public override string GetNewHomeServerURLForUserID( string userid )
+		{
+			return base.GetNewHomeServerURLForUserID( userid );
+		}
+
+
                 /// <summary>
                 /// returns whether encryption is enforced for this user or not  
                 /// </summary>

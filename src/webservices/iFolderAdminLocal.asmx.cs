@@ -1852,6 +1852,23 @@ namespace iFolder.WebService
 		    return result;
 		}
 
+                /// <summary>
+                /// Get the new home server url for the user
+                /// </summary>
+                /// <returns>Publiv url of the new home server where user is getting moved.</returns>
+                [WebMethod(
+                         Description="Get the new home server url for the user.",
+                         EnableSession=true)]
+                public virtual string GetNewHomeServerURLForUserID( string userid )
+                {
+                        string result=null;
+
+			if( IsAccessAllowed(userid) )
+	                        result = iFolderServer.GetNewHomeServerURLForUserID( userid );
+
+                        return result;
+                }
+
 		/// <summary>
 		/// Getsimiasrequiressl info  
 		/// </summary>

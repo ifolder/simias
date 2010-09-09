@@ -47,6 +47,8 @@ namespace iFolder.WebService
 	[Serializable]
 	public class iFolderUserDetails : iFolderUser
 	{
+		private static readonly ISimiasLog log = SimiasLogManager.GetLogger(typeof(iFolderUser));
+		
 		/// <summary>
 		/// The User Effective Sync Interval in the Current iFolder
 		/// </summary>
@@ -128,12 +130,24 @@ namespace iFolder.WebService
 
 
 			if ( member.HomeServer != null )
-                		this.DetailHomeServer = (member.HomeServer.Name == null ) ? string.Empty : member.HomeServer.Name;
-            		else
-                		this.DetailHomeServer = string.Empty;	
-             		int state = member.UserMoveState;
-	    	 	switch(state)
-		     	{
+				this.DetailHomeServer = (member.HomeServer.Name == null ) ? string.Empty : member.HomeServer.Name;
+			else
+				this.DetailHomeServer = string.Empty;	
+
+			if ( member.NewHomeServer != null )
+			{
+				HostNode newHomeNode = HostNode.GetHostByID(domain.ID, member.NewHomeServer);
+				if(newHomeNode != null)
+					this.DetailNewHomeServer = (newHomeNode.Name == null ) ? string.Empty : newHomeNode.Name;
+				else
+					this.DetailNewHomeServer = string.Empty;
+			}
+			else
+				this.DetailNewHomeServer = string.Empty;
+
+			int state = member.UserMoveState;
+			switch(state)
+			{
 		             case (int)Member.userMoveStates.Nousermove:
 		             case (int)Member.userMoveStates.Initialized:
 		                       DetailDataMoveStatus = "Initializing";
@@ -159,32 +173,68 @@ namespace iFolder.WebService
 		                        DetailDataMovePercentage = 0;
 			                    DetailDataMoveStatus = "Initializing";
 			                   break;
-		     	}
+			}
 			 if( state < (int)Member.userMoveStates.DataMoveStarted)
 					    DetailDataMovePercentage += 0;
 			 else if( state > (int)Member.userMoveStates.DataMoveStarted)
 					    DetailDataMovePercentage += 80;
 			 else
-			 {
-				 Store stored = Store.GetStore();
-				 long SpaceUsed = 0;
-				 long DataTransferred  = 1;
-				 int iFolderMoveState = 0;
-				 ICSList collectionList = stored.GetCollectionsByOwner( member.UserID, domain.ID );
-				 foreach ( ShallowNode sn in collectionList )
-				 {
-					 Collection iFolderCol = new Collection( stored, sn );
-					 SpaceUsed += iFolderCol.StorageSize;
-					 iFolderMoveState = member.iFolderMoveState(domain.ID, false, iFolderCol.ID, 0, 0);
-					 if(iFolderMoveState  > 1 )
-					 {
-						 DataTransferred += iFolderCol.StorageSize;
-					 }
-				 }
-				 if(SpaceUsed != 0)
-					 DetailDataMovePercentage += (int)(( 80 * DataTransferred ) / SpaceUsed );
-				 else
-					 DetailDataMovePercentage += 80;
+			   {
+                    			Store stored = Store.GetStore();
+					long SpaceUsed = 0;
+					long DataTransferred  = 1;
+					int iFolderMoveState = 0;
+
+					// From catalog, get the total size of the collections owned by this user.
+					// Then, check which iFolders are present on local machine, those which are not present are moved, minus them
+					long TotalSpaceUsed = Catalog.GetSpaceUsedByOwnerID( member.UserID );
+					HostNode LocalHostNode = HostNode.GetLocalHost();
+					bool LocalHostIsNewHome = false;
+					bool LocalHostIsOldHome = false;
+					bool ValidLocalHost = ( LocalHostNode != null && !String.IsNullOrEmpty(LocalHostNode.Name) );
+
+					if( ValidLocalHost && !String.IsNullOrEmpty(this.HomeServer) && String.Equals( this.HomeServer, LocalHostNode.Name))
+					{
+							LocalHostIsOldHome = true;
+					}
+
+					if( ValidLocalHost && !String.IsNullOrEmpty(this.DetailNewHomeServer) && String.Equals( this.DetailNewHomeServer, LocalHostNode.Name))
+					{		
+							LocalHostIsNewHome = true;
+					}	
+
+					// If localhost is where user is moving, then start with 0 and add all collections in local store as moved ones
+					// If localhost is older home, then start with total data size and subtract collections which are not in local store
+					DataTransferred = LocalHostIsNewHome ? 0 : ( LocalHostIsOldHome ? TotalSpaceUsed : 0);
+					
+
+					ICSList collectionList = stored.GetCollectionsByOwner( member.UserID, domain.ID );
+					foreach ( ShallowNode sn in collectionList )
+					{
+					    	Collection iFolderCol = new Collection( stored, sn );
+						//SpaceUsed += iFolderCol.StorageSize;
+						iFolderMoveState = member.iFolderMoveState(domain.ID, false, iFolderCol.ID, 0, 0);
+						if(iFolderMoveState  > 1 )
+						{
+							// This is almost non-reachable code. because when iFolderMoveState becomes 2, it means collection is
+							// moved and in that case, the collection will not be present in local store, so store.getco..Owner
+							// will not return the collection's ID. should not we remove this true codepath????
+							 //it comes momentarily here only once..
+								DataTransferred += iFolderCol.StorageSize;
+						}
+						else
+						{
+							DataTransferred = LocalHostIsNewHome ? ( DataTransferred + iFolderCol.StorageSize /* local server is new home for the user*/) : ( DataTransferred - iFolderCol.StorageSize /* user is getting moved away from local server*/ );
+						}
+					}
+					if(TotalSpaceUsed != 0)
+					{
+						log.Debug("iFolderUserDetails: After total calculation, now size of data that already moved is {0} and total space used by user/allcolls is {1}", DataTransferred, TotalSpaceUsed);
+						DetailDataMovePercentage += (int)(( 80 * DataTransferred ) / TotalSpaceUsed );
+						log.Debug("iFolderUserDetails: DataMovePercentage after calculation is :"+DetailDataMovePercentage);
+					}
+					else
+							DetailDataMovePercentage += 80;
 			   }
 			 if ( member.NewHomeServer != null )
 			 {

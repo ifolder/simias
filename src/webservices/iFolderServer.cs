@@ -1213,6 +1213,41 @@ namespace iFolder.WebService
 			return machArch;
 		}
 
+                /// <summary>
+                /// Get the New HomeServer URL for User where user is getting moved.
+                /// </summary>
+                /// <returns>Return the URL for the server </returns>
+                public static string GetNewHomeServerURLForUserID( string userid )
+                {
+                        string serverUrl = null;
+                        try
+                        {
+				HostNode hNode = null;
+                                Store store = Store.GetStore();
+                                Domain domain = store.GetDomain(store.DefaultDomain);
+
+                                // find user
+                                Member member = domain.GetMemberByID( userid );
+
+                                if (member == null) throw new UserDoesNotExistException( userid );
+		
+				if( !String.IsNullOrEmpty(member.NewHomeServer) )
+				{
+					hNode = HostNode.GetHostByID(domain.ID, member.NewHomeServer);
+				}
+
+                                if ( hNode != null )
+                                        serverUrl = hNode.PublicUrl;
+
+                        }
+                        catch ( Exception ex )
+                        {
+                                        throw (ex);
+                        }
+
+                        return serverUrl;
+                }
+
         /// <summary>
         /// Set up ssl for master server
         /// </summary>
