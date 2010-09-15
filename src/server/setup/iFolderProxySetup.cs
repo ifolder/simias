@@ -173,7 +173,7 @@ public class GrantRights
 					rval = UpdateProxyDetails( );
 				}catch(Exception ex3)
 				{
-					tw.WriteLine("iFolder {0}- caught exception while assigning proxy rights : {1}",DateTime.Now.ToString(), ex3.Message);
+					tw.WriteLine("iFolder {0}- caught exception while updating proxy credentials : {1}",DateTime.Now.ToString(), ex3.Message);
 					DeleteProxyFile();
 					rval = -1;
 				}
@@ -320,12 +320,12 @@ public class GrantRights
 
                 // If the ldap IP of iFolder is some AD or non-edir then return immediately.
 
-		ServiceProxyRequests();
-
+		int rval = ServiceProxyRequests();
+		
 		DeleteProxyFile();
-
-		tw.WriteLine("iFolder {0} - Updating Proxy credentials to store: Success ",DateTime.Now.ToString());
-		return 0;
+		if( rval == 0)
+			tw.WriteLine("iFolder {0} - Updating Proxy credentials to store: Success ",DateTime.Now.ToString());
+		return rval;
 	}
 
 	// based on the boolean parameter, it will return either username or password
@@ -617,8 +617,9 @@ public class GrantRights
 			return eDirectory ; 
                 }
 
-		public static void ServiceProxyRequests()
+		public static int ServiceProxyRequests()
 		{
+			int retval = 0;
 			const string FnStoreProxyCreds = "update_proxy_cred_store";
 			const string FnRightsAssignment = "proxy_rights_assign";
 			bool Proxy_Rights_Assign = false;
@@ -760,15 +761,18 @@ public class GrantRights
 				ptw.WriteLine( proxypwd );
 				tw.WriteLine("method: proxycredstore: wrote the creds into  file");
 				ptw.Close();
-
-				if (Execute("chown", "wwwrun:www {0}", path1) != 0)
+				
+				if ((retval=Execute("chown", "wwwrun:www {0}", path1)) != 0)
+				{
 					tw.WriteLine("method: proxycredstore: Unable to set wwwrun as owner of {0} file. Please do it manually",path1);
+					return retval;
+				} 
 
 				if (Execute("chmod", "600 {0}", path1) != 0)
 					tw.WriteLine("method: proxycredstore: Unable to set rights 600 to {0} file. Please do it manually",path1);
-
 	
 			}
+			return retval;
 		}
 
 	 	static int Execute(string command, string format, params object[] args)
