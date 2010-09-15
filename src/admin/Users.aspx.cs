@@ -511,7 +511,9 @@ namespace Novell.iFolderWeb.Admin
 		/// <returns>True if the user is allowed to be checked.</returns>
 		protected bool IsUserEnabled( object id )
 		{
-			return !IsSuperAdmin( id as string );
+			// return !IsSuperAdmin( id as string );
+			// Letting all users for re-provision
+			return true;
 		}
 
 		/// <summary>
