@@ -88,6 +88,17 @@ namespace Novell.iFolder
 		private static string TemplateScriptFile = "simias-server";
 		private static readonly int MAX_PROXY_RETRY_COUNT = 5;
 
+		/// <summary>
+		/// Path lengh in iFolder is restricted to 256 max as the needs to ve supported on 
+		/// all platforms.
+		/// </summary>
+		private static readonly int MAX_PATH_LENGTH = 256;
+		
+		/// <summary>
+		/// Suffix path length that gets added to datapath SimiasFile/<2 char id>/<36 char GUID>/
+		/// </summary>
+		private static readonly int DATAPATH_SUFFIX_STR_LENGTH = 52;
+
 	        //Invalid Character List.
 		public static char[] InvalidChars = {'\\', ':', '*', '?', '\"', '<', '>', '|', ' '};
 
@@ -524,7 +535,22 @@ namespace Novell.iFolder
 				    throw new Exception ("Server Name contains invalid characters");
 				}
 
-			        Console.WriteLine ("ServerName contains invalid characters. Please re-enter Server Name");
+			        Console.WriteLine ("\nServerName contains invalid characters. Please re-enter Server Name");
+
+			        serverName.Assigned = false;
+				serverName.Prompt = true;
+
+				Prompt.ForOption (serverName);
+				return true;
+			}
+			else if((storePath.Length + DATAPATH_SUFFIX_STR_LENGTH  + serverName.Value.Length) > MAX_PATH_LENGTH)
+			{
+			        if (!Prompt.CanPrompt)
+				{
+				    throw new Exception ("Server Name or data path selected is too long. ");
+				}
+
+			        Console.WriteLine ("\nServer Name or data path selected is too long. Please re-enter Server Name");
 
 			        serverName.Assigned = false;
 				serverName.Prompt = true;
