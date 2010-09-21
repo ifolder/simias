@@ -148,6 +148,10 @@ namespace iFolder.WebService
 			int state = member.UserMoveState;
 			switch(state)
 			{
+				case (int)Member.userMoveStates.PreProcessingFailed:
+					DetailDataMoveStatus = "NOTELIGIBLE";
+					DataMovePercentage = 0;
+					break;
 		             case (int)Member.userMoveStates.Nousermove:
 		             case (int)Member.userMoveStates.Initialized:
 		                       DetailDataMoveStatus = "Initializing";

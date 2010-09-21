@@ -144,6 +144,9 @@
 	<data name="DELETE">
 		<value>Delete</value>
 	</data>
+	<data name="DELETED">
+		<value>Deleted</value>
+	</data>
 	<data name="DENY">
 		<value>Deny</value>
 	</data>
@@ -1286,6 +1289,9 @@
         <value>Offline</value>
     <data name="WAITING">
         <value>Waiting</value>
+    </data>
+    <data name="NOTELIGIBLE">
+        <value>Initialization Failed</value>
     </data>
 	<data name="CHANGEMASTER">
 		<value>Set As Master</value>

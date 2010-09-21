@@ -68,6 +68,10 @@
 						<td class="regularcolumn">
 							<%= GetString( "REPROVISOINSTATE" ) %>
 						</td>
+
+						<td class="regularcolumn">
+							 &nbsp;  
+						</td>
 					</tr>
 			
 				</table>
@@ -86,6 +90,8 @@
 					ItemStyle-CssClass="accountslistitem">
 					
 					<Columns>
+
+						<asp:BoundColumn DataField="IDField" Visible="False" />
 					
 						<asp:TemplateColumn ItemStyle-CssClass="accountsitem2">
 							<ItemTemplate>
@@ -107,7 +113,11 @@
 						<asp:BoundColumn ItemStyle-CssClass="accountsitem3" DataField="NewHomeField"/>
 						<asp:BoundColumn ItemStyle-CssClass="accountsitem3" DataField="PercentageStatusField"/>
 						<asp:BoundColumn ItemStyle-CssClass="accountsitem3" DataField="StatusField"/>
-						
+						<asp:TemplateColumn ItemStyle-CssClass="accountsitem3">
+							<ItemTemplate>
+								<asp:LinkButton Text='<%# GetString( "DELETE" ) %>' id="LinkButton1" OnClick="OnDeleteClicked" Visible='<%# DataBinder.Eval(Container.DataItem,"DeleteField") %>' runat="server" />
+							</ItemTemplate>
+						</asp:TemplateColumn>		
 					</Columns>
 					
 				</asp:datagrid>

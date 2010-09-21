@@ -489,6 +489,8 @@ namespace iFolder.WebService
 			this.IsOwner = (member.UserID == collection.Owner.UserID);
 			this.Email = NodeUtility.GetStringProperty(member, EmailProperty);
 			this.Preference = -1;
+			
+			string NotEligible = "NOTELIGIBLE";
 
 			if ( member.HomeServer != null )
 			    this.HomeServer = (member.HomeServer.Name == null ) ? string.Empty : member.HomeServer.Name;
@@ -525,6 +527,10 @@ namespace iFolder.WebService
 				int state = member.UserMoveState;
 				switch(state)
 				{
+					case (int)Member.userMoveStates.PreProcessingFailed:
+						DataMoveStatus = NotEligible;
+						DataMovePercentage = 0;
+					break;
 					case (int)Member.userMoveStates.Nousermove:
 					case (int)Member.userMoveStates.Initialized:
 						DataMoveStatus = "Initializing";
@@ -1322,6 +1328,33 @@ namespace iFolder.WebService
 			{
 				throw ex; 
 			}	
+		}
+
+		public static bool DeleteFromUserMoveQueue(string UserID)
+		{
+			bool result = false;
+			Store store = Store.GetStore();
+			Domain domain = store.GetDomain(store.DefaultDomain);
+			if( domain == null)
+				throw new SimiasException("UpdateUserMoveState Enterprise server domain does not exist.");
+			Simias.Storage.Member member = domain.GetMemberByID(UserID);
+			if(member == null)
+				throw new SimiasException("UpdateUserMoveState member does not exist.");
+
+			// avoid repeated attempt for same operation
+			if( member.UserMoveState != -1)
+			{
+				member.UserMoveState = (int)Member.userMoveStates.Nousermove;
+				member.DeleteProperty = PropertyTags.NewHostID;
+				Property p = member.Properties.GetSingleProperty( PropertyTags.LoginAlreadyDisabled );
+				if( p == null)
+					domain.SetLoginDisabled(UserID, false);
+				else
+					member.DeleteProperty = PropertyTags.LoginAlreadyDisabled;
+				log.Debug("committing the member node after removing usermove related properties..");
+				domain.Commit( member );	
+			}
+			return true;	
 		}
 
 		/// <summary>

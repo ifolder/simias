@@ -595,7 +595,6 @@ namespace Novell.iFolderWeb.Admin
 			string userID = Session[ "UserID" ] as String;
 			grpAccessPolicy = web.GetUserGroupRights(userID, null);
 			uRights = new UserGroupAdminRights(grpAccessPolicy);
-
 			if ( !IsPostBack )
 			{
 				// Initialize the localized fields.
