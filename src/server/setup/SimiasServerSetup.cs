@@ -2323,6 +2323,11 @@ Console.WriteLine("Url {0}", service.Url);
 						status = false;
 					}
 				}
+				if(host == null && created == false)
+				{
+						Console.WriteLine( "\nMaster host URL {0} seems to be incorrect.  Please choose an appropriate Master host URL", masterAddress.Value );
+						status = false;
+				}
 			}
 			else
 			{

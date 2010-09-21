@@ -338,6 +338,11 @@ namespace Simias.Host
 			// Check if the host already exists.
 			created = false;
 
+			HostNode hNode = null;
+
+			// This is not the right master host, so fail the registration process
+			if((hNode = HostNode.GetLocalHost()) == null || !hNode.IsMasterHost )
+				return null;
 			Member host = hostDomain.GetMemberByName( name );
 			if (host == null)
 			{
