@@ -1793,9 +1793,11 @@ namespace Restore
 
 			if( String.IsNullOrEmpty(RedirectedNewServerUrl) )
                         {
-				MainClass.DebugLog.Write(string.Format("Failed, fetching Home information for ifolder owner user:{0} on current server with exit status as: {1}",ifolder.OwnerUserName, "EmptyNewServerUrl"));
+				MainClass.DebugLog.Write(string.Format("Failed, fetching Home Server information for ifolder owner user:{0} on current server with exit status as: {1}",ifolder.OwnerUserName, "EmptyNewServerUrl"));
+				//Restore tool does not allow to restore the data if the owner does not exist on the server.
+				Console.WriteLine("|               		Error: Unable to get the home server information for the user: \'{0}\'.    |",ifolder.OwnerUserName);		
 				RestoreStatus = (int)status.EmptyNewServerUrl;
-                                return (int)status.EmptyNewServerUrl;
+                return (int)status.EmptyNewServerUrl;
 			}
 			MainClass.DebugLog.Write(string.Format("The redirected url is: {0}", RedirectedNewServerUrl));
 
@@ -3208,7 +3210,7 @@ namespace Restore
                                                 Console.WriteLine("\n|               Invalid User Name, User name does not exist in old data path.            |");
                                                 break;
                                         case (int)status.EmptyNewServerUrl:
-                                                Console.WriteLine("\n|               Input Current Server IP is Empty.                                        |");
+												Console.WriteLine("|               		Restore Operation failed, iFolder owner does not exist on the iFolder Server                                             |");
                                                 break;
 				                        case (int)status.PolicyRestoreFailed:
                                                 Console.WriteLine("\n|               iFolder Policy Restore Failed.                                        |");
