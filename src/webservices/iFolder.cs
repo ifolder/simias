@@ -477,10 +477,26 @@ namespace iFolder.WebService
 		{
 			Store store = Store.GetStore ();
 		        Domain domain = store.GetDomain(store.DefaultDomain);
-
+			Collection col = null;
+			string hostID =null;
 		        CatalogEntry ce = Catalog.GetEntryByCollectionID (ifolderID);
-
-			HostNode remoteHost =  new HostNode (domain.GetMemberByID(ce.HostID));
+			if(ce == null)
+			{	
+				log.Info("Entry for ifolderId:{0} is not found in catelog entry",ifolderID);
+				col = store.GetCollectionByID(ifolderID);
+				if(col ==null)
+				{
+					log.Info("Entry for ifolderID:{0} is not found in both Catelog as well as in local store",ifolderID);
+					throw new iFolderDoesNotExistException(ifolderID);
+				}	
+				else
+				{
+			        	hostID = col.HostID; 	
+				}
+			}
+			else
+				hostID = ce.HostID;
+			HostNode remoteHost =  new HostNode (domain.GetMemberByID(hostID));
 
 			return remoteHost.PublicUrl;
 		}
