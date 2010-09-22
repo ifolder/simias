@@ -95,7 +95,7 @@
 				</tr>
 				
 				<tr>
-					<td class="logincontentlabel">
+					<td nowrap class="logincontentlabel">
 						<%= GetString("LOGINUSERNAME") %>
 					</td>
 					
