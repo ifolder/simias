@@ -48,8 +48,8 @@ endif
 
 $(srcdir)/SimiasService2.cs: $(srcdir)/../WebService/Simias.wsdl
 if LINUX
-	wsdl -nologo -out:SimiasService2.cs $(srcdir)/../WebService/Simias.wsdl
-	wsdl1 -nologo -out:SimiasService.cs $(srcdir)/../WebService/Simias.wsdl
+	$(WSDL) -nologo -out:SimiasService2.cs $(srcdir)/../WebService/Simias.wsdl
+	$(WSDL) -nologo -out:SimiasService.cs $(srcdir)/../WebService/Simias.wsdl
 endif
 
 SimiasClient.dll: $(srcdir)/AssemblyInfo.cs $(SimiasClient_CSFILES) $(SimiasClient_RESOURCES)
