@@ -292,11 +292,9 @@ namespace Novell.iFolderWeb.Admin
 				CurrentUserOffset = 0;
 				TotalUsers = 0;
 			}
-			string code = Thread.CurrentThread.CurrentUICulture.Name;
-			if ( code.StartsWith("ru") || code.StartsWith("hu") )
-				OkButton.Width = 330;
-			else if ( code.StartsWith("de") )
-				OkButton.Width = 400;
+			//TODO: Calculate size of string for localize string and set width of button with respect to it.
+			OkButton.Width = 250;
+				
 		}
 		
 		/// <summary>
