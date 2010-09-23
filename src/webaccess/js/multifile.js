@@ -3,6 +3,14 @@
  *
  * Based on work by Stickman -- http://www.the-stickman.com 
  */
+
+function bytesToSize(bytes) {
+	var sizes = ['bytes', 'kb', 'MB', 'GB', 'TB', 'PB'];
+	var e = Math.floor(Math.log(bytes)/Math.log(1024));
+	return (bytes/Math.pow(1024, Math.floor(e))).toFixed(2)+" "+sizes[e];
+};
+
+
 function MultiFile(list, max)
 {
 	this.list = list;
@@ -93,7 +101,7 @@ function MultiFile(list, max)
 		};
 
 		// row value
-		new_row.innerHTML = element.value;
+		new_row.innerHTML = element.value + " (" + bytesToSize(element.files[0].fileSize) + ") ";
 
 		// add button
 		new_row.appendChild(new_row_button);
