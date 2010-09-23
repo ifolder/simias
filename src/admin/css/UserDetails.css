@@ -146,21 +146,16 @@ div#shared li.sharedifolders a:link, div#shared li.sharedifolders a:visited
 
 .ifolderlistheader .namecolumnuserdetails
 {
-		    width: 27.3em;
+	width: 29.9em;
 }
 
 .ifolderlistheader .ownercolumn
 {
-	width: 13.5em;
+	width: 14.5em;
 }	
 
 .ifolderlistheader .sizecolumn
 {
-}
-
-.ifolderlistheader .sizecolumnuserdetails
-{
-    width: 13.5em;
 }
 
 .ifolderlistitem

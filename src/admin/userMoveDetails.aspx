@@ -171,11 +171,11 @@
 							<%= GetString( "OWNER" ) %>
 						</td>
 
-						<td class="sizecolumnuserdetails">
+						<td class="ownercolumn">
 							<%= GetString( "SIZE" ) %>
 						</td>
 
-						<td class="statuscolumn">
+						<td class="ownercolumn">
 							<%= GetString( "STATUS" ) %>
 						</td>
 					</tr>
