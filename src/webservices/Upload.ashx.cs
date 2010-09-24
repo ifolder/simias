@@ -63,6 +63,7 @@ namespace iFolder.WebService
 		public override void ProcessRequest(HttpContext context)
 		{
 			const int BUFFERSIZE = (16 * 1024);
+			string backupPath = null;
 
 			try
 			{
@@ -103,11 +104,7 @@ namespace iFolder.WebService
 					throw new AccessException(collection, member, Access.Rights.ReadWrite);
 				}
 
-				string backupPath = null;
 				long backupLength = 0;
-
-				try
-				{
 
 					// new file?
 					if (node == null)
@@ -162,7 +159,7 @@ namespace iFolder.WebService
 							throw new DiskQuotaException(filename);
 						}
 					}
-
+				try{
 					// lock the file
 					FileStream stream = File.Open(filePath, FileMode.Create, FileAccess.Write, FileShare.None);
 			
@@ -227,6 +224,7 @@ namespace iFolder.WebService
 					if ((backupPath != null) && File.Exists(backupPath))
 					{
 						File.Delete(backupPath);
+						backupPath = null;
 					}
 				}
 			}
@@ -258,6 +256,15 @@ namespace iFolder.WebService
 				// create an HTTP error
 				context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 				context.Response.StatusDescription = e.GetType().Name;
+			}
+			finally
+			{
+				// delete backup file
+				if ((backupPath != null) && File.Exists(backupPath))
+				{
+					File.Delete(backupPath);
+					backupPath = null;
+				}
 			}
 		}
 
