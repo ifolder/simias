@@ -383,6 +383,13 @@ namespace Simias.Web
 				return;
 			}
 
+			if (!Directory.Exists(simiasDataPath))
+			{
+				if(verbose)
+					Console.Error.WriteLine("Simias data path {0} does not exist", simiasDataPath);
+				return;
+			}
+
 			string[] fileEntries = 
 				Directory.GetFileSystemEntries(simiasDataPath);
 
