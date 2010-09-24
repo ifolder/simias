@@ -835,6 +835,7 @@ namespace Novell.iFolderWeb.Admin
 						HeaderTitle.Text = GetString( "ADDNEWORSELECTGROUPTOEDIT" );
 						SubHeaderTitle.Visible = false;
 						OkButton.Text = GetString( "EDIT" );
+						OkButton.Enabled = false;
 
 						// Hide the back button.
 						BackButton.Visible = false;
@@ -1252,6 +1253,8 @@ namespace Novell.iFolderWeb.Admin
 				{
 					// Remove this member from the list.
 					MembersToAdd.Remove( userID );
+					if(MembersToAdd.Count == 0 )
+						OkButton.Enabled = false;
 				}
 			}
 		}
