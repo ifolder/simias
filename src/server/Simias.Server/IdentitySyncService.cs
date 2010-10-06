@@ -385,6 +385,15 @@ namespace Simias.IdentitySync
 			try
 			{
 				member = domain.GetMemberByName( Username );
+				if (member == null && !String.IsNullOrEmpty(UserGuid)){
+					//Note: In case of renamed users teh user name will be different and the GUID will be same.
+					//Search if the user already exist with the GUID. 
+					member = domain.GetMemberByID(UserGuid);
+					if (member != null){
+						//TBD:iFolder needs to handle the renamed users properly.
+						log.Info("This user is renamed on the LDAP server. Old Username = {0}, new Username= {1}", member.Name, Username);
+					}
+				}
 			}
 			catch{}
 			if ( member != null )
@@ -530,66 +539,12 @@ namespace Simias.IdentitySync
 					{
 						member.Properties.ModifyProperty( prop );
 					}
-					// while creating member, if sum of allocated disk quota per user is equal to aggregate disk quota set on group
-                                        // then set 0 MB as disk quota limit for this user
-                                        {
-                                                string [] GroupIDs = domain.GetMemberFamilyList(member.UserID);
-                                                foreach(string GroupID in GroupIDs)
-                                                {
-                                                        bool IsChildGroup = false;
-                                                        Member GroupAsMember = domain.GetMemberByID(GroupID);
-                                                        string ParentGroups = null;
-							Property p = GroupAsMember.Properties.GetSingleProperty( "UserGroups" );
-							if(p != null)
-								ParentGroups = p.Value as string;
-
-                                                        if(ParentGroups != null && ParentGroups != String.Empty)
-                                                        {
-                                                                // no point in
-                                                                IsChildGroup = true;
-                                                        }
-                                                        long GroupDiskQuota = GroupAsMember.AggregateDiskQuota;
-                                                        if(GroupDiskQuota < 0)
-                                                        {
-
-                                                                if( IsChildGroup )
-                                                                        continue;
-                                                                else
-                                                                {
-                                                                        Simias.Policy.DiskSpaceQuota.Set(member, -1);
-                                                                        log.Debug("MEMBERADD: No aggregate Disk Quota set for group, so it will set unlimited space for newly added member");
-                                                                        break;
-                                                                }
-
-                                                        }
-                                                        if( domain.GroupQuotaRestrictionMethod == (int)QuotaRestriction.UI_Based )
-                                                        {
-                                                                // add the allocated disk quota per user for whole group
-                                                                long SizeAllocatedToMembers = 0;
-                                                                string [] MembersList = domain.GetGroupsMemberList( GroupID );
-                                                                foreach( string GroupMemberID in MembersList)
-                                                                {
-                                                                        long MemberAllocation = Simias.Policy.DiskSpaceQuota.Get( domain.GetMemberByID(GroupMemberID)).Limit;
-                                                                        if( MemberAllocation >= 0 )
-                                                                                SizeAllocatedToMembers += MemberAllocation;
-                                                                }
-                                                                if( SizeAllocatedToMembers >= GroupDiskQuota )
-                                                                {
-                                                                        log.Debug("MEMBERADD: Sum of Disk Quota per user for all users is equal to aggregate disk quota set for group, so committing 0 MB for newly added user");
-                                                                        Simias.Policy.DiskSpaceQuota.Set(member, 0);
-                                                                        break;
-                                                                }
-
-                                                        }
-                                                }
-                                        }
-
-
 					
 					status = MemberStatus.Created;
 				}
 				catch( Exception ex )
 				{
+					log.Debug("Failed Creating member: "+Username + ex.Message);
 					this.ReportError( "Failed creating member: " + Username + ex.Message );
 					return;
 				}
@@ -628,6 +583,12 @@ namespace Simias.IdentitySync
 		public void ReportError( string ErrorMsg )
 		{
 			reportedErrors++;
+			log.Debug( "Error occured in Sync");
+			log.Debug(
+				String.Format(
+					"ERROR:{0} - {1}",
+					DateTime.Now.ToString(),
+					ErrorMsg ) );
 			syncMessages.Add(
 				String.Format(
 					"ERROR:{0} - {1}",
@@ -1440,6 +1401,10 @@ namespace Simias.IdentitySync
 					if ( state.Errors == 0 )
 					{
 						ProcessDeletedMembers( state );
+					}
+					else 
+					{
+						log.Error("Errors occured during Identity Sync, skipping processing of user deletion");
 					}
 				}
 				catch( Exception ex )
