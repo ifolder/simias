@@ -168,7 +168,10 @@ namespace Novell.iFolder
 		#endregion
 
 		#region Options
-
+		/// <summary>
+		/// Confirm slave server remove 
+		/// </summary>
+		public BoolOption confirmDelete = new BoolOption("confirm-delete", "Removing this server will make iFolders on this server unaccessible. Do you want to proceed", "Confirm slave server remove", false, true);
 		/// <summary>
 		/// The store path.
 		/// </summary>
@@ -381,7 +384,8 @@ namespace Novell.iFolder
 				// On windows we do not want to prompt for these values.
 				apache.Value = false;
 #endif
-
+			confirmDelete.Prompt = false;
+			confirmDelete.OnOptionEntered = new Option.OptionEnteredHandler( OnConfirmDelete );
 			path.OnOptionEntered = new Option.OptionEnteredHandler( OnPath );
 //			defaultConfigPath.OnOptionEntered = new Option.OptionEnteredHandler( OnDefaultConfig );
 
@@ -663,7 +667,16 @@ namespace Novell.iFolder
 			}
 			return true;
 		}
-
+         /// <summary>
+         /// Confirm slave server removal. 
+         /// </summary>
+         /// <returns>true if confirmed </returns>
+		private bool OnConfirmDelete()
+		{
+			if ( !confirmDelete.Value )
+				System.Environment.Exit( -1 );
+			return true;
+		}
         /// <summary>
         /// called during public URL selection
         /// </summary>
@@ -1464,7 +1477,7 @@ Console.WriteLine("Url {0}", service.Url);
         /// <returns>true if fields of simias-server-setup set successfully</returns>
 		private bool OnRemove()
 		{
-			path.Prompt = systemAdminPassword.Prompt = true;
+			path.Prompt = systemAdminPassword.Prompt = confirmDelete.Prompt = true;
 			systemName.Prompt = systemDescription.Prompt = systemAdminDN.Prompt =  publicUrl.Prompt = slaveServer.Prompt =
 				useLdap.Prompt = ldapServer.Prompt = ldapPlugin.Prompt = secure.Prompt = ldapProxyDN.Prompt = ldapSearchContext.Prompt = 
 				namingAttribute.Prompt = privateUrl.Prompt = serverName.Prompt = useSsl.Prompt = 
@@ -2235,6 +2248,17 @@ Console.WriteLine("Url {0}", service.Url);
 					Console.WriteLine("Failed to read \"Master server URL\" from \"{0}\"",configFile);
 					return false;
 				}
+				
+				try {
+					// rename config file so that if server is restarted it should not be coming up.
+					// FIXME: need a better way, may be we could have another option remove-with-data and clean up all
+					System.IO.File.Move(configFile, Path.Combine( storePath, Configuration.RenamedConfigFileName ) );
+				}
+				catch
+				{
+					Console.WriteLine("Unable to rename config file : {)}", configFile);
+				}
+
 				if(!UnRegisterSlaveFromMaster(systemAdminDN.Value,serverName.Value))
 				{
 					return false;

@@ -48,6 +48,8 @@ namespace Simias
 	{
 		#region Class Members
 		public const string DefaultConfigFileName = "Simias.config";
+		public const string RenamedConfigFileName = "Simiasconfig.removed";
+		
 
 		private const string SectionTag = "section";
 		private const string SettingTag = "setting";
