@@ -98,7 +98,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="NO.RA.SELECTED">
-    <value>未選取復原代辦，因此無法復原通關密語</value>
+    <value>未選取復原代辦，因此無法復原密碼片語</value>
   </data>
   <data name="ACTION">
     <value>動作</value>
@@ -215,10 +215,10 @@
     <value>返回</value>
   </data>
   <data name="SELECTRECOVERYAGENT">
-    <value>通關密語復原代辦：</value>
+    <value>密碼片語復原代辦：</value>
   </data>
   <data name="PASSPHRASE_NOT_MATCH">
-    <value>通關密語不符</value>
+    <value>密碼片語不符</value>
   </data>
   <data name="ENTRY">
     <value>項目</value>
@@ -310,6 +310,9 @@
   <data name="NEWPASSWORD">
     <value>新密碼： </value>
   </data>
+  <data name="LOGIN.INVALIDCERTIFICATE">
+    <value>無法驗證，Ldap 或 iFolder 伺服器憑證有問題</value>
+  </data>
   <data name="UPLOAD">
     <value>上載</value>
   </data>
@@ -320,7 +323,7 @@
     <value>無限制</value>
   </data>
   <data name="REENTER_PASSPHRASE">
-    <value>重新輸入通關密語：</value>
+    <value>重新輸入密碼片語：</value>
   </data>
   <data name="CHANGE.UNKNOWN">
     <value>未知</value>
@@ -395,7 +398,7 @@
     <value>已停用登入。</value>
   </data>
   <data name="ENTERPASSPHRASE">
-    <value>通關密語：</value>
+    <value>密碼片語：</value>
   </data>
   <data name="LOGIN.ACCOUNTLOCKED">
     <value>您的帳戶目前已鎖定且無法使用。</value>
@@ -434,7 +437,7 @@
     <value>由</value>
   </data>
   <data name="IFOLDER.NOPASSPHRASE">
-    <value> 必須輸入通關密語才能進行加密</value>
+    <value> 必須輸入密碼片語才能進行加密</value>
   </data>
   <data name="SEARCHUSERSTAG">
     <value>搜尋含有以下內容的使用者：</value>
@@ -586,9 +589,6 @@
   <data name="LASTFIRSTNAMESEP">
     <value>,&amp;nbsp;</value>
   </data>
-  <data name="ENGLISH">
-    <value>英文</value>
-  </data>
   <data name="ENTRY.MAXUPLOADSIZEEXCEPTION">
     <value>上載已取消，因為檔案超過容許的最大檔案大小。</value>
   </data>
@@ -607,6 +607,9 @@
   <data name="OWNER">
     <value>擁有者</value>
   </data>
+  <data name="POLICY">
+    <value>規則</value>
+  </data>
   <data name="SHARABLE">
     <value>一般</value>
   </data>
@@ -623,7 +626,7 @@
     <value>使用者名稱</value>
   </data>
   <data name="PASSPHRASE_INCORRECT">
-    <value>通關密語無效 </value>
+    <value>密碼片語無效 </value>
   </data>
   <data name="RUSSIAN">
     <value>俄文</value>
@@ -673,11 +676,11 @@
   <data name="FRENCH">
     <value>法文</value>
   </data>
-  <data name="POLICY">
-    <value>規則</value>
+  <data name="ENGLISH">
+    <value>英文</value>
   </data>
   <data name="ENTER_PASSPHRASE">
-    <value>輸入通關密語     </value>
+    <value>輸入密碼片語     </value>
   </data>
   <data name="SHARECONDITION">
     <value>無法加密可共享的 iFolder</value>

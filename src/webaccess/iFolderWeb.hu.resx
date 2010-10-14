@@ -310,6 +310,9 @@
   <data name="NEWPASSWORD">
     <value>Új jelszó: </value>
   </data>
+  <data name="LOGIN.INVALIDCERTIFICATE">
+    <value>Sikertelen hitelesítés. Probléma adódott az LDAP protokollal vagy az iFolder-kiszolgáló tanúsítványával.</value>
+  </data>
   <data name="UPLOAD">
     <value>Feltöltés</value>
   </data>
@@ -586,9 +589,6 @@
   <data name="LASTFIRSTNAMESEP">
     <value>,&amp;nbsp;</value>
   </data>
-  <data name="ENGLISH">
-    <value>angol</value>
-  </data>
   <data name="ENTRY.MAXUPLOADSIZEEXCEPTION">
     <value>A feltöltést megszakított a rendszer, mert a fájl meghaladja az engedélyezett maximális fájlméretet.</value>
   </data>
@@ -606,6 +606,9 @@
   </data>
   <data name="OWNER">
     <value>Tulajdonos</value>
+  </data>
+  <data name="POLICY">
+    <value>Házirend</value>
   </data>
   <data name="SHARABLE">
     <value>Normál</value>
@@ -673,8 +676,8 @@
   <data name="FRENCH">
     <value>francia</value>
   </data>
-  <data name="POLICY">
-    <value>Házirend</value>
+  <data name="ENGLISH">
+    <value>angol</value>
   </data>
   <data name="ENTER_PASSPHRASE">
     <value>Adja meg a hozzáférési kódot     </value>

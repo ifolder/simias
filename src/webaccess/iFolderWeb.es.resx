@@ -310,6 +310,9 @@
   <data name="NEWPASSWORD">
     <value>Nueva contraseña: </value>
   </data>
+  <data name="LOGIN.INVALIDCERTIFICATE">
+    <value>Error de autenticación debido a un problema con el certificado del servidor de Ldap o iFolder.</value>
+  </data>
   <data name="UPLOAD">
     <value>Cargar</value>
   </data>
@@ -586,9 +589,6 @@
   <data name="LASTFIRSTNAMESEP">
     <value>,&amp;nbsp;</value>
   </data>
-  <data name="ENGLISH">
-    <value>Inglés</value>
-  </data>
   <data name="ENTRY.MAXUPLOADSIZEEXCEPTION">
     <value>Se ha cancelado la carga porque el archivo superaba el tamaño máximo de archivo permitido.</value>
   </data>
@@ -606,6 +606,9 @@
   </data>
   <data name="OWNER">
     <value>Propietario</value>
+  </data>
+  <data name="POLICY">
+    <value>Directiva</value>
   </data>
   <data name="SHARABLE">
     <value>Normal</value>
@@ -673,8 +676,8 @@
   <data name="FRENCH">
     <value>Francés</value>
   </data>
-  <data name="POLICY">
-    <value>Directiva</value>
+  <data name="ENGLISH">
+    <value>Inglés</value>
   </data>
   <data name="ENTER_PASSPHRASE">
     <value>Introduzca la contraseña codificada     </value>

@@ -310,6 +310,9 @@
   <data name="NEWPASSWORD">
     <value>Nové heslo: </value>
   </data>
+  <data name="LOGIN.INVALIDCERTIFICATE">
+    <value>Ověření se nezdařilo, potíže s certifikátem serveru LDAP nebo iFolder</value>
+  </data>
   <data name="UPLOAD">
     <value>Vyslat</value>
   </data>
@@ -586,9 +589,6 @@
   <data name="LASTFIRSTNAMESEP">
     <value>&amp;nbsp;</value>
   </data>
-  <data name="ENGLISH">
-    <value>Angličtina</value>
-  </data>
   <data name="ENTRY.MAXUPLOADSIZEEXCEPTION">
     <value>Vyslání souboru se zrušilo, protože soubor překročil maximální dovolenou velikost.</value>
   </data>
@@ -606,6 +606,9 @@
   </data>
   <data name="OWNER">
     <value>Vlastník</value>
+  </data>
+  <data name="POLICY">
+    <value>Zásady</value>
   </data>
   <data name="SHARABLE">
     <value>Pravidelný</value>
@@ -673,8 +676,8 @@
   <data name="FRENCH">
     <value>Francouzština</value>
   </data>
-  <data name="POLICY">
-    <value>Zásady</value>
+  <data name="ENGLISH">
+    <value>Angličtina</value>
   </data>
   <data name="ENTER_PASSPHRASE">
     <value>Zadejte heslo     </value>

@@ -310,6 +310,9 @@
   <data name="NEWPASSWORD">
     <value>Nouveau mot de passe : </value>
   </data>
+  <data name="LOGIN.INVALIDCERTIFICATE">
+    <value>Échec de l'authentification. Le certificat du serveur LDAP ou iFolder pose problème.</value>
+  </data>
   <data name="UPLOAD">
     <value>Télécharger</value>
   </data>
@@ -586,9 +589,6 @@
   <data name="LASTFIRSTNAMESEP">
     <value>,&amp;nbsp;</value>
   </data>
-  <data name="ENGLISH">
-    <value>Anglais</value>
-  </data>
   <data name="ENTRY.MAXUPLOADSIZEEXCEPTION">
     <value>Le téléchargement a été annulé car le fichier dépassait la taille maximale autorisée.</value>
   </data>
@@ -606,6 +606,9 @@
   </data>
   <data name="OWNER">
     <value>Propriétaire</value>
+  </data>
+  <data name="POLICY">
+    <value>Stratégie</value>
   </data>
   <data name="SHARABLE">
     <value>Normal</value>
@@ -673,8 +676,8 @@
   <data name="FRENCH">
     <value>Français</value>
   </data>
-  <data name="POLICY">
-    <value>Stratégie</value>
+  <data name="ENGLISH">
+    <value>Anglais</value>
   </data>
   <data name="ENTER_PASSPHRASE">
     <value>Entrer la phrase secrète     </value>

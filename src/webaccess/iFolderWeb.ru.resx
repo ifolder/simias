@@ -310,6 +310,9 @@
   <data name="NEWPASSWORD">
     <value>Новый пароль: </value>
   </data>
+  <data name="LOGIN.INVALIDCERTIFICATE">
+    <value>Сбой аутентификации, проблема с сертификатом Ldap или сертификатом сервера iFolder</value>
+  </data>
   <data name="UPLOAD">
     <value>Передать</value>
   </data>
@@ -586,9 +589,6 @@
   <data name="LASTFIRSTNAMESEP">
     <value>,&amp;nbsp;</value>
   </data>
-  <data name="ENGLISH">
-    <value>Английский</value>
-  </data>
   <data name="ENTRY.MAXUPLOADSIZEEXCEPTION">
     <value>Передача отменена, поскольку файл превышает максимально допустимый размер.</value>
   </data>
@@ -606,6 +606,9 @@
   </data>
   <data name="OWNER">
     <value>Владелец</value>
+  </data>
+  <data name="POLICY">
+    <value>Политика</value>
   </data>
   <data name="SHARABLE">
     <value>Обычный</value>
@@ -673,8 +676,8 @@
   <data name="FRENCH">
     <value>Французский</value>
   </data>
-  <data name="POLICY">
-    <value>Политика</value>
+  <data name="ENGLISH">
+    <value>Английский</value>
   </data>
   <data name="ENTER_PASSPHRASE">
     <value>Ввод контрольной фразы     </value>

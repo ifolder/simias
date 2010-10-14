@@ -310,6 +310,9 @@
   <data name="NEWPASSWORD">
     <value>Nové heslo: </value>
   </data>
+  <data name="LOGIN.INVALIDCERTIFICATE">
+    <value>Nepodarilo sa overiť, problém s protokolom LDAP alebo certifikátom servera iFolder</value>
+  </data>
   <data name="UPLOAD">
     <value>Odovzdať</value>
   </data>
@@ -586,9 +589,6 @@
   <data name="LASTFIRSTNAMESEP">
     <value>,&amp;nbsp;</value>
   </data>
-  <data name="ENGLISH">
-    <value>angličtina</value>
-  </data>
   <data name="ENTRY.MAXUPLOADSIZEEXCEPTION">
     <value>Odovzdávanie bolo zrušené, pretože súbor prekročil maximálnu povolenú veľkosť súboru.</value>
   </data>
@@ -599,13 +599,16 @@
     <value>Prepísať existujúce súbory</value>
   </data>
   <data name="ENTRY.NOTMOUNTEDEXCEPTION">
-    <value>Ukladací prietor servera nie je dostupný</value>
+    <value>Ukladací priestor servera nie je dostupný</value>
   </data>
   <data name="CHANGEPASSWORD">
     <value>Zmeniť heslo</value>
   </data>
   <data name="OWNER">
     <value>Vlastník</value>
+  </data>
+  <data name="POLICY">
+    <value>Politika</value>
   </data>
   <data name="SHARABLE">
     <value>Bežné</value>
@@ -673,8 +676,8 @@
   <data name="FRENCH">
     <value>francúzština</value>
   </data>
-  <data name="POLICY">
-    <value>Politika</value>
+  <data name="ENGLISH">
+    <value>angličtina</value>
   </data>
   <data name="ENTER_PASSPHRASE">
     <value>Zadajte prístupový výraz     </value>

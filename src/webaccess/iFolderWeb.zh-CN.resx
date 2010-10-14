@@ -310,6 +310,9 @@
   <data name="NEWPASSWORD">
     <value>新口令： </value>
   </data>
+  <data name="LOGIN.INVALIDCERTIFICATE">
+    <value>无法进行鉴定，Ldap 或 iFolder 服务器证书存在问题</value>
+  </data>
   <data name="UPLOAD">
     <value>上载</value>
   </data>
@@ -586,9 +589,6 @@
   <data name="LASTFIRSTNAMESEP">
     <value>，&amp;nbsp;</value>
   </data>
-  <data name="ENGLISH">
-    <value>英语</value>
-  </data>
   <data name="ENTRY.MAXUPLOADSIZEEXCEPTION">
     <value>因为文件超过允许的最大文件大小，上载已被取消。</value>
   </data>
@@ -606,6 +606,9 @@
   </data>
   <data name="OWNER">
     <value>拥有者</value>
+  </data>
+  <data name="POLICY">
+    <value>策略</value>
   </data>
   <data name="SHARABLE">
     <value>常规</value>
@@ -673,8 +676,8 @@
   <data name="FRENCH">
     <value>法语</value>
   </data>
-  <data name="POLICY">
-    <value>策略</value>
+  <data name="ENGLISH">
+    <value>英语</value>
   </data>
   <data name="ENTER_PASSPHRASE">
     <value>输入通行口令     </value>

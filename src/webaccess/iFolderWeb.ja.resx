@@ -310,6 +310,9 @@
   <data name="NEWPASSWORD">
     <value>新しいパスワード: </value>
   </data>
+  <data name="LOGIN.INVALIDCERTIFICATE">
+    <value>LDAPまたはiFolderサーバの証明書に問題があり、認証に失敗しました</value>
+  </data>
   <data name="UPLOAD">
     <value>アップロード</value>
   </data>
@@ -586,9 +589,6 @@
   <data name="LASTFIRSTNAMESEP">
     <value>,&amp;nbsp;</value>
   </data>
-  <data name="ENGLISH">
-    <value>英語</value>
-  </data>
   <data name="ENTRY.MAXUPLOADSIZEEXCEPTION">
     <value>ファイルサイズの最大制限を超えているため、アップロードはキャンセルされました。</value>
   </data>
@@ -606,6 +606,9 @@
   </data>
   <data name="OWNER">
     <value>所有者</value>
+  </data>
+  <data name="POLICY">
+    <value>ポリシー</value>
   </data>
   <data name="SHARABLE">
     <value>通常</value>
@@ -673,8 +676,8 @@
   <data name="FRENCH">
     <value>フランス語</value>
   </data>
-  <data name="POLICY">
-    <value>ポリシー</value>
+  <data name="ENGLISH">
+    <value>英語</value>
   </data>
   <data name="ENTER_PASSPHRASE">
     <value>パスフレーズを入力     </value>

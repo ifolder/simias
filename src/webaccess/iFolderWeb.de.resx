@@ -310,6 +310,9 @@
   <data name="NEWPASSWORD">
     <value>Neues Passwort: </value>
   </data>
+  <data name="LOGIN.INVALIDCERTIFICATE">
+    <value>Authentifizierung konnte nicht vorgenommen werden, da ein Problem beim LDAP- oder iFolder-Serverzertifikat aufgetreten ist.</value>
+  </data>
   <data name="UPLOAD">
     <value>Heraufladen</value>
   </data>
@@ -586,9 +589,6 @@
   <data name="LASTFIRSTNAMESEP">
     <value>,&amp;nbsp;</value>
   </data>
-  <data name="ENGLISH">
-    <value>Englisch</value>
-  </data>
   <data name="ENTRY.MAXUPLOADSIZEEXCEPTION">
     <value>Das Heraufladen wurde abgebrochen, da die Datei die maximal zulässige Dateigröße überschritten hat.</value>
   </data>
@@ -606,6 +606,9 @@
   </data>
   <data name="OWNER">
     <value>Eigentümer</value>
+  </data>
+  <data name="POLICY">
+    <value>Richtlinie</value>
   </data>
   <data name="SHARABLE">
     <value>Regulär</value>
@@ -673,8 +676,8 @@
   <data name="FRENCH">
     <value>Französisch</value>
   </data>
-  <data name="POLICY">
-    <value>Richtlinie</value>
+  <data name="ENGLISH">
+    <value>Englisch</value>
   </data>
   <data name="ENTER_PASSPHRASE">
     <value>Passwortsatz eingeben     </value>

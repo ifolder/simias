@@ -310,6 +310,9 @@
   <data name="NEWPASSWORD">
     <value>Nowe hasło: </value>
   </data>
+  <data name="LOGIN.INVALIDCERTIFICATE">
+    <value>Nie można przeprowadzić uwierzytelniania, wystąpił problem z certyfikatem serwera LDAP lub serwera programu iFolder.</value>
+  </data>
   <data name="UPLOAD">
     <value>Prześlij</value>
   </data>
@@ -586,9 +589,6 @@
   <data name="LASTFIRSTNAMESEP">
     <value>,&amp;nbsp;</value>
   </data>
-  <data name="ENGLISH">
-    <value>Angielski</value>
-  </data>
   <data name="ENTRY.MAXUPLOADSIZEEXCEPTION">
     <value>Anulowano przesyłanie, ponieważ rozmiar pliku przekroczył maksymalną dopuszczalną wartość.</value>
   </data>
@@ -606,6 +606,9 @@
   </data>
   <data name="OWNER">
     <value>Właściciel</value>
+  </data>
+  <data name="POLICY">
+    <value>Założenia</value>
   </data>
   <data name="SHARABLE">
     <value>Regularny</value>
@@ -673,8 +676,8 @@
   <data name="FRENCH">
     <value>Francuski</value>
   </data>
-  <data name="POLICY">
-    <value>Założenia</value>
+  <data name="ENGLISH">
+    <value>Angielski</value>
   </data>
   <data name="ENTER_PASSPHRASE">
     <value>Wprowadź zwrot hasłowy     </value>

@@ -310,6 +310,9 @@
   <data name="NEWPASSWORD">
     <value>Nuova password: </value>
   </data>
+  <data name="LOGIN.INVALIDCERTIFICATE">
+    <value>Impossibiile eseguire l'autenticazione. Si è verificato un problema con il certificato LDAP o del server iFolder</value>
+  </data>
   <data name="UPLOAD">
     <value>Carica</value>
   </data>
@@ -398,7 +401,7 @@
     <value>Stringa di cifratura:</value>
   </data>
   <data name="LOGIN.ACCOUNTLOCKED">
-    <value>Il conto è attualmente bloccato e non è disponibile.</value>
+    <value>L'account è attualmente bloccato e non è disponibile.</value>
   </data>
   <data name="NEWIFOLDER">
     <value>Nuova cartella iFolder</value>
@@ -407,7 +410,7 @@
     <value>Aggiungi</value>
   </data>
   <data name="LOGIN.ACCOUNTDISABLED">
-    <value>Il conto è attualmente disabilitato e non è disponibile.</value>
+    <value>L'account è attualmente disabilitato e non è disponibile.</value>
   </data>
   <data name="SPANISH">
     <value>Spagnolo</value>
@@ -586,9 +589,6 @@
   <data name="LASTFIRSTNAMESEP">
     <value>,&amp;nbsp;</value>
   </data>
-  <data name="ENGLISH">
-    <value>Inglese</value>
-  </data>
   <data name="ENTRY.MAXUPLOADSIZEEXCEPTION">
     <value>Esecuzione dell'upload annullata. Il file supera la dimensione file massima consentita.</value>
   </data>
@@ -606,6 +606,9 @@
   </data>
   <data name="OWNER">
     <value>Proprietario</value>
+  </data>
+  <data name="POLICY">
+    <value>Norma</value>
   </data>
   <data name="SHARABLE">
     <value>Normale</value>
@@ -673,8 +676,8 @@
   <data name="FRENCH">
     <value>Francese</value>
   </data>
-  <data name="POLICY">
-    <value>Norma</value>
+  <data name="ENGLISH">
+    <value>Inglese</value>
   </data>
   <data name="ENTER_PASSPHRASE">
     <value>Immettere la stringa di cifratura     </value>
