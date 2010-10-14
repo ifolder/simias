@@ -334,8 +334,8 @@
   <data name="SIZETAG">
     <value>Veľkosť:</value>
   </data>
-  <data name="GENERATEWEEKLYREPORT">
-    <value>Generovať zostavu každý {0} o {1} do {2}</value>
+  <data name="FILENAME">
+    <value>Názov súboru</value>
   </data>
   <data name="LOGINNOSCRIPT">
     <value>Musíte v prehľadávači povoliť skripty.</value>
@@ -354,6 +354,9 @@
   </data>
   <data name="ERRORINVALIDQUOTA">
     <value>Bola zadaná neplatná hodnota kvóty priestoru. Hodnota musí byť z intervalu od 1do 2e+063 - 1.</value>
+  </data>
+  <data name="CONTAINS">
+    <value>Obsahuje</value>
   </data>
   <data name="ALLOWUSERPROVISIONING">
     <value>Povoliť poskytovanie pre používateľov</value>
@@ -505,11 +508,11 @@
   <data name="HOME">
     <value>Domovský server</value>
   </data>
+  <data name="LOGINSENDFAILED">
+    <value>Komunikácia so serverom iFolder nie je možná.</value>
+  </data>
   <data name="ALLOWMODIFYSHARINGPOLICY">
     <value>Povoliť úpravu politiky zdieľania</value>
-  </data>
-  <data name="REPORTS">
-    <value>Zostavy</value>
   </data>
   <data name="NOTMOUNTED">
     <value>Nepripojený</value>
@@ -528,9 +531,6 @@
   </data>
   <data name="READONLY">
     <value>Iba na čítanie</value>
-  </data>
-  <data name="ERRORINVALIDIDSYNCINTERVAL">
-    <value>Bol zadaný neplatný interval synchronizácie. Hodnota musí byť v rozsahu od 5 do 10 080.</value>
   </data>
   <data name="LDAPSERVER">
     <value>Server LDAP:</value>
@@ -571,8 +571,8 @@
   <data name="SELECTEDUSERS">
     <value>Vybratí používatelia</value>
   </data>
-  <data name="CHINESE-SIMPLIFIED">
-    <value>čínština - zjednodušená</value>
+  <data name="RESTARTSERVER">
+    <value>Informácie boli aktualizované. Tieto zmeny sa prejavia pri ďalšom spustení servera iFolder. </value>
   </data>
   <data name="PUBLICURI">
     <value>Verejná adresa URL:</value>
@@ -580,8 +580,8 @@
   <data name="ALLOWORPHANIFOLDEROWNERSHIP">
     <value>Povoliť vlastníctvo osirelých priečinkov iFolder</value>
   </data>
-  <data name="ERRORIFOLDERDOESNOTEXIST">
-    <value>Priečinok iFolder neexistuje.</value>
+  <data name="INVALIDCERTIFICATE">
+    <value>Nepodarilo sa overiť, problém s protokolom LDAP alebo certifikátom servera iFolder</value>
   </data>
   <data name="SERVERDETAILS">
     <value>Podrobnosti o serveri</value>
@@ -715,17 +715,11 @@
   <data name="ERRORLOCKEXCEPTION">
     <value>Operácia bola zrušená, pretože priečinok iFolder bol uzamknutý alebo zakázaný správcom.</value>
   </data>
-  <data name="PASSWORDTAG">
-    <value>Heslo:</value>
-  </data>
   <data name="SESSIONCLOSED">
     <value>Zadané meno používateľa alebo heslo je nesprávne. Prihláste sa.</value>
   </data>
   <data name="DNSNAMETAG">
     <value>Názov servera DNS:</value>
-  </data>
-  <data name="CANNOTSETPERMISSION">
-    <value>Povolenie pre zadanú úplnú cestu sa nedá zmeniť.</value>
   </data>
   <data name="NEWFILETYPE">
     <value>Nový typ súboru</value>
@@ -853,6 +847,9 @@
   <data name="IFOLDERS">
     <value>Priečinky iFolder</value>
   </data>
+  <data name="NOPOLICIESAVAILABLE">
+    <value>Nie sú dostupné žiadne politiky</value>
+  </data>
   <data name="ADMINISTRATORS">
     <value>Správcovia</value>
   </data>
@@ -876,6 +873,9 @@
   </data>
   <data name="USERDETAILS">
     <value>Podrobnosti o používateľovi</value>
+  </data>
+  <data name="DELETED">
+    <value>Odstránené</value>
   </data>
   <data name="CURRENTHOMETAG">
     <value>Aktuálny domov:</value>
@@ -904,6 +904,9 @@
   <data name="LOGINCOPYRIGHT">
     <value>&amp;copy; Copyright 2010 Novell, Inc. Všetky práva vyhradené.</value>
   </data>
+  <data name="GENERATEWEEKLYREPORT">
+    <value>Generovať zostavu každý {0} o {1} do {2}</value>
+  </data>
   <data name="VIEW">
     <value>Zobraziť</value>
   </data>
@@ -931,8 +934,8 @@
   <data name="ALLOWUSERENABLING">
     <value>Umožniť povolenie alebo zakázanie používateľov</value>
   </data>
-  <data name="HUNGARIAN">
-    <value>maďarčina</value>
+  <data name="NOTELIGIBLE">
+    <value>Inicializácia zlyhala</value>
   </data>
   <data name="ACCESSDENIEDERROR">
     <value>Prihlásený používateľ nie je oprávnený na zobrazovanie alebo úpravu vlastností tejto stránky</value>
@@ -946,8 +949,8 @@
   <data name="SELECTMEMBERTOADD">
     <value>Vybrať nového sekundárneho správcu</value>
   </data>
-  <data name="VOLUME">
-    <value>Zväzok</value>
+  <data name="ERRORINVALIDIDSYNCINTERVAL">
+    <value>Bol zadaný neplatný interval synchronizácie. Hodnota musí byť v rozsahu od 5 do 10 080.</value>
   </data>
   <data name="IDENTITYSYNCTAG">
     <value>Synchronizácia identity:</value>
@@ -963,9 +966,6 @@
   </data>
   <data name="ADD">
     <value>Pridať</value>
-  </data>
-  <data name="MB">
-    <value>MB</value>
   </data>
   <data name="DISABLE">
     <value>Zakázať</value>
@@ -1014,9 +1014,6 @@
   </data>
   <data name="COMPLETED">
     <value>Dokončené</value>
-  </data>
-  <data name="RESTARTSERVER">
-    <value>Informácie boli aktualizované. Tieto zmeny sa prejavia pri ďalšom spustení servera iFolder. </value>
   </data>
   <data name="CZECH">
     <value>čeština</value>
@@ -1120,8 +1117,8 @@
   <data name="PENDING">
     <value>Čaká</value>
   </data>
-  <data name="FILENAME">
-    <value>Názov súboru</value>
+  <data name="REPORTS">
+    <value>Zostavy</value>
   </data>
   <data name="ENFORCED">
     <value>Vynútené </value>
@@ -1159,8 +1156,8 @@
   <data name="CHANGEMASTERSUCCESSFUL">
     <value>Server {0} bol aktualizovaný na hlavný server. Reštartujte všetky servery, aby sa zmeny mohli prejaviť.</value>
   </data>
-  <data name="LOGTAG">
-    <value>Denník</value>
+  <data name="ERRORIFOLDERDOESNOTEXIST">
+    <value>Priečinok iFolder neexistuje.</value>
   </data>
   <data name="STATUS">
     <value>Stav</value>
@@ -1173,6 +1170,9 @@
   </data>
   <data name="IFOLDERDETAILS">
     <value>Podrobnosti o priečinku iFolder</value>
+  </data>
+  <data name="CHINESE-SIMPLIFIED">
+    <value>čínština - zjednodušená</value>
   </data>
   <data name="UNKNOWNERROR">
     <value>Vyskytla sa neznáma chyba. Nebola zadaná žiadna výnimka.</value>
@@ -1216,8 +1216,8 @@
   <data name="BEGINSWITH">
     <value>Začína na</value>
   </data>
-  <data name="DOWNLOAD">
-    <value>Prevziať</value>
+  <data name="MB">
+    <value>MB</value>
   </data>
   <data name="ERRORCANNOTDELETEIFOLDER">
     <value>Nemáte povolenia na odstránenie položky {0}.</value>
@@ -1261,8 +1261,8 @@
   <data name="EVERYTAG">
     <value>Každý:</value>
   </data>
-  <data name="CONTAINS">
-    <value>Obsahuje</value>
+  <data name="PASSWORDTAG">
+    <value>Heslo:</value>
   </data>
   <data name="GROUPRIGHTSEDITSUCCESSFUL">
     <value>Práva správcu {0}{1}{2} boli úspešne upravené pre skupinu {3}{4}{5}. Ak chcete nastaviť jedného správcu pre viacero skupín, kliknite na možnosť Opakovať. Ak sa chcete vrátiť na stránku systémov, kliknite na tlačidlo OK</value>
@@ -1293,6 +1293,9 @@
   </data>
   <data name="EDIT">
     <value>Upraviť</value>
+  </data>
+  <data name="HUNGARIAN">
+    <value>maďarčina</value>
   </data>
   <data name="SYSTEM">
     <value>Systém</value>
@@ -1336,8 +1339,8 @@
   <data name="SYNCNOW">
     <value>Synchronizovať</value>
   </data>
-  <data name="LOGINSENDFAILED">
-    <value>Komunikácia so serverom iFolder nie je možná.</value>
+  <data name="CANNOTSETPERMISSION">
+    <value>Povolenie pre zadanú úplnú cestu sa nedá zmeniť.</value>
   </data>
   <data name="ACCESSLOGFILE">
     <value>Prístup používateľa</value>
@@ -1350,6 +1353,9 @@
   </data>
   <data name="REPROVISOINSTATETAG">
     <value>Stav opätovného poskytovania:</value>
+  </data>
+  <data name="DOWNLOAD">
+    <value>Prevziať</value>
   </data>
   <data name="DELETESECONDARYADMIN">
     <value>Odstrániť sekundárneho správcu: </value>
@@ -1372,6 +1378,9 @@
   <data name="WHEN">
     <value>Kedy</value>
   </data>
+  <data name="LOGTAG">
+    <value>Denník</value>
+  </data>
   <data name="GROUPDISKQUOTA">
     <value>Kvóta disku pre skupinu: </value>
   </data>
@@ -1380,6 +1389,9 @@
   </data>
   <data name="LOGINUSERNAME">
     <value>Meno používateľa:</value>
+  </data>
+  <data name="VOLUME">
+    <value>Zväzok</value>
   </data>
   <data name="UNLIMITED">
     <value>Neobmedzené</value>

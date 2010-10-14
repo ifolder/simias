@@ -334,8 +334,8 @@
   <data name="SIZETAG">
     <value>大小：</value>
   </data>
-  <data name="GENERATEWEEKLYREPORT">
-    <value>每 {0} 天在 {1} 向 {2} 生成报告</value>
+  <data name="FILENAME">
+    <value>文件名</value>
   </data>
   <data name="LOGINNOSCRIPT">
     <value>您必须在浏览器中启用底稿。</value>
@@ -354,6 +354,9 @@
   </data>
   <data name="ERRORINVALIDQUOTA">
     <value>指定了无效的磁盘空间定额值。值必须介于 1 和 2e+063 - 1 之间。</value>
+  </data>
+  <data name="CONTAINS">
+    <value>包含</value>
   </data>
   <data name="ALLOWUSERPROVISIONING">
     <value>允许用户供应</value>
@@ -505,11 +508,11 @@
   <data name="HOME">
     <value>主服务器</value>
   </data>
+  <data name="LOGINSENDFAILED">
+    <value>无法与 iFolder 服务器通讯。</value>
+  </data>
   <data name="ALLOWMODIFYSHARINGPOLICY">
     <value>允许修改共享策略</value>
-  </data>
-  <data name="REPORTS">
-    <value>报告</value>
   </data>
   <data name="NOTMOUNTED">
     <value>未装入</value>
@@ -528,9 +531,6 @@
   </data>
   <data name="READONLY">
     <value>只读</value>
-  </data>
-  <data name="ERRORINVALIDIDSYNCINTERVAL">
-    <value>指定的同步间隔无效。该值必须介于 5 到 10080 之间。</value>
   </data>
   <data name="LDAPSERVER">
     <value>LDAP 服务器：</value>
@@ -571,8 +571,8 @@
   <data name="SELECTEDUSERS">
     <value>所选用户</value>
   </data>
-  <data name="CHINESE-SIMPLIFIED">
-    <value>简体中文</value>
+  <data name="RESTARTSERVER">
+    <value>信息已更新。这些更改将在您重新启动 iFolder 服务器时生效。 </value>
   </data>
   <data name="PUBLICURI">
     <value>公共 URL：</value>
@@ -580,8 +580,8 @@
   <data name="ALLOWORPHANIFOLDEROWNERSHIP">
     <value>允许孤立的 iFolder 的所有权</value>
   </data>
-  <data name="ERRORIFOLDERDOESNOTEXIST">
-    <value>该 iFolder 不存在。</value>
+  <data name="INVALIDCERTIFICATE">
+    <value>无法进行鉴定，Ldap 或 iFolder 服务器证书存在问题</value>
   </data>
   <data name="SERVERDETAILS">
     <value>服务器细节</value>
@@ -715,17 +715,11 @@
   <data name="ERRORLOCKEXCEPTION">
     <value>因为管理员已锁定/禁用 iFolder，操作已被取消。</value>
   </data>
-  <data name="PASSWORDTAG">
-    <value>口令：</value>
-  </data>
   <data name="SESSIONCLOSED">
     <value>您输入的用户名或口令不正确。请登录。</value>
   </data>
   <data name="DNSNAMETAG">
     <value>DNS 名称：</value>
-  </data>
-  <data name="CANNOTSETPERMISSION">
-    <value>无法更改指定的完整路径的权限。</value>
   </data>
   <data name="NEWFILETYPE">
     <value>新文件类型</value>
@@ -853,6 +847,9 @@
   <data name="IFOLDERS">
     <value>iFolder</value>
   </data>
+  <data name="NOPOLICIESAVAILABLE">
+    <value>无可用的策略</value>
+  </data>
   <data name="ADMINISTRATORS">
     <value>管理员</value>
   </data>
@@ -876,6 +873,9 @@
   </data>
   <data name="USERDETAILS">
     <value>用户细节</value>
+  </data>
+  <data name="DELETED">
+    <value>已删除</value>
   </data>
   <data name="CURRENTHOMETAG">
     <value>当前主目录：</value>
@@ -904,6 +904,9 @@
   <data name="LOGINCOPYRIGHT">
     <value>&amp;copy; Copyright 2010 Novell, Inc. 保留所有权利。</value>
   </data>
+  <data name="GENERATEWEEKLYREPORT">
+    <value>每 {0} 天在 {1} 向 {2} 生成报告</value>
+  </data>
   <data name="VIEW">
     <value>视图</value>
   </data>
@@ -931,8 +934,8 @@
   <data name="ALLOWUSERENABLING">
     <value>允许用户的启用/禁用</value>
   </data>
-  <data name="HUNGARIAN">
-    <value>匈牙利语</value>
+  <data name="NOTELIGIBLE">
+    <value>初始化失败</value>
   </data>
   <data name="ACCESSDENIEDERROR">
     <value>未授权登录用户查看或修改此页的属性</value>
@@ -946,8 +949,8 @@
   <data name="SELECTMEMBERTOADD">
     <value>选择新的二级管理员</value>
   </data>
-  <data name="VOLUME">
-    <value>卷</value>
+  <data name="ERRORINVALIDIDSYNCINTERVAL">
+    <value>指定的同步间隔无效。该值必须介于 5 到 10080 之间。</value>
   </data>
   <data name="IDENTITYSYNCTAG">
     <value>身份同步：</value>
@@ -963,9 +966,6 @@
   </data>
   <data name="ADD">
     <value>添加</value>
-  </data>
-  <data name="MB">
-    <value>MB</value>
   </data>
   <data name="DISABLE">
     <value>禁用</value>
@@ -1014,9 +1014,6 @@
   </data>
   <data name="COMPLETED">
     <value>已完成</value>
-  </data>
-  <data name="RESTARTSERVER">
-    <value>信息已更新。这些更改将在您重新启动 iFolder 服务器时生效。 </value>
   </data>
   <data name="CZECH">
     <value>捷克语</value>
@@ -1120,8 +1117,8 @@
   <data name="PENDING">
     <value>待发</value>
   </data>
-  <data name="FILENAME">
-    <value>文件名</value>
+  <data name="REPORTS">
+    <value>报告</value>
   </data>
   <data name="ENFORCED">
     <value>强制 </value>
@@ -1159,8 +1156,8 @@
   <data name="CHANGEMASTERSUCCESSFUL">
     <value>已将 {0} 升级为主服务器。请重启动所有服务器使更改生效。</value>
   </data>
-  <data name="LOGTAG">
-    <value>日志</value>
+  <data name="ERRORIFOLDERDOESNOTEXIST">
+    <value>该 iFolder 不存在。</value>
   </data>
   <data name="STATUS">
     <value>状态</value>
@@ -1173,6 +1170,9 @@
   </data>
   <data name="IFOLDERDETAILS">
     <value>iFolder 细节</value>
+  </data>
+  <data name="CHINESE-SIMPLIFIED">
+    <value>简体中文</value>
   </data>
   <data name="UNKNOWNERROR">
     <value>发生了未知错误。未指定任何异常。</value>
@@ -1216,8 +1216,8 @@
   <data name="BEGINSWITH">
     <value>开始于</value>
   </data>
-  <data name="DOWNLOAD">
-    <value>下载</value>
+  <data name="MB">
+    <value>MB</value>
   </data>
   <data name="ERRORCANNOTDELETEIFOLDER">
     <value>您无权删除 {0}。</value>
@@ -1261,8 +1261,8 @@
   <data name="EVERYTAG">
     <value>每：</value>
   </data>
-  <data name="CONTAINS">
-    <value>包含</value>
+  <data name="PASSWORDTAG">
+    <value>口令：</value>
   </data>
   <data name="GROUPRIGHTSEDITSUCCESSFUL">
     <value>已成功编辑了管理员 {0}{1} 在 {3}{4}{5} 组中的 {2} 权限。单击“重复”编辑相同管理员在更多组中的权限。单击“确定”返回“系统”页</value>
@@ -1293,6 +1293,9 @@
   </data>
   <data name="EDIT">
     <value>编辑</value>
+  </data>
+  <data name="HUNGARIAN">
+    <value>匈牙利语</value>
   </data>
   <data name="SYSTEM">
     <value>系统</value>
@@ -1336,8 +1339,8 @@
   <data name="SYNCNOW">
     <value>立即同步</value>
   </data>
-  <data name="LOGINSENDFAILED">
-    <value>无法与 iFolder 服务器通讯。</value>
+  <data name="CANNOTSETPERMISSION">
+    <value>无法更改指定的完整路径的权限。</value>
   </data>
   <data name="ACCESSLOGFILE">
     <value>用户访问权限</value>
@@ -1350,6 +1353,9 @@
   </data>
   <data name="REPROVISOINSTATETAG">
     <value>重新配置状态：</value>
+  </data>
+  <data name="DOWNLOAD">
+    <value>下载</value>
   </data>
   <data name="DELETESECONDARYADMIN">
     <value>删除二级管理员： </value>
@@ -1372,6 +1378,9 @@
   <data name="WHEN">
     <value>何时</value>
   </data>
+  <data name="LOGTAG">
+    <value>日志</value>
+  </data>
   <data name="GROUPDISKQUOTA">
     <value>组磁盘定额： </value>
   </data>
@@ -1380,6 +1389,9 @@
   </data>
   <data name="LOGINUSERNAME">
     <value>用户名：</value>
+  </data>
+  <data name="VOLUME">
+    <value>卷</value>
   </data>
   <data name="UNLIMITED">
     <value>无限制</value>

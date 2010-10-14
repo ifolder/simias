@@ -334,8 +334,8 @@
   <data name="SIZETAG">
     <value>Размер:</value>
   </data>
-  <data name="GENERATEWEEKLYREPORT">
-    <value>Формировать отчет каждые {0} в {1} для {2}</value>
+  <data name="FILENAME">
+    <value>Имя файла</value>
   </data>
   <data name="LOGINNOSCRIPT">
     <value>Необходимо включить сценарии в средстве просмотра.</value>
@@ -354,6 +354,9 @@
   </data>
   <data name="ERRORINVALIDQUOTA">
     <value>Указано неверное значение квоты дискового пространства. Диапазон значений: от 1 до 2e+063 - 1.</value>
+  </data>
+  <data name="CONTAINS">
+    <value>Содержит</value>
   </data>
   <data name="ALLOWUSERPROVISIONING">
     <value>Разрешить обеспечение пользователей правами доступа</value>
@@ -505,11 +508,11 @@
   <data name="HOME">
     <value>Основной сервер</value>
   </data>
+  <data name="LOGINSENDFAILED">
+    <value>Не удается взаимодействовать с сервером iFolder.</value>
+  </data>
   <data name="ALLOWMODIFYSHARINGPOLICY">
     <value>Разрешить изменение политик совместного использования</value>
-  </data>
-  <data name="REPORTS">
-    <value>Отчеты</value>
   </data>
   <data name="NOTMOUNTED">
     <value>Не смонтирован</value>
@@ -528,9 +531,6 @@
   </data>
   <data name="READONLY">
     <value>Только чтение</value>
-  </data>
-  <data name="ERRORINVALIDIDSYNCINTERVAL">
-    <value>Указан недопустимый интервал синхронизации. Значение должно быть от 5 до 10080.</value>
   </data>
   <data name="LDAPSERVER">
     <value>Сервер LDAP:</value>
@@ -571,8 +571,8 @@
   <data name="SELECTEDUSERS">
     <value>Выбранные пользователи</value>
   </data>
-  <data name="CHINESE-SIMPLIFIED">
-    <value>Китайский упрощенный</value>
+  <data name="RESTARTSERVER">
+    <value>Информация обновлена. Изменения вступят в силу после перезапуска сервера iFolder. </value>
   </data>
   <data name="PUBLICURI">
     <value>Внешний URL:</value>
@@ -580,8 +580,8 @@
   <data name="ALLOWORPHANIFOLDEROWNERSHIP">
     <value>Разрешить владение папками iFolder с нарушенными ассоциациями</value>
   </data>
-  <data name="ERRORIFOLDERDOESNOTEXIST">
-    <value>Папка iFolder не существует.</value>
+  <data name="INVALIDCERTIFICATE">
+    <value>Сбой аутентификации, проблема с сертификатом Ldap или сертификатом сервера iFolder</value>
   </data>
   <data name="SERVERDETAILS">
     <value>Информация о сервере</value>
@@ -715,17 +715,11 @@
   <data name="ERRORLOCKEXCEPTION">
     <value>Операция была отменена, так как папка iFolder была заблокирована или запрещена администратором.</value>
   </data>
-  <data name="PASSWORDTAG">
-    <value>Пароль:</value>
-  </data>
   <data name="SESSIONCLOSED">
     <value>Введенные имя пользователя и пароль неверны. Выполните вход.</value>
   </data>
   <data name="DNSNAMETAG">
     <value>DNS-имя:</value>
-  </data>
-  <data name="CANNOTSETPERMISSION">
-    <value>Невозможно изменить разрешение указанного полного пути.</value>
   </data>
   <data name="NEWFILETYPE">
     <value>Тип нового файла</value>
@@ -853,6 +847,9 @@
   <data name="IFOLDERS">
     <value>Папки iFolder</value>
   </data>
+  <data name="NOPOLICIESAVAILABLE">
+    <value>Доступные политики отсутствуют</value>
+  </data>
   <data name="ADMINISTRATORS">
     <value>Администраторы</value>
   </data>
@@ -876,6 +873,9 @@
   </data>
   <data name="USERDETAILS">
     <value>Информация о пользователе</value>
+  </data>
+  <data name="DELETED">
+    <value>Удалено</value>
   </data>
   <data name="CURRENTHOMETAG">
     <value>Текущий основной:</value>
@@ -904,6 +904,9 @@
   <data name="LOGINCOPYRIGHT">
     <value>&amp;copy; Авторские права 2010 Novell, Inc. Все права защищены.</value>
   </data>
+  <data name="GENERATEWEEKLYREPORT">
+    <value>Формировать отчет каждые {0} в {1} для {2}</value>
+  </data>
   <data name="VIEW">
     <value>Просмотр</value>
   </data>
@@ -931,8 +934,8 @@
   <data name="ALLOWUSERENABLING">
     <value>Разрешить включение и отключение пользователей</value>
   </data>
-  <data name="HUNGARIAN">
-    <value>Венгерский</value>
+  <data name="NOTELIGIBLE">
+    <value>Сбой инициализации</value>
   </data>
   <data name="ACCESSDENIEDERROR">
     <value>У пользователя, выполнившего вход в систему, нет прав на просмотр и изменение свойств этой страницы</value>
@@ -946,8 +949,8 @@
   <data name="SELECTMEMBERTOADD">
     <value>Выберите нового дополнительного администратора</value>
   </data>
-  <data name="VOLUME">
-    <value>Том</value>
+  <data name="ERRORINVALIDIDSYNCINTERVAL">
+    <value>Указан недопустимый интервал синхронизации. Значение должно быть от 5 до 10080.</value>
   </data>
   <data name="IDENTITYSYNCTAG">
     <value>Синхронизация электронных персон:</value>
@@ -963,9 +966,6 @@
   </data>
   <data name="ADD">
     <value>Добавить</value>
-  </data>
-  <data name="MB">
-    <value>Мб</value>
   </data>
   <data name="DISABLE">
     <value>Запретить</value>
@@ -1014,9 +1014,6 @@
   </data>
   <data name="COMPLETED">
     <value>Завершено</value>
-  </data>
-  <data name="RESTARTSERVER">
-    <value>Информация обновлена. Изменения вступят в силу после перезапуска сервера iFolder. </value>
   </data>
   <data name="CZECH">
     <value>Чешский</value>
@@ -1120,8 +1117,8 @@
   <data name="PENDING">
     <value>Отложено</value>
   </data>
-  <data name="FILENAME">
-    <value>Имя файла</value>
+  <data name="REPORTS">
+    <value>Отчеты</value>
   </data>
   <data name="ENFORCED">
     <value>Усиленный </value>
@@ -1159,8 +1156,8 @@
   <data name="CHANGEMASTERSUCCESSFUL">
     <value>{0} обновлен как главный сервер. Перезагрузите все серверы для вступления изменений в силу.</value>
   </data>
-  <data name="LOGTAG">
-    <value>Журнал</value>
+  <data name="ERRORIFOLDERDOESNOTEXIST">
+    <value>Папка iFolder не существует.</value>
   </data>
   <data name="STATUS">
     <value>Состояние</value>
@@ -1173,6 +1170,9 @@
   </data>
   <data name="IFOLDERDETAILS">
     <value>Информация iFolder</value>
+  </data>
+  <data name="CHINESE-SIMPLIFIED">
+    <value>Китайский упрощенный</value>
   </data>
   <data name="UNKNOWNERROR">
     <value>Неизвестная ошибка. Исключение не указано.</value>
@@ -1216,8 +1216,8 @@
   <data name="BEGINSWITH">
     <value>Начинается с</value>
   </data>
-  <data name="DOWNLOAD">
-    <value>Загрузка</value>
+  <data name="MB">
+    <value>Мб</value>
   </data>
   <data name="ERRORCANNOTDELETEIFOLDER">
     <value>Отсутствуют разрешения на удаление {0}.</value>
@@ -1261,8 +1261,8 @@
   <data name="EVERYTAG">
     <value>Каждые:</value>
   </data>
-  <data name="CONTAINS">
-    <value>Содержит</value>
+  <data name="PASSWORDTAG">
+    <value>Пароль:</value>
   </data>
   <data name="GROUPRIGHTSEDITSUCCESSFUL">
     <value>Права администратора {0}{1}{2} изменены для группы {3}{4}{5}. Щелкните "Повторить", чтобы продолжить добавление групп для этого администратора. Чтобы вернуться на страницу "Системы", щелкните "ОК".</value>
@@ -1293,6 +1293,9 @@
   </data>
   <data name="EDIT">
     <value>Изменить</value>
+  </data>
+  <data name="HUNGARIAN">
+    <value>Венгерский</value>
   </data>
   <data name="SYSTEM">
     <value>Система</value>
@@ -1336,8 +1339,8 @@
   <data name="SYNCNOW">
     <value>Синхронизировать сейчас</value>
   </data>
-  <data name="LOGINSENDFAILED">
-    <value>Не удается взаимодействовать с сервером iFolder.</value>
+  <data name="CANNOTSETPERMISSION">
+    <value>Невозможно изменить разрешение указанного полного пути.</value>
   </data>
   <data name="ACCESSLOGFILE">
     <value>Доступ пользователей</value>
@@ -1350,6 +1353,9 @@
   </data>
   <data name="REPROVISOINSTATETAG">
     <value>Состояние изменения доступа:</value>
+  </data>
+  <data name="DOWNLOAD">
+    <value>Загрузка</value>
   </data>
   <data name="DELETESECONDARYADMIN">
     <value>Удалить дополнительного администратора: </value>
@@ -1372,6 +1378,9 @@
   <data name="WHEN">
     <value>Когда</value>
   </data>
+  <data name="LOGTAG">
+    <value>Журнал</value>
+  </data>
   <data name="GROUPDISKQUOTA">
     <value>Дисковая квота группы: </value>
   </data>
@@ -1380,6 +1389,9 @@
   </data>
   <data name="LOGINUSERNAME">
     <value>Имя пользователя:</value>
+  </data>
+  <data name="VOLUME">
+    <value>Том</value>
   </data>
   <data name="UNLIMITED">
     <value>Без ограничения</value>

@@ -334,8 +334,8 @@
   <data name="SIZETAG">
     <value>Dimensione:</value>
   </data>
-  <data name="GENERATEWEEKLYREPORT">
-    <value>Genera rapporto ogni {0} alle {1} e archivialo in {2}</value>
+  <data name="FILENAME">
+    <value>Nome file</value>
   </data>
   <data name="LOGINNOSCRIPT">
     <value>È necessario abilitare gli script nel browser.</value>
@@ -354,6 +354,9 @@
   </data>
   <data name="ERRORINVALIDQUOTA">
     <value>È stata specificata una quota di spazio su disco non valida. Il valore deve essere compreso tra 1 e 2e+063 - 1.</value>
+  </data>
+  <data name="CONTAINS">
+    <value>Contiene</value>
   </data>
   <data name="ALLOWUSERPROVISIONING">
     <value>Consenti provisioning utente</value>
@@ -505,11 +508,11 @@
   <data name="HOME">
     <value>Home server</value>
   </data>
+  <data name="LOGINSENDFAILED">
+    <value>Impossibile comunicare con il server iFolder.</value>
+  </data>
   <data name="ALLOWMODIFYSHARINGPOLICY">
     <value>Consenti modifica norma di condivisione</value>
-  </data>
-  <data name="REPORTS">
-    <value>Rapporti</value>
   </data>
   <data name="NOTMOUNTED">
     <value>Non montato</value>
@@ -528,9 +531,6 @@
   </data>
   <data name="READONLY">
     <value>Solo lettura</value>
-  </data>
-  <data name="ERRORINVALIDIDSYNCINTERVAL">
-    <value>L'intervallo di sincronizzazione specificato non è valido. Il valore deve essere compreso tra 5 e 10080.</value>
   </data>
   <data name="LDAPSERVER">
     <value>Server LDAP:</value>
@@ -571,8 +571,8 @@
   <data name="SELECTEDUSERS">
     <value>Utenti selezionati</value>
   </data>
-  <data name="CHINESE-SIMPLIFIED">
-    <value>Cinese semplificato</value>
+  <data name="RESTARTSERVER">
+    <value>Aggiornamento delle informazioni completato. Le modifiche verranno applicate al riavvio del server iFolder. </value>
   </data>
   <data name="PUBLICURI">
     <value>URL pubblico:</value>
@@ -580,8 +580,8 @@
   <data name="ALLOWORPHANIFOLDEROWNERSHIP">
     <value>Consenti proprietà cartelle iFolder orfane</value>
   </data>
-  <data name="ERRORIFOLDERDOESNOTEXIST">
-    <value>La cartella iFolder non esiste.</value>
+  <data name="INVALIDCERTIFICATE">
+    <value>Impossibiile eseguire l'autenticazione. Si è verificato un problema con il certificato LDAP o del server iFolder</value>
   </data>
   <data name="SERVERDETAILS">
     <value>Dettagli server</value>
@@ -641,7 +641,7 @@
     <value>Nome</value>
   </data>
   <data name="LOGINACCOUNTDISABLED">
-    <value>Il conto è attualmente disabilitato e non è disponibile.</value>
+    <value>L'account è attualmente disabilitato e non è disponibile.</value>
   </data>
   <data name="DESCRIPTIONTAG">
     <value>Descrizione:</value>
@@ -715,17 +715,11 @@
   <data name="ERRORLOCKEXCEPTION">
     <value>Operazione annullata. La cartella iFolder è stata bloccata o disabilitata dall'amministratore.</value>
   </data>
-  <data name="PASSWORDTAG">
-    <value>Password:</value>
-  </data>
   <data name="SESSIONCLOSED">
     <value>Il nome utente o la password immessa non sono corretti. Eseguire il log in.</value>
   </data>
   <data name="DNSNAMETAG">
     <value>Nome DNS:</value>
-  </data>
-  <data name="CANNOTSETPERMISSION">
-    <value>Impossibile modificare le autorizzazioni del percorso completo specificato.</value>
   </data>
   <data name="NEWFILETYPE">
     <value>Nuovo tipo di file</value>
@@ -853,6 +847,9 @@
   <data name="IFOLDERS">
     <value>iFolder</value>
   </data>
+  <data name="NOPOLICIESAVAILABLE">
+    <value>Nessuna norma disponibile</value>
+  </data>
   <data name="ADMINISTRATORS">
     <value>Amministratori</value>
   </data>
@@ -876,6 +873,9 @@
   </data>
   <data name="USERDETAILS">
     <value>Dettagli utente</value>
+  </data>
+  <data name="DELETED">
+    <value>Eliminato</value>
   </data>
   <data name="CURRENTHOMETAG">
     <value>Home server attuale:</value>
@@ -904,6 +904,9 @@
   <data name="LOGINCOPYRIGHT">
     <value>&amp;copy; Copyright 2010 Novell, Inc. Tutti i diritti riservati.</value>
   </data>
+  <data name="GENERATEWEEKLYREPORT">
+    <value>Genera rapporto ogni {0} alle {1} e archivialo in {2}</value>
+  </data>
   <data name="VIEW">
     <value>Visualizza</value>
   </data>
@@ -931,8 +934,8 @@
   <data name="ALLOWUSERENABLING">
     <value>Consenti abilitazione/disabilitazione degli utenti</value>
   </data>
-  <data name="HUNGARIAN">
-    <value>Ungherese</value>
+  <data name="NOTELIGIBLE">
+    <value>Inizializzazione non riuscita</value>
   </data>
   <data name="ACCESSDENIEDERROR">
     <value>L'utente che ha effettuato il login non è autorizzato a visualizzare o modificare le proprietà della pagina</value>
@@ -946,8 +949,8 @@
   <data name="SELECTMEMBERTOADD">
     <value>Seleziona un nuovo amministratore secondario</value>
   </data>
-  <data name="VOLUME">
-    <value>Volume</value>
+  <data name="ERRORINVALIDIDSYNCINTERVAL">
+    <value>L'intervallo di sincronizzazione specificato non è valido. Il valore deve essere compreso tra 5 e 10080.</value>
   </data>
   <data name="IDENTITYSYNCTAG">
     <value>Sincronizzazione identità:</value>
@@ -963,9 +966,6 @@
   </data>
   <data name="ADD">
     <value>Aggiungi</value>
-  </data>
-  <data name="MB">
-    <value>MB</value>
   </data>
   <data name="DISABLE">
     <value>Disabilita</value>
@@ -1014,9 +1014,6 @@
   </data>
   <data name="COMPLETED">
     <value>Completato</value>
-  </data>
-  <data name="RESTARTSERVER">
-    <value>Aggiornamento delle informazioni completato. Le modifiche verranno applicate al riavvio del server iFolder. </value>
   </data>
   <data name="CZECH">
     <value>Ceco</value>
@@ -1120,8 +1117,8 @@
   <data name="PENDING">
     <value>In sospeso</value>
   </data>
-  <data name="FILENAME">
-    <value>Nome file</value>
+  <data name="REPORTS">
+    <value>Rapporti</value>
   </data>
   <data name="ENFORCED">
     <value>Imposto </value>
@@ -1159,8 +1156,8 @@
   <data name="CHANGEMASTERSUCCESSFUL">
     <value>Upgrade di {0} come server master completato. Riavviare tutti i server per rendere effettive le modifiche.</value>
   </data>
-  <data name="LOGTAG">
-    <value>Log</value>
+  <data name="ERRORIFOLDERDOESNOTEXIST">
+    <value>La cartella iFolder non esiste.</value>
   </data>
   <data name="STATUS">
     <value>Stato</value>
@@ -1173,6 +1170,9 @@
   </data>
   <data name="IFOLDERDETAILS">
     <value>Dettagli iFolder</value>
+  </data>
+  <data name="CHINESE-SIMPLIFIED">
+    <value>Cinese semplificato</value>
   </data>
   <data name="UNKNOWNERROR">
     <value>Errore sconosciuto. Nessuna eccezione specificata.</value>
@@ -1216,8 +1216,8 @@
   <data name="BEGINSWITH">
     <value>Inizia con</value>
   </data>
-  <data name="DOWNLOAD">
-    <value>Effettua il download</value>
+  <data name="MB">
+    <value>MB</value>
   </data>
   <data name="ERRORCANNOTDELETEIFOLDER">
     <value>Non si dispone delle autorizzazioni per cancellare {0}.</value>
@@ -1261,8 +1261,8 @@
   <data name="EVERYTAG">
     <value>Ogni:</value>
   </data>
-  <data name="CONTAINS">
-    <value>Contiene</value>
+  <data name="PASSWORDTAG">
+    <value>Password:</value>
   </data>
   <data name="GROUPRIGHTSEDITSUCCESSFUL">
     <value>Diritti dell'amministratore {0}{1}{2} modificati correttamente per il gruppo {3}{4}{5}. Fare clic su Ripeti per agire su più gruppi per il medesimo amministratore. Fare clic su OK per tornare alla pagina Sistemi</value>
@@ -1294,6 +1294,9 @@
   <data name="EDIT">
     <value>Modifica</value>
   </data>
+  <data name="HUNGARIAN">
+    <value>Ungherese</value>
+  </data>
   <data name="SYSTEM">
     <value>Sistema</value>
   </data>
@@ -1319,7 +1322,7 @@
     <value>Diritti</value>
   </data>
   <data name="ACCOUNT">
-    <value>Conto</value>
+    <value>Account</value>
   </data>
   <data name="ADDROOT">
     <value>Aggiungi radice</value>
@@ -1328,7 +1331,7 @@
     <value>Di proprietà di {0}</value>
   </data>
   <data name="LOGINACCOUNTLOCKED">
-    <value>Il conto è attualmente bloccato e non è disponibile.</value>
+    <value>L'account è attualmente bloccato e non è disponibile.</value>
   </data>
   <data name="ITALIAN">
     <value>Italiano</value>
@@ -1336,8 +1339,8 @@
   <data name="SYNCNOW">
     <value>Sincronizza ora</value>
   </data>
-  <data name="LOGINSENDFAILED">
-    <value>Impossibile comunicare con il server iFolder.</value>
+  <data name="CANNOTSETPERMISSION">
+    <value>Impossibile modificare le autorizzazioni del percorso completo specificato.</value>
   </data>
   <data name="ACCESSLOGFILE">
     <value>Accesso utente</value>
@@ -1350,6 +1353,9 @@
   </data>
   <data name="REPROVISOINSTATETAG">
     <value>Stato nuovo provisioning:</value>
+  </data>
+  <data name="DOWNLOAD">
+    <value>Effettua il download</value>
   </data>
   <data name="DELETESECONDARYADMIN">
     <value>Elimina amministratore secondario: </value>
@@ -1372,6 +1378,9 @@
   <data name="WHEN">
     <value>Quando</value>
   </data>
+  <data name="LOGTAG">
+    <value>Log</value>
+  </data>
   <data name="GROUPDISKQUOTA">
     <value>Quota del disco del gruppo: </value>
   </data>
@@ -1380,6 +1389,9 @@
   </data>
   <data name="LOGINUSERNAME">
     <value>Nome utente:</value>
+  </data>
+  <data name="VOLUME">
+    <value>Volume</value>
   </data>
   <data name="UNLIMITED">
     <value>Nessun limite</value>

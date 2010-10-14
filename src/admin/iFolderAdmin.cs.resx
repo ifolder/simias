@@ -334,8 +334,8 @@
   <data name="SIZETAG">
     <value>Velikost:</value>
   </data>
-  <data name="GENERATEWEEKLYREPORT">
-    <value>Generovat zprávu každý {0} v {1} do {2}</value>
+  <data name="FILENAME">
+    <value>Název souboru</value>
   </data>
   <data name="LOGINNOSCRIPT">
     <value>Musíte ve svém prohlížeči zapnout skripty.</value>
@@ -354,6 +354,9 @@
   </data>
   <data name="ERRORINVALIDQUOTA">
     <value>Byla zadána neplatná hodnota kvóty diskového prostoru. Hodnota musí být v intervalu 1 až 2e+063 - 1.</value>
+  </data>
+  <data name="CONTAINS">
+    <value>Obsahuje</value>
   </data>
   <data name="ALLOWUSERPROVISIONING">
     <value>Povolit poskytování uživatelů</value>
@@ -505,11 +508,11 @@
   <data name="HOME">
     <value>Domácí server</value>
   </data>
+  <data name="LOGINSENDFAILED">
+    <value>Se serverem iFolder není možné komunikovat.</value>
+  </data>
   <data name="ALLOWMODIFYSHARINGPOLICY">
     <value>Povolit změny zásad sdílení</value>
-  </data>
-  <data name="REPORTS">
-    <value>Oznámení</value>
   </data>
   <data name="NOTMOUNTED">
     <value>Nepřipojeno</value>
@@ -528,9 +531,6 @@
   </data>
   <data name="READONLY">
     <value>Pouze pro čtení</value>
-  </data>
-  <data name="ERRORINVALIDIDSYNCINTERVAL">
-    <value>Byl zadán neplatný synchronizační interval. Hodnota musí být v rozmezí 5 až 10080.</value>
   </data>
   <data name="LDAPSERVER">
     <value>Server LDAP:</value>
@@ -571,8 +571,8 @@
   <data name="SELECTEDUSERS">
     <value>Vybraní uživatelé</value>
   </data>
-  <data name="CHINESE-SIMPLIFIED">
-    <value>Zjednodušená čínština</value>
+  <data name="RESTARTSERVER">
+    <value>Informace byly aktualizovány. Tyto změny se projeví až po opětovném spuštění serveru iFolder. </value>
   </data>
   <data name="PUBLICURI">
     <value>Veřejná URL:</value>
@@ -580,8 +580,8 @@
   <data name="ALLOWORPHANIFOLDEROWNERSHIP">
     <value>Povolit vlastnictví osamocených složek iFolder</value>
   </data>
-  <data name="ERRORIFOLDERDOESNOTEXIST">
-    <value>Složka iFolder neexistuje</value>
+  <data name="INVALIDCERTIFICATE">
+    <value>Ověření se nezdařilo, potíže s certifikátem serveru LDAP nebo iFolder</value>
   </data>
   <data name="SERVERDETAILS">
     <value>Podrobnosti o serveru</value>
@@ -715,17 +715,11 @@
   <data name="ERRORLOCKEXCEPTION">
     <value>Operace byla zrušena protože složka iFolder byla uzamčena/zablokována správcem.</value>
   </data>
-  <data name="PASSWORDTAG">
-    <value>Heslo:</value>
-  </data>
   <data name="SESSIONCLOSED">
     <value>Zadané uživatelské jméno a heslo není správné. Přihlaste se prosím.</value>
   </data>
   <data name="DNSNAMETAG">
     <value>Název DNS:</value>
-  </data>
-  <data name="CANNOTSETPERMISSION">
-    <value>Nebylo možné změnit povolení zadané úplné cesty.</value>
   </data>
   <data name="NEWFILETYPE">
     <value>Nový typ souboru</value>
@@ -853,6 +847,9 @@
   <data name="IFOLDERS">
     <value>Složky iFolder</value>
   </data>
+  <data name="NOPOLICIESAVAILABLE">
+    <value>Nejsou k dispozici žádné zásady</value>
+  </data>
   <data name="ADMINISTRATORS">
     <value>Správci</value>
   </data>
@@ -876,6 +873,9 @@
   </data>
   <data name="USERDETAILS">
     <value>Podrobnosti o uživateli</value>
+  </data>
+  <data name="DELETED">
+    <value>Odstranit</value>
   </data>
   <data name="CURRENTHOMETAG">
     <value>Aktuální domácí server:</value>
@@ -904,6 +904,9 @@
   <data name="LOGINCOPYRIGHT">
     <value>&amp;copy; Copyright 2010 Novell, Inc. Všechna práva vyhrazena.</value>
   </data>
+  <data name="GENERATEWEEKLYREPORT">
+    <value>Generovat zprávu každý {0} v {1} do {2}</value>
+  </data>
   <data name="VIEW">
     <value>Zobrazit</value>
   </data>
@@ -931,8 +934,8 @@
   <data name="ALLOWUSERENABLING">
     <value>Povolit zapnutí/vypnutí uživatelů</value>
   </data>
-  <data name="HUNGARIAN">
-    <value>Maďarština</value>
+  <data name="NOTELIGIBLE">
+    <value>Inicializace se nezdařila</value>
   </data>
   <data name="ACCESSDENIEDERROR">
     <value>Přihlášený uživatel nemá oprávnění k zobrazení ani úpravám vlastností této stránky.</value>
@@ -946,8 +949,8 @@
   <data name="SELECTMEMBERTOADD">
     <value>Vyberte nového sekundárního správce.</value>
   </data>
-  <data name="VOLUME">
-    <value>Svazek</value>
+  <data name="ERRORINVALIDIDSYNCINTERVAL">
+    <value>Byl zadán neplatný synchronizační interval. Hodnota musí být v rozmezí 5 až 10080.</value>
   </data>
   <data name="IDENTITYSYNCTAG">
     <value>Synchronizace identifikačních dat:</value>
@@ -963,9 +966,6 @@
   </data>
   <data name="ADD">
     <value>Přidat</value>
-  </data>
-  <data name="MB">
-    <value>MB</value>
   </data>
   <data name="DISABLE">
     <value>Vypnout</value>
@@ -1014,9 +1014,6 @@
   </data>
   <data name="COMPLETED">
     <value>Dokončeno</value>
-  </data>
-  <data name="RESTARTSERVER">
-    <value>Informace byly aktualizovány. Tyto změny se projeví až po opětovném spuštění serveru iFolder. </value>
   </data>
   <data name="CZECH">
     <value>Čeština</value>
@@ -1120,8 +1117,8 @@
   <data name="PENDING">
     <value>Probíhající</value>
   </data>
-  <data name="FILENAME">
-    <value>Název souboru</value>
+  <data name="REPORTS">
+    <value>Oznámení</value>
   </data>
   <data name="ENFORCED">
     <value>Vynuceno </value>
@@ -1159,8 +1156,8 @@
   <data name="CHANGEMASTERSUCCESSFUL">
     <value>Byl inovován server {0} na hlavní server. Restartujte všechny servery, aby se změna projevila.</value>
   </data>
-  <data name="LOGTAG">
-    <value>Protokol</value>
+  <data name="ERRORIFOLDERDOESNOTEXIST">
+    <value>Složka iFolder neexistuje</value>
   </data>
   <data name="STATUS">
     <value>Stav:</value>
@@ -1173,6 +1170,9 @@
   </data>
   <data name="IFOLDERDETAILS">
     <value>Podrobnosti o složce iFolder</value>
+  </data>
+  <data name="CHINESE-SIMPLIFIED">
+    <value>Zjednodušená čínština</value>
   </data>
   <data name="UNKNOWNERROR">
     <value>Došlo k neznáme chybě. Nebyla určena žádná výjimka.</value>
@@ -1216,8 +1216,8 @@
   <data name="BEGINSWITH">
     <value>Začíná</value>
   </data>
-  <data name="DOWNLOAD">
-    <value>Stáhnout</value>
+  <data name="MB">
+    <value>MB</value>
   </data>
   <data name="ERRORCANNOTDELETEIFOLDER">
     <value>Nemáte oprávnění odstranit {0}.</value>
@@ -1261,8 +1261,8 @@
   <data name="EVERYTAG">
     <value>Každý:</value>
   </data>
-  <data name="CONTAINS">
-    <value>Obsahuje</value>
+  <data name="PASSWORDTAG">
+    <value>Heslo:</value>
   </data>
   <data name="GROUPRIGHTSEDITSUCCESSFUL">
     <value>Práva správce {0}{1}{2} byla úspěšně upravena pro skupinu {3}{4}{5}. Klepnutím na tlačítko Opakovat provedete operace u dalších skupin stejného správce. Klepnutím na tlačítko OK se vrátíte na stránku Systémy.</value>
@@ -1293,6 +1293,9 @@
   </data>
   <data name="EDIT">
     <value>Upravit</value>
+  </data>
+  <data name="HUNGARIAN">
+    <value>Maďarština</value>
   </data>
   <data name="SYSTEM">
     <value>Systém</value>
@@ -1336,8 +1339,8 @@
   <data name="SYNCNOW">
     <value>Synchronizovat nyní</value>
   </data>
-  <data name="LOGINSENDFAILED">
-    <value>Se serverem iFolder není možné komunikovat.</value>
+  <data name="CANNOTSETPERMISSION">
+    <value>Nebylo možné změnit povolení zadané úplné cesty.</value>
   </data>
   <data name="ACCESSLOGFILE">
     <value>Uživatelský přístup</value>
@@ -1350,6 +1353,9 @@
   </data>
   <data name="REPROVISOINSTATETAG">
     <value>Stav opakovaného poskytování:</value>
+  </data>
+  <data name="DOWNLOAD">
+    <value>Stáhnout</value>
   </data>
   <data name="DELETESECONDARYADMIN">
     <value>Odstranit sekundárního správce: </value>
@@ -1372,6 +1378,9 @@
   <data name="WHEN">
     <value>Kdy</value>
   </data>
+  <data name="LOGTAG">
+    <value>Protokol</value>
+  </data>
   <data name="GROUPDISKQUOTA">
     <value>Disková kvóta skupiny: </value>
   </data>
@@ -1380,6 +1389,9 @@
   </data>
   <data name="LOGINUSERNAME">
     <value>Uživatelské jméno:</value>
+  </data>
+  <data name="VOLUME">
+    <value>Svazek</value>
   </data>
   <data name="UNLIMITED">
     <value>Neomezeno</value>

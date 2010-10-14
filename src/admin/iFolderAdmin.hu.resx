@@ -334,8 +334,8 @@
   <data name="SIZETAG">
     <value>Méret:</value>
   </data>
-  <data name="GENERATEWEEKLYREPORT">
-    <value>Jelentés készítése – nap: {0}, időpont: {1}, hely: {2}</value>
+  <data name="FILENAME">
+    <value>Fájlnév</value>
   </data>
   <data name="LOGINNOSCRIPT">
     <value>Engedélyeznie kell a böngészőben a parancsfájlok használatát.</value>
@@ -354,6 +354,9 @@
   </data>
   <data name="ERRORINVALIDQUOTA">
     <value>Érvénytelen lemezkvóta van megadva. Az értéknek 1 és 2e+063 - 1 között kell lennie.</value>
+  </data>
+  <data name="CONTAINS">
+    <value>tartalmazza</value>
   </data>
   <data name="ALLOWUSERPROVISIONING">
     <value>Felhasználói jogosultságkezelés engedélyezése</value>
@@ -505,11 +508,11 @@
   <data name="HOME">
     <value>Kezdő kiszolgáló</value>
   </data>
+  <data name="LOGINSENDFAILED">
+    <value>Nem lehet kommunikálni az iFolder kiszolgálóval.</value>
+  </data>
   <data name="ALLOWMODIFYSHARINGPOLICY">
     <value>Megosztási házirend módosításának engedélyezése</value>
-  </data>
-  <data name="REPORTS">
-    <value>Jelentések</value>
   </data>
   <data name="NOTMOUNTED">
     <value>Nincs csatlakoztatva</value>
@@ -528,9 +531,6 @@
   </data>
   <data name="READONLY">
     <value>Csak olvasás</value>
-  </data>
-  <data name="ERRORINVALIDIDSYNCINTERVAL">
-    <value>Érvénytelen a megadott szinkronizálási időköz. Az érték csak 5 és 10 080 között lehet.</value>
   </data>
   <data name="LDAPSERVER">
     <value>LDAP-kiszolgáló:</value>
@@ -571,8 +571,8 @@
   <data name="SELECTEDUSERS">
     <value>Kijelölt felhasználók</value>
   </data>
-  <data name="CHINESE-SIMPLIFIED">
-    <value>kínai (egyszerűsített)</value>
+  <data name="RESTARTSERVER">
+    <value>Az információ frissítve lett. A változtatások az iFolder kiszolgáló újraindításakor lépnek életbe. </value>
   </data>
   <data name="PUBLICURI">
     <value>Nyilvános URL-cím:</value>
@@ -580,8 +580,8 @@
   <data name="ALLOWORPHANIFOLDEROWNERSHIP">
     <value>Árva iFolder mappák tulajdonba vételének engedélyezése</value>
   </data>
-  <data name="ERRORIFOLDERDOESNOTEXIST">
-    <value>Nem létező iFolder.</value>
+  <data name="INVALIDCERTIFICATE">
+    <value>Sikertelen hitelesítés. Probléma adódott az LDAP protokollal vagy az iFolder-kiszolgáló tanúsítványával.</value>
   </data>
   <data name="SERVERDETAILS">
     <value>Kiszolgáló adatai</value>
@@ -715,17 +715,11 @@
   <data name="ERRORLOCKEXCEPTION">
     <value>A művelet megszakadt, mivel a rendszergazda zárolta/letiltotta az iFolder mappát.</value>
   </data>
-  <data name="PASSWORDTAG">
-    <value>Jelszó:</value>
-  </data>
   <data name="SESSIONCLOSED">
     <value>A megadott felhasználónév vagy jelszó helytelen. Jelentkezzen be.</value>
   </data>
   <data name="DNSNAMETAG">
     <value>DNS-név:</value>
-  </data>
-  <data name="CANNOTSETPERMISSION">
-    <value>Nem sikerült módosítani a megadott teljes elérési út engedélyét.</value>
   </data>
   <data name="NEWFILETYPE">
     <value>Új fájltípus</value>
@@ -853,6 +847,9 @@
   <data name="IFOLDERS">
     <value>iFolder mappák</value>
   </data>
+  <data name="NOPOLICIESAVAILABLE">
+    <value>Nincs elérhető házirend.</value>
+  </data>
   <data name="ADMINISTRATORS">
     <value>Rendszergazdák</value>
   </data>
@@ -876,6 +873,9 @@
   </data>
   <data name="USERDETAILS">
     <value>Felhasználó adatai</value>
+  </data>
+  <data name="DELETED">
+    <value>Törölve</value>
   </data>
   <data name="CURRENTHOMETAG">
     <value>Aktuális kezdő kiszolgáló:</value>
@@ -904,6 +904,9 @@
   <data name="LOGINCOPYRIGHT">
     <value>&amp;copy; Copyright 2010 Novell, Inc. Minden jog fenntartva.</value>
   </data>
+  <data name="GENERATEWEEKLYREPORT">
+    <value>Jelentés készítése – nap: {0}, időpont: {1}, hely: {2}</value>
+  </data>
   <data name="VIEW">
     <value>Nézet</value>
   </data>
@@ -931,8 +934,8 @@
   <data name="ALLOWUSERENABLING">
     <value>Felhasználók engedélyezésének/letiltásának lehetővé tétele</value>
   </data>
-  <data name="HUNGARIAN">
-    <value>magyar</value>
+  <data name="NOTELIGIBLE">
+    <value>Nem sikerült az inicializálás</value>
   </data>
   <data name="ACCESSDENIEDERROR">
     <value>A bejelentkezett felhasználó nem jogosult ezen lap tulajdonságainak megtekintésére és módosítására</value>
@@ -946,8 +949,8 @@
   <data name="SELECTMEMBERTOADD">
     <value>Új másodlagos rendszergazda kijelölése</value>
   </data>
-  <data name="VOLUME">
-    <value>Kötet</value>
+  <data name="ERRORINVALIDIDSYNCINTERVAL">
+    <value>Érvénytelen a megadott szinkronizálási időköz. Az érték csak 5 és 10 080 között lehet.</value>
   </data>
   <data name="IDENTITYSYNCTAG">
     <value>Identitás szinkronizálása:</value>
@@ -963,9 +966,6 @@
   </data>
   <data name="ADD">
     <value>Hozzáadás</value>
-  </data>
-  <data name="MB">
-    <value>MB</value>
   </data>
   <data name="DISABLE">
     <value>Letiltás</value>
@@ -1014,9 +1014,6 @@
   </data>
   <data name="COMPLETED">
     <value>Kész</value>
-  </data>
-  <data name="RESTARTSERVER">
-    <value>Az információ frissítve lett. A változtatások az iFolder kiszolgáló újraindításakor lépnek életbe. </value>
   </data>
   <data name="CZECH">
     <value>cseh</value>
@@ -1120,8 +1117,8 @@
   <data name="PENDING">
     <value>Függőben</value>
   </data>
-  <data name="FILENAME">
-    <value>Fájlnév</value>
+  <data name="REPORTS">
+    <value>Jelentések</value>
   </data>
   <data name="ENFORCED">
     <value>Kikényszerített </value>
@@ -1159,8 +1156,8 @@
   <data name="CHANGEMASTERSUCCESSFUL">
     <value>A(z) {0} frissítve fő kiszolgálóként. A módosítások érvénybe lépéséhez indítsa újra az összes kiszolgálót.</value>
   </data>
-  <data name="LOGTAG">
-    <value>Napló</value>
+  <data name="ERRORIFOLDERDOESNOTEXIST">
+    <value>Nem létező iFolder.</value>
   </data>
   <data name="STATUS">
     <value>Állapot</value>
@@ -1173,6 +1170,9 @@
   </data>
   <data name="IFOLDERDETAILS">
     <value>Az iFolder adatai</value>
+  </data>
+  <data name="CHINESE-SIMPLIFIED">
+    <value>kínai (egyszerűsített)</value>
   </data>
   <data name="UNKNOWNERROR">
     <value>Ismeretlen hiba történt. Nincs megadott kivétel.</value>
@@ -1216,8 +1216,8 @@
   <data name="BEGINSWITH">
     <value>kezdete</value>
   </data>
-  <data name="DOWNLOAD">
-    <value>Letöltés</value>
+  <data name="MB">
+    <value>MB</value>
   </data>
   <data name="ERRORCANNOTDELETEIFOLDER">
     <value>A(z) {0} törléséhez nincs engedélye.</value>
@@ -1261,8 +1261,8 @@
   <data name="EVERYTAG">
     <value>Időköz:</value>
   </data>
-  <data name="CONTAINS">
-    <value>tartalmazza</value>
+  <data name="PASSWORDTAG">
+    <value>Jelszó:</value>
   </data>
   <data name="GROUPRIGHTSEDITSUCCESSFUL">
     <value>A(z) {0}{1}{2} rendszergazda jogait sikerült szerkeszteni a következő csoporthoz: {3}{4}{5}. Az Ismétlés gombra kattintva további csoportokra is beállíthatja ezeket ugyanazon rendszergazda esetében. Ha az OK gombra kattint, visszatérhet a Rendszerek lapra.</value>
@@ -1293,6 +1293,9 @@
   </data>
   <data name="EDIT">
     <value>Szerkesztés</value>
+  </data>
+  <data name="HUNGARIAN">
+    <value>magyar</value>
   </data>
   <data name="SYSTEM">
     <value>Rendszer</value>
@@ -1336,8 +1339,8 @@
   <data name="SYNCNOW">
     <value>Azonnali szinkronizálás</value>
   </data>
-  <data name="LOGINSENDFAILED">
-    <value>Nem lehet kommunikálni az iFolder kiszolgálóval.</value>
+  <data name="CANNOTSETPERMISSION">
+    <value>Nem sikerült módosítani a megadott teljes elérési út engedélyét.</value>
   </data>
   <data name="ACCESSLOGFILE">
     <value>Felhasználói hozzáférés</value>
@@ -1350,6 +1353,9 @@
   </data>
   <data name="REPROVISOINSTATETAG">
     <value>Újraengedélyezési állapot:</value>
+  </data>
+  <data name="DOWNLOAD">
+    <value>Letöltés</value>
   </data>
   <data name="DELETESECONDARYADMIN">
     <value>Másodlagos rendszergazda törlése: </value>
@@ -1372,6 +1378,9 @@
   <data name="WHEN">
     <value>Feltétel</value>
   </data>
+  <data name="LOGTAG">
+    <value>Napló</value>
+  </data>
   <data name="GROUPDISKQUOTA">
     <value>Csoport lemezkvótája: </value>
   </data>
@@ -1380,6 +1389,9 @@
   </data>
   <data name="LOGINUSERNAME">
     <value>Felhasználónév:</value>
+  </data>
+  <data name="VOLUME">
+    <value>Kötet</value>
   </data>
   <data name="UNLIMITED">
     <value>Korlátlan</value>

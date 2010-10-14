@@ -334,8 +334,8 @@
   <data name="SIZETAG">
     <value>Tamaño:</value>
   </data>
-  <data name="GENERATEWEEKLYREPORT">
-    <value>Generar informe cada {0} a las {1} para el {2}</value>
+  <data name="FILENAME">
+    <value>Nombre de archivo</value>
   </data>
   <data name="LOGINNOSCRIPT">
     <value>Es necesario habilitar los guiones en el navegador.</value>
@@ -354,6 +354,9 @@
   </data>
   <data name="ERRORINVALIDQUOTA">
     <value>Se ha especificado un valor de cuota de espacio de disco no válido. El valor debe encontrarse entre 1 y 2e+063 - 1.</value>
+  </data>
+  <data name="CONTAINS">
+    <value>Contiene</value>
   </data>
   <data name="ALLOWUSERPROVISIONING">
     <value>Permitir provisión de usuario</value>
@@ -505,11 +508,11 @@
   <data name="HOME">
     <value>Servidor inicial</value>
   </data>
+  <data name="LOGINSENDFAILED">
+    <value>No es posible establecer la comunicación con el servidor iFolder.</value>
+  </data>
   <data name="ALLOWMODIFYSHARINGPOLICY">
     <value>Permitir modificación de directivas de compartición</value>
-  </data>
-  <data name="REPORTS">
-    <value>Informes</value>
   </data>
   <data name="NOTMOUNTED">
     <value>No montado</value>
@@ -528,9 +531,6 @@
   </data>
   <data name="READONLY">
     <value>Sólo lectura</value>
-  </data>
-  <data name="ERRORINVALIDIDSYNCINTERVAL">
-    <value>Se ha especificado un intervalo de sincronización no válido. El valor debe encontrarse entre 5 y 10080.</value>
   </data>
   <data name="LDAPSERVER">
     <value>Servidor LDAP:</value>
@@ -571,8 +571,8 @@
   <data name="SELECTEDUSERS">
     <value>Usuarios seleccionados</value>
   </data>
-  <data name="CHINESE-SIMPLIFIED">
-    <value>Chino simplificado</value>
+  <data name="RESTARTSERVER">
+    <value>Información actualizada. Estos cambios serán efectivos cuando vuelva a iniciar el servidor iFolder. </value>
   </data>
   <data name="PUBLICURI">
     <value>URL pública:</value>
@@ -580,8 +580,8 @@
   <data name="ALLOWORPHANIFOLDEROWNERSHIP">
     <value>Permitir propiedad de carpetas iFolder huérfanas</value>
   </data>
-  <data name="ERRORIFOLDERDOESNOTEXIST">
-    <value>Esta carpeta iFolder no existe.</value>
+  <data name="INVALIDCERTIFICATE">
+    <value>Error de autenticación debido a un problema con el certificado del servidor de Ldap o iFolder.</value>
   </data>
   <data name="SERVERDETAILS">
     <value>Información del servidor</value>
@@ -715,17 +715,11 @@
   <data name="ERRORLOCKEXCEPTION">
     <value>Se ha cancelado la operación debido a que el administrador ha bloqueado o inhabilitado la carpeta iFolder.</value>
   </data>
-  <data name="PASSWORDTAG">
-    <value>Contraseña:</value>
-  </data>
   <data name="SESSIONCLOSED">
     <value>El nombre de usuario o la contraseña que ha introducido no es correcto. Entre a la sesión.</value>
   </data>
   <data name="DNSNAMETAG">
     <value>Nombre DNS:</value>
-  </data>
-  <data name="CANNOTSETPERMISSION">
-    <value>No es posible cambiar el permiso de la vía completa especificada.</value>
   </data>
   <data name="NEWFILETYPE">
     <value>Tipo de archivo nuevo</value>
@@ -853,6 +847,9 @@
   <data name="IFOLDERS">
     <value>Carpetas iFolder</value>
   </data>
+  <data name="NOPOLICIESAVAILABLE">
+    <value>No hay directivas disponibles</value>
+  </data>
   <data name="ADMINISTRATORS">
     <value>Administradores</value>
   </data>
@@ -876,6 +873,9 @@
   </data>
   <data name="USERDETAILS">
     <value>Información de usuario</value>
+  </data>
+  <data name="DELETED">
+    <value>Suprimido</value>
   </data>
   <data name="CURRENTHOMETAG">
     <value>Ubicación principal actual:</value>
@@ -904,6 +904,9 @@
   <data name="LOGINCOPYRIGHT">
     <value>&amp;copy; Copyright 2010 Novell, Inc. Reservados todos los derechos.</value>
   </data>
+  <data name="GENERATEWEEKLYREPORT">
+    <value>Generar informe cada {0} a las {1} para el {2}</value>
+  </data>
   <data name="VIEW">
     <value>Ver</value>
   </data>
@@ -931,8 +934,8 @@
   <data name="ALLOWUSERENABLING">
     <value>Permitir habilitar/deshabilitar usuarios</value>
   </data>
-  <data name="HUNGARIAN">
-    <value>Húngaro</value>
+  <data name="NOTELIGIBLE">
+    <value>Error de inicialización</value>
   </data>
   <data name="ACCESSDENIEDERROR">
     <value>El usuario que ha entrado a la sesión no está autorizado para ver o modificar las propiedades de esta página.</value>
@@ -946,8 +949,8 @@
   <data name="SELECTMEMBERTOADD">
     <value>Seleccionar un nuevo administrador secundario</value>
   </data>
-  <data name="VOLUME">
-    <value>Volumen</value>
+  <data name="ERRORINVALIDIDSYNCINTERVAL">
+    <value>Se ha especificado un intervalo de sincronización no válido. El valor debe encontrarse entre 5 y 10080.</value>
   </data>
   <data name="IDENTITYSYNCTAG">
     <value>Sincronización de identidad:</value>
@@ -963,9 +966,6 @@
   </data>
   <data name="ADD">
     <value>Añadir</value>
-  </data>
-  <data name="MB">
-    <value>MB</value>
   </data>
   <data name="DISABLE">
     <value>Inhabilitar</value>
@@ -1014,9 +1014,6 @@
   </data>
   <data name="COMPLETED">
     <value>Completado</value>
-  </data>
-  <data name="RESTARTSERVER">
-    <value>Información actualizada. Estos cambios serán efectivos cuando vuelva a iniciar el servidor iFolder. </value>
   </data>
   <data name="CZECH">
     <value>Checo</value>
@@ -1120,8 +1117,8 @@
   <data name="PENDING">
     <value>Pendiente</value>
   </data>
-  <data name="FILENAME">
-    <value>Nombre de archivo</value>
+  <data name="REPORTS">
+    <value>Informes</value>
   </data>
   <data name="ENFORCED">
     <value>Aplicado </value>
@@ -1159,8 +1156,8 @@
   <data name="CHANGEMASTERSUCCESSFUL">
     <value>Se ha actualizado {0} como servidor principal. Reinicie todos los servidores para que los cambios surtan efecto.</value>
   </data>
-  <data name="LOGTAG">
-    <value>Registro</value>
+  <data name="ERRORIFOLDERDOESNOTEXIST">
+    <value>Esta carpeta iFolder no existe.</value>
   </data>
   <data name="STATUS">
     <value>Estado</value>
@@ -1173,6 +1170,9 @@
   </data>
   <data name="IFOLDERDETAILS">
     <value>Información de iFolder</value>
+  </data>
+  <data name="CHINESE-SIMPLIFIED">
+    <value>Chino simplificado</value>
   </data>
   <data name="UNKNOWNERROR">
     <value>Se ha producido un error desconocido. No se ha especificado ninguna excepción.</value>
@@ -1216,8 +1216,8 @@
   <data name="BEGINSWITH">
     <value>Empieza por</value>
   </data>
-  <data name="DOWNLOAD">
-    <value>Descargar</value>
+  <data name="MB">
+    <value>MB</value>
   </data>
   <data name="ERRORCANNOTDELETEIFOLDER">
     <value>No tiene permiso para suprimir {0}.</value>
@@ -1261,8 +1261,8 @@
   <data name="EVERYTAG">
     <value>Cada:</value>
   </data>
-  <data name="CONTAINS">
-    <value>Contiene</value>
+  <data name="PASSWORDTAG">
+    <value>Contraseña:</value>
   </data>
   <data name="GROUPRIGHTSEDITSUCCESSFUL">
     <value>Los derechos de {0}{1}{2} del administrador se han editado correctamente para el grupo {3}{4}{5}. Haga clic en Repetir para operar con el mismo administrador en varios grupos. Haga clic en Aceptar para volver a la página de sistemas.</value>
@@ -1293,6 +1293,9 @@
   </data>
   <data name="EDIT">
     <value>Editar</value>
+  </data>
+  <data name="HUNGARIAN">
+    <value>Húngaro</value>
   </data>
   <data name="SYSTEM">
     <value>Sistema</value>
@@ -1336,8 +1339,8 @@
   <data name="SYNCNOW">
     <value>Sincronizar ahora</value>
   </data>
-  <data name="LOGINSENDFAILED">
-    <value>No es posible establecer la comunicación con el servidor iFolder.</value>
+  <data name="CANNOTSETPERMISSION">
+    <value>No es posible cambiar el permiso de la vía completa especificada.</value>
   </data>
   <data name="ACCESSLOGFILE">
     <value>Acceso de usuario</value>
@@ -1350,6 +1353,9 @@
   </data>
   <data name="REPROVISOINSTATETAG">
     <value>Estado de la nueva provisión:</value>
+  </data>
+  <data name="DOWNLOAD">
+    <value>Descargar</value>
   </data>
   <data name="DELETESECONDARYADMIN">
     <value>Suprimir administrador secundario: </value>
@@ -1372,6 +1378,9 @@
   <data name="WHEN">
     <value>Cuándo</value>
   </data>
+  <data name="LOGTAG">
+    <value>Registro</value>
+  </data>
   <data name="GROUPDISKQUOTA">
     <value>Cuota de disco de grupo: </value>
   </data>
@@ -1380,6 +1389,9 @@
   </data>
   <data name="LOGINUSERNAME">
     <value>Nombre de usuario:</value>
+  </data>
+  <data name="VOLUME">
+    <value>Volumen</value>
   </data>
   <data name="UNLIMITED">
     <value>Ilimitado</value>

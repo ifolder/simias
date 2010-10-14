@@ -334,8 +334,8 @@
   <data name="SIZETAG">
     <value>大小：</value>
   </data>
-  <data name="GENERATEWEEKLYREPORT">
-    <value>在 {1} 每隔 {0} 產生報告至 {2}</value>
+  <data name="FILENAME">
+    <value>檔名</value>
   </data>
   <data name="LOGINNOSCRIPT">
     <value>您必須在瀏覽器中啟用程序檔。</value>
@@ -354,6 +354,9 @@
   </data>
   <data name="ERRORINVALIDQUOTA">
     <value>指定的磁碟空間容量無效。值必須介於 1 到 2e+063 - 1 之間。</value>
+  </data>
+  <data name="CONTAINS">
+    <value>包含</value>
   </data>
   <data name="ALLOWUSERPROVISIONING">
     <value>允許使用者提供</value>
@@ -505,11 +508,11 @@
   <data name="HOME">
     <value>主目錄伺服器</value>
   </data>
+  <data name="LOGINSENDFAILED">
+    <value>無法與 iFolder 伺服器通訊。</value>
+  </data>
   <data name="ALLOWMODIFYSHARINGPOLICY">
     <value>允許修改共享規則</value>
-  </data>
-  <data name="REPORTS">
-    <value>報告</value>
   </data>
   <data name="NOTMOUNTED">
     <value>未裝上</value>
@@ -528,9 +531,6 @@
   </data>
   <data name="READONLY">
     <value>唯讀</value>
-  </data>
-  <data name="ERRORINVALIDIDSYNCINTERVAL">
-    <value>指定的同步間隔無效。值必須介於 5 到 10080 之間。</value>
   </data>
   <data name="LDAPSERVER">
     <value>LDAP 伺服器：</value>
@@ -571,8 +571,8 @@
   <data name="SELECTEDUSERS">
     <value>選取的使用者</value>
   </data>
-  <data name="CHINESE-SIMPLIFIED">
-    <value>簡體中文</value>
+  <data name="RESTARTSERVER">
+    <value>資訊已更新。這些變更將會在您重新啟動 iFolder 伺服器時生效。 </value>
   </data>
   <data name="PUBLICURI">
     <value>公用 URL：</value>
@@ -580,8 +580,8 @@
   <data name="ALLOWORPHANIFOLDEROWNERSHIP">
     <value>允許殘留之 iFolder 的擁有權</value>
   </data>
-  <data name="ERRORIFOLDERDOESNOTEXIST">
-    <value>此 iFolder 不存在。</value>
+  <data name="INVALIDCERTIFICATE">
+    <value>無法驗證，Ldap 或 iFolder 伺服器憑證有問題</value>
   </data>
   <data name="SERVERDETAILS">
     <value>伺服器詳細資料</value>
@@ -715,17 +715,11 @@
   <data name="ERRORLOCKEXCEPTION">
     <value>此操作已取消，因為管理員已鎖定/停用 iFolder。</value>
   </data>
-  <data name="PASSWORDTAG">
-    <value>密碼：</value>
-  </data>
   <data name="SESSIONCLOSED">
     <value>您輸入的使用者名稱或密碼錯誤。請登入。</value>
   </data>
   <data name="DNSNAMETAG">
     <value>DNS 名稱：</value>
-  </data>
-  <data name="CANNOTSETPERMISSION">
-    <value>無法變更指定「完整路徑」的許可權。</value>
   </data>
   <data name="NEWFILETYPE">
     <value>新增檔案類型</value>
@@ -848,10 +842,13 @@
     <value>停用同步</value>
   </data>
   <data name="CONFIRMENCRYPTION">
-    <value>「以通關密語為基礎的加密」選項，提供使個別 iFolder 選擇根據使用者提供之通關密語進行加密的選項。強制的選項雖然可以關閉，但是「開啟」選項一經儲存就無法回復，按一下「確定」即可儲存，或是按一下「取消」，保持目前頁面而不儲存。 </value>
+    <value>「以密碼片語為基礎的加密」選項，提供使個別 iFolder 選擇根據使用者提供之密碼片語進行加密的選項。強制的選項雖然可以關閉，但是「開啟」選項一經儲存就無法回復，按一下「確定」即可儲存，或是按一下「取消」，保持目前頁面而不儲存。 </value>
   </data>
   <data name="IFOLDERS">
     <value>iFolder</value>
+  </data>
+  <data name="NOPOLICIESAVAILABLE">
+    <value>沒有規則</value>
   </data>
   <data name="ADMINISTRATORS">
     <value>管理員</value>
@@ -876,6 +873,9 @@
   </data>
   <data name="USERDETAILS">
     <value>使用者詳細資料</value>
+  </data>
+  <data name="DELETED">
+    <value>已刪除</value>
   </data>
   <data name="CURRENTHOMETAG">
     <value>目前主目錄：</value>
@@ -904,6 +904,9 @@
   <data name="LOGINCOPYRIGHT">
     <value>&amp;copy; Copyright 2010 Novell, Inc. 版權所有。</value>
   </data>
+  <data name="GENERATEWEEKLYREPORT">
+    <value>在 {1} 每隔 {0} 產生報告至 {2}</value>
+  </data>
   <data name="VIEW">
     <value>檢視</value>
   </data>
@@ -931,8 +934,8 @@
   <data name="ALLOWUSERENABLING">
     <value>允許啟用/停用使用者</value>
   </data>
-  <data name="HUNGARIAN">
-    <value>匈牙利文</value>
+  <data name="NOTELIGIBLE">
+    <value>初始化失敗</value>
   </data>
   <data name="ACCESSDENIEDERROR">
     <value>已登入的使用者未被授權檢視或修改此頁面的內容</value>
@@ -946,8 +949,8 @@
   <data name="SELECTMEMBERTOADD">
     <value>選取新的次要管理員</value>
   </data>
-  <data name="VOLUME">
-    <value>卷冊</value>
+  <data name="ERRORINVALIDIDSYNCINTERVAL">
+    <value>指定的同步間隔無效。值必須介於 5 到 10080 之間。</value>
   </data>
   <data name="IDENTITYSYNCTAG">
     <value>身分同步化：</value>
@@ -963,9 +966,6 @@
   </data>
   <data name="ADD">
     <value>新增</value>
-  </data>
-  <data name="MB">
-    <value>MB</value>
   </data>
   <data name="DISABLE">
     <value>停用</value>
@@ -1014,9 +1014,6 @@
   </data>
   <data name="COMPLETED">
     <value>已完成</value>
-  </data>
-  <data name="RESTARTSERVER">
-    <value>資訊已更新。這些變更將會在您重新啟動 iFolder 伺服器時生效。 </value>
   </data>
   <data name="CZECH">
     <value>捷克文</value>
@@ -1120,8 +1117,8 @@
   <data name="PENDING">
     <value>待處理的</value>
   </data>
-  <data name="FILENAME">
-    <value>檔名</value>
+  <data name="REPORTS">
+    <value>報告</value>
   </data>
   <data name="ENFORCED">
     <value>強制 </value>
@@ -1159,8 +1156,8 @@
   <data name="CHANGEMASTERSUCCESSFUL">
     <value>{0} 已升級為主伺服器。請重新啟動所有伺服器，讓變更生效。</value>
   </data>
-  <data name="LOGTAG">
-    <value>記錄</value>
+  <data name="ERRORIFOLDERDOESNOTEXIST">
+    <value>此 iFolder 不存在。</value>
   </data>
   <data name="STATUS">
     <value>狀態</value>
@@ -1173,6 +1170,9 @@
   </data>
   <data name="IFOLDERDETAILS">
     <value>iFolder 詳細資料</value>
+  </data>
+  <data name="CHINESE-SIMPLIFIED">
+    <value>簡體中文</value>
   </data>
   <data name="UNKNOWNERROR">
     <value>發生不明錯誤。未指定任何例外。</value>
@@ -1211,13 +1211,13 @@
     <value>巴西葡萄牙文</value>
   </data>
   <data name="ENCRYPTION">
-    <value>以通關密語為基礎的加密</value>
+    <value>以密碼片語為基礎的加密</value>
   </data>
   <data name="BEGINSWITH">
     <value>開始於</value>
   </data>
-  <data name="DOWNLOAD">
-    <value>下載</value>
+  <data name="MB">
+    <value>MB</value>
   </data>
   <data name="ERRORCANNOTDELETEIFOLDER">
     <value>您沒有權限可以刪除 {0}。</value>
@@ -1261,8 +1261,8 @@
   <data name="EVERYTAG">
     <value>每隔：</value>
   </data>
-  <data name="CONTAINS">
-    <value>包含</value>
+  <data name="PASSWORDTAG">
+    <value>密碼：</value>
   </data>
   <data name="GROUPRIGHTSEDITSUCCESSFUL">
     <value>已成功編輯群組 {3}{4}{5} 之管理員 {0}{1}的{2} 權限。按一下「重複」在相同管理員的更多群組執行操作。按一下「確定」返回「系統」頁面</value>
@@ -1293,6 +1293,9 @@
   </data>
   <data name="EDIT">
     <value>編輯</value>
+  </data>
+  <data name="HUNGARIAN">
+    <value>匈牙利文</value>
   </data>
   <data name="SYSTEM">
     <value>系統</value>
@@ -1336,8 +1339,8 @@
   <data name="SYNCNOW">
     <value>立即同步化</value>
   </data>
-  <data name="LOGINSENDFAILED">
-    <value>無法與 iFolder 伺服器通訊。</value>
+  <data name="CANNOTSETPERMISSION">
+    <value>無法變更指定「完整路徑」的許可權。</value>
   </data>
   <data name="ACCESSLOGFILE">
     <value>使用者存取</value>
@@ -1350,6 +1353,9 @@
   </data>
   <data name="REPROVISOINSTATETAG">
     <value>重新供應狀態：</value>
+  </data>
+  <data name="DOWNLOAD">
+    <value>下載</value>
   </data>
   <data name="DELETESECONDARYADMIN">
     <value>刪除次要管理員： </value>
@@ -1372,6 +1378,9 @@
   <data name="WHEN">
     <value>時間</value>
   </data>
+  <data name="LOGTAG">
+    <value>記錄</value>
+  </data>
   <data name="GROUPDISKQUOTA">
     <value>群組磁碟配額： </value>
   </data>
@@ -1380,6 +1389,9 @@
   </data>
   <data name="LOGINUSERNAME">
     <value>使用者名稱：</value>
+  </data>
+  <data name="VOLUME">
+    <value>卷冊</value>
   </data>
   <data name="UNLIMITED">
     <value>無限制</value>
