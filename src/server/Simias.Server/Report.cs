@@ -207,10 +207,13 @@ namespace Simias.Server
 		/// <summary>
 		/// Returns the well-known report collection name.
 		/// </summary>
-		public static string ReportCollectionName
-		{
-			get { return reportCollectionName; }
-		}
+      public static string ReportCollectionName
+        {
+            get
+            {
+                 return reportCollectionName; 
+           }
+        }
 
 		/// <summary>
 		/// Returns the absolute path to the report directory.
@@ -259,14 +262,17 @@ namespace Simias.Server
 
  			// Initalize the name of the report collection.
  			Store store = Store.GetStore();
- 			Domain domain = store.GetDomain( store.DefaultDomain );
-
-		        //Note : During First instance, Domain has just been created. So take serverName from the configuration files.
-			Simias.Configuration config = Store.Config;
-			string serverName = config.Get( "Server", "Name" );
-
-			reportCollectionName = domain.Name + "-" + serverName  + "-" + GetString( "REPORTS" ); 
-
+ 		            
+            //search to see if its already exists; as domain name is modifiable 
+            Collection report = store.GetSingleCollectionByType("Reports");
+            if (report != null) reportCollectionName=report.Name;
+            else
+            {   Domain domain = store.GetDomain(store.DefaultDomain);
+                //Note : During First instance, Domain has just been created. So take serverName from the configuration files.
+                Simias.Configuration config = Store.Config;
+                string serverName = config.Get("Server", "Name");
+                reportCollectionName = domain.Name + "-" + serverName + "-" + GetString("REPORTS"); //construct path 
+            }
 			// columns
 			columns[ ( int )ColumnID.ReportTime ]     = new ReportColumn( GetString( "REPORT_TIME" ), "{0:G}" );
 			columns[ ( int )ColumnID.iFolderSystem ]  = new ReportColumn( GetString( "IFOLDER_SYSTEM" ) );
