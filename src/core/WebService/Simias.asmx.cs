@@ -2159,7 +2159,7 @@ namespace Simias.Web
 		[SoapDocumentMethod]	
 		public bool UpdateUserMoveState(string DomainID, string UserID, int userMoveStatus)
 		{
-			log.Debug("UpdateUserMoveState called");
+			log.Debug("UpdateUserMoveState called to set status :"+userMoveStatus);
 			try
 			{
 				Store store = Store.GetStore();
@@ -2174,6 +2174,11 @@ namespace Simias.Web
 				{
 					log.Debug("UpdateUserMoveState Member does not exist. {0}", UserID);
 					throw new SimiasException("UpdateUserMoveState member does not exist.");
+				}
+				if( userMoveStatus == (int)Member.userMoveStates.Initialized &&  member.UserMoveState != (int)Member.userMoveStates.PreProcessing)
+				{
+					log.Debug("Initialized state must come only after preprocessing...any other condition..return");
+					return true;
 				}
 				member.UserMoveState = userMoveStatus;
                                	domain.Commit( member );
@@ -2319,7 +2324,6 @@ namespace Simias.Web
 				{
 					preprocessing = true;
 				}
-				else member.UserMoveState = (int)Member.userMoveStates.Initialized;
 
 				member.NewHomeServer = newHostID;
 				
@@ -2327,7 +2331,10 @@ namespace Simias.Web
 				{
 					if(domain.IsLoginDisabledForUser(member))
 	       	                 	{
-						member.LoginAlreadyDisabled = true;	
+						if( member.UserMoveState < (int)Member.userMoveStates.UserDisabled )
+						{
+							member.LoginAlreadyDisabled = true;	
+						}
                 	        	}
                         		else
                                 		domain.SetLoginDisabled(member.UserID, true);
