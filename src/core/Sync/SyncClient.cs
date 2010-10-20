@@ -1150,7 +1150,7 @@ namespace Simias.Sync
 				{
 					if(isNewifolder == true)
 					{
-						log.Debug("new iFolder start the scan thread");
+                        log.Debug("new iFolder start the scan thread");
 						scanThread = new Thread(new ThreadStart(fileMonitor.CheckForFileChanges));
 						scanThread.IsBackground = true;
 						scanThread.Priority = ThreadPriority.BelowNormal;
@@ -1790,7 +1790,14 @@ namespace Simias.Sync
 				// doing atomic
 				lock (fileMonitor)
 				{
-					scanThreadStatus = fileMonitor.scanThreadRunning;
+
+                    if (scanThread == null || scanThread.IsAlive == false)
+                    {                        
+						fileMonitor.scanThreadRunning = false;
+                    }
+                    
+                    scanThreadStatus = fileMonitor.scanThreadRunning;
+                    
 				}
 				if(scanThreadStatus == false)
 				{
