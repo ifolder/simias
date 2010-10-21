@@ -1705,15 +1705,12 @@ namespace Simias.Storage
 		/// </summary>
 		public bool ReSetPassPhrase(string OldPassphrase, string Passphrase, string RAName, string RAPublicKey)
 		{
-             		log.Debug("Enter ReSetPassPhrase Function, old :{0} , new:{1}, RAName:{2}, RAPublicKey:{3}",
-                 	OldPassphrase, Passphrase, RAName, RAPublicKey);
+             		log.Debug("Enter ReSetPassPhrase Function..");
              		bool decryptpassed = true;
              		if (ValidatePassPhrase(OldPassphrase) != Simias.Authentication.StatusCodes.Success)
              		{
-                 		log.Debug("Failed for Old:{0}", OldPassphrase);
                  		if (ValidatePassPhrase(Passphrase) != Simias.Authentication.StatusCodes.Success)
                  		{
-                     			log.Debug("Reset Pass phrase passed for both old and new:{0}", Passphrase);
                      			return false;
                  		}
                  		log.Debug("Reset Pass phrase passed for old and and passed for new");
@@ -1854,7 +1851,7 @@ namespace Simias.Storage
 				else
 				{
 					log.Debug("KeyCorrection RAName: {0}", RAName);
-					log.Debug("KeyCorrection RAPublicKey: {0}", RAPublicKey);
+					//log.Debug("KeyCorrection RAPublicKey: {0}", RAPublicKey);
 					log.Debug("KeyCorrection key.Length: {0}", key.Length);
 					throw new SimiasException("Recovery key size not suported");
 				}
@@ -2359,7 +2356,7 @@ namespace Simias.Storage
 		/// </summary>
 		public Simias.Authentication.StatusCodes ValidatePassPhrase(string Passphrase)
 		{
-			 log.Debug("Enter ValidatePassPhrase for validating passphrase :{0}", Passphrase);
+			 log.Debug("Entered ValidatePassPhrase ");
 			string OldHash = null;
 			string NewHash = null;
 
@@ -2445,7 +2442,6 @@ namespace Simias.Storage
 			byte[] NewPassphrase = new byte[data.Length+4]; //20+4
 			Array.Copy(data, 0, NewPassphrase, 0,data.Length);
 			Array.Copy(data, 0, NewPassphrase, 20, 4);
-			log.Debug("HashPassPhrase passphrase :{0}....:length{1}", utf8.GetString(NewPassphrase), NewPassphrase.Length);
 			return NewPassphrase;
 		}
 		
@@ -2478,7 +2474,7 @@ namespace Simias.Storage
 				log.Debug("IsPassPhraseSet : {0}", ex.Message);
 				throw ex;
 			}
-			log.Debug("IsPassPhraseSet :{0}", CryptoKeyBlob);
+			//log.Debug("IsPassPhraseSet :{0}", CryptoKeyBlob);
 			if(CryptoKeyBlob == String.Empty)
 			{
 				log.Debug("IsPassPhraseSet : false");
