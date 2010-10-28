@@ -112,6 +112,11 @@ namespace Novell.iFolderWeb.Admin
 		/// </summary>
 		protected string [] ServerList;
 
+		/// <summary>
+		/// Server URL for logged in user.
+		/// </summary>
+		protected string currentServerURL;
+
 		#endregion
 
 		#region Properties
@@ -188,6 +193,7 @@ namespace Novell.iFolderWeb.Admin
 			dt.Columns.Add( new DataColumn( "NewHomeField", typeof( string ) ) );
 			dt.Columns.Add( new DataColumn( "PercentageStatusField", typeof( string ) ) );
 			dt.Columns.Add( new DataColumn( "StatusField", typeof( string ) ) );
+			dt.Columns.Add( new DataColumn( "DeleteField", typeof( bool ) ) );
 
 			DataRow dr;
 
@@ -197,6 +203,25 @@ namespace Novell.iFolderWeb.Admin
 
 			foreach( iFolderUser user in userList.Items )
 			{
+				string newHomeUrl = user.NewHomeServerUrl;
+				iFolderUserDetails details = null;
+				if( !String.IsNullOrEmpty( newHomeUrl ))
+				{
+					UriBuilder remoteurl = new UriBuilder( newHomeUrl );
+					remoteurl.Path = (new Uri(web.Url)).PathAndQuery;
+					web.Url = remoteurl.Uri.ToString();
+
+					try
+					{
+						details = web.GetUserDetails( user.ID );
+					}
+					catch
+					{
+						web.Url = currentServerURL;
+						details = web.GetUserDetails( user.ID );
+					}
+				}
+
 				dr = dt.NewRow();
 				dr[ 0 ] = true;
 				dr[ 1 ] = user.ID;
@@ -205,8 +230,8 @@ namespace Novell.iFolderWeb.Admin
 				dr[ 4 ] = user.UserName;
 				dr[ 5 ] = ( user.HomeServer == string.Empty ) ?  null : user.HomeServer ;
 				dr[ 6 ] = ( user.NewHomeServer == string.Empty ) ?  null : user.NewHomeServer ;
-				dr[ 7 ] = user.DataMovePercentage.ToString() + " %   ";
-				dr[ 8 ] = user.DataMoveStatus;
+				dr[ 7 ] = details != null ? (details.DetailDataMovePercentage.ToString() + " %   ") : user.DataMovePercentage.ToString() + " %   ";
+				dr[ 8 ] = details != null ? details.DetailDataMoveStatus : user.DataMoveStatus;
 
 				dt.Rows.Add( dr );
 			}
@@ -229,6 +254,8 @@ namespace Novell.iFolderWeb.Admin
 
 			// Remember the total number of users.
 			TotalUsers = userList.Total;
+
+			web.Url = currentServerURL;
 
 			// Build the data view from the table.
 			return new DataView( dt );
@@ -255,6 +282,7 @@ namespace Novell.iFolderWeb.Admin
 		{
 			// connection
 			web = Session[ "Connection" ] as iFolderAdmin;
+			currentServerURL = web.Url;
 
 			// localization
 			rm = Application[ "RM" ] as ResourceManager;

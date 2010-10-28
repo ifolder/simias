@@ -378,6 +378,11 @@ namespace iFolder.WebService
 	        public string NewHomeServer;
 
 		/// <summary>
+		/// The User HomeServer Url 
+		/// </summary>
+	        public string NewHomeServerUrl;
+
+		/// <summary>
 		/// Percentage Data Move details.
 		/// </summary>
 	        public int DataMovePercentage;
@@ -502,6 +507,21 @@ namespace iFolder.WebService
 			}
 			if(DataMoveProp == true)
 			{
+
+				if ( member.NewHomeServer != null )
+				{
+					HostNode newHomeNode = HostNode.GetHostByID(domain.ID, member.NewHomeServer);
+					if(newHomeNode != null)
+					{
+                            			this.NewHomeServer = (newHomeNode.Name == null ) ? string.Empty : newHomeNode.Name;
+						this.NewHomeServerUrl = newHomeNode.PublicUrl;
+					}
+					else
+						this.NewHomeServer = string.Empty;
+				}
+                        	else
+                            	this.NewHomeServer = string.Empty;
+
 				int state = member.UserMoveState;
 				switch(state)
 				{
@@ -538,38 +558,61 @@ namespace iFolder.WebService
 				else
 				{
 					Store store = Store.GetStore();
-					long SpaceUsed = 0;
 					long DataTransferred  = 1;
 					int iFolderMoveState = 0;
+
+					// From catalog, get the total size of the collections owned by this user.
+					// Then, check which iFolders are present on local machine, those which are not present are moved, minus them
+					long TotalSpaceUsed = Catalog.GetSpaceUsedByOwnerID( member.UserID );
+					HostNode LocalHostNode = HostNode.GetLocalHost();
+					bool LocalHostIsNewHome = false;
+		
+					bool LocalHostIsOldHome = false;
+					bool ValidLocalHost = ( LocalHostNode != null && !String.IsNullOrEmpty(LocalHostNode.Name) );
+					if( ValidLocalHost && !String.IsNullOrEmpty(this.HomeServer) && String.Equals( this.HomeServer, LocalHostNode.Name))
+					{
+						if( LocalHostNode.Name == this.HomeServer )
+						{
+							LocalHostIsOldHome = true;
+						}
+					}
+					if( ValidLocalHost && !String.IsNullOrEmpty(this.NewHomeServer) && String.Equals( this.NewHomeServer, LocalHostNode.Name))
+					{
+							LocalHostIsNewHome = true;
+					}
+
+					// If localhost is where user is moving, then start with 0 and add all collections in local store as moved ones
+					// If localhost is older home, then start with total data size and subtract collections which are not in local store 
+					DataTransferred = LocalHostIsNewHome ? 0 : ( LocalHostIsOldHome ? TotalSpaceUsed : 0); 
+
                         		ICSList collectionList = store.GetCollectionsByOwner( member.UserID, domain.ID );
                         		foreach ( ShallowNode sn in collectionList )
                         		{
                                 		Collection iFolderCol = new Collection( store, sn );
 						iFolderMoveState = member.iFolderMoveState(domain.ID, false, iFolderCol.ID, 0, 0);
+						log.Debug("iFolderUser: The iFolderMoveState is :"+iFolderMoveState);
 						if(iFolderMoveState  > 1 )
 						{
+							// This is almost non-reachable code. because when iFolderMoveState becomes 2, it means collection is
+							// moved and in that case, the collection will not be present in local store, so store.getco..Owner
+							// will not return the collection's ID. should not we remove this true codepath????
 							DataTransferred += member.MovediFolderSize(domain.ID, iFolderCol.ID);
-							SpaceUsed += member.MovediFolderSize(domain.ID, iFolderCol.ID);
 						}
 						else
-							SpaceUsed += iFolderCol.StorageSize;
+						{
+							DataTransferred = LocalHostIsNewHome ? ( DataTransferred + iFolderCol.StorageSize /* local server is new home for the user*/) : ( DataTransferred - iFolderCol.StorageSize /* user is getting moved away from local server*/ );
+
+						}
                         		}
-					if(SpaceUsed != 0)
-						DataMovePercentage += (int)(( 80 * DataTransferred ) / SpaceUsed );
+					if(TotalSpaceUsed != 0)
+					{
+						log.Debug("iFolderUser: After total calculation, now size of data that already moved is {0} and total space used by user/allcolls is {1}", DataTransferred, TotalSpaceUsed);
+						DataMovePercentage += (int) ((80*DataTransferred)/TotalSpaceUsed);
+					}
 					else
 						DataMovePercentage += 80;
 						
 				}
-				if ( member.NewHomeServer != null )
-				{
-					HostNode newHomeNode = HostNode.GetHostByID(domain.ID, member.NewHomeServer);
-					if(newHomeNode != null)
-                            			this.NewHomeServer = (newHomeNode.Name == null ) ? string.Empty : newHomeNode.Name;
-					else
-						this.NewHomeServer = string.Empty;
-				}
-                        	else
-                            	this.NewHomeServer = string.Empty;
 			}
 			else
 			{ 

@@ -371,8 +371,29 @@ namespace Novell.iFolderWeb.Admin
 			// Insert NewLine char after 80 char	
 			int NewlineAt=80;	
 			// Get the iFolder user information.
-			iFolderUserDetails details = web.GetUserDetails( UserID );
+			string NewHomeUrl = web.GetNewHomeServerURLForUserID( UserID );
+			if( ! String.IsNullOrEmpty( NewHomeUrl ))
+			{
+				UriBuilder remoteurl = new UriBuilder( NewHomeUrl );
+				remoteurl.Path = (new Uri(web.Url)).PathAndQuery;
+				web.Url = remoteurl.Uri.ToString();
+			}
 
+			iFolderUserDetails details = null;
+
+			try
+			{
+				details = web.GetUserDetails( UserID );
+			}
+			catch
+			{
+				web.Url = currentServerURL;
+				details = web.GetUserDetails( UserID );
+			}
+			if( details == null )
+			{
+				return String.Empty;
+			}
 
 			// Add the information rows to the table.
 			UserName.Text = FormatInputString(details.UserName,NewlineAt);
@@ -382,6 +403,8 @@ namespace Novell.iFolderWeb.Admin
 			Completed.Text = details.DetailDataMovePercentage.ToString();
 			CurrentHome.Text = details.DetailHomeServer;
 			ReprovState.Text =  details.DetailDataMoveStatus ; 
+	
+			web.Url = currentServerURL;
 			
 			return details.FullName;
 		}
