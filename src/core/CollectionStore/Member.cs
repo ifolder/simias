@@ -1820,6 +1820,37 @@ namespace Simias.Storage
                 public bool UpdateSearchContexts(bool add)
              	{
 			log.Debug("UpdateSearchContexts: {0}", add.ToString());
+			
+			string MasterSearchContexts = "";
+			HostNode localhostNode = HostNode.GetLocalHost();
+			if( localhostNode.IsMasterHost == false )
+			{
+	                        try
+	                        {
+					Store store = Store.GetStore();
+					string DomainID = this.GetDomainID(store);
+					HostNode host = HostNode.GetMaster(DomainID);
+                    			SimiasConnection smConn = new SimiasConnection(DomainID,
+                                        					                this.UserID,
+                                                       						SimiasConnection.AuthType.PPK,
+                                                       						host);
+	                                SimiasWebService svc = new SimiasWebService();
+	                                svc.Url = host.PublicUrl;
+	
+	                                smConn.Authenticate ();
+	                                smConn.InitializeWebClient(svc, "Simias.asmx");
+
+					// get search context from master
+	                                MasterSearchContexts = svc.GetMasterSearchContext();
+					log.Debug("UpdateSearchContexts: Master Search Context is "+MasterSearchContexts);
+	                        }
+	                        catch(Exception ex)
+	                        {
+					// We can ignore exception while getting master's search contexts, because no functionality loss.
+	                                log.Debug("UpdateSearchContexts : {0}", ex.Message);
+	                        }
+			}
+
                         try
                         {
 				Configuration config = new Configuration(Store.StorePath, true );
@@ -1835,6 +1866,23 @@ namespace Simias.Storage
 				if(p == null)
 					return false;
                                 string memberDN = (string) p.Value as string ;
+				// If this server is not master, then first match user's DN with search contexts present on master
+				if(  add == true && MasterSearchContexts != "" && localhostNode.IsMasterHost == false )
+				{
+					string[] mcontexts = MasterSearchContexts.Split(new char[] { '#' });
+					foreach(string mcontext in mcontexts)
+					{
+						if ((mcontext != null) && (mcontext.Length > 0))
+						{
+							if(memberDN.ToLower().EndsWith(mcontext))
+							{
+								log.Debug("User's DN {0} matches with one of the search contexts {1} of master, so return",memberDN,mcontext);
+								return true; 
+							}
+						}
+					}
+				}
+
                                 searchElement = config.GetElement( OldLdapSystemBookSection, SearchKey );
                                 if ( searchElement != null )
                                 {
