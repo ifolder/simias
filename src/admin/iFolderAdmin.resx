@@ -144,6 +144,9 @@
 	<data name="DELETE">
 		<value>Delete</value>
 	</data>
+	<data name="DELETED">
+		<value>Deleted</value>
+	</data>
 	<data name="DENY">
 		<value>Deny</value>
 	</data>
@@ -1194,6 +1197,9 @@
 	</data>
 	<data name="ADDNEW">
 		<value>Add New</value>
+	</data>
+	<data name="NOTELIGIBLE">
+		<value>Initialization Failed</value>
 	</data>
 	<data name="GROUPQUOTARESTRICTION">
 		<value>Manage Group Quota Using: </value>

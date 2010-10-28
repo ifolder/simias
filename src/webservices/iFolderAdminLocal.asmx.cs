@@ -647,6 +647,28 @@ namespace iFolder.WebService
 		}
 
 		/// <summary>
+		/// Remove a user from usermove queue. Precondition is: UserMove must not have started for this user.
+		/// </summary>
+		/// <param name="userID">The user id </param>
+		[WebMethod(
+			 Description="Remove an user from usermove queue",
+			 EnableSession=true)]
+		public virtual bool DeleteFromUserMoveQueue( string userID )
+		{
+			bool retval = false;
+			try
+			{
+				Authorize();
+				retval = iFolderUser.DeleteFromUserMoveQueue(userID);
+			}
+			catch(Exception e)
+			{
+				SmartException.Throw(e);
+			}
+			return retval;
+		}
+
+		/// <summary>
 		/// Update a user in the iFolder system.
 		/// </summary>
 		/// <param name="userID">The ID of the user to be updated.</param>

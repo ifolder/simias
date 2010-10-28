@@ -2042,16 +2042,26 @@ namespace Simias.Web
 					log.Debug("member does not exist.");
 					throw new SimiasException("member does not exist.");
 				}
-				member.UserMoveState = (int)Member.userMoveStates.Initialized;
-                               	domain.Commit( member );
+				bool preprocessing = false;
+				if( member.UserMoveState <= (int)Member.userMoveStates.PreProcessing)
+				{
+					preprocessing = true;
+				}
+				else member.UserMoveState = (int)Member.userMoveStates.Initialized;
+
 				member.NewHomeServer = newHostID;
-				if(domain.IsLoginDisabledForUser(member))
-                        	{
-					member.LoginAlreadyDisabled = true;	
-                        	}
-                        	else
-                                	domain.SetLoginDisabled(member.UserID, true);
-				member.UserMoveState = (int)Member.userMoveStates.UserDisabled;
+				
+				if( ! preprocessing)
+				{
+					if(domain.IsLoginDisabledForUser(member))
+	       	                 	{
+						member.LoginAlreadyDisabled = true;	
+                	        	}
+                        		else
+                                		domain.SetLoginDisabled(member.UserID, true);
+					member.UserMoveState = (int)Member.userMoveStates.UserDisabled;
+				}
+
                                	domain.Commit( member );
 			}
 			catch(Exception ex)

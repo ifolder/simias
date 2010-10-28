@@ -160,6 +160,8 @@ namespace Novell.iFolderWeb.Admin
 		protected string currentServerURL;
 		protected bool reachable = true;
 
+		private string UserMoveStatus = null;
+
 		#endregion
 
 		#region Properties
@@ -290,7 +292,7 @@ namespace Novell.iFolderWeb.Admin
                   switch(ifolder.FolderMoveStatus ) 
 				  {
 						  case 0 :
-								folderState = GetString("INITIALIZING");
+								folderState = (UserMoveStatus != null && UserMoveStatus == "NOTELIGIBLE")? GetString("NOTELIGIBLE") : GetString("INITIALIZING");
 							  break;
 
 						  case 1 :
@@ -402,7 +404,7 @@ namespace Novell.iFolderWeb.Admin
 			NewHome.Text =  details.DetailNewHomeServer;
 			Completed.Text = details.DetailDataMovePercentage.ToString();
 			CurrentHome.Text = details.DetailHomeServer;
-			ReprovState.Text =  details.DetailDataMoveStatus ; 
+			ReprovState.Text = ( String.Compare(details.DetailDataMoveStatus, "NOTELIGIBLE" ) == 0) ? GetString(details.DetailDataMoveStatus): details.DetailDataMoveStatus;
 	
 			web.Url = currentServerURL;
 			

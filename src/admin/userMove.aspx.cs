@@ -231,7 +231,11 @@ namespace Novell.iFolderWeb.Admin
 				dr[ 5 ] = ( user.HomeServer == string.Empty ) ?  null : user.HomeServer ;
 				dr[ 6 ] = ( user.NewHomeServer == string.Empty ) ?  null : user.NewHomeServer ;
 				dr[ 7 ] = details != null ? (details.DetailDataMovePercentage.ToString() + " %   ") : user.DataMovePercentage.ToString() + " %   ";
-				dr[ 8 ] = details != null ? details.DetailDataMoveStatus : user.DataMoveStatus;
+				string dataMoveStatus = details != null ? details.DetailDataMoveStatus : user.DataMoveStatus;
+				dr [8] = ( string.Compare(dataMoveStatus,"NOTELIGIBLE") == 0 ) ? GetString(dataMoveStatus): dataMoveStatus;
+				if( string.Compare(dataMoveStatus,"NOTELIGIBLE") == 0 )
+					dr[9] = true;
+				else dr[9] = false;
 
 				dt.Rows.Add( dr );
 			}
@@ -248,6 +252,8 @@ namespace Novell.iFolderWeb.Admin
 				dr[ 5 ] = String.Empty;
 				dr[ 6 ] = String.Empty;
 				dr[ 7 ] = String.Empty;
+				dr[ 8 ] = String.Empty;
+				dr[ 9 ] = false;
 
 				dt.Rows.Add( dr );
 			}
@@ -390,6 +396,46 @@ namespace Novell.iFolderWeb.Admin
                         Response.Redirect( "userMove.aspx", true );
                 }
 
+		/// <summary>
+		/// Event handler that gets called when the delete button is clicked.
+		/// </summary>
+		/// <param name="source"></param>
+		/// <param name="e"></param>
+		protected void OnDeleteClicked( object source, EventArgs e )
+		{
+			LinkButton lb = source as LinkButton;
+			DataGridItem item = lb.Parent.Parent as DataGridItem;
+			string userID = item.Cells[ AccountsIDColumn ].Text;
+			iFolderUser user = web.GetUser(userID);
+
+			bool deleted = false;
+
+			iFolderServer[] iFolderServers = web.GetServers();
+			foreach( iFolderServer server in iFolderServers )
+			{
+				if (server.IsMaster)
+				{
+					UriBuilder remoteurl = new UriBuilder( server.PublicUrl );
+					remoteurl.Path = (new Uri(web.Url)).PathAndQuery;
+					web.Url = remoteurl.Uri.ToString();
+					try
+					{
+						deleted = web.DeleteFromUserMoveQueue( user.ID );
+						if( deleted == true)
+						{
+							lb.Text = GetString("DELETED");
+							lb.Enabled = false;
+						}
+					} catch(Exception ex)
+					{
+						TopNav.ShowError(ex.Message);
+						web.Url = currentServerURL;
+						return;
+					}
+				}
+			}
+			web.Url = currentServerURL;
+		}
 
 		/// <summary>
 		/// Gets whether the user is provisioned or not.

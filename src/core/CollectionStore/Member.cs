@@ -95,6 +95,16 @@ namespace Simias.Storage
                 	Nousermove,
 
                 	/// <summary>
+                	/// preprocessing will be donw before initializing user for usermove
+                	/// </summary>
+                	PreProcessing,
+
+                	/// <summary>
+                	/// Theusermove cannot be done because of mismatch between collection nodes and real file storage
+                	/// </summary>
+                	PreProcessingFailed,
+
+                	/// <summary>
                 	/// The member move was initialized..
                 	/// </summary>
                 	Initialized,
