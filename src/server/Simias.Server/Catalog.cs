@@ -217,7 +217,8 @@ namespace Simias.Server
 			while( catalog == null && down == false )
 			{
 				log.Debug( "Attempting to create the proxy catalog" );
-				if((Simias.Sync.CollectionSyncClient.SyncStateMap & Simias.Sync.CollectionSyncClient.StateMap.DomainSyncOnce) != Simias.Sync.CollectionSyncClient.StateMap.DomainSyncOnce )
+
+				if(( CollectionSyncClient.ServerSyncStatus & CollectionSyncClient.StateMap.DomainSyncOnce) != CollectionSyncClient.StateMap.DomainSyncOnce )
 				{
 					syncEvent.WaitOne( 5000, false );
 					continue;
@@ -621,17 +622,26 @@ namespace Simias.Server
 				{
 					try
 					{
-                                        	Simias.Sync.CollectionSyncClient.SyncStateMap  &= ~Simias.Sync.CollectionSyncClient.StateMap.CatalogSyncFinished;
-						Simias.Sync.CollectionSyncClient.SyncStateMap  |= Simias.Sync.CollectionSyncClient.StateMap.CatalogSyncStarted;
+						lock(CollectionSyncClient.MapObject)
+						{	
+                                        		CollectionSyncClient.ServerSyncStatus  &= ~CollectionSyncClient.StateMap.CatalogSyncFinished;
+							CollectionSyncClient.ServerSyncStatus  |= CollectionSyncClient.StateMap.CatalogSyncStarted;
+						}
 						log.Debug("About to Start Catalog Sync");
 						syncClient.SyncNow();
 						log.Debug("Catalog Sync Completed");
-						Simias.Sync.CollectionSyncClient.SyncStateMap  &= ~Simias.Sync.CollectionSyncClient.StateMap.CatalogSyncStarted;
-						Simias.Sync.CollectionSyncClient.SyncStateMap  |= Simias.Sync.CollectionSyncClient.StateMap.CatalogSyncFinished;
+						lock(CollectionSyncClient.MapObject)
+						{	
+							CollectionSyncClient.ServerSyncStatus  &= ~CollectionSyncClient.StateMap.CatalogSyncStarted;
+							CollectionSyncClient.ServerSyncStatus  |= CollectionSyncClient.StateMap.CatalogSyncFinished;
+						}
 						if(domain.SystemSyncStatus == 0)
 						{
-							Simias.Sync.CollectionSyncClient.SyncStateMap  |= Simias.Sync.CollectionSyncClient.StateMap.CatalogSyncOnce;
-							domain.SystemSyncStatus = (ulong)Simias.Sync.CollectionSyncClient.StateMap.CatalogSyncOnce;
+							lock(CollectionSyncClient.MapObject)
+							{	
+								CollectionSyncClient.ServerSyncStatus  |= CollectionSyncClient.StateMap.CatalogSyncOnce;
+							}
+							domain.SystemSyncStatus = (ulong)CollectionSyncClient.StateMap.CatalogSyncOnce;
 							domain.Commit();
 							log.Debug( "System Sync Status Value is set to {0}", domain.SystemSyncStatus.ToString() );
 						}
@@ -655,6 +665,17 @@ namespace Simias.Server
                                                 log.Debug("Catalog Sync, Simias authenticate for Catalog Sync Connection successful....");
 
                                         }
+					if( retry == 1 )
+					{
+						// Going to exit while loop, before that unset the catalog sync flag, so other syns get chance
+						lock(CollectionSyncClient.MapObject)
+						{	
+							CollectionSyncClient.ServerSyncStatus  &= ~CollectionSyncClient.StateMap.CatalogSyncStarted;
+							CollectionSyncClient.ServerSyncStatus  |= CollectionSyncClient.StateMap.CatalogSyncFinished;
+							log.Debug("CatalogSync: This was last retry, so unsetting the catalogsync ON flag so that other sync threads will try...");
+						}
+						
+					}
 				}
 
 				if ( down == true )
@@ -740,8 +761,10 @@ namespace Simias.Server
 		/// <param name="collectionClient">The client that is ready to sync.</param>
 		internal static void TimerFired( object collectionClient )
 		{
-			while(CollectionSyncClient.running || ((Simias.Sync.CollectionSyncClient.SyncStateMap & Simias.Sync.CollectionSyncClient.StateMap.DomainSyncStarted ) == Simias.Sync.CollectionSyncClient.StateMap.DomainSyncStarted))
+			while(CollectionSyncClient.running || ((CollectionSyncClient.ServerSyncStatus & CollectionSyncClient.StateMap.DomainSyncStarted ) == CollectionSyncClient.StateMap.DomainSyncStarted) || ((CollectionSyncClient.ServerSyncStatus & CollectionSyncClient.StateMap.UserMoveSyncStarted ) == CollectionSyncClient.StateMap.UserMoveSyncStarted) )
+			{
 				Thread.Sleep(1000);
+			}
 			syncEvent.Set();
 		}
 
@@ -974,6 +997,23 @@ namespace Simias.Server
 			}
 			return tempSize;
 		}
+
+               static public long GetSpaceUsedByOwnerID( string userID )
+               {
+                       long SpaceUsed = 0;
+
+                       Store store = Store.GetStore();
+                       Domain domain = store.GetDomain(store.DefaultDomain);
+                       Property midsProp = new Property( CatalogEntry.OwnerProperty, userID );
+                       ICSList nodes = store.GetNodesByProperty( midsProp, SearchOp.Begins );
+                       foreach( ShallowNode sn in nodes )
+                       {
+                               CatalogEntry CatEntry = new CatalogEntry( sn );
+                               SpaceUsed += CatEntry.CollectionSize;
+                       }
+
+                       return SpaceUsed;
+               }
 
 		/// <summary>
 		/// Method to retrieve all catalog entries the specified user

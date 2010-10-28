@@ -422,6 +422,14 @@ namespace Simias.Host
 		private void SyncDomain()
 		{
 			int retry = 10;
+				log.Debug("Sync Domain entered..");
+
+			lock(CollectionSyncClient.MapObject)
+			{
+				CollectionSyncClient.ServerSyncStatus  |= CollectionSyncClient.StateMap.DomainSyncStarted;
+				CollectionSyncClient.ServerSyncStatus  &= ~CollectionSyncClient.StateMap.DomainSyncFinished;
+			}
+
 			while( true )
 			{
 				try
@@ -454,14 +462,20 @@ namespace Simias.Host
 				{
 					try
 					{
-						Simias.Sync.CollectionSyncClient.SyncStateMap  |= Simias.Sync.CollectionSyncClient.StateMap.DomainSyncStarted;
-						Simias.Sync.CollectionSyncClient.SyncStateMap  &= ~Simias.Sync.CollectionSyncClient.StateMap.DomainSyncFinished;
+						lock(CollectionSyncClient.MapObject)
+						{
+							CollectionSyncClient.ServerSyncStatus  |= CollectionSyncClient.StateMap.DomainSyncStarted;
+							CollectionSyncClient.ServerSyncStatus  &= ~CollectionSyncClient.StateMap.DomainSyncFinished;
+						}
 						log.Debug("About to Start Domain Sync");
 						syncClient.SyncNow();
 						log.Debug("Domain Sync Completed");
-						Simias.Sync.CollectionSyncClient.SyncStateMap  &= ~Simias.Sync.CollectionSyncClient.StateMap.DomainSyncStarted;
-						Simias.Sync.CollectionSyncClient.SyncStateMap  |= Simias.Sync.CollectionSyncClient.StateMap.DomainSyncFinished;
-						Simias.Sync.CollectionSyncClient.SyncStateMap  |= Simias.Sync.CollectionSyncClient.StateMap.DomainSyncOnce;
+						lock(CollectionSyncClient.MapObject)
+						{
+							CollectionSyncClient.ServerSyncStatus  &= ~CollectionSyncClient.StateMap.DomainSyncStarted;
+							CollectionSyncClient.ServerSyncStatus  |= CollectionSyncClient.StateMap.DomainSyncFinished;
+							CollectionSyncClient.ServerSyncStatus  |= CollectionSyncClient.StateMap.DomainSyncOnce;
+						}
 						break;
 					}
 					catch (Exception ex){
@@ -480,7 +494,18 @@ namespace Simias.Host
 						log.Debug("Domain Sync, Simias authenticate for Domain Sync Connection successful....");
 						
 					}
+					if( retry == 1 )
+					{
+						// Going to exit while loop, before that unset the domain sync flag, so other syns get chance
+						lock(CollectionSyncClient.MapObject)
+						{
+							CollectionSyncClient.ServerSyncStatus  &= ~CollectionSyncClient.StateMap.DomainSyncStarted;
+							CollectionSyncClient.ServerSyncStatus  |= CollectionSyncClient.StateMap.DomainSyncFinished;
+							log.Debug("DomainSync: This was last retry, so unsetting the domainsync ON flag so that other sync threads will try...");
+						}
+					}
 				}
+
 				syncClient.Reschedule( true, 30 );
 			}
 		}
@@ -491,8 +516,10 @@ namespace Simias.Host
 		/// <param name="collectionClient">The client that is ready to sync.</param>
 		public void TimerFired( object collectionClient )
 		{
-			while(CollectionSyncClient.running || ((Simias.Sync.CollectionSyncClient.SyncStateMap & Simias.Sync.CollectionSyncClient.StateMap.CatalogSyncStarted ) == Simias.Sync.CollectionSyncClient.StateMap.CatalogSyncStarted) )
+			while(CollectionSyncClient.running || ((CollectionSyncClient.ServerSyncStatus & CollectionSyncClient.StateMap.CatalogSyncStarted ) == CollectionSyncClient.StateMap.CatalogSyncStarted) || ((CollectionSyncClient.ServerSyncStatus & CollectionSyncClient.StateMap.UserMoveSyncStarted ) == CollectionSyncClient.StateMap.UserMoveSyncStarted) )
+			{
 				Thread.Sleep(1000);
+			}
 			syncEvent.Set();
 		}
 	}
