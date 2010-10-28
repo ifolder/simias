@@ -189,10 +189,12 @@ public partial class SimiasWebService : System.Web.Services.Protocols.SoapHttpCl
     
     private System.Threading.SendOrPostCallback GetSimiasDataPathOperationCompleted;
     
+    private System.Threading.SendOrPostCallback GetMasterSearchContextOperationCompleted;
+    
     private System.Threading.SendOrPostCallback GetSimiasProcessIDOperationCompleted;
     
     public SimiasWebService() {
-        this.Url = "http://127.0.0.1/simias10/Simias.asmx";
+        this.Url = "http://164.99.101.25/simias10/Simias.asmx";
     }
     
     public event PingSimiasCompletedEventHandler PingSimiasCompleted;
@@ -360,6 +362,8 @@ public partial class SimiasWebService : System.Web.Services.Protocols.SoapHttpCl
     public event IsPassPhraseSetCompletedEventHandler IsPassPhraseSetCompleted;
     
     public event GetSimiasDataPathCompletedEventHandler GetSimiasDataPathCompleted;
+    
+    public event GetMasterSearchContextCompletedEventHandler GetMasterSearchContextCompleted;
     
     public event GetSimiasProcessIDCompletedEventHandler GetSimiasProcessIDCompleted;
     
@@ -2956,7 +2960,7 @@ public partial class SimiasWebService : System.Web.Services.Protocols.SoapHttpCl
 ///Returns the characters which cannot be used for filenames in the Simias namespace (files and folders that contain any of these characters cannot be synchronized with iFolder and conflicts will be generated).
 ///</remarks>
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/DownloadiFolder", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
-    public bool DownloadiFolder(string iFolderID, string name, string DomainID, string HostID, string DirNodeID, string MemberNodeID, string colMemberNodeID, string localPath) {
+    public bool DownloadiFolder(string iFolderID, string name, string DomainID, string HostID, string DirNodeID, string MemberNodeID, string colMemberNodeID, string localPath, int sourcefilecount, int sourcedircount) {
         object[] results = this.Invoke("DownloadiFolder", new object[] {
                     iFolderID,
                     name,
@@ -2965,11 +2969,13 @@ public partial class SimiasWebService : System.Web.Services.Protocols.SoapHttpCl
                     DirNodeID,
                     MemberNodeID,
                     colMemberNodeID,
-                    localPath});
+                    localPath,
+                    sourcefilecount,
+                    sourcedircount});
         return ((bool)(results[0]));
     }
     
-    public System.IAsyncResult BeginDownloadiFolder(string iFolderID, string name, string DomainID, string HostID, string DirNodeID, string MemberNodeID, string colMemberNodeID, string localPath, System.AsyncCallback callback, object asyncState) {
+    public System.IAsyncResult BeginDownloadiFolder(string iFolderID, string name, string DomainID, string HostID, string DirNodeID, string MemberNodeID, string colMemberNodeID, string localPath, int sourcefilecount, int sourcedircount, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("DownloadiFolder", new object[] {
                     iFolderID,
                     name,
@@ -2978,7 +2984,9 @@ public partial class SimiasWebService : System.Web.Services.Protocols.SoapHttpCl
                     DirNodeID,
                     MemberNodeID,
                     colMemberNodeID,
-                    localPath}, callback, asyncState);
+                    localPath,
+                    sourcefilecount,
+                    sourcedircount}, callback, asyncState);
     }
     
     public bool EndDownloadiFolder(System.IAsyncResult asyncResult) {
@@ -2986,11 +2994,11 @@ public partial class SimiasWebService : System.Web.Services.Protocols.SoapHttpCl
         return ((bool)(results[0]));
     }
     
-    public void DownloadiFolderAsync(string iFolderID, string name, string DomainID, string HostID, string DirNodeID, string MemberNodeID, string colMemberNodeID, string localPath) {
-        this.DownloadiFolderAsync(iFolderID, name, DomainID, HostID, DirNodeID, MemberNodeID, colMemberNodeID, localPath, null);
+    public void DownloadiFolderAsync(string iFolderID, string name, string DomainID, string HostID, string DirNodeID, string MemberNodeID, string colMemberNodeID, string localPath, int sourcefilecount, int sourcedircount) {
+        this.DownloadiFolderAsync(iFolderID, name, DomainID, HostID, DirNodeID, MemberNodeID, colMemberNodeID, localPath, sourcefilecount, sourcedircount, null);
     }
     
-    public void DownloadiFolderAsync(string iFolderID, string name, string DomainID, string HostID, string DirNodeID, string MemberNodeID, string colMemberNodeID, string localPath, object userState) {
+    public void DownloadiFolderAsync(string iFolderID, string name, string DomainID, string HostID, string DirNodeID, string MemberNodeID, string colMemberNodeID, string localPath, int sourcefilecount, int sourcedircount, object userState) {
         if ((this.DownloadiFolderOperationCompleted == null)) {
             this.DownloadiFolderOperationCompleted = new System.Threading.SendOrPostCallback(this.OnDownloadiFolderCompleted);
         }
@@ -3002,7 +3010,9 @@ public partial class SimiasWebService : System.Web.Services.Protocols.SoapHttpCl
                     DirNodeID,
                     MemberNodeID,
                     colMemberNodeID,
-                    localPath}, this.DownloadiFolderOperationCompleted, userState);
+                    localPath,
+                    sourcefilecount,
+                    sourcedircount}, this.DownloadiFolderOperationCompleted, userState);
     }
     
     private void OnDownloadiFolderCompleted(object arg) {
@@ -3893,6 +3903,42 @@ public partial class SimiasWebService : System.Web.Services.Protocols.SoapHttpCl
         if ((this.GetSimiasDataPathCompleted != null)) {
             System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
             this.GetSimiasDataPathCompleted(this, new GetSimiasDataPathCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+        }
+    }
+    
+    /// <remarks>
+///Gets the ldap search context from master simias config file
+///</remarks>
+    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/GetMasterSearchContext", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
+    public string GetMasterSearchContext() {
+        object[] results = this.Invoke("GetMasterSearchContext", new object[0]);
+        return ((string)(results[0]));
+    }
+    
+    public System.IAsyncResult BeginGetMasterSearchContext(System.AsyncCallback callback, object asyncState) {
+        return this.BeginInvoke("GetMasterSearchContext", new object[0], callback, asyncState);
+    }
+    
+    public string EndGetMasterSearchContext(System.IAsyncResult asyncResult) {
+        object[] results = this.EndInvoke(asyncResult);
+        return ((string)(results[0]));
+    }
+    
+    public void GetMasterSearchContextAsync() {
+        this.GetMasterSearchContextAsync(null);
+    }
+    
+    public void GetMasterSearchContextAsync(object userState) {
+        if ((this.GetMasterSearchContextOperationCompleted == null)) {
+            this.GetMasterSearchContextOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetMasterSearchContextCompleted);
+        }
+        this.InvokeAsync("GetMasterSearchContext", new object[0], this.GetMasterSearchContextOperationCompleted, userState);
+    }
+    
+    private void OnGetMasterSearchContextCompleted(object arg) {
+        if ((this.GetMasterSearchContextCompleted != null)) {
+            System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+            this.GetMasterSearchContextCompleted(this, new GetMasterSearchContextCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
         }
     }
     
@@ -5967,6 +6013,25 @@ public partial class GetSimiasDataPathCompletedEventArgs : System.ComponentModel
 }
 
 public delegate void GetSimiasDataPathCompletedEventHandler(object sender, GetSimiasDataPathCompletedEventArgs args);
+
+public partial class GetMasterSearchContextCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+    
+    private object[] results;
+    
+    internal GetMasterSearchContextCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+            base(exception, cancelled, userState) {
+        this.results = results;
+    }
+    
+    public string Result {
+        get {
+            this.RaiseExceptionIfNecessary();
+            return ((string)(this.results[0]));
+        }
+    }
+}
+
+public delegate void GetMasterSearchContextCompletedEventHandler(object sender, GetMasterSearchContextCompletedEventArgs args);
 
 public partial class GetSimiasProcessIDCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
     

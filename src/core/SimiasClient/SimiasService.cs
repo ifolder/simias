@@ -23,7 +23,7 @@
 public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProtocol {
     
     public SimiasWebService() {
-        this.Url = "http://127.0.0.1/simias10/Simias.asmx";
+        this.Url = "http://164.99.101.25/simias10/Simias.asmx";
     }
     
     /// <remarks>
@@ -1384,7 +1384,7 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
 ///Returns the characters which cannot be used for filenames in the Simias namespace (files and folders that contain any of these characters cannot be synchronized with iFolder and conflicts will be generated).
 ///</remarks>
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/DownloadiFolder", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
-    public bool DownloadiFolder(string iFolderID, string name, string DomainID, string HostID, string DirNodeID, string MemberNodeID, string colMemberNodeID, string localPath) {
+    public bool DownloadiFolder(string iFolderID, string name, string DomainID, string HostID, string DirNodeID, string MemberNodeID, string colMemberNodeID, string localPath, int sourcefilecount, int sourcedircount) {
         object[] results = this.Invoke("DownloadiFolder", new object[] {
                     iFolderID,
                     name,
@@ -1393,11 +1393,13 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
                     DirNodeID,
                     MemberNodeID,
                     colMemberNodeID,
-                    localPath});
+                    localPath,
+                    sourcefilecount,
+                    sourcedircount});
         return ((bool)(results[0]));
     }
     
-    public System.IAsyncResult BeginDownloadiFolder(string iFolderID, string name, string DomainID, string HostID, string DirNodeID, string MemberNodeID, string colMemberNodeID, string localPath, System.AsyncCallback callback, object asyncState) {
+    public System.IAsyncResult BeginDownloadiFolder(string iFolderID, string name, string DomainID, string HostID, string DirNodeID, string MemberNodeID, string colMemberNodeID, string localPath, int sourcefilecount, int sourcedircount, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("DownloadiFolder", new object[] {
                     iFolderID,
                     name,
@@ -1406,7 +1408,9 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
                     DirNodeID,
                     MemberNodeID,
                     colMemberNodeID,
-                    localPath}, callback, asyncState);
+                    localPath,
+                    sourcefilecount,
+                    sourcedircount}, callback, asyncState);
     }
     
     public bool EndDownloadiFolder(System.IAsyncResult asyncResult) {
@@ -1877,6 +1881,24 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     }
     
     public string EndGetSimiasDataPath(System.IAsyncResult asyncResult) {
+        object[] results = this.EndInvoke(asyncResult);
+        return ((string)(results[0]));
+    }
+    
+    /// <remarks>
+///Gets the ldap search context from master simias config file
+///</remarks>
+    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/GetMasterSearchContext", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
+    public string GetMasterSearchContext() {
+        object[] results = this.Invoke("GetMasterSearchContext", new object[0]);
+        return ((string)(results[0]));
+    }
+    
+    public System.IAsyncResult BeginGetMasterSearchContext(System.AsyncCallback callback, object asyncState) {
+        return this.BeginInvoke("GetMasterSearchContext", new object[0], callback, asyncState);
+    }
+    
+    public string EndGetMasterSearchContext(System.IAsyncResult asyncResult) {
         object[] results = this.EndInvoke(asyncResult);
         return ((string)(results[0]));
     }

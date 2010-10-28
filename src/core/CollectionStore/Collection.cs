@@ -184,6 +184,8 @@ namespace Simias.Storage
 		///</summary>
 		private bool disabled;
 
+		private static AutoResetEvent syncEvent = new AutoResetEvent(false);
+
 		#endregion
 
 		#region Properties
@@ -4740,7 +4742,7 @@ namespace Simias.Storage
         /// <param name="colMemberNodeID">Collection's member node ID</param>
         /// <param name="iFolderLocalPath">Path of Local iFolder</param>
         /// <returns></returns>
-		public static bool DownloadCollection(string iFolderID, string iFolderName, string DomainID, string HostID, string DirNodeID, string MemberUserID, string colMemberNodeID, string iFolderLocalPath)
+		public static bool DownloadCollection(string iFolderID, string iFolderName, string DomainID, string HostID, string DirNodeID, string MemberUserID, string colMemberNodeID, string iFolderLocalPath, int sourceFileCount, int sourceDirCount)
 		{
 			string titleClass = "Simias.UserMovement.iFolderDataMove";
 			string ReprovisionMethod = "MoveiFolder";
@@ -4749,7 +4751,7 @@ namespace Simias.Storage
 			MethodInfo mInfo = types.GetMethod(ReprovisionMethod);
                         if (mInfo != null)
                         {
-                                object[] prms = new object[8];
+                                object[] prms = new object[10];
                                 prms[0] = iFolderID;
                                 prms[1] = iFolderName;
                                 prms[2] = DomainID;
@@ -4758,6 +4760,8 @@ namespace Simias.Storage
                                 prms[5] = MemberUserID;
                                 prms[6] = colMemberNodeID;
                                 prms[7] = iFolderLocalPath;
+                                prms[8] = sourceFileCount;
+                                prms[9] = sourceDirCount;
                                 return ((bool)mInfo.Invoke(null, prms));
                         }
                         else
@@ -4776,7 +4780,7 @@ namespace Simias.Storage
         /// <param name="colMemberNodeID">ID of collection member node</param>
         /// <param name="iFolderLocalPath">Path of iFolder</param>
         /// <returns></returns>
-		public static bool DownloadCollectionLocally(string iFolderID, string iFolderName, string DomainID, string HostID, string DirNodeID, string MemberUserID, string colMemberNodeID, string iFolderLocalPath)
+		public static bool DownloadCollectionLocally(string iFolderID, string iFolderName, string DomainID, string HostID, string DirNodeID, string MemberUserID, string colMemberNodeID, string iFolderLocalPath, int oldHomeFileCount, int oldHomeDirCount)
 		{
 			bool status = false;
                         try
@@ -4796,31 +4800,14 @@ namespace Simias.Storage
 				if( iFolderCol == null )
 				{
 					log.Debug("Setting the collection {0} for moving the data. ", iFolderName);
-                                	iFolderCol = new Collection(store, iFolderName, iFolderID, DomainID);
-	                                iFolderCol.HostID = HostID;
-        	                        commitList.Add(iFolderCol);
-					newOwnerMember.IsOwner = true;
-					newOwnerMember.Proxy = true;
-					newDomainMember.Proxy = true;
-					commitList.Add(newOwnerMember);
-					commitList.Add(newDomainMember);
-					log.Debug("DownloadCollection: Preparing dir node...");
-        	                        DirNode dNode = new DirNode(iFolderCol, iFolderLocalPath, DirNodeID);
-                        	        if (!Directory.Exists(iFolderLocalPath))
-                                	        Directory.CreateDirectory(iFolderLocalPath);
-	                                dNode.Proxy = true;
-        	                        commitList.Add(dNode);
-                	                iFolderCol.Proxy = true;
-					iFolderCol.DataMovement = true;
-					iFolderCol.Role = SyncRoles.Slave;
-                                	iFolderCol.Commit((Node[]) commitList.ToArray(typeof(Node)));
-					iFolderCol.Commit();
+					iFolderCol = CreateProxyCollection( store, iFolderName, iFolderID, DomainID, HostID, newOwnerMember, newDomainMember, iFolderLocalPath, DirNodeID);
 				}
 				else
 				{
 					// Sync has by some chance failed during previous cycle...
 					// Check if the current host is a member or not and add the current host as member...
 					log.Debug("The user move has failed for the collection {0} in previous cycle. adding the host member again.", iFolderCol.Name);
+					RemoveFromCatalogTable( iFolderID); // On destination server, no need of maintaining ignore list in catalog's hashtbl
 					try
 					{
 						Member currHostMember = iFolderCol.GetMemberByID(newDomainMember.UserID);
@@ -4845,21 +4832,84 @@ namespace Simias.Storage
 				}
 				log.Debug("DownloadCollection: About to start sync...");
 				CollectionSyncClient syncClient = new CollectionSyncClient(iFolderID, new TimerCallback( TimerFired ) );
+				syncEvent.WaitOne();
+				lock(CollectionSyncClient.MapObject)
+				{
+					Simias.Sync.CollectionSyncClient.ServerSyncStatus  |= Simias.Sync.CollectionSyncClient.StateMap.UserMoveSyncStarted;
+					Simias.Sync.CollectionSyncClient.ServerSyncStatus  &= ~Simias.Sync.CollectionSyncClient.StateMap.UserMoveSyncFinished;
+				}
 				syncClient.SyncNow();
+				lock(CollectionSyncClient.MapObject)
+				{
+					Simias.Sync.CollectionSyncClient.ServerSyncStatus  &= ~Simias.Sync.CollectionSyncClient.StateMap.UserMoveSyncStarted;
+					Simias.Sync.CollectionSyncClient.ServerSyncStatus  |= Simias.Sync.CollectionSyncClient.StateMap.UserMoveSyncFinished;
+				}
+
 				uint count = 0;
 				syncClient.GetSyncCount(out count);
 				bool CollSyncStatus = syncClient.GetCollectionSyncStatus();
 				log.Debug("After Sync now WonkArray Count is {0} CollSyncStatus is {1}", count.ToString(), CollSyncStatus.ToString());
 				if( count == 0 && CollSyncStatus == true)
 				{
-					log.Debug("DownloadCollection: Sync completed successfull, Removing local properties...");
-					iFolderCol.DataMovement = false;
-					iFolderCol.Commit();
-					Member tmpMember = iFolderCol.GetMemberByID(newDomainMember.UserID);
-					if(tmpMember != null && !tmpMember.IsOwner)
-						iFolderCol.Commit( iFolderCol.Delete( tmpMember ) );
-					log.Debug("Removed the datamove flag.");
-					return true;
+					// before declaring sync successful, match the actual no of files on old home and new home server
+					int status2 = 1; // successful matching of number of files
+					DirNode dirNode = iFolderCol.GetRootDirectory();
+					if (dirNode != null)
+					{	
+						int newHomeFileCount=0;
+						int newHomeDirCount=0;
+						string UnManagedPath = dirNode.GetFullPath(iFolderCol);			
+						DirectoryInfo d = new DirectoryInfo(UnManagedPath);
+						GetDirAndFileCount(d, ref newHomeFileCount, ref newHomeDirCount);
+						newHomeDirCount++;
+						log.Debug("On New Home Server, Number of file = {0} and number of dirs = {1} for iFolder {2}", newHomeFileCount, newHomeDirCount, iFolderCol.Name);
+
+						// call simias webservice to get same number on old home server
+
+						log.Debug("Old HomeServer: Number of file = {0} and number of dirs = {1} for iFolder {2}",oldHomeFileCount, oldHomeDirCount, iFolderCol.Name);
+						
+						if( newHomeFileCount < oldHomeFileCount || newHomeDirCount < oldHomeDirCount )
+						{
+							status2 = -1;
+						}
+						else
+							log.Debug("New HomeServer: Successful match of number of files and dir, so all files/dirs synced");
+
+
+						if( status2 == -1 )
+						{
+							log.Debug("Number of files downloaded does not match with actual file on this server, so iFoldermove failed for this iFolder, it will retry after deleting/recreating ifolder");
+
+							// add this ID to catalog's ignore hastable so that delete event will be ignored.
+							AddToCatalogTable( iFolderID);
+							iFolderCol.Commit(iFolderCol.Delete());
+
+							// Re writing the code which was above to create catalog entries on old home server and sync
+
+							log.Debug("Re-try: Setting the collection {0} for moving the data. ", iFolderName);
+							iFolderCol = CreateProxyCollection( store, iFolderName, iFolderID, DomainID, HostID, newOwnerMember, newDomainMember, iFolderLocalPath, DirNodeID);
+							return false;
+						}
+						else if( status2 == 1 )
+						{
+							log.Debug("After WebService call: Number of files downloaded matched successfully ");
+							log.Debug("DownloadCollection: Sync completed successfull, Removing local properties...");
+							iFolderCol.DataMovement = false;
+							iFolderCol.Commit();
+							Member tmpMember = iFolderCol.GetMemberByID(newDomainMember.UserID);
+							if(tmpMember != null && !tmpMember.IsOwner)
+								iFolderCol.Commit( iFolderCol.Delete( tmpMember ) );
+							log.Debug("Removed the datamove flag.");
+							return true;
+						}
+
+					}
+					else 
+					{
+						// else return false because getrootdirectory null means no collection still synced
+						log.Debug("DownloadCollectionLocally: else return false because getrootdirectory null means no collection still synced ");
+						return false;
+					}
 				}
 				else
 				{
@@ -4870,9 +4920,99 @@ namespace Simias.Storage
                         catch(Exception ex)
                         {
                                 log.Debug("Exception in downloading the iFolder... {0}--{1}", ex.Message, ex.StackTrace);
+				lock(CollectionSyncClient.MapObject)
+				{
+					Simias.Sync.CollectionSyncClient.ServerSyncStatus  &= ~Simias.Sync.CollectionSyncClient.StateMap.UserMoveSyncStarted;
+					Simias.Sync.CollectionSyncClient.ServerSyncStatus  |= Simias.Sync.CollectionSyncClient.StateMap.UserMoveSyncFinished;
+				}
+				
                         }
 			return status;		
 		}
+
+		// moved the creating proxy collection part to a seperate methos since it was called from 2 places
+		public static Collection CreateProxyCollection(Store store, string iFolderName, string iFolderID, string DomainID, string HostID, Member newOwnerMember, Member newDomainMember, string iFolderLocalPath, string DirNodeID)
+		{
+				log.Debug("CreateProxyCollection: Entered");
+                                ArrayList commitList = new ArrayList();
+                              	Collection iFolderCol = new Collection(store, iFolderName, iFolderID, DomainID);
+                                iFolderCol.HostID = HostID;
+       	                        commitList.Add(iFolderCol);
+				newOwnerMember.IsOwner = true;
+				newOwnerMember.Proxy = true;
+				newDomainMember.Proxy = true;
+				commitList.Add(newOwnerMember);
+				commitList.Add(newDomainMember);
+				log.Debug("DownloadCollection: Preparing dir node...");
+       	                        DirNode dNode = new DirNode(iFolderCol, iFolderLocalPath, DirNodeID);
+                       	        if (!Directory.Exists(iFolderLocalPath))
+                               	        Directory.CreateDirectory(iFolderLocalPath);
+                                dNode.Proxy = true;
+       	                        commitList.Add(dNode);
+               	                iFolderCol.Proxy = true;
+				iFolderCol.DataMovement = true;
+				iFolderCol.Role = SyncRoles.Slave;
+                               	iFolderCol.Commit((Node[]) commitList.ToArray(typeof(Node)));
+				iFolderCol.Commit();
+				log.Debug("CreateProxyCollection: created the proxy collection entry..Returning");
+				return iFolderCol;
+		}
+
+		// add the collectionID into MovingCollections Hashtable used in catalog.cs so that delete event for those ifolders will be ignored which
+		// fail to sync full in one cycle.
+		public static void AddToCatalogTable( string iFolderID)
+		{
+			string titleClass = "Simias.Server.Catalog";
+			string AddMethod = "AddCollectionForMovement";
+			Assembly Asmbly = Assembly.LoadWithPartialName(Simias.Service.Manager.CatalogAssemblyName);
+			Type types = Asmbly.GetType(titleClass);
+			MethodInfo mInfo = types.GetMethod(AddMethod);
+                        if (mInfo != null)
+                        {
+                                object[] prms = new object[2];
+                                prms[0] = iFolderID;
+                                prms[1] = null;
+                                mInfo.Invoke(null, prms);
+				log.Debug("AddToCatalogTable: Added this iFolder temporarily into hastable to ignore delete event..");	
+			}
+			else throw new Exception("AddToCatalog: Unable to call catalog method from Collection.cs for :"+iFolderID);
+		}
+
+		// remove the collectionID into MovingCollections Hashtable used in catalog.cs so that delete event for those ifolders will be ignored which
+		// fail to sync full in one cycle.
+		public static void RemoveFromCatalogTable( string iFolderID)
+		{
+			string titleClass = "Simias.Server.Catalog";
+			string AddMethod = "RemoveCollectionForMovement";
+			Assembly Asmbly = Assembly.LoadWithPartialName(Simias.Service.Manager.CatalogAssemblyName);
+			Type types = Asmbly.GetType(titleClass);
+			MethodInfo mInfo = types.GetMethod(AddMethod);
+                        if (mInfo != null)
+                        {
+                                object[] prms = new object[1];
+                                prms[0] = iFolderID;
+                                mInfo.Invoke(null, prms);
+				log.Debug("RemoveFromCatalogTable: Removed this iFolder from catalog hastable to bring in orig state..");	
+				
+			}
+			else throw new Exception("RemoveFromCatalog: Unable to call catalog method from Collection.cs for :"+iFolderID);
+		}
+
+                // count total no of files and dirs in this collection (goto actual storage and count)
+                public static void GetDirAndFileCount(DirectoryInfo d, ref int filecount, ref int dircount)
+                {
+                        FileInfo[] fis = d.GetFiles();
+			filecount += fis.Length;
+
+                        DirectoryInfo[] dis = d.GetDirectories();
+                        foreach (DirectoryInfo di in dis)
+                        {
+                                dircount++;
+                                GetDirAndFileCount(di, ref filecount, ref dircount);
+                        }
+                }
+
+
 
         /// <summary>
         /// Callback method for timer
@@ -4880,6 +5020,9 @@ namespace Simias.Storage
         /// <param name="collectionClient">Collection client object to be handled when timer triggers</param>
 		public static void TimerFired( object collectionClient )
 		{
+			while(CollectionSyncClient.running || ((Simias.Sync.CollectionSyncClient.ServerSyncStatus & Simias.Sync.CollectionSyncClient.StateMap.CatalogSyncStarted ) == Simias.Sync.CollectionSyncClient.StateMap.CatalogSyncStarted) || ((Simias.Sync.CollectionSyncClient.ServerSyncStatus & Simias.Sync.CollectionSyncClient.StateMap.DomainSyncStarted ) == Simias.Sync.CollectionSyncClient.StateMap.DomainSyncStarted) )
+				Thread.Sleep(1000);
+			syncEvent.Set();
 		}
 	}
 }
