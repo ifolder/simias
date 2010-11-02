@@ -7206,16 +7206,16 @@
   <service name="Simias Web Service">
     <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Web Service providing access to Simias</wsdl:documentation>
     <port name="Simias Web ServiceSoap" binding="s0:Simias Web ServiceSoap">
-      <soap:address location="http://164.99.101.25/simias10/Simias.asmx"/>
+      <soap:address location="http://127.0.0.1/simias10/Simias.asmx"/>
     </port>
     <port name="Simias Web ServiceSoap12" binding="s0:Simias Web ServiceSoap12">
-      <soap12:address location="http://164.99.101.25/simias10/Simias.asmx"/>
+      <soap12:address location="http://127.0.0.1/simias10/Simias.asmx"/>
     </port>
     <port name="Simias Web ServiceHttpGet" binding="s0:Simias Web ServiceHttpGet">
-      <http:address location="http://164.99.101.25/simias10/Simias.asmx"/>
+      <http:address location="http://127.0.0.1/simias10/Simias.asmx"/>
     </port>
     <port name="Simias Web ServiceHttpPost" binding="s0:Simias Web ServiceHttpPost">
-      <http:address location="http://164.99.101.25/simias10/Simias.asmx"/>
+      <http:address location="http://127.0.0.1/simias10/Simias.asmx"/>
     </port>
   </service>
 </definitions>
