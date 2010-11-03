@@ -23,7 +23,7 @@
 public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProtocol {
     
     public SimiasWebService() {
-        this.Url = "https://164.99.102.176/simias10/Simias.asmx";
+        this.Url = "https://127.0.0.1/simias10/Simias.asmx";
     }
     
     /// <remarks>
