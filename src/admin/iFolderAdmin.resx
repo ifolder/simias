@@ -1347,5 +1347,8 @@
 	<data name="waiting">
                 <value>waiting</value>
         </data>
+	<data name="TIMEOUT">
+		<value>It may take a long time to complete the request. You may perform other tasks while this request is being processed.</value>
+	</data>		
     </data>
 </root>

@@ -805,7 +805,7 @@ namespace Novell.iFolderWeb.Admin
                         {
                                 limitString = "Unlimited";
                         }
-			
+
 			try
 			{
 				decimal limit = Convert.ToDecimal( limitString == "Unlimited" ? "-1" : limitString );
@@ -813,11 +813,11 @@ namespace Novell.iFolderWeb.Admin
 				{
 					// Convert from megabytes back to bytes.
 					GroupDiskLimit = limitString == "Unlimited" ? -1 : Convert.ToInt64( Decimal.Round( limit, 2 ) * 1048576 );
-					
+
 					// connect to master to set member property
 					ConnectMaster();
-
 					// call webservice and pass parameters to commit.
+
 					bool retval = web.SetAggregateDiskQuota(UserID, GroupDiskLimit);
 					DisconnectMaster();
 					web.Url = currentServerURL;
@@ -844,12 +844,20 @@ namespace Novell.iFolderWeb.Admin
 				TopNav.ShowError( GetString( "ERRORINVALIDQUOTA" ) );
 				return;
 			}
-			catch
+			catch(Exception ex)
 			{
-				DisconnectMaster();
-				web.Url = currentServerURL;
-				TopNav.ShowError( GetString( "ERRORUNKNOWNERROR" ) );
-				return;
+				if(ex.Message.IndexOf("timed out") != -1)
+				{		
+					TopNav.ShowInfo(GetString("TIMEOUT"));
+					return;
+				}
+				else
+				{
+					DisconnectMaster();
+					web.Url = currentServerURL;
+					TopNav.ShowError( GetString( "ERRORUNKNOWNERROR" ));
+					return; 
+				}
 			}
 
 			GetUserDetails();
@@ -862,7 +870,7 @@ namespace Novell.iFolderWeb.Admin
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void ConnectMaster ()
-		{
+		{	
 			iFolderServer[] list = web.GetServers();
 
 			foreach( iFolderServer server in list )
