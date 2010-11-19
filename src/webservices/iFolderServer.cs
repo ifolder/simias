@@ -340,6 +340,39 @@ namespace iFolder.WebService
 			return requiressl;
 		}
 
+		/// <summary>
+		/// Checks whether server configuration has some entries about whether server understands multibyte or not
+		/// </summary>
+		/// <returns>string containing the value of this key</returns>
+		public static string GetServerStatus()
+		{
+			string SectionTag = "section";
+			string SettingTag = "setting";
+			string NameAttr = "name";
+			string ValueAttr = "value";
+			string ServerSection = "Server";
+			string MultiByteKey = "MultiByteServer";
+
+			string multibyteserver = "yes";
+			string SimiasConfigFilePath = Path.Combine ( Store.StorePath, "Simias.config");
+			XmlDocument configDoc = new XmlDocument ();
+			try
+			{
+				configDoc.Load (SimiasConfigFilePath);
+				string str = String.Format( "//{0}[@{1}='{2}']/{3}[@{1}='{4}']", SectionTag, NameAttr, ServerSection, SettingTag, MultiByteKey );
+				XmlElement element = ( XmlElement )configDoc.DocumentElement.SelectSingleNode( str );
+				if ( element != null )
+				{
+					multibyteserver = element.GetAttribute(ValueAttr);
+				}
+			}
+			catch
+			{
+				// no need to throw exception, return yes by default.
+			}
+			return multibyteserver;
+		}
+
         /// <summary>
         /// Modify URL so that it beomes ssl enabled
         /// </summary>

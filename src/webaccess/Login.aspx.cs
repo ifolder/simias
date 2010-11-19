@@ -166,7 +166,9 @@ namespace Novell.iFolderApp.Web
                                         	UTF8Encoding utf8Name = new UTF8Encoding();
 	                                        UserName.Text = utf8Name.GetString(iFolderNameInByte);
 					}
-					catch{}
+					catch{
+							UserName.Text = usernameCookie.Value;
+						}
 				}
 				// culture info
 				string code = Thread.CurrentThread.CurrentUICulture.Name;
@@ -499,10 +501,19 @@ namespace Novell.iFolderApp.Web
 				
 				web.Url = webUrl.Uri.ToString();
 
+				string multibyteserver = weblogin.GetServerStatus();
+
 				// credentials
 				web.PreAuthenticate = true;
-				web.Credentials = new NetworkCredential(iFolderUserBase64, iFolderPassBase64);
-			
+				if( multibyteserver == "no")
+				{
+					web.Credentials = new NetworkCredential(username, password);
+				}
+				else 
+				{
+					web.Credentials = new NetworkCredential(iFolderUserBase64, iFolderPassBase64);
+				}
+
 				// cookies
 				web.CookieContainer = new CookieContainer();
 
@@ -538,7 +549,7 @@ namespace Novell.iFolderApp.Web
 
 				// new username cookie for 30 days
 				Response.Cookies.Remove("username");
-				Response.Cookies["username"].Value = iFolderUserBase64;
+				Response.Cookies["username"].Value = (multibyteserver == "no") ? user.UserName : iFolderUserBase64;
 				Response.Cookies["username"].Expires = expires;
 				Response.Cookies["username"].Path = "/ifolder/";
 				Session["Language"] = "en";	

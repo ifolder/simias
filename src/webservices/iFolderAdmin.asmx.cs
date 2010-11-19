@@ -1649,6 +1649,15 @@ namespace iFolder.WebService
 
 		}
 
+		[WebMethod(
+			 Description="Get information whether server is supporting multibyte login or not.",
+			 EnableSession=true)]
+		public override string GetServerStatus()
+		{
+			return base.GetServerStatus ();
+		}
+
+
 		/// <summary>
 		/// Set information about a user using an id or username.
 		/// </summary>

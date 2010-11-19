@@ -794,6 +794,25 @@ namespace iFolder.WebService
 			return result;
 		}
 
+		[WebMethod(
+			 Description= "Get information whether server is supporting multibyte login or not.",
+			 EnableSession = true)]
+		public virtual string GetServerStatus()
+		{
+		    string result = null;
+
+		    try 
+		    {
+		        result = iFolderServer.GetServerStatus();
+		    } 
+		    catch (Exception e)
+		    {
+			SmartException.Throw (e);
+		    }
+
+		    return result;
+		}
+
 
 		/// <summary>
 		/// Get the home server for the user

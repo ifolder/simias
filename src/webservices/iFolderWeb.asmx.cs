@@ -109,6 +109,14 @@ namespace iFolder.WebService
 			return base.GetServers();
 		}
 
+		[WebMethod(
+			 Description="Get information about the current server is having multibyteserver flag no or yes in Simias.config.",
+			 EnableSession=true)]
+		public override string GetServerStatus()
+		{
+			return base.GetServerStatus ();
+		}
+
 		/// <summary>
 		/// Get information about iFolder Servers identified by a search on name.
 		/// </summary>

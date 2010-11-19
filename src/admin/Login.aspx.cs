@@ -173,9 +173,16 @@ namespace Novell.iFolderWeb.Admin
 				// username
 				if (usernameCookie != null)
 				{
-					byte[] iFolderNameInByte = Convert.FromBase64String(usernameCookie.Value);
-                                        UTF8Encoding utf8Name = new UTF8Encoding();
-                                        UserName.Text = utf8Name.GetString(iFolderNameInByte);
+					try
+					{
+						byte[] iFolderNameInByte = Convert.FromBase64String(usernameCookie.Value);
+						UTF8Encoding utf8Name = new UTF8Encoding();
+						UserName.Text = utf8Name.GetString(iFolderNameInByte);
+					}
+					catch
+					{
+						UserName.Text = usernameCookie.Value;
+					}
 				}
 
 				// culture info
@@ -423,9 +430,6 @@ namespace Novell.iFolderWeb.Admin
 				web.PreAuthenticate = true;
 				web.Credentials = new NetworkCredential(iFolderUserBase64, iFolderPassBase64);
 			
-				// cookies
-				web.CookieContainer = new CookieContainer();
-
 				// in only one path this value will persist, that is when language cookie is null
 				Session["Language"] = "en";
 				string code = Session["Language"] as string;
@@ -471,16 +475,25 @@ namespace Novell.iFolderWeb.Admin
 				{
 					throw ex;
 				}
+				string multibyteserver = web.GetServerStatus();
+
 				iFolderSystem system = web.GetSystem();
 				Session["System"] = system.Name;
 				iFolderServer server = web.GetHomeServer();
 				Session["Version"] = server.Version;
 
+				if( multibyteserver == "no")
+				{
+					web.PreAuthenticate = true;
+					web.Credentials = new NetworkCredential(username, password);
+				}
+				// cookies
+				web.CookieContainer = new CookieContainer();
                                 encodedCredsByteArray = utf8Name.GetBytes(user.UserName);
                                 iFolderUserBase64 = Convert.ToBase64String(encodedCredsByteArray);
 
 				// new username cookie for 30 days
-				Response.Cookies["username"].Value = iFolderUserBase64;
+				Response.Cookies["username"].Value = multibyteserver == "no" ? user.UserName : iFolderUserBase64;
 				Response.Cookies["username"].Expires = expires;
 				Response.Cookies["username"].Path = "/admin/";
 
@@ -542,8 +555,16 @@ namespace Novell.iFolderWeb.Admin
 					// basic authentication only
 					if (auth.StartsWith("Basic"))
 					{
-						string credentials = (new ASCIIEncoding()).GetString(
-							Convert.FromBase64String(auth.Substring("Basic".Length + 1)));
+						string credentials = null;
+						try
+						{
+							credentials = (new ASCIIEncoding()).GetString(
+								Convert.FromBase64String(auth.Substring("Basic".Length + 1)));
+						}
+						catch( Exception ex)
+						{
+							credentials = auth.Substring("Basic".Length + 1);
+						}
 
 						string[] parts = credentials.Split(new char [] { ':' });
 						string username = parts[0];
