@@ -97,8 +97,8 @@ ln -sf /srv/www/novell/clients/ifolder3/ifolder3-linux.tar.gz \
         %{prefix}/%_lib/simias/web/update/unix/suse-linux-10.0/ifolder3-linux.tar.gz
 ln -sf /srv/www/novell/clients/ifolder3/ifolder3-sled11.tar.gz \
         %{prefix}/%_lib/simias/web/update/unix/suse-linux-11.0/ifolder3-sled11.tar.gz
-ln -sf /srv/www/novell/clients/ifolder3/ifolder3-openSUSE11.1.tar.gz \
-        %{prefix}/%_lib/simias/web/update/unix/opensuse-linux/ifolder3-openSUSE11.1.tar.gz
+ln -sf /srv/www/novell/clients/ifolder3/ifolder3-openSUSE11.3.tar.gz \
+        %{prefix}/%_lib/simias/web/update/unix/opensuse-linux/ifolder3-openSUSE11.3.tar.gz
 ln -sf /srv/www/novell/clients/ifolder3/ifolder3-windows.exe \
 	%{prefix}/%_lib/simias/web/update/windows/ifolder3-windows.exe
 ln -sf /srv/www/novell/clients/ifolder3/ifolder3-windows-x64.exe \
