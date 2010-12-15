@@ -18,7 +18,15 @@
 
 
 Name:           ifolder3-enterprise
-BuildRequires:  compat-libstdc++ e2fsprogs e2fsprogs-devel gcc-c++ glib2 glib2-devel libflaim libflaim-devel libstdc++ libstdc++-devel libxml2 libxml2-devel log4net novell-ifolder-mono novell-ifolder-mono-devel novell-NLDAPbase novell-NLDAPsdk-devel pkgconfig 
+%if %suse_version <= 1100
+BuildRequires:  compat-libstdc++ e2fsprogs e2fsprogs-devel gcc-c++ glib2 glib2-devel libflaim libflaim-devel libstdc++ libstdc++-devel libxml2 libxml2-devel log4net pkgconfig xsp ncurses ncurses-devel novell-ifolder-mono novell-ifolder-mono-devel novell-NLDAPbase novell-NLDAPsdk-devel
+%else
+%ifarch         x86_64
+BuildRequires:  libstdc++33-32bit libstdc++33-devel-32bit e2fsprogs e2fsprogs-devel gcc-c++ glib2 glib2-devel libflaim libflaim-devel libstdc++ libstdc++-devel libxml2 libxml2-devel log4net apache2-mod_mono  pkgconfig xsp ncurses ncurses-devel novell-ifolder-mono novell-ifolder-mono-devel novell-NLDAPbase novell-NLDAPsdk-devel
+%else
+BuildRequires:  libstdc++33 libstdc++33-devel e2fsprogs e2fsprogs-devel gcc-c++ glib2 glib2-devel libflaim libflaim-devel libstdc++ libstdc++-devel libxml2 libxml2-devel log4net apache2-mod_mono  pkgconfig xsp ncurses ncurses-devel novell-ifolder-mono novell-ifolder-mono-devel novell-NLDAPbase novell-NLDAPsdk-devel
+%endif
+%endif
 
 %define buildnum @@BUILDNUM@@
 %define novellmandir /opt/novell/man/
@@ -47,6 +55,18 @@ users can share files across the enterprise with other users. The
 iFolder server provides back-up and synchronization across the network
 to multiple machines and also enables Web-based access to files on the
 server.
+
+%package devel   
+License:        GPLv2   
+Summary:        Development files for simias   
+Group:          Development/Libraries/C and C++   
+Requires:       %{name} = %{version}   
+ 
+%description devel   
+Development files for simias server. Simias is a technology that will allow   
+various types of data to be stored and related in what is known as a   
+collection.  Initially Simias is the underlying data store for the   
+iFolder project, although it has potential to do much more.   
 
 
 
@@ -128,6 +148,8 @@ echo "Run %{prefix}/bin/simias-server-setup to configure the server"
 #rm -rf %{prefix}/%_lib/simias/web/update/
 #=============================================================================
 
+%postun
+
 %files
 %attr(755,root,root) %dir %{prefix}
 %attr(755,root,root) %dir /opt/novell
@@ -144,42 +166,44 @@ echo "Run %{prefix}/bin/simias-server-setup to configure the server"
 %dir %{prefix}/etc/simias/apache/example.com
 %dir %{prefix}/etc/simias/bill
 %dir %{prefix}/etc/simias/bill/modules
-#%dir %{prefix}/%_lib/Mono
-#%dir %{prefix}/%_lib/Mono/bin
-#%dir %{prefix}/%_lib/Mono/rpms
 %{prefix}/etc/simias/Simias.config
 %{prefix}/etc/simias/Simias.log4net
-%dir %{prefix}/include
-%{prefix}/include/*
 %dir %{prefix}/%_lib
-%{prefix}/%_lib/*
+%{prefix}/%_lib/*.so.*
+#%{prefix}/%_lib/*
 %dir %{prefix}/share
 %{prefix}/share/*
+%dir %{OES_LOG}
+
+#Simias admin 
+%dir %{prefix}/%_lib/simias/admin
+%dir %{prefix}/%_lib/simias/admin/bin
+%dir %{prefix}/%_lib/simias/admin/css
+%dir %{prefix}/%_lib/simias/admin/help/*
+%dir %{prefix}/%_lib/simias/admin/images/*
+%{prefix}/%_lib/simias/admin/*
+
+#Simias core webservices
 %dir %{prefix}/%_lib/simias/web
 %dir %{prefix}/%_lib/simias/web/bin
-%dir %{OES_LOG}
-%{prefix}/%_lib/simias/web/bin/SimiasClient.dll
-%{prefix}/%_lib/simias/web/bin/Simias.Web.dll
-%{prefix}/%_lib/simias/web/bin/Simias.POBox.Web.dll
+%dir %{prefix}/%_lib/simias/web/update
+%dir %{prefix}/%_lib/simias/
+%dir %{prefix}/%_lib/simias/bin
+%{prefix}/%_lib/simias/bin/*.exe
+%{prefix}/%_lib/simias/web/bin/*.dll
 %{prefix}/%_lib/simias/web/bin/SimiasLib.dll.config
 %{prefix}/%_lib/simias/web/bin/ifdata
-%{prefix}/%_lib/simias/web/bin/SyncService.Web.dll
 %{prefix}/%_lib/simias/web/bin/Simias.exe
-%{prefix}/%_lib/simias/web/bin/SimiasLib.dll
-%{prefix}/%_lib/simias/webaccess/bin/SimiasLib.dll
-%{prefix}/%_lib/simias/admin/bin/SimiasLib.dll
-%{prefix}/%_lib/simias/web/bin/FlaimWrapper.so
-#%{prefix}/%_lib/simias/web/bin/SimiasAPIService.Web.dll
+%{prefix}/%_lib/simias/web/*.asmx
+%{prefix}/%_lib/simias/web/*.ashx
 %{prefix}/%_lib/simias/web/Global.asax
 %dir %{prefix}/%_lib/simias/web/modules
 %{prefix}/%_lib/simias/web/update/*
 %{prefix}/%_lib/simias/web/modules/SimiasLib.conf
-%{prefix}/%_lib/simias/web/Login.ashx
-%{prefix}/%_lib/simias/web/POService.asmx
-%{prefix}/%_lib/simias/web/Simias.asmx
-%{prefix}/%_lib/simias/web/SyncHandler.ashx
 %{prefix}/%_lib/simias/web/web.config
-#%{prefix}/%_lib/simias/web/SimiasAPI.asmx
+#Webaccess
+%dir %{prefix}/%_lib/simias/webaccess
+%{prefix}/%_lib/simias/webaccess/*
 %config(noreplace) %{prefix}/%_lib/simias/web/web.config
 %config(noreplace) %{prefix}/%_lib/simias/webaccess/Web.config
 %config(noreplace) %{prefix}/%_lib/simias/admin/Web.config
@@ -195,8 +219,28 @@ echo "Run %{prefix}/bin/simias-server-setup to configure the server"
 %{prefix}/etc/simias/defaults.config
 %{prefix}/etc/novell-ifolder3.conf
 /etc/ld.so.conf.d/novell-ifolder3.conf
-%{novellmandir}/man8/ifolder-data-recovery.8
+%attr(655,root,root) %{novellmandir}/man8/ifolder-data-recovery.8.gz
 %ghost %{OES_LOG}/adminweb.log
+
+
+%files devel   
+%defattr(744,root,root)   
+%{prefix}/%_lib/libsimias-manager.a
+%{prefix}/%_lib/libsimias.so
+%{prefix}/%_lib/libFlaimWrapper.so   
+%dir %{prefix}/%_lib/simias/
+%dir %{prefix}/%_lib/simias/web/
+%dir %{prefix}/%_lib/simias/web/bin/
+%{prefix}/%_lib/simias/web/bin/FlaimWrapper.so
+%{prefix}/%_lib/libsimias-event.so
+%dir %{prefix}/%_lib/pkgconfig
+%{prefix}/%_lib/pkgconfig/*   
+%dir %{prefix}/include/
+%dir %{prefix}/%_lib/pkgconfig
+%dir %{prefix}/include/simias/   
+%{prefix}/include/simias/*    
+
+
 
 %changelog
 * Fri May 02 2008 - srinidhi@novell.com
