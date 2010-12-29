@@ -1948,7 +1948,7 @@ namespace Simias.Storage
 					{
 						if ((mcontext != null) && (mcontext.Length > 0))
 						{
-							if(memberDN.ToLower().EndsWith(mcontext))
+							if(memberDN.ToLower().EndsWith(mcontext.ToLower()))
 							{
 								log.Debug("User's DN {0} matches with one of the search contexts {1} of master, so return",memberDN,mcontext);
 								return true; 
@@ -1967,7 +1967,7 @@ namespace Simias.Storage
 						if( add == true )
 						{
 							log.Debug("UpdateSearchContexts: add Checking {0}:{1}", memberDN, Context);
-							if(memberDN.ToLower().EndsWith(Context))	
+							if(memberDN.ToLower().EndsWith(Context.ToLower()))	
 								return true;
 							else
                                                 		searchContexts.Add( Context );
