@@ -529,6 +529,8 @@ namespace Simias.Server
 				log.Debug( "Starting collection scan..." );
 
 				CatalogEntry catentry;
+				Hashtable catEntries = new Hashtable();
+				string localHostID = HostNode.GetLocalHost().UserID;
 				ICSList collections = store.GetCollectionsByDomain( domain.ID );
 				foreach( ShallowNode sn in collections )
 				{
@@ -586,6 +588,48 @@ namespace Simias.Server
 					}
 				}
 				log.Debug( "Collection scan finished" );
+
+				log.Debug("Starting Catalog scan");
+				Property hidsProp = new Property( CatalogEntry.HostProperty, localHostID );
+				ICSList catNodes = store.GetNodesByProperty( hidsProp, SearchOp.Begins);
+				foreach( ShallowNode sn in catNodes)
+				{
+					CatalogEntry catEntry = new CatalogEntry( sn );
+					Collection localCol = store.GetCollectionByID( catEntry.CollectionID );
+					if( localCol == null)
+					{
+						log.Debug(" For this catalog entry on localhost, there is no physical collection present, so delete stale cat entry---{0}",sn.Name);
+						catalog.Commit( catalog.Delete( catEntry )); 
+					}
+					else
+					{
+						// check if this catalog entry is duplicated or not
+						if(! catEntries.ContainsKey(catEntry.CollectionID) )
+						{
+							// store the catalog entry with key as collectionID and value as catentry
+							catEntries.Add( catEntry.CollectionID, catEntry );	
+						}	
+						else
+						{
+							// with same collectionID, one more catentry is present in system. Wrong one must be deleted.
+							CatalogEntry oldentry = (CatalogEntry)catEntries[ catEntry.CollectionID ];
+							if( String.IsNullOrEmpty( oldentry.Creator ) || String.IsNullOrEmpty( oldentry.HostID )) continue;
+							if( oldentry.Creator != oldentry.HostID )
+							{
+								log.Debug("One entry in hashtable has mismatch of hostid and creator, so deleted that..."+oldentry.ID);
+								catalog.Commit( catalog.Delete(oldentry));
+								catEntries.Remove( catEntry.CollectionID );
+								catEntries.Add( catEntry.CollectionID, catEntry );
+							}
+							else
+							{
+								catalog.Commit( catalog.Delete(catEntry));
+								log.Debug(" The entry in hashtable had matching hostid and creator so delete incoming one without checking..."+catEntry.ID);
+							}
+						}
+					} 
+				}
+				log.Debug("Catalog scan finished ");	
 			}
 		}
 
@@ -1349,6 +1393,17 @@ namespace Simias.Server
 			get
 			{
 				return this.Properties.GetSingleProperty( CollectionProperty ).Value as string;
+ 			}
+		}
+
+		/// <summary>
+		/// Returns the creator of this collection --typically a hostid
+		/// </summary>
+		public string Creator
+		{
+			get
+			{
+				return this.Properties.GetSingleProperty( PropertyTags.Creator ).Value as string;
  			}
 		}
 
