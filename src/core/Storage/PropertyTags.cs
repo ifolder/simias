@@ -247,6 +247,12 @@ namespace Simias.Storage
 		/// </summary>
 		static public string UserMoveState = "UserMoveState";
 
+		/// <summary>
+		/// <summary>
+		/// Well known property name.
+		/// </summary>
+		static public string OldDN = "OldDN";
+
 		/// Well known property name.
 		/// </summary>
 		static public string FileSystemPath = "FsPath";

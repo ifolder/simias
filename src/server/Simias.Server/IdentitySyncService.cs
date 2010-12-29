@@ -375,6 +375,7 @@ namespace Simias.IdentitySync
 			log.Debug( "  processing member: " + Username );
 			Simias.Storage.Member member = null;
 			MemberStatus status = MemberStatus.Unchanged;
+			bool UserRenamed = false;
 
 			if(Username == null || Username.Equals(String.Empty))
 			{
@@ -392,6 +393,7 @@ namespace Simias.IdentitySync
 					if (member != null){
 						//TBD:iFolder needs to handle the renamed users properly.
 						log.Info("This user is renamed on the LDAP server. Old Username = {0}, new Username= {1}", member.Name, Username);
+						UserRenamed = true;
 					}
 				}
 			}
@@ -548,6 +550,35 @@ namespace Simias.IdentitySync
 					this.ReportError( "Failed creating member: " + Username + ex.Message );
 					return;
 				}
+			}
+			if( UserRenamed == true )
+			{
+				// First store the current username to provide grace login from thick clients/web-access. Since thick clients will be using
+				// older usernames, so they must continue login and then get the new username. provide 30 days such grace logins
+				string counter = DateTime.Now.Ticks.ToString();
+				string UserNames = null;
+				string CountAndDN = member.OldDN;
+				if( CountAndDN != null)
+				{
+					//consider older UserNames also and add new one.
+					string[] Elements = CountAndDN.Split(new char[] { ':' });
+					if ( Elements != null && Elements.Length > 1 )
+					{
+						UserNames = Elements[2];
+						string [] names = UserNames.Split( new char[] { ';' } );
+						if( Array.IndexOf( names, Username ) < 0 )
+						{
+							// take care that new username is not same as any of older ones
+							UserNames += ( ";" + member.Name );
+							log.Debug("this UserNames is ready to be added as old dn :"+UserNames);
+						}
+					}
+					else UserNames = ";" + member.Name;
+				}
+				else UserNames = ";" + member.Name;
+				member.OldDN = counter + ":" + Username + ":" + UserNames ;
+				member.Name = Username;
+				log.Debug(" changed the username property with new value :"+Username);
 			}
 			
 			member.Properties.ModifyProperty( syncGuid );
@@ -1120,6 +1151,37 @@ namespace Simias.IdentitySync
 			}
 		}
 
+		/// <summary>
+		/// This function will check the grace login period for renamed users and if it expires, then delete the property so that login with old username is no more allowed
+		/// <summary>
+		private static void CleanGraceLoginForRenamed()
+		{
+			int RenameGraceLogin = 60 * 60 * 24 * 30; // 30 days
+			Member member = null;
+			Store store = Store.GetStore();
+			Domain domain = store.GetDomain( store.DefaultDomain );
+			ICSList list = domain.Search( "OldDN", "*", SearchOp.Exists );
+			foreach ( ShallowNode sn in list )
+			{
+				member = new Member( domain, sn );
+				string Elements = member.OldDN;
+				if( Elements == null ) continue;
+				string [] CountAndUserNames = Elements.Split(new char[] { ':' });
+				if ( CountAndUserNames != null && CountAndUserNames.Length >= 1 )
+				{
+					// user is found, now check for grace login period
+					DateTime counter = new DateTime(Convert.ToInt64( CountAndUserNames[0] ) ) ;
+					if ( counter.AddSeconds( RenameGraceLogin ) < DateTime.Now )
+					{
+						// the grace interval has expired, so delete this olddn property
+						log.Debug("Since grace interval for older name login is expired for renamed user, deleting the property :"+member.Name);
+						member.OldDN = null;
+						domain.Commit( member );
+					}
+				}
+			}	
+		}
+
 
                 /// <summary>
                 /// This function will browse all member node and if any XML type policy is there, it will change that to string type policy
@@ -1406,6 +1468,7 @@ namespace Simias.IdentitySync
 					{
 						log.Error("Errors occured during Identity Sync, skipping processing of user deletion");
 					}
+					CleanGraceLoginForRenamed();
 				}
 				catch( Exception ex )
 				{
