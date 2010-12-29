@@ -3479,6 +3479,47 @@ namespace Simias.Storage
 			return member;
 		}
 
+
+		/// <summary>
+		/// Gets the Member object associated with the specified old username. If grace login is allowed for a changed username, it will get the user
+		/// </summary>
+		/// <param name="name">Name to look up the Member object with.</param>
+		/// <returns>The first Member object associated with the specified name. May return null if the
+		/// Member object does not exist in the collection. Also decrements the grace login counter. This must be called only during
+		/// Authentication.</returns>
+		public Member GetMemberByOldName( string name )
+		{
+			int RenameGraceLogin = 60 * 60 * 24 * 30; // 30 days 
+			Member member = null;
+			// check if the member was renamed and grace logins are remaining
+			ICSList list = Search( "OldDN", "*", SearchOp.Exists );
+			foreach ( ShallowNode sn in list )
+			{
+				member = new Member( this, sn );
+				string Elements = member.OldDN;
+				if( Elements == null ) continue;
+				string [] CountAndUserNames = Elements.Split(new char[] { ':' });
+				if ( CountAndUserNames != null && CountAndUserNames.Length > 1 )
+				{
+					string [] names = CountAndUserNames[2].Split( new char[] { ';' } );
+					if( Array.IndexOf (names, name) >= 0 )
+					{
+						// user is found, now check for grace login period 
+						DateTime counter = new DateTime(Convert.ToInt64( CountAndUserNames[0] ) ) ;
+						if ( counter.AddSeconds( RenameGraceLogin ) > DateTime.Now )
+						{
+							// grace login is within 30 days so allow to login
+							log.Debug("GMBON: grace login is within 30 days so allow to login: "+member.OldDN);
+							return member;
+						}
+						else log.Debug("GMBON: expired the grace login of 30 days so don't allow");
+					}
+					else log.Debug("This name {0} does not exist inside the olddn list {1}",name, CountAndUserNames[2]);
+				}
+			}
+			return null;
+		}
+
 		/// <summary>
 		/// Gets the Member objects with the specified DN
 		/// </summary>
