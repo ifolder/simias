@@ -569,7 +569,7 @@ namespace Simias.Storage
 
 			set
 			{
-				if ( ! String.IsNullOrEmpty( value) )
+				if ( value != null && !string.Equals(value, string.Empty) )
 				{
 					properties.ModifyNodeProperty( PropertyTags.OldDN, value ); 
 				}
