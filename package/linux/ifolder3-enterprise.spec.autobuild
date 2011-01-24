@@ -1,5 +1,5 @@
 #
-# spec file for package ifolder3 (Version 3.8.4.@@BUILDNUM@@.1)
+# spec file for package ifolder3 (Version 3.8.4.10364.1)
 #
 # Copyright (c) 2009 SUSE LINUX Products GmbH, Nuernberg, Germany.
 #
@@ -18,17 +18,20 @@
 
 
 Name:           ifolder3-enterprise
+
+BuildRequires:  e2fsprogs e2fsprogs-devel gcc-c++ glib2 glib2-devel libflaim libflaim-devel libxml2 libxml2-devel log4net pkgconfig xsp ncurses ncurses-devel novell-NLDAPbase novell-NLDAPsdk-devel libstdc++ libstdc++-devel apache2-mod_mono-addon mono-addon-core mono-addon-data mono-addon-devel mono-addon-web
+
 %if %suse_version <= 1100
-BuildRequires:  compat-libstdc++ e2fsprogs e2fsprogs-devel gcc-c++ glib2 glib2-devel libflaim libflaim-devel libstdc++ libstdc++-devel libxml2 libxml2-devel log4net pkgconfig xsp ncurses ncurses-devel novell-ifolder-mono novell-ifolder-mono-devel novell-NLDAPbase novell-NLDAPsdk-devel
+BuildRequires:  compat-libstdc++
 %else
 %ifarch         x86_64
-BuildRequires:  libstdc++33-32bit libstdc++33-devel-32bit e2fsprogs e2fsprogs-devel gcc-c++ glib2 glib2-devel libflaim libflaim-devel libstdc++ libstdc++-devel libxml2 libxml2-devel log4net apache2-mod_mono  pkgconfig xsp ncurses ncurses-devel novell-ifolder-mono novell-ifolder-mono-devel novell-NLDAPbase novell-NLDAPsdk-devel
+BuildRequires:  libstdc++33-32bit libstdc++33-devel-32bit
 %else
-BuildRequires:  libstdc++33 libstdc++33-devel e2fsprogs e2fsprogs-devel gcc-c++ glib2 glib2-devel libflaim libflaim-devel libstdc++ libstdc++-devel libxml2 libxml2-devel log4net apache2-mod_mono  pkgconfig xsp ncurses ncurses-devel novell-ifolder-mono novell-ifolder-mono-devel novell-NLDAPbase novell-NLDAPsdk-devel
+BuildRequires:  libstdc++33 libstdc++33-devel
 %endif
 %endif
 
-%define buildnum @@BUILDNUM@@
+%define buildnum 10364
 %define novellmandir /opt/novell/man/
 Url:            http://wwww.ifolder.com
 %define prefix /opt/novell/ifolder3
@@ -38,11 +41,14 @@ Url:            http://wwww.ifolder.com
 License:       	GNU General Public License (GPL) v2 
 Group:          Productivity/Networking/Novell
 AutoReqProv:    on
-Requires:       novell-ifolder-mono >= 2.4
-Requires:       log4net >= 1.2.9 
+Requires:       mono-addon-core >= 2.6.7
+Requires:       mono-addon-data >= 2.6.7
+Requires:       mono-addon-web  >= 2.6.7
+Requires:       log4net >= 1.2.10 
+Requires:       apache2-mod_mono-addon
 Requires:       novell-NLDAPbase
 #Obsoletes:      %{name} < %{version}
-Version:        3.8.4.@@BUILDNUM@@.1
+Version:        3.8.4.10364.1
 Release:        0.2
 Summary:        Novell iFolder 3 Enterprise
 Source:         ifolder3-enterprise.tar.gz
@@ -80,19 +86,21 @@ export BUILDNUM=%{buildnum}
 export EDIR_INCLUDE=/opt/novell/eDirectory/include
 export EDIR_LIBDIR=/opt/novell/eDirectory/%_lib
 export LIBDIR=%_lib
-[ -f %{prefix}/mono/bin/novell-ifolder-mono-environment.sh ] && \
-source %{prefix}/mono/bin/novell-ifolder-mono-environment.sh
+[ -f /opt/novell/mono/bin/mono-addon-environment.sh ] && \
+	source /opt/novell/mono/bin/mono-addon-environment.sh
+export MONO_PATH=/usr/lib/mono/log4net/:$MONO_PATH
 ./autogen.sh --prefix=%{prefix} --mandir=%{novellmandir} #--with-runasclient
-make
+make MONO_PATH=$MONO_PATH
 #make dist
 #=============================================================================
 
 %install
 export BUILDNUM=%{buildnum}
 %{__rm} -rf $RPM_BUILD_ROOT
-[ -f %{prefix}/mono/bin/novell-ifolder-mono-environment.sh ] && \
-source %{prefix}/mono/bin/novell-ifolder-mono-environment.sh
-make DESTDIR=$RPM_BUILD_ROOT install
+[ -f /opt/novell/mono/bin/mono-addon-environment.sh ] && \
+	source /opt/novell/mono/bin/mono-addon-environment.sh
+export MONO_PATH=/usr/lib/mono/log4net/:$MONO_PATH
+make DESTDIR=$RPM_BUILD_ROOT MONO_PATH=$MONO_PATH install
 mkdir -p $RPM_BUILD_ROOT/etc/ld.so.conf.d/
 /usr/bin/install src/server/setup/novell-ifolder3.conf $RPM_BUILD_ROOT/etc/ld.so.conf.d
 install -d $RPM_BUILD_ROOT%{OES_LOG}
@@ -224,7 +232,7 @@ echo "Run %{prefix}/bin/simias-server-setup to configure the server"
 
 
 %files devel   
-%defattr(744,root,root)   
+%defattr(644,root,root,755)
 %{prefix}/%_lib/libsimias-manager.a
 %{prefix}/%_lib/libsimias.so
 %{prefix}/%_lib/libFlaimWrapper.so   
