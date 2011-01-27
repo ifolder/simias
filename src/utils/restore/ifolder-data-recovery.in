@@ -47,7 +47,7 @@ then
         export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:@_webbindir_@
         cd @_bindir_@
 else
-        MONO_RUNTIME_PATH=/opt/novell/bin
+        MONO_RUNTIME_PATH=/opt/novell/mono
         export MONO_PATH=$MONO_RUNTIME_PATH/lib/mono/:$MONO_RUNTIME_PATH/lib/mono/2.0:@_webbindir_@:@_bindir_@
         source $MONO_RUNTIME_PATH/bin/novell-ifolder-mono-environment.sh
         export MONO_CFG_DIR=/etc

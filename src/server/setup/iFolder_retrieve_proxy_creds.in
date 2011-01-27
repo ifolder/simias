@@ -79,7 +79,7 @@ else
         source $MONO_RUNTIME_PATH/bin/mono-addon-environment.sh
         export MONO_CFG_DIR=/etc
         export IFOLDER_MOD_MONO_SERVER2_PATH=@_bindir_@
-        export IFOLDER_MONO_PATH=$MONO_RUNTIME_PATH
+        #export IFOLDER_MONO_PATH=$MONO_RUNTIME_PATH
         cd @_bindir_@
 	MONO_CMD=$MONO_RUNTIME_PATH/bin/mono
 fi

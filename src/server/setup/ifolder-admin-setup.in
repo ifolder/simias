@@ -54,11 +54,11 @@ then
 	mono @_bindir_@/iFolderAdminSetup.exe "$@"
 else
 	MONO_RUNTIME_PATH=/opt/novell/mono
-	export MONO_PATH=$MONO_RUNTIME_PATH/lib/mono/:$MONO_RUNTIME_PATH/lib/mono/2.0:@_webbindir_@:@_bindir_@
+	export MONO_PATH=$MONO_RUNTIME_PATH/lib/mono/:$MONO_RUNTIME_PATH/lib/mono/2.0:@_webbindir_@:@_bindir_@:/usr/lib/mono/log4net
 	source $MONO_RUNTIME_PATH/bin/mono-addon-environment.sh
 	export MONO_CFG_DIR=/etc
 	export IFOLDER_MOD_MONO_SERVER2_PATH=@_bindir_@
-	export IFOLDER_MONO_PATH=$MONO_RUNTIME_PATH
+	#export IFOLDER_MONO_PATH=$MONO_RUNTIME_PATH
 	cd @_bindir_@
 
 	$MONO_RUNTIME_PATH/bin/mono @_bindir_@/iFolderAdminSetup.exe "$@"
