@@ -42,10 +42,9 @@ then
         export OS_ARCH=`uname -m`
 fi
 
-rpm -q novell-ifolder-mono > /dev/null 2>&1
+rpm -q mono-addon-core > /dev/null 2>&1
 if [ $? -gt 0 ]
 then
-
 	export MONO_PATH=@_webbindir_@:@_bindir_@
 	export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:@_webbindir_@
 	export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:@_webbindir_@
@@ -54,10 +53,10 @@ then
 	mono @_bindir_@/SimiasServerSetup.exe "$@"
 
 else
-	MONO_RUNTIME_PATH=@_bindir_@/../mono
+	MONO_RUNTIME_PATH=/opt/novell/mono
 	export MONO_PATH=$MONO_RUNTIME_PATH/lib/mono/:$MONO_RUNTIME_PATH/lib/mono/2.0:@_webbindir_@:@_bindir_@
-	source $MONO_RUNTIME_PATH/bin/novell-ifolder-mono-environment.sh
-	export MONO_CFG_DIR=$MONO_RUNTIME_PATH/etc
+	source $MONO_RUNTIME_PATH/bin/mono-addon-environment.sh
+	export MONO_CFG_DIR=/etc
 	export IFOLDER_MOD_MONO_SERVER2_PATH=@_bindir_@
 	export IFOLDER_MONO_PATH=$MONO_RUNTIME_PATH
 	cd @_bindir_@

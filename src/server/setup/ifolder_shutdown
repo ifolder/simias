@@ -38,7 +38,7 @@
 
 if [ -f /opt/novell/ifolder3/mono/bin/mod-mono-server2 ]; then
 
-	source /opt/novell/ifolder3/mono/bin/novell-ifolder-mono-environment.sh
+	source /opt/novell/mono/bin/mono-addon-environment.sh
 
 	/opt/novell/ifolder3/mono/bin/mod-mono-server2 --filename /tmp/mod_mono_server_simias10 --terminate
 

@@ -36,7 +36,7 @@
 #*
 #*******************************************************************************/
 
-export MONO_PATH=@_bindir_@/../mono/lib/mono/2.0/:@_bindir_@/../lib:@_bindir_@/../lib/simias/web/bin:@_bindir_@/../lib/simias/admin/bin:@_bindir_@/../lib/simias/webaccess/bin
-source @_bindir_@/../mono/bin/novell-ifolder-mono-environment.sh
-export MONO_CFG_DIR=@_bindir_@/../mono/etc
-exec @_bindir_@/../mono/bin/mod-mono-server2 "$@"
+export MONO_PATH=/opt/novell/mono/lib/mono/2.0/:@_bindir_@/../lib:@_bindir_@/../lib/simias/web/bin:@_bindir_@/../lib/simias/admin/bin:@_bindir_@/../lib/simias/webaccess/bin
+source /opt/novell/mono/bin/mono-addon-environment.sh
+export MONO_CFG_DIR=/etc
+exec /opt/novell/mono/bin/mod-mono-server2 "$@"

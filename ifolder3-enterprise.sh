@@ -18,7 +18,7 @@ BUILDNUM=`expr \`date +%G%j\` - 2000000`
 # delivered to autobuild.
 
 PACKAGE_DIR=../
-PACKAGE_VER=${PACKAGE_VER:="3.7.2"}
+PACKAGE_VER=${PACKAGE_VER:="3.8.4"}
 PACKAGE=${PACKAGE:="ifolder3-enterprise"}
 SRC_DIR=`basename \`pwd\``
 TARBALL_NAME=$PACKAGE
