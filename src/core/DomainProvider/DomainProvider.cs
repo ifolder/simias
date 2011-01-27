@@ -417,7 +417,7 @@ log.Debug("domainID {0}", domainID);
 		/// </summary>
 		/// <param name="domainID">Identifier of the domain where a 
 		/// collection is to be created.</param>
-		/// <param name="userID">The host to resolve.</param>
+		/// <param name="hostID">The host to resolve.</param>
 		/// <returns>A Uri object that contains the network location.
 		/// </returns>
 		static public Uri ResolveHostAddress( string domainID, string hostID )

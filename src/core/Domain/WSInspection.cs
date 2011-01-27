@@ -52,7 +52,7 @@ namespace Simias.DomainServices
 		/// Default name for WSIL document.
 		/// </summary>
 		private static string WSInspectionDocument = "/inspection.wsil";
-        static private readonly Simias.ISimiasLog log = SimiasLogManager.GetLogger(typeof(Simias.Storage.Store)); 
+        //static private readonly Simias.ISimiasLog log = SimiasLogManager.GetLogger(typeof(Simias.Storage.Store)); 
 		/// <summary>
 		/// WSIL specified XML tags.
 		/// </summary>

@@ -599,7 +599,7 @@ namespace Simias.Web
 				// rare case, if the kill command did not kill itself, cross-check
 				// If the process does not exist, then it throws exception
 
-				Process RemainingProcess = Process.GetProcessById(ProcessID);
+				//Process RemainingProcess = Process.GetProcessById(ProcessID);
 				int newcount = ++count;
 				KillStrayProcesses(newcount);
 			}catch(Exception ex){

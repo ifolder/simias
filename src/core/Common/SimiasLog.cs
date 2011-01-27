@@ -192,6 +192,9 @@ namespace Simias
 		}
 	}
 
+	/// <summary>
+	///
+	/// </summary>
 	public class SimiasAccessLogger
 	{
 		private static readonly string AccessLoggerName = "AccessLogger";
@@ -202,6 +205,12 @@ namespace Simias
 		string	user;
 		string	collectionId;
 		
+		
+		/// <summary>
+		///
+		/// </summary>
+		/// <param name="user"></param>
+		/// <param name="collectionId"></param>
 		public SimiasAccessLogger(string user, string collectionId)
 		{
 			this.user = user;
@@ -268,6 +277,13 @@ namespace Simias
 			}
 		}
 
+		/// <summary>
+		///
+		/// </summary>
+		/// <param name="method"></param>
+		/// <param name="uri"></param>
+		/// <param name="id"></param>
+		/// <param name="status"></param>
 		public void LogAccess(string method, string uri, string id, string status)
 		{
 			if (logger.IsInfoEnabled)
@@ -277,6 +293,13 @@ namespace Simias
 			}
 		}
 
+		/// <summary>
+		///
+		/// </summary>
+		/// <param name="method"></param>
+		/// <param name="uri"></param>
+		/// <param name="id"></param>
+		/// <param name="status"></param>
 		public void LogAccessDebug(string method, string uri, string id, string status)
 		{
 			if (logger.IsInfoEnabled)

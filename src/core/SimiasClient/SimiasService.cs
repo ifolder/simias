@@ -48,22 +48,22 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/AddMemberToDomain", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public void AddMemberToDomain(string DomainID, string MemberName, string MemberID, string PublicKey, string GivenName, string FamilyName) {
         this.Invoke("AddMemberToDomain", new object[] {
-                    DomainID,
-                    MemberName,
-                    MemberID,
-                    PublicKey,
-                    GivenName,
-                    FamilyName});
+            DomainID,
+            MemberName,
+            MemberID,
+            PublicKey,
+            GivenName,
+            FamilyName});
     }
     
     public System.IAsyncResult BeginAddMemberToDomain(string DomainID, string MemberName, string MemberID, string PublicKey, string GivenName, string FamilyName, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("AddMemberToDomain", new object[] {
-                    DomainID,
-                    MemberName,
-                    MemberID,
-                    PublicKey,
-                    GivenName,
-                    FamilyName}, callback, asyncState);
+            DomainID,
+            MemberName,
+            MemberID,
+            PublicKey,
+            GivenName,
+            FamilyName}, callback, asyncState);
     }
     
     public void EndAddMemberToDomain(System.IAsyncResult asyncResult) {
@@ -76,14 +76,14 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/RemoveMemberFromDomain", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public void RemoveMemberFromDomain(string DomainID, string MemberID) {
         this.Invoke("RemoveMemberFromDomain", new object[] {
-                    DomainID,
-                    MemberID});
+            DomainID,
+            MemberID});
     }
     
     public System.IAsyncResult BeginRemoveMemberFromDomain(string DomainID, string MemberID, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("RemoveMemberFromDomain", new object[] {
-                    DomainID,
-                    MemberID}, callback, asyncState);
+            DomainID,
+            MemberID}, callback, asyncState);
     }
     
     public void EndRemoveMemberFromDomain(System.IAsyncResult asyncResult) {
@@ -96,14 +96,14 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/FindCloseMembers", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public void FindCloseMembers(string domainID, string searchContext) {
         this.Invoke("FindCloseMembers", new object[] {
-                    domainID,
-                    searchContext});
+            domainID,
+            searchContext});
     }
     
     public System.IAsyncResult BeginFindCloseMembers(string domainID, string searchContext, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("FindCloseMembers", new object[] {
-                    domainID,
-                    searchContext}, callback, asyncState);
+            domainID,
+            searchContext}, callback, asyncState);
     }
     
     public void EndFindCloseMembers(System.IAsyncResult asyncResult) {
@@ -116,8 +116,8 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/FindFirstMembers", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public bool FindFirstMembers(string domainID, int count, out string searchContext, out MemberInfo[] memberList, out int totalMembers) {
         object[] results = this.Invoke("FindFirstMembers", new object[] {
-                    domainID,
-                    count});
+            domainID,
+            count});
         totalMembers = ((int)(results[3]));
         memberList = ((MemberInfo[])(results[2]));
         searchContext = ((string)(results[1]));
@@ -126,8 +126,8 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     
     public System.IAsyncResult BeginFindFirstMembers(string domainID, int count, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("FindFirstMembers", new object[] {
-                    domainID,
-                    count}, callback, asyncState);
+            domainID,
+            count}, callback, asyncState);
     }
     
     public bool EndFindFirstMembers(System.IAsyncResult asyncResult, out string searchContext, out MemberInfo[] memberList, out int totalMembers) {
@@ -144,11 +144,11 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/FindFirstSpecificMembers", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public bool FindFirstSpecificMembers(string domainID, string attributeName, string searchString, SearchType operation, int count, out string searchContext, out MemberInfo[] memberList, out int totalMembers) {
         object[] results = this.Invoke("FindFirstSpecificMembers", new object[] {
-                    domainID,
-                    attributeName,
-                    searchString,
-                    operation,
-                    count});
+            domainID,
+            attributeName,
+            searchString,
+            operation,
+            count});
         totalMembers = ((int)(results[3]));
         memberList = ((MemberInfo[])(results[2]));
         searchContext = ((string)(results[1]));
@@ -157,11 +157,11 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     
     public System.IAsyncResult BeginFindFirstSpecificMembers(string domainID, string attributeName, string searchString, SearchType operation, int count, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("FindFirstSpecificMembers", new object[] {
-                    domainID,
-                    attributeName,
-                    searchString,
-                    operation,
-                    count}, callback, asyncState);
+            domainID,
+            attributeName,
+            searchString,
+            operation,
+            count}, callback, asyncState);
     }
     
     public bool EndFindFirstSpecificMembers(System.IAsyncResult asyncResult, out string searchContext, out MemberInfo[] memberList, out int totalMembers) {
@@ -178,9 +178,9 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/FindNextMembers", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public bool FindNextMembers(string domainID, ref string searchContext, int count, out MemberInfo[] memberList) {
         object[] results = this.Invoke("FindNextMembers", new object[] {
-                    domainID,
-                    searchContext,
-                    count});
+            domainID,
+            searchContext,
+            count});
         memberList = ((MemberInfo[])(results[2]));
         searchContext = ((string)(results[1]));
         return ((bool)(results[0]));
@@ -188,9 +188,9 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     
     public System.IAsyncResult BeginFindNextMembers(string domainID, string searchContext, int count, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("FindNextMembers", new object[] {
-                    domainID,
-                    searchContext,
-                    count}, callback, asyncState);
+            domainID,
+            searchContext,
+            count}, callback, asyncState);
     }
     
     public bool EndFindNextMembers(System.IAsyncResult asyncResult, out string searchContext, out MemberInfo[] memberList) {
@@ -206,9 +206,9 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/FindPreviousMembers", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public bool FindPreviousMembers(string domainID, ref string searchContext, int count, out MemberInfo[] memberList) {
         object[] results = this.Invoke("FindPreviousMembers", new object[] {
-                    domainID,
-                    searchContext,
-                    count});
+            domainID,
+            searchContext,
+            count});
         memberList = ((MemberInfo[])(results[2]));
         searchContext = ((string)(results[1]));
         return ((bool)(results[0]));
@@ -216,9 +216,9 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     
     public System.IAsyncResult BeginFindPreviousMembers(string domainID, string searchContext, int count, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("FindPreviousMembers", new object[] {
-                    domainID,
-                    searchContext,
-                    count}, callback, asyncState);
+            domainID,
+            searchContext,
+            count}, callback, asyncState);
     }
     
     public bool EndFindPreviousMembers(System.IAsyncResult asyncResult, out string searchContext, out MemberInfo[] memberList) {
@@ -234,10 +234,10 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/FindSeekMembers", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public bool FindSeekMembers(string domainID, ref string searchContext, int offset, int count, out MemberInfo[] memberList) {
         object[] results = this.Invoke("FindSeekMembers", new object[] {
-                    domainID,
-                    searchContext,
-                    offset,
-                    count});
+            domainID,
+            searchContext,
+            offset,
+            count});
         memberList = ((MemberInfo[])(results[2]));
         searchContext = ((string)(results[1]));
         return ((bool)(results[0]));
@@ -245,10 +245,10 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     
     public System.IAsyncResult BeginFindSeekMembers(string domainID, string searchContext, int offset, int count, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("FindSeekMembers", new object[] {
-                    domainID,
-                    searchContext,
-                    offset,
-                    count}, callback, asyncState);
+            domainID,
+            searchContext,
+            offset,
+            count}, callback, asyncState);
     }
     
     public bool EndFindSeekMembers(System.IAsyncResult asyncResult, out string searchContext, out MemberInfo[] memberList) {
@@ -282,13 +282,13 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/GetDomainInformation", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public DomainInformation GetDomainInformation(string domainID) {
         object[] results = this.Invoke("GetDomainInformation", new object[] {
-                    domainID});
+            domainID});
         return ((DomainInformation)(results[0]));
     }
     
     public System.IAsyncResult BeginGetDomainInformation(string domainID, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("GetDomainInformation", new object[] {
-                    domainID}, callback, asyncState);
+            domainID}, callback, asyncState);
     }
     
     public DomainInformation EndGetDomainInformation(System.IAsyncResult asyncResult) {
@@ -302,13 +302,13 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/GetDomains", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public DomainInformation[] GetDomains(bool onlySlaves) {
         object[] results = this.Invoke("GetDomains", new object[] {
-                    onlySlaves});
+            onlySlaves});
         return ((DomainInformation[])(results[0]));
     }
     
     public System.IAsyncResult BeginGetDomains(bool onlySlaves, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("GetDomains", new object[] {
-                    onlySlaves}, callback, asyncState);
+            onlySlaves}, callback, asyncState);
     }
     
     public DomainInformation[] EndGetDomains(System.IAsyncResult asyncResult) {
@@ -322,15 +322,15 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/LoginToRemoteDomain", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public Status LoginToRemoteDomain(string domainID, string password) {
         object[] results = this.Invoke("LoginToRemoteDomain", new object[] {
-                    domainID,
-                    password});
+            domainID,
+            password});
         return ((Status)(results[0]));
     }
     
     public System.IAsyncResult BeginLoginToRemoteDomain(string domainID, string password, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("LoginToRemoteDomain", new object[] {
-                    domainID,
-                    password}, callback, asyncState);
+            domainID,
+            password}, callback, asyncState);
     }
     
     public Status EndLoginToRemoteDomain(System.IAsyncResult asyncResult) {
@@ -344,13 +344,13 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/LogoutFromRemoteDomain", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public Status LogoutFromRemoteDomain(string domainID) {
         object[] results = this.Invoke("LogoutFromRemoteDomain", new object[] {
-                    domainID});
+            domainID});
         return ((Status)(results[0]));
     }
     
     public System.IAsyncResult BeginLogoutFromRemoteDomain(string domainID, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("LogoutFromRemoteDomain", new object[] {
-                    domainID}, callback, asyncState);
+            domainID}, callback, asyncState);
     }
     
     public Status EndLogoutFromRemoteDomain(System.IAsyncResult asyncResult) {
@@ -364,12 +364,12 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/DisableDomainAutoLogin", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public void DisableDomainAutoLogin(string domainID) {
         this.Invoke("DisableDomainAutoLogin", new object[] {
-                    domainID});
+            domainID});
     }
     
     public System.IAsyncResult BeginDisableDomainAutoLogin(string domainID, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("DisableDomainAutoLogin", new object[] {
-                    domainID}, callback, asyncState);
+            domainID}, callback, asyncState);
     }
     
     public void EndDisableDomainAutoLogin(System.IAsyncResult asyncResult) {
@@ -382,13 +382,13 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/IsDomainActive", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public bool IsDomainActive(string domainID) {
         object[] results = this.Invoke("IsDomainActive", new object[] {
-                    domainID});
+            domainID});
         return ((bool)(results[0]));
     }
     
     public System.IAsyncResult BeginIsDomainActive(string domainID, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("IsDomainActive", new object[] {
-                    domainID}, callback, asyncState);
+            domainID}, callback, asyncState);
     }
     
     public bool EndIsDomainActive(System.IAsyncResult asyncResult) {
@@ -402,13 +402,13 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/SetDomainActive", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public int SetDomainActive(string domainID) {
         object[] results = this.Invoke("SetDomainActive", new object[] {
-                    domainID});
+            domainID});
         return ((int)(results[0]));
     }
     
     public System.IAsyncResult BeginSetDomainActive(string domainID, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("SetDomainActive", new object[] {
-                    domainID}, callback, asyncState);
+            domainID}, callback, asyncState);
     }
     
     public int EndSetDomainActive(System.IAsyncResult asyncResult) {
@@ -422,13 +422,13 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/SetDomainInactive", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public int SetDomainInactive(string domainID) {
         object[] results = this.Invoke("SetDomainInactive", new object[] {
-                    domainID});
+            domainID});
         return ((int)(results[0]));
     }
     
     public System.IAsyncResult BeginSetDomainInactive(string domainID, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("SetDomainInactive", new object[] {
-                    domainID}, callback, asyncState);
+            domainID}, callback, asyncState);
     }
     
     public int EndSetDomainInactive(System.IAsyncResult asyncResult) {
@@ -442,15 +442,15 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/ValidCredentials", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public bool ValidCredentials(string domainID, string memberID) {
         object[] results = this.Invoke("ValidCredentials", new object[] {
-                    domainID,
-                    memberID});
+            domainID,
+            memberID});
         return ((bool)(results[0]));
     }
     
     public System.IAsyncResult BeginValidCredentials(string domainID, string memberID, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("ValidCredentials", new object[] {
-                    domainID,
-                    memberID}, callback, asyncState);
+            domainID,
+            memberID}, callback, asyncState);
     }
     
     public bool EndValidCredentials(System.IAsyncResult asyncResult) {
@@ -464,16 +464,16 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/SetDomainCredentials", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public void SetDomainCredentials(string domainID, string credentials, CredentialType type) {
         this.Invoke("SetDomainCredentials", new object[] {
-                    domainID,
-                    credentials,
-                    type});
+            domainID,
+            credentials,
+            type});
     }
     
     public System.IAsyncResult BeginSetDomainCredentials(string domainID, string credentials, CredentialType type, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("SetDomainCredentials", new object[] {
-                    domainID,
-                    credentials,
-                    type}, callback, asyncState);
+            domainID,
+            credentials,
+            type}, callback, asyncState);
     }
     
     public void EndSetDomainCredentials(System.IAsyncResult asyncResult) {
@@ -486,18 +486,18 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/SetHostAddress", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public void SetHostAddress(string Host, string PublicUrl, string PrivateUrl, string DomainID) {
         this.Invoke("SetHostAddress", new object[] {
-                    Host,
-                    PublicUrl,
-                    PrivateUrl,
-                    DomainID});
+            Host,
+            PublicUrl,
+            PrivateUrl,
+            DomainID});
     }
     
     public System.IAsyncResult BeginSetHostAddress(string Host, string PublicUrl, string PrivateUrl, string DomainID, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("SetHostAddress", new object[] {
-                    Host,
-                    PublicUrl,
-                    PrivateUrl,
-                    DomainID}, callback, asyncState);
+            Host,
+            PublicUrl,
+            PrivateUrl,
+            DomainID}, callback, asyncState);
     }
     
     public void EndSetHostAddress(System.IAsyncResult asyncResult) {
@@ -510,18 +510,18 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/StorePassPhrase", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public void StorePassPhrase(string domainID, string passPhrase, CredentialType type, bool rememberPassPhrase) {
         this.Invoke("StorePassPhrase", new object[] {
-                    domainID,
-                    passPhrase,
-                    type,
-                    rememberPassPhrase});
+            domainID,
+            passPhrase,
+            type,
+            rememberPassPhrase});
     }
     
     public System.IAsyncResult BeginStorePassPhrase(string domainID, string passPhrase, CredentialType type, bool rememberPassPhrase, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("StorePassPhrase", new object[] {
-                    domainID,
-                    passPhrase,
-                    type,
-                    rememberPassPhrase}, callback, asyncState);
+            domainID,
+            passPhrase,
+            type,
+            rememberPassPhrase}, callback, asyncState);
     }
     
     public void EndStorePassPhrase(System.IAsyncResult asyncResult) {
@@ -534,7 +534,7 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/GetDomainCredentials", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public CredentialType GetDomainCredentials(string domainID, out string userID, out string credentials) {
         object[] results = this.Invoke("GetDomainCredentials", new object[] {
-                    domainID});
+            domainID});
         credentials = ((string)(results[2]));
         userID = ((string)(results[1]));
         return ((CredentialType)(results[0]));
@@ -542,7 +542,7 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     
     public System.IAsyncResult BeginGetDomainCredentials(string domainID, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("GetDomainCredentials", new object[] {
-                    domainID}, callback, asyncState);
+            domainID}, callback, asyncState);
     }
     
     public CredentialType EndGetDomainCredentials(System.IAsyncResult asyncResult, out string userID, out string credentials) {
@@ -558,13 +558,13 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/GetPassPhrase", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public string GetPassPhrase(string domainID) {
         object[] results = this.Invoke("GetPassPhrase", new object[] {
-                    domainID});
+            domainID});
         return ((string)(results[0]));
     }
     
     public System.IAsyncResult BeginGetPassPhrase(string domainID, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("GetPassPhrase", new object[] {
-                    domainID}, callback, asyncState);
+            domainID}, callback, asyncState);
     }
     
     public string EndGetPassPhrase(System.IAsyncResult asyncResult) {
@@ -578,13 +578,13 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/GetRememberOption", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public bool GetRememberOption(string domainID) {
         object[] results = this.Invoke("GetRememberOption", new object[] {
-                    domainID});
+            domainID});
         return ((bool)(results[0]));
     }
     
     public System.IAsyncResult BeginGetRememberOption(string domainID, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("GetRememberOption", new object[] {
-                    domainID}, callback, asyncState);
+            domainID}, callback, asyncState);
     }
     
     public bool EndGetRememberOption(System.IAsyncResult asyncResult) {
@@ -598,17 +598,17 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/ConnectToDomain", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public DomainInformation ConnectToDomain(string UserName, string Password, string Host) {
         object[] results = this.Invoke("ConnectToDomain", new object[] {
-                    UserName,
-                    Password,
-                    Host});
+            UserName,
+            Password,
+            Host});
         return ((DomainInformation)(results[0]));
     }
     
     public System.IAsyncResult BeginConnectToDomain(string UserName, string Password, string Host, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("ConnectToDomain", new object[] {
-                    UserName,
-                    Password,
-                    Host}, callback, asyncState);
+            UserName,
+            Password,
+            Host}, callback, asyncState);
     }
     
     public DomainInformation EndConnectToDomain(System.IAsyncResult asyncResult) {
@@ -622,14 +622,14 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/LeaveDomain", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public void LeaveDomain(string DomainID, bool LocalOnly) {
         this.Invoke("LeaveDomain", new object[] {
-                    DomainID,
-                    LocalOnly});
+            DomainID,
+            LocalOnly});
     }
     
     public System.IAsyncResult BeginLeaveDomain(string DomainID, bool LocalOnly, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("LeaveDomain", new object[] {
-                    DomainID,
-                    LocalOnly}, callback, asyncState);
+            DomainID,
+            LocalOnly}, callback, asyncState);
     }
     
     public void EndLeaveDomain(System.IAsyncResult asyncResult) {
@@ -642,12 +642,12 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/RemoveCertFromTable", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public void RemoveCertFromTable(string host) {
         this.Invoke("RemoveCertFromTable", new object[] {
-                    host});
+            host});
     }
     
     public System.IAsyncResult BeginRemoveCertFromTable(string host, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("RemoveCertFromTable", new object[] {
-                    host}, callback, asyncState);
+            host}, callback, asyncState);
     }
     
     public void EndRemoveCertFromTable(System.IAsyncResult asyncResult) {
@@ -660,12 +660,12 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/SetDefaultDomain", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public void SetDefaultDomain(string domainID) {
         this.Invoke("SetDefaultDomain", new object[] {
-                    domainID});
+            domainID});
     }
     
     public System.IAsyncResult BeginSetDefaultDomain(string domainID, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("SetDefaultDomain", new object[] {
-                    domainID}, callback, asyncState);
+            domainID}, callback, asyncState);
     }
     
     public void EndSetDefaultDomain(System.IAsyncResult asyncResult) {
@@ -696,13 +696,13 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/GetCertificate", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public System.Byte[] GetCertificate(string host) {
         object[] results = this.Invoke("GetCertificate", new object[] {
-                    host});
+            host});
         return ((System.Byte[])(results[0]));
     }
     
     public System.IAsyncResult BeginGetCertificate(string host, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("GetCertificate", new object[] {
-                    host}, callback, asyncState);
+            host}, callback, asyncState);
     }
     
     public System.Byte[] EndGetCertificate(System.IAsyncResult asyncResult) {
@@ -716,14 +716,14 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/GetCertificate2", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public System.Byte[] GetCertificate2(string host, out CertificateProblem Problem) {
         object[] results = this.Invoke("GetCertificate2", new object[] {
-                    host});
+            host});
         Problem = ((CertificateProblem)(results[1]));
         return ((System.Byte[])(results[0]));
     }
     
     public System.IAsyncResult BeginGetCertificate2(string host, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("GetCertificate2", new object[] {
-                    host}, callback, asyncState);
+            host}, callback, asyncState);
     }
     
     public System.Byte[] EndGetCertificate2(System.IAsyncResult asyncResult, out CertificateProblem Problem) {
@@ -738,14 +738,14 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/StoreCertificate", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public void StoreCertificate(System.Byte[] certificate, string host) {
         this.Invoke("StoreCertificate", new object[] {
-                    certificate,
-                    host});
+            certificate,
+            host});
     }
     
     public System.IAsyncResult BeginStoreCertificate(System.Byte[] certificate, string host, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("StoreCertificate", new object[] {
-                    certificate,
-                    host}, callback, asyncState);
+            certificate,
+            host}, callback, asyncState);
     }
     
     public void EndStoreCertificate(System.IAsyncResult asyncResult) {
@@ -758,16 +758,16 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/StoreDomainCertificate", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public void StoreDomainCertificate(System.Byte[] certificate, string host, string domainID) {
         this.Invoke("StoreDomainCertificate", new object[] {
-                    certificate,
-                    host,
-                    domainID});
+            certificate,
+            host,
+            domainID});
     }
     
     public System.IAsyncResult BeginStoreDomainCertificate(System.Byte[] certificate, string host, string domainID, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("StoreDomainCertificate", new object[] {
-                    certificate,
-                    host,
-                    domainID}, callback, asyncState);
+            certificate,
+            host,
+            domainID}, callback, asyncState);
     }
     
     public void EndStoreDomainCertificate(System.IAsyncResult asyncResult) {
@@ -798,13 +798,13 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/GetRAListOnClient", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public string[] GetRAListOnClient(string DomainID) {
         object[] results = this.Invoke("GetRAListOnClient", new object[] {
-                    DomainID});
+            DomainID});
         return ((string[])(results[0]));
     }
     
     public System.IAsyncResult BeginGetRAListOnClient(string DomainID, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("GetRAListOnClient", new object[] {
-                    DomainID}, callback, asyncState);
+            DomainID}, callback, asyncState);
     }
     
     public string[] EndGetRAListOnClient(System.IAsyncResult asyncResult) {
@@ -818,13 +818,13 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/GetRACertificate", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public System.Byte[] GetRACertificate(string rAgent) {
         object[] results = this.Invoke("GetRACertificate", new object[] {
-                    rAgent});
+            rAgent});
         return ((System.Byte[])(results[0]));
     }
     
     public System.IAsyncResult BeginGetRACertificate(string rAgent, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("GetRACertificate", new object[] {
-                    rAgent}, callback, asyncState);
+            rAgent}, callback, asyncState);
     }
     
     public System.Byte[] EndGetRACertificate(System.IAsyncResult asyncResult) {
@@ -838,15 +838,15 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/GetRACertificateOnClient", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public System.Byte[] GetRACertificateOnClient(string DomainID, string rAgent) {
         object[] results = this.Invoke("GetRACertificateOnClient", new object[] {
-                    DomainID,
-                    rAgent});
+            DomainID,
+            rAgent});
         return ((System.Byte[])(results[0]));
     }
     
     public System.IAsyncResult BeginGetRACertificateOnClient(string DomainID, string rAgent, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("GetRACertificateOnClient", new object[] {
-                    DomainID,
-                    rAgent}, callback, asyncState);
+            DomainID,
+            rAgent}, callback, asyncState);
     }
     
     public System.Byte[] EndGetRACertificateOnClient(System.IAsyncResult asyncResult) {
@@ -860,15 +860,15 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/GetPublicKey", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public string GetPublicKey(string DomainID, string rAgent) {
         object[] results = this.Invoke("GetPublicKey", new object[] {
-                    DomainID,
-                    rAgent});
+            DomainID,
+            rAgent});
         return ((string)(results[0]));
     }
     
     public System.IAsyncResult BeginGetPublicKey(string DomainID, string rAgent, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("GetPublicKey", new object[] {
-                    DomainID,
-                    rAgent}, callback, asyncState);
+            DomainID,
+            rAgent}, callback, asyncState);
     }
     
     public string EndGetPublicKey(System.IAsyncResult asyncResult) {
@@ -882,13 +882,13 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/GetDefaultPublicKey", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public string GetDefaultPublicKey(string DomainID) {
         object[] results = this.Invoke("GetDefaultPublicKey", new object[] {
-                    DomainID});
+            DomainID});
         return ((string)(results[0]));
     }
     
     public System.IAsyncResult BeginGetDefaultPublicKey(string DomainID, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("GetDefaultPublicKey", new object[] {
-                    DomainID}, callback, asyncState);
+            DomainID}, callback, asyncState);
     }
     
     public string EndGetDefaultPublicKey(System.IAsyncResult asyncResult) {
@@ -902,13 +902,13 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/GetDefaultRSAFromServer", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public string GetDefaultRSAFromServer(string DomainID) {
         object[] results = this.Invoke("GetDefaultRSAFromServer", new object[] {
-                    DomainID});
+            DomainID});
         return ((string)(results[0]));
     }
     
     public System.IAsyncResult BeginGetDefaultRSAFromServer(string DomainID, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("GetDefaultRSAFromServer", new object[] {
-                    DomainID}, callback, asyncState);
+            DomainID}, callback, asyncState);
     }
     
     public string EndGetDefaultRSAFromServer(System.IAsyncResult asyncResult) {
@@ -922,13 +922,13 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/GetDefaultRSAKey", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public string GetDefaultRSAKey(string DomainID) {
         object[] results = this.Invoke("GetDefaultRSAKey", new object[] {
-                    DomainID});
+            DomainID});
         return ((string)(results[0]));
     }
     
     public System.IAsyncResult BeginGetDefaultRSAKey(string DomainID, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("GetDefaultRSAKey", new object[] {
-                    DomainID}, callback, asyncState);
+            DomainID}, callback, asyncState);
     }
     
     public string EndGetDefaultRSAKey(System.IAsyncResult asyncResult) {
@@ -942,14 +942,14 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/StoreRACertificate", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public void StoreRACertificate(System.Byte[] certificate, string rAgent) {
         this.Invoke("StoreRACertificate", new object[] {
-                    certificate,
-                    rAgent});
+            certificate,
+            rAgent});
     }
     
     public System.IAsyncResult BeginStoreRACertificate(System.Byte[] certificate, string rAgent, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("StoreRACertificate", new object[] {
-                    certificate,
-                    rAgent}, callback, asyncState);
+            certificate,
+            rAgent}, callback, asyncState);
     }
     
     public void EndStoreRACertificate(System.IAsyncResult asyncResult) {
@@ -980,19 +980,19 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/SetDomainHostAddress", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public bool SetDomainHostAddress(string domainID, string hostAddress, string user, string password) {
         object[] results = this.Invoke("SetDomainHostAddress", new object[] {
-                    domainID,
-                    hostAddress,
-                    user,
-                    password});
+            domainID,
+            hostAddress,
+            user,
+            password});
         return ((bool)(results[0]));
     }
     
     public System.IAsyncResult BeginSetDomainHostAddress(string domainID, string hostAddress, string user, string password, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("SetDomainHostAddress", new object[] {
-                    domainID,
-                    hostAddress,
-                    user,
-                    password}, callback, asyncState);
+            domainID,
+            hostAddress,
+            user,
+            password}, callback, asyncState);
     }
     
     public bool EndSetDomainHostAddress(System.IAsyncResult asyncResult) {
@@ -1006,19 +1006,19 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/SetProxyAddress", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public bool SetProxyAddress(string hostUri, string proxyUri, string proxyUser, string proxyPassword) {
         object[] results = this.Invoke("SetProxyAddress", new object[] {
-                    hostUri,
-                    proxyUri,
-                    proxyUser,
-                    proxyPassword});
+            hostUri,
+            proxyUri,
+            proxyUser,
+            proxyPassword});
         return ((bool)(results[0]));
     }
     
     public System.IAsyncResult BeginSetProxyAddress(string hostUri, string proxyUri, string proxyUser, string proxyPassword, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("SetProxyAddress", new object[] {
-                    hostUri,
-                    proxyUri,
-                    proxyUser,
-                    proxyPassword}, callback, asyncState);
+            hostUri,
+            proxyUri,
+            proxyUser,
+            proxyPassword}, callback, asyncState);
     }
     
     public bool EndSetProxyAddress(System.IAsyncResult asyncResult) {
@@ -1032,15 +1032,15 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/CanShareService", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public bool CanShareService(string simiasDataPath, bool isClient) {
         object[] results = this.Invoke("CanShareService", new object[] {
-                    simiasDataPath,
-                    isClient});
+            simiasDataPath,
+            isClient});
         return ((bool)(results[0]));
     }
     
     public System.IAsyncResult BeginCanShareService(string simiasDataPath, bool isClient, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("CanShareService", new object[] {
-                    simiasDataPath,
-                    isClient}, callback, asyncState);
+            simiasDataPath,
+            isClient}, callback, asyncState);
     }
     
     public bool EndCanShareService(System.IAsyncResult asyncResult) {
@@ -1106,17 +1106,17 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/ServerSetDefaultAccount", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public bool ServerSetDefaultAccount(string DomainID, string UserID, string iFolderID) {
         object[] results = this.Invoke("ServerSetDefaultAccount", new object[] {
-                    DomainID,
-                    UserID,
-                    iFolderID});
+            DomainID,
+            UserID,
+            iFolderID});
         return ((bool)(results[0]));
     }
     
     public System.IAsyncResult BeginServerSetDefaultAccount(string DomainID, string UserID, string iFolderID, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("ServerSetDefaultAccount", new object[] {
-                    DomainID,
-                    UserID,
-                    iFolderID}, callback, asyncState);
+            DomainID,
+            UserID,
+            iFolderID}, callback, asyncState);
     }
     
     public bool EndServerSetDefaultAccount(System.IAsyncResult asyncResult) {
@@ -1130,15 +1130,15 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/ServerGetDefaultiFolder", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public string ServerGetDefaultiFolder(string DomainID, string UserID) {
         object[] results = this.Invoke("ServerGetDefaultiFolder", new object[] {
-                    DomainID,
-                    UserID});
+            DomainID,
+            UserID});
         return ((string)(results[0]));
     }
     
     public System.IAsyncResult BeginServerGetDefaultiFolder(string DomainID, string UserID, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("ServerGetDefaultiFolder", new object[] {
-                    DomainID,
-                    UserID}, callback, asyncState);
+            DomainID,
+            UserID}, callback, asyncState);
     }
     
     public string EndServerGetDefaultiFolder(System.IAsyncResult asyncResult) {
@@ -1152,15 +1152,15 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/GetGroupsiFolderLimitPolicy", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public int GetGroupsiFolderLimitPolicy(string DomainID, string UserID) {
         object[] results = this.Invoke("GetGroupsiFolderLimitPolicy", new object[] {
-                    DomainID,
-                    UserID});
+            DomainID,
+            UserID});
         return ((int)(results[0]));
     }
     
     public System.IAsyncResult BeginGetGroupsiFolderLimitPolicy(string DomainID, string UserID, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("GetGroupsiFolderLimitPolicy", new object[] {
-                    DomainID,
-                    UserID}, callback, asyncState);
+            DomainID,
+            UserID}, callback, asyncState);
     }
     
     public int EndGetGroupsiFolderLimitPolicy(System.IAsyncResult asyncResult) {
@@ -1174,15 +1174,15 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/IsTransferAllowed", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public bool IsTransferAllowed(string DomainID, string UserID) {
         object[] results = this.Invoke("IsTransferAllowed", new object[] {
-                    DomainID,
-                    UserID});
+            DomainID,
+            UserID});
         return ((bool)(results[0]));
     }
     
     public System.IAsyncResult BeginIsTransferAllowed(string DomainID, string UserID, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("IsTransferAllowed", new object[] {
-                    DomainID,
-                    UserID}, callback, asyncState);
+            DomainID,
+            UserID}, callback, asyncState);
     }
     
     public bool EndIsTransferAllowed(System.IAsyncResult asyncResult) {
@@ -1196,15 +1196,15 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/GetGroupsSharingPolicy", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public int GetGroupsSharingPolicy(string DomainID, string UserID) {
         object[] results = this.Invoke("GetGroupsSharingPolicy", new object[] {
-                    DomainID,
-                    UserID});
+            DomainID,
+            UserID});
         return ((int)(results[0]));
     }
     
     public System.IAsyncResult BeginGetGroupsSharingPolicy(string DomainID, string UserID, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("GetGroupsSharingPolicy", new object[] {
-                    DomainID,
-                    UserID}, callback, asyncState);
+            DomainID,
+            UserID}, callback, asyncState);
     }
     
     public int EndGetGroupsSharingPolicy(System.IAsyncResult asyncResult) {
@@ -1218,15 +1218,15 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/GetGroupsSecurityPolicy", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public int GetGroupsSecurityPolicy(string DomainID, string UserID) {
         object[] results = this.Invoke("GetGroupsSecurityPolicy", new object[] {
-                    DomainID,
-                    UserID});
+            DomainID,
+            UserID});
         return ((int)(results[0]));
     }
     
     public System.IAsyncResult BeginGetGroupsSecurityPolicy(string DomainID, string UserID, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("GetGroupsSecurityPolicy", new object[] {
-                    DomainID,
-                    UserID}, callback, asyncState);
+            DomainID,
+            UserID}, callback, asyncState);
     }
     
     public int EndGetGroupsSecurityPolicy(System.IAsyncResult asyncResult) {
@@ -1240,17 +1240,17 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/GetEffectiveSyncPolicy", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public int GetEffectiveSyncPolicy(string DomainID, string UserID, string CollectionID) {
         object[] results = this.Invoke("GetEffectiveSyncPolicy", new object[] {
-                    DomainID,
-                    UserID,
-                    CollectionID});
+            DomainID,
+            UserID,
+            CollectionID});
         return ((int)(results[0]));
     }
     
     public System.IAsyncResult BeginGetEffectiveSyncPolicy(string DomainID, string UserID, string CollectionID, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("GetEffectiveSyncPolicy", new object[] {
-                    DomainID,
-                    UserID,
-                    CollectionID}, callback, asyncState);
+            DomainID,
+            UserID,
+            CollectionID}, callback, asyncState);
     }
     
     public int EndGetEffectiveSyncPolicy(System.IAsyncResult asyncResult) {
@@ -1264,23 +1264,23 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/ServerSetPassPhrase", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public Status ServerSetPassPhrase(string DomainID, string UserID, string EncryptedCryptoKey, string CryptoKeyBlob, string RAName, string RAPublicKey) {
         object[] results = this.Invoke("ServerSetPassPhrase", new object[] {
-                    DomainID,
-                    UserID,
-                    EncryptedCryptoKey,
-                    CryptoKeyBlob,
-                    RAName,
-                    RAPublicKey});
+            DomainID,
+            UserID,
+            EncryptedCryptoKey,
+            CryptoKeyBlob,
+            RAName,
+            RAPublicKey});
         return ((Status)(results[0]));
     }
     
     public System.IAsyncResult BeginServerSetPassPhrase(string DomainID, string UserID, string EncryptedCryptoKey, string CryptoKeyBlob, string RAName, string RAPublicKey, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("ServerSetPassPhrase", new object[] {
-                    DomainID,
-                    UserID,
-                    EncryptedCryptoKey,
-                    CryptoKeyBlob,
-                    RAName,
-                    RAPublicKey}, callback, asyncState);
+            DomainID,
+            UserID,
+            EncryptedCryptoKey,
+            CryptoKeyBlob,
+            RAName,
+            RAPublicKey}, callback, asyncState);
     }
     
     public Status EndServerSetPassPhrase(System.IAsyncResult asyncResult) {
@@ -1294,15 +1294,15 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/ServerGetEncrypPassKey", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public string ServerGetEncrypPassKey(string DomainID, string UserID) {
         object[] results = this.Invoke("ServerGetEncrypPassKey", new object[] {
-                    DomainID,
-                    UserID});
+            DomainID,
+            UserID});
         return ((string)(results[0]));
     }
     
     public System.IAsyncResult BeginServerGetEncrypPassKey(string DomainID, string UserID, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("ServerGetEncrypPassKey", new object[] {
-                    DomainID,
-                    UserID}, callback, asyncState);
+            DomainID,
+            UserID}, callback, asyncState);
     }
     
     public string EndServerGetEncrypPassKey(System.IAsyncResult asyncResult) {
@@ -1316,15 +1316,15 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/ServerGetPassKeyHash", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public string ServerGetPassKeyHash(string DomainID, string UserID) {
         object[] results = this.Invoke("ServerGetPassKeyHash", new object[] {
-                    DomainID,
-                    UserID});
+            DomainID,
+            UserID});
         return ((string)(results[0]));
     }
     
     public System.IAsyncResult BeginServerGetPassKeyHash(string DomainID, string UserID, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("ServerGetPassKeyHash", new object[] {
-                    DomainID,
-                    UserID}, callback, asyncState);
+            DomainID,
+            UserID}, callback, asyncState);
     }
     
     public string EndServerGetPassKeyHash(System.IAsyncResult asyncResult) {
@@ -1338,17 +1338,17 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/UpdateUserMoveState", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public bool UpdateUserMoveState(string DomainID, string UserID, int userMoveStatus) {
         object[] results = this.Invoke("UpdateUserMoveState", new object[] {
-                    DomainID,
-                    UserID,
-                    userMoveStatus});
+            DomainID,
+            UserID,
+            userMoveStatus});
         return ((bool)(results[0]));
     }
     
     public System.IAsyncResult BeginUpdateUserMoveState(string DomainID, string UserID, int userMoveStatus, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("UpdateUserMoveState", new object[] {
-                    DomainID,
-                    UserID,
-                    userMoveStatus}, callback, asyncState);
+            DomainID,
+            UserID,
+            userMoveStatus}, callback, asyncState);
     }
     
     public bool EndUpdateUserMoveState(System.IAsyncResult asyncResult) {
@@ -1362,17 +1362,17 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/UpdateHomeServer", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public bool UpdateHomeServer(string DomainID, string UserID, string newHostID) {
         object[] results = this.Invoke("UpdateHomeServer", new object[] {
-                    DomainID,
-                    UserID,
-                    newHostID});
+            DomainID,
+            UserID,
+            newHostID});
         return ((bool)(results[0]));
     }
     
     public System.IAsyncResult BeginUpdateHomeServer(string DomainID, string UserID, string newHostID, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("UpdateHomeServer", new object[] {
-                    DomainID,
-                    UserID,
-                    newHostID}, callback, asyncState);
+            DomainID,
+            UserID,
+            newHostID}, callback, asyncState);
     }
     
     public bool EndUpdateHomeServer(System.IAsyncResult asyncResult) {
@@ -1386,31 +1386,31 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/DownloadiFolder", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public bool DownloadiFolder(string iFolderID, string name, string DomainID, string HostID, string DirNodeID, string MemberNodeID, string colMemberNodeID, string localPath, int sourcefilecount, int sourcedircount) {
         object[] results = this.Invoke("DownloadiFolder", new object[] {
-                    iFolderID,
-                    name,
-                    DomainID,
-                    HostID,
-                    DirNodeID,
-                    MemberNodeID,
-                    colMemberNodeID,
-                    localPath,
-                    sourcefilecount,
-                    sourcedircount});
+            iFolderID,
+            name,
+            DomainID,
+            HostID,
+            DirNodeID,
+            MemberNodeID,
+            colMemberNodeID,
+            localPath,
+            sourcefilecount,
+            sourcedircount});
         return ((bool)(results[0]));
     }
     
     public System.IAsyncResult BeginDownloadiFolder(string iFolderID, string name, string DomainID, string HostID, string DirNodeID, string MemberNodeID, string colMemberNodeID, string localPath, int sourcefilecount, int sourcedircount, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("DownloadiFolder", new object[] {
-                    iFolderID,
-                    name,
-                    DomainID,
-                    HostID,
-                    DirNodeID,
-                    MemberNodeID,
-                    colMemberNodeID,
-                    localPath,
-                    sourcefilecount,
-                    sourcedircount}, callback, asyncState);
+            iFolderID,
+            name,
+            DomainID,
+            HostID,
+            DirNodeID,
+            MemberNodeID,
+            colMemberNodeID,
+            localPath,
+            sourcefilecount,
+            sourcedircount}, callback, asyncState);
     }
     
     public bool EndDownloadiFolder(System.IAsyncResult asyncResult) {
@@ -1424,25 +1424,25 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/UpdateLocalProperties", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public bool UpdateLocalProperties(string DomainID, string UserID, string EncryptionKey, string EncryptionVersion, string EncryptionBlob, string RAName, string RAPublicKey) {
         object[] results = this.Invoke("UpdateLocalProperties", new object[] {
-                    DomainID,
-                    UserID,
-                    EncryptionKey,
-                    EncryptionVersion,
-                    EncryptionBlob,
-                    RAName,
-                    RAPublicKey});
+            DomainID,
+            UserID,
+            EncryptionKey,
+            EncryptionVersion,
+            EncryptionBlob,
+            RAName,
+            RAPublicKey});
         return ((bool)(results[0]));
     }
     
     public System.IAsyncResult BeginUpdateLocalProperties(string DomainID, string UserID, string EncryptionKey, string EncryptionVersion, string EncryptionBlob, string RAName, string RAPublicKey, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("UpdateLocalProperties", new object[] {
-                    DomainID,
-                    UserID,
-                    EncryptionKey,
-                    EncryptionVersion,
-                    EncryptionBlob,
-                    RAName,
-                    RAPublicKey}, callback, asyncState);
+            DomainID,
+            UserID,
+            EncryptionKey,
+            EncryptionVersion,
+            EncryptionBlob,
+            RAName,
+            RAPublicKey}, callback, asyncState);
     }
     
     public bool EndUpdateLocalProperties(System.IAsyncResult asyncResult) {
@@ -1456,17 +1456,17 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/DisableUser", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public bool DisableUser(string DomainID, string UserID, string newHostID) {
         object[] results = this.Invoke("DisableUser", new object[] {
-                    DomainID,
-                    UserID,
-                    newHostID});
+            DomainID,
+            UserID,
+            newHostID});
         return ((bool)(results[0]));
     }
     
     public System.IAsyncResult BeginDisableUser(string DomainID, string UserID, string newHostID, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("DisableUser", new object[] {
-                    DomainID,
-                    UserID,
-                    newHostID}, callback, asyncState);
+            DomainID,
+            UserID,
+            newHostID}, callback, asyncState);
     }
     
     public bool EndDisableUser(System.IAsyncResult asyncResult) {
@@ -1480,14 +1480,14 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/SetOnMasterEncryptionBlobFlag", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public void SetOnMasterEncryptionBlobFlag(string DomainID, string UserID) {
         this.Invoke("SetOnMasterEncryptionBlobFlag", new object[] {
-                    DomainID,
-                    UserID});
+            DomainID,
+            UserID});
     }
     
     public System.IAsyncResult BeginSetOnMasterEncryptionBlobFlag(string DomainID, string UserID, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("SetOnMasterEncryptionBlobFlag", new object[] {
-                    DomainID,
-                    UserID}, callback, asyncState);
+            DomainID,
+            UserID}, callback, asyncState);
     }
     
     public void EndSetOnMasterEncryptionBlobFlag(System.IAsyncResult asyncResult) {
@@ -1500,15 +1500,15 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/CommitDomainMember", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public bool CommitDomainMember(string DomainID, System.Xml.XmlNode ModifiedMemberXML) {
         object[] results = this.Invoke("CommitDomainMember", new object[] {
-                    DomainID,
-                    ModifiedMemberXML});
+            DomainID,
+            ModifiedMemberXML});
         return ((bool)(results[0]));
     }
     
     public System.IAsyncResult BeginCommitDomainMember(string DomainID, System.Xml.XmlNode ModifiedMemberXML, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("CommitDomainMember", new object[] {
-                    DomainID,
-                    ModifiedMemberXML}, callback, asyncState);
+            DomainID,
+            ModifiedMemberXML}, callback, asyncState);
     }
     
     public bool EndCommitDomainMember(System.IAsyncResult asyncResult) {
@@ -1522,13 +1522,13 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/ServerGetCollectionHashKey", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public string ServerGetCollectionHashKey(string CollectionID) {
         object[] results = this.Invoke("ServerGetCollectionHashKey", new object[] {
-                    CollectionID});
+            CollectionID});
         return ((string)(results[0]));
     }
     
     public System.IAsyncResult BeginServerGetCollectionHashKey(string CollectionID, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("ServerGetCollectionHashKey", new object[] {
-                    CollectionID}, callback, asyncState);
+            CollectionID}, callback, asyncState);
     }
     
     public string EndServerGetCollectionHashKey(System.IAsyncResult asyncResult) {
@@ -1542,17 +1542,17 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/GetiFolderCryptoKeys", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public CollectionKey GetiFolderCryptoKeys(string DomainID, string UserID, int Index) {
         object[] results = this.Invoke("GetiFolderCryptoKeys", new object[] {
-                    DomainID,
-                    UserID,
-                    Index});
+            DomainID,
+            UserID,
+            Index});
         return ((CollectionKey)(results[0]));
     }
     
     public System.IAsyncResult BeginGetiFolderCryptoKeys(string DomainID, string UserID, int Index, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("GetiFolderCryptoKeys", new object[] {
-                    DomainID,
-                    UserID,
-                    Index}, callback, asyncState);
+            DomainID,
+            UserID,
+            Index}, callback, asyncState);
     }
     
     public CollectionKey EndGetiFolderCryptoKeys(System.IAsyncResult asyncResult) {
@@ -1566,17 +1566,17 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/SetiFolderCryptoKeys", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public bool SetiFolderCryptoKeys(string DomainID, string UserID, CollectionKey CKey) {
         object[] results = this.Invoke("SetiFolderCryptoKeys", new object[] {
-                    DomainID,
-                    UserID,
-                    CKey});
+            DomainID,
+            UserID,
+            CKey});
         return ((bool)(results[0]));
     }
     
     public System.IAsyncResult BeginSetiFolderCryptoKeys(string DomainID, string UserID, CollectionKey CKey, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("SetiFolderCryptoKeys", new object[] {
-                    DomainID,
-                    UserID,
-                    CKey}, callback, asyncState);
+            DomainID,
+            UserID,
+            CKey}, callback, asyncState);
     }
     
     public bool EndSetiFolderCryptoKeys(System.IAsyncResult asyncResult) {
@@ -1590,14 +1590,14 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/ExportiFoldersCryptoKeys", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public void ExportiFoldersCryptoKeys(string DomainID, string FilePath) {
         this.Invoke("ExportiFoldersCryptoKeys", new object[] {
-                    DomainID,
-                    FilePath});
+            DomainID,
+            FilePath});
     }
     
     public System.IAsyncResult BeginExportiFoldersCryptoKeys(string DomainID, string FilePath, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("ExportiFoldersCryptoKeys", new object[] {
-                    DomainID,
-                    FilePath}, callback, asyncState);
+            DomainID,
+            FilePath}, callback, asyncState);
     }
     
     public void EndExportiFoldersCryptoKeys(System.IAsyncResult asyncResult) {
@@ -1610,18 +1610,18 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/ImportiFoldersCryptoKeys", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public void ImportiFoldersCryptoKeys(string DomainID, string NewPassphrase, string OneTimePassphrase, string FilePath) {
         this.Invoke("ImportiFoldersCryptoKeys", new object[] {
-                    DomainID,
-                    NewPassphrase,
-                    OneTimePassphrase,
-                    FilePath});
+            DomainID,
+            NewPassphrase,
+            OneTimePassphrase,
+            FilePath});
     }
     
     public System.IAsyncResult BeginImportiFoldersCryptoKeys(string DomainID, string NewPassphrase, string OneTimePassphrase, string FilePath, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("ImportiFoldersCryptoKeys", new object[] {
-                    DomainID,
-                    NewPassphrase,
-                    OneTimePassphrase,
-                    FilePath}, callback, asyncState);
+            DomainID,
+            NewPassphrase,
+            OneTimePassphrase,
+            FilePath}, callback, asyncState);
     }
     
     public void EndImportiFoldersCryptoKeys(System.IAsyncResult asyncResult) {
@@ -1635,15 +1635,15 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [return: System.Xml.Serialization.XmlElementAttribute("keyDocument")]
     public System.Xml.XmlNode ExportiFoldersCryptoKeysToDoc(string DomainID, string UserID) {
         object[] results = this.Invoke("ExportiFoldersCryptoKeysToDoc", new object[] {
-                    DomainID,
-                    UserID});
+            DomainID,
+            UserID});
         return ((System.Xml.XmlNode)(results[0]));
     }
     
     public System.IAsyncResult BeginExportiFoldersCryptoKeysToDoc(string DomainID, string UserID, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("ExportiFoldersCryptoKeysToDoc", new object[] {
-                    DomainID,
-                    UserID}, callback, asyncState);
+            DomainID,
+            UserID}, callback, asyncState);
     }
     
     public System.Xml.XmlNode EndExportiFoldersCryptoKeysToDoc(System.IAsyncResult asyncResult) {
@@ -1657,22 +1657,22 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/RecoverKeys", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public bool RecoverKeys(string DomainID, string UserID, string RAName, System.Xml.XmlNode keyDocument, string oneTimePP, out System.Xml.XmlNode decryptedKeyDoc) {
         object[] results = this.Invoke("RecoverKeys", new object[] {
-                    DomainID,
-                    UserID,
-                    RAName,
-                    keyDocument,
-                    oneTimePP});
+            DomainID,
+            UserID,
+            RAName,
+            keyDocument,
+            oneTimePP});
         decryptedKeyDoc = ((System.Xml.XmlNode)(results[1]));
         return ((bool)(results[0]));
     }
     
     public System.IAsyncResult BeginRecoverKeys(string DomainID, string UserID, string RAName, System.Xml.XmlNode keyDocument, string oneTimePP, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("RecoverKeys", new object[] {
-                    DomainID,
-                    UserID,
-                    RAName,
-                    keyDocument,
-                    oneTimePP}, callback, asyncState);
+            DomainID,
+            UserID,
+            RAName,
+            keyDocument,
+            oneTimePP}, callback, asyncState);
     }
     
     public bool EndRecoverKeys(System.IAsyncResult asyncResult, out System.Xml.XmlNode decryptedKeyDoc) {
@@ -1687,20 +1687,20 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/ImportiFoldersCryptoKeysFromDoc", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public void ImportiFoldersCryptoKeysFromDoc(string DomainID, string UserID, string NewPassphrase, string OneTimePassword, System.Xml.XmlNode keyDocument) {
         this.Invoke("ImportiFoldersCryptoKeysFromDoc", new object[] {
-                    DomainID,
-                    UserID,
-                    NewPassphrase,
-                    OneTimePassword,
-                    keyDocument});
+            DomainID,
+            UserID,
+            NewPassphrase,
+            OneTimePassword,
+            keyDocument});
     }
     
     public System.IAsyncResult BeginImportiFoldersCryptoKeysFromDoc(string DomainID, string UserID, string NewPassphrase, string OneTimePassword, System.Xml.XmlNode keyDocument, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("ImportiFoldersCryptoKeysFromDoc", new object[] {
-                    DomainID,
-                    UserID,
-                    NewPassphrase,
-                    OneTimePassword,
-                    keyDocument}, callback, asyncState);
+            DomainID,
+            UserID,
+            NewPassphrase,
+            OneTimePassword,
+            keyDocument}, callback, asyncState);
     }
     
     public void EndImportiFoldersCryptoKeysFromDoc(System.IAsyncResult asyncResult) {
@@ -1713,16 +1713,16 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/ExportRecoverImport", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public void ExportRecoverImport(string DomainID, string UserID, string NewPassphrase) {
         this.Invoke("ExportRecoverImport", new object[] {
-                    DomainID,
-                    UserID,
-                    NewPassphrase});
+            DomainID,
+            UserID,
+            NewPassphrase});
     }
     
     public System.IAsyncResult BeginExportRecoverImport(string DomainID, string UserID, string NewPassphrase, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("ExportRecoverImport", new object[] {
-                    DomainID,
-                    UserID,
-                    NewPassphrase}, callback, asyncState);
+            DomainID,
+            UserID,
+            NewPassphrase}, callback, asyncState);
     }
     
     public void EndExportRecoverImport(System.IAsyncResult asyncResult) {
@@ -1735,19 +1735,19 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/SetPassPhrase", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public Status SetPassPhrase(string DomainID, string PassPhrase, string RAName, string RAPublicKey) {
         object[] results = this.Invoke("SetPassPhrase", new object[] {
-                    DomainID,
-                    PassPhrase,
-                    RAName,
-                    RAPublicKey});
+            DomainID,
+            PassPhrase,
+            RAName,
+            RAPublicKey});
         return ((Status)(results[0]));
     }
     
     public System.IAsyncResult BeginSetPassPhrase(string DomainID, string PassPhrase, string RAName, string RAPublicKey, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("SetPassPhrase", new object[] {
-                    DomainID,
-                    PassPhrase,
-                    RAName,
-                    RAPublicKey}, callback, asyncState);
+            DomainID,
+            PassPhrase,
+            RAName,
+            RAPublicKey}, callback, asyncState);
     }
     
     public Status EndSetPassPhrase(System.IAsyncResult asyncResult) {
@@ -1761,15 +1761,15 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/DefaultAccount", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public bool DefaultAccount(string DomainID, string iFolderID) {
         object[] results = this.Invoke("DefaultAccount", new object[] {
-                    DomainID,
-                    iFolderID});
+            DomainID,
+            iFolderID});
         return ((bool)(results[0]));
     }
     
     public System.IAsyncResult BeginDefaultAccount(string DomainID, string iFolderID, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("DefaultAccount", new object[] {
-                    DomainID,
-                    iFolderID}, callback, asyncState);
+            DomainID,
+            iFolderID}, callback, asyncState);
     }
     
     public bool EndDefaultAccount(System.IAsyncResult asyncResult) {
@@ -1783,13 +1783,13 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/GetDefaultiFolder", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public string GetDefaultiFolder(string DomainID) {
         object[] results = this.Invoke("GetDefaultiFolder", new object[] {
-                    DomainID});
+            DomainID});
         return ((string)(results[0]));
     }
     
     public System.IAsyncResult BeginGetDefaultiFolder(string DomainID, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("GetDefaultiFolder", new object[] {
-                    DomainID}, callback, asyncState);
+            DomainID}, callback, asyncState);
     }
     
     public string EndGetDefaultiFolder(System.IAsyncResult asyncResult) {
@@ -1803,21 +1803,21 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/ReSetPassPhrase", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public Status ReSetPassPhrase(string DomainID, string OldPassPhrase, string PassPhrase, string RAName, string RAPublicKey) {
         object[] results = this.Invoke("ReSetPassPhrase", new object[] {
-                    DomainID,
-                    OldPassPhrase,
-                    PassPhrase,
-                    RAName,
-                    RAPublicKey});
+            DomainID,
+            OldPassPhrase,
+            PassPhrase,
+            RAName,
+            RAPublicKey});
         return ((Status)(results[0]));
     }
     
     public System.IAsyncResult BeginReSetPassPhrase(string DomainID, string OldPassPhrase, string PassPhrase, string RAName, string RAPublicKey, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("ReSetPassPhrase", new object[] {
-                    DomainID,
-                    OldPassPhrase,
-                    PassPhrase,
-                    RAName,
-                    RAPublicKey}, callback, asyncState);
+            DomainID,
+            OldPassPhrase,
+            PassPhrase,
+            RAName,
+            RAPublicKey}, callback, asyncState);
     }
     
     public Status EndReSetPassPhrase(System.IAsyncResult asyncResult) {
@@ -1831,15 +1831,15 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/ValidatePassPhrase", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public Status ValidatePassPhrase(string DomainID, string PassPhrase) {
         object[] results = this.Invoke("ValidatePassPhrase", new object[] {
-                    DomainID,
-                    PassPhrase});
+            DomainID,
+            PassPhrase});
         return ((Status)(results[0]));
     }
     
     public System.IAsyncResult BeginValidatePassPhrase(string DomainID, string PassPhrase, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("ValidatePassPhrase", new object[] {
-                    DomainID,
-                    PassPhrase}, callback, asyncState);
+            DomainID,
+            PassPhrase}, callback, asyncState);
     }
     
     public Status EndValidatePassPhrase(System.IAsyncResult asyncResult) {
@@ -1853,13 +1853,13 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/IsPassPhraseSet", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public bool IsPassPhraseSet(string DomainID) {
         object[] results = this.Invoke("IsPassPhraseSet", new object[] {
-                    DomainID});
+            DomainID});
         return ((bool)(results[0]));
     }
     
     public System.IAsyncResult BeginIsPassPhraseSet(string DomainID, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("IsPassPhraseSet", new object[] {
-                    DomainID}, callback, asyncState);
+            DomainID}, callback, asyncState);
     }
     
     public bool EndIsPassPhraseSet(System.IAsyncResult asyncResult) {
@@ -1927,23 +1927,23 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/GetEntries", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public NodeEntrySet GetEntries(string ifolderID, int type, string relPath, int index, int max, string accessID) {
         object[] results = this.Invoke("GetEntries", new object[] {
-                    ifolderID,
-                    type,
-                    relPath,
-                    index,
-                    max,
-                    accessID});
+            ifolderID,
+            type,
+            relPath,
+            index,
+            max,
+            accessID});
         return ((NodeEntrySet)(results[0]));
     }
     
     public System.IAsyncResult BeginGetEntries(string ifolderID, int type, string relPath, int index, int max, string accessID, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("GetEntries", new object[] {
-                    ifolderID,
-                    type,
-                    relPath,
-                    index,
-                    max,
-                    accessID}, callback, asyncState);
+            ifolderID,
+            type,
+            relPath,
+            index,
+            max,
+            accessID}, callback, asyncState);
     }
     
     public NodeEntrySet EndGetEntries(System.IAsyncResult asyncResult) {
@@ -1957,7 +1957,7 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/GetRestoreStatusForCollection", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public int GetRestoreStatusForCollection(string ifolderid, out int totalcount, out int finishedcount) {
         object[] results = this.Invoke("GetRestoreStatusForCollection", new object[] {
-                    ifolderid});
+            ifolderid});
         finishedcount = ((int)(results[2]));
         totalcount = ((int)(results[1]));
         return ((int)(results[0]));
@@ -1965,7 +1965,7 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     
     public System.IAsyncResult BeginGetRestoreStatusForCollection(string ifolderid, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("GetRestoreStatusForCollection", new object[] {
-                    ifolderid}, callback, asyncState);
+            ifolderid}, callback, asyncState);
     }
     
     public int EndGetRestoreStatusForCollection(System.IAsyncResult asyncResult, out int totalcount, out int finishedcount) {
@@ -1981,19 +1981,19 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/SetRestoreStatusForCollection", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public int SetRestoreStatusForCollection(string ifolderid, int status, int totalcount, int finishedcount) {
         object[] results = this.Invoke("SetRestoreStatusForCollection", new object[] {
-                    ifolderid,
-                    status,
-                    totalcount,
-                    finishedcount});
+            ifolderid,
+            status,
+            totalcount,
+            finishedcount});
         return ((int)(results[0]));
     }
     
     public System.IAsyncResult BeginSetRestoreStatusForCollection(string ifolderid, int status, int totalcount, int finishedcount, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("SetRestoreStatusForCollection", new object[] {
-                    ifolderid,
-                    status,
-                    totalcount,
-                    finishedcount}, callback, asyncState);
+            ifolderid,
+            status,
+            totalcount,
+            finishedcount}, callback, asyncState);
     }
     
     public int EndSetRestoreStatusForCollection(System.IAsyncResult asyncResult) {
@@ -2007,13 +2007,13 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/ResetRootNode", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public int ResetRootNode(string ifolderid) {
         object[] results = this.Invoke("ResetRootNode", new object[] {
-                    ifolderid});
+            ifolderid});
         return ((int)(results[0]));
     }
     
     public System.IAsyncResult BeginResetRootNode(string ifolderid, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("ResetRootNode", new object[] {
-                    ifolderid}, callback, asyncState);
+            ifolderid}, callback, asyncState);
     }
     
     public int EndResetRootNode(System.IAsyncResult asyncResult) {
@@ -2027,7 +2027,7 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://novell.com/simias/web/GetEncryptionDetails", RequestNamespace="http://novell.com/simias/web/", ResponseNamespace="http://novell.com/simias/web/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public bool GetEncryptionDetails(string ifolderid, out string eKey, out string eBlob, out string eAlgorithm, out string rKey) {
         object[] results = this.Invoke("GetEncryptionDetails", new object[] {
-                    ifolderid});
+            ifolderid});
         rKey = ((string)(results[4]));
         eAlgorithm = ((string)(results[3]));
         eBlob = ((string)(results[2]));
@@ -2037,7 +2037,7 @@ public class SimiasWebService : System.Web.Services.Protocols.SoapHttpClientProt
     
     public System.IAsyncResult BeginGetEncryptionDetails(string ifolderid, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("GetEncryptionDetails", new object[] {
-                    ifolderid}, callback, asyncState);
+            ifolderid}, callback, asyncState);
     }
     
     public bool EndGetEncryptionDetails(System.IAsyncResult asyncResult, out string eKey, out string eBlob, out string eAlgorithm, out string rKey) {

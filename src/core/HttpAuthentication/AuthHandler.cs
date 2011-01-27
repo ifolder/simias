@@ -69,7 +69,9 @@ namespace Simias.Security.Web
 		/// </summary>
 		private static readonly string sessionTag = "simias";
 
+		/// <summary>
 		// Response header set by the Http Authentication Module
+		/// </summary>
 		public readonly static string DomainIDHeader = "Domain-ID";
 
 		/// <summary>

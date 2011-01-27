@@ -55,7 +55,7 @@ namespace Simias.Policy
 		/// <summary>
                 /// Used to log messages.
                 /// </summary>
-                static private readonly ISimiasLog log = SimiasLogManager.GetLogger( typeof( Store ) );
+                //static private readonly ISimiasLog log = SimiasLogManager.GetLogger( typeof( Store ) );
 
 		/// <summary>
 		/// Property names to store rules and time condition on the policy Node.
@@ -435,11 +435,16 @@ namespace Simias.Policy
 			}
 		}
 
+	        /// <summary>
+        	/// Function for adding user rules
+	        /// </summary>
+	        /// <param name="rule">rule to be added</param>
+	        /// <param name="policyID">policy for which rule to be added</param>		
 		public void AddUserRule( Rule rule , string policyID)
                 {
 			
                         // Make sure the rule doesn't already exist.
-			Property property = null;
+//			Property property = null;
 
                         // See if the rule already exists.
                         MultiValuedList mvl = properties.GetProperties( policyID );
@@ -453,10 +458,14 @@ namespace Simias.Policy
 
 			properties.AddNodeProperty( policyID, rule.ToXml() );
                 }
-
+		/// <summary>
+		/// Deletes user rules
+		/// </summary>
+		/// <param name="rule">rule to be deleted</param>
+		/// <param name="policyID">policy id for which rule to be deleted</param>
 		public void DeleteUserRule( Rule rule , string policyID)
                 {
-			Property property = null;
+//			Property property = null;
 
                         // See if the rule exists.
                         MultiValuedList mvl = properties.GetProperties( policyID );
@@ -605,7 +614,7 @@ namespace Simias.Policy
 		/// <summary>
                 /// Used to log messages.
                 /// </summary>
-                static private readonly ISimiasLog log = SimiasLogManager.GetLogger( typeof( Store ) );
+                //static private readonly ISimiasLog log = SimiasLogManager.GetLogger( typeof( Store ) );
 		
 		/// <summary>
 		/// Store handle.
@@ -687,7 +696,7 @@ namespace Simias.Policy
 		/// The caller must possess Admin rights in order to commit a Policy.
 		/// </summary>
 		/// <param name="policyID">Policy identifier to be saved.</param>
-		/// <param name='ruleList">Rules to be added to the Policy identifier</param>
+		/// <param name="ruleList">Rules to be added to the Policy identifier</param>
 		/// <param name="member">Member to associate the Policy identifier with.</param>
 		public void CommitPolicy( string policyID, ICSList ruleList, Member member)
 		{
@@ -717,7 +726,7 @@ namespace Simias.Policy
 		/// Saves and associates the Policy with the user.
 		/// The caller must possess Admin rights in order to commit a Policy.
 		/// </summary>
-		/// <param name="policy">Policy to be saved.</param>
+		/// <param name="policyID">Policy to be saved.</param>
 		/// <param name="member">Member to associate the Policy with.</param>
 		public void CommitPolicy( string policyID, object value, Member member)
 		{
@@ -1325,7 +1334,7 @@ namespace Simias.Policy
 		/// <summary>
                 /// Used to log messages.
                 /// </summary>
-                static private readonly ISimiasLog log = SimiasLogManager.GetLogger( typeof( Store ) );
+                //static private readonly ISimiasLog log = SimiasLogManager.GetLogger( typeof( Store ) );
 
 		/// <summary>
 		/// Result of applying input value to policy rule.

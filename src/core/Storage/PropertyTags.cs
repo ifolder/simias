@@ -230,29 +230,26 @@ namespace Simias.Storage
 		static public string LoginDisabled = "LoginDisabled";
 
 		/// <summary>
-		/// <summary>
 		/// Well known property name.
 		/// </summary>
 		static public string LoginAlreadyDisabled = "LoginAlreadyDisabled";
 
-		/// <summary>
 		/// <summary>
 		/// Data Movement property
 		/// </summary>
 		static public string DataMovement = "DataMovement";
 
 		/// <summary>
-		/// <summary>
 		/// Well known property name.
 		/// </summary>
 		static public string UserMoveState = "UserMoveState";
 
 		/// <summary>
-		/// <summary>
 		/// Well known property name.
 		/// </summary>
 		static public string OldDN = "OldDN";
 
+		/// <summary>
 		/// Well known property name.
 		/// </summary>
 		static public string FileSystemPath = "FsPath";

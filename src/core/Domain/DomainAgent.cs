@@ -84,8 +84,14 @@ namespace Simias.DomainServices
 		private Store store = Store.GetStore();
 		private static Hashtable domainTable = new Hashtable();
 		private static string domainID;
+		/// <summary>
+		/// Hashtable representing blockedIP list
+		/// </summary>
 	        public static Hashtable blockedIPs = new Hashtable();
         
+		/// <summary>
+		/// string representing currentDomainID
+		/// </summary>
         	public static string currentDomainID = null;
 		#endregion
 
@@ -485,7 +491,7 @@ namespace Simias.DomainServices
 			Uri domainServiceUrl = null;
 			string homeServerURL = null;
 			Simias.Authentication.Status status = null;
-			Simias.Authentication.Status status2 = null;
+			//Simias.Authentication.Status status2 = null;
 #if WS_INSPECTION			
 			try
 			{
@@ -528,15 +534,15 @@ namespace Simias.DomainServices
 				else
 		                	tempUri = new UriBuilder(host);
 				log.Debug("The temp uri is: {0}", tempUri );
-				/// There was a failure in obtaining the service url. Try a hard coded one.
+				// There was a failure in obtaining the service url. Try a hard coded one.
                 		if (tempUri.Scheme.Equals(Uri.UriSchemeHttp))
 				{
-		                    /// change to SSL
+		                    // change to SSL
                 		    tempUri.Scheme = Uri.UriSchemeHttps;
-		                    /// changing to default port - this needs to be fixed once we change the client UI to have the SSL port
+		                    // changing to default port - this needs to be fixed once we change the client UI to have the SSL port
                 		    tempUri.Port = 443;
                 		}
-				/// always use SSL for auth
+				// always use SSL for auth
 				domainServiceUrl = new Uri( tempUri.Uri , DomainServicePath ); 
 			}
 
@@ -631,7 +637,7 @@ namespace Simias.DomainServices
 			// Get the Home Server.
 			domainService.Credentials = oldServer ? myOldCred : myCred ;
             domainService.PreAuthenticate = true;
-			string hostID = null;
+			//string hostID = null;
 			HostInfo hInfo = new HostInfo();
 
             try
@@ -688,7 +694,7 @@ namespace Simias.DomainServices
             
 
 			homeServerURL = hInfo.PublicAddress.TrimEnd( new char[] {'/'} );
-            hostID = hInfo.ID;
+            //hostID = hInfo.ID;
 			//Perform new login only if we have redirected
 			if(!(new Uri(hInfo.PublicAddress)).Host.Equals(domainServiceUrl.Host))
 			{
@@ -696,10 +702,10 @@ namespace Simias.DomainServices
 
 				domainServiceUrl = new Uri(homeServerURL + DomainService);
 				domainService.Url = domainServiceUrl.ToString();
-				hostID = hInfo.ID;
+				//hostID = hInfo.ID;
 
 				//logout the previous connection
-				status2 = this.Logout(domainID);
+				/*status2 = */this.Logout(domainID);
 				log.Debug("Logging out 1");
 		
 				// Now login to the homeserver.
@@ -719,7 +725,7 @@ namespace Simias.DomainServices
 						status.RemainingGraceLogins = 5;
 						//Log out the current connection
 						log.Debug("Logging out 2");
-						status2 = this.Logout(domainID);
+						/*status2 = */this.Logout(domainID);
 					}
 					return status;
 				}
@@ -752,7 +758,7 @@ namespace Simias.DomainServices
 				provisionInfo = domainService.InitializeUserInfo(user);
 				log.Debug("Initialized the user.....");
 			}
-			catch(Exception ex)
+			catch(Exception )
 			{
 				log.Debug("Exception while provisioning..possibly 3.6 server or older");
 				log.Debug("Provisioning user on the server.....");
@@ -936,8 +942,8 @@ namespace Simias.DomainServices
 				if ( cDomain.Role == SyncRoles.Slave )
 				{
                     UriBuilder tempUri = new UriBuilder(DomainProvider.ResolveLocation( DomainID ));
-                    /// only if the URL has http, then we default to default SSL port, otherwise use the port
-                    /// that is mentioned in the URL itself
+                    // only if the URL has http, then we default to default SSL port, otherwise use the port
+                    // that is mentioned in the URL itself
                     if (tempUri.Scheme.Equals(Uri.UriSchemeHttp))
                     {
                         tempUri.Port = 443;
@@ -1008,12 +1014,12 @@ namespace Simias.DomainServices
         /// Provision the user to new server where he has been moved, Also update local store with new server's ip
         /// </summary>
         /// <param name="DomainID">The ID of the domain.</param>
-        /// <param name="Creds">Network credential of the user</param>
+        /// <param name="creds">Network credential of the user</param>
         /// <returns>The status of the provisioning.</returns>
         public Simias.Authentication.Status ProvisionToNewHomeServer(string DomainID, NetworkCredential creds)
         {
             Simias.Authentication.Status status = new Simias.Authentication.Status();
-            Simias.Authentication.Status status2 = new Simias.Authentication.Status();
+            //Simias.Authentication.Status status2 = new Simias.Authentication.Status();
             status.statusCode = Simias.Authentication.StatusCodes.Success; ;
             
             Domain domain = store.GetDomain(DomainID);
@@ -1024,12 +1030,12 @@ namespace Simias.DomainServices
             string masterServerURL = null;
             string homeServerURL = null;
             string hostID = null;
-            Uri domainServiceUrl = null;
+            //Uri domainServiceUrl = null;
             CookieContainer cookies = new CookieContainer();
 
             // Get master server url from local domain service
             
-            HostInfo hostinfo = null;
+            //HostInfo hostinfo = null;
             try
             {
                 //serverList = domainService.GetHosts();
@@ -1040,7 +1046,7 @@ namespace Simias.DomainServices
                     
                 }
             }
-            catch (Exception ex)
+            catch (Exception )
             {
                 log.Debug("Got exception:");
             }
@@ -1124,7 +1130,7 @@ namespace Simias.DomainServices
                     {
                         foreach (ShallowNode sn in CollectionList)
                         {
-                            ArrayList CommitList = new ArrayList();
+                            //ArrayList CommitList = new ArrayList();
                             Collection col = new Collection(store, sn);
                             if (col.HostID != null && col.HostID != "")
                             {
@@ -1145,7 +1151,7 @@ namespace Simias.DomainServices
                     {
                         foreach(ShallowNode sn in ColList)
                         {
-                            ArrayList CommitList = new ArrayList();
+                            //ArrayList CommitList = new ArrayList();
                             Collection col = new Collection(store, sn);
                             if (col == null)
                             {
@@ -1174,9 +1180,9 @@ namespace Simias.DomainServices
 
                 try
                 {
-                    domainServiceUrl = new Uri(homeServerURL + DomainService);
+                    //domainServiceUrl = new Uri(homeServerURL + DomainService);
 
-                    status2 = this.Logout(domain.ID);
+                    /*status2 =*/ this.Logout(domain.ID);
                     log.Debug("provisiontonewhomeserver: Logging out 1");
 
 
@@ -1194,7 +1200,7 @@ namespace Simias.DomainServices
                             status.UserName = (new Uri(homeServerURL)).Host;
                             status.RemainingGraceLogins = 5;
                             log.Debug("provisiontonewhomeserver: Logging out 2");
-                            status2 = this.Logout(domain.ID);
+                            /*status2 =*/ this.Logout(domain.ID);
                         }
                         return status;
                     }
@@ -1248,6 +1254,9 @@ namespace Simias.DomainServices
 			return new Simias.Authentication.Status( SCodes.Success );
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
 		public void PerformResetConnections()
 		{
 			log.Debug("Raising the logout event inside thread ");
@@ -1367,6 +1376,10 @@ namespace Simias.DomainServices
 		}
 
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="host">host for which certificate need to be removed</param>
 		public void RemoveCertFromTable(string host)
 		{
 			Simias.Security.CertificateStore.RemoveCertFromTable(host);
@@ -1426,7 +1439,7 @@ namespace Simias.DomainServices
 			// Find the user's POBox for this domain.
 			POBox.POBox poBox = POBox.POBox.FindPOBox(store, domainID, userID);
 	 	//	this.RemoveDomainInformation(domainID);
-			Collection domainColl = store.GetCollectionByID(domainID);
+			//Collection domainColl = store.GetCollectionByID(domainID);
 			//POBox will not be available for new accounts, so remove only if available
 /*			if (poBox == null)
 			{
@@ -1456,13 +1469,13 @@ namespace Simias.DomainServices
                 {
                     Simias.Security.CertificateStore.RemoveCertificate(TrimmedUri);
                 }
-                catch (Exception ex)
+                catch (Exception )
                 {
                     log.Debug("Error while removing the certificate for:{0} ", TrimmedUri);
                     throw new SimiasException(String.Format("Error while removing the certificate for:{0} ", TrimmedUri));
                 }
 
-                /// remove rest of the nodes in the domain
+                // remove rest of the nodes in the domain
                 System.Threading.Thread thread = new System.Threading.Thread(new System.Threading.ThreadStart(RemoveDomainThread));
                 DomainAgent.domainID = domainID;
                 thread.Priority = ThreadPriority.BelowNormal;
@@ -1554,6 +1567,12 @@ namespace Simias.DomainServices
 			collection.Commit();
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="DomainID">domain id</param>
+		/// <param name="Authenticated">represented, is it authenticated?</param>
+		/// <param name="AutoLogin">whether autologin is enabled</param>
 		public void SetDomainState(string DomainID, bool Authenticated, bool AutoLogin)
 		{
 			lock (domainTable)
@@ -1569,7 +1588,12 @@ namespace Simias.DomainServices
 				domainTable[DomainID] = domainState;
 			}
 		}
-
+		
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="DomainID">domain whose authenticataion need to be verified</param>
+		/// <returns>true if domain is authenticated</returns>
 		public bool IsDomainAuthenticated(string DomainID)
 		{
 			DomainState domainState;
@@ -1587,6 +1611,11 @@ namespace Simias.DomainServices
 			return domainState.Authenticated;
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="DomainID">Domainid.</param>
+		/// <returns>TRUE if domain is removed</returns>		
         public bool IsDomainRemoved(string DomainID)
         {
             DomainState domainState;
@@ -1601,6 +1630,11 @@ namespace Simias.DomainServices
             return false;
         }
 
+		/// <summary>
+		/// Is Autologin enabled for given domainid	 
+		/// </summary>
+		/// <param name="DomainID">domainid</param>
+		/// <returns>TRUE is autologin is enabled.</returns>
 		public bool IsDomainAutoLoginEnabled(string DomainID)
 		{
 			DomainState domainState;
@@ -1707,6 +1741,12 @@ namespace Simias.DomainServices
             return collection.StorageSize;
 		}
 
+		/// <summary>
+		/// Function to verify wheather failure is Trust failure
+		/// </summary>
+		/// <param name="host">host</param>
+		/// <param name="we">WebException</param>
+		/// <returns>TRUE if failure is Trust failure</returns>
 		static public bool TestTrustFailure(string host, WebException we)
 		{
 			if (we.Status == WebExceptionStatus.TrustFailure )

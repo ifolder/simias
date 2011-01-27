@@ -702,7 +702,6 @@ namespace Simias.Storage
 		/// string to not search for a specific file.</param>
 		/// <param name="userID">The user ID to search for in the journal file.  Pass in a null or an empty
 		/// string to not search for a specific user.</param>
-		/// <param name="totalRecords">The total number of records contained in the search.</param>
 		public JournalSearchState( Collection collection, string journalFile, string fileID, string userID ) :
 			this( collection, journalFile, fileID, userID, DateTime.MinValue, DateTime.MaxValue )
 		{

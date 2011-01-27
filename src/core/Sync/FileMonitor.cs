@@ -90,6 +90,9 @@ namespace Simias.Sync
 		 *   upstream server.
 		 */
 		bool onServer = false;
+		/// <summary>
+		/// 
+		/// </summary>
 		public bool scanThreadRunning=false;
 		const string lastDredgeProp = "LastDredgeTime";
 		DateTime dredgeTimeStamp;
@@ -97,10 +100,16 @@ namespace Simias.Sync
         bool toDredge = true;
 		int limit = 100;
 		int ct = 0;
+		/// <summary>
+		/// 
+		/// </summary>
 		public bool NeedToDredge
 		{
 			set { needToDredge = value; }
 		}
+		/// <summary>
+		/// 
+		/// </summary>
         public bool ToDredge
         {
             set { toDredge = value; }
@@ -1049,8 +1058,8 @@ namespace Simias.Sync
 			}
 			else if(watcher == null)
 			{
-				/// if the collection is generic, then watcher will be null, as the unmanaged path will be null
-				/// currently handling only Domain and Catalog, but might need to handle others as well - FIXME 
+				// if the collection is generic, then watcher will be null, as the unmanaged path will be null
+				// currently handling only Domain and Catalog, but might need to handle others as well - FIXME 
 				if(collection.IsType(NodeTypes.DomainType) || collection.IsType("Catalog") )
 					return false;
 				else

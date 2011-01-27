@@ -357,7 +357,9 @@ namespace Simias.Storage
 				return ( p != null ) ? p.ToString() : "Unknown version";
 			}
 		}
-
+		/// <summary>
+		///
+		/// </summary>
 		public static string storeversion
 		{
 			get
@@ -375,6 +377,9 @@ namespace Simias.Storage
 			get { return shuttingDown; }
 		}
 
+		/// <summary>
+		///
+		/// </summary>
 		public RSACryptoServiceProvider DefaultRSARA
 		{
 			get{
@@ -815,7 +820,7 @@ namespace Simias.Storage
 		/// <summary>
 		/// Gets a path to where the store unmanaged files for the specified collection should be created.
 		/// </summary>
-		/// <param name="collectionID">Collection identifier that files will be associated with.</param>
+		/// <param name="StoreVersion">Collection identifier that files will be associated with.</param>
 		/// <returns>A path string that represents the store unmanaged path.</returns>
 		internal string GetStoreUnmanagedPrefix(string StoreVersion)
 		{
@@ -1106,7 +1111,14 @@ namespace Simias.Storage
 log.Debug("CID {0}\n Blob {1}\n", collectionID,c.EncryptionBlob);
                         return c.EncryptionBlob;
                 }
-
+		
+		/// <summary>
+		///
+		/// </summary>
+		/// <param name="userID"></param>
+		/// <param name="domainID"></param>
+		/// <param name="cKey"></param>
+		/// <returns></returns>
 		public bool SetCollectionCryptoKeysByOwner( string userID, string domainID, CollectionKey cKey)
 		{
 			accessLog.LogAccess("ImportiFoldersCryptoKeys","Importing CryptoKeys","Starting",userID);
@@ -1349,8 +1361,6 @@ log.Debug("CID {2}\nPEDEK {0}\nREDEK {1}", cKey.PEDEK, cKey.REDEK, cKey.NodeID);
 		/// Gets the  passphrasefor the specified domain.
 		/// </summary>
 		/// <param name="domainID">Identifier of the domain to get the credentials from.</param>
-		/// <param name="userID">Gets the identifier of the domain user.</param>
-		/// <param name="passPhrase">Gets the passPhrase for the domain.</param>
 		/// <returns>The type of credentials.</returns>
 		public string GetPassPhrase( string domainID)
 		{
@@ -1361,8 +1371,6 @@ log.Debug("CID {2}\nPEDEK {0}\nREDEK {1}", cKey.PEDEK, cKey.REDEK, cKey.NodeID);
 		/// Gets the  passphrasefor the specified domain.
 		/// </summary>
 		/// <param name="domainID">Identifier of the domain to get the credentials from.</param>
-		/// <param name="userID">Gets the identifier of the domain user.</param>
-		/// <param name="passPhrase">Gets the passPhrase for the domain.</param>
 		/// <returns>The type of credentials.</returns>
 		public bool GetRememberOption( string domainID )
 		{
@@ -1510,10 +1518,11 @@ log.Debug("CID {2}\nPEDEK {0}\nREDEK {1}", cKey.PEDEK, cKey.REDEK, cKey.NodeID);
 		/// <param name="domainID">The domain ID to store the passphrase for.</param>
 		/// <param name="passPhrase">Credentials for the domain.</param>
 		/// <param name="credType">Type of credentials being stored.</param>
+		/// <param name="rememberPassPhrase"></param>
 		public void StorePassPhrase( string domainID, string passPhrase, CredentialType credType, bool rememberPassPhrase )
 		{
 			LocalDb.Commit( CurrentUser.StorePassPhrase( domainID.ToLower(), passPhrase, credType, rememberPassPhrase ) );
-            /// Schedule all encrypted iFolders for sync...
+            // Schedule all encrypted iFolders for sync...
             if( credType == CredentialType.Basic )
                 SyncClient.RescheduleAllEncryptedColSync(domainID);
 		}
@@ -1792,7 +1801,11 @@ log.Debug("CID {2}\nPEDEK {0}\nREDEK {1}", cKey.PEDEK, cKey.REDEK, cKey.NodeID);
 			#endregion
 		}
 
- 
+		/// <summary>
+		///
+		/// </summary> 
+		/// <param name="ifolderid"></param>
+		/// <returns></returns>
                 public static int ResetRootNode(string ifolderid)
                 {
                         try{
@@ -1831,6 +1844,16 @@ log.Debug("CID {2}\nPEDEK {0}\nREDEK {1}", cKey.PEDEK, cKey.REDEK, cKey.NodeID);
                         return 0;
                 }
 
+		/// <summary>
+		///
+		/// </summary> 
+		/// <param name="ifolderid"></param>
+		/// <param name="nodeid"></param>
+		/// <param name="relativepath"></param>
+		/// <param name="basepath"></param>
+		/// <param name="filetype"></param>
+		/// <param name="length"></param>
+		/// <returns></returns>
                 public int RestoreData(string ifolderid, string nodeid, string relativepath, string basepath, string filetype, long length)
                 {
                         log.Info("Entered RestoreData.");
@@ -1850,16 +1873,23 @@ log.Debug("CID {2}\nPEDEK {0}\nREDEK {1}", cKey.PEDEK, cKey.REDEK, cKey.NodeID);
                         {
                                 return RestoreDirectory( ifolderid, relativepath, nodeid, basepath);
                         }
-                        return 0;
+                        //return 0;
                 }
 
 
-
+		/// <summary>
+		///
+		/// </summary>
+		/// <param name="ifolderid"></param>
+		/// <param name="relativepath"></param>
+		/// <param name="nodeid"></param>
+		/// <param name="basepath"></param>
+		/// <returns></returns>
                 public int RestoreDirectory(string ifolderid, string relativepath, string nodeid, string basepath)
                 {
                         string backedpath = Path.Combine( basepath, relativepath);
                          log.Debug("backedpath: {0}", backedpath);
-                        /// Check whether the directory present on the target. If not create. else return;
+                        // Check whether the directory present on the target. If not create. else return;
                         Store store = Store.GetStore();
                         if(store == null)
                                 return 1000;
@@ -1922,6 +1952,15 @@ log.Debug("CID {2}\nPEDEK {0}\nREDEK {1}", cKey.PEDEK, cKey.REDEK, cKey.NodeID);
                         return 0;
                 }
 
+		/// <summary>
+		///
+		/// </summary>
+		/// <param name="ifolderid"></param>
+		/// <param name="relativepath"></param>
+		/// <param name="nodeid"></param>
+		/// <param name="basepath"></param>
+		/// <param name="length"></param>
+		/// <returns></returns>		
                 public int RestoreFile(string ifolderid, string relativepath, string nodeid, string basepath, long length)
                 {
                         log.Debug("Entered RestoreFile.");
@@ -1931,12 +1970,12 @@ log.Debug("CID {2}\nPEDEK {0}\nREDEK {1}", cKey.PEDEK, cKey.REDEK, cKey.NodeID);
                 //      string nodeid = "d081e003-23b9-404a-8bb7-9832bb2cdc7113";
                 //      string basepath = "/home/banderso/ifolder/recovery/recoverytool/testrecovery";  /// TODO: Add base path of the iFolder of the backed up data in xml file...
                         string backedpath = Path.Combine( basepath, relativepath);
-                        bool encrypted = false;
+                        //bool encrypted = false;
                         FileInfo fi = new FileInfo( backedpath);
                         long nodelength = fi.Length;
                         log.Info("Starting with datamove from {0}--{1}.", backedpath, nodelength);
                         if( !File.Exists(backedpath) && !Directory.Exists(backedpath))
-                                return 2;       /// Path does not exist...
+                                return 2;       // Path does not exist...
                         Store store = Store.GetStore();
                         if( store == null)
                                 return 1000;
@@ -1958,32 +1997,32 @@ log.Debug("CID {2}\nPEDEK {0}\nREDEK {1}", cKey.PEDEK, cKey.REDEK, cKey.NodeID);
                                         node = new FileNode(n1);
                                 if( node == null)
                                 {
-                                        /// This is a new file. Direct copy and create node.
+                                        // This is a new file. Direct copy and create node.
                                         newpath = Path.Combine(newbasepath, relativepath);
                                         log.Info("newpath: {0}", newpath);
                                         if( File.Exists(newpath))
                                         {
-                                                /// File with same name but different nodeID already exists.
-                                                /// may be a delet and upload of a file with same name has happened after backup is taken. skipping for now.
+                                                // File with same name but different nodeID already exists.
+                                                // may be a delet and upload of a file with same name has happened after backup is taken. skipping for now.
                                                 return 3;
                                         }
                                 }
                                 else
                                 {
-                                        /// The file is renamed after taking backup. so the file name is different but node id is same. 
-                                        /// Get current file name with the node ID and overwrite this content with the backedup data.
+                                        // The file is renamed after taking backup. so the file name is different but node id is same. 
+                                        // Get current file name with the node ID and overwrite this content with the backedup data.
                                         newpath = node.GetFullPath(col);
                                         log.Debug("newpath in else: {0}", newpath);
                                 }
  
-                                /// Check for the existence of the directory... 
+                                // Check for the existence of the directory... 
                                 if( !Directory.Exists( Path.GetDirectoryName(newpath)))
                                 {
                                         log.Info("new path directory does not exist. {0}", Path.GetDirectoryName(newpath));
                                         return 4;
                                 }
                                 log.Info("fetching parent dir node. {0}", Path.GetDirectoryName(relativepath));
-                                /// Get the dirnode for the parent directory...
+                                // Get the dirnode for the parent directory...
                                 DirNode parentnode = new DirNode( col.GetNodeByPath(Path.GetDirectoryName(relativepath)));
                                 if( parentnode == null)
                                         return 6;
@@ -1997,7 +2036,7 @@ log.Debug("CID {2}\nPEDEK {0}\nREDEK {1}", cKey.PEDEK, cKey.REDEK, cKey.NodeID);
                                         return 5;
                                 }
  
-                                /// Create the file node...
+                                // Create the file node...
                                 if( node == null)
                                 {
                                         log.Debug("Creating file node. parent ID: {0}", parentnode.ID);
@@ -2095,6 +2134,8 @@ log.Debug("CID {2}\nPEDEK {0}\nREDEK {1}", cKey.PEDEK, cKey.REDEK, cKey.NodeID);
 		/// <summary>
 		/// Encrypt the key in the instance and returns
 		/// </summary>
+		/// <param name="PassPhrase"></param>
+		/// <param name="EncryptedKey"></param>
 		public void EncrypytKey(string PassPhrase, out string EncryptedKey) 
 	       {
 	       	this.CryptoKeySize	= (PassPhrase.Length)*8;
@@ -2113,6 +2154,12 @@ log.Debug("CID {2}\nPEDEK {0}\nREDEK {1}", cKey.PEDEK, cKey.REDEK, cKey.NodeID);
 			EncryptedKey = Convert.ToBase64String(output);
 			m_des.Clear();
 	       }
+
+		/// <summary>
+		///
+		/// </summary>
+		/// <param name="PassPhrase"></param>
+		/// <param name="EncryptedKey"></param>
 		public void EncrypytKey(byte[] PassPhrase, out string EncryptedKey) 
 	       {
 	       	this.CryptoKeySize	= (PassPhrase.Length)*8;
@@ -2135,6 +2182,8 @@ log.Debug("CID {2}\nPEDEK {0}\nREDEK {1}", cKey.PEDEK, cKey.REDEK, cKey.NodeID);
 		/// <summary>
 		/// Decrypt the key in the instance and returns
 		/// </summary>
+		/// <param name="PassPhrase"></param>
+		/// <param name="DecryptedKey"></param>	
 		public void DecrypytKey(string PassPhrase, out string DecryptedKey) 
 		{
 			this.CryptoKeySize	= (PassPhrase.Length)*8;

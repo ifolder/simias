@@ -465,6 +465,7 @@ namespace Simias.Web
 		/// <param name="propertyName"></param>
 		/// <param name="propertyType"></param>
 		/// <param name="propertyValue"></param>
+		/// <param name="operation"></param>
 		/// <returns></returns>
 		[ WebMethod(EnableSession = true) ]
 		[ SoapDocumentMethod ]

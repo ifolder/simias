@@ -279,8 +279,17 @@ namespace Simias.Sync
 		/// <summary>The Old Node if it exists.</summary>
 		protected BaseFileNode	oldNode;
 
+		/// <summary>
+		/// 
+		/// </summary>
 		protected bool 	fileExistLocally;
+		/// <summary>
+		/// 
+		/// </summary>
 		protected bool		isLocalNodeDeleted = false;
+		/// <summary>
+		/// 
+		/// </summary>
 		protected bool		isServerFileRenamed = false;
 
 				
@@ -343,7 +352,10 @@ namespace Simias.Sync
 		/// </summary>
 		/// <param name="stream">The stream to write.</param>
 		/// <param name="count">The number of bytes to write.</param>
-		/// <param name="count">The encryption Key.</param>
+		/// <param name="actualCount">actual coount.</param>
+	        /// <param name="encryptionAlgorithm">The encryption algorithm.</param>
+	        /// <param name="encryptionKey">The encryption Key.</param>
+        	/// <returns></returns>
 		public int Write(Stream stream, int count,  int actualCount, string encryptionAlgorithm, string encryptionKey)
 		{
 			workStream.Write(stream, count, actualCount, encryptionAlgorithm, encryptionKey);
@@ -510,14 +522,14 @@ namespace Simias.Sync
 					string rootNode = collection.GetRootDirectory().GetFullPath(collection);					
 					rootNode = Path.GetDirectoryName(rootNode);
 					int rootPathLength = rootNode.Length;	
-					int fullPathLength = Fullpath.Length;	
+					//int fullPathLength = Fullpath.Length;	
 					 	
 					string Relativepath = Fullpath.Substring(rootPathLength); 
 
 					//Relative Path excluding FileName
 					Relativepath = Path.GetDirectoryName(Relativepath);
 
-					bool pathExists = false;
+					//bool pathExists = false;
 					bool pathCreated = false;	
 				
 					//Array of relative parth directory
@@ -629,6 +641,8 @@ namespace Simias.Sync
 		/// <summary>
 		/// Called to close the file and cleanup resources.
 		/// </summary>
+		/// <param name="commit"></param>
+		/// <returns></returns>
 		protected SyncNodeStatus Close(bool commit)
 		{
 			Log.log.Debug("Closing File {0} (protected InFile Close)", file);
@@ -638,7 +652,7 @@ namespace Simias.Sync
 		/// <summary>
 		/// Delete the node if the file names are same and node ID is different
 		/// </summary>
-		/// <param </param>
+		/// <param name="removeNodeToserver">out parameter</param>
 		/// <returns> bool.</returns>
 		public void  CheckAndResolveNodeConflict(out string removeNodeToserver)
 		{
@@ -662,12 +676,12 @@ namespace Simias.Sync
 					else
 					{
 						Log.log.Debug("CheckAndResolveNodeConflict isLocalNodeDeleted==true ");
-						///This may result into file conflict if both name (server and client) macth in case insensitive compare
-						///If so it will result into name conflict
-						///isLocalNodeAvailable = false; //not required sinc ethe default value is false
+						//This may result into file conflict if both name (server and client) macth in case insensitive compare
+						//If so it will result into name conflict
+						//isLocalNodeAvailable = false; //not required sinc ethe default value is false
 						
 						FileNode localFileNode = new FileNode(collection.GetNodeByID(sn.ID));
-						///do a case sensitive compare, case insensitive names will be considered as a name conflict in CheckFileNameConflict()
+						//do a case sensitive compare, case insensitive names will be considered as a name conflict in CheckFileNameConflict()
 						if(String.Compare(new FileNode(node).GetRelativePath(), localFileNode.GetRelativePath(), false) == 0)
 						{
 							Log.log.Debug("Node conflict for file {0}", localFileNode.GetRelativePath());
@@ -895,6 +909,9 @@ namespace Simias.Sync
 
 		bool					nameConflict = false;
 		bool					dateConflict = false;
+		/// <summary>
+		/// 
+		/// </summary>
 		protected Node			conflictingNode = null;
 		/// <summary>Used to signal to stop upload or downloading the file.</summary>
 		protected bool			stopping = false;
@@ -918,16 +935,27 @@ namespace Simias.Sync
 		const string			WorkFilePrefix = ".simias.wf.";
 		static string			workBinDir = "WorkArea";
 		static string			workBin;
-		// '/' is left out on purpose because all systems disallow this char.
+		/// <summary>
+		/// '/' is left out on purpose because all systems disallow this char.
+		/// </summary>
 		public static char[] InvalidChars = {'\\', ':', '*', '?', '\"', '<', '>', '|'};
 
 		/// <summary>Used to publish Sync events.</summary>
 		static public			EventPublisher	eventPublisher = new EventPublisher();
 		static internal string	ModeProperty = "FAMode";
+		/// <summary>
+		/// 
+		/// </summary>
 		[Flags]
 		public enum FAMode
 		{
+			/// <summary>
+			/// 
+			/// </summary>
 			None = 0,
+			/// <summary>
+			/// 
+			/// </summary>
 			Execute = 1,
 		};
 		
@@ -989,7 +1017,7 @@ namespace Simias.Sync
 					foreach (ShallowNode sn in nodeList)
 					{
 						FileNode localFileNode = new FileNode(collection.GetNodeByID(sn.ID));
-						/// Set name conflict true if both file doesn't match
+						// Set name conflict true if both file doesn't match
 						if (sn.ID != node.ID && String.Compare(new FileNode(node).GetRelativePath(), localFileNode.GetRelativePath(), false) != 0)
 						{
 							conflictingNode = collection.GetNodeByID(sn.ID);

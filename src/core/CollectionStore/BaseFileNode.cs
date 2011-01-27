@@ -315,6 +315,12 @@ namespace Simias.Storage
 
 			return infoChanged;
 		}
+		/// <summary>
+	        /// 
+        	/// </summary>
+	        /// <param name="collection"></param>
+        	/// <param name="length"></param>
+	        /// <returns></returns>
 		public bool UpdateWebFileInfo( Collection collection, long length)
 		{
 			bool infoChanged = false;

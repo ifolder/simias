@@ -451,6 +451,9 @@ namespace Simias.Encryption
 		}
 	}
 
+	/// <summary>
+	/// 
+	/// </summary>
 	public class BlowfishStream : Stream
 	{
 		class CBState : IAsyncResult
@@ -502,9 +505,18 @@ namespace Simias.Encryption
 			#endregion
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
 		public enum Target
 		{
+			/// <summary>
+			/// 
+			/// </summary>
 			Encrypted,
+			/// <summary>
+			/// 
+			/// </summary>
 			Normal
 		};
 

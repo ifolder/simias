@@ -61,14 +61,32 @@ namespace Simias.Storage
     	/// </summary>
     	public enum SecurityStatus : int
     	{
+	     /// <summary>
+             /// 
+             /// </summary>	
         	Encryption = 0x0001,
+	     /// <summary>
+             /// 
+             /// </summary>	
         	SSL = 0x0002,
+	     /// <summary>
+             /// 
+             /// </summary>	
         	UNSET = 0x0000
     	};
 
+	     /// <summary>
+             /// 
+             /// </summary>	
     	public enum SecurityStatusMask : int
     	{
+	     /// <summary>
+             /// 
+             /// </summary>	
         	Encryption = 0x0001, // yet to be set
+	     /// <summary>
+             /// 
+             /// </summary>	
         	SSL = 0xfffd
     	};
 
@@ -77,28 +95,50 @@ namespace Simias.Storage
     	/// </summary>
 	public class SearchPropertyList
 	{
+
+	     /// <summary>
+             /// 
+             /// </summary>	
 		public ArrayList PropList;
+	     /// <summary>
+             /// 
+             /// </summary>	
 		public ArrayList SearchOpList;	
+	     /// <summary>
+             /// 
+             /// </summary>	
 		public SearchPropertyList()
 		{
 			PropList = new ArrayList();
 			SearchOpList = new ArrayList();	
 		}
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="propertyName"></param>
+        /// <param name="propertyValue"></param>
+        /// <param name="searchOperator"></param>
 		public void Add(string propertyName, string propertyValue, SearchOp searchOperator)
 		{
                        	Property prop = new Property(propertyName, propertyValue );
 			PropList.Add(prop);
 			SearchOpList.Add(searchOperator);
 		}
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="propertyName"></param>
+        /// <param name="propertyValue"></param>
+        /// <param name="searchOperator"></param>
 		public void Add(string propertyName, int propertyValue, SearchOp searchOperator)
 		{
                        	Property prop = new Property(propertyName, propertyValue );
 			PropList.Add(prop);
 			SearchOpList.Add(searchOperator);
 		}
-
+        /// <summary>
+        /// 
+        /// </summary>
 		public void Clean()
 		{
 			PropList.Clear();
@@ -182,7 +222,7 @@ namespace Simias.Storage
 		///<summary>
 		/// Enable
 		///</summary>
-		private bool disabled;
+		//private bool disabled;
 
 		private static AutoResetEvent syncEvent = new AutoResetEvent(false);
 
@@ -374,7 +414,9 @@ namespace Simias.Storage
                         }
                 }
  
-
+		/// <summary>
+        	/// Return information about, count of file restored.
+	        /// </summary>
                 public int RestoredFileCount
                 {
                         get
@@ -874,6 +916,8 @@ namespace Simias.Storage
 		/// <param name="storeObject">Store object that this collection belongs to.</param>
 		/// <param name="collectionName">This is the friendly name that is used by applications to describe the collection.</param>
 		/// <param name="domainID">The domain that this object is stored in.</param>
+		/// <param name="domainID">The domain that this object is stored in.</param>
+		/// <param name="encryptionKey">encryption key.</param>
 		public Collection( Store storeObject, string collectionName, string domainID, byte[] encryptionKey ) :
 			this ( storeObject, collectionName, Guid.NewGuid().ToString(), domainID )
 		{
@@ -938,8 +982,17 @@ namespace Simias.Storage
 			lockString = collection.lockString;
 			createManagedPath = collection.createManagedPath;
 		}
-
-		//TODO: add comment
+		
+		/// <summary>
+	        /// Constructor 
+        	/// </summary>
+	        /// <param name="storeObject">Store object that this collection belongs to.</param>
+	        /// <param name="collectionName">This is the friendly name that is used by applications to describe this object.</param>
+	        /// <param name="domainID">The domain that this object is stored in.</param>
+	        /// <param name="ssl">whether connection is SSL enabled or not.</param>
+	        /// <param name="encryptionAlgorithm">Encryption algorithm used.</param>
+	        /// <param name="passphrase">passphrase used for encryption.</param>
+	        /// <param name="raPublicKey">public key of RA Agent.</param>
 		public Collection( Store storeObject, string collectionName, string domainID, bool ssl, string encryptionAlgorithm, string passphrase, string raPublicKey ) :
 			this ( storeObject, collectionName, Guid.NewGuid().ToString(), domainID, ssl, encryptionAlgorithm, passphrase, raPublicKey)
 		{
@@ -1097,13 +1150,13 @@ namespace Simias.Storage
 		#endregion
 
 		#region Private Methods
+		/*
 		/// <summary>
 		/// A member node object has been added to a collection. Look up the POBox for
 		/// the new member and create a subscription object letting the new member know
 		/// that the collection has been shared with them.
 		/// </summary>
 		/// <param name="args">The member node that was added to this collection.</param>
-		/*
 		private void AddSubscription( Member member )
 		{
 			// Get the current domain for the collection.
@@ -1481,7 +1534,6 @@ namespace Simias.Storage
 		/// this node has been committed to disk.
 		/// </summary>
 		/// <param name="node">Node object that contains the local incarnation value.</param>
-		/// <param name="commitTime">The time of the commit operation.</param>
 		public void DecrementLocalIncarnation( Node node)
 		{
 			ulong incarnationValue = node.LocalIncarnation - 1;
@@ -1492,7 +1544,14 @@ namespace Simias.Storage
 			// Update the local incarnation value to the specified value.
 			node.Properties.ModifyNodeProperty( PropertyTags.LocalIncarnation, incarnationValue);
 		}
-
+		/// <summary>
+		/// Setting Encryption properties.
+		/// </summary>
+		/// <param name="eKey">Key</param>
+		/// <param name="eBlob">Blob</param>
+		/// <param name="eAlgorithm">Algorithm</param>
+		/// <param name="rKey">recovery Key</param>
+		/// <returns>Collection</returns>	
                 public Collection SetEncryptionProperties(string eKey, string eBlob, string eAlgorithm, string rKey)
                 {
                         //Set the Encryption status of the collection. This needs to be used for all reporting
@@ -3545,7 +3604,7 @@ namespace Simias.Storage
 		/// <summary>
 		/// Gets the Member's all parent group id's 
 		/// </summary>
-		/// <param name="dn">Member ID</param>
+		/// <param name="userID">Member ID</param>
 		/// <returns>Returns all Members parent group id's
 		/// </returns>
 		public string[] GetMemberFamilyList( string userID )
@@ -3589,7 +3648,7 @@ namespace Simias.Storage
 		/// <summary>
 		/// Gets the Member's all parent group DN List
 		/// </summary>
-		/// <param name="dn">Member ID</param>
+		/// <param name="DN">Distinguesh Name</param>
 		/// <returns>Returns all Members parent group DN's
 		/// </returns>
 		public string[] GetMemberFamilyDNList( string DN )
@@ -3632,7 +3691,7 @@ namespace Simias.Storage
 		/// Gets the groupids of a deleted member i.e. groups which he belonged to before deletion
 		/// this method is useful after deleted user is disabled in ifolder domain and all his group belonging informations are removed
 		/// </summary>
-		/// <param name="dn">Member ID</param>
+		/// <param name="userID">Member ID</param>
 		/// <returns>Returns all Members old group id's (old group ids means that the user might be a member of a group but user was deleted, so we store it in temp property as e-dir does not give this information)
 		/// </returns>
 		public string[] GetDeletedMembersGroupList( string userID )
@@ -3677,7 +3736,7 @@ namespace Simias.Storage
 		/// <summary>
 		/// Gets the Groups Member list
 		/// </summary>
-		/// <param name="dn">Member ID</param>
+		/// <param name="userID">Member ID</param>
 		/// <returns>Returns all Groups Members id list
 		/// </returns>
 		public string[] GetGroupsMemberList( string userID )
@@ -3723,7 +3782,7 @@ namespace Simias.Storage
 		/// <summary>
 		/// Gets the Groups subgroup DN list
 		/// </summary>
-		/// <param name="dn">Parent group DN</param>
+		/// <param name="DN">Parent group DN</param>
 		/// <returns>Returns all Groups subgroup DN list
 		/// </returns>
 		public string[] GetGroupsSubgroupList( string DN)
@@ -3836,7 +3895,12 @@ namespace Simias.Storage
 
 			return node;
 		}	
-
+		
+		/// <summary>
+		/// Get Node by given path
+		/// </summary>
+		/// <param name="entryPath">entry Path for which node to be found</param>
+		/// <returns>Node object.</returns>
                 public Node GetNodeByPath( string entryPath)
                 {
                          ICSList children = this.Search(PropertyTags.FileSystemPath, entryPath, SearchOp.Equal);
@@ -4551,7 +4615,7 @@ namespace Simias.Storage
 		/// Searches the collection for the specified properties.  An enumerator is returned that
 		/// returns all of the ShallowNode objects that match the query criteria.
 		/// </summary>
-		/// <param name="property">Property objects list containing the value to search for.</param>
+		/// <param name="PropList">Property objects list containing the value to search for.</param>
 		/// <returns>An ICSList object that contains the results of the search.</returns>
 		public ICSList Search( SearchPropertyList PropList)
 		{
@@ -4678,7 +4742,7 @@ namespace Simias.Storage
 			/// Constructor for the NodeEnumerator object.
 			/// </summary>
 			/// <param name="collection">Collection object that this enumerator belongs to.</param>
-			/// <param name="property">Property objects list containing the data to search for.</param>
+			/// <param name="PropList">Property objects list containing the data to search for.</param>
 			public NodeEnumerator( Collection collection, SearchPropertyList PropList)
 			{
 				this.collection = collection;
@@ -4956,6 +5020,8 @@ namespace Simias.Storage
         /// <param name="MemberUserID">User ID</param>
         /// <param name="colMemberNodeID">Collection's member node ID</param>
         /// <param name="iFolderLocalPath">Path of Local iFolder</param>
+	/// <param name="sourceFileCount">source File count</param>
+	/// <param name="sourceDirCount">source Directory count</param>		
         /// <returns></returns>
 		public static bool DownloadCollection(string iFolderID, string iFolderName, string DomainID, string HostID, string DirNodeID, string MemberUserID, string colMemberNodeID, string iFolderLocalPath, int sourceFileCount, int sourceDirCount)
 		{
@@ -4994,6 +5060,8 @@ namespace Simias.Storage
         /// <param name="MemberUserID">Member user id</param>
         /// <param name="colMemberNodeID">ID of collection member node</param>
         /// <param name="iFolderLocalPath">Path of iFolder</param>
+	/// <param name="oldHomeFileCount">File Count</param>
+	/// <param name="oldHomeDirCount">Dir Count</param>
         /// <returns></returns>
 		public static bool DownloadCollectionLocally(string iFolderID, string iFolderName, string DomainID, string HostID, string DirNodeID, string MemberUserID, string colMemberNodeID, string iFolderLocalPath, int oldHomeFileCount, int oldHomeDirCount)
 		{
@@ -5146,6 +5214,19 @@ namespace Simias.Storage
 		}
 
 		// moved the creating proxy collection part to a seperate methos since it was called from 2 places
+        	/// <summary>
+	        /// Creating Proxy collection
+        	/// </summary>
+	        /// <param name="store">Store</param>
+	        /// <param name="iFolderName">iFolder name</param>
+        	/// <param name="iFolderID">ifolder id</param>
+	        /// <param name="DomainID">domain id</param>
+        	/// <param name="HostID">hostid</param>
+	        /// <param name="newOwnerMember">new owner member</param>
+        	/// <param name="newDomainMember">new domain member</param>
+	        /// <param name="iFolderLocalPath">local path</param>
+        	/// <param name="DirNodeID">dir node id</param>
+	        /// <returns>proxy collection</returns>
 		public static Collection CreateProxyCollection(Store store, string iFolderName, string iFolderID, string DomainID, string HostID, Member newOwnerMember, Member newDomainMember, string iFolderLocalPath, string DirNodeID)
 		{
 				log.Debug("CreateProxyCollection: Entered");
@@ -5175,6 +5256,10 @@ namespace Simias.Storage
 
 		// add the collectionID into MovingCollections Hashtable used in catalog.cs so that delete event for those ifolders will be ignored which
 		// fail to sync full in one cycle.
+	        /// <summary>
+        	/// Function add given ifolderid to catalog table
+	        /// </summary>
+        	/// <param name="iFolderID">ifolder id to be added on catalog.</param>		
 		public static void AddToCatalogTable( string iFolderID)
 		{
 			string titleClass = "Simias.Server.Catalog";
@@ -5195,6 +5280,10 @@ namespace Simias.Storage
 
 		// remove the collectionID into MovingCollections Hashtable used in catalog.cs so that delete event for those ifolders will be ignored which
 		// fail to sync full in one cycle.
+	        /// <summary>
+        	/// Function remove given ifolder id entry from catalog table
+	        /// </summary>
+	        /// <param name="iFolderID">ifolder id to be removed from catalog table</param>
 		public static void RemoveFromCatalogTable( string iFolderID)
 		{
 			string titleClass = "Simias.Server.Catalog";
@@ -5214,6 +5303,12 @@ namespace Simias.Storage
 		}
 
                 // count total no of files and dirs in this collection (goto actual storage and count)
+	        /// <summary>
+        	/// Retrive directory and file count for given DirectoryInfo
+	        /// </summary>
+	        /// <param name="d">directory infor</param>
+	        /// <param name="filecount">filecount</param>
+	        /// <param name="dircount">directory count</param>
                 public static void GetDirAndFileCount(DirectoryInfo d, ref int filecount, ref int dircount)
                 {
                         FileInfo[] fis = d.GetFiles();

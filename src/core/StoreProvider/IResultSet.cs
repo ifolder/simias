@@ -36,10 +36,22 @@ using System;
 
 namespace Simias.Storage.Provider
 {
+	/// <summary>
+	/// 
+	/// </summary>
 	public enum IndexOrigin
 	{
+		/// <summary>
+		/// 
+		/// </summary>
 		CUR = 0,
+		/// <summary>
+		/// 
+		/// </summary>
 		END,
+		/// <summary>
+		/// 
+		/// </summary>
 		SET
 	}
 

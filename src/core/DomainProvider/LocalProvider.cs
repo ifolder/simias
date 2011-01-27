@@ -62,7 +62,7 @@ namespace Simias
 		/// <summary>
 		/// Used to log messages.
 		/// </summary>
-		private static readonly ISimiasLog log = SimiasLogManager.GetLogger( typeof( LocalCredentials ) );
+		//private static readonly ISimiasLog log = SimiasLogManager.GetLogger( typeof( LocalCredentials ) );
 
 		static private readonly int GuidLength = Guid.NewGuid().ToString().Length;
 		private string domainID;
@@ -195,7 +195,7 @@ namespace Simias
 		/// <summary>
 		/// Used to log messages.
 		/// </summary>
-		private static readonly ISimiasLog log = SimiasLogManager.GetLogger( typeof( LocalProvider ) );
+		//private static readonly ISimiasLog log = SimiasLogManager.GetLogger( typeof( LocalProvider ) );
 
 		/// <summary>
 		/// String used to identify domain provider.
@@ -283,7 +283,6 @@ namespace Simias
 		/// where the collection has been deleted.</param>
 		/// <param name="collectionID">Identifier of the collection that
 		/// is being deleted.</param>
-		/// <summary>
 		public void DeleteLocation( string domainID, string collectionID )
 		{
 		}
@@ -363,7 +362,6 @@ namespace Simias
 		/// <summary>
 		/// Continues the search for domain members from the specified record location.
 		/// </summary>
-		/// <param name="domainID">The identifier of the domain to search for members in.</param>
 		/// <param name="searchContext">Domain provider specific search context returned by FindFirstDomainMembers method.</param>
 		/// <param name="offset">Record offset to return members from.</param>
 		/// <param name="count">Maximum number of member objects to return.</param>

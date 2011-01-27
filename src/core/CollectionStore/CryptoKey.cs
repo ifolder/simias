@@ -44,7 +44,9 @@ using Mono.Security.X509;
 using System.Threading;
 using System.Xml;
 using Simias.Storage;
-
+/// <summary>
+///
+/// </summary>
 namespace Simias.CryptoKey
 {
 	[Serializable]
@@ -84,10 +86,22 @@ namespace Simias.CryptoKey
 		}
 	}
 
+	/// <summary>
+	///
+	/// </summary>
 	public enum EncType : int
 	{
+	/// <summary>
+	///
+	/// </summary>
 		X509 = 0x00000001,
+	/// <summary>
+	///
+	/// </summary>
 		RSA = 0x00000010,
+	/// <summary>
+	///
+	/// </summary>
 		PGP = 0x00000100
 	};
 	/// <summary>
@@ -121,6 +135,10 @@ namespace Simias.CryptoKey
 			}
 		}
 
+		/// <summary>
+		///
+		/// </summary>
+		/// <param name="RAData"></param>
 		public RecoveryAgent(RSACryptoServiceProvider RAData)
 		{
 			RSAData = RAData;

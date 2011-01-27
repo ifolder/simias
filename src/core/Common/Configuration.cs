@@ -47,7 +47,13 @@ namespace Simias
 	public sealed class Configuration
 	{
 		#region Class Members
+		/// <summary>
+		///
+		/// </summary>
 		public const string DefaultConfigFileName = "Simias.config";
+		/// <summary>
+		///
+		/// </summary>
 		public const string RenamedConfigFileName = "Simiasconfig.removed";
 		
 
@@ -56,10 +62,16 @@ namespace Simias
 		private const string NameAttr = "name";
 		private const string ValueAttr = "value";
 		private const string DefaultSection = "SimiasDefault";
+		/// <summary>
+		///
+		/// </summary>
 		public string ConfigPath;
 		private static string defaultConfigPath;
 
 		private XmlDocument configDoc;
+		/// <summary>
+		///
+		/// </summary>
 		public static string DefaultPath
 		{
 			get
@@ -67,7 +79,10 @@ namespace Simias
 				return defaultConfigPath;
 			}
 		}
-
+		
+		/// <summary>
+		///
+		/// </summary>
 		public static string DefaultFilePath
 		{
 			get

@@ -83,7 +83,13 @@ namespace Simias.Storage
 		/// Configuration section name where enterprise key value pairs are stored.
 		/// </summary>
 		static public string SectionName = "Domain";
+		/// <summary>
+		/// Admin DN Tag
+		/// </summary>
 		static public string AdminDNTag = "AdminDN";
+		/// <summary>
+		/// Encoding Tag
+		/// </summary>
 		static public string Encoding = "Encoding";
 
 		/// <summary>
@@ -308,7 +314,7 @@ namespace Simias.Storage
 		/// <summary>
 		/// Returns if the specified user's login is disabled.
 		/// </summary>
-		/// <param name="userID">User ID for the member to check.</param>
+		/// <param name="member">Member for which login information to be retrived.</param>
 		/// <returns>True if the login for the specified user is disabled.</returns>
 		public bool IsLoginDisabledForUser( Member member )
 		{

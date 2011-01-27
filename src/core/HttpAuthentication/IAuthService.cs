@@ -56,15 +56,38 @@ namespace Simias.Security.Web.AuthenticationService
 	/// </summary>
 	public class Login
 	{
+		/// <summary>
+		/// 
+		/// </summary>
 		public static string Path = "/simias10/Login.ashx";
 
+		/// <summary>
 		// Response headers set by the Http Authentication Module
+		/// </summary>
 		public readonly static string DaysUntilPwdExpiresHeader = "Simias-Days-Until-Pwd-Expires";
+		/// <summary>
+		/// 
+		/// </summary>
 		public readonly static string GraceTotalHeader = "Simias-Grace-Total";
+		/// <summary>
+		/// 
+		/// </summary>
 		public readonly static string GraceRemainingHeader = "Simias-Grace-Remaining";
+		/// <summary>
+		/// 
+		/// </summary>
 		public readonly static string SimiasErrorHeader = "Simias-Error";
+		/// <summary>
+		/// 
+		/// </summary>
 		public readonly static string DomainIDHeader = "Domain-ID";
+		/// <summary>
+		/// 
+		/// </summary>
 		public readonly static string BasicEncodingHeader = "Basic-Encoding";
+		/// <summary>
+		/// 
+		/// </summary>
 		public readonly static string UserMovedHeader = "User-Moved";
 	}
 

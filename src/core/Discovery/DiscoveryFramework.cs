@@ -50,6 +50,9 @@ using Simias.Sync;
 
 namespace Simias.Discovery
 {
+        /// <summary>
+        /// 
+        /// </summary>
 	public class DiscoveryFramework
 	{
 		private static ArrayList collList;

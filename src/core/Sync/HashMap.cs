@@ -516,6 +516,7 @@ namespace Simias.Sync.Delta
 		/// Return the number of Blocks that the HashMap will need.
 		/// </summary>
 		/// <param name="streamSize"></param>
+		/// <param name="blockSize"></param>
 		/// <returns></returns>
 		public static int GetBlockCount(long streamSize, out int blockSize)
 		{

@@ -574,8 +574,6 @@ namespace Simias.Storage
 		/// Gets the user identifier and  pass-phrase for the specified domain.
 		/// </summary>
 		/// <param name="domainID">The identifier for the domain.</param>
-		/// <param name="userID">Gets the userID of the user associated with the specified domain.</param>
-		/// <param name="credentials">Gets the credentials for the user.</param>
 		/// <returns>CredentialType enumerated object.</returns>
 		internal bool GetRememberOption( string domainID)
 		{
@@ -600,8 +598,6 @@ namespace Simias.Storage
 		/// Gets the user identifier and  pass-phrase for the specified domain.
 		/// </summary>
 		/// <param name="domainID">The identifier for the domain.</param>
-		/// <param name="userID">Gets the userID of the user associated with the specified domain.</param>
-		/// <param name="credentials">Gets the credentials for the user.</param>
 		/// <returns>CredentialType enumerated object.</returns>
 		internal string GetPassPhrase( string domainID)
 		{
@@ -685,6 +681,7 @@ namespace Simias.Storage
 		/// <param name="domainID">The domain to store the passphrase for.</param>
 		/// <param name="passPhrase">The domain passphrase.</param>
 		/// <param name="type">Type of credentials.</param>
+		/// <param name="rememberPassPhrase"></param>
 		/// <returns>The modified identity object.</returns>
 		internal Identity StorePassPhrase( string domainID, string passPhrase, CredentialType type, bool rememberPassPhrase)
 		{
@@ -722,7 +719,11 @@ namespace Simias.Storage
 			p.SetPropertyValue( mapDoc );
 			return this;
 		}
-
+	        /// <summary>
+        	/// 
+	        /// </summary>
+        	/// <param name="domainID"></param>
+	        /// <returns></returns>
 		public RSACryptoServiceProvider GetDomainCredential(string domainID)
 		{
 			RSACryptoServiceProvider credential = null;

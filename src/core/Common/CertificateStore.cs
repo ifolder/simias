@@ -42,7 +42,9 @@ using Simias.Client;
 
 namespace Simias.Security
 {
-
+	/// <summary>
+	///
+	/// </summary>	
 	public class SecurityStore
 	{
 		const string certificateProperty = "Certificate";
@@ -55,10 +57,12 @@ namespace Simias.Security
 		/// <summary>
 		/// Store the PPKData with the specified property.
 		/// </summary>
-		/// <param name="PPK">The PPK to store.</param>
-		/// <param name="Property">The property PPK belongs to.</param>
+		/// <param name="ppkData">The PPK to store.</param>
+		/// <param name="prop">The property PPK belongs to.</param>
 		/// <param name="persist">If true save in store.</param>
 		/// <param name="inTable">If true save in Policy HashTable.</param>
+		/// <param name="isRA">.</param>
+		/// <param name="PPKtype">.</param>
 		public static void StorePPKData(byte[] ppkData, string prop, bool persist, bool inTable, bool isRA, string PPKtype)
 		{
 			Domain domain;
@@ -169,6 +173,7 @@ namespace Simias.Security
 		/// Get the Certificate for the specified store along with Problem.
 		/// </summary>
 		/// <param name="host">The host who owns the certificate.</param>
+		/// <param name="Problem"></param>
 		/// <returns>The certificate as a byte array.</returns>
 		public static byte[] GetCertificate(string host, out CertPolicy.CertificateProblem Problem)
 		{
@@ -351,7 +356,7 @@ namespace Simias.Security
 		/// <summary>
 		/// Get the Certificate for the specified store.
 		/// </summary>
-		/// <param name="host">The host who owns the certificate.</param>
+		/// <param name="recoveryAgnt">The host who owns the certificate.</param>
 		/// <returns>The certificate as a byte array.</returns>
 		public static byte[] GetRACertificate(string recoveryAgnt)
 		{
@@ -368,7 +373,7 @@ namespace Simias.Security
 		/// Store the certificate for the specified RA.
 		/// </summary>
 		/// <param name="certificate">The certificate to store.</param>
-		/// <param name="host">The host the certificate belongs to.</param>
+		/// <param name="recoveryAgnt">The host the certificate belongs to.</param>
 		/// <param name="persist">If true save in store.</param>
 		public static void StoreRACertificate(byte[] certificate, string recoveryAgnt, bool persist)
 		{
@@ -558,6 +563,9 @@ namespace Simias.Security
 		const string certificateProperty = "Certificate";
 		const string raProperty = "RecoveryAgent";
 		const string RSAType = "RSA";
+		/// <summary>
+		///
+		/// </summary>
 		static public RSACryptoServiceProvider Default_RA = null;
 
 		static private readonly ISimiasLog log = SimiasLogManager.GetLogger( typeof( Store ) );
@@ -565,8 +573,8 @@ namespace Simias.Security
 		/// <summary>
 		/// Store the RSA for the specified RA.
 		/// </summary>
-		/// <param name="certificate">The certificate to store.</param>
-		/// <param name="host">The host the certificate belongs to.</param>
+		/// <param name="rsa">The certificate to store.</param>
+		/// <param name="recoveryAgnt">The host the certificate belongs to.</param>
 		/// <param name="persist">If true save in store.</param>
 		public static void StoreRARSA(string rsa, string recoveryAgnt, bool persist)
 		{
@@ -575,12 +583,21 @@ namespace Simias.Security
 			byte[] rsabytes = utf8.GetBytes(rsa);
 			SecurityStore.StorePPKData(rsabytes, recoveryAgnt, persist, true, true, RSAType);
 		}
-
+		
+		/// <summary>
+		///
+		/// </summary>
 		public static RSACryptoServiceProvider GetRARSA()
 		{
 			return Default_RA;
 		}
 
+		/// <summary>
+		///
+		/// </summary>
+		/// <param name="rsa"></param>
+		/// <param name="recoveryAgnt"></param>
+		/// <param name="persist"></param>
 		public static void CheckAndStoreRSA(string rsa, string recoveryAgnt, bool persist)
 		{
 			bool toStore = true;
@@ -617,7 +634,10 @@ namespace Simias.Security
                 	                StoreRARSA(rsa, recoveryAgnt, persist);
 			}
 		}
-
+		
+		/// <summary>
+		///
+		/// </summary>
 		public static void LoadRSAFromStore()
 		{
 			Store store = Store.GetStore();

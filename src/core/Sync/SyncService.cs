@@ -222,7 +222,7 @@ namespace Simias.Sync
             HostNode hNode = HostNode.GetLocalHost();
             si.HostID = hNode.ID;
 			Requester = si.Requester;
-			IEnumerator		tmpnodeContainer;
+			//IEnumerator		tmpnodeContainer;
 			Sync.Log.log.Debug("started syncservice");
             
 			collection = store.GetCollectionByID(si.CollectionID);
@@ -256,7 +256,7 @@ namespace Simias.Sync
                         }
                     }
                 }
-                catch (Exception ex)
+                catch (Exception )
                 {
                     log.Debug("Start: Unable to Read Catalog");
                 }
@@ -402,7 +402,7 @@ namespace Simias.Sync
 		/// Filter out those members which are not part of the logged in user's group , will be called in case all nodes are to be synced
 		/// </summary>
 		/// <param name="TempChangeList">changelist which contains all nodes</param>
-		/// <return> an enumerator containing all the member nodes which are part of member's groups </returns>
+		/// <returns> an enumerator containing all the member nodes which are part of member's groups </returns>
 		public IEnumerator FilterOutsideObjects(IEnumerator TempChangeList)
 		{
 			Domain domain = store.GetDomain(store.DefaultDomain);
@@ -454,7 +454,7 @@ namespace Simias.Sync
 		/// Filter out those members which are not part of the logged in user's group , will be called in case only changed  nodes are to be synced
 		/// </summary>
 		/// <param name="TempChangeList">changelist which contains all changed nodes</param>
-		/// <return> an enumerator containing all the changed nodes which are part of member's groups </returns>
+		/// <returns> an enumerator containing all the changed nodes which are part of member's groups </returns>
 		public IEnumerator FilterOutsideObjects2(IEnumerator TempChangeList)
 		{
 			Domain domain = store.GetDomain(store.DefaultDomain);
@@ -531,7 +531,7 @@ namespace Simias.Sync
 					{
 						node = Node.NodeFactory(collection, (ShallowNode)nodeContainer.Current);
 					}
-					catch (Exception ex)
+					catch (Exception )
 					{
 						try{
 						ShallowNode sNode = (ShallowNode)nodeContainer.Current;
@@ -1033,7 +1033,7 @@ namespace Simias.Sync
 			if (cLock == null || !IsAccessAllowed(Access.Rights.ReadWrite))
 				return null;
 
-            /// If This is a Domain collection then don't let the deletion to proceed...
+            // If This is a Domain collection then don't let the deletion to proceed...
 
             string ColType = collection.GetType().ToString();
             bool IsDomainType = ColType.Equals(PropertyTags.DomainTypeNameSpaceProperty) || ColType.Equals(PropertyTags.Domain);

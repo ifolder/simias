@@ -192,7 +192,7 @@ namespace Simias.Sync.Http
 	public class HttpSyncProxy
 	{
 		double						serverVersion;
-		Collection                                      collection;
+		//Collection                                      collection;
 		string						collectionID;
 		string						collectionName;
 		string						domainId;
@@ -612,7 +612,7 @@ namespace Simias.Sync.Http
 		public SyncStatus OpenFilePut(SyncNode node)
 		{
 			HttpWebRequest request = GetRequest(SyncMethod.OpenFilePut);
-			WebHeaderCollection headers = request.Headers;
+			//WebHeaderCollection headers = request.Headers;
 			BinaryWriter writer = new BinaryWriter(request.GetRequestStream());
 			node.Serialize(writer);
 			writer.Close();
@@ -641,7 +641,7 @@ namespace Simias.Sync.Http
 		public SyncNode OpenFileGet(string nodeID)
 		{
 			HttpWebRequest request = GetRequest(SyncMethod.OpenFileGet);
-			WebHeaderCollection headers = request.Headers;
+			//WebHeaderCollection headers = request.Headers;
 			request.ContentLength = 16;
 			BinaryWriter writer = new BinaryWriter(request.GetRequestStream());
 			writer.Write(new Guid(nodeID).ToByteArray());
@@ -740,6 +740,8 @@ namespace Simias.Sync.Http
 		/// <param name="stream">The stream containing the data.</param>
 		/// <param name="offset">The offset to write at.</param>
 		/// <param name="count">The number of bytes to write.</param>
+	        /// <param name="encryptionAlgorithm">Encryption Algorithm.</param>
+        	/// <param name="EncryptionKey">Encryption key.</param>
 		public void WriteFile(StreamStream stream, long offset, int count, string encryptionAlgorithm, string EncryptionKey)
 		{
 			HttpWebRequest request = GetRequest(SyncMethod.WriteFile);
@@ -816,6 +818,7 @@ namespace Simias.Sync.Http
 		/// Called to copy data from the original file on the server to the new file.
 		/// </summary>
 		/// <param name="copyArray">The array of blocks and offsets to copy from the original file.</param>
+		/// <param name="blockSize">blockSize.</param>
 		public void CopyFile(ArrayList copyArray, int blockSize)
 		{
 			HttpWebRequest request = GetRequest(SyncMethod.CopyFile);
@@ -856,7 +859,7 @@ namespace Simias.Sync.Http
 		/// </summary>
 		public void CloseFile()
 		{
-			SyncNodeStatus stat = CloseFile(false);
+			/*SyncNodeStatus stat = */CloseFile(false);
 		}
 
 		/// <summary>
@@ -867,7 +870,7 @@ namespace Simias.Sync.Http
 		public SyncNodeStatus CloseFile(bool commit)
 		{
 			HttpWebRequest request = GetRequest(SyncMethod.CloseFile);
-			WebHeaderCollection headers = request.Headers;
+			//WebHeaderCollection headers = request.Headers;
 			request.ContentLength = 1;
 			BinaryWriter writer = new BinaryWriter(request.GetRequestStream());
 			writer.Write(commit);
@@ -926,9 +929,14 @@ namespace Simias.Sync.Http
 		public static string	version = "1.1";
 		SyncService service;
 
+		/// <summary>
+		/// logging information
 		/// </summary>
 		private static readonly ISimiasLog log = 
 			SimiasLogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+	        /// <summary>
+	        /// Destructor  
+	        /// </summary>
 		~HttpService()
 		{
 			Dispose(true);
@@ -1236,6 +1244,8 @@ namespace Simias.Sync.Http
 		/// <summary>
 		///<Put the hash map for this file>
 		/// </summary>
+		/// <param name="request">request</param>
+		/// <param name="response">response</param>	
 		public void PutHashMap(HttpRequest request, HttpResponse response)
 		{
 			string sCount = request.Headers.Get(SyncHeaders.ObjectCount);			
@@ -1265,10 +1275,10 @@ namespace Simias.Sync.Http
 				// Now send the data back;
 				response.ContentType = "application/octet-stream";
 				response.BufferOutput = false;
-				byte[] buffer = new byte[blockSize];
+				//byte[] buffer = new byte[blockSize];
 				Stream outStream = response.OutputStream;
 				int readSize = (seg.EndBlock - seg.StartBlock +1) * blockSize;
-				int bytesRead = service.Read(outStream, (long)seg.StartBlock * (long)blockSize, readSize);
+				/*int bytesRead = */ service.Read(outStream, (long)seg.StartBlock * (long)blockSize, readSize);
 				outStream.Close();
 			}
 			else
@@ -1339,7 +1349,7 @@ namespace Simias.Sync.Http
 			status.Serialize(writer);
 			writer.Close();
 			}
-			catch(Exception e)
+			catch(Exception )
 			{
 			}
 		}

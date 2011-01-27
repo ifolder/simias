@@ -303,10 +303,11 @@ private static readonly ISimiasLog log = SimiasLogManager.GetLogger(typeof(SyncN
 		/// Create a SyncNode from a Node, modify s.t. only required policies are sent.
 		/// </summary>
 		/// <param name="node">The node used to create the sync node.</param>
+		/// <param name="UserID"></param>
 		internal SyncNode(Node node, string UserID) :
 			base(node)
 		{
-			Node tempnode = node;
+			//Node tempnode = node;
 			//bool IsSystemPolicy = (node.Type == NodeTypes.PolicyType && ((bool)node.Properties.GetSingleProperty(PropertyTags.SystemPolicy).Value) == true );
 			bool LoggedInMember = false;
             		if (node.Type == NodeTypes.MemberType)
@@ -379,7 +380,7 @@ private static readonly ISimiasLog log = SimiasLogManager.GetLogger(typeof(SyncN
 		internal void AggregateAllPolicies(Member member , ref Node node)
 		{
 			Store store = Store.GetStore();
-			Domain domain = store.GetDomain(store.DefaultDomain);
+			//Domain domain = store.GetDomain(store.DefaultDomain);
 
 			long AggregateNoOfiFoldersLimit = Simias.Policy.iFolderLimit.Get(member).Limit;	
 

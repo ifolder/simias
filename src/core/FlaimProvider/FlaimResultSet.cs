@@ -52,6 +52,7 @@ namespace Simias.Storage.Provider.Flaim
 		/// </summary>
 		/// <param name="pResultSet"></param>
 		/// <param name="count"></param>
+		/// <param name="flaimServer"></param>	
 		public FlaimResultSet(IntPtr pResultSet, int count, FlaimServer flaimServer)
 		{
 			this.count = count;

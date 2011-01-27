@@ -48,18 +48,39 @@ namespace Simias.Policy
 		
 		/// <summary>
                 /// enum value to denote different combinations of Disabling/Enabling options
-                /// <summary>
+                /// </summary>
 		public enum Share
 		{
+			/// <summary>
+	                /// 
+        	        /// </summary>
 			Sharing = 1,
+			/// <summary>
+	                /// 
+        	        /// </summary>
 			EnforcedSharing = 4,
+			/// <summary>
+	                /// 
+        	        /// </summary>
 			DisableSharing = 8
 		}
 
+		/// <summary>
+	        /// 
+                /// </summary>
 		public enum HigherPriority
 		{
+			/// <summary>
+	                /// 
+        	        /// </summary>
 			System = 1,
+			/// <summary>
+	                /// 
+        	        /// </summary>
 			User = 2,
+			/// <summary>
+	                /// 
+        	        /// </summary>
 			Group = 4
 		}
 
@@ -68,7 +89,7 @@ namespace Simias.Policy
 		/// <summary>
 		/// Used to log messages.
 		/// </summary>
-		static private readonly ISimiasLog log = SimiasLogManager.GetLogger( typeof( Store ) );
+		//static private readonly ISimiasLog log = SimiasLogManager.GetLogger( typeof( Store ) );
 		
 		/// <summary>
 		/// Well known name for the Sharing policy.
@@ -85,10 +106,10 @@ namespace Simias.Policy
 		/// </summary>
 		static public readonly string SharingStatusTag = "Sharing";
 
-		/// <summary>
+/*		/// <summary>
 		/// Implies to never synchronize.
 		/// </summary>
-//		static public readonly int InfiniteSyncInterval = -1;
+//		static public readonly int InfiniteSyncInterval = -1;*/
 
 		/// <summary>
 		/// Used to hold the aggregate policy.
@@ -233,6 +254,10 @@ namespace Simias.Policy
 		}
 
 
+		/// <summary>
+		/// Deletes given member
+		/// </summary>
+		/// <param name="member">member for which policy need to be deleted.</param>
 		static public void Delete( Member member )
 		{
 			PolicyManager pm = new PolicyManager();
@@ -310,6 +335,7 @@ namespace Simias.Policy
 
         /// <summary>
         /// Gets the aggregate status of sharing associated with the specified collection, its owner, group,system
+        /// </summary>
         /// <param name="collection">collection for which policy is sought</param>
         /// <returns>the status of Sharing as an int</returns>
         static public bool IsSharingAllowedForCollection(Collection collection)
@@ -323,7 +349,7 @@ namespace Simias.Policy
 
             if (((OwnerAndAboveAggregateSharingStatus & (int)Share.EnforcedSharing) == (int)Share.EnforcedSharing))
             {
-                /// If on system level or user level, enforcement of policy is there, it means the iFolder must not be shared
+                // If on system level or user level, enforcement of policy is there, it means the iFolder must not be shared
                 if ((OwnerAndAboveAggregateSharingStatus & (int)Share.Sharing) == (int)Share.Sharing)
                     return true;
                 return false;
@@ -332,12 +358,12 @@ namespace Simias.Policy
             {
                 if ((iFolderSharingStatus & (int)Share.Sharing) == (int)Share.Sharing)
                 {
-                    /// it means, on iFolder Details page, admin had unchecked the box so sharing is enabled now
+                    // it means, on iFolder Details page, admin had unchecked the box so sharing is enabled now
                     return true;
                 }
                 if ((iFolderSharingStatus & (int)Share.DisableSharing) == (int)Share.DisableSharing)
                 {
-                    /// it means, on iFolder Details page, admin had checked the box so sharing is disabled
+                    // it means, on iFolder Details page, admin had checked the box so sharing is disabled
                     return false;
                 }
             }
@@ -402,7 +428,10 @@ namespace Simias.Policy
 		///<summary>
                 /// Get the policy for an iFolder.
                 /// </summary>
-                /// <param name="policy">The iFolderPolicy object.</param>
+                /// <param name="system">system information.</param>
+                /// <param name="group">group name.</param>
+                /// <param name="user">user name.</param>
+                /// <returns>returns drive status.</returns>			
                 static public int DeriveStatus(int system, int group, int user)
                 {
 

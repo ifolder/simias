@@ -84,6 +84,9 @@ namespace Simias.Sync
 		/// </summary>
 		public int				EndBlock;
 		
+		/// <summary>
+		/// 
+		/// </summary>
 		public static int		InstanceSize = (8 + 4 + 4);
 		/// <summary>
 		/// Initialize a new Offset Segment.
@@ -238,6 +241,7 @@ namespace Simias.Sync
 		/// </summary>
 		/// <param name="segArray">The array to add the segment to.</param>
 		/// <param name="seg">The new segment to add.</param>
+		/// <param name="blockSize"></param>
 		public static void AddToArray(ArrayList segArray, DownloadSegment seg, int blockSize)
 		{
 			DownloadSegment lastSeg;
@@ -281,6 +285,9 @@ namespace Simias.Sync
 		HttpSyncProxy				syncService;
 		/// <summary>True if the node should be marked readOnly.</summary>
 		bool					readOnly = false;
+		/// <summary>
+		///
+		/// </summary>	
 		public string 				removeNodeToserver = null;
 
 		
@@ -428,10 +435,10 @@ namespace Simias.Sync
 			// Check for previous conflicts and remove it forcefully
 			// Current conflicts will get generated below
 			
-			///scenario: conflict created during download and resolved out of bound in server (server file is in sync with client file).
-			///now download will say DateConflict since the conflict is resolved out of bound, so nothing to download
-			///so remove the conflict, remove conflict will not disturb the local incarnation value
-			/// commit may be true or false since we are removing the conflicts blindly
+			//scenario: conflict created during download and resolved out of bound in server (server file is in sync with client file).
+			//now download will say DateConflict since the conflict is resolved out of bound, so nothing to download
+			//so remove the conflict, remove conflict will not disturb the local incarnation value
+			// commit may be true or false since we are removing the conflicts blindly
 			
 			if(DateConflict == true)
 				RemoveConflict(commit);
@@ -444,9 +451,9 @@ namespace Simias.Sync
 					if(collection.Merge == true)
 						isLocalNodeDeleted = true;
 
-					/// Handle the merge case where we need to create a conflict since the data (server and local) doesnot match
-					///If no data conflict and this is a merge and file exits locally and server file length is non zero then create a conflict for non encryted folders
-					///Encrypted folder full file is downloaded always
+					// Handle the merge case where we need to create a conflict since the data (server and local) doesnot match
+					//If no data conflict and this is a merge and file exits locally and server file length is non zero then create a conflict for non encryted folders
+					//Encrypted folder full file is downloaded always
 					//if( fileExistLocally == true &&  collection.Merge == true && DateConflict == false &&  Length !=0 && IsEncryptionEnabled() == false)
 					if( fileExistLocally == true &&  isLocalNodeDeleted == true && DateConflict == false &&  Length !=0)					
 					{
@@ -499,16 +506,16 @@ namespace Simias.Sync
 				}
 			}
 
-			/// if DateConflict==true, then we need to commit the node for two purposes
-			/// 1. commit the node, cases like merge, node will not be available locally
-			/// 2. if node available, conflict may come so avoid the conflict by setting a property, based on this property conflict check 
-			///     is avoided in incrementincarnation during the commit
+			// if DateConflict==true, then we need to commit the node for two purposes
+			// 1. commit the node, cases like merge, node will not be available locally
+			// 2. if node available, conflict may come so avoid the conflict by setting a property, based on this property conflict check 
+			//     is avoided in incrementincarnation during the commit
 			if(DateConflict == true)
 			{
 				bool versionCollision= false;
 				try
 				{
-					/// The first commit will succed if node is not present in the disk, example merge, where node creation is postphoned
+					// The first commit will succed if node is not present in the disk, example merge, where node creation is postphoned
 					collection.Commit(node);					
 				}
 				catch (CollisionException)
@@ -520,9 +527,9 @@ namespace Simias.Sync
 				{
 					try
 					{
-						///There is a node in the disk
-						///Add this property to roll back the local version to avoid the conflict in server node commit
-						///Here we are rolling back the version since no data conflict only date(version) conflict detected
+						//There is a node in the disk
+						//Add this property to roll back the local version to avoid the conflict in server node commit
+						//Here we are rolling back the version since no data conflict only date(version) conflict detected
 						Node DiskNode = collection.GetNodeByID(node.ID);
 						Property p = new Property(PropertyTags.Rollback, true);
 						p.LocalProperty = true;
@@ -544,7 +551,7 @@ namespace Simias.Sync
 						node.Properties.State = PropertyList.PropertyListState.Import;
 						collection.Commit(node);
 					}
-					catch(Exception ex)
+					catch(Exception )
 					{
 						Log.log.Debug("CollisionException in the next commit, attempt failed, error not propagated");
 					}
@@ -571,7 +578,7 @@ namespace Simias.Sync
 				
 				if(DateConflict == true)
 				{
-					/// Sine the commit(false) is false we need to set the last write time of file to the node last write timetime
+					// Sine the commit(false) is false we need to set the last write time of file to the node last write timetime
 					FileInfo Fi = new FileInfo(file);
 					Fi.LastWriteTime = node.LastWriteTime;
 				}
@@ -607,7 +614,7 @@ namespace Simias.Sync
 			long	sizeToSync;
 			long	sizeRemaining;
 			int	blockSize;
-			Blowfish bf = null;
+			//Blowfish bf = null;
 			bool needDecryption=false;
 			string EncryptionKey ;
 			int boundary = 0;
@@ -645,8 +652,8 @@ namespace Simias.Sync
 
 			Log.log.Debug("downloadMap.Count :{0} isServerFileRenamed :{1} LocalFileLength :{2} Length :{3}", downloadMap.Count, isServerFileRenamed, LocalFileLength, Length );
 
-			///Determine whether both the files (server copy and local copy) are identical
-			///There may be instances that the server file blocks need to be duplicated or removed through copyfile, so check the local size and server size
+			//Determine whether both the files (server copy and local copy) are identical
+			//There may be instances that the server file blocks need to be duplicated or removed through copyfile, so check the local size and server size
 			
 			if(sizeToSync == 0 && downloadMap.Count == 0 && isServerFileRenamed == false  && LocalFileLength == Length)
 			{
@@ -656,7 +663,7 @@ namespace Simias.Sync
 			}			
 
 
-			/// Get the key and decrypt it to Decrypt the file data
+			// Get the key and decrypt it to Decrypt the file data
 			if(GetCryptoKey(out EncryptionKey)== true)
 			{
 				needDecryption=true;
@@ -735,8 +742,8 @@ namespace Simias.Sync
 			blockSize = 0;
 			long remainingBytes;
 			bool Encrypted = false;
-			bool value=false;
-			string EncryptionType="";
+			//bool value=false;
+			//string EncryptionType="";
 			int boundary=0;
 
 		
@@ -886,9 +893,9 @@ namespace Simias.Sync
 							//Log.log.Debug(" Encrypted file merge sizeToSync before the last block comparision {0} ",sizeToSync);
 						}
 					}
-					///Compare the lastblock(which is less than the block size) provided all the blocks are matched
-					///Process the incomplete last block (always less than the block size)
-					///Process only once, donot increment the startbyte and compare since we are doing this only to verify the files are identical or not
+					//Compare the lastblock(which is less than the block size) provided all the blocks are matched
+					//Process the incomplete last block (always less than the block size)
+					//Process only once, donot increment the startbyte and compare since we are doing this only to verify the files are identical or not
 					
 					//Log.log.Debug(" blockSize :{0}  bytesRead :{1}  sizeToSync :{2} ", blockSize, bytesRead, sizeToSync);
 					if(sizeToSync == bytesRead)
@@ -1000,15 +1007,15 @@ namespace Simias.Sync
 			Property p= new Property(PropertyTags.Rollback, true);
 			p.LocalProperty=true;
 			node.Properties.ModifyProperty(p);
-			///Commit the node to disk, so that the disk node is now available, this is equivalent to having a file node before download
+			//Commit the node to disk, so that the disk node is now available, this is equivalent to having a file node before download
 			collection.Commit(node);			
 			Log.log.Debug("2. CreateFileConflict LI: {0}", node.LocalIncarnation);
 			
 			
 			//Step 1.2 decrement the master incarnation
 			node.SetMasterIncarnation(node.LocalIncarnation-1);
-			/// After the commit the state is update, eventhough it is update, we need to change a property so the next commit
-			/// will increase the local incarnation, So just touch the property and update to the same value
+			// After the commit the state is update, eventhough it is update, we need to change a property so the next commit
+			// will increase the local incarnation, So just touch the property and update to the same value
 			//node.Properties.ModifyNodeProperty( PropertyTags.LocalIncarnation, node.LocalIncarnation);
 			DateTime LastWriteTime= node.LastWriteTime;
 			long serverLength = node.Length;			
@@ -1019,7 +1026,7 @@ namespace Simias.Sync
 			Log.log.Debug("node state before commit :{0}", node.Properties.State);
 			
 
-			///Step 2. Now the node is available in the disk, commit it once again to increase the incarnation value, this will help to raise the conflict in commit which is called in close
+			//Step 2. Now the node is available in the disk, commit it once again to increase the incarnation value, this will help to raise the conflict in commit which is called in close
 			collection.Commit(node);
 			Log.log.Debug(" node state after commit :{0}", node.Properties.State);		
 
@@ -1029,9 +1036,9 @@ namespace Simias.Sync
 			
 			Log.log.Debug("CreateFileConflict  4=  MI: {0} LI: {1}",node.MasterIncarnation, node.LocalIncarnation); 			
 
-			/// Step 3
-			///Change back to import, so that the process commit creates a conflict
-			///Consider this is a node from server and we do a fresh import on the client node
+			// Step 3
+			//Change back to import, so that the process commit creates a conflict
+			//Consider this is a node from server and we do a fresh import on the client node
 			node.Properties.State = PropertyList.PropertyListState.Import;
 		}
 
@@ -1145,12 +1152,12 @@ namespace Simias.Sync
 				// for example no data change, only the file date modified
 				if(DateConflict == true)
 				{
-					///scenario: conflict created during download and resolved out of bound in client (client file is in sync with server file). 
-					///now upload will say DateConflict since the conflict is resolved out of bound, so nothing to upload
-					///so remove the conflict, remove conflict will not disturb the local incarnation value 
+					//scenario: conflict created during download and resolved out of bound in client (client file is in sync with server file). 
+					//now upload will say DateConflict since the conflict is resolved out of bound, so nothing to upload
+					//so remove the conflict, remove conflict will not disturb the local incarnation value 
 					RemoveConflict(commit);					
 						
-					///Set the roolback local property, this will decrement the local incarnation number for upload case where nothing to be uploaded
+					//Set the roolback local property, this will decrement the local incarnation number for upload case where nothing to be uploaded
 					Property p = new Property(PropertyTags.Rollback, true);
 					p.LocalProperty = true;
 					node.Properties.ModifyProperty(p);
@@ -1208,7 +1215,7 @@ namespace Simias.Sync
 				Log.log.Debug("file length = {0}, blockSize = {1}, client block count = {2}, server block count = {3}", Length, blockSize, clientBlockCount, serverBlockCount);
 			}
 
-			/// No data to sync,  file is available in server, not renamed and block count matches
+			// No data to sync,  file is available in server, not renamed and block count matches
 			if(sizeToSync == 0 && serverFileAvailable == true && reNamed == null && clientBlockCount == serverBlockCount)
 			{	
 				Log.log.Debug("serverFileAvailable	={0}", serverFileAvailable);
@@ -1232,7 +1239,7 @@ namespace Simias.Sync
 
 
 			
-			/// Get the key and decrypt it to encrypt the file data
+			// Get the key and decrypt it to encrypt the file data
 			if(GetCryptoKey(out EncryptionKey)== true)
 			{
 				needEncryption = true;
@@ -1289,6 +1296,8 @@ namespace Simias.Sync
 		/// <param name="copyArray">The array of BlockSegments that need to be copied from the old file.</param>
 		/// <param name="writeArray">The array of OffsetSegments that need to be sent from the client.</param>
 		/// <param name="blockSize">The size of the hashed data blocks.</param>
+	        /// <param name="serverFileAvailable"></param>
+        	/// <param name="serverBlockCount"></param>	
 		private void GetUploadFileMap(out long sizeToSync, out ArrayList copyArray, out ArrayList writeArray, out int blockSize, out bool serverFileAvailable, out int serverBlockCount)
 		{
 			sizeToSync = 0;
@@ -1417,7 +1426,7 @@ namespace Simias.Sync
 				else
 				{
 					endByte = bytesRead - 1;
-					/// If the file size is less than minimum block size (4096) set the readOffset to compare the hash below
+					// If the file size is less than minimum block size (4096) set the readOffset to compare the hash below
 					if(readOffset == 0)
 						readOffset = bytesRead - endOfLastMatch;
 					break;
@@ -1427,7 +1436,7 @@ namespace Simias.Sync
 			Log.log.Debug("writeArray.Count:{0}  copyArray.Count:{1}", writeArray.Count, copyArray.Count);
 			bool		lastBlockMatch = false;
 			
-			/// Check the last block (insufficient block) match to avoid the data transfer
+			// Check the last block (insufficient block) match to avoid the data transfer
 			if(readOffset > 0)
 			{
 				bytesRead = readOffset;

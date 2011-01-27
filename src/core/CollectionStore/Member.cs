@@ -49,6 +49,9 @@ using Simias.Sync;
 
 namespace Simias.Storage
 {
+	/// <summary>
+  	/// Encryption version
+   	/// </summary>
 	public enum EncVersion
 	{
 		/// <summary>
@@ -72,7 +75,8 @@ namespace Simias.Storage
 		#endregion
 
 		/// <summary>
-
+		/// Simias log
+		/// </summary>	
 		private static readonly ISimiasLog log = SimiasLogManager.GetLogger(typeof(Member));
 		private SimiasAccessLogger accessLog = new SimiasAccessLogger("Passphrase",null);
 
@@ -86,7 +90,9 @@ namespace Simias.Storage
 			BlobFlag = 32
 
 		};
-
+		/// <summary>
+		/// 
+		/// </summary>
         	public enum userMoveStates
         	{
                 	/// <summary>
@@ -136,7 +142,6 @@ namespace Simias.Storage
         	};
 
 
-		/// </summary>
 		/// <summary>
 		/// Get/Set the encryption key
 		/// </summary>
@@ -156,7 +161,6 @@ namespace Simias.Storage
 			}
 		}
 
-		/// </summary>
 		/// <summary>
 		/// Get/Set the encryption version
 		/// </summary>
@@ -176,7 +180,6 @@ namespace Simias.Storage
 			}
 		}
 
-		/// </summary>
 		/// <summary>
 		/// Get/Set the encryption key
 		/// </summary>
@@ -569,7 +572,8 @@ namespace Simias.Storage
 
 			set
 			{
-				if ( ! String.IsNullOrEmpty( value) )
+				//if ( ! String.IsNullOrEmpty( value) )
+				if ( value != null &&  value != "")
 				{
 					properties.ModifyNodeProperty( PropertyTags.OldDN, value ); 
 				}
@@ -936,7 +940,7 @@ namespace Simias.Storage
 			Property Groupproperty = member.Properties.GetSingleProperty( "GroupType" );
 			if( Groupproperty == null)
 			{
-				/// Member node.
+				// Member node.
 				groupadmins = domain.GetMemberFamilyList(groupid);
 			}
 			else
@@ -1108,7 +1112,7 @@ namespace Simias.Storage
 			Property Groupproperty = member.Properties.GetSingleProperty( "GroupType" );
 			if( Groupproperty == null)
 			{
-				/// Member node.
+				// Member node.
 				return IsGroupAdmin(nodeid, 0);
 			}
 			else
@@ -1124,7 +1128,7 @@ namespace Simias.Storage
 		{
 			if( membertype == 0)
 			{
-				/// Member node. Get all the groups.
+				// Member node. Get all the groups.
 				Store store = Store.GetStore();
 				Domain domain = store.GetDomain(store.DefaultDomain);
 				string[] groupids = domain.GetMemberFamilyList(nodeid);
@@ -1132,7 +1136,7 @@ namespace Simias.Storage
 			}
 			else
 			{
-				/// Group node.
+				// Group node.
 				string[] groupids = new string[1];
 				groupids[0] = nodeid;
 				return IsGroupAdmin(groupids);
@@ -1147,7 +1151,7 @@ namespace Simias.Storage
 		{
 			string[] groupadmins = GetGroupListValues(true);
 			
-			/// Checks whether the given member is admin for any of the groups mentioned above...
+			// Checks whether the given member is admin for any of the groups mentioned above...
 			if( groupids == null || groupadmins == null)
 				return false;
 
@@ -1581,7 +1585,7 @@ namespace Simias.Storage
 				
 				SetEncryptionBlobFlag(store);
 				//making it local variable for faster disposal
-				CollectionSyncClient syncClient = null;
+				//CollectionSyncClient syncClient = null;
 
                 // commit encryption related values locally on client for faster access. it will be overwritten in 
                 // next fomain sync
@@ -2720,7 +2724,14 @@ log.Debug("REDEK {0}", Key.REDEK);
 			if(FilePath != null)
 				ImportiFoldersCryptoKeys(null, NewPassphrase, OneTimePassword, true, FilePath);
 		}
-
+	        /// <summary>
+        	/// 
+	        /// </summary>
+	        /// <param name="RAName"></param>
+	        /// <param name="isRSA"></param>
+	        /// <param name="keyDocument"></param>
+	        /// <param name="oneTimePP"></param>
+        	/// <param name="decryptedKeyDoc"></param>
 		public void RecoverKeys(string RAName, bool isRSA, XmlDocument keyDocument, string oneTimePP, out XmlDocument decryptedKeyDoc)
 		{
 			string titleTag = "CryptoKeyRecovery";
@@ -2792,7 +2803,6 @@ log.Debug("REDEK {0}", Key.REDEK);
                 /// <summary>
                /// Gets the credentials from the specified domain object.
                /// </summary>
-               /// <param name="DomainID">The ID of the domain to set the credentials on.</param>
                /// <returns>The Default public key </returns>
                 public string  GetDefaultRSAFromServer()
                 {
@@ -2817,7 +2827,6 @@ log.Debug("REDEK {0}", Key.REDEK);
 		/// <summary>
 	       /// Gets the credentials from the specified domain object.
 	       /// </summary>
-	       /// <param name="DomainID">The ID of the domain to set the credentials on.</param>
 	       /// <returns>The Default public key </returns>
 	        public string GetDefaultPublicKeyFromServer()
 	        {
@@ -2845,7 +2854,6 @@ log.Debug("REDEK {0}", Key.REDEK);
                 /// <summary>
                /// Gets the credentials from the specified domain object.
                /// </summary>
-               /// <param name="DomainID">The ID of the domain to set the credentials on.</param>
                /// <returns>The Default public key </returns>
                 public string GetDefaultRSAKey()
                 {
@@ -2858,7 +2866,6 @@ log.Debug("REDEK {0}", Key.REDEK);
 		/// <summary>
 	       /// Gets the credentials from the specified domain object.
 	       /// </summary>
-	       /// <param name="DomainID">The ID of the domain to set the credentials on.</param>
 	       /// <returns>The Default public key </returns>
 	        public string GetDefaultPublicKey()
 	        {
@@ -2876,9 +2883,17 @@ log.Debug("REDEK {0}", Key.REDEK);
 	/// </summary>
 	public class PassphraseHash
 	{
+		/// <summary>
+		///
+		/// </summary>
 		public PassphraseHash()
 		{
 		}
+		/// <summary>
+		///
+		/// </summary>
+		/// <param name="Passphrase"></param>
+		/// <returns></returns>
 		public byte[] HashPassPhrase(string Passphrase)
 		{
 			/*change to PasswordDeriveBytes.CryptDeriveKey once the  implementation is done mono

@@ -239,8 +239,8 @@ namespace Simias
 		/// <summary>
 		/// Get a WebState object for the specified domain and collection.
 		/// </summary>
-		/// <param name="domainID">The domain ID.</param>
-		/// <param name="collectionID">The collection associated with the domain</param>
+		/// <param name="DomainID">The domain ID.</param>
+		/// <param name="CollectionID">The collection associated with the domain</param>
 		public WebState(string DomainID, string CollectionID) :
 			this(DomainID, CollectionID, null)
 		{
@@ -249,9 +249,9 @@ namespace Simias
 		/// <summary>
 		/// Get a WebState object for the specified domain.
 		/// </summary>
-		/// <param name="domainID">The domain ID.</param>
-		/// <param name="collectionID">The collection ID.</param>
-		/// <param name="userID">User ID of a member in the domain.</param>
+		/// <param name="DomainID">The domain ID.</param>
+		/// <param name="CollectionID">The collection ID.</param>
+		/// <param name="UserID">User ID of a member in the domain.</param>
 		public WebState(string DomainID, string CollectionID, string UserID) :
 			this( DomainID, CollectionID, UserID, SimiasConnection.AuthType.BASIC )
 		{
@@ -315,7 +315,7 @@ namespace Simias
 		/// <summary>
 		/// Get a WebState with the specified credential.
 		/// </summary>
-		/// <param name="domainID">The identifier for the domain.</param>
+		/// <param name="DomainID">The identifier for the domain.</param>
 		public WebState( string DomainID )
 		{
 			lock( cookieHash )
@@ -490,7 +490,7 @@ namespace Simias
 				}
 //				finally
 //				{
-  ///                  ssl = this.HostSSL;
+  //                  ssl = this.HostSSL;
 	//			}
 			}
             if (sslInitialized == false && ssl == true)
@@ -515,9 +515,9 @@ namespace Simias
 		/// Get a connection that can be used to access the host of specified collection.
 		/// </summary>
 		/// <param name="domainID">The domain ID</param>
-		/// <param name="collection">The collection to be accessed</param>
 		/// <param name="userID">The user to authenticate as.</param>
 		/// <param name="authType">The type of authentication.</param>
+		/// <param name="collection">The collection to be accessed</param>
 		/// <returns>Connection</returns>
 		internal static HostConnection GetConnection( string domainID, string userID, SimiasConnection.AuthType authType, Collection collection )
 		{
@@ -549,9 +549,9 @@ namespace Simias
 		/// Get a connection to the home server of the specified member
 		/// </summary>
 		/// <param name="domainID">The domain ID</param>
-		/// <param name="member">The member</param>
 		/// <param name="userID">The user to authenticate as.</param>
 		/// <param name="authType">The authentication type.</param>
+		/// <param name="member">The member</param>
 		/// <returns>a connection.</returns>
 		internal static HostConnection GetConnection(string domainID, string userID, SimiasConnection.AuthType authType, Member member )
 		{
@@ -582,9 +582,9 @@ namespace Simias
 		/// Get a connection to the home server of the specified member
 		/// </summary>
 		/// <param name="domainID">The domain ID</param>
-		/// <param name="member">The member</param>
 		/// <param name="userID">The user to authenticate as.</param>
 		/// <param name="authType">The authentication type.</param>
+		/// <param name="host">Host information against which authentication has to be done.</param>
 		/// <returns>a connection.</returns>
 		internal static HostConnection GetConnection( string domainID, string userID, SimiasConnection.AuthType authType, HostNode host )
 		{
@@ -745,11 +745,23 @@ namespace Simias
 		#endregion
 	}
 
+	/// <summary>
+	///
+	/// </summary>
 	public class SimiasConnection
 	{
+		/// <summary>
+		///
+		/// </summary>
 		public enum AuthType
 		{
+			/// <summary>
+			///
+			/// </summary>
 			BASIC,
+			/// <summary>
+			///
+			/// </summary>
 			PPK,
 		}
 

@@ -150,6 +150,9 @@ namespace Simias.Web
 		private static readonly ISimiasLog log = 
 			SimiasLogManager.GetLogger( System.Reflection.MethodBase.GetCurrentMethod().DeclaringType );
 
+		/// <summary>
+		/// 
+		/// </summary>
 		public static readonly string FilesDirName = "SimiasFiles";
 		
 		/// <summary>
@@ -257,6 +260,7 @@ namespace Simias.Web
 		/// <param name = "LocalPath">
 		/// The name of the Collection to be created
 		/// </param>
+		/// <param name="DomainID"></param>
 		/// <param name = "Type">
 		/// A Type value to add to the collection type.  Examples would be
 		/// iFolder, AB:AddressBook, etc. Leave this blank and no type
@@ -334,6 +338,7 @@ namespace Simias.Web
 		/// iFolder, AB:AddressBook, etc. Leave this blank and no type
 		/// will be added.
 		/// </param>
+		/// <param name="UnmanagedFiles"></param>
 		/// <param name = "CollectionPath">
 		/// The full path to this SharedCollection.  If Path is null or "",
 		/// it will be ignored. The last folder name in the path should
@@ -377,6 +382,19 @@ namespace Simias.Web
 				UnmanagedFiles, CollectionPath, null, null));
 		}
 
+	        /// <summary>
+       		/// 
+	        /// </summary>
+        	/// <param name="Name"></param>
+	        /// <param name="DomainID"></param>
+        	/// <param name="Ssl"></param>
+	        /// <param name="UserID"></param>
+        	/// <param name="Type"></param>
+	        /// <param name="UnmanagedFiles"></param>
+        	/// <param name="CollectionPath"></param>
+	        /// <param name="EncryptionAlgorithm"></param>
+	        /// <param name="Passphrase"></param>
+        	/// <returns></returns>
 		public static Collection CreateSharedCollection(
 			string Name, string DomainID, bool Ssl, string UserID, string Type,
 			bool UnmanagedFiles, string CollectionPath, string EncryptionAlgorithm, string Passphrase)
@@ -737,6 +755,7 @@ namespace Simias.Web
 		/// <param name="Name">The name of the SharedCollection to create.  If a Path is
 		/// specified, it must match the name of the last folder in the path.</param>
 		/// <param name="DomainID">The ID of the domain to create the collection in.</param>
+		/// <param name="Ssl"></param>
 		/// <param name="UserID">The UserID to be made the owner of this SharedCollection. 
 		/// A subscription will be placed in this UserID's POBox.</param>
 		/// <param name="Type">A Type value to add to the collection type.  Examples would be
@@ -748,6 +767,8 @@ namespace Simias.Web
 		/// name of this SharedCollection</param>
 		/// <param name="Description">The description of the SharedCollection to create.</param>
 		/// <param name="AccessID">The access ID for impersonation.</param>
+	        /// <param name="EncryptionAlgorithm"></param>
+        	/// <param name="Passphrase"></param>
 		/// <returns>The Collection object that was created.</returns>
 		public static Collection CreateSharedCollection(
 			string Name, string DomainID, bool Ssl, string UserID, string Type,
@@ -1477,6 +1498,7 @@ namespace Simias.Web
 
 
 
+		/*
 		/// <summary>
 		/// WebMethod that removes a SharedCollection from the local store
 		/// but will leave the subscription intact.  It will result in
@@ -1489,7 +1511,6 @@ namespace Simias.Web
 		/// <returns>
 		/// The subscription for this iFolder
 		/// </returns>
-		/*
 		public static Subscription RevertSharedCollection1(string CollectionID)
 		{
 			log.Debug( "RevertSharedCollection called" );
@@ -1603,7 +1624,13 @@ namespace Simias.Web
 		{
 			SetMemberRights(CollectionID, UserID, Rights, null);
 		}
-
+	        /// <summary>
+        	/// 
+	        /// </summary>
+	        /// <param name="CollectionID"></param>
+	        /// <param name="UserID"></param>
+	        /// <param name="Rights"></param>	
+        	/// <param name="AccessID"></param>
 		public static void SetMemberRights(     string CollectionID, string UserID, string Rights, string AccessID)
 		{
 			SetMemberRights(CollectionID, null, UserID, Rights, AccessID);
@@ -1616,6 +1643,7 @@ namespace Simias.Web
 		/// The ID of the collection representing the Collection to which
 		/// the member is to be added
 		/// </param>
+		/// <param name="groupid"></param>
 		/// <param name = "UserID">
 		/// The ID of the member to be added
 		/// </param>
@@ -1678,10 +1706,10 @@ namespace Simias.Web
 		/// The ID of the collection representing the iFolder to which
 		/// the member is to be added
 		/// </param>
-		/// <param name = "UserID">
+		/// <param name = "NewOwnerUserID">
 		/// The ID of the member to be added
 		/// </param>
-		/// <param name = "Rights">
+		/// <param name = "OldOwnerRights">
 		/// The Rights to be given to the newly added member
 		/// Rights can be "Admin", "ReadOnly", or "ReadWrite"
 		/// </param>
@@ -1702,10 +1730,10 @@ namespace Simias.Web
 		/// The ID of the collection representing the iFolder to which
 		/// the member is to be added
 		/// </param>
-		/// <param name = "UserID">
+		/// <param name = "NewOwnerUserID">
 		/// The ID of the member to be added
 		/// </param>
-		/// <param name = "Rights">
+		/// <param name = "OldOwnerRights">
 		/// The Rights to be given to the newly added member
 		/// Rights can be "Admin", "ReadOnly", or "ReadWrite"
 		/// </param>
@@ -1776,6 +1804,7 @@ namespace Simias.Web
 		/// <param name = "Rights">
 		/// The Rights to be given to the newly added member
 		/// </param>
+		/// <param name="collectionType"></param>
 		public static void AddMember(	string CollectionID, 
 										string UserID,
 										string Rights,
@@ -1797,11 +1826,12 @@ namespace Simias.Web
 		/// <param name = "UserID">
 		/// The ID of the member to be added
 		/// </param>
-		/// <param name="AccessID">
-		/// Perform the action as this user.
-		/// </param>
 		/// <param name = "Rights">
 		/// The Rights to be given to the newly added member
+		/// </param>
+		/// <param name="collectionType"></param>
+		/// <param name="AccessID">
+		/// Perform the action as this user.
 		/// </param>
 		public static void AddMember(	string CollectionID, 
 										string UserID,
@@ -2102,6 +2132,7 @@ namespace Simias.Web
 
 
 #if ( !REMOVE_OLD_INVITATION )
+/*		
 		/// <summary>
 		/// Utility method that should be moved into the POBox class.
 		/// This will create a subscription and place it in the POBox
@@ -2124,7 +2155,6 @@ namespace Simias.Web
 		/// The initial state of the subscription when placed in the POBox
 		/// of the invited Member
 		/// </param>
-/*		
 		private static void AddSubscription(	Store store, 
 											Collection collection, 
 											Simias.Storage.Member inviteMember,
@@ -2171,7 +2201,7 @@ namespace Simias.Web
 		/// The store where the POBox and collection for this subscription
 		/// is to be found.
 		/// </param>
-		/// <param name = "collection">
+		/// <param name = "col">
 		/// The Collection for which the subscription is being removed
 		/// </param>
 		private static void RemoveAllSubscriptions(Store store, Collection col)
@@ -2204,15 +2234,13 @@ namespace Simias.Web
 		/// The store where the POBox and collection for this subscription
 		/// is to be found.
 		/// </param>
-		/// <param name = "collection">
+		/// <param name = "col">
 		/// The Collection for which the subscription is being removed
 		/// </param>
 		/// <param name = "UserID">
 		/// The UserID from which to remove the subscription
 		/// </param>
-		private static void RemoveMemberSubscription(	Store store, 
-														Collection col,
-														string UserID)
+		private static void RemoveMemberSubscription(	Store store, Collection col, string UserID)
 		{
 			Domain domain = store.GetDomain(col.Domain);
 			if((domain != null) && (domain.SupportsNewInvitation == false))

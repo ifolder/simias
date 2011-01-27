@@ -44,10 +44,22 @@ namespace Simias.Sync
 	/// </summary>
 	public class SyncPolicy
 	{
+		/// <summary>
+		/// 
+		/// </summary>
 		public enum PolicyType
 		{
+			/// <summary>
+			/// 
+			/// </summary>
 			Quota = 1,
+			/// <summary>
+			/// 
+			/// </summary>
 			Size,
+			/// <summary>
+			/// 
+			/// </summary>
 			Type
 		};
 
@@ -68,6 +80,9 @@ namespace Simias.Sync
 		PolicyType		reason;
 		string OwnerID;
 
+		/// <summary>
+		/// 
+		/// </summary>
 		public static readonly ISimiasLog log = SimiasLogManager.GetLogger(typeof(SyncService));
 		
 		/// <summary>
@@ -77,7 +92,7 @@ namespace Simias.Sync
 		public SyncPolicy(Collection collection)
 		{
 			// Check if files pass policy.
-			Member member = collection.GetCurrentMember();
+			//Member member = collection.GetCurrentMember();
 			dsQuota = DiskSpaceQuota.Get(collection);
 			fsFilter = FileSizeFilter.Get(collection);
 			ftFilter = FileTypeFilter.Get(collection);
@@ -129,13 +144,18 @@ namespace Simias.Sync
 			return true;
 		}
 		
+		/// <summary>
+		/// Verify the given size is allowed for upload.
+		/// </summary>
+		/// <param name="fSize">size to be verifed.</param>
+		/// <returns></returns>
 		public bool GroupDiskQuotaUploadAllowed(long fSize)
 		{
 			// Aggregate disk quota violation for group will be checked on the owner of collection (not on the member who is syncing)
 			Store store = Store.GetStore();
 			Domain domain = store.GetDomain(store.DefaultDomain);
 			string CollectionOwnerID = OwnerID;//collection.Owner.UserID;
-			Member member = domain.GetMemberByID(CollectionOwnerID);
+			//Member member = domain.GetMemberByID(CollectionOwnerID);
 				
 			bool Allowed = true;
 			bool SpaceAllowed = false;
@@ -171,6 +191,11 @@ namespace Simias.Sync
 		}
 
 		// We call catalog services to read the entries.. Not using discovery because no need...Only read operation is performed
+        /// <summary>
+        /// Collective space used by group member. 
+        /// </summary>
+        /// <param name="groupID">Group id whose members space need to be calculated.</param>
+        /// <returns></returns>
 		static public long GetSpaceUsedByAllGroupMembers( string groupID )
                 {
                         long SpaceUsed = 0;
@@ -201,7 +226,13 @@ namespace Simias.Sync
                 }
 
 
-
+        /// <summary>
+        /// Return space used by pass group
+        /// </summary>
+        /// <param name="groupID">Group id</param>
+        /// <param name="domainID">domain id</param>
+        /// <param name="userID">user id</param>
+        /// <returns>space used</returns>
 		public long SpaceUsedByGroup( string groupID, string domainID, string userID)
 		{
 

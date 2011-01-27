@@ -52,7 +52,7 @@ namespace Simias.Sync
 		AutoResetEvent			writeComplete = new AutoResetEvent(true);
 		Exception				exception;
 
-		private static readonly ISimiasLog log = SimiasLogManager.GetLogger(typeof(StreamStream));
+		//private static readonly ISimiasLog log = SimiasLogManager.GetLogger(typeof(StreamStream));
 
 			
 		/// <summary>
@@ -256,7 +256,8 @@ namespace Simias.Sync
 		/// </summary>
 		/// <param name="outStream">The stream to recieve the data.</param>
 		/// <param name="count">The number of bytes to read.</param>
-		/// <param name="encryption_key">The key string to encrypt the data.</param>
+		/// <param name="encryptionAlgorithm">algorithm used for encrypting data.</param>
+		/// <param name="EncryptionKey">The key string to encrypt the data.</param>
 		/// <returns>The number of bytes read.</returns>
 		public int Read(Stream outStream, int count, string encryptionAlgorithm, string EncryptionKey)
 		{
@@ -361,8 +362,10 @@ namespace Simias.Sync
 		/// Write the data from the supplied stream to this stream.
 		/// </summary>
 		/// <param name="inStream">The data to write.</param>
-		/// <param name="count">The number of bytes to write.</param>
-		/// <param name="encryption_key">Key to encrypt the data with.</param>
+		/// <param name="count">The number of bytes to write.</param>	
+		/// <param name="actualCount">The number of bytes to write.</param>
+		/// <param name="encryptionAlgorithm">Key to encrypt the data with.</param>
+	        /// <param name="EncryptionKey"></param>
 		public void Write(Stream inStream, int count, int actualCount, string encryptionAlgorithm, string EncryptionKey)
 		{
 			int bytesLeft = count;

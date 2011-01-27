@@ -827,6 +827,7 @@ namespace Simias.Storage
 		/// Removes all properties from the specified document that are marked as non-transient.
 		/// </summary>
 		/// <param name="document">Xml document that describes the Node object's properties.</param>
+		/// <param name="LoggedInMember"></param>
  		internal void StripLocalNServerLocalProperties( XmlDocument document, bool LoggedInMember )
  		{
 		    XmlNodeList nonTransList = document.DocumentElement.SelectNodes( "//" + XmlTags.PropertyTag + "[@" + XmlTags.FlagsAttr + "]" );
@@ -1388,8 +1389,8 @@ namespace Simias.Storage
 		/// <summary>
 		/// Converts the PropertyList to a string representation, and strips local as well as client specific info.
 		/// </summary>
-		/// <param name="stripLocalProperties">Always, the local properties will be stripped 
-		/// <param name="LoggedInMember">If this is a member node and the member is currently logged in, then its true  , 
+		/// <param name="stripLocalProperties">Always, the local properties will be stripped.</param> 
+		/// <param name="LoggedInMember">If this is a member node and the member is currently logged in, then its true.</param>
 		/// <returns>A string containing the contents of the property list.</returns>
 		public string ToString( bool stripLocalProperties, bool LoggedInMember )
 		{

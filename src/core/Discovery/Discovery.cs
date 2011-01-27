@@ -52,6 +52,9 @@ using Simias.Client.Event;
 namespace Simias.Discovery
 {
 
+	/// <summary>
+	///
+	/// </summary>	
 	public class CollectionList
 	{
 		private static readonly ISimiasLog log = 
@@ -80,6 +83,9 @@ namespace Simias.Discovery
 		/// Atleast one domain should be processed for shared collection display.
 		/// </summary>
 		private bool processedOne = false;
+		/// <summary>
+		///
+		/// </summary>	
 		public bool processed = false;
 
 
@@ -91,6 +97,10 @@ namespace Simias.Discovery
 		//TODO - we need to ensure collectionList has latest data when a Refresh is triggered
 		// now the collectionList gets populated every 60 secs - even this should be configurable from user end.
 		// we need to expose a function that will trigger the listEvent, so that the timer expires and the list is generated.
+		/// <summary>
+		///
+		/// </summary>	
+		/// <returns></returns>
 		static public ArrayList GetCollectionList()
 		{
 			lock(collectionList)

@@ -48,10 +48,16 @@ namespace Simias.Storage
 	public class HostNode : Member
 	{
 		#region Class Members
+		/// <summary>
+        	/// 
+	        /// </summary>
 		public const string HostNodeType = "Host";
 		const string LocalHostTag = "LocalHost";
 		#endregion
 
+		/// <summary>
+        	/// 
+	        /// </summary>
 		public enum changeMasterStates
 		{
 			/// <summary>
@@ -129,7 +135,6 @@ namespace Simias.Storage
 				Properties.ModifyNodeProperty(new Property(PropertyTags.MasterUrl, value));
 			}
 		}
-		/// <summary>
 
 		/// <summary>
 		/// Gets/Sets if HostNode is the Master Host.
@@ -254,15 +259,21 @@ namespace Simias.Storage
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="nodeID"></param>
-        /// <param name="userId"></param>
+        /// <param name="hInfo"></param>
         /// <param name="publicAddress"></param>
         public HostNode(HostInfo hInfo, string publicAddress) :
             this(hInfo.Name, hInfo.ID, hInfo.MemberID, publicAddress, publicAddress, null)
         {
         }
-
+	/// <summary>
+	///
+	/// </summary>
+	/// <param name="name"></param>
+        /// <param name="nodeID"></param>
+        /// <param name="userId"></param>
+        /// <param name="publicUrl"></param>
+        /// <param name="privateUrl"></param>
+        /// <param name="publicKey"></param>	
         public HostNode(string name, string nodeID, string userId, string publicUrl, string privateUrl, RSACryptoServiceProvider publicKey):
             base(name, nodeID, userId, Access.Rights.ReadOnly, publicKey)
         {
@@ -398,9 +409,9 @@ namespace Simias.Storage
 		{
 			Store store = Store.GetStore();
 			Domain domain = null;
-			/// this might given an exception if the Default Domain is not set up.
-			/// this is true when the entire iFolder store is restored - so the try/catch
-			/// Need to find a better way to fix this without try/catch - FIXME
+			// this might given an exception if the Default Domain is not set up.
+			// this is true when the entire iFolder store is restored - so the try/catch
+			// Need to find a better way to fix this without try/catch - FIXME
 			try
 			{
 				domain = store.GetDomain(store.DefaultDomain);

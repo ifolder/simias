@@ -44,7 +44,6 @@ namespace Simias.Service
 		/// <summary>
 		/// Called to start the service.
 		/// </summary>
-		/// <param name="conf"></param>
 		void Start();
 		/// <summary>
 		/// Called to stop the service.

@@ -60,10 +60,10 @@ namespace Simias.Policy
 		/// </summary>
 		static public readonly string StatusTag = "Encrypt";
 
-		/// <summary>
+	/*	/// <summary>
 		/// Implies to never synchronize.
 		/// </summary>
-//		static public readonly int InfiniteSyncInterval = -1;
+//		static public readonly int InfiniteSyncInterval = -1; */
 
 		/// <summary>
 		/// Used to hold the aggregate policy.
@@ -107,7 +107,7 @@ namespace Simias.Policy
 		/// Creates a system wide Encryption policy.
 		/// </summary>
 		/// <param name="domainID">Domain that the interval will be associated with.</param>
-		/// <param name="interval">Sync interval in seconds that all users in the domain will be set to.</param>
+		/// <param name="status">status.</param>
 		static public void Create( string domainID, int status )
 		{
 			// Need a policy manager.
@@ -138,8 +138,8 @@ namespace Simias.Policy
 		/// <summary>
 		/// Creates a User level Encryption policy.
 		/// </summary>
-		/// <param name="domainID">Domain that the interval will be associated with.</param>
-		/// <param name="interval">Sync interval in seconds that all users in the domain will be set to.</param>
+		/// <param name="member">member.</param>
+		/// <param name="status">status.</param>
 		static public void Create( Member member, int status )
 		{
 			// Need a policy manager.
@@ -176,6 +176,10 @@ namespace Simias.Policy
 		}
 
 
+		/// <summary>
+		/// Function to Delete given member.
+		/// </summary>
+		/// <param name="member">member to delete</param>
 		static public void Delete( Member member )
 		{
 			PolicyManager pm = new PolicyManager();
@@ -193,6 +197,12 @@ namespace Simias.Policy
 			Policy policy = pm.GetPolicy( EncryptionStatePolicyID, domainID );
 			return ( policy != null ) ? ( int )policy.GetValue( StatusTag ) : 0;
 		}
+
+		/// <summary>
+		/// Function to Delete given member.
+		/// </summary>
+	        /// <param name="member">member for which status need to be retrived.</param>
+       		 /// <returns></returns>
 		static public int GetStatus( Member member )
 		{	
 			PolicyManager pm = new PolicyManager();

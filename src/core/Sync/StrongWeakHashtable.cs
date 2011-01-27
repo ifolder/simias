@@ -45,7 +45,7 @@ namespace Simias.Sync.Delta
 	public class StrongWeakHashtable
 	{
 		Hashtable table = new Hashtable();
-        static readonly ISimiasLog log = SimiasLogManager.GetLogger(typeof(SyncClient));
+        //static readonly ISimiasLog log = SimiasLogManager.GetLogger(typeof(SyncClient));
 		/// <summary>
 		/// Add a new HashEntry to the table.
 		/// </summary>
@@ -144,6 +144,7 @@ namespace Simias.Sync.Delta
         /// of the passed in HashEntry.
         /// </summary>
         /// <param name="entry">The entry to match.</param>
+	/// <param name="blocknum"></param>	
         /// <returns>The HashEntry that matched, or null.</returns>
         public HashEntry GetEntryAfterBlock(HashEntry entry, int blocknum)
         {

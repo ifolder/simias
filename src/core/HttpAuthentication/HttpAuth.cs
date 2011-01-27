@@ -53,15 +53,30 @@ using Simias.Storage;
 
 namespace Simias.Authentication
 {
+	/// <summary>
+	/// 
+	/// </summary>
 	public class Session
 	{
+		/// <summary>
+		/// 
+		/// </summary>
 		public Session()
 		{
 			Requests = 0;
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
 		public GenericPrincipal User;
+		/// <summary>
+		/// 
+		/// </summary>
 		public string			MemberID;
+		/// <summary>
+		/// 
+		/// </summary>
 		public UInt64			Requests;
 	}
 
@@ -73,24 +88,52 @@ namespace Simias.Authentication
 		/// <summary>
 		/// Used to log messages.
 		/// </summary>
-		private static readonly ISimiasLog log = 
-			SimiasLogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+		//private static readonly ISimiasLog log = SimiasLogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
+		/// <summary>
 		// Response headers set by the Http Authentication Module
+		/// </summary>
 		public readonly static string DaysUntilPwdExpiresHeader = "Simias-Days-Until-Pwd-Expires";
+		/// <summary>
+		/// 
+		/// </summary>
 		public readonly static string GraceTotalHeader = "Simias-Grace-Total";
+		/// <summary>
+		/// 
+		/// </summary>
 		public readonly static string GraceRemainingHeader = "Simias-Grace-Remaining";
+		/// <summary>
+		/// 
+		/// </summary>
 		public readonly static string SimiasErrorHeader = "Simias-Error";
+		/// <summary>
+		/// 
+		/// </summary>
 		public readonly static string DomainIDHeader = "Domain-ID";
+		/// <summary>
+		/// 
+		/// </summary>
 		public readonly static string UserMovedHeader = "User-Moved";
 
 		private static readonly string sessionTag = "simias";
 		private static readonly string[] rolesArray = { "users" };
 		private static readonly string[] hostRoles = {"users", "hosts"};
 
+		/// <summary>
+		/// 
+		/// </summary>
 		public static readonly string NonceKey = "nonce";
+		/// <summary>
+		/// 
+		/// </summary>
 		public static readonly string PpkAuthKey = "pkauth";
+		/// <summary>
+		/// 
+		/// </summary>
 		public static readonly string PpkType = "PPK";
+		/// <summary>
+		/// 
+		/// </summary>
 		public static int UserMoved = 0;
 
         /// <summary>
@@ -528,6 +571,7 @@ namespace Simias.Authentication
 		/// </summary>
 		/// <param name="domainId"></param>
 		/// <param name="memberId"></param>
+		/// <param name="baseUrl"></param>
 		/// <returns></returns>
 		public static bool AuthenticateWithPPK(string domainId, string memberId, string baseUrl)
 		{

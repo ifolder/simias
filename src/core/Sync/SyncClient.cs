@@ -136,8 +136,17 @@ namespace Simias.Sync
 	
 	    public class SyncAbortedException : Exception
 	    {
+		/// <summary>
+		/// 
+		/// </summary>
 		public SyncAbortedException() {}
+		/// <summary>
+		/// 
+		/// </summary>
 		public SyncAbortedException(string message) : base(message) {}
+		/// <summary>
+		/// 
+		/// </summary>
 		public SyncAbortedException(string message, System.Exception inner) : base(message, inner) {}
 	    }
 
@@ -161,8 +170,11 @@ namespace Simias.Sync
 		bool				shuttingDown;
 		bool				paused;
 		static EventPublisher	eventPublisher = new EventPublisher();
-        public static string currentiFolderID = null;
-        static Object lockobj = new Object();
+		/// <summary>
+		/// 
+		/// </summary>
+	        public static string currentiFolderID = null;
+        	static Object lockobj = new Object();
 
 		#endregion
 
@@ -244,6 +256,7 @@ namespace Simias.Sync
         /// <summary>
         /// Called to schedule a sync operation for all collections and domain. done immediately after login
         /// </summary>
+	/// <param name="DomainID"></param>
         public static void RescheduleAllColSync(string DomainID)
         {
             // Reschedule all the iFolders of the Domain for sync.....
@@ -318,7 +331,7 @@ namespace Simias.Sync
 					if (CurrentiFolderID == sn.ID)
 					{
 						log.Debug("Suspending the Sync for {0}", sn.ID);
-						/// check the authenticated status of the domain...
+						// check the authenticated status of the domain...
 						sc.Suspend();
 						do
 						{
@@ -595,7 +608,6 @@ namespace Simias.Sync
 		/// <summary>
 		/// Starts the Sync client.
 		/// </summary>
-		/// <param name="conf">The configuration object to use.</param>
 		public void Start()
 		{
 			shuttingDown = false;
@@ -704,6 +716,9 @@ namespace Simias.Sync
 		HttpSyncProxy	service;
 		SyncWorkArray	workArray;
 		Store			store;
+		/// <summary>
+		/// 
+		/// </summary>
 		public Collection		collection;
 		bool			serverAlive = true;
 		bool			CollSyncStatus = true;
@@ -711,6 +726,9 @@ namespace Simias.Sync
 		Timer			timer;
 		TimerCallback	callback;
 		FileWatcher		fileMonitor;
+		/// <summary>
+		/// 
+		/// </summary>
 		public bool			stopping;
 		Access.Rights	rights;
 		string			serverContext;
@@ -728,28 +746,72 @@ namespace Simias.Sync
 		bool			yielded = false;
         bool resetSync = false;
 		DateTime		lastSyncTime = DateTime.MinValue;
+		/// <summary>
+		/// 
+		/// </summary>
 		public static bool	running = false;
 
 		Thread			scanThread;
+		/// <summary>
+		/// 
+		/// </summary>
 		public bool	        isSyncDisabled = false;
         
 
+		/// <summary>
+		/// 
+		/// </summary>
                 public enum StateMap : uint
                 {
+			/// <summary>
+			/// 
+			/// </summary>
                         unchanged = 0x00000000,
+			/// <summary>
+			/// 
+			/// </summary>
             		DomainSyncOnce = 0x00000001,
+			/// <summary>
+			/// 
+			/// </summary>
             		DomainSyncStarted = 0x00000002,
+			/// <summary>
+			/// 
+			/// </summary>
             		DomainSyncFinished = 0x00000004,
+			/// <summary>
+			/// 
+			/// </summary>
             		CatalogSyncOnce = 0x00000010,
+			/// <summary>
+			/// 
+			/// </summary>
             		CatalogSyncStarted = 0x00000020,
+			/// <summary>
+			/// 
+			/// </summary>
                         CatalogSyncFinished = 0x00000040,
+			/// <summary>
+			/// 
+			/// </summary>
                         UserMoveSyncStarted = 0x00000100,
+			/// <summary>
+			/// 
+			/// </summary>
                         UserMoveSyncFinished = 0x00000200
                 }
 
+		/// <summary>
+		/// 
+		/// </summary>
         	public static StateMap SyncStateMap = StateMap.unchanged;
+		/// <summary>
+		/// 
+		/// </summary>
 		public static Object MapObject = "StateMapLock";
-
+		/// <summary>
+		/// 
+		/// </summary>
 		public static StateMap ServerSyncStatus
 		{
 			get
@@ -1157,8 +1219,8 @@ namespace Simias.Sync
 						scanThread.Name = collection.Name + " Scan";
 						//if(firstSyncAfterClientUp == false)//second time
 						//	scanThread.Start();
-						///We get all new entries in the collection and set the cookie, after the reconcile and before setting the cookie, the scanned entries are missed, 
-						/// so postphone the start till the rconcile gets over
+						//We get all new entries in the collection and set the cookie, after the reconcile and before setting the cookie, the scanned entries are missed, 
+						// so postphone the start till the rconcile gets over
 					}	
 					else
 					{
@@ -1776,8 +1838,9 @@ namespace Simias.Sync
 		/// <summary>
 		/// Get the changes from the change log in increments
 		/// </summary>
-		/// <param name="nodes">returns the list of changes.</param>
-		/// <param name="context">The context handed back from the last call.</param>
+	        /// <param name="cstamps">returns the list of changes.</param>
+       		/// <param name="tempClientContext">The context handed back from the last call.</param>
+	       	/// <param name="moreEntries"></param>	
 		/// <returns>false the call failed. The context is initialized.</returns>
 		public bool GetChangedNodeInfoArrayIncrements(out SyncNodeInfo[] cstamps, ref string tempClientContext, ref bool moreEntries)
 		{
@@ -2253,6 +2316,7 @@ namespace Simias.Sync
 		/// Save the nodes from the server in the local store.
 		/// </summary>
 		/// <param name="nodes"></param>
+		/// <param name="merge"></param>
 		private void StoreNodes(SyncNode [] nodes, bool merge)
 		{
 			ArrayList	commitArray = new ArrayList();
@@ -2388,6 +2452,7 @@ namespace Simias.Sync
 		/// Store the directory node in the local store also create the directory.
 		/// </summary>
 		/// <param name="snode">The node to store.</param>
+		/// <param name="merge">whether to merge.</param>
 		/// <returns>ture if successful.</returns>
 		private bool StoreDir(SyncNode snode, bool merge)
 		{
@@ -3234,7 +3299,6 @@ namespace Simias.Sync
         /// Removes the node in all server hashtable
         /// </summary>
         /// <param name="nodeID"></param>
-        /// <param name="merge"></param>
         internal void RemoveNodeFromServer(string nodeID)
         {
             nodesFromServerMerge.Remove(nodeID);
@@ -3246,6 +3310,7 @@ namespace Simias.Sync
 		/// Remove the node from the work table.
 		/// </summary>
 		/// <param name="nodeID">The node to remove.</param>
+		/// <param name="merge"></param>
 		internal void RemoveNodeFromServer(string nodeID, bool merge)
 		{
             if (merge)
@@ -3455,6 +3520,7 @@ namespace Simias.Sync
 		/// </summary>
 		/// <param name="nodeID"></param>
 		/// <param name="MasterIncarnation"></param>
+		/// <param name="newNode"></param>
 		/// <returns></returns>
 		bool NodeHasChanged(string nodeID, ulong MasterIncarnation, out bool newNode)
 		{

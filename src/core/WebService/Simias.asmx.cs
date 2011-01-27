@@ -462,7 +462,7 @@ namespace Simias.Web
                                         this.RelativePath = ((DirNode)n).GetRelativePath();
                                 }
                         }
-                        catch(Exception e1)
+                        catch(Exception )
                         {
                         }
                 }
@@ -484,9 +484,9 @@ namespace Simias.Web
 		private static int simiasReferenceCount = 0;
 
 		private static string DomainServiceType = "Domain Service";
-		private static string DomainServicePath = "/simias10/DomainService.asmx";
-                private static string XmlFileRestore = "";
-                private static string BasePathRestore = "";
+		//private static string DomainServicePath = "/simias10/DomainService.asmx";
+                //private static string XmlFileRestore = "";
+                //private static string BasePathRestore = "";
                 private static Thread RestoreThread = null;
 
 
@@ -3006,7 +3006,7 @@ namespace Simias.Web
                 [SoapDocumentMethod]
                 public NodeEntrySet GetEntries(string ifolderID, int type, string relPath, int index, int max, string accessID)
                 {
-                        int total = 0;
+                        //int total = 0;
                         int i = 0;
                         long TotalCount = 0;
                         Simias.Storage.SearchPropertyList SearchPrpList = new Simias.Storage.SearchPropertyList();

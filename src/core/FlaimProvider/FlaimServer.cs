@@ -350,6 +350,7 @@ namespace Simias.Storage.Provider.Flaim
 		/// </summary>
 		/// <param name="query"></param>
 		/// <param name="results"></param>
+		/// <param name="flaimServer"></param>	
 		/// <returns></returns>
 		internal FlaimError.Error Search(Query query, out FlaimResultSet results, FlaimServer flaimServer)
 		{
@@ -450,8 +451,9 @@ namespace Simias.Storage.Provider.Flaim
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="query"></param>
+		/// <param name="queryArray">Queries used for this search</param>	
 		/// <param name="results"></param>
+		/// <param name="flaimServer"></param>
 		/// <returns></returns>
 		internal FlaimError.Error MQSearch(Query[] queryArray, out FlaimResultSet results, FlaimServer flaimServer)
 		{
@@ -968,6 +970,7 @@ namespace Simias.Storage.Provider.Flaim
 		/// All the objects that can fit in the buffer will be returned.
 		/// returns false when no more objects exist.
 		/// </summary>
+		/// <param name="results"></param>		
 		/// <param name="buffer">Buffer used to return the objects.</param>
 		/// <returns>true - objects returned. false - no more objects</returns>
 		public int GetNext(FlaimResultSet results, ref char[] buffer)

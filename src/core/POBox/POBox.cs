@@ -370,12 +370,12 @@ namespace Simias.POBox
 			return subscription;
 		}
 
+		/*
 		/// <summary>
 		/// Creates a subscription in the POBox of the ToUser in the Subscription.
 		/// </summary>
 		/// <param name="subscription"></param>
 		/// <returns></returns>
-		/*
 		public static POBoxStatus SaveSubscription(string subscription)
 		{
 			// Get the subscription Node.
@@ -452,6 +452,9 @@ namespace Simias.POBox
 		/// <summary>
 		/// Removes all subscriptions associated with this collection.
 		/// </summary>
+		/// <param name="domainID"></param>
+		/// <param name="collectionID"></param>
+		/// <param name="userID"></param>		
 		public static void RemoveSubscriptionsForCollection(string domainID, string collectionID)
 		{
 			Store store = Store.GetStore();

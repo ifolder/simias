@@ -182,8 +182,7 @@ namespace Simias.Storage
 			/// <summary>
 			/// Constructs the object.
 			/// </summary>
-			/// <param name="iEnumerator">Enumerator from the ICSList object.</param>
-			/// <param name="count">Number of objects contained in the enumerator.</param>
+			/// <param name="list">Array list of ICSList object.</param>
 			public ICSListEnumerator( ArrayList list )
 			{
 				this.list = list;

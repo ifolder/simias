@@ -101,7 +101,7 @@ namespace Simias.Sync
             {
                 HostID = reader.ReadString();
             }
-            catch (Exception ex)
+            catch (Exception )
             {
                 HostID = null;
             }
