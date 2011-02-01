@@ -1,5 +1,5 @@
 #
-# spec file for package ifolder3 (Version 3.8.4.10364.1)
+# spec file for package ifolder3 (Version 3.8.4.@@BUILDNUM@@.1)
 #
 # Copyright (c) 2009 SUSE LINUX Products GmbH, Nuernberg, Germany.
 #
@@ -31,7 +31,7 @@ BuildRequires:  libstdc++33 libstdc++33-devel
 %endif
 %endif
 
-%define buildnum 10364
+%define buildnum @@BUILDNUM@@
 %define novellmandir /opt/novell/man/
 Url:            http://wwww.ifolder.com
 %define prefix /opt/novell/ifolder3
@@ -48,7 +48,7 @@ Requires:       log4net >= 1.2.10
 Requires:       apache2-mod_mono-addon
 Requires:       novell-NLDAPbase
 #Obsoletes:      %{name} < %{version}
-Version:        3.8.4.10364.1
+Version:        3.8.4.@@BUILDNUM@@.1
 Release:        0.2
 Summary:        Novell iFolder 3 Enterprise
 Source:         ifolder3-enterprise.tar.gz
