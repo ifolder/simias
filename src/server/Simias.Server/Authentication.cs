@@ -592,6 +592,12 @@ namespace Simias.Server
 								Member member = Domain.GetMemberByName( creds.Username );
                                                                 if(member == null)
                                                                         member = Domain.GetMemberByDN( creds.Username );
+								if( member == null)
+								{
+									member = Domain.GetMemberByOldName( creds.Username );
+									if( member != null)
+										creds.Username = member.Name; // give new username for e-dir auth
+								}
 								if(member != null )
                                                                 {				
 									if( Domain.IsLoginDisabled( member.UserID ) != true )

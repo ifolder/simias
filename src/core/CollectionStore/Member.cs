@@ -551,6 +551,36 @@ namespace Simias.Storage
 		}
 
 		/// <summary>
+		/// Gets and sets the member's older DN, used when user is renamed 
+		/// pass null or empty to delete the property
+		/// </summary>
+		public string OldDN
+		{
+			get
+			{
+				Property p = properties.FindSingleValue( PropertyTags.OldDN );
+				if ( p != null )
+				{
+					return p.ValueString;
+				}
+
+				return null;
+			}
+
+			set
+			{
+				if ( ! String.IsNullOrEmpty( value) )
+				{
+					properties.ModifyNodeProperty( PropertyTags.OldDN, value ); 
+				}
+				else
+				{
+					properties.DeleteSingleNodeProperty( PropertyTags.OldDN );
+				}
+			}
+		}
+
+		/// <summary>
 		/// Gets or Sets the HostID for the home server for this user.
 		/// This is the ID of the server that hosts this user.
 		/// </summary>
