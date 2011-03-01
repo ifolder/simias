@@ -44,6 +44,7 @@ AutoReqProv:    on
 Requires:       mono-addon-core >= 2.6.7
 Requires:       mono-addon-data >= 2.6.7
 Requires:       mono-addon-web  >= 2.6.7
+Requires:       mono-addon-wcf  >= 2.6.7
 Requires:       log4net >= 1.2.10 
 Requires:       apache2-mod_mono-addon
 Requires:       novell-NLDAPbase
