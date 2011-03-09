@@ -38,7 +38,7 @@ if [ $OS_ARCH -gt 0 ]
 then
         export OS_ARCH=`uname -m`
 fi
-rpm -q mono-core-addon > /dev/null 2>&1
+rpm -q mono-addon-core > /dev/null 2>&1
 if [ $? -gt 0 ]
 then
 
@@ -49,7 +49,7 @@ then
 else
         MONO_RUNTIME_PATH=/opt/novell/mono
         export MONO_PATH=$MONO_RUNTIME_PATH/lib/mono/:$MONO_RUNTIME_PATH/lib/mono/2.0:@_webbindir_@:@_bindir_@
-        source $MONO_RUNTIME_PATH/bin/novell-ifolder-mono-environment.sh
+        source $MONO_RUNTIME_PATH/bin/mono-addon-environment.sh
         export MONO_CFG_DIR=/etc
         export IFOLDER_MOD_MONO_SERVER2_PATH=@_bindir_@
         export IFOLDER_MONO_PATH=$MONO_RUNTIME_PATH
