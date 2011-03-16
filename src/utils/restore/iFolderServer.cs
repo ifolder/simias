@@ -215,7 +215,7 @@ namespace Restore
                     adminNameForAuth = Convert.ToBase64String(EncodedCredInByte);
                     EncodedCredInByte = utf8Name.GetBytes(adminPassword);
                     adminPasswordForAuth =  Convert.ToBase64String(EncodedCredInByte);
-                 	web.Credentials = new NetworkCredential(this.adminNameForAuth, this.adminPasswordForAuth);
+                    web.Credentials = new NetworkCredential(this.adminNameForAuth, this.adminPasswordForAuth);
 
                     if( !this.CheckCredentials() )
                     {
@@ -2482,8 +2482,8 @@ namespace Restore
 				{
 					MainClass.DebugLog.Write(string.Format("url: {0}", OldServerUrl));
 					string url = OldServerUrl+"/Simias.asmx";
-					string adminname = oldserver.adminName;
-					string adminpassword = oldserver.adminPassword;
+					string adminname = oldserver.adminNameForAuth;
+					string adminpassword = oldserver.adminPasswordForAuth;
 					MainClass.DebugLog.Write(string.Format("Url: {0} relativepath: {1} oldpath: {2} ", url, relativepath, oldpath));
 					retval = newserver.RestoreiFolderData(url, adminname, adminpassword, ifolderid, relativepath, oldpath, startindex);
 					if( retval != 0)
