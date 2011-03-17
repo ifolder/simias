@@ -44,7 +44,7 @@ Requires:       mono-web >= 1.2.2
 Requires:  	log4net >= 1.2.9
 Requires:       xsp >= 1.2.5
 #Obsoletes:      %{name} < %{version}
-Version:        1.8.5.@@BUILDNUM@@.1
+Version:        1.9.0.@@BUILDNUM@@.0
 Release:        0.3
 Summary:        Collection-Oriented Data Storage
 Vendor:         Novell, Inc.

@@ -42,7 +42,7 @@ Requires:       mono-data >= 2.4.2.3
 Requires:       mono-web >= 2.4.2.3
 Requires:       log4net >= 1.2.10 
 Requires:       apache2-mod_mono >= 2.4
-Version:        3.8.4.@@BUILDNUM@@.1
+Version:        3.9.0.@@BUILDNUM@@.0
 Release:        0.2
 Summary:        Novell iFolder 3 Enterprise
 Source:         ifolder3-enterprise.tar.gz

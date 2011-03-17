@@ -1,11 +1,11 @@
 AC_INIT(./src/core/Common/Configuration.cs)
 AC_CANONICAL_SYSTEM
-AM_INIT_AUTOMAKE(simias, 1.8)
+AM_INIT_AUTOMAKE(simias, 1.9)
 # Check to see if the BUILDNUM is set by global build
 #if test "$BUILDNUM" = ""; then
 #	let "BUILDNUM=`date +%G%j`-2000000"
 #fi
-ASSEMBLY_VERSION=5
+ASSEMBLY_VERSION=0
 VERSION=$VERSION.$ASSEMBLY_VERSION.0
 AM_MAINTAINER_MODE
 AC_PROG_CC
