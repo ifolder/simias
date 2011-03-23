@@ -178,7 +178,7 @@ echo "Run %{prefix}/bin/simias-server-setup to configure the server"
 %{prefix}/etc/simias/Simias.config
 %{prefix}/etc/simias/Simias.log4net
 %dir %{prefix}/%_lib
-%{prefix}/%_lib/*.so.*
+%{prefix}/%_lib/*.so*
 #%{prefix}/%_lib/*
 %dir %{prefix}/share
 %{prefix}/share/*
