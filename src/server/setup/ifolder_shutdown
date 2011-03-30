@@ -36,21 +36,21 @@
 #*
 #*******************************************************************************/
 
-if [ -f /opt/novell/ifolder3/mono/bin/mod-mono-server2 ]; then
+if [ -f /opt/novell/mono/bin/mod-mono-server2 ]; then
 
 	source /opt/novell/mono/bin/mono-addon-environment.sh
 
-	/opt/novell/ifolder3/mono/bin/mod-mono-server2 --filename /tmp/mod_mono_server_simias10 --terminate
+	/opt/novell/mono/bin/mod-mono-server2 --filename /tmp/mod_mono_server_simias10 --terminate
 
-	/opt/novell/ifolder3/mono/bin/mod-mono-server2 --filename /tmp/mod_mono_server_admin --terminate
+	/opt/novell/mono/bin/mod-mono-server2 --filename /tmp/mod_mono_server_admin --terminate
 
-	/opt/novell/ifolder3/mono/bin/mod-mono-server2 --filename /tmp/mod_mono_server_ifolder --terminate
+	/opt/novell/mono/bin/mod-mono-server2 --filename /tmp/mod_mono_server_ifolder --terminate
 	for ((  i = 0 ;  i < 4;  i++  ))
 	do
 		SimiasProcess=`ps -ef | grep -c mod_mono_server_simias1[0]`
 		if [ $SimiasProcess -gt 0 ]; then
 			sleep 5	
-			/opt/novell/ifolder3/mono/bin/mod-mono-server2 --filename /tmp/mod_mono_server_simias10 --terminate	
+			/opt/novell/mono/bin/mod-mono-server2 --filename /tmp/mod_mono_server_simias10 --terminate	
 		else
 			exit 0
 		fi
