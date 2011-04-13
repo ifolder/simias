@@ -70,7 +70,7 @@ namespace Novell.iFolder.Enterprise.Web
 
 		private  static string[,] VersionCompatibilityTable = new string[,]{
 								{"1.0.1", "3.0", "3.4"},
-								{"1.1.0", "3.7", "3.8"}
+								{"1.1.0", "3.7", "3.9"}
 								};
 		/// <summary>
 		/// Xml tags used to defined the version information in the version.config file.
