@@ -127,7 +127,7 @@
         <value>Language:</value>
     </data>
     <data name="LOGIN.COPYRIGHT">
-        <value>&amp;copy; Copyright 2010 Novell, Inc. All rights reserved.</value>
+        <value>&amp;copy; Copyright 2011 Novell, Inc. All rights reserved.</value>
     </data>
     <data name="LOGIN">
         <value>Log In</value>
@@ -734,5 +734,8 @@
     </data>
     <data name="DIRECTORY">
         <value>Directory</value>
+    </data>
+    <data name="UNSUPPORTEDCHAR">
+        <value>Special characters are not supported. For more details, contact your administrator.</value>
     </data>
 </root>

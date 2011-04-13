@@ -592,7 +592,7 @@
                 <value>Unable to connect to the iFolder server. Revoke sharing once the server is reachable.</value>
         </data>
 	<data name="LOGINCOPYRIGHT">
-		<value>&amp;copy; Copyright 2010 Novell, Inc. All rights reserved.</value>
+		<value>&amp;copy; Copyright 2011 Novell, Inc. All rights reserved.</value>
 	</data>
 	<data name="LOGINERROR">
 		<value>Error:</value>
