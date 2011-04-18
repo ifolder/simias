@@ -503,8 +503,7 @@ namespace Novell.iFolderApp.Web
 			// put
 			UriBuilder uri = new UriBuilder(web.Url);
 			
-			uri.Path = String.Format("/simias10/Upload.ashx?iFolder={0}&Path={1}&Length={2}",
-				ifolderID, path, file.ContentLength.ToString());
+			uri.Path = String.Format("/simias10/Upload.ashx?iFolder={0}&Path={1}&DontCheckPolicies=false&Length={2}", ifolderID, path, file.ContentLength.ToString());
 
 			HttpWebRequest webRequest = (HttpWebRequest) WebRequest.Create(uri.Uri);
 			webRequest.Method = "PUT";
