@@ -225,6 +225,14 @@ namespace Novell.iFolderApp.Web
 				ViewState["Referrer"] = Request.UrlReferrer;
 				Head.AddHelpLink("SETTINGS");
 			}
+			if( Request.QueryString.Get("Error") != "" && Request.QueryString.Get("Error") != null && Request.QueryString.Get("Error").IndexOf("UNSUPPORTEDCHAR") != -1)
+				{
+					Message.Text = rm.GetString("UNSUPPORTEDCHAR");
+					return;
+				}
+
+
+
 		}
 
 		/// <summary>

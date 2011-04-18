@@ -162,7 +162,11 @@ namespace Novell.iFolderApp.Web
 		protected void Application_Error(Object sender, EventArgs e)
 		{
 			Exception ex = Server.GetLastError().GetBaseException();
-			
+
+			if(ex is System.Web.HttpRequestValidationException)
+                        {
+                                Response.Redirect("Settings.aspx?Error=UNSUPPORTEDCHAR");
+                        }
 			// pass the compile exceptions through for debugging
 			if (!(ex is HttpCompileException) && !(ex is InvalidCastException))
 			{
