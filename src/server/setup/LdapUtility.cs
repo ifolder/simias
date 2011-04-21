@@ -275,8 +275,11 @@ namespace Novell.iFolder.Utility
 					LdapEntry entry = new LdapEntry(dn, attributeSet);
 					connection.Add(entry);
 				}
-				catch(Exception)
+				catch(Exception ex)
 				{
+					
+					if(ex.Message.IndexOf("Constraint Violation") != -1)
+						throw new Exception("Constraint Violation");
 					// This is applicable for both admin and proxy user.
 					created = false;
 				}
