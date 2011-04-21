@@ -38,15 +38,26 @@
 
 iFPrefix=@_bindir_@/../
 CONF_FILE_PATH=/etc/apache2/conf.d
-MOD_MONO_CONF_FILE_PATH="/etc/apache2/mod_mono.conf"
+MOD_MONO_CONF_PATH="/etc/apache2/mod_mono.conf"
+MOD_MONO_CONF_FILE_PATH="/etc/apache2/conf.d/mod_mono.conf"
 IFOLDER32BIT="/opt/novell/ifolder3/lib/simias"
 IFOLDER64BIT="/opt/novell/ifolder3/lib64/simias"
 CPLOGPATH="/var/opt/novell/log/proxymgmt/pxymgmt.log"
 OS_ARCH=`uname -m | grep -c x86_64`
 
 processFile(){
+
+
+ #sed -e s,"Include '${iFPrefix}'mono/etc/apache2/conf.d/mod_mono.conf","Include '${MOD_MONO_CONF_FILE_PATH}'",g -i $1
+ #sed -e s,"Include '${iFPrefix}'mono/etc/apache2/conf.d//mod_mono.conf","Include '${MOD_MONO_CONF_FILE_PATH}'",g -i $1
+
+ sed -e s,'Include /opt/novell/ifolder3/bin/../mono/etc/apache2/conf.d//mod_mono.conf',"Include ${MOD_MONO_CONF_FILE_PATH}",g -i $1
+ sed -e s,'Include /opt/novell/ifolder3/bin/../mono/etc/apache2/conf.d/mod_mono.conf',"Include ${MOD_MONO_CONF_FILE_PATH}",g -i $1
+
+ sed -e s,'Include /opt/novell/ifolder3/mono/etc/apache2/conf.d//mod_mono.conf',"Include ${MOD_MONO_CONF_FILE_PATH}",g -i $1
+ sed -e s,'Include /opt/novell/ifolder3/mono/etc/apache2/conf.d/mod_mono.conf',"Include ${MOD_MONO_CONF_FILE_PATH}",g -i $1
+
 	if [ -f $1 ]; then
-		#sed -e 's,'$MOD_MONO_CONF_FILE_PATH','$iFPrefix/mono/etc/apache2/conf.d/mod_mono.conf',g' -i $1
 		if [ $OS_ARCH -gt 0 ]; then
 			sed -e 's,'$IFOLDER32BIT','$IFOLDER64BIT',g' -i $1	
 		fi
@@ -103,6 +114,7 @@ processFile(){
 		fi
 	fi
 }
+
 
 
 rpm -q mono-addon-core > /dev/null 2>&1
