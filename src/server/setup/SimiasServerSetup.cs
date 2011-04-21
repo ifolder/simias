@@ -2676,11 +2676,20 @@ Console.WriteLine("Url {0}", service.Url);
 				bool created = false;
 				int i = 0;
 				string proxyDN = ldapProxyDN.Value;
+				bool result = false;
 				while(!created)
 				{
 					Console.WriteLine("Creating {0}...", ldapProxyDN.Value);
 					i++;
-					if (ldapUtility.CreateUser(ldapProxyDN.Value, ldapProxyPassword.Value))
+
+					try{
+					result = ldapUtility.CreateUser(ldapProxyDN.Value, ldapProxyPassword.Value);
+					}
+					catch (Exception ex) {
+						throw new Exception( string.Format("password too short or Q not active.") );
+					}
+
+					if (result)
 					{
 	//					Console.WriteLine("Created...{0} ... {1}", ldapUtility.DirectoryType, ldapProxyPassword.Value);
 						created = true;
