@@ -81,6 +81,7 @@ args=("$@")
 path=${args[$path_index_number-1]#*=}
 log4net="$path/simias/Simias.log4net"
 simiaslog="$path/simias/log/Simias.log"
+simiasconfig="$path/simias/Simias.config"
 
 if [ -f $log4net ]; then
         newline=`grep -n Simias.log $log4net`
@@ -95,6 +96,9 @@ else
         echo "log4net file:$log4net not found"
 
 fi
+
+sed /MasterAddress/d -i $simiasconfig #remove MasterAddress if any
+
 echo -n "|		Preparing for the operation.."
 @_bindir_@/simias-server-setup "${args[$path_index_number-1]}" --recover 1>$path/console.log 2>$path/console.log
 echo -n "....."
