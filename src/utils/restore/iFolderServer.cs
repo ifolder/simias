@@ -3095,13 +3095,13 @@ namespace Restore
 			{
 
                                 Console.WriteLine("Command For Execution: $ifolder-data-recovery <Operation> <Arguments>\n");
-                                Console.WriteLine("Operation:\n\t-l, --list\tLists iFolders owned by the specified user and details such as Name,\n\t\t\tiFolderID, and Path (at the time of backup)");
-                                Console.WriteLine("\t-r, --restore\tRestore requested data (File/Folder/iFolder) from specified backup store.");
+                                Console.WriteLine("Operation:\n\t--list\tLists iFolders owned by the specified user and details such as Name,\n\t\t\tiFolderID, and Path (at the time of backup)");
+                                Console.WriteLine("\t--restore\tRestore requested data (File/Folder/iFolder) from specified backup store.");
                                 Console.WriteLine("\t--retry\t\tRetry restore operation for failed data in last run.");
-                                Console.WriteLine("\t-h, --help\tPrint help regarding Operation, argument and usage.");
+                                Console.WriteLine("\t--help\tPrint help regarding Operation, argument and usage.");
                                 Console.WriteLine("\t\nArguments:\n\t--path\t\t\tPath of simias directory that has the iFolder backup store, FlaimSimias.db");
-                                Console.WriteLine("\t-U, --backup-admin\tLogin name of iFolder administrator who performed the backup");
-                                Console.WriteLine("\t-u,--current-admin\tiFolder administrator login name for the current server. Use this Option if backup \n\t\t\t\tadministrator is different from current administrator.");
+                                Console.WriteLine("\t--backup-admin\tLogin name of iFolder administrator who performed the backup");
+                                Console.WriteLine("\t--current-admin\tiFolder administrator login name for the current server. Use this Option if backup \n\t\t\t\tadministrator is different from current administrator.");
                                 Console.WriteLine("\t--server-url\t\tPublic URL of the iFolder server where data is to be restored");
                                 Console.WriteLine("\t--user\t\t\tUsername of the user for whom the specified operation is to be performed");
                                 Console.WriteLine("\t--ifolder-id\t\tID of the iFolder for which the specified operation is to be performed");
