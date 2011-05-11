@@ -314,7 +314,15 @@ namespace Simias.Sync
 		/// </summary>
 		~InFile()
 		{
-			Close (true, false);
+			try
+            {
+                Close(true, false);
+            }
+            catch (Exception ex)
+            {
+                Log.log.Info("Exception at Infile destructor: trace {0}", ex.StackTrace);
+            }
+
 		}
 
 		#endregion
