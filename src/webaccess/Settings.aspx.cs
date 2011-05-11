@@ -485,7 +485,7 @@ namespace Novell.iFolderApp.Web
 				url += String.Format("?PasswordChanged={0}",PasswordChanged);
 			}
 			
-			Head.Logout(GetString("PASSWORDCHANGESUCCESS"));	
+			Head.Logout("PASSWORDCHANGESUCCESS");	
 			// redirect
 			//Response.Redirect(url);
 			

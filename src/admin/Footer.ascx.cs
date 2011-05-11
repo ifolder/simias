@@ -157,7 +157,7 @@ namespace Novell.iFolderWeb.Admin
 					String.Format( 
 					"Login.aspx?MessageType={0}&MessageText={1}",
 					Context.Server.UrlEncode( GetString( "LOGINERROR" ) ),
-					Context.Server.UrlEncode( GetString( "SESSIONCLOSED" ) ) ) );
+					Context.Server.UrlEncode( "SESSIONCLOSED" ) ) );
 			}
 
 			if ( !IsPostBack )

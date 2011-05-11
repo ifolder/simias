@@ -153,6 +153,8 @@ namespace Novell.iFolderWeb.Admin
 			{
 				// query message
 				MessageType.Text = Request.QueryString.Get("MessageType");
+
+				//retrive error code
 				MessageText.Text = Request.QueryString.Get("MessageText");
 
 				// basic authentication for iChain
@@ -272,6 +274,8 @@ namespace Novell.iFolderWeb.Admin
 
 				ServerUrl.Text = simiasUrl;
 			}
+				//retrive msg code
+				MessageText.Text = DisplayText(MessageText.Text);
 		}
 
 		/// <summary>
@@ -377,7 +381,7 @@ namespace Novell.iFolderWeb.Admin
 				if (testCookie == null)
 				{
 					MessageType.Text = rm.GetString("LOGINERROR");
-					MessageText.Text = rm.GetString("LOGINNOCOOKIES");
+					MessageText.Text = "LOGINNOCOOKIES";
 				
 					// log access
 					log.Info(Context, "Login Failed: Browser Cookies Disabled");
@@ -394,7 +398,7 @@ namespace Novell.iFolderWeb.Admin
 				if ((noscript != null) && (noscript == "true"))
 				{
 					MessageType.Text = rm.GetString("LOGINERROR");
-					MessageText.Text = rm.GetString("LOGINNOSCRIPT");
+					MessageText.Text = "LOGINNOSCRIPT";
 				
 					// log access
 					log.Info(Context, "Login Failed: Browser Scripts Disabled");
@@ -622,26 +626,26 @@ namespace Novell.iFolderWeb.Admin
 				switch(error)
 				{
 					case "InvalidCertificate":
-						MessageText.Text = rm.GetString("INVALIDCERTIFICATE");
+						MessageText.Text = "INVALIDCERTIFICATE";
 						break;
 
 					case "InvalidCredentials":
 					case "UnknownUser":
 					case "InvalidPassword":
-						MessageText.Text = rm.GetString("LOGINUNAUTHORIZED");
+						MessageText.Text = "LOGINUNAUTHORIZED";
 						break;
 
 					case "AccountDisabled":
 					case "SimiasLoginDisabled":
-						MessageText.Text = rm.GetString("LOGINACCOUNTDISABLED");
+						MessageText.Text = "LOGINACCOUNTDISABLED";
 						break;
 
 					case "AccountLockout":
-						MessageText.Text = rm.GetString("LOGINACCOUNTLOCKED");
+						MessageText.Text = "LOGINACCOUNTLOCKED";
 						break;
 
 					default:
-						MessageText.Text = rm.GetString("LOGINCONNECTFAILED");
+						MessageText.Text = "LOGINCONNECTFAILED";
 						break;
 				}
 
@@ -662,7 +666,7 @@ namespace Novell.iFolderWeb.Admin
 						switch(code)
 						{
 							case HttpStatusCode.Unauthorized:
-								MessageText.Text = rm.GetString("LOGINUNAUTHORIZED");
+								MessageText.Text = "LOGINUNAUTHORIZED";
 								break;
 
 							case HttpStatusCode.Redirect:
@@ -678,12 +682,12 @@ namespace Novell.iFolderWeb.Admin
 								{
 									// ignore
 								}
-								
+							
 								MessageText.Text = String.Format("{0}<br>{1}", rm.GetString("LOGINREDIRECT"), location);
 								break;
 
 							default:
-								MessageText.Text = rm.GetString("LOGINCONNECTFAILED");
+								MessageText.Text = "LOGINCONNECTFAILED";
 								break;
 						}
 					}
@@ -691,22 +695,22 @@ namespace Novell.iFolderWeb.Admin
 				
 					case WebExceptionStatus.ConnectFailure:
 						MessageType.Text = rm.GetString("LOGINERROR");
-						MessageText.Text = rm.GetString("LOGINCONNECTFAILED");
+						MessageText.Text = "LOGINCONNECTFAILED";
 						break;
 
 					case WebExceptionStatus.TrustFailure:
 						MessageType.Text = rm.GetString("LOGINERROR");
-						MessageText.Text = rm.GetString("LOGINTRUSTFAILED");
+						MessageText.Text = "LOGINTRUSTFAILED";
 						break;
 
 					case WebExceptionStatus.SecureChannelFailure:
 						MessageType.Text = rm.GetString("LOGINERROR");
-						MessageText.Text = rm.GetString("LOGINSECUREFAILED");
+						MessageText.Text = "LOGINSECUREFAILED";
 						break;
 
 					case WebExceptionStatus.SendFailure:
 						MessageType.Text = rm.GetString("LOGINERROR");
-						MessageText.Text = rm.GetString("LOGINSENDFAILED");
+						MessageText.Text = "LOGINSENDFAILED";
 						break;
 
 					default:
@@ -720,6 +724,39 @@ namespace Novell.iFolderWeb.Admin
 
 			return result;
 		}
+
+
+		public string DisplayText(string msgCode)
+		{
+
+			string fullstring = null ;
+
+			switch (msgCode)
+			{
+				case "LOGINSENDFAILED" : 
+				case "LOGINSECUREFAILED": 
+				case "LOGINTRUSTFAILED": 
+				case "LOGINCONNECTFAILED": 
+				case "LOGINUNAUTHORIZED": 
+				case "LOGINACCOUNTLOCKED": 
+				case "LOGINACCOUNTDISABLED": 
+				case "INVALIDCERTIFICATE": 
+				case "LOGINNOCOOKIES": 
+				case "LOGINNOSCRIPT": 
+						fullstring = rm.GetString(msgCode);
+						 break;
+				default : 
+					
+						if( msgCode.Contains(rm.GetString("LOGINLOGOUT")) ||
+                                                    msgCode.Contains(rm.GetString("LOGINREDIRECT")) ||
+                                                    msgCode.Contains(rm.GetString("LOGINLOSTSESSION")) )
+							fullstring = msgCode;
+						break;
+			}
+			
+			return fullstring;
+		}
+
 	}
 
 	/// <summary>
