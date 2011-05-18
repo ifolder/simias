@@ -57,16 +57,16 @@ url(../../images/helphead_bg.gif) repeat-x 0% 0% }
   
   <H3><A NAME="modify"></A> LDAP 設定の変更</H3><P>次のフィールドを変更し、［OK］をクリックして変更を適用します。<i></i></P><TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>パラメータ</P></TD><TD CLASS="tablehead2"><P>説明</P></TD></TR>
 <TR><TD VALIGN="TOP">
-        <P>LDAP Admin DN (LDAP管理者のDN)</P>
+        <P>LDAP Admin DN(LDAP管理者のDN)</P>
       </TD><TD>
         <P>LDAP管理者の完全識別名を指定します。iFolder管理者と同じ名前または別の名前を指定できます。</P>
       </TD></TR>
 	  <TR><TD VALIGN="TOP">
-        <P>LDAP Admin Password (LDAP管理者のパスワード)</P>
+        <P>LDAP Admin Password(LDAP管理者のパスワード)</P>
       </TD><TD>
         <P>このパスワードは、LDAPサーバに対してLDAP管理者ユーザを認証する場合に使用されます。 </P>
         
-        <P><i></i>LDAP設定に保存されているパスワードを更新するには、［OK］をクリックします。</P>
+        <P>LDAP設定に保存されているパスワードを更新するには、［<i>OK</i> ］をクリックします。</P>
 <blockquote>
   
 </blockquote>
@@ -78,7 +78,7 @@ url(../../images/helphead_bg.gif) repeat-x 0% 0% }
 	  <TR><TD VALIGN="TOP">
         <P>LDAP SSL</P>
       </TD><TD>
-        <P>［はい］を選択すると、LDAP SSLが有効になります。 <i></i>サーバでSSLが有効になっている場合の値は［はい］、サーバでSSLが有効になっていない場合の値は［いいえ］です。<BR>
+        <P>［はい］を選択すると、LDAP SSLが有効になります。<i></i>サーバでSSLが有効になっている場合の値は［はい］、サーバでSSLが有効になっていない場合の値は［いいえ］です。<BR>
         </P></TD></TR><TR><TD VALIGN="TOP">
         <P>プロキシユーザ</P>
       </TD><TD>
@@ -87,26 +87,26 @@ url(../../images/helphead_bg.gif) repeat-x 0% 0% }
     <P> iFolderプロキシユーザにする既存のユーザの完全識別名を指定します。このIDには、LDAPディレクトリに対する読み込み権が必要です。例: </P>
         <P> cn=iFolderProxy,o=acme</P>
     <P> 新しいユーザのパスワードを［プロキシパスワード］フィールドに入力してください。</P>
-        <P> プロキシユーザを変更したら、すぐに新しいiFolderプロキシ情報でLDAPユーザリストを同期するとよいでしょう。この処理を行わないと、スケジュールされた同期によってユーザリストが同期されるまでは、ユーザ情報はテストされません。iFolderユーザリストをオンデマンドで同期し、新しいプロキシユーザ設定を確認するには、［Server Details (サーバ詳細)］ページの［LDAP Details (LDAPの詳細)］にある［いますぐ同期］オプションを使用します。<i></i><i></i></P>
+        <P> プロキシユーザを変更したら、すぐに新しいiFolderプロキシ情報でLDAPユーザリストを同期するとよいでしょう。この処理を行わないと、スケジュールされた同期によってユーザリストが同期されるまでは、ユーザ情報はテストされません。iFolderユーザリストをオンデマンドで同期し、新しいプロキシユーザ設定を確認するには、［Server Details(サーバ詳細)］ページの［LDAP Details(LDAPの詳細)］にある［いますぐ同期］オプションを使用します。<i></i><i></i></P>
         </TD></TR>
-	<TR><TD VALIGN="TOP"><P>Proxy User Password (プロキシユーザのパスワード)</P></TD><TD>
+	<TR><TD VALIGN="TOP"><P>Proxy User Password(プロキシユーザのパスワード)</P></TD><TD>
         <P>このパスワードは、iFolderがユーザをLDAPサーバと同期するときに、LDAPサーバでiFolderプロキシユーザを認証する場合に使用されます。 </P>
         <P>iFolderプロキシユーザのパスワードを変更する場合、iFolderシステムのLDAP設定に保存された値を更新する必要はありません。このインタフェースから直接パスワードを変更できます。</p>
         <P>このパスワードは、iFolderプロキシユーザのeDirectory<sup><small>TM</small></sup>オブジェクトに保存されているパスワードと一致している必要があります。 </P>
-<P>LDAP設定に保存されているパスワードを更新するには、パスワードを2回入力し、［OK］をクリックします｡<i></i></P>
+<P>LDAP設定に保存されているパスワードを更新するには、パスワードを2回入力し、［<i>OK</i> ］をクリックします。</P>
 <P>注意: iFolderがOES一般プロキシを使用するように設定されている場合、代理ユーザのパスワードは、iFolder Web Adminコンソールから変更しないでください。</P></TD></TR><TR><TD VALIGN="TOP">
         <P>LDAPコンテキスト</P>
       </TD><TD>
         <P> このエンタープライズサーバ上のiFolderサーバにプロビジョニングするには、iFolderで認証ユーザのリストを検索するLDAPコンテナ、グループまたはユーザを指定するか編集します。LDAPコンテキストは、LDAP形式で入力します。例: </P>
         <P> cn=group,o=acme#cn=dbgroup,o=acme#</P>
-        <P>値を編集するには、その値を選択して変更を加え、［OK］をクリックして変更内容を適用します。<i></i></P>  
+        <P>値を編集するには、その値を選択して変更を加え、［<i>OK</i> ］をクリックして変更内容を適用します。 </P>  
   
         <P>iFolder管理者ユーザは、インストール中にサーバにプロビジョニングされます。このユーザはGUIDで追跡されるため、コンテナ、グループまたはユーザを指定しない場合や、iFolder管理者ユーザが存在しない検索DNを指定した場合でも使用できます。iFolder管理者が管理タスクを実行できるようにするには、このIDをプロビジョニングする必要があります。</P>
-        <P>LDAP同期はスケジュールすることも、［いますぐ同期<i></i>］ボタンをクリックして手動で実行することもできます。LDAP同期の際に、iFolderサーバはLDAPサーバを照会し、［LDAPコンテキスト<i></i>］フィールドに指定されたDNからユーザのリストを取得します。iFolderドメインのユーザ名は、LDAPリストと比較されます。指定されたLDAPコンテキストに対してユーザが追加または削除されている場合は、iFolderドメインもその後で更新されます。</P>
+        <P>LDAP同期はスケジュールすることも、［<i>いますぐ同期</i> ］ボタンをクリックして手動で実行することもできます。LDAP同期の際に、iFolderサーバはLDAPサーバを照会し、［<i>LDAPコンテキスト</i> ］フィールドに指定されたDNからユーザのリストを取得します。iFolderドメインのユーザ名は、LDAPリストと比較されます。指定されたLDAPコンテキストに対してユーザが追加または削除されている場合は、iFolderドメインもその後で更新されます。</P>
         <P>ユーザがLDAPコンテキストから削除された場合でも、最初のLDAP同期では、猶予間隔ポリシーに関係なくiFolderドメインのユーザが無効になるだけです。無効になったユーザが、猶予期間後に自動的に削除されることはありません。無効の状態のままiFolderドメインに引き続き存在します。猶予期間内にこのユーザを再度設定すると、ユーザはすべてのiFolderでアクティブになります。猶予期間を過ぎると、以降のLDAP同期ではiFolderドメインからユーザが削除され、そのユーザのiFolderはすべて孤立します。孤立したiFolderは、iFolder管理者ユーザに再割り当てされます。</P>
       </TD></TR>
   </TABLE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="トップへジャンプ"></A></P><H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="関連項目" align="top"> 関連項目</H4><BLOCKQUOTE class="task1">
-<P ><A HREF="system.html">iFolderシステムの管理</A><BR><A HREF="member.html">ユーザアカウントの管理</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="トップへジャンプ"></A></P><P>&nbsp;</P><P CLASS="copyright">商標記号（<SUP><SMALL>&reg;</SMALL></SUP>、<SUP><SMALL>TM</SMALL></SUP>など）は、Novellの商標を示し、アスタリスク（*）は、サードパーティの商標を示します。  詳細については、「<A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">保証と著作権</font></A>」を参照してください。</P></div><!-- This is the end of the Help Content layer. --> 
+<P ><A HREF="system.html">iFolderシステムの管理</A><BR><A HREF="member.html">ユーザアカウントの管理</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="トップへジャンプ"></A></P><P>&nbsp;</P><P CLASS="copyright">商標記号（<SUP><SMALL>&reg;</SMALL></SUP>、<SUP><SMALL>TM</SMALL></SUP>など）は、Novellの商標を示し、アスタリスク（*）は、サードパーティの商標を示します。詳細については、「<A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">保証と著作権</font></A>」を参照してください。</P></div><!-- This is the end of the Help Content layer. --> 
 </body>
 
 </html>

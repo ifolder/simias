@@ -120,11 +120,11 @@ url(../../images/helphead_bg.gif) repeat-x 0% 0% }
     <P>Właściciel iFolderu ma nad nim pełną kontrolę. Ten użytkownik lub grupa LDAP może odczytywać i zapisywać dane w iFolderze, zarządzać członkostwem i prawami dostępu użytkownik&oacute;w i grup LDAP oraz odbierać członkom pełną kontrolę nad iFolderem. W przypadku serwera przedsiębiorstwa ilość miejsca na dysku używanego przez iFoldery właściciela jest odliczana od przydział&oacute;w dysku użytkownika na tym serwerze.</P>
     <P>Usunięcie użytkownika lub grupy LDAP z systemu iFolder powoduje, że iFoldery będące własnością tego użytkownika lub grupy stają się osierocone. Właścicielem osieroconych iFolder&oacute;w tymczasowo jest administrator systemu iFolder. Ustawienia członkostwa i synchronizacji dotyczące innych użytkownik&oacute;w i członk&oacute;w grupy LDAP wciąż obowiązują, a administrator systemu iFolder może zdecydować, czy osierocony iFolder powinien zostać usunięty, czy ma otrzymać nowego właściciela.</P>
   <P><B>Pełna kontrola</B><BR>
-      Członek wsp&oacute;łużytkowanego iFolderu mający pełne prawa dostępu. Użytkownik lub grupa LDAP z prawem Pełna kontrola ma dostęp do iFolderu z możliwością odczytu/zapisu oraz może zarządzać członkostwem i prawami dostępu wszystkich użytkownik&oacute;w z wyjątkiem właściciela.</P>
+      Członek wsp&oacute;łużytkowanego folderu iFolder z prawem dostępu Pełna kontrola. Użytkownik lub grupa LDAP z prawem Pełna kontrola ma dostęp do iFolderu z możliwością odczytu/zapisu oraz może zarządzać członkostwem i prawami dostępu wszystkich użytkownik&oacute;w z wyjątkiem właściciela.</P>
   <P><B>Odczyt/Zapis</B><BR>
-    Członek wsp&oacute;łużytkowanego iFolderu z prawem odczytu i zapisu do katalog&oacute;w i plik&oacute;w w iFolderze.</P>
+    Członek wsp&oacute;łużytkowanego folderu iFolder z prawem dostępu Odczyt/zapis do katalog&oacute;w i plik&oacute;w w folderze iFolder.</P>
   <P><B>Tylko do odczytu</B><BR>
-    Członek wsp&oacute;łużytkowanego iFolderu, kt&oacute;ry ma wyłącznie prawo do odczytu katalog&oacute;w i plik&oacute;w w iFolderze. Ten członek może kopiować pliki z iFolderu do innego położenia i modyfikować je poza iFolderem.</P>
+    Członek wsp&oacute;łużytkowanego folderu iFolder z prawem dostępu Tylko do odczytu do katalog&oacute;w i plik&oacute;w w folderze iFolder. Ten członek może kopiować pliki z iFolderu do innego położenia i modyfikować je poza iFolderem.</P>
 </BLOCKQUOTE>
 <p>W poniższej tabeli podano funkcje powiązane ze wszystkimi poziomami dostępu dla użytkownik&oacute;w.</p>
   <TABLE WIDTH="93%" BORDER="1">
@@ -419,7 +419,7 @@ url(../../images/helphead_bg.gif) repeat-x 0% 0% }
           <BR>
         <B>Efektywna</B><BR>
         Efektywny rozmiar plik&oacute;w przydzielony użytkownikowi.<br>
-		<ul><P><font size="-1"><b>WAŻNE:</b> Synchronizowanie przez użytkownika plik&oacute;w, kt&oacute;rych rozmiar spowodowałby przekroczenie przydziału, jest niemożliwe. W przypadku pr&oacute;by synchronizacji takiego pliku synchronizowana jest jedynie część pliku, powodując uszkodzenie danych.</font></P></ul>
+		<ul><P><font size="-1"><b>WAŻNE:</b> Synchronizowanie przez użytkownika plik&oacute;w, kt&oacute;rych rozmiar spowodowałby przekroczenie przydziału, jest niemożliwe. W przypadku pr&oacute;by synchronizacji takiego pliku synchronizowana jest jedynie część pliku, co powoduje uszkodzenie danych.</font></P></ul>
       </TD></TR>
 	  <TR>
       <TD VALIGN="TOP"> 
