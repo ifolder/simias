@@ -49,67 +49,68 @@ namespace Novell.iFolderWeb.Admin
         /// Summary description for editing ldap details 
         /// </summary>
         public class LdapAdminAuth : System.Web.UI.Page
-        {
-		#region Class Members
-		
+	{
+#region Class Members
+		private static readonly iFolderWebLogger log = new iFolderWebLogger(
+				System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.Name);
 		/// <summary>
-                /// iFolder Connection
-                /// </summary>
-                private iFolderAdmin web;
+		/// iFolder Connection
+		/// </summary>
+		private iFolderAdmin web;
 
-	 	/// <summary>
-                /// iFolder Connection to the remote server
-                /// </summary>
+		/// <summary>
+		/// iFolder Connection to the remote server
+		/// </summary>
 		private iFolderAdmin remoteweb;
 
-                /// <summary>
-                /// Resource Manager
-                /// </summary>
-                private ResourceManager rm;
+		/// <summary>
+		/// Resource Manager
+		/// </summary>
+		private ResourceManager rm;
 
 		/// <summary>
 		/// Logged in admin system rights instance
 		/// </summary>
 		UserSystemAdminRights uRights;
-		
+
 		/// <summary>
 		/// Logged in user system rights value
 		/// </summary>
 		int sysAccessPolicy = 0;
 
-                /// <summary>
-                /// Top navigation panel control.
-                /// </summary>
-                protected TopNavigation TopNav;
+		/// <summary>
+		/// Top navigation panel control.
+		/// </summary>
+		protected TopNavigation TopNav;
 
 		/// <summary>
-                /// ldap admin name edit control.
-                /// </summary>
-                protected TextBox LdapAdminName;
+		/// ldap admin name edit control.
+		/// </summary>
+		protected TextBox LdapAdminName;
 
 		/// <summary>
-                /// ldap admin password control.
-                /// </summary>
-                protected TextBox LdapAdminPwd;
-		
+		/// ldap admin password control.
+		/// </summary>
+		protected TextBox LdapAdminPwd;
+
 		/// <summary>
-                /// LDAP Server name.
-                /// </summary>
+		/// LDAP Server name.
+		/// </summary>
 		protected TextBox LdapServer;
 
-                /// <summary>
-                /// LDAP Proxy User
-                /// </summary>
+		/// <summary>
+		/// LDAP Proxy User
+		/// </summary>
 		protected TextBox LdapProxyUser;
 
-                /// <summary>
-                /// LDAP Proxy User
-                /// </summary>
+		/// <summary>
+		/// LDAP Proxy User
+		/// </summary>
 		protected TextBox LdapProxyUserPwd;
 
-                /// <summary>
-                /// LDAP Proxy User
-                /// </summary>
+		/// <summary>
+		/// LDAP Proxy User
+		/// </summary>
 		protected TextBox ConfirmLdapProxyUserPwd;
 
 		/// <summary>
@@ -117,69 +118,69 @@ namespace Novell.iFolderWeb.Admin
 		/// </summary>
 		protected DropDownList LdapSslList;
 
-                /// <summary>
-                /// Search context
-                /// </summary>
+		/// <summary>
+		/// Search context
+		/// </summary>
 		protected TextBox LdapSearchContext;
 
 		/// <summary>
-                /// OK button control.
-                /// </summary>
-                protected Button OkButton;
+		/// OK button control.
+		/// </summary>
+		protected Button OkButton;
 
 		/// <summary>
-                /// cancel button control.
-                /// </summary>
-                protected Button CancelButton;
+		/// cancel button control.
+		/// </summary>
+		protected Button CancelButton;
 
-		#endregion
-		
-		#region Properties
-		
-		/// <summary>
-                /// Gets the Server ID.
-                /// </summary>
-                private string ServerID
-                {
-                        get { return Request.Params[ "ServerID" ]; } 
-                }
+#endregion
+
+#region Properties
 
 		/// <summary>
-                /// Gets the Server Name.
-                /// </summary>
-                private string serverName
-                {
-                        get { return Request.Params[ "serverName" ]; }
-                }
+		/// Gets the Server ID.
+		/// </summary>
+		private string ServerID
+		{
+			get { return Request.Params[ "ServerID" ]; } 
+		}
 
-		#endregion
-		
-		#region Private Methods
+		/// <summary>
+		/// Gets the Server Name.
+		/// </summary>
+		private string serverName
+		{
+			get { return Request.Params[ "serverName" ]; }
+		}
 
-                /// <summary>
-                ///  Builds the breadcrumb list for this page.
-                /// </summary>
-                private void BuildBreadCrumbList(string ServerID,string serverName)
-                {
+#endregion
+
+#region Private Methods
+
+		/// <summary>
+		///  Builds the breadcrumb list for this page.
+		/// </summary>
+		private void BuildBreadCrumbList(string ServerID,string serverName)
+		{
 			TopNav.AddBreadCrumb( GetString( "SERVERS" ), "Servers.aspx" );
 			TopNav.AddBreadCrumb( serverName, String.Format( "ServerDetails.aspx?id={0}", ServerID ) );
-                        TopNav.AddBreadCrumb( GetString( "LDAPDETAILS" ), null );
+			TopNav.AddBreadCrumb( GetString( "LDAPDETAILS" ), null );
 			// Pass this page information to create the help link
 			TopNav.AddHelpLink(GetString("LDAPADMINAUTH"));
-                }
-	
+		}
+
 		/// <summary>
-                /// Page_Load
-                /// </summary>
-                /// <param name="sender"></param>
-                /// <param name="e"></param>
-                private void Page_Load(object sender, System.EventArgs e)
-                {
-                        // connection
-                        web = Session[ "Connection" ] as iFolderAdmin;
+		/// Page_Load
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void Page_Load(object sender, System.EventArgs e)
+		{
+			// connection
+			web = Session[ "Connection" ] as iFolderAdmin;
 
 			// localization
-                        rm = Application[ "RM" ] as ResourceManager;
+			rm = Application[ "RM" ] as ResourceManager;
 
 			string userID = Session[ "UserID" ] as String;
 			if(userID != null && ServerID != null && ServerID != String.Empty)
@@ -189,45 +190,45 @@ namespace Novell.iFolderWeb.Admin
 			uRights = new UserSystemAdminRights(sysAccessPolicy);
 			if(uRights.ServerPolicyManagementAllowed == false)
 				Page.Response.Redirect(String.Format("Error.aspx?ex={0}&Msg={1}",GetString( "ACCESSDENIED" ), GetString( "ACCESSDENIEDERROR" )));
-	
+
 			if ( !IsPostBack )
 			{
 				remoteweb = new iFolderAdmin ();
-				
+
 
 				OkButton.Text = GetString( "OK" );
 				CancelButton.Text = GetString( "CANCEL" );
 
 			}
-                }
+		}
 
-		
+
 		/// <summary>
-                /// Page_PreRender
-                /// </summary>
-                /// <param name="sender"></param>
-                /// <param name="e"></param>
-                private void Page_PreRender(object sender, EventArgs e)
-                {
+		/// Page_PreRender
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void Page_PreRender(object sender, EventArgs e)
+		{
 			GetLdapDetails ();
-                        // Set the breadcrumb list.
-                        BuildBreadCrumbList(ServerID,serverName);
-                }
-		
-		/// <summary>
-                /// Required method for Designer support - do not modify
-                /// the contents of this method with the code editor.
-                /// </summary>
-                private void InitializeComponent()
-                {
-                        if ( !Page.IsPostBack )
-                        {
-                                // Set the render event to happen only on page load.
-                                Page.PreRender += new EventHandler( Page_PreRender );
-                        }
+			// Set the breadcrumb list.
+			BuildBreadCrumbList(ServerID,serverName);
+		}
 
-                        this.Load += new System.EventHandler(this.Page_Load);
-                }
+		/// <summary>
+		/// Required method for Designer support - do not modify
+		/// the contents of this method with the code editor.
+		/// </summary>
+		private void InitializeComponent()
+		{
+			if ( !Page.IsPostBack )
+			{
+				// Set the render event to happen only on page load.
+				Page.PreRender += new EventHandler( Page_PreRender );
+			}
+
+			this.Load += new System.EventHandler(this.Page_Load);
+		}
 
 
 		/// <summary>
@@ -238,11 +239,11 @@ namespace Novell.iFolderWeb.Admin
 		{
 			iFolderServer server = web.GetServer( ServerID );
 
-                        remoteweb.PreAuthenticate = true;
-                        remoteweb.Credentials = web.Credentials;
-                        remoteweb.Url = server.PublicUrl + "/iFolderAdmin.asmx";
+			remoteweb.PreAuthenticate = true;
+			remoteweb.Credentials = web.Credentials;
+			remoteweb.Url = server.PublicUrl + "/iFolderAdmin.asmx";
 			remoteweb.GetAuthenticatedUser();
-                        server = remoteweb.GetServer ( ServerID);
+			server = remoteweb.GetServer ( ServerID);
 
 			//Pick information from IdentityProvider
 			LdapInfo ldapInfo = remoteweb.GetLdapDetails();
@@ -262,6 +263,45 @@ namespace Novell.iFolderWeb.Admin
 			LdapSslList.SelectedValue = ldapInfo.SSL ? GetString ("YES") : GetString ("NO");
 		}
 
+		private bool UpdateProxyUserInfo(string ldapAdmin, string ldapAdminPwd, string proxyDN, string ProxyDNPwd)
+		{
+			bool status = true;
+			try
+			{
+				iFolderServer[] list = web.GetServers();
+				foreach( iFolderServer server in list )
+				{
+					//check all servers other than current server.
+					if(server.ID != ServerID)
+					{
+						log.Info("Connecting to {0}", server.ID);
+						remoteweb = new iFolderAdmin ();
+						remoteweb.PreAuthenticate = true;
+						remoteweb.Credentials = web.Credentials;
+						remoteweb.Url = server.PublicUrl + "/iFolderAdmin.asmx";
+						remoteweb.GetAuthenticatedUser();
+						//Pick information from IdentityProvider
+						LdapInfo ldapInfo = remoteweb.GetLdapDetails();
+						log.Info("Proxy User = {0} on {1}", ldapInfo.ProxyDN, server.ID);
+						if(proxyDN == ldapInfo.ProxyDN)
+						{
+							//ldapInfo.ProxyDN = ProxyDN;
+							ldapInfo.ProxyPassword = ProxyDNPwd;
+							log.Info("Changing proxy user password on : {0}", server.ID);
+							remoteweb.SetLdapDetails (ldapInfo, ldapAdmin, ldapAdminPwd, server.ID);
+						}
+					}
+				}
+			}
+			catch(Exception ex)
+			{
+				status = false;
+				log.Info("Exception in UpdateProxyUserInfo : (0)", ex.Message);
+				TopNav.ShowInfo(String.Format(GetString("ALLSERVERPROXYPASSWORDCHANGEERROR")));
+				return status;
+			}
+			return status;
+		}
 
 		/// <summary>
                 /// To check if ldap admin name and password text boxes are empty 
@@ -289,12 +329,15 @@ namespace Novell.iFolderWeb.Admin
 
 		#region Protected Methods
 		/// <summary>
-                /// Event handler that gets called when OK button is clicked.
-                /// </summary>
-                /// <param name="source"></param>
-                /// <param name="e"></param>
-                protected void OnOkButton_Click( object source, EventArgs e )
-                {
+		/// Event handler that gets called when OK button is clicked.
+		/// </summary>
+		/// <param name="source"></param>
+		/// <param name="e"></param>
+		protected void OnOkButton_Click( object source, EventArgs e )
+		{
+			string currentServerProxyDN = null;
+			string currentServerProxyDNPwd = null; 
+			bool proxychagnestatus = true;
 			if( ! validOK() )
 			{
 				TopNav.ShowError (GetString("ENTERLDAPDETAILS"));
@@ -308,28 +351,36 @@ namespace Novell.iFolderWeb.Admin
 			if(String.Compare(LdapProxyUserPwd.Text.Trim(), ConfirmLdapProxyUserPwd.Text.Trim()) != 0)
 			{
 				TopNav.ShowError(GetString("ERRORPROXYPASSWORDSDOESNOTMATCH"));
-                                return;
+				return;
 
 			}
 			/// if ldap admin username and password is right, go ahead
-                       	iFolderServer server = web.GetServer( ServerID );
+			iFolderServer server = web.GetServer( ServerID );
 			remoteweb = new iFolderAdmin ();
-                        remoteweb.PreAuthenticate = true;
-                        remoteweb.Credentials = web.Credentials;
-                        remoteweb.Url = server.PublicUrl + "/iFolderAdmin.asmx";
+			remoteweb.PreAuthenticate = true;
+			remoteweb.Credentials = web.Credentials;
+			remoteweb.Url = server.PublicUrl + "/iFolderAdmin.asmx";
 			remoteweb.GetAuthenticatedUser();
-                        server = remoteweb.GetServer ( ServerID);
+			server = remoteweb.GetServer ( ServerID);
 			LdapInfo ldapInfo = new LdapInfo ();
-               	        ldapInfo.Host = LdapServer.Text.Trim();
-                        ldapInfo.SearchContexts = LdapSearchContext.Text;
+			ldapInfo.Host = LdapServer.Text.Trim();
+			ldapInfo.SearchContexts = LdapSearchContext.Text;
 			ldapInfo.ProxyDN = LdapProxyUser.Text;
+			currentServerProxyDN = LdapProxyUser.Text;
 			ldapInfo.ProxyPassword = LdapProxyUserPwd.Text;
-   	 	        ldapInfo.SSL = (LdapSslList.SelectedValue == GetString("YES")) ? true : false;
+			currentServerProxyDNPwd = LdapProxyUserPwd.Text;
+			ldapInfo.SSL = (LdapSslList.SelectedValue == GetString("YES")) ? true : false;
 
 			try
 			{
-                        	remoteweb.SetLdapDetails (ldapInfo, LdapAdminName.Text.Trim(), LdapAdminPwd.Text, ServerID);
-
+				remoteweb.SetLdapDetails (ldapInfo, LdapAdminName.Text.Trim(), LdapAdminPwd.Text, ServerID);
+				//now the proxy user info changed, check if the same proxy is
+				//used in any other servers.
+				if (ldapInfo.ProxyDN != null && ldapInfo.ProxyPassword != null)
+				{
+					proxychagnestatus = UpdateProxyUserInfo(LdapAdminName.Text.Trim(), LdapAdminPwd.Text, 
+							currentServerProxyDN, currentServerProxyDNPwd );
+				}
 			}
 			catch(Exception ex)
 			{
@@ -337,7 +388,8 @@ namespace Novell.iFolderWeb.Admin
 				GetLdapDetails();
 				return;
 			}
-       	                Response.Redirect(String.Format("ServerDetails.aspx?ID={0}",ServerID));
+			if (proxychagnestatus != false) 
+				Response.Redirect(String.Format("ServerDetails.aspx?ID={0}",ServerID));
 		}
 
 		/// <summary>

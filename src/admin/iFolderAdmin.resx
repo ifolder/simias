@@ -1350,5 +1350,13 @@
 	<data name="TIMEOUT">
 		<value>It may take a long time to complete the request. You may perform other tasks while this request is being processed.</value>
 	</data>		
+	<data name="PASSWORDCHANGEWARNING">
+		<value>If Common Proxy user is used for iFolder, do not change the
+			Proxy User's password</value>
+	</data>		
+	<data name="ALLSERVERPROXYPASSWORDCHANGEERROR">
+		<value>All settings updated successfully, except Proxy user password on
+		other servers. You must change password on each server</value>
+	</data>		
     </data>
 </root>

@@ -21,7 +21,7 @@
         	        {
                 	        document.getElementById( "OkButton" ).disabled = false;
                         	document.getElementById( "CancelButton" ).disabled = false;
-	                }
+					}
 		</script>
 
 </head>
@@ -121,6 +121,14 @@
 								ID="LdapProxyUser"
 								Runat="server"
 								onkeypress="EnableSystemButtons()" />
+						</td>
+					</tr>
+
+					<tr>
+						<th>
+						</th>
+						<td>
+							<%= GetString( "PASSWORDCHANGEWARNING" ) %>
 						</td>
 					</tr>
 
