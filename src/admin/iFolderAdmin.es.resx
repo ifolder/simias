@@ -3,7 +3,7 @@
   <!-- 
     Microsoft ResX Schema 
     
-    Version 1.3
+    Version 2.0
     
     The primary goals of this format is to allow a simple XML format 
     that is mostly human readable. The generation and parsing of the 
@@ -14,16 +14,17 @@
     
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
-    <resheader name="version">1.3</resheader>
+    <resheader name="version">2.0</resheader>
     <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
     <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-    <data name="Name1">this is my long string</data>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
     <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
     <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        [base64 mime encoded serialized .NET Framework object]
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
     </data>
     <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        [base64 mime encoded string representing a byte array form of the .NET Framework object]
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
     </data>
                 
     There are any number of "resheader" rows that contain simple 
@@ -35,7 +36,7 @@
     Classes that don't support this are serialized and stored with the 
     mimetype set.
     
-    The mimetype is used forserialized objects, and tells the 
+    The mimetype is used for serialized objects, and tells the 
     ResXResourceReader how to depersist the object. This is currently not 
     extensible. For a given mimetype the value must be set accordingly:
     
@@ -45,7 +46,7 @@
     
     mimetype: application/x-microsoft.net.object.binary.base64
     value   : The object must be serialized with 
-            : System.Serialization.Formatters.Binary.BinaryFormatter
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
     
     mimetype: application/x-microsoft.net.object.soap.base64
@@ -59,18 +60,37 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
                 <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
                 <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
               <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
               <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
@@ -89,1311 +109,1324 @@
     <value>text/microsoft-resx</value>
   </resheader>
   <resheader name="version">
-    <value>1.3</value>
+    <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="LOGINREDIRECT">
-    <value>Es necesario actualizar la URL del servidor iFolder.</value>
-  </data>
-  <data name="FIRST">
-    <value>Primero</value>
-  </data>
-  <data name="ERRORINVALIDDATA">
-    <value>Todos los campos son obligatorios. Compruébelos y vuelva a especificarlos.</value>
-  </data>
-  <data name="LOGIN">
-    <value>Entrar</value>
-  </data>
-  <data name="UNABLETOEDITIPDETAILS">
-    <value>No es posible editar la información de IP. Compruebe los valores. </value>
-  </data>
-  <data name="SHARINGPOLICYVIOLATION">
-    <value> La función de compartir está inhabilitada por lo que esta carpeta iFolder no se puede compartir</value>
-  </data>
-  <data name="ENABLE">
-    <value>Habilitar</value>
-  </data>
-  <data name="MEMBERS">
-    <value>Miembros</value>
-  </data>
-  <data name="ASSIGNADMINRIGHTS">
-    <value>Asignar derechos de administrador a: </value>
-  </data>
-  <data name="LDAPADMINNAME">
-    <value>DN del administrador LDAP:</value>
-  </data>
-  <data name="SERVERSTATUSDOWN">
-    <value>Servidor no accesible</value>
-  </data>
-  <data name="NOOFIFOLDERS">
-    <value>Número de carpetas iFolder</value>
-  </data>
-  <data name="HOMESERVERNAME">
-    <value>Servidor inicial</value>
-  </data>
-  <data name="LDAPDETAILS">
-    <value>Información de LDAP</value>
-  </data>
-  <data name="FRENCH">
-    <value>Francés</value>
-  </data>
-  <data name="ERRORCANNOTDELETEMEMBERS">
-    <value>No es posible suprimir el miembro de iFolder {0}.</value>
-  </data>
-  <data name="ENDSWITH">
-    <value>Acaba por</value>
-  </data>
-  <data name="ERRORPROXYPASSWORDSDOESNOTMATCH">
-    <value>Las contraseñas de los usuarios apoderados no coinciden. Vuelva a introducir las contraseñas correctas.</value>
-  </data>
-  <data name="REPORTDIRECTORYTAG">
-    <value>directorio:</value>
-  </data>
-  <data name="SERVERREPORTS">
-    <value>Informes del servidor</value>
-  </data>
-  <data name="SERVERLOGS">
-    <value>Registros del servidor</value>
-  </data>
-  <data name="PRIVATEURI">
-    <value>URL privada:</value>
-  </data>
-  <data name="EDITLDAPDETAILS">
-    <value>Editar información de LDAP</value>
-  </data>
-  <data name="PREVIOUSPAGE">
-    <value>Página anterior</value>
-  </data>
-  <data name="PRIVATEURL">
-    <value>URL privada</value>
-  </data>
-  <data name="NOTAVAILABLE">
-    <value>No disponible</value>
-  </data>
-  <data name="PUBLICURL">
-    <value>URL pública</value>
-  </data>
-  <data name="PORTUGUESE">
-    <value>Portugués</value>
-  </data>
-  <data name="LOGGEDONUSERSTAG">
-    <value>Usuarios conectados:</value>
-  </data>
-  <data name="ORPHANED">
-    <value>Huérfano</value>
-  </data>
-  <data name="KB">
-    <value>KB</value>
-  </data>
-  <data name="SERVERSTATUS">
-    <value>Estado del servidor</value>
-  </data>
-  <data name="IFOLDER">
-    <value>iFolder</value>
-  </data>
-  <data name="REPROVISOINSTATE">
-    <value>Estado de la nueva provisión</value>
-  </data>
-  <data name="CHANGEMASTERFAILED">
-    <value>No es posible cambiar el Principal y el Esclavo. Consulte los archivos de registro para más información.</value>
-  </data>
-  <data name="COMPLETEDTAG">
-    <value>Completado:</value>
-  </data>
-  <data name="ENTERLDAPDETAILS">
-    <value>Introducir credenciales del administrador LDAP</value>
-  </data>
-  <data name="MEMBERTYPELDAPGROUP">
-    <value>Grupo LDAP</value>
-  </data>
-  <data name="REPROVISIONLIST">
-    <value>Estado de la nueva provisión del sistema iFolder</value>
-  </data>
-  <data name="SHARED">
-    <value>Compartido</value>
-  </data>
-  <data name="USEDTAG">
-    <value>Utilizado:</value>
-  </data>
-  <data name="NEEDSREPAIR">
-    <value>Reparar servidor</value>
-  </data>
-  <data name="MEMBERTYPETAG">
-    <value>Tipo de miembro:</value>
-  </data>
-  <data name="NONE">
-    <value>Ninguno</value>
-  </data>
-  <data name="ERRORIFOLDERTRANSFEREXCEPTION">
-    <value>No es posible transferir la propiedad puesto que se ha excedido el límite de carpetas iFolder establecido por el administrador.</value>
-  </data>
-  <data name="running">
-    <value>en ejecución</value>
-  </data>
-  <data name="ERRORCANNOTDELETESECONDARYADMIN">
-    <value>No es posible suprimir este administrador secundario {0}.</value>
-  </data>
-  <data name="MASTER">
-    <value>Principal</value>
-  </data>
-  <data name="ERRORCANNOTCREATEIFOLDER">
-    <value>No es posible crear la carpeta iFolder.</value>
-  </data>
-  <data name="CONFIRMDELETION">
-    <value>IMPORTANTE: Sólo se suprimirá una vía de datos si no se han creado carpetas iFolder en la misma.</value>
-  </data>
-  <data name="ERRORNOIFOLDERLIMIT">
-    <value>No se ha especificado ningún valor de límite de la carpeta iFolder.</value>
-  </data>
-  <data name="ERRORCANNOTEDITSECONDARYADMIN">
-    <value>No es posible editar el administrador secundario {0}.</value>
-  </data>
-  <data name="NEXTPAGE">
-    <value>Página siguiente</value>
-  </data>
-  <data name="CHINESE-TRADITIONAL">
-    <value>Chino tradicional</value>
-  </data>
-  <data name="MODIFIEDTAG">
-    <value>Modificado:</value>
-  </data>
-  <data name="ERRORCANNOTCHANGERIGHTS">
-    <value>No es posible cambiar los derechos de pertenencia del usuario {0}.</value>
-  </data>
-  <data name="CHANGEMASTER">
-    <value>Definir como principal</value>
-  </data>
-  <data name="FULLNAME">
-    <value>Nombre completo</value>
-  </data>
-  <data name="sleeping">
-    <value>en reposo</value>
-  </data>
-  <data name="LOGINNOCOOKIES">
-    <value>Es necesario habilitar las cookies en el navegador.</value>
-  </data>
-  <data name="NEXT">
-    <value>Siguiente</value>
-  </data>
-  <data name="WEEKLY">
-    <value>Semanalmente</value>
-  </data>
-  <data name="shutdown">
-    <value>apagar</value>
-  </data>
-  <data name="REPORTIFOLDERTAG">
-    <value>iFolder:</value>
-  </data>
-  <data name="DISKSPACEUSED">
-    <value>Espacio de disco utilizado: </value>
-  </data>
-  <data name="VOLUMES">
-    <value>Volúmenes</value>
-  </data>
-  <data name="NEWHOMETAG">
-    <value>Nueva ubicación principal:</value>
-  </data>
-  <data name="ACCESSDENIED">
-    <value>Acceso denegado para este recurso</value>
-  </data>
-  <data name="LOGINLOGOUT">
-    <value>Ha salido de iFolder.</value>
-  </data>
-  <data name="FIRSTNAME">
-    <value>Nombre</value>
-  </data>
-  <data name="CURRENTHOME">
-    <value>Ubicación principal actual</value>
-  </data>
-  <data name="USERS">
-    <value>Usuarios</value>
-  </data>
-  <data name="ALLADMINS">
-    <value>Todos los administradores</value>
-  </data>
-  <data name="LASTPAGE">
-    <value>Última página</value>
-  </data>
-  <data name="CANNOTSETQUOTAPERUSERERROR">
-    <value>No es posible establecer este límite porque la cuota de disco asignada por miembro supera la cuota de grupo.</value>
-  </data>
-  <data name="ERRORDETAIL">
-    <value>Información del error</value>
-  </data>
-  <data name="USERNAME">
-    <value>Nombre de usuario</value>
-  </data>
-  <data name="SAVETO">
-    <value>Guardar en</value>
-  </data>
-  <data name="SIZETAG">
-    <value>Tamaño:</value>
-  </data>
-  <data name="FILENAME">
-    <value>Nombre de archivo</value>
-  </data>
-  <data name="LOGINNOSCRIPT">
-    <value>Es necesario habilitar los guiones en el navegador.</value>
-  </data>
-  <data name="CONFIGUREREPORTING">
-    <value>Configurar informes</value>
-  </data>
-  <data name="EQUALS">
-    <value>Igual a</value>
-  </data>
-  <data name="INVALIDLDAPADMINORPASSWORD">
-    <value>ID de usuario o contraseña de administrador LDAP no válidos</value>
-  </data>
-  <data name="RUSSIAN">
-    <value>Ruso</value>
-  </data>
-  <data name="ERRORINVALIDQUOTA">
-    <value>Se ha especificado un valor de cuota de espacio de disco no válido. El valor debe encontrarse entre 1 y 2e+063 - 1.</value>
-  </data>
-  <data name="CONTAINS">
-    <value>Contiene</value>
-  </data>
-  <data name="ALLOWUSERPROVISIONING">
-    <value>Permitir provisión de usuario</value>
-  </data>
-  <data name="USER">
-    <value>Usuario</value>
-  </data>
-  <data name="ERRORINVALIDIFOLDERLIMIT">
-    <value>Se ha especificado un valor no válido de límite de la carpeta iFolder. El valor debe estar entre 0 y 2e+063 - 1.</value>
-  </data>
-  <data name="ON">
-    <value>Activo</value>
-  </data>
-  <data name="ERRORSELECTGROUP">
-    <value>Error: seleccione un grupo para continuar.</value>
-  </data>
-  <data name="OK">
-    <value>Aceptar</value>
-  </data>
-  <data name="READWRITE">
-    <value>Lectura/escritura</value>
-  </data>
-  <data name="ADDMEMBERSTOIFOLDER">
-    <value>Añadir otros miembros a la carpeta iFolder "{0}"</value>
-  </data>
-  <data name="UIBASED">
-    <value>Consola de administrador</value>
-  </data>
-  <data name="LDAPMEMBERDELETEGRACEINT">
-    <value>intervalo de gracia:</value>
-  </data>
-  <data name="ADDMEMBERS">
-    <value>Añadir miembros de iFolder</value>
-  </data>
-  <data name="NOMEMBERAVAILABLE">
-    <value>No hay miembros disponibles</value>
-  </data>
-  <data name="ALLOW">
-    <value>Permitir</value>
-  </data>
-  <data name="FIRSTPAGE">
-    <value>Primera página</value>
-  </data>
-  <data name="EDITSECONDARYADMIN">
-    <value>Editar administrador secundario: </value>
-  </data>
-  <data name="GROUPLISTTAG">
-    <value>Grupos de usuarios:</value>
-  </data>
-  <data name="ADDADMINS">
-    <value>Añadir administradores</value>
-  </data>
-  <data name="MINUTES">
-    <value>Minuto(s)</value>
-  </data>
-  <data name="REPORTIFOLDER">
-    <value>Carpeta iFolder de informes</value>
-  </data>
-  <data name="GROUPNAME">
-    <value>Nombre de grupo</value>
-  </data>
-  <data name="BOTH">
-    <value>Ambos </value>
-  </data>
-  <data name="JAPANESE">
-    <value>Japonés</value>
-  </data>
-  <data name="SERVERNAMETAG">
-    <value>Servidor:</value>
-  </data>
-  <data name="ERRORTYPE">
-    <value>Error inesperado</value>
-  </data>
-  <data name="SECONDARY">
-    <value>Secundario</value>
-  </data>
-  <data name="LASTNAMETAG">
-    <value>Apellido:</value>
-  </data>
-  <data name="MONTHLY">
-    <value>Mensualmente</value>
-  </data>
-  <data name="LDAPPROXYUSERPWD">
-    <value>Contraseña del usuario apoderado:</value>
-  </data>
-  <data name="MAXCONNECTIONSTAG">
-    <value>Número máximo de conexiones:</value>
-  </data>
-  <data name="LASTMODIFIED">
-    <value>Última modificación</value>
-  </data>
-  <data name="LOGINFAILED">
-    <value>Error:</value>
-  </data>
-  <data name="MEMBERTYPEUSER">
-    <value>Usuario</value>
-  </data>
-  <data name="ERRORINVALIDLIMIT">
-    <value>Se ha especificado un valor no válido de límite de tamaño del archivo. El valor debe ser inferior a la cuota de espacio de disco.</value>
-  </data>
-  <data name="LOGINERROR">
-    <value>Error:</value>
-  </data>
-  <data name="CHANGEMASTERNOINFOFAILED">
-    <value>No es posible obtener una ID del servidor y una nueva URL pública de servidor.</value>
-  </data>
-  <data name="OWNED">
-    <value>En propiedad</value>
-  </data>
-  <data name="CHANGEMASTERRETRY">
-    <value>No es posible actualizar el atributo de nodo principal en el Principal y Esclavo. Intente de nuevo la operación.</value>
-  </data>
-  <data name="USERSTAG">
-    <value>Usuarios:</value>
-  </data>
-  <data name="GERMAN">
-    <value>Alemán</value>
-  </data>
-  <data name="NO">
-    <value>No</value>
-  </data>
-  <data name="FATAL">
-    <value>Grave</value>
-  </data>
-  <data name="ERRORCANNOTCREATEUSER">
-    <value>No es posible crear el usuario.</value>
-  </data>
-  <data name="OWNER">
-    <value>Propiet.</value>
-  </data>
-  <data name="WARN">
-    <value>Advertir</value>
-  </data>
-  <data name="OUTPUT">
-    <value>Salida</value>
-  </data>
-  <data name="OFFLINE">
-    <value>En espera</value>
-  </data>
-  <data name="DAILY">
-    <value>Diariamente</value>
-  </data>
-  <data name="SECONDARYADMIN">
-    <value>Administrador secundario</value>
-  </data>
-  <data name="OWNERTAG">
-    <value>Propietario:</value>
-  </data>
-  <data name="HOME">
-    <value>Servidor inicial</value>
-  </data>
-  <data name="LOGINSENDFAILED">
-    <value>No es posible establecer la comunicación con el servidor iFolder.</value>
-  </data>
-  <data name="ALLOWMODIFYSHARINGPOLICY">
-    <value>Permitir modificación de directivas de compartición</value>
-  </data>
-  <data name="NOTMOUNTED">
-    <value>No montado</value>
-  </data>
-  <data name="FULLNAMEDISLAYTAG">
-    <value>Visualizar nombre:</value>
-  </data>
-  <data name="ADDNEWORSELECTGROUPTOEDIT">
-    <value>Añadir o editar grupos de adiministrador seleccionados</value>
-  </data>
-  <data name="HELP">
-    <value>Ayuda</value>
-  </data>
-  <data name="SIZE">
-    <value>Tamaño</value>
-  </data>
-  <data name="READONLY">
-    <value>Sólo lectura</value>
-  </data>
-  <data name="LDAPSERVER">
-    <value>Servidor LDAP:</value>
-  </data>
-  <data name="IFOLDERUSERS">
-    <value>Usuarios de iFolder</value>
-  </data>
-  <data name="waiting">
-    <value>en espera</value>
-  </data>
-  <data name="INVALIDFULLPATH">
-    <value>La vía completa especificada no es válida; compruébela y vuelva a especificarla.</value>
-  </data>
-  <data name="ALLOWSHAREDMEMBERRIGHTS">
-    <value>Permitir modificación de los derechos de miembros de carpetas iFolder compartidas</value>
-  </data>
-  <data name="ADDDATASTORE">
-    <value>Añadir almacenamiento de datos</value>
-  </data>
-  <data name="DEBUG">
-    <value>Depurar</value>
-  </data>
-  <data name="LOGOUT">
-    <value>Salir</value>
-  </data>
-  <data name="FULLPATH:">
-    <value>Vía completa:</value>
-  </data>
-  <data name="ERRORCANNOTSETIFOLDERPOLICY">
-    <value>No es posible definir la información de la directiva para el ID de iFolder {0}.</value>
-  </data>
-  <data name="INHEIRITEDPOLICY">
-    <value>(Directiva heredada)</value>
-  </data>
-  <data name="REMOVEMEMBERS">
-    <value>Eliminar usuarios</value>
-  </data>
-  <data name="SELECTEDUSERS">
-    <value>Usuarios seleccionados</value>
-  </data>
-  <data name="RESTARTSERVER">
-    <value>Información actualizada. Estos cambios serán efectivos cuando vuelva a iniciar el servidor iFolder. </value>
-  </data>
-  <data name="PUBLICURI">
-    <value>URL pública:</value>
-  </data>
-  <data name="ALLOWORPHANIFOLDEROWNERSHIP">
-    <value>Permitir propiedad de carpetas iFolder huérfanas</value>
-  </data>
-  <data name="INVALIDCERTIFICATE">
-    <value>Error de autenticación debido a un problema con el certificado del servidor de Ldap o iFolder.</value>
-  </data>
-  <data name="SERVERDETAILS">
-    <value>Información del servidor</value>
-  </data>
-  <data name="USERLOGINDISABLED">
-    <value>Inhabilitar entrada de usuario</value>
-  </data>
-  <data name="NOTAPPLICABLE">
-    <value>N/D</value>
-  </data>
-  <data name="TYPETAG">
-    <value>Tipo:</value>
-  </data>
-  <data name="PRIVATEIPTAG">
-    <value>Dirección IP privada:</value>
-  </data>
-  <data name="LOGINCONNECTFAILED">
-    <value>No es posible conectar con el servidor iFolder.</value>
-  </data>
-  <data name="LDAPSTATUSTAG">
-    <value>Estado:</value>
-  </data>
-  <data name="REFRESH">
-    <value>Actualizar</value>
-  </data>
-  <data name="SAVE">
-    <value>Guardar</value>
-  </data>
-  <data name="ERRORNOFILESIZE">
-    <value>No se ha especificado ningún valor límite de tamaño de archivo.</value>
-  </data>
-  <data name="DISKSPACEUSEDTAG">
-    <value>Espacio de disco utilizado:</value>
-  </data>
-  <data name="EFFECTIVETAG">
-    <value>Vigente:</value>
-  </data>
-  <data name="USERMOVEDETAILS">
-    <value>Información de nueva provisión del usuario</value>
-  </data>
-  <data name="FILESTAG">
-    <value>Archivos:</value>
-  </data>
-  <data name="FILETYPEALREADYEXISTS">
-    <value>El nombre de archivo especificado ya existe en la lista.</value>
-  </data>
-  <data name="SLAVE">
-    <value>Esclavo</value>
-  </data>
-  <data name="PROVISIONUSERS">
-    <value>provisionusers</value>
-  </data>
-  <data name="FILESIZE">
-    <value>Tamaño de archivo</value>
-  </data>
-  <data name="NAME">
-    <value>Nombre</value>
-  </data>
-  <data name="LOGINACCOUNTDISABLED">
-    <value>Su cuenta está inhabilitada, por lo que no está disponible.</value>
-  </data>
-  <data name="DESCRIPTIONTAG">
-    <value>Descripción:</value>
-  </data>
-  <data name="SYNCHRONIZATION">
-    <value>Sincronización</value>
-  </data>
-  <data name="PATHTOOLONGEXCEPTION">
-    <value>La carpeta iFolder no puede crearse porque el nombre es demasiado largo.</value>
-  </data>
-  <data name="LOGGEDINAS">
-    <value>Ha entrado a la sesión como</value>
-  </data>
-  <data name="FULLNAMEDISPLAYORDER">
-    <value>Mostrar ordenado por nombre completo:</value>
-  </data>
-  <data name="TOTALTAG">
-    <value>Total: </value>
-  </data>
-  <data name="INFO">
-    <value>Información</value>
-  </data>
-  <data name="ADMINRIGHTSFOR">
-    <value>Derechos admin. para: </value>
-  </data>
-  <data name="PROVISIONREPROVISION">
-    <value>Provisión / Nueva provisión</value>
-  </data>
-  <data name="ALL">
-    <value>Todo</value>
-  </data>
-  <data name="GB">
-    <value>GB</value>
-  </data>
-  <data name="SEARCH">
-    <value>Buscar</value>
-  </data>
-  <data name="ALLOWMODIFYENCRYPTIONPOLICY">
-    <value>Permitir modificación de directiva de cifrado</value>
-  </data>
-  <data name="MEMBER">
-    <value>Miembro</value>
-  </data>
-  <data name="FILES">
-    <value>Archivos</value>
-  </data>
-  <data name="ERRORCANNOTREMOVEADMIN">
-    <value>No es posible eliminar el usuario {0} como administrador.</value>
-  </data>
-  <data name="CHANGEMASTERWITHWARNING">
-    <value>Se ha actualizado {0} como servidor principal con excepciones. Consulte Simias.log para obtener más información. Reinicie todos los servidores para que los cambios surtan efecto.</value>
-  </data>
-  <data name="PASSWORDSDONOTMATCH">
-    <value>Las contraseñas no coinciden.</value>
-  </data>
-  <data name="SERVER">
-    <value>Servidor</value>
-  </data>
-  <data name="ALLOWIFOLDERENABLING">
-    <value>Permitir habilitar/deshabilitar carpetas iFolder</value>
-  </data>
-  <data name="LDAPPROXYUSER">
-    <value>Usuario apoderado:</value>
-  </data>
-  <data name="SESSIONSTAG">
-    <value>Sesiones:</value>
-  </data>
-  <data name="AVAILABLETAG">
-    <value>Disponible:</value>
-  </data>
-  <data name="ERRORLOCKEXCEPTION">
-    <value>Se ha cancelado la operación debido a que el administrador ha bloqueado o inhabilitado la carpeta iFolder.</value>
-  </data>
-  <data name="SESSIONCLOSED">
-    <value>El nombre de usuario o la contraseña que ha introducido no es correcto. Entre a la sesión.</value>
-  </data>
-  <data name="DNSNAMETAG">
-    <value>Nombre DNS:</value>
-  </data>
-  <data name="NEWFILETYPE">
-    <value>Tipo de archivo nuevo</value>
-  </data>
-  <data name="BOTHSTRING">
-    <value>AMBOS</value>
-  </data>
-  <data name="ENABLEDTAG">
-    <value>Habilitado:</value>
-  </data>
-  <data name="ERRORCANNOTADDMEMBER">
-    <value>No es posible añadir el miembro {0} a la carpeta iFolder {1}.</value>
-  </data>
-  <data name="FULLPATH">
-    <value>Vía completa</value>
-  </data>
-  <data name="ENABLED">
-    <value>Habilitado</value>
-  </data>
-  <data name="SHARING">
-    <value>Compartición</value>
-  </data>
-  <data name="ADMINISTRATOR">
-    <value>Administrador</value>
-  </data>
-  <data name="NOITEMSFOUND">
-    <value>No se ha encontrado ningún elemento.</value>
-  </data>
-  <data name="ENGLISH">
-    <value>Inglés</value>
-  </data>
-  <data name="NOSERVER">
-    <value>No hay ningún servidor seleccionado</value>
-  </data>
-  <data name="LIMITTAG">
-    <value>Límite:</value>
-  </data>
-  <data name="ADDNEW">
-    <value>Añadir nuevo</value>
-  </data>
-  <data name="LDAPADMINAUTH">
-    <value>ldapadminauth</value>
-  </data>
-  <data name="LASTNAME">
-    <value>Apellido</value>
-  </data>
-  <data name="INITIALIZING">
-    <value>Inicializando</value>
-  </data>
-  <data name="PUBLICIPTAG">
-    <value>Dirección IP pública:</value>
-  </data>
-  <data name="ORPHANTAG">
-    <value>Huérfano:</value>
-  </data>
-  <data name="GROUPRIGHTSADDSUCCESSFUL">
-    <value>El usuario {0}{1}{2} se ha añadido correctamente como administrador para el grupo {3}{4}{5}. Puede editar los derechos del Administrador Secundario para añadir más grupos al mismo administrador. Haga clic en Repetir para añadir más grupos. Haga clic en Aceptar para volver a la página de sistemas. </value>
-  </data>
-  <data name="LINKALREADYEXISTS">
-    <value>Ya existe un enlace con este nombre</value>
-  </data>
-  <data name="GROUPADMINS">
-    <value>Administradores de grupo</value>
-  </data>
-  <data name="ERRORCANNOTCHANGEOWNER">
-    <value>No es posible cambiar la pertenencia de la carpeta iFolder.</value>
-  </data>
-  <data name="ERRORIFOLDERENCRYPTIONENFORCED">
-    <value>Este miembro no puede tener una carpeta iFolder normal porque la directiva de cifrado se aplica al miembro.</value>
-  </data>
-  <data name="SELECTSERVER">
-    <value>Seleccionar un servidor para proveer / proveer de nuevo a estos usuarios</value>
-  </data>
-  <data name="IFOLDERSTAG">
-    <value>Carpetas iFolder:</value>
-  </data>
-  <data name="NEWIFOLDERNAMETAG">
-    <value>Nombre de la carpeta iFolder:</value>
-  </data>
-  <data name="TIME">
-    <value>Tiempo</value>
-  </data>
-  <data name="CONFIGFILEUPDATEFAILED">
-    <value>No es posible actualizar el archivo de configuración. Actualice manualmente el archivo simias.config.</value>
-  </data>
-  <data name="LOGINSECUREFAILED">
-    <value>No es posible establecer una comunicación segura con el servidor iFolder.</value>
-  </data>
-  <data name="CONFIRMCHANGEMASTER">
-    <value>El servidor seleccionado se designará como Servidor principal. ¿Desea continuar? Pulse en Aceptar para continuar o en Cancelar para salir.</value>
-  </data>
-  <data name="LOGINPASSWORD">
-    <value>Contraseña:</value>
-  </data>
-  <data name="LAST">
-    <value>Último</value>
-  </data>
-  <data name="BACK">
-    <value>Atrás</value>
-  </data>
-  <data name="ERRORINVALIDFILESIZE">
-    <value>Se ha especificado un valor límite de tamaño de archivo no válido. El valor debe encontrarse entre 1 y 2e+063 - 1.</value>
-  </data>
-  <data name="ERRORCANNOTADDSECONDARYADMIN">
-    <value>No es posible añadir el miembro {0} como administrador secundario.</value>
-  </data>
-  <data name="ERRORTEMPLATE">
-    <value>Error: {0}</value>
-  </data>
-  <data name="REPEAT">
-    <value>Repetir</value>
-  </data>
-  <data name="LOGINLOSTSESSION">
-    <value>Se ha cerrado la sesión. Entre a la sesión.</value>
-  </data>
-  <data name="CANCEL">
-    <value>Cancelar</value>
-  </data>
-  <data name="IFOLDERDISABLED">
-    <value>Inhabilitar sincronización</value>
-  </data>
-  <data name="CONFIRMENCRYPTION">
-    <value>La opción "Cifrado basado en contraseña codificada" ofrece la posibilidad de cifrar una carpeta iFolder basándose en la contraseña codificada proporcionada por el usuario. Es posible desactivar la opción forzada; sin embargo, una vez guardada la opción "Activo" es irreversible. Haga clic en Aceptar para guardar o en Cancelar para permanecer en la página actual sin guardar. </value>
-  </data>
-  <data name="IFOLDERS">
-    <value>Carpetas iFolder</value>
-  </data>
-  <data name="NOPOLICIESAVAILABLE">
-    <value>No hay directivas disponibles</value>
-  </data>
-  <data name="ADMINISTRATORS">
-    <value>Administradores</value>
-  </data>
-  <data name="SELECTGROUPTODELETE">
-    <value>Seleccionar grupo(s) para suprimir</value>
-  </data>
-  <data name="FORMATTAG">
-    <value>Formato:</value>
-  </data>
-  <data name="FILE">
-    <value>Archivo</value>
-  </data>
-  <data name="CONFIRMLDAPPROXYUSERPWD">
-    <value>Confirmar contraseña del usuario apoderado:</value>
-  </data>
-  <data name="UNABLETOEDITLDAPDETAILS">
-    <value>No es posible editar la información de LDAP con estos valores. Compruébelos. </value>
-  </data>
-  <data name="RETYPEPASSWORDTAG">
-    <value>Reescriba la contraseña:</value>
-  </data>
-  <data name="USERDETAILS">
-    <value>Información de usuario</value>
-  </data>
-  <data name="DELETED">
-    <value>Suprimido</value>
-  </data>
-  <data name="CURRENTHOMETAG">
-    <value>Ubicación principal actual:</value>
-  </data>
-  <data name="DENY">
-    <value>Denegar</value>
-  </data>
-  <data name="LOGINTRUSTFAILED">
-    <value>No es posible establecer una relación de confianza entre el servidor iFolder y Web Access de iFolder.</value>
-  </data>
-  <data name="NEWHOME">
-    <value>Nueva ubicación principal</value>
-  </data>
-  <data name="PRIMARY">
-    <value>Primario</value>
-  </data>
-  <data name="TOTALUSERSTAG">
-    <value>Total de usuarios:</value>
-  </data>
-  <data name="WEBACCESSLOGFILE">
-    <value>Acceso Web</value>
-  </data>
-  <data name="ERRORUSERDOESNOTEXIST">
-    <value>El usuario de iFolder especificado no existe.</value>
-  </data>
-  <data name="LOGINCOPYRIGHT">
-    <value>&amp;copy; Copyright 2010 Novell, Inc. Reservados todos los derechos.</value>
-  </data>
-  <data name="GENERATEWEEKLYREPORT">
-    <value>Generar informe cada {0} a las {1} para el {2}</value>
-  </data>
-  <data name="VIEW">
-    <value>Ver</value>
-  </data>
-  <data name="SERVERS">
-    <value>Servidores</value>
-  </data>
-  <data name="GENERATEDAILYREPORT">
-    <value>Generar informe cada día a las {0} para el {1}</value>
-  </data>
-  <data name="MASTERNODEUPDATEWAIT">
-    <value>Esperando la sincronización del atributo de nodo principal con los nuevos esclavos y principales.</value>
-  </data>
-  <data name="ERRORCANNOTDELETEUSER">
-    <value>No es posible suprimir el ID de usuario {0}.</value>
-  </data>
-  <data name="DISKQUOTA">
-    <value>Cuota de disco</value>
-  </data>
-  <data name="INVALIDLIMITERROR">
-    <value>No es posible crear la carpeta iFolder puesto que se ha excedido el límite de carpetas iFolder establecido por el administrador.</value>
-  </data>
-  <data name="DNSNAME">
-    <value>Nombre DNS</value>
-  </data>
-  <data name="ALLOWUSERENABLING">
-    <value>Permitir habilitar/deshabilitar usuarios</value>
-  </data>
-  <data name="NOTELIGIBLE">
-    <value>Error de inicialización</value>
-  </data>
-  <data name="ACCESSDENIEDERROR">
-    <value>El usuario que ha entrado a la sesión no está autorizado para ver o modificar las propiedades de esta página.</value>
-  </data>
-  <data name="TOTALIFOLDERSTAG">
-    <value>Total de carpetas iFolder:</value>
-  </data>
-  <data name="LOGINIFOLDERSERVER">
-    <value>Servidor iFolder:</value>
-  </data>
-  <data name="SELECTMEMBERTOADD">
-    <value>Seleccionar un nuevo administrador secundario</value>
-  </data>
-  <data name="ERRORINVALIDIDSYNCINTERVAL">
-    <value>Se ha especificado un intervalo de sincronización no válido. El valor debe encontrarse entre 5 y 10080.</value>
-  </data>
-  <data name="IDENTITYSYNCTAG">
-    <value>Sincronización de identidad:</value>
-  </data>
-  <data name="ERRORACCESSEXCEPTION">
-    <value>No dispone de derechos suficientes para realizar la petición.</value>
-  </data>
-  <data name="DIRECTORIESTAG">
-    <value>Directorios:</value>
-  </data>
-  <data name="LDAPCYCLES">
-    <value>Ciclos:</value>
-  </data>
-  <data name="ADD">
-    <value>Añadir</value>
-  </data>
-  <data name="DISABLE">
-    <value>Inhabilitar</value>
-  </data>
-  <data name="disabled">
-    <value>inhabilitado</value>
-  </data>
-  <data name="ENABLEREPORTING">
-    <value>Habilitar informes</value>
-  </data>
-  <data name="IFOLDERUSERDETAILS">
-    <value>Información de usuario de iFolder</value>
-  </data>
-  <data name="SLOVAK">
-    <value>Eslovaco</value>
-  </data>
-  <data name="UPDATEMASTERURLONSLAVESFAILED">
-    <value>No es posible actualizar la URL de nuevo principal en el servidor {0}. Actualice manualmente la IP de principal en este servidor.</value>
-  </data>
-  <data name="ONLINE">
-    <value>Conectado</value>
-  </data>
-  <data name="ALLFIELDSREQUIRED">
-    <value>Es necesario completar todos los campos.</value>
-  </data>
-  <data name="CSVFORMAT">
-    <value>Texto CSV</value>
-  </data>
-  <data name="ERRORMEMBERDOESNOTEXIST">
-    <value>Este miembro de iFolder no existe.</value>
-  </data>
-  <data name="LOGINLANGUAGE">
-    <value>Idioma:</value>
-  </data>
-  <data name="INTERVALTAG">
-    <value>Intervalo:</value>
-  </data>
-  <data name="SELECTIFOLDEROWNER">
-    <value>Seleccione un propietario para la carpeta iFolder "{0}"</value>
-  </data>
-  <data name="IFOLDERADMINS">
-    <value>Administradores de iFolder</value>
-  </data>
-  <data name="NAME:">
-    <value>Nombre:</value>
-  </data>
-  <data name="COMPLETED">
-    <value>Completado</value>
-  </data>
-  <data name="CZECH">
-    <value>Checo</value>
-  </data>
-  <data name="GROUPQUOTARESTRICTION">
-    <value>Administrar el uso de cuotas de grupo: </value>
-  </data>
-  <data name="MEMBERLISTTAG">
-    <value>Miembros del grupo:</value>
-  </data>
-  <data name="ERRORCANNOTADDADMIN">
-    <value>No es posible añadir el miembro {0} como administrador.</value>
-  </data>
-  <data name="LDAPUPSINCE">
-    <value>Activo desde:</value>
-  </data>
-  <data name="DAYTAG">
-    <value>Día:</value>
-  </data>
-  <data name="TYPE">
-    <value>Tipo</value>
-  </data>
-  <data name="CREATE">
-    <value>Crear</value>
-  </data>
-  <data name="USERNAMETAG">
-    <value>Nombre de usuario:</value>
-  </data>
-  <data name="PAGENUMBERFORMAT">
-    <value>{0} - {1} de {2} {3}</value>
-  </data>
-  <data name="MASTERURI">
-    <value>URL principal:</value>
-  </data>
-  <data name="YES">
-    <value>Sí</value>
-  </data>
-  <data name="INVALIDGROUPQUOTA">
-    <value>La cuota de disco agregada para el grupo es inferior a la asignada/cuota de disco utilizada por usuario de ese grupo. Elimine algunos datos del servidor o cambie el límite de disco asignado por usuario para los miembros de ese grupo. A continuación, configure la cuota de disco agregada para el grupo.</value>
-  </data>
-  <data name="PROVISION">
-    <value>Provisión</value>
-  </data>
-  <data name="ERRORINVALIDSYNCINTERVAL">
-    <value>Se ha especificado un intervalo de sincronización no válido. El valor debe encontrarse entre 5 y 999.</value>
-  </data>
-  <data name="REPROVISIONBUTTON">
-    <value>Estado de la nueva provisión</value>
-  </data>
-  <data name="MEMBERTYPELOCALGROUP">
-    <value>Grupo local</value>
-  </data>
-  <data name="TRUE">
-    <value>Verdadero</value>
-  </data>
-  <data name="EDITADMINRIGHTS">
-    <value>Editar derechos de administrador</value>
-  </data>
-  <data name="DATASTORE">
-    <value>Almacenamiento de datos</value>
-  </data>
-  <data name="FULLCONTROL">
-    <value>Control completo</value>
-  </data>
-  <data name="GENERATEMONTHLYREPORT">
-    <value>Generar informe el día {0} de cada mes a las {1} para el {2}</value>
-  </data>
-  <data name="REPORTDIRECTORY">
-    <value>Directorio de informe</value>
-  </data>
-  <data name="ATTAG">
-    <value>En:</value>
-  </data>
-  <data name="SPANISH">
-    <value>Español</value>
-  </data>
-  <data name="ELLIPSES">
-    <value> . . .</value>
-  </data>
-  <data name="ERRORINSTRUCTIONS">
-    <value>&lt;p&gt;Web Access de iFolder ha detectado un error inesperado.&lt;/p&gt; &lt;p&gt;Le rogamos que nos disculpe por las molestias causadas y le agradeceríamos que saliera de la sesión y lo intentara de nuevo.&lt;/p&gt;</value>
-  </data>
-  <data name="POLISH">
-    <value>Polaco</value>
-  </data>
-  <data name="FULLNAMETAG">
-    <value>Nombre completo:</value>
-  </data>
-  <data name="ERRORCANNOTSETDESCRIPTION">
-    <value>No es posible definir la descripción de la carpeta iFolder.</value>
-  </data>
-  <data name="REVERTSHARINGCONNECTFAILED">
-    <value>No es posible la conexión con el servidor iFolder. Revoque la función de compartir una vez que se pueda acceder al servidor.</value>
-  </data>
-  <data name="LOGINUNAUTHORIZED">
-    <value>Introduzca de nuevo el nombre de usuario y la contraseña.</value>
-  </data>
-  <data name="LDAPCONTEXTTAG">
-    <value>Contextos LDAP:</value>
-  </data>
-  <data name="PENDING">
-    <value>Pendiente</value>
-  </data>
-  <data name="REPORTS">
-    <value>Informes</value>
-  </data>
-  <data name="ENFORCED">
-    <value>Aplicado </value>
-  </data>
-  <data name="ERRORNOTADMINISTRATOR">
-    <value>El usuario no es un administrador de iFolder.</value>
-  </data>
-  <data name="PATHTAG">
-    <value>Vía:</value>
-  </data>
-  <data name="SYSTEMLOGFILE">
-    <value>Sistema</value>
-  </data>
-  <data name="ADMIN">
-    <value>Administrador</value>
-  </data>
-  <data name="LDAPSSL">
-    <value>SSL LDAP:</value>
-  </data>
-  <data name="NEWIFOLDERDESCRIPTIONTAG">
-    <value>Descripción de la carpeta iFolder:</value>
-  </data>
-  <data name="CREATEUSER">
-    <value>Crear usuario</value>
-  </data>
-  <data name="SSLSTRING">
-    <value>SSL</value>
-  </data>
-  <data name="IFOLDERLIMIT">
-    <value>Carpetas iFolder por usuario</value>
-  </data>
-  <data name="FREESPACE">
-    <value>Espacio libre</value>
-  </data>
-  <data name="CHANGEMASTERSUCCESSFUL">
-    <value>Se ha actualizado {0} como servidor principal. Reinicie todos los servidores para que los cambios surtan efecto.</value>
-  </data>
-  <data name="ERRORIFOLDERDOESNOTEXIST">
-    <value>Esta carpeta iFolder no existe.</value>
-  </data>
-  <data name="STATUS">
-    <value>Estado</value>
-  </data>
-  <data name="PROVISION_REPROVISION_TITLE">
-    <value>Proveer / proveer de nuevo a usuarios</value>
-  </data>
-  <data name="ERRORNOQUOTA">
-    <value>No se ha especificado ningún valor de cuota de espacio de disco.</value>
-  </data>
-  <data name="IFOLDERDETAILS">
-    <value>Información de iFolder</value>
-  </data>
-  <data name="CHINESE-SIMPLIFIED">
-    <value>Chino simplificado</value>
-  </data>
-  <data name="UNKNOWNERROR">
-    <value>Se ha producido un error desconocido. No se ha especificado ninguna excepción.</value>
-  </data>
-  <data name="ERRORCANNOTSETUSERPOLICY">
-    <value>No es posible definir la información de la directiva de usuario para el ID de usuario {0}.</value>
-  </data>
-  <data name="CREATENEWIFOLDER">
-    <value>Crear carpeta iFolder nueva</value>
-  </data>
-  <data name="ERRORAUTHENTICATIONFAILED">
-    <value>Error de autenticación.</value>
-  </data>
-  <data name="SEGREGATEDGROUPS">
-    <value>Grupos segregados: </value>
-  </data>
-  <data name="POLICIES">
-    <value>Directivas</value>
-  </data>
-  <data name="CONNECTIONFAILED">
-    <value>No es posible la conexión al servidor {0}.</value>
-  </data>
-  <data name="NONSSLSTRING">
-    <value>NONSSL</value>
-  </data>
-  <data name="SSLTAG">
-    <value>Opción SSL:</value>
-  </data>
-  <data name="CREATESEGREGATEDGROUPS">
-    <value>Crear grupos segregados</value>
-  </data>
-  <data name="CONFIRMADDITION">
-    <value>IMPORTANTE: el propietario y el grupo de la vía de datos del servidor se deben definir en apacheuser:apachegroup. Es necesario hacerlo para poder crear o sincronizar carpetas iFolder en este volumen.</value>
-  </data>
-  <data name="PORTUGUESE-BRAZIL">
-    <value>Portugués brasileño</value>
-  </data>
-  <data name="ENCRYPTION">
-    <value>Cifrado basado en contraseña codificada</value>
-  </data>
-  <data name="BEGINSWITH">
-    <value>Empieza por</value>
-  </data>
-  <data name="MB">
-    <value>MB</value>
-  </data>
-  <data name="ERRORCANNOTDELETEIFOLDER">
-    <value>No tiene permiso para suprimir {0}.</value>
-  </data>
-  <data name="DISKSPACEAVAILABLETAG">
-    <value>Espacio de disco disponible:</value>
-  </data>
-  <data name="MESSAGEINFORMATION">
-    <value>Información:</value>
-  </data>
-  <data name="DISABLEPASTSHARING">
-    <value>Revocar</value>
-  </data>
-  <data name="TRANSFERING">
-    <value>Transfiriendo</value>
-  </data>
-  <data name="ALLOWDELETEIFOLDERRIGHTS">
-    <value>Dar permiso para suprimir iFolders</value>
-  </data>
-  <data name="SET">
-    <value>Definir</value>
-  </data>
-  <data name="LDAPADMINPWD">
-    <value>Contraseña del administrador LDAP:</value>
-  </data>
-  <data name="SYNCBASED">
-    <value>Motor de sincronización </value>
-  </data>
-  <data name="TITLE">
-    <value>Administrador de iFolder</value>
-  </data>
-  <data name="STATUSTAG">
-    <value>Estado:</value>
-  </data>
-  <data name="MINIMALINFO">
-    <value>Mostrando información mínima</value>
-  </data>
-  <data name="LOGLEVELTAG">
-    <value>Nivel de registro</value>
-  </data>
-  <data name="EVERYTAG">
-    <value>Cada:</value>
-  </data>
-  <data name="PASSWORDTAG">
-    <value>Contraseña:</value>
-  </data>
-  <data name="GROUPRIGHTSEDITSUCCESSFUL">
-    <value>Los derechos de {0}{1}{2} del administrador se han editado correctamente para el grupo {3}{4}{5}. Haga clic en Repetir para operar con el mismo administrador en varios grupos. Haga clic en Aceptar para volver a la página de sistemas.</value>
-  </data>
-  <data name="LDAPMEMBERDELETE">
-    <value>Suprimir miembro</value>
-  </data>
-  <data name="SYSTEMSETTINGS">
-    <value>Configuración del sistema</value>
-  </data>
-  <data name="ERRORUNKNOWNERROR">
-    <value>Se ha producido un error desconocido.</value>
-  </data>
-  <data name="GROUPRIGHTSADDFAILURE">
-    <value>El usuario {0}{1}{2} no ha podido añadirse como administrador para el grupo {3}{4}{5}. Haga clic en Volver a intentarlo para añadir el grupo de nuevo. Haga clic en Aceptar para volver a la página de sistemas. </value>
-  </data>
-  <data name="NAMETAG">
-    <value>Nombre:</value>
-  </data>
-  <data name="ERRORCANNOTSETIFOLDERSTATUS">
-    <value>No es posible definir el estado de sincronización de iFolder.</value>
-  </data>
-  <data name="EXCLUDEDFILES">
-    <value>Archivos excluidos</value>
-  </data>
-  <data name="ADMINLOGFILE">
-    <value>Administrador Web</value>
-  </data>
-  <data name="EDIT">
-    <value>Editar</value>
-  </data>
-  <data name="HUNGARIAN">
-    <value>Húngaro</value>
-  </data>
-  <data name="SYSTEM">
-    <value>Sistema</value>
-  </data>
-  <data name="CANNOTSETUNLIMITED">
-    <value>No es posible establecer ilimitado porque su grupo tiene una cuota de disco agregada.</value>
-  </data>
-  <data name="LASTLOGINTIMETAG">
-    <value>Última hora de entrada:</value>
-  </data>
-  <data name="OFF">
-    <value>Desactivado</value>
-  </data>
-  <data name="B">
-    <value>B</value>
-  </data>
-  <data name="ASSIGNADMINISTRATORS">
-    <value>Asignar administradores</value>
-  </data>
-  <data name="ERRORCANNOTSETSYSTEMPOLICY">
-    <value>No es posible definir la información de la directiva del sistema.</value>
-  </data>
-  <data name="RIGHTS">
-    <value>Derechos</value>
-  </data>
-  <data name="ACCOUNT">
-    <value>Cuenta</value>
-  </data>
-  <data name="ADDROOT">
-    <value>Añadir raíz</value>
-  </data>
-  <data name="IFOLDERISOWNEDBY">
-    <value>Propiedad de {0}</value>
-  </data>
-  <data name="LOGINACCOUNTLOCKED">
-    <value>Su cuenta está bloqueada, por lo que no está disponible.</value>
-  </data>
-  <data name="ITALIAN">
-    <value>Italiano</value>
-  </data>
-  <data name="SYNCNOW">
-    <value>Sincronizar ahora</value>
-  </data>
-  <data name="CANNOTSETPERMISSION">
-    <value>No es posible cambiar el permiso de la vía completa especificada.</value>
-  </data>
-  <data name="ACCESSLOGFILE">
+  <data name="ACCESSLOGFILE" xml:space="preserve">
     <value>Acceso de usuario</value>
   </data>
-  <data name="ADOPT">
+  <data name="ACCOUNT" xml:space="preserve">
+    <value>Cuenta</value>
+  </data>
+  <data name="ADD" xml:space="preserve">
+    <value>Añadir</value>
+  </data>
+  <data name="ADDADMINS" xml:space="preserve">
+    <value>Añadir administradores</value>
+  </data>
+  <data name="ADDMEMBERS" xml:space="preserve">
+    <value>Añadir miembros de iFolder</value>
+  </data>
+  <data name="ADDMEMBERSTOIFOLDER" xml:space="preserve">
+    <value>Añadir otros miembros a la carpeta iFolder "{0}"</value>
+  </data>
+  <data name="ADMIN" xml:space="preserve">
+    <value>Administrador</value>
+  </data>
+  <data name="FULLCONTROL" xml:space="preserve">
+    <value>Control completo</value>
+  </data>
+  <data name="ADMINISTRATOR" xml:space="preserve">
+    <value>Administrador</value>
+  </data>
+  <data name="ADMINISTRATORS" xml:space="preserve">
+    <value>Administradores</value>
+  </data>
+  <data name="ADMINLOGFILE" xml:space="preserve">
+    <value>Administrador Web</value>
+  </data>
+  <data name="ADOPT" xml:space="preserve">
     <value>Adoptar</value>
   </data>
-  <data name="ERROR">
-    <value>Error</value>
+  <data name="ALL" xml:space="preserve">
+    <value>Todo</value>
   </data>
-  <data name="REPROVISOINSTATETAG">
-    <value>Estado de la nueva provisión:</value>
+  <data name="ALLFIELDSREQUIRED" xml:space="preserve">
+    <value>Es necesario completar todos los campos.</value>
   </data>
-  <data name="DOWNLOAD">
-    <value>Descargar</value>
+  <data name="ALLOW" xml:space="preserve">
+    <value>Permitir</value>
   </data>
-  <data name="DELETESECONDARYADMIN">
-    <value>Suprimir administrador secundario: </value>
+  <data name="ASSIGNADMINISTRATORS" xml:space="preserve">
+    <value>Asignar administradores</value>
   </data>
-  <data name="FIRSTNAMETAG">
-    <value>Nombre:</value>
+  <data name="ATTAG" xml:space="preserve">
+    <value>En:</value>
   </data>
-  <data name="ERRORNOSYNCINTERVAL">
-    <value>No se ha especificado ningún intervalo de sincronización.</value>
+  <data name="AVAILABLETAG" xml:space="preserve">
+    <value>Disponible:</value>
   </data>
-  <data name="DELETE">
+  <data name="B" xml:space="preserve">
+    <value>B</value>
+  </data>
+  <data name="BACK" xml:space="preserve">
+    <value>Atrás</value>
+  </data>
+  <data name="BEGINSWITH" xml:space="preserve">
+    <value>Empieza por</value>
+  </data>
+  <data name="CANCEL" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
+  <data name="CHINESE-SIMPLIFIED" xml:space="preserve">
+    <value>Chino simplificado</value>
+  </data>
+  <data name="CHINESE-TRADITIONAL" xml:space="preserve">
+    <value>Chino tradicional</value>
+  </data>
+  <data name="CONFIGUREREPORTING" xml:space="preserve">
+    <value>Configurar informes</value>
+  </data>
+  <data name="CONTAINS" xml:space="preserve">
+    <value>Contiene</value>
+  </data>
+  <data name="CREATE" xml:space="preserve">
+    <value>Crear</value>
+  </data>
+  <data name="CREATENEWIFOLDER" xml:space="preserve">
+    <value>Crear carpeta iFolder nueva</value>
+  </data>
+  <data name="CREATEUSER" xml:space="preserve">
+    <value>Crear usuario</value>
+  </data>
+  <data name="CSVFORMAT" xml:space="preserve">
+    <value>Texto CSV</value>
+  </data>
+  <data name="CZECH" xml:space="preserve">
+    <value>Checo</value>
+  </data>
+  <data name="DAILY" xml:space="preserve">
+    <value>Diariamente</value>
+  </data>
+  <data name="DAYTAG" xml:space="preserve">
+    <value>Día:</value>
+  </data>
+  <data name="DEBUG" xml:space="preserve">
+    <value>Depurar</value>
+  </data>
+  <data name="DELETE" xml:space="preserve">
     <value>Suprimir</value>
   </data>
-  <data name="FREQUENCY">
+  <data name="DELETED" xml:space="preserve">
+    <value>Suprimido</value>
+  </data>
+  <data name="DENY" xml:space="preserve">
+    <value>Denegar</value>
+  </data>
+  <data name="DESCRIPTIONTAG" xml:space="preserve">
+    <value>Descripción:</value>
+  </data>
+  <data name="DIRECTORIESTAG" xml:space="preserve">
+    <value>Directorios:</value>
+  </data>
+  <data name="DISABLE" xml:space="preserve">
+    <value>Inhabilitar</value>
+  </data>
+  <data name="DISABLEPASTSHARING" xml:space="preserve">
+    <value>Revocar</value>
+  </data>
+  <data name="SHARING" xml:space="preserve">
+    <value>Compartición</value>
+  </data>
+  <data name="DISKQUOTA" xml:space="preserve">
+    <value>Cuota de disco</value>
+  </data>
+  <data name="DISKSPACEAVAILABLETAG" xml:space="preserve">
+    <value>Espacio de disco disponible:</value>
+  </data>
+  <data name="DISKSPACEUSEDTAG" xml:space="preserve">
+    <value>Espacio de disco utilizado:</value>
+  </data>
+  <data name="DNSNAME" xml:space="preserve">
+    <value>Nombre DNS</value>
+  </data>
+  <data name="DNSNAMETAG" xml:space="preserve">
+    <value>Nombre DNS:</value>
+  </data>
+  <data name="DOWNLOAD" xml:space="preserve">
+    <value>Descargar</value>
+  </data>
+  <data name="EDIT" xml:space="preserve">
+    <value>Editar</value>
+  </data>
+  <data name="EDITLDAPDETAILS" xml:space="preserve">
+    <value>Editar información de LDAP</value>
+  </data>
+  <data name="EFFECTIVETAG" xml:space="preserve">
+    <value>Vigente:</value>
+  </data>
+  <data name="ELLIPSES" xml:space="preserve">
+    <value> . . .</value>
+  </data>
+  <data name="ENABLE" xml:space="preserve">
+    <value>Habilitar</value>
+  </data>
+  <data name="REPROVISOINSTATE" xml:space="preserve">
+    <value>Estado de la nueva provisión</value>
+  </data>
+  <data name="REPROVISOINSTATETAG" xml:space="preserve">
+    <value>Estado de la nueva provisión:</value>
+  </data>
+  <data name="ENABLED" xml:space="preserve">
+    <value>Habilitado</value>
+  </data>
+  <data name="ENABLEDTAG" xml:space="preserve">
+    <value>Habilitado:</value>
+  </data>
+  <data name="ENABLEREPORTING" xml:space="preserve">
+    <value>Habilitar informes</value>
+  </data>
+  <data name="ACCESSDENIED" xml:space="preserve">
+    <value>Acceso denegado para este recurso</value>
+  </data>
+  <data name="ACCESSDENIEDERROR" xml:space="preserve">
+    <value>El usuario que ha entrado a la sesión no está autorizado para ver o modificar las propiedades de esta página.</value>
+  </data>
+  <data name="ENDSWITH" xml:space="preserve">
+    <value>Acaba por</value>
+  </data>
+  <data name="ENFORCED" xml:space="preserve">
+    <value>Aplicado </value>
+  </data>
+  <data name="ENGLISH" xml:space="preserve">
+    <value>Inglés</value>
+  </data>
+  <data name="ENTERLDAPDETAILS" xml:space="preserve">
+    <value>Introducir credenciales del administrador LDAP</value>
+  </data>
+  <data name="EQUALS" xml:space="preserve">
+    <value>Igual a</value>
+  </data>
+  <data name="ERROR" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="ERRORACCESSEXCEPTION" xml:space="preserve">
+    <value>No dispone de derechos suficientes para realizar la petición.</value>
+  </data>
+  <data name="PATHTOOLONGEXCEPTION" xml:space="preserve">
+    <value>La carpeta iFolder no puede crearse porque el nombre es demasiado largo.</value>
+  </data>
+  <data name="ERRORAUTHENTICATIONFAILED" xml:space="preserve">
+    <value>Error de autenticación.</value>
+  </data>
+  <data name="ERRORCANNOTADDADMIN" xml:space="preserve">
+    <value>No es posible añadir el miembro {0} como administrador.</value>
+  </data>
+  <data name="ERRORCANNOTADDMEMBER" xml:space="preserve">
+    <value>No es posible añadir el miembro {0} a la carpeta iFolder {1}.</value>
+  </data>
+  <data name="ERRORCANNOTCHANGERIGHTS" xml:space="preserve">
+    <value>No es posible cambiar los derechos de pertenencia del usuario {0}.</value>
+  </data>
+  <data name="ERRORCANNOTCHANGEOWNER" xml:space="preserve">
+    <value>No es posible cambiar la pertenencia de la carpeta iFolder.</value>
+  </data>
+  <data name="ERRORCANNOTCREATEIFOLDER" xml:space="preserve">
+    <value>No es posible crear la carpeta iFolder.</value>
+  </data>
+  <data name="ERRORCANNOTCREATEUSER" xml:space="preserve">
+    <value>No es posible crear el usuario.</value>
+  </data>
+  <data name="ERRORCANNOTDELETEIFOLDER" xml:space="preserve">
+    <value>No tiene permiso para suprimir {0}.</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="ERRORCANNOTDELETEIFOLDER" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="ERRORCANNOTDELETEMEMBERS" xml:space="preserve">
+    <value>No es posible suprimir el miembro de iFolder {0}.</value>
+  </data>
+  <data name="ERRORCANNOTDELETEUSER" xml:space="preserve">
+    <value>No es posible suprimir el ID de usuario {0}.</value>
+  </data>
+  <data name="ERRORCANNOTREMOVEADMIN" xml:space="preserve">
+    <value>No es posible eliminar el usuario {0} como administrador.</value>
+  </data>
+  <data name="ERRORCANNOTSETDESCRIPTION" xml:space="preserve">
+    <value>No es posible definir la descripción de la carpeta iFolder.</value>
+  </data>
+  <data name="ERRORCANNOTSETIFOLDERPOLICY" xml:space="preserve">
+    <value>No es posible definir la información de la directiva para el ID de iFolder {0}.</value>
+  </data>
+  <data name="ERRORCANNOTSETSYSTEMPOLICY" xml:space="preserve">
+    <value>No es posible definir la información de la directiva del sistema.</value>
+  </data>
+  <data name="ERRORCANNOTSETIFOLDERSTATUS" xml:space="preserve">
+    <value>No es posible definir el estado de sincronización de iFolder.</value>
+  </data>
+  <data name="ERRORCANNOTSETUSERPOLICY" xml:space="preserve">
+    <value>No es posible definir la información de la directiva de usuario para el ID de usuario {0}.</value>
+  </data>
+  <data name="ERRORDETAIL" xml:space="preserve">
+    <value>Información del error</value>
+  </data>
+  <data name="ERRORIFOLDERDOESNOTEXIST" xml:space="preserve">
+    <value>Esta carpeta iFolder no existe.</value>
+  </data>
+  <data name="ERRORINVALIDFILESIZE" xml:space="preserve">
+    <value>Se ha especificado un valor límite de tamaño de archivo no válido. El valor debe encontrarse entre 1 y 2e+063 - 1.</value>
+  </data>
+  <data name="ERRORINVALIDDATA" xml:space="preserve">
+    <value>Todos los campos son obligatorios. Compruébelos y vuelva a especificarlos.</value>
+  </data>
+  <data name="ERRORPROXYPASSWORDSDOESNOTMATCH" xml:space="preserve">
+    <value>Las contraseñas de los usuarios apoderados no coinciden. Vuelva a introducir las contraseñas correctas.</value>
+  </data>
+  <data name="ERRORINVALIDLIMIT" xml:space="preserve">
+    <value>Se ha especificado un valor no válido de límite de tamaño del archivo. El valor debe ser inferior a la cuota de espacio de disco.</value>
+  </data>
+  <data name="ERRORINVALIDQUOTA" xml:space="preserve">
+    <value>Se ha especificado un valor de cuota de espacio de disco no válido. El valor debe encontrarse entre 1 y 2e+063 - 1.</value>
+  </data>
+  <data name="ERRORINVALIDIFOLDERLIMIT" xml:space="preserve">
+    <value>Se ha especificado un valor no válido de límite de la carpeta iFolder. El valor debe estar entre 0 y 2e+063 - 1.</value>
+  </data>
+  <data name="ERRORINVALIDSYNCINTERVAL" xml:space="preserve">
+    <value>Se ha especificado un intervalo de sincronización no válido. El valor debe encontrarse entre 5 y 999.</value>
+  </data>
+  <data name="ERRORINVALIDIDSYNCINTERVAL" xml:space="preserve">
+    <value>Se ha especificado un intervalo de sincronización no válido. El valor debe encontrarse entre 5 y 10080.</value>
+  </data>
+  <data name="ERRORLOCKEXCEPTION" xml:space="preserve">
+    <value>Se ha cancelado la operación debido a que el administrador ha bloqueado o inhabilitado la carpeta iFolder.</value>
+  </data>
+  <data name="ERRORMEMBERDOESNOTEXIST" xml:space="preserve">
+    <value>Este miembro de iFolder no existe.</value>
+  </data>
+  <data name="ERRORNOFILESIZE" xml:space="preserve">
+    <value>No se ha especificado ningún valor límite de tamaño de archivo.</value>
+  </data>
+  <data name="ERRORNOQUOTA" xml:space="preserve">
+    <value>No se ha especificado ningún valor de cuota de espacio de disco.</value>
+  </data>
+  <data name="ERRORNOIFOLDERLIMIT" xml:space="preserve">
+    <value>No se ha especificado ningún valor de límite de la carpeta iFolder.</value>
+  </data>
+  <data name="ERRORNOSYNCINTERVAL" xml:space="preserve">
+    <value>No se ha especificado ningún intervalo de sincronización.</value>
+  </data>
+  <data name="ERRORNOTADMINISTRATOR" xml:space="preserve">
+    <value>El usuario no es un administrador de iFolder.</value>
+  </data>
+  <data name="ERRORTEMPLATE" xml:space="preserve">
+    <value>Error: {0}</value>
+  </data>
+  <data name="ERRORTYPE" xml:space="preserve">
+    <value>Error inesperado</value>
+  </data>
+  <data name="ERRORINSTRUCTIONS" xml:space="preserve">
+    <value>&lt;p&gt;Web Access de iFolder ha detectado un error inesperado.&lt;/p&gt; &lt;p&gt;Le rogamos que nos disculpe por las molestias causadas y le agradeceríamos que saliera de la sesión y lo intentara de nuevo.&lt;/p&gt;</value>
+  </data>
+  <data name="ERRORUNKNOWNERROR" xml:space="preserve">
+    <value>Se ha producido un error desconocido.</value>
+  </data>
+  <data name="ERRORUSERDOESNOTEXIST" xml:space="preserve">
+    <value>El usuario de iFolder especificado no existe.</value>
+  </data>
+  <data name="EVERYTAG" xml:space="preserve">
+    <value>Cada:</value>
+  </data>
+  <data name="EXCLUDEDFILES" xml:space="preserve">
+    <value>Archivos excluidos</value>
+  </data>
+  <data name="FATAL" xml:space="preserve">
+    <value>Grave</value>
+  </data>
+  <data name="FILE" xml:space="preserve">
+    <value>Archivo</value>
+  </data>
+  <data name="FILENAME" xml:space="preserve">
+    <value>Nombre de archivo</value>
+  </data>
+  <data name="FILES" xml:space="preserve">
+    <value>Archivos</value>
+  </data>
+  <data name="FILESTAG" xml:space="preserve">
+    <value>Archivos:</value>
+  </data>
+  <data name="FILESIZE" xml:space="preserve">
+    <value>Tamaño de archivo</value>
+  </data>
+  <data name="FILETYPEALREADYEXISTS" xml:space="preserve">
+    <value>El nombre de archivo especificado ya existe en la lista.</value>
+  </data>
+  <data name="FIRST" xml:space="preserve">
+    <value>Primero</value>
+  </data>
+  <data name="FIRSTNAME" xml:space="preserve">
+    <value>Nombre</value>
+  </data>
+  <data name="FIRSTNAMETAG" xml:space="preserve">
+    <value>Nombre:</value>
+  </data>
+  <data name="FIRSTPAGE" xml:space="preserve">
+    <value>Primera página</value>
+  </data>
+  <data name="FORMATTAG" xml:space="preserve">
+    <value>Formato:</value>
+  </data>
+  <data name="FRENCH" xml:space="preserve">
+    <value>Francés</value>
+  </data>
+  <data name="FREQUENCY" xml:space="preserve">
     <value>Frecuencia</value>
   </data>
-  <data name="SELECTUSERS">
-    <value>Seleccionar usuarios</value>
+  <data name="FULLNAME" xml:space="preserve">
+    <value>Nombre completo</value>
   </data>
-  <data name="WHEN">
-    <value>Cuándo</value>
+  <data name="FULLNAMETAG" xml:space="preserve">
+    <value>Nombre completo:</value>
   </data>
-  <data name="LOGTAG">
-    <value>Registro</value>
+  <data name="FULLNAMEDISLAYTAG" xml:space="preserve">
+    <value>Visualizar nombre:</value>
   </data>
-  <data name="GROUPDISKQUOTA">
-    <value>Cuota de disco de grupo: </value>
+  <data name="FULLNAMEDISPLAYORDER" xml:space="preserve">
+    <value>Mostrar ordenado por nombre completo:</value>
   </data>
-  <data name="UNABLETOSETASSLAVE">
-    <value>No es posible definir como servidor esclavo. Intente de nuevo la operación.</value>
+  <data name="GB" xml:space="preserve">
+    <value>GB</value>
   </data>
-  <data name="LOGINUSERNAME">
+  <data name="GENERATEDAILYREPORT" xml:space="preserve">
+    <value>Generar informe cada día a las {0} para el {1}</value>
+  </data>
+  <data name="GENERATEMONTHLYREPORT" xml:space="preserve">
+    <value>Generar informe el día {0} de cada mes a las {1} para el {2}</value>
+  </data>
+  <data name="GENERATEWEEKLYREPORT" xml:space="preserve">
+    <value>Generar informe cada {0} a las {1} para el {2}</value>
+  </data>
+  <data name="GERMAN" xml:space="preserve">
+    <value>Alemán</value>
+  </data>
+  <data name="HELP" xml:space="preserve">
+    <value>Ayuda</value>
+  </data>
+  <data name="HOME" xml:space="preserve">
+    <value>Servidor inicial</value>
+  </data>
+  <data name="COMPLETED" xml:space="preserve">
+    <value>Completado</value>
+  </data>
+  <data name="COMPLETEDTAG" xml:space="preserve">
+    <value>Completado:</value>
+  </data>
+  <data name="HUNGARIAN" xml:space="preserve">
+    <value>Húngaro</value>
+  </data>
+  <data name="IDENTITYSYNCTAG" xml:space="preserve">
+    <value>Sincronización de identidad:</value>
+  </data>
+  <data name="IFOLDER" xml:space="preserve">
+    <value>iFolder</value>
+  </data>
+  <data name="IFOLDERADMINS" xml:space="preserve">
+    <value>Administradores de iFolder</value>
+  </data>
+  <data name="IFOLDERDETAILS" xml:space="preserve">
+    <value>Información de iFolder</value>
+  </data>
+  <data name="IFOLDERDISABLED" xml:space="preserve">
+    <value>Inhabilitar sincronización</value>
+  </data>
+  <data name="IFOLDERISOWNEDBY" xml:space="preserve">
+    <value>Propiedad de {0}</value>
+  </data>
+  <data name="IFOLDERLIMIT" xml:space="preserve">
+    <value>Carpetas iFolder por usuario</value>
+  </data>
+  <data name="IFOLDERS" xml:space="preserve">
+    <value>Carpetas iFolder</value>
+  </data>
+  <data name="IFOLDERSTAG" xml:space="preserve">
+    <value>Carpetas iFolder:</value>
+  </data>
+  <data name="IFOLDERUSERDETAILS" xml:space="preserve">
+    <value>Información de usuario de iFolder</value>
+  </data>
+  <data name="IFOLDERUSERS" xml:space="preserve">
+    <value>Usuarios de iFolder</value>
+  </data>
+  <data name="REPROVISIONLIST" xml:space="preserve">
+    <value>Estado de la nueva provisión del sistema iFolder</value>
+  </data>
+  <data name="INFO" xml:space="preserve">
+    <value>Información</value>
+  </data>
+  <data name="INHEIRITEDPOLICY" xml:space="preserve">
+    <value>(Directiva heredada)</value>
+  </data>
+  <data name="INTERVALTAG" xml:space="preserve">
+    <value>Intervalo:</value>
+  </data>
+  <data name="ITALIAN" xml:space="preserve">
+    <value>Italiano</value>
+  </data>
+  <data name="JAPANESE" xml:space="preserve">
+    <value>Japonés</value>
+  </data>
+  <data name="KB" xml:space="preserve">
+    <value>KB</value>
+  </data>
+  <data name="LAST" xml:space="preserve">
+    <value>Último</value>
+  </data>
+  <data name="LASTLOGINTIMETAG" xml:space="preserve">
+    <value>Última hora de entrada:</value>
+  </data>
+  <data name="LASTMODIFIED" xml:space="preserve">
+    <value>Última modificación</value>
+  </data>
+  <data name="LASTNAME" xml:space="preserve">
+    <value>Apellido</value>
+  </data>
+  <data name="HOMESERVERNAME" xml:space="preserve">
+    <value>Servidor inicial</value>
+  </data>
+  <data name="LASTNAMETAG" xml:space="preserve">
+    <value>Apellido:</value>
+  </data>
+  <data name="LASTPAGE" xml:space="preserve">
+    <value>Última página</value>
+  </data>
+  <data name="LDAPADMINNAME" xml:space="preserve">
+    <value>DN del administrador LDAP:</value>
+  </data>
+  <data name="LDAPADMINPWD" xml:space="preserve">
+    <value>Contraseña del administrador LDAP:</value>
+  </data>
+  <data name="LDAPDETAILS" xml:space="preserve">
+    <value>Información de LDAP</value>
+  </data>
+  <data name="LDAPSERVER" xml:space="preserve">
+    <value>Servidor LDAP:</value>
+  </data>
+  <data name="LDAPCYCLES" xml:space="preserve">
+    <value>Ciclos:</value>
+  </data>
+  <data name="LDAPMEMBERDELETE" xml:space="preserve">
+    <value>Suprimir miembro</value>
+  </data>
+  <data name="LDAPMEMBERDELETEGRACEINT" xml:space="preserve">
+    <value>intervalo de gracia:</value>
+  </data>
+  <data name="LDAPUPSINCE" xml:space="preserve">
+    <value>Activo desde:</value>
+  </data>
+  <data name="LDAPCONTEXTTAG" xml:space="preserve">
+    <value>Contextos LDAP:</value>
+  </data>
+  <data name="LDAPSTATUSTAG" xml:space="preserve">
+    <value>Estado:</value>
+  </data>
+  <data name="LDAPSSL" xml:space="preserve">
+    <value>SSL LDAP:</value>
+  </data>
+  <data name="LDAPPROXYUSER" xml:space="preserve">
+    <value>Usuario apoderado:</value>
+  </data>
+  <data name="LDAPPROXYUSERPWD" xml:space="preserve">
+    <value>Contraseña del usuario apoderado:</value>
+  </data>
+  <data name="CONFIRMLDAPPROXYUSERPWD" xml:space="preserve">
+    <value>Confirmar contraseña del usuario apoderado:</value>
+  </data>
+  <data name="LIMITTAG" xml:space="preserve">
+    <value>Límite:</value>
+  </data>
+  <data name="LOGGEDINAS" xml:space="preserve">
+    <value>Ha entrado a la sesión como</value>
+  </data>
+  <data name="LOGGEDONUSERSTAG" xml:space="preserve">
+    <value>Usuarios conectados:</value>
+  </data>
+  <data name="LOGIN" xml:space="preserve">
+    <value>Entrar</value>
+  </data>
+  <data name="LOGINACCOUNTDISABLED" xml:space="preserve">
+    <value>Su cuenta está inhabilitada, por lo que no está disponible.</value>
+  </data>
+  <data name="LOGINACCOUNTLOCKED" xml:space="preserve">
+    <value>Su cuenta está bloqueada, por lo que no está disponible.</value>
+  </data>
+  <data name="LOGINCONNECTFAILED" xml:space="preserve">
+    <value>No es posible conectar con el servidor iFolder.</value>
+  </data>
+  <data name="REVERTSHARINGCONNECTFAILED" xml:space="preserve">
+    <value>No es posible la conexión con el servidor iFolder. Revoque la función de compartir una vez que se pueda acceder al servidor.</value>
+  </data>
+  <data name="LOGINCOPYRIGHT" xml:space="preserve">
+    <value>&amp;copy; Copyright 2011 Novell, Inc. Reservados todos los derechos.</value>
+  </data>
+  <data name="LOGINERROR" xml:space="preserve">
+    <value>Error:</value>
+  </data>
+  <data name="LOGINFAILED" xml:space="preserve">
+    <value>Error:</value>
+  </data>
+  <data name="LOGINIFOLDERSERVER" xml:space="preserve">
+    <value>Servidor iFolder:</value>
+  </data>
+  <data name="LOGINLANGUAGE" xml:space="preserve">
+    <value>Idioma:</value>
+  </data>
+  <data name="LOGINLOGOUT" xml:space="preserve">
+    <value>Ha salido de iFolder.</value>
+  </data>
+  <data name="LOGINLOSTSESSION" xml:space="preserve">
+    <value>Se ha cerrado la sesión. Entre a la sesión.</value>
+  </data>
+  <data name="CANNOTSETPERMISSION" xml:space="preserve">
+    <value>No es posible cambiar el permiso de la vía completa especificada.</value>
+  </data>
+  <data name="LOGINNOCOOKIES" xml:space="preserve">
+    <value>Es necesario habilitar las cookies en el navegador.</value>
+  </data>
+  <data name="LOGINNOSCRIPT" xml:space="preserve">
+    <value>Es necesario habilitar los guiones en el navegador.</value>
+  </data>
+  <data name="LOGINPASSWORD" xml:space="preserve">
+    <value>Contraseña:</value>
+  </data>
+  <data name="LOGINREDIRECT" xml:space="preserve">
+    <value>Es necesario actualizar la URL del servidor iFolder.</value>
+  </data>
+  <data name="LOGINSECUREFAILED" xml:space="preserve">
+    <value>No es posible establecer una comunicación segura con el servidor iFolder.</value>
+  </data>
+  <data name="LOGINSENDFAILED" xml:space="preserve">
+    <value>No es posible establecer la comunicación con el servidor iFolder.</value>
+  </data>
+  <data name="LOGINTRUSTFAILED" xml:space="preserve">
+    <value>No es posible establecer una relación de confianza entre el servidor iFolder y Web Access de iFolder.</value>
+  </data>
+  <data name="INVALIDCERTIFICATE" xml:space="preserve">
+    <value>Error de autenticación debido a un problema con el certificado del servidor de Ldap o iFolder.</value>
+  </data>
+  <data name="LOGINUNAUTHORIZED" xml:space="preserve">
+    <value>Introduzca de nuevo el nombre de usuario y la contraseña.</value>
+  </data>
+  <data name="LOGINUSERNAME" xml:space="preserve">
     <value>Nombre de usuario:</value>
   </data>
-  <data name="VOLUME">
+  <data name="LOGLEVELTAG" xml:space="preserve">
+    <value>Nivel de registro</value>
+  </data>
+  <data name="LOGTAG" xml:space="preserve">
+    <value>Registro</value>
+  </data>
+  <data name="LOGOUT" xml:space="preserve">
+    <value>Salir</value>
+  </data>
+  <data name="MASTER" xml:space="preserve">
+    <value>Principal</value>
+  </data>
+  <data name="MAXCONNECTIONSTAG" xml:space="preserve">
+    <value>Número máximo de conexiones:</value>
+  </data>
+  <data name="MB" xml:space="preserve">
+    <value>MB</value>
+  </data>
+  <data name="MEMBER" xml:space="preserve">
+    <value>Miembro</value>
+  </data>
+  <data name="MEMBERS" xml:space="preserve">
+    <value>Miembros</value>
+  </data>
+  <data name="MESSAGEINFORMATION" xml:space="preserve">
+    <value>Información:</value>
+  </data>
+  <data name="MINUTES" xml:space="preserve">
+    <value>Minuto(s)</value>
+  </data>
+  <data name="MINIMALINFO" xml:space="preserve">
+    <value>Mostrando información mínima</value>
+  </data>
+  <data name="MODIFIEDTAG" xml:space="preserve">
+    <value>Modificado:</value>
+  </data>
+  <data name="MONTHLY" xml:space="preserve">
+    <value>Mensualmente</value>
+  </data>
+  <data name="NAME" xml:space="preserve">
+    <value>Nombre</value>
+  </data>
+  <data name="NAMETAG" xml:space="preserve">
+    <value>Nombre:</value>
+  </data>
+  <data name="NEWIFOLDERDESCRIPTIONTAG" xml:space="preserve">
+    <value>Descripción de la carpeta iFolder:</value>
+  </data>
+  <data name="NEWIFOLDERNAMETAG" xml:space="preserve">
+    <value>Nombre de la carpeta iFolder:</value>
+  </data>
+  <data name="NEXT" xml:space="preserve">
+    <value>Siguiente</value>
+  </data>
+  <data name="NEXTPAGE" xml:space="preserve">
+    <value>Página siguiente</value>
+  </data>
+  <data name="NEWFILETYPE" xml:space="preserve">
+    <value>Tipo de archivo nuevo</value>
+  </data>
+  <data name="NO" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="NOITEMSFOUND" xml:space="preserve">
+    <value>No se ha encontrado ningún elemento.</value>
+  </data>
+  <data name="NOSERVER" xml:space="preserve">
+    <value>No hay ningún servidor seleccionado</value>
+  </data>
+  <data name="NOTAVAILABLE" xml:space="preserve">
+    <value>No disponible</value>
+  </data>
+  <data name="OFF" xml:space="preserve">
+    <value>Desactivado</value>
+  </data>
+  <data name="ORPHANED" xml:space="preserve">
+    <value>Huérfano</value>
+  </data>
+  <data name="ORPHANTAG" xml:space="preserve">
+    <value>Huérfano:</value>
+  </data>
+  <data name="OK" xml:space="preserve">
+    <value>Aceptar</value>
+  </data>
+  <data name="ON" xml:space="preserve">
+    <value>Activo</value>
+  </data>
+  <data name="OUTPUT" xml:space="preserve">
+    <value>Salida</value>
+  </data>
+  <data name="OWNED" xml:space="preserve">
+    <value>En propiedad</value>
+  </data>
+  <data name="OWNER" xml:space="preserve">
+    <value>Propiet.</value>
+  </data>
+  <data name="OWNERTAG" xml:space="preserve">
+    <value>Propietario:</value>
+  </data>
+  <data name="PAGENUMBERFORMAT" xml:space="preserve">
+    <value>{0} - {1} de {2} {3}</value>
+  </data>
+  <data name="PASSWORDSDONOTMATCH" xml:space="preserve">
+    <value>Las contraseñas no coinciden.</value>
+  </data>
+  <data name="PASSWORDTAG" xml:space="preserve">
+    <value>Contraseña:</value>
+  </data>
+  <data name="PATHTAG" xml:space="preserve">
+    <value>Vía:</value>
+  </data>
+  <data name="PENDING" xml:space="preserve">
+    <value>Pendiente</value>
+  </data>
+  <data name="POLICIES" xml:space="preserve">
+    <value>Directivas</value>
+  </data>
+  <data name="POLISH" xml:space="preserve">
+    <value>Polaco</value>
+  </data>
+  <data name="PORTUGUESE" xml:space="preserve">
+    <value>Portugués</value>
+  </data>
+  <data name="PORTUGUESE-BRAZIL" xml:space="preserve">
+    <value>Portugués brasileño</value>
+  </data>
+  <data name="PREVIOUSPAGE" xml:space="preserve">
+    <value>Página anterior</value>
+  </data>
+  <data name="PRIVATEIPTAG" xml:space="preserve">
+    <value>Dirección IP privada:</value>
+  </data>
+  <data name="PRIVATEURI" xml:space="preserve">
+    <value>URL privada:</value>
+  </data>
+  <data name="PRIVATEURL" xml:space="preserve">
+    <value>URL privada</value>
+  </data>
+  <data name="PROVISION" xml:space="preserve">
+    <value>Provisión</value>
+  </data>
+  <data name="PROVISIONREPROVISION" xml:space="preserve">
+    <value>Provisión / Nueva provisión</value>
+  </data>
+  <data name="PUBLICIPTAG" xml:space="preserve">
+    <value>Dirección IP pública:</value>
+  </data>
+  <data name="PUBLICURI" xml:space="preserve">
+    <value>URL pública:</value>
+  </data>
+  <data name="PUBLICURL" xml:space="preserve">
+    <value>URL pública</value>
+  </data>
+  <data name="READONLY" xml:space="preserve">
+    <value>Sólo lectura</value>
+  </data>
+  <data name="READWRITE" xml:space="preserve">
+    <value>Lectura/escritura</value>
+  </data>
+  <data name="REMOVEMEMBERS" xml:space="preserve">
+    <value>Eliminar usuarios</value>
+  </data>
+  <data name="REPORTDIRECTORY" xml:space="preserve">
+    <value>Directorio de informe</value>
+  </data>
+  <data name="REPORTDIRECTORYTAG" xml:space="preserve">
+    <value>directorio:</value>
+  </data>
+  <data name="REPORTIFOLDER" xml:space="preserve">
+    <value>Carpeta iFolder de informes</value>
+  </data>
+  <data name="REPORTIFOLDERTAG" xml:space="preserve">
+    <value>iFolder:</value>
+  </data>
+  <data name="REPORTS" xml:space="preserve">
+    <value>Informes</value>
+  </data>
+  <data name="RETYPEPASSWORDTAG" xml:space="preserve">
+    <value>Reescriba la contraseña:</value>
+  </data>
+  <data name="RIGHTS" xml:space="preserve">
+    <value>Derechos</value>
+  </data>
+  <data name="RUSSIAN" xml:space="preserve">
+    <value>Ruso</value>
+  </data>
+  <data name="SAVE" xml:space="preserve">
+    <value>Guardar</value>
+  </data>
+  <data name="REPROVISIONBUTTON" xml:space="preserve">
+    <value>Estado de la nueva provisión</value>
+  </data>
+  <data name="REFRESH" xml:space="preserve">
+    <value>Actualizar</value>
+  </data>
+  <data name="SEARCH" xml:space="preserve">
+    <value>Buscar</value>
+  </data>
+  <data name="SELECTEDUSERS" xml:space="preserve">
+    <value>Usuarios seleccionados</value>
+  </data>
+  <data name="SELECTIFOLDEROWNER" xml:space="preserve">
+    <value>Seleccione un propietario para la carpeta iFolder "{0}"</value>
+  </data>
+  <data name="SELECTUSERS" xml:space="preserve">
+    <value>Seleccionar usuarios</value>
+  </data>
+  <data name="SELECTSERVER" xml:space="preserve">
+    <value>Seleccionar un servidor para proveer / proveer de nuevo a estos usuarios</value>
+  </data>
+  <data name="SERVER" xml:space="preserve">
+    <value>Servidor</value>
+  </data>
+  <data name="SERVERDETAILS" xml:space="preserve">
+    <value>Información del servidor</value>
+  </data>
+  <data name="SERVERLOGS" xml:space="preserve">
+    <value>Registros del servidor</value>
+  </data>
+  <data name="SERVERREPORTS" xml:space="preserve">
+    <value>Informes del servidor</value>
+  </data>
+  <data name="SERVERS" xml:space="preserve">
+    <value>Servidores</value>
+  </data>
+  <data name="SERVERSTATUS" xml:space="preserve">
+    <value>Estado del servidor</value>
+  </data>
+  <data name="SERVERSTATUSDOWN" xml:space="preserve">
+    <value>Servidor no accesible</value>
+  </data>
+  <data name="SESSIONCLOSED" xml:space="preserve">
+    <value>El nombre de usuario o la contraseña que ha introducido no es correcto. Entre a la sesión.</value>
+  </data>
+  <data name="SESSIONSTAG" xml:space="preserve">
+    <value>Sesiones:</value>
+  </data>
+  <data name="SET" xml:space="preserve">
+    <value>Definir</value>
+  </data>
+  <data name="SHARED" xml:space="preserve">
+    <value>Compartido</value>
+  </data>
+  <data name="SHARINGPOLICYVIOLATION" xml:space="preserve">
+    <value> La función de compartir está inhabilitada por lo que esta carpeta iFolder no se puede compartir</value>
+  </data>
+  <data name="SIZE" xml:space="preserve">
+    <value>Tamaño</value>
+  </data>
+  <data name="SIZETAG" xml:space="preserve">
+    <value>Tamaño:</value>
+  </data>
+  <data name="SLAVE" xml:space="preserve">
+    <value>Esclavo</value>
+  </data>
+  <data name="SLOVAK" xml:space="preserve">
+    <value>Eslovaco</value>
+  </data>
+  <data name="SPANISH" xml:space="preserve">
+    <value>Español</value>
+  </data>
+  <data name="STATUS" xml:space="preserve">
+    <value>Estado</value>
+  </data>
+  <data name="STATUSTAG" xml:space="preserve">
+    <value>Estado:</value>
+  </data>
+  <data name="SYNCNOW" xml:space="preserve">
+    <value>Sincronizar ahora</value>
+  </data>
+  <data name="SYNCHRONIZATION" xml:space="preserve">
+    <value>Sincronización</value>
+  </data>
+  <data name="SYSTEM" xml:space="preserve">
+    <value>Sistema</value>
+  </data>
+  <data name="SYSTEMLOGFILE" xml:space="preserve">
+    <value>Sistema</value>
+  </data>
+  <data name="SYSTEMSETTINGS" xml:space="preserve">
+    <value>Configuración del sistema</value>
+  </data>
+  <data name="TITLE" xml:space="preserve">
+    <value>Administrador de iFolder</value>
+  </data>
+  <data name="TOTALIFOLDERSTAG" xml:space="preserve">
+    <value>Total de carpetas iFolder:</value>
+  </data>
+  <data name="TOTALTAG" xml:space="preserve">
+    <value>Total: </value>
+  </data>
+  <data name="TOTALUSERSTAG" xml:space="preserve">
+    <value>Total de usuarios:</value>
+  </data>
+  <data name="TRUE" xml:space="preserve">
+    <value>Verdadero</value>
+  </data>
+  <data name="TYPE" xml:space="preserve">
+    <value>Tipo</value>
+  </data>
+  <data name="TYPETAG" xml:space="preserve">
+    <value>Tipo:</value>
+  </data>
+  <data name="UNKNOWNERROR" xml:space="preserve">
+    <value>Se ha producido un error desconocido. No se ha especificado ninguna excepción.</value>
+  </data>
+  <data name="UNLIMITED" xml:space="preserve">
+    <value>Ilimitado</value>
+  </data>
+  <data name="USEDTAG" xml:space="preserve">
+    <value>Utilizado:</value>
+  </data>
+  <data name="USER" xml:space="preserve">
+    <value>Usuario</value>
+  </data>
+  <data name="USERDETAILS" xml:space="preserve">
+    <value>Información de usuario</value>
+  </data>
+  <data name="USERMOVEDETAILS" xml:space="preserve">
+    <value>Información de nueva provisión del usuario</value>
+  </data>
+  <data name="USERLOGINDISABLED" xml:space="preserve">
+    <value>Inhabilitar entrada de usuario</value>
+  </data>
+  <data name="USERNAME" xml:space="preserve">
+    <value>Nombre de usuario</value>
+  </data>
+  <data name="CURRENTHOME" xml:space="preserve">
+    <value>Ubicación principal actual</value>
+  </data>
+  <data name="CURRENTHOMETAG" xml:space="preserve">
+    <value>Ubicación principal actual:</value>
+  </data>
+  <data name="NEWHOME" xml:space="preserve">
+    <value>Nueva ubicación principal</value>
+  </data>
+  <data name="NEWHOMETAG" xml:space="preserve">
+    <value>Nueva ubicación principal:</value>
+  </data>
+  <data name="USERNAMETAG" xml:space="preserve">
+    <value>Nombre de usuario:</value>
+  </data>
+  <data name="MEMBERTYPETAG" xml:space="preserve">
+    <value>Tipo de miembro:</value>
+  </data>
+  <data name="MEMBERTYPEUSER" xml:space="preserve">
+    <value>Usuario</value>
+  </data>
+  <data name="MEMBERTYPELDAPGROUP" xml:space="preserve">
+    <value>Grupo LDAP</value>
+  </data>
+  <data name="MEMBERTYPELOCALGROUP" xml:space="preserve">
+    <value>Grupo local</value>
+  </data>
+  <data name="MEMBERLISTTAG" xml:space="preserve">
+    <value>Miembros del grupo:</value>
+  </data>
+  <data name="GROUPLISTTAG" xml:space="preserve">
+    <value>Grupos de usuarios:</value>
+  </data>
+  <data name="USERS" xml:space="preserve">
+    <value>Usuarios</value>
+  </data>
+  <data name="USERSTAG" xml:space="preserve">
+    <value>Usuarios:</value>
+  </data>
+  <data name="VIEW" xml:space="preserve">
+    <value>Ver</value>
+  </data>
+  <data name="WARN" xml:space="preserve">
+    <value>Advertir</value>
+  </data>
+  <data name="WEBACCESSLOGFILE" xml:space="preserve">
+    <value>Acceso Web</value>
+  </data>
+  <data name="WEEKLY" xml:space="preserve">
+    <value>Semanalmente</value>
+  </data>
+  <data name="WHEN" xml:space="preserve">
+    <value>Cuándo</value>
+  </data>
+  <data name="TIME" xml:space="preserve">
+    <value>Tiempo</value>
+  </data>
+  <data name="YES" xml:space="preserve">
+    <value>Sí</value>
+  </data>
+  <data name="DATASTORE" xml:space="preserve">
+    <value>Almacenamiento de datos</value>
+  </data>
+  <data name="ADDDATASTORE" xml:space="preserve">
+    <value>Añadir almacenamiento de datos</value>
+  </data>
+  <data name="FULLPATH:" xml:space="preserve">
+    <value>Vía completa:</value>
+  </data>
+  <data name="NOOFIFOLDERS" xml:space="preserve">
+    <value>Número de carpetas iFolder</value>
+  </data>
+  <data name="FREESPACE" xml:space="preserve">
+    <value>Espacio libre</value>
+  </data>
+  <data name="NAME:" xml:space="preserve">
+    <value>Nombre:</value>
+  </data>
+  <data name="FULLPATH" xml:space="preserve">
+    <value>Vía completa</value>
+  </data>
+  <data name="VOLUMES" xml:space="preserve">
+    <value>Volúmenes</value>
+  </data>
+  <data name="VOLUME" xml:space="preserve">
     <value>Volumen</value>
   </data>
-  <data name="UNLIMITED">
-    <value>Ilimitado</value>
+  <data name="NOTMOUNTED" xml:space="preserve">
+    <value>No montado</value>
+  </data>
+  <data name="LINKALREADYEXISTS" xml:space="preserve">
+    <value>Ya existe un enlace con este nombre</value>
+  </data>
+  <data name="INVALIDFULLPATH" xml:space="preserve">
+    <value>La vía completa especificada no es válida; compruébela y vuelva a especificarla.</value>
+  </data>
+  <data name="ERRORINVALIDIFOLDERLIMIT" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="INVALIDLIMITERROR" xml:space="preserve">
+    <value>No es posible crear la carpeta iFolder puesto que se ha excedido el límite de carpetas iFolder establecido por el administrador.</value>
+  </data>
+  <data name="INVALIDLDAPADMINORPASSWORD" xml:space="preserve">
+    <value>ID de usuario o contraseña de administrador LDAP no válidos</value>
+  </data>
+  <data name="UNABLETOEDITLDAPDETAILS" xml:space="preserve">
+    <value>No es posible editar la información de LDAP con estos valores. Compruébelos. </value>
+  </data>
+  <data name="UNABLETOEDITIPDETAILS" xml:space="preserve">
+    <value>No es posible editar la información de IP. Compruebe los valores. </value>
+  </data>
+  <data name="RESTARTSERVER" xml:space="preserve">
+    <value>Información actualizada. Estos cambios serán efectivos cuando vuelva a iniciar el servidor iFolder. </value>
+  </data>
+  <data name="MASTERURI" xml:space="preserve">
+    <value>URL principal:</value>
+  </data>
+  <data name="LDAPADMINAUTH" xml:space="preserve">
+    <value>ldapadminauth</value>
+  </data>
+  <data name="PROVISIONUSERS" xml:space="preserve">
+    <value>provisionusers</value>
+  </data>
+  <data name="PROVISION_REPROVISION_TITLE" xml:space="preserve">
+    <value>Proveer / proveer de nuevo a usuarios</value>
+  </data>
+  <data name="ENCRYPTION" xml:space="preserve">
+    <value>Cifrado basado en contraseña codificada</value>
+  </data>
+  <data name="SSLTAG" xml:space="preserve">
+    <value>Opción SSL:</value>
+  </data>
+  <data name="SSLSTRING" xml:space="preserve">
+    <value>SSL</value>
+  </data>
+  <data name="NONSSLSTRING" xml:space="preserve">
+    <value>NONSSL</value>
+  </data>
+  <data name="BOTHSTRING" xml:space="preserve">
+    <value>AMBOS</value>
+  </data>
+  <data name="ERRORIFOLDERENCRYPTIONENFORCED" xml:space="preserve">
+    <value>Este miembro no puede tener una carpeta iFolder normal porque la directiva de cifrado se aplica al miembro.</value>
+  </data>
+  <data name="CONFIRMADDITION" xml:space="preserve">
+    <value>IMPORTANTE: el propietario y el grupo de la vía de datos del servidor se deben definir en apacheuser:apachegroup. Es necesario hacerlo para poder crear o sincronizar carpetas iFolder en este volumen.</value>
+  </data>
+  <data name="CONFIRMDELETION" xml:space="preserve">
+    <value>IMPORTANTE: Sólo se suprimirá una vía de datos si no se han creado carpetas iFolder en la misma.</value>
+  </data>
+  <data name="ERRORIFOLDERTRANSFEREXCEPTION" xml:space="preserve">
+    <value>No es posible transferir la propiedad puesto que se ha excedido el límite de carpetas iFolder establecido por el administrador.</value>
+  </data>
+  <data name="CONFIRMENCRYPTION" xml:space="preserve">
+    <value>La opción "Cifrado basado en contraseña codificada" ofrece la posibilidad de cifrar una carpeta iFolder basándose en la contraseña codificada proporcionada por el usuario. Es posible desactivar la opción forzada; sin embargo, una vez guardada la opción "Activo" es irreversible. Haga clic en Aceptar para guardar o en Cancelar para permanecer en la página actual sin guardar. </value>
+  </data>
+  <data name="INITIALIZING" xml:space="preserve">
+    <value>Inicializando</value>
+  </data>
+  <data name="TRANSFERING" xml:space="preserve">
+    <value>Transfiriendo</value>
+  </data>
+  <data name="SERVERNAMETAG" xml:space="preserve">
+    <value>Servidor:</value>
+  </data>
+  <data name="EDITADMINRIGHTS" xml:space="preserve">
+    <value>Editar derechos de administrador</value>
+  </data>
+  <data name="ALLADMINS" xml:space="preserve">
+    <value>Todos los administradores</value>
+  </data>
+  <data name="GROUPADMINS" xml:space="preserve">
+    <value>Administradores de grupo</value>
+  </data>
+  <data name="SECONDARYADMIN" xml:space="preserve">
+    <value>Administrador secundario</value>
+  </data>
+  <data name="SECONDARY" xml:space="preserve">
+    <value>Secundario</value>
+  </data>
+  <data name="REPEAT" xml:space="preserve">
+    <value>Repetir</value>
+  </data>
+  <data name="GROUPNAME" xml:space="preserve">
+    <value>Nombre de grupo</value>
+  </data>
+  <data name="NONE" xml:space="preserve">
+    <value>Ninguno</value>
+  </data>
+  <data name="ADDROOT" xml:space="preserve">
+    <value>Añadir raíz</value>
+  </data>
+  <data name="ERRORSELECTGROUP" xml:space="preserve">
+    <value>Error: seleccione un grupo para continuar.</value>
+  </data>
+  <data name="GROUPDISKQUOTA" xml:space="preserve">
+    <value>Cuota de disco de grupo: </value>
+  </data>
+  <data name="DISKSPACEUSED" xml:space="preserve">
+    <value>Espacio de disco utilizado: </value>
+  </data>
+  <data name="DELETESECONDARYADMIN" xml:space="preserve">
+    <value>Suprimir administrador secundario: </value>
+  </data>
+  <data name="EDITSECONDARYADMIN" xml:space="preserve">
+    <value>Editar administrador secundario: </value>
+  </data>
+  <data name="ERRORCANNOTADDSECONDARYADMIN" xml:space="preserve">
+    <value>No es posible añadir el miembro {0} como administrador secundario.</value>
+  </data>
+  <data name="ERRORCANNOTEDITSECONDARYADMIN" xml:space="preserve">
+    <value>No es posible editar el administrador secundario {0}.</value>
+  </data>
+  <data name="ERRORCANNOTDELETESECONDARYADMIN" xml:space="preserve">
+    <value>No es posible suprimir este administrador secundario {0}.</value>
+  </data>
+  <data name="SELECTMEMBERTOADD" xml:space="preserve">
+    <value>Seleccionar un nuevo administrador secundario</value>
+  </data>
+  <data name="ADDNEWORSELECTGROUPTOEDIT" xml:space="preserve">
+    <value>Añadir o editar grupos de adiministrador seleccionados</value>
+  </data>
+  <data name="SELECTGROUPTODELETE" xml:space="preserve">
+    <value>Seleccionar grupo(s) para suprimir</value>
+  </data>
+  <data name="PRIMARY" xml:space="preserve">
+    <value>Primario</value>
+  </data>
+  <data name="ADDNEW" xml:space="preserve">
+    <value>Añadir nuevo</value>
+  </data>
+  <data name="GROUPQUOTARESTRICTION" xml:space="preserve">
+    <value>Administrar el uso de cuotas de grupo: </value>
+  </data>
+  <data name="GROUPRIGHTSADDSUCCESSFUL" xml:space="preserve">
+    <value>El usuario {0}{1}{2} se ha añadido correctamente como administrador para el grupo {3}{4}{5}. Puede editar los derechos del Administrador Secundario para añadir más grupos al mismo administrador. Haga clic en Repetir para añadir más grupos. Haga clic en Aceptar para volver a la página de sistemas. </value>
+  </data>
+  <data name="GROUPRIGHTSADDFAILURE" xml:space="preserve">
+    <value>El usuario {0}{1}{2} no ha podido añadirse como administrador para el grupo {3}{4}{5}. Haga clic en Volver a intentarlo para añadir el grupo de nuevo. Haga clic en Aceptar para volver a la página de sistemas. </value>
+  </data>
+  <data name="GROUPRIGHTSEDITSUCCESSFUL" xml:space="preserve">
+    <value>Los derechos de {0}{1}{2} del administrador se han editado correctamente para el grupo {3}{4}{5}. Haga clic en Repetir para operar con el mismo administrador en varios grupos. Haga clic en Aceptar para volver a la página de sistemas.</value>
+  </data>
+  <data name="UIBASED" xml:space="preserve">
+    <value>Consola de administrador</value>
+  </data>
+  <data name="SYNCBASED" xml:space="preserve">
+    <value>Motor de sincronización </value>
+  </data>
+  <data name="SEGREGATEDGROUPS" xml:space="preserve">
+    <value>Grupos segregados: </value>
+  </data>
+  <data name="BOTH" xml:space="preserve">
+    <value>Ambos </value>
+  </data>
+  <data name="CREATESEGREGATEDGROUPS" xml:space="preserve">
+    <value>Crear grupos segregados</value>
+  </data>
+  <data name="ALLOWMODIFYSHARINGPOLICY" xml:space="preserve">
+    <value>Permitir modificación de directivas de compartición</value>
+  </data>
+  <data name="ALLOWMODIFYENCRYPTIONPOLICY" xml:space="preserve">
+    <value>Permitir modificación de directiva de cifrado</value>
+  </data>
+  <data name="ALLOWUSERPROVISIONING" xml:space="preserve">
+    <value>Permitir provisión de usuario</value>
+  </data>
+  <data name="ALLOWUSERENABLING" xml:space="preserve">
+    <value>Permitir habilitar/deshabilitar usuarios</value>
+  </data>
+  <data name="ALLOWORPHANIFOLDEROWNERSHIP" xml:space="preserve">
+    <value>Permitir propiedad de carpetas iFolder huérfanas</value>
+  </data>
+  <data name="ALLOWIFOLDERENABLING" xml:space="preserve">
+    <value>Permitir habilitar/deshabilitar carpetas iFolder</value>
+  </data>
+  <data name="ALLOWSHAREDMEMBERRIGHTS" xml:space="preserve">
+    <value>Permitir modificación de los derechos de miembros de carpetas iFolder compartidas</value>
+  </data>
+  <data name="ALLOWDELETEIFOLDERRIGHTS" xml:space="preserve">
+    <value>Dar permiso para suprimir iFolders</value>
+  </data>
+  <data name="ASSIGNADMINRIGHTS" xml:space="preserve">
+    <value>Asignar derechos de administrador a: </value>
+  </data>
+  <data name="ADMINRIGHTSFOR" xml:space="preserve">
+    <value>Derechos admin. para: </value>
+  </data>
+  <data name="CANNOTSETUNLIMITED" xml:space="preserve">
+    <value>No es posible establecer ilimitado porque su grupo tiene una cuota de disco agregada.</value>
+  </data>
+  <data name="CANNOTSETQUOTAPERUSERERROR" xml:space="preserve">
+    <value>No es posible establecer este límite porque la cuota de disco asignada por miembro supera la cuota de grupo.</value>
+  </data>
+  <data name="INVALIDGROUPQUOTA" xml:space="preserve">
+    <value>La cuota de disco agregada para el grupo es inferior a la asignada/cuota de disco utilizada por usuario de ese grupo. Elimine algunos datos del servidor o cambie el límite de disco asignado por usuario para los miembros de ese grupo. A continuación, configure la cuota de disco agregada para el grupo.</value>
+  </data>
+  <data name="NOMEMBERAVAILABLE" xml:space="preserve">
+    <value>No hay miembros disponibles</value>
+  </data>
+  <data name="NOPOLICIESAVAILABLE" xml:space="preserve">
+    <value>No hay directivas disponibles</value>
+  </data>
+  <data name="SAVETO" xml:space="preserve">
+    <value>Guardar en</value>
+  </data>
+  <data name="NOTAPPLICABLE" xml:space="preserve">
+    <value>N/D</value>
+  </data>
+  <data name="ONLINE" xml:space="preserve">
+    <value>Conectado</value>
+  </data>
+  <data name="OFFLINE" xml:space="preserve">
+    <value>En espera</value>
+  </data>
+  <data name="WAITING" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="NOTELIGIBLE" xml:space="preserve">
+    <value>Error de inicialización</value>
+  </data>
+  <data name="CHANGEMASTER" xml:space="preserve">
+    <value>Definir como principal</value>
+  </data>
+  <data name="NEEDSREPAIR" xml:space="preserve">
+    <value>Reparar servidor</value>
+  </data>
+  <data name="UNABLETOSETASSLAVE" xml:space="preserve">
+    <value>No es posible definir como servidor esclavo. Intente de nuevo la operación.</value>
+  </data>
+  <data name="CONFIGFILEUPDATEFAILED" xml:space="preserve">
+    <value>No es posible actualizar el archivo de configuración. Actualice manualmente el archivo simias.config.</value>
+  </data>
+  <data name="CONNECTIONFAILED" xml:space="preserve">
+    <value>No es posible la conexión al servidor {0}.</value>
+  </data>
+  <data name="CHANGEMASTERNOINFOFAILED" xml:space="preserve">
+    <value>No es posible obtener una ID del servidor y una nueva URL pública de servidor.</value>
+  </data>
+  <data name="CHANGEMASTERSUCCESSFUL" xml:space="preserve">
+    <value>Se ha actualizado {0} como servidor principal. Reinicie todos los servidores para que los cambios surtan efecto.</value>
+  </data>
+  <data name="CHANGEMASTERWITHWARNING" xml:space="preserve">
+    <value>Se ha actualizado {0} como servidor principal con excepciones. Consulte Simias.log para obtener más información. Reinicie todos los servidores para que los cambios surtan efecto.</value>
+  </data>
+  <data name="CHANGEMASTERFAILED" xml:space="preserve">
+    <value>No es posible cambiar el Principal y el Esclavo. Consulte los archivos de registro para más información.</value>
+  </data>
+  <data name="CONFIRMCHANGEMASTER" xml:space="preserve">
+    <value>El servidor seleccionado se designará como Servidor principal. ¿Desea continuar? Pulse en Aceptar para continuar o en Cancelar para salir.</value>
+  </data>
+  <data name="UPDATEMASTERURLONSLAVESFAILED" xml:space="preserve">
+    <value>No es posible actualizar la URL de nuevo principal en el servidor {0}. Actualice manualmente la IP de principal en este servidor.</value>
+  </data>
+  <data name="MASTERNODEUPDATEWAIT" xml:space="preserve">
+    <value>Esperando la sincronización del atributo de nodo principal con los nuevos esclavos y principales.</value>
+  </data>
+  <data name="CHANGEMASTERRETRY" xml:space="preserve">
+    <value>No es posible actualizar el atributo de nodo principal en el Principal y Esclavo. Intente de nuevo la operación.</value>
+  </data>
+  <data name="running" xml:space="preserve">
+    <value>en ejecución</value>
+  </data>
+  <data name="sleeping" xml:space="preserve">
+    <value>en reposo</value>
+  </data>
+  <data name="disabled" xml:space="preserve">
+    <value>inhabilitado</value>
+  </data>
+  <data name="shutdown" xml:space="preserve">
+    <value>apagar</value>
+  </data>
+  <data name="waiting" xml:space="preserve">
+    <value>en espera</value>
+  </data>
+  <data name="TIMEOUT" xml:space="preserve">
+    <value>Puede que se tarde mucho tiempo en procesar la petición. Si lo desea, puede realizar otras tareas mientras se procesa esta petición.</value>
   </data>
 </root>

@@ -3,7 +3,7 @@
   <!-- 
     Microsoft ResX Schema 
     
-    Version 1.3
+    Version 2.0
     
     The primary goals of this format is to allow a simple XML format 
     that is mostly human readable. The generation and parsing of the 
@@ -14,16 +14,17 @@
     
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
-    <resheader name="version">1.3</resheader>
+    <resheader name="version">2.0</resheader>
     <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
     <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-    <data name="Name1">this is my long string</data>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
     <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
     <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        [base64 mime encoded serialized .NET Framework object]
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
     </data>
     <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        [base64 mime encoded string representing a byte array form of the .NET Framework object]
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
     </data>
                 
     There are any number of "resheader" rows that contain simple 
@@ -35,7 +36,7 @@
     Classes that don't support this are serialized and stored with the 
     mimetype set.
     
-    The mimetype is used forserialized objects, and tells the 
+    The mimetype is used for serialized objects, and tells the 
     ResXResourceReader how to depersist the object. This is currently not 
     extensible. For a given mimetype the value must be set accordingly:
     
@@ -45,7 +46,7 @@
     
     mimetype: application/x-microsoft.net.object.binary.base64
     value   : The object must be serialized with 
-            : System.Serialization.Formatters.Binary.BinaryFormatter
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
     
     mimetype: application/x-microsoft.net.object.soap.base64
@@ -59,18 +60,37 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
                 <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
                 <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
               <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
               <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
@@ -89,1311 +109,1324 @@
     <value>text/microsoft-resx</value>
   </resheader>
   <resheader name="version">
-    <value>1.3</value>
+    <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="LOGINREDIRECT">
-    <value>URL serveru iFolder je potřeba aktualizovat.</value>
-  </data>
-  <data name="FIRST">
-    <value>První</value>
-  </data>
-  <data name="ERRORINVALIDDATA">
-    <value>Všechna pole jsou povinná. Zkontrolujte je a zadejte je znovu</value>
-  </data>
-  <data name="LOGIN">
-    <value>Přihlásit</value>
-  </data>
-  <data name="UNABLETOEDITIPDETAILS">
-    <value>Není možné upravit podrobnosti adresy IP. Zkontrolujte hodnoty. </value>
-  </data>
-  <data name="SHARINGPOLICYVIOLATION">
-    <value> Sdílení je vypnuto, tuto složku iFolder není tedy možné sdílet</value>
-  </data>
-  <data name="ENABLE">
-    <value>Zapnout</value>
-  </data>
-  <data name="MEMBERS">
-    <value>Členové</value>
-  </data>
-  <data name="ASSIGNADMINRIGHTS">
-    <value>Přiřadit práva správce uživateli: </value>
-  </data>
-  <data name="LDAPADMINNAME">
-    <value>DN správce LDAP:</value>
-  </data>
-  <data name="SERVERSTATUSDOWN">
-    <value>Server je nedostupný</value>
-  </data>
-  <data name="NOOFIFOLDERS">
-    <value>Počet složek iFolder</value>
-  </data>
-  <data name="HOMESERVERNAME">
-    <value>Domácí server</value>
-  </data>
-  <data name="LDAPDETAILS">
-    <value>Podrobnosti protokolu LDAP</value>
-  </data>
-  <data name="FRENCH">
-    <value>Francouzština</value>
-  </data>
-  <data name="ERRORCANNOTDELETEMEMBERS">
-    <value>Není možné odstranit člen složky {0}.</value>
-  </data>
-  <data name="ENDSWITH">
-    <value>Končí</value>
-  </data>
-  <data name="ERRORPROXYPASSWORDSDOESNOTMATCH">
-    <value>Uživatelská hesla proxy se neshodují. Zadejte znovu správná hesla</value>
-  </data>
-  <data name="REPORTDIRECTORYTAG">
-    <value>adresář:</value>
-  </data>
-  <data name="SERVERREPORTS">
-    <value>Zprávy serveru</value>
-  </data>
-  <data name="SERVERLOGS">
-    <value>Protokoly serveru</value>
-  </data>
-  <data name="PRIVATEURI">
-    <value>Privátní URL:</value>
-  </data>
-  <data name="EDITLDAPDETAILS">
-    <value>Upravit podrobnosti protokolu LDAP</value>
-  </data>
-  <data name="PREVIOUSPAGE">
-    <value>Předchozí stránka</value>
-  </data>
-  <data name="PRIVATEURL">
-    <value>Privátní URL</value>
-  </data>
-  <data name="NOTAVAILABLE">
-    <value>Nedostupné</value>
-  </data>
-  <data name="PUBLICURL">
-    <value>Veřejná URL:</value>
-  </data>
-  <data name="PORTUGUESE">
-    <value>Portugalština</value>
-  </data>
-  <data name="LOGGEDONUSERSTAG">
-    <value>Přihlášení uživatelé:</value>
-  </data>
-  <data name="ORPHANED">
-    <value>Sirotek</value>
-  </data>
-  <data name="KB">
-    <value>kB</value>
-  </data>
-  <data name="SERVERSTATUS">
-    <value>Stav serveru</value>
-  </data>
-  <data name="IFOLDER">
-    <value>Složka iFolder</value>
-  </data>
-  <data name="REPROVISOINSTATE">
-    <value>Stav opakovaného poskytování</value>
-  </data>
-  <data name="CHANGEMASTERFAILED">
-    <value>Nelze změnit hlavní a podřízený server. Další informace zjistíte v souborech protokolu.</value>
-  </data>
-  <data name="COMPLETEDTAG">
-    <value>Dokončeno:</value>
-  </data>
-  <data name="ENTERLDAPDETAILS">
-    <value>Zadejte pověření správce LDAP</value>
-  </data>
-  <data name="MEMBERTYPELDAPGROUP">
-    <value>Skupina LDAP</value>
-  </data>
-  <data name="REPROVISIONLIST">
-    <value>Stav opakovaného poskytování systému iFolder</value>
-  </data>
-  <data name="SHARED">
-    <value>Sdíleno</value>
-  </data>
-  <data name="USEDTAG">
-    <value>Využité:</value>
-  </data>
-  <data name="NEEDSREPAIR">
-    <value>Opravit server</value>
-  </data>
-  <data name="MEMBERTYPETAG">
-    <value>Typ člena:</value>
-  </data>
-  <data name="NONE">
-    <value>Žádné</value>
-  </data>
-  <data name="ERRORIFOLDERTRANSFEREXCEPTION">
-    <value>Vlastnictví nelze převést, protože překračujete počet složek iFolder nastavený správcem.</value>
-  </data>
-  <data name="running">
-    <value>běží</value>
-  </data>
-  <data name="ERRORCANNOTDELETESECONDARYADMIN">
-    <value>Nelze odstranit sekundárního správce {0}.</value>
-  </data>
-  <data name="MASTER">
-    <value>Hlavní objekt</value>
-  </data>
-  <data name="ERRORCANNOTCREATEIFOLDER">
-    <value>Není možné vytvořit složku iFolder.</value>
-  </data>
-  <data name="CONFIRMDELETION">
-    <value>DŮLEŽITÉ: Objekt DataPath bude odstraněn pouze v případě, kdy na něm nejsou vytvořeny žádné složky iFolder.</value>
-  </data>
-  <data name="ERRORNOIFOLDERLIMIT">
-    <value>Nebyla zadána hodnota omezení složky iFolder.</value>
-  </data>
-  <data name="ERRORCANNOTEDITSECONDARYADMIN">
-    <value>Nelze upravit sekundárního správce {0}.</value>
-  </data>
-  <data name="NEXTPAGE">
-    <value>Další stránka</value>
-  </data>
-  <data name="CHINESE-TRADITIONAL">
-    <value>Tradiční čínština</value>
-  </data>
-  <data name="MODIFIEDTAG">
-    <value>Změněno:</value>
-  </data>
-  <data name="ERRORCANNOTCHANGERIGHTS">
-    <value>Není možné změnit členská práva uživatele {0}.</value>
-  </data>
-  <data name="CHANGEMASTER">
-    <value>Nastavit jako hlavní</value>
-  </data>
-  <data name="FULLNAME">
-    <value>Celé jméno</value>
-  </data>
-  <data name="sleeping">
-    <value>spánek</value>
-  </data>
-  <data name="LOGINNOCOOKIES">
-    <value>Musíte ve svém prohlížeči zapnout cookies.</value>
-  </data>
-  <data name="NEXT">
-    <value>Další</value>
-  </data>
-  <data name="WEEKLY">
-    <value>Týdně</value>
-  </data>
-  <data name="shutdown">
-    <value>ukončování</value>
-  </data>
-  <data name="REPORTIFOLDERTAG">
-    <value>Složka iFolder:</value>
-  </data>
-  <data name="DISKSPACEUSED">
-    <value>Obsazené místo na disku: </value>
-  </data>
-  <data name="VOLUMES">
-    <value>Svazky</value>
-  </data>
-  <data name="NEWHOMETAG">
-    <value>Nový domácí server:</value>
-  </data>
-  <data name="ACCESSDENIED">
-    <value>Přístup odepřen pro tento prostředek</value>
-  </data>
-  <data name="LOGINLOGOUT">
-    <value>Nyní jste od složky iFolder odhlášeni.</value>
-  </data>
-  <data name="FIRSTNAME">
-    <value>Křestní jméno</value>
-  </data>
-  <data name="CURRENTHOME">
-    <value>Aktuální domácí server</value>
-  </data>
-  <data name="USERS">
-    <value>Uživatelé</value>
-  </data>
-  <data name="ALLADMINS">
-    <value>Všichni správci</value>
-  </data>
-  <data name="LASTPAGE">
-    <value>Poslední stránka</value>
-  </data>
-  <data name="CANNOTSETQUOTAPERUSERERROR">
-    <value>Tento limit nelze nastavit, protože celková přidělená disková kvóta na uživatele překračuje kvótu skupiny.</value>
-  </data>
-  <data name="ERRORDETAIL">
-    <value>Podrobnosti o chybě</value>
-  </data>
-  <data name="USERNAME">
-    <value>Uživatelské jméno</value>
-  </data>
-  <data name="SAVETO">
-    <value>Uložit do</value>
-  </data>
-  <data name="SIZETAG">
-    <value>Velikost:</value>
-  </data>
-  <data name="FILENAME">
-    <value>Název souboru</value>
-  </data>
-  <data name="LOGINNOSCRIPT">
-    <value>Musíte ve svém prohlížeči zapnout skripty.</value>
-  </data>
-  <data name="CONFIGUREREPORTING">
-    <value>Konfigurace hlášení</value>
-  </data>
-  <data name="EQUALS">
-    <value>Rovná se</value>
-  </data>
-  <data name="INVALIDLDAPADMINORPASSWORD">
-    <value>Neplatné uživatelské ID správce LDAP nebo heslo</value>
-  </data>
-  <data name="RUSSIAN">
-    <value>Ruština</value>
-  </data>
-  <data name="ERRORINVALIDQUOTA">
-    <value>Byla zadána neplatná hodnota kvóty diskového prostoru. Hodnota musí být v intervalu 1 až 2e+063 - 1.</value>
-  </data>
-  <data name="CONTAINS">
-    <value>Obsahuje</value>
-  </data>
-  <data name="ALLOWUSERPROVISIONING">
-    <value>Povolit poskytování uživatelů</value>
-  </data>
-  <data name="USER">
-    <value>Uživatel</value>
-  </data>
-  <data name="ERRORINVALIDIFOLDERLIMIT">
-    <value>Byla zadána neplatná hodnota omezení velikosti složky iFolder. Hodnota musí být v intervalu 0 až 2e+063 - 1.</value>
-  </data>
-  <data name="ON">
-    <value>Zapnuto</value>
-  </data>
-  <data name="ERRORSELECTGROUP">
-    <value>Chyba: Chcete-li pokračovat, vyberte skupinu.</value>
-  </data>
-  <data name="OK">
-    <value>OK</value>
-  </data>
-  <data name="READWRITE">
-    <value>Čtení/zápis</value>
-  </data>
-  <data name="ADDMEMBERSTOIFOLDER">
-    <value>Přidat přídavné členy ke složce iFolder "{0}"</value>
-  </data>
-  <data name="UIBASED">
-    <value>Konzola správce</value>
-  </data>
-  <data name="LDAPMEMBERDELETEGRACEINT">
-    <value>darovaný interval:</value>
-  </data>
-  <data name="ADDMEMBERS">
-    <value>Přidat členy složky iFolder</value>
-  </data>
-  <data name="NOMEMBERAVAILABLE">
-    <value>Žádný člen není dostupný.</value>
-  </data>
-  <data name="ALLOW">
-    <value>Povolit</value>
-  </data>
-  <data name="FIRSTPAGE">
-    <value>První stránka</value>
-  </data>
-  <data name="EDITSECONDARYADMIN">
-    <value>Upravit sekundárního správce: </value>
-  </data>
-  <data name="GROUPLISTTAG">
-    <value>Skupiny uživatelů:</value>
-  </data>
-  <data name="ADDADMINS">
-    <value>Přidat správce</value>
-  </data>
-  <data name="MINUTES">
-    <value>Minut</value>
-  </data>
-  <data name="REPORTIFOLDER">
-    <value>Hlášení složky iFolder</value>
-  </data>
-  <data name="GROUPNAME">
-    <value>Název skupiny</value>
-  </data>
-  <data name="BOTH">
-    <value>Obojí </value>
-  </data>
-  <data name="JAPANESE">
-    <value>Japonština</value>
-  </data>
-  <data name="SERVERNAMETAG">
-    <value>Server:</value>
-  </data>
-  <data name="ERRORTYPE">
-    <value>Neočekávaná chyba</value>
-  </data>
-  <data name="SECONDARY">
-    <value>Sekundární</value>
-  </data>
-  <data name="LASTNAMETAG">
-    <value>Příjmení:</value>
-  </data>
-  <data name="MONTHLY">
-    <value>Měsíčně</value>
-  </data>
-  <data name="LDAPPROXYUSERPWD">
-    <value>Heslo uživatele proxy:</value>
-  </data>
-  <data name="MAXCONNECTIONSTAG">
-    <value>Maximum připojení:</value>
-  </data>
-  <data name="LASTMODIFIED">
-    <value>Naposledy změněno</value>
-  </data>
-  <data name="LOGINFAILED">
-    <value>Selhalo:</value>
-  </data>
-  <data name="MEMBERTYPEUSER">
-    <value>Uživatel</value>
-  </data>
-  <data name="ERRORINVALIDLIMIT">
-    <value>Byla zadána neplatná hodnota omezení velikosti souboru. Hodnota musí být menší než Kvóta diskového prostoru</value>
-  </data>
-  <data name="LOGINERROR">
-    <value>Chyba:</value>
-  </data>
-  <data name="CHANGEMASTERNOINFOFAILED">
-    <value>Nelze získat ID serveru a novou veřejnou adresu URL serveru.</value>
-  </data>
-  <data name="OWNED">
-    <value>Vlastněno</value>
-  </data>
-  <data name="CHANGEMASTERRETRY">
-    <value>Nelze aktualizovat atribut hlavního uzlu v hlavním nebo podřízeném objektu. Opakujte operaci.</value>
-  </data>
-  <data name="USERSTAG">
-    <value>Uživatelé:</value>
-  </data>
-  <data name="GERMAN">
-    <value>Němčina</value>
-  </data>
-  <data name="NO">
-    <value>Ne</value>
-  </data>
-  <data name="FATAL">
-    <value>Kritický</value>
-  </data>
-  <data name="ERRORCANNOTCREATEUSER">
-    <value>Uživatele není možné vytvořit.</value>
-  </data>
-  <data name="OWNER">
-    <value>Vlastník</value>
-  </data>
-  <data name="WARN">
-    <value>Varovat</value>
-  </data>
-  <data name="OUTPUT">
-    <value>Výstup</value>
-  </data>
-  <data name="OFFLINE">
-    <value>Probíhá čekání</value>
-  </data>
-  <data name="DAILY">
-    <value>Denně</value>
-  </data>
-  <data name="SECONDARYADMIN">
-    <value>Sekundární správce</value>
-  </data>
-  <data name="OWNERTAG">
-    <value>Vlastník</value>
-  </data>
-  <data name="HOME">
-    <value>Domácí server</value>
-  </data>
-  <data name="LOGINSENDFAILED">
-    <value>Se serverem iFolder není možné komunikovat.</value>
-  </data>
-  <data name="ALLOWMODIFYSHARINGPOLICY">
-    <value>Povolit změny zásad sdílení</value>
-  </data>
-  <data name="NOTMOUNTED">
-    <value>Nepřipojeno</value>
-  </data>
-  <data name="FULLNAMEDISLAYTAG">
-    <value>Zobrazení jména:</value>
-  </data>
-  <data name="ADDNEWORSELECTGROUPTOEDIT">
-    <value>Přidat nebo upravit skupiny vybraného správce</value>
-  </data>
-  <data name="HELP">
-    <value>Nápověda</value>
-  </data>
-  <data name="SIZE">
-    <value>Velikost:</value>
-  </data>
-  <data name="READONLY">
-    <value>Pouze pro čtení</value>
-  </data>
-  <data name="LDAPSERVER">
-    <value>Server LDAP:</value>
-  </data>
-  <data name="IFOLDERUSERS">
-    <value>Uživatelé aplikace iFolder</value>
-  </data>
-  <data name="waiting">
-    <value>čeká</value>
-  </data>
-  <data name="INVALIDFULLPATH">
-    <value>Zadaná úplná cesta je neplatná, zkontrolujte ji a znovu ji zapište.</value>
-  </data>
-  <data name="ALLOWSHAREDMEMBERRIGHTS">
-    <value>Povolit úpravy práv členů sdílené složky iFolder</value>
-  </data>
-  <data name="ADDDATASTORE">
-    <value>Přidat úložiště dat</value>
-  </data>
-  <data name="DEBUG">
-    <value>Ladit</value>
-  </data>
-  <data name="LOGOUT">
-    <value>Odhlášení</value>
-  </data>
-  <data name="FULLPATH:">
-    <value>Úplná cesta:</value>
-  </data>
-  <data name="ERRORCANNOTSETIFOLDERPOLICY">
-    <value>Není možné nastavit informace o zásadách pro složku iFolder ID {0}.</value>
-  </data>
-  <data name="INHEIRITEDPOLICY">
-    <value>(Zděděné zásady)</value>
-  </data>
-  <data name="REMOVEMEMBERS">
-    <value>Odstranit uživatele</value>
-  </data>
-  <data name="SELECTEDUSERS">
-    <value>Vybraní uživatelé</value>
-  </data>
-  <data name="RESTARTSERVER">
-    <value>Informace byly aktualizovány. Tyto změny se projeví až po opětovném spuštění serveru iFolder. </value>
-  </data>
-  <data name="PUBLICURI">
-    <value>Veřejná URL:</value>
-  </data>
-  <data name="ALLOWORPHANIFOLDEROWNERSHIP">
-    <value>Povolit vlastnictví osamocených složek iFolder</value>
-  </data>
-  <data name="INVALIDCERTIFICATE">
-    <value>Ověření se nezdařilo, potíže s certifikátem serveru LDAP nebo iFolder</value>
-  </data>
-  <data name="SERVERDETAILS">
-    <value>Podrobnosti o serveru</value>
-  </data>
-  <data name="USERLOGINDISABLED">
-    <value>Vypnout přihlášení uživatele</value>
-  </data>
-  <data name="NOTAPPLICABLE">
-    <value>Není k dispozici</value>
-  </data>
-  <data name="TYPETAG">
-    <value>Typ:</value>
-  </data>
-  <data name="PRIVATEIPTAG">
-    <value>Soukromá adresa IP:</value>
-  </data>
-  <data name="LOGINCONNECTFAILED">
-    <value>Není možné se připojit k serveru iFolder.</value>
-  </data>
-  <data name="LDAPSTATUSTAG">
-    <value>Stav:</value>
-  </data>
-  <data name="REFRESH">
-    <value>Obnovit</value>
-  </data>
-  <data name="SAVE">
-    <value>Uložit</value>
-  </data>
-  <data name="ERRORNOFILESIZE">
-    <value>Nebyla zadána žádná hodnota omezení velikosti souboru.</value>
-  </data>
-  <data name="DISKSPACEUSEDTAG">
-    <value>Obsazené místo na disku:</value>
-  </data>
-  <data name="EFFECTIVETAG">
-    <value>Platné:</value>
-  </data>
-  <data name="USERMOVEDETAILS">
-    <value>Údaje uživatele pro opakované poskytování</value>
-  </data>
-  <data name="FILESTAG">
-    <value>Soubory:</value>
-  </data>
-  <data name="FILETYPEALREADYEXISTS">
-    <value>Uvedený název souboru již v seznamu existuje.</value>
-  </data>
-  <data name="SLAVE">
-    <value>Podřízený</value>
-  </data>
-  <data name="PROVISIONUSERS">
-    <value>zajištěníuživatelé</value>
-  </data>
-  <data name="FILESIZE">
-    <value>Velikost souboru</value>
-  </data>
-  <data name="NAME">
-    <value>Název:</value>
-  </data>
-  <data name="LOGINACCOUNTDISABLED">
-    <value>Váš účet je v současné chvíli zablokován a nedostupný.</value>
-  </data>
-  <data name="DESCRIPTIONTAG">
-    <value>Popis:</value>
-  </data>
-  <data name="SYNCHRONIZATION">
-    <value>Synchronizace</value>
-  </data>
-  <data name="PATHTOOLONGEXCEPTION">
-    <value>Název složky iFolder je příliš dlouhý, složku nelze vytvořit.</value>
-  </data>
-  <data name="LOGGEDINAS">
-    <value>Přihlášen jako</value>
-  </data>
-  <data name="FULLNAMEDISPLAYORDER">
-    <value>Pořadí zobrazení celého jména:</value>
-  </data>
-  <data name="TOTALTAG">
-    <value>Celkem: </value>
-  </data>
-  <data name="INFO">
-    <value>Informace</value>
-  </data>
-  <data name="ADMINRIGHTSFOR">
-    <value>Práva správce pro: </value>
-  </data>
-  <data name="PROVISIONREPROVISION">
-    <value>Poskytnout/Znovu poskytnout</value>
-  </data>
-  <data name="ALL">
-    <value>Vše</value>
-  </data>
-  <data name="GB">
-    <value>GB</value>
-  </data>
-  <data name="SEARCH">
-    <value>Hledat</value>
-  </data>
-  <data name="ALLOWMODIFYENCRYPTIONPOLICY">
-    <value>Povolit změny zásad šifrování</value>
-  </data>
-  <data name="MEMBER">
-    <value>Člen</value>
-  </data>
-  <data name="FILES">
-    <value>Soubory:</value>
-  </data>
-  <data name="ERRORCANNOTREMOVEADMIN">
-    <value>Není možné odebrat uživatele {0} jako správce.</value>
-  </data>
-  <data name="CHANGEMASTERWITHWARNING">
-    <value>Byl inovován server {0} jako hlavní server s výjimkami. Další informace najdete v protokolu Simias.log. Restartujte všechny servery, aby se změny projevily.</value>
-  </data>
-  <data name="PASSWORDSDONOTMATCH">
-    <value>Zadaná hesla nejsou stejná.</value>
-  </data>
-  <data name="SERVER">
-    <value>Server</value>
-  </data>
-  <data name="ALLOWIFOLDERENABLING">
-    <value>Povolit zapnutí/vypnutí složek iFolder</value>
-  </data>
-  <data name="LDAPPROXYUSER">
-    <value>Uživatel proxy:</value>
-  </data>
-  <data name="SESSIONSTAG">
-    <value>Relace:</value>
-  </data>
-  <data name="AVAILABLETAG">
-    <value>Dostupné:</value>
-  </data>
-  <data name="ERRORLOCKEXCEPTION">
-    <value>Operace byla zrušena protože složka iFolder byla uzamčena/zablokována správcem.</value>
-  </data>
-  <data name="SESSIONCLOSED">
-    <value>Zadané uživatelské jméno a heslo není správné. Přihlaste se prosím.</value>
-  </data>
-  <data name="DNSNAMETAG">
-    <value>Název DNS:</value>
-  </data>
-  <data name="NEWFILETYPE">
-    <value>Nový typ souboru</value>
-  </data>
-  <data name="BOTHSTRING">
-    <value>OBOJÍ</value>
-  </data>
-  <data name="ENABLEDTAG">
-    <value>Zapnuto:</value>
-  </data>
-  <data name="ERRORCANNOTADDMEMBER">
-    <value>Není možné přidat člena {0} ke složce iFolder {1}.</value>
-  </data>
-  <data name="FULLPATH">
-    <value>Úplná cesta</value>
-  </data>
-  <data name="ENABLED">
-    <value>Zapnuto</value>
-  </data>
-  <data name="SHARING">
-    <value>Sdílení</value>
-  </data>
-  <data name="ADMINISTRATOR">
-    <value>Správce</value>
-  </data>
-  <data name="NOITEMSFOUND">
-    <value>Nebyly nalezeny žádné položky.</value>
-  </data>
-  <data name="ENGLISH">
-    <value>Angličtina</value>
-  </data>
-  <data name="NOSERVER">
-    <value>Nebyl vybrán žádný server</value>
-  </data>
-  <data name="LIMITTAG">
-    <value>Omezení:</value>
-  </data>
-  <data name="ADDNEW">
-    <value>Přidat nový</value>
-  </data>
-  <data name="LDAPADMINAUTH">
-    <value>ldapadminaut</value>
-  </data>
-  <data name="LASTNAME">
-    <value>Příjmení</value>
-  </data>
-  <data name="INITIALIZING">
-    <value>Inicializace</value>
-  </data>
-  <data name="PUBLICIPTAG">
-    <value>Veřejná adresa IP:</value>
-  </data>
-  <data name="ORPHANTAG">
-    <value>Sirotek:</value>
-  </data>
-  <data name="GROUPRIGHTSADDSUCCESSFUL">
-    <value>Uživatel {0}{1}{2} byl úspěšně přidán jako správce pro skupinu {3}{4}{5}. Úpravou práv sekundárního správce můžete stejnému správci přidat další skupiny. Klepnutím na tlačítko Opakovat přidáte další skupiny. Klepnutím na tlačítko OK se vrátíte na stránku Systémy. </value>
-  </data>
-  <data name="LINKALREADYEXISTS">
-    <value>Odkaz s tímto názvem již existuje.</value>
-  </data>
-  <data name="GROUPADMINS">
-    <value>Správci skupiny</value>
-  </data>
-  <data name="ERRORCANNOTCHANGEOWNER">
-    <value>Nelze změnit vlastnictví složky iFolder.</value>
-  </data>
-  <data name="ERRORIFOLDERENCRYPTIONENFORCED">
-    <value>Tento člen nesmí vlastnit standardní složku iFolder, protože pro člena platí zásady šifrování.</value>
-  </data>
-  <data name="SELECTSERVER">
-    <value>Vyberte server pro poskytnutí / opakované poskytnutí těchto uživatelů</value>
-  </data>
-  <data name="IFOLDERSTAG">
-    <value>Složky iFolder:</value>
-  </data>
-  <data name="NEWIFOLDERNAMETAG">
-    <value>Název složky iFolder:</value>
-  </data>
-  <data name="TIME">
-    <value>Čas</value>
-  </data>
-  <data name="CONFIGFILEUPDATEFAILED">
-    <value>Nelze aktualizovat konfigurační soubor. Aktualizujte soubor simias.config ručně.</value>
-  </data>
-  <data name="LOGINSECUREFAILED">
-    <value>Se serverem iFolder není možné bezpečně komunikovat.</value>
-  </data>
-  <data name="CONFIRMCHANGEMASTER">
-    <value>Vybraný server bude vyhrazen jako hlavní server. Chcete pokračovat? Klepnutím na tlačítko OK budete pokračovat a klepnutím na tlačítko Storno akci ukončíte.</value>
-  </data>
-  <data name="LOGINPASSWORD">
-    <value>Heslo:</value>
-  </data>
-  <data name="LAST">
-    <value>Poslední</value>
-  </data>
-  <data name="BACK">
-    <value>Zpět</value>
-  </data>
-  <data name="ERRORINVALIDFILESIZE">
-    <value>Byla zadána neplatná hodnota omezení velikosti souboru. Hodnota musí být v intervalu 1 až 2e+063 - 1.</value>
-  </data>
-  <data name="ERRORCANNOTADDSECONDARYADMIN">
-    <value>Není možné přidat člena {0} jako sekundárního správce.</value>
-  </data>
-  <data name="ERRORTEMPLATE">
-    <value>Chyba: {0}</value>
-  </data>
-  <data name="REPEAT">
-    <value>Opakovat</value>
-  </data>
-  <data name="LOGINLOSTSESSION">
-    <value>Vaše relace byla ukončena. Znovu se přihlaste.</value>
-  </data>
-  <data name="CANCEL">
-    <value>Zrušit</value>
-  </data>
-  <data name="IFOLDERDISABLED">
-    <value>Vypnout synchronizaci</value>
-  </data>
-  <data name="CONFIRMENCRYPTION">
-    <value>Možnost 'Šifrování s heslem' umožňuje zašifrovat jednotlivé složky iFolder pomocí hesla zadaného uživatelem. Povinnou možnost lze vypnout, ale jakmile uložíte možnost 'Zapnuto', nelze stav vrátit. Pro uložení klepněte na možnost OK, chcete-li na aktuální stránce zůstat bez ukládání, klepněte na možnost Storno. </value>
-  </data>
-  <data name="IFOLDERS">
-    <value>Složky iFolder</value>
-  </data>
-  <data name="NOPOLICIESAVAILABLE">
-    <value>Nejsou k dispozici žádné zásady</value>
-  </data>
-  <data name="ADMINISTRATORS">
-    <value>Správci</value>
-  </data>
-  <data name="SELECTGROUPTODELETE">
-    <value>Vybrat skupiny k odstranění</value>
-  </data>
-  <data name="FORMATTAG">
-    <value>Formát:</value>
-  </data>
-  <data name="FILE">
-    <value>Soubor</value>
-  </data>
-  <data name="CONFIRMLDAPPROXYUSERPWD">
-    <value>Potvrďte heslo uživatele serveru proxy.</value>
-  </data>
-  <data name="UNABLETOEDITLDAPDETAILS">
-    <value>Není možné upravit podrobnosti protokolu LDAP. Zkontrolujte hodnoty. </value>
-  </data>
-  <data name="RETYPEPASSWORDTAG">
-    <value>Zopakujte heslo:</value>
-  </data>
-  <data name="USERDETAILS">
-    <value>Podrobnosti o uživateli</value>
-  </data>
-  <data name="DELETED">
-    <value>Odstranit</value>
-  </data>
-  <data name="CURRENTHOMETAG">
-    <value>Aktuální domácí server:</value>
-  </data>
-  <data name="DENY">
-    <value>Zamítnout</value>
-  </data>
-  <data name="LOGINTRUSTFAILED">
-    <value>Důvěryhodnost mezi serverem iFolder a aplikací iFolder Web Access selhala.</value>
-  </data>
-  <data name="NEWHOME">
-    <value>Nový domácí server</value>
-  </data>
-  <data name="PRIMARY">
-    <value>Primární</value>
-  </data>
-  <data name="TOTALUSERSTAG">
-    <value>Celkem uživatelů:</value>
-  </data>
-  <data name="WEBACCESSLOGFILE">
-    <value>Aplikace Web Access</value>
-  </data>
-  <data name="ERRORUSERDOESNOTEXIST">
-    <value>Uvedený uživatel složky iFolder neexistuje.</value>
-  </data>
-  <data name="LOGINCOPYRIGHT">
-    <value>&amp;copy; Copyright 2010 Novell, Inc. Všechna práva vyhrazena.</value>
-  </data>
-  <data name="GENERATEWEEKLYREPORT">
-    <value>Generovat zprávu každý {0} v {1} do {2}</value>
-  </data>
-  <data name="VIEW">
-    <value>Zobrazit</value>
-  </data>
-  <data name="SERVERS">
-    <value>Servery</value>
-  </data>
-  <data name="GENERATEDAILYREPORT">
-    <value>Generovat zprávu každý den v {0} do {1}</value>
-  </data>
-  <data name="MASTERNODEUPDATEWAIT">
-    <value>Čekání na synchronizaci atributu hlavního uzlu s hlavním a podřízenými objekty.</value>
-  </data>
-  <data name="ERRORCANNOTDELETEUSER">
-    <value>Není možné odstranit ID uživatele {0}.</value>
-  </data>
-  <data name="DISKQUOTA">
-    <value>Disková kvóta</value>
-  </data>
-  <data name="INVALIDLIMITERROR">
-    <value>Složku iFolder nelze vytvořit, protože jste překročili maximální počet složek ifolder nastavený správcem.</value>
-  </data>
-  <data name="DNSNAME">
-    <value>Název DNS</value>
-  </data>
-  <data name="ALLOWUSERENABLING">
-    <value>Povolit zapnutí/vypnutí uživatelů</value>
-  </data>
-  <data name="NOTELIGIBLE">
-    <value>Inicializace se nezdařila</value>
-  </data>
-  <data name="ACCESSDENIEDERROR">
-    <value>Přihlášený uživatel nemá oprávnění k zobrazení ani úpravám vlastností této stránky.</value>
-  </data>
-  <data name="TOTALIFOLDERSTAG">
-    <value>Celkem složek iFolder:</value>
-  </data>
-  <data name="LOGINIFOLDERSERVER">
-    <value>Server aplikace iFolder:</value>
-  </data>
-  <data name="SELECTMEMBERTOADD">
-    <value>Vyberte nového sekundárního správce.</value>
-  </data>
-  <data name="ERRORINVALIDIDSYNCINTERVAL">
-    <value>Byl zadán neplatný synchronizační interval. Hodnota musí být v rozmezí 5 až 10080.</value>
-  </data>
-  <data name="IDENTITYSYNCTAG">
-    <value>Synchronizace identifikačních dat:</value>
-  </data>
-  <data name="ERRORACCESSEXCEPTION">
-    <value>Nemáte dostatečná práva k provedení požadavku.</value>
-  </data>
-  <data name="DIRECTORIESTAG">
-    <value>Adresáře:</value>
-  </data>
-  <data name="LDAPCYCLES">
-    <value>Cykly:</value>
-  </data>
-  <data name="ADD">
-    <value>Přidat</value>
-  </data>
-  <data name="DISABLE">
-    <value>Vypnout</value>
-  </data>
-  <data name="disabled">
-    <value>vypnuto</value>
-  </data>
-  <data name="ENABLEREPORTING">
-    <value>Zapnout hlášení</value>
-  </data>
-  <data name="IFOLDERUSERDETAILS">
-    <value>Podrobnosti o uživateli složky iFolder</value>
-  </data>
-  <data name="SLOVAK">
-    <value>Slovenština</value>
-  </data>
-  <data name="UPDATEMASTERURLONSLAVESFAILED">
-    <value>Nelze aktualizovat hlavní adresu URL na serveru {0}. Aktualizujte hlavní adresu IP na tomto serveru ručně.</value>
-  </data>
-  <data name="ONLINE">
-    <value>Online</value>
-  </data>
-  <data name="ALLFIELDSREQUIRED">
-    <value>Všechna pole musí být vyplněna.</value>
-  </data>
-  <data name="CSVFORMAT">
-    <value>Text ve formátu CSV</value>
-  </data>
-  <data name="ERRORMEMBERDOESNOTEXIST">
-    <value>Člen složky iFolder neexistuje.</value>
-  </data>
-  <data name="LOGINLANGUAGE">
-    <value>Jazyk:</value>
-  </data>
-  <data name="INTERVALTAG">
-    <value>Interval:</value>
-  </data>
-  <data name="SELECTIFOLDEROWNER">
-    <value>Vyberte vlastníka složky iFolder "{0}"</value>
-  </data>
-  <data name="IFOLDERADMINS">
-    <value>Správci složky iFolder</value>
-  </data>
-  <data name="NAME:">
-    <value>Název:</value>
-  </data>
-  <data name="COMPLETED">
-    <value>Dokončeno</value>
-  </data>
-  <data name="CZECH">
-    <value>Čeština</value>
-  </data>
-  <data name="GROUPQUOTARESTRICTION">
-    <value>Správa používání kvóty skupiny: </value>
-  </data>
-  <data name="MEMBERLISTTAG">
-    <value>Členové skupiny:</value>
-  </data>
-  <data name="ERRORCANNOTADDADMIN">
-    <value>Není možné přidat člena {0} jako správce.</value>
-  </data>
-  <data name="LDAPUPSINCE">
-    <value>Do:</value>
-  </data>
-  <data name="DAYTAG">
-    <value>Den:</value>
-  </data>
-  <data name="TYPE">
-    <value>Typ:</value>
-  </data>
-  <data name="CREATE">
-    <value>Vytvořit</value>
-  </data>
-  <data name="USERNAMETAG">
-    <value>Uživatelské jméno</value>
-  </data>
-  <data name="PAGENUMBERFORMAT">
-    <value>{3} {0}-{1} z {2}</value>
-  </data>
-  <data name="MASTERURI">
-    <value>Hlavní URL:</value>
-  </data>
-  <data name="YES">
-    <value>Ano</value>
-  </data>
-  <data name="INVALIDGROUPQUOTA">
-    <value>Celková disková kvóta skupiny je menší než přidělená/využitá disková kvóta jednotlivých uživatelů ve skupině. Odstraňte některá data na serveru nebo změňte přidělený limit disku na uživatele pro členy skupiny. Potom nastavte celkovou diskovou kvótu skupiny.</value>
-  </data>
-  <data name="PROVISION">
-    <value>Poskytnutí</value>
-  </data>
-  <data name="ERRORINVALIDSYNCINTERVAL">
-    <value>Byl zadán neplatný synchronizační interval. Hodnota musí být v rozmezí 5 až 999.</value>
-  </data>
-  <data name="REPROVISIONBUTTON">
-    <value>Stav opakovaného poskytování</value>
-  </data>
-  <data name="MEMBERTYPELOCALGROUP">
-    <value>Místní skupina</value>
-  </data>
-  <data name="TRUE">
-    <value>Pravda</value>
-  </data>
-  <data name="EDITADMINRIGHTS">
-    <value>Upravit práva správce</value>
-  </data>
-  <data name="DATASTORE">
-    <value>Uložení dat</value>
-  </data>
-  <data name="FULLCONTROL">
-    <value>Úplné řízení</value>
-  </data>
-  <data name="GENERATEMONTHLYREPORT">
-    <value>Generovat zprávu {0}. den každého měsíce v {1} do {2}</value>
-  </data>
-  <data name="REPORTDIRECTORY">
-    <value>Adresář hlášení</value>
-  </data>
-  <data name="ATTAG">
-    <value>V:</value>
-  </data>
-  <data name="SPANISH">
-    <value>Španělština</value>
-  </data>
-  <data name="ELLIPSES">
-    <value> . . .</value>
-  </data>
-  <data name="ERRORINSTRUCTIONS">
-    <value>&lt;p&gt;Aplikace iFolder Web Access zaznamenala neočekávanou chybu.&lt;/p&gt; &lt;p&gt;Omlouváme se za veškeré nepříjemnosti a žádáme vás, abyste se odhlásili a zkusili to znovu.&lt;/p&gt;</value>
-  </data>
-  <data name="POLISH">
-    <value>Polština</value>
-  </data>
-  <data name="FULLNAMETAG">
-    <value>Celé jméno:</value>
-  </data>
-  <data name="ERRORCANNOTSETDESCRIPTION">
-    <value>Není možné nastavit popis složky iFolder.</value>
-  </data>
-  <data name="REVERTSHARINGCONNECTFAILED">
-    <value>Nelze se připojit  k serveru iFolder. Jakmile bude server dosažitelný, odvolejte sdílení.</value>
-  </data>
-  <data name="LOGINUNAUTHORIZED">
-    <value>Zadejte znovu vaše uživatelské jméno a heslo.</value>
-  </data>
-  <data name="LDAPCONTEXTTAG">
-    <value>Kontexty protokolu LDAP:</value>
-  </data>
-  <data name="PENDING">
-    <value>Probíhající</value>
-  </data>
-  <data name="REPORTS">
-    <value>Oznámení</value>
-  </data>
-  <data name="ENFORCED">
-    <value>Vynuceno </value>
-  </data>
-  <data name="ERRORNOTADMINISTRATOR">
-    <value>Uživatel není správcem složky iFolder.</value>
-  </data>
-  <data name="PATHTAG">
-    <value>Cesta:</value>
-  </data>
-  <data name="SYSTEMLOGFILE">
-    <value>Systém</value>
-  </data>
-  <data name="ADMIN">
-    <value>Správce</value>
-  </data>
-  <data name="LDAPSSL">
-    <value>LDAP SSL:</value>
-  </data>
-  <data name="NEWIFOLDERDESCRIPTIONTAG">
-    <value>Popis složky iFolder:</value>
-  </data>
-  <data name="CREATEUSER">
-    <value>Vytvořit uživatele</value>
-  </data>
-  <data name="SSLSTRING">
-    <value>SSL</value>
-  </data>
-  <data name="IFOLDERLIMIT">
-    <value>Složky iFolder na uživatele</value>
-  </data>
-  <data name="FREESPACE">
-    <value>Volné místo</value>
-  </data>
-  <data name="CHANGEMASTERSUCCESSFUL">
-    <value>Byl inovován server {0} na hlavní server. Restartujte všechny servery, aby se změna projevila.</value>
-  </data>
-  <data name="ERRORIFOLDERDOESNOTEXIST">
-    <value>Složka iFolder neexistuje</value>
-  </data>
-  <data name="STATUS">
-    <value>Stav:</value>
-  </data>
-  <data name="PROVISION_REPROVISION_TITLE">
-    <value>Poskytnout / Opakovaně poskytnout uživatele</value>
-  </data>
-  <data name="ERRORNOQUOTA">
-    <value>Nebyla zadána žádná kvóta diskového prostoru.</value>
-  </data>
-  <data name="IFOLDERDETAILS">
-    <value>Podrobnosti o složce iFolder</value>
-  </data>
-  <data name="CHINESE-SIMPLIFIED">
-    <value>Zjednodušená čínština</value>
-  </data>
-  <data name="UNKNOWNERROR">
-    <value>Došlo k neznáme chybě. Nebyla určena žádná výjimka.</value>
-  </data>
-  <data name="ERRORCANNOTSETUSERPOLICY">
-    <value>Není možné nastavit informace o uživatelských zásadách pro ID uživatele {0}.</value>
-  </data>
-  <data name="CREATENEWIFOLDER">
-    <value>Vytvořit novou složku iFolder</value>
-  </data>
-  <data name="ERRORAUTHENTICATIONFAILED">
-    <value>Ověření selhalo.</value>
-  </data>
-  <data name="SEGREGATEDGROUPS">
-    <value>Oddělené skupiny: </value>
-  </data>
-  <data name="POLICIES">
-    <value>Zásady</value>
-  </data>
-  <data name="CONNECTIONFAILED">
-    <value>Nelze se připojit k serveru {0}.</value>
-  </data>
-  <data name="NONSSLSTRING">
-    <value>NONSSL</value>
-  </data>
-  <data name="SSLTAG">
-    <value>Varianta SSL:</value>
-  </data>
-  <data name="CREATESEGREGATEDGROUPS">
-    <value>Vytvořit oddělené skupiny</value>
-  </data>
-  <data name="CONFIRMADDITION">
-    <value>DŮLEŽITÉ: Vlastník a skupina objektu DataPath na serveru musí být nastavena na hodnotu apacheuser:apachegroup. To je povinné pro vytvoření synchronizačních složek iFolder na tomto svazku.</value>
-  </data>
-  <data name="PORTUGUESE-BRAZIL">
-    <value>Brazilská portugalština</value>
-  </data>
-  <data name="ENCRYPTION">
-    <value>Šifrování heslem</value>
-  </data>
-  <data name="BEGINSWITH">
-    <value>Začíná</value>
-  </data>
-  <data name="MB">
-    <value>MB</value>
-  </data>
-  <data name="ERRORCANNOTDELETEIFOLDER">
-    <value>Nemáte oprávnění odstranit {0}.</value>
-  </data>
-  <data name="DISKSPACEAVAILABLETAG">
-    <value>Volný diskový prostor:</value>
-  </data>
-  <data name="MESSAGEINFORMATION">
-    <value>Informace:</value>
-  </data>
-  <data name="DISABLEPASTSHARING">
-    <value>Zrušit</value>
-  </data>
-  <data name="TRANSFERING">
-    <value>Přenášení</value>
-  </data>
-  <data name="ALLOWDELETEIFOLDERRIGHTS">
-    <value>Povolit oprávnění k odstranění složek iFolder</value>
-  </data>
-  <data name="SET">
-    <value>Nastavit</value>
-  </data>
-  <data name="LDAPADMINPWD">
-    <value>Heslo správce LDAP:</value>
-  </data>
-  <data name="SYNCBASED">
-    <value>Modul synchronizace </value>
-  </data>
-  <data name="TITLE">
-    <value>Správce složky iFolder</value>
-  </data>
-  <data name="STATUSTAG">
-    <value>Stav:</value>
-  </data>
-  <data name="MINIMALINFO">
-    <value>Zobrazení minimálních informací</value>
-  </data>
-  <data name="LOGLEVELTAG">
-    <value>Úroveň protokolu</value>
-  </data>
-  <data name="EVERYTAG">
-    <value>Každý:</value>
-  </data>
-  <data name="PASSWORDTAG">
-    <value>Heslo:</value>
-  </data>
-  <data name="GROUPRIGHTSEDITSUCCESSFUL">
-    <value>Práva správce {0}{1}{2} byla úspěšně upravena pro skupinu {3}{4}{5}. Klepnutím na tlačítko Opakovat provedete operace u dalších skupin stejného správce. Klepnutím na tlačítko OK se vrátíte na stránku Systémy.</value>
-  </data>
-  <data name="LDAPMEMBERDELETE">
-    <value>Odstranit člena</value>
-  </data>
-  <data name="SYSTEMSETTINGS">
-    <value>Systémová nastavení</value>
-  </data>
-  <data name="ERRORUNKNOWNERROR">
-    <value>Došlo k neznámé chybě.</value>
-  </data>
-  <data name="GROUPRIGHTSADDFAILURE">
-    <value>Uživatele {0}{1}{2} nebylo možné přidat jako správce pro skupinu {3}{4}{5}. Klepnutím na možnost Opakovat lze znovu přidat skupinu. Klepnutím na tlačítko OK se vrátíte na stránku Systémy. </value>
-  </data>
-  <data name="NAMETAG">
-    <value>Název:</value>
-  </data>
-  <data name="ERRORCANNOTSETIFOLDERSTATUS">
-    <value>Nelze nastavit stav synchronizace složky iFolder.</value>
-  </data>
-  <data name="EXCLUDEDFILES">
-    <value>Vyloučené soubory</value>
-  </data>
-  <data name="ADMINLOGFILE">
-    <value>Správce webu</value>
-  </data>
-  <data name="EDIT">
-    <value>Upravit</value>
-  </data>
-  <data name="HUNGARIAN">
-    <value>Maďarština</value>
-  </data>
-  <data name="SYSTEM">
-    <value>Systém</value>
-  </data>
-  <data name="CANNOTSETUNLIMITED">
-    <value>Nelze nastavit hodnotu Neomezeno, protože u skupiny je nastavena celková disková kvóta.</value>
-  </data>
-  <data name="LASTLOGINTIMETAG">
-    <value>Čas posledního přihlášení:</value>
-  </data>
-  <data name="OFF">
-    <value>Vypnuto</value>
-  </data>
-  <data name="B">
-    <value>B</value>
-  </data>
-  <data name="ASSIGNADMINISTRATORS">
-    <value>Přiřadit správce</value>
-  </data>
-  <data name="ERRORCANNOTSETSYSTEMPOLICY">
-    <value>Není možné nastavit informace o systémových zásadách.</value>
-  </data>
-  <data name="RIGHTS">
-    <value>Práva</value>
-  </data>
-  <data name="ACCOUNT">
-    <value>Účet</value>
-  </data>
-  <data name="ADDROOT">
-    <value>Přidat kořen</value>
-  </data>
-  <data name="IFOLDERISOWNEDBY">
-    <value>Vlastněno {0}</value>
-  </data>
-  <data name="LOGINACCOUNTLOCKED">
-    <value>Váš účet je v současné chvíli uzamčen a nedostupný.</value>
-  </data>
-  <data name="ITALIAN">
-    <value>Italština</value>
-  </data>
-  <data name="SYNCNOW">
-    <value>Synchronizovat nyní</value>
-  </data>
-  <data name="CANNOTSETPERMISSION">
-    <value>Nebylo možné změnit povolení zadané úplné cesty.</value>
-  </data>
-  <data name="ACCESSLOGFILE">
+  <data name="ACCESSLOGFILE" xml:space="preserve">
     <value>Uživatelský přístup</value>
   </data>
-  <data name="ADOPT">
+  <data name="ACCOUNT" xml:space="preserve">
+    <value>Účet</value>
+  </data>
+  <data name="ADD" xml:space="preserve">
+    <value>Přidat</value>
+  </data>
+  <data name="ADDADMINS" xml:space="preserve">
+    <value>Přidat správce</value>
+  </data>
+  <data name="ADDMEMBERS" xml:space="preserve">
+    <value>Přidat členy složky iFolder</value>
+  </data>
+  <data name="ADDMEMBERSTOIFOLDER" xml:space="preserve">
+    <value>Přidat přídavné členy ke složce iFolder "{0}"</value>
+  </data>
+  <data name="ADMIN" xml:space="preserve">
+    <value>Správce</value>
+  </data>
+  <data name="FULLCONTROL" xml:space="preserve">
+    <value>Úplné řízení</value>
+  </data>
+  <data name="ADMINISTRATOR" xml:space="preserve">
+    <value>Správce</value>
+  </data>
+  <data name="ADMINISTRATORS" xml:space="preserve">
+    <value>Správci</value>
+  </data>
+  <data name="ADMINLOGFILE" xml:space="preserve">
+    <value>Správce webu</value>
+  </data>
+  <data name="ADOPT" xml:space="preserve">
     <value>Přijmout</value>
   </data>
-  <data name="ERROR">
-    <value>Chyba</value>
+  <data name="ALL" xml:space="preserve">
+    <value>Vše</value>
   </data>
-  <data name="REPROVISOINSTATETAG">
-    <value>Stav opakovaného poskytování:</value>
+  <data name="ALLFIELDSREQUIRED" xml:space="preserve">
+    <value>Všechna pole musí být vyplněna.</value>
   </data>
-  <data name="DOWNLOAD">
-    <value>Stáhnout</value>
+  <data name="ALLOW" xml:space="preserve">
+    <value>Povolit</value>
   </data>
-  <data name="DELETESECONDARYADMIN">
-    <value>Odstranit sekundárního správce: </value>
+  <data name="ASSIGNADMINISTRATORS" xml:space="preserve">
+    <value>Přiřadit správce</value>
   </data>
-  <data name="FIRSTNAMETAG">
-    <value>Křestní jméno</value>
+  <data name="ATTAG" xml:space="preserve">
+    <value>V:</value>
   </data>
-  <data name="ERRORNOSYNCINTERVAL">
-    <value>Nebyl zadán žádný synchronizační interval.</value>
+  <data name="AVAILABLETAG" xml:space="preserve">
+    <value>Dostupné:</value>
   </data>
-  <data name="DELETE">
+  <data name="B" xml:space="preserve">
+    <value>B</value>
+  </data>
+  <data name="BACK" xml:space="preserve">
+    <value>Zpět</value>
+  </data>
+  <data name="BEGINSWITH" xml:space="preserve">
+    <value>Začíná</value>
+  </data>
+  <data name="CANCEL" xml:space="preserve">
+    <value>Zrušit</value>
+  </data>
+  <data name="CHINESE-SIMPLIFIED" xml:space="preserve">
+    <value>Zjednodušená čínština</value>
+  </data>
+  <data name="CHINESE-TRADITIONAL" xml:space="preserve">
+    <value>Tradiční čínština</value>
+  </data>
+  <data name="CONFIGUREREPORTING" xml:space="preserve">
+    <value>Konfigurace hlášení</value>
+  </data>
+  <data name="CONTAINS" xml:space="preserve">
+    <value>Obsahuje</value>
+  </data>
+  <data name="CREATE" xml:space="preserve">
+    <value>Vytvořit</value>
+  </data>
+  <data name="CREATENEWIFOLDER" xml:space="preserve">
+    <value>Vytvořit novou složku iFolder</value>
+  </data>
+  <data name="CREATEUSER" xml:space="preserve">
+    <value>Vytvořit uživatele</value>
+  </data>
+  <data name="CSVFORMAT" xml:space="preserve">
+    <value>Text ve formátu CSV</value>
+  </data>
+  <data name="CZECH" xml:space="preserve">
+    <value>Čeština</value>
+  </data>
+  <data name="DAILY" xml:space="preserve">
+    <value>Denně</value>
+  </data>
+  <data name="DAYTAG" xml:space="preserve">
+    <value>Den:</value>
+  </data>
+  <data name="DEBUG" xml:space="preserve">
+    <value>Ladit</value>
+  </data>
+  <data name="DELETE" xml:space="preserve">
     <value>Odstranit</value>
   </data>
-  <data name="FREQUENCY">
+  <data name="DELETED" xml:space="preserve">
+    <value>Odstranit</value>
+  </data>
+  <data name="DENY" xml:space="preserve">
+    <value>Zamítnout</value>
+  </data>
+  <data name="DESCRIPTIONTAG" xml:space="preserve">
+    <value>Popis:</value>
+  </data>
+  <data name="DIRECTORIESTAG" xml:space="preserve">
+    <value>Adresáře:</value>
+  </data>
+  <data name="DISABLE" xml:space="preserve">
+    <value>Vypnout</value>
+  </data>
+  <data name="DISABLEPASTSHARING" xml:space="preserve">
+    <value>Zrušit</value>
+  </data>
+  <data name="SHARING" xml:space="preserve">
+    <value>Sdílení</value>
+  </data>
+  <data name="DISKQUOTA" xml:space="preserve">
+    <value>Disková kvóta</value>
+  </data>
+  <data name="DISKSPACEAVAILABLETAG" xml:space="preserve">
+    <value>Volný diskový prostor:</value>
+  </data>
+  <data name="DISKSPACEUSEDTAG" xml:space="preserve">
+    <value>Obsazené místo na disku:</value>
+  </data>
+  <data name="DNSNAME" xml:space="preserve">
+    <value>Název DNS</value>
+  </data>
+  <data name="DNSNAMETAG" xml:space="preserve">
+    <value>Název DNS:</value>
+  </data>
+  <data name="DOWNLOAD" xml:space="preserve">
+    <value>Stáhnout</value>
+  </data>
+  <data name="EDIT" xml:space="preserve">
+    <value>Upravit</value>
+  </data>
+  <data name="EDITLDAPDETAILS" xml:space="preserve">
+    <value>Upravit podrobnosti protokolu LDAP</value>
+  </data>
+  <data name="EFFECTIVETAG" xml:space="preserve">
+    <value>Platné:</value>
+  </data>
+  <data name="ELLIPSES" xml:space="preserve">
+    <value> . . .</value>
+  </data>
+  <data name="ENABLE" xml:space="preserve">
+    <value>Zapnout</value>
+  </data>
+  <data name="REPROVISOINSTATE" xml:space="preserve">
+    <value>Stav opakovaného poskytování</value>
+  </data>
+  <data name="REPROVISOINSTATETAG" xml:space="preserve">
+    <value>Stav opakovaného poskytování:</value>
+  </data>
+  <data name="ENABLED" xml:space="preserve">
+    <value>Zapnuto</value>
+  </data>
+  <data name="ENABLEDTAG" xml:space="preserve">
+    <value>Zapnuto:</value>
+  </data>
+  <data name="ENABLEREPORTING" xml:space="preserve">
+    <value>Zapnout hlášení</value>
+  </data>
+  <data name="ACCESSDENIED" xml:space="preserve">
+    <value>Přístup odepřen pro tento prostředek</value>
+  </data>
+  <data name="ACCESSDENIEDERROR" xml:space="preserve">
+    <value>Přihlášený uživatel nemá oprávnění k zobrazení ani úpravám vlastností této stránky.</value>
+  </data>
+  <data name="ENDSWITH" xml:space="preserve">
+    <value>Končí</value>
+  </data>
+  <data name="ENFORCED" xml:space="preserve">
+    <value>Vynuceno </value>
+  </data>
+  <data name="ENGLISH" xml:space="preserve">
+    <value>Angličtina</value>
+  </data>
+  <data name="ENTERLDAPDETAILS" xml:space="preserve">
+    <value>Zadejte pověření správce LDAP</value>
+  </data>
+  <data name="EQUALS" xml:space="preserve">
+    <value>Rovná se</value>
+  </data>
+  <data name="ERROR" xml:space="preserve">
+    <value>Chyba</value>
+  </data>
+  <data name="ERRORACCESSEXCEPTION" xml:space="preserve">
+    <value>Nemáte dostatečná práva k provedení požadavku.</value>
+  </data>
+  <data name="PATHTOOLONGEXCEPTION" xml:space="preserve">
+    <value>Název složky iFolder je příliš dlouhý, složku nelze vytvořit.</value>
+  </data>
+  <data name="ERRORAUTHENTICATIONFAILED" xml:space="preserve">
+    <value>Ověření selhalo.</value>
+  </data>
+  <data name="ERRORCANNOTADDADMIN" xml:space="preserve">
+    <value>Není možné přidat člena {0} jako správce.</value>
+  </data>
+  <data name="ERRORCANNOTADDMEMBER" xml:space="preserve">
+    <value>Není možné přidat člena {0} ke složce iFolder {1}.</value>
+  </data>
+  <data name="ERRORCANNOTCHANGERIGHTS" xml:space="preserve">
+    <value>Není možné změnit členská práva uživatele {0}.</value>
+  </data>
+  <data name="ERRORCANNOTCHANGEOWNER" xml:space="preserve">
+    <value>Nelze změnit vlastnictví složky iFolder.</value>
+  </data>
+  <data name="ERRORCANNOTCREATEIFOLDER" xml:space="preserve">
+    <value>Není možné vytvořit složku iFolder.</value>
+  </data>
+  <data name="ERRORCANNOTCREATEUSER" xml:space="preserve">
+    <value>Uživatele není možné vytvořit.</value>
+  </data>
+  <data name="ERRORCANNOTDELETEIFOLDER" xml:space="preserve">
+    <value>Nemáte oprávnění odstranit {0}.</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="ERRORCANNOTDELETEIFOLDER" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="ERRORCANNOTDELETEMEMBERS" xml:space="preserve">
+    <value>Není možné odstranit člen složky {0}.</value>
+  </data>
+  <data name="ERRORCANNOTDELETEUSER" xml:space="preserve">
+    <value>Není možné odstranit ID uživatele {0}.</value>
+  </data>
+  <data name="ERRORCANNOTREMOVEADMIN" xml:space="preserve">
+    <value>Není možné odebrat uživatele {0} jako správce.</value>
+  </data>
+  <data name="ERRORCANNOTSETDESCRIPTION" xml:space="preserve">
+    <value>Není možné nastavit popis složky iFolder.</value>
+  </data>
+  <data name="ERRORCANNOTSETIFOLDERPOLICY" xml:space="preserve">
+    <value>Není možné nastavit informace o zásadách pro složku iFolder ID {0}.</value>
+  </data>
+  <data name="ERRORCANNOTSETSYSTEMPOLICY" xml:space="preserve">
+    <value>Není možné nastavit informace o systémových zásadách.</value>
+  </data>
+  <data name="ERRORCANNOTSETIFOLDERSTATUS" xml:space="preserve">
+    <value>Nelze nastavit stav synchronizace složky iFolder.</value>
+  </data>
+  <data name="ERRORCANNOTSETUSERPOLICY" xml:space="preserve">
+    <value>Není možné nastavit informace o uživatelských zásadách pro ID uživatele {0}.</value>
+  </data>
+  <data name="ERRORDETAIL" xml:space="preserve">
+    <value>Podrobnosti o chybě</value>
+  </data>
+  <data name="ERRORIFOLDERDOESNOTEXIST" xml:space="preserve">
+    <value>Složka iFolder neexistuje</value>
+  </data>
+  <data name="ERRORINVALIDFILESIZE" xml:space="preserve">
+    <value>Byla zadána neplatná hodnota omezení velikosti souboru. Hodnota musí být v intervalu 1 až 2e+063 - 1.</value>
+  </data>
+  <data name="ERRORINVALIDDATA" xml:space="preserve">
+    <value>Všechna pole jsou povinná. Zkontrolujte je a zadejte je znovu</value>
+  </data>
+  <data name="ERRORPROXYPASSWORDSDOESNOTMATCH" xml:space="preserve">
+    <value>Uživatelská hesla proxy se neshodují. Zadejte znovu správná hesla</value>
+  </data>
+  <data name="ERRORINVALIDLIMIT" xml:space="preserve">
+    <value>Byla zadána neplatná hodnota omezení velikosti souboru. Hodnota musí být menší než Kvóta diskového prostoru</value>
+  </data>
+  <data name="ERRORINVALIDQUOTA" xml:space="preserve">
+    <value>Byla zadána neplatná hodnota kvóty diskového prostoru. Hodnota musí být v intervalu 1 až 2e+063 - 1.</value>
+  </data>
+  <data name="ERRORINVALIDIFOLDERLIMIT" xml:space="preserve">
+    <value>Byla zadána neplatná hodnota omezení velikosti složky iFolder. Hodnota musí být v intervalu 0 až 2e+063 - 1.</value>
+  </data>
+  <data name="ERRORINVALIDSYNCINTERVAL" xml:space="preserve">
+    <value>Byl zadán neplatný synchronizační interval. Hodnota musí být v rozmezí 5 až 999.</value>
+  </data>
+  <data name="ERRORINVALIDIDSYNCINTERVAL" xml:space="preserve">
+    <value>Byl zadán neplatný synchronizační interval. Hodnota musí být v rozmezí 5 až 10080.</value>
+  </data>
+  <data name="ERRORLOCKEXCEPTION" xml:space="preserve">
+    <value>Operace byla zrušena protože složka iFolder byla uzamčena/zablokována správcem.</value>
+  </data>
+  <data name="ERRORMEMBERDOESNOTEXIST" xml:space="preserve">
+    <value>Člen složky iFolder neexistuje.</value>
+  </data>
+  <data name="ERRORNOFILESIZE" xml:space="preserve">
+    <value>Nebyla zadána žádná hodnota omezení velikosti souboru.</value>
+  </data>
+  <data name="ERRORNOQUOTA" xml:space="preserve">
+    <value>Nebyla zadána žádná kvóta diskového prostoru.</value>
+  </data>
+  <data name="ERRORNOIFOLDERLIMIT" xml:space="preserve">
+    <value>Nebyla zadána hodnota omezení složky iFolder.</value>
+  </data>
+  <data name="ERRORNOSYNCINTERVAL" xml:space="preserve">
+    <value>Nebyl zadán žádný synchronizační interval.</value>
+  </data>
+  <data name="ERRORNOTADMINISTRATOR" xml:space="preserve">
+    <value>Uživatel není správcem složky iFolder.</value>
+  </data>
+  <data name="ERRORTEMPLATE" xml:space="preserve">
+    <value>Chyba: {0}</value>
+  </data>
+  <data name="ERRORTYPE" xml:space="preserve">
+    <value>Neočekávaná chyba</value>
+  </data>
+  <data name="ERRORINSTRUCTIONS" xml:space="preserve">
+    <value>&lt;p&gt;Aplikace iFolder Web Access zaznamenala neočekávanou chybu.&lt;/p&gt; &lt;p&gt;Omlouváme se za veškeré nepříjemnosti a žádáme vás, abyste se odhlásili a zkusili to znovu.&lt;/p&gt;</value>
+  </data>
+  <data name="ERRORUNKNOWNERROR" xml:space="preserve">
+    <value>Došlo k neznámé chybě.</value>
+  </data>
+  <data name="ERRORUSERDOESNOTEXIST" xml:space="preserve">
+    <value>Uvedený uživatel složky iFolder neexistuje.</value>
+  </data>
+  <data name="EVERYTAG" xml:space="preserve">
+    <value>Každý:</value>
+  </data>
+  <data name="EXCLUDEDFILES" xml:space="preserve">
+    <value>Vyloučené soubory</value>
+  </data>
+  <data name="FATAL" xml:space="preserve">
+    <value>Kritický</value>
+  </data>
+  <data name="FILE" xml:space="preserve">
+    <value>Soubor</value>
+  </data>
+  <data name="FILENAME" xml:space="preserve">
+    <value>Název souboru</value>
+  </data>
+  <data name="FILES" xml:space="preserve">
+    <value>Soubory:</value>
+  </data>
+  <data name="FILESTAG" xml:space="preserve">
+    <value>Soubory:</value>
+  </data>
+  <data name="FILESIZE" xml:space="preserve">
+    <value>Velikost souboru</value>
+  </data>
+  <data name="FILETYPEALREADYEXISTS" xml:space="preserve">
+    <value>Uvedený název souboru již v seznamu existuje.</value>
+  </data>
+  <data name="FIRST" xml:space="preserve">
+    <value>První</value>
+  </data>
+  <data name="FIRSTNAME" xml:space="preserve">
+    <value>Křestní jméno</value>
+  </data>
+  <data name="FIRSTNAMETAG" xml:space="preserve">
+    <value>Křestní jméno</value>
+  </data>
+  <data name="FIRSTPAGE" xml:space="preserve">
+    <value>První stránka</value>
+  </data>
+  <data name="FORMATTAG" xml:space="preserve">
+    <value>Formát:</value>
+  </data>
+  <data name="FRENCH" xml:space="preserve">
+    <value>Francouzština</value>
+  </data>
+  <data name="FREQUENCY" xml:space="preserve">
     <value>Četnost</value>
   </data>
-  <data name="SELECTUSERS">
-    <value>Výběr uživatelů</value>
+  <data name="FULLNAME" xml:space="preserve">
+    <value>Celé jméno</value>
   </data>
-  <data name="WHEN">
-    <value>Kdy</value>
+  <data name="FULLNAMETAG" xml:space="preserve">
+    <value>Celé jméno:</value>
   </data>
-  <data name="LOGTAG">
-    <value>Protokol</value>
+  <data name="FULLNAMEDISLAYTAG" xml:space="preserve">
+    <value>Zobrazení jména:</value>
   </data>
-  <data name="GROUPDISKQUOTA">
-    <value>Disková kvóta skupiny: </value>
+  <data name="FULLNAMEDISPLAYORDER" xml:space="preserve">
+    <value>Pořadí zobrazení celého jména:</value>
   </data>
-  <data name="UNABLETOSETASSLAVE">
-    <value>Nelze nastavit jako podřízený server. Opakujte operaci.</value>
+  <data name="GB" xml:space="preserve">
+    <value>GB</value>
   </data>
-  <data name="LOGINUSERNAME">
+  <data name="GENERATEDAILYREPORT" xml:space="preserve">
+    <value>Generovat zprávu každý den v {0} do {1}</value>
+  </data>
+  <data name="GENERATEMONTHLYREPORT" xml:space="preserve">
+    <value>Generovat zprávu {0}. den každého měsíce v {1} do {2}</value>
+  </data>
+  <data name="GENERATEWEEKLYREPORT" xml:space="preserve">
+    <value>Generovat zprávu každý {0} v {1} do {2}</value>
+  </data>
+  <data name="GERMAN" xml:space="preserve">
+    <value>Němčina</value>
+  </data>
+  <data name="HELP" xml:space="preserve">
+    <value>Nápověda</value>
+  </data>
+  <data name="HOME" xml:space="preserve">
+    <value>Domácí server</value>
+  </data>
+  <data name="COMPLETED" xml:space="preserve">
+    <value>Dokončeno</value>
+  </data>
+  <data name="COMPLETEDTAG" xml:space="preserve">
+    <value>Dokončeno:</value>
+  </data>
+  <data name="HUNGARIAN" xml:space="preserve">
+    <value>Maďarština</value>
+  </data>
+  <data name="IDENTITYSYNCTAG" xml:space="preserve">
+    <value>Synchronizace identifikačních dat:</value>
+  </data>
+  <data name="IFOLDER" xml:space="preserve">
+    <value>Složka iFolder</value>
+  </data>
+  <data name="IFOLDERADMINS" xml:space="preserve">
+    <value>Správci složky iFolder</value>
+  </data>
+  <data name="IFOLDERDETAILS" xml:space="preserve">
+    <value>Podrobnosti o složce iFolder</value>
+  </data>
+  <data name="IFOLDERDISABLED" xml:space="preserve">
+    <value>Vypnout synchronizaci</value>
+  </data>
+  <data name="IFOLDERISOWNEDBY" xml:space="preserve">
+    <value>Vlastněno {0}</value>
+  </data>
+  <data name="IFOLDERLIMIT" xml:space="preserve">
+    <value>Složky iFolder na uživatele</value>
+  </data>
+  <data name="IFOLDERS" xml:space="preserve">
+    <value>Složky iFolder</value>
+  </data>
+  <data name="IFOLDERSTAG" xml:space="preserve">
+    <value>Složky iFolder:</value>
+  </data>
+  <data name="IFOLDERUSERDETAILS" xml:space="preserve">
+    <value>Podrobnosti o uživateli složky iFolder</value>
+  </data>
+  <data name="IFOLDERUSERS" xml:space="preserve">
+    <value>Uživatelé aplikace iFolder</value>
+  </data>
+  <data name="REPROVISIONLIST" xml:space="preserve">
+    <value>Stav opakovaného poskytování systému iFolder</value>
+  </data>
+  <data name="INFO" xml:space="preserve">
+    <value>Informace</value>
+  </data>
+  <data name="INHEIRITEDPOLICY" xml:space="preserve">
+    <value>(Zděděné zásady)</value>
+  </data>
+  <data name="INTERVALTAG" xml:space="preserve">
+    <value>Interval:</value>
+  </data>
+  <data name="ITALIAN" xml:space="preserve">
+    <value>Italština</value>
+  </data>
+  <data name="JAPANESE" xml:space="preserve">
+    <value>Japonština</value>
+  </data>
+  <data name="KB" xml:space="preserve">
+    <value>kB</value>
+  </data>
+  <data name="LAST" xml:space="preserve">
+    <value>Poslední</value>
+  </data>
+  <data name="LASTLOGINTIMETAG" xml:space="preserve">
+    <value>Čas posledního přihlášení:</value>
+  </data>
+  <data name="LASTMODIFIED" xml:space="preserve">
+    <value>Naposledy změněno</value>
+  </data>
+  <data name="LASTNAME" xml:space="preserve">
+    <value>Příjmení</value>
+  </data>
+  <data name="HOMESERVERNAME" xml:space="preserve">
+    <value>Domácí server</value>
+  </data>
+  <data name="LASTNAMETAG" xml:space="preserve">
+    <value>Příjmení:</value>
+  </data>
+  <data name="LASTPAGE" xml:space="preserve">
+    <value>Poslední stránka</value>
+  </data>
+  <data name="LDAPADMINNAME" xml:space="preserve">
+    <value>DN správce LDAP:</value>
+  </data>
+  <data name="LDAPADMINPWD" xml:space="preserve">
+    <value>Heslo správce LDAP:</value>
+  </data>
+  <data name="LDAPDETAILS" xml:space="preserve">
+    <value>Podrobnosti protokolu LDAP</value>
+  </data>
+  <data name="LDAPSERVER" xml:space="preserve">
+    <value>Server LDAP:</value>
+  </data>
+  <data name="LDAPCYCLES" xml:space="preserve">
+    <value>Cykly:</value>
+  </data>
+  <data name="LDAPMEMBERDELETE" xml:space="preserve">
+    <value>Odstranit člena</value>
+  </data>
+  <data name="LDAPMEMBERDELETEGRACEINT" xml:space="preserve">
+    <value>darovaný interval:</value>
+  </data>
+  <data name="LDAPUPSINCE" xml:space="preserve">
+    <value>Do:</value>
+  </data>
+  <data name="LDAPCONTEXTTAG" xml:space="preserve">
+    <value>Kontexty protokolu LDAP:</value>
+  </data>
+  <data name="LDAPSTATUSTAG" xml:space="preserve">
+    <value>Stav:</value>
+  </data>
+  <data name="LDAPSSL" xml:space="preserve">
+    <value>LDAP SSL:</value>
+  </data>
+  <data name="LDAPPROXYUSER" xml:space="preserve">
+    <value>Uživatel proxy:</value>
+  </data>
+  <data name="LDAPPROXYUSERPWD" xml:space="preserve">
+    <value>Heslo uživatele proxy:</value>
+  </data>
+  <data name="CONFIRMLDAPPROXYUSERPWD" xml:space="preserve">
+    <value>Potvrďte heslo uživatele serveru proxy.</value>
+  </data>
+  <data name="LIMITTAG" xml:space="preserve">
+    <value>Omezení:</value>
+  </data>
+  <data name="LOGGEDINAS" xml:space="preserve">
+    <value>Přihlášen jako</value>
+  </data>
+  <data name="LOGGEDONUSERSTAG" xml:space="preserve">
+    <value>Přihlášení uživatelé:</value>
+  </data>
+  <data name="LOGIN" xml:space="preserve">
+    <value>Přihlásit</value>
+  </data>
+  <data name="LOGINACCOUNTDISABLED" xml:space="preserve">
+    <value>Váš účet je v současné chvíli zablokován a nedostupný.</value>
+  </data>
+  <data name="LOGINACCOUNTLOCKED" xml:space="preserve">
+    <value>Váš účet je v současné chvíli uzamčen a nedostupný.</value>
+  </data>
+  <data name="LOGINCONNECTFAILED" xml:space="preserve">
+    <value>Není možné se připojit k serveru iFolder.</value>
+  </data>
+  <data name="REVERTSHARINGCONNECTFAILED" xml:space="preserve">
+    <value>Nelze se připojit  k serveru iFolder. Jakmile bude server dosažitelný, odvolejte sdílení.</value>
+  </data>
+  <data name="LOGINCOPYRIGHT" xml:space="preserve">
+    <value>&amp;copy; Copyright 2011 Novell, Inc. Všechna práva vyhrazena.</value>
+  </data>
+  <data name="LOGINERROR" xml:space="preserve">
+    <value>Chyba:</value>
+  </data>
+  <data name="LOGINFAILED" xml:space="preserve">
+    <value>Selhalo:</value>
+  </data>
+  <data name="LOGINIFOLDERSERVER" xml:space="preserve">
+    <value>Server aplikace iFolder:</value>
+  </data>
+  <data name="LOGINLANGUAGE" xml:space="preserve">
+    <value>Jazyk:</value>
+  </data>
+  <data name="LOGINLOGOUT" xml:space="preserve">
+    <value>Nyní jste od složky iFolder odhlášeni.</value>
+  </data>
+  <data name="LOGINLOSTSESSION" xml:space="preserve">
+    <value>Vaše relace byla ukončena. Znovu se přihlaste.</value>
+  </data>
+  <data name="CANNOTSETPERMISSION" xml:space="preserve">
+    <value>Nebylo možné změnit povolení zadané úplné cesty.</value>
+  </data>
+  <data name="LOGINNOCOOKIES" xml:space="preserve">
+    <value>Musíte ve svém prohlížeči zapnout cookies.</value>
+  </data>
+  <data name="LOGINNOSCRIPT" xml:space="preserve">
+    <value>Musíte ve svém prohlížeči zapnout skripty.</value>
+  </data>
+  <data name="LOGINPASSWORD" xml:space="preserve">
+    <value>Heslo:</value>
+  </data>
+  <data name="LOGINREDIRECT" xml:space="preserve">
+    <value>URL serveru iFolder je potřeba aktualizovat.</value>
+  </data>
+  <data name="LOGINSECUREFAILED" xml:space="preserve">
+    <value>Se serverem iFolder není možné bezpečně komunikovat.</value>
+  </data>
+  <data name="LOGINSENDFAILED" xml:space="preserve">
+    <value>Se serverem iFolder není možné komunikovat.</value>
+  </data>
+  <data name="LOGINTRUSTFAILED" xml:space="preserve">
+    <value>Důvěryhodnost mezi serverem iFolder a aplikací iFolder Web Access selhala.</value>
+  </data>
+  <data name="INVALIDCERTIFICATE" xml:space="preserve">
+    <value>Ověření se nezdařilo, potíže s certifikátem serveru LDAP nebo iFolder</value>
+  </data>
+  <data name="LOGINUNAUTHORIZED" xml:space="preserve">
+    <value>Zadejte znovu vaše uživatelské jméno a heslo.</value>
+  </data>
+  <data name="LOGINUSERNAME" xml:space="preserve">
     <value>Uživatelské jméno:</value>
   </data>
-  <data name="VOLUME">
+  <data name="LOGLEVELTAG" xml:space="preserve">
+    <value>Úroveň protokolu</value>
+  </data>
+  <data name="LOGTAG" xml:space="preserve">
+    <value>Protokol</value>
+  </data>
+  <data name="LOGOUT" xml:space="preserve">
+    <value>Odhlášení</value>
+  </data>
+  <data name="MASTER" xml:space="preserve">
+    <value>Hlavní objekt</value>
+  </data>
+  <data name="MAXCONNECTIONSTAG" xml:space="preserve">
+    <value>Maximum připojení:</value>
+  </data>
+  <data name="MB" xml:space="preserve">
+    <value>MB</value>
+  </data>
+  <data name="MEMBER" xml:space="preserve">
+    <value>Člen</value>
+  </data>
+  <data name="MEMBERS" xml:space="preserve">
+    <value>Členové</value>
+  </data>
+  <data name="MESSAGEINFORMATION" xml:space="preserve">
+    <value>Informace:</value>
+  </data>
+  <data name="MINUTES" xml:space="preserve">
+    <value>Minut</value>
+  </data>
+  <data name="MINIMALINFO" xml:space="preserve">
+    <value>Zobrazení minimálních informací</value>
+  </data>
+  <data name="MODIFIEDTAG" xml:space="preserve">
+    <value>Změněno:</value>
+  </data>
+  <data name="MONTHLY" xml:space="preserve">
+    <value>Měsíčně</value>
+  </data>
+  <data name="NAME" xml:space="preserve">
+    <value>Název:</value>
+  </data>
+  <data name="NAMETAG" xml:space="preserve">
+    <value>Název:</value>
+  </data>
+  <data name="NEWIFOLDERDESCRIPTIONTAG" xml:space="preserve">
+    <value>Popis složky iFolder:</value>
+  </data>
+  <data name="NEWIFOLDERNAMETAG" xml:space="preserve">
+    <value>Název složky iFolder:</value>
+  </data>
+  <data name="NEXT" xml:space="preserve">
+    <value>Další</value>
+  </data>
+  <data name="NEXTPAGE" xml:space="preserve">
+    <value>Další stránka</value>
+  </data>
+  <data name="NEWFILETYPE" xml:space="preserve">
+    <value>Nový typ souboru</value>
+  </data>
+  <data name="NO" xml:space="preserve">
+    <value>Ne</value>
+  </data>
+  <data name="NOITEMSFOUND" xml:space="preserve">
+    <value>Nebyly nalezeny žádné položky.</value>
+  </data>
+  <data name="NOSERVER" xml:space="preserve">
+    <value>Nebyl vybrán žádný server</value>
+  </data>
+  <data name="NOTAVAILABLE" xml:space="preserve">
+    <value>Nedostupné</value>
+  </data>
+  <data name="OFF" xml:space="preserve">
+    <value>Vypnuto</value>
+  </data>
+  <data name="ORPHANED" xml:space="preserve">
+    <value>Sirotek</value>
+  </data>
+  <data name="ORPHANTAG" xml:space="preserve">
+    <value>Sirotek:</value>
+  </data>
+  <data name="OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="ON" xml:space="preserve">
+    <value>Zapnuto</value>
+  </data>
+  <data name="OUTPUT" xml:space="preserve">
+    <value>Výstup</value>
+  </data>
+  <data name="OWNED" xml:space="preserve">
+    <value>Vlastněno</value>
+  </data>
+  <data name="OWNER" xml:space="preserve">
+    <value>Vlastník</value>
+  </data>
+  <data name="OWNERTAG" xml:space="preserve">
+    <value>Vlastník</value>
+  </data>
+  <data name="PAGENUMBERFORMAT" xml:space="preserve">
+    <value>{3} {0}-{1} z {2}</value>
+  </data>
+  <data name="PASSWORDSDONOTMATCH" xml:space="preserve">
+    <value>Zadaná hesla nejsou stejná.</value>
+  </data>
+  <data name="PASSWORDTAG" xml:space="preserve">
+    <value>Heslo:</value>
+  </data>
+  <data name="PATHTAG" xml:space="preserve">
+    <value>Cesta:</value>
+  </data>
+  <data name="PENDING" xml:space="preserve">
+    <value>Probíhající</value>
+  </data>
+  <data name="POLICIES" xml:space="preserve">
+    <value>Zásady</value>
+  </data>
+  <data name="POLISH" xml:space="preserve">
+    <value>Polština</value>
+  </data>
+  <data name="PORTUGUESE" xml:space="preserve">
+    <value>Portugalština</value>
+  </data>
+  <data name="PORTUGUESE-BRAZIL" xml:space="preserve">
+    <value>Brazilská portugalština</value>
+  </data>
+  <data name="PREVIOUSPAGE" xml:space="preserve">
+    <value>Předchozí stránka</value>
+  </data>
+  <data name="PRIVATEIPTAG" xml:space="preserve">
+    <value>Soukromá adresa IP:</value>
+  </data>
+  <data name="PRIVATEURI" xml:space="preserve">
+    <value>Privátní URL:</value>
+  </data>
+  <data name="PRIVATEURL" xml:space="preserve">
+    <value>Privátní URL</value>
+  </data>
+  <data name="PROVISION" xml:space="preserve">
+    <value>Poskytnutí</value>
+  </data>
+  <data name="PROVISIONREPROVISION" xml:space="preserve">
+    <value>Poskytnout/Znovu poskytnout</value>
+  </data>
+  <data name="PUBLICIPTAG" xml:space="preserve">
+    <value>Veřejná adresa IP:</value>
+  </data>
+  <data name="PUBLICURI" xml:space="preserve">
+    <value>Veřejná URL:</value>
+  </data>
+  <data name="PUBLICURL" xml:space="preserve">
+    <value>Veřejná URL:</value>
+  </data>
+  <data name="READONLY" xml:space="preserve">
+    <value>Pouze pro čtení</value>
+  </data>
+  <data name="READWRITE" xml:space="preserve">
+    <value>Čtení/zápis</value>
+  </data>
+  <data name="REMOVEMEMBERS" xml:space="preserve">
+    <value>Odstranit uživatele</value>
+  </data>
+  <data name="REPORTDIRECTORY" xml:space="preserve">
+    <value>Adresář hlášení</value>
+  </data>
+  <data name="REPORTDIRECTORYTAG" xml:space="preserve">
+    <value>adresář:</value>
+  </data>
+  <data name="REPORTIFOLDER" xml:space="preserve">
+    <value>Hlášení složky iFolder</value>
+  </data>
+  <data name="REPORTIFOLDERTAG" xml:space="preserve">
+    <value>Složka iFolder:</value>
+  </data>
+  <data name="REPORTS" xml:space="preserve">
+    <value>Oznámení</value>
+  </data>
+  <data name="RETYPEPASSWORDTAG" xml:space="preserve">
+    <value>Zopakujte heslo:</value>
+  </data>
+  <data name="RIGHTS" xml:space="preserve">
+    <value>Práva</value>
+  </data>
+  <data name="RUSSIAN" xml:space="preserve">
+    <value>Ruština</value>
+  </data>
+  <data name="SAVE" xml:space="preserve">
+    <value>Uložit</value>
+  </data>
+  <data name="REPROVISIONBUTTON" xml:space="preserve">
+    <value>Stav opakovaného poskytování</value>
+  </data>
+  <data name="REFRESH" xml:space="preserve">
+    <value>Obnovit</value>
+  </data>
+  <data name="SEARCH" xml:space="preserve">
+    <value>Hledat</value>
+  </data>
+  <data name="SELECTEDUSERS" xml:space="preserve">
+    <value>Vybraní uživatelé</value>
+  </data>
+  <data name="SELECTIFOLDEROWNER" xml:space="preserve">
+    <value>Vyberte vlastníka složky iFolder "{0}"</value>
+  </data>
+  <data name="SELECTUSERS" xml:space="preserve">
+    <value>Výběr uživatelů</value>
+  </data>
+  <data name="SELECTSERVER" xml:space="preserve">
+    <value>Vyberte server pro poskytnutí / opakované poskytnutí těchto uživatelů</value>
+  </data>
+  <data name="SERVER" xml:space="preserve">
+    <value>Server</value>
+  </data>
+  <data name="SERVERDETAILS" xml:space="preserve">
+    <value>Podrobnosti o serveru</value>
+  </data>
+  <data name="SERVERLOGS" xml:space="preserve">
+    <value>Protokoly serveru</value>
+  </data>
+  <data name="SERVERREPORTS" xml:space="preserve">
+    <value>Zprávy serveru</value>
+  </data>
+  <data name="SERVERS" xml:space="preserve">
+    <value>Servery</value>
+  </data>
+  <data name="SERVERSTATUS" xml:space="preserve">
+    <value>Stav serveru</value>
+  </data>
+  <data name="SERVERSTATUSDOWN" xml:space="preserve">
+    <value>Server je nedostupný</value>
+  </data>
+  <data name="SESSIONCLOSED" xml:space="preserve">
+    <value>Zadané uživatelské jméno a heslo není správné. Přihlaste se prosím.</value>
+  </data>
+  <data name="SESSIONSTAG" xml:space="preserve">
+    <value>Relace:</value>
+  </data>
+  <data name="SET" xml:space="preserve">
+    <value>Nastavit</value>
+  </data>
+  <data name="SHARED" xml:space="preserve">
+    <value>Sdíleno</value>
+  </data>
+  <data name="SHARINGPOLICYVIOLATION" xml:space="preserve">
+    <value> Sdílení je vypnuto, tuto složku iFolder není tedy možné sdílet</value>
+  </data>
+  <data name="SIZE" xml:space="preserve">
+    <value>Velikost:</value>
+  </data>
+  <data name="SIZETAG" xml:space="preserve">
+    <value>Velikost:</value>
+  </data>
+  <data name="SLAVE" xml:space="preserve">
+    <value>Podřízený</value>
+  </data>
+  <data name="SLOVAK" xml:space="preserve">
+    <value>Slovenština</value>
+  </data>
+  <data name="SPANISH" xml:space="preserve">
+    <value>Španělština</value>
+  </data>
+  <data name="STATUS" xml:space="preserve">
+    <value>Stav:</value>
+  </data>
+  <data name="STATUSTAG" xml:space="preserve">
+    <value>Stav:</value>
+  </data>
+  <data name="SYNCNOW" xml:space="preserve">
+    <value>Synchronizovat nyní</value>
+  </data>
+  <data name="SYNCHRONIZATION" xml:space="preserve">
+    <value>Synchronizace</value>
+  </data>
+  <data name="SYSTEM" xml:space="preserve">
+    <value>Systém</value>
+  </data>
+  <data name="SYSTEMLOGFILE" xml:space="preserve">
+    <value>Systém</value>
+  </data>
+  <data name="SYSTEMSETTINGS" xml:space="preserve">
+    <value>Systémová nastavení</value>
+  </data>
+  <data name="TITLE" xml:space="preserve">
+    <value>Správce složky iFolder</value>
+  </data>
+  <data name="TOTALIFOLDERSTAG" xml:space="preserve">
+    <value>Celkem složek iFolder:</value>
+  </data>
+  <data name="TOTALTAG" xml:space="preserve">
+    <value>Celkem: </value>
+  </data>
+  <data name="TOTALUSERSTAG" xml:space="preserve">
+    <value>Celkem uživatelů:</value>
+  </data>
+  <data name="TRUE" xml:space="preserve">
+    <value>Pravda</value>
+  </data>
+  <data name="TYPE" xml:space="preserve">
+    <value>Typ:</value>
+  </data>
+  <data name="TYPETAG" xml:space="preserve">
+    <value>Typ:</value>
+  </data>
+  <data name="UNKNOWNERROR" xml:space="preserve">
+    <value>Došlo k neznáme chybě. Nebyla určena žádná výjimka.</value>
+  </data>
+  <data name="UNLIMITED" xml:space="preserve">
+    <value>Neomezeno</value>
+  </data>
+  <data name="USEDTAG" xml:space="preserve">
+    <value>Využité:</value>
+  </data>
+  <data name="USER" xml:space="preserve">
+    <value>Uživatel</value>
+  </data>
+  <data name="USERDETAILS" xml:space="preserve">
+    <value>Podrobnosti o uživateli</value>
+  </data>
+  <data name="USERMOVEDETAILS" xml:space="preserve">
+    <value>Údaje uživatele pro opakované poskytování</value>
+  </data>
+  <data name="USERLOGINDISABLED" xml:space="preserve">
+    <value>Vypnout přihlášení uživatele</value>
+  </data>
+  <data name="USERNAME" xml:space="preserve">
+    <value>Uživatelské jméno</value>
+  </data>
+  <data name="CURRENTHOME" xml:space="preserve">
+    <value>Aktuální domácí server</value>
+  </data>
+  <data name="CURRENTHOMETAG" xml:space="preserve">
+    <value>Aktuální domácí server:</value>
+  </data>
+  <data name="NEWHOME" xml:space="preserve">
+    <value>Nový domácí server</value>
+  </data>
+  <data name="NEWHOMETAG" xml:space="preserve">
+    <value>Nový domácí server:</value>
+  </data>
+  <data name="USERNAMETAG" xml:space="preserve">
+    <value>Uživatelské jméno</value>
+  </data>
+  <data name="MEMBERTYPETAG" xml:space="preserve">
+    <value>Typ člena:</value>
+  </data>
+  <data name="MEMBERTYPEUSER" xml:space="preserve">
+    <value>Uživatel</value>
+  </data>
+  <data name="MEMBERTYPELDAPGROUP" xml:space="preserve">
+    <value>Skupina LDAP</value>
+  </data>
+  <data name="MEMBERTYPELOCALGROUP" xml:space="preserve">
+    <value>Místní skupina</value>
+  </data>
+  <data name="MEMBERLISTTAG" xml:space="preserve">
+    <value>Členové skupiny:</value>
+  </data>
+  <data name="GROUPLISTTAG" xml:space="preserve">
+    <value>Skupiny uživatelů:</value>
+  </data>
+  <data name="USERS" xml:space="preserve">
+    <value>Uživatelé</value>
+  </data>
+  <data name="USERSTAG" xml:space="preserve">
+    <value>Uživatelé:</value>
+  </data>
+  <data name="VIEW" xml:space="preserve">
+    <value>Zobrazit</value>
+  </data>
+  <data name="WARN" xml:space="preserve">
+    <value>Varovat</value>
+  </data>
+  <data name="WEBACCESSLOGFILE" xml:space="preserve">
+    <value>Aplikace Web Access</value>
+  </data>
+  <data name="WEEKLY" xml:space="preserve">
+    <value>Týdně</value>
+  </data>
+  <data name="WHEN" xml:space="preserve">
+    <value>Kdy</value>
+  </data>
+  <data name="TIME" xml:space="preserve">
+    <value>Čas</value>
+  </data>
+  <data name="YES" xml:space="preserve">
+    <value>Ano</value>
+  </data>
+  <data name="DATASTORE" xml:space="preserve">
+    <value>Uložení dat</value>
+  </data>
+  <data name="ADDDATASTORE" xml:space="preserve">
+    <value>Přidat úložiště dat</value>
+  </data>
+  <data name="FULLPATH:" xml:space="preserve">
+    <value>Úplná cesta:</value>
+  </data>
+  <data name="NOOFIFOLDERS" xml:space="preserve">
+    <value>Počet složek iFolder</value>
+  </data>
+  <data name="FREESPACE" xml:space="preserve">
+    <value>Volné místo</value>
+  </data>
+  <data name="NAME:" xml:space="preserve">
+    <value>Název:</value>
+  </data>
+  <data name="FULLPATH" xml:space="preserve">
+    <value>Úplná cesta</value>
+  </data>
+  <data name="VOLUMES" xml:space="preserve">
+    <value>Svazky</value>
+  </data>
+  <data name="VOLUME" xml:space="preserve">
     <value>Svazek</value>
   </data>
-  <data name="UNLIMITED">
-    <value>Neomezeno</value>
+  <data name="NOTMOUNTED" xml:space="preserve">
+    <value>Nepřipojeno</value>
+  </data>
+  <data name="LINKALREADYEXISTS" xml:space="preserve">
+    <value>Odkaz s tímto názvem již existuje.</value>
+  </data>
+  <data name="INVALIDFULLPATH" xml:space="preserve">
+    <value>Zadaná úplná cesta je neplatná, zkontrolujte ji a znovu ji zapište.</value>
+  </data>
+  <data name="ERRORINVALIDIFOLDERLIMIT" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="INVALIDLIMITERROR" xml:space="preserve">
+    <value>Složku iFolder nelze vytvořit, protože jste překročili maximální počet složek ifolder nastavený správcem.</value>
+  </data>
+  <data name="INVALIDLDAPADMINORPASSWORD" xml:space="preserve">
+    <value>Neplatné uživatelské ID správce LDAP nebo heslo</value>
+  </data>
+  <data name="UNABLETOEDITLDAPDETAILS" xml:space="preserve">
+    <value>Není možné upravit podrobnosti protokolu LDAP. Zkontrolujte hodnoty. </value>
+  </data>
+  <data name="UNABLETOEDITIPDETAILS" xml:space="preserve">
+    <value>Není možné upravit podrobnosti adresy IP. Zkontrolujte hodnoty. </value>
+  </data>
+  <data name="RESTARTSERVER" xml:space="preserve">
+    <value>Informace byly aktualizovány. Tyto změny se projeví až po opětovném spuštění serveru iFolder. </value>
+  </data>
+  <data name="MASTERURI" xml:space="preserve">
+    <value>Hlavní URL:</value>
+  </data>
+  <data name="LDAPADMINAUTH" xml:space="preserve">
+    <value>ldapadminaut</value>
+  </data>
+  <data name="PROVISIONUSERS" xml:space="preserve">
+    <value>zajištěníuživatelé</value>
+  </data>
+  <data name="PROVISION_REPROVISION_TITLE" xml:space="preserve">
+    <value>Poskytnout / Opakovaně poskytnout uživatele</value>
+  </data>
+  <data name="ENCRYPTION" xml:space="preserve">
+    <value>Šifrování heslem</value>
+  </data>
+  <data name="SSLTAG" xml:space="preserve">
+    <value>Varianta SSL:</value>
+  </data>
+  <data name="SSLSTRING" xml:space="preserve">
+    <value>SSL</value>
+  </data>
+  <data name="NONSSLSTRING" xml:space="preserve">
+    <value>NONSSL</value>
+  </data>
+  <data name="BOTHSTRING" xml:space="preserve">
+    <value>OBOJÍ</value>
+  </data>
+  <data name="ERRORIFOLDERENCRYPTIONENFORCED" xml:space="preserve">
+    <value>Tento člen nesmí vlastnit standardní složku iFolder, protože pro člena platí zásady šifrování.</value>
+  </data>
+  <data name="CONFIRMADDITION" xml:space="preserve">
+    <value>DŮLEŽITÉ: Vlastník a skupina objektu DataPath na serveru musí být nastavena na hodnotu apacheuser:apachegroup. To je povinné pro vytvoření synchronizačních složek iFolder na tomto svazku.</value>
+  </data>
+  <data name="CONFIRMDELETION" xml:space="preserve">
+    <value>DŮLEŽITÉ: Objekt DataPath bude odstraněn pouze v případě, kdy na něm nejsou vytvořeny žádné složky iFolder.</value>
+  </data>
+  <data name="ERRORIFOLDERTRANSFEREXCEPTION" xml:space="preserve">
+    <value>Vlastnictví nelze převést, protože překračujete počet složek iFolder nastavený správcem.</value>
+  </data>
+  <data name="CONFIRMENCRYPTION" xml:space="preserve">
+    <value>Možnost 'Šifrování s heslem' umožňuje zašifrovat jednotlivé složky iFolder pomocí hesla zadaného uživatelem. Povinnou možnost lze vypnout, ale jakmile uložíte možnost 'Zapnuto', nelze stav vrátit. Pro uložení klepněte na možnost OK, chcete-li na aktuální stránce zůstat bez ukládání, klepněte na možnost Storno. </value>
+  </data>
+  <data name="INITIALIZING" xml:space="preserve">
+    <value>Inicializace</value>
+  </data>
+  <data name="TRANSFERING" xml:space="preserve">
+    <value>Přenášení</value>
+  </data>
+  <data name="SERVERNAMETAG" xml:space="preserve">
+    <value>Server:</value>
+  </data>
+  <data name="EDITADMINRIGHTS" xml:space="preserve">
+    <value>Upravit práva správce</value>
+  </data>
+  <data name="ALLADMINS" xml:space="preserve">
+    <value>Všichni správci</value>
+  </data>
+  <data name="GROUPADMINS" xml:space="preserve">
+    <value>Správci skupiny</value>
+  </data>
+  <data name="SECONDARYADMIN" xml:space="preserve">
+    <value>Sekundární správce</value>
+  </data>
+  <data name="SECONDARY" xml:space="preserve">
+    <value>Sekundární</value>
+  </data>
+  <data name="REPEAT" xml:space="preserve">
+    <value>Opakovat</value>
+  </data>
+  <data name="GROUPNAME" xml:space="preserve">
+    <value>Název skupiny</value>
+  </data>
+  <data name="NONE" xml:space="preserve">
+    <value>Žádné</value>
+  </data>
+  <data name="ADDROOT" xml:space="preserve">
+    <value>Přidat kořen</value>
+  </data>
+  <data name="ERRORSELECTGROUP" xml:space="preserve">
+    <value>Chyba: Chcete-li pokračovat, vyberte skupinu.</value>
+  </data>
+  <data name="GROUPDISKQUOTA" xml:space="preserve">
+    <value>Disková kvóta skupiny: </value>
+  </data>
+  <data name="DISKSPACEUSED" xml:space="preserve">
+    <value>Obsazené místo na disku: </value>
+  </data>
+  <data name="DELETESECONDARYADMIN" xml:space="preserve">
+    <value>Odstranit sekundárního správce: </value>
+  </data>
+  <data name="EDITSECONDARYADMIN" xml:space="preserve">
+    <value>Upravit sekundárního správce: </value>
+  </data>
+  <data name="ERRORCANNOTADDSECONDARYADMIN" xml:space="preserve">
+    <value>Není možné přidat člena {0} jako sekundárního správce.</value>
+  </data>
+  <data name="ERRORCANNOTEDITSECONDARYADMIN" xml:space="preserve">
+    <value>Nelze upravit sekundárního správce {0}.</value>
+  </data>
+  <data name="ERRORCANNOTDELETESECONDARYADMIN" xml:space="preserve">
+    <value>Nelze odstranit sekundárního správce {0}.</value>
+  </data>
+  <data name="SELECTMEMBERTOADD" xml:space="preserve">
+    <value>Vyberte nového sekundárního správce.</value>
+  </data>
+  <data name="ADDNEWORSELECTGROUPTOEDIT" xml:space="preserve">
+    <value>Přidat nebo upravit skupiny vybraného správce</value>
+  </data>
+  <data name="SELECTGROUPTODELETE" xml:space="preserve">
+    <value>Vybrat skupiny k odstranění</value>
+  </data>
+  <data name="PRIMARY" xml:space="preserve">
+    <value>Primární</value>
+  </data>
+  <data name="ADDNEW" xml:space="preserve">
+    <value>Přidat nový</value>
+  </data>
+  <data name="GROUPQUOTARESTRICTION" xml:space="preserve">
+    <value>Správa používání kvóty skupiny: </value>
+  </data>
+  <data name="GROUPRIGHTSADDSUCCESSFUL" xml:space="preserve">
+    <value>Uživatel {0}{1}{2} byl úspěšně přidán jako správce pro skupinu {3}{4}{5}. Úpravou práv sekundárního správce můžete stejnému správci přidat další skupiny. Klepnutím na tlačítko Opakovat přidáte další skupiny. Klepnutím na tlačítko OK se vrátíte na stránku Systémy. </value>
+  </data>
+  <data name="GROUPRIGHTSADDFAILURE" xml:space="preserve">
+    <value>Uživatele {0}{1}{2} nebylo možné přidat jako správce pro skupinu {3}{4}{5}. Klepnutím na možnost Opakovat lze znovu přidat skupinu. Klepnutím na tlačítko OK se vrátíte na stránku Systémy. </value>
+  </data>
+  <data name="GROUPRIGHTSEDITSUCCESSFUL" xml:space="preserve">
+    <value>Práva správce {0}{1}{2} byla úspěšně upravena pro skupinu {3}{4}{5}. Klepnutím na tlačítko Opakovat provedete operace u dalších skupin stejného správce. Klepnutím na tlačítko OK se vrátíte na stránku Systémy.</value>
+  </data>
+  <data name="UIBASED" xml:space="preserve">
+    <value>Konzola správce</value>
+  </data>
+  <data name="SYNCBASED" xml:space="preserve">
+    <value>Modul synchronizace </value>
+  </data>
+  <data name="SEGREGATEDGROUPS" xml:space="preserve">
+    <value>Oddělené skupiny: </value>
+  </data>
+  <data name="BOTH" xml:space="preserve">
+    <value>Obojí </value>
+  </data>
+  <data name="CREATESEGREGATEDGROUPS" xml:space="preserve">
+    <value>Vytvořit oddělené skupiny</value>
+  </data>
+  <data name="ALLOWMODIFYSHARINGPOLICY" xml:space="preserve">
+    <value>Povolit změny zásad sdílení</value>
+  </data>
+  <data name="ALLOWMODIFYENCRYPTIONPOLICY" xml:space="preserve">
+    <value>Povolit změny zásad šifrování</value>
+  </data>
+  <data name="ALLOWUSERPROVISIONING" xml:space="preserve">
+    <value>Povolit poskytování uživatelů</value>
+  </data>
+  <data name="ALLOWUSERENABLING" xml:space="preserve">
+    <value>Povolit zapnutí/vypnutí uživatelů</value>
+  </data>
+  <data name="ALLOWORPHANIFOLDEROWNERSHIP" xml:space="preserve">
+    <value>Povolit vlastnictví osamocených složek iFolder</value>
+  </data>
+  <data name="ALLOWIFOLDERENABLING" xml:space="preserve">
+    <value>Povolit zapnutí/vypnutí složek iFolder</value>
+  </data>
+  <data name="ALLOWSHAREDMEMBERRIGHTS" xml:space="preserve">
+    <value>Povolit úpravy práv členů sdílené složky iFolder</value>
+  </data>
+  <data name="ALLOWDELETEIFOLDERRIGHTS" xml:space="preserve">
+    <value>Povolit oprávnění k odstranění složek iFolder</value>
+  </data>
+  <data name="ASSIGNADMINRIGHTS" xml:space="preserve">
+    <value>Přiřadit práva správce uživateli: </value>
+  </data>
+  <data name="ADMINRIGHTSFOR" xml:space="preserve">
+    <value>Práva správce pro: </value>
+  </data>
+  <data name="CANNOTSETUNLIMITED" xml:space="preserve">
+    <value>Nelze nastavit hodnotu Neomezeno, protože u skupiny je nastavena celková disková kvóta.</value>
+  </data>
+  <data name="CANNOTSETQUOTAPERUSERERROR" xml:space="preserve">
+    <value>Tento limit nelze nastavit, protože celková přidělená disková kvóta na uživatele překračuje kvótu skupiny.</value>
+  </data>
+  <data name="INVALIDGROUPQUOTA" xml:space="preserve">
+    <value>Celková disková kvóta skupiny je menší než přidělená/využitá disková kvóta jednotlivých uživatelů ve skupině. Odstraňte některá data na serveru nebo změňte přidělený limit disku na uživatele pro členy skupiny. Potom nastavte celkovou diskovou kvótu skupiny.</value>
+  </data>
+  <data name="NOMEMBERAVAILABLE" xml:space="preserve">
+    <value>Žádný člen není dostupný.</value>
+  </data>
+  <data name="NOPOLICIESAVAILABLE" xml:space="preserve">
+    <value>Nejsou k dispozici žádné zásady</value>
+  </data>
+  <data name="SAVETO" xml:space="preserve">
+    <value>Uložit do</value>
+  </data>
+  <data name="NOTAPPLICABLE" xml:space="preserve">
+    <value>Není k dispozici</value>
+  </data>
+  <data name="ONLINE" xml:space="preserve">
+    <value>Online</value>
+  </data>
+  <data name="OFFLINE" xml:space="preserve">
+    <value>Probíhá čekání</value>
+  </data>
+  <data name="WAITING" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="NOTELIGIBLE" xml:space="preserve">
+    <value>Inicializace se nezdařila</value>
+  </data>
+  <data name="CHANGEMASTER" xml:space="preserve">
+    <value>Nastavit jako hlavní</value>
+  </data>
+  <data name="NEEDSREPAIR" xml:space="preserve">
+    <value>Opravit server</value>
+  </data>
+  <data name="UNABLETOSETASSLAVE" xml:space="preserve">
+    <value>Nelze nastavit jako podřízený server. Opakujte operaci.</value>
+  </data>
+  <data name="CONFIGFILEUPDATEFAILED" xml:space="preserve">
+    <value>Nelze aktualizovat konfigurační soubor. Aktualizujte soubor simias.config ručně.</value>
+  </data>
+  <data name="CONNECTIONFAILED" xml:space="preserve">
+    <value>Nelze se připojit k serveru {0}.</value>
+  </data>
+  <data name="CHANGEMASTERNOINFOFAILED" xml:space="preserve">
+    <value>Nelze získat ID serveru a novou veřejnou adresu URL serveru.</value>
+  </data>
+  <data name="CHANGEMASTERSUCCESSFUL" xml:space="preserve">
+    <value>Byl inovován server {0} na hlavní server. Restartujte všechny servery, aby se změna projevila.</value>
+  </data>
+  <data name="CHANGEMASTERWITHWARNING" xml:space="preserve">
+    <value>Byl inovován server {0} jako hlavní server s výjimkami. Další informace najdete v protokolu Simias.log. Restartujte všechny servery, aby se změny projevily.</value>
+  </data>
+  <data name="CHANGEMASTERFAILED" xml:space="preserve">
+    <value>Nelze změnit hlavní a podřízený server. Další informace zjistíte v souborech protokolu.</value>
+  </data>
+  <data name="CONFIRMCHANGEMASTER" xml:space="preserve">
+    <value>Vybraný server bude vyhrazen jako hlavní server. Chcete pokračovat? Klepnutím na tlačítko OK budete pokračovat a klepnutím na tlačítko Storno akci ukončíte.</value>
+  </data>
+  <data name="UPDATEMASTERURLONSLAVESFAILED" xml:space="preserve">
+    <value>Nelze aktualizovat hlavní adresu URL na serveru {0}. Aktualizujte hlavní adresu IP na tomto serveru ručně.</value>
+  </data>
+  <data name="MASTERNODEUPDATEWAIT" xml:space="preserve">
+    <value>Čekání na synchronizaci atributu hlavního uzlu s hlavním a podřízenými objekty.</value>
+  </data>
+  <data name="CHANGEMASTERRETRY" xml:space="preserve">
+    <value>Nelze aktualizovat atribut hlavního uzlu v hlavním nebo podřízeném objektu. Opakujte operaci.</value>
+  </data>
+  <data name="running" xml:space="preserve">
+    <value>běží</value>
+  </data>
+  <data name="sleeping" xml:space="preserve">
+    <value>spánek</value>
+  </data>
+  <data name="disabled" xml:space="preserve">
+    <value>vypnuto</value>
+  </data>
+  <data name="shutdown" xml:space="preserve">
+    <value>ukončování</value>
+  </data>
+  <data name="waiting" xml:space="preserve">
+    <value>čeká</value>
+  </data>
+  <data name="TIMEOUT" xml:space="preserve">
+    <value>Vyřízení požadavku může trvat dlouho. V průběhu zpracování tohoto požadavku můžete provádět jiné úlohy.</value>
   </data>
 </root>

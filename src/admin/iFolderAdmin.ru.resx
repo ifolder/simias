@@ -3,7 +3,7 @@
   <!-- 
     Microsoft ResX Schema 
     
-    Version 1.3
+    Version 2.0
     
     The primary goals of this format is to allow a simple XML format 
     that is mostly human readable. The generation and parsing of the 
@@ -14,16 +14,17 @@
     
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
-    <resheader name="version">1.3</resheader>
+    <resheader name="version">2.0</resheader>
     <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
     <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-    <data name="Name1">this is my long string</data>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
     <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
     <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        [base64 mime encoded serialized .NET Framework object]
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
     </data>
     <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        [base64 mime encoded string representing a byte array form of the .NET Framework object]
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
     </data>
                 
     There are any number of "resheader" rows that contain simple 
@@ -35,7 +36,7 @@
     Classes that don't support this are serialized and stored with the 
     mimetype set.
     
-    The mimetype is used forserialized objects, and tells the 
+    The mimetype is used for serialized objects, and tells the 
     ResXResourceReader how to depersist the object. This is currently not 
     extensible. For a given mimetype the value must be set accordingly:
     
@@ -45,7 +46,7 @@
     
     mimetype: application/x-microsoft.net.object.binary.base64
     value   : The object must be serialized with 
-            : System.Serialization.Formatters.Binary.BinaryFormatter
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
     
     mimetype: application/x-microsoft.net.object.soap.base64
@@ -59,18 +60,37 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
                 <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
                 <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
               <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
               <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
@@ -89,1311 +109,1325 @@
     <value>text/microsoft-resx</value>
   </resheader>
   <resheader name="version">
-    <value>1.3</value>
+    <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="LOGINREDIRECT">
-    <value>URL-адрес сервера iFolder нужно обновить.</value>
-  </data>
-  <data name="FIRST">
-    <value>Первый</value>
-  </data>
-  <data name="ERRORINVALIDDATA">
-    <value>Все поля обязательны. Проверьте и повторите ввод</value>
-  </data>
-  <data name="LOGIN">
-    <value>Вход в систему</value>
-  </data>
-  <data name="UNABLETOEDITIPDETAILS">
-    <value>Невозможно изменить информацию IP. Проверьте значения. </value>
-  </data>
-  <data name="SHARINGPOLICYVIOLATION">
-    <value> Данная папка iFolder не может совместно использоваться, так как совместное использование запрещено</value>
-  </data>
-  <data name="ENABLE">
-    <value>Включить</value>
-  </data>
-  <data name="MEMBERS">
-    <value>Члены</value>
-  </data>
-  <data name="ASSIGNADMINRIGHTS">
-    <value>Назначить права администратора пользователю: </value>
-  </data>
-  <data name="LDAPADMINNAME">
-    <value>Характерное имя пользователя Admin в LDAP:</value>
-  </data>
-  <data name="SERVERSTATUSDOWN">
-    <value>Сервер недоступен</value>
-  </data>
-  <data name="NOOFIFOLDERS">
-    <value>Число папок iFolder</value>
-  </data>
-  <data name="HOMESERVERNAME">
-    <value>Основной сервер</value>
-  </data>
-  <data name="LDAPDETAILS">
-    <value>Информация о LDAP</value>
-  </data>
-  <data name="FRENCH">
-    <value>Французский</value>
-  </data>
-  <data name="ERRORCANNOTDELETEMEMBERS">
-    <value>Невозможно удалить члена папки iFolder {0}.</value>
-  </data>
-  <data name="ENDSWITH">
-    <value>Заканчивается на</value>
-  </data>
-  <data name="ERRORPROXYPASSWORDSDOESNOTMATCH">
-    <value>Пароли прокси-пользователя не совпадают. Введите правильный пароль</value>
-  </data>
-  <data name="REPORTDIRECTORYTAG">
-    <value>каталог:</value>
-  </data>
-  <data name="SERVERREPORTS">
-    <value>Отчеты сервера</value>
-  </data>
-  <data name="SERVERLOGS">
-    <value>Журналы сервера</value>
-  </data>
-  <data name="PRIVATEURI">
-    <value>Внутренний URL:</value>
-  </data>
-  <data name="EDITLDAPDETAILS">
-    <value>Изменить информацию о LDAP</value>
-  </data>
-  <data name="PREVIOUSPAGE">
-    <value>Предыдущая страница</value>
-  </data>
-  <data name="PRIVATEURL">
-    <value>Частный URL</value>
-  </data>
-  <data name="NOTAVAILABLE">
-    <value>Недоступно</value>
-  </data>
-  <data name="PUBLICURL">
-    <value>Общий URL</value>
-  </data>
-  <data name="PORTUGUESE">
-    <value>Португальский</value>
-  </data>
-  <data name="LOGGEDONUSERSTAG">
-    <value>Вошедшие в систему пользователи:</value>
-  </data>
-  <data name="ORPHANED">
-    <value>С нарушенными ассоциациями</value>
-  </data>
-  <data name="KB">
-    <value>Кб</value>
-  </data>
-  <data name="SERVERSTATUS">
-    <value>Состояние сервера</value>
-  </data>
-  <data name="IFOLDER">
-    <value>iFolder</value>
-  </data>
-  <data name="REPROVISOINSTATE">
-    <value>Состояние изменения доступа</value>
-  </data>
-  <data name="CHANGEMASTERFAILED">
-    <value>Не удается изменить главный и подчиненный узел. Дополнительную информацию см. в файлах журнала.</value>
-  </data>
-  <data name="COMPLETEDTAG">
-    <value>Завершено:</value>
-  </data>
-  <data name="ENTERLDAPDETAILS">
-    <value>Введите учетные данные пользователя Admin в LDAP</value>
-  </data>
-  <data name="MEMBERTYPELDAPGROUP">
-    <value>Группа LDAP</value>
-  </data>
-  <data name="REPROVISIONLIST">
-    <value>Состояние изменения доступа в системе iFolder</value>
-  </data>
-  <data name="SHARED">
-    <value>Совместное использование</value>
-  </data>
-  <data name="USEDTAG">
-    <value>Используется:</value>
-  </data>
-  <data name="NEEDSREPAIR">
-    <value>Восстановить сервер</value>
-  </data>
-  <data name="MEMBERTYPETAG">
-    <value>Тип члена:</value>
-  </data>
-  <data name="NONE">
-    <value>Нет</value>
-  </data>
-  <data name="ERRORIFOLDERTRANSFEREXCEPTION">
-    <value>Владение не может быть передано из-за превышения предельного количества папок iFolder, установленного администратором.</value>
-  </data>
-  <data name="running">
-    <value>выполняется</value>
-  </data>
-  <data name="ERRORCANNOTDELETESECONDARYADMIN">
-    <value>Не удается удалить дополнительного администратора {0}.</value>
-  </data>
-  <data name="MASTER">
-    <value>Главный</value>
-  </data>
-  <data name="ERRORCANNOTCREATEIFOLDER">
-    <value>Невозможно создать iFolder.</value>
-  </data>
-  <data name="CONFIRMDELETION">
-    <value>ВАЖНО: DataPath удалится только в том случае, если в нем не создано папок iFolder.</value>
-  </data>
-  <data name="ERRORNOIFOLDERLIMIT">
-    <value>Не указано значение ограничения для папки iFolder.</value>
-  </data>
-  <data name="ERRORCANNOTEDITSECONDARYADMIN">
-    <value>Не удается изменить дополнительного администратора {0}.</value>
-  </data>
-  <data name="NEXTPAGE">
-    <value>Следующая страница</value>
-  </data>
-  <data name="CHINESE-TRADITIONAL">
-    <value>Китайский традиционный</value>
-  </data>
-  <data name="MODIFIEDTAG">
-    <value>Изменено:</value>
-  </data>
-  <data name="ERRORCANNOTCHANGERIGHTS">
-    <value>Невозможно изменить права на членство для пользователя {0}.</value>
-  </data>
-  <data name="CHANGEMASTER">
-    <value>Установить главным</value>
-  </data>
-  <data name="FULLNAME">
-    <value>Полное имя</value>
-  </data>
-  <data name="sleeping">
-    <value>спящий режим</value>
-  </data>
-  <data name="LOGINNOCOOKIES">
-    <value>Необходимо включить файлы Cookie в средстве просмотра.</value>
-  </data>
-  <data name="NEXT">
-    <value>Следующий</value>
-  </data>
-  <data name="WEEKLY">
-    <value>Еженедельно</value>
-  </data>
-  <data name="shutdown">
-    <value>выключение</value>
-  </data>
-  <data name="REPORTIFOLDERTAG">
-    <value>Папка iFolder:</value>
-  </data>
-  <data name="DISKSPACEUSED">
-    <value>Используемое место на диске: </value>
-  </data>
-  <data name="VOLUMES">
-    <value>Тома</value>
-  </data>
-  <data name="NEWHOMETAG">
-    <value>Новый основной:</value>
-  </data>
-  <data name="ACCESSDENIED">
-    <value>Доступ запрещен для этого ресурса</value>
-  </data>
-  <data name="LOGINLOGOUT">
-    <value>Вы вышли из системы iFolder.</value>
-  </data>
-  <data name="FIRSTNAME">
-    <value>Имя</value>
-  </data>
-  <data name="CURRENTHOME">
-    <value>Текущий основной</value>
-  </data>
-  <data name="USERS">
-    <value>Пользователи</value>
-  </data>
-  <data name="ALLADMINS">
-    <value>Все администраторы</value>
-  </data>
-  <data name="LASTPAGE">
-    <value>Последняя страница</value>
-  </data>
-  <data name="CANNOTSETQUOTAPERUSERERROR">
-    <value>Не удается задать это ограничение, так как общая выделенная дисковая квота на члена превышает квоту группы</value>
-  </data>
-  <data name="ERRORDETAIL">
-    <value>Информация об ошибке</value>
-  </data>
-  <data name="USERNAME">
-    <value>Имя пользователя</value>
-  </data>
-  <data name="SAVETO">
-    <value>Сохранить в</value>
-  </data>
-  <data name="SIZETAG">
-    <value>Размер:</value>
-  </data>
-  <data name="FILENAME">
-    <value>Имя файла</value>
-  </data>
-  <data name="LOGINNOSCRIPT">
-    <value>Необходимо включить сценарии в средстве просмотра.</value>
-  </data>
-  <data name="CONFIGUREREPORTING">
-    <value>Настройка системы отчетов</value>
-  </data>
-  <data name="EQUALS">
-    <value>Равно</value>
-  </data>
-  <data name="INVALIDLDAPADMINORPASSWORD">
-    <value>Неверный ИД или пароль пользователя Admin в LDAP</value>
-  </data>
-  <data name="RUSSIAN">
-    <value>Русский</value>
-  </data>
-  <data name="ERRORINVALIDQUOTA">
-    <value>Указано неверное значение квоты дискового пространства. Диапазон значений: от 1 до 2e+063 - 1.</value>
-  </data>
-  <data name="CONTAINS">
-    <value>Содержит</value>
-  </data>
-  <data name="ALLOWUSERPROVISIONING">
-    <value>Разрешить обеспечение пользователей правами доступа</value>
-  </data>
-  <data name="USER">
-    <value>Пользователь</value>
-  </data>
-  <data name="ERRORINVALIDIFOLDERLIMIT">
-    <value>Указано неверное значение ограничения для папки iFolder. Значение должно быть в диапазоне 0 и 2e+063 - 1.</value>
-  </data>
-  <data name="ON">
-    <value>Вкл.</value>
-  </data>
-  <data name="ERRORSELECTGROUP">
-    <value>Ошибка: для продолжения выберите группу</value>
-  </data>
-  <data name="OK">
-    <value>ОК</value>
-  </data>
-  <data name="READWRITE">
-    <value>Чтение/запись</value>
-  </data>
-  <data name="ADDMEMBERSTOIFOLDER">
-    <value>Добавление дополнительных пользователей для iFolder "{0}"</value>
-  </data>
-  <data name="UIBASED">
-    <value>Консоль администратора</value>
-  </data>
-  <data name="LDAPMEMBERDELETEGRACEINT">
-    <value>Дополнительный интервал:</value>
-  </data>
-  <data name="ADDMEMBERS">
-    <value>Добавить пользователей iFolder</value>
-  </data>
-  <data name="NOMEMBERAVAILABLE">
-    <value>Члены не доступны</value>
-  </data>
-  <data name="ALLOW">
-    <value>Разрешить</value>
-  </data>
-  <data name="FIRSTPAGE">
-    <value>Первая страница</value>
-  </data>
-  <data name="EDITSECONDARYADMIN">
-    <value>Изменить дополнительного администратора: </value>
-  </data>
-  <data name="GROUPLISTTAG">
-    <value>Группы пользователей:</value>
-  </data>
-  <data name="ADDADMINS">
-    <value>Добавить администраторов</value>
-  </data>
-  <data name="MINUTES">
-    <value>Мин.</value>
-  </data>
-  <data name="REPORTIFOLDER">
-    <value>Создать отчет iFolder</value>
-  </data>
-  <data name="GROUPNAME">
-    <value>Имя группы</value>
-  </data>
-  <data name="BOTH">
-    <value>Оба </value>
-  </data>
-  <data name="JAPANESE">
-    <value>Японский</value>
-  </data>
-  <data name="SERVERNAMETAG">
-    <value>Сервер:</value>
-  </data>
-  <data name="ERRORTYPE">
-    <value>Непредвиденная ошибка</value>
-  </data>
-  <data name="SECONDARY">
-    <value>Дополнит.</value>
-  </data>
-  <data name="LASTNAMETAG">
-    <value>Фамилия:</value>
-  </data>
-  <data name="MONTHLY">
-    <value>Ежемесячно</value>
-  </data>
-  <data name="LDAPPROXYUSERPWD">
-    <value>Пароль прокси-пользователя:</value>
-  </data>
-  <data name="MAXCONNECTIONSTAG">
-    <value>Максимум подключений:</value>
-  </data>
-  <data name="LASTMODIFIED">
-    <value>Последнее изменение</value>
-  </data>
-  <data name="LOGINFAILED">
-    <value>Сбой:</value>
-  </data>
-  <data name="MEMBERTYPEUSER">
-    <value>Пользователь</value>
-  </data>
-  <data name="ERRORINVALIDLIMIT">
-    <value>Указано неправильное значение ограничения размера файла. Значение не должно превышать квоту дискового пространства.</value>
-  </data>
-  <data name="LOGINERROR">
-    <value>Ошибка:</value>
-  </data>
-  <data name="CHANGEMASTERNOINFOFAILED">
-    <value>Не удается получить идентификатор сервера и новый общедоступный URL-адрес сервера.</value>
-  </data>
-  <data name="OWNED">
-    <value>Владелец</value>
-  </data>
-  <data name="CHANGEMASTERRETRY">
-    <value>Не удается обновить атрибут главного узла на главном и подчиненном узлах. Повторите операцию.</value>
-  </data>
-  <data name="USERSTAG">
-    <value>Пользователи:</value>
-  </data>
-  <data name="GERMAN">
-    <value>Немецкий</value>
-  </data>
-  <data name="NO">
-    <value>Нет</value>
-  </data>
-  <data name="FATAL">
-    <value>Фатальный</value>
-  </data>
-  <data name="ERRORCANNOTCREATEUSER">
-    <value>Невозможно создать пользователя.</value>
-  </data>
-  <data name="OWNER">
-    <value>Владелец</value>
-  </data>
-  <data name="WARN">
-    <value>Предупреждение</value>
-  </data>
-  <data name="OUTPUT">
-    <value>Вывод</value>
-  </data>
-  <data name="OFFLINE">
-    <value>Ожидание</value>
-  </data>
-  <data name="DAILY">
-    <value>Ежедневно</value>
-  </data>
-  <data name="SECONDARYADMIN">
-    <value>Дополнительный администратор</value>
-  </data>
-  <data name="OWNERTAG">
-    <value>Владелец:</value>
-  </data>
-  <data name="HOME">
-    <value>Основной сервер</value>
-  </data>
-  <data name="LOGINSENDFAILED">
-    <value>Не удается взаимодействовать с сервером iFolder.</value>
-  </data>
-  <data name="ALLOWMODIFYSHARINGPOLICY">
-    <value>Разрешить изменение политик совместного использования</value>
-  </data>
-  <data name="NOTMOUNTED">
-    <value>Не смонтирован</value>
-  </data>
-  <data name="FULLNAMEDISLAYTAG">
-    <value>Отображение имени:</value>
-  </data>
-  <data name="ADDNEWORSELECTGROUPTOEDIT">
-    <value>Добавить или изменить выбранные группы администратора</value>
-  </data>
-  <data name="HELP">
-    <value>Справка</value>
-  </data>
-  <data name="SIZE">
-    <value>Размер</value>
-  </data>
-  <data name="READONLY">
-    <value>Только чтение</value>
-  </data>
-  <data name="LDAPSERVER">
-    <value>Сервер LDAP:</value>
-  </data>
-  <data name="IFOLDERUSERS">
-    <value>Пользователи iFolder</value>
-  </data>
-  <data name="waiting">
-    <value>ожидание</value>
-  </data>
-  <data name="INVALIDFULLPATH">
-    <value>Указан неправильный путь. Проверьте и выполните ввод еще раз.</value>
-  </data>
-  <data name="ALLOWSHAREDMEMBERRIGHTS">
-    <value>Разрешить изменение прав членов совместно используемой папки iFolder</value>
-  </data>
-  <data name="ADDDATASTORE">
-    <value>Добавить хранилище данных</value>
-  </data>
-  <data name="DEBUG">
-    <value>Отладка</value>
-  </data>
-  <data name="LOGOUT">
-    <value>Выход из системы</value>
-  </data>
-  <data name="FULLPATH:">
-    <value>Полный путь:</value>
-  </data>
-  <data name="ERRORCANNOTSETIFOLDERPOLICY">
-    <value>Невозможно установить информацию о политике для ИД iFolder {0}.</value>
-  </data>
-  <data name="INHEIRITEDPOLICY">
-    <value>(Наследуемая политика)</value>
-  </data>
-  <data name="REMOVEMEMBERS">
-    <value>Удаленные пользователи</value>
-  </data>
-  <data name="SELECTEDUSERS">
-    <value>Выбранные пользователи</value>
-  </data>
-  <data name="RESTARTSERVER">
-    <value>Информация обновлена. Изменения вступят в силу после перезапуска сервера iFolder. </value>
-  </data>
-  <data name="PUBLICURI">
-    <value>Внешний URL:</value>
-  </data>
-  <data name="ALLOWORPHANIFOLDEROWNERSHIP">
-    <value>Разрешить владение папками iFolder с нарушенными ассоциациями</value>
-  </data>
-  <data name="INVALIDCERTIFICATE">
-    <value>Сбой аутентификации, проблема с сертификатом Ldap или сертификатом сервера iFolder</value>
-  </data>
-  <data name="SERVERDETAILS">
-    <value>Информация о сервере</value>
-  </data>
-  <data name="USERLOGINDISABLED">
-    <value>Отключить пользовательский вход в систему</value>
-  </data>
-  <data name="NOTAPPLICABLE">
-    <value>Н/Д</value>
-  </data>
-  <data name="TYPETAG">
-    <value>Тип:</value>
-  </data>
-  <data name="PRIVATEIPTAG">
-    <value>Частный IP-адрес:</value>
-  </data>
-  <data name="LOGINCONNECTFAILED">
-    <value>Невозможно подключиться к серверу iFolder.</value>
-  </data>
-  <data name="LDAPSTATUSTAG">
-    <value>Состояние:</value>
-  </data>
-  <data name="REFRESH">
-    <value>Обновить</value>
-  </data>
-  <data name="SAVE">
-    <value>Сохран.</value>
-  </data>
-  <data name="ERRORNOFILESIZE">
-    <value>Ограничение на размер файла не указано.</value>
-  </data>
-  <data name="DISKSPACEUSEDTAG">
-    <value>Используемое дисковое пространство:</value>
-  </data>
-  <data name="EFFECTIVETAG">
-    <value>Действующий:</value>
-  </data>
-  <data name="USERMOVEDETAILS">
-    <value>Сведения об изменении доступа пользователей</value>
-  </data>
-  <data name="FILESTAG">
-    <value>Файлы:</value>
-  </data>
-  <data name="FILETYPEALREADYEXISTS">
-    <value>Указанное имя файла уже существует в списке.</value>
-  </data>
-  <data name="SLAVE">
-    <value>Подчиненный</value>
-  </data>
-  <data name="PROVISIONUSERS">
-    <value>provisionusers</value>
-  </data>
-  <data name="FILESIZE">
-    <value>Размер файла</value>
-  </data>
-  <data name="NAME">
-    <value>Имя</value>
-  </data>
-  <data name="LOGINACCOUNTDISABLED">
-    <value>Учетная запись отключена и недоступна.</value>
-  </data>
-  <data name="DESCRIPTIONTAG">
-    <value>Описание:</value>
-  </data>
-  <data name="SYNCHRONIZATION">
-    <value>Синхронизация</value>
-  </data>
-  <data name="PATHTOOLONGEXCEPTION">
-    <value>Слишком длинное имя для создания папки iFolder.</value>
-  </data>
-  <data name="LOGGEDINAS">
-    <value>Вошел в систему как</value>
-  </data>
-  <data name="FULLNAMEDISPLAYORDER">
-    <value>Порядок отображения полного имени:</value>
-  </data>
-  <data name="TOTALTAG">
-    <value>Всего: </value>
-  </data>
-  <data name="INFO">
-    <value>Информация</value>
-  </data>
-  <data name="ADMINRIGHTSFOR">
-    <value>Права администратора для: </value>
-  </data>
-  <data name="PROVISIONREPROVISION">
-    <value>Пред.доступа/Изменение доступа</value>
-  </data>
-  <data name="ALL">
-    <value>Все</value>
-  </data>
-  <data name="GB">
-    <value>Гб</value>
-  </data>
-  <data name="SEARCH">
-    <value>Поиск</value>
-  </data>
-  <data name="ALLOWMODIFYENCRYPTIONPOLICY">
-    <value>Разрешить изменение политики шифрования</value>
-  </data>
-  <data name="MEMBER">
-    <value>Член</value>
-  </data>
-  <data name="FILES">
-    <value>Файлы</value>
-  </data>
-  <data name="ERRORCANNOTREMOVEADMIN">
-    <value>Невозможно удалить пользователя {0} как администратора.</value>
-  </data>
-  <data name="CHANGEMASTERWITHWARNING">
-    <value>{0} обновлен как главный сервер без исключений. Дополнительную информацию см. в файле Simias.log. Перезагрузите все серверы для вступления изменений в силу.</value>
-  </data>
-  <data name="PASSWORDSDONOTMATCH">
-    <value>Пароли не совпадают.</value>
-  </data>
-  <data name="SERVER">
-    <value>Сервер</value>
-  </data>
-  <data name="ALLOWIFOLDERENABLING">
-    <value>Разрешить включение и отключение папок iFolder</value>
-  </data>
-  <data name="LDAPPROXYUSER">
-    <value>Прокси-пользователь:</value>
-  </data>
-  <data name="SESSIONSTAG">
-    <value>Сеансы:</value>
-  </data>
-  <data name="AVAILABLETAG">
-    <value>Доступно:</value>
-  </data>
-  <data name="ERRORLOCKEXCEPTION">
-    <value>Операция была отменена, так как папка iFolder была заблокирована или запрещена администратором.</value>
-  </data>
-  <data name="SESSIONCLOSED">
-    <value>Введенные имя пользователя и пароль неверны. Выполните вход.</value>
-  </data>
-  <data name="DNSNAMETAG">
-    <value>DNS-имя:</value>
-  </data>
-  <data name="NEWFILETYPE">
-    <value>Тип нового файла</value>
-  </data>
-  <data name="BOTHSTRING">
-    <value>ОБА</value>
-  </data>
-  <data name="ENABLEDTAG">
-    <value>Включено:</value>
-  </data>
-  <data name="ERRORCANNOTADDMEMBER">
-    <value>Невозможно добавить пользователя {0} для iFolder {1}.</value>
-  </data>
-  <data name="FULLPATH">
-    <value>Полный путь</value>
-  </data>
-  <data name="ENABLED">
-    <value>Включено</value>
-  </data>
-  <data name="SHARING">
-    <value>Совместное использование</value>
-  </data>
-  <data name="ADMINISTRATOR">
-    <value>Администратор</value>
-  </data>
-  <data name="NOITEMSFOUND">
-    <value>Элементы не найдены.</value>
-  </data>
-  <data name="ENGLISH">
-    <value>Английский</value>
-  </data>
-  <data name="NOSERVER">
-    <value>Сервер не выбран</value>
-  </data>
-  <data name="LIMITTAG">
-    <value>Ограничение:</value>
-  </data>
-  <data name="ADDNEW">
-    <value>Добавить</value>
-  </data>
-  <data name="LDAPADMINAUTH">
-    <value>ldapadminauth</value>
-  </data>
-  <data name="LASTNAME">
-    <value>Фамилия</value>
-  </data>
-  <data name="INITIALIZING">
-    <value>Инициализация</value>
-  </data>
-  <data name="PUBLICIPTAG">
-    <value>Внешний IP-адрес:</value>
-  </data>
-  <data name="ORPHANTAG">
-    <value>С нарушенными ассоциациями:</value>
-  </data>
-  <data name="GROUPRIGHTSADDSUCCESSFUL">
-    <value>Пользователь {0}{1}{2} добавлен в качестве администратора группы {3}{4}{5}. Чтобы добавить группы для одного администратора, можно изменить права дополнительного администратора. Для добавления дополнительных групп щелкните "Повторить". Чтобы вернуться на страницу "Системы", щелкните "ОК". </value>
-  </data>
-  <data name="LINKALREADYEXISTS">
-    <value>Ссылка на это имя уже существует</value>
-  </data>
-  <data name="GROUPADMINS">
-    <value>Администраторы группы</value>
-  </data>
-  <data name="ERRORCANNOTCHANGEOWNER">
-    <value>Невозможно изменить членство iFolder.</value>
-  </data>
-  <data name="ERRORIFOLDERENCRYPTIONENFORCED">
-    <value>Этот член не может владеть обычной папкой iFolder, поскольку на него распространяется политика шифрования.</value>
-  </data>
-  <data name="SELECTSERVER">
-    <value>Выберите сервер для персонификации или изменения доступа этих пользователей</value>
-  </data>
-  <data name="IFOLDERSTAG">
-    <value>Папки iFolder:</value>
-  </data>
-  <data name="NEWIFOLDERNAMETAG">
-    <value>Имя iFolder:</value>
-  </data>
-  <data name="TIME">
-    <value>Время</value>
-  </data>
-  <data name="CONFIGFILEUPDATEFAILED">
-    <value>Не удается обновить конфигурационный файл. Обновите файл simias.config вручную.</value>
-  </data>
-  <data name="LOGINSECUREFAILED">
-    <value>Не удается взаимодействовать с сервером iFolder в защищенном режиме.</value>
-  </data>
-  <data name="CONFIRMCHANGEMASTER">
-    <value>Выбранный сервер будет обозначен главным. Продолжить? Щелкните кнопку \"ОК\", чтобы продолжить, или кнопку \"Отмена\" для отмены.</value>
-  </data>
-  <data name="LOGINPASSWORD">
-    <value>Пароль:</value>
-  </data>
-  <data name="LAST">
-    <value>Последний</value>
-  </data>
-  <data name="BACK">
-    <value>Назад</value>
-  </data>
-  <data name="ERRORINVALIDFILESIZE">
-    <value>Указано неверное значение ограничения на размер файла. Диапазон значений: от 1 до 2e+063 - 1.</value>
-  </data>
-  <data name="ERRORCANNOTADDSECONDARYADMIN">
-    <value>Не удается добавить члена {0} в качестве дополнительного администратора.</value>
-  </data>
-  <data name="ERRORTEMPLATE">
-    <value>Ошибка: {0}</value>
-  </data>
-  <data name="REPEAT">
-    <value>Повторить</value>
-  </data>
-  <data name="LOGINLOSTSESSION">
-    <value>Сеанс закрыт. Войдите в систему.</value>
-  </data>
-  <data name="CANCEL">
-    <value>Отмена</value>
-  </data>
-  <data name="IFOLDERDISABLED">
-    <value>Выключить синхронизацию</value>
-  </data>
-  <data name="CONFIRMENCRYPTION">
-    <value>Параметр шифрования с контрольной фразой позволяет зашифровать отдельную папку iFolder с применением контрольной фразы, заданной пользователем. После включения параметра его можно отключить, однако в случае сохранения с включенным параметром изменения становятся необратимыми. Щелкните \"ОК\" для сохранения изменений или \"Отмена\" для продолжения работы с текущей страницей без сохранения. </value>
-  </data>
-  <data name="IFOLDERS">
-    <value>Папки iFolder</value>
-  </data>
-  <data name="NOPOLICIESAVAILABLE">
-    <value>Доступные политики отсутствуют</value>
-  </data>
-  <data name="ADMINISTRATORS">
-    <value>Администраторы</value>
-  </data>
-  <data name="SELECTGROUPTODELETE">
-    <value>Выбор групп для удаления</value>
-  </data>
-  <data name="FORMATTAG">
-    <value>Формат:</value>
-  </data>
-  <data name="FILE">
-    <value>Файл</value>
-  </data>
-  <data name="CONFIRMLDAPPROXYUSERPWD">
-    <value>Подтверждение пароля прокси-пользователя:</value>
-  </data>
-  <data name="UNABLETOEDITLDAPDETAILS">
-    <value>Невозможно изменить информацию LDAP на эти значения. Проверьте значения. </value>
-  </data>
-  <data name="RETYPEPASSWORDTAG">
-    <value>Повторный ввод пароля:</value>
-  </data>
-  <data name="USERDETAILS">
-    <value>Информация о пользователе</value>
-  </data>
-  <data name="DELETED">
-    <value>Удалено</value>
-  </data>
-  <data name="CURRENTHOMETAG">
-    <value>Текущий основной:</value>
-  </data>
-  <data name="DENY">
-    <value>Запретить</value>
-  </data>
-  <data name="LOGINTRUSTFAILED">
-    <value>Отсутствие соответствия критериям между сервером iFolder и веб-клиентом iFolder.</value>
-  </data>
-  <data name="NEWHOME">
-    <value>Новый основной</value>
-  </data>
-  <data name="PRIMARY">
-    <value>Основной</value>
-  </data>
-  <data name="TOTALUSERSTAG">
-    <value>Всего пользователей:</value>
-  </data>
-  <data name="WEBACCESSLOGFILE">
-    <value>Веб-доступ</value>
-  </data>
-  <data name="ERRORUSERDOESNOTEXIST">
-    <value>Указанный пользователь iFolder не существует.</value>
-  </data>
-  <data name="LOGINCOPYRIGHT">
-    <value>&amp;copy; Авторские права 2010 Novell, Inc. Все права защищены.</value>
-  </data>
-  <data name="GENERATEWEEKLYREPORT">
-    <value>Формировать отчет каждые {0} в {1} для {2}</value>
-  </data>
-  <data name="VIEW">
-    <value>Просмотр</value>
-  </data>
-  <data name="SERVERS">
-    <value>Серверы</value>
-  </data>
-  <data name="GENERATEDAILYREPORT">
-    <value>Формировать отчет каждый день в {0} для {1}</value>
-  </data>
-  <data name="MASTERNODEUPDATEWAIT">
-    <value>Ожидание синхронизации атрибута главного узла с новым главным и подчиненными узлами.</value>
-  </data>
-  <data name="ERRORCANNOTDELETEUSER">
-    <value>Невозможно удалить ИД пользователя {0}.</value>
-  </data>
-  <data name="DISKQUOTA">
-    <value>Квота диска</value>
-  </data>
-  <data name="INVALIDLIMITERROR">
-    <value>Невозможно создать папку iFolder, так как превышено ограничение папок, установленное администратором.</value>
-  </data>
-  <data name="DNSNAME">
-    <value>DNS-имя</value>
-  </data>
-  <data name="ALLOWUSERENABLING">
-    <value>Разрешить включение и отключение пользователей</value>
-  </data>
-  <data name="NOTELIGIBLE">
-    <value>Сбой инициализации</value>
-  </data>
-  <data name="ACCESSDENIEDERROR">
-    <value>У пользователя, выполнившего вход в систему, нет прав на просмотр и изменение свойств этой страницы</value>
-  </data>
-  <data name="TOTALIFOLDERSTAG">
-    <value>Всего папок iFolder:</value>
-  </data>
-  <data name="LOGINIFOLDERSERVER">
-    <value>Сервер iFolder:</value>
-  </data>
-  <data name="SELECTMEMBERTOADD">
-    <value>Выберите нового дополнительного администратора</value>
-  </data>
-  <data name="ERRORINVALIDIDSYNCINTERVAL">
-    <value>Указан недопустимый интервал синхронизации. Значение должно быть от 5 до 10080.</value>
-  </data>
-  <data name="IDENTITYSYNCTAG">
-    <value>Синхронизация электронных персон:</value>
-  </data>
-  <data name="ERRORACCESSEXCEPTION">
-    <value>Недостаточно прав для выполнения этого запроса.</value>
-  </data>
-  <data name="DIRECTORIESTAG">
-    <value>Каталоги:</value>
-  </data>
-  <data name="LDAPCYCLES">
-    <value>Циклы:</value>
-  </data>
-  <data name="ADD">
-    <value>Добавить</value>
-  </data>
-  <data name="DISABLE">
-    <value>Запретить</value>
-  </data>
-  <data name="disabled">
-    <value>отключено</value>
-  </data>
-  <data name="ENABLEREPORTING">
-    <value>Включить формирование отчетов</value>
-  </data>
-  <data name="IFOLDERUSERDETAILS">
-    <value>Информация о пользователе iFolder</value>
-  </data>
-  <data name="SLOVAK">
-    <value>Словацкий</value>
-  </data>
-  <data name="UPDATEMASTERURLONSLAVESFAILED">
-    <value>Не удалось обновить новый главный URL-адрес на сервере {0}. Обновите главный IP-адрес на этом сервере вручную.</value>
-  </data>
-  <data name="ONLINE">
-    <value>Включен</value>
-  </data>
-  <data name="ALLFIELDSREQUIRED">
-    <value>Необходимо заполнить все поля.</value>
-  </data>
-  <data name="CSVFORMAT">
-    <value>Текст CSV</value>
-  </data>
-  <data name="ERRORMEMBERDOESNOTEXIST">
-    <value>Пользователь iFolder не существует.</value>
-  </data>
-  <data name="LOGINLANGUAGE">
-    <value>Язык:</value>
-  </data>
-  <data name="INTERVALTAG">
-    <value>Интервал:</value>
-  </data>
-  <data name="SELECTIFOLDEROWNER">
-    <value>Выберите владельца для папки "{0}"</value>
-  </data>
-  <data name="IFOLDERADMINS">
-    <value>Администраторы iFolder</value>
-  </data>
-  <data name="NAME:">
-    <value>Имя:</value>
-  </data>
-  <data name="COMPLETED">
-    <value>Завершено</value>
-  </data>
-  <data name="CZECH">
-    <value>Чешский</value>
-  </data>
-  <data name="GROUPQUOTARESTRICTION">
-    <value>Управлять квотой группы с помощью: </value>
-  </data>
-  <data name="MEMBERLISTTAG">
-    <value>Члены группы:</value>
-  </data>
-  <data name="ERRORCANNOTADDADMIN">
-    <value>Невозможно добавить пользователя {0} как администратора.</value>
-  </data>
-  <data name="LDAPUPSINCE">
-    <value>Время работы:</value>
-  </data>
-  <data name="DAYTAG">
-    <value>День:</value>
-  </data>
-  <data name="TYPE">
-    <value>Тип</value>
-  </data>
-  <data name="CREATE">
-    <value>Создать</value>
-  </data>
-  <data name="USERNAMETAG">
-    <value>Имя пользователя:</value>
-  </data>
-  <data name="PAGENUMBERFORMAT">
-    <value>{0} - {1} из {2} {3}</value>
-  </data>
-  <data name="MASTERURI">
-    <value>Главный URL:</value>
-  </data>
-  <data name="YES">
-    <value>Да</value>
-  </data>
-  <data name="INVALIDGROUPQUOTA">
-    <value>Совокупная дисковая квота для группы меньше, чем выделенная/используемая квота для каждого пользователя этой группы. Удалите часть данных на сервере либо измените выделенное ограничение дискового пространства на пользователя для членов группы. Затем установите совокупную дисковую квоту.</value>
-  </data>
-  <data name="PROVISION">
-    <value>Предоставление доступа</value>
-  </data>
-  <data name="ERRORINVALIDSYNCINTERVAL">
-    <value>Указан неверный интервал синхронизации. Диапазон значений: от 5 до 999.</value>
-  </data>
-  <data name="REPROVISIONBUTTON">
-    <value>Состояние изменения доступа</value>
-  </data>
-  <data name="MEMBERTYPELOCALGROUP">
-    <value>Локальная группа</value>
-  </data>
-  <data name="TRUE">
-    <value>Истина</value>
-  </data>
-  <data name="EDITADMINRIGHTS">
-    <value>Изменить права администратора</value>
-  </data>
-  <data name="DATASTORE">
-    <value>Хранилище данных</value>
-  </data>
-  <data name="FULLCONTROL">
-    <value>Полный контроль</value>
-  </data>
-  <data name="GENERATEMONTHLYREPORT">
-    <value>Формировать отчет в {0} день каждого месяца в {1} для {2}</value>
-  </data>
-  <data name="REPORTDIRECTORY">
-    <value>Каталог отчета</value>
-  </data>
-  <data name="ATTAG">
-    <value>В:</value>
-  </data>
-  <data name="SPANISH">
-    <value>Испанский</value>
-  </data>
-  <data name="ELLIPSES">
-    <value> ...</value>
-  </data>
-  <data name="ERRORINSTRUCTIONS">
-    <value>&lt;p&gt;Произошла неожиданная ошибка веб-клиента iFolder.&lt;/p&gt; &lt;p&gt;Приносим извинения за причиненные неудобства. Выйдите из системы и повторите попытку.&lt;/p&gt;</value>
-  </data>
-  <data name="POLISH">
-    <value>Польский</value>
-  </data>
-  <data name="FULLNAMETAG">
-    <value>Полное имя:</value>
-  </data>
-  <data name="ERRORCANNOTSETDESCRIPTION">
-    <value>Невозможно установить описание папки iFolder.</value>
-  </data>
-  <data name="REVERTSHARINGCONNECTFAILED">
-    <value>Не удается подключиться к серверу iFolder. Отмените общий доступ после того как сервер станет доступен.</value>
-  </data>
-  <data name="LOGINUNAUTHORIZED">
-    <value>Введите имя пользователя и пароль еще раз.</value>
-  </data>
-  <data name="LDAPCONTEXTTAG">
-    <value>Контексты LDAP:</value>
-  </data>
-  <data name="PENDING">
-    <value>Отложено</value>
-  </data>
-  <data name="REPORTS">
-    <value>Отчеты</value>
-  </data>
-  <data name="ENFORCED">
-    <value>Усиленный </value>
-  </data>
-  <data name="ERRORNOTADMINISTRATOR">
-    <value>Пользователь не является администратором iFolder.</value>
-  </data>
-  <data name="PATHTAG">
-    <value>Путь:</value>
-  </data>
-  <data name="SYSTEMLOGFILE">
-    <value>Система</value>
-  </data>
-  <data name="ADMIN">
-    <value>Администратор</value>
-  </data>
-  <data name="LDAPSSL">
-    <value>SSL LDAP:</value>
-  </data>
-  <data name="NEWIFOLDERDESCRIPTIONTAG">
-    <value>Описание iFolder:</value>
-  </data>
-  <data name="CREATEUSER">
-    <value>Создать пользователя</value>
-  </data>
-  <data name="SSLSTRING">
-    <value>SSL</value>
-  </data>
-  <data name="IFOLDERLIMIT">
-    <value>Количество папок iFolder на пользователя</value>
-  </data>
-  <data name="FREESPACE">
-    <value>Свободное пространство</value>
-  </data>
-  <data name="CHANGEMASTERSUCCESSFUL">
-    <value>{0} обновлен как главный сервер. Перезагрузите все серверы для вступления изменений в силу.</value>
-  </data>
-  <data name="ERRORIFOLDERDOESNOTEXIST">
-    <value>Папка iFolder не существует.</value>
-  </data>
-  <data name="STATUS">
-    <value>Состояние</value>
-  </data>
-  <data name="PROVISION_REPROVISION_TITLE">
-    <value>Пользователи с персонифицированным или измененным доступом</value>
-  </data>
-  <data name="ERRORNOQUOTA">
-    <value>Не указано значение квоты диска.</value>
-  </data>
-  <data name="IFOLDERDETAILS">
-    <value>Информация iFolder</value>
-  </data>
-  <data name="CHINESE-SIMPLIFIED">
-    <value>Китайский упрощенный</value>
-  </data>
-  <data name="UNKNOWNERROR">
-    <value>Неизвестная ошибка. Исключение не указано.</value>
-  </data>
-  <data name="ERRORCANNOTSETUSERPOLICY">
-    <value>Невозможно установить информацию политики пользователей для ИД пользователя {0}.</value>
-  </data>
-  <data name="CREATENEWIFOLDER">
-    <value>Создать новую папку iFolder</value>
-  </data>
-  <data name="ERRORAUTHENTICATIONFAILED">
-    <value>Сбой при аутентификации.</value>
-  </data>
-  <data name="SEGREGATEDGROUPS">
-    <value>Раздельные группы: </value>
-  </data>
-  <data name="POLICIES">
-    <value>Политики</value>
-  </data>
-  <data name="CONNECTIONFAILED">
-    <value>Не удается подключиться к серверу {0}.</value>
-  </data>
-  <data name="NONSSLSTRING">
-    <value>NONSSL</value>
-  </data>
-  <data name="SSLTAG">
-    <value>Параметр SSL:</value>
-  </data>
-  <data name="CREATESEGREGATEDGROUPS">
-    <value>Создать раздельные группы</value>
-  </data>
-  <data name="CONFIRMADDITION">
-    <value>ВАЖНО. В качестве владельца и группы для пути к данным на сервере необходимо указать apacheuser:apachegroup. Это обязательное требование для создания и синхронизации папок iFolder на этом томе.</value>
-  </data>
-  <data name="PORTUGUESE-BRAZIL">
-    <value>Португальский (Бразилия)</value>
-  </data>
-  <data name="ENCRYPTION">
-    <value>Шифрование с контрольной фразой</value>
-  </data>
-  <data name="BEGINSWITH">
-    <value>Начинается с</value>
-  </data>
-  <data name="MB">
-    <value>Мб</value>
-  </data>
-  <data name="ERRORCANNOTDELETEIFOLDER">
-    <value>Отсутствуют разрешения на удаление {0}.</value>
-  </data>
-  <data name="DISKSPACEAVAILABLETAG">
-    <value>Доступное дисковое пространство:</value>
-  </data>
-  <data name="MESSAGEINFORMATION">
-    <value>Информация:</value>
-  </data>
-  <data name="DISABLEPASTSHARING">
-    <value>Аннулировать</value>
-  </data>
-  <data name="TRANSFERING">
-    <value>Передача</value>
-  </data>
-  <data name="ALLOWDELETEIFOLDERRIGHTS">
-    <value>Разрешить право на удаление iFolders</value>
-  </data>
-  <data name="SET">
-    <value>Установ.</value>
-  </data>
-  <data name="LDAPADMINPWD">
-    <value>Пароль пользователя Admin в LDAP:</value>
-  </data>
-  <data name="SYNCBASED">
-    <value>Модуль синхронизации </value>
-  </data>
-  <data name="TITLE">
-    <value>Администратор iFolder</value>
-  </data>
-  <data name="STATUSTAG">
-    <value>Состояние:</value>
-  </data>
-  <data name="MINIMALINFO">
-    <value>Отображение минимальной информации</value>
-  </data>
-  <data name="LOGLEVELTAG">
-    <value>Уровень протоколирования</value>
-  </data>
-  <data name="EVERYTAG">
-    <value>Каждые:</value>
-  </data>
-  <data name="PASSWORDTAG">
-    <value>Пароль:</value>
-  </data>
-  <data name="GROUPRIGHTSEDITSUCCESSFUL">
-    <value>Права администратора {0}{1}{2} изменены для группы {3}{4}{5}. Щелкните "Повторить", чтобы продолжить добавление групп для этого администратора. Чтобы вернуться на страницу "Системы", щелкните "ОК".</value>
-  </data>
-  <data name="LDAPMEMBERDELETE">
-    <value>Удалить члена</value>
-  </data>
-  <data name="SYSTEMSETTINGS">
-    <value>Параметры системы</value>
-  </data>
-  <data name="ERRORUNKNOWNERROR">
-    <value>Неизвестная ошибка.</value>
-  </data>
-  <data name="GROUPRIGHTSADDFAILURE">
-    <value>Не удалось добавить пользователя {0}{1}{2} в качестве администратора группы {3}{4}{5}. Щелкните "Повторить попытку", чтобы добавить группу еще раз. Чтобы вернуться на страницу "Системы", щелкните "ОК". </value>
-  </data>
-  <data name="NAMETAG">
-    <value>Имя:</value>
-  </data>
-  <data name="ERRORCANNOTSETIFOLDERSTATUS">
-    <value>Невозможно установить состояние синхронизации iFolder.</value>
-  </data>
-  <data name="EXCLUDEDFILES">
-    <value>Исключенные файлы</value>
-  </data>
-  <data name="ADMINLOGFILE">
-    <value>Веб-администратор</value>
-  </data>
-  <data name="EDIT">
-    <value>Изменить</value>
-  </data>
-  <data name="HUNGARIAN">
-    <value>Венгерский</value>
-  </data>
-  <data name="SYSTEM">
-    <value>Система</value>
-  </data>
-  <data name="CANNOTSETUNLIMITED">
-    <value>Не удается задать значение "неограничено", так как группа имеет совокупный набор дисковых квот</value>
-  </data>
-  <data name="LASTLOGINTIMETAG">
-    <value>Время последнего входа в систему:</value>
-  </data>
-  <data name="OFF">
-    <value>Выкл.</value>
-  </data>
-  <data name="B">
-    <value>байт</value>
-  </data>
-  <data name="ASSIGNADMINISTRATORS">
-    <value>Назначить администраторов</value>
-  </data>
-  <data name="ERRORCANNOTSETSYSTEMPOLICY">
-    <value>Невозможно установить информацию о политике.</value>
-  </data>
-  <data name="RIGHTS">
-    <value>Права</value>
-  </data>
-  <data name="ACCOUNT">
-    <value>Учетная запись</value>
-  </data>
-  <data name="ADDROOT">
-    <value>Добавить корень</value>
-  </data>
-  <data name="IFOLDERISOWNEDBY">
-    <value>Владелец: {0}</value>
-  </data>
-  <data name="LOGINACCOUNTLOCKED">
-    <value>Учетная запись заблокирована и недоступна.</value>
-  </data>
-  <data name="ITALIAN">
-    <value>Итальянский</value>
-  </data>
-  <data name="SYNCNOW">
-    <value>Синхронизировать сейчас</value>
-  </data>
-  <data name="CANNOTSETPERMISSION">
-    <value>Невозможно изменить разрешение указанного полного пути.</value>
-  </data>
-  <data name="ACCESSLOGFILE">
+  <data name="ACCESSLOGFILE" xml:space="preserve">
     <value>Доступ пользователей</value>
   </data>
-  <data name="ADOPT">
+  <data name="ACCOUNT" xml:space="preserve">
+    <value>Учетная запись</value>
+  </data>
+  <data name="ADD" xml:space="preserve">
+    <value>Добавить</value>
+  </data>
+  <data name="ADDADMINS" xml:space="preserve">
+    <value>Добавить администраторов</value>
+  </data>
+  <data name="ADDMEMBERS" xml:space="preserve">
+    <value>Добавить пользователей iFolder</value>
+  </data>
+  <data name="ADDMEMBERSTOIFOLDER" xml:space="preserve">
+    <value>Добавление дополнительных пользователей для iFolder "{0}"</value>
+  </data>
+  <data name="ADMIN" xml:space="preserve">
+    <value>Администратор</value>
+  </data>
+  <data name="FULLCONTROL" xml:space="preserve">
+    <value>Полный контроль</value>
+  </data>
+  <data name="ADMINISTRATOR" xml:space="preserve">
+    <value>Администратор</value>
+  </data>
+  <data name="ADMINISTRATORS" xml:space="preserve">
+    <value>Администраторы</value>
+  </data>
+  <data name="ADMINLOGFILE" xml:space="preserve">
+    <value>Веб-администратор</value>
+  </data>
+  <data name="ADOPT" xml:space="preserve">
     <value>Принять</value>
   </data>
-  <data name="ERROR">
-    <value>Ошибка</value>
+  <data name="ALL" xml:space="preserve">
+    <value>Все</value>
   </data>
-  <data name="REPROVISOINSTATETAG">
-    <value>Состояние изменения доступа:</value>
+  <data name="ALLFIELDSREQUIRED" xml:space="preserve">
+    <value>Необходимо заполнить все поля.</value>
   </data>
-  <data name="DOWNLOAD">
-    <value>Загрузка</value>
+  <data name="ALLOW" xml:space="preserve">
+    <value>Разрешить</value>
   </data>
-  <data name="DELETESECONDARYADMIN">
-    <value>Удалить дополнительного администратора: </value>
+  <data name="ASSIGNADMINISTRATORS" xml:space="preserve">
+    <value>Назначить администраторов</value>
   </data>
-  <data name="FIRSTNAMETAG">
-    <value>Имя:</value>
+  <data name="ATTAG" xml:space="preserve">
+    <value>В:</value>
   </data>
-  <data name="ERRORNOSYNCINTERVAL">
-    <value>Интервал синхронизации не указан.</value>
+  <data name="AVAILABLETAG" xml:space="preserve">
+    <value>Доступно:</value>
   </data>
-  <data name="DELETE">
+  <data name="B" xml:space="preserve">
+    <value>байт</value>
+  </data>
+  <data name="BACK" xml:space="preserve">
+    <value>Назад</value>
+  </data>
+  <data name="BEGINSWITH" xml:space="preserve">
+    <value>Начинается с</value>
+  </data>
+  <data name="CANCEL" xml:space="preserve">
+    <value>Отмена</value>
+  </data>
+  <data name="CHINESE-SIMPLIFIED" xml:space="preserve">
+    <value>Китайский упрощенный</value>
+  </data>
+  <data name="CHINESE-TRADITIONAL" xml:space="preserve">
+    <value>Китайский традиционный</value>
+  </data>
+  <data name="CONFIGUREREPORTING" xml:space="preserve">
+    <value>Настройка системы отчетов</value>
+  </data>
+  <data name="CONTAINS" xml:space="preserve">
+    <value>Содержит</value>
+  </data>
+  <data name="CREATE" xml:space="preserve">
+    <value>Создать</value>
+  </data>
+  <data name="CREATENEWIFOLDER" xml:space="preserve">
+    <value>Создать новую папку iFolder</value>
+  </data>
+  <data name="CREATEUSER" xml:space="preserve">
+    <value>Создать пользователя</value>
+  </data>
+  <data name="CSVFORMAT" xml:space="preserve">
+    <value>Текст CSV</value>
+  </data>
+  <data name="CZECH" xml:space="preserve">
+    <value>Чешский</value>
+  </data>
+  <data name="DAILY" xml:space="preserve">
+    <value>Ежедневно</value>
+  </data>
+  <data name="DAYTAG" xml:space="preserve">
+    <value>День:</value>
+  </data>
+  <data name="DEBUG" xml:space="preserve">
+    <value>Отладка</value>
+  </data>
+  <data name="DELETE" xml:space="preserve">
     <value>Удалить</value>
   </data>
-  <data name="FREQUENCY">
+  <data name="DELETED" xml:space="preserve">
+    <value>Удалено</value>
+  </data>
+  <data name="DENY" xml:space="preserve">
+    <value>Запретить</value>
+  </data>
+  <data name="DESCRIPTIONTAG" xml:space="preserve">
+    <value>Описание:</value>
+  </data>
+  <data name="DIRECTORIESTAG" xml:space="preserve">
+    <value>Каталоги:</value>
+  </data>
+  <data name="DISABLE" xml:space="preserve">
+    <value>Запретить</value>
+  </data>
+  <data name="DISABLEPASTSHARING" xml:space="preserve">
+    <value>Аннулировать</value>
+  </data>
+  <data name="SHARING" xml:space="preserve">
+    <value>Совместное использование</value>
+  </data>
+  <data name="DISKQUOTA" xml:space="preserve">
+    <value>Квота диска</value>
+  </data>
+  <data name="DISKSPACEAVAILABLETAG" xml:space="preserve">
+    <value>Доступное дисковое пространство:</value>
+  </data>
+  <data name="DISKSPACEUSEDTAG" xml:space="preserve">
+    <value>Используемое дисковое пространство:</value>
+  </data>
+  <data name="DNSNAME" xml:space="preserve">
+    <value>DNS-имя</value>
+  </data>
+  <data name="DNSNAMETAG" xml:space="preserve">
+    <value>DNS-имя:</value>
+  </data>
+  <data name="DOWNLOAD" xml:space="preserve">
+    <value>Загрузка</value>
+  </data>
+  <data name="EDIT" xml:space="preserve">
+    <value>Изменить</value>
+  </data>
+  <data name="EDITLDAPDETAILS" xml:space="preserve">
+    <value>Изменить информацию о LDAP</value>
+  </data>
+  <data name="EFFECTIVETAG" xml:space="preserve">
+    <value>Действующий:</value>
+  </data>
+  <data name="ELLIPSES" xml:space="preserve">
+    <value> ...</value>
+  </data>
+  <data name="ENABLE" xml:space="preserve">
+    <value>Включить</value>
+  </data>
+  <data name="REPROVISOINSTATE" xml:space="preserve">
+    <value>Состояние изменения доступа</value>
+  </data>
+  <data name="REPROVISOINSTATETAG" xml:space="preserve">
+    <value>Состояние изменения доступа:</value>
+  </data>
+  <data name="ENABLED" xml:space="preserve">
+    <value>Включено</value>
+  </data>
+  <data name="ENABLEDTAG" xml:space="preserve">
+    <value>Включено:</value>
+  </data>
+  <data name="ENABLEREPORTING" xml:space="preserve">
+    <value>Включить формирование отчетов</value>
+  </data>
+  <data name="ACCESSDENIED" xml:space="preserve">
+    <value>Доступ запрещен для этого ресурса</value>
+  </data>
+  <data name="ACCESSDENIEDERROR" xml:space="preserve">
+    <value>У пользователя, выполнившего вход в систему, нет прав на просмотр и изменение свойств этой страницы</value>
+  </data>
+  <data name="ENDSWITH" xml:space="preserve">
+    <value>Заканчивается на</value>
+  </data>
+  <data name="ENFORCED" xml:space="preserve">
+    <value>Усиленный </value>
+  </data>
+  <data name="ENGLISH" xml:space="preserve">
+    <value>Английский</value>
+  </data>
+  <data name="ENTERLDAPDETAILS" xml:space="preserve">
+    <value>Введите учетные данные пользователя Admin в LDAP</value>
+  </data>
+  <data name="EQUALS" xml:space="preserve">
+    <value>Равно</value>
+  </data>
+  <data name="ERROR" xml:space="preserve">
+    <value>Ошибка</value>
+  </data>
+  <data name="ERRORACCESSEXCEPTION" xml:space="preserve">
+    <value>Недостаточно прав для выполнения этого запроса.</value>
+  </data>
+  <data name="PATHTOOLONGEXCEPTION" xml:space="preserve">
+    <value>Слишком длинное имя для создания папки iFolder.</value>
+  </data>
+  <data name="ERRORAUTHENTICATIONFAILED" xml:space="preserve">
+    <value>Сбой при аутентификации.</value>
+  </data>
+  <data name="ERRORCANNOTADDADMIN" xml:space="preserve">
+    <value>Невозможно добавить пользователя {0} как администратора.</value>
+  </data>
+  <data name="ERRORCANNOTADDMEMBER" xml:space="preserve">
+    <value>Невозможно добавить пользователя {0} для iFolder {1}.</value>
+  </data>
+  <data name="ERRORCANNOTCHANGERIGHTS" xml:space="preserve">
+    <value>Невозможно изменить права на членство для пользователя {0}.</value>
+  </data>
+  <data name="ERRORCANNOTCHANGEOWNER" xml:space="preserve">
+    <value>Невозможно изменить членство iFolder.</value>
+  </data>
+  <data name="ERRORCANNOTCREATEIFOLDER" xml:space="preserve">
+    <value>Невозможно создать iFolder.</value>
+  </data>
+  <data name="ERRORCANNOTCREATEUSER" xml:space="preserve">
+    <value>Невозможно создать пользователя.</value>
+  </data>
+  <data name="ERRORCANNOTDELETEIFOLDER" xml:space="preserve">
+    <value>Отсутствуют разрешения на удаление {0}.</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="ERRORCANNOTDELETEIFOLDER" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="ERRORCANNOTDELETEMEMBERS" xml:space="preserve">
+    <value>Невозможно удалить члена папки iFolder {0}.</value>
+  </data>
+  <data name="ERRORCANNOTDELETEUSER" xml:space="preserve">
+    <value>Невозможно удалить ИД пользователя {0}.</value>
+  </data>
+  <data name="ERRORCANNOTREMOVEADMIN" xml:space="preserve">
+    <value>Невозможно удалить пользователя {0} как администратора.</value>
+  </data>
+  <data name="ERRORCANNOTSETDESCRIPTION" xml:space="preserve">
+    <value>Невозможно установить описание папки iFolder.</value>
+  </data>
+  <data name="ERRORCANNOTSETIFOLDERPOLICY" xml:space="preserve">
+    <value>Невозможно установить информацию о политике для ИД iFolder {0}.</value>
+  </data>
+  <data name="ERRORCANNOTSETSYSTEMPOLICY" xml:space="preserve">
+    <value>Невозможно установить информацию о политике.</value>
+  </data>
+  <data name="ERRORCANNOTSETIFOLDERSTATUS" xml:space="preserve">
+    <value>Невозможно установить состояние синхронизации iFolder.</value>
+  </data>
+  <data name="ERRORCANNOTSETUSERPOLICY" xml:space="preserve">
+    <value>Невозможно установить информацию политики пользователей для ИД пользователя {0}.</value>
+  </data>
+  <data name="ERRORDETAIL" xml:space="preserve">
+    <value>Информация об ошибке</value>
+  </data>
+  <data name="ERRORIFOLDERDOESNOTEXIST" xml:space="preserve">
+    <value>Папка iFolder не существует.</value>
+  </data>
+  <data name="ERRORINVALIDFILESIZE" xml:space="preserve">
+    <value>Указано неверное значение ограничения на размер файла. Диапазон значений: от 1 до 2e+063 - 1.</value>
+  </data>
+  <data name="ERRORINVALIDDATA" xml:space="preserve">
+    <value>Все поля обязательны. Проверьте и повторите ввод</value>
+  </data>
+  <data name="ERRORPROXYPASSWORDSDOESNOTMATCH" xml:space="preserve">
+    <value>Пароли прокси-пользователя не совпадают. Введите правильный пароль</value>
+  </data>
+  <data name="ERRORINVALIDLIMIT" xml:space="preserve">
+    <value>Указано неправильное значение ограничения размера файла. Значение не должно превышать квоту дискового пространства.</value>
+  </data>
+  <data name="ERRORINVALIDQUOTA" xml:space="preserve">
+    <value>Указано неверное значение квоты дискового пространства. Диапазон значений: от 1 до 2e+063 - 1.</value>
+  </data>
+  <data name="ERRORINVALIDIFOLDERLIMIT" xml:space="preserve">
+    <value>Указано неверное значение ограничения для папки iFolder. Значение должно быть в диапазоне 0 и 2e+063 - 1.</value>
+  </data>
+  <data name="ERRORINVALIDSYNCINTERVAL" xml:space="preserve">
+    <value>Указан неверный интервал синхронизации. Диапазон значений: от 5 до 999.</value>
+  </data>
+  <data name="ERRORINVALIDIDSYNCINTERVAL" xml:space="preserve">
+    <value>Указан недопустимый интервал синхронизации. Значение должно быть от 5 до 10080.</value>
+  </data>
+  <data name="ERRORLOCKEXCEPTION" xml:space="preserve">
+    <value>Операция была отменена, так как папка iFolder была заблокирована или запрещена администратором.</value>
+  </data>
+  <data name="ERRORMEMBERDOESNOTEXIST" xml:space="preserve">
+    <value>Пользователь iFolder не существует.</value>
+  </data>
+  <data name="ERRORNOFILESIZE" xml:space="preserve">
+    <value>Ограничение на размер файла не указано.</value>
+  </data>
+  <data name="ERRORNOQUOTA" xml:space="preserve">
+    <value>Не указано значение квоты диска.</value>
+  </data>
+  <data name="ERRORNOIFOLDERLIMIT" xml:space="preserve">
+    <value>Не указано значение ограничения для папки iFolder.</value>
+  </data>
+  <data name="ERRORNOSYNCINTERVAL" xml:space="preserve">
+    <value>Интервал синхронизации не указан.</value>
+  </data>
+  <data name="ERRORNOTADMINISTRATOR" xml:space="preserve">
+    <value>Пользователь не является администратором iFolder.</value>
+  </data>
+  <data name="ERRORTEMPLATE" xml:space="preserve">
+    <value>Ошибка: {0}</value>
+  </data>
+  <data name="ERRORTYPE" xml:space="preserve">
+    <value>Непредвиденная ошибка</value>
+  </data>
+  <data name="ERRORINSTRUCTIONS" xml:space="preserve">
+    <value>&lt;p&gt;Произошла неожиданная ошибка веб-клиента iFolder.&lt;/p&gt; &lt;p&gt;Приносим извинения за причиненные неудобства. Выйдите из системы и повторите попытку.&lt;/p&gt;</value>
+  </data>
+  <data name="ERRORUNKNOWNERROR" xml:space="preserve">
+    <value>Неизвестная ошибка.</value>
+  </data>
+  <data name="ERRORUSERDOESNOTEXIST" xml:space="preserve">
+    <value>Указанный пользователь iFolder не существует.</value>
+  </data>
+  <data name="EVERYTAG" xml:space="preserve">
+    <value>Каждые:</value>
+  </data>
+  <data name="EXCLUDEDFILES" xml:space="preserve">
+    <value>Исключенные файлы</value>
+  </data>
+  <data name="FATAL" xml:space="preserve">
+    <value>Фатальный</value>
+  </data>
+  <data name="FILE" xml:space="preserve">
+    <value>Файл</value>
+  </data>
+  <data name="FILENAME" xml:space="preserve">
+    <value>Имя файла</value>
+  </data>
+  <data name="FILES" xml:space="preserve">
+    <value>Файлы</value>
+  </data>
+  <data name="FILESTAG" xml:space="preserve">
+    <value>Файлы:</value>
+  </data>
+  <data name="FILESIZE" xml:space="preserve">
+    <value>Размер файла</value>
+  </data>
+  <data name="FILETYPEALREADYEXISTS" xml:space="preserve">
+    <value>Указанное имя файла уже существует в списке.</value>
+  </data>
+  <data name="FIRST" xml:space="preserve">
+    <value>Первый</value>
+  </data>
+  <data name="FIRSTNAME" xml:space="preserve">
+    <value>Имя</value>
+  </data>
+  <data name="FIRSTNAMETAG" xml:space="preserve">
+    <value>Имя:</value>
+  </data>
+  <data name="FIRSTPAGE" xml:space="preserve">
+    <value>Первая страница</value>
+  </data>
+  <data name="FORMATTAG" xml:space="preserve">
+    <value>Формат:</value>
+  </data>
+  <data name="FRENCH" xml:space="preserve">
+    <value>Французский</value>
+  </data>
+  <data name="FREQUENCY" xml:space="preserve">
     <value>Частота</value>
   </data>
-  <data name="SELECTUSERS">
-    <value>Выбор пользователей</value>
+  <data name="FULLNAME" xml:space="preserve">
+    <value>Полное имя</value>
   </data>
-  <data name="WHEN">
-    <value>Когда</value>
+  <data name="FULLNAMETAG" xml:space="preserve">
+    <value>Полное имя:</value>
   </data>
-  <data name="LOGTAG">
-    <value>Журнал</value>
+  <data name="FULLNAMEDISLAYTAG" xml:space="preserve">
+    <value>Отображение имени:</value>
   </data>
-  <data name="GROUPDISKQUOTA">
-    <value>Дисковая квота группы: </value>
+  <data name="FULLNAMEDISPLAYORDER" xml:space="preserve">
+    <value>Порядок отображения полного имени:</value>
   </data>
-  <data name="UNABLETOSETASSLAVE">
-    <value>Не удается установить в качестве подчиненного сервера. Повторить операцию.</value>
+  <data name="GB" xml:space="preserve">
+    <value>Гб</value>
   </data>
-  <data name="LOGINUSERNAME">
+  <data name="GENERATEDAILYREPORT" xml:space="preserve">
+    <value>Формировать отчет каждый день в {0} для {1}</value>
+  </data>
+  <data name="GENERATEMONTHLYREPORT" xml:space="preserve">
+    <value>Формировать отчет в {0} день каждого месяца в {1} для {2}</value>
+  </data>
+  <data name="GENERATEWEEKLYREPORT" xml:space="preserve">
+    <value>Формировать отчет каждые {0} в {1} для {2}</value>
+  </data>
+  <data name="GERMAN" xml:space="preserve">
+    <value>Немецкий</value>
+  </data>
+  <data name="HELP" xml:space="preserve">
+    <value>Справка</value>
+  </data>
+  <data name="HOME" xml:space="preserve">
+    <value>Основной сервер</value>
+  </data>
+  <data name="COMPLETED" xml:space="preserve">
+    <value>Завершено</value>
+  </data>
+  <data name="COMPLETEDTAG" xml:space="preserve">
+    <value>Завершено:</value>
+  </data>
+  <data name="HUNGARIAN" xml:space="preserve">
+    <value>Венгерский</value>
+  </data>
+  <data name="IDENTITYSYNCTAG" xml:space="preserve">
+    <value>Синхронизация электронных персон:</value>
+  </data>
+  <data name="IFOLDER" xml:space="preserve">
+    <value>iFolder</value>
+  </data>
+  <data name="IFOLDERADMINS" xml:space="preserve">
+    <value>Администраторы iFolder</value>
+  </data>
+  <data name="IFOLDERDETAILS" xml:space="preserve">
+    <value>Информация iFolder</value>
+  </data>
+  <data name="IFOLDERDISABLED" xml:space="preserve">
+    <value>Выключить синхронизацию</value>
+  </data>
+  <data name="IFOLDERISOWNEDBY" xml:space="preserve">
+    <value>Владелец: {0}</value>
+  </data>
+  <data name="IFOLDERLIMIT" xml:space="preserve">
+    <value>Количество папок iFolder на пользователя</value>
+  </data>
+  <data name="IFOLDERS" xml:space="preserve">
+    <value>Папки iFolder</value>
+  </data>
+  <data name="IFOLDERSTAG" xml:space="preserve">
+    <value>Папки iFolder:</value>
+  </data>
+  <data name="IFOLDERUSERDETAILS" xml:space="preserve">
+    <value>Информация о пользователе iFolder</value>
+  </data>
+  <data name="IFOLDERUSERS" xml:space="preserve">
+    <value>Пользователи iFolder</value>
+  </data>
+  <data name="REPROVISIONLIST" xml:space="preserve">
+    <value>Состояние изменения доступа в системе iFolder</value>
+  </data>
+  <data name="INFO" xml:space="preserve">
+    <value>Информация</value>
+  </data>
+  <data name="INHEIRITEDPOLICY" xml:space="preserve">
+    <value>(Наследуемая политика)</value>
+  </data>
+  <data name="INTERVALTAG" xml:space="preserve">
+    <value>Интервал:</value>
+  </data>
+  <data name="ITALIAN" xml:space="preserve">
+    <value>Итальянский</value>
+  </data>
+  <data name="JAPANESE" xml:space="preserve">
+    <value>Японский</value>
+  </data>
+  <data name="KB" xml:space="preserve">
+    <value>Кб</value>
+  </data>
+  <data name="LAST" xml:space="preserve">
+    <value>Последний</value>
+  </data>
+  <data name="LASTLOGINTIMETAG" xml:space="preserve">
+    <value>Время последнего входа в систему:</value>
+  </data>
+  <data name="LASTMODIFIED" xml:space="preserve">
+    <value>Последнее изменение</value>
+  </data>
+  <data name="LASTNAME" xml:space="preserve">
+    <value>Фамилия</value>
+  </data>
+  <data name="HOMESERVERNAME" xml:space="preserve">
+    <value>Основной сервер</value>
+  </data>
+  <data name="LASTNAMETAG" xml:space="preserve">
+    <value>Фамилия:</value>
+  </data>
+  <data name="LASTPAGE" xml:space="preserve">
+    <value>Последняя страница</value>
+  </data>
+  <data name="LDAPADMINNAME" xml:space="preserve">
+    <value>Характерное имя пользователя Admin в LDAP:</value>
+  </data>
+  <data name="LDAPADMINPWD" xml:space="preserve">
+    <value>Пароль пользователя Admin в LDAP:</value>
+  </data>
+  <data name="LDAPDETAILS" xml:space="preserve">
+    <value>Информация о LDAP</value>
+  </data>
+  <data name="LDAPSERVER" xml:space="preserve">
+    <value>Сервер LDAP:</value>
+  </data>
+  <data name="LDAPCYCLES" xml:space="preserve">
+    <value>Циклы:</value>
+  </data>
+  <data name="LDAPMEMBERDELETE" xml:space="preserve">
+    <value>Удалить члена</value>
+  </data>
+  <data name="LDAPMEMBERDELETEGRACEINT" xml:space="preserve">
+    <value>Дополнительный интервал:</value>
+  </data>
+  <data name="LDAPUPSINCE" xml:space="preserve">
+    <value>Время работы:</value>
+  </data>
+  <data name="LDAPCONTEXTTAG" xml:space="preserve">
+    <value>Контексты LDAP:</value>
+  </data>
+  <data name="LDAPSTATUSTAG" xml:space="preserve">
+    <value>Состояние:</value>
+  </data>
+  <data name="LDAPSSL" xml:space="preserve">
+    <value>SSL LDAP:</value>
+  </data>
+  <data name="LDAPPROXYUSER" xml:space="preserve">
+    <value>Прокси-пользователь:</value>
+  </data>
+  <data name="LDAPPROXYUSERPWD" xml:space="preserve">
+    <value>Пароль прокси-пользователя:</value>
+  </data>
+  <data name="CONFIRMLDAPPROXYUSERPWD" xml:space="preserve">
+    <value>Подтверждение пароля прокси-пользователя:</value>
+  </data>
+  <data name="LIMITTAG" xml:space="preserve">
+    <value>Ограничение:</value>
+  </data>
+  <data name="LOGGEDINAS" xml:space="preserve">
+    <value>Вошел в систему как</value>
+  </data>
+  <data name="LOGGEDONUSERSTAG" xml:space="preserve">
+    <value>Вошедшие в систему пользователи:</value>
+  </data>
+  <data name="LOGIN" xml:space="preserve">
+    <value>Вход в систему</value>
+  </data>
+  <data name="LOGINACCOUNTDISABLED" xml:space="preserve">
+    <value>Учетная запись отключена и недоступна.</value>
+  </data>
+  <data name="LOGINACCOUNTLOCKED" xml:space="preserve">
+    <value>Учетная запись заблокирована и недоступна.</value>
+  </data>
+  <data name="LOGINCONNECTFAILED" xml:space="preserve">
+    <value>Невозможно подключиться к серверу iFolder.</value>
+  </data>
+  <data name="REVERTSHARINGCONNECTFAILED" xml:space="preserve">
+    <value>Не удается подключиться к серверу iFolder. Отмените общий доступ после того как сервер станет доступен.</value>
+  </data>
+  <data name="LOGINCOPYRIGHT" xml:space="preserve">
+    <value>&amp;copy; (C) Novell, Inc., 2011. Все права защищены.</value>
+  </data>
+  <data name="LOGINERROR" xml:space="preserve">
+    <value>Ошибка:</value>
+  </data>
+  <data name="LOGINFAILED" xml:space="preserve">
+    <value>Сбой:</value>
+  </data>
+  <data name="LOGINIFOLDERSERVER" xml:space="preserve">
+    <value>Сервер iFolder:</value>
+  </data>
+  <data name="LOGINLANGUAGE" xml:space="preserve">
+    <value>Язык:</value>
+  </data>
+  <data name="LOGINLOGOUT" xml:space="preserve">
+    <value>Вы вышли из системы iFolder.</value>
+  </data>
+  <data name="LOGINLOSTSESSION" xml:space="preserve">
+    <value>Сеанс закрыт. Войдите в систему.</value>
+  </data>
+  <data name="CANNOTSETPERMISSION" xml:space="preserve">
+    <value>Невозможно изменить разрешение указанного полного пути.</value>
+  </data>
+  <data name="LOGINNOCOOKIES" xml:space="preserve">
+    <value>Необходимо включить файлы Cookie в средстве просмотра.</value>
+  </data>
+  <data name="LOGINNOSCRIPT" xml:space="preserve">
+    <value>Необходимо включить сценарии в средстве просмотра.</value>
+  </data>
+  <data name="LOGINPASSWORD" xml:space="preserve">
+    <value>Пароль:</value>
+  </data>
+  <data name="LOGINREDIRECT" xml:space="preserve">
+    <value>URL-адрес сервера iFolder нужно обновить.</value>
+  </data>
+  <data name="LOGINSECUREFAILED" xml:space="preserve">
+    <value>Не удается взаимодействовать с сервером iFolder в защищенном режиме.</value>
+  </data>
+  <data name="LOGINSENDFAILED" xml:space="preserve">
+    <value>Не удается взаимодействовать с сервером iFolder.</value>
+  </data>
+  <data name="LOGINTRUSTFAILED" xml:space="preserve">
+    <value>Отсутствие соответствия критериям между сервером iFolder и веб-клиентом iFolder.</value>
+  </data>
+  <data name="INVALIDCERTIFICATE" xml:space="preserve">
+    <value>Сбой аутентификации, проблема с сертификатом Ldap или сертификатом сервера iFolder</value>
+  </data>
+  <data name="LOGINUNAUTHORIZED" xml:space="preserve">
+    <value>Введите имя пользователя и пароль еще раз.</value>
+  </data>
+  <data name="LOGINUSERNAME" xml:space="preserve">
     <value>Имя пользователя:</value>
   </data>
-  <data name="VOLUME">
+  <data name="LOGLEVELTAG" xml:space="preserve">
+    <value>Уровень протоколирования</value>
+  </data>
+  <data name="LOGTAG" xml:space="preserve">
+    <value>Журнал</value>
+  </data>
+  <data name="LOGOUT" xml:space="preserve">
+    <value>Выход из системы</value>
+  </data>
+  <data name="MASTER" xml:space="preserve">
+    <value>Главный</value>
+  </data>
+  <data name="MAXCONNECTIONSTAG" xml:space="preserve">
+    <value>Максимум подключений:</value>
+  </data>
+  <data name="MB" xml:space="preserve">
+    <value>Мб</value>
+  </data>
+  <data name="MEMBER" xml:space="preserve">
+    <value>Член</value>
+  </data>
+  <data name="MEMBERS" xml:space="preserve">
+    <value>Члены</value>
+  </data>
+  <data name="MESSAGEINFORMATION" xml:space="preserve">
+    <value>Информация:</value>
+  </data>
+  <data name="MINUTES" xml:space="preserve">
+    <value>Мин.</value>
+  </data>
+  <data name="MINIMALINFO" xml:space="preserve">
+    <value>Отображение минимальной информации</value>
+  </data>
+  <data name="MODIFIEDTAG" xml:space="preserve">
+    <value>Изменено:</value>
+  </data>
+  <data name="MONTHLY" xml:space="preserve">
+    <value>Ежемесячно</value>
+  </data>
+  <data name="NAME" xml:space="preserve">
+    <value>Имя</value>
+  </data>
+  <data name="NAMETAG" xml:space="preserve">
+    <value>Имя:</value>
+  </data>
+  <data name="NEWIFOLDERDESCRIPTIONTAG" xml:space="preserve">
+    <value>Описание iFolder:</value>
+  </data>
+  <data name="NEWIFOLDERNAMETAG" xml:space="preserve">
+    <value>Имя iFolder:</value>
+  </data>
+  <data name="NEXT" xml:space="preserve">
+    <value>Следующий</value>
+  </data>
+  <data name="NEXTPAGE" xml:space="preserve">
+    <value>Следующая страница</value>
+  </data>
+  <data name="NEWFILETYPE" xml:space="preserve">
+    <value>Тип нового файла</value>
+  </data>
+  <data name="NO" xml:space="preserve">
+    <value>Нет</value>
+  </data>
+  <data name="NOITEMSFOUND" xml:space="preserve">
+    <value>Элементы не найдены.</value>
+  </data>
+  <data name="NOSERVER" xml:space="preserve">
+    <value>Сервер не выбран</value>
+  </data>
+  <data name="NOTAVAILABLE" xml:space="preserve">
+    <value>Недоступно</value>
+  </data>
+  <data name="OFF" xml:space="preserve">
+    <value>Выкл.</value>
+  </data>
+  <data name="ORPHANED" xml:space="preserve">
+    <value>С нарушенными ассоциациями</value>
+  </data>
+  <data name="ORPHANTAG" xml:space="preserve">
+    <value>С нарушенными ассоциациями:</value>
+  </data>
+  <data name="OK" xml:space="preserve">
+    <value>ОК</value>
+  </data>
+  <data name="ON" xml:space="preserve">
+    <value>Вкл.</value>
+  </data>
+  <data name="OUTPUT" xml:space="preserve">
+    <value>Вывод</value>
+  </data>
+  <data name="OWNED" xml:space="preserve">
+    <value>Владелец</value>
+  </data>
+  <data name="OWNER" xml:space="preserve">
+    <value>Владелец</value>
+  </data>
+  <data name="OWNERTAG" xml:space="preserve">
+    <value>Владелец:</value>
+  </data>
+  <data name="PAGENUMBERFORMAT" xml:space="preserve">
+    <value>{0} - {1} из {2} {3}</value>
+  </data>
+  <data name="PASSWORDSDONOTMATCH" xml:space="preserve">
+    <value>Пароли не совпадают.</value>
+  </data>
+  <data name="PASSWORDTAG" xml:space="preserve">
+    <value>Пароль:</value>
+  </data>
+  <data name="PATHTAG" xml:space="preserve">
+    <value>Путь:</value>
+  </data>
+  <data name="PENDING" xml:space="preserve">
+    <value>Отложено</value>
+  </data>
+  <data name="POLICIES" xml:space="preserve">
+    <value>Политики</value>
+  </data>
+  <data name="POLISH" xml:space="preserve">
+    <value>Польский</value>
+  </data>
+  <data name="PORTUGUESE" xml:space="preserve">
+    <value>Португальский</value>
+  </data>
+  <data name="PORTUGUESE-BRAZIL" xml:space="preserve">
+    <value>Португальский (Бразилия)</value>
+  </data>
+  <data name="PREVIOUSPAGE" xml:space="preserve">
+    <value>Предыдущая страница</value>
+  </data>
+  <data name="PRIVATEIPTAG" xml:space="preserve">
+    <value>Частный IP-адрес:</value>
+  </data>
+  <data name="PRIVATEURI" xml:space="preserve">
+    <value>Внутренний URL:</value>
+  </data>
+  <data name="PRIVATEURL" xml:space="preserve">
+    <value>Частный URL</value>
+  </data>
+  <data name="PROVISION" xml:space="preserve">
+    <value>Предоставление доступа</value>
+  </data>
+  <data name="PROVISIONREPROVISION" xml:space="preserve">
+    <value>Пред.доступа/Изменение доступа</value>
+  </data>
+  <data name="PUBLICIPTAG" xml:space="preserve">
+    <value>Внешний IP-адрес:</value>
+  </data>
+  <data name="PUBLICURI" xml:space="preserve">
+    <value>Внешний URL:</value>
+  </data>
+  <data name="PUBLICURL" xml:space="preserve">
+    <value>Общий URL</value>
+  </data>
+  <data name="READONLY" xml:space="preserve">
+    <value>Только чтение</value>
+  </data>
+  <data name="READWRITE" xml:space="preserve">
+    <value>Чтение/запись</value>
+  </data>
+  <data name="REMOVEMEMBERS" xml:space="preserve">
+    <value>Удаленные пользователи</value>
+  </data>
+  <data name="REPORTDIRECTORY" xml:space="preserve">
+    <value>Каталог отчета</value>
+  </data>
+  <data name="REPORTDIRECTORYTAG" xml:space="preserve">
+    <value>каталог:</value>
+  </data>
+  <data name="REPORTIFOLDER" xml:space="preserve">
+    <value>Создать отчет iFolder</value>
+  </data>
+  <data name="REPORTIFOLDERTAG" xml:space="preserve">
+    <value>Папка iFolder:</value>
+  </data>
+  <data name="REPORTS" xml:space="preserve">
+    <value>Отчеты</value>
+  </data>
+  <data name="RETYPEPASSWORDTAG" xml:space="preserve">
+    <value>Повторный ввод пароля:</value>
+  </data>
+  <data name="RIGHTS" xml:space="preserve">
+    <value>Права</value>
+  </data>
+  <data name="RUSSIAN" xml:space="preserve">
+    <value>Русский</value>
+  </data>
+  <data name="SAVE" xml:space="preserve">
+    <value>Сохран.</value>
+  </data>
+  <data name="REPROVISIONBUTTON" xml:space="preserve">
+    <value>Состояние изменения доступа</value>
+  </data>
+  <data name="REFRESH" xml:space="preserve">
+    <value>Обновить</value>
+  </data>
+  <data name="SEARCH" xml:space="preserve">
+    <value>Поиск</value>
+  </data>
+  <data name="SELECTEDUSERS" xml:space="preserve">
+    <value>Выбранные пользователи</value>
+  </data>
+  <data name="SELECTIFOLDEROWNER" xml:space="preserve">
+    <value>Выберите владельца для папки "{0}"</value>
+  </data>
+  <data name="SELECTUSERS" xml:space="preserve">
+    <value>Выбор пользователей</value>
+  </data>
+  <data name="SELECTSERVER" xml:space="preserve">
+    <value>Выберите сервер для персонификации или изменения доступа этих пользователей</value>
+  </data>
+  <data name="SERVER" xml:space="preserve">
+    <value>Сервер</value>
+  </data>
+  <data name="SERVERDETAILS" xml:space="preserve">
+    <value>Информация о сервере</value>
+  </data>
+  <data name="SERVERLOGS" xml:space="preserve">
+    <value>Журналы сервера</value>
+  </data>
+  <data name="SERVERREPORTS" xml:space="preserve">
+    <value>Отчеты сервера</value>
+  </data>
+  <data name="SERVERS" xml:space="preserve">
+    <value>Серверы</value>
+  </data>
+  <data name="SERVERSTATUS" xml:space="preserve">
+    <value>Состояние сервера</value>
+  </data>
+  <data name="SERVERSTATUSDOWN" xml:space="preserve">
+    <value>Сервер недоступен</value>
+  </data>
+  <data name="SESSIONCLOSED" xml:space="preserve">
+    <value>Введенные имя пользователя и пароль неверны. Выполните вход.</value>
+  </data>
+  <data name="SESSIONSTAG" xml:space="preserve">
+    <value>Сеансы:</value>
+  </data>
+  <data name="SET" xml:space="preserve">
+    <value>Установ.</value>
+  </data>
+  <data name="SHARED" xml:space="preserve">
+    <value>Совместное использование</value>
+  </data>
+  <data name="SHARINGPOLICYVIOLATION" xml:space="preserve">
+    <value> Данная папка iFolder не может совместно использоваться, так как совместное использование запрещено</value>
+  </data>
+  <data name="SIZE" xml:space="preserve">
+    <value>Размер</value>
+  </data>
+  <data name="SIZETAG" xml:space="preserve">
+    <value>Размер:</value>
+  </data>
+  <data name="SLAVE" xml:space="preserve">
+    <value>Подчиненный</value>
+  </data>
+  <data name="SLOVAK" xml:space="preserve">
+    <value>Словацкий</value>
+  </data>
+  <data name="SPANISH" xml:space="preserve">
+    <value>Испанский</value>
+  </data>
+  <data name="STATUS" xml:space="preserve">
+    <value>Состояние</value>
+  </data>
+  <data name="STATUSTAG" xml:space="preserve">
+    <value>Состояние:</value>
+  </data>
+  <data name="SYNCNOW" xml:space="preserve">
+    <value>Синхронизировать сейчас</value>
+  </data>
+  <data name="SYNCHRONIZATION" xml:space="preserve">
+    <value>Синхронизация</value>
+  </data>
+  <data name="SYSTEM" xml:space="preserve">
+    <value>Система</value>
+  </data>
+  <data name="SYSTEMLOGFILE" xml:space="preserve">
+    <value>Система</value>
+  </data>
+  <data name="SYSTEMSETTINGS" xml:space="preserve">
+    <value>Параметры системы</value>
+  </data>
+  <data name="TITLE" xml:space="preserve">
+    <value>Администратор iFolder</value>
+  </data>
+  <data name="TOTALIFOLDERSTAG" xml:space="preserve">
+    <value>Всего папок iFolder:</value>
+  </data>
+  <data name="TOTALTAG" xml:space="preserve">
+    <value>Всего: </value>
+  </data>
+  <data name="TOTALUSERSTAG" xml:space="preserve">
+    <value>Всего пользователей:</value>
+  </data>
+  <data name="TRUE" xml:space="preserve">
+    <value>Истина</value>
+  </data>
+  <data name="TYPE" xml:space="preserve">
+    <value>Тип</value>
+  </data>
+  <data name="TYPETAG" xml:space="preserve">
+    <value>Тип:</value>
+  </data>
+  <data name="UNKNOWNERROR" xml:space="preserve">
+    <value>Неизвестная ошибка. Исключение не указано.</value>
+  </data>
+  <data name="UNLIMITED" xml:space="preserve">
+    <value>Без ограничения</value>
+  </data>
+  <data name="USEDTAG" xml:space="preserve">
+    <value>Используется:</value>
+  </data>
+  <data name="USER" xml:space="preserve">
+    <value>Пользователь</value>
+  </data>
+  <data name="USERDETAILS" xml:space="preserve">
+    <value>Информация о пользователе</value>
+  </data>
+  <data name="USERMOVEDETAILS" xml:space="preserve">
+    <value>Сведения об изменении доступа пользователей</value>
+  </data>
+  <data name="USERLOGINDISABLED" xml:space="preserve">
+    <value>Отключить пользовательский вход в систему</value>
+  </data>
+  <data name="USERNAME" xml:space="preserve">
+    <value>Имя пользователя</value>
+  </data>
+  <data name="CURRENTHOME" xml:space="preserve">
+    <value>Текущий основной</value>
+  </data>
+  <data name="CURRENTHOMETAG" xml:space="preserve">
+    <value>Текущий основной:</value>
+  </data>
+  <data name="NEWHOME" xml:space="preserve">
+    <value>Новый основной</value>
+  </data>
+  <data name="NEWHOMETAG" xml:space="preserve">
+    <value>Новый основной:</value>
+  </data>
+  <data name="USERNAMETAG" xml:space="preserve">
+    <value>Имя пользователя:</value>
+  </data>
+  <data name="MEMBERTYPETAG" xml:space="preserve">
+    <value>Тип члена:</value>
+  </data>
+  <data name="MEMBERTYPEUSER" xml:space="preserve">
+    <value>Пользователь</value>
+  </data>
+  <data name="MEMBERTYPELDAPGROUP" xml:space="preserve">
+    <value>Группа LDAP</value>
+  </data>
+  <data name="MEMBERTYPELOCALGROUP" xml:space="preserve">
+    <value>Локальная группа</value>
+  </data>
+  <data name="MEMBERLISTTAG" xml:space="preserve">
+    <value>Члены группы:</value>
+  </data>
+  <data name="GROUPLISTTAG" xml:space="preserve">
+    <value>Группы пользователей:</value>
+  </data>
+  <data name="USERS" xml:space="preserve">
+    <value>Пользователи</value>
+  </data>
+  <data name="USERSTAG" xml:space="preserve">
+    <value>Пользователи:</value>
+  </data>
+  <data name="VIEW" xml:space="preserve">
+    <value>Просмотр</value>
+  </data>
+  <data name="WARN" xml:space="preserve">
+    <value>Предупреждение</value>
+  </data>
+  <data name="WEBACCESSLOGFILE" xml:space="preserve">
+    <value>Веб-доступ</value>
+  </data>
+  <data name="WEEKLY" xml:space="preserve">
+    <value>Еженедельно</value>
+  </data>
+  <data name="WHEN" xml:space="preserve">
+    <value>Когда</value>
+  </data>
+  <data name="TIME" xml:space="preserve">
+    <value>Время</value>
+  </data>
+  <data name="YES" xml:space="preserve">
+    <value>Да</value>
+  </data>
+  <data name="DATASTORE" xml:space="preserve">
+    <value>Хранилище данных</value>
+  </data>
+  <data name="ADDDATASTORE" xml:space="preserve">
+    <value>Добавить хранилище данных</value>
+  </data>
+  <data name="FULLPATH:" xml:space="preserve">
+    <value>Полный путь:</value>
+  </data>
+  <data name="NOOFIFOLDERS" xml:space="preserve">
+    <value>Число папок iFolder</value>
+  </data>
+  <data name="FREESPACE" xml:space="preserve">
+    <value>Свободное пространство</value>
+  </data>
+  <data name="NAME:" xml:space="preserve">
+    <value>Имя:</value>
+  </data>
+  <data name="FULLPATH" xml:space="preserve">
+    <value>Полный путь</value>
+  </data>
+  <data name="VOLUMES" xml:space="preserve">
+    <value>Тома</value>
+  </data>
+  <data name="VOLUME" xml:space="preserve">
     <value>Том</value>
   </data>
-  <data name="UNLIMITED">
-    <value>Без ограничения</value>
+  <data name="NOTMOUNTED" xml:space="preserve">
+    <value>Не смонтирован</value>
+  </data>
+  <data name="LINKALREADYEXISTS" xml:space="preserve">
+    <value>Ссылка на это имя уже существует</value>
+  </data>
+  <data name="INVALIDFULLPATH" xml:space="preserve">
+    <value>Указан неправильный путь. Проверьте и выполните ввод еще раз.</value>
+  </data>
+  <data name="ERRORINVALIDIFOLDERLIMIT" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="INVALIDLIMITERROR" xml:space="preserve">
+    <value>Невозможно создать папку iFolder, так как превышено ограничение папок, установленное администратором.</value>
+  </data>
+  <data name="INVALIDLDAPADMINORPASSWORD" xml:space="preserve">
+    <value>Неверный ИД или пароль пользователя Admin в LDAP</value>
+  </data>
+  <data name="UNABLETOEDITLDAPDETAILS" xml:space="preserve">
+    <value>Невозможно изменить информацию LDAP на эти значения. Проверьте значения. </value>
+  </data>
+  <data name="UNABLETOEDITIPDETAILS" xml:space="preserve">
+    <value>Невозможно изменить информацию IP. Проверьте значения. </value>
+  </data>
+  <data name="RESTARTSERVER" xml:space="preserve">
+    <value>Информация обновлена. Изменения вступят в силу после перезапуска сервера iFolder. </value>
+  </data>
+  <data name="MASTERURI" xml:space="preserve">
+    <value>Главный URL:</value>
+  </data>
+  <data name="LDAPADMINAUTH" xml:space="preserve">
+    <value>ldapadminauth</value>
+  </data>
+  <data name="PROVISIONUSERS" xml:space="preserve">
+    <value>provisionusers</value>
+  </data>
+  <data name="PROVISION_REPROVISION_TITLE" xml:space="preserve">
+    <value>Пользователи с персонифицированным или измененным доступом</value>
+  </data>
+  <data name="ENCRYPTION" xml:space="preserve">
+    <value>Шифрование с контрольной фразой</value>
+  </data>
+  <data name="SSLTAG" xml:space="preserve">
+    <value>Параметр SSL:</value>
+  </data>
+  <data name="SSLSTRING" xml:space="preserve">
+    <value>SSL</value>
+  </data>
+  <data name="NONSSLSTRING" xml:space="preserve">
+    <value>NONSSL</value>
+  </data>
+  <data name="BOTHSTRING" xml:space="preserve">
+    <value>ОБА</value>
+  </data>
+  <data name="ERRORIFOLDERENCRYPTIONENFORCED" xml:space="preserve">
+    <value>Этот член не может владеть обычной папкой iFolder, поскольку на него распространяется политика шифрования.</value>
+  </data>
+  <data name="CONFIRMADDITION" xml:space="preserve">
+    <value>ВАЖНО. В качестве владельца и группы для пути к данным на сервере необходимо указать apacheuser:apachegroup. Это обязательное требование для создания и синхронизации папок iFolder на этом томе.</value>
+  </data>
+  <data name="CONFIRMDELETION" xml:space="preserve">
+    <value>ВАЖНО: DataPath удалится только в том случае, если в нем не создано папок iFolder.</value>
+  </data>
+  <data name="ERRORIFOLDERTRANSFEREXCEPTION" xml:space="preserve">
+    <value>Владение не может быть передано из-за превышения предельного количества папок iFolder, установленного администратором.</value>
+  </data>
+  <data name="CONFIRMENCRYPTION" xml:space="preserve">
+    <value>Параметр шифрования с контрольной фразой позволяет зашифровать отдельную папку iFolder с применением контрольной фразы, заданной пользователем. После включения параметра его можно отключить, однако в случае сохранения с включенным параметром изменения становятся необратимыми. Щелкните \"ОК\" для сохранения изменений или \"Отмена\" для продолжения работы с текущей страницей без сохранения. </value>
+  </data>
+  <data name="INITIALIZING" xml:space="preserve">
+    <value>Инициализация</value>
+  </data>
+  <data name="TRANSFERING" xml:space="preserve">
+    <value>Передача</value>
+  </data>
+  <data name="SERVERNAMETAG" xml:space="preserve">
+    <value>Сервер:</value>
+  </data>
+  <data name="EDITADMINRIGHTS" xml:space="preserve">
+    <value>Изменить права администратора</value>
+  </data>
+  <data name="ALLADMINS" xml:space="preserve">
+    <value>Все администраторы</value>
+  </data>
+  <data name="GROUPADMINS" xml:space="preserve">
+    <value>Администраторы группы</value>
+  </data>
+  <data name="SECONDARYADMIN" xml:space="preserve">
+    <value>Дополнительный администратор</value>
+  </data>
+  <data name="SECONDARY" xml:space="preserve">
+    <value>Дополнит.</value>
+  </data>
+  <data name="REPEAT" xml:space="preserve">
+    <value>Повторить</value>
+  </data>
+  <data name="GROUPNAME" xml:space="preserve">
+    <value>Имя группы</value>
+  </data>
+  <data name="NONE" xml:space="preserve">
+    <value>Нет</value>
+  </data>
+  <data name="ADDROOT" xml:space="preserve">
+    <value>Добавить корень</value>
+  </data>
+  <data name="ERRORSELECTGROUP" xml:space="preserve">
+    <value>Ошибка: для продолжения выберите группу</value>
+  </data>
+  <data name="GROUPDISKQUOTA" xml:space="preserve">
+    <value>Дисковая квота группы: </value>
+  </data>
+  <data name="DISKSPACEUSED" xml:space="preserve">
+    <value>Используемое место на диске: </value>
+  </data>
+  <data name="DELETESECONDARYADMIN" xml:space="preserve">
+    <value>Удалить дополнительного администратора: </value>
+  </data>
+  <data name="EDITSECONDARYADMIN" xml:space="preserve">
+    <value>Изменить дополнительного администратора: </value>
+  </data>
+  <data name="ERRORCANNOTADDSECONDARYADMIN" xml:space="preserve">
+    <value>Не удается добавить члена {0} в качестве дополнительного администратора.</value>
+  </data>
+  <data name="ERRORCANNOTEDITSECONDARYADMIN" xml:space="preserve">
+    <value>Не удается изменить дополнительного администратора {0}.</value>
+  </data>
+  <data name="ERRORCANNOTDELETESECONDARYADMIN" xml:space="preserve">
+    <value>Не удается удалить дополнительного администратора {0}.</value>
+  </data>
+  <data name="SELECTMEMBERTOADD" xml:space="preserve">
+    <value>Выберите нового дополнительного администратора</value>
+  </data>
+  <data name="ADDNEWORSELECTGROUPTOEDIT" xml:space="preserve">
+    <value>Добавить или изменить выбранные группы администратора</value>
+  </data>
+  <data name="SELECTGROUPTODELETE" xml:space="preserve">
+    <value>Выбор групп для удаления</value>
+  </data>
+  <data name="PRIMARY" xml:space="preserve">
+    <value>Основной</value>
+  </data>
+  <data name="ADDNEW" xml:space="preserve">
+    <value>Добавить</value>
+  </data>
+  <data name="GROUPQUOTARESTRICTION" xml:space="preserve">
+    <value>Управлять квотой группы с помощью: </value>
+  </data>
+  <data name="GROUPRIGHTSADDSUCCESSFUL" xml:space="preserve">
+    <value>Пользователь {0}{1}{2} добавлен в качестве администратора группы {3}{4}{5}. Чтобы добавить группы для одного администратора, можно изменить права дополнительного администратора. Для добавления дополнительных групп щелкните "Повторить". Чтобы вернуться на страницу "Системы", щелкните "ОК". </value>
+  </data>
+  <data name="GROUPRIGHTSADDFAILURE" xml:space="preserve">
+    <value>Не удалось добавить пользователя {0}{1}{2} в качестве администратора группы {3}{4}{5}. Щелкните "Повторить попытку", чтобы добавить группу еще раз. Чтобы вернуться на страницу "Системы", щелкните "ОК". </value>
+  </data>
+  <data name="GROUPRIGHTSEDITSUCCESSFUL" xml:space="preserve">
+    <value>Права администратора {0}{1}{2} изменены для группы {3}{4}{5}. Щелкните "Повторить", чтобы продолжить добавление групп для этого администратора. Чтобы вернуться на страницу "Системы", щелкните "ОК".</value>
+  </data>
+  <data name="UIBASED" xml:space="preserve">
+    <value>Консоль администратора</value>
+  </data>
+  <data name="SYNCBASED" xml:space="preserve">
+    <value>Модуль синхронизации </value>
+  </data>
+  <data name="SEGREGATEDGROUPS" xml:space="preserve">
+    <value>Раздельные группы: </value>
+  </data>
+  <data name="BOTH" xml:space="preserve">
+    <value>Оба </value>
+  </data>
+  <data name="CREATESEGREGATEDGROUPS" xml:space="preserve">
+    <value>Создать раздельные группы</value>
+  </data>
+  <data name="ALLOWMODIFYSHARINGPOLICY" xml:space="preserve">
+    <value>Разрешить изменение политик совместного использования</value>
+  </data>
+  <data name="ALLOWMODIFYENCRYPTIONPOLICY" xml:space="preserve">
+    <value>Разрешить изменение политики шифрования</value>
+  </data>
+  <data name="ALLOWUSERPROVISIONING" xml:space="preserve">
+    <value>Разрешить обеспечение пользователей правами доступа</value>
+  </data>
+  <data name="ALLOWUSERENABLING" xml:space="preserve">
+    <value>Разрешить включение и отключение пользователей</value>
+  </data>
+  <data name="ALLOWORPHANIFOLDEROWNERSHIP" xml:space="preserve">
+    <value>Разрешить владение папками iFolder с нарушенными ассоциациями</value>
+  </data>
+  <data name="ALLOWIFOLDERENABLING" xml:space="preserve">
+    <value>Разрешить включение и отключение папок iFolder</value>
+  </data>
+  <data name="ALLOWSHAREDMEMBERRIGHTS" xml:space="preserve">
+    <value>Разрешить изменение прав членов совместно используемой папки iFolder</value>
+  </data>
+  <data name="ALLOWDELETEIFOLDERRIGHTS" xml:space="preserve">
+    <value>Разрешить право на удаление iFolders</value>
+  </data>
+  <data name="ASSIGNADMINRIGHTS" xml:space="preserve">
+    <value>Назначить права администратора пользователю: </value>
+  </data>
+  <data name="ADMINRIGHTSFOR" xml:space="preserve">
+    <value>Права администратора для: </value>
+  </data>
+  <data name="CANNOTSETUNLIMITED" xml:space="preserve">
+    <value>Не удается задать значение "неограничено", так как группа имеет совокупный набор дисковых квот</value>
+  </data>
+  <data name="CANNOTSETQUOTAPERUSERERROR" xml:space="preserve">
+    <value>Не удается задать это ограничение, так как общая выделенная дисковая квота на члена превышает квоту группы</value>
+  </data>
+  <data name="INVALIDGROUPQUOTA" xml:space="preserve">
+    <value>Совокупная дисковая квота для группы меньше, чем выделенная/используемая квота для каждого пользователя этой группы. Удалите часть данных на сервере либо измените выделенное ограничение дискового пространства на пользователя для членов группы. Затем установите совокупную дисковую квоту.</value>
+  </data>
+  <data name="NOMEMBERAVAILABLE" xml:space="preserve">
+    <value>Члены не доступны</value>
+  </data>
+  <data name="NOPOLICIESAVAILABLE" xml:space="preserve">
+    <value>Доступные политики отсутствуют</value>
+  </data>
+  <data name="SAVETO" xml:space="preserve">
+    <value>Сохранить в</value>
+  </data>
+  <data name="NOTAPPLICABLE" xml:space="preserve">
+    <value>Н/Д</value>
+  </data>
+  <data name="ONLINE" xml:space="preserve">
+    <value>Включен</value>
+  </data>
+  <data name="OFFLINE" xml:space="preserve">
+    <value>Ожидание</value>
+  </data>
+  <data name="WAITING" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="NOTELIGIBLE" xml:space="preserve">
+    <value>Сбой инициализации</value>
+  </data>
+  <data name="CHANGEMASTER" xml:space="preserve">
+    <value>Установить главным</value>
+  </data>
+  <data name="NEEDSREPAIR" xml:space="preserve">
+    <value>Восстановить сервер</value>
+  </data>
+  <data name="UNABLETOSETASSLAVE" xml:space="preserve">
+    <value>Не удается установить в качестве подчиненного сервера. Повторить операцию.</value>
+  </data>
+  <data name="CONFIGFILEUPDATEFAILED" xml:space="preserve">
+    <value>Не удается обновить конфигурационный файл. Обновите файл simias.config вручную.</value>
+  </data>
+  <data name="CONNECTIONFAILED" xml:space="preserve">
+    <value>Не удается подключиться к серверу {0}.</value>
+  </data>
+  <data name="CHANGEMASTERNOINFOFAILED" xml:space="preserve">
+    <value>Не удается получить идентификатор сервера и новый общедоступный URL-адрес сервера.</value>
+  </data>
+  <data name="CHANGEMASTERSUCCESSFUL" xml:space="preserve">
+    <value>{0} обновлен как главный сервер. Перезагрузите все серверы для вступления изменений в силу.</value>
+  </data>
+  <data name="CHANGEMASTERWITHWARNING" xml:space="preserve">
+    <value>{0} обновлен как главный сервер без исключений. Дополнительную информацию см. в файле Simias.log. Перезагрузите все серверы для вступления изменений в силу.</value>
+  </data>
+  <data name="CHANGEMASTERFAILED" xml:space="preserve">
+    <value>Не удается изменить главный и подчиненный узел. Дополнительную информацию см. в файлах журнала.</value>
+  </data>
+  <data name="CONFIRMCHANGEMASTER" xml:space="preserve">
+    <value>Выбранный сервер будет обозначен главным. Продолжить? Щелкните кнопку \"ОК\", чтобы продолжить, или кнопку \"Отмена\" для отмены.</value>
+  </data>
+  <data name="UPDATEMASTERURLONSLAVESFAILED" xml:space="preserve">
+    <value>Не удалось обновить новый главный URL-адрес на сервере {0}. Обновите главный IP-адрес на этом сервере вручную.</value>
+  </data>
+  <data name="MASTERNODEUPDATEWAIT" xml:space="preserve">
+    <value>Ожидание синхронизации атрибута главного узла с новым главным и подчиненными узлами.</value>
+  </data>
+  <data name="CHANGEMASTERRETRY" xml:space="preserve">
+    <value>Не удается обновить атрибут главного узла на главном и подчиненном узлах. Повторите операцию.</value>
+  </data>
+  <data name="running" xml:space="preserve">
+    <value>выполняется</value>
+  </data>
+  <data name="sleeping" xml:space="preserve">
+    <value>спящий режим</value>
+  </data>
+  <data name="disabled" xml:space="preserve">
+    <value>отключено</value>
+  </data>
+  <data name="shutdown" xml:space="preserve">
+    <value>выключение</value>
+  </data>
+  <data name="waiting" xml:space="preserve">
+    <value>ожидание</value>
+  </data>
+  <data name="TIMEOUT" xml:space="preserve">
+    <value>Возможно, запрос будет выполняться в течение длительного времени. Во время выполнения запроса можно выполнять другие задачи.
+</value>
   </data>
 </root>
