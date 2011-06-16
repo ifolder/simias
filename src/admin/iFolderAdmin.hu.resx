@@ -3,7 +3,7 @@
   <!-- 
     Microsoft ResX Schema 
     
-    Version 2.0
+    Version 1.3
     
     The primary goals of this format is to allow a simple XML format 
     that is mostly human readable. The generation and parsing of the 
@@ -14,17 +14,16 @@
     
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
-    <resheader name="version">2.0</resheader>
+    <resheader name="version">1.3</resheader>
     <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
     <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Name1">this is my long string</data>
     <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
     <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        <value>[base64 mime encoded serialized .NET Framework object]</value>
+        [base64 mime encoded serialized .NET Framework object]
     </data>
     <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
-        <comment>This is a comment</comment>
+        [base64 mime encoded string representing a byte array form of the .NET Framework object]
     </data>
                 
     There are any number of "resheader" rows that contain simple 
@@ -36,7 +35,7 @@
     Classes that don't support this are serialized and stored with the 
     mimetype set.
     
-    The mimetype is used for serialized objects, and tells the 
+    The mimetype is used forserialized objects, and tells the 
     ResXResourceReader how to depersist the object. This is currently not 
     extensible. For a given mimetype the value must be set accordingly:
     
@@ -46,7 +45,7 @@
     
     mimetype: application/x-microsoft.net.object.binary.base64
     value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : System.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
     
     mimetype: application/x-microsoft.net.object.soap.base64
@@ -60,37 +59,18 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
-          <xsd:element name="metadata">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
-              </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="assembly">
-            <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
-            </xsd:complexType>
-          </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
                 <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
                 <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
               <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
               <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
@@ -109,1324 +89,1311 @@
     <value>text/microsoft-resx</value>
   </resheader>
   <resheader name="version">
-    <value>2.0</value>
+    <value>1.3</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ACCESSLOGFILE" xml:space="preserve">
-    <value>Felhasználói hozzáférés</value>
-  </data>
-  <data name="ACCOUNT" xml:space="preserve">
-    <value>Fiók</value>
-  </data>
-  <data name="ADD" xml:space="preserve">
-    <value>Hozzáadás</value>
-  </data>
-  <data name="ADDADMINS" xml:space="preserve">
-    <value>Rendszergazdák hozzáadása</value>
-  </data>
-  <data name="ADDMEMBERS" xml:space="preserve">
-    <value>iFolder tagok hozzáadása</value>
-  </data>
-  <data name="ADDMEMBERSTOIFOLDER" xml:space="preserve">
-    <value>További tagok hozzáadása a(z) "{0}" iFolder mappához</value>
-  </data>
-  <data name="ADMIN" xml:space="preserve">
-    <value>Rendszergazda</value>
-  </data>
-  <data name="FULLCONTROL" xml:space="preserve">
-    <value>Teljes vezérlés</value>
-  </data>
-  <data name="ADMINISTRATOR" xml:space="preserve">
-    <value>Rendszergazda</value>
-  </data>
-  <data name="ADMINISTRATORS" xml:space="preserve">
-    <value>Rendszergazdák</value>
-  </data>
-  <data name="ADMINLOGFILE" xml:space="preserve">
-    <value>Webes rendszergazda</value>
-  </data>
-  <data name="ADOPT" xml:space="preserve">
-    <value>Befogadás</value>
-  </data>
-  <data name="ALL" xml:space="preserve">
-    <value>Mind</value>
-  </data>
-  <data name="ALLFIELDSREQUIRED" xml:space="preserve">
-    <value>Minden mezőt ki kell tölteni.</value>
-  </data>
-  <data name="ALLOW" xml:space="preserve">
-    <value>Engedélyezés</value>
-  </data>
-  <data name="ASSIGNADMINISTRATORS" xml:space="preserve">
-    <value>Rendszergazdák hozzárendelése</value>
-  </data>
-  <data name="ATTAG" xml:space="preserve">
-    <value>Időpont:</value>
-  </data>
-  <data name="AVAILABLETAG" xml:space="preserve">
-    <value>Használható:</value>
-  </data>
-  <data name="B" xml:space="preserve">
-    <value>B</value>
-  </data>
-  <data name="BACK" xml:space="preserve">
-    <value>Vissza</value>
-  </data>
-  <data name="BEGINSWITH" xml:space="preserve">
-    <value>kezdete</value>
-  </data>
-  <data name="CANCEL" xml:space="preserve">
-    <value>Mégse</value>
-  </data>
-  <data name="CHINESE-SIMPLIFIED" xml:space="preserve">
-    <value>kínai (egyszerűsített)</value>
-  </data>
-  <data name="CHINESE-TRADITIONAL" xml:space="preserve">
-    <value>kínai (hagyományos)</value>
-  </data>
-  <data name="CONFIGUREREPORTING" xml:space="preserve">
-    <value>Jelentéskészítés konfigurálása</value>
-  </data>
-  <data name="CONTAINS" xml:space="preserve">
-    <value>tartalmazza</value>
-  </data>
-  <data name="CREATE" xml:space="preserve">
-    <value>Létrehozás</value>
-  </data>
-  <data name="CREATENEWIFOLDER" xml:space="preserve">
-    <value>Új iFolder létrehozása</value>
-  </data>
-  <data name="CREATEUSER" xml:space="preserve">
-    <value>Felhasználó létrehozása</value>
-  </data>
-  <data name="CSVFORMAT" xml:space="preserve">
-    <value>Szöveg, CSV</value>
-  </data>
-  <data name="CZECH" xml:space="preserve">
-    <value>cseh</value>
-  </data>
-  <data name="DAILY" xml:space="preserve">
-    <value>Napi</value>
-  </data>
-  <data name="DAYTAG" xml:space="preserve">
-    <value>Nap:</value>
-  </data>
-  <data name="DEBUG" xml:space="preserve">
-    <value>Hibakeresés</value>
-  </data>
-  <data name="DELETE" xml:space="preserve">
-    <value>Törlés</value>
-  </data>
-  <data name="DELETED" xml:space="preserve">
-    <value>Törölve</value>
-  </data>
-  <data name="DENY" xml:space="preserve">
-    <value>Elutasítás</value>
-  </data>
-  <data name="DESCRIPTIONTAG" xml:space="preserve">
-    <value>Leírás:</value>
-  </data>
-  <data name="DIRECTORIESTAG" xml:space="preserve">
-    <value>Könyvtárak:</value>
-  </data>
-  <data name="DISABLE" xml:space="preserve">
-    <value>Letiltás</value>
-  </data>
-  <data name="DISABLEPASTSHARING" xml:space="preserve">
-    <value>Visszavonás</value>
-  </data>
-  <data name="SHARING" xml:space="preserve">
-    <value>Megosztás</value>
-  </data>
-  <data name="DISKQUOTA" xml:space="preserve">
-    <value>Lemezkvóta</value>
-  </data>
-  <data name="DISKSPACEAVAILABLETAG" xml:space="preserve">
-    <value>Rendelkezésre álló terület:</value>
-  </data>
-  <data name="DISKSPACEUSEDTAG" xml:space="preserve">
-    <value>Felhasznált lemezterület:</value>
-  </data>
-  <data name="DNSNAME" xml:space="preserve">
-    <value>DNS-név</value>
-  </data>
-  <data name="DNSNAMETAG" xml:space="preserve">
-    <value>DNS-név:</value>
-  </data>
-  <data name="DOWNLOAD" xml:space="preserve">
-    <value>Letöltés</value>
-  </data>
-  <data name="EDIT" xml:space="preserve">
-    <value>Szerkesztés</value>
-  </data>
-  <data name="EDITLDAPDETAILS" xml:space="preserve">
-    <value>LDAP-adatok szerkesztése</value>
-  </data>
-  <data name="EFFECTIVETAG" xml:space="preserve">
-    <value>Érvényesség:</value>
-  </data>
-  <data name="ELLIPSES" xml:space="preserve">
-    <value> ...</value>
-  </data>
-  <data name="ENABLE" xml:space="preserve">
-    <value>Engedély.</value>
-  </data>
-  <data name="REPROVISOINSTATE" xml:space="preserve">
-    <value>Újraengedélyezési állapot</value>
-  </data>
-  <data name="REPROVISOINSTATETAG" xml:space="preserve">
-    <value>Újraengedélyezési állapot:</value>
-  </data>
-  <data name="ENABLED" xml:space="preserve">
-    <value>Engedélyezve</value>
-  </data>
-  <data name="ENABLEDTAG" xml:space="preserve">
-    <value>Engedélyezve:</value>
-  </data>
-  <data name="ENABLEREPORTING" xml:space="preserve">
-    <value>Jelentéskészítés engedélyezése</value>
-  </data>
-  <data name="ACCESSDENIED" xml:space="preserve">
-    <value>Ezen erőforrás hozzáférése megtagadva</value>
-  </data>
-  <data name="ACCESSDENIEDERROR" xml:space="preserve">
-    <value>A bejelentkezett felhasználó nem jogosult ezen lap tulajdonságainak megtekintésére és módosítására</value>
-  </data>
-  <data name="ENDSWITH" xml:space="preserve">
-    <value>így végződik</value>
-  </data>
-  <data name="ENFORCED" xml:space="preserve">
-    <value>Kikényszerített </value>
-  </data>
-  <data name="ENGLISH" xml:space="preserve">
-    <value>angol</value>
-  </data>
-  <data name="ENTERLDAPDETAILS" xml:space="preserve">
-    <value>LDAP-rendszergazda hitelesítő adatainak megadása</value>
-  </data>
-  <data name="EQUALS" xml:space="preserve">
-    <value>egyenlő</value>
-  </data>
-  <data name="ERROR" xml:space="preserve">
-    <value>Hiba</value>
-  </data>
-  <data name="ERRORACCESSEXCEPTION" xml:space="preserve">
-    <value>Nem rendelkezik megfelelő jogokkal a kérés végrehajtásához.</value>
-  </data>
-  <data name="PATHTOOLONGEXCEPTION" xml:space="preserve">
-    <value>Túl hosszú az iFolder mappa neve, így nem lehet létrehozni.</value>
-  </data>
-  <data name="ERRORAUTHENTICATIONFAILED" xml:space="preserve">
-    <value>A hitelesítés sikertelen volt.</value>
-  </data>
-  <data name="ERRORCANNOTADDADMIN" xml:space="preserve">
-    <value>{0} tagot nem sikerült felvenni rendszergazdaként.</value>
-  </data>
-  <data name="ERRORCANNOTADDMEMBER" xml:space="preserve">
-    <value>{0} tagot nem sikerült hozzáadni a(z) {1} iFolder mappához.</value>
-  </data>
-  <data name="ERRORCANNOTCHANGERIGHTS" xml:space="preserve">
-    <value>{0} felhasználó tagsági jogait nem sikerült módosítani.</value>
-  </data>
-  <data name="ERRORCANNOTCHANGEOWNER" xml:space="preserve">
-    <value>Nem sikerült az iFolder tulajdonosának módosítása.</value>
-  </data>
-  <data name="ERRORCANNOTCREATEIFOLDER" xml:space="preserve">
-    <value>Nem sikerült az iFolder mappa létrehozása.</value>
-  </data>
-  <data name="ERRORCANNOTCREATEUSER" xml:space="preserve">
-    <value>Nem sikerült létrehozni a felhasználót.</value>
-  </data>
-  <data name="ERRORCANNOTDELETEIFOLDER" xml:space="preserve">
-    <value>A(z) {0} törléséhez nincs engedélye.</value>
-  </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="ERRORCANNOTDELETEIFOLDER" type="System.Resources.ResXNullRef, System.Windows.Forms">
-    <value />
-  </data>
-  <data name="ERRORCANNOTDELETEMEMBERS" xml:space="preserve">
-    <value>{0} iFolder tag nem törölhető.</value>
-  </data>
-  <data name="ERRORCANNOTDELETEUSER" xml:space="preserve">
-    <value>A(z) {0} felhasználói azonosítót nem sikerült törölni.</value>
-  </data>
-  <data name="ERRORCANNOTREMOVEADMIN" xml:space="preserve">
-    <value>{0} felhasználó nem távolítható el rendszergazdaként.</value>
-  </data>
-  <data name="ERRORCANNOTSETDESCRIPTION" xml:space="preserve">
-    <value>Nem sikerült az iFolder mappa leírásának beállítása.</value>
-  </data>
-  <data name="ERRORCANNOTSETIFOLDERPOLICY" xml:space="preserve">
-    <value>Nem sikerült beállítani a(z) {0} azonosítójú iFolder mappa házirend-információit.</value>
-  </data>
-  <data name="ERRORCANNOTSETSYSTEMPOLICY" xml:space="preserve">
-    <value>Nem sikerült beállítani a rendszer házirendadatait.</value>
-  </data>
-  <data name="ERRORCANNOTSETIFOLDERSTATUS" xml:space="preserve">
-    <value>Nem sikerült beállítani az iFolder mappa szinkronizációs állapotát.</value>
-  </data>
-  <data name="ERRORCANNOTSETUSERPOLICY" xml:space="preserve">
-    <value>A(z) {0} felhasználói azonosítóhoz nem sikerült beállítani a házirend adatait.</value>
-  </data>
-  <data name="ERRORDETAIL" xml:space="preserve">
-    <value>Hiba adatai</value>
-  </data>
-  <data name="ERRORIFOLDERDOESNOTEXIST" xml:space="preserve">
-    <value>Nem létező iFolder.</value>
-  </data>
-  <data name="ERRORINVALIDFILESIZE" xml:space="preserve">
-    <value>Érvénytelen fájlméret-korlátozás van megadva. Az értéknek 1 és 2e+063 - 1 között kell lennie.</value>
-  </data>
-  <data name="ERRORINVALIDDATA" xml:space="preserve">
-    <value>Minden mezőt kötelező kitölteni. Ellenőrizze, és írja be újra</value>
-  </data>
-  <data name="ERRORPROXYPASSWORDSDOESNOTMATCH" xml:space="preserve">
-    <value>A proxyjelszavak nem egyeznek. Írja be újra a helyes jelszavakat</value>
-  </data>
-  <data name="ERRORINVALIDLIMIT" xml:space="preserve">
-    <value>Érvénytelen fájlméret van megadva. Az értéknek kisebbnek kell lennie a lemezkvóta beállításánál.</value>
-  </data>
-  <data name="ERRORINVALIDQUOTA" xml:space="preserve">
-    <value>Érvénytelen lemezkvóta van megadva. Az értéknek 1 és 2e+063 - 1 között kell lennie.</value>
-  </data>
-  <data name="ERRORINVALIDIFOLDERLIMIT" xml:space="preserve">
-    <value>Érvénytelen határérték van megadva az iFolder mappához. Az értéknek 0 és 2e+063 - 1 között kell lennie.</value>
-  </data>
-  <data name="ERRORINVALIDSYNCINTERVAL" xml:space="preserve">
-    <value>Érvénytelen szinkronizálási időköz van megadva. Az értéknek 5 és 999 között kell lennie.</value>
-  </data>
-  <data name="ERRORINVALIDIDSYNCINTERVAL" xml:space="preserve">
-    <value>Érvénytelen a megadott szinkronizálási időköz. Az érték csak 5 és 10 080 között lehet.</value>
-  </data>
-  <data name="ERRORLOCKEXCEPTION" xml:space="preserve">
-    <value>A művelet megszakadt, mivel a rendszergazda zárolta/letiltotta az iFolder mappát.</value>
-  </data>
-  <data name="ERRORMEMBERDOESNOTEXIST" xml:space="preserve">
-    <value>Nem létező iFolder tag.</value>
-  </data>
-  <data name="ERRORNOFILESIZE" xml:space="preserve">
-    <value>Nincs megadva fájlméret-korlátozás.</value>
-  </data>
-  <data name="ERRORNOQUOTA" xml:space="preserve">
-    <value>Nincs megadva lemezkvóta.</value>
-  </data>
-  <data name="ERRORNOIFOLDERLIMIT" xml:space="preserve">
-    <value>Nincs megadva határérték az iFolder mappához.</value>
-  </data>
-  <data name="ERRORNOSYNCINTERVAL" xml:space="preserve">
-    <value>Nincs megadva szinkronizálási időköz.</value>
-  </data>
-  <data name="ERRORNOTADMINISTRATOR" xml:space="preserve">
-    <value>A felhasználó nem iFolder rendszergazda.</value>
-  </data>
-  <data name="ERRORTEMPLATE" xml:space="preserve">
-    <value>Hiba: {0}</value>
-  </data>
-  <data name="ERRORTYPE" xml:space="preserve">
-    <value>Nem kezelt hiba</value>
-  </data>
-  <data name="ERRORINSTRUCTIONS" xml:space="preserve">
-    <value>&lt;p&gt;Az iFolder Web Access váratlan hibát tapasztalt.&lt;/p&gt; &lt;p&gt;Elnézést az esetleges kényelmetlenségért, legyen szíves, jelentkezzen ki, és próbálja meg újra.&lt;/p&gt;</value>
-  </data>
-  <data name="ERRORUNKNOWNERROR" xml:space="preserve">
-    <value>Ismeretlen hiba történt.</value>
-  </data>
-  <data name="ERRORUSERDOESNOTEXIST" xml:space="preserve">
-    <value>A megadott iFolder felhasználó nem létezik.</value>
-  </data>
-  <data name="EVERYTAG" xml:space="preserve">
-    <value>Időköz:</value>
-  </data>
-  <data name="EXCLUDEDFILES" xml:space="preserve">
-    <value>Kizárt fájlok</value>
-  </data>
-  <data name="FATAL" xml:space="preserve">
-    <value>Végzetes</value>
-  </data>
-  <data name="FILE" xml:space="preserve">
-    <value>Fájl</value>
-  </data>
-  <data name="FILENAME" xml:space="preserve">
-    <value>Fájlnév</value>
-  </data>
-  <data name="FILES" xml:space="preserve">
-    <value>Fájlok</value>
-  </data>
-  <data name="FILESTAG" xml:space="preserve">
-    <value>Fájlok:</value>
-  </data>
-  <data name="FILESIZE" xml:space="preserve">
-    <value>Fájlméret</value>
-  </data>
-  <data name="FILETYPEALREADYEXISTS" xml:space="preserve">
-    <value>A megadott név már szerepel a listában.</value>
-  </data>
-  <data name="FIRST" xml:space="preserve">
-    <value>Első</value>
-  </data>
-  <data name="FIRSTNAME" xml:space="preserve">
-    <value>Utónév</value>
-  </data>
-  <data name="FIRSTNAMETAG" xml:space="preserve">
-    <value>Utónév:</value>
-  </data>
-  <data name="FIRSTPAGE" xml:space="preserve">
-    <value>Első lap</value>
-  </data>
-  <data name="FORMATTAG" xml:space="preserve">
-    <value>Formátum:</value>
-  </data>
-  <data name="FRENCH" xml:space="preserve">
-    <value>francia</value>
-  </data>
-  <data name="FREQUENCY" xml:space="preserve">
-    <value>Gyakoriság</value>
-  </data>
-  <data name="FULLNAME" xml:space="preserve">
-    <value>Teljes név</value>
-  </data>
-  <data name="FULLNAMETAG" xml:space="preserve">
-    <value>Teljes név:</value>
-  </data>
-  <data name="FULLNAMEDISLAYTAG" xml:space="preserve">
-    <value>Név megjelenítése:</value>
-  </data>
-  <data name="FULLNAMEDISPLAYORDER" xml:space="preserve">
-    <value>Teljes név megjelenítési sorrendje:</value>
-  </data>
-  <data name="GB" xml:space="preserve">
-    <value>GB</value>
-  </data>
-  <data name="GENERATEDAILYREPORT" xml:space="preserve">
-    <value>Jelentés készítése mindennap, időpont: {0}, hely: {1}</value>
-  </data>
-  <data name="GENERATEMONTHLYREPORT" xml:space="preserve">
-    <value>Jelentés készítése minden hónap {0}. napján, időpont: {1}, hely: {2}</value>
-  </data>
-  <data name="GENERATEWEEKLYREPORT" xml:space="preserve">
-    <value>Jelentés készítése – nap: {0}, időpont: {1}, hely: {2}</value>
-  </data>
-  <data name="GERMAN" xml:space="preserve">
-    <value>német</value>
-  </data>
-  <data name="HELP" xml:space="preserve">
-    <value>Súgó</value>
-  </data>
-  <data name="HOME" xml:space="preserve">
-    <value>Kezdő kiszolgáló</value>
-  </data>
-  <data name="COMPLETED" xml:space="preserve">
-    <value>Kész</value>
-  </data>
-  <data name="COMPLETEDTAG" xml:space="preserve">
-    <value>Kész:</value>
-  </data>
-  <data name="HUNGARIAN" xml:space="preserve">
-    <value>magyar</value>
-  </data>
-  <data name="IDENTITYSYNCTAG" xml:space="preserve">
-    <value>Identitás szinkronizálása:</value>
-  </data>
-  <data name="IFOLDER" xml:space="preserve">
-    <value>iFolder</value>
-  </data>
-  <data name="IFOLDERADMINS" xml:space="preserve">
-    <value>iFolder rendszergazdák</value>
-  </data>
-  <data name="IFOLDERDETAILS" xml:space="preserve">
-    <value>Az iFolder adatai</value>
-  </data>
-  <data name="IFOLDERDISABLED" xml:space="preserve">
-    <value>Szinkronizálás letiltása</value>
-  </data>
-  <data name="IFOLDERISOWNEDBY" xml:space="preserve">
-    <value>Tulajdonosa: {0}</value>
-  </data>
-  <data name="IFOLDERLIMIT" xml:space="preserve">
-    <value>iFolder mappa / felhasználó</value>
-  </data>
-  <data name="IFOLDERS" xml:space="preserve">
-    <value>iFolder mappák</value>
-  </data>
-  <data name="IFOLDERSTAG" xml:space="preserve">
-    <value>iFolder mappák:</value>
-  </data>
-  <data name="IFOLDERUSERDETAILS" xml:space="preserve">
-    <value>iFolder felhasználó adatai</value>
-  </data>
-  <data name="IFOLDERUSERS" xml:space="preserve">
-    <value>iFolder-felhasználók</value>
-  </data>
-  <data name="REPROVISIONLIST" xml:space="preserve">
-    <value>iFolder rendszer-újraengedélyezési állapot</value>
-  </data>
-  <data name="INFO" xml:space="preserve">
-    <value>Információ</value>
-  </data>
-  <data name="INHEIRITEDPOLICY" xml:space="preserve">
-    <value>(örökölt házirend)</value>
-  </data>
-  <data name="INTERVALTAG" xml:space="preserve">
-    <value>Időköz:</value>
-  </data>
-  <data name="ITALIAN" xml:space="preserve">
-    <value>olasz</value>
-  </data>
-  <data name="JAPANESE" xml:space="preserve">
-    <value>japán</value>
-  </data>
-  <data name="KB" xml:space="preserve">
-    <value>KB</value>
-  </data>
-  <data name="LAST" xml:space="preserve">
-    <value>Utolsó</value>
-  </data>
-  <data name="LASTLOGINTIMETAG" xml:space="preserve">
-    <value>Legutóbbi bejelentkezés ideje:</value>
-  </data>
-  <data name="LASTMODIFIED" xml:space="preserve">
-    <value>Legutóbbi módosítás</value>
-  </data>
-  <data name="LASTNAME" xml:space="preserve">
-    <value>Vezetéknév</value>
-  </data>
-  <data name="HOMESERVERNAME" xml:space="preserve">
-    <value>Kezdő kiszolgáló</value>
-  </data>
-  <data name="LASTNAMETAG" xml:space="preserve">
-    <value>Vezetéknév:</value>
-  </data>
-  <data name="LASTPAGE" xml:space="preserve">
-    <value>Utolsó lap</value>
-  </data>
-  <data name="LDAPADMINNAME" xml:space="preserve">
-    <value>LDAP-rendszergazda megkülönböztetett neve (DN):</value>
-  </data>
-  <data name="LDAPADMINPWD" xml:space="preserve">
-    <value>LDAP-rendszergazda jelszava:</value>
-  </data>
-  <data name="LDAPDETAILS" xml:space="preserve">
-    <value>LDAP-adatok</value>
-  </data>
-  <data name="LDAPSERVER" xml:space="preserve">
-    <value>LDAP-kiszolgáló:</value>
-  </data>
-  <data name="LDAPCYCLES" xml:space="preserve">
-    <value>Ciklusok:</value>
-  </data>
-  <data name="LDAPMEMBERDELETE" xml:space="preserve">
-    <value>Tag törlése</value>
-  </data>
-  <data name="LDAPMEMBERDELETEGRACEINT" xml:space="preserve">
-    <value>lejárat utáni bejelentkezések száma:</value>
-  </data>
-  <data name="LDAPUPSINCE" xml:space="preserve">
-    <value>Működés kezdete:</value>
-  </data>
-  <data name="LDAPCONTEXTTAG" xml:space="preserve">
-    <value>LDAP-környezetek:</value>
-  </data>
-  <data name="LDAPSTATUSTAG" xml:space="preserve">
-    <value>Állapot:</value>
-  </data>
-  <data name="LDAPSSL" xml:space="preserve">
-    <value>LDAP SSL:</value>
-  </data>
-  <data name="LDAPPROXYUSER" xml:space="preserve">
-    <value>Proxyfelhasználó:</value>
-  </data>
-  <data name="LDAPPROXYUSERPWD" xml:space="preserve">
-    <value>Proxyfelhasználó jelszava:</value>
-  </data>
-  <data name="CONFIRMLDAPPROXYUSERPWD" xml:space="preserve">
-    <value>Proxyfelhasználó jelszavának megerősítése:</value>
-  </data>
-  <data name="LIMITTAG" xml:space="preserve">
-    <value>Korlátozás:</value>
-  </data>
-  <data name="LOGGEDINAS" xml:space="preserve">
-    <value>Be van jelentkezve mint</value>
-  </data>
-  <data name="LOGGEDONUSERSTAG" xml:space="preserve">
-    <value>Bejelentkezett felhasználók:</value>
-  </data>
-  <data name="LOGIN" xml:space="preserve">
-    <value>Bejelentkezés</value>
-  </data>
-  <data name="LOGINACCOUNTDISABLED" xml:space="preserve">
-    <value>A fiók jelenleg le van tiltva, nem használható.</value>
-  </data>
-  <data name="LOGINACCOUNTLOCKED" xml:space="preserve">
-    <value>A fiók jelenleg zárolva van, nem használható.</value>
-  </data>
-  <data name="LOGINCONNECTFAILED" xml:space="preserve">
-    <value>Nem sikerült kapcsolódni az iFolder kiszolgálóhoz.</value>
-  </data>
-  <data name="REVERTSHARINGCONNECTFAILED" xml:space="preserve">
-    <value>Nem lehet csatlakozni az iFolder-kiszolgálóhoz. Ha elérhető lesz a kiszolgáló, vonja vissza a megosztást.</value>
-  </data>
-  <data name="LOGINCOPYRIGHT" xml:space="preserve">
-    <value>&amp;copy; Copyright 2011 Novell, Inc. Minden jog fenntartva.</value>
-  </data>
-  <data name="LOGINERROR" xml:space="preserve">
-    <value>Hiba:</value>
-  </data>
-  <data name="LOGINFAILED" xml:space="preserve">
-    <value>Sikertelen:</value>
-  </data>
-  <data name="LOGINIFOLDERSERVER" xml:space="preserve">
-    <value>iFolder kiszolgáló:</value>
-  </data>
-  <data name="LOGINLANGUAGE" xml:space="preserve">
-    <value>Nyelv:</value>
-  </data>
-  <data name="LOGINLOGOUT" xml:space="preserve">
-    <value>Kijelentkezett az iFolder szolgáltatásból.</value>
-  </data>
-  <data name="LOGINLOSTSESSION" xml:space="preserve">
-    <value>A munkamenet bezárult. Jelentkezzen be.</value>
-  </data>
-  <data name="CANNOTSETPERMISSION" xml:space="preserve">
-    <value>Nem sikerült módosítani a megadott teljes elérési út engedélyét.</value>
-  </data>
-  <data name="LOGINNOCOOKIES" xml:space="preserve">
-    <value>Engedélyeznie kell a böngészőben a cookie-k használatát.</value>
-  </data>
-  <data name="LOGINNOSCRIPT" xml:space="preserve">
-    <value>Engedélyeznie kell a böngészőben a parancsfájlok használatát.</value>
-  </data>
-  <data name="LOGINPASSWORD" xml:space="preserve">
-    <value>Jelszó:</value>
-  </data>
-  <data name="LOGINREDIRECT" xml:space="preserve">
+  <data name="LOGINREDIRECT">
     <value>Frissíteni kell az iFolder kiszolgáló URL-jét.</value>
   </data>
-  <data name="LOGINSECUREFAILED" xml:space="preserve">
-    <value>Nem lehet biztonságosan kommunikálni az iFolder kiszolgálóval.</value>
+  <data name="FIRST">
+    <value>Első</value>
   </data>
-  <data name="LOGINSENDFAILED" xml:space="preserve">
-    <value>Nem lehet kommunikálni az iFolder kiszolgálóval.</value>
+  <data name="ERRORINVALIDDATA">
+    <value>Minden mezőt kötelező kitölteni. Ellenőrizze, és írja be újra</value>
   </data>
-  <data name="LOGINTRUSTFAILED" xml:space="preserve">
-    <value>Az iFolder kiszolgáló és az iFolder Web Access közötti megbízáson alapuló kapcsolat sikertelen.</value>
+  <data name="LOGIN">
+    <value>Bejelentkezés</value>
   </data>
-  <data name="INVALIDCERTIFICATE" xml:space="preserve">
-    <value>Sikertelen hitelesítés. Probléma adódott az LDAP protokollal vagy az iFolder-kiszolgáló tanúsítványával.</value>
-  </data>
-  <data name="LOGINUNAUTHORIZED" xml:space="preserve">
-    <value>Adja meg újra a felhasználónevét és jelszavát.</value>
-  </data>
-  <data name="LOGINUSERNAME" xml:space="preserve">
-    <value>Felhasználónév:</value>
-  </data>
-  <data name="LOGLEVELTAG" xml:space="preserve">
-    <value>Naplózás szintje</value>
-  </data>
-  <data name="LOGTAG" xml:space="preserve">
-    <value>Napló</value>
-  </data>
-  <data name="LOGOUT" xml:space="preserve">
-    <value>Kijelentkezés</value>
-  </data>
-  <data name="MASTER" xml:space="preserve">
-    <value>Fő</value>
-  </data>
-  <data name="MAXCONNECTIONSTAG" xml:space="preserve">
-    <value>Kapcsolatok maximális száma:</value>
-  </data>
-  <data name="MB" xml:space="preserve">
-    <value>MB</value>
-  </data>
-  <data name="MEMBER" xml:space="preserve">
-    <value>Tag</value>
-  </data>
-  <data name="MEMBERS" xml:space="preserve">
-    <value>Tagok</value>
-  </data>
-  <data name="MESSAGEINFORMATION" xml:space="preserve">
-    <value>Információ:</value>
-  </data>
-  <data name="MINUTES" xml:space="preserve">
-    <value>perc</value>
-  </data>
-  <data name="MINIMALINFO" xml:space="preserve">
-    <value>Minimális információ megjelenítése</value>
-  </data>
-  <data name="MODIFIEDTAG" xml:space="preserve">
-    <value>Módosítva:</value>
-  </data>
-  <data name="MONTHLY" xml:space="preserve">
-    <value>Havi</value>
-  </data>
-  <data name="NAME" xml:space="preserve">
-    <value>Név</value>
-  </data>
-  <data name="NAMETAG" xml:space="preserve">
-    <value>Név:</value>
-  </data>
-  <data name="NEWIFOLDERDESCRIPTIONTAG" xml:space="preserve">
-    <value>iFolder leírása:</value>
-  </data>
-  <data name="NEWIFOLDERNAMETAG" xml:space="preserve">
-    <value>iFolder neve:</value>
-  </data>
-  <data name="NEXT" xml:space="preserve">
-    <value>Tovább</value>
-  </data>
-  <data name="NEXTPAGE" xml:space="preserve">
-    <value>Következő lap</value>
-  </data>
-  <data name="NEWFILETYPE" xml:space="preserve">
-    <value>Új fájltípus</value>
-  </data>
-  <data name="NO" xml:space="preserve">
-    <value>Nincs</value>
-  </data>
-  <data name="NOITEMSFOUND" xml:space="preserve">
-    <value>Nem található elem.</value>
-  </data>
-  <data name="NOSERVER" xml:space="preserve">
-    <value>Nincs kiválasztva kiszolgáló</value>
-  </data>
-  <data name="NOTAVAILABLE" xml:space="preserve">
-    <value>Nem érhető el</value>
-  </data>
-  <data name="OFF" xml:space="preserve">
-    <value>Ki</value>
-  </data>
-  <data name="ORPHANED" xml:space="preserve">
-    <value>Fattyú</value>
-  </data>
-  <data name="ORPHANTAG" xml:space="preserve">
-    <value>Fattyú:</value>
-  </data>
-  <data name="OK" xml:space="preserve">
-    <value>OK</value>
-  </data>
-  <data name="ON" xml:space="preserve">
-    <value>Be</value>
-  </data>
-  <data name="OUTPUT" xml:space="preserve">
-    <value>Kimenet</value>
-  </data>
-  <data name="OWNED" xml:space="preserve">
-    <value>Tulajdonos</value>
-  </data>
-  <data name="OWNER" xml:space="preserve">
-    <value>Tulajdonos</value>
-  </data>
-  <data name="OWNERTAG" xml:space="preserve">
-    <value>Tulajdonos:</value>
-  </data>
-  <data name="PAGENUMBERFORMAT" xml:space="preserve">
-    <value>{0} - {1}/{2} {3}</value>
-  </data>
-  <data name="PASSWORDSDONOTMATCH" xml:space="preserve">
-    <value>A jelszavak nem egyeznek.</value>
-  </data>
-  <data name="PASSWORDTAG" xml:space="preserve">
-    <value>Jelszó:</value>
-  </data>
-  <data name="PATHTAG" xml:space="preserve">
-    <value>Elérési út:</value>
-  </data>
-  <data name="PENDING" xml:space="preserve">
-    <value>Függőben</value>
-  </data>
-  <data name="POLICIES" xml:space="preserve">
-    <value>Házirendek</value>
-  </data>
-  <data name="POLISH" xml:space="preserve">
-    <value>lengyel</value>
-  </data>
-  <data name="PORTUGUESE" xml:space="preserve">
-    <value>portugál</value>
-  </data>
-  <data name="PORTUGUESE-BRAZIL" xml:space="preserve">
-    <value>portugál (brazíliai)</value>
-  </data>
-  <data name="PREVIOUSPAGE" xml:space="preserve">
-    <value>Előző lap</value>
-  </data>
-  <data name="PRIVATEIPTAG" xml:space="preserve">
-    <value>Magán IP-cím:</value>
-  </data>
-  <data name="PRIVATEURI" xml:space="preserve">
-    <value>Magán URL-cím:</value>
-  </data>
-  <data name="PRIVATEURL" xml:space="preserve">
-    <value>Magán URL-cím</value>
-  </data>
-  <data name="PROVISION" xml:space="preserve">
-    <value>Hozzáférés engedélyezése</value>
-  </data>
-  <data name="PROVISIONREPROVISION" xml:space="preserve">
-    <value>Üzembe áll. / újraengedélyezés</value>
-  </data>
-  <data name="PUBLICIPTAG" xml:space="preserve">
-    <value>Nyilvános IP-cím:</value>
-  </data>
-  <data name="PUBLICURI" xml:space="preserve">
-    <value>Nyilvános URL-cím:</value>
-  </data>
-  <data name="PUBLICURL" xml:space="preserve">
-    <value>Nyilvános URL-cím</value>
-  </data>
-  <data name="READONLY" xml:space="preserve">
-    <value>Csak olvasás</value>
-  </data>
-  <data name="READWRITE" xml:space="preserve">
-    <value>Olvasás és írás</value>
-  </data>
-  <data name="REMOVEMEMBERS" xml:space="preserve">
-    <value>Felhasználók eltávolítása</value>
-  </data>
-  <data name="REPORTDIRECTORY" xml:space="preserve">
-    <value>Jelentési könyvtár</value>
-  </data>
-  <data name="REPORTDIRECTORYTAG" xml:space="preserve">
-    <value>könyvtár:</value>
-  </data>
-  <data name="REPORTIFOLDER" xml:space="preserve">
-    <value>iFolder jelentése</value>
-  </data>
-  <data name="REPORTIFOLDERTAG" xml:space="preserve">
-    <value>iFolder:</value>
-  </data>
-  <data name="REPORTS" xml:space="preserve">
-    <value>Jelentések</value>
-  </data>
-  <data name="RETYPEPASSWORDTAG" xml:space="preserve">
-    <value>Jelszó ismételt beírása:</value>
-  </data>
-  <data name="RIGHTS" xml:space="preserve">
-    <value>Jogok</value>
-  </data>
-  <data name="RUSSIAN" xml:space="preserve">
-    <value>orosz</value>
-  </data>
-  <data name="SAVE" xml:space="preserve">
-    <value>Mentés</value>
-  </data>
-  <data name="REPROVISIONBUTTON" xml:space="preserve">
-    <value>Újraengedélyezési állapot</value>
-  </data>
-  <data name="REFRESH" xml:space="preserve">
-    <value>Frissítés</value>
-  </data>
-  <data name="SEARCH" xml:space="preserve">
-    <value>Keresés</value>
-  </data>
-  <data name="SELECTEDUSERS" xml:space="preserve">
-    <value>Kijelölt felhasználók</value>
-  </data>
-  <data name="SELECTIFOLDEROWNER" xml:space="preserve">
-    <value>Válasszon tulajdonost a(z)"{0}" iFolder számára</value>
-  </data>
-  <data name="SELECTUSERS" xml:space="preserve">
-    <value>Felhasználók kijelölése</value>
-  </data>
-  <data name="SELECTSERVER" xml:space="preserve">
-    <value>Válasszon ki egy kiszolgálót a felhasználók hozzáférésének engedélyezéséhez / újraengedélyezéséhez</value>
-  </data>
-  <data name="SERVER" xml:space="preserve">
-    <value>Kiszolgáló</value>
-  </data>
-  <data name="SERVERDETAILS" xml:space="preserve">
-    <value>Kiszolgáló adatai</value>
-  </data>
-  <data name="SERVERLOGS" xml:space="preserve">
-    <value>Kiszolgálói naplók</value>
-  </data>
-  <data name="SERVERREPORTS" xml:space="preserve">
-    <value>Kiszolgálói jelentések</value>
-  </data>
-  <data name="SERVERS" xml:space="preserve">
-    <value>Kiszolgálók</value>
-  </data>
-  <data name="SERVERSTATUS" xml:space="preserve">
-    <value>Kiszolgáló állapota</value>
-  </data>
-  <data name="SERVERSTATUSDOWN" xml:space="preserve">
-    <value>A kiszolgáló nem érhető el</value>
-  </data>
-  <data name="SESSIONCLOSED" xml:space="preserve">
-    <value>A megadott felhasználónév vagy jelszó helytelen. Jelentkezzen be.</value>
-  </data>
-  <data name="SESSIONSTAG" xml:space="preserve">
-    <value>Munkamenetek:</value>
-  </data>
-  <data name="SET" xml:space="preserve">
-    <value>Beállítás</value>
-  </data>
-  <data name="SHARED" xml:space="preserve">
-    <value>Megosztva</value>
-  </data>
-  <data name="SHARINGPOLICYVIOLATION" xml:space="preserve">
-    <value> A megosztás le van tiltva, ezért ezt az iFolder mappát nem lehet megosztani</value>
-  </data>
-  <data name="SIZE" xml:space="preserve">
-    <value>Méret</value>
-  </data>
-  <data name="SIZETAG" xml:space="preserve">
-    <value>Méret:</value>
-  </data>
-  <data name="SLAVE" xml:space="preserve">
-    <value>Szolga</value>
-  </data>
-  <data name="SLOVAK" xml:space="preserve">
-    <value>szlovák</value>
-  </data>
-  <data name="SPANISH" xml:space="preserve">
-    <value>spanyol</value>
-  </data>
-  <data name="STATUS" xml:space="preserve">
-    <value>Állapot</value>
-  </data>
-  <data name="STATUSTAG" xml:space="preserve">
-    <value>Állapot:</value>
-  </data>
-  <data name="SYNCNOW" xml:space="preserve">
-    <value>Azonnali szinkronizálás</value>
-  </data>
-  <data name="SYNCHRONIZATION" xml:space="preserve">
-    <value>Szinkronizálás</value>
-  </data>
-  <data name="SYSTEM" xml:space="preserve">
-    <value>Rendszer</value>
-  </data>
-  <data name="SYSTEMLOGFILE" xml:space="preserve">
-    <value>Rendszer</value>
-  </data>
-  <data name="SYSTEMSETTINGS" xml:space="preserve">
-    <value>Rendszerbeállítások</value>
-  </data>
-  <data name="TITLE" xml:space="preserve">
-    <value>iFolder rendszergazda</value>
-  </data>
-  <data name="TOTALIFOLDERSTAG" xml:space="preserve">
-    <value>iFolder mappák összesen:</value>
-  </data>
-  <data name="TOTALTAG" xml:space="preserve">
-    <value>Összesen: </value>
-  </data>
-  <data name="TOTALUSERSTAG" xml:space="preserve">
-    <value>Felhasználók száma összesen:</value>
-  </data>
-  <data name="TRUE" xml:space="preserve">
-    <value>Igaz</value>
-  </data>
-  <data name="TYPE" xml:space="preserve">
-    <value>Típus</value>
-  </data>
-  <data name="TYPETAG" xml:space="preserve">
-    <value>Típus:</value>
-  </data>
-  <data name="UNKNOWNERROR" xml:space="preserve">
-    <value>Ismeretlen hiba történt. Nincs megadott kivétel.</value>
-  </data>
-  <data name="UNLIMITED" xml:space="preserve">
-    <value>Korlátlan</value>
-  </data>
-  <data name="USEDTAG" xml:space="preserve">
-    <value>Használatban:</value>
-  </data>
-  <data name="USER" xml:space="preserve">
-    <value>Felhasználó</value>
-  </data>
-  <data name="USERDETAILS" xml:space="preserve">
-    <value>Felhasználó adatai</value>
-  </data>
-  <data name="USERMOVEDETAILS" xml:space="preserve">
-    <value>Felhasználó-újraengedélyezési adatok</value>
-  </data>
-  <data name="USERLOGINDISABLED" xml:space="preserve">
-    <value>Felhasználói bejelentkezés letiltása</value>
-  </data>
-  <data name="USERNAME" xml:space="preserve">
-    <value>Felhasználónév</value>
-  </data>
-  <data name="CURRENTHOME" xml:space="preserve">
-    <value>Aktuális kezdő kiszolgáló</value>
-  </data>
-  <data name="CURRENTHOMETAG" xml:space="preserve">
-    <value>Aktuális kezdő kiszolgáló:</value>
-  </data>
-  <data name="NEWHOME" xml:space="preserve">
-    <value>Új kezdő kiszolgáló</value>
-  </data>
-  <data name="NEWHOMETAG" xml:space="preserve">
-    <value>Új kezdő kiszolgáló:</value>
-  </data>
-  <data name="USERNAMETAG" xml:space="preserve">
-    <value>Felhasználónév:</value>
-  </data>
-  <data name="MEMBERTYPETAG" xml:space="preserve">
-    <value>Tagtípus:</value>
-  </data>
-  <data name="MEMBERTYPEUSER" xml:space="preserve">
-    <value>Felhasználó</value>
-  </data>
-  <data name="MEMBERTYPELDAPGROUP" xml:space="preserve">
-    <value>LDAP-csoport</value>
-  </data>
-  <data name="MEMBERTYPELOCALGROUP" xml:space="preserve">
-    <value>Helyi csoport</value>
-  </data>
-  <data name="MEMBERLISTTAG" xml:space="preserve">
-    <value>Csoporttagok:</value>
-  </data>
-  <data name="GROUPLISTTAG" xml:space="preserve">
-    <value>Felhasználói csoportok:</value>
-  </data>
-  <data name="USERS" xml:space="preserve">
-    <value>Felhasználók</value>
-  </data>
-  <data name="USERSTAG" xml:space="preserve">
-    <value>Felhasználók:</value>
-  </data>
-  <data name="VIEW" xml:space="preserve">
-    <value>Nézet</value>
-  </data>
-  <data name="WARN" xml:space="preserve">
-    <value>Figyelmeztetés</value>
-  </data>
-  <data name="WEBACCESSLOGFILE" xml:space="preserve">
-    <value>Webes hozzáférés</value>
-  </data>
-  <data name="WEEKLY" xml:space="preserve">
-    <value>Hetenként</value>
-  </data>
-  <data name="WHEN" xml:space="preserve">
-    <value>Feltétel</value>
-  </data>
-  <data name="TIME" xml:space="preserve">
-    <value>Idő</value>
-  </data>
-  <data name="YES" xml:space="preserve">
-    <value>Igen</value>
-  </data>
-  <data name="DATASTORE" xml:space="preserve">
-    <value>Adattár</value>
-  </data>
-  <data name="ADDDATASTORE" xml:space="preserve">
-    <value>Adattár hozzáadása</value>
-  </data>
-  <data name="FULLPATH:" xml:space="preserve">
-    <value>Teljes elérési út:</value>
-  </data>
-  <data name="NOOFIFOLDERS" xml:space="preserve">
-    <value>iFolder mappák száma</value>
-  </data>
-  <data name="FREESPACE" xml:space="preserve">
-    <value>Szabad lemezterület</value>
-  </data>
-  <data name="NAME:" xml:space="preserve">
-    <value>Név:</value>
-  </data>
-  <data name="FULLPATH" xml:space="preserve">
-    <value>Teljes elérési út</value>
-  </data>
-  <data name="VOLUMES" xml:space="preserve">
-    <value>Kötetek</value>
-  </data>
-  <data name="VOLUME" xml:space="preserve">
-    <value>Kötet</value>
-  </data>
-  <data name="NOTMOUNTED" xml:space="preserve">
-    <value>Nincs csatlakoztatva</value>
-  </data>
-  <data name="LINKALREADYEXISTS" xml:space="preserve">
-    <value>Már van ilyen nevű hivatkozás</value>
-  </data>
-  <data name="INVALIDFULLPATH" xml:space="preserve">
-    <value>A megadott teljes elérési út érvénytelen, ellenőrizze, majd adja meg újra.</value>
-  </data>
-  <data name="ERRORINVALIDIFOLDERLIMIT" type="System.Resources.ResXNullRef, System.Windows.Forms">
-    <value />
-  </data>
-  <data name="INVALIDLIMITERROR" xml:space="preserve">
-    <value>Nem hozható létre iFolder, mert túllépte az iFolder mappák maximális számát, melyet a rendszergazda állított be.</value>
-  </data>
-  <data name="INVALIDLDAPADMINORPASSWORD" xml:space="preserve">
-    <value>Érvénytelen LDAP rendszergazdai felhasználónév vagy jelszó</value>
-  </data>
-  <data name="UNABLETOEDITLDAPDETAILS" xml:space="preserve">
-    <value>Ezekkel az értékekkel nem lehet szerkeszteni az LDAP-adatokat. Ellenőrizze az értékeket. </value>
-  </data>
-  <data name="UNABLETOEDITIPDETAILS" xml:space="preserve">
+  <data name="UNABLETOEDITIPDETAILS">
     <value>Nem sikerült az IP-adatokat szerkeszteni. Ellenőrizze az értékeket. </value>
   </data>
-  <data name="RESTARTSERVER" xml:space="preserve">
-    <value>Az információ frissítve lett. A változtatások az iFolder kiszolgáló újraindításakor lépnek életbe. </value>
+  <data name="SHARINGPOLICYVIOLATION">
+    <value> A megosztás le van tiltva, ezért ezt az iFolder mappát nem lehet megosztani</value>
   </data>
-  <data name="MASTERURI" xml:space="preserve">
-    <value>Fő URL-cím:</value>
+  <data name="ENABLE">
+    <value>Engedély.</value>
   </data>
-  <data name="LDAPADMINAUTH" xml:space="preserve">
-    <value>ldapadminauth</value>
+  <data name="MEMBERS">
+    <value>Tagok</value>
   </data>
-  <data name="PROVISIONUSERS" xml:space="preserve">
-    <value>provisionusers</value>
-  </data>
-  <data name="PROVISION_REPROVISION_TITLE" xml:space="preserve">
-    <value>Felhasználók engedélyezése / újraengedélyezése</value>
-  </data>
-  <data name="ENCRYPTION" xml:space="preserve">
-    <value>Hozzáférési kód alapú titkosítás</value>
-  </data>
-  <data name="SSLTAG" xml:space="preserve">
-    <value>SSL opció:</value>
-  </data>
-  <data name="SSLSTRING" xml:space="preserve">
-    <value>SSL</value>
-  </data>
-  <data name="NONSSLSTRING" xml:space="preserve">
-    <value>Nem SSL</value>
-  </data>
-  <data name="BOTHSTRING" xml:space="preserve">
-    <value>MINDKETTŐ</value>
-  </data>
-  <data name="ERRORIFOLDERENCRYPTIONENFORCED" xml:space="preserve">
-    <value>Ez a tag nem lehet normál iFolder mappa tulajdonosa, mert a tagon kényszerítve van a titkosítási házirend alkalmazása.</value>
-  </data>
-  <data name="CONFIRMADDITION" xml:space="preserve">
-    <value>FONTOS: A kiszolgálón az adatok elérési útjának tulajdonosát és csoportját az apacheuser:apachegroup értékre kell beállítani. Ez mindenképpen szükséges, ha ezen a köteten iFolder mappákat akarnak létrehozni vagy szinkronizálni.</value>
-  </data>
-  <data name="CONFIRMDELETION" xml:space="preserve">
-    <value>FONTOS: Adatelérési út csak akkor törölhető, ha azon nem lett létrehozva iFolder.</value>
-  </data>
-  <data name="ERRORIFOLDERTRANSFEREXCEPTION" xml:space="preserve">
-    <value>A tulajdonosi szerepkört nem lehet átadni, mert sérti a rendszergazda által az iFolder mappákra vonatkozóan beállított korlátozást.</value>
-  </data>
-  <data name="CONFIRMENCRYPTION" xml:space="preserve">
-    <value>A "Hozzáférési kód alapú titkosítás" beállítás lehetőséget ad az egyes iFolder mappáknak a felhasználó által megadott hozzáférési kód használatával való titkosítására. A Kikényszerített beállítás kikapcsolható, de a Be beállítás a mentést követően nem vonható vissza. Az OK gombra kattintva mentheti a beállítást, a Mégse gombra kattintva mentés nélkül az aktuális oldalon marad. </value>
-  </data>
-  <data name="INITIALIZING" xml:space="preserve">
-    <value>Inicializálás</value>
-  </data>
-  <data name="TRANSFERING" xml:space="preserve">
-    <value>Átvitel</value>
-  </data>
-  <data name="SERVERNAMETAG" xml:space="preserve">
-    <value>Kiszolgáló:</value>
-  </data>
-  <data name="EDITADMINRIGHTS" xml:space="preserve">
-    <value>Rendszergazdai jogok szerkesztése</value>
-  </data>
-  <data name="ALLADMINS" xml:space="preserve">
-    <value>Minden rendszergazda</value>
-  </data>
-  <data name="GROUPADMINS" xml:space="preserve">
-    <value>Csoport rendszergazdái</value>
-  </data>
-  <data name="SECONDARYADMIN" xml:space="preserve">
-    <value>Másodlagos rendszergazda</value>
-  </data>
-  <data name="SECONDARY" xml:space="preserve">
-    <value>Másodlagos</value>
-  </data>
-  <data name="REPEAT" xml:space="preserve">
-    <value>Ismétlés</value>
-  </data>
-  <data name="GROUPNAME" xml:space="preserve">
-    <value>Csoportnév</value>
-  </data>
-  <data name="NONE" xml:space="preserve">
-    <value>Nincs</value>
-  </data>
-  <data name="ADDROOT" xml:space="preserve">
-    <value>Gyökér hozzáadása</value>
-  </data>
-  <data name="ERRORSELECTGROUP" xml:space="preserve">
-    <value>Hiba: a folytatáshoz jelöljön ki egy csoportot</value>
-  </data>
-  <data name="GROUPDISKQUOTA" xml:space="preserve">
-    <value>Csoport lemezkvótája: </value>
-  </data>
-  <data name="DISKSPACEUSED" xml:space="preserve">
-    <value>Felhasznált lemezterület: </value>
-  </data>
-  <data name="DELETESECONDARYADMIN" xml:space="preserve">
-    <value>Másodlagos rendszergazda törlése: </value>
-  </data>
-  <data name="EDITSECONDARYADMIN" xml:space="preserve">
-    <value>Másodlagos rendszergazda szerkesztése: </value>
-  </data>
-  <data name="ERRORCANNOTADDSECONDARYADMIN" xml:space="preserve">
-    <value>A(z) {0} tag nem adható hozzá másodlagos rendszergazdaként.</value>
-  </data>
-  <data name="ERRORCANNOTEDITSECONDARYADMIN" xml:space="preserve">
-    <value>A(z) {0} másodlagos rendszergazda nem szerkeszthető.</value>
-  </data>
-  <data name="ERRORCANNOTDELETESECONDARYADMIN" xml:space="preserve">
-    <value>A(z) {0} másodlagos rendszergazda nem törölhető.</value>
-  </data>
-  <data name="SELECTMEMBERTOADD" xml:space="preserve">
-    <value>Új másodlagos rendszergazda kijelölése</value>
-  </data>
-  <data name="ADDNEWORSELECTGROUPTOEDIT" xml:space="preserve">
-    <value>A kijelölt rendszergazda csoportjainak hozzáadása vagy szerkesztése</value>
-  </data>
-  <data name="SELECTGROUPTODELETE" xml:space="preserve">
-    <value>A kijelölendő csoport(ok) törlése</value>
-  </data>
-  <data name="PRIMARY" xml:space="preserve">
-    <value>Elsődleges</value>
-  </data>
-  <data name="ADDNEW" xml:space="preserve">
-    <value>Új hozzáadása</value>
-  </data>
-  <data name="GROUPQUOTARESTRICTION" xml:space="preserve">
-    <value>Csoportkvóta kezelése a következővel: </value>
-  </data>
-  <data name="GROUPRIGHTSADDSUCCESSFUL" xml:space="preserve">
-    <value>A(z) {0}{1}{2} felhasználót sikerült hozzáadni rendszergazdaként a következő csoporthoz: {3}{4}{5}. A másodlagos rendszergazda jogainak szerkesztésével további csoportokat adhat hozzá ugyanahhoz a rendszergazdához. Az Ismétlés gombra kattintva további csoportokat adhat hozzá. Ha az OK gombra kattint, visszatérhet a Rendszerek lapra. </value>
-  </data>
-  <data name="GROUPRIGHTSADDFAILURE" xml:space="preserve">
-    <value>A(z) {0}{1}{2} felhasználó nem adható hozzá rendszergazdaként a(z) {3}{4}{5} csoporthoz. A csoport ismételt hozzáadásához válassza az Újbóli próbálkozás elemet. Ha az OK gombra kattint, visszatérhet a Rendszerek lapra. </value>
-  </data>
-  <data name="GROUPRIGHTSEDITSUCCESSFUL" xml:space="preserve">
-    <value>A(z) {0}{1}{2} rendszergazda jogait sikerült szerkeszteni a következő csoporthoz: {3}{4}{5}. Az Ismétlés gombra kattintva további csoportokra is beállíthatja ezeket ugyanazon rendszergazda esetében. Ha az OK gombra kattint, visszatérhet a Rendszerek lapra.</value>
-  </data>
-  <data name="UIBASED" xml:space="preserve">
-    <value>Rendszergazdai konzol</value>
-  </data>
-  <data name="SYNCBASED" xml:space="preserve">
-    <value>Szinkronizációs motor </value>
-  </data>
-  <data name="SEGREGATEDGROUPS" xml:space="preserve">
-    <value>Elkülönített csoportok: </value>
-  </data>
-  <data name="BOTH" xml:space="preserve">
-    <value>Mindkettő </value>
-  </data>
-  <data name="CREATESEGREGATEDGROUPS" xml:space="preserve">
-    <value>Elkülönített csoportok létrehozása</value>
-  </data>
-  <data name="ALLOWMODIFYSHARINGPOLICY" xml:space="preserve">
-    <value>Megosztási házirend módosításának engedélyezése</value>
-  </data>
-  <data name="ALLOWMODIFYENCRYPTIONPOLICY" xml:space="preserve">
-    <value>Titkosítási házirend módosításának engedélyezése</value>
-  </data>
-  <data name="ALLOWUSERPROVISIONING" xml:space="preserve">
-    <value>Felhasználói jogosultságkezelés engedélyezése</value>
-  </data>
-  <data name="ALLOWUSERENABLING" xml:space="preserve">
-    <value>Felhasználók engedélyezésének/letiltásának lehetővé tétele</value>
-  </data>
-  <data name="ALLOWORPHANIFOLDEROWNERSHIP" xml:space="preserve">
-    <value>Árva iFolder mappák tulajdonba vételének engedélyezése</value>
-  </data>
-  <data name="ALLOWIFOLDERENABLING" xml:space="preserve">
-    <value>iFolder mappák engedélyezésének/letiltásának lehetővé tétele</value>
-  </data>
-  <data name="ALLOWSHAREDMEMBERRIGHTS" xml:space="preserve">
-    <value>A megosztott iFolder mappa tagjaira vonatkozó jogok módosításának engedélyezése</value>
-  </data>
-  <data name="ALLOWDELETEIFOLDERRIGHTS" xml:space="preserve">
-    <value>Engedély megadása az iFolder mappák törlésére</value>
-  </data>
-  <data name="ASSIGNADMINRIGHTS" xml:space="preserve">
+  <data name="ASSIGNADMINRIGHTS">
     <value>Rendszergazdai jogok hozzárendelése a következőhöz: </value>
   </data>
-  <data name="ADMINRIGHTSFOR" xml:space="preserve">
-    <value>Rendszergazdai jogok a következőhöz: </value>
+  <data name="LDAPADMINNAME">
+    <value>LDAP-rendszergazda megkülönböztetett neve (DN):</value>
   </data>
-  <data name="CANNOTSETUNLIMITED" xml:space="preserve">
-    <value>Nem lehet korlátlan az érték, mert a vonatkozó csoporthoz van beállítva összesített lemezkvóta</value>
+  <data name="SERVERSTATUSDOWN">
+    <value>A kiszolgáló nem érhető el</value>
   </data>
-  <data name="CANNOTSETQUOTAPERUSERERROR" xml:space="preserve">
-    <value>Ez a korlát nem állítható be, mert a tagonkénti teljes lefoglalt lemezkvóta nagyobb, mint a csoport kvótája</value>
+  <data name="NOOFIFOLDERS">
+    <value>iFolder mappák száma</value>
   </data>
-  <data name="INVALIDGROUPQUOTA" xml:space="preserve">
-    <value>A csoport összesített lemezkvótakorlátja kisebb, mint a csoport felhasználónkénti lefoglalt/felhasznált lemezkvótája. Töröljön adatokat a kiszolgálóról, vagy módosítsa a felhasználónként lefoglalt lemezterület korlátját a csoporttagok esetében. Ezután állítsa be a csoport összesített lemezkvótáját.</value>
+  <data name="HOMESERVERNAME">
+    <value>Kezdő kiszolgáló</value>
   </data>
-  <data name="NOMEMBERAVAILABLE" xml:space="preserve">
-    <value>Nincs elérhető tag</value>
+  <data name="LDAPDETAILS">
+    <value>LDAP-adatok</value>
   </data>
-  <data name="NOPOLICIESAVAILABLE" xml:space="preserve">
-    <value>Nincs elérhető házirend.</value>
+  <data name="FRENCH">
+    <value>francia</value>
   </data>
-  <data name="SAVETO" xml:space="preserve">
-    <value>Mentés helye</value>
+  <data name="ERRORCANNOTDELETEMEMBERS">
+    <value>{0} iFolder tag nem törölhető.</value>
   </data>
-  <data name="NOTAPPLICABLE" xml:space="preserve">
-    <value>n.a.</value>
+  <data name="ENDSWITH">
+    <value>így végződik</value>
   </data>
-  <data name="ONLINE" xml:space="preserve">
-    <value>Online</value>
+  <data name="ERRORPROXYPASSWORDSDOESNOTMATCH">
+    <value>A proxyjelszavak nem egyeznek. Írja be újra a helyes jelszavakat</value>
   </data>
-  <data name="OFFLINE" xml:space="preserve">
-    <value>Várakozás</value>
+  <data name="REPORTDIRECTORYTAG">
+    <value>könyvtár:</value>
   </data>
-  <data name="WAITING" type="System.Resources.ResXNullRef, System.Windows.Forms">
-    <value />
+  <data name="SERVERREPORTS">
+    <value>Kiszolgálói jelentések</value>
   </data>
-  <data name="NOTELIGIBLE" xml:space="preserve">
-    <value>Nem sikerült az inicializálás</value>
+  <data name="SERVERLOGS">
+    <value>Kiszolgálói naplók</value>
   </data>
-  <data name="CHANGEMASTER" xml:space="preserve">
-    <value>Beállítás mint fő</value>
+  <data name="PRIVATEURI">
+    <value>Magán URL-cím:</value>
   </data>
-  <data name="NEEDSREPAIR" xml:space="preserve">
-    <value>Kiszolgáló javítása</value>
+  <data name="EDITLDAPDETAILS">
+    <value>LDAP-adatok szerkesztése</value>
   </data>
-  <data name="UNABLETOSETASSLAVE" xml:space="preserve">
-    <value>Nem állítható be szolgakiszolgálóként. Ismételje meg a műveletet.</value>
+  <data name="PREVIOUSPAGE">
+    <value>Előző lap</value>
   </data>
-  <data name="CONFIGFILEUPDATEFAILED" xml:space="preserve">
-    <value>A konfigurációs fájl nem frissíthető. Frissítse manuálisan a simias.config fájlt.</value>
+  <data name="PRIVATEURL">
+    <value>Magán URL-cím</value>
   </data>
-  <data name="CONNECTIONFAILED" xml:space="preserve">
-    <value>Nem lehet csatlakozni a(z) {0} kiszolgálóhoz.</value>
+  <data name="NOTAVAILABLE">
+    <value>Nem érhető el</value>
   </data>
-  <data name="CHANGEMASTERNOINFOFAILED" xml:space="preserve">
-    <value>Nem lehet beolvasni a kiszolgáló azonosítóját és az új kiszolgáló nyilvános URL-címét.</value>
+  <data name="PUBLICURL">
+    <value>Nyilvános URL-cím</value>
   </data>
-  <data name="CHANGEMASTERSUCCESSFUL" xml:space="preserve">
-    <value>A(z) {0} frissítve fő kiszolgálóként. A módosítások érvénybe lépéséhez indítsa újra az összes kiszolgálót.</value>
+  <data name="PORTUGUESE">
+    <value>portugál</value>
   </data>
-  <data name="CHANGEMASTERWITHWARNING" xml:space="preserve">
-    <value>A(z) {0} fő kiszolgálóként való frissítése kivételekkel sikerült. További részleteket a Simias.log fájlban talál. A módosítások érvénybe lépéséhez indítsa újra az összes kiszolgálót.</value>
+  <data name="LOGGEDONUSERSTAG">
+    <value>Bejelentkezett felhasználók:</value>
   </data>
-  <data name="CHANGEMASTERFAILED" xml:space="preserve">
+  <data name="ORPHANED">
+    <value>Fattyú</value>
+  </data>
+  <data name="KB">
+    <value>KB</value>
+  </data>
+  <data name="SERVERSTATUS">
+    <value>Kiszolgáló állapota</value>
+  </data>
+  <data name="IFOLDER">
+    <value>iFolder</value>
+  </data>
+  <data name="REPROVISOINSTATE">
+    <value>Újraengedélyezési állapot</value>
+  </data>
+  <data name="CHANGEMASTERFAILED">
     <value>Nem módosítható a Fő és a Szolga értéke. További részleteket a naplófájlokban talál.</value>
   </data>
-  <data name="CONFIRMCHANGEMASTER" xml:space="preserve">
-    <value>A megadott kiszolgáló lesz kijelölve fő kiszolgálóként. Folytatja? Az OK gombbal folytathatja, a Mégse gombbal kiléphet.</value>
+  <data name="COMPLETEDTAG">
+    <value>Kész:</value>
   </data>
-  <data name="UPDATEMASTERURLONSLAVESFAILED" xml:space="preserve">
-    <value>Az új fő URL nem frissíthető a(z) {0} kiszolgálón. Frissítse manuálisan az IP-címet ezen a kiszolgálón.</value>
+  <data name="ENTERLDAPDETAILS">
+    <value>LDAP-rendszergazda hitelesítő adatainak megadása</value>
   </data>
-  <data name="MASTERNODEUPDATEWAIT" xml:space="preserve">
-    <value>Várakozás a fő csomópont attribútumának az új fő és szolgaelemeken való szinkronizálására.</value>
+  <data name="MEMBERTYPELDAPGROUP">
+    <value>LDAP-csoport</value>
   </data>
-  <data name="CHANGEMASTERRETRY" xml:space="preserve">
-    <value>A fő csomópont attribútuma nem frissíthető a fő és a szolgaelemeken. Ismételje meg a műveletet.</value>
+  <data name="REPROVISIONLIST">
+    <value>iFolder rendszer-újraengedélyezési állapot</value>
   </data>
-  <data name="running" xml:space="preserve">
+  <data name="SHARED">
+    <value>Megosztva</value>
+  </data>
+  <data name="USEDTAG">
+    <value>Használatban:</value>
+  </data>
+  <data name="NEEDSREPAIR">
+    <value>Kiszolgáló javítása</value>
+  </data>
+  <data name="MEMBERTYPETAG">
+    <value>Tagtípus:</value>
+  </data>
+  <data name="NONE">
+    <value>Nincs</value>
+  </data>
+  <data name="ERRORIFOLDERTRANSFEREXCEPTION">
+    <value>A tulajdonosi szerepkört nem lehet átadni, mert sérti a rendszergazda által az iFolder mappákra vonatkozóan beállított korlátozást.</value>
+  </data>
+  <data name="running">
     <value>fut</value>
   </data>
-  <data name="sleeping" xml:space="preserve">
+  <data name="ERRORCANNOTDELETESECONDARYADMIN">
+    <value>A(z) {0} másodlagos rendszergazda nem törölhető.</value>
+  </data>
+  <data name="MASTER">
+    <value>Fő</value>
+  </data>
+  <data name="ERRORCANNOTCREATEIFOLDER">
+    <value>Nem sikerült az iFolder mappa létrehozása.</value>
+  </data>
+  <data name="CONFIRMDELETION">
+    <value>FONTOS: Adatelérési út csak akkor törölhető, ha azon nem lett létrehozva iFolder.</value>
+  </data>
+  <data name="ERRORNOIFOLDERLIMIT">
+    <value>Nincs megadva határérték az iFolder mappához.</value>
+  </data>
+  <data name="ERRORCANNOTEDITSECONDARYADMIN">
+    <value>A(z) {0} másodlagos rendszergazda nem szerkeszthető.</value>
+  </data>
+  <data name="NEXTPAGE">
+    <value>Következő lap</value>
+  </data>
+  <data name="CHINESE-TRADITIONAL">
+    <value>kínai (hagyományos)</value>
+  </data>
+  <data name="MODIFIEDTAG">
+    <value>Módosítva:</value>
+  </data>
+  <data name="ERRORCANNOTCHANGERIGHTS">
+    <value>{0} felhasználó tagsági jogait nem sikerült módosítani.</value>
+  </data>
+  <data name="CHANGEMASTER">
+    <value>Beállítás mint fő</value>
+  </data>
+  <data name="FULLNAME">
+    <value>Teljes név</value>
+  </data>
+  <data name="sleeping">
     <value>alvás</value>
   </data>
-  <data name="disabled" xml:space="preserve">
-    <value>letiltva</value>
+  <data name="LOGINNOCOOKIES">
+    <value>Engedélyeznie kell a böngészőben a cookie-k használatát.</value>
   </data>
-  <data name="shutdown" xml:space="preserve">
+  <data name="NEXT">
+    <value>Tovább</value>
+  </data>
+  <data name="WEEKLY">
+    <value>Hetenként</value>
+  </data>
+  <data name="shutdown">
     <value>leállítás</value>
   </data>
-  <data name="waiting" xml:space="preserve">
+  <data name="REPORTIFOLDERTAG">
+    <value>iFolder:</value>
+  </data>
+  <data name="DISKSPACEUSED">
+    <value>Felhasznált lemezterület: </value>
+  </data>
+  <data name="VOLUMES">
+    <value>Kötetek</value>
+  </data>
+  <data name="NEWHOMETAG">
+    <value>Új kezdő kiszolgáló:</value>
+  </data>
+  <data name="ACCESSDENIED">
+    <value>Ezen erőforrás hozzáférése megtagadva</value>
+  </data>
+  <data name="LOGINLOGOUT">
+    <value>Kijelentkezett az iFolder szolgáltatásból.</value>
+  </data>
+  <data name="FIRSTNAME">
+    <value>Utónév</value>
+  </data>
+  <data name="CURRENTHOME">
+    <value>Aktuális kezdő kiszolgáló</value>
+  </data>
+  <data name="USERS">
+    <value>Felhasználók</value>
+  </data>
+  <data name="ALLADMINS">
+    <value>Minden rendszergazda</value>
+  </data>
+  <data name="LASTPAGE">
+    <value>Utolsó lap</value>
+  </data>
+  <data name="CANNOTSETQUOTAPERUSERERROR">
+    <value>Ez a korlát nem állítható be, mert a tagonkénti teljes lefoglalt lemezkvóta nagyobb, mint a csoport kvótája</value>
+  </data>
+  <data name="ERRORDETAIL">
+    <value>Hiba adatai</value>
+  </data>
+  <data name="USERNAME">
+    <value>Felhasználónév</value>
+  </data>
+  <data name="SAVETO">
+    <value>Mentés helye</value>
+  </data>
+  <data name="SIZETAG">
+    <value>Méret:</value>
+  </data>
+  <data name="FILENAME">
+    <value>Fájlnév</value>
+  </data>
+  <data name="LOGINNOSCRIPT">
+    <value>Engedélyeznie kell a böngészőben a parancsfájlok használatát.</value>
+  </data>
+  <data name="CONFIGUREREPORTING">
+    <value>Jelentéskészítés konfigurálása</value>
+  </data>
+  <data name="EQUALS">
+    <value>egyenlő</value>
+  </data>
+  <data name="INVALIDLDAPADMINORPASSWORD">
+    <value>Érvénytelen LDAP rendszergazdai felhasználónév vagy jelszó</value>
+  </data>
+  <data name="RUSSIAN">
+    <value>orosz</value>
+  </data>
+  <data name="ERRORINVALIDQUOTA">
+    <value>Érvénytelen lemezkvóta van megadva. Az értéknek 1 és 2e+063 - 1 között kell lennie.</value>
+  </data>
+  <data name="CONTAINS">
+    <value>tartalmazza</value>
+  </data>
+  <data name="ALLOWUSERPROVISIONING">
+    <value>Felhasználói jogosultságkezelés engedélyezése</value>
+  </data>
+  <data name="USER">
+    <value>Felhasználó</value>
+  </data>
+  <data name="ERRORINVALIDIFOLDERLIMIT">
+    <value>Érvénytelen határérték van megadva az iFolder mappához. Az értéknek 0 és 2e+063 - 1 között kell lennie.</value>
+  </data>
+  <data name="ON">
+    <value>Be</value>
+  </data>
+  <data name="ERRORSELECTGROUP">
+    <value>Hiba: a folytatáshoz jelöljön ki egy csoportot</value>
+  </data>
+  <data name="OK">
+    <value>OK</value>
+  </data>
+  <data name="READWRITE">
+    <value>Olvasás és írás</value>
+  </data>
+  <data name="ADDMEMBERSTOIFOLDER">
+    <value>További tagok hozzáadása a(z) "{0}" iFolder mappához</value>
+  </data>
+  <data name="UIBASED">
+    <value>Rendszergazdai konzol</value>
+  </data>
+  <data name="LDAPMEMBERDELETEGRACEINT">
+    <value>lejárat utáni bejelentkezések száma:</value>
+  </data>
+  <data name="ADDMEMBERS">
+    <value>iFolder tagok hozzáadása</value>
+  </data>
+  <data name="NOMEMBERAVAILABLE">
+    <value>Nincs elérhető tag</value>
+  </data>
+  <data name="ALLOW">
+    <value>Engedélyezés</value>
+  </data>
+  <data name="FIRSTPAGE">
+    <value>Első lap</value>
+  </data>
+  <data name="EDITSECONDARYADMIN">
+    <value>Másodlagos rendszergazda szerkesztése: </value>
+  </data>
+  <data name="GROUPLISTTAG">
+    <value>Felhasználói csoportok:</value>
+  </data>
+  <data name="ADDADMINS">
+    <value>Rendszergazdák hozzáadása</value>
+  </data>
+  <data name="MINUTES">
+    <value>perc</value>
+  </data>
+  <data name="REPORTIFOLDER">
+    <value>iFolder jelentése</value>
+  </data>
+  <data name="GROUPNAME">
+    <value>Csoportnév</value>
+  </data>
+  <data name="BOTH">
+    <value>Mindkettő </value>
+  </data>
+  <data name="JAPANESE">
+    <value>japán</value>
+  </data>
+  <data name="SERVERNAMETAG">
+    <value>Kiszolgáló:</value>
+  </data>
+  <data name="ERRORTYPE">
+    <value>Nem kezelt hiba</value>
+  </data>
+  <data name="SECONDARY">
+    <value>Másodlagos</value>
+  </data>
+  <data name="LASTNAMETAG">
+    <value>Vezetéknév:</value>
+  </data>
+  <data name="MONTHLY">
+    <value>Havi</value>
+  </data>
+  <data name="LDAPPROXYUSERPWD">
+    <value>Proxyfelhasználó jelszava:</value>
+  </data>
+  <data name="MAXCONNECTIONSTAG">
+    <value>Kapcsolatok maximális száma:</value>
+  </data>
+  <data name="LASTMODIFIED">
+    <value>Legutóbbi módosítás</value>
+  </data>
+  <data name="LOGINFAILED">
+    <value>Sikertelen:</value>
+  </data>
+  <data name="MEMBERTYPEUSER">
+    <value>Felhasználó</value>
+  </data>
+  <data name="ERRORINVALIDLIMIT">
+    <value>Érvénytelen fájlméret van megadva. Az értéknek kisebbnek kell lennie a lemezkvóta beállításánál.</value>
+  </data>
+  <data name="LOGINERROR">
+    <value>Hiba:</value>
+  </data>
+  <data name="CHANGEMASTERNOINFOFAILED">
+    <value>Nem lehet beolvasni a kiszolgáló azonosítóját és az új kiszolgáló nyilvános URL-címét.</value>
+  </data>
+  <data name="OWNED">
+    <value>Tulajdonos</value>
+  </data>
+  <data name="CHANGEMASTERRETRY">
+    <value>A fő csomópont attribútuma nem frissíthető a fő és a szolgaelemeken. Ismételje meg a műveletet.</value>
+  </data>
+  <data name="USERSTAG">
+    <value>Felhasználók:</value>
+  </data>
+  <data name="GERMAN">
+    <value>német</value>
+  </data>
+  <data name="NO">
+    <value>Nincs</value>
+  </data>
+  <data name="FATAL">
+    <value>Végzetes</value>
+  </data>
+  <data name="ERRORCANNOTCREATEUSER">
+    <value>Nem sikerült létrehozni a felhasználót.</value>
+  </data>
+  <data name="OWNER">
+    <value>Tulajdonos</value>
+  </data>
+  <data name="WARN">
+    <value>Figyelmeztetés</value>
+  </data>
+  <data name="OUTPUT">
+    <value>Kimenet</value>
+  </data>
+  <data name="OFFLINE">
+    <value>Várakozás</value>
+  </data>
+  <data name="DAILY">
+    <value>Napi</value>
+  </data>
+  <data name="SECONDARYADMIN">
+    <value>Másodlagos rendszergazda</value>
+  </data>
+  <data name="OWNERTAG">
+    <value>Tulajdonos:</value>
+  </data>
+  <data name="HOME">
+    <value>Kezdő kiszolgáló</value>
+  </data>
+  <data name="LOGINSENDFAILED">
+    <value>Nem lehet kommunikálni az iFolder kiszolgálóval.</value>
+  </data>
+  <data name="ALLOWMODIFYSHARINGPOLICY">
+    <value>Megosztási házirend módosításának engedélyezése</value>
+  </data>
+  <data name="NOTMOUNTED">
+    <value>Nincs csatlakoztatva</value>
+  </data>
+  <data name="FULLNAMEDISLAYTAG">
+    <value>Név megjelenítése:</value>
+  </data>
+  <data name="ADDNEWORSELECTGROUPTOEDIT">
+    <value>A kijelölt rendszergazda csoportjainak hozzáadása vagy szerkesztése</value>
+  </data>
+  <data name="HELP">
+    <value>Súgó</value>
+  </data>
+  <data name="SIZE">
+    <value>Méret</value>
+  </data>
+  <data name="READONLY">
+    <value>Csak olvasás</value>
+  </data>
+  <data name="LDAPSERVER">
+    <value>LDAP-kiszolgáló:</value>
+  </data>
+  <data name="IFOLDERUSERS">
+    <value>iFolder-felhasználók</value>
+  </data>
+  <data name="waiting">
     <value>várakozás</value>
   </data>
-  <data name="TIMEOUT" xml:space="preserve">
-    <value>A kérés teljesítése hosszabb ideig is eltarthat. A feldolgozás végéig nyugodtan végezhet más tevékenységeket is.</value>
+  <data name="INVALIDFULLPATH">
+    <value>A megadott teljes elérési út érvénytelen, ellenőrizze, majd adja meg újra.</value>
+  </data>
+  <data name="ALLOWSHAREDMEMBERRIGHTS">
+    <value>A megosztott iFolder mappa tagjaira vonatkozó jogok módosításának engedélyezése</value>
+  </data>
+  <data name="ADDDATASTORE">
+    <value>Adattár hozzáadása</value>
+  </data>
+  <data name="DEBUG">
+    <value>Hibakeresés</value>
+  </data>
+  <data name="LOGOUT">
+    <value>Kijelentkezés</value>
+  </data>
+  <data name="FULLPATH:">
+    <value>Teljes elérési út:</value>
+  </data>
+  <data name="ERRORCANNOTSETIFOLDERPOLICY">
+    <value>Nem sikerült beállítani a(z) {0} azonosítójú iFolder mappa házirend-információit.</value>
+  </data>
+  <data name="INHEIRITEDPOLICY">
+    <value>(örökölt házirend)</value>
+  </data>
+  <data name="REMOVEMEMBERS">
+    <value>Felhasználók eltávolítása</value>
+  </data>
+  <data name="SELECTEDUSERS">
+    <value>Kijelölt felhasználók</value>
+  </data>
+  <data name="RESTARTSERVER">
+    <value>Az információ frissítve lett. A változtatások az iFolder kiszolgáló újraindításakor lépnek életbe. </value>
+  </data>
+  <data name="PUBLICURI">
+    <value>Nyilvános URL-cím:</value>
+  </data>
+  <data name="ALLOWORPHANIFOLDEROWNERSHIP">
+    <value>Árva iFolder mappák tulajdonba vételének engedélyezése</value>
+  </data>
+  <data name="INVALIDCERTIFICATE">
+    <value>Sikertelen hitelesítés. Probléma adódott az LDAP protokollal vagy az iFolder-kiszolgáló tanúsítványával.</value>
+  </data>
+  <data name="SERVERDETAILS">
+    <value>Kiszolgáló adatai</value>
+  </data>
+  <data name="USERLOGINDISABLED">
+    <value>Felhasználói bejelentkezés letiltása</value>
+  </data>
+  <data name="NOTAPPLICABLE">
+    <value>n.a.</value>
+  </data>
+  <data name="TYPETAG">
+    <value>Típus:</value>
+  </data>
+  <data name="PRIVATEIPTAG">
+    <value>Magán IP-cím:</value>
+  </data>
+  <data name="LOGINCONNECTFAILED">
+    <value>Nem sikerült kapcsolódni az iFolder kiszolgálóhoz.</value>
+  </data>
+  <data name="LDAPSTATUSTAG">
+    <value>Állapot:</value>
+  </data>
+  <data name="REFRESH">
+    <value>Frissítés</value>
+  </data>
+  <data name="SAVE">
+    <value>Mentés</value>
+  </data>
+  <data name="ERRORNOFILESIZE">
+    <value>Nincs megadva fájlméret-korlátozás.</value>
+  </data>
+  <data name="DISKSPACEUSEDTAG">
+    <value>Felhasznált lemezterület:</value>
+  </data>
+  <data name="EFFECTIVETAG">
+    <value>Érvényesség:</value>
+  </data>
+  <data name="USERMOVEDETAILS">
+    <value>Felhasználó-újraengedélyezési adatok</value>
+  </data>
+  <data name="FILESTAG">
+    <value>Fájlok:</value>
+  </data>
+  <data name="FILETYPEALREADYEXISTS">
+    <value>A megadott név már szerepel a listában.</value>
+  </data>
+  <data name="SLAVE">
+    <value>Szolga</value>
+  </data>
+  <data name="PROVISIONUSERS">
+    <value>provisionusers</value>
+  </data>
+  <data name="FILESIZE">
+    <value>Fájlméret</value>
+  </data>
+  <data name="NAME">
+    <value>Név</value>
+  </data>
+  <data name="LOGINACCOUNTDISABLED">
+    <value>A fiók jelenleg le van tiltva, nem használható.</value>
+  </data>
+  <data name="DESCRIPTIONTAG">
+    <value>Leírás:</value>
+  </data>
+  <data name="SYNCHRONIZATION">
+    <value>Szinkronizálás</value>
+  </data>
+  <data name="PATHTOOLONGEXCEPTION">
+    <value>Túl hosszú az iFolder mappa neve, így nem lehet létrehozni.</value>
+  </data>
+  <data name="LOGGEDINAS">
+    <value>Be van jelentkezve mint</value>
+  </data>
+  <data name="FULLNAMEDISPLAYORDER">
+    <value>Teljes név megjelenítési sorrendje:</value>
+  </data>
+  <data name="TOTALTAG">
+    <value>Összesen: </value>
+  </data>
+  <data name="INFO">
+    <value>Információ</value>
+  </data>
+  <data name="ADMINRIGHTSFOR">
+    <value>Rendszergazdai jogok a következőhöz: </value>
+  </data>
+  <data name="PROVISIONREPROVISION">
+    <value>Üzembe áll. / újraengedélyezés</value>
+  </data>
+  <data name="ALL">
+    <value>Mind</value>
+  </data>
+  <data name="GB">
+    <value>GB</value>
+  </data>
+  <data name="SEARCH">
+    <value>Keresés</value>
+  </data>
+  <data name="ALLOWMODIFYENCRYPTIONPOLICY">
+    <value>Titkosítási házirend módosításának engedélyezése</value>
+  </data>
+  <data name="MEMBER">
+    <value>Tag</value>
+  </data>
+  <data name="FILES">
+    <value>Fájlok</value>
+  </data>
+  <data name="ERRORCANNOTREMOVEADMIN">
+    <value>{0} felhasználó nem távolítható el rendszergazdaként.</value>
+  </data>
+  <data name="CHANGEMASTERWITHWARNING">
+    <value>A(z) {0} fő kiszolgálóként való frissítése kivételekkel sikerült. További részleteket a Simias.log fájlban talál. A módosítások érvénybe lépéséhez indítsa újra az összes kiszolgálót.</value>
+  </data>
+  <data name="PASSWORDSDONOTMATCH">
+    <value>A jelszavak nem egyeznek.</value>
+  </data>
+  <data name="SERVER">
+    <value>Kiszolgáló</value>
+  </data>
+  <data name="ALLOWIFOLDERENABLING">
+    <value>iFolder mappák engedélyezésének/letiltásának lehetővé tétele</value>
+  </data>
+  <data name="LDAPPROXYUSER">
+    <value>Proxyfelhasználó:</value>
+  </data>
+  <data name="SESSIONSTAG">
+    <value>Munkamenetek:</value>
+  </data>
+  <data name="AVAILABLETAG">
+    <value>Használható:</value>
+  </data>
+  <data name="ERRORLOCKEXCEPTION">
+    <value>A művelet megszakadt, mivel a rendszergazda zárolta/letiltotta az iFolder mappát.</value>
+  </data>
+  <data name="SESSIONCLOSED">
+    <value>A megadott felhasználónév vagy jelszó helytelen. Jelentkezzen be.</value>
+  </data>
+  <data name="DNSNAMETAG">
+    <value>DNS-név:</value>
+  </data>
+  <data name="NEWFILETYPE">
+    <value>Új fájltípus</value>
+  </data>
+  <data name="BOTHSTRING">
+    <value>MINDKETTŐ</value>
+  </data>
+  <data name="ENABLEDTAG">
+    <value>Engedélyezve:</value>
+  </data>
+  <data name="ERRORCANNOTADDMEMBER">
+    <value>{0} tagot nem sikerült hozzáadni a(z) {1} iFolder mappához.</value>
+  </data>
+  <data name="FULLPATH">
+    <value>Teljes elérési út</value>
+  </data>
+  <data name="ENABLED">
+    <value>Engedélyezve</value>
+  </data>
+  <data name="SHARING">
+    <value>Megosztás</value>
+  </data>
+  <data name="ADMINISTRATOR">
+    <value>Rendszergazda</value>
+  </data>
+  <data name="NOITEMSFOUND">
+    <value>Nem található elem.</value>
+  </data>
+  <data name="ENGLISH">
+    <value>angol</value>
+  </data>
+  <data name="NOSERVER">
+    <value>Nincs kiválasztva kiszolgáló</value>
+  </data>
+  <data name="LIMITTAG">
+    <value>Korlátozás:</value>
+  </data>
+  <data name="ADDNEW">
+    <value>Új hozzáadása</value>
+  </data>
+  <data name="LDAPADMINAUTH">
+    <value>ldapadminauth</value>
+  </data>
+  <data name="LASTNAME">
+    <value>Vezetéknév</value>
+  </data>
+  <data name="INITIALIZING">
+    <value>Inicializálás</value>
+  </data>
+  <data name="PUBLICIPTAG">
+    <value>Nyilvános IP-cím:</value>
+  </data>
+  <data name="ORPHANTAG">
+    <value>Fattyú:</value>
+  </data>
+  <data name="GROUPRIGHTSADDSUCCESSFUL">
+    <value>A(z) {0}{1}{2} felhasználót sikerült hozzáadni rendszergazdaként a következő csoporthoz: {3}{4}{5}. A másodlagos rendszergazda jogainak szerkesztésével további csoportokat adhat hozzá ugyanahhoz a rendszergazdához. Az Ismétlés gombra kattintva további csoportokat adhat hozzá. Ha az OK gombra kattint, visszatérhet a Rendszerek lapra. </value>
+  </data>
+  <data name="LINKALREADYEXISTS">
+    <value>Már van ilyen nevű hivatkozás</value>
+  </data>
+  <data name="GROUPADMINS">
+    <value>Csoport rendszergazdái</value>
+  </data>
+  <data name="ERRORCANNOTCHANGEOWNER">
+    <value>Nem sikerült az iFolder tulajdonosának módosítása.</value>
+  </data>
+  <data name="ERRORIFOLDERENCRYPTIONENFORCED">
+    <value>Ez a tag nem lehet normál iFolder mappa tulajdonosa, mert a tagon kényszerítve van a titkosítási házirend alkalmazása.</value>
+  </data>
+  <data name="SELECTSERVER">
+    <value>Válasszon ki egy kiszolgálót a felhasználók hozzáférésének engedélyezéséhez / újraengedélyezéséhez</value>
+  </data>
+  <data name="IFOLDERSTAG">
+    <value>iFolder mappák:</value>
+  </data>
+  <data name="NEWIFOLDERNAMETAG">
+    <value>iFolder neve:</value>
+  </data>
+  <data name="TIME">
+    <value>Idő</value>
+  </data>
+  <data name="CONFIGFILEUPDATEFAILED">
+    <value>A konfigurációs fájl nem frissíthető. Frissítse manuálisan a simias.config fájlt.</value>
+  </data>
+  <data name="LOGINSECUREFAILED">
+    <value>Nem lehet biztonságosan kommunikálni az iFolder kiszolgálóval.</value>
+  </data>
+  <data name="CONFIRMCHANGEMASTER">
+    <value>A megadott kiszolgáló lesz kijelölve fő kiszolgálóként. Folytatja? Az OK gombbal folytathatja, a Mégse gombbal kiléphet.</value>
+  </data>
+  <data name="LOGINPASSWORD">
+    <value>Jelszó:</value>
+  </data>
+  <data name="LAST">
+    <value>Utolsó</value>
+  </data>
+  <data name="BACK">
+    <value>Vissza</value>
+  </data>
+  <data name="ERRORINVALIDFILESIZE">
+    <value>Érvénytelen fájlméret-korlátozás van megadva. Az értéknek 1 és 2e+063 - 1 között kell lennie.</value>
+  </data>
+  <data name="ERRORCANNOTADDSECONDARYADMIN">
+    <value>A(z) {0} tag nem adható hozzá másodlagos rendszergazdaként.</value>
+  </data>
+  <data name="ERRORTEMPLATE">
+    <value>Hiba: {0}</value>
+  </data>
+  <data name="REPEAT">
+    <value>Ismétlés</value>
+  </data>
+  <data name="LOGINLOSTSESSION">
+    <value>A munkamenet bezárult. Jelentkezzen be.</value>
+  </data>
+  <data name="CANCEL">
+    <value>Mégse</value>
+  </data>
+  <data name="IFOLDERDISABLED">
+    <value>Szinkronizálás letiltása</value>
+  </data>
+  <data name="CONFIRMENCRYPTION">
+    <value>A "Hozzáférési kód alapú titkosítás" beállítás lehetőséget ad az egyes iFolder mappáknak a felhasználó által megadott hozzáférési kód használatával való titkosítására. A Kikényszerített beállítás kikapcsolható, de a Be beállítás a mentést követően nem vonható vissza. Az OK gombra kattintva mentheti a beállítást, a Mégse gombra kattintva mentés nélkül az aktuális oldalon marad. </value>
+  </data>
+  <data name="IFOLDERS">
+    <value>iFolder mappák</value>
+  </data>
+  <data name="NOPOLICIESAVAILABLE">
+    <value>Nincs elérhető házirend.</value>
+  </data>
+  <data name="ADMINISTRATORS">
+    <value>Rendszergazdák</value>
+  </data>
+  <data name="SELECTGROUPTODELETE">
+    <value>A kijelölendő csoport(ok) törlése</value>
+  </data>
+  <data name="FORMATTAG">
+    <value>Formátum:</value>
+  </data>
+  <data name="FILE">
+    <value>Fájl</value>
+  </data>
+  <data name="CONFIRMLDAPPROXYUSERPWD">
+    <value>Proxyfelhasználó jelszavának megerősítése:</value>
+  </data>
+  <data name="UNABLETOEDITLDAPDETAILS">
+    <value>Ezekkel az értékekkel nem lehet szerkeszteni az LDAP-adatokat. Ellenőrizze az értékeket. </value>
+  </data>
+  <data name="RETYPEPASSWORDTAG">
+    <value>Jelszó ismételt beírása:</value>
+  </data>
+  <data name="USERDETAILS">
+    <value>Felhasználó adatai</value>
+  </data>
+  <data name="DELETED">
+    <value>Törölve</value>
+  </data>
+  <data name="CURRENTHOMETAG">
+    <value>Aktuális kezdő kiszolgáló:</value>
+  </data>
+  <data name="DENY">
+    <value>Elutasítás</value>
+  </data>
+  <data name="LOGINTRUSTFAILED">
+    <value>Az iFolder kiszolgáló és az iFolder Web Access közötti megbízáson alapuló kapcsolat sikertelen.</value>
+  </data>
+  <data name="NEWHOME">
+    <value>Új kezdő kiszolgáló</value>
+  </data>
+  <data name="PRIMARY">
+    <value>Elsődleges</value>
+  </data>
+  <data name="TOTALUSERSTAG">
+    <value>Felhasználók száma összesen:</value>
+  </data>
+  <data name="WEBACCESSLOGFILE">
+    <value>Webes hozzáférés</value>
+  </data>
+  <data name="ERRORUSERDOESNOTEXIST">
+    <value>A megadott iFolder felhasználó nem létezik.</value>
+  </data>
+  <data name="LOGINCOPYRIGHT">
+    <value>&amp;copy; Copyright 2010 Novell, Inc. Minden jog fenntartva.</value>
+  </data>
+  <data name="GENERATEWEEKLYREPORT">
+    <value>Jelentés készítése – nap: {0}, időpont: {1}, hely: {2}</value>
+  </data>
+  <data name="VIEW">
+    <value>Nézet</value>
+  </data>
+  <data name="SERVERS">
+    <value>Kiszolgálók</value>
+  </data>
+  <data name="GENERATEDAILYREPORT">
+    <value>Jelentés készítése mindennap, időpont: {0}, hely: {1}</value>
+  </data>
+  <data name="MASTERNODEUPDATEWAIT">
+    <value>Várakozás a fő csomópont attribútumának az új fő és szolgaelemeken való szinkronizálására.</value>
+  </data>
+  <data name="ERRORCANNOTDELETEUSER">
+    <value>A(z) {0} felhasználói azonosítót nem sikerült törölni.</value>
+  </data>
+  <data name="DISKQUOTA">
+    <value>Lemezkvóta</value>
+  </data>
+  <data name="INVALIDLIMITERROR">
+    <value>Nem hozható létre iFolder, mert túllépte az iFolder mappák maximális számát, melyet a rendszergazda állított be.</value>
+  </data>
+  <data name="DNSNAME">
+    <value>DNS-név</value>
+  </data>
+  <data name="ALLOWUSERENABLING">
+    <value>Felhasználók engedélyezésének/letiltásának lehetővé tétele</value>
+  </data>
+  <data name="NOTELIGIBLE">
+    <value>Nem sikerült az inicializálás</value>
+  </data>
+  <data name="ACCESSDENIEDERROR">
+    <value>A bejelentkezett felhasználó nem jogosult ezen lap tulajdonságainak megtekintésére és módosítására</value>
+  </data>
+  <data name="TOTALIFOLDERSTAG">
+    <value>iFolder mappák összesen:</value>
+  </data>
+  <data name="LOGINIFOLDERSERVER">
+    <value>iFolder kiszolgáló:</value>
+  </data>
+  <data name="SELECTMEMBERTOADD">
+    <value>Új másodlagos rendszergazda kijelölése</value>
+  </data>
+  <data name="ERRORINVALIDIDSYNCINTERVAL">
+    <value>Érvénytelen a megadott szinkronizálási időköz. Az érték csak 5 és 10 080 között lehet.</value>
+  </data>
+  <data name="IDENTITYSYNCTAG">
+    <value>Identitás szinkronizálása:</value>
+  </data>
+  <data name="ERRORACCESSEXCEPTION">
+    <value>Nem rendelkezik megfelelő jogokkal a kérés végrehajtásához.</value>
+  </data>
+  <data name="DIRECTORIESTAG">
+    <value>Könyvtárak:</value>
+  </data>
+  <data name="LDAPCYCLES">
+    <value>Ciklusok:</value>
+  </data>
+  <data name="ADD">
+    <value>Hozzáadás</value>
+  </data>
+  <data name="DISABLE">
+    <value>Letiltás</value>
+  </data>
+  <data name="disabled">
+    <value>letiltva</value>
+  </data>
+  <data name="ENABLEREPORTING">
+    <value>Jelentéskészítés engedélyezése</value>
+  </data>
+  <data name="IFOLDERUSERDETAILS">
+    <value>iFolder felhasználó adatai</value>
+  </data>
+  <data name="SLOVAK">
+    <value>szlovák</value>
+  </data>
+  <data name="UPDATEMASTERURLONSLAVESFAILED">
+    <value>Az új fő URL nem frissíthető a(z) {0} kiszolgálón. Frissítse manuálisan az IP-címet ezen a kiszolgálón.</value>
+  </data>
+  <data name="ONLINE">
+    <value>Online</value>
+  </data>
+  <data name="ALLFIELDSREQUIRED">
+    <value>Minden mezőt ki kell tölteni.</value>
+  </data>
+  <data name="CSVFORMAT">
+    <value>Szöveg, CSV</value>
+  </data>
+  <data name="ERRORMEMBERDOESNOTEXIST">
+    <value>Nem létező iFolder tag.</value>
+  </data>
+  <data name="LOGINLANGUAGE">
+    <value>Nyelv:</value>
+  </data>
+  <data name="INTERVALTAG">
+    <value>Időköz:</value>
+  </data>
+  <data name="SELECTIFOLDEROWNER">
+    <value>Válasszon tulajdonost a(z)"{0}" iFolder számára</value>
+  </data>
+  <data name="IFOLDERADMINS">
+    <value>iFolder rendszergazdák</value>
+  </data>
+  <data name="NAME:">
+    <value>Név:</value>
+  </data>
+  <data name="COMPLETED">
+    <value>Kész</value>
+  </data>
+  <data name="CZECH">
+    <value>cseh</value>
+  </data>
+  <data name="GROUPQUOTARESTRICTION">
+    <value>Csoportkvóta kezelése a következővel: </value>
+  </data>
+  <data name="MEMBERLISTTAG">
+    <value>Csoporttagok:</value>
+  </data>
+  <data name="ERRORCANNOTADDADMIN">
+    <value>{0} tagot nem sikerült felvenni rendszergazdaként.</value>
+  </data>
+  <data name="LDAPUPSINCE">
+    <value>Működés kezdete:</value>
+  </data>
+  <data name="DAYTAG">
+    <value>Nap:</value>
+  </data>
+  <data name="TYPE">
+    <value>Típus</value>
+  </data>
+  <data name="CREATE">
+    <value>Létrehozás</value>
+  </data>
+  <data name="USERNAMETAG">
+    <value>Felhasználónév:</value>
+  </data>
+  <data name="PAGENUMBERFORMAT">
+    <value>{0} - {1}/{2} {3}</value>
+  </data>
+  <data name="MASTERURI">
+    <value>Fő URL-cím:</value>
+  </data>
+  <data name="YES">
+    <value>Igen</value>
+  </data>
+  <data name="INVALIDGROUPQUOTA">
+    <value>A csoport összesített lemezkvótakorlátja kisebb, mint a csoport felhasználónkénti lefoglalt/felhasznált lemezkvótája. Töröljön adatokat a kiszolgálóról, vagy módosítsa a felhasználónként lefoglalt lemezterület korlátját a csoporttagok esetében. Ezután állítsa be a csoport összesített lemezkvótáját.</value>
+  </data>
+  <data name="PROVISION">
+    <value>Hozzáférés engedélyezése</value>
+  </data>
+  <data name="ERRORINVALIDSYNCINTERVAL">
+    <value>Érvénytelen szinkronizálási időköz van megadva. Az értéknek 5 és 999 között kell lennie.</value>
+  </data>
+  <data name="REPROVISIONBUTTON">
+    <value>Újraengedélyezési állapot</value>
+  </data>
+  <data name="MEMBERTYPELOCALGROUP">
+    <value>Helyi csoport</value>
+  </data>
+  <data name="TRUE">
+    <value>Igaz</value>
+  </data>
+  <data name="EDITADMINRIGHTS">
+    <value>Rendszergazdai jogok szerkesztése</value>
+  </data>
+  <data name="DATASTORE">
+    <value>Adattár</value>
+  </data>
+  <data name="FULLCONTROL">
+    <value>Teljes vezérlés</value>
+  </data>
+  <data name="GENERATEMONTHLYREPORT">
+    <value>Jelentés készítése minden hónap {0}. napján, időpont: {1}, hely: {2}</value>
+  </data>
+  <data name="REPORTDIRECTORY">
+    <value>Jelentési könyvtár</value>
+  </data>
+  <data name="ATTAG">
+    <value>Időpont:</value>
+  </data>
+  <data name="SPANISH">
+    <value>spanyol</value>
+  </data>
+  <data name="ELLIPSES">
+    <value> ...</value>
+  </data>
+  <data name="ERRORINSTRUCTIONS">
+    <value>&lt;p&gt;Az iFolder Web Access váratlan hibát tapasztalt.&lt;/p&gt; &lt;p&gt;Elnézést az esetleges kényelmetlenségért, legyen szíves, jelentkezzen ki, és próbálja meg újra.&lt;/p&gt;</value>
+  </data>
+  <data name="POLISH">
+    <value>lengyel</value>
+  </data>
+  <data name="FULLNAMETAG">
+    <value>Teljes név:</value>
+  </data>
+  <data name="ERRORCANNOTSETDESCRIPTION">
+    <value>Nem sikerült az iFolder mappa leírásának beállítása.</value>
+  </data>
+  <data name="REVERTSHARINGCONNECTFAILED">
+    <value>Nem lehet csatlakozni az iFolder-kiszolgálóhoz. Ha elérhető lesz a kiszolgáló, vonja vissza a megosztást.</value>
+  </data>
+  <data name="LOGINUNAUTHORIZED">
+    <value>Adja meg újra a felhasználónevét és jelszavát.</value>
+  </data>
+  <data name="LDAPCONTEXTTAG">
+    <value>LDAP-környezetek:</value>
+  </data>
+  <data name="PENDING">
+    <value>Függőben</value>
+  </data>
+  <data name="REPORTS">
+    <value>Jelentések</value>
+  </data>
+  <data name="ENFORCED">
+    <value>Kikényszerített </value>
+  </data>
+  <data name="ERRORNOTADMINISTRATOR">
+    <value>A felhasználó nem iFolder rendszergazda.</value>
+  </data>
+  <data name="PATHTAG">
+    <value>Elérési út:</value>
+  </data>
+  <data name="SYSTEMLOGFILE">
+    <value>Rendszer</value>
+  </data>
+  <data name="ADMIN">
+    <value>Rendszergazda</value>
+  </data>
+  <data name="LDAPSSL">
+    <value>LDAP SSL:</value>
+  </data>
+  <data name="NEWIFOLDERDESCRIPTIONTAG">
+    <value>iFolder leírása:</value>
+  </data>
+  <data name="CREATEUSER">
+    <value>Felhasználó létrehozása</value>
+  </data>
+  <data name="SSLSTRING">
+    <value>SSL</value>
+  </data>
+  <data name="IFOLDERLIMIT">
+    <value>iFolder mappa / felhasználó</value>
+  </data>
+  <data name="FREESPACE">
+    <value>Szabad lemezterület</value>
+  </data>
+  <data name="CHANGEMASTERSUCCESSFUL">
+    <value>A(z) {0} frissítve fő kiszolgálóként. A módosítások érvénybe lépéséhez indítsa újra az összes kiszolgálót.</value>
+  </data>
+  <data name="ERRORIFOLDERDOESNOTEXIST">
+    <value>Nem létező iFolder.</value>
+  </data>
+  <data name="STATUS">
+    <value>Állapot</value>
+  </data>
+  <data name="PROVISION_REPROVISION_TITLE">
+    <value>Felhasználók engedélyezése / újraengedélyezése</value>
+  </data>
+  <data name="ERRORNOQUOTA">
+    <value>Nincs megadva lemezkvóta.</value>
+  </data>
+  <data name="IFOLDERDETAILS">
+    <value>Az iFolder adatai</value>
+  </data>
+  <data name="CHINESE-SIMPLIFIED">
+    <value>kínai (egyszerűsített)</value>
+  </data>
+  <data name="UNKNOWNERROR">
+    <value>Ismeretlen hiba történt. Nincs megadott kivétel.</value>
+  </data>
+  <data name="ERRORCANNOTSETUSERPOLICY">
+    <value>A(z) {0} felhasználói azonosítóhoz nem sikerült beállítani a házirend adatait.</value>
+  </data>
+  <data name="CREATENEWIFOLDER">
+    <value>Új iFolder létrehozása</value>
+  </data>
+  <data name="ERRORAUTHENTICATIONFAILED">
+    <value>A hitelesítés sikertelen volt.</value>
+  </data>
+  <data name="SEGREGATEDGROUPS">
+    <value>Elkülönített csoportok: </value>
+  </data>
+  <data name="POLICIES">
+    <value>Házirendek</value>
+  </data>
+  <data name="CONNECTIONFAILED">
+    <value>Nem lehet csatlakozni a(z) {0} kiszolgálóhoz.</value>
+  </data>
+  <data name="NONSSLSTRING">
+    <value>Nem SSL</value>
+  </data>
+  <data name="SSLTAG">
+    <value>SSL opció:</value>
+  </data>
+  <data name="CREATESEGREGATEDGROUPS">
+    <value>Elkülönített csoportok létrehozása</value>
+  </data>
+  <data name="CONFIRMADDITION">
+    <value>FONTOS: A kiszolgálón az adatok elérési útjának tulajdonosát és csoportját az apacheuser:apachegroup értékre kell beállítani. Ez mindenképpen szükséges, ha ezen a köteten iFolder mappákat akarnak létrehozni vagy szinkronizálni.</value>
+  </data>
+  <data name="PORTUGUESE-BRAZIL">
+    <value>portugál (brazíliai)</value>
+  </data>
+  <data name="ENCRYPTION">
+    <value>Hozzáférési kód alapú titkosítás</value>
+  </data>
+  <data name="BEGINSWITH">
+    <value>kezdete</value>
+  </data>
+  <data name="MB">
+    <value>MB</value>
+  </data>
+  <data name="ERRORCANNOTDELETEIFOLDER">
+    <value>A(z) {0} törléséhez nincs engedélye.</value>
+  </data>
+  <data name="DISKSPACEAVAILABLETAG">
+    <value>Rendelkezésre álló terület:</value>
+  </data>
+  <data name="MESSAGEINFORMATION">
+    <value>Információ:</value>
+  </data>
+  <data name="DISABLEPASTSHARING">
+    <value>Visszavonás</value>
+  </data>
+  <data name="TRANSFERING">
+    <value>Átvitel</value>
+  </data>
+  <data name="ALLOWDELETEIFOLDERRIGHTS">
+    <value>Engedély megadása az iFolder mappák törlésére</value>
+  </data>
+  <data name="SET">
+    <value>Beállítás</value>
+  </data>
+  <data name="LDAPADMINPWD">
+    <value>LDAP-rendszergazda jelszava:</value>
+  </data>
+  <data name="SYNCBASED">
+    <value>Szinkronizációs motor </value>
+  </data>
+  <data name="TITLE">
+    <value>iFolder rendszergazda</value>
+  </data>
+  <data name="STATUSTAG">
+    <value>Állapot:</value>
+  </data>
+  <data name="MINIMALINFO">
+    <value>Minimális információ megjelenítése</value>
+  </data>
+  <data name="LOGLEVELTAG">
+    <value>Naplózás szintje</value>
+  </data>
+  <data name="EVERYTAG">
+    <value>Időköz:</value>
+  </data>
+  <data name="PASSWORDTAG">
+    <value>Jelszó:</value>
+  </data>
+  <data name="GROUPRIGHTSEDITSUCCESSFUL">
+    <value>A(z) {0}{1}{2} rendszergazda jogait sikerült szerkeszteni a következő csoporthoz: {3}{4}{5}. Az Ismétlés gombra kattintva további csoportokra is beállíthatja ezeket ugyanazon rendszergazda esetében. Ha az OK gombra kattint, visszatérhet a Rendszerek lapra.</value>
+  </data>
+  <data name="LDAPMEMBERDELETE">
+    <value>Tag törlése</value>
+  </data>
+  <data name="SYSTEMSETTINGS">
+    <value>Rendszerbeállítások</value>
+  </data>
+  <data name="ERRORUNKNOWNERROR">
+    <value>Ismeretlen hiba történt.</value>
+  </data>
+  <data name="GROUPRIGHTSADDFAILURE">
+    <value>A(z) {0}{1}{2} felhasználó nem adható hozzá rendszergazdaként a(z) {3}{4}{5} csoporthoz. A csoport ismételt hozzáadásához válassza az Újbóli próbálkozás elemet. Ha az OK gombra kattint, visszatérhet a Rendszerek lapra. </value>
+  </data>
+  <data name="NAMETAG">
+    <value>Név:</value>
+  </data>
+  <data name="ERRORCANNOTSETIFOLDERSTATUS">
+    <value>Nem sikerült beállítani az iFolder mappa szinkronizációs állapotát.</value>
+  </data>
+  <data name="EXCLUDEDFILES">
+    <value>Kizárt fájlok</value>
+  </data>
+  <data name="ADMINLOGFILE">
+    <value>Webes rendszergazda</value>
+  </data>
+  <data name="EDIT">
+    <value>Szerkesztés</value>
+  </data>
+  <data name="HUNGARIAN">
+    <value>magyar</value>
+  </data>
+  <data name="SYSTEM">
+    <value>Rendszer</value>
+  </data>
+  <data name="CANNOTSETUNLIMITED">
+    <value>Nem lehet korlátlan az érték, mert a vonatkozó csoporthoz van beállítva összesített lemezkvóta</value>
+  </data>
+  <data name="LASTLOGINTIMETAG">
+    <value>Legutóbbi bejelentkezés ideje:</value>
+  </data>
+  <data name="OFF">
+    <value>Ki</value>
+  </data>
+  <data name="B">
+    <value>B</value>
+  </data>
+  <data name="ASSIGNADMINISTRATORS">
+    <value>Rendszergazdák hozzárendelése</value>
+  </data>
+  <data name="ERRORCANNOTSETSYSTEMPOLICY">
+    <value>Nem sikerült beállítani a rendszer házirendadatait.</value>
+  </data>
+  <data name="RIGHTS">
+    <value>Jogok</value>
+  </data>
+  <data name="ACCOUNT">
+    <value>Fiók</value>
+  </data>
+  <data name="ADDROOT">
+    <value>Gyökér hozzáadása</value>
+  </data>
+  <data name="IFOLDERISOWNEDBY">
+    <value>Tulajdonosa: {0}</value>
+  </data>
+  <data name="LOGINACCOUNTLOCKED">
+    <value>A fiók jelenleg zárolva van, nem használható.</value>
+  </data>
+  <data name="ITALIAN">
+    <value>olasz</value>
+  </data>
+  <data name="SYNCNOW">
+    <value>Azonnali szinkronizálás</value>
+  </data>
+  <data name="CANNOTSETPERMISSION">
+    <value>Nem sikerült módosítani a megadott teljes elérési út engedélyét.</value>
+  </data>
+  <data name="ACCESSLOGFILE">
+    <value>Felhasználói hozzáférés</value>
+  </data>
+  <data name="ADOPT">
+    <value>Befogadás</value>
+  </data>
+  <data name="ERROR">
+    <value>Hiba</value>
+  </data>
+  <data name="REPROVISOINSTATETAG">
+    <value>Újraengedélyezési állapot:</value>
+  </data>
+  <data name="DOWNLOAD">
+    <value>Letöltés</value>
+  </data>
+  <data name="DELETESECONDARYADMIN">
+    <value>Másodlagos rendszergazda törlése: </value>
+  </data>
+  <data name="FIRSTNAMETAG">
+    <value>Utónév:</value>
+  </data>
+  <data name="ERRORNOSYNCINTERVAL">
+    <value>Nincs megadva szinkronizálási időköz.</value>
+  </data>
+  <data name="DELETE">
+    <value>Törlés</value>
+  </data>
+  <data name="FREQUENCY">
+    <value>Gyakoriság</value>
+  </data>
+  <data name="SELECTUSERS">
+    <value>Felhasználók kijelölése</value>
+  </data>
+  <data name="WHEN">
+    <value>Feltétel</value>
+  </data>
+  <data name="LOGTAG">
+    <value>Napló</value>
+  </data>
+  <data name="GROUPDISKQUOTA">
+    <value>Csoport lemezkvótája: </value>
+  </data>
+  <data name="UNABLETOSETASSLAVE">
+    <value>Nem állítható be szolgakiszolgálóként. Ismételje meg a műveletet.</value>
+  </data>
+  <data name="LOGINUSERNAME">
+    <value>Felhasználónév:</value>
+  </data>
+  <data name="VOLUME">
+    <value>Kötet</value>
+  </data>
+  <data name="UNLIMITED">
+    <value>Korlátlan</value>
   </data>
 </root>

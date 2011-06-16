@@ -3,7 +3,7 @@
   <!-- 
     Microsoft ResX Schema 
     
-    Version 2.0
+    Version 1.3
     
     The primary goals of this format is to allow a simple XML format 
     that is mostly human readable. The generation and parsing of the 
@@ -14,17 +14,16 @@
     
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
-    <resheader name="version">2.0</resheader>
+    <resheader name="version">1.3</resheader>
     <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
     <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Name1">this is my long string</data>
     <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
     <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        <value>[base64 mime encoded serialized .NET Framework object]</value>
+        [base64 mime encoded serialized .NET Framework object]
     </data>
     <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
-        <comment>This is a comment</comment>
+        [base64 mime encoded string representing a byte array form of the .NET Framework object]
     </data>
                 
     There are any number of "resheader" rows that contain simple 
@@ -36,7 +35,7 @@
     Classes that don't support this are serialized and stored with the 
     mimetype set.
     
-    The mimetype is used for serialized objects, and tells the 
+    The mimetype is used forserialized objects, and tells the 
     ResXResourceReader how to depersist the object. This is currently not 
     extensible. For a given mimetype the value must be set accordingly:
     
@@ -46,7 +45,7 @@
     
     mimetype: application/x-microsoft.net.object.binary.base64
     value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : System.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
     
     mimetype: application/x-microsoft.net.object.soap.base64
@@ -60,37 +59,18 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
-          <xsd:element name="metadata">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
-              </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="assembly">
-            <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
-            </xsd:complexType>
-          </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
                 <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
                 <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
               <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
               <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
@@ -109,712 +89,702 @@
     <value>text/microsoft-resx</value>
   </resheader>
   <resheader name="version">
-    <value>2.0</value>
+    <value>1.3</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="TITLE" xml:space="preserve">
-    <value>iFolder</value>
-  </data>
-  <data name="LOGIN.USERNAME" xml:space="preserve">
-    <value>Имя пользователя:</value>
-  </data>
-  <data name="LOGIN.PASSWORD" xml:space="preserve">
-    <value>Пароль:</value>
-  </data>
-  <data name="HOME" xml:space="preserve">
-    <value>Основной</value>
-  </data>
-  <data name="ENTRY.CONFIRMDELETE" xml:space="preserve">
-    <value>Вы действительно хотите удалить выбранные элементы?</value>
-  </data>
-  <data name="IFOLDER.CONFIRMCHANGEOWNER" xml:space="preserve">
-    <value>Вы действительно хотите отказаться от владения данной папкой iFolder?</value>
-  </data>
-  <data name="LOGIN.UNAUTHORIZED" xml:space="preserve">
-    <value>Введите имя пользователя и пароль еще раз.</value>
-  </data>
-  <data name="LOGIN.CONNECTFAILED" xml:space="preserve">
-    <value>Невозможно подключиться к серверу iFolder.</value>
-  </data>
-  <data name="ENTRY.DIRALREADYEXISTS" xml:space="preserve">
-    <value>Каталог с указанным именем уже существует в данном расположении.</value>
-  </data>
-  <data name="ENTRY.FILESIZEEXCEPTION" xml:space="preserve">
-    <value>Передача отменена, поскольку файл нарушает политику размера файлов.</value>
-  </data>
-  <data name="ENTRY.DISKQUOTAEXCEPTION" xml:space="preserve">
-    <value>Передача отменена, поскольку файл нарушает политику дисковой квоты.</value>
-  </data>
-  <data name="ENTRY.FILETYPEEXCEPTION" xml:space="preserve">
-    <value>Передача отменена, поскольку файл нарушает политику шаблона файлов.</value>
-  </data>
-  <data name="ENTRY.B" xml:space="preserve">
-    <value>байт</value>
-  </data>
-  <data name="ENTRY.KB" xml:space="preserve">
-    <value>Кб</value>
-  </data>
-  <data name="ENTRY.MB" xml:space="preserve">
-    <value>Мб</value>
-  </data>
-  <data name="ENTRY.GB" xml:space="preserve">
-    <value>Гб</value>
-  </data>
-  <data name="ERROR.MESSAGE" xml:space="preserve">
-    <value>&lt;p&gt;Произошла неожиданная ошибка веб-клиента iFolder.&lt;/p&gt; &lt;p&gt;Приносим извинения за причиненные неудобства. Войдите в систему и повторите попытку.&lt;/p&gt;</value>
-  </data>
-  <data name="ENTRY.NOUPLOADFILE" xml:space="preserve">
-    <value>Требуется файл.</value>
-  </data>
-  <data name="ENTRY.NOFOLDERNAME" xml:space="preserve">
-    <value>Требуется имя папки.</value>
-  </data>
-  <data name="ENGLISH" xml:space="preserve">
-    <value>Английский</value>
-  </data>
-  <data name="PORTUGUESE" xml:space="preserve">
-    <value>Португальский</value>
-  </data>
-  <data name="ITALIAN" xml:space="preserve">
-    <value>Итальянский</value>
-  </data>
-  <data name="GERMAN" xml:space="preserve">
-    <value>Немецкий</value>
-  </data>
-  <data name="SPANISH" xml:space="preserve">
-    <value>Испанский</value>
-  </data>
-  <data name="SELECTRECOVERYAGENT" xml:space="preserve">
-    <value>Агент восстановления контрольной фразы:</value>
-  </data>
-  <data name="FRENCH" xml:space="preserve">
-    <value>Французский</value>
-  </data>
-  <data name="JAPANESE" xml:space="preserve">
-    <value>Японский</value>
-  </data>
-  <data name="RUSSIAN" xml:space="preserve">
-    <value>Русский</value>
-  </data>
-  <data name="LOGIN.LANGUAGE" xml:space="preserve">
-    <value>Язык:</value>
-  </data>
-  <data name="LOGIN.COPYRIGHT" xml:space="preserve">
-    <value>&amp;copy; (C) Novell, Inc., 2011. Все права защищены.</value>
-  </data>
-  <data name="LOGIN" xml:space="preserve">
-    <value>Вход в систему</value>
-  </data>
-  <data name="HELP" xml:space="preserve">
-    <value>Справка</value>
-  </data>
-  <data name="LOGOUT" xml:space="preserve">
-    <value>Выход из системы</value>
-  </data>
-  <data name="OWNER" xml:space="preserve">
-    <value>Владелец</value>
-  </data>
-  <data name="DELETE" xml:space="preserve">
-    <value>Удалить</value>
-  </data>
-  <data name="IFOLDERS" xml:space="preserve">
-    <value>Папки iFolder</value>
-  </data>
-  <data name="NAME" xml:space="preserve">
-    <value>Имя</value>
-  </data>
-  <data name="SIZE" xml:space="preserve">
-    <value>Размер</value>
-  </data>
-  <data name="ACCESSCONTROL" xml:space="preserve">
-    <value>Управление доступом</value>
-  </data>
-  <data name="TYPE" xml:space="preserve">
-    <value>Тип</value>
-  </data>
-  <data name="MODIFIED" xml:space="preserve">
-    <value>Изменено</value>
-  </data>
-  <data name="IFOLDER.CONFIRMDELETE" xml:space="preserve">
-    <value>Вы действительно хотите удалить текущую папку iFolder?</value>
-  </data>
-  <data name="IFOLDER.CONFIRMREMOVEDELETE" xml:space="preserve">
-    <value>Удалить доступ / Удалить выбранные папки iFolder?</value>
-  </data>
-  <data name="UPLOAD" xml:space="preserve">
-    <value>Передать</value>
-  </data>
-  <data name="CREATE" xml:space="preserve">
-    <value>Создать</value>
-  </data>
-  <data name="ENTER_PASSPHRASE" xml:space="preserve">
-    <value>Ввод контрольной фразы     </value>
-  </data>
-  <data name="PASSPHRASE_NOT_MATCH" xml:space="preserve">
-    <value>Контрольные фразы не совпадают</value>
-  </data>
-  <data name="PASSWORDS_NOT_MATCH" xml:space="preserve">
-    <value>Введенные новые пароли не совпадают</value>
-  </data>
-  <data name="EMPTY_PASSWORD" xml:space="preserve">
-    <value>Пустой пароль</value>
-  </data>
-  <data name="PASSPHRASE_INCORRECT" xml:space="preserve">
-    <value>Недопустимая контрольная фраза </value>
-  </data>
-  <data name="CONFIG_RECOVERY_AGENT" xml:space="preserve">
-    <value>Настройка агента восстановления для шифрования </value>
-  </data>
-  <data name="ENTRY.FOLDERNAME" xml:space="preserve">
-    <value>Имя папки:</value>
-  </data>
-  <data name="ENTRY.NOTMOUNTEDEXCEPTION" xml:space="preserve">
-    <value>Дисковое пространство сервера недоступно</value>
-  </data>
-  <data name="ENTRY.IOERROR" xml:space="preserve">
-    <value>На сервере нет места для хранения данных</value>
-  </data>
-  <data name="ENTRY.NEWFOLDER" xml:space="preserve">
-    <value>Новая папка</value>
-  </data>
-  <data name="ENTRY.FILE" xml:space="preserve">
-    <value>Файл:</value>
-  </data>
-  <data name="ENTRY.UPLOADFILE" xml:space="preserve">
-    <value>Передача файла</value>
-  </data>
-  <data name="ITEMS" xml:space="preserve">
-    <value>Элементы</value>
-  </data>
-  <data name="IFOLDER.IFOLDERS" xml:space="preserve">
-    <value>Папки iFolder:</value>
-  </data>
-  <data name="LASTNAME" xml:space="preserve">
-    <value>Фамилия</value>
-  </data>
-  <data name="LOGIN.IFOLDERSERVER" xml:space="preserve">
-    <value>Сервер iFolder:</value>
-  </data>
-  <data name="ENTRY.FAILEDDOWNLOAD" xml:space="preserve">
-    <value>Файл недоступен для загрузки. Повторите попытку.</value>
-  </data>
-  <data name="ELLIPSES" xml:space="preserve">
-    <value> ...</value>
-  </data>
-  <data name="LOGIN.TRUSTFAILED" xml:space="preserve">
-    <value>Отсутствие соответствия критериям между сервером iFolder и веб-клиентом iFolder.</value>
-  </data>
-  <data name="LOGIN.INVALIDCERTIFICATE" xml:space="preserve">
-    <value>Сбой аутентификации, проблема с сертификатом Ldap или сертификатом сервера iFolder</value>
-  </data>
-  <data name="MESSAGE.WARNING" xml:space="preserve">
-    <value>Предупреждение.</value>
-  </data>
-  <data name="ENTERPASSPHRASE" xml:space="preserve">
-    <value>Контрольная фраза:</value>
-  </data>
-  <data name="REENTER_PASSPHRASE" xml:space="preserve">
-    <value>Повтор контрольной фразы:</value>
-  </data>
-  <data name="NoRAavailable" xml:space="preserve">
-    <value>Сейчас нет сохраненных агентов восстановления!!! Выберите режим совместного использования.</value>
-  </data>
-  <data name="ENTRY.EMPTYFILE" xml:space="preserve">
-    <value>Передан пустой файл.</value>
-  </data>
-  <data name="LOGIN.ACCOUNTLOCKED" xml:space="preserve">
-    <value>Учетная запись заблокирована и недоступна.</value>
-  </data>
-  <data name="LOGIN.ACCOUNTDISABLED" xml:space="preserve">
-    <value>Учетная запись отключена и недоступна.</value>
-  </data>
-  <data name="LOGIN.NOSCRIPT" xml:space="preserve">
-    <value>Необходимо включить сценарии в средстве просмотра.</value>
-  </data>
-  <data name="LOGIN.NOCOOKIES" xml:space="preserve">
-    <value>Необходимо включить файлы Cookie в средстве просмотра.</value>
-  </data>
-  <data name="ENTRY.ENTRYINVALIDCHARACTERS" xml:space="preserve">
-    <value>В указанном имени содержатся недопустимые символы (\&amp;frasl;:*?&amp;quot;&amp;lt;&amp;gt;|).</value>
-  </data>
-  <data name="ENTRY.ACCESSEXCEPTION" xml:space="preserve">
-    <value>Недостаточно прав для выполнения этого запроса.</value>
-  </data>
-  <data name="GROUPACCESSEXCEPTION" xml:space="preserve">
-    <value>Невозможно удалить членство, так как группа, в которую Вы входите, имеет права только для чтения.</value>
-  </data>
-  <data name="SHARINGPOLICYVIOLATION" xml:space="preserve">
-    <value> Данная папка iFolder не может совместно использоваться, так как совместное использование запрещено</value>
-  </data>
-  <data name="IFOLDER.PATHTOOLONGEXCEPTION" xml:space="preserve">
-    <value>Слишком длинное имя для создания папки iFolder.</value>
-  </data>
-  <data name="IFOLDER.NEWIFOLDER" xml:space="preserve">
-    <value>Новая папка iFolder</value>
-  </data>
-  <data name="IFOLDER.NONAME" xml:space="preserve">
-    <value>Требуется имя iFolder.</value>
-  </data>
-  <data name="IFOLDER.NOPASSPHRASE" xml:space="preserve">
-    <value> Для шифрования необходимо ввести контрольную фразу</value>
-  </data>
-  <data name="NONE" xml:space="preserve">
-    <value>Нет</value>
-  </data>
-  <data name="NO.RA.SELECTED" xml:space="preserve">
+  <data name="NO.RA.SELECTED">
     <value>Агент восстановления не выбран, поэтому восстановление контрольной фразы невозможно</value>
   </data>
-  <data name="RIGHTS" xml:space="preserve">
-    <value>Доступ</value>
-  </data>
-  <data name="ACCEPT" xml:space="preserve">
-    <value>Принять</value>
-  </data>
-  <data name="DENY" xml:space="preserve">
-    <value>Назад</value>
-  </data>
-  <data name="RIGHTS.ADMIN" xml:space="preserve">
-    <value>Полный контроль</value>
-  </data>
-  <data name="RIGHTS.READONLY" xml:space="preserve">
-    <value>Только чтение</value>
-  </data>
-  <data name="RIGHTS.READWRITE" xml:space="preserve">
-    <value>Чтение/запись</value>
-  </data>
-  <data name="RIGHTS.DENY" xml:space="preserve">
-    <value>Неизвестно</value>
-  </data>
-  <data name="LOGIN.SENDFAILED" xml:space="preserve">
-    <value>Не удается взаимодействовать с сервером iFolder.</value>
-  </data>
-  <data name="LOGIN.SECUREFAILED" xml:space="preserve">
-    <value>Не удается взаимодействовать с сервером iFolder в защищенном режиме.</value>
-  </data>
-  <data name="ENCRYPTTHEIFOLDER" xml:space="preserve">
-    <value>Зашифровано</value>
-  </data>
-  <data name="ENCRYPTIONCONDITION" xml:space="preserve">
-    <value>Совместное использование зашифрованной папки iFolder невозможно</value>
-  </data>
-  <data name="SHARECONDITION" xml:space="preserve">
-    <value>Шифрование совместно используемой папки iFolder невозможно</value>
-  </data>
-  <data name="ENTRY.LOCKEXCEPTION" xml:space="preserve">
-    <value>Операция была отменена, так как папка iFolder была заблокирована или запрещена администратором.</value>
-  </data>
-  <data name="ENTRY.ENTRYINVALIDNAME" xml:space="preserve">
-    <value>Указанное имя неверно.</value>
-  </data>
-  <data name="MESSAGE.INFORMATION" xml:space="preserve">
-    <value>Информация:</value>
-  </data>
-  <data name="ENTRY.MAXUPLOADSIZEEXCEPTION" xml:space="preserve">
-    <value>Передача отменена, поскольку файл превышает максимально допустимый размер.</value>
-  </data>
-  <data name="LOGIN.LOGOUT" xml:space="preserve">
-    <value>Вы вышли из системы iFolder.</value>
-  </data>
-  <data name="CHINESE-SIMPLIFIED" xml:space="preserve">
-    <value>Китайский упрощенный</value>
-  </data>
-  <data name="PORTUGUESE-BRAZIL" xml:space="preserve">
-    <value>Португальский (Бразилия)</value>
-  </data>
-  <data name="CHINESE-TRADITIONAL" xml:space="preserve">
-    <value>Китайский традиционный</value>
-  </data>
-  <data name="POLISH" xml:space="preserve">
-    <value>Польский</value>
-  </data>
-  <data name="CZECH" xml:space="preserve">
-    <value>Чешский</value>
-  </data>
-  <data name="HUNGARIAN" xml:space="preserve">
-    <value>Венгерский</value>
-  </data>
-  <data name="SLOVAK" xml:space="preserve">
-    <value>Словацкий</value>
-  </data>
-  <data name="LOGIN.LOSTSESSION" xml:space="preserve">
-    <value>Сеанс закрыт. Войдите в систему.</value>
-  </data>
-  <data name="LOGIN.REDIRECT" xml:space="preserve">
-    <value>URL-адрес сервера iFolder нужно обновить.</value>
-  </data>
-  <data name="DETAILS" xml:space="preserve">
-    <value>Подробная информация</value>
-  </data>
-  <data name="SHARE" xml:space="preserve">
-    <value>Совм. исп.</value>
-  </data>
-  <data name="SHARABLE" xml:space="preserve">
-    <value>Обычный</value>
-  </data>
-  <data name="INFO" xml:space="preserve">
-    <value>Информация</value>
-  </data>
-  <data name="DESCRIPTION" xml:space="preserve">
-    <value>Описание</value>
-  </data>
-  <data name="APPLY" xml:space="preserve">
-    <value>Применить</value>
-  </data>
-  <data name="HISTORY" xml:space="preserve">
-    <value>Протокол</value>
-  </data>
-  <data name="EVENT" xml:space="preserve">
-    <value>Событие</value>
-  </data>
-  <data name="DATE" xml:space="preserve">
-    <value>Дата</value>
-  </data>
-  <data name="TIME" xml:space="preserve">
-    <value>Время</value>
-  </data>
-  <data name="MEMBERS" xml:space="preserve">
-    <value>Члены</value>
-  </data>
-  <data name="SEARCHUSERSTAG" xml:space="preserve">
-    <value>Поиск пользователей, содержащих:</value>
-  </data>
-  <data name="IFOLDERNEW" xml:space="preserve">
-    <value>Новая папка iFolder</value>
-  </data>
-  <data name="HEADER.LOGGEDIN" xml:space="preserve">
-    <value>Вошел в систему как</value>
-  </data>
-  <data name="TODAY" xml:space="preserve">
-    <value>Сегодня</value>
-  </data>
-  <data name="YESTERDAY" xml:space="preserve">
-    <value>Вчера</value>
-  </data>
-  <data name="ME" xml:space="preserve">
-    <value>Я</value>
-  </data>
-  <data name="FIRST" xml:space="preserve">
-    <value>Первый</value>
-  </data>
-  <data name="PREVIOUS" xml:space="preserve">
-    <value>Предыдущий</value>
-  </data>
-  <data name="NEXT" xml:space="preserve">
-    <value>Следующий</value>
-  </data>
-  <data name="LAST" xml:space="preserve">
-    <value>Последний</value>
-  </data>
-  <data name="OF" xml:space="preserve">
-    <value>из</value>
-  </data>
-  <data name="SETTINGS" xml:space="preserve">
-    <value>Параметры</value>
-  </data>
-  <data name="BY" xml:space="preserve">
-    <value>-</value>
-  </data>
-  <data name="CHANGE.MODIFY" xml:space="preserve">
-    <value>Изменено</value>
-  </data>
-  <data name="CHANGE.ADD" xml:space="preserve">
-    <value>Добавлено</value>
-  </data>
-  <data name="CHANGE.DELETE" xml:space="preserve">
-    <value>Удалено</value>
-  </data>
-  <data name="CHANGEPASSWORD" xml:space="preserve">
-    <value>Смена пароля</value>
-  </data>
-  <data name="CURRENTPASSWORD" xml:space="preserve">
-    <value>Текущий пароль: </value>
-  </data>
-  <data name="NEWPASSWORD" xml:space="preserve">
-    <value>Новый пароль: </value>
-  </data>
-  <data name="CONFIRMNEWPASSWORD" xml:space="preserve">
-    <value>Подтверждение нового пароля: </value>
-  </data>
-  <data name="NEW" xml:space="preserve">
-    <value>Создать</value>
-  </data>
-  <data name="USERS" xml:space="preserve">
-    <value>Пользователи</value>
-  </data>
-  <data name="FIRSTNAME" xml:space="preserve">
-    <value>Имя</value>
-  </data>
-  <data name="USERNAME" xml:space="preserve">
-    <value>Имя пользователя</value>
-  </data>
-  <data name="SEARCH" xml:space="preserve">
-    <value>Поиск</value>
-  </data>
-  <data name="ENTRIES" xml:space="preserve">
-    <value>Элементы</value>
-  </data>
-  <data name="CHANGES" xml:space="preserve">
-    <value>Изменения</value>
-  </data>
-  <data name="CHANGE" xml:space="preserve">
-    <value>Изменение</value>
-  </data>
-  <data name="ENTRY" xml:space="preserve">
-    <value>Элемент</value>
-  </data>
-  <data name="IFOLDER" xml:space="preserve">
-    <value>iFolder</value>
-  </data>
-  <data name="ITEM" xml:space="preserve">
-    <value>Элемент</value>
-  </data>
-  <data name="MEMBER" xml:space="preserve">
-    <value>Член</value>
-  </data>
-  <data name="USER" xml:space="preserve">
-    <value>Пользователь</value>
-  </data>
-  <data name="CHANGE.UNKNOWN" xml:space="preserve">
-    <value>Неизвестно</value>
-  </data>
-  <data name="CANCEL" xml:space="preserve">
-    <value>Отмена</value>
-  </data>
-  <data name="SHAREWITH" xml:space="preserve">
-    <value>Совместное использование</value>
-  </data>
-  <data name="AVAILABLEUSERS" xml:space="preserve">
-    <value>Доступные пользователи</value>
-  </data>
-  <data name="SHAREDWITH" xml:space="preserve">
-    <value>Совместно используется с</value>
-  </data>
-  <data name="FILES" xml:space="preserve">
-    <value>Файлы</value>
-  </data>
-  <data name="NEWIFOLDER" xml:space="preserve">
-    <value>Новая папка iFolder</value>
-  </data>
-  <data name="SAVE" xml:space="preserve">
-    <value>Сохранить</value>
-  </data>
-  <data name="NEWFOLDER" xml:space="preserve">
-    <value>Новая папка</value>
-  </data>
-  <data name="GENERAL" xml:space="preserve">
-    <value>Общие</value>
-  </data>
-  <data name="BROWSE" xml:space="preserve">
-    <value>Просмотр</value>
-  </data>
-  <data name="ADD" xml:space="preserve">
-    <value>Добавить</value>
-  </data>
-  <data name="FOLDERS" xml:space="preserve">
-    <value>Папки</value>
-  </data>
-  <data name="SETRIGHTS" xml:space="preserve">
-    <value>Установка доступа</value>
-  </data>
-  <data name="REMOVE" xml:space="preserve">
-    <value>Удалить</value>
-  </data>
-  <data name="UPLOADFILES" xml:space="preserve">
-    <value>Передача файлов</value>
-  </data>
-  <data name="SHARING" xml:space="preserve">
-    <value>Совместное использование</value>
-  </data>
-  <data name="AVAILABLE" xml:space="preserve">
-    <value>Доступно</value>
-  </data>
-  <data name="USED" xml:space="preserve">
-    <value>Используется</value>
-  </data>
-  <data name="NOLIMIT" xml:space="preserve">
-    <value>(Нет ограничения)</value>
-  </data>
-  <data name="CLOSE" xml:space="preserve">
-    <value>Закрыть</value>
-  </data>
-  <data name="EDIT" xml:space="preserve">
-    <value>Изменить</value>
-  </data>
-  <data name="LASTMODIFIED" xml:space="preserve">
-    <value>Последнее изменение</value>
-  </data>
-  <data name="PUBLISHED" xml:space="preserve">
-    <value>Опубликовано</value>
-  </data>
-  <data name="LOCKED" xml:space="preserve">
-    <value>Заблокировано</value>
-  </data>
-  <data name="YES" xml:space="preserve">
-    <value>Да</value>
-  </data>
-  <data name="NO" xml:space="preserve">
-    <value>Нет</value>
-  </data>
-  <data name="FILTER" xml:space="preserve">
-    <value>Фильтр:</value>
-  </data>
-  <data name="IFOLDER.CONFIRMREMOVE" xml:space="preserve">
-    <value>Вы действительно хотите удалить права доступа к текущей папке iFolder?</value>
-  </data>
-  <data name="IFOLDER.CONFIRMREMOVES" xml:space="preserve">
-    <value>Вы действительно хотите отменить доступ к выбранным папкам iFolder?</value>
-  </data>
-  <data name="CREATED" xml:space="preserve">
-    <value>Создано</value>
-  </data>
-  <data name="ALL" xml:space="preserve">
-    <value>Все</value>
-  </data>
-  <data name="SHARED" xml:space="preserve">
-    <value>Совместное использование</value>
-  </data>
-  <data name="REMOVEOWNEREXCEPTION" xml:space="preserve">
-    <value>Удаление владельца папки iFolder невозможно.</value>
-  </data>
-  <data name="CHANGEOWNERRIGHTSEXCEPTION" xml:space="preserve">
-    <value>Права владельца папки iFolder изменить невозможно.</value>
-  </data>
-  <data name="RECENT" xml:space="preserve">
-    <value>Последний</value>
-  </data>
-  <data name="OWNED" xml:space="preserve">
-    <value>Владелец</value>
-  </data>
-  <data name="QUOTA" xml:space="preserve">
-    <value>Квота</value>
-  </data>
-  <data name="REMOVEMEMBERSHIP" xml:space="preserve">
-    <value>Отмена членства</value>
-  </data>
-  <data name="REMOVEMEMBERDELETE" xml:space="preserve">
-    <value>Удалить членство / Удалить</value>
-  </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="SETTINGS" type="System.Resources.ResXNullRef, System.Windows.Forms">
-    <value />
-  </data>
-  <data name="PAGESIZE" xml:space="preserve">
-    <value>Размеры страницы</value>
-  </data>
-  <data name="FIRSTLASTNAMESEP" xml:space="preserve">
-    <value>&amp;nbsp;</value>
-  </data>
-  <data name="LASTFIRSTNAMESEP" xml:space="preserve">
-    <value>,&amp;nbsp;</value>
-  </data>
-  <data name="ACTIONS" xml:space="preserve">
-    <value>Действия</value>
-  </data>
-  <data name="ACTION" xml:space="preserve">
+  <data name="ACTION">
     <value>Действие</value>
   </data>
-  <data name="DATE/TIME" xml:space="preserve">
-    <value>Дата/время</value>
-  </data>
-  <data name="IFOLDERQUOTA" xml:space="preserve">
-    <value>Квота iFolder</value>
-  </data>
-  <data name="HOMEQUOTA" xml:space="preserve">
-    <value>Личная квота</value>
-  </data>
-  <data name="DELETEIFOLDER" xml:space="preserve">
-    <value>Удалить папку iFolder</value>
-  </data>
-  <data name="PROPERTIES" xml:space="preserve">
-    <value>Свойства</value>
-  </data>
-  <data name="POLICY" xml:space="preserve">
-    <value>Политика</value>
-  </data>
-  <data name="FILES.REMOVE" xml:space="preserve">
-    <value>удалить</value>
-  </data>
-  <data name="MINIMUMBROWSER" xml:space="preserve">
-    <value>Текущий навигатор не поддерживается. Можно продолжить работу, однако рекомендуется использовать один из следующих навигаторов: Firefox&amp;nbsp;1.5+, IE&amp;nbsp;6.0+ или Safari&amp;nbsp;2.0.3+</value>
-  </data>
-  <data name="ERRORIFOLDERLIMITEXCEPTION" xml:space="preserve">
-    <value>Невозможно создать папку iFolder, поскольку превышено предельное количество папок iFolder, установленное администратором.</value>
-  </data>
-  <data name="ERRORIFOLDERENCRYPTIONENFORCED" xml:space="preserve">
-    <value>Этот член не может владеть обычной папкой iFolder, поскольку на него распространяется политика шифрования.</value>
-  </data>
-  <data name="ERRORIFOLDERTRANSFEREXCEPTION" xml:space="preserve">
-    <value>Владение не может быть передано из-за превышения предельного количества папок iFolder, установленного администратором.</value>
-  </data>
-  <data name="HISTORYNOTAVAILABLE" xml:space="preserve">
-    <value>Протокол этой папки iFolder недоступен</value>
-  </data>
-  <data name="OVERWRITE" xml:space="preserve">
-    <value>Файл с таким же именем не будет отправлен.</value>
-  </data>
-  <data name="TEXTOVERWRITE" xml:space="preserve">
-    <value>Перезапись существующих файлов</value>
-  </data>
-  <data name="SHOW" xml:space="preserve">
-    <value>Показать:</value>
-  </data>
-  <data name="FILTER" type="System.Resources.ResXNullRef, System.Windows.Forms">
-    <value />
-  </data>
-  <data name="PASSWORDCHANGESUCCESS" xml:space="preserve">
+  <data name="PASSWORDCHANGESUCCESS">
     <value>Пароль изменен. Войдите в систему с помощью нового пароля.</value>
   </data>
-  <data name="PASSWORDCHANGEFAILED" xml:space="preserve">
-    <value>Не удалось изменить пароль. </value>
+  <data name="ENTRY.NOFOLDERNAME">
+    <value>Требуется имя папки.</value>
   </data>
-  <data name="INCORRECTOLDPASSWORD" xml:space="preserve">
-    <value>Неправильный старый пароль</value>
+  <data name="PUBLISHED">
+    <value>Опубликовано</value>
   </data>
-  <data name="FAILEDTORESETPASSWORD" xml:space="preserve">
-    <value>Ошибка сброса пароля.</value>
+  <data name="IFOLDER.CONFIRMREMOVES">
+    <value>Вы действительно хотите отменить доступ к выбранным папкам iFolder?</value>
   </data>
-  <data name="LOGINDISABLED" xml:space="preserve">
-    <value>Вход в систему отключен.</value>
+  <data name="USERS">
+    <value>Пользователи</value>
   </data>
-  <data name="USERACCOUNTEXPIRED" xml:space="preserve">
-    <value>Срок действия учетной записи пользователя истек.</value>
+  <data name="JAPANESE">
+    <value>Японский</value>
   </data>
-  <data name="CANNOTCHANGEPASSWORD" xml:space="preserve">
-    <value>Пользователь не может изменить пароль.</value>
+  <data name="NAME">
+    <value>Имя</value>
   </data>
-  <data name="LOGINPASSWORDEXPIRED" xml:space="preserve">
-    <value>Срок действия пароля пользователя истек.</value>
+  <data name="TODAY">
+    <value>Сегодня</value>
   </data>
-  <data name="PASSWORDMINLENGTH" xml:space="preserve">
-    <value>Нарушено ограничение минимальной длины пароля.</value>
+  <data name="ERRORIFOLDERLIMITEXCEPTION">
+    <value>Невозможно создать папку iFolder, поскольку превышено предельное количество папок iFolder, установленное администратором.</value>
   </data>
-  <data name="USERNOTFOUNDINSIMIAS" xml:space="preserve">
-    <value>Пользователь не найден в базе данных iFolder.</value>
+  <data name="ITEM">
+    <value>Элемент</value>
   </data>
-  <data name="SAMEOLDPASSWORD" xml:space="preserve">
-    <value>Старый и новый пароли не должны совпадать.</value>
+  <data name="LOGIN.REDIRECT">
+    <value>URL-адрес сервера iFolder нужно обновить.</value>
   </data>
-  <data name="RETURN" xml:space="preserve">
-    <value>Возврат</value>
+  <data name="PROPERTIES">
+    <value>Свойства</value>
   </data>
-  <data name="HYPHEN" xml:space="preserve">
-    <value> - </value>
+  <data name="SIZE">
+    <value>Размер</value>
   </data>
-  <data name="NOITEMSAVAILABLE" xml:space="preserve">
-    <value>{0} недоступны</value>
+  <data name="IFOLDER.PATHTOOLONGEXCEPTION">
+    <value>Слишком длинное имя для создания папки iFolder.</value>
   </data>
-  <data name="FILE" xml:space="preserve">
-    <value>Файл</value>
+  <data name="HISTORY">
+    <value>Протокол</value>
   </data>
-  <data name="DIRECTORY" xml:space="preserve">
+  <data name="OF">
+    <value>из</value>
+  </data>
+  <data name="HOME">
+    <value>Основной</value>
+  </data>
+  <data name="GENERAL">
+    <value>Общие</value>
+  </data>
+  <data name="ENTRY.EMPTYFILE">
+    <value>Передан пустой файл.</value>
+  </data>
+  <data name="IFOLDER.CONFIRMCHANGEOWNER">
+    <value>Вы действительно хотите отказаться от владения данной папкой iFolder?</value>
+  </data>
+  <data name="CLOSE">
+    <value>Закрыть</value>
+  </data>
+  <data name="ERRORIFOLDERENCRYPTIONENFORCED">
+    <value>Этот член не может владеть обычной папкой iFolder, поскольку на него распространяется политика шифрования.</value>
+  </data>
+  <data name="CREATED">
+    <value>Создано</value>
+  </data>
+  <data name="ELLIPSES">
+    <value> ...</value>
+  </data>
+  <data name="FIRSTNAME">
+    <value>Имя</value>
+  </data>
+  <data name="IFOLDERQUOTA">
+    <value>Квота iFolder</value>
+  </data>
+  <data name="ENTRY.FOLDERNAME">
+    <value>Имя папки:</value>
+  </data>
+  <data name="DIRECTORY">
     <value>Каталог</value>
   </data>
-  <data name="UNSUPPORTEDCHAR" xml:space="preserve">
-    <value>Специальные символы не поддерживаются. За более подробной информацией обратитесь к администратору.</value>
+  <data name="CHINESE-SIMPLIFIED">
+    <value>Китайский упрощенный</value>
+  </data>
+  <data name="MEMBER">
+    <value>Член</value>
+  </data>
+  <data name="RIGHTS.DENY">
+    <value>Неизвестно</value>
+  </data>
+  <data name="LAST">
+    <value>Последний</value>
+  </data>
+  <data name="LOGIN.COPYRIGHT">
+    <value>&amp;copy; Авторские права 2010 Novell, Inc. Все права защищены.</value>
+  </data>
+  <data name="SLOVAK">
+    <value>Словацкий</value>
+  </data>
+  <data name="PASSWORDCHANGEFAILED">
+    <value>Не удалось изменить пароль. </value>
+  </data>
+  <data name="CHANGE.DELETE">
+    <value>Удалено</value>
+  </data>
+  <data name="RETURN">
+    <value>Возврат</value>
+  </data>
+  <data name="SELECTRECOVERYAGENT">
+    <value>Агент восстановления контрольной фразы:</value>
+  </data>
+  <data name="PASSPHRASE_NOT_MATCH">
+    <value>Контрольные фразы не совпадают</value>
+  </data>
+  <data name="ENTRY">
+    <value>Элемент</value>
+  </data>
+  <data name="PAGESIZE">
+    <value>Размеры страницы</value>
+  </data>
+  <data name="CHANGEOWNERRIGHTSEXCEPTION">
+    <value>Права владельца папки iFolder изменить невозможно.</value>
+  </data>
+  <data name="ACCESSCONTROL">
+    <value>Управление доступом</value>
+  </data>
+  <data name="GROUPACCESSEXCEPTION">
+    <value>Невозможно удалить членство, так как группа, в которую Вы входите, имеет права только для чтения.</value>
+  </data>
+  <data name="HISTORYNOTAVAILABLE">
+    <value>Протокол этой папки iFolder недоступен</value>
+  </data>
+  <data name="TITLE">
+    <value>iFolder</value>
+  </data>
+  <data name="PORTUGUESE-BRAZIL">
+    <value>Португальский (Бразилия)</value>
+  </data>
+  <data name="DETAILS">
+    <value>Подробная информация</value>
+  </data>
+  <data name="FILE">
+    <value>Файл</value>
+  </data>
+  <data name="HUNGARIAN">
+    <value>Венгерский</value>
+  </data>
+  <data name="CHANGE.MODIFY">
+    <value>Изменено</value>
+  </data>
+  <data name="CHANGES">
+    <value>Изменения</value>
+  </data>
+  <data name="APPLY">
+    <value>Применить</value>
+  </data>
+  <data name="REMOVEMEMBERSHIP">
+    <value>Отмена членства</value>
+  </data>
+  <data name="SHOW">
+    <value>Показать:</value>
+  </data>
+  <data name="ENTRY.LOCKEXCEPTION">
+    <value>Операция была отменена, так как папка iFolder была заблокирована или запрещена администратором.</value>
+  </data>
+  <data name="OWNED">
+    <value>Владелец</value>
+  </data>
+  <data name="AVAILABLE">
+    <value>Доступно</value>
+  </data>
+  <data name="ENTRY.FILE">
+    <value>Файл:</value>
+  </data>
+  <data name="QUOTA">
+    <value>Квота</value>
+  </data>
+  <data name="SEARCH">
+    <value>Поиск</value>
+  </data>
+  <data name="ERRORIFOLDERTRANSFEREXCEPTION">
+    <value>Владение не может быть передано из-за превышения предельного количества папок iFolder, установленного администратором.</value>
+  </data>
+  <data name="ENTRY.ENTRYINVALIDNAME">
+    <value>Указанное имя неверно.</value>
+  </data>
+  <data name="NEWFOLDER">
+    <value>Новая папка</value>
+  </data>
+  <data name="NO">
+    <value>Нет</value>
+  </data>
+  <data name="RIGHTS.READONLY">
+    <value>Только чтение</value>
+  </data>
+  <data name="IFOLDER.CONFIRMREMOVE">
+    <value>Вы действительно хотите удалить права доступа к текущей папке iFolder?</value>
+  </data>
+  <data name="ACTIONS">
+    <value>Действия</value>
+  </data>
+  <data name="NEWPASSWORD">
+    <value>Новый пароль: </value>
+  </data>
+  <data name="LOGIN.INVALIDCERTIFICATE">
+    <value>Сбой аутентификации, проблема с сертификатом Ldap или сертификатом сервера iFolder</value>
+  </data>
+  <data name="UPLOAD">
+    <value>Передать</value>
+  </data>
+  <data name="RECENT">
+    <value>Последний</value>
+  </data>
+  <data name="NOLIMIT">
+    <value>(Нет ограничения)</value>
+  </data>
+  <data name="REENTER_PASSPHRASE">
+    <value>Повтор контрольной фразы:</value>
+  </data>
+  <data name="CHANGE.UNKNOWN">
+    <value>Неизвестно</value>
+  </data>
+  <data name="DENY">
+    <value>Назад</value>
+  </data>
+  <data name="YESTERDAY">
+    <value>Вчера</value>
+  </data>
+  <data name="SAMEOLDPASSWORD">
+    <value>Старый и новый пароли не должны совпадать.</value>
+  </data>
+  <data name="ENTRY.DISKQUOTAEXCEPTION">
+    <value>Передача отменена, поскольку файл нарушает политику дисковой квоты.</value>
+  </data>
+  <data name="IFOLDER.NONAME">
+    <value>Требуется имя iFolder.</value>
+  </data>
+  <data name="PORTUGUESE">
+    <value>Португальский</value>
+  </data>
+  <data name="LOGIN.PASSWORD">
+    <value>Пароль:</value>
+  </data>
+  <data name="USER">
+    <value>Пользователь</value>
+  </data>
+  <data name="MEMBERS">
+    <value>Члены</value>
+  </data>
+  <data name="IFOLDER.CONFIRMDELETE">
+    <value>Вы действительно хотите удалить текущую папку iFolder?</value>
+  </data>
+  <data name="RIGHTS.ADMIN">
+    <value>Полный контроль</value>
+  </data>
+  <data name="LOGIN">
+    <value>Вход в систему</value>
+  </data>
+  <data name="LOGIN.SECUREFAILED">
+    <value>Не удается взаимодействовать с сервером iFolder в защищенном режиме.</value>
+  </data>
+  <data name="DELETE">
+    <value>Удалить</value>
+  </data>
+  <data name="LOGINPASSWORDEXPIRED">
+    <value>Срок действия пароля пользователя истек.</value>
+  </data>
+  <data name="FILES.REMOVE">
+    <value>удалить</value>
+  </data>
+  <data name="HYPHEN">
+    <value> - </value>
+  </data>
+  <data name="USED">
+    <value>Используется</value>
+  </data>
+  <data name="HOMEQUOTA">
+    <value>Личная квота</value>
+  </data>
+  <data name="FILES">
+    <value>Файлы</value>
+  </data>
+  <data name="LOGIN.CONNECTFAILED">
+    <value>Невозможно подключиться к серверу iFolder.</value>
+  </data>
+  <data name="FIRSTLASTNAMESEP">
+    <value>&amp;nbsp;</value>
+  </data>
+  <data name="LOGINDISABLED">
+    <value>Вход в систему отключен.</value>
+  </data>
+  <data name="ENTERPASSPHRASE">
+    <value>Контрольная фраза:</value>
+  </data>
+  <data name="LOGIN.ACCOUNTLOCKED">
+    <value>Учетная запись заблокирована и недоступна.</value>
+  </data>
+  <data name="NEWIFOLDER">
+    <value>Новая папка iFolder</value>
+  </data>
+  <data name="ADD">
+    <value>Добавить</value>
+  </data>
+  <data name="LOGIN.ACCOUNTDISABLED">
+    <value>Учетная запись отключена и недоступна.</value>
+  </data>
+  <data name="SPANISH">
+    <value>Испанский</value>
+  </data>
+  <data name="ME">
+    <value>Я</value>
+  </data>
+  <data name="ENTRY.ENTRYINVALIDCHARACTERS">
+    <value>В указанном имени содержатся недопустимые символы (\&amp;frasl;:*?&amp;quot;&amp;lt;&amp;gt;|).</value>
+  </data>
+  <data name="IFOLDERS">
+    <value>Папки iFolder</value>
+  </data>
+  <data name="PASSWORDS_NOT_MATCH">
+    <value>Введенные новые пароли не совпадают</value>
+  </data>
+  <data name="ENCRYPTIONCONDITION">
+    <value>Совместное использование зашифрованной папки iFolder невозможно</value>
+  </data>
+  <data name="CHINESE-TRADITIONAL">
+    <value>Китайский традиционный</value>
+  </data>
+  <data name="BY">
+    <value>-</value>
+  </data>
+  <data name="IFOLDER.NOPASSPHRASE">
+    <value> Для шифрования необходимо ввести контрольную фразу</value>
+  </data>
+  <data name="SEARCHUSERSTAG">
+    <value>Поиск пользователей, содержащих:</value>
+  </data>
+  <data name="MINIMUMBROWSER">
+    <value>Текущий навигатор не поддерживается. Можно продолжить работу, однако рекомендуется использовать один из следующих навигаторов: Firefox&amp;nbsp;1.5+, IE&amp;nbsp;6.0+ или Safari&amp;nbsp;2.0.3+</value>
+  </data>
+  <data name="YES">
+    <value>Да</value>
+  </data>
+  <data name="ENTRY.FILESIZEEXCEPTION">
+    <value>Передача отменена, поскольку файл нарушает политику размера файлов.</value>
+  </data>
+  <data name="ENTRY.B">
+    <value>байт</value>
+  </data>
+  <data name="SHAREWITH">
+    <value>Совместное использование</value>
+  </data>
+  <data name="USERACCOUNTEXPIRED">
+    <value>Срок действия учетной записи пользователя истек.</value>
+  </data>
+  <data name="ENTRY.CONFIRMDELETE">
+    <value>Вы действительно хотите удалить выбранные элементы?</value>
+  </data>
+  <data name="PASSWORDMINLENGTH">
+    <value>Нарушено ограничение минимальной длины пароля.</value>
+  </data>
+  <data name="FILTER">
+    <value>Фильтр:</value>
+  </data>
+  <data name="EDIT">
+    <value>Изменить</value>
+  </data>
+  <data name="SAVE">
+    <value>Сохранить</value>
+  </data>
+  <data name="LOGIN.IFOLDERSERVER">
+    <value>Сервер iFolder:</value>
+  </data>
+  <data name="LASTMODIFIED">
+    <value>Последнее изменение</value>
+  </data>
+  <data name="ENTRY.IOERROR">
+    <value>На сервере нет места для хранения данных</value>
+  </data>
+  <data name="EVENT">
+    <value>Событие</value>
+  </data>
+  <data name="ENTRY.FILETYPEEXCEPTION">
+    <value>Передача отменена, поскольку файл нарушает политику шаблона файлов.</value>
+  </data>
+  <data name="CONFIG_RECOVERY_AGENT">
+    <value>Настройка агента восстановления для шифрования </value>
+  </data>
+  <data name="SHARE">
+    <value>Совм. исп.</value>
+  </data>
+  <data name="IFOLDER">
+    <value>iFolder</value>
+  </data>
+  <data name="INCORRECTOLDPASSWORD">
+    <value>Неправильный старый пароль</value>
+  </data>
+  <data name="DATE">
+    <value>Дата</value>
+  </data>
+  <data name="ENTRY.NOUPLOADFILE">
+    <value>Требуется файл.</value>
+  </data>
+  <data name="LOGIN.LOGOUT">
+    <value>Вы вышли из системы iFolder.</value>
+  </data>
+  <data name="ITEMS">
+    <value>Элементы</value>
+  </data>
+  <data name="FIRST">
+    <value>Первый</value>
+  </data>
+  <data name="OVERWRITE">
+    <value>Файл с таким же именем не будет отправлен.</value>
+  </data>
+  <data name="NEW">
+    <value>Создать</value>
+  </data>
+  <data name="SHARED">
+    <value>Совместное использование</value>
+  </data>
+  <data name="GERMAN">
+    <value>Немецкий</value>
+  </data>
+  <data name="DESCRIPTION">
+    <value>Описание</value>
+  </data>
+  <data name="IFOLDER.IFOLDERS">
+    <value>Папки iFolder:</value>
+  </data>
+  <data name="AVAILABLEUSERS">
+    <value>Доступные пользователи</value>
+  </data>
+  <data name="LOGIN.USERNAME">
+    <value>Имя пользователя:</value>
+  </data>
+  <data name="CANNOTCHANGEPASSWORD">
+    <value>Пользователь не может изменить пароль.</value>
+  </data>
+  <data name="ENTRY.ACCESSEXCEPTION">
+    <value>Недостаточно прав для выполнения этого запроса.</value>
+  </data>
+  <data name="RIGHTS">
+    <value>Доступ</value>
+  </data>
+  <data name="CONFIRMNEWPASSWORD">
+    <value>Подтверждение нового пароля: </value>
+  </data>
+  <data name="UPLOADFILES">
+    <value>Передача файлов</value>
+  </data>
+  <data name="SHARING">
+    <value>Совместное использование</value>
+  </data>
+  <data name="LOGIN.LOSTSESSION">
+    <value>Сеанс закрыт. Войдите в систему.</value>
+  </data>
+  <data name="ENCRYPTTHEIFOLDER">
+    <value>Зашифровано</value>
+  </data>
+  <data name="ENTRY.GB">
+    <value>Гб</value>
+  </data>
+  <data name="TIME">
+    <value>Время</value>
+  </data>
+  <data name="CZECH">
+    <value>Чешский</value>
+  </data>
+  <data name="LOGIN.NOSCRIPT">
+    <value>Необходимо включить сценарии в средстве просмотра.</value>
+  </data>
+  <data name="HELP">
+    <value>Справка</value>
+  </data>
+  <data name="IFOLDER.CONFIRMREMOVEDELETE">
+    <value>Удалить доступ / Удалить выбранные папки iFolder?</value>
+  </data>
+  <data name="MESSAGE.WARNING">
+    <value>Предупреждение.</value>
+  </data>
+  <data name="LASTFIRSTNAMESEP">
+    <value>,&amp;nbsp;</value>
+  </data>
+  <data name="ENTRY.MAXUPLOADSIZEEXCEPTION">
+    <value>Передача отменена, поскольку файл превышает максимально допустимый размер.</value>
+  </data>
+  <data name="LASTNAME">
+    <value>Фамилия</value>
+  </data>
+  <data name="TEXTOVERWRITE">
+    <value>Перезапись существующих файлов</value>
+  </data>
+  <data name="ENTRY.NOTMOUNTEDEXCEPTION">
+    <value>Дисковое пространство сервера недоступно</value>
+  </data>
+  <data name="CHANGEPASSWORD">
+    <value>Смена пароля</value>
+  </data>
+  <data name="OWNER">
+    <value>Владелец</value>
+  </data>
+  <data name="POLICY">
+    <value>Политика</value>
+  </data>
+  <data name="SHARABLE">
+    <value>Обычный</value>
+  </data>
+  <data name="ITALIAN">
+    <value>Итальянский</value>
+  </data>
+  <data name="LOGOUT">
+    <value>Выход из системы</value>
+  </data>
+  <data name="SETTINGS">
+    <value>Параметры</value>
+  </data>
+  <data name="USERNAME">
+    <value>Имя пользователя</value>
+  </data>
+  <data name="PASSPHRASE_INCORRECT">
+    <value>Недопустимая контрольная фраза </value>
+  </data>
+  <data name="RUSSIAN">
+    <value>Русский</value>
+  </data>
+  <data name="DELETEIFOLDER">
+    <value>Удалить папку iFolder</value>
+  </data>
+  <data name="EMPTY_PASSWORD">
+    <value>Пустой пароль</value>
+  </data>
+  <data name="RIGHTS.READWRITE">
+    <value>Чтение/запись</value>
+  </data>
+  <data name="MESSAGE.INFORMATION">
+    <value>Информация:</value>
+  </data>
+  <data name="CREATE">
+    <value>Создать</value>
+  </data>
+  <data name="ENTRIES">
+    <value>Элементы</value>
+  </data>
+  <data name="ENTRY.MB">
+    <value>Мб</value>
+  </data>
+  <data name="ACCEPT">
+    <value>Принять</value>
+  </data>
+  <data name="SHARINGPOLICYVIOLATION">
+    <value> Данная папка iFolder не может совместно использоваться, так как совместное использование запрещено</value>
+  </data>
+  <data name="CHANGE">
+    <value>Изменение</value>
+  </data>
+  <data name="POLISH">
+    <value>Польский</value>
+  </data>
+  <data name="HEADER.LOGGEDIN">
+    <value>Вошел в систему как</value>
+  </data>
+  <data name="ENTRY.NEWFOLDER">
+    <value>Новая папка</value>
+  </data>
+  <data name="NoRAavailable">
+    <value>Сейчас нет сохраненных агентов восстановления!!! Выберите режим совместного использования.</value>
+  </data>
+  <data name="FRENCH">
+    <value>Французский</value>
+  </data>
+  <data name="ENGLISH">
+    <value>Английский</value>
+  </data>
+  <data name="ENTER_PASSPHRASE">
+    <value>Ввод контрольной фразы     </value>
+  </data>
+  <data name="SHARECONDITION">
+    <value>Шифрование совместно используемой папки iFolder невозможно</value>
+  </data>
+  <data name="IFOLDER.NEWIFOLDER">
+    <value>Новая папка iFolder</value>
+  </data>
+  <data name="SHAREDWITH">
+    <value>Совместно используется с</value>
+  </data>
+  <data name="REMOVEOWNEREXCEPTION">
+    <value>Удаление владельца папки iFolder невозможно.</value>
+  </data>
+  <data name="ERROR.MESSAGE">
+    <value>&lt;p&gt;Произошла неожиданная ошибка веб-клиента iFolder.&lt;/p&gt; &lt;p&gt;Приносим извинения за причиненные неудобства. Войдите в систему и повторите попытку.&lt;/p&gt;</value>
+  </data>
+  <data name="ENTRY.DIRALREADYEXISTS">
+    <value>Каталог с указанным именем уже существует в данном расположении.</value>
+  </data>
+  <data name="INFO">
+    <value>Информация</value>
+  </data>
+  <data name="BROWSE">
+    <value>Просмотр</value>
+  </data>
+  <data name="SETRIGHTS">
+    <value>Установка доступа</value>
+  </data>
+  <data name="TYPE">
+    <value>Тип</value>
+  </data>
+  <data name="PREVIOUS">
+    <value>Предыдущий</value>
+  </data>
+  <data name="MODIFIED">
+    <value>Изменено</value>
+  </data>
+  <data name="LOGIN.TRUSTFAILED">
+    <value>Отсутствие соответствия критериям между сервером iFolder и веб-клиентом iFolder.</value>
+  </data>
+  <data name="NEXT">
+    <value>Следующий</value>
+  </data>
+  <data name="USERNOTFOUNDINSIMIAS">
+    <value>Пользователь не найден в базе данных iFolder.</value>
+  </data>
+  <data name="LOGIN.UNAUTHORIZED">
+    <value>Введите имя пользователя и пароль еще раз.</value>
+  </data>
+  <data name="CHANGE.ADD">
+    <value>Добавлено</value>
+  </data>
+  <data name="ENTRY.KB">
+    <value>Кб</value>
+  </data>
+  <data name="NONE">
+    <value>Нет</value>
+  </data>
+  <data name="ALL">
+    <value>Все</value>
+  </data>
+  <data name="DATE/TIME">
+    <value>Дата/время</value>
+  </data>
+  <data name="ENTRY.UPLOADFILE">
+    <value>Передача файла</value>
+  </data>
+  <data name="LOGIN.NOCOOKIES">
+    <value>Необходимо включить файлы Cookie в средстве просмотра.</value>
+  </data>
+  <data name="REMOVE">
+    <value>Удалить</value>
+  </data>
+  <data name="CANCEL">
+    <value>Отмена</value>
+  </data>
+  <data name="IFOLDERNEW">
+    <value>Новая папка iFolder</value>
+  </data>
+  <data name="CURRENTPASSWORD">
+    <value>Текущий пароль: </value>
+  </data>
+  <data name="FOLDERS">
+    <value>Папки</value>
+  </data>
+  <data name="LOGIN.SENDFAILED">
+    <value>Не удается взаимодействовать с сервером iFolder.</value>
+  </data>
+  <data name="LOCKED">
+    <value>Заблокировано</value>
+  </data>
+  <data name="ENTRY.FAILEDDOWNLOAD">
+    <value>Файл недоступен для загрузки. Повторите попытку.</value>
+  </data>
+  <data name="LOGIN.LANGUAGE">
+    <value>Язык:</value>
+  </data>
+  <data name="NOITEMSAVAILABLE">
+    <value>{0} недоступны</value>
+  </data>
+  <data name="REMOVEMEMBERDELETE">
+    <value>Удалить членство / Удалить</value>
+  </data>
+  <data name="FAILEDTORESETPASSWORD">
+    <value>Ошибка сброса пароля.</value>
   </data>
 </root>

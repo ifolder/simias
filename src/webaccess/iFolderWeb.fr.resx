@@ -3,7 +3,7 @@
   <!-- 
     Microsoft ResX Schema 
     
-    Version 2.0
+    Version 1.3
     
     The primary goals of this format is to allow a simple XML format 
     that is mostly human readable. The generation and parsing of the 
@@ -14,17 +14,16 @@
     
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
-    <resheader name="version">2.0</resheader>
+    <resheader name="version">1.3</resheader>
     <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
     <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Name1">this is my long string</data>
     <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
     <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        <value>[base64 mime encoded serialized .NET Framework object]</value>
+        [base64 mime encoded serialized .NET Framework object]
     </data>
     <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
-        <comment>This is a comment</comment>
+        [base64 mime encoded string representing a byte array form of the .NET Framework object]
     </data>
                 
     There are any number of "resheader" rows that contain simple 
@@ -36,7 +35,7 @@
     Classes that don't support this are serialized and stored with the 
     mimetype set.
     
-    The mimetype is used for serialized objects, and tells the 
+    The mimetype is used forserialized objects, and tells the 
     ResXResourceReader how to depersist the object. This is currently not 
     extensible. For a given mimetype the value must be set accordingly:
     
@@ -46,7 +45,7 @@
     
     mimetype: application/x-microsoft.net.object.binary.base64
     value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : System.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
     
     mimetype: application/x-microsoft.net.object.soap.base64
@@ -60,37 +59,18 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
-          <xsd:element name="metadata">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
-              </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="assembly">
-            <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
-            </xsd:complexType>
-          </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
                 <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
                 <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
               <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
               <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
@@ -109,712 +89,702 @@
     <value>text/microsoft-resx</value>
   </resheader>
   <resheader name="version">
-    <value>2.0</value>
+    <value>1.3</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="TITLE" xml:space="preserve">
-    <value>iFolder</value>
-  </data>
-  <data name="LOGIN.USERNAME" xml:space="preserve">
-    <value>Nom d'utilisateur :</value>
-  </data>
-  <data name="LOGIN.PASSWORD" xml:space="preserve">
-    <value>Mot de passe :</value>
-  </data>
-  <data name="HOME" xml:space="preserve">
-    <value>Privé</value>
-  </data>
-  <data name="ENTRY.CONFIRMDELETE" xml:space="preserve">
-    <value>Souhaitez-vous vraiment supprimer les éléments sélectionnés ?</value>
-  </data>
-  <data name="IFOLDER.CONFIRMCHANGEOWNER" xml:space="preserve">
-    <value>Souhaitez-vous vraiment abandonner la propriété de ce dossier iFolder ?</value>
-  </data>
-  <data name="LOGIN.UNAUTHORIZED" xml:space="preserve">
-    <value>Réintroduisez votre nom d'utilisateur et votre mot de passe.</value>
-  </data>
-  <data name="LOGIN.CONNECTFAILED" xml:space="preserve">
-    <value>Connexion impossible au serveur iFolder</value>
-  </data>
-  <data name="ENTRY.DIRALREADYEXISTS" xml:space="preserve">
-    <value>Un répertoire du nom spécifié existe déjà à cet emplacement.</value>
-  </data>
-  <data name="ENTRY.FILESIZEEXCEPTION" xml:space="preserve">
-    <value>Le téléchargement a été annulé car le fichier aurait violé la stratégie de taille de fichier.</value>
-  </data>
-  <data name="ENTRY.DISKQUOTAEXCEPTION" xml:space="preserve">
-    <value>Le téléchargement a été annulé car le fichier aurait violé la stratégie de quota de disque.</value>
-  </data>
-  <data name="ENTRY.FILETYPEEXCEPTION" xml:space="preserve">
-    <value>Le téléchargement a été annulé car le fichier aurait violé la stratégie de modèle de fichier.</value>
-  </data>
-  <data name="ENTRY.B" xml:space="preserve">
-    <value>B</value>
-  </data>
-  <data name="ENTRY.KB" xml:space="preserve">
-    <value>Ko</value>
-  </data>
-  <data name="ENTRY.MB" xml:space="preserve">
-    <value>Mo</value>
-  </data>
-  <data name="ENTRY.GB" xml:space="preserve">
-    <value>Go</value>
-  </data>
-  <data name="ERROR.MESSAGE" xml:space="preserve">
-    <value>&lt;p&gt;iFolder Web Access a rencontré une erreur inattendue.&lt;/p&gt; &lt;p&gt;Nous nous excusons des désagréments et vous invitons à vous loguer et à réessayer.&lt;/p&gt;</value>
-  </data>
-  <data name="ENTRY.NOUPLOADFILE" xml:space="preserve">
-    <value>Un fichier est nécessaire.</value>
-  </data>
-  <data name="ENTRY.NOFOLDERNAME" xml:space="preserve">
-    <value>Un nom de dossier est nécessaire.</value>
-  </data>
-  <data name="ENGLISH" xml:space="preserve">
-    <value>Anglais</value>
-  </data>
-  <data name="PORTUGUESE" xml:space="preserve">
-    <value>Portugais</value>
-  </data>
-  <data name="ITALIAN" xml:space="preserve">
-    <value>Italien</value>
-  </data>
-  <data name="GERMAN" xml:space="preserve">
-    <value>Allemand</value>
-  </data>
-  <data name="SPANISH" xml:space="preserve">
-    <value>Espagnol</value>
-  </data>
-  <data name="SELECTRECOVERYAGENT" xml:space="preserve">
-    <value>Agent de récupération de phrase secrète :</value>
-  </data>
-  <data name="FRENCH" xml:space="preserve">
-    <value>Français</value>
-  </data>
-  <data name="JAPANESE" xml:space="preserve">
-    <value>Japonais</value>
-  </data>
-  <data name="RUSSIAN" xml:space="preserve">
-    <value>Russe</value>
-  </data>
-  <data name="LOGIN.LANGUAGE" xml:space="preserve">
-    <value>Langue :</value>
-  </data>
-  <data name="LOGIN.COPYRIGHT" xml:space="preserve">
-    <value>&amp;copy; Copyright 2011 Novell, Inc. Tous droits réservés.</value>
-  </data>
-  <data name="LOGIN" xml:space="preserve">
-    <value>Login</value>
-  </data>
-  <data name="HELP" xml:space="preserve">
-    <value>Aide</value>
-  </data>
-  <data name="LOGOUT" xml:space="preserve">
-    <value>Logout</value>
-  </data>
-  <data name="OWNER" xml:space="preserve">
-    <value>Propriétaire</value>
-  </data>
-  <data name="DELETE" xml:space="preserve">
-    <value>Supprimer</value>
-  </data>
-  <data name="IFOLDERS" xml:space="preserve">
-    <value>Dossiers iFolder</value>
-  </data>
-  <data name="NAME" xml:space="preserve">
-    <value>Nom </value>
-  </data>
-  <data name="SIZE" xml:space="preserve">
-    <value>Taille</value>
-  </data>
-  <data name="ACCESSCONTROL" xml:space="preserve">
-    <value>Contrôle d'accès</value>
-  </data>
-  <data name="TYPE" xml:space="preserve">
-    <value>Type</value>
-  </data>
-  <data name="MODIFIED" xml:space="preserve">
-    <value>Modifié</value>
-  </data>
-  <data name="IFOLDER.CONFIRMDELETE" xml:space="preserve">
-    <value>Souhaitez-vous vraiment supprimer le dossier iFolder actuel ?</value>
-  </data>
-  <data name="IFOLDER.CONFIRMREMOVEDELETE" xml:space="preserve">
-    <value>Souhaitez-vous vraiment supprimer les dossiers iFolder sélectionnés ou votre accès à ceux-ci ?</value>
-  </data>
-  <data name="UPLOAD" xml:space="preserve">
-    <value>Télécharger</value>
-  </data>
-  <data name="CREATE" xml:space="preserve">
-    <value>Créer</value>
-  </data>
-  <data name="ENTER_PASSPHRASE" xml:space="preserve">
-    <value>Entrer la phrase secrète     </value>
-  </data>
-  <data name="PASSPHRASE_NOT_MATCH" xml:space="preserve">
-    <value>Les phrases secrètes ne coïncident pas</value>
-  </data>
-  <data name="PASSWORDS_NOT_MATCH" xml:space="preserve">
-    <value>Les nouveaux mots de passe entrés ne concordent pas.</value>
-  </data>
-  <data name="EMPTY_PASSWORD" xml:space="preserve">
-    <value>Mot de passe vide</value>
-  </data>
-  <data name="PASSPHRASE_INCORRECT" xml:space="preserve">
-    <value>Phrase secrète non valide </value>
-  </data>
-  <data name="CONFIG_RECOVERY_AGENT" xml:space="preserve">
-    <value>Configurer l'agent de récupération pour le codage </value>
-  </data>
-  <data name="ENTRY.FOLDERNAME" xml:space="preserve">
-    <value>Nom du dossier :</value>
-  </data>
-  <data name="ENTRY.NOTMOUNTEDEXCEPTION" xml:space="preserve">
-    <value>Stockage serveur non disponible</value>
-  </data>
-  <data name="ENTRY.IOERROR" xml:space="preserve">
-    <value>Zone de stockage du serveur saturée</value>
-  </data>
-  <data name="ENTRY.NEWFOLDER" xml:space="preserve">
-    <value>Nouveau dossier</value>
-  </data>
-  <data name="ENTRY.FILE" xml:space="preserve">
-    <value>Fichier :</value>
-  </data>
-  <data name="ENTRY.UPLOADFILE" xml:space="preserve">
-    <value>Télécharger fichier</value>
-  </data>
-  <data name="ITEMS" xml:space="preserve">
-    <value>Éléments</value>
-  </data>
-  <data name="IFOLDER.IFOLDERS" xml:space="preserve">
-    <value>Dossiers iFolder :</value>
-  </data>
-  <data name="LASTNAME" xml:space="preserve">
-    <value>Nom</value>
-  </data>
-  <data name="LOGIN.IFOLDERSERVER" xml:space="preserve">
-    <value>Serveur iFolder :</value>
-  </data>
-  <data name="ENTRY.FAILEDDOWNLOAD" xml:space="preserve">
-    <value>Le fichier n'était pas disponible pour téléchargement. Réessayez.</value>
-  </data>
-  <data name="ELLIPSES" xml:space="preserve">
-    <value> . . .</value>
-  </data>
-  <data name="LOGIN.TRUSTFAILED" xml:space="preserve">
-    <value>Échec de la relation approuvée entre le serveur iFolder et iFolder Web Access.</value>
-  </data>
-  <data name="LOGIN.INVALIDCERTIFICATE" xml:space="preserve">
-    <value>Échec de l'authentification. Le certificat du serveur LDAP ou iFolder pose problème.</value>
-  </data>
-  <data name="MESSAGE.WARNING" xml:space="preserve">
-    <value>Avertissement :</value>
-  </data>
-  <data name="ENTERPASSPHRASE" xml:space="preserve">
-    <value>Phrase secrète :</value>
-  </data>
-  <data name="REENTER_PASSPHRASE" xml:space="preserve">
-    <value>Réintroduisez la phrase secrète :</value>
-  </data>
-  <data name="NoRAavailable" xml:space="preserve">
-    <value>Actuellement, aucun agent de récupération stocké ! Sélectionnez le mode partageable.</value>
-  </data>
-  <data name="ENTRY.EMPTYFILE" xml:space="preserve">
-    <value>Un fichier de zéro octet a été téléchargé.</value>
-  </data>
-  <data name="LOGIN.ACCOUNTLOCKED" xml:space="preserve">
-    <value>Votre compte est actuellement verrouillé et indisponible.</value>
-  </data>
-  <data name="LOGIN.ACCOUNTDISABLED" xml:space="preserve">
-    <value>Votre compte est actuellement désactivé et indisponible.</value>
-  </data>
-  <data name="LOGIN.NOSCRIPT" xml:space="preserve">
-    <value>Vous devez activer les scripts dans votre navigateur.</value>
-  </data>
-  <data name="LOGIN.NOCOOKIES" xml:space="preserve">
-    <value>Vous devez activer les cookies dans votre navigateur.</value>
-  </data>
-  <data name="ENTRY.ENTRYINVALIDCHARACTERS" xml:space="preserve">
-    <value>Le nom spécifié contient des caractères non valides (\&amp;frasl;:*?&amp;quot;&amp;lt;&amp;gt;|).</value>
-  </data>
-  <data name="ENTRY.ACCESSEXCEPTION" xml:space="preserve">
-    <value>Vous ne disposez pas de droits suffisants pour exécuter la requête.</value>
-  </data>
-  <data name="GROUPACCESSEXCEPTION" xml:space="preserve">
-    <value>L'adhésion ne peut pas être supprimée parce que le groupe auquel vous appartenez ne dispose que de droits de lecture seule.</value>
-  </data>
-  <data name="SHARINGPOLICYVIOLATION" xml:space="preserve">
-    <value> Le partage étant désactivé, ce dossier iFolder ne peut pas être partagé</value>
-  </data>
-  <data name="IFOLDER.PATHTOOLONGEXCEPTION" xml:space="preserve">
-    <value>Le nom du dossier iFolder est trop long pour être créé.</value>
-  </data>
-  <data name="IFOLDER.NEWIFOLDER" xml:space="preserve">
-    <value>Nouveau dossier iFolder</value>
-  </data>
-  <data name="IFOLDER.NONAME" xml:space="preserve">
-    <value>Un nom de dossier iFolder est nécessaire.</value>
-  </data>
-  <data name="IFOLDER.NOPASSPHRASE" xml:space="preserve">
-    <value> Une phrase secrète doit être entrée pour le codage</value>
-  </data>
-  <data name="NONE" xml:space="preserve">
-    <value>Aucun</value>
-  </data>
-  <data name="NO.RA.SELECTED" xml:space="preserve">
+  <data name="NO.RA.SELECTED">
     <value>Aucun agent de récupération sélectionné. La récupération de la phrase secrète est impossible.</value>
   </data>
-  <data name="RIGHTS" xml:space="preserve">
-    <value>Accès</value>
-  </data>
-  <data name="ACCEPT" xml:space="preserve">
-    <value>Accepter</value>
-  </data>
-  <data name="DENY" xml:space="preserve">
-    <value>Précédent</value>
-  </data>
-  <data name="RIGHTS.ADMIN" xml:space="preserve">
-    <value>Contrôle total</value>
-  </data>
-  <data name="RIGHTS.READONLY" xml:space="preserve">
-    <value>Lecture seule</value>
-  </data>
-  <data name="RIGHTS.READWRITE" xml:space="preserve">
-    <value>Lecture/écriture</value>
-  </data>
-  <data name="RIGHTS.DENY" xml:space="preserve">
-    <value>Inconnu</value>
-  </data>
-  <data name="LOGIN.SENDFAILED" xml:space="preserve">
-    <value>Impossible de communiquer avec le serveur iFolder.</value>
-  </data>
-  <data name="LOGIN.SECUREFAILED" xml:space="preserve">
-    <value>Impossible de communiquer de manière sûre avec le serveur iFolder.</value>
-  </data>
-  <data name="ENCRYPTTHEIFOLDER" xml:space="preserve">
-    <value>Codé</value>
-  </data>
-  <data name="ENCRYPTIONCONDITION" xml:space="preserve">
-    <value>Impossible de partager un dossier iFolder codé</value>
-  </data>
-  <data name="SHARECONDITION" xml:space="preserve">
-    <value>Un dossier iFolder partageable ne peut pas être codé</value>
-  </data>
-  <data name="ENTRY.LOCKEXCEPTION" xml:space="preserve">
-    <value>L'opération a été annulée car le dossier iFolder a été verrouillé/désactivé par l'administrateur.</value>
-  </data>
-  <data name="ENTRY.ENTRYINVALIDNAME" xml:space="preserve">
-    <value>Le nom spécifié n'est pas valide.</value>
-  </data>
-  <data name="MESSAGE.INFORMATION" xml:space="preserve">
-    <value>Informations :</value>
-  </data>
-  <data name="ENTRY.MAXUPLOADSIZEEXCEPTION" xml:space="preserve">
-    <value>Le téléchargement a été annulé car le fichier dépassait la taille maximale autorisée.</value>
-  </data>
-  <data name="LOGIN.LOGOUT" xml:space="preserve">
-    <value>Vous n'êtes pas délogué d'iFolder.</value>
-  </data>
-  <data name="CHINESE-SIMPLIFIED" xml:space="preserve">
-    <value>Chinois simplifié</value>
-  </data>
-  <data name="PORTUGUESE-BRAZIL" xml:space="preserve">
-    <value>Portugais (Brésil)</value>
-  </data>
-  <data name="CHINESE-TRADITIONAL" xml:space="preserve">
-    <value>Chinois traditionnel</value>
-  </data>
-  <data name="POLISH" xml:space="preserve">
-    <value>Polonais</value>
-  </data>
-  <data name="CZECH" xml:space="preserve">
-    <value>Tchèque</value>
-  </data>
-  <data name="HUNGARIAN" xml:space="preserve">
-    <value>Hongrois</value>
-  </data>
-  <data name="SLOVAK" xml:space="preserve">
-    <value>Slovaque</value>
-  </data>
-  <data name="LOGIN.LOSTSESSION" xml:space="preserve">
-    <value>Votre session a été fermée. Loguez-vous.</value>
-  </data>
-  <data name="LOGIN.REDIRECT" xml:space="preserve">
-    <value>L'URL du serveur iFolder doit être mise à jour.</value>
-  </data>
-  <data name="DETAILS" xml:space="preserve">
-    <value>Détails</value>
-  </data>
-  <data name="SHARE" xml:space="preserve">
-    <value>Partager</value>
-  </data>
-  <data name="SHARABLE" xml:space="preserve">
-    <value>Normal</value>
-  </data>
-  <data name="INFO" xml:space="preserve">
-    <value>Infos</value>
-  </data>
-  <data name="DESCRIPTION" xml:space="preserve">
-    <value>Description </value>
-  </data>
-  <data name="APPLY" xml:space="preserve">
-    <value>Appliquer</value>
-  </data>
-  <data name="HISTORY" xml:space="preserve">
-    <value>Historique</value>
-  </data>
-  <data name="EVENT" xml:space="preserve">
-    <value>Événement</value>
-  </data>
-  <data name="DATE" xml:space="preserve">
-    <value>Date</value>
-  </data>
-  <data name="TIME" xml:space="preserve">
-    <value>Heure</value>
-  </data>
-  <data name="MEMBERS" xml:space="preserve">
-    <value>Membres</value>
-  </data>
-  <data name="SEARCHUSERSTAG" xml:space="preserve">
-    <value>Rechercher les utilisateurs qui contiennent :</value>
-  </data>
-  <data name="IFOLDERNEW" xml:space="preserve">
-    <value>Nouveau dossier iFolder</value>
-  </data>
-  <data name="HEADER.LOGGEDIN" xml:space="preserve">
-    <value>Logué en tant que</value>
-  </data>
-  <data name="TODAY" xml:space="preserve">
-    <value>Aujourd'hui</value>
-  </data>
-  <data name="YESTERDAY" xml:space="preserve">
-    <value>Hier</value>
-  </data>
-  <data name="ME" xml:space="preserve">
-    <value>Moi</value>
-  </data>
-  <data name="FIRST" xml:space="preserve">
-    <value>Premier</value>
-  </data>
-  <data name="PREVIOUS" xml:space="preserve">
-    <value>Précédent</value>
-  </data>
-  <data name="NEXT" xml:space="preserve">
-    <value>Suivant</value>
-  </data>
-  <data name="LAST" xml:space="preserve">
-    <value>Dernier</value>
-  </data>
-  <data name="OF" xml:space="preserve">
-    <value>de</value>
-  </data>
-  <data name="SETTINGS" xml:space="preserve">
-    <value>Paramètres</value>
-  </data>
-  <data name="BY" xml:space="preserve">
-    <value>par</value>
-  </data>
-  <data name="CHANGE.MODIFY" xml:space="preserve">
-    <value>Modifié</value>
-  </data>
-  <data name="CHANGE.ADD" xml:space="preserve">
-    <value>Ajouté</value>
-  </data>
-  <data name="CHANGE.DELETE" xml:space="preserve">
-    <value>Supprimé</value>
-  </data>
-  <data name="CHANGEPASSWORD" xml:space="preserve">
-    <value>Changer le mot de passe</value>
-  </data>
-  <data name="CURRENTPASSWORD" xml:space="preserve">
-    <value>Mot de passe actuel : </value>
-  </data>
-  <data name="NEWPASSWORD" xml:space="preserve">
-    <value>Nouveau mot de passe : </value>
-  </data>
-  <data name="CONFIRMNEWPASSWORD" xml:space="preserve">
-    <value>Confirmer le nouveau mot de passe : </value>
-  </data>
-  <data name="NEW" xml:space="preserve">
-    <value>Nouveau</value>
-  </data>
-  <data name="USERS" xml:space="preserve">
-    <value>Utilisateurs</value>
-  </data>
-  <data name="FIRSTNAME" xml:space="preserve">
-    <value>Prénom</value>
-  </data>
-  <data name="USERNAME" xml:space="preserve">
-    <value>Nom d'utilisateur</value>
-  </data>
-  <data name="SEARCH" xml:space="preserve">
-    <value>Rechercher</value>
-  </data>
-  <data name="ENTRIES" xml:space="preserve">
-    <value>Entrées</value>
-  </data>
-  <data name="CHANGES" xml:space="preserve">
-    <value>Changements</value>
-  </data>
-  <data name="CHANGE" xml:space="preserve">
-    <value>Changer</value>
-  </data>
-  <data name="ENTRY" xml:space="preserve">
-    <value>Entrée</value>
-  </data>
-  <data name="IFOLDER" xml:space="preserve">
-    <value>iFolder</value>
-  </data>
-  <data name="ITEM" xml:space="preserve">
-    <value>Élément</value>
-  </data>
-  <data name="MEMBER" xml:space="preserve">
-    <value>Membre</value>
-  </data>
-  <data name="USER" xml:space="preserve">
-    <value>Utilisateur</value>
-  </data>
-  <data name="CHANGE.UNKNOWN" xml:space="preserve">
-    <value>Inconnu</value>
-  </data>
-  <data name="CANCEL" xml:space="preserve">
-    <value>Annuler</value>
-  </data>
-  <data name="SHAREWITH" xml:space="preserve">
-    <value>Partager avec</value>
-  </data>
-  <data name="AVAILABLEUSERS" xml:space="preserve">
-    <value>Utilisateurs disponibles</value>
-  </data>
-  <data name="SHAREDWITH" xml:space="preserve">
-    <value>Partagé avec</value>
-  </data>
-  <data name="FILES" xml:space="preserve">
-    <value>Fichiers</value>
-  </data>
-  <data name="NEWIFOLDER" xml:space="preserve">
-    <value>Nouveau dossier iFolder</value>
-  </data>
-  <data name="SAVE" xml:space="preserve">
-    <value>Enregistrer</value>
-  </data>
-  <data name="NEWFOLDER" xml:space="preserve">
-    <value>Nouveau dossier</value>
-  </data>
-  <data name="GENERAL" xml:space="preserve">
-    <value>Général</value>
-  </data>
-  <data name="BROWSE" xml:space="preserve">
-    <value>Parcourir</value>
-  </data>
-  <data name="ADD" xml:space="preserve">
-    <value>Ajouter</value>
-  </data>
-  <data name="FOLDERS" xml:space="preserve">
-    <value>Dossiers</value>
-  </data>
-  <data name="SETRIGHTS" xml:space="preserve">
-    <value>Définir l'accès</value>
-  </data>
-  <data name="REMOVE" xml:space="preserve">
-    <value>Supprimer</value>
-  </data>
-  <data name="UPLOADFILES" xml:space="preserve">
-    <value>Télécharger les fichiers</value>
-  </data>
-  <data name="SHARING" xml:space="preserve">
-    <value>Partage</value>
-  </data>
-  <data name="AVAILABLE" xml:space="preserve">
-    <value>Disponible</value>
-  </data>
-  <data name="USED" xml:space="preserve">
-    <value>Utilisé</value>
-  </data>
-  <data name="NOLIMIT" xml:space="preserve">
-    <value>Aucune limite</value>
-  </data>
-  <data name="CLOSE" xml:space="preserve">
-    <value>Fermer</value>
-  </data>
-  <data name="EDIT" xml:space="preserve">
-    <value>Éditer</value>
-  </data>
-  <data name="LASTMODIFIED" xml:space="preserve">
-    <value>Dernière modification</value>
-  </data>
-  <data name="PUBLISHED" xml:space="preserve">
-    <value>Publié</value>
-  </data>
-  <data name="LOCKED" xml:space="preserve">
-    <value>Verrouillé</value>
-  </data>
-  <data name="YES" xml:space="preserve">
-    <value>Oui</value>
-  </data>
-  <data name="NO" xml:space="preserve">
-    <value>Non</value>
-  </data>
-  <data name="FILTER" xml:space="preserve">
-    <value>Filtre :</value>
-  </data>
-  <data name="IFOLDER.CONFIRMREMOVE" xml:space="preserve">
-    <value>Souhaitez-vous vraiment supprimer votre accès au dossier iFolder actuel ?</value>
-  </data>
-  <data name="IFOLDER.CONFIRMREMOVES" xml:space="preserve">
-    <value>Souhaitez-vous vraiment supprimer votre accès aux dossiers iFolder sélectionnés ?</value>
-  </data>
-  <data name="CREATED" xml:space="preserve">
-    <value>Créé</value>
-  </data>
-  <data name="ALL" xml:space="preserve">
-    <value>Tout</value>
-  </data>
-  <data name="SHARED" xml:space="preserve">
-    <value>Partagé</value>
-  </data>
-  <data name="REMOVEOWNEREXCEPTION" xml:space="preserve">
-    <value>Le propriétaire d'un dossier iFolder ne peut pas être supprimé.</value>
-  </data>
-  <data name="CHANGEOWNERRIGHTSEXCEPTION" xml:space="preserve">
-    <value>Les droits du propriétaire d'un dossier iFolder ne peuvent pas être modifiés.</value>
-  </data>
-  <data name="RECENT" xml:space="preserve">
-    <value>Récent</value>
-  </data>
-  <data name="OWNED" xml:space="preserve">
-    <value>Avec propriétaire</value>
-  </data>
-  <data name="QUOTA" xml:space="preserve">
-    <value>Quota</value>
-  </data>
-  <data name="REMOVEMEMBERSHIP" xml:space="preserve">
-    <value>Supprimer l'adhésion</value>
-  </data>
-  <data name="REMOVEMEMBERDELETE" xml:space="preserve">
-    <value>Supprimer l'adhésion / Supprimer</value>
-  </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="SETTINGS" type="System.Resources.ResXNullRef, System.Windows.Forms">
-    <value />
-  </data>
-  <data name="PAGESIZE" xml:space="preserve">
-    <value>Taille de page</value>
-  </data>
-  <data name="FIRSTLASTNAMESEP" xml:space="preserve">
-    <value>&amp;nbsp;</value>
-  </data>
-  <data name="LASTFIRSTNAMESEP" xml:space="preserve">
-    <value>,&amp;nbsp;</value>
-  </data>
-  <data name="ACTIONS" xml:space="preserve">
-    <value>Opérations</value>
-  </data>
-  <data name="ACTION" xml:space="preserve">
+  <data name="ACTION">
     <value>Opération</value>
   </data>
-  <data name="DATE/TIME" xml:space="preserve">
-    <value>Date/heure</value>
-  </data>
-  <data name="IFOLDERQUOTA" xml:space="preserve">
-    <value>Quota iFolder</value>
-  </data>
-  <data name="HOMEQUOTA" xml:space="preserve">
-    <value>Mon quota</value>
-  </data>
-  <data name="DELETEIFOLDER" xml:space="preserve">
-    <value>Supprimer iFolder</value>
-  </data>
-  <data name="PROPERTIES" xml:space="preserve">
-    <value>Propriétés</value>
-  </data>
-  <data name="POLICY" xml:space="preserve">
-    <value>Stratégie</value>
-  </data>
-  <data name="FILES.REMOVE" xml:space="preserve">
-    <value>supprimer</value>
-  </data>
-  <data name="MINIMUMBROWSER" xml:space="preserve">
-    <value>Vous utilisez actuellement un navigateur non pris en charge. Vous pouvez continuer, mais il est recommandé d'utiliser l'un des navigateurs suivants&amp;nbsp;: Firefox&amp;nbsp;1.5+, IE&amp;nbsp;6.0+ ou Safari&amp;nbsp;2.0.3+</value>
-  </data>
-  <data name="ERRORIFOLDERLIMITEXCEPTION" xml:space="preserve">
-    <value>Impossible de créer le dossier iFolder car vous dépassez le nombre limite de dossiers iFolder défini par votre Administrateur.</value>
-  </data>
-  <data name="ERRORIFOLDERENCRYPTIONENFORCED" xml:space="preserve">
-    <value>Ce membre ne peut pas être propriétaire d'un dossier iFolder standard car la stratégie de codage est appliquée pour le membre.</value>
-  </data>
-  <data name="ERRORIFOLDERTRANSFEREXCEPTION" xml:space="preserve">
-    <value>Impossible de transférer la propriété car vous violez la limite des dossiers iFolder définie par votre Administrateur.</value>
-  </data>
-  <data name="HISTORYNOTAVAILABLE" xml:space="preserve">
-    <value>Historique non disponible pour ce dossier iFolder</value>
-  </data>
-  <data name="OVERWRITE" xml:space="preserve">
-    <value>Une fichier du même nom ne peut pas être téléchargé.</value>
-  </data>
-  <data name="TEXTOVERWRITE" xml:space="preserve">
-    <value>Écraser les fichier existants</value>
-  </data>
-  <data name="SHOW" xml:space="preserve">
-    <value>Afficher :</value>
-  </data>
-  <data name="FILTER" type="System.Resources.ResXNullRef, System.Windows.Forms">
-    <value />
-  </data>
-  <data name="PASSWORDCHANGESUCCESS" xml:space="preserve">
+  <data name="PASSWORDCHANGESUCCESS">
     <value>Le mot de passe a été modifié. Login avec le nouveau mot de passe.</value>
   </data>
-  <data name="PASSWORDCHANGEFAILED" xml:space="preserve">
-    <value>Le mot de passe n'a pas pu être modifié, </value>
+  <data name="ENTRY.NOFOLDERNAME">
+    <value>Un nom de dossier est nécessaire.</value>
   </data>
-  <data name="INCORRECTOLDPASSWORD" xml:space="preserve">
-    <value>L'ancien mot de passe est incorrect.</value>
+  <data name="PUBLISHED">
+    <value>Publié</value>
   </data>
-  <data name="FAILEDTORESETPASSWORD" xml:space="preserve">
-    <value>Le mot de passe n'a pas pu être réinitialisé.</value>
+  <data name="IFOLDER.CONFIRMREMOVES">
+    <value>Souhaitez-vous vraiment supprimer votre accès aux dossiers iFolder sélectionnés ?</value>
   </data>
-  <data name="LOGINDISABLED" xml:space="preserve">
-    <value>Le login a été désactivé.</value>
+  <data name="USERS">
+    <value>Utilisateurs</value>
   </data>
-  <data name="USERACCOUNTEXPIRED" xml:space="preserve">
-    <value>Le compte utilisateur a expiré.</value>
+  <data name="JAPANESE">
+    <value>Japonais</value>
   </data>
-  <data name="CANNOTCHANGEPASSWORD" xml:space="preserve">
-    <value>L'utilisateur ne peut pas modifier le mot de passe.</value>
+  <data name="NAME">
+    <value>Nom </value>
   </data>
-  <data name="LOGINPASSWORDEXPIRED" xml:space="preserve">
-    <value>Le mot de passe de l'utilisateur a expiré.</value>
+  <data name="TODAY">
+    <value>Aujourd'hui</value>
   </data>
-  <data name="PASSWORDMINLENGTH" xml:space="preserve">
-    <value>La restriction de longueur minimale du mot de passe n'est pas respectée.</value>
+  <data name="ERRORIFOLDERLIMITEXCEPTION">
+    <value>Impossible de créer le dossier iFolder car vous dépassez le nombre limite de dossiers iFolder défini par votre Administrateur.</value>
   </data>
-  <data name="USERNOTFOUNDINSIMIAS" xml:space="preserve">
-    <value>L'utilisateur est introuvable dans la base de données iFolder.</value>
+  <data name="ITEM">
+    <value>Élément</value>
   </data>
-  <data name="SAMEOLDPASSWORD" xml:space="preserve">
-    <value>L'ancien et le nouveau mot de passe ne doivent pas être identiques.</value>
+  <data name="LOGIN.REDIRECT">
+    <value>L'URL du serveur iFolder doit être mise à jour.</value>
   </data>
-  <data name="RETURN" xml:space="preserve">
-    <value>Renvoi</value>
+  <data name="PROPERTIES">
+    <value>Propriétés</value>
   </data>
-  <data name="HYPHEN" xml:space="preserve">
-    <value> - </value>
+  <data name="SIZE">
+    <value>Taille</value>
   </data>
-  <data name="NOITEMSAVAILABLE" xml:space="preserve">
-    <value>Aucun(e) {0} disponible</value>
+  <data name="IFOLDER.PATHTOOLONGEXCEPTION">
+    <value>Le nom du dossier iFolder est trop long pour être créé.</value>
   </data>
-  <data name="FILE" xml:space="preserve">
-    <value>Fichier</value>
+  <data name="HISTORY">
+    <value>Historique</value>
   </data>
-  <data name="DIRECTORY" xml:space="preserve">
+  <data name="OF">
+    <value>de</value>
+  </data>
+  <data name="HOME">
+    <value>Privé</value>
+  </data>
+  <data name="GENERAL">
+    <value>Général</value>
+  </data>
+  <data name="ENTRY.EMPTYFILE">
+    <value>Un fichier de zéro octet a été téléchargé.</value>
+  </data>
+  <data name="IFOLDER.CONFIRMCHANGEOWNER">
+    <value>Souhaitez-vous vraiment abandonner la propriété de ce dossier iFolder ?</value>
+  </data>
+  <data name="CLOSE">
+    <value>Fermer</value>
+  </data>
+  <data name="ERRORIFOLDERENCRYPTIONENFORCED">
+    <value>Ce membre ne peut pas être propriétaire d'un dossier iFolder standard car la stratégie de codage est appliquée pour le membre.</value>
+  </data>
+  <data name="CREATED">
+    <value>Créé</value>
+  </data>
+  <data name="ELLIPSES">
+    <value> . . .</value>
+  </data>
+  <data name="FIRSTNAME">
+    <value>Prénom</value>
+  </data>
+  <data name="IFOLDERQUOTA">
+    <value>Quota iFolder</value>
+  </data>
+  <data name="ENTRY.FOLDERNAME">
+    <value>Nom du dossier :</value>
+  </data>
+  <data name="DIRECTORY">
     <value>Répertoire</value>
   </data>
-  <data name="UNSUPPORTEDCHAR" xml:space="preserve">
-    <value>Les caractères spéciaux ne sont pas pris en charge. Pour plus de détails, contactez l'administrateur.</value>
+  <data name="CHINESE-SIMPLIFIED">
+    <value>Chinois simplifié</value>
+  </data>
+  <data name="MEMBER">
+    <value>Membre</value>
+  </data>
+  <data name="RIGHTS.DENY">
+    <value>Inconnu</value>
+  </data>
+  <data name="LAST">
+    <value>Dernier</value>
+  </data>
+  <data name="LOGIN.COPYRIGHT">
+    <value>&amp;copy; Copyright 2010 Novell, Inc. Tous droits réservés.</value>
+  </data>
+  <data name="SLOVAK">
+    <value>Slovaque</value>
+  </data>
+  <data name="PASSWORDCHANGEFAILED">
+    <value>Le mot de passe n'a pas pu être modifié, </value>
+  </data>
+  <data name="CHANGE.DELETE">
+    <value>Supprimé</value>
+  </data>
+  <data name="RETURN">
+    <value>Renvoi</value>
+  </data>
+  <data name="SELECTRECOVERYAGENT">
+    <value>Agent de récupération de phrase secrète :</value>
+  </data>
+  <data name="PASSPHRASE_NOT_MATCH">
+    <value>Les phrases secrètes ne coïncident pas</value>
+  </data>
+  <data name="ENTRY">
+    <value>Entrée</value>
+  </data>
+  <data name="PAGESIZE">
+    <value>Taille de page</value>
+  </data>
+  <data name="CHANGEOWNERRIGHTSEXCEPTION">
+    <value>Les droits du propriétaire d'un dossier iFolder ne peuvent pas être modifiés.</value>
+  </data>
+  <data name="ACCESSCONTROL">
+    <value>Contrôle d'accès</value>
+  </data>
+  <data name="GROUPACCESSEXCEPTION">
+    <value>L'adhésion ne peut pas être supprimée parce que le groupe auquel vous appartenez ne dispose que de droits de lecture seule.</value>
+  </data>
+  <data name="HISTORYNOTAVAILABLE">
+    <value>Historique non disponible pour ce dossier iFolder</value>
+  </data>
+  <data name="TITLE">
+    <value>iFolder</value>
+  </data>
+  <data name="PORTUGUESE-BRAZIL">
+    <value>Portugais (Brésil)</value>
+  </data>
+  <data name="DETAILS">
+    <value>Détails</value>
+  </data>
+  <data name="FILE">
+    <value>Fichier</value>
+  </data>
+  <data name="HUNGARIAN">
+    <value>Hongrois</value>
+  </data>
+  <data name="CHANGE.MODIFY">
+    <value>Modifié</value>
+  </data>
+  <data name="CHANGES">
+    <value>Changements</value>
+  </data>
+  <data name="APPLY">
+    <value>Appliquer</value>
+  </data>
+  <data name="REMOVEMEMBERSHIP">
+    <value>Supprimer l'adhésion</value>
+  </data>
+  <data name="SHOW">
+    <value>Afficher :</value>
+  </data>
+  <data name="ENTRY.LOCKEXCEPTION">
+    <value>L'opération a été annulée car le dossier iFolder a été verrouillé/désactivé par l'administrateur.</value>
+  </data>
+  <data name="OWNED">
+    <value>Avec propriétaire</value>
+  </data>
+  <data name="AVAILABLE">
+    <value>Disponible</value>
+  </data>
+  <data name="ENTRY.FILE">
+    <value>Fichier :</value>
+  </data>
+  <data name="QUOTA">
+    <value>Quota</value>
+  </data>
+  <data name="SEARCH">
+    <value>Rechercher</value>
+  </data>
+  <data name="ERRORIFOLDERTRANSFEREXCEPTION">
+    <value>Impossible de transférer la propriété car vous violez la limite des dossiers iFolder définie par votre Administrateur.</value>
+  </data>
+  <data name="ENTRY.ENTRYINVALIDNAME">
+    <value>Le nom spécifié n'est pas valide.</value>
+  </data>
+  <data name="NEWFOLDER">
+    <value>Nouveau dossier</value>
+  </data>
+  <data name="NO">
+    <value>Non</value>
+  </data>
+  <data name="RIGHTS.READONLY">
+    <value>Lecture seule</value>
+  </data>
+  <data name="IFOLDER.CONFIRMREMOVE">
+    <value>Souhaitez-vous vraiment supprimer votre accès au dossier iFolder actuel ?</value>
+  </data>
+  <data name="ACTIONS">
+    <value>Opérations</value>
+  </data>
+  <data name="NEWPASSWORD">
+    <value>Nouveau mot de passe : </value>
+  </data>
+  <data name="LOGIN.INVALIDCERTIFICATE">
+    <value>Échec de l'authentification. Le certificat du serveur LDAP ou iFolder pose problème.</value>
+  </data>
+  <data name="UPLOAD">
+    <value>Télécharger</value>
+  </data>
+  <data name="RECENT">
+    <value>Récent</value>
+  </data>
+  <data name="NOLIMIT">
+    <value>Aucune limite</value>
+  </data>
+  <data name="REENTER_PASSPHRASE">
+    <value>Réintroduisez la phrase secrète :</value>
+  </data>
+  <data name="CHANGE.UNKNOWN">
+    <value>Inconnu</value>
+  </data>
+  <data name="DENY">
+    <value>Précédent</value>
+  </data>
+  <data name="YESTERDAY">
+    <value>Hier</value>
+  </data>
+  <data name="SAMEOLDPASSWORD">
+    <value>L'ancien et le nouveau mot de passe ne doivent pas être identiques.</value>
+  </data>
+  <data name="ENTRY.DISKQUOTAEXCEPTION">
+    <value>Le téléchargement a été annulé car le fichier aurait violé la stratégie de quota de disque.</value>
+  </data>
+  <data name="IFOLDER.NONAME">
+    <value>Un nom de dossier iFolder est nécessaire.</value>
+  </data>
+  <data name="PORTUGUESE">
+    <value>Portugais</value>
+  </data>
+  <data name="LOGIN.PASSWORD">
+    <value>Mot de passe :</value>
+  </data>
+  <data name="USER">
+    <value>Utilisateur</value>
+  </data>
+  <data name="MEMBERS">
+    <value>Membres</value>
+  </data>
+  <data name="IFOLDER.CONFIRMDELETE">
+    <value>Souhaitez-vous vraiment supprimer le dossier iFolder actuel ?</value>
+  </data>
+  <data name="RIGHTS.ADMIN">
+    <value>Contrôle total</value>
+  </data>
+  <data name="LOGIN">
+    <value>Login</value>
+  </data>
+  <data name="LOGIN.SECUREFAILED">
+    <value>Impossible de communiquer de manière sûre avec le serveur iFolder.</value>
+  </data>
+  <data name="DELETE">
+    <value>Supprimer</value>
+  </data>
+  <data name="LOGINPASSWORDEXPIRED">
+    <value>Le mot de passe de l'utilisateur a expiré.</value>
+  </data>
+  <data name="FILES.REMOVE">
+    <value>supprimer</value>
+  </data>
+  <data name="HYPHEN">
+    <value> - </value>
+  </data>
+  <data name="USED">
+    <value>Utilisé</value>
+  </data>
+  <data name="HOMEQUOTA">
+    <value>Mon quota</value>
+  </data>
+  <data name="FILES">
+    <value>Fichiers</value>
+  </data>
+  <data name="LOGIN.CONNECTFAILED">
+    <value>Connexion impossible au serveur iFolder</value>
+  </data>
+  <data name="FIRSTLASTNAMESEP">
+    <value>&amp;nbsp;</value>
+  </data>
+  <data name="LOGINDISABLED">
+    <value>Le login a été désactivé.</value>
+  </data>
+  <data name="ENTERPASSPHRASE">
+    <value>Phrase secrète :</value>
+  </data>
+  <data name="LOGIN.ACCOUNTLOCKED">
+    <value>Votre compte est actuellement verrouillé et indisponible.</value>
+  </data>
+  <data name="NEWIFOLDER">
+    <value>Nouveau dossier iFolder</value>
+  </data>
+  <data name="ADD">
+    <value>Ajouter</value>
+  </data>
+  <data name="LOGIN.ACCOUNTDISABLED">
+    <value>Votre compte est actuellement désactivé et indisponible.</value>
+  </data>
+  <data name="SPANISH">
+    <value>Espagnol</value>
+  </data>
+  <data name="ME">
+    <value>Moi</value>
+  </data>
+  <data name="ENTRY.ENTRYINVALIDCHARACTERS">
+    <value>Le nom spécifié contient des caractères non valides (\&amp;frasl;:*?&amp;quot;&amp;lt;&amp;gt;|).</value>
+  </data>
+  <data name="IFOLDERS">
+    <value>Dossiers iFolder</value>
+  </data>
+  <data name="PASSWORDS_NOT_MATCH">
+    <value>Les nouveaux mots de passe entrés ne concordent pas.</value>
+  </data>
+  <data name="ENCRYPTIONCONDITION">
+    <value>Impossible de partager un dossier iFolder codé</value>
+  </data>
+  <data name="CHINESE-TRADITIONAL">
+    <value>Chinois traditionnel</value>
+  </data>
+  <data name="BY">
+    <value>par</value>
+  </data>
+  <data name="IFOLDER.NOPASSPHRASE">
+    <value> Une phrase secrète doit être entrée pour le codage</value>
+  </data>
+  <data name="SEARCHUSERSTAG">
+    <value>Rechercher les utilisateurs qui contiennent :</value>
+  </data>
+  <data name="MINIMUMBROWSER">
+    <value>Vous utilisez actuellement un navigateur non pris en charge. Vous pouvez continuer, mais il est recommandé d'utiliser l'un des navigateurs suivants&amp;nbsp;: Firefox&amp;nbsp;1.5+, IE&amp;nbsp;6.0+ ou Safari&amp;nbsp;2.0.3+</value>
+  </data>
+  <data name="YES">
+    <value>Oui</value>
+  </data>
+  <data name="ENTRY.FILESIZEEXCEPTION">
+    <value>Le téléchargement a été annulé car le fichier aurait violé la stratégie de taille de fichier.</value>
+  </data>
+  <data name="ENTRY.B">
+    <value>B</value>
+  </data>
+  <data name="SHAREWITH">
+    <value>Partager avec</value>
+  </data>
+  <data name="USERACCOUNTEXPIRED">
+    <value>Le compte utilisateur a expiré.</value>
+  </data>
+  <data name="ENTRY.CONFIRMDELETE">
+    <value>Souhaitez-vous vraiment supprimer les éléments sélectionnés ?</value>
+  </data>
+  <data name="PASSWORDMINLENGTH">
+    <value>La restriction de longueur minimale du mot de passe n'est pas respectée.</value>
+  </data>
+  <data name="FILTER">
+    <value>Filtre :</value>
+  </data>
+  <data name="EDIT">
+    <value>Éditer</value>
+  </data>
+  <data name="SAVE">
+    <value>Enregistrer</value>
+  </data>
+  <data name="LOGIN.IFOLDERSERVER">
+    <value>Serveur iFolder :</value>
+  </data>
+  <data name="LASTMODIFIED">
+    <value>Dernière modification</value>
+  </data>
+  <data name="ENTRY.IOERROR">
+    <value>Zone de stockage du serveur saturée</value>
+  </data>
+  <data name="EVENT">
+    <value>Événement</value>
+  </data>
+  <data name="ENTRY.FILETYPEEXCEPTION">
+    <value>Le téléchargement a été annulé car le fichier aurait violé la stratégie de modèle de fichier.</value>
+  </data>
+  <data name="CONFIG_RECOVERY_AGENT">
+    <value>Configurer l'agent de récupération pour le codage </value>
+  </data>
+  <data name="SHARE">
+    <value>Partager</value>
+  </data>
+  <data name="IFOLDER">
+    <value>iFolder</value>
+  </data>
+  <data name="INCORRECTOLDPASSWORD">
+    <value>L'ancien mot de passe est incorrect.</value>
+  </data>
+  <data name="DATE">
+    <value>Date</value>
+  </data>
+  <data name="ENTRY.NOUPLOADFILE">
+    <value>Un fichier est nécessaire.</value>
+  </data>
+  <data name="LOGIN.LOGOUT">
+    <value>Vous n'êtes pas délogué d'iFolder.</value>
+  </data>
+  <data name="ITEMS">
+    <value>Éléments</value>
+  </data>
+  <data name="FIRST">
+    <value>Premier</value>
+  </data>
+  <data name="OVERWRITE">
+    <value>Une fichier du même nom ne peut pas être téléchargé.</value>
+  </data>
+  <data name="NEW">
+    <value>Nouveau</value>
+  </data>
+  <data name="SHARED">
+    <value>Partagé</value>
+  </data>
+  <data name="GERMAN">
+    <value>Allemand</value>
+  </data>
+  <data name="DESCRIPTION">
+    <value>Description </value>
+  </data>
+  <data name="IFOLDER.IFOLDERS">
+    <value>Dossiers iFolder :</value>
+  </data>
+  <data name="AVAILABLEUSERS">
+    <value>Utilisateurs disponibles</value>
+  </data>
+  <data name="LOGIN.USERNAME">
+    <value>Nom d'utilisateur :</value>
+  </data>
+  <data name="CANNOTCHANGEPASSWORD">
+    <value>L'utilisateur ne peut pas modifier le mot de passe.</value>
+  </data>
+  <data name="ENTRY.ACCESSEXCEPTION">
+    <value>Vous ne disposez pas de droits suffisants pour exécuter la requête.</value>
+  </data>
+  <data name="RIGHTS">
+    <value>Accès</value>
+  </data>
+  <data name="CONFIRMNEWPASSWORD">
+    <value>Confirmer le nouveau mot de passe : </value>
+  </data>
+  <data name="UPLOADFILES">
+    <value>Télécharger les fichiers</value>
+  </data>
+  <data name="SHARING">
+    <value>Partage</value>
+  </data>
+  <data name="LOGIN.LOSTSESSION">
+    <value>Votre session a été fermée. Loguez-vous.</value>
+  </data>
+  <data name="ENCRYPTTHEIFOLDER">
+    <value>Codé</value>
+  </data>
+  <data name="ENTRY.GB">
+    <value>Go</value>
+  </data>
+  <data name="TIME">
+    <value>Heure</value>
+  </data>
+  <data name="CZECH">
+    <value>Tchèque</value>
+  </data>
+  <data name="LOGIN.NOSCRIPT">
+    <value>Vous devez activer les scripts dans votre navigateur.</value>
+  </data>
+  <data name="HELP">
+    <value>Aide</value>
+  </data>
+  <data name="IFOLDER.CONFIRMREMOVEDELETE">
+    <value>Souhaitez-vous vraiment supprimer les dossiers iFolder sélectionnés ou votre accès à ceux-ci ?</value>
+  </data>
+  <data name="MESSAGE.WARNING">
+    <value>Avertissement :</value>
+  </data>
+  <data name="LASTFIRSTNAMESEP">
+    <value>,&amp;nbsp;</value>
+  </data>
+  <data name="ENTRY.MAXUPLOADSIZEEXCEPTION">
+    <value>Le téléchargement a été annulé car le fichier dépassait la taille maximale autorisée.</value>
+  </data>
+  <data name="LASTNAME">
+    <value>Nom</value>
+  </data>
+  <data name="TEXTOVERWRITE">
+    <value>Écraser les fichier existants</value>
+  </data>
+  <data name="ENTRY.NOTMOUNTEDEXCEPTION">
+    <value>Stockage serveur non disponible</value>
+  </data>
+  <data name="CHANGEPASSWORD">
+    <value>Changer le mot de passe</value>
+  </data>
+  <data name="OWNER">
+    <value>Propriétaire</value>
+  </data>
+  <data name="POLICY">
+    <value>Stratégie</value>
+  </data>
+  <data name="SHARABLE">
+    <value>Normal</value>
+  </data>
+  <data name="ITALIAN">
+    <value>Italien</value>
+  </data>
+  <data name="LOGOUT">
+    <value>Logout</value>
+  </data>
+  <data name="SETTINGS">
+    <value>Paramètres</value>
+  </data>
+  <data name="USERNAME">
+    <value>Nom d'utilisateur</value>
+  </data>
+  <data name="PASSPHRASE_INCORRECT">
+    <value>Phrase secrète non valide </value>
+  </data>
+  <data name="RUSSIAN">
+    <value>Russe</value>
+  </data>
+  <data name="DELETEIFOLDER">
+    <value>Supprimer iFolder</value>
+  </data>
+  <data name="EMPTY_PASSWORD">
+    <value>Mot de passe vide</value>
+  </data>
+  <data name="RIGHTS.READWRITE">
+    <value>Lecture/écriture</value>
+  </data>
+  <data name="MESSAGE.INFORMATION">
+    <value>Informations :</value>
+  </data>
+  <data name="CREATE">
+    <value>Créer</value>
+  </data>
+  <data name="ENTRIES">
+    <value>Entrées</value>
+  </data>
+  <data name="ENTRY.MB">
+    <value>Mo</value>
+  </data>
+  <data name="ACCEPT">
+    <value>Accepter</value>
+  </data>
+  <data name="SHARINGPOLICYVIOLATION">
+    <value> Le partage étant désactivé, ce dossier iFolder ne peut pas être partagé</value>
+  </data>
+  <data name="CHANGE">
+    <value>Changer</value>
+  </data>
+  <data name="POLISH">
+    <value>Polonais</value>
+  </data>
+  <data name="HEADER.LOGGEDIN">
+    <value>Logué en tant que</value>
+  </data>
+  <data name="ENTRY.NEWFOLDER">
+    <value>Nouveau dossier</value>
+  </data>
+  <data name="NoRAavailable">
+    <value>Actuellement, aucun agent de récupération stocké ! Sélectionnez le mode partageable.</value>
+  </data>
+  <data name="FRENCH">
+    <value>Français</value>
+  </data>
+  <data name="ENGLISH">
+    <value>Anglais</value>
+  </data>
+  <data name="ENTER_PASSPHRASE">
+    <value>Entrer la phrase secrète     </value>
+  </data>
+  <data name="SHARECONDITION">
+    <value>Un dossier iFolder partageable ne peut pas être codé</value>
+  </data>
+  <data name="IFOLDER.NEWIFOLDER">
+    <value>Nouveau dossier iFolder</value>
+  </data>
+  <data name="SHAREDWITH">
+    <value>Partagé avec</value>
+  </data>
+  <data name="REMOVEOWNEREXCEPTION">
+    <value>Le propriétaire d'un dossier iFolder ne peut pas être supprimé.</value>
+  </data>
+  <data name="ERROR.MESSAGE">
+    <value>&lt;p&gt;iFolder Web Access a rencontré une erreur inattendue.&lt;/p&gt; &lt;p&gt;Nous nous excusons des désagréments et vous invitons à vous loguer et à réessayer.&lt;/p&gt;</value>
+  </data>
+  <data name="ENTRY.DIRALREADYEXISTS">
+    <value>Un répertoire du nom spécifié existe déjà à cet emplacement.</value>
+  </data>
+  <data name="INFO">
+    <value>Infos</value>
+  </data>
+  <data name="BROWSE">
+    <value>Parcourir</value>
+  </data>
+  <data name="SETRIGHTS">
+    <value>Définir l'accès</value>
+  </data>
+  <data name="TYPE">
+    <value>Type</value>
+  </data>
+  <data name="PREVIOUS">
+    <value>Précédent</value>
+  </data>
+  <data name="MODIFIED">
+    <value>Modifié</value>
+  </data>
+  <data name="LOGIN.TRUSTFAILED">
+    <value>Échec de la relation approuvée entre le serveur iFolder et iFolder Web Access.</value>
+  </data>
+  <data name="NEXT">
+    <value>Suivant</value>
+  </data>
+  <data name="USERNOTFOUNDINSIMIAS">
+    <value>L'utilisateur est introuvable dans la base de données iFolder.</value>
+  </data>
+  <data name="LOGIN.UNAUTHORIZED">
+    <value>Réintroduisez votre nom d'utilisateur et votre mot de passe.</value>
+  </data>
+  <data name="CHANGE.ADD">
+    <value>Ajouté</value>
+  </data>
+  <data name="ENTRY.KB">
+    <value>Ko</value>
+  </data>
+  <data name="NONE">
+    <value>Aucun</value>
+  </data>
+  <data name="ALL">
+    <value>Tout</value>
+  </data>
+  <data name="DATE/TIME">
+    <value>Date/heure</value>
+  </data>
+  <data name="ENTRY.UPLOADFILE">
+    <value>Télécharger fichier</value>
+  </data>
+  <data name="LOGIN.NOCOOKIES">
+    <value>Vous devez activer les cookies dans votre navigateur.</value>
+  </data>
+  <data name="REMOVE">
+    <value>Supprimer</value>
+  </data>
+  <data name="CANCEL">
+    <value>Annuler</value>
+  </data>
+  <data name="IFOLDERNEW">
+    <value>Nouveau dossier iFolder</value>
+  </data>
+  <data name="CURRENTPASSWORD">
+    <value>Mot de passe actuel : </value>
+  </data>
+  <data name="FOLDERS">
+    <value>Dossiers</value>
+  </data>
+  <data name="LOGIN.SENDFAILED">
+    <value>Impossible de communiquer avec le serveur iFolder.</value>
+  </data>
+  <data name="LOCKED">
+    <value>Verrouillé</value>
+  </data>
+  <data name="ENTRY.FAILEDDOWNLOAD">
+    <value>Le fichier n'était pas disponible pour téléchargement. Réessayez.</value>
+  </data>
+  <data name="LOGIN.LANGUAGE">
+    <value>Langue :</value>
+  </data>
+  <data name="NOITEMSAVAILABLE">
+    <value>Aucun(e) {0} disponible</value>
+  </data>
+  <data name="REMOVEMEMBERDELETE">
+    <value>Supprimer l'adhésion / Supprimer</value>
+  </data>
+  <data name="FAILEDTORESETPASSWORD">
+    <value>Le mot de passe n'a pas pu être réinitialisé.</value>
   </data>
 </root>
