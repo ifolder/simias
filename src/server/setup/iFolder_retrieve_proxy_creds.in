@@ -51,7 +51,8 @@ function getProxy(){
 }
 
 if [ $# -lt 2 ]; then
-        echo "Usage: ./iFolder_retrieve_proxy_creds password <proxucredentialspath> <ldapport>"
+        echo "Usage: `basename $0` username <proxy credentials path> <ldapport>"
+        echo "   or: `basename $0` password <proxy credentials path> <ldapport>"
         exit -1
 fi
 
