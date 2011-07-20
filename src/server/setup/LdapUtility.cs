@@ -277,9 +277,10 @@ namespace Novell.iFolder.Utility
 				}
 				catch(Exception ex)
 				{
-					
 					if(ex.Message.IndexOf("Constraint Violation") != -1)
-						throw new Exception("Constraint Violation");
+						throw new Exception("Constraint Violation: password too short or Q not active");
+					if(ex.ToString().IndexOf("-16000") != -1)
+						throw new Exception("Constraint Violation: password is too long");
 					// This is applicable for both admin and proxy user.
 					created = false;
 				}

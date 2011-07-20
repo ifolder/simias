@@ -2676,17 +2676,19 @@ Console.WriteLine("Url {0}", service.Url);
 				bool created = false;
 				int i = 0;
 				string proxyDN = ldapProxyDN.Value;
+				string[] org_dnSegs = proxyDN.Split(new char[] {',', '=', '.'});
+				string org_proxy = org_dnSegs[1];
 				bool result = false;
 				while(!created)
 				{
 					Console.WriteLine("Creating {0}...", ldapProxyDN.Value);
 					i++;
 
-					try{
-					result = ldapUtility.CreateUser(ldapProxyDN.Value, ldapProxyPassword.Value);
+					try {
+						result = ldapUtility.CreateUser(ldapProxyDN.Value, ldapProxyPassword.Value);
 					}
 					catch (Exception ex) {
-						throw new Exception( string.Format("Constraint Violation: password too short or Q not active.") );
+						throw new Exception( string.Format(ex.Message) );
 					}
 
 					if (result)
@@ -2798,7 +2800,7 @@ Console.WriteLine("Url {0}", service.Url);
 								string old_proxy = dnSegs[1];
 								Console.WriteLine("Failed to connect using the Proxy user {0}, creating a new proxy user...", proxyDN);
 								Console.WriteLine("Old Proxy user {0}...", proxyDN);
-								dnSegs[1] = String.Concat(dnSegs[1], i.ToString());
+								dnSegs[1] = String.Concat(org_proxy, "-", i.ToString());
 								proxyDN = proxyDN.Replace(old_proxy, dnSegs[1]);
 								Console.WriteLine("New Proxy user {0}...", proxyDN);
 								ldapProxyDN.Value = proxyDN;
