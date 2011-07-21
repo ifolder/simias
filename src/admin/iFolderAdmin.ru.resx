@@ -902,7 +902,7 @@
     <value>Указанный пользователь iFolder не существует.</value>
   </data>
   <data name="LOGINCOPYRIGHT">
-    <value>&amp;copy; Авторские права 2010 Novell, Inc. Все права защищены.</value>
+    <value>&amp;copy; Novell, Inc., 2011. Все права защищены.</value>
   </data>
   <data name="GENERATEWEEKLYREPORT">
     <value>Формировать отчет каждые {0} в {1} для {2}</value>
@@ -1278,6 +1278,9 @@
   </data>
   <data name="GROUPRIGHTSADDFAILURE">
     <value>Не удалось добавить пользователя {0}{1}{2} в качестве администратора группы {3}{4}{5}. Щелкните "Повторить попытку", чтобы добавить группу еще раз. Чтобы вернуться на страницу "Системы", щелкните "ОК". </value>
+  </data>
+  <data name="TIMEOUT">
+    <value>Выполнение данного запроса может занять длительное время. Во время его обработки можно выполнять другие задачи.</value>
   </data>
   <data name="NAMETAG">
     <value>Имя:</value>

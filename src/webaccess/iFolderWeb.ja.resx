@@ -200,7 +200,7 @@
     <value>最後</value>
   </data>
   <data name="LOGIN.COPYRIGHT">
-    <value>&amp;copy; Copyright 2010 Novell, Inc. All rights reserved.</value>
+    <value>&amp;copy; Copyright 2011 Novell, Inc. All rights reserved.</value>
   </data>
   <data name="SLOVAK">
     <value>スロバキア語</value>
@@ -738,6 +738,9 @@
   </data>
   <data name="NONE">
     <value>なし</value>
+  </data>
+  <data name="UNSUPPORTEDCHAR">
+    <value>特殊文字はサポートされていません。詳細については、管理者に問い合わせてください。</value>
   </data>
   <data name="ALL">
     <value>すべて</value>

@@ -902,7 +902,7 @@
     <value>指定されたiFolderユーザは存在しません。</value>
   </data>
   <data name="LOGINCOPYRIGHT">
-    <value>&amp;copy; Copyright 2010 Novell, Inc. All rights reserved.</value>
+    <value>&amp;copy; Copyright 2011 Novell, Inc. All rights reserved.</value>
   </data>
   <data name="GENERATEWEEKLYREPORT">
     <value>毎 {0}、{1} ～ {2} の間にレポートを生成</value>
@@ -1278,6 +1278,9 @@
   </data>
   <data name="GROUPRIGHTSADDFAILURE">
     <value>ユーザ {0}{1}{2} をグループ {3}{4}{5} の管理者として追加することができませんでした。グループを再度追加するには、［再度実行する］をクリックしてください。［システム］ページに戻るには、［OK］をクリックしてください。 </value>
+  </data>
+  <data name="TIMEOUT">
+    <value>要求を完了するには長い時間がかかる場合があります。この要求の処理中に他のタスクを実行することができます。</value>
   </data>
   <data name="NAMETAG">
     <value>名前:</value>

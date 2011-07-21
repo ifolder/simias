@@ -902,7 +902,7 @@
     <value>A megadott iFolder felhasználó nem létezik.</value>
   </data>
   <data name="LOGINCOPYRIGHT">
-    <value>&amp;copy; Copyright 2010 Novell, Inc. Minden jog fenntartva.</value>
+    <value>&amp;copy; Copyright 2011 Novell, Inc. Minden jog fenntartva.</value>
   </data>
   <data name="GENERATEWEEKLYREPORT">
     <value>Jelentés készítése – nap: {0}, időpont: {1}, hely: {2}</value>
@@ -1278,6 +1278,9 @@
   </data>
   <data name="GROUPRIGHTSADDFAILURE">
     <value>A(z) {0}{1}{2} felhasználó nem adható hozzá rendszergazdaként a(z) {3}{4}{5} csoporthoz. A csoport ismételt hozzáadásához válassza az Újbóli próbálkozás elemet. Ha az OK gombra kattint, visszatérhet a Rendszerek lapra. </value>
+  </data>
+  <data name="TIMEOUT">
+    <value>A kérés megválaszolása hosszabb ideig is eltarthat, azonban közben más tevékenységet is folytathat.</value>
   </data>
   <data name="NAMETAG">
     <value>Név:</value>

@@ -200,7 +200,7 @@
     <value>上一个</value>
   </data>
   <data name="LOGIN.COPYRIGHT">
-    <value>&amp;copy; Copyright 2010 Novell, Inc. 保留所有权利。</value>
+    <value>&amp;copy; Copyright 2011 Novell, Inc. 保留所有权利。</value>
   </data>
   <data name="SLOVAK">
     <value>斯洛伐克语</value>
@@ -738,6 +738,9 @@
   </data>
   <data name="NONE">
     <value>无</value>
+  </data>
+  <data name="UNSUPPORTEDCHAR">
+    <value>不支持特殊字符。有关更多详细信息，请与您的管理员联系。</value>
   </data>
   <data name="ALL">
     <value>全部</value>

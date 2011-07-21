@@ -902,7 +902,7 @@
     <value>Zadaný používateľ služby iFolder neexistuje.</value>
   </data>
   <data name="LOGINCOPYRIGHT">
-    <value>&amp;copy; Copyright 2010 Novell, Inc. Všetky práva vyhradené.</value>
+    <value>&amp;copy; Copyright 2011 Novell, Inc. Všetky práva vyhradené.</value>
   </data>
   <data name="GENERATEWEEKLYREPORT">
     <value>Generovať zostavu každý {0} o {1} do {2}</value>
@@ -1278,6 +1278,9 @@
   </data>
   <data name="GROUPRIGHTSADDFAILURE">
     <value>Používateľa {0}{1}{2} nebolo možné pridať ako správcu pre skupinu {3}{4}{5}. Ak sa chcete znova pokúsiť o pridanie skupiny, kliknite na položku Skúsiť znova. Ak sa chcete vrátiť na stránku systémov, kliknite na tlačidlo OK. </value>
+  </data>
+  <data name="TIMEOUT">
+    <value>Dokončenie požadovanej operácie môže trvať dlho. Počas spracovania tejto požiadavky môžete vykonávať iné úlohy.</value>
   </data>
   <data name="NAMETAG">
     <value>Názov:</value>

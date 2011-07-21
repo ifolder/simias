@@ -200,7 +200,7 @@
     <value>Последний</value>
   </data>
   <data name="LOGIN.COPYRIGHT">
-    <value>&amp;copy; Авторские права 2010 Novell, Inc. Все права защищены.</value>
+    <value>&amp;copy; Novell, Inc., 2011. Все права защищены.</value>
   </data>
   <data name="SLOVAK">
     <value>Словацкий</value>
@@ -738,6 +738,9 @@
   </data>
   <data name="NONE">
     <value>Нет</value>
+  </data>
+  <data name="UNSUPPORTEDCHAR">
+    <value>Специальные символы не поддерживаются. За дополнительной информацией обратитесь к администратору.</value>
   </data>
   <data name="ALL">
     <value>Все</value>

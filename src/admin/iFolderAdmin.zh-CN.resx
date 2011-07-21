@@ -902,7 +902,7 @@
     <value>指定的 iFolder 用户不存在。</value>
   </data>
   <data name="LOGINCOPYRIGHT">
-    <value>&amp;copy; Copyright 2010 Novell, Inc. 保留所有权利。</value>
+    <value>&amp;copy; Copyright 2011 Novell, Inc. 保留所有权利。</value>
   </data>
   <data name="GENERATEWEEKLYREPORT">
     <value>每 {0} 天在 {1} 向 {2} 生成报告</value>
@@ -1278,6 +1278,9 @@
   </data>
   <data name="GROUPRIGHTSADDFAILURE">
     <value>无法将用户 {0}{1}{2} 添加为 {3}{4}{5} 组的管理员。单击“重试”重新添加该组。单击“确定”返回“系统”页 </value>
+  </data>
+  <data name="TIMEOUT">
+    <value>完成此请求可能需要较长时间。在此请求的处理过程中，您可以执行其他任务。</value>
   </data>
   <data name="NAMETAG">
     <value>名称：</value>

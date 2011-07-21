@@ -902,7 +902,7 @@
     <value>Uvedený uživatel složky iFolder neexistuje.</value>
   </data>
   <data name="LOGINCOPYRIGHT">
-    <value>&amp;copy; Copyright 2010 Novell, Inc. Všechna práva vyhrazena.</value>
+    <value>&amp;copy; Copyright 2011 Novell, Inc. Všechna práva vyhrazena.</value>
   </data>
   <data name="GENERATEWEEKLYREPORT">
     <value>Generovat zprávu každý {0} v {1} do {2}</value>
@@ -1278,6 +1278,9 @@
   </data>
   <data name="GROUPRIGHTSADDFAILURE">
     <value>Uživatele {0}{1}{2} nebylo možné přidat jako správce pro skupinu {3}{4}{5}. Klepnutím na možnost Opakovat lze znovu přidat skupinu. Klepnutím na tlačítko OK se vrátíte na stránku Systémy. </value>
+  </data>
+  <data name="TIMEOUT">
+    <value>Dokončení požadavku může trvat dlouho. Během zpracování tohoto požadavku můžete provádět jiné úlohy.</value>
   </data>
   <data name="NAMETAG">
     <value>Název:</value>

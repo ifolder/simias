@@ -902,7 +902,7 @@
     <value>指定的 iFolder 使用者不存在。</value>
   </data>
   <data name="LOGINCOPYRIGHT">
-    <value>&amp;copy; Copyright 2010 Novell, Inc. 版權所有。</value>
+    <value>&amp;copy; 版權所有 2011 Novell, Inc. 保留所有權利。</value>
   </data>
   <data name="GENERATEWEEKLYREPORT">
     <value>在 {1} 每隔 {0} 產生報告至 {2}</value>
@@ -1278,6 +1278,9 @@
   </data>
   <data name="GROUPRIGHTSADDFAILURE">
     <value>無法將使用者 {0}{1}{2} 新增為群組 {3}{4}{5} 的管理員。按一下「再試一次」再次新增群組。按一下「確定」返回「系統」頁面。 </value>
+  </data>
+  <data name="TIMEOUT">
+    <value>完成此要求會用去一些時間。建議您等待執行此要求的同時，也執行其他工作。</value>
   </data>
   <data name="NAMETAG">
     <value>名稱：</value>

@@ -902,7 +902,7 @@
     <value>Der angegebene iFolder-Benutzer existiert nicht.</value>
   </data>
   <data name="LOGINCOPYRIGHT">
-    <value>&amp;copy; Copyright 2010 Novell, Inc. Alle Rechte vorbehalten.</value>
+    <value>&amp;copy; Copyright 2011 Novell, Inc. Alle Rechte vorbehalten.</value>
   </data>
   <data name="GENERATEWEEKLYREPORT">
     <value>Bericht erstellen alle {0} um {1} in {2}</value>
@@ -1278,6 +1278,9 @@
   </data>
   <data name="GROUPRIGHTSADDFAILURE">
     <value>Benutzer {0}{1}{2} konnte nicht als Administrator für Gruppe {3}{4}{5} hinzugefügt werden. Klicken Sie auf "Erneut versuchen", um die Gruppen erneut hinzufügen. Klicken Sie auf "OK", um zur Systemseite zurückzukehren. </value>
+  </data>
+  <data name="TIMEOUT">
+    <value>Die Verarbeitung dieser Anforderung kann längere Zeit dauern. Währenddessen können Sie andere Aufgaben durchführen.</value>
   </data>
   <data name="NAMETAG">
     <value>Name:</value>

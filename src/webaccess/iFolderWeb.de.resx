@@ -200,7 +200,7 @@
     <value>Letzter</value>
   </data>
   <data name="LOGIN.COPYRIGHT">
-    <value>&amp;copy; Copyright 2010 Novell, Inc. Alle Rechte vorbehalten.</value>
+    <value>&amp;copy; Copyright 2011 Novell, Inc. Alle Rechte vorbehalten.</value>
   </data>
   <data name="SLOVAK">
     <value>Slowakisch</value>
@@ -738,6 +738,9 @@
   </data>
   <data name="NONE">
     <value>Keine</value>
+  </data>
+  <data name="UNSUPPORTEDCHAR">
+    <value>Sonderzeichen werden nicht unterstützt. Weitere Informationen erhalten Sie bei Ihrem Administrator.</value>
   </data>
   <data name="ALL">
     <value>Alle</value>

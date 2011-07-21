@@ -200,7 +200,7 @@
     <value>Utolsó</value>
   </data>
   <data name="LOGIN.COPYRIGHT">
-    <value>&amp;copy; Copyright 2010 Novell, Inc. Minden jog fenntartva.</value>
+    <value>&amp;copy; Copyright 2011 Novell, Inc. Minden jog fenntartva.</value>
   </data>
   <data name="SLOVAK">
     <value>szlovák</value>
@@ -738,6 +738,9 @@
   </data>
   <data name="NONE">
     <value>Nincs</value>
+  </data>
+  <data name="UNSUPPORTEDCHAR">
+    <value>Speciális karakterek nem használhatók. További információért forduljon a rendszergazdákhoz.</value>
   </data>
   <data name="ALL">
     <value>Mind</value>

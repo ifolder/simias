@@ -200,7 +200,7 @@
     <value>Posledná</value>
   </data>
   <data name="LOGIN.COPYRIGHT">
-    <value>&amp;copy; Copyright 2010 Novell, Inc. Všetky práva vyhradené.</value>
+    <value>&amp;copy; Copyright 2011 Novell, Inc. Všetky práva vyhradené.</value>
   </data>
   <data name="SLOVAK">
     <value>slovenčina</value>
@@ -738,6 +738,9 @@
   </data>
   <data name="NONE">
     <value>Žiadne</value>
+  </data>
+  <data name="UNSUPPORTEDCHAR">
+    <value>Špeciálne znaky nie sú podporované. Ak chcete získať ďalšie podrobnosti, obráťte sa na správcu.</value>
   </data>
   <data name="ALL">
     <value>Všetko</value>
