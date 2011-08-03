@@ -703,13 +703,14 @@ AC_SUBST(XML2_LIBS)
 #
 # Configure MONO_WEBSERVER
 #
-MONO_WEBSERVER="no"
-if test -e "/usr/lib/mono/1.0/Mono.WebServer.dll"; then
-	MONO_WEBSERVER="yes"
+MONO_WEBSERVER_DLL="Mono.WebServer.dll"
+pkg-config --atleast-version=2.8 xsp-2
+if test $? -eq 0; then
+	MONO_WEBSERVER_DLL="Mono.WebServer2.dll"
 fi
 
-AC_SUBST(MONO_WEBSERVER)
-AM_CONDITIONAL(GACD_MONO_WEBSERVER, test "$MONO_WEBSERVER" = "yes")
+AC_SUBST(MONO_WEBSERVER_DLL)
+#AM_CONDITIONAL(GACD_MONO_WEBSERVER, test "$MONO_WEBSERVER" = "yes")
 
 #
 # Try to locate the mod_mono.conf file so we can setup our conf files

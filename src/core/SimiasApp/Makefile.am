@@ -16,7 +16,7 @@ Simias_CSFILES_CSC := $(subst /,$(SEP),$(Simias_CSFILES))
 Simias_INCLUDES =
 Simias_RESOURCES = $(srcdir)/App$(ICON_EXT)
 Simias_FLAGS = $(CSC_EXEFLAG)
-Simias_LIBS = System.dll System.Data.dll $(SYSTEM_XML) System.Web.dll $(SYSTEM_INSTALLER_LIB) SimiasClient.dll Mono.WebServer.dll
+Simias_LIBS = System.dll System.Data.dll $(SYSTEM_XML) System.Web.dll $(SYSTEM_INSTALLER_LIB) SimiasClient.dll $(MONO_WEBSERVER_DLL) 
 Simias_LIBPATH = ../SimiasClient $(MONO_WEBSERVER_PATH)
 
 EXTRA_DIST = App.ico $(Simias_CSFILES) AssemblyInfo.cs.in

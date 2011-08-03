@@ -41,6 +41,9 @@ Autoreqprov:    on
 Requires:       mono-core >= 1.2.2
 Requires:       mono-data >= 1.2.2
 Requires:       mono-web >= 1.2.2
+%if %{suse_version} > 1130
+Requires:       mono-wcf
+%endif
 Requires:  	log4net >= 1.2.9
 Requires:       xsp >= 1.2.5
 #Obsoletes:      %{name} < %{version}
@@ -57,12 +60,28 @@ Simias is a technology that will allow various types of data to be
 stored and related in what is known as a collection.  Initially Simias
 is the underlying data store for the iFolder project, although it has
 potential to do much more.
-
-
-
+ 
+%if %{suse_version} > 1120
+ 
+%package devel
+License:        GPLv2
+Summary:        Development files for simias
+Group:          Development/Libraries/C and C++
+Requires:       %{name} = %{version}
+ 
+%description devel
+Development files for simias. Simias is a technology that will allow
+various types of data to be stored and related in what is known as a
+collection.  Initially Simias is the underlying data store for the
+iFolder project, although it has potential to do much more.
+ 
+%endif
+ 
+ 
 %prep
 export BUILDNUM=%{buildnum}
 %setup -n %{name}
+#%patch0
 #=============================================================================
 
 %build
@@ -87,6 +106,7 @@ find $RPM_BUILD_ROOT/%{prefix}/* -type d | xargs chmod 755
 #=============================================================================
 
 %post
+/sbin/ldconfig 
 INSTANCES_AFTER_INSTALL=$1
 if [ "$INSTANCES_AFTER_INSTALL" = "1" ]; then
 	if [ -d "/etc/simias" ]; then
@@ -98,6 +118,7 @@ if [ "$INSTANCES_AFTER_INSTALL" = "2" ]; then
 		mv {%prefix}/web/web.config {%prefix}/%_lib/simias/web/
 	fi
 fi
+
 #=============================================================================
 
 %preun
@@ -111,28 +132,60 @@ then
 fi
 #=============================================================================
 
-%postun
 #=============================================================================
+ 
+%postun
+/sbin/ldconfig
+#=============================================================================
+ 
 %files
-%attr(755,root,root) %dir %{prefix}
-%attr(755,root,root) %dir /opt/novell
-%defattr(755,root,root)
+%defattr(-,root,root,0755)
+%dir /opt/novell
+%dir %{prefix}
+%dir %{prefix}/%_lib/simias
 %dir %{prefix}/bin
-%{prefix}/bin/*
 %dir %{prefix}/etc
-%dir %{prefix}/etc/simias
-%{prefix}/etc/simias/Simias.config
-%{prefix}/etc/simias/Simias.log4net
-%{prefix}/etc/simias/defaults.config
-%dir %{prefix}/include
-%{prefix}/include/*
+%dir %{sysconfdir}/simias
 %dir %{prefix}/%_lib
-%{prefix}/%_lib/*
-%dir %{prefix}/share
-%{prefix}/share/*
-%attr(644,root,root) %{prefix}/include/simias/*
-#%config(noreplace) %{prefix}/web/web.config
 
+%attr(755,root,root) %{prefix}/bin/*
+%attr(755,root,root) %{prefix}/%_lib/simias/web/bin/*
+
+%attr(644,root,root) %config %{sysconfdir}/simias/Simias.config
+%attr(644,root,root) %config %{sysconfdir}/simias/Simias.log4net
+%attr(644,root,root) %config %{sysconfdir}/simias/defaults.config
+
+%{prefix}/%_lib/libFlaimWrapper.so
+%{prefix}/%_lib/libFlaimWrapper.so.0
+%{prefix}/%_lib/libFlaimWrapper.so.0.0.0
+%{prefix}/%_lib/libsimias-event.so
+%{prefix}/%_lib/libsimias-event.so.0
+%{prefix}/%_lib/libsimias-event.so.0.0.0
+%{prefix}/%_lib/libsimias.so
+%{prefix}/%_lib/libsimias.so.0
+%{prefix}/%_lib/libsimias.so.0.0.0
+
+%{prefix}/%_lib/simias/*
+ 
+%if %{suse_version} >= 1130
+%files devel
+%defattr(-,root,root)
+%dir %{prefix}
+%dir %{prefix}/%_lib
+%endif
+
+%{prefix}/%_lib/libsimias-manager.a
+%{prefix}/%_lib/libsimias-event.so
+%dir %{prefix}/%_lib/pkgconfig
+%{prefix}/%_lib/pkgconfig/*
+%dir %{prefix}/include
+%dir %{prefix}/include/simias/
+%{prefix}/include/simias/*
+%dir %{prefix}/share
+%dir %{prefix}/share/simias/
+%{prefix}/share/simias/COPYING
+
+ 
 %changelog -n simias
 * Tue Feb 06 2007 - ro@suse.de
 - rebuild tools/gsoap utils (again)
@@ -279,3 +332,4 @@ fi
 - added libicu26 to neededforbuild
 * Wed May 26 2004 - clahey@suse.de
 - Initial import.
+
