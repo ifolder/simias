@@ -2456,13 +2456,14 @@ namespace Simias.Sync
 		/// <returns>ture if successful.</returns>
 		private bool StoreDir(SyncNode snode, bool merge)
 		{
+            DirNode node = null;
 			try
 			{
 				if (snode.node != null && snode.node.Length != 0)
 				{
 					XmlDocument xNode = new XmlDocument();
 					xNode.LoadXml(snode.node);
-					DirNode node = (DirNode)Node.NodeFactory(store, xNode);
+					node = (DirNode)Node.NodeFactory(store, xNode);
 					log.Info("Importing Directory {0} from server", node.Name);
 					Import(node);
 			
@@ -2571,6 +2572,13 @@ namespace Simias.Sync
 				workArray.RemoveNodeFromServer(snode.ID, merge);
 				return true;
 			}
+            catch (PathTooLongException pax)
+            {
+                if(node != null)
+                    eventPublisher.RaiseEvent(new FileSyncEventArgs(collection.ID, ObjectType.File, false, node.Name, 0, 0, 0, Direction.Downloading, SyncStatus.PathTooLong));
+                log.Debug("SyncClient.cs: path too long exception for collectionid : " + snode.ID + pax.StackTrace );
+                return false;
+            }
 			catch 
 			{
 				log.Debug("SyncClient.cs: caught exception inside StoreDir for collectionid : "+snode.ID);
