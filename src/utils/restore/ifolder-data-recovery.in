@@ -103,6 +103,12 @@ echo -n "|		Preparing for the operation.."
 @_bindir_@/simias-server-setup "${args[$path_index_number-1]}" --recover 1>$path/console.log 2>$path/console.log
 echo -n "....."
 @_bindir_@/ifrecovery-server --stop 1>$path/console.log 2>$path/console.log
+#kill simias if any  still exists after stop
+SimiasProcess=`ps -ef | grep -c '[S]imias.exe'`
+if [ $SimiasProcess -gt 0 ]; then
+        PID=`ps -ef | grep '[S]imias.exe' | awk '{ print $2 }'`
+        kill -9 $PID
+fi
 echo -n "....."
 @_bindir_@/ifrecovery-server --runasserver 1>$path/console.log 2>$path/console.log
 echo  ".....				 |"
