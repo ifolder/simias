@@ -1266,7 +1266,7 @@ namespace Novell.iFolderWeb.Admin
 		{
 			// TODO : get this stuff from a resource 
 			// GetString("CONFIRMCHANGEMASTER")
-			ChangeMasterButton.Attributes["onclick"] = "javascript:return confirm('The selected server will be designated as a Master Server. Do you want to continue? Click OK to continue or Cancel to quit.');";
+                        ChangeMasterButton.Attributes["onclick"] = "javascript:return confirm('The selected server will be designated as a Master Server. Do you want to continue? Click OK to continue or Cancel to quit.');";
 		}
 
 		
@@ -1486,10 +1486,12 @@ namespace Novell.iFolderWeb.Admin
 			int count = 0;
 			bool currentMasterUpdateComplete = false, 
 				 newMasterUpdateComplete = false,
-				 slaveUpdateComplete = false;
+				 slaveUpdateComplete = false, contextMisMatch =false;
 			string newServerPublicUrl = null;
 			iFolderServer mServer = null, 
 						  newmServer=null;
+			iFolderAdmin remoteWebServer=null;
+			LdapInfo OrigldapInfo = null, CurldapInfo = null;
 
 			log.Info("Change Master Server process Initiated");
 			try
@@ -1527,6 +1529,58 @@ namespace Novell.iFolderWeb.Admin
 						log.Info("ServerID = {0}, master url = {1}, new master url = {2} ", 
 								ServerID, mServer.PublicUrl, newmServer.PublicUrl);
 
+						//get both current Master and current Slave context
+						//save current Master LdapInfo
+			                        remoteWebServer = new iFolderAdmin();
+                        			remoteWebServer.PreAuthenticate = true;
+			                        remoteWebServer.Credentials = web.Credentials;
+                        			remoteWebServer.Url = mServer.PublicUrl+ "/iFolderAdmin.asmx";
+			                        OrigldapInfo = remoteWebServer.GetLdapDetails();
+
+                        			//Current Ldap Info
+			                        remoteWebServer = new iFolderAdmin();
+                        			remoteWebServer.PreAuthenticate = true;
+			                        remoteWebServer.Credentials = web.Credentials;
+                        			remoteWebServer.Url = newmServer.PublicUrl+ "/iFolderAdmin.asmx";
+			                        CurldapInfo = remoteWebServer.GetLdapDetails();
+
+						//comparing context
+						string[] Origcontexts = OrigldapInfo.SearchContexts.Split(new char[] { '#' });
+						string[] Curcontexts = CurldapInfo.SearchContexts.Split(new char[] { '#' });
+
+						if((String.IsNullOrEmpty(OrigldapInfo.SearchContexts)  && !String.IsNullOrEmpty(CurldapInfo.SearchContexts) )
+						|| (!String.IsNullOrEmpty(OrigldapInfo.SearchContexts)  && String.IsNullOrEmpty(CurldapInfo.SearchContexts) ))	
+						{
+							contextMisMatch = true;
+						}
+
+						if(Origcontexts.Length != Curcontexts.Length)
+							contextMisMatch = true;
+
+						if(!contextMisMatch)
+						{
+							foreach(string context in Origcontexts)
+                    					{
+								//re-Initilizing context to true
+								contextMisMatch = true;
+								foreach(string contextCur in Curcontexts)
+								{
+					                        	if (context == contextCur)
+					                        	{
+										contextMisMatch = false;
+										break;	
+				                        		}
+								}
+								//Break, if one of the context doesn't match
+								if(contextMisMatch)break;
+                    					}	
+						}
+
+						if(contextMisMatch)
+						{
+							TopNav.ShowError("The LDAP context is different than the Master server. Copy LDAP context from a Master server and retry upgrading the Slave server.");	
+							return;
+						}
 						// First Set current Master server to Slave
 
 						log.Info("Setting as Slave server...");
@@ -1591,6 +1645,7 @@ namespace Novell.iFolderWeb.Admin
 						{
 							slaveUpdateComplete = true;
 						}
+
 					}
 					else
 					{
@@ -1604,15 +1659,17 @@ namespace Novell.iFolderWeb.Admin
 			}
 			finally
 			{
-				ChangeMasterButton.Enabled = false;
-
-				if (currentMasterUpdateComplete && newMasterUpdateComplete &&
-						slaveUpdateComplete)
+				if(!contextMisMatch)
 				{
-					TopNav.ShowInfo (String.Format (GetString ("CHANGEMASTERSUCCESSFUL"), newmServer.Name));
+					ChangeMasterButton.Enabled = false;
+					if (currentMasterUpdateComplete && newMasterUpdateComplete &&
+						slaveUpdateComplete)
+					{
+						TopNav.ShowInfo (String.Format (GetString ("CHANGEMASTERSUCCESSFUL"), newmServer.Name));
+					}
+					else
+						TopNav.ShowInfo (String.Format (GetString ("CHANGEMASTERWITHWARNING"), newmServer.Name));
 				}
-				else
-					TopNav.ShowInfo (String.Format (GetString ("CHANGEMASTERWITHWARNING"), newmServer.Name));
 			}
 			return;
 		}
