@@ -309,6 +309,9 @@ namespace Novell.iFolderApp.Web
 					Message.Text = GetString("ENTRY.IOERROR");
 					break;
 
+				case "Timeout":
+					Message.Text = GetString("ENTRY.TIMEOUT");
+					break;
 				default:
 					result = false;
 					break;

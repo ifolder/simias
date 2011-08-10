@@ -201,6 +201,9 @@
     <data name="ENTRY.IOERROR">
 	<value>Server Storage out of space</value>
     </data>
+    <data name="ENTRY.TIMEOUT">
+	<value>Uploading the files to the server failed, try uploading again.</value>
+    </data>
     <data name="ENTRY.NEWFOLDER">
         <value>New Folder</value>
     </data>
