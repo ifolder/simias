@@ -64,7 +64,7 @@ rpm -q mono-addon-core > /dev/null 2>&1
 if [ $? -gt 0 ]
 then
 
-        export MONO_PATH=@_webbindir_@:@_bindir_@
+        export MONO_PATH=@_webbindir_@:@_bindir_@:/usr/lib/mono/log4net
         export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:@_webbindir_@
         export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:@_webbindir_@
         cd @_bindir_@
@@ -73,7 +73,7 @@ then
 
 else
         MONO_RUNTIME_PATH=/opt/novell/mono
-        export MONO_PATH=$MONO_RUNTIME_PATH/lib/mono/:$MONO_RUNTIME_PATH/lib/mono/2.0:@_webbindir_@:@_bindir_@
+        export MONO_PATH=$MONO_RUNTIME_PATH/lib/mono/:$MONO_RUNTIME_PATH/lib/mono/2.0:@_webbindir_@:@_bindir_@:/usr/lib/mono/log4net
         source $MONO_RUNTIME_PATH/bin/mono-addon-environment.sh
         export MONO_CFG_DIR=/etc
         export IFOLDER_MOD_MONO_SERVER2_PATH=@_bindir_@
