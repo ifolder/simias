@@ -304,8 +304,8 @@ namespace Simias.DomainWatcher
 				}
 				catch( Exception e )
 				{
-					log.Error( e.Message );
-					log.Error( e.StackTrace );
+					log.Error( "Exception at DomainWatcherThread(): {0}",e.Message );
+					log.Error( "Exception at DomainWatcherThread(): {0}",e.StackTrace );
 				}
 
 				if ( this.stop == false )
