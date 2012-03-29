@@ -50,7 +50,7 @@ Requires:       log4net >= 1.2.10
 Requires:       apache2-mod_mono-addon
 Requires:       novell-NLDAPbase
 #Obsoletes:      %{name} < %{version}
-Version:        3.9.0.@@BUILDNUM@@.0
+Version:        3.9.1.@@BUILDNUM@@.0
 Release:        0.2
 Summary:        Novell iFolder 3 Enterprise
 Source:         ifolder3-enterprise.tar.gz
