@@ -340,6 +340,13 @@ namespace Simias.Server
 			log.Debug("ExtractMemberPoliciesOnMaster: entered");
 			Store store = Store.GetStore();
 			Domain domain = store.GetDomain(store.DefaultDomain) ;
+			Simias.Configuration config = Store.Config;
+			string UpgradedServer = String.Empty;
+			UpgradedServer = config.Get("Server", "UpgradedServer");
+			if (UpgradedServer == null || UpgradedServer != "yes")
+			{
+				return;
+			}
 			HostNode hNode = null;
 			HostNode mNode = null;
 			HostNode masterNode = null;

@@ -1654,6 +1654,16 @@ Console.WriteLine("Url {0}", service.Url);
 			return true;
 		}
 
+		private void SetUpgradeValue()
+		{
+			string UpgraddedServerKey = "UpgradedServer";
+			string ServerKey = "Server";
+			XmlDocument document = new XmlDocument();
+			document.Load( configFilePath );
+			SetConfigValue( document, ServerKey, UpgraddedServerKey , "yes");
+			CommitConfiguration( document );
+		}
+
         /// <summary>
         /// called if upgrade of OES is called
         /// </summary>
@@ -1773,6 +1783,8 @@ Console.WriteLine("Url {0}", service.Url);
                         }
 
 			Console.WriteLine("old {0} New {1}", changelogPath, changelogPathNew);
+			//Update in simias.config file that this server is upgraded server
+			SetUpgradeValue();
 			return true;
 		}
 
