@@ -482,6 +482,12 @@ namespace Simias.DomainServices
 		/// <returns>
 		/// The Domain ID of the newly attached Domain
 		/// </returns>
+        public static int isOldServerLoginNeeded()
+        {
+            RegistryKey regKey = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Novell\iFolder");
+            int status = (int) regKey.GetValue("SupportOldServer", 0) ;
+            return status;
+        }
 		public Simias.Authentication.Status Attach(string host, string user, string password)
 		{
 			CookieContainer cookies = new CookieContainer();
@@ -624,8 +630,10 @@ namespace Simias.DomainServices
 					// If a new client is connecting to an old server, then auth will fail as creds 
  					// are encoded. Hence we try once more without encoding the creds.
 					log.Debug("This might be old server 3.8.0.2 with no multi byte support, trying once more with out encoding the creds");
-					status = this.Login( new Uri( baseUrl ), domainID, myOldCred, false );
-					if ( status.statusCode == SCodes.Success ||                                                                                             status.statusCode == SCodes.SuccessInGrace )
+                    int loginToOldServer = isOldServerLoginNeeded();
+                    if (loginToOldServer == 1)  //supprot old server
+					    status = this.Login( new Uri( baseUrl ), domainID, myOldCred, false );
+					if ( status.statusCode == SCodes.Success || status.statusCode == SCodes.SuccessInGrace )
 						oldServer = true;
 					else
 						return status;
@@ -974,8 +982,11 @@ namespace Simias.DomainServices
         	                                // If a new client is connecting to an old server, then auth will fail as creds
 	                                        // are encoded. Hence we try once more without encoding the creds.
 						log.Debug("possibly server is 3.8.0.2 not supporting multi byte,trying again without encoding creds ");
-						status = this.Login( tempUri.Uri, DomainID, myOldCred, false);
-						if ( status.statusCode == SCodes.Success ||						                                                status.statusCode == SCodes.SuccessInGrace )
+                        int loginToOldServer = isOldServerLoginNeeded();
+                        if (loginToOldServer == 1)
+                            status = this.Login( tempUri.Uri, DomainID, myOldCred, false);
+
+                        if ( status.statusCode == SCodes.Success || status.statusCode == SCodes.SuccessInGrace )
 						{
 							oldServer = true;
 							BasicCredentials basic = 
