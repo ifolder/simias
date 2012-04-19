@@ -49,6 +49,7 @@ using Simias.Security.Web.AuthenticationService;
 using Simias.Storage;
 using Simias.Sync;
 
+using Microsoft.Win32;
 //using Novell.Security.ClientPasswordManager;
 
 // Alias
