@@ -842,7 +842,7 @@
     <value>Vypnout synchronizaci</value>
   </data>
   <data name="CONFIRMENCRYPTION">
-    <value>Možnost 'Šifrování s heslem' umožňuje zašifrovat jednotlivé složky iFolder pomocí hesla zadaného uživatelem. Povinnou možnost lze vypnout, ale jakmile uložíte možnost 'Zapnuto', nelze stav vrátit. Pro uložení klepněte na možnost OK, chcete-li na aktuální stránce zůstat bez ukládání, klepněte na možnost Storno. </value>
+    <value>Možnost 'Šifrování šifrovacím klíčem' umožňuje zašifrovat jednotlivé složky iFolder pomocí hesla zadaného uživatelem. Povinnou možnost lze vypnout, ale jakmile uložíte možnost 'Zapnuto', nelze stav vrátit. Pro uložení klepněte na možnost OK, chcete-li na aktuální stránce zůstat bez ukládání, klepněte na možnost Storno. </value>
   </data>
   <data name="IFOLDERS">
     <value>Složky iFolder</value>
@@ -1076,7 +1076,7 @@
     <value>Uložení dat</value>
   </data>
   <data name="FULLCONTROL">
-    <value>Úplné řízení</value>
+    <value>Plná práva</value>
   </data>
   <data name="GENERATEMONTHLYREPORT">
     <value>Generovat zprávu {0}. den každého měsíce v {1} do {2}</value>
@@ -1211,7 +1211,7 @@
     <value>Brazilská portugalština</value>
   </data>
   <data name="ENCRYPTION">
-    <value>Šifrování heslem</value>
+    <value>Šifrování šifrovacím klíčem</value>
   </data>
   <data name="BEGINSWITH">
     <value>Začíná</value>

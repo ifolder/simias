@@ -98,7 +98,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="NO.RA.SELECTED">
-    <value>Nebyl zvolen žádný agent obnovení, obnovení hesla tedy není možné</value>
+    <value>Nebyl zvolen žádný agent obnovení, obnovení šifrovacího klíče tedy není možné</value>
   </data>
   <data name="ACTION">
     <value>Akce</value>
@@ -215,10 +215,10 @@
     <value>Vrátit</value>
   </data>
   <data name="SELECTRECOVERYAGENT">
-    <value>Agent obnovení hesla:</value>
+    <value>Agent obnovení šifrovacího klíče:</value>
   </data>
   <data name="PASSPHRASE_NOT_MATCH">
-    <value>Hesla se neshodují</value>
+    <value>Šifrovací klíče se neshodují</value>
   </data>
   <data name="ENTRY">
     <value>Položka</value>
@@ -323,7 +323,7 @@
     <value>Bez omezení</value>
   </data>
   <data name="REENTER_PASSPHRASE">
-    <value>Opakujte heslo:</value>
+    <value>Opakujte šifrovací klíč:</value>
   </data>
   <data name="CHANGE.UNKNOWN">
     <value>Neznámý</value>
@@ -359,7 +359,7 @@
     <value>Opravdu chcete odstranit aktuální složku iFolder?</value>
   </data>
   <data name="RIGHTS.ADMIN">
-    <value>Uplné řízení</value>
+    <value>Plná práva</value>
   </data>
   <data name="LOGIN">
     <value>Přihlásit</value>
@@ -398,7 +398,7 @@
     <value>Přihlášení je zakázáno.</value>
   </data>
   <data name="ENTERPASSPHRASE">
-    <value>Heslo:</value>
+    <value>Šifrovací klíč:</value>
   </data>
   <data name="LOGIN.ACCOUNTLOCKED">
     <value>Váš účet je v současné chvíli uzamčen a nedostupný.</value>
@@ -437,7 +437,7 @@
     <value>podle</value>
   </data>
   <data name="IFOLDER.NOPASSPHRASE">
-    <value> Pro zašifrování se musí zadat heslo</value>
+    <value> Pro zašifrování se musí zadat šifrovací klíč</value>
   </data>
   <data name="SEARCHUSERSTAG">
     <value>Hledat uživatele obsahující:</value>
@@ -626,7 +626,7 @@
     <value>Uživatelské jméno</value>
   </data>
   <data name="PASSPHRASE_INCORRECT">
-    <value>Neplatné heslo </value>
+    <value>Neplatný šifrovací klíč </value>
   </data>
   <data name="RUSSIAN">
     <value>Ruština</value>
@@ -680,7 +680,7 @@
     <value>Angličtina</value>
   </data>
   <data name="ENTER_PASSPHRASE">
-    <value>Zadejte heslo     </value>
+    <value>Zadejte šifrovací klíč     </value>
   </data>
   <data name="SHARECONDITION">
     <value>Sdílitelnou složku iFolder nelze zašifrovat</value>
@@ -704,7 +704,7 @@
     <value>Informace</value>
   </data>
   <data name="BROWSE">
-    <value>Prohlížet</value>
+    <value>Procházet</value>
   </data>
   <data name="SETRIGHTS">
     <value>Nastavení přístupu</value>
