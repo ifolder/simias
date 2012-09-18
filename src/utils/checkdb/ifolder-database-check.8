@@ -1,0 +1,70 @@
+.\"     Title: ifolder-database-check
+.\"    Author: [hegdegg@novell.com] [see http://docbook.sf.net/el/author]
+.\" Generator: DocBook XSL Stylesheets v1.75.2 <http://docbook.sf.net/>
+.\"      Date: 05/01/2012
+.\"    Manual: ifolder-database-check(8)
+.\"    Source: Novell
+.\"  Language: English
+.\"
+.TH "IFOLDER\-DATABASE\-CHECK" "8" "05/01/2012" "Novell" "ifolder-database-check(8)"
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+ifolder-database-check \- iFolder Database Recoverability Test Tool
+.SH "SYNTAX"
+
+.sp
+.if n \{\
+.RS 3
+.\}
+
+ifolder\-database\-check <\fIoptions\fR>
+
+.fi
+.if n \{\
+.RE
+.\}
+.SH "DESCRIPTION"
+.PP
+Use this tool to check the simias data integrity, Run this before taking the daily backup, if this is successful, you will be sure that when the restore operation is attempted we have the database that is in a state to revover.\&.
+.PP
+To check the database integrity using the tool, just run the tool \&.
+.SH "OPERATIONS"
+.PP
+\-\-p
+.RS 3
+Path where the simias database is present.
+.RE
+.PP
+\-\-v
+.RS 3
+Verbose mode, detailed debug information is logged.
+.RE
+.PP
+\-\-l
+.RS 3
+Level of check 1- basic, and 2- detailed.
+.RE
+.PP
+\-\-help
+.RS 3
+Displays help for the operation, options, and usage
+.RE
+.SH "EXAMPLES"
+.PP
+ifolder-database-check - read the simias.config file and do the database integrity tests.\&.
+.PP
+ifolder-database-check -p /path_to_simias_db - run the integrity test on the database present in the given path.\&.
+.PP
+ifolder-database-check -v -Verbose mode.\&.
+.PP
+ifolder-database-check -v -l 2 - run the test in verbose mode and do the detailed test.\&.
+.PP
