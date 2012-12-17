@@ -361,7 +361,8 @@ namespace Simias.Sync
 								if (si.ChangesOnly && !si.ClientHasChanges && nodeContainer == null)
 								{
 									si.Status = StartSyncStatus.NoWork;
-									break;
+									// lets release the lock
+					//				break;
 								}
 							}
 
@@ -382,7 +383,7 @@ namespace Simias.Sync
 					}
 					finally
 					{
-						if (si.Status != StartSyncStatus.Success)
+						if (si.Status != StartSyncStatus.Success && cLock != null)
 						{
 							cLock.ReleaseLock();
 							cLock = null;
@@ -1245,7 +1246,7 @@ namespace Simias.Sync
 			log.Debug("OutfileRead offser {0}, count {1}", offset, count);
 			outFile.ReadPosition = offset;
 			int bytesRead = outFile.Read(stream, count);
-			logger.LogAccessDebug("ReadFile", outFile.Name, collection.ID, "Success");
+			logger.LogAccessDebug("ReadFile", outFile.Name, collection.ID, (bytesRead > 0)?"Success":"Failed");
 			return bytesRead;
 		}
 
