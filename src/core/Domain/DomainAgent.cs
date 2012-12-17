@@ -483,12 +483,6 @@ namespace Simias.DomainServices
 		/// <returns>
 		/// The Domain ID of the newly attached Domain
 		/// </returns>
-        public static int isOldServerLoginNeeded()
-        {
-            RegistryKey regKey = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Novell\iFolder");
-            int status = (int) regKey.GetValue("SupportOldServer", 0) ;
-            return status;
-        }
 		public Simias.Authentication.Status Attach(string host, string user, string password)
 		{
 			CookieContainer cookies = new CookieContainer();
@@ -625,6 +619,7 @@ namespace Simias.DomainServices
             if ((status.statusCode != SCodes.Success) && (status.statusCode != SCodes.SuccessInGrace) && (status.statusCode != SCodes.UserAlreadyMoved))
 			{
 				log.Debug("Got Status {0}", status.statusCode);
+#if WINDOWS
 				if( status.statusCode == SCodes.InvalidCredentials )
 				{
 					// Post 3.8.0.2, multibyte char support for usernames and password is added
@@ -639,10 +634,10 @@ namespace Simias.DomainServices
 					else
 						return status;
 				}
+#endif //WINDOWS
 			}
 			else
 				log.Debug("Got else Status {0}", status.statusCode);
-
 			// Get the Home Server.
 			domainService.Credentials = oldServer ? myOldCred : myCred ;
             domainService.PreAuthenticate = true;
@@ -878,6 +873,14 @@ namespace Simias.DomainServices
 			return status;
 		}
 
+#if WINDOWS
+        public static int isOldServerLoginNeeded()
+        {
+            RegistryKey regKey = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Novell\iFolder");
+            int status = (int) regKey.GetValue("SupportOldServer", 0) ;
+            return status;
+        }
+#endif //WINDOWS
 
 		/// <summary>
 		/// Check if the domain is marked Active or in a connected state
@@ -979,6 +982,7 @@ namespace Simias.DomainServices
 					}
 					else
 					{
+#if WINDOWS
 						// Post 3.8.0.2, multibyte char support for usernames and password is added
         	                                // If a new client is connecting to an old server, then auth will fail as creds
 	                                        // are encoded. Hence we try once more without encoding the creds.
@@ -999,6 +1003,7 @@ namespace Simias.DomainServices
 							basic.Save( false );
 							SetDomainState( DomainID, true, true);
 						}
+#endif //WINDOWS
 					}
 
                     if (status.statusCode == SCodes.UserAlreadyMoved && Password != null)
