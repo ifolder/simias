@@ -740,7 +740,7 @@ namespace Simias.Sync
 
 		static int		initialSyncDelay = 10 * 1000; // 10 seconds.
 		DateTime		syncStartTime; // Time stamp when sync was called.
-		const int		timeSlice = 3; //Timeslice in minutes.
+		const int		timeSlice = 5; //Timeslice in minutes.
 		SyncFile		syncFile;
 		bool			firstSync = true;
 		bool			yielded = false;
