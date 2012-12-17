@@ -109,7 +109,13 @@ namespace Simias.Sync
 			try
 			{
 				//Log.log.Debug("Reading File {0} : offset = {1}", file, ReadPosition);
-				return workStream.Read(stream, count);
+				if(workStream != null)
+					return workStream.Read(stream, count);
+				else
+				{
+					count = 0;
+					return -1;
+				}
 			}
 			catch (Exception ex)
 			{
@@ -132,8 +138,11 @@ namespace Simias.Sync
 		/// </summary>
 		public long ReadPosition
 		{
-			get { return workStream.Position; }
-			set { workStream.Position = value; }
+			get { if(workStream != null) 
+					return workStream.Position;
+				else 
+					return 0; }
+			set { if(workStream != null) workStream.Position = value; }
 		}
 
 		/// <summary>
@@ -157,18 +166,29 @@ namespace Simias.Sync
 		{
 			SetupFileNames(node, sessionID);
 			Log.log.Debug("Opening File {0} (OutFile Open)", file);
+			try
+			{
 			FileInfo fi = new FileInfo(file);
-			if (Store.IsEnterpriseServer || fi.Length > (1024 * 100000))
-			{
-				workStream = new StreamStream(File.Open(file, FileMode.Open, FileAccess.Read, FileShare.Read));
-				workFile = null;
+				if (Store.IsEnterpriseServer || fi.Length > (1024 * 100000))
+				{
+					workStream = new StreamStream(File.Open(file, FileMode.Open, FileAccess.Read, FileShare.Read));
+					workFile = null;
+				}
+				else
+				{
+					// This file is being pushed make a copy to work from.
+					File.Copy(file, workFile, true);
+					File.SetAttributes(workFile, FileAttributes.Normal);
+					workStream = new StreamStream(File.Open(workFile, FileMode.Open, FileAccess.Read));
+				}
 			}
-			else
+			catch (FileNotFoundException e1)
 			{
-				// This file is being pushed make a copy to work from.
-				File.Copy(file, workFile, true);
-				File.SetAttributes(workFile, FileAttributes.Normal);
-				workStream = new StreamStream(File.Open(workFile, FileMode.Open, FileAccess.Read));
+				// got an exception - mostly File not found
+				Log.log.Info("IOException for file {2} \n.{0}--{1}, setting Stream to NULL", e1.Message, e1.StackTrace, file);
+
+				workStream = null;
+				workFile = null;
 			}
 		}
 
