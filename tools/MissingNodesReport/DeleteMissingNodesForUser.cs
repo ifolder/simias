@@ -283,7 +283,7 @@ public class MissingNodesReport
 				    Member mem = domain.GetMemberByID(member.UserID);
 				    //add only those members to list whose home server is current server
 				     if(mem.HomeServer != null)
-					     if(String.Equals(mem.UserID, username) && mem.HomeServer.UserID == HostNode.GetLocalHost().UserID)
+					     if(String.Equals(mem.Name, username) && mem.HomeServer.UserID == HostNode.GetLocalHost().UserID)
 					     {
 						    	list.Add(mem);
 							break;
