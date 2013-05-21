@@ -151,7 +151,13 @@ namespace Simias.Policy
 			this.memberPolicy = pm.GetAggregatePolicy( DiskSpaceQuotaPolicyID, member );
 			this.collectionPolicy = pm.GetAggregatePolicy( DiskSpaceQuotaPolicyID, member, collection );
 			this.collectionSpace = collection.StorageSize;
-			this.usedDiskSpace = GetUsedDiskSpace( member );
+//			this.usedDiskSpace = GetUsedDiskSpace( member );
+			Property DiskSpaceUsedProp = member.Properties.GetSingleProperty(Simias.Policy.DiskSpaceQuota.UsedDiskSpaceOnServer);
+			
+			if(DiskSpaceUsedProp != null)
+			{
+				this.usedDiskSpace = (long)DiskSpaceUsedProp.Value;
+			}
 			this.limit = GetAggregateLimit( collectionPolicy );
 		}
 		#endregion
@@ -421,6 +427,22 @@ namespace Simias.Policy
 					if ( ( limit == -1 ) || ( ruleLimit < limit ) )
 					{
 						limit = ruleLimit;
+					}
+				}
+			}
+
+			if(limit == -1) //no ifolder policy - check for user and domain
+			{
+				if(policy.IsAggregate)
+				{
+					Policy[] policyArray = policy.AggregatePolicy.ToArray( typeof( Policy ) ) as Policy[];
+					foreach (Policy pl in policyArray)
+					{
+						long ruleLimit = GetUserAggregateLimit(pl);
+						if ( ( limit == -1 ) || ( ruleLimit < limit ) )
+						{
+							limit = ruleLimit;
+						}
 					}
 				}
 			}

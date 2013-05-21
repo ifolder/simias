@@ -85,9 +85,14 @@ namespace Simias.Policy
 		/// <summary>
 		/// Gets whether this policy is a stand-alone or aggregate policy.
 		/// </summary>
-		private bool IsAggregate
+		public bool IsAggregate
 		{
 			get { return ( aggregatePolicy.Count > 0 ) ? true : false; }
+		}
+
+		public ArrayList AggregatePolicy
+		{
+			get { return aggregatePolicy; }
 		}
 
 		/// <summary>

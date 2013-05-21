@@ -1754,9 +1754,49 @@ namespace Simias.DomainServices
 
             // Report the collection limit from the local store. This may not be exact, but it is the 
             // last known good value.
-            limit = DiskSpaceQuota.GetLimit(collection);
+            DiskSpaceQuota dsq = DiskSpaceQuota.Get(collection);
+            limit = dsq.Limit;
             return collection.StorageSize;
 		}
+
+		/// <summary>
+		/// Gets the amount of disk space used on the server by the specified collection.
+		/// </summary>
+		/// <param name="collectionID">Collection ID to get disk space for.</param>
+		/// <param name="limit">Gets the disk space limit for this collection.</param>
+		/// <returns>The amount of disk space used on the server by the specified collection.</returns>
+		public long GetDomainDiskSpaceForCollection( string collectionID, out long limit, out long avail )
+		{
+			// Get the collection from the specified ID.
+			Collection collection = store.GetCollectionByID( collectionID );
+			if ( collection == null )
+			{
+				throw new DoesNotExistException( "The specified collection does not exist." );
+			}
+
+
+            /* The function domainService.GetMemberDiskSpaceUsed is not implemented.
+             * Uncomment the following lines when it gets implemented 
+			// Construct the web client.
+			DomainService domainService = new DomainService();
+			domainService.Url = uri.ToString() + "/DomainService.asmx";
+			log.Debug("Url - GetDomainDiskSpaceForCollection {0}", domainService.Url.ToString());
+			WebState webState = new WebState( collection.Domain, collectionID );
+			webState.InitializeWebClient( domainService, collection.Domain );
+
+			// Get the quota from the local store this fixes bug 97331
+			long usedSize = domainService.GetiFolderDiskSpaceUsed( collectionID, out limit );
+			limit = DiskSpaceQuota.GetLimit( collection );
+			return usedSize;*/
+
+            // Report the collection limit from the local store. This may not be exact, but it is the 
+            // last known good value.
+            DiskSpaceQuota dsq = DiskSpaceQuota.Get(collection);
+            limit = dsq.Limit;
+			avail = dsq.AvailableSpace;
+            return collection.StorageSize;
+		}
+
 
 		/// <summary>
 		/// Function to verify wheather failure is Trust failure
