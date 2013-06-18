@@ -1484,7 +1484,7 @@ namespace Simias.Storage
 		/// <param name="commitTime">The time of the commit operation.</param>
 		public void DecrementLocalIncarnation( Node node)
 		{
-			ulong incarnationValue = node.LocalIncarnation - 1;
+			ulong incarnationValue = (node.LocalIncarnation > 0)?(node.LocalIncarnation - 1):0;
 
 			// Update the modifier on the node.
 			node.Properties.ModifyNodeProperty( PropertyTags.LastModifier, GetCurrentPrincipal());
@@ -4998,13 +4998,13 @@ namespace Simias.Storage
 		public static bool DownloadCollectionLocally(string iFolderID, string iFolderName, string DomainID, string HostID, string DirNodeID, string MemberUserID, string colMemberNodeID, string iFolderLocalPath, int oldHomeFileCount, int oldHomeDirCount)
 		{
 			bool status = false;
-                        try
-                        {
-                                log.Debug("DownloadCollection: In DownloadiFolder...");
-                                Store store = Store.GetStore ();
-                                ArrayList commitList = new ArrayList();
-                                string iFolderPath = store.GetStoreUnmanagedPath(iFolderID);
-                                iFolderLocalPath = System.IO.Path.Combine( iFolderPath, iFolderName);
+			try
+            {
+                log.Debug("DownloadCollection: In DownloadiFolder...");
+                Store store = Store.GetStore ();
+                ArrayList commitList = new ArrayList();
+                string iFolderPath = store.GetStoreUnmanagedPath(iFolderID);
+                iFolderLocalPath = System.IO.Path.Combine( iFolderPath, iFolderName);
 				log.Debug("The unmanaged path is: {0}", iFolderLocalPath);
 				Collection iFolderCol = store.GetCollectionByID(iFolderID);
 				Domain domain = store.GetDomain(DomainID);
@@ -5131,17 +5131,17 @@ namespace Simias.Storage
 					log.Debug("DownloadCollection: Sync not successfull. Count: {0}", count);
 					return false;
 				}
-                        }
-                        catch(Exception ex)
-                        {
-                                log.Debug("Exception in downloading the iFolder... {0}--{1}", ex.Message, ex.StackTrace);
+            }
+            catch(Exception ex)
+            {
+                log.Debug("Exception in downloading the iFolder... {0}--{1}", ex.Message, ex.StackTrace);
 				lock(CollectionSyncClient.MapObject)
 				{
 					Simias.Sync.CollectionSyncClient.ServerSyncStatus  &= ~Simias.Sync.CollectionSyncClient.StateMap.UserMoveSyncStarted;
 					Simias.Sync.CollectionSyncClient.ServerSyncStatus  |= Simias.Sync.CollectionSyncClient.StateMap.UserMoveSyncFinished;
 				}
 				
-                        }
+            }
 			return status;		
 		}
 
