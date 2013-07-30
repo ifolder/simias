@@ -360,7 +360,8 @@ namespace Novell.iFolder.Utility
 					//eDirectory specific attributes
 					//If any of the following attribute is found, conclude this as eDirectory					
 					if(	/*String.Equals(attributeName, "vendorVersion")==true ||	*/
-						String.Equals(attributeVal, "Novell, Inc.")==true /* ||
+						String.Equals(attributeVal, "Novell, Inc.")==true || 
+						String.Equals(attributeVal, "NetIQ Corporation") == true /* ||
 						String.Equals(attributeName, "dsaName")==true ||*/
 						
 						/*String.Equals(attributeName, "directoryTreeName")==true*/)
