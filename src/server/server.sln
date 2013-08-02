@@ -1,85 +1,67 @@
-Microsoft Visual Studio Solution File, Format Version 8.00
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simias.Server", "Simias.Server\Simias.Server.csproj", "{6629684D-F292-4B65-BA3E-299952BACB0A}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simias.HttpFile", "Simias.HttpFile\Simias.HttpFile.csproj", "{E8C645DE-5067-4546-AC84-867F8381792C}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simias.Rss", "Simias.Rss\Simias.Rss.csproj", "{5B169F8C-4159-4E28-8BD1-AF28B835904E}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simias.LdapProvider", "Simias.LdapProvider\Simias.LdapProvider.csproj", "{99F372BB-78E0-4B35-AFDA-6727FC79B4A4}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simias.ADLdapProvider", "Simias.ADLdapProvider\Simias.ADLdapProvider.csproj", "{E12333DC-7C6C-48BA-8439-AC53D1A33766}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simias.OpenLdapProvider", "Simias.OpenLdapProvider\Simias.OpenLdapProvider.csproj", "{9A3C970F-EF81-4150-AA2D-1DEF7AD46129}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimiasServerSetup", "setup\SimiasServerSetup.csproj", "{585EF3B4-A345-461F-B4D3-1FB1F4613089}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simias.HostService", "Simias.HostService\Simias.HostService.csproj", "{FD8F235E-CCB2-482E-8AD1-1B4F61313A7B}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientUpdate", "Simias.ClientUpdate\ClientUpdate.csproj", "{D2793964-4AF4-44EA-8B73-A5E6F853E7BE}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
 EndProject
 Global
-	GlobalSection(SolutionConfiguration) = preSolution
-		Debug = Debug
-		Release = Release
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
-	GlobalSection(ProjectConfiguration) = postSolution
-		{6629684D-F292-4B65-BA3E-299952BACB0A}.Debug.ActiveCfg = Debug|.NET
-		{6629684D-F292-4B65-BA3E-299952BACB0A}.Debug.Build.0 = Debug|.NET
-		{6629684D-F292-4B65-BA3E-299952BACB0A}.Release.ActiveCfg = Release|.NET
-		{6629684D-F292-4B65-BA3E-299952BACB0A}.Release.Build.0 = Release|.NET
-		{E8C645DE-5067-4546-AC84-867F8381792C}.Debug.ActiveCfg = Debug|.NET
-		{E8C645DE-5067-4546-AC84-867F8381792C}.Debug.Build.0 = Debug|.NET
-		{E8C645DE-5067-4546-AC84-867F8381792C}.Release.ActiveCfg = Release|.NET
-		{E8C645DE-5067-4546-AC84-867F8381792C}.Release.Build.0 = Release|.NET
-		{5B169F8C-4159-4E28-8BD1-AF28B835904E}.Debug.ActiveCfg = Debug|.NET
-		{5B169F8C-4159-4E28-8BD1-AF28B835904E}.Debug.Build.0 = Debug|.NET
-		{5B169F8C-4159-4E28-8BD1-AF28B835904E}.Release.ActiveCfg = Release|.NET
-		{5B169F8C-4159-4E28-8BD1-AF28B835904E}.Release.Build.0 = Release|.NET
-		{99F372BB-78E0-4B35-AFDA-6727FC79B4A4}.Debug.ActiveCfg = Debug|.NET
-		{99F372BB-78E0-4B35-AFDA-6727FC79B4A4}.Debug.Build.0 = Debug|.NET
-		{99F372BB-78E0-4B35-AFDA-6727FC79B4A4}.Release.ActiveCfg = Release|.NET
-		{99F372BB-78E0-4B35-AFDA-6727FC79B4A4}.Release.Build.0 = Release|.NET
-		{E12333DC-7C6C-48BA-8439-AC53D1A33766}.Debug.ActiveCfg = Debug|.NET
-		{E12333DC-7C6C-48BA-8439-AC53D1A33766}.Debug.Build.0 = Debug|.NET
-		{E12333DC-7C6C-48BA-8439-AC53D1A33766}.Release.ActiveCfg = Release|.NET
-		{E12333DC-7C6C-48BA-8439-AC53D1A33766}.Release.Build.0 = Release|.NET
-		{9A3C970F-EF81-4150-AA2D-1DEF7AD46129}.Debug.ActiveCfg = Debug|.NET
-		{9A3C970F-EF81-4150-AA2D-1DEF7AD46129}.Debug.Build.0 = Debug|.NET
-		{9A3C970F-EF81-4150-AA2D-1DEF7AD46129}.Release.ActiveCfg = Release|.NET
-		{9A3C970F-EF81-4150-AA2D-1DEF7AD46129}.Release.Build.0 = Release|.NET
-		{585EF3B4-A345-461F-B4D3-1FB1F4613089}.Debug.ActiveCfg = Debug|.NET
-		{585EF3B4-A345-461F-B4D3-1FB1F4613089}.Debug.Build.0 = Debug|.NET
-		{585EF3B4-A345-461F-B4D3-1FB1F4613089}.Release.ActiveCfg = Release|.NET
-		{585EF3B4-A345-461F-B4D3-1FB1F4613089}.Release.Build.0 = Release|.NET
-		{FD8F235E-CCB2-482E-8AD1-1B4F61313A7B}.Debug.ActiveCfg = Debug|.NET
-		{FD8F235E-CCB2-482E-8AD1-1B4F61313A7B}.Debug.Build.0 = Debug|.NET
-		{FD8F235E-CCB2-482E-8AD1-1B4F61313A7B}.Release.ActiveCfg = Release|.NET
-		{FD8F235E-CCB2-482E-8AD1-1B4F61313A7B}.Release.Build.0 = Release|.NET
-		{D2793964-4AF4-44EA-8B73-A5E6F853E7BE}.Debug.ActiveCfg = Debug|.NET
-		{D2793964-4AF4-44EA-8B73-A5E6F853E7BE}.Debug.Build.0 = Debug|.NET
-		{D2793964-4AF4-44EA-8B73-A5E6F853E7BE}.Release.ActiveCfg = Release|.NET
-		{D2793964-4AF4-44EA-8B73-A5E6F853E7BE}.Release.Build.0 = Release|.NET
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6629684D-F292-4B65-BA3E-299952BACB0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6629684D-F292-4B65-BA3E-299952BACB0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6629684D-F292-4B65-BA3E-299952BACB0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6629684D-F292-4B65-BA3E-299952BACB0A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8C645DE-5067-4546-AC84-867F8381792C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8C645DE-5067-4546-AC84-867F8381792C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8C645DE-5067-4546-AC84-867F8381792C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8C645DE-5067-4546-AC84-867F8381792C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B169F8C-4159-4E28-8BD1-AF28B835904E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B169F8C-4159-4E28-8BD1-AF28B835904E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B169F8C-4159-4E28-8BD1-AF28B835904E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B169F8C-4159-4E28-8BD1-AF28B835904E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99F372BB-78E0-4B35-AFDA-6727FC79B4A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99F372BB-78E0-4B35-AFDA-6727FC79B4A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99F372BB-78E0-4B35-AFDA-6727FC79B4A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99F372BB-78E0-4B35-AFDA-6727FC79B4A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E12333DC-7C6C-48BA-8439-AC53D1A33766}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E12333DC-7C6C-48BA-8439-AC53D1A33766}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E12333DC-7C6C-48BA-8439-AC53D1A33766}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E12333DC-7C6C-48BA-8439-AC53D1A33766}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A3C970F-EF81-4150-AA2D-1DEF7AD46129}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A3C970F-EF81-4150-AA2D-1DEF7AD46129}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A3C970F-EF81-4150-AA2D-1DEF7AD46129}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A3C970F-EF81-4150-AA2D-1DEF7AD46129}.Release|Any CPU.Build.0 = Release|Any CPU
+		{585EF3B4-A345-461F-B4D3-1FB1F4613089}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{585EF3B4-A345-461F-B4D3-1FB1F4613089}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{585EF3B4-A345-461F-B4D3-1FB1F4613089}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{585EF3B4-A345-461F-B4D3-1FB1F4613089}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD8F235E-CCB2-482E-8AD1-1B4F61313A7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD8F235E-CCB2-482E-8AD1-1B4F61313A7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD8F235E-CCB2-482E-8AD1-1B4F61313A7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD8F235E-CCB2-482E-8AD1-1B4F61313A7B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2793964-4AF4-44EA-8B73-A5E6F853E7BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2793964-4AF4-44EA-8B73-A5E6F853E7BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2793964-4AF4-44EA-8B73-A5E6F853E7BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2793964-4AF4-44EA-8B73-A5E6F853E7BE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-	EndGlobalSection
-	GlobalSection(ExtensibilityAddIns) = postSolution
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 EndGlobal
