@@ -53,7 +53,7 @@ namespace Simias.Client.Event
 		/// <summary>
 		/// We are starting the local sync.
 		/// </summary>
-		StartLocalSync,
+		StartLocalSync = 3,
         	/// <summary>
         	///  Passphrase not provided.
         	/// </summary>

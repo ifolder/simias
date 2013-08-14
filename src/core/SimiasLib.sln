@@ -1,5 +1,5 @@
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimiasLib", "SimiasLib.csproj", "{7839E703-0177-4162-B083-BCFD4ED1CC1B}"
 	ProjectSection(ProjectDependencies) = postProject
 		{188191A2-3D4D-404E-8F66-A1FAB865F586} = {188191A2-3D4D-404E-8F66-A1FAB865F586}
@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simias", "SimiasApp\Simias.
 		{188191A2-3D4D-404E-8F66-A1FAB865F586} = {188191A2-3D4D-404E-8F66-A1FAB865F586}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FlaimWrapper", "FlaimProvider\FlaimWrapper\FlaimWrapper.vcproj", "{188191A2-3D4D-404E-8F66-A1FAB865F586}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FlaimWrapper", "FlaimProvider\FlaimWrapper\FlaimWrapper.vcxproj", "{188191A2-3D4D-404E-8F66-A1FAB865F586}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimiasWebService", "WebService\SimiasWebService.csproj", "{BEB45326-E6BE-45F1-B7AF-8A404656C684}"
 EndProject
