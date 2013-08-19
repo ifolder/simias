@@ -1,0 +1,439 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{188191A2-3D4D-404E-8F66-A1FAB865F586}</ProjectGuid>
+    <RootNamespace>FlaimWrapper</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\Release\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\Release\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\Debug\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(Platform)\$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>Win32</TargetEnvironment>
+      <TypeLibraryName>.\Release/FlaimWrapper.tlb</TypeLibraryName>
+      <HeaderFileName>
+      </HeaderFileName>
+    </Midl>
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\..\dependencies\external\libflaim\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;FLAIMWRAPPER_EXPORTS;WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>.\Release/FlaimWrapper.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>.\Release/</AssemblerListingLocation>
+      <ObjectFileName>.\Release/</ObjectFileName>
+      <ProgramDataBaseFileName>.\Release/</ProgramDataBaseFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CompileAs>Default</CompileAs>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>rpcrt4.lib;ws2_32.lib;odbc32.lib;odbccp32.lib;flaim.lib;msvcrt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>.\Release/FlaimWrapper.dll</OutputFile>
+      <Version>3.9.1.0</Version>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\..\dependencies\external\libflaim\win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <ManifestFile>$(IntDir)$(TargetFileName).manifest</ManifestFile>
+      <IgnoreSpecificDefaultLibraries>LIBCMT.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ProgramDatabaseFile>.\Release/FlaimWrapper.pdb</ProgramDatabaseFile>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <ImportLibrary>.\Release/FlaimWrapper.lib</ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+    <Manifest>
+      <AssemblyIdentity>
+      </AssemblyIdentity>
+    </Manifest>
+    <PostBuildEvent>
+      <Command>if not exist C:\iFolder_stage mkdir C:\iFolder_stage
+if not exist C:\iFolder_stage\lib mkdir C:\iFolder_stage\lib
+if not exist C:\iFolder_stage\lib\simias mkdir C:\iFolder_stage\lib\simias
+if not exist C:\iFolder_stage\lib\simias\web mkdir C:\iFolder_stage\lib\simias\web
+if not exist C:\iFolder_stage\lib\simias\web\bin mkdir C:\iFolder_stage\lib\simias\web\bin
+if not exist C:\iFolder_stage\etc mkdir C:\iFolder_stage\etc
+if not exist C:\iFolder_stage\etc\simias mkdir C:\iFolder_stage\etc\simias
+copy $(IntDir)$(TargetFileName) C:\iFolder_stage\lib\simias\web\bin
+copy $(IntDir)$(TargetFileName).manifest C:\iFolder_stage\lib\simias\web\bin
+if exist $(IntDir)$(TargetName).pdb copy $(IntDir)$(TargetName).pdb C:\iFolder_stage\lib\simias\web\bin
+</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>X64</TargetEnvironment>
+      <TypeLibraryName>.\Release/FlaimWrapper.tlb</TypeLibraryName>
+      <HeaderFileName>
+      </HeaderFileName>
+    </Midl>
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\..\dependencies\external\libflaim\win64;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN64;_WIN64;NDEBUG;_WINDOWS;_USRDLL;FLAIMWRAPPER_EXPORTS;WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>.\Release/FlaimWrapper.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>.\Release/</AssemblerListingLocation>
+      <ObjectFileName>.\Release/</ObjectFileName>
+      <ProgramDataBaseFileName>.\Release/</ProgramDataBaseFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CompileAs>Default</CompileAs>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>rpcrt4.lib;ws2_32.lib;odbc32.lib;odbccp32.lib;dbghelp.lib;flaim.lib;flaimtk.lib;msvcrt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>.\Release/FlaimWrapper.dll</OutputFile>
+      <Version>3.9.1.0</Version>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\..\dependencies\external\libflaim\win64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <ManifestFile>$(IntDir)$(TargetFileName).manifest</ManifestFile>
+      <IgnoreSpecificDefaultLibraries>LIBCMT.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ProgramDatabaseFile>.\Release/FlaimWrapper.pdb</ProgramDatabaseFile>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <ImportLibrary>.\Release/FlaimWrapper.lib</ImportLibrary>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+    <Manifest>
+      <AssemblyIdentity>
+      </AssemblyIdentity>
+    </Manifest>
+    <PostBuildEvent>
+      <Command>if not exist C:\iFolder_stage mkdir C:\iFolder_stage
+if not exist C:\iFolder_stage\lib mkdir C:\iFolder_stage\lib
+if not exist C:\iFolder_stage\lib\simias mkdir C:\iFolder_stage\lib\simias
+if not exist C:\iFolder_stage\lib\simias\web mkdir C:\iFolder_stage\lib\simias\web
+if not exist C:\iFolder_stage\lib\simias\web\bin mkdir C:\iFolder_stage\lib\simias\web\bin
+if not exist C:\iFolder_stage\etc mkdir C:\iFolder_stage\etc
+if not exist C:\iFolder_stage\etc\simias mkdir C:\iFolder_stage\etc\simias
+copy $(IntDir)$(TargetFileName) C:\iFolder_stage\lib\simias\web\bin
+copy $(IntDir)$(TargetFileName).manifest C:\iFolder_stage\lib\simias\web\bin
+if exist $(IntDir)$(TargetName).pdb copy $(IntDir)$(TargetName).pdb C:\iFolder_stage\lib\simias\web\bin
+</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>Win32</TargetEnvironment>
+      <TypeLibraryName>.\Debug/FlaimWrapper.tlb</TypeLibraryName>
+      <HeaderFileName>
+      </HeaderFileName>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\..\dependencies\external\libflaim\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;DEBUG;_DEBUG;_WINDOWS;_USRDLL;FLAIMWRAPPER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>
+      </PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>.\Debug/</AssemblerListingLocation>
+      <ObjectFileName>.\Debug/</ObjectFileName>
+      <ProgramDataBaseFileName>.\Debug/</ProgramDataBaseFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <CompileAs>Default</CompileAs>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>rpcrt4.lib;ws2_32.lib;imagehlp.lib;flaim.lib;msvcrtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>.\Debug/FlaimWrapper.dll</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\..\dependencies\external\libflaim\win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <IgnoreSpecificDefaultLibraries>LIBCMTD.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>.\Debug/FlaimWrapper.pdb</ProgramDatabaseFile>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <ImportLibrary>.\Debug/FlaimWrapper.lib</ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+    <Manifest>
+      <AssemblyIdentity>FlaimWrapper</AssemblyIdentity>
+    </Manifest>
+    <PostBuildEvent>
+      <Command>if not exist C:\iFolder_stage mkdir C:\iFolder_stage
+if not exist C:\iFolder_stage\lib mkdir C:\iFolder_stage\lib
+if not exist C:\iFolder_stage\lib\simias mkdir C:\iFolder_stage\lib\simias
+if not exist C:\iFolder_stage\lib\simias\web mkdir C:\iFolder_stage\lib\simias\web
+if not exist C:\iFolder_stage\lib\simias\web\bin mkdir C:\iFolder_stage\lib\simias\web\bin
+if not exist C:\iFolder_stage\lib\simias\web\bin\FlaimLib mkdir C:\iFolder_stage\lib\simias\web\bin\FlaimLib
+if not exist C:\iFolder_stage\etc mkdir C:\iFolder_stage\etc
+if not exist C:\iFolder_stage\etc\simias mkdir C:\iFolder_stage\etc\simias
+copy $(IntDir)$(TargetFileName) C:\iFolder_stage\lib\simias\web\bin
+copy $(IntDir)$(TargetFileName) C:\iFolder_stage\lib\simias\web\bin\FlaimLib
+copy $(IntDir)$(TargetFileName).intermediate.manifest C:\iFolder_stage\lib\simias\web\bin\FlaimLib
+if not exist C:\iFolder_stage\lib\simias\web\bin\FlaimLib\Microsoft.VC90.DebugCRT mkdir C:\iFolder_stage\lib\simias\web\bin\FlaimLib\Microsoft.VC90.DebugCRT
+if not exist C:\iFolder_stage\lib\simias\web\bin\FlaimLib\Microsoft.VC90.DebugMFC mkdir C:\iFolder_stage\lib\simias\web\bin\FlaimLib\Microsoft.VC90.DebugMFC
+copy "$(VCInstallDir)redist\Debug_NonRedist\x86\Microsoft.VC90.DebugCRT\Microsoft.VC90.DebugCRT.manifest" "C:\iFolder_stage\lib\simias\web\bin\FlaimLib\Microsoft.VC90.DebugCRT"
+copy "$(VCInstallDir)redist\Debug_NonRedist\x86\Microsoft.VC90.DebugCRT\msvcm80d.dll" "C:\iFolder_stage\lib\simias\web\bin\FlaimLib\Microsoft.VC90.DebugCRT"
+copy "$(VCInstallDir)redist\Debug_NonRedist\x86\Microsoft.VC90.DebugCRT\msvcp80d.dll" "C:\iFolder_stage\lib\simias\web\bin\FlaimLib\Microsoft.VC90.DebugCRT"
+copy "$(VCInstallDir)redist\Debug_NonRedist\x86\Microsoft.VC90.DebugCRT\msvcr80d.dll" "C:\iFolder_stage\lib\simias\web\bin\FlaimLib\Microsoft.VC90.DebugCRT"
+copy "$(VCInstallDir)redist\Debug_NonRedist\x86\Microsoft.VC90.DebugMFC\Microsoft.VC90.DebugMFC.manifest" "C:\iFolder_stage\lib\simias\web\bin\FlaimLib\Microsoft.VC90.DebugMFC"
+copy "$(VCInstallDir)redist\Debug_NonRedist\x86\Microsoft.VC90.DebugMFC\mfc80d.dll" "C:\iFolder_stage\lib\simias\web\bin\FlaimLib\Microsoft.VC90.DebugMFC"
+copy "$(VCInstallDir)redist\Debug_NonRedist\x86\Microsoft.VC90.DebugMFC\mfc80ud.dll" "C:\iFolder_stage\lib\simias\web\bin\FlaimLib\Microsoft.VC90.DebugMFC"
+copy "$(VCInstallDir)redist\Debug_NonRedist\x86\Microsoft.VC90.DebugMFC\mfcm80d.dll" "C:\iFolder_stage\lib\simias\web\bin\FlaimLib\Microsoft.VC90.DebugMFC"
+copy "$(VCInstallDir)redist\Debug_NonRedist\x86\Microsoft.VC90.DebugMFC\mfcm80ud.dll" "C:\iFolder_stage\lib\simias\web\bin\FlaimLib\Microsoft.VC90.DebugMFC"
+if exist $(IntDir)$(TargetName).pdb copy $(IntDir)$(TargetName).pdb C:\iFolder_stage\lib\simias\web\bin
+</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>X64</TargetEnvironment>
+      <TypeLibraryName>.\Debug/FlaimWrapper.tlb</TypeLibraryName>
+      <HeaderFileName>
+      </HeaderFileName>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\..\dependencies\external\libflaim\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN64;_WIN64;DEBUG;_DEBUG;_WINDOWS;_USRDLL;FLAIMWRAPPER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>
+      </PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>.\Debug/</AssemblerListingLocation>
+      <ObjectFileName>.\Debug/</ObjectFileName>
+      <ProgramDataBaseFileName>.\Debug/</ProgramDataBaseFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CompileAs>Default</CompileAs>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>rpcrt4.lib;ws2_32.lib;imagehlp.lib;flaim.lib;msvcrtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>.\Debug/FlaimWrapper.dll</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\..\dependencies\external\libflaim\win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <IgnoreSpecificDefaultLibraries>LIBCMTD.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>.\Debug/FlaimWrapper.pdb</ProgramDatabaseFile>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <ImportLibrary>.\Debug/FlaimWrapper.lib</ImportLibrary>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+    <Manifest>
+      <AssemblyIdentity>FlaimWrapper</AssemblyIdentity>
+    </Manifest>
+    <PostBuildEvent>
+      <Command>if not exist C:\iFolder_stage mkdir C:\iFolder_stage
+if not exist C:\iFolder_stage\lib mkdir C:\iFolder_stage\lib
+if not exist C:\iFolder_stage\lib\simias mkdir C:\iFolder_stage\lib\simias
+if not exist C:\iFolder_stage\lib\simias\web mkdir C:\iFolder_stage\lib\simias\web
+if not exist C:\iFolder_stage\lib\simias\web\bin mkdir C:\iFolder_stage\lib\simias\web\bin
+if not exist C:\iFolder_stage\lib\simias\web\bin\FlaimLib mkdir C:\iFolder_stage\lib\simias\web\bin\FlaimLib
+if not exist C:\iFolder_stage\etc mkdir C:\iFolder_stage\etc
+if not exist C:\iFolder_stage\etc\simias mkdir C:\iFolder_stage\etc\simias
+copy $(IntDir)$(TargetFileName) C:\iFolder_stage\lib\simias\web\bin
+copy $(IntDir)$(TargetFileName) C:\iFolder_stage\lib\simias\web\bin\FlaimLib
+copy $(IntDir)$(TargetFileName).intermediate.manifest C:\iFolder_stage\lib\simias\web\bin\FlaimLib
+if not exist C:\iFolder_stage\lib\simias\web\bin\FlaimLib\Microsoft.VC90.DebugCRT mkdir C:\iFolder_stage\lib\simias\web\bin\FlaimLib\Microsoft.VC90.DebugCRT
+if not exist C:\iFolder_stage\lib\simias\web\bin\FlaimLib\Microsoft.VC90.DebugMFC mkdir C:\iFolder_stage\lib\simias\web\bin\FlaimLib\Microsoft.VC90.DebugMFC
+copy "$(VCInstallDir)redist\Debug_NonRedist\amd64\Microsoft.VC90.DebugCRT\Microsoft.VC90.DebugCRT.manifest" "C:\iFolder_stage\lib\simias\web\bin\FlaimLib\Microsoft.VC90.DebugCRT"
+copy "$(VCInstallDir)redist\Debug_NonRedist\amd64\Microsoft.VC90.DebugCRT\msvcm80d.dll" "C:\iFolder_stage\lib\simias\web\bin\FlaimLib\Microsoft.VC90.DebugCRT"
+copy "$(VCInstallDir)redist\Debug_NonRedist\amd64\Microsoft.VC90.DebugCRT\msvcp80d.dll" "C:\iFolder_stage\lib\simias\web\bin\FlaimLib\Microsoft.VC90.DebugCRT"
+copy "$(VCInstallDir)redist\Debug_NonRedist\amd64\Microsoft.VC90.DebugCRT\msvcr80d.dll" "C:\iFolder_stage\lib\simias\web\bin\FlaimLib\Microsoft.VC90.DebugCRT"
+copy "$(VCInstallDir)redist\Debug_NonRedist\amd64\Microsoft.VC90.DebugMFC\Microsoft.VC90.DebugMFC.manifest" "C:\iFolder_stage\lib\simias\web\bin\FlaimLib\Microsoft.VC90.DebugMFC"
+copy "$(VCInstallDir)redist\Debug_NonRedist\amd64\Microsoft.VC90.DebugMFC\mfc80d.dll" "C:\iFolder_stage\lib\simias\web\bin\FlaimLib\Microsoft.VC90.DebugMFC"
+copy "$(VCInstallDir)redist\Debug_NonRedist\amd64\Microsoft.VC90.DebugMFC\mfc80ud.dll" "C:\iFolder_stage\lib\simias\web\bin\FlaimLib\Microsoft.VC90.DebugMFC"
+copy "$(VCInstallDir)redist\Debug_NonRedist\amd64\Microsoft.VC90.DebugMFC\mfcm80d.dll" "C:\iFolder_stage\lib\simias\web\bin\FlaimLib\Microsoft.VC90.DebugMFC"
+copy "$(VCInstallDir)redist\Debug_NonRedist\amd64\Microsoft.VC90.DebugMFC\mfcm80ud.dll" "C:\iFolder_stage\lib\simias\web\bin\FlaimLib\Microsoft.VC90.DebugMFC"
+if exist $(IntDir)$(TargetName).pdb copy $(IntDir)$(TargetName).pdb C:\iFolder_stage\lib\simias\web\bin
+</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="CSPObjectIterator.cpp" />
+    <ClCompile Include="CSPropertyIterator.cpp" />
+    <ClCompile Include="CSPStore.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FLAIMWRAPPER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FLAIMWRAPPER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FLAIMWRAPPER_EXPORTS</PreprocessorDefinitions>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">MaxSpeed</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FLAIMWRAPPER_EXPORTS</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Include="CSPStoreObject.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FLAIMWRAPPER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FLAIMWRAPPER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FLAIMWRAPPER_EXPORTS</PreprocessorDefinitions>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">MaxSpeed</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FLAIMWRAPPER_EXPORTS</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Include="FlaimWrapper.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FLAIMWRAPPER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FLAIMWRAPPER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FLAIMWRAPPER_EXPORTS</PreprocessorDefinitions>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">MaxSpeed</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FLAIMWRAPPER_EXPORTS</PreprocessorDefinitions>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CSPObjectIterator.h" />
+    <ClInclude Include="CSPropertyIterator.h" />
+    <ClInclude Include="CSPStore.h" />
+    <ClInclude Include="CSPStoreObject.h" />
+    <ClInclude Include="CSPType.h" />
+    <ClInclude Include="FlaimWrapper.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ReadMe.txt" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
