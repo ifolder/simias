@@ -429,23 +429,23 @@ namespace Simias.Policy
 						limit = ruleLimit;
 					}
 				}
-			}
-
-			if(limit == -1) //no ifolder policy - check for user and domain
-			{
-				if(policy.IsAggregate)
+				if(limit == -1) //no ifolder policy - check for user and domain
 				{
-					Policy[] policyArray = policy.AggregatePolicy.ToArray( typeof( Policy ) ) as Policy[];
-					foreach (Policy pl in policyArray)
+					if(policy.IsAggregate)
 					{
-						long ruleLimit = GetUserAggregateLimit(pl);
-						if ( ( limit == -1 ) || ( ruleLimit < limit ) )
+						Policy[] policyArray = policy.AggregatePolicy.ToArray( typeof( Policy ) ) as Policy[];
+						foreach (Policy pl in policyArray)
 						{
-							limit = ruleLimit;
+							long ruleLimit = GetUserAggregateLimit(pl);
+							if ( ( limit == -1 ) || ( ruleLimit < limit ) )
+							{
+								limit = ruleLimit;
+							}
 						}
 					}
 				}
 			}
+
 
 			return limit;
 		}
