@@ -115,7 +115,7 @@
     <Link>
       <AdditionalDependencies>rpcrt4.lib;ws2_32.lib;odbc32.lib;odbccp32.lib;flaim.lib;msvcrt.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>.\Release/FlaimWrapper.dll</OutputFile>
-      <Version>3.9.1.0</Version>
+      <Version>3.9.2.0</Version>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>$(SolutionDir)..\..\dependencies\external\libflaim\win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ManifestFile>$(IntDir)$(TargetFileName).manifest</ManifestFile>
