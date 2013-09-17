@@ -149,7 +149,7 @@ namespace Simias.Sync
 				if(node.IsType( NodeTypes.BaseFileNodeType))
 				{
 					status = SyncStatus.UpdateConflict;
-					Log.log.Debug("Update conflict for file node {0} client local :{1} client master:{2} disk local:{3} ", node.ID, snode.MasterIncarnation, snode.LocalIncarnation, diskNode.LocalIncarnation);
+					Log.log.Debug("Update conflict for file node {0} client master :{1} client local:{2} disk local:{3} ", node.ID, snode.MasterIncarnation, snode.LocalIncarnation, diskNode.LocalIncarnation);
 				}
 				else
 					Log.log.Debug("Update conflict for non file node {0}..conflict not set", node.ID);

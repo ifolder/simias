@@ -1536,7 +1536,10 @@ namespace Simias.Storage
 		/// <param name="node">Node object that contains the local incarnation value.</param>
 		public void DecrementLocalIncarnation( Node node)
 		{
-			ulong incarnationValue = (node.LocalIncarnation > 0)?(node.LocalIncarnation - 1):0;
+			ulong incarnationValue = 0;
+			//avoid overflow or underflow
+			if(node.LocalIncarnation < ulong.MaxValue && node.LocalIncarnation > ulong.MinValue)
+                incarnationValue = node.LocalIncarnation - 1;
 
 			// Update the modifier on the node.
 			node.Properties.ModifyNodeProperty( PropertyTags.LastModifier, GetCurrentPrincipal());

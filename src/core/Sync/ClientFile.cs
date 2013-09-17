@@ -1012,8 +1012,9 @@ namespace Simias.Sync
 			Log.log.Debug("2. CreateFileConflict LI: {0}", node.LocalIncarnation);
 			
 			
-			//Step 1.2 decrement the master incarnation
-			node.SetMasterIncarnation(node.LocalIncarnation-1);
+			//Step 1.2 decrement the master incarnation - avoid overflow or underflow
+			if(node.LocalIncarnation < ulong.MaxValue && node.LocalIncarnation > ulong.MinValue)
+				node.SetMasterIncarnation(node.LocalIncarnation-1);
 			// After the commit the state is update, eventhough it is update, we need to change a property so the next commit
 			// will increase the local incarnation, So just touch the property and update to the same value
 			//node.Properties.ModifyNodeProperty( PropertyTags.LocalIncarnation, node.LocalIncarnation);
