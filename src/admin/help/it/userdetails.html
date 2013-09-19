@@ -111,7 +111,7 @@ url(../../images/helphead_bg.gif) repeat-x 0% 0% }
   
   
   <h4><a name="ifolders"></a>Cartelle iFolder</h4>
-  <P>In questa pagina sono visualizzate le cartelle iFolder condivise dall'utente o di sua propriet&agrave;.  Per elencare tutte le cartelle iFolder condivise dall'utente o di sua propriet&agrave;, fare clic su Tutte.  Per visualizzare la cartella iFolder di propriet&agrave; dell'utente, fare clic sulla scheda Con proprietario. Nella scheda Condiviso vengono elencate tutte le cartelle iFolder condivise per il conto utente attuale. </P>
+  <P>In questa pagina sono visualizzate le cartelle iFolder condivise dall'utente o di sua propriet&agrave;. Per elencare tutte le cartelle iFolder condivise dall'utente o di sua propriet&agrave;, fare clic su Tutte. Per visualizzare la cartella iFolder di propriet&agrave; dell'utente, fare clic sulla scheda Con proprietario. Nella scheda Condiviso vengono elencate tutte le cartelle iFolder condivise per il conto utente attuale. </P>
 	
   <H4>Abilitazione o disabilitazione di una cartella iFolder</H4>
 		
@@ -145,7 +145,7 @@ url(../../images/helphead_bg.gif) repeat-x 0% 0% }
   </P>
   <P><B><FONT SIZE="-1">NOTA:</FONT></B> <font size="-1">le norme impostate per un gruppo LDAP sono applicabili ai suoi membri.</font></P>
 <H4>Modifica delle norme utente</H4>
-<p>Nella seguente tabella sono elencate le norme che &egrave; possibile gestire per ciascun conto utente iFolder.  Modificare uno o pi&ugrave; dei seguenti valori, quindi fare clic su Salva per applicare le nuove impostazioni:</p> 
+<p>Nella seguente tabella sono elencate le norme che &egrave; possibile gestire per ciascun conto utente iFolder. Modificare uno o pi&ugrave; dei seguenti valori, quindi fare clic su Salva per applicare le nuove impostazioni:</p> 
 <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Parametro</P></TD><TD CLASS="tablehead2"><P>Descrizione</P></TD></TR><TR><TD VALIGN="TOP">
         <h4>Conto </h4>
       </TD><TD><P>Specifica se l'utente pu&ograve; attualmente eseguire il login per sincronizzare le cartelle iFolder. </P>
@@ -160,7 +160,7 @@ url(../../images/helphead_bg.gif) repeat-x 0% 0% }
       <TD> 
         <P>Specifica il numero massimo di cartelle iFolder di cui un utente pu&ograve; essere proprietario. Dopo aver applicato questa norma, l'utente potr&agrave; essere proprietario di un determinato numero di cartelle. Se il limite viene superato, l'utente riceve un messaggio indicante la violazione della norma. Se il limite &egrave; zero, l'utente non pu&ograve; creare cartelle iFolder.</P>
            
-        <p>Selezionare la casella di controllo accanto a  <i>Limite</i> per attivare il limite di cartelle iFolder per gli utenti e specificare un numero nel campo. 
+        <p>Selezionare la casella di controllo accanto a <i>Limite</i> per attivare il limite di cartelle iFolder per gli utenti e specificare un numero nel campo. 
         <P>Le impostazioni delle norme non influenzano il numero di cartelle che un utente possiede gi&agrave;. Se il numero di cartelle iFolder di propriet&agrave; dell'utente &egrave; gi&agrave; superiore al limite impostato, l'utente non perder&agrave; la propriet&agrave; di tali cartelle. 
           </p><p>Le norme a livello utente hanno priorit&agrave; su quelle a livello di sistema o di gruppo LDAP.</P>
         <P>Valore di default: Disabilitato, nessun valore impostato.</P>
@@ -241,13 +241,13 @@ url(../../images/helphead_bg.gif) repeat-x 0% 0% }
   <P>L'intervallo minimo di sincronizzazione effettivo &egrave; sempre il valore maggiore tra le impostazioni seguenti:</P>
   <ul>
     <li>
-            <p>Le norme del sistema (valore di default uguale a zero), a meno che non siano impostate norme utente o per gruppo LDAP.  Se sono impostate norme utente, queste ultime hanno priorit&agrave; su quelle di sistema e del gruppo LDAP indipendentemente dal fatto che il valore dell'intervallo dell'utente sia maggiore o minore. </p>
+            <p>Le norme del sistema (valore di default uguale a zero), a meno che non siano impostate norme utente o per gruppo LDAP. Se sono impostate norme utente, queste ultime hanno priorit&agrave; su quelle di sistema e del gruppo LDAP indipendentemente dal fatto che il valore dell'intervallo dell'utente sia maggiore o minore. </p>
     </li>
     <li>
-      <p>Le norme del computer locale oppure l'impostazione nel computer client che esegue la sincronizzazione con il server.</p>
+      <p>Le policy del computer locale oppure l'impostazione nel computer client che esegue la sincronizzazione con il server.</p>
     </li>
     <li>
-      <p>Le norme di iFolder (raccolta).</p>
+      <p>Le policy di iFolder (raccolta).</p>
     </li>
   </ul>
         <P> Valore di default: disabilitato o la norma di sistema</P>
@@ -256,20 +256,20 @@ url(../../images/helphead_bg.gif) repeat-x 0% 0% }
         <h4>Cifratura</h4>
       </TD>
       <TD> 
-        <P>Specifica la norma di cifratura per il conto utente selezionato. La quota pu&ograve; essere imposta dalla norma di sistema. La norma di sistema ha la precedenza sulle norme utente.</P>
+        <P>Specifica la norma di cifratura per il conto utente selezionato. La quota pu&ograve; essere imposta dalla policy di sistema. La policy di sistema ha la precedenza sulle policy utente.</P>
 		<B>On</B><BR>
-        Selezionare On per abilitare la funzione di cifratura per l'utente selezionato.  Questa operazione consente all'utente di impostare la norma di cifratura per le sue cartelle iFolder.<br>
+        Selezionare On per abilitare la funzione di cifratura per l'utente selezionato. Questa operazione consente all'utente di impostare la norma di cifratura per le sue cartelle iFolder.<br>
         <br>
-        Deselezionare l'opzione per disabilitare la funzione di cifratura per l'utente selezionato. <br>
+        Quando si abilita la funzione di cifratura non &egrave; possibile disattivarla.<br>
         	
 		
         <br><B>Imporre</B><BR>
-        Selezionare Imporre per abilitare la funzione di cifratura per l'utente selezionato.  Una volta impostata questa opzione, l'utente non pu&ograve; pi&ugrave; modificare le impostazioni di cifratura per le sue cartelle iFolder.<br>
+        Selezionare Imporre per abilitare la funzione di cifratura per l'utente selezionato. Una volta impostata questa opzione, l'utente non pu&ograve; pi&ugrave; modificare le impostazioni di cifratura per le sue cartelle iFolder.<br>
 		<P><font size="-1"><b>IMPORTANTE:</b> questa opzione &egrave; abilitata solo se la norma di cifratura a livello di sistema &egrave; impostata su On.</font></P>
       </TD></TR><TR><TD VALIGN="TOP">
         <h4> Condivisione</h4>
       </TD><TD> <B>On</B><BR>
-        Per default, la condivisione iFolder &egrave; abilitata.  Deselezionare Attivato e fare clic su Salva per disabilitare la condivisione per l'utente selezionato. Dopo aver applicato la norma, l'utente selezionato non potr&agrave; pi&ugrave; condividere cartelle iFolder. Potr&agrave; tuttavia comunque modificare le norme a livello di cartella iFolder.<br>
+        Per default, la condivisione iFolder &egrave; abilitata. Deselezionare Attivato e fare clic su Salva per disabilitare la condivisione per l'utente selezionato. Dopo aver applicato la norma, l'utente selezionato non potr&agrave; pi&ugrave; condividere cartelle iFolder. Potr&agrave; tuttavia comunque modificare le norme a livello di cartella iFolder.<br>
           <BR>
         <B>Imponi</B><BR>
         Selezionare <i>Imponi</i> per imporre le norme impostate per l'utente selezionato. Dopo aver applicato la norma, l'utente selezionato non potr&agrave; pi&ugrave; condividere cartelle iFolder.<br>
@@ -285,7 +285,7 @@ url(../../images/helphead_bg.gif) repeat-x 0% 0% }
   
   <BLOCKQUOTE class="task1"><P><A HREF="users.html">Gestione di un conto utente</A><BR>
       <A HREF="ifolders.html">Gestione delle cartelle iFolder</A><BR>
-      <A HREF="ifolderdetails.html">Gestione dei dettagli iFolder</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Torna all'inizio"></A></P><P>&nbsp;</P><P CLASS="copyright">Un simbolo di marchio di fabbrica (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP>, e cos&igrave; via) indica un marchio di fabbrica Novell. Un asterisco (*) indica un marchio di fabbrica di terze parti.  Per ulteriori informazioni, vedere <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Note legali</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
+      <A HREF="ifolderdetails.html">Gestione dei dettagli iFolder</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Torna all'inizio"></A></P><P>&nbsp;</P><P CLASS="copyright">Un simbolo di marchio di fabbrica (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP>, e cos&igrave; via) indica un marchio di fabbrica Novell. Un asterisco (*) indica un marchio di fabbrica di terze parti. Per ulteriori informazioni, vedere <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Note legali</font></A>.</P></div><!-- This is the end of the Help Content layer. --> 
 </body>
 
 </html>
