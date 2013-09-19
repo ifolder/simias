@@ -34,8 +34,8 @@ echo "Removing old tarball(s)..."
 # Update work area
 if [ -d .svn ]
 then
-	echo "Updating work area..."
-	svn up 
+        echo "Updating work area..."
+        svn up 
 fi
 
 # Handle the situation when Simias sources have been checked out
@@ -43,8 +43,8 @@ fi
 # $TARBALL_NAME
 if [ ! -d ../$TARBALL_NAME ]
 then
-        mkdir ../$TARBALL_NAME
-        cp -rf ../`basename \`pwd\``/* ../$TARBALL_NAME
+        svn export ../$SRC_DIR ../$TARBALL_NAME
+        rm -r ../$TARBALL_NAME/tools/
 fi
 
 # Prepare spec file
@@ -55,7 +55,6 @@ sed -e "s/@@BUILDNUM@@/$BUILDNUM/" package/linux/$PACKAGE.spec.autobuild > $PACK
 # Create the tarballs
 echo "Generating tarball for $PACKAGE..."
 pushd $PACKAGE_DIR
-#tar -c --wildcards --exclude "*.svn*" --exclude "$PACKAGE" --exclude "*.tar.gz" -czf $TARBALL_NAME.tar.gz $TARBALL_NAME
 tar -c --wildcards --exclude "*.svn*" --exclude "*.tar.gz" -czf $TARBALL_NAME.tar.gz $TARBALL_NAME
 popd
 
