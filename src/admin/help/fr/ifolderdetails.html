@@ -116,15 +116,15 @@ url(../../images/helphead_bg.gif) repeat-x 0% 0% }
 <P><B><FONT SIZE="-1">REMARQUE :</FONT></B> <FONT SIZE="-1">les membres d'un groupe LDAP h&eacute;ritent des droits d'acc&egrave;s d&eacute;finis pour ce groupe.</FONT></P>
   <BLOCKQUOTE> 
     <P><B>Propri&eacute;taire<BR>
-      </B>Un dossier iFolder ne peut avoir qu'un seul propri&eacute;taire, &agrave; savoir un utilisateur ou un groupe LDAP.  Il s'agit g&eacute;n&eacute;ralement de l'utilisateur ou du membre du groupe LDAP qui a cr&eacute;&eacute; le dossier iFolder. Si le propri&eacute;taire est un groupe LDAP, tous les membres de ce groupe sont propri&eacute;taires de ce dossier iFolder. L'utilisateur propri&eacute;taire ou les membres du groupe LDAP propri&eacute;taire peuvent utiliser le client iFolder pour transf&eacute;rer la propri&eacute;t&eacute; &agrave; un autre membre du dossier iFolder. L'utilisateur Admin iFolder peut transf&eacute;rer la propri&eacute;t&eacute; &agrave; n'importe quel utilisateur ou groupe LDAP sur le serveur iFolder.</P>
-    <P>Le propri&eacute;taire d'un iFolder dispose d'un droit de contr&ocirc;le total sur le dossier. Cet utilisateur ou groupe LDAP dispose de droits de lecture et d'&eacute;criture sur le dossier iFolder, g&egrave;re les membres et les droits d'acc&egrave;s des utilisateurs et groupes LDAP membres et peut supprimer le droit de contr&ocirc;le total d'un membre.  Avec un serveur d'entreprise, l'espace disque utilis&eacute; par les dossiers iFolder du propri&eacute;taire est d&eacute;duit des quotas de disque utilisateur du propri&eacute;taire sur le serveur d'entreprise.</P>
+      </B>Un dossier iFolder ne peut avoir qu'un seul propri&eacute;taire, &agrave; savoir un utilisateur ou un groupe LDAP. Il s'agit g&eacute;n&eacute;ralement de l'utilisateur ou du membre du groupe LDAP qui a cr&eacute;&eacute; le dossier iFolder. Si le propri&eacute;taire est un groupe LDAP, tous les membres de ce groupe sont propri&eacute;taires de ce dossier iFolder. L'utilisateur propri&eacute;taire ou les membres du groupe LDAP propri&eacute;taire peuvent utiliser le client iFolder pour transf&eacute;rer la propri&eacute;t&eacute; &agrave; un autre membre du dossier iFolder. L'utilisateur Admin iFolder peut transf&eacute;rer la propri&eacute;t&eacute; &agrave; n'importe quel utilisateur ou groupe LDAP sur le serveur iFolder.</P>
+    <P>Le propri&eacute;taire d'un iFolder dispose d'un droit de contr&ocirc;le total sur le dossier. Cet utilisateur ou groupe LDAP dispose de droits de lecture et d'&eacute;criture sur le dossier iFolder, g&egrave;re les membres et les droits d'acc&egrave;s des utilisateurs et groupes LDAP membres et peut supprimer le droit de contr&ocirc;le total d'un membre. Avec un serveur d'entreprise, l'espace disque utilis&eacute; par les dossiers iFolder du propri&eacute;taire est d&eacute;duit des quotas de disque utilisateur du propri&eacute;taire sur le serveur d'entreprise.</P>
     <P>Si un utilisateur ou un groupe LDAP est supprim&eacute; du syst&egrave;me iFolder, les dossiers iFolder d&eacute;tenus par cet utilisateur ou groupe sont orphelins. Les dossiers iFolder orphelins sont assign&eacute;s temporairement &agrave; l'utilisateur Admin iFolder, qui est alors consid&eacute;r&eacute; comme propri&eacute;taire. L'adh&eacute;sion et la synchronisation se poursuivent pour les autres utilisateurs et membres de groupes LDAP tandis que l'utilisateur Admin iFolder d&eacute;termine si un dossier iFolder orphelin doit &ecirc;tre supprim&eacute; ou assign&eacute; &agrave; un nouveau propri&eacute;taire.</P>
   <P><B>Contr&ocirc;le total</B><BR>
       Membre du dossier iFolder partag&eacute; avec le droit de contr&ocirc;le total. L'utilisateur ou le groupe LDAP poss&eacute;dant le droit Contr&ocirc;le total dispose d'un acc&egrave;s lecture/&eacute;criture au dossier iFolder et g&egrave;re l'adh&eacute;sion et les droits d'acc&egrave;s de tous les utilisateurs, &agrave; l'exception du propri&eacute;taire.</P>
   <P><B>Lecture/&eacute;criture</B><BR>
     Membre du dossier iFolder partag&eacute; disposant du droit Lecture/Ecriture sur les r&eacute;pertoires et fichiers du dossier iFolder.</P>
   <P><B>Lecture seule</B><BR>
-    Membre du dossier iFolder partag&eacute; disposant du droit Lecture seule sur les r&eacute;pertoires et fichiers du dossier iFolder.  Ce membre peut copier un fichier iFolder &agrave; un autre endroit et le modifier en dehors du dossier iFolder.</P>
+    Membre du dossier iFolder partag&eacute; disposant du droit Lecture seule sur les r&eacute;pertoires et fichiers du dossier iFolder. Ce membre peut copier un fichier iFolder &agrave; un autre endroit et le modifier en dehors du dossier iFolder.</P>
 </BLOCKQUOTE>
 <p>Le tableau suivant d&eacute;crit les actions possibles associ&eacute;es &agrave; chaque niveau d'acc&egrave;s pour les utilisateurs.</p>
   <TABLE WIDTH="93%" BORDER="1">
@@ -360,7 +360,7 @@ url(../../images/helphead_bg.gif) repeat-x 0% 0% }
 <H4>D&eacute;finition du droit d'acc&egrave;s au dossier iFolder pour un membre</H4>
   
 <OL><LI>
-      <P>Sur la page D&eacute;tails iFolder, cochez la case en regard du membre dont vous  souhaitez g&eacute;rer le droit d'acc&egrave;s.</P>
+      <P>Sur la page D&eacute;tails iFolder, cochez la case en regard du membre dont vous souhaitez g&eacute;rer le droit d'acc&egrave;s.</P>
     </LI><LI>
       <P>S&eacute;lectionnez le menu d&eacute;roulant Droits, puis s&eacute;lectionnez le droit Admin, Lecture/&eacute;criture ou Lecture seule.<BR>
         <BR>Attendez que la page soit rafra&icirc;chie. L'ic&ocirc;ne de l'utilisateur devrait refl&eacute;ter le nouveau droit d'acc&egrave;s.</P></LI></OL>
@@ -371,7 +371,7 @@ url(../../images/helphead_bg.gif) repeat-x 0% 0% }
 </ol>
 <P>La copie locale des donn&eacute;es de l'utilisateur reste sur l'ordinateur de l'utilisateur, mais celui-ci n'a plus acc&egrave;s la copie serveur des donn&eacute;es iFolder.</P><P> <A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="D&eacute;but" TITLE="D&eacute;but"></A></P>
 	  <H4>Changement de propri&eacute;taire</H4>
-  <P>Lorsque vous modifiez le propri&eacute;taire d'un dossier iFolder, le propri&eacute;taire existant devient membre du dossier iFolder et se voit attribuer le droit Lecture/&eacute;criture. Pour les dossiers iFolder orphelins, l'Administrateur iFolder devient le propri&eacute;taire jusqu'&agrave; ce que le dossier iFolder soit r&eacute;assign&eacute; &agrave; un nouveau propri&eacute;taire ou supprim&eacute;.  Si le nouveau propri&eacute;taire n'est actuellement pas membre du dossier iFolder, une notification d'abonnement est envoy&eacute;e sur le compte iFolder de l'utilisateur.</P>
+  <P>Lorsque vous modifiez le propri&eacute;taire d'un dossier iFolder, le propri&eacute;taire existant devient membre du dossier iFolder et se voit attribuer le droit Lecture/&eacute;criture. Pour les dossiers iFolder orphelins, l'Administrateur iFolder devient le propri&eacute;taire jusqu'&agrave; ce que le dossier iFolder soit r&eacute;assign&eacute; &agrave; un nouveau propri&eacute;taire ou supprim&eacute;. Si le nouveau propri&eacute;taire n'est actuellement pas membre du dossier iFolder, une notification d'abonnement est envoy&eacute;e sur le compte iFolder de l'utilisateur.</P>
   <OL>
     <LI> 
       <P>Sur la page D&eacute;tails iFolder, recherchez l'utilisateur ou le groupe LDAP que vous souhaitez assigner en tant que nouveau propri&eacute;taire du dossier iFolder.</P>
@@ -448,7 +448,7 @@ url(../../images/helphead_bg.gif) repeat-x 0% 0% }
   <P>      L'intervalle de synchronisation minimal effectif est toujours la plus grande valeur des param&egrave;tres suivants :</P>
   <ul>
     <li>
-            <p> La strat&eacute;gie syst&egrave;me (valeur par d&eacute;faut : 5 minutes), sauf si une strat&eacute;gie utilisateur ou groupe LDAP est d&eacute;finie.    Si une strat&eacute;gie de groupe LDAP est d&eacute;finie, elle pr&eacute;vaut sur la strat&eacute;gie syst&egrave;me. Si une strat&eacute;gie utilisateur est d&eacute;finie, celle-ci pr&eacute;vaut sur la strat&eacute;gie de groupe LDAP ou syst&egrave;me, peu importe que sa valeur soit sup&eacute;rieure ou inf&eacute;rieure.</p>
+            <p> La strat&eacute;gie syst&egrave;me (valeur par d&eacute;faut : 5 minutes), sauf si une strat&eacute;gie utilisateur ou groupe LDAP est d&eacute;finie. Si une strat&eacute;gie de groupe LDAP est d&eacute;finie, elle pr&eacute;vaut sur la strat&eacute;gie syst&egrave;me. Si une strat&eacute;gie utilisateur est d&eacute;finie, celle-ci pr&eacute;vaut sur la strat&eacute;gie de groupe LDAP ou syst&egrave;me, peu importe que sa valeur soit sup&eacute;rieure ou inf&eacute;rieure.</p>
     </li>
     <li>
       <p> La strat&eacute;gie de la machine locale ou la configuration sur la machine du client synchronis&eacute;e avec le serveur</p>

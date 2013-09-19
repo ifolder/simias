@@ -78,17 +78,17 @@ url(../../images/helphead_bg.gif) repeat-x 0% 0% }
         <P>Type de membre</P>       
       </TD>
       <TD> 
-        <P>Affiche le type membre de l'utilisateur logu&eacute;. Dans le cas d'un utilisateur individuel, l'interface affiche &eacute;galement une option pour les groupes d'utilisateurs. Si l'utilisateur est membre d'un groupe LDAP, l'interface reprend tous les membres du groupe LDAP sous l'option Membres de groupe.
+        <P>Affiche le type de membre de l'utilisateur connect&eacute;. Dans le cas d'un utilisateur individuel, l'interface affiche &eacute;galement une option pour les groupes d'utilisateurs. Si l'utilisateur est membre d'un groupe LDAP, l'interface reprend tous les membres du groupe LDAP sous l'option Membres de groupe.
       </TD></TR><TR><TD VALIGN="TOP">
         <P>Contextes LDAP </P>       
       </TD>
       <TD> 
         <P>Le contexte de l'arborescence LDAP est utilis&eacute; pour donner aux utilisateurs acc&egrave;s &agrave; iFolder. 
       </TD></TR><TR><TD VALIGN="TOP">
-        <P>Dernier login</P>
+        <P>Derni&egrave;re connexion</P>
         </TD>
       <TD> 
-        <P>Affiche l'heure &agrave; laquelle l'utilisateur s'est logu&eacute; au syst&egrave;me iFolder pour la derni&egrave;re fois. 
+        <P>Affiche l'heure &agrave; laquelle l'utilisateur s'est connect&eacute; au syst&egrave;me iFolder pour la derni&egrave;re fois. 
       </TD></TR><TR><TD VALIGN="TOP">
         Quota de disque du groupe</TD>
       <TD> 
@@ -121,11 +121,11 @@ url(../../images/helphead_bg.gif) repeat-x 0% 0% }
     </LI>
     <LI> 
       <P>Cliquez sur Activer pour activer le dossier iFolder.</P>
-      <P>L'utilisateur peut alors se loguer et synchroniser les dossiers iFolder.</P>
+      <P>L'utilisateur peut alors se connecter et synchroniser ses dossiers iFolder.</P>
     
     <LI> 
       <P>Cliquez sur D&eacute;sactiver pour d&eacute;sactiver le dossier iFolder.</P>
-      <P> Si l'utilisateur est logu&eacute; pendant que vous effectuez cette modification, sa session reste active jusqu'&agrave; ce qu'il se d&eacute;logue. La strat&eacute;gie prendra effet la prochaine fois que l'utilisateur tentera de se loguer au compte. Pour que le verrouillage prenne effet imm&eacute;diatement, vous devez red&eacute;marrer les services Apache pour le serveur iFolder. Toutes les sessions actives seront alors d&eacute;connect&eacute;es, y compris celle de l'utilisateur</P>
+      <P> Si l'utilisateur est connect&eacute; pendant que vous effectuez cette modification, sa session reste active jusqu'&agrave; ce qu'il se d&eacute;connecte. La strat&eacute;gie prendra effet la prochaine fois que l'utilisateur tentera de se connecter au compte. Pour que le verrouillage prenne effet imm&eacute;diatement, vous devez red&eacute;marrer les services Apache pour le serveur iFolder. Toutes les sessions actives seront alors d&eacute;connect&eacute;es, y compris celle de l'utilisateur</P>
     </LI>
   </OL>
 <H4>Suppression d'un dossier iFolder</H4>
@@ -148,10 +148,10 @@ url(../../images/helphead_bg.gif) repeat-x 0% 0% }
 <p>Le tableau suivant liste les strat&eacute;gies que vous pouvez g&eacute;rer pour n'importe quel compte utilisateur iFolder. Modifiez une ou plusieurs des valeurs suivantes, puis cliquez sur Enregistrer pour appliquer les nouveaux param&egrave;tres :</p> 
 <TABLE WIDTH="93%" BORDER="1"><TR><TD CLASS="tablehead2"><P>Param&egrave;tre</P></TD><TD CLASS="tablehead2"><P>Description</P></TD></TR><TR><TD VALIGN="TOP">
         <h4>Compte </h4>
-      </TD><TD><P>Indique si l'utilisateur est actuellement autoris&eacute; &agrave; se loguer pour synchroniser des dossiers iFolder. </P>
-        <P>Cochez la case pour ne pas autoriser le compte &agrave; se loguer.</P>
-        <P> D&eacute;s&eacute;lectionnez la case pour autoriser le compte &agrave; se loguer. </P>
-        <P>Si l'utilisateur est logu&eacute; pendant que vous effectuez cette modification, sa session reste active jusqu'&agrave; ce qu'il se d&eacute;logue. La strat&eacute;gie prendra effet la prochaine fois que l'utilisateur tentera de se loguer au compte. Pour que le verrouillage prenne effet imm&eacute;diatement, vous devez red&eacute;marrer les services Apache pour le serveur iFolder. Toutes les sessions actives seront alors d&eacute;connect&eacute;es, y compris celle de l'utilisateur</P>
+      </TD><TD><P>Indique si l'utilisateur est autoris&eacute; &agrave; se connecter pour synchroniser ses dossiers iFolder. </P>
+        <P>Cochez cette case pour interdire au compte de se connecter.</P>
+        <P> D&eacute;s&eacute;lectionnez-la pour autoriser le compte &agrave; se connecter. </P>
+        <P>Si l'utilisateur est connect&eacute; pendant que vous effectuez cette modification, sa session reste active jusqu'&agrave; ce qu'il se d&eacute;connecte. La strat&eacute;gie prendra effet la prochaine fois que l'utilisateur tentera de se connecter au compte. Pour que le verrouillage prenne effet imm&eacute;diatement, vous devez red&eacute;marrer les services Apache pour le serveur iFolder. Toutes les sessions actives seront alors d&eacute;connect&eacute;es, y compris celle de l'utilisateur</P>
         <P>Valeur par d&eacute;faut : activ&eacute;</P>
       </TD></TR><TR>
       <TD VALIGN="TOP"> 
@@ -241,7 +241,7 @@ url(../../images/helphead_bg.gif) repeat-x 0% 0% }
   <P>L'intervalle de synchronisation minimal effectif est toujours la plus grande valeur des param&egrave;tres suivants :</P>
   <ul>
     <li>
-            <p>La strat&eacute;gie syst&egrave;me (valeur par d&eacute;faut : 0), sauf si une strat&eacute;gie de groupe LDAP ou utilisateur est d&eacute;finie.  Si une strat&eacute;gie utilisateur est d&eacute;finie, celle-ci pr&eacute;vaut sur la strat&eacute;gie syst&egrave;me ou groupe LDAP, et ce que sa valeur soit inf&eacute;rieure ou sup&eacute;rieure. </p>
+            <p>La strat&eacute;gie syst&egrave;me (valeur par d&eacute;faut : 0), sauf si une strat&eacute;gie de groupe LDAP ou utilisateur est d&eacute;finie. Si une strat&eacute;gie utilisateur est d&eacute;finie, celle-ci pr&eacute;vaut sur la strat&eacute;gie syst&egrave;me ou groupe LDAP, et ce que sa valeur soit inf&eacute;rieure ou sup&eacute;rieure. </p>
     </li>
     <li>
       <p>La strat&eacute;gie de la machine locale ou la configuration sur la machine du client synchronis&eacute;e avec le serveur.</p>
@@ -260,7 +260,7 @@ url(../../images/helphead_bg.gif) repeat-x 0% 0% }
 		<B>Actif</B><BR>
         S&eacute;lectionnez Actif pour activer la fonction de codage pour l'utilisateur s&eacute;lectionn&eacute;. Cette fonction permet &agrave; l'utilisateur de d&eacute;finir la strat&eacute;gie de codage pour ses dossiers iFolder.<br>
         <br>
-        D&eacute;s&eacute;lectionnez Actif pour d&eacute;sactiver la fonction de codage pour l'utilisateur s&eacute;lectionn&eacute;. <br>
+        Si la fonction de codage est activ&eacute;e, elle ne peut pas &ecirc;tre d&eacute;sactiv&eacute;e.<br>
         	
 		
         <br><B>Appliqu&eacute;</B><BR>
