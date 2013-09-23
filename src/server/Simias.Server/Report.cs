@@ -333,7 +333,7 @@ namespace Simias.Server
 		{
 			if ( timer.Enabled )
 			{
-				log.Debug( "Canceling report timer." );
+				log.Debug( "Canceling report timer. {0}, {1}, {2}", DateTimeFormatInfo.CurrentInfo.FullDateTimePattern , Thread.CurrentThread.CurrentCulture.DateTimeFormat.FullDateTimePattern, Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName);
 				nextReportTime = DateTime.MinValue;
 				timer.Stop();
 			}
@@ -429,11 +429,11 @@ namespace Simias.Server
 
 			string fileName = String.Format( "ifolder-{0}-{1}.csv", 
 				Environment.MachineName,
-				currentReportTime.ToString( "yyyyMMdd-HHmmss" ) );
+				currentReportTime.ToString("yyyyMMdd-HHmmss" ) );
 
 			string filePath = Path.Combine( reportPath, fileName );
 
-			log.Debug( "Report file name = {0}", filePath );
+			log.Debug( "Report file name = {0}", filePath);
 			StreamWriter file = File.CreateText( filePath );
 
 			try
@@ -454,7 +454,7 @@ namespace Simias.Server
 					Member owner = domain.GetMemberByID( ifolder.Owner.UserID );
 
 					// cells
-					cells[ ( int )ColumnID.ReportTime ] = currentReportTime;
+					cells[ ( int )ColumnID.ReportTime ] = currentReportTime.ToString( Thread.CurrentThread.CurrentCulture.DateTimeFormat.FullDateTimePattern);
 					cells[ ( int )ColumnID.iFolderSystem ] = domain.Name;
 					cells[ ( int )ColumnID.iFolderServer ] = Environment.MachineName;
 					cells[ ( int )ColumnID.iFolderID ] = ifolder.ID;
@@ -470,11 +470,11 @@ namespace Simias.Server
 					cells[ ( int )ColumnID.OwnerCN ] = owner.Name;
 					cells[ ( int )ColumnID.OwnerDN ] = owner.Properties.GetSingleProperty( "DN" );
 					cells[ ( int )ColumnID.OwnerQuota ] = DiskSpaceQuota.Get( owner ).Limit / MB;
-					cells[ ( int )ColumnID.OwnerLastLogin ] = owner.Properties.GetSingleProperty( "LastLogin" );
+                    cells[ ( int )ColumnID.OwnerLastLogin] = owner.Properties.GetSingleProperty("LastLogin").ToString(Thread.CurrentThread.CurrentCulture.DateTimeFormat.FullDateTimePattern);
 					cells[ ( int )ColumnID.OwnerDisabled ] = domain.IsLoginDisabled( owner.UserID );
 					cells[ ( int )ColumnID.PreviousOwner ] = ifolder.PreviousOwner;
 					cells[ ( int )ColumnID.OrphanedOwner ] = ifolder.Properties.GetSingleProperty( "OrphanedOwner" );
-					cells[ ( int )ColumnID.LastSyncTime ] = ifolder.Properties.GetSingleProperty( "LastModified" );
+					cells[ ( int )ColumnID.LastSyncTime ] = ifolder.Properties.GetSingleProperty( "LastModified" ).ToString(Thread.CurrentThread.CurrentCulture.DateTimeFormat.FullDateTimePattern);
 
 					WriteRow( file, columns, cells );
 				}
