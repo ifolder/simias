@@ -27,39 +27,79 @@
 <style type= "text/css" media="screen">
        <!--
        
-         body           {  font-family: Arial, Helvetica, Geneva; background: white
-url(../../images/helphead_bg.gif) repeat-x 0% 0% }
+         body           {  font-family: Arial, Helvetica, Geneva;
+									background: white
+url(helphead_bg.gif) repeat-x 0% 0% }
 		      
-         #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px; width: 100%; visibility: visible }
+         #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px;
+									width: 380px; visibility: visible }
 			   
-         #helpcontent    { position: absolute; top: 37px; left: 10px; width: 93%; visibility: visible }
-        
+         #helpcontent    { position: absolute; top: 37px; left: 10px; 
+	                        width: 93%; visibility: visible }
+
        -->
-     </style> 
+     </style>
   
    
 
 
-</head>   
-<!-- This is the start of the body. It underlays the help banner layer 
-         and help content layers. --> 
-<body bgcolor="white" marginwidth="0" marginheight="0"  leftmargin="0" topmargin="0">
+</head>
+   
+   <!-- This is the start of the body. It underlays the help banner layer 
+         and help content layers. -->
+	 
+   <body bgcolor="white" marginwidth="0" marginheight="0" 
+         leftmargin="0" topmargin="0">
 <!-- This is the start of the Help Banner Layer --> <div id="headgraphic"> 
-<table border="0" cellspacing="0" cellpadding="0" width="100%" height="26" style="margin:0px; padding:0px; background-image: url(../../images/header_pattern.gif); background-repeat: repeat-x;"> 
-<tr> <td width="221"><img src="help_title.gif" alt="Novell iFolder" border="0" width="221" height="26"></td><td align="right" width="100%" class="tabCell" style="background-image: url(../../images/header_background.gif); background-repeat: no-repeat;"> 
-</td></tr> </table></div><!-- This is end of the Help Banner Layer --> 
-<!-- This is the start of the Help Content Layer --> <div id="helpcontent" style="left: 10px; top: 38px"> 
-<!-- The Page Heading uses CSS style "head3b". This creates an H3 header
+<img src="h1_help.gif" width="380" height="32"   border="0"></div><!-- This is end of the Help Banner Layer --> 
+<!-- This is the start of the Help Content Layer --> 
+<div id="helpcontent"> <!-- The Page Heading uses CSS style "head3b". This creates an H3 header
             with a line beneath it.
        --> 
   <h3 class="head3b">Lancement de Web Admin</h3>
   
-  <p>La console Web Admin vous permet de g&eacute;rer des serveurs, des param&egrave;tres de strat&eacute;gie, des utilisateurs iFolder et des dossiers iFolder dans un domaine iFolder 3.7 ou version ult&eacute;rieure sp&eacute;cifique. Vous pouvez autoriser des utilisateurs &agrave; acc&eacute;der au domaine iFolder des utilisateurs LDAP et g&eacute;rer des serveurs iFolder participant au domaine iFolder. Avec Web Admin, vous pouvez &eacute;galement appliquer le codage aux utilisateurs. La console Web Admin pourra alors produire des rapports am&eacute;lior&eacute;s incluant l'&eacute;tat g&eacute;n&eacute;ral du serveur, des rapports sur les comptes iFolder et des informations concernant les comptes utilisateur. 
+  <p>La console Web Admin permet de g&eacute;rer des serveurs, des param&egrave;tres de strat&eacute;gie, des utilisateurs iFolder et des dossiers iFolder dans un domaine iFolder 3.7 et version ult&eacute;rieure sp&eacute;cifique. Vous pouvez autoriser des utilisateurs &agrave; acc&eacute;der au domaine iFolder des utilisateurs LDAP et g&eacute;rer des serveurs iFolder participant au domaine iFolder. Avec Web Admin, vous pouvez &eacute;galement appliquer le codage aux utilisateurs. La console Web Admin pourra alors produire des rapports am&eacute;lior&eacute;s incluant l'&eacute;tat g&eacute;n&eacute;ral du serveur, des rapports sur les comptes iFolder et des informations concernant les comptes utilisateur. 
   </p>
 	
   
-	<A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="D&eacute;but"></A>
-<H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Rubriques connexes" align="top">Rubriques connexes</H4><BLOCKQUOTE class="task1"><P ><A HREF="login.html">Connexion &agrave; Web Admin</A><BR><A HREF="member.html">Gestion de la console Web Admin</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="D&eacute;but"></A></P><P>&nbsp;</P><P CLASS="copyright">Le symbole de marque (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP>, etc.) indique une marque de Novell. L'ast&eacute;risque (*) indique une marque d'un fabricant tiers. Pour plus d'informations, reportez-vous aux <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">mentions l&eacute;gales</font></A>.</P></div>
+	<BLOCKQUOTE>
+    <P><B><FONT SIZE="-1">REMARQUE :</FONT></B> <FONT SIZE="-1">vous ne pouvez pas g&eacute;rer des serveurs Novell iFolder 2.1<I>x</I> avec le plug-in Novell iFolder 3.7 ni les plug-ins ult&eacute;rieurs de iManager.</FONT></P>
+  </BLOCKQUOTE>
+  
+    
+      
+  <p> Pour acc&eacute;der &agrave; la page Gestion iFolder :</p>
+ 
+	<ol>
+    <li> 
+      <p> Dans iManager, &eacute;tendez le r&ocirc;le de iFolder  <br>
+      </p>
+    </li>
+    <li> 
+      <p>Cliquez sur Lancer Web Admin pour ouvrir la page de s&eacute;lection des serveurs iFolder.<br>
+      </p>
+    </li>
+	 <li> 
+      <p>Sp&eacute;cifiez le nom DNS ou l'adresse IP du serveur d'entreprise iFolder.<br>
+      </p>
+    </li>
+    <li>
+      <p>Effectuez l'une des op&eacute;rations suivantes&nbsp;: </p>
+      <ul>
+        <li> 
+          <p><FONT SIZE="2">Si vous vous &ecirc;tes connect&eacute; &agrave; iManager avec le m&ecirc;me nom d'utilisateur que celui qu'utilise l'administrateur iFolder pour acc&eacute;der &agrave; l'outil d'administration Web, s&eacute;lectionnez Authentifier avec les r&eacute;f&eacute;rences actuelles d'iManager.</FONT></p>
+        </li>
+        <li>
+          <p><FONT SIZE="2">Si vous vous &ecirc;tes connect&eacute; &agrave; iManager avec un nom d'utilisateur diff&eacute;rent de celui qu'utilise l'administrateur iFolder pour acc&eacute;der &agrave; l'outil d'administration Web, ne cochez pas la case Authentifier avec les r&eacute;f&eacute;rences actuelles d'iManager. Sur la page de login &agrave; Web admin, sp&eacute;cifiez le nom d'utilisateur et le mot de passe de l'utilisateur iFolder Admin.</FONT></p>
+			
+        </li>
+      </ul>
+    </li>
+    <li>Cliquez sur&nbsp;OK.</li>
+  </ol>
+  <p> Sur la base de la s&eacute;lection que vous avez op&eacute;r&eacute;e, vous &ecirc;tes dirig&eacute; vers la page des utilisateurs Web admin.</p>  
+<A HREF="#top" TARGET="_self"><IMG SRC="goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="D&eacute;but"></A>
+<H4 CLASS="ruleabove"><IMG SRC="xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Rubriques connexes" align="top">Rubriques connexes</H4><BLOCKQUOTE class="task1"><P ><A HREF="login.html">Connexion &agrave; Web Admin</A><BR></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="D&eacute;but"></A></P><P>&nbsp;</P></div>
 <!-- This is the end of the Help Content layer. --> 
 </body>
 

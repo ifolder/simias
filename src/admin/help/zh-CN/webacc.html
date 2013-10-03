@@ -27,39 +27,79 @@
 <style type= "text/css" media="screen">
        <!--
        
-         body           {  font-family: Arial, Helvetica, Geneva; background: white
-url(../../images/helphead_bg.gif) repeat-x 0% 0% }
+         body           {  font-family: Arial, Helvetica, Geneva;
+									background: white
+url(helphead_bg.gif) repeat-x 0% 0% }
 		      
-         #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px; width: 100%; visibility: visible }
+         #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px;
+									width: 380px; visibility: visible }
 			   
-         #helpcontent    { position: absolute; top: 37px; left: 10px; width: 93%; visibility: visible }
-        
+         #helpcontent    { position: absolute; top: 37px; left: 10px; 
+	                        width: 93%; visibility: visible }
+
        -->
-     </style> 
+     </style>
   
    
 
 
-</head>   
-<!-- This is the start of the body. It underlays the help banner layer 
-         and help content layers. --> 
-<body bgcolor="white" marginwidth="0" marginheight="0"  leftmargin="0" topmargin="0">
+</head>
+   
+   <!-- This is the start of the body. It underlays the help banner layer 
+         and help content layers. -->
+	 
+   <body bgcolor="white" marginwidth="0" marginheight="0" 
+         leftmargin="0" topmargin="0">
 <!-- This is the start of the Help Banner Layer --> <div id="headgraphic"> 
-<table border="0" cellspacing="0" cellpadding="0" width="100%" height="26" style="margin:0px; padding:0px; background-image: url(../../images/header_pattern.gif); background-repeat: repeat-x;"> 
-<tr> <td width="221"><img src="help_title.gif" alt="Novell iFolder" border="0" width="221" height="26"></td><td align="right" width="100%" class="tabCell" style="background-image: url(../../images/header_background.gif); background-repeat: no-repeat;"> 
-</td></tr> </table></div><!-- This is end of the Help Banner Layer --> 
-<!-- This is the start of the Help Content Layer --> <div id="helpcontent" style="left: 10px; top: 38px"> 
-<!-- The Page Heading uses CSS style "head3b". This creates an H3 header
+<img src="h1_help.gif" width="380" height="32"   border="0"></div><!-- This is end of the Help Banner Layer --> 
+<!-- This is the start of the Help Content Layer --> 
+<div id="helpcontent"> <!-- The Page Heading uses CSS style "head3b". This creates an H3 header
             with a line beneath it.
        --> 
   <h3 class="head3b">启动万维网 Admin</h3>
   
-  <p>使用万维网 Admin 控制台可以在给定的 iFolder 3.7 或更高版本的域中管理服务器、策略设置、iFolder 用户和 iFolder。可以使用户以 LDAP 用户的身份加入到 iFolder 域以及管理加入到 iFolder 域的 iFolder 服务器。使用万维网 Admin 还可以强制用户加密。万维网 Admin 控制台具有生成增强型报告的功能，该报告中包括服务器的总体状态、iFolder 帐户报告和用户帐户信息。 
+  <p>使用万维网 Admin 控制台可以在给定的 iFolder 3.7 和更高版本的域中管理服务器、策略设置、iFolder 用户和 iFolder。可以使用户以 LDAP 用户的身份加入到 iFolder 域以及管理加入到 iFolder 域的 iFolder 服务器。使用万维网 Admin 还可以强制用户加密。万维网 Admin 控制台具有生成增强型报告的功能，该报告中包括服务器的总体状态、iFolder 帐户报告和用户帐户信息。 
   </p>
 	
   
-	<A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="返回页首"></A>
-<H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="相关主题" align="top"> 相关主题</H4><BLOCKQUOTE class="task1"><P ><A HREF="login.html">登录到万维网 Admin</A><BR><A HREF="member.html">管理万维网 Admin 控制台</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="返回页首"></A></P><P>&nbsp;</P><P CLASS="copyright">商标符号（<SUP><SMALL>&reg;</SMALL></SUP>、<SUP><SMALL>TM</SMALL></SUP> 等）表示 Novell 商标。星号 (*) 表示第三方商标。有关详细信息，请参见<A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">法律声明</font></A>。</P></div>
+	<BLOCKQUOTE>
+    <P><B><FONT SIZE="-1">注意：</FONT></B><FONT SIZE="-1">不能使用 iManager 的 Novell iFolder 3.7 和更高版本的插件来管理 Novell iFolder 2.1<I>x</I> 服务器。</FONT></P>
+  </BLOCKQUOTE>
+  
+    
+      
+  <p> 访问&ldquo;iFolder 管理&rdquo;页：</p>
+ 
+	<ol>
+    <li> 
+      <p> 在 iManager 中，展开 iFolder 角色。 <br>
+      </p>
+    </li>
+    <li> 
+      <p>单击&ldquo;启动万维网 Admin&rdquo;以打开 iFolder 服务器选择页。<br>
+      </p>
+    </li>
+	 <li> 
+      <p>指定 iFolder Enterprise Server DNS 名称或 IP 地址。<br>
+      </p>
+    </li>
+    <li>
+      <p>执行下列操作之一： </p>
+      <ul>
+        <li> 
+          <p><FONT SIZE="2">如果使用与万维网 Admin 的 iFolder Admin 用户相同的用户名登录到了 iManager，请选中&ldquo;使用当前 iManager 身份凭证鉴定&rdquo;。</FONT></p>
+        </li>
+        <li>
+          <p><FONT SIZE="2">如果使用与万维网 Admin 的 iFolder Admin 用户不同的用户名登录到了 iManager，请不要选中&ldquo;使用当前 iManager 身份凭证鉴定&rdquo;复选框。在万维网 Admin 登录页中，指定 iFolder Admin 用户名和口令。</FONT></p>
+			
+        </li>
+      </ul>
+    </li>
+    <li>单击&ldquo;确定&rdquo;。</li>
+  </ol>
+  <p> 基于上述选择，您将定向到万维网 Admin 用户页。</p>  
+<A HREF="#top" TARGET="_self"><IMG SRC="goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="返回页首"></A>
+<H4 CLASS="ruleabove"><IMG SRC="xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="相关主题" align="top"> 相关主题</H4><BLOCKQUOTE class="task1"><P ><A HREF="login.html">登录到万维网 Admin</A><BR></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="返回页首"></A></P><P>&nbsp;</P></div>
 <!-- This is the end of the Help Content layer. --> 
 </body>
 

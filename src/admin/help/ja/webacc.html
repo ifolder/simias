@@ -27,39 +27,79 @@
 <style type= "text/css" media="screen">
        <!--
        
-         body           {  font-family: Arial, Helvetica, Geneva; background: white
-url(../../images/helphead_bg.gif) repeat-x 0% 0% }
+         body           {  font-family: Arial, Helvetica, Geneva;
+									background: white
+url(helphead_bg.gif) repeat-x 0% 0% }
 		      
-         #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px; width: 100%; visibility: visible }
+         #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px;
+									width: 380px; visibility: visible }
 			   
-         #helpcontent    { position: absolute; top: 37px; left: 10px; width: 93%; visibility: visible }
-        
+         #helpcontent    { position: absolute; top: 37px; left: 10px; 
+	                        width: 93%; visibility: visible }
+
        -->
-     </style> 
+     </style>
   
    
 
 
-</head>   
-<!-- This is the start of the body. It underlays the help banner layer 
-         and help content layers. --> 
-<body bgcolor="white" marginwidth="0" marginheight="0"  leftmargin="0" topmargin="0">
+</head>
+   
+   <!-- This is the start of the body. It underlays the help banner layer 
+         and help content layers. -->
+	 
+   <body bgcolor="white" marginwidth="0" marginheight="0" 
+         leftmargin="0" topmargin="0">
 <!-- This is the start of the Help Banner Layer --> <div id="headgraphic"> 
-<table border="0" cellspacing="0" cellpadding="0" width="100%" height="26" style="margin:0px; padding:0px; background-image: url(../../images/header_pattern.gif); background-repeat: repeat-x;"> 
-<tr> <td width="221"><img src="help_title.gif" alt="Novell iFolder" border="0" width="221" height="26"></td><td align="right" width="100%" class="tabCell" style="background-image: url(../../images/header_background.gif); background-repeat: no-repeat;"> 
-</td></tr> </table></div><!-- This is end of the Help Banner Layer --> 
-<!-- This is the start of the Help Content Layer --> <div id="helpcontent" style="left: 10px; top: 38px"> 
-<!-- The Page Heading uses CSS style "head3b". This creates an H3 header
+<img src="h1_help.gif" width="380" height="32"   border="0"></div><!-- This is end of the Help Banner Layer --> 
+<!-- This is the start of the Help Content Layer --> 
+<div id="helpcontent"> <!-- The Page Heading uses CSS style "head3b". This creates an H3 header
             with a line beneath it.
        --> 
   <h3 class="head3b">Web Adminの起動</h3>
   
-  <p>Web Adminコンソールを使用すると、iFolder 3.7以降のドメイン内のサーバ、ポリシー設定、iFolderユーザ、およびiFolderを管理できます。また、LDAPユーザからiFolderドメインに対してユーザを有効にしたり、iFolderドメインに参加しているiFolderサーバを管理したりすることができます。Web Adminでは、ユーザに対して暗号化を強制することもできます。Web Adminコンソールには、サーバ全体のステータスを含む拡張レポート、iFolderアカウントレポート、およびユーザアカウント情報を生成する機能が用意されています。 
+  <p>Web Adminコンソールを使用すると、iFolder 3.7およびそれ以降のドメイン内のサーバ、ポリシー設定、iFolderユーザ、およびiFolderを管理できます。また、LDAPユーザからiFolderドメインに対してユーザを有効にしたり、iFolderドメインに参加しているiFolderサーバを管理したりすることができます。Web Adminでは、ユーザに対して暗号化を強制することもできます。Web Adminコンソールには、サーバ全体のステータスを含む拡張レポート、iFolderアカウントレポート、およびユーザアカウント情報を生成する機能が用意されています。 
   </p>
 	
   
-	<A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="トップへジャンプ"></A>
-<H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="関連項目" align="top"> 関連項目</H4><BLOCKQUOTE class="task1"><P ><A HREF="login.html">Web Adminへのログイン</A><BR><A HREF="member.html">Web Adminコンソールの管理</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="トップへジャンプ"></A></P><P>&nbsp;</P><P CLASS="copyright">商標記号（<SUP><SMALL>&reg;</SMALL></SUP>、<SUP><SMALL>TM</SMALL></SUP>など）は、Novellの商標を示し、アスタリスク（*）は、サードパーティの商標を示します。詳細については、「<A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">保証と著作権</font></A>」を参照してください。</P></div>
+	<BLOCKQUOTE>
+    <P><B><FONT SIZE="-1">注意:</FONT></B> <FONT SIZE="-1">iManagerのNovell iFolder 3.7およびそれ以降のプラグインでNovell iFolder 2.1<I>x</I>サーバを管理することはできません。</FONT></P>
+  </BLOCKQUOTE>
+  
+    
+      
+  <p> ［iFolder Management(iFolder管理)］ページにアクセスするには、次の手順に従います。</p>
+ 
+	<ol>
+    <li> 
+      <p> iManagerで、iFolder のロールを展開します。 <br>
+      </p>
+    </li>
+    <li> 
+      <p>［Launch Web Admin(Web Adminの起動)］をクリックして、［iFolder server selection(iFolderサーバの選択)］ページを開きます。<br>
+      </p>
+    </li>
+	 <li> 
+      <p>iFolderエンタープライズサーバのDNS名またはIPアドレスを指定します。<br>
+      </p>
+    </li>
+    <li>
+      <p>次のいずれかの操作を行います。 </p>
+      <ul>
+        <li> 
+          <p><FONT SIZE="2">Web AdminのiFolder管理者ユーザと同じユーザ名でiManagerにログインしている場合は、［現在のiManagerアカウント情報を使用して認証します］チェックボックスをオンにします。</FONT></p>
+        </li>
+        <li>
+          <p><FONT SIZE="2">Web AdminのiFolder管理者ユーザとは異なるユーザ名でiManagerにログインしている場合は、［現在のiManagerアカウント情報を使用して認証します］チェックボックスをオフのままにします。Web Adminのログインページで、iFolder管理者のユーザ名とパスワードを指定します。</FONT></p>
+			
+        </li>
+      </ul>
+    </li>
+    <li>［OK］をクリックします。</li>
+  </ol>
+  <p> 上記の選択内容に基づいて、Web Adminのユーザページが表示されます。</p>  
+<A HREF="#top" TARGET="_self"><IMG SRC="goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="トップへジャンプ"></A>
+<H4 CLASS="ruleabove"><IMG SRC="xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="関連項目" align="top"> 関連項目</H4><BLOCKQUOTE class="task1"><P ><A HREF="login.html">Web Adminへのログイン</A><BR></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="トップへジャンプ"></A></P><P>&nbsp;</P></div>
 <!-- This is the end of the Help Content layer. --> 
 </body>
 

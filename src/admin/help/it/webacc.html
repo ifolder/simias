@@ -27,29 +27,33 @@
 <style type= "text/css" media="screen">
        <!--
        
-         body           {  font-family: Arial, Helvetica, Geneva; background: white
-url(../../images/helphead_bg.gif) repeat-x 0% 0% }
+         body           {  font-family: Arial, Helvetica, Geneva;
+									background: white
+url(helphead_bg.gif) repeat-x 0% 0% }
 		      
-         #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px; width: 100%; visibility: visible }
+         #headgraphic    { position: absolute; z-index: 0; top: 0px; left: 0px;
+									width: 380px; visibility: visible }
 			   
-         #helpcontent    { position: absolute; top: 37px; left: 10px; width: 93%; visibility: visible }
-        
+         #helpcontent    { position: absolute; top: 37px; left: 10px; 
+	                        width: 93%; visibility: visible }
+
        -->
-     </style> 
+     </style>
   
    
 
 
-</head>   
-<!-- This is the start of the body. It underlays the help banner layer 
-         and help content layers. --> 
-<body bgcolor="white" marginwidth="0" marginheight="0"  leftmargin="0" topmargin="0">
+</head>
+   
+   <!-- This is the start of the body. It underlays the help banner layer 
+         and help content layers. -->
+	 
+   <body bgcolor="white" marginwidth="0" marginheight="0" 
+         leftmargin="0" topmargin="0">
 <!-- This is the start of the Help Banner Layer --> <div id="headgraphic"> 
-<table border="0" cellspacing="0" cellpadding="0" width="100%" height="26" style="margin:0px; padding:0px; background-image: url(../../images/header_pattern.gif); background-repeat: repeat-x;"> 
-<tr> <td width="221"><img src="help_title.gif" alt="Novell iFolder" border="0" width="221" height="26"></td><td align="right" width="100%" class="tabCell" style="background-image: url(../../images/header_background.gif); background-repeat: no-repeat;"> 
-</td></tr> </table></div><!-- This is end of the Help Banner Layer --> 
-<!-- This is the start of the Help Content Layer --> <div id="helpcontent" style="left: 10px; top: 38px"> 
-<!-- The Page Heading uses CSS style "head3b". This creates an H3 header
+<img src="h1_help.gif" width="380" height="32"   border="0"></div><!-- This is end of the Help Banner Layer --> 
+<!-- This is the start of the Help Content Layer --> 
+<div id="helpcontent"> <!-- The Page Heading uses CSS style "head3b". This creates an H3 header
             with a line beneath it.
        --> 
   <h3 class="head3b">Avvio di Amministratore Web</h3>
@@ -58,8 +62,44 @@ url(../../images/helphead_bg.gif) repeat-x 0% 0% }
   </p>
 	
   
-	<A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Torna all'inizio"></A>
-<H4 CLASS="ruleabove"><IMG SRC="../../images/xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Argomenti correlati" align="top">&nbsp;Argomenti correlati</H4><BLOCKQUOTE class="task1"><P ><A HREF="login.html">Login ad Amministratore Web</A><BR><A HREF="member.html">Gestione della console di Amministratore Web</A></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="../../images/goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Torna all'inizio"></A></P><P>&nbsp;</P><P CLASS="copyright">Un simbolo di marchio di fabbrica (<SUP><SMALL>&reg;</SMALL></SUP>, <SUP><SMALL>TM</SMALL></SUP>, e cos&igrave; via) indica un marchio di fabbrica Novell. Un asterisco (*) indica un marchio di fabbrica di terze parti. Per ulteriori informazioni, vedere <A HREF="imgr_legalnotices.html" TARGET="_self" ><font color="#cfcdc6">Note legali</font></A>.</P></div>
+	<BLOCKQUOTE>
+    <P><B><FONT SIZE="-1">NOTA:</FONT></B> <FONT SIZE="-1">non possibile gestire i server Novell iFolder 2.1<I>x</I> con il plug-in Novell iFolder 3.7 e versioni successive per iManager.</FONT></P>
+  </BLOCKQUOTE>
+  
+    
+      
+  <p> Per accedere alla pagina di gestione iFolder:</p>
+ 
+	<ol>
+    <li> 
+      <p> In iManager espandere il ruolo iFolder  <br>
+      </p>
+    </li>
+    <li> 
+      <p>Fare clic sull'opzione di avvio di Amministratore Web per aprire la pagina di selezione dei server iFolder.<br>
+      </p>
+    </li>
+	 <li> 
+      <p>Specificare il nome DNS o l'indirizzo IP del server aziendale iFolder.<br>
+      </p>
+    </li>
+    <li>
+      <p>Effettuare una delle seguenti operazioni: </p>
+      <ul>
+        <li> 
+          <p><FONT SIZE="2">Se &egrave; stato eseguito il login a iManager con lo stesso nome utente dell'utente amministratore di iFolder di Amministratore Web, selezionare l'opzione Esegui autenticazione mediante credenziali di iManager attuali.</FONT></p>
+        </li>
+        <li>
+          <p><FONT SIZE="2">Se &egrave; stato eseguito il login a iManager con un nome utente diverso rispetto all'utente amministratore di iFolder di Amministratore Web, lasciare deselezionata la casella di controllo Esegui autenticazione mediante credenziali di iManager attuali. Specificare nella pagina di login di Amministratore Web il nome utente e la password dell'amministratore iFolder.</FONT></p>
+			
+        </li>
+      </ul>
+    </li>
+    <li>Fare clic su OK.</li>
+  </ol>
+  <p> Con questa selezione, l'utente viene indirizzato alla pagina degli utenti di Amministratore Web.</p>  
+<A HREF="#top" TARGET="_self"><IMG SRC="goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Torna all'inizio"></A>
+<H4 CLASS="ruleabove"><IMG SRC="xrefbtn.gif" WIDTH="16" HEIGHT="16" ALT="Argomenti correlati" align="top">&nbsp;Argomenti correlati</H4><BLOCKQUOTE class="task1"><P ><A HREF="login.html">Login ad Amministratore Web</A><BR></P></BLOCKQUOTE><P><A HREF="#top" TARGET="_self"><IMG SRC="goto_top.gif" WIDTH="19" HEIGHT="19" BORDER="0" ALT="Torna all'inizio"></A></P><P>&nbsp;</P></div>
 <!-- This is the end of the Help Content layer. --> 
 </body>
 
