@@ -44,8 +44,10 @@ fi
 if [ ! -d ../$TARBALL_NAME ]
 then
         svn export ../$SRC_DIR ../$TARBALL_NAME
-        rm -r ../$TARBALL_NAME/tools/
 fi
+
+# Remove /tools directory from root tarball
+rm -r ../$TARBALL_NAME/tools/
 
 # Prepare spec file
 mkdir -p $PACKAGE
