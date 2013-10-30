@@ -395,7 +395,13 @@ namespace Novell.iFolderApp.Web
 			{
 				// ifolder
                 string ifolderLocation = web.GetiFolderLocation (ifolderID);
-
+				if(ifolderLocation == null)
+				{
+				//if we are not able to get the ifolder location for a particular ifolder we show the iFolder page instead of an error
+				// we fail to get the location, due to catalog update delay
+					Response.Redirect("iFolders.aspx");
+				}
+				
 				UriBuilder remoteurl = new UriBuilder(ifolderLocation);
 				remoteurl.Path = (new Uri(web.Url)).PathAndQuery;
 				web.Url = remoteurl.Uri.ToString();

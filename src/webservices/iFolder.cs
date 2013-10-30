@@ -373,16 +373,16 @@ namespace iFolder.WebService
 		/// <summary>
 		/// API use to create Encrypted iFolder with the given ifolder ID and return newly create ifolder..
 		/// </summary>
-                public static iFolder CreateEncryptediFolderWithID(string name, string userID, string description, string iFolderID, string eKey, string eBlob, string eAlgorithm, string rKey)
-                {
-                        iFolder ifolder = CreateiFolder(name, userID, description, iFolderID );
-                        if( ifolder == null)
-                                return null;
-                        Store store = Store.GetStore();
-                        Collection col = store.GetCollectionByID(ifolder.ID);
-                        col = col.SetEncryptionProperties(eKey, eBlob, eAlgorithm, rKey);
-                        return new iFolder(col, null);
-                }
+        public static iFolder CreateEncryptediFolderWithID(string name, string userID, string description, string iFolderID, string eKey, string eBlob, string eAlgorithm, string rKey)
+        {
+                iFolder ifolder = CreateiFolder(name, userID, description, iFolderID );
+                if( ifolder == null)
+                        return null;
+                Store store = Store.GetStore();
+                Collection col = store.GetCollectionByID(ifolder.ID);
+                col = col.SetEncryptionProperties(eKey, eBlob, eAlgorithm, rKey);
+                return new iFolder(col, null);
+        }
 		
 
 		
@@ -473,29 +473,43 @@ namespace iFolder.WebService
 		/// </summary>
 		/// <param name="name">The iFolder ID</param>
 		/// <returns>Private url of iFolder's HomeServer</returns>
-	        public static string GetiFolderLocation (string ifolderID)
+		public static string GetiFolderLocation (string ifolderID)
 		{
 			Store store = Store.GetStore ();
-		        Domain domain = store.GetDomain(store.DefaultDomain);
+		    Domain domain = store.GetDomain(store.DefaultDomain);
 			Collection col = null;
 			string hostID =null;
+			int i = 0;
+
+			do{
 		        CatalogEntry ce = Catalog.GetEntryByCollectionID (ifolderID);
-			if(ce == null)
-			{	
-				log.Info("Entry for ifolderId:{0} is not found in catelog entry",ifolderID);
-				col = store.GetCollectionByID(ifolderID);
-				if(col ==null)
-				{
-					log.Info("Entry for ifolderID:{0} is not found in both Catelog as well as in local store",ifolderID);
-					throw new iFolderDoesNotExistException(ifolderID);
-				}	
+				if(ce == null)
+				{	
+					log.Info("Entry for ifolderId:{0} is not found in catalog entry - doing a retry",ifolderID);
+					
+					col = store.GetCollectionByID(ifolderID);
+					if(col == null)
+					{
+						log.Info("Entry for ifolderID:{0} is not found in both Catelog as well as in local store",ifolderID);
+						throw new iFolderDoesNotExistException(ifolderID);
+					}	
+					else
+					{
+				        	hostID = col.HostID; 	
+					}
+				}
 				else
 				{
-			        	hostID = col.HostID; 	
+					hostID = ce.HostID;
 				}
-			}
-			else
-				hostID = ce.HostID;
+				
+				if(hostID == null) Thread.Sleep(2000);
+				//exit if we are not able to get the info in 3 attempts
+				if(i++ == 3) break;
+			}while(hostID == null);
+
+			if(hostID == null) return null;
+			
 			HostNode remoteHost =  new HostNode (domain.GetMemberByID(hostID));
 
 			return remoteHost.PublicUrl;
