@@ -151,13 +151,7 @@ namespace Simias.Policy
 			this.memberPolicy = pm.GetAggregatePolicy( DiskSpaceQuotaPolicyID, member );
 			this.collectionPolicy = pm.GetAggregatePolicy( DiskSpaceQuotaPolicyID, member, collection );
 			this.collectionSpace = collection.StorageSize;
-//			this.usedDiskSpace = GetUsedDiskSpace( member );
-			Property DiskSpaceUsedProp = member.Properties.GetSingleProperty(Simias.Policy.DiskSpaceQuota.UsedDiskSpaceOnServer);
-			
-			if(DiskSpaceUsedProp != null)
-			{
-				this.usedDiskSpace = (long)DiskSpaceUsedProp.Value;
-			}
+			this.usedDiskSpace = GetUsedDiskSpace( member );
 			this.limit = GetAggregateLimit( collectionPolicy );
 		}
 		#endregion
