@@ -158,6 +158,12 @@ namespace Simias.Server
 		/// </summary>
 		private DateTime currentReportTime;
 
+        /// <summary>
+        /// Culture to use from environment, Mono does not take the LC values automatically
+        /// </summary>
+        private static CultureInfo cli = null;
+
+
 		#endregion
 
 		#region Properties
@@ -262,6 +268,20 @@ namespace Simias.Server
 
  			// Initalize the name of the report collection.
  			Store store = Store.GetStore();
+			//get the language
+			string locale = Environment.GetEnvironmentVariable("LC_CTYPE");
+            if(locale != null)
+            {
+                // we will atleast have POSIX
+                log.Debug("Current Culture in environment {0}", locale);
+                if (locale.Equals("POSIX") == false)
+                {
+                    string lang = locale.Substring(0, 5);
+                    lang = lang.Replace('_', '-');
+                    cli = new CultureInfo(lang, true);
+                    log.Debug("Current Culture in environment {0}, {1}", locale, lang);
+                }
+            }
  		            
             //search to see if its already exists; as domain name is modifiable 
             Collection report = store.GetSingleCollectionByType("Reports");
@@ -333,7 +353,14 @@ namespace Simias.Server
 		{
 			if ( timer.Enabled )
 			{
-				log.Debug( "Canceling report timer. {0}, {1}, {2}", DateTimeFormatInfo.CurrentInfo.FullDateTimePattern , Thread.CurrentThread.CurrentCulture.DateTimeFormat.FullDateTimePattern, Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName);
+                if (cli == null)
+                {
+                    log.Debug("Canceling report timer. {0}, {1}, {2}", DateTimeFormatInfo.CurrentInfo.FullDateTimePattern, Thread.CurrentThread.CurrentCulture.DateTimeFormat.FullDateTimePattern, Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName);
+                }
+                else
+                {
+                    log.Debug("Canceling report timer. {0}, cli-{1}, {2}", DateTimeFormatInfo.CurrentInfo.FullDateTimePattern, cli.DateTimeFormat.FullDateTimePattern, cli.TwoLetterISOLanguageName);
+                }
 				nextReportTime = DateTime.MinValue;
 				timer.Stop();
 			}
@@ -454,7 +481,18 @@ namespace Simias.Server
 					Member owner = domain.GetMemberByID( ifolder.Owner.UserID );
 
 					// cells
-					cells[ ( int )ColumnID.ReportTime ] = currentReportTime.ToString( Thread.CurrentThread.CurrentCulture.DateTimeFormat.FullDateTimePattern);
+                    if(cli != null)
+                    {
+                        cells[(int)ColumnID.ReportTime] = currentReportTime.ToString("F", cli);
+                        cells[(int)ColumnID.OwnerLastLogin] = owner.Properties.GetSingleProperty("LastLogin").ToString("F", cli);
+                        cells[(int)ColumnID.LastSyncTime] = ifolder.Properties.GetSingleProperty("LastModified").ToString("F", cli);
+                    }
+                    else
+                    {
+                        cells[(int)ColumnID.ReportTime] = currentReportTime.ToString(DateTimeFormatInfo.CurrentInfo.FullDateTimePattern);
+                        cells[(int)ColumnID.OwnerLastLogin] = owner.Properties.GetSingleProperty("LastLogin").ToString(DateTimeFormatInfo.CurrentInfo.FullDateTimePattern);
+                        cells[(int)ColumnID.LastSyncTime] = ifolder.Properties.GetSingleProperty("LastModified").ToString(DateTimeFormatInfo.CurrentInfo.FullDateTimePattern);
+                    }
 					cells[ ( int )ColumnID.iFolderSystem ] = domain.Name;
 					cells[ ( int )ColumnID.iFolderServer ] = Environment.MachineName;
 					cells[ ( int )ColumnID.iFolderID ] = ifolder.ID;
@@ -470,11 +508,9 @@ namespace Simias.Server
 					cells[ ( int )ColumnID.OwnerCN ] = owner.Name;
 					cells[ ( int )ColumnID.OwnerDN ] = owner.Properties.GetSingleProperty( "DN" );
 					cells[ ( int )ColumnID.OwnerQuota ] = DiskSpaceQuota.Get( owner ).Limit / MB;
-                    cells[ ( int )ColumnID.OwnerLastLogin] = owner.Properties.GetSingleProperty("LastLogin").ToString(Thread.CurrentThread.CurrentCulture.DateTimeFormat.FullDateTimePattern);
 					cells[ ( int )ColumnID.OwnerDisabled ] = domain.IsLoginDisabled( owner.UserID );
 					cells[ ( int )ColumnID.PreviousOwner ] = ifolder.PreviousOwner;
 					cells[ ( int )ColumnID.OrphanedOwner ] = ifolder.Properties.GetSingleProperty( "OrphanedOwner" );
-					cells[ ( int )ColumnID.LastSyncTime ] = ifolder.Properties.GetSingleProperty( "LastModified" ).ToString(Thread.CurrentThread.CurrentCulture.DateTimeFormat.FullDateTimePattern);
 
 					WriteRow( file, columns, cells );
 				}
