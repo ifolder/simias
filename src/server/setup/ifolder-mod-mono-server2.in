@@ -39,4 +39,8 @@
 export MONO_PATH=/opt/novell/mono/lib/mono/2.0/:@_bindir_@/../lib:@_bindir_@/../lib/simias/web/bin:@_bindir_@/../lib/simias/admin/bin:@_bindir_@/../lib/simias/webaccess/bin:/usr/lib/mono/log4net
 source /opt/novell/mono/bin/mono-addon-environment.sh
 export MONO_CFG_DIR=/etc
+test -f /etc/sysconfig/language && \. /etc/sysconfig/language
+export LC_ALL="$RC_LC_ALL"
+export LC_CTYPE="$RC_LC_CTYPE"
+export LANG="$RC_LANG"
 exec /opt/novell/mono/bin/mod-mono-server2 "$@"

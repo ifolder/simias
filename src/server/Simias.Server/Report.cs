@@ -269,7 +269,9 @@ namespace Simias.Server
  			// Initalize the name of the report collection.
  			Store store = Store.GetStore();
 			//get the language
-			string locale = Environment.GetEnvironmentVariable("LC_CTYPE");
+			try
+			{
+			string locale = getLocaleString();
             if(locale != null)
             {
                 // we will atleast have POSIX
@@ -282,6 +284,11 @@ namespace Simias.Server
                     log.Debug("Current Culture in environment {0}, {1}", locale, lang);
                 }
             }
+			}
+			catch(Exception ex)
+			{
+				log.Error("Error while trying to create language culture. {0}", ex.Message);
+			}
  		            
             //search to see if its already exists; as domain name is modifiable 
             Collection report = store.GetSingleCollectionByType("Reports");
@@ -315,6 +322,33 @@ namespace Simias.Server
 			columns[ ( int )ColumnID.PreviousOwner ]  = new ReportColumn( GetString( "PREVIOUS_OWNER" ) );
 			columns[ ( int )ColumnID.OrphanedOwner ]  = new ReportColumn( GetString( "ORPHANED_OWNER" ) );
 			columns[ ( int )ColumnID.LastSyncTime ]   = new ReportColumn( GetString( "LAST_SYNC_TIME" ), "{0:G}" );
+		}
+
+		static String getLocaleString()
+		{
+			string retval = getLocaleStringForVariable("LC_ALL");
+			if( retval != null)
+			{
+				log.Debug("locale from LC_ALL: {0}", retval);
+				return retval;
+			}
+			retval = getLocaleStringForVariable("LANG");
+			if( retval != null)
+			{
+				log.Debug("locale from LANG");
+				return retval;
+			}
+			retval = getLocaleStringForVariable("LC_LC_CTYPE");
+			log.Debug("locale from LC_TYPE");
+			return retval;
+		}
+		static String getLocaleStringForVariable(String key)
+		{
+			string retval = null;
+			string locale = Environment.GetEnvironmentVariable(key);
+			if( locale != null && locale.Length >= 5)
+				retval = locale.Substring(0, 5);
+			return retval;
 		}
 
 		/// <summary>
@@ -483,9 +517,9 @@ namespace Simias.Server
 					// cells
                     if(cli != null)
                     {
-                        cells[(int)ColumnID.ReportTime] = currentReportTime.ToString("F", cli);
-                        cells[(int)ColumnID.OwnerLastLogin] = owner.Properties.GetSingleProperty("LastLogin").ToString("F", cli);
-                        cells[(int)ColumnID.LastSyncTime] = ifolder.Properties.GetSingleProperty("LastModified").ToString("F", cli);
+                        cells[(int)ColumnID.ReportTime] = currentReportTime.ToString(cli);
+                        cells[(int)ColumnID.OwnerLastLogin] = owner.Properties.GetSingleProperty("LastLogin").ToString(cli);
+                        cells[(int)ColumnID.LastSyncTime] = ifolder.Properties.GetSingleProperty("LastModified").ToString(cli);
                     }
                     else
                     {
